@@ -9,14 +9,18 @@
     // Formatters settings
     "editor.codeActionsOnSave": {
         "source.fixAll": true, // this makes sure eslint and stylelint are run on save
-        "source.organizeImports": false
+        "source.organizeImports": true // we want vscode to handle import sorting. It's snappier and more reliable than eslint
     },
     "editor.formatOnSave": true,
     "[html]": {
         "editor.formatOnSave": false
     },
+    "[typescriptreact]": {
+        "editor.defaultFormatter": "vscode.typescript-language-features"
+    },
 
     // Formatters - Eslint plugin - dbaeumer.vscode-eslint
+    "typescript.format.enable": false, // disables the default formatter, we use eslint instead
     "javascript.format.enable": false, // disables the default formatter, we use eslint instead
     "json.format.enable": false, // disables the default formatter, we use eslint instead
 
