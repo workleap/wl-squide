@@ -53,7 +53,7 @@ The `remoteTransformer` function will add the following shared dependencies as `
 - [@squide/react-router](https://www.npmjs.com/package/@squide/react-router)
 - [@squide/webpack-module-federation](https://www.npmjs.com/package/@squide/webpack-module-federation)
 
-For the detailed configuration of the shared dependencies, have a look at the [configTransformer.ts](https://github.com/workleap/wl-squide/blob/main/packages/webpack-module-federation/src/configTransformer.ts) file on Github.
+For the detailed configuration of the shared dependencies, have a look at the [configTransformer.ts](https://github.com/gsoft-inc/wl-squide/blob/main/packages/webpack-module-federation/src/configTransformer.ts) file on Github.
 
 ## Usage
 

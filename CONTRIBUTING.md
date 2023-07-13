@@ -220,7 +220,7 @@ pnpm list-outdated-deps
 
 ### update-outdated-deps
 
-Updated outdate dependencies to their latest version. For more information, view [PNPM documentation](https://pnpm.io/cli/update).
+Update outdated dependencies to their latest version. For more information, view [PNPM documentation](https://pnpm.io/cli/update).
 
 ```bash
 pnpm update-outdated-deps
@@ -230,7 +230,7 @@ pnpm update-outdated-deps
 
 We use [GitHub Actions](https://github.com/features/actions) for this repository.
 
-You can find the configuration in the [.github/workflows](.github/workflows/) folder and the build results available [here](https://github.com/workleap/wl-squide/actions).
+You can find the configuration in the [.github/workflows](.github/workflows/) folder and the build results available [here](https://github.com/gsoft-inc/wl-squide/actions).
 
 We currently have 2 builds configured:
 
@@ -280,7 +280,7 @@ Make sure to add a `sideEffect` field to the `package.json` file:
 
 ```json
 {
-    "sideEffects": false
+  "sideEffects": false
 }
 ```
 

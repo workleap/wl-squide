@@ -221,7 +221,7 @@ const federatedConfig = hostTransformer(config, "host");
 export default federatedConfig;
 ```
 
-[!ref icon="mark-github" text="View a full webpack.config.js"](https://github.com/workleap/wl-squide/blob/main/sample/host/webpack.dev.js)
+[!ref icon="mark-github" text="View a full webpack.config.js"](https://github.com/gsoft-inc/wl-squide/blob/main/sample/host/webpack.dev.js)
 
 ## Try the application :rocket:
 

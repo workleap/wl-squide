@@ -2,7 +2,7 @@ input: ./docs
 output: .retype
 
 edit:
-    repo: "https://github.com/workleap/wl-squide"
+    repo: "https://github.com/gsoft-inc/wl-squide"
     base: /docs
     branch: main
 
@@ -29,7 +29,7 @@ links:
 
     - text: Github
       icon: mark-github
-      link: https://github.com/workleap/wl-squide
+      link: https://github.com/gsoft-inc/wl-squide
       target: blank
 
     - text: NPM
@@ -46,7 +46,7 @@ footer:
 
         - text: License
           icon: shield-check
-          link: https://github.com/workleap/wl-squide/blob/main/LICENSE
+          link: https://github.com/gsoft-inc/wl-squide/blob/main/LICENSE
           target: blank
 
 verbose: true

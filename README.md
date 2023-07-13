@@ -3,7 +3,7 @@
 A federated web application shell built on top of [Webpack Module Federation](https://webpack.js.org/concepts/module-federation/) and [React Router](https://reactrouter.com/en/main).
 
 [![License](https://img.shields.io/badge/License-Apache_2.0-blue.svg)](./LICENSE)
-[![CI](https://github.com/workleap/wl-squide/actions/workflows/ci.yml/badge.svg)](https://github.com/workleap/wl-squide/actions/workflows/ci.yml)
+[![CI](https://github.com/gsoft-inc/wl-squide/actions/workflows/ci.yml/badge.svg)](https://github.com/gsoft-inc/wl-squide/actions/workflows/ci.yml)
 
 | Name | NPM |
 | --- | --- |
@@ -14,7 +14,7 @@ A federated web application shell built on top of [Webpack Module Federation](ht
 
 ## Have a question or found an issue?
 
-To ask a question or propose an idea, feel free to start a new [discussion](https://github.com/workleap/wl-squide/discussions). If you found a bug, please open an [issue](https://github.com/workleap/wl-squide/issues).
+To ask a question or propose an idea, feel free to start a new [discussion](https://github.com/gsoft-inc/wl-squide/discussions). If you found a bug, please open an [issue](https://github.com/gsoft-inc/wl-squide/issues).
 
 ## Documentation
 
