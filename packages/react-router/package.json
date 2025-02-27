@@ -41,18 +41,18 @@
     },
     "dependencies": {
         "@squide/core": "workspace:*",
-        "@types/react": "19.0.8",
-        "@types/react-dom": "19.0.3",
-        "memoize": "10.0.0"
+        "@types/react": "19.0.10",
+        "@types/react-dom": "19.0.4",
+        "memoize": "10.1.0"
     },
     "devDependencies": {
-        "@rsbuild/core": "1.2.3",
-        "@rslib/core": "0.4.0",
-        "@swc/core": "1.10.11",
+        "@rsbuild/core": "1.2.11",
+        "@rslib/core": "0.5.2",
+        "@swc/core": "1.11.1",
         "@swc/jest": "0.2.37",
         "@testing-library/react": "16.2.0",
         "@types/jest": "29.5.14",
-        "@typescript-eslint/parser": "8.22.0",
+        "@typescript-eslint/parser": "8.25.0",
         "@workleap/eslint-plugin": "3.2.6",
         "@workleap/rslib-configs": "1.0.2",
         "@workleap/swc-configs": "2.2.4",
@@ -62,7 +62,7 @@
         "jest-environment-jsdom": "29.7.0",
         "react": "19.0.0",
         "react-dom": "19.0.0",
-        "react-router": "7.1.5",
+        "react-router": "7.2.0",
         "ts-node": "10.9.2",
         "typescript": "5.5.4"
     },

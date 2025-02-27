@@ -18,15 +18,15 @@
         "react-dom": "*"
     },
     "dependencies": {
-        "uuid": "11.0.5"
+        "uuid": "11.1.0"
     },
     "devDependencies": {
         "@squide/fakes": "workspace:*",
         "@squide/firefly": "workspace:*",
-        "@types/react": "19.0.8",
-        "@types/react-dom": "19.0.3",
+        "@types/react": "19.0.10",
+        "@types/react-dom": "19.0.4",
         "@types/uuid": "10.0.0",
-        "@typescript-eslint/parser": "8.22.0",
+        "@typescript-eslint/parser": "8.25.0",
         "@workleap/eslint-plugin": "3.2.6",
         "@workleap/typescript-configs": "3.0.2",
         "eslint": "8.57.0",

@@ -24,18 +24,18 @@
     },
     "dependencies": {
         "@squide/fakes": "workspace:*",
-        "@types/react": "19.0.8",
-        "@types/react-dom": "19.0.3"
+        "@types/react": "19.0.10",
+        "@types/react-dom": "19.0.4"
     },
     "devDependencies": {
         "@basic/shared": "workspace:*",
         "@basic/shell": "workspace:*",
         "@react-aria/toast": "3.0.0-beta.19",
         "@react-stately/toast": "3.0.0-beta.7",
-        "@rsbuild/core": "1.2.3",
+        "@rsbuild/core": "1.2.11",
         "@squide/firefly": "workspace:*",
         "@squide/firefly-rsbuild-configs": "workspace:*",
-        "@typescript-eslint/parser": "8.22.0",
+        "@typescript-eslint/parser": "8.25.0",
         "@workleap/browserslist-config": "2.0.2",
         "@workleap/eslint-plugin": "3.2.6",
         "@workleap/typescript-configs": "3.0.2",
@@ -44,7 +44,7 @@
         "nodemon": "3.1.9",
         "react": "19.0.0",
         "react-dom": "19.0.0",
-        "react-router": "7.1.5",
+        "react-router": "7.2.0",
         "typescript": "5.5.4"
     },
     "engines": {
