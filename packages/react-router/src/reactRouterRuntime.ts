@@ -198,8 +198,8 @@ export class ReactRouterRuntime extends Runtime<Route, RootNavigationItem> {
             message += `If you are certain that the route${pendingRoutes.length !== 1 ? "s" : ""} has been registered, make sure that the following conditions are met:\r\n`;
             message += "- The missing routes \"path\" or \"$id\" option perfectly match the provided \"parentPath\" or \"parentId\" (make sure that there's no leading or trailing \"/\" that differs).\r\n";
             message += "- The missing routes has been registered with the runtime.registerRoute function. A route cannot be registered under a parent route that has not be registered with the runtime.registerRoute function.\r\n\r\n";
-            message += "For more information about nested routes, refers to https://gsoft-inc.github.io/wl-squide/reference/runtime/runtime-class/#register-nested-routes-under-an-existing-route.\r\n\r\n";
-            message += "For more information about the PublicRoutes and ProtectedRoutes outlets, refers to https://gsoft-inc.github.io/wl-squide/reference/#routing.";
+            message += "For more information about nested routes, refers to https://workleap.github.io/wl-squide/reference/runtime/runtime-class/#register-nested-routes-under-an-existing-route.\r\n\r\n";
+            message += "For more information about the PublicRoutes and ProtectedRoutes outlets, refers to https://workleap.github.io/wl-squide/reference/#routing.";
 
             if (this._mode === "development") {
                 throw new Error(message);
@@ -233,7 +233,7 @@ export class ReactRouterRuntime extends Runtime<Route, RootNavigationItem> {
 
             message += `If you are certain that the navigation section${pendingSectionIds.length !== 1 ? "s" : ""} has been registered, make sure that the following conditions are met:\r\n`;
             message += "- The missing navigation section \"$id\" and \"menuId\" properties perfectly match the provided \"sectionId\" and \"menuId\".\r\n\r\n";
-            message += "For more information about nested navigation items, refers to: https://gsoft-inc.github.io/wl-squide/reference/runtime/runtime-class/#register-nested-navigation-items.\r\n";
+            message += "For more information about nested navigation items, refers to: https://workleap.github.io/wl-squide/reference/runtime/runtime-class/#register-nested-navigation-items.\r\n";
 
             if (this._mode === "development") {
                 throw new Error(message);

@@ -373,7 +373,7 @@ Start the application in a development environment using the `dev` script and na
 If you are experiencing issues with this section of the guide:
 
 - Open the [DevTools](https://developer.chrome.com/docs/devtools/) console. You'll find a log entry for each registration that occurs (including MSW request handlers) and error messages if something went wrong.
-- Refer to a working example on [GitHub](https://github.com/gsoft-inc/wl-squide/tree/main/samples/endpoints).
+- Refer to a working example on [GitHub](https://github.com/workleap/wl-squide/tree/main/samples/endpoints).
 - Refer to the [troubleshooting](../troubleshooting.md) page.
 
 ## Integrate with tests
@@ -599,5 +599,5 @@ If you are experiencing issues with this guide:
 
 - Open the [DevTools](https://developer.chrome.com/docs/devtools/) console. You'll find a log entry for each environment variable registration that occurs and error messages if something went wrong:
     - `[squide] The following environment variables has been registered: {...}`
-- Refer to a working example on [GitHub](https://github.com/gsoft-inc/wl-squide/tree/main/samples/endpoints).
+- Refer to a working example on [GitHub](https://github.com/workleap/wl-squide/tree/main/samples/endpoints).
 - Refer to the [troubleshooting](../troubleshooting.md) page.

@@ -8,7 +8,7 @@ toc:
 Initialize an instance of [Honeycomb Web SDK](https://docs.honeycomb.io/send-data/javascript-browser/honeycomb-distribution) and registers custom instrumentation to monitor the performance of a Squide application.
 
 !!!info
-This function serves as a wrapper around the [@workleap/honeycomb](https://www.npmjs.com/package/@workleap/honeycomb) library. Before using it, read the documentation for the [registerHoneycombInstrumentation](https://gsoft-inc.github.io/wl-honeycomb-web/reference/registerhoneycombinstrumentation) function provided by `@workleap/honeycomb`.
+This function serves as a wrapper around the [@workleap/honeycomb](https://www.npmjs.com/package/@workleap/honeycomb) library. Before using it, read the documentation for the [registerHoneycombInstrumentation](https://workleap.github.io/wl-honeycomb-web/reference/registerhoneycombinstrumentation) function provided by `@workleap/honeycomb`.
 !!!
 
 ## Reference
@@ -23,7 +23,7 @@ registerHoneycombInstrumentation(runtime, serviceName, apiServiceUrls: [string |
 - `serviceName`: Honeycomb application service name.
 - `apiServiceUrls`: A `RegExp` or `string` that matches the URLs of the application's backend services. If unsure, use the temporary regex `/.+/g,` to match all URLs.
 - `options`: An optional object literal of options:
-    - Accepts most of the predefined options of the [registerHoneycombInstrumentation](https://gsoft-inc.github.io/wl-honeycomb-web/reference/registerhoneycombinstrumentation) function provided by `@workleap/honeycomb`.
+    - Accepts most of the predefined options of the [registerHoneycombInstrumentation](https://workleap.github.io/wl-honeycomb-web/reference/registerhoneycombinstrumentation) function provided by `@workleap/honeycomb`.
     - `debug`: An optional `boolean` value indicating whether or not to log debug information to the console. `true` by default when the [runtime](../runtime/runtime-class.md) mode is set to `development`.
 
 ### Returns
@@ -227,7 +227,7 @@ We do not guarantee that your configuration transformers won't break after an up
 
 The [predefined options](#parameters) are useful to quickly customize the default configuration of the [Honeycomb Web SDK](https://docs.honeycomb.io/send-data/javascript-browser/honeycomb-distribution), but only covers a subset of the [options](https://docs.honeycomb.io/send-data/javascript-browser/honeycomb-distribution/#advanced-configuration). If you need full control over the configuration, you can provide configuration transformer functions through the `transformers` option of the `registerHoneycombInstrumentation` function. Remember, **no locked in** :heart::v:.
 
-To view the default configuration of `registerHoneycombInstrumentation`, have a look at the [registerHoneycombInstrumentation.ts](https://github.com/gsoft-inc/wl-squide/blob/main/packages/firefly-honeycomb/src/registerHoneycombInstrumentation.ts) file on GitHub.
+To view the default configuration of `registerHoneycombInstrumentation`, have a look at the [registerHoneycombInstrumentation.ts](https://github.com/workleap/wl-squide/blob/main/packages/firefly-honeycomb/src/registerHoneycombInstrumentation.ts) file on GitHub.
 
 ### Transformers
 

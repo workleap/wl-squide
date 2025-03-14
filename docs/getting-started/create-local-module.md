@@ -9,7 +9,7 @@ order: 80
 We highly recommend going through the entire getting started guide. However, if you prefer to scaffold the application we'll be building, a template is available with [degit](https://github.com/Rich-Harris/degit):
 
 ```bash
-corepack pnpm dlx degit https://github.com/gsoft-inc/wl-squide/templates/getting-started
+corepack pnpm dlx degit https://github.com/workleap/wl-squide/templates/getting-started
 ```
 !!!
 
@@ -185,5 +185,5 @@ If you are experiencing issues with this guide:
 - Open the [DevTools](https://developer.chrome.com/docs/devtools/) console. You'll find a log entry for each registration that occurs and error messages if something went wrong:
     - `[squide] The following route has been registered.`
     - `[squide] The following static navigation item has been registered to the "root" menu for a total of 2 static items.`
-- Refer to a working example on [GitHub](https://github.com/gsoft-inc/wl-squide/tree/main/samples/basic/local-module).
+- Refer to a working example on [GitHub](https://github.com/workleap/wl-squide/tree/main/samples/basic/local-module).
 - Refer to the [troubleshooting](../troubleshooting.md) page.

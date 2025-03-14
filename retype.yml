@@ -16,7 +16,7 @@ toc:
     depth: 2
 
 hub:
-    link: https://gsoft-inc.github.io/wl-idp-docs-hub/
+    link: https://workleap.github.io/wl-idp-docs-hub/
     alt: Workleap's IDP homepage
 
 start:
@@ -29,7 +29,7 @@ start:
 input: ./docs
 output: .retype
 
-url: https://gsoft-inc.github.io/wl-squide/
+url: https://workleap.github.io/wl-squide/
 
 branding:
     title: "Squide"
@@ -38,7 +38,7 @@ branding:
 favicon: ./static/favicon.png
 
 edit:
-    repo: "https://github.com/gsoft-inc/wl-squide"
+    repo: "https://github.com/workleap/wl-squide"
     base: /docs
     branch: main
 
@@ -49,22 +49,22 @@ links:
 
     - text: Found a bug?
       icon: issue-opened
-      link: https://github.com/gsoft-inc/wl-squide/issues
+      link: https://github.com/workleap/wl-squide/issues
       target: blank
 
     - text: Feature requests
       icon: comment-discussion
-      link: https://github.com/gsoft-inc/wl-squide/discussions
+      link: https://github.com/workleap/wl-squide/discussions
       target: blank
 
     - text: Releases
       icon: tag
-      link: https://github.com/gsoft-inc/wl-squide/releases
+      link: https://github.com/workleap/wl-squide/releases
       target: blank
 
     - text: Github
       icon: mark-github
-      link: https://github.com/gsoft-inc/wl-squide
+      link: https://github.com/workleap/wl-squide
       target: blank
 
     - text: NPM
@@ -81,7 +81,7 @@ footer:
 
         - text: License
           icon: shield-check
-          link: https://github.com/gsoft-inc/wl-squide/blob/main/LICENSE
+          link: https://github.com/workleap/wl-squide/blob/main/LICENSE
           target: blank
 
 # To allow using {{ }} in code blocks.

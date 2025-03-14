@@ -543,5 +543,5 @@ If you are experiencing issues with this guide:
 - Open the [DevTools](https://developer.chrome.com/docs/devtools/) console. You'll find a log entry for each `i18next` instance that is being registered and another log everytime the language is changed:
     - `[squide] Registered a new i18next instance with key "remote-module".`
     - `[squide] The language has been changed to "fr-CA".`
-- Refer to a working example on [GitHub](https://github.com/gsoft-inc/wl-squide/tree/main/samples/endpoints).
+- Refer to a working example on [GitHub](https://github.com/workleap/wl-squide/tree/main/samples/endpoints).
 - Refer to the [troubleshooting](../troubleshooting.md) page.

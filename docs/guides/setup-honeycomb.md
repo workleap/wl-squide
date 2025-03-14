@@ -271,5 +271,5 @@ If you are experiencing issues with this guide:
     - `[squide] Dispatching event "squide-public-data-fetch-started"`
     - `[squide] Dispatching event "squide-public-data-ready"`
     - `@honeycombio/opentelemetry-web: Honeycomb link: ...`
-- Refer to a working example on [GitHub](https://github.com/gsoft-inc/wl-squide/tree/main/samples/endpoints).
+- Refer to a working example on [GitHub](https://github.com/workleap/wl-squide/tree/main/samples/endpoints).
 - Refer to the [troubleshooting](../troubleshooting.md) page.

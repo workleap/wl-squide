@@ -6,7 +6,7 @@
     "license": "Apache-2.0",
     "repository": {
         "type": "git",
-        "url": "git+https://github.com/gsoft-inc/wl-squide.git",
+        "url": "git+https://github.com/workleap/wl-squide.git",
         "directory": "packages/fakes"
     },
     "type": "module",

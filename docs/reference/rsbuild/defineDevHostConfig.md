@@ -10,10 +10,10 @@ toc:
 This is an experimental feature.
 !!!
 
-Creates an Rsbuild [configuration object](https://rsbuild.dev/config/index) that is adapted for a Squide host application in **development** mode. This function is a wrapper built on top of [@workleap/rsbuild-configs](https://www.npmjs.com/package/@workleap/rsbuild-configs). Make sure to read the [defineDevConfig](https://gsoft-inc.github.io/wl-web-configs/rsbuild/configure-dev/) documentation first.
+Creates an Rsbuild [configuration object](https://rsbuild.dev/config/index) that is adapted for a Squide host application in **development** mode. This function is a wrapper built on top of [@workleap/rsbuild-configs](https://www.npmjs.com/package/@workleap/rsbuild-configs). Make sure to read the [defineDevConfig](https://workleap.github.io/wl-web-configs/rsbuild/configure-dev/) documentation first.
 
 !!!info
-If the application _**does not**_ not include any remote modules, use the [defineDevConfig](https://gsoft-inc.github.io/wl-web-configs/rsbuild/configure-dev/) function instead of `defineDevHostConfig`.
+If the application _**does not**_ not include any remote modules, use the [defineDevConfig](https://workleap.github.io/wl-web-configs/rsbuild/configure-dev/) function instead of `defineDevHostConfig`.
 !!!
 
 ## Reference
@@ -27,7 +27,7 @@ const rsbuildConfig = defineDevHostConfig(port, remotes: [], options?: {})
 - `port`: The host application port.
 - `remotes`: An array of `RemoteDefinition` (view the [Remote definition](#remote-definition) section).
 - `options`: An optional object literal of options:
-    - Accepts most of Rsbuild `definedDevConfig` [predefined options](https://gsoft-inc.github.io/wl-web-configs/rsbuild/configure-dev/#3-set-predefined-options).
+    - Accepts most of Rsbuild `definedDevConfig` [predefined options](https://workleap.github.io/wl-web-configs/rsbuild/configure-dev/#3-set-predefined-options).
     - `features`: An optional object literal of feature switches to define additional shared dependencies.
         - `i18next`: Whether or not to add `@squide/i18next` as a shared dependency.
         - `environmentVariables`: Whether or not to add `@squide/env-vars` as a shared dependency.
@@ -51,7 +51,7 @@ The `defineDevHostConfig` function will add the following shared dependencies as
 - [@squide/module-federation](https://www.npmjs.com/package/@squide/module-federation)
 - [@squide/msw](https://www.npmjs.com/package/@squide/msw)
 
-For the full shared dependencies configuration, have a look at the [defineConfig.ts](https://github.com/gsoft-inc/wl-squide/blob/main/packages/firefly-rsbuild-configs/src/defineConfig.ts) file on Github.
+For the full shared dependencies configuration, have a look at the [defineConfig.ts](https://github.com/workleap/wl-squide/blob/main/packages/firefly-rsbuild-configs/src/defineConfig.ts) file on Github.
 
 ## Usage
 

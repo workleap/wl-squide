@@ -71,7 +71,7 @@ With this nested layout in place, thanks to the React Router [Outlet](https://re
 As a bonus, each individual tab will have its own dedicated URL! :partying_face:
 
 !!!info
-It is recommended to define the shared layouts in a standalone package as it's done for the [endpoints sample layouts project](https://github.com/gsoft-inc/wl-squide/tree/main/samples/endpoints/layouts).
+It is recommended to define the shared layouts in a standalone package as it's done for the [endpoints sample layouts project](https://github.com/workleap/wl-squide/tree/main/samples/endpoints/layouts).
 !!!
 
 ## Create the tab routes
@@ -328,5 +328,5 @@ If you are experiencing issues with this guide:
 - Open the [DevTools](https://developer.chrome.com/docs/devtools/) console. You'll find a log entry for each registration that occurs and error messages if something went wrong:
     - `[squide] The following route has been registered as a children of the "/tabs" route.`
     - `[squide] The following static navigation item has been registered to the "/tabs" menu for a total of 1 item.`
-- Refer to a working example on [GitHub](https://github.com/gsoft-inc/wl-squide/tree/main/samples/basic).
+- Refer to a working example on [GitHub](https://github.com/workleap/wl-squide/tree/main/samples/basic).
 - Refer to the [troubleshooting](../troubleshooting.md) page.

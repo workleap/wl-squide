@@ -10,7 +10,7 @@ label: Create an host app
 We highly recommend going through the entire getting started guide. However, if you prefer to scaffold the application we'll be building, a template is available with [degit](https://github.com/Rich-Harris/degit):
 
 ```bash
-corepack pnpm dlx degit https://github.com/gsoft-inc/wl-squide/templates/getting-started
+corepack pnpm dlx degit https://github.com/workleap/wl-squide/templates/getting-started
 ```
 !!!
 
@@ -165,7 +165,7 @@ import {
 const renderItem: RenderItemFunction = (item, key) => {
     // To keep thing simple, this sample doesn't support nested navigation items.
     // For an example including support for nested navigation items, have a look at
-    // https://gsoft-inc.github.io/wl-squide/reference/routing/userenderednavigationitems/
+    // https://workleap.github.io/wl-squide/reference/routing/userenderednavigationitems/
     if (!isNavigationLink(item)) {
         return null;
     }
@@ -346,7 +346,7 @@ export const registerHost: ModuleRegisterFunction<FireflyRuntime> = runtime => {
 ## Configure webpack
 
 !!!info
-Squide webpack configuration is built on top of [@workleap/webpack-configs](https://gsoft-inc.github.io/wl-web-configs/webpack/), [@workleap/browserslist-config](https://gsoft-inc.github.io/wl-web-configs/browserslist/) and [@workleap/swc-configs](https://gsoft-inc.github.io/wl-web-configs/swc/). If you are having issues with the configuration of these tools, refer to the tools documentation websites.
+Squide webpack configuration is built on top of [@workleap/webpack-configs](https://workleap.github.io/wl-web-configs/webpack/), [@workleap/browserslist-config](https://workleap.github.io/wl-web-configs/browserslist/) and [@workleap/swc-configs](https://workleap.github.io/wl-web-configs/swc/). If you are having issues with the configuration of these tools, refer to the tools documentation websites.
 !!!
 
 First, open the `public/index.html` file created at the beginning of this guide and copy/paste the following [HtmlWebpackPlugin](https://webpack.js.org/plugins/html-webpack-plugin/) template:
@@ -400,10 +400,10 @@ const Remotes = [
 export default defineDevHostConfig(swcConfig, 8080, Remotes);
 ```
 
-> If you are having issues with the wepack configuration that are not related to module federation, refer to the [@workleap/webpack-configs](https://gsoft-inc.github.io/wl-web-configs/webpack/configure-dev/) documentation.
+> If you are having issues with the wepack configuration that are not related to module federation, refer to the [@workleap/webpack-configs](https://workleap.github.io/wl-web-configs/webpack/configure-dev/) documentation.
 
 !!!info
-If the application _**does not**_ not include any remote modules, use the [defineDevConfig](https://gsoft-inc.github.io/wl-web-configs/webpack/configure-dev/) function instead of [defineDevHostConfig](../reference/webpack/defineDevHostConfig.md).
+If the application _**does not**_ not include any remote modules, use the [defineDevConfig](https://workleap.github.io/wl-web-configs/webpack/configure-dev/) function instead of [defineDevHostConfig](../reference/webpack/defineDevHostConfig.md).
 !!!
 
 ### Build configuration
@@ -438,10 +438,10 @@ const Remotes = [
 export default defineBuildHostConfig(swcConfig, Remotes);
 ```
 
-> If you are having issues with the wepack configuration that are not related to module federation, refer to the [@workleap/webpack-configs](https://gsoft-inc.github.io/wl-web-configs/webpack/configure-build/) documentation.
+> If you are having issues with the wepack configuration that are not related to module federation, refer to the [@workleap/webpack-configs](https://workleap.github.io/wl-web-configs/webpack/configure-build/) documentation.
 
 !!!info
-If the application _**does not**_ not include any remote modules, use the [defineBuildConfig](https://gsoft-inc.github.io/wl-web-configs/rsbuild/configure-build/) function instead of [defineBuildHostConfig](../reference/webpack/defineBuildHostConfig.md).
+If the application _**does not**_ not include any remote modules, use the [defineBuildConfig](https://workleap.github.io/wl-web-configs/rsbuild/configure-build/) function instead of [defineBuildHostConfig](../reference/webpack/defineBuildHostConfig.md).
 !!!
 
 ## Add CLI scripts
@@ -478,6 +478,6 @@ If you are experiencing issues with this guide:
     - `[squide] 1/1 Loading module "register" of "remote1".`
     - `[squide] 1/1 Registering module "register" of remote "remote1".`
     - `[squide] 1/1 The registration of the remote "remote1" is completed.`
-- Refer to a working example on [GitHub](https://github.com/gsoft-inc/wl-squide/tree/main/samples/basic/host).
+- Refer to a working example on [GitHub](https://github.com/workleap/wl-squide/tree/main/samples/basic/host).
 - Refer to the [troubleshooting](../troubleshooting.md) page.
 

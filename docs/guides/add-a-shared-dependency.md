@@ -140,7 +140,7 @@ Since Squide has dependencies on React and React Router, the [define*](../refere
 - [@squide/module-federation](https://www.npmjs.com/package/@squide/module-federation)
 - [@squide/msw](https://www.npmjs.com/package/@squide/msw)
 
-For the full shared dependencies configuration, have a look at the [defineConfig.ts](https://github.com/gsoft-inc/wl-squide/blob/main/packages/firefly-webpack-configs/src/defineConfig.ts) file on Github.
+For the full shared dependencies configuration, have a look at the [defineConfig.ts](https://github.com/workleap/wl-squide/blob/main/packages/firefly-webpack-configs/src/defineConfig.ts) file on Github.
 
 > You can [extend](../reference/webpack/defineDevHostConfig.md#extend-a-default-shared-dependency) or [override](../reference/webpack/defineDevHostConfig.md#override-a-default-shared-dependency) the default shared dependencies configuration.
 

@@ -4,43 +4,43 @@
 
 ### Patch Changes
 
-- [#231](https://github.com/gsoft-inc/wl-squide/pull/231) [`3c6bce0`](https://github.com/gsoft-inc/wl-squide/commit/3c6bce0cd559d0b8517d644661b6fb2b818ab2f6) Thanks [@patricklafrance](https://github.com/patricklafrance)! - Packages now includes source code and sourcemap.
+- [#231](https://github.com/workleap/wl-squide/pull/231) [`3c6bce0`](https://github.com/workleap/wl-squide/commit/3c6bce0cd559d0b8517d644661b6fb2b818ab2f6) Thanks [@patricklafrance](https://github.com/patricklafrance)! - Packages now includes source code and sourcemap.
 
-- Updated dependencies [[`3c6bce0`](https://github.com/gsoft-inc/wl-squide/commit/3c6bce0cd559d0b8517d644661b6fb2b818ab2f6)]:
+- Updated dependencies [[`3c6bce0`](https://github.com/workleap/wl-squide/commit/3c6bce0cd559d0b8517d644661b6fb2b818ab2f6)]:
   - @squide/core@5.4.2
 
 ## 6.2.1
 
 ### Patch Changes
 
-- [#221](https://github.com/gsoft-inc/wl-squide/pull/221) [`8411080`](https://github.com/gsoft-inc/wl-squide/commit/8411080dfd0df6d0eafb01888298154fa5e5d925) Thanks [@patricklafrance](https://github.com/patricklafrance)! - Fix deferred registrations.
+- [#221](https://github.com/workleap/wl-squide/pull/221) [`8411080`](https://github.com/workleap/wl-squide/commit/8411080dfd0df6d0eafb01888298154fa5e5d925) Thanks [@patricklafrance](https://github.com/patricklafrance)! - Fix deferred registrations.
 
-- Updated dependencies [[`8411080`](https://github.com/gsoft-inc/wl-squide/commit/8411080dfd0df6d0eafb01888298154fa5e5d925)]:
+- Updated dependencies [[`8411080`](https://github.com/workleap/wl-squide/commit/8411080dfd0df6d0eafb01888298154fa5e5d925)]:
   - @squide/core@5.4.1
 
 ## 6.2.0
 
 ### Minor Changes
 
-- [#219](https://github.com/gsoft-inc/wl-squide/pull/219) [`25cb482`](https://github.com/gsoft-inc/wl-squide/commit/25cb482779ee280f3f7109de4607b92dcfeef7f3) Thanks [@patricklafrance](https://github.com/patricklafrance)! - Now dispatching events to enable instrumentation packages for observability platforms.
+- [#219](https://github.com/workleap/wl-squide/pull/219) [`25cb482`](https://github.com/workleap/wl-squide/commit/25cb482779ee280f3f7109de4607b92dcfeef7f3) Thanks [@patricklafrance](https://github.com/patricklafrance)! - Now dispatching events to enable instrumentation packages for observability platforms.
 
 ### Patch Changes
 
-- Updated dependencies [[`25cb482`](https://github.com/gsoft-inc/wl-squide/commit/25cb482779ee280f3f7109de4607b92dcfeef7f3)]:
+- Updated dependencies [[`25cb482`](https://github.com/workleap/wl-squide/commit/25cb482779ee280f3f7109de4607b92dcfeef7f3)]:
   - @squide/core@5.4.0
 
 ## 6.1.1
 
 ### Patch Changes
 
-- Updated dependencies [[`8ee26fd`](https://github.com/gsoft-inc/wl-squide/commit/8ee26fd6ab7126bacf3dec900629fbd045dfd180)]:
+- Updated dependencies [[`8ee26fd`](https://github.com/workleap/wl-squide/commit/8ee26fd6ab7126bacf3dec900629fbd045dfd180)]:
   - @squide/core@5.3.0
 
 ## 6.1.0
 
 ### Minor Changes
 
-- [#204](https://github.com/gsoft-inc/wl-squide/pull/204) [`d3f7b9c`](https://github.com/gsoft-inc/wl-squide/commit/d3f7b9c6aa80249cd898916f6315ea27c4526812) Thanks [@patricklafrance](https://github.com/patricklafrance)! - The `registerNavigationItem` function now accepts a `sectionId` option to nest the item under a specific navigation section:
+- [#204](https://github.com/workleap/wl-squide/pull/204) [`d3f7b9c`](https://github.com/workleap/wl-squide/commit/d3f7b9c6aa80249cd898916f6315ea27c4526812) Thanks [@patricklafrance](https://github.com/patricklafrance)! - The `registerNavigationItem` function now accepts a `sectionId` option to nest the item under a specific navigation section:
 
   ```ts
   runtime.registerNavigationItem(
@@ -57,30 +57,30 @@
 
 ### Patch Changes
 
-- Updated dependencies [[`d3f7b9c`](https://github.com/gsoft-inc/wl-squide/commit/d3f7b9c6aa80249cd898916f6315ea27c4526812)]:
+- Updated dependencies [[`d3f7b9c`](https://github.com/workleap/wl-squide/commit/d3f7b9c6aa80249cd898916f6315ea27c4526812)]:
   - @squide/core@5.2.0
 
 ## 6.0.2
 
 ### Patch Changes
 
-- Updated dependencies [[`98e4839`](https://github.com/gsoft-inc/wl-squide/commit/98e48393fda27ebb2974ecc1e2f71b09f4e84953)]:
+- Updated dependencies [[`98e4839`](https://github.com/workleap/wl-squide/commit/98e48393fda27ebb2974ecc1e2f71b09f4e84953)]:
   - @squide/core@5.1.0
 
 ## 6.0.1
 
 ### Patch Changes
 
-- [#191](https://github.com/gsoft-inc/wl-squide/pull/191) [`2b62c53`](https://github.com/gsoft-inc/wl-squide/commit/2b62c539b0f3123cb47475566181e0b446ea6b40) Thanks [@patricklafrance](https://github.com/patricklafrance)! - Updated packages description.
+- [#191](https://github.com/workleap/wl-squide/pull/191) [`2b62c53`](https://github.com/workleap/wl-squide/commit/2b62c539b0f3123cb47475566181e0b446ea6b40) Thanks [@patricklafrance](https://github.com/patricklafrance)! - Updated packages description.
 
-- Updated dependencies [[`2b62c53`](https://github.com/gsoft-inc/wl-squide/commit/2b62c539b0f3123cb47475566181e0b446ea6b40)]:
+- Updated dependencies [[`2b62c53`](https://github.com/workleap/wl-squide/commit/2b62c539b0f3123cb47475566181e0b446ea6b40)]:
   - @squide/core@5.0.1
 
 ## 6.0.0
 
 ### Major Changes
 
-- [#182](https://github.com/gsoft-inc/wl-squide/pull/182) [`58cf066`](https://github.com/gsoft-inc/wl-squide/commit/58cf066e87e23611510c254cca96016bd2bad08a) Thanks [@patricklafrance](https://github.com/patricklafrance)! - ## Firefly v9
+- [#182](https://github.com/workleap/wl-squide/pull/182) [`58cf066`](https://github.com/workleap/wl-squide/commit/58cf066e87e23611510c254cca96016bd2bad08a) Thanks [@patricklafrance](https://github.com/patricklafrance)! - ## Firefly v9
 
   This major version of @squide/firefly introduces TanStack Query as the official library for fetching the global data of a Squide's application and features a complete rewrite of the AppRouter component, which now uses a state machine to manage the application's bootstrapping flow.
 
@@ -88,7 +88,7 @@
 
   Finally, with v9, Squide's philosophy has evolved. We used to describe Squide as a shell for federated applications. Now, we refer to Squide as a shell for modular applications. After playing with Squide's local module feature for a while, we discovered that Squide offers significant value even for non-federated applications, which triggered this shift in philosophy.
 
-  > For a full breakdown of the changres and a migration procedure, read the following [documentation](https://gsoft-inc.github.io/wl-squide/guides/migrate-to-firefly-v9/).
+  > For a full breakdown of the changres and a migration procedure, read the following [documentation](https://workleap.github.io/wl-squide/guides/migrate-to-firefly-v9/).
 
   ## Breaking changes
 
@@ -130,18 +130,18 @@
   - Navigation items now include a `$canRender` option, enabling modules to control whether a navigation item should be rendered.
   - New `$key` option for navigation items.
 
-  For more details about the changes and a migration procedure, read the following [documentation](https://gsoft-inc.github.io/wl-squide/guides/migrate-to-firefly-v9/).
+  For more details about the changes and a migration procedure, read the following [documentation](https://workleap.github.io/wl-squide/guides/migrate-to-firefly-v9/).
 
 ### Patch Changes
 
-- Updated dependencies [[`58cf066`](https://github.com/gsoft-inc/wl-squide/commit/58cf066e87e23611510c254cca96016bd2bad08a)]:
+- Updated dependencies [[`58cf066`](https://github.com/workleap/wl-squide/commit/58cf066e87e23611510c254cca96016bd2bad08a)]:
   - @squide/core@5.0.0
 
 ## 5.0.0
 
 ### Major Changes
 
-- [#168](https://github.com/gsoft-inc/wl-squide/pull/168) [`89ace29`](https://github.com/gsoft-inc/wl-squide/commit/89ace29b9aeadbbe83cfa71dd137b9f1a115c283) Thanks [@patricklafrance](https://github.com/patricklafrance)! - This release Migrates Squide from Webpack Module Federation to [Module Federation 2.0](https://module-federation.io/guide/start/quick-start.html).
+- [#168](https://github.com/workleap/wl-squide/pull/168) [`89ace29`](https://github.com/workleap/wl-squide/commit/89ace29b9aeadbbe83cfa71dd137b9f1a115c283) Thanks [@patricklafrance](https://github.com/patricklafrance)! - This release Migrates Squide from Webpack Module Federation to [Module Federation 2.0](https://module-federation.io/guide/start/quick-start.html).
 
   This release deprecates the following packages:
 
@@ -252,5 +252,5 @@
 
 ### Patch Changes
 
-- Updated dependencies [[`89ace29`](https://github.com/gsoft-inc/wl-squide/commit/89ace29b9aeadbbe83cfa71dd137b9f1a115c283)]:
+- Updated dependencies [[`89ace29`](https://github.com/workleap/wl-squide/commit/89ace29b9aeadbbe83cfa71dd137b9f1a115c283)]:
   - @squide/core@4.0.0

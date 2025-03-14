@@ -604,7 +604,7 @@ Start the host application and the migrated local module in development mode usi
 
 For additional examples, have a look at Squide's sample applications:
 
-- :icon-mark-github: [basic](https://github.com/gsoft-inc/wl-squide/tree/main/samples/basic)
-- :icon-mark-github: [endpoints](https://github.com/gsoft-inc/wl-squide/tree/main/samples/endpoints)
+- :icon-mark-github: [basic](https://github.com/workleap/wl-squide/tree/main/samples/basic)
+- :icon-mark-github: [endpoints](https://github.com/workleap/wl-squide/tree/main/samples/endpoints)
 
 

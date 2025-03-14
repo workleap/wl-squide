@@ -8,7 +8,7 @@
 To install the template, first clone the template with [degit](https://github.com/Rich-Harris/degit) by opening a terminal at the location you want to create your project:
 
 ```bash
-pnpm dlx degit https://github.com/gsoft-inc/wl-squide/templates/getting-started
+pnpm dlx degit https://github.com/workleap/wl-squide/templates/getting-started
 ```
 
 Then open the newly created folder, open a terminal at the root of the workspace and execute the following command:

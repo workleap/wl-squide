@@ -6,10 +6,10 @@ toc:
 
 # defineBuildHostConfig
 
-Creates a webpack [configuration object](https://webpack.js.org/concepts/configuration/) that is adapted for a Squide host application in **build** mode. This function is a wrapper built on top of [@workleap/webpack-configs](https://www.npmjs.com/package/@workleap/webpack-configs). Make sure to read the [defineBuildConfig](https://gsoft-inc.github.io/wl-web-configs/webpack/configure-build/) documentation first.
+Creates a webpack [configuration object](https://webpack.js.org/concepts/configuration/) that is adapted for a Squide host application in **build** mode. This function is a wrapper built on top of [@workleap/webpack-configs](https://www.npmjs.com/package/@workleap/webpack-configs). Make sure to read the [defineBuildConfig](https://workleap.github.io/wl-web-configs/webpack/configure-build/) documentation first.
 
 !!!info
-If the application _**does not**_ not include any remote modules, use the [defineBuildConfig](https://gsoft-inc.github.io/wl-web-configs/webpack/configure-build/) function instead of `defineBuildHostConfig`.
+If the application _**does not**_ not include any remote modules, use the [defineBuildConfig](https://workleap.github.io/wl-web-configs/webpack/configure-build/) function instead of `defineBuildHostConfig`.
 !!!
 
 ## Reference
@@ -23,7 +23,7 @@ const webpackConfig = defineBuildHostConfig(swcConfig: {}, remotes: [], options?
 - `swcConfig`: An SWC [configuration object](https://swc.rs/docs/configuration/swcrc).
 - `remotes`: An array of `RemoteDefinition` (view the [Remote definition](#remote-definition) section).
 - `options`: An optional object literal of options:
-    - Accepts most of webpack `definedBuildConfig` [predefined options](https://gsoft-inc.github.io/wl-web-configs/webpack/configure-build/#3-set-predefined-options).
+    - Accepts most of webpack `definedBuildConfig` [predefined options](https://workleap.github.io/wl-web-configs/webpack/configure-build/#3-set-predefined-options).
     - `htmlWebpackPluginOptions`: An optional object literal accepting any options of the [HtmlWebpackPlugin](https://github.com/jantimon/html-webpack-plugin#options).
     - `features`: An optional object literal of feature switches to define additional shared dependencies.
         - `i18next`: Whether or not to add `@squide/i18next` as a shared dependency.
@@ -49,7 +49,7 @@ The `defineBuildHostConfig` function will add the following shared dependencies 
 - [@squide/module-federation](https://www.npmjs.com/package/@squide/module-federation)
 - [@squide/msw](https://www.npmjs.com/package/@squide/msw)
 
-For the full shared dependencies configuration, have a look at the [defineConfig.ts](https://github.com/gsoft-inc/wl-squide/blob/main/packages/firefly-webpack-configs/src/defineConfig.ts) file on GitHub.
+For the full shared dependencies configuration, have a look at the [defineConfig.ts](https://github.com/workleap/wl-squide/blob/main/packages/firefly-webpack-configs/src/defineConfig.ts) file on GitHub.
 
 ## Usage
 

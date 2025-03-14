@@ -14,7 +14,7 @@ Welcome to Squide (yes :squid: with an **"e"**), a shell for [Workleap](https://
 
 <!-- !!!warning Foundry CLI
 
-The prefered way for creating a new modular application for the Workleap's platform is with the [foundry-cli](https://github.com/gsoft-inc/wl-foundry-cli).
+The prefered way for creating a new modular application for the Workleap's platform is with the [foundry-cli](https://github.com/workleap/wl-foundry-cli).
 +++ pnpm
 ```bash
 pnpm create @workleap/project@latest <output-directory>

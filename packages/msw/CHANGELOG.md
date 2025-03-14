@@ -4,43 +4,43 @@
 
 ### Patch Changes
 
-- [#231](https://github.com/gsoft-inc/wl-squide/pull/231) [`3c6bce0`](https://github.com/gsoft-inc/wl-squide/commit/3c6bce0cd559d0b8517d644661b6fb2b818ab2f6) Thanks [@patricklafrance](https://github.com/patricklafrance)! - Packages now includes source code and sourcemap.
+- [#231](https://github.com/workleap/wl-squide/pull/231) [`3c6bce0`](https://github.com/workleap/wl-squide/commit/3c6bce0cd559d0b8517d644661b6fb2b818ab2f6) Thanks [@patricklafrance](https://github.com/patricklafrance)! - Packages now includes source code and sourcemap.
 
-- Updated dependencies [[`3c6bce0`](https://github.com/gsoft-inc/wl-squide/commit/3c6bce0cd559d0b8517d644661b6fb2b818ab2f6)]:
+- Updated dependencies [[`3c6bce0`](https://github.com/workleap/wl-squide/commit/3c6bce0cd559d0b8517d644661b6fb2b818ab2f6)]:
   - @squide/core@5.4.2
 
 ## 3.2.1
 
 ### Patch Changes
 
-- [#221](https://github.com/gsoft-inc/wl-squide/pull/221) [`8411080`](https://github.com/gsoft-inc/wl-squide/commit/8411080dfd0df6d0eafb01888298154fa5e5d925) Thanks [@patricklafrance](https://github.com/patricklafrance)! - Fix deferred registrations.
+- [#221](https://github.com/workleap/wl-squide/pull/221) [`8411080`](https://github.com/workleap/wl-squide/commit/8411080dfd0df6d0eafb01888298154fa5e5d925) Thanks [@patricklafrance](https://github.com/patricklafrance)! - Fix deferred registrations.
 
-- Updated dependencies [[`8411080`](https://github.com/gsoft-inc/wl-squide/commit/8411080dfd0df6d0eafb01888298154fa5e5d925)]:
+- Updated dependencies [[`8411080`](https://github.com/workleap/wl-squide/commit/8411080dfd0df6d0eafb01888298154fa5e5d925)]:
   - @squide/core@5.4.1
 
 ## 3.2.0
 
 ### Minor Changes
 
-- [#219](https://github.com/gsoft-inc/wl-squide/pull/219) [`25cb482`](https://github.com/gsoft-inc/wl-squide/commit/25cb482779ee280f3f7109de4607b92dcfeef7f3) Thanks [@patricklafrance](https://github.com/patricklafrance)! - Now dispatching events to enable instrumentation packages for observability platforms.
+- [#219](https://github.com/workleap/wl-squide/pull/219) [`25cb482`](https://github.com/workleap/wl-squide/commit/25cb482779ee280f3f7109de4607b92dcfeef7f3) Thanks [@patricklafrance](https://github.com/patricklafrance)! - Now dispatching events to enable instrumentation packages for observability platforms.
 
 ### Patch Changes
 
-- Updated dependencies [[`25cb482`](https://github.com/gsoft-inc/wl-squide/commit/25cb482779ee280f3f7109de4607b92dcfeef7f3)]:
+- Updated dependencies [[`25cb482`](https://github.com/workleap/wl-squide/commit/25cb482779ee280f3f7109de4607b92dcfeef7f3)]:
   - @squide/core@5.4.0
 
 ## 3.1.1
 
 ### Patch Changes
 
-- Updated dependencies [[`8ee26fd`](https://github.com/gsoft-inc/wl-squide/commit/8ee26fd6ab7126bacf3dec900629fbd045dfd180)]:
+- Updated dependencies [[`8ee26fd`](https://github.com/workleap/wl-squide/commit/8ee26fd6ab7126bacf3dec900629fbd045dfd180)]:
   - @squide/core@5.3.0
 
 ## 3.1.0
 
 ### Minor Changes
 
-- [#204](https://github.com/gsoft-inc/wl-squide/pull/204) [`d3f7b9c`](https://github.com/gsoft-inc/wl-squide/commit/d3f7b9c6aa80249cd898916f6315ea27c4526812) Thanks [@patricklafrance](https://github.com/patricklafrance)! - The `registerNavigationItem` function now accepts a `sectionId` option to nest the item under a specific navigation section:
+- [#204](https://github.com/workleap/wl-squide/pull/204) [`d3f7b9c`](https://github.com/workleap/wl-squide/commit/d3f7b9c6aa80249cd898916f6315ea27c4526812) Thanks [@patricklafrance](https://github.com/patricklafrance)! - The `registerNavigationItem` function now accepts a `sectionId` option to nest the item under a specific navigation section:
 
   ```ts
   runtime.registerNavigationItem(
@@ -57,30 +57,30 @@
 
 ### Patch Changes
 
-- Updated dependencies [[`d3f7b9c`](https://github.com/gsoft-inc/wl-squide/commit/d3f7b9c6aa80249cd898916f6315ea27c4526812)]:
+- Updated dependencies [[`d3f7b9c`](https://github.com/workleap/wl-squide/commit/d3f7b9c6aa80249cd898916f6315ea27c4526812)]:
   - @squide/core@5.2.0
 
 ## 3.0.2
 
 ### Patch Changes
 
-- Updated dependencies [[`98e4839`](https://github.com/gsoft-inc/wl-squide/commit/98e48393fda27ebb2974ecc1e2f71b09f4e84953)]:
+- Updated dependencies [[`98e4839`](https://github.com/workleap/wl-squide/commit/98e48393fda27ebb2974ecc1e2f71b09f4e84953)]:
   - @squide/core@5.1.0
 
 ## 3.0.1
 
 ### Patch Changes
 
-- [#191](https://github.com/gsoft-inc/wl-squide/pull/191) [`2b62c53`](https://github.com/gsoft-inc/wl-squide/commit/2b62c539b0f3123cb47475566181e0b446ea6b40) Thanks [@patricklafrance](https://github.com/patricklafrance)! - Updated packages description.
+- [#191](https://github.com/workleap/wl-squide/pull/191) [`2b62c53`](https://github.com/workleap/wl-squide/commit/2b62c539b0f3123cb47475566181e0b446ea6b40) Thanks [@patricklafrance](https://github.com/patricklafrance)! - Updated packages description.
 
-- Updated dependencies [[`2b62c53`](https://github.com/gsoft-inc/wl-squide/commit/2b62c539b0f3123cb47475566181e0b446ea6b40)]:
+- Updated dependencies [[`2b62c53`](https://github.com/workleap/wl-squide/commit/2b62c539b0f3123cb47475566181e0b446ea6b40)]:
   - @squide/core@5.0.1
 
 ## 3.0.0
 
 ### Major Changes
 
-- [#182](https://github.com/gsoft-inc/wl-squide/pull/182) [`58cf066`](https://github.com/gsoft-inc/wl-squide/commit/58cf066e87e23611510c254cca96016bd2bad08a) Thanks [@patricklafrance](https://github.com/patricklafrance)! - ## Firefly v9
+- [#182](https://github.com/workleap/wl-squide/pull/182) [`58cf066`](https://github.com/workleap/wl-squide/commit/58cf066e87e23611510c254cca96016bd2bad08a) Thanks [@patricklafrance](https://github.com/patricklafrance)! - ## Firefly v9
 
   This major version of @squide/firefly introduces TanStack Query as the official library for fetching the global data of a Squide's application and features a complete rewrite of the AppRouter component, which now uses a state machine to manage the application's bootstrapping flow.
 
@@ -88,7 +88,7 @@
 
   Finally, with v9, Squide's philosophy has evolved. We used to describe Squide as a shell for federated applications. Now, we refer to Squide as a shell for modular applications. After playing with Squide's local module feature for a while, we discovered that Squide offers significant value even for non-federated applications, which triggered this shift in philosophy.
 
-  > For a full breakdown of the changres and a migration procedure, read the following [documentation](https://gsoft-inc.github.io/wl-squide/guides/migrate-to-firefly-v9/).
+  > For a full breakdown of the changres and a migration procedure, read the following [documentation](https://workleap.github.io/wl-squide/guides/migrate-to-firefly-v9/).
 
   ## Breaking changes
 
@@ -130,124 +130,124 @@
   - Navigation items now include a `$canRender` option, enabling modules to control whether a navigation item should be rendered.
   - New `$key` option for navigation items.
 
-  For more details about the changes and a migration procedure, read the following [documentation](https://gsoft-inc.github.io/wl-squide/guides/migrate-to-firefly-v9/).
+  For more details about the changes and a migration procedure, read the following [documentation](https://workleap.github.io/wl-squide/guides/migrate-to-firefly-v9/).
 
 ### Patch Changes
 
-- Updated dependencies [[`58cf066`](https://github.com/gsoft-inc/wl-squide/commit/58cf066e87e23611510c254cca96016bd2bad08a)]:
+- Updated dependencies [[`58cf066`](https://github.com/workleap/wl-squide/commit/58cf066e87e23611510c254cca96016bd2bad08a)]:
   - @squide/core@5.0.0
 
 ## 2.0.14
 
 ### Patch Changes
 
-- Updated dependencies [[`89ace29`](https://github.com/gsoft-inc/wl-squide/commit/89ace29b9aeadbbe83cfa71dd137b9f1a115c283)]:
+- Updated dependencies [[`89ace29`](https://github.com/workleap/wl-squide/commit/89ace29b9aeadbbe83cfa71dd137b9f1a115c283)]:
   - @squide/core@4.0.0
 
 ## 2.0.13
 
 ### Patch Changes
 
-- [#154](https://github.com/gsoft-inc/wl-squide/pull/154) [`e440515`](https://github.com/gsoft-inc/wl-squide/commit/e4405150a3c364fd4029c345399891614a434176) Thanks [@patricklafrance](https://github.com/patricklafrance)! - Updated packages.
+- [#154](https://github.com/workleap/wl-squide/pull/154) [`e440515`](https://github.com/workleap/wl-squide/commit/e4405150a3c364fd4029c345399891614a434176) Thanks [@patricklafrance](https://github.com/patricklafrance)! - Updated packages.
 
-- Updated dependencies [[`e440515`](https://github.com/gsoft-inc/wl-squide/commit/e4405150a3c364fd4029c345399891614a434176)]:
+- Updated dependencies [[`e440515`](https://github.com/workleap/wl-squide/commit/e4405150a3c364fd4029c345399891614a434176)]:
   - @squide/core@3.4.0
 
 ## 2.0.12
 
 ### Patch Changes
 
-- [#152](https://github.com/gsoft-inc/wl-squide/pull/152) [`d27fe71`](https://github.com/gsoft-inc/wl-squide/commit/d27fe717f899e395c3f01af86aac3e015159d719) Thanks [@patricklafrance](https://github.com/patricklafrance)! - Updated dependency versions.
+- [#152](https://github.com/workleap/wl-squide/pull/152) [`d27fe71`](https://github.com/workleap/wl-squide/commit/d27fe717f899e395c3f01af86aac3e015159d719) Thanks [@patricklafrance](https://github.com/patricklafrance)! - Updated dependency versions.
 
-- Updated dependencies [[`d27fe71`](https://github.com/gsoft-inc/wl-squide/commit/d27fe717f899e395c3f01af86aac3e015159d719)]:
+- Updated dependencies [[`d27fe71`](https://github.com/workleap/wl-squide/commit/d27fe717f899e395c3f01af86aac3e015159d719)]:
   - @squide/core@3.3.2
 
 ## 2.0.11
 
 ### Patch Changes
 
-- Updated dependencies [[`d091846`](https://github.com/gsoft-inc/wl-squide/commit/d091846502bed6b783b69ab8eff7ae36d8e25449)]:
+- Updated dependencies [[`d091846`](https://github.com/workleap/wl-squide/commit/d091846502bed6b783b69ab8eff7ae36d8e25449)]:
   - @squide/core@3.3.1
 
 ## 2.0.10
 
 ### Patch Changes
 
-- Updated dependencies [[`39d0bbe4`](https://github.com/gsoft-inc/wl-squide/commit/39d0bbe45902d54832e9aa8deb2c1949a2cf3c5f)]:
+- Updated dependencies [[`39d0bbe4`](https://github.com/workleap/wl-squide/commit/39d0bbe45902d54832e9aa8deb2c1949a2cf3c5f)]:
   - @squide/core@3.3.0
 
 ## 2.0.9
 
 ### Patch Changes
 
-- Updated dependencies [[`1cda1be`](https://github.com/gsoft-inc/wl-squide/commit/1cda1be30779d1a1d5d2e21eac043baff20c0f7e)]:
+- Updated dependencies [[`1cda1be`](https://github.com/workleap/wl-squide/commit/1cda1be30779d1a1d5d2e21eac043baff20c0f7e)]:
   - @squide/core@3.2.1
 
 ## 2.0.8
 
 ### Patch Changes
 
-- Updated dependencies [[`7caa44b`](https://github.com/gsoft-inc/wl-squide/commit/7caa44ba81a97d0705caf2f56e6536ae285c920d)]:
+- Updated dependencies [[`7caa44b`](https://github.com/workleap/wl-squide/commit/7caa44ba81a97d0705caf2f56e6536ae285c920d)]:
   - @squide/core@3.2.0
 
 ## 2.0.7
 
 ### Patch Changes
 
-- [#128](https://github.com/gsoft-inc/wl-squide/pull/128) [`4c3b6f1`](https://github.com/gsoft-inc/wl-squide/commit/4c3b6f1929364844dda6c1190fc45c3b037e8df9) Thanks [@patricklafrance](https://github.com/patricklafrance)! - Internally changed the usage of `setInterval` for `useSyncExternalStore`.
+- [#128](https://github.com/workleap/wl-squide/pull/128) [`4c3b6f1`](https://github.com/workleap/wl-squide/commit/4c3b6f1929364844dda6c1190fc45c3b037e8df9) Thanks [@patricklafrance](https://github.com/patricklafrance)! - Internally changed the usage of `setInterval` for `useSyncExternalStore`.
 
-- Updated dependencies [[`4c3b6f1`](https://github.com/gsoft-inc/wl-squide/commit/4c3b6f1929364844dda6c1190fc45c3b037e8df9)]:
+- Updated dependencies [[`4c3b6f1`](https://github.com/workleap/wl-squide/commit/4c3b6f1929364844dda6c1190fc45c3b037e8df9)]:
   - @squide/core@3.1.1
 
 ## 2.0.6
 
 ### Patch Changes
 
-- [#122](https://github.com/gsoft-inc/wl-squide/pull/122) [`cda7873`](https://github.com/gsoft-inc/wl-squide/commit/cda7873dcffbf424a625cf40c56a12eacbb2632e) Thanks [@patricklafrance](https://github.com/patricklafrance)! - Internal minor changes
+- [#122](https://github.com/workleap/wl-squide/pull/122) [`cda7873`](https://github.com/workleap/wl-squide/commit/cda7873dcffbf424a625cf40c56a12eacbb2632e) Thanks [@patricklafrance](https://github.com/patricklafrance)! - Internal minor changes
 
 ## 2.0.5
 
 ### Patch Changes
 
-- [#115](https://github.com/gsoft-inc/wl-squide/pull/115) [`568255a`](https://github.com/gsoft-inc/wl-squide/commit/568255a50a519e7d19c8c2b03909559686cd24c4) Thanks [@patricklafrance](https://github.com/patricklafrance)! - - Request handlers registeration are now printed to the debug logs.
+- [#115](https://github.com/workleap/wl-squide/pull/115) [`568255a`](https://github.com/workleap/wl-squide/commit/568255a50a519e7d19c8c2b03909559686cd24c4) Thanks [@patricklafrance](https://github.com/patricklafrance)! - - Request handlers registeration are now printed to the debug logs.
 
-- Updated dependencies [[`568255a`](https://github.com/gsoft-inc/wl-squide/commit/568255a50a519e7d19c8c2b03909559686cd24c4)]:
+- Updated dependencies [[`568255a`](https://github.com/workleap/wl-squide/commit/568255a50a519e7d19c8c2b03909559686cd24c4)]:
   - @squide/core@3.1.0
 
 ## 2.0.4
 
 ### Patch Changes
 
-- Updated dependencies [[`a9dda1c`](https://github.com/gsoft-inc/wl-squide/commit/a9dda1c3b010f616556fc3313c1934e20a26bc11)]:
+- Updated dependencies [[`a9dda1c`](https://github.com/workleap/wl-squide/commit/a9dda1c3b010f616556fc3313c1934e20a26bc11)]:
   - @squide/core@3.0.0
 
 ## 2.0.3
 
 ### Patch Changes
 
-- [#108](https://github.com/gsoft-inc/wl-squide/pull/108) [`58097a2`](https://github.com/gsoft-inc/wl-squide/commit/58097a2fbaa7e5942cbe6f9b765fe471d52758d8) Thanks [@patricklafrance](https://github.com/patricklafrance)! - Updated types in the function signatures for MSW 2.0
+- [#108](https://github.com/workleap/wl-squide/pull/108) [`58097a2`](https://github.com/workleap/wl-squide/commit/58097a2fbaa7e5942cbe6f9b765fe471d52758d8) Thanks [@patricklafrance](https://github.com/patricklafrance)! - Updated types in the function signatures for MSW 2.0
 
 ## 2.0.2
 
 ### Patch Changes
 
-- [#103](https://github.com/gsoft-inc/wl-squide/pull/103) [`b72fca3`](https://github.com/gsoft-inc/wl-squide/commit/b72fca38385ddacbcd80376c9afd0c9485658d90) Thanks [@patricklafrance](https://github.com/patricklafrance)! - The `msw` dependency is now an optional `peerDependency`.
+- [#103](https://github.com/workleap/wl-squide/pull/103) [`b72fca3`](https://github.com/workleap/wl-squide/commit/b72fca38385ddacbcd80376c9afd0c9485658d90) Thanks [@patricklafrance](https://github.com/patricklafrance)! - The `msw` dependency is now an optional `peerDependency`.
 
-- Updated dependencies [[`b72fca3`](https://github.com/gsoft-inc/wl-squide/commit/b72fca38385ddacbcd80376c9afd0c9485658d90)]:
+- Updated dependencies [[`b72fca3`](https://github.com/workleap/wl-squide/commit/b72fca38385ddacbcd80376c9afd0c9485658d90)]:
   - @squide/core@2.2.0
 
 ## 2.0.1
 
 ### Patch Changes
 
-- Updated dependencies [[`1e77dca`](https://github.com/gsoft-inc/wl-squide/commit/1e77dcaf26660e42f2d5054b3fa1cd018c2ec009)]:
+- Updated dependencies [[`1e77dca`](https://github.com/workleap/wl-squide/commit/1e77dcaf26660e42f2d5054b3fa1cd018c2ec009)]:
   - @squide/core@2.1.0
 
 ## 2.0.0
 
 ### Major Changes
 
-- [#93](https://github.com/gsoft-inc/wl-squide/pull/93) [`d66a196`](https://github.com/gsoft-inc/wl-squide/commit/d66a196db9346803e1c996ef64089eda9aeff180) Thanks [@patricklafrance](https://github.com/patricklafrance)! - This is a new package to help with [Mock Service Worker](https://mswjs.io/) in a federated application.
+- [#93](https://github.com/workleap/wl-squide/pull/93) [`d66a196`](https://github.com/workleap/wl-squide/commit/d66a196db9346803e1c996ef64089eda9aeff180) Thanks [@patricklafrance](https://github.com/patricklafrance)! - This is a new package to help with [Mock Service Worker](https://mswjs.io/) in a federated application.
 
   It helps to register their request handlers:
 
@@ -276,5 +276,5 @@
 
 ### Patch Changes
 
-- Updated dependencies [[`d66a196`](https://github.com/gsoft-inc/wl-squide/commit/d66a196db9346803e1c996ef64089eda9aeff180)]:
+- Updated dependencies [[`d66a196`](https://github.com/workleap/wl-squide/commit/d66a196db9346803e1c996ef64089eda9aeff180)]:
   - @squide/core@2.0.0
