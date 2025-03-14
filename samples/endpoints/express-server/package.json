@@ -26,9 +26,9 @@
     "devDependencies": {
         "@types/cors": "2.8.17",
         "@types/express": "5.0.0",
-        "@types/node": "22.13.5",
-        "@typescript-eslint/parser": "8.25.0",
-        "@workleap/eslint-plugin": "3.2.6",
+        "@types/node": "22.13.10",
+        "@typescript-eslint/parser": "8.26.1",
+        "@workleap/eslint-plugin": "3.3.0",
         "@workleap/typescript-configs": "3.0.2",
         "eslint": "8.57.0",
         "nodemon": "3.1.9",

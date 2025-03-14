@@ -42,13 +42,13 @@
         "eventemitter3": "5.0.1"
     },
     "devDependencies": {
-        "@rsbuild/core": "1.2.11",
-        "@rslib/core": "0.5.2",
-        "@swc/core": "1.11.1",
+        "@rsbuild/core": "1.2.18",
+        "@rslib/core": "0.5.4",
+        "@swc/core": "1.11.9",
         "@swc/jest": "0.2.37",
         "@types/jest": "29.5.14",
-        "@typescript-eslint/parser": "8.25.0",
-        "@workleap/eslint-plugin": "3.2.6",
+        "@typescript-eslint/parser": "8.26.1",
+        "@workleap/eslint-plugin": "3.3.0",
         "@workleap/rslib-configs": "1.0.2",
         "@workleap/swc-configs": "2.2.4",
         "@workleap/typescript-configs": "3.0.2",
