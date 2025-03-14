@@ -11,6 +11,42 @@ This major version introduces support for [React Router](https://reactrouter.com
 
 All breaking changes in firefly `v10` are due to the migration to React Router `v7`. For official guidance on upgrading from React Router `v6` to `v7`, refer to the official [migration guide](https://reactrouter.com/upgrading/v6).
 
+### React Router future flags
+
+Before migrating to Squide firefly `v10` or React Router `v7`, it is highly recommended to read React Router [migration guide](https://reactrouter.com/upgrading/v6) and activate the "future flags" one by one to minimize breaking changes.
+
+Before:
+
+```tsx
+<RouterProvider
+    router={createBrowserRouter([
+        {
+            element: rootRoute,
+            children: registeredRoutes
+        }
+    ])}
+    {...routerProviderProps}
+/>
+```
+
+After:
+
+```tsx
+<RouterProvider
+    router={createBrowserRouter([
+        {
+            element: rootRoute,
+            children: registeredRoutes
+        }
+    ], {
+        future: {
+            v7_relativeSplatPath: true
+        }
+    })}
+    {...routerProviderProps}
+/>
+```
+
 ### Replace `react-router-dom` with `react-router`
 
 In React Router `v7`, `react-router-dom` is no longer required, as the package structure has been simplified. All necessary imports are now available from either `react-router` or `react-router/dom`.
@@ -58,47 +94,3 @@ According to React Router [migration guide](https://reactrouter.com/upgrading/v6
 ```bash
 find ./path/to/src \( -name "*.tsx" -o -name "*.ts" -o -name "*.js" -o -name "*.jsx" \) -type f -exec sed -i '' 's|from "react-router-dom"|from "react-router"|g' {} +
 ```
-
-### Future flags
-
-By default, all React Router `v7` [future flags](https://reactrouter.com/upgrading/v6#update-to-latest-v6x) are enabled. To minimize breaking changes, React Router recommends activating these flags individually. For most Squide applications, deactivating the following flags should be sufficient:
-
-- [v7_relativeSplatPath](https://reactrouter.com/upgrading/v6#v7_relativesplatpath)
-- [v7_startTransition](https://reactrouter.com/upgrading/v6#v7_starttransition)
-- [v7_partialHydration](https://reactrouter.com/upgrading/v6#v7_partialhydration)
-
-Before:
-
-```tsx
-<RouterProvider
-    router={createBrowserRouter([
-        {
-            element: rootRoute,
-            children: registeredRoutes
-        }
-    ])}
-    {...routerProviderProps}
-/>
-```
-
-After:
-
-```tsx
-<RouterProvider
-    router={createBrowserRouter([
-        {
-            element: rootRoute,
-            children: registeredRoutes
-        }
-    ], {
-        future: {
-            v7_relativeSplatPath: false,
-            v7_startTransition: false,
-            v7_partialHydration: false
-        }
-    })}
-    {...routerProviderProps}
-/>
-```
-
-If your application uses React Router’s [Data loading](https://reactrouter.com/start/framework/data-loading) or [Actions](https://reactrouter.com/start/framework/actions) features, it is recommended to carefully evaluate all available [future flags](https://reactrouter.com/upgrading/v6#update-to-latest-v6x) to avoid breaking changes.
