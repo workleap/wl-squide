@@ -1,5 +1,5 @@
 import { useIsRouteProtected, useRouteMatch } from "@squide/react-router";
-import { useLocation } from "react-router-dom";
+import { useLocation } from "react-router";
 
 export function useIsActiveRouteProtected(areModulesReady: boolean) {
     // Using this hook instead of window.location to retrieve the current location because it triggers a re-render everytime the browser location change.

@@ -1,4 +1,4 @@
-import type { IndexRouteObject, NonIndexRouteObject } from "react-router-dom";
+import type { IndexRouteObject, NonIndexRouteObject } from "react-router";
 import { ProtectedRoutes, ProtectedRoutesOutletId, PublicRoutes, PublicRoutesOutletId, isProtectedRoutesOutletRoute, isPublicRoutesOutletRoute } from "./outlets.ts";
 
 export type RouteVisibility = "public" | "protected";

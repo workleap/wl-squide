@@ -1,6 +1,6 @@
 import { useLogger } from "@squide/firefly";
 import { useCallback, useEffect } from "react";
-import { isRouteErrorResponse, useLocation, useRouteError } from "react-router-dom";
+import { isRouteErrorResponse, useLocation, useRouteError } from "react-router";
 
 function getErrorMessage(error: unknown) {
     if (isRouteErrorResponse(error)) {

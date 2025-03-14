@@ -416,9 +416,10 @@ Hence, the strategy to select the displayed language should be as follow:
 
 This strategy can be implemented with the help of the [useChangeLanguage](../reference/i18next/useChangeLanguage.md) and [useProtectedDataQueries](../reference/tanstack-query/useProtectedDataQueries.md) hooks:
 
-```tsx !#6-27,29,35 host/src/App.tsx
+```tsx !#7-28,30,36 host/src/App.tsx
 import { AppRouter, useProtectedDataQueries, useIsBootstrapping, useChangeLanguage } from "@squide/firefly";
-import { RouterProvider, createBrowserRouter, Outlet } from "react-router-dom";
+import { createBrowserRouter, Outlet } from "react-router";
+import { RouterProvider } from "react-router/dom";
 import { ApiError, isApiError, type Session } from "@sample/shared";
 
 function BootstrappingRoute() {

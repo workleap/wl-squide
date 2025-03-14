@@ -38,16 +38,16 @@
         "react": "*"
     },
     "dependencies": {
-        "@types/react": "19.0.7",
+        "@types/react": "19.0.10",
         "eventemitter3": "5.0.1"
     },
     "devDependencies": {
-        "@rsbuild/core": "1.1.13",
-        "@rslib/core": "0.3.1",
-        "@swc/core": "1.10.7",
+        "@rsbuild/core": "1.2.11",
+        "@rslib/core": "0.5.2",
+        "@swc/core": "1.11.1",
         "@swc/jest": "0.2.37",
         "@types/jest": "29.5.14",
-        "@typescript-eslint/parser": "8.20.0",
+        "@typescript-eslint/parser": "8.25.0",
         "@workleap/eslint-plugin": "3.2.6",
         "@workleap/rslib-configs": "1.0.2",
         "@workleap/swc-configs": "2.2.4",

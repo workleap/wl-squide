@@ -1,9 +1,9 @@
 import {
     FeatureFlagsContext,
-    SessionManagerContext,
-    SubscriptionContext,
     fetchJson,
     isApiError,
+    SessionManagerContext,
+    SubscriptionContext,
     type FeatureFlags,
     type OgFeatureFlags,
     type OtherFeatureFlags,
@@ -15,7 +15,8 @@ import { AppRouter as FireflyAppRouter, useDeferredRegistrations, useIsBootstrap
 import { setGlobalSpanAttributes } from "@squide/firefly-honeycomb";
 import { useChangeLanguage } from "@squide/i18next";
 import { useEffect, useMemo } from "react";
-import { Outlet, RouterProvider, createBrowserRouter } from "react-router-dom";
+import { createBrowserRouter, Outlet } from "react-router";
+import { RouterProvider } from "react-router/dom";
 import { Loading } from "./Loading.tsx";
 import { RootErrorBoundary } from "./RootErrorBoundary.tsx";
 import { useSessionManagerInstance } from "./useSessionManagerInstance.ts";
@@ -167,7 +168,13 @@ export function AppRouter({ waitForMsw }: AppRouterProps) {
                                     }
                                 ]
                             }
-                        ])}
+                        ], {
+                            future: {
+                                v7_relativeSplatPath: false,
+                                v7_startTransition: false,
+                                v7_partialHydration: false
+                            }
+                        })}
                         {...routerProviderProps}
                     />
                 );

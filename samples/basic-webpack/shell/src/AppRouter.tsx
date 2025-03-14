@@ -1,7 +1,8 @@
 import { SessionManagerContext, useToastListener } from "@basic-webpack/shared";
 import { AppRouter as FireflyAppRouter, useIsBootstrapping, useLogger } from "@squide/firefly";
 import { useCallback } from "react";
-import { Outlet, RouterProvider, createBrowserRouter } from "react-router-dom";
+import { Outlet, createBrowserRouter } from "react-router";
+import { RouterProvider } from "react-router/dom";
 import { Loading } from "./Loading.tsx";
 import { RootErrorBoundary } from "./RootErrorBoundary.tsx";
 import { ToastContainer, useToastContainer } from "./toast.tsx";
@@ -52,7 +53,13 @@ export function AppRouter() {
                                     }
                                 ]
                             }
-                        ])}
+                        ], {
+                            future: {
+                                v7_relativeSplatPath: false,
+                                v7_startTransition: false,
+                                v7_partialHydration: false
+                            }
+                        })}
                         {...routerProviderProps}
                     />
                 );

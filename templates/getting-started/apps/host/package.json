@@ -9,30 +9,30 @@
         "dev": "webpack serve --config webpack.dev.js",
         "build": "webpack --config webpack.build.js"
     },
-    "devDependencies": {
-        "@squide/firefly-webpack-configs": "4.2.1",
-        "@swc/core": "1.7.23",
-        "@swc/helpers": "0.5.13",
-        "@types/react": "18.3.5",
-        "@types/react-dom": "18.3.0",
-        "@workleap/browserslist-config": "2.0.1",
-        "@workleap/eslint-plugin": "3.2.2",
-        "@workleap/swc-configs": "2.2.3",
-        "@workleap/typescript-configs": "3.0.2",
-        "browserslist": "4.23.3",
-        "eslint": "8.57.0",
-        "postcss": "8.4.45",
-        "typescript": "5.5.4",
-        "webpack": "5.94.0",
-        "webpack-cli": "5.1.4",
-        "webpack-dev-server": "5.1.0"
-    },
     "dependencies": {
         "@getting-started/local-module": "workspace:*",
-        "@squide/firefly": "9.3.1",
-        "react": "18.3.1",
-        "react-dom": "18.3.1",
-        "react-router-dom": "6.26.1"
+        "@squide/firefly": "9.3.4",
+        "react": "19.0.0",
+        "react-dom": "19.0.0",
+        "react-router": "7.1.5"
+    },
+    "devDependencies": {
+        "@squide/firefly-webpack-configs": "4.2.3",
+        "@swc/core": "1.10.12",
+        "@swc/helpers": "0.5.15",
+        "@types/react": "19.0.8",
+        "@types/react-dom": "19.0.3",
+        "@workleap/browserslist-config": "2.0.2",
+        "@workleap/eslint-plugin": "3.2.6",
+        "@workleap/swc-configs": "2.2.4",
+        "@workleap/typescript-configs": "3.0.2",
+        "browserslist": "4.24.4",
+        "eslint": "8.57.0",
+        "postcss": "8.5.1",
+        "typescript": "5.5.4",
+        "webpack": "5.97.1",
+        "webpack-cli": "6.0.1",
+        "webpack-dev-server": "5.2.0"
     },
     "engines": {
         "node": ">=21.1.0"

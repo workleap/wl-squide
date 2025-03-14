@@ -23,17 +23,17 @@ Create a new application (we'll refer to ours as `host`), then open a terminal a
 +++ pnpm
 ```bash
 pnpm add -D @workleap/swc-configs @workleap/browserslist-config @squide/firefly-webpack-configs webpack webpack-dev-server webpack-cli @swc/core @swc/helpers browserslist postcss typescript @types/react @types/react-dom
-pnpm add @squide/firefly react react-dom react-router-dom @tanstack/react-query
+pnpm add @squide/firefly react react-dom react-router @tanstack/react-query
 ```
 +++ yarn
 ```bash
 yarn add -D @workleap/swc-configs @workleap/browserslist-config @squide/firefly-webpack-configs webpack webpack-dev-server webpack-cli @swc/core @swc/helpers browserslist postcss typescript @types/react @types/react-dom
-yarn add @squide/firefly react react-dom react-router-dom @tanstack/react-query
+yarn add @squide/firefly react react-dom react-router @tanstack/react-query
 ```
 +++ npm
 ```bash
 npm install -D @workleap/swc-configs @workleap/browserslist-config @squide/firefly-webpack-configs webpack webpack-dev-server webpack-cli @swc/core @swc/helpers browserslist postcss typescript @types/react @types/react-dom
-npm install @squide/firefly react react-dom react-router-dom @tanstack/react-query
+npm install @squide/firefly react react-dom react-router @tanstack/react-query
 ```
 +++
 
@@ -123,7 +123,8 @@ Then, render the [AppRouter](../reference/routing/appRouter.md) component to def
 
 ```tsx host/src/App.tsx
 import { AppRouter } from "@squide/firefly";
-import { RouterProvider, createBrowserRouter } from "react-router-dom";
+import { createBrowserRouter } from "react-router";
+import { RouterProvider } from "react-router/dom";
 
 export function App() {
     return (
@@ -152,7 +153,7 @@ Next, create a layout component to [render the navigation items](/reference/rout
 
 ```tsx !#40,43 host/src/RootLayout.tsx
 import { Suspense } from "react";
-import { Link, Outlet } from "react-router-dom";
+import { Link, Outlet } from "react-router/dom";
 import { 
     useNavigationItems,
     useRenderedNavigationItems,

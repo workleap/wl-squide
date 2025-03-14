@@ -55,7 +55,7 @@ If the remote module `port` is `8081`, the remote module bundle is available at 
 The `defineDevRemoteModuleConfig` function will add the following shared dependencies as `singleton` by default:
 - [react](https://www.npmjs.com/package/react)
 - [react-dom](https://www.npmjs.com/package/react-dom)
-- [react-router-dom](https://www.npmjs.com/package/react-router-dom)
+- [react-router](https://www.npmjs.com/package/react-router)
 - [@squide/core](https://www.npmjs.com/package/@squide/core)
 - [@squide/react-router](https://www.npmjs.com/package/@squide/react-router)
 - [@squide/module-federation](https://www.npmjs.com/package/@squide/module-federation)

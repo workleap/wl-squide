@@ -1,7 +1,9 @@
 import type { Span } from "@opentelemetry/api";
-import type { FetchCustomAttributeFunction } from "@opentelemetry/instrumentation-fetch";
+import type { FetchRequestHookFunction } from "@opentelemetry/instrumentation-fetch";
+import { isPlainObject } from "@squide/core";
 import type { RuntimeLogger } from "@squide/firefly";
 import { v4 as uuidv4 } from "uuid";
+import { createTraceContextId } from "./createTraceContextId.ts";
 
 declare global {
     interface Window { __SQUIDE_HONEYCOMB_ACTIVE_SPAN_STACK__: ActiveSpanStack }
@@ -94,44 +96,48 @@ export function popActiveSpan(span: ActiveSpan) {
     }
 }
 
-// // This function should only be used by tests.
-// export function __setLocalModuleRegistry(registry: ModuleRegistry) {
-//     localModuleRegistry = registry as LocalModuleRegistry;
-// }
-
-// // This function should only be used by tests.
-// export function __clearLocalModuleRegistry() {
-//     localModuleRegistry = undefined;
-// }
-
-let mock: FetchCustomAttributeFunction | undefined;
+let overrideFetchRequestSpanWithActiveSpanContextMock: FetchRequestHookFunction | undefined;
 
 // This function should only be used by tests.
-export function __setActiveSpanMock(fct: FetchCustomAttributeFunction) {
-    mock = fct;
+export function __setOverrideFetchRequestSpanWithActiveSpanContextMock(fct: FetchRequestHookFunction) {
+    overrideFetchRequestSpanWithActiveSpanContextMock = fct;
 }
 
 // This function should only be used by tests.
-export function __clearActiveSpanMock() {
-    mock = undefined;
+export function __clearOverrideFetchRequestSpanWithActiveSpanContextMock() {
+    overrideFetchRequestSpanWithActiveSpanContextMock = undefined;
 }
 
-export function createApplyCustomAttributesOnFetchSpanFunction(logger: RuntimeLogger) {
-    if (mock) {
-        return mock;
+export function createOverrideFetchRequestSpanWithActiveSpanContext(logger: RuntimeLogger) {
+    if (overrideFetchRequestSpanWithActiveSpanContextMock) {
+        return overrideFetchRequestSpanWithActiveSpanContextMock;
     }
 
-    const fct: FetchCustomAttributeFunction = (span, request, result) => {
+    const fct: FetchRequestHookFunction = (span, request) => {
         const activeSpan = getActiveSpan();
 
         if (activeSpan) {
-            const context = activeSpan.instance.spanContext();
+            const activeSpanContext = activeSpan.instance.spanContext();
+            const requestSpanContext = span.spanContext();
 
-            if (context) {
-                logger.debug("[squide] Found a Honeycomb context to apply to the following fetch request: ", context, request, result);
+            if (activeSpanContext) {
+                logger.debug(
+                    "[squide] Found a Honeycomb active context to apply to the following fetch request: \r\n",
+                    "Request span context: ", requestSpanContext, "\r\n",
+                    "Active span context: ", activeSpanContext, "\r\n",
+                    "Request: ", request, "\r\n"
+                );
 
-                span.setAttribute("trace.trace_id", context.traceId);
-                span.setAttribute("trace.parent_id", context.spanId);
+                span.setAttribute("trace.trace_id", activeSpanContext.traceId);
+                span.setAttribute("trace.parent_id", activeSpanContext.spanId);
+
+                const traceParent = createTraceContextId(activeSpanContext.traceId, requestSpanContext.spanId, requestSpanContext.traceFlags);
+
+                if (request instanceof Request) {
+                    request.headers.set("traceparent", traceParent);
+                } else if (isPlainObject(request.headers)) {
+                    request.headers["traceparent"] = traceParent;
+                }
             }
         }
     };

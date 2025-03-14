@@ -1,5 +1,5 @@
 import { useBackgroundColor } from "@basic/shared";
-import { Link } from "react-router-dom";
+import { Link } from "react-router";
 
 export function ColoredPage() {
     const backgroundColor = useBackgroundColor();

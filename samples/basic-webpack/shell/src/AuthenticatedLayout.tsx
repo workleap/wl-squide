@@ -1,7 +1,7 @@
 import { useApplicationEventBusListener, useSessionManager } from "@basic-webpack/shared";
 import { isNavigationLink, useNavigationItems, useRenderedNavigationItems, type NavigationLinkRenderProps, type NavigationSectionRenderProps, type RenderItemFunction, type RenderSectionFunction } from "@squide/firefly";
 import { Suspense, useCallback, type MouseEvent, type ReactNode } from "react";
-import { Link, Outlet, useNavigate } from "react-router-dom";
+import { Link, Outlet, useNavigate } from "react-router";
 import { Loading } from "./Loading.tsx";
 
 type RenderLinkItemFunction = (item: NavigationLinkRenderProps, key: string) => ReactNode;

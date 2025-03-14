@@ -30,7 +30,7 @@ export class EnvironmentVariablesRegistry {
     }
 
     addVariables(variables: Partial<EnvironmentVariables>) {
-        // Do not clear the "getVariables" memoize result is there are no variables.
+        // Do not clear the "getVariables" memoize result if there are no variables.
         if (Object.keys(variables).length > 0) {
             for (const [key, value] of Object.entries(variables)) {
                 this.add(key as EnvironmentVariablesRegistryKey, value as EnvironmentVariablesRegistryValue);

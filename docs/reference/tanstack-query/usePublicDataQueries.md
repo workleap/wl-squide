@@ -36,9 +36,10 @@ If an unmanaged error occur while performing any of the fetch requests, a [Globa
 
 A `BootstrappingRoute` component is introduced in the following example because this hook must be rendered as a child of `rootRoute`.
 
-```tsx !#6-19,21-23,36,46 host/src/App.tsx
+```tsx !#7-20,22-24,37,47 host/src/App.tsx
 import { usePublicDataQueries, useIsBootstrapping, AppRouter } from "@squide/firefly";
-import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import { createBrowserRouter } from "react-router";
+import { RouterProvider } from "react-router/dom";
 import { ApiError, FeatureFlagsContext, type FeatureFlags } from "@sample/shared";
 
 function BootstrappingRoute() {
@@ -137,7 +138,7 @@ This hook throws [GlobalDataQueriesError](./isGlobalDataQueriesError.md#globalda
 
 ```tsx !#10 host/src/RootErrorBoundary.tsx
 import { useLogger, isGlobalDataQueriesError } from "@squide/firefly";
-import { useLocation, useRouteError } from "react-router-dom";
+import { useLocation, useRouteError } from "react-router/dom";
 
 export function RootErrorBoundary() {
     const error = useRouteError() as Error;
@@ -159,9 +160,10 @@ export function RootErrorBoundary() {
 }
 ```
 
-```tsx !#45 host/src/App.tsx
+```tsx !#46 host/src/App.tsx
 import { usePublicDataQueries, useIsBootstrapping, AppRouter } from "@squide/firefly";
-import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import { createBrowserRouter } from "react-router";
+import { RouterProvider } from "react-router/dom";
 import { ApiError, FeatureFlagsContext, type FeatureFlags } from "@sample/shared";
 import { RootErrorBoundary } from "./RootErrorBoundary.tsx";
 

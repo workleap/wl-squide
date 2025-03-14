@@ -260,7 +260,7 @@ The previous code sample uses [useSuspenseQuery](https://tanstack.com/query/late
 
 ```tsx !#6-8 host/src/RootLayout.tsx
 import { Suspense } from "react";
-import { Outlet } from "react-router-dom";
+import { Outlet } from "react-router/dom";
 
 export function RootLayout() {
     return (

@@ -113,7 +113,7 @@ Then, create a login page:
 
 ```tsx !#13-22,26 host/src/Login.tsx
 import { useCallback, useState, type ChangeEvent, type MouseEvent } from "react";
-import { Navigate, useNavigate } from "react-router-dom";
+import { Navigate, useNavigate } from "react-router/dom";
 
 export function Login() {
     const [username, setUserName] = useState("");
@@ -317,9 +317,10 @@ export const requestHandlers: HttpHandler[] = [
 
 Then, update the host application `App` component to load the session with the [useProtectedDataQueries](../reference/tanstack-query/useProtectedDataQueries.md) hook and create an instance of `TanstackQuerySessionManager` with the retrieved session to share the sessuib via the `SessionManagerContext`:
 
-```tsx !#7-28,30,37,47,57 host/src/App.tsx
+```tsx !#8-29,31,38,48,58 host/src/App.tsx
 import { AppRouter, useProtectedDataQueries, useIsBootstrapping } from "@squide/firefly";
-import { RouterProvider, createBrowserRouter, Outlet } from "react-router-dom";
+import { createBrowserRouter, Outlet } from "react-router";
+import { RouterProvider } from "react-router/dom";
 import { SessionManagerContext, ApiError, isApiError, type Session } from "@sample/shared";
 import { useSessionManagerInstance } from "./sessionManager.ts";
 
@@ -428,7 +429,7 @@ export function isApiError(error?: unknown): error is ApiError {
 Next, create an authentication boundary component using the shared `useIsAuthenticated` hook created earlier to redirect unauthenticated user to the login page:
 
 ```tsx host/src/AuthenticationBoundary.tsx
-import { Navigate, Outlet } from "react-router-dom";
+import { Navigate, Outlet } from "react-router/dom";
 import { useIsAuthenticated } from "@sample/shared";
 
 export function AuthenticationBoundary() {
@@ -526,7 +527,7 @@ Then, introduce a new `AuthenticatedLayout` component displaying the name of the
 
 ```tsx !#40-41,43-60,72,75 host/src/AuthenticatedLayout.tsx
 import { Suspense, useCallback, type ReactNode, type MouseEvent, type HTMLButtonElement } from "react";
-import { Link, Outlet, navigate } from "react-router-dom";
+import { Link, Outlet, navigate } from "react-router/dom";
 import { 
     useNavigationItems,
     useRenderedNavigationItems,
@@ -614,7 +615,7 @@ By creating a new `AuthenticatedLayout` component, much of the layout code has b
 
 ```tsx host/src/RootLayout.tsx
 import { Suspense } from "react";
-import { Outlet } from "react-router-dom";
+import { Outlet } from "react-router/dom";
 
 export function RootLayout() {
     return (

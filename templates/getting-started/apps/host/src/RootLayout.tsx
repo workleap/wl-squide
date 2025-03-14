@@ -1,6 +1,6 @@
 import { isNavigationLink, useNavigationItems, useRenderedNavigationItems, type RenderItemFunction, type RenderSectionFunction } from "@squide/firefly";
 import { Suspense } from "react";
-import { Link, Outlet } from "react-router-dom";
+import { Link, Outlet } from "react-router/dom";
 
 const renderItem: RenderItemFunction = (item, key) => {
     // To keep thing simple, this sample doesn't support nested navigation items.

@@ -1,6 +1,6 @@
 import { useIsAuthenticated, useSessionManager } from "@basic-webpack/shared";
 import { useCallback, useState, type ChangeEvent, type MouseEvent } from "react";
-import { Navigate, useNavigate } from "react-router-dom";
+import { Navigate, useNavigate } from "react-router";
 
 export interface LoginProps {
     host?: string;

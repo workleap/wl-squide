@@ -134,12 +134,13 @@ Since Squide has dependencies on React and React Router, the [define*](../refere
 
 - [react](https://www.npmjs.com/package/react)
 - [react-dom](https://www.npmjs.com/package/react-dom)
-- [react-router-dom](https://www.npmjs.com/package/react-router-dom)
+- [react-router](https://www.npmjs.com/package/react-router)
 - [@squide/core](https://www.npmjs.com/package/@squide/core)
 - [@squide/react-router](https://www.npmjs.com/package/@squide/react-router)
 - [@squide/module-federation](https://www.npmjs.com/package/@squide/module-federation)
+- [@squide/msw](https://www.npmjs.com/package/@squide/msw)
 
-For the full shared dependencies configuration, have a look at the [defineConfig.ts](https://github.com/gsoft-inc/wl-squide/blob/main/packages/webpack-configs/src/defineConfig.ts) file on Github.
+For the full shared dependencies configuration, have a look at the [defineConfig.ts](https://github.com/gsoft-inc/wl-squide/blob/main/packages/firefly-webpack-configs/src/defineConfig.ts) file on Github.
 
 > You can [extend](../reference/webpack/defineDevHostConfig.md#extend-a-default-shared-dependency) or [override](../reference/webpack/defineDevHostConfig.md#override-a-default-shared-dependency) the default shared dependencies configuration.
 
@@ -189,7 +190,7 @@ To troubleshoot a React context issue or find more information about the limitat
 
 `react` and `react-dom` dependencies must be configured as a `singleton`, otherwise either an error will be thrown at bootstrapping if the loaded `react` versions are incompatible, or features like `useState` will not work.
 
-The `react-router-dom` dependency must as well be configured as a `singleton` because it relies on a global React context that needs to be declared in the host application and is consumed by remote modules.
+The `react-router` dependency must as well be configured as a `singleton` because it relies on a global React context that needs to be declared in the host application and is consumed by remote modules.
 
 ## Learn more
 

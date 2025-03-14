@@ -41,14 +41,14 @@ import { registerHoneycombInstrumentation } from "@squide/firefly-honeycomb";
 const runtime = new FireflyRuntime();
 
 registerHoneycombInstrumentation(runtime, "squide-sample", [/.+/g,], {
-    endpoint: "https://squide-collector"
+    proxy: "https://my-proxy.com"
 });
 ```
 
 ### Use an API key
 
 !!!warning
-Prefer using an [OpenTelemetry collector](https://docs.honeycomb.io/send-data/opentelemetry/collector/) over an ingestion [API key](https://docs.honeycomb.io/get-started/configure/environments/manage-api-keys/#create-api-key), as API keys can expose Workleap to potential attacks.
+Prefer using an [OpenTelemetry collector](https://docs.honeycomb.io/send-data/opentelemetry/collector/) over an ingestion [API key](https://docs.honeycomb.io/get-started/configure/environments/manage-api-keys/#create-api-key), as API keys can expose Workleap to potential attacks. To use a collector, instead of an `apiKey` option, set the `proxy` option with your collector's proxy address.
 !!!
 
 ```ts !#4
@@ -73,49 +73,7 @@ import { registerHoneycombInstrumentation } from "@squide/firefly-honeycomb";
 registerHoneycombInstrumentation(
     runtime, "squide-sample", 
     [/https:\/\/workleap.com\/api\.*/], 
-    { endpoint: "https://squide-collector" }
-);
-```
-
-<!-- ### Register instrumentation
-
-```ts
-import { registerHoneycombInstrumentation } from "@squide/firefly-honeycomb";
-
-registerHoneycombInstrumentation(runtime, "squide-sample", [/.+/g,], {
-    endpoint: "https://squide-collector"
-});
-```
-
-### Use an API key
-
-!!!warning
-Prefer using an [OpenTelemetry collector](https://docs.honeycomb.io/send-data/opentelemetry/collector/) over an ingestion [API key](https://docs.honeycomb.io/get-started/configure/environments/manage-api-keys/#create-api-key), as API keys can expose Workleap to potential attacks.
-!!!
-
-```ts !#4
-import { registerHoneycombInstrumentation } from "@squide/firefly-honeycomb";
-
-registerHoneycombInstrumentation(runtime, "squide-sample", [/.+/g,], {
-    apiKey: "xyz123"
-});
-``` -->
-
-<!-- ### Customize backend URLs
-
-!!!warning
-Avoid using `/.+/g,` in production as it could expose customer data to third parties.
-!!!
-
-Specify values for the `apiServiceUrls` argument that matches your application's backend URLs. For example, if your backend services are hosted at `https://workleap.com/api`:
-
-```ts !#5
-import { registerHoneycombInstrumentation } from "@squide/firefly-honeycomb";
-
-registerHoneycombInstrumentation(
-    runtime, "squide-sample", 
-    [/https:\/\/workleap.com\/api\.*/], 
-    { endpoint: "https://squide-collector" }
+    { proxy: "https://my-proxy.com" }
 );
 ```
 
@@ -126,7 +84,7 @@ import { registerHoneycombInstrumentation } from "@squide/firefly-honeycomb";
 import { LongTaskInstrumentation } from "@opentelemetry/instrumentation-long-task";
 
 registerHoneycombInstrumentation(runtime, "squide-sample", [/.+/g,], {
-    endpoint: "https://squide-collector",
+    proxy: "https://my-proxy.com",
     instrumentations: [
         new LongTaskInstrumentation()
     ]
@@ -160,7 +118,7 @@ import { registerHoneycombInstrumentation } from "@squide/firefly-honeycomb";
 import { CustomSpanProcessor } from "./CustomSpanProcessor.ts";
 
 registerHoneycombInstrumentation(runtime, "squide-sample", [/.+/g,], {
-    endpoint: "https://squide-collector",
+    proxy: "https://my-proxy.com",
     spanProcessors: [
         new CustomSpanProcessor()
     ]
@@ -175,7 +133,7 @@ To extend or replace the default [@opentelemetry/instrumentation-fetch](https://
 import { registerHoneycombInstrumentation } from "@squide/firefly-honeycomb";
 
 registerHoneycombInstrumentation(runtime, "squide-sample", [/.+/g,], {
-    endpoint: "https://squide-collector",
+    proxy: "https://my-proxy.com",
     fetchInstrumentation: (defaultOptions) => {
         return {
             ...defaultOptions,
@@ -191,7 +149,7 @@ registerHoneycombInstrumentation(runtime, "squide-sample", [/.+/g,], {
 import { registerHoneycombInstrumentation } from "@squide/firefly-honeycomb";
 
 registerHoneycombInstrumentation(runtime, "squide-sample", [/.+/g,], {
-    endpoint: "https://squide-collector",
+    proxy: "https://my-proxy.com",
     fetchInstrumentation: false
 });
 ```
@@ -204,7 +162,7 @@ To extend or replace the default [@opentelemetry/instrumentation-document-load](
 import { registerHoneycombInstrumentation } from "@squide/firefly-honeycomb";
 
 registerHoneycombInstrumentation(runtime, "squide-sample", [/.+/g,], {
-    endpoint: "https://squide-collector",
+    proxy: "https://my-proxy.com",
     documentLoadInstrumentation: (defaultOptions) => {
         return {
             ...defaultOptions,
@@ -220,7 +178,7 @@ registerHoneycombInstrumentation(runtime, "squide-sample", [/.+/g,], {
 import { registerHoneycombInstrumentation } from "@squide/firefly-honeycomb";
 
 registerHoneycombInstrumentation(runtime, "squide-sample", [/.+/g,], {
-    endpoint: "https://squide-collector",
+    proxy: "https://my-proxy.com",
     documentLoadInstrumentation: false
 });
 ```
@@ -233,7 +191,7 @@ By default, [@opentelemetry/instrumentation-xml-http-request](https://github.com
 import { registerHoneycombInstrumentation } from "@squide/firefly-honeycomb";
 
 registerHoneycombInstrumentation(runtime, "squide-sample", [/.+/g,], {
-    endpoint: "https://squide-collector",
+    proxy: "https://my-proxy.com",
     xmlHttpRequestInstrumentation: (defaultOptions) => {
         return {
             ...defaultOptions,
@@ -251,7 +209,7 @@ By default, [@opentelemetryinstrumentation-user-interaction](https://github.com/
 import { registerHoneycombInstrumentation } from "@squide/firefly-honeycomb";
 
 registerHoneycombInstrumentation(runtime, "squide-sample", [/.+/g,], {
-    endpoint: "https://squide-collector",
+    proxy: "https://my-proxy.com",
     userInteractionInstrumentation: (defaultOptions) => {
         return {
             ...defaultOptions,
@@ -287,7 +245,7 @@ const skipOptionsValidationTransformer: HoneycombSdkOptionsTransformer = config 
 }
 
 registerHoneycombInstrumentation(runtime, "squide-sample", [/.+/g,], {
-    endpoint: "https://squide-collector",
+    proxy: "https://my-proxy.com",
     transformers: [skipOptionsValidationTransformer]
 });
 ```
@@ -306,5 +264,5 @@ const skipOptionsValidationTransformer: HoneycombSdkOptionsTransformer = (config
 
     return config;
 }
-``` -->
+```
 

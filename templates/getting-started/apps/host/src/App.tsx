@@ -1,5 +1,6 @@
 import { AppRouter } from "@squide/firefly";
-import { RouterProvider, createBrowserRouter } from "react-router-dom";
+import { createBrowserRouter } from "react-router";
+import { RouterProvider } from "react-router/dom";
 
 export function App() {
     return (

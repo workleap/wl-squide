@@ -80,7 +80,7 @@ Then, retrieve a valid [Honeycomb API Key](https://docs.honeycomb.io/get-started
 Finally, open the newly created `.env.local` file add a value named `HONEYCOMB_API_KEY`.
 
 ```bash .env.local
-HONEYCOMB_API_KEY="YOUR_API_KEY";
+HONEYCOMB_API_KEY="YOUR_API_KEY"
 ```
 
 > [!NOTE]

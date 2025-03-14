@@ -1,7 +1,7 @@
 import { useLogger } from "@squide/core";
 import { useRoutes, type Route } from "@squide/react-router";
 import { useEffect, useMemo, type ReactElement } from "react";
-import type { RouterProviderProps } from "react-router-dom";
+import type { RouterProviderProps } from "react-router/dom";
 import { AppRouterDispatcherContext, AppRouterStateContext } from "./AppRouterContext.ts";
 import { useAppRouterReducer } from "./AppRouterReducer.ts";
 import { RootRoute } from "./RootRoute.tsx";

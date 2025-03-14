@@ -26,9 +26,10 @@ A `boolean` value indicating whether or not the application is bootstrapping.
 
 A `BootstrappingRoute` component is introduced in the following example because this hook must be rendered as a child of `rootRoute`.
 
-```tsx !#5 host/src/App.tsx
+```tsx !#6 host/src/App.tsx
 import { useIsBootstrapping, AppRouter } from "@squide/firefly";
-import { RouterProvider, createBrowserRouter, Outlet } from "react-router-dom";
+import { createBrowserRouter, Outlet } from "react-router";
+import { RouterProvider } from "react-router/dom";
 
 function BootstrappingRoute() {
     if (useIsBootstrapping()) {

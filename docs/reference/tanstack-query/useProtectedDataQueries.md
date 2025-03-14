@@ -37,9 +37,10 @@ If an unmanaged error occur while performing any of the fetch requests, a [Globa
 
 A `BootstrappingRoute` component is introduced in the following example because this hook must be rendered as a child of `rootRoute`.
 
-```tsx !#6-41,43-45,60,70 host/src/App.tsx
+```tsx !#7-42,44-46,61,71 host/src/App.tsx
 import { useProtectedDataQueries, useIsBootstrapping, AppRouter } from "@squide/firefly";
-import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import { createBrowserRouter } from "react-router";
+import { RouterProvider } from "react-router/dom";
 import { ApiError, SessionContext, SubscriptionContext, type Session, type Subscription } from "@sample/shared";
 
 function BootstrappingRoute() {
@@ -166,7 +167,7 @@ This hook throws [GlobalDataQueriesError](./isGlobalDataQueriesError.md#globalda
 
 ```tsx !#10 host/src/RootErrorBoundary.tsx
 import { useLogger, isGlobalDataQueriesError } from "@squide/firefly";
-import { useLocation, useRouteError } from "react-router-dom";
+import { useLocation, useRouteError } from "react-router/dom";
 
 export function RootErrorBoundary() {
     const error = useRouteError() as Error;
@@ -188,9 +189,10 @@ export function RootErrorBoundary() {
 }
 ```
 
-```tsx !#55 host/src/App.tsx
+```tsx !#56 host/src/App.tsx
 import { useProtectedDataQueries, useIsBootstrapping, AppRouter } from "@squide/firefly";
-import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import { createBrowserRouter } from "react-router";
+import { RouterProvider } from "react-router/dom";
 import { ApiError, SessionContext, type Session } from "@sample/shared";
 import { RootErrorBoundary } from "./RootErrorBoundary.tsx";
 
@@ -271,7 +273,7 @@ Since Squide manages this process behind the scenes, you only need to register a
 
 ```tsx host/src/AuthenticationBoundary.tsx
 import { useContext } from "react";
-import { Outlet, Navigate } from "react-router-dom";
+import { Outlet, Navigate } from "react-router/dom";
 import { SessionContext } from "@sample/shared";
 
 export function AuthenticationBoundary() {
@@ -311,9 +313,10 @@ export function registerHost() {
 }
 ```
 
-```tsx !#29 host/src/App.tsx
+```tsx !#30 host/src/App.tsx
 import { useProtectedDataQueries, useIsBootstrapping, AppRouter } from "@squide/firefly";
-import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import { createBrowserRouter } from "react-router";
+import { RouterProvider } from "react-router/dom";
 import { ApiError, SessionContext, type Session } from "@sample/shared";
 
 function BootstrappingRoute() {

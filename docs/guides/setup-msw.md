@@ -145,9 +145,10 @@ root.render(
 
 Finally, update the host application code to delay the rendering of the routes until MSW is started. This is done by setting the `waitForMsw` property of the [AppRouter](../reference/routing/appRouter.md) component to `true`:
 
-```tsx !#6 host/src/App.tsx
+```tsx !#7 host/src/App.tsx
 import { AppRouter } from "@squide/firefly";
-import { RouterProvider, createBrowserRouter } from "react-router-dom";
+import { createBrowserRouter } from "react-router";
+import { RouterProvider } from "react-router/dom";
 
 export function App() {
     return (

@@ -36,29 +36,34 @@
         "clean": "pnpm -r --parallel --include-workspace-root exec pnpm dlx rimraf dist .turbo .rslib .netlify public/mockServiceWorker.js node_modules/.cache",
         "reset": "pnpm clean && pnpm reset:modules",
         "reset:modules": "pnpm -r --parallel --include-workspace-root exec pnpm dlx rimraf node_modules pnpm-lock.yaml",
-        "list-outdated-deps": "pnpm outdated -r --format list !eslint !useless-lib !typescript !react-router-dom",
-        "update-outdated-deps": "pnpm update -r --latest !eslint !useless-lib !typescript !react-router-dom"
+        "list-outdated-deps": "pnpm outdated -r --format list !eslint !useless-lib !typescript",
+        "update-outdated-deps": "pnpm update -r --latest !eslint !useless-lib !typescript"
     },
     "devDependencies": {
-        "@changesets/changelog-github": "0.5.0",
-        "@changesets/cli": "2.27.11",
-        "@types/node": "22.10.7",
-        "@typescript-eslint/parser": "8.20.0",
+        "@changesets/changelog-github": "0.5.1",
+        "@changesets/cli": "2.28.1",
+        "@types/node": "22.13.5",
+        "@typescript-eslint/parser": "8.25.0",
         "@workleap/eslint-plugin": "3.2.6",
         "@workleap/typescript-configs": "3.0.2",
         "cross-env": "7.0.3",
         "eslint": "8.57.0",
         "installed-check": "9.3.0",
-        "knip": "5.42.1",
-        "pkg-pr-new": "0.0.39",
+        "knip": "5.45.0",
+        "pkg-pr-new": "0.0.40",
         "retypeapp": "3.6.0",
-        "syncpack": "13.0.0",
-        "turbo": "2.3.3",
+        "syncpack": "13.0.2",
+        "turbo": "2.4.3",
         "typescript": "5.5.4"
     },
     "engines": {
         "node": ">=22.0.0",
         "pnpm": ">=9"
+    },
+    "pnpm": {
+        "overrides": {
+            "@opentelemetry/instrumentation-fetch": "0.200.0-rc.1"
+        }
     },
     "packageManager": "pnpm@9.5.0+sha512.140036830124618d624a2187b50d04289d5a087f326c9edfc0ccd733d76c4f52c3a313d4fc148794a2a9d81553016004e6742e8cf850670268a7387fc220c903"
 }

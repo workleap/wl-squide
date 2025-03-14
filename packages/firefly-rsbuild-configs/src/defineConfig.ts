@@ -83,7 +83,7 @@ export interface Features {
 // For more informations about shared dependencies refer to: https://github.com/patricklafrance/wmf-versioning
 function getReactRouterSharedDependencies(isHost: boolean): ModuleFederationShared {
     return {
-        "react-router-dom": {
+        "react-router": {
             singleton: true,
             eager: isHost ? true : undefined
         },

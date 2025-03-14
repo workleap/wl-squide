@@ -60,7 +60,7 @@ When no `$id` option is provided, a default `key` argument is computed based on 
 
 ```tsx !#38-40,42-48,52 host/src/RootLayout.tsx
 import type { ReactNode } from "react";
-import { Link, Outlet } from "react-router-dom";
+import { Link, Outlet } from "react-router/dom";
 import { 
     useNavigationItems, 
     useRenderedNavigationItems, 
@@ -127,7 +127,7 @@ The `to` option of a navigation item can include dynamic segments (`/user-profil
 
 ```tsx !#14,18,21,39-45,56,59 host/src/UserProfileLayout.tsx
 import type { ReactNode } from "react";
-import { Link, Outlet } from "react-router-dom";
+import { Link, Outlet } from "react-router/dom";
 import { 
     useNavigationItems, 
     useRenderedNavigationItems,

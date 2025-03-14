@@ -32,7 +32,7 @@ exports[`defineBuildHostConfig the application name is set as the federation plu
       "eager": true,
       "singleton": true,
     },
-    "react-router-dom": {
+    "react-router": {
       "eager": true,
       "singleton": true,
     },
@@ -72,7 +72,7 @@ exports[`defineBuildHostConfig the module federation plugin configuration includ
       "eager": true,
       "singleton": true,
     },
-    "react-router-dom": {
+    "react-router": {
       "eager": true,
       "singleton": true,
     },
@@ -115,7 +115,7 @@ exports[`defineBuildHostConfig the module federation plugin configuration includ
       "eager": true,
       "singleton": true,
     },
-    "react-router-dom": {
+    "react-router": {
       "eager": true,
       "singleton": true,
     },
@@ -156,7 +156,7 @@ exports[`defineBuildHostConfig when a function is provided to override the modul
       "eager": true,
       "singleton": true,
     },
-    "react-router-dom": {
+    "react-router": {
       "eager": true,
       "singleton": true,
     },
@@ -196,7 +196,7 @@ exports[`defineBuildHostConfig when additional options are provided for an exist
       "eager": true,
       "singleton": true,
     },
-    "react-router-dom": {
+    "react-router": {
       "eager": true,
       "singleton": true,
     },
@@ -239,7 +239,7 @@ exports[`defineBuildHostConfig when additional shared dependencies are provided,
       "eager": true,
       "singleton": true,
     },
-    "react-router-dom": {
+    "react-router": {
       "eager": true,
       "singleton": true,
     },
@@ -287,7 +287,7 @@ exports[`defineBuildHostConfig when environmentVariables is env-vars, add env-va
       "eager": true,
       "singleton": true,
     },
-    "react-router-dom": {
+    "react-router": {
       "eager": true,
       "singleton": true,
     },
@@ -343,7 +343,7 @@ exports[`defineBuildHostConfig when honeycomb is activated, add honeycomb shared
       "eager": true,
       "singleton": true,
     },
-    "react-router-dom": {
+    "react-router": {
       "eager": true,
       "singleton": true,
     },
@@ -395,7 +395,7 @@ exports[`defineBuildHostConfig when i18next is activated, add i18next shared dep
       "eager": true,
       "singleton": true,
     },
-    "react-router-dom": {
+    "react-router": {
       "eager": true,
       "singleton": true,
     },
@@ -435,7 +435,7 @@ exports[`defineBuildHostConfig when no asset prefix is provided, the default ass
       "eager": true,
       "singleton": true,
     },
-    "react-router-dom": {
+    "react-router": {
       "eager": true,
       "singleton": true,
     },
@@ -475,7 +475,7 @@ exports[`defineBuildHostConfig when overriding options are provided for a defaul
       "eager": true,
       "singleton": true,
     },
-    "react-router-dom": {
+    "react-router": {
       "eager": true,
       "singleton": true,
     },
@@ -550,7 +550,7 @@ exports[`defineBuildRemoteModuleConfig the application name is set as the federa
       "eager": undefined,
       "singleton": true,
     },
-    "react-router-dom": {
+    "react-router": {
       "eager": undefined,
       "singleton": true,
     },
@@ -593,7 +593,7 @@ exports[`defineBuildRemoteModuleConfig the module federation plugin configuratio
       "eager": undefined,
       "singleton": true,
     },
-    "react-router-dom": {
+    "react-router": {
       "eager": undefined,
       "singleton": true,
     },
@@ -636,7 +636,7 @@ exports[`defineBuildRemoteModuleConfig when a function is provided to override t
       "eager": undefined,
       "singleton": true,
     },
-    "react-router-dom": {
+    "react-router": {
       "eager": undefined,
       "singleton": true,
     },
@@ -679,7 +679,7 @@ exports[`defineBuildRemoteModuleConfig when additional options are provided for 
       "eager": undefined,
       "singleton": true,
     },
-    "react-router-dom": {
+    "react-router": {
       "eager": undefined,
       "singleton": true,
     },
@@ -725,7 +725,7 @@ exports[`defineBuildRemoteModuleConfig when additional shared dependencies are p
       "eager": undefined,
       "singleton": true,
     },
-    "react-router-dom": {
+    "react-router": {
       "eager": undefined,
       "singleton": true,
     },
@@ -776,7 +776,7 @@ exports[`defineBuildRemoteModuleConfig when environmentVariables is activated, a
       "eager": undefined,
       "singleton": true,
     },
-    "react-router-dom": {
+    "react-router": {
       "eager": undefined,
       "singleton": true,
     },
@@ -835,7 +835,7 @@ exports[`defineBuildRemoteModuleConfig when honeycomb is activated, add honeycom
       "eager": undefined,
       "singleton": true,
     },
-    "react-router-dom": {
+    "react-router": {
       "eager": undefined,
       "singleton": true,
     },
@@ -890,7 +890,7 @@ exports[`defineBuildRemoteModuleConfig when i18next is activated, add i18next sh
       "eager": undefined,
       "singleton": true,
     },
-    "react-router-dom": {
+    "react-router": {
       "eager": undefined,
       "singleton": true,
     },
@@ -933,7 +933,7 @@ exports[`defineBuildRemoteModuleConfig when overriding options are provided for 
       "eager": undefined,
       "singleton": true,
     },
-    "react-router-dom": {
+    "react-router": {
       "eager": undefined,
       "singleton": true,
     },
@@ -1008,7 +1008,7 @@ exports[`defineDevHostConfig the application name is set as the federation plugi
       "eager": true,
       "singleton": true,
     },
-    "react-router-dom": {
+    "react-router": {
       "eager": true,
       "singleton": true,
     },
@@ -1048,7 +1048,7 @@ exports[`defineDevHostConfig the module federation plugin configuration includes
       "eager": true,
       "singleton": true,
     },
-    "react-router-dom": {
+    "react-router": {
       "eager": true,
       "singleton": true,
     },
@@ -1091,7 +1091,7 @@ exports[`defineDevHostConfig the module federation plugin configuration includes
       "eager": true,
       "singleton": true,
     },
-    "react-router-dom": {
+    "react-router": {
       "eager": true,
       "singleton": true,
     },
@@ -1132,7 +1132,7 @@ exports[`defineDevHostConfig when a function is provided to override the module 
       "eager": true,
       "singleton": true,
     },
-    "react-router-dom": {
+    "react-router": {
       "eager": true,
       "singleton": true,
     },
@@ -1172,7 +1172,7 @@ exports[`defineDevHostConfig when additional options are provided for an existin
       "eager": true,
       "singleton": true,
     },
-    "react-router-dom": {
+    "react-router": {
       "eager": true,
       "singleton": true,
     },
@@ -1215,7 +1215,7 @@ exports[`defineDevHostConfig when additional shared dependencies are provided, a
       "eager": true,
       "singleton": true,
     },
-    "react-router-dom": {
+    "react-router": {
       "eager": true,
       "singleton": true,
     },
@@ -1263,7 +1263,7 @@ exports[`defineDevHostConfig when environmentVariables is activated, add env-var
       "eager": true,
       "singleton": true,
     },
-    "react-router-dom": {
+    "react-router": {
       "eager": true,
       "singleton": true,
     },
@@ -1319,7 +1319,7 @@ exports[`defineDevHostConfig when honeycomb is activated, add honeycomb shared d
       "eager": true,
       "singleton": true,
     },
-    "react-router-dom": {
+    "react-router": {
       "eager": true,
       "singleton": true,
     },
@@ -1371,7 +1371,7 @@ exports[`defineDevHostConfig when i18next is activated, add i18next shared depen
       "eager": true,
       "singleton": true,
     },
-    "react-router-dom": {
+    "react-router": {
       "eager": true,
       "singleton": true,
     },
@@ -1411,7 +1411,7 @@ exports[`defineDevHostConfig when overriding options are provided for a default 
       "eager": true,
       "singleton": true,
     },
-    "react-router-dom": {
+    "react-router": {
       "eager": true,
       "singleton": true,
     },
@@ -1486,7 +1486,7 @@ exports[`defineDevRemoteModuleConfig the application name is set as the federati
       "eager": undefined,
       "singleton": true,
     },
-    "react-router-dom": {
+    "react-router": {
       "eager": undefined,
       "singleton": true,
     },
@@ -1529,7 +1529,7 @@ exports[`defineDevRemoteModuleConfig the module federation plugin configuration 
       "eager": undefined,
       "singleton": true,
     },
-    "react-router-dom": {
+    "react-router": {
       "eager": undefined,
       "singleton": true,
     },
@@ -1572,7 +1572,7 @@ exports[`defineDevRemoteModuleConfig when a function is provided to override the
       "eager": undefined,
       "singleton": true,
     },
-    "react-router-dom": {
+    "react-router": {
       "eager": undefined,
       "singleton": true,
     },
@@ -1615,7 +1615,7 @@ exports[`defineDevRemoteModuleConfig when additional options are provided for an
       "eager": undefined,
       "singleton": true,
     },
-    "react-router-dom": {
+    "react-router": {
       "eager": undefined,
       "singleton": true,
     },
@@ -1661,7 +1661,7 @@ exports[`defineDevRemoteModuleConfig when additional shared dependencies are pro
       "eager": undefined,
       "singleton": true,
     },
-    "react-router-dom": {
+    "react-router": {
       "eager": undefined,
       "singleton": true,
     },
@@ -1709,7 +1709,7 @@ exports[`defineDevRemoteModuleConfig when environmentVariables is activated, add
       "eager": true,
       "singleton": true,
     },
-    "react-router-dom": {
+    "react-router": {
       "eager": true,
       "singleton": true,
     },
@@ -1765,7 +1765,7 @@ exports[`defineDevRemoteModuleConfig when honeycomb is activated, add honeycomb 
       "eager": true,
       "singleton": true,
     },
-    "react-router-dom": {
+    "react-router": {
       "eager": true,
       "singleton": true,
     },
@@ -1820,7 +1820,7 @@ exports[`defineDevRemoteModuleConfig when i18next is activated, add i18next shar
       "eager": undefined,
       "singleton": true,
     },
-    "react-router-dom": {
+    "react-router": {
       "eager": undefined,
       "singleton": true,
     },
@@ -1863,7 +1863,7 @@ exports[`defineDevRemoteModuleConfig when overriding options are provided for a 
       "eager": undefined,
       "singleton": true,
     },
-    "react-router-dom": {
+    "react-router": {
       "eager": undefined,
       "singleton": true,
     },

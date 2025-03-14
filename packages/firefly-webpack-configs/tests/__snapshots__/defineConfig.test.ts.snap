@@ -33,7 +33,7 @@ ModuleFederationPlugin {
         "eager": true,
         "singleton": true,
       },
-      "react-router-dom": {
+      "react-router": {
         "eager": true,
         "singleton": true,
       },
@@ -76,7 +76,7 @@ ModuleFederationPlugin {
         "eager": true,
         "singleton": true,
       },
-      "react-router-dom": {
+      "react-router": {
         "eager": true,
         "singleton": true,
       },
@@ -122,7 +122,7 @@ ModuleFederationPlugin {
         "eager": true,
         "singleton": true,
       },
-      "react-router-dom": {
+      "react-router": {
         "eager": true,
         "singleton": true,
       },
@@ -196,7 +196,7 @@ ModuleFederationPlugin {
         "eager": true,
         "singleton": true,
       },
-      "react-router-dom": {
+      "react-router": {
         "eager": true,
         "singleton": true,
       },
@@ -242,7 +242,7 @@ ModuleFederationPlugin {
         "eager": true,
         "singleton": true,
       },
-      "react-router-dom": {
+      "react-router": {
         "eager": true,
         "singleton": true,
       },
@@ -293,7 +293,7 @@ ModuleFederationPlugin {
         "eager": true,
         "singleton": true,
       },
-      "react-router-dom": {
+      "react-router": {
         "eager": true,
         "singleton": true,
       },
@@ -352,7 +352,7 @@ ModuleFederationPlugin {
         "eager": true,
         "singleton": true,
       },
-      "react-router-dom": {
+      "react-router": {
         "eager": true,
         "singleton": true,
       },
@@ -407,7 +407,7 @@ ModuleFederationPlugin {
         "eager": true,
         "singleton": true,
       },
-      "react-router-dom": {
+      "react-router": {
         "eager": true,
         "singleton": true,
       },
@@ -512,7 +512,7 @@ ModuleFederationPlugin {
         "eager": true,
         "singleton": true,
       },
-      "react-router-dom": {
+      "react-router": {
         "eager": true,
         "singleton": true,
       },
@@ -555,7 +555,7 @@ ModuleFederationPlugin {
         "eager": true,
         "singleton": true,
       },
-      "react-router-dom": {
+      "react-router": {
         "eager": true,
         "singleton": true,
       },
@@ -601,7 +601,7 @@ ModuleFederationPlugin {
         "eager": undefined,
         "singleton": true,
       },
-      "react-router-dom": {
+      "react-router": {
         "eager": undefined,
         "singleton": true,
       },
@@ -647,7 +647,7 @@ ModuleFederationPlugin {
         "eager": undefined,
         "singleton": true,
       },
-      "react-router-dom": {
+      "react-router": {
         "eager": undefined,
         "singleton": true,
       },
@@ -693,7 +693,7 @@ ModuleFederationPlugin {
         "eager": undefined,
         "singleton": true,
       },
-      "react-router-dom": {
+      "react-router": {
         "eager": undefined,
         "singleton": true,
       },
@@ -742,7 +742,7 @@ ModuleFederationPlugin {
         "eager": undefined,
         "singleton": true,
       },
-      "react-router-dom": {
+      "react-router": {
         "eager": undefined,
         "singleton": true,
       },
@@ -796,7 +796,7 @@ ModuleFederationPlugin {
         "eager": undefined,
         "singleton": true,
       },
-      "react-router-dom": {
+      "react-router": {
         "eager": undefined,
         "singleton": true,
       },
@@ -858,7 +858,7 @@ ModuleFederationPlugin {
         "eager": undefined,
         "singleton": true,
       },
-      "react-router-dom": {
+      "react-router": {
         "eager": undefined,
         "singleton": true,
       },
@@ -916,7 +916,7 @@ ModuleFederationPlugin {
         "eager": undefined,
         "singleton": true,
       },
-      "react-router-dom": {
+      "react-router": {
         "eager": undefined,
         "singleton": true,
       },
@@ -962,7 +962,7 @@ ModuleFederationPlugin {
         "eager": undefined,
         "singleton": true,
       },
-      "react-router-dom": {
+      "react-router": {
         "eager": undefined,
         "singleton": true,
       },
@@ -1008,7 +1008,7 @@ ModuleFederationPlugin {
         "eager": undefined,
         "singleton": true,
       },
-      "react-router-dom": {
+      "react-router": {
         "eager": undefined,
         "singleton": true,
       },
@@ -1051,7 +1051,7 @@ ModuleFederationPlugin {
         "eager": true,
         "singleton": true,
       },
-      "react-router-dom": {
+      "react-router": {
         "eager": true,
         "singleton": true,
       },
@@ -1094,7 +1094,7 @@ ModuleFederationPlugin {
         "eager": true,
         "singleton": true,
       },
-      "react-router-dom": {
+      "react-router": {
         "eager": true,
         "singleton": true,
       },
@@ -1140,7 +1140,7 @@ ModuleFederationPlugin {
         "eager": true,
         "singleton": true,
       },
-      "react-router-dom": {
+      "react-router": {
         "eager": true,
         "singleton": true,
       },
@@ -1214,7 +1214,7 @@ ModuleFederationPlugin {
         "eager": true,
         "singleton": true,
       },
-      "react-router-dom": {
+      "react-router": {
         "eager": true,
         "singleton": true,
       },
@@ -1260,7 +1260,7 @@ ModuleFederationPlugin {
         "eager": true,
         "singleton": true,
       },
-      "react-router-dom": {
+      "react-router": {
         "eager": true,
         "singleton": true,
       },
@@ -1311,7 +1311,7 @@ ModuleFederationPlugin {
         "eager": true,
         "singleton": true,
       },
-      "react-router-dom": {
+      "react-router": {
         "eager": true,
         "singleton": true,
       },
@@ -1370,7 +1370,7 @@ ModuleFederationPlugin {
         "eager": true,
         "singleton": true,
       },
-      "react-router-dom": {
+      "react-router": {
         "eager": true,
         "singleton": true,
       },
@@ -1425,7 +1425,7 @@ ModuleFederationPlugin {
         "eager": true,
         "singleton": true,
       },
-      "react-router-dom": {
+      "react-router": {
         "eager": true,
         "singleton": true,
       },
@@ -1530,7 +1530,7 @@ ModuleFederationPlugin {
         "eager": true,
         "singleton": true,
       },
-      "react-router-dom": {
+      "react-router": {
         "eager": true,
         "singleton": true,
       },
@@ -1573,7 +1573,7 @@ ModuleFederationPlugin {
         "eager": true,
         "singleton": true,
       },
-      "react-router-dom": {
+      "react-router": {
         "eager": true,
         "singleton": true,
       },
@@ -1619,7 +1619,7 @@ ModuleFederationPlugin {
         "eager": undefined,
         "singleton": true,
       },
-      "react-router-dom": {
+      "react-router": {
         "eager": undefined,
         "singleton": true,
       },
@@ -1665,7 +1665,7 @@ ModuleFederationPlugin {
         "eager": undefined,
         "singleton": true,
       },
-      "react-router-dom": {
+      "react-router": {
         "eager": undefined,
         "singleton": true,
       },
@@ -1711,7 +1711,7 @@ ModuleFederationPlugin {
         "eager": undefined,
         "singleton": true,
       },
-      "react-router-dom": {
+      "react-router": {
         "eager": undefined,
         "singleton": true,
       },
@@ -1760,7 +1760,7 @@ ModuleFederationPlugin {
         "eager": undefined,
         "singleton": true,
       },
-      "react-router-dom": {
+      "react-router": {
         "eager": undefined,
         "singleton": true,
       },
@@ -1811,7 +1811,7 @@ ModuleFederationPlugin {
         "eager": true,
         "singleton": true,
       },
-      "react-router-dom": {
+      "react-router": {
         "eager": true,
         "singleton": true,
       },
@@ -1870,7 +1870,7 @@ ModuleFederationPlugin {
         "eager": true,
         "singleton": true,
       },
-      "react-router-dom": {
+      "react-router": {
         "eager": true,
         "singleton": true,
       },
@@ -1928,7 +1928,7 @@ ModuleFederationPlugin {
         "eager": undefined,
         "singleton": true,
       },
-      "react-router-dom": {
+      "react-router": {
         "eager": undefined,
         "singleton": true,
       },
@@ -1974,7 +1974,7 @@ ModuleFederationPlugin {
         "eager": undefined,
         "singleton": true,
       },
-      "react-router-dom": {
+      "react-router": {
         "eager": undefined,
         "singleton": true,
       },
@@ -2020,7 +2020,7 @@ ModuleFederationPlugin {
         "eager": undefined,
         "singleton": true,
       },
-      "react-router-dom": {
+      "react-router": {
         "eager": undefined,
         "singleton": true,
       },

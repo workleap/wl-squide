@@ -5,7 +5,7 @@ import { useI18nextInstance } from "@squide/i18next";
 import { useQueryClient } from "@tanstack/react-query";
 import { Suspense, useCallback, type MouseEvent, type ReactNode } from "react";
 import { useTranslation } from "react-i18next";
-import { Link, Outlet, useNavigate } from "react-router-dom";
+import { Link, Outlet, useNavigate } from "react-router";
 import { Loading } from "./Loading.tsx";
 import { i18NextInstanceKey } from "./i18next.ts";
 

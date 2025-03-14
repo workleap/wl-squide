@@ -1,6 +1,6 @@
 import { useI18nextInstance } from "@squide/i18next";
 import { Trans, useTranslation } from "react-i18next";
-import { Link } from "react-router-dom";
+import { Link } from "react-router";
 import { i18NextInstanceKey } from "./i18next.ts";
 
 export interface NoMatchPageProps {

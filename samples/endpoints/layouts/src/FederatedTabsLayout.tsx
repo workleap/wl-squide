@@ -3,7 +3,7 @@ import { useI18nextInstance } from "@squide/i18next";
 import { Suspense, useCallback, type MouseEvent } from "react";
 import { ErrorBoundary } from "react-error-boundary";
 import { Trans, useTranslation } from "react-i18next";
-import { Link, Outlet, useNavigate } from "react-router-dom";
+import { Link, Outlet, useNavigate } from "react-router";
 import { i18NextInstanceKey } from "./i18next.ts";
 
 export interface FederatedTabsLayoutProps {

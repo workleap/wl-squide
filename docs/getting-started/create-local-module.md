@@ -25,18 +25,18 @@ Create a new application (we'll refer to ours as `local-module`), then open a te
 
 +++ pnpm
 ```bash
-pnpm add -D typescript @types/react @types/react-dom
-pnpm add @squide/firefly react react-dom react-router-dom @tanstack/react-query
+pnpm add -D typescript @types/react @types/react-dom react react-dom react-router @tanstack/react-query
+pnpm add @squide/firefly
 ```
 +++ yarn
 ```bash
-yarn add -D typescript @types/react @types/react-dom
-yarn add @squide/firefly react @squide/firefly react-dom react-router-dom @tanstack/react-query
+yarn add -D typescript @types/react @types/react-dom react react-dom react-router @tanstack/react-query
+yarn add @squide/firefly
 ```
 +++ npm
 ```bash
-npm add -D typescript @types/react @types/react-dom
-npm install @squide/firefly react react-dom react-router-dom @tanstack/react-query
+npm add -D typescript @types/react @types/react-dom react react-dom react-router @tanstack/react-query
+npm install @squide/firefly
 ```
 +++
 
@@ -64,7 +64,7 @@ Then, ensure that you are developing your module using [ESM syntax](https://deve
 }
 ```
 
-Finally, configure the package to be shareable by adding the `name`, `version`, and `export` fields to the `package.json` file:
+Then, configure the package to be shareable by adding the `name`, `version`, and `export` fields to the `package.json` file:
 
 ```json local-module/package.json
 {
@@ -75,6 +75,22 @@ Finally, configure the package to be shareable by adding the `name`, `version`, 
 ```
 
 > For more information about the `exports` field, refer to this resource on [Just-In-Time Packages](https://www.shew.dev/monorepos/packaging/jit).
+
+Finally, add the following `peerDependencies`:
+
+```json !#5-10 local-module/package.json
+{
+    "name": "@getting-started/local-module",
+    "version": "0.0.1",
+    "exports": "./src/register.tsx",
+    "peerDependencies": {
+        "@tanstack/react-query": "*",
+        "react": "*",
+        "react-dom": "*",
+        "react-router": "*"
+    }
+}
+```
 
 ### Routes registration
 

@@ -1,5 +1,5 @@
 import { useEffect } from "react";
-import { Outlet } from "react-router-dom";
+import { Outlet } from "react-router";
 import { useAppRouterDispatcher, useAppRouterState } from "./AppRouterContext.ts";
 import { useIsActiveRouteProtected } from "./useIsActiveRouteProtected.ts";
 
