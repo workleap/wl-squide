@@ -28,7 +28,7 @@
         "useless-lib": "3.0.0"
     },
     "devDependencies": {
-        "@rsbuild/core": "1.2.18",
+        "@rsbuild/core": "1.2.19",
         "@squide/firefly-rsbuild-configs": "workspace:*",
         "@types/react": "19.0.10",
         "@types/react-dom": "19.0.4",
@@ -42,7 +42,7 @@
         "http-server": "14.1.1",
         "netlify-cli": "19.0.2",
         "nodemon": "3.1.9",
-        "typescript": "5.5.4"
+        "typescript": "5.8.2"
     },
     "engines": {
         "node": ">=21.1.0"
