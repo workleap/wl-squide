@@ -2,6 +2,7 @@ import { __clearLocalModuleRegistry, __setLocalModuleRegistry, LocalModuleRegist
 import { __clearRemoteModuleRegistry, __setRemoteModuleRegistry, registerRemoteModules, RemoteModuleRegistry, type RemoteModuleRegistrationError } from "@squide/module-federation";
 import { act, renderHook, waitFor, type RenderHookOptions } from "@testing-library/react";
 import type { ReactNode } from "react";
+import { afterEach, expect, test, vi, type Mock } from "vitest";
 import { AppRouterDispatcherContext, AppRouterStateContext } from "../src/AppRouterContext.ts";
 import { __clearAppReducerDispatchProxy, __setAppReducerDispatchProxyFactory, useAppRouterReducer, type AppRouterDispatch, type AppRouterState } from "../src/AppRouterReducer.ts";
 import { FireflyRuntime } from "../src/FireflyRuntime.tsx";
@@ -43,11 +44,11 @@ afterEach(() => {
 test("when modules are registered but not ready, global data is ready and msw is ready, register the deferred registrations", async () => {
     const runtime = new FireflyRuntime();
 
-    let dispatch: jest.Mock;
+    let dispatch: Mock;
 
     const dispatchProxyFactory = (reactDispatch: AppRouterDispatch) => {
         act(() => {
-            dispatch = jest.fn(value => reactDispatch(value));
+            dispatch = vi.fn(value => reactDispatch(value));
         });
 
         return dispatch;
@@ -57,7 +58,7 @@ test("when modules are registered but not ready, global data is ready and msw is
 
     const localModuleRegistry = new LocalModuleRegistry();
 
-    const loadRemote = jest.fn().mockResolvedValue({
+    const loadRemote = vi.fn().mockResolvedValue({
         register: () => () => {}
     });
 
@@ -99,11 +100,11 @@ test("when modules are registered but not ready, global data is ready and msw is
 test("when modules are ready, msw is ready, and the public data change, update the deferred registrations", async () => {
     const runtime = new FireflyRuntime();
 
-    let dispatch: jest.Mock;
+    let dispatch: Mock;
 
     const dispatchProxyFactory = (reactDispatch: AppRouterDispatch) => {
         act(() => {
-            dispatch = jest.fn(value => reactDispatch(value));
+            dispatch = vi.fn(value => reactDispatch(value));
         });
 
         return dispatch;
@@ -113,7 +114,7 @@ test("when modules are ready, msw is ready, and the public data change, update t
 
     const localModuleRegistry = new LocalModuleRegistry();
 
-    const loadRemote = jest.fn().mockResolvedValue({
+    const loadRemote = vi.fn().mockResolvedValue({
         register: () => () => {}
     });
 
@@ -177,11 +178,11 @@ test("when modules are ready, msw is ready, and the public data change, update t
 test("when modules are ready, msw is ready, and the protected data change, update the deferred registrations", async () => {
     const runtime = new FireflyRuntime();
 
-    let dispatch: jest.Mock;
+    let dispatch: Mock;
 
     const dispatchProxyFactory = (reactDispatch: AppRouterDispatch) => {
         act(() => {
-            dispatch = jest.fn(value => reactDispatch(value));
+            dispatch = vi.fn(value => reactDispatch(value));
         });
 
         return dispatch;
@@ -191,7 +192,7 @@ test("when modules are ready, msw is ready, and the protected data change, updat
 
     const localModuleRegistry = new LocalModuleRegistry();
 
-    const loadRemote = jest.fn().mockResolvedValue({
+    const loadRemote = vi.fn().mockResolvedValue({
         register: () => () => {}
     });
 
@@ -255,11 +256,11 @@ test("when modules are ready, msw is ready, and the protected data change, updat
 test("when modules are not registered, do not register the deferred registrations", async () => {
     const runtime = new FireflyRuntime();
 
-    let dispatch: jest.Mock;
+    let dispatch: Mock;
 
     const dispatchProxyFactory = (reactDispatch: AppRouterDispatch) => {
         act(() => {
-            dispatch = jest.fn(value => reactDispatch(value));
+            dispatch = vi.fn(value => reactDispatch(value));
         });
 
         return dispatch;
@@ -269,7 +270,7 @@ test("when modules are not registered, do not register the deferred registration
 
     const localModuleRegistry = new LocalModuleRegistry();
 
-    const loadRemote = jest.fn().mockResolvedValue({
+    const loadRemote = vi.fn().mockResolvedValue({
         register: () => () => {}
     });
 
@@ -319,11 +320,11 @@ test("when modules are not registered, do not register the deferred registration
 test("when modules are ready, msw is ready, but the global data hasn't change, do not update the deferred registrations", async () => {
     const runtime = new FireflyRuntime();
 
-    let dispatch: jest.Mock;
+    let dispatch: Mock;
 
     const dispatchProxyFactory = (reactDispatch: AppRouterDispatch) => {
         act(() => {
-            dispatch = jest.fn(value => reactDispatch(value));
+            dispatch = vi.fn(value => reactDispatch(value));
         });
 
         return dispatch;
@@ -333,7 +334,7 @@ test("when modules are ready, msw is ready, but the global data hasn't change, d
 
     const localModuleRegistry = new LocalModuleRegistry();
 
-    const loadRemote = jest.fn().mockResolvedValue({
+    const loadRemote = vi.fn().mockResolvedValue({
         register: () => () => {}
     });
 
@@ -403,7 +404,7 @@ test("when an error occurs while registering the deferred registrations of the l
     const runtime = new FireflyRuntime();
 
     // Setting a dummy dispatch proxy to prevent: "Warning: An update to TestComponent inside a test was not wrapped in act(...)"
-    __setAppReducerDispatchProxyFactory(() => jest.fn());
+    __setAppReducerDispatchProxyFactory(() => vi.fn());
 
     const localModuleRegistry = new LocalModuleRegistry();
 
@@ -411,13 +412,13 @@ test("when an error occurs while registering the deferred registrations of the l
         error: new Error("toto")
     } satisfies ModuleRegistrationError;
 
-    jest.spyOn(localModuleRegistry, "registerDeferredRegistrations").mockImplementation(() => {
+    vi.spyOn(localModuleRegistry, "registerDeferredRegistrations").mockImplementation(() => {
         return Promise.resolve([
             localModuleRegistrationError
         ]);
     });
 
-    const loadRemote = jest.fn().mockResolvedValue({
+    const loadRemote = vi.fn().mockResolvedValue({
         register: () => () => {}
     });
 
@@ -448,8 +449,8 @@ test("when an error occurs while registering the deferred registrations of the l
         foo: "bar"
     };
 
-    const dispatch = jest.fn();
-    const onError = jest.fn();
+    const dispatch = vi.fn();
+    const onError = vi.fn();
 
     renderUseDeferredRegistrationsHook(runtime, state, dispatch, initialData, onError);
 
@@ -464,11 +465,11 @@ test("when an error occurs while registering the deferred registrations of the r
     const runtime = new FireflyRuntime();
 
     // Setting a dummy dispatch proxy to prevent: "Warning: An update to TestComponent inside a test was not wrapped in act(...)"
-    __setAppReducerDispatchProxyFactory(() => jest.fn());
+    __setAppReducerDispatchProxyFactory(() => vi.fn());
 
     const localModuleRegistry = new LocalModuleRegistry();
 
-    const loadRemote = jest.fn().mockResolvedValue({
+    const loadRemote = vi.fn().mockResolvedValue({
         register: () => () => {}
     });
 
@@ -480,7 +481,7 @@ test("when an error occurs while registering the deferred registrations of the r
         error: new Error("toto")
     } satisfies RemoteModuleRegistrationError;
 
-    jest.spyOn(remoteModuleRegistry, "registerDeferredRegistrations").mockImplementation(() => {
+    vi.spyOn(remoteModuleRegistry, "registerDeferredRegistrations").mockImplementation(() => {
         return Promise.resolve([
             remoteModuleRegistrationError
         ]);
@@ -511,8 +512,8 @@ test("when an error occurs while registering the deferred registrations of the r
         foo: "bar"
     };
 
-    const dispatch = jest.fn();
-    const onError = jest.fn();
+    const dispatch = vi.fn();
+    const onError = vi.fn();
 
     renderUseDeferredRegistrationsHook(runtime, state, dispatch, initialData, onError);
 
@@ -527,7 +528,7 @@ test("when an error occurs while registering the deferred registrations of the l
     const runtime = new FireflyRuntime();
 
     // Setting a dummy dispatch proxy to prevent: "Warning: An update to TestComponent inside a test was not wrapped in act(...)"
-    __setAppReducerDispatchProxyFactory(() => jest.fn());
+    __setAppReducerDispatchProxyFactory(() => vi.fn());
 
     const localModuleRegistry = new LocalModuleRegistry();
 
@@ -535,13 +536,13 @@ test("when an error occurs while registering the deferred registrations of the l
         error: new Error("toto")
     } satisfies ModuleRegistrationError;
 
-    jest.spyOn(localModuleRegistry, "registerDeferredRegistrations").mockImplementation(() => {
+    vi.spyOn(localModuleRegistry, "registerDeferredRegistrations").mockImplementation(() => {
         return Promise.resolve([
             localModuleRegistrationError
         ]);
     });
 
-    const loadRemote = jest.fn().mockResolvedValue({
+    const loadRemote = vi.fn().mockResolvedValue({
         register: () => () => {}
     });
 
@@ -553,7 +554,7 @@ test("when an error occurs while registering the deferred registrations of the l
         error: new Error("toto")
     } satisfies RemoteModuleRegistrationError;
 
-    jest.spyOn(remoteModuleRegistry, "registerDeferredRegistrations").mockImplementation(() => {
+    vi.spyOn(remoteModuleRegistry, "registerDeferredRegistrations").mockImplementation(() => {
         return Promise.resolve([
             remoteModuleRegistrationError
         ]);
@@ -584,8 +585,8 @@ test("when an error occurs while registering the deferred registrations of the l
         foo: "bar"
     };
 
-    const dispatch = jest.fn();
-    const onError = jest.fn();
+    const dispatch = vi.fn();
+    const onError = vi.fn();
 
     renderUseDeferredRegistrationsHook(runtime, state, dispatch, initialData, onError);
 
@@ -601,7 +602,7 @@ test("when an error occurs while updating the deferred registrations of the loca
     const runtime = new FireflyRuntime();
 
     // Setting a dummy dispatch proxy to prevent: "Warning: An update to TestComponent inside a test was not wrapped in act(...)"
-    __setAppReducerDispatchProxyFactory(() => jest.fn());
+    __setAppReducerDispatchProxyFactory(() => vi.fn());
 
     const localModuleRegistry = new LocalModuleRegistry();
 
@@ -609,13 +610,13 @@ test("when an error occurs while updating the deferred registrations of the loca
         error: new Error("toto")
     } satisfies ModuleRegistrationError;
 
-    jest.spyOn(localModuleRegistry, "updateDeferredRegistrations").mockImplementation(() => {
+    vi.spyOn(localModuleRegistry, "updateDeferredRegistrations").mockImplementation(() => {
         return Promise.resolve([
             localModuleRegistrationError
         ]);
     });
 
-    const loadRemote = jest.fn().mockResolvedValue({
+    const loadRemote = vi.fn().mockResolvedValue({
         register: () => () => {}
     });
 
@@ -635,8 +636,8 @@ test("when an error occurs while updating the deferred registrations of the loca
         { name: "Dummy-2" }
     ], runtime);
 
-    const dispatch = jest.fn();
-    const onError = jest.fn();
+    const dispatch = vi.fn();
+    const onError = vi.fn();
 
     const initialData = {
         foo: "bar"
@@ -686,11 +687,11 @@ test("when an error occurs while updating the deferred registrations of the prot
     const runtime = new FireflyRuntime();
 
     // Setting a dummy dispatch proxy to prevent: "Warning: An update to TestComponent inside a test was not wrapped in act(...)"
-    __setAppReducerDispatchProxyFactory(() => jest.fn());
+    __setAppReducerDispatchProxyFactory(() => vi.fn());
 
     const localModuleRegistry = new LocalModuleRegistry();
 
-    const loadRemote = jest.fn().mockResolvedValue({
+    const loadRemote = vi.fn().mockResolvedValue({
         register: () => () => {}
     });
 
@@ -702,7 +703,7 @@ test("when an error occurs while updating the deferred registrations of the prot
         error: new Error("toto")
     } satisfies RemoteModuleRegistrationError;
 
-    jest.spyOn(remoteModuleRegistry, "updateDeferredRegistrations").mockImplementation(() => {
+    vi.spyOn(remoteModuleRegistry, "updateDeferredRegistrations").mockImplementation(() => {
         return Promise.resolve([
             remoteModuleRegistrationError
         ]);
@@ -722,8 +723,8 @@ test("when an error occurs while updating the deferred registrations of the prot
         { name: "Dummy-2" }
     ], runtime);
 
-    const dispatch = jest.fn();
-    const onError = jest.fn();
+    const dispatch = vi.fn();
+    const onError = vi.fn();
 
     const initialData = {
         foo: "bar"
@@ -773,7 +774,7 @@ test("when an error occurs while updating the deferred registrations of the loca
     const runtime = new FireflyRuntime();
 
     // Setting a dummy dispatch proxy to prevent: "Warning: An update to TestComponent inside a test was not wrapped in act(...)"
-    __setAppReducerDispatchProxyFactory(() => jest.fn());
+    __setAppReducerDispatchProxyFactory(() => vi.fn());
 
     const localModuleRegistry = new LocalModuleRegistry();
 
@@ -781,13 +782,13 @@ test("when an error occurs while updating the deferred registrations of the loca
         error: new Error("toto")
     } satisfies ModuleRegistrationError;
 
-    jest.spyOn(localModuleRegistry, "updateDeferredRegistrations").mockImplementation(() => {
+    vi.spyOn(localModuleRegistry, "updateDeferredRegistrations").mockImplementation(() => {
         return Promise.resolve([
             localModuleRegistrationError
         ]);
     });
 
-    const loadRemote = jest.fn().mockResolvedValue({
+    const loadRemote = vi.fn().mockResolvedValue({
         register: () => () => {}
     });
 
@@ -799,7 +800,7 @@ test("when an error occurs while updating the deferred registrations of the loca
         error: new Error("toto")
     } satisfies RemoteModuleRegistrationError;
 
-    jest.spyOn(remoteModuleRegistry, "updateDeferredRegistrations").mockImplementation(() => {
+    vi.spyOn(remoteModuleRegistry, "updateDeferredRegistrations").mockImplementation(() => {
         return Promise.resolve([
             remoteModuleRegistrationError
         ]);
@@ -819,8 +820,8 @@ test("when an error occurs while updating the deferred registrations of the loca
         { name: "Dummy-2" }
     ], runtime);
 
-    const dispatch = jest.fn();
-    const onError = jest.fn();
+    const dispatch = vi.fn();
+    const onError = vi.fn();
 
     const initialData = {
         foo: "bar"

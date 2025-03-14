@@ -1,7 +1,8 @@
+import { describe, test } from "vitest";
 import { NavigationItemDeferredRegistrationScope, NavigationItemDeferredRegistrationTransactionalScope, NavigationItemRegistry } from "../src/navigationItemRegistry.ts";
 
 describe("add", () => {
-    test("should add a single deferred item", () => {
+    test.concurrent("should add a single deferred item", ({ expect }) => {
         const registry = new NavigationItemRegistry();
 
         registry.add("foo", "deferred", {
@@ -14,7 +15,7 @@ describe("add", () => {
         expect(registry.getItems("foo")[0].to).toBe("/1");
     });
 
-    test("should add a single static item", () => {
+    test.concurrent("should add a single static item", ({ expect }) => {
         const registry = new NavigationItemRegistry();
 
         registry.add("foo", "static", {
@@ -27,7 +28,7 @@ describe("add", () => {
         expect(registry.getItems("foo")[0].to).toBe("/1");
     });
 
-    test("should add multiple items", () => {
+    test.concurrent("should add multiple items", ({ expect }) => {
         const registry = new NavigationItemRegistry();
 
         registry.add("foo", "deferred", {
@@ -43,7 +44,7 @@ describe("add", () => {
         expect(registry.getItems("foo").length).toBe(2);
     });
 
-    test("should add items for different menus", () => {
+    test.concurrent("should add items for different menus", ({ expect }) => {
         const registry = new NavigationItemRegistry();
 
         registry.add("foo", "deferred", {
@@ -65,7 +66,7 @@ describe("add", () => {
         expect(registry.getItems("bar").length).toBe(1);
     });
 
-    test("when a root link is added, return the \"registered\" registration status", () => {
+    test.concurrent("when a root link is added, return the \"registered\" registration status", ({ expect }) => {
         const registry = new NavigationItemRegistry();
 
         const result = registry.add("foo", "static", {
@@ -76,7 +77,7 @@ describe("add", () => {
         expect(result.registrationStatus).toBe("registered");
     });
 
-    test("when a root identified section is added, return the \"registered\" registration status", () => {
+    test.concurrent("when a root identified section is added, return the \"registered\" registration status", ({ expect }) => {
         const registry = new NavigationItemRegistry();
 
         const result = registry.add("foo", "static", {
@@ -88,7 +89,7 @@ describe("add", () => {
         expect(result.registrationStatus).toBe("registered");
     });
 
-    test("when a root anonymous section is added, return the \"registered\" registration status", () => {
+    test.concurrent("when a root anonymous section is added, return the \"registered\" registration status", ({ expect }) => {
         const registry = new NavigationItemRegistry();
 
         const result = registry.add("foo", "static", {
@@ -99,7 +100,7 @@ describe("add", () => {
         expect(result.registrationStatus).toBe("registered");
     });
 
-    test("when a nested link is pending for registration, return the \"pending\" registration status", () => {
+    test.concurrent("when a nested link is pending for registration, return the \"pending\" registration status", ({ expect }) => {
         const registry = new NavigationItemRegistry();
 
         const result = registry.add("foo", "static", {
@@ -114,7 +115,7 @@ describe("add", () => {
         expect(result.sectionId).toBe("bar");
     });
 
-    test("when a nested identified section is pending for registration, return the \"pending\" registration status", () => {
+    test.concurrent("when a nested identified section is pending for registration, return the \"pending\" registration status", ({ expect }) => {
         const registry = new NavigationItemRegistry();
 
         const result = registry.add("foo", "static", {
@@ -130,7 +131,7 @@ describe("add", () => {
         expect(result.sectionId).toBe("bar");
     });
 
-    test("when a nested anonymous section is pending for registration, return the \"pending\" registration status", () => {
+    test.concurrent("when a nested anonymous section is pending for registration, return the \"pending\" registration status", ({ expect }) => {
         const registry = new NavigationItemRegistry();
 
         const result = registry.add("foo", "static", {
@@ -143,7 +144,7 @@ describe("add", () => {
         expect(result.registrationStatus).toBe("pending");
     });
 
-    test("when a nested link is added, return the \"registered\" registration status", () => {
+    test.concurrent("when a nested link is added, return the \"registered\" registration status", ({ expect }) => {
         const registry = new NavigationItemRegistry();
 
         const result1 = registry.add("foo", "static", {
@@ -163,7 +164,7 @@ describe("add", () => {
         expect(result2.registrationStatus).toBe("registered");
     });
 
-    test("when a nested identified section is added, return the \"registered\" registration status", () => {
+    test.concurrent("when a nested identified section is added, return the \"registered\" registration status", ({ expect }) => {
         const registry = new NavigationItemRegistry();
 
         const result1 = registry.add("foo", "static", {
@@ -184,7 +185,7 @@ describe("add", () => {
         expect(result2.registrationStatus).toBe("registered");
     });
 
-    test("when a nested anonymous section is added, return the \"registered\" registration status", () => {
+    test.concurrent("when a nested anonymous section is added, return the \"registered\" registration status", ({ expect }) => {
         const registry = new NavigationItemRegistry();
 
         const result1 = registry.add("foo", "static", {
@@ -204,7 +205,7 @@ describe("add", () => {
         expect(result2.registrationStatus).toBe("registered");
     });
 
-    test("when a root identified section is added and complete the pending registration of nested items, add the registered items to the returned \"completedPendingRegistrations\" array", () => {
+    test.concurrent("when a root identified section is added and complete the pending registration of nested items, add the registered items to the returned \"completedPendingRegistrations\" array", ({ expect }) => {
         const registry = new NavigationItemRegistry();
 
         const result1 = registry.add("foo", "static", {
@@ -235,7 +236,7 @@ describe("add", () => {
         expect(result3.completedPendingRegistrations[1]).toBe(result2.item);
     });
 
-    test("when a root identified section is added for another section and do not complete any pending registration, return an empty \"completedPendingRegistrations\" array", () => {
+    test.concurrent("when a root identified section is added for another section and do not complete any pending registration, return an empty \"completedPendingRegistrations\" array", ({ expect }) => {
         const registry = new NavigationItemRegistry();
 
         const result1 = registry.add("foo", "static", {
@@ -264,7 +265,7 @@ describe("add", () => {
         expect(result3.completedPendingRegistrations.length).toBe(0);
     });
 
-    test("when a root identified section is added for another menu and do not complete any pending registration, return an empty \"completedPendingRegistrations\" array", () => {
+    test.concurrent("when a root identified section is added for another menu and do not complete any pending registration, return an empty \"completedPendingRegistrations\" array", ({ expect }) => {
         const registry = new NavigationItemRegistry();
 
         const result1 = registry.add("foo", "static", {
@@ -293,7 +294,7 @@ describe("add", () => {
         expect(result3.completedPendingRegistrations.length).toBe(0);
     });
 
-    test("when a root anonymous section is added, return an empty \"completedPendingRegistrations\" array", () => {
+    test.concurrent("when a root anonymous section is added, return an empty \"completedPendingRegistrations\" array", ({ expect }) => {
         const registry = new NavigationItemRegistry();
 
         const result1 = registry.add("foo", "static", {
@@ -321,7 +322,7 @@ describe("add", () => {
         expect(result3.completedPendingRegistrations.length).toBe(0);
     });
 
-    test("when a root link is added, return an empty \"completedPendingRegistrations\" array", () => {
+    test.concurrent("when a root link is added, return an empty \"completedPendingRegistrations\" array", ({ expect }) => {
         const registry = new NavigationItemRegistry();
 
         const result = registry.add("foo", "static", {
@@ -333,7 +334,7 @@ describe("add", () => {
         expect(result.completedPendingRegistrations.length).toBe(0);
     });
 
-    test("when a deeply nested link is added, return the \"registered\" registration status", () => {
+    test.concurrent("when a deeply nested link is added, return the \"registered\" registration status", ({ expect }) => {
         const registry = new NavigationItemRegistry();
 
         const result1 = registry.add("foo", "static", {
@@ -363,7 +364,7 @@ describe("add", () => {
         expect(result2.registrationStatus).toBe("registered");
     });
 
-    test("when a deeply nested section is added, return the \"registered\" registration status", () => {
+    test.concurrent("when a deeply nested section is added, return the \"registered\" registration status", ({ expect }) => {
         const registry = new NavigationItemRegistry();
 
         const result1 = registry.add("foo", "static", {
@@ -393,7 +394,7 @@ describe("add", () => {
         expect(result2.registrationStatus).toBe("registered");
     });
 
-    test("when a deeply nested section registered as a single block is added and complete the pending registration of nested items, add the registered items to the returned \"completedPendingRegistrations\" array", () => {
+    test.concurrent("when a deeply nested section registered as a single block is added and complete the pending registration of nested items, add the registered items to the returned \"completedPendingRegistrations\" array", ({ expect }) => {
         const registry = new NavigationItemRegistry();
 
         const result1 = registry.add("foo", "static", {
@@ -425,7 +426,7 @@ describe("add", () => {
         expect(result2.completedPendingRegistrations[0]).toBe(result1.item);
     });
 
-    test("when registering a multiple sections as a single block complete pending registrations at multiple nesting level, add all the registered items to the returned \"completedPendingRegistrations\" array", () => {
+    test.concurrent("when registering a multiple sections as a single block complete pending registrations at multiple nesting level, add all the registered items to the returned \"completedPendingRegistrations\" array", ({ expect }) => {
         const registry = new NavigationItemRegistry();
 
         const result1 = registry.add("foo", "static", {
@@ -467,7 +468,7 @@ describe("add", () => {
         expect(result3.completedPendingRegistrations[1]).toBe(result1.item);
     });
 
-    test("when registering a root item trigger a chain reaction of pending registrations completion, add all the registered items to the returned \"completedPendingRegistrations\" array", () => {
+    test.concurrent("when registering a root item trigger a chain reaction of pending registrations completion, add all the registered items to the returned \"completedPendingRegistrations\" array", ({ expect }) => {
         const registry = new NavigationItemRegistry();
 
         const result1 = registry.add("foo", "static", {
@@ -509,7 +510,7 @@ describe("add", () => {
         expect(result3.completedPendingRegistrations[1]).toBe(result1.item);
     });
 
-    test("when a static item is nested under a deferred section, throw an error", () => {
+    test.concurrent("when a static item is nested under a deferred section, throw an error", ({ expect }) => {
         const registry = new NavigationItemRegistry();
 
         const result = registry.add("foo", "deferred", {
@@ -530,7 +531,7 @@ describe("add", () => {
         }).toThrow();
     });
 
-    test("when a deferred item is nested under a static section, throw an error", () => {
+    test.concurrent("when a deferred item is nested under a static section, throw an error", ({ expect }) => {
         const registry = new NavigationItemRegistry();
 
         const result = registry.add("foo", "static", {
@@ -551,7 +552,7 @@ describe("add", () => {
         }).toThrow();
     });
 
-    test("when a nested item is registered under a section without a predefined children array, register the item", () => {
+    test.concurrent("when a nested item is registered under a section without a predefined children array, register the item", ({ expect }) => {
         const registry = new NavigationItemRegistry();
 
         const item = {
@@ -576,7 +577,7 @@ describe("add", () => {
 });
 
 describe("getItems", () => {
-    test("an empty array is returned when there's no registered items for the specified menu id", () => {
+    test.concurrent("an empty array is returned when there's no registered items for the specified menu id", ({ expect }) => {
         const registry = new NavigationItemRegistry();
 
         registry.add("foo", "deferred", {
@@ -598,7 +599,7 @@ describe("getItems", () => {
         expect(registry.getItems("toto").length).toBe(0);
     });
 
-    test("the returned items are immutable", () => {
+    test.concurrent("the returned items are immutable", ({ expect }) => {
         const registry = new NavigationItemRegistry();
 
         registry.add("foo", "static", {
@@ -622,7 +623,7 @@ describe("getItems", () => {
         expect(result2).not.toBe(result3);
     });
 
-    test("when a nested item is registered, a new instance of the array is returned", () => {
+    test.concurrent("when a nested item is registered, a new instance of the array is returned", ({ expect }) => {
         const registry = new NavigationItemRegistry();
 
         registry.add("foo", "static", {
@@ -647,7 +648,7 @@ describe("getItems", () => {
 });
 
 describe("clearDeferredItems", () => {
-    test("clear all deferred items", () => {
+    test.concurrent("clear all deferred items", ({ expect }) => {
         const registry = new NavigationItemRegistry();
 
         registry.add("foo", "deferred", {
@@ -674,7 +675,7 @@ describe("clearDeferredItems", () => {
         expect(registry.getItems("bar").length).toBe(0);
     });
 
-    test("do not clear static items", () => {
+    test.concurrent("do not clear static items", ({ expect }) => {
         const registry = new NavigationItemRegistry();
 
         registry.add("foo", "static", {
@@ -691,7 +692,7 @@ describe("clearDeferredItems", () => {
         expect(registry.getItems("foo")[0].to).toBe("1");
     });
 
-    test("when there's no deferred items to clear, do not mutate the menu arrays", () => {
+    test.concurrent("when there's no deferred items to clear, do not mutate the menu arrays", ({ expect }) => {
         const registry = new NavigationItemRegistry();
 
         registry.add("foo", "static", {
@@ -710,7 +711,7 @@ describe("clearDeferredItems", () => {
 });
 
 describe("NavigationItemDeferredRegistrationScope", () => {
-    test("should add a single item", () => {
+    test.concurrent("should add a single item", ({ expect }) => {
         const registry = new NavigationItemRegistry();
         const scope = new NavigationItemDeferredRegistrationScope(registry);
 
@@ -724,7 +725,7 @@ describe("NavigationItemDeferredRegistrationScope", () => {
         expect(scope.getItems("foo")[0].to).toBe("/bar");
     });
 
-    test("should add multiple items", () => {
+    test.concurrent("should add multiple items", ({ expect }) => {
         const registry = new NavigationItemRegistry();
         const scope = new NavigationItemDeferredRegistrationScope(registry);
 
@@ -746,7 +747,7 @@ describe("NavigationItemDeferredRegistrationScope", () => {
         expect(scope.getItems("foo").length).toBe(3);
     });
 
-    test("should add items for different menus", () => {
+    test.concurrent("should add items for different menus", ({ expect }) => {
         const registry = new NavigationItemRegistry();
         const scope = new NavigationItemDeferredRegistrationScope(registry);
 
@@ -764,7 +765,7 @@ describe("NavigationItemDeferredRegistrationScope", () => {
         expect(scope.getItems("bar").length).toBe(1);
     });
 
-    test("adding an item also add the item to the registry", () => {
+    test.concurrent("adding an item also add the item to the registry", ({ expect }) => {
         const registry = new NavigationItemRegistry();
         const scope = new NavigationItemDeferredRegistrationScope(registry);
 
@@ -778,7 +779,7 @@ describe("NavigationItemDeferredRegistrationScope", () => {
         expect(registry.getItems("foo").length).toBe(1);
     });
 
-    test("completing the scope doesn't alter the registry items", () => {
+    test.concurrent("completing the scope doesn't alter the registry items", ({ expect }) => {
         const registry = new NavigationItemRegistry();
         const scope = new NavigationItemDeferredRegistrationScope(registry);
 
@@ -807,7 +808,7 @@ describe("NavigationItemDeferredRegistrationScope", () => {
         expect(registry.getItems("foo")[0].$label).toBe("1");
     });
 
-    test("when an item is added, return the \"registered\" registration status", () => {
+    test.concurrent("when an item is added, return the \"registered\" registration status", ({ expect }) => {
         const registry = new NavigationItemRegistry();
         const scope = new NavigationItemDeferredRegistrationScope(registry);
 
@@ -819,7 +820,7 @@ describe("NavigationItemDeferredRegistrationScope", () => {
         expect(result.registrationStatus).toBe("registered");
     });
 
-    test("when a nested item is pending, return the \"pending\" registration status", () => {
+    test.concurrent("when a nested item is pending, return the \"pending\" registration status", ({ expect }) => {
         const registry = new NavigationItemRegistry();
         const scope = new NavigationItemDeferredRegistrationScope(registry);
 
@@ -833,7 +834,7 @@ describe("NavigationItemDeferredRegistrationScope", () => {
         expect(result.registrationStatus).toBe("pending");
     });
 
-    test("when a nested item is added, return the \"registered\" registration status", () => {
+    test.concurrent("when a nested item is added, return the \"registered\" registration status", ({ expect }) => {
         const registry = new NavigationItemRegistry();
         const scope = new NavigationItemDeferredRegistrationScope(registry);
 
@@ -853,7 +854,7 @@ describe("NavigationItemDeferredRegistrationScope", () => {
         expect(result.registrationStatus).toBe("registered");
     });
 
-    test("when a nested section is added and complete the pending registration of nested items, add the registered items to the returned \"completedPendingRegistrations\" array", () => {
+    test.concurrent("when a nested section is added and complete the pending registration of nested items, add the registered items to the returned \"completedPendingRegistrations\" array", ({ expect }) => {
         const registry = new NavigationItemRegistry();
         const scope = new NavigationItemDeferredRegistrationScope(registry);
 
@@ -877,7 +878,7 @@ describe("NavigationItemDeferredRegistrationScope", () => {
 });
 
 describe("NavigationItemDeferredRegistrationTransactionalScope", () => {
-    test("should add a single item", () => {
+    test.concurrent("should add a single item", ({ expect }) => {
         const registry = new NavigationItemRegistry();
         const scope = new NavigationItemDeferredRegistrationTransactionalScope(registry);
 
@@ -891,7 +892,7 @@ describe("NavigationItemDeferredRegistrationTransactionalScope", () => {
         expect(scope.getItems("foo")[0].to).toBe("/bar");
     });
 
-    test("should add multiple items", () => {
+    test.concurrent("should add multiple items", ({ expect }) => {
         const registry = new NavigationItemRegistry();
         const scope = new NavigationItemDeferredRegistrationTransactionalScope(registry);
 
@@ -913,7 +914,7 @@ describe("NavigationItemDeferredRegistrationTransactionalScope", () => {
         expect(scope.getItems("foo").length).toBe(3);
     });
 
-    test("should add items for different menus", () => {
+    test.concurrent("should add items for different menus", ({ expect }) => {
         const registry = new NavigationItemRegistry();
         const scope = new NavigationItemDeferredRegistrationTransactionalScope(registry);
 
@@ -931,7 +932,7 @@ describe("NavigationItemDeferredRegistrationTransactionalScope", () => {
         expect(scope.getItems("bar").length).toBe(1);
     });
 
-    test("adding an item doesn't add the item to the registry", () => {
+    test.concurrent("adding an item doesn't add the item to the registry", ({ expect }) => {
         const registry = new NavigationItemRegistry();
         const scope = new NavigationItemDeferredRegistrationTransactionalScope(registry);
 
@@ -945,7 +946,7 @@ describe("NavigationItemDeferredRegistrationTransactionalScope", () => {
         expect(registry.getItems("foo").length).toBe(0);
     });
 
-    test("when there's no items for the provided menu id, return an empty array", () => {
+    test.concurrent("when there's no items for the provided menu id, return an empty array", ({ expect }) => {
         const registry = new NavigationItemRegistry();
         const scope = new NavigationItemDeferredRegistrationTransactionalScope(registry);
 
@@ -958,7 +959,7 @@ describe("NavigationItemDeferredRegistrationTransactionalScope", () => {
         expect(registry.getItems("toto").length).toBe(0);
     });
 
-    test("completing the scope add all the active items to the registry", () => {
+    test.concurrent("completing the scope add all the active items to the registry", ({ expect }) => {
         const registry = new NavigationItemRegistry();
         const scope = new NavigationItemDeferredRegistrationTransactionalScope(registry);
 
@@ -974,7 +975,7 @@ describe("NavigationItemDeferredRegistrationTransactionalScope", () => {
         expect(registry.getItems("foo").length).toBe(1);
     });
 
-    test("completing the scope clears the previously registered deferred items", () => {
+    test.concurrent("completing the scope clears the previously registered deferred items", ({ expect }) => {
         const registry = new NavigationItemRegistry();
         const scope = new NavigationItemDeferredRegistrationTransactionalScope(registry);
 
@@ -1003,7 +1004,7 @@ describe("NavigationItemDeferredRegistrationTransactionalScope", () => {
         expect(registry.getItems("foo")[0].$label).toBe("3");
     });
 
-    test("completing the scope clears the scope active items", () => {
+    test.concurrent("completing the scope clears the scope active items", ({ expect }) => {
         const registry = new NavigationItemRegistry();
         const scope = new NavigationItemDeferredRegistrationTransactionalScope(registry);
 
@@ -1023,7 +1024,7 @@ describe("NavigationItemDeferredRegistrationTransactionalScope", () => {
         expect(scope.getItems("bar").length).toBe(0);
     });
 
-    test("when an item is added, return the \"registered\" registration status", () => {
+    test.concurrent("when an item is added, return the \"registered\" registration status", ({ expect }) => {
         const registry = new NavigationItemRegistry();
         const scope = new NavigationItemDeferredRegistrationTransactionalScope(registry);
 
@@ -1035,7 +1036,7 @@ describe("NavigationItemDeferredRegistrationTransactionalScope", () => {
         expect(result.registrationStatus).toBe("registered");
     });
 
-    test("when a nested item is added, return the \"registered\" registration status", () => {
+    test.concurrent("when a nested item is added, return the \"registered\" registration status", ({ expect }) => {
         const registry = new NavigationItemRegistry();
         const scope = new NavigationItemDeferredRegistrationTransactionalScope(registry);
 
@@ -1055,7 +1056,7 @@ describe("NavigationItemDeferredRegistrationTransactionalScope", () => {
         expect(result.registrationStatus).toBe("registered");
     });
 
-    test("when a nested item that \"should\" be pending is added, return the \"registered\" registration status", () => {
+    test.concurrent("when a nested item that \"should\" be pending is added, return the \"registered\" registration status", ({ expect }) => {
         const registry = new NavigationItemRegistry();
         const scope = new NavigationItemDeferredRegistrationTransactionalScope(registry);
 
@@ -1069,7 +1070,7 @@ describe("NavigationItemDeferredRegistrationTransactionalScope", () => {
         expect(result.registrationStatus).toBe("registered");
     });
 
-    test("when there \"should\" be pending registrations, the scope can be completed", () => {
+    test.concurrent("when there \"should\" be pending registrations, the scope can be completed", ({ expect }) => {
         const registry = new NavigationItemRegistry();
         const scope = new NavigationItemDeferredRegistrationTransactionalScope(registry);
 

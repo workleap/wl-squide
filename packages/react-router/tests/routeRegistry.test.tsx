@@ -1,7 +1,8 @@
+import { describe, test } from "vitest";
 import { RouteRegistry, createIndexKey } from "../src/routeRegistry.ts";
 
 describe("createIndexKey", () => {
-    test("when the route is an index route, return undefined", () => {
+    test.concurrent("when the route is an index route, return undefined", ({ expect }) => {
         const result = createIndexKey({
             index: true,
             element: <div>Hello!</div>
@@ -10,7 +11,7 @@ describe("createIndexKey", () => {
         expect(result).toBeUndefined();
     });
 
-    test("when the route has a path, return the route path", () => {
+    test.concurrent("when the route has a path, return the route path", ({ expect }) => {
         const result1 = createIndexKey({
             path: "/nested",
             element: <div>Hello!</div>
@@ -26,7 +27,7 @@ describe("createIndexKey", () => {
         expect(result2).toBe("/parent/nested");
     });
 
-    test("when the route has a path and the path ends with a separator, strip the separator", () => {
+    test.concurrent("when the route has a path and the path ends with a separator, strip the separator", ({ expect }) => {
         const result = createIndexKey({
             path: "/parent/nested/",
             element: <div>Hello!</div>
@@ -35,7 +36,7 @@ describe("createIndexKey", () => {
         expect(result).toBe("/parent/nested");
     });
 
-    test("when the route has a name, return the route name", () => {
+    test.concurrent("when the route has a name, return the route name", ({ expect }) => {
         const result = createIndexKey({
             $id: "foo",
             element: <div>Hello!</div>
@@ -44,7 +45,7 @@ describe("createIndexKey", () => {
         expect(result).toBe("foo");
     });
 
-    test("when this a pathless route, return undefined", () => {
+    test.concurrent("when this a pathless route, return undefined", ({ expect }) => {
         const result = createIndexKey({
             element: <div>Hello!</div>
         });
@@ -54,7 +55,7 @@ describe("createIndexKey", () => {
 });
 
 describe("add", () => {
-    test("when a root route is added, return the \"registered\" registration status", () => {
+    test.concurrent("when a root route is added, return the \"registered\" registration status", ({ expect }) => {
         const registry = new RouteRegistry();
 
         const result = registry.add({
@@ -67,7 +68,7 @@ describe("add", () => {
         expect(result.registrationStatus).toBe("registered");
     });
 
-    test("when a root route is added and complete the pending registration of nested routes, add the registered routes to the returned \"completedPendingRegistrations\" array", () => {
+    test.concurrent("when a root route is added and complete the pending registration of nested routes, add the registered routes to the returned \"completedPendingRegistrations\" array", ({ expect }) => {
         const registry = new RouteRegistry();
 
         registry.add({
@@ -95,7 +96,7 @@ describe("add", () => {
         expect(result.completedPendingRegistrations![1].path).toBe("/root/another-level-2");
     });
 
-    test("when a root route is added and do not complete any pending registration, return an empty \"completedPendingRegistrations\" array", () => {
+    test.concurrent("when a root route is added and do not complete any pending registration, return an empty \"completedPendingRegistrations\" array", ({ expect }) => {
         const registry = new RouteRegistry();
 
         registry.add({
@@ -122,7 +123,7 @@ describe("add", () => {
         expect(result.completedPendingRegistrations!.length).toBe(0);
     });
 
-    test("when a nested route is pending for registration, return the \"pending\" registration status", () => {
+    test.concurrent("when a nested route is pending for registration, return the \"pending\" registration status", ({ expect }) => {
         const registry = new RouteRegistry();
 
         const result = registry.add({
@@ -135,7 +136,7 @@ describe("add", () => {
         expect(result.registrationStatus).toBe("pending");
     });
 
-    test("when a nested route is added, return the \"registered\" registration status", () => {
+    test.concurrent("when a nested route is added, return the \"registered\" registration status", ({ expect }) => {
         const registry = new RouteRegistry();
 
         registry.add({
@@ -155,7 +156,7 @@ describe("add", () => {
         expect(result.registrationStatus).toBe("registered");
     });
 
-    test("when a nested route is added and complete the pending registration of nested routes, add the registered routes to the returned \"completedPendingRegistrations\" array", () => {
+    test.concurrent("when a nested route is added and complete the pending registration of nested routes, add the registered routes to the returned \"completedPendingRegistrations\" array", ({ expect }) => {
         const registry = new RouteRegistry();
 
         registry.add({

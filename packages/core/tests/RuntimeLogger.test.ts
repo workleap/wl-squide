@@ -1,3 +1,4 @@
+import { describe, test } from "vitest";
 import { Logger, Runtime } from "../src/index.ts";
 import { RuntimeLogger } from "../src/runtime/RuntimeLogger.ts";
 
@@ -61,7 +62,7 @@ class DummyRuntime extends Runtime<unknown, unknown> {
     }
 }
 
-test("log to all the provided loggers", () => {
+test.concurrent("log to all the provided loggers", ({ expect }) => {
     const logger1 = new DummyLogger("Logger-1", new DummyRuntime());
     const logger2 = new DummyLogger("Logger-2", new DummyRuntime());
     const logger3 = new DummyLogger("Logger-3", new DummyRuntime());
@@ -76,7 +77,7 @@ test("log to all the provided loggers", () => {
 });
 
 describe("use", () => {
-    test("only log to the specified loggers", () => {
+    test.concurrent("only log to the specified loggers", ({ expect }) => {
         const logger1 = new DummyLogger("Logger-1", new DummyRuntime());
         const logger2 = new DummyLogger("Logger-2", new DummyRuntime());
         const logger3 = new DummyLogger("Logger-3", new DummyRuntime());

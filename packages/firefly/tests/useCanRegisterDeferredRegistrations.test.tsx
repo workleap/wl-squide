@@ -1,5 +1,6 @@
 import { renderHook, type RenderHookOptions } from "@testing-library/react";
 import type { ReactNode } from "react";
+import { test } from "vitest";
 import { AppRouterStateContext } from "../src/AppRouterContext.ts";
 import type { AppRouterState } from "../src/AppRouterReducer.ts";
 import { useCanRegisterDeferredRegistrations } from "../src/useCanRegisterDeferredRegistrations.ts";
@@ -16,7 +17,7 @@ function renderUseCanRegisterDeferredRegistrationsHook<TProps>(state: AppRouterS
     });
 }
 
-test("when modules are registered but not ready, public data is ready, and protected data is ready, return true", () => {
+test.concurrent("when modules are registered but not ready, public data is ready, and protected data is ready, return true", ({ expect }) => {
     const state = createDefaultAppRouterState();
     state.areModulesRegistered = true;
     state.areModulesReady = false;
@@ -28,7 +29,7 @@ test("when modules are registered but not ready, public data is ready, and prote
     expect(result.current).toBeTruthy();
 });
 
-test("when public data is not ready but it's not required to wait for public data, return true", () => {
+test.concurrent("when public data is not ready but it's not required to wait for public data, return true", ({ expect }) => {
     const state = createDefaultAppRouterState();
     state.areModulesRegistered = true;
     state.areModulesReady = false;
@@ -41,7 +42,7 @@ test("when public data is not ready but it's not required to wait for public dat
     expect(result.current).toBeTruthy();
 });
 
-test("when protected data is not ready but it's not required to wait for protected data, return true", () => {
+test.concurrent("when protected data is not ready but it's not required to wait for protected data, return true", ({ expect }) => {
     const state = createDefaultAppRouterState();
     state.areModulesRegistered = true;
     state.areModulesReady = false;
@@ -55,7 +56,7 @@ test("when protected data is not ready but it's not required to wait for protect
     expect(result.current).toBeTruthy();
 });
 
-test("when protected data is not ready but the route is public, return true", () => {
+test.concurrent("when protected data is not ready but the route is public, return true", ({ expect }) => {
     const state = createDefaultAppRouterState();
     state.areModulesRegistered = true;
     state.areModulesReady = false;
@@ -68,7 +69,7 @@ test("when protected data is not ready but the route is public, return true", ()
     expect(result.current).toBeTruthy();
 });
 
-test("when modules are ready, return false", () => {
+test.concurrent("when modules are ready, return false", ({ expect }) => {
     const state = createDefaultAppRouterState();
     state.areModulesRegistered = true;
     state.areModulesReady = true;
@@ -80,7 +81,7 @@ test("when modules are ready, return false", () => {
     expect(result.current).toBeFalsy();
 });
 
-test("when the session is unauthorized, return false", () => {
+test.concurrent("when the session is unauthorized, return false", ({ expect }) => {
     const state = createDefaultAppRouterState();
     state.areModulesRegistered = true;
     state.areModulesReady = false;
@@ -93,7 +94,7 @@ test("when the session is unauthorized, return false", () => {
     expect(result.current).toBeFalsy();
 });
 
-test("when it's required to wait for public data and public data is not ready, return false", () => {
+test.concurrent("when it's required to wait for public data and public data is not ready, return false", ({ expect }) => {
     const state = createDefaultAppRouterState();
     state.areModulesRegistered = true;
     state.areModulesReady = false;
@@ -106,7 +107,7 @@ test("when it's required to wait for public data and public data is not ready, r
     expect(result.current).toBeFalsy();
 });
 
-test("when it's required to wait for protected data and the protected data is not ready, return false", () => {
+test.concurrent("when it's required to wait for protected data and the protected data is not ready, return false", ({ expect }) => {
     const state = createDefaultAppRouterState();
     state.areModulesRegistered = true;
     state.areModulesReady = false;

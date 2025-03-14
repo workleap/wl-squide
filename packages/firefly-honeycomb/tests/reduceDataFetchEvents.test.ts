@@ -1,15 +1,16 @@
 import { FireflyRuntime, ProtectedDataFetchStartedEvent, ProtectedDataReadyEvent, PublicDataFetchStartedEvent, PublicDataReadyEvent } from "@squide/firefly";
+import { test, vi } from "vitest";
 import { reduceDataFetchEvents } from "../src/registerHoneycombInstrumentation.ts";
 
-test("when the state is \"none\" and PublicDataFetchStartedEvent is handled, call the onDataFetchingStarted handler", () => {
+test.concurrent("when the state is \"none\" and PublicDataFetchStartedEvent is handled, call the onDataFetchingStarted handler", ({ expect }) => {
     const runtime = new FireflyRuntime();
 
-    const onDataFetchingStarted = jest.fn();
-    const onDataReady = jest.fn();
-    const onPublicDataFetchStarted = jest.fn();
-    const onPublicDataReady = jest.fn();
-    const onProtectedDataFetchStarted = jest.fn();
-    const onProtectedDataReady = jest.fn();
+    const onDataFetchingStarted = vi.fn();
+    const onDataReady = vi.fn();
+    const onPublicDataFetchStarted = vi.fn();
+    const onPublicDataReady = vi.fn();
+    const onProtectedDataFetchStarted = vi.fn();
+    const onProtectedDataReady = vi.fn();
 
     reduceDataFetchEvents(
         runtime,
@@ -27,15 +28,15 @@ test("when the state is \"none\" and PublicDataFetchStartedEvent is handled, cal
     expect(onPublicDataFetchStarted).toHaveBeenCalledTimes(1);
 });
 
-test("when the state is \"fetching-data\" and PublicDataFetchStartedEvent is handled, do not call the onDataFetchingStarted handler", () => {
+test.concurrent("when the state is \"fetching-data\" and PublicDataFetchStartedEvent is handled, do not call the onDataFetchingStarted handler", ({ expect }) => {
     const runtime = new FireflyRuntime();
 
-    const onDataFetchingStarted = jest.fn();
-    const onDataReady = jest.fn();
-    const onPublicDataFetchStarted = jest.fn();
-    const onPublicDataReady = jest.fn();
-    const onProtectedDataFetchStarted = jest.fn();
-    const onProtectedDataReady = jest.fn();
+    const onDataFetchingStarted = vi.fn();
+    const onDataReady = vi.fn();
+    const onPublicDataFetchStarted = vi.fn();
+    const onPublicDataReady = vi.fn();
+    const onProtectedDataFetchStarted = vi.fn();
+    const onProtectedDataReady = vi.fn();
 
     reduceDataFetchEvents(
         runtime,
@@ -57,15 +58,15 @@ test("when the state is \"fetching-data\" and PublicDataFetchStartedEvent is han
     expect(onPublicDataFetchStarted).toHaveBeenCalledTimes(1);
 });
 
-test("when the state is \"none\" and ProtectedDataFetchStartedEvent is handled, call the onDataFetchingStarted handler", () => {
+test.concurrent("when the state is \"none\" and ProtectedDataFetchStartedEvent is handled, call the onDataFetchingStarted handler", ({ expect }) => {
     const runtime = new FireflyRuntime();
 
-    const onDataFetchingStarted = jest.fn();
-    const onDataReady = jest.fn();
-    const onPublicDataFetchStarted = jest.fn();
-    const onPublicDataReady = jest.fn();
-    const onProtectedDataFetchStarted = jest.fn();
-    const onProtectedDataReady = jest.fn();
+    const onDataFetchingStarted = vi.fn();
+    const onDataReady = vi.fn();
+    const onPublicDataFetchStarted = vi.fn();
+    const onPublicDataReady = vi.fn();
+    const onProtectedDataFetchStarted = vi.fn();
+    const onProtectedDataReady = vi.fn();
 
     reduceDataFetchEvents(
         runtime,
@@ -83,15 +84,15 @@ test("when the state is \"none\" and ProtectedDataFetchStartedEvent is handled, 
     expect(onProtectedDataFetchStarted).toHaveBeenCalledTimes(1);
 });
 
-test("when the state is \"fetching-data\" and ProtectedDataFetchStartedEvent is handled, do not call the onDataFetchingStarted handler", () => {
+test.concurrent("when the state is \"fetching-data\" and ProtectedDataFetchStartedEvent is handled, do not call the onDataFetchingStarted handler", ({ expect }) => {
     const runtime = new FireflyRuntime();
 
-    const onDataFetchingStarted = jest.fn();
-    const onDataReady = jest.fn();
-    const onPublicDataFetchStarted = jest.fn();
-    const onPublicDataReady = jest.fn();
-    const onProtectedDataFetchStarted = jest.fn();
-    const onProtectedDataReady = jest.fn();
+    const onDataFetchingStarted = vi.fn();
+    const onDataReady = vi.fn();
+    const onPublicDataFetchStarted = vi.fn();
+    const onPublicDataReady = vi.fn();
+    const onProtectedDataFetchStarted = vi.fn();
+    const onProtectedDataReady = vi.fn();
 
     reduceDataFetchEvents(
         runtime,
@@ -113,15 +114,15 @@ test("when the state is \"fetching-data\" and ProtectedDataFetchStartedEvent is 
     expect(onProtectedDataFetchStarted).toHaveBeenCalledTimes(1);
 });
 
-test("when the state is \"protected-data-ready\" and PublicDataReadyEvent is handled, call the onDataReady handler", () => {
+test.concurrent("when the state is \"protected-data-ready\" and PublicDataReadyEvent is handled, call the onDataReady handler", ({ expect }) => {
     const runtime = new FireflyRuntime();
 
-    const onDataFetchingStarted = jest.fn();
-    const onDataReady = jest.fn();
-    const onPublicDataFetchStarted = jest.fn();
-    const onPublicDataReady = jest.fn();
-    const onProtectedDataFetchStarted = jest.fn();
-    const onProtectedDataReady = jest.fn();
+    const onDataFetchingStarted = vi.fn();
+    const onDataReady = vi.fn();
+    const onPublicDataFetchStarted = vi.fn();
+    const onPublicDataReady = vi.fn();
+    const onProtectedDataFetchStarted = vi.fn();
+    const onProtectedDataReady = vi.fn();
 
     reduceDataFetchEvents(
         runtime,
@@ -151,15 +152,15 @@ test("when the state is \"protected-data-ready\" and PublicDataReadyEvent is han
     expect(onProtectedDataReady).toHaveBeenCalledTimes(1);
 });
 
-test("when the state is \"public-data-ready\" and PublicDataReadyEvent is handled, do not call the onDataReady handler", () => {
+test.concurrent("when the state is \"public-data-ready\" and PublicDataReadyEvent is handled, do not call the onDataReady handler", ({ expect }) => {
     const runtime = new FireflyRuntime();
 
-    const onDataFetchingStarted = jest.fn();
-    const onDataReady = jest.fn();
-    const onPublicDataFetchStarted = jest.fn();
-    const onPublicDataReady = jest.fn();
-    const onProtectedDataFetchStarted = jest.fn();
-    const onProtectedDataReady = jest.fn();
+    const onDataFetchingStarted = vi.fn();
+    const onDataReady = vi.fn();
+    const onPublicDataFetchStarted = vi.fn();
+    const onPublicDataReady = vi.fn();
+    const onProtectedDataFetchStarted = vi.fn();
+    const onProtectedDataReady = vi.fn();
 
     reduceDataFetchEvents(
         runtime,
@@ -188,15 +189,15 @@ test("when the state is \"public-data-ready\" and PublicDataReadyEvent is handle
     expect(onPublicDataReady).toHaveBeenCalledTimes(2);
 });
 
-test("when the state is \"data-ready\" and PublicDataReadyEvent is handled, do not call the onDataReady handler", () => {
+test.concurrent("when the state is \"data-ready\" and PublicDataReadyEvent is handled, do not call the onDataReady handler", ({ expect }) => {
     const runtime = new FireflyRuntime();
 
-    const onDataFetchingStarted = jest.fn();
-    const onDataReady = jest.fn();
-    const onPublicDataFetchStarted = jest.fn();
-    const onPublicDataReady = jest.fn();
-    const onProtectedDataFetchStarted = jest.fn();
-    const onProtectedDataReady = jest.fn();
+    const onDataFetchingStarted = vi.fn();
+    const onDataReady = vi.fn();
+    const onPublicDataFetchStarted = vi.fn();
+    const onPublicDataReady = vi.fn();
+    const onProtectedDataFetchStarted = vi.fn();
+    const onProtectedDataReady = vi.fn();
 
     reduceDataFetchEvents(
         runtime,
@@ -227,15 +228,15 @@ test("when the state is \"data-ready\" and PublicDataReadyEvent is handled, do n
     expect(onProtectedDataReady).toHaveBeenCalledTimes(1);
 });
 
-test("when the state is \"public-data-ready\" and ProtectedDataReadyEvent is handled, call the onDataReady handler", () => {
+test.concurrent("when the state is \"public-data-ready\" and ProtectedDataReadyEvent is handled, call the onDataReady handler", ({ expect }) => {
     const runtime = new FireflyRuntime();
 
-    const onDataFetchingStarted = jest.fn();
-    const onDataReady = jest.fn();
-    const onPublicDataFetchStarted = jest.fn();
-    const onPublicDataReady = jest.fn();
-    const onProtectedDataFetchStarted = jest.fn();
-    const onProtectedDataReady = jest.fn();
+    const onDataFetchingStarted = vi.fn();
+    const onDataReady = vi.fn();
+    const onPublicDataFetchStarted = vi.fn();
+    const onPublicDataReady = vi.fn();
+    const onProtectedDataFetchStarted = vi.fn();
+    const onProtectedDataReady = vi.fn();
 
     reduceDataFetchEvents(
         runtime,
@@ -265,15 +266,15 @@ test("when the state is \"public-data-ready\" and ProtectedDataReadyEvent is han
     expect(onProtectedDataReady).toHaveBeenCalledTimes(1);
 });
 
-test("when the state is \"protected-data-ready\" and ProtectedDataReadyEvent is handled, do not call the onDataReady handler", () => {
+test.concurrent("when the state is \"protected-data-ready\" and ProtectedDataReadyEvent is handled, do not call the onDataReady handler", ({ expect }) => {
     const runtime = new FireflyRuntime();
 
-    const onDataFetchingStarted = jest.fn();
-    const onDataReady = jest.fn();
-    const onPublicDataFetchStarted = jest.fn();
-    const onPublicDataReady = jest.fn();
-    const onProtectedDataFetchStarted = jest.fn();
-    const onProtectedDataReady = jest.fn();
+    const onDataFetchingStarted = vi.fn();
+    const onDataReady = vi.fn();
+    const onPublicDataFetchStarted = vi.fn();
+    const onPublicDataReady = vi.fn();
+    const onProtectedDataFetchStarted = vi.fn();
+    const onProtectedDataReady = vi.fn();
 
     reduceDataFetchEvents(
         runtime,
@@ -302,15 +303,15 @@ test("when the state is \"protected-data-ready\" and ProtectedDataReadyEvent is 
     expect(onProtectedDataReady).toHaveBeenCalledTimes(2);
 });
 
-test("when the state is \"data-ready\" and ProtectedDataReadyEvent is handled, do not call the onDataReady handler", () => {
+test.concurrent("when the state is \"data-ready\" and ProtectedDataReadyEvent is handled, do not call the onDataReady handler", ({ expect }) => {
     const runtime = new FireflyRuntime();
 
-    const onDataFetchingStarted = jest.fn();
-    const onDataReady = jest.fn();
-    const onPublicDataFetchStarted = jest.fn();
-    const onPublicDataReady = jest.fn();
-    const onProtectedDataFetchStarted = jest.fn();
-    const onProtectedDataReady = jest.fn();
+    const onDataFetchingStarted = vi.fn();
+    const onDataReady = vi.fn();
+    const onPublicDataFetchStarted = vi.fn();
+    const onPublicDataReady = vi.fn();
+    const onProtectedDataFetchStarted = vi.fn();
+    const onProtectedDataReady = vi.fn();
 
     reduceDataFetchEvents(
         runtime,
@@ -341,15 +342,15 @@ test("when the state is \"data-ready\" and ProtectedDataReadyEvent is handled, d
     expect(onProtectedDataReady).toHaveBeenCalledTimes(2);
 });
 
-test("events sequencing", () => {
+test.concurrent("events sequencing", ({ expect }) => {
     const runtime = new FireflyRuntime();
 
-    const onDataFetchingStarted = jest.fn();
-    const onDataReady = jest.fn();
-    const onPublicDataFetchStarted = jest.fn();
-    const onPublicDataReady = jest.fn();
-    const onProtectedDataFetchStarted = jest.fn();
-    const onProtectedDataReady = jest.fn();
+    const onDataFetchingStarted = vi.fn();
+    const onDataReady = vi.fn();
+    const onPublicDataFetchStarted = vi.fn();
+    const onPublicDataReady = vi.fn();
+    const onProtectedDataFetchStarted = vi.fn();
+    const onProtectedDataReady = vi.fn();
 
     reduceDataFetchEvents(
         runtime,

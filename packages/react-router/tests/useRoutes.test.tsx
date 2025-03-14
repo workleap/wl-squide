@@ -1,5 +1,6 @@
 import { RuntimeContext } from "@squide/core";
 import { renderHook, type RenderHookOptions } from "@testing-library/react";
+import { test } from "vitest";
 import { ReactRouterRuntime } from "../src/reactRouterRuntime.ts";
 import { useRoutes } from "../src/useRoutes.ts";
 
@@ -14,7 +15,7 @@ function renderUseRoutesHook<TProps>(runtime: ReactRouterRuntime, additionalProp
     });
 }
 
-test("returns all the registered routes", () => {
+test.concurrent("returns all the registered routes", ({ expect }) => {
     const runtime = new ReactRouterRuntime();
 
     runtime.registerRoute({
@@ -36,7 +37,7 @@ test("returns all the registered routes", () => {
     expect(result.current.length).toBe(2);
 });
 
-test("returned array is immutable", () => {
+test.concurrent("returned array is immutable", ({ expect }) => {
     const runtime = new ReactRouterRuntime();
 
     runtime.registerRoute({

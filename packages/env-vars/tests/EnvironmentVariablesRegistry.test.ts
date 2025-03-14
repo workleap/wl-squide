@@ -1,3 +1,4 @@
+import { describe, test } from "vitest";
 import { EnvironmentVariablesRegistry } from "../src/EnvironmentVariablesRegistry.ts";
 
 declare module "../src/EnvironmentVariablesRegistry.ts" {
@@ -9,7 +10,7 @@ declare module "../src/EnvironmentVariablesRegistry.ts" {
 }
 
 describe("add", () => {
-    test("should add a new variable", () => {
+    test.concurrent("should add a new variable", ({ expect }) => {
         const registry = new EnvironmentVariablesRegistry();
 
         registry.add("foo", "bar");
@@ -17,7 +18,7 @@ describe("add", () => {
         expect(registry.getVariable("foo")).toBe("bar");
     });
 
-    test("when a variable already exist and the value is the same, do nothing", () => {
+    test.concurrent("when a variable already exist and the value is the same, do nothing", ({ expect }) => {
         const registry = new EnvironmentVariablesRegistry();
 
         registry.add("foo", "bar");
@@ -26,7 +27,7 @@ describe("add", () => {
         expect(registry.getVariable("foo")).toBe("bar");
     });
 
-    test("when a variable already exist and the value is different, throw an error", () => {
+    test.concurrent("when a variable already exist and the value is different, throw an error", ({ expect }) => {
         const registry = new EnvironmentVariablesRegistry();
 
         registry.add("foo", "bar1");
@@ -36,7 +37,7 @@ describe("add", () => {
 });
 
 describe("addVariables", () => {
-    test("add all variables", () => {
+    test.concurrent("add all variables", ({ expect }) => {
         const registry = new EnvironmentVariablesRegistry();
 
         registry.addVariables({
@@ -48,7 +49,7 @@ describe("addVariables", () => {
         expect(registry.getVariable("bar")).toBe(2);
     });
 
-    test("when one of the variable already exist and the value is different, throw an error", () => {
+    test.concurrent("when one of the variable already exist and the value is different, throw an error", ({ expect }) => {
         const registry = new EnvironmentVariablesRegistry();
 
         registry.add("foo", "1");
@@ -61,7 +62,7 @@ describe("addVariables", () => {
 });
 
 describe("getVariable", () => {
-    test("when the key doesn't match any value, throw an error", () => {
+    test.concurrent("when the key doesn't match any value, throw an error", ({ expect }) => {
         const registry = new EnvironmentVariablesRegistry();
 
         expect(() => registry.getVariable("foo")).toThrow();
@@ -69,7 +70,7 @@ describe("getVariable", () => {
 });
 
 describe("getVariables", () => {
-    test("return all the variables", () => {
+    test.concurrent("return all the variables", ({ expect }) => {
         const registry = new EnvironmentVariablesRegistry();
 
         registry.addVariables({
@@ -84,7 +85,7 @@ describe("getVariables", () => {
         expect(variables["bar"]).toBe(2);
     });
 
-    test("the returned variables object is immutable", () => {
+    test.concurrent("the returned variables object is immutable", ({ expect }) => {
         const registry = new EnvironmentVariablesRegistry();
 
         registry.add("foo", "1");

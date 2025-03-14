@@ -1,4 +1,569 @@
-// Jest Snapshot v1, https://goo.gl/fbAQLP
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`defineBuildHostConfig > the application name is set as the federation plugin application name 1`] = `
+ModuleFederationPlugin {
+  "_options": {
+    "dts": false,
+    "manifest": false,
+    "name": "host",
+    "remotes": {},
+    "shared": {
+      "@squide/core": {
+        "eager": true,
+        "singleton": true,
+      },
+      "@squide/module-federation": {
+        "eager": true,
+        "singleton": true,
+      },
+      "@squide/msw": {
+        "eager": true,
+        "singleton": true,
+      },
+      "@squide/react-router": {
+        "eager": true,
+        "singleton": true,
+      },
+      "react": {
+        "eager": true,
+        "requiredVersion": undefined,
+        "singleton": true,
+      },
+      "react-dom": {
+        "eager": true,
+        "singleton": true,
+      },
+      "react-router": {
+        "eager": true,
+        "singleton": true,
+      },
+    },
+  },
+  "name": "ModuleFederationPlugin",
+}
+`;
+
+exports[`defineBuildHostConfig > the module federation plugin configuration includes the default shared dependencies 1`] = `
+ModuleFederationPlugin {
+  "_options": {
+    "dts": false,
+    "manifest": false,
+    "name": "host",
+    "remotes": {},
+    "shared": {
+      "@squide/core": {
+        "eager": true,
+        "singleton": true,
+      },
+      "@squide/module-federation": {
+        "eager": true,
+        "singleton": true,
+      },
+      "@squide/msw": {
+        "eager": true,
+        "singleton": true,
+      },
+      "@squide/react-router": {
+        "eager": true,
+        "singleton": true,
+      },
+      "react": {
+        "eager": true,
+        "requiredVersion": undefined,
+        "singleton": true,
+      },
+      "react-dom": {
+        "eager": true,
+        "singleton": true,
+      },
+      "react-router": {
+        "eager": true,
+        "singleton": true,
+      },
+    },
+  },
+  "name": "ModuleFederationPlugin",
+}
+`;
+
+exports[`defineBuildHostConfig > the module federation plugin configuration includes the remotes 1`] = `
+ModuleFederationPlugin {
+  "_options": {
+    "dts": false,
+    "manifest": false,
+    "name": "host",
+    "remotes": {
+      "remote1": "remote1@http://localhost/remote1/remoteEntry.js",
+      "remote2": "remote2@http://localhost/remote2/remoteEntry.js",
+    },
+    "shared": {
+      "@squide/core": {
+        "eager": true,
+        "singleton": true,
+      },
+      "@squide/module-federation": {
+        "eager": true,
+        "singleton": true,
+      },
+      "@squide/msw": {
+        "eager": true,
+        "singleton": true,
+      },
+      "@squide/react-router": {
+        "eager": true,
+        "singleton": true,
+      },
+      "react": {
+        "eager": true,
+        "requiredVersion": undefined,
+        "singleton": true,
+      },
+      "react-dom": {
+        "eager": true,
+        "singleton": true,
+      },
+      "react-router": {
+        "eager": true,
+        "singleton": true,
+      },
+    },
+  },
+  "name": "ModuleFederationPlugin",
+}
+`;
+
+exports[`defineBuildHostConfig > when a public path option is provided for the html webpack plugin, do not alter the provided public path option 1`] = `
+HtmlWebpackPlugin {
+  "options": {
+    "base": false,
+    "cache": true,
+    "chunks": "all",
+    "chunksSortMode": "auto",
+    "compile": true,
+    "excludeChunks": [],
+    "favicon": false,
+    "filename": "index.html",
+    "hash": false,
+    "inject": "head",
+    "meta": {},
+    "minify": "auto",
+    "publicPath": "/toto",
+    "scriptLoading": "defer",
+    "showErrors": true,
+    "template": "auto",
+    "templateContent": false,
+    "templateParameters": [Function],
+    "title": "Webpack App",
+    "xhtml": false,
+  },
+  "userOptions": {
+    "publicPath": "/toto",
+  },
+  "version": 5,
+}
+`;
+
+exports[`defineBuildHostConfig > when additional options are provided for an existing default shared dependency, add the consumer options to the default options 1`] = `
+ModuleFederationPlugin {
+  "_options": {
+    "dts": false,
+    "manifest": false,
+    "name": "host",
+    "remotes": {},
+    "shared": {
+      "@squide/core": {
+        "eager": true,
+        "singleton": true,
+      },
+      "@squide/module-federation": {
+        "eager": true,
+        "singleton": true,
+      },
+      "@squide/msw": {
+        "eager": true,
+        "singleton": true,
+      },
+      "@squide/react-router": {
+        "eager": true,
+        "singleton": true,
+      },
+      "react": {
+        "eager": true,
+        "requiredVersion": "1.2.3",
+        "singleton": true,
+      },
+      "react-dom": {
+        "eager": true,
+        "singleton": true,
+      },
+      "react-router": {
+        "eager": true,
+        "singleton": true,
+      },
+    },
+  },
+  "name": "ModuleFederationPlugin",
+}
+`;
+
+exports[`defineBuildHostConfig > when additional shared dependencies are provided, add the dependencies to the module federation plugin configuration 1`] = `
+ModuleFederationPlugin {
+  "_options": {
+    "dts": false,
+    "manifest": false,
+    "name": "host",
+    "remotes": {},
+    "shared": {
+      "@squide/core": {
+        "eager": true,
+        "singleton": true,
+      },
+      "@squide/module-federation": {
+        "eager": true,
+        "singleton": true,
+      },
+      "@squide/msw": {
+        "eager": true,
+        "singleton": true,
+      },
+      "@squide/react-router": {
+        "eager": true,
+        "singleton": true,
+      },
+      "first": {
+        "singleton": true,
+      },
+      "react": {
+        "eager": true,
+        "requiredVersion": undefined,
+        "singleton": true,
+      },
+      "react-dom": {
+        "eager": true,
+        "singleton": true,
+      },
+      "react-router": {
+        "eager": true,
+        "singleton": true,
+      },
+      "second": {
+        "eager": true,
+        "singleton": true,
+      },
+    },
+  },
+  "name": "ModuleFederationPlugin",
+}
+`;
+
+exports[`defineBuildHostConfig > when environmentVariables is env-vars, add env-vars shared dependency and requiredVersion: false to the react shared dependency definition 1`] = `
+ModuleFederationPlugin {
+  "_options": {
+    "dts": false,
+    "manifest": false,
+    "name": "host",
+    "remotes": {},
+    "shared": {
+      "@squide/core": {
+        "eager": true,
+        "singleton": true,
+      },
+      "@squide/env-vars": {
+        "eager": true,
+        "singleton": true,
+      },
+      "@squide/module-federation": {
+        "eager": true,
+        "singleton": true,
+      },
+      "@squide/msw": {
+        "eager": true,
+        "singleton": true,
+      },
+      "@squide/react-router": {
+        "eager": true,
+        "singleton": true,
+      },
+      "react": {
+        "eager": true,
+        "requiredVersion": undefined,
+        "singleton": true,
+      },
+      "react-dom": {
+        "eager": true,
+        "singleton": true,
+      },
+      "react-router": {
+        "eager": true,
+        "singleton": true,
+      },
+    },
+  },
+  "name": "ModuleFederationPlugin",
+}
+`;
+
+exports[`defineBuildHostConfig > when honeycomb is activated, add honeycomb shared dependency and requiredVersion: false to the react shared dependency definition 1`] = `
+ModuleFederationPlugin {
+  "_options": {
+    "dts": false,
+    "manifest": false,
+    "name": "host",
+    "remotes": {},
+    "shared": {
+      "@honeycombio/opentelemetry-web": {
+        "eager": true,
+        "singleton": true,
+      },
+      "@opentelemetry/api": {
+        "eager": true,
+        "singleton": true,
+      },
+      "@opentelemetry/auto-instrumentations-web": {
+        "eager": true,
+        "singleton": true,
+      },
+      "@squide/core": {
+        "eager": true,
+        "singleton": true,
+      },
+      "@squide/firefly-honeycomb": {
+        "eager": true,
+        "singleton": true,
+      },
+      "@squide/module-federation": {
+        "eager": true,
+        "singleton": true,
+      },
+      "@squide/msw": {
+        "eager": true,
+        "singleton": true,
+      },
+      "@squide/react-router": {
+        "eager": true,
+        "singleton": true,
+      },
+      "react": {
+        "eager": true,
+        "requiredVersion": undefined,
+        "singleton": true,
+      },
+      "react-dom": {
+        "eager": true,
+        "singleton": true,
+      },
+      "react-router": {
+        "eager": true,
+        "singleton": true,
+      },
+    },
+  },
+  "name": "ModuleFederationPlugin",
+}
+`;
+
+exports[`defineBuildHostConfig > when i18next is activated, add i18next shared dependency and requiredVersion: false to the react shared dependency definition 1`] = `
+ModuleFederationPlugin {
+  "_options": {
+    "dts": false,
+    "manifest": false,
+    "name": "host",
+    "remotes": {},
+    "shared": {
+      "@squide/core": {
+        "eager": true,
+        "singleton": true,
+      },
+      "@squide/i18next": {
+        "eager": true,
+        "singleton": true,
+      },
+      "@squide/module-federation": {
+        "eager": true,
+        "singleton": true,
+      },
+      "@squide/msw": {
+        "eager": true,
+        "singleton": true,
+      },
+      "@squide/react-router": {
+        "eager": true,
+        "singleton": true,
+      },
+      "i18next": {
+        "eager": true,
+        "singleton": true,
+      },
+      "react": {
+        "eager": true,
+        "requiredVersion": false,
+        "singleton": true,
+      },
+      "react-dom": {
+        "eager": true,
+        "singleton": true,
+      },
+      "react-i18next": {
+        "eager": true,
+        "singleton": true,
+      },
+      "react-router": {
+        "eager": true,
+        "singleton": true,
+      },
+    },
+  },
+  "name": "ModuleFederationPlugin",
+}
+`;
+
+exports[`defineBuildHostConfig > when no options are provided for the html webpack plugin, add a public path option 1`] = `
+HtmlWebpackPlugin {
+  "options": {
+    "base": false,
+    "cache": true,
+    "chunks": "all",
+    "chunksSortMode": "auto",
+    "compile": true,
+    "excludeChunks": [],
+    "favicon": false,
+    "filename": "index.html",
+    "hash": false,
+    "inject": "head",
+    "meta": {},
+    "minify": "auto",
+    "publicPath": "/",
+    "scriptLoading": "defer",
+    "showErrors": true,
+    "templateContent": false,
+    "templateParameters": [Function],
+    "title": "Webpack App",
+    "xhtml": false,
+  },
+  "userOptions": {
+    "publicPath": "/",
+  },
+  "version": 5,
+}
+`;
+
+exports[`defineBuildHostConfig > when options others than the public path option are provided for the html webpack plugin, add a public path option 1`] = `
+HtmlWebpackPlugin {
+  "options": {
+    "base": false,
+    "cache": true,
+    "chunks": "all",
+    "chunksSortMode": "auto",
+    "compile": true,
+    "excludeChunks": [],
+    "favicon": "toto.png",
+    "filename": "index.html",
+    "hash": false,
+    "inject": "head",
+    "meta": {},
+    "minify": "auto",
+    "publicPath": "/",
+    "scriptLoading": "defer",
+    "showErrors": true,
+    "template": "auto",
+    "templateContent": false,
+    "templateParameters": [Function],
+    "title": "Webpack App",
+    "xhtml": false,
+  },
+  "userOptions": {
+    "favicon": "toto.png",
+    "publicPath": "/",
+  },
+  "version": 5,
+}
+`;
+
+exports[`defineBuildHostConfig > when overriding options are provided for a default shared dependency, use the consumer option 1`] = `
+ModuleFederationPlugin {
+  "_options": {
+    "dts": false,
+    "manifest": false,
+    "name": "host",
+    "remotes": {},
+    "shared": {
+      "@squide/core": {
+        "eager": true,
+        "singleton": true,
+      },
+      "@squide/module-federation": {
+        "eager": true,
+        "singleton": true,
+      },
+      "@squide/msw": {
+        "eager": true,
+        "singleton": true,
+      },
+      "@squide/react-router": {
+        "eager": true,
+        "singleton": true,
+      },
+      "react": {
+        "eager": false,
+        "requiredVersion": undefined,
+        "singleton": false,
+      },
+      "react-dom": {
+        "eager": true,
+        "singleton": true,
+      },
+      "react-router": {
+        "eager": true,
+        "singleton": true,
+      },
+    },
+  },
+  "name": "ModuleFederationPlugin",
+}
+`;
+
+exports[`defineBuildHostConfig > when the router is react-router, add react-router shared dependencies 1`] = `
+ModuleFederationPlugin {
+  "_options": {
+    "dts": false,
+    "manifest": false,
+    "name": "host",
+    "remotes": {},
+    "shared": {
+      "@squide/core": {
+        "eager": true,
+        "singleton": true,
+      },
+      "@squide/module-federation": {
+        "eager": true,
+        "singleton": true,
+      },
+      "@squide/msw": {
+        "eager": true,
+        "singleton": true,
+      },
+      "@squide/react-router": {
+        "eager": true,
+        "singleton": true,
+      },
+      "react": {
+        "eager": true,
+        "requiredVersion": undefined,
+        "singleton": true,
+      },
+      "react-dom": {
+        "eager": true,
+        "singleton": true,
+      },
+      "react-router": {
+        "eager": true,
+        "singleton": true,
+      },
+    },
+  },
+  "name": "ModuleFederationPlugin",
+}
+`;
 
 exports[`defineBuildHostConfig the application name is set as the federation plugin application name 1`] = `
 ModuleFederationPlugin {
@@ -565,6 +1130,459 @@ ModuleFederationPlugin {
 }
 `;
 
+exports[`defineBuildRemoteModuleConfig > the application name is set as the federation plugin application name 1`] = `
+ModuleFederationPlugin {
+  "_options": {
+    "dts": false,
+    "exposes": {
+      "./register": "./src/register",
+    },
+    "filename": "remoteEntry.js",
+    "manifest": false,
+    "name": "remote1",
+    "shared": {
+      "@squide/core": {
+        "eager": undefined,
+        "singleton": true,
+      },
+      "@squide/module-federation": {
+        "eager": undefined,
+        "singleton": true,
+      },
+      "@squide/msw": {
+        "eager": undefined,
+        "singleton": true,
+      },
+      "@squide/react-router": {
+        "eager": undefined,
+        "singleton": true,
+      },
+      "react": {
+        "eager": undefined,
+        "requiredVersion": undefined,
+        "singleton": true,
+      },
+      "react-dom": {
+        "eager": undefined,
+        "singleton": true,
+      },
+      "react-router": {
+        "eager": undefined,
+        "singleton": true,
+      },
+    },
+  },
+  "name": "ModuleFederationPlugin",
+}
+`;
+
+exports[`defineBuildRemoteModuleConfig > the module federation plugin configuration includes the default shared dependencies 1`] = `
+ModuleFederationPlugin {
+  "_options": {
+    "dts": false,
+    "exposes": {
+      "./register": "./src/register",
+    },
+    "filename": "remoteEntry.js",
+    "manifest": false,
+    "name": "remote1",
+    "shared": {
+      "@squide/core": {
+        "eager": undefined,
+        "singleton": true,
+      },
+      "@squide/module-federation": {
+        "eager": undefined,
+        "singleton": true,
+      },
+      "@squide/msw": {
+        "eager": undefined,
+        "singleton": true,
+      },
+      "@squide/react-router": {
+        "eager": undefined,
+        "singleton": true,
+      },
+      "react": {
+        "eager": undefined,
+        "requiredVersion": undefined,
+        "singleton": true,
+      },
+      "react-dom": {
+        "eager": undefined,
+        "singleton": true,
+      },
+      "react-router": {
+        "eager": undefined,
+        "singleton": true,
+      },
+    },
+  },
+  "name": "ModuleFederationPlugin",
+}
+`;
+
+exports[`defineBuildRemoteModuleConfig > when additional options are provided for an existing default shared dependency, add the consumer options to the default options 1`] = `
+ModuleFederationPlugin {
+  "_options": {
+    "dts": false,
+    "exposes": {
+      "./register": "./src/register",
+    },
+    "filename": "remoteEntry.js",
+    "manifest": false,
+    "name": "remote1",
+    "shared": {
+      "@squide/core": {
+        "eager": undefined,
+        "singleton": true,
+      },
+      "@squide/module-federation": {
+        "eager": undefined,
+        "singleton": true,
+      },
+      "@squide/msw": {
+        "eager": undefined,
+        "singleton": true,
+      },
+      "@squide/react-router": {
+        "eager": undefined,
+        "singleton": true,
+      },
+      "react": {
+        "eager": undefined,
+        "requiredVersion": "1.2.3",
+        "singleton": true,
+      },
+      "react-dom": {
+        "eager": undefined,
+        "singleton": true,
+      },
+      "react-router": {
+        "eager": undefined,
+        "singleton": true,
+      },
+    },
+  },
+  "name": "ModuleFederationPlugin",
+}
+`;
+
+exports[`defineBuildRemoteModuleConfig > when additional shared dependencies are provided, add the dependencies to the module federation plugin configuration 1`] = `
+ModuleFederationPlugin {
+  "_options": {
+    "dts": false,
+    "exposes": {
+      "./register": "./src/register",
+    },
+    "filename": "remoteEntry.js",
+    "manifest": false,
+    "name": "remote1",
+    "shared": {
+      "@squide/core": {
+        "eager": undefined,
+        "singleton": true,
+      },
+      "@squide/module-federation": {
+        "eager": undefined,
+        "singleton": true,
+      },
+      "@squide/msw": {
+        "eager": undefined,
+        "singleton": true,
+      },
+      "@squide/react-router": {
+        "eager": undefined,
+        "singleton": true,
+      },
+      "first": {
+        "singleton": true,
+      },
+      "react": {
+        "eager": undefined,
+        "requiredVersion": undefined,
+        "singleton": true,
+      },
+      "react-dom": {
+        "eager": undefined,
+        "singleton": true,
+      },
+      "react-router": {
+        "eager": undefined,
+        "singleton": true,
+      },
+      "second": {
+        "eager": true,
+        "singleton": true,
+      },
+    },
+  },
+  "name": "ModuleFederationPlugin",
+}
+`;
+
+exports[`defineBuildRemoteModuleConfig > when environmentVariables is activated, add env-vars shared dependency and requiredVersion: false to the react shared dependency definition 1`] = `
+ModuleFederationPlugin {
+  "_options": {
+    "dts": false,
+    "exposes": {
+      "./register": "./src/register",
+    },
+    "filename": "remoteEntry.js",
+    "manifest": false,
+    "name": "remote1",
+    "shared": {
+      "@squide/core": {
+        "eager": undefined,
+        "singleton": true,
+      },
+      "@squide/env-vars": {
+        "eager": undefined,
+        "singleton": true,
+      },
+      "@squide/module-federation": {
+        "eager": undefined,
+        "singleton": true,
+      },
+      "@squide/msw": {
+        "eager": undefined,
+        "singleton": true,
+      },
+      "@squide/react-router": {
+        "eager": undefined,
+        "singleton": true,
+      },
+      "react": {
+        "eager": undefined,
+        "requiredVersion": undefined,
+        "singleton": true,
+      },
+      "react-dom": {
+        "eager": undefined,
+        "singleton": true,
+      },
+      "react-router": {
+        "eager": undefined,
+        "singleton": true,
+      },
+    },
+  },
+  "name": "ModuleFederationPlugin",
+}
+`;
+
+exports[`defineBuildRemoteModuleConfig > when honeycomb is activated, add honeycomb shared dependency and requiredVersion: false to the react shared dependency definition 1`] = `
+ModuleFederationPlugin {
+  "_options": {
+    "dts": false,
+    "exposes": {
+      "./register": "./src/register",
+    },
+    "filename": "remoteEntry.js",
+    "manifest": false,
+    "name": "remote1",
+    "shared": {
+      "@honeycombio/opentelemetry-web": {
+        "eager": undefined,
+        "singleton": true,
+      },
+      "@opentelemetry/api": {
+        "eager": undefined,
+        "singleton": true,
+      },
+      "@opentelemetry/auto-instrumentations-web": {
+        "eager": undefined,
+        "singleton": true,
+      },
+      "@squide/core": {
+        "eager": undefined,
+        "singleton": true,
+      },
+      "@squide/firefly-honeycomb": {
+        "eager": undefined,
+        "singleton": true,
+      },
+      "@squide/module-federation": {
+        "eager": undefined,
+        "singleton": true,
+      },
+      "@squide/msw": {
+        "eager": undefined,
+        "singleton": true,
+      },
+      "@squide/react-router": {
+        "eager": undefined,
+        "singleton": true,
+      },
+      "react": {
+        "eager": undefined,
+        "requiredVersion": undefined,
+        "singleton": true,
+      },
+      "react-dom": {
+        "eager": undefined,
+        "singleton": true,
+      },
+      "react-router": {
+        "eager": undefined,
+        "singleton": true,
+      },
+    },
+  },
+  "name": "ModuleFederationPlugin",
+}
+`;
+
+exports[`defineBuildRemoteModuleConfig > when i18next is activated, add i18next shared dependency and requiredVersion: false to the react shared dependency definition 1`] = `
+ModuleFederationPlugin {
+  "_options": {
+    "dts": false,
+    "exposes": {
+      "./register": "./src/register",
+    },
+    "filename": "remoteEntry.js",
+    "manifest": false,
+    "name": "remote1",
+    "shared": {
+      "@squide/core": {
+        "eager": undefined,
+        "singleton": true,
+      },
+      "@squide/i18next": {
+        "eager": undefined,
+        "singleton": true,
+      },
+      "@squide/module-federation": {
+        "eager": undefined,
+        "singleton": true,
+      },
+      "@squide/msw": {
+        "eager": undefined,
+        "singleton": true,
+      },
+      "@squide/react-router": {
+        "eager": undefined,
+        "singleton": true,
+      },
+      "i18next": {
+        "eager": undefined,
+        "singleton": true,
+      },
+      "react": {
+        "eager": undefined,
+        "requiredVersion": false,
+        "singleton": true,
+      },
+      "react-dom": {
+        "eager": undefined,
+        "singleton": true,
+      },
+      "react-i18next": {
+        "eager": undefined,
+        "singleton": true,
+      },
+      "react-router": {
+        "eager": undefined,
+        "singleton": true,
+      },
+    },
+  },
+  "name": "ModuleFederationPlugin",
+}
+`;
+
+exports[`defineBuildRemoteModuleConfig > when overriding options are provided for a default shared dependency, use the consumer option 1`] = `
+ModuleFederationPlugin {
+  "_options": {
+    "dts": false,
+    "exposes": {
+      "./register": "./src/register",
+    },
+    "filename": "remoteEntry.js",
+    "manifest": false,
+    "name": "remote1",
+    "shared": {
+      "@squide/core": {
+        "eager": undefined,
+        "singleton": true,
+      },
+      "@squide/module-federation": {
+        "eager": undefined,
+        "singleton": true,
+      },
+      "@squide/msw": {
+        "eager": undefined,
+        "singleton": true,
+      },
+      "@squide/react-router": {
+        "eager": undefined,
+        "singleton": true,
+      },
+      "react": {
+        "eager": false,
+        "requiredVersion": undefined,
+        "singleton": false,
+      },
+      "react-dom": {
+        "eager": undefined,
+        "singleton": true,
+      },
+      "react-router": {
+        "eager": undefined,
+        "singleton": true,
+      },
+    },
+  },
+  "name": "ModuleFederationPlugin",
+}
+`;
+
+exports[`defineBuildRemoteModuleConfig > when the router is react-router, add react-router shared dependencies 1`] = `
+ModuleFederationPlugin {
+  "_options": {
+    "dts": false,
+    "exposes": {
+      "./register": "./src/register",
+    },
+    "filename": "remoteEntry.js",
+    "manifest": false,
+    "name": "remote1",
+    "shared": {
+      "@squide/core": {
+        "eager": undefined,
+        "singleton": true,
+      },
+      "@squide/module-federation": {
+        "eager": undefined,
+        "singleton": true,
+      },
+      "@squide/msw": {
+        "eager": undefined,
+        "singleton": true,
+      },
+      "@squide/react-router": {
+        "eager": undefined,
+        "singleton": true,
+      },
+      "react": {
+        "eager": undefined,
+        "requiredVersion": undefined,
+        "singleton": true,
+      },
+      "react-dom": {
+        "eager": undefined,
+        "singleton": true,
+      },
+      "react-router": {
+        "eager": undefined,
+        "singleton": true,
+      },
+    },
+  },
+  "name": "ModuleFederationPlugin",
+}
+`;
+
 exports[`defineBuildRemoteModuleConfig the application name is set as the federation plugin application name 1`] = `
 ModuleFederationPlugin {
   "_options": {
@@ -1010,6 +2028,571 @@ ModuleFederationPlugin {
       },
       "react-router": {
         "eager": undefined,
+        "singleton": true,
+      },
+    },
+  },
+  "name": "ModuleFederationPlugin",
+}
+`;
+
+exports[`defineDevHostConfig > the application name is set as the federation plugin application name 1`] = `
+ModuleFederationPlugin {
+  "_options": {
+    "dts": false,
+    "manifest": false,
+    "name": "host",
+    "remotes": {},
+    "shared": {
+      "@squide/core": {
+        "eager": true,
+        "singleton": true,
+      },
+      "@squide/module-federation": {
+        "eager": true,
+        "singleton": true,
+      },
+      "@squide/msw": {
+        "eager": true,
+        "singleton": true,
+      },
+      "@squide/react-router": {
+        "eager": true,
+        "singleton": true,
+      },
+      "react": {
+        "eager": true,
+        "requiredVersion": undefined,
+        "singleton": true,
+      },
+      "react-dom": {
+        "eager": true,
+        "singleton": true,
+      },
+      "react-router": {
+        "eager": true,
+        "singleton": true,
+      },
+    },
+  },
+  "name": "ModuleFederationPlugin",
+}
+`;
+
+exports[`defineDevHostConfig > the module federation plugin configuration includes the default shared dependencies 1`] = `
+ModuleFederationPlugin {
+  "_options": {
+    "dts": false,
+    "manifest": false,
+    "name": "host",
+    "remotes": {},
+    "shared": {
+      "@squide/core": {
+        "eager": true,
+        "singleton": true,
+      },
+      "@squide/module-federation": {
+        "eager": true,
+        "singleton": true,
+      },
+      "@squide/msw": {
+        "eager": true,
+        "singleton": true,
+      },
+      "@squide/react-router": {
+        "eager": true,
+        "singleton": true,
+      },
+      "react": {
+        "eager": true,
+        "requiredVersion": undefined,
+        "singleton": true,
+      },
+      "react-dom": {
+        "eager": true,
+        "singleton": true,
+      },
+      "react-router": {
+        "eager": true,
+        "singleton": true,
+      },
+    },
+  },
+  "name": "ModuleFederationPlugin",
+}
+`;
+
+exports[`defineDevHostConfig > the module federation plugin configuration includes the remotes 1`] = `
+ModuleFederationPlugin {
+  "_options": {
+    "dts": false,
+    "manifest": false,
+    "name": "host",
+    "remotes": {
+      "remote1": "remote1@http://localhost/remote1/remoteEntry.js",
+      "remote2": "remote2@http://localhost/remote2/remoteEntry.js",
+    },
+    "shared": {
+      "@squide/core": {
+        "eager": true,
+        "singleton": true,
+      },
+      "@squide/module-federation": {
+        "eager": true,
+        "singleton": true,
+      },
+      "@squide/msw": {
+        "eager": true,
+        "singleton": true,
+      },
+      "@squide/react-router": {
+        "eager": true,
+        "singleton": true,
+      },
+      "react": {
+        "eager": true,
+        "requiredVersion": undefined,
+        "singleton": true,
+      },
+      "react-dom": {
+        "eager": true,
+        "singleton": true,
+      },
+      "react-router": {
+        "eager": true,
+        "singleton": true,
+      },
+    },
+  },
+  "name": "ModuleFederationPlugin",
+}
+`;
+
+exports[`defineDevHostConfig > when a public path option is provided for the html webpack plugin, do not alter the provided public path option 1`] = `
+HtmlWebpackPlugin {
+  "options": {
+    "base": false,
+    "cache": true,
+    "chunks": "all",
+    "chunksSortMode": "auto",
+    "compile": true,
+    "excludeChunks": [],
+    "favicon": false,
+    "filename": "index.html",
+    "hash": false,
+    "inject": "head",
+    "meta": {},
+    "minify": "auto",
+    "publicPath": "/toto",
+    "scriptLoading": "defer",
+    "showErrors": true,
+    "template": "auto",
+    "templateContent": false,
+    "templateParameters": [Function],
+    "title": "Webpack App",
+    "xhtml": false,
+  },
+  "userOptions": {
+    "publicPath": "/toto",
+  },
+  "version": 5,
+}
+`;
+
+exports[`defineDevHostConfig > when additional options are provided for an existing default shared dependency, add the consumer options to the default options 1`] = `
+ModuleFederationPlugin {
+  "_options": {
+    "dts": false,
+    "manifest": false,
+    "name": "host",
+    "remotes": {},
+    "shared": {
+      "@squide/core": {
+        "eager": true,
+        "singleton": true,
+      },
+      "@squide/module-federation": {
+        "eager": true,
+        "singleton": true,
+      },
+      "@squide/msw": {
+        "eager": true,
+        "singleton": true,
+      },
+      "@squide/react-router": {
+        "eager": true,
+        "singleton": true,
+      },
+      "react": {
+        "eager": true,
+        "requiredVersion": "1.2.3",
+        "singleton": true,
+      },
+      "react-dom": {
+        "eager": true,
+        "singleton": true,
+      },
+      "react-router": {
+        "eager": true,
+        "singleton": true,
+      },
+    },
+  },
+  "name": "ModuleFederationPlugin",
+}
+`;
+
+exports[`defineDevHostConfig > when additional shared dependencies are provided, add the dependencies to the module federation plugin configuration 1`] = `
+ModuleFederationPlugin {
+  "_options": {
+    "dts": false,
+    "manifest": false,
+    "name": "host",
+    "remotes": {},
+    "shared": {
+      "@squide/core": {
+        "eager": true,
+        "singleton": true,
+      },
+      "@squide/module-federation": {
+        "eager": true,
+        "singleton": true,
+      },
+      "@squide/msw": {
+        "eager": true,
+        "singleton": true,
+      },
+      "@squide/react-router": {
+        "eager": true,
+        "singleton": true,
+      },
+      "first": {
+        "singleton": true,
+      },
+      "react": {
+        "eager": true,
+        "requiredVersion": undefined,
+        "singleton": true,
+      },
+      "react-dom": {
+        "eager": true,
+        "singleton": true,
+      },
+      "react-router": {
+        "eager": true,
+        "singleton": true,
+      },
+      "second": {
+        "eager": true,
+        "singleton": true,
+      },
+    },
+  },
+  "name": "ModuleFederationPlugin",
+}
+`;
+
+exports[`defineDevHostConfig > when environmentVariables is activated, add env-vars shared dependency and requiredVersion: false to the react shared dependency definition 1`] = `
+ModuleFederationPlugin {
+  "_options": {
+    "dts": false,
+    "manifest": false,
+    "name": "host",
+    "remotes": {},
+    "shared": {
+      "@squide/core": {
+        "eager": true,
+        "singleton": true,
+      },
+      "@squide/env-vars": {
+        "eager": true,
+        "singleton": true,
+      },
+      "@squide/module-federation": {
+        "eager": true,
+        "singleton": true,
+      },
+      "@squide/msw": {
+        "eager": true,
+        "singleton": true,
+      },
+      "@squide/react-router": {
+        "eager": true,
+        "singleton": true,
+      },
+      "react": {
+        "eager": true,
+        "requiredVersion": undefined,
+        "singleton": true,
+      },
+      "react-dom": {
+        "eager": true,
+        "singleton": true,
+      },
+      "react-router": {
+        "eager": true,
+        "singleton": true,
+      },
+    },
+  },
+  "name": "ModuleFederationPlugin",
+}
+`;
+
+exports[`defineDevHostConfig > when honeycomb is activated, add honeycomb shared dependency and requiredVersion: false to the react shared dependency definition 1`] = `
+ModuleFederationPlugin {
+  "_options": {
+    "dts": false,
+    "manifest": false,
+    "name": "host",
+    "remotes": {},
+    "shared": {
+      "@honeycombio/opentelemetry-web": {
+        "eager": true,
+        "singleton": true,
+      },
+      "@opentelemetry/api": {
+        "eager": true,
+        "singleton": true,
+      },
+      "@opentelemetry/auto-instrumentations-web": {
+        "eager": true,
+        "singleton": true,
+      },
+      "@squide/core": {
+        "eager": true,
+        "singleton": true,
+      },
+      "@squide/firefly-honeycomb": {
+        "eager": true,
+        "singleton": true,
+      },
+      "@squide/module-federation": {
+        "eager": true,
+        "singleton": true,
+      },
+      "@squide/msw": {
+        "eager": true,
+        "singleton": true,
+      },
+      "@squide/react-router": {
+        "eager": true,
+        "singleton": true,
+      },
+      "react": {
+        "eager": true,
+        "requiredVersion": undefined,
+        "singleton": true,
+      },
+      "react-dom": {
+        "eager": true,
+        "singleton": true,
+      },
+      "react-router": {
+        "eager": true,
+        "singleton": true,
+      },
+    },
+  },
+  "name": "ModuleFederationPlugin",
+}
+`;
+
+exports[`defineDevHostConfig > when i18next is activated, add i18next shared dependency and requiredVersion: false to the react shared dependency definition 1`] = `
+ModuleFederationPlugin {
+  "_options": {
+    "dts": false,
+    "manifest": false,
+    "name": "host",
+    "remotes": {},
+    "shared": {
+      "@squide/core": {
+        "eager": true,
+        "singleton": true,
+      },
+      "@squide/i18next": {
+        "eager": true,
+        "singleton": true,
+      },
+      "@squide/module-federation": {
+        "eager": true,
+        "singleton": true,
+      },
+      "@squide/msw": {
+        "eager": true,
+        "singleton": true,
+      },
+      "@squide/react-router": {
+        "eager": true,
+        "singleton": true,
+      },
+      "i18next": {
+        "eager": true,
+        "singleton": true,
+      },
+      "react": {
+        "eager": true,
+        "requiredVersion": false,
+        "singleton": true,
+      },
+      "react-dom": {
+        "eager": true,
+        "singleton": true,
+      },
+      "react-i18next": {
+        "eager": true,
+        "singleton": true,
+      },
+      "react-router": {
+        "eager": true,
+        "singleton": true,
+      },
+    },
+  },
+  "name": "ModuleFederationPlugin",
+}
+`;
+
+exports[`defineDevHostConfig > when no options are provided for the html webpack plugin, add a public path option 1`] = `
+HtmlWebpackPlugin {
+  "options": {
+    "base": false,
+    "cache": true,
+    "chunks": "all",
+    "chunksSortMode": "auto",
+    "compile": true,
+    "excludeChunks": [],
+    "favicon": false,
+    "filename": "index.html",
+    "hash": false,
+    "inject": "head",
+    "meta": {},
+    "minify": "auto",
+    "publicPath": "/",
+    "scriptLoading": "defer",
+    "showErrors": true,
+    "templateContent": false,
+    "templateParameters": [Function],
+    "title": "Webpack App",
+    "xhtml": false,
+  },
+  "userOptions": {
+    "publicPath": "/",
+  },
+  "version": 5,
+}
+`;
+
+exports[`defineDevHostConfig > when options others than the public path option are provided for the html webpack plugin, add a public path option 1`] = `
+HtmlWebpackPlugin {
+  "options": {
+    "base": false,
+    "cache": true,
+    "chunks": "all",
+    "chunksSortMode": "auto",
+    "compile": true,
+    "excludeChunks": [],
+    "favicon": "toto.png",
+    "filename": "index.html",
+    "hash": false,
+    "inject": "head",
+    "meta": {},
+    "minify": "auto",
+    "publicPath": "/",
+    "scriptLoading": "defer",
+    "showErrors": true,
+    "template": "auto",
+    "templateContent": false,
+    "templateParameters": [Function],
+    "title": "Webpack App",
+    "xhtml": false,
+  },
+  "userOptions": {
+    "favicon": "toto.png",
+    "publicPath": "/",
+  },
+  "version": 5,
+}
+`;
+
+exports[`defineDevHostConfig > when overriding options are provided for a default shared dependency, use the consumer option 1`] = `
+ModuleFederationPlugin {
+  "_options": {
+    "dts": false,
+    "manifest": false,
+    "name": "host",
+    "remotes": {},
+    "shared": {
+      "@squide/core": {
+        "eager": true,
+        "singleton": true,
+      },
+      "@squide/module-federation": {
+        "eager": true,
+        "singleton": true,
+      },
+      "@squide/msw": {
+        "eager": true,
+        "singleton": true,
+      },
+      "@squide/react-router": {
+        "eager": true,
+        "singleton": true,
+      },
+      "react": {
+        "eager": false,
+        "requiredVersion": undefined,
+        "singleton": false,
+      },
+      "react-dom": {
+        "eager": true,
+        "singleton": true,
+      },
+      "react-router": {
+        "eager": true,
+        "singleton": true,
+      },
+    },
+  },
+  "name": "ModuleFederationPlugin",
+}
+`;
+
+exports[`defineDevHostConfig > when the router is react-router, add react-router shared dependencies 1`] = `
+ModuleFederationPlugin {
+  "_options": {
+    "dts": false,
+    "manifest": false,
+    "name": "host",
+    "remotes": {},
+    "shared": {
+      "@squide/core": {
+        "eager": true,
+        "singleton": true,
+      },
+      "@squide/module-federation": {
+        "eager": true,
+        "singleton": true,
+      },
+      "@squide/msw": {
+        "eager": true,
+        "singleton": true,
+      },
+      "@squide/react-router": {
+        "eager": true,
+        "singleton": true,
+      },
+      "react": {
+        "eager": true,
+        "requiredVersion": undefined,
+        "singleton": true,
+      },
+      "react-dom": {
+        "eager": true,
+        "singleton": true,
+      },
+      "react-router": {
+        "eager": true,
         "singleton": true,
       },
     },
@@ -1575,6 +3158,453 @@ ModuleFederationPlugin {
       },
       "react-router": {
         "eager": true,
+        "singleton": true,
+      },
+    },
+  },
+  "name": "ModuleFederationPlugin",
+}
+`;
+
+exports[`defineDevRemoteModuleConfig > the application name is set as the federation plugin application name 1`] = `
+ModuleFederationPlugin {
+  "_options": {
+    "dts": false,
+    "exposes": {
+      "./register": "./src/register",
+    },
+    "filename": "remoteEntry.js",
+    "manifest": false,
+    "name": "remote1",
+    "shared": {
+      "@squide/core": {
+        "eager": undefined,
+        "singleton": true,
+      },
+      "@squide/module-federation": {
+        "eager": undefined,
+        "singleton": true,
+      },
+      "@squide/msw": {
+        "eager": undefined,
+        "singleton": true,
+      },
+      "@squide/react-router": {
+        "eager": undefined,
+        "singleton": true,
+      },
+      "react": {
+        "eager": undefined,
+        "requiredVersion": undefined,
+        "singleton": true,
+      },
+      "react-dom": {
+        "eager": undefined,
+        "singleton": true,
+      },
+      "react-router": {
+        "eager": undefined,
+        "singleton": true,
+      },
+    },
+  },
+  "name": "ModuleFederationPlugin",
+}
+`;
+
+exports[`defineDevRemoteModuleConfig > the module federation plugin configuration includes the default shared dependencies 1`] = `
+ModuleFederationPlugin {
+  "_options": {
+    "dts": false,
+    "exposes": {
+      "./register": "./src/register",
+    },
+    "filename": "remoteEntry.js",
+    "manifest": false,
+    "name": "remote1",
+    "shared": {
+      "@squide/core": {
+        "eager": undefined,
+        "singleton": true,
+      },
+      "@squide/module-federation": {
+        "eager": undefined,
+        "singleton": true,
+      },
+      "@squide/msw": {
+        "eager": undefined,
+        "singleton": true,
+      },
+      "@squide/react-router": {
+        "eager": undefined,
+        "singleton": true,
+      },
+      "react": {
+        "eager": undefined,
+        "requiredVersion": undefined,
+        "singleton": true,
+      },
+      "react-dom": {
+        "eager": undefined,
+        "singleton": true,
+      },
+      "react-router": {
+        "eager": undefined,
+        "singleton": true,
+      },
+    },
+  },
+  "name": "ModuleFederationPlugin",
+}
+`;
+
+exports[`defineDevRemoteModuleConfig > when additional options are provided for an existing default shared dependency, add the consumer options to the default options 1`] = `
+ModuleFederationPlugin {
+  "_options": {
+    "dts": false,
+    "exposes": {
+      "./register": "./src/register",
+    },
+    "filename": "remoteEntry.js",
+    "manifest": false,
+    "name": "remote1",
+    "shared": {
+      "@squide/core": {
+        "eager": undefined,
+        "singleton": true,
+      },
+      "@squide/module-federation": {
+        "eager": undefined,
+        "singleton": true,
+      },
+      "@squide/msw": {
+        "eager": undefined,
+        "singleton": true,
+      },
+      "@squide/react-router": {
+        "eager": undefined,
+        "singleton": true,
+      },
+      "react": {
+        "eager": undefined,
+        "requiredVersion": "1.2.3",
+        "singleton": true,
+      },
+      "react-dom": {
+        "eager": undefined,
+        "singleton": true,
+      },
+      "react-router": {
+        "eager": undefined,
+        "singleton": true,
+      },
+    },
+  },
+  "name": "ModuleFederationPlugin",
+}
+`;
+
+exports[`defineDevRemoteModuleConfig > when additional shared dependencies are provided, add the dependencies to the module federation plugin configuration 1`] = `
+ModuleFederationPlugin {
+  "_options": {
+    "dts": false,
+    "exposes": {
+      "./register": "./src/register",
+    },
+    "filename": "remoteEntry.js",
+    "manifest": false,
+    "name": "remote1",
+    "shared": {
+      "@squide/core": {
+        "eager": undefined,
+        "singleton": true,
+      },
+      "@squide/module-federation": {
+        "eager": undefined,
+        "singleton": true,
+      },
+      "@squide/msw": {
+        "eager": undefined,
+        "singleton": true,
+      },
+      "@squide/react-router": {
+        "eager": undefined,
+        "singleton": true,
+      },
+      "first": {
+        "singleton": true,
+      },
+      "react": {
+        "eager": undefined,
+        "requiredVersion": undefined,
+        "singleton": true,
+      },
+      "react-dom": {
+        "eager": undefined,
+        "singleton": true,
+      },
+      "react-router": {
+        "eager": undefined,
+        "singleton": true,
+      },
+      "second": {
+        "eager": true,
+        "singleton": true,
+      },
+    },
+  },
+  "name": "ModuleFederationPlugin",
+}
+`;
+
+exports[`defineDevRemoteModuleConfig > when environmentVariables is activated, add env-vars shared dependency and requiredVersion: false to the react shared dependency definition 1`] = `
+ModuleFederationPlugin {
+  "_options": {
+    "dts": false,
+    "manifest": false,
+    "name": "host",
+    "remotes": {},
+    "shared": {
+      "@squide/core": {
+        "eager": true,
+        "singleton": true,
+      },
+      "@squide/env-vars": {
+        "eager": true,
+        "singleton": true,
+      },
+      "@squide/module-federation": {
+        "eager": true,
+        "singleton": true,
+      },
+      "@squide/msw": {
+        "eager": true,
+        "singleton": true,
+      },
+      "@squide/react-router": {
+        "eager": true,
+        "singleton": true,
+      },
+      "react": {
+        "eager": true,
+        "requiredVersion": undefined,
+        "singleton": true,
+      },
+      "react-dom": {
+        "eager": true,
+        "singleton": true,
+      },
+      "react-router": {
+        "eager": true,
+        "singleton": true,
+      },
+    },
+  },
+  "name": "ModuleFederationPlugin",
+}
+`;
+
+exports[`defineDevRemoteModuleConfig > when honeycomb is activated, add honeycomb shared dependency and requiredVersion: false to the react shared dependency definition 1`] = `
+ModuleFederationPlugin {
+  "_options": {
+    "dts": false,
+    "manifest": false,
+    "name": "host",
+    "remotes": {},
+    "shared": {
+      "@honeycombio/opentelemetry-web": {
+        "eager": true,
+        "singleton": true,
+      },
+      "@opentelemetry/api": {
+        "eager": true,
+        "singleton": true,
+      },
+      "@opentelemetry/auto-instrumentations-web": {
+        "eager": true,
+        "singleton": true,
+      },
+      "@squide/core": {
+        "eager": true,
+        "singleton": true,
+      },
+      "@squide/firefly-honeycomb": {
+        "eager": true,
+        "singleton": true,
+      },
+      "@squide/module-federation": {
+        "eager": true,
+        "singleton": true,
+      },
+      "@squide/msw": {
+        "eager": true,
+        "singleton": true,
+      },
+      "@squide/react-router": {
+        "eager": true,
+        "singleton": true,
+      },
+      "react": {
+        "eager": true,
+        "requiredVersion": undefined,
+        "singleton": true,
+      },
+      "react-dom": {
+        "eager": true,
+        "singleton": true,
+      },
+      "react-router": {
+        "eager": true,
+        "singleton": true,
+      },
+    },
+  },
+  "name": "ModuleFederationPlugin",
+}
+`;
+
+exports[`defineDevRemoteModuleConfig > when i18next is activated, add i18next shared dependency and requiredVersion: false to the react shared dependency definition 1`] = `
+ModuleFederationPlugin {
+  "_options": {
+    "dts": false,
+    "exposes": {
+      "./register": "./src/register",
+    },
+    "filename": "remoteEntry.js",
+    "manifest": false,
+    "name": "remote1",
+    "shared": {
+      "@squide/core": {
+        "eager": undefined,
+        "singleton": true,
+      },
+      "@squide/i18next": {
+        "eager": undefined,
+        "singleton": true,
+      },
+      "@squide/module-federation": {
+        "eager": undefined,
+        "singleton": true,
+      },
+      "@squide/msw": {
+        "eager": undefined,
+        "singleton": true,
+      },
+      "@squide/react-router": {
+        "eager": undefined,
+        "singleton": true,
+      },
+      "i18next": {
+        "eager": undefined,
+        "singleton": true,
+      },
+      "react": {
+        "eager": undefined,
+        "requiredVersion": false,
+        "singleton": true,
+      },
+      "react-dom": {
+        "eager": undefined,
+        "singleton": true,
+      },
+      "react-i18next": {
+        "eager": undefined,
+        "singleton": true,
+      },
+      "react-router": {
+        "eager": undefined,
+        "singleton": true,
+      },
+    },
+  },
+  "name": "ModuleFederationPlugin",
+}
+`;
+
+exports[`defineDevRemoteModuleConfig > when overriding options are provided for a default shared dependency, use the consumer option 1`] = `
+ModuleFederationPlugin {
+  "_options": {
+    "dts": false,
+    "exposes": {
+      "./register": "./src/register",
+    },
+    "filename": "remoteEntry.js",
+    "manifest": false,
+    "name": "remote1",
+    "shared": {
+      "@squide/core": {
+        "eager": undefined,
+        "singleton": true,
+      },
+      "@squide/module-federation": {
+        "eager": undefined,
+        "singleton": true,
+      },
+      "@squide/msw": {
+        "eager": undefined,
+        "singleton": true,
+      },
+      "@squide/react-router": {
+        "eager": undefined,
+        "singleton": true,
+      },
+      "react": {
+        "eager": false,
+        "requiredVersion": undefined,
+        "singleton": false,
+      },
+      "react-dom": {
+        "eager": undefined,
+        "singleton": true,
+      },
+      "react-router": {
+        "eager": undefined,
+        "singleton": true,
+      },
+    },
+  },
+  "name": "ModuleFederationPlugin",
+}
+`;
+
+exports[`defineDevRemoteModuleConfig > when the router is react-router, add react-router shared dependencies 1`] = `
+ModuleFederationPlugin {
+  "_options": {
+    "dts": false,
+    "exposes": {
+      "./register": "./src/register",
+    },
+    "filename": "remoteEntry.js",
+    "manifest": false,
+    "name": "remote1",
+    "shared": {
+      "@squide/core": {
+        "eager": undefined,
+        "singleton": true,
+      },
+      "@squide/module-federation": {
+        "eager": undefined,
+        "singleton": true,
+      },
+      "@squide/msw": {
+        "eager": undefined,
+        "singleton": true,
+      },
+      "@squide/react-router": {
+        "eager": undefined,
+        "singleton": true,
+      },
+      "react": {
+        "eager": undefined,
+        "requiredVersion": undefined,
+        "singleton": true,
+      },
+      "react-dom": {
+        "eager": undefined,
+        "singleton": true,
+      },
+      "react-router": {
+        "eager": undefined,
         "singleton": true,
       },
     },

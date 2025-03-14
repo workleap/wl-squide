@@ -1,4 +1,5 @@
 import { __setLocalModuleRegistry, LocalModuleRegistry, registerLocalModules, Runtime } from "@squide/core";
+import { expect, test, vi } from "vitest";
 import { registerDeferredRegistrations } from "../src/registerDeferredRegistrations.ts";
 import { __setRemoteModuleRegistry, registerRemoteModules, RemoteModuleRegistry } from "../src/registerRemoteModules.ts";
 import { updateDeferredRegistrations } from "../src/updateDeferredRegistrations.ts";
@@ -36,7 +37,7 @@ test("update local and remote deferred registrations", async () => {
 
     const localModuleRegistry = new LocalModuleRegistry();
 
-    const loadRemote = jest.fn().mockResolvedValue({
+    const loadRemote = vi.fn().mockResolvedValue({
         register: () => () => {}
     });
 
@@ -60,8 +61,8 @@ test("update local and remote deferred registrations", async () => {
 
     await registerDeferredRegistrations(data, runtime);
 
-    const localRegistrationsSpy = jest.spyOn(localModuleRegistry, "updateDeferredRegistrations");
-    const remoteRegistrationsSpy = jest.spyOn(remoteModuleRegistry, "updateDeferredRegistrations");
+    const localRegistrationsSpy = vi.spyOn(localModuleRegistry, "updateDeferredRegistrations");
+    const remoteRegistrationsSpy = vi.spyOn(remoteModuleRegistry, "updateDeferredRegistrations");
 
     await updateDeferredRegistrations(data, runtime);
 
@@ -74,7 +75,7 @@ test("start and complete a deferred registration scope", async () => {
 
     const localModuleRegistry = new LocalModuleRegistry();
 
-    const loadRemote = jest.fn().mockResolvedValue({
+    const loadRemote = vi.fn().mockResolvedValue({
         register: () => () => {}
     });
 
@@ -98,8 +99,8 @@ test("start and complete a deferred registration scope", async () => {
 
     await registerDeferredRegistrations(data, runtime);
 
-    const startScopeSpy = jest.spyOn(runtime, "startDeferredRegistrationScope");
-    const completeScopeSpy = jest.spyOn(runtime, "completeDeferredRegistrationScope");
+    const startScopeSpy = vi.spyOn(runtime, "startDeferredRegistrationScope");
+    const completeScopeSpy = vi.spyOn(runtime, "completeDeferredRegistrationScope");
 
     await updateDeferredRegistrations(data, runtime);
 
@@ -112,7 +113,7 @@ test("when an unmanaged error is thrown, complete the deferred registration scop
 
     const localModuleRegistry = new LocalModuleRegistry();
 
-    const loadRemote = jest.fn().mockResolvedValue({
+    const loadRemote = vi.fn().mockResolvedValue({
         register: () => () => {}
     });
 
@@ -136,11 +137,11 @@ test("when an unmanaged error is thrown, complete the deferred registration scop
 
     await registerDeferredRegistrations(data, runtime);
 
-    jest.spyOn(localModuleRegistry, "updateDeferredRegistrations").mockImplementation(() => {
+    vi.spyOn(localModuleRegistry, "updateDeferredRegistrations").mockImplementation(() => {
         throw new Error("Something went wrong!");
     });
 
-    const completeScopeSpy = jest.spyOn(runtime, "completeDeferredRegistrationScope");
+    const completeScopeSpy = vi.spyOn(runtime, "completeDeferredRegistrationScope");
 
     // Oddly, I can't get it to work with expect(() => {}).toThrow();
     try {

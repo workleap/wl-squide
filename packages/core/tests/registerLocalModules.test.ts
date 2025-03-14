@@ -1,3 +1,4 @@
+import { test, vi } from "vitest";
 import { LocalModuleRegistrationFailedEvent, LocalModuleRegistry, LocalModulesRegistrationCompletedEvent, LocalModulesRegistrationStartedEvent } from "../src/registration/registerLocalModules.ts";
 import { Runtime } from "../src/runtime/runtime.ts";
 
@@ -39,13 +40,13 @@ class DummyRuntime extends Runtime<unknown, unknown> {
     }
 }
 
-test("should register all the modules", async () => {
+test.concurrent("should register all the modules", async ({ expect }) => {
     const runtime = new DummyRuntime();
     const registry = new LocalModuleRegistry();
 
-    const register1 = jest.fn();
-    const register2 = jest.fn();
-    const register3 = jest.fn();
+    const register1 = vi.fn();
+    const register2 = vi.fn();
+    const register3 = vi.fn();
 
     await registry.registerModules([
         register1,
@@ -58,7 +59,7 @@ test("should register all the modules", async () => {
     expect(register3).toHaveBeenCalled();
 });
 
-test("when a module is asynchronous, the function can be awaited", async () => {
+test.concurrent("when a module is asynchronous, the function can be awaited", async ({ expect }) => {
     const runtime = new DummyRuntime();
     const registry = new LocalModuleRegistry();
 
@@ -77,7 +78,7 @@ test("when a module is asynchronous, the function can be awaited", async () => {
     expect(hasBeenCompleted).toBeTruthy();
 });
 
-test("when called twice, throw an error", async () => {
+test.concurrent("when called twice, throw an error", async ({ expect }) => {
     const runtime = new DummyRuntime();
     const registry = new LocalModuleRegistry();
 
@@ -86,10 +87,10 @@ test("when called twice, throw an error", async () => {
     await expect(async () => registry.registerModules([() => {}], runtime)).rejects.toThrow(/The registerLocalModules function can only be called once/);
 });
 
-test("should dispatch LocalModulesRegistrationStartedEvent", async () => {
+test.concurrent("should dispatch LocalModulesRegistrationStartedEvent", async ({ expect }) => {
     const runtime = new DummyRuntime();
 
-    const listener = jest.fn();
+    const listener = vi.fn();
 
     runtime.eventBus.addListener(LocalModulesRegistrationStartedEvent, listener);
 
@@ -106,7 +107,7 @@ test("should dispatch LocalModulesRegistrationStartedEvent", async () => {
     }));
 });
 
-test("when there are no deferred registrations, once all the modules are registered, set the status to \"ready\"", async () => {
+test.concurrent("when there are no deferred registrations, once all the modules are registered, set the status to \"ready\"", async ({ expect }) => {
     const runtime = new DummyRuntime();
     const registry = new LocalModuleRegistry();
 
@@ -118,10 +119,10 @@ test("when there are no deferred registrations, once all the modules are registe
     expect(registry.registrationStatus).toBe("ready");
 });
 
-test("when there are no deferred registrations, once all the modules are registered, LocalModulesRegistrationCompletedEvent is dispatched", async () => {
+test.concurrent("when there are no deferred registrations, once all the modules are registered, LocalModulesRegistrationCompletedEvent is dispatched", async ({ expect }) => {
     const runtime = new DummyRuntime();
 
-    const listener = jest.fn();
+    const listener = vi.fn();
 
     runtime.eventBus.addListener(LocalModulesRegistrationCompletedEvent, listener);
 
@@ -138,7 +139,7 @@ test("when there are no deferred registrations, once all the modules are registe
     }));
 });
 
-test("when there are deferred registrations, once all the modules are registered, set the status to \"modules-registered\"", async () => {
+test.concurrent("when there are deferred registrations, once all the modules are registered, set the status to \"modules-registered\"", async ({ expect }) => {
     const runtime = new DummyRuntime();
     const registry = new LocalModuleRegistry();
 
@@ -150,10 +151,10 @@ test("when there are deferred registrations, once all the modules are registered
     expect(registry.registrationStatus).toBe("modules-registered");
 });
 
-test("when there are deferred registrations, once all the modules are registered, LocalModulesRegistrationCompletedEvent is dispatched", async () => {
+test.concurrent("when there are deferred registrations, once all the modules are registered, LocalModulesRegistrationCompletedEvent is dispatched", async ({ expect }) => {
     const runtime = new DummyRuntime();
 
-    const listener = jest.fn();
+    const listener = vi.fn();
 
     runtime.eventBus.addListener(LocalModulesRegistrationCompletedEvent, listener);
 
@@ -170,12 +171,12 @@ test("when there are deferred registrations, once all the modules are registered
     }));
 });
 
-test("when a module registration fail, register the remaining modules", async () => {
+test.concurrent("when a module registration fail, register the remaining modules", async ({ expect }) => {
     const runtime = new DummyRuntime();
     const registry = new LocalModuleRegistry();
 
-    const register1 = jest.fn();
-    const register3 = jest.fn();
+    const register1 = vi.fn();
+    const register3 = vi.fn();
 
     await registry.registerModules([
         register1,
@@ -187,7 +188,7 @@ test("when a module registration fail, register the remaining modules", async ()
     expect(register3).toHaveBeenCalled();
 });
 
-test("when a module registration fail, return the error", async () => {
+test.concurrent("when a module registration fail, return the error", async ({ expect }) => {
     const runtime = new DummyRuntime();
     const registry = new LocalModuleRegistry();
 
@@ -201,10 +202,10 @@ test("when a module registration fail, return the error", async () => {
     expect(errors[0]!.error!.toString()).toContain("Module 2 registration failed");
 });
 
-test("when a module registration fail, LocalModuleRegistrationFailedEvent is dispatched", async () => {
+test.concurrent("when a module registration fail, LocalModuleRegistrationFailedEvent is dispatched", async ({ expect }) => {
     const runtime = new DummyRuntime();
 
-    const listener = jest.fn();
+    const listener = vi.fn();
 
     runtime.eventBus.addListener(LocalModuleRegistrationFailedEvent, listener);
 
@@ -223,10 +224,10 @@ test("when a module registration fail, LocalModuleRegistrationFailedEvent is dis
     }));
 });
 
-test("when a module registration fail, LocalModulesRegistrationCompletedEvent is dispatched", async () => {
+test.concurrent("when a module registration fail, LocalModulesRegistrationCompletedEvent is dispatched", async ({ expect }) => {
     const runtime = new DummyRuntime();
 
-    const listener = jest.fn();
+    const listener = vi.fn();
 
     runtime.eventBus.addListener(LocalModulesRegistrationCompletedEvent, listener);
 
@@ -245,12 +246,12 @@ test("when a module registration fail, LocalModulesRegistrationCompletedEvent is
     }));
 });
 
-test("when a context is provided, all the register functions receive the provided context", async () => {
+test.concurrent("when a context is provided, all the register functions receive the provided context", async ({ expect }) => {
     const runtime = new DummyRuntime();
 
-    const register1 = jest.fn();
-    const register2 = jest.fn();
-    const register3 = jest.fn();
+    const register1 = vi.fn();
+    const register2 = vi.fn();
+    const register3 = vi.fn();
 
     const registry = new LocalModuleRegistry();
 
@@ -269,7 +270,7 @@ test("when a context is provided, all the register functions receive the provide
     expect(register3).toHaveBeenCalledWith(runtime, context);
 });
 
-test("when no modules are provided, the status is \"ready\"", async () => {
+test.concurrent("when no modules are provided, the status is \"ready\"", async ({ expect }) => {
     const runtime = new DummyRuntime();
     const registry = new LocalModuleRegistry();
 
@@ -278,10 +279,10 @@ test("when no modules are provided, the status is \"ready\"", async () => {
     expect(registry.registrationStatus).toBe("ready");
 });
 
-test("when no modules are provided, do not dispatch LocalModulesRegistrationStartedEvent", async () => {
+test.concurrent("when no modules are provided, do not dispatch LocalModulesRegistrationStartedEvent", async ({ expect }) => {
     const runtime = new DummyRuntime();
 
-    const listener = jest.fn();
+    const listener = vi.fn();
 
     runtime.eventBus.addListener(LocalModulesRegistrationStartedEvent, listener);
 
@@ -292,10 +293,10 @@ test("when no modules are provided, do not dispatch LocalModulesRegistrationStar
     expect(listener).not.toHaveBeenCalled();
 });
 
-test("when no modules are provided, do not dispatch LocalModulesRegistrationCompletedEvent", async () => {
+test.concurrent("when no modules are provided, do not dispatch LocalModulesRegistrationCompletedEvent", async ({ expect }) => {
     const runtime = new DummyRuntime();
 
-    const listener = jest.fn();
+    const listener = vi.fn();
 
     runtime.eventBus.addListener(LocalModulesRegistrationCompletedEvent, listener);
 

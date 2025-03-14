@@ -1,3 +1,4 @@
+import { test, vi } from "vitest";
 import { LocalModuleDeferredRegistrationFailedEvent, LocalModuleRegistry, LocalModulesDeferredRegistrationCompletedEvent, LocalModulesDeferredRegistrationStartedEvent } from "../src/registration/registerLocalModules.ts";
 import { Runtime } from "../src/runtime/runtime.ts";
 
@@ -39,14 +40,14 @@ class DummyRuntime extends Runtime<unknown, unknown> {
     }
 }
 
-test("when called before registerLocalModules, throw an error", async () => {
+test.concurrent("when called before registerLocalModules, throw an error", async ({ expect }) => {
     const runtime = new DummyRuntime();
     const registry = new LocalModuleRegistry();
 
     await expect(() => registry.registerDeferredRegistrations({}, runtime)).rejects.toThrow(/The registerDeferredRegistrations function can only be called once the local modules are registered/);
 });
 
-test("when called twice, throw an error", async () => {
+test.concurrent("when called twice, throw an error", async ({ expect }) => {
     const runtime = new DummyRuntime();
     const registry = new LocalModuleRegistry();
 
@@ -60,7 +61,7 @@ test("when called twice, throw an error", async () => {
     await expect(() => registry.registerDeferredRegistrations({}, runtime)).rejects.toThrow(/The registerDeferredRegistrations function can only be called once/);
 }, 50000);
 
-test("when called for the first time but the registration status is already \"ready\", return a resolving promise", async () => {
+test.concurrent("when called for the first time but the registration status is already \"ready\", return a resolving promise", async ({ expect }) => {
     const runtime = new DummyRuntime();
     const registry = new LocalModuleRegistry();
 
@@ -77,10 +78,10 @@ test("when called for the first time but the registration status is already \"re
     expect(registry.registrationStatus).toBe("ready");
 });
 
-test("should dispatch LocalModulesDeferredRegistrationStartedEvent", async () => {
+test.concurrent("should dispatch LocalModulesDeferredRegistrationStartedEvent", async ({ expect }) => {
     const runtime = new DummyRuntime();
 
-    const listener = jest.fn();
+    const listener = vi.fn();
 
     runtime.eventBus.addListener(LocalModulesDeferredRegistrationStartedEvent, listener);
 
@@ -99,13 +100,13 @@ test("should dispatch LocalModulesDeferredRegistrationStartedEvent", async () =>
     }));
 });
 
-test("should register all the deferred registrations", async () => {
+test.concurrent("should register all the deferred registrations", async ({ expect }) => {
     const runtime = new DummyRuntime();
     const registry = new LocalModuleRegistry();
 
-    const register1 = jest.fn();
-    const register2 = jest.fn();
-    const register3 = jest.fn();
+    const register1 = vi.fn();
+    const register2 = vi.fn();
+    const register3 = vi.fn();
 
     await registry.registerModules([
         () => register1,
@@ -120,7 +121,7 @@ test("should register all the deferred registrations", async () => {
     expect(register3).toHaveBeenCalled();
 });
 
-test("when all the deferred registrations are registered, set the status to \"ready\"", async () => {
+test.concurrent("when all the deferred registrations are registered, set the status to \"ready\"", async ({ expect }) => {
     const runtime = new DummyRuntime();
     const registry = new LocalModuleRegistry();
 
@@ -136,10 +137,10 @@ test("when all the deferred registrations are registered, set the status to \"re
     expect(registry.registrationStatus).toBe("ready");
 });
 
-test("when all the deferred registrations are registered, LocalModulesDeferredRegistrationCompletedEvent is dispatched", async () => {
+test.concurrent("when all the deferred registrations are registered, LocalModulesDeferredRegistrationCompletedEvent is dispatched", async ({ expect }) => {
     const runtime = new DummyRuntime();
 
-    const listener = jest.fn();
+    const listener = vi.fn();
 
     runtime.eventBus.addListener(LocalModulesDeferredRegistrationCompletedEvent, listener);
 
@@ -158,7 +159,7 @@ test("when all the deferred registrations are registered, LocalModulesDeferredRe
     }));
 });
 
-test("when a deferred registration is asynchronous, the function can be awaited", async () => {
+test.concurrent("when a deferred registration is asynchronous, the function can be awaited", async ({ expect }) => {
     const runtime = new DummyRuntime();
     const registry = new LocalModuleRegistry();
 
@@ -179,12 +180,12 @@ test("when a deferred registration is asynchronous, the function can be awaited"
     expect(hasBeenCompleted).toBeTruthy();
 });
 
-test("when a deferred registration fail, register the remaining deferred registrations", async () => {
+test.concurrent("when a deferred registration fail, register the remaining deferred registrations", async ({ expect }) => {
     const runtime = new DummyRuntime();
     const registry = new LocalModuleRegistry();
 
-    const register1 = jest.fn();
-    const register3 = jest.fn();
+    const register1 = vi.fn();
+    const register3 = vi.fn();
 
     await registry.registerModules([
         () => register1,
@@ -198,7 +199,7 @@ test("when a deferred registration fail, register the remaining deferred registr
     expect(register3).toHaveBeenCalled();
 });
 
-test("when a deferred registration fail, return the error", async () => {
+test.concurrent("when a deferred registration fail, return the error", async ({ expect }) => {
     const runtime = new DummyRuntime();
     const registry = new LocalModuleRegistry();
 
@@ -214,10 +215,10 @@ test("when a deferred registration fail, return the error", async () => {
     expect(errors[0]!.error!.toString()).toContain("Module 2 deferred registration failed");
 });
 
-test("when a deferred registration fail, LocalModuleDeferredRegistrationFailedEvent is dispatched", async () => {
+test.concurrent("when a deferred registration fail, LocalModuleDeferredRegistrationFailedEvent is dispatched", async ({ expect }) => {
     const runtime = new DummyRuntime();
 
-    const listener = jest.fn();
+    const listener = vi.fn();
 
     runtime.eventBus.addListener(LocalModuleDeferredRegistrationFailedEvent, listener);
 
@@ -238,10 +239,10 @@ test("when a deferred registration fail, LocalModuleDeferredRegistrationFailedEv
     }));
 });
 
-test("when a deferred registration fail, LocalModulesDeferredRegistrationCompletedEvent is dispatched", async () => {
+test.concurrent("when a deferred registration fail, LocalModulesDeferredRegistrationCompletedEvent is dispatched", async ({ expect }) => {
     const runtime = new DummyRuntime();
 
-    const listener = jest.fn();
+    const listener = vi.fn();
 
     runtime.eventBus.addListener(LocalModulesDeferredRegistrationCompletedEvent, listener);
 
@@ -262,13 +263,13 @@ test("when a deferred registration fail, LocalModulesDeferredRegistrationComplet
     }));
 });
 
-test("all the deferred module registrations receive the data object", async () => {
+test.concurrent("all the deferred module registrations receive the data object", async ({ expect }) => {
     const runtime = new DummyRuntime();
     const registry = new LocalModuleRegistry();
 
-    const register1 = jest.fn();
-    const register2 = jest.fn();
-    const register3 = jest.fn();
+    const register1 = vi.fn();
+    const register2 = vi.fn();
+    const register3 = vi.fn();
 
     await registry.registerModules([
         () => register1,
@@ -287,13 +288,13 @@ test("all the deferred module registrations receive the data object", async () =
     expect(register3).toHaveBeenCalledWith(data, "register");
 });
 
-test("all the deferred module registrations receive \"register\" as state", async () => {
+test.concurrent("all the deferred module registrations receive \"register\" as state", async ({ expect }) => {
     const runtime = new DummyRuntime();
     const registry = new LocalModuleRegistry();
 
-    const register1 = jest.fn();
-    const register2 = jest.fn();
-    const register3 = jest.fn();
+    const register1 = vi.fn();
+    const register2 = vi.fn();
+    const register3 = vi.fn();
 
     await registry.registerModules([
         () => register1,

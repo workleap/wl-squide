@@ -1,6 +1,7 @@
-import { __setLocalModuleRegistry, LocalModuleRegistry, registerLocalModules, Runtime } from "@squide/core";
+import { __clearLocalModuleRegistry, __setLocalModuleRegistry, LocalModuleRegistry, registerLocalModules, Runtime } from "@squide/core";
+import { afterEach, expect, test, vi } from "vitest";
 import { registerDeferredRegistrations } from "../src/registerDeferredRegistrations.ts";
-import { __setRemoteModuleRegistry, registerRemoteModules, RemoteModuleRegistry } from "../src/registerRemoteModules.ts";
+import { __clearRemoteModuleRegistry, __setRemoteModuleRegistry, registerRemoteModules, RemoteModuleRegistry } from "../src/registerRemoteModules.ts";
 
 class DummyRuntime extends Runtime<unknown, unknown> {
     registerRoute() {
@@ -30,12 +31,17 @@ class DummyRuntime extends Runtime<unknown, unknown> {
     }
 }
 
+afterEach(() => {
+    __clearLocalModuleRegistry();
+    __clearRemoteModuleRegistry();
+});
+
 test("register local and remote deferred registrations", async () => {
     const runtime = new DummyRuntime();
 
     const localModuleRegistry = new LocalModuleRegistry();
 
-    const loadRemote = jest.fn().mockResolvedValue({
+    const loadRemote = vi.fn().mockResolvedValue({
         register: () => () => {}
     });
 
@@ -53,8 +59,8 @@ test("register local and remote deferred registrations", async () => {
         { name: "Dummy-2" }
     ], runtime);
 
-    const localRegistrationsSpy = jest.spyOn(localModuleRegistry, "registerDeferredRegistrations");
-    const remoteRegistrationsSpy = jest.spyOn(remoteModuleRegistry, "registerDeferredRegistrations");
+    const localRegistrationsSpy = vi.spyOn(localModuleRegistry, "registerDeferredRegistrations");
+    const remoteRegistrationsSpy = vi.spyOn(remoteModuleRegistry, "registerDeferredRegistrations");
 
     const data = {
         foo: "bar"
@@ -71,7 +77,7 @@ test("start and complete a deferred registration scope", async () => {
 
     const localModuleRegistry = new LocalModuleRegistry();
 
-    const loadRemote = jest.fn().mockResolvedValue({
+    const loadRemote = vi.fn().mockResolvedValue({
         register: () => () => {}
     });
 
@@ -93,8 +99,8 @@ test("start and complete a deferred registration scope", async () => {
         foo: "bar"
     };
 
-    const startScopeSpy = jest.spyOn(runtime, "startDeferredRegistrationScope");
-    const completeScopeSpy = jest.spyOn(runtime, "completeDeferredRegistrationScope");
+    const startScopeSpy = vi.spyOn(runtime, "startDeferredRegistrationScope");
+    const completeScopeSpy = vi.spyOn(runtime, "completeDeferredRegistrationScope");
 
     await registerDeferredRegistrations(data, runtime);
 
@@ -107,7 +113,7 @@ test("when an unmanaged error is thrown, complete the deferred registration scop
 
     const localModuleRegistry = new LocalModuleRegistry();
 
-    const loadRemote = jest.fn().mockResolvedValue({
+    const loadRemote = vi.fn().mockResolvedValue({
         register: () => () => {}
     });
 
@@ -129,11 +135,11 @@ test("when an unmanaged error is thrown, complete the deferred registration scop
         foo: "bar"
     };
 
-    jest.spyOn(localModuleRegistry, "registerDeferredRegistrations").mockImplementation(() => {
+    vi.spyOn(localModuleRegistry, "registerDeferredRegistrations").mockImplementation(() => {
         throw new Error("Something went wrong!");
     });
 
-    const completeScopeSpy = jest.spyOn(runtime, "completeDeferredRegistrationScope");
+    const completeScopeSpy = vi.spyOn(runtime, "completeDeferredRegistrationScope");
 
     // Oddly, I can't get it to work with expect(() => {}).toThrow();
     try {

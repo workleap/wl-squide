@@ -2,6 +2,7 @@ import { RuntimeContext, type Runtime } from "@squide/core";
 import { QueryClientProvider, type QueryClient } from "@tanstack/react-query";
 import { render, screen, waitFor } from "@testing-library/react";
 import { Component, type PropsWithChildren, type ReactNode } from "react";
+import { afterEach, beforeEach, describe, expect, test, vi, type MockInstance } from "vitest";
 import { AppRouterDispatcherContext, AppRouterStateContext } from "../src/AppRouterContext.ts";
 import type { AppRouterDispatch, AppRouterState } from "../src/AppRouterReducer.ts";
 import { FireflyRuntime } from "../src/FireflyRuntime.tsx";
@@ -29,8 +30,8 @@ function renderAppRouter(appRouter: ReactNode, runtime: Runtime, state: AppRoute
 test("when queries are executed, PublicDataFetchStartedEvent is dispatched", async () => {
     const runtime = new FireflyRuntime();
 
-    const dispatch = jest.fn();
-    const listener = jest.fn();
+    const dispatch = vi.fn();
+    const listener = vi.fn();
 
     runtime.eventBus.addListener(PublicDataFetchStartedEvent, listener);
 
@@ -57,7 +58,7 @@ test("when queries are executed, PublicDataFetchStartedEvent is dispatched", asy
 test("when data is ready, \"public-data-ready\" is dispatched", async () => {
     const runtime = new FireflyRuntime();
 
-    const dispatch = jest.fn();
+    const dispatch = vi.fn();
 
     const state = createDefaultAppRouterState();
     state.areModulesRegistered = true;
@@ -90,7 +91,7 @@ test("when data is ready, \"public-data-ready\" is dispatched", async () => {
 test("when data is updated, \"public-data-updated\" is dispatched", async () => {
     const runtime = new FireflyRuntime();
 
-    const dispatch = jest.fn();
+    const dispatch = vi.fn();
 
     const state = createDefaultAppRouterState();
     state.areModulesRegistered = true;
@@ -98,7 +99,7 @@ test("when data is updated, \"public-data-updated\" is dispatched", async () => 
 
     const queryClient = createQueryClient();
 
-    const queryFn = jest.fn()
+    const queryFn = vi.fn()
         .mockResolvedValueOnce("bar")
         .mockResolvedValueOnce("toto");
 
@@ -133,10 +134,10 @@ test("when data is updated, \"public-data-updated\" is dispatched", async () => 
 });
 
 describe("when a query fail", () => {
-    let consoleMock: jest.SpyInstance;
+    let consoleMock: MockInstance;
 
     beforeEach(() => {
-        consoleMock = jest.spyOn(console, "error").mockImplementation(() => {});
+        consoleMock = vi.spyOn(console, "error").mockImplementation(() => {});
     });
 
     afterEach(() => {
@@ -146,7 +147,7 @@ describe("when a query fail", () => {
     test("should throw an error", async () => {
         const runtime = new FireflyRuntime();
 
-        const dispatch = jest.fn();
+        const dispatch = vi.fn();
 
         const state = createDefaultAppRouterState();
         state.areModulesRegistered = true;
@@ -195,8 +196,8 @@ describe("when a query fail", () => {
     test("should dispatch PublicDataFetchFailedEvent", async () => {
         const runtime = new FireflyRuntime();
 
-        const dispatch = jest.fn();
-        const listener = jest.fn();
+        const dispatch = vi.fn();
+        const listener = vi.fn();
 
         runtime.eventBus.addListener(PublicDataFetchFailedEvent, listener);
 

@@ -1,4 +1,5 @@
 import { Runtime } from "@squide/core";
+import { test, vi } from "vitest";
 import { RemoteModuleDeferredRegistrationFailedEvent, RemoteModuleRegistry, RemoteModulesDeferredRegistrationCompletedEvent, RemoteModulesDeferredRegistrationStartedEvent } from "../src/registerRemoteModules.ts";
 
 function simulateDelay(delay: number) {
@@ -39,17 +40,17 @@ class DummyRuntime extends Runtime<unknown, unknown> {
     }
 }
 
-test("when called before registerRemoteModules, throw an error", async () => {
+test.concurrent("when called before registerRemoteModules, throw an error", async ({ expect }) => {
     const runtime = new DummyRuntime();
-    const registry = new RemoteModuleRegistry(jest.fn());
+    const registry = new RemoteModuleRegistry(vi.fn());
 
     await expect(() => registry.registerDeferredRegistrations({}, runtime)).rejects.toThrow(/The registerDeferredRegistrations function can only be called once the remote modules are registered/);
 });
 
-test("when called twice, throw an error", async () => {
+test.concurrent("when called twice, throw an error", async ({ expect }) => {
     const runtime = new DummyRuntime();
 
-    const loadRemote = jest.fn().mockResolvedValue({
+    const loadRemote = vi.fn().mockResolvedValue({
         register: () => () => {}
     });
 
@@ -65,11 +66,11 @@ test("when called twice, throw an error", async () => {
     await expect(() => registry.registerDeferredRegistrations({}, runtime)).rejects.toThrow(/The registerDeferredRegistrations function can only be called once/);
 });
 
-test("when called for the first time but the registration status is already \"ready\", return a resolving promise", async () => {
+test.concurrent("when called for the first time but the registration status is already \"ready\", return a resolving promise", async ({ expect }) => {
     const runtime = new DummyRuntime();
 
     // When there's no deferred modules, the status should be "ready".
-    const loadRemote = jest.fn().mockResolvedValue({
+    const loadRemote = vi.fn().mockResolvedValue({
         register: () => {}
     });
 
@@ -87,14 +88,14 @@ test("when called for the first time but the registration status is already \"re
     expect(registry.registrationStatus).toBe("ready");
 });
 
-test("should dispatch RemoteModulesDeferredRegistrationStartedEvent", async () => {
+test.concurrent("should dispatch RemoteModulesDeferredRegistrationStartedEvent", async ({ expect }) => {
     const runtime = new DummyRuntime();
 
-    const listener = jest.fn();
+    const listener = vi.fn();
 
     runtime.eventBus.addListener(RemoteModulesDeferredRegistrationStartedEvent, listener);
 
-    const loadRemote = jest.fn().mockResolvedValue({
+    const loadRemote = vi.fn().mockResolvedValue({
         register: () => () => {}
     });
 
@@ -113,14 +114,14 @@ test("should dispatch RemoteModulesDeferredRegistrationStartedEvent", async () =
     }));
 });
 
-test("should complete all the deferred registrations", async () => {
+test.concurrent("should complete all the deferred registrations", async ({ expect }) => {
     const runtime = new DummyRuntime();
 
-    const register1 = jest.fn();
-    const register2 = jest.fn();
-    const register3 = jest.fn();
+    const register1 = vi.fn();
+    const register2 = vi.fn();
+    const register3 = vi.fn();
 
-    const loadRemote = jest.fn()
+    const loadRemote = vi.fn()
         .mockResolvedValueOnce({
             register: () => register1
         })
@@ -149,10 +150,10 @@ test("should complete all the deferred registrations", async () => {
     expect(register3).toHaveBeenCalled();
 });
 
-test("when all the deferred registrations are completed, set the status to \"ready\"", async () => {
+test.concurrent("when all the deferred registrations are completed, set the status to \"ready\"", async ({ expect }) => {
     const runtime = new DummyRuntime();
 
-    const loadRemote = jest.fn().mockResolvedValue({
+    const loadRemote = vi.fn().mockResolvedValue({
         register: () => () => {}
     });
 
@@ -171,14 +172,14 @@ test("when all the deferred registrations are completed, set the status to \"rea
     expect(registry.registrationStatus).toBe("ready");
 });
 
-test("when all the deferred registrations are completed, RemoteModulesDeferredRegistrationCompletedEvent is dispatched", async () => {
+test.concurrent("when all the deferred registrations are completed, RemoteModulesDeferredRegistrationCompletedEvent is dispatched", async ({ expect }) => {
     const runtime = new DummyRuntime();
 
-    const listener = jest.fn();
+    const listener = vi.fn();
 
     runtime.eventBus.addListener(RemoteModulesDeferredRegistrationCompletedEvent, listener);
 
-    const loadRemote = jest.fn().mockResolvedValue({
+    const loadRemote = vi.fn().mockResolvedValue({
         register: () => () => {}
     });
 
@@ -198,12 +199,12 @@ test("when all the deferred registrations are completed, RemoteModulesDeferredRe
     }));
 });
 
-test("when a deferred registration is asynchronous, the function can be awaited", async () => {
+test.concurrent("when a deferred registration is asynchronous, the function can be awaited", async ({ expect }) => {
     const runtime = new DummyRuntime();
 
     let hasBeenCompleted = false;
 
-    const loadRemote = jest.fn()
+    const loadRemote = vi.fn()
         .mockResolvedValueOnce({
             register: () => () => {}
         })
@@ -231,13 +232,13 @@ test("when a deferred registration is asynchronous, the function can be awaited"
     expect(hasBeenCompleted).toBeTruthy();
 });
 
-test("when a deferred registration fail, complete the remaining deferred registrations", async () => {
+test.concurrent("when a deferred registration fail, complete the remaining deferred registrations", async ({ expect }) => {
     const runtime = new DummyRuntime();
 
-    const register1 = jest.fn();
-    const register3 = jest.fn();
+    const register1 = vi.fn();
+    const register3 = vi.fn();
 
-    const loadRemote = jest.fn()
+    const loadRemote = vi.fn()
         .mockResolvedValueOnce({
             register: () => register1
         })
@@ -264,10 +265,10 @@ test("when a deferred registration fail, complete the remaining deferred registr
     expect(register3).toHaveBeenCalled();
 });
 
-test("when a deferred registration fail, return the error", async () => {
+test.concurrent("when a deferred registration fail, return the error", async ({ expect }) => {
     const runtime = new DummyRuntime();
 
-    const loadRemote = jest.fn()
+    const loadRemote = vi.fn()
         .mockResolvedValueOnce({
             register: () => () => {}
         })
@@ -292,16 +293,16 @@ test("when a deferred registration fail, return the error", async () => {
     expect(errors[0]!.error!.toString()).toContain("Module 2 deferred registration failed");
 });
 
-test("when a deferred registration fail, RemoteModuleDeferredRegistrationFailedEvent is dispatched", async () => {
+test.concurrent("when a deferred registration fail, RemoteModuleDeferredRegistrationFailedEvent is dispatched", async ({ expect }) => {
     const runtime = new DummyRuntime();
 
-    const listener = jest.fn();
+    const listener = vi.fn();
 
     runtime.eventBus.addListener(RemoteModuleDeferredRegistrationFailedEvent, listener);
 
     const registrationError = new Error("Module 2 deferred registration failed");
 
-    const loadRemote = jest.fn()
+    const loadRemote = vi.fn()
         .mockResolvedValueOnce({
             register: () => () => {}
         })
@@ -328,16 +329,16 @@ test("when a deferred registration fail, RemoteModuleDeferredRegistrationFailedE
     }));
 });
 
-test("when a deferred registration fail, RemoteModulesDeferredRegistrationCompletedEvent is dispatched", async () => {
+test.concurrent("when a deferred registration fail, RemoteModulesDeferredRegistrationCompletedEvent is dispatched", async ({ expect }) => {
     const runtime = new DummyRuntime();
 
-    const listener = jest.fn();
+    const listener = vi.fn();
 
     runtime.eventBus.addListener(RemoteModulesDeferredRegistrationCompletedEvent, listener);
 
     const registrationError = new Error("Module 2 deferred registration failed");
 
-    const loadRemote = jest.fn()
+    const loadRemote = vi.fn()
         .mockResolvedValueOnce({
             register: () => () => {}
         })
@@ -364,14 +365,14 @@ test("when a deferred registration fail, RemoteModulesDeferredRegistrationComple
     }));
 });
 
-test("all the deferred registrations receive the data object", async () => {
+test.concurrent("all the deferred registrations receive the data object", async ({ expect }) => {
     const runtime = new DummyRuntime();
 
-    const register1 = jest.fn();
-    const register2 = jest.fn();
-    const register3 = jest.fn();
+    const register1 = vi.fn();
+    const register2 = vi.fn();
+    const register3 = vi.fn();
 
-    const loadRemote = jest.fn()
+    const loadRemote = vi.fn()
         .mockResolvedValueOnce({
             register: () => register1
         })
@@ -404,14 +405,14 @@ test("all the deferred registrations receive the data object", async () => {
     expect(register3).toHaveBeenCalledWith(data, "register");
 });
 
-test("all the deferred registrations receive \"register\" as state", async () => {
+test.concurrent("all the deferred registrations receive \"register\" as state", async ({ expect }) => {
     const runtime = new DummyRuntime();
 
-    const register1 = jest.fn();
-    const register2 = jest.fn();
-    const register3 = jest.fn();
+    const register1 = vi.fn();
+    const register2 = vi.fn();
+    const register3 = vi.fn();
 
-    const loadRemote = jest.fn()
+    const loadRemote = vi.fn()
         .mockResolvedValueOnce({
             register: () => register1
         })
