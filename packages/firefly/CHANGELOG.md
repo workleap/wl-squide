@@ -1,5 +1,17 @@
 # @squide/firefly
 
+## 10.0.1
+
+### Patch Changes
+
+- [#244](https://github.com/workleap/wl-squide/pull/244) [`5d13eb0`](https://github.com/workleap/wl-squide/commit/5d13eb038a724b499b820d7e1dc864c87954510b) Thanks [@patricklafrance](https://github.com/patricklafrance)! - Updated dependencies.
+
+- Updated dependencies [[`5d13eb0`](https://github.com/workleap/wl-squide/commit/5d13eb038a724b499b820d7e1dc864c87954510b)]:
+  - @squide/module-federation@6.2.3
+  - @squide/react-router@7.0.1
+  - @squide/core@5.4.3
+  - @squide/msw@3.2.3
+
 ## 10.0.0
 
 ### Major Changes
