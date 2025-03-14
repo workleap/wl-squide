@@ -1,4 +1,5 @@
 import { LocalModuleRegistry, Runtime } from "@squide/core";
+import { test, vi } from "vitest";
 import { areModulesReady } from "../src/areModulesReady.ts";
 import { RemoteModuleRegistry } from "../src/registerRemoteModules.ts";
 
@@ -34,20 +35,20 @@ class DummyRuntime extends Runtime<unknown, unknown> {
 
 const runtime = new DummyRuntime();
 
-test("when no modules are registered, return false", async () => {
+test.concurrent("when no modules are registered, return false", async ({ expect }) => {
     const localModuleRegistry = new LocalModuleRegistry();
 
-    const remoteModuleRegistry = new RemoteModuleRegistry(jest.fn().mockResolvedValue({
+    const remoteModuleRegistry = new RemoteModuleRegistry(vi.fn().mockResolvedValue({
         register: () => {}
     }));
 
     expect(areModulesReady(localModuleRegistry.registrationStatus, remoteModuleRegistry.registrationStatus)).toBeFalsy();
 });
 
-test("when only local modules are registered and they are ready, return true", async () => {
+test.concurrent("when only local modules are registered and they are ready, return true", async ({ expect }) => {
     const localModuleRegistry = new LocalModuleRegistry();
 
-    const remoteModuleRegistry = new RemoteModuleRegistry(jest.fn().mockResolvedValue({
+    const remoteModuleRegistry = new RemoteModuleRegistry(vi.fn().mockResolvedValue({
         register: () => {}
     }));
 
@@ -62,10 +63,10 @@ test("when only local modules are registered and they are ready, return true", a
     expect(areModulesReady(localModuleRegistry.registrationStatus, remoteModuleRegistry.registrationStatus)).toBeTruthy();
 });
 
-test("when only remote modules are registered and they are ready, return true", async () => {
+test.concurrent("when only remote modules are registered and they are ready, return true", async ({ expect }) => {
     const localModuleRegistry = new LocalModuleRegistry();
 
-    const remoteModuleRegistry = new RemoteModuleRegistry(jest.fn().mockResolvedValue({
+    const remoteModuleRegistry = new RemoteModuleRegistry(vi.fn().mockResolvedValue({
         register: () => {}
     }));
 
@@ -80,10 +81,10 @@ test("when only remote modules are registered and they are ready, return true", 
     expect(areModulesReady(localModuleRegistry.registrationStatus, remoteModuleRegistry.registrationStatus)).toBeTruthy();
 });
 
-test("when only local module deferred registrations are registered and they are ready, return true", async () => {
+test.concurrent("when only local module deferred registrations are registered and they are ready, return true", async ({ expect }) => {
     const localModuleRegistry = new LocalModuleRegistry();
 
-    const remoteModuleRegistry = new RemoteModuleRegistry(jest.fn().mockResolvedValue({
+    const remoteModuleRegistry = new RemoteModuleRegistry(vi.fn().mockResolvedValue({
         register: () => {}
     }));
 
@@ -98,10 +99,10 @@ test("when only local module deferred registrations are registered and they are 
     expect(areModulesReady(localModuleRegistry.registrationStatus, remoteModuleRegistry.registrationStatus)).toBeTruthy();
 });
 
-test("when only remote module deferred registrations are registered and they are ready, return true", async () => {
+test.concurrent("when only remote module deferred registrations are registered and they are ready, return true", async ({ expect }) => {
     const localModuleRegistry = new LocalModuleRegistry();
 
-    const remoteModuleRegistry = new RemoteModuleRegistry(jest.fn().mockResolvedValue({
+    const remoteModuleRegistry = new RemoteModuleRegistry(vi.fn().mockResolvedValue({
         register: () => () => {}
     }));
 
@@ -117,10 +118,10 @@ test("when only remote module deferred registrations are registered and they are
     expect(areModulesReady(localModuleRegistry.registrationStatus, remoteModuleRegistry.registrationStatus)).toBeTruthy();
 });
 
-test("when local module deferred registrations and remote module deferred registrations are registered and they are ready, return", async () => {
+test.concurrent("when local module deferred registrations and remote module deferred registrations are registered and they are ready, return", async ({ expect }) => {
     const localModuleRegistry = new LocalModuleRegistry();
 
-    const remoteModuleRegistry = new RemoteModuleRegistry(jest.fn().mockResolvedValue({
+    const remoteModuleRegistry = new RemoteModuleRegistry(vi.fn().mockResolvedValue({
         register: () => () => {}
     }));
 
@@ -142,10 +143,10 @@ test("when local module deferred registrations and remote module deferred regist
     expect(areModulesReady(localModuleRegistry.registrationStatus, remoteModuleRegistry.registrationStatus)).toBeTruthy();
 });
 
-test("when local module deferred registrations and remote modules are registered and they are ready, return true", async () => {
+test.concurrent("when local module deferred registrations and remote modules are registered and they are ready, return true", async ({ expect }) => {
     const localModuleRegistry = new LocalModuleRegistry();
 
-    const remoteModuleRegistry = new RemoteModuleRegistry(jest.fn().mockResolvedValue({
+    const remoteModuleRegistry = new RemoteModuleRegistry(vi.fn().mockResolvedValue({
         register: () => {}
     }));
 
@@ -167,10 +168,10 @@ test("when local module deferred registrations and remote modules are registered
     expect(areModulesReady(localModuleRegistry.registrationStatus, remoteModuleRegistry.registrationStatus)).toBeTruthy();
 });
 
-test("when local modules and remote module deferred registrations are registered and they are ready, return true", async () => {
+test.concurrent("when local modules and remote module deferred registrations are registered and they are ready, return true", async ({ expect }) => {
     const localModuleRegistry = new LocalModuleRegistry();
 
-    const remoteModuleRegistry = new RemoteModuleRegistry(jest.fn().mockResolvedValue({
+    const remoteModuleRegistry = new RemoteModuleRegistry(vi.fn().mockResolvedValue({
         register: () => () => {}
     }));
 
@@ -192,10 +193,10 @@ test("when local modules and remote module deferred registrations are registered
     expect(areModulesReady(localModuleRegistry.registrationStatus, remoteModuleRegistry.registrationStatus)).toBeTruthy();
 });
 
-test("when only local module deferred registrations are registered and they are not completed, return false", async () => {
+test.concurrent("when only local module deferred registrations are registered and they are not completed, return false", async ({ expect }) => {
     const localModuleRegistry = new LocalModuleRegistry();
 
-    const remoteModuleRegistry = new RemoteModuleRegistry(jest.fn().mockResolvedValue({
+    const remoteModuleRegistry = new RemoteModuleRegistry(vi.fn().mockResolvedValue({
         register: () => {}
     }));
 
@@ -208,10 +209,10 @@ test("when only local module deferred registrations are registered and they are 
     expect(areModulesReady(localModuleRegistry.registrationStatus, remoteModuleRegistry.registrationStatus)).toBeFalsy();
 });
 
-test("when only remote module deferred registrations are registered and they are not completed, return false", async () => {
+test.concurrent("when only remote module deferred registrations are registered and they are not completed, return false", async ({ expect }) => {
     const localModuleRegistry = new LocalModuleRegistry();
 
-    const remoteModuleRegistry = new RemoteModuleRegistry(jest.fn().mockResolvedValue({
+    const remoteModuleRegistry = new RemoteModuleRegistry(vi.fn().mockResolvedValue({
         register: () => () => {}
     }));
 
@@ -224,10 +225,10 @@ test("when only remote module deferred registrations are registered and they are
     expect(areModulesReady(localModuleRegistry.registrationStatus, remoteModuleRegistry.registrationStatus)).toBeFalsy();
 });
 
-test("when local module deferred registrations and remote module deferred registrations are registered and they are not completed, return false", async () => {
+test.concurrent("when local module deferred registrations and remote module deferred registrations are registered and they are not completed, return false", async ({ expect }) => {
     const localModuleRegistry = new LocalModuleRegistry();
 
-    const remoteModuleRegistry = new RemoteModuleRegistry(jest.fn().mockResolvedValue({
+    const remoteModuleRegistry = new RemoteModuleRegistry(vi.fn().mockResolvedValue({
         register: () => () => {}
     }));
 
@@ -246,10 +247,10 @@ test("when local module deferred registrations and remote module deferred regist
     expect(areModulesReady(localModuleRegistry.registrationStatus, remoteModuleRegistry.registrationStatus)).toBeFalsy();
 });
 
-test("when local module deferred registrations and remote module deferred registrations are registered and only the local module deferred registrations are completed, return false", async () => {
+test.concurrent("when local module deferred registrations and remote module deferred registrations are registered and only the local module deferred registrations are completed, return false", async ({ expect }) => {
     const localModuleRegistry = new LocalModuleRegistry();
 
-    const remoteModuleRegistry = new RemoteModuleRegistry(jest.fn().mockResolvedValue({
+    const remoteModuleRegistry = new RemoteModuleRegistry(vi.fn().mockResolvedValue({
         register: () => () => {}
     }));
 
@@ -270,10 +271,10 @@ test("when local module deferred registrations and remote module deferred regist
     expect(areModulesReady(localModuleRegistry.registrationStatus, remoteModuleRegistry.registrationStatus)).toBeFalsy();
 });
 
-test("when local module deferred registrations and remote module deferred registrations are registered and only the remote module deferred registrations are completed, return false", async () => {
+test.concurrent("when local module deferred registrations and remote module deferred registrations are registered and only the remote module deferred registrations are completed, return false", async ({ expect }) => {
     const localModuleRegistry = new LocalModuleRegistry();
 
-    const remoteModuleRegistry = new RemoteModuleRegistry(jest.fn().mockResolvedValue({
+    const remoteModuleRegistry = new RemoteModuleRegistry(vi.fn().mockResolvedValue({
         register: () => () => {}
     }));
 
