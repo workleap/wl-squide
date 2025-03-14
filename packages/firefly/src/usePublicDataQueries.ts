@@ -20,7 +20,7 @@ export function usePublicDataQueries<T extends Array<any>>(queries: QueriesOptio
 
     const dispatch = useAppRouterDispatcher();
 
-    const combineResults = useCallback((results: UseQueryResult<unknown, Error>[]) => {
+    const combineResults = useCallback((results: UseQueryResult<unknown, unknown>[]) => {
         const errors = results.filter(x => x.error).map(x => x.error) as Error[];
         const hasErrors = errors.length > 0;
 

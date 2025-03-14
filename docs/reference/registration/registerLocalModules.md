@@ -97,10 +97,11 @@ root.render(
 );
 ```
 
-```tsx !#12-16 host/src/AppRouter.tsx
+```tsx !#13-17 host/src/AppRouter.tsx
 import { usePublicDataQueries, useDeferredRegistrations, useIsBootstrapping, AppRouter as FireflyAppRouter } from "@squide/firefly";
 import { useMemo } from "react";
-import { RouterProvider, createBrowserRouter, Outlet } from "react-router-dom";
+import { createBrowserRouter, Outlet } from "react-router";
+import { RouterProvider } from "react-router/dom";
 import type { DeferredRegistrationData } from "@sample/shared";
 import { getFeatureFlagsQuery } from "./getFeatureFlagsQuery.ts";
 

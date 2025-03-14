@@ -70,9 +70,10 @@ Ensure that the shared project is configured as a [shared dependency](./add-a-sh
 
 Finally, open the host application code and update the `App` component to fetch the feature flags data with the [usePublicDataQueries](../reference/tanstack-query/usePublicDataQueries.md) hook:
 
-```tsx !#6-21,28 host/src/App.tsx
+```tsx !#7-22,29 host/src/App.tsx
 import { AppRouter, usePublicDataQueries, useIsBootstrapping } from "@squide/firefly";
-import { RouterProvider, createBrowserRouter, Outlet } from "react-router-dom";
+import { createBrowserRouter, Outlet } from "react-router";
+import { RouterProvider } from "react-router/dom";
 import { FeatureFlagsContext, type FeatureFlags } from "@sample/shared";
 
 function BootstrappingRoute() {
@@ -232,7 +233,8 @@ Finally, update the host application's `App` component to use the [useDeferredRe
 ```tsx !#26-28,30 host/src/App.tsx
 import { AppRouter, usePublicDataQueries, useIsBootstrapping, useDeferredRegistrations } from "@squide/firefly";
 import { useMemo } from "react";
-import { RouterProvider, createBrowserRouter, Outlet } from "react-router-dom";
+import { createBrowserRouter, Outlet } from "react-router";
+import { RouterProvider } from "react-router/dom";
 import { FeatureFlagsContext, type FeatureFlags, type DeferredRegistrationData } from "@sample/shared";
 
 function BootstrappingRoute() {

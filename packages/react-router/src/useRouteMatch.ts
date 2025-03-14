@@ -1,5 +1,5 @@
 import { useMemo } from "react";
-import { matchRoutes } from "react-router-dom";
+import { matchRoutes } from "react-router";
 import { useRoutes } from "./useRoutes.ts";
 
 export interface UseRouteMatchOptions {

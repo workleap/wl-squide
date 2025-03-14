@@ -1,5 +1,5 @@
 import type { Span } from "@opentelemetry/api";
-import type { FetchCustomAttributeFunction } from "@opentelemetry/instrumentation-fetch";
+import type { FetchRequestHookFunction } from "@opentelemetry/instrumentation-fetch";
 import type { PropagateTraceHeaderCorsUrls } from "@opentelemetry/sdk-trace-web";
 import {
     ApplicationBoostrappedEvent,
@@ -52,26 +52,26 @@ import {
     type HoneycombSdkOptions,
     type RegisterHoneycombInstrumentationOptions as WorkleapRegisterHoneycombInstrumentationOptions
 } from "@workleap/honeycomb";
-import { createApplyCustomAttributesOnFetchSpanFunction, registerActiveSpanStack, type ActiveSpan } from "./activeSpan.ts";
+import { createOverrideFetchRequestSpanWithActiveSpanContext, registerActiveSpanStack, type ActiveSpan } from "./activeSpan.ts";
 import { getTracer } from "./tracer.ts";
 import { endActiveSpan, startActiveChildSpan, startChildSpan, startSpan, traceError } from "./utils.ts";
 
 export interface RegisterHoneycombInstrumentationOptions extends WorkleapRegisterHoneycombInstrumentationOptions {}
 
-function getApplyCustomAttributesOnSpanFunction(activeSpanFunction: FetchCustomAttributeFunction, baseApplyCustomAttributesOnSpanFunction?: FetchCustomAttributeFunction) {
-    let applyCustomAttributesOnSpan: FetchCustomAttributeFunction;
+function getRequestHookFunction(activeSpanOverrideFunction: FetchRequestHookFunction, baseRequestHookFunction?: FetchRequestHookFunction) {
+    let requestHook: FetchRequestHookFunction;
 
-    if (baseApplyCustomAttributesOnSpanFunction) {
+    if (baseRequestHookFunction) {
         // If "@workleap/honeycomb" already provides a function, merge both functions.
-        applyCustomAttributesOnSpan = (...args) => {
-            baseApplyCustomAttributesOnSpanFunction(...args);
-            activeSpanFunction(...args);
+        requestHook = (...args) => {
+            baseRequestHookFunction(...args);
+            activeSpanOverrideFunction(...args);
         };
     } else {
-        applyCustomAttributesOnSpan = activeSpanFunction;
+        requestHook = activeSpanOverrideFunction;
     }
 
-    return applyCustomAttributesOnSpan;
+    return requestHook;
 }
 
 export function getInstrumentationOptions(runtime: FireflyRuntime, options: RegisterHoneycombInstrumentationOptions = {}) {
@@ -89,12 +89,12 @@ export function getInstrumentationOptions(runtime: FireflyRuntime, options: Regi
 
     if (fetchInstrumentation !== false) {
         instrumentationOptions.fetchInstrumentation = defaultOptions => {
-            const activeSpanFunction = createApplyCustomAttributesOnFetchSpanFunction(runtime.logger);
-            const applyCustomAttributesOnSpan = getApplyCustomAttributesOnSpanFunction(activeSpanFunction, defaultOptions.applyCustomAttributesOnSpan);
+            const activeSpanOverrideFunction = createOverrideFetchRequestSpanWithActiveSpanContext(runtime.logger);
+            const requestHook = getRequestHookFunction(activeSpanOverrideFunction, defaultOptions.requestHook);
 
             const augmentedDefaultOptions = {
                 ...defaultOptions,
-                applyCustomAttributesOnSpan
+                requestHook
             };
 
             // If the consumer provides additional options for the fetch instrumentation,

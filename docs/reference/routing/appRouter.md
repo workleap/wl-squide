@@ -33,9 +33,10 @@ The `AppRouter` component is required for any Squide application.
 
 The `rootRoute` component provided as an argument to the `AppRouter` rendering function must always be rendered as a parent of the `registeredRoutes`.
 
-```tsx !#8-16 host/src/App.tsx
+```tsx !#9-17 host/src/App.tsx
 import { AppRouter } from "@squide/firefly";
-import { RouterProvider, createBrowserRouter } from "react-router-dom";
+import { createBrowserRouter } from "react-router";
+import { RouterProvider } from "react-router/dom";
 
 export function App() {
     <AppRouter waitForMsw={false}>
@@ -60,9 +61,10 @@ export function App() {
 
 A `BootstrappingRoute` component is introduced in the following example because the [useIsBootstrapping](../routing/useIsBootstrapping.md) hook must be rendered as a child of `rootRoute`.
 
-```tsx !#5-7,23 host/src/App.tsx
+```tsx !#6-8,24 host/src/App.tsx
 import { useIsBootstrapping, AppRouter } from "@squide/firefly";
-import { RouterProvider, createBrowserRouter, Outlet } from "react-router-dom";
+import { createBrowserRouter, Outlet } from "react-router";
+import { RouterProvider } from "react-router/dom";
 
 function BootstrappingRoute() {
     if (useIsBootstrapping()) {
@@ -106,7 +108,7 @@ A React Router [errorElement](https://reactrouter.com/en/main/route/error-elemen
 The root error boundary should always wrap the `registeredRoutes` and, when application, the `BootstrapingRoute` component.
 
 ```tsx host/src/RootErrorBoundary.tsx
-import { useRouteError } from "react-router-dom";
+import { useRouteError } from "react-router/dom";
 
 export function RootErrorBoundary() {
     const error = useRouteError();
@@ -120,9 +122,10 @@ export function RootErrorBoundary() {
 }
 ```
 
-```tsx !#14 host/src/App.tsx
+```tsx !#15 host/src/App.tsx
 import { AppRouter } from "@squide/firefly";
-import { RouterProvider, createBrowserRouter } from "react-router-dom";
+import { createBrowserRouter } from "react-router";
+import { RouterProvider } from "react-router/dom";
 import { RootErrorBoundary } from "./RootErrorBoundary.tsx";
 
 export function App() {
@@ -149,9 +152,10 @@ export function App() {
 
 ### Delay rendering until MSW is ready
 
-```tsx !#6 host/src/App.tsx
+```tsx !#7 host/src/App.tsx
 import { AppRouter } from "@squide/firefly";
-import { RouterProvider, createBrowserRouter } from "react-router-dom";
+import { createBrowserRouter } from "react-router";
+import { RouterProvider } from "react-router/dom";
 
 export function App() {
     return (
@@ -178,9 +182,10 @@ export function App() {
 
 A `BootstrappingRoute` component is introduced in the following example because the [usePublicDataQueries](../tanstack-query/usePublicDataQueries.md) hook must be rendered as a child of `rootRoute`.
 
-```tsx !#7,24 host/src/App.tsx
+```tsx !#8,25 host/src/App.tsx
 import { useIsBootstrapping, usePublicDataQueries, AppRouter } from "@squide/firefly";
-import { RouterProvider, createBrowserRouter, Outlet } from "react-router-dom";
+import { createBrowserRouter, Outlet } from "react-router";
+import { RouterProvider } from "react-router/dom";
 import { FeatureFlagsContext } from "@sample/shared";
 import { getFeatureFlagsQuery } from "./getFeatureFlagsQuery.ts";
 
@@ -231,9 +236,10 @@ export function App() {
 
 A `BootstrappingRoute` component is introduced in the following example because the [useProtectedDataQueries](../tanstack-query/useProtectedDataQueries.md) hook must be rendered as a child of `rootRoute`.
 
-```tsx !#7-10,27 host/src/App.tsx
+```tsx !#8-11,28 host/src/App.tsx
 import { useIsBootstrapping, useProtectedDataQueries, AppRouter } from "@squide/firefly";
-import { RouterProvider, createBrowserRouter, Outlet } from "react-router-dom";
+import { createBrowserRouter, Outlet } from "react-router";
+import { RouterProvider } from "react-router/dom";
 import { SessionContext, isApiError } from "@sample/shared";
 import { getSessionQuery } from "./getSessionQuery.ts";
 

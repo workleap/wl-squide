@@ -1,5 +1,11 @@
 # @squide/firefly-webpack-configs
 
+## 5.0.0
+
+### Major Changes
+
+- [#240](https://github.com/workleap/wl-squide/pull/240) [`9a85d23`](https://github.com/workleap/wl-squide/commit/9a85d23b03584e9d98c28d504f5cef3e62b298db) Thanks [@patricklafrance](https://github.com/patricklafrance)! - Updated dependencies to React Router v7.
+
 ## 4.2.3
 
 ### Patch Changes

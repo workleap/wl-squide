@@ -124,9 +124,10 @@ export function isApiError(error?: unknown): error is ApiError {
 
 Finally, update the `App` component to add the [usePublicDataQueries](../reference/tanstack-query/usePublicDataQueries.md) hook. The hook will fetch the data from `/api/count` and forward the retrieved `fetchCount` value through `FetchCountContext`:
 
-```tsx !#6-21,23-25,38 host/src/App.tsx
+```tsx !#7-22,24-26,39 host/src/App.tsx
 import { AppRouter, usePublicDataQueries, useIsBootstrapping } from "@squide/firefly";
-import { RouterProvider, createBrowserRouter, Outlet } from "react-router-dom";
+import { createBrowserRouter, Outlet } from "react-router";
+import { RouterProvider } from "react-router/dom";
 import { FetchCountContext, ApiError } from "@sample/shared";
 
 function BootstrappingRoute() {
@@ -203,7 +204,7 @@ Now, create a `GlobalDataLayout` component that uses the count retrieved from `F
 
 ```tsx !#5,10 host/src/GlobalDataLayout.tsx
 import { useFetchCount } from "@sample/shared";
-import { Outlet } from "react-router-dom";
+import { Outlet } from "react-router/dom";
 
 export function GlobalDataLayout() {
     const fetchCount = useFetchCount();
@@ -334,9 +335,10 @@ If you're not adding the `SubscriptionContext` to the shared project created ear
 
 Finally, update the `App` component to add the [useProtectedDataQueries](../reference/tanstack-query/useProtectedDataQueries.md) hook. The hook will fetch the data from `/api/subscription` and forward the retrieved `subscription` data through `SubscriptionContext`:
 
-```tsx !#23-42,62 host/src/App.tsx
+```tsx !#24-43,63 host/src/App.tsx
 import { AppRouter, usePublicDataQueries, useProtectedDataQueries, useIsBootstrapping } from "@squide/firefly";
-import { RouterProvider, createBrowserRouter, Outlet } from "react-router-dom";
+import { createBrowserRouter, Outlet } from "react-router";
+import { RouterProvider } from "react-router/dom";
 import { FetchCountContext, SubscriptionContext, ApiError, isApiError, type Subscription } from "@sample/shared";
 
 function BootstrappingRoute() {
@@ -435,7 +437,7 @@ Now, update the `GlobalDataLayout` component that was previously created for the
 
 ```tsx !#6,11 host/src/GlobalDataLayout.tsx
 import { useFetchCount, useSubscription } from "@sample/shared";
-import { Outlet } from "react-router-dom";
+import { Outlet } from "react-router/dom";
 
 export function GlobalDataLayout() {
     const fetchCount = useFetchCount();

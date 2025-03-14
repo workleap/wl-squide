@@ -6,18 +6,22 @@
     "private": true,
     "type": "module",
     "exports": "./src/register.tsx",
-    "devDependencies": {
-        "@types/react": "18.3.5",
-        "@types/react-dom": "18.3.0",
-        "@workleap/eslint-plugin": "3.2.2",
-        "eslint": "8.57.0",
-        "typescript": "5.5.4"
+    "peerDependencies": {
+        "@squide/firefly": "*",
+        "react": "*",
+        "react-dom": "*",
+        "react-router": "*"
     },
-    "dependencies": {
-        "@squide/firefly": "9.3.1",
-        "react": "18.3.1",
-        "react-dom": "18.3.1",
-        "react-router-dom": "6.26.1"
+    "devDependencies": {
+        "@squide/firefly": "9.3.4",
+        "@types/react": "19.0.8",
+        "@types/react-dom": "19.0.3",
+        "@workleap/eslint-plugin": "3.2.6",
+        "eslint": "8.57.0",
+        "react": "19.0.0",
+        "react-dom": "19.0.0",
+        "react-router": "7.1.5",
+        "typescript": "5.5.4"
     },
     "engines": {
         "node": ">=21.1.0"

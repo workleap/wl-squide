@@ -8,9 +8,10 @@ In a modular application, it's typical to configure various global [React contex
 
 Let's explore a simple example using a `BackgroundColorContext`:
 
-```tsx !#7 host/src/App.tsx
+```tsx !#8 host/src/App.tsx
 import { AppRouter } from "@squide/firefly";
-import { RouterProvider, createBrowserRouter } from "react-router-dom";
+import { createBrowserRouter } from "react-router";
+import { RouterProvider } from "react-router/dom";
 import { BackgroundColorContext } from "@sample/shared";
 
 export function App() {
@@ -119,9 +120,10 @@ This section only applies to federated applications (applications including [rem
 
 Let's consider a more specific use case where the host application declares a `ThemeContext` from Workleap's new design system, [Hopper](https://hopper.workleap.design/):
 
-```tsx !#7 host/src/App.tsx
+```tsx !#8 host/src/App.tsx
 import { AppRouter } from "@squide/firefly";
-import { RouterProvider, createBrowserRouter } from "react-router-dom";
+import { createBrowserRouter } from "react-router";
+import { RouterProvider } from "react-router/dom";
 import { ThemeContext } from "@hopper/components";
 
 export function App() {

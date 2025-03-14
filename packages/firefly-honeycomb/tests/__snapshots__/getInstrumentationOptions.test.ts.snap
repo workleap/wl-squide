@@ -4,7 +4,9 @@ exports[`when debug is false 1`] = `
 {
   "apiKey": "123",
   "debug": false,
-  "fetchInstrumentation": [Function],
+  "fetchInstrumentation": {
+    "requestHook": [Function],
+  },
 }
 `;
 
@@ -12,7 +14,9 @@ exports[`when debug is true 1`] = `
 {
   "apiKey": "123",
   "debug": true,
-  "fetchInstrumentation": [Function],
+  "fetchInstrumentation": {
+    "requestHook": [Function],
+  },
 }
 `;
 
@@ -20,7 +24,9 @@ exports[`when the runtime mode is "development" 1`] = `
 {
   "apiKey": "123",
   "debug": true,
-  "fetchInstrumentation": [Function],
+  "fetchInstrumentation": {
+    "requestHook": [Function],
+  },
 }
 `;
 
@@ -28,6 +34,8 @@ exports[`when the runtime mode is "production" 1`] = `
 {
   "apiKey": "123",
   "debug": false,
-  "fetchInstrumentation": [Function],
+  "fetchInstrumentation": {
+    "requestHook": [Function],
+  },
 }
 `;

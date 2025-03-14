@@ -1,5 +1,14 @@
 # @squide/firefly-honeycomb
 
+## 2.0.3
+
+### Patch Changes
+
+- [#240](https://github.com/workleap/wl-squide/pull/240) [`9a85d23`](https://github.com/workleap/wl-squide/commit/9a85d23b03584e9d98c28d504f5cef3e62b298db) Thanks [@patricklafrance](https://github.com/patricklafrance)! - Fixed Squide boostrapping tracing.
+
+- Updated dependencies [[`9a85d23`](https://github.com/workleap/wl-squide/commit/9a85d23b03584e9d98c28d504f5cef3e62b298db)]:
+  - @squide/firefly@10.0.0
+
 ## 2.0.2
 
 ### Patch Changes

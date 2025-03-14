@@ -24,11 +24,11 @@ import { ProtectedRoutes } from "@squide/react-router";
 import { QueryClientProvider } from "@tanstack/react-query";
 import { render, screen, waitFor } from "@testing-library/react";
 import type { ReactNode } from "react";
-import { createMemoryRouter, Outlet, RouterProvider } from "react-router-dom";
+import { createMemoryRouter, Outlet, RouterProvider } from "react-router";
 import { AppRouter as FireflyAppRouter } from "../src/AppRouter.tsx";
 import { ApplicationBoostrappedEvent, ModulesReadyEvent, ModulesRegisteredEvent, MswReadyEvent, ProtectedDataReadyEvent, PublicDataReadyEvent } from "../src/AppRouterReducer.ts";
 import { FireflyRuntime } from "../src/FireflyRuntime.tsx";
-import { __resetBootstrapGuard, ApplicationBootstrappingStartedEvent, bootstrap } from "../src/boostrap.ts";
+import { __resetHasExecuteGuard, ApplicationBootstrappingStartedEvent, bootstrap } from "../src/boostrap.ts";
 import { useDeferredRegistrations } from "../src/useDeferredRegistrations.ts";
 import { useIsBootstrapping } from "../src/useIsBootstrapping.ts";
 import { ProtectedDataFetchStartedEvent, useProtectedDataQueries } from "../src/useProtectedDataQueries.ts";
@@ -97,7 +97,7 @@ function renderAppRouter(props: AppRouterProps, runtime: Runtime) {
 }
 
 afterEach(() => {
-    __resetBootstrapGuard();
+    __resetHasExecuteGuard();
     __clearLocalModuleRegistry();
     __clearRemoteModuleRegistry();
 });

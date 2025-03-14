@@ -27,7 +27,7 @@ A `boolean` value indicating whether or not the matching route is `protected`.
 ## Usage
 
 ```ts
-import { useLocation } from "react-router-dom";
+import { useLocation } from "react-router/dom";
 import { useIsRouteProtected, useRouteMatch } from "@squide/firefly";
 
 const location = useLocation();

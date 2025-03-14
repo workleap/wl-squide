@@ -2,7 +2,7 @@ import { isGlobalDataQueriesError, useLogger } from "@squide/firefly";
 import { useI18nextInstance } from "@squide/i18next";
 import { useCallback, useEffect } from "react";
 import { useTranslation } from "react-i18next";
-import { isRouteErrorResponse, useLocation, useRouteError } from "react-router-dom";
+import { isRouteErrorResponse, useLocation, useRouteError } from "react-router";
 import { i18NextInstanceKey } from "./i18next.ts";
 
 function getErrorMessage(error: unknown) {

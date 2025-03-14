@@ -46,7 +46,8 @@ Then, install the package dependencies and create an `AppRouter` component in th
 
 ```tsx shell/src/AppRouter.tsx
 import { AppRouter as FireflyAppRouter } from "@squide/firefly";
-import { RouterProvider, createBrowserRouter } from "react-router-dom";
+import { createBrowserRouter } from "react-router";
+import { RouterProvider } from "react-router/dom";
 import { RootErrorBoundary } from "./RootErrorBoundary.tsx";
 
 export function FireflyAppRouter() {

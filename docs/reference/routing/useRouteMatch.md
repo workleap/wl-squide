@@ -31,7 +31,7 @@ If `throwWhenThereIsNoMatch` is disabled and there's no route matching `location
 ### Using `useLocation`
 
 ```ts
-import { useLocation } from "react-router-dom";
+import { useLocation } from "react-router/dom";
 import { useRouteMatch } from "@squide/firefly";
 
 const location = useLocation();

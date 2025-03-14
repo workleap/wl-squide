@@ -1,6 +1,6 @@
 import { useRenderedNavigationItems, useRuntimeNavigationItems, type NavigationLinkRenderProps, type RenderItemFunction, type RenderSectionFunction } from "@squide/firefly";
 import { Suspense } from "react";
-import { Link, Outlet } from "react-router-dom";
+import { Link, Outlet } from "react-router";
 
 export interface FederatedTabsLayoutProps {
     host?: string;

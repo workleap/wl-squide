@@ -5,8 +5,6 @@ import type { FireflyRuntime } from "./FireflyRuntime.tsx";
 
 export const ApplicationBootstrappingStartedEvent = "squide-app-bootstrapping-started";
 
-let isBootstrapped = false;
-
 export type StartMswFunction<TRuntime = FireflyRuntime> = (runtime: TRuntime) => Promise<void>;
 
 export interface BootstrapAppOptions<TRuntime extends FireflyRuntime = FireflyRuntime, TContext = unknown, TData = unknown> extends RegisterModulesOptions<TContext> {
@@ -14,6 +12,8 @@ export interface BootstrapAppOptions<TRuntime extends FireflyRuntime = FireflyRu
     remotes?: RemoteDefinition[];
     startMsw?: StartMswFunction<TRuntime>;
 }
+
+let hasExecuted = false;
 
 export async function bootstrap<TRuntime extends FireflyRuntime = FireflyRuntime, TContext = unknown, TData = unknown>(runtime: TRuntime, options: BootstrapAppOptions<TRuntime, TContext, TData> = {}) {
     const {
@@ -23,9 +23,11 @@ export async function bootstrap<TRuntime extends FireflyRuntime = FireflyRuntime
         startMsw
     } = options;
 
-    if (isBootstrapped) {
+    if (hasExecuted) {
         throw new Error("[squide] A squide application can only be bootstrapped once. Did you call the \"bootstrap\" function twice?");
     }
+
+    hasExecuted = true;
 
     runtime.eventBus.dispatch(ApplicationBootstrappingStartedEvent);
 
@@ -49,14 +51,12 @@ export async function bootstrap<TRuntime extends FireflyRuntime = FireflyRuntime
         }
     }
 
-    isBootstrapped = true;
-
     return {
         localModuleErrors,
         remoteModuleErrors
     };
 }
 
-export function __resetBootstrapGuard() {
-    isBootstrapped = false;
+export function __resetHasExecuteGuard() {
+    hasExecuted = false;
 }

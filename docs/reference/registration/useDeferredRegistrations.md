@@ -40,10 +40,11 @@ Nothing
 
 ### Register or update deferred registrations
 
-```tsx !#17-22 host/src/AppRouter.tsx
+```tsx !#18-23 host/src/AppRouter.tsx
 import { usePublicDataQueries, useProtectedDataQueries, useDeferredRegistrations, useIsBootstrapping, AppRouter as FireflyAppRouter } from "@squide/firefly";
 import { useMemo } from "react";
-import { RouterProvider, createBrowserRouter, Outlet } from "react-router-dom";
+import { createBrowserRouter, Outlet } from "react-router";
+import { RouterProvider } from "react-router/dom";
 import { DeferredRegistrationData } from "@sample/shared";
 import { getFeatureFlagsQuery } from "./getFeatureFlagsQuery.ts";
 import { getSessionQuery } from "./getSessionQuery.ts";

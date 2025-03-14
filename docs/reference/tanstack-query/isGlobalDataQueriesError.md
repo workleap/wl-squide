@@ -32,7 +32,7 @@ A `boolean` value indicating whether or not the error is an instance of [GlobalD
 
 ```tsx
 import { isGlobalDataQueriesError } from "@squide/firefly";
-import { useLocation, useRouteError } from "react-router-dom";
+import { useLocation, useRouteError } from "react-router/dom";
 
 export function ErrorBoundary() {
     const error = useRouteError() as Error;

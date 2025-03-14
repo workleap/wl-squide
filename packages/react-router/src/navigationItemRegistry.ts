@@ -1,7 +1,7 @@
 import { isNil } from "@squide/core";
 import memoize, { memoizeClear } from "memoize";
 import type { ReactNode } from "react";
-import type { LinkProps } from "react-router-dom";
+import type { LinkProps } from "react-router";
 
 export interface NavigationLink extends Omit<LinkProps, "children"> {
     $id?: string;

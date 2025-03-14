@@ -1,6 +1,6 @@
 import { useApplicationEventBusDispatcher, useToast } from "@basic-webpack/shared";
 import { useCallback, useState, type ChangeEvent } from "react";
-import { Link } from "react-router-dom";
+import { Link } from "react-router";
 
 export function MessagePage() {
     const [message, setMessage] = useState("");
