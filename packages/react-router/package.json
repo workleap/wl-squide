@@ -46,7 +46,7 @@
         "memoize": "10.1.0"
     },
     "devDependencies": {
-        "@rsbuild/core": "1.2.18",
+        "@rsbuild/core": "1.2.19",
         "@rslib/core": "0.5.4",
         "@testing-library/react": "16.2.0",
         "@typescript-eslint/parser": "8.26.1",
@@ -59,7 +59,7 @@
         "react": "19.0.0",
         "react-dom": "19.0.0",
         "react-router": "7.3.0",
-        "typescript": "5.5.4",
+        "typescript": "5.8.2",
         "vitest": "3.0.8"
     },
     "sideEffects": false,

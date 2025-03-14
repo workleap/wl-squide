@@ -32,7 +32,7 @@
         "@basic-mix/shell": "workspace:*",
         "@react-aria/toast": "3.0.1",
         "@react-stately/toast": "3.0.0",
-        "@rsbuild/core": "1.2.18",
+        "@rsbuild/core": "1.2.19",
         "@squide/firefly": "workspace:*",
         "@squide/firefly-rsbuild-configs": "workspace:*",
         "@typescript-eslint/parser": "8.26.1",
@@ -45,7 +45,7 @@
         "react": "19.0.0",
         "react-dom": "19.0.0",
         "react-router": "7.3.0",
-        "typescript": "5.5.4"
+        "typescript": "5.8.2"
     },
     "engines": {
         "node": ">=21.1.0"

@@ -30,7 +30,7 @@
         "@workleap/eslint-plugin": "3.3.0",
         "@workleap/typescript-configs": "3.0.2",
         "eslint": "8.57.0",
-        "typescript": "5.5.4"
+        "typescript": "5.8.2"
     },
     "engines": {
         "node": ">=21.1.0"
