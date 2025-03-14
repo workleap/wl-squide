@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://gsoft-inc.github.io/wl-squide/sitemap.xml.gz
+Sitemap: https://workleap.github.io/wl-squide/sitemap.xml.gz
