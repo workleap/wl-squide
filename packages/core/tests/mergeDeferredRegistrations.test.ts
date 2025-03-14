@@ -1,12 +1,13 @@
+import { test, vi } from "vitest";
 import type { DeferredRegistrationFunction } from "../src/index.ts";
 import { mergeDeferredRegistrations } from "../src/registration/mergeDeferredRegistrations.ts";
 
 function noop() {}
 
-test("when deferred registrations are provided, all the deferred registrations are called", async () => {
-    const fct1: DeferredRegistrationFunction = jest.fn();
-    const fct2: DeferredRegistrationFunction = jest.fn();
-    const fct3: DeferredRegistrationFunction = jest.fn();
+test.concurrent("when deferred registrations are provided, all the deferred registrations are called", async ({ expect }) => {
+    const fct1: DeferredRegistrationFunction = vi.fn();
+    const fct2: DeferredRegistrationFunction = vi.fn();
+    const fct3: DeferredRegistrationFunction = vi.fn();
 
     const mergeFunction = mergeDeferredRegistrations([fct1, fct2, fct3]);
 
@@ -17,10 +18,10 @@ test("when deferred registrations are provided, all the deferred registrations a
     expect(fct3).toHaveBeenCalledTimes(1);
 });
 
-test("when deferred registrations are provided, all the deferred registrations are called with the provided data and state", async () => {
-    const fct1: DeferredRegistrationFunction<string> = jest.fn();
-    const fct2: DeferredRegistrationFunction<string> = jest.fn();
-    const fct3: DeferredRegistrationFunction<string> = jest.fn();
+test.concurrent("when deferred registrations are provided, all the deferred registrations are called with the provided data and state", async ({ expect }) => {
+    const fct1: DeferredRegistrationFunction<string> = vi.fn();
+    const fct2: DeferredRegistrationFunction<string> = vi.fn();
+    const fct3: DeferredRegistrationFunction<string> = vi.fn();
 
     const mergeFunction = mergeDeferredRegistrations([fct1, fct2, fct3]);
 
@@ -31,9 +32,9 @@ test("when deferred registrations are provided, all the deferred registrations a
     expect(fct3).toHaveBeenCalledWith("foo", "register");
 });
 
-test("when void results are provided, the void results are ignored", async () => {
-    const fct1: DeferredRegistrationFunction<string> = jest.fn();
-    const fct2: DeferredRegistrationFunction<string> = jest.fn();
+test.concurrent("when void results are provided, the void results are ignored", async ({ expect }) => {
+    const fct1: DeferredRegistrationFunction<string> = vi.fn();
+    const fct2: DeferredRegistrationFunction<string> = vi.fn();
 
     const mergeFunction = mergeDeferredRegistrations([noop(), fct1, noop(), fct2]);
 
@@ -43,14 +44,14 @@ test("when void results are provided, the void results are ignored", async () =>
     expect(fct2).toHaveBeenCalledWith("foo", "register");
 });
 
-test("when no deferred registrations are provided, return undefined", () => {
+test.concurrent("when no deferred registrations are provided, return undefined", ({ expect }) => {
     const mergeFunction = mergeDeferredRegistrations([noop(), noop()]);
 
     expect(mergeFunction).toBeUndefined();
 });
 
-test("when a single deferred registration is provided, the deferred registration is called", async () => {
-    const fct: DeferredRegistrationFunction<string> = jest.fn();
+test.concurrent("when a single deferred registration is provided, the deferred registration is called", async ({ expect }) => {
+    const fct: DeferredRegistrationFunction<string> = vi.fn();
 
     const mergeFunction = mergeDeferredRegistrations([fct]);
 
@@ -59,7 +60,7 @@ test("when a single deferred registration is provided, the deferred registration
     expect(fct).toHaveBeenCalledWith("foo", "register");
 });
 
-test("when a single deferred registration is provided, return the deferred registration", async () => {
+test.concurrent("when a single deferred registration is provided, return the deferred registration", async ({ expect }) => {
     const fct: DeferredRegistrationFunction<string> = () => {};
 
     const mergeFunction = mergeDeferredRegistrations([fct]);
