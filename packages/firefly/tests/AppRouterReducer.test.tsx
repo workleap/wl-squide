@@ -3,6 +3,7 @@ import { __clearRemoteModuleRegistry, __setRemoteModuleRegistry } from "@squide/
 import { __clearMswState, __setMswState, MswState, type MswStateChangedListener } from "@squide/msw";
 import { act, renderHook, type RenderHookOptions } from "@testing-library/react";
 import type { ReactNode } from "react";
+import { afterEach, describe, test, vi } from "vitest";
 import { ModulesReadyEvent, ModulesRegisteredEvent, MswReadyEvent, ProtectedDataReadyEvent, PublicDataReadyEvent, useAppRouterReducer, useModuleRegistrationStatusDispatcher, useMswStatusDispatcher, type AppRouterDispatch } from "../src/AppRouterReducer.ts";
 import { FireflyRuntime } from "../src/FireflyRuntime.tsx";
 
@@ -93,7 +94,7 @@ describe("useAppRouterReducer", () => {
         });
     }
 
-    test("the reducer is initialized with the provided values for \"waitForMsw\", \"waitForPublicData\" and \"waitForProtectedData\" 1", () => {
+    test.concurrent("the reducer is initialized with the provided values for \"waitForMsw\", \"waitForPublicData\" and \"waitForProtectedData\" 1", ({ expect }) => {
         const runtime = new FireflyRuntime();
 
         const { result } = renderUseAppRouterReducerHook(runtime, true, true, true);
@@ -105,7 +106,7 @@ describe("useAppRouterReducer", () => {
         expect(state.waitForProtectedData).toBeTruthy();
     });
 
-    test("the reducer is initialized with the provided values for \"waitForMsw\", \"waitForPublicData\" and \"waitForProtectedData\" 2", () => {
+    test.concurrent("the reducer is initialized with the provided values for \"waitForMsw\", \"waitForPublicData\" and \"waitForProtectedData\" 2", ({ expect }) => {
         const runtime = new FireflyRuntime();
 
         const { result } = renderUseAppRouterReducerHook(runtime, false, false, false);
@@ -117,7 +118,7 @@ describe("useAppRouterReducer", () => {
         expect(state.waitForProtectedData).toBeFalsy();
     });
 
-    test("when \"modules-registered\" is dispatched, \"areModulesRegistered\" is true", () => {
+    test.concurrent("when \"modules-registered\" is dispatched, \"areModulesRegistered\" is true", ({ expect }) => {
         const runtime = new FireflyRuntime();
 
         const { result } = renderUseAppRouterReducerHook(runtime, false, false, false);
@@ -132,10 +133,10 @@ describe("useAppRouterReducer", () => {
         expect(result.current[0].areModulesRegistered).toBeTruthy();
     });
 
-    test("when \"modules-registered\" is dispatched, ModulesRegisteredEvent is dispatched", () => {
+    test.concurrent("when \"modules-registered\" is dispatched, ModulesRegisteredEvent is dispatched", ({ expect }) => {
         const runtime = new FireflyRuntime();
 
-        const listener = jest.fn();
+        const listener = vi.fn();
 
         runtime.eventBus.addListener(ModulesRegisteredEvent, listener);
 
@@ -151,7 +152,7 @@ describe("useAppRouterReducer", () => {
         expect(listener).toHaveBeenCalledTimes(1);
     });
 
-    test("when \"modules-ready\" is dispatched, \"areModulesReady\" is true", () => {
+    test.concurrent("when \"modules-ready\" is dispatched, \"areModulesReady\" is true", ({ expect }) => {
         const runtime = new FireflyRuntime();
 
         const { result } = renderUseAppRouterReducerHook(runtime, false, false, false);
@@ -166,10 +167,10 @@ describe("useAppRouterReducer", () => {
         expect(result.current[0].areModulesReady).toBeTruthy();
     });
 
-    test("when \"modules-ready\" is dispatched, ModulesReadyEvent is dispatched", () => {
+    test.concurrent("when \"modules-ready\" is dispatched, ModulesReadyEvent is dispatched", ({ expect }) => {
         const runtime = new FireflyRuntime();
 
-        const listener = jest.fn();
+        const listener = vi.fn();
 
         runtime.eventBus.addListener(ModulesReadyEvent, listener);
 
@@ -185,8 +186,8 @@ describe("useAppRouterReducer", () => {
         expect(listener).toHaveBeenCalledTimes(1);
     });
 
-    test("when \"modules-ready\" is dispatched, \"deferredRegistrationsUpdatedAt\" is set to the current timestamp", () => {
-        jest.spyOn(global.Date, "now")
+    test.concurrent("when \"modules-ready\" is dispatched, \"deferredRegistrationsUpdatedAt\" is set to the current timestamp", ({ expect }) => {
+        vi.spyOn(global.Date, "now")
             .mockImplementationOnce(() => Date.parse("2020-02-14"));
 
         const runtime = new FireflyRuntime();
@@ -203,7 +204,7 @@ describe("useAppRouterReducer", () => {
         expect(result.current[0].deferredRegistrationsUpdatedAt).toEqual(Date.parse("2020-02-14"));
     });
 
-    test("when \"msw-ready\" is dispatched, \"isMswReady\" is true", () => {
+    test.concurrent("when \"msw-ready\" is dispatched, \"isMswReady\" is true", ({ expect }) => {
         const runtime = new FireflyRuntime();
 
         const { result } = renderUseAppRouterReducerHook(runtime, false, false, false);
@@ -218,10 +219,10 @@ describe("useAppRouterReducer", () => {
         expect(result.current[0].isMswReady).toBeTruthy();
     });
 
-    test("when \"msw-ready\" is dispatched, MswReadyEvent is dispatched", () => {
+    test.concurrent("when \"msw-ready\" is dispatched, MswReadyEvent is dispatched", ({ expect }) => {
         const runtime = new FireflyRuntime();
 
-        const listener = jest.fn();
+        const listener = vi.fn();
 
         runtime.eventBus.addListener(MswReadyEvent, listener);
 
@@ -237,7 +238,7 @@ describe("useAppRouterReducer", () => {
         expect(listener).toHaveBeenCalledTimes(1);
     });
 
-    test("when \"public-data-ready\" is dispatched, \"isPublicDataReady\" is true", () => {
+    test.concurrent("when \"public-data-ready\" is dispatched, \"isPublicDataReady\" is true", ({ expect }) => {
         const runtime = new FireflyRuntime();
 
         const { result } = renderUseAppRouterReducerHook(runtime, false, false, false);
@@ -252,10 +253,10 @@ describe("useAppRouterReducer", () => {
         expect(result.current[0].isPublicDataReady).toBeTruthy();
     });
 
-    test("when \"public-data-ready\" is dispatched, PublicDataReadyEvent is dispatched", () => {
+    test.concurrent("when \"public-data-ready\" is dispatched, PublicDataReadyEvent is dispatched", ({ expect }) => {
         const runtime = new FireflyRuntime();
 
-        const listener = jest.fn();
+        const listener = vi.fn();
 
         runtime.eventBus.addListener(PublicDataReadyEvent, listener);
 
@@ -271,8 +272,8 @@ describe("useAppRouterReducer", () => {
         expect(listener).toHaveBeenCalledTimes(1);
     });
 
-    test("when \"public-data-ready\" is dispatched, \"publicDataUpdatedAt\" is set to the current timestamp", () => {
-        jest.spyOn(global.Date, "now")
+    test.concurrent("when \"public-data-ready\" is dispatched, \"publicDataUpdatedAt\" is set to the current timestamp", ({ expect }) => {
+        vi.spyOn(global.Date, "now")
             .mockImplementationOnce(() => Date.parse("2020-02-14"));
 
         const runtime = new FireflyRuntime();
@@ -289,7 +290,7 @@ describe("useAppRouterReducer", () => {
         expect(result.current[0].publicDataUpdatedAt).toEqual(Date.parse("2020-02-14"));
     });
 
-    test("when \"protected-data-ready\" is dispatched, \"isProtectedDataReady\" is true", () => {
+    test.concurrent("when \"protected-data-ready\" is dispatched, \"isProtectedDataReady\" is true", ({ expect }) => {
         const runtime = new FireflyRuntime();
 
         const { result } = renderUseAppRouterReducerHook(runtime, false, false, false);
@@ -304,10 +305,10 @@ describe("useAppRouterReducer", () => {
         expect(result.current[0].isProtectedDataReady).toBeTruthy();
     });
 
-    test("when \"protected-data-ready\" is dispatched, ProtectedDataReadyEvent is dispatched", () => {
+    test.concurrent("when \"protected-data-ready\" is dispatched, ProtectedDataReadyEvent is dispatched", ({ expect }) => {
         const runtime = new FireflyRuntime();
 
-        const listener = jest.fn();
+        const listener = vi.fn();
 
         runtime.eventBus.addListener(ProtectedDataReadyEvent, listener);
 
@@ -323,8 +324,8 @@ describe("useAppRouterReducer", () => {
         expect(listener).toHaveBeenCalledTimes(1);
     });
 
-    test("when \"protected-data-ready\" is dispatched, \"protectedDataUpdatedAt\" is set to the current timestamp", () => {
-        jest.spyOn(global.Date, "now")
+    test.concurrent("when \"protected-data-ready\" is dispatched, \"protectedDataUpdatedAt\" is set to the current timestamp", ({ expect }) => {
+        vi.spyOn(global.Date, "now")
             .mockImplementationOnce(() => Date.parse("2020-02-14"));
 
         const runtime = new FireflyRuntime();
@@ -341,8 +342,8 @@ describe("useAppRouterReducer", () => {
         expect(result.current[0].protectedDataUpdatedAt).toEqual(Date.parse("2020-02-14"));
     });
 
-    test("when \"public-data-updated\" is dispatched, \"publicDataUpdatedAt\" is set to the current timestamp", () => {
-        jest.spyOn(global.Date, "now")
+    test.concurrent("when \"public-data-updated\" is dispatched, \"publicDataUpdatedAt\" is set to the current timestamp", ({ expect }) => {
+        vi.spyOn(global.Date, "now")
             .mockImplementationOnce(() => Date.parse("2020-02-14"))
             .mockImplementationOnce(() => Date.parse("2021-02-14"));
 
@@ -365,8 +366,8 @@ describe("useAppRouterReducer", () => {
         expect(result.current[0].publicDataUpdatedAt).toEqual(Date.parse("2021-02-14"));
     });
 
-    test("when \"protected-data-updated\" is dispatched, \"protectedDataUpdatedAt\" is set to the current timestamp", () => {
-        jest.spyOn(global.Date, "now")
+    test.concurrent("when \"protected-data-updated\" is dispatched, \"protectedDataUpdatedAt\" is set to the current timestamp", ({ expect }) => {
+        vi.spyOn(global.Date, "now")
             .mockImplementationOnce(() => Date.parse("2020-02-14"))
             .mockImplementationOnce(() => Date.parse("2021-02-14"));
 
@@ -389,8 +390,8 @@ describe("useAppRouterReducer", () => {
         expect(result.current[0].protectedDataUpdatedAt).toEqual(Date.parse("2021-02-14"));
     });
 
-    test("when \"deferred-registrations-updated\" is dispatched, \"deferredRegistrationsUpdatedAt\" is set to the current timestamp", () => {
-        jest.spyOn(global.Date, "now")
+    test.concurrent("when \"deferred-registrations-updated\" is dispatched, \"deferredRegistrationsUpdatedAt\" is set to the current timestamp", ({ expect }) => {
+        vi.spyOn(global.Date, "now")
             .mockImplementationOnce(() => Date.parse("2020-02-14"));
 
         const runtime = new FireflyRuntime();
@@ -407,7 +408,7 @@ describe("useAppRouterReducer", () => {
         expect(result.current[0].deferredRegistrationsUpdatedAt).toEqual(Date.parse("2020-02-14"));
     });
 
-    test("when \"active-route-is-public\" is dispatched, \"activeRouteVisiblity\" is \"public\"", () => {
+    test.concurrent("when \"active-route-is-public\" is dispatched, \"activeRouteVisiblity\" is \"public\"", ({ expect }) => {
         const runtime = new FireflyRuntime();
 
         const { result } = renderUseAppRouterReducerHook(runtime, false, false, false);
@@ -422,7 +423,7 @@ describe("useAppRouterReducer", () => {
         expect(result.current[0].activeRouteVisibility).toBe("public");
     });
 
-    test("when \"active-route-is-protected\" is dispatched, \"activeRouteVisiblity\" is \"protected\"", () => {
+    test.concurrent("when \"active-route-is-protected\" is dispatched, \"activeRouteVisiblity\" is \"protected\"", ({ expect }) => {
         const runtime = new FireflyRuntime();
 
         const { result } = renderUseAppRouterReducerHook(runtime, false, false, false);
@@ -437,7 +438,7 @@ describe("useAppRouterReducer", () => {
         expect(result.current[0].activeRouteVisibility).toBe("protected");
     });
 
-    test("when \"is-unauthorized\" is dispatched, \"isUnauthorized\" is true", () => {
+    test.concurrent("when \"is-unauthorized\" is dispatched, \"isUnauthorized\" is true", ({ expect }) => {
         const runtime = new FireflyRuntime();
 
         const { result } = renderUseAppRouterReducerHook(runtime, false, false, false);
@@ -452,7 +453,7 @@ describe("useAppRouterReducer", () => {
         expect(result.current[0].isUnauthorized).toBeTruthy();
     });
 
-    test("when local modules and remote modules are registered, \"areModulesRegistered\" is true at initialization", () => {
+    test.concurrent("when local modules and remote modules are registered, \"areModulesRegistered\" is true at initialization", ({ expect }) => {
         const localModuleRegistry = new DummyModuleRegistry("modules-registered");
         const remoteModuleRegistry = new DummyModuleRegistry("modules-registered");
 
@@ -466,7 +467,7 @@ describe("useAppRouterReducer", () => {
         expect(result.current[0].areModulesRegistered).toBeTruthy();
     });
 
-    test("when local modules and remote modules are registered, ModulesRegisteredEvent is dispatched at initialization", () => {
+    test.concurrent("when local modules and remote modules are registered, ModulesRegisteredEvent is dispatched at initialization", ({ expect }) => {
         const localModuleRegistry = new DummyModuleRegistry("modules-registered");
         const remoteModuleRegistry = new DummyModuleRegistry("modules-registered");
 
@@ -475,7 +476,7 @@ describe("useAppRouterReducer", () => {
 
         const runtime = new FireflyRuntime();
 
-        const listener = jest.fn();
+        const listener = vi.fn();
 
         runtime.eventBus.addListener(ModulesRegisteredEvent, listener);
 
@@ -484,7 +485,7 @@ describe("useAppRouterReducer", () => {
         expect(listener).toHaveBeenCalledTimes(1);
     });
 
-    test("when local modules are registered and no remote modules has been provided, \"areModulesRegistered\" is true at initialization", () => {
+    test.concurrent("when local modules are registered and no remote modules has been provided, \"areModulesRegistered\" is true at initialization", ({ expect }) => {
         const localModuleRegistry = new DummyModuleRegistry("modules-registered");
         const remoteModuleRegistry = new DummyModuleRegistry("none");
 
@@ -498,7 +499,7 @@ describe("useAppRouterReducer", () => {
         expect(result.current[0].areModulesRegistered).toBeTruthy();
     });
 
-    test("when local modules are registered and no remote modules has been provided, ModulesRegisteredEvent is dispatched at initialization", () => {
+    test.concurrent("when local modules are registered and no remote modules has been provided, ModulesRegisteredEvent is dispatched at initialization", ({ expect }) => {
         const localModuleRegistry = new DummyModuleRegistry("modules-registered");
         const remoteModuleRegistry = new DummyModuleRegistry("none");
 
@@ -507,7 +508,7 @@ describe("useAppRouterReducer", () => {
 
         const runtime = new FireflyRuntime();
 
-        const listener = jest.fn();
+        const listener = vi.fn();
 
         runtime.eventBus.addListener(ModulesRegisteredEvent, listener);
 
@@ -516,7 +517,7 @@ describe("useAppRouterReducer", () => {
         expect(listener).toHaveBeenCalledTimes(1);
     });
 
-    test("when no local modules has been provided and remote modules are registered, \"areModulesRegistered\" is true at initialization", () => {
+    test.concurrent("when no local modules has been provided and remote modules are registered, \"areModulesRegistered\" is true at initialization", ({ expect }) => {
         const localModuleRegistry = new DummyModuleRegistry("none");
         const remoteModuleRegistry = new DummyModuleRegistry("modules-registered");
 
@@ -530,7 +531,7 @@ describe("useAppRouterReducer", () => {
         expect(result.current[0].areModulesRegistered).toBeTruthy();
     });
 
-    test("when no local modules are registered and remote modules are registered, ModulesRegisteredEvent is dispatched at initialization", () => {
+    test.concurrent("when no local modules are registered and remote modules are registered, ModulesRegisteredEvent is dispatched at initialization", ({ expect }) => {
         const localModuleRegistry = new DummyModuleRegistry("none");
         const remoteModuleRegistry = new DummyModuleRegistry("modules-registered");
 
@@ -539,7 +540,7 @@ describe("useAppRouterReducer", () => {
 
         const runtime = new FireflyRuntime();
 
-        const listener = jest.fn();
+        const listener = vi.fn();
 
         runtime.eventBus.addListener(ModulesRegisteredEvent, listener);
 
@@ -548,7 +549,7 @@ describe("useAppRouterReducer", () => {
         expect(listener).toHaveBeenCalledTimes(1);
     });
 
-    test("when local modules are registered and remote modules are registering, \"areModulesRegistered\" is false at initialization", () => {
+    test.concurrent("when local modules are registered and remote modules are registering, \"areModulesRegistered\" is false at initialization", ({ expect }) => {
         const localModuleRegistry = new DummyModuleRegistry("modules-registered");
         const remoteModuleRegistry = new DummyModuleRegistry("registering-modules");
 
@@ -562,7 +563,7 @@ describe("useAppRouterReducer", () => {
         expect(result.current[0].areModulesRegistered).toBeFalsy();
     });
 
-    test("when local modules are registering and remote modules are registered, \"areModulesRegistered\" is false at initialization", () => {
+    test.concurrent("when local modules are registering and remote modules are registered, \"areModulesRegistered\" is false at initialization", ({ expect }) => {
         const localModuleRegistry = new DummyModuleRegistry("registering-modules");
         const remoteModuleRegistry = new DummyModuleRegistry("modules-registered");
 
@@ -576,7 +577,7 @@ describe("useAppRouterReducer", () => {
         expect(result.current[0].areModulesRegistered).toBeFalsy();
     });
 
-    test("when local modules and remote modules are ready, \"areModulesReady\" is true at initialization", () => {
+    test.concurrent("when local modules and remote modules are ready, \"areModulesReady\" is true at initialization", ({ expect }) => {
         const localModuleRegistry = new DummyModuleRegistry("ready");
         const remoteModuleRegistry = new DummyModuleRegistry("ready");
 
@@ -590,7 +591,7 @@ describe("useAppRouterReducer", () => {
         expect(result.current[0].areModulesReady).toBeTruthy();
     });
 
-    test("when local modules and remote modules are ready, ModulesReadyEvent is dispatched at initialization", () => {
+    test.concurrent("when local modules and remote modules are ready, ModulesReadyEvent is dispatched at initialization", ({ expect }) => {
         const localModuleRegistry = new DummyModuleRegistry("ready");
         const remoteModuleRegistry = new DummyModuleRegistry("ready");
 
@@ -599,7 +600,7 @@ describe("useAppRouterReducer", () => {
 
         const runtime = new FireflyRuntime();
 
-        const listener = jest.fn();
+        const listener = vi.fn();
 
         runtime.eventBus.addListener(ModulesRegisteredEvent, listener);
 
@@ -608,7 +609,7 @@ describe("useAppRouterReducer", () => {
         expect(listener).toHaveBeenCalledTimes(1);
     });
 
-    test("when local modules are ready and no remote modules has been provided, \"areModulesReady\" is true at initialization", () => {
+    test.concurrent("when local modules are ready and no remote modules has been provided, \"areModulesReady\" is true at initialization", ({ expect }) => {
         const localModuleRegistry = new DummyModuleRegistry("ready");
         const remoteModuleRegistry = new DummyModuleRegistry("none");
 
@@ -622,7 +623,7 @@ describe("useAppRouterReducer", () => {
         expect(result.current[0].areModulesReady).toBeTruthy();
     });
 
-    test("when local modules are ready and no remote modules has been provided, ModulesReadyEvent is dispatched at initialization", () => {
+    test.concurrent("when local modules are ready and no remote modules has been provided, ModulesReadyEvent is dispatched at initialization", ({ expect }) => {
         const localModuleRegistry = new DummyModuleRegistry("ready");
         const remoteModuleRegistry = new DummyModuleRegistry("none");
 
@@ -631,7 +632,7 @@ describe("useAppRouterReducer", () => {
 
         const runtime = new FireflyRuntime();
 
-        const listener = jest.fn();
+        const listener = vi.fn();
 
         runtime.eventBus.addListener(ModulesRegisteredEvent, listener);
 
@@ -640,7 +641,7 @@ describe("useAppRouterReducer", () => {
         expect(listener).toHaveBeenCalledTimes(1);
     });
 
-    test("when no local modules has been provided and remote modules are ready, \"areModulesReady\" is true at initialization", () => {
+    test.concurrent("when no local modules has been provided and remote modules are ready, \"areModulesReady\" is true at initialization", ({ expect }) => {
         const localModuleRegistry = new DummyModuleRegistry("none");
         const remoteModuleRegistry = new DummyModuleRegistry("ready");
 
@@ -654,7 +655,7 @@ describe("useAppRouterReducer", () => {
         expect(result.current[0].areModulesReady).toBeTruthy();
     });
 
-    test("when no local modules has been provided and remote modules are ready, ModulesReadyEvent is dispatched at initialization", () => {
+    test.concurrent("when no local modules has been provided and remote modules are ready, ModulesReadyEvent is dispatched at initialization", ({ expect }) => {
         const localModuleRegistry = new DummyModuleRegistry("none");
         const remoteModuleRegistry = new DummyModuleRegistry("ready");
 
@@ -663,7 +664,7 @@ describe("useAppRouterReducer", () => {
 
         const runtime = new FireflyRuntime();
 
-        const listener = jest.fn();
+        const listener = vi.fn();
 
         runtime.eventBus.addListener(ModulesRegisteredEvent, listener);
 
@@ -672,7 +673,7 @@ describe("useAppRouterReducer", () => {
         expect(listener).toHaveBeenCalledTimes(1);
     });
 
-    test("when local modules are ready and remote modules are not ready, \"areModulesReady\" is false at initialization", () => {
+    test.concurrent("when local modules are ready and remote modules are not ready, \"areModulesReady\" is false at initialization", ({ expect }) => {
         const localModuleRegistry = new DummyModuleRegistry("ready");
         const remoteModuleRegistry = new DummyModuleRegistry("modules-registered");
 
@@ -686,7 +687,7 @@ describe("useAppRouterReducer", () => {
         expect(result.current[0].areModulesReady).toBeFalsy();
     });
 
-    test("when local modules are not ready and remote modules are ready, \"areModulesReady\" is false at initialization", () => {
+    test.concurrent("when local modules are not ready and remote modules are ready, \"areModulesReady\" is false at initialization", ({ expect }) => {
         const localModuleRegistry = new DummyModuleRegistry("modules-registered");
         const remoteModuleRegistry = new DummyModuleRegistry("ready");
 
@@ -700,7 +701,7 @@ describe("useAppRouterReducer", () => {
         expect(result.current[0].areModulesReady).toBeFalsy();
     });
 
-    test("when msw is ready, \"isMswReady\" is true at initialization", () => {
+    test.concurrent("when msw is ready, \"isMswReady\" is true at initialization", ({ expect }) => {
         const mswState = new DummyMswState(true);
 
         __setMswState(mswState);
@@ -712,14 +713,14 @@ describe("useAppRouterReducer", () => {
         expect(result.current[0].isMswReady).toBeTruthy();
     });
 
-    test("when msw is ready, MswReadyEvent is dispatched at initialization", () => {
+    test.concurrent("when msw is ready, MswReadyEvent is dispatched at initialization", ({ expect }) => {
         const mswState = new DummyMswState(true);
 
         __setMswState(mswState);
 
         const runtime = new FireflyRuntime();
 
-        const listener = jest.fn();
+        const listener = vi.fn();
 
         runtime.eventBus.addListener(MswReadyEvent, listener);
 
@@ -728,7 +729,7 @@ describe("useAppRouterReducer", () => {
         expect(listener).toHaveBeenCalledTimes(1);
     });
 
-    test("when msw is not ready, \"isMswReady\" is false at initialization", () => {
+    test.concurrent("when msw is not ready, \"isMswReady\" is false at initialization", ({ expect }) => {
         const mswState = new DummyMswState(false);
 
         __setMswState(mswState);
@@ -755,14 +756,14 @@ describe("useModuleRegistrationStatusDispatcher", () => {
         });
     }
 
-    test("when local modules and remote modules are not registered, do not dispatch the \"modules-registered\" action", () => {
+    test.concurrent("when local modules and remote modules are not registered, do not dispatch the \"modules-registered\" action", ({ expect }) => {
         const localModuleRegistry = new DummyModuleRegistry("registering-modules");
         const remoteModuleRegistry = new DummyModuleRegistry("registering-modules");
 
         __setLocalModuleRegistry(localModuleRegistry);
         __setRemoteModuleRegistry(remoteModuleRegistry);
 
-        const dispatch = jest.fn();
+        const dispatch = vi.fn();
 
         renderUseModuleRegistrationStatusDispatcherHook(false, false, dispatch);
 
@@ -772,14 +773,14 @@ describe("useModuleRegistrationStatusDispatcher", () => {
         expect(dispatch).not.toHaveBeenCalled();
     });
 
-    test("when local modules are registered but remote modules are not registered, do not dispatch the \"modules-registered\" action", async () => {
+    test.concurrent("when local modules are registered but remote modules are not registered, do not dispatch the \"modules-registered\" action", async ({ expect }) => {
         const localModuleRegistry = new DummyModuleRegistry("modules-registered");
         const remoteModuleRegistry = new DummyModuleRegistry("registering-modules");
 
         __setLocalModuleRegistry(localModuleRegistry);
         __setRemoteModuleRegistry(remoteModuleRegistry);
 
-        const dispatch = jest.fn();
+        const dispatch = vi.fn();
 
         renderUseModuleRegistrationStatusDispatcherHook(false, false, dispatch);
 
@@ -789,14 +790,14 @@ describe("useModuleRegistrationStatusDispatcher", () => {
         expect(dispatch).not.toHaveBeenCalled();
     });
 
-    test("when local modules are not registered but remote modules are registered, do not dispatch the \"modules-registered\" action", async () => {
+    test.concurrent("when local modules are not registered but remote modules are registered, do not dispatch the \"modules-registered\" action", async ({ expect }) => {
         const localModuleRegistry = new DummyModuleRegistry("registering-modules");
         const remoteModuleRegistry = new DummyModuleRegistry("modules-registered");
 
         __setLocalModuleRegistry(localModuleRegistry);
         __setRemoteModuleRegistry(remoteModuleRegistry);
 
-        const dispatch = jest.fn();
+        const dispatch = vi.fn();
 
         renderUseModuleRegistrationStatusDispatcherHook(false, false, dispatch);
 
@@ -806,14 +807,14 @@ describe("useModuleRegistrationStatusDispatcher", () => {
         expect(dispatch).not.toHaveBeenCalled();
     });
 
-    test("when local modules and remote modules are registered, dispatch the \"modules-registered\" action", async () => {
+    test.concurrent("when local modules and remote modules are registered, dispatch the \"modules-registered\" action", async ({ expect }) => {
         const localModuleRegistry = new DummyModuleRegistry("modules-registered");
         const remoteModuleRegistry = new DummyModuleRegistry("modules-registered");
 
         __setLocalModuleRegistry(localModuleRegistry);
         __setRemoteModuleRegistry(remoteModuleRegistry);
 
-        const dispatch = jest.fn();
+        const dispatch = vi.fn();
 
         renderUseModuleRegistrationStatusDispatcherHook(false, false, dispatch);
 
@@ -824,14 +825,14 @@ describe("useModuleRegistrationStatusDispatcher", () => {
         expect(dispatch).toHaveBeenCalledWith({ type: "modules-registered" });
     });
 
-    test("when local modules and remote modules are registered and \"areModulesRegistered\" is already true, do not dispatch the \"modules-registered\" action", () => {
+    test.concurrent("when local modules and remote modules are registered and \"areModulesRegistered\" is already true, do not dispatch the \"modules-registered\" action", ({ expect }) => {
         const localModuleRegistry = new DummyModuleRegistry("modules-registered");
         const remoteModuleRegistry = new DummyModuleRegistry("modules-registered");
 
         __setLocalModuleRegistry(localModuleRegistry);
         __setRemoteModuleRegistry(remoteModuleRegistry);
 
-        const dispatch = jest.fn();
+        const dispatch = vi.fn();
 
         renderUseModuleRegistrationStatusDispatcherHook(true, false, dispatch);
 
@@ -841,14 +842,14 @@ describe("useModuleRegistrationStatusDispatcher", () => {
         expect(dispatch).not.toHaveBeenCalled();
     });
 
-    test("when local modules and remote modules are not ready, do not dispatch the \"modules-ready\" action", () => {
+    test.concurrent("when local modules and remote modules are not ready, do not dispatch the \"modules-ready\" action", ({ expect }) => {
         const localModuleRegistry = new DummyModuleRegistry("modules-registered");
         const remoteModuleRegistry = new DummyModuleRegistry("modules-registered");
 
         __setLocalModuleRegistry(localModuleRegistry);
         __setRemoteModuleRegistry(remoteModuleRegistry);
 
-        const dispatch = jest.fn();
+        const dispatch = vi.fn();
 
         renderUseModuleRegistrationStatusDispatcherHook(true, false, dispatch);
 
@@ -858,14 +859,14 @@ describe("useModuleRegistrationStatusDispatcher", () => {
         expect(dispatch).not.toHaveBeenCalled();
     });
 
-    test("when local modules are ready but remote modules are not ready, do not dispatch the \"modules-ready\" action", () => {
+    test.concurrent("when local modules are ready but remote modules are not ready, do not dispatch the \"modules-ready\" action", ({ expect }) => {
         const localModuleRegistry = new DummyModuleRegistry("ready");
         const remoteModuleRegistry = new DummyModuleRegistry("modules-registered");
 
         __setLocalModuleRegistry(localModuleRegistry);
         __setRemoteModuleRegistry(remoteModuleRegistry);
 
-        const dispatch = jest.fn();
+        const dispatch = vi.fn();
 
         renderUseModuleRegistrationStatusDispatcherHook(true, false, dispatch);
 
@@ -875,14 +876,14 @@ describe("useModuleRegistrationStatusDispatcher", () => {
         expect(dispatch).not.toHaveBeenCalled();
     });
 
-    test("when local modules are not ready but remote modules are ready, do not dispatch the \"modules-ready\" action", () => {
+    test.concurrent("when local modules are not ready but remote modules are ready, do not dispatch the \"modules-ready\" action", ({ expect }) => {
         const localModuleRegistry = new DummyModuleRegistry("modules-registered");
         const remoteModuleRegistry = new DummyModuleRegistry("ready");
 
         __setLocalModuleRegistry(localModuleRegistry);
         __setRemoteModuleRegistry(remoteModuleRegistry);
 
-        const dispatch = jest.fn();
+        const dispatch = vi.fn();
 
         renderUseModuleRegistrationStatusDispatcherHook(true, false, dispatch);
 
@@ -892,14 +893,14 @@ describe("useModuleRegistrationStatusDispatcher", () => {
         expect(dispatch).not.toHaveBeenCalled();
     });
 
-    test("when local modules and remote modules are ready, dispatch the \"modules-ready\" action", async () => {
+    test.concurrent("when local modules and remote modules are ready, dispatch the \"modules-ready\" action", async ({ expect }) => {
         const localModuleRegistry = new DummyModuleRegistry("ready");
         const remoteModuleRegistry = new DummyModuleRegistry("ready");
 
         __setLocalModuleRegistry(localModuleRegistry);
         __setRemoteModuleRegistry(remoteModuleRegistry);
 
-        const dispatch = jest.fn();
+        const dispatch = vi.fn();
 
         renderUseModuleRegistrationStatusDispatcherHook(true, false, dispatch);
 
@@ -910,14 +911,14 @@ describe("useModuleRegistrationStatusDispatcher", () => {
         expect(dispatch).toHaveBeenCalledWith({ type: "modules-ready" });
     });
 
-    test("when local modules and remote modules are ready and \"areModulesReady\" is already true, do not dispatch the \"modules-ready\" action", async () => {
+    test.concurrent("when local modules and remote modules are ready and \"areModulesReady\" is already true, do not dispatch the \"modules-ready\" action", async ({ expect }) => {
         const localModuleRegistry = new DummyModuleRegistry("ready");
         const remoteModuleRegistry = new DummyModuleRegistry("ready");
 
         __setLocalModuleRegistry(localModuleRegistry);
         __setRemoteModuleRegistry(remoteModuleRegistry);
 
-        const dispatch = jest.fn();
+        const dispatch = vi.fn();
 
         renderUseModuleRegistrationStatusDispatcherHook(true, true, dispatch);
 
@@ -942,12 +943,12 @@ describe("useMswStatusDispatcher", () => {
         });
     }
 
-    test("when msw is not ready, do not dispatch the \"msw-ready\" action", () => {
+    test.concurrent("when msw is not ready, do not dispatch the \"msw-ready\" action", ({ expect }) => {
         const mswState = new DummyMswState(false);
 
         __setMswState(mswState);
 
-        const dispatch = jest.fn();
+        const dispatch = vi.fn();
 
         renderUseMswStatusDispatcherHook(false, dispatch);
 
@@ -956,12 +957,12 @@ describe("useMswStatusDispatcher", () => {
         expect(dispatch).not.toHaveBeenCalled();
     });
 
-    test("when msw is ready, dispatch the \"msw-ready\" action", () => {
+    test.concurrent("when msw is ready, dispatch the \"msw-ready\" action", ({ expect }) => {
         const mswState = new DummyMswState(true);
 
         __setMswState(mswState);
 
-        const dispatch = jest.fn();
+        const dispatch = vi.fn();
 
         renderUseMswStatusDispatcherHook(false, dispatch);
 
@@ -971,12 +972,12 @@ describe("useMswStatusDispatcher", () => {
         expect(dispatch).toHaveBeenCalledWith({ type: "msw-ready" });
     });
 
-    test("when msw is ready and \"isMswReady\" is already true, do not dispatch the \"msw-ready\" action", () => {
+    test.concurrent("when msw is ready and \"isMswReady\" is already true, do not dispatch the \"msw-ready\" action", ({ expect }) => {
         const mswState = new DummyMswState(true);
 
         __setMswState(mswState);
 
-        const dispatch = jest.fn();
+        const dispatch = vi.fn();
 
         renderUseMswStatusDispatcherHook(true, dispatch);
 
