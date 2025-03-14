@@ -1,6 +1,6 @@
-// Jest Snapshot v1, https://goo.gl/fbAQLP
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
-exports[`defineBuildHostConfig the application name is set as the federation plugin application name 1`] = `
+exports[`defineBuildHostConfig > the application name is set as the federation plugin application name 1`] = `
 {
   "dts": false,
   "manifest": false,
@@ -40,7 +40,7 @@ exports[`defineBuildHostConfig the application name is set as the federation plu
 }
 `;
 
-exports[`defineBuildHostConfig the module federation plugin configuration includes the default shared dependencies 1`] = `
+exports[`defineBuildHostConfig > the module federation plugin configuration includes the default shared dependencies 1`] = `
 {
   "dts": false,
   "manifest": false,
@@ -80,7 +80,7 @@ exports[`defineBuildHostConfig the module federation plugin configuration includ
 }
 `;
 
-exports[`defineBuildHostConfig the module federation plugin configuration includes the remotes 1`] = `
+exports[`defineBuildHostConfig > the module federation plugin configuration includes the remotes 1`] = `
 {
   "dts": false,
   "manifest": false,
@@ -123,7 +123,7 @@ exports[`defineBuildHostConfig the module federation plugin configuration includ
 }
 `;
 
-exports[`defineBuildHostConfig when a function is provided to override the module federation plugin, apply the function 1`] = `
+exports[`defineBuildHostConfig > when a function is provided to override the module federation plugin, apply the function 1`] = `
 {
   "dts": false,
   "filename": "this is a dummy test value",
@@ -164,7 +164,7 @@ exports[`defineBuildHostConfig when a function is provided to override the modul
 }
 `;
 
-exports[`defineBuildHostConfig when additional options are provided for an existing default shared dependency, add the consumer options to the default options 1`] = `
+exports[`defineBuildHostConfig > when additional options are provided for an existing default shared dependency, add the consumer options to the default options 1`] = `
 {
   "dts": false,
   "manifest": false,
@@ -204,7 +204,7 @@ exports[`defineBuildHostConfig when additional options are provided for an exist
 }
 `;
 
-exports[`defineBuildHostConfig when additional shared dependencies are provided, add the dependencies to the module federation plugin configuration 1`] = `
+exports[`defineBuildHostConfig > when additional shared dependencies are provided, add the dependencies to the module federation plugin configuration 1`] = `
 {
   "dts": false,
   "manifest": false,
@@ -251,7 +251,7 @@ exports[`defineBuildHostConfig when additional shared dependencies are provided,
 }
 `;
 
-exports[`defineBuildHostConfig when environmentVariables is env-vars, add env-vars shared dependency and requiredVersion: false to the react shared dependency definition 1`] = `
+exports[`defineBuildHostConfig > when environmentVariables is env-vars, add env-vars shared dependency and requiredVersion: false to the react shared dependency definition 1`] = `
 {
   "dts": false,
   "manifest": false,
@@ -295,7 +295,7 @@ exports[`defineBuildHostConfig when environmentVariables is env-vars, add env-va
 }
 `;
 
-exports[`defineBuildHostConfig when honeycomb is activated, add honeycomb shared dependency and requiredVersion: false to the react shared dependency definition 1`] = `
+exports[`defineBuildHostConfig > when honeycomb is activated, add honeycomb shared dependency and requiredVersion: false to the react shared dependency definition 1`] = `
 {
   "dts": false,
   "manifest": false,
@@ -351,7 +351,7 @@ exports[`defineBuildHostConfig when honeycomb is activated, add honeycomb shared
 }
 `;
 
-exports[`defineBuildHostConfig when i18next is activated, add i18next shared dependency and requiredVersion: false to the react shared dependency definition 1`] = `
+exports[`defineBuildHostConfig > when i18next is activated, add i18next shared dependency and requiredVersion: false to the react shared dependency definition 1`] = `
 {
   "dts": false,
   "manifest": false,
@@ -403,7 +403,7 @@ exports[`defineBuildHostConfig when i18next is activated, add i18next shared dep
 }
 `;
 
-exports[`defineBuildHostConfig when no asset prefix is provided, the default asset prefix is "auto" 1`] = `
+exports[`defineBuildHostConfig > when no asset prefix is provided, the default asset prefix is "auto" 1`] = `
 {
   "dts": false,
   "manifest": false,
@@ -443,7 +443,7 @@ exports[`defineBuildHostConfig when no asset prefix is provided, the default ass
 }
 `;
 
-exports[`defineBuildHostConfig when overriding options are provided for a default shared dependency, use the consumer option 1`] = `
+exports[`defineBuildHostConfig > when overriding options are provided for a default shared dependency, use the consumer option 1`] = `
 {
   "dts": false,
   "manifest": false,
@@ -483,7 +483,7 @@ exports[`defineBuildHostConfig when overriding options are provided for a defaul
 }
 `;
 
-exports[`defineBuildHostConfig when the router is not react-router, do not add react-router shared dependencies 1`] = `
+exports[`defineBuildHostConfig > when the router is not react-router, do not add react-router shared dependencies 1`] = `
 {
   "dts": false,
   "manifest": false,
@@ -515,7 +515,7 @@ exports[`defineBuildHostConfig when the router is not react-router, do not add r
 }
 `;
 
-exports[`defineBuildRemoteModuleConfig the application name is set as the federation plugin application name 1`] = `
+exports[`defineBuildRemoteModuleConfig > the application name is set as the federation plugin application name 1`] = `
 {
   "dts": false,
   "exposes": {
@@ -558,7 +558,7 @@ exports[`defineBuildRemoteModuleConfig the application name is set as the federa
 }
 `;
 
-exports[`defineBuildRemoteModuleConfig the module federation plugin configuration includes the default shared dependencies 1`] = `
+exports[`defineBuildRemoteModuleConfig > the module federation plugin configuration includes the default shared dependencies 1`] = `
 {
   "dts": false,
   "exposes": {
@@ -601,7 +601,7 @@ exports[`defineBuildRemoteModuleConfig the module federation plugin configuratio
 }
 `;
 
-exports[`defineBuildRemoteModuleConfig when a function is provided to override the module federation plugin, apply the function 1`] = `
+exports[`defineBuildRemoteModuleConfig > when a function is provided to override the module federation plugin, apply the function 1`] = `
 {
   "dts": false,
   "exposes": {
@@ -644,7 +644,7 @@ exports[`defineBuildRemoteModuleConfig when a function is provided to override t
 }
 `;
 
-exports[`defineBuildRemoteModuleConfig when additional options are provided for an existing default shared dependency, add the consumer options to the default options 1`] = `
+exports[`defineBuildRemoteModuleConfig > when additional options are provided for an existing default shared dependency, add the consumer options to the default options 1`] = `
 {
   "dts": false,
   "exposes": {
@@ -687,7 +687,7 @@ exports[`defineBuildRemoteModuleConfig when additional options are provided for 
 }
 `;
 
-exports[`defineBuildRemoteModuleConfig when additional shared dependencies are provided, add the dependencies to the module federation plugin configuration 1`] = `
+exports[`defineBuildRemoteModuleConfig > when additional shared dependencies are provided, add the dependencies to the module federation plugin configuration 1`] = `
 {
   "dts": false,
   "exposes": {
@@ -737,7 +737,7 @@ exports[`defineBuildRemoteModuleConfig when additional shared dependencies are p
 }
 `;
 
-exports[`defineBuildRemoteModuleConfig when environmentVariables is activated, add env-vars shared dependency and requiredVersion: false to the react shared dependency definition 1`] = `
+exports[`defineBuildRemoteModuleConfig > when environmentVariables is activated, add env-vars shared dependency and requiredVersion: false to the react shared dependency definition 1`] = `
 {
   "dts": false,
   "exposes": {
@@ -784,7 +784,7 @@ exports[`defineBuildRemoteModuleConfig when environmentVariables is activated, a
 }
 `;
 
-exports[`defineBuildRemoteModuleConfig when honeycomb is activated, add honeycomb shared dependency and requiredVersion: false to the react shared dependency definition 1`] = `
+exports[`defineBuildRemoteModuleConfig > when honeycomb is activated, add honeycomb shared dependency and requiredVersion: false to the react shared dependency definition 1`] = `
 {
   "dts": false,
   "exposes": {
@@ -843,7 +843,7 @@ exports[`defineBuildRemoteModuleConfig when honeycomb is activated, add honeycom
 }
 `;
 
-exports[`defineBuildRemoteModuleConfig when i18next is activated, add i18next shared dependency and requiredVersion: false to the react shared dependency definition 1`] = `
+exports[`defineBuildRemoteModuleConfig > when i18next is activated, add i18next shared dependency and requiredVersion: false to the react shared dependency definition 1`] = `
 {
   "dts": false,
   "exposes": {
@@ -898,7 +898,7 @@ exports[`defineBuildRemoteModuleConfig when i18next is activated, add i18next sh
 }
 `;
 
-exports[`defineBuildRemoteModuleConfig when overriding options are provided for a default shared dependency, use the consumer option 1`] = `
+exports[`defineBuildRemoteModuleConfig > when overriding options are provided for a default shared dependency, use the consumer option 1`] = `
 {
   "dts": false,
   "exposes": {
@@ -941,7 +941,7 @@ exports[`defineBuildRemoteModuleConfig when overriding options are provided for 
 }
 `;
 
-exports[`defineBuildRemoteModuleConfig when the router is not react-router, add react-router shared dependencies 1`] = `
+exports[`defineBuildRemoteModuleConfig > when the router is not react-router, add react-router shared dependencies 1`] = `
 {
   "dts": false,
   "exposes": {
@@ -976,7 +976,7 @@ exports[`defineBuildRemoteModuleConfig when the router is not react-router, add 
 }
 `;
 
-exports[`defineDevHostConfig the application name is set as the federation plugin application name 1`] = `
+exports[`defineDevHostConfig > the application name is set as the federation plugin application name 1`] = `
 {
   "dts": false,
   "manifest": false,
@@ -1016,7 +1016,7 @@ exports[`defineDevHostConfig the application name is set as the federation plugi
 }
 `;
 
-exports[`defineDevHostConfig the module federation plugin configuration includes the default shared dependencies 1`] = `
+exports[`defineDevHostConfig > the module federation plugin configuration includes the default shared dependencies 1`] = `
 {
   "dts": false,
   "manifest": false,
@@ -1056,7 +1056,7 @@ exports[`defineDevHostConfig the module federation plugin configuration includes
 }
 `;
 
-exports[`defineDevHostConfig the module federation plugin configuration includes the remotes 1`] = `
+exports[`defineDevHostConfig > the module federation plugin configuration includes the remotes 1`] = `
 {
   "dts": false,
   "manifest": false,
@@ -1099,7 +1099,7 @@ exports[`defineDevHostConfig the module federation plugin configuration includes
 }
 `;
 
-exports[`defineDevHostConfig when a function is provided to override the module federation plugin, apply the function 1`] = `
+exports[`defineDevHostConfig > when a function is provided to override the module federation plugin, apply the function 1`] = `
 {
   "dts": false,
   "filename": "this is a dummy test value",
@@ -1140,7 +1140,7 @@ exports[`defineDevHostConfig when a function is provided to override the module 
 }
 `;
 
-exports[`defineDevHostConfig when additional options are provided for an existing default shared dependency, add the consumer options to the default options 1`] = `
+exports[`defineDevHostConfig > when additional options are provided for an existing default shared dependency, add the consumer options to the default options 1`] = `
 {
   "dts": false,
   "manifest": false,
@@ -1180,7 +1180,7 @@ exports[`defineDevHostConfig when additional options are provided for an existin
 }
 `;
 
-exports[`defineDevHostConfig when additional shared dependencies are provided, add the dependencies to the module federation plugin configuration 1`] = `
+exports[`defineDevHostConfig > when additional shared dependencies are provided, add the dependencies to the module federation plugin configuration 1`] = `
 {
   "dts": false,
   "manifest": false,
@@ -1227,7 +1227,7 @@ exports[`defineDevHostConfig when additional shared dependencies are provided, a
 }
 `;
 
-exports[`defineDevHostConfig when environmentVariables is activated, add env-var shared dependency and requiredVersion: false to the react shared dependency definition 1`] = `
+exports[`defineDevHostConfig > when environmentVariables is activated, add env-var shared dependency and requiredVersion: false to the react shared dependency definition 1`] = `
 {
   "dts": false,
   "manifest": false,
@@ -1271,7 +1271,7 @@ exports[`defineDevHostConfig when environmentVariables is activated, add env-var
 }
 `;
 
-exports[`defineDevHostConfig when honeycomb is activated, add honeycomb shared dependency and requiredVersion: false to the react shared dependency definition 1`] = `
+exports[`defineDevHostConfig > when honeycomb is activated, add honeycomb shared dependency and requiredVersion: false to the react shared dependency definition 1`] = `
 {
   "dts": false,
   "manifest": false,
@@ -1327,7 +1327,7 @@ exports[`defineDevHostConfig when honeycomb is activated, add honeycomb shared d
 }
 `;
 
-exports[`defineDevHostConfig when i18next is activated, add i18next shared dependency and requiredVersion: false to the react shared dependency definition 1`] = `
+exports[`defineDevHostConfig > when i18next is activated, add i18next shared dependency and requiredVersion: false to the react shared dependency definition 1`] = `
 {
   "dts": false,
   "manifest": false,
@@ -1379,7 +1379,7 @@ exports[`defineDevHostConfig when i18next is activated, add i18next shared depen
 }
 `;
 
-exports[`defineDevHostConfig when overriding options are provided for a default shared dependency, use the consumer option 1`] = `
+exports[`defineDevHostConfig > when overriding options are provided for a default shared dependency, use the consumer option 1`] = `
 {
   "dts": false,
   "manifest": false,
@@ -1419,7 +1419,7 @@ exports[`defineDevHostConfig when overriding options are provided for a default 
 }
 `;
 
-exports[`defineDevHostConfig when the router is not react-router, do not add react-router shared dependencies 1`] = `
+exports[`defineDevHostConfig > when the router is not react-router, do not add react-router shared dependencies 1`] = `
 {
   "dts": false,
   "manifest": false,
@@ -1451,7 +1451,7 @@ exports[`defineDevHostConfig when the router is not react-router, do not add rea
 }
 `;
 
-exports[`defineDevRemoteModuleConfig the application name is set as the federation plugin application name 1`] = `
+exports[`defineDevRemoteModuleConfig > the application name is set as the federation plugin application name 1`] = `
 {
   "dts": false,
   "exposes": {
@@ -1494,7 +1494,7 @@ exports[`defineDevRemoteModuleConfig the application name is set as the federati
 }
 `;
 
-exports[`defineDevRemoteModuleConfig the module federation plugin configuration includes the default shared dependencies 1`] = `
+exports[`defineDevRemoteModuleConfig > the module federation plugin configuration includes the default shared dependencies 1`] = `
 {
   "dts": false,
   "exposes": {
@@ -1537,7 +1537,7 @@ exports[`defineDevRemoteModuleConfig the module federation plugin configuration 
 }
 `;
 
-exports[`defineDevRemoteModuleConfig when a function is provided to override the module federation plugin, apply the function 1`] = `
+exports[`defineDevRemoteModuleConfig > when a function is provided to override the module federation plugin, apply the function 1`] = `
 {
   "dts": false,
   "exposes": {
@@ -1580,7 +1580,7 @@ exports[`defineDevRemoteModuleConfig when a function is provided to override the
 }
 `;
 
-exports[`defineDevRemoteModuleConfig when additional options are provided for an existing default shared dependency, add the consumer options to the default options 1`] = `
+exports[`defineDevRemoteModuleConfig > when additional options are provided for an existing default shared dependency, add the consumer options to the default options 1`] = `
 {
   "dts": false,
   "exposes": {
@@ -1623,7 +1623,7 @@ exports[`defineDevRemoteModuleConfig when additional options are provided for an
 }
 `;
 
-exports[`defineDevRemoteModuleConfig when additional shared dependencies are provided, add the dependencies to the module federation plugin configuration 1`] = `
+exports[`defineDevRemoteModuleConfig > when additional shared dependencies are provided, add the dependencies to the module federation plugin configuration 1`] = `
 {
   "dts": false,
   "exposes": {
@@ -1673,7 +1673,7 @@ exports[`defineDevRemoteModuleConfig when additional shared dependencies are pro
 }
 `;
 
-exports[`defineDevRemoteModuleConfig when environmentVariables is activated, add env-vars shared dependency and requiredVersion: false to the react shared dependency definition 1`] = `
+exports[`defineDevRemoteModuleConfig > when environmentVariables is activated, add env-vars shared dependency and requiredVersion: false to the react shared dependency definition 1`] = `
 {
   "dts": false,
   "manifest": false,
@@ -1717,7 +1717,7 @@ exports[`defineDevRemoteModuleConfig when environmentVariables is activated, add
 }
 `;
 
-exports[`defineDevRemoteModuleConfig when honeycomb is activated, add honeycomb shared dependency and requiredVersion: false to the react shared dependency definition 1`] = `
+exports[`defineDevRemoteModuleConfig > when honeycomb is activated, add honeycomb shared dependency and requiredVersion: false to the react shared dependency definition 1`] = `
 {
   "dts": false,
   "manifest": false,
@@ -1773,7 +1773,7 @@ exports[`defineDevRemoteModuleConfig when honeycomb is activated, add honeycomb 
 }
 `;
 
-exports[`defineDevRemoteModuleConfig when i18next is activated, add i18next shared dependency and requiredVersion: false to the react shared dependency definition 1`] = `
+exports[`defineDevRemoteModuleConfig > when i18next is activated, add i18next shared dependency and requiredVersion: false to the react shared dependency definition 1`] = `
 {
   "dts": false,
   "exposes": {
@@ -1828,7 +1828,7 @@ exports[`defineDevRemoteModuleConfig when i18next is activated, add i18next shar
 }
 `;
 
-exports[`defineDevRemoteModuleConfig when overriding options are provided for a default shared dependency, use the consumer option 1`] = `
+exports[`defineDevRemoteModuleConfig > when overriding options are provided for a default shared dependency, use the consumer option 1`] = `
 {
   "dts": false,
   "exposes": {
@@ -1871,7 +1871,7 @@ exports[`defineDevRemoteModuleConfig when overriding options are provided for a 
 }
 `;
 
-exports[`defineDevRemoteModuleConfig when the router is not react-router, add react-router shared dependencies 1`] = `
+exports[`defineDevRemoteModuleConfig > when the router is not react-router, add react-router shared dependencies 1`] = `
 {
   "dts": false,
   "exposes": {

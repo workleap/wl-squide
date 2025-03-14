@@ -1,5 +1,6 @@
 import { pluginModuleFederation } from "@module-federation/rsbuild-plugin";
 import type { RsbuildConfig, RsbuildPlugin, RsbuildPlugins } from "@rsbuild/core";
+import { afterAll, beforeAll, describe, test } from "vitest";
 import { __clearModuleFederationPluginFactory, __setModuleFederationPluginFactory, defineBuildHostConfig, defineBuildRemoteModuleConfig, defineDevHostConfig, defineDevRemoteModuleConfig, type ModuleFederationPluginOptions } from "../src/defineConfig.ts";
 
 const dummyPlugin = (): RsbuildPlugin => {
@@ -54,7 +55,7 @@ describe("defineDevHostConfig", () => {
         __clearModuleFederationPluginFactory();
     });
 
-    test("the application name is set as the federation plugin application name", () => {
+    test.concurrent("the application name is set as the federation plugin application name", ({ expect }) => {
         const config = defineDevHostConfig(8080, []);
         const plugin = findPlugin("rsbuild:module-federation-enhanced", config.plugins);
 
@@ -62,19 +63,19 @@ describe("defineDevHostConfig", () => {
         expect(prepareModuleFederationPluginForSnapshot(plugin)).toMatchSnapshot();
     });
 
-    test("the port number is set as the dev server port", () => {
+    test.concurrent("the port number is set as the dev server port", ({ expect }) => {
         const result = defineDevHostConfig(8080, []);
 
         expect(result.server!.port).toBe(8080);
     });
 
-    test("when no asset prefix is provided, the default asset prefix is \"auto\"", () => {
+    test.concurrent("when no asset prefix is provided, the default asset prefix is \"auto\"", ({ expect }) => {
         const config = defineDevHostConfig(8080, []);
 
         expect(config.dev!.assetPrefix).toBe("auto");
     });
 
-    test("when an asset prefix is provided, use the provided asset prefix", () => {
+    test.concurrent("when an asset prefix is provided, use the provided asset prefix", ({ expect }) => {
         const config = defineDevHostConfig(8080, [], {
             assetPrefix: "http://localhost:8080/"
         });
@@ -82,13 +83,13 @@ describe("defineDevHostConfig", () => {
         expect(config.dev!.assetPrefix).toBe("http://localhost:8080/");
     });
 
-    test("when no value is provided for lazy compilation, lazy compilation is disabled", () => {
+    test.concurrent("when no value is provided for lazy compilation, lazy compilation is disabled", ({ expect }) => {
         const config = defineDevHostConfig(8080, []);
 
         expect(config.dev!.lazyCompilation).toBeFalsy();
     });
 
-    test("when a value is provided for lazy compilation, use the provided value", () => {
+    test.concurrent("when a value is provided for lazy compilation, use the provided value", ({ expect }) => {
         const config = defineDevHostConfig(8080, [], {
             lazyCompilation: true
         });
@@ -96,7 +97,7 @@ describe("defineDevHostConfig", () => {
         expect(config.dev!.lazyCompilation).toBeTruthy();
     });
 
-    test("when a function is provided to override the module federation plugin, apply the function", () => {
+    test.concurrent("when a function is provided to override the module federation plugin, apply the function", ({ expect }) => {
         const config = defineDevHostConfig(8080, [], {
             moduleFederationPluginOptions: (defaultOptions: ModuleFederationPluginOptions) => {
                 defaultOptions.filename = "this is a dummy test value";
@@ -111,7 +112,7 @@ describe("defineDevHostConfig", () => {
         expect(prepareModuleFederationPluginForSnapshot(plugin)).toMatchSnapshot();
     });
 
-    test("the module federation plugin configuration includes the remotes", () => {
+    test.concurrent("the module federation plugin configuration includes the remotes", ({ expect }) => {
         const config = defineDevHostConfig(8080, [
             { name: "remote1", url: "http://localhost/remote1" },
             { name: "remote2", url: "http://localhost/remote2" }
@@ -123,7 +124,7 @@ describe("defineDevHostConfig", () => {
         expect(prepareModuleFederationPluginForSnapshot(plugin)).toMatchSnapshot();
     });
 
-    test("the module federation plugin configuration includes the default shared dependencies", () => {
+    test.concurrent("the module federation plugin configuration includes the default shared dependencies", ({ expect }) => {
         const config = defineDevHostConfig(8080, []);
         const plugin = findPlugin("rsbuild:module-federation-enhanced", config.plugins);
 
@@ -131,7 +132,7 @@ describe("defineDevHostConfig", () => {
         expect(prepareModuleFederationPluginForSnapshot(plugin)).toMatchSnapshot();
     });
 
-    test("when additional shared dependencies are provided, add the dependencies to the module federation plugin configuration", () => {
+    test.concurrent("when additional shared dependencies are provided, add the dependencies to the module federation plugin configuration", ({ expect }) => {
         const config = defineDevHostConfig(8080, [], {
             sharedDependencies: {
                 "first": {
@@ -150,7 +151,7 @@ describe("defineDevHostConfig", () => {
         expect(prepareModuleFederationPluginForSnapshot(plugin)).toMatchSnapshot();
     });
 
-    test("when additional options are provided for an existing default shared dependency, add the consumer options to the default options", () => {
+    test.concurrent("when additional options are provided for an existing default shared dependency, add the consumer options to the default options", ({ expect }) => {
         const config = defineDevHostConfig(8080, [], {
             sharedDependencies: {
                 "react": {
@@ -165,7 +166,7 @@ describe("defineDevHostConfig", () => {
         expect(prepareModuleFederationPluginForSnapshot(plugin)).toMatchSnapshot();
     });
 
-    test("when overriding options are provided for a default shared dependency, use the consumer option", () => {
+    test.concurrent("when overriding options are provided for a default shared dependency, use the consumer option", ({ expect }) => {
         const config = defineDevHostConfig(8080, [], {
             sharedDependencies: {
                 "react": {
@@ -181,7 +182,7 @@ describe("defineDevHostConfig", () => {
         expect(prepareModuleFederationPluginForSnapshot(plugin)).toMatchSnapshot();
     });
 
-    test("when the router is not react-router, do not add react-router shared dependencies", () => {
+    test.concurrent("when the router is not react-router, do not add react-router shared dependencies", ({ expect }) => {
         const config = defineDevHostConfig(8080, [], {
             features: {
                 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
@@ -196,7 +197,7 @@ describe("defineDevHostConfig", () => {
         expect(prepareModuleFederationPluginForSnapshot(plugin)).toMatchSnapshot();
     });
 
-    test("when i18next is activated, add i18next shared dependency and requiredVersion: false to the react shared dependency definition", () => {
+    test.concurrent("when i18next is activated, add i18next shared dependency and requiredVersion: false to the react shared dependency definition", ({ expect }) => {
         const config = defineDevHostConfig(8080, [], {
             features: {
                 i18next: true
@@ -209,7 +210,7 @@ describe("defineDevHostConfig", () => {
         expect(prepareModuleFederationPluginForSnapshot(plugin)).toMatchSnapshot();
     });
 
-    test("when honeycomb is activated, add honeycomb shared dependency and requiredVersion: false to the react shared dependency definition", () => {
+    test.concurrent("when honeycomb is activated, add honeycomb shared dependency and requiredVersion: false to the react shared dependency definition", ({ expect }) => {
         const config = defineDevHostConfig(8080, [], {
             features: {
                 honeycomb: true
@@ -222,7 +223,7 @@ describe("defineDevHostConfig", () => {
         expect(prepareModuleFederationPluginForSnapshot(plugin)).toMatchSnapshot();
     });
 
-    test("when environmentVariables is activated, add env-var shared dependency and requiredVersion: false to the react shared dependency definition", () => {
+    test.concurrent("when environmentVariables is activated, add env-var shared dependency and requiredVersion: false to the react shared dependency definition", ({ expect }) => {
         const config = defineDevHostConfig(8080, [], {
             features: {
                 environmentVariables: true
@@ -235,7 +236,7 @@ describe("defineDevHostConfig", () => {
         expect(prepareModuleFederationPluginForSnapshot(plugin)).toMatchSnapshot();
     });
 
-    test("when additional plugins are provided, the plugins are added to the configuration", () => {
+    test.concurrent("when additional plugins are provided, the plugins are added to the configuration", ({ expect }) => {
         const config = defineDevHostConfig(8080, [], {
             plugins: [dummyPlugin()]
         });
@@ -245,7 +246,7 @@ describe("defineDevHostConfig", () => {
         expect(plugin).toBeDefined();
     });
 
-    test("when configuration transformers are provided, the transformers are applied to the configuration", () => {
+    test.concurrent("when configuration transformers are provided, the transformers are applied to the configuration", ({ expect }) => {
         const result = defineDevHostConfig(8080, [], {
             transformers: [(config: RsbuildConfig) => {
                 config.source = config.source ?? {};
@@ -271,7 +272,7 @@ describe("defineBuildHostConfig", () => {
         __clearModuleFederationPluginFactory();
     });
 
-    test("the application name is set as the federation plugin application name", () => {
+    test.concurrent("the application name is set as the federation plugin application name", ({ expect }) => {
         const config = defineBuildHostConfig([]);
         const plugin = findPlugin("rsbuild:module-federation-enhanced", config.plugins);
 
@@ -279,7 +280,7 @@ describe("defineBuildHostConfig", () => {
         expect(prepareModuleFederationPluginForSnapshot(plugin)).toMatchSnapshot();
     });
 
-    test("when no asset prefix is provided, the default asset prefix is \"auto\"", () => {
+    test.concurrent("when no asset prefix is provided, the default asset prefix is \"auto\"", ({ expect }) => {
         const config = defineBuildHostConfig([]);
         const plugin = findPlugin("rsbuild:module-federation-enhanced", config.plugins);
 
@@ -287,7 +288,7 @@ describe("defineBuildHostConfig", () => {
         expect(prepareModuleFederationPluginForSnapshot(plugin)).toMatchSnapshot();
     });
 
-    test("when an asset prefix is provided, use the provided asset prefix", () => {
+    test.concurrent("when an asset prefix is provided, use the provided asset prefix", ({ expect }) => {
         const config = defineBuildHostConfig([], {
             assetPrefix: "http://localhost:8080/"
         });
@@ -295,7 +296,7 @@ describe("defineBuildHostConfig", () => {
         expect(config.output!.assetPrefix).toBe("http://localhost:8080/");
     });
 
-    test("when a function is provided to override the module federation plugin, apply the function", () => {
+    test.concurrent("when a function is provided to override the module federation plugin, apply the function", ({ expect }) => {
         const config = defineBuildHostConfig([], {
             moduleFederationPluginOptions: (defaultOptions: ModuleFederationPluginOptions) => {
                 defaultOptions.filename = "this is a dummy test value";
@@ -310,7 +311,7 @@ describe("defineBuildHostConfig", () => {
         expect(prepareModuleFederationPluginForSnapshot(plugin)).toMatchSnapshot();
     });
 
-    test("the module federation plugin configuration includes the remotes", () => {
+    test.concurrent("the module federation plugin configuration includes the remotes", ({ expect }) => {
         const config = defineBuildHostConfig([
             { name: "remote1", url: "http://localhost/remote1" },
             { name: "remote2", url: "http://localhost/remote2" }
@@ -322,7 +323,7 @@ describe("defineBuildHostConfig", () => {
         expect(prepareModuleFederationPluginForSnapshot(plugin)).toMatchSnapshot();
     });
 
-    test("the module federation plugin configuration includes the default shared dependencies", () => {
+    test.concurrent("the module federation plugin configuration includes the default shared dependencies", ({ expect }) => {
         const config = defineBuildHostConfig([]);
         const plugin = findPlugin("rsbuild:module-federation-enhanced", config.plugins);
 
@@ -330,7 +331,7 @@ describe("defineBuildHostConfig", () => {
         expect(prepareModuleFederationPluginForSnapshot(plugin)).toMatchSnapshot();
     });
 
-    test("when additional shared dependencies are provided, add the dependencies to the module federation plugin configuration", () => {
+    test.concurrent("when additional shared dependencies are provided, add the dependencies to the module federation plugin configuration", ({ expect }) => {
         const config = defineBuildHostConfig([], {
             sharedDependencies: {
                 "first": {
@@ -349,7 +350,7 @@ describe("defineBuildHostConfig", () => {
         expect(prepareModuleFederationPluginForSnapshot(plugin)).toMatchSnapshot();
     });
 
-    test("when additional options are provided for an existing default shared dependency, add the consumer options to the default options", () => {
+    test.concurrent("when additional options are provided for an existing default shared dependency, add the consumer options to the default options", ({ expect }) => {
         const config = defineBuildHostConfig([], {
             sharedDependencies: {
                 "react": {
@@ -364,7 +365,7 @@ describe("defineBuildHostConfig", () => {
         expect(prepareModuleFederationPluginForSnapshot(plugin)).toMatchSnapshot();
     });
 
-    test("when overriding options are provided for a default shared dependency, use the consumer option", () => {
+    test.concurrent("when overriding options are provided for a default shared dependency, use the consumer option", ({ expect }) => {
         const config = defineBuildHostConfig([], {
             sharedDependencies: {
                 "react": {
@@ -380,7 +381,7 @@ describe("defineBuildHostConfig", () => {
         expect(prepareModuleFederationPluginForSnapshot(plugin)).toMatchSnapshot();
     });
 
-    test("when the router is not react-router, do not add react-router shared dependencies", () => {
+    test.concurrent("when the router is not react-router, do not add react-router shared dependencies", ({ expect }) => {
         const config = defineBuildHostConfig([], {
             features: {
                 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
@@ -395,7 +396,7 @@ describe("defineBuildHostConfig", () => {
         expect(prepareModuleFederationPluginForSnapshot(plugin)).toMatchSnapshot();
     });
 
-    test("when i18next is activated, add i18next shared dependency and requiredVersion: false to the react shared dependency definition", () => {
+    test.concurrent("when i18next is activated, add i18next shared dependency and requiredVersion: false to the react shared dependency definition", ({ expect }) => {
         const config = defineBuildHostConfig([], {
             features: {
                 i18next: true
@@ -408,7 +409,7 @@ describe("defineBuildHostConfig", () => {
         expect(prepareModuleFederationPluginForSnapshot(plugin)).toMatchSnapshot();
     });
 
-    test("when honeycomb is activated, add honeycomb shared dependency and requiredVersion: false to the react shared dependency definition", () => {
+    test.concurrent("when honeycomb is activated, add honeycomb shared dependency and requiredVersion: false to the react shared dependency definition", ({ expect }) => {
         const config = defineBuildHostConfig([], {
             features: {
                 honeycomb: true
@@ -421,7 +422,7 @@ describe("defineBuildHostConfig", () => {
         expect(prepareModuleFederationPluginForSnapshot(plugin)).toMatchSnapshot();
     });
 
-    test("when environmentVariables is env-vars, add env-vars shared dependency and requiredVersion: false to the react shared dependency definition", () => {
+    test.concurrent("when environmentVariables is env-vars, add env-vars shared dependency and requiredVersion: false to the react shared dependency definition", ({ expect }) => {
         const config = defineBuildHostConfig([], {
             features: {
                 environmentVariables: true
@@ -434,7 +435,7 @@ describe("defineBuildHostConfig", () => {
         expect(prepareModuleFederationPluginForSnapshot(plugin)).toMatchSnapshot();
     });
 
-    test("when additional plugins are provided, the plugins are added to the configuration", () => {
+    test.concurrent("when additional plugins are provided, the plugins are added to the configuration", ({ expect }) => {
         const config = defineBuildHostConfig([], {
             plugins: [dummyPlugin()]
         });
@@ -444,7 +445,7 @@ describe("defineBuildHostConfig", () => {
         expect(plugin).toBeDefined();
     });
 
-    test("when configuration transformers are provided, the transformers are applied to the configuration", () => {
+    test.concurrent("when configuration transformers are provided, the transformers are applied to the configuration", ({ expect }) => {
         const result = defineBuildHostConfig([], {
             transformers: [(config: RsbuildConfig) => {
                 config.source = config.source ?? {};
@@ -470,7 +471,7 @@ describe("defineDevRemoteModuleConfig", () => {
         __clearModuleFederationPluginFactory();
     });
 
-    test("the application name is set as the federation plugin application name", () => {
+    test.concurrent("the application name is set as the federation plugin application name", ({ expect }) => {
         const config = defineDevRemoteModuleConfig("remote1", 8081);
         const plugin = findPlugin("rsbuild:module-federation-enhanced", config.plugins);
 
@@ -478,19 +479,19 @@ describe("defineDevRemoteModuleConfig", () => {
         expect(prepareModuleFederationPluginForSnapshot(plugin)).toMatchSnapshot();
     });
 
-    test("the port number is set as the dev server port", () => {
+    test.concurrent("the port number is set as the dev server port", ({ expect }) => {
         const result = defineDevRemoteModuleConfig("remote1", 8081);
 
         expect(result.server!.port).toBe(8081);
     });
 
-    test("when no asset prefix is provided, the default asset prefix is \"auto\"", () => {
+    test.concurrent("when no asset prefix is provided, the default asset prefix is \"auto\"", ({ expect }) => {
         const config = defineDevRemoteModuleConfig("remote1", 8081);
 
         expect(config.dev!.assetPrefix).toBe("auto");
     });
 
-    test("when an asset prefix is provided, use the provided asset prefix", () => {
+    test.concurrent("when an asset prefix is provided, use the provided asset prefix", ({ expect }) => {
         const config = defineDevRemoteModuleConfig("remote1", 8081, {
             assetPrefix: "http://localhost:8081/"
         });
@@ -498,13 +499,13 @@ describe("defineDevRemoteModuleConfig", () => {
         expect(config.dev!.assetPrefix).toBe("http://localhost:8081/");
     });
 
-    test("when no value is provided for lazy compilation, lazy compilation is disabled", () => {
+    test.concurrent("when no value is provided for lazy compilation, lazy compilation is disabled", ({ expect }) => {
         const config = defineDevRemoteModuleConfig("remote1", 8081);
 
         expect(config.dev!.lazyCompilation).toBeFalsy();
     });
 
-    test("when a value is provided for lazy compilation, use the provided value", () => {
+    test.concurrent("when a value is provided for lazy compilation, use the provided value", ({ expect }) => {
         const config = defineDevRemoteModuleConfig("remote1", 8081, {
             lazyCompilation: true
         });
@@ -512,7 +513,7 @@ describe("defineDevRemoteModuleConfig", () => {
         expect(config.dev!.lazyCompilation).toBeTruthy();
     });
 
-    test("when a function is provided to override the module federation plugin, apply the function", () => {
+    test.concurrent("when a function is provided to override the module federation plugin, apply the function", ({ expect }) => {
         const config = defineDevRemoteModuleConfig("remote1", 8081, {
             moduleFederationPluginOptions: (defaultOptions: ModuleFederationPluginOptions) => {
                 defaultOptions.filename = "this is a dummy test value";
@@ -527,7 +528,7 @@ describe("defineDevRemoteModuleConfig", () => {
         expect(prepareModuleFederationPluginForSnapshot(plugin)).toMatchSnapshot();
     });
 
-    test("the module federation plugin configuration includes the default shared dependencies", () => {
+    test.concurrent("the module federation plugin configuration includes the default shared dependencies", ({ expect }) => {
         const config = defineDevRemoteModuleConfig("remote1", 8081);
         const plugin = findPlugin("rsbuild:module-federation-enhanced", config.plugins);
 
@@ -535,7 +536,7 @@ describe("defineDevRemoteModuleConfig", () => {
         expect(prepareModuleFederationPluginForSnapshot(plugin)).toMatchSnapshot();
     });
 
-    test("when additional shared dependencies are provided, add the dependencies to the module federation plugin configuration", () => {
+    test.concurrent("when additional shared dependencies are provided, add the dependencies to the module federation plugin configuration", ({ expect }) => {
         const config = defineDevRemoteModuleConfig("remote1", 8081, {
             sharedDependencies: {
                 "first": {
@@ -554,7 +555,7 @@ describe("defineDevRemoteModuleConfig", () => {
         expect(prepareModuleFederationPluginForSnapshot(plugin)).toMatchSnapshot();
     });
 
-    test("when additional options are provided for an existing default shared dependency, add the consumer options to the default options", () => {
+    test.concurrent("when additional options are provided for an existing default shared dependency, add the consumer options to the default options", ({ expect }) => {
         const config = defineDevRemoteModuleConfig("remote1", 8081, {
             sharedDependencies: {
                 "react": {
@@ -569,7 +570,7 @@ describe("defineDevRemoteModuleConfig", () => {
         expect(prepareModuleFederationPluginForSnapshot(plugin)).toMatchSnapshot();
     });
 
-    test("when overriding options are provided for a default shared dependency, use the consumer option", () => {
+    test.concurrent("when overriding options are provided for a default shared dependency, use the consumer option", ({ expect }) => {
         const config = defineDevRemoteModuleConfig("remote1", 8081, {
             sharedDependencies: {
                 "react": {
@@ -585,7 +586,7 @@ describe("defineDevRemoteModuleConfig", () => {
         expect(prepareModuleFederationPluginForSnapshot(plugin)).toMatchSnapshot();
     });
 
-    test("when the router is not react-router, add react-router shared dependencies", () => {
+    test.concurrent("when the router is not react-router, add react-router shared dependencies", ({ expect }) => {
         const config = defineDevRemoteModuleConfig("remote1", 8081, {
             features: {
                 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
@@ -600,7 +601,7 @@ describe("defineDevRemoteModuleConfig", () => {
         expect(prepareModuleFederationPluginForSnapshot(plugin)).toMatchSnapshot();
     });
 
-    test("when i18next is activated, add i18next shared dependency and requiredVersion: false to the react shared dependency definition", () => {
+    test.concurrent("when i18next is activated, add i18next shared dependency and requiredVersion: false to the react shared dependency definition", ({ expect }) => {
         const config = defineDevRemoteModuleConfig("remote1", 8081, {
             features: {
                 i18next: true
@@ -613,7 +614,7 @@ describe("defineDevRemoteModuleConfig", () => {
         expect(prepareModuleFederationPluginForSnapshot(plugin)).toMatchSnapshot();
     });
 
-    test("when honeycomb is activated, add honeycomb shared dependency and requiredVersion: false to the react shared dependency definition", () => {
+    test.concurrent("when honeycomb is activated, add honeycomb shared dependency and requiredVersion: false to the react shared dependency definition", ({ expect }) => {
         const config = defineBuildHostConfig([], {
             features: {
                 honeycomb: true
@@ -626,7 +627,7 @@ describe("defineDevRemoteModuleConfig", () => {
         expect(prepareModuleFederationPluginForSnapshot(plugin)).toMatchSnapshot();
     });
 
-    test("when environmentVariables is activated, add env-vars shared dependency and requiredVersion: false to the react shared dependency definition", () => {
+    test.concurrent("when environmentVariables is activated, add env-vars shared dependency and requiredVersion: false to the react shared dependency definition", ({ expect }) => {
         const config = defineBuildHostConfig([], {
             features: {
                 environmentVariables: true
@@ -639,7 +640,7 @@ describe("defineDevRemoteModuleConfig", () => {
         expect(prepareModuleFederationPluginForSnapshot(plugin)).toMatchSnapshot();
     });
 
-    test("when additional plugins are provided, the plugins are added to the configuration", () => {
+    test.concurrent("when additional plugins are provided, the plugins are added to the configuration", ({ expect }) => {
         const config = defineDevRemoteModuleConfig("remote1", 8081, {
             plugins: [dummyPlugin()]
         });
@@ -649,7 +650,7 @@ describe("defineDevRemoteModuleConfig", () => {
         expect(plugin).toBeDefined();
     });
 
-    test("when additional configuration transformers are provided, the transformers are applied to the configuration", () => {
+    test.concurrent("when additional configuration transformers are provided, the transformers are applied to the configuration", ({ expect }) => {
         const result = defineDevRemoteModuleConfig("remote1", 8081, {
             transformers: [(config: RsbuildConfig) => {
                 config.source = config.source ?? {};
@@ -675,7 +676,7 @@ describe("defineBuildRemoteModuleConfig", () => {
         __clearModuleFederationPluginFactory();
     });
 
-    test("the application name is set as the federation plugin application name", () => {
+    test.concurrent("the application name is set as the federation plugin application name", ({ expect }) => {
         const config = defineBuildRemoteModuleConfig("remote1");
         const plugin = findPlugin("rsbuild:module-federation-enhanced", config.plugins);
 
@@ -683,13 +684,13 @@ describe("defineBuildRemoteModuleConfig", () => {
         expect(prepareModuleFederationPluginForSnapshot(plugin)).toMatchSnapshot();
     });
 
-    test("when no asset prefix is provided, the default asset prefix is \"auto\"", () => {
+    test.concurrent("when no asset prefix is provided, the default asset prefix is \"auto\"", ({ expect }) => {
         const config = defineBuildRemoteModuleConfig("remote1");
 
         expect(config.output!.assetPrefix).toBe("auto");
     });
 
-    test("when an asset prefix is provided, use the provided asset prefix", () => {
+    test.concurrent("when an asset prefix is provided, use the provided asset prefix", ({ expect }) => {
         const config = defineBuildRemoteModuleConfig("remote1", {
             assetPrefix: "http://localhost:8080/"
         });
@@ -697,7 +698,7 @@ describe("defineBuildRemoteModuleConfig", () => {
         expect(config.output!.assetPrefix).toBe("http://localhost:8080/");
     });
 
-    test("when a function is provided to override the module federation plugin, apply the function", () => {
+    test.concurrent("when a function is provided to override the module federation plugin, apply the function", ({ expect }) => {
         const config = defineBuildRemoteModuleConfig("remote1", {
             moduleFederationPluginOptions: (defaultOptions: ModuleFederationPluginOptions) => {
                 defaultOptions.filename = "this is a dummy test value";
@@ -712,7 +713,7 @@ describe("defineBuildRemoteModuleConfig", () => {
         expect(prepareModuleFederationPluginForSnapshot(plugin)).toMatchSnapshot();
     });
 
-    test("the module federation plugin configuration includes the default shared dependencies", () => {
+    test.concurrent("the module federation plugin configuration includes the default shared dependencies", ({ expect }) => {
         const config = defineBuildRemoteModuleConfig("remote1");
         const plugin = findPlugin("rsbuild:module-federation-enhanced", config.plugins);
 
@@ -720,7 +721,7 @@ describe("defineBuildRemoteModuleConfig", () => {
         expect(prepareModuleFederationPluginForSnapshot(plugin)).toMatchSnapshot();
     });
 
-    test("when additional shared dependencies are provided, add the dependencies to the module federation plugin configuration", () => {
+    test.concurrent("when additional shared dependencies are provided, add the dependencies to the module federation plugin configuration", ({ expect }) => {
         const config = defineBuildRemoteModuleConfig("remote1", {
             sharedDependencies: {
                 "first": {
@@ -739,7 +740,7 @@ describe("defineBuildRemoteModuleConfig", () => {
         expect(prepareModuleFederationPluginForSnapshot(plugin)).toMatchSnapshot();
     });
 
-    test("when additional options are provided for an existing default shared dependency, add the consumer options to the default options", () => {
+    test.concurrent("when additional options are provided for an existing default shared dependency, add the consumer options to the default options", ({ expect }) => {
         const config = defineBuildRemoteModuleConfig("remote1", {
             sharedDependencies: {
                 "react": {
@@ -754,7 +755,7 @@ describe("defineBuildRemoteModuleConfig", () => {
         expect(prepareModuleFederationPluginForSnapshot(plugin)).toMatchSnapshot();
     });
 
-    test("when overriding options are provided for a default shared dependency, use the consumer option", () => {
+    test.concurrent("when overriding options are provided for a default shared dependency, use the consumer option", ({ expect }) => {
         const config = defineBuildRemoteModuleConfig("remote1", {
             sharedDependencies: {
                 "react": {
@@ -770,7 +771,7 @@ describe("defineBuildRemoteModuleConfig", () => {
         expect(prepareModuleFederationPluginForSnapshot(plugin)).toMatchSnapshot();
     });
 
-    test("when the router is not react-router, add react-router shared dependencies", () => {
+    test.concurrent("when the router is not react-router, add react-router shared dependencies", ({ expect }) => {
         const config = defineBuildRemoteModuleConfig("remote1", {
             features: {
                 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
@@ -786,7 +787,7 @@ describe("defineBuildRemoteModuleConfig", () => {
         expect(prepareModuleFederationPluginForSnapshot(plugin)).toMatchSnapshot();
     });
 
-    test("when i18next is activated, add i18next shared dependency and requiredVersion: false to the react shared dependency definition", () => {
+    test.concurrent("when i18next is activated, add i18next shared dependency and requiredVersion: false to the react shared dependency definition", ({ expect }) => {
         const config = defineBuildRemoteModuleConfig("remote1", {
             features: {
                 i18next: true
@@ -799,7 +800,7 @@ describe("defineBuildRemoteModuleConfig", () => {
         expect(prepareModuleFederationPluginForSnapshot(plugin)).toMatchSnapshot();
     });
 
-    test("when honeycomb is activated, add honeycomb shared dependency and requiredVersion: false to the react shared dependency definition", () => {
+    test.concurrent("when honeycomb is activated, add honeycomb shared dependency and requiredVersion: false to the react shared dependency definition", ({ expect }) => {
         const config = defineDevRemoteModuleConfig("remote1", 8081, {
             features: {
                 honeycomb: true
@@ -812,7 +813,7 @@ describe("defineBuildRemoteModuleConfig", () => {
         expect(prepareModuleFederationPluginForSnapshot(plugin)).toMatchSnapshot();
     });
 
-    test("when environmentVariables is activated, add env-vars shared dependency and requiredVersion: false to the react shared dependency definition", () => {
+    test.concurrent("when environmentVariables is activated, add env-vars shared dependency and requiredVersion: false to the react shared dependency definition", ({ expect }) => {
         const config = defineDevRemoteModuleConfig("remote1", 8081, {
             features: {
                 environmentVariables: true
@@ -825,7 +826,7 @@ describe("defineBuildRemoteModuleConfig", () => {
         expect(prepareModuleFederationPluginForSnapshot(plugin)).toMatchSnapshot();
     });
 
-    test("when additional plugins are provided, the plugins are added to the configuration", () => {
+    test.concurrent("when additional plugins are provided, the plugins are added to the configuration", ({ expect }) => {
         const config = defineBuildRemoteModuleConfig("remote1", {
             plugins: [dummyPlugin()]
         });
@@ -835,7 +836,7 @@ describe("defineBuildRemoteModuleConfig", () => {
         expect(plugin).toBeDefined();
     });
 
-    test("when configuration transformers are provided, the transformers are applied to the configuration", () => {
+    test.concurrent("when configuration transformers are provided, the transformers are applied to the configuration", ({ expect }) => {
         const result = defineBuildRemoteModuleConfig("remote1", {
             transformers: [(config: RsbuildConfig) => {
                 config.source = config.source ?? {};
