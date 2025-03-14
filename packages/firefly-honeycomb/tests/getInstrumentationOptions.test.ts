@@ -1,5 +1,6 @@
 import type { FetchInstrumentationConfig } from "@opentelemetry/instrumentation-fetch";
 import { FireflyRuntime } from "@squide/firefly";
+import { describe, test, vi } from "vitest";
 import { __clearOverrideFetchRequestSpanWithActiveSpanContextMock, __setOverrideFetchRequestSpanWithActiveSpanContextMock } from "../src/activeSpan.ts";
 import { getInstrumentationOptions } from "../src/registerHoneycombInstrumentation.ts";
 
@@ -30,7 +31,7 @@ function removeInstrumentationVersionsForSnapshot(options: any) {
     return options;
 }
 
-test("when debug is true", () => {
+test.concurrent("when debug is true", ({ expect }) => {
     const runtime = new FireflyRuntime();
 
     const result = getInstrumentationOptions(runtime, {
@@ -46,7 +47,7 @@ test("when debug is true", () => {
     expect(cleanedResult).toMatchSnapshot();
 });
 
-test("when debug is false", () => {
+test.concurrent("when debug is false", ({ expect }) => {
     const runtime = new FireflyRuntime();
 
     const result = getInstrumentationOptions(runtime, {
@@ -62,7 +63,7 @@ test("when debug is false", () => {
     expect(cleanedResult).toMatchSnapshot();
 });
 
-test("when the runtime mode is \"development\"", () => {
+test.concurrent("when the runtime mode is \"development\"", ({ expect }) => {
     const runtime = new FireflyRuntime({
         mode: "development"
     });
@@ -79,7 +80,7 @@ test("when the runtime mode is \"development\"", () => {
     expect(cleanedResult).toMatchSnapshot();
 });
 
-test("when the runtime mode is \"production\"", () => {
+test.concurrent("when the runtime mode is \"production\"", ({ expect }) => {
     const runtime = new FireflyRuntime({
         mode: "production"
     });
@@ -97,7 +98,7 @@ test("when the runtime mode is \"production\"", () => {
 });
 
 describe("fetchInstrumentation", () => {
-    test("when fetchInstrumentation is false, return false", () => {
+    test.concurrent("when fetchInstrumentation is false, return false", ({ expect }) => {
         const runtime = new FireflyRuntime();
 
         const result = getInstrumentationOptions(runtime, {
@@ -108,10 +109,10 @@ describe("fetchInstrumentation", () => {
         expect(result.fetchInstrumentation).toBe(false);
     });
 
-    test("when fetchInstrumentation is a function, call the function with the augmented options", () => {
+    test.concurrent("when fetchInstrumentation is a function, call the function with the augmented options", ({ expect }) => {
         const runtime = new FireflyRuntime();
 
-        const mock = jest.fn();
+        const mock = vi.fn();
 
         const result = getInstrumentationOptions(runtime, {
             fetchInstrumentation: mock,
@@ -129,7 +130,7 @@ describe("fetchInstrumentation", () => {
         }));
     });
 
-    test("when fetchInstrumentation is not provided, requestHook is the active span override function", () => {
+    test.concurrent("when fetchInstrumentation is not provided, requestHook is the active span override function", ({ expect }) => {
         const runtime = new FireflyRuntime();
 
         const result = getInstrumentationOptions(runtime, {
@@ -146,11 +147,11 @@ describe("fetchInstrumentation", () => {
         expect(fetchOptions.requestHook).toBeDefined();
     });
 
-    test("when the base honeycomb instrumentation library configure a default requestHook, merge the base function with the active span override function", () => {
+    test.concurrent("when the base honeycomb instrumentation library configure a default requestHook, merge the base function with the active span override function", ({ expect }) => {
         const runtime = new FireflyRuntime();
 
-        const baseConfigMock = jest.fn();
-        const activeSpanMock = jest.fn();
+        const baseConfigMock = vi.fn();
+        const activeSpanMock = vi.fn();
 
         __setOverrideFetchRequestSpanWithActiveSpanContextMock(activeSpanMock);
 

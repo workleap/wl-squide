@@ -52,7 +52,6 @@
     "devDependencies": {
         "@rsbuild/core": "1.2.18",
         "@rslib/core": "0.5.4",
-        "@testing-library/jest-dom": "6.6.3",
         "@testing-library/react": "16.2.0",
         "@typescript-eslint/parser": "8.26.1",
         "@vitejs/plugin-react": "4.3.4",
