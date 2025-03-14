@@ -25,6 +25,7 @@ import { QueryClientProvider } from "@tanstack/react-query";
 import { render, screen, waitFor } from "@testing-library/react";
 import type { ReactNode } from "react";
 import { createMemoryRouter, Outlet, RouterProvider } from "react-router";
+import { afterEach, expect, test, vi } from "vitest";
 import { AppRouter as FireflyAppRouter } from "../src/AppRouter.tsx";
 import { ApplicationBoostrappedEvent, ModulesReadyEvent, ModulesRegisteredEvent, MswReadyEvent, ProtectedDataReadyEvent, PublicDataReadyEvent } from "../src/AppRouterReducer.ts";
 import { FireflyRuntime } from "../src/FireflyRuntime.tsx";
@@ -107,23 +108,23 @@ test("msw + local modules + remote modules + public data + protected data + loca
         useMsw: true
     });
 
-    const onApplicationBootstrappingStarted = jest.fn();
-    const onLocalModulesRegistrationStarted = jest.fn();
-    const onLocalModulesRegistrationCompleted = jest.fn();
-    const onRemoteModulesRegistrationStarted = jest.fn();
-    const onRemoteModulesRegistrationCompleted = jest.fn();
-    const onModulesRegistered = jest.fn();
-    const onMswReady = jest.fn();
-    const onPublicDataFetchStarted = jest.fn();
-    const onPublicDataReady = jest.fn();
-    const onProtectedDataFetchStarted = jest.fn();
-    const onProtectedDataReady = jest.fn();
-    const onLocalModulesDeferredRegistrationStarted = jest.fn();
-    const onLocalModulesDeferredRegistrationCompleted = jest.fn();
-    const onRemoteModulesDeferredRegistrationStarted = jest.fn();
-    const onRemoteModulesDeferredRegistrationCompleted = jest.fn();
-    const onModulesReady = jest.fn();
-    const onApplicationBoostrapped = jest.fn();
+    const onApplicationBootstrappingStarted = vi.fn();
+    const onLocalModulesRegistrationStarted = vi.fn();
+    const onLocalModulesRegistrationCompleted = vi.fn();
+    const onRemoteModulesRegistrationStarted = vi.fn();
+    const onRemoteModulesRegistrationCompleted = vi.fn();
+    const onModulesRegistered = vi.fn();
+    const onMswReady = vi.fn();
+    const onPublicDataFetchStarted = vi.fn();
+    const onPublicDataReady = vi.fn();
+    const onProtectedDataFetchStarted = vi.fn();
+    const onProtectedDataReady = vi.fn();
+    const onLocalModulesDeferredRegistrationStarted = vi.fn();
+    const onLocalModulesDeferredRegistrationCompleted = vi.fn();
+    const onRemoteModulesDeferredRegistrationStarted = vi.fn();
+    const onRemoteModulesDeferredRegistrationCompleted = vi.fn();
+    const onModulesReady = vi.fn();
+    const onApplicationBoostrapped = vi.fn();
 
     runtime.eventBus.addListener(ApplicationBootstrappingStartedEvent, onApplicationBootstrappingStarted);
     runtime.eventBus.addListener(LocalModulesRegistrationStartedEvent, onLocalModulesRegistrationStarted);
@@ -145,7 +146,7 @@ test("msw + local modules + remote modules + public data + protected data + loca
 
     const localModuleRegistry = new LocalModuleRegistry();
 
-    const loadRemote = jest.fn().mockResolvedValue({
+    const loadRemote = vi.fn().mockResolvedValue({
         // Deferred registration.
         register: () => () => {}
     });
@@ -178,7 +179,7 @@ test("msw + local modules + remote modules + public data + protected data + loca
         remotes: [
             { name: "Dummy-1" }
         ],
-        startMsw: jest.fn(() => Promise.resolve())
+        startMsw: vi.fn(() => Promise.resolve())
     });
 
     function BootstrappingRoute() {
@@ -283,18 +284,18 @@ test("msw + local modules + remote modules + public data + protected data", asyn
         useMsw: true
     });
 
-    const onApplicationBootstrappingStarted = jest.fn();
-    const onLocalModulesRegistrationStarted = jest.fn();
-    const onLocalModulesRegistrationCompleted = jest.fn();
-    const onRemoteModulesRegistrationStarted = jest.fn();
-    const onRemoteModulesRegistrationCompleted = jest.fn();
-    const onModulesReady = jest.fn();
-    const onMswReady = jest.fn();
-    const onPublicDataFetchStarted = jest.fn();
-    const onPublicDataReady = jest.fn();
-    const onProtectedDataFetchStarted = jest.fn();
-    const onProtectedDataReady = jest.fn();
-    const onApplicationBoostrapped = jest.fn();
+    const onApplicationBootstrappingStarted = vi.fn();
+    const onLocalModulesRegistrationStarted = vi.fn();
+    const onLocalModulesRegistrationCompleted = vi.fn();
+    const onRemoteModulesRegistrationStarted = vi.fn();
+    const onRemoteModulesRegistrationCompleted = vi.fn();
+    const onModulesReady = vi.fn();
+    const onMswReady = vi.fn();
+    const onPublicDataFetchStarted = vi.fn();
+    const onPublicDataReady = vi.fn();
+    const onProtectedDataFetchStarted = vi.fn();
+    const onProtectedDataReady = vi.fn();
+    const onApplicationBoostrapped = vi.fn();
 
     runtime.eventBus.addListener(ApplicationBootstrappingStartedEvent, onApplicationBootstrappingStarted);
     runtime.eventBus.addListener(LocalModulesRegistrationStartedEvent, onLocalModulesRegistrationStarted);
@@ -311,7 +312,7 @@ test("msw + local modules + remote modules + public data + protected data", asyn
 
     const localModuleRegistry = new LocalModuleRegistry();
 
-    const loadRemote = jest.fn().mockResolvedValue({
+    const loadRemote = vi.fn().mockResolvedValue({
         register: () => {}
     });
 
@@ -340,7 +341,7 @@ test("msw + local modules + remote modules + public data + protected data", asyn
         remotes: [
             { name: "Dummy-1" }
         ],
-        startMsw: jest.fn(() => Promise.resolve())
+        startMsw: vi.fn(() => Promise.resolve())
     });
 
     function BootstrappingRoute() {
@@ -425,21 +426,21 @@ test("msw + local modules + remote modules + public data + local deferred + remo
         useMsw: true
     });
 
-    const onApplicationBootstrappingStarted = jest.fn();
-    const onLocalModulesRegistrationStarted = jest.fn();
-    const onLocalModulesRegistrationCompleted = jest.fn();
-    const onRemoteModulesRegistrationStarted = jest.fn();
-    const onRemoteModulesRegistrationCompleted = jest.fn();
-    const onModulesRegistered = jest.fn();
-    const onMswReady = jest.fn();
-    const onPublicDataFetchStarted = jest.fn();
-    const onPublicDataReady = jest.fn();
-    const onLocalModulesDeferredRegistrationStarted = jest.fn();
-    const onLocalModulesDeferredRegistrationCompleted = jest.fn();
-    const onRemoteModulesDeferredRegistrationStarted = jest.fn();
-    const onRemoteModulesDeferredRegistrationCompleted = jest.fn();
-    const onModulesReady = jest.fn();
-    const onApplicationBoostrapped = jest.fn();
+    const onApplicationBootstrappingStarted = vi.fn();
+    const onLocalModulesRegistrationStarted = vi.fn();
+    const onLocalModulesRegistrationCompleted = vi.fn();
+    const onRemoteModulesRegistrationStarted = vi.fn();
+    const onRemoteModulesRegistrationCompleted = vi.fn();
+    const onModulesRegistered = vi.fn();
+    const onMswReady = vi.fn();
+    const onPublicDataFetchStarted = vi.fn();
+    const onPublicDataReady = vi.fn();
+    const onLocalModulesDeferredRegistrationStarted = vi.fn();
+    const onLocalModulesDeferredRegistrationCompleted = vi.fn();
+    const onRemoteModulesDeferredRegistrationStarted = vi.fn();
+    const onRemoteModulesDeferredRegistrationCompleted = vi.fn();
+    const onModulesReady = vi.fn();
+    const onApplicationBoostrapped = vi.fn();
 
     runtime.eventBus.addListener(ApplicationBootstrappingStartedEvent, onApplicationBootstrappingStarted);
     runtime.eventBus.addListener(LocalModulesRegistrationStartedEvent, onLocalModulesRegistrationStarted);
@@ -459,7 +460,7 @@ test("msw + local modules + remote modules + public data + local deferred + remo
 
     const localModuleRegistry = new LocalModuleRegistry();
 
-    const loadRemote = jest.fn().mockResolvedValue({
+    const loadRemote = vi.fn().mockResolvedValue({
         // Deferred registration.
         register: () => () => {}
     });
@@ -492,7 +493,7 @@ test("msw + local modules + remote modules + public data + local deferred + remo
         remotes: [
             { name: "Dummy-1" }
         ],
-        startMsw: jest.fn(() => Promise.resolve())
+        startMsw: vi.fn(() => Promise.resolve())
     });
 
     function BootstrappingRoute() {
@@ -585,21 +586,21 @@ test("msw + local modules + remote modules + protected data + local deferred + r
         useMsw: true
     });
 
-    const onApplicationBootstrappingStarted = jest.fn();
-    const onLocalModulesRegistrationStarted = jest.fn();
-    const onLocalModulesRegistrationCompleted = jest.fn();
-    const onRemoteModulesRegistrationStarted = jest.fn();
-    const onRemoteModulesRegistrationCompleted = jest.fn();
-    const onModulesRegistered = jest.fn();
-    const onMswReady = jest.fn();
-    const onProtectedDataFetchStarted = jest.fn();
-    const onProtectedDataReady = jest.fn();
-    const onLocalModulesDeferredRegistrationStarted = jest.fn();
-    const onLocalModulesDeferredRegistrationCompleted = jest.fn();
-    const onRemoteModulesDeferredRegistrationStarted = jest.fn();
-    const onRemoteModulesDeferredRegistrationCompleted = jest.fn();
-    const onModulesReady = jest.fn();
-    const onApplicationBoostrapped = jest.fn();
+    const onApplicationBootstrappingStarted = vi.fn();
+    const onLocalModulesRegistrationStarted = vi.fn();
+    const onLocalModulesRegistrationCompleted = vi.fn();
+    const onRemoteModulesRegistrationStarted = vi.fn();
+    const onRemoteModulesRegistrationCompleted = vi.fn();
+    const onModulesRegistered = vi.fn();
+    const onMswReady = vi.fn();
+    const onProtectedDataFetchStarted = vi.fn();
+    const onProtectedDataReady = vi.fn();
+    const onLocalModulesDeferredRegistrationStarted = vi.fn();
+    const onLocalModulesDeferredRegistrationCompleted = vi.fn();
+    const onRemoteModulesDeferredRegistrationStarted = vi.fn();
+    const onRemoteModulesDeferredRegistrationCompleted = vi.fn();
+    const onModulesReady = vi.fn();
+    const onApplicationBoostrapped = vi.fn();
 
     runtime.eventBus.addListener(ApplicationBootstrappingStartedEvent, onApplicationBootstrappingStarted);
     runtime.eventBus.addListener(LocalModulesRegistrationStartedEvent, onLocalModulesRegistrationStarted);
@@ -619,7 +620,7 @@ test("msw + local modules + remote modules + protected data + local deferred + r
 
     const localModuleRegistry = new LocalModuleRegistry();
 
-    const loadRemote = jest.fn().mockResolvedValue({
+    const loadRemote = vi.fn().mockResolvedValue({
         // Deferred registration.
         register: () => () => {}
     });
@@ -652,7 +653,7 @@ test("msw + local modules + remote modules + protected data + local deferred + r
         remotes: [
             { name: "Dummy-1" }
         ],
-        startMsw: jest.fn(() => Promise.resolve())
+        startMsw: vi.fn(() => Promise.resolve())
     });
 
     function BootstrappingRoute() {
@@ -745,14 +746,14 @@ test("msw + local modules + remote modules", async () => {
         useMsw: true
     });
 
-    const onApplicationBootstrappingStarted = jest.fn();
-    const onLocalModulesRegistrationStarted = jest.fn();
-    const onLocalModulesRegistrationCompleted = jest.fn();
-    const onRemoteModulesRegistrationStarted = jest.fn();
-    const onRemoteModulesRegistrationCompleted = jest.fn();
-    const onModulesReady = jest.fn();
-    const onMswReady = jest.fn();
-    const onApplicationBoostrapped = jest.fn();
+    const onApplicationBootstrappingStarted = vi.fn();
+    const onLocalModulesRegistrationStarted = vi.fn();
+    const onLocalModulesRegistrationCompleted = vi.fn();
+    const onRemoteModulesRegistrationStarted = vi.fn();
+    const onRemoteModulesRegistrationCompleted = vi.fn();
+    const onModulesReady = vi.fn();
+    const onMswReady = vi.fn();
+    const onApplicationBoostrapped = vi.fn();
 
     runtime.eventBus.addListener(ApplicationBootstrappingStartedEvent, onApplicationBootstrappingStarted);
     runtime.eventBus.addListener(LocalModulesRegistrationStartedEvent, onLocalModulesRegistrationStarted);
@@ -765,7 +766,7 @@ test("msw + local modules + remote modules", async () => {
 
     const localModuleRegistry = new LocalModuleRegistry();
 
-    const loadRemote = jest.fn().mockResolvedValue({
+    const loadRemote = vi.fn().mockResolvedValue({
         register: () => {}
     });
 
@@ -794,7 +795,7 @@ test("msw + local modules + remote modules", async () => {
         remotes: [
             { name: "Dummy-1" }
         ],
-        startMsw: jest.fn(() => Promise.resolve())
+        startMsw: vi.fn(() => Promise.resolve())
     });
 
     function BootstrappingRoute() {
@@ -849,21 +850,21 @@ test("msw + local modules + remote modules + public data + protected data + loca
         useMsw: true
     });
 
-    const onApplicationBootstrappingStarted = jest.fn();
-    const onLocalModulesRegistrationStarted = jest.fn();
-    const onLocalModulesRegistrationCompleted = jest.fn();
-    const onRemoteModulesRegistrationStarted = jest.fn();
-    const onRemoteModulesRegistrationCompleted = jest.fn();
-    const onModulesRegistered = jest.fn();
-    const onMswReady = jest.fn();
-    const onPublicDataFetchStarted = jest.fn();
-    const onPublicDataReady = jest.fn();
-    const onProtectedDataFetchStarted = jest.fn();
-    const onProtectedDataReady = jest.fn();
-    const onLocalModulesDeferredRegistrationStarted = jest.fn();
-    const onLocalModulesDeferredRegistrationCompleted = jest.fn();
-    const onModulesReady = jest.fn();
-    const onApplicationBoostrapped = jest.fn();
+    const onApplicationBootstrappingStarted = vi.fn();
+    const onLocalModulesRegistrationStarted = vi.fn();
+    const onLocalModulesRegistrationCompleted = vi.fn();
+    const onRemoteModulesRegistrationStarted = vi.fn();
+    const onRemoteModulesRegistrationCompleted = vi.fn();
+    const onModulesRegistered = vi.fn();
+    const onMswReady = vi.fn();
+    const onPublicDataFetchStarted = vi.fn();
+    const onPublicDataReady = vi.fn();
+    const onProtectedDataFetchStarted = vi.fn();
+    const onProtectedDataReady = vi.fn();
+    const onLocalModulesDeferredRegistrationStarted = vi.fn();
+    const onLocalModulesDeferredRegistrationCompleted = vi.fn();
+    const onModulesReady = vi.fn();
+    const onApplicationBoostrapped = vi.fn();
 
     runtime.eventBus.addListener(ApplicationBootstrappingStartedEvent, onApplicationBootstrappingStarted);
     runtime.eventBus.addListener(LocalModulesRegistrationStartedEvent, onLocalModulesRegistrationStarted);
@@ -883,7 +884,7 @@ test("msw + local modules + remote modules + public data + protected data + loca
 
     const localModuleRegistry = new LocalModuleRegistry();
 
-    const loadRemote = jest.fn().mockResolvedValue({
+    const loadRemote = vi.fn().mockResolvedValue({
         register: () => {}
     });
 
@@ -915,7 +916,7 @@ test("msw + local modules + remote modules + public data + protected data + loca
         remotes: [
             { name: "Dummy-1" }
         ],
-        startMsw: jest.fn(() => Promise.resolve())
+        startMsw: vi.fn(() => Promise.resolve())
     });
 
     function BootstrappingRoute() {
@@ -1014,21 +1015,21 @@ test("msw + local modules + remote modules + public data + protected data + remo
         useMsw: true
     });
 
-    const onApplicationBootstrappingStarted = jest.fn();
-    const onLocalModulesRegistrationStarted = jest.fn();
-    const onLocalModulesRegistrationCompleted = jest.fn();
-    const onRemoteModulesRegistrationStarted = jest.fn();
-    const onRemoteModulesRegistrationCompleted = jest.fn();
-    const onModulesRegistered = jest.fn();
-    const onMswReady = jest.fn();
-    const onPublicDataFetchStarted = jest.fn();
-    const onPublicDataReady = jest.fn();
-    const onProtectedDataFetchStarted = jest.fn();
-    const onProtectedDataReady = jest.fn();
-    const onRemoteModulesDeferredRegistrationStarted = jest.fn();
-    const onRemoteModulesDeferredRegistrationCompleted = jest.fn();
-    const onModulesReady = jest.fn();
-    const onApplicationBoostrapped = jest.fn();
+    const onApplicationBootstrappingStarted = vi.fn();
+    const onLocalModulesRegistrationStarted = vi.fn();
+    const onLocalModulesRegistrationCompleted = vi.fn();
+    const onRemoteModulesRegistrationStarted = vi.fn();
+    const onRemoteModulesRegistrationCompleted = vi.fn();
+    const onModulesRegistered = vi.fn();
+    const onMswReady = vi.fn();
+    const onPublicDataFetchStarted = vi.fn();
+    const onPublicDataReady = vi.fn();
+    const onProtectedDataFetchStarted = vi.fn();
+    const onProtectedDataReady = vi.fn();
+    const onRemoteModulesDeferredRegistrationStarted = vi.fn();
+    const onRemoteModulesDeferredRegistrationCompleted = vi.fn();
+    const onModulesReady = vi.fn();
+    const onApplicationBoostrapped = vi.fn();
 
     runtime.eventBus.addListener(ApplicationBootstrappingStartedEvent, onApplicationBootstrappingStarted);
     runtime.eventBus.addListener(LocalModulesRegistrationStartedEvent, onLocalModulesRegistrationStarted);
@@ -1048,7 +1049,7 @@ test("msw + local modules + remote modules + public data + protected data + remo
 
     const localModuleRegistry = new LocalModuleRegistry();
 
-    const loadRemote = jest.fn().mockResolvedValue({
+    const loadRemote = vi.fn().mockResolvedValue({
         // Deferred registration.
         register: () => () => {}
     });
@@ -1078,7 +1079,7 @@ test("msw + local modules + remote modules + public data + protected data + remo
         remotes: [
             { name: "Dummy-1" }
         ],
-        startMsw: jest.fn(() => Promise.resolve())
+        startMsw: vi.fn(() => Promise.resolve())
     });
 
     function BootstrappingRoute() {
@@ -1177,22 +1178,22 @@ test("local modules + remote modules + public data + protected data + local defe
         useMsw: false
     });
 
-    const onApplicationBootstrappingStarted = jest.fn();
-    const onLocalModulesRegistrationStarted = jest.fn();
-    const onLocalModulesRegistrationCompleted = jest.fn();
-    const onRemoteModulesRegistrationStarted = jest.fn();
-    const onRemoteModulesRegistrationCompleted = jest.fn();
-    const onModulesRegistered = jest.fn();
-    const onPublicDataFetchStarted = jest.fn();
-    const onPublicDataReady = jest.fn();
-    const onProtectedDataFetchStarted = jest.fn();
-    const onProtectedDataReady = jest.fn();
-    const onLocalModulesDeferredRegistrationStarted = jest.fn();
-    const onLocalModulesDeferredRegistrationCompleted = jest.fn();
-    const onRemoteModulesDeferredRegistrationStarted = jest.fn();
-    const onRemoteModulesDeferredRegistrationCompleted = jest.fn();
-    const onModulesReady = jest.fn();
-    const onApplicationBoostrapped = jest.fn();
+    const onApplicationBootstrappingStarted = vi.fn();
+    const onLocalModulesRegistrationStarted = vi.fn();
+    const onLocalModulesRegistrationCompleted = vi.fn();
+    const onRemoteModulesRegistrationStarted = vi.fn();
+    const onRemoteModulesRegistrationCompleted = vi.fn();
+    const onModulesRegistered = vi.fn();
+    const onPublicDataFetchStarted = vi.fn();
+    const onPublicDataReady = vi.fn();
+    const onProtectedDataFetchStarted = vi.fn();
+    const onProtectedDataReady = vi.fn();
+    const onLocalModulesDeferredRegistrationStarted = vi.fn();
+    const onLocalModulesDeferredRegistrationCompleted = vi.fn();
+    const onRemoteModulesDeferredRegistrationStarted = vi.fn();
+    const onRemoteModulesDeferredRegistrationCompleted = vi.fn();
+    const onModulesReady = vi.fn();
+    const onApplicationBoostrapped = vi.fn();
 
     runtime.eventBus.addListener(ApplicationBootstrappingStartedEvent, onApplicationBootstrappingStarted);
     runtime.eventBus.addListener(LocalModulesRegistrationStartedEvent, onLocalModulesRegistrationStarted);
@@ -1213,7 +1214,7 @@ test("local modules + remote modules + public data + protected data + local defe
 
     const localModuleRegistry = new LocalModuleRegistry();
 
-    const loadRemote = jest.fn().mockResolvedValue({
+    const loadRemote = vi.fn().mockResolvedValue({
         // Deferred registration.
         register: () => () => {}
     });
@@ -1246,7 +1247,7 @@ test("local modules + remote modules + public data + protected data + local defe
         remotes: [
             { name: "Dummy-1" }
         ],
-        startMsw: jest.fn(() => Promise.resolve())
+        startMsw: vi.fn(() => Promise.resolve())
     });
 
     function BootstrappingRoute() {
@@ -1345,24 +1346,24 @@ test("failing local module registration", async () => {
         useMsw: true
     });
 
-    const onApplicationBootstrappingStarted = jest.fn();
-    const onLocalModulesRegistrationStarted = jest.fn();
-    const onLocalModulesRegistrationCompleted = jest.fn();
-    const onLocalModuleRegistrationFailed = jest.fn();
-    const onRemoteModulesRegistrationStarted = jest.fn();
-    const onRemoteModulesRegistrationCompleted = jest.fn();
-    const onModulesRegistered = jest.fn();
-    const onMswReady = jest.fn();
-    const onPublicDataFetchStarted = jest.fn();
-    const onPublicDataReady = jest.fn();
-    const onProtectedDataFetchStarted = jest.fn();
-    const onProtectedDataReady = jest.fn();
-    const onLocalModulesDeferredRegistrationStarted = jest.fn();
-    const onLocalModulesDeferredRegistrationCompleted = jest.fn();
-    const onRemoteModulesDeferredRegistrationStarted = jest.fn();
-    const onRemoteModulesDeferredRegistrationCompleted = jest.fn();
-    const onModulesReady = jest.fn();
-    const onApplicationBoostrapped = jest.fn();
+    const onApplicationBootstrappingStarted = vi.fn();
+    const onLocalModulesRegistrationStarted = vi.fn();
+    const onLocalModulesRegistrationCompleted = vi.fn();
+    const onLocalModuleRegistrationFailed = vi.fn();
+    const onRemoteModulesRegistrationStarted = vi.fn();
+    const onRemoteModulesRegistrationCompleted = vi.fn();
+    const onModulesRegistered = vi.fn();
+    const onMswReady = vi.fn();
+    const onPublicDataFetchStarted = vi.fn();
+    const onPublicDataReady = vi.fn();
+    const onProtectedDataFetchStarted = vi.fn();
+    const onProtectedDataReady = vi.fn();
+    const onLocalModulesDeferredRegistrationStarted = vi.fn();
+    const onLocalModulesDeferredRegistrationCompleted = vi.fn();
+    const onRemoteModulesDeferredRegistrationStarted = vi.fn();
+    const onRemoteModulesDeferredRegistrationCompleted = vi.fn();
+    const onModulesReady = vi.fn();
+    const onApplicationBoostrapped = vi.fn();
 
     runtime.eventBus.addListener(ApplicationBootstrappingStartedEvent, onApplicationBootstrappingStarted);
     runtime.eventBus.addListener(LocalModulesRegistrationStartedEvent, onLocalModulesRegistrationStarted);
@@ -1385,7 +1386,7 @@ test("failing local module registration", async () => {
 
     const localModuleRegistry = new LocalModuleRegistry();
 
-    const loadRemote = jest.fn().mockResolvedValue({
+    const loadRemote = vi.fn().mockResolvedValue({
         // Deferred registration.
         register: () => () => {}
     });
@@ -1421,7 +1422,7 @@ test("failing local module registration", async () => {
         remotes: [
             { name: "Dummy-1" }
         ],
-        startMsw: jest.fn(() => Promise.resolve())
+        startMsw: vi.fn(() => Promise.resolve())
     });
 
     function BootstrappingRoute() {
@@ -1530,24 +1531,24 @@ test("failing remote module registration", async () => {
         useMsw: true
     });
 
-    const onApplicationBootstrappingStarted = jest.fn();
-    const onLocalModulesRegistrationStarted = jest.fn();
-    const onLocalModulesRegistrationCompleted = jest.fn();
-    const onRemoteModulesRegistrationStarted = jest.fn();
-    const onRemoteModulesRegistrationCompleted = jest.fn();
-    const onRemoteModuleRegistrationFailed = jest.fn();
-    const onModulesRegistered = jest.fn();
-    const onMswReady = jest.fn();
-    const onPublicDataFetchStarted = jest.fn();
-    const onPublicDataReady = jest.fn();
-    const onProtectedDataFetchStarted = jest.fn();
-    const onProtectedDataReady = jest.fn();
-    const onLocalModulesDeferredRegistrationStarted = jest.fn();
-    const onLocalModulesDeferredRegistrationCompleted = jest.fn();
-    const onRemoteModulesDeferredRegistrationStarted = jest.fn();
-    const onRemoteModulesDeferredRegistrationCompleted = jest.fn();
-    const onModulesReady = jest.fn();
-    const onApplicationBoostrapped = jest.fn();
+    const onApplicationBootstrappingStarted = vi.fn();
+    const onLocalModulesRegistrationStarted = vi.fn();
+    const onLocalModulesRegistrationCompleted = vi.fn();
+    const onRemoteModulesRegistrationStarted = vi.fn();
+    const onRemoteModulesRegistrationCompleted = vi.fn();
+    const onRemoteModuleRegistrationFailed = vi.fn();
+    const onModulesRegistered = vi.fn();
+    const onMswReady = vi.fn();
+    const onPublicDataFetchStarted = vi.fn();
+    const onPublicDataReady = vi.fn();
+    const onProtectedDataFetchStarted = vi.fn();
+    const onProtectedDataReady = vi.fn();
+    const onLocalModulesDeferredRegistrationStarted = vi.fn();
+    const onLocalModulesDeferredRegistrationCompleted = vi.fn();
+    const onRemoteModulesDeferredRegistrationStarted = vi.fn();
+    const onRemoteModulesDeferredRegistrationCompleted = vi.fn();
+    const onModulesReady = vi.fn();
+    const onApplicationBoostrapped = vi.fn();
 
     runtime.eventBus.addListener(ApplicationBootstrappingStartedEvent, onApplicationBootstrappingStarted);
     runtime.eventBus.addListener(LocalModulesRegistrationStartedEvent, onLocalModulesRegistrationStarted);
@@ -1570,7 +1571,7 @@ test("failing remote module registration", async () => {
 
     const localModuleRegistry = new LocalModuleRegistry();
 
-    const loadRemote = jest.fn()
+    const loadRemote = vi.fn()
         .mockResolvedValueOnce({
             register: () => { throw new Error("Remote module registration error."); }
         })
@@ -1607,7 +1608,7 @@ test("failing remote module registration", async () => {
             { name: "Dummy-1" },
             { name: "Dummy-2" }
         ],
-        startMsw: jest.fn(() => Promise.resolve())
+        startMsw: vi.fn(() => Promise.resolve())
     });
 
     function BootstrappingRoute() {

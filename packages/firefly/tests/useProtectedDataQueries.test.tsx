@@ -1,11 +1,12 @@
-import { RuntimeContext, type Runtime } from "@squide/core";
-import { QueryClientProvider, type QueryClient } from "@tanstack/react-query";
+import { type Runtime, RuntimeContext } from "@squide/core";
+import { type QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { render, screen, waitFor } from "@testing-library/react";
 import { Component, type PropsWithChildren, type ReactNode } from "react";
+import { afterEach, beforeEach, describe, expect, type MockInstance, test, vi } from "vitest";
 import { AppRouterDispatcherContext, AppRouterStateContext } from "../src/AppRouterContext.ts";
 import type { AppRouterDispatch, AppRouterState } from "../src/AppRouterReducer.ts";
 import { FireflyRuntime } from "../src/FireflyRuntime.tsx";
-import { PublicDataFetchFailedEvent, PublicDataFetchStartedEvent, usePublicDataQueries } from "../src/usePublicDataQueries.ts";
+import { ProtectedDataFetchFailedEvent, ProtectedDataFetchStartedEvent, useProtectedDataQueries } from "../src/useProtectedDataQueries.ts";
 import { createDefaultAppRouterState, createQueryClient } from "./utils.ts";
 
 function renderAppRouter(appRouter: ReactNode, runtime: Runtime, state: AppRouterState, dispatch: AppRouterDispatch, queryClient?: QueryClient) {
@@ -26,23 +27,25 @@ function renderAppRouter(appRouter: ReactNode, runtime: Runtime, state: AppRoute
     });
 }
 
-test("when queries are executed, PublicDataFetchStartedEvent is dispatched", async () => {
+test("when queries are executed, ProtectedDataFetchStartedEvent is dispatched", async () => {
     const runtime = new FireflyRuntime();
 
-    const dispatch = jest.fn();
-    const listener = jest.fn();
+    const dispatch = vi.fn();
+    const listener = vi.fn();
 
-    runtime.eventBus.addListener(PublicDataFetchStartedEvent, listener);
+    runtime.eventBus.addListener(ProtectedDataFetchStartedEvent, listener);
 
     const state = createDefaultAppRouterState();
     state.areModulesRegistered = true;
+    state.activeRouteVisibility = "protected";
+    state.activeRouteVisibility = "protected";
     state.isMswReady = true;
 
     function AppRouter() {
-        const [data] = usePublicDataQueries([{
+        const [data] = useProtectedDataQueries([{
             queryKey: ["foo"],
             queryFn: () => "bar"
-        }]);
+        }], () => false);
 
         return data;
     }
@@ -54,20 +57,21 @@ test("when queries are executed, PublicDataFetchStartedEvent is dispatched", asy
     expect(listener).toHaveBeenCalledTimes(1);
 });
 
-test("when data is ready, \"public-data-ready\" is dispatched", async () => {
+test("when data is ready, \"protected-data-ready\" is dispatched", async () => {
     const runtime = new FireflyRuntime();
 
-    const dispatch = jest.fn();
+    const dispatch = vi.fn();
 
     const state = createDefaultAppRouterState();
     state.areModulesRegistered = true;
+    state.activeRouteVisibility = "protected";
     state.isMswReady = true;
 
     function AppRouter() {
-        const [data] = usePublicDataQueries([{
+        const [data] = useProtectedDataQueries([{
             queryKey: ["foo"],
             queryFn: () => "bar"
-        }]);
+        }], () => false);
 
         return data;
     }
@@ -79,34 +83,35 @@ test("when data is ready, \"public-data-ready\" is dispatched", async () => {
     expect(dispatch).toHaveBeenCalledTimes(2);
 
     expect(dispatch).toHaveBeenCalledWith(expect.objectContaining({
-        type: "public-data-ready"
+        type: "protected-data-ready"
     }));
 
     expect(dispatch).toHaveBeenCalledWith(expect.objectContaining({
-        type: "public-data-updated"
+        type: "protected-data-updated"
     }));
 });
 
-test("when data is updated, \"public-data-updated\" is dispatched", async () => {
+test("when data is updated, \"protected-data-updated\" is dispatched", async () => {
     const runtime = new FireflyRuntime();
 
-    const dispatch = jest.fn();
+    const dispatch = vi.fn();
 
     const state = createDefaultAppRouterState();
     state.areModulesRegistered = true;
+    state.activeRouteVisibility = "protected";
     state.isMswReady = true;
 
     const queryClient = createQueryClient();
 
-    const queryFn = jest.fn()
+    const queryFn = vi.fn()
         .mockResolvedValueOnce("bar")
         .mockResolvedValueOnce("toto");
 
     function AppRouter() {
-        const [data] = usePublicDataQueries([{
+        const [data] = useProtectedDataQueries([{
             queryKey: ["foo"],
             queryFn
-        }]);
+        }], () => false);
 
         return data;
     }
@@ -124,19 +129,19 @@ test("when data is updated, \"public-data-updated\" is dispatched", async () => 
     expect(dispatch).toHaveBeenCalledTimes(3);
 
     expect(dispatch).toHaveBeenCalledWith(expect.objectContaining({
-        type: "public-data-ready"
+        type: "protected-data-ready"
     }));
 
     expect(dispatch).toHaveBeenCalledWith(expect.objectContaining({
-        type: "public-data-updated"
+        type: "protected-data-updated"
     }));
 });
 
 describe("when a query fail", () => {
-    let consoleMock: jest.SpyInstance;
+    let consoleMock: MockInstance;
 
     beforeEach(() => {
-        consoleMock = jest.spyOn(console, "error").mockImplementation(() => {});
+        consoleMock = vi.spyOn(console, "error").mockImplementation(() => {});
     });
 
     afterEach(() => {
@@ -146,10 +151,11 @@ describe("when a query fail", () => {
     test("should throw an error", async () => {
         const runtime = new FireflyRuntime();
 
-        const dispatch = jest.fn();
+        const dispatch = vi.fn();
 
         const state = createDefaultAppRouterState();
         state.areModulesRegistered = true;
+        state.activeRouteVisibility = "protected";
         state.isMswReady = true;
 
         class ErrorBoundary extends Component<PropsWithChildren, { error?: Error }> {
@@ -177,31 +183,67 @@ describe("when a query fail", () => {
         }
 
         function AppRouter() {
-            const [data] = usePublicDataQueries([{
+            const [data] = useProtectedDataQueries([{
                 queryKey: ["foo"],
                 queryFn: () => { throw new Error("Query failed."); }
-            }]);
+            }], () => false);
 
             return data;
         }
 
         renderAppRouter(<ErrorBoundary><AppRouter /></ErrorBoundary>, runtime, state, dispatch);
 
-        const element = await waitFor(() => screen.findByText("[squide] Global public data queries failed."));
+        const element = await waitFor(() => screen.findByText("[squide] Global protected data queries failed."));
 
         expect(element).toBeDefined();
     });
 
-    test("should dispatch PublicDataFetchFailedEvent", async () => {
+    test("when it's a unauthorized error, \"is-unauthorized\" is dispatched", async () => {
         const runtime = new FireflyRuntime();
 
-        const dispatch = jest.fn();
-        const listener = jest.fn();
-
-        runtime.eventBus.addListener(PublicDataFetchFailedEvent, listener);
+        const dispatch = vi.fn();
 
         const state = createDefaultAppRouterState();
         state.areModulesRegistered = true;
+        state.activeRouteVisibility = "protected";
+        state.isMswReady = true;
+
+        function AppRouter() {
+            const data = useProtectedDataQueries([
+                {
+                    queryKey: ["foo"],
+                    queryFn: () => { throw new Error("Unauthorized error."); }
+                },
+                {
+                    queryKey: ["john"],
+                    queryFn: () => "doe"
+                }
+            ], () => true);
+
+            return data[1];
+        }
+
+        renderAppRouter(<AppRouter />, runtime, state, dispatch);
+
+        await waitFor(() => screen.findByText("doe"));
+
+        expect(dispatch).toHaveBeenCalledTimes(1);
+        expect(dispatch).toHaveBeenCalledWith(expect.objectContaining({
+            type: "is-unauthorized"
+        }));
+    });
+
+    test("should dispatch ProtectedDataFetchFailedEvent", async () => {
+        const runtime = new FireflyRuntime();
+
+        const dispatch = vi.fn();
+        const listener = vi.fn();
+
+        runtime.eventBus.addListener(ProtectedDataFetchFailedEvent, listener);
+
+        const state = createDefaultAppRouterState();
+        state.areModulesRegistered = true;
+        state.activeRouteVisibility = "protected";
         state.isMswReady = true;
 
         class ErrorBoundary extends Component<PropsWithChildren, { error?: Error }> {
@@ -231,19 +273,54 @@ describe("when a query fail", () => {
         const queryError = new Error("Query failed.");
 
         function AppRouter() {
-            const [data] = usePublicDataQueries([{
+            const [data] = useProtectedDataQueries([{
                 queryKey: ["foo"],
                 queryFn: () => { throw queryError; }
-            }]);
+            }], () => false);
 
             return data;
         }
 
         renderAppRouter(<ErrorBoundary><AppRouter /></ErrorBoundary>, runtime, state, dispatch);
 
-        await waitFor(() => screen.findByText("[squide] Global public data queries failed."));
+        await waitFor(() => screen.findByText("[squide] Global protected data queries failed."));
 
         expect(listener).toHaveBeenCalledTimes(1);
         expect(listener).toHaveBeenCalledWith(expect.arrayContaining([queryError]));
+    });
+
+    test("when a query fail and it's a unauthorized error, ProtectedDataFetchFailedEvent is not dispatched", async () => {
+        const runtime = new FireflyRuntime();
+
+        const dispatch = vi.fn();
+        const listener = vi.fn();
+
+        runtime.eventBus.addListener(ProtectedDataFetchFailedEvent, listener);
+
+        const state = createDefaultAppRouterState();
+        state.areModulesRegistered = true;
+        state.activeRouteVisibility = "protected";
+        state.isMswReady = true;
+
+        function AppRouter() {
+            const data = useProtectedDataQueries([
+                {
+                    queryKey: ["foo"],
+                    queryFn: () => { throw new Error("Unauthorized error."); }
+                },
+                {
+                    queryKey: ["john"],
+                    queryFn: () => "doe"
+                }
+            ], () => true);
+
+            return data[1];
+        }
+
+        renderAppRouter(<AppRouter />, runtime, state, dispatch);
+
+        await waitFor(() => screen.findByText("doe"));
+
+        expect(listener).not.toHaveBeenCalled();
     });
 });

@@ -1,6 +1,7 @@
 import { __clearLocalModuleRegistry, __setLocalModuleRegistry, LocalModuleRegistry } from "@squide/core";
 import { __clearRemoteModuleRegistry, __setRemoteModuleRegistry, RemoteModuleRegistry } from "@squide/module-federation";
 import { __clearMswState, __setMswState, MswState } from "@squide/msw";
+import { afterEach, expect, test, vi } from "vitest";
 import { __resetHasExecuteGuard, ApplicationBootstrappingStartedEvent, bootstrap } from "../src/boostrap.ts";
 import { FireflyRuntime } from "../src/FireflyRuntime.tsx";
 
@@ -14,7 +15,7 @@ afterEach(() => {
 test("dispatch ApplicationBootstrappingStartedEvent", async () => {
     const runtime = new FireflyRuntime();
 
-    const listener = jest.fn();
+    const listener = vi.fn();
 
     runtime.eventBus.addListener(ApplicationBootstrappingStartedEvent, listener);
 
@@ -41,7 +42,7 @@ test("when local modules are provided, register the local modules", async () => 
 test("when remote modules are provided, register the remote modules", async () => {
     const runtime = new FireflyRuntime();
 
-    const loadRemote = jest.fn().mockResolvedValue({
+    const loadRemote = vi.fn().mockResolvedValue({
         register: () => {}
     });
 
@@ -62,7 +63,7 @@ test("when local and remote modules are provided, register all the modules", asy
     const runtime = new FireflyRuntime();
     const localModuleRegistry = new LocalModuleRegistry();
 
-    const loadRemote = jest.fn().mockResolvedValue({
+    const loadRemote = vi.fn().mockResolvedValue({
         register: () => {}
     });
 
@@ -106,7 +107,7 @@ test("when an error occurs while registering a local module, return the error", 
 test("when an error occurs while registering a remote module, return the error", async () => {
     const runtime = new FireflyRuntime();
 
-    const loadRemote = jest.fn().mockResolvedValue({
+    const loadRemote = vi.fn().mockResolvedValue({
         register: () => {
             throw new Error("Dummy");
         }
@@ -132,7 +133,7 @@ test("when MSW is enabled and a start function is provided, call the start funct
         useMsw: true
     });
 
-    const fct = jest.fn(() => Promise.resolve());
+    const fct = vi.fn(() => Promise.resolve());
 
     await bootstrap(runtime, {
         startMsw: fct
@@ -146,7 +147,7 @@ test("when MSW is disabled and a start function is provided, do not call the sta
         useMsw: false
     });
 
-    const fct = jest.fn(() => Promise.resolve());
+    const fct = vi.fn(() => Promise.resolve());
 
     await bootstrap(runtime, {
         startMsw: fct
@@ -173,7 +174,7 @@ test("when MSW is enabled, MSW is ready", async () => {
     __setMswState(mswState);
 
     await bootstrap(runtime, {
-        startMsw: jest.fn(() => Promise.resolve())
+        startMsw: vi.fn(() => Promise.resolve())
     });
 
     expect(mswState.isReady).toBeTruthy();
@@ -189,7 +190,7 @@ test("when MSW is disabled, MSW is not ready", async () => {
     __setMswState(mswState);
 
     await bootstrap(runtime, {
-        startMsw: jest.fn(() => Promise.resolve())
+        startMsw: vi.fn(() => Promise.resolve())
     });
 
     expect(mswState.isReady).toBeFalsy();
