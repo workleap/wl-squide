@@ -1,3 +1,4 @@
+import { describe, test } from "vitest";
 import { isProtectedRoutesOutletRoute, isPublicRoutesOutletRoute, ProtectedRoutes, ProtectedRoutesOutletId, PublicRoutes, PublicRoutesOutletId } from "../src/outlets.ts";
 import { ReactRouterRuntime } from "../src/reactRouterRuntime.ts";
 import type { Route } from "../src/routeRegistry.ts";
@@ -25,7 +26,7 @@ describe("registerRoute", () => {
                 }
             }
 
-            test("should register an index route", () => {
+            test.concurrent("should register an index route", ({ expect }) => {
                 const runtime = new ReactRouterRuntime();
 
                 registerPublicRoutesOutlet(runtime);
@@ -42,7 +43,7 @@ describe("registerRoute", () => {
                 expect(routes[0].index).toBeTruthy();
             });
 
-            test("should register a pathless route", () => {
+            test.concurrent("should register a pathless route", ({ expect }) => {
                 const runtime = new ReactRouterRuntime();
 
                 registerPublicRoutesOutlet(runtime);
@@ -59,7 +60,7 @@ describe("registerRoute", () => {
                 expect(routes[0].path).toBeUndefined();
             });
 
-            test("should register multiple pathless routes", () => {
+            test.concurrent("should register multiple pathless routes", ({ expect }) => {
                 const runtime = new ReactRouterRuntime();
 
                 registerPublicRoutesOutlet(runtime);
@@ -89,7 +90,7 @@ describe("registerRoute", () => {
                 expect(routes.length).toBe(4);
             });
 
-            test("when the public outlet is not registered, public route registrations are pending", () => {
+            test.concurrent("when the public outlet is not registered, public route registrations are pending", ({ expect }) => {
                 const runtime = new ReactRouterRuntime();
 
                 runtime.registerRoute({
@@ -101,7 +102,7 @@ describe("registerRoute", () => {
                 expect(runtime.routes.length).toBe(0);
             });
 
-            test("when the public outlet is registered, pending public route registrations are completed", () => {
+            test.concurrent("when the public outlet is registered, pending public route registrations are completed", ({ expect }) => {
                 const runtime = new ReactRouterRuntime();
 
                 runtime.registerRoute({
@@ -122,7 +123,7 @@ describe("registerRoute", () => {
                 expect(routes[0].path).toBe("/foo");
             });
 
-            test("when the public outlet is registered, protected route registrations are still pending", () => {
+            test.concurrent("when the public outlet is registered, protected route registrations are still pending", ({ expect }) => {
                 const runtime = new ReactRouterRuntime();
 
                 runtime.registerRoute({
@@ -160,7 +161,7 @@ describe("registerRoute", () => {
                 }
             }
 
-            test("should register an index route", () => {
+            test.concurrent("should register an index route", ({ expect }) => {
                 const runtime = new ReactRouterRuntime();
 
                 registerProtectedRoutesOutlet(runtime);
@@ -176,7 +177,7 @@ describe("registerRoute", () => {
                 expect(routes[0].index).toBeTruthy();
             });
 
-            test("should register a pathless route", () => {
+            test.concurrent("should register a pathless route", ({ expect }) => {
                 const runtime = new ReactRouterRuntime();
 
                 registerProtectedRoutesOutlet(runtime);
@@ -192,7 +193,7 @@ describe("registerRoute", () => {
                 expect(routes[0].path).toBeUndefined();
             });
 
-            test("should register multiple pathless routes", () => {
+            test.concurrent("should register multiple pathless routes", ({ expect }) => {
                 const runtime = new ReactRouterRuntime();
 
                 registerProtectedRoutesOutlet(runtime);
@@ -218,7 +219,7 @@ describe("registerRoute", () => {
                 expect(routes.length).toBe(4);
             });
 
-            test("when the protected outlet is not registered, protected route registrations are pending", () => {
+            test.concurrent("when the protected outlet is not registered, protected route registrations are pending", ({ expect }) => {
                 const runtime = new ReactRouterRuntime();
 
                 runtime.registerRoute({
@@ -229,7 +230,7 @@ describe("registerRoute", () => {
                 expect(runtime.routes.length).toBe(0);
             });
 
-            test("when the protected outlet is registered, pending protected route registrations are completed", () => {
+            test.concurrent("when the protected outlet is registered, pending protected route registrations are completed", ({ expect }) => {
                 const runtime = new ReactRouterRuntime();
 
                 runtime.registerRoute({
@@ -249,7 +250,7 @@ describe("registerRoute", () => {
                 expect(routes[0].path).toBe("/foo");
             });
 
-            test("when the protected outlet is registered, public route registrations are still pending", () => {
+            test.concurrent("when the protected outlet is registered, public route registrations are still pending", ({ expect }) => {
                 const runtime = new ReactRouterRuntime();
 
                 runtime.registerRoute({
@@ -269,7 +270,7 @@ describe("registerRoute", () => {
     });
 
     describe("hoisted", () => {
-        test("should register an index route", () => {
+        test.concurrent("should register an index route", ({ expect }) => {
             const runtime = new ReactRouterRuntime();
 
             runtime.registerRoute({
@@ -283,7 +284,7 @@ describe("registerRoute", () => {
             expect(runtime.routes[0].index).toBeTruthy();
         });
 
-        test("should register a pathless route", () => {
+        test.concurrent("should register a pathless route", ({ expect }) => {
             const runtime = new ReactRouterRuntime();
 
             runtime.registerRoute({
@@ -297,7 +298,7 @@ describe("registerRoute", () => {
             expect(runtime.routes[0].path).toBeUndefined();
         });
 
-        test("should register multiple pathless routes", () => {
+        test.concurrent("should register multiple pathless routes", ({ expect }) => {
             const runtime = new ReactRouterRuntime();
 
             runtime.registerRoute({
@@ -327,7 +328,7 @@ describe("registerRoute", () => {
             expect(runtime.routes.length).toBe(4);
         });
 
-        test("should register a deeply nested route with pathless parent routes", () => {
+        test.concurrent("should register a deeply nested route with pathless parent routes", ({ expect }) => {
             const runtime = new ReactRouterRuntime();
 
             runtime.registerRoute({
@@ -351,7 +352,7 @@ describe("registerRoute", () => {
             expect(runtime.routes[0].children![0].children![0].path).toBe("/deeply-nested-route");
         });
 
-        test("should register a deeply nested index route with pathless parent routes", () => {
+        test.concurrent("should register a deeply nested index route with pathless parent routes", ({ expect }) => {
             const runtime = new ReactRouterRuntime();
 
             runtime.registerRoute({
@@ -375,7 +376,7 @@ describe("registerRoute", () => {
             expect(runtime.routes[0].children![0].children![0].index).toBeTruthy();
         });
 
-        test("should register a root route with a \"public\" visibility", () => {
+        test.concurrent("should register a root route with a \"public\" visibility", ({ expect }) => {
             const runtime = new ReactRouterRuntime();
 
             runtime.registerRoute({
@@ -390,7 +391,7 @@ describe("registerRoute", () => {
             expect(runtime.routes[0].$visibility).toBe("public");
         });
 
-        test("should register a root route with a \"protected\" visibility", () => {
+        test.concurrent("should register a root route with a \"protected\" visibility", ({ expect }) => {
             const runtime = new ReactRouterRuntime();
 
             runtime.registerRoute({
@@ -405,7 +406,7 @@ describe("registerRoute", () => {
             expect(runtime.routes[0].$visibility).toBe("protected");
         });
 
-        test("when a root route has no visibility option, it is considered as an \"protected\" route", () => {
+        test.concurrent("when a root route has no visibility option, it is considered as an \"protected\" route", ({ expect }) => {
             const runtime = new ReactRouterRuntime();
 
             runtime.registerRoute({
@@ -419,7 +420,7 @@ describe("registerRoute", () => {
             expect(runtime.routes[0].$visibility).toBe("protected");
         });
 
-        test("should register a nested route with a \"public\" visibility", () => {
+        test.concurrent("should register a nested route with a \"public\" visibility", ({ expect }) => {
             const runtime = new ReactRouterRuntime();
 
             runtime.registerRoute({
@@ -440,7 +441,7 @@ describe("registerRoute", () => {
             expect(runtime.routes[0].children![0].$visibility).toBe("public");
         });
 
-        test("should register a nested route with a \"protected\" visibility", () => {
+        test.concurrent("should register a nested route with a \"protected\" visibility", ({ expect }) => {
             const runtime = new ReactRouterRuntime();
 
             runtime.registerRoute({
@@ -461,7 +462,7 @@ describe("registerRoute", () => {
             expect(runtime.routes[0].children![0].$visibility).toBe("protected");
         });
 
-        test("when a nested route has no visibility option, it is considered as an \"protected\" route", () => {
+        test.concurrent("when a nested route has no visibility option, it is considered as an \"protected\" route", ({ expect }) => {
             const runtime = new ReactRouterRuntime();
 
             runtime.registerRoute({
@@ -481,7 +482,7 @@ describe("registerRoute", () => {
             expect(runtime.routes[0].children![0].$visibility).toBe("protected");
         });
 
-        test("should register a root route with a name", () => {
+        test.concurrent("should register a root route with a name", ({ expect }) => {
             const runtime = new ReactRouterRuntime();
 
             runtime.registerRoute({
@@ -495,7 +496,7 @@ describe("registerRoute", () => {
             expect(runtime.routes[0].$id).toBe("foo");
         });
 
-        test("should register a nested route with a name", () => {
+        test.concurrent("should register a nested route with a name", ({ expect }) => {
             const runtime = new ReactRouterRuntime();
 
             runtime.registerRoute({
@@ -516,7 +517,7 @@ describe("registerRoute", () => {
     });
 
     describe("parentPath", () => {
-        test("when the parent route has already been registered, register the nested route", () => {
+        test.concurrent("when the parent route has already been registered, register the nested route", ({ expect }) => {
             const runtime = new ReactRouterRuntime();
 
             runtime.registerRoute({
@@ -539,7 +540,7 @@ describe("registerRoute", () => {
             expect(runtime.routes[0].children![0].path).toBe("/layout/nested");
         });
 
-        test("when the parent route has not been registered, do not register the nested route", () => {
+        test.concurrent("when the parent route has not been registered, do not register the nested route", ({ expect }) => {
             const runtime = new ReactRouterRuntime();
 
             runtime.registerRoute({
@@ -552,7 +553,7 @@ describe("registerRoute", () => {
             expect(runtime.routes.length).toBe(0);
         });
 
-        test("when the parent route has not been registered, register the pending route once the parent route is registered", () => {
+        test.concurrent("when the parent route has not been registered, register the pending route once the parent route is registered", ({ expect }) => {
             const runtime = new ReactRouterRuntime();
 
             runtime.registerRoute({
@@ -592,7 +593,7 @@ describe("registerRoute", () => {
             expect(runtime.routes[1].children?.length).toBe(2);
         });
 
-        test("when the parent route has not been registered, and the parent route is nested in a pending registration single block, register the pending route once the parent route is registered", () => {
+        test.concurrent("when the parent route has not been registered, and the parent route is nested in a pending registration single block, register the pending route once the parent route is registered", ({ expect }) => {
             const runtime = new ReactRouterRuntime();
 
             runtime.registerRoute({
@@ -626,7 +627,7 @@ describe("registerRoute", () => {
             expect(runtime.routes[0].children![0].children![0].children![0].path).toBe("/layout/nested");
         });
 
-        test("should register a route under a deeply nested layout", () => {
+        test.concurrent("should register a route under a deeply nested layout", ({ expect }) => {
             const runtime = new ReactRouterRuntime();
 
             runtime.registerRoute({
@@ -654,7 +655,7 @@ describe("registerRoute", () => {
             expect(runtime.routes[0].children![0].children![0].path).toBe("/layout/nested/another-level");
         });
 
-        test("should register a route under a deeply nested layout that has been registered in a single block", () => {
+        test.concurrent("should register a route under a deeply nested layout that has been registered in a single block", ({ expect }) => {
             const runtime = new ReactRouterRuntime();
 
             runtime.registerRoute({
@@ -695,7 +696,7 @@ describe("registerRoute", () => {
             expect(runtime.routes[0].children![0].children![0].children![0].children![0].path).toBe("/deeply-nested-layout/another-level/yet-another-level");
         });
 
-        test("when the specified parent path has a trailing separator but the parent route path doesn't have a trailing separator, the nested route is registered", () => {
+        test.concurrent("when the specified parent path has a trailing separator but the parent route path doesn't have a trailing separator, the nested route is registered", ({ expect }) => {
             const runtime = new ReactRouterRuntime();
 
             runtime.registerRoute({
@@ -715,7 +716,7 @@ describe("registerRoute", () => {
             expect(runtime.routes[0].children![0].path).toBe("/layout/nested");
         });
 
-        test("when the specified parent path doesn't have a trailing separator but the parent route path have a trailing separator, the nested route is registered", () => {
+        test.concurrent("when the specified parent path doesn't have a trailing separator but the parent route path have a trailing separator, the nested route is registered", ({ expect }) => {
             const runtime = new ReactRouterRuntime();
 
             runtime.registerRoute({
@@ -735,7 +736,7 @@ describe("registerRoute", () => {
             expect(runtime.routes[0].children![0].path).toBe("/layout/nested");
         });
 
-        test("when a route is hoisted, it cannot be nested under another route", () => {
+        test.concurrent("when a route is hoisted, it cannot be nested under another route", ({ expect }) => {
             const runtime = new ReactRouterRuntime();
 
             expect(() => runtime.registerRoute({
@@ -748,7 +749,7 @@ describe("registerRoute", () => {
     });
 
     describe("parentId", () => {
-        test("when the parent route has already been registered, register the nested route", () => {
+        test.concurrent("when the parent route has already been registered, register the nested route", ({ expect }) => {
             const runtime = new ReactRouterRuntime();
 
             runtime.registerRoute({
@@ -771,7 +772,7 @@ describe("registerRoute", () => {
             expect(runtime.routes[0].children![0].path).toBe("/layout/nested");
         });
 
-        test("when the parent route has not been registered, do not register the nested route", () => {
+        test.concurrent("when the parent route has not been registered, do not register the nested route", ({ expect }) => {
             const runtime = new ReactRouterRuntime();
 
             runtime.registerRoute({
@@ -784,7 +785,7 @@ describe("registerRoute", () => {
             expect(runtime.routes.length).toBe(0);
         });
 
-        test("when the parent route has not been registered, register the pending route once the parent route is registered", () => {
+        test.concurrent("when the parent route has not been registered, register the pending route once the parent route is registered", ({ expect }) => {
             const runtime = new ReactRouterRuntime();
 
             runtime.registerRoute({
@@ -824,7 +825,7 @@ describe("registerRoute", () => {
             expect(runtime.routes[1].children?.length).toBe(2);
         });
 
-        test("when the parent route has not been registered, and the parent route is nested in a pending registration single block, register the pending route once the parent route is registered", () => {
+        test.concurrent("when the parent route has not been registered, and the parent route is nested in a pending registration single block, register the pending route once the parent route is registered", ({ expect }) => {
             const runtime = new ReactRouterRuntime();
 
             runtime.registerRoute({
@@ -858,7 +859,7 @@ describe("registerRoute", () => {
             expect(runtime.routes[0].children![0].children![0].children![0].path).toBe("/layout/nested");
         });
 
-        test("should register a route under a deeply nested layout", () => {
+        test.concurrent("should register a route under a deeply nested layout", ({ expect }) => {
             const runtime = new ReactRouterRuntime();
 
             runtime.registerRoute({
@@ -887,7 +888,7 @@ describe("registerRoute", () => {
             expect(runtime.routes[0].children![0].children![0].path).toBe("/layout/nested/another-level");
         });
 
-        test("should register a route under a deeply nested layout that has been registered in a single block", () => {
+        test.concurrent("should register a route under a deeply nested layout that has been registered in a single block", ({ expect }) => {
             const runtime = new ReactRouterRuntime();
 
             runtime.registerRoute({
@@ -928,7 +929,7 @@ describe("registerRoute", () => {
             expect(runtime.routes[0].children![0].children![0].children![0].children![0].path).toBe("/deeply-nested-layout/another-level/yet-another-level");
         });
 
-        test("when a route is hoisted, it cannot be nested under another route", () => {
+        test.concurrent("when a route is hoisted, it cannot be nested under another route", ({ expect }) => {
             const runtime = new ReactRouterRuntime();
 
             expect(() => runtime.registerRoute({
@@ -941,7 +942,7 @@ describe("registerRoute", () => {
     });
 
     describe("nested routes", () => {
-        test("should register a deeply nested route with pathless parent routes", () => {
+        test.concurrent("should register a deeply nested route with pathless parent routes", ({ expect }) => {
             const runtime = new ReactRouterRuntime();
 
             runtime.registerRoute({
@@ -965,7 +966,7 @@ describe("registerRoute", () => {
             expect(runtime.routes[0].children![0].children![0].path).toBe("/deeply-nested-route");
         });
 
-        test("should register a deeply nested index route with pathless parent routes", () => {
+        test.concurrent("should register a deeply nested index route with pathless parent routes", ({ expect }) => {
             const runtime = new ReactRouterRuntime();
 
             runtime.registerRoute({
@@ -989,7 +990,7 @@ describe("registerRoute", () => {
             expect(runtime.routes[0].children![0].children![0].index).toBeTruthy();
         });
 
-        test("should register a nested route with a visibility hint", () => {
+        test.concurrent("should register a nested route with a visibility hint", ({ expect }) => {
             const runtime = new ReactRouterRuntime();
 
             runtime.registerRoute({
@@ -1010,7 +1011,7 @@ describe("registerRoute", () => {
             expect(runtime.routes[0].children![0].$visibility).toBe("public");
         });
 
-        test("when a nested route has no visibility option, the visibility is defaulted to \"protected\"", () => {
+        test.concurrent("when a nested route has no visibility option, the visibility is defaulted to \"protected\"", ({ expect }) => {
             const runtime = new ReactRouterRuntime();
 
             runtime.registerRoute({
@@ -1030,7 +1031,7 @@ describe("registerRoute", () => {
             expect(runtime.routes[0].children![0].$visibility).toBe("protected");
         });
 
-        test("should register a nested route with a name", () => {
+        test.concurrent("should register a nested route with a name", ({ expect }) => {
             const runtime = new ReactRouterRuntime();
 
             runtime.registerRoute({
@@ -1050,7 +1051,7 @@ describe("registerRoute", () => {
         });
     });
 
-    test("should register a route with a visibility hint", () => {
+    test.concurrent("should register a route with a visibility hint", ({ expect }) => {
         const runtime = new ReactRouterRuntime();
 
         runtime.registerRoute({
@@ -1066,7 +1067,7 @@ describe("registerRoute", () => {
         expect(runtime.routes[0].$visibility).toBe("public");
     });
 
-    test("when a route has no visibility option, the visibility is defaulted to \"protected\"", () => {
+    test.concurrent("when a route has no visibility option, the visibility is defaulted to \"protected\"", ({ expect }) => {
         const runtime = new ReactRouterRuntime();
 
         runtime.registerRoute({
@@ -1081,7 +1082,7 @@ describe("registerRoute", () => {
         expect(runtime.routes[0].$visibility).toBe("protected");
     });
 
-    test("should register a route with a name", () => {
+    test.concurrent("should register a route with a name", ({ expect }) => {
         const runtime = new ReactRouterRuntime();
 
         runtime.registerRoute({
@@ -1097,7 +1098,7 @@ describe("registerRoute", () => {
 });
 
 describe("registerNavigationItem", () => {
-    test("should register a root navigation link", () => {
+    test.concurrent("should register a root navigation link", ({ expect }) => {
         const runtime = new ReactRouterRuntime();
 
         runtime.registerNavigationItem({
@@ -1108,7 +1109,7 @@ describe("registerNavigationItem", () => {
         expect(runtime.getNavigationItems()[0].to).toBe("/root");
     });
 
-    test("should register a root navigation section", () => {
+    test.concurrent("should register a root navigation section", ({ expect }) => {
         const runtime = new ReactRouterRuntime();
 
         runtime.registerNavigationItem({
@@ -1124,7 +1125,7 @@ describe("registerNavigationItem", () => {
         expect(runtime.getNavigationItems()[0].$label).toBe("Section");
     });
 
-    test("should register a navigation link for a specific menu id", () => {
+    test.concurrent("should register a navigation link for a specific menu id", ({ expect }) => {
         const runtime = new ReactRouterRuntime();
 
         runtime.registerNavigationItem({
@@ -1137,7 +1138,7 @@ describe("registerNavigationItem", () => {
         expect(runtime.getNavigationItems("link-menu")[0].to).toBe("/link");
     });
 
-    test("should register a navigation section for a specific menu id", () => {
+    test.concurrent("should register a navigation section for a specific menu id", ({ expect }) => {
         const runtime = new ReactRouterRuntime();
 
         runtime.registerNavigationItem({
@@ -1155,7 +1156,7 @@ describe("registerNavigationItem", () => {
         expect(runtime.getNavigationItems("section-menu")[0].$label).toBe("Section");
     });
 
-    test("should register a navitation link with a key", () => {
+    test.concurrent("should register a navitation link with a key", ({ expect }) => {
         const runtime = new ReactRouterRuntime();
 
         runtime.registerNavigationItem({
@@ -1167,7 +1168,7 @@ describe("registerNavigationItem", () => {
         expect(runtime.getNavigationItems()[0].$id).toBe("link");
     });
 
-    test("should register a navitation section with a key", () => {
+    test.concurrent("should register a navitation section with a key", ({ expect }) => {
         const runtime = new ReactRouterRuntime();
 
         runtime.registerNavigationItem({
@@ -1180,7 +1181,7 @@ describe("registerNavigationItem", () => {
     });
 
     describe("sectionId", () => {
-        test("when the section has already been registered, register the nested item", () => {
+        test.concurrent("when the section has already been registered, register the nested item", ({ expect }) => {
             const runtime = new ReactRouterRuntime();
 
             runtime.registerNavigationItem({
@@ -1200,7 +1201,7 @@ describe("registerNavigationItem", () => {
             expect(runtime.getNavigationItems()[0].children![0].$label).toBe("Link");
         });
 
-        test("when the section has not been registered, do not register the nested item", () => {
+        test.concurrent("when the section has not been registered, do not register the nested item", ({ expect }) => {
             const runtime = new ReactRouterRuntime();
 
             runtime.registerNavigationItem({
@@ -1213,7 +1214,7 @@ describe("registerNavigationItem", () => {
             expect(runtime.getNavigationItems().length).toBe(0);
         });
 
-        test("when the section has not been registered, register the pending item once the section is registered", () => {
+        test.concurrent("when the section has not been registered, register the pending item once the section is registered", ({ expect }) => {
             const runtime = new ReactRouterRuntime();
 
             runtime.registerNavigationItem({
@@ -1235,7 +1236,7 @@ describe("registerNavigationItem", () => {
             expect(runtime.getNavigationItems()[0].children![0].$label).toBe("Link");
         });
 
-        test("should register an item under a deeply nested section", () => {
+        test.concurrent("should register an item under a deeply nested section", ({ expect }) => {
             const runtime = new ReactRouterRuntime();
 
             runtime.registerNavigationItem({
@@ -1264,7 +1265,7 @@ describe("registerNavigationItem", () => {
             expect(runtime.getNavigationItems()[0].children![0].children![0].children![0].$label).toBe("Link");
         });
 
-        test("should register a nested link under a section in a specific menu", () => {
+        test.concurrent("should register a nested link under a section in a specific menu", ({ expect }) => {
             const runtime = new ReactRouterRuntime();
 
             runtime.registerNavigationItem({
@@ -1289,7 +1290,7 @@ describe("registerNavigationItem", () => {
             expect(runtime.getNavigationItems("foo")[0].children![0].$label).toBe("Link");
         });
 
-        test("when a section is registered with the same id but for a different menu, do not register the nested item", () => {
+        test.concurrent("when a section is registered with the same id but for a different menu, do not register the nested item", ({ expect }) => {
             const runtime = new ReactRouterRuntime();
 
             runtime.registerNavigationItem({
@@ -1319,7 +1320,7 @@ describe("registerNavigationItem", () => {
 });
 
 describe("getNavigationItems", () => {
-    test("when no menu id is specified, returns all the registered navigation items for the root menu", () => {
+    test.concurrent("when no menu id is specified, returns all the registered navigation items for the root menu", ({ expect }) => {
         const runtime = new ReactRouterRuntime();
 
         runtime.registerNavigationItem({
@@ -1356,7 +1357,7 @@ describe("getNavigationItems", () => {
         expect(runtime.getNavigationItems()[2].to).toBe("/item-3");
     });
 
-    test("when no menu id is specified, returns all the registered navigation items for that specific menu", () => {
+    test.concurrent("when no menu id is specified, returns all the registered navigation items for that specific menu", ({ expect }) => {
         const runtime = new ReactRouterRuntime();
 
         runtime.registerNavigationItem({
@@ -1393,7 +1394,7 @@ describe("getNavigationItems", () => {
 });
 
 describe("startDeferredRegistrationScope & completeDeferredRegistrationScope", () => {
-    test("should start and complete a scope", () => {
+    test.concurrent("should start and complete a scope", ({ expect }) => {
         const runtime = new ReactRouterRuntime();
 
         expect(() => {
@@ -1402,7 +1403,7 @@ describe("startDeferredRegistrationScope & completeDeferredRegistrationScope", (
         }).not.toThrow();
     });
 
-    test("when a scope is started, can register a navigation item", () => {
+    test.concurrent("when a scope is started, can register a navigation item", ({ expect }) => {
         const runtime = new ReactRouterRuntime();
 
         runtime.startDeferredRegistrationScope();
@@ -1419,7 +1420,7 @@ describe("startDeferredRegistrationScope & completeDeferredRegistrationScope", (
         expect(runtime.getNavigationItems().length).toBe(1);
     });
 
-    test("when a scope is started, can register a route", () => {
+    test.concurrent("when a scope is started, can register a route", ({ expect }) => {
         const runtime = new ReactRouterRuntime();
 
         runtime.startDeferredRegistrationScope();
@@ -1438,7 +1439,7 @@ describe("startDeferredRegistrationScope & completeDeferredRegistrationScope", (
         expect(runtime.routes.length).toBe(1);
     });
 
-    test("when a scope is completed, can register a navigation item", () => {
+    test.concurrent("when a scope is completed, can register a navigation item", ({ expect }) => {
         const runtime = new ReactRouterRuntime();
 
         runtime.startDeferredRegistrationScope();
@@ -1460,7 +1461,7 @@ describe("startDeferredRegistrationScope & completeDeferredRegistrationScope", (
         expect(runtime.getNavigationItems().length).toBe(2);
     });
 
-    test("when a scope is completed, can register a route", () => {
+    test.concurrent("when a scope is completed, can register a route", ({ expect }) => {
         const runtime = new ReactRouterRuntime();
 
         runtime.startDeferredRegistrationScope();
@@ -1490,7 +1491,7 @@ describe("startDeferredRegistrationScope & completeDeferredRegistrationScope", (
 
 describe("_validateRegistrations", () => {
     describe("managed routes", () => {
-        test("when public routes are registered but the public routes outlet is missing, the error message mentions the PublicRoutes outlet", () => {
+        test.concurrent("when public routes are registered but the public routes outlet is missing, the error message mentions the PublicRoutes outlet", ({ expect }) => {
             const runtime = new ReactRouterRuntime();
             let errorMessage;
 
@@ -1516,7 +1517,7 @@ describe("_validateRegistrations", () => {
             expect(errorMessage).toContain("PublicRoutes");
         });
 
-        test("when protected routes are registered but the protected routes outlet is missing, the error message mentions the ProtectedRoutes outlet", () => {
+        test.concurrent("when protected routes are registered but the protected routes outlet is missing, the error message mentions the ProtectedRoutes outlet", ({ expect }) => {
             const runtime = new ReactRouterRuntime();
             let errorMessage;
 
@@ -1542,7 +1543,7 @@ describe("_validateRegistrations", () => {
             expect(errorMessage).toContain("ProtectedRoutes");
         });
 
-        test("when routes are registered and both the public and protected routes outlet are missing, the error message mentions the PublicRoutes and ProtectedRoutes outlets", () => {
+        test.concurrent("when routes are registered and both the public and protected routes outlet are missing, the error message mentions the PublicRoutes and ProtectedRoutes outlets", ({ expect }) => {
             const runtime = new ReactRouterRuntime();
             let errorMessage;
 
@@ -1568,7 +1569,7 @@ describe("_validateRegistrations", () => {
     });
 
     describe("parentPath", () => {
-        test("when there are no pending registrations, do nothing", () => {
+        test.concurrent("when there are no pending registrations, do nothing", ({ expect }) => {
             const runtime = new ReactRouterRuntime();
 
             runtime.registerRoute({
@@ -1588,7 +1589,7 @@ describe("_validateRegistrations", () => {
             expect(() => runtime._validateRegistrations()).not.toThrow();
         });
 
-        test("when there are pending registrations, throw an error", () => {
+        test.concurrent("when there are pending registrations, throw an error", ({ expect }) => {
             const runtime = new ReactRouterRuntime();
 
             runtime.registerRoute({
@@ -1603,7 +1604,7 @@ describe("_validateRegistrations", () => {
     });
 
     describe("parentId", () => {
-        test("when there are no pending registrations, do nothing", () => {
+        test.concurrent("when there are no pending registrations, do nothing", ({ expect }) => {
             const runtime = new ReactRouterRuntime();
 
             runtime.registerRoute({
@@ -1623,7 +1624,7 @@ describe("_validateRegistrations", () => {
             expect(() => runtime._validateRegistrations()).not.toThrow();
         });
 
-        test("when there are pending registrations, throw an error", () => {
+        test.concurrent("when there are pending registrations, throw an error", ({ expect }) => {
             const runtime = new ReactRouterRuntime();
 
             runtime.registerRoute({
@@ -1638,7 +1639,7 @@ describe("_validateRegistrations", () => {
     });
 
     describe("sectionId", () => {
-        test("when there are no pending registrations, do nothing", () => {
+        test.concurrent("when there are no pending registrations, do nothing", ({ expect }) => {
             const runtime = new ReactRouterRuntime();
 
             runtime.registerNavigationItem({
@@ -1657,7 +1658,7 @@ describe("_validateRegistrations", () => {
             expect(() => runtime._validateRegistrations()).not.toThrow();
         });
 
-        test("when there are pending registrations, throw an error", () => {
+        test.concurrent("when there are pending registrations, throw an error", ({ expect }) => {
             const runtime = new ReactRouterRuntime();
 
             runtime.registerNavigationItem({

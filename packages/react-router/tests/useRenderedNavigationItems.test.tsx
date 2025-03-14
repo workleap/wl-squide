@@ -1,5 +1,6 @@
 import { render, renderHook } from "@testing-library/react";
 import { useCallback, type ReactNode } from "react";
+import { test, vi } from "vitest";
 import type { NavigationItem, RootNavigationItem } from "../src/navigationItemRegistry.ts";
 import { isNavigationLink, useRenderedNavigationItems, type NavigationLinkRenderProps, type NavigationSectionRenderProps, type RenderItemFunction, type RenderSectionFunction } from "../src/useRenderedNavigationItems.tsx";
 
@@ -61,7 +62,7 @@ function TestComponent({ navigationItems }: TestComponentProps) {
     );
 }
 
-test("highest priority goes first", () => {
+test.concurrent("highest priority goes first", ({ expect }) => {
     const navigationItems: RootNavigationItem[] = [
         {
             $label: "Foo",
@@ -88,7 +89,7 @@ test("highest priority goes first", () => {
     expect(tree).toMatchSnapshot();
 });
 
-test("negative priority goes last", () => {
+test.concurrent("negative priority goes last", ({ expect }) => {
     const navigationItems: RootNavigationItem[] = [
         {
             $label: "Foo",
@@ -114,7 +115,7 @@ test("negative priority goes last", () => {
     expect(tree).toMatchSnapshot();
 });
 
-test("support 2 section levels", () => {
+test.concurrent("support 2 section levels", ({ expect }) => {
     const navigationItems: RootNavigationItem[] = [
         {
             $label: "Foo",
@@ -140,7 +141,7 @@ test("support 2 section levels", () => {
     expect(tree).toMatchSnapshot();
 });
 
-test("support 3 section levels", () => {
+test.concurrent("support 3 section levels", ({ expect }) => {
     const navigationItems: RootNavigationItem[] = [
         {
             $label: "Foo",
@@ -171,7 +172,7 @@ test("support 3 section levels", () => {
     expect(tree).toMatchSnapshot();
 });
 
-test("link item additionalProps are rendered", () => {
+test.concurrent("link item additionalProps are rendered", ({ expect }) => {
     const navigationItems: RootNavigationItem[] = [
         {
             $label: "Foo",
@@ -191,7 +192,7 @@ test("link item additionalProps are rendered", () => {
     expect(tree).toMatchSnapshot();
 });
 
-test("section item additionalProps are rendered", () => {
+test.concurrent("section item additionalProps are rendered", ({ expect }) => {
     const navigationItems: RootNavigationItem[] = [
         {
             $label: "Foo",
@@ -212,7 +213,7 @@ test("section item additionalProps are rendered", () => {
     expect(tree).toMatchSnapshot();
 });
 
-test("link item custom keys are rendered", () => {
+test.concurrent("link item custom keys are rendered", ({ expect }) => {
     const navigationItems: RootNavigationItem[] = [
         {
             $id: "foo",
@@ -234,7 +235,7 @@ test("link item custom keys are rendered", () => {
     expect(tree).toMatchSnapshot();
 });
 
-test("section item custom keys are rendered", () => {
+test.concurrent("section item custom keys are rendered", ({ expect }) => {
     const navigationItems: RootNavigationItem[] = [
         {
             $id: "foo",
@@ -256,7 +257,7 @@ test("section item custom keys are rendered", () => {
     expect(tree).toMatchSnapshot();
 });
 
-test("nested item custom keys are rendered", () => {
+test.concurrent("nested item custom keys are rendered", ({ expect }) => {
     const navigationItems: RootNavigationItem[] = [
         {
             $label: "Foo",
@@ -278,7 +279,7 @@ test("nested item custom keys are rendered", () => {
     expect(tree).toMatchSnapshot();
 });
 
-test("when a link item canRender prop return false, the item is not rendered", () => {
+test.concurrent("when a link item canRender prop return false, the item is not rendered", ({ expect }) => {
     const navigationItems: RootNavigationItem[] = [
         {
             $canRender: () => false,
@@ -296,7 +297,7 @@ test("when a link item canRender prop return false, the item is not rendered", (
     expect(tree).toMatchSnapshot();
 });
 
-test("when a section item canRender prop return false, the item is not rendered", () => {
+test.concurrent("when a section item canRender prop return false, the item is not rendered", ({ expect }) => {
     const navigationItems: RootNavigationItem[] = [
         {
             $canRender: () => false,
@@ -319,7 +320,7 @@ test("when a section item canRender prop return false, the item is not rendered"
     expect(tree).toMatchSnapshot();
 });
 
-test("when the canRender prop of all the root items return false, do not render the root section", () => {
+test.concurrent("when the canRender prop of all the root items return false, do not render the root section", ({ expect }) => {
     const navigationItems: RootNavigationItem[] = [
         {
             $canRender: () => false,
@@ -338,7 +339,7 @@ test("when the canRender prop of all the root items return false, do not render 
     expect(tree).toMatchSnapshot();
 });
 
-test("when the canRender prop of all the items of a nested section return false, do not render the section", () => {
+test.concurrent("when the canRender prop of all the items of a nested section return false, do not render the section", ({ expect }) => {
     const navigationItems: RootNavigationItem[] = [
         {
             $label: "Foo",
@@ -372,7 +373,7 @@ test("when the canRender prop of all the items of a nested section return false,
     expect(tree).toMatchSnapshot();
 });
 
-test("doesn't rerender when the navigation items haven't changed", () => {
+test.concurrent("doesn't rerender when the navigation items haven't changed", ({ expect }) => {
     const initialItems: NavigationItem[] = [
         {
             $label: "Foo",
@@ -380,8 +381,8 @@ test("doesn't rerender when the navigation items haven't changed", () => {
         }
     ];
 
-    const renderItem = jest.fn(() => <div>Item</div>);
-    const renderSection = jest.fn(() => <div>Section</div>);
+    const renderItem = vi.fn(() => <div>Item</div>);
+    const renderSection = vi.fn(() => <div>Section</div>);
 
     const { rerender } = renderHook(({ navigationItems: x }) => useRenderedNavigationItems(x, renderItem, renderSection), {
         initialProps: {
@@ -397,7 +398,7 @@ test("doesn't rerender when the navigation items haven't changed", () => {
     expect(renderSection).toHaveBeenCalledTimes(1);
 });
 
-test("rerender when the navigation items change", () => {
+test.concurrent("rerender when the navigation items change", ({ expect }) => {
     const initialItems: NavigationItem[] = [
         {
             $label: "Foo",
@@ -405,8 +406,8 @@ test("rerender when the navigation items change", () => {
         }
     ];
 
-    const renderItem = jest.fn(() => <div>Item</div>);
-    const renderSection = jest.fn(() => <div>Section</div>);
+    const renderItem = vi.fn(() => <div>Item</div>);
+    const renderSection = vi.fn(() => <div>Section</div>);
 
     const { rerender } = renderHook(({ navigationItems: x }) => useRenderedNavigationItems(x, renderItem, renderSection), {
         initialProps: {

@@ -1,6 +1,7 @@
 import { RuntimeContext } from "@squide/core";
 import { renderHook } from "@testing-library/react";
 import type { ReactNode } from "react";
+import { test } from "vitest";
 import { ReactRouterRuntime } from "../src/reactRouterRuntime.ts";
 import { useRuntimeNavigationItems } from "../src/useRuntimeNavigationItems.ts";
 
@@ -14,7 +15,7 @@ function renderUseNavigationItemsHook(runtime: ReactRouterRuntime, menuId?: stri
     });
 }
 
-test("when no menu id is specified, returns all the registered navigation items for the root menu", () => {
+test.concurrent("when no menu id is specified, returns all the registered navigation items for the root menu", ({ expect }) => {
     const runtime = new ReactRouterRuntime();
 
     runtime.registerNavigationItem({
@@ -51,7 +52,7 @@ test("when no menu id is specified, returns all the registered navigation items 
     expect(result.current.length).toBe(3);
 });
 
-test("when a menu id is specified, returns all the registered navigation items for that specific menu", () => {
+test.concurrent("when a menu id is specified, returns all the registered navigation items for that specific menu", ({ expect }) => {
     const runtime = new ReactRouterRuntime();
 
     runtime.registerNavigationItem({
@@ -88,7 +89,7 @@ test("when a menu id is specified, returns all the registered navigation items f
     expect(result.current.length).toBe(1);
 });
 
-test("returned array is immutable", () => {
+test.concurrent("returned array is immutable", ({ expect }) => {
     const runtime = new ReactRouterRuntime();
 
     runtime.registerNavigationItem({

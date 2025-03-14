@@ -1,6 +1,7 @@
+import { test } from "vitest";
 import { resolveRouteSegments } from "../src/resolveRouteSegments.ts";
 
-test("when there's no match, return the original route", () => {
+test.concurrent("when there's no match, return the original route", ({ expect }) => {
     const to = "/page/:arg1";
 
     const values = {
@@ -12,7 +13,7 @@ test("when there's no match, return the original route", () => {
     expect(result).toBe(result);
 });
 
-test("when there's a single match, return the resolved route", () => {
+test.concurrent("when there's a single match, return the resolved route", ({ expect }) => {
     const to = "/page/:arg1";
 
     const values = {
@@ -24,7 +25,7 @@ test("when there's a single match, return the resolved route", () => {
     expect(result).toBe("/page/value-1");
 });
 
-test("when there's multiple matches, return the resolved route", () => {
+test.concurrent("when there's multiple matches, return the resolved route", ({ expect }) => {
     const to = "/page/:arg1/:arg2";
 
     const values = {
@@ -37,7 +38,7 @@ test("when there's multiple matches, return the resolved route", () => {
     expect(result).toBe("/page/value-1/value-2");
 });
 
-test("when there's partial matches, return the partially resolved route", () => {
+test.concurrent("when there's partial matches, return the partially resolved route", ({ expect }) => {
     const to = "/page/:arg1/:arg2";
 
     const values = {
