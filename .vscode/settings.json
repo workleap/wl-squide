@@ -33,5 +33,6 @@
     "files.associations": {
         "*.snap": "javascriptreact",
         "turbo.json": "jsonc"
-    }
+    },
+    "vitest.disableWorkspaceWarning": true
 }
