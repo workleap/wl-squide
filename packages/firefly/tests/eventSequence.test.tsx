@@ -156,7 +156,7 @@ test("msw + local modules + remote modules + public data + protected data + loca
     __setLocalModuleRegistry(localModuleRegistry);
     __setRemoteModuleRegistry(remoteModuleRegistry);
 
-    await bootstrap(runtime, {
+    bootstrap(runtime, {
         localModules: [
             x => {
                 x.registerRoute({
@@ -181,6 +181,9 @@ test("msw + local modules + remote modules + public data + protected data + loca
         ],
         startMsw: vi.fn(() => Promise.resolve())
     });
+
+    await vi.waitUntil(() => localModuleRegistry.registrationStatus === "modules-registered");
+    await vi.waitUntil(() => remoteModuleRegistry.registrationStatus === "modules-registered");
 
     function BootstrappingRoute() {
         usePublicDataQueries([{
@@ -321,7 +324,7 @@ test("msw + local modules + remote modules + public data + protected data", asyn
     __setLocalModuleRegistry(localModuleRegistry);
     __setRemoteModuleRegistry(remoteModuleRegistry);
 
-    await bootstrap(runtime, {
+    bootstrap(runtime, {
         localModules: [
             x => {
                 x.registerRoute({
@@ -343,6 +346,9 @@ test("msw + local modules + remote modules + public data + protected data", asyn
         ],
         startMsw: vi.fn(() => Promise.resolve())
     });
+
+    await vi.waitUntil(() => localModuleRegistry.registrationStatus === "ready");
+    await vi.waitUntil(() => remoteModuleRegistry.registrationStatus === "ready");
 
     function BootstrappingRoute() {
         usePublicDataQueries([{
@@ -470,7 +476,7 @@ test("msw + local modules + remote modules + public data + local deferred + remo
     __setLocalModuleRegistry(localModuleRegistry);
     __setRemoteModuleRegistry(remoteModuleRegistry);
 
-    await bootstrap(runtime, {
+    bootstrap(runtime, {
         localModules: [
             x => {
                 x.registerRoute({
@@ -495,6 +501,9 @@ test("msw + local modules + remote modules + public data + local deferred + remo
         ],
         startMsw: vi.fn(() => Promise.resolve())
     });
+
+    await vi.waitUntil(() => localModuleRegistry.registrationStatus === "modules-registered");
+    await vi.waitUntil(() => remoteModuleRegistry.registrationStatus === "modules-registered");
 
     function BootstrappingRoute() {
         usePublicDataQueries([{
@@ -630,7 +639,7 @@ test("msw + local modules + remote modules + protected data + local deferred + r
     __setLocalModuleRegistry(localModuleRegistry);
     __setRemoteModuleRegistry(remoteModuleRegistry);
 
-    await bootstrap(runtime, {
+    bootstrap(runtime, {
         localModules: [
             x => {
                 x.registerRoute({
@@ -655,6 +664,9 @@ test("msw + local modules + remote modules + protected data + local deferred + r
         ],
         startMsw: vi.fn(() => Promise.resolve())
     });
+
+    await vi.waitUntil(() => localModuleRegistry.registrationStatus === "modules-registered");
+    await vi.waitUntil(() => remoteModuleRegistry.registrationStatus === "modules-registered");
 
     function BootstrappingRoute() {
         useProtectedDataQueries([{
@@ -775,7 +787,7 @@ test("msw + local modules + remote modules", async () => {
     __setLocalModuleRegistry(localModuleRegistry);
     __setRemoteModuleRegistry(remoteModuleRegistry);
 
-    await bootstrap(runtime, {
+    bootstrap(runtime, {
         localModules: [
             x => {
                 x.registerRoute({
@@ -797,6 +809,9 @@ test("msw + local modules + remote modules", async () => {
         ],
         startMsw: vi.fn(() => Promise.resolve())
     });
+
+    await vi.waitUntil(() => localModuleRegistry.registrationStatus === "ready");
+    await vi.waitUntil(() => remoteModuleRegistry.registrationStatus === "ready");
 
     function BootstrappingRoute() {
         return <Outlet />;
@@ -893,7 +908,7 @@ test("msw + local modules + remote modules + public data + protected data + loca
     __setLocalModuleRegistry(localModuleRegistry);
     __setRemoteModuleRegistry(remoteModuleRegistry);
 
-    await bootstrap(runtime, {
+    bootstrap(runtime, {
         localModules: [
             x => {
                 x.registerRoute({
@@ -918,6 +933,9 @@ test("msw + local modules + remote modules + public data + protected data + loca
         ],
         startMsw: vi.fn(() => Promise.resolve())
     });
+
+    await vi.waitUntil(() => localModuleRegistry.registrationStatus === "modules-registered");
+    await vi.waitUntil(() => remoteModuleRegistry.registrationStatus === "ready");
 
     function BootstrappingRoute() {
         usePublicDataQueries([{
@@ -1059,7 +1077,7 @@ test("msw + local modules + remote modules + public data + protected data + remo
     __setLocalModuleRegistry(localModuleRegistry);
     __setRemoteModuleRegistry(remoteModuleRegistry);
 
-    await bootstrap(runtime, {
+    bootstrap(runtime, {
         localModules: [
             x => {
                 x.registerRoute({
@@ -1081,6 +1099,9 @@ test("msw + local modules + remote modules + public data + protected data + remo
         ],
         startMsw: vi.fn(() => Promise.resolve())
     });
+
+    await vi.waitUntil(() => localModuleRegistry.registrationStatus === "ready");
+    await vi.waitUntil(() => remoteModuleRegistry.registrationStatus === "modules-registered");
 
     function BootstrappingRoute() {
         usePublicDataQueries([{
@@ -1224,7 +1245,7 @@ test("local modules + remote modules + public data + protected data + local defe
     __setLocalModuleRegistry(localModuleRegistry);
     __setRemoteModuleRegistry(remoteModuleRegistry);
 
-    await bootstrap(runtime, {
+    bootstrap(runtime, {
         localModules: [
             x => {
                 x.registerRoute({
@@ -1249,6 +1270,9 @@ test("local modules + remote modules + public data + protected data + local defe
         ],
         startMsw: vi.fn(() => Promise.resolve())
     });
+
+    await vi.waitUntil(() => localModuleRegistry.registrationStatus === "modules-registered");
+    await vi.waitUntil(() => remoteModuleRegistry.registrationStatus === "modules-registered");
 
     function BootstrappingRoute() {
         usePublicDataQueries([{
@@ -1396,7 +1420,7 @@ test("failing local module registration", async () => {
     __setLocalModuleRegistry(localModuleRegistry);
     __setRemoteModuleRegistry(remoteModuleRegistry);
 
-    await bootstrap(runtime, {
+    bootstrap(runtime, {
         localModules: [
             x => {
                 x.registerRoute({
@@ -1424,6 +1448,9 @@ test("failing local module registration", async () => {
         ],
         startMsw: vi.fn(() => Promise.resolve())
     });
+
+    await vi.waitUntil(() => localModuleRegistry.registrationStatus === "modules-registered");
+    await vi.waitUntil(() => remoteModuleRegistry.registrationStatus === "modules-registered");
 
     function BootstrappingRoute() {
         usePublicDataQueries([{
@@ -1584,7 +1611,7 @@ test("failing remote module registration", async () => {
     __setLocalModuleRegistry(localModuleRegistry);
     __setRemoteModuleRegistry(remoteModuleRegistry);
 
-    await bootstrap(runtime, {
+    bootstrap(runtime, {
         localModules: [
             x => {
                 x.registerRoute({
@@ -1610,6 +1637,9 @@ test("failing remote module registration", async () => {
         ],
         startMsw: vi.fn(() => Promise.resolve())
     });
+
+    await vi.waitUntil(() => localModuleRegistry.registrationStatus === "modules-registered");
+    await vi.waitUntil(() => remoteModuleRegistry.registrationStatus === "modules-registered");
 
     function BootstrappingRoute() {
         usePublicDataQueries([{

@@ -22,7 +22,7 @@ const context: AppContext = {
     name: "Test app"
 };
 
-await bootstrap(runtime, {
+bootstrap(runtime, {
     localModules: [registerShell({ host: "@basic/host" }), registerLayouts({ host: "@basic/host" }), registerHost, registerLocalModule],
     remotes: Remotes,
     context

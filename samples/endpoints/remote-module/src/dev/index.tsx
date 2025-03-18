@@ -16,7 +16,7 @@ const runtime = new FireflyRuntime({
     loggers: [x => new ConsoleLogger(x)]
 });
 
-await bootstrap(runtime, {
+bootstrap(runtime, {
     // Registering the remote module as a static module because the "register" function
     // is local when developing in isolation.
     localModules: [registerShell(), registerDev, registerModule],

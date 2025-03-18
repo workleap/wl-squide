@@ -1,5 +1,5 @@
 import { loadRemote as loadModuleFederationRemote } from "@module-federation/enhanced/runtime";
-import { isFunction, isNil, registerModule, type DeferredRegistrationFunction, type ModuleRegistrationError, type ModuleRegistrationStatus, type ModuleRegistrationStatusChangedListener, type ModuleRegistry, type RegisterModulesOptions, type Runtime, type RuntimeLogger } from "@squide/core";
+import { isFunction, isNil, ModuleRegistrationError, registerModule, type DeferredRegistrationFunction, type ModuleRegistrationStatus, type ModuleRegistrationStatusChangedListener, type ModuleRegistry, type RegisterModulesOptions, type Runtime, type RuntimeLogger } from "@squide/core";
 import type { RemoteDefinition } from "./remoteDefinition.ts";
 
 export const RemoteModulesRegistrationStartedEvent = "squide-remote-modules-registration-started";
@@ -49,11 +49,24 @@ interface DeferredRegistration<TData = unknown> {
     fct: DeferredRegistrationFunction<TData>;
 }
 
-export interface RemoteModuleRegistrationError extends ModuleRegistrationError {
-    // The name of the remote module.
-    remoteName: string;
-    // The name of the remote module resource.
-    moduleName: string;
+export class RemoteModuleRegistrationError extends ModuleRegistrationError {
+    readonly #remoteName: string;
+    readonly #moduleName: string;
+
+    constructor(message: string, remoteName: string, moduleName: string, options?: ErrorOptions) {
+        super(message, options);
+
+        this.#remoteName = remoteName;
+        this.#moduleName = moduleName;
+    }
+
+    get remoteName() {
+        return this.#remoteName;
+    }
+
+    get moduleName() {
+        return this.#moduleName;
+    }
 }
 
 export class RemoteModuleRegistry implements ModuleRegistry {
@@ -131,11 +144,14 @@ export class RemoteModuleRegistry implements ModuleRegistry {
                         error
                     );
 
-                    errors.push({
-                        remoteName,
-                        moduleName: RemoteRegisterModuleName,
-                        error: error as Error
-                    });
+                    errors.push(
+                        new RemoteModuleRegistrationError(
+                            `An error occured while registering module "${RemoteRegisterModuleName}" of remote "${remoteName}".`,
+                            remoteName,
+                            RemoteRegisterModuleName,
+                            { cause: error }
+                        )
+                    );
                 }
             }));
 
@@ -204,11 +220,14 @@ export class RemoteModuleRegistry implements ModuleRegistry {
                     error
                 );
 
-                errors.push({
-                    remoteName,
-                    moduleName: RemoteRegisterModuleName,
-                    error: error as Error
-                });
+                errors.push(
+                    new RemoteModuleRegistrationError(
+                        `An error occured while registering the deferred registrations for module "${RemoteRegisterModuleName}" of remote "${remoteName}".`,
+                        remoteName,
+                        RemoteRegisterModuleName,
+                        { cause: error }
+                    )
+                );
             }
 
             runtime.logger.debug(`[squide] ${index} Registered the deferred registrations for module "${RemoteRegisterModuleName}" of remote "${remoteName}".`);
@@ -257,11 +276,14 @@ export class RemoteModuleRegistry implements ModuleRegistry {
                     error
                 );
 
-                errors.push({
-                    remoteName,
-                    moduleName: RemoteRegisterModuleName,
-                    error: error as Error
-                });
+                errors.push(
+                    new RemoteModuleRegistrationError(
+                        `An error occured while updating the deferred registrations for module "${RemoteRegisterModuleName}" of remote "${remoteName}".`,
+                        remoteName,
+                        RemoteRegisterModuleName,
+                        { cause: error }
+                    )
+                );
             }
 
             runtime.logger.debug(`[squide] ${index} Updated the deferred registrations for module "${RemoteRegisterModuleName}" of remote "${remoteName}".`);

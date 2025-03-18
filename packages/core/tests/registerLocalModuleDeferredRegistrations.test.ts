@@ -1,4 +1,5 @@
 import { test, vi } from "vitest";
+import { ModuleRegistrationError } from "../src/index.ts";
 import { LocalModuleDeferredRegistrationFailedEvent, LocalModuleRegistry, LocalModulesDeferredRegistrationCompletedEvent, LocalModulesDeferredRegistrationStartedEvent } from "../src/registration/registerLocalModules.ts";
 import { Runtime } from "../src/runtime/runtime.ts";
 
@@ -212,7 +213,7 @@ test.concurrent("when a deferred registration fail, return the error", async ({ 
     const errors = await registry.registerDeferredRegistrations({}, runtime);
 
     expect(errors.length).toBe(1);
-    expect(errors[0]!.error!.toString()).toContain("Module 2 deferred registration failed");
+    expect(errors[0]!.cause!.toString()).toContain("Module 2 deferred registration failed");
 });
 
 test.concurrent("when a deferred registration fail, LocalModuleDeferredRegistrationFailedEvent is dispatched", async ({ expect }) => {
@@ -234,9 +235,7 @@ test.concurrent("when a deferred registration fail, LocalModuleDeferredRegistrat
     await registry.registerDeferredRegistrations({}, runtime);
 
     expect(listener).toHaveBeenCalledTimes(1);
-    expect(listener).toHaveBeenCalledWith(expect.objectContaining({
-        error: registrationError
-    }));
+    expect(listener).toHaveBeenCalledWith(expect.any(ModuleRegistrationError));
 });
 
 test.concurrent("when a deferred registration fail, LocalModulesDeferredRegistrationCompletedEvent is dispatched", async ({ expect }) => {

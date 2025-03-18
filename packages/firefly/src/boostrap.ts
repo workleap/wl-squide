@@ -1,5 +1,5 @@
-import { isFunction, registerLocalModules, type ModuleRegisterFunction, type ModuleRegistrationError, type RegisterModulesOptions } from "@squide/core";
-import { registerRemoteModules, type RemoteDefinition, type RemoteModuleRegistrationError } from "@squide/module-federation";
+import { isFunction, registerLocalModules, type ModuleRegisterFunction, type RegisterModulesOptions } from "@squide/core";
+import { registerRemoteModules, type RemoteDefinition } from "@squide/module-federation";
 import { setMswAsReady } from "@squide/msw";
 import type { FireflyRuntime } from "./FireflyRuntime.tsx";
 
@@ -7,20 +7,34 @@ export const ApplicationBootstrappingStartedEvent = "squide-app-bootstrapping-st
 
 export type StartMswFunction<TRuntime = FireflyRuntime> = (runtime: TRuntime) => Promise<void>;
 
+export type OnBootstrapErrorFunction = (error: unknown) => void;
+
 export interface BootstrapAppOptions<TRuntime extends FireflyRuntime = FireflyRuntime, TContext = unknown, TData = unknown> extends RegisterModulesOptions<TContext> {
     localModules?: ModuleRegisterFunction<TRuntime, TContext, TData>[];
     remotes?: RemoteDefinition[];
     startMsw?: StartMswFunction<TRuntime>;
+    onError?: OnBootstrapErrorFunction;
+}
+
+function propagateRegistrationErrors(results: PromiseSettledResult<unknown[]>, onError: OnBootstrapErrorFunction) {
+    if (results) {
+        if (results.status === "fulfilled") {
+            results.value.forEach(x => {
+                onError(x);
+            });
+        }
+    }
 }
 
 let hasExecuted = false;
 
-export async function bootstrap<TRuntime extends FireflyRuntime = FireflyRuntime, TContext = unknown, TData = unknown>(runtime: TRuntime, options: BootstrapAppOptions<TRuntime, TContext, TData> = {}) {
+export function bootstrap<TRuntime extends FireflyRuntime = FireflyRuntime, TContext = unknown, TData = unknown>(runtime: TRuntime, options: BootstrapAppOptions<TRuntime, TContext, TData> = {}) {
     const {
         localModules = [],
         remotes = [],
         context,
-        startMsw
+        startMsw,
+        onError
     } = options;
 
     if (hasExecuted) {
@@ -31,30 +45,29 @@ export async function bootstrap<TRuntime extends FireflyRuntime = FireflyRuntime
 
     runtime.eventBus.dispatch(ApplicationBootstrappingStartedEvent);
 
-    let localModuleErrors: ModuleRegistrationError[] = [];
-    let remoteModuleErrors: RemoteModuleRegistrationError[] = [];
-
-    localModuleErrors = await registerLocalModules<TRuntime, TContext, TData>(localModules, runtime, { context });
-    remoteModuleErrors = await registerRemoteModules(remotes, runtime, { context });
-
-    if (runtime.isMswEnabled) {
-        if (!isFunction(startMsw)) {
-            throw new Error("[squide] When MSW is enabled, the \"startMsw\" function must be provided.");
+    Promise.allSettled([
+        registerLocalModules<TRuntime, TContext, TData>(localModules, runtime, { context }),
+        registerRemoteModules(remotes, runtime, { context })
+    ]).then(results => {
+        if (onError) {
+            propagateRegistrationErrors(results[0], onError);
+            propagateRegistrationErrors(results[1], onError);
         }
 
-        try {
-            await startMsw(runtime);
+        if (runtime.isMswEnabled) {
+            if (!isFunction(startMsw)) {
+                throw new Error("[squide] When MSW is enabled, the \"startMsw\" function must be provided.");
+            }
 
-            setMswAsReady();
-        } catch (error: unknown) {
-            runtime.logger.debug("[squide] An error occured while starting MSW.", error);
+            startMsw(runtime)
+                .then(() => {
+                    setMswAsReady();
+                })
+                .catch((error: unknown) => {
+                    runtime.logger.debug("[squide] An error occured while starting MSW.", error);
+                });
         }
-    }
-
-    return {
-        localModuleErrors,
-        remoteModuleErrors
-    };
+    });
 }
 
 export function __resetHasExecuteGuard() {

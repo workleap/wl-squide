@@ -213,7 +213,7 @@ function registerTrackingListeners(runtime: FireflyRuntime) {
         const registrationError = payload as ModuleRegistrationError;
 
         if (localModuleRegistrationSpan) {
-            traceError(localModuleRegistrationSpan, registrationError.error);
+            traceError(localModuleRegistrationSpan, registrationError);
         }
     });
 
@@ -247,7 +247,7 @@ function registerTrackingListeners(runtime: FireflyRuntime) {
         const registrationError = payload as ModuleRegistrationError;
 
         if (localModuleDeferredRegistrationSpan) {
-            traceError(localModuleRegistrationSpan, registrationError.error);
+            traceError(localModuleRegistrationSpan, registrationError);
         }
     });
 
@@ -281,7 +281,7 @@ function registerTrackingListeners(runtime: FireflyRuntime) {
         const registrationError = payload as RemoteModuleRegistrationError;
 
         if (remoteModuleRegistrationSpan) {
-            traceError(remoteModuleRegistrationSpan, registrationError.error);
+            traceError(remoteModuleRegistrationSpan, registrationError);
         }
     });
 
@@ -315,7 +315,7 @@ function registerTrackingListeners(runtime: FireflyRuntime) {
         const registrationError = payload as RemoteModuleRegistrationError;
 
         if (remoteModuleDeferredRegistrationSpan) {
-            traceError(remoteModuleDeferredRegistrationSpan, registrationError.error);
+            traceError(remoteModuleDeferredRegistrationSpan, registrationError);
         }
     });
 
@@ -439,7 +439,7 @@ function registerTrackingListeners(runtime: FireflyRuntime) {
         const registrationError = payload as ModuleRegistrationError;
 
         if (localModuleDeferredRegistrationsUpdateSpan) {
-            traceError(localModuleDeferredRegistrationsUpdateSpan.instance, registrationError.error);
+            traceError(localModuleDeferredRegistrationsUpdateSpan.instance, registrationError);
         }
     });
 
@@ -483,7 +483,7 @@ function registerTrackingListeners(runtime: FireflyRuntime) {
         const registrationError = payload as RemoteModuleRegistrationError;
 
         if (remoteModuleDeferredRegistrationsUpdateSpan) {
-            traceError(remoteModuleDeferredRegistrationsUpdateSpan.instance, registrationError.error);
+            traceError(remoteModuleDeferredRegistrationsUpdateSpan.instance, registrationError);
         }
     });
 }

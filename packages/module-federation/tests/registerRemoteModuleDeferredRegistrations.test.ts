@@ -1,6 +1,6 @@
 import { Runtime } from "@squide/core";
 import { test, vi } from "vitest";
-import { RemoteModuleDeferredRegistrationFailedEvent, RemoteModuleRegistry, RemoteModulesDeferredRegistrationCompletedEvent, RemoteModulesDeferredRegistrationStartedEvent } from "../src/registerRemoteModules.ts";
+import { RemoteModuleDeferredRegistrationFailedEvent, RemoteModuleRegistrationError, RemoteModuleRegistry, RemoteModulesDeferredRegistrationCompletedEvent, RemoteModulesDeferredRegistrationStartedEvent } from "../src/registerRemoteModules.ts";
 
 function simulateDelay(delay: number) {
     return new Promise(resolve => {
@@ -290,7 +290,7 @@ test.concurrent("when a deferred registration fail, return the error", async ({ 
     const errors = await registry.registerDeferredRegistrations({}, runtime);
 
     expect(errors.length).toBe(1);
-    expect(errors[0]!.error!.toString()).toContain("Module 2 deferred registration failed");
+    expect(errors[0]!.cause!.toString()).toContain("Module 2 deferred registration failed");
 });
 
 test.concurrent("when a deferred registration fail, RemoteModuleDeferredRegistrationFailedEvent is dispatched", async ({ expect }) => {
@@ -324,9 +324,7 @@ test.concurrent("when a deferred registration fail, RemoteModuleDeferredRegistra
     await registry.registerDeferredRegistrations({}, runtime);
 
     expect(listener).toHaveBeenCalledTimes(1);
-    expect(listener).toHaveBeenCalledWith(expect.objectContaining({
-        error: registrationError
-    }));
+    expect(listener).toHaveBeenCalledWith(expect.any(RemoteModuleRegistrationError));
 });
 
 test.concurrent("when a deferred registration fail, RemoteModulesDeferredRegistrationCompletedEvent is dispatched", async ({ expect }) => {

@@ -1,4 +1,5 @@
 import { test, vi } from "vitest";
+import { ModuleRegistrationError } from "../src/index.ts";
 import { LocalModuleRegistrationFailedEvent, LocalModuleRegistry, LocalModulesRegistrationCompletedEvent, LocalModulesRegistrationStartedEvent } from "../src/registration/registerLocalModules.ts";
 import { Runtime } from "../src/runtime/runtime.ts";
 
@@ -199,7 +200,7 @@ test.concurrent("when a module registration fail, return the error", async ({ ex
     ], runtime);
 
     expect(errors.length).toBe(1);
-    expect(errors[0]!.error!.toString()).toContain("Module 2 registration failed");
+    expect(errors[0]!.cause!.toString()).toContain("Module 2 registration failed");
 });
 
 test.concurrent("when a module registration fail, LocalModuleRegistrationFailedEvent is dispatched", async ({ expect }) => {
@@ -219,9 +220,7 @@ test.concurrent("when a module registration fail, LocalModuleRegistrationFailedE
     ], runtime);
 
     expect(listener).toHaveBeenCalledTimes(1);
-    expect(listener).toHaveBeenCalledWith(expect.objectContaining({
-        error: registrationError
-    }));
+    expect(listener).toHaveBeenCalledWith(expect.any(ModuleRegistrationError));
 });
 
 test.concurrent("when a module registration fail, LocalModulesRegistrationCompletedEvent is dispatched", async ({ expect }) => {

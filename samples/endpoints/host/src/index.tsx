@@ -21,7 +21,7 @@ registerHoneycombInstrumentation(runtime, "squide-endpoints-sample", [/http:\/\/
     apiKey: process.env.HONEYCOMB_API_KEY ?? " "
 });
 
-await bootstrap(runtime, {
+bootstrap(runtime, {
     localModules: [registerShell({ host: "@endpoints/host" }), registerHost, registerLocalModule],
     remotes: Remotes,
     startMsw: async () => {

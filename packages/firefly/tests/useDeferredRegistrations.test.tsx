@@ -1,5 +1,5 @@
-import { __clearLocalModuleRegistry, __setLocalModuleRegistry, LocalModuleRegistry, registerLocalModules, RuntimeContext, type ModuleRegistrationError, type Runtime } from "@squide/core";
-import { __clearRemoteModuleRegistry, __setRemoteModuleRegistry, registerRemoteModules, RemoteModuleRegistry, type RemoteModuleRegistrationError } from "@squide/module-federation";
+import { __clearLocalModuleRegistry, __setLocalModuleRegistry, LocalModuleRegistry, ModuleRegistrationError, registerLocalModules, RuntimeContext, type Runtime } from "@squide/core";
+import { __clearRemoteModuleRegistry, __setRemoteModuleRegistry, registerRemoteModules, RemoteModuleRegistrationError, RemoteModuleRegistry } from "@squide/module-federation";
 import { act, renderHook, waitFor, type RenderHookOptions } from "@testing-library/react";
 import type { ReactNode } from "react";
 import { afterEach, expect, test, vi, type Mock } from "vitest";
@@ -406,11 +406,8 @@ test("when an error occurs while registering the deferred registrations of the l
     // Setting a dummy dispatch proxy to prevent: "Warning: An update to TestComponent inside a test was not wrapped in act(...)"
     __setAppReducerDispatchProxyFactory(() => vi.fn());
 
+    const localModuleRegistrationError = new ModuleRegistrationError("toto");
     const localModuleRegistry = new LocalModuleRegistry();
-
-    const localModuleRegistrationError = {
-        error: new Error("toto")
-    } satisfies ModuleRegistrationError;
 
     vi.spyOn(localModuleRegistry, "registerDeferredRegistrations").mockImplementation(() => {
         return Promise.resolve([
@@ -473,13 +470,8 @@ test("when an error occurs while registering the deferred registrations of the r
         register: () => () => {}
     });
 
+    const remoteModuleRegistrationError = new RemoteModuleRegistrationError("toto", "foo", "bar");
     const remoteModuleRegistry = new RemoteModuleRegistry(loadRemote);
-
-    const remoteModuleRegistrationError = {
-        remoteName: "foo",
-        moduleName: "bar",
-        error: new Error("toto")
-    } satisfies RemoteModuleRegistrationError;
 
     vi.spyOn(remoteModuleRegistry, "registerDeferredRegistrations").mockImplementation(() => {
         return Promise.resolve([
@@ -530,11 +522,8 @@ test("when an error occurs while registering the deferred registrations of the l
     // Setting a dummy dispatch proxy to prevent: "Warning: An update to TestComponent inside a test was not wrapped in act(...)"
     __setAppReducerDispatchProxyFactory(() => vi.fn());
 
+    const localModuleRegistrationError = new ModuleRegistrationError("toto");
     const localModuleRegistry = new LocalModuleRegistry();
-
-    const localModuleRegistrationError = {
-        error: new Error("toto")
-    } satisfies ModuleRegistrationError;
 
     vi.spyOn(localModuleRegistry, "registerDeferredRegistrations").mockImplementation(() => {
         return Promise.resolve([
@@ -546,13 +535,8 @@ test("when an error occurs while registering the deferred registrations of the l
         register: () => () => {}
     });
 
+    const remoteModuleRegistrationError = new RemoteModuleRegistrationError("toto", "foo", "bar");
     const remoteModuleRegistry = new RemoteModuleRegistry(loadRemote);
-
-    const remoteModuleRegistrationError = {
-        remoteName: "foo",
-        moduleName: "bar",
-        error: new Error("toto")
-    } satisfies RemoteModuleRegistrationError;
 
     vi.spyOn(remoteModuleRegistry, "registerDeferredRegistrations").mockImplementation(() => {
         return Promise.resolve([
@@ -604,16 +588,11 @@ test("when an error occurs while updating the deferred registrations of the loca
     // Setting a dummy dispatch proxy to prevent: "Warning: An update to TestComponent inside a test was not wrapped in act(...)"
     __setAppReducerDispatchProxyFactory(() => vi.fn());
 
+    const localModuleRegistrationError = new ModuleRegistrationError("toto");
     const localModuleRegistry = new LocalModuleRegistry();
 
-    const localModuleRegistrationError = {
-        error: new Error("toto")
-    } satisfies ModuleRegistrationError;
-
     vi.spyOn(localModuleRegistry, "updateDeferredRegistrations").mockImplementation(() => {
-        return Promise.resolve([
-            localModuleRegistrationError
-        ]);
+        return Promise.resolve([localModuleRegistrationError]);
     });
 
     const loadRemote = vi.fn().mockResolvedValue({
@@ -695,18 +674,11 @@ test("when an error occurs while updating the deferred registrations of the prot
         register: () => () => {}
     });
 
+    const remoteModuleRegistrationError = new RemoteModuleRegistrationError("toto", "foo", "bar");
     const remoteModuleRegistry = new RemoteModuleRegistry(loadRemote);
 
-    const remoteModuleRegistrationError = {
-        remoteName: "foo",
-        moduleName: "bar",
-        error: new Error("toto")
-    } satisfies RemoteModuleRegistrationError;
-
     vi.spyOn(remoteModuleRegistry, "updateDeferredRegistrations").mockImplementation(() => {
-        return Promise.resolve([
-            remoteModuleRegistrationError
-        ]);
+        return Promise.resolve([remoteModuleRegistrationError]);
     });
 
     __setLocalModuleRegistry(localModuleRegistry);
@@ -776,34 +748,22 @@ test("when an error occurs while updating the deferred registrations of the loca
     // Setting a dummy dispatch proxy to prevent: "Warning: An update to TestComponent inside a test was not wrapped in act(...)"
     __setAppReducerDispatchProxyFactory(() => vi.fn());
 
+    const localModuleRegistrationError = new ModuleRegistrationError("toto");
     const localModuleRegistry = new LocalModuleRegistry();
 
-    const localModuleRegistrationError = {
-        error: new Error("toto")
-    } satisfies ModuleRegistrationError;
-
     vi.spyOn(localModuleRegistry, "updateDeferredRegistrations").mockImplementation(() => {
-        return Promise.resolve([
-            localModuleRegistrationError
-        ]);
+        return Promise.resolve([localModuleRegistrationError]);
     });
 
     const loadRemote = vi.fn().mockResolvedValue({
         register: () => () => {}
     });
 
+    const remoteModuleRegistrationError = new RemoteModuleRegistrationError("toto", "foo", "bar");
     const remoteModuleRegistry = new RemoteModuleRegistry(loadRemote);
 
-    const remoteModuleRegistrationError = {
-        remoteName: "foo",
-        moduleName: "bar",
-        error: new Error("toto")
-    } satisfies RemoteModuleRegistrationError;
-
     vi.spyOn(remoteModuleRegistry, "updateDeferredRegistrations").mockImplementation(() => {
-        return Promise.resolve([
-            remoteModuleRegistrationError
-        ]);
+        return Promise.resolve([remoteModuleRegistrationError]);
     });
 
     __setLocalModuleRegistry(localModuleRegistry);

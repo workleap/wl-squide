@@ -16,7 +16,7 @@ const runtime = new FireflyRuntime({
     loggers: [x => new ConsoleLogger(x)]
 });
 
-await bootstrap(runtime, {
+bootstrap(runtime, {
     localModules: [registerShell(), registerDev, registerLocalModule],
     startMsw: async () => {
         // Files that includes an import to the "msw" package are included dynamically to prevent adding
