@@ -28,6 +28,10 @@ bootstrap(runtime, options?: { localModules?, remotes?, startMsw?, onError?, con
     - `onError`: An optional function that is called whenever a bootstrapping error occurs.
     - `context`: An optional context object that will be pass to the registration function.
 
+### Returns
+
+Nothing
+
 ## Usage
 
 ### Register a local module
