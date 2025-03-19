@@ -1,7 +1,7 @@
 {
     "name": "@squide/firefly",
     "author": "Workleap",
-    "version": "10.0.1",
+    "version": "11.0.0",
     "description": "Helpers to facilitate the creation of an application with the Squide firefly technology stack.",
     "license": "Apache-2.0",
     "repository": {
