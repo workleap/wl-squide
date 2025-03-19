@@ -39,7 +39,7 @@ While you can use any package manager to develop an application with Squide, it 
 Then, update the host application bootstrapping code to register Honeycomb instrumentation:
 
 ```tsx !#22-24 host/src/bootstrap.tsx
-import { ConsoleLogger, RuntimeContext, FireflyRuntime, bootstrap, type RemoteDefinition } from "@squide/firefly";
+import { ConsoleLogger, FireflyProvider, FireflyRuntime, bootstrap, type RemoteDefinition } from "@squide/firefly";
 import { registerHoneycombInstrumentation } from "@squide/firefly-honeycomb";
 import { register as registerMyLocalModule } from "@sample/local-module";
 import { createRoot } from "react-dom/client";
@@ -54,7 +54,7 @@ const runtime = new FireflyRuntime({
     loggers: [x => new ConsoleLogger(x)]
 });
 
-await bootstrap(runtime, {
+bootstrap(runtime, {
     localModules: [registerHost, registerMyLocalModule],
     remotes: Remotes
 });
@@ -67,9 +67,9 @@ registerHoneycombInstrumentation(runtime, "squide-sample", [/.+/g,], {
 const root = createRoot(document.getElementById("root")!);
 
 root.render(
-    <RuntimeContext.Provider value={runtime}>
+    <FireflyProvider runtime={runtime}>
         <App />
-    </RuntimeContext.Provider>
+    </FireflyProvider>
 );
 ```
 

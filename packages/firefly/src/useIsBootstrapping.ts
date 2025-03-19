@@ -4,10 +4,10 @@ import type { AppRouterState } from "./AppRouterReducer.ts";
 export function useIsBootstrapping() {
     const state = useAppRouterState();
 
-    return isApplicationBootstrapping(state);
+    return isBootstrapping(state);
 }
 
-export function isApplicationBootstrapping(state: AppRouterState) {
+export function isBootstrapping(state: AppRouterState) {
     const {
         waitForMsw,
         waitForPublicData,

@@ -1,6 +1,6 @@
 import type { Runtime } from "../runtime/runtime.ts";
 import { isFunction } from "../shared/assertions.ts";
-import type { ModuleRegistrationError, ModuleRegistrationStatus, ModuleRegistrationStatusChangedListener, ModuleRegistry, RegisterModulesOptions } from "./moduleRegistry.ts";
+import { ModuleRegistrationError, type ModuleRegistrationStatus, type ModuleRegistrationStatusChangedListener, type ModuleRegistry, type RegisterModulesOptions } from "./moduleRegistry.ts";
 import { registerModule, type DeferredRegistrationFunction, type ModuleRegisterFunction } from "./registerModule.ts";
 
 export const LocalModulesRegistrationStartedEvent = "squide-local-modules-registration-started";
@@ -88,9 +88,9 @@ export class LocalModuleRegistry implements ModuleRegistry {
                         error
                     );
 
-                    errors.push({
-                        error: error as Error
-                    });
+                    errors.push(
+                        new ModuleRegistrationError("An error occured while registering a local module.", { cause: error })
+                    );
                 }
 
                 runtime.logger.debug(`[squide] ${index + 1}/${registrationFunctions.length} Local module registration completed.`);
@@ -153,9 +153,9 @@ export class LocalModuleRegistry implements ModuleRegistry {
                     error
                 );
 
-                errors.push({
-                    error: error as Error
-                });
+                errors.push(
+                    new ModuleRegistrationError("An error occured while registering the deferred registrations of a local module.", { cause: error })
+                );
             }
 
             runtime.logger.debug(`[squide] ${index} Registered local module deferred registrations.`);
@@ -203,9 +203,9 @@ export class LocalModuleRegistry implements ModuleRegistry {
                     error
                 );
 
-                errors.push({
-                    error: error as Error
-                });
+                errors.push(
+                    new ModuleRegistrationError("An error occured while updating the deferred registrations a local module.", { cause: error })
+                );
             }
 
             runtime.logger.debug(`[squide] ${index} Updated local module deferred registration.`);
@@ -227,6 +227,10 @@ export class LocalModuleRegistry implements ModuleRegistry {
 
     registerStatusChangedListener(callback: ModuleRegistrationStatusChangedListener) {
         this.#statusChangedListeners.add(callback);
+
+        return () => {
+            this.removeStatusChangedListener(callback);
+        };
     }
 
     removeStatusChangedListener(callback: ModuleRegistrationStatusChangedListener) {

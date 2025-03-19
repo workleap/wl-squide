@@ -17,7 +17,7 @@ toc:
 ### Runtime
 
 - [FireflyRuntime class](./runtime/runtime-class.md)
-- [RuntimeContext](./runtime/runtimeContext.md)
+- [FireflyProvider](./runtime/FireflyProvider.md)
 - [useRuntime](./runtime/useRuntime.md)
 - [useRuntimeMode](./runtime/useRuntimeMode.md)
 - [useRoutes](./runtime/useRoutes.md)
@@ -56,24 +56,6 @@ toc:
 - [useEventBusDispatcher](./messaging/useEventBusDispatcher.md)
 - [useEventBusListener](./messaging/useEventBusListener.md)
 
-### Plugins
-
-- [Plugin](./plugins/plugin.md)
-
-### webpack
-
-- [defineDevHostConfig](./webpack/defineDevHostConfig.md)
-- [defineDevRemoteModuleConfig](./webpack/defineDevRemoteModuleConfig.md)
-- [defineBuildHostConfig](./webpack/defineBuildHostConfig.md)
-- [defineBuildRemoteModuleConfig](./webpack/defineBuildRemoteModuleConfig.md)
-
-### Rsbuild
-
-- [defineDevHostConfig](./rsbuild/defineDevHostConfig.md) [!badge variant="danger" size="xs" text="experimental"]
-- [defineDevRemoteModuleConfig](./rsbuild/defineDevRemoteModuleConfig.md) [!badge variant="danger" size="xs" text="experimental"]
-- [defineBuildHostConfig](./rsbuild/defineBuildHostConfig.md) [!badge variant="danger" size="xs" text="experimental"]
-- [defineBuildRemoteModuleConfig](./rsbuild/defineBuildRemoteModuleConfig.md) [!badge variant="danger" size="xs" text="experimental"]
-
 ### TanStack Query
 
 - [usePublicDataQueries](./tanstack-query/usePublicDataQueries.md)
@@ -105,9 +87,32 @@ toc:
 - [useEnvironmentVariable](./env-vars/useEnvironmentVariable.md)
 - [useEnvironmentVariables](./env-vars/useEnvironmentVariables.md)
 
+### Plugins
+
+- [Plugin](./plugins/plugin.md)
+
 ### Fakes
 
 Squide offers a collection of fake implementations designed to facilitate the set up of a module isolated environment.
 
 - [LocalStorageSessionManager](./fakes/localStorageSessionManager.md)
 - [ReadonlySessionLocalStorage](./fakes/readonlySessionLocalStorage.md)
+
+### webpack
+
+- [defineDevHostConfig](./webpack/defineDevHostConfig.md)
+- [defineDevRemoteModuleConfig](./webpack/defineDevRemoteModuleConfig.md)
+- [defineBuildHostConfig](./webpack/defineBuildHostConfig.md)
+- [defineBuildRemoteModuleConfig](./webpack/defineBuildRemoteModuleConfig.md)
+
+### Rsbuild
+
+- [defineDevHostConfig](./rsbuild/defineDevHostConfig.md) [!badge variant="danger" size="xs" text="experimental"]
+- [defineDevRemoteModuleConfig](./rsbuild/defineDevRemoteModuleConfig.md) [!badge variant="danger" size="xs" text="experimental"]
+- [defineBuildHostConfig](./rsbuild/defineBuildHostConfig.md) [!badge variant="danger" size="xs" text="experimental"]
+- [defineBuildRemoteModuleConfig](./rsbuild/defineBuildRemoteModuleConfig.md) [!badge variant="danger" size="xs" text="experimental"]
+
+### Miscellaneous
+
+- [usePublicDataHandler](./miscellaneous/usePublicDataHandler.md)
+- [useProtectedDataHandler](./miscellaneous/useProtectedDataHandler.md)

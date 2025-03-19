@@ -1,5 +1,5 @@
 import { register as registerMyLocalModule } from "@getting-started/local-module";
-import { ConsoleLogger, FireflyRuntime, RuntimeContext, bootstrap, type RemoteDefinition } from "@squide/firefly";
+import { ConsoleLogger, FireflyProvider, FireflyRuntime, bootstrap, type RemoteDefinition } from "@squide/firefly";
 import { createRoot } from "react-dom/client";
 import { App } from "./App.tsx";
 import { registerHost } from "./register.tsx";
@@ -15,7 +15,7 @@ const runtime = new FireflyRuntime({
 });
 
 // Register the modules.
-await bootstrap(runtime, {
+bootstrap(runtime, {
     localModules: [registerHost, registerMyLocalModule],
     remotes: Remotes
 });
@@ -23,7 +23,7 @@ await bootstrap(runtime, {
 const root = createRoot(document.getElementById("root")!);
 
 root.render(
-    <RuntimeContext.Provider value={runtime}>
+    <FireflyProvider runtime={runtime}>
         <App />
-    </RuntimeContext.Provider>
+    </FireflyProvider>
 );

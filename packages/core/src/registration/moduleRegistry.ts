@@ -8,10 +8,7 @@ export interface RegisterModulesOptions<TContext> {
 
 export type ModuleRegistrationStatusChangedListener = () => void;
 
-export interface ModuleRegistrationError {
-    // The registration error.
-    error: Error;
-}
+export class ModuleRegistrationError extends Error {}
 
 export abstract class ModuleRegistry {
     abstract registerModules<TRuntime extends Runtime = Runtime, TContext = unknown>(modules: unknown, runtime: TRuntime, options?: RegisterModulesOptions<TContext>): Promise<ModuleRegistrationError[]>;

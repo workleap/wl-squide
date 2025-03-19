@@ -3,6 +3,7 @@ export * from "@squide/module-federation";
 export * from "@squide/msw";
 export * from "@squide/react-router";
 
+export * from "./FireflyProvider.tsx";
 export * from "./FireflyRuntime.tsx";
 
 export * from "./AppRouter.tsx";
@@ -18,7 +19,9 @@ export * from "./useDeferredRegistrations.ts";
 export * from "./useIsActiveRouteProtected.ts";
 export * from "./useIsBootstrapping.ts";
 export * from "./useNavigationItems.ts";
+export * from "./useProtectedDataHandler.ts";
 export * from "./useProtectedDataQueries.ts";
+export * from "./usePublicDataHandler.ts";
 export * from "./usePublicDataQueries.ts";
 export * from "./useRegisterDeferredRegistrations.ts";
 export * from "./useStrictRegistrationMode.ts";

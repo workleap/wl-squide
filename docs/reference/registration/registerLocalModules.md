@@ -1,7 +1,7 @@
 ---
+order: 100
 toc:
     depth: 2-3
-order: 100
 ---
 
 # registerLocalModules
@@ -79,7 +79,7 @@ To defer a registration to the second phase, a module registration function can 
 Once the modules are registered, the deferred registration functions will be executed with the deferred data and `"register"` as the value for the `operation` argument. Afterward, whenever the deferred data changes, the deferred registration functions will be re-executed with the updated deferred data and `"update"` as the value for the `operation` argument.
 
 ```tsx !#8 host/src/bootstrap.tsx
-import { FireflyRuntime, registerLocalModules, RuntimeContext } from "@squide/firefly";
+import { FireflyRuntime, registerLocalModules, FireflyProvider } from "@squide/firefly";
 import { createRoot } from "react";
 import { register } from "@sample/local-module";
 import { App } from "./App.tsx";
@@ -91,9 +91,9 @@ await registerLocalModules([register], runtime);
 const root = createRoot(document.getElementById("root")!);
 
 root.render(
-    <RuntimeContext.Provider value={runtime}>
+    <FireflyProvider runtime={runtime}>
         <App />
-    </RuntimeContext.Provider>
+    </FireflyProvider>
 );
 ```
 

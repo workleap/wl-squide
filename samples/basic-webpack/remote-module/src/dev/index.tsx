@@ -1,6 +1,6 @@
 import { registerLayouts } from "@basic-webpack/shared";
 import { registerShell } from "@basic-webpack/shell";
-import { ConsoleLogger, FireflyRuntime, RuntimeContext, bootstrap } from "@squide/firefly";
+import { ConsoleLogger, FireflyProvider, FireflyRuntime, bootstrap } from "@squide/firefly";
 import { StrictMode } from "react";
 import { createRoot } from "react-dom/client";
 import { register as registerModule } from "../register.tsx";
@@ -15,7 +15,7 @@ const runtime = new FireflyRuntime({
 
 // Registering the remote module as a static module because the "register" function
 // is local when developing in isolation.
-await bootstrap(runtime, {
+bootstrap(runtime, {
     localModules: [registerShell(), registerLayouts(), registerDev, registerModule]
 });
 
@@ -23,9 +23,9 @@ const root = createRoot(document.getElementById("root")!);
 
 root.render(
     <StrictMode>
-        <RuntimeContext.Provider value={runtime}>
+        <FireflyProvider runtime={runtime}>
             <App />
-        </RuntimeContext.Provider>
+        </FireflyProvider>
     </StrictMode>
 );
 

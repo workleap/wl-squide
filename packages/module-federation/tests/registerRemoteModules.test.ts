@@ -1,6 +1,6 @@
 import { Runtime } from "@squide/core";
 import { test, vi } from "vitest";
-import { RemoteModuleRegistrationFailedEvent, RemoteModuleRegistry, RemoteModulesRegistrationCompletedEvent, RemoteModulesRegistrationStartedEvent } from "../src/registerRemoteModules.ts";
+import { RemoteModuleRegistrationError, RemoteModuleRegistrationFailedEvent, RemoteModuleRegistry, RemoteModulesRegistrationCompletedEvent, RemoteModulesRegistrationStartedEvent } from "../src/registerRemoteModules.ts";
 
 class DummyRuntime extends Runtime<unknown, unknown> {
     registerRoute() {
@@ -237,7 +237,7 @@ test.concurrent("when a module registration fail, return the error", async ({ ex
     ], runtime);
 
     expect(errors.length).toBe(1);
-    expect(errors[0]!.error!.toString()).toContain("Module 2 registration failed");
+    expect(errors[0]!.cause!.toString()).toContain("Module 2 registration failed");
 });
 
 test.concurrent("when a module registration fail, RemoteModuleRegistrationFailedEvent is dispatched", async ({ expect }) => {
@@ -269,9 +269,7 @@ test.concurrent("when a module registration fail, RemoteModuleRegistrationFailed
     ], runtime);
 
     expect(listener).toHaveBeenCalledTimes(1);
-    expect(listener).toHaveBeenCalledWith(expect.objectContaining({
-        error: registrationError
-    }));
+    expect(listener).toHaveBeenCalledWith(expect.any(RemoteModuleRegistrationError));
 });
 
 test.concurrent("when a module registration fail, RemoteModulesRegistrationCompletedEvent is dispatched", async ({ expect }) => {

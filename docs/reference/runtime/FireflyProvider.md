@@ -4,21 +4,21 @@ toc:
     depth: 2-3
 ---
 
-# RuntimeContext
+# FireflyProvider
 
-[React context](https://react.dev/reference/react/createContext) to share a `FireflyRuntime` instance between an host application and the modules.
+React provider to share a `FireflyRuntime` instance between an host application and the modules.
 
 ## Reference
 
 ```tsx
-<RuntimeContext.Provider value={runtime}>
+<FireflyProvider runtime={runtime}>
     <App />
-</RuntimeContext.Provider>
+</FireflyProvider>
 ```
 
 ### Properties
 
-- `value`: A `FireflyRuntime` instance.
+- `runtime`: A `FireflyRuntime` instance.
 
 ## Usage
 
@@ -26,16 +26,16 @@ toc:
 
 ```tsx !#9-11
 import { createRoot } from "react-dom/client";
-import { FireflyRuntime, RuntimeContext } from "@squide/firefly";
+import { FireflyProvider, FireflyRuntime } from "@squide/firefly";
 
 const runtime = new FireflyRuntime();
 
 const root = createRoot(document.getElementById("root"));
 
 root.render(
-    <RuntimeContext.Provider value={runtime}>
+    <FireflyProvider runtime={runtime}>
         <App />
-    </RuntimeContext.Provider>
+    </FireflyProvider>
 );
 ```
 

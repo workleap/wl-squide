@@ -1,7 +1,7 @@
 import { createI18NextPlugin } from "@endpoints/i18next";
 import { registerShell } from "@endpoints/shell";
 import { EnvironmentVariablesPlugin } from "@squide/env-vars";
-import { ConsoleLogger, FireflyRuntime, RuntimeContext, bootstrap } from "@squide/firefly";
+import { ConsoleLogger, FireflyProvider, FireflyRuntime, bootstrap } from "@squide/firefly";
 import { StrictMode } from "react";
 import { createRoot } from "react-dom/client";
 import { registerLocalModule } from "../register.tsx";
@@ -16,7 +16,7 @@ const runtime = new FireflyRuntime({
     loggers: [x => new ConsoleLogger(x)]
 });
 
-await bootstrap(runtime, {
+bootstrap(runtime, {
     localModules: [registerShell(), registerDev, registerLocalModule],
     startMsw: async () => {
         // Files that includes an import to the "msw" package are included dynamically to prevent adding
@@ -29,9 +29,9 @@ const root = createRoot(document.getElementById("root")!);
 
 root.render(
     <StrictMode>
-        <RuntimeContext.Provider value={runtime}>
+        <FireflyProvider runtime={runtime}>
             <App />
-        </RuntimeContext.Provider>
+        </FireflyProvider>
     </StrictMode>
 );
 

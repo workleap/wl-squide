@@ -15,7 +15,7 @@ Register **local** or **remote** modules and optionally start [MSW](https://mswj
 ## Reference
 
 ```ts
-const errors = bootstrap(runtime, options?: { localModules?, remotes?, startMsw?, context? })
+bootstrap(runtime, options?: { localModules?, remotes?, startMsw?, onError?, context? })
 ```
 
 ### Parameters
@@ -24,22 +24,13 @@ const errors = bootstrap(runtime, options?: { localModules?, remotes?, startMsw?
 - `options`: An optional object literal of options:
     - `localModules`: An optional array of `ModuleRegisterFunction`.
     - `remotes`: An optional array of [RemoteDefinition](#remote-definition).
-    - `startMsw`: An optional function to register MSW request handlers and start MSW service. This function is required if [MSW is enabled](../runtime/runtime-class.md#use-mock-service-worker). 
+    - `startMsw`: An optional function to register MSW request handlers and start MSW service. This function is required if [MSW is enabled](../runtime/runtime-class.md#use-mock-service-worker).
+    - `onError`: An optional function that is called whenever a bootstrapping error occurs.
     - `context`: An optional context object that will be pass to the registration function.
 
 ### Returns
 
-A Promise object including [LocalModuleRegistrationError](#localmoduleregistrationerror) and [RemoteModuleRegistrationError](#remotemoduleregistrationerror) if any error happens during the registration process.
-
-#### `LocalModuleRegistrationError`
-
-- `error`: The original `Error` object.
-
-#### `RemoteModuleRegistrationError`
-
-- `remoteName`: The name of the remote module that failed to load.
-- `moduleName`: The name of the [module](#name) that Squide attempted to recover.
-- `error`: The original `Error` object.
+Nothing
 
 ## Usage
 
@@ -51,7 +42,7 @@ import { register } from "@sample/local-module";
 
 const runtime = new FireflyRuntime();
 
-await bootstrap(runtime, {
+bootstrap(runtime, {
     localModules: [register]
 });
 ```
@@ -77,7 +68,7 @@ export const register: ModuleRegisterFunction<FireflyRuntime> = runtime => {
 ### Register a remote module
 
 ```tsx !#7-9,12 host/src/bootstrap.tsx
-import { FireflyRuntime, RuntimeContext, bootstrap, type RemoteDefinition } from "@squide/firefly";
+import { FireflyRuntime, FireflyProvider, bootstrap, type RemoteDefinition } from "@squide/firefly";
 import { createRoot } from "react";
 import { App } from "./App.tsx";
 
@@ -87,16 +78,16 @@ const Remotes: RemoteDefinition = [
     { name: "remote1" }
 ];
 
-await bootstrap({
+bootstrap({
     remotes: Remotes
 });
 
 const root = createRoot(document.getElementById("root")!);
 
 root.render(
-    <RuntimeContext.Provider value={runtime}>
+    <FireflyProvider runtime={runtime}>
         <App />
-    </RuntimeContext.Provider>
+    </FireflyProvider>
 );
 ```
 
@@ -121,7 +112,7 @@ export const register: ModuleRegisterFunction<FireflyRuntime> = runtime => {
 ### Start MSW
 
 ```tsx !#15-19 host/src/bootstrap.tsx
-import { FireflyRuntime, RuntimeContext, bootstrap, type RemoteDefinition } from "@squide/firefly";
+import { FireflyRuntime, FireflyProvider, bootstrap, type RemoteDefinition } from "@squide/firefly";
 import { register } from "@sample/local-module";
 import { createRoot } from "react";
 import { App } from "./App.tsx";
@@ -132,7 +123,7 @@ const Remotes: RemoteDefinition = [
     { name: "remote1" }
 ];
 
-await bootstrap({
+bootstrap({
     localModules: [register],
     remotes: Remotes,
     startMsw: async () => {
@@ -145,16 +136,16 @@ await bootstrap({
 const root = createRoot(document.getElementById("root")!);
 
 root.render(
-    <RuntimeContext.Provider value={runtime}>
+    <FireflyProvider runtime={runtime}>
         <App />
-    </RuntimeContext.Provider>
+    </FireflyProvider>
 );
 ```
 
-### Provide a registration context
+### Handle registration errors
 
-```tsx #15-16 host/src/bootstrap.tsx
-import { FireflyRuntime, RuntimeContext, bootstrap, type RemoteDefinition } from "@squide/firefly";
+```tsx !#15-17 host/src/bootstrap.tsx
+import { FireflyRuntime, FireflyProvider, bootstrap, type RemoteDefinition } from "@squide/firefly";
 import { register } from "@sample/local-module";
 import { createRoot } from "react";
 import { App } from "./App.tsx";
@@ -165,7 +156,38 @@ const Remotes: RemoteDefinition = [
     { name: "remote1" }
 ];
 
-await bootstrap({
+bootstrap({
+    localModules: [register],
+    remotes: Remotes,
+    onError: error => {
+        console.log(error);
+    }
+});
+
+const root = createRoot(document.getElementById("root")!);
+
+root.render(
+    <FireflyProvider runtime={runtime}>
+        <App />
+    </FireflyProvider>
+);
+```
+
+### Provide a registration context
+
+```tsx #15-16 host/src/bootstrap.tsx
+import { FireflyRuntime, FireflyProvider, bootstrap, type RemoteDefinition } from "@squide/firefly";
+import { register } from "@sample/local-module";
+import { createRoot } from "react";
+import { App } from "./App.tsx";
+
+const runtime = new FireflyRuntime();
+
+const Remotes: RemoteDefinition = [
+    { name: "remote1" }
+];
+
+bootstrap({
     localModules: [register],
     remotes: Remotes,
     // Can be anything.
@@ -175,49 +197,9 @@ await bootstrap({
 const root = createRoot(document.getElementById("root")!);
 
 root.render(
-    <RuntimeContext.Provider value={runtime}>
+    <FireflyProvider runtime={runtime}>
         <App />
-    </RuntimeContext.Provider>
-);
-```
-
-### Handle registration errors
-
-```tsx !#12-15,17-21,23-27 host/src/bootstrap.tsx
-import { FireflyRuntime, RuntimeContext, bootstrap, type RemoteDefinition } from "@squide/firefly";
-import { register } from "@sample/local-module";
-import { createRoot } from "react";
-import { App } from "./App.tsx";
-
-const runtime = new FireflyRuntime();
-
-const Remotes: RemoteDefinition = [
-    { name: "remote1" }
-];
-
-const { localModuleErrors, remoteModulesErrors } = await bootstrap({
-    localModules: [register],
-    remotes: Remotes
-});
-
-if (localModulesErrors.length > 0) {
-    localModulesErrors.forEach(x => {
-        console.error(x);
-    });
-}
-
-if (remoteModulesErrors.length > 0) {
-    remoteModulesErrors.forEach(x => {
-        console.error(x);
-    });
-}
-
-const root = createRoot(document.getElementById("root")!);
-
-root.render(
-    <RuntimeContext.Provider value={runtime}>
-        <App />
-    </RuntimeContext.Provider>
+    </FireflyProvider>
 );
 ```
 
@@ -234,7 +216,7 @@ To defer a registration to the second phase, a module registration function can 
 Once the modules are registered, the deferred registration functions will be executed with the deferred data and `"register"` as the value for the `operation` argument. Afterward, whenever the deferred data changes, the deferred registration functions will be re-executed with the updated deferred data and `"update"` as the value for the `operation` argument.
 
 ```tsx host/src/bootstrap.tsx
-import { FireflyRuntime, RuntimeContext, bootstrap, type RemoteDefinition } from "@squide/firefly";
+import { FireflyRuntime, FireflyProvider, bootstrap, type RemoteDefinition } from "@squide/firefly";
 import { register } from "@sample/local-module";
 import { createRoot } from "react";
 import { App } from "./App.tsx";
@@ -245,7 +227,7 @@ const Remotes: RemoteDefinition = [
     { name: "remote1" }
 ];
 
-await bootstrap({
+bootstrap({
     localModules: [register],
     remotes: Remotes
 });
@@ -253,9 +235,9 @@ await bootstrap({
 const root = createRoot(document.getElementById("root")!);
 
 root.render(
-    <RuntimeContext.Provider value={runtime}>
+    <FireflyProvider runtime={runtime}>
         <App />
-    </RuntimeContext.Provider>
+    </FireflyProvider>
 );
 ```
 

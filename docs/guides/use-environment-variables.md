@@ -86,7 +86,7 @@ Then, update the host application boostrapping code to register an instance of t
 
 ```tsx !#13 host/src/bootstrap.tsx
 import { createRoot } from "react-dom/client";
-import { ConsoleLogger, RuntimeContext, FireflyRuntime, boostrap, type RemoteDefinition } from "@squide/firefly";
+import { ConsoleLogger, FireflyProvider, FireflyRuntime, boostrap, type RemoteDefinition } from "@squide/firefly";
 import { EnvironmentVariablesPlugin } from "@squide/env-vars";
 import { App } from "./App.tsx";
 import { registerHost } from "./register.tsx";
@@ -101,7 +101,7 @@ const runtime = new FireflyRuntime({
     loggers: [x => new ConsoleLogger(x)]
 });
 
-await bootstrap(runtime, {
+bootstrap(runtime, {
     localModules: [registerShell, registerHost],
     remotes: Remotes
 })
@@ -109,9 +109,9 @@ await bootstrap(runtime, {
 const root = createRoot(document.getElementById("root")!);
 
 root.render(
-    <RuntimeContext.Provider value={runtime}>
+    <FireflyProvider runtime={runtime}>
         <App />
-    </RuntimeContext.Provider>
+    </FireflyProvider>
 );
 ```
 
@@ -393,7 +393,7 @@ export function useAbsoluteUrl(path: string) {
 You can write the following unit test to mock the value of `apiBaseUrl` and test the ouput of the `useAbsoluteUrl` hook:
 
 ```tsx !#9,13 host/tests/useAbsoluteUrl.tsx
-import { RuntimeContext, FireflyRuntime } from "@squide/firefly";
+import { FireflyProvider, FireflyRuntime } from "@squide/firefly";
 import { EnvironmentVariablesPlugin, getEnvironmentVariablesPlugin } from "@squide/env-vars";
 import { renderHook } from "@testing-library/react";
 import type { ReactNode } from "react";
@@ -409,9 +409,9 @@ test("an absolute URL including the API base URL is returned", () => {
 
     const { result } = renderHook(() => useAbsoluteUrl("bar"), {
         wrapper: ({ children }: { children?: ReactNode }) => (
-            <RuntimeContext.Provider value={runtime}>
+            <FireflyProvider runtime={runtime}>
                 {children}
-            </RuntimeContext.Provider>
+            </FireflyProvider>
         )
     })
 

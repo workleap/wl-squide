@@ -1,10 +1,11 @@
-import { type Runtime, RuntimeContext } from "@squide/core";
+import type { Runtime } from "@squide/core";
 import { type QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { render, screen, waitFor } from "@testing-library/react";
 import { Component, type PropsWithChildren, type ReactNode } from "react";
 import { afterEach, beforeEach, describe, expect, type MockInstance, test, vi } from "vitest";
 import { AppRouterDispatcherContext, AppRouterStateContext } from "../src/AppRouterContext.ts";
 import type { AppRouterDispatch, AppRouterState } from "../src/AppRouterReducer.ts";
+import { FireflyProvider } from "../src/FireflyProvider.tsx";
 import { FireflyRuntime } from "../src/FireflyRuntime.tsx";
 import { ProtectedDataFetchFailedEvent, ProtectedDataFetchStartedEvent, useProtectedDataQueries } from "../src/useProtectedDataQueries.ts";
 import { createDefaultAppRouterState, createQueryClient } from "./utils.ts";
@@ -14,7 +15,7 @@ function renderAppRouter(appRouter: ReactNode, runtime: Runtime, state: AppRoute
 
     return render(appRouter, {
         wrapper: ({ children }: { children?: ReactNode }) => (
-            <RuntimeContext.Provider value={runtime}>
+            <FireflyProvider runtime={runtime}>
                 <AppRouterDispatcherContext.Provider value={dispatch}>
                     <AppRouterStateContext.Provider value={state}>
                         <QueryClientProvider client={client}>
@@ -22,7 +23,7 @@ function renderAppRouter(appRouter: ReactNode, runtime: Runtime, state: AppRoute
                         </QueryClientProvider>
                     </AppRouterStateContext.Provider>
                 </AppRouterDispatcherContext.Provider>
-            </RuntimeContext.Provider>
+            </FireflyProvider>
         )
     });
 }

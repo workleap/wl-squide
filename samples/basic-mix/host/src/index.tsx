@@ -1,7 +1,7 @@
 import { registerLocalModule } from "@basic-mix/local-module";
 import { registerLayouts, type AppContext } from "@basic-mix/shared";
 import { registerShell } from "@basic-mix/shell";
-import { ConsoleLogger, FireflyRuntime, RuntimeContext, bootstrap } from "@squide/firefly";
+import { ConsoleLogger, FireflyProvider, FireflyRuntime, bootstrap } from "@squide/firefly";
 import { StrictMode } from "react";
 import { createRoot } from "react-dom/client";
 import { Remotes } from "../remotes.ts";
@@ -22,7 +22,7 @@ const context: AppContext = {
     name: "Test app"
 };
 
-await bootstrap(runtime, {
+bootstrap(runtime, {
     localModules: [registerShell({ host: "@basic/host" }), registerLayouts({ host: "@basic/host" }), registerHost, registerLocalModule],
     remotes: Remotes,
     context
@@ -32,8 +32,8 @@ const root = createRoot(document.getElementById("root")!);
 
 root.render(
     <StrictMode>
-        <RuntimeContext.Provider value={runtime}>
+        <FireflyProvider runtime={runtime}>
             <App />
-        </RuntimeContext.Provider>
+        </FireflyProvider>
     </StrictMode>
 );
