@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <meta name="turbo-root" content="/wl-squide">
-    <meta name="turbo-cache-control" content="no-cache" data-turbo-track="reload" data-track-token="3.6.0.795499738543">
+    <meta name="turbo-cache-control" content="no-cache" data-turbo-track="reload" data-track-token="3.6.0.795669718096">
 
     <!-- See retype.com -->
     <meta name="generator" content="Retype 3.6.0">
@@ -32,11 +32,11 @@
     <script data-cfasync="false">(function () { var el = document.documentElement, m = localStorage.getItem("doc_theme"), wm = window.matchMedia; if (m === "dark" || (!m && wm && wm("(prefers-color-scheme: dark)").matches)) { el.classList.add("dark") } else { el.classList.remove("dark") } })();</script>
 
     <link href="../static/favicon.png" rel="icon">
-    <link href="../resources/css/retype.css?v=3.6.0.795499738543" rel="stylesheet">
+    <link href="../resources/css/retype.css?v=3.6.0.795669718096" rel="stylesheet">
 
-    <script data-cfasync="false" src="../resources/js/config.js?v=3.6.0.795499738543" data-turbo-eval="false" defer></script>
+    <script data-cfasync="false" src="../resources/js/config.js?v=3.6.0.795669718096" data-turbo-eval="false" defer></script>
     <script data-cfasync="false" src="../resources/js/retype.js?v=3.6.0" data-turbo-eval="false" defer></script>
-    <script id="lunr-js" data-cfasync="false" src="../resources/js/lunr.js?v=3.6.0.795499738543" data-turbo-eval="false" defer></script>
+    <script id="lunr-js" data-cfasync="false" src="../resources/js/lunr.js?v=3.6.0.795669718096" data-turbo-eval="false" defer></script>
 
     <link href="https://gsoft-inc.github.io/wl-idp-docs-hub/static/retype-customization.css" rel="stylesheet" />
 
@@ -309,7 +309,7 @@
 </doc-anchor-target>
 <ul>
 <li><a href="runtime/runtime-class/">FireflyRuntime class</a></li>
-<li><a href="runtime/runtimecontext/">RuntimeContext</a></li>
+<li><a href="runtime/fireflyprovider/">FireflyProvider</a></li>
 <li><a href="runtime/useruntime/">useRuntime</a></li>
 <li><a href="runtime/useruntimemode/">useRuntimeMode</a></li>
 <li><a href="runtime/useroutes/">useRoutes</a></li>
@@ -372,47 +372,6 @@
 <li><a href="messaging/useeventbusdispatcher/">useEventBusDispatcher</a></li>
 <li><a href="messaging/useeventbuslistener/">useEventBusListener</a></li>
 </ul>
-<doc-anchor-target id="plugins">
-    <h3>
-        <doc-anchor-trigger class="header-anchor-trigger" to="#plugins">#</doc-anchor-trigger>
-        <span>Plugins</span>
-    </h3>
-</doc-anchor-target>
-<ul>
-<li><a href="plugins/plugin/">Plugin</a></li>
-</ul>
-<doc-anchor-target id="webpack">
-    <h3>
-        <doc-anchor-trigger class="header-anchor-trigger" to="#webpack">#</doc-anchor-trigger>
-        <span>webpack</span>
-    </h3>
-</doc-anchor-target>
-<ul>
-<li><a href="webpack/definedevhostconfig/">defineDevHostConfig</a></li>
-<li><a href="webpack/definedevremotemoduleconfig/">defineDevRemoteModuleConfig</a></li>
-<li><a href="webpack/definebuildhostconfig/">defineBuildHostConfig</a></li>
-<li><a href="webpack/definebuildremotemoduleconfig/">defineBuildRemoteModuleConfig</a></li>
-</ul>
-<doc-anchor-target id="rsbuild">
-    <h3>
-        <doc-anchor-trigger class="header-anchor-trigger" to="#rsbuild">#</doc-anchor-trigger>
-        <span>Rsbuild</span>
-    </h3>
-</doc-anchor-target>
-<ul>
-<li><a href="rsbuild/definedevhostconfig/">defineDevHostConfig</a> <span class="no-link inline-flex align-middle items-center justify-center font-medium leading-none whitespace-nowrap text-red-600 bg-red-100 h-4.5 px-1.5 text-3xs rounded">
-    <span>experimental</span>
-</span></li>
-<li><a href="rsbuild/definedevremotemoduleconfig/">defineDevRemoteModuleConfig</a> <span class="no-link inline-flex align-middle items-center justify-center font-medium leading-none whitespace-nowrap text-red-600 bg-red-100 h-4.5 px-1.5 text-3xs rounded">
-    <span>experimental</span>
-</span></li>
-<li><a href="rsbuild/definebuildhostconfig/">defineBuildHostConfig</a> <span class="no-link inline-flex align-middle items-center justify-center font-medium leading-none whitespace-nowrap text-red-600 bg-red-100 h-4.5 px-1.5 text-3xs rounded">
-    <span>experimental</span>
-</span></li>
-<li><a href="rsbuild/definebuildremotemoduleconfig/">defineBuildRemoteModuleConfig</a> <span class="no-link inline-flex align-middle items-center justify-center font-medium leading-none whitespace-nowrap text-red-600 bg-red-100 h-4.5 px-1.5 text-3xs rounded">
-    <span>experimental</span>
-</span></li>
-</ul>
 <doc-anchor-target id="tanstack-query">
     <h3>
         <doc-anchor-trigger class="header-anchor-trigger" to="#tanstack-query">#</doc-anchor-trigger>
@@ -471,6 +430,15 @@
 <li><a href="env-vars/useenvironmentvariable/">useEnvironmentVariable</a></li>
 <li><a href="env-vars/useenvironmentvariables/">useEnvironmentVariables</a></li>
 </ul>
+<doc-anchor-target id="plugins">
+    <h3>
+        <doc-anchor-trigger class="header-anchor-trigger" to="#plugins">#</doc-anchor-trigger>
+        <span>Plugins</span>
+    </h3>
+</doc-anchor-target>
+<ul>
+<li><a href="plugins/plugin/">Plugin</a></li>
+</ul>
 <doc-anchor-target id="fakes">
     <h3>
         <doc-anchor-trigger class="header-anchor-trigger" to="#fakes">#</doc-anchor-trigger>
@@ -481,6 +449,48 @@
 <ul>
 <li><a href="fakes/localstoragesessionmanager/">LocalStorageSessionManager</a></li>
 <li><a href="fakes/readonlysessionlocalstorage/">ReadonlySessionLocalStorage</a></li>
+</ul>
+<doc-anchor-target id="webpack">
+    <h3>
+        <doc-anchor-trigger class="header-anchor-trigger" to="#webpack">#</doc-anchor-trigger>
+        <span>webpack</span>
+    </h3>
+</doc-anchor-target>
+<ul>
+<li><a href="webpack/definedevhostconfig/">defineDevHostConfig</a></li>
+<li><a href="webpack/definedevremotemoduleconfig/">defineDevRemoteModuleConfig</a></li>
+<li><a href="webpack/definebuildhostconfig/">defineBuildHostConfig</a></li>
+<li><a href="webpack/definebuildremotemoduleconfig/">defineBuildRemoteModuleConfig</a></li>
+</ul>
+<doc-anchor-target id="rsbuild">
+    <h3>
+        <doc-anchor-trigger class="header-anchor-trigger" to="#rsbuild">#</doc-anchor-trigger>
+        <span>Rsbuild</span>
+    </h3>
+</doc-anchor-target>
+<ul>
+<li><a href="rsbuild/definedevhostconfig/">defineDevHostConfig</a> <span class="no-link inline-flex align-middle items-center justify-center font-medium leading-none whitespace-nowrap text-red-600 bg-red-100 h-4.5 px-1.5 text-3xs rounded">
+    <span>experimental</span>
+</span></li>
+<li><a href="rsbuild/definedevremotemoduleconfig/">defineDevRemoteModuleConfig</a> <span class="no-link inline-flex align-middle items-center justify-center font-medium leading-none whitespace-nowrap text-red-600 bg-red-100 h-4.5 px-1.5 text-3xs rounded">
+    <span>experimental</span>
+</span></li>
+<li><a href="rsbuild/definebuildhostconfig/">defineBuildHostConfig</a> <span class="no-link inline-flex align-middle items-center justify-center font-medium leading-none whitespace-nowrap text-red-600 bg-red-100 h-4.5 px-1.5 text-3xs rounded">
+    <span>experimental</span>
+</span></li>
+<li><a href="rsbuild/definebuildremotemoduleconfig/">defineBuildRemoteModuleConfig</a> <span class="no-link inline-flex align-middle items-center justify-center font-medium leading-none whitespace-nowrap text-red-600 bg-red-100 h-4.5 px-1.5 text-3xs rounded">
+    <span>experimental</span>
+</span></li>
+</ul>
+<doc-anchor-target id="miscellaneous">
+    <h3>
+        <doc-anchor-trigger class="header-anchor-trigger" to="#miscellaneous">#</doc-anchor-trigger>
+        <span>Miscellaneous</span>
+    </h3>
+</doc-anchor-target>
+<ul>
+<li><a href="miscellaneous/usepublicdatahandler/">usePublicDataHandler</a></li>
+<li><a href="miscellaneous/useprotecteddatahandler/">useProtectedDataHandler</a></li>
 </ul>
 
                                 

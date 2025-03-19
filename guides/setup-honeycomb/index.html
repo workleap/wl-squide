@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <meta name="turbo-root" content="/wl-squide">
-    <meta name="turbo-cache-control" content="no-cache" data-turbo-track="reload" data-track-token="3.6.0.795499738543">
+    <meta name="turbo-cache-control" content="no-cache" data-turbo-track="reload" data-track-token="3.6.0.795669718096">
 
     <!-- See retype.com -->
     <meta name="generator" content="Retype 3.6.0">
@@ -34,12 +34,12 @@
     <script data-cfasync="false">(function () { var el = document.documentElement, m = localStorage.getItem("doc_theme"), wm = window.matchMedia; if (m === "dark" || (!m && wm && wm("(prefers-color-scheme: dark)").matches)) { el.classList.add("dark") } else { el.classList.remove("dark") } })();</script>
 
     <link href="../../static/favicon.png" rel="icon">
-    <link href="../../resources/css/retype.css?v=3.6.0.795499738543" rel="stylesheet">
+    <link href="../../resources/css/retype.css?v=3.6.0.795669718096" rel="stylesheet">
 
-    <script data-cfasync="false" src="../../resources/js/config.js?v=3.6.0.795499738543" data-turbo-eval="false" defer></script>
+    <script data-cfasync="false" src="../../resources/js/config.js?v=3.6.0.795669718096" data-turbo-eval="false" defer></script>
     <script data-cfasync="false" src="../../resources/js/retype.js?v=3.6.0" data-turbo-eval="false" defer></script>
-    <script id="lunr-js" data-cfasync="false" src="../../resources/js/lunr.js?v=3.6.0.795499738543" data-turbo-eval="false" defer></script>
-    <script id="prism-js" data-cfasync="false" src="../../resources/js/prism.js?v=3.6.0.795499738543" defer></script>
+    <script id="lunr-js" data-cfasync="false" src="../../resources/js/lunr.js?v=3.6.0.795669718096" data-turbo-eval="false" defer></script>
+    <script id="prism-js" data-cfasync="false" src="../../resources/js/prism.js?v=3.6.0.795669718096" defer></script>
 
     <link href="https://gsoft-inc.github.io/wl-idp-docs-hub/static/retype-customization.css" rel="stylesheet" />
 
@@ -377,7 +377,7 @@
 <p>Then, update the host application bootstrapping code to register Honeycomb instrumentation:</p>
 <div class="codeblock-wrapper"><doc-codeblock>
 <div class="codeblock-title">host/src/bootstrap.tsx</div>
-<pre class="language-tsx" data-line="22-24"><code v-pre class="language-tsx">import { ConsoleLogger, RuntimeContext, FireflyRuntime, bootstrap, type RemoteDefinition } from &quot;@squide/firefly&quot;;
+<pre class="language-tsx" data-line="22-24"><code v-pre class="language-tsx">import { ConsoleLogger, FireflyProvider, FireflyRuntime, bootstrap, type RemoteDefinition } from &quot;@squide/firefly&quot;;
 import { registerHoneycombInstrumentation } from &quot;@squide/firefly-honeycomb&quot;;
 import { register as registerMyLocalModule } from &quot;@sample/local-module&quot;;
 import { createRoot } from &quot;react-dom/client&quot;;
@@ -392,7 +392,7 @@ const runtime = new FireflyRuntime({
     loggers: [x =&gt; new ConsoleLogger(x)]
 });
 
-await bootstrap(runtime, {
+bootstrap(runtime, {
     localModules: [registerHost, registerMyLocalModule],
     remotes: Remotes
 });
@@ -405,9 +405,9 @@ registerHoneycombInstrumentation(runtime, &quot;squide-sample&quot;, [/.+/g,], {
 const root = createRoot(document.getElementById(&quot;root&quot;)!);
 
 root.render(
-    &lt;RuntimeContext.Provider value={runtime}&gt;
+    &lt;FireflyProvider runtime={runtime}&gt;
         &lt;App /&gt;
-    &lt;/RuntimeContext.Provider&gt;
+    &lt;/FireflyProvider&gt;
 );</code></pre>
 </doc-codeblock></div>
 <div class="flex mb-6">

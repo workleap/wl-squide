@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <meta name="turbo-root" content="/wl-squide">
-    <meta name="turbo-cache-control" content="no-cache" data-turbo-track="reload" data-track-token="3.6.0.795499738543">
+    <meta name="turbo-cache-control" content="no-cache" data-turbo-track="reload" data-track-token="3.6.0.795669718096">
 
     <!-- See retype.com -->
     <meta name="generator" content="Retype 3.6.0">
@@ -32,12 +32,12 @@
     <script data-cfasync="false">(function () { var el = document.documentElement, m = localStorage.getItem("doc_theme"), wm = window.matchMedia; if (m === "dark" || (!m && wm && wm("(prefers-color-scheme: dark)").matches)) { el.classList.add("dark") } else { el.classList.remove("dark") } })();</script>
 
     <link href="../../../static/favicon.png" rel="icon">
-    <link href="../../../resources/css/retype.css?v=3.6.0.795499738543" rel="stylesheet">
+    <link href="../../../resources/css/retype.css?v=3.6.0.795669718096" rel="stylesheet">
 
-    <script data-cfasync="false" src="../../../resources/js/config.js?v=3.6.0.795499738543" data-turbo-eval="false" defer></script>
+    <script data-cfasync="false" src="../../../resources/js/config.js?v=3.6.0.795669718096" data-turbo-eval="false" defer></script>
     <script data-cfasync="false" src="../../../resources/js/retype.js?v=3.6.0" data-turbo-eval="false" defer></script>
-    <script id="lunr-js" data-cfasync="false" src="../../../resources/js/lunr.js?v=3.6.0.795499738543" data-turbo-eval="false" defer></script>
-    <script id="prism-js" data-cfasync="false" src="../../../resources/js/prism.js?v=3.6.0.795499738543" defer></script>
+    <script id="lunr-js" data-cfasync="false" src="../../../resources/js/lunr.js?v=3.6.0.795669718096" data-turbo-eval="false" defer></script>
+    <script id="prism-js" data-cfasync="false" src="../../../resources/js/prism.js?v=3.6.0.795669718096" defer></script>
 
     <link href="https://gsoft-inc.github.io/wl-idp-docs-hub/static/retype-customization.css" rel="stylesheet" />
 
@@ -327,7 +327,7 @@
     </h2>
 </doc-anchor-target>
 <div class="codeblock-wrapper"><doc-codeblock>
-<pre class="language-typescript"><code v-pre class="language-typescript">const errors = bootstrap(runtime, options?: { localModules?, remotes?, startMsw?, context? })</code></pre>
+<pre class="language-typescript"><code v-pre class="language-typescript">bootstrap(runtime, options?: { localModules?, remotes?, startMsw?, onError?, context? })</code></pre>
 </doc-codeblock></div>
 <doc-anchor-target id="parameters">
     <h3>
@@ -342,6 +342,7 @@
 <li><code v-pre>localModules</code>: An optional array of <code v-pre>ModuleRegisterFunction</code>.</li>
 <li><code v-pre>remotes</code>: An optional array of <doc-anchor-trigger to="#remote-definition">RemoteDefinition</doc-anchor-trigger>.</li>
 <li><code v-pre>startMsw</code>: An optional function to register MSW request handlers and start MSW service. This function is required if <a href="../../runtime/runtime-class/#use-mock-service-worker">MSW is enabled</a>.</li>
+<li><code v-pre>onError</code>: An optional function that is called whenever a bootstrapping error occurs.</li>
 <li><code v-pre>context</code>: An optional context object that will be pass to the registration function.</li>
 </ul>
 </li>
@@ -352,27 +353,7 @@
         <span>Returns</span>
     </h3>
 </doc-anchor-target>
-<p>A Promise object including <doc-anchor-trigger to="#localmoduleregistrationerror">LocalModuleRegistrationError</doc-anchor-trigger> and <doc-anchor-trigger to="#remotemoduleregistrationerror">RemoteModuleRegistrationError</doc-anchor-trigger> if any error happens during the registration process.</p>
-<doc-anchor-target id="localmoduleregistrationerror">
-    <h4>
-        <doc-anchor-trigger class="header-anchor-trigger" to="#localmoduleregistrationerror">#</doc-anchor-trigger>
-        <span><code v-pre>LocalModuleRegistrationError</code></span>
-    </h4>
-</doc-anchor-target>
-<ul>
-<li><code v-pre>error</code>: The original <code v-pre>Error</code> object.</li>
-</ul>
-<doc-anchor-target id="remotemoduleregistrationerror">
-    <h4>
-        <doc-anchor-trigger class="header-anchor-trigger" to="#remotemoduleregistrationerror">#</doc-anchor-trigger>
-        <span><code v-pre>RemoteModuleRegistrationError</code></span>
-    </h4>
-</doc-anchor-target>
-<ul>
-<li><code v-pre>remoteName</code>: The name of the remote module that failed to load.</li>
-<li><code v-pre>moduleName</code>: The name of the <doc-anchor-trigger to="#name">module</doc-anchor-trigger> that Squide attempted to recover.</li>
-<li><code v-pre>error</code>: The original <code v-pre>Error</code> object.</li>
-</ul>
+<p>Nothing</p>
 <doc-anchor-target id="usage">
     <h2>
         <doc-anchor-trigger class="header-anchor-trigger" to="#usage">#</doc-anchor-trigger>
@@ -392,7 +373,7 @@ import { register } from &quot;@sample/local-module&quot;;
 
 const runtime = new FireflyRuntime();
 
-await bootstrap(runtime, {
+bootstrap(runtime, {
     localModules: [register]
 });</code></pre>
 </doc-codeblock></div>
@@ -422,7 +403,7 @@ export const register: ModuleRegisterFunction&lt;FireflyRuntime&gt; = runtime =&
 </doc-anchor-target>
 <div class="codeblock-wrapper"><doc-codeblock>
 <div class="codeblock-title">host/src/bootstrap.tsx</div>
-<pre class="language-tsx" data-line="7-9,12"><code v-pre class="language-tsx">import { FireflyRuntime, RuntimeContext, bootstrap, type RemoteDefinition } from &quot;@squide/firefly&quot;;
+<pre class="language-tsx" data-line="7-9,12"><code v-pre class="language-tsx">import { FireflyRuntime, FireflyProvider, bootstrap, type RemoteDefinition } from &quot;@squide/firefly&quot;;
 import { createRoot } from &quot;react&quot;;
 import { App } from &quot;./App.tsx&quot;;
 
@@ -432,16 +413,16 @@ const Remotes: RemoteDefinition = [
     { name: &quot;remote1&quot; }
 ];
 
-await bootstrap({
+bootstrap({
     remotes: Remotes
 });
 
 const root = createRoot(document.getElementById(&quot;root&quot;)!);
 
 root.render(
-    &lt;RuntimeContext.Provider value={runtime}&gt;
+    &lt;FireflyProvider runtime={runtime}&gt;
         &lt;App /&gt;
-    &lt;/RuntimeContext.Provider&gt;
+    &lt;/FireflyProvider&gt;
 );</code></pre>
 </doc-codeblock></div>
 <div class="codeblock-wrapper"><doc-codeblock>
@@ -470,7 +451,7 @@ export const register: ModuleRegisterFunction&lt;FireflyRuntime&gt; = runtime =&
 </doc-anchor-target>
 <div class="codeblock-wrapper"><doc-codeblock>
 <div class="codeblock-title">host/src/bootstrap.tsx</div>
-<pre class="language-tsx" data-line="15-19"><code v-pre class="language-tsx">import { FireflyRuntime, RuntimeContext, bootstrap, type RemoteDefinition } from &quot;@squide/firefly&quot;;
+<pre class="language-tsx" data-line="15-19"><code v-pre class="language-tsx">import { FireflyRuntime, FireflyProvider, bootstrap, type RemoteDefinition } from &quot;@squide/firefly&quot;;
 import { register } from &quot;@sample/local-module&quot;;
 import { createRoot } from &quot;react&quot;;
 import { App } from &quot;./App.tsx&quot;;
@@ -481,7 +462,7 @@ const Remotes: RemoteDefinition = [
     { name: &quot;remote1&quot; }
 ];
 
-await bootstrap({
+bootstrap({
     localModules: [register],
     remotes: Remotes,
     startMsw: async () =&gt; {
@@ -494,43 +475,9 @@ await bootstrap({
 const root = createRoot(document.getElementById(&quot;root&quot;)!);
 
 root.render(
-    &lt;RuntimeContext.Provider value={runtime}&gt;
+    &lt;FireflyProvider runtime={runtime}&gt;
         &lt;App /&gt;
-    &lt;/RuntimeContext.Provider&gt;
-);</code></pre>
-</doc-codeblock></div>
-<doc-anchor-target id="provide-a-registration-context">
-    <h3>
-        <doc-anchor-trigger class="header-anchor-trigger" to="#provide-a-registration-context">#</doc-anchor-trigger>
-        <span>Provide a registration context</span>
-    </h3>
-</doc-anchor-target>
-<div class="codeblock-wrapper"><doc-codeblock line-numbers>
-<div class="codeblock-title">host/src/bootstrap.tsx</div>
-<pre class="language-tsx" data-line="15-16"><code v-pre class="language-tsx">import { FireflyRuntime, RuntimeContext, bootstrap, type RemoteDefinition } from &quot;@squide/firefly&quot;;
-import { register } from &quot;@sample/local-module&quot;;
-import { createRoot } from &quot;react&quot;;
-import { App } from &quot;./App.tsx&quot;;
-
-const runtime = new FireflyRuntime();
-
-const Remotes: RemoteDefinition = [
-    { name: &quot;remote1&quot; }
-];
-
-await bootstrap({
-    localModules: [register],
-    remotes: Remotes,
-    // Can be anything.
-    context: { foo: &quot;bar&quot; }
-});
-
-const root = createRoot(document.getElementById(&quot;root&quot;)!);
-
-root.render(
-    &lt;RuntimeContext.Provider value={runtime}&gt;
-        &lt;App /&gt;
-    &lt;/RuntimeContext.Provider&gt;
+    &lt;/FireflyProvider&gt;
 );</code></pre>
 </doc-codeblock></div>
 <doc-anchor-target id="handle-registration-errors">
@@ -541,7 +488,7 @@ root.render(
 </doc-anchor-target>
 <div class="codeblock-wrapper"><doc-codeblock>
 <div class="codeblock-title">host/src/bootstrap.tsx</div>
-<pre class="language-tsx" data-line="12-15,17-21,23-27"><code v-pre class="language-tsx">import { FireflyRuntime, RuntimeContext, bootstrap, type RemoteDefinition } from &quot;@squide/firefly&quot;;
+<pre class="language-tsx" data-line="15-17"><code v-pre class="language-tsx">import { FireflyRuntime, FireflyProvider, bootstrap, type RemoteDefinition } from &quot;@squide/firefly&quot;;
 import { register } from &quot;@sample/local-module&quot;;
 import { createRoot } from &quot;react&quot;;
 import { App } from &quot;./App.tsx&quot;;
@@ -552,29 +499,54 @@ const Remotes: RemoteDefinition = [
     { name: &quot;remote1&quot; }
 ];
 
-const { localModuleErrors, remoteModulesErrors } = await bootstrap({
+bootstrap({
     localModules: [register],
-    remotes: Remotes
+    remotes: Remotes,
+    onError: error =&gt; {
+        console.log(error);
+    }
 });
-
-if (localModulesErrors.length &gt; 0) {
-    localModulesErrors.forEach(x =&gt; {
-        console.error(x);
-    });
-}
-
-if (remoteModulesErrors.length &gt; 0) {
-    remoteModulesErrors.forEach(x =&gt; {
-        console.error(x);
-    });
-}
 
 const root = createRoot(document.getElementById(&quot;root&quot;)!);
 
 root.render(
-    &lt;RuntimeContext.Provider value={runtime}&gt;
+    &lt;FireflyProvider runtime={runtime}&gt;
         &lt;App /&gt;
-    &lt;/RuntimeContext.Provider&gt;
+    &lt;/FireflyProvider&gt;
+);</code></pre>
+</doc-codeblock></div>
+<doc-anchor-target id="provide-a-registration-context">
+    <h3>
+        <doc-anchor-trigger class="header-anchor-trigger" to="#provide-a-registration-context">#</doc-anchor-trigger>
+        <span>Provide a registration context</span>
+    </h3>
+</doc-anchor-target>
+<div class="codeblock-wrapper"><doc-codeblock line-numbers>
+<div class="codeblock-title">host/src/bootstrap.tsx</div>
+<pre class="language-tsx" data-line="15-16"><code v-pre class="language-tsx">import { FireflyRuntime, FireflyProvider, bootstrap, type RemoteDefinition } from &quot;@squide/firefly&quot;;
+import { register } from &quot;@sample/local-module&quot;;
+import { createRoot } from &quot;react&quot;;
+import { App } from &quot;./App.tsx&quot;;
+
+const runtime = new FireflyRuntime();
+
+const Remotes: RemoteDefinition = [
+    { name: &quot;remote1&quot; }
+];
+
+bootstrap({
+    localModules: [register],
+    remotes: Remotes,
+    // Can be anything.
+    context: { foo: &quot;bar&quot; }
+});
+
+const root = createRoot(document.getElementById(&quot;root&quot;)!);
+
+root.render(
+    &lt;FireflyProvider runtime={runtime}&gt;
+        &lt;App /&gt;
+    &lt;/FireflyProvider&gt;
 );</code></pre>
 </doc-codeblock></div>
 <doc-anchor-target id="defer-the-registration-of-navigation-items">
@@ -594,7 +566,7 @@ root.render(
 <p>Once the modules are registered, the deferred registration functions will be executed with the deferred data and <code v-pre>&quot;register&quot;</code> as the value for the <code v-pre>operation</code> argument. Afterward, whenever the deferred data changes, the deferred registration functions will be re-executed with the updated deferred data and <code v-pre>&quot;update&quot;</code> as the value for the <code v-pre>operation</code> argument.</p>
 <div class="codeblock-wrapper"><doc-codeblock>
 <div class="codeblock-title">host/src/bootstrap.tsx</div>
-<pre class="language-tsx"><code v-pre class="language-tsx">import { FireflyRuntime, RuntimeContext, bootstrap, type RemoteDefinition } from &quot;@squide/firefly&quot;;
+<pre class="language-tsx"><code v-pre class="language-tsx">import { FireflyRuntime, FireflyProvider, bootstrap, type RemoteDefinition } from &quot;@squide/firefly&quot;;
 import { register } from &quot;@sample/local-module&quot;;
 import { createRoot } from &quot;react&quot;;
 import { App } from &quot;./App.tsx&quot;;
@@ -605,7 +577,7 @@ const Remotes: RemoteDefinition = [
     { name: &quot;remote1&quot; }
 ];
 
-await bootstrap({
+bootstrap({
     localModules: [register],
     remotes: Remotes
 });
@@ -613,9 +585,9 @@ await bootstrap({
 const root = createRoot(document.getElementById(&quot;root&quot;)!);
 
 root.render(
-    &lt;RuntimeContext.Provider value={runtime}&gt;
+    &lt;FireflyProvider runtime={runtime}&gt;
         &lt;App /&gt;
-    &lt;/RuntimeContext.Provider&gt;
+    &lt;/FireflyProvider&gt;
 );</code></pre>
 </doc-codeblock></div>
 <div class="codeblock-wrapper"><doc-codeblock>
