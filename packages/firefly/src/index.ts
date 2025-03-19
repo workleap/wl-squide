@@ -3,6 +3,7 @@ export * from "@squide/module-federation";
 export * from "@squide/msw";
 export * from "@squide/react-router";
 
+export * from "./FireflyProvider.tsx";
 export * from "./FireflyRuntime.tsx";
 
 export * from "./AppRouter.tsx";

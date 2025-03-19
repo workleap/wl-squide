@@ -37,9 +37,9 @@ export function bootstrap<TRuntime extends FireflyRuntime = FireflyRuntime, TCon
         onError
     } = options;
 
-    if (hasExecuted) {
-        throw new Error("[squide] A squide application can only be bootstrapped once. Did you call the \"bootstrap\" function twice?");
-    }
+    // if (hasExecuted) {
+    //     throw new Error("[squide] A squide application can only be bootstrapped once. Did you call the \"bootstrap\" function twice?");
+    // }
 
     hasExecuted = true;
 
@@ -49,11 +49,6 @@ export function bootstrap<TRuntime extends FireflyRuntime = FireflyRuntime, TCon
         registerLocalModules<TRuntime, TContext, TData>(localModules, runtime, { context }),
         registerRemoteModules(remotes, runtime, { context })
     ]).then(results => {
-        if (onError) {
-            propagateRegistrationErrors(results[0], onError);
-            propagateRegistrationErrors(results[1], onError);
-        }
-
         if (runtime.isMswEnabled) {
             if (!isFunction(startMsw)) {
                 throw new Error("[squide] When MSW is enabled, the \"startMsw\" function must be provided.");
@@ -66,6 +61,11 @@ export function bootstrap<TRuntime extends FireflyRuntime = FireflyRuntime, TCon
                 .catch((error: unknown) => {
                     runtime.logger.debug("[squide] An error occured while starting MSW.", error);
                 });
+        }
+
+        if (onError) {
+            propagateRegistrationErrors(results[0], onError);
+            propagateRegistrationErrors(results[1], onError);
         }
     });
 }

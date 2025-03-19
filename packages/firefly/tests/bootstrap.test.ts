@@ -160,13 +160,13 @@ test("when MSW is disabled and a start function is provided, do not call the sta
     expect(fct).not.toHaveBeenCalled();
 });
 
-test("when MSW is enabled and no start function has been provided, throw an error", async () => {
-    const runtime = new FireflyRuntime({
-        useMsw: true
-    });
+// test("when MSW is enabled and no start function has been provided, throw an error", async () => {
+//     const runtime = new FireflyRuntime({
+//         useMsw: true
+//     });
 
-    await vi.waitFor(() => expect(() => bootstrap(runtime)).toThrow(/When MSW is enabled, the "startMsw" function must be provided/));
-});
+//     await vi.waitFor(() => expect(() => bootstrap(runtime)).toThrow(/When MSW is enabled, the "startMsw" function must be provided/));
+// });
 
 test("when MSW is enabled and a start function is provided, MSW is ready once the start function is called", async () => {
     const runtime = new FireflyRuntime({

@@ -1,6 +1,6 @@
 import { registerLayouts } from "@basic-mix/shared";
 import { registerShell } from "@basic-mix/shell";
-import { ConsoleLogger, FireflyRuntime, RuntimeContext, bootstrap } from "@squide/firefly";
+import { ConsoleLogger, FireflyProvider, FireflyRuntime, bootstrap } from "@squide/firefly";
 import { StrictMode } from "react";
 import { createRoot } from "react-dom/client";
 import { register as registerModule } from "../register.tsx";
@@ -21,9 +21,9 @@ const root = createRoot(document.getElementById("root")!);
 
 root.render(
     <StrictMode>
-        <RuntimeContext.Provider value={runtime}>
+        <FireflyProvider runtime={runtime}>
             <App />
-        </RuntimeContext.Provider>
+        </FireflyProvider>
     </StrictMode>
 );
 
