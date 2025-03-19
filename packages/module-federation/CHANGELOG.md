@@ -1,5 +1,14 @@
 # @squide/module-federation
 
+## 6.2.4
+
+### Patch Changes
+
+- [#247](https://github.com/workleap/wl-squide/pull/247) [`ddcb106`](https://github.com/workleap/wl-squide/commit/ddcb106a6b3522e09d1ab92c417725185ffc64e6) Thanks [@patricklafrance](https://github.com/patricklafrance)! - The error structure is now an instance of `Error` rather than an object literal.
+
+- Updated dependencies [[`ddcb106`](https://github.com/workleap/wl-squide/commit/ddcb106a6b3522e09d1ab92c417725185ffc64e6)]:
+  - @squide/core@5.4.4
+
 ## 6.2.3
 
 ### Patch Changes
