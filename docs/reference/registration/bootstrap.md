@@ -68,7 +68,7 @@ export const register: ModuleRegisterFunction<FireflyRuntime> = runtime => {
 ### Register a remote module
 
 ```tsx !#7-9,12 host/src/bootstrap.tsx
-import { FireflyRuntime, RuntimeContext, bootstrap, type RemoteDefinition } from "@squide/firefly";
+import { FireflyRuntime, FireflyProvider, bootstrap, type RemoteDefinition } from "@squide/firefly";
 import { createRoot } from "react";
 import { App } from "./App.tsx";
 
@@ -85,9 +85,9 @@ bootstrap({
 const root = createRoot(document.getElementById("root")!);
 
 root.render(
-    <RuntimeContext.Provider value={runtime}>
+    <FireflyProvider runtime={runtime}>
         <App />
-    </RuntimeContext.Provider>
+    </FireflyProvider>
 );
 ```
 
@@ -112,7 +112,7 @@ export const register: ModuleRegisterFunction<FireflyRuntime> = runtime => {
 ### Start MSW
 
 ```tsx !#15-19 host/src/bootstrap.tsx
-import { FireflyRuntime, RuntimeContext, bootstrap, type RemoteDefinition } from "@squide/firefly";
+import { FireflyRuntime, FireflyProvider, bootstrap, type RemoteDefinition } from "@squide/firefly";
 import { register } from "@sample/local-module";
 import { createRoot } from "react";
 import { App } from "./App.tsx";
@@ -136,16 +136,16 @@ bootstrap({
 const root = createRoot(document.getElementById("root")!);
 
 root.render(
-    <RuntimeContext.Provider value={runtime}>
+    <FireflyProvider runtime={runtime}>
         <App />
-    </RuntimeContext.Provider>
+    </FireflyProvider>
 );
 ```
 
 ### Handle registration errors
 
 ```tsx !#15-17 host/src/bootstrap.tsx
-import { FireflyRuntime, RuntimeContext, bootstrap, type RemoteDefinition } from "@squide/firefly";
+import { FireflyRuntime, FireflyProvider, bootstrap, type RemoteDefinition } from "@squide/firefly";
 import { register } from "@sample/local-module";
 import { createRoot } from "react";
 import { App } from "./App.tsx";
@@ -167,16 +167,16 @@ bootstrap({
 const root = createRoot(document.getElementById("root")!);
 
 root.render(
-    <RuntimeContext.Provider value={runtime}>
+    <FireflyProvider runtime={runtime}>
         <App />
-    </RuntimeContext.Provider>
+    </FireflyProvider>
 );
 ```
 
 ### Provide a registration context
 
 ```tsx #15-16 host/src/bootstrap.tsx
-import { FireflyRuntime, RuntimeContext, bootstrap, type RemoteDefinition } from "@squide/firefly";
+import { FireflyRuntime, FireflyProvider, bootstrap, type RemoteDefinition } from "@squide/firefly";
 import { register } from "@sample/local-module";
 import { createRoot } from "react";
 import { App } from "./App.tsx";
@@ -197,9 +197,9 @@ bootstrap({
 const root = createRoot(document.getElementById("root")!);
 
 root.render(
-    <RuntimeContext.Provider value={runtime}>
+    <FireflyProvider runtime={runtime}>
         <App />
-    </RuntimeContext.Provider>
+    </FireflyProvider>
 );
 ```
 
@@ -216,7 +216,7 @@ To defer a registration to the second phase, a module registration function can 
 Once the modules are registered, the deferred registration functions will be executed with the deferred data and `"register"` as the value for the `operation` argument. Afterward, whenever the deferred data changes, the deferred registration functions will be re-executed with the updated deferred data and `"update"` as the value for the `operation` argument.
 
 ```tsx host/src/bootstrap.tsx
-import { FireflyRuntime, RuntimeContext, bootstrap, type RemoteDefinition } from "@squide/firefly";
+import { FireflyRuntime, FireflyProvider, bootstrap, type RemoteDefinition } from "@squide/firefly";
 import { register } from "@sample/local-module";
 import { createRoot } from "react";
 import { App } from "./App.tsx";
@@ -235,9 +235,9 @@ bootstrap({
 const root = createRoot(document.getElementById("root")!);
 
 root.render(
-    <RuntimeContext.Provider value={runtime}>
+    <FireflyProvider runtime={runtime}>
         <App />
-    </RuntimeContext.Provider>
+    </FireflyProvider>
 );
 ```
 

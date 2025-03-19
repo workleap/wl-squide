@@ -109,7 +109,7 @@ Then, update the bootstrapping code to [start MSW](https://mswjs.io/docs/integra
 
 ```tsx !#18-22 host/src/bootstrap.tsx
 import { createRoot } from "react-dom/client";
-import { ConsoleLogger, RuntimeContext, FireflyRuntime, boostrap, type RemoteDefinition } from "@squide/firefly";
+import { ConsoleLogger, FireflyProvider, FireflyRuntime, boostrap, type RemoteDefinition } from "@squide/firefly";
 import { App } from "./App.tsx";
 import { registerHost } from "./register.tsx";
 
@@ -135,9 +135,9 @@ bootstrap(runtime, {
 const root = createRoot(document.getElementById("root")!);
 
 root.render(
-    <RuntimeContext.Provider value={runtime}>
+    <FireflyProvider runtime={runtime}>
         <App />
-    </RuntimeContext.Provider>
+    </FireflyProvider>
 );
 ```
 

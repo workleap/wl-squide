@@ -7,7 +7,6 @@ import {
     LocalModulesDeferredRegistrationStartedEvent,
     LocalModulesRegistrationCompletedEvent,
     LocalModulesRegistrationStartedEvent,
-    RuntimeContext,
     type Runtime
 } from "@squide/core";
 import {
@@ -28,6 +27,7 @@ import { createMemoryRouter, Outlet, RouterProvider } from "react-router";
 import { afterEach, expect, test, vi } from "vitest";
 import { AppRouter as FireflyAppRouter } from "../src/AppRouter.tsx";
 import { ApplicationBoostrappedEvent, ModulesReadyEvent, ModulesRegisteredEvent, MswReadyEvent, ProtectedDataReadyEvent, PublicDataReadyEvent } from "../src/AppRouterReducer.ts";
+import { FireflyProvider } from "../src/FireflyProvider.tsx";
 import { FireflyRuntime } from "../src/FireflyRuntime.tsx";
 import { __resetHasExecuteGuard, ApplicationBootstrappingStartedEvent, bootstrap } from "../src/boostrap.ts";
 import { useDeferredRegistrations } from "../src/useDeferredRegistrations.ts";
@@ -89,9 +89,9 @@ function renderAppRouter(props: AppRouterProps, runtime: Runtime) {
     return render(<AppRouter {...props} />, {
         wrapper: ({ children }: { children?: ReactNode }) => (
             <QueryClientProvider client={queryClient}>
-                <RuntimeContext.Provider value={runtime}>
+                <FireflyProvider runtime={runtime}>
                     {children}
-                </RuntimeContext.Provider>
+                </FireflyProvider>
             </QueryClientProvider>
         )
     });

@@ -129,7 +129,7 @@ And finally include the `registerShell` function to setup the `RootLayout` and `
 
 ```tsx !#17 host/src/bootstrap.tsx
 import { createRoot } from "react-dom/client";
-import { ConsoleLogger, RuntimeContext, FireflyRuntime, bootstrap, type RemoteDefinition } from "@squide/firefly";
+import { ConsoleLogger, FireflyProvider, FireflyRuntime, bootstrap, type RemoteDefinition } from "@squide/firefly";
 import { App } from "./App.tsx";
 import { registerHost } from "./register.tsx";
 import { registerShell } from "@sample/shell";
@@ -151,9 +151,9 @@ bootstrap(runtime, {
 const root = createRoot(document.getElementById("root")!);
 
 root.render(
-    <RuntimeContext.Provider value={runtime}>
+    <FireflyProvider runtime={runtime}>
         <App />
-    </RuntimeContext.Provider>
+    </FireflyProvider>
 );
 ```
 
@@ -195,7 +195,7 @@ The `index.tsx` file is similar to the `bootstrap.tsx` file of an host applicati
 
 ```tsx !#10-12,17 remote-module/src/index.tsx
 import { createRoot } from "react-dom/client";
-import { ConsoleLogger, RuntimeContext, FireflyRuntime, bootstrap } from "@squide/firefly";
+import { ConsoleLogger, FireflyProvider, FireflyRuntime, bootstrap } from "@squide/firefly";
 import { App } from "./App.tsx";
 import { register as registerModule } from "./register.tsx";
 import { registerDev } from "./dev/register.tsx";
@@ -216,9 +216,9 @@ bootstrap(runtime, {
 const root = createRoot(document.getElementById("root")!);
 
 root.render(
-    <RuntimeContext.Provider value={runtime}>
+    <FireflyProvider runtime={runtime}>
         <App />
-    </RuntimeContext.Provider>
+    </FireflyProvider>
 );
 ```
 

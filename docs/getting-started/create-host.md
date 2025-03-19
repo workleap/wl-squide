@@ -92,7 +92,7 @@ Next, to register the modules, instanciate a shell [FireflyRuntime](/reference/r
 
 ```tsx !#11-13,16-18 host/src/bootstrap.tsx
 import { createRoot } from "react-dom/client";
-import { ConsoleLogger, RuntimeContext, FireflyRuntime, bootstrap, type RemoteDefinition } from "@squide/firefly";
+import { ConsoleLogger, FireflyProvider, FireflyRuntime, bootstrap, type RemoteDefinition } from "@squide/firefly";
 import { App } from "./App.tsx";
 
 // Define the remote modules.
@@ -113,9 +113,9 @@ bootstrap(runtime, {
 const root = createRoot(document.getElementById("root")!);
 
 root.render(
-    <RuntimeContext.Provider value={runtime}>
+    <FireflyProvider runtime={runtime}>
         <App />
-    </RuntimeContext.Provider>
+    </FireflyProvider>
 );
 ```
 
@@ -270,7 +270,7 @@ Finally, update the bootstrapping code to [register](../reference/registration/r
 
 ```tsx !#18 host/src/bootstrap.tsx
 import { createRoot } from "react-dom/client";
-import { ConsoleLogger, RuntimeContext, FireflyRuntime, bootstrap, type RemoteDefinition } from "@squide/firefly";
+import { ConsoleLogger, FireflyProvider, FireflyRuntime, bootstrap, type RemoteDefinition } from "@squide/firefly";
 import { App } from "./App.tsx";
 import { registerHost } from "./register.tsx";
 
@@ -293,9 +293,9 @@ bootstrap(runtime, {
 const root = createRoot(document.getElementById("root")!);
 
 root.render(
-    <RuntimeContext.Provider value={runtime}>
+    <FireflyProvider runtime={runtime}>
         <App />
-    </RuntimeContext.Provider>
+    </FireflyProvider>
 );
 ```
 

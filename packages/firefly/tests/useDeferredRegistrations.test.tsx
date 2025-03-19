@@ -1,10 +1,11 @@
-import { __clearLocalModuleRegistry, __setLocalModuleRegistry, LocalModuleRegistry, ModuleRegistrationError, registerLocalModules, RuntimeContext, type Runtime } from "@squide/core";
+import { __clearLocalModuleRegistry, __setLocalModuleRegistry, LocalModuleRegistry, ModuleRegistrationError, registerLocalModules, type Runtime } from "@squide/core";
 import { __clearRemoteModuleRegistry, __setRemoteModuleRegistry, registerRemoteModules, RemoteModuleRegistrationError, RemoteModuleRegistry } from "@squide/module-federation";
 import { act, renderHook, waitFor, type RenderHookOptions } from "@testing-library/react";
 import type { ReactNode } from "react";
 import { afterEach, expect, test, vi, type Mock } from "vitest";
 import { AppRouterDispatcherContext, AppRouterStateContext } from "../src/AppRouterContext.ts";
 import { __clearAppReducerDispatchProxy, __setAppReducerDispatchProxyFactory, useAppRouterReducer, type AppRouterDispatch, type AppRouterState } from "../src/AppRouterReducer.ts";
+import { FireflyProvider } from "../src/FireflyProvider.tsx";
 import { FireflyRuntime } from "../src/FireflyRuntime.tsx";
 import { useDeferredRegistrations, type DeferredRegistrationsErrorCallback } from "../src/useDeferredRegistrations.ts";
 import { createDefaultAppRouterState, sleep } from "./utils.ts";
@@ -12,9 +13,9 @@ import { createDefaultAppRouterState, sleep } from "./utils.ts";
 function renderUseAppReducerHook<TProps>(runtime: Runtime, additionalProps: RenderHookOptions<TProps> = {}) {
     return renderHook(() => useAppRouterReducer(true, true, true), {
         wrapper: ({ children }: { children?: ReactNode }) => (
-            <RuntimeContext.Provider value={runtime}>
+            <FireflyProvider runtime={runtime}>
                 {children}
-            </RuntimeContext.Provider>
+            </FireflyProvider>
         ),
         ...additionalProps
     });
@@ -23,13 +24,13 @@ function renderUseAppReducerHook<TProps>(runtime: Runtime, additionalProps: Rend
 function renderUseDeferredRegistrationsHook<TProps>(runtime: Runtime, state: AppRouterState, dispatch: AppRouterDispatch, data: unknown, onError?: DeferredRegistrationsErrorCallback, additionalProps: RenderHookOptions<TProps> = {}) {
     return renderHook(() => useDeferredRegistrations(data, { onError }), {
         wrapper: ({ children }: { children?: ReactNode }) => (
-            <RuntimeContext.Provider value={runtime}>
+            <FireflyProvider runtime={runtime}>
                 <AppRouterDispatcherContext.Provider value={dispatch}>
                     <AppRouterStateContext.Provider value={state}>
                         {children}
                     </AppRouterStateContext.Provider>
                 </AppRouterDispatcherContext.Provider>
-            </RuntimeContext.Provider>
+            </FireflyProvider>
         ),
         ...additionalProps
     });

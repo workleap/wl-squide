@@ -1,10 +1,11 @@
-import { __clearLocalModuleRegistry, __setLocalModuleRegistry, RuntimeContext, type ModuleRegistrationError, type ModuleRegistrationStatus, type ModuleRegistrationStatusChangedListener, type ModuleRegistry, type Runtime } from "@squide/core";
+import { __clearLocalModuleRegistry, __setLocalModuleRegistry, type ModuleRegistrationError, type ModuleRegistrationStatus, type ModuleRegistrationStatusChangedListener, type ModuleRegistry, type Runtime } from "@squide/core";
 import { __clearRemoteModuleRegistry, __setRemoteModuleRegistry } from "@squide/module-federation";
 import { __clearMswState, __setMswState, MswState, type MswStateChangedListener } from "@squide/msw";
 import { act, renderHook, type RenderHookOptions } from "@testing-library/react";
 import type { ReactNode } from "react";
 import { afterEach, describe, test, vi } from "vitest";
 import { ModulesReadyEvent, ModulesRegisteredEvent, MswReadyEvent, ProtectedDataReadyEvent, PublicDataReadyEvent, useAppRouterReducer, useModuleRegistrationStatusDispatcher, useMswStatusDispatcher, type AppRouterDispatch } from "../src/AppRouterReducer.ts";
+import { FireflyProvider } from "../src/FireflyProvider.tsx";
 import { FireflyRuntime } from "../src/FireflyRuntime.tsx";
 
 class DummyModuleRegistry implements ModuleRegistry {
@@ -86,9 +87,9 @@ describe("useAppRouterReducer", () => {
     function renderUseAppRouterReducerHook<TProps>(runtime: Runtime, waitForMsw: boolean, waitForPublicData: boolean, waitForProtectedData: boolean, additionalProps: RenderHookOptions<TProps> = {}) {
         return renderHook(() => useAppRouterReducer(waitForMsw, waitForPublicData, waitForProtectedData), {
             wrapper: ({ children }: { children?: ReactNode }) => (
-                <RuntimeContext.Provider value={runtime}>
+                <FireflyProvider runtime={runtime}>
                     {children}
-                </RuntimeContext.Provider>
+                </FireflyProvider>
             ),
             ...additionalProps
         });
@@ -748,9 +749,9 @@ describe("useModuleRegistrationStatusDispatcher", () => {
 
         return renderHook(() => useModuleRegistrationStatusDispatcher(areModulesRegistered, areModulesReady, dispatch), {
             wrapper: ({ children }: { children?: ReactNode }) => (
-                <RuntimeContext.Provider value={runtime}>
+                <FireflyProvider runtime={runtime}>
                     {children}
-                </RuntimeContext.Provider>
+                </FireflyProvider>
             ),
             ...additionalProps
         });
@@ -935,9 +936,9 @@ describe("useMswStatusDispatcher", () => {
 
         return renderHook(() => useMswStatusDispatcher(isMswReady, dispatch), {
             wrapper: ({ children }: { children?: ReactNode }) => (
-                <RuntimeContext.Provider value={runtime}>
+                <FireflyProvider runtime={runtime}>
                     {children}
-                </RuntimeContext.Provider>
+                </FireflyProvider>
             ),
             ...additionalProps
         });

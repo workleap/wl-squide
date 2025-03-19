@@ -37,9 +37,9 @@ export function bootstrap<TRuntime extends FireflyRuntime = FireflyRuntime, TCon
         onError
     } = options;
 
-    // if (hasExecuted) {
-    //     throw new Error("[squide] A squide application can only be bootstrapped once. Did you call the \"bootstrap\" function twice?");
-    // }
+    if (hasExecuted) {
+        throw new Error("[squide] A squide application can only be bootstrapped once. Did you call the \"bootstrap\" function twice?");
+    }
 
     hasExecuted = true;
 

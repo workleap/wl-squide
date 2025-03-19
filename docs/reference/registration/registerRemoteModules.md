@@ -42,7 +42,7 @@ A `Promise` object with an array of `RemoteModuleRegistrationError` if any error
 ### Register a remote module
 
 ```tsx !#7-9,11 host/src/bootstrap.tsx
-import { FireflyRuntime, registerRemoteModules, RuntimeContext, type RemoteDefinition } from "@squide/firefly";
+import { FireflyProvider, FireflyRuntime, registerRemoteModules, type RemoteDefinition } from "@squide/firefly";
 import { createRoot } from "react";
 import { App } from "./App.tsx";
 
@@ -57,9 +57,9 @@ await registerRemoteModules(Remotes, runtime);
 const root = createRoot(document.getElementById("root")!);
 
 root.render(
-    <RuntimeContext.Provider value={runtime}>
+    <FireflyProvider runtime={runtime}>
         <App />
-    </RuntimeContext.Provider>
+    </FireflyProvider>
 );
 ```
 
@@ -94,7 +94,7 @@ To defer a registration to the second phase, a module registration function can 
 Once the modules are registered, the deferred registration functions will be executed with the deferred data and `"register"` as the value for the `operation` argument. Afterward, whenever the deferred data changes, the deferred registration functions will be re-executed with the updated deferred data and `"update"` as the value for the `operation` argument.
 
 ```tsx !#12 host/src/bootstrap.tsx
-import { FireflyRuntime, registerRemoteModules, RuntimeContext, type RemoteDefinition } from "@squide/firefly";
+import { FireflyProvider, FireflyRuntime, registerRemoteModules, type RemoteDefinition } from "@squide/firefly";
 import { createRoot } from "react";
 import { register } from "@sample/local-module";
 import { App } from "./App.tsx";
@@ -110,9 +110,9 @@ await registerRemoteModules(Remotes, runtime);
 const root = createRoot(document.getElementById("root")!);
 
 root.render(
-    <RuntimeContext.Provider value={runtime}>
+    <FireflyProvider runtime={runtime}>
         <App />
-    </RuntimeContext.Provider>
+    </FireflyProvider>
 );
 ```
 
