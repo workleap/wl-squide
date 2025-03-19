@@ -8,11 +8,6 @@ export interface RegisterModulesOptions<TContext> {
 
 export type ModuleRegistrationStatusChangedListener = () => void;
 
-// export interface ModuleRegistrationError {
-//     // The registration error.
-//     error: Error;
-// }
-
 export class ModuleRegistrationError extends Error {}
 
 export abstract class ModuleRegistry {
