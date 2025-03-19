@@ -227,6 +227,10 @@ export class LocalModuleRegistry implements ModuleRegistry {
 
     registerStatusChangedListener(callback: ModuleRegistrationStatusChangedListener) {
         this.#statusChangedListeners.add(callback);
+
+        return () => {
+            this.removeStatusChangedListener(callback);
+        };
     }
 
     removeStatusChangedListener(callback: ModuleRegistrationStatusChangedListener) {

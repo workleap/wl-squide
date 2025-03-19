@@ -3,7 +3,7 @@ import { useRoutes, type Route } from "@squide/react-router";
 import { useEffect, useMemo, type ReactElement } from "react";
 import type { RouterProviderProps } from "react-router/dom";
 import { AppRouterDispatcherContext, AppRouterStateContext } from "./AppRouterContext.ts";
-import { useAppRouterReducer } from "./AppRouterReducer.ts";
+import { useAppRouterReducer, type AppRouterState } from "./AppRouterReducer.ts";
 import { RootRoute } from "./RootRoute.tsx";
 import { useStrictRegistrationMode } from "./useStrictRegistrationMode.ts";
 
@@ -18,6 +18,34 @@ export interface RenderRouterProviderFunctionArgs {
 }
 
 export type RenderRouterProviderFunction = (args: RenderRouterProviderFunctionArgs) => ReactElement;
+
+export function useCanRenderRouter({ areModulesRegistered, areModulesReady: areModulesReadyValue }: AppRouterState) {
+    return (
+        // Wait until the modules has been registered, but do not wait for the deferred registrations to be registered has they will probably
+        // depends on the protected data.
+        (areModulesRegistered || areModulesReadyValue)
+    );
+}
+
+function useRenderRouterProvider(state: AppRouterState, renderRouterProvider: RenderRouterProviderFunction) {
+    const routes = useRoutes();
+
+    // The value is computed outside of the router provider memo to prevent
+    // rendering a new router provider everytime the app router state change.
+    const canRenderRouter = useCanRenderRouter(state);
+
+    return useMemo(() => {
+        if (canRenderRouter) {
+            return renderRouterProvider({
+                rootRoute: <RootRoute />,
+                registeredRoutes: routes,
+                routerProviderProps: {}
+            });
+        }
+
+        return null;
+    }, [canRenderRouter, routes, renderRouterProvider]);
+}
 
 export interface AppRouterProps {
     waitForMsw: boolean;
@@ -37,7 +65,6 @@ export function AppRouter(props: AppRouterProps) {
     const [state, dispatch] = useAppRouterReducer(waitForMsw, waitForPublicData, waitForProtectedData);
 
     const logger = useLogger();
-    const routes = useRoutes();
 
     useStrictRegistrationMode();
 
@@ -45,13 +72,7 @@ export function AppRouter(props: AppRouterProps) {
         logger.debug("[squide] AppRouter state updated:", state);
     }, [state, logger]);
 
-    const routerProvider = useMemo(() => {
-        return renderRouterProvider({
-            rootRoute: <RootRoute />,
-            registeredRoutes: routes,
-            routerProviderProps: {}
-        });
-    }, [routes, renderRouterProvider]);
+    const routerProvider = useRenderRouterProvider(state, renderRouterProvider);
 
     return (
         <AppRouterDispatcherContext.Provider value={dispatch}>

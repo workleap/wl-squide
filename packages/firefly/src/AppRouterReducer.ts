@@ -3,7 +3,7 @@ import { addRemoteModuleRegistrationStatusChangedListener, areModulesReady, areM
 import { addMswStateChangedListener, isMswReady, removeMswStateChangedListener } from "@squide/msw";
 import { useCallback, useEffect, useMemo, useReducer, type Dispatch } from "react";
 import { useExecuteOnce } from "./useExecuteOnce.ts";
-import { isApplicationBootstrapping } from "./useIsBootstrapping.ts";
+import { isBootstrapping } from "./useIsBootstrapping.ts";
 
 export type ActiveRouteVisiblity = "unknown" | "public" | "protected";
 
@@ -250,7 +250,7 @@ export function useBootstrappingCompletedDispatcher(state: AppRouterState) {
     const eventBus = useEventBus();
 
     const areModulesRegisteredValue = state.areModulesRegistered;
-    const isBoostrapping = isApplicationBootstrapping(state);
+    const isBoostrapping = isBootstrapping(state);
 
     useExecuteOnce(useCallback(() => {
         if (areModulesRegisteredValue && !isBoostrapping) {
