@@ -28,6 +28,6 @@ Nothing
 import { useProtectedDataHandler } from "@squide/firefly";
 
 useProtectedDataHandler(() => {
-    console.log("The modules are ready and the active is protected!");
+    console.log("The modules are ready and the active route is protected!");
 });
 ```
