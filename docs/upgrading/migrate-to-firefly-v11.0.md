@@ -40,7 +40,7 @@ To handle bootstrapping errors, an `onError` handler can be provided.
 
 ## Optional changes
 
-### `FireflyProvider`
+### Replace `RuntimeContext.Provider` by `FireflyProvider`
 
 A new `FireflyProvider` has been introduced to replace `RuntimeContext.Provider`. This change is optionnal as both are still supported, but strongly encouraged.
 
