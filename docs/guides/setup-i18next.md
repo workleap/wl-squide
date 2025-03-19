@@ -62,7 +62,7 @@ const runtime = new FireflyRuntime({
     loggers: [x => new ConsoleLogger(x)]
 });
 
-await bootstrap(runtime, {
+bootstrap(runtime, {
     localModules: [registerShell, registerHost],
     remotes: Remotes
 });

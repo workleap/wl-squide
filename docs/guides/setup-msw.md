@@ -122,7 +122,7 @@ const runtime = new FireflyRuntime({
     loggers: [x => new ConsoleLogger(x)]
 });
 
-await bootstrap(runtime, {
+bootstrap(runtime, {
     localModules: [registerHost],
     remote: Remotes,
     startMsw: async () => {

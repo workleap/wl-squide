@@ -106,7 +106,7 @@ const runtime = new FireflyRuntime({
 });
 
 // Register the remote module.
-await bootstrap(runtime, {
+bootstrap(runtime, {
     remotes: Remotes
 });
 
@@ -285,7 +285,7 @@ const runtime = new FireflyRuntime({
 });
 
 // Register the modules.
-await bootstrap(runtime, {
+bootstrap(runtime, {
     localModules: [registerHost],
     remotes: Remotes
 });

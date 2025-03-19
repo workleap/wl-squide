@@ -142,7 +142,7 @@ const runtime = new FireflyRuntime({
     loggers: [x => new ConsoleLogger(x)]
 });
 
-await bootstrap(runtime, {
+bootstrap(runtime, {
     // Register the newly created shell module.
     localModules: [registerShell, registerHost],
     remotes: Remotes
@@ -207,7 +207,7 @@ const runtime = new FireflyRuntime({
     loggers: [x => new ConsoleLogger(x)]
 });
 
-await bootstrap(runtime, {
+bootstrap(runtime, {
     // Registering the remote module as a local module because the "register" function 
     // is local when developing in isolation.
     localModules: [registerModule, registerDev, registerShell]

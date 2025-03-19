@@ -160,7 +160,7 @@ const runtime = new FireflyRuntime({
 });
 
 // Register the modules.
-await bootstrap(runtime, {
+bootstrap(runtime, {
     localModules: [registerHost, registerMyLocalModule],
     remotes: Remotes
 })
