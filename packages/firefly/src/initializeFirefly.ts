@@ -26,7 +26,7 @@ function propagateRegistrationErrors(results: PromiseSettledResult<unknown[]>, o
     }
 }
 
-export function bootstrap<TRuntime extends FireflyRuntime = FireflyRuntime, TContext = unknown, TData = unknown>(runtime: TRuntime, options: InitializeFireflyOptions<TRuntime, TContext, TData>) {
+export function bootstrap<TRuntime extends FireflyRuntime = FireflyRuntime, TContext = unknown, TData = unknown>(runtime: TRuntime, options: InitializeFireflyOptions<TRuntime, TContext, TData> = {}) {
     const {
         localModules = [],
         remotes = [],

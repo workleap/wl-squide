@@ -29,7 +29,7 @@ import { AppRouter as FireflyAppRouter } from "../src/AppRouter.tsx";
 import { ApplicationBoostrappedEvent, ModulesReadyEvent, ModulesRegisteredEvent, MswReadyEvent, ProtectedDataReadyEvent, PublicDataReadyEvent } from "../src/AppRouterReducer.ts";
 import { FireflyProvider } from "../src/FireflyProvider.tsx";
 import { FireflyRuntime } from "../src/FireflyRuntime.tsx";
-import { __resetHasExecuteGuard, ApplicationBootstrappingStartedEvent, bootstrap } from "../src/boostrap.ts";
+import { __resetHasExecuteGuard, ApplicationBootstrappingStartedEvent, bootstrap } from "../src/initializeFirefly.ts";
 import { useDeferredRegistrations } from "../src/useDeferredRegistrations.ts";
 import { useIsBootstrapping } from "../src/useIsBootstrapping.ts";
 import { ProtectedDataFetchStartedEvent, useProtectedDataQueries } from "../src/useProtectedDataQueries.ts";
