@@ -7,16 +7,16 @@ export function sleep(delay: number) {
 
 export function createDefaultAppRouterState(): AppRouterState {
     return {
+        waitForMsw: false,
+        waitForProtectedData: false,
+        waitForPublicData: false,
         areModulesReady: false,
         areModulesRegistered: false,
         activeRouteVisibility: "unknown",
         isMswReady: false,
         isProtectedDataReady: false,
         isPublicDataReady: false,
-        isUnauthorized: false,
-        waitForMsw: false,
-        waitForProtectedData: false,
-        waitForPublicData: false
+        isUnauthorized: false
     };
 }
 

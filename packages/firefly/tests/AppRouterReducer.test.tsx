@@ -84,8 +84,8 @@ afterEach(() => {
 });
 
 describe("useAppRouterReducer", () => {
-    function renderUseAppRouterReducerHook<TProps>(runtime: Runtime, waitForMsw: boolean, waitForPublicData: boolean, waitForProtectedData: boolean, additionalProps: RenderHookOptions<TProps> = {}) {
-        return renderHook(() => useAppRouterReducer(waitForMsw, waitForPublicData, waitForProtectedData), {
+    function renderUseAppRouterReducerHook<TProps>(runtime: Runtime, waitForPublicData: boolean, waitForProtectedData: boolean, additionalProps: RenderHookOptions<TProps> = {}) {
+        return renderHook(() => useAppRouterReducer(waitForPublicData, waitForProtectedData), {
             wrapper: ({ children }: { children?: ReactNode }) => (
                 <FireflyProvider runtime={runtime}>
                     {children}
@@ -96,9 +96,11 @@ describe("useAppRouterReducer", () => {
     }
 
     test.concurrent("the reducer is initialized with the provided values for \"waitForMsw\", \"waitForPublicData\" and \"waitForProtectedData\" 1", ({ expect }) => {
-        const runtime = new FireflyRuntime();
+        const runtime = new FireflyRuntime({
+            useMsw: true
+        });
 
-        const { result } = renderUseAppRouterReducerHook(runtime, true, true, true);
+        const { result } = renderUseAppRouterReducerHook(runtime, true, true);
 
         const [state] = result.current;
 
@@ -108,9 +110,11 @@ describe("useAppRouterReducer", () => {
     });
 
     test.concurrent("the reducer is initialized with the provided values for \"waitForMsw\", \"waitForPublicData\" and \"waitForProtectedData\" 2", ({ expect }) => {
-        const runtime = new FireflyRuntime();
+        const runtime = new FireflyRuntime({
+            useMsw: false
+        });
 
-        const { result } = renderUseAppRouterReducerHook(runtime, false, false, false);
+        const { result } = renderUseAppRouterReducerHook(runtime, false, false);
 
         const [state] = result.current;
 
@@ -120,9 +124,11 @@ describe("useAppRouterReducer", () => {
     });
 
     test.concurrent("when \"modules-registered\" is dispatched, \"areModulesRegistered\" is true", ({ expect }) => {
-        const runtime = new FireflyRuntime();
+        const runtime = new FireflyRuntime({
+            useMsw: false
+        });
 
-        const { result } = renderUseAppRouterReducerHook(runtime, false, false, false);
+        const { result } = renderUseAppRouterReducerHook(runtime, false, false);
 
         expect(result.current[0].areModulesRegistered).toBeFalsy();
 
@@ -135,13 +141,15 @@ describe("useAppRouterReducer", () => {
     });
 
     test.concurrent("when \"modules-registered\" is dispatched, ModulesRegisteredEvent is dispatched", ({ expect }) => {
-        const runtime = new FireflyRuntime();
+        const runtime = new FireflyRuntime({
+            useMsw: false
+        });
 
         const listener = vi.fn();
 
         runtime.eventBus.addListener(ModulesRegisteredEvent, listener);
 
-        const { result } = renderUseAppRouterReducerHook(runtime, false, false, false);
+        const { result } = renderUseAppRouterReducerHook(runtime, false, false);
 
         expect(result.current[0].areModulesRegistered).toBeFalsy();
 
@@ -154,9 +162,11 @@ describe("useAppRouterReducer", () => {
     });
 
     test.concurrent("when \"modules-ready\" is dispatched, \"areModulesReady\" is true", ({ expect }) => {
-        const runtime = new FireflyRuntime();
+        const runtime = new FireflyRuntime({
+            useMsw: false
+        });
 
-        const { result } = renderUseAppRouterReducerHook(runtime, false, false, false);
+        const { result } = renderUseAppRouterReducerHook(runtime, false, false);
 
         expect(result.current[0].areModulesReady).toBeFalsy();
 
@@ -169,13 +179,15 @@ describe("useAppRouterReducer", () => {
     });
 
     test.concurrent("when \"modules-ready\" is dispatched, ModulesReadyEvent is dispatched", ({ expect }) => {
-        const runtime = new FireflyRuntime();
+        const runtime = new FireflyRuntime({
+            useMsw: false
+        });
 
         const listener = vi.fn();
 
         runtime.eventBus.addListener(ModulesReadyEvent, listener);
 
-        const { result } = renderUseAppRouterReducerHook(runtime, false, false, false);
+        const { result } = renderUseAppRouterReducerHook(runtime, false, false);
 
         expect(result.current[0].areModulesReady).toBeFalsy();
 
@@ -191,9 +203,11 @@ describe("useAppRouterReducer", () => {
         vi.spyOn(global.Date, "now")
             .mockImplementationOnce(() => Date.parse("2020-02-14"));
 
-        const runtime = new FireflyRuntime();
+        const runtime = new FireflyRuntime({
+            useMsw: false
+        });
 
-        const { result } = renderUseAppRouterReducerHook(runtime, false, false, false);
+        const { result } = renderUseAppRouterReducerHook(runtime, false, false);
 
         expect(result.current[0].deferredRegistrationsUpdatedAt).toBeUndefined();
 
@@ -206,9 +220,11 @@ describe("useAppRouterReducer", () => {
     });
 
     test.concurrent("when \"msw-ready\" is dispatched, \"isMswReady\" is true", ({ expect }) => {
-        const runtime = new FireflyRuntime();
+        const runtime = new FireflyRuntime({
+            useMsw: false
+        });
 
-        const { result } = renderUseAppRouterReducerHook(runtime, false, false, false);
+        const { result } = renderUseAppRouterReducerHook(runtime, false, false);
 
         expect(result.current[0].isMswReady).toBeFalsy();
 
@@ -221,13 +237,15 @@ describe("useAppRouterReducer", () => {
     });
 
     test.concurrent("when \"msw-ready\" is dispatched, MswReadyEvent is dispatched", ({ expect }) => {
-        const runtime = new FireflyRuntime();
+        const runtime = new FireflyRuntime({
+            useMsw: false
+        });
 
         const listener = vi.fn();
 
         runtime.eventBus.addListener(MswReadyEvent, listener);
 
-        const { result } = renderUseAppRouterReducerHook(runtime, false, false, false);
+        const { result } = renderUseAppRouterReducerHook(runtime, false, false);
 
         expect(result.current[0].isMswReady).toBeFalsy();
 
@@ -240,9 +258,11 @@ describe("useAppRouterReducer", () => {
     });
 
     test.concurrent("when \"public-data-ready\" is dispatched, \"isPublicDataReady\" is true", ({ expect }) => {
-        const runtime = new FireflyRuntime();
+        const runtime = new FireflyRuntime({
+            useMsw: false
+        });
 
-        const { result } = renderUseAppRouterReducerHook(runtime, false, false, false);
+        const { result } = renderUseAppRouterReducerHook(runtime, false, false);
 
         expect(result.current[0].isPublicDataReady).toBeFalsy();
 
@@ -255,13 +275,15 @@ describe("useAppRouterReducer", () => {
     });
 
     test.concurrent("when \"public-data-ready\" is dispatched, PublicDataReadyEvent is dispatched", ({ expect }) => {
-        const runtime = new FireflyRuntime();
+        const runtime = new FireflyRuntime({
+            useMsw: false
+        });
 
         const listener = vi.fn();
 
         runtime.eventBus.addListener(PublicDataReadyEvent, listener);
 
-        const { result } = renderUseAppRouterReducerHook(runtime, false, false, false);
+        const { result } = renderUseAppRouterReducerHook(runtime, false, false);
 
         expect(result.current[0].isPublicDataReady).toBeFalsy();
 
@@ -277,9 +299,11 @@ describe("useAppRouterReducer", () => {
         vi.spyOn(global.Date, "now")
             .mockImplementationOnce(() => Date.parse("2020-02-14"));
 
-        const runtime = new FireflyRuntime();
+        const runtime = new FireflyRuntime({
+            useMsw: false
+        });
 
-        const { result } = renderUseAppRouterReducerHook(runtime, false, false, false);
+        const { result } = renderUseAppRouterReducerHook(runtime, false, false);
 
         expect(result.current[0].publicDataUpdatedAt).toBeUndefined();
 
@@ -292,9 +316,11 @@ describe("useAppRouterReducer", () => {
     });
 
     test.concurrent("when \"protected-data-ready\" is dispatched, \"isProtectedDataReady\" is true", ({ expect }) => {
-        const runtime = new FireflyRuntime();
+        const runtime = new FireflyRuntime({
+            useMsw: false
+        });
 
-        const { result } = renderUseAppRouterReducerHook(runtime, false, false, false);
+        const { result } = renderUseAppRouterReducerHook(runtime, false, false);
 
         expect(result.current[0].isProtectedDataReady).toBeFalsy();
 
@@ -307,13 +333,15 @@ describe("useAppRouterReducer", () => {
     });
 
     test.concurrent("when \"protected-data-ready\" is dispatched, ProtectedDataReadyEvent is dispatched", ({ expect }) => {
-        const runtime = new FireflyRuntime();
+        const runtime = new FireflyRuntime({
+            useMsw: false
+        });
 
         const listener = vi.fn();
 
         runtime.eventBus.addListener(ProtectedDataReadyEvent, listener);
 
-        const { result } = renderUseAppRouterReducerHook(runtime, false, false, false);
+        const { result } = renderUseAppRouterReducerHook(runtime, false, false);
 
         expect(result.current[0].isProtectedDataReady).toBeFalsy();
 
@@ -329,9 +357,11 @@ describe("useAppRouterReducer", () => {
         vi.spyOn(global.Date, "now")
             .mockImplementationOnce(() => Date.parse("2020-02-14"));
 
-        const runtime = new FireflyRuntime();
+        const runtime = new FireflyRuntime({
+            useMsw: false
+        });
 
-        const { result } = renderUseAppRouterReducerHook(runtime, false, false, false);
+        const { result } = renderUseAppRouterReducerHook(runtime, false, false);
 
         expect(result.current[0].protectedDataUpdatedAt).toBeUndefined();
 
@@ -348,9 +378,11 @@ describe("useAppRouterReducer", () => {
             .mockImplementationOnce(() => Date.parse("2020-02-14"))
             .mockImplementationOnce(() => Date.parse("2021-02-14"));
 
-        const runtime = new FireflyRuntime();
+        const runtime = new FireflyRuntime({
+            useMsw: false
+        });
 
-        const { result } = renderUseAppRouterReducerHook(runtime, false, false, false);
+        const { result } = renderUseAppRouterReducerHook(runtime, false, false);
 
         act(() => {
             // dispatch
@@ -372,9 +404,11 @@ describe("useAppRouterReducer", () => {
             .mockImplementationOnce(() => Date.parse("2020-02-14"))
             .mockImplementationOnce(() => Date.parse("2021-02-14"));
 
-        const runtime = new FireflyRuntime();
+        const runtime = new FireflyRuntime({
+            useMsw: false
+        });
 
-        const { result } = renderUseAppRouterReducerHook(runtime, false, false, false);
+        const { result } = renderUseAppRouterReducerHook(runtime, false, false);
 
         act(() => {
             // dispatch
@@ -395,9 +429,11 @@ describe("useAppRouterReducer", () => {
         vi.spyOn(global.Date, "now")
             .mockImplementationOnce(() => Date.parse("2020-02-14"));
 
-        const runtime = new FireflyRuntime();
+        const runtime = new FireflyRuntime({
+            useMsw: false
+        });
 
-        const { result } = renderUseAppRouterReducerHook(runtime, false, false, false);
+        const { result } = renderUseAppRouterReducerHook(runtime, false, false);
 
         expect(result.current[0].deferredRegistrationsUpdatedAt).toBeUndefined();
 
@@ -410,9 +446,11 @@ describe("useAppRouterReducer", () => {
     });
 
     test.concurrent("when \"active-route-is-public\" is dispatched, \"activeRouteVisiblity\" is \"public\"", ({ expect }) => {
-        const runtime = new FireflyRuntime();
+        const runtime = new FireflyRuntime({
+            useMsw: false
+        });
 
-        const { result } = renderUseAppRouterReducerHook(runtime, false, false, false);
+        const { result } = renderUseAppRouterReducerHook(runtime, false, false);
 
         expect(result.current[0].activeRouteVisibility).toBe("unknown");
 
@@ -425,9 +463,11 @@ describe("useAppRouterReducer", () => {
     });
 
     test.concurrent("when \"active-route-is-protected\" is dispatched, \"activeRouteVisiblity\" is \"protected\"", ({ expect }) => {
-        const runtime = new FireflyRuntime();
+        const runtime = new FireflyRuntime({
+            useMsw: false
+        });
 
-        const { result } = renderUseAppRouterReducerHook(runtime, false, false, false);
+        const { result } = renderUseAppRouterReducerHook(runtime, false, false);
 
         expect(result.current[0].activeRouteVisibility).toBe("unknown");
 
@@ -440,9 +480,11 @@ describe("useAppRouterReducer", () => {
     });
 
     test.concurrent("when \"is-unauthorized\" is dispatched, \"isUnauthorized\" is true", ({ expect }) => {
-        const runtime = new FireflyRuntime();
+        const runtime = new FireflyRuntime({
+            useMsw: false
+        });
 
-        const { result } = renderUseAppRouterReducerHook(runtime, false, false, false);
+        const { result } = renderUseAppRouterReducerHook(runtime, false, false);
 
         expect(result.current[0].isUnauthorized).toBeFalsy();
 
@@ -461,9 +503,11 @@ describe("useAppRouterReducer", () => {
         __setLocalModuleRegistry(localModuleRegistry);
         __setRemoteModuleRegistry(remoteModuleRegistry);
 
-        const runtime = new FireflyRuntime();
+        const runtime = new FireflyRuntime({
+            useMsw: false
+        });
 
-        const { result } = renderUseAppRouterReducerHook(runtime, false, false, false);
+        const { result } = renderUseAppRouterReducerHook(runtime, false, false);
 
         expect(result.current[0].areModulesRegistered).toBeTruthy();
     });
@@ -475,13 +519,15 @@ describe("useAppRouterReducer", () => {
         __setLocalModuleRegistry(localModuleRegistry);
         __setRemoteModuleRegistry(remoteModuleRegistry);
 
-        const runtime = new FireflyRuntime();
+        const runtime = new FireflyRuntime({
+            useMsw: false
+        });
 
         const listener = vi.fn();
 
         runtime.eventBus.addListener(ModulesRegisteredEvent, listener);
 
-        renderUseAppRouterReducerHook(runtime, false, false, false);
+        renderUseAppRouterReducerHook(runtime, false, false);
 
         expect(listener).toHaveBeenCalledTimes(1);
     });
@@ -493,9 +539,11 @@ describe("useAppRouterReducer", () => {
         __setLocalModuleRegistry(localModuleRegistry);
         __setRemoteModuleRegistry(remoteModuleRegistry);
 
-        const runtime = new FireflyRuntime();
+        const runtime = new FireflyRuntime({
+            useMsw: false
+        });
 
-        const { result } = renderUseAppRouterReducerHook(runtime, false, false, false);
+        const { result } = renderUseAppRouterReducerHook(runtime, false, false);
 
         expect(result.current[0].areModulesRegistered).toBeTruthy();
     });
@@ -507,13 +555,15 @@ describe("useAppRouterReducer", () => {
         __setLocalModuleRegistry(localModuleRegistry);
         __setRemoteModuleRegistry(remoteModuleRegistry);
 
-        const runtime = new FireflyRuntime();
+        const runtime = new FireflyRuntime({
+            useMsw: false
+        });
 
         const listener = vi.fn();
 
         runtime.eventBus.addListener(ModulesRegisteredEvent, listener);
 
-        renderUseAppRouterReducerHook(runtime, false, false, false);
+        renderUseAppRouterReducerHook(runtime, false, false);
 
         expect(listener).toHaveBeenCalledTimes(1);
     });
@@ -525,9 +575,11 @@ describe("useAppRouterReducer", () => {
         __setLocalModuleRegistry(localModuleRegistry);
         __setRemoteModuleRegistry(remoteModuleRegistry);
 
-        const runtime = new FireflyRuntime();
+        const runtime = new FireflyRuntime({
+            useMsw: false
+        });
 
-        const { result } = renderUseAppRouterReducerHook(runtime, false, false, false);
+        const { result } = renderUseAppRouterReducerHook(runtime, false, false);
 
         expect(result.current[0].areModulesRegistered).toBeTruthy();
     });
@@ -539,13 +591,15 @@ describe("useAppRouterReducer", () => {
         __setLocalModuleRegistry(localModuleRegistry);
         __setRemoteModuleRegistry(remoteModuleRegistry);
 
-        const runtime = new FireflyRuntime();
+        const runtime = new FireflyRuntime({
+            useMsw: false
+        });
 
         const listener = vi.fn();
 
         runtime.eventBus.addListener(ModulesRegisteredEvent, listener);
 
-        renderUseAppRouterReducerHook(runtime, false, false, false);
+        renderUseAppRouterReducerHook(runtime, false, false);
 
         expect(listener).toHaveBeenCalledTimes(1);
     });
@@ -557,9 +611,11 @@ describe("useAppRouterReducer", () => {
         __setLocalModuleRegistry(localModuleRegistry);
         __setRemoteModuleRegistry(remoteModuleRegistry);
 
-        const runtime = new FireflyRuntime();
+        const runtime = new FireflyRuntime({
+            useMsw: false
+        });
 
-        const { result } = renderUseAppRouterReducerHook(runtime, false, false, false);
+        const { result } = renderUseAppRouterReducerHook(runtime, false, false);
 
         expect(result.current[0].areModulesRegistered).toBeFalsy();
     });
@@ -571,9 +627,11 @@ describe("useAppRouterReducer", () => {
         __setLocalModuleRegistry(localModuleRegistry);
         __setRemoteModuleRegistry(remoteModuleRegistry);
 
-        const runtime = new FireflyRuntime();
+        const runtime = new FireflyRuntime({
+            useMsw: false
+        });
 
-        const { result } = renderUseAppRouterReducerHook(runtime, false, false, false);
+        const { result } = renderUseAppRouterReducerHook(runtime, false, false);
 
         expect(result.current[0].areModulesRegistered).toBeFalsy();
     });
@@ -585,9 +643,11 @@ describe("useAppRouterReducer", () => {
         __setLocalModuleRegistry(localModuleRegistry);
         __setRemoteModuleRegistry(remoteModuleRegistry);
 
-        const runtime = new FireflyRuntime();
+        const runtime = new FireflyRuntime({
+            useMsw: false
+        });
 
-        const { result } = renderUseAppRouterReducerHook(runtime, false, false, false);
+        const { result } = renderUseAppRouterReducerHook(runtime, false, false);
 
         expect(result.current[0].areModulesReady).toBeTruthy();
     });
@@ -599,13 +659,15 @@ describe("useAppRouterReducer", () => {
         __setLocalModuleRegistry(localModuleRegistry);
         __setRemoteModuleRegistry(remoteModuleRegistry);
 
-        const runtime = new FireflyRuntime();
+        const runtime = new FireflyRuntime({
+            useMsw: false
+        });
 
         const listener = vi.fn();
 
         runtime.eventBus.addListener(ModulesRegisteredEvent, listener);
 
-        renderUseAppRouterReducerHook(runtime, false, false, false);
+        renderUseAppRouterReducerHook(runtime, false, false);
 
         expect(listener).toHaveBeenCalledTimes(1);
     });
@@ -617,9 +679,11 @@ describe("useAppRouterReducer", () => {
         __setLocalModuleRegistry(localModuleRegistry);
         __setRemoteModuleRegistry(remoteModuleRegistry);
 
-        const runtime = new FireflyRuntime();
+        const runtime = new FireflyRuntime({
+            useMsw: false
+        });
 
-        const { result } = renderUseAppRouterReducerHook(runtime, false, false, false);
+        const { result } = renderUseAppRouterReducerHook(runtime, false, false);
 
         expect(result.current[0].areModulesReady).toBeTruthy();
     });
@@ -631,13 +695,15 @@ describe("useAppRouterReducer", () => {
         __setLocalModuleRegistry(localModuleRegistry);
         __setRemoteModuleRegistry(remoteModuleRegistry);
 
-        const runtime = new FireflyRuntime();
+        const runtime = new FireflyRuntime({
+            useMsw: false
+        });
 
         const listener = vi.fn();
 
         runtime.eventBus.addListener(ModulesRegisteredEvent, listener);
 
-        renderUseAppRouterReducerHook(runtime, false, false, false);
+        renderUseAppRouterReducerHook(runtime, false, false);
 
         expect(listener).toHaveBeenCalledTimes(1);
     });
@@ -649,9 +715,11 @@ describe("useAppRouterReducer", () => {
         __setLocalModuleRegistry(localModuleRegistry);
         __setRemoteModuleRegistry(remoteModuleRegistry);
 
-        const runtime = new FireflyRuntime();
+        const runtime = new FireflyRuntime({
+            useMsw: false
+        });
 
-        const { result } = renderUseAppRouterReducerHook(runtime, false, false, false);
+        const { result } = renderUseAppRouterReducerHook(runtime, false, false);
 
         expect(result.current[0].areModulesReady).toBeTruthy();
     });
@@ -663,13 +731,15 @@ describe("useAppRouterReducer", () => {
         __setLocalModuleRegistry(localModuleRegistry);
         __setRemoteModuleRegistry(remoteModuleRegistry);
 
-        const runtime = new FireflyRuntime();
+        const runtime = new FireflyRuntime({
+            useMsw: false
+        });
 
         const listener = vi.fn();
 
         runtime.eventBus.addListener(ModulesRegisteredEvent, listener);
 
-        renderUseAppRouterReducerHook(runtime, false, false, false);
+        renderUseAppRouterReducerHook(runtime, false, false);
 
         expect(listener).toHaveBeenCalledTimes(1);
     });
@@ -681,9 +751,11 @@ describe("useAppRouterReducer", () => {
         __setLocalModuleRegistry(localModuleRegistry);
         __setRemoteModuleRegistry(remoteModuleRegistry);
 
-        const runtime = new FireflyRuntime();
+        const runtime = new FireflyRuntime({
+            useMsw: false
+        });
 
-        const { result } = renderUseAppRouterReducerHook(runtime, false, false, false);
+        const { result } = renderUseAppRouterReducerHook(runtime, false, false);
 
         expect(result.current[0].areModulesReady).toBeFalsy();
     });
@@ -695,9 +767,11 @@ describe("useAppRouterReducer", () => {
         __setLocalModuleRegistry(localModuleRegistry);
         __setRemoteModuleRegistry(remoteModuleRegistry);
 
-        const runtime = new FireflyRuntime();
+        const runtime = new FireflyRuntime({
+            useMsw: false
+        });
 
-        const { result } = renderUseAppRouterReducerHook(runtime, false, false, false);
+        const { result } = renderUseAppRouterReducerHook(runtime, false, false);
 
         expect(result.current[0].areModulesReady).toBeFalsy();
     });
@@ -707,9 +781,11 @@ describe("useAppRouterReducer", () => {
 
         __setMswState(mswState);
 
-        const runtime = new FireflyRuntime();
+        const runtime = new FireflyRuntime({
+            useMsw: false
+        });
 
-        const { result } = renderUseAppRouterReducerHook(runtime, false, false, false);
+        const { result } = renderUseAppRouterReducerHook(runtime, false, false);
 
         expect(result.current[0].isMswReady).toBeTruthy();
     });
@@ -719,13 +795,15 @@ describe("useAppRouterReducer", () => {
 
         __setMswState(mswState);
 
-        const runtime = new FireflyRuntime();
+        const runtime = new FireflyRuntime({
+            useMsw: false
+        });
 
         const listener = vi.fn();
 
         runtime.eventBus.addListener(MswReadyEvent, listener);
 
-        renderUseAppRouterReducerHook(runtime, false, false, false);
+        renderUseAppRouterReducerHook(runtime, false, false);
 
         expect(listener).toHaveBeenCalledTimes(1);
     });
@@ -735,9 +813,11 @@ describe("useAppRouterReducer", () => {
 
         __setMswState(mswState);
 
-        const runtime = new FireflyRuntime();
+        const runtime = new FireflyRuntime({
+            useMsw: false
+        });
 
-        const { result } = renderUseAppRouterReducerHook(runtime, false, false, false);
+        const { result } = renderUseAppRouterReducerHook(runtime, false, false);
 
         expect(result.current[0].isMswReady).toBeFalsy();
     });

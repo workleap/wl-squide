@@ -31,8 +31,8 @@ test.concurrent("when modules are ready, and msw is ready, public data is ready,
 
 test.concurrent("when msw is not ready but it's not required to wait for msw, return false", ({ expect }) => {
     const state = createDefaultAppRouterState();
-    state.areModulesReady = true;
     state.waitForMsw = false;
+    state.areModulesReady = true;
     state.isMswReady = false;
     state.isPublicDataReady = true;
     state.isProtectedDataReady = true;
@@ -44,9 +44,9 @@ test.concurrent("when msw is not ready but it's not required to wait for msw, re
 
 test.concurrent("when public data is not ready but it's not required to wait for public data, return false", ({ expect }) => {
     const state = createDefaultAppRouterState();
+    state.waitForPublicData = false;
     state.areModulesReady = true;
     state.isMswReady = true;
-    state.waitForPublicData = false;
     state.isPublicDataReady = false;
     state.isProtectedDataReady = true;
 
@@ -57,10 +57,10 @@ test.concurrent("when public data is not ready but it's not required to wait for
 
 test.concurrent("when protected data is not ready but it's not required to wait for protected data, return false", ({ expect }) => {
     const state = createDefaultAppRouterState();
+    state.waitForProtectedData = false;
     state.areModulesReady = true;
     state.isMswReady = true;
     state.isPublicDataReady = true;
-    state.waitForProtectedData = false;
     state.isProtectedDataReady = false;
 
     const { result } = renderUseIsBootstrappingHook(state);
@@ -95,8 +95,8 @@ test.concurrent("when modules are not ready, return true", ({ expect }) => {
 
 test.concurrent("when msw is not ready, return true", ({ expect }) => {
     const state = createDefaultAppRouterState();
-    state.areModulesReady = true;
     state.waitForMsw = true;
+    state.areModulesReady = true;
     state.isMswReady = false;
     state.isPublicDataReady = true;
     state.isProtectedDataReady = true;
@@ -108,9 +108,9 @@ test.concurrent("when msw is not ready, return true", ({ expect }) => {
 
 test.concurrent("when public data is not ready, return true", ({ expect }) => {
     const state = createDefaultAppRouterState();
+    state.waitForPublicData = true;
     state.areModulesReady = true;
     state.isMswReady = true;
-    state.waitForPublicData = true;
     state.isPublicDataReady = false;
     state.isProtectedDataReady = true;
 
@@ -121,10 +121,10 @@ test.concurrent("when public data is not ready, return true", ({ expect }) => {
 
 test.concurrent("when protected data is not ready, return true", ({ expect }) => {
     const state = createDefaultAppRouterState();
+    state.waitForProtectedData = true;
     state.areModulesReady = true;
     state.isMswReady = true;
     state.isPublicDataReady = true;
-    state.waitForProtectedData = true;
     state.activeRouteVisibility = "protected";
     state.isProtectedDataReady = false;
 

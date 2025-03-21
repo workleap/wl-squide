@@ -37,7 +37,6 @@ import { PublicDataFetchStartedEvent, usePublicDataQueries } from "../src/usePub
 import { createQueryClient } from "./utils.ts";
 
 interface AppRouterProps {
-    waitForMsw: boolean;
     waitForPublicData: boolean;
     waitForProtectedData: boolean;
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -48,7 +47,6 @@ interface AppRouterProps {
 
 function AppRouter(props: AppRouterProps) {
     const {
-        waitForMsw,
         waitForPublicData,
         waitForProtectedData,
         initialEntries,
@@ -57,7 +55,7 @@ function AppRouter(props: AppRouterProps) {
     } = props;
 
     return (
-        <FireflyAppRouter waitForMsw={waitForMsw} waitForPublicData={waitForPublicData} waitForProtectedData={waitForProtectedData}>
+        <FireflyAppRouter waitForPublicData={waitForPublicData} waitForProtectedData={waitForProtectedData}>
             {({ rootRoute, registeredRoutes, routerProviderProps }) => {
                 return (
                     <RouterProvider
@@ -206,7 +204,6 @@ test("msw + local modules + remote modules + public data + protected data + loca
     }
 
     const props: AppRouterProps = {
-        waitForMsw: true,
         waitForPublicData: true,
         waitForProtectedData: true,
         initialEntries: ["/foo"],
@@ -369,7 +366,6 @@ test("msw + local modules + remote modules + public data + protected data", asyn
     }
 
     const props: AppRouterProps = {
-        waitForMsw: true,
         waitForPublicData: true,
         waitForProtectedData: true,
         initialEntries: ["/foo"],
@@ -521,7 +517,6 @@ test("msw + local modules + remote modules + public data + local deferred + remo
     }
 
     const props: AppRouterProps = {
-        waitForMsw: true,
         waitForPublicData: true,
         waitForProtectedData: false,
         initialEntries: ["/foo"],
@@ -684,7 +679,6 @@ test("msw + local modules + remote modules + protected data + local deferred + r
     }
 
     const props: AppRouterProps = {
-        waitForMsw: true,
         waitForPublicData: false,
         waitForProtectedData: true,
         initialEntries: ["/foo"],
@@ -818,7 +812,6 @@ test("msw + local modules + remote modules", async () => {
     }
 
     const props: AppRouterProps = {
-        waitForMsw: true,
         waitForPublicData: false,
         waitForProtectedData: false,
         initialEntries: ["/foo"],
@@ -958,7 +951,6 @@ test("msw + local modules + remote modules + public data + protected data + loca
     }
 
     const props: AppRouterProps = {
-        waitForMsw: true,
         waitForPublicData: true,
         waitForProtectedData: true,
         initialEntries: ["/foo"],
@@ -1124,7 +1116,6 @@ test("msw + local modules + remote modules + public data + protected data + remo
     }
 
     const props: AppRouterProps = {
-        waitForMsw: true,
         waitForPublicData: true,
         waitForProtectedData: true,
         initialEntries: ["/foo"],
@@ -1295,7 +1286,6 @@ test("local modules + remote modules + public data + protected data + local defe
     }
 
     const props: AppRouterProps = {
-        waitForMsw: false,
         waitForPublicData: true,
         waitForProtectedData: true,
         initialEntries: ["/foo"],
@@ -1473,7 +1463,6 @@ test("failing local module registration", async () => {
     }
 
     const props: AppRouterProps = {
-        waitForMsw: true,
         waitForPublicData: true,
         waitForProtectedData: true,
         initialEntries: ["/foo"],
@@ -1662,7 +1651,6 @@ test("failing remote module registration", async () => {
     }
 
     const props: AppRouterProps = {
-        waitForMsw: true,
         waitForPublicData: true,
         waitForProtectedData: true,
         initialEntries: ["/foo"],

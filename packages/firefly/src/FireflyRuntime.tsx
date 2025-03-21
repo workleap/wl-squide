@@ -3,12 +3,14 @@ import { MswPlugin, MswPluginName } from "@squide/msw";
 import { ReactRouterRuntime, type Route } from "@squide/react-router";
 import type { RequestHandler } from "msw";
 import { getAreModulesRegistered } from "./AppRouterReducer.ts";
+import { type AppRouterStore, createAppRouterStore } from "./AppRouterStore.ts";
 
 export interface FireflyRuntimeOptions extends RuntimeOptions {
     useMsw?: boolean;
 }
 
 export class FireflyRuntime extends ReactRouterRuntime {
+    readonly #appRouterStore: AppRouterStore;
     readonly #useMsw: boolean;
 
     constructor({ plugins, useMsw, ...options }: FireflyRuntimeOptions = {}) {
@@ -30,6 +32,8 @@ export class FireflyRuntime extends ReactRouterRuntime {
 
             this.#useMsw = false;
         }
+
+        this.#appRouterStore = createAppRouterStore(this._logger);
     }
 
     registerRequestHandlers(handlers: RequestHandler[]) {
@@ -63,6 +67,10 @@ export class FireflyRuntime extends ReactRouterRuntime {
         }
 
         super.registerRoute(route, options);
+    }
+
+    get appRouterStore() {
+        return this.#appRouterStore;
     }
 
     get isMswEnabled() {
