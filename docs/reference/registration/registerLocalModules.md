@@ -7,7 +7,7 @@ toc:
 # registerLocalModules
 
 !!!warning
-This function is **deprecated**, use the [bootstrap](../registration/bootstrap.md) function instead.
+This function is **deprecated**, use the [initializeFirefly](../registration/initializeFirefly.md) function instead.
 !!!
 
 Register one or many local module(s). During the registration process, the specified registration function will be invoked with a `FireflyRuntime` instance and an optional `context` object. To **defer the registration** of specific navigation items, a registration function can return an anonymous function.

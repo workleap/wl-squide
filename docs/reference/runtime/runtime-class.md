@@ -6,6 +6,10 @@ toc:
 
 # FireflyRuntime class
 
+!!!warning
+Don't instanciate your own instance of `FireflyRuntime`, use the [initializeFirefly](../registration/initializeFirefly.md) function instead.
+!!!
+
 A runtime instance give modules access to functionalities such as routing, navigation, request handlers and logging.
 
 ## Reference

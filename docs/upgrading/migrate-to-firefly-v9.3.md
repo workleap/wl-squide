@@ -11,9 +11,9 @@ Before following this guide, make sure that you migrated to [v9.0](./migrate-to-
 
 ## Deprecation
 
-- The [registerLocalModules](../reference/registration/registerLocalModules.md) function has been **deprecated**, use the [bootstrap](../reference/registration/bootstrap.md) function instead.
-- The [registerRemoteModules](../reference/registration/registerRemoteModules.md) function has been **deprecated**, use the [bootstrap](../reference/registration/bootstrap.md) function instead.
-- The [setMswAsReady](../reference/msw/setMswAsReady.md) function has been **deprecated**, use the [bootstrap](../reference/registration/bootstrap.md) function instead.
+- The [registerLocalModules](../reference/registration/registerLocalModules.md) function has been **deprecated**, use the `bootstrap` function instead.
+- The [registerRemoteModules](../reference/registration/registerRemoteModules.md) function has been **deprecated**, use the `bootstrap` function instead.
+- The [setMswAsReady](../reference/msw/setMswAsReady.md) function has been **deprecated**, use the `bootstrap` function instead.
 
 ## Migrate an host application
 

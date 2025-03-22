@@ -88,7 +88,7 @@ export {};
 
 ### Module registration
 
-Next, to register the modules, instanciate a shell [FireflyRuntime](/reference/runtime/runtime-class.md) instance and register the remote module with the [bootstrap](/reference/registration/bootstrap.md) function (the configuration of the remote module will be covered in the [next section](create-remote-module.md)):
+Next, to register the modules, instanciate a shell [FireflyRuntime](/reference/runtime/runtime-class.md) instance and register the remote module with the [initializeFirefly](/reference/registration/initializeFirefly.md) function (the configuration of the remote module will be covered in the [next section](create-remote-module.md)):
 
 ```tsx !#11-13,16-18 host/src/bootstrap.tsx
 import { createRoot } from "react-dom/client";

@@ -1,7 +1,7 @@
 # setMswAsReady
 
 !!!warning
-This function is **deprecated**, use the [bootstrap](../registration/bootstrap.md) function instead.
+This function is **deprecated**, use the [initializeFirefly](../registration/initializeFirefly.md) function instead.
 !!!
 
 Indicates to the [AppRouter](../routing/appRouter.md) that [Mock Service Worker](https://mswjs.io/) is ready and the application can safely be rendered.

@@ -140,7 +140,7 @@ Go back to the `host` application and add a dependency to the `@getting-started/
 If your project is set up as a monorepo, use `workspace:*` for the version instead of `0.0.1`.
 !!!
 
-Then, register the local module with the [bootstrap](/reference/registration/bootstrap.md) function:
+Then, register the local module with the [initializeFirefly](/reference/registration/initializeFirefly.md) function:
 
 ```tsx !#3,19 host/src/bootstrap.tsx
 import { createRoot } from "react-dom/client";
