@@ -285,15 +285,16 @@ function useReducerDispatchProxy(reactDispatch: AppRouterDispatch) {
 }
 
 function useEnhancedReducerDispatch(reducerDispatch: AppRouterDispatch) {
-    const logger = useLogger();
-    const eventBus = useEventBus();
+    const runtime = useRuntime() as FireflyRuntime;
 
     return useCallback((action: AppRouterAction) => {
-        logger.debug("[squide] The following action has been dispatched to the AppRouter reducer:", action);
-        eventBus.dispatch(`squide-${action.type}`);
+        runtime.logger.debug("[squide] The following action has been dispatched to the AppRouter reducer:", action);
+
+        runtime.appRouterStore.dispatch(action);
+        runtime.eventBus.dispatch(`squide-${action.type}`);
 
         reducerDispatch(action);
-    }, [reducerDispatch, logger, eventBus]);
+    }, [reducerDispatch, runtime]);
 }
 
 export function useAppRouterReducer(waitForPublicData: boolean, waitForProtectedData: boolean): [AppRouterState, AppRouterDispatch] {

@@ -52,7 +52,7 @@ import { RootErrorBoundary } from "./RootErrorBoundary.tsx";
 
 export function FireflyAppRouter() {
     return (
-        <AppRouter waitForMsw={false}>
+        <AppRouter>
             {({ rootRoute, registeredRoutes, routerProviderProps }) => {
                 return (
                     <RouterProvider

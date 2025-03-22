@@ -9,21 +9,13 @@ export type AppRouterStoreState = Omit<AppRouterState, "waitForMsw" | "waitForPu
 
 export type AppRouterStoreListenerFunction = (store: AppRouterStore, unsuscribe: () => void) => void;
 
-export interface AppRouterStoreOptions {
-    logger?: RuntimeLogger;
-}
-
 export class AppRouterStore {
     #state: AppRouterStoreState;
 
     readonly #listeners = new Set<AppRouterStoreListenerFunction>();
     readonly #logger?: RuntimeLogger;
 
-    constructor(initialialState: AppRouterStoreState, options: AppRouterStoreOptions = {}) {
-        const {
-            logger
-        } = options;
-
+    constructor(initialialState: AppRouterStoreState, logger: RuntimeLogger) {
         this.#state = initialialState;
         this.#logger = logger;
     }
@@ -175,5 +167,5 @@ export function createAppRouterStore(logger: RuntimeLogger) {
         isUnauthorized: false
     };
 
-    return new AppRouterStore(initialState, { logger });
+    return new AppRouterStore(initialState, logger);
 }

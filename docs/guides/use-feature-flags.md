@@ -107,10 +107,7 @@ function BootstrappingRoute() {
 
 export function App() {
     return (
-        <AppRouter
-            waitForMsw
-            waitForPublicData
-        >
+        <AppRouter waitForPublicData>
             {({ rootRoute, registeredRoutes, routerProviderProps }) => {
                 return (
                     <RouterProvider
@@ -230,7 +227,7 @@ export const register: ModuleRegisterFunction<FireflyRuntime, unknown, DeferredR
 
 Finally, update the host application's `App` component to use the [useDeferredRegistrations](../reference/registration/useDeferredRegistrations.md) hook. By passing the feature flags data to `useDeferredRegistrations`, this data will be available to the module's deferred registration functions:
 
-```tsx !#26-28,30 host/src/App.tsx
+```tsx !#27-29,31 host/src/App.tsx
 import { AppRouter, usePublicDataQueries, useIsBootstrapping, useDeferredRegistrations } from "@squide/firefly";
 import { useMemo } from "react";
 import { createBrowserRouter, Outlet } from "react-router";
@@ -276,10 +273,7 @@ function BootstrappingRoute() {
 
 export function App() {
     return (
-        <AppRouter
-            waitForMsw
-            waitForPublicData
-        >
+        <AppRouter waitForPublicData>
             {({ rootRoute, registeredRoutes, routerProviderProps }) => {
                 return (
                     <RouterProvider

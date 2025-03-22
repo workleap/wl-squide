@@ -143,6 +143,8 @@ root.render(
 
 ### Delay routes rendering until the service is started
 
+TODO: FIX ME, waitForMsw doesn't exist anymore
+
 Finally, update the host application code to delay the rendering of the routes until MSW is started. This is done by setting the `waitForMsw` property of the [AppRouter](../reference/routing/appRouter.md) component to `true`:
 
 ```tsx !#7 host/src/App.tsx

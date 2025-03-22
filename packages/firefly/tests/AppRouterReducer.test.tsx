@@ -4,7 +4,19 @@ import { __clearMswState, __setMswState, MswState, type MswStateChangedListener 
 import { act, renderHook, type RenderHookOptions } from "@testing-library/react";
 import type { ReactNode } from "react";
 import { afterEach, describe, test, vi } from "vitest";
-import { ModulesReadyEvent, ModulesRegisteredEvent, MswReadyEvent, ProtectedDataReadyEvent, PublicDataReadyEvent, useAppRouterReducer, useModuleRegistrationStatusDispatcher, useMswStatusDispatcher, type AppRouterDispatch } from "../src/AppRouterReducer.ts";
+import {
+    ActiveRouteIsProtectedEvent,
+    ActiveRouteIsPublicEvent,
+    ModulesReadyEvent,
+    ModulesRegisteredEvent,
+    MswReadyEvent,
+    ProtectedDataReadyEvent,
+    PublicDataReadyEvent,
+    useAppRouterReducer,
+    useModuleRegistrationStatusDispatcher,
+    useMswStatusDispatcher,
+    type AppRouterDispatch
+} from "../src/AppRouterReducer.ts";
 import { FireflyProvider } from "../src/FireflyProvider.tsx";
 import { FireflyRuntime } from "../src/FireflyRuntime.tsx";
 
@@ -131,6 +143,7 @@ describe("useAppRouterReducer", () => {
         const { result } = renderUseAppRouterReducerHook(runtime, false, false);
 
         expect(result.current[0].areModulesRegistered).toBeFalsy();
+        expect(runtime.appRouterStore.state.areModulesRegistered).toBeFalsy();
 
         act(() => {
             // dispatch
@@ -138,6 +151,7 @@ describe("useAppRouterReducer", () => {
         });
 
         expect(result.current[0].areModulesRegistered).toBeTruthy();
+        expect(runtime.appRouterStore.state.areModulesRegistered).toBeTruthy();
     });
 
     test.concurrent("when \"modules-registered\" is dispatched, ModulesRegisteredEvent is dispatched", ({ expect }) => {
@@ -169,6 +183,7 @@ describe("useAppRouterReducer", () => {
         const { result } = renderUseAppRouterReducerHook(runtime, false, false);
 
         expect(result.current[0].areModulesReady).toBeFalsy();
+        expect(runtime.appRouterStore.state.areModulesReady).toBeFalsy();
 
         act(() => {
             // dispatch
@@ -176,6 +191,7 @@ describe("useAppRouterReducer", () => {
         });
 
         expect(result.current[0].areModulesReady).toBeTruthy();
+        expect(runtime.appRouterStore.state.areModulesReady).toBeTruthy();
     });
 
     test.concurrent("when \"modules-ready\" is dispatched, ModulesReadyEvent is dispatched", ({ expect }) => {
@@ -201,6 +217,7 @@ describe("useAppRouterReducer", () => {
 
     test.concurrent("when \"modules-ready\" is dispatched, \"deferredRegistrationsUpdatedAt\" is set to the current timestamp", ({ expect }) => {
         vi.spyOn(global.Date, "now")
+            .mockImplementationOnce(() => Date.parse("2020-02-14"))
             .mockImplementationOnce(() => Date.parse("2020-02-14"));
 
         const runtime = new FireflyRuntime({
@@ -210,6 +227,7 @@ describe("useAppRouterReducer", () => {
         const { result } = renderUseAppRouterReducerHook(runtime, false, false);
 
         expect(result.current[0].deferredRegistrationsUpdatedAt).toBeUndefined();
+        expect(runtime.appRouterStore.state.deferredRegistrationsUpdatedAt).toBeUndefined();
 
         act(() => {
             // dispatch
@@ -217,6 +235,7 @@ describe("useAppRouterReducer", () => {
         });
 
         expect(result.current[0].deferredRegistrationsUpdatedAt).toEqual(Date.parse("2020-02-14"));
+        expect(runtime.appRouterStore.state.deferredRegistrationsUpdatedAt).toEqual(Date.parse("2020-02-14"));
     });
 
     test.concurrent("when \"msw-ready\" is dispatched, \"isMswReady\" is true", ({ expect }) => {
@@ -227,6 +246,7 @@ describe("useAppRouterReducer", () => {
         const { result } = renderUseAppRouterReducerHook(runtime, false, false);
 
         expect(result.current[0].isMswReady).toBeFalsy();
+        expect(runtime.appRouterStore.state.isMswReady).toBeFalsy();
 
         act(() => {
             // dispatch
@@ -234,6 +254,7 @@ describe("useAppRouterReducer", () => {
         });
 
         expect(result.current[0].isMswReady).toBeTruthy();
+        expect(runtime.appRouterStore.state.isMswReady).toBeTruthy();
     });
 
     test.concurrent("when \"msw-ready\" is dispatched, MswReadyEvent is dispatched", ({ expect }) => {
@@ -265,6 +286,7 @@ describe("useAppRouterReducer", () => {
         const { result } = renderUseAppRouterReducerHook(runtime, false, false);
 
         expect(result.current[0].isPublicDataReady).toBeFalsy();
+        expect(runtime.appRouterStore.state.isPublicDataReady).toBeFalsy();
 
         act(() => {
             // dispatch
@@ -272,6 +294,7 @@ describe("useAppRouterReducer", () => {
         });
 
         expect(result.current[0].isPublicDataReady).toBeTruthy();
+        expect(runtime.appRouterStore.state.isPublicDataReady).toBeTruthy();
     });
 
     test.concurrent("when \"public-data-ready\" is dispatched, PublicDataReadyEvent is dispatched", ({ expect }) => {
@@ -297,6 +320,7 @@ describe("useAppRouterReducer", () => {
 
     test.concurrent("when \"public-data-ready\" is dispatched, \"publicDataUpdatedAt\" is set to the current timestamp", ({ expect }) => {
         vi.spyOn(global.Date, "now")
+            .mockImplementationOnce(() => Date.parse("2020-02-14"))
             .mockImplementationOnce(() => Date.parse("2020-02-14"));
 
         const runtime = new FireflyRuntime({
@@ -306,6 +330,7 @@ describe("useAppRouterReducer", () => {
         const { result } = renderUseAppRouterReducerHook(runtime, false, false);
 
         expect(result.current[0].publicDataUpdatedAt).toBeUndefined();
+        expect(runtime.appRouterStore.state.publicDataUpdatedAt).toBeUndefined();
 
         act(() => {
             // dispatch
@@ -313,6 +338,7 @@ describe("useAppRouterReducer", () => {
         });
 
         expect(result.current[0].publicDataUpdatedAt).toEqual(Date.parse("2020-02-14"));
+        expect(runtime.appRouterStore.state.publicDataUpdatedAt).toEqual(Date.parse("2020-02-14"));
     });
 
     test.concurrent("when \"protected-data-ready\" is dispatched, \"isProtectedDataReady\" is true", ({ expect }) => {
@@ -323,6 +349,7 @@ describe("useAppRouterReducer", () => {
         const { result } = renderUseAppRouterReducerHook(runtime, false, false);
 
         expect(result.current[0].isProtectedDataReady).toBeFalsy();
+        expect(runtime.appRouterStore.state.isProtectedDataReady).toBeFalsy();
 
         act(() => {
             // dispatch
@@ -330,6 +357,7 @@ describe("useAppRouterReducer", () => {
         });
 
         expect(result.current[0].isProtectedDataReady).toBeTruthy();
+        expect(runtime.appRouterStore.state.isProtectedDataReady).toBeTruthy();
     });
 
     test.concurrent("when \"protected-data-ready\" is dispatched, ProtectedDataReadyEvent is dispatched", ({ expect }) => {
@@ -355,6 +383,7 @@ describe("useAppRouterReducer", () => {
 
     test.concurrent("when \"protected-data-ready\" is dispatched, \"protectedDataUpdatedAt\" is set to the current timestamp", ({ expect }) => {
         vi.spyOn(global.Date, "now")
+            .mockImplementationOnce(() => Date.parse("2020-02-14"))
             .mockImplementationOnce(() => Date.parse("2020-02-14"));
 
         const runtime = new FireflyRuntime({
@@ -364,6 +393,7 @@ describe("useAppRouterReducer", () => {
         const { result } = renderUseAppRouterReducerHook(runtime, false, false);
 
         expect(result.current[0].protectedDataUpdatedAt).toBeUndefined();
+        expect(runtime.appRouterStore.state.protectedDataUpdatedAt).toBeUndefined();
 
         act(() => {
             // dispatch
@@ -371,11 +401,14 @@ describe("useAppRouterReducer", () => {
         });
 
         expect(result.current[0].protectedDataUpdatedAt).toEqual(Date.parse("2020-02-14"));
+        expect(runtime.appRouterStore.state.protectedDataUpdatedAt).toEqual(Date.parse("2020-02-14"));
     });
 
     test.concurrent("when \"public-data-updated\" is dispatched, \"publicDataUpdatedAt\" is set to the current timestamp", ({ expect }) => {
         vi.spyOn(global.Date, "now")
             .mockImplementationOnce(() => Date.parse("2020-02-14"))
+            .mockImplementationOnce(() => Date.parse("2020-02-14"))
+            .mockImplementationOnce(() => Date.parse("2021-02-14"))
             .mockImplementationOnce(() => Date.parse("2021-02-14"));
 
         const runtime = new FireflyRuntime({
@@ -390,6 +423,7 @@ describe("useAppRouterReducer", () => {
         });
 
         expect(result.current[0].publicDataUpdatedAt).toEqual(Date.parse("2020-02-14"));
+        expect(runtime.appRouterStore.state.publicDataUpdatedAt).toEqual(Date.parse("2020-02-14"));
 
         act(() => {
             // dispatch
@@ -397,11 +431,14 @@ describe("useAppRouterReducer", () => {
         });
 
         expect(result.current[0].publicDataUpdatedAt).toEqual(Date.parse("2021-02-14"));
+        expect(runtime.appRouterStore.state.publicDataUpdatedAt).toEqual(Date.parse("2021-02-14"));
     });
 
     test.concurrent("when \"protected-data-updated\" is dispatched, \"protectedDataUpdatedAt\" is set to the current timestamp", ({ expect }) => {
         vi.spyOn(global.Date, "now")
             .mockImplementationOnce(() => Date.parse("2020-02-14"))
+            .mockImplementationOnce(() => Date.parse("2020-02-14"))
+            .mockImplementationOnce(() => Date.parse("2021-02-14"))
             .mockImplementationOnce(() => Date.parse("2021-02-14"));
 
         const runtime = new FireflyRuntime({
@@ -416,6 +453,7 @@ describe("useAppRouterReducer", () => {
         });
 
         expect(result.current[0].protectedDataUpdatedAt).toEqual(Date.parse("2020-02-14"));
+        expect(runtime.appRouterStore.state.protectedDataUpdatedAt).toEqual(Date.parse("2020-02-14"));
 
         act(() => {
             // dispatch
@@ -423,10 +461,12 @@ describe("useAppRouterReducer", () => {
         });
 
         expect(result.current[0].protectedDataUpdatedAt).toEqual(Date.parse("2021-02-14"));
+        expect(runtime.appRouterStore.state.protectedDataUpdatedAt).toEqual(Date.parse("2021-02-14"));
     });
 
     test.concurrent("when \"deferred-registrations-updated\" is dispatched, \"deferredRegistrationsUpdatedAt\" is set to the current timestamp", ({ expect }) => {
         vi.spyOn(global.Date, "now")
+            .mockImplementationOnce(() => Date.parse("2020-02-14"))
             .mockImplementationOnce(() => Date.parse("2020-02-14"));
 
         const runtime = new FireflyRuntime({
@@ -436,6 +476,7 @@ describe("useAppRouterReducer", () => {
         const { result } = renderUseAppRouterReducerHook(runtime, false, false);
 
         expect(result.current[0].deferredRegistrationsUpdatedAt).toBeUndefined();
+        expect(runtime.appRouterStore.state.deferredRegistrationsUpdatedAt).toBeUndefined();
 
         act(() => {
             // dispatch
@@ -443,6 +484,7 @@ describe("useAppRouterReducer", () => {
         });
 
         expect(result.current[0].deferredRegistrationsUpdatedAt).toEqual(Date.parse("2020-02-14"));
+        expect(runtime.appRouterStore.state.deferredRegistrationsUpdatedAt).toEqual(Date.parse("2020-02-14"));
     });
 
     test.concurrent("when \"active-route-is-public\" is dispatched, \"activeRouteVisiblity\" is \"public\"", ({ expect }) => {
@@ -453,6 +495,7 @@ describe("useAppRouterReducer", () => {
         const { result } = renderUseAppRouterReducerHook(runtime, false, false);
 
         expect(result.current[0].activeRouteVisibility).toBe("unknown");
+        expect(runtime.appRouterStore.state.activeRouteVisibility).toBe("unknown");
 
         act(() => {
             // dispatch
@@ -460,6 +503,28 @@ describe("useAppRouterReducer", () => {
         });
 
         expect(result.current[0].activeRouteVisibility).toBe("public");
+        expect(runtime.appRouterStore.state.activeRouteVisibility).toBe("public");
+    });
+
+    test.concurrent("when \"active-route-is-public\" is dispatched, ActiveRouteIsPublicEvent is dispatched", ({ expect }) => {
+        const runtime = new FireflyRuntime({
+            useMsw: false
+        });
+
+        const listener = vi.fn();
+
+        runtime.eventBus.addListener(ActiveRouteIsPublicEvent, listener);
+
+        const { result } = renderUseAppRouterReducerHook(runtime, false, false);
+
+        expect(result.current[0].activeRouteVisibility).toBe("unknown");
+
+        act(() => {
+            // dispatch
+            result.current[1]({ type: "active-route-is-public" });
+        });
+
+        expect(listener).toHaveBeenCalledTimes(1);
     });
 
     test.concurrent("when \"active-route-is-protected\" is dispatched, \"activeRouteVisiblity\" is \"protected\"", ({ expect }) => {
@@ -470,6 +535,7 @@ describe("useAppRouterReducer", () => {
         const { result } = renderUseAppRouterReducerHook(runtime, false, false);
 
         expect(result.current[0].activeRouteVisibility).toBe("unknown");
+        expect(runtime.appRouterStore.state.activeRouteVisibility).toBe("unknown");
 
         act(() => {
             // dispatch
@@ -477,6 +543,28 @@ describe("useAppRouterReducer", () => {
         });
 
         expect(result.current[0].activeRouteVisibility).toBe("protected");
+        expect(runtime.appRouterStore.state.activeRouteVisibility).toBe("protected");
+    });
+
+    test.concurrent("when \"active-route-is-protected\" is dispatched, ActiveRouteIsProtectedEvent is dispatched", ({ expect }) => {
+        const runtime = new FireflyRuntime({
+            useMsw: false
+        });
+
+        const listener = vi.fn();
+
+        runtime.eventBus.addListener(ActiveRouteIsProtectedEvent, listener);
+
+        const { result } = renderUseAppRouterReducerHook(runtime, false, false);
+
+        expect(result.current[0].activeRouteVisibility).toBe("unknown");
+
+        act(() => {
+            // dispatch
+            result.current[1]({ type: "active-route-is-protected" });
+        });
+
+        expect(listener).toHaveBeenCalledTimes(1);
     });
 
     test.concurrent("when \"is-unauthorized\" is dispatched, \"isUnauthorized\" is true", ({ expect }) => {
@@ -487,6 +575,7 @@ describe("useAppRouterReducer", () => {
         const { result } = renderUseAppRouterReducerHook(runtime, false, false);
 
         expect(result.current[0].isUnauthorized).toBeFalsy();
+        expect(runtime.appRouterStore.state.isUnauthorized).toBeFalsy();
 
         act(() => {
             // dispatch
@@ -494,6 +583,7 @@ describe("useAppRouterReducer", () => {
         });
 
         expect(result.current[0].isUnauthorized).toBeTruthy();
+        expect(runtime.appRouterStore.state.isUnauthorized).toBeTruthy();
     });
 
     test.concurrent("when local modules and remote modules are registered, \"areModulesRegistered\" is true at initialization", ({ expect }) => {
