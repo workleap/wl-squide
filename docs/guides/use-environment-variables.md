@@ -84,9 +84,9 @@ While you can use any package manager to develop an application with Squide, it 
 
 Then, update the host application boostrapping code to register an instance of the [EnvironmentVariablesPlugin](../reference/env-vars/EnvironmentVariablesPlugin.md) with the [FireflyRuntime](../reference/runtime/runtime-class.md) instance:
 
-```tsx !#13 host/src/bootstrap.tsx
+```tsx !#15 host/src/bootstrap.tsx
 import { createRoot } from "react-dom/client";
-import { ConsoleLogger, FireflyProvider, FireflyRuntime, boostrap, type RemoteDefinition } from "@squide/firefly";
+import { ConsoleLogger, FireflyProvider, initializeFirefly, type RemoteDefinition } from "@squide/firefly";
 import { EnvironmentVariablesPlugin } from "@squide/env-vars";
 import { App } from "./App.tsx";
 import { registerHost } from "./register.tsx";
@@ -96,14 +96,11 @@ const Remotes: RemoteDefinition[] = [
     { url: name: "remote1" }
 ];
 
-const runtime = new FireflyRuntime({
+initializeFirefly(runtime, {
+    localModules: [registerShell, registerHost],
+    remotes: Remotes,
     plugins: [x => new EnvironmentVariablesPlugin(x)],
     loggers: [x => new ConsoleLogger(x)]
-});
-
-bootstrap(runtime, {
-    localModules: [registerShell, registerHost],
-    remotes: Remotes
 })
 
 const root = createRoot(document.getElementById("root")!);
