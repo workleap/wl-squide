@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <meta name="turbo-root" content="/wl-squide">
-    <meta name="turbo-cache-control" content="no-cache" data-turbo-track="reload" data-track-token="3.6.0.795675399931">
+    <meta name="turbo-cache-control" content="no-cache" data-turbo-track="reload" data-track-token="3.6.0.796191297781">
 
     <!-- See retype.com -->
     <meta name="generator" content="Retype 3.6.0">
@@ -32,12 +32,12 @@
     <script data-cfasync="false">(function () { var el = document.documentElement, m = localStorage.getItem("doc_theme"), wm = window.matchMedia; if (m === "dark" || (!m && wm && wm("(prefers-color-scheme: dark)").matches)) { el.classList.add("dark") } else { el.classList.remove("dark") } })();</script>
 
     <link href="../../../static/favicon.png" rel="icon">
-    <link href="../../../resources/css/retype.css?v=3.6.0.795675399931" rel="stylesheet">
+    <link href="../../../resources/css/retype.css?v=3.6.0.796191297781" rel="stylesheet">
 
-    <script data-cfasync="false" src="../../../resources/js/config.js?v=3.6.0.795675399931" data-turbo-eval="false" defer></script>
+    <script data-cfasync="false" src="../../../resources/js/config.js?v=3.6.0.796191297781" data-turbo-eval="false" defer></script>
     <script data-cfasync="false" src="../../../resources/js/retype.js?v=3.6.0" data-turbo-eval="false" defer></script>
-    <script id="lunr-js" data-cfasync="false" src="../../../resources/js/lunr.js?v=3.6.0.795675399931" data-turbo-eval="false" defer></script>
-    <script id="prism-js" data-cfasync="false" src="../../../resources/js/prism.js?v=3.6.0.795675399931" defer></script>
+    <script id="lunr-js" data-cfasync="false" src="../../../resources/js/lunr.js?v=3.6.0.796191297781" data-turbo-eval="false" defer></script>
+    <script id="prism-js" data-cfasync="false" src="../../../resources/js/prism.js?v=3.6.0.796191297781" defer></script>
 
     <link href="https://gsoft-inc.github.io/wl-idp-docs-hub/static/retype-customization.css" rel="stylesheet" />
 
@@ -337,7 +337,7 @@
     </h2>
 </doc-anchor-target>
 <div class="codeblock-wrapper"><doc-codeblock>
-<pre class="language-tsx"><code v-pre class="language-tsx">&lt;AppRouter waitForMsw={boolean} waitForPublicData={boolean} waitForProtectedData={boolean}&gt;
+<pre class="language-tsx"><code v-pre class="language-tsx">&lt;AppRouter waitForPublicData={boolean} waitForProtectedData={boolean}&gt;
     {({ rootRoute, registeredRoutes, routerProviderProps }) =&gt; ( ... )}
 &lt;/AppRouter&gt;</code></pre>
 </doc-codeblock></div>
@@ -348,7 +348,6 @@
     </h3>
 </doc-anchor-target>
 <ul>
-<li><code v-pre>waitForMsw</code>: A <code v-pre>boolean</code> value indicating whether or not Squide should delay the rendering of the requested page until the <a href="https://mswjs.io/" class="outbound" target="_blank">Mock Service Worker</a> request handlers are registered.</li>
 <li><code v-pre>waitForPublicData</code>: An optional <code v-pre>boolean</code> value indicating whether or not Squide should delay the rendering of the requested page until the <strong>public</strong> data is ready. The default value is <code v-pre>false</code>.</li>
 <li><code v-pre>waitForProtectedData</code>: An optional <code v-pre>boolean</code> value indicating whether or not Squide should delay the rendering of the requested page until the <strong>protected</strong> data is ready. The default value is <code v-pre>false</code>.</li>
 <li><code v-pre>children</code>: A render function defining a <a href="https://reactrouter.com/en/main/routers/router-provider" class="outbound" target="_blank">RouterProvider</a> component with <code v-pre>rootRoute</code>, <code v-pre>registeredRoutes</code> and <code v-pre>routerProviderProps</code>.</li>
@@ -373,7 +372,7 @@ import { createBrowserRouter } from &quot;react-router&quot;;
 import { RouterProvider } from &quot;react-router/dom&quot;;
 
 export function App() {
-    &lt;AppRouter waitForMsw={false}&gt;
+    &lt;AppRouter &gt;
         {({ rootRoute, registeredRoutes, routerProviderProps }) =&gt; {
             return (
                 &lt;RouterProvider
@@ -413,7 +412,7 @@ function BootstrappingRoute() {
 
 export function App() {
     return (
-        &lt;AppRouter waitForMsw={false}&gt;
+        &lt;AppRouter&gt;
             {({ rootRoute, registeredRoutes, routerProviderProps }) =&gt; {
                 return (
                     &lt;RouterProvider
@@ -468,7 +467,7 @@ import { RootErrorBoundary } from &quot;./RootErrorBoundary.tsx&quot;;
 
 export function App() {
     return (
-        &lt;AppRouter waitForMsw={false}&gt;
+        &lt;AppRouter&gt;
             {({ rootRoute, registeredRoutes, routerProviderProps }) =&gt; {
                 return (
                     &lt;RouterProvider
@@ -476,38 +475,6 @@ export function App() {
                             {
                                 element: rootRoute,
                                 errorElement: &lt;RootErrorBoundary /&gt;,
-                                children: registeredRoutes
-                            }
-                        ])}
-                        {...routerProviderProps}
-                    /&gt;
-                );
-            }}
-        &lt;/AppRouter&gt;
-    );
-}</code></pre>
-</doc-codeblock></div>
-<doc-anchor-target id="delay-rendering-until-msw-is-ready">
-    <h3>
-        <doc-anchor-trigger class="header-anchor-trigger" to="#delay-rendering-until-msw-is-ready">#</doc-anchor-trigger>
-        <span>Delay rendering until MSW is ready</span>
-    </h3>
-</doc-anchor-target>
-<div class="codeblock-wrapper"><doc-codeblock>
-<div class="codeblock-title">host/src/App.tsx</div>
-<pre class="language-tsx" data-line="7"><code v-pre class="language-tsx">import { AppRouter } from &quot;@squide/firefly&quot;;
-import { createBrowserRouter } from &quot;react-router&quot;;
-import { RouterProvider } from &quot;react-router/dom&quot;;
-
-export function App() {
-    return (
-        &lt;AppRouter waitForMsw&gt;
-            {({ rootRoute, registeredRoutes, routerProviderProps }) =&gt; {
-                return (
-                    &lt;RouterProvider
-                        router={createBrowserRouter([
-                            {
-                                element: rootRoute,
                                 children: registeredRoutes
                             }
                         ])}
@@ -528,7 +495,7 @@ export function App() {
 <p>A <code v-pre>BootstrappingRoute</code> component is introduced in the following example because the <a href="../../tanstack-query/usepublicdataqueries/">usePublicDataQueries</a> hook must be rendered as a child of <code v-pre>rootRoute</code>.</p>
 <div class="codeblock-wrapper"><doc-codeblock>
 <div class="codeblock-title">host/src/App.tsx</div>
-<pre class="language-tsx" data-line="8,25"><code v-pre class="language-tsx">import { useIsBootstrapping, usePublicDataQueries, AppRouter } from &quot;@squide/firefly&quot;;
+<pre class="language-tsx" data-line="8,23"><code v-pre class="language-tsx">import { useIsBootstrapping, usePublicDataQueries, AppRouter } from &quot;@squide/firefly&quot;;
 import { createBrowserRouter, Outlet } from &quot;react-router&quot;;
 import { RouterProvider } from &quot;react-router/dom&quot;;
 import { FeatureFlagsContext } from &quot;@sample/shared&quot;;
@@ -550,10 +517,7 @@ function BootstrappingRoute() {
 
 export function App() {
     return (
-        &lt;AppRouter 
-            waitForMsw
-            waitForPublicData
-        &gt;
+        &lt;AppRouter waitForPublicData&gt;
             {({ rootRoute, registeredRoutes, routerProviderProps }) =&gt; {
                 return (
                     &lt;RouterProvider
@@ -585,7 +549,7 @@ export function App() {
 <p>A <code v-pre>BootstrappingRoute</code> component is introduced in the following example because the <a href="../../tanstack-query/useprotecteddataqueries/">useProtectedDataQueries</a> hook must be rendered as a child of <code v-pre>rootRoute</code>.</p>
 <div class="codeblock-wrapper"><doc-codeblock>
 <div class="codeblock-title">host/src/App.tsx</div>
-<pre class="language-tsx" data-line="8-11,28"><code v-pre class="language-tsx">import { useIsBootstrapping, useProtectedDataQueries, AppRouter } from &quot;@squide/firefly&quot;;
+<pre class="language-tsx" data-line="8-11,26"><code v-pre class="language-tsx">import { useIsBootstrapping, useProtectedDataQueries, AppRouter } from &quot;@squide/firefly&quot;;
 import { createBrowserRouter, Outlet } from &quot;react-router&quot;;
 import { RouterProvider } from &quot;react-router/dom&quot;;
 import { SessionContext, isApiError } from &quot;@sample/shared&quot;;
@@ -610,10 +574,7 @@ function BootstrappingRoute() {
 
 export function App() {
     return (
-        &lt;AppRouter 
-            waitForMsw
-            waitForProtectedData
-        &gt;
+        &lt;AppRouter waitForProtectedData&gt;
             {({ rootRoute, registeredRoutes, routerProviderProps }) =&gt; {
                 return (
                     &lt;RouterProvider

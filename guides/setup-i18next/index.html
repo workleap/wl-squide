@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <meta name="turbo-root" content="/wl-squide">
-    <meta name="turbo-cache-control" content="no-cache" data-turbo-track="reload" data-track-token="3.6.0.795675399931">
+    <meta name="turbo-cache-control" content="no-cache" data-turbo-track="reload" data-track-token="3.6.0.796191297781">
 
     <!-- See retype.com -->
     <meta name="generator" content="Retype 3.6.0">
@@ -32,12 +32,12 @@
     <script data-cfasync="false">(function () { var el = document.documentElement, m = localStorage.getItem("doc_theme"), wm = window.matchMedia; if (m === "dark" || (!m && wm && wm("(prefers-color-scheme: dark)").matches)) { el.classList.add("dark") } else { el.classList.remove("dark") } })();</script>
 
     <link href="../../static/favicon.png" rel="icon">
-    <link href="../../resources/css/retype.css?v=3.6.0.795675399931" rel="stylesheet">
+    <link href="../../resources/css/retype.css?v=3.6.0.796191297781" rel="stylesheet">
 
-    <script data-cfasync="false" src="../../resources/js/config.js?v=3.6.0.795675399931" data-turbo-eval="false" defer></script>
+    <script data-cfasync="false" src="../../resources/js/config.js?v=3.6.0.796191297781" data-turbo-eval="false" defer></script>
     <script data-cfasync="false" src="../../resources/js/retype.js?v=3.6.0" data-turbo-eval="false" defer></script>
-    <script id="lunr-js" data-cfasync="false" src="../../resources/js/lunr.js?v=3.6.0.795675399931" data-turbo-eval="false" defer></script>
-    <script id="prism-js" data-cfasync="false" src="../../resources/js/prism.js?v=3.6.0.795675399931" defer></script>
+    <script id="lunr-js" data-cfasync="false" src="../../resources/js/lunr.js?v=3.6.0.796191297781" data-turbo-eval="false" defer></script>
+    <script id="prism-js" data-cfasync="false" src="../../resources/js/prism.js?v=3.6.0.796191297781" defer></script>
 
     <link href="https://gsoft-inc.github.io/wl-idp-docs-hub/static/retype-customization.css" rel="stylesheet" />
 
@@ -374,8 +374,8 @@
 <p>Then, update the host application boostrapping code to register an instance of the <a href="../../reference/i18next/i18nextplugin/">i18nextplugin</a> with the <a href="../../reference/runtime/runtime-class/">FireflyRuntime</a> instance:</p>
 <div class="codeblock-wrapper"><doc-codeblock>
 <div class="codeblock-title">host/src/bootstrap.tsx</div>
-<pre class="language-tsx" data-line="13-22"><code v-pre class="language-tsx">import { createRoot } from &quot;react-dom/client&quot;;
-import { ConsoleLogger, FireflyProvider, FireflyRuntime, bootstrap, type RemoteDefinition } from &quot;@squide/firefly&quot;;
+<pre class="language-tsx" data-line="15-24"><code v-pre class="language-tsx">import { createRoot } from &quot;react-dom/client&quot;;
+import { ConsoleLogger, FireflyProvider, initializeFirefly, type RemoteDefinition } from &quot;@squide/firefly&quot;;
 import { i18nextPlugin } from &quot;@squide/i18next&quot;;
 import { App } from &quot;./App.tsx&quot;;
 import { registerHost } from &quot;./register.tsx&quot;;
@@ -385,7 +385,9 @@ const Remotes: RemoteDefinition[] = [
     { url: name: &quot;remote1&quot; }
 ];
 
-const runtime = new FireflyRuntime({
+const runtime = initializeFirefly(runtime, {
+    localModules: [registerShell, registerHost],
+    remotes: Remotes,
     plugins: [x =&gt; {
         // In this example:
         // - The supported languages are &quot;en-US&quot; and &quot;fr-CA&quot;
@@ -397,11 +399,6 @@ const runtime = new FireflyRuntime({
         i18nextPlugin.detectUserLanguage();
     }],
     loggers: [x =&gt; new ConsoleLogger(x)]
-});
-
-bootstrap(runtime, {
-    localModules: [registerShell, registerHost],
-    remotes: Remotes
 });
 
 const root = createRoot(document.getElementById(&quot;root&quot;)!);
@@ -841,10 +838,7 @@ function BootstrappingRoute() {
 
 export function App() {
     return (
-        &lt;AppRouter 
-            waitForMsw
-            waitForProtectedData
-        &gt;
+        &lt;AppRouter waitForProtectedData&gt;
             {({ rootRoute, registeredRoutes, routerProviderProps }) =&gt; {
                 return (
                     &lt;RouterProvider

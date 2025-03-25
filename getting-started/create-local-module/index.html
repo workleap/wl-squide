@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <meta name="turbo-root" content="/wl-squide">
-    <meta name="turbo-cache-control" content="no-cache" data-turbo-track="reload" data-track-token="3.6.0.795675399931">
+    <meta name="turbo-cache-control" content="no-cache" data-turbo-track="reload" data-track-token="3.6.0.796191297781">
 
     <!-- See retype.com -->
     <meta name="generator" content="Retype 3.6.0">
@@ -32,12 +32,12 @@
     <script data-cfasync="false">(function () { var el = document.documentElement, m = localStorage.getItem("doc_theme"), wm = window.matchMedia; if (m === "dark" || (!m && wm && wm("(prefers-color-scheme: dark)").matches)) { el.classList.add("dark") } else { el.classList.remove("dark") } })();</script>
 
     <link href="../../static/favicon.png" rel="icon">
-    <link href="../../resources/css/retype.css?v=3.6.0.795675399931" rel="stylesheet">
+    <link href="../../resources/css/retype.css?v=3.6.0.796191297781" rel="stylesheet">
 
-    <script data-cfasync="false" src="../../resources/js/config.js?v=3.6.0.795675399931" data-turbo-eval="false" defer></script>
+    <script data-cfasync="false" src="../../resources/js/config.js?v=3.6.0.796191297781" data-turbo-eval="false" defer></script>
     <script data-cfasync="false" src="../../resources/js/retype.js?v=3.6.0" data-turbo-eval="false" defer></script>
-    <script id="lunr-js" data-cfasync="false" src="../../resources/js/lunr.js?v=3.6.0.795675399931" data-turbo-eval="false" defer></script>
-    <script id="prism-js" data-cfasync="false" src="../../resources/js/prism.js?v=3.6.0.795675399931" defer></script>
+    <script id="lunr-js" data-cfasync="false" src="../../resources/js/lunr.js?v=3.6.0.796191297781" data-turbo-eval="false" defer></script>
+    <script id="prism-js" data-cfasync="false" src="../../resources/js/prism.js?v=3.6.0.796191297781" defer></script>
 
     <link href="https://gsoft-inc.github.io/wl-idp-docs-hub/static/retype-customization.css" rel="stylesheet" />
 
@@ -489,11 +489,11 @@ export const register: ModuleRegisterFunction&lt;FireflyRuntime&gt; = runtime =&
         </div>
     </div>
 </div>
-<p>Then, register the local module with the <a href="../../reference/registration/bootstrap/">bootstrap</a> function:</p>
+<p>Then, register the local module with the <a href="../../reference/registration/initializefirefly/">initializeFirefly</a> function:</p>
 <div class="codeblock-wrapper"><doc-codeblock>
 <div class="codeblock-title">host/src/bootstrap.tsx</div>
-<pre class="language-tsx" data-line="3,19"><code v-pre class="language-tsx">import { createRoot } from &quot;react-dom/client&quot;;
-import { ConsoleLogger, FireflyProvider, FireflyRuntime, bootstrap, type RemoteDefinition } from &quot;@squide/firefly&quot;;
+<pre class="language-tsx" data-line="3,14"><code v-pre class="language-tsx">import { createRoot } from &quot;react-dom/client&quot;;
+import { ConsoleLogger, FireflyProvider, initializeFirefly, type RemoteDefinition } from &quot;@squide/firefly&quot;;
 import { register as registerMyLocalModule } from &quot;@getting-started/local-module&quot;;
 import { App } from &quot;./App.tsx&quot;;
 import { registerHost } from &quot;./register.tsx&quot;;
@@ -503,15 +503,11 @@ const Remotes: RemoteDefinition[] = [
     { name: &quot;remote1&quot; }
 ];
 
-// Create the shell runtime.
-const runtime = new FireflyRuntime({
-    loggers: [x =&gt; new ConsoleLogger(x)]
-});
-
 // Register the modules.
-bootstrap(runtime, {
+const runtime = initializeFirefly(runtime, {
     localModules: [registerHost, registerMyLocalModule],
-    remotes: Remotes
+    remotes: Remotes,
+    loggers: [x =&gt; new ConsoleLogger(x)]
 })
 
 const root = createRoot(document.getElementById(&quot;root&quot;)!);

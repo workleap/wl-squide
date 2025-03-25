@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <meta name="turbo-root" content="/wl-squide">
-    <meta name="turbo-cache-control" content="no-cache" data-turbo-track="reload" data-track-token="3.6.0.795675399931">
+    <meta name="turbo-cache-control" content="no-cache" data-turbo-track="reload" data-track-token="3.6.0.796191297781">
 
     <!-- See retype.com -->
     <meta name="generator" content="Retype 3.6.0">
@@ -32,12 +32,12 @@
     <script data-cfasync="false">(function () { var el = document.documentElement, m = localStorage.getItem("doc_theme"), wm = window.matchMedia; if (m === "dark" || (!m && wm && wm("(prefers-color-scheme: dark)").matches)) { el.classList.add("dark") } else { el.classList.remove("dark") } })();</script>
 
     <link href="../../static/favicon.png" rel="icon">
-    <link href="../../resources/css/retype.css?v=3.6.0.795675399931" rel="stylesheet">
+    <link href="../../resources/css/retype.css?v=3.6.0.796191297781" rel="stylesheet">
 
-    <script data-cfasync="false" src="../../resources/js/config.js?v=3.6.0.795675399931" data-turbo-eval="false" defer></script>
+    <script data-cfasync="false" src="../../resources/js/config.js?v=3.6.0.796191297781" data-turbo-eval="false" defer></script>
     <script data-cfasync="false" src="../../resources/js/retype.js?v=3.6.0" data-turbo-eval="false" defer></script>
-    <script id="lunr-js" data-cfasync="false" src="../../resources/js/lunr.js?v=3.6.0.795675399931" data-turbo-eval="false" defer></script>
-    <script id="prism-js" data-cfasync="false" src="../../resources/js/prism.js?v=3.6.0.795675399931" defer></script>
+    <script id="lunr-js" data-cfasync="false" src="../../resources/js/lunr.js?v=3.6.0.796191297781" data-turbo-eval="false" defer></script>
+    <script id="prism-js" data-cfasync="false" src="../../resources/js/prism.js?v=3.6.0.796191297781" defer></script>
 
     <link href="https://gsoft-inc.github.io/wl-idp-docs-hub/static/retype-customization.css" rel="stylesheet" />
 
@@ -451,8 +451,8 @@ export function startMsw(moduleRequestHandlers: RequestHandler[]) {
 <p>Then, update the bootstrapping code to <a href="https://mswjs.io/docs/integrations/browser#setup" class="outbound" target="_blank">start MSW</a> when it&#x27;s enabled:</p>
 <div class="codeblock-wrapper"><doc-codeblock>
 <div class="codeblock-title">host/src/bootstrap.tsx</div>
-<pre class="language-tsx" data-line="18-22"><code v-pre class="language-tsx">import { createRoot } from &quot;react-dom/client&quot;;
-import { ConsoleLogger, FireflyProvider, FireflyRuntime, boostrap, type RemoteDefinition } from &quot;@squide/firefly&quot;;
+<pre class="language-tsx" data-line="11,15-19"><code v-pre class="language-tsx">import { createRoot } from &quot;react-dom/client&quot;;
+import { ConsoleLogger, FireflyProvider, initializeFirefly, type RemoteDefinition } from &quot;@squide/firefly&quot;;
 import { App } from &quot;./App.tsx&quot;;
 import { registerHost } from &quot;./register.tsx&quot;;
 
@@ -460,14 +460,11 @@ const Remotes: RemoteDefinition[] = [
     { name: &quot;remote1&quot; }
 ];
 
-const runtime = new FireflyRuntime({
+const runtime = initializeFirefly(runtime, {
     useMsw: !!process.env.USE_MSW,
-    loggers: [x =&gt; new ConsoleLogger(x)]
-});
-
-bootstrap(runtime, {
     localModules: [registerHost],
     remote: Remotes,
+    loggers: [x =&gt; new ConsoleLogger(x)]
     startMsw: async () =&gt; {
         // Files that includes an import to the &quot;msw&quot; package are included dynamically to prevent adding
         // unused MSW stuff to the code bundles.
@@ -482,39 +479,6 @@ root.render(
         &lt;App /&gt;
     &lt;/FireflyProvider&gt;
 );</code></pre>
-</doc-codeblock></div>
-<doc-anchor-target id="delay-routes-rendering-until-the-service-is-started">
-    <h3>
-        <doc-anchor-trigger class="header-anchor-trigger" to="#delay-routes-rendering-until-the-service-is-started">#</doc-anchor-trigger>
-        <span>Delay routes rendering until the service is started</span>
-    </h3>
-</doc-anchor-target>
-<p>Finally, update the host application code to delay the rendering of the routes until MSW is started. This is done by setting the <code v-pre>waitForMsw</code> property of the <a href="../../reference/routing/approuter/">AppRouter</a> component to <code v-pre>true</code>:</p>
-<div class="codeblock-wrapper"><doc-codeblock>
-<div class="codeblock-title">host/src/App.tsx</div>
-<pre class="language-tsx" data-line="7"><code v-pre class="language-tsx">import { AppRouter } from &quot;@squide/firefly&quot;;
-import { createBrowserRouter } from &quot;react-router&quot;;
-import { RouterProvider } from &quot;react-router/dom&quot;;
-
-export function App() {
-    return (
-        &lt;AppRouter waitForMsw&gt;
-            {({ rootRoute, registeredRoutes, routerProviderProps }) =&gt; {
-                return (
-                    &lt;RouterProvider
-                        router={createBrowserRouter([
-                            {
-                                element: rootRoute,
-                                children: registeredRoutes
-                            }
-                        ])}
-                        {...routerProviderProps}
-                    /&gt;
-                );
-            }}
-        &lt;/AppRouter&gt;
-    );
-}</code></pre>
 </doc-codeblock></div>
 <doc-anchor-target id="setup-a-remote-module">
     <h2>

@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <meta name="turbo-root" content="/wl-squide">
-    <meta name="turbo-cache-control" content="no-cache" data-turbo-track="reload" data-track-token="3.6.0.795675399931">
+    <meta name="turbo-cache-control" content="no-cache" data-turbo-track="reload" data-track-token="3.6.0.796191297781">
 
     <!-- See retype.com -->
     <meta name="generator" content="Retype 3.6.0">
@@ -32,12 +32,12 @@
     <script data-cfasync="false">(function () { var el = document.documentElement, m = localStorage.getItem("doc_theme"), wm = window.matchMedia; if (m === "dark" || (!m && wm && wm("(prefers-color-scheme: dark)").matches)) { el.classList.add("dark") } else { el.classList.remove("dark") } })();</script>
 
     <link href="../../static/favicon.png" rel="icon">
-    <link href="../../resources/css/retype.css?v=3.6.0.795675399931" rel="stylesheet">
+    <link href="../../resources/css/retype.css?v=3.6.0.796191297781" rel="stylesheet">
 
-    <script data-cfasync="false" src="../../resources/js/config.js?v=3.6.0.795675399931" data-turbo-eval="false" defer></script>
+    <script data-cfasync="false" src="../../resources/js/config.js?v=3.6.0.796191297781" data-turbo-eval="false" defer></script>
     <script data-cfasync="false" src="../../resources/js/retype.js?v=3.6.0" data-turbo-eval="false" defer></script>
-    <script id="lunr-js" data-cfasync="false" src="../../resources/js/lunr.js?v=3.6.0.795675399931" data-turbo-eval="false" defer></script>
-    <script id="prism-js" data-cfasync="false" src="../../resources/js/prism.js?v=3.6.0.795675399931" defer></script>
+    <script id="lunr-js" data-cfasync="false" src="../../resources/js/lunr.js?v=3.6.0.796191297781" data-turbo-eval="false" defer></script>
+    <script id="prism-js" data-cfasync="false" src="../../resources/js/prism.js?v=3.6.0.796191297781" defer></script>
 
     <link href="https://gsoft-inc.github.io/wl-idp-docs-hub/static/retype-customization.css" rel="stylesheet" />
 
@@ -470,7 +470,7 @@ export function isApiError(error?: unknown): error is ApiError {
 <p>Finally, update the <code v-pre>App</code> component to add the <a href="../../reference/tanstack-query/usepublicdataqueries/">usePublicDataQueries</a> hook. The hook will fetch the data from <code v-pre>/api/count</code> and forward the retrieved <code v-pre>fetchCount</code> value through <code v-pre>FetchCountContext</code>:</p>
 <div class="codeblock-wrapper"><doc-codeblock>
 <div class="codeblock-title">host/src/App.tsx</div>
-<pre class="language-tsx" data-line="7-22,24-26,39"><code v-pre class="language-tsx">import { AppRouter, usePublicDataQueries, useIsBootstrapping } from &quot;@squide/firefly&quot;;
+<pre class="language-tsx" data-line="7-22,24-26,37"><code v-pre class="language-tsx">import { AppRouter, usePublicDataQueries, useIsBootstrapping } from &quot;@squide/firefly&quot;;
 import { createBrowserRouter, Outlet } from &quot;react-router&quot;;
 import { RouterProvider } from &quot;react-router/dom&quot;;
 import { FetchCountContext, ApiError } from &quot;@sample/shared&quot;;
@@ -506,10 +506,7 @@ function BootstrappingRoute() {
 
 export function App() {
     return (
-        &lt;AppRouter
-            waitForMsw
-            waitForPublicData
-        &gt;
+        &lt;AppRouter waitForPublicData&gt;
             {({ rootRoute, registeredRoutes, routerProviderProps }) =&gt; {
                 return (
                     &lt;RouterProvider
@@ -718,7 +715,7 @@ export function useSubscription() {
 <p>Finally, update the <code v-pre>App</code> component to add the <a href="../../reference/tanstack-query/useprotecteddataqueries/">useProtectedDataQueries</a> hook. The hook will fetch the data from <code v-pre>/api/subscription</code> and forward the retrieved <code v-pre>subscription</code> data through <code v-pre>SubscriptionContext</code>:</p>
 <div class="codeblock-wrapper"><doc-codeblock>
 <div class="codeblock-title">host/src/App.tsx</div>
-<pre class="language-tsx" data-line="24-43,63"><code v-pre class="language-tsx">import { AppRouter, usePublicDataQueries, useProtectedDataQueries, useIsBootstrapping } from &quot;@squide/firefly&quot;;
+<pre class="language-tsx" data-line="24-43,62"><code v-pre class="language-tsx">import { AppRouter, usePublicDataQueries, useProtectedDataQueries, useIsBootstrapping } from &quot;@squide/firefly&quot;;
 import { createBrowserRouter, Outlet } from &quot;react-router&quot;;
 import { RouterProvider } from &quot;react-router/dom&quot;;
 import { FetchCountContext, SubscriptionContext, ApiError, isApiError, type Subscription } from &quot;@sample/shared&quot;;
@@ -778,7 +775,6 @@ function BootstrappingRoute() {
 export function App() {
     return (
         &lt;AppRouter
-            waitForMsw
             waitForPublicData
             waitForProtectedData
         &gt;

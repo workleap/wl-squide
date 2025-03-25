@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <meta name="turbo-root" content="/wl-squide">
-    <meta name="turbo-cache-control" content="no-cache" data-turbo-track="reload" data-track-token="3.6.0.795675399931">
+    <meta name="turbo-cache-control" content="no-cache" data-turbo-track="reload" data-track-token="3.6.0.796191297781">
 
     <!-- See retype.com -->
     <meta name="generator" content="Retype 3.6.0">
@@ -12,7 +12,7 @@
     <!-- Primary Meta Tags -->
     <title>Migrate to firefly v9.3</title>
     <meta name="title" content="Migrate to firefly v9.3">
-    <meta name="description" content="Before following this guide, make sure that you migrated to v9.0.">
+    <meta name="description" content="If you are migrating from v8, follow the Migrate from v8 to v12.0 guide.">
 
     <!-- Canonical -->
     <link rel="canonical" href="https://workleap.github.io/wl-squide/upgrading/migrate-to-firefly-v9.3/">
@@ -21,23 +21,23 @@
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://workleap.github.io/wl-squide/upgrading/migrate-to-firefly-v9.3/">
     <meta property="og:title" content="Migrate to firefly v9.3">
-    <meta property="og:description" content="Before following this guide, make sure that you migrated to v9.0.">
+    <meta property="og:description" content="If you are migrating from v8, follow the Migrate from v8 to v12.0 guide.">
 
     <!-- Twitter -->
     <meta property="twitter:card" content="summary_large_image">
     <meta property="twitter:url" content="https://workleap.github.io/wl-squide/upgrading/migrate-to-firefly-v9.3/">
     <meta property="twitter:title" content="Migrate to firefly v9.3">
-    <meta property="twitter:description" content="Before following this guide, make sure that you migrated to v9.0.">
+    <meta property="twitter:description" content="If you are migrating from v8, follow the Migrate from v8 to v12.0 guide.">
 
     <script data-cfasync="false">(function () { var el = document.documentElement, m = localStorage.getItem("doc_theme"), wm = window.matchMedia; if (m === "dark" || (!m && wm && wm("(prefers-color-scheme: dark)").matches)) { el.classList.add("dark") } else { el.classList.remove("dark") } })();</script>
 
     <link href="../../static/favicon.png" rel="icon">
-    <link href="../../resources/css/retype.css?v=3.6.0.795675399931" rel="stylesheet">
+    <link href="../../resources/css/retype.css?v=3.6.0.796191297781" rel="stylesheet">
 
-    <script data-cfasync="false" src="../../resources/js/config.js?v=3.6.0.795675399931" data-turbo-eval="false" defer></script>
+    <script data-cfasync="false" src="../../resources/js/config.js?v=3.6.0.796191297781" data-turbo-eval="false" defer></script>
     <script data-cfasync="false" src="../../resources/js/retype.js?v=3.6.0" data-turbo-eval="false" defer></script>
-    <script id="lunr-js" data-cfasync="false" src="../../resources/js/lunr.js?v=3.6.0.795675399931" data-turbo-eval="false" defer></script>
-    <script id="prism-js" data-cfasync="false" src="../../resources/js/prism.js?v=3.6.0.795675399931" defer></script>
+    <script id="lunr-js" data-cfasync="false" src="../../resources/js/lunr.js?v=3.6.0.796191297781" data-turbo-eval="false" defer></script>
+    <script id="prism-js" data-cfasync="false" src="../../resources/js/prism.js?v=3.6.0.796191297781" defer></script>
 
     <link href="https://gsoft-inc.github.io/wl-idp-docs-hub/static/retype-customization.css" rel="stylesheet" />
 
@@ -317,10 +317,11 @@
             </svg>
         </div>
         <div class="pr-5 ml-3 w-full">
-<p>Before following this guide, make sure that you migrated to <a href="../migrate-to-firefly-v9.0/">v9.0</a>.</p>
+<p>If you are migrating from <code v-pre>v8</code>, follow the <a href="../migrate-from-v8-to-v12.0/">Migrate from v8 to v12.0</a> guide.</p>
         </div>
     </div>
 </div>
+<p>This minor version deprecate the <a href="../../reference/registration/registerlocalmodules/">registerLocalModules</a>, <a href="../../reference/registration/registerremotemodules/">registerRemoteModules</a> and <a href="../../reference/msw/setmswasready/">setMswAsReady</a> in favor of a <code v-pre>bootstrap</code> function.</p>
 <doc-anchor-target id="deprecation">
     <h2>
         <doc-anchor-trigger class="header-anchor-trigger" to="#deprecation">#</doc-anchor-trigger>
@@ -328,9 +329,9 @@
     </h2>
 </doc-anchor-target>
 <ul>
-<li>The <a href="../../reference/registration/registerlocalmodules/">registerLocalModules</a> function has been <strong>deprecated</strong>, use the <a href="../../reference/registration/bootstrap/">bootstrap</a> function instead.</li>
-<li>The <a href="../../reference/registration/registerremotemodules/">registerRemoteModules</a> function has been <strong>deprecated</strong>, use the <a href="../../reference/registration/bootstrap/">bootstrap</a> function instead.</li>
-<li>The <a href="../../reference/msw/setmswasready/">setMswAsReady</a> function has been <strong>deprecated</strong>, use the <a href="../../reference/registration/bootstrap/">bootstrap</a> function instead.</li>
+<li>The <a href="../../reference/registration/registerlocalmodules/">registerLocalModules</a> function has been <strong>deprecated</strong>, use the <code v-pre>bootstrap</code> function instead.</li>
+<li>The <a href="../../reference/registration/registerremotemodules/">registerRemoteModules</a> function has been <strong>deprecated</strong>, use the <code v-pre>bootstrap</code> function instead.</li>
+<li>The <a href="../../reference/msw/setmswasready/">setMswAsReady</a> function has been <strong>deprecated</strong>, use the <code v-pre>bootstrap</code> function instead.</li>
 </ul>
 <doc-anchor-target id="migrate-an-host-application">
     <h2>
@@ -385,7 +386,7 @@ root.render(
     &lt;/RuntimeContext.Provider&gt;
 );</code></pre>
 </doc-codeblock></div>
-<p>After:</p>
+<p>Now:</p>
 <div class="codeblock-wrapper"><doc-codeblock>
 <div class="codeblock-title">bootstrap.tsx</div>
 <pre class="language-tsx" data-line="18-21"><code v-pre class="language-tsx">import { ConsoleLogger, RuntimeContext, FireflyRuntime, bootstrap, type RemoteDefinition } from &quot;@squide/firefly&quot;;
@@ -479,7 +480,7 @@ root.render(
     &lt;/RuntimeContext.Provider&gt;
 );</code></pre>
 </doc-codeblock></div>
-<p>After:</p>
+<p>Now:</p>
 <div class="codeblock-wrapper"><doc-codeblock>
 <div class="codeblock-title">bootstrap.tsx</div>
 <pre class="language-tsx" data-line="11,18-22"><code v-pre class="language-tsx">import { ConsoleLogger, RuntimeContext, FireflyRuntime, bootstrap, type RemoteDefinition } from &quot;@squide/firefly&quot;;
