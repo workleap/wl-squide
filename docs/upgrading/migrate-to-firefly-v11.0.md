@@ -22,7 +22,7 @@ const { localModuleErrors, remoteModulesErrors } = await bootstrap({
 })
 ```
 
-After:
+Now:
 
 ```ts
 import { bootstrap } from "@squide/firefly";
@@ -61,7 +61,7 @@ root.render(
 );
 ```
 
-After:
+Now:
 
 ```tsx
 import { FireflyProvider, FireflyRuntime } from "@squide/firefly";

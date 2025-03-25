@@ -31,7 +31,7 @@ Before:
 />
 ```
 
-After:
+Now:
 
 ```tsx
 <RouterProvider
@@ -86,7 +86,7 @@ Before:
 import { Outlet, createBrowserRouter, RouterProvider } from "react-router-dom";
 ```
 
-After:
+Now:
 
 ```ts
 import { Outlet, createBrowserRouter } from "react-router";

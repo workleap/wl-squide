@@ -155,7 +155,7 @@ const Remotes: RemoteDefinition[] = [
 ];
 
 // Register the modules.
-initializeFirefly(runtime, {
+const runtime = initializeFirefly(runtime, {
     localModules: [registerHost, registerMyLocalModule],
     remotes: Remotes,
     loggers: [x => new ConsoleLogger(x)]

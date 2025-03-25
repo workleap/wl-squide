@@ -117,7 +117,7 @@ const Remotes: RemoteDefinition[] = [
     { name: "remote1" }
 ];
 
-initializeFirefly(runtime, {
+const runtime = initializeFirefly(runtime, {
     useMsw: !!process.env.USE_MSW,
     localModules: [registerHost],
     remote: Remotes,

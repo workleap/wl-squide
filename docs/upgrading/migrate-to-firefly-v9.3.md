@@ -64,7 +64,7 @@ root.render(
 );
 ```
 
-After:
+Now:
 
 ```tsx !#18-21 bootstrap.tsx
 import { ConsoleLogger, RuntimeContext, FireflyRuntime, bootstrap, type RemoteDefinition } from "@squide/firefly";
@@ -157,7 +157,7 @@ root.render(
 );
 ```
 
-After:
+Now:
 
 ```tsx !#11,18-22 bootstrap.tsx
 import { ConsoleLogger, RuntimeContext, FireflyRuntime, bootstrap, type RemoteDefinition } from "@squide/firefly";

@@ -138,7 +138,7 @@ const Remotes: RemoteDefinition[] = [
     { name: "remote1" }
 ];
 
-initializeFirefly(runtime, {
+const runtime = initializeFirefly(runtime, {
     // Register the newly created shell module.
     localModules: [registerShell, registerHost],
     remotes: Remotes,
@@ -198,7 +198,7 @@ import { register as registerModule } from "./register.tsx";
 import { registerDev } from "./dev/register.tsx";
 import { registerShell } from "@sample/shell";
 
-initializeFirefly(runtime, {
+const runtime = initializeFirefly(runtime, {
     // Registering the remote module as a local module because the "register" function 
     // is local when developing in isolation.
     localModules: [registerModule, registerDev, registerShell],

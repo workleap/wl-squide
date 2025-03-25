@@ -96,7 +96,7 @@ const Remotes: RemoteDefinition[] = [
     { url: name: "remote1" }
 ];
 
-initializeFirefly(runtime, {
+const runtime = initializeFirefly(runtime, {
     localModules: [registerShell, registerHost],
     remotes: Remotes,
     plugins: [x => new EnvironmentVariablesPlugin(x)],
