@@ -1,7 +1,7 @@
 {
     "name": "@squide/react-router",
     "author": "Workleap",
-    "version": "7.0.2",
+    "version": "7.0.3",
     "description": "Add support for React Router to @squide application shell.",
     "license": "Apache-2.0",
     "repository": {

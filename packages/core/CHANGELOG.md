@@ -1,5 +1,11 @@
 # @squide/core
 
+## 5.4.5
+
+### Patch Changes
+
+- [#249](https://github.com/workleap/wl-squide/pull/249) [`9429e98`](https://github.com/workleap/wl-squide/commit/9429e98382f054ed560297aa8a1e54caba40db4f) Thanks [@patricklafrance](https://github.com/patricklafrance)! - Fix an issue with removing "once" listener from the EventBus.
+
 ## 5.4.4
 
 ### Patch Changes

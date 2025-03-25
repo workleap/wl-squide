@@ -1,5 +1,20 @@
 # @squide/firefly
 
+## 12.0.0
+
+### Major Changes
+
+- [#249](https://github.com/workleap/wl-squide/pull/249) [`9429e98`](https://github.com/workleap/wl-squide/commit/9429e98382f054ed560297aa8a1e54caba40db4f) Thanks [@patricklafrance](https://github.com/patricklafrance)! - - Replace the `bootstrap` function by a new `initializeFirefly` function that takes care of creating the `FireflyRuntime` instance.
+  - The `FireflyRuntime` instance now expose a new `BootstrappingStore` instance.
+
+### Patch Changes
+
+- Updated dependencies [[`9429e98`](https://github.com/workleap/wl-squide/commit/9429e98382f054ed560297aa8a1e54caba40db4f), [`9429e98`](https://github.com/workleap/wl-squide/commit/9429e98382f054ed560297aa8a1e54caba40db4f)]:
+  - @squide/module-federation@6.2.5
+  - @squide/core@5.4.5
+  - @squide/msw@3.2.5
+  - @squide/react-router@7.0.3
+
 ## 11.0.0
 
 ### Major Changes

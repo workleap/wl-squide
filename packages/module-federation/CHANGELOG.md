@@ -1,5 +1,14 @@
 # @squide/module-federation
 
+## 6.2.5
+
+### Patch Changes
+
+- [#249](https://github.com/workleap/wl-squide/pull/249) [`9429e98`](https://github.com/workleap/wl-squide/commit/9429e98382f054ed560297aa8a1e54caba40db4f) Thanks [@patricklafrance](https://github.com/patricklafrance)! - Temporary add a dependency to the `@rspack/core` package.
+
+- Updated dependencies [[`9429e98`](https://github.com/workleap/wl-squide/commit/9429e98382f054ed560297aa8a1e54caba40db4f)]:
+  - @squide/core@5.4.5
+
 ## 6.2.4
 
 ### Patch Changes
