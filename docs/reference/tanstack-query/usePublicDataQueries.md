@@ -36,7 +36,7 @@ If an unmanaged error occur while performing any of the fetch requests, a [Globa
 
 A `BootstrappingRoute` component is introduced in the following example because this hook must be rendered as a child of `rootRoute`.
 
-```tsx !#7-20,22-24,37,47 host/src/App.tsx
+```tsx !#7-20,22-24,35,44 host/src/App.tsx
 import { usePublicDataQueries, useIsBootstrapping, AppRouter } from "@squide/firefly";
 import { createBrowserRouter } from "react-router";
 import { RouterProvider } from "react-router/dom";
@@ -71,10 +71,7 @@ function BootstrappingRoute() {
 
 export function App() {
     return (
-        <AppRouter 
-            waitForMsw
-            waitForPublicData
-        >
+        <AppRouter waitForPublicData>
             {({ rootRoute, registeredRoutes, routerProviderProps }) => {
                 return (
                     <RouterProvider
@@ -160,7 +157,7 @@ export function RootErrorBoundary() {
 }
 ```
 
-```tsx !#46 host/src/App.tsx
+```tsx !#43 host/src/App.tsx
 import { usePublicDataQueries, useIsBootstrapping, AppRouter } from "@squide/firefly";
 import { createBrowserRouter } from "react-router";
 import { RouterProvider } from "react-router/dom";
@@ -196,10 +193,7 @@ function BootstrappingRoute() {
 
 export function App() {
     return (
-        <AppRouter 
-            waitForMsw
-            waitForPublicData
-        >
+        <AppRouter waitForPublicData>
             {({ rootRoute, registeredRoutes, routerProviderProps }) => {
                 return (
                     <RouterProvider

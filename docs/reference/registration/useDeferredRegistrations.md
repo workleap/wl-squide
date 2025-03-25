@@ -74,7 +74,7 @@ function BootstrappingRoute() {
 
 export function AppRouter() {
     return (
-        <FireflyAppRouter waitForMsw={false}>
+        <FireflyAppRouter>
             {({ rootRoute, registeredRoutes, routerProviderProps }) => {
                 return (
                     <RouterProvider

@@ -36,7 +36,7 @@ export function AppRouter() {
     const logger = useLogger();
 
     return (
-        <FireflyAppRouter waitForMsw={false}>
+        <FireflyAppRouter>
             {({ rootRoute, registeredRoutes, routerProviderProps }) => {
                 logger.debug("[shell] React Router will be rendered with the following route definitions: ", registeredRoutes);
 

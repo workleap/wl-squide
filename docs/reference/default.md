@@ -27,7 +27,7 @@ toc:
 
 ### Registration
 
-- [bootstrap](./registration/bootstrap.md)
+- [initializeFirefly](./registration/initializeFirefly.md)
 - [registerLocalModules](./registration/registerLocalModules.md) [!badge variant="secondary" size="xs" text="deprecated"]
 - [registerRemoteModules](./registration/registerRemoteModules.md) [!badge variant="secondary" size="xs" text="deprecated"]
 - [useDeferredRegistrations](./registration/useDeferredRegistrations.md)

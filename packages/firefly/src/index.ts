@@ -27,5 +27,5 @@ export * from "./useRegisterDeferredRegistrations.ts";
 export * from "./useStrictRegistrationMode.ts";
 export * from "./useUpdateDeferredRegistrations.ts";
 
-export * from "./boostrap.ts";
+export * from "./initializeFirefly.ts";
 

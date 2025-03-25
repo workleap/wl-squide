@@ -48,8 +48,8 @@ test.concurrent("when the modules are ready and msw is ready, return true", ({ e
 
 test.concurrent("when the modules are registered or ready and msw is not ready but it's not required to wait for msw, return true", ({ expect }) => {
     const state = createDefaultAppRouterState();
-    state.areModulesReady = true;
     state.waitForMsw = false;
+    state.areModulesReady = true;
     state.isMswReady = false;
 
     const { result } = renderUseCanFetchPublicDataHook(state);
@@ -80,8 +80,8 @@ test.concurrent("when the modules are not ready, return false", ({ expect }) => 
 
 test.concurrent("when it's required to wait for msw and msw is not ready, return false", ({ expect }) => {
     const state = createDefaultAppRouterState();
-    state.areModulesReady = true;
     state.waitForMsw = true;
+    state.areModulesReady = true;
     state.isMswReady = false;
 
     const { result } = renderUseCanFetchPublicDataHook(state);

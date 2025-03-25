@@ -4,7 +4,7 @@ import { RouterProvider } from "react-router/dom";
 
 export function App() {
     return (
-        <AppRouter waitForMsw={false}>
+        <AppRouter>
             {({ rootRoute, registeredRoutes, routerProviderProps }) => {
                 return (
                     <RouterProvider

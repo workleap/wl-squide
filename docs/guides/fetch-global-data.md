@@ -124,7 +124,7 @@ export function isApiError(error?: unknown): error is ApiError {
 
 Finally, update the `App` component to add the [usePublicDataQueries](../reference/tanstack-query/usePublicDataQueries.md) hook. The hook will fetch the data from `/api/count` and forward the retrieved `fetchCount` value through `FetchCountContext`:
 
-```tsx !#7-22,24-26,39 host/src/App.tsx
+```tsx !#7-22,24-26,37 host/src/App.tsx
 import { AppRouter, usePublicDataQueries, useIsBootstrapping } from "@squide/firefly";
 import { createBrowserRouter, Outlet } from "react-router";
 import { RouterProvider } from "react-router/dom";
@@ -161,10 +161,7 @@ function BootstrappingRoute() {
 
 export function App() {
     return (
-        <AppRouter
-            waitForMsw
-            waitForPublicData
-        >
+        <AppRouter waitForPublicData>
             {({ rootRoute, registeredRoutes, routerProviderProps }) => {
                 return (
                     <RouterProvider
@@ -335,7 +332,7 @@ If you're not adding the `SubscriptionContext` to the shared project created ear
 
 Finally, update the `App` component to add the [useProtectedDataQueries](../reference/tanstack-query/useProtectedDataQueries.md) hook. The hook will fetch the data from `/api/subscription` and forward the retrieved `subscription` data through `SubscriptionContext`:
 
-```tsx !#24-43,63 host/src/App.tsx
+```tsx !#24-43,62 host/src/App.tsx
 import { AppRouter, usePublicDataQueries, useProtectedDataQueries, useIsBootstrapping } from "@squide/firefly";
 import { createBrowserRouter, Outlet } from "react-router";
 import { RouterProvider } from "react-router/dom";
@@ -396,7 +393,6 @@ function BootstrappingRoute() {
 export function App() {
     return (
         <AppRouter
-            waitForMsw
             waitForPublicData
             waitForProtectedData
         >

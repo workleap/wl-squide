@@ -6,23 +6,23 @@ export default {
     "dependencyTypes": ["prod", "dev"],
     "semverGroups": [
         {
-            "dependencies": ["useless-lib"],
             "packages": ["**"],
+            "dependencies": ["useless-lib"],
             "isIgnored": true
         },
         {
-            "range": "^",
+            "packages": ["@squide/firefly-rsbuild-configs", "@squide/firefly-webpack-configs"],
             "dependencyTypes": ["prod"],
             "dependencies": ["**"],
-            "packages": ["@squide/firefly-rsbuild-configs", "@squide/firefly-webpack-configs"],
-            "label": "config packages dependencies version should be ranged"
+            "range": "^",
+            "label": "Bundler shared configurations packages dependencies version should be ranged"
         },
         {
-            "range": "",
+            "packages": ["**"],
             "dependencyTypes": ["prod", "dev"],
             "dependencies": ["**"],
-            "packages": ["**"],
-            "label": "packages version should be pinned"
+            "range": "",
+            "label": "Packages version should be pinned"
         },
     ],
     "versionGroups": [
@@ -32,11 +32,17 @@ export default {
             "isIgnored": true
         },
         {
-            "dependencyTypes": ["prod", "dev"],
-            "preferVersion": "highestSemver",
-            "dependencies": ["**"],
+            // Temporary until dependencies are fixed.
+            "packages": ["@squide/module-federation"],
+            "dependencies": ["@rspack/core"],
+            "isIgnored": true
+        },
+        {
             "packages": ["**"],
-            "label": "packages should have a single version across the repository"
+            "dependencyTypes": ["prod", "dev"],
+            "dependencies": ["**"],
+            "preferVersion": "highestSemver",
+            "label": "Packages should have a single version across the repository"
         }
     ]
 };

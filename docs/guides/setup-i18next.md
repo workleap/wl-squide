@@ -36,9 +36,9 @@ While you can use any package manager to develop an application with Squide, it 
 
 Then, update the host application boostrapping code to register an instance of the [i18nextplugin](../reference/i18next/i18nextPlugin.md) with the [FireflyRuntime](../reference/runtime/runtime-class.md) instance:
 
-```tsx !#13-22 host/src/bootstrap.tsx
+```tsx !#15-24 host/src/bootstrap.tsx
 import { createRoot } from "react-dom/client";
-import { ConsoleLogger, FireflyProvider, FireflyRuntime, bootstrap, type RemoteDefinition } from "@squide/firefly";
+import { ConsoleLogger, FireflyProvider, initializeFirefly, type RemoteDefinition } from "@squide/firefly";
 import { i18nextPlugin } from "@squide/i18next";
 import { App } from "./App.tsx";
 import { registerHost } from "./register.tsx";
@@ -48,7 +48,9 @@ const Remotes: RemoteDefinition[] = [
     { url: name: "remote1" }
 ];
 
-const runtime = new FireflyRuntime({
+const runtime = initializeFirefly(runtime, {
+    localModules: [registerShell, registerHost],
+    remotes: Remotes,
     plugins: [x => {
         // In this example:
         // - The supported languages are "en-US" and "fr-CA"
@@ -60,11 +62,6 @@ const runtime = new FireflyRuntime({
         i18nextPlugin.detectUserLanguage();
     }],
     loggers: [x => new ConsoleLogger(x)]
-});
-
-bootstrap(runtime, {
-    localModules: [registerShell, registerHost],
-    remotes: Remotes
 });
 
 const root = createRoot(document.getElementById("root")!);
@@ -465,10 +462,7 @@ function BootstrappingRoute() {
 
 export function App() {
     return (
-        <AppRouter 
-            waitForMsw
-            waitForProtectedData
-        >
+        <AppRouter waitForProtectedData>
             {({ rootRoute, registeredRoutes, routerProviderProps }) => {
                 return (
                     <RouterProvider

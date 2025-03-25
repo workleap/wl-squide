@@ -6,14 +6,16 @@ label: Migrate to firefly v9.3
 # Migrate to firefly v9.3
 
 !!!warning
-Before following this guide, make sure that you migrated to [v9.0](./migrate-to-firefly-v9.0.md).
+If you are migrating from `v8`, follow the [Migrate from v8 to v12.0](./migrate-from-v8-to-v12.0.md) guide.
 !!!
+
+This minor version deprecate the [registerLocalModules](../reference/registration/registerLocalModules.md), [registerRemoteModules](../reference/registration/registerRemoteModules.md) and [setMswAsReady](../reference/msw/setMswAsReady.md) in favor of a `bootstrap` function.
 
 ## Deprecation
 
-- The [registerLocalModules](../reference/registration/registerLocalModules.md) function has been **deprecated**, use the [bootstrap](../reference/registration/bootstrap.md) function instead.
-- The [registerRemoteModules](../reference/registration/registerRemoteModules.md) function has been **deprecated**, use the [bootstrap](../reference/registration/bootstrap.md) function instead.
-- The [setMswAsReady](../reference/msw/setMswAsReady.md) function has been **deprecated**, use the [bootstrap](../reference/registration/bootstrap.md) function instead.
+- The [registerLocalModules](../reference/registration/registerLocalModules.md) function has been **deprecated**, use the `bootstrap` function instead.
+- The [registerRemoteModules](../reference/registration/registerRemoteModules.md) function has been **deprecated**, use the `bootstrap` function instead.
+- The [setMswAsReady](../reference/msw/setMswAsReady.md) function has been **deprecated**, use the `bootstrap` function instead.
 
 ## Migrate an host application
 
@@ -64,7 +66,7 @@ root.render(
 );
 ```
 
-After:
+Now:
 
 ```tsx !#18-21 bootstrap.tsx
 import { ConsoleLogger, RuntimeContext, FireflyRuntime, bootstrap, type RemoteDefinition } from "@squide/firefly";
@@ -157,7 +159,7 @@ root.render(
 );
 ```
 
-After:
+Now:
 
 ```tsx !#11,18-22 bootstrap.tsx
 import { ConsoleLogger, RuntimeContext, FireflyRuntime, bootstrap, type RemoteDefinition } from "@squide/firefly";

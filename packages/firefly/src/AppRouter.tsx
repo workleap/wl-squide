@@ -48,7 +48,6 @@ function useRenderRouterProvider(state: AppRouterState, renderRouterProvider: Re
 }
 
 export interface AppRouterProps {
-    waitForMsw: boolean;
     waitForPublicData?: boolean;
     waitForProtectedData?: boolean;
     children: RenderRouterProviderFunction;
@@ -56,13 +55,11 @@ export interface AppRouterProps {
 
 export function AppRouter(props: AppRouterProps) {
     const {
-        waitForMsw,
         waitForPublicData = false,
         waitForProtectedData = false,
         children: renderRouterProvider
     } = props;
-
-    const [state, dispatch] = useAppRouterReducer(waitForMsw, waitForPublicData, waitForProtectedData);
+    const [state, dispatch] = useAppRouterReducer(waitForPublicData, waitForProtectedData);
 
     const logger = useLogger();
 

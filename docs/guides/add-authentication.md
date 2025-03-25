@@ -317,7 +317,7 @@ export const requestHandlers: HttpHandler[] = [
 
 Then, update the host application `App` component to load the session with the [useProtectedDataQueries](../reference/tanstack-query/useProtectedDataQueries.md) hook and create an instance of `TanstackQuerySessionManager` with the retrieved session to share the sessuib via the `SessionManagerContext`:
 
-```tsx !#8-29,31,38,48,58 host/src/App.tsx
+```tsx !#8-29,31,38,46,56 host/src/App.tsx
 import { AppRouter, useProtectedDataQueries, useIsBootstrapping } from "@squide/firefly";
 import { createBrowserRouter, Outlet } from "react-router";
 import { RouterProvider } from "react-router/dom";
@@ -363,10 +363,7 @@ function BootstrappingRoute() {
 
 export function App() {
     return (
-        <AppRouter 
-            waitForMsw
-            waitForProtectedData
-        >
+        <AppRouter waitForProtectedData>
             {({ rootRoute, registeredRoutes, routerProviderProps }) => {
                 return (
                     <RouterProvider

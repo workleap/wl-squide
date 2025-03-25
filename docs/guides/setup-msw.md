@@ -107,9 +107,9 @@ export function startMsw(moduleRequestHandlers: RequestHandler[]) {
 
 Then, update the bootstrapping code to [start MSW](https://mswjs.io/docs/integrations/browser#setup) when it's enabled:
 
-```tsx !#18-22 host/src/bootstrap.tsx
+```tsx !#11,15-19 host/src/bootstrap.tsx
 import { createRoot } from "react-dom/client";
-import { ConsoleLogger, FireflyProvider, FireflyRuntime, boostrap, type RemoteDefinition } from "@squide/firefly";
+import { ConsoleLogger, FireflyProvider, initializeFirefly, type RemoteDefinition } from "@squide/firefly";
 import { App } from "./App.tsx";
 import { registerHost } from "./register.tsx";
 
@@ -117,14 +117,11 @@ const Remotes: RemoteDefinition[] = [
     { name: "remote1" }
 ];
 
-const runtime = new FireflyRuntime({
+const runtime = initializeFirefly(runtime, {
     useMsw: !!process.env.USE_MSW,
-    loggers: [x => new ConsoleLogger(x)]
-});
-
-bootstrap(runtime, {
     localModules: [registerHost],
     remote: Remotes,
+    loggers: [x => new ConsoleLogger(x)]
     startMsw: async () => {
         // Files that includes an import to the "msw" package are included dynamically to prevent adding
         // unused MSW stuff to the code bundles.
@@ -139,36 +136,6 @@ root.render(
         <App />
     </FireflyProvider>
 );
-```
-
-### Delay routes rendering until the service is started
-
-Finally, update the host application code to delay the rendering of the routes until MSW is started. This is done by setting the `waitForMsw` property of the [AppRouter](../reference/routing/appRouter.md) component to `true`:
-
-```tsx !#7 host/src/App.tsx
-import { AppRouter } from "@squide/firefly";
-import { createBrowserRouter } from "react-router";
-import { RouterProvider } from "react-router/dom";
-
-export function App() {
-    return (
-        <AppRouter waitForMsw>
-            {({ rootRoute, registeredRoutes, routerProviderProps }) => {
-                return (
-                    <RouterProvider
-                        router={createBrowserRouter([
-                            {
-                                element: rootRoute,
-                                children: registeredRoutes
-                            }
-                        ])}
-                        {...routerProviderProps}
-                    />
-                );
-            }}
-        </AppRouter>
-    );
-}
 ```
 
 ## Setup a remote module

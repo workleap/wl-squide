@@ -35,7 +35,7 @@ export class EventBus<TEventNames extends EventName = EventName, TPayload = unkn
     }
 
     removeListener(eventName: TEventNames, callback: EventCallbackFunction<TPayload>, { once }: RemoveListenerOptions = {}) {
-        this.#eventEmitter.removeListener(eventName, callback, once);
+        this.#eventEmitter.removeListener(eventName, callback, undefined, once);
     }
 
     dispatch(eventName: TEventNames, payload?: TPayload) {

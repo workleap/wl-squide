@@ -52,7 +52,7 @@ import { RootErrorBoundary } from "./RootErrorBoundary.tsx";
 
 export function FireflyAppRouter() {
     return (
-        <AppRouter waitForMsw={false}>
+        <AppRouter>
             {({ rootRoute, registeredRoutes, routerProviderProps }) => {
                 return (
                     <RouterProvider
@@ -127,9 +127,9 @@ export function App() {
 
 And finally include the `registerShell` function to setup the `RootLayout` and `RootErrorBoundary` components as well as any other shell assets:
 
-```tsx !#17 host/src/bootstrap.tsx
+```tsx !#13 host/src/bootstrap.tsx
 import { createRoot } from "react-dom/client";
-import { ConsoleLogger, FireflyProvider, FireflyRuntime, bootstrap, type RemoteDefinition } from "@squide/firefly";
+import { ConsoleLogger, FireflyProvider, initializeFirefly, type RemoteDefinition } from "@squide/firefly";
 import { App } from "./App.tsx";
 import { registerHost } from "./register.tsx";
 import { registerShell } from "@sample/shell";
@@ -138,14 +138,11 @@ const Remotes: RemoteDefinition[] = [
     { name: "remote1" }
 ];
 
-const runtime = new FireflyRuntime({
-    loggers: [x => new ConsoleLogger(x)]
-});
-
-bootstrap(runtime, {
+const runtime = initializeFirefly(runtime, {
     // Register the newly created shell module.
     localModules: [registerShell, registerHost],
-    remotes: Remotes
+    remotes: Remotes,
+    loggers: [x => new ConsoleLogger(x)]
 });
 
 const root = createRoot(document.getElementById("root")!);
@@ -193,24 +190,19 @@ remote-module
 
 The `index.tsx` file is similar to the `bootstrap.tsx` file of an host application but, tailored for an isolated module. The key distinctions are that all the modules are registered as local modules, and a new `registerDev` function is introduced to register the development homepage (which will be covered in an upcoming section):
 
-```tsx !#10-12,17 remote-module/src/index.tsx
+```tsx !#8-13 remote-module/src/index.tsx
 import { createRoot } from "react-dom/client";
-import { ConsoleLogger, FireflyProvider, FireflyRuntime, bootstrap } from "@squide/firefly";
+import { ConsoleLogger, FireflyProvider, initializeFirefly } from "@squide/firefly";
 import { App } from "./App.tsx";
 import { register as registerModule } from "./register.tsx";
 import { registerDev } from "./dev/register.tsx";
 import { registerShell } from "@sample/shell";
 
-// Loggers, etc... could be reuse through a
-// shared packages or faked when in isolation.
-const runtime = new FireflyRuntime({
-    loggers: [x => new ConsoleLogger(x)]
-});
-
-bootstrap(runtime, {
+const runtime = initializeFirefly(runtime, {
     // Registering the remote module as a local module because the "register" function 
     // is local when developing in isolation.
-    localModules: [registerModule, registerDev, registerShell]
+    localModules: [registerModule, registerDev, registerShell],
+    loggers: [x => new ConsoleLogger(x)]
 });
 
 const root = createRoot(document.getElementById("root")!);

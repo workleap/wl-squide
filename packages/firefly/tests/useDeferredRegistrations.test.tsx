@@ -11,7 +11,7 @@ import { useDeferredRegistrations, type DeferredRegistrationsErrorCallback } fro
 import { createDefaultAppRouterState, sleep } from "./utils.ts";
 
 function renderUseAppReducerHook<TProps>(runtime: Runtime, additionalProps: RenderHookOptions<TProps> = {}) {
-    return renderHook(() => useAppRouterReducer(true, true, true), {
+    return renderHook(() => useAppRouterReducer(true, true), {
         wrapper: ({ children }: { children?: ReactNode }) => (
             <FireflyProvider runtime={runtime}>
                 {children}
@@ -43,7 +43,9 @@ afterEach(() => {
 });
 
 test("when modules are registered but not ready, global data is ready and msw is ready, register the deferred registrations", async () => {
-    const runtime = new FireflyRuntime();
+    const runtime = new FireflyRuntime({
+        useMsw: true
+    });
 
     let dispatch: Mock;
 
@@ -99,7 +101,9 @@ test("when modules are registered but not ready, global data is ready and msw is
 });
 
 test("when modules are ready, msw is ready, and the public data change, update the deferred registrations", async () => {
-    const runtime = new FireflyRuntime();
+    const runtime = new FireflyRuntime({
+        useMsw: true
+    });
 
     let dispatch: Mock;
 
@@ -177,7 +181,9 @@ test("when modules are ready, msw is ready, and the public data change, update t
 });
 
 test("when modules are ready, msw is ready, and the protected data change, update the deferred registrations", async () => {
-    const runtime = new FireflyRuntime();
+    const runtime = new FireflyRuntime({
+        useMsw: true
+    });
 
     let dispatch: Mock;
 
@@ -255,7 +261,9 @@ test("when modules are ready, msw is ready, and the protected data change, updat
 });
 
 test("when modules are not registered, do not register the deferred registrations", async () => {
-    const runtime = new FireflyRuntime();
+    const runtime = new FireflyRuntime({
+        useMsw: true
+    });
 
     let dispatch: Mock;
 
@@ -319,7 +327,9 @@ test("when modules are not registered, do not register the deferred registration
 });
 
 test("when modules are ready, msw is ready, but the global data hasn't change, do not update the deferred registrations", async () => {
-    const runtime = new FireflyRuntime();
+    const runtime = new FireflyRuntime({
+        useMsw: true
+    });
 
     let dispatch: Mock;
 
@@ -402,7 +412,9 @@ test("when modules are ready, msw is ready, but the global data hasn't change, d
 });
 
 test("when an error occurs while registering the deferred registrations of the local modules, invoke the onError callback", async () => {
-    const runtime = new FireflyRuntime();
+    const runtime = new FireflyRuntime({
+        useMsw: true
+    });
 
     // Setting a dummy dispatch proxy to prevent: "Warning: An update to TestComponent inside a test was not wrapped in act(...)"
     __setAppReducerDispatchProxyFactory(() => vi.fn());
@@ -460,7 +472,9 @@ test("when an error occurs while registering the deferred registrations of the l
 });
 
 test("when an error occurs while registering the deferred registrations of the remote modules, invoke the onError callback", async () => {
-    const runtime = new FireflyRuntime();
+    const runtime = new FireflyRuntime({
+        useMsw: true
+    });
 
     // Setting a dummy dispatch proxy to prevent: "Warning: An update to TestComponent inside a test was not wrapped in act(...)"
     __setAppReducerDispatchProxyFactory(() => vi.fn());
@@ -518,7 +532,9 @@ test("when an error occurs while registering the deferred registrations of the r
 });
 
 test("when an error occurs while registering the deferred registrations of the local & remote modules, invoke the onError callback", async () => {
-    const runtime = new FireflyRuntime();
+    const runtime = new FireflyRuntime({
+        useMsw: true
+    });
 
     // Setting a dummy dispatch proxy to prevent: "Warning: An update to TestComponent inside a test was not wrapped in act(...)"
     __setAppReducerDispatchProxyFactory(() => vi.fn());
@@ -584,7 +600,9 @@ test("when an error occurs while registering the deferred registrations of the l
 });
 
 test("when an error occurs while updating the deferred registrations of the local modules, invoke the onError callback", async () => {
-    const runtime = new FireflyRuntime();
+    const runtime = new FireflyRuntime({
+        useMsw: true
+    });
 
     // Setting a dummy dispatch proxy to prevent: "Warning: An update to TestComponent inside a test was not wrapped in act(...)"
     __setAppReducerDispatchProxyFactory(() => vi.fn());
@@ -664,7 +682,9 @@ test("when an error occurs while updating the deferred registrations of the loca
 });
 
 test("when an error occurs while updating the deferred registrations of the protected modules, invoke the onError callback", async () => {
-    const runtime = new FireflyRuntime();
+    const runtime = new FireflyRuntime({
+        useMsw: true
+    });
 
     // Setting a dummy dispatch proxy to prevent: "Warning: An update to TestComponent inside a test was not wrapped in act(...)"
     __setAppReducerDispatchProxyFactory(() => vi.fn());
@@ -744,7 +764,9 @@ test("when an error occurs while updating the deferred registrations of the prot
 });
 
 test("when an error occurs while updating the deferred registrations of the local & protected modules, invoke the onError callback", async () => {
-    const runtime = new FireflyRuntime();
+    const runtime = new FireflyRuntime({
+        useMsw: true
+    });
 
     // Setting a dummy dispatch proxy to prevent: "Warning: An update to TestComponent inside a test was not wrapped in act(...)"
     __setAppReducerDispatchProxyFactory(() => vi.fn());

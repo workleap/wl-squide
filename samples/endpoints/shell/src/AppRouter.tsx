@@ -143,15 +143,11 @@ function BootstrappingRoute() {
     );
 }
 
-export interface AppRouterProps {
-    waitForMsw: boolean;
-}
-
-export function AppRouter({ waitForMsw }: AppRouterProps) {
+export function AppRouter() {
     const logger = useLogger();
 
     return (
-        <FireflyAppRouter waitForMsw={waitForMsw} waitForPublicData waitForProtectedData>
+        <FireflyAppRouter waitForPublicData waitForProtectedData>
             {({ rootRoute, registeredRoutes, routerProviderProps }) => {
                 logger.debug("[shell] React Router will be rendered with the following route definitions: ", registeredRoutes);
 

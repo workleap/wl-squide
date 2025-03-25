@@ -17,7 +17,7 @@ import { BackgroundColorContext } from "@sample/shared";
 export function App() {
     return (
         <BackgroundColorContext.Provider value="blue">
-            <AppRouter waitForMsw={false}>
+            <AppRouter>
                 {({ rootRoute, registeredRoutes, routerProviderProps }) => {
                     return (
                         <RouterProvider
@@ -129,7 +129,7 @@ import { ThemeContext } from "@hopper/components";
 export function App() {
     return (
         <ThemeContext.Provider value="dark">
-            <AppRouter waitForMsw={false}>
+            <AppRouter>
                 {({ rootRoute, registeredRoutes, routerProviderProps }) => {
                     return (
                         <RouterProvider

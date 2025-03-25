@@ -50,9 +50,9 @@ test.concurrent("when the modules are ready, and the active route is protected, 
 
 test.concurrent("when the modules are registered or ready, the active route is protected, and msw is not ready but it's not required to wait for msw, return true", ({ expect }) => {
     const state = createDefaultAppRouterState();
+    state.waitForMsw = false;
     state.areModulesReady = true;
     state.activeRouteVisibility = "protected";
-    state.waitForMsw = false;
 
     const { result } = renderUseCanFetchProtectedDataHook(state);
 
@@ -94,9 +94,9 @@ test.concurrent("when the active route is not protected, return false", ({ expec
 
 test.concurrent("when it's required to wait for msw and msw is not ready, return false", ({ expect }) => {
     const state = createDefaultAppRouterState();
+    state.waitForMsw = true;
     state.areModulesReady = true;
     state.activeRouteVisibility = "protected";
-    state.waitForMsw = true;
     state.isMswReady = false;
 
     const { result } = renderUseCanFetchProtectedDataHook(state);

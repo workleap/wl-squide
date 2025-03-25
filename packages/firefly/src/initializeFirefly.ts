@@ -1,22 +1,22 @@
 import { isFunction, registerLocalModules, type ModuleRegisterFunction, type RegisterModulesOptions } from "@squide/core";
 import { registerRemoteModules, type RemoteDefinition } from "@squide/module-federation";
 import { setMswAsReady } from "@squide/msw";
-import type { FireflyRuntime } from "./FireflyRuntime.tsx";
+import { FireflyRuntime, type FireflyRuntimeOptions } from "./FireflyRuntime.tsx";
 
 export const ApplicationBootstrappingStartedEvent = "squide-app-bootstrapping-started";
 
+export type OnInitializationErrorFunction = (error: unknown) => void;
+
 export type StartMswFunction<TRuntime = FireflyRuntime> = (runtime: TRuntime) => Promise<void>;
 
-export type OnBootstrapErrorFunction = (error: unknown) => void;
-
-export interface BootstrapAppOptions<TRuntime extends FireflyRuntime = FireflyRuntime, TContext = unknown, TData = unknown> extends RegisterModulesOptions<TContext> {
+export interface InitializeFireflyOptions<TRuntime extends FireflyRuntime, TContext = unknown, TData = unknown> extends RegisterModulesOptions<TContext>, FireflyRuntimeOptions {
     localModules?: ModuleRegisterFunction<TRuntime, TContext, TData>[];
     remotes?: RemoteDefinition[];
-    startMsw?: StartMswFunction<TRuntime>;
-    onError?: OnBootstrapErrorFunction;
+    startMsw?: StartMswFunction<FireflyRuntime>;
+    onError?: OnInitializationErrorFunction;
 }
 
-function propagateRegistrationErrors(results: PromiseSettledResult<unknown[]>, onError: OnBootstrapErrorFunction) {
+function propagateRegistrationErrors(results: PromiseSettledResult<unknown[]>, onError: OnInitializationErrorFunction) {
     if (results) {
         if (results.status === "fulfilled") {
             results.value.forEach(x => {
@@ -26,22 +26,14 @@ function propagateRegistrationErrors(results: PromiseSettledResult<unknown[]>, o
     }
 }
 
-let hasExecuted = false;
-
-export function bootstrap<TRuntime extends FireflyRuntime = FireflyRuntime, TContext = unknown, TData = unknown>(runtime: TRuntime, options: BootstrapAppOptions<TRuntime, TContext, TData> = {}) {
+export function bootstrap<TRuntime extends FireflyRuntime = FireflyRuntime, TContext = unknown, TData = unknown>(runtime: TRuntime, options: InitializeFireflyOptions<TRuntime, TContext, TData> = {}) {
     const {
         localModules = [],
         remotes = [],
-        context,
         startMsw,
-        onError
+        onError,
+        context
     } = options;
-
-    if (hasExecuted) {
-        throw new Error("[squide] A squide application can only be bootstrapped once. Did you call the \"bootstrap\" function twice?");
-    }
-
-    hasExecuted = true;
 
     runtime.eventBus.dispatch(ApplicationBootstrappingStartedEvent);
 
@@ -68,6 +60,34 @@ export function bootstrap<TRuntime extends FireflyRuntime = FireflyRuntime, TCon
             propagateRegistrationErrors(results[1], onError);
         }
     });
+}
+
+let hasExecuted = false;
+
+export function initializeFirefly<TContext = unknown, TData = unknown>(options: InitializeFireflyOptions<FireflyRuntime, TContext, TData> = {}) {
+    const {
+        mode,
+        useMsw,
+        loggers,
+        plugins
+    } = options;
+
+    if (hasExecuted) {
+        throw new Error("[squide] A squide application can only be initialized once. Did you call the \"initializeSquide\" function twice?");
+    }
+
+    hasExecuted = true;
+
+    const runtime = new FireflyRuntime({
+        mode,
+        useMsw,
+        loggers,
+        plugins
+    });
+
+    bootstrap(runtime, options);
+
+    return runtime;
 }
 
 export function __resetHasExecuteGuard() {

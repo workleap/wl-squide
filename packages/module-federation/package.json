@@ -36,6 +36,7 @@
     },
     "dependencies": {
         "@module-federation/enhanced": "0.10.0",
+        "@rspack/core": "latest",
         "@squide/core": "workspace:*"
     },
     "devDependencies": {

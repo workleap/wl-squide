@@ -1,7 +1,8 @@
-import { addLocalModuleRegistrationStatusChangedListener, getLocalModuleRegistrationStatus, removeLocalModuleRegistrationStatusChangedListener, useEventBus, useLogger } from "@squide/core";
+import { addLocalModuleRegistrationStatusChangedListener, getLocalModuleRegistrationStatus, removeLocalModuleRegistrationStatusChangedListener, useEventBus, useLogger, useRuntime } from "@squide/core";
 import { addRemoteModuleRegistrationStatusChangedListener, areModulesReady, areModulesRegistered, getRemoteModuleRegistrationStatus, removeRemoteModuleRegistrationStatusChangedListener } from "@squide/module-federation";
 import { addMswStateChangedListener, isMswReady, removeMswStateChangedListener } from "@squide/msw";
 import { useCallback, useEffect, useMemo, useReducer, type Dispatch } from "react";
+import type { FireflyRuntime } from "./FireflyRuntime.tsx";
 import { useExecuteOnce } from "./useExecuteOnce.ts";
 import { isBootstrapping } from "./useIsBootstrapping.ts";
 
@@ -41,6 +42,8 @@ export type AppRouterActionType =
 export const ModulesRegisteredEvent = "squide-modules-registered";
 export const ModulesReadyEvent = "squide-modules-ready";
 export const MswReadyEvent = "squide-msw-ready";
+export const ActiveRouteIsPublicEvent = "squide-active-route-is-public";
+export const ActiveRouteIsProtectedEvent = "squide-active-route-is-protected";
 export const PublicDataReadyEvent = "squide-public-data-ready";
 export const ProtectedDataReadyEvent = "squide-protected-data-ready";
 export const PublicDataUpdatedEvent = "squide-public-data-updated";
@@ -282,18 +285,21 @@ function useReducerDispatchProxy(reactDispatch: AppRouterDispatch) {
 }
 
 function useEnhancedReducerDispatch(reducerDispatch: AppRouterDispatch) {
-    const logger = useLogger();
-    const eventBus = useEventBus();
+    const runtime = useRuntime() as FireflyRuntime;
 
     return useCallback((action: AppRouterAction) => {
-        logger.debug("[squide] The following action has been dispatched to the AppRouter reducer:", action);
-        eventBus.dispatch(`squide-${action.type}`);
+        runtime.logger.debug("[squide] The following action has been dispatched to the AppRouter reducer:", action);
+
+        runtime.appRouterStore.dispatch(action);
+        runtime.eventBus.dispatch(`squide-${action.type}`);
 
         reducerDispatch(action);
-    }, [reducerDispatch, logger, eventBus]);
+    }, [reducerDispatch, runtime]);
 }
 
-export function useAppRouterReducer(waitForMsw: boolean, waitForPublicData: boolean, waitForProtectedData: boolean): [AppRouterState, AppRouterDispatch] {
+export function useAppRouterReducer(waitForPublicData: boolean, waitForProtectedData: boolean): [AppRouterState, AppRouterDispatch] {
+    const runtime = useRuntime() as FireflyRuntime;
+
     const areModulesInitiallyRegistered = getAreModulesRegistered();
     const areModulesInitiallyReady = getAreModulesReady();
     const isMswInitiallyReady = isMswReady();
@@ -331,7 +337,7 @@ export function useAppRouterReducer(waitForMsw: boolean, waitForPublicData: bool
     }, [isMswInitiallyReady, eventBus]), true);
 
     const [state, reactDispatch] = useReducer(reducer, {
-        waitForMsw,
+        waitForMsw: runtime.isMswEnabled,
         waitForPublicData,
         waitForProtectedData,
         // When the modules registration functions are awaited, the event listeners are registered after the modules are registered.
