@@ -5,6 +5,12 @@ label: Migrate to firefly v11.0
 
 # Migrate to firefly v11.0
 
+!!!warning
+If you are migrating from `v8`, follow the [Migrate from v8 to v12.0](./migrate-from-v8-to-v12.0.md) guide.
+!!!
+
+This major version transform the `bootstrap` function from an async function a sync function. It also introduces a new [FireflyProvider](../reference/runtime/FireflyProvider.md) alias for `RuntimeContext.Provider`.
+
 ## Breaking changes
 
 ### `bootstrap`
@@ -42,7 +48,7 @@ To handle bootstrapping errors, an `onError` handler can be provided.
 
 ### Replace `RuntimeContext.Provider` by `FireflyProvider`
 
-A new `FireflyProvider` has been introduced to replace `RuntimeContext.Provider`. This change is optionnal as both are still supported, but strongly encouraged.
+A new [FireflyProvider](../reference/runtime/FireflyProvider.md) has been introduced to replace `RuntimeContext.Provider`. This change is optionnal as both are still supported, but strongly encouraged.
 
 Before:
 

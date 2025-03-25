@@ -5,6 +5,10 @@ label: Migrate to firefly v12.0
 
 # Migrate to firefly v12.0
 
+!!!warning
+If you are migrating from `v8`, follow the [Migrate from v8 to v12.0](./migrate-from-v8-to-v12.0.md) guide.
+!!!
+
 This major version introduces a new [initializeFirefly](../reference/registration/initializeFirefly.md) function, replacing the `bootstrap` function. This new `initializeFirefly` function is similar the previous `bootstrap` function with the addition that it takes care of creating and returning a [Runtime](../reference/runtime/runtime-class.md) instance.
 
 This major version introduces a new [initializeFirefly](../reference/registration/initializeFirefly.md) function that replaces the legacy `bootstrap` function. In addition to providing similar functionality, `initializeFirefly` creates and returns a [Runtime](../reference/runtime/runtime-class.md) instance.
@@ -22,7 +26,7 @@ The `bootstrap` function has been replaced by the [initializeFirefly](../referen
 
 Before:
 
-```tsx !#10-18
+```tsx !#10-18 bootstrap.tsx
 import { createRoot } from "react-dom/client";
 import { ConsoleLogger, FireflyProvider, FireflyRuntime, bootstrap, type RemoteDefinition } from "@squide/firefly";
 import { App } from "./App.tsx";
@@ -53,7 +57,7 @@ root.render(
 
 Now:
 
-```tsx !#10-13
+```tsx !#10-13 bootstrap.tsx
 import { createRoot } from "react-dom/client";
 import { ConsoleLogger, FireflyProvider, initializeFirefly, type RemoteDefinition } from "@squide/firefly";
 import { App } from "./App.tsx";
@@ -83,7 +87,7 @@ Because the `initializeFirefly` function accepts the [useMsw](../reference/runti
 
 Before:
 
-```tsx !#7
+```tsx !#7 AppRouter.tsx
 import { AppRouter } from "@squide/firefly";
 import { createBrowserRouter } from "react-router";
 import { RouterProvider } from "react-router/dom";
@@ -111,7 +115,15 @@ export function App() {
 
 Now:
 
-```tsx !#7
+```tsx !#4 bootstrap.tsx
+import { initializeFirefly } from "@squide/firefly";
+
+const runtime = initializeFirefly({
+    useMsw: true
+});
+```
+
+```tsx !#7 AppRouter.tsx
 import { AppRouter } from "@squide/firefly";
 import { createBrowserRouter } from "react-router";
 import { RouterProvider } from "react-router/dom";

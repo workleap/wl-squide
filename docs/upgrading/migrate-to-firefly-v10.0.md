@@ -5,6 +5,10 @@ label: Migrate to firefly v10.0
 
 # Migrate to firefly v10.0
 
+!!!warning
+If you are migrating from `v8`, follow the [Migrate from v8 to v12.0](./migrate-from-v8-to-v12.0.md) guide.
+!!!
+
 This major version introduces support for [React Router](https://reactrouter.com) `v7`. The peer dependencies for `@squide/firefly` and `@squide/react-router` have been updated from `react-router-dom@6*` to `react-router@7*` and the React Router shared dependency name has been renamed from `react-router-dom` to `react-router` for `@squide/firefly-webpack-configs` and `@squide/firefly-rsbuild-configs`.
 
 ## Breaking changes
@@ -49,7 +53,7 @@ Now:
 />
 ```
 
-If you are app is already on React Router `v7`, you can ignore this advice.
+If your application is already on React Router `v7`, you can ignore this advice.
 
 ### Replace `react-router-dom` with `react-router`
 

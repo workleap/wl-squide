@@ -1,25 +1,49 @@
 ---
-order: 1000
-label: Migrate to firefly v9.0
+order: 910
+label: Migrate from v8 to v12.0
 ---
 
-# Migrate to firefly v9.0
+# Migrate from v8 to v12.0
 
-!!!warning
-If you are migrating from `v8`, follow the [Migrate from v8 to v12.0](./migrate-from-v8-to-v12.0.md) guide.
-!!!
+This migration guide is an aggregation of all the changes that happened between Squide Firefly `v9.0` and `v12.0`:
 
-!!!warning
-Although this migration guide is labeled for version `9.0.0`, it is actually intended for migrating from version `8.*` to version `9.2.1`. Therefore, please ensure you upgrade to `@squide/firefly` version `9.2.1` instead of `9.0.0`.
+## Changes summary
 
-We apologize for the confusion.
-!!!
+### v9.0
+
+:icon-checklist: [Migrate to firefly v9.0](./migrate-to-firefly-v9.0.md)
 
 This major version of `@squide/firefly` introduces [TanStack Query](https://tanstack.com/query/latest) as the official library for fetching the global data of a Squide's application and features a complete rewrite of the [AppRouter](../reference/routing/appRouter.md) component, which now uses a state machine to manage the application's bootstrapping flow.
 
 Prior to `v9.0`, Squide applications couldn't use TanStack Query to fetch global data, making it **challenging** for Workleap's applications to **keep** their **global data** in **sync** with the **server state**. With `v9.0`, applications can now leverage [custom wrappers](../guides/fetch-global-data.md) of the TanStack Query's [useQueries](https://tanstack.com/query/latest/docs/framework/react/reference/useQueries) hook to fetch and keep their global data up-to-date with the server state. Additionally, the new [deferred registrations update](../reference/registration/useDeferredRegistrations.md#register-or-update-deferred-registrations) feature allows applications to even **keep** their conditional **navigation items in sync** with the **server state**.
 
 Finally, with `v9.0`, Squide's philosophy has evolved. We used to describe Squide as a shell for **federated** applications. Now, we refer to Squide as a shell for **modular** applications. After playing with Squide's [local module](../reference/registration/registerLocalModules.md) feature for a while, we discovered that Squide offers [significant value](../getting-started/default.md#why-squide) even for **non-federated applications**, which triggered this shift in philosophy.
+
+### v9.3
+
+:icon-checklist: [Migrate to firefly v9.3](./migrate-to-firefly-v9.3.md)
+
+This minor version deprecate the [registerLocalModules](../reference/registration/registerLocalModules.md), [registerRemoteModules](../reference/registration/registerRemoteModules.md) and [setMswAsReady](../reference/msw/setMswAsReady.md) in favor of a `bootstrap` function.
+
+### v10.0
+
+:icon-checklist: [Migrate to firefly v10.0](./migrate-to-firefly-v10.0.md)
+
+This major version introduces support for [React Router](https://reactrouter.com) `v7`. The peer dependencies for `@squide/firefly` and `@squide/react-router` have been updated from `react-router-dom@6*` to `react-router@7*` and the React Router shared dependency name has been renamed from `react-router-dom` to `react-router` for `@squide/firefly-webpack-configs` and `@squide/firefly-rsbuild-configs`.
+
+### v11.0
+
+:icon-checklist: [Migrate to firefly v11.0](./migrate-to-firefly-v11.0.md)
+
+This major version transform the `bootstrap` function from an async function a sync function. It also introduces a new [FireflyProvider](../reference/runtime/FireflyProvider.md) alias for `RuntimeContext.Provider`.
+
+### v12.0
+
+:icon-checklist: [Migrate to firefly v12.0](./migrate-to-firefly-v12.0.md)
+
+This major version introduces a new [initializeFirefly](../reference/registration/initializeFirefly.md) function, replacing the `bootstrap` function. This new `initializeFirefly` function is similar the previous `bootstrap` function with the addition that it takes care of creating and returning a [Runtime](../reference/runtime/runtime-class.md) instance.
+
+This major version introduces a new [initializeFirefly](../reference/registration/initializeFirefly.md) function that replaces the legacy `bootstrap` function. In addition to providing similar functionality, `initializeFirefly` creates and returns a [Runtime](../reference/runtime/runtime-class.md) instance.
 
 ## Breaking changes
 
@@ -42,14 +66,22 @@ Finally, with `v9.0`, Squide's philosophy has evolved. We used to describe Squid
 - A route definition `$name` option has been renamed to [$id](../reference/runtime/runtime-class.md#register-a-route-with-an-id).
 - The [registerRoute](../reference/runtime/runtime-class.md#register-routes) `parentName` option has been renamed to [parentId](../reference/runtime/runtime-class.md#register-nested-routes).
 
-### Others
+### Dependencies
 
 - The `@squide/firefly` package now takes a peerDependency on `@tanstack/react-query`.
 - The `@squide/firefly` package doesn't takes a peerDependency on `react-error-boundary` anymore.
+- The `@squide/firefly` package doesn't support `react-router-dom@6*` anymore, remove the `reacy-router-dom` dependency and update to `react-router@7*`.
+
+### Deprecation
+
+- The [registerLocalModules](../reference/registration/registerLocalModules.md) function has been **deprecated**, use the `bootstrap` function instead.
+- The [registerRemoteModules](../reference/registration/registerRemoteModules.md) function has been **deprecated**, use the `bootstrap` function instead.
+- The [setMswAsReady](../reference/msw/setMswAsReady.md) function has been **deprecated**, use the `bootstrap` function instead.
+- The `RuntimeContext.Provider` has been **deprecated**, use [FireflyProvider](../reference/runtime/FireflyProvider.md) instead.
 
 ### Removed support for deferred routes
 
-[Deferred registration](../reference/registration/registerLocalModules.md#defer-the-registration-of-navigation-items) functions no longer support route registration; they are now **exclusively** used for **registering navigation items**. Since deferred registration functions can now be re-executed whenever the global data changes, registering routes in deferred registration functions no longer makes sense as updating the routes registry after the application has bootstrapped could lead to issues.
+As of `v9.0`, [Deferred registration](../reference/registration/registerLocalModules.md#defer-the-registration-of-navigation-items) functions no longer support route registration; they are now **exclusively** used for **registering navigation items**. Since deferred registration functions can now be re-executed whenever the global data changes, registering routes in deferred registration functions no longer makes sense as updating the routes registry after the application has bootstrapped could lead to issues.
 
 This change is a significant improvement for Squide's internals, allowing us to eliminate quirks like:
 
@@ -59,7 +91,7 @@ This change is a significant improvement for Squide's internals, allowing us to 
 
 Before:
 
-```tsx !#4-7
+```tsx !#4-7 register.tsx
 export const register: ModuleRegisterFunction<FireflyRuntime, unknown, DeferredRegistrationData> = runtime => {
     return ({ featureFlags }) => {
         if (featureFlags?.featureB) {
@@ -80,7 +112,7 @@ export const register: ModuleRegisterFunction<FireflyRuntime, unknown, DeferredR
 
 Now:
 
-```tsx !#2-5
+```tsx !#2-5 register.tsx
 export const register: ModuleRegisterFunction<FireflyRuntime, unknown, DeferredRegistrationData> = runtime => {
     runtime.registerRoute({
         path: "/page",
@@ -105,7 +137,7 @@ To handle direct access to a conditional route, each conditional route's endpoin
 
 ### Plugin's constructors now requires a runtime instance
 
-Prior to this release, plugin instances received the current runtime instance through a `_setRuntime` function. This approach caused issues because some plugins required a reference to the runtime at instantiation. To address this, plugins now receive the **runtime instance** directly as a **constructor** argument.
+Prior to `v9.0`, plugin instances received the current runtime instance through a `_setRuntime` function. This approach caused issues because some plugins required a reference to the runtime at instantiation. To address this, plugins now receive the **runtime instance** directly as a **constructor** argument.
 
 Before:
 
@@ -135,11 +167,13 @@ export class MyPlugin extends Plugin {
 
 ### Plugins now registers with a factory function
 
-Prior to this release, the [FireflyRuntime](../reference/runtime/runtime-class.md) accepted plugin instances as options. Now, `FireflyRuntime` accepts **factory functions** instead of plugin instances. This change allows plugins to receive the runtime instance as a constructor argument.
+Prior to `v9.0`, the [FireflyRuntime](../reference/runtime/runtime-class.md) accepted plugin instances as options. Now plugins should be registered with the [initializeFirefly](../reference/registration/initializeFirefly.md) function which accepts **factory functions** instead of plugin instances. This change allows plugins to receive the runtime instance as a constructor argument.
 
 Before:
 
-```tsx
+```tsx !#4 bootstrap.tsx
+import { FireflyRuntime } from "@squide/firefly";
+
 const runtime = new FireflyRuntime({
     plugins: [new MyPlugin()]
 });
@@ -147,15 +181,17 @@ const runtime = new FireflyRuntime({
 
 Now:
 
-```tsx
-const runtime = new FireflyRuntime({
+```tsx !#4 bootstrap.tsx
+import { initializeFirefly } from "@squide/firefly";
+
+const runtime = initializeFirefly({
     plugins: [x => new MyPlugin(x)]
 });
 ```
 
 ### Rewrite of the `AppRouter` component
 
-This release features a full rewrite of the [AppRouter](../reference/routing/appRouter.md) component. The `AppRouter` component used to handle many concerns like global data fetching, deferred registrations, error handling and a loading state. Those concerns have been delegated to the consumer code, supported by the new [useIsBootstrapping](../reference/routing/useIsBootstrapping.md), [usePublicDataQueries](../reference/tanstack-query/usePublicDataQueries.md), [useProtectedDataQueries](../reference/tanstack-query/useProtectedDataQueries.md) and [useDeferredRegistrations](../reference/registration/useDeferredRegistrations.md) hooks.
+`v9.0` features a full rewrite of the [AppRouter](../reference/routing/appRouter.md) component. The `AppRouter` component used to handle many concerns like global data fetching, deferred registrations, error handling and a loading state. Those concerns have been delegated to the consumer code, supported by the new [useIsBootstrapping](../reference/routing/useIsBootstrapping.md), [usePublicDataQueries](../reference/tanstack-query/usePublicDataQueries.md), [useProtectedDataQueries](../reference/tanstack-query/useProtectedDataQueries.md) and [useDeferredRegistrations](../reference/registration/useDeferredRegistrations.md) hooks.
 
 Before:
 
@@ -200,7 +236,15 @@ export function App() {
 
 Now:
 
-```tsx
+```tsx !#4 bootstrap.tsx
+import { initializeFirefly } from "@squide/firefly";
+
+const runtime = initializeFirefly({
+    useMsw: true
+});
+```
+
+```tsx AppRouter.tsx
 function BootstrappingRoute() {
     const [featureFlags] = usePublicDataQueries([getFeatureFlagsQuery]);
     const [subscription] = useProtectedDataQueries([getSubscriptionQuery]);
@@ -221,7 +265,7 @@ function BootstrappingRoute() {
 
 export function App() {
     return (
-        <AppRouter waitForMsw waitForPublicData>
+        <AppRouter waitForPublicData>
             {({ rootRoute, registeredRoutes, routerProviderProps }) => {
                 return (
                     <RouterProvider
@@ -244,6 +288,197 @@ export function App() {
         </AppRouter>
     );
 }
+```
+
+### Use the `initializeFirefly` function
+
+Versions `v9.3`, `v11.0` and `v12.0` introduce changes to how the [FireflyRuntime](../reference/runtime/runtime-class.md) instance should be created and how the modules should be registered.
+
+Before:
+
+```tsx !#13-15,18,21 bootstrap.tsx
+import { ConsoleLogger, FireflyProvider, FireflyRuntime, registerRemoteModules, registerLocalModules, type RemoteDefinition } from "@squide/firefly";
+import { register as registerMyLocalModule } from "@getting-started/local-module";
+import { createRoot } from "react-dom/client";
+import { App } from "./App.tsx";
+import { registerHost } from "./register.tsx";
+
+// Define the remote modules.
+const Remotes: RemoteDefinition[] = [
+    { name: "remote1" }
+];
+
+// Create the shell runtime.
+const runtime = new FireflyRuntime({
+    loggers: [x => new ConsoleLogger(x)]
+});
+
+// Register the local module.
+await registerLocalModules([registerHost, registerMyLocalModule], runtime);
+
+// Register the remote module.
+await registerRemoteModules(Remotes, runtime);
+
+const root = createRoot(document.getElementById("root")!);
+
+root.render(
+    <FireflyProvider runtime={runtime}>
+        <App />
+    </FireflyProvider>
+);
+```
+
+Now:
+
+```tsx !#12-16 bootstrap.tsx
+import { ConsoleLogger, FireflyProvider, FireflyRuntime, initializeFirefly, type RemoteDefinition } from "@squide/firefly";
+import { register as registerMyLocalModule } from "@getting-started/local-module";
+import { createRoot } from "react-dom/client";
+import { App } from "./App.tsx";
+import { registerHost } from "./register.tsx";
+
+// Define the remote modules.
+const Remotes: RemoteDefinition[] = [
+    { name: "remote1" }
+];
+
+const runtime = initializeFirefly(runtime, {
+    localModules: [registerHost, registerMyLocalModule],
+    remotes: Remotes,
+    loggers: [x => new ConsoleLogger(x)]
+});
+
+const root = createRoot(document.getElementById("root")!);
+
+root.render(
+    <FireflyProvider runtime={runtime}>
+        <App />
+    </FireflyProvider>
+);
+```
+
+### Rename `RuntimeContext.Provider` to `FireflyProvider`
+
+`v11.0` introduces the [FireflyProvider](../reference/runtime/FireflyProvider.md) alias for `RuntimeContext.Provider`. This change is optionnal as both are still supported, but strongly encouraged.
+
+Before:
+
+```tsx
+import { initializeFirefly, RuntimeContext } from "@squide/firefly";
+import { createRoot } from "react-dom/client";
+
+const runtime = initializeFirefly();
+
+const root = createRoot(document.getElementById("root")!);
+
+root.render(
+    <RuntimeContext.Provider value={runtime}>
+        <App />
+    </RuntimeContext.Provider>
+);
+```
+
+Now:
+
+```tsx
+import { FireflyProvider, initializeFirefly } from "@squide/firefly";
+import { createRoot } from "react-dom/client";
+
+const runtime = initializeFirefly();
+
+const root = createRoot(document.getElementById("root")!);
+
+root.render(
+    <FireflyProvider runtime={runtime}>
+        <App />
+    </FireflyProvider>
+);
+```
+
+### Replace `react-router-dom` with `react-router`
+
+`v10` introduces an update to React Router `v7`. In React Router `v7`, `react-router-dom` is no longer required, as the package structure has been simplified. All necessary imports are now available from either `react-router` or `react-router/dom`.
+
+#### Preparation
+
+Before migrating to React Router `v7`, it is highly recommended to read React Router [migration guide](https://reactrouter.com/upgrading/v6) and activate the "future flags" one by one to minimize breaking changes.
+
+Before:
+
+```tsx
+<RouterProvider
+    router={createBrowserRouter([
+        {
+            element: rootRoute,
+            children: registeredRoutes
+        }
+    ])}
+    {...routerProviderProps}
+/>
+```
+
+Now:
+
+```tsx
+<RouterProvider
+    router={createBrowserRouter([
+        {
+            element: rootRoute,
+            children: registeredRoutes
+        }
+    ], {
+        future: {
+            v7_relativeSplatPath: true
+        }
+    })}
+    {...routerProviderProps}
+/>
+```
+
+If your application is already on React Router `v7`, you can ignore this advice.
+
+#### Update dependencies
+
+Open a terminal at the root of the project workspace and use the following commands to remove `react-router-dom` and install `react-router@latest`:
+
++++ pnpm
+```bash
+pnpm remove react-router-dom
+pnpm add react-router@latest
+```
++++ yarn
+```bash
+yarn remove react-router-dom
+yarn add react-router@latest
+```
++++ npm
+```bash
+npm uninstall react-router-dom
+npm install react-router@latest
+```
++++
+
+#### Update Imports
+
+In your code, update all imports from `react-router-dom` to `react-router`, except for `RouterProvider`, which must be imported from `react-router/dom`.
+
+Before:
+
+```ts
+import { Outlet, createBrowserRouter, RouterProvider } from "react-router-dom";
+```
+
+Now:
+
+```ts
+import { Outlet, createBrowserRouter } from "react-router";
+import { RouterProvider } from "react-router/dom";
+```
+
+According to React Router [migration guide](https://reactrouter.com/upgrading/v6#upgrade-to-v7), you can use the following command to update the imports from `react-router-dom` to `react-router`:
+
+```bash
+find ./path/to/src \( -name "*.tsx" -o -name "*.ts" -o -name "*.js" -o -name "*.jsx" \) -type f -exec sed -i '' 's|from "react-router-dom"|from "react-router"|g' {} +
 ```
 
 ## New hooks and functions
@@ -309,37 +544,40 @@ const navigationElements = useRenderedNavigationItems(navigationItems, renderIte
 
 ## Migrate an host application
 
-> A migration example from `v8` to `v9` is available for the [wl-squide-monorepo-template](https://github.com/workleap/wl-squide-monorepo-template/commit/87489f0541cc959f437133f2afd8c0a9db160efe).
-
-The `v9.0` release introduces several breaking changes affecting the host application code. Follow these steps to migrate an existing host application:
+Follow these steps to migrate an existing host application:
 
 1. Add a dependency to `@tanstack/react-query`.
-2. Transition to the new `AppRouter` component. [View example](#rewrite-of-the-approuter-component)
+2. Remove the `react-router-dom` dependency and update to `react-router@7*`. [View example](#replace-react-router-dom-with-react-router)
+3. Transition to the new `AppRouter` component. [View example](#rewrite-of-the-approuter-component)
     - `onLoadPublicData` + `isPublicDataLoaded` becomes [usePublicDataQueries](../reference/tanstack-query/usePublicDataQueries.md)
     - `onLoadProtectedData` + `isProtectedDataLoaded` becomes [useProtectedDataQueries](../reference/tanstack-query/useProtectedDataQueries.md)
     - `onCompleteRegistrations` becomes [useDeferredRegistrations](../reference/registration/useDeferredRegistrations.md)
     - `fallbackElement` becomes [useIsBootstrapping](../reference/routing/useIsBootstrapping.md)
     - `errorElement` is removed and somewhat replaced by a [root error boundary](#root-error-boundary)
-3. Create a `TanStackSessionManager` class and the `SessionManagerContext`. Replace the session's deprecated hooks by creating the customs `useSession` and `useIsAuthenticated` hooks. [View example](../guides/add-authentication.md#create-a-session-manager)
-4. Remove the `sessionAccessor` option from the `FireflyRuntime` instance. Update the `BootstrappingRoute` component to create a `TanStackSessionManager` instance and share it down the component tree using a `SessionManagedContext` provider. [View example](../guides/add-authentication.md#fetch-the-session)
-5. Add or update the `AuthenticationBoundary` component to use the new `useIsAuthenticated` hook. Global data fetch request shouldn't be throwing 401 error anymore when the user is not authenticated. [View example](../guides/add-authentication.md#add-an-authentication-boundary)
-6. Update the `AuthenticatedLayout` component to use the session manager instance to clear the session. Retrieve the session manager instance from the context defined in the `BootstrappingRoute` component using the `useSessionManager` hook. [View example](../guides/add-authentication.md#define-an-authenticated-layout)
-7. Update the `AuthenticatedLayout` component to use the new `key` argument. [View example](#new-id-option-for-navigation-items)
-8. Replace the `ManagedRoutes` placeholder with the new [PublicRoutes](../reference/routing/publicRoutes.md) and [ProtectedRoutes](../reference/routing/protectedRoutes.md) placeholders. [View example](../getting-started/create-host.md#homepage)
-9. Convert all deferred routes into static routes. [View example](#removed-support-for-deferred-routes)
-10. Add an `$id` option to the navigation item registrations. [View example](#new-id-option-for-navigation-items)
+4. Create a `TanStackSessionManager` class and the `SessionManagerContext`. Replace the session's deprecated hooks by creating the customs `useSession` and `useIsAuthenticated` hooks. [View example](../guides/add-authentication.md#create-a-session-manager)
+5. Remove the `sessionAccessor` option from the `FireflyRuntime` instance. Update the `BootstrappingRoute` component to create a `TanStackSessionManager` instance and share it down the component tree using a `SessionManagedContext` provider. [View example](../guides/add-authentication.md#fetch-the-session)
+6. Add or update the `AuthenticationBoundary` component to use the new `useIsAuthenticated` hook. Global data fetch request shouldn't be throwing 401 error anymore when the user is not authenticated. [View example](../guides/add-authentication.md#add-an-authentication-boundary)
+7. Update the `AuthenticatedLayout` component to use the session manager instance to clear the session. Retrieve the session manager instance from the context defined in the `BootstrappingRoute` component using the `useSessionManager` hook. [View example](../guides/add-authentication.md#define-an-authenticated-layout)
+8. Update the `AuthenticatedLayout` component to use the new `key` argument. [View example](#new-id-option-for-navigation-items)
+9. Replace the `ManagedRoutes` placeholder with the new [PublicRoutes](../reference/routing/publicRoutes.md) and [ProtectedRoutes](../reference/routing/protectedRoutes.md) placeholders. [View example](../getting-started/create-host.md#homepage)
+10. Convert all deferred routes into static routes. [View example](#removed-support-for-deferred-routes)
+11. Add an `$id` option to the navigation item registrations. [View example](#new-id-option-for-navigation-items)
+12. Replace the [registerLocalModules](../reference/registration/registerLocalModules.md), [registerRemoteModules](../reference/registration/registerRemoteModules.md), [setMswAsReady](../reference/msw/setMswAsReady.md) function and the [FireflyRuntime](../reference/runtime/runtime-class.md) by the [initializeFirefly](../reference/registration/initializeFirefly.md) function. [View example](#use-the-initializefirefly-function)
+13. Rename `RuntimeContext.Provider` for [FireflyProvider](../reference/runtime/FireflyProvider.md). [View example](#rename-runtimecontextprovider-to-fireflyprovider)
 
-### `waitForMsw`, `waitForPublicData`, `waitForProtectedData`
+### `useMsw`
 
-The `AppRouter` component accepts the `waitForMsw`, `waitForPublicData`, and `waitForProtectedData` properties. These properties are forwarded directly to the Squide bootstrapping flow state machine, where they are used to determine its initial state.
-
-If the application register MSW [request handlers](https://mswjs.io/docs/concepts/request-handler/) with the [runtime.registerRequestHandlers](../reference/runtime/runtime-class.md#register-request-handlers) function, add the `waitForMsw` property to the `AppRouter` component:
+If the application register MSW [request handlers](https://mswjs.io/docs/concepts/request-handler/) with the [runtime.registerRequestHandlers](../reference/runtime/runtime-class.md#register-request-handlers) function, add the `useMsw` property to the [initializeFirefly](../reference/registration/initializeFirefly.md) function:
 
 ```tsx
-<AppRouter waitForMsw>
-    ...
-</AppRouter>
+initializeFirefly({
+    useMsw: true
+})
 ```
+
+### `waitForPublicData`, `waitForProtectedData`
+
+The `AppRouter` component accepts the `waitForPublicData`, and `waitForProtectedData` properties. These properties are forwarded directly to the Squide bootstrapping flow state machine, where they are used to determine its initial state.
 
 If the application uses the [usePublicDataQueries](../reference/tanstack-query/usePublicDataQueries.md), add the `waitForPublicData` property to the `AppRouter` component:
 
@@ -387,7 +625,7 @@ Now:
 ```tsx !#10
 export function App() {
     return (
-        <AppRouter waitForMsw>
+        <AppRouter>
             {({ rootRoute, registeredRoutes, routerProviderProps }) => {
                 return (
                     <RouterProvider
@@ -409,12 +647,11 @@ export function App() {
 
 ## Migrate a module
 
-> A migration example from `v8` to `v9` is available for the [wl-squide-monorepo-template](https://github.com/workleap/wl-squide-monorepo-template/commit/87489f0541cc959f437133f2afd8c0a9db160efe).
+The changes have minimal impact on module code. To migrate an existing module, follow these steps:
 
-The changes in `v9.0` have minimal impact on module code. To migrate an existing module, follow these steps:
-
-1. Convert all deferred routes into static routes. [View example](#removed-support-for-deferred-routes)
-2. Add a `$id` option to the navigation item registrations. [View example](#new-id-option-for-navigation-items)
+1. Remove the `react-router-dom` dependency and update to `react-router@7*`. [View example](#replace-react-router-dom-with-react-router)
+2. Convert all deferred routes into static routes. [View example](#removed-support-for-deferred-routes)
+3. Add a `$id` option to the navigation item registrations. [View example](#new-id-option-for-navigation-items)
 
 !!!warning
 Ensure that modules registering deferred routes are updated to convert those routes into static routes and are deployed before the host application. **Failure to do so may lead to runtime errors in the production environment**.
