@@ -75,8 +75,64 @@ root.render(
         <App />
     </FireflyProvider>
 );
-```D
-
+```
 
 ### Remove the `waitForMsw` property of `AppRouter`
 
+Because the `initializeFirefly` function accepts the [useMsw](../reference/runtime/runtime-class.md#use-mock-service-worker) option, the Squide Firefly state machine automatically detects when the application is using Mock Service Worker, eliminating the need to specify the value again.
+
+Before:
+
+```tsx !#7
+import { AppRouter } from "@squide/firefly";
+import { createBrowserRouter } from "react-router";
+import { RouterProvider } from "react-router/dom";
+
+export function App() {
+    return (
+        <AppRouter waitForMsw>
+            {({ rootRoute, registeredRoutes, routerProviderProps }) => {
+                return (
+                    <RouterProvider
+                        router={createBrowserRouter([
+                            {
+                                element: rootRoute,
+                                children: registeredRoutes
+                            }
+                        ])}
+                        {...routerProviderProps}
+                    />
+                );
+            }}
+        </AppRouter>
+    );
+}
+```
+
+Now:
+
+```tsx !#7
+import { AppRouter } from "@squide/firefly";
+import { createBrowserRouter } from "react-router";
+import { RouterProvider } from "react-router/dom";
+
+export function App() {
+    return (
+        <AppRouter>
+            {({ rootRoute, registeredRoutes, routerProviderProps }) => {
+                return (
+                    <RouterProvider
+                        router={createBrowserRouter([
+                            {
+                                element: rootRoute,
+                                children: registeredRoutes
+                            }
+                        ])}
+                        {...routerProviderProps}
+                    />
+                );
+            }}
+        </AppRouter>
+    );
+}
+```
