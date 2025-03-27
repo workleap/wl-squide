@@ -1,5 +1,11 @@
 # @squide/firefly
 
+## 12.0.1
+
+### Patch Changes
+
+- [#252](https://github.com/workleap/wl-squide/pull/252) [`470252f`](https://github.com/workleap/wl-squide/commit/470252f11efe5d84a40e9c60c3bfc13d9f3bf049) Thanks [@patricklafrance](https://github.com/patricklafrance)! - The bootstrapping store wasn't in sync if the modules were initially either "registered" or "ready".
+
 ## 12.0.0
 
 ### Major Changes
