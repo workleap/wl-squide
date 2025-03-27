@@ -3,6 +3,7 @@ import { addRemoteModuleRegistrationStatusChangedListener, areModulesReady, areM
 import { addMswStateChangedListener, isMswReady, removeMswStateChangedListener } from "@squide/msw";
 import { useCallback, useEffect, useMemo, useReducer, type Dispatch } from "react";
 import type { FireflyRuntime } from "./FireflyRuntime.tsx";
+import { useAppRouterStore } from "./useAppRouterStore.ts";
 import { useExecuteOnce } from "./useExecuteOnce.ts";
 import { isBootstrapping } from "./useIsBootstrapping.ts";
 
@@ -285,56 +286,61 @@ function useReducerDispatchProxy(reactDispatch: AppRouterDispatch) {
 }
 
 function useEnhancedReducerDispatch(reducerDispatch: AppRouterDispatch) {
-    const runtime = useRuntime() as FireflyRuntime;
+    const logger = useLogger();
+    const appRouterStore = useAppRouterStore();
+    const eventBus = useEventBus();
 
     return useCallback((action: AppRouterAction) => {
-        runtime.logger.debug("[squide] The following action has been dispatched to the AppRouter reducer:", action);
+        logger.debug("[squide] The following action has been dispatched to the AppRouter reducer:", action);
 
-        runtime.appRouterStore.dispatch(action);
-        runtime.eventBus.dispatch(`squide-${action.type}`);
+        appRouterStore.dispatch(action);
+        eventBus.dispatch(`squide-${action.type}`);
 
         reducerDispatch(action);
-    }, [reducerDispatch, runtime]);
+    }, [reducerDispatch, logger, appRouterStore, eventBus]);
 }
 
 export function useAppRouterReducer(waitForPublicData: boolean, waitForProtectedData: boolean): [AppRouterState, AppRouterDispatch] {
     const runtime = useRuntime() as FireflyRuntime;
+    const eventBus = useEventBus();
+    const appRouterStore = useAppRouterStore();
 
     const areModulesInitiallyRegistered = getAreModulesRegistered();
     const areModulesInitiallyReady = getAreModulesReady();
     const isMswInitiallyReady = isMswReady();
 
-    const eventBus = useEventBus();
-
     // When modules are initially registered, the reducer action will never be dispatched, therefore the event would not be dispatched as well.
     // To ensure the bootstrapping events sequencing, the event is manually dispatched when the modules are initially registered.
     useExecuteOnce(useCallback(() => {
         if (areModulesInitiallyRegistered) {
+            appRouterStore.dispatch({ type: "modules-registered" });
             eventBus.dispatch(ModulesRegisteredEvent);
         }
 
         return true;
-    }, [areModulesInitiallyRegistered, eventBus]), true);
+    }, [areModulesInitiallyRegistered, appRouterStore, eventBus]), true);
 
     // When modules are initially registered, the reducer action will never be dispatched, therefore the event would not be dispatched as well.
     // To ensure the bootstrapping events sequencing, the event is manually dispatched when the modules are initially registered.
     useExecuteOnce(useCallback(() => {
         if (areModulesInitiallyReady) {
+            appRouterStore.dispatch({ type: "modules-ready" });
             eventBus.dispatch(ModulesReadyEvent);
         }
 
         return true;
-    }, [areModulesInitiallyReady, eventBus]), true);
+    }, [areModulesInitiallyReady, appRouterStore, eventBus]), true);
 
     // When modules are initially registered, the reducer action will never be dispatched, therefore the event would not be dispatched as well.
     // To ensure the bootstrapping events sequencing, the event is manually dispatched when the modules are initially registered.
     useExecuteOnce(useCallback(() => {
         if (isMswInitiallyReady) {
+            appRouterStore.dispatch({ type: "msw-ready" });
             eventBus.dispatch(MswReadyEvent);
         }
 
         return true;
-    }, [isMswInitiallyReady, eventBus]), true);
+    }, [isMswInitiallyReady, appRouterStore, eventBus]), true);
 
     const [state, reactDispatch] = useReducer(reducer, {
         waitForMsw: runtime.isMswEnabled,

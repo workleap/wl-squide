@@ -600,6 +600,7 @@ describe("useAppRouterReducer", () => {
         const { result } = renderUseAppRouterReducerHook(runtime, false, false);
 
         expect(result.current[0].areModulesRegistered).toBeTruthy();
+        expect(runtime.appRouterStore.state.areModulesRegistered).toBeTruthy();
     });
 
     test.concurrent("when local modules and remote modules are registered, ModulesRegisteredEvent is dispatched at initialization", ({ expect }) => {
@@ -636,6 +637,7 @@ describe("useAppRouterReducer", () => {
         const { result } = renderUseAppRouterReducerHook(runtime, false, false);
 
         expect(result.current[0].areModulesRegistered).toBeTruthy();
+        expect(runtime.appRouterStore.state.areModulesRegistered).toBeTruthy();
     });
 
     test.concurrent("when local modules are registered and no remote modules has been provided, ModulesRegisteredEvent is dispatched at initialization", ({ expect }) => {
@@ -672,6 +674,7 @@ describe("useAppRouterReducer", () => {
         const { result } = renderUseAppRouterReducerHook(runtime, false, false);
 
         expect(result.current[0].areModulesRegistered).toBeTruthy();
+        expect(runtime.appRouterStore.state.areModulesRegistered).toBeTruthy();
     });
 
     test.concurrent("when no local modules are registered and remote modules are registered, ModulesRegisteredEvent is dispatched at initialization", ({ expect }) => {
@@ -708,6 +711,7 @@ describe("useAppRouterReducer", () => {
         const { result } = renderUseAppRouterReducerHook(runtime, false, false);
 
         expect(result.current[0].areModulesRegistered).toBeFalsy();
+        expect(runtime.appRouterStore.state.areModulesRegistered).toBeFalsy();
     });
 
     test.concurrent("when local modules are registering and remote modules are registered, \"areModulesRegistered\" is false at initialization", ({ expect }) => {
@@ -724,6 +728,7 @@ describe("useAppRouterReducer", () => {
         const { result } = renderUseAppRouterReducerHook(runtime, false, false);
 
         expect(result.current[0].areModulesRegistered).toBeFalsy();
+        expect(runtime.appRouterStore.state.areModulesRegistered).toBeFalsy();
     });
 
     test.concurrent("when local modules and remote modules are ready, \"areModulesReady\" is true at initialization", ({ expect }) => {
@@ -740,6 +745,7 @@ describe("useAppRouterReducer", () => {
         const { result } = renderUseAppRouterReducerHook(runtime, false, false);
 
         expect(result.current[0].areModulesReady).toBeTruthy();
+        expect(runtime.appRouterStore.state.areModulesReady).toBeTruthy();
     });
 
     test.concurrent("when local modules and remote modules are ready, ModulesReadyEvent is dispatched at initialization", ({ expect }) => {
@@ -776,6 +782,7 @@ describe("useAppRouterReducer", () => {
         const { result } = renderUseAppRouterReducerHook(runtime, false, false);
 
         expect(result.current[0].areModulesReady).toBeTruthy();
+        expect(runtime.appRouterStore.state.areModulesReady).toBeTruthy();
     });
 
     test.concurrent("when local modules are ready and no remote modules has been provided, ModulesReadyEvent is dispatched at initialization", ({ expect }) => {
@@ -812,6 +819,7 @@ describe("useAppRouterReducer", () => {
         const { result } = renderUseAppRouterReducerHook(runtime, false, false);
 
         expect(result.current[0].areModulesReady).toBeTruthy();
+        expect(runtime.appRouterStore.state.areModulesReady).toBeTruthy();
     });
 
     test.concurrent("when no local modules has been provided and remote modules are ready, ModulesReadyEvent is dispatched at initialization", ({ expect }) => {
@@ -848,6 +856,7 @@ describe("useAppRouterReducer", () => {
         const { result } = renderUseAppRouterReducerHook(runtime, false, false);
 
         expect(result.current[0].areModulesReady).toBeFalsy();
+        expect(runtime.appRouterStore.state.areModulesReady).toBeFalsy();
     });
 
     test.concurrent("when local modules are not ready and remote modules are ready, \"areModulesReady\" is false at initialization", ({ expect }) => {
@@ -864,6 +873,7 @@ describe("useAppRouterReducer", () => {
         const { result } = renderUseAppRouterReducerHook(runtime, false, false);
 
         expect(result.current[0].areModulesReady).toBeFalsy();
+        expect(runtime.appRouterStore.state.areModulesReady).toBeFalsy();
     });
 
     test.concurrent("when msw is ready, \"isMswReady\" is true at initialization", ({ expect }) => {
@@ -878,6 +888,7 @@ describe("useAppRouterReducer", () => {
         const { result } = renderUseAppRouterReducerHook(runtime, false, false);
 
         expect(result.current[0].isMswReady).toBeTruthy();
+        expect(runtime.appRouterStore.state.isMswReady).toBeTruthy();
     });
 
     test.concurrent("when msw is ready, MswReadyEvent is dispatched at initialization", ({ expect }) => {
@@ -910,6 +921,7 @@ describe("useAppRouterReducer", () => {
         const { result } = renderUseAppRouterReducerHook(runtime, false, false);
 
         expect(result.current[0].isMswReady).toBeFalsy();
+        expect(runtime.appRouterStore.state.isMswReady).toBeFalsy();
     });
 });
 
