@@ -10,6 +10,7 @@ export * from "./AppRouter.tsx";
 export * from "./AppRouterContext.ts";
 export * from "./AppRouterReducer.ts";
 
+export * from "./AppRouterStore.ts";
 export * from "./GlobalDataQueriesError.ts";
 export * from "./useCanFetchProtectedData.ts";
 export * from "./useCanFetchPublicData.ts";
