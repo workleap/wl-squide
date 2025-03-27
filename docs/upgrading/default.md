@@ -4,7 +4,7 @@ icon: checklist
 expanded: true
 ---
 
-# Updating
+# Upgrading
 
 - [Migrate to firefly v9.0](./migrate-to-firefly-v9.0.md)
 - [Migrate to firefly v9.3](./migrate-to-firefly-v9.3.md)

@@ -11,6 +11,7 @@ export * from "./AppRouterContext.ts";
 export * from "./AppRouterReducer.ts";
 
 export * from "./GlobalDataQueriesError.ts";
+export * from "./useAppRouterStore.ts";
 export * from "./useCanFetchProtectedData.ts";
 export * from "./useCanFetchPublicData.ts";
 export * from "./useCanRegisterDeferredRegistrations.ts";

@@ -405,7 +405,7 @@ This action will trigger when a commit is done in a PR to `main` or after a push
 
 ### Retype
 
-This action will trigger when a commit is done in a PR to `main` or after a push to `main`. The action will generate the documentation website into the `retype` branch. This repository [Github Pages](https://github.com/workleap/wl-web-configs/settings/pages) is configured to automatically deploy the website from the `retype` branch.
+This action will trigger when a commit is done in a PR to `main` or after a push to `main`. The action will generate the documentation website into the `retype` branch. This repository [Github Pages](https://github.com/workleap/wl-squide/settings/pages) is configured to automatically deploy the website from the `retype` branch.
 
 If you are having issue with the Retype license, make sure the `RETYPE_API_KEY` Github secret contains a valid Retype license.
 
