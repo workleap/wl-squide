@@ -1,9 +1,9 @@
 ---
 order: 910
-label: Migrate from v8 to v12.0
+label: Migrate from v8.* to v12.0
 ---
 
-# Migrate from v8 to v12.0
+# Migrate from v8.* to v12.0
 
 This migration guide is an aggregation of all the changes that happened between Squide Firefly `v9.0` and `v12.0`:
 
@@ -66,10 +66,10 @@ This major version introduces a new [initializeFirefly](../reference/registratio
 - A route definition `$name` option has been renamed to [$id](../reference/runtime/runtime-class.md#register-a-route-with-an-id).
 - The [registerRoute](../reference/runtime/runtime-class.md#register-routes) `parentName` option has been renamed to [parentId](../reference/runtime/runtime-class.md#register-nested-routes).
 
-### Dependencies
+### Dependencies updates
 
-- The `@squide/firefly` package now takes a peerDependency on `@tanstack/react-query`.
-- The `@squide/firefly` package doesn't takes a peerDependency on `react-error-boundary` anymore.
+- The `@squide/firefly` package now has a peerDependency on `@tanstack/react-query`.
+- The `@squide/firefly` package doesn't have a peerDependency on `react-error-boundary` anymore.
 - The `@squide/firefly` package doesn't support `react-router-dom@6*` anymore, remove the `reacy-router-dom` dependency and update to `react-router@7*`.
 
 ### Deprecation
