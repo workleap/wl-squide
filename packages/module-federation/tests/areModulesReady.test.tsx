@@ -33,8 +33,6 @@ class DummyRuntime extends Runtime<unknown, unknown> {
     }
 }
 
-const runtime = new DummyRuntime();
-
 test.concurrent("when no modules are registered, return false", async ({ expect }) => {
     const localModuleRegistry = new LocalModuleRegistry();
 
@@ -46,6 +44,7 @@ test.concurrent("when no modules are registered, return false", async ({ expect 
 });
 
 test.concurrent("when only local modules are registered and they are ready, return true", async ({ expect }) => {
+    const runtime = new DummyRuntime();
     const localModuleRegistry = new LocalModuleRegistry();
 
     const remoteModuleRegistry = new RemoteModuleRegistry(vi.fn().mockResolvedValue({
@@ -64,6 +63,7 @@ test.concurrent("when only local modules are registered and they are ready, retu
 });
 
 test.concurrent("when only remote modules are registered and they are ready, return true", async ({ expect }) => {
+    const runtime = new DummyRuntime();
     const localModuleRegistry = new LocalModuleRegistry();
 
     const remoteModuleRegistry = new RemoteModuleRegistry(vi.fn().mockResolvedValue({
@@ -82,6 +82,7 @@ test.concurrent("when only remote modules are registered and they are ready, ret
 });
 
 test.concurrent("when only local module deferred registrations are registered and they are ready, return true", async ({ expect }) => {
+    const runtime = new DummyRuntime();
     const localModuleRegistry = new LocalModuleRegistry();
 
     const remoteModuleRegistry = new RemoteModuleRegistry(vi.fn().mockResolvedValue({
@@ -100,6 +101,7 @@ test.concurrent("when only local module deferred registrations are registered an
 });
 
 test.concurrent("when only remote module deferred registrations are registered and they are ready, return true", async ({ expect }) => {
+    const runtime = new DummyRuntime();
     const localModuleRegistry = new LocalModuleRegistry();
 
     const remoteModuleRegistry = new RemoteModuleRegistry(vi.fn().mockResolvedValue({
@@ -119,6 +121,7 @@ test.concurrent("when only remote module deferred registrations are registered a
 });
 
 test.concurrent("when local module deferred registrations and remote module deferred registrations are registered and they are ready, return", async ({ expect }) => {
+    const runtime = new DummyRuntime();
     const localModuleRegistry = new LocalModuleRegistry();
 
     const remoteModuleRegistry = new RemoteModuleRegistry(vi.fn().mockResolvedValue({
@@ -144,6 +147,7 @@ test.concurrent("when local module deferred registrations and remote module defe
 });
 
 test.concurrent("when local module deferred registrations and remote modules are registered and they are ready, return true", async ({ expect }) => {
+    const runtime = new DummyRuntime();
     const localModuleRegistry = new LocalModuleRegistry();
 
     const remoteModuleRegistry = new RemoteModuleRegistry(vi.fn().mockResolvedValue({
@@ -169,6 +173,7 @@ test.concurrent("when local module deferred registrations and remote modules are
 });
 
 test.concurrent("when local modules and remote module deferred registrations are registered and they are ready, return true", async ({ expect }) => {
+    const runtime = new DummyRuntime();
     const localModuleRegistry = new LocalModuleRegistry();
 
     const remoteModuleRegistry = new RemoteModuleRegistry(vi.fn().mockResolvedValue({
@@ -194,6 +199,7 @@ test.concurrent("when local modules and remote module deferred registrations are
 });
 
 test.concurrent("when only local module deferred registrations are registered and they are not completed, return false", async ({ expect }) => {
+    const runtime = new DummyRuntime();
     const localModuleRegistry = new LocalModuleRegistry();
 
     const remoteModuleRegistry = new RemoteModuleRegistry(vi.fn().mockResolvedValue({
@@ -210,6 +216,7 @@ test.concurrent("when only local module deferred registrations are registered an
 });
 
 test.concurrent("when only remote module deferred registrations are registered and they are not completed, return false", async ({ expect }) => {
+    const runtime = new DummyRuntime();
     const localModuleRegistry = new LocalModuleRegistry();
 
     const remoteModuleRegistry = new RemoteModuleRegistry(vi.fn().mockResolvedValue({
@@ -226,6 +233,7 @@ test.concurrent("when only remote module deferred registrations are registered a
 });
 
 test.concurrent("when local module deferred registrations and remote module deferred registrations are registered and they are not completed, return false", async ({ expect }) => {
+    const runtime = new DummyRuntime();
     const localModuleRegistry = new LocalModuleRegistry();
 
     const remoteModuleRegistry = new RemoteModuleRegistry(vi.fn().mockResolvedValue({
@@ -248,6 +256,7 @@ test.concurrent("when local module deferred registrations and remote module defe
 });
 
 test.concurrent("when local module deferred registrations and remote module deferred registrations are registered and only the local module deferred registrations are completed, return false", async ({ expect }) => {
+    const runtime = new DummyRuntime();
     const localModuleRegistry = new LocalModuleRegistry();
 
     const remoteModuleRegistry = new RemoteModuleRegistry(vi.fn().mockResolvedValue({
@@ -272,6 +281,7 @@ test.concurrent("when local module deferred registrations and remote module defe
 });
 
 test.concurrent("when local module deferred registrations and remote module deferred registrations are registered and only the remote module deferred registrations are completed, return false", async ({ expect }) => {
+    const runtime = new DummyRuntime();
     const localModuleRegistry = new LocalModuleRegistry();
 
     const remoteModuleRegistry = new RemoteModuleRegistry(vi.fn().mockResolvedValue({
