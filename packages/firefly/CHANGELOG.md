@@ -1,5 +1,17 @@
 # @squide/firefly
 
+## 12.0.2
+
+### Patch Changes
+
+- [#256](https://github.com/workleap/wl-squide/pull/256) [`6c4ee56`](https://github.com/workleap/wl-squide/commit/6c4ee5624141a51d6eefd99dd053e81eb5b08e5c) Thanks [@patricklafrance](https://github.com/patricklafrance)! - Update dependencies versioning to the new Workleap's internal guidelines.
+
+- Updated dependencies [[`6c4ee56`](https://github.com/workleap/wl-squide/commit/6c4ee5624141a51d6eefd99dd053e81eb5b08e5c)]:
+  - @squide/module-federation@6.2.6
+  - @squide/react-router@7.0.4
+  - @squide/core@5.4.6
+  - @squide/msw@3.2.6
+
 ## 12.0.1
 
 ### Patch Changes
