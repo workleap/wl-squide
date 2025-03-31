@@ -6,43 +6,46 @@ export default {
     "dependencyTypes": ["prod", "dev"],
     "semverGroups": [
         {
+            "packages": ["@squide/*"],
+            "dependencyTypes": ["prod", "peer"],
+            "range": "^",
+            "label": "Packages should use ^ for dependencies and peerDependencies."
+        },
+        {
+            "packages": ["@squide/*"],
+            "dependencyTypes": ["dev"],
+            "range": "",
+            "label": "Packages should pin devDependencies."
+        },
+        {
+            "packages": ["@basic/*", "@basic-mix/*", "@basic-webpack/*", "@endpoints/*", "@getting-started/*"],
+            "dependencyTypes": ["prod", "dev"],
+            "range": "",
+            "label": "Samples and Getting Started templates should pin dependencies and devDependencies."
+        },
+        {
+            "packages": ["workspace-root"],
+            "dependencyTypes": ["dev"],
+            "range": "",
+            "label": "Workspace root should pin devDependencies."
+        },
+        {
             "packages": ["**"],
             "dependencies": ["useless-lib"],
             "isIgnored": true
-        },
-        {
-            "packages": ["@squide/firefly-rsbuild-configs", "@squide/firefly-webpack-configs"],
-            "dependencyTypes": ["prod"],
-            "dependencies": ["**"],
-            "range": "^",
-            "label": "Bundler shared configurations packages dependencies version should be ranged"
-        },
-        {
-            "packages": ["**"],
-            "dependencyTypes": ["prod", "dev"],
-            "dependencies": ["**"],
-            "range": "",
-            "label": "Packages version should be pinned"
-        },
+        }
     ],
     "versionGroups": [
         {
-            "dependencies": ["useless-lib"],
-            "packages": ["**"],
-            "isIgnored": true
-        },
-        {
-            // Temporary until dependencies are fixed.
-            "packages": ["@squide/module-federation"],
-            "dependencies": ["@rspack/core"],
-            "isIgnored": true
-        },
-        {
             "packages": ["**"],
             "dependencyTypes": ["prod", "dev"],
-            "dependencies": ["**"],
             "preferVersion": "highestSemver",
-            "label": "Packages should have a single version across the repository"
+            "label": "Packages, Samples and Getting Started templates should have a single version across the repository"
+        },
+        {
+            "packages": ["**"],
+            "dependencies": ["useless-lib"],
+            "isIgnored": true
         }
     ]
 };

@@ -35,20 +35,21 @@
         "test": "vitest --config vitest.config.ts --no-watch"
     },
     "peerDependencies": {
-        "i18next": "*",
-        "i18next-browser-languagedetector": "*",
-        "react": "*",
-        "react-i18next": "*"
+        "@types/react": "^18.0.0 || ^19.0.0",
+        "i18next": "^24.2.3",
+        "i18next-browser-languagedetector": "^8.0.4",
+        "react": "^18.0.0 || ^19.0.0",
+        "react-i18next": "^15.4.1"
     },
     "dependencies": {
-        "@formatjs/intl-localematcher": "0.6.0",
-        "@squide/core": "workspace:*",
-        "@types/react": "19.0.10"
+        "@formatjs/intl-localematcher": "^0.6.0",
+        "@squide/core": "workspace:*"
     },
     "devDependencies": {
         "@rsbuild/core": "1.2.19",
         "@rslib/core": "0.5.4",
         "@typescript-eslint/parser": "8.26.1",
+        "@types/react": "19.0.12",
         "@workleap/eslint-plugin": "3.3.0",
         "@workleap/rslib-configs": "1.0.2",
         "@workleap/typescript-configs": "3.0.2",

@@ -34,12 +34,7 @@
         "typecheck": "tsc"
     },
     "peerDependencies": {
-        "msw": "*"
-    },
-    "peerDependenciesMeta": {
-        "msw": {
-            "optional": true
-        }
+        "msw": "^2.7.3"
     },
     "dependencies": {
         "@squide/core": "workspace:*"

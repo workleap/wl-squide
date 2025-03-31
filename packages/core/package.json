@@ -35,16 +35,17 @@
         "test": "vitest --config vitest.config.ts --no-watch"
     },
     "peerDependencies": {
-        "react": "*"
+        "react": "^18.0.0 || ^19.0.0",
+        "@types/react": "^18.0.0 || ^19.0.0"
     },
     "dependencies": {
-        "@types/react": "19.0.10",
-        "eventemitter3": "5.0.1"
+        "eventemitter3": "^5.0.1"
     },
     "devDependencies": {
         "@rsbuild/core": "1.2.19",
         "@rslib/core": "0.5.4",
         "@typescript-eslint/parser": "8.26.1",
+        "@types/react": "19.0.12",
         "@vitejs/plugin-react": "4.3.4",
         "@workleap/eslint-plugin": "3.3.0",
         "@workleap/rslib-configs": "1.0.2",
