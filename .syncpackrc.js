@@ -6,6 +6,11 @@ export default {
     "dependencyTypes": ["prod", "dev"],
     "semverGroups": [
         {
+            "packages": ["**"],
+            "dependencies": ["useless-lib"],
+            "isIgnored": true
+        },
+        {
             "packages": ["@squide/*"],
             "dependencyTypes": ["prod", "peer"],
             "range": "^",
@@ -28,24 +33,19 @@ export default {
             "dependencyTypes": ["dev"],
             "range": "",
             "label": "Workspace root should pin devDependencies."
-        },
-        {
-            "packages": ["**"],
-            "dependencies": ["useless-lib"],
-            "isIgnored": true
         }
     ],
     "versionGroups": [
         {
             "packages": ["**"],
-            "dependencyTypes": ["prod", "dev"],
-            "preferVersion": "highestSemver",
-            "label": "Packages, Samples and Getting Started templates should have a single version across the repository"
+            "dependencies": ["useless-lib"],
+            "isIgnored": true
         },
         {
             "packages": ["**"],
-            "dependencies": ["useless-lib"],
-            "isIgnored": true
+            "dependencyTypes": ["prod", "dev"],
+            "preferVersion": "highestSemver",
+            "label": "Packages, Samples and Getting Started templates should have a single version across the repository"
         }
     ]
 };

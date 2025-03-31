@@ -39,7 +39,7 @@
         "@opentelemetry/api": "^1.9.0",
         "@opentelemetry/auto-instrumentations-web": "^0.46.0",
         "@opentelemetry/instrumentation-document-load": "^0.45.0",
-        "@opentelemetry/instrumentation-fetch": "0.200.0-rc.1",
+        "@opentelemetry/instrumentation-fetch": "^0.200.0",
         "@opentelemetry/instrumentation-user-interaction": "^0.45.0",
         "@opentelemetry/instrumentation-xml-http-request": "^0.200.0",
         "@opentelemetry/sdk-trace-web": "^2.0.0",
@@ -50,16 +50,16 @@
         "uuid": "^11.1.0"
     },
     "devDependencies": {
-        "@rsbuild/core": "1.2.19",
-        "@rslib/core": "0.5.4",
-        "@typescript-eslint/parser": "8.26.1",
-        "@workleap/eslint-plugin": "3.3.0",
-        "@workleap/rslib-configs": "1.0.2",
+        "@rsbuild/core": "1.3.0",
+        "@rslib/core": "0.6.0",
+        "@typescript-eslint/parser": "8.28.0",
+        "@workleap/eslint-plugin": "3.3.1",
+        "@workleap/rslib-configs": "1.0.3",
         "@workleap/typescript-configs": "3.0.2",
         "eslint": "8.57.0",
         "happy-dom": "17.4.4",
         "typescript": "5.8.2",
-        "vitest": "3.0.8"
+        "vitest": "3.0.9"
     },
     "sideEffects": false,
     "engines": {
