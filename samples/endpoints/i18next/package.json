@@ -25,8 +25,8 @@
         "@endpoints/shared": "workspace:*",
         "@squide/firefly": "workspace:*",
         "@squide/i18next": "workspace:*",
-        "@typescript-eslint/parser": "8.26.1",
-        "@workleap/eslint-plugin": "3.3.0",
+        "@typescript-eslint/parser": "8.28.0",
+        "@workleap/eslint-plugin": "3.3.1",
         "@workleap/typescript-configs": "3.0.2",
         "eslint": "8.57.0",
         "typescript": "5.8.2"
