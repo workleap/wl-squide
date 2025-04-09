@@ -45,7 +45,7 @@ export default {
             "packages": ["**"],
             "dependencyTypes": ["prod", "dev"],
             "preferVersion": "highestSemver",
-            "label": "Packages, Samples and Getting Started templates should have a single version across the repository"
+            "label": "Packages, Samples and Getting Started templates should have a single version across the repository."
         }
     ]
 };
