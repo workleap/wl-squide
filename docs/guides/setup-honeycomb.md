@@ -18,15 +18,15 @@ Let's start by configuring the host application. First, open a terminal at the r
 
 +++ pnpm
 ```bash
-pnpm add @squide/firefly-honeycomb
+pnpm add @squide/firefly-honeycomb @opentelemetry/api
 ```
 +++ yarn
 ```bash
-yarn add @squide/firefly-honeycomb
+yarn add @squide/firefly-honeycomb @opentelemetry/api
 ```
 +++ npm
 ```bash
-npm install @squide/firefly-honeycomb
+npm install @squide/firefly-honeycomb @opentelemetry/api
 ```
 +++
 
