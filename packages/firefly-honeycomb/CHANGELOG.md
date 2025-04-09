@@ -1,5 +1,11 @@
 # @squide/firefly-honeycomb
 
+## 2.0.9
+
+### Patch Changes
+
+- [#259](https://github.com/workleap/wl-squide/pull/259) [`1004631`](https://github.com/workleap/wl-squide/commit/100463113603e8d76ea0f573d5197cdfb5efd7ba) Thanks [@patricklafrance](https://github.com/patricklafrance)! - Added back @opentelemetry/api as a peerDependency
+
 ## 2.0.8
 
 ### Patch Changes
