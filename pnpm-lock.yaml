@@ -22,7 +22,7 @@ importers:
         version: 8.28.0(eslint@8.57.0)(typescript@5.8.2)
       '@workleap/eslint-plugin':
         specifier: 3.3.1
-        version: 3.3.1(@types/estree@1.0.7)(@typescript-eslint/parser@8.28.0(eslint@8.57.0)(typescript@5.8.2))(eslint@8.57.0)(typescript@5.8.2)(vitest@3.0.9(@types/node@22.13.14)(msw@2.7.3(@types/node@22.13.14)(typescript@5.8.2)))
+        version: 3.3.1(@types/estree@1.0.7)(@typescript-eslint/parser@8.28.0(eslint@8.57.0)(typescript@5.8.2))(eslint@8.57.0)(typescript@5.8.2)(vitest@3.0.9(@types/node@22.13.14))
       '@workleap/typescript-configs':
         specifier: 3.0.2
         version: 3.0.2(typescript@5.8.2)
@@ -163,7 +163,7 @@ importers:
         version: 8.28.0(eslint@8.57.0)(typescript@5.8.2)
       '@workleap/eslint-plugin':
         specifier: 3.3.1
-        version: 3.3.1(@types/estree@1.0.7)(@typescript-eslint/parser@8.28.0(eslint@8.57.0)(typescript@5.8.2))(eslint@8.57.0)(typescript@5.8.2)(vitest@3.0.9(@types/node@22.13.14)(msw@2.7.3(@types/node@22.13.14)(typescript@5.8.2)))
+        version: 3.3.1(@types/estree@1.0.7)(@typescript-eslint/parser@8.28.0(eslint@8.57.0)(typescript@5.8.2))(eslint@8.57.0)(typescript@5.8.2)(vitest@3.0.9(@types/node@22.13.14))
       '@workleap/rslib-configs':
         specifier: 1.0.3
         version: 1.0.3(@rsbuild/core@1.3.0)(@rslib/core@0.6.0(typescript@5.8.2))(typescript@5.8.2)
@@ -338,8 +338,8 @@ importers:
         specifier: ^7.7.0
         version: 7.7.0
       '@workleap/rsbuild-configs':
-        specifier: ^1.1.1
-        version: 1.1.2(@rsbuild/core@1.3.0)(@rspack/core@1.3.0(@swc/helpers@0.5.15))(typescript@5.8.2)
+        specifier: ^2.0.1
+        version: 2.0.1(@rsbuild/core@1.3.0)(@rspack/core@1.3.0(@swc/helpers@0.5.15))(typescript@5.8.2)
       deepmerge:
         specifier: ^4.3.1
         version: 4.3.1
@@ -560,7 +560,7 @@ importers:
         version: 8.28.0(eslint@8.57.0)(typescript@5.8.2)
       '@workleap/eslint-plugin':
         specifier: 3.3.1
-        version: 3.3.1(@types/estree@1.0.7)(@typescript-eslint/parser@8.28.0(eslint@8.57.0)(typescript@5.8.2))(eslint@8.57.0)(typescript@5.8.2)(vitest@3.0.9(@types/node@22.13.14)(msw@2.7.3(@types/node@22.13.14)(typescript@5.8.2)))
+        version: 3.3.1(@types/estree@1.0.7)(@typescript-eslint/parser@8.28.0(eslint@8.57.0)(typescript@5.8.2))(eslint@8.57.0)(typescript@5.8.2)(vitest@3.0.9(@types/node@22.13.14))
       '@workleap/rslib-configs':
         specifier: 1.0.3
         version: 1.0.3(@rsbuild/core@1.3.0)(@rslib/core@0.6.0(typescript@5.8.2))(typescript@5.8.2)
@@ -694,7 +694,7 @@ importers:
         version: 2.0.2
       '@workleap/eslint-plugin':
         specifier: 3.3.1
-        version: 3.3.1(@types/estree@1.0.7)(@typescript-eslint/parser@8.28.0(eslint@8.57.0)(typescript@5.8.2))(eslint@8.57.0)(typescript@5.8.2)(vitest@3.0.9(@types/node@22.13.14)(msw@2.7.3(@types/node@22.13.14)(typescript@5.8.2)))
+        version: 3.3.1(@types/estree@1.0.7)(@typescript-eslint/parser@8.28.0(eslint@8.57.0)(typescript@5.8.2))(eslint@8.57.0)(typescript@5.8.2)(vitest@3.0.9(@types/node@22.13.14))
       '@workleap/swc-configs':
         specifier: 2.2.5
         version: 2.2.5(@swc/core@1.11.13(@swc/helpers@0.5.15))(@swc/helpers@0.5.15)(browserslist@4.24.4)
@@ -788,7 +788,7 @@ importers:
         version: 2.0.2
       '@workleap/eslint-plugin':
         specifier: 3.3.1
-        version: 3.3.1(@types/estree@1.0.7)(@typescript-eslint/parser@8.28.0(eslint@8.57.0)(typescript@5.8.2))(eslint@8.57.0)(typescript@5.8.2)(vitest@3.0.9(@types/node@22.13.14)(msw@2.7.3(@types/node@22.13.14)(typescript@5.8.2)))
+        version: 3.3.1(@types/estree@1.0.7)(@typescript-eslint/parser@8.28.0(eslint@8.57.0)(typescript@5.8.2))(eslint@8.57.0)(typescript@5.8.2)(vitest@3.0.9(@types/node@22.13.14))
       '@workleap/typescript-configs':
         specifier: 3.0.2
         version: 3.0.2(typescript@5.8.2)
@@ -855,7 +855,7 @@ importers:
         version: 2.0.2
       '@workleap/eslint-plugin':
         specifier: 3.3.1
-        version: 3.3.1(@types/estree@1.0.7)(@typescript-eslint/parser@8.28.0(eslint@8.57.0)(typescript@5.8.2))(eslint@8.57.0)(typescript@5.8.2)(vitest@3.0.9(@types/node@22.13.14)(msw@2.7.3(@types/node@22.13.14)(typescript@5.8.2)))
+        version: 3.3.1(@types/estree@1.0.7)(@typescript-eslint/parser@8.28.0(eslint@8.57.0)(typescript@5.8.2))(eslint@8.57.0)(typescript@5.8.2)(vitest@3.0.9(@types/node@22.13.14))
       '@workleap/typescript-configs':
         specifier: 3.0.2
         version: 3.0.2(typescript@5.8.2)
@@ -937,7 +937,7 @@ importers:
         version: 2.0.2
       '@workleap/eslint-plugin':
         specifier: 3.3.1
-        version: 3.3.1(@types/estree@1.0.7)(@typescript-eslint/parser@8.28.0(eslint@8.57.0)(typescript@5.8.2))(eslint@8.57.0)(typescript@5.8.2)(vitest@3.0.9(@types/node@22.13.14)(msw@2.7.3(@types/node@22.13.14)(typescript@5.8.2)))
+        version: 3.3.1(@types/estree@1.0.7)(@typescript-eslint/parser@8.28.0(eslint@8.57.0)(typescript@5.8.2))(eslint@8.57.0)(typescript@5.8.2)(vitest@3.0.9(@types/node@22.13.14))
       '@workleap/swc-configs':
         specifier: 2.2.5
         version: 2.2.5(@swc/core@1.11.13(@swc/helpers@0.5.15))(@swc/helpers@0.5.15)(browserslist@4.24.4)
@@ -998,7 +998,7 @@ importers:
         version: 8.28.0(eslint@8.57.0)(typescript@5.8.2)
       '@workleap/eslint-plugin':
         specifier: 3.3.1
-        version: 3.3.1(@types/estree@1.0.7)(@typescript-eslint/parser@8.28.0(eslint@8.57.0)(typescript@5.8.2))(eslint@8.57.0)(typescript@5.8.2)(vitest@3.0.9(@types/node@22.13.14)(msw@2.7.3(@types/node@22.13.14)(typescript@5.8.2)))
+        version: 3.3.1(@types/estree@1.0.7)(@typescript-eslint/parser@8.28.0(eslint@8.57.0)(typescript@5.8.2))(eslint@8.57.0)(typescript@5.8.2)(vitest@3.0.9(@types/node@22.13.14))
       '@workleap/typescript-configs':
         specifier: 3.0.2
         version: 3.0.2(typescript@5.8.2)
@@ -1047,7 +1047,7 @@ importers:
         version: 8.28.0(eslint@8.57.0)(typescript@5.8.2)
       '@workleap/eslint-plugin':
         specifier: 3.3.1
-        version: 3.3.1(@types/estree@1.0.7)(@typescript-eslint/parser@8.28.0(eslint@8.57.0)(typescript@5.8.2))(eslint@8.57.0)(typescript@5.8.2)(vitest@3.0.9(@types/node@22.13.14)(msw@2.7.3(@types/node@22.13.14)(typescript@5.8.2)))
+        version: 3.3.1(@types/estree@1.0.7)(@typescript-eslint/parser@8.28.0(eslint@8.57.0)(typescript@5.8.2))(eslint@8.57.0)(typescript@5.8.2)(vitest@3.0.9(@types/node@22.13.14))
       '@workleap/typescript-configs':
         specifier: 3.0.2
         version: 3.0.2(typescript@5.8.2)
@@ -1114,7 +1114,7 @@ importers:
         version: 2.0.2
       '@workleap/eslint-plugin':
         specifier: 3.3.1
-        version: 3.3.1(@types/estree@1.0.7)(@typescript-eslint/parser@8.28.0(eslint@8.57.0)(typescript@5.8.2))(eslint@8.57.0)(typescript@5.8.2)(vitest@3.0.9(@types/node@22.13.14)(msw@2.7.3(@types/node@22.13.14)(typescript@5.8.2)))
+        version: 3.3.1(@types/estree@1.0.7)(@typescript-eslint/parser@8.28.0(eslint@8.57.0)(typescript@5.8.2))(eslint@8.57.0)(typescript@5.8.2)(vitest@3.0.9(@types/node@22.13.14))
       '@workleap/swc-configs':
         specifier: 2.2.5
         version: 2.2.5(@swc/core@1.11.13(@swc/helpers@0.5.15))(@swc/helpers@0.5.15)(browserslist@4.24.4)
@@ -1211,7 +1211,7 @@ importers:
         version: 2.0.2
       '@workleap/eslint-plugin':
         specifier: 3.3.1
-        version: 3.3.1(@types/estree@1.0.7)(@typescript-eslint/parser@8.28.0(eslint@8.57.0)(typescript@5.8.2))(eslint@8.57.0)(typescript@5.8.2)(vitest@3.0.9(@types/node@22.13.14)(msw@2.7.3(@types/node@22.13.14)(typescript@5.8.2)))
+        version: 3.3.1(@types/estree@1.0.7)(@typescript-eslint/parser@8.28.0(eslint@8.57.0)(typescript@5.8.2))(eslint@8.57.0)(typescript@5.8.2)(vitest@3.0.9(@types/node@22.13.14))
       '@workleap/swc-configs':
         specifier: 2.2.5
         version: 2.2.5(@swc/core@1.11.13(@swc/helpers@0.5.15))(@swc/helpers@0.5.15)(browserslist@4.24.4)
@@ -1290,7 +1290,7 @@ importers:
         version: 2.0.2
       '@workleap/eslint-plugin':
         specifier: 3.3.1
-        version: 3.3.1(@types/estree@1.0.7)(@typescript-eslint/parser@8.28.0(eslint@8.57.0)(typescript@5.8.2))(eslint@8.57.0)(typescript@5.8.2)(vitest@3.0.9(@types/node@22.13.14)(msw@2.7.3(@types/node@22.13.14)(typescript@5.8.2)))
+        version: 3.3.1(@types/estree@1.0.7)(@typescript-eslint/parser@8.28.0(eslint@8.57.0)(typescript@5.8.2))(eslint@8.57.0)(typescript@5.8.2)(vitest@3.0.9(@types/node@22.13.14))
       '@workleap/swc-configs':
         specifier: 2.2.5
         version: 2.2.5(@swc/core@1.11.13(@swc/helpers@0.5.15))(@swc/helpers@0.5.15)(browserslist@4.24.4)
@@ -1384,7 +1384,7 @@ importers:
         version: 2.0.2
       '@workleap/eslint-plugin':
         specifier: 3.3.1
-        version: 3.3.1(@types/estree@1.0.7)(@typescript-eslint/parser@8.28.0(eslint@8.57.0)(typescript@5.8.2))(eslint@8.57.0)(typescript@5.8.2)(vitest@3.0.9(@types/node@22.13.14)(msw@2.7.3(@types/node@22.13.14)(typescript@5.8.2)))
+        version: 3.3.1(@types/estree@1.0.7)(@typescript-eslint/parser@8.28.0(eslint@8.57.0)(typescript@5.8.2))(eslint@8.57.0)(typescript@5.8.2)(vitest@3.0.9(@types/node@22.13.14))
       '@workleap/swc-configs':
         specifier: 2.2.5
         version: 2.2.5(@swc/core@1.11.13(@swc/helpers@0.5.15))(@swc/helpers@0.5.15)(browserslist@4.24.4)
@@ -1445,7 +1445,7 @@ importers:
         version: 8.28.0(eslint@8.57.0)(typescript@5.8.2)
       '@workleap/eslint-plugin':
         specifier: 3.3.1
-        version: 3.3.1(@types/estree@1.0.7)(@typescript-eslint/parser@8.28.0(eslint@8.57.0)(typescript@5.8.2))(eslint@8.57.0)(typescript@5.8.2)(vitest@3.0.9(@types/node@22.13.14)(msw@2.7.3(@types/node@22.13.14)(typescript@5.8.2)))
+        version: 3.3.1(@types/estree@1.0.7)(@typescript-eslint/parser@8.28.0(eslint@8.57.0)(typescript@5.8.2))(eslint@8.57.0)(typescript@5.8.2)(vitest@3.0.9(@types/node@22.13.14))
       '@workleap/typescript-configs':
         specifier: 3.0.2
         version: 3.0.2(typescript@5.8.2)
@@ -1494,7 +1494,7 @@ importers:
         version: 8.28.0(eslint@8.57.0)(typescript@5.8.2)
       '@workleap/eslint-plugin':
         specifier: 3.3.1
-        version: 3.3.1(@types/estree@1.0.7)(@typescript-eslint/parser@8.28.0(eslint@8.57.0)(typescript@5.8.2))(eslint@8.57.0)(typescript@5.8.2)(vitest@3.0.9(@types/node@22.13.14)(msw@2.7.3(@types/node@22.13.14)(typescript@5.8.2)))
+        version: 3.3.1(@types/estree@1.0.7)(@typescript-eslint/parser@8.28.0(eslint@8.57.0)(typescript@5.8.2))(eslint@8.57.0)(typescript@5.8.2)(vitest@3.0.9(@types/node@22.13.14))
       '@workleap/typescript-configs':
         specifier: 3.0.2
         version: 3.0.2(typescript@5.8.2)
@@ -1558,7 +1558,7 @@ importers:
         version: 2.0.2
       '@workleap/eslint-plugin':
         specifier: 3.3.1
-        version: 3.3.1(@types/estree@1.0.7)(@typescript-eslint/parser@8.28.0(eslint@8.57.0)(typescript@5.8.2))(eslint@8.57.0)(typescript@5.8.2)(vitest@3.0.9(@types/node@22.13.14)(msw@2.7.3(@types/node@22.13.14)(typescript@5.8.2)))
+        version: 3.3.1(@types/estree@1.0.7)(@typescript-eslint/parser@8.28.0(eslint@8.57.0)(typescript@5.8.2))(eslint@8.57.0)(typescript@5.8.2)(vitest@3.0.9(@types/node@22.13.14))
       '@workleap/typescript-configs':
         specifier: 3.0.2
         version: 3.0.2(typescript@5.8.2)
@@ -1643,7 +1643,7 @@ importers:
         version: 2.0.2
       '@workleap/eslint-plugin':
         specifier: 3.3.1
-        version: 3.3.1(@types/estree@1.0.7)(@typescript-eslint/parser@8.28.0(eslint@8.57.0)(typescript@5.8.2))(eslint@8.57.0)(typescript@5.8.2)(vitest@3.0.9(@types/node@22.13.14)(msw@2.7.3(@types/node@22.13.14)(typescript@5.8.2)))
+        version: 3.3.1(@types/estree@1.0.7)(@typescript-eslint/parser@8.28.0(eslint@8.57.0)(typescript@5.8.2))(eslint@8.57.0)(typescript@5.8.2)(vitest@3.0.9(@types/node@22.13.14))
       '@workleap/typescript-configs':
         specifier: 3.0.2
         version: 3.0.2(typescript@5.8.2)
@@ -1710,7 +1710,7 @@ importers:
         version: 2.0.2
       '@workleap/eslint-plugin':
         specifier: 3.3.1
-        version: 3.3.1(@types/estree@1.0.7)(@typescript-eslint/parser@8.28.0(eslint@8.57.0)(typescript@5.8.2))(eslint@8.57.0)(typescript@5.8.2)(vitest@3.0.9(@types/node@22.13.14)(msw@2.7.3(@types/node@22.13.14)(typescript@5.8.2)))
+        version: 3.3.1(@types/estree@1.0.7)(@typescript-eslint/parser@8.28.0(eslint@8.57.0)(typescript@5.8.2))(eslint@8.57.0)(typescript@5.8.2)(vitest@3.0.9(@types/node@22.13.14))
       '@workleap/typescript-configs':
         specifier: 3.0.2
         version: 3.0.2(typescript@5.8.2)
@@ -1789,7 +1789,7 @@ importers:
         version: 2.0.2
       '@workleap/eslint-plugin':
         specifier: 3.3.1
-        version: 3.3.1(@types/estree@1.0.7)(@typescript-eslint/parser@8.28.0(eslint@8.57.0)(typescript@5.8.2))(eslint@8.57.0)(typescript@5.8.2)(vitest@3.0.9(@types/node@22.13.14)(msw@2.7.3(@types/node@22.13.14)(typescript@5.8.2)))
+        version: 3.3.1(@types/estree@1.0.7)(@typescript-eslint/parser@8.28.0(eslint@8.57.0)(typescript@5.8.2))(eslint@8.57.0)(typescript@5.8.2)(vitest@3.0.9(@types/node@22.13.14))
       '@workleap/typescript-configs':
         specifier: 3.0.2
         version: 3.0.2(typescript@5.8.2)
@@ -1841,7 +1841,7 @@ importers:
         version: 8.28.0(eslint@8.57.0)(typescript@5.8.2)
       '@workleap/eslint-plugin':
         specifier: 3.3.1
-        version: 3.3.1(@types/estree@1.0.7)(@typescript-eslint/parser@8.28.0(eslint@8.57.0)(typescript@5.8.2))(eslint@8.57.0)(typescript@5.8.2)(vitest@3.0.9(@types/node@22.13.14)(msw@2.7.3(@types/node@22.13.14)(typescript@5.8.2)))
+        version: 3.3.1(@types/estree@1.0.7)(@typescript-eslint/parser@8.28.0(eslint@8.57.0)(typescript@5.8.2))(eslint@8.57.0)(typescript@5.8.2)(vitest@3.0.9(@types/node@22.13.14))
       '@workleap/typescript-configs':
         specifier: 3.0.2
         version: 3.0.2(typescript@5.8.2)
@@ -1890,7 +1890,7 @@ importers:
         version: 8.28.0(eslint@8.57.0)(typescript@5.8.2)
       '@workleap/eslint-plugin':
         specifier: 3.3.1
-        version: 3.3.1(@types/estree@1.0.7)(@typescript-eslint/parser@8.28.0(eslint@8.57.0)(typescript@5.8.2))(eslint@8.57.0)(typescript@5.8.2)(vitest@3.0.9(@types/node@22.13.14)(msw@2.7.3(@types/node@22.13.14)(typescript@5.8.2)))
+        version: 3.3.1(@types/estree@1.0.7)(@typescript-eslint/parser@8.28.0(eslint@8.57.0)(typescript@5.8.2))(eslint@8.57.0)(typescript@5.8.2)(vitest@3.0.9(@types/node@22.13.14))
       '@workleap/typescript-configs':
         specifier: 3.0.2
         version: 3.0.2(typescript@5.8.2)
@@ -2048,7 +2048,7 @@ importers:
         version: 2.0.2
       '@workleap/eslint-plugin':
         specifier: 3.3.1
-        version: 3.3.1(@types/estree@1.0.7)(@typescript-eslint/parser@8.28.0(eslint@8.57.0)(typescript@5.8.2))(eslint@8.57.0)(typescript@5.8.2)(vitest@3.0.9(@types/node@22.13.14)(msw@2.7.3(@types/node@22.13.14)(typescript@5.8.2)))
+        version: 3.3.1(@types/estree@1.0.7)(@typescript-eslint/parser@8.28.0(eslint@8.57.0)(typescript@5.8.2))(eslint@8.57.0)(typescript@5.8.2)(vitest@3.0.9(@types/node@22.13.14))
       '@workleap/typescript-configs':
         specifier: 3.0.2
         version: 3.0.2(typescript@5.8.2)
@@ -2109,7 +2109,7 @@ importers:
         version: 8.28.0(eslint@8.57.0)(typescript@5.8.2)
       '@workleap/eslint-plugin':
         specifier: 3.3.1
-        version: 3.3.1(@types/estree@1.0.7)(@typescript-eslint/parser@8.28.0(eslint@8.57.0)(typescript@5.8.2))(eslint@8.57.0)(typescript@5.8.2)(vitest@3.0.9(@types/node@22.13.14)(msw@2.7.3(@types/node@22.13.14)(typescript@5.8.2)))
+        version: 3.3.1(@types/estree@1.0.7)(@typescript-eslint/parser@8.28.0(eslint@8.57.0)(typescript@5.8.2))(eslint@8.57.0)(typescript@5.8.2)(vitest@3.0.9(@types/node@22.13.14))
       '@workleap/typescript-configs':
         specifier: 3.0.2
         version: 3.0.2(typescript@5.8.2)
@@ -2167,7 +2167,7 @@ importers:
         version: 8.28.0(eslint@8.57.0)(typescript@5.8.2)
       '@workleap/eslint-plugin':
         specifier: 3.3.1
-        version: 3.3.1(@types/estree@1.0.7)(@typescript-eslint/parser@8.28.0(eslint@8.57.0)(typescript@5.8.2))(eslint@8.57.0)(typescript@5.8.2)(vitest@3.0.9(@types/node@22.13.14)(msw@2.7.3(@types/node@22.13.14)(typescript@5.8.2)))
+        version: 3.3.1(@types/estree@1.0.7)(@typescript-eslint/parser@8.28.0(eslint@8.57.0)(typescript@5.8.2))(eslint@8.57.0)(typescript@5.8.2)(vitest@3.0.9(@types/node@22.13.14))
       '@workleap/typescript-configs':
         specifier: 3.0.2
         version: 3.0.2(typescript@5.8.2)
@@ -2231,7 +2231,7 @@ importers:
         version: 2.0.2
       '@workleap/eslint-plugin':
         specifier: 3.3.1
-        version: 3.3.1(@types/estree@1.0.7)(@typescript-eslint/parser@8.28.0(eslint@8.57.0)(typescript@5.8.2))(eslint@8.57.0)(typescript@5.8.2)(vitest@3.0.9(@types/node@22.13.14)(msw@2.7.3(@types/node@22.13.14)(typescript@5.8.2)))
+        version: 3.3.1(@types/estree@1.0.7)(@typescript-eslint/parser@8.28.0(eslint@8.57.0)(typescript@5.8.2))(eslint@8.57.0)(typescript@5.8.2)(vitest@3.0.9(@types/node@22.13.14))
       '@workleap/typescript-configs':
         specifier: 3.0.2
         version: 3.0.2(typescript@5.8.2)
@@ -2355,7 +2355,7 @@ importers:
         version: 2.0.2
       '@workleap/eslint-plugin':
         specifier: 3.3.1
-        version: 3.3.1(@types/estree@1.0.7)(@typescript-eslint/parser@8.28.0(eslint@8.57.0)(typescript@5.8.2))(eslint@8.57.0)(typescript@5.8.2)(vitest@3.0.9(@types/node@22.13.14)(msw@2.7.3(@types/node@22.13.14)(typescript@5.8.2)))
+        version: 3.3.1(@types/estree@1.0.7)(@typescript-eslint/parser@8.28.0(eslint@8.57.0)(typescript@5.8.2))(eslint@8.57.0)(typescript@5.8.2)(vitest@3.0.9(@types/node@22.13.14))
       '@workleap/typescript-configs':
         specifier: 3.0.2
         version: 3.0.2(typescript@5.8.2)
@@ -2416,7 +2416,7 @@ importers:
         version: 8.28.0(eslint@8.57.0)(typescript@5.8.2)
       '@workleap/eslint-plugin':
         specifier: 3.3.1
-        version: 3.3.1(@types/estree@1.0.7)(@typescript-eslint/parser@8.28.0(eslint@8.57.0)(typescript@5.8.2))(eslint@8.57.0)(typescript@5.8.2)(vitest@3.0.9(@types/node@22.13.14)(msw@2.7.3(@types/node@22.13.14)(typescript@5.8.2)))
+        version: 3.3.1(@types/estree@1.0.7)(@typescript-eslint/parser@8.28.0(eslint@8.57.0)(typescript@5.8.2))(eslint@8.57.0)(typescript@5.8.2)(vitest@3.0.9(@types/node@22.13.14))
       '@workleap/typescript-configs':
         specifier: 3.0.2
         version: 3.0.2(typescript@5.8.2)
@@ -2495,7 +2495,7 @@ importers:
         version: 8.28.0(eslint@8.57.0)(typescript@5.8.2)
       '@workleap/eslint-plugin':
         specifier: 3.3.1
-        version: 3.3.1(@types/estree@1.0.7)(@typescript-eslint/parser@8.28.0(eslint@8.57.0)(typescript@5.8.2))(eslint@8.57.0)(typescript@5.8.2)(vitest@3.0.9(@types/node@22.13.14)(msw@2.7.3(@types/node@22.13.14)(typescript@5.8.2)))
+        version: 3.3.1(@types/estree@1.0.7)(@typescript-eslint/parser@8.28.0(eslint@8.57.0)(typescript@5.8.2))(eslint@8.57.0)(typescript@5.8.2)(vitest@3.0.9(@types/node@22.13.14))
       '@workleap/typescript-configs':
         specifier: 3.0.2
         version: 3.0.2(typescript@5.8.2)
@@ -4455,12 +4455,12 @@ packages:
     resolution: {integrity: sha512-dKYCMuPO1bmrpuogcjQ8z7ICCH3FP6WmxpwC03yjzGfZhj9fTJg6+bS1+UAplekbN2C+M61UNllGOOoAfGCrdQ==}
     engines: {node: '>= 18'}
 
-  '@octokit/core@6.1.4':
-    resolution: {integrity: sha512-lAS9k7d6I0MPN+gb9bKDt7X8SdxknYqAMh44S5L+lNqIN2NuV8nvv3g8rPp7MuRxcOpxpUIATWprO0C34a8Qmg==}
+  '@octokit/core@6.1.5':
+    resolution: {integrity: sha512-vvmsN0r7rguA+FySiCsbaTTobSftpIDIpPW81trAmsv9TGxg3YCujAxRYp/Uy8xmDgYCzzgulG62H7KYUFmeIg==}
     engines: {node: '>= 18'}
 
-  '@octokit/endpoint@10.1.3':
-    resolution: {integrity: sha512-nBRBMpKPhQUxCsQQeW+rCJ/OPSMcj3g0nfHn01zGYZXuNDvvXudF/TYY6APj5THlurerpFN4a/dQAIAaM6BYhA==}
+  '@octokit/endpoint@10.1.4':
+    resolution: {integrity: sha512-OlYOlZIsfEVZm5HCSR8aSg02T2lbUWOsCQoPKfTXJwDzcHQBrVBGdGXb89dv2Kw2ToZaRtudp8O3ZIYoaOjKlA==}
     engines: {node: '>= 18'}
 
   '@octokit/endpoint@9.0.6':
@@ -4471,8 +4471,8 @@ packages:
     resolution: {integrity: sha512-3mkDltSfcDUoa176nlGoA32RGjeWjl3K7F/BwHwRMJUW/IteSa4bnSV8p2ThNkcIcZU2umkZWxwETSSCJf2Q7g==}
     engines: {node: '>= 18'}
 
-  '@octokit/graphql@8.2.1':
-    resolution: {integrity: sha512-n57hXtOoHrhwTWdvhVkdJHdhTv0JstjDbDRhJfwIRNfFqmSo1DaK/mD2syoNUoLCyqSjBpGAKOG0BuwF392slw==}
+  '@octokit/graphql@8.2.2':
+    resolution: {integrity: sha512-Yi8hcoqsrXGdt0yObxbebHXFOiUA+2v3n53epuOg1QUgOB6c4XzvisBNVXJSl8RYA5KrDuSL2yq9Qmqe5N0ryA==}
     engines: {node: '>= 18'}
 
   '@octokit/openapi-types@20.0.0':
@@ -4480,6 +4480,9 @@ packages:
 
   '@octokit/openapi-types@24.2.0':
     resolution: {integrity: sha512-9sIH3nSUttelJSXUrmGzl7QUBFul0/mB8HRYl3fOlgHbIWG+WnYDXU3v/2zMtAvuzZ/ed00Ei6on975FhBfzrg==}
+
+  '@octokit/openapi-types@25.0.0':
+    resolution: {integrity: sha512-FZvktFu7HfOIJf2BScLKIEYjDsw6RKc7rBJCdvCTfKsVnx2GEB/Nbzjr29DUdb7vQhlzS/j8qDzdditP0OC6aw==}
 
   '@octokit/plugin-paginate-rest@11.6.0':
     resolution: {integrity: sha512-n5KPteiF7pWKgBIBJSk8qzoZWcUkza2O6A0za97pMGVrGfPdltxrfmfF5GucHYvHGZD8BdaZmmHGz5cX/3gdpw==}
@@ -4515,16 +4518,16 @@ packages:
     resolution: {integrity: sha512-v9iyEQJH6ZntoENr9/yXxjuezh4My67CBSu9r6Ve/05Iu5gNgnisNWOsoJHTP6k0Rr0+HQIpnH+kyammu90q/g==}
     engines: {node: '>= 18'}
 
-  '@octokit/request-error@6.1.7':
-    resolution: {integrity: sha512-69NIppAwaauwZv6aOzb+VVLwt+0havz9GT5YplkeJv7fG7a40qpLt/yZKyiDxAhgz0EtgNdNcb96Z0u+Zyuy2g==}
+  '@octokit/request-error@6.1.8':
+    resolution: {integrity: sha512-WEi/R0Jmq+IJKydWlKDmryPcmdYSVjL3ekaiEL1L9eo1sUnqMJ+grqmC9cjk7CA7+b2/T397tO5d8YLOH3qYpQ==}
     engines: {node: '>= 18'}
 
   '@octokit/request@8.4.1':
     resolution: {integrity: sha512-qnB2+SY3hkCmBxZsR/MPCybNmbJe4KAlfWErXq+rBKkQJlbjdJeS85VI9r8UqeLYLvnAenU8Q1okM/0MBsAGXw==}
     engines: {node: '>= 18'}
 
-  '@octokit/request@9.2.2':
-    resolution: {integrity: sha512-dZl0ZHx6gOQGcffgm1/Sf6JfEpmh34v3Af2Uci02vzUYz6qEN6zepoRtmybWXIGXFIK8K9ylE3b+duCWqhArtg==}
+  '@octokit/request@9.2.3':
+    resolution: {integrity: sha512-Ma+pZU8PXLOEYzsWf0cn/gY+ME57Wq8f49WTXA8FMHp2Ps9djKw//xYJ1je8Hm0pR2lU9FUGeJRWOtxq6olt4w==}
     engines: {node: '>= 18'}
 
   '@octokit/rest@21.1.1':
@@ -4536,6 +4539,9 @@ packages:
 
   '@octokit/types@13.10.0':
     resolution: {integrity: sha512-ifLaO34EbbPj0Xgro4G5lP5asESjwHracYJvVaPIyXMuiuXLlhic3S47cBdTb+jfODkTE5YtGCLt3Ay3+J97sA==}
+
+  '@octokit/types@14.0.0':
+    resolution: {integrity: sha512-VVmZP0lEhbo2O1pdq63gZFiGCKkm8PPp8AUOijlwPO6hojEVjspA0MWKP7E4hbvGxzFKNqKr6p0IYtOH/Wf/zA==}
 
   '@open-draft/deferred-promise@2.2.0':
     resolution: {integrity: sha512-CecwLWx3rhxVQF6V4bAgPS5t+So2sTbPgAzafKkVizyi7tlwpcFpdFqq+wqF2OwNBmqFuu6tOyouTuxgpMfzmA==}
@@ -5104,6 +5110,10 @@ packages:
     resolution: {integrity: sha512-4VlGgo32k2EQ2wcCY3vEU28A0O13aOtHz3Xt2/2U5FAh9EfhD6t6DqL5Z6yAnRCntbTFDU4YfbpyzSlHNWycPw==}
     engines: {node: '>=14'}
 
+  '@opentelemetry/semantic-conventions@1.31.0':
+    resolution: {integrity: sha512-cYJeP+6qN0UnBv1r09hXl0YorB8kXHv61BC0NUlBA8vxrylZ4/C8lnva3gd1E8n33DNYSaiGW+DuGoSt0QQ7Dw==}
+    engines: {node: '>=14'}
+
   '@opentelemetry/sql-common@0.41.0':
     resolution: {integrity: sha512-pmzXctVbEERbqSfiAgdes9Y63xjoOyXcD7B6IXBkVb+vbM7M9U98mn33nGXxPf4dfYR0M+vhcKRZmbSJ7HfqFA==}
     engines: {node: ^18.19.0 || >=20.6.0}
@@ -5208,8 +5218,8 @@ packages:
     resolution: {integrity: sha512-+1VkjdD0QBLPodGrJUeqarH8VAIvQODIbwh9XpP5Syisf7YoQgsJKPNFoqqLQlu+VQ/tVSshMR6loPMn8U+dPg==}
     engines: {node: '>=14'}
 
-  '@pkgr/core@0.2.1':
-    resolution: {integrity: sha512-VzgHzGblFmUeBmmrk55zPyrQIArQN4vujc9shWytaPdB3P7qhi0cpaiKIr7tlCmFv2lYUwnLospIqjL9ZSAhhg==}
+  '@pkgr/core@0.2.2':
+    resolution: {integrity: sha512-25L86MyPvnlQoX2MTIV2OiUcb6vJ6aRbFa9pbwByn95INKD5mFH2smgjDhq+fwJoqAgvgbdJLj6Tz7V9X5CFAQ==}
     engines: {node: ^12.20.0 || ^14.18.0 || >=16.0.0}
 
   '@pmmmwh/react-refresh-webpack-plugin@0.5.16':
@@ -6367,8 +6377,8 @@ packages:
       '@opentelemetry/instrumentation-xml-http-request': ^0.200.0
       '@opentelemetry/sdk-trace-web': ^2.0.0
 
-  '@workleap/rsbuild-configs@1.1.2':
-    resolution: {integrity: sha512-TnLxSDG5z6OMP4Fk8O3UdPaqCsrHtHgfzqLQ8fVFsPW1X9ZCCGkP24p7UWisNMb9d9Nv/JpexkienBMbzN5bKA==}
+  '@workleap/rsbuild-configs@2.0.1':
+    resolution: {integrity: sha512-OFTAT+zjUhm1QQDo5mnAkKNFJyhqiQ3xRjDMG6VPv2VNa8mwDGBvxWEmCNX2S+1bW7KnGGHuYEzhoo5iC1Pmdg==}
     peerDependencies:
       '@rsbuild/core': ^1.3.1
       '@rspack/core': ^1.3.0
@@ -7698,11 +7708,11 @@ packages:
   ee-first@1.1.1:
     resolution: {integrity: sha512-WMwm9LhRUo+WUaRN+vRuETqG89IgZphVSNkdFgeb6sS/E4OrDIN7t48CAewSHXc6C8lefD8KKfr5vY61brQlow==}
 
-  effect@3.14.6:
-    resolution: {integrity: sha512-/QMsBfMw2Gt10x3y2jVqDanLpKFrhc4L/3vqjrD36GWeuOcjN+1mvsvw9+RseAq9hmmkc3MFvLznfiEopqcPuw==}
+  effect@3.14.7:
+    resolution: {integrity: sha512-vAev6B05EYMhh1fpCKsiUdVKmT0ph3TjTTfPno384dLL39tI88OIV2QNkNby506NY1L/w1NIaxcaKGfEw3rPhw==}
 
-  electron-to-chromium@1.5.134:
-    resolution: {integrity: sha512-zSwzrLg3jNP3bwsLqWHmS5z2nIOQ5ngMnfMZOWWtXnqqQkPVyOipxK98w+1beLw1TB+EImPNcG8wVP/cLVs2Og==}
+  electron-to-chromium@1.5.135:
+    resolution: {integrity: sha512-8gXUdEmvb+WCaYUhA0Svr08uSeRjM2w3x5uHOc1QbaEVzJXB8rgm5eptieXzyKoVEtinLvW6MtTcurA65PeS1Q==}
 
   emoji-regex@10.4.0:
     resolution: {integrity: sha512-EC+0oUMY1Rqm4O6LLrgjtYDvcVYTy7chDnM4Q7030tP4Kwj3u/pR6gP9ygnp2CJMK5Gq+9Q2oqmrFJAz01DXjw==}
@@ -7940,8 +7950,8 @@ packages:
     peerDependencies:
       eslint: '>=8.0.0'
 
-  eslint-plugin-package-json@0.29.0:
-    resolution: {integrity: sha512-S2YjWLMb+vaI0QbvkSrM6F2lEulaehGWEgHAXSoJI0F2eDw4udp5gtdFyKMLP2GSrfJB5cnKPnSJiOO5RGuaKg==}
+  eslint-plugin-package-json@0.29.1:
+    resolution: {integrity: sha512-4Jn1YO0JJyqs2W7Tt9I0QahQ0sPc2G5hLcWBUxkTdVF84Rdn+bVm9NY/XbjVJOlujkgZAK8Hi8irv+Mx4aTqaw==}
     engines: {node: '>=18'}
     peerDependencies:
       eslint: '>=8.0.0'
@@ -8710,6 +8720,15 @@ packages:
 
   http-proxy-middleware@2.0.7:
     resolution: {integrity: sha512-fgVY8AV7qU7z/MmXJ/rxwbrtQH4jBQ9m7kp3llF0liB7glmFeVZFBepQb32T3y8n8k2+AEYuMPCpinYW+/CuRA==}
+    engines: {node: '>=12.0.0'}
+    peerDependencies:
+      '@types/express': ^4.17.13
+    peerDependenciesMeta:
+      '@types/express':
+        optional: true
+
+  http-proxy-middleware@2.0.8:
+    resolution: {integrity: sha512-/iazaeFPmL8KLA6QB7DFAU4O5j+9y/TA0D019MbLtPuFI56VK4BXFzM6j6QS9oGpScy8IIDH4S2LHv3zg/63Bw==}
     engines: {node: '>=12.0.0'}
     peerDependencies:
       '@types/express': ^4.17.13
@@ -10320,8 +10339,8 @@ packages:
     resolution: {integrity: sha512-SgOTCX/EZXtZxBE5eJ97P4yGM5n37BwRU+YMsH4vNzFqJV/oWFXXCmwFlgWUM4PrakybVOueJJ6pwHqSVhTFDw==}
     engines: {node: '>=16'}
 
-  parse-json@8.2.0:
-    resolution: {integrity: sha512-eONBZy4hm2AgxjNFd8a4nyDJnzUAH0g34xSQAwWEVGCjdZ4ZL7dKZBfq267GWP/JaS9zW62Xs2FeAdDvpHHJGQ==}
+  parse-json@8.3.0:
+    resolution: {integrity: sha512-ybiGyvspI+fAoRQbIPRddCcSTV9/LsJbf0e/S85VLowVGzRmokfneg2kwVW/KU5rOXrPSbF1qAKPMgNTqqROQQ==}
     engines: {node: '>=18'}
 
   parse-ms@3.0.0:
@@ -10693,8 +10712,8 @@ packages:
     resolution: {integrity: sha512-WuyALRjWPDGtt/wzJiadO5AXY+8hZ80hVpe6MyivgraREW751X3SbhRvG3eLKOYN+8VEvqLcf3wdnt44Z4S4SA==}
     engines: {node: '>=10'}
 
-  quick-lru@7.0.0:
-    resolution: {integrity: sha512-MX8gB7cVYTrYcFfAnfLlhRd0+Toyl8yX8uBx1MrX7K0jegiz9TumwOK27ldXrgDlHRdVi+MqU9Ssw6dr4BNreg==}
+  quick-lru@7.0.1:
+    resolution: {integrity: sha512-kLjThirJMkWKutUKbZ8ViqFc09tDQhlbQo2MNuVeLWbRauqYP96Sm6nzlQ24F0HFjUNZ4i9+AgldJ9H6DZXi7g==}
     engines: {node: '>=18'}
 
   quote-unquote@1.0.0:
@@ -12622,7 +12641,7 @@ snapshots:
       '@babel/traverse': 7.27.0
       '@babel/types': 7.27.0
       convert-source-map: 2.0.0
-      debug: 4.4.0(supports-color@9.4.0)
+      debug: 4.4.0(supports-color@5.5.0)
       gensync: 1.0.0-beta.2
       json5: 2.2.3
       semver: 6.3.1
@@ -12674,7 +12693,7 @@ snapshots:
       '@babel/core': 7.26.10
       '@babel/helper-compilation-targets': 7.27.0
       '@babel/helper-plugin-utils': 7.26.5
-      debug: 4.4.0(supports-color@9.4.0)
+      debug: 4.4.0(supports-color@5.5.0)
       lodash.debounce: 4.0.8
       resolve: 1.22.10
     transitivePeerDependencies:
@@ -13318,7 +13337,7 @@ snapshots:
       '@babel/parser': 7.27.0
       '@babel/template': 7.27.0
       '@babel/types': 7.27.0
-      debug: 4.4.0(supports-color@9.4.0)
+      debug: 4.4.0(supports-color@5.5.0)
       globals: 11.12.0
     transitivePeerDependencies:
       - supports-color
@@ -13552,9 +13571,9 @@ snapshots:
 
   '@discoveryjs/json-ext@0.6.3': {}
 
-  '@effect/schema@0.75.5(effect@3.14.6)':
+  '@effect/schema@0.75.5(effect@3.14.7)':
     dependencies:
-      effect: 3.14.6
+      effect: 3.14.7
       fast-check: 3.23.2
 
   '@emnapi/core@1.4.0':
@@ -13862,7 +13881,7 @@ snapshots:
   '@eslint/eslintrc@2.1.4':
     dependencies:
       ajv: 6.12.6
-      debug: 4.4.0(supports-color@9.4.0)
+      debug: 4.4.0(supports-color@5.5.0)
       espree: 9.6.1
       globals: 13.24.0
       ignore: 5.3.2
@@ -13973,7 +13992,7 @@ snapshots:
   '@humanwhocodes/config-array@0.11.14':
     dependencies:
       '@humanwhocodes/object-schema': 2.0.3
-      debug: 4.4.0(supports-color@9.4.0)
+      debug: 4.4.0(supports-color@5.5.0)
       minimatch: 3.1.2
     transitivePeerDependencies:
       - supports-color
@@ -14119,6 +14138,21 @@ snapshots:
       fs-extra: 8.1.0
       globby: 11.1.0
       read-yaml-file: 1.1.0
+
+  '@mapbox/node-pre-gyp@1.0.11':
+    dependencies:
+      detect-libc: 2.0.3
+      https-proxy-agent: 5.0.1
+      make-dir: 3.1.0
+      node-fetch: 2.7.0
+      nopt: 5.0.0
+      npmlog: 5.0.1
+      rimraf: 3.0.2
+      semver: 7.7.1
+      tar: 6.2.1
+    transitivePeerDependencies:
+      - encoding
+      - supports-color
 
   '@mapbox/node-pre-gyp@1.0.11(supports-color@9.4.0)':
     dependencies:
@@ -14566,6 +14600,35 @@ snapshots:
       validate-npm-package-name: 4.0.0
       yargs: 17.7.2
 
+  '@netlify/edge-bundler@12.3.3(rollup@4.39.0)':
+    dependencies:
+      '@import-maps/resolve': 1.0.1
+      '@vercel/nft': 0.27.7(rollup@4.39.0)
+      ajv: 8.17.1
+      ajv-errors: 3.0.0(ajv@8.17.1)
+      better-ajv-errors: 1.2.0(ajv@8.17.1)
+      common-path-prefix: 3.0.0
+      env-paths: 3.0.0
+      esbuild: 0.21.2
+      execa: 7.2.0
+      find-up: 6.3.0
+      get-package-name: 2.2.0
+      get-port: 6.1.2
+      is-path-inside: 4.0.0
+      node-fetch: 3.3.2
+      node-stream-zip: 1.15.0
+      p-retry: 5.1.2
+      p-wait-for: 5.0.2
+      path-key: 4.0.0
+      semver: 7.7.1
+      tmp-promise: 3.0.3
+      urlpattern-polyfill: 8.0.2
+      uuid: 9.0.1
+    transitivePeerDependencies:
+      - encoding
+      - rollup
+      - supports-color
+
   '@netlify/edge-bundler@12.3.3(rollup@4.39.0)(supports-color@9.4.0)':
     dependencies:
       '@import-maps/resolve': 1.0.1
@@ -14708,6 +14771,47 @@ snapshots:
       execa: 6.1.0
 
   '@netlify/serverless-functions-api@1.36.0': {}
+
+  '@netlify/zip-it-and-ship-it@10.0.4(rollup@4.39.0)':
+    dependencies:
+      '@babel/parser': 7.27.0
+      '@babel/types': 7.26.10
+      '@netlify/binary-info': 1.0.0
+      '@netlify/serverless-functions-api': 1.36.0
+      '@vercel/nft': 0.27.7(rollup@4.39.0)
+      archiver: 7.0.1
+      common-path-prefix: 3.0.0
+      cp-file: 10.0.0
+      es-module-lexer: 1.6.0
+      esbuild: 0.19.11
+      execa: 7.2.0
+      fast-glob: 3.3.3
+      filter-obj: 5.1.0
+      find-up: 6.3.0
+      glob: 8.1.0
+      is-builtin-module: 3.2.1
+      is-path-inside: 4.0.0
+      junk: 4.0.1
+      locate-path: 7.2.0
+      merge-options: 3.0.4
+      minimatch: 9.0.5
+      normalize-path: 3.0.0
+      p-map: 7.0.3
+      path-exists: 5.0.0
+      precinct: 11.0.5
+      require-package-name: 2.0.1
+      resolve: 2.0.0-next.5
+      semver: 7.7.1
+      tmp-promise: 3.0.3
+      toml: 3.0.0
+      unixify: 1.0.0
+      urlpattern-polyfill: 8.0.2
+      yargs: 17.7.2
+      zod: 3.24.2
+    transitivePeerDependencies:
+      - encoding
+      - rollup
+      - supports-color
 
   '@netlify/zip-it-and-ship-it@10.0.4(rollup@4.39.0)(supports-color@9.4.0)':
     dependencies:
@@ -14854,19 +14958,19 @@ snapshots:
       before-after-hook: 2.2.3
       universal-user-agent: 6.0.1
 
-  '@octokit/core@6.1.4':
+  '@octokit/core@6.1.5':
     dependencies:
       '@octokit/auth-token': 5.1.2
-      '@octokit/graphql': 8.2.1
-      '@octokit/request': 9.2.2
-      '@octokit/request-error': 6.1.7
-      '@octokit/types': 13.10.0
+      '@octokit/graphql': 8.2.2
+      '@octokit/request': 9.2.3
+      '@octokit/request-error': 6.1.8
+      '@octokit/types': 14.0.0
       before-after-hook: 3.0.2
       universal-user-agent: 7.0.2
 
-  '@octokit/endpoint@10.1.3':
+  '@octokit/endpoint@10.1.4':
     dependencies:
-      '@octokit/types': 13.10.0
+      '@octokit/types': 14.0.0
       universal-user-agent: 7.0.2
 
   '@octokit/endpoint@9.0.6':
@@ -14880,19 +14984,21 @@ snapshots:
       '@octokit/types': 13.10.0
       universal-user-agent: 6.0.1
 
-  '@octokit/graphql@8.2.1':
+  '@octokit/graphql@8.2.2':
     dependencies:
-      '@octokit/request': 9.2.2
-      '@octokit/types': 13.10.0
+      '@octokit/request': 9.2.3
+      '@octokit/types': 14.0.0
       universal-user-agent: 7.0.2
 
   '@octokit/openapi-types@20.0.0': {}
 
   '@octokit/openapi-types@24.2.0': {}
 
-  '@octokit/plugin-paginate-rest@11.6.0(@octokit/core@6.1.4)':
+  '@octokit/openapi-types@25.0.0': {}
+
+  '@octokit/plugin-paginate-rest@11.6.0(@octokit/core@6.1.5)':
     dependencies:
-      '@octokit/core': 6.1.4
+      '@octokit/core': 6.1.5
       '@octokit/types': 13.10.0
 
   '@octokit/plugin-paginate-rest@9.2.2(@octokit/core@5.2.1)':
@@ -14900,18 +15006,18 @@ snapshots:
       '@octokit/core': 5.2.1
       '@octokit/types': 12.6.0
 
-  '@octokit/plugin-request-log@5.3.1(@octokit/core@6.1.4)':
+  '@octokit/plugin-request-log@5.3.1(@octokit/core@6.1.5)':
     dependencies:
-      '@octokit/core': 6.1.4
+      '@octokit/core': 6.1.5
 
   '@octokit/plugin-rest-endpoint-methods@10.4.1(@octokit/core@5.2.1)':
     dependencies:
       '@octokit/core': 5.2.1
       '@octokit/types': 12.6.0
 
-  '@octokit/plugin-rest-endpoint-methods@13.5.0(@octokit/core@6.1.4)':
+  '@octokit/plugin-rest-endpoint-methods@13.5.0(@octokit/core@6.1.5)':
     dependencies:
-      '@octokit/core': 6.1.4
+      '@octokit/core': 6.1.5
       '@octokit/types': 13.10.0
 
   '@octokit/request-error@5.1.1':
@@ -14920,9 +15026,9 @@ snapshots:
       deprecation: 2.3.1
       once: 1.4.0
 
-  '@octokit/request-error@6.1.7':
+  '@octokit/request-error@6.1.8':
     dependencies:
-      '@octokit/types': 13.10.0
+      '@octokit/types': 14.0.0
 
   '@octokit/request@8.4.1':
     dependencies:
@@ -14931,20 +15037,20 @@ snapshots:
       '@octokit/types': 13.10.0
       universal-user-agent: 6.0.1
 
-  '@octokit/request@9.2.2':
+  '@octokit/request@9.2.3':
     dependencies:
-      '@octokit/endpoint': 10.1.3
-      '@octokit/request-error': 6.1.7
-      '@octokit/types': 13.10.0
+      '@octokit/endpoint': 10.1.4
+      '@octokit/request-error': 6.1.8
+      '@octokit/types': 14.0.0
       fast-content-type-parse: 2.0.1
       universal-user-agent: 7.0.2
 
   '@octokit/rest@21.1.1':
     dependencies:
-      '@octokit/core': 6.1.4
-      '@octokit/plugin-paginate-rest': 11.6.0(@octokit/core@6.1.4)
-      '@octokit/plugin-request-log': 5.3.1(@octokit/core@6.1.4)
-      '@octokit/plugin-rest-endpoint-methods': 13.5.0(@octokit/core@6.1.4)
+      '@octokit/core': 6.1.5
+      '@octokit/plugin-paginate-rest': 11.6.0(@octokit/core@6.1.5)
+      '@octokit/plugin-request-log': 5.3.1(@octokit/core@6.1.5)
+      '@octokit/plugin-rest-endpoint-methods': 13.5.0(@octokit/core@6.1.5)
 
   '@octokit/types@12.6.0':
     dependencies:
@@ -14953,6 +15059,10 @@ snapshots:
   '@octokit/types@13.10.0':
     dependencies:
       '@octokit/openapi-types': 24.2.0
+
+  '@octokit/types@14.0.0':
+    dependencies:
+      '@octokit/openapi-types': 25.0.0
 
   '@open-draft/deferred-promise@2.2.0': {}
 
@@ -15053,7 +15163,7 @@ snapshots:
   '@opentelemetry/core@2.0.0(@opentelemetry/api@1.9.0)':
     dependencies:
       '@opentelemetry/api': 1.9.0
-      '@opentelemetry/semantic-conventions': 1.30.0
+      '@opentelemetry/semantic-conventions': 1.31.0
 
   '@opentelemetry/exporter-logs-otlp-grpc@0.200.0(@opentelemetry/api@1.9.0)':
     dependencies:
@@ -15167,14 +15277,14 @@ snapshots:
       '@opentelemetry/core': 2.0.0(@opentelemetry/api@1.9.0)
       '@opentelemetry/resources': 2.0.0(@opentelemetry/api@1.9.0)
       '@opentelemetry/sdk-trace-base': 2.0.0(@opentelemetry/api@1.9.0)
-      '@opentelemetry/semantic-conventions': 1.30.0
+      '@opentelemetry/semantic-conventions': 1.31.0
 
   '@opentelemetry/instrumentation-amqplib@0.47.0(@opentelemetry/api@1.9.0)':
     dependencies:
       '@opentelemetry/api': 1.9.0
       '@opentelemetry/core': 2.0.0(@opentelemetry/api@1.9.0)
       '@opentelemetry/instrumentation': 0.200.0(@opentelemetry/api@1.9.0)
-      '@opentelemetry/semantic-conventions': 1.30.0
+      '@opentelemetry/semantic-conventions': 1.31.0
     transitivePeerDependencies:
       - supports-color
 
@@ -15182,7 +15292,7 @@ snapshots:
     dependencies:
       '@opentelemetry/api': 1.9.0
       '@opentelemetry/instrumentation': 0.200.0(@opentelemetry/api@1.9.0)
-      '@opentelemetry/semantic-conventions': 1.30.0
+      '@opentelemetry/semantic-conventions': 1.31.0
       '@types/aws-lambda': 8.10.147
     transitivePeerDependencies:
       - supports-color
@@ -15193,7 +15303,7 @@ snapshots:
       '@opentelemetry/core': 2.0.0(@opentelemetry/api@1.9.0)
       '@opentelemetry/instrumentation': 0.200.0(@opentelemetry/api@1.9.0)
       '@opentelemetry/propagation-utils': 0.31.0(@opentelemetry/api@1.9.0)
-      '@opentelemetry/semantic-conventions': 1.30.0
+      '@opentelemetry/semantic-conventions': 1.31.0
     transitivePeerDependencies:
       - supports-color
 
@@ -15210,7 +15320,7 @@ snapshots:
     dependencies:
       '@opentelemetry/api': 1.9.0
       '@opentelemetry/instrumentation': 0.200.0(@opentelemetry/api@1.9.0)
-      '@opentelemetry/semantic-conventions': 1.30.0
+      '@opentelemetry/semantic-conventions': 1.31.0
     transitivePeerDependencies:
       - supports-color
 
@@ -15219,7 +15329,7 @@ snapshots:
       '@opentelemetry/api': 1.9.0
       '@opentelemetry/core': 2.0.0(@opentelemetry/api@1.9.0)
       '@opentelemetry/instrumentation': 0.200.0(@opentelemetry/api@1.9.0)
-      '@opentelemetry/semantic-conventions': 1.30.0
+      '@opentelemetry/semantic-conventions': 1.31.0
       '@types/connect': 3.4.38
     transitivePeerDependencies:
       - supports-color
@@ -15228,7 +15338,7 @@ snapshots:
     dependencies:
       '@opentelemetry/api': 1.9.0
       '@opentelemetry/instrumentation': 0.200.0(@opentelemetry/api@1.9.0)
-      '@opentelemetry/semantic-conventions': 1.30.0
+      '@opentelemetry/semantic-conventions': 1.31.0
     transitivePeerDependencies:
       - supports-color
 
@@ -15252,7 +15362,7 @@ snapshots:
       '@opentelemetry/core': 2.0.0(@opentelemetry/api@1.9.0)
       '@opentelemetry/instrumentation': 0.200.0(@opentelemetry/api@1.9.0)
       '@opentelemetry/sdk-trace-web': 2.0.0(@opentelemetry/api@1.9.0)
-      '@opentelemetry/semantic-conventions': 1.30.0
+      '@opentelemetry/semantic-conventions': 1.31.0
     transitivePeerDependencies:
       - supports-color
 
@@ -15261,7 +15371,7 @@ snapshots:
       '@opentelemetry/api': 1.9.0
       '@opentelemetry/core': 2.0.0(@opentelemetry/api@1.9.0)
       '@opentelemetry/instrumentation': 0.200.0(@opentelemetry/api@1.9.0)
-      '@opentelemetry/semantic-conventions': 1.30.0
+      '@opentelemetry/semantic-conventions': 1.31.0
     transitivePeerDependencies:
       - supports-color
 
@@ -15270,7 +15380,7 @@ snapshots:
       '@opentelemetry/api': 1.9.0
       '@opentelemetry/core': 2.0.0(@opentelemetry/api@1.9.0)
       '@opentelemetry/instrumentation': 0.200.0(@opentelemetry/api@1.9.0)
-      '@opentelemetry/semantic-conventions': 1.30.0
+      '@opentelemetry/semantic-conventions': 1.31.0
     transitivePeerDependencies:
       - supports-color
 
@@ -15280,7 +15390,7 @@ snapshots:
       '@opentelemetry/core': 2.0.0(@opentelemetry/api@1.9.0)
       '@opentelemetry/instrumentation': 0.200.0(@opentelemetry/api@1.9.0)
       '@opentelemetry/sdk-trace-web': 2.0.0(@opentelemetry/api@1.9.0)
-      '@opentelemetry/semantic-conventions': 1.30.0
+      '@opentelemetry/semantic-conventions': 1.31.0
     transitivePeerDependencies:
       - supports-color
 
@@ -15310,7 +15420,7 @@ snapshots:
     dependencies:
       '@opentelemetry/api': 1.9.0
       '@opentelemetry/instrumentation': 0.200.0(@opentelemetry/api@1.9.0)
-      '@opentelemetry/semantic-conventions': 1.30.0
+      '@opentelemetry/semantic-conventions': 1.31.0
     transitivePeerDependencies:
       - supports-color
 
@@ -15319,7 +15429,7 @@ snapshots:
       '@opentelemetry/api': 1.9.0
       '@opentelemetry/core': 2.0.0(@opentelemetry/api@1.9.0)
       '@opentelemetry/instrumentation': 0.200.0(@opentelemetry/api@1.9.0)
-      '@opentelemetry/semantic-conventions': 1.30.0
+      '@opentelemetry/semantic-conventions': 1.31.0
     transitivePeerDependencies:
       - supports-color
 
@@ -15328,7 +15438,7 @@ snapshots:
       '@opentelemetry/api': 1.9.0
       '@opentelemetry/core': 2.0.0(@opentelemetry/api@1.9.0)
       '@opentelemetry/instrumentation': 0.200.0(@opentelemetry/api@1.9.0)
-      '@opentelemetry/semantic-conventions': 1.30.0
+      '@opentelemetry/semantic-conventions': 1.31.0
       forwarded-parse: 2.1.2
     transitivePeerDependencies:
       - supports-color
@@ -15338,7 +15448,7 @@ snapshots:
       '@opentelemetry/api': 1.9.0
       '@opentelemetry/instrumentation': 0.200.0(@opentelemetry/api@1.9.0)
       '@opentelemetry/redis-common': 0.37.0
-      '@opentelemetry/semantic-conventions': 1.30.0
+      '@opentelemetry/semantic-conventions': 1.31.0
     transitivePeerDependencies:
       - supports-color
 
@@ -15346,7 +15456,7 @@ snapshots:
     dependencies:
       '@opentelemetry/api': 1.9.0
       '@opentelemetry/instrumentation': 0.200.0(@opentelemetry/api@1.9.0)
-      '@opentelemetry/semantic-conventions': 1.30.0
+      '@opentelemetry/semantic-conventions': 1.31.0
     transitivePeerDependencies:
       - supports-color
 
@@ -15354,7 +15464,7 @@ snapshots:
     dependencies:
       '@opentelemetry/api': 1.9.0
       '@opentelemetry/instrumentation': 0.200.0(@opentelemetry/api@1.9.0)
-      '@opentelemetry/semantic-conventions': 1.30.0
+      '@opentelemetry/semantic-conventions': 1.31.0
     transitivePeerDependencies:
       - supports-color
 
@@ -15363,7 +15473,7 @@ snapshots:
       '@opentelemetry/api': 1.9.0
       '@opentelemetry/core': 2.0.0(@opentelemetry/api@1.9.0)
       '@opentelemetry/instrumentation': 0.200.0(@opentelemetry/api@1.9.0)
-      '@opentelemetry/semantic-conventions': 1.30.0
+      '@opentelemetry/semantic-conventions': 1.31.0
     transitivePeerDependencies:
       - supports-color
 
@@ -15378,7 +15488,7 @@ snapshots:
     dependencies:
       '@opentelemetry/api': 1.9.0
       '@opentelemetry/instrumentation': 0.200.0(@opentelemetry/api@1.9.0)
-      '@opentelemetry/semantic-conventions': 1.30.0
+      '@opentelemetry/semantic-conventions': 1.31.0
       '@types/memcached': 2.2.10
     transitivePeerDependencies:
       - supports-color
@@ -15387,7 +15497,7 @@ snapshots:
     dependencies:
       '@opentelemetry/api': 1.9.0
       '@opentelemetry/instrumentation': 0.200.0(@opentelemetry/api@1.9.0)
-      '@opentelemetry/semantic-conventions': 1.30.0
+      '@opentelemetry/semantic-conventions': 1.31.0
     transitivePeerDependencies:
       - supports-color
 
@@ -15396,7 +15506,7 @@ snapshots:
       '@opentelemetry/api': 1.9.0
       '@opentelemetry/core': 2.0.0(@opentelemetry/api@1.9.0)
       '@opentelemetry/instrumentation': 0.200.0(@opentelemetry/api@1.9.0)
-      '@opentelemetry/semantic-conventions': 1.30.0
+      '@opentelemetry/semantic-conventions': 1.31.0
     transitivePeerDependencies:
       - supports-color
 
@@ -15404,7 +15514,7 @@ snapshots:
     dependencies:
       '@opentelemetry/api': 1.9.0
       '@opentelemetry/instrumentation': 0.200.0(@opentelemetry/api@1.9.0)
-      '@opentelemetry/semantic-conventions': 1.30.0
+      '@opentelemetry/semantic-conventions': 1.31.0
       '@opentelemetry/sql-common': 0.41.0(@opentelemetry/api@1.9.0)
     transitivePeerDependencies:
       - supports-color
@@ -15413,7 +15523,7 @@ snapshots:
     dependencies:
       '@opentelemetry/api': 1.9.0
       '@opentelemetry/instrumentation': 0.200.0(@opentelemetry/api@1.9.0)
-      '@opentelemetry/semantic-conventions': 1.30.0
+      '@opentelemetry/semantic-conventions': 1.31.0
       '@types/mysql': 2.15.26
     transitivePeerDependencies:
       - supports-color
@@ -15422,7 +15532,7 @@ snapshots:
     dependencies:
       '@opentelemetry/api': 1.9.0
       '@opentelemetry/instrumentation': 0.200.0(@opentelemetry/api@1.9.0)
-      '@opentelemetry/semantic-conventions': 1.30.0
+      '@opentelemetry/semantic-conventions': 1.31.0
     transitivePeerDependencies:
       - supports-color
 
@@ -15430,7 +15540,7 @@ snapshots:
     dependencies:
       '@opentelemetry/api': 1.9.0
       '@opentelemetry/instrumentation': 0.200.0(@opentelemetry/api@1.9.0)
-      '@opentelemetry/semantic-conventions': 1.30.0
+      '@opentelemetry/semantic-conventions': 1.31.0
     transitivePeerDependencies:
       - supports-color
 
@@ -15439,7 +15549,7 @@ snapshots:
       '@opentelemetry/api': 1.9.0
       '@opentelemetry/core': 2.0.0(@opentelemetry/api@1.9.0)
       '@opentelemetry/instrumentation': 0.200.0(@opentelemetry/api@1.9.0)
-      '@opentelemetry/semantic-conventions': 1.30.0
+      '@opentelemetry/semantic-conventions': 1.31.0
       '@opentelemetry/sql-common': 0.41.0(@opentelemetry/api@1.9.0)
       '@types/pg': 8.6.1
       '@types/pg-pool': 2.0.6
@@ -15460,7 +15570,7 @@ snapshots:
       '@opentelemetry/api': 1.9.0
       '@opentelemetry/instrumentation': 0.200.0(@opentelemetry/api@1.9.0)
       '@opentelemetry/redis-common': 0.37.0
-      '@opentelemetry/semantic-conventions': 1.30.0
+      '@opentelemetry/semantic-conventions': 1.31.0
     transitivePeerDependencies:
       - supports-color
 
@@ -15469,7 +15579,7 @@ snapshots:
       '@opentelemetry/api': 1.9.0
       '@opentelemetry/instrumentation': 0.200.0(@opentelemetry/api@1.9.0)
       '@opentelemetry/redis-common': 0.37.0
-      '@opentelemetry/semantic-conventions': 1.30.0
+      '@opentelemetry/semantic-conventions': 1.31.0
     transitivePeerDependencies:
       - supports-color
 
@@ -15478,7 +15588,7 @@ snapshots:
       '@opentelemetry/api': 1.9.0
       '@opentelemetry/core': 2.0.0(@opentelemetry/api@1.9.0)
       '@opentelemetry/instrumentation': 0.200.0(@opentelemetry/api@1.9.0)
-      '@opentelemetry/semantic-conventions': 1.30.0
+      '@opentelemetry/semantic-conventions': 1.31.0
     transitivePeerDependencies:
       - supports-color
 
@@ -15486,7 +15596,7 @@ snapshots:
     dependencies:
       '@opentelemetry/api': 1.9.0
       '@opentelemetry/instrumentation': 0.200.0(@opentelemetry/api@1.9.0)
-      '@opentelemetry/semantic-conventions': 1.30.0
+      '@opentelemetry/semantic-conventions': 1.31.0
     transitivePeerDependencies:
       - supports-color
 
@@ -15494,7 +15604,7 @@ snapshots:
     dependencies:
       '@opentelemetry/api': 1.9.0
       '@opentelemetry/instrumentation': 0.200.0(@opentelemetry/api@1.9.0)
-      '@opentelemetry/semantic-conventions': 1.30.0
+      '@opentelemetry/semantic-conventions': 1.31.0
     transitivePeerDependencies:
       - supports-color
 
@@ -15502,7 +15612,7 @@ snapshots:
     dependencies:
       '@opentelemetry/api': 1.9.0
       '@opentelemetry/instrumentation': 0.200.0(@opentelemetry/api@1.9.0)
-      '@opentelemetry/semantic-conventions': 1.30.0
+      '@opentelemetry/semantic-conventions': 1.31.0
       '@types/tedious': 4.0.14
     transitivePeerDependencies:
       - supports-color
@@ -15539,7 +15649,7 @@ snapshots:
       '@opentelemetry/core': 2.0.0(@opentelemetry/api@1.9.0)
       '@opentelemetry/instrumentation': 0.200.0(@opentelemetry/api@1.9.0)
       '@opentelemetry/sdk-trace-web': 2.0.0(@opentelemetry/api@1.9.0)
-      '@opentelemetry/semantic-conventions': 1.30.0
+      '@opentelemetry/semantic-conventions': 1.31.0
     transitivePeerDependencies:
       - supports-color
 
@@ -15634,35 +15744,35 @@ snapshots:
       '@opentelemetry/api': 1.9.0
       '@opentelemetry/core': 2.0.0(@opentelemetry/api@1.9.0)
       '@opentelemetry/resources': 2.0.0(@opentelemetry/api@1.9.0)
-      '@opentelemetry/semantic-conventions': 1.30.0
+      '@opentelemetry/semantic-conventions': 1.31.0
 
   '@opentelemetry/resource-detector-aws@2.0.0(@opentelemetry/api@1.9.0)':
     dependencies:
       '@opentelemetry/api': 1.9.0
       '@opentelemetry/core': 2.0.0(@opentelemetry/api@1.9.0)
       '@opentelemetry/resources': 2.0.0(@opentelemetry/api@1.9.0)
-      '@opentelemetry/semantic-conventions': 1.30.0
+      '@opentelemetry/semantic-conventions': 1.31.0
 
   '@opentelemetry/resource-detector-azure@0.7.0(@opentelemetry/api@1.9.0)':
     dependencies:
       '@opentelemetry/api': 1.9.0
       '@opentelemetry/core': 2.0.0(@opentelemetry/api@1.9.0)
       '@opentelemetry/resources': 2.0.0(@opentelemetry/api@1.9.0)
-      '@opentelemetry/semantic-conventions': 1.30.0
+      '@opentelemetry/semantic-conventions': 1.31.0
 
   '@opentelemetry/resource-detector-container@0.7.0(@opentelemetry/api@1.9.0)':
     dependencies:
       '@opentelemetry/api': 1.9.0
       '@opentelemetry/core': 2.0.0(@opentelemetry/api@1.9.0)
       '@opentelemetry/resources': 2.0.0(@opentelemetry/api@1.9.0)
-      '@opentelemetry/semantic-conventions': 1.30.0
+      '@opentelemetry/semantic-conventions': 1.31.0
 
   '@opentelemetry/resource-detector-gcp@0.34.0(@opentelemetry/api@1.9.0)':
     dependencies:
       '@opentelemetry/api': 1.9.0
       '@opentelemetry/core': 2.0.0(@opentelemetry/api@1.9.0)
       '@opentelemetry/resources': 2.0.0(@opentelemetry/api@1.9.0)
-      '@opentelemetry/semantic-conventions': 1.30.0
+      '@opentelemetry/semantic-conventions': 1.31.0
       gcp-metadata: 6.1.1
     transitivePeerDependencies:
       - encoding
@@ -15678,7 +15788,7 @@ snapshots:
     dependencies:
       '@opentelemetry/api': 1.9.0
       '@opentelemetry/core': 2.0.0(@opentelemetry/api@1.9.0)
-      '@opentelemetry/semantic-conventions': 1.30.0
+      '@opentelemetry/semantic-conventions': 1.31.0
 
   '@opentelemetry/sdk-logs@0.200.0(@opentelemetry/api@1.9.0)':
     dependencies:
@@ -15730,7 +15840,7 @@ snapshots:
       '@opentelemetry/sdk-metrics': 2.0.0(@opentelemetry/api@1.9.0)
       '@opentelemetry/sdk-trace-base': 2.0.0(@opentelemetry/api@1.9.0)
       '@opentelemetry/sdk-trace-node': 2.0.0(@opentelemetry/api@1.9.0)
-      '@opentelemetry/semantic-conventions': 1.30.0
+      '@opentelemetry/semantic-conventions': 1.31.0
     transitivePeerDependencies:
       - supports-color
 
@@ -15746,7 +15856,7 @@ snapshots:
       '@opentelemetry/api': 1.9.0
       '@opentelemetry/core': 2.0.0(@opentelemetry/api@1.9.0)
       '@opentelemetry/resources': 2.0.0(@opentelemetry/api@1.9.0)
-      '@opentelemetry/semantic-conventions': 1.30.0
+      '@opentelemetry/semantic-conventions': 1.31.0
 
   '@opentelemetry/sdk-trace-node@2.0.0(@opentelemetry/api@1.9.0)':
     dependencies:
@@ -15767,11 +15877,13 @@ snapshots:
       '@opentelemetry/api': 1.9.0
       '@opentelemetry/core': 2.0.0(@opentelemetry/api@1.9.0)
       '@opentelemetry/sdk-trace-base': 2.0.0(@opentelemetry/api@1.9.0)
-      '@opentelemetry/semantic-conventions': 1.30.0
+      '@opentelemetry/semantic-conventions': 1.31.0
 
   '@opentelemetry/semantic-conventions@1.28.0': {}
 
   '@opentelemetry/semantic-conventions@1.30.0': {}
+
+  '@opentelemetry/semantic-conventions@1.31.0': {}
 
   '@opentelemetry/sql-common@0.41.0(@opentelemetry/api@1.9.0)':
     dependencies:
@@ -15853,7 +15965,7 @@ snapshots:
   '@pkgjs/parseargs@0.11.0':
     optional: true
 
-  '@pkgr/core@0.2.1': {}
+  '@pkgr/core@0.2.2': {}
 
   '@pmmmwh/react-refresh-webpack-plugin@0.5.16(react-refresh@0.17.0)(type-fest@4.39.1)(webpack-dev-server@5.2.1(webpack@5.98.0(@swc/core@1.11.13(@swc/helpers@0.5.15))))(webpack@5.98.0(@swc/core@1.11.13(@swc/helpers@0.5.15)))':
     dependencies:
@@ -15890,7 +16002,7 @@ snapshots:
 
   '@pnpm/tabtab@0.5.4':
     dependencies:
-      debug: 4.4.0(supports-color@9.4.0)
+      debug: 4.4.0(supports-color@5.5.0)
       enquirer: 2.4.1
       minimist: 1.2.8
       untildify: 4.0.0
@@ -16765,7 +16877,7 @@ snapshots:
       '@typescript-eslint/types': 8.28.0
       '@typescript-eslint/typescript-estree': 8.28.0(typescript@5.8.2)
       '@typescript-eslint/visitor-keys': 8.28.0
-      debug: 4.4.0(supports-color@9.4.0)
+      debug: 4.4.0(supports-color@5.5.0)
       eslint: 8.57.0
       typescript: 5.8.2
     transitivePeerDependencies:
@@ -16785,7 +16897,7 @@ snapshots:
     dependencies:
       '@typescript-eslint/typescript-estree': 8.29.1(typescript@5.8.2)
       '@typescript-eslint/utils': 8.29.1(eslint@8.57.0)(typescript@5.8.2)
-      debug: 4.4.0(supports-color@9.4.0)
+      debug: 4.4.0(supports-color@5.5.0)
       eslint: 8.57.0
       ts-api-utils: 2.1.0(typescript@5.8.2)
       typescript: 5.8.2
@@ -16812,11 +16924,25 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
+  '@typescript-eslint/typescript-estree@5.62.0(typescript@5.8.2)':
+    dependencies:
+      '@typescript-eslint/types': 5.62.0
+      '@typescript-eslint/visitor-keys': 5.62.0
+      debug: 4.4.0(supports-color@5.5.0)
+      globby: 11.1.0
+      is-glob: 4.0.3
+      semver: 7.7.1
+      tsutils: 3.21.0(typescript@5.8.2)
+    optionalDependencies:
+      typescript: 5.8.2
+    transitivePeerDependencies:
+      - supports-color
+
   '@typescript-eslint/typescript-estree@8.28.0(typescript@5.8.2)':
     dependencies:
       '@typescript-eslint/types': 8.28.0
       '@typescript-eslint/visitor-keys': 8.28.0
-      debug: 4.4.0(supports-color@9.4.0)
+      debug: 4.4.0(supports-color@5.5.0)
       fast-glob: 3.3.3
       is-glob: 4.0.3
       minimatch: 9.0.5
@@ -16830,7 +16956,7 @@ snapshots:
     dependencies:
       '@typescript-eslint/types': 8.29.1
       '@typescript-eslint/visitor-keys': 8.29.1
-      debug: 4.4.0(supports-color@9.4.0)
+      debug: 4.4.0(supports-color@5.5.0)
       fast-glob: 3.3.3
       is-glob: 4.0.3
       minimatch: 9.0.5
@@ -16868,6 +16994,25 @@ snapshots:
 
   '@ungap/structured-clone@1.3.0': {}
 
+  '@vercel/nft@0.27.7(rollup@4.39.0)':
+    dependencies:
+      '@mapbox/node-pre-gyp': 1.0.11
+      '@rollup/pluginutils': 5.1.4(rollup@4.39.0)
+      acorn: 8.14.1
+      acorn-import-attributes: 1.9.5(acorn@8.14.1)
+      async-sema: 3.1.1
+      bindings: 1.5.0
+      estree-walker: 2.0.2
+      glob: 7.2.3
+      graceful-fs: 4.2.11
+      micromatch: 4.0.8
+      node-gyp-build: 4.8.4
+      resolve-from: 5.0.0
+    transitivePeerDependencies:
+      - encoding
+      - rollup
+      - supports-color
+
   '@vercel/nft@0.27.7(rollup@4.39.0)(supports-color@9.4.0)':
     dependencies:
       '@mapbox/node-pre-gyp': 1.0.11(supports-color@9.4.0)
@@ -16898,19 +17043,19 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
-  '@vitest/eslint-plugin@1.1.40(eslint@8.57.0)(typescript@5.8.2)(vitest@3.0.9(@types/node@22.13.14)(msw@2.7.3(@types/node@22.13.14)(typescript@5.8.2)))':
-    dependencies:
-      eslint: 8.57.0
-    optionalDependencies:
-      typescript: 5.8.2
-      vitest: 3.0.9(@types/node@22.13.14)(msw@2.7.3(@types/node@22.13.14)(typescript@5.8.2))
-
   '@vitest/eslint-plugin@1.1.40(eslint@8.57.0)(typescript@5.8.2)(vitest@3.0.9(@types/node@22.13.14)(tsx@4.19.3))':
     dependencies:
       eslint: 8.57.0
     optionalDependencies:
       typescript: 5.8.2
       vitest: 3.0.9(@types/debug@4.1.12)(@types/node@22.13.14)(happy-dom@17.4.4)(jiti@2.4.2)(msw@2.7.3(@types/node@22.13.14)(typescript@5.8.2))(terser@5.39.0)(tsx@4.19.3)(yaml@2.7.1)
+
+  '@vitest/eslint-plugin@1.1.40(eslint@8.57.0)(typescript@5.8.2)(vitest@3.0.9(@types/node@22.13.14))':
+    dependencies:
+      eslint: 8.57.0
+    optionalDependencies:
+      typescript: 5.8.2
+      vitest: 3.0.9(@types/node@22.13.14)(msw@2.7.3(@types/node@22.13.14)(typescript@5.8.2))
 
   '@vitest/expect@3.0.9':
     dependencies:
@@ -17072,16 +17217,16 @@ snapshots:
 
   '@workleap/browserslist-config@2.0.2': {}
 
-  '@workleap/eslint-plugin@3.3.1(@types/estree@1.0.7)(@typescript-eslint/parser@8.28.0(eslint@8.57.0)(typescript@5.8.2))(eslint@8.57.0)(typescript@5.8.2)(vitest@3.0.9(@types/node@22.13.14)(msw@2.7.3(@types/node@22.13.14)(typescript@5.8.2)))':
+  '@workleap/eslint-plugin@3.3.1(@types/estree@1.0.7)(@typescript-eslint/parser@8.28.0(eslint@8.57.0)(typescript@5.8.2))(eslint@8.57.0)(typescript@5.8.2)(vitest@3.0.9(@types/node@22.13.14)(tsx@4.19.3))':
     dependencies:
       '@stylistic/eslint-plugin-ts': 2.13.0(eslint@8.57.0)(typescript@5.8.2)
       '@typescript-eslint/eslint-plugin': 8.29.1(@typescript-eslint/parser@8.28.0(eslint@8.57.0)(typescript@5.8.2))(eslint@8.57.0)(typescript@5.8.2)
-      '@vitest/eslint-plugin': 1.1.40(eslint@8.57.0)(typescript@5.8.2)(vitest@3.0.9(@types/node@22.13.14)(msw@2.7.3(@types/node@22.13.14)(typescript@5.8.2)))
+      '@vitest/eslint-plugin': 1.1.40(eslint@8.57.0)(typescript@5.8.2)(vitest@3.0.9(@types/node@22.13.14)(tsx@4.19.3))
       eslint-plugin-import: 2.31.0(@typescript-eslint/parser@8.28.0(eslint@8.57.0)(typescript@5.8.2))(eslint@8.57.0)
       eslint-plugin-jest: 28.11.0(@typescript-eslint/eslint-plugin@8.29.1(@typescript-eslint/parser@8.28.0(eslint@8.57.0)(typescript@5.8.2))(eslint@8.57.0)(typescript@5.8.2))(eslint@8.57.0)(typescript@5.8.2)
       eslint-plugin-jsx-a11y: 6.10.2(eslint@8.57.0)
       eslint-plugin-mdx: 3.4.0(eslint@8.57.0)
-      eslint-plugin-package-json: 0.29.0(@types/estree@1.0.7)(eslint@8.57.0)(jsonc-eslint-parser@2.4.0)
+      eslint-plugin-package-json: 0.29.1(@types/estree@1.0.7)(eslint@8.57.0)(jsonc-eslint-parser@2.4.0)
       eslint-plugin-react: 7.37.5(eslint@8.57.0)
       eslint-plugin-react-hooks: 5.2.0(eslint@8.57.0)
       eslint-plugin-storybook: 0.11.6(eslint@8.57.0)(typescript@5.8.2)
@@ -17103,16 +17248,16 @@ snapshots:
       - supports-color
       - vitest
 
-  '@workleap/eslint-plugin@3.3.1(@types/estree@1.0.7)(@typescript-eslint/parser@8.28.0(eslint@8.57.0)(typescript@5.8.2))(eslint@8.57.0)(typescript@5.8.2)(vitest@3.0.9(@types/node@22.13.14)(tsx@4.19.3))':
+  '@workleap/eslint-plugin@3.3.1(@types/estree@1.0.7)(@typescript-eslint/parser@8.28.0(eslint@8.57.0)(typescript@5.8.2))(eslint@8.57.0)(typescript@5.8.2)(vitest@3.0.9(@types/node@22.13.14))':
     dependencies:
       '@stylistic/eslint-plugin-ts': 2.13.0(eslint@8.57.0)(typescript@5.8.2)
       '@typescript-eslint/eslint-plugin': 8.29.1(@typescript-eslint/parser@8.28.0(eslint@8.57.0)(typescript@5.8.2))(eslint@8.57.0)(typescript@5.8.2)
-      '@vitest/eslint-plugin': 1.1.40(eslint@8.57.0)(typescript@5.8.2)(vitest@3.0.9(@types/node@22.13.14)(tsx@4.19.3))
+      '@vitest/eslint-plugin': 1.1.40(eslint@8.57.0)(typescript@5.8.2)(vitest@3.0.9(@types/node@22.13.14))
       eslint-plugin-import: 2.31.0(@typescript-eslint/parser@8.28.0(eslint@8.57.0)(typescript@5.8.2))(eslint@8.57.0)
       eslint-plugin-jest: 28.11.0(@typescript-eslint/eslint-plugin@8.29.1(@typescript-eslint/parser@8.28.0(eslint@8.57.0)(typescript@5.8.2))(eslint@8.57.0)(typescript@5.8.2))(eslint@8.57.0)(typescript@5.8.2)
       eslint-plugin-jsx-a11y: 6.10.2(eslint@8.57.0)
       eslint-plugin-mdx: 3.4.0(eslint@8.57.0)
-      eslint-plugin-package-json: 0.29.0(@types/estree@1.0.7)(eslint@8.57.0)(jsonc-eslint-parser@2.4.0)
+      eslint-plugin-package-json: 0.29.1(@types/estree@1.0.7)(eslint@8.57.0)(jsonc-eslint-parser@2.4.0)
       eslint-plugin-react: 7.37.5(eslint@8.57.0)
       eslint-plugin-react-hooks: 5.2.0(eslint@8.57.0)
       eslint-plugin-storybook: 0.11.6(eslint@8.57.0)(typescript@5.8.2)
@@ -17145,7 +17290,7 @@ snapshots:
       '@opentelemetry/instrumentation-xml-http-request': 0.200.0(@opentelemetry/api@1.9.0)
       '@opentelemetry/sdk-trace-web': 2.0.0(@opentelemetry/api@1.9.0)
 
-  '@workleap/rsbuild-configs@1.1.2(@rsbuild/core@1.3.0)(@rspack/core@1.3.0(@swc/helpers@0.5.15))(typescript@5.8.2)':
+  '@workleap/rsbuild-configs@2.0.1(@rsbuild/core@1.3.0)(@rspack/core@1.3.0(@swc/helpers@0.5.15))(typescript@5.8.2)':
     dependencies:
       '@rsbuild/core': 1.3.0
       '@rsbuild/plugin-basic-ssl': 1.1.1(@rsbuild/core@1.3.0)
@@ -17298,6 +17443,12 @@ snapshots:
   acorn@8.14.1: {}
 
   adm-zip@0.5.16: {}
+
+  agent-base@6.0.2:
+    dependencies:
+      debug: 4.4.0(supports-color@5.5.0)
+    transitivePeerDependencies:
+      - supports-color
 
   agent-base@6.0.2(supports-color@9.4.0):
     dependencies:
@@ -17704,7 +17855,7 @@ snapshots:
   browserslist@4.24.4:
     dependencies:
       caniuse-lite: 1.0.30001712
-      electron-to-chromium: 1.5.134
+      electron-to-chromium: 1.5.135
       node-releases: 2.0.19
       update-browserslist-db: 1.1.3(browserslist@4.24.4)
 
@@ -18407,6 +18558,15 @@ snapshots:
 
   detective-stylus@4.0.0: {}
 
+  detective-typescript@11.2.0:
+    dependencies:
+      '@typescript-eslint/typescript-estree': 5.62.0(typescript@5.8.2)
+      ast-module-types: 5.0.0
+      node-source-walk: 6.0.2
+      typescript: 5.8.2
+    transitivePeerDependencies:
+      - supports-color
+
   detective-typescript@11.2.0(supports-color@9.4.0):
     dependencies:
       '@typescript-eslint/typescript-estree': 5.62.0(supports-color@9.4.0)(typescript@5.8.2)
@@ -18517,12 +18677,12 @@ snapshots:
 
   ee-first@1.1.1: {}
 
-  effect@3.14.6:
+  effect@3.14.7:
     dependencies:
       '@standard-schema/spec': 1.0.0
       fast-check: 3.23.2
 
-  electron-to-chromium@1.5.134: {}
+  electron-to-chromium@1.5.135: {}
 
   emoji-regex@10.4.0: {}
 
@@ -18926,7 +19086,7 @@ snapshots:
       - remark-lint-file-extension
       - supports-color
 
-  eslint-plugin-package-json@0.29.0(@types/estree@1.0.7)(eslint@8.57.0)(jsonc-eslint-parser@2.4.0):
+  eslint-plugin-package-json@0.29.1(@types/estree@1.0.7)(eslint@8.57.0)(jsonc-eslint-parser@2.4.0):
     dependencies:
       '@altano/repository-tools': 0.1.1
       detect-indent: 6.1.0
@@ -18989,7 +19149,7 @@ snapshots:
 
   eslint-plugin-yml@1.17.0(eslint@8.57.0):
     dependencies:
-      debug: 4.4.0(supports-color@9.4.0)
+      debug: 4.4.0(supports-color@5.5.0)
       escape-string-regexp: 4.0.0
       eslint: 8.57.0
       eslint-compat-utils: 0.6.5(eslint@8.57.0)
@@ -19025,7 +19185,7 @@ snapshots:
       ajv: 6.12.6
       chalk: 4.1.2
       cross-spawn: 7.0.6
-      debug: 4.4.0(supports-color@9.4.0)
+      debug: 4.4.0(supports-color@5.5.0)
       doctrine: 3.0.0
       escape-string-regexp: 4.0.0
       eslint-scope: 7.2.2
@@ -19223,7 +19383,7 @@ snapshots:
 
   extract-zip@2.0.1:
     dependencies:
-      debug: 4.4.0(supports-color@9.4.0)
+      debug: 4.4.0(supports-color@5.5.0)
       get-stream: 5.2.0
       yauzl: 2.10.0
     optionalDependencies:
@@ -19441,7 +19601,7 @@ snapshots:
 
   follow-redirects@1.15.9(debug@4.4.0):
     optionalDependencies:
-      debug: 4.4.0(supports-color@9.4.0)
+      debug: 4.4.0(supports-color@5.5.0)
 
   for-each@0.3.5:
     dependencies:
@@ -19913,6 +20073,18 @@ snapshots:
     transitivePeerDependencies:
       - debug
 
+  http-proxy-middleware@2.0.8(@types/express@4.17.21):
+    dependencies:
+      '@types/http-proxy': 1.17.16
+      http-proxy: 1.18.1(debug@4.4.0)
+      is-glob: 4.0.3
+      is-plain-obj: 3.0.0
+      micromatch: 4.0.8
+    optionalDependencies:
+      '@types/express': 4.17.21
+    transitivePeerDependencies:
+      - debug
+
   http-proxy@1.18.1(debug@4.4.0):
     dependencies:
       eventemitter3: 4.0.7
@@ -19947,6 +20119,13 @@ snapshots:
       quick-lru: 5.1.1
       resolve-alpn: 1.2.1
 
+  https-proxy-agent@5.0.1:
+    dependencies:
+      agent-base: 6.0.2
+      debug: 4.4.0(supports-color@5.5.0)
+    transitivePeerDependencies:
+      - supports-color
+
   https-proxy-agent@5.0.1(supports-color@9.4.0):
     dependencies:
       agent-base: 6.0.2(supports-color@9.4.0)
@@ -19957,7 +20136,7 @@ snapshots:
   https-proxy-agent@7.0.6:
     dependencies:
       agent-base: 7.1.3
-      debug: 4.4.0(supports-color@9.4.0)
+      debug: 4.4.0(supports-color@5.5.0)
     transitivePeerDependencies:
       - supports-color
 
@@ -20568,7 +20747,7 @@ snapshots:
       content-disposition: 0.5.4
       content-type: 1.0.5
       cookies: 0.9.1
-      debug: 4.4.0(supports-color@9.4.0)
+      debug: 4.4.0(supports-color@5.5.0)
       delegates: 1.0.0
       depd: 2.0.0
       destroy: 1.2.0
@@ -20753,7 +20932,7 @@ snapshots:
   log4js@6.9.1:
     dependencies:
       date-format: 4.0.14
-      debug: 4.4.0(supports-color@9.4.0)
+      debug: 4.4.0(supports-color@5.5.0)
       flatted: 3.3.3
       rfdc: 1.4.1
       streamroller: 3.1.5
@@ -21141,7 +21320,7 @@ snapshots:
   micromark@4.0.2:
     dependencies:
       '@types/debug': 4.1.12
-      debug: 4.4.0(supports-color@9.4.0)
+      debug: 4.4.0(supports-color@5.5.0)
       decode-named-character-reference: 1.1.0
       devlop: 1.1.0
       micromark-core-commonmark: 2.0.3
@@ -21323,12 +21502,12 @@ snapshots:
       '@netlify/build': 30.0.6(@opentelemetry/api@1.8.0)(@swc/core@1.11.13)(@types/node@22.13.14)(picomatch@4.0.2)(rollup@4.39.0)
       '@netlify/build-info': 9.0.2
       '@netlify/config': 21.0.4
-      '@netlify/edge-bundler': 12.3.3(rollup@4.39.0)(supports-color@9.4.0)
+      '@netlify/edge-bundler': 12.3.3(rollup@4.39.0)
       '@netlify/edge-functions': 2.11.1
       '@netlify/headers-parser': 8.0.0
       '@netlify/local-functions-proxy': 1.1.1
       '@netlify/redirect-parser': 14.5.1
-      '@netlify/zip-it-and-ship-it': 10.0.4(rollup@4.39.0)(supports-color@9.4.0)
+      '@netlify/zip-it-and-ship-it': 10.0.4(rollup@4.39.0)
       '@octokit/rest': 21.1.1
       '@opentelemetry/api': 1.8.0
       '@pnpm/tabtab': 0.5.4
@@ -21347,7 +21526,7 @@ snapshots:
       content-type: 1.0.5
       cookie: 1.0.2
       cron-parser: 4.9.0
-      debug: 4.4.0(supports-color@9.4.0)
+      debug: 4.4.0(supports-color@5.5.0)
       decache: 4.6.2
       dot-prop: 9.0.0
       dotenv: 16.4.7
@@ -21898,7 +22077,7 @@ snapshots:
       lines-and-columns: 2.0.4
       type-fest: 3.13.1
 
-  parse-json@8.2.0:
+  parse-json@8.3.0:
     dependencies:
       '@babel/code-frame': 7.26.2
       index-to-position: 1.1.0
@@ -22023,7 +22202,7 @@ snapshots:
   portfinder@1.0.35:
     dependencies:
       async: 3.2.6
-      debug: 4.4.0(supports-color@9.4.0)
+      debug: 4.4.0(supports-color@5.5.0)
     transitivePeerDependencies:
       - supports-color
 
@@ -22106,6 +22285,23 @@ snapshots:
       simple-get: 4.0.1
       tar-fs: 2.1.2
       tunnel-agent: 0.6.0
+
+  precinct@11.0.5:
+    dependencies:
+      '@dependents/detective-less': 4.1.0
+      commander: 10.0.1
+      detective-amd: 5.0.2
+      detective-cjs: 5.0.1
+      detective-es6: 4.0.1
+      detective-postcss: 6.1.3
+      detective-sass: 5.0.3
+      detective-scss: 4.0.3
+      detective-stylus: 4.0.0
+      detective-typescript: 11.2.0
+      module-definition: 5.0.1
+      node-source-walk: 6.0.2
+    transitivePeerDependencies:
+      - supports-color
 
   precinct@11.0.5(supports-color@9.4.0):
     dependencies:
@@ -22247,7 +22443,7 @@ snapshots:
   query-registry@3.0.1:
     dependencies:
       query-string: 9.1.1
-      quick-lru: 7.0.0
+      quick-lru: 7.0.1
       url-join: 5.0.0
       validate-npm-package-name: 5.0.1
       zod: 3.24.2
@@ -22267,7 +22463,7 @@ snapshots:
 
   quick-lru@5.1.1: {}
 
-  quick-lru@7.0.0: {}
+  quick-lru@7.0.1: {}
 
   quote-unquote@1.0.0: {}
 
@@ -22365,7 +22561,7 @@ snapshots:
     dependencies:
       '@types/normalize-package-data': 2.4.4
       normalize-package-data: 6.0.2
-      parse-json: 8.2.0
+      parse-json: 8.3.0
       type-fest: 4.39.1
       unicorn-magic: 0.1.0
 
@@ -22535,7 +22731,7 @@ snapshots:
 
   require-in-the-middle@7.5.2:
     dependencies:
-      debug: 4.4.0(supports-color@9.4.0)
+      debug: 4.4.0(supports-color@5.5.0)
       module-details-from-path: 1.0.3
       resolve: 1.22.10
     transitivePeerDependencies:
@@ -22967,7 +23163,7 @@ snapshots:
 
   spdy-transport@3.0.0:
     dependencies:
-      debug: 4.4.0(supports-color@9.4.0)
+      debug: 4.4.0(supports-color@5.5.0)
       detect-node: 2.1.0
       hpack.js: 2.1.6
       obuf: 1.1.2
@@ -22978,7 +23174,7 @@ snapshots:
 
   spdy@4.0.2:
     dependencies:
-      debug: 4.4.0(supports-color@9.4.0)
+      debug: 4.4.0(supports-color@5.5.0)
       handle-thing: 2.0.1
       http-deceiver: 1.2.7
       select-hose: 2.0.0
@@ -23017,7 +23213,7 @@ snapshots:
   streamroller@3.1.5:
     dependencies:
       date-format: 4.0.14
-      debug: 4.4.0(supports-color@9.4.0)
+      debug: 4.4.0(supports-color@5.5.0)
       fs-extra: 8.1.0
     transitivePeerDependencies:
       - supports-color
@@ -23207,17 +23403,17 @@ snapshots:
 
   synckit@0.11.3:
     dependencies:
-      '@pkgr/core': 0.2.1
+      '@pkgr/core': 0.2.2
       tslib: 2.8.1
 
   syncpack@13.0.3(typescript@5.8.2):
     dependencies:
-      '@effect/schema': 0.75.5(effect@3.14.6)
+      '@effect/schema': 0.75.5(effect@3.14.7)
       chalk: 5.4.1
       chalk-template: 1.1.0
       commander: 13.1.0
       cosmiconfig: 9.0.0(typescript@5.8.2)
-      effect: 3.14.6
+      effect: 3.14.7
       enquirer: 2.4.1
       fast-check: 3.23.2
       globby: 14.1.0
@@ -23643,7 +23839,7 @@ snapshots:
       '@types/node': 22.13.14
       '@types/unist': 3.0.3
       concat-stream: 2.0.0
-      debug: 4.4.0(supports-color@9.4.0)
+      debug: 4.4.0(supports-color@5.5.0)
       extend: 3.0.2
       glob: 10.4.5
       ignore: 6.0.2
@@ -23870,7 +24066,7 @@ snapshots:
   vite-node@3.0.9(@types/node@22.13.14)(jiti@2.4.2)(terser@5.39.0)(tsx@4.19.3)(yaml@2.7.1):
     dependencies:
       cac: 6.7.14
-      debug: 4.4.0(supports-color@9.4.0)
+      debug: 4.4.0(supports-color@5.5.0)
       es-module-lexer: 1.6.0
       pathe: 2.0.3
       vite: 6.2.5(@types/node@22.13.14)(jiti@2.4.2)(terser@5.39.0)(tsx@4.19.3)(yaml@2.7.1)
@@ -23911,7 +24107,7 @@ snapshots:
       '@vitest/spy': 3.0.9
       '@vitest/utils': 3.0.9
       chai: 5.2.0
-      debug: 4.4.0(supports-color@9.4.0)
+      debug: 4.4.0(supports-color@5.5.0)
       expect-type: 1.2.1
       magic-string: 0.30.17
       pathe: 2.0.3
@@ -23951,7 +24147,7 @@ snapshots:
       '@vitest/spy': 3.0.9
       '@vitest/utils': 3.0.9
       chai: 5.2.0
-      debug: 4.4.0(supports-color@9.4.0)
+      debug: 4.4.0(supports-color@5.5.0)
       expect-type: 1.2.1
       magic-string: 0.30.17
       pathe: 2.0.3
@@ -23986,7 +24182,7 @@ snapshots:
     dependencies:
       chalk: 4.1.2
       commander: 9.5.0
-      debug: 4.4.0(supports-color@9.4.0)
+      debug: 4.4.0(supports-color@5.5.0)
     transitivePeerDependencies:
       - supports-color
 
@@ -24072,7 +24268,7 @@ snapshots:
       connect-history-api-fallback: 2.0.0
       express: 4.21.2
       graceful-fs: 4.2.11
-      http-proxy-middleware: 2.0.7(@types/express@4.17.21)(debug@4.4.0)
+      http-proxy-middleware: 2.0.8(@types/express@4.17.21)
       ipaddr.js: 2.2.0
       launch-editor: 2.10.0
       open: 10.1.0
@@ -24111,7 +24307,7 @@ snapshots:
       connect-history-api-fallback: 2.0.0
       express: 4.21.2
       graceful-fs: 4.2.11
-      http-proxy-middleware: 2.0.7(@types/express@4.17.21)(debug@4.4.0)
+      http-proxy-middleware: 2.0.8(@types/express@4.17.21)
       ipaddr.js: 2.2.0
       launch-editor: 2.10.0
       open: 10.1.0

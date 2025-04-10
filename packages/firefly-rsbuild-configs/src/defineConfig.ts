@@ -291,7 +291,7 @@ export function defineDevHostConfig(port: number, remotes: RemoteDefinition[], o
         entry = {
             index: path.resolve("./src/index.tsx")
         },
-        assetPrefix = "auto",
+        assetPrefix = "/",
         plugins = [],
         // Breaks the initialization of the shell when true, usually causing a blank page.
         lazyCompilation = false,
@@ -335,7 +335,7 @@ export function defineBuildHostConfig(remotes: RemoteDefinition[], options: Defi
         entry = {
             index: path.resolve("./src/index.tsx")
         },
-        assetPrefix = "auto",
+        assetPrefix = "/",
         plugins = [],
         features,
         sharedDependencies,
