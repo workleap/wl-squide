@@ -69,10 +69,10 @@ describe("defineDevHostConfig", () => {
         expect(result.server!.port).toBe(8080);
     });
 
-    test.concurrent("when no asset prefix is provided, the default asset prefix is \"auto\"", ({ expect }) => {
+    test.concurrent("when no asset prefix is provided, the default asset prefix is \"/\"", ({ expect }) => {
         const config = defineDevHostConfig(8080, []);
 
-        expect(config.dev!.assetPrefix).toBe("auto");
+        expect(config.dev!.assetPrefix).toBe("/");
     });
 
     test.concurrent("when an asset prefix is provided, use the provided asset prefix", ({ expect }) => {
@@ -280,7 +280,7 @@ describe("defineBuildHostConfig", () => {
         expect(prepareModuleFederationPluginForSnapshot(plugin)).toMatchSnapshot();
     });
 
-    test.concurrent("when no asset prefix is provided, the default asset prefix is \"auto\"", ({ expect }) => {
+    test.concurrent("when no asset prefix is provided, the default asset prefix is \"/\"", ({ expect }) => {
         const config = defineBuildHostConfig([]);
         const plugin = findPlugin("rsbuild:module-federation-enhanced", config.plugins);
 
@@ -290,10 +290,10 @@ describe("defineBuildHostConfig", () => {
 
     test.concurrent("when an asset prefix is provided, use the provided asset prefix", ({ expect }) => {
         const config = defineBuildHostConfig([], {
-            assetPrefix: "http://localhost:8080/"
+            assetPrefix: "/app/"
         });
 
-        expect(config.output!.assetPrefix).toBe("http://localhost:8080/");
+        expect(config.output!.assetPrefix).toBe("/app/");
     });
 
     test.concurrent("when a function is provided to override the module federation plugin, apply the function", ({ expect }) => {
