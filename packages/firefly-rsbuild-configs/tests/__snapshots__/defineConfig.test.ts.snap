@@ -403,6 +403,46 @@ exports[`defineBuildHostConfig > when i18next is activated, add i18next shared d
 }
 `;
 
+exports[`defineBuildHostConfig > when no asset prefix is provided, the default asset prefix is "/" 1`] = `
+{
+  "dts": false,
+  "manifest": false,
+  "name": "host",
+  "remotes": {},
+  "shared": {
+    "@squide/core": {
+      "eager": true,
+      "singleton": true,
+    },
+    "@squide/module-federation": {
+      "eager": true,
+      "singleton": true,
+    },
+    "@squide/msw": {
+      "eager": true,
+      "singleton": true,
+    },
+    "@squide/react-router": {
+      "eager": true,
+      "singleton": true,
+    },
+    "react": {
+      "eager": true,
+      "requiredVersion": undefined,
+      "singleton": true,
+    },
+    "react-dom": {
+      "eager": true,
+      "singleton": true,
+    },
+    "react-router": {
+      "eager": true,
+      "singleton": true,
+    },
+  },
+}
+`;
+
 exports[`defineBuildHostConfig > when no asset prefix is provided, the default asset prefix is "auto" 1`] = `
 {
   "dts": false,
