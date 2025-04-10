@@ -1,5 +1,11 @@
 # @squide/firefly-rsbuild-configs
 
+## 2.0.3
+
+### Patch Changes
+
+- [#262](https://github.com/workleap/wl-squide/pull/262) [`3282b1b`](https://github.com/workleap/wl-squide/commit/3282b1bcb42651c0a7eb9c90dccd5a118f9e1f34) Thanks [@patricklafrance](https://github.com/patricklafrance)! - The default `assetPrefix` for host application is now set to `/`.
+
 ## 2.0.2
 
 ### Patch Changes
