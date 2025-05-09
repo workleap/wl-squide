@@ -333,7 +333,7 @@ pnpm serve-endpoints
 
 ### test
 
-Run the shell packages unit tests.
+Run the unit tests.
 
 ```bash
 pnpm test
@@ -341,7 +341,7 @@ pnpm test
 
 ### lint
 
-Lint the shell packages files.
+Lint the files.
 
 ```bash
 pnpm lint
@@ -357,7 +357,7 @@ pnpm changeset
 
 ### clean
 
-Clean the shell packages and the sample application (delete `dist` folder, clear caches, etc..)
+Clean the packages and the sample applications (delete `dist` folder, clear caches, etc..)
 
 ```bash
 pnpm clean
@@ -365,7 +365,7 @@ pnpm clean
 
 ### reset
 
-Reset the monorepo installation (delete `dist` folders, clear caches, delete `node_modules` folders, etc..)
+Reset the workspace installation (delete `dist` folders, clear caches, delete `node_modules` folders, etc..)
 
 ```bash
 pnpm reset
