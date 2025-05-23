@@ -7,10 +7,10 @@
     "type": "module",
     "exports": "./src/register.tsx",
     "peerDependencies": {
-        "@squide/firefly": "*",
-        "react": "*",
-        "react-dom": "*",
-        "react-router": "*"
+        "@squide/firefly": "^9.3.4",
+        "react": "^19.0.0",
+        "react-dom": "^19.0.0",
+        "react-router": "^7.1.5"
     },
     "devDependencies": {
         "@squide/firefly": "9.3.4",
