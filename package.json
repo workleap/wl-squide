@@ -1,6 +1,7 @@
 {
     "name": "workspace-root",
     "author": "Workleap",
+    "version": "0.0.0",
     "description": "A modular web application shell.",
     "private": true,
     "type": "module",
@@ -37,7 +38,9 @@
         "reset": "pnpm clean && pnpm reset:modules",
         "reset:modules": "pnpm -r --parallel --include-workspace-root exec pnpm dlx rimraf node_modules pnpm-lock.yaml",
         "list-outdated-deps": "pnpm outdated -r --format list !eslint !useless-lib",
-        "update-outdated-deps": "pnpm update -r --latest !eslint !useless-lib"
+        "update-outdated-deps": "pnpm run --sequential \"/^update-outdated-deps:.*/\"",
+        "update-outdated-deps:update-versions": "pnpm update -r --latest !eslint !useless-lib",
+        "update-outdated-deps:update-peers": "syncpack fix-mismatches"
     },
     "devDependencies": {
         "@changesets/changelog-github": "0.5.1",

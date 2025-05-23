@@ -3,7 +3,6 @@
 /** @type {import("syncpack").RcFile} */
 export default {
     "lintFormatting": false,
-    "dependencyTypes": ["prod", "dev"],
     "semverGroups": [
         {
             "packages": ["**"],
@@ -42,8 +41,15 @@ export default {
             "isIgnored": true
         },
         {
+            // "react" and "react-dom" declares ranges to support React 18 and 19.
+            // It's messing up with syncpack.
+            "packages": ["@squide/*"],
+            "dependencies": ["react", "react-dom"],
+            "dependencyTypes": ["peer"],
+        },
+        {
             "packages": ["**"],
-            "dependencyTypes": ["prod", "dev"],
+            "dependencyTypes": ["prod", "dev", "peer"],
             "preferVersion": "highestSemver",
             "label": "Packages, Samples and Getting Started templates should have a single version across the repository."
         }
