@@ -1,5 +1,0 @@
-{
-    "watch": ["swc.dev.js", "webpack.dev.js"],
-    "exec": "webpack serve --config webpack.config.js",
-    "verbose": true
-}

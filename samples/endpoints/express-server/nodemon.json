@@ -1,5 +1,0 @@
-{
-    "watch": ["src/index.ts"],
-    "exec": "tsx src/index.ts",
-    "verbose": true
-}

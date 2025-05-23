@@ -8,7 +8,7 @@
     "type": "module",
     "scripts": {
         "postinstall": "pnpm msw init",
-        "dev": "cross-env USE_MSW=true nodemon",
+        "dev": "cross-env USE_MSW=true rsbuild dev --config rsbuild.dev.ts",
         "build": "cross-env USE_MSW=true pnpm build:rsbuild && pnpm build:copy-redirects && pnpm build:copy-public-files",
         "build:rsbuild": "rsbuild build --config rsbuild.build.ts",
         "build:copy-redirects": "copyfiles _redirects dist",
@@ -55,7 +55,6 @@
         "eslint": "8.57.0",
         "http-server": "14.1.1",
         "netlify-cli": "19.1.4",
-        "nodemon": "3.1.9",
         "typescript": "5.8.2"
     },
     "msw": {

@@ -7,7 +7,7 @@
     "license": "Apache-2.0",
     "type": "module",
     "scripts": {
-        "dev": "nodemon",
+        "dev": "tsx src/index.ts",
         "serve-build": "tsx src/index.ts",
         "eslint": "eslint . --max-warnings=-0 --cache --cache-location node_modules/.cache/eslint",
         "typecheck": "tsc"
@@ -31,7 +31,6 @@
         "@workleap/eslint-plugin": "3.3.1",
         "@workleap/typescript-configs": "3.0.2",
         "eslint": "8.57.0",
-        "nodemon": "3.1.9",
         "tsx": "4.19.3",
         "typescript": "5.8.2"
     },

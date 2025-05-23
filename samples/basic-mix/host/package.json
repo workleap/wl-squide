@@ -7,7 +7,7 @@
     "license": "Apache-2.0",
     "type": "module",
     "scripts": {
-        "dev": "nodemon",
+        "dev": "rsbuild dev --config rsbuild.dev.ts",
         "build": "pnpm build:rsbuild && pnpm build:copy-redirects",
         "build:rsbuild": "rsbuild build --config rsbuild.build.ts",
         "build:copy-redirects": "copyfiles _redirects dist",
@@ -44,7 +44,6 @@
         "eslint": "8.57.0",
         "http-server": "14.1.1",
         "netlify-cli": "19.1.4",
-        "nodemon": "3.1.9",
         "typescript": "5.8.2"
     },
     "engines": {
