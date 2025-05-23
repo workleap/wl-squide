@@ -36,8 +36,6 @@
     },
     "peerDependencies": {
         "@tanstack/react-query": "^5.71.0",
-        "@types/react": "^18.0.0 || ^19.0.0",
-        "@types/react-dom": "^18.0.0 || ^19.0.0",
         "msw": "^2.7.3",
         "react": "^18.0.0 || ^19.0.0",
         "react-dom": "^18.0.0 || ^19.0.0",
@@ -62,10 +60,6 @@
         "@workleap/typescript-configs": "3.0.2",
         "eslint": "8.57.0",
         "happy-dom": "17.4.4",
-        "msw": "2.7.3",
-        "react": "19.1.0",
-        "react-dom": "19.1.0",
-        "react-router": "7.4.1",
         "typescript": "5.8.2",
         "vitest": "3.0.9"
     },

@@ -5,7 +5,7 @@ The following documentation is only for the maintainers of this repository.
 - [Monorepo setup](#monorepo-setup)
 - [Project overview](#project-overview)
 - [Installation](#installation)
-- [Develop the shell packages](#develop-the-shell-packages)
+- [Develop the packages](#develop-the-packages)
 - [Release the packages](#release-the-packages)
 - [Deploy the sample applications](#deploy-the-sample-applications)
 - [Available commands](#commands)
@@ -90,7 +90,7 @@ HONEYCOMB_API_KEY="YOUR_API_KEY"
 
 [Retype](https://retype.com/) is the documentation platform that Squide is using for its documentation. As this project is leveraging a few [Pro features](https://retype.com/pro/) of Retype.
 
-Everything should work fine as-is but there are a few limitations to use Retype Pro features without a wallet with a licence. If you want to circumvent these limitations, you can optionally, setup your [Retype wallet](https://retype.com/guides/cli/#retype-wallet).
+Everything should work fine as-is but there are a few limitations to use Retype Pro features without a wallet. If you want to circumvent these limitations, you can optionally, setup your [Retype wallet](https://retype.com/guides/cli/#retype-wallet).
 
 To do so, first make sure that you retrieve the Retype license from your Vault (or ask IT).
 

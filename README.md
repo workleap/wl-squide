@@ -5,7 +5,7 @@ A modular web application shell built on top of [Module Federation](https://modu
 [![License](https://img.shields.io/badge/License-Apache_2.0-blue.svg)](./LICENSE)
 [![CI](https://github.com/workleap/wl-squide/actions/workflows/ci.yml/badge.svg)](https://github.com/workleap/wl-squide/actions/workflows/ci.yml)
 
-### Packages
+## Packages
 
 | Name | NPM |
 | --- | --- |
