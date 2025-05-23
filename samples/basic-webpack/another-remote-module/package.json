@@ -7,7 +7,7 @@
     "license": "Apache-2.0",
     "type": "module",
     "scripts": {
-        "dev": "nodemon",
+        "dev": "webpack serve --config webpack.dev.js",
         "dev-isolated": "cross-env ISOLATED=true pnpm dev",
         "build": "webpack --config webpack.build.js",
         "serve-build": "pnpm http-server dist -p 8088 -P http://localhost:8088? -c-1",
@@ -41,7 +41,6 @@
         "cross-env": "7.0.3",
         "eslint": "8.57.0",
         "http-server": "14.1.1",
-        "nodemon": "3.1.9",
         "typescript": "5.8.2",
         "webpack": "5.98.0",
         "webpack-cli": "6.0.1",

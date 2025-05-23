@@ -7,7 +7,7 @@
     "license": "Apache-2.0",
     "type": "module",
     "scripts": {
-        "dev": "nodemon",
+        "dev": "webpack serve --config webpack.dev.js",
         "build": "pnpm build:webpack && pnpm build:copy-redirects",
         "build:webpack": "webpack --config webpack.build.js",
         "build:copy-redirects": "copyfiles _redirects dist",
@@ -45,7 +45,6 @@
         "copyfiles": "2.4.1",
         "eslint": "8.57.0",
         "http-server": "14.1.1",
-        "nodemon": "3.1.9",
         "typescript": "5.8.2",
         "webpack": "5.98.0",
         "webpack-cli": "6.0.1",

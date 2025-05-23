@@ -7,8 +7,8 @@
     "license": "Apache-2.0",
     "type": "module",
     "scripts": {
-        "dev": "nodemon",
-        "dev-isolated": "cross-env ISOLATED=true nodemon",
+        "dev": "rsbuild dev --config rsbuild.dev.ts",
+        "dev-isolated": "cross-env ISOLATED=true pnpm dev",
         "build": "rsbuild build --config rsbuild.build.ts",
         "serve-build": "pnpm http-server dist -p 8081 -P http://localhost:8081? -c-1",
         "deploy": "netlify deploy --dir=samples/basic/remote-module/dist --site=43234f6e-a884-410e-9b4d-f290459f841f --prod",
@@ -41,7 +41,6 @@
         "eslint": "8.57.0",
         "http-server": "14.1.1",
         "netlify-cli": "19.1.4",
-        "nodemon": "3.1.9",
         "typescript": "5.8.2"
     },
     "engines": {
