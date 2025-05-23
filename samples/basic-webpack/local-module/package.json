@@ -13,26 +13,23 @@
         "typecheck": "tsc"
     },
     "peerDependencies": {
-        "@basic-webpack/shared": "*",
-        "@basic-webpack/shell": "*",
         "@react-aria/toast": "*",
         "@react-stately/toast": "*",
-        "@squide/firefly": "*",
-        "react": "*",
-        "react-dom": "*",
-        "react-router": "*"
+        "react": "^19.1.0",
+        "react-dom": "^19.1.0",
+        "react-router": "^7.4.1"
     },
     "dependencies": {
+        "@basic-webpack/shared": "workspace:*",
+        "@basic-webpack/shell": "workspace:*",
         "@squide/fakes": "workspace:*",
+        "@squide/firefly": "workspace:*",
         "@types/react": "19.0.12",
         "@types/react-dom": "19.0.4"
     },
     "devDependencies": {
-        "@basic-webpack/shared": "workspace:*",
-        "@basic-webpack/shell": "workspace:*",
         "@react-aria/toast": "3.0.1",
         "@react-stately/toast": "3.0.0",
-        "@squide/firefly": "workspace:*",
         "@squide/firefly-webpack-configs": "workspace:*",
         "@swc/core": "1.11.13",
         "@swc/helpers": "0.5.15",

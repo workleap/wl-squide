@@ -12,25 +12,14 @@
         "typecheck": "tsc"
     },
     "peerDependencies": {
-        "@endpoints/i18next": "*",
-        "@endpoints/layouts": "*",
-        "@endpoints/shared": "*",
-        "@squide/env-vars": "*",
-        "@squide/fakes": "*",
-        "@squide/firefly": "*",
-        "@squide/firefly-honeycomb": "*",
-        "@squide/i18next": "*",
-        "@tanstack/react-query": "*",
-        "i18next": "*",
-        "i18next-browser-languagedetector": "*",
-        "msw": "*",
-        "react": "*",
-        "react-dom": "*",
-        "react-error-boundary": "*",
-        "react-i18next": "*",
-        "react-router": "*"
+        "@tanstack/react-query": "^5.71.0",
+        "msw": "^2.7.3",
+        "react": "^19.1.0",
+        "react-dom": "^19.1.0",
+        "react-i18next": "^15.4.1",
+        "react-router": "^7.4.1"
     },
-    "devDependencies": {
+    "dependencies": {
         "@endpoints/i18next": "workspace:*",
         "@endpoints/layouts": "workspace:*",
         "@endpoints/shared": "workspace:*",
@@ -38,7 +27,9 @@
         "@squide/fakes": "workspace:*",
         "@squide/firefly": "workspace:*",
         "@squide/firefly-honeycomb": "workspace:*",
-        "@squide/i18next": "workspace:*",
+        "@squide/i18next": "workspace:*"
+    },
+    "devDependencies": {
         "@types/node": "22.13.14",
         "@types/react": "19.0.12",
         "@types/react-dom": "19.0.4",

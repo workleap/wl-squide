@@ -12,13 +12,14 @@
         "typecheck": "tsc"
     },
     "peerDependencies": {
-        "@squide/firefly": "*",
-        "react": "*",
-        "react-dom": "*",
-        "react-router": "*"
+        "react": "^19.1.0",
+        "react-dom": "^19.1.0",
+        "react-router": "^7.4.1"
+    },
+    "dependencies": {
+        "@squide/firefly": "workspace:*"
     },
     "devDependencies": {
-        "@squide/firefly": "workspace:*",
         "@types/react": "19.0.12",
         "@types/react-dom": "19.0.4",
         "@typescript-eslint/parser": "8.28.0",
