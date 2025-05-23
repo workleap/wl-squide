@@ -3,7 +3,6 @@
 /** @type {import("syncpack").RcFile} */
 export default {
     "lintFormatting": false,
-    "dependencyTypes": ["prod", "dev"],
     "semverGroups": [
         {
             "packages": ["**"],
@@ -42,8 +41,13 @@ export default {
             "isIgnored": true
         },
         {
+            "packages": ["@squide/*"],
+            "dependencies": ["react", "react-dom"],
+            "dependencyTypes": ["peer"],
+        },
+        {
             "packages": ["**"],
-            "dependencyTypes": ["prod", "dev"],
+            "dependencyTypes": ["prod", "dev", "peer"],
             "preferVersion": "highestSemver",
             "label": "Packages, Samples and Getting Started templates should have a single version across the repository."
         }
