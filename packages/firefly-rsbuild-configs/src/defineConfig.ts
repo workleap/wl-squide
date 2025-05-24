@@ -1,4 +1,4 @@
-import { pluginModuleFederation } from "@module-federation/rsbuild-plugin";
+import { pluginModuleFederation, type ModuleFederationOptions } from "@module-federation/rsbuild-plugin";
 import type { RsbuildConfig, RsbuildPlugin } from "@rsbuild/core";
 import { defineBuildConfig, defineDevConfig, type DefineBuildConfigOptions, type DefineDevConfigOptions, type RsbuildConfigTransformer } from "@workleap/rsbuild-configs";
 import merge from "deepmerge";
@@ -14,8 +14,7 @@ const packageDirectory = url.fileURLToPath(new URL(".", import.meta.url));
 const RemoteRegisterModuleName = "./register";
 const RemoteEntryPoint = "remoteEntry.js";
 
-// Rsbuild doesn't export ModuleFederationPlugin typings.
-export type ModuleFederationPluginOptions = Parameters<typeof pluginModuleFederation>[0];
+export type ModuleFederationPluginOptions = ModuleFederationOptions;
 export type ModuleFederationRemotesOption = ModuleFederationPluginOptions["remotes"];
 
 export type ModuleFederationRuntimePlugins = NonNullable<ModuleFederationPluginOptions["runtimePlugins"]>;
