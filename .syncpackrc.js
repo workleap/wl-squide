@@ -10,6 +10,12 @@ export default {
             "isIgnored": true
         },
         {
+            // Upgrading to version "0.12.0" of both of these causes typings issues.
+            "packages": ["**"],
+            "dependencies": ["@module-federation/enhanced", "@module-federation/rsbuild-plugin"],
+            "isIgnored": true
+        },
+        {
             "packages": ["@squide/*"],
             "dependencyTypes": ["prod", "peer"],
             "range": "^",
@@ -46,6 +52,7 @@ export default {
             "packages": ["@squide/*"],
             "dependencies": ["react", "react-dom"],
             "dependencyTypes": ["peer"],
+            "isIgnored": true
         },
         {
             "packages": ["**"],

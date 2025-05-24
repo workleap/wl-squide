@@ -41,17 +41,17 @@
         "eventemitter3": "^5.0.1"
     },
     "devDependencies": {
-        "@rsbuild/core": "1.3.0",
-        "@rslib/core": "0.6.0",
-        "@types/react": "19.0.12",
-        "@typescript-eslint/parser": "8.28.0",
-        "@vitejs/plugin-react": "4.3.4",
-        "@workleap/eslint-plugin": "3.3.1",
-        "@workleap/rslib-configs": "1.0.3",
-        "@workleap/typescript-configs": "3.0.2",
+        "@rsbuild/core": "1.3.21",
+        "@rslib/core": "0.8.0",
+        "@types/react": "19.1.5",
+        "@typescript-eslint/parser": "8.32.1",
+        "@vitejs/plugin-react": "4.5.0",
+        "@workleap/eslint-plugin": "3.4.0",
+        "@workleap/rslib-configs": "1.0.4",
+        "@workleap/typescript-configs": "3.0.3",
         "eslint": "8.57.0",
-        "typescript": "5.8.2",
-        "vitest": "3.0.9"
+        "typescript": "5.8.3",
+        "vitest": "3.1.4"
     },
     "sideEffects": false,
     "engines": {

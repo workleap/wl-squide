@@ -21,14 +21,14 @@
         "uuid": "11.1.0"
     },
     "devDependencies": {
-        "@types/react": "19.0.12",
-        "@types/react-dom": "19.0.4",
+        "@types/react": "19.1.5",
+        "@types/react-dom": "19.1.5",
         "@types/uuid": "10.0.0",
-        "@typescript-eslint/parser": "8.28.0",
-        "@workleap/eslint-plugin": "3.3.1",
-        "@workleap/typescript-configs": "3.0.2",
+        "@typescript-eslint/parser": "8.32.1",
+        "@workleap/eslint-plugin": "3.4.0",
+        "@workleap/typescript-configs": "3.0.3",
         "eslint": "8.57.0",
-        "typescript": "5.8.2"
+        "typescript": "5.8.3"
     },
     "engines": {
         "node": ">=21.1.0"
