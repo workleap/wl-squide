@@ -10,7 +10,7 @@ export default {
             "isIgnored": true
         },
         {
-            // Upgrading to version "0.12.0" of both of these cause typings issues.
+            // Upgrading to version "0.12.0" of both of these causes typings issues.
             "packages": ["**"],
             "dependencies": ["@module-federation/enhanced", "@module-federation/rsbuild-plugin"],
             "isIgnored": true
