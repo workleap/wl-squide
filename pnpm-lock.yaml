@@ -975,7 +975,7 @@ importers:
         specifier: ^19.1.0
         version: 19.1.0(react@19.1.0)
       react-router:
-        specifier: 7.6.1
+        specifier: ^7.6.1
         version: 7.6.1(react-dom@19.1.0(react@19.1.0))(react@19.1.0)
     devDependencies:
       '@types/react':
@@ -1024,7 +1024,7 @@ importers:
         specifier: ^19.1.0
         version: 19.1.0(react@19.1.0)
       react-router:
-        specifier: 7.6.1
+        specifier: ^7.6.1
         version: 7.6.1(react-dom@19.1.0(react@19.1.0))(react@19.1.0)
     devDependencies:
       '@types/react':
@@ -1410,7 +1410,7 @@ importers:
         specifier: ^19.1.0
         version: 19.1.0(react@19.1.0)
       react-router:
-        specifier: 7.6.1
+        specifier: ^7.6.1
         version: 7.6.1(react-dom@19.1.0(react@19.1.0))(react@19.1.0)
     devDependencies:
       '@types/react':
@@ -1459,7 +1459,7 @@ importers:
         specifier: ^19.1.0
         version: 19.1.0(react@19.1.0)
       react-router:
-        specifier: 7.6.1
+        specifier: ^7.6.1
         version: 7.6.1(react-dom@19.1.0(react@19.1.0))(react@19.1.0)
     devDependencies:
       '@types/react':
@@ -1794,7 +1794,7 @@ importers:
         specifier: ^19.1.0
         version: 19.1.0(react@19.1.0)
       react-router:
-        specifier: 7.6.1
+        specifier: ^7.6.1
         version: 7.6.1(react-dom@19.1.0(react@19.1.0))(react@19.1.0)
     devDependencies:
       '@types/react':
@@ -1843,7 +1843,7 @@ importers:
         specifier: ^19.1.0
         version: 19.1.0(react@19.1.0)
       react-router:
-        specifier: 7.6.1
+        specifier: ^7.6.1
         version: 7.6.1(react-dom@19.1.0(react@19.1.0))(react@19.1.0)
     devDependencies:
       '@types/react':
@@ -2050,7 +2050,7 @@ importers:
         specifier: workspace:*
         version: link:../../../packages/i18next
       i18next:
-        specifier: 25.2.1
+        specifier: ^25.2.1
         version: 25.2.1(typescript@5.8.3)
       i18next-browser-languagedetector:
         specifier: ^8.1.0
@@ -2093,7 +2093,7 @@ importers:
         specifier: workspace:*
         version: link:../../../packages/i18next
       i18next:
-        specifier: 25.2.1
+        specifier: ^25.2.1
         version: 25.2.1(typescript@5.8.3)
       react:
         specifier: ^19.1.0
@@ -2108,7 +2108,7 @@ importers:
         specifier: ^15.5.2
         version: 15.5.2(i18next@25.2.1(typescript@5.8.3))(react-dom@19.1.0(react@19.1.0))(react@19.1.0)(typescript@5.8.3)
       react-router:
-        specifier: 7.6.1
+        specifier: ^7.6.1
         version: 7.6.1(react-dom@19.1.0(react@19.1.0))(react@19.1.0)
     devDependencies:
       '@types/react':
@@ -2394,7 +2394,7 @@ importers:
         specifier: workspace:*
         version: link:../../../packages/i18next
       '@tanstack/react-query':
-        specifier: 5.77.2
+        specifier: ^5.77.2
         version: 5.77.2(react@19.1.0)
       msw:
         specifier: ^2.8.4
@@ -2409,7 +2409,7 @@ importers:
         specifier: ^15.5.2
         version: 15.5.2(i18next@25.2.1(typescript@5.8.3))(react-dom@19.1.0(react@19.1.0))(react@19.1.0)(typescript@5.8.3)
       react-router:
-        specifier: 7.6.1
+        specifier: ^7.6.1
         version: 7.6.1(react-dom@19.1.0(react@19.1.0))(react@19.1.0)
     devDependencies:
       '@types/node':
