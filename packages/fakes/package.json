@@ -40,9 +40,9 @@
         "@rsbuild/core": "1.3.21",
         "@rslib/core": "0.8.0",
         "@typescript-eslint/parser": "8.32.1",
-        "@workleap/eslint-plugin": "3.4.0",
-        "@workleap/rslib-configs": "1.0.4",
-        "@workleap/typescript-configs": "3.0.3",
+        "@workleap/eslint-plugin": "3.4.2",
+        "@workleap/rslib-configs": "1.0.6",
+        "@workleap/typescript-configs": "3.0.4",
         "eslint": "8.57.0",
         "typescript": "5.8.3"
     },

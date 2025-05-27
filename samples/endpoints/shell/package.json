@@ -12,12 +12,12 @@
         "typecheck": "tsc"
     },
     "peerDependencies": {
-        "@tanstack/react-query": "^5.76.2",
+        "@tanstack/react-query": "^5.77.2",
         "msw": "^2.8.4",
         "react": "^19.1.0",
         "react-dom": "^19.1.0",
         "react-i18next": "^15.5.2",
-        "react-router": "^7.6.0"
+        "react-router": "^7.6.1"
     },
     "dependencies": {
         "@endpoints/i18next": "workspace:*",
@@ -34,8 +34,8 @@
         "@types/react": "19.1.5",
         "@types/react-dom": "19.1.5",
         "@typescript-eslint/parser": "8.32.1",
-        "@workleap/eslint-plugin": "3.4.0",
-        "@workleap/typescript-configs": "3.0.3",
+        "@workleap/eslint-plugin": "3.4.2",
+        "@workleap/typescript-configs": "3.0.4",
         "eslint": "8.57.0",
         "typescript": "5.8.3"
     },

@@ -28,8 +28,8 @@
         "@types/express": "5.0.2",
         "@types/node": "22.15.21",
         "@typescript-eslint/parser": "8.32.1",
-        "@workleap/eslint-plugin": "3.4.0",
-        "@workleap/typescript-configs": "3.0.3",
+        "@workleap/eslint-plugin": "3.4.2",
+        "@workleap/typescript-configs": "3.0.4",
         "eslint": "8.57.0",
         "tsx": "4.19.4",
         "typescript": "5.8.3"
