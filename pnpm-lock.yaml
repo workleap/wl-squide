@@ -261,9 +261,6 @@ importers:
       '@opentelemetry/auto-instrumentations-web':
         specifier: ^0.47.0
         version: 0.47.0(@opentelemetry/api@1.9.0)(zone.js@0.15.1)
-      '@opentelemetry/instrumentation':
-        specifier: ^0.201.1
-        version: 0.201.1(@opentelemetry/api@1.9.0)
       '@opentelemetry/instrumentation-document-load':
         specifier: ^0.46.0
         version: 0.46.0(@opentelemetry/api@1.9.0)

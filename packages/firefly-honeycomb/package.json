@@ -40,7 +40,6 @@
     "dependencies": {
         "@honeycombio/opentelemetry-web": "^0.18.0",
         "@opentelemetry/auto-instrumentations-web": "^0.47.0",
-        "@opentelemetry/instrumentation": "^0.201.1",
         "@opentelemetry/instrumentation-document-load": "^0.46.0",
         "@opentelemetry/instrumentation-fetch": "^0.201.1",
         "@opentelemetry/instrumentation-user-interaction": "^0.46.0",
