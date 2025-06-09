@@ -63,22 +63,10 @@ In React Router `v7`, `react-router-dom` is no longer required, as the package s
 
 Open a terminal at the root of the project workspace and use the following commands to remove `react-router-dom` and install `react-router@latest`:
 
-+++ pnpm
 ```bash
 pnpm remove react-router-dom
 pnpm add react-router@latest
 ```
-+++ yarn
-```bash
-yarn remove react-router-dom
-yarn add react-router@latest
-```
-+++ npm
-```bash
-npm uninstall react-router-dom
-npm install react-router@latest
-```
-+++
 
 #### Update Imports
 

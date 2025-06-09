@@ -8,7 +8,7 @@ toc:
 
 Creates a webpack [configuration object](https://webpack.js.org/concepts/configuration/) that is adapted for a Squide host application in **development** mode. This function is a wrapper built on top of [@workleap/webpack-configs](https://www.npmjs.com/package/@workleap/webpack-configs). Make sure to read the [defineDevConfig](https://workleap.github.io/wl-web-configs/webpack/configure-dev/) documentation first.
 
-!!!info
+!!!tip
 If the application _**does not**_ not include any remote modules, use the [defineDevConfig](https://workleap.github.io/wl-web-configs/webpack/configure-dev/) function instead of `defineDevHostConfig`.
 !!!
 
@@ -93,7 +93,7 @@ export default defineDevHostConfig(swcConfig, 8080, Remotes, {
 });
 ```
 
-!!!info
+!!!warning
 Features must be activated on the host application as well as every remote module.
 !!!
 
@@ -121,7 +121,7 @@ export default defineDevHostConfig(swcConfig, 8080, Remotes, {
 });
 ```
 
-!!!info
+!!!warning
 Additional shared dependencies must be configured on the host application as well as every remote module.
 !!!
 

@@ -1,7 +1,5 @@
 ---
 order: 80
-icon: book
-expanded: true
 ---
 
 # Guides

@@ -1,34 +1,14 @@
 ---
-order: 90
-icon: rocket
-expanded: true
+order: 200
 ---
 
-!!!contrast
+!!!tip
 The documentation for Squide firefly v8 is available [here](https://squide-firefly-v8.netlify.app/getting-started/).
 !!!
 
 # Getting started
 
 Welcome to Squide (yes :squid: with an **"e"**), a shell for [Workleap](https://workleap.com/) web applications built on top of [Module Federation](https://module-federation.io/), [React Router](https://reactrouter.com) and [TanStack Query](https://tanstack.com/query/latest). In this getting started section, you'll find an overview of the shell and a [quick start](create-host.md) guide to create a new application from scratch.
-
-<!-- !!!warning Foundry CLI
-
-The prefered way for creating a new modular application for the Workleap's platform is with the [foundry-cli](https://github.com/workleap/wl-foundry-cli).
-+++ pnpm
-```bash
-pnpm create @workleap/project@latest <output-directory>
-```
-+++ yarn
-```bash
-yarn create @workleap/project@latest <output-directory>
-```
-+++ npm
-```bash
-npm create @workleap/project@latest <output-directory>
-```
-+++
-!!! -->
 
 ## Why Squide?
 

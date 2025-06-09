@@ -62,7 +62,7 @@ export function useFeatureFlags() {
 }
 ```
 
-!!!info
+!!!tip
 Ensure that the shared project is configured as a [shared dependency](./add-a-shared-dependency.md).
 !!!
 
@@ -170,7 +170,7 @@ export const register: ModuleRegisterFunction<FireflyRuntime> = runtime => {
 }
 ```
 
-!!!info
+!!!tip
 If you've already registered a `Page` component in a previous guide, use a different name for this component.
 !!!
 
@@ -297,7 +297,7 @@ export function App() {
 }
 ```
 
-!!!info
+!!!tip
 A key feature of [TanStack Query](https://tanstack.com/query/latest) is its ability to keep the frontend state synchronized with the server state. To fully leverage this, whenever the data passed to `useDeferredRegistrations` changes, all deferred registration functions are re-executed.
 
 Remember to use [useMemo](https://react.dev/reference/react/useMemo) for your deferred registration data and to specify the `$id` option for your navigation items!

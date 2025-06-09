@@ -8,7 +8,7 @@ toc:
 
 Indicates whether or not an error is an instance of [GlobalDataQueriesError](#globaldataquerieserror).
 
-!!!info
+!!!tip
 `GlobalDataQueriesError` errors are thrown by either the [usePublicDataQueries](./usePublicDataQueries.md) hook or the [useProtectedDataQueries](./useProtectedDataQueries.md) hook and should usually be handled by an error boundary.
 !!!
 

@@ -17,7 +17,7 @@ This major version of `@squide/firefly` introduces [TanStack Query](https://tans
 
 Prior to `v9.0`, Squide applications couldn't use TanStack Query to fetch global data, making it **challenging** for Workleap's applications to **keep** their **global data** in **sync** with the **server state**. With `v9.0`, applications can now leverage [custom wrappers](../guides/fetch-global-data.md) of the TanStack Query's [useQueries](https://tanstack.com/query/latest/docs/framework/react/reference/useQueries) hook to fetch and keep their global data up-to-date with the server state. Additionally, the new [deferred registrations update](../reference/registration/useDeferredRegistrations.md#register-or-update-deferred-registrations) feature allows applications to even **keep** their conditional **navigation items in sync** with the **server state**.
 
-Finally, with `v9.0`, Squide's philosophy has evolved. We used to describe Squide as a shell for **federated** applications. Now, we refer to Squide as a shell for **modular** applications. After playing with Squide's [local module](../reference/registration/registerLocalModules.md) feature for a while, we discovered that Squide offers [significant value](../getting-started/default.md#why-squide) even for **non-federated applications**, which triggered this shift in philosophy.
+Finally, with `v9.0`, Squide's philosophy has evolved. We used to describe Squide as a shell for **federated** applications. Now, we refer to Squide as a shell for **modular** applications. After playing with Squide's [local module](../reference/registration/registerLocalModules.md) feature for a while, we discovered that Squide offers [significant value](../introduction/getting-started.md#why-squide) even for **non-federated applications**, which triggered this shift in philosophy.
 
 ### v9.3
 
@@ -441,22 +441,10 @@ If your application is already on React Router `v7`, you can ignore this advice.
 
 Open a terminal at the root of the project workspace and use the following commands to remove `react-router-dom` and install `react-router@latest`:
 
-+++ pnpm
 ```bash
 pnpm remove react-router-dom
 pnpm add react-router@latest
 ```
-+++ yarn
-```bash
-yarn remove react-router-dom
-yarn add react-router@latest
-```
-+++ npm
-```bash
-npm uninstall react-router-dom
-npm install react-router@latest
-```
-+++
 
 #### Update Imports
 
@@ -559,7 +547,7 @@ Follow these steps to migrate an existing host application:
 6. Add or update the `AuthenticationBoundary` component to use the new `useIsAuthenticated` hook. Global data fetch request shouldn't be throwing 401 error anymore when the user is not authenticated. [View example](../guides/add-authentication.md#add-an-authentication-boundary)
 7. Update the `AuthenticatedLayout` component to use the session manager instance to clear the session. Retrieve the session manager instance from the context defined in the `BootstrappingRoute` component using the `useSessionManager` hook. [View example](../guides/add-authentication.md#define-an-authenticated-layout)
 8. Update the `AuthenticatedLayout` component to use the new `key` argument. [View example](#new-id-option-for-navigation-items)
-9. Replace the `ManagedRoutes` placeholder with the new [PublicRoutes](../reference/routing/publicRoutes.md) and [ProtectedRoutes](../reference/routing/protectedRoutes.md) placeholders. [View example](../getting-started/create-host.md#homepage)
+9. Replace the `ManagedRoutes` placeholder with the new [PublicRoutes](../reference/routing/publicRoutes.md) and [ProtectedRoutes](../reference/routing/protectedRoutes.md) placeholders. [View example](../introduction/create-host.md#homepage)
 10. Convert all deferred routes into static routes. [View example](#removed-support-for-deferred-routes)
 11. Add an `$id` option to the navigation item registrations. [View example](#new-id-option-for-navigation-items)
 12. Replace the [registerLocalModules](../reference/registration/registerLocalModules.md), [registerRemoteModules](../reference/registration/registerRemoteModules.md), [setMswAsReady](../reference/msw/setMswAsReady.md) function and the [FireflyRuntime](../reference/runtime/runtime-class.md) by the [initializeFirefly](../reference/registration/initializeFirefly.md) function. [View example](#use-the-initializefirefly-function)

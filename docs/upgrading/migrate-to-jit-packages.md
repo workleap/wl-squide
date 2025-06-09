@@ -17,19 +17,9 @@ To migrate your library projects (e.g., utility packages, shared packages, local
 
 Open a terminal at the root of the host application project and remove the following packages:
 
-+++ pnpm
 ```bash
 pnpm remove -D @workleap/tsup-configs tsup nodemon
 ```
-+++ yarn
-```bash
-yarn remove -D @workleap/tsup-configs tsup nodemon
-```
-+++ npm
-```bash
-npm uninstall -D @workleap/tsup-configs tsup nodemon
-```
-+++
 
 ### Update files
 
@@ -117,19 +107,9 @@ Remove the `dev` and `build` scripts.
 
 Open a terminal at the root of the host application project and remove the following packages:
 
-+++ pnpm
 ```bash
 pnpm remove -D nodemon
 ```
-+++ yarn
-```bash
-yarn remove -D nodemon
-```
-+++ npm
-```bash
-npm uninstall -D nodemon
-```
-+++
 
 ### Update files
 

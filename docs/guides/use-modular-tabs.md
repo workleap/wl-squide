@@ -70,7 +70,7 @@ With this nested layout in place, thanks to the React Router [Outlet](https://re
 
 As a bonus, each individual tab will have its own dedicated URL! :partying_face:
 
-!!!info
+!!!tip
 It is recommended to define the shared layouts in a standalone package as it's done for the [endpoints sample layouts project](https://github.com/workleap/wl-squide/tree/main/samples/endpoints/layouts).
 !!!
 

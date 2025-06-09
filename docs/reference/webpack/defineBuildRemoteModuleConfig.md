@@ -90,7 +90,7 @@ export default defineBuildRemoteModuleConfig(swcConfig, "remote1", {
 });
 ```
 
-!!!info
+!!!warning
 Features must be activated on the host application as well as every remote module.
 !!!
 
@@ -111,7 +111,7 @@ export default defineBuildRemoteModuleConfig(swcConfig, "remote1", {
 });
 ```
 
-!!!info
+!!!warning
 Additional shared dependencies must be configured on the host application as well as every remote module.
 !!!
 

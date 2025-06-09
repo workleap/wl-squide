@@ -1,4 +1,4 @@
 ---
-redirect: getting-started
+redirect: introduction/getting-started
 visibility: hidden
 ---

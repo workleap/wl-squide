@@ -159,7 +159,7 @@ runtime.registerPublicRoute({
 });
 ```
 
-!!!info
+!!!tip
 When no `$visibility` indicator is provided, a route is considered `protected`.
 !!!
 
@@ -212,7 +212,7 @@ runtime.registerRoute({
 
 [!ref text="Learn more about using nested routes for modular tabs"](../../guides/use-modular-tabs.md)
 
-!!!info
+!!!tip
 Likewise any other React Router routes, the `path` option of a route rendered under an existing parent route must be an absolute path. For example, if a parent route `path` is `/layout`, the `path` option of a route rendered under that parent route and responding to the `/page-1` url, should be `/layout/page-1`.
 !!!
 
@@ -255,7 +255,7 @@ Accept any properties of a React Router [Link](https://reactrouter.com/en/main/c
 - `$additionalProps`: Additional properties to be forwarded to the section renderer.
 - `children`: The section content.
 
-!!!info
+!!!tip
 We recommend always providing an `$id` option for a navigation item, as it ensures the menus doesn't flicker when [deferred registrations](../registration/registerLocalModules.md#defer-the-registration-of-navigation-items) are updated. Be sure to use a unique identifier.
 !!!
 

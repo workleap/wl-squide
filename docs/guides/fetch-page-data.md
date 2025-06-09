@@ -16,26 +16,10 @@ Although this approach works well, a few adjustments are necessary for modular a
 
 First, open a terminal at the root of the module and install the following packages:
 
-+++ pnpm
 ```bash
 pnpm add -D @tanstack/react-query-devtools
 pnpm add @tanstack/react-query
 ```
-+++ yarn
-```bash
-yarn add -D @tanstack/react-query-devtools
-yarn add @tanstack/react-query
-```
-+++ npm
-```bash
-npm install -D @tanstack/react-query-devtools
-npm install @tanstack/react-query
-```
-+++
-
-!!!warning
-While you can use any package manager to develop an application with Squide, it is highly recommended that you use [PNPM](https://pnpm.io/) as the guides has been developed and tested with PNPM.
-!!!
 
 ## Setup the query client
 
@@ -64,7 +48,7 @@ export const register: ModuleRegisterFunction<FireflyRuntime> = runtime => {
 }
 ```
 
-!!!info
+!!!warning
 To minimize unexpected situations and faciliate maintenance, the TanStack Query cache shouldn't be shared between the host application and the modules. As the TanStack Query cache is located in the `QueryClient`, both the host application and the modules should instantiate their own `QueryClient` instance.
 !!!
 

@@ -16,23 +16,9 @@ Honeycomb's in-house [HoneycombWebSDK](https://docs.honeycomb.io/send-data/javas
 
 Let's start by configuring the host application. First, open a terminal at the root of the host application and install the following packages:
 
-+++ pnpm
 ```bash
 pnpm add @squide/firefly-honeycomb @opentelemetry/api
 ```
-+++ yarn
-```bash
-yarn add @squide/firefly-honeycomb @opentelemetry/api
-```
-+++ npm
-```bash
-npm install @squide/firefly-honeycomb @opentelemetry/api
-```
-+++
-
-!!!warning
-While you can use any package manager to develop an application with Squide, it is highly recommended that you use [PNPM](https://pnpm.io/) as the guides has been developed and tested with PNPM.
-!!!
 
 ## Register instrumentation
 

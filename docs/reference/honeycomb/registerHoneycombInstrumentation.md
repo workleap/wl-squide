@@ -7,7 +7,7 @@ toc:
 
 Initialize an instance of [Honeycomb Web SDK](https://docs.honeycomb.io/send-data/javascript-browser/honeycomb-distribution) and registers custom instrumentation to monitor the performance of a Squide application.
 
-!!!info
+!!!tip
 This function serves as a wrapper around the [@workleap/honeycomb](https://www.npmjs.com/package/@workleap/honeycomb) library. Before using it, read the documentation for the [registerHoneycombInstrumentation](https://workleap.github.io/wl-honeycomb-web/reference/registerhoneycombinstrumentation) function provided by `@workleap/honeycomb`.
 !!!
 

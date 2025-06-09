@@ -268,7 +268,7 @@ Next, add a new `dev-isolated` script to the `package.json` file to start the lo
 }
 ```
 
-!!!info
+!!!tip
 If your project's `package.json` file does not already include the [cross-env](https://www.npmjs.com/package/cross-env) dependency, be sure to install `cross-env` as a development dependency.
 !!!
 
@@ -316,7 +316,7 @@ if (!process.env.ISOLATED) {
 export default config;
 ```
 
-!!!info
+!!!tip
 If you encounter issues configuring webpack, refer to the [@workleap/webpack-configs](https://workleap.github.io/wl-web-configs/webpack/) documentation.
 !!!
 
@@ -338,23 +338,9 @@ Similarly to remote modules, local modules can also be set up for isolated devel
 
 First, open a terminal at the root of the local module project and install the `@squide/firefly-webpack-configs` package and its dependencies:
 
-+++ pnpm
 ```bash
 pnpm add -D @workleap/webpack-configs @workleap/swc-configs @workleap/browserslist-config @squide/firefly-webpack-configs webpack webpack-dev-server webpack-cli @swc/core @swc/helpers browserslist postcss
 ```
-+++ yarn
-```bash
-yarn add -D @workleap/webpack-configs @workleap/swc-configs @workleap/browserslist-config @squide/firefly-webpack-configs webpack webpack-dev-server webpack-cli @swc/core @swc/helpers browserslist postcss
-```
-+++ npm
-```bash
-npm install -D @workleap/webpack-configs @workleap/swc-configs @workleap/browserslist-config @squide/firefly-webpack-configs webpack webpack-dev-server webpack-cli @swc/core @swc/helpers browserslist postcss
-```
-+++
-
-!!!warning
-While you can use any package manager to develop an application with Squide, it is highly recommended that you use [PNPM](https://pnpm.io/) as the guides has been developed and tested with PNPM.
-!!!
 
 Then, add a peer dependency and a dev dependency to the `@sample/shell` package:
 
@@ -445,7 +431,7 @@ import { swcConfig } from "./swc.config.js";
 export default defineDevHostConfig(swcConfig, "local1", 8080, []);
 ```
 
-!!!info
+!!!tip
 If you encounter issues configuring webpack, refer to the [@workleap/webpack-configs](https://workleap.github.io/wl-web-configs/webpack/) documentation.
 !!!
 

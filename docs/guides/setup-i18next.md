@@ -14,23 +14,9 @@ The examples in this guide load all the resources from single localized resource
 
 Let's start by configuring the host application. First, open a terminal at the root of the host application and install the following packages:
 
-+++ pnpm
 ```bash
 pnpm add @squide/i18next i18next i18next-browser-languagedetector react-i18next
 ```
-+++ yarn
-```bash
-yarn add @squide/i18next i18next i18next-browser-languagedetector react-i18next
-```
-+++ npm
-```bash
-npm install @squide/i18next i18next i18next-browser-languagedetector react-i18next
-```
-+++
-
-!!!warning
-While you can use any package manager to develop an application with Squide, it is highly recommended that you use [PNPM](https://pnpm.io/) as the guides has been developed and tested with PNPM.
-!!!
 
 ### Register the i18nextPlugin
 
@@ -203,19 +189,9 @@ export default defineBuildHostConfig(swcConfig, [], {
 
 First, open a terminal at the root of the remote module application and install the following packages:
 
-+++ pnpm
 ```bash
 pnpm add @squide/i18next i18next i18next-browser-languagedetector react-i18next
 ```
-+++ yarn
-```bash
-yarn add @squide/i18next i18next i18next-browser-languagedetector react-i18next
-```
-+++ npm
-```bash
-npm install @squide/i18next i18next i18next-browser-languagedetector react-i18next
-```
-+++
 
 ### Define the localized resources
 
