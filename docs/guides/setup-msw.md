@@ -10,42 +10,16 @@ To speed up frontend development and encourage an [API first](https://swagger.io
 
 First, open a terminal at the root of the host application and install the [msw](https://www.npmjs.com/package/msw) package:
 
-+++ pnpm
 ```bash
 pnpm add -D cross-env
 pnpm add msw
 ```
-+++ yarn
-```bash
-yarn add -D cross-env
-yarn add msw
-```
-+++ npm
-```bash
-npm install -D cross-env
-npm install msw
-```
-+++
 
 Then [initialize](https://mswjs.io/docs/cli/init/) MSW by executing the following command:
 
-+++ pnpm
 ```bash
 pnpm dlx msw init ./public
 ```
-+++ yarn
-```bash
-yarn dlx msw init ./public
-```
-+++ npm
-```bash
-npx msw init ./public
-```
-+++
-
-!!!warning
-While you can use any package manager to develop an application with Squide, it is highly recommended that you use [PNPM](https://pnpm.io/) as the guides has been developed and tested with PNPM.
-!!!
 
 ### Add an environment variable
 
@@ -142,19 +116,9 @@ root.render(
 
 First, open a terminal at the root of the remote module application and install the [msw](https://www.npmjs.com/package/msw) package:
 
-+++ pnpm
 ```bash
 pnpm add msw
 ```
-+++ yarn
-```bash
-yarn add msw
-```
-+++ npm
-```bash
-npm install msw
-```
-+++
 
 Then, define a [request handler](https://mswjs.io/docs/concepts/request-handler/):
 

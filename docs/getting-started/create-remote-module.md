@@ -21,26 +21,10 @@ Let's add our first remote module!
 
 Create a new application (we'll refer to ours as `remote-module`), then open a terminal at the root of the new solution and install the following packages:
 
-+++ pnpm
 ```bash
 pnpm add -D @workleap/swc-configs @workleap/browserslist-config @squide/firefly-webpack-configs webpack webpack-dev-server webpack-cli @swc/core @swc/helpers browserslist postcss @types/react @types/react-dom
 pnpm add @squide/firefly react react-dom react-router @tanstack/react-query
 ```
-+++ yarn
-```bash
-yarn add -D @workleap/swc-configs @workleap/browserslist-config @squide/firefly-webpack-configs webpack webpack-dev-server webpack-cli @swc/core @swc/helpers browserslist postcss @types/react @types/react-dom
-yarn add @squide/firefly react react-dom react-router @tanstack/react-query
-```
-+++ npm
-```bash
-npm install -D @workleap/swc-configs @workleap/browserslist-config @squide/firefly-webpack-configs webpack webpack-dev-server webpack-cli @swc/core @swc/helpers browserslist postcss @types/react @types/react-dom
-npm install @squide/firefly react react-dom react-router @tanstack/react-query
-```
-+++
-
-!!!warning
-While you can use any package manager to develop an application with Squide, it is highly recommended that you use [PNPM](https://pnpm.io/) as the guides has been developed and tested with PNPM.
-!!!
 
 ## Setup the application
 
@@ -101,7 +85,7 @@ export function Page() {
 
 ## Configure webpack
 
-!!!info
+!!!tip
 Squide webpack configuration is built on top of [@workleap/webpack-configs](https://workleap.github.io/wl-web-configs/webpack/), [@workleap/browserslist-config](https://workleap.github.io/wl-web-configs/browserslist/) and [@workleap/swc-configs](https://workleap.github.io/wl-web-configs/swc/). If you are having issues with the configuration of these tools, refer to the tools documentation websites.
 !!!
 

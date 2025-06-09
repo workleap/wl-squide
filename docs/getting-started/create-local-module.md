@@ -23,26 +23,10 @@ Let's add a local module to demonstrate how it's done!
 
 Create a new application (we'll refer to ours as `local-module`), then open a terminal at the root of the new solution and install the following packages:
 
-+++ pnpm
 ```bash
 pnpm add -D typescript @types/react @types/react-dom react react-dom react-router @tanstack/react-query
 pnpm add @squide/firefly
 ```
-+++ yarn
-```bash
-yarn add -D typescript @types/react @types/react-dom react react-dom react-router @tanstack/react-query
-yarn add @squide/firefly
-```
-+++ npm
-```bash
-npm add -D typescript @types/react @types/react-dom react react-dom react-router @tanstack/react-query
-npm install @squide/firefly
-```
-+++
-
-!!!warning
-While you can use any package manager to develop an application with Squide, it is highly recommend that you use [PNPM](https://pnpm.io/) as the guides has been developed and tested with PNPM.
-!!!
 
 ## Setup the application
 
@@ -136,7 +120,7 @@ Go back to the `host` application and add a dependency to the `@getting-started/
 }
 ```
 
-!!!info
+!!!tip
 If your project is set up as a monorepo, use `workspace:*` for the version instead of `0.0.1`.
 !!!
 

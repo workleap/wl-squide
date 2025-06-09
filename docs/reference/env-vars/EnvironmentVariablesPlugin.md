@@ -20,7 +20,7 @@ None
 
 ## Usage
 
-!!!info
+!!!tip
 Make sure to [augment](../../guides/use-environment-variables.md#module-augmentation) the `EnvironmentVariables` TypeScript interface with the variables of your module.
 !!!
 

@@ -80,7 +80,7 @@ export function useFetchCount() {
 }
 ```
 
-!!!info
+!!!tip
 Ensure that the shared project is configured as a [shared dependency](./add-a-shared-dependency.md).
 !!!
 
@@ -324,7 +324,7 @@ export function useSubscription() {
 }
 ```
 
-!!!info
+!!!tip
 If you're not adding the `SubscriptionContext` to the shared project created earlier for the public data example, make sure to configure this new shared project as a [shared dependency](./add-a-shared-dependency.md).
 !!!
 

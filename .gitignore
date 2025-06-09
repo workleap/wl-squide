@@ -1,6 +1,5 @@
 node_modules
 dist
-apiKeys.js
 .pnpm-debug.log*
 .netlify
 .turbo

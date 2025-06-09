@@ -14,23 +14,9 @@ Most of Workleap's applications, if not all, will eventually require user authen
 
 First, open a terminal at the root of the host application and install the [@squide/fakes](https://www.npmjs.com/package/@squide/fakes) package:
 
-+++ pnpm
 ```bash
 pnpm add @squide/fakes
 ```
-+++ yarn
-```bash
-yarn add @squide/fakes
-```
-+++ npm
-```bash
-npm install @squide/fakes
-```
-+++
-
-!!!warning
-While you can use any package manager to develop an application with Squide, it is highly recommended that you use [PNPM](https://pnpm.io/) as the guides has been developed and tested with PNPM.
-!!!
 
 Then, add a [Mock Service Worker](https://mswjs.io/) (MSW) request handler to authenticate a user:
 

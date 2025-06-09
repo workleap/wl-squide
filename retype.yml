@@ -19,6 +19,11 @@ hub:
     link: https://workleap.github.io/wl-idp-docs-hub/
     alt: Workleap's Frontend Platform homepage
 
+nav:
+    mode: stack
+    icons:
+        mode: top
+
 start:
     pro: true
 

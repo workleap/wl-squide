@@ -62,23 +62,9 @@ Let's go through the setup of the plugin and how to handle a few use cases.
 
 First, open an existing Squide application. Then open a terminal at the root of the host application and install the following package:
 
-+++ pnpm
 ```bash
 pnpm add @squide/env-vars
 ```
-+++ yarn
-```bash
-yarn add @squide/env-vars
-```
-+++ npm
-```bash
-npm install @squide/env-vars
-```
-+++
-
-!!!warning
-While you can use any package manager to develop an application with Squide, it is highly recommended that you use [PNPM](https://pnpm.io/) as the guides has been developed and tested with PNPM.
-!!!
 
 ## Setup the plugin
 
@@ -205,7 +191,7 @@ export const registerHost: ModuleRegisterFunction<FireflyRuntime> = runtime => {
 };
 ```
 
-!!!info
+!!!tip
 If multiple modules need to use the same environment variable, we recommend that each module register its own instance of the variable to maintain modularity. The `EnvironmentVariablesPlugin` registry will ignore any subsequent registrations for existing keys, as long as the variable value remains the same.
 !!!
 

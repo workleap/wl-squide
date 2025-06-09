@@ -38,7 +38,7 @@ const eventBus = new EventBus({
 
 ### Add a listener
 
-!!!info
+!!!tip
 When possible, prefer [useEventBusListener](useEventBusListener.md) to `eventBus.addListener`.
 !!!
 
@@ -68,7 +68,7 @@ eventBus.removeListener("foo-once", handleFoo, { once: true });
 
 ### Dispatch an event
 
-!!!info
+!!!tip
 When possible, prefer [useEventBusDispatcher](useEventBusListener.md) to `eventBus.dispatch`.
 !!!
 

@@ -20,26 +20,10 @@ Let's begin by creating the application that will serve as the entry point for o
 
 Create a new application (we'll refer to ours as `host`), then open a terminal at the root of the new solution and install the following packages:
 
-+++ pnpm
 ```bash
 pnpm add -D @workleap/swc-configs @workleap/browserslist-config @squide/firefly-webpack-configs webpack webpack-dev-server webpack-cli @swc/core @swc/helpers browserslist postcss typescript @types/react @types/react-dom
 pnpm add @squide/firefly react react-dom react-router @tanstack/react-query
 ```
-+++ yarn
-```bash
-yarn add -D @workleap/swc-configs @workleap/browserslist-config @squide/firefly-webpack-configs webpack webpack-dev-server webpack-cli @swc/core @swc/helpers browserslist postcss typescript @types/react @types/react-dom
-yarn add @squide/firefly react react-dom react-router @tanstack/react-query
-```
-+++ npm
-```bash
-npm install -D @workleap/swc-configs @workleap/browserslist-config @squide/firefly-webpack-configs webpack webpack-dev-server webpack-cli @swc/core @swc/helpers browserslist postcss typescript @types/react @types/react-dom
-npm install @squide/firefly react react-dom react-router @tanstack/react-query
-```
-+++
-
-!!!warning
-While you can use any package manager to develop an application with Squide, it is highly recommended that you use [PNPM](https://pnpm.io/) as the guides has been developed and tested with PNPM.
-!!!
 
 ## Setup the application
 
@@ -84,7 +68,9 @@ import("./bootstrap");
 export {};
 ```
 
-> To learn more about this async boundary and the `bootstrap.tsx` file, read the following [article](https://dev.to/infoxicator/module-federation-shared-api-ach#using-an-async-boundary).
+!!!tip
+To learn more about this async boundary and the `bootstrap.tsx` file, read the following [article](https://dev.to/infoxicator/module-federation-shared-api-ach#using-an-async-boundary).
+!!!
 
 ### Module registration
 
@@ -258,7 +244,7 @@ export const registerHost: ModuleRegisterFunction<FireflyRuntime> = runtime => {
 };
 ```
 
-!!!info
+!!!tip
 The [PublicRoutes](../reference/routing/publicRoutes.md) and [ProtectedRoutes](../reference/routing/protectedRoutes.md) placeholders indicates where routes that are neither hoisted or nested with a [parentPath](../reference/runtime/runtime-class.md#register-nested-navigation-items) or [parentId](../reference/runtime/runtime-class.md#register-a-route-with-an-id) option will be rendered. In this example, the homepage route is considered as a protected route and will be rendered under the `ProtectedRoutes` placeholder.
 !!!
 
@@ -337,7 +323,7 @@ export const registerHost: ModuleRegisterFunction<FireflyRuntime> = runtime => {
 
 ## Configure webpack
 
-!!!info
+!!!tip
 Squide webpack configuration is built on top of [@workleap/webpack-configs](https://workleap.github.io/wl-web-configs/webpack/), [@workleap/browserslist-config](https://workleap.github.io/wl-web-configs/browserslist/) and [@workleap/swc-configs](https://workleap.github.io/wl-web-configs/swc/). If you are having issues with the configuration of these tools, refer to the tools documentation websites.
 !!!
 
@@ -394,7 +380,7 @@ export default defineDevHostConfig(swcConfig, 8080, Remotes);
 
 > If you are having issues with the wepack configuration that are not related to module federation, refer to the [@workleap/webpack-configs](https://workleap.github.io/wl-web-configs/webpack/configure-dev/) documentation.
 
-!!!info
+!!!tip
 If the application _**does not**_ not include any remote modules, use the [defineDevConfig](https://workleap.github.io/wl-web-configs/webpack/configure-dev/) function instead of [defineDevHostConfig](../reference/webpack/defineDevHostConfig.md).
 !!!
 
@@ -432,7 +418,7 @@ export default defineBuildHostConfig(swcConfig, Remotes);
 
 > If you are having issues with the wepack configuration that are not related to module federation, refer to the [@workleap/webpack-configs](https://workleap.github.io/wl-web-configs/webpack/configure-build/) documentation.
 
-!!!info
+!!!tip
 If the application _**does not**_ not include any remote modules, use the [defineBuildConfig](https://workleap.github.io/wl-web-configs/rsbuild/configure-build/) function instead of [defineBuildHostConfig](../reference/webpack/defineBuildHostConfig.md).
 !!!
 
