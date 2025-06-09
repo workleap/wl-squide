@@ -22,7 +22,7 @@ hub:
 nav:
     mode: stack
     icons:
-        mode: top
+        mode: none
 
 start:
     pro: true
@@ -50,7 +50,7 @@ edit:
 links:
     - text: Home
       icon: home
-      link: /getting-started
+      link: introduction/getting-started
 
     - text: Found a bug?
       icon: issue-opened

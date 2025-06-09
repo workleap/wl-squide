@@ -1,7 +1,5 @@
 ---
 order: 60
-icon: gear
-expanded: true
 toc:
     depth: 2-3
 ---

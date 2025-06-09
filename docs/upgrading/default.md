@@ -1,7 +1,5 @@
 ---
 order: 70
-icon: checklist
-expanded: true
 ---
 
 # Updating

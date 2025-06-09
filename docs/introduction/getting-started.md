@@ -1,7 +1,5 @@
 ---
-order: 90
-icon: rocket
-expanded: true
+order: 200
 ---
 
 !!!tip
