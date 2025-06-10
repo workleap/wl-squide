@@ -43,7 +43,7 @@ const runtime = initializeFirefly({
 });
 
 // Register Honeycomb instrumentation.
-registerHoneycombInstrumentation(runtime, "squide-sample", [/.+/g,], {
+registerHoneycombInstrumentation(runtime, "sample", "squide-sample", [/.+/g,], {
     proxy: "https://my-proxy.com"
 });
 
