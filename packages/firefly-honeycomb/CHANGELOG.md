@@ -1,5 +1,33 @@
 # @squide/firefly-honeycomb
 
+## 3.0.0
+
+### Major Changes
+
+- [#274](https://github.com/workleap/wl-squide/pull/274) [`bc5d9d9`](https://github.com/workleap/wl-squide/commit/bc5d9d9e4af36d452ae64c66fc877fcd6ede9667) Thanks [@patricklafrance](https://github.com/patricklafrance)! - A namespace is now required to register the Honeycomb instrumentation.
+
+  Before:
+
+  ```ts
+  registerHoneycombInstrumentation(runtime, "squide-sample", [/.+/g], {
+    proxy: "https://my-proxy.com",
+  });
+  ```
+
+  Now:
+
+  ```ts
+  registerHoneycombInstrumentation(
+    runtime,
+    "sample",
+    "squide-sample",
+    [/.+/g],
+    {
+      proxy: "https://my-proxy.com",
+    }
+  );
+  ```
+
 ## 2.0.11
 
 ### Patch Changes
