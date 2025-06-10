@@ -48,7 +48,7 @@
         "@squide/core": "workspace:*",
         "@squide/firefly": "workspace:*",
         "@types/uuid": "^10.0.0",
-        "@workleap/honeycomb": "^3.0.0",
+        "@workleap/honeycomb": "^4.0.0",
         "uuid": "^11.1.0"
     },
     "devDependencies": {

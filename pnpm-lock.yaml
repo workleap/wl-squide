@@ -286,8 +286,8 @@ importers:
         specifier: ^10.0.0
         version: 10.0.0
       '@workleap/honeycomb':
-        specifier: ^3.0.0
-        version: 3.0.0(@opentelemetry/api@1.9.0)(zone.js@0.15.1)
+        specifier: ^4.0.0
+        version: 4.0.0(@opentelemetry/api@1.9.0)(zone.js@0.15.1)
       uuid:
         specifier: ^11.1.0
         version: 11.1.0
@@ -5986,8 +5986,8 @@ packages:
       typescript:
         optional: true
 
-  '@workleap/honeycomb@3.0.0':
-    resolution: {integrity: sha512-KAm047hOH540DSLce2lDWmyhIS5V1h2bEYFtSbAU3Jm0XRJKx2zMsqx1F4ogQo1OMm195OoneWwhrvuI867fHw==}
+  '@workleap/honeycomb@4.0.0':
+    resolution: {integrity: sha512-lBdSlRnAxqdtCfeeqyHt7Q0d3DDH3GUUmMjeN8qm8SmphT8apVayajAQJF0j92NaXw7OZrw5XwkFLTcOA1Xj6A==}
     engines: {node: '>=21.1.0'}
     peerDependencies:
       '@opentelemetry/api': ^1.9.0
@@ -16586,7 +16586,7 @@ snapshots:
       - supports-color
       - vitest
 
-  '@workleap/honeycomb@3.0.0(@opentelemetry/api@1.9.0)(zone.js@0.15.1)':
+  '@workleap/honeycomb@4.0.0(@opentelemetry/api@1.9.0)(zone.js@0.15.1)':
     dependencies:
       '@honeycombio/opentelemetry-web': 0.18.0(@opentelemetry/auto-instrumentations-web@0.47.0(@opentelemetry/api@1.9.0)(zone.js@0.15.1))
       '@opentelemetry/api': 1.9.0

@@ -488,10 +488,10 @@ function registerTrackingListeners(runtime: FireflyRuntime) {
     });
 }
 
-export function registerHoneycombInstrumentation(runtime: FireflyRuntime, serviceName: NonNullable<HoneycombSdkOptions["serviceName"]>, apiServiceUrls: PropagateTraceHeaderCorsUrls, options?: RegisterHoneycombInstrumentationOptions) {
+export function registerHoneycombInstrumentation(runtime: FireflyRuntime, namespace: string, serviceName: NonNullable<HoneycombSdkOptions["serviceName"]>, apiServiceUrls: PropagateTraceHeaderCorsUrls, options?: RegisterHoneycombInstrumentationOptions) {
     const augmentedOptions = getInstrumentationOptions(runtime, options);
 
-    workleapRegisterHoneycombInstrumentation(serviceName, apiServiceUrls, augmentedOptions);
+    workleapRegisterHoneycombInstrumentation(namespace, serviceName, apiServiceUrls, augmentedOptions);
 
     registerTrackingListeners(runtime);
     registerActiveSpanStack();
