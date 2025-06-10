@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <meta name="turbo-root" content="/wl-squide">
-    <meta name="turbo-cache-control" content="no-cache" data-turbo-track="reload" data-track-token="3.10.0.802809272715">
+    <meta name="turbo-cache-control" content="no-cache" data-turbo-track="reload" data-track-token="3.10.0.802838727373">
 
     <!-- See retype.com -->
     <meta name="generator" content="Retype 3.10.0">
@@ -32,12 +32,12 @@
     <script data-cfasync="false">(function(){var cl=document.documentElement.classList,ls=localStorage.getItem("retype_scheme"),hd=cl.contains("dark"),hl=cl.contains("light"),wm=window.matchMedia&&window.matchMedia("(prefers-color-scheme: dark)").matches;if(ls==="dark"||(!ls&&wm&&!hd&&!hl)){cl.remove("light");cl.add("dark")}else if(ls==="light"||(!ls&&!wm&&!hd&&!hl)){cl.remove("dark");cl.add("light")}})();</script>
 
     <link href="../../../static/favicon.png" rel="icon">
-    <link href="../../../resources/css/retype.css?v=3.10.0.802809272715" rel="stylesheet">
+    <link href="../../../resources/css/retype.css?v=3.10.0.802838727373" rel="stylesheet">
 
-    <script data-cfasync="false" src="../../../resources/js/config.js?v=3.10.0.802809272715" data-turbo-eval="false" defer></script>
+    <script data-cfasync="false" src="../../../resources/js/config.js?v=3.10.0.802838727373" data-turbo-eval="false" defer></script>
     <script data-cfasync="false" src="../../../resources/js/retype.js?v=3.10.0" data-turbo-eval="false" defer></script>
-    <script id="lunr-js" data-cfasync="false" src="../../../resources/js/lunr.js?v=3.10.0.802809272715" data-turbo-eval="false" defer></script>
-    <script id="prism-js" data-cfasync="false" src="../../../resources/js/prism.js?v=3.10.0.802809272715" defer></script>
+    <script id="lunr-js" data-cfasync="false" src="../../../resources/js/lunr.js?v=3.10.0.802838727373" data-turbo-eval="false" defer></script>
+    <script id="prism-js" data-cfasync="false" src="../../../resources/js/prism.js?v=3.10.0.802838727373" defer></script>
 
     <link href="https://workleap.github.io/wl-idp-docs-hub/static/retype-customization.css" rel="stylesheet" />
 
@@ -332,7 +332,7 @@
     </h2>
 </doc-anchor-target>
 <div class="codeblock-wrapper"><doc-codeblock>
-<pre translate="no" class="language-typescript"><code v-pre class="language-typescript">registerHoneycombInstrumentation(runtime, serviceName, apiServiceUrls: [string | Regex], options?: {})</code></pre>
+<pre translate="no" class="language-typescript"><code v-pre class="language-typescript">registerHoneycombInstrumentation(runtime, namespace, serviceName, apiServiceUrls: [string | Regex], options?: {})</code></pre>
 </doc-codeblock></div>
 <doc-anchor-target id="parameters">
     <h3>
@@ -342,6 +342,7 @@
 </doc-anchor-target>
 <ul>
 <li><code v-pre>runtime</code>: A <code v-pre>FireflyRuntime</code> instance.</li>
+<li><code v-pre>namespace</code>: Honeycomb application service namespace.</li>
 <li><code v-pre>serviceName</code>: Honeycomb application service name.</li>
 <li><code v-pre>apiServiceUrls</code>: A <code v-pre>RegExp</code> or <code v-pre>string</code> that matches the URLs of the application&#x27;s backend services. If unsure, use the temporary regex <code v-pre>/.+/g,</code> to match all URLs.</li>
 <li><code v-pre>options</code>: An optional object literal of options:
@@ -376,7 +377,7 @@ import { registerHoneycombInstrumentation } from &quot;@squide/firefly-honeycomb
 
 const runtime = new FireflyRuntime();
 
-registerHoneycombInstrumentation(runtime, &quot;squide-sample&quot;, [/.+/g,], {
+registerHoneycombInstrumentation(runtime, &quot;sample&quot;, &quot;squide-sample&quot;, [/.+/g,], {
     proxy: &quot;https://my-proxy.com&quot;
 });</code></pre>
 </doc-codeblock></div>
@@ -405,7 +406,7 @@ registerHoneycombInstrumentation(runtime, &quot;squide-sample&quot;, [/.+/g,], {
 <div class="codeblock-wrapper"><doc-codeblock>
 <pre translate="no" class="language-typescript" data-line="4"><code v-pre class="language-typescript">import { registerHoneycombInstrumentation } from &quot;@squide/firefly-honeycomb&quot;;
 
-registerHoneycombInstrumentation(runtime, &quot;squide-sample&quot;, [/.+/g,], {
+registerHoneycombInstrumentation(runtime, &quot;sample&quot;, &quot;squide-sample&quot;, [/.+/g,], {
     apiKey: &quot;xyz123&quot;
 });</code></pre>
 </doc-codeblock></div>
@@ -433,10 +434,12 @@ registerHoneycombInstrumentation(runtime, &quot;squide-sample&quot;, [/.+/g,], {
 </div>
 <p>Specify values for the <code v-pre>apiServiceUrls</code> argument that matches your application&#x27;s backend URLs. For example, if your backend services are hosted at <code v-pre>https://workleap.com/api</code>:</p>
 <div class="codeblock-wrapper"><doc-codeblock>
-<pre translate="no" class="language-typescript" data-line="5"><code v-pre class="language-typescript">import { registerHoneycombInstrumentation } from &quot;@squide/firefly-honeycomb&quot;;
+<pre translate="no" class="language-typescript" data-line="7"><code v-pre class="language-typescript">import { registerHoneycombInstrumentation } from &quot;@squide/firefly-honeycomb&quot;;
 
 registerHoneycombInstrumentation(
-    runtime, &quot;squide-sample&quot;, 
+    runtime, 
+    &quot;sample&quot;,
+    &quot;squide-sample&quot;, 
     [/https:\/\/workleap.com\/api\.*/], 
     { proxy: &quot;https://my-proxy.com&quot; }
 );</code></pre>
@@ -451,7 +454,7 @@ registerHoneycombInstrumentation(
 <pre translate="no" class="language-typescript" data-line="6-8"><code v-pre class="language-typescript">import { registerHoneycombInstrumentation } from &quot;@squide/firefly-honeycomb&quot;;
 import { LongTaskInstrumentation } from &quot;@opentelemetry/instrumentation-long-task&quot;;
 
-registerHoneycombInstrumentation(runtime, &quot;squide-sample&quot;, [/.+/g,], {
+registerHoneycombInstrumentation(runtime, &quot;sample&quot;, &quot;squide-sample&quot;, [/.+/g,], {
     proxy: &quot;https://my-proxy.com&quot;,
     instrumentations: [
         new LongTaskInstrumentation()
@@ -488,7 +491,7 @@ registerHoneycombInstrumentation(runtime, &quot;squide-sample&quot;, [/.+/g,], {
 <pre translate="no" class="language-typescript" data-line="6-8"><code v-pre class="language-typescript">import { registerHoneycombInstrumentation } from &quot;@squide/firefly-honeycomb&quot;;
 import { CustomSpanProcessor } from &quot;./CustomSpanProcessor.ts&quot;;
 
-registerHoneycombInstrumentation(runtime, &quot;squide-sample&quot;, [/.+/g,], {
+registerHoneycombInstrumentation(runtime, &quot;sample&quot;, &quot;squide-sample&quot;, [/.+/g,], {
     proxy: &quot;https://my-proxy.com&quot;,
     spanProcessors: [
         new CustomSpanProcessor()
@@ -505,7 +508,7 @@ registerHoneycombInstrumentation(runtime, &quot;squide-sample&quot;, [/.+/g,], {
 <div class="codeblock-wrapper"><doc-codeblock>
 <pre translate="no" class="language-typescript" data-line="5-10"><code v-pre class="language-typescript">import { registerHoneycombInstrumentation } from &quot;@squide/firefly-honeycomb&quot;;
 
-registerHoneycombInstrumentation(runtime, &quot;squide-sample&quot;, [/.+/g,], {
+registerHoneycombInstrumentation(runtime, &quot;sample&quot;, &quot;squide-sample&quot;, [/.+/g,], {
     proxy: &quot;https://my-proxy.com&quot;,
     fetchInstrumentation: (defaultOptions) =&gt; {
         return {
@@ -524,7 +527,7 @@ registerHoneycombInstrumentation(runtime, &quot;squide-sample&quot;, [/.+/g,], {
 <div class="codeblock-wrapper"><doc-codeblock>
 <pre translate="no" class="language-typescript" data-line="5"><code v-pre class="language-typescript">import { registerHoneycombInstrumentation } from &quot;@squide/firefly-honeycomb&quot;;
 
-registerHoneycombInstrumentation(runtime, &quot;squide-sample&quot;, [/.+/g,], {
+registerHoneycombInstrumentation(runtime, &quot;sample&quot;, &quot;squide-sample&quot;, [/.+/g,], {
     proxy: &quot;https://my-proxy.com&quot;,
     fetchInstrumentation: false
 });</code></pre>
@@ -539,7 +542,7 @@ registerHoneycombInstrumentation(runtime, &quot;squide-sample&quot;, [/.+/g,], {
 <div class="codeblock-wrapper"><doc-codeblock>
 <pre translate="no" class="language-typescript" data-line="5-10"><code v-pre class="language-typescript">import { registerHoneycombInstrumentation } from &quot;@squide/firefly-honeycomb&quot;;
 
-registerHoneycombInstrumentation(runtime, &quot;squide-sample&quot;, [/.+/g,], {
+registerHoneycombInstrumentation(runtime, &quot;sample&quot;, &quot;squide-sample&quot;, [/.+/g,], {
     proxy: &quot;https://my-proxy.com&quot;,
     documentLoadInstrumentation: (defaultOptions) =&gt; {
         return {
@@ -558,7 +561,7 @@ registerHoneycombInstrumentation(runtime, &quot;squide-sample&quot;, [/.+/g,], {
 <div class="codeblock-wrapper"><doc-codeblock>
 <pre translate="no" class="language-typescript" data-line="5"><code v-pre class="language-typescript">import { registerHoneycombInstrumentation } from &quot;@squide/firefly-honeycomb&quot;;
 
-registerHoneycombInstrumentation(runtime, &quot;squide-sample&quot;, [/.+/g,], {
+registerHoneycombInstrumentation(runtime, &quot;sample&quot;, &quot;squide-sample&quot;, [/.+/g,], {
     proxy: &quot;https://my-proxy.com&quot;,
     documentLoadInstrumentation: false
 });</code></pre>
@@ -573,7 +576,7 @@ registerHoneycombInstrumentation(runtime, &quot;squide-sample&quot;, [/.+/g,], {
 <div class="codeblock-wrapper"><doc-codeblock>
 <pre translate="no" class="language-typescript" data-line="5-10"><code v-pre class="language-typescript">import { registerHoneycombInstrumentation } from &quot;@squide/firefly-honeycomb&quot;;
 
-registerHoneycombInstrumentation(runtime, &quot;squide-sample&quot;, [/.+/g,], {
+registerHoneycombInstrumentation(runtime, &quot;sample&quot;, &quot;squide-sample&quot;, [/.+/g,], {
     proxy: &quot;https://my-proxy.com&quot;,
     xmlHttpRequestInstrumentation: (defaultOptions) =&gt; {
         return {
@@ -593,7 +596,7 @@ registerHoneycombInstrumentation(runtime, &quot;squide-sample&quot;, [/.+/g,], {
 <div class="codeblock-wrapper"><doc-codeblock>
 <pre translate="no" class="language-typescript" data-line="5-10"><code v-pre class="language-typescript">import { registerHoneycombInstrumentation } from &quot;@squide/firefly-honeycomb&quot;;
 
-registerHoneycombInstrumentation(runtime, &quot;squide-sample&quot;, [/.+/g,], {
+registerHoneycombInstrumentation(runtime, &quot;sample&quot;, &quot;squide-sample&quot;, [/.+/g,], {
     proxy: &quot;https://my-proxy.com&quot;,
     userInteractionInstrumentation: (defaultOptions) =&gt; {
         return {
@@ -645,7 +648,7 @@ const skipOptionsValidationTransformer: HoneycombSdkOptionsTransformer = config 
     return config;
 }
 
-registerHoneycombInstrumentation(runtime, &quot;squide-sample&quot;, [/.+/g,], {
+registerHoneycombInstrumentation(runtime, &quot;sample&quot;, &quot;squide-sample&quot;, [/.+/g,], {
     proxy: &quot;https://my-proxy.com&quot;,
     transformers: [skipOptionsValidationTransformer]
 });</code></pre>
