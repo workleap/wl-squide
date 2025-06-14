@@ -1,11 +1,11 @@
 ---
-order: 910
-label: Migrate from v8.* to v12.0
+order: 800
+label: Migrate from v8.* to v13.0
 ---
 
-# Migrate from v8.* to v12.0
+# Migrate from v8.* to v13.0
 
-This migration guide is an aggregation of all the changes that happened between Squide Firefly `v9.0` and `v12.0`:
+This migration guide is an aggregation of all the changes that happened between Squide Firefly `v9.0` and `v13.0`:
 
 ## Changes summary
 
@@ -41,9 +41,13 @@ This major version transform the `bootstrap` function from an async function a s
 
 :icon-checklist: [Migrate to firefly v12.0](./migrate-to-firefly-v12.0.md)
 
-This major version introduces a new [initializeFirefly](../reference/registration/initializeFirefly.md) function, replacing the `bootstrap` function. This new `initializeFirefly` function is similar the previous `bootstrap` function with the addition that it takes care of creating and returning a [Runtime](../reference/runtime/runtime-class.md) instance.
+This major version introduces a new [initializeFirefly](../reference/registration/initializeFirefly.md) function, replacing the `bootstrap` function. This new `initializeFirefly` function is similar to the previous `bootstrap` function with the addition that it takes care of creating and returning a [Runtime](../reference/runtime/runtime-class.md) instance and initializing other internal features of Squide.
 
-This major version introduces a new [initializeFirefly](../reference/registration/initializeFirefly.md) function that replaces the legacy `bootstrap` function. In addition to providing similar functionality, `initializeFirefly` creates and returns a [Runtime](../reference/runtime/runtime-class.md) instance.
+### v13.0
+
+:icon-checklist: [Migrate to firefly v13.0](./migrate-to-firefly-v13.0.md)
+
+This major version deprecates the [@squide/firefly-honeycomb](https://www.npmjs.com/package/@squide/firefly-honeycomb) package in favor of [@workleap/honeycomb](https://www.npmjs.com/package/@workleap/honeycomb).
 
 ## Breaking changes
 
@@ -78,6 +82,7 @@ This major version introduces a new [initializeFirefly](../reference/registratio
 - The [registerRemoteModules](../reference/registration/registerRemoteModules.md) function has been **deprecated**, use the `bootstrap` function instead.
 - The [setMswAsReady](../reference/msw/setMswAsReady.md) function has been **deprecated**, use the `bootstrap` function instead.
 - The `RuntimeContext.Provider` has been **deprecated**, use [FireflyProvider](../reference/runtime/FireflyProvider.md) instead.
+- The [@squide/firefly-honeycomb](https://www.npmjs.com/package/@squide/firefly-honeycomb) package has been **deprecated**.
 
 ### Removed support for deferred routes
 

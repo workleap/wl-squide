@@ -12,8 +12,8 @@ import {
 } from "@endpoints/shared";
 import { useEnvironmentVariables } from "@squide/env-vars";
 import { AppRouter as FireflyAppRouter, useDeferredRegistrations, useIsBootstrapping, useLogger, useProtectedDataQueries, usePublicDataQueries } from "@squide/firefly";
-import { setGlobalSpanAttributes } from "@squide/firefly-honeycomb";
 import { useChangeLanguage } from "@squide/i18next";
+import { setGlobalSpanAttributes } from "@workleap/honeycomb";
 import { useEffect, useMemo } from "react";
 import { createBrowserRouter, Outlet } from "react-router";
 import { RouterProvider } from "react-router/dom";
