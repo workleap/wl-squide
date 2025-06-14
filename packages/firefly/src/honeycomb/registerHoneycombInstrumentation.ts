@@ -1,115 +1,105 @@
 import type { Span } from "@opentelemetry/api";
-import type { FetchRequestHookFunction } from "@opentelemetry/instrumentation-fetch";
-import type { PropagateTraceHeaderCorsUrls } from "@opentelemetry/sdk-trace-web";
 import {
-    ApplicationBoostrappedEvent,
-    ApplicationBootstrappingStartedEvent,
-    DeferredRegistrationsUpdateCompletedEvent,
-    DeferredRegistrationsUpdateStartedEvent,
     LocalModuleDeferredRegistrationFailedEvent,
     LocalModuleDeferredRegistrationUpdateFailedEvent,
     LocalModuleRegistrationFailedEvent,
     LocalModulesDeferredRegistrationCompletedEvent,
+    type LocalModulesDeferredRegistrationCompletedEventPayload,
     LocalModulesDeferredRegistrationStartedEvent,
+    type LocalModulesDeferredRegistrationStartedEventPayload,
     LocalModulesDeferredRegistrationsUpdateCompletedEvent,
+    type LocalModulesDeferredRegistrationsUpdateCompletedEventPayload,
     LocalModulesDeferredRegistrationsUpdateStartedEvent,
+    type LocalModulesDeferredRegistrationsUpdateStartedEventPayload,
     LocalModulesRegistrationCompletedEvent,
+    type LocalModulesRegistrationCompletedEventPayload,
     LocalModulesRegistrationStartedEvent,
-    ModulesReadyEvent,
-    ModulesRegisteredEvent,
-    MswReadyEvent,
-    ProtectedDataFetchStartedEvent,
-    ProtectedDataReadyEvent,
-    PublicDataFetchStartedEvent,
-    PublicDataReadyEvent,
+    type LocalModulesRegistrationStartedEventPayload,
+    type ModuleRegistrationError
+} from "@squide/core";
+import {
+    DeferredRegistrationsUpdateCompletedEvent,
+    DeferredRegistrationsUpdateStartedEvent,
     RemoteModuleDeferredRegistrationFailedEvent,
     RemoteModuleDeferredRegistrationUpdateFailedEvent,
+    type RemoteModuleRegistrationError,
     RemoteModuleRegistrationFailedEvent,
     RemoteModulesDeferredRegistrationCompletedEvent,
-    RemoteModulesDeferredRegistrationStartedEvent,
-    RemoteModulesDeferredRegistrationsUpdateCompletedEvent,
-    RemoteModulesDeferredRegistrationsUpdateStartedEvent,
-    RemoteModulesRegistrationCompletedEvent,
-    RemoteModulesRegistrationStartedEvent,
-    type FireflyRuntime,
-    type LocalModulesDeferredRegistrationCompletedEventPayload,
-    type LocalModulesDeferredRegistrationStartedEventPayload,
-    type LocalModulesDeferredRegistrationsUpdateCompletedEventPayload,
-    type LocalModulesDeferredRegistrationsUpdateStartedEventPayload,
-    type LocalModulesRegistrationCompletedEventPayload,
-    type LocalModulesRegistrationStartedEventPayload,
-    type ModuleRegistrationError,
-    type RemoteModuleRegistrationError,
     type RemoteModulesDeferredRegistrationCompletedEventPayload,
+    RemoteModulesDeferredRegistrationStartedEvent,
     type RemoteModulesDeferredRegistrationStartedEventPayload,
+    RemoteModulesDeferredRegistrationsUpdateCompletedEvent,
     type RemoteModulesDeferredRegistrationsUpdateCompletedEventPayload,
+    RemoteModulesDeferredRegistrationsUpdateStartedEvent,
     type RemoteModulesDeferredRegistrationsUpdateStartedEventPayload,
+    RemoteModulesRegistrationCompletedEvent,
     type RemoteModulesRegistrationCompletedEventPayload,
+    RemoteModulesRegistrationStartedEvent,
     type RemoteModulesRegistrationStartedEventPayload
-} from "@squide/firefly";
-import {
-    registerHoneycombInstrumentation as registerWorkleapHoneycombInstrumentation,
-    type HoneycombSdkOptions,
-    type RegisterHoneycombInstrumentationOptions as WorkleapRegisterHoneycombInstrumentationOptions
-} from "@workleap/honeycomb";
-import { createOverrideFetchRequestSpanWithActiveSpanContext, registerActiveSpanStack, type ActiveSpan } from "./activeSpan.ts";
+} from "@squide/module-federation";
+import { ApplicationBoostrappedEvent, ModulesReadyEvent, ModulesRegisteredEvent, MswReadyEvent, ProtectedDataReadyEvent, PublicDataReadyEvent } from "../AppRouterReducer.ts";
+import type { FireflyRuntime } from "../FireflyRuntime.tsx";
+import { ApplicationBootstrappingStartedEvent } from "../initializeFirefly.ts";
+import { ProtectedDataFetchStartedEvent } from "../useProtectedDataQueries.ts";
+import { PublicDataFetchStartedEvent } from "../usePublicDataQueries.ts";
+import { type ActiveSpan, createOverrideFetchRequestSpanWithActiveSpanContext, registerActiveSpanStack } from "./activeSpan.ts";
 import { getTracer } from "./tracer.ts";
 import { endActiveSpan, startActiveChildSpan, startChildSpan, startSpan, traceError } from "./utils.ts";
 
 // TIPS:
 // To query those traces in Honeycomb, use the following query filter: "root.name = squide-bootstrapping".
 
-export interface RegisterHoneycombInstrumentationOptions extends WorkleapRegisterHoneycombInstrumentationOptions {}
+// export interface RegisterHoneycombInstrumentationOptions extends WorkleapRegisterHoneycombInstrumentationOptions {}
 
-function getRequestHookFunction(activeSpanOverrideFunction: FetchRequestHookFunction, baseRequestHookFunction?: FetchRequestHookFunction) {
-    let requestHook: FetchRequestHookFunction;
+// function getRequestHookFunction(activeSpanOverrideFunction: FetchRequestHookFunction, baseRequestHookFunction?: FetchRequestHookFunction) {
+//     let requestHook: FetchRequestHookFunction;
 
-    if (baseRequestHookFunction) {
-        // If "@workleap/honeycomb" already provides a function, merge both functions.
-        requestHook = (...args) => {
-            baseRequestHookFunction(...args);
-            activeSpanOverrideFunction(...args);
-        };
-    } else {
-        requestHook = activeSpanOverrideFunction;
-    }
+//     if (baseRequestHookFunction) {
+//         // If "@workleap/honeycomb" already provides a function, merge both functions.
+//         requestHook = (...args) => {
+//             baseRequestHookFunction(...args);
+//             activeSpanOverrideFunction(...args);
+//         };
+//     } else {
+//         requestHook = activeSpanOverrideFunction;
+//     }
 
-    return requestHook;
-}
+//     return requestHook;
+// }
 
-export function getInstrumentationOptions(runtime: FireflyRuntime, options: RegisterHoneycombInstrumentationOptions = {}) {
-    const {
-        debug,
-        fetchInstrumentation,
-        ...otherOptions
-    } = options;
+// export function getInstrumentationOptions(runtime: FireflyRuntime, options: RegisterHoneycombInstrumentationOptions = {}) {
+//     const {
+//         debug,
+//         fetchInstrumentation,
+//         ...otherOptions
+//     } = options;
 
-    const instrumentationOptions: WorkleapRegisterHoneycombInstrumentationOptions = {
-        ...otherOptions,
-        // Defaults to the runtime mode.
-        debug: debug ?? runtime.mode === "development"
-    };
+//     const instrumentationOptions: WorkleapRegisterHoneycombInstrumentationOptions = {
+//         ...otherOptions,
+//         // Defaults to the runtime mode.
+//         debug: debug ?? runtime.mode === "development"
+//     };
 
-    if (fetchInstrumentation !== false) {
-        instrumentationOptions.fetchInstrumentation = defaultOptions => {
-            const activeSpanOverrideFunction = createOverrideFetchRequestSpanWithActiveSpanContext(runtime.logger);
-            const requestHook = getRequestHookFunction(activeSpanOverrideFunction, defaultOptions.requestHook);
+//     if (fetchInstrumentation !== false) {
+//         instrumentationOptions.fetchInstrumentation = defaultOptions => {
+//             const activeSpanOverrideFunction = createOverrideFetchRequestSpanWithActiveSpanContext(runtime.logger);
+//             const requestHook = getRequestHookFunction(activeSpanOverrideFunction, defaultOptions.requestHook);
 
-            const augmentedDefaultOptions = {
-                ...defaultOptions,
-                requestHook
-            };
+//             const augmentedDefaultOptions = {
+//                 ...defaultOptions,
+//                 requestHook
+//             };
 
-            // If the consumer provides additional options for the fetch instrumentation,
-            // call the consumer function with the augmented options.
-            return fetchInstrumentation ? fetchInstrumentation(augmentedDefaultOptions) : augmentedDefaultOptions;
-        };
-    } else {
-        instrumentationOptions.fetchInstrumentation = false;
-    }
+//             // If the consumer provides additional options for the fetch instrumentation,
+//             // call the consumer function with the augmented options.
+//             return fetchInstrumentation ? fetchInstrumentation(augmentedDefaultOptions) : augmentedDefaultOptions;
+//         };
+//     } else {
+//         instrumentationOptions.fetchInstrumentation = false;
+//     }
 
-    return instrumentationOptions;
-}
+//     return instrumentationOptions;
+// }
 
 type DataFetchState = "none" | "fetching-data" | "public-data-ready" | "protected-data-ready" | "data-ready";
 
@@ -503,11 +493,60 @@ function registerTrackingListeners(runtime: FireflyRuntime) {
     });
 }
 
-export function registerHoneycombInstrumentation(runtime: FireflyRuntime, namespace: string, serviceName: NonNullable<HoneycombSdkOptions["serviceName"]>, apiServiceUrls: PropagateTraceHeaderCorsUrls, options?: RegisterHoneycombInstrumentationOptions) {
-    const augmentedOptions = getInstrumentationOptions(runtime, options);
+function getRegisterFetchRequestHookFunction() {
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // @ts-ignore
+    return globalThis.__WLP_HONEYCOMB_REGISTER_DYNAMIC_FETCH_REQUEST_HOOK;
+}
 
-    registerWorkleapHoneycombInstrumentation(namespace, serviceName, apiServiceUrls, augmentedOptions);
+export function registerHoneycombInstrumentation(runtime: FireflyRuntime) {
+    const registerFetchRequestHookFunction = getRegisterFetchRequestHookFunction();
+
+    if (registerFetchRequestHookFunction) {
+        registerActiveSpanStack();
+
+        const activeSpanOverrideFunction = createOverrideFetchRequestSpanWithActiveSpanContext(runtime.logger);
+
+        // Dynamically registering this request hook function to nest the HTTP requests
+        // of squide bootstrapping under the appropriate Honeycomb span.
+        registerFetchRequestHookFunction(activeSpanOverrideFunction);
+    } else {
+        runtime.logger.warning("[squide] Cannot register Honeycomb fetch request hook because \"globalThis.__WLP_HONEYCOMB_REGISTER_DYNAMIC_FETCH_REQUEST_HOOK\" is not available. Honeycomb instrumentation is still functional but in degraded mode.");
+    }
 
     registerTrackingListeners(runtime);
-    registerActiveSpanStack();
+
+    // try {
+    //     const registerFetchRequestHookFunction = getRegisterFetchRequestHookFunction();
+
+    //     if (registerFetchRequestHookFunction) {
+    //         const overrideFetchRequestHook = createOverrideFetchRequestWithManifestSectionSpanContext(runtime.logger);
+
+    //         // Dynamically registering this request hook function to nest the HTTP requests
+    //         // of the widgets initialization under the appropriate Honeycomb span.
+    //         registerFetchRequestHookFunction(overrideFetchRequestHook);
+    //     } else {
+    //         runtime.logger.warning("[wlp-widgets] Cannot register Honeycomb fetch request hook because \"globalThis.__WLP_HONEYCOMB_REGISTER_DYNAMIC_FETCH_REQUEST_HOOK\" is not available. Honeycomb instrumentation is still functional but in degraded mode.");
+    //     }
+
+    //     registerTrackingListeners(runtime);
+    // } catch (error: unknown) {
+    //     runtime.logger.error("[wlp-widgets] An error occured while registering Honeycomb instrumentation.", error);
+    //     runtime.errorPropagator.propagate(error as Error);
+    // }
 }
+
+export function canRegisterHoneycombInstrumentation() {
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // @ts-ignore
+    return globalThis.__WLP_HONEYCOMB_INSTRUMENTATION_IS_REGISTERED__ === true;
+}
+
+// export function registerHoneycombInstrumentation(runtime: FireflyRuntime, namespace: string, serviceName: NonNullable<HoneycombSdkOptions["serviceName"]>, apiServiceUrls: PropagateTraceHeaderCorsUrls, options?: RegisterHoneycombInstrumentationOptions) {
+//     const augmentedOptions = getInstrumentationOptions(runtime, options);
+
+//     registerWorkleapHoneycombInstrumentation(namespace, serviceName, apiServiceUrls, augmentedOptions);
+
+//     registerTrackingListeners(runtime);
+//     registerActiveSpanStack();
+// }

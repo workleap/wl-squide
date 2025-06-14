@@ -1,7 +1,5 @@
 import type { Span } from "@opentelemetry/api";
-import type { FetchRequestHookFunction } from "@opentelemetry/instrumentation-fetch";
-import { isPlainObject } from "@squide/core";
-import type { RuntimeLogger } from "@squide/firefly";
+import { isPlainObject, type RuntimeLogger } from "@squide/core";
 import { v4 as uuidv4 } from "uuid";
 import { createTraceContextId } from "./createTraceContextId.ts";
 
@@ -98,24 +96,8 @@ export function popActiveSpan(span: ActiveSpan) {
     }
 }
 
-let overrideFetchRequestSpanWithActiveSpanContextMock: FetchRequestHookFunction | undefined;
-
-// This function should only be used by tests.
-export function __setOverrideFetchRequestSpanWithActiveSpanContextMock(fct: FetchRequestHookFunction) {
-    overrideFetchRequestSpanWithActiveSpanContextMock = fct;
-}
-
-// This function should only be used by tests.
-export function __clearOverrideFetchRequestSpanWithActiveSpanContextMock() {
-    overrideFetchRequestSpanWithActiveSpanContextMock = undefined;
-}
-
 export function createOverrideFetchRequestSpanWithActiveSpanContext(logger: RuntimeLogger) {
-    if (overrideFetchRequestSpanWithActiveSpanContextMock) {
-        return overrideFetchRequestSpanWithActiveSpanContextMock;
-    }
-
-    const fct: FetchRequestHookFunction = (span, request) => {
+    return (span: Span, request: Request | RequestInit) => {
         const activeSpan = getActiveSpan();
 
         if (activeSpan) {
@@ -140,9 +122,10 @@ export function createOverrideFetchRequestSpanWithActiveSpanContext(logger: Runt
                 } else if (isPlainObject(request.headers)) {
                     request.headers["traceparent"] = traceParent;
                 }
+
+                // Indicates to not propagate the requests to the subsequent hooks.
+                return true;
             }
         }
     };
-
-    return fct;
 }
