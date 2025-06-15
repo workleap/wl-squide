@@ -1,5 +1,14 @@
 # @squide/firefly-honeycomb
 
+## 3.0.1
+
+### Patch Changes
+
+- [#276](https://github.com/workleap/wl-squide/pull/276) [`e46df52`](https://github.com/workleap/wl-squide/commit/e46df52956a32e2487cf113bdc383033aac7a023) Thanks [@patricklafrance](https://github.com/patricklafrance)! - Internal house keeping.
+
+- Updated dependencies [[`e46df52`](https://github.com/workleap/wl-squide/commit/e46df52956a32e2487cf113bdc383033aac7a023)]:
+  - @squide/firefly@13.0.0
+
 ## 3.0.0
 
 ### Major Changes

@@ -1,5 +1,56 @@
 # @squide/firefly
 
+## 13.0.0
+
+### Major Changes
+
+- [#276](https://github.com/workleap/wl-squide/pull/276) [`e46df52`](https://github.com/workleap/wl-squide/commit/e46df52956a32e2487cf113bdc383033aac7a023) Thanks [@patricklafrance](https://github.com/patricklafrance)! - Deprecated `@squide/firefly-honeycomb` and moved honeycomb features directly into `@squide/firefly`. Honeycomb instrumentation is now automatically registered when Squide detected that the host application has register Honeycomb instrumentation using the `@workleap/honeycomb` package.
+
+  Before:
+
+  ```ts
+  import { ConsoleLogger, initializeFirefly } from "@squide/firefly";
+  import { registerHoneycombInstrumentation } from "@squide/firefly-honeycomb";
+  import { register as registerMyLocalModule } from "@sample/local-module";
+  import { registerHost } from "./register.tsx";
+
+  const runtime = initializeFirefly({
+    localModules: [registerHost, registerMyLocalModule],
+    remotes: Remotes,
+    loggers: [(x) => new ConsoleLogger(x)],
+  });
+
+  registerHoneycombInstrumentation(
+    runtime,
+    "sample",
+    "squide-sample",
+    [/.+/g],
+    {
+      proxy: "https://my-proxy.com",
+    }
+  );
+  ```
+
+  After:
+
+  ```ts
+  import { ConsoleLogger, initializeFirefly } from "@squide/firefly";
+  import { registerHoneycombInstrumentation } from "@workleap/honeycomb";
+  import { register as registerMyLocalModule } from "@sample/local-module";
+  import { registerHost } from "./register.tsx";
+
+  // Register Honeycomb instrumentation BEFORE initializing Squide.
+  registerHoneycombInstrumentation("sample", "squide-sample", [/.+/g], {
+    proxy: "https://my-proxy.com",
+  });
+
+  const runtime = initializeFirefly({
+    localModules: [registerHost, registerMyLocalModule],
+    remotes: Remotes,
+    loggers: [(x) => new ConsoleLogger(x)],
+  });
+  ```
+
 ## 12.0.4
 
 ### Patch Changes
