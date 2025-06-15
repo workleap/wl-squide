@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <meta name="turbo-root" content="/wl-squide">
-    <meta name="turbo-cache-control" content="no-cache" data-turbo-track="reload" data-track-token="3.10.0.802838841739">
+    <meta name="turbo-cache-control" content="no-cache" data-turbo-track="reload" data-track-token="3.10.0.803317053939">
 
     <!-- See retype.com -->
     <meta name="generator" content="Retype 3.10.0">
@@ -12,7 +12,7 @@
     <!-- Primary Meta Tags -->
     <title>Setup Honeycomb</title>
     <meta name="title" content="Setup Honeycomb">
-    <meta name="description" content="Before going forward with this guide, make sure that you migrated to v9.3.">
+    <meta name="description" content="Before going forward with this guide, make sure that you migrated to v13.">
 
     <!-- Canonical -->
     <link rel="canonical" href="https://workleap.github.io/wl-squide/guides/setup-honeycomb/">
@@ -21,25 +21,25 @@
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://workleap.github.io/wl-squide/guides/setup-honeycomb/">
     <meta property="og:title" content="Setup Honeycomb">
-    <meta property="og:description" content="Before going forward with this guide, make sure that you migrated to v9.3.">
+    <meta property="og:description" content="Before going forward with this guide, make sure that you migrated to v13.">
     <meta property="og:image" content="https://workleap.github.io/wl-squide/static/honeycomb-bootstrapping.png">
 
     <!-- Twitter -->
     <meta property="twitter:card" content="summary_large_image">
     <meta property="twitter:url" content="https://workleap.github.io/wl-squide/guides/setup-honeycomb/">
     <meta property="twitter:title" content="Setup Honeycomb">
-    <meta property="twitter:description" content="Before going forward with this guide, make sure that you migrated to v9.3.">
+    <meta property="twitter:description" content="Before going forward with this guide, make sure that you migrated to v13.">
     <meta property="twitter:image" content="https://workleap.github.io/wl-squide/static/honeycomb-bootstrapping.png">
 
     <script data-cfasync="false">(function(){var cl=document.documentElement.classList,ls=localStorage.getItem("retype_scheme"),hd=cl.contains("dark"),hl=cl.contains("light"),wm=window.matchMedia&&window.matchMedia("(prefers-color-scheme: dark)").matches;if(ls==="dark"||(!ls&&wm&&!hd&&!hl)){cl.remove("light");cl.add("dark")}else if(ls==="light"||(!ls&&!wm&&!hd&&!hl)){cl.remove("dark");cl.add("light")}})();</script>
 
     <link href="../../static/favicon.png" rel="icon">
-    <link href="../../resources/css/retype.css?v=3.10.0.802838841739" rel="stylesheet">
+    <link href="../../resources/css/retype.css?v=3.10.0.803317053939" rel="stylesheet">
 
-    <script data-cfasync="false" src="../../resources/js/config.js?v=3.10.0.802838841739" data-turbo-eval="false" defer></script>
+    <script data-cfasync="false" src="../../resources/js/config.js?v=3.10.0.803317053939" data-turbo-eval="false" defer></script>
     <script data-cfasync="false" src="../../resources/js/retype.js?v=3.10.0" data-turbo-eval="false" defer></script>
-    <script id="lunr-js" data-cfasync="false" src="../../resources/js/lunr.js?v=3.10.0.802838841739" data-turbo-eval="false" defer></script>
-    <script id="prism-js" data-cfasync="false" src="../../resources/js/prism.js?v=3.10.0.802838841739" defer></script>
+    <script id="lunr-js" data-cfasync="false" src="../../resources/js/lunr.js?v=3.10.0.803317053939" data-turbo-eval="false" defer></script>
+    <script id="prism-js" data-cfasync="false" src="../../resources/js/prism.js?v=3.10.0.803317053939" defer></script>
 
     <link href="https://workleap.github.io/wl-idp-docs-hub/static/retype-customization.css" rel="stylesheet" />
 
@@ -315,12 +315,13 @@
             </svg>
         </div>
         <div class="pr-5 ml-3 w-full">
-<p>Before going forward with this guide, make sure that you migrated to <a href="../../upgrading/migrate-to-firefly-v9.3/">v9.3</a>.</p>
+<p>Before going forward with this guide, make sure that you migrated to <a href="../../upgrading/migrate-to-firefly-v13.0/">v13</a>.</p>
         </div>
     </div>
 </div>
 <p>To monitor application performance, Workleap has adopted <a href="https://www.honeycomb.io/" class="outbound" target="_blank">Honeycomb</a>, a tool that helps teams manage and analyze telemetry data from distributed systems. Built on OpenTelemetry, Honeycomb provides a <a href="https://open-telemetry.github.io/opentelemetry-js/" class="outbound" target="_blank">robust API</a> for tracking frontend telemetry.</p>
-<p>Honeycomb&#x27;s in-house <a href="https://docs.honeycomb.io/send-data/javascript-browser/honeycomb-distribution/" class="outbound" target="_blank">HoneycombWebSDK</a> includes great default instrumentation. However, this instrumentation has to be extended to capture traces specific to Squide features. To facilitate this, Squide provides the <code v-pre>registerHoneycombInstrumentation</code> function.</p>
+<p>Squide can integrate with a host application&#x27;s Honeycomb setup that uses <a href="https://www.npmjs.com/package/@workleap/honeycomb" class="outbound" target="_blank">@workleap/honeycomb</a> version 5 or higher. When integrated, the performance of Squide initialization is automatically tracked in Honeycomb, no additional setup is required from the host application.</p>
+<p>The only requirement is that the Honeycomb instrumentation in the host application must be registered before initializing Squide. When Honeycomb instrumentation is not registered before initializing Squide, performance traces will still be send to Honeycomb, but in a &quot;degraded mode&quot;.</p>
 <doc-anchor-target id="setup-the-host-application">
     <h2>
         <doc-anchor-trigger class="header-anchor-trigger" to="#setup-the-host-application">#</doc-anchor-trigger>
@@ -329,7 +330,7 @@
 </doc-anchor-target>
 <p>Let&#x27;s start by configuring the host application. First, open a terminal at the root of the host application and install the following packages:</p>
 <div class="codeblock-wrapper"><doc-codeblock>
-<pre translate="no" class="language-bash"><code v-pre class="language-bash">pnpm add @squide/firefly-honeycomb @opentelemetry/api</code></pre>
+<pre translate="no" class="language-bash"><code v-pre class="language-bash">pnpm add @workleap/honeycomb @opentelemetry/api</code></pre>
 </doc-codeblock></div>
 <doc-anchor-target id="register-instrumentation">
     <h2>
@@ -341,7 +342,7 @@
 <div class="codeblock-wrapper"><doc-codeblock>
 <div class="codeblock-title">host/src/bootstrap.tsx</div>
 <pre translate="no" class="language-tsx" data-line="19-21"><code v-pre class="language-tsx">import { ConsoleLogger, FireflyProvider, initializeFirefly, type RemoteDefinition } from &quot;@squide/firefly&quot;;
-import { registerHoneycombInstrumentation } from &quot;@squide/firefly-honeycomb&quot;;
+import { registerHoneycombInstrumentation } from &quot;@workleap/honeycomb&quot;;
 import { register as registerMyLocalModule } from &quot;@sample/local-module&quot;;
 import { createRoot } from &quot;react-dom/client&quot;;
 import { App } from &quot;./App.tsx&quot;;
@@ -351,15 +352,15 @@ const Remotes: RemoteDefinition[] = [
     { name: &quot;remote1&quot; }
 ];
 
+// Register Honeycomb instrumentation BEFORE initializing Squide.
+registerHoneycombInstrumentation(&quot;sample&quot;, &quot;squide-sample&quot;, [/.+/g,], {
+    proxy: &quot;https://my-proxy.com&quot;
+});
+
 const runtime = initializeFirefly({
     localModules: [registerHost, registerMyLocalModule],
     remotes: Remotes,
     loggers: [x =&gt; new ConsoleLogger(x)]
-});
-
-// Register Honeycomb instrumentation.
-registerHoneycombInstrumentation(runtime, &quot;sample&quot;, &quot;squide-sample&quot;, [/.+/g,], {
-    proxy: &quot;https://my-proxy.com&quot;
 });
 
 const root = createRoot(document.getElementById(&quot;root&quot;)!);
@@ -499,12 +500,12 @@ root.render(
         <span>Set custom user attributes</span>
     </h2>
 </doc-anchor-target>
-<p>Most application needs to set custom attributes on traces about the current user environment. To help with that, Squide expose the <a href="../../reference/honeycomb/setglobalspanattributes/">setGlobalSpanAttributes</a> function.</p>
+<p>Most application needs to set custom attributes on traces about the current user environment. To help with that, <a href="https://www.npmjs.com/package/@workleap/honeycomb" class="outbound" target="_blank">@workleap/honeycomb</a> expose the <a href="https://workleap.github.io/wl-honeycomb-web/reference/setglobalspanattributes/" class="outbound" target="_blank">setGlobalSpanAttributes</a> function.</p>
 <p>Update your host application to include the <code v-pre>setGlobalSpanAttributes</code> function:</p>
 <div class="codeblock-wrapper"><doc-codeblock>
 <div class="codeblock-title">host/src/App.tsx</div>
 <pre translate="no" class="language-tsx" data-line="33-40"><code v-pre class="language-tsx">import { AppRouter, useProtectedDataQueries, useIsBootstrapping } from &quot;@squide/firefly&quot;;
-import { setGlobalSpanAttributes } from &quot;@squide/firefly-honeycomb&quot;;
+import { setGlobalSpanAttributes } from &quot;@workleap/honeycomb&quot;;
 import { useEffect } from &quot;react&quot;;
 import { createBrowserRouter, Outlet } from &quot;react-router&quot;;
 import { RouterProvider } from &quot;react-router/dom&quot;;
@@ -582,7 +583,7 @@ export function App() {
     );
 }</code></pre>
 </doc-codeblock></div>
-<p>Now, every trace recorded after the session initialization will include the custom attributes <code v-pre>app.user_id</code>:</p>
+<p>Now, every trace recorded <strong>after</strong> the session initialization will include the custom attributes <code v-pre>app.user_id</code>:</p>
 <div class="align-image-left"><p><figure class="content-center">
     <img src="../../static/honeycomb-custom-attributes.png" alt="Custom attributes" width="204" height="161" />
     <figcaption class="caption">Custom attributes</figcaption>
@@ -595,7 +596,7 @@ export function App() {
         <span>Custom traces</span>
     </h2>
 </doc-anchor-target>
-<p>Squide does not provide a proprietary API for traces. Applications are expected to use the <a href="https://docs.honeycomb.io/send-data/javascript-browser/honeycomb-distribution/#add-custom-instrumentation" class="outbound" target="_blank">OpenTelemetry API</a> to send custom traces to Honeycomb:</p>
+<p>Applications are expected to use the <a href="https://docs.honeycomb.io/send-data/javascript-browser/honeycomb-distribution/#add-custom-instrumentation" class="outbound" target="_blank">OpenTelemetry API</a> to send custom traces to Honeycomb:</p>
 <div class="codeblock-wrapper"><doc-codeblock>
 <div class="codeblock-title">host/src/Page.tsx</div>
 <pre translate="no" class="language-tsx"><code v-pre class="language-tsx">import { useEffect } from &quot;react&quot;;
@@ -621,7 +622,7 @@ export function Page() {
         <span>Try it <span class="docs-emoji">&#x1F680;</span></span>
     </h2>
 </doc-anchor-target>
-<p>Start the application in a development environment using the <code v-pre>dev</code> script. Render a page, then navigate to your Honeycomb instance. Go to the &quot;Query&quot; page and type <code v-pre>name = squide-bootstrapping</code> into the &quot;Where&quot; input. Run the query, select the &quot;Traces&quot; tab at the bottom of the page and view the detail of a trace. You should view the performance of your application bootstrapping flow.</p>
+<p>Start the application in a development environment using the <code v-pre>dev</code> script. Render a page, then navigate to your Honeycomb instance. Go to the &quot;Query&quot; page and type <code v-pre>root.name = squide-bootstrapping</code> into the &quot;Where&quot; input. Run the query, select the &quot;Traces&quot; tab at the bottom of the page and view the detail of a trace. You should view the performance of your application bootstrapping flow.</p>
 <doc-anchor-target id="troubleshoot-issues">
     <h3>
         <doc-anchor-trigger class="header-anchor-trigger" to="#troubleshoot-issues">#</doc-anchor-trigger>
@@ -630,7 +631,8 @@ export function Page() {
 </doc-anchor-target>
 <p>If you are experiencing issues with this guide:</p>
 <ul>
-<li>Set the runtime <a href="http://localhost:5000/wl-squide/reference/runtime/runtime-class/#change-the-runtime-mode" class="outbound" target="_blank">mode</a> to <code v-pre>development</code> mode or register the Honeycomb instrumentation in <a href="../../reference/honeycomb/registerhoneycombinstrumentation/#parameters">debug</a>.</li>
+<li>Ensure that <code v-pre>@workleap/honeycomb</code> instrumentation has been registered before executing the <a href="../../reference/registration/initializefirefly/">initializeFirefly</a> function.</li>
+<li>Set <code v-pre>@workleap/honeycomb</code> <a href="https://workleap.github.io/wl-honeycomb-web/reference/registerhoneycombinstrumentation/" class="outbound" target="_blank">registerHoneycombInstrumentation</a> function <a href="https://workleap.github.io/wl-honeycomb-web/reference/registerhoneycombinstrumentation/#debug" class="outbound" target="_blank">debug</a> option to <code v-pre>true</code>.</li>
 <li>Open the <a href="https://developer.chrome.com/docs/devtools/" class="outbound" target="_blank">DevTools</a> console. You&#x27;ll see a log entry for every for each dispatched event, along with multiple console outputs from Honeycomb&#x27;s SDK. Squide&#x27;s bootstrapping instrumentation listens to events to send Honeycomb traces. Most events should match an Honeycomb trace and vice versa.
 <ul>
 <li><code v-pre>[squide] Dispatching event &quot;squide-local-modules-registration-completed&quot;</code></li>
