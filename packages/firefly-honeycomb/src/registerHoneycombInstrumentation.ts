@@ -124,6 +124,7 @@ export function reduceDataFetchEvents(
 ) {
     let dataFetchState: DataFetchState = "none";
 
+    // TODO: Validate if this handler should use { once: true }.
     runtime.eventBus.addListener(PublicDataFetchStartedEvent, () => {
         if (dataFetchState === "none") {
             dataFetchState = "fetching-data";
@@ -131,8 +132,9 @@ export function reduceDataFetchEvents(
         }
 
         onPublicDataFetchStarted();
-    }, { once: true });
+    });
 
+    // TODO: Validate if this handler should use { once: true }.
     runtime.eventBus.addListener(PublicDataReadyEvent, () => {
         onPublicDataReady();
 
@@ -142,8 +144,9 @@ export function reduceDataFetchEvents(
             dataFetchState = "data-ready";
             onDataReady();
         }
-    }, { once: true });
+    });
 
+    // TODO: Validate if this handler should use { once: true }.
     runtime.eventBus.addListener(ProtectedDataFetchStartedEvent, () => {
         if (dataFetchState === "none") {
             dataFetchState = "fetching-data";
@@ -151,8 +154,9 @@ export function reduceDataFetchEvents(
         }
 
         onProtectedDataFetchStarted();
-    }, { once: true });
+    });
 
+    // TODO: Validate if this handler should use { once: true }.
     runtime.eventBus.addListener(ProtectedDataReadyEvent, () => {
         onProtectedDataReady();
 
@@ -162,7 +166,7 @@ export function reduceDataFetchEvents(
             dataFetchState = "data-ready";
             onDataReady();
         }
-    }, { once: true });
+    });
 }
 
 function registerTrackingListeners(runtime: FireflyRuntime) {
