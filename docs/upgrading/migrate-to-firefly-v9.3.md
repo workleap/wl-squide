@@ -6,7 +6,7 @@ label: Migrate to firefly v9.3
 # Migrate to firefly v9.3
 
 !!!warning
-If you are migrating from `v8.*`, follow the [Migrate from v8.* to v12.0](./migrate-from-v8-to-v12.0.md) guide.
+If you are migrating from `v8.*`, follow the [Migrate from v8.* to v13.0](./migrate-from-v8-to-v13.0.md) guide.
 !!!
 
 This minor version deprecate the [registerLocalModules](../reference/registration/registerLocalModules.md), [registerRemoteModules](../reference/registration/registerRemoteModules.md) and [setMswAsReady](../reference/msw/setMswAsReady.md) in favor of a `bootstrap` function.

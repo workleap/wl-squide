@@ -73,11 +73,6 @@ toc:
 - [useI18nextInstance](./i18next/useI18nextInstance.md)
 - [I18nextNavigationItemLabel](./i18next/I18nextNavigationItemLabel.md)
 
-### Honeycomb
-
-- [registerHoneycombInstrumentation](./honeycomb/registerHoneycombInstrumentation.md)
-- [setGlobalSpanAttributes](./honeycomb/setGlobalSpanAttributes.md)
-
 ### Environment variables
 
 - [EnvironmentVariablesPlugin](./env-vars/EnvironmentVariablesPlugin.md)

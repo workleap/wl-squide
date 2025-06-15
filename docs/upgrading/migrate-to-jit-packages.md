@@ -1,5 +1,5 @@
 ---
-order: 850
+order: 740
 label: Migrate to JIT packages
 ---
 

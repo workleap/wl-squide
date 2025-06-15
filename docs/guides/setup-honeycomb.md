@@ -5,19 +5,21 @@ order: 800
 # Setup Honeycomb
 
 !!!warning
-Before going forward with this guide, make sure that you migrated to [v9.3](../upgrading/migrate-to-firefly-v9.3.md).
+Before going forward with this guide, make sure that you migrated to [v13](../upgrading/migrate-to-firefly-v13.0.md).
 !!!
 
 To monitor application performance, Workleap has adopted [Honeycomb](https://www.honeycomb.io/), a tool that helps teams manage and analyze telemetry data from distributed systems. Built on OpenTelemetry, Honeycomb provides a [robust API](https://open-telemetry.github.io/opentelemetry-js/) for tracking frontend telemetry.
 
-Honeycomb's in-house [HoneycombWebSDK](https://docs.honeycomb.io/send-data/javascript-browser/honeycomb-distribution/) includes great default instrumentation. However, this instrumentation has to be extended to capture traces specific to Squide features. To facilitate this, Squide provides the `registerHoneycombInstrumentation` function.
+Squide can integrate with a host application's Honeycomb setup that uses [@workleap/honeycomb](https://www.npmjs.com/package/@workleap/honeycomb) version 5 or higher. When integrated, the performance of Squide initialization is automatically tracked in Honeycomb, no additional setup is required from the host application.
+
+The only requirement is that the Honeycomb instrumentation in the host application must be registered before initializing Squide. When Honeycomb instrumentation is not registered before initializing Squide, performance traces will still be send to Honeycomb, but in a "degraded mode".
 
 ## Setup the host application
 
 Let's start by configuring the host application. First, open a terminal at the root of the host application and install the following packages:
 
 ```bash
-pnpm add @squide/firefly-honeycomb @opentelemetry/api
+pnpm add @workleap/honeycomb @opentelemetry/api
 ```
 
 ## Register instrumentation
@@ -26,7 +28,7 @@ Then, update the host application bootstrapping code to register Honeycomb instr
 
 ```tsx !#19-21 host/src/bootstrap.tsx
 import { ConsoleLogger, FireflyProvider, initializeFirefly, type RemoteDefinition } from "@squide/firefly";
-import { registerHoneycombInstrumentation } from "@squide/firefly-honeycomb";
+import { registerHoneycombInstrumentation } from "@workleap/honeycomb";
 import { register as registerMyLocalModule } from "@sample/local-module";
 import { createRoot } from "react-dom/client";
 import { App } from "./App.tsx";
@@ -36,15 +38,15 @@ const Remotes: RemoteDefinition[] = [
     { name: "remote1" }
 ];
 
+// Register Honeycomb instrumentation BEFORE initializing Squide.
+registerHoneycombInstrumentation("sample", "squide-sample", [/.+/g,], {
+    proxy: "https://my-proxy.com"
+});
+
 const runtime = initializeFirefly({
     localModules: [registerHost, registerMyLocalModule],
     remotes: Remotes,
     loggers: [x => new ConsoleLogger(x)]
-});
-
-// Register Honeycomb instrumentation.
-registerHoneycombInstrumentation(runtime, "sample", "squide-sample", [/.+/g,], {
-    proxy: "https://my-proxy.com"
 });
 
 const root = createRoot(document.getElementById("root")!);
@@ -122,13 +124,13 @@ The default instrumentation will automatically track the appropriate metrics to 
 
 ## Set custom user attributes
 
-Most application needs to set custom attributes on traces about the current user environment. To help with that, Squide expose the [setGlobalSpanAttributes](../reference/honeycomb/setGlobalSpanAttributes.md) function.
+Most application needs to set custom attributes on traces about the current user environment. To help with that, [@workleap/honeycomb](https://www.npmjs.com/package/@workleap/honeycomb) expose the [setGlobalSpanAttributes](https://workleap.github.io/wl-honeycomb-web/reference/setglobalspanattributes/) function.
 
 Update your host application to include the `setGlobalSpanAttributes` function:
 
 ```tsx !#33-40 host/src/App.tsx
 import { AppRouter, useProtectedDataQueries, useIsBootstrapping } from "@squide/firefly";
-import { setGlobalSpanAttributes } from "@squide/firefly-honeycomb";
+import { setGlobalSpanAttributes } from "@workleap/honeycomb";
 import { useEffect } from "react";
 import { createBrowserRouter, Outlet } from "react-router";
 import { RouterProvider } from "react-router/dom";
@@ -207,7 +209,7 @@ export function App() {
 }
 ```
 
-Now, every trace recorded after the session initialization will include the custom attributes `app.user_id`:
+Now, every trace recorded **after** the session initialization will include the custom attributes `app.user_id`:
 
 :::align-image-left
 ![Custom attributes](../static/honeycomb-custom-attributes.png){width=204 height=161}
@@ -215,7 +217,7 @@ Now, every trace recorded after the session initialization will include the cust
 
 ## Custom traces
 
-Squide does not provide a proprietary API for traces. Applications are expected to use the [OpenTelemetry API](https://docs.honeycomb.io/send-data/javascript-browser/honeycomb-distribution/#add-custom-instrumentation) to send custom traces to Honeycomb:
+Applications are expected to use the [OpenTelemetry API](https://docs.honeycomb.io/send-data/javascript-browser/honeycomb-distribution/#add-custom-instrumentation) to send custom traces to Honeycomb:
 
 ```tsx host/src/Page.tsx
 import { useEffect } from "react";
@@ -238,13 +240,14 @@ export function Page() {
 
 ## Try it :rocket:
 
-Start the application in a development environment using the `dev` script. Render a page, then navigate to your Honeycomb instance. Go to the "Query" page and type `name = squide-bootstrapping` into the "Where" input. Run the query, select the "Traces" tab at the bottom of the page and view the detail of a trace. You should view the performance of your application bootstrapping flow.
+Start the application in a development environment using the `dev` script. Render a page, then navigate to your Honeycomb instance. Go to the "Query" page and type `root.name = squide-bootstrapping` into the "Where" input. Run the query, select the "Traces" tab at the bottom of the page and view the detail of a trace. You should view the performance of your application bootstrapping flow.
 
 ### Troubleshoot issues
 
 If you are experiencing issues with this guide:
 
-- Set the runtime [mode](http://localhost:5000/wl-squide/reference/runtime/runtime-class/#change-the-runtime-mode) to `development` mode or register the Honeycomb instrumentation in [debug](../reference/honeycomb/registerHoneycombInstrumentation.md#parameters).
+- Ensure that `@workleap/honeycomb` instrumentation has been registered before executing the [initializeFirefly](../reference/registration/initializeFirefly.md) function.
+- Set `@workleap/honeycomb` [registerHoneycombInstrumentation](https://workleap.github.io/wl-honeycomb-web/reference/registerhoneycombinstrumentation/) function [debug](https://workleap.github.io/wl-honeycomb-web/reference/registerhoneycombinstrumentation/#debug) option to `true`.
 - Open the [DevTools](https://developer.chrome.com/docs/devtools/) console. You'll see a log entry for every for each dispatched event, along with multiple console outputs from Honeycomb's SDK. Squide's bootstrapping instrumentation listens to events to send Honeycomb traces. Most events should match an Honeycomb trace and vice versa.
     - `[squide] Dispatching event "squide-local-modules-registration-completed"`
     - `[squide] Dispatching event "squide-remote-modules-registration-completed"`
