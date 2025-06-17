@@ -18,7 +18,7 @@
     "dependencies": {
         "@squide/fakes": "workspace:*",
         "@squide/firefly": "workspace:*",
-        "uuid": "11.1.0"
+        "uuid": "^11.1.0"
     },
     "devDependencies": {
         "@types/react": "19.1.5",

@@ -467,25 +467,6 @@ export function registerHoneycombInstrumentation(runtime: FireflyRuntime) {
     }
 
     registerTrackingListeners(runtime);
-
-    // try {
-    //     const registerFetchRequestHookFunction = getRegisterFetchRequestHookFunction();
-
-    //     if (registerFetchRequestHookFunction) {
-    //         const overrideFetchRequestHook = createOverrideFetchRequestWithManifestSectionSpanContext(runtime.logger);
-
-    //         // Dynamically registering this request hook function to nest the HTTP requests
-    //         // of the widgets initialization under the appropriate Honeycomb span.
-    //         registerFetchRequestHookFunction(overrideFetchRequestHook);
-    //     } else {
-    //         runtime.logger.warning("[wlp-widgets] Cannot register Honeycomb fetch request hook because \"globalThis.__WLP_HONEYCOMB_REGISTER_DYNAMIC_FETCH_REQUEST_HOOK\" is not available. Honeycomb instrumentation is still functional but in degraded mode.");
-    //     }
-
-    //     registerTrackingListeners(runtime);
-    // } catch (error: unknown) {
-    //     runtime.logger.error("[wlp-widgets] An error occured while registering Honeycomb instrumentation.", error);
-    //     runtime.errorPropagator.propagate(error as Error);
-    // }
 }
 
 export function canRegisterHoneycombInstrumentation() {
@@ -493,12 +474,3 @@ export function canRegisterHoneycombInstrumentation() {
     // @ts-ignore
     return globalThis.__WLP_HONEYCOMB_INSTRUMENTATION_IS_REGISTERED__ === true;
 }
-
-// export function registerHoneycombInstrumentation(runtime: FireflyRuntime, namespace: string, serviceName: NonNullable<HoneycombSdkOptions["serviceName"]>, apiServiceUrls: PropagateTraceHeaderCorsUrls, options?: RegisterHoneycombInstrumentationOptions) {
-//     const augmentedOptions = getInstrumentationOptions(runtime, options);
-
-//     registerWorkleapHoneycombInstrumentation(namespace, serviceName, apiServiceUrls, augmentedOptions);
-
-//     registerTrackingListeners(runtime);
-//     registerActiveSpanStack();
-// }
