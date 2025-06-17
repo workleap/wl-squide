@@ -292,8 +292,8 @@ importers:
         specifier: ^10.0.0
         version: 10.0.0
       '@workleap/honeycomb':
-        specifier: ^5.0.0
-        version: 5.0.0(@opentelemetry/api@1.9.0)(zone.js@0.15.1)
+        specifier: ^5.0.2
+        version: 5.0.2(@opentelemetry/api@1.9.0)(zone.js@0.15.1)
       uuid:
         specifier: ^11.1.0
         version: 11.1.0
@@ -1968,8 +1968,8 @@ importers:
         specifier: 5.77.2
         version: 5.77.2(react@19.1.0)
       '@workleap/honeycomb':
-        specifier: 5.0.0
-        version: 5.0.0(@opentelemetry/api@1.9.0)(zone.js@0.15.1)
+        specifier: 5.0.2
+        version: 5.0.2(@opentelemetry/api@1.9.0)(zone.js@0.15.1)
       i18next:
         specifier: 25.2.1
         version: 25.2.1(typescript@5.8.3)
@@ -2397,8 +2397,8 @@ importers:
         specifier: ^5.77.2
         version: 5.77.2(react@19.1.0)
       '@workleap/honeycomb':
-        specifier: 5.0.0
-        version: 5.0.0(@opentelemetry/api@1.9.0)(zone.js@0.15.1)
+        specifier: ^5.0.2
+        version: 5.0.2(@opentelemetry/api@1.9.0)(zone.js@0.15.1)
       msw:
         specifier: ^2.8.4
         version: 2.8.4(@types/node@22.15.21)(typescript@5.8.3)
@@ -5992,8 +5992,8 @@ packages:
       typescript:
         optional: true
 
-  '@workleap/honeycomb@5.0.0':
-    resolution: {integrity: sha512-E8B0uoW3SbbESl+ehfG78NvHted5t0E0RpzMqBRM3s0EMFFeI4VWFT4qlL/1fnv3bxZ/zZ2ggl6/rbbjBzz1+w==}
+  '@workleap/honeycomb@5.0.2':
+    resolution: {integrity: sha512-rYbwPgSdtBYHgUAcVkrmvI+ZVeEMOuZEFi220RlzyiE2AvftCbjwjf6RjhPQ/3JSjxDEr87BDWmIN5JWiYRlzw==}
     engines: {node: '>=21.1.0'}
     peerDependencies:
       '@opentelemetry/api': ^1.9.0
@@ -16681,7 +16681,7 @@ snapshots:
       - supports-color
       - vitest
 
-  '@workleap/honeycomb@5.0.0(@opentelemetry/api@1.9.0)(zone.js@0.15.1)':
+  '@workleap/honeycomb@5.0.2(@opentelemetry/api@1.9.0)(zone.js@0.15.1)':
     dependencies:
       '@honeycombio/opentelemetry-web': 0.18.0(@opentelemetry/auto-instrumentations-web@0.47.0(@opentelemetry/api@1.9.0)(zone.js@0.15.1))
       '@opentelemetry/api': 1.9.0
