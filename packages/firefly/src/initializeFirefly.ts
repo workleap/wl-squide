@@ -2,7 +2,7 @@ import { isFunction, registerLocalModules, type ModuleRegisterFunction, type Reg
 import { registerRemoteModules, type RemoteDefinition } from "@squide/module-federation";
 import { setMswAsReady } from "@squide/msw";
 import { FireflyRuntime, type FireflyRuntimeOptions } from "./FireflyRuntime.tsx";
-import { canRegisterHoneycombInstrumentation, registerHoneycombInstrumentation } from "./honeycomb/registerHoneycombInstrumentation.ts";
+import { canRegisterHoneycombInstrumentation } from "./honeycomb/canRegisterHoneycombInstrumentation.ts";
 
 export const ApplicationBootstrappingStartedEvent = "squide-app-bootstrapping-started";
 
@@ -87,12 +87,25 @@ export function initializeFirefly<TContext = unknown, TData = unknown>(options: 
     });
 
     if (canRegisterHoneycombInstrumentation()) {
-        registerHoneycombInstrumentation(runtime);
+        import("./honeycomb/registerHoneycombInstrumentation.ts")
+            .then(module => {
+                module.registerHoneycombInstrumentation(runtime);
+            })
+            .catch((error: unknown) => {
+                if (options.onError) {
+                    options.onError(error);
+                }
+
+                runtime.logger.error("[squide] Failed to register Honeycomb instrumentation. The \"./honeycomb/registerHoneycombInstrumentation.ts\" cannot be imported.");
+            })
+            .finally(() => {
+                bootstrap(runtime, options);
+            });
     } else {
         runtime.logger.debug("[squide] Cannot register Honeycomb instrumentation because the host application is not using the \"@workleap/honeycomb\" package.");
-    }
 
-    bootstrap(runtime, options);
+        bootstrap(runtime, options);
+    }
 
     return runtime;
 }

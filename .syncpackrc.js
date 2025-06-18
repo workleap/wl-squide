@@ -22,7 +22,7 @@ export default {
             "label": "Packages should use ^ for dependencies and peerDependencies."
         },
         {
-            "packages": ["@squide/*", "@basic/*", "@basic-mix/*", "@basic-webpack/*", "@endpoints/*", "@getting-started/*"],
+            "packages": ["@squide/*", "@basic/*", "@basic-mix/*", "@basic-webpack/*", "@endpoints/*", "@getting-started/*", "@getting-started-remote/*"],
             "dependencyTypes": ["dev"],
             "range": "",
             "label": "Samples and Getting Started templates should pin devDependencies."
@@ -33,7 +33,8 @@ export default {
                 "@basic-mix/host", "@basic-mix/remote-module", "@basic-mix/another-remote-module",
                 "@basic-webpack/host", "@basic-webpack/remote-module", "@basic-webpack/another-remote-module",
                 "@endpoints/host", "@endpoints/remote-module", "@endpoints/express-server",
-                "@getting-started/host"
+                "@getting-started/host",
+                "@getting-started-remote/host"
             ],
             "dependencyTypes": ["prod", "dev"],
             "range": "",

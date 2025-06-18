@@ -10,7 +10,7 @@
   "access": "restricted",
   "baseBranch": "main",
   "updateInternalDependencies": "patch",
-  "ignore": ["@basic/*", "@basic-webpack/*", "@basic-mix/*", "@endpoints/*"],
+  "ignore": ["@basic/*", "@basic-webpack/*", "@basic-mix/*", "@endpoints/*", "@getting-started/*", "@getting-started-remote/*"],
   "___experimentalUnsafeOptions_WILL_CHANGE_IN_PATCH": {
     "onlyUpdatePeerDependentsWhenOutOfRange": true
   }
