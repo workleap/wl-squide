@@ -89,6 +89,8 @@ export function initializeFirefly<TContext = unknown, TData = unknown>(options: 
     if (canRegisterHoneycombInstrumentation()) {
         // import("./honeycomb/registerHoneycombInstrumentation.ts")
         eval("import('@opentelemetry/api')")
+            // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+            // @ts-ignore
             .then(module => {
                 module.registerHoneycombInstrumentation(runtime);
             })
