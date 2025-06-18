@@ -10,7 +10,7 @@
         "build": "webpack --config webpack.build.js"
     },
     "dependencies": {
-        "@squide/firefly": "../../../packages/firefly/src/index.ts",
+        "@squide/firefly": "https://pkg.pr.new/workleap/wl-squide/@squide/firefly@279",
         "react": "19.1.0",
         "react-dom": "19.1.0",
         "react-router": "7.6.2"
