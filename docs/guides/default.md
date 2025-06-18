@@ -13,7 +13,7 @@ order: 80
 - [Add a public route](./add-a-public-route.md)
 - [Override the host layout](./override-the-host-layout.md)
 - [Use modular tabs](./use-modular-tabs.md)
-- [Use feature flags](./use-feature-flags.md)
+- [Register a conditional navigation item](./register-a-conditional-nav-item.md)
 - [Use environment variables](./use-environment-variables.md)
 - [Setup i18next](./setup-i18next.md)
 - [Setup Honeycomb](./setup-honeycomb.md)

@@ -100,7 +100,7 @@ root.render(
 );
 ```
 
-## Setup a local module
+## Setup a module
 
 First, open a terminal at the root of the local module and install the [msw](https://www.npmjs.com/package/msw) package:
 
@@ -139,10 +139,6 @@ export const register: ModuleRegisterFunction<FireflyRuntime> = async runtime =>
     }
 }
 ```
-
-## Setup a remote module
-
-Follow the same steps as for a [local module](#setup-a-local-module).
 
 ## Try it :rocket:
 
