@@ -89,7 +89,7 @@ export function initializeFirefly<TContext = unknown, TData = unknown>(options: 
     if (canRegisterHoneycombInstrumentation()) {
         // import("./honeycomb/registerHoneycombInstrumentation.ts")
         // eslint-disable-next-line no-eval
-        eval("import('./honeycomb/registerHoneycombInstrumentation.ts')")
+        eval("import('./honeycomb/registerHoneycombInstrumentation.js')")
             // eslint-disable-next-line @typescript-eslint/ban-ts-comment
             // @ts-ignore
             .then(module => {
