@@ -18,6 +18,4 @@ order: 80
 - [Setup i18next](./setup-i18next.md)
 - [Setup Honeycomb](./setup-honeycomb.md)
 - [Develop a module in isolation](./develop-a-module-in-isolation.md)
-- [Override a React context](./override-a-react-context.md)
-- [Add a shared dependency](./add-a-shared-dependency.md)
 - [Implement a custom logger](./implement-a-custom-logger.md)
