@@ -12,7 +12,7 @@ This function is **deprecated**, use the [initializeFirefly](../registration/ini
 
 Register one or many local module(s). During the registration process, the specified registration function will be invoked with a `FireflyRuntime` instance and an optional `context` object. To **defer the registration** of specific navigation items, a registration function can return an anonymous function.
 
-> A local module is a regular module that is part of the **host application build** and is bundled at build time, as opposed to a [remote module](./registerRemoteModules.md) which is loaded at runtime from a remote server. Local modules are particularly valuable when **launching a new product** with an evolving business domain or when undergoing a **migration** from a monolithic application to a federated application.
+> A local module is a regular module that is part of the **host application build** and is bundled at build time, as opposed to a [remote module](./registerRemoteModules.md) which is loaded at runtime from a remote server.
 
 ## Reference
 

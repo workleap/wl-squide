@@ -4,11 +4,11 @@ order: 940
 
 # Isolate module failures
 
-One of the key characteristics of micro-frontends implementations like [iframes](https://martinfowler.com/articles/micro-frontends.html#Run-timeIntegrationViaIframes) and subdomains is the ability to isolate failures within individual modules, preventing them from breaking the entire application.
+One of the key characteristics of a modular implementation such as [iframes](https://martinfowler.com/articles/micro-frontends.html#Run-timeIntegrationViaIframes) is the ability to isolate failures within individual iframe, preventing them from breaking the entire application.
 
-However, with a [Module Federation](https://module-federation.io/) implementation, this is not the case as all the modules share the same browsing context (e.g. the same [Document object](https://developer.mozilla.org/en-US/docs/Web/API/Document), the same [Window object](https://developer.mozilla.org/en-US/docs/Web/API/Window), and the same DOM). A failure in one module can potentially breaks the entire application.
+However, this characteristic is not inherent to a standard Squide implementation as all the modules share the same browsing context (e.g. the same [Document object](https://developer.mozilla.org/en-US/docs/Web/API/Document), the same [Window object](https://developer.mozilla.org/en-US/docs/Web/API/Window), and the same DOM). A failure in one module can potentially breaks the entire application. 
 
-Nevertheless, an application, federated or non-federated, can get very close to iframes failure isolation by utilizing React Router's [Outlet](https://reactrouter.com/en/main/components/outlet) component and the [errorElement](https://reactrouter.com/en/main/route/error-element) property of a React Router's routes.
+That said, a Squide application can achieve near-iframe-level failure isolation by leveraging React Router's [Outlet](https://reactrouter.com/en/main/components/outlet) along with the [errorElement](https://reactrouter.com/en/main/route/error-element) property of a React Router's routes. This approach allows individual routes (and their associated modules) to handle errors gracefully, preventing them from cascading and affecting the rest of the app.
 
 ## Create an error boundary
 
@@ -52,13 +52,13 @@ export const registerHost: ModuleRegisterFunction<FireflyRuntime> = runtime => {
 };
 ```
 
-By implementing this mechanism, the level of failure isolation achieved is **comparable** to that of an **iframes** or **subdomains** implementation. With this mechanism, failure isolation **is as good as** with an **iframes** or **subdomains** implementation.
+By implementing this mechanism, the level of failure isolation achieved is **comparable** to that of an **iframes** implementation.
 
 ### Hoisted pages
 
 If your application is [hoisting pages](../reference/runtime/runtime-class.md#register-an-hoisted-route), it's important to note that they will be rendered outside of the host application's `ModuleErrorBoundary` component. To prevent breaking the entire application when an hoisted page encounters unhandled errors, it is highly recommended to declare a React Router's error boundary for each hoisted page as well, again using [errorElement](https://reactrouter.com/en/main/route/error-element):
 
-```tsx !#9,11 remote-module/src/register.tsx
+```tsx !#9,11 local-module/src/register.tsx
 import { type ModuleRegisterFunction, type FireflyRuntime } from "@squide/firefly";
 import { Page } from "./Page.tsx";
 import { RemoteErrorBoundary } from "./RemoteErrorBoundary.tsx";

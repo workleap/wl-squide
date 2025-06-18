@@ -25,7 +25,7 @@ pnpm add @tanstack/react-query
 
 Then, instanciate a [QueryClient](https://tanstack.com/query/latest/docs/react/reference/QueryClient) instance in the module registration function and wrap the routes element with a [QueryClientProvider](https://tanstack.com/query/latest/docs/react/reference/QueryClientProvider):
 
-```tsx !#7,12 remote/src/register.tsx
+```tsx !#7,12 local-module/src/register.tsx
 import type { ModuleRegisterFunction, FireflyRuntime } from "@squide/firefly";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { Page } from "./Page.tsx";
@@ -56,7 +56,7 @@ To minimize unexpected situations and faciliate maintenance, the TanStack Query 
 
 If the module register multiple routes, to prevent duplicating registration code, you can create a `Providers` component:
 
-```tsx !#9-15,20 remote/src/register.tsx
+```tsx !#9-15,20 local-module/src/register.tsx
 import type { ModuleRegisterFunction, FireflyRuntime } from "@squide/firefly";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { Page } from "./Page.tsx";
@@ -93,7 +93,7 @@ To faciliate development, TanStack Query provides [devtools](https://tanstack.co
 
 However, the TanStack Query devtools has not been developed to handle a modular application with multiple `QueryClient` instances. To use the devtools, you must define a `ReactQueryDevtools` component for each `QueryClient` instance:
 
-```tsx !#14 remote/src/register.tsx
+```tsx !#14 local-module/src/register.tsx
 import type { ModuleRegisterFunction, FireflyRuntime } from "@squide/firefly";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
@@ -128,7 +128,7 @@ export const register: ModuleRegisterFunction<FireflyRuntime> = runtime => {
 
 Then, depending on which page of the application has been rendered, a distinct devtools instance will be accessible. For a better experience, we **recommend activating** the TanStack Query **devtools** exclusively when **developing** a **module** [in isolation](./develop-a-module-in-isolation.md):
 
-```tsx !#14-16 remote/src/register.tsx
+```tsx !#14-16 local-module/src/register.tsx
 import type { ModuleRegisterFunction, FireflyRuntime } from "@squide/firefly";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
@@ -167,7 +167,7 @@ export const register: ModuleRegisterFunction<FireflyRuntime> = runtime => {
 
 Now, let's fetch some data. First, add a [Mock Service Worker](https://mswjs.io/) (MSW) request handler to the local module:
 
-```ts remote/mocks/handlers.ts
+```ts local-module/mocks/handlers.ts
 import { HttpResponse, http, type HttpHandler } from "msw";
 
 export const requestHandlers: HttpHandler[] = [
@@ -187,7 +187,7 @@ export const requestHandlers: HttpHandler[] = [
 
 Then, register the request handler using the module registration function:
 
-```tsx !#7 remote/src/register.tsx
+```tsx !#7 local-module/src/register.tsx
 import type { ModuleRegisterFunction, FireflyRuntime } from "@squide/firefly"; 
 
 export const register: ModuleRegisterFunction<FireflyRuntime> = async runtime => {
@@ -203,7 +203,7 @@ export const register: ModuleRegisterFunction<FireflyRuntime> = async runtime =>
 
 Then, update the `Page` component to fetch and render the data with `useSuspenseQuery`:
 
-```tsx !#10-14 remote/src/Page.tsx
+```tsx !#10-14 local-module/src/Page.tsx
 import { useSuspenseQuery } from "@tanstack/react-query";
 
 interface Character {

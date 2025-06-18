@@ -270,7 +270,7 @@ root.render(
 );
 ```
 
-```tsx !#13-17 host/src/AppRouter.tsx
+```tsx !#11-17 host/src/AppRouter.tsx
 import { usePublicDataQueries, useDeferredRegistrations, useIsBootstrapping, AppRouter as FireflyAppRouter } from "@squide/firefly";
 import { useMemo } from "react";
 import { createBrowserRouter, Outlet } from "react-router";

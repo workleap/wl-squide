@@ -9,7 +9,7 @@ order: 90
 We highly recommend going through the entire getting started guide. However, if you prefer to scaffold the application we'll be building, a template is available with [degit](https://github.com/Rich-Harris/degit):
 
 ```bash
-corepack pnpm dlx degit https://github.com/workleap/wl-squide/templates/getting-started
+corepack pnpx degit https://github.com/workleap/wl-squide/templates/getting-started
 ```
 !!!
 
