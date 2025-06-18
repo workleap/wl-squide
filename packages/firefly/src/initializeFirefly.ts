@@ -106,7 +106,7 @@ export function initializeFirefly<TContext = unknown, TData = unknown>(options: 
             });
     } else {
         runtime.logger.debug("[squide] Cannot register Honeycomb instrumentation because the host application is not using the \"@workleap/honeycomb\" package.");
-
+        // Bootstrap is called directly here when Honeycomb instrumentation is not enabled.
         bootstrap(runtime, options);
     }
 
