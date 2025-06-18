@@ -66,7 +66,7 @@ export class CustomLogger implements Logger {
 
  Then create a [FireflyRuntime](/reference/runtime/runtime-class.md) instance configured with an instance of the new `CustomLogger`:
 
-```ts host/src/bootstrap.tsx
+```ts host/src/index.tsx
 import { FireflyRuntime } from "@squide/firefly";
 import { CustomLogger } from "./customLogger.ts";
 

@@ -39,7 +39,7 @@ A [FireflyRuntime](../runtime/runtime-class.md) instance.
 
 ### Register a local module
 
-```tsx !#5 host/src/bootstrap.tsx
+```tsx !#5 host/src/index.tsx
 import { initializeFirefly } from "@squide/firefly";
 import { register } from "@sample/local-module";
 
@@ -110,20 +110,15 @@ export const register: ModuleRegisterFunction<FireflyRuntime> = runtime => {
 
 ### Use MSW
 
-```tsx !#11,14-18 host/src/bootstrap.tsx
-import { FireflyProvider, initializeFirefly, type RemoteDefinition } from "@squide/firefly";
+```tsx !#7,9-13 host/src/index.tsx
+import { FireflyProvider, initializeFirefly } from "@squide/firefly";
 import { register } from "@sample/local-module";
 import { createRoot } from "react";
 import { App } from "./App.tsx";
 
-const Remotes: RemoteDefinition = [
-    { name: "remote1" }
-];
-
 const runtime = initializeFirefly({
     useMsw: true,
     localModules: [register],
-    remotes: Remotes,
     startMsw: async () => {
         // Files that includes an import to the "msw" package are included dynamically to prevent adding
         // unused MSW stuff to the code bundles.
@@ -142,19 +137,14 @@ root.render(
 
 ### Handle registration errors
 
-```tsx !#13-15 host/src/bootstrap.tsx
-import { FireflyProvider, initializeFirefly, type RemoteDefinition } from "@squide/firefly";
+```tsx !#8-10 host/src/index.tsx
+import { FireflyProvider, initializeFirefly } from "@squide/firefly";
 import { register } from "@sample/local-module";
 import { createRoot } from "react";
 import { App } from "./App.tsx";
 
-const Remotes: RemoteDefinition = [
-    { name: "remote1" }
-];
-
 const runtime = initializeFirefly({
     localModules: [register],
-    remotes: Remotes,
     onError: error => {
         console.log(error);
     }
@@ -171,19 +161,14 @@ root.render(
 
 ### Provide a registration context
 
-```tsx #13-14 host/src/bootstrap.tsx
-import { FireflyProvider, initializeFirefly, type RemoteDefinition } from "@squide/firefly";
+```tsx #8-9 host/src/index.tsx
+import { FireflyProvider, initializeFirefly } from "@squide/firefly";
 import { register } from "@sample/local-module";
 import { createRoot } from "react";
 import { App } from "./App.tsx";
 
-const Remotes: RemoteDefinition = [
-    { name: "remote1" }
-];
-
 const runtime = initializeFirefly({
     localModules: [register],
-    remotes: Remotes,
     // Can be anything.
     context: { foo: "bar" }
 });
@@ -246,19 +231,14 @@ To defer a registration to the second phase, a module registration function can 
 
 Once the modules are registered, the deferred registration functions will be executed with the deferred data and `"register"` as the value for the `operation` argument. Afterward, whenever the deferred data changes, the deferred registration functions will be re-executed with the updated deferred data and `"update"` as the value for the `operation` argument.
 
-```tsx host/src/bootstrap.tsx
-import { FireflyProvider, initializeFirefly, type RemoteDefinition } from "@squide/firefly";
+```tsx host/src/index.tsx
+import { FireflyProvider, initializeFirefly } from "@squide/firefly";
 import { register } from "@sample/local-module";
 import { createRoot } from "react";
 import { App } from "./App.tsx";
 
-const Remotes: RemoteDefinition = [
-    { name: "remote1" }
-];
-
 const runtime = initializeFirefly({
-    localModules: [register],
-    remotes: Remotes
+    localModules: [register]
 });
 
 const root = createRoot(document.getElementById("root")!);

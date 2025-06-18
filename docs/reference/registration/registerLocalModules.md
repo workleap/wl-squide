@@ -39,7 +39,7 @@ A `Promise` object with an array of `LocalModuleRegistrationError` if any error 
 
 ### Register a local module
 
-```tsx !#6 host/src/bootstrap.tsx
+```tsx !#6 host/src/index.tsx
 import { registerLocalModules, FireflyRuntime } from "@squide/firefly";
 import { register } from "@sample/local-module";
 
@@ -78,7 +78,7 @@ To defer a registration to the second phase, a module registration function can 
 
 Once the modules are registered, the deferred registration functions will be executed with the deferred data and `"register"` as the value for the `operation` argument. Afterward, whenever the deferred data changes, the deferred registration functions will be re-executed with the updated deferred data and `"update"` as the value for the `operation` argument.
 
-```tsx !#8 host/src/bootstrap.tsx
+```tsx !#8 host/src/index.tsx
 import { FireflyRuntime, registerLocalModules, FireflyProvider } from "@squide/firefly";
 import { createRoot } from "react";
 import { register } from "@sample/local-module";
@@ -97,7 +97,7 @@ root.render(
 );
 ```
 
-```tsx !#13-17 host/src/AppRouter.tsx
+```tsx !#11-17 host/src/AppRouter.tsx
 import { usePublicDataQueries, useDeferredRegistrations, useIsBootstrapping, AppRouter as FireflyAppRouter } from "@squide/firefly";
 import { useMemo } from "react";
 import { createBrowserRouter, Outlet } from "react-router";
@@ -239,7 +239,7 @@ export const register: ModuleRegisterFunction<FireflyRuntime, unknown, DeferredR
 
 ### Handle registration errors
 
-```tsx !#6-8 host/src/bootstrap.tsx
+```tsx !#6-8 host/src/index.tsx
 import { registerLocalModules, FireflyRuntime } from "@squide/firefly";
 import { register } from "@sample/local-module";
 

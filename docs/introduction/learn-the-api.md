@@ -10,7 +10,7 @@ Now that we've created a host application, loaded a few modules and registered r
 
 In an effort to optimize the development experience, Squide can be bootstrapped in `development` or `production` mode:
 
-```ts host/src/bootstrap.tsx
+```ts host/src/index.tsx
 import { FireflyRuntime, ConsoleLogger, type LogLevel } from "@squide/firefly";
 
 const runtime = new FireflyRuntime({
@@ -26,7 +26,7 @@ Squide includes a built-in logging feature that integrates with the [FireflyRunt
 
 First, register your own custom logger by implementing the [Logger](../reference/logging/Logger.md) interface or register Squide built-in [ConsoleLogger](../reference/logging/ConsoleLogger):
 
-```ts host/src/bootstrap.tsx
+```ts host/src/index.tsx
 import { FireflyRuntime, ConsoleLogger, type LogLevel } from "@squide/firefly";
 
 const runtime = new FireflyRuntime({

@@ -22,13 +22,14 @@ monorepo
 ├───────── package.json
 ├── modules
 ├───────── local-module
-├───────── remote-module
 ```
 
 ## Create a shell package
 
 !!!info
 The implementation details of the `RootLayout`, `RootErrorBoundary` and `ModuleErrorBoundary` components won't be covered by this guide as it already has been covered many times by other guides.
+
+For additional information refer to the [Create an host app](../introduction/create-host.md) and [Isolate module failures](./isolate-module-failures.md) guides.
 !!!
 
 First, create a new package (we'll refer to ours as `shell`) and add the following fields to the `package.json` file:
@@ -127,21 +128,16 @@ export function App() {
 
 And finally include the `registerShell` function to setup the `RootLayout` and `RootErrorBoundary` components as well as any other shell assets:
 
-```tsx !#13 host/src/bootstrap.tsx
+```tsx !#9 host/src/index.tsx
 import { createRoot } from "react-dom/client";
-import { ConsoleLogger, FireflyProvider, initializeFirefly, type RemoteDefinition } from "@squide/firefly";
+import { ConsoleLogger, FireflyProvider, initializeFirefly } from "@squide/firefly";
 import { App } from "./App.tsx";
 import { registerHost } from "./register.tsx";
 import { registerShell } from "@sample/shell";
 
-const Remotes: RemoteDefinition[] = [
-    { name: "remote1" }
-];
-
 const runtime = initializeFirefly(runtime, {
     // Register the newly created shell module.
     localModules: [registerShell, registerHost],
-    remotes: Remotes,
     loggers: [x => new ConsoleLogger(x)]
 });
 
@@ -154,7 +150,7 @@ root.render(
 );
 ```
 
-## Setup a remote module
+<!-- ## Setup a remote module
 
 With the new `shell` package in place, we can now configure the remote module to be developed in isolation. The goal is to start the module development server and render the module pages with the same layout and functionalities as if it was rendered by the host application.
 
@@ -330,16 +326,16 @@ If you are experiencing issues with this section of the guide:
 
 - Open the [DevTools](https://developer.chrome.com/docs/devtools/) console. You'll find a log entry for each registration that occurs and error messages if something went wrong.
 - Refer to a working example on [GitHub](https://github.com/workleap/wl-squide/tree/main/samples/basic/remote-module).
-- Refer to the [troubleshooting](../troubleshooting.md) page.
+- Refer to the [troubleshooting](../troubleshooting.md) page. -->
 
 ## Setup a local module
 
-Similarly to remote modules, local modules can also be set up for isolated development. The key difference is that the `webpack.config.js` file for a local module strictly serves the purpose of starting a development server for isolated development. Typically, local modules do not depend on webpack or [Module Federation](https://module-federation.io/).
+With the new `@sample/shell` package in place, we can configure the local module to run in isolation. This lets us start the module's development server and render its pages with the **same layout and functionality you'd see when the host application loads them**. To enable this, a dependency on `@sample/shell` must be defined for the local module and Rsbuild has to be set up to serve the module's files during isolated development.
 
-First, open a terminal at the root of the local module project and install the `@squide/firefly-webpack-configs` package and its dependencies:
+First, open a terminal at the root of the local module project and install the `@workleap/rsbuild-configs` package and its dependencies:
 
 ```bash
-pnpm add -D @workleap/webpack-configs @workleap/swc-configs @workleap/browserslist-config @squide/firefly-webpack-configs webpack webpack-dev-server webpack-cli @swc/core @swc/helpers browserslist postcss
+pnpm add -D @workleap/rsbuild-configs @workleap/browserslist-config browserslist
 ```
 
 Then, add a peer dependency and a dev dependency to the `@sample/shell` package:
@@ -347,7 +343,7 @@ Then, add a peer dependency and a dev dependency to the `@sample/shell` package:
 ```json local-module/package.json
 {
     "peerDependencies": {
-        "@sample/shell": "*"
+        "@sample/shell": "^0.0.1"
     },    
     "devDependencies": {
         "@sample/shell": "0.0.1"
@@ -355,43 +351,107 @@ Then, add a peer dependency and a dev dependency to the `@sample/shell` package:
 }
 ```
 
+!!!tip
+If your project is set up as a monorepo, use `workspace:*` for the version instead of `0.0.1`.
+!!!
+
 Then, create the following files in the local module application:
 
-``` !#2-3,5-7,10-11
+``` !#2-3,5-9,12-13
 local-module
 ├── public
 ├────── index.html
 ├── src
 ├────── dev
+├────────── App.tsx
 ├────────── DevHome.tsx
+├────────── index.tsx
 ├────────── register.tsx
 ├────── register.tsx
 ├────── Page.tsx
-├────── index.tsx
-├────── App.tsx
 ├── .browserslistrc
-├── swc.config.js
-├── webpack.config.js
+├── rsbuild.config.ts
 ├── package.json
 ```
 
 ### index.tsx
 
-This file is similar to the `index.tsx` file of the [remote module](#indextsx).
+The `index.tsx` file of a local module is tailored for isolated development. The key distinction is that a new `registerDev` function is introduced to register the development homepage (which will be covered in an upcoming section):
+
+```tsx !#8-11 local-module/src/dev/index.tsx
+import { createRoot } from "react-dom/client";
+import { ConsoleLogger, FireflyProvider, initializeFirefly } from "@squide/firefly";
+import { App } from "./App.tsx";
+import { register as registerModule } from "./register.tsx";
+import { registerDev } from "./dev/register.tsx";
+import { registerShell } from "@sample/shell";
+
+const runtime = initializeFirefly(runtime, {
+    localModules: [registerModule, registerDev, registerShell],
+    loggers: [x => new ConsoleLogger(x)]
+});
+
+const root = createRoot(document.getElementById("root")!);
+
+root.render(
+    <FireflyProvider runtime={runtime}>
+        <App />
+    </FireflyProvider>
+);
+```
 
 ### App.tsx
 
-This file is similar to the `App.tsx` file of the [remote module](#apptsx).
+The `App.tsx` file uses the newly created `AppRouter` component to setup Squide's primitives with a [React Router](https://reactrouter.com/) instance:
+
+```tsx local-module/src/dev/App.tsx
+import { AppRouter } from "@sample/shell";
+
+export function App() {
+    return (
+        <AppRouter />
+    );
+}
+```
 
 ### DevHome.tsx and registerDev
 
-These files are similar to the `dev/DevHome.tsx` and `dev/register.tsx` files of the [remote module](#devhometsx).
+The `DevHome` component is the homepage when the local module is developed in isolation:
 
-### Configure webpack
+```tsx local-module/src/dev/DevHome.tsx
+function DevHome() {
+    return (
+        <div>
+            <h2>Local module development home page</h2>
+            <p>Hey!</p>
+        </div>
+    );
+}
+```
 
-First, open the `public/index.html` file and copy/paste the following [HtmlWebpackPlugin](https://webpack.js.org/plugins/html-webpack-plugin/) template:
+To register the development homepage, create a new local module specifically for configuring the module during isolated development:
 
-```html local-module/public/index.html
+```tsx local-module/src/dev/register.tsx
+import type { ModuleRegisterFunction, FireflyRuntime } from "@squide/firefly";
+import { DevHome } from "./DevHome.tsx";
+
+export const registerDev: ModuleRegisterFunction<FireflyRuntime> = runtime => {
+    runtime.registerRoute({
+        index: true,
+        element: <DevHome />
+    });
+}
+```
+
+### Configure Rsbuild
+
+!!!tip
+For additional information about this Rsbuild setup, refer to the [development](https://workleap.github.io/wl-web-configs/rsbuild/configure-dev/) configuration documentation of the [Web Configs](https://workleap.github.io/wl-web-configs/rsbuild) libraries.
+!!!
+
+First, open the `public/index.html` file created at the beginning of this guide and copy/paste the following template:
+
+```html host/public/index.html
 <!DOCTYPE html>
 <html>
     <head>
@@ -404,36 +464,17 @@ First, open the `public/index.html` file and copy/paste the following [HtmlWebpa
 
 Then, open the `.browserslist` file and copy/paste the following content:
 
-``` local-module/.browserslistrc
+``` host/.browserslistrc
 extends @workleap/browserslist-config
 ```
 
-Then, open the `swc.config.js` file and copy/paste the following code:
+Finally, open the `rsbuild.config.ts` file and use the the [defineDevConfig](https://workleap.github.io/wl-web-configs/rsbuild/configure-dev/#rsbuilddevts) function to configure Rsbuild:
 
-```js local-module/swc.config.js
-// @ts-check
+```ts local-module/rsbuild.config.ts
+import { defineDevHostConfig } from "@workleap/rsbuild-configs";
 
-import { browserslistToSwc, defineDevConfig } from "@workleap/swc-configs";
-
-const targets = browserslistToSwc();
-
-export const swcConfig = defineDevConfig(targets);
+export default defineDevHostConfig();
 ```
-
-Finally, open the `webpack.config.js` file and use the the [defineDevHostConfig](../reference/webpack/defineDevHostConfig.md) function to configure webpack:
-
-```js local-module/webpack.config.js
-// @ts-check
-
-import { defineDevHostConfig } from "@squide/firefly-webpack-configs";
-import { swcConfig } from "./swc.config.js";
-
-export default defineDevHostConfig(swcConfig, "local1", 8080, []);
-```
-
-!!!tip
-If you encounter issues configuring webpack, refer to the [@workleap/webpack-configs](https://workleap.github.io/wl-web-configs/webpack/) documentation.
-!!!
 
 ### Add a new CLI script
 
@@ -441,13 +482,13 @@ Next, add a new `dev-isolated` script to the `package.json` file to start the lo
 
 ```json local-module/package.json
 {
-    "dev-isolated": "webpack serve --config webpack.config.js"
+    "dev-isolated": "rslib dev --config ./rslib.dev.ts"
 }
 ```
 
 ### Try it :rocket:
 
-Start the remote module in isolation by running the `dev-isolated` script. The application shell should wrap the pages of the module and the default page should be `DevHome`.
+Start the local module in isolation by running the `dev-isolated` script. The application shell should wrap the pages of the module and the default page should be `DevHome`.
 
 #### Troubleshoot issues
 

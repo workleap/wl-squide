@@ -10,13 +10,15 @@ Before going forward with this guide, make sure that you migrated to [v13](../up
 
 To monitor application performance, Workleap has adopted [Honeycomb](https://www.honeycomb.io/), a tool that helps teams manage and analyze telemetry data from distributed systems. Built on OpenTelemetry, Honeycomb provides a [robust API](https://open-telemetry.github.io/opentelemetry-js/) for tracking frontend telemetry.
 
-Squide can integrate with a host application's Honeycomb setup that uses [@workleap/honeycomb](https://www.npmjs.com/package/@workleap/honeycomb) version 5 or higher. When integrated, the performance of Squide initialization is automatically tracked in Honeycomb, no additional setup is required from the host application.
+Squide can integrate with a host application's Honeycomb setup that uses [@workleap/honeycomb](https://www.npmjs.com/package/@workleap/honeycomb) v5 or higher. When integrated, the performance of Squide initialization is automatically tracked in Honeycomb, no additional setup is required from the host application.
 
-The only requirement is that the Honeycomb instrumentation in the host application must be registered before initializing Squide. When Honeycomb instrumentation is not registered before initializing Squide, performance traces will still be send to Honeycomb, but in a "degraded mode".
+The only requirement is that the **Honeycomb instrumentation** in the host application must be **registered before initializing Squide**. When Honeycomb instrumentation is not registered before initializing Squide, performance traces will still be send to Honeycomb, but in a "degraded mode".
 
 ## Setup the host application
 
-Let's start by configuring the host application. First, open a terminal at the root of the host application and install the following packages:
+Let's start by configuring the host application.
+
+First, open a terminal at the root of the host application and install the following packages:
 
 ```bash
 pnpm add @workleap/honeycomb @opentelemetry/api
@@ -26,17 +28,13 @@ pnpm add @workleap/honeycomb @opentelemetry/api
 
 Then, update the host application bootstrapping code to register Honeycomb instrumentation:
 
-```tsx !#19-21 host/src/bootstrap.tsx
-import { ConsoleLogger, FireflyProvider, initializeFirefly, type RemoteDefinition } from "@squide/firefly";
+```tsx !#8-11 host/src/index.tsx
+import { ConsoleLogger, FireflyProvider, initializeFirefly } from "@squide/firefly";
 import { registerHoneycombInstrumentation } from "@workleap/honeycomb";
 import { register as registerMyLocalModule } from "@sample/local-module";
 import { createRoot } from "react-dom/client";
 import { App } from "./App.tsx";
 import { registerHost } from "./register.tsx";
-
-const Remotes: RemoteDefinition[] = [
-    { name: "remote1" }
-];
 
 // Register Honeycomb instrumentation BEFORE initializing Squide.
 registerHoneycombInstrumentation("sample", "squide-sample", [/.+/g,], {
@@ -45,7 +43,6 @@ registerHoneycombInstrumentation("sample", "squide-sample", [/.+/g,], {
 
 const runtime = initializeFirefly({
     localModules: [registerHost, registerMyLocalModule],
-    remotes: Remotes,
     loggers: [x => new ConsoleLogger(x)]
 });
 
@@ -57,6 +54,10 @@ root.render(
     </FireflyProvider>
 );
 ```
+
+!!!tip
+For additional information about this Honeycomb instrumentation setup, refer to the `@workleap/honeycomb` library [documentation](https://workleap.github.io/wl-honeycomb-web).
+!!!
 
 !!!warning
 Avoid using `/.+/g,` in production, as it could expose customer data to third parties. Instead, ensure you specify values that accurately matches your application's backend URLs.
@@ -240,7 +241,7 @@ export function Page() {
 
 ## Try it :rocket:
 
-Start the application in a development environment using the `dev` script. Render a page, then navigate to your Honeycomb instance. Go to the "Query" page and type `root.name = squide-bootstrapping` into the "Where" input. Run the query, select the "Traces" tab at the bottom of the page and view the detail of a trace. You should view the performance of your application bootstrapping flow.
+Start the application in a development environment using the `dev` script. Render a page, then navigate to your Honeycomb instance. Go to the `Query` page and type `root.name = squide-bootstrapping` into the `Where` input. Run the query, select the `Traces` tab at the bottom of the page and view the detail of a trace. You should view the performance of your application bootstrapping flow.
 
 ### Troubleshoot issues
 

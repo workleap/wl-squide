@@ -70,7 +70,7 @@ pnpm add @squide/env-vars
 
 Then, update the host application boostrapping code to register an instance of the [EnvironmentVariablesPlugin](../reference/env-vars/EnvironmentVariablesPlugin.md) with the [FireflyRuntime](../reference/runtime/runtime-class.md) instance:
 
-```tsx !#10 host/src/bootstrap.tsx
+```tsx !#10 host/src/index.tsx
 import { createRoot } from "react-dom/client";
 import { ConsoleLogger, FireflyProvider, initializeFirefly } from "@squide/firefly";
 import { EnvironmentVariablesPlugin } from "@squide/env-vars";

@@ -22,7 +22,7 @@ pnpm add @squide/i18next i18next i18next-browser-languagedetector react-i18next
 
 Then, update the host application boostrapping code to register an instance of the [i18nextplugin](../reference/i18next/i18nextPlugin.md) with the [FireflyRuntime](../reference/runtime/runtime-class.md) instance:
 
-```tsx !#10-19 host/src/bootstrap.tsx
+```tsx !#10-19 host/src/index.tsx
 import { createRoot } from "react-dom/client";
 import { ConsoleLogger, FireflyProvider, initializeFirefly } from "@squide/firefly";
 import { i18nextPlugin } from "@squide/i18next";
@@ -138,7 +138,7 @@ export function HomePage() {
 }
 ```
 
-## Setup a local module
+## Setup a module
 
 First, open a terminal at the root of the local module application and install the following packages:
 

@@ -124,7 +124,7 @@ If your project is set up as a monorepo, use `workspace:*` for the version inste
 
 Then, register the local module with the [initializeFirefly](/reference/registration/initializeFirefly.md) function:
 
-```tsx !#3,14 host/src/bootstrap.tsx
+```tsx !#3,14 host/src/index.tsx
 import { createRoot } from "react-dom/client";
 import { ConsoleLogger, FireflyProvider, initializeFirefly, type RemoteDefinition } from "@squide/firefly";
 import { register as registerMyLocalModule } from "@getting-started/local-module";
