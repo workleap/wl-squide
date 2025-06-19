@@ -8,9 +8,9 @@ To develop their own independent module, a team **should not need to install the
 
 To achieve this, the first step is to extract the application shell from the host application. There are various ways to accomplish this, but in this guide, we'll transform the host application into a monorepo and introduce a new local package named `@sample/shell` specifically for this purpose:
 
-``` !#4
+``` !#4-11
 monorepo
-├── app
+├── apps
 ├── libs
 ├────── shell
 ├───────── src
@@ -21,7 +21,7 @@ monorepo
 ├─────────── index.ts
 ├───────── package.json
 ├── modules
-├───────── local-module
+├────── local-module
 ```
 
 ## Create a shell package

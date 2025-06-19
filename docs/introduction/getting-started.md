@@ -14,7 +14,23 @@ Welcome to Squide (yes :squid: with an **"e"**), a React modular application she
 
 Squide is a React modular application shell tailored for the needs of Workleap's web applications. It **enforces architectural patterns** that we deem important to write **scalable** and **maintainable** web **applications** at Workleap. 
 
-Squide offers built-in mechanisms to handle most of the cross-cutting functionalities of a web application:
+By "modular application", we mean that much like in backend systems, a web application built with Squide should be **organized** as a **collection** of **independent modules**, each responsible for a specific part of the system (i.e., a bounded context or domain):
+
+```powershell !#9-11
+monorepo
+├── apps
+├────── host
+├────── storybook
+├── libs
+├────── api
+├────── shell
+├── modules
+├────── user-profile
+├────── checkout
+├────── inventory
+```
+
+In addition to modularity, Squide offers built-in mechanisms to handle most of the **cross-cutting functionalities** of a web application:
 
 - Modular Routing
 - Modular Navigation
@@ -44,6 +60,7 @@ Development and production frontend infrastructure | Squide offers ready to use 
 **Short version:**
 
 {.list-icon}
+- :ok_hand: Encourage modularity
 - :octagonal_sign: Stop reinventing the wheel
 - :chart_with_downwards_trend: Lower product operating costs
 - :bullettrain_front: Accelerate time to market for initial product releases
