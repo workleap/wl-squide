@@ -87,11 +87,9 @@ export function initializeFirefly<TContext = unknown, TData = unknown>(options: 
     });
 
     if (canRegisterHoneycombInstrumentation()) {
-        // import("./honeycomb/registerHoneycombInstrumentation.ts")
-        // eslint-disable-next-line no-eval
-        eval("import('./honeycomb/registerHoneycombInstrumentation.js')")
-            // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-            // @ts-ignore
+        // Dynamically import the Honeycomb instrumentation to prevent loading all the Honeycomb libraries
+        // if Honeycomb instrumentation is not registered by the hosting application.
+        import("./honeycomb/registerHoneycombInstrumentation.ts")
             .then(module => {
                 module.registerHoneycombInstrumentation(runtime);
             })
@@ -103,11 +101,15 @@ export function initializeFirefly<TContext = unknown, TData = unknown>(options: 
                 runtime.logger.error("[squide] Failed to register Honeycomb instrumentation. The \"./honeycomb/registerHoneycombInstrumentation.ts\" cannot be imported.");
             })
             .finally(() => {
+                // Wait for the instrumentation to be ready before bootstrapping
+                // the application.
                 bootstrap(runtime, options);
             });
     } else {
         runtime.logger.debug("[squide] Cannot register Honeycomb instrumentation because the host application is not using the \"@workleap/honeycomb\" package.");
-        // Bootstrap is called directly here when Honeycomb instrumentation is not enabled.
+
+        // When Honeycomb instrumentation is not enabled, move forward
+        // with the bootstrapping of the application.
         bootstrap(runtime, options);
     }
 

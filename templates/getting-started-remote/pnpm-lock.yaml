@@ -1248,8 +1248,8 @@ packages:
   '@rtsao/scc@1.1.0':
     resolution: {integrity: sha512-zt6OdqaDoOnJ1ZYsCYGt9YmWzDXl4vQdKTyJev62gFhRGKdx7mcT54V9KIjg+d2wi9EXsPvAPKe7i7WjfVWB8g==}
 
-  '@squide/core@https://pkg.pr.new/workleap/wl-squide/@squide/core@f2512023ef48b363825ecbd31cef3ede4bedb284':
-    resolution: {tarball: https://pkg.pr.new/workleap/wl-squide/@squide/core@f2512023ef48b363825ecbd31cef3ede4bedb284}
+  '@squide/core@https://pkg.pr.new/workleap/wl-squide/@squide/core@de1249cc73e544dc94bdd5b6ad78232d6e6cb977':
+    resolution: {tarball: https://pkg.pr.new/workleap/wl-squide/@squide/core@de1249cc73e544dc94bdd5b6ad78232d6e6cb977}
     version: 5.4.8
     engines: {node: '>=21.1.0'}
     peerDependencies:
@@ -1282,20 +1282,20 @@ packages:
       '@opentelemetry/api':
         optional: true
 
-  '@squide/module-federation@https://pkg.pr.new/workleap/wl-squide/@squide/module-federation@f2512023ef48b363825ecbd31cef3ede4bedb284':
-    resolution: {tarball: https://pkg.pr.new/workleap/wl-squide/@squide/module-federation@f2512023ef48b363825ecbd31cef3ede4bedb284}
+  '@squide/module-federation@https://pkg.pr.new/workleap/wl-squide/@squide/module-federation@de1249cc73e544dc94bdd5b6ad78232d6e6cb977':
+    resolution: {tarball: https://pkg.pr.new/workleap/wl-squide/@squide/module-federation@de1249cc73e544dc94bdd5b6ad78232d6e6cb977}
     version: 6.2.8
     engines: {node: '>=21.1.0'}
 
-  '@squide/msw@https://pkg.pr.new/workleap/wl-squide/@squide/msw@f2512023ef48b363825ecbd31cef3ede4bedb284':
-    resolution: {tarball: https://pkg.pr.new/workleap/wl-squide/@squide/msw@f2512023ef48b363825ecbd31cef3ede4bedb284}
+  '@squide/msw@https://pkg.pr.new/workleap/wl-squide/@squide/msw@de1249cc73e544dc94bdd5b6ad78232d6e6cb977':
+    resolution: {tarball: https://pkg.pr.new/workleap/wl-squide/@squide/msw@de1249cc73e544dc94bdd5b6ad78232d6e6cb977}
     version: 3.2.8
     engines: {node: '>=21.1.0'}
     peerDependencies:
       msw: ^2.8.4
 
-  '@squide/react-router@https://pkg.pr.new/workleap/wl-squide/@squide/react-router@f2512023ef48b363825ecbd31cef3ede4bedb284':
-    resolution: {tarball: https://pkg.pr.new/workleap/wl-squide/@squide/react-router@f2512023ef48b363825ecbd31cef3ede4bedb284}
+  '@squide/react-router@https://pkg.pr.new/workleap/wl-squide/@squide/react-router@de1249cc73e544dc94bdd5b6ad78232d6e6cb977':
+    resolution: {tarball: https://pkg.pr.new/workleap/wl-squide/@squide/react-router@de1249cc73e544dc94bdd5b6ad78232d6e6cb977}
     version: 7.0.6
     engines: {node: '>=21.1.0'}
     peerDependencies:
@@ -4428,6 +4428,10 @@ packages:
     resolution: {integrity: sha512-RwNA9Z/7PrK06rYLIzFMlaF+l73iwpzsqRIFgbMLbTcLD6cOao82TaWefPXQvB2fOC4AjuYSEndS7N/mTCbkdQ==}
     engines: {node: '>= 0.8'}
 
+  statuses@2.0.2:
+    resolution: {integrity: sha512-DvEy55V3DB7uknRo+4iOGT5fP1slR8wQohVdknigZPMpMstaKJQWhwiYBACJE3Ul2pTnATihhBYnRhZQHGBiRw==}
+    engines: {node: '>= 0.8'}
+
   stop-iteration-iterator@1.1.0:
     resolution: {integrity: sha512-eLoXW/DHyl62zxY4SCaIgnRhuMr6ri4juEYARS8E6sCEqzKpOiE521Ucofdx+KnDZl5xmvGYaaKCk5FEOxJCoQ==}
     engines: {node: '>= 0.4'}
@@ -5740,7 +5744,7 @@ snapshots:
 
   '@bundled-es-modules/statuses@1.0.1':
     dependencies:
-      statuses: 2.0.1
+      statuses: 2.0.2
 
   '@bundled-es-modules/tough-cookie@0.1.6':
     dependencies:
@@ -6002,7 +6006,7 @@ snapshots:
       '@module-federation/inject-external-runtime-core-plugin': 0.11.4(@module-federation/runtime-tools@0.11.4)
       '@module-federation/managers': 0.11.4
       '@module-federation/manifest': 0.11.4(typescript@5.8.3)
-      '@module-federation/rspack': 0.11.4(@rspack/core@1.3.15(@swc/helpers@0.5.17))(typescript@5.8.3)
+      '@module-federation/rspack': 0.11.4(@rspack/core@1.3.15)(typescript@5.8.3)
       '@module-federation/runtime-tools': 0.11.4
       '@module-federation/sdk': 0.11.4
       btoa: 1.2.1
@@ -6048,7 +6052,7 @@ snapshots:
       - utf-8-validate
       - vue-tsc
 
-  '@module-federation/rspack@0.11.4(@rspack/core@1.3.15(@swc/helpers@0.5.17))(typescript@5.8.3)':
+  '@module-federation/rspack@0.11.4(@rspack/core@1.3.15)(typescript@5.8.3)':
     dependencies:
       '@module-federation/bridge-react-webpack-plugin': 0.11.4
       '@module-federation/dts-plugin': 0.11.4(typescript@5.8.3)
@@ -6271,7 +6275,7 @@ snapshots:
 
   '@rtsao/scc@1.1.0': {}
 
-  '@squide/core@https://pkg.pr.new/workleap/wl-squide/@squide/core@f2512023ef48b363825ecbd31cef3ede4bedb284(react@19.1.0)':
+  '@squide/core@https://pkg.pr.new/workleap/wl-squide/@squide/core@de1249cc73e544dc94bdd5b6ad78232d6e6cb977(react@19.1.0)':
     dependencies:
       eventemitter3: 5.0.1
       react: 19.1.0
@@ -6310,10 +6314,10 @@ snapshots:
 
   '@squide/firefly@https://pkg.pr.new/workleap/wl-squide/@squide/firefly@279(@swc/helpers@0.5.17)(@tanstack/react-query@5.80.7(react@19.1.0))(msw@2.10.2(@types/node@24.0.3)(typescript@5.8.3))(react-dom@19.1.0(react@19.1.0))(react-router@7.6.2(react-dom@19.1.0(react@19.1.0))(react@19.1.0))(react@19.1.0)(typescript@5.8.3)(webpack@5.99.9(@swc/core@1.12.1(@swc/helpers@0.5.17))(webpack-cli@6.0.1))':
     dependencies:
-      '@squide/core': https://pkg.pr.new/workleap/wl-squide/@squide/core@f2512023ef48b363825ecbd31cef3ede4bedb284(react@19.1.0)
-      '@squide/module-federation': https://pkg.pr.new/workleap/wl-squide/@squide/module-federation@f2512023ef48b363825ecbd31cef3ede4bedb284(@swc/helpers@0.5.17)(react-dom@19.1.0(react@19.1.0))(react@19.1.0)(typescript@5.8.3)(webpack@5.99.9(@swc/core@1.12.1(@swc/helpers@0.5.17))(webpack-cli@6.0.1))
-      '@squide/msw': https://pkg.pr.new/workleap/wl-squide/@squide/msw@f2512023ef48b363825ecbd31cef3ede4bedb284(msw@2.10.2(@types/node@24.0.3)(typescript@5.8.3))(react@19.1.0)
-      '@squide/react-router': https://pkg.pr.new/workleap/wl-squide/@squide/react-router@f2512023ef48b363825ecbd31cef3ede4bedb284(react-dom@19.1.0(react@19.1.0))(react-router@7.6.2(react-dom@19.1.0(react@19.1.0))(react@19.1.0))(react@19.1.0)
+      '@squide/core': https://pkg.pr.new/workleap/wl-squide/@squide/core@de1249cc73e544dc94bdd5b6ad78232d6e6cb977(react@19.1.0)
+      '@squide/module-federation': https://pkg.pr.new/workleap/wl-squide/@squide/module-federation@de1249cc73e544dc94bdd5b6ad78232d6e6cb977(@swc/helpers@0.5.17)(react-dom@19.1.0(react@19.1.0))(react@19.1.0)(typescript@5.8.3)(webpack@5.99.9(@swc/core@1.12.1(@swc/helpers@0.5.17))(webpack-cli@6.0.1))
+      '@squide/msw': https://pkg.pr.new/workleap/wl-squide/@squide/msw@de1249cc73e544dc94bdd5b6ad78232d6e6cb977(msw@2.10.2(@types/node@24.0.3)(typescript@5.8.3))(react@19.1.0)
+      '@squide/react-router': https://pkg.pr.new/workleap/wl-squide/@squide/react-router@de1249cc73e544dc94bdd5b6ad78232d6e6cb977(react-dom@19.1.0(react@19.1.0))(react-router@7.6.2(react-dom@19.1.0(react@19.1.0))(react@19.1.0))(react@19.1.0)
       '@tanstack/react-query': 5.80.7(react@19.1.0)
       msw: 2.10.2(@types/node@24.0.3)(typescript@5.8.3)
       react: 19.1.0
@@ -6330,11 +6334,11 @@ snapshots:
       - vue-tsc
       - webpack
 
-  '@squide/module-federation@https://pkg.pr.new/workleap/wl-squide/@squide/module-federation@f2512023ef48b363825ecbd31cef3ede4bedb284(@swc/helpers@0.5.17)(react-dom@19.1.0(react@19.1.0))(react@19.1.0)(typescript@5.8.3)(webpack@5.99.9(@swc/core@1.12.1(@swc/helpers@0.5.17))(webpack-cli@6.0.1))':
+  '@squide/module-federation@https://pkg.pr.new/workleap/wl-squide/@squide/module-federation@de1249cc73e544dc94bdd5b6ad78232d6e6cb977(@swc/helpers@0.5.17)(react-dom@19.1.0(react@19.1.0))(react@19.1.0)(typescript@5.8.3)(webpack@5.99.9(@swc/core@1.12.1(@swc/helpers@0.5.17))(webpack-cli@6.0.1))':
     dependencies:
       '@module-federation/enhanced': 0.11.4(@rspack/core@1.3.15(@swc/helpers@0.5.17))(react-dom@19.1.0(react@19.1.0))(react@19.1.0)(typescript@5.8.3)(webpack@5.99.9(@swc/core@1.12.1(@swc/helpers@0.5.17))(webpack-cli@6.0.1))
       '@rspack/core': 1.3.15(@swc/helpers@0.5.17)
-      '@squide/core': https://pkg.pr.new/workleap/wl-squide/@squide/core@f2512023ef48b363825ecbd31cef3ede4bedb284(react@19.1.0)
+      '@squide/core': https://pkg.pr.new/workleap/wl-squide/@squide/core@de1249cc73e544dc94bdd5b6ad78232d6e6cb977(react@19.1.0)
     transitivePeerDependencies:
       - '@swc/helpers'
       - bufferutil
@@ -6347,16 +6351,16 @@ snapshots:
       - vue-tsc
       - webpack
 
-  '@squide/msw@https://pkg.pr.new/workleap/wl-squide/@squide/msw@f2512023ef48b363825ecbd31cef3ede4bedb284(msw@2.10.2(@types/node@24.0.3)(typescript@5.8.3))(react@19.1.0)':
+  '@squide/msw@https://pkg.pr.new/workleap/wl-squide/@squide/msw@de1249cc73e544dc94bdd5b6ad78232d6e6cb977(msw@2.10.2(@types/node@24.0.3)(typescript@5.8.3))(react@19.1.0)':
     dependencies:
-      '@squide/core': https://pkg.pr.new/workleap/wl-squide/@squide/core@f2512023ef48b363825ecbd31cef3ede4bedb284(react@19.1.0)
+      '@squide/core': https://pkg.pr.new/workleap/wl-squide/@squide/core@de1249cc73e544dc94bdd5b6ad78232d6e6cb977(react@19.1.0)
       msw: 2.10.2(@types/node@24.0.3)(typescript@5.8.3)
     transitivePeerDependencies:
       - react
 
-  '@squide/react-router@https://pkg.pr.new/workleap/wl-squide/@squide/react-router@f2512023ef48b363825ecbd31cef3ede4bedb284(react-dom@19.1.0(react@19.1.0))(react-router@7.6.2(react-dom@19.1.0(react@19.1.0))(react@19.1.0))(react@19.1.0)':
+  '@squide/react-router@https://pkg.pr.new/workleap/wl-squide/@squide/react-router@de1249cc73e544dc94bdd5b6ad78232d6e6cb977(react-dom@19.1.0(react@19.1.0))(react-router@7.6.2(react-dom@19.1.0(react@19.1.0))(react@19.1.0))(react@19.1.0)':
     dependencies:
-      '@squide/core': https://pkg.pr.new/workleap/wl-squide/@squide/core@f2512023ef48b363825ecbd31cef3ede4bedb284(react@19.1.0)
+      '@squide/core': https://pkg.pr.new/workleap/wl-squide/@squide/core@de1249cc73e544dc94bdd5b6ad78232d6e6cb977(react@19.1.0)
       memoize: 10.1.0
       react: 19.1.0
       react-dom: 19.1.0(react@19.1.0)
@@ -10065,6 +10069,8 @@ snapshots:
   statuses@1.5.0: {}
 
   statuses@2.0.1: {}
+
+  statuses@2.0.2: {}
 
   stop-iteration-iterator@1.1.0:
     dependencies:
