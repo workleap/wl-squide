@@ -179,8 +179,9 @@ Be sure to read, at a minimum, the following guides:
 - [Isolate module failures](../guides/isolate-module-failures.md)
 - [Add authentication](../guides/add-authentication.md)
 
-If your application is a federated application, be sure to also check out the following guides:
+If your application is a [Module Federation](https://module-federation.io/) application, be sure to also check out the following guides:
 
+- [Starting guide for Module Federation applications](../module-federation/create-host.md)
 - [Add a shared dependency](../module-federation/add-a-shared-dependency.md)
 
 ## Reference
