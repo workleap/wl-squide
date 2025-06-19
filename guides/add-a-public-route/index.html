@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <meta name="turbo-root" content="/wl-squide">
-    <meta name="turbo-cache-control" content="no-cache" data-turbo-track="reload" data-track-token="3.10.1.803440894100">
+    <meta name="turbo-cache-control" content="no-cache" data-turbo-track="reload" data-track-token="3.10.1.803620813210">
 
     <!-- See retype.com -->
     <meta name="generator" content="Retype 3.10.1">
@@ -32,12 +32,12 @@
     <script data-cfasync="false">(function(){var cl=document.documentElement.classList,ls=localStorage.getItem("retype_scheme"),hd=cl.contains("dark"),hl=cl.contains("light"),wm=window.matchMedia&&window.matchMedia("(prefers-color-scheme: dark)").matches;if(ls==="dark"||(!ls&&wm&&!hd&&!hl)){cl.remove("light");cl.add("dark")}else if(ls==="light"||(!ls&&!wm&&!hd&&!hl)){cl.remove("dark");cl.add("light")}})();</script>
 
     <link href="../../static/favicon.png" rel="icon">
-    <link href="../../resources/css/retype.css?v=3.10.1.803440894100" rel="stylesheet">
+    <link href="../../resources/css/retype.css?v=3.10.1.803620813210" rel="stylesheet">
 
-    <script data-cfasync="false" src="../../resources/js/config.js?v=3.10.1.803440894100" data-turbo-eval="false" defer></script>
+    <script data-cfasync="false" src="../../resources/js/config.js?v=3.10.1.803620813210" data-turbo-eval="false" defer></script>
     <script data-cfasync="false" src="../../resources/js/retype.js?v=3.10.1" data-turbo-eval="false" defer></script>
-    <script id="lunr-js" data-cfasync="false" src="../../resources/js/lunr.js?v=3.10.1.803440894100" data-turbo-eval="false" defer></script>
-    <script id="prism-js" data-cfasync="false" src="../../resources/js/prism.js?v=3.10.1.803440894100" defer></script>
+    <script id="lunr-js" data-cfasync="false" src="../../resources/js/lunr.js?v=3.10.1.803620813210" data-turbo-eval="false" defer></script>
+    <script id="prism-js" data-cfasync="false" src="../../resources/js/prism.js?v=3.10.1.803620813210" defer></script>
 
     <link href="https://workleap.github.io/wl-idp-docs-hub/static/retype-customization.css" rel="stylesheet" />
 
@@ -305,7 +305,7 @@
 <p>In a Squide application, the visibility indicator determines whether routes will be rendered as children of either the <a href="../../reference/routing/publicroutes/">PublicRoutes</a> or <a href="../../reference/routing/protectedroutes/">ProtectedRoutes</a> placeholders and whether the <a href="../../reference/tanstack-query/usepublicdataqueries/">usePublicDataQueries</a> or <a href="../../reference/tanstack-query/useprotecteddataqueries/">useProtectedDataQueries</a> hooks should execute their requests. If the initially requested route is marked as <code v-pre>protected</code> and both hooks are defined, each query hook will execute its respective requests. However, if the route is marked as <code v-pre>public</code>, only the <code v-pre>usePublicDataQueries</code> hook will execute its requests.</p>
 <p>When a route is registered with the <a href="../../reference/runtime/runtime-class/#register-routes">registerRoute</a> function, it is considered <code v-pre>protected</code> by default. Therefore, if a route does not rely on the application&#x27;s global protected data, it should be explicitly registered as <code v-pre>public</code> using the <a href="../../reference/runtime/runtime-class/#register-a-public-route">registerPublicRoute</a> function:</p>
 <div class="codeblock-wrapper"><doc-codeblock>
-<div class="codeblock-title">remote/src/register.tsx</div>
+<div class="codeblock-title">local-module/src/register.tsx</div>
 <pre translate="no" class="language-tsx" data-line="6"><code v-pre class="language-tsx">import type { ModuleRegisterFunction, FireflyRuntime } from &quot;@squide/firefly&quot;;
 import { Page } from &quot;./Page.tsx&quot;;
 

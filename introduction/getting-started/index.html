@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <meta name="turbo-root" content="/wl-squide">
-    <meta name="turbo-cache-control" content="no-cache" data-turbo-track="reload" data-track-token="3.10.1.803440894100">
+    <meta name="turbo-cache-control" content="no-cache" data-turbo-track="reload" data-track-token="3.10.1.803620813210">
 
     <!-- See retype.com -->
     <meta name="generator" content="Retype 3.10.1">
@@ -32,11 +32,12 @@
     <script data-cfasync="false">(function(){var cl=document.documentElement.classList,ls=localStorage.getItem("retype_scheme"),hd=cl.contains("dark"),hl=cl.contains("light"),wm=window.matchMedia&&window.matchMedia("(prefers-color-scheme: dark)").matches;if(ls==="dark"||(!ls&&wm&&!hd&&!hl)){cl.remove("light");cl.add("dark")}else if(ls==="light"||(!ls&&!wm&&!hd&&!hl)){cl.remove("dark");cl.add("light")}})();</script>
 
     <link href="../../static/favicon.png" rel="icon">
-    <link href="../../resources/css/retype.css?v=3.10.1.803440894100" rel="stylesheet">
+    <link href="../../resources/css/retype.css?v=3.10.1.803620813210" rel="stylesheet">
 
-    <script data-cfasync="false" src="../../resources/js/config.js?v=3.10.1.803440894100" data-turbo-eval="false" defer></script>
+    <script data-cfasync="false" src="../../resources/js/config.js?v=3.10.1.803620813210" data-turbo-eval="false" defer></script>
     <script data-cfasync="false" src="../../resources/js/retype.js?v=3.10.1" data-turbo-eval="false" defer></script>
-    <script id="lunr-js" data-cfasync="false" src="../../resources/js/lunr.js?v=3.10.1.803440894100" data-turbo-eval="false" defer></script>
+    <script id="lunr-js" data-cfasync="false" src="../../resources/js/lunr.js?v=3.10.1.803620813210" data-turbo-eval="false" defer></script>
+    <script id="prism-js" data-cfasync="false" src="../../resources/js/prism.js?v=3.10.1.803620813210" defer></script>
 
     <link href="https://workleap.github.io/wl-idp-docs-hub/static/retype-customization.css" rel="stylesheet" />
 
@@ -315,68 +316,105 @@
         <span>Getting started</span>
     </h1>
 </doc-anchor-target>
-<p>Welcome to Squide (yes <span class="docs-emoji">&#x1F991;</span> with an <strong>&quot;e&quot;</strong>), a shell for <a href="https://workleap.com/" class="outbound" target="_blank">Workleap</a> web applications built on top of <a href="https://module-federation.io/" class="outbound" target="_blank">Module Federation</a>, <a href="https://reactrouter.com" class="outbound" target="_blank">React Router</a> and <a href="https://tanstack.com/query/latest" class="outbound" target="_blank">TanStack Query</a>. In this getting started section, you&#x27;ll find an overview of the shell and a <a href="../create-host/">quick start</a> guide to create a new application from scratch.</p>
-<doc-anchor-target id="why-squide">
+<p>Welcome to Squide (yes <span class="docs-emoji">&#x1F991;</span> with an <strong>&quot;e&quot;</strong>), a React modular application shell tailored for the needs of <a href="https://workleap.com/" class="outbound" target="_blank">Workleap</a> web applications. In this getting started section, you&#x27;ll find an overview of the shell and a <a href="../create-host/">quick start</a> guide to create a new application from scratch.</p>
+<doc-anchor-target id="what-is-squide">
     <h2>
-        <doc-anchor-trigger class="header-anchor-trigger" to="#why-squide">#</doc-anchor-trigger>
-        <span>Why Squide?</span>
+        <doc-anchor-trigger class="header-anchor-trigger" to="#what-is-squide">#</doc-anchor-trigger>
+        <span>What is Squide?</span>
     </h2>
 </doc-anchor-target>
-<p>We originally built this shell to facilitate the adoption of federated applications at Workleap by <strong>enforcing patterns</strong> that we believe are essential for teams to successfully implement a distributed frontend architecture.</p>
-<p>While Squide remains a great shell for federated applications, as we experimented with new products, we discovered that Squide also <strong>offers</strong> significant <strong>value</strong> for <strong>non-federated</strong> web applications:</p>
+<p>Squide is a React modular application shell tailored for the needs of Workleap&#x27;s web applications. It <strong>enforces architectural patterns</strong> that we deem important to write <strong>scalable</strong> and <strong>maintainable</strong> web <strong>applications</strong> at Workleap.</p>
+<p>By &quot;modular application&quot;, we mean that much like in backend systems, a web application built with Squide should be <strong>organized</strong> as a <strong>collection</strong> of <strong>independent modules</strong>, each responsible for a specific part of the system (i.e., a bounded context or domain):</p>
+<div class="codeblock-wrapper"><doc-codeblock>
+<pre translate="no" class="language-powershell" data-line="3,9-11"><code v-pre class="language-powershell">monorepo
+├── apps
+├────── host
+├────── storybook
+├── libs
+├────── api
+├────── shell
+├── modules
+├────── user-profile
+├────── checkout
+├────── inventory</code></pre>
+</doc-codeblock></div>
+<blockquote>
+<p>&quot;Modular design is not just a trend but a proven strategy for success in software engineering.&quot;</p>
+</blockquote>
+<blockquote>
+<p>&quot;Modular software architecture enables the creation of complex systems by breaking them down into smaller, independent components. This approach enhances reusability, maintainability, and scalability while reducing the development time and cost.&quot;</p>
+</blockquote>
+<p>In addition to modularity, Squide offers built-in mechanisms to handle most of the <strong>cross-cutting functionalities</strong> of a web application:</p>
 <ul>
-<li><p>With the power of <a href="../../reference/registration/registerlocalmodules/">local modules</a> and the <a href="../../reference/runtime/runtime-class/">Runtime API</a>, Squide addresses a long-lasting challenge at Workleap: <em>How can we effectively enforce the boundaries of a business subdomain in the frontend?</em> Squide&#x27;s modular design naturally upholds these boundaries.</p>
-</li>
-<li><p>With Squide, teams can confidently develop new products as a simple <strong>monorepo</strong> application, knowing that as new members are onboarded, their development <strong>velocity</strong> will <strong>scale</strong> seamlessly. Over time, local modules can be migrated to <a href="../../reference/registration/registerremotemodules/">remote modules</a> without the need to refactor the core application architecture.</p>
-</li>
+<li>Modular Routing</li>
+<li>Modular Navigation</li>
+<li>Authentication</li>
+<li>Global data fetching</li>
+<li>Public and Protected pages</li>
+<li>Localization</li>
+<li>Observability</li>
+<li>Errors handling</li>
+<li>Messaging</li>
+<li>Environment variables</li>
+<li>API requests mocking</li>
 </ul>
-<p>For both federated and non-federated web applications, Squide&#x27;s <strong>modular architecture</strong> and lightweight <a href="../../reference/">API layer</a> provide a significant upside, combining the strengths of industry-leading third-party libraries:</p>
-<doc-anchor-target id="module-federation">
-    <h3>
-        <doc-anchor-trigger class="header-anchor-trigger" to="#module-federation">#</doc-anchor-trigger>
-        <span>Module Federation</span>
-    </h3>
-</doc-anchor-target>
-<p>We identified <strong>2 major challenges</strong> with federated applications:</p>
-<ul>
-<li>How can we prevent loading the same large dependencies twice when switching between <em>modules</em>?</li>
-<li>How can we offer a cohesive experience that doesn&#x27;t feel <em>modular</em>?</li>
-</ul>
-<p>To address the first challenge, we believe that Module Federation provides a solution by offering a mechanism capable of <strong>deduping common dependencies</strong> shared <strong>between</strong> the <strong>host</strong> application and the <strong>remote</strong> modules at runtime.</p>
-<p>With this mechanism in place, all federated parts of an application can now be loaded in the same <a href="https://developer.mozilla.org/en-US/docs/Glossary/Browsing_context" class="outbound" target="_blank">browsing context</a> instead of nested browsing contexts such as <a href="https://developer.mozilla.org/en-US/docs/Web/HTML/Element/iframe" class="outbound" target="_blank">iframes</a>.</p>
-<p>By sharing the same browsing context (e.g. the same <a href="https://developer.mozilla.org/en-US/docs/Web/API/Document" class="outbound" target="_blank">Document object</a>, the same <a href="https://developer.mozilla.org/en-US/docs/Web/API/Window" class="outbound" target="_blank">Window object</a>, and the same DOM), federated parts now <strong>form a unified and cohesive single application</strong>, addressing the second challenge.</p>
-<p>With Module Federation, we hope to develop federated applications that provide the same user experience as monolithic applications <span class="docs-emoji">&#x1F680;</span>.</p>
-<doc-anchor-target id="react-router">
-    <h3>
-        <doc-anchor-trigger class="header-anchor-trigger" to="#react-router">#</doc-anchor-trigger>
-        <span>React Router</span>
-    </h3>
-</doc-anchor-target>
-<p>React Router <a href="https://reactrouter.com/en/main/start/tutorial#nested-routes" class="outbound" target="_blank">nested routes</a> feature is ideal for modular applications as it enables highly <strong>composable</strong> and <strong>decoupled</strong> UI. For a more in-depth explanation, refer to this <a href="https://www.infoxicator.com/why-react-router-is-excellent-for-micro-frontends" class="outbound" target="_blank">article</a>.</p>
-<doc-anchor-target id="tanstack-query">
-    <h3>
-        <doc-anchor-trigger class="header-anchor-trigger" to="#tanstack-query">#</doc-anchor-trigger>
-        <span>TanStack Query</span>
-    </h3>
-</doc-anchor-target>
-<p>TanStack Query simplifies server state management with an innovative approach to data fetching, caching, and synchronization, enhancing both the perceived performance and the user experience.</p>
-<p>TanStack Query is particularly well-suited for modular applications due to its ability to <strong>manage</strong> server <strong>state across</strong> multiple <strong>independent</strong> React <strong>components</strong>. It’s an effective solution for modular applications that requires <strong>isolating data</strong> and <strong>state</strong> between independent parts.</p>
-<doc-anchor-target id="module-registration">
+<p>Those cross-cutting functionalities uses most of the libraries recommended by Workleap&#x27;s frontend technology stacks:</p>
+<div class="table-wrapper scrollbar overflow-hidden">
+<table class="comfortable">
+<thead>
+<tr>
+<th>Feature</th>
+<th>Library</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Modular Routing</td>
+<td>Squide extends <a href="https://reactrouter.com/" class="outbound" target="_blank">React Router</a>, adding modular routing capabilities.</td>
+</tr>
+<tr>
+<td>Public and Protected pages</td>
+<td>Squide bootstrapping flow facilitate the implementation of public &amp; protected routes by providing a <a href="https://tanstack.com/query/latest" class="outbound" target="_blank">Tanstack Query</a> wrapper, allowing applications to only load their protected data (session related data) if the requested route is protected. Additionally, Squide bootstrapping flow is smart enough to delay the rendering of the requested page until the initial data of an application is ready.</td>
+</tr>
+<tr>
+<td>Localization</td>
+<td>Squide includes built-in support for localization, powered by <a href="https://www.i18next.com/" class="outbound" target="_blank">i18next</a>.</td>
+</tr>
+<tr>
+<td>Observability</td>
+<td>Squide includes built-in observability powered by <a href="https://www.honeycomb.io/" class="outbound" target="_blank">Honeycomb</a>.</td>
+</tr>
+<tr>
+<td>API requests mocking</td>
+<td>When in development, Squide bootstrapping flow ensure that the rendering of the requested page is delayed until all of the application <a href="https://mswjs.io/" class="outbound" target="_blank">MSW</a> request handlers has been registered.</td>
+</tr>
+<tr>
+<td>Development and production frontend infrastructure</td>
+<td>Squide offers ready to use packages for <a href="https://webpack.js.org/" class="outbound" target="_blank">webpack</a> and <a href="https://rsbuild.dev/" class="outbound" target="_blank">Rsbuild</a>.</td>
+</tr>
+</tbody>
+</table>
+</div>
+<doc-anchor-target id="why-is-squide-relevant">
     <h2>
-        <doc-anchor-trigger class="header-anchor-trigger" to="#module-registration">#</doc-anchor-trigger>
-        <span>Module registration</span>
+        <doc-anchor-trigger class="header-anchor-trigger" to="#why-is-squide-relevant">#</doc-anchor-trigger>
+        <span>Why is Squide relevant?</span>
     </h2>
 </doc-anchor-target>
-<p>The most distinctive aspect of this shell is the conventions it enforces for loading and registering remote modules. Here&#x27;s a brief overview of the flow:</p>
-<ol>
-<li><p>During bootstrap, the host application attempts to <a href="../../reference/registration/registerlocalmodules/">load predefined modules</a> and calls a registration function with a specific name and signature for each successfully loaded module.</p>
-</li>
-<li><p>During registration, a module receives the <a href="../../reference/runtime/runtime-class/">runtime</a> of the application and use the instance to dynamically register its <a href="../../reference/runtime/runtime-class/#register-routes">routes</a> and <a href="../../reference/runtime/runtime-class/#register-navigation-items">navigation items</a>.</p>
-</li>
-<li><p>Once all the modules are registered, the host application will create a React Router <a href="https://reactrouter.com/en/main/routers/create-browser-router" class="outbound" target="_blank">instance</a> with the registered routes and <a href="../../reference/routing/userenderednavigationitems/">renders a navigation menu</a> with the registered navigation items.</p>
-</li>
-</ol>
-<p>This is a high-level overview. Of course, there is more to it, but these are the main ideas.</p>
+<p><strong>Short version:</strong></p>
+<ul class="list-icon">
+<li><span class="docs-emoji">&#x1F44C;</span> Encourage modularity</li>
+<li><span class="docs-emoji">&#x1F6D1;</span> Stop reinventing the wheel</li>
+<li><span class="docs-emoji">&#x1F4C9;</span> Lower product operating costs</li>
+<li><span class="docs-emoji">&#x1F4C8;</span> Boost product development velocity</li>
+<li><span class="docs-emoji">&#x1F685;</span> Accelerate time to market for initial product releases</li>
+<li><span class="docs-emoji">&#x2728;</span> Enhance product quality and maintainability with a well designed API, tests suites and documentation</li>
+</ul>
+<p><strong>Long version:</strong></p>
+<p>Every Workleap&#x27;s frontend applications must <strong>implement</strong>, to some extent, most of the <strong>cross-cutting functionalities</strong> listed in the <doc-anchor-trigger to="#what-is-squide">previous section</doc-anchor-trigger> of this document. Implementing those cross-cutting functionalities require significant effort, typically involving senior or staff frontend developers and taking a <strong>few months</strong> of full-time <strong>work</strong> to <strong>complete</strong> (when done right). This process can slow down product teams, impact their velocity and <strong>delay</strong> the initial <strong>release</strong> of a new product.</p>
+<p>Squide helps reduce both the initial development costs and the ongoing maintenance costs of frontend applications by offering a reusable, <strong>well-tested</strong>, and <strong>thoroughly documented solution</strong> developed by experienced frontend engineers. Squide streamlines the implementation of cross-cutting functionalities, allowing product teams to focus on delivering value without reinventing the wheel.</p>
+<p>Having a well-tested and well-documented shell is a significant advantage, as application shell code is often poorly understood by product teams and typically lacks proper testing and documentation, which complicates the maintenance of a custom application shell.</p>
+<p>By providing most of the required cross-cutting functionalities out of the box, Squide enables product teams to <strong>reduce their operating costs</strong> by minimizing the need for dedicated staff developers to build and maintain a custom application shell.</p>
 <doc-anchor-target id="guiding-principles">
     <h2>
         <doc-anchor-trigger class="header-anchor-trigger" to="#guiding-principles">#</doc-anchor-trigger>
@@ -385,29 +423,11 @@
 </doc-anchor-target>
 <p>While developing the <a href="../../reference/">API</a> of Squide, we kept a few guiding principles in mind. Those principles are not settled stones, you might want to diverge from them from time to time, but adhering to those will make your experience more enjoyable:</p>
 <ul>
-<li><p>A module should correspond to a subdomain of the application&#x27;s business domain.</p>
-</li>
-<li><p>A module should be autonomous.</p>
-</li>
-<li><p>A module should not directly reference the other modules of the application. To coordinate with other modules, including the host application, a module should always use Squide&#x27;s <a href="../../reference/runtime/runtime-class/">Runtime API</a>.</p>
-</li>
-<li><p>A modular application should feel cohesive. Different parts of the application should have the ability to communicate with each others and react to changes happening outside of their boundaries (without taking an hard reference on other parts of the application).</p>
-</li>
-<li><p>Data and state should never be shared between modules. Even if two modules require the same data or the same state values, they should load, store and manage those independently.</p>
-</li>
-</ul>
-<doc-anchor-target id="limitations">
-    <h2>
-        <doc-anchor-trigger class="header-anchor-trigger" to="#limitations">#</doc-anchor-trigger>
-        <span>Limitations</span>
-    </h2>
-</doc-anchor-target>
-<p>If you choose to include remote modules to your application, Module Federation comes with a few manageable limitations that are important to consider when architecting a distributed application:</p>
-<ul>
-<li><p>A <a href="https://module-federation.io/configure/shared.html" class="outbound" target="_blank">shared dependency</a> cannot be tree-shaken. Since remote modules are loaded at runtime, module federation cannot infer which parts of a shared dependency will be used by the application modules. Therefore, tree-shaking is disabled for shared dependencies.</p>
-</li>
-<li><p>Updating a <a href="https://module-federation.io/configure/shared.html" class="outbound" target="_blank">shared dependency</a> to a new major version is not always straightforward and may result in complex deployment processes.</p>
-</li>
+<li>A module should correspond to a <strong>subdomain</strong> of the application&#x27;s business domain.</li>
+<li>A module should be <strong>autonomous</strong>.</li>
+<li>A module should <strong>not directly reference</strong> the <strong>other modules</strong> of the application. To coordinate with other modules, including the host application, a module should always use Squide&#x27;s <a href="../../reference/runtime/runtime-class/">Runtime API</a>.</li>
+<li>A modular application should <strong>feel cohesive</strong>. Different parts of the application should have the ability to communicate with each others and react to changes happening outside of their boundaries (without taking an hard reference on other parts of the application).</li>
+<li><strong>Data</strong> and <strong>state</strong> should <strong>never</strong> be <strong>shared</strong> between modules. Even if two modules require the same data or the same state values, they should load, store and manage those independently.</li>
 </ul>
 <doc-anchor-target id="create-your-project">
     <h2>
@@ -415,7 +435,16 @@
         <span>Create your project</span>
     </h2>
 </doc-anchor-target>
-<p>To get started, follow the <a href="../create-host/">quick start</a> guide to create a new Squide&#x27;s application from scratch.</p>
+<p><span class="docs-emoji">&#x1F449;</span> To get started, follow the <a href="../create-host/">quick start</a> guide to create a new Squide&#x27;s application from scratch.</p>
+<doc-anchor-target id="module-federation">
+    <h2>
+        <doc-anchor-trigger class="header-anchor-trigger" to="#module-federation">#</doc-anchor-trigger>
+        <span>Module Federation</span>
+    </h2>
+</doc-anchor-target>
+<p>Originally, Squide has been developed as a micro frontend application shell to ease the adoption of distributed applications at Workleap. While Squide remains a great shell for micro frontends applications, as our <strong>product strategy shifted to Hero products</strong> and most of Workleap&#x27;s products moved away from distributed applications, we discovered that Squide also offers significant value for non-federated web applications. Therefore, we continue to invest into Squide and now describe it as a <strong>shell for modular applications</strong>, <strong>supporting</strong> both <strong>remote modules</strong> and <strong>local modules</strong> in <strong>hybrid mode</strong>.</p>
+<p>The benefit of supporting both approaches in hybrid mode is that Workleap&#x27;s products can initially be developed with local modules, which help separate concerns from the start, enabling teams to work independently and focus on specific areas of the application. As the product grows and encounters organizational scalability challenges, teams can seamlessly migrate local modules one by one into standalone remote modules powered by <a href="https://module-federation.io/" class="outbound" target="_blank">Module Federation</a> without requiring updates to the application&#x27;s core code.</p>
+<p><span class="docs-emoji">&#x1F449;</span> To get started with a micro frontrends application, follow the Module Federation <a href="../../module-federation/create-host/">quick start</a> guide to create a new Squide&#x27;s application from scratch.</p>
 
                                 
                                 <!-- Required only on API pages -->
@@ -501,6 +530,6 @@
 
     <div id="retype-overlay-target"></div>
 
-    <script data-cfasync="false">window.__DOCS__ = { "title": "Getting started", level: 2, icon: "file", hasPrism: false, hasMermaid: false, hasMath: false, tocDepth: 2 }</script>
+    <script data-cfasync="false">window.__DOCS__ = { "title": "Getting started", level: 2, icon: "file", hasPrism: true, hasMermaid: false, hasMath: false, tocDepth: 2 }</script>
 </body>
 </html>

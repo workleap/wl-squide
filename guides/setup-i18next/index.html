@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <meta name="turbo-root" content="/wl-squide">
-    <meta name="turbo-cache-control" content="no-cache" data-turbo-track="reload" data-track-token="3.10.1.803440894100">
+    <meta name="turbo-cache-control" content="no-cache" data-turbo-track="reload" data-track-token="3.10.1.803620813210">
 
     <!-- See retype.com -->
     <meta name="generator" content="Retype 3.10.1">
@@ -12,7 +12,7 @@
     <!-- Primary Meta Tags -->
     <title>Setup i18next</title>
     <meta name="title" content="Setup i18next">
-    <meta name="description" content="Most Workleap's platform application are either already bilingual or will be in the future.">
+    <meta name="description" content="Most Workleap's application are either already bilingual or will be in the future.">
 
     <!-- Canonical -->
     <link rel="canonical" href="https://workleap.github.io/wl-squide/guides/setup-i18next/">
@@ -21,23 +21,23 @@
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://workleap.github.io/wl-squide/guides/setup-i18next/">
     <meta property="og:title" content="Setup i18next">
-    <meta property="og:description" content="Most Workleap's platform application are either already bilingual or will be in the future.">
+    <meta property="og:description" content="Most Workleap's application are either already bilingual or will be in the future.">
 
     <!-- Twitter -->
     <meta property="twitter:card" content="summary_large_image">
     <meta property="twitter:url" content="https://workleap.github.io/wl-squide/guides/setup-i18next/">
     <meta property="twitter:title" content="Setup i18next">
-    <meta property="twitter:description" content="Most Workleap's platform application are either already bilingual or will be in the future.">
+    <meta property="twitter:description" content="Most Workleap's application are either already bilingual or will be in the future.">
 
     <script data-cfasync="false">(function(){var cl=document.documentElement.classList,ls=localStorage.getItem("retype_scheme"),hd=cl.contains("dark"),hl=cl.contains("light"),wm=window.matchMedia&&window.matchMedia("(prefers-color-scheme: dark)").matches;if(ls==="dark"||(!ls&&wm&&!hd&&!hl)){cl.remove("light");cl.add("dark")}else if(ls==="light"||(!ls&&!wm&&!hd&&!hl)){cl.remove("dark");cl.add("light")}})();</script>
 
     <link href="../../static/favicon.png" rel="icon">
-    <link href="../../resources/css/retype.css?v=3.10.1.803440894100" rel="stylesheet">
+    <link href="../../resources/css/retype.css?v=3.10.1.803620813210" rel="stylesheet">
 
-    <script data-cfasync="false" src="../../resources/js/config.js?v=3.10.1.803440894100" data-turbo-eval="false" defer></script>
+    <script data-cfasync="false" src="../../resources/js/config.js?v=3.10.1.803620813210" data-turbo-eval="false" defer></script>
     <script data-cfasync="false" src="../../resources/js/retype.js?v=3.10.1" data-turbo-eval="false" defer></script>
-    <script id="lunr-js" data-cfasync="false" src="../../resources/js/lunr.js?v=3.10.1.803440894100" data-turbo-eval="false" defer></script>
-    <script id="prism-js" data-cfasync="false" src="../../resources/js/prism.js?v=3.10.1.803440894100" defer></script>
+    <script id="lunr-js" data-cfasync="false" src="../../resources/js/lunr.js?v=3.10.1.803620813210" data-turbo-eval="false" defer></script>
+    <script id="prism-js" data-cfasync="false" src="../../resources/js/prism.js?v=3.10.1.803620813210" defer></script>
 
     <link href="https://workleap.github.io/wl-idp-docs-hub/static/retype-customization.css" rel="stylesheet" />
 
@@ -301,7 +301,7 @@
         <span>Setup i18next</span>
     </h1>
 </doc-anchor-target>
-<p>Most Workleap&#x27;s platform application are either already bilingual or will be in the future. To help feature teams deal with localized resources, Squide provides a native <a href="../../reference/i18next/i18nextplugin/">plugin</a> designed to adapt the <a href="https://www.i18next.com/" class="outbound" target="_blank">i18next</a> library for modular applications.</p>
+<p>Most Workleap&#x27;s application are either already bilingual or will be in the future. To help feature teams deal with localized resources, Squide provides a native <a href="../../reference/i18next/i18nextplugin/">plugin</a> designed to adapt the <a href="https://www.i18next.com/" class="outbound" target="_blank">i18next</a> library for modular applications.</p>
 <div class="flex mb-6">
     <div class="shrink-0 w-1.5 rounded-tl-lg rounded-bl-lg bg-yellow-500"></div>
     <div class="flex w-full py-4 border border-l-0 border-gray-300 rounded-tr-lg rounded-br-lg doc-callout bg-white dark:bg-dark-700 dark:border-dark-700" role="alert">
@@ -336,21 +336,16 @@
 </doc-anchor-target>
 <p>Then, update the host application boostrapping code to register an instance of the <a href="../../reference/i18next/i18nextplugin/">i18nextplugin</a> with the <a href="../../reference/runtime/runtime-class/">FireflyRuntime</a> instance:</p>
 <div class="codeblock-wrapper"><doc-codeblock>
-<div class="codeblock-title">host/src/bootstrap.tsx</div>
-<pre translate="no" class="language-tsx" data-line="15-24"><code v-pre class="language-tsx">import { createRoot } from &quot;react-dom/client&quot;;
-import { ConsoleLogger, FireflyProvider, initializeFirefly, type RemoteDefinition } from &quot;@squide/firefly&quot;;
+<div class="codeblock-title">host/src/index.tsx</div>
+<pre translate="no" class="language-tsx" data-line="10-19"><code v-pre class="language-tsx">import { createRoot } from &quot;react-dom/client&quot;;
+import { ConsoleLogger, FireflyProvider, initializeFirefly } from &quot;@squide/firefly&quot;;
 import { i18nextPlugin } from &quot;@squide/i18next&quot;;
 import { App } from &quot;./App.tsx&quot;;
 import { registerHost } from &quot;./register.tsx&quot;;
 import { registerShell } from &quot;@sample/shell&quot;;
 
-const Remotes: RemoteDefinition[] = [
-    { url: name: &quot;remote1&quot; }
-];
-
 const runtime = initializeFirefly(runtime, {
     localModules: [registerShell, registerHost],
-    remotes: Remotes,
     plugins: [x =&gt; {
         // In this example:
         // - The supported languages are &quot;en-US&quot; and &quot;fr-CA&quot;
@@ -463,58 +458,13 @@ export function HomePage() {
     );
 }</code></pre>
 </doc-codeblock></div>
-<doc-anchor-target id="update-the-webpack-configurations">
-    <h3>
-        <doc-anchor-trigger class="header-anchor-trigger" to="#update-the-webpack-configurations">#</doc-anchor-trigger>
-        <span>Update the webpack configurations</span>
-    </h3>
-</doc-anchor-target>
-<p>Finally, update the webpack development and build configurations to activate the <code v-pre>i18next</code> feature. Enabling this feature will configure the <code v-pre>i18next</code> libraries as <a href="../add-a-shared-dependency/">shared dependencies</a>:</p>
-<div class="codeblock-wrapper"><doc-codeblock>
-<div class="codeblock-title">host/webpack.dev.js</div>
-<pre translate="no" class="language-javascript" data-line="7-9"><code v-pre class="language-javascript">// @ts-check
-
-import { defineDevHostConfig } from &quot;@squide/firefly-webpack-configs&quot;;
-import { swcConfig } from &quot;./swc.dev.js&quot;;
-
-export default defineDevHostConfig(swcConfig, 8080, [], {
-    features: {
-        i18next: true
-    },
-    sharedDependencies: {
-        &quot;@sample/shared&quot;: {
-            singleton: true,
-            eager: true
-        }
-    }
-});</code></pre>
-</doc-codeblock></div>
-<div class="codeblock-wrapper"><doc-codeblock>
-<div class="codeblock-title">host/webpack.build.js</div>
-<pre translate="no" class="language-javascript" data-line="7-9"><code v-pre class="language-javascript">// @ts-check
-
-import { defineBuildHostConfig } from &quot;@squide/firefly-webpack-configs&quot;;
-import { swcConfig } from &quot;./swc.build.js&quot;;
-
-export default defineBuildHostConfig(swcConfig, [], {
-    features: {
-        i18next: true
-    },
-    sharedDependencies: {
-        &quot;@sample/shared&quot;: {
-            singleton: true,
-            eager: true
-        }
-    }
-});</code></pre>
-</doc-codeblock></div>
-<doc-anchor-target id="setup-a-remote-module">
+<doc-anchor-target id="setup-a-module">
     <h2>
-        <doc-anchor-trigger class="header-anchor-trigger" to="#setup-a-remote-module">#</doc-anchor-trigger>
-        <span>Setup a remote module</span>
+        <doc-anchor-trigger class="header-anchor-trigger" to="#setup-a-module">#</doc-anchor-trigger>
+        <span>Setup a module</span>
     </h2>
 </doc-anchor-target>
-<p>First, open a terminal at the root of the remote module application and install the following packages:</p>
+<p>First, open a terminal at the root of the local module application and install the following packages:</p>
 <div class="codeblock-wrapper"><doc-codeblock>
 <pre translate="no" class="language-bash"><code v-pre class="language-bash">pnpm add @squide/i18next i18next i18next-browser-languagedetector react-i18next</code></pre>
 </doc-codeblock></div>
@@ -526,24 +476,24 @@ export default defineBuildHostConfig(swcConfig, [], {
 </doc-anchor-target>
 <p>Then, create the localized resource files for the <code v-pre>en-US</code> and <code v-pre>fr-CA</code> locales:</p>
 <div class="codeblock-wrapper"><doc-codeblock>
-<div class="codeblock-title">remote-module/src/locales/en-US.json</div>
+<div class="codeblock-title">local-module/src/locales/en-US.json</div>
 <pre translate="no" class="language-json"><code v-pre class="language-json">{
     &quot;navigationItems&quot;: {
-        &quot;page&quot;: &quot;Remote/Page - en-US&quot;
+        &quot;page&quot;: &quot;Local Module/Page - en-US&quot;
     },
     &quot;Page&quot;: {
-        &quot;bodyText&quot;: &quot;Hello from Remote/Page!&quot;
+        &quot;bodyText&quot;: &quot;Hello from Local Module/Page!&quot;
     }
 }</code></pre>
 </doc-codeblock></div>
 <div class="codeblock-wrapper"><doc-codeblock>
-<div class="codeblock-title">remote-module/src/locales/fr-CA.json</div>
+<div class="codeblock-title">local-module/src/locales/fr-CA.json</div>
 <pre translate="no" class="language-json"><code v-pre class="language-json">{
     &quot;navigationItems&quot;: {
-        &quot;page&quot;: &quot;Remote/Page - fr-CA&quot;
+        &quot;page&quot;: &quot;Local Module/Page - fr-CA&quot;
     },
     &quot;Page&quot;: {
-        &quot;bodyText&quot;: &quot;Bonjour depuis Remote/Page!&quot;
+        &quot;bodyText&quot;: &quot;Bonjour depuis Local Module/Page!&quot;
     }
 }</code></pre>
 </doc-codeblock></div>
@@ -554,9 +504,9 @@ export default defineBuildHostConfig(swcConfig, [], {
         <span>Register an i18next instance</span>
     </h3>
 </doc-anchor-target>
-<p>Then, update the remote module&#x27;s <a href="../../reference/registration/registerlocalmodules/">register</a> function to create and register an instance of <code v-pre>i18next</code> with the <code v-pre>i18nextPlugin</code> plugin instance. Similarly to the <doc-anchor-trigger to="#register-an-i18next-instance">host application</doc-anchor-trigger>, due to how the internals of <code v-pre>i18next</code> works, this local module requires to register its own instance of the third-party library:</p>
+<p>Then, update the local module&#x27;s <a href="../../reference/registration/registerlocalmodules/">register</a> function to create and register an instance of <code v-pre>i18next</code> with the <code v-pre>i18nextPlugin</code> plugin instance. Similarly to the <doc-anchor-trigger to="#register-an-i18next-instance">host application</doc-anchor-trigger>, due to how the internals of <code v-pre>i18next</code> works, this local module requires to register its own instance of the third-party library:</p>
 <div class="codeblock-wrapper"><doc-codeblock>
-<div class="codeblock-title">remote-module/src/register.tsx</div>
+<div class="codeblock-title">local-module/src/register.tsx</div>
 <pre translate="no" class="language-tsx" data-line="10,12-14,16-23,26"><code v-pre class="language-tsx">import type { ModuleRegisterFunction, FireflyRuntime } from &quot;@squide/firefly&quot;;
 import { getI18nextPlugin } from &quot;@squide/i18next&quot;;
 import { Page } from &quot;./Page.tsx&quot;;
@@ -581,19 +531,19 @@ export const register: ModuleRegisterFunction&lt;FireflyRuntime&gt; = runtime =&
         }
     });
 
-    // Will associate the instance with the &quot;remote-module&quot; key.
-    i18nextPlugin.registerInstance(&quot;remote-module&quot;, i18nextInstance);
+    // Will associate the instance with the &quot;local-module&quot; key.
+    i18nextPlugin.registerInstance(&quot;local-module&quot;, i18nextInstance);
 
     // --------
 
     runtime.registerRoute({
-        path: &quot;/remote/page&quot;,
+        path: &quot;/local-module/page&quot;,
         element: &lt;Page /&gt;
     });
 
     runtime.registerNavigationItem({
-        $label: &quot;Remote/Page&quot;,
-        to: &quot;/remote/page&quot;
+        $label: &quot;Local Module/Page&quot;,
+        to: &quot;/local-module/page&quot;
     });
 }</code></pre>
 </doc-codeblock></div>
@@ -605,7 +555,7 @@ export const register: ModuleRegisterFunction&lt;FireflyRuntime&gt; = runtime =&
 </doc-anchor-target>
 <p>Then, localize the navigation items labels using the <a href="../../reference/i18next/i18nextnavigationitemlabel/">I18nextNavigationItemLabel</a> component. Since this example resources are in the <code v-pre>navigationItems</code> namespace, there&#x27;s no need to specify a <code v-pre>namespace</code> property on the components as it will be inferred:</p>
 <div class="codeblock-wrapper"><doc-codeblock>
-<div class="codeblock-title">remote-module/src/register.tsx</div>
+<div class="codeblock-title">local-module/src/register.tsx</div>
 <pre translate="no" class="language-tsx" data-line="37"><code v-pre class="language-tsx">import type { ModuleRegisterFunction, FireflyRuntime } from &quot;@squide/firefly&quot;;
 import { getI18nextPlugin, I18nextNavigationItemLabel } from &quot;@squide/i18next&quot;;
 import { Page } from &quot;./Page.tsx&quot;;
@@ -631,19 +581,19 @@ export const register: ModuleRegisterFunction&lt;FireflyRuntime&gt; = runtime =&
         }
     });
 
-    // Will associate the instance with the &quot;remote-module&quot; key.
-    i18nextPlugin.registerInstance(&quot;remote-module&quot;, i18nextInstance);
+    // Will associate the instance with the &quot;local-module&quot; key.
+    i18nextPlugin.registerInstance(&quot;local-module&quot;, i18nextInstance);
 
     // --------
 
     runtime.registerRoute({
-        path: &quot;/remote/page&quot;,
+        path: &quot;/local-module/page&quot;,
         element: &lt;Page /&gt;
     });
 
     runtime.registerNavigationItem({
         $label: &lt;I18nextNavigationItemLabel i18next={i18nextInstance} resourceKey=&quot;page&quot; /&gt;,
-        to: &quot;/remote/page&quot;
+        to: &quot;/local-module/page&quot;
     });
 }</code></pre>
 </doc-codeblock></div>
@@ -655,13 +605,13 @@ export const register: ModuleRegisterFunction&lt;FireflyRuntime&gt; = runtime =&
 </doc-anchor-target>
 <p>Then, update the <code v-pre>Page</code> component to use the newly created localized resource:</p>
 <div class="codeblock-wrapper"><doc-codeblock>
-<div class="codeblock-title">remote-module/src/Page.tsx</div>
+<div class="codeblock-title">local-module/src/Page.tsx</div>
 <pre translate="no" class="language-tsx" data-line="6,7,10"><code v-pre class="language-tsx">import { useI18nextInstance } from &quot;@squide/i18next&quot;;
 import { useTranslation } from &quot;react-i18next&quot;;
 
 export function Page() {
     // Must be the same instance key that has been used to register the i18next instance previously in the &quot;register&quot; function.
-    const i18nextInstance = useI18nextInstance(&quot;remote-module&quot;);
+    const i18nextInstance = useI18nextInstance(&quot;local-module&quot;);
     const { t } = useTranslation(&quot;Page&quot;, { i18n: useI18nextInstance });
 
     return (
@@ -669,56 +619,6 @@ export function Page() {
     );
 }</code></pre>
 </doc-codeblock></div>
-<doc-anchor-target id="update-the-webpack-configurations-1">
-    <h3>
-        <doc-anchor-trigger class="header-anchor-trigger" to="#update-the-webpack-configurations-1">#</doc-anchor-trigger>
-        <span>Update the webpack configurations</span>
-    </h3>
-</doc-anchor-target>
-<p>Finally, update the webpack development and build configurations to activate the <code v-pre>i18next</code> feature. Enabling this feature will configure the <code v-pre>i18next</code> libraries as <a href="../add-a-shared-dependency/">shared dependencies</a>:</p>
-<div class="codeblock-wrapper"><doc-codeblock>
-<div class="codeblock-title">remote-module/webpack.dev.js</div>
-<pre translate="no" class="language-javascript" data-line="7-9"><code v-pre class="language-javascript">// @ts-check
-
-import { defineDevRemoteModuleConfig } from &quot;@squide/firefly-webpack-configs&quot;;
-import { swcConfig } from &quot;./swc.dev.js&quot;;
-
-export default defineDevRemoteModuleConfig(swcConfig, &quot;remote1&quot;, 8081, {
-    features: {
-        i18next: true
-    },
-    sharedDependencies: {
-        &quot;@sample/shared&quot;: {
-            singleton: true
-        }
-    }
-});</code></pre>
-</doc-codeblock></div>
-<div class="codeblock-wrapper"><doc-codeblock>
-<div class="codeblock-title">remote-module/webpack.build.js</div>
-<pre translate="no" class="language-javascript" data-line="7-9"><code v-pre class="language-javascript">// @ts-check
-
-import { defineBuildRemoteModuleConfig } from &quot;@squide/firefly-webpack-configs&quot;;
-import { swcConfig } from &quot;./swc.build.js&quot;;
-
-export default defineBuildRemoteModuleConfig(swcConfig, &quot;remote1&quot;, {
-    features: {
-        i18next: true
-    },
-    sharedDependencies: {
-        &quot;@sample/shared&quot;: {
-            singleton: true
-        }
-    }
-});</code></pre>
-</doc-codeblock></div>
-<doc-anchor-target id="setup-a-local-module">
-    <h2>
-        <doc-anchor-trigger class="header-anchor-trigger" to="#setup-a-local-module">#</doc-anchor-trigger>
-        <span>Setup a local module</span>
-    </h2>
-</doc-anchor-target>
-<p>Follow the same steps as for a <doc-anchor-trigger to="#setup-a-remote-module">remote module</doc-anchor-trigger>.</p>
 <doc-anchor-target id="integrate-a-backend-language-setting">
     <h2>
         <doc-anchor-trigger class="header-anchor-trigger" to="#integrate-a-backend-language-setting">#</doc-anchor-trigger>
@@ -728,10 +628,8 @@ export default defineBuildRemoteModuleConfig(swcConfig, &quot;remote1&quot;, {
 <p>For many applications, the displayed language is expected to be derived from an application specific user &quot;preferred language&quot; setting stored in a remote database. Therefore, the frontend remains unaware of this setting value until the user session is loaded.</p>
 <p>Hence, the strategy to select the displayed language should be as follow:</p>
 <ol>
-<li><p>Use the language detected at bootstrapping for anonymous users (with the <a href="../../reference/i18next/i18nextplugin/#detect-the-user-language">detectUserLanguage</a> function).</p>
-</li>
-<li><p>Upon user authentication and session loading, if a &quot;preferred language&quot; setting is available from the session data, update the displayed language to reflect this preference.</p>
-</li>
+<li>Use the language detected at bootstrapping for anonymous users (with the <a href="../../reference/i18next/i18nextplugin/#detect-the-user-language">detectUserLanguage</a> function).</li>
+<li>Upon user authentication and session loading, if a &quot;preferred language&quot; setting is available from the session data, update the displayed language to reflect this preference.</li>
 </ol>
 <p>This strategy can be implemented with the help of the <a href="../../reference/i18next/usechangelanguage/">useChangeLanguage</a> and <a href="../../reference/tanstack-query/useprotecteddataqueries/">useProtectedDataQueries</a> hooks:</p>
 <div class="codeblock-wrapper"><doc-codeblock>
@@ -877,7 +775,7 @@ return (
 <ul>
 <li>Open the <a href="https://developer.chrome.com/docs/devtools/" class="outbound" target="_blank">DevTools</a> console. You&#x27;ll find a log entry for each <code v-pre>i18next</code> instance that is being registered and another log everytime the language is changed:
 <ul>
-<li><code v-pre>[squide] Registered a new i18next instance with key &quot;remote-module&quot;.</code></li>
+<li><code v-pre>[squide] Registered a new i18next instance with key &quot;local-module&quot;.</code></li>
 <li><code v-pre>[squide] The language has been changed to &quot;fr-CA&quot;.</code></li>
 </ul>
 </li>

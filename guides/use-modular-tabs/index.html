@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <meta name="turbo-root" content="/wl-squide">
-    <meta name="turbo-cache-control" content="no-cache" data-turbo-track="reload" data-track-token="3.10.1.803440894100">
+    <meta name="turbo-cache-control" content="no-cache" data-turbo-track="reload" data-track-token="3.10.1.803620813210">
 
     <!-- See retype.com -->
     <meta name="generator" content="Retype 3.10.1">
@@ -34,12 +34,12 @@
     <script data-cfasync="false">(function(){var cl=document.documentElement.classList,ls=localStorage.getItem("retype_scheme"),hd=cl.contains("dark"),hl=cl.contains("light"),wm=window.matchMedia&&window.matchMedia("(prefers-color-scheme: dark)").matches;if(ls==="dark"||(!ls&&wm&&!hd&&!hl)){cl.remove("light");cl.add("dark")}else if(ls==="light"||(!ls&&!wm&&!hd&&!hl)){cl.remove("dark");cl.add("light")}})();</script>
 
     <link href="../../static/favicon.png" rel="icon">
-    <link href="../../resources/css/retype.css?v=3.10.1.803440894100" rel="stylesheet">
+    <link href="../../resources/css/retype.css?v=3.10.1.803620813210" rel="stylesheet">
 
-    <script data-cfasync="false" src="../../resources/js/config.js?v=3.10.1.803440894100" data-turbo-eval="false" defer></script>
+    <script data-cfasync="false" src="../../resources/js/config.js?v=3.10.1.803620813210" data-turbo-eval="false" defer></script>
     <script data-cfasync="false" src="../../resources/js/retype.js?v=3.10.1" data-turbo-eval="false" defer></script>
-    <script id="lunr-js" data-cfasync="false" src="../../resources/js/lunr.js?v=3.10.1.803440894100" data-turbo-eval="false" defer></script>
-    <script id="prism-js" data-cfasync="false" src="../../resources/js/prism.js?v=3.10.1.803440894100" defer></script>
+    <script id="lunr-js" data-cfasync="false" src="../../resources/js/lunr.js?v=3.10.1.803620813210" data-turbo-eval="false" defer></script>
+    <script id="prism-js" data-cfasync="false" src="../../resources/js/prism.js?v=3.10.1.803620813210" defer></script>
 
     <link href="https://workleap.github.io/wl-idp-docs-hub/static/retype-customization.css" rel="stylesheet" />
 
@@ -306,9 +306,9 @@
 <p>While it&#x27;s typically recommended for a Squide application to maintain the boundary of a page within a single domain, there are situations where <strong>enhancing</strong> the <strong>user experience</strong> necessitates rendering a page with parts from <strong>multiple domains</strong>, or at the very least, simulating it <span class="docs-emoji">&#x1F60A;</span>.</p>
 <p>For this guide, we&#x27;ll take as an example a page for which the parts that are owned by different domains are organized by tabs (modular tabs) and registered by different modules:</p>
 <ul>
-<li><code v-pre>Tab 1</code>: Registered by <code v-pre>Remote Module 1</code></li>
-<li><code v-pre>Tab 2</code>: Registered by <code v-pre>Remote Module 2</code></li>
-<li><code v-pre>Tab 3</code>: Registered by <code v-pre>Local Module</code></li>
+<li><code v-pre>Tab 1</code>: Registered by <code v-pre>Local Module 1</code></li>
+<li><code v-pre>Tab 2</code>: Registered by <code v-pre>Local Module 2</code></li>
+<li><code v-pre>Tab 3</code>: Registered by <code v-pre>Local Module 3</code></li>
 </ul>
 <div class="align-image-left"><p><figure class="content-center">
     <img src="../../static/modular-tabs-anatomy.svg" alt="Anatomy of a page rendering modular tabs" />
@@ -324,7 +324,7 @@
 </doc-anchor-target>
 <p>To build this page while adhering to Squide&#x27;s constraint of avoiding hard references to elements from other modules, let&#x27;s start by defining a React Router <a href="https://reactrouter.com/en/main/start/tutorial#nested-routes" class="outbound" target="_blank">nested layout</a>. This nested layout will handle rendering all the tab headers and the content of the active tab:</p>
 <div class="codeblock-wrapper"><doc-codeblock>
-<div class="codeblock-title">remote-module-3/src/tabs-layout.tsx</div>
+<div class="codeblock-title">host/src/tabs-layout.tsx</div>
 <pre translate="no" class="language-tsx" data-line="9-11,15"><code v-pre class="language-tsx">import { Suspense } from &quot;react&quot;;
 import { Link, Outlet } from &quot;react-router/dom&quot;;
 
@@ -349,7 +349,7 @@ export function TabsLayout() {
 <p>In the previous code sample, the <code v-pre>TabsLayout</code> component is similar to the <code v-pre>RootLayout</code> component introduced in previous guides. However, the key distinction is that this layout will be bound to the <code v-pre>/tabs</code> URL path. By nesting the layout under a specific path, it will only render when the user navigates to one of the modular tab pages (e.g. <code v-pre>/tabs</code>, <code v-pre>/tabs/tab-1</code>, <code v-pre>/tabs/tab-2</code>, <code v-pre>/tabs/tab-3</code>).</p>
 <p>To register the newly created layout as a nested layout, use the <a href="../../reference/runtime/runtime-class/#register-routes">registerRoute</a> function:</p>
 <div class="codeblock-wrapper"><doc-codeblock>
-<div class="codeblock-title">remote-module-3/src/register.tsx</div>
+<div class="codeblock-title">host/src/register.tsx</div>
 <pre translate="no" class="language-tsx" data-line="7-8"><code v-pre class="language-tsx">import type { ModuleRegisterFunction, FireflyRuntime } from &quot;@squide/firefly&quot;;
 import { TabsLayout } from &quot;./TabsLayout.tsx&quot;;
 
@@ -392,7 +392,7 @@ export const register: ModuleRegisterFunction&lt;FireflyRuntime&gt; = runtime =&
 </doc-anchor-target>
 <p>Next, let&#x27;s add the actual tabs to the modules. To do so, we&#x27;ll use the <a href="../../reference/runtime/runtime-class/#register-nested-routes">parentPath</a> option of the <a href="../../reference/runtime/runtime-class/#register-routes">registerRoute</a> function to register the routes under the <code v-pre>TabsLayout</code> component:</p>
 <div class="codeblock-wrapper"><doc-codeblock>
-<div class="codeblock-title">remote-module-1/src/register.tsx</div>
+<div class="codeblock-title">local-module-1/src/register.tsx</div>
 <pre translate="no" class="language-tsx" data-line="7,10"><code v-pre class="language-tsx">import type { ModuleRegisterFunction, FireflyRuntime } from &quot;@squide/firefly&quot;;
 import { Tab1 } from &quot;./Tab1.tsx&quot;;
 
@@ -407,7 +407,7 @@ export const register: ModuleRegisterFunction&lt;FireflyRuntime&gt; = runtime =&
 }</code></pre>
 </doc-codeblock></div>
 <div class="codeblock-wrapper"><doc-codeblock>
-<div class="codeblock-title">remote-module-1/src/Tab1.tsx</div>
+<div class="codeblock-title">local-module-1/src/Tab1.tsx</div>
 <pre translate="no" class="language-tsx"><code v-pre class="language-tsx">export function Tab1() {
     return (
         &lt;div&gt;Hey, this is Tab 1 content&lt;/div&gt;
@@ -415,7 +415,7 @@ export const register: ModuleRegisterFunction&lt;FireflyRuntime&gt; = runtime =&
 }</code></pre>
 </doc-codeblock></div>
 <div class="codeblock-wrapper"><doc-codeblock>
-<div class="codeblock-title">remote-module-2/src/register.tsx</div>
+<div class="codeblock-title">local-module-2/src/register.tsx</div>
 <pre translate="no" class="language-tsx" data-line="8,11"><code v-pre class="language-tsx">import type { ModuleRegisterFunction, FireflyRuntime } from &quot;@squide/firefly&quot;;
 import { Tab2 } from &quot;./Tab2.tsx&quot;;
 
@@ -431,7 +431,7 @@ export const register: ModuleRegisterFunction&lt;FireflyRuntime&gt; = runtime =&
 }</code></pre>
 </doc-codeblock></div>
 <div class="codeblock-wrapper"><doc-codeblock>
-<div class="codeblock-title">remote-module-2/src/Tab2.tsx</div>
+<div class="codeblock-title">local-module-2/src/Tab2.tsx</div>
 <pre translate="no" class="language-tsx"><code v-pre class="language-tsx">export function Tab2() {
     return (
         &lt;div&gt;Hey, this is Tab 2 content&lt;/div&gt;
@@ -439,7 +439,7 @@ export const register: ModuleRegisterFunction&lt;FireflyRuntime&gt; = runtime =&
 }</code></pre>
 </doc-codeblock></div>
 <div class="codeblock-wrapper"><doc-codeblock>
-<div class="codeblock-title">local-module/src/register.tsx</div>
+<div class="codeblock-title">local-module-3/src/register.tsx</div>
 <pre translate="no" class="language-tsx" data-line="8,11"><code v-pre class="language-tsx">import type { ModuleRegisterFunction, FireflyRuntime } from &quot;@squide/firefly&quot;;
 import { Tab3 } from &quot;./Tab3.tsx&quot;;
 
@@ -455,14 +455,14 @@ export const register: ModuleRegisterFunction&lt;FireflyRuntime&gt; = runtime =&
 }</code></pre>
 </doc-codeblock></div>
 <div class="codeblock-wrapper"><doc-codeblock>
-<div class="codeblock-title">local-module/src/Tab3.tsx</div>
+<div class="codeblock-title">local-module-3/src/Tab3.tsx</div>
 <pre translate="no" class="language-tsx"><code v-pre class="language-tsx">export function Tab3() {
     return (
         &lt;div&gt;Hey, this is Tab 3 content&lt;/div&gt;
     );
 }</code></pre>
 </doc-codeblock></div>
-<p>Now that the tabs has been registered, ensure that all four modules (including <code v-pre>remote-modules-3</code>) are registered in the host application. Start the development servers using the <code v-pre>dev</code> script. Navigate to the <code v-pre>/tabs</code> page, you should see the tab headers. Click on each tab header to confirm that the content renders correctly.</p>
+<p>Now that the tabs has been registered, ensure that all four modules are registered in the host application. Start the development servers using the <code v-pre>dev</code> script. Navigate to the <code v-pre>/tabs</code> page, you should see the tab headers. Click on each tab header to confirm that the content renders correctly.</p>
 <doc-anchor-target id="decouple-the-navigation-items">
     <h2>
         <doc-anchor-trigger class="header-anchor-trigger" to="#decouple-the-navigation-items">#</doc-anchor-trigger>
@@ -473,7 +473,7 @@ export const register: ModuleRegisterFunction&lt;FireflyRuntime&gt; = runtime =&
 <p>To decouple the navigation items, similar to what is done for regular module&#x27;s routes, we&#x27;ll use the <a href="../../reference/runtime/runtime-class/#register-navigation-items">registerNavigationItem</a> function. In this case, we&#x27;ll specify a <a href="../../reference/runtime/runtime-class/#register-navigation-items-for-a-specific-menu">menuId</a> option. Defining the <code v-pre>menuId</code> option will allow the <code v-pre>TabsLayout</code> component to exclusively retrieve the navigation items that belongs to him.</p>
 <p>First, let&#x27;s register the navigation items with the <code v-pre>menuId</code> option. For this example the <code v-pre>menuId</code> will be <code v-pre>/tabs</code> (it can be anything):</p>
 <div class="codeblock-wrapper"><doc-codeblock>
-<div class="codeblock-title">remote-module-1/src/register.tsx</div>
+<div class="codeblock-title">local-module-1/src/register.tsx</div>
 <pre translate="no" class="language-tsx" data-line="20"><code v-pre class="language-tsx">import type { ModuleRegisterFunction, FireflyRuntime } from &quot;@squide/firefly&quot;;
 import { Tab1 } from &quot;./Tab1.tsx&quot;;
 
@@ -498,7 +498,7 @@ export const register: ModuleRegisterFunction&lt;FireflyRuntime&gt; = runtime =&
 }</code></pre>
 </doc-codeblock></div>
 <div class="codeblock-wrapper"><doc-codeblock>
-<div class="codeblock-title">remote-module-2/src/register.tsx</div>
+<div class="codeblock-title">local-module-2/src/register.tsx</div>
 <pre translate="no" class="language-tsx" data-line="21"><code v-pre class="language-tsx">import type { ModuleRegisterFunction, FireflyRuntime } from &quot;@squide/firefly&quot;;
 import { Tab2 } from &quot;./Tab2.tsx&quot;;
 
@@ -524,7 +524,7 @@ export const register: ModuleRegisterFunction&lt;FireflyRuntime&gt; = runtime =&
 }</code></pre>
 </doc-codeblock></div>
 <div class="codeblock-wrapper"><doc-codeblock>
-<div class="codeblock-title">local-module/src/register.tsx</div>
+<div class="codeblock-title">local-module-3/src/register.tsx</div>
 <pre translate="no" class="language-tsx" data-line="21"><code v-pre class="language-tsx">import type { ModuleRegisterFunction, FireflyRuntime } from &quot;@squide/firefly&quot;;
 import { Tab3 } from &quot;./Tab3.tsx&quot;;
 
@@ -551,7 +551,7 @@ export const register: ModuleRegisterFunction&lt;FireflyRuntime&gt; = runtime =&
 </doc-codeblock></div>
 <p>Then, update the <code v-pre>TabsLayout</code> component to render the registered navigation items instead of the hardcoded URLs:</p>
 <div class="codeblock-wrapper"><doc-codeblock>
-<div class="codeblock-title">remote-module-3/src/tabs-layout.tsx</div>
+<div class="codeblock-title">host/src/tabs-layout.tsx</div>
 <pre translate="no" class="language-tsx" data-line="32"><code v-pre class="language-tsx">import { 
     useNavigationItems,
     useRenderedNavigationItems,
@@ -608,7 +608,7 @@ export function TabsLayout() {
 <p>Similarly to how the display order of regular navigation items can be configured, a modular tab position can be affected with the <a href="http://localhost:5000/wl-squide/reference/runtime/runtime-class/#sort-registered-navigation-items" class="outbound" target="_blank">priority</a> option.</p>
 <p>To force <code v-pre>Tab 3</code> to be positioned first, we&#x27;ll give him a priority of <code v-pre>999</code>:</p>
 <div class="codeblock-wrapper"><doc-codeblock>
-<div class="codeblock-title">local-module/src/register.tsx</div>
+<div class="codeblock-title">local-module-3/src/register.tsx</div>
 <pre translate="no" class="language-tsx" data-line="16"><code v-pre class="language-tsx">import type { ModuleRegisterFunction, FireflyRuntime } from &quot;@squide/firefly&quot;;
 import { Tab3 } from &quot;./Tab3.tsx&quot;;
 
@@ -680,10 +680,10 @@ export const register: ModuleRegisterFunction&lt;FireflyRuntime&gt; = runtime =&
                                     </div>
                             
                                     <div class="w-1/2">
-                                        <a class="px-5 py-4 -mx-px h-full flex items-center justify-end break-normal font-medium text-blue-500 dark:text-blue-400 border border-gray-300 hover:border-gray-400 dark:border-dark-650 dark:hover:border-dark-450 rounded-r-lg transition-colors duration-150 relative hover:z-5" href="../../guides/use-feature-flags/">
+                                        <a class="px-5 py-4 -mx-px h-full flex items-center justify-end break-normal font-medium text-blue-500 dark:text-blue-400 border border-gray-300 hover:border-gray-400 dark:border-dark-650 dark:hover:border-dark-450 rounded-r-lg transition-colors duration-150 relative hover:z-5" href="../../guides/register-a-conditional-nav-item/">
                                             <span>
                                                 <span class="block text-xs font-normal text-right text-gray-400 dark:text-dark-400">Next</span>
-                                                <span class="block mt-1">Use feature flags</span>
+                                                <span class="block mt-1">Register a conditional navigation item</span>
                                             </span>
                                             <svg xmlns="http://www.w3.org/2000/svg" class="ml-3" width="24" height="24" viewBox="0 0 24 24" fill="currentColor" overflow="visible"><path d="M19.92 12.38a1 1 0 00-.22-1.09l-7-7a.996.996 0 10-1.41 1.41l5.3 5.3H5c-.55 0-1 .45-1 1s.45 1 1 1h11.59l-5.29 5.29a.996.996 0 000 1.41c.19.2.44.3.7.3s.51-.1.71-.29l7-7c.09-.09.16-.21.21-.33z" /><path fill="none" d="M0 0h24v24H0z" /></svg>
                                         </a>

@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <meta name="turbo-root" content="/wl-squide">
-    <meta name="turbo-cache-control" content="no-cache" data-turbo-track="reload" data-track-token="3.10.1.803440894100">
+    <meta name="turbo-cache-control" content="no-cache" data-turbo-track="reload" data-track-token="3.10.1.803620813210">
 
     <!-- See retype.com -->
     <meta name="generator" content="Retype 3.10.1">
@@ -32,12 +32,12 @@
     <script data-cfasync="false">(function(){var cl=document.documentElement.classList,ls=localStorage.getItem("retype_scheme"),hd=cl.contains("dark"),hl=cl.contains("light"),wm=window.matchMedia&&window.matchMedia("(prefers-color-scheme: dark)").matches;if(ls==="dark"||(!ls&&wm&&!hd&&!hl)){cl.remove("light");cl.add("dark")}else if(ls==="light"||(!ls&&!wm&&!hd&&!hl)){cl.remove("dark");cl.add("light")}})();</script>
 
     <link href="../../static/favicon.png" rel="icon">
-    <link href="../../resources/css/retype.css?v=3.10.1.803440894100" rel="stylesheet">
+    <link href="../../resources/css/retype.css?v=3.10.1.803620813210" rel="stylesheet">
 
-    <script data-cfasync="false" src="../../resources/js/config.js?v=3.10.1.803440894100" data-turbo-eval="false" defer></script>
+    <script data-cfasync="false" src="../../resources/js/config.js?v=3.10.1.803620813210" data-turbo-eval="false" defer></script>
     <script data-cfasync="false" src="../../resources/js/retype.js?v=3.10.1" data-turbo-eval="false" defer></script>
-    <script id="lunr-js" data-cfasync="false" src="../../resources/js/lunr.js?v=3.10.1.803440894100" data-turbo-eval="false" defer></script>
-    <script id="prism-js" data-cfasync="false" src="../../resources/js/prism.js?v=3.10.1.803440894100" defer></script>
+    <script id="lunr-js" data-cfasync="false" src="../../resources/js/lunr.js?v=3.10.1.803620813210" data-turbo-eval="false" defer></script>
+    <script id="prism-js" data-cfasync="false" src="../../resources/js/prism.js?v=3.10.1.803620813210" defer></script>
 
     <link href="https://workleap.github.io/wl-idp-docs-hub/static/retype-customization.css" rel="stylesheet" />
 
@@ -310,7 +310,7 @@
 </doc-anchor-target>
 <p>In an effort to optimize the development experience, Squide can be bootstrapped in <code v-pre>development</code> or <code v-pre>production</code> mode:</p>
 <div class="codeblock-wrapper"><doc-codeblock>
-<div class="codeblock-title">host/src/bootstrap.tsx</div>
+<div class="codeblock-title">host/src/index.tsx</div>
 <pre translate="no" class="language-typescript"><code v-pre class="language-typescript">import { FireflyRuntime, ConsoleLogger, type LogLevel } from &quot;@squide/firefly&quot;;
 
 const runtime = new FireflyRuntime({
@@ -327,7 +327,7 @@ const runtime = new FireflyRuntime({
 <p>Squide includes a built-in logging feature that integrates with the <a href="../../reference/runtime/runtime-class/">FireflyRuntime</a> class and the <a href="../../reference/runtime/uselogger/">useLogger</a> hook.</p>
 <p>First, register your own custom logger by implementing the <a href="../../reference/logging/logger/">Logger</a> interface or register Squide built-in <a href="../../reference/logging/consolelogger/">ConsoleLogger</a>:</p>
 <div class="codeblock-wrapper"><doc-codeblock>
-<div class="codeblock-title">host/src/bootstrap.tsx</div>
+<div class="codeblock-title">host/src/index.tsx</div>
 <pre translate="no" class="language-typescript"><code v-pre class="language-typescript">import { FireflyRuntime, ConsoleLogger, type LogLevel } from &quot;@squide/firefly&quot;;
 
 const runtime = new FireflyRuntime({
@@ -475,7 +475,10 @@ const [session, subscription] = useProtectedDataQueries([
 <li><a href="../../guides/manage-shared-state/">Manage shared state</a></li>
 <li><a href="../../guides/isolate-module-failures/">Isolate module failures</a></li>
 <li><a href="../../guides/add-authentication/">Add authentication</a></li>
-<li><a href="../../guides/add-a-shared-dependency/">Add a shared dependency</a></li>
+</ul>
+<p>If your application is a federated application, be sure to also check out the following guides:</p>
+<ul>
+<li><a href="../../module-federation/add-a-shared-dependency/">Add a shared dependency</a></li>
 </ul>
 <doc-anchor-target id="reference">
     <h2>

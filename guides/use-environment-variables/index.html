@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <meta name="turbo-root" content="/wl-squide">
-    <meta name="turbo-cache-control" content="no-cache" data-turbo-track="reload" data-track-token="3.10.1.803440894100">
+    <meta name="turbo-cache-control" content="no-cache" data-turbo-track="reload" data-track-token="3.10.1.803620813210">
 
     <!-- See retype.com -->
     <meta name="generator" content="Retype 3.10.1">
@@ -32,12 +32,12 @@
     <script data-cfasync="false">(function(){var cl=document.documentElement.classList,ls=localStorage.getItem("retype_scheme"),hd=cl.contains("dark"),hl=cl.contains("light"),wm=window.matchMedia&&window.matchMedia("(prefers-color-scheme: dark)").matches;if(ls==="dark"||(!ls&&wm&&!hd&&!hl)){cl.remove("light");cl.add("dark")}else if(ls==="light"||(!ls&&!wm&&!hd&&!hl)){cl.remove("dark");cl.add("light")}})();</script>
 
     <link href="../../static/favicon.png" rel="icon">
-    <link href="../../resources/css/retype.css?v=3.10.1.803440894100" rel="stylesheet">
+    <link href="../../resources/css/retype.css?v=3.10.1.803620813210" rel="stylesheet">
 
-    <script data-cfasync="false" src="../../resources/js/config.js?v=3.10.1.803440894100" data-turbo-eval="false" defer></script>
+    <script data-cfasync="false" src="../../resources/js/config.js?v=3.10.1.803620813210" data-turbo-eval="false" defer></script>
     <script data-cfasync="false" src="../../resources/js/retype.js?v=3.10.1" data-turbo-eval="false" defer></script>
-    <script id="lunr-js" data-cfasync="false" src="../../resources/js/lunr.js?v=3.10.1.803440894100" data-turbo-eval="false" defer></script>
-    <script id="prism-js" data-cfasync="false" src="../../resources/js/prism.js?v=3.10.1.803440894100" defer></script>
+    <script id="lunr-js" data-cfasync="false" src="../../resources/js/lunr.js?v=3.10.1.803620813210" data-turbo-eval="false" defer></script>
+    <script id="prism-js" data-cfasync="false" src="../../resources/js/prism.js?v=3.10.1.803620813210" defer></script>
 
     <link href="https://workleap.github.io/wl-idp-docs-hub/static/retype-customization.css" rel="stylesheet" />
 
@@ -318,14 +318,14 @@
     </div>
 </div>
 <p>Environment variables are incredibly useful when working with <strong>multiple environments</strong>, such as <code v-pre>dev</code>, <code v-pre>staging</code>, and <code v-pre>production</code>, by <strong>decoupling configuration from</strong> the <strong>code</strong>. This allows to change an application&#x27;s behavior without modifying the code itself. A common example is the URLs of dedicated API services, where each environment uses a different URL.</p>
-<p>In webpack, environment variables are typically passed from the CLI to the application code using the <a href="https://webpack.js.org/plugins/define-plugin/" class="outbound" target="_blank">DefinePlugin</a> and accessed through <code v-pre>process.env</code>, e.g. <code v-pre>process.env.BASE_API_URL</code>.</p>
+<p>In Rsbuild, environment variables are typically passed from the CLI to the build code, and injected through <code v-pre>process.env</code>, e.g. <code v-pre>process.env.BASE_API_URL</code>.</p>
 <p>While accessing environment variables from <code v-pre>process.env</code> works, it has a few downsides:</p>
 <ul>
 <li><strong>It&#x27;s not ideal for testing</strong>. Tests relying on global variables can inadvertently affect other tests, introducing potential issues that affect test reliability, maintainability, and isolation.</li>
 <li><strong>It complicates</strong> <a href="../develop-a-module-in-isolation/">module development in isolation</a>. A modular application <a href="../develop-a-module-in-isolation/#create-a-shell-package">shell</a> often makes requests to multiple endpoints, which vary depending on the environment. These endpoints require environment variables to define their URLs. When developing modules in isolation, modules should not provide these environment variables to the shell. Instead, to <strong>improve DX</strong>, the shell library should <strong>manage</strong> these environment variables <strong>internally</strong>.</li>
 </ul>
 <p>To replace <code v-pre>process.env</code>, Squide provides the <a href="../../reference/env-vars/getenvironmentvariablesplugin/">EnvironmentVariablesPlugin</a>. This plugin acts as a registry and integrates with the <a href="../../reference/runtime/runtime-class/">Runtime API</a>, allowing modules to register and retrieve environment variables.</p>
-<p>Before this plugin, page components would directly rely on <code v-pre>process.env</code>:</p>
+<p>Without this plugin, page components would directly rely on <code v-pre>process.env</code>:</p>
 <div class="codeblock-wrapper"><doc-codeblock>
 <pre translate="no" class="language-tsx" data-line="6"><code v-pre class="language-tsx">import { fetchJson } from &quot;@sample/shared&quot;;
 import { useSuspenseQuery } from &quot;@tanstack/react-query&quot;;
@@ -340,7 +340,7 @@ export function Page() {
     );
 }</code></pre>
 </doc-codeblock></div>
-<p>With the <code v-pre>EnvironmentVariablesPlugin</code>, a page component can now retrieve the <code v-pre>baseApiUrl</code> from Squide&#x27;s runtime instance by using the <a href="../../reference/env-vars/useenvironmentvariable/">useEnvironmentVariable</a> hook:</p>
+<p>With this plugin, a page component can now retrieve the <code v-pre>baseApiUrl</code> from Squide&#x27;s runtime instance by using the <a href="../../reference/env-vars/useenvironmentvariable/">useEnvironmentVariable</a> hook:</p>
 <div class="codeblock-wrapper"><doc-codeblock>
 <pre translate="no" class="language-tsx" data-line="6,9"><code v-pre class="language-tsx">import { useEnvironmentVariable } from &quot;@squide/env-vars&quot;;
 import { fetchJson } from &quot;@sample/shared&quot;;
@@ -377,21 +377,16 @@ export function Page() {
 </doc-anchor-target>
 <p>Then, update the host application boostrapping code to register an instance of the <a href="../../reference/env-vars/environmentvariablesplugin/">EnvironmentVariablesPlugin</a> with the <a href="../../reference/runtime/runtime-class/">FireflyRuntime</a> instance:</p>
 <div class="codeblock-wrapper"><doc-codeblock>
-<div class="codeblock-title">host/src/bootstrap.tsx</div>
-<pre translate="no" class="language-tsx" data-line="15"><code v-pre class="language-tsx">import { createRoot } from &quot;react-dom/client&quot;;
-import { ConsoleLogger, FireflyProvider, initializeFirefly, type RemoteDefinition } from &quot;@squide/firefly&quot;;
+<div class="codeblock-title">host/src/index.tsx</div>
+<pre translate="no" class="language-tsx" data-line="10"><code v-pre class="language-tsx">import { createRoot } from &quot;react-dom/client&quot;;
+import { ConsoleLogger, FireflyProvider, initializeFirefly } from &quot;@squide/firefly&quot;;
 import { EnvironmentVariablesPlugin } from &quot;@squide/env-vars&quot;;
 import { App } from &quot;./App.tsx&quot;;
 import { registerHost } from &quot;./register.tsx&quot;;
 import { registerShell } from &quot;@sample/shell&quot;;
 
-const Remotes: RemoteDefinition[] = [
-    { url: name: &quot;remote1&quot; }
-];
-
 const runtime = initializeFirefly(runtime, {
     localModules: [registerShell, registerHost],
-    remotes: Remotes,
     plugins: [x =&gt; new EnvironmentVariablesPlugin(x)],
     loggers: [x =&gt; new ConsoleLogger(x)]
 })
@@ -900,18 +895,6 @@ declare module &quot;@squide/env-vars&quot; {
     &quot;exclude&quot;: [&quot;dist&quot;, &quot;node_modules&quot;]
 }</code></pre>
 </doc-codeblock></div>
-<div class="codeblock-wrapper"><doc-codeblock>
-<div class="codeblock-title">remote-module/tsconfig.json</div>
-<pre translate="no" class="language-json" data-line="6"><code v-pre class="language-json">{
-    &quot;extends&quot;: &quot;@workleap/typescript-configs/web-application.json&quot;,
-    &quot;include&quot;: [
-        &quot;src&quot;,
-        &quot;types&quot;
-        &quot;../shell/types&quot;
-    ],
-    &quot;exclude&quot;: [&quot;dist&quot;, &quot;node_modules&quot;]
-}</code></pre>
-</doc-codeblock></div>
 <doc-anchor-target id="troubleshoot-issues-1">
     <h3>
         <doc-anchor-trigger class="header-anchor-trigger" to="#troubleshoot-issues-1">#</doc-anchor-trigger>
@@ -943,11 +926,11 @@ declare module &quot;@squide/env-vars&quot; {
                             
                                 <nav id="retype-nextprev" class="print:hidden flex mt-14">
                                     <div class="w-1/2">
-                                        <a class="px-5 py-4 h-full flex items-center break-normal font-medium text-blue-500 dark:text-blue-400 border border-gray-300 hover:border-gray-400 dark:border-dark-650 dark:hover:border-dark-450 rounded-l-lg transition-colors duration-150 relative hover:z-5" href="../../guides/use-feature-flags/">
+                                        <a class="px-5 py-4 h-full flex items-center break-normal font-medium text-blue-500 dark:text-blue-400 border border-gray-300 hover:border-gray-400 dark:border-dark-650 dark:hover:border-dark-450 rounded-l-lg transition-colors duration-150 relative hover:z-5" href="../../guides/register-a-conditional-nav-item/">
                                             <svg xmlns="http://www.w3.org/2000/svg" class="mr-3" width="24" height="24" viewBox="0 0 24 24" fill="currentColor" overflow="visible"><path d="M19 11H7.41l5.29-5.29a.996.996 0 10-1.41-1.41l-7 7a1 1 0 000 1.42l7 7a1.024 1.024 0 001.42-.01.996.996 0 000-1.41L7.41 13H19c.55 0 1-.45 1-1s-.45-1-1-1z" /><path fill="none" d="M0 0h24v24H0z" /></svg>
                                             <span>
                                                 <span class="block text-xs font-normal text-gray-400 dark:text-dark-400">Previous</span>
-                                                <span class="block mt-1">Use feature flags</span>
+                                                <span class="block mt-1">Register a conditional navigation item</span>
                                             </span>
                                         </a>
                                     </div>

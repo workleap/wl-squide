@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <meta name="turbo-root" content="/wl-squide">
-    <meta name="turbo-cache-control" content="no-cache" data-turbo-track="reload" data-track-token="3.10.1.803440894100">
+    <meta name="turbo-cache-control" content="no-cache" data-turbo-track="reload" data-track-token="3.10.1.803620813210">
 
     <!-- See retype.com -->
     <meta name="generator" content="Retype 3.10.1">
@@ -32,12 +32,12 @@
     <script data-cfasync="false">(function(){var cl=document.documentElement.classList,ls=localStorage.getItem("retype_scheme"),hd=cl.contains("dark"),hl=cl.contains("light"),wm=window.matchMedia&&window.matchMedia("(prefers-color-scheme: dark)").matches;if(ls==="dark"||(!ls&&wm&&!hd&&!hl)){cl.remove("light");cl.add("dark")}else if(ls==="light"||(!ls&&!wm&&!hd&&!hl)){cl.remove("dark");cl.add("light")}})();</script>
 
     <link href="../../static/favicon.png" rel="icon">
-    <link href="../../resources/css/retype.css?v=3.10.1.803440894100" rel="stylesheet">
+    <link href="../../resources/css/retype.css?v=3.10.1.803620813210" rel="stylesheet">
 
-    <script data-cfasync="false" src="../../resources/js/config.js?v=3.10.1.803440894100" data-turbo-eval="false" defer></script>
+    <script data-cfasync="false" src="../../resources/js/config.js?v=3.10.1.803620813210" data-turbo-eval="false" defer></script>
     <script data-cfasync="false" src="../../resources/js/retype.js?v=3.10.1" data-turbo-eval="false" defer></script>
-    <script id="lunr-js" data-cfasync="false" src="../../resources/js/lunr.js?v=3.10.1.803440894100" data-turbo-eval="false" defer></script>
-    <script id="prism-js" data-cfasync="false" src="../../resources/js/prism.js?v=3.10.1.803440894100" defer></script>
+    <script id="lunr-js" data-cfasync="false" src="../../resources/js/lunr.js?v=3.10.1.803620813210" data-turbo-eval="false" defer></script>
+    <script id="prism-js" data-cfasync="false" src="../../resources/js/prism.js?v=3.10.1.803620813210" defer></script>
 
     <link href="https://workleap.github.io/wl-idp-docs-hub/static/retype-customization.css" rel="stylesheet" />
 
@@ -317,13 +317,12 @@
             <h5>Use an existing template</h5>
 <p>We highly recommend going through the entire getting started guide. However, if you prefer to scaffold the application we&#x27;ll be building, a template is available with <a href="https://github.com/Rich-Harris/degit" class="outbound" target="_blank">degit</a>:</p>
 <div class="codeblock-wrapper"><doc-codeblock>
-<pre translate="no" class="language-bash"><code v-pre class="language-bash">corepack pnpm dlx degit https://github.com/workleap/wl-squide/templates/getting-started</code></pre>
+<pre translate="no" class="language-bash"><code v-pre class="language-bash">corepack pnpx degit https://github.com/workleap/wl-squide/templates/getting-started</code></pre>
 </doc-codeblock></div>
         </div>
     </div>
 </div>
-<p>Local modules are regular modules that are part of the <strong>host application build</strong>. They are independent modules that expose a <code v-pre>registration</code> function to the host application&#x27;s bootstrapping code. A local module can be a standalone package, a sibling project (in a monorepo setup), or even a local folder within the host application.</p>
-<p>Local modules have many uses but are especially useful when <strong>launching</strong> a <strong>new product</strong> with an unrefined business domain or <strong>migrating</strong> from a <strong>monolithic application</strong> to a distributed application.</p>
+<p>Local modules expose a <code v-pre>registration</code> function to the host application&#x27;s bootstrapping code. A local module can be a standalone package, a sibling project (in a monorepo setup), or even a local folder within the host application.</p>
 <p>Let&#x27;s add a local module to demonstrate how it&#x27;s done!</p>
 <doc-anchor-target id="install-the-packages">
     <h2>
@@ -331,7 +330,7 @@
         <span>Install the packages</span>
     </h2>
 </doc-anchor-target>
-<p>Create a new application (we&#x27;ll refer to ours as <code v-pre>local-module</code>), then open a terminal at the root of the new solution and install the following packages:</p>
+<p>Create a new application (we&#x27;ll refer to ours as <code v-pre>local-module</code>), then open a terminal at the root of the application and install the following packages:</p>
 <div class="codeblock-wrapper"><doc-codeblock>
 <pre translate="no" class="language-bash"><code v-pre class="language-bash">pnpm add -D typescript @types/react @types/react-dom react react-dom react-router @tanstack/react-query
 pnpm add @squide/firefly</code></pre>
@@ -377,10 +376,10 @@ pnpm add @squide/firefly</code></pre>
     &quot;version&quot;: &quot;0.0.1&quot;,
     &quot;exports&quot;: &quot;./src/register.tsx&quot;,
     &quot;peerDependencies&quot;: {
-        &quot;@tanstack/react-query&quot;: &quot;*&quot;,
-        &quot;react&quot;: &quot;*&quot;,
-        &quot;react-dom&quot;: &quot;*&quot;,
-        &quot;react-router&quot;: &quot;*&quot;
+        &quot;@tanstack/react-query&quot;: &quot;^1.2.3&quot;,
+        &quot;react&quot;: &quot;^1.2.3&quot;,
+        &quot;react-dom&quot;: &quot;^1.2.3&quot;,
+        &quot;react-router&quot;: &quot;^1.2.3&quot;
     }
 }</code></pre>
 </doc-codeblock></div>
@@ -450,7 +449,7 @@ export const register: ModuleRegisterFunction&lt;FireflyRuntime&gt; = runtime =&
 </div>
 <p>Then, register the local module with the <a href="../../reference/registration/initializefirefly/">initializeFirefly</a> function:</p>
 <div class="codeblock-wrapper"><doc-codeblock>
-<div class="codeblock-title">host/src/bootstrap.tsx</div>
+<div class="codeblock-title">host/src/index.tsx</div>
 <pre translate="no" class="language-tsx" data-line="3,14"><code v-pre class="language-tsx">import { createRoot } from &quot;react-dom/client&quot;;
 import { ConsoleLogger, FireflyProvider, initializeFirefly, type RemoteDefinition } from &quot;@squide/firefly&quot;;
 import { register as registerMyLocalModule } from &quot;@getting-started/local-module&quot;;
@@ -483,7 +482,7 @@ root.render(
         <span>Try it <span class="docs-emoji">&#x1F680;</span></span>
     </h2>
 </doc-anchor-target>
-<p>Start the <code v-pre>host</code> and <code v-pre>remote-module</code> applications in development mode using the <code v-pre>dev</code> script. You should notice an additional link labelled <code v-pre>Local/Page</code> in the navigation menu. Click on the link to navigate to the page of your new <strong>local</strong> module!</p>
+<p>Start the <code v-pre>host</code> application in development mode using the <code v-pre>dev</code> script. You should notice an additional link labelled <code v-pre>Local/Page</code> in the navigation menu. Click on the link to navigate to the page of your new <strong>local</strong> module!</p>
 <doc-anchor-target id="troubleshoot-issues">
     <h3>
         <doc-anchor-trigger class="header-anchor-trigger" to="#troubleshoot-issues">#</doc-anchor-trigger>
@@ -516,11 +515,11 @@ root.render(
                             
                                 <nav id="retype-nextprev" class="print:hidden flex mt-14">
                                     <div class="w-1/2">
-                                        <a class="px-5 py-4 h-full flex items-center break-normal font-medium text-blue-500 dark:text-blue-400 border border-gray-300 hover:border-gray-400 dark:border-dark-650 dark:hover:border-dark-450 rounded-l-lg transition-colors duration-150 relative hover:z-5" href="../../introduction/create-remote-module/">
+                                        <a class="px-5 py-4 h-full flex items-center break-normal font-medium text-blue-500 dark:text-blue-400 border border-gray-300 hover:border-gray-400 dark:border-dark-650 dark:hover:border-dark-450 rounded-l-lg transition-colors duration-150 relative hover:z-5" href="../../introduction/create-host/">
                                             <svg xmlns="http://www.w3.org/2000/svg" class="mr-3" width="24" height="24" viewBox="0 0 24 24" fill="currentColor" overflow="visible"><path d="M19 11H7.41l5.29-5.29a.996.996 0 10-1.41-1.41l-7 7a1 1 0 000 1.42l7 7a1.024 1.024 0 001.42-.01.996.996 0 000-1.41L7.41 13H19c.55 0 1-.45 1-1s-.45-1-1-1z" /><path fill="none" d="M0 0h24v24H0z" /></svg>
                                             <span>
                                                 <span class="block text-xs font-normal text-gray-400 dark:text-dark-400">Previous</span>
-                                                <span class="block mt-1">Create a remote module</span>
+                                                <span class="block mt-1">Create an host app</span>
                                             </span>
                                         </a>
                                     </div>

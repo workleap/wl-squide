@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <meta name="turbo-root" content="/wl-squide">
-    <meta name="turbo-cache-control" content="no-cache" data-turbo-track="reload" data-track-token="3.10.1.803440894100">
+    <meta name="turbo-cache-control" content="no-cache" data-turbo-track="reload" data-track-token="3.10.1.803620813210">
 
     <!-- See retype.com -->
     <meta name="generator" content="Retype 3.10.1">
@@ -32,12 +32,12 @@
     <script data-cfasync="false">(function(){var cl=document.documentElement.classList,ls=localStorage.getItem("retype_scheme"),hd=cl.contains("dark"),hl=cl.contains("light"),wm=window.matchMedia&&window.matchMedia("(prefers-color-scheme: dark)").matches;if(ls==="dark"||(!ls&&wm&&!hd&&!hl)){cl.remove("light");cl.add("dark")}else if(ls==="light"||(!ls&&!wm&&!hd&&!hl)){cl.remove("dark");cl.add("light")}})();</script>
 
     <link href="../../static/favicon.png" rel="icon">
-    <link href="../../resources/css/retype.css?v=3.10.1.803440894100" rel="stylesheet">
+    <link href="../../resources/css/retype.css?v=3.10.1.803620813210" rel="stylesheet">
 
-    <script data-cfasync="false" src="../../resources/js/config.js?v=3.10.1.803440894100" data-turbo-eval="false" defer></script>
+    <script data-cfasync="false" src="../../resources/js/config.js?v=3.10.1.803620813210" data-turbo-eval="false" defer></script>
     <script data-cfasync="false" src="../../resources/js/retype.js?v=3.10.1" data-turbo-eval="false" defer></script>
-    <script id="lunr-js" data-cfasync="false" src="../../resources/js/lunr.js?v=3.10.1.803440894100" data-turbo-eval="false" defer></script>
-    <script id="prism-js" data-cfasync="false" src="../../resources/js/prism.js?v=3.10.1.803440894100" defer></script>
+    <script id="lunr-js" data-cfasync="false" src="../../resources/js/lunr.js?v=3.10.1.803620813210" data-turbo-eval="false" defer></script>
+    <script id="prism-js" data-cfasync="false" src="../../resources/js/prism.js?v=3.10.1.803620813210" defer></script>
 
     <link href="https://workleap.github.io/wl-idp-docs-hub/static/retype-customization.css" rel="stylesheet" />
 
@@ -315,7 +315,7 @@ pnpm add msw</code></pre>
 </doc-codeblock></div>
 <p>Then <a href="https://mswjs.io/docs/cli/init/" class="outbound" target="_blank">initialize</a> MSW by executing the following command:</p>
 <div class="codeblock-wrapper"><doc-codeblock>
-<pre translate="no" class="language-bash"><code v-pre class="language-bash">pnpm dlx msw init ./public</code></pre>
+<pre translate="no" class="language-bash"><code v-pre class="language-bash">pnpx msw init ./public</code></pre>
 </doc-codeblock></div>
 <doc-anchor-target id="add-an-environment-variable">
     <h3>
@@ -328,46 +328,48 @@ pnpm add msw</code></pre>
 <div class="codeblock-title">host/package.json</div>
 <pre translate="no" class="language-json"><code v-pre class="language-json">{
     &quot;scripts&quot;: {
-        &quot;dev&quot;: &quot;cross-env USE_MSW=true webpack serve --config webpack.dev.js&quot;
+        &quot;dev&quot;: &quot;cross-env USE_MSW=true rsbuild dev --config ./rsbuild.dev.ts&quot;
     }
 }</code></pre>
 </doc-codeblock></div>
-<p>Then, update the development <a href="https://webpack.js.org/" class="outbound" target="_blank">webpack</a> configuration file to include the <code v-pre>USE_MSW</code> environment variable into the application bundles:</p>
+<p>Then, update the development <a href="https://rsbuild.dev/" class="outbound" target="_blank">Rsbuild</a> configuration file to include the <code v-pre>USE_MSW</code> environment variable into the application bundles:</p>
 <div class="codeblock-wrapper"><doc-codeblock>
-<div class="codeblock-title">host/webpack.dev.js</div>
-<pre translate="no" class="language-javascript" data-line="14"><code v-pre class="language-javascript">// @ts-check
+<div class="codeblock-title">host/rsbuild.dev.ts</div>
+<pre translate="no" class="language-javascript" data-line="5"><code v-pre class="language-javascript">import { defineDevConfig } from &quot;@squide/firefly-webpack-configs&quot;;
 
-import { defineDevHostConfig } from &quot;@squide/firefly-webpack-configs&quot;;
-
-/**
- * @typedef {import(&quot;@squide/firefly-webpack-configs&quot;).RemoteDefinition[]}
- */
-const Remotes = [
-    { name: &quot;remote1&quot;, url: &quot;http://localhost:8081&quot; }
-];
-
-export default defineDevHostConfig(swcConfig, 8080, Remotes, {
+export default defineDevConfig({
     environmentVariables: {
         &quot;USE_MSW&quot;: process.env.USE_MSW === &quot;true&quot;
     }
 });</code></pre>
 </doc-codeblock></div>
-<blockquote>
-<p>For more information about the <code v-pre>environmentVariables</code> predefined option, refer to the <a href="https://workleap.github.io/wl-web-configs/webpack/configure-dev/#define-environment-variables" class="outbound" target="_blank">webpack configuration documentation</a>.</p>
-</blockquote>
 <div class="flex mb-6">
-    <div class="shrink-0 w-1.5 rounded-tl-lg rounded-bl-lg bg-yellow-500"></div>
+    <div class="shrink-0 w-1.5 rounded-tl-lg rounded-bl-lg bg-green-400"></div>
     <div class="flex w-full py-4 border border-l-0 border-gray-300 rounded-tr-lg rounded-br-lg doc-callout bg-white dark:bg-dark-700 dark:border-dark-700" role="alert">
         <div class="flex items-center ml-4 h-7">
-            <svg xmlns="http://www.w3.org/2000/svg" class="mb-px text-yellow-500" width="22" height="22" viewBox="0 0 24 24" role="presentation">
+            <svg xmlns="http://www.w3.org/2000/svg" class="mb-px text-green-400" width="22" height="22" viewBox="0 0 24 24" role="presentation">
                 <g fill="currentColor"><g>
-                    <path d="M22.48 15.59L14.01 1.45A2.968 2.968 0 0012.16.09c-.78-.19-1.58-.07-2.27.35-.41.25-.76.6-1.01 1.01v.01L.4 15.6c-.83 1.43-.33 3.27 1.1 4.1.45.26.95.4 1.48.4h16.95c.8-.01 1.55-.33 2.11-.9.56-.57.87-1.33.86-2.13a3.04 3.04 0 00-.42-1.48zm-1.87 2.21c-.19.19-.44.3-.69.3H2.99c-.17 0-.34-.05-.49-.13a.992.992 0 01-.37-1.35L10.6 2.48c.08-.14.2-.25.34-.33a.992.992 0 011.37.33l8.46 14.13c.09.15.13.32.13.49 0 .26-.1.51-.29.7z"></path>
-                    <path d="M11.45 12.1c.55 0 1-.45 1-1v-4c0-.55-.45-1-1-1s-1 .45-1 1v4c0 .56.45 1 1 1zM11.46 14.1c-.56 0-1 .45-1 1s.45 1 1 1 1-.45 1-1-.45-1-1-1z"></path>
+                    <path d="M7.90625 2.15625C4.50944 2.15625 2.15625 4.58563 2.15625 7.54688C2.15625 8.96138 2.76575 9.88281 3.57075 10.8589L3.87837 11.2226C4.19894 11.6021 4.554 12.0218 4.84581 12.4416C5.25406 13.0324 5.61775 13.7296 5.7385 14.5834C5.76728 14.8608 5.68746 15.1386 5.51579 15.3583C5.34413 15.5781 5.09399 15.7228 4.8179 15.7621C4.5418 15.8013 4.26124 15.7321 4.03512 15.5689C3.809 15.4056 3.65493 15.1612 3.60525 14.8867C3.54775 14.4814 3.37094 14.1004 3.07338 13.6692C2.8306 13.3302 2.57055 13.0039 2.29425 12.6917C2.1735 12.5479 2.04556 12.397 1.909 12.2317C1.00769 11.1406 0 9.72613 0 7.54688C0 3.32062 3.39681 0 7.90625 0C12.4157 0 15.8125 3.32062 15.8125 7.54688C15.8125 9.72613 14.8048 11.1406 13.9035 12.2317C13.7669 12.397 13.639 12.5479 13.5183 12.6903C13.2207 13.0424 12.9677 13.3414 12.7406 13.6692C12.4416 14.1004 12.2662 14.4814 12.2087 14.8867C12.1557 15.1584 12.0003 15.3994 11.7747 15.5598C11.5492 15.7202 11.2706 15.7879 10.9965 15.7488C10.7225 15.7096 10.474 15.5667 10.3023 15.3496C10.1306 15.1325 10.0489 14.8577 10.074 14.582C10.1948 13.7296 10.5584 13.0324 10.9667 12.4416C11.2585 12.0218 11.6136 11.6021 11.9341 11.2226C12.0419 11.0961 12.1454 10.9739 12.2403 10.8589C13.0468 9.88281 13.6562 8.96138 13.6562 7.54688C13.6562 4.58563 11.3031 2.15625 7.90625 2.15625ZM4.67188 17.25H11.1406C11.4266 17.25 11.7008 17.3636 11.903 17.5658C12.1052 17.768 12.2188 18.0422 12.2188 18.3281C12.2188 18.6141 12.1052 18.8883 11.903 19.0905C11.7008 19.2927 11.4266 19.4062 11.1406 19.4062H4.67188C4.38594 19.4062 4.11171 19.2927 3.90953 19.0905C3.70734 18.8883 3.59375 18.6141 3.59375 18.3281C3.59375 18.0422 3.70734 17.768 3.90953 17.5658C4.11171 17.3636 4.38594 17.25 4.67188 17.25ZM5.03125 21.9219C5.03125 21.6359 5.14484 21.3617 5.34703 21.1595C5.54921 20.9573 5.82344 20.8438 6.10938 20.8438H9.70312C9.98906 20.8438 10.2633 20.9573 10.4655 21.1595C10.6677 21.3617 10.7812 21.6359 10.7812 21.9219C10.7812 22.2078 10.6677 22.482 10.4655 22.6842C10.2633 22.8864 9.98906 23 9.70312 23H6.10938C5.82344 23 5.54921 22.8864 5.34703 22.6842C5.14484 22.482 5.03125 22.2078 5.03125 21.9219Z" />
                 </g></g>
             </svg>
         </div>
         <div class="pr-5 ml-3 w-full">
-<p>Don&#x27;t forget to define the <code v-pre>USE_MSW</code> environment variable for the build script and build webpack configuration as well.</p>
+<p>For additional information about the <code v-pre>environmentVariables</code> predefined option, refer to the <a href="https://workleap.github.io/wl-web-configs/rsbuild/configure-dev/#define-environment-variables" class="outbound" target="_blank">Rsbuild configuration documentation</a>.</p>
+        </div>
+    </div>
+</div>
+<div class="flex mb-6">
+    <div class="shrink-0 w-1.5 rounded-tl-lg rounded-bl-lg bg-green-400"></div>
+    <div class="flex w-full py-4 border border-l-0 border-gray-300 rounded-tr-lg rounded-br-lg doc-callout bg-white dark:bg-dark-700 dark:border-dark-700" role="alert">
+        <div class="flex items-center ml-4 h-7">
+            <svg xmlns="http://www.w3.org/2000/svg" class="mb-px text-green-400" width="22" height="22" viewBox="0 0 24 24" role="presentation">
+                <g fill="currentColor"><g>
+                    <path d="M7.90625 2.15625C4.50944 2.15625 2.15625 4.58563 2.15625 7.54688C2.15625 8.96138 2.76575 9.88281 3.57075 10.8589L3.87837 11.2226C4.19894 11.6021 4.554 12.0218 4.84581 12.4416C5.25406 13.0324 5.61775 13.7296 5.7385 14.5834C5.76728 14.8608 5.68746 15.1386 5.51579 15.3583C5.34413 15.5781 5.09399 15.7228 4.8179 15.7621C4.5418 15.8013 4.26124 15.7321 4.03512 15.5689C3.809 15.4056 3.65493 15.1612 3.60525 14.8867C3.54775 14.4814 3.37094 14.1004 3.07338 13.6692C2.8306 13.3302 2.57055 13.0039 2.29425 12.6917C2.1735 12.5479 2.04556 12.397 1.909 12.2317C1.00769 11.1406 0 9.72613 0 7.54688C0 3.32062 3.39681 0 7.90625 0C12.4157 0 15.8125 3.32062 15.8125 7.54688C15.8125 9.72613 14.8048 11.1406 13.9035 12.2317C13.7669 12.397 13.639 12.5479 13.5183 12.6903C13.2207 13.0424 12.9677 13.3414 12.7406 13.6692C12.4416 14.1004 12.2662 14.4814 12.2087 14.8867C12.1557 15.1584 12.0003 15.3994 11.7747 15.5598C11.5492 15.7202 11.2706 15.7879 10.9965 15.7488C10.7225 15.7096 10.474 15.5667 10.3023 15.3496C10.1306 15.1325 10.0489 14.8577 10.074 14.582C10.1948 13.7296 10.5584 13.0324 10.9667 12.4416C11.2585 12.0218 11.6136 11.6021 11.9341 11.2226C12.0419 11.0961 12.1454 10.9739 12.2403 10.8589C13.0468 9.88281 13.6562 8.96138 13.6562 7.54688C13.6562 4.58563 11.3031 2.15625 7.90625 2.15625ZM4.67188 17.25H11.1406C11.4266 17.25 11.7008 17.3636 11.903 17.5658C12.1052 17.768 12.2188 18.0422 12.2188 18.3281C12.2188 18.6141 12.1052 18.8883 11.903 19.0905C11.7008 19.2927 11.4266 19.4062 11.1406 19.4062H4.67188C4.38594 19.4062 4.11171 19.2927 3.90953 19.0905C3.70734 18.8883 3.59375 18.6141 3.59375 18.3281C3.59375 18.0422 3.70734 17.768 3.90953 17.5658C4.11171 17.3636 4.38594 17.25 4.67188 17.25ZM5.03125 21.9219C5.03125 21.6359 5.14484 21.3617 5.34703 21.1595C5.54921 20.9573 5.82344 20.8438 6.10938 20.8438H9.70312C9.98906 20.8438 10.2633 20.9573 10.4655 21.1595C10.6677 21.3617 10.7812 21.6359 10.7812 21.9219C10.7812 22.2078 10.6677 22.482 10.4655 22.6842C10.2633 22.8864 9.98906 23 9.70312 23H6.10938C5.82344 23 5.54921 22.8864 5.34703 22.6842C5.14484 22.482 5.03125 22.2078 5.03125 21.9219Z" />
+                </g></g>
+            </svg>
+        </div>
+        <div class="pr-5 ml-3 w-full">
+<p>Make sure to define the <code v-pre>USE_MSW</code> environment variable for the build configuration as well.</p>
         </div>
     </div>
 </div>
@@ -394,20 +396,15 @@ export function startMsw(moduleRequestHandlers: RequestHandler[]) {
 </doc-codeblock></div>
 <p>Then, update the bootstrapping code to <a href="https://mswjs.io/docs/integrations/browser#setup" class="outbound" target="_blank">start MSW</a> when it&#x27;s enabled:</p>
 <div class="codeblock-wrapper"><doc-codeblock>
-<div class="codeblock-title">host/src/bootstrap.tsx</div>
-<pre translate="no" class="language-tsx" data-line="11,15-19"><code v-pre class="language-tsx">import { createRoot } from &quot;react-dom/client&quot;;
-import { ConsoleLogger, FireflyProvider, initializeFirefly, type RemoteDefinition } from &quot;@squide/firefly&quot;;
+<div class="codeblock-title">host/src/index.tsx</div>
+<pre translate="no" class="language-tsx" data-line="7,10-14"><code v-pre class="language-tsx">import { createRoot } from &quot;react-dom/client&quot;;
+import { ConsoleLogger, FireflyProvider, initializeFirefly } from &quot;@squide/firefly&quot;;
 import { App } from &quot;./App.tsx&quot;;
 import { registerHost } from &quot;./register.tsx&quot;;
-
-const Remotes: RemoteDefinition[] = [
-    { name: &quot;remote1&quot; }
-];
 
 const runtime = initializeFirefly(runtime, {
     useMsw: !!process.env.USE_MSW,
     localModules: [registerHost],
-    remote: Remotes,
     loggers: [x =&gt; new ConsoleLogger(x)]
     startMsw: async () =&gt; {
         // Files that includes an import to the &quot;msw&quot; package are included dynamically to prevent adding
@@ -424,19 +421,19 @@ root.render(
     &lt;/FireflyProvider&gt;
 );</code></pre>
 </doc-codeblock></div>
-<doc-anchor-target id="setup-a-remote-module">
+<doc-anchor-target id="setup-a-module">
     <h2>
-        <doc-anchor-trigger class="header-anchor-trigger" to="#setup-a-remote-module">#</doc-anchor-trigger>
-        <span>Setup a remote module</span>
+        <doc-anchor-trigger class="header-anchor-trigger" to="#setup-a-module">#</doc-anchor-trigger>
+        <span>Setup a module</span>
     </h2>
 </doc-anchor-target>
-<p>First, open a terminal at the root of the remote module application and install the <a href="https://www.npmjs.com/package/msw" class="outbound" target="_blank">msw</a> package:</p>
+<p>First, open a terminal at the root of the local module and install the <a href="https://www.npmjs.com/package/msw" class="outbound" target="_blank">msw</a> package:</p>
 <div class="codeblock-wrapper"><doc-codeblock>
 <pre translate="no" class="language-bash"><code v-pre class="language-bash">pnpm add msw</code></pre>
 </doc-codeblock></div>
 <p>Then, define a <a href="https://mswjs.io/docs/concepts/request-handler/" class="outbound" target="_blank">request handler</a>:</p>
 <div class="codeblock-wrapper"><doc-codeblock>
-<div class="codeblock-title">remote-module/mocks/handlers.ts</div>
+<div class="codeblock-title">local-module/mocks/handlers.ts</div>
 <pre translate="no" class="language-typescript"><code v-pre class="language-typescript">import { HttpResponse, http, type HttpHandler } from &quot;msw&quot;;
 
 export const requestHandlers: HttpHandler[] = [
@@ -451,7 +448,7 @@ export const requestHandlers: HttpHandler[] = [
 </doc-codeblock></div>
 <p>Finally, register the request handler with the <a href="../../reference/runtime/runtime-class/">FireflyRuntime</a> instance:</p>
 <div class="codeblock-wrapper"><doc-codeblock>
-<div class="codeblock-title">remote-module/src/register.tsx</div>
+<div class="codeblock-title">relocalmote-module/src/register.tsx</div>
 <pre translate="no" class="language-typescript" data-line="4,7,9"><code v-pre class="language-typescript">import type { ModuleRegisterFunction, FireflyRuntime } from &quot;@squide/firefly&quot;; 
 
 export const register: ModuleRegisterFunction&lt;FireflyRuntime&gt; = async runtime =&gt; {
@@ -464,13 +461,6 @@ export const register: ModuleRegisterFunction&lt;FireflyRuntime&gt; = async runt
     }
 }</code></pre>
 </doc-codeblock></div>
-<doc-anchor-target id="setup-a-local-module">
-    <h2>
-        <doc-anchor-trigger class="header-anchor-trigger" to="#setup-a-local-module">#</doc-anchor-trigger>
-        <span>Setup a local module</span>
-    </h2>
-</doc-anchor-target>
-<p>Follow the same steps as for a <doc-anchor-trigger to="#setup-a-remote-module">remote module</doc-anchor-trigger>.</p>
 <doc-anchor-target id="try-it-rocket">
     <h2>
         <doc-anchor-trigger class="header-anchor-trigger" to="#try-it-rocket">#</doc-anchor-trigger>

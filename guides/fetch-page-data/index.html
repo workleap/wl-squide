@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <meta name="turbo-root" content="/wl-squide">
-    <meta name="turbo-cache-control" content="no-cache" data-turbo-track="reload" data-track-token="3.10.1.803440894100">
+    <meta name="turbo-cache-control" content="no-cache" data-turbo-track="reload" data-track-token="3.10.1.803620813210">
 
     <!-- See retype.com -->
     <meta name="generator" content="Retype 3.10.1">
@@ -32,12 +32,12 @@
     <script data-cfasync="false">(function(){var cl=document.documentElement.classList,ls=localStorage.getItem("retype_scheme"),hd=cl.contains("dark"),hl=cl.contains("light"),wm=window.matchMedia&&window.matchMedia("(prefers-color-scheme: dark)").matches;if(ls==="dark"||(!ls&&wm&&!hd&&!hl)){cl.remove("light");cl.add("dark")}else if(ls==="light"||(!ls&&!wm&&!hd&&!hl)){cl.remove("dark");cl.add("light")}})();</script>
 
     <link href="../../static/favicon.png" rel="icon">
-    <link href="../../resources/css/retype.css?v=3.10.1.803440894100" rel="stylesheet">
+    <link href="../../resources/css/retype.css?v=3.10.1.803620813210" rel="stylesheet">
 
-    <script data-cfasync="false" src="../../resources/js/config.js?v=3.10.1.803440894100" data-turbo-eval="false" defer></script>
+    <script data-cfasync="false" src="../../resources/js/config.js?v=3.10.1.803620813210" data-turbo-eval="false" defer></script>
     <script data-cfasync="false" src="../../resources/js/retype.js?v=3.10.1" data-turbo-eval="false" defer></script>
-    <script id="lunr-js" data-cfasync="false" src="../../resources/js/lunr.js?v=3.10.1.803440894100" data-turbo-eval="false" defer></script>
-    <script id="prism-js" data-cfasync="false" src="../../resources/js/prism.js?v=3.10.1.803440894100" defer></script>
+    <script id="lunr-js" data-cfasync="false" src="../../resources/js/lunr.js?v=3.10.1.803620813210" data-turbo-eval="false" defer></script>
+    <script id="prism-js" data-cfasync="false" src="../../resources/js/prism.js?v=3.10.1.803620813210" defer></script>
 
     <link href="https://workleap.github.io/wl-idp-docs-hub/static/retype-customization.css" rel="stylesheet" />
 
@@ -338,7 +338,7 @@ pnpm add @tanstack/react-query</code></pre>
 </doc-anchor-target>
 <p>Then, instanciate a <a href="https://tanstack.com/query/latest/docs/react/reference/QueryClient" class="outbound" target="_blank">QueryClient</a> instance in the module registration function and wrap the routes element with a <a href="https://tanstack.com/query/latest/docs/react/reference/QueryClientProvider" class="outbound" target="_blank">QueryClientProvider</a>:</p>
 <div class="codeblock-wrapper"><doc-codeblock>
-<div class="codeblock-title">remote/src/register.tsx</div>
+<div class="codeblock-title">local-module/src/register.tsx</div>
 <pre translate="no" class="language-tsx" data-line="7,12"><code v-pre class="language-tsx">import type { ModuleRegisterFunction, FireflyRuntime } from &quot;@squide/firefly&quot;;
 import { QueryClient, QueryClientProvider } from &quot;@tanstack/react-query&quot;;
 import { Page } from &quot;./Page.tsx&quot;;
@@ -384,7 +384,7 @@ export const register: ModuleRegisterFunction&lt;FireflyRuntime&gt; = runtime =&
 </doc-anchor-target>
 <p>If the module register multiple routes, to prevent duplicating registration code, you can create a <code v-pre>Providers</code> component:</p>
 <div class="codeblock-wrapper"><doc-codeblock>
-<div class="codeblock-title">remote/src/register.tsx</div>
+<div class="codeblock-title">local-module/src/register.tsx</div>
 <pre translate="no" class="language-tsx" data-line="9-15,20"><code v-pre class="language-tsx">import type { ModuleRegisterFunction, FireflyRuntime } from &quot;@squide/firefly&quot;;
 import { QueryClient, QueryClientProvider } from &quot;@tanstack/react-query&quot;;
 import { Page } from &quot;./Page.tsx&quot;;
@@ -423,7 +423,7 @@ export const register: ModuleRegisterFunction&lt;FireflyRuntime&gt; = runtime =&
 <p>To faciliate development, TanStack Query provides <a href="https://tanstack.com/query/latest/docs/react/devtools" class="outbound" target="_blank">devtools</a> to help visualize all of the inner workings of TanStack Query.</p>
 <p>However, the TanStack Query devtools has not been developed to handle a modular application with multiple <code v-pre>QueryClient</code> instances. To use the devtools, you must define a <code v-pre>ReactQueryDevtools</code> component for each <code v-pre>QueryClient</code> instance:</p>
 <div class="codeblock-wrapper"><doc-codeblock>
-<div class="codeblock-title">remote/src/register.tsx</div>
+<div class="codeblock-title">local-module/src/register.tsx</div>
 <pre translate="no" class="language-tsx" data-line="14"><code v-pre class="language-tsx">import type { ModuleRegisterFunction, FireflyRuntime } from &quot;@squide/firefly&quot;;
 import { QueryClient, QueryClientProvider } from &quot;@tanstack/react-query&quot;;
 import { ReactQueryDevtools } from &quot;@tanstack/react-query-devtools&quot;;
@@ -457,7 +457,7 @@ export const register: ModuleRegisterFunction&lt;FireflyRuntime&gt; = runtime =&
 </doc-codeblock></div>
 <p>Then, depending on which page of the application has been rendered, a distinct devtools instance will be accessible. For a better experience, we <strong>recommend activating</strong> the TanStack Query <strong>devtools</strong> exclusively when <strong>developing</strong> a <strong>module</strong> <a href="../develop-a-module-in-isolation/">in isolation</a>:</p>
 <div class="codeblock-wrapper"><doc-codeblock>
-<div class="codeblock-title">remote/src/register.tsx</div>
+<div class="codeblock-title">local-module/src/register.tsx</div>
 <pre translate="no" class="language-tsx" data-line="14-16"><code v-pre class="language-tsx">import type { ModuleRegisterFunction, FireflyRuntime } from &quot;@squide/firefly&quot;;
 import { QueryClient, QueryClientProvider } from &quot;@tanstack/react-query&quot;;
 import { ReactQueryDevtools } from &quot;@tanstack/react-query-devtools&quot;;
@@ -499,7 +499,7 @@ export const register: ModuleRegisterFunction&lt;FireflyRuntime&gt; = runtime =&
 </doc-anchor-target>
 <p>Now, let&#x27;s fetch some data. First, add a <a href="https://mswjs.io/" class="outbound" target="_blank">Mock Service Worker</a> (MSW) request handler to the local module:</p>
 <div class="codeblock-wrapper"><doc-codeblock>
-<div class="codeblock-title">remote/mocks/handlers.ts</div>
+<div class="codeblock-title">local-module/mocks/handlers.ts</div>
 <pre translate="no" class="language-typescript"><code v-pre class="language-typescript">import { HttpResponse, http, type HttpHandler } from &quot;msw&quot;;
 
 export const requestHandlers: HttpHandler[] = [
@@ -518,7 +518,7 @@ export const requestHandlers: HttpHandler[] = [
 </doc-codeblock></div>
 <p>Then, register the request handler using the module registration function:</p>
 <div class="codeblock-wrapper"><doc-codeblock>
-<div class="codeblock-title">remote/src/register.tsx</div>
+<div class="codeblock-title">local-module/src/register.tsx</div>
 <pre translate="no" class="language-tsx" data-line="7"><code v-pre class="language-tsx">import type { ModuleRegisterFunction, FireflyRuntime } from &quot;@squide/firefly&quot;; 
 
 export const register: ModuleRegisterFunction&lt;FireflyRuntime&gt; = async runtime =&gt; {
@@ -533,7 +533,7 @@ export const register: ModuleRegisterFunction&lt;FireflyRuntime&gt; = async runt
 </doc-codeblock></div>
 <p>Then, update the <code v-pre>Page</code> component to fetch and render the data with <code v-pre>useSuspenseQuery</code>:</p>
 <div class="codeblock-wrapper"><doc-codeblock>
-<div class="codeblock-title">remote/src/Page.tsx</div>
+<div class="codeblock-title">local-module/src/Page.tsx</div>
 <pre translate="no" class="language-tsx" data-line="10-14"><code v-pre class="language-tsx">import { useSuspenseQuery } from &quot;@tanstack/react-query&quot;;
 
 interface Character {

@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <meta name="turbo-root" content="/wl-squide">
-    <meta name="turbo-cache-control" content="no-cache" data-turbo-track="reload" data-track-token="3.10.1.803440894100">
+    <meta name="turbo-cache-control" content="no-cache" data-turbo-track="reload" data-track-token="3.10.1.803620813210">
 
     <!-- See retype.com -->
     <meta name="generator" content="Retype 3.10.1">
@@ -12,7 +12,7 @@
     <!-- Primary Meta Tags -->
     <title>Isolate module failures</title>
     <meta name="title" content="Isolate module failures">
-    <meta name="description" content="One of the key characteristics of micro-frontends implementations like iframes and subdomains is the ability to isolate failures within individual...">
+    <meta name="description" content="One of the key characteristics of a modular implementation such as iframes is the ability to isolate failures within individual iframe, preventing...">
 
     <!-- Canonical -->
     <link rel="canonical" href="https://workleap.github.io/wl-squide/guides/isolate-module-failures/">
@@ -21,23 +21,23 @@
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://workleap.github.io/wl-squide/guides/isolate-module-failures/">
     <meta property="og:title" content="Isolate module failures">
-    <meta property="og:description" content="One of the key characteristics of micro-frontends implementations like iframes and subdomains is the ability to isolate failures within individual...">
+    <meta property="og:description" content="One of the key characteristics of a modular implementation such as iframes is the ability to isolate failures within individual iframe, preventing...">
 
     <!-- Twitter -->
     <meta property="twitter:card" content="summary_large_image">
     <meta property="twitter:url" content="https://workleap.github.io/wl-squide/guides/isolate-module-failures/">
     <meta property="twitter:title" content="Isolate module failures">
-    <meta property="twitter:description" content="One of the key characteristics of micro-frontends implementations like iframes and subdomains is the ability to isolate failures within individual...">
+    <meta property="twitter:description" content="One of the key characteristics of a modular implementation such as iframes is the ability to isolate failures within individual iframe, preventing...">
 
     <script data-cfasync="false">(function(){var cl=document.documentElement.classList,ls=localStorage.getItem("retype_scheme"),hd=cl.contains("dark"),hl=cl.contains("light"),wm=window.matchMedia&&window.matchMedia("(prefers-color-scheme: dark)").matches;if(ls==="dark"||(!ls&&wm&&!hd&&!hl)){cl.remove("light");cl.add("dark")}else if(ls==="light"||(!ls&&!wm&&!hd&&!hl)){cl.remove("dark");cl.add("light")}})();</script>
 
     <link href="../../static/favicon.png" rel="icon">
-    <link href="../../resources/css/retype.css?v=3.10.1.803440894100" rel="stylesheet">
+    <link href="../../resources/css/retype.css?v=3.10.1.803620813210" rel="stylesheet">
 
-    <script data-cfasync="false" src="../../resources/js/config.js?v=3.10.1.803440894100" data-turbo-eval="false" defer></script>
+    <script data-cfasync="false" src="../../resources/js/config.js?v=3.10.1.803620813210" data-turbo-eval="false" defer></script>
     <script data-cfasync="false" src="../../resources/js/retype.js?v=3.10.1" data-turbo-eval="false" defer></script>
-    <script id="lunr-js" data-cfasync="false" src="../../resources/js/lunr.js?v=3.10.1.803440894100" data-turbo-eval="false" defer></script>
-    <script id="prism-js" data-cfasync="false" src="../../resources/js/prism.js?v=3.10.1.803440894100" defer></script>
+    <script id="lunr-js" data-cfasync="false" src="../../resources/js/lunr.js?v=3.10.1.803620813210" data-turbo-eval="false" defer></script>
+    <script id="prism-js" data-cfasync="false" src="../../resources/js/prism.js?v=3.10.1.803620813210" defer></script>
 
     <link href="https://workleap.github.io/wl-idp-docs-hub/static/retype-customization.css" rel="stylesheet" />
 
@@ -301,9 +301,9 @@
         <span>Isolate module failures</span>
     </h1>
 </doc-anchor-target>
-<p>One of the key characteristics of micro-frontends implementations like <a href="https://martinfowler.com/articles/micro-frontends.html#Run-timeIntegrationViaIframes" class="outbound" target="_blank">iframes</a> and subdomains is the ability to isolate failures within individual modules, preventing them from breaking the entire application.</p>
-<p>However, with a <a href="https://module-federation.io/" class="outbound" target="_blank">Module Federation</a> implementation, this is not the case as all the modules share the same browsing context (e.g. the same <a href="https://developer.mozilla.org/en-US/docs/Web/API/Document" class="outbound" target="_blank">Document object</a>, the same <a href="https://developer.mozilla.org/en-US/docs/Web/API/Window" class="outbound" target="_blank">Window object</a>, and the same DOM). A failure in one module can potentially breaks the entire application.</p>
-<p>Nevertheless, an application, federated or non-federated, can get very close to iframes failure isolation by utilizing React Router&#x27;s <a href="https://reactrouter.com/en/main/components/outlet" class="outbound" target="_blank">Outlet</a> component and the <a href="https://reactrouter.com/en/main/route/error-element" class="outbound" target="_blank">errorElement</a> property of a React Router&#x27;s routes.</p>
+<p>One of the key characteristics of a modular implementation such as <a href="https://martinfowler.com/articles/micro-frontends.html#Run-timeIntegrationViaIframes" class="outbound" target="_blank">iframes</a> is the ability to isolate failures within individual iframe, preventing them from breaking the entire application.</p>
+<p>However, this characteristic is not inherent to a standard Squide implementation as all the modules share the same browsing context (e.g. the same <a href="https://developer.mozilla.org/en-US/docs/Web/API/Document" class="outbound" target="_blank">Document object</a>, the same <a href="https://developer.mozilla.org/en-US/docs/Web/API/Window" class="outbound" target="_blank">Window object</a>, and the same DOM). A failure in one module can potentially breaks the entire application.</p>
+<p>That said, a Squide application can achieve near-iframe-level failure isolation by leveraging React Router&#x27;s <a href="https://reactrouter.com/en/main/components/outlet" class="outbound" target="_blank">Outlet</a> along with the <a href="https://reactrouter.com/en/main/route/error-element" class="outbound" target="_blank">errorElement</a> property of a React Router&#x27;s routes. This approach allows individual routes (and their associated modules) to handle errors gracefully, preventing them from cascading and affecting the rest of the app.</p>
 <doc-anchor-target id="create-an-error-boundary">
     <h2>
         <doc-anchor-trigger class="header-anchor-trigger" to="#create-an-error-boundary">#</doc-anchor-trigger>
@@ -351,7 +351,7 @@ export const registerHost: ModuleRegisterFunction&lt;FireflyRuntime&gt; = runtim
     });
 };</code></pre>
 </doc-codeblock></div>
-<p>By implementing this mechanism, the level of failure isolation achieved is <strong>comparable</strong> to that of an <strong>iframes</strong> or <strong>subdomains</strong> implementation. With this mechanism, failure isolation <strong>is as good as</strong> with an <strong>iframes</strong> or <strong>subdomains</strong> implementation.</p>
+<p>By implementing this mechanism, the level of failure isolation achieved is <strong>comparable</strong> to that of an <strong>iframes</strong> implementation.</p>
 <doc-anchor-target id="hoisted-pages">
     <h3>
         <doc-anchor-trigger class="header-anchor-trigger" to="#hoisted-pages">#</doc-anchor-trigger>
@@ -360,7 +360,7 @@ export const registerHost: ModuleRegisterFunction&lt;FireflyRuntime&gt; = runtim
 </doc-anchor-target>
 <p>If your application is <a href="../../reference/runtime/runtime-class/#register-an-hoisted-route">hoisting pages</a>, it&#x27;s important to note that they will be rendered outside of the host application&#x27;s <code v-pre>ModuleErrorBoundary</code> component. To prevent breaking the entire application when an hoisted page encounters unhandled errors, it is highly recommended to declare a React Router&#x27;s error boundary for each hoisted page as well, again using <a href="https://reactrouter.com/en/main/route/error-element" class="outbound" target="_blank">errorElement</a>:</p>
 <div class="codeblock-wrapper"><doc-codeblock>
-<div class="codeblock-title">remote-module/src/register.tsx</div>
+<div class="codeblock-title">local-module/src/register.tsx</div>
 <pre translate="no" class="language-tsx" data-line="9,11"><code v-pre class="language-tsx">import { type ModuleRegisterFunction, type FireflyRuntime } from &quot;@squide/firefly&quot;;
 import { Page } from &quot;./Page.tsx&quot;;
 import { RemoteErrorBoundary } from &quot;./RemoteErrorBoundary.tsx&quot;;

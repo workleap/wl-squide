@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <meta name="turbo-root" content="/wl-squide">
-    <meta name="turbo-cache-control" content="no-cache" data-turbo-track="reload" data-track-token="3.10.1.803440894100">
+    <meta name="turbo-cache-control" content="no-cache" data-turbo-track="reload" data-track-token="3.10.1.803620813210">
 
     <!-- See retype.com -->
     <meta name="generator" content="Retype 3.10.1">
@@ -32,12 +32,12 @@
     <script data-cfasync="false">(function(){var cl=document.documentElement.classList,ls=localStorage.getItem("retype_scheme"),hd=cl.contains("dark"),hl=cl.contains("light"),wm=window.matchMedia&&window.matchMedia("(prefers-color-scheme: dark)").matches;if(ls==="dark"||(!ls&&wm&&!hd&&!hl)){cl.remove("light");cl.add("dark")}else if(ls==="light"||(!ls&&!wm&&!hd&&!hl)){cl.remove("dark");cl.add("light")}})();</script>
 
     <link href="../../static/favicon.png" rel="icon">
-    <link href="../../resources/css/retype.css?v=3.10.1.803440894100" rel="stylesheet">
+    <link href="../../resources/css/retype.css?v=3.10.1.803620813210" rel="stylesheet">
 
-    <script data-cfasync="false" src="../../resources/js/config.js?v=3.10.1.803440894100" data-turbo-eval="false" defer></script>
+    <script data-cfasync="false" src="../../resources/js/config.js?v=3.10.1.803620813210" data-turbo-eval="false" defer></script>
     <script data-cfasync="false" src="../../resources/js/retype.js?v=3.10.1" data-turbo-eval="false" defer></script>
-    <script id="lunr-js" data-cfasync="false" src="../../resources/js/lunr.js?v=3.10.1.803440894100" data-turbo-eval="false" defer></script>
-    <script id="prism-js" data-cfasync="false" src="../../resources/js/prism.js?v=3.10.1.803440894100" defer></script>
+    <script id="lunr-js" data-cfasync="false" src="../../resources/js/lunr.js?v=3.10.1.803620813210" data-turbo-eval="false" defer></script>
+    <script id="prism-js" data-cfasync="false" src="../../resources/js/prism.js?v=3.10.1.803620813210" defer></script>
 
     <link href="https://workleap.github.io/wl-idp-docs-hub/static/retype-customization.css" rel="stylesheet" />
 
@@ -317,7 +317,7 @@
             <h5>Use an existing template</h5>
 <p>We highly recommend going through the entire getting started guide. However, if you prefer to scaffold the application we&#x27;ll be building, a template is available with <a href="https://github.com/Rich-Harris/degit" class="outbound" target="_blank">degit</a>:</p>
 <div class="codeblock-wrapper"><doc-codeblock>
-<pre translate="no" class="language-bash"><code v-pre class="language-bash">corepack pnpm dlx degit https://github.com/workleap/wl-squide/templates/getting-started</code></pre>
+<pre translate="no" class="language-bash"><code v-pre class="language-bash">corepack pnpx degit https://github.com/workleap/wl-squide/templates/getting-started</code></pre>
 </doc-codeblock></div>
         </div>
     </div>
@@ -331,7 +331,7 @@
 </doc-anchor-target>
 <p>Create a new application (we&#x27;ll refer to ours as <code v-pre>host</code>), then open a terminal at the root of the new solution and install the following packages:</p>
 <div class="codeblock-wrapper"><doc-codeblock>
-<pre translate="no" class="language-bash"><code v-pre class="language-bash">pnpm add -D @workleap/swc-configs @workleap/browserslist-config @squide/firefly-webpack-configs webpack webpack-dev-server webpack-cli @swc/core @swc/helpers browserslist postcss typescript @types/react @types/react-dom
+<pre translate="no" class="language-bash"><code v-pre class="language-bash">pnpm add -D @workleap/rsbuild-configs @workleap/browserslist-config @rsbuild/core @rspack/core browserslist typescript @types/react @types/react-dom
 pnpm add @squide/firefly react react-dom react-router @tanstack/react-query</code></pre>
 </doc-codeblock></div>
 <doc-anchor-target id="setup-the-application">
@@ -349,14 +349,11 @@ pnpm add @squide/firefly react react-dom react-router @tanstack/react-query</cod
 ├──── App.tsx
 ├──── RootLayout.tsx
 ├──── HomePage.tsx
-├──── bootstrap.tsx
-├──── index.ts
+├──── index.tsx
 ├──── register.tsx
 ├── .browserslistrc
-├── swc.dev.js
-├── swc.build.js
-├── webpack.dev.js
-├── webpack.build.js
+├── rsbuild.dev.ts
+├── rsbuild.build.ts
 ├── package.json</code></pre>
 </doc-codeblock></div>
 <p>Then, ensure that you are developing your application using <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Modules" class="outbound" target="_blank">ESM syntax</a> by specifying <code v-pre>type: module</code> in your <code v-pre>package.json</code> file:</p>
@@ -366,53 +363,20 @@ pnpm add @squide/firefly react react-dom react-router @tanstack/react-query</cod
     &quot;type&quot;: &quot;module&quot;
 }</code></pre>
 </doc-codeblock></div>
-<p>Finally, use a dynamic import to add an async boundary:</p>
-<div class="codeblock-wrapper"><doc-codeblock>
-<div class="codeblock-title">host/src/index.ts</div>
-<pre translate="no" class="language-typescript"><code v-pre class="language-typescript">// eslint-disable-next-line @typescript-eslint/ban-ts-comment
-// @ts-ignore doesn't support file extension.
-import(&quot;./bootstrap&quot;);
-
-// TS1208: 'index.tsx' cannot be compiled under '--isolatedModules' because it is considered a global script file. Add an import, export, or an
-// empty 'export {}' statement to make it a module.
-export {};</code></pre>
-</doc-codeblock></div>
-<div class="flex mb-6">
-    <div class="shrink-0 w-1.5 rounded-tl-lg rounded-bl-lg bg-green-400"></div>
-    <div class="flex w-full py-4 border border-l-0 border-gray-300 rounded-tr-lg rounded-br-lg doc-callout bg-white dark:bg-dark-700 dark:border-dark-700" role="alert">
-        <div class="flex items-center ml-4 h-7">
-            <svg xmlns="http://www.w3.org/2000/svg" class="mb-px text-green-400" width="22" height="22" viewBox="0 0 24 24" role="presentation">
-                <g fill="currentColor"><g>
-                    <path d="M7.90625 2.15625C4.50944 2.15625 2.15625 4.58563 2.15625 7.54688C2.15625 8.96138 2.76575 9.88281 3.57075 10.8589L3.87837 11.2226C4.19894 11.6021 4.554 12.0218 4.84581 12.4416C5.25406 13.0324 5.61775 13.7296 5.7385 14.5834C5.76728 14.8608 5.68746 15.1386 5.51579 15.3583C5.34413 15.5781 5.09399 15.7228 4.8179 15.7621C4.5418 15.8013 4.26124 15.7321 4.03512 15.5689C3.809 15.4056 3.65493 15.1612 3.60525 14.8867C3.54775 14.4814 3.37094 14.1004 3.07338 13.6692C2.8306 13.3302 2.57055 13.0039 2.29425 12.6917C2.1735 12.5479 2.04556 12.397 1.909 12.2317C1.00769 11.1406 0 9.72613 0 7.54688C0 3.32062 3.39681 0 7.90625 0C12.4157 0 15.8125 3.32062 15.8125 7.54688C15.8125 9.72613 14.8048 11.1406 13.9035 12.2317C13.7669 12.397 13.639 12.5479 13.5183 12.6903C13.2207 13.0424 12.9677 13.3414 12.7406 13.6692C12.4416 14.1004 12.2662 14.4814 12.2087 14.8867C12.1557 15.1584 12.0003 15.3994 11.7747 15.5598C11.5492 15.7202 11.2706 15.7879 10.9965 15.7488C10.7225 15.7096 10.474 15.5667 10.3023 15.3496C10.1306 15.1325 10.0489 14.8577 10.074 14.582C10.1948 13.7296 10.5584 13.0324 10.9667 12.4416C11.2585 12.0218 11.6136 11.6021 11.9341 11.2226C12.0419 11.0961 12.1454 10.9739 12.2403 10.8589C13.0468 9.88281 13.6562 8.96138 13.6562 7.54688C13.6562 4.58563 11.3031 2.15625 7.90625 2.15625ZM4.67188 17.25H11.1406C11.4266 17.25 11.7008 17.3636 11.903 17.5658C12.1052 17.768 12.2188 18.0422 12.2188 18.3281C12.2188 18.6141 12.1052 18.8883 11.903 19.0905C11.7008 19.2927 11.4266 19.4062 11.1406 19.4062H4.67188C4.38594 19.4062 4.11171 19.2927 3.90953 19.0905C3.70734 18.8883 3.59375 18.6141 3.59375 18.3281C3.59375 18.0422 3.70734 17.768 3.90953 17.5658C4.11171 17.3636 4.38594 17.25 4.67188 17.25ZM5.03125 21.9219C5.03125 21.6359 5.14484 21.3617 5.34703 21.1595C5.54921 20.9573 5.82344 20.8438 6.10938 20.8438H9.70312C9.98906 20.8438 10.2633 20.9573 10.4655 21.1595C10.6677 21.3617 10.7812 21.6359 10.7812 21.9219C10.7812 22.2078 10.6677 22.482 10.4655 22.6842C10.2633 22.8864 9.98906 23 9.70312 23H6.10938C5.82344 23 5.54921 22.8864 5.34703 22.6842C5.14484 22.482 5.03125 22.2078 5.03125 21.9219Z" />
-                </g></g>
-            </svg>
-        </div>
-        <div class="pr-5 ml-3 w-full">
-<p>To learn more about this async boundary and the <code v-pre>bootstrap.tsx</code> file, read the following <a href="https://dev.to/infoxicator/module-federation-shared-api-ach#using-an-async-boundary" class="outbound" target="_blank">article</a>.</p>
-        </div>
-    </div>
-</div>
 <doc-anchor-target id="module-registration">
     <h3>
         <doc-anchor-trigger class="header-anchor-trigger" to="#module-registration">#</doc-anchor-trigger>
         <span>Module registration</span>
     </h3>
 </doc-anchor-target>
-<p>Next, to register the modules, instanciate a shell <a href="../../reference/runtime/runtime-class/">FireflyRuntime</a> instance and register the remote module with the <a href="../../reference/registration/initializefirefly/">initializeFirefly</a> function (the configuration of the remote module will be covered in the <a href="../create-remote-module/">next section</a>):</p>
+<p>Next, to register the modules, instanciate a shell <a href="../../reference/runtime/runtime-class/">FireflyRuntime</a> instance. A local module will be registered in the <a href="../create-local-module/">next section</a> of this quick start guide.</p>
 <div class="codeblock-wrapper"><doc-codeblock>
-<div class="codeblock-title">host/src/bootstrap.tsx</div>
-<pre translate="no" class="language-tsx" data-line="11-14"><code v-pre class="language-tsx">import { createRoot } from &quot;react-dom/client&quot;;
+<div class="codeblock-title">host/src/index.tsx</div>
+<pre translate="no" class="language-tsx" data-line="5-7"><code v-pre class="language-tsx">import { createRoot } from &quot;react-dom/client&quot;;
 import { ConsoleLogger, FireflyProvider, initializeFirefly, type RemoteDefinition } from &quot;@squide/firefly&quot;;
 import { App } from &quot;./App.tsx&quot;;
 
-// Define the remote modules.
-const Remotes: RemoteDefinition[] = [
-    { name: &quot;remote1&quot; }
-];
-
-// Register the remote module.
 const runtime = initializeFirefly({
-    remotes: Remotes,
     loggers: [x =&gt; new ConsoleLogger(x)]
 });
 
@@ -498,7 +462,7 @@ const renderSection: RenderSectionFunction = (elements, key) =&gt; {
 };
 
 export function RootLayout() {
-    // Retrieve the navigation items registered by the remote modules.
+    // Retrieve the navigation items registered by the modules.
     const navigationItems = useNavigationItems();
 
     // Transform the navigation items into React elements.
@@ -586,21 +550,14 @@ export const registerHost: ModuleRegisterFunction&lt;FireflyRuntime&gt; = runtim
 </div>
 <p>Finally, update the bootstrapping code to <a href="../../reference/registration/registerlocalmodules/">register</a> the newly created local module:</p>
 <div class="codeblock-wrapper"><doc-codeblock>
-<div class="codeblock-title">host/src/bootstrap.tsx</div>
-<pre translate="no" class="language-tsx" data-line="13"><code v-pre class="language-tsx">import { createRoot } from &quot;react-dom/client&quot;;
+<div class="codeblock-title">host/src/index.tsx</div>
+<pre translate="no" class="language-tsx" data-line="6-9"><code v-pre class="language-tsx">import { createRoot } from &quot;react-dom/client&quot;;
 import { ConsoleLogger, FireflyProvider, initializeFirefly, type RemoteDefinition } from &quot;@squide/firefly&quot;;
-import { App } from &quot;./App.tsx&quot;;
 import { registerHost } from &quot;./register.tsx&quot;;
+import { App } from &quot;./App.tsx&quot;;
 
-// Define the remote modules.
-const Remotes: RemoteDefinition[] = [
-    { name: &quot;remote1&quot; }
-];
-
-// Register the modules.
 const runtime = initializeFirefly({
-    localModules: [registerHost],
-    remotes: Remotes,
+    localModules: [registerHost, registerMyLocalModule],
     loggers: [x =&gt; new ConsoleLogger(x)]
 });
 
@@ -658,10 +615,10 @@ export const registerHost: ModuleRegisterFunction&lt;FireflyRuntime&gt; = runtim
     });
 };</code></pre>
 </doc-codeblock></div>
-<doc-anchor-target id="configure-webpack">
+<doc-anchor-target id="configure-rsbuild">
     <h2>
-        <doc-anchor-trigger class="header-anchor-trigger" to="#configure-webpack">#</doc-anchor-trigger>
-        <span>Configure webpack</span>
+        <doc-anchor-trigger class="header-anchor-trigger" to="#configure-rsbuild">#</doc-anchor-trigger>
+        <span>Configure Rsbuild</span>
     </h2>
 </doc-anchor-target>
 <div class="flex mb-6">
@@ -675,11 +632,11 @@ export const registerHost: ModuleRegisterFunction&lt;FireflyRuntime&gt; = runtim
             </svg>
         </div>
         <div class="pr-5 ml-3 w-full">
-<p>Squide webpack configuration is built on top of <a href="https://workleap.github.io/wl-web-configs/webpack/" class="outbound" target="_blank">@workleap/webpack-configs</a>, <a href="https://workleap.github.io/wl-web-configs/browserslist/" class="outbound" target="_blank">@workleap/browserslist-config</a> and <a href="https://workleap.github.io/wl-web-configs/swc/" class="outbound" target="_blank">@workleap/swc-configs</a>. If you are having issues with the configuration of these tools, refer to the tools documentation websites.</p>
+<p>For additional information about this Rsbuild setup, refer to the <a href="https://workleap.github.io/wl-web-configs/rsbuild/configure-dev/" class="outbound" target="_blank">development</a> and <a href="https://workleap.github.io/wl-web-configs/rsbuild/configure-build/" class="outbound" target="_blank">production</a> configuration documentation of the <a href="https://workleap.github.io/wl-web-configs/rsbuild" class="outbound" target="_blank">Web Configs</a> libraries.</p>
         </div>
     </div>
 </div>
-<p>First, open the <code v-pre>public/index.html</code> file created at the beginning of this guide and copy/paste the following <a href="https://webpack.js.org/plugins/html-webpack-plugin/" class="outbound" target="_blank">HtmlWebpackPlugin</a> template:</p>
+<p>First, open the <code v-pre>public/index.html</code> file created at the beginning of this guide and copy/paste the following template:</p>
 <div class="codeblock-wrapper"><doc-codeblock>
 <div class="codeblock-title">host/public/index.html</div>
 <pre translate="no" class="language-markup"><code v-pre class="language-markup">&lt;!DOCTYPE html&gt;
@@ -702,104 +659,26 @@ export const registerHost: ModuleRegisterFunction&lt;FireflyRuntime&gt; = runtim
         <span>Development configuration</span>
     </h3>
 </doc-anchor-target>
-<p>To configure webpack for a <strong>development</strong> environment, first open the <code v-pre>swc.dev.js</code> file and copy/paste the following code:</p>
+<p>To configure Rsbuild for a <strong>development</strong> environment, open the <code v-pre>rsbuild.dev.ts</code> file and use the <a href="https://workleap.github.io/wl-web-configs/rsbuild/configure-dev/#rsbuilddevts" class="outbound" target="_blank">defineDevConfig</a> function to configure Rsbuild:</p>
 <div class="codeblock-wrapper"><doc-codeblock>
-<div class="codeblock-title">host/swc.dev.js</div>
-<pre translate="no" class="language-javascript"><code v-pre class="language-javascript">// @ts-check
+<div class="codeblock-title">host/rsbuild.dev.ts</div>
+<pre translate="no" class="language-typescript"><code v-pre class="language-typescript">import { defineDevConfig } from &quot;@workleap/rsbuild-configs&quot;;
 
-import { browserslistToSwc, defineDevConfig } from &quot;@workleap/swc-configs&quot;;
-
-const targets = browserslistToSwc();
-
-export const swcConfig = defineDevConfig(targets);</code></pre>
+export default defineDevConfig();</code></pre>
 </doc-codeblock></div>
-<p>Then, open the <code v-pre>webpack.dev.js</code> file and use the <a href="../../reference/webpack/definedevhostconfig/">defineDevHostConfig</a> function to configure webpack:</p>
-<div class="codeblock-wrapper"><doc-codeblock>
-<div class="codeblock-title">host/webpack.dev.js</div>
-<pre translate="no" class="language-javascript" data-line="13"><code v-pre class="language-javascript">// @ts-check
-
-import { defineDevHostConfig } from &quot;@squide/firefly-webpack-configs&quot;;
-import { swcConfig } from &quot;./swc.dev.js&quot;;
-
-/**
- * @typedef {import(&quot;@squide/firefly-webpack-configs&quot;).RemoteDefinition[]}
- */
-const Remotes = [
-    { name: &quot;remote1&quot;, url: &quot;http://localhost:8081&quot; }
-];
-
-export default defineDevHostConfig(swcConfig, 8080, Remotes);</code></pre>
-</doc-codeblock></div>
-<blockquote>
-<p>If you are having issues with the wepack configuration that are not related to module federation, refer to the <a href="https://workleap.github.io/wl-web-configs/webpack/configure-dev/" class="outbound" target="_blank">@workleap/webpack-configs</a> documentation.</p>
-</blockquote>
-<div class="flex mb-6">
-    <div class="shrink-0 w-1.5 rounded-tl-lg rounded-bl-lg bg-green-400"></div>
-    <div class="flex w-full py-4 border border-l-0 border-gray-300 rounded-tr-lg rounded-br-lg doc-callout bg-white dark:bg-dark-700 dark:border-dark-700" role="alert">
-        <div class="flex items-center ml-4 h-7">
-            <svg xmlns="http://www.w3.org/2000/svg" class="mb-px text-green-400" width="22" height="22" viewBox="0 0 24 24" role="presentation">
-                <g fill="currentColor"><g>
-                    <path d="M7.90625 2.15625C4.50944 2.15625 2.15625 4.58563 2.15625 7.54688C2.15625 8.96138 2.76575 9.88281 3.57075 10.8589L3.87837 11.2226C4.19894 11.6021 4.554 12.0218 4.84581 12.4416C5.25406 13.0324 5.61775 13.7296 5.7385 14.5834C5.76728 14.8608 5.68746 15.1386 5.51579 15.3583C5.34413 15.5781 5.09399 15.7228 4.8179 15.7621C4.5418 15.8013 4.26124 15.7321 4.03512 15.5689C3.809 15.4056 3.65493 15.1612 3.60525 14.8867C3.54775 14.4814 3.37094 14.1004 3.07338 13.6692C2.8306 13.3302 2.57055 13.0039 2.29425 12.6917C2.1735 12.5479 2.04556 12.397 1.909 12.2317C1.00769 11.1406 0 9.72613 0 7.54688C0 3.32062 3.39681 0 7.90625 0C12.4157 0 15.8125 3.32062 15.8125 7.54688C15.8125 9.72613 14.8048 11.1406 13.9035 12.2317C13.7669 12.397 13.639 12.5479 13.5183 12.6903C13.2207 13.0424 12.9677 13.3414 12.7406 13.6692C12.4416 14.1004 12.2662 14.4814 12.2087 14.8867C12.1557 15.1584 12.0003 15.3994 11.7747 15.5598C11.5492 15.7202 11.2706 15.7879 10.9965 15.7488C10.7225 15.7096 10.474 15.5667 10.3023 15.3496C10.1306 15.1325 10.0489 14.8577 10.074 14.582C10.1948 13.7296 10.5584 13.0324 10.9667 12.4416C11.2585 12.0218 11.6136 11.6021 11.9341 11.2226C12.0419 11.0961 12.1454 10.9739 12.2403 10.8589C13.0468 9.88281 13.6562 8.96138 13.6562 7.54688C13.6562 4.58563 11.3031 2.15625 7.90625 2.15625ZM4.67188 17.25H11.1406C11.4266 17.25 11.7008 17.3636 11.903 17.5658C12.1052 17.768 12.2188 18.0422 12.2188 18.3281C12.2188 18.6141 12.1052 18.8883 11.903 19.0905C11.7008 19.2927 11.4266 19.4062 11.1406 19.4062H4.67188C4.38594 19.4062 4.11171 19.2927 3.90953 19.0905C3.70734 18.8883 3.59375 18.6141 3.59375 18.3281C3.59375 18.0422 3.70734 17.768 3.90953 17.5658C4.11171 17.3636 4.38594 17.25 4.67188 17.25ZM5.03125 21.9219C5.03125 21.6359 5.14484 21.3617 5.34703 21.1595C5.54921 20.9573 5.82344 20.8438 6.10938 20.8438H9.70312C9.98906 20.8438 10.2633 20.9573 10.4655 21.1595C10.6677 21.3617 10.7812 21.6359 10.7812 21.9219C10.7812 22.2078 10.6677 22.482 10.4655 22.6842C10.2633 22.8864 9.98906 23 9.70312 23H6.10938C5.82344 23 5.54921 22.8864 5.34703 22.6842C5.14484 22.482 5.03125 22.2078 5.03125 21.9219Z" />
-                </g></g>
-            </svg>
-        </div>
-        <div class="pr-5 ml-3 w-full">
-<p>If the application <em><strong>does not</strong></em> not include any remote modules, use the <a href="https://workleap.github.io/wl-web-configs/webpack/configure-dev/" class="outbound" target="_blank">defineDevConfig</a> function instead of <a href="../../reference/webpack/definedevhostconfig/">defineDevHostConfig</a>.</p>
-        </div>
-    </div>
-</div>
 <doc-anchor-target id="build-configuration">
     <h3>
         <doc-anchor-trigger class="header-anchor-trigger" to="#build-configuration">#</doc-anchor-trigger>
         <span>Build configuration</span>
     </h3>
 </doc-anchor-target>
-<p>To configure webpack for a <strong>build</strong> environment, first open the <code v-pre>swc.build.js</code> file and copy/paste the following code:</p>
+<p>To configure Rsbuild for a <strong>build</strong> environment, open the <code v-pre>rsbuild.build.ts</code> file and use the <a href="https://workleap.github.io/wl-web-configs/rsbuild/configure-build/#rsbuildbuildts" class="outbound" target="_blank">defineBuildConfig</a> function to configure Rsbuild:</p>
 <div class="codeblock-wrapper"><doc-codeblock>
-<div class="codeblock-title">host/swc.build.js</div>
-<pre translate="no" class="language-javascript"><code v-pre class="language-javascript">// @ts-check
+<div class="codeblock-title">host/rsbuild.build.ts</div>
+<pre translate="no" class="language-typescript"><code v-pre class="language-typescript">import { defineBuildConfig } from &quot;@workleap/rsbuild-configs&quot;;
 
-import { browserslistToSwc, defineBuildConfig } from &quot;@workleap/swc-configs&quot;;
-
-const targets = browserslistToSwc();
-
-export const swcConfig = defineBuildConfig(targets);</code></pre>
+export default defineBuildConfig();</code></pre>
 </doc-codeblock></div>
-<p>Then, open the <code v-pre>webpack.build.js</code> file and use the <a href="../../reference/webpack/definebuildhostconfig/">defineBuildHostConfig</a> function to configure webpack:</p>
-<div class="codeblock-wrapper"><doc-codeblock>
-<div class="codeblock-title">host/webpack.build.js</div>
-<pre translate="no" class="language-javascript" data-line="13"><code v-pre class="language-javascript">// @ts-check
-
-import { defineBuildHostConfig } from &quot;@squide/firefly-webpack-configs&quot;;
-import { swcConfig } from &quot;./swc.build.js&quot;;
-
-/**
- * @typedef {import(&quot;@squide/firefly-webpack-configs&quot;).RemoteDefinition[]}
- */
-const Remotes = [
-    { name: &quot;remote1&quot;, url: &quot;http://localhost:8081&quot; }
-];
-
-export default defineBuildHostConfig(swcConfig, Remotes);</code></pre>
-</doc-codeblock></div>
-<blockquote>
-<p>If you are having issues with the wepack configuration that are not related to module federation, refer to the <a href="https://workleap.github.io/wl-web-configs/webpack/configure-build/" class="outbound" target="_blank">@workleap/webpack-configs</a> documentation.</p>
-</blockquote>
-<div class="flex mb-6">
-    <div class="shrink-0 w-1.5 rounded-tl-lg rounded-bl-lg bg-green-400"></div>
-    <div class="flex w-full py-4 border border-l-0 border-gray-300 rounded-tr-lg rounded-br-lg doc-callout bg-white dark:bg-dark-700 dark:border-dark-700" role="alert">
-        <div class="flex items-center ml-4 h-7">
-            <svg xmlns="http://www.w3.org/2000/svg" class="mb-px text-green-400" width="22" height="22" viewBox="0 0 24 24" role="presentation">
-                <g fill="currentColor"><g>
-                    <path d="M7.90625 2.15625C4.50944 2.15625 2.15625 4.58563 2.15625 7.54688C2.15625 8.96138 2.76575 9.88281 3.57075 10.8589L3.87837 11.2226C4.19894 11.6021 4.554 12.0218 4.84581 12.4416C5.25406 13.0324 5.61775 13.7296 5.7385 14.5834C5.76728 14.8608 5.68746 15.1386 5.51579 15.3583C5.34413 15.5781 5.09399 15.7228 4.8179 15.7621C4.5418 15.8013 4.26124 15.7321 4.03512 15.5689C3.809 15.4056 3.65493 15.1612 3.60525 14.8867C3.54775 14.4814 3.37094 14.1004 3.07338 13.6692C2.8306 13.3302 2.57055 13.0039 2.29425 12.6917C2.1735 12.5479 2.04556 12.397 1.909 12.2317C1.00769 11.1406 0 9.72613 0 7.54688C0 3.32062 3.39681 0 7.90625 0C12.4157 0 15.8125 3.32062 15.8125 7.54688C15.8125 9.72613 14.8048 11.1406 13.9035 12.2317C13.7669 12.397 13.639 12.5479 13.5183 12.6903C13.2207 13.0424 12.9677 13.3414 12.7406 13.6692C12.4416 14.1004 12.2662 14.4814 12.2087 14.8867C12.1557 15.1584 12.0003 15.3994 11.7747 15.5598C11.5492 15.7202 11.2706 15.7879 10.9965 15.7488C10.7225 15.7096 10.474 15.5667 10.3023 15.3496C10.1306 15.1325 10.0489 14.8577 10.074 14.582C10.1948 13.7296 10.5584 13.0324 10.9667 12.4416C11.2585 12.0218 11.6136 11.6021 11.9341 11.2226C12.0419 11.0961 12.1454 10.9739 12.2403 10.8589C13.0468 9.88281 13.6562 8.96138 13.6562 7.54688C13.6562 4.58563 11.3031 2.15625 7.90625 2.15625ZM4.67188 17.25H11.1406C11.4266 17.25 11.7008 17.3636 11.903 17.5658C12.1052 17.768 12.2188 18.0422 12.2188 18.3281C12.2188 18.6141 12.1052 18.8883 11.903 19.0905C11.7008 19.2927 11.4266 19.4062 11.1406 19.4062H4.67188C4.38594 19.4062 4.11171 19.2927 3.90953 19.0905C3.70734 18.8883 3.59375 18.6141 3.59375 18.3281C3.59375 18.0422 3.70734 17.768 3.90953 17.5658C4.11171 17.3636 4.38594 17.25 4.67188 17.25ZM5.03125 21.9219C5.03125 21.6359 5.14484 21.3617 5.34703 21.1595C5.54921 20.9573 5.82344 20.8438 6.10938 20.8438H9.70312C9.98906 20.8438 10.2633 20.9573 10.4655 21.1595C10.6677 21.3617 10.7812 21.6359 10.7812 21.9219C10.7812 22.2078 10.6677 22.482 10.4655 22.6842C10.2633 22.8864 9.98906 23 9.70312 23H6.10938C5.82344 23 5.54921 22.8864 5.34703 22.6842C5.14484 22.482 5.03125 22.2078 5.03125 21.9219Z" />
-                </g></g>
-            </svg>
-        </div>
-        <div class="pr-5 ml-3 w-full">
-<p>If the application <em><strong>does not</strong></em> not include any remote modules, use the <a href="https://workleap.github.io/wl-web-configs/rsbuild/configure-build/" class="outbound" target="_blank">defineBuildConfig</a> function instead of <a href="../../reference/webpack/definebuildhostconfig/">defineBuildHostConfig</a>.</p>
-        </div>
-    </div>
-</div>
 <doc-anchor-target id="add-cli-scripts">
     <h2>
         <doc-anchor-trigger class="header-anchor-trigger" to="#add-cli-scripts">#</doc-anchor-trigger>
@@ -810,14 +689,14 @@ export default defineBuildHostConfig(swcConfig, Remotes);</code></pre>
 <div class="codeblock-wrapper"><doc-codeblock>
 <div class="codeblock-title">host/package.json</div>
 <pre translate="no" class="language-json"><code v-pre class="language-json">{
-    &quot;dev&quot;: &quot;webpack serve --config webpack.dev.js&quot;
+    &quot;dev&quot;: &quot;rsbuild dev --config ./rsbuild.dev.ts&quot;
 }</code></pre>
 </doc-codeblock></div>
 <p>To build the application, add the following script to the application <code v-pre>package.json</code> file:</p>
 <div class="codeblock-wrapper"><doc-codeblock>
 <div class="codeblock-title">host/package.json</div>
 <pre translate="no" class="language-json"><code v-pre class="language-json">{
-    &quot;build&quot;: &quot;webpack --config webpack.build.js&quot;
+    &quot;build&quot;: &quot;rsbuild build --config rsbuild.build.ts&quot;
 }</code></pre>
 </doc-codeblock></div>
 <doc-anchor-target id="try-it-rocket">
@@ -826,7 +705,7 @@ export default defineBuildHostConfig(swcConfig, Remotes);</code></pre>
         <span>Try it <span class="docs-emoji">&#x1F680;</span></span>
     </h2>
 </doc-anchor-target>
-<p>Start the application in a development environment using the <code v-pre>dev</code> script. You should see the homepage. Even if the remote module application is not yet available, the host application will gracefully (and ignore the remote module).</p>
+<p>Start the application in a development environment using the <code v-pre>dev</code> script. You should see the homepage.</p>
 <doc-anchor-target id="troubleshoot-issues">
     <h3>
         <doc-anchor-trigger class="header-anchor-trigger" to="#troubleshoot-issues">#</doc-anchor-trigger>
@@ -837,13 +716,9 @@ export default defineBuildHostConfig(swcConfig, Remotes);</code></pre>
 <ul>
 <li>Open the <a href="https://developer.chrome.com/docs/devtools/" class="outbound" target="_blank">DevTools</a> console. You&#x27;ll find a log entry for each registration that occurs and error messages if something went wrong:
 <ul>
-<li><code v-pre>[squide] Found 4 local modules to register.</code></li>
-<li><code v-pre>[squide] 1/4 Registering local module.</code></li>
-<li><code v-pre>[squide] 1/4 Local module registration completed.</code></li>
-<li><code v-pre>[squide] Found 1 remote module to register.</code></li>
-<li><code v-pre>[squide] 1/1 Loading module &quot;register&quot; of &quot;remote1&quot;.</code></li>
-<li><code v-pre>[squide] 1/1 Registering module &quot;register&quot; of remote &quot;remote1&quot;.</code></li>
-<li><code v-pre>[squide] 1/1 The registration of the remote &quot;remote1&quot; is completed.</code></li>
+<li><code v-pre>[squide] Found 1 local module to register.</code></li>
+<li><code v-pre>[squide] 1/1 Registering local module.</code></li>
+<li><code v-pre>[squide] 1/1 Local module registration completed.</code></li>
 </ul>
 </li>
 <li>Refer to a working example on <a href="https://github.com/workleap/wl-squide/tree/main/samples/basic/host" class="outbound" target="_blank">GitHub</a>.</li>
@@ -874,10 +749,10 @@ export default defineBuildHostConfig(swcConfig, Remotes);</code></pre>
                                     </div>
                             
                                     <div class="w-1/2">
-                                        <a class="px-5 py-4 -mx-px h-full flex items-center justify-end break-normal font-medium text-blue-500 dark:text-blue-400 border border-gray-300 hover:border-gray-400 dark:border-dark-650 dark:hover:border-dark-450 rounded-r-lg transition-colors duration-150 relative hover:z-5" href="../../introduction/create-remote-module/">
+                                        <a class="px-5 py-4 -mx-px h-full flex items-center justify-end break-normal font-medium text-blue-500 dark:text-blue-400 border border-gray-300 hover:border-gray-400 dark:border-dark-650 dark:hover:border-dark-450 rounded-r-lg transition-colors duration-150 relative hover:z-5" href="../../introduction/create-local-module/">
                                             <span>
                                                 <span class="block text-xs font-normal text-right text-gray-400 dark:text-dark-400">Next</span>
-                                                <span class="block mt-1">Create a remote module</span>
+                                                <span class="block mt-1">Create a local module</span>
                                             </span>
                                             <svg xmlns="http://www.w3.org/2000/svg" class="ml-3" width="24" height="24" viewBox="0 0 24 24" fill="currentColor" overflow="visible"><path d="M19.92 12.38a1 1 0 00-.22-1.09l-7-7a.996.996 0 10-1.41 1.41l5.3 5.3H5c-.55 0-1 .45-1 1s.45 1 1 1h11.59l-5.29 5.29a.996.996 0 000 1.41c.19.2.44.3.7.3s.51-.1.71-.29l7-7c.09-.09.16-.21.21-.33z" /><path fill="none" d="M0 0h24v24H0z" /></svg>
                                         </a>

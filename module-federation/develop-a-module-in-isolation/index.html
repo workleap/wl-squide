@@ -4,40 +4,40 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <meta name="turbo-root" content="/wl-squide">
-    <meta name="turbo-cache-control" content="no-cache" data-turbo-track="reload" data-track-token="3.10.1.803440894100">
+    <meta name="turbo-cache-control" content="no-cache" data-turbo-track="reload" data-track-token="3.10.1.803620813210">
 
     <!-- See retype.com -->
     <meta name="generator" content="Retype 3.10.1">
 
     <!-- Primary Meta Tags -->
-    <title>Use feature flags</title>
-    <meta name="title" content="Use feature flags">
-    <meta name="description" content="Before going forward with this guide, make sure that you completed the Setup Mock Service Worker and ">
+    <title>Develop a module in isolation</title>
+    <meta name="title" content="Develop a module in isolation">
+    <meta name="description" content="To develop their own independent module, a team should not need to install the host application or any other modules of the application they do not...">
 
     <!-- Canonical -->
-    <link rel="canonical" href="https://workleap.github.io/wl-squide/guides/use-feature-flags/">
+    <link rel="canonical" href="https://workleap.github.io/wl-squide/module-federation/develop-a-module-in-isolation/">
 
     <!-- Open Graph / Facebook -->
     <meta property="og:type" content="website">
-    <meta property="og:url" content="https://workleap.github.io/wl-squide/guides/use-feature-flags/">
-    <meta property="og:title" content="Use feature flags">
-    <meta property="og:description" content="Before going forward with this guide, make sure that you completed the Setup Mock Service Worker and ">
+    <meta property="og:url" content="https://workleap.github.io/wl-squide/module-federation/develop-a-module-in-isolation/">
+    <meta property="og:title" content="Develop a module in isolation">
+    <meta property="og:description" content="To develop their own independent module, a team should not need to install the host application or any other modules of the application they do not...">
 
     <!-- Twitter -->
     <meta property="twitter:card" content="summary_large_image">
-    <meta property="twitter:url" content="https://workleap.github.io/wl-squide/guides/use-feature-flags/">
-    <meta property="twitter:title" content="Use feature flags">
-    <meta property="twitter:description" content="Before going forward with this guide, make sure that you completed the Setup Mock Service Worker and ">
+    <meta property="twitter:url" content="https://workleap.github.io/wl-squide/module-federation/develop-a-module-in-isolation/">
+    <meta property="twitter:title" content="Develop a module in isolation">
+    <meta property="twitter:description" content="To develop their own independent module, a team should not need to install the host application or any other modules of the application they do not...">
 
     <script data-cfasync="false">(function(){var cl=document.documentElement.classList,ls=localStorage.getItem("retype_scheme"),hd=cl.contains("dark"),hl=cl.contains("light"),wm=window.matchMedia&&window.matchMedia("(prefers-color-scheme: dark)").matches;if(ls==="dark"||(!ls&&wm&&!hd&&!hl)){cl.remove("light");cl.add("dark")}else if(ls==="light"||(!ls&&!wm&&!hd&&!hl)){cl.remove("dark");cl.add("light")}})();</script>
 
     <link href="../../static/favicon.png" rel="icon">
-    <link href="../../resources/css/retype.css?v=3.10.1.803440894100" rel="stylesheet">
+    <link href="../../resources/css/retype.css?v=3.10.1.803620813210" rel="stylesheet">
 
-    <script data-cfasync="false" src="../../resources/js/config.js?v=3.10.1.803440894100" data-turbo-eval="false" defer></script>
+    <script data-cfasync="false" src="../../resources/js/config.js?v=3.10.1.803620813210" data-turbo-eval="false" defer></script>
     <script data-cfasync="false" src="../../resources/js/retype.js?v=3.10.1" data-turbo-eval="false" defer></script>
-    <script id="lunr-js" data-cfasync="false" src="../../resources/js/lunr.js?v=3.10.1.803440894100" data-turbo-eval="false" defer></script>
-    <script id="prism-js" data-cfasync="false" src="../../resources/js/prism.js?v=3.10.1.803440894100" defer></script>
+    <script id="lunr-js" data-cfasync="false" src="../../resources/js/lunr.js?v=3.10.1.803620813210" data-turbo-eval="false" defer></script>
+    <script id="prism-js" data-cfasync="false" src="../../resources/js/prism.js?v=3.10.1.803620813210" defer></script>
 
     <link href="https://workleap.github.io/wl-idp-docs-hub/static/retype-customization.css" rel="stylesheet" />
 
@@ -279,224 +279,186 @@
                                 <nav id="retype-breadcrumb" class="breadcrumb" aria-label="Breadcrumb">
                                     <ol role="list">
                                         <li class="pr-4">
-                                            <a href="../../guides/" class="pr-4">
-                                                Guides
-                                            </a>
+                                            <span class="pr-4">
+                                                Module federation
+                                            </span>
                                             <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" width="18" height="18" viewBox="0 0 24 24" aria-hidden="true">
                                                 <path d="M8.72 18.78a.75.75 0 0 1 0-1.06L14.44 12 8.72 6.28a.751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018l6.25 6.25a.75.75 0 0 1 0 1.06l-6.25 6.25a.75.75 0 0 1-1.06 0Z"/>
                                             </svg>
                                         </li>
                                         <li class="pr-4">
-                                            <a href="../../guides/use-feature-flags/" class="pr-4">
-                                                Use feature flags
+                                            <a href="../../module-federation/develop-a-module-in-isolation/" class="pr-4">
+                                                Develop a module in isolation
                                             </a>
                                         </li>
                                     </ol>
                                 </nav>
                 
                                 <!-- Page content  -->
-<doc-anchor-target id="use-feature-flags" class="break-words">
+<doc-anchor-target id="develop-a-module-in-isolation" class="break-words">
     <h1>
-        <doc-anchor-trigger class="header-anchor-trigger" to="#use-feature-flags">#</doc-anchor-trigger>
-        <span>Use feature flags</span>
+        <doc-anchor-trigger class="header-anchor-trigger" to="#develop-a-module-in-isolation">#</doc-anchor-trigger>
+        <span>Develop a module in isolation</span>
     </h1>
 </doc-anchor-target>
-<div class="flex mb-6">
-    <div class="shrink-0 w-1.5 rounded-tl-lg rounded-bl-lg bg-yellow-500"></div>
-    <div class="flex w-full py-4 border border-l-0 border-gray-300 rounded-tr-lg rounded-br-lg doc-callout bg-white dark:bg-dark-700 dark:border-dark-700" role="alert">
-        <div class="flex items-center ml-4 h-7">
-            <svg xmlns="http://www.w3.org/2000/svg" class="mb-px text-yellow-500" width="22" height="22" viewBox="0 0 24 24" role="presentation">
-                <g fill="currentColor"><g>
-                    <path d="M22.48 15.59L14.01 1.45A2.968 2.968 0 0012.16.09c-.78-.19-1.58-.07-2.27.35-.41.25-.76.6-1.01 1.01v.01L.4 15.6c-.83 1.43-.33 3.27 1.1 4.1.45.26.95.4 1.48.4h16.95c.8-.01 1.55-.33 2.11-.9.56-.57.87-1.33.86-2.13a3.04 3.04 0 00-.42-1.48zm-1.87 2.21c-.19.19-.44.3-.69.3H2.99c-.17 0-.34-.05-.49-.13a.992.992 0 01-.37-1.35L10.6 2.48c.08-.14.2-.25.34-.33a.992.992 0 011.37.33l8.46 14.13c.09.15.13.32.13.49 0 .26-.1.51-.29.7z"></path>
-                    <path d="M11.45 12.1c.55 0 1-.45 1-1v-4c0-.55-.45-1-1-1s-1 .45-1 1v4c0 .56.45 1 1 1zM11.46 14.1c-.56 0-1 .45-1 1s.45 1 1 1 1-.45 1-1-.45-1-1-1z"></path>
-                </g></g>
-            </svg>
-        </div>
-        <div class="pr-5 ml-3 w-full">
-<p>Before going forward with this guide, make sure that you completed the <a href="../setup-msw/">Setup Mock Service Worker</a> and <a href="../fetch-global-data/">Fetch global data</a> guides.</p>
-        </div>
-    </div>
-</div>
-<p>To continuously deliver value to our customers, Workleap has adopted a feature flag system that enables functionalities to be activated or deactivated without requiring a code deployment. While implementing &quot;in-page&quot; feature flags in a Squide application is straightforward, feature flags that conditionally register navigation items require a more advanced <a href="../../reference/registration/registerlocalmodules/#defer-the-registration-of-navigation-items">deferred registration</a> mechanism.</p>
-<doc-anchor-target id="add-an-endpoint">
+<p>To develop their own independent module, a team should not need to install the host application or any other modules of the application they do not own. However, they should have a way to integrate their module with the application shell (e.g., RootLayout, RootErrorBoundary, etc..) while working in isolation.</p>
+<p>To achieve this, the first step is to extract the application shell from the host application. There are various ways to accomplish this, but in this guide, we&#x27;ll transform the host application into a monorepo and introduce a new local package named @sample/shell specifically for this purpose:</p>
+<div class="codeblock-wrapper"><doc-codeblock>
+<pre translate="no" class="language-none" data-line="4-11"><code v-pre class="language-none">monorepo
+├── apps
+├── libs
+├────── shell
+├───────── src
+├─────────── RootLayout.tsx
+├─────────── RootErrorBoundary.tsx
+├─────────── AppRouter.ts
+├─────────── register.tsx
+├─────────── index.ts
+├───────── package.json
+├── modules
+├───────── remote-module</code></pre>
+</doc-codeblock></div>
+<doc-anchor-target id="create-a-shell-package">
     <h2>
-        <doc-anchor-trigger class="header-anchor-trigger" to="#add-an-endpoint">#</doc-anchor-trigger>
-        <span>Add an endpoint</span>
+        <doc-anchor-trigger class="header-anchor-trigger" to="#create-a-shell-package">#</doc-anchor-trigger>
+        <span>Create a shell package</span>
     </h2>
 </doc-anchor-target>
-<p>First, define a MSW request handler that returns the feature flags:</p>
+<p><span class="docs-emoji">&#x1F50E;</span> This section is similar to the <a href="../../guides/develop-a-module-in-isolation/#create-a-shell-package">Create a shell package section</a> from the non–Module Federation guide on developing a module in isolation. The key difference is that in a Module Federation setup, the host application&#x27;s entry point is <code v-pre>bootstrap.tsx</code> instead of <code v-pre>index.tsx</code>.</p>
+<doc-anchor-target id="update-the-host-application">
+    <h2>
+        <doc-anchor-trigger class="header-anchor-trigger" to="#update-the-host-application">#</doc-anchor-trigger>
+        <span>Update the host application</span>
+    </h2>
+</doc-anchor-target>
+<p><span class="docs-emoji">&#x1F50E;</span> This section is similar to the <a href="../../guides/develop-a-module-in-isolation/#update-the-host-application">Update the host application section</a> from the non–Module Federation guide on developing a module in isolation. The key differences are that in a Module Federation setup:</p>
+<ul>
+<li>The host application&#x27;s entry point is <code v-pre>bootstrap.tsx</code> rather than <code v-pre>index.tsx</code>.</li>
+<li>A <a href="../../reference/registration/initializefirefly/#register-a-remote-module">remote module</a> should be registered rather than a <a href="../../reference/registration/initializefirefly/#register-a-local-module">local module</a>.</li>
+</ul>
+<doc-anchor-target id="setup-a-module">
+    <h2>
+        <doc-anchor-trigger class="header-anchor-trigger" to="#setup-a-module">#</doc-anchor-trigger>
+        <span>Setup a module</span>
+    </h2>
+</doc-anchor-target>
+<p>With the new <code v-pre>shell</code> package in place, we can now configure the remote module to be developed in isolation. The goal is to start the module development server and render the module pages with the same layout and functionalities as if it was rendered by the host application.</p>
+<p>To begin, let&#x27;s start by adding a dependency to the <code v-pre>@sample/shell</code> package:</p>
 <div class="codeblock-wrapper"><doc-codeblock>
-<div class="codeblock-title">host/mocks/handlers.ts</div>
-<pre translate="no" class="language-typescript"><code v-pre class="language-typescript">import { HttpResponse, http, type HttpHandler } from &quot;msw&quot;;
-
-export const requestHandlers: HttpHandler[] = [
-    http.get(&quot;/api/feature-flags&quot;, () =&gt; {
-        return HttpResponse.json({
-            featureA: true,
-            featureB: true
-        });
-    })
-];</code></pre>
-</doc-codeblock></div>
-<p>Finally, register the request handler using the module registration function:</p>
-<div class="codeblock-wrapper"><doc-codeblock>
-<div class="codeblock-title">host/src/register.tsx</div>
-<pre translate="no" class="language-tsx"><code v-pre class="language-tsx">import type { ModuleRegisterFunction, FireflyRuntime } from &quot;@squide/firefly&quot;;
-
-export const register: ModuleRegisterFunction&lt;FireflyRuntime&gt; = async runtime =&gt; {
-    if (runtime.isMswEnabled) {
-        // Files that includes an import to the &quot;msw&quot; package are included dynamically to prevent adding
-        // unused MSW stuff to the application bundles.
-        const requestHandlers = (await import(&quot;../mocks/handlers.ts&quot;)).requestHandlers;
-
-        runtime.registerRequestHandlers(requestHandlers);
+<div class="codeblock-title">remote-module/package.json</div>
+<pre translate="no" class="language-json"><code v-pre class="language-json">{
+    &quot;dependencies&quot;: {
+        &quot;@sample/shell&quot;: &quot;0.0.1&quot;
     }
 }</code></pre>
 </doc-codeblock></div>
-<doc-anchor-target id="create-a-shared-context">
+<p>Then, create the following files in the remote module application:</p>
+<div class="codeblock-wrapper"><doc-codeblock>
+<pre translate="no" class="language-none" data-line="2-3,5-9"><code v-pre class="language-none">remote-module
+├── public
+├──── index.html
+├── src
+├────── dev
+├────────── App.tsx
+├────────── DevHome.tsx
+├────────── index.tsx
+├────────── register.tsx
+├────── register.tsx
+├────── Page.tsx
+├── webpack.dev.js
+├── package.json</code></pre>
+</doc-codeblock></div>
+<doc-anchor-target id="indextsx">
     <h3>
-        <doc-anchor-trigger class="header-anchor-trigger" to="#create-a-shared-context">#</doc-anchor-trigger>
-        <span>Create a shared context</span>
+        <doc-anchor-trigger class="header-anchor-trigger" to="#indextsx">#</doc-anchor-trigger>
+        <span>index.tsx</span>
     </h3>
 </doc-anchor-target>
-<p>Now, in a shared project, create a <code v-pre>FeatureFlagsContext</code>:</p>
+<p>The <code v-pre>index.tsx</code> file is similar to the <code v-pre>bootstrap.tsx</code> file of an host application but, tailored for an isolated module. The key distinctions are that all the modules are registered as local modules, and a new <code v-pre>registerDev</code> function is introduced to register the development homepage (which will be covered in an upcoming section):</p>
 <div class="codeblock-wrapper"><doc-codeblock>
-<div class="codeblock-title">shared/src/featureFlagsContext.ts</div>
-<pre translate="no" class="language-typescript"><code v-pre class="language-typescript">import { createContext, useContext } from &quot;react&quot;;
+<div class="codeblock-title">remote-module/src/dev/index.tsx</div>
+<pre translate="no" class="language-tsx" data-line="8-13"><code v-pre class="language-tsx">import { createRoot } from &quot;react-dom/client&quot;;
+import { ConsoleLogger, FireflyProvider, initializeFirefly } from &quot;@squide/firefly&quot;;
+import { App } from &quot;./App.tsx&quot;;
+import { register as registerModule } from &quot;./register.tsx&quot;;
+import { registerDev } from &quot;./dev/register.tsx&quot;;
+import { registerShell } from &quot;@sample/shell&quot;;
 
-export interface FeatureFlags {
-    featureA: boolean;
-    featureB: boolean;
-}
+const runtime = initializeFirefly(runtime, {
+    // Registering the remote module as a local module because the &quot;register&quot; function 
+    // is local when developing in isolation.
+    localModules: [registerModule, registerDev, registerShell],
+    loggers: [x =&gt; new ConsoleLogger(x)]
+});
 
-export const FeatureFlagsContext = createContext(FeatureFlags | undefined);
+const root = createRoot(document.getElementById(&quot;root&quot;)!);
 
-export function useFeatureFlags() {
-    return useContext(FeatureFlags);
-}</code></pre>
+root.render(
+    &lt;FireflyProvider runtime={runtime}&gt;
+        &lt;App /&gt;
+    &lt;/FireflyProvider&gt;
+);</code></pre>
 </doc-codeblock></div>
-<div class="flex mb-6">
-    <div class="shrink-0 w-1.5 rounded-tl-lg rounded-bl-lg bg-green-400"></div>
-    <div class="flex w-full py-4 border border-l-0 border-gray-300 rounded-tr-lg rounded-br-lg doc-callout bg-white dark:bg-dark-700 dark:border-dark-700" role="alert">
-        <div class="flex items-center ml-4 h-7">
-            <svg xmlns="http://www.w3.org/2000/svg" class="mb-px text-green-400" width="22" height="22" viewBox="0 0 24 24" role="presentation">
-                <g fill="currentColor"><g>
-                    <path d="M7.90625 2.15625C4.50944 2.15625 2.15625 4.58563 2.15625 7.54688C2.15625 8.96138 2.76575 9.88281 3.57075 10.8589L3.87837 11.2226C4.19894 11.6021 4.554 12.0218 4.84581 12.4416C5.25406 13.0324 5.61775 13.7296 5.7385 14.5834C5.76728 14.8608 5.68746 15.1386 5.51579 15.3583C5.34413 15.5781 5.09399 15.7228 4.8179 15.7621C4.5418 15.8013 4.26124 15.7321 4.03512 15.5689C3.809 15.4056 3.65493 15.1612 3.60525 14.8867C3.54775 14.4814 3.37094 14.1004 3.07338 13.6692C2.8306 13.3302 2.57055 13.0039 2.29425 12.6917C2.1735 12.5479 2.04556 12.397 1.909 12.2317C1.00769 11.1406 0 9.72613 0 7.54688C0 3.32062 3.39681 0 7.90625 0C12.4157 0 15.8125 3.32062 15.8125 7.54688C15.8125 9.72613 14.8048 11.1406 13.9035 12.2317C13.7669 12.397 13.639 12.5479 13.5183 12.6903C13.2207 13.0424 12.9677 13.3414 12.7406 13.6692C12.4416 14.1004 12.2662 14.4814 12.2087 14.8867C12.1557 15.1584 12.0003 15.3994 11.7747 15.5598C11.5492 15.7202 11.2706 15.7879 10.9965 15.7488C10.7225 15.7096 10.474 15.5667 10.3023 15.3496C10.1306 15.1325 10.0489 14.8577 10.074 14.582C10.1948 13.7296 10.5584 13.0324 10.9667 12.4416C11.2585 12.0218 11.6136 11.6021 11.9341 11.2226C12.0419 11.0961 12.1454 10.9739 12.2403 10.8589C13.0468 9.88281 13.6562 8.96138 13.6562 7.54688C13.6562 4.58563 11.3031 2.15625 7.90625 2.15625ZM4.67188 17.25H11.1406C11.4266 17.25 11.7008 17.3636 11.903 17.5658C12.1052 17.768 12.2188 18.0422 12.2188 18.3281C12.2188 18.6141 12.1052 18.8883 11.903 19.0905C11.7008 19.2927 11.4266 19.4062 11.1406 19.4062H4.67188C4.38594 19.4062 4.11171 19.2927 3.90953 19.0905C3.70734 18.8883 3.59375 18.6141 3.59375 18.3281C3.59375 18.0422 3.70734 17.768 3.90953 17.5658C4.11171 17.3636 4.38594 17.25 4.67188 17.25ZM5.03125 21.9219C5.03125 21.6359 5.14484 21.3617 5.34703 21.1595C5.54921 20.9573 5.82344 20.8438 6.10938 20.8438H9.70312C9.98906 20.8438 10.2633 20.9573 10.4655 21.1595C10.6677 21.3617 10.7812 21.6359 10.7812 21.9219C10.7812 22.2078 10.6677 22.482 10.4655 22.6842C10.2633 22.8864 9.98906 23 9.70312 23H6.10938C5.82344 23 5.54921 22.8864 5.34703 22.6842C5.14484 22.482 5.03125 22.2078 5.03125 21.9219Z" />
-                </g></g>
-            </svg>
-        </div>
-        <div class="pr-5 ml-3 w-full">
-<p>Ensure that the shared project is configured as a <a href="../add-a-shared-dependency/">shared dependency</a>.</p>
-        </div>
-    </div>
-</div>
-<doc-anchor-target id="fetch-the-feature-flags">
-    <h2>
-        <doc-anchor-trigger class="header-anchor-trigger" to="#fetch-the-feature-flags">#</doc-anchor-trigger>
-        <span>Fetch the feature flags</span>
-    </h2>
+<doc-anchor-target id="apptsx">
+    <h3>
+        <doc-anchor-trigger class="header-anchor-trigger" to="#apptsx">#</doc-anchor-trigger>
+        <span>App.tsx</span>
+    </h3>
 </doc-anchor-target>
-<p>Finally, open the host application code and update the <code v-pre>App</code> component to fetch the feature flags data with the <a href="../../reference/tanstack-query/usepublicdataqueries/">usePublicDataQueries</a> hook:</p>
+<p>The <code v-pre>App.tsx</code> file uses the newly created <code v-pre>AppRouter</code> component to setup Squide&#x27;s primitives with a <a href="https://reactrouter.com/" class="outbound" target="_blank">React Router</a> instance:</p>
 <div class="codeblock-wrapper"><doc-codeblock>
-<div class="codeblock-title">host/src/App.tsx</div>
-<pre translate="no" class="language-tsx" data-line="7-22,29"><code v-pre class="language-tsx">import { AppRouter, usePublicDataQueries, useIsBootstrapping } from &quot;@squide/firefly&quot;;
-import { createBrowserRouter, Outlet } from &quot;react-router&quot;;
-import { RouterProvider } from &quot;react-router/dom&quot;;
-import { FeatureFlagsContext, type FeatureFlags } from &quot;@sample/shared&quot;;
-
-function BootstrappingRoute() {
-    const [featureFlags] = usePublicDataQueries([
-        {
-            queryKey: [&quot;/api/feature-flags&quot;],
-            queryFn: async () =&gt; {
-                const response = await fetch(&quot;/api/feature-flags&quot;);
-                const data = await response.json();
-
-                const flags: FeatureFlags = {
-                    featureA: data.featureA,
-                    featureB: data.featureB
-                };
-
-                return flags;
-            }
-        }
-    ]);
-
-    if (useIsBootstrapping()) {
-        return &lt;div&gt;Loading...&lt;/div&gt;;
-    }
-
-    return (
-        &lt;FeatureFlagsContext.Provider value={featureFlags}&gt;
-            &lt;Outlet /&gt;
-        &lt;/FeatureFlagsContext.Provider&gt;
-    );
-}
+<div class="codeblock-title">remote-module/src/dev/App.tsx</div>
+<pre translate="no" class="language-tsx"><code v-pre class="language-tsx">import { AppRouter } from &quot;@sample/shell&quot;;
 
 export function App() {
     return (
-        &lt;AppRouter waitForPublicData&gt;
-            {({ rootRoute, registeredRoutes, routerProviderProps }) =&gt; {
-                return (
-                    &lt;RouterProvider
-                        router={createBrowserRouter([
-                            {
-                                element: rootRoute,
-                                children: [
-                                    {
-                                        element: &lt;BootstrappingRoute /&gt;,
-                                        children: registeredRoutes
-                                    }
-                                ]
-                            }
-                        ])}
-                        {...routerProviderProps}
-                    /&gt;
-                );
-            }}
-        &lt;/AppRouter&gt;
+        &lt;AppRouter /&gt;
     );
 }</code></pre>
 </doc-codeblock></div>
-<doc-anchor-target id="conditionally-render-a-page-section">
-    <h2>
-        <doc-anchor-trigger class="header-anchor-trigger" to="#conditionally-render-a-page-section">#</doc-anchor-trigger>
-        <span>Conditionally render a page section</span>
-    </h2>
+<doc-anchor-target id="devhometsx">
+    <h3>
+        <doc-anchor-trigger class="header-anchor-trigger" to="#devhometsx">#</doc-anchor-trigger>
+        <span>DevHome.tsx</span>
+    </h3>
 </doc-anchor-target>
-<p>Now, let&#x27;s use the <code v-pre>featureA</code> flag from <code v-pre>FeatureFlagsContext</code> to conditionally render a section of a new <code v-pre>Page</code> component. In this example, a section of the <code v-pre>Page</code> component will only be rendered if <code v-pre>featureA</code> is activated:</p>
+<p>The <code v-pre>DevHome</code> component is the homepage when the remote module is developed in isolation:</p>
 <div class="codeblock-wrapper"><doc-codeblock>
-<div class="codeblock-title">remote/src/Page.tsx</div>
-<pre translate="no" class="language-tsx"><code v-pre class="language-tsx">import { useFeatureFlags } from &quot;@sample/shared&quot;;
-
-export function Page() {
-    const { featureFlags } = useFeatureFlags();
-
+<div class="codeblock-title">remote-module/src/dev/DevHome.tsx</div>
+<pre translate="no" class="language-tsx"><code v-pre class="language-tsx">function DevHome() {
     return (
-        &lt;&gt;
-            {featureFlags?.featureA ? &lt;div&gt;This section is only rendered when &quot;featureA&quot; is activated.&lt;/div&gt;}
-            &lt;div&gt;Hello from Page!&lt;/div&gt;
-        &lt;/&gt;
+        &lt;div&gt;
+            &lt;h2&gt;Remote module development home page&lt;/h2&gt;
+            &lt;p&gt;Hey!&lt;/p&gt;
+        &lt;/div&gt;
     );
 }</code></pre>
 </doc-codeblock></div>
-<p>Then, register the <code v-pre>Page</code> component using the module registration function:</p>
+<p>To register the development homepage, create a new local module specifically for configuring the remote during isolated development:</p>
 <div class="codeblock-wrapper"><doc-codeblock>
-<div class="codeblock-title">remote/src/register.tsx</div>
+<div class="codeblock-title">remote-module/src/dev/register.tsx</div>
 <pre translate="no" class="language-tsx"><code v-pre class="language-tsx">import type { ModuleRegisterFunction, FireflyRuntime } from &quot;@squide/firefly&quot;;
-import { Page } from &quot;./Page.tsx&quot;;
+import { DevHome } from &quot;./DevHome.tsx&quot;;
 
-export const register: ModuleRegisterFunction&lt;FireflyRuntime&gt; = runtime =&gt; {
+export const registerDev: ModuleRegisterFunction&lt;FireflyRuntime&gt; = runtime =&gt; {
     runtime.registerRoute({
-        path: &quot;/page&quot;,
-        element: &lt;Page /&gt;
+        index: true,
+        element: &lt;DevHome /&gt;
     });
-
-    runtime.registerNavigationItem({
-        $id: &quot;page&quot;,
-        $label: &quot;Page&quot;,
-        to: &quot;/page&quot;
-    });
+}</code></pre>
+</doc-codeblock></div>
+<doc-anchor-target id="add-a-new-cli-script">
+    <h3>
+        <doc-anchor-trigger class="header-anchor-trigger" to="#add-a-new-cli-script">#</doc-anchor-trigger>
+        <span>Add a new CLI script</span>
+    </h3>
+</doc-anchor-target>
+<p>Next, add a new <code v-pre>dev-isolated</code> script to the <code v-pre>package.json</code> file to start the local development server in <strong>isolation</strong>:</p>
+<div class="codeblock-wrapper"><doc-codeblock>
+<div class="codeblock-title">remote-module/package.json</div>
+<pre translate="no" class="language-json" data-line="3"><code v-pre class="language-json">{
+    &quot;dev&quot;: &quot;webpack serve --config webpack.dev.js&quot;,
+    &quot;dev-isolated&quot;: &quot;cross-env ISOLATED=true webpack serve --config webpack.dev.js&quot;,
 }</code></pre>
 </doc-codeblock></div>
 <div class="flex mb-6">
@@ -510,131 +472,57 @@ export const register: ModuleRegisterFunction&lt;FireflyRuntime&gt; = runtime =&
             </svg>
         </div>
         <div class="pr-5 ml-3 w-full">
-<p>If you&#x27;ve already registered a <code v-pre>Page</code> component in a previous guide, use a different name for this component.</p>
+<p>If your project&#x27;s <code v-pre>package.json</code> file does not already include the <a href="https://www.npmjs.com/package/cross-env" class="outbound" target="_blank">cross-env</a> dependency, be sure to install <code v-pre>cross-env</code> as a development dependency.</p>
         </div>
     </div>
 </div>
-<doc-anchor-target id="conditionally-register-a-navigation-item">
-    <h2>
-        <doc-anchor-trigger class="header-anchor-trigger" to="#conditionally-register-a-navigation-item">#</doc-anchor-trigger>
-        <span>Conditionally register a navigation item</span>
-    </h2>
+<p>The <code v-pre>dev-isolated</code> script is similar to the <code v-pre>dev</code> script but introduces an <code v-pre>ISOLATED</code> environment variable. This variable will be used by the <code v-pre>webpack.dev.js</code> file to conditionally configure the development server to either serve the module as an application for isolated development or as a remote endpoint by the host application through the <code v-pre>/remoteEntry.js</code> entry point.</p>
+<doc-anchor-target id="configure-webpack">
+    <h3>
+        <doc-anchor-trigger class="header-anchor-trigger" to="#configure-webpack">#</doc-anchor-trigger>
+        <span>Configure webpack</span>
+    </h3>
 </doc-anchor-target>
-<p>Conditionally registering navigation items based on a feature flag is more complex because Squide&#x27;s default registration mechanism runs before the application has bootstrapped, meaning that the feature flags have not yet been fetched from the server.</p>
-<p>To address this, Squide offers an alternate <a href="../../reference/registration/registerlocalmodules/#defer-the-registration-of-navigation-items">deferred registration</a> mechanism in two-phases:</p>
-<ol>
-<li><p>The first phase allows modules to register their <em>static</em> navigation items that are not dependent on initial data.</p>
-</li>
-<li><p>The second phase enables modules to register <em>deferred</em> navigation items that are dependent on initial data. We refer to this second phase as <strong>deferred registrations</strong>.</p>
-</li>
-</ol>
-<p>To defer a registration to the second phase, a module&#x27;s registration function can <strong>return an anonymous function</strong> matching the <code v-pre>DeferredRegistrationFunction</code> type: <code v-pre>(data, operation: &quot;register&quot; | &quot;update&quot;) =&gt; Promise | void</code>.</p>
-<p>Once the modules are registered and the <a href="../../reference/registration/usedeferredregistrations/">useDeferredRegistrations</a> hook is rendered, the deferred registration functions will be executed with either <code v-pre>&quot;register&quot;</code> or <code v-pre>&quot;update&quot;</code> as the value for the <code v-pre>operation</code> argument, depending on whether this is the initial or subsequent execution of the functions.</p>
-<p>First, let&#x27;s define a <code v-pre>DeferredRegistrationData</code> interface to a shared project, specifiying the initial data that module&#x27;s deferred registration functions can expect:</p>
+<p>First, open the <code v-pre>public/index.html</code> file created at the beginning of this guide and copy/paste the following <a href="https://webpack.js.org/plugins/html-webpack-plugin/" class="outbound" target="_blank">HtmlWebpackPlugin</a> template:</p>
 <div class="codeblock-wrapper"><doc-codeblock>
-<div class="codeblock-title">shared/src/deferredData.ts</div>
-<pre translate="no" class="language-typescript"><code v-pre class="language-typescript">import { FeatureFlags } from &quot;./featureFlagsContext.ts&quot;;
-
-export interface DeferredRegistrationData {
-    featureFlags?: FeatureFlags;
-}</code></pre>
+<div class="codeblock-title">host/public/index.html</div>
+<pre translate="no" class="language-markup"><code v-pre class="language-markup">&lt;!DOCTYPE html&gt;
+&lt;html&gt;
+    &lt;head&gt;
+    &lt;/head&gt;
+    &lt;body&gt;
+        &lt;div id=&quot;root&quot;&gt;&lt;/div&gt;
+    &lt;/body&gt;
+&lt;/html&gt;</code></pre>
 </doc-codeblock></div>
-<p>Then, add <code v-pre>DeferredRegistrationData</code> to the <code v-pre>ModuleRegisterFunction</code> type definition and update the module <code v-pre>register</code> function to defer the registration of the <code v-pre>Page</code> component navigation item:</p>
+<p>Then, open the <code v-pre>.browserslist</code> file and copy/paste the following content:</p>
 <div class="codeblock-wrapper"><doc-codeblock>
-<div class="codeblock-title">src/register.tsx</div>
-<pre translate="no" class="language-tsx" data-line="5,12-21"><code v-pre class="language-tsx">import type { ModuleRegisterFunction, FireflyRuntime } from &quot;@squide/firefly&quot;;
-import type { DeferredRegistrationData } from &quot;@sample/shared&quot;;
-import { Page } from &quot;./Page.tsx&quot;;
-
-export const register: ModuleRegisterFunction&lt;FireflyRuntime, unknown, DeferredRegistrationData&gt; = runtime =&gt; {
-    runtime.registerRoute({
-        path: &quot;/page&quot;,
-        element: &lt;Page /&gt;
-    });
-
-    // Return a deferred registration function.
-    return ({ featureFlags }) =&gt; {
-        // Only register the &quot;Page&quot; navigation items if &quot;featureB&quot; is activated.
-        if (featureFlags?.featureB) {
-            runtime.registerNavigationItem({
-                $id: &quot;page&quot;,
-                $label: &quot;Page&quot;,
-                to: &quot;/page&quot;
-            });
-        }
-    };
-}</code></pre>
+<div class="codeblock-title">host/.browserslistrc</div>
+<pre translate="no" class="language-none"><code v-pre class="language-none">extends @workleap/browserslist-config</code></pre>
 </doc-codeblock></div>
-<p>Finally, update the host application&#x27;s <code v-pre>App</code> component to use the <a href="../../reference/registration/usedeferredregistrations/">useDeferredRegistrations</a> hook. By passing the feature flags data to <code v-pre>useDeferredRegistrations</code>, this data will be available to the module&#x27;s deferred registration functions:</p>
+<doc-anchor-target id="isolated-environment-configuration">
+    <h4>
+        <doc-anchor-trigger class="header-anchor-trigger" to="#isolated-environment-configuration">#</doc-anchor-trigger>
+        <span>Isolated environment configuration</span>
+    </h4>
+</doc-anchor-target>
+<p>To configure webpack, open the <code v-pre>webpack.dev.js</code> file and update the configuration to incorporate the <code v-pre>ISOLATED</code> environment variable and the <a href="../../reference/webpack/definedevhostconfig/">defineDevHostConfig</a> function:</p>
 <div class="codeblock-wrapper"><doc-codeblock>
-<div class="codeblock-title">host/src/App.tsx</div>
-<pre translate="no" class="language-tsx" data-line="27-29,31"><code v-pre class="language-tsx">import { AppRouter, usePublicDataQueries, useIsBootstrapping, useDeferredRegistrations } from &quot;@squide/firefly&quot;;
-import { useMemo } from &quot;react&quot;;
-import { createBrowserRouter, Outlet } from &quot;react-router&quot;;
-import { RouterProvider } from &quot;react-router/dom&quot;;
-import { FeatureFlagsContext, type FeatureFlags, type DeferredRegistrationData } from &quot;@sample/shared&quot;;
+<div class="codeblock-title">remote-module/webpack.dev.js</div>
+<pre translate="no" class="language-javascript" data-line="8,11"><code v-pre class="language-javascript">// @ts-check
 
-function BootstrappingRoute() {
-    const [featureFlags] = usePublicDataQueries([
-        {
-            queryKey: [&quot;/api/feature-flags&quot;],
-            queryFn: async () =&gt; {
-                const response = await fetch(&quot;/api/feature-flags&quot;);
-                const data = await response.json();
+import { defineDevRemoteModuleConfig, defineDevHostConfig } from &quot;@squide/firefly-webpack-configs&quot;;
+import { swcConfig } from &quot;./swc.dev.js&quot;;
 
-                const flags: FeatureFlags = {
-                    featureA: data.featureA,
-                    featureB: data.featureB
-                };
+let config;
 
-                return flags;
-            }
-        }
-    ]);
-
-    // The useMemo is super important otherwise the hook will consider that the feature flags
-    // changed everytime the hook is rendered.
-    const data: DeferredRegistrationData = useMemo(() =&gt; ({ 
-        featureFlags 
-    }), [featureFlags]);
-
-    useDeferredRegistrations(data);
-
-    if (useIsBootstrapping()) {
-        return &lt;div&gt;Loading...&lt;/div&gt;;
-    }
-
-    return (
-        &lt;FeatureFlagsContext.Provider value={featureFlags}&gt;
-            &lt;Outlet /&gt;
-        &lt;/FeatureFlagsContext.Provider&gt;
-    );
+if (!process.env.ISOLATED) {
+    config = defineDevRemoteModuleConfig(swcConfig, &quot;remote1&quot;, 8081);
+} else {
+    config = defineDevHostConfig(swcConfig, &quot;remote1&quot;, 8080, []);
 }
 
-export function App() {
-    return (
-        &lt;AppRouter waitForPublicData&gt;
-            {({ rootRoute, registeredRoutes, routerProviderProps }) =&gt; {
-                return (
-                    &lt;RouterProvider
-                        router={createBrowserRouter([
-                            {
-                                element: rootRoute,
-                                children: [
-                                    {
-                                        element: &lt;BootstrappingRoute /&gt;,
-                                        children: registeredRoutes
-                                    }
-                                ]
-                            }
-                        ])}
-                        {...routerProviderProps}
-                    /&gt;
-                );
-            }}
-        &lt;/AppRouter&gt;
-    );
-}</code></pre>
+export default config;</code></pre>
 </doc-codeblock></div>
 <div class="flex mb-6">
     <div class="shrink-0 w-1.5 rounded-tl-lg rounded-bl-lg bg-green-400"></div>
@@ -647,22 +535,27 @@ export function App() {
             </svg>
         </div>
         <div class="pr-5 ml-3 w-full">
-<p>A key feature of <a href="https://tanstack.com/query/latest" class="outbound" target="_blank">TanStack Query</a> is its ability to keep the frontend state synchronized with the server state. To fully leverage this, whenever the data passed to <code v-pre>useDeferredRegistrations</code> changes, all deferred registration functions are re-executed.</p>
-<p>Remember to use <a href="https://react.dev/reference/react/useMemo" class="outbound" target="_blank">useMemo</a> for your deferred registration data and to specify the <code v-pre>$id</code> option for your navigation items!</p>
+<p>If you encounter issues configuring webpack, refer to the <a href="https://workleap.github.io/wl-web-configs/webpack/" class="outbound" target="_blank">@workleap/webpack-configs</a> documentation.</p>
         </div>
     </div>
 </div>
 <doc-anchor-target id="try-it-rocket">
-    <h2>
+    <h3>
         <doc-anchor-trigger class="header-anchor-trigger" to="#try-it-rocket">#</doc-anchor-trigger>
         <span>Try it <span class="docs-emoji">&#x1F680;</span></span>
-    </h2>
+    </h3>
 </doc-anchor-target>
-<p>Start the application using the <code v-pre>dev</code> and navigate to the <code v-pre>/page</code> page. The page should render with the conditonal section. Now, disable the <code v-pre>featureA</code> flag in the endpoint and refresh the page. You shouldn&#x27;t see the conditonal section anymore. Finally, disable the <code v-pre>featureB</code> flag in the endpoint and refresh the page. The menu link labelled &quot;Page&quot; shouldn&#x27;t be available anymore.</p>
+<p>Start the remote module in isolation by running the <code v-pre>dev-isolated</code> script. The application shell should wrap the pages of the module and the default page should be <code v-pre>DevHome</code>.</p>
+<doc-anchor-target id="troubleshoot-issues">
+    <h4>
+        <doc-anchor-trigger class="header-anchor-trigger" to="#troubleshoot-issues">#</doc-anchor-trigger>
+        <span>Troubleshoot issues</span>
+    </h4>
+</doc-anchor-target>
 <p>If you are experiencing issues with this section of the guide:</p>
 <ul>
-<li>Open the <a href="https://developer.chrome.com/docs/devtools/" class="outbound" target="_blank">DevTools</a> console. You&#x27;ll find a log entry for each registration that occurs (including MSW request handlers) and error messages if something went wrong.</li>
-<li>Refer to a working example on <a href="https://github.com/workleap/wl-squide/tree/main/samples/endpoints" class="outbound" target="_blank">GitHub</a>.</li>
+<li>Open the <a href="https://developer.chrome.com/docs/devtools/" class="outbound" target="_blank">DevTools</a> console. You&#x27;ll find a log entry for each registration that occurs and error messages if something went wrong.</li>
+<li>Refer to a working example on <a href="https://github.com/workleap/wl-squide/tree/main/samples/basic/remote-module" class="outbound" target="_blank">GitHub</a>.</li>
 <li>Refer to the <a href="../../troubleshooting/">troubleshooting</a> page.</li>
 </ul>
 
@@ -672,7 +565,7 @@ export function App() {
                             </div>
                             <footer id="retype-content-footer" class="clear-both">
                                 <div class="flex flex-wrap items-center justify-between mt-14">
-                                    <a id="retype-edit-this-page" class="my-2.5 inline-flex items-center text-sm whitespace-nowrap text-blue-500 dark:text-blue-400 hover:text-blue-700 hover:underline" href="https://github.com/workleap/wl-squide/blob/main/docs/guides/use-feature-flags.md" target="_blank" rel="noopener">
+                                    <a id="retype-edit-this-page" class="my-2.5 inline-flex items-center text-sm whitespace-nowrap text-blue-500 dark:text-blue-400 hover:text-blue-700 hover:underline" href="https://github.com/workleap/wl-squide/blob/main/docs/module-federation/develop-a-module-in-isolation.md" target="_blank" rel="noopener">
                                         <svg class="mr-1.5" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="currentColor" overflow="visible"><path d="M20 12c-.55 0-1 .45-1 1v7c0 .55-.45 1-1 1H4c-.55 0-1-.45-1-1V6c0-.55.45-1 1-1h7c.55 0 1-.45 1-1s-.45-1-1-1H4C2.35 3 1 4.35 1 6v14c0 1.65 1.35 3 3 3h14c1.65 0 3-1.35 3-3v-7c0-.55-.45-1-1-1z" /><path d="M22.21 1.79c-1.18-1.18-3.24-1.18-4.41 0l-9.5 9.5c-.13.13-.22.29-.26.46l-1 4c-.08.34.01.7.26.95.18.2.44.3.7.3.08 0 .16-.01.24-.03l4-1c.18-.04.34-.13.46-.26l9.5-9.5c1.22-1.22 1.22-3.2.01-4.42zm-1.42 3l-9.3 9.3-2.11.53.53-2.11 9.3-9.3c.42-.42 1.16-.42 1.59 0 .43.43.43 1.15-.01 1.58z" /><path fill="none" d="M0 0h24v24H0z" /></svg>
                                         <span>Edit this page</span>
                                     </a>
@@ -680,20 +573,20 @@ export function App() {
                             
                                 <nav id="retype-nextprev" class="print:hidden flex mt-14">
                                     <div class="w-1/2">
-                                        <a class="px-5 py-4 h-full flex items-center break-normal font-medium text-blue-500 dark:text-blue-400 border border-gray-300 hover:border-gray-400 dark:border-dark-650 dark:hover:border-dark-450 rounded-l-lg transition-colors duration-150 relative hover:z-5" href="../../guides/use-modular-tabs/">
+                                        <a class="px-5 py-4 h-full flex items-center break-normal font-medium text-blue-500 dark:text-blue-400 border border-gray-300 hover:border-gray-400 dark:border-dark-650 dark:hover:border-dark-450 rounded-l-lg transition-colors duration-150 relative hover:z-5" href="../../module-federation/add-a-shared-dependency/">
                                             <svg xmlns="http://www.w3.org/2000/svg" class="mr-3" width="24" height="24" viewBox="0 0 24 24" fill="currentColor" overflow="visible"><path d="M19 11H7.41l5.29-5.29a.996.996 0 10-1.41-1.41l-7 7a1 1 0 000 1.42l7 7a1.024 1.024 0 001.42-.01.996.996 0 000-1.41L7.41 13H19c.55 0 1-.45 1-1s-.45-1-1-1z" /><path fill="none" d="M0 0h24v24H0z" /></svg>
                                             <span>
                                                 <span class="block text-xs font-normal text-gray-400 dark:text-dark-400">Previous</span>
-                                                <span class="block mt-1">Use modular tabs</span>
+                                                <span class="block mt-1">Add a shared dependency</span>
                                             </span>
                                         </a>
                                     </div>
                             
                                     <div class="w-1/2">
-                                        <a class="px-5 py-4 -mx-px h-full flex items-center justify-end break-normal font-medium text-blue-500 dark:text-blue-400 border border-gray-300 hover:border-gray-400 dark:border-dark-650 dark:hover:border-dark-450 rounded-r-lg transition-colors duration-150 relative hover:z-5" href="../../guides/use-environment-variables/">
+                                        <a class="px-5 py-4 -mx-px h-full flex items-center justify-end break-normal font-medium text-blue-500 dark:text-blue-400 border border-gray-300 hover:border-gray-400 dark:border-dark-650 dark:hover:border-dark-450 rounded-r-lg transition-colors duration-150 relative hover:z-5" href="../../module-federation/setup-i18next/">
                                             <span>
                                                 <span class="block text-xs font-normal text-right text-gray-400 dark:text-dark-400">Next</span>
-                                                <span class="block mt-1">Use environment variables</span>
+                                                <span class="block mt-1">Setup i​18​next</span>
                                             </span>
                                             <svg xmlns="http://www.w3.org/2000/svg" class="ml-3" width="24" height="24" viewBox="0 0 24 24" fill="currentColor" overflow="visible"><path d="M19.92 12.38a1 1 0 00-.22-1.09l-7-7a.996.996 0 10-1.41 1.41l5.3 5.3H5c-.55 0-1 .45-1 1s.45 1 1 1h11.59l-5.29 5.29a.996.996 0 000 1.41c.19.2.44.3.7.3s.51-.1.71-.29l7-7c.09-.09.16-.21.21-.33z" /><path fill="none" d="M0 0h24v24H0z" /></svg>
                                         </a>
@@ -757,6 +650,6 @@ export function App() {
 
     <div id="retype-overlay-target"></div>
 
-    <script data-cfasync="false">window.__DOCS__ = { "title": "Use feature flags", level: 2, icon: "file", hasPrism: true, hasMermaid: false, hasMath: false, tocDepth: 2 }</script>
+    <script data-cfasync="false">window.__DOCS__ = { "title": "Develop a module in isolation", level: 2, icon: "file", hasPrism: true, hasMermaid: false, hasMath: false, tocDepth: 2 }</script>
 </body>
 </html>

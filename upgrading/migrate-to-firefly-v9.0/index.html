@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <meta name="turbo-root" content="/wl-squide">
-    <meta name="turbo-cache-control" content="no-cache" data-turbo-track="reload" data-track-token="3.10.1.803440894100">
+    <meta name="turbo-cache-control" content="no-cache" data-turbo-track="reload" data-track-token="3.10.1.803620813210">
 
     <!-- See retype.com -->
     <meta name="generator" content="Retype 3.10.1">
@@ -32,12 +32,12 @@
     <script data-cfasync="false">(function(){var cl=document.documentElement.classList,ls=localStorage.getItem("retype_scheme"),hd=cl.contains("dark"),hl=cl.contains("light"),wm=window.matchMedia&&window.matchMedia("(prefers-color-scheme: dark)").matches;if(ls==="dark"||(!ls&&wm&&!hd&&!hl)){cl.remove("light");cl.add("dark")}else if(ls==="light"||(!ls&&!wm&&!hd&&!hl)){cl.remove("dark");cl.add("light")}})();</script>
 
     <link href="../../static/favicon.png" rel="icon">
-    <link href="../../resources/css/retype.css?v=3.10.1.803440894100" rel="stylesheet">
+    <link href="../../resources/css/retype.css?v=3.10.1.803620813210" rel="stylesheet">
 
-    <script data-cfasync="false" src="../../resources/js/config.js?v=3.10.1.803440894100" data-turbo-eval="false" defer></script>
+    <script data-cfasync="false" src="../../resources/js/config.js?v=3.10.1.803620813210" data-turbo-eval="false" defer></script>
     <script data-cfasync="false" src="../../resources/js/retype.js?v=3.10.1" data-turbo-eval="false" defer></script>
-    <script id="lunr-js" data-cfasync="false" src="../../resources/js/lunr.js?v=3.10.1.803440894100" data-turbo-eval="false" defer></script>
-    <script id="prism-js" data-cfasync="false" src="../../resources/js/prism.js?v=3.10.1.803440894100" defer></script>
+    <script id="lunr-js" data-cfasync="false" src="../../resources/js/lunr.js?v=3.10.1.803620813210" data-turbo-eval="false" defer></script>
+    <script id="prism-js" data-cfasync="false" src="../../resources/js/prism.js?v=3.10.1.803620813210" defer></script>
 
     <link href="https://workleap.github.io/wl-idp-docs-hub/static/retype-customization.css" rel="stylesheet" />
 
@@ -336,7 +336,7 @@
 </div>
 <p>This major version of <code v-pre>@squide/firefly</code> introduces <a href="https://tanstack.com/query/latest" class="outbound" target="_blank">TanStack Query</a> as the official library for fetching the global data of a Squide&#x27;s application and features a complete rewrite of the <a href="../../reference/routing/approuter/">AppRouter</a> component, which now uses a state machine to manage the application&#x27;s bootstrapping flow.</p>
 <p>Prior to <code v-pre>v9.0</code>, Squide applications couldn&#x27;t use TanStack Query to fetch global data, making it <strong>challenging</strong> for Workleap&#x27;s applications to <strong>keep</strong> their <strong>global data</strong> in <strong>sync</strong> with the <strong>server state</strong>. With <code v-pre>v9.0</code>, applications can now leverage <a href="../../guides/fetch-global-data/">custom wrappers</a> of the TanStack Query&#x27;s <a href="https://tanstack.com/query/latest/docs/framework/react/reference/useQueries" class="outbound" target="_blank">useQueries</a> hook to fetch and keep their global data up-to-date with the server state. Additionally, the new <a href="../../reference/registration/usedeferredregistrations/#register-or-update-deferred-registrations">deferred registrations update</a> feature allows applications to even <strong>keep</strong> their conditional <strong>navigation items in sync</strong> with the <strong>server state</strong>.</p>
-<p>Finally, with <code v-pre>v9.0</code>, Squide&#x27;s philosophy has evolved. We used to describe Squide as a shell for <strong>federated</strong> applications. Now, we refer to Squide as a shell for <strong>modular</strong> applications. After playing with Squide&#x27;s <a href="../../reference/registration/registerlocalmodules/">local module</a> feature for a while, we discovered that Squide offers <a href="../../introduction/getting-started/#why-squide">significant value</a> even for <strong>non-federated applications</strong>, which triggered this shift in philosophy.</p>
+<p>Finally, with <code v-pre>v9.0</code>, Squide&#x27;s philosophy has evolved. We used to describe Squide as a shell for <strong>federated</strong> applications. Now, we refer to Squide as a shell for <strong>modular</strong> applications. After playing with Squide&#x27;s <a href="../../reference/registration/registerlocalmodules/">local module</a> feature for a while, we discovered that Squide offers significant value even for <strong>non-federated applications</strong>, which triggered this shift in philosophy.</p>
 <doc-anchor-target id="breaking-changes">
     <h2>
         <doc-anchor-trigger class="header-anchor-trigger" to="#breaking-changes">#</doc-anchor-trigger>

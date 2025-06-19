@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <meta name="turbo-root" content="/wl-squide">
-    <meta name="turbo-cache-control" content="no-cache" data-turbo-track="reload" data-track-token="3.10.1.803440894100">
+    <meta name="turbo-cache-control" content="no-cache" data-turbo-track="reload" data-track-token="3.10.1.803620813210">
 
     <!-- See retype.com -->
     <meta name="generator" content="Retype 3.10.1">
@@ -32,12 +32,12 @@
     <script data-cfasync="false">(function(){var cl=document.documentElement.classList,ls=localStorage.getItem("retype_scheme"),hd=cl.contains("dark"),hl=cl.contains("light"),wm=window.matchMedia&&window.matchMedia("(prefers-color-scheme: dark)").matches;if(ls==="dark"||(!ls&&wm&&!hd&&!hl)){cl.remove("light");cl.add("dark")}else if(ls==="light"||(!ls&&!wm&&!hd&&!hl)){cl.remove("dark");cl.add("light")}})();</script>
 
     <link href="../../../static/favicon.png" rel="icon">
-    <link href="../../../resources/css/retype.css?v=3.10.1.803440894100" rel="stylesheet">
+    <link href="../../../resources/css/retype.css?v=3.10.1.803620813210" rel="stylesheet">
 
-    <script data-cfasync="false" src="../../../resources/js/config.js?v=3.10.1.803440894100" data-turbo-eval="false" defer></script>
+    <script data-cfasync="false" src="../../../resources/js/config.js?v=3.10.1.803620813210" data-turbo-eval="false" defer></script>
     <script data-cfasync="false" src="../../../resources/js/retype.js?v=3.10.1" data-turbo-eval="false" defer></script>
-    <script id="lunr-js" data-cfasync="false" src="../../../resources/js/lunr.js?v=3.10.1.803440894100" data-turbo-eval="false" defer></script>
-    <script id="prism-js" data-cfasync="false" src="../../../resources/js/prism.js?v=3.10.1.803440894100" defer></script>
+    <script id="lunr-js" data-cfasync="false" src="../../../resources/js/lunr.js?v=3.10.1.803620813210" data-turbo-eval="false" defer></script>
+    <script id="prism-js" data-cfasync="false" src="../../../resources/js/prism.js?v=3.10.1.803620813210" defer></script>
 
     <link href="https://workleap.github.io/wl-idp-docs-hub/static/retype-customization.css" rel="stylesheet" />
 
@@ -327,7 +327,7 @@
 </div>
 <p>Register one or many local module(s). During the registration process, the specified registration function will be invoked with a <code v-pre>FireflyRuntime</code> instance and an optional <code v-pre>context</code> object. To <strong>defer the registration</strong> of specific navigation items, a registration function can return an anonymous function.</p>
 <blockquote>
-<p>A local module is a regular module that is part of the <strong>host application build</strong> and is bundled at build time, as opposed to a <a href="../registerremotemodules/">remote module</a> which is loaded at runtime from a remote server. Local modules are particularly valuable when <strong>launching a new product</strong> with an evolving business domain or when undergoing a <strong>migration</strong> from a monolithic application to a federated application.</p>
+<p>A local module is a regular module that is part of the <strong>host application build</strong> and is bundled at build time, as opposed to a <a href="../registerremotemodules/">remote module</a> which is loaded at runtime from a remote server.</p>
 </blockquote>
 <doc-anchor-target id="reference">
     <h2>
@@ -382,7 +382,7 @@
     </h3>
 </doc-anchor-target>
 <div class="codeblock-wrapper"><doc-codeblock>
-<div class="codeblock-title">host/src/bootstrap.tsx</div>
+<div class="codeblock-title">host/src/index.tsx</div>
 <pre translate="no" class="language-tsx" data-line="6"><code v-pre class="language-tsx">import { registerLocalModules, FireflyRuntime } from &quot;@squide/firefly&quot;;
 import { register } from &quot;@sample/local-module&quot;;
 
@@ -424,7 +424,7 @@ export const register: ModuleRegisterFunction&lt;FireflyRuntime&gt; = runtime =&
 <p>To defer a registration to the second phase, a module registration function can <strong>return an anonymous function</strong> matching the <code v-pre>DeferredRegistrationFunction</code> type: <code v-pre>(data, operation: &quot;register&quot; | &quot;update&quot;) =&gt; Promise | void</code>.</p>
 <p>Once the modules are registered, the deferred registration functions will be executed with the deferred data and <code v-pre>&quot;register&quot;</code> as the value for the <code v-pre>operation</code> argument. Afterward, whenever the deferred data changes, the deferred registration functions will be re-executed with the updated deferred data and <code v-pre>&quot;update&quot;</code> as the value for the <code v-pre>operation</code> argument.</p>
 <div class="codeblock-wrapper"><doc-codeblock>
-<div class="codeblock-title">host/src/bootstrap.tsx</div>
+<div class="codeblock-title">host/src/index.tsx</div>
 <pre translate="no" class="language-tsx" data-line="8"><code v-pre class="language-tsx">import { FireflyRuntime, registerLocalModules, FireflyProvider } from &quot;@squide/firefly&quot;;
 import { createRoot } from &quot;react&quot;;
 import { register } from &quot;@sample/local-module&quot;;
@@ -444,7 +444,7 @@ root.render(
 </doc-codeblock></div>
 <div class="codeblock-wrapper"><doc-codeblock>
 <div class="codeblock-title">host/src/AppRouter.tsx</div>
-<pre translate="no" class="language-tsx" data-line="13-17"><code v-pre class="language-tsx">import { usePublicDataQueries, useDeferredRegistrations, useIsBootstrapping, AppRouter as FireflyAppRouter } from &quot;@squide/firefly&quot;;
+<pre translate="no" class="language-tsx" data-line="11-17"><code v-pre class="language-tsx">import { usePublicDataQueries, useDeferredRegistrations, useIsBootstrapping, AppRouter as FireflyAppRouter } from &quot;@squide/firefly&quot;;
 import { useMemo } from &quot;react&quot;;
 import { createBrowserRouter, Outlet } from &quot;react-router&quot;;
 import { RouterProvider } from &quot;react-router/dom&quot;;
@@ -604,7 +604,7 @@ export const register: ModuleRegisterFunction&lt;FireflyRuntime, unknown, Deferr
     </h3>
 </doc-anchor-target>
 <div class="codeblock-wrapper"><doc-codeblock>
-<div class="codeblock-title">host/src/bootstrap.tsx</div>
+<div class="codeblock-title">host/src/index.tsx</div>
 <pre translate="no" class="language-tsx" data-line="6-8"><code v-pre class="language-tsx">import { registerLocalModules, FireflyRuntime } from &quot;@squide/firefly&quot;;
 import { register } from &quot;@sample/local-module&quot;;
 
