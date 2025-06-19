@@ -28,7 +28,7 @@ Then, update the `dev` PNPM script to define with [cross-env](https://www.npmjs.
 ```json host/package.json
 {
     "scripts": {
-        "dev": "cross-env USE_MSW=true rslib dev --config ./rslib.dev.ts"
+        "dev": "cross-env USE_MSW=true rsbuild dev --config ./rsbuild.dev.ts"
     }
 }
 ```

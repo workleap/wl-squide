@@ -301,7 +301,7 @@ Next, add a new `dev-isolated` script to the `package.json` file to start the lo
 
 ```json local-module/package.json
 {
-    "dev-isolated": "rslib dev --config ./rslib.dev.ts"
+    "dev-isolated": "rsbuild dev --config ./rsbuild.dev.ts"
 }
 ```
 

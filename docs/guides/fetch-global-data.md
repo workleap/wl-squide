@@ -76,10 +76,6 @@ export function useFetchCount() {
 }
 ```
 
-!!!tip
-Ensure that the shared project is configured as a [shared dependency](./add-a-shared-dependency.md).
-!!!
-
 ### Create a custom error class
 
 Then, in the same shared project, create a `ApiError` class:
@@ -319,10 +315,6 @@ export function useSubscription() {
     return useContext(SubscriptionContext);
 }
 ```
-
-!!!tip
-If you're not adding the `SubscriptionContext` to the shared project created earlier for the public data example, make sure to configure this new shared project as a [shared dependency](./add-a-shared-dependency.md).
-!!!
 
 ### Fetch the data
 

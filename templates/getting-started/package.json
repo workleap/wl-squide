@@ -18,11 +18,11 @@
         "reset:modules": "pnpm -r --parallel --include-workspace-root exec pnpx rimraf node_modules pnpm-lock.yaml"
     },
     "devDependencies": {
-        "@typescript-eslint/parser": "8.4.0",
-        "@workleap/eslint-plugin": "3.2.2",
-        "@workleap/typescript-configs": "3.0.2",
+        "@typescript-eslint/parser": "8.34.1",
+        "@workleap/eslint-plugin": "3.4.2",
+        "@workleap/typescript-configs": "3.0.4",
         "eslint": "8.57.0",
-        "typescript": "5.5.4"
+        "typescript": "5.8.3"
     },
     "engines": {
         "node": ">=21.1.0",

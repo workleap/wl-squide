@@ -1,7 +1,7 @@
 # @templates/getting-started
 
 > [!IMPORTANT]  
-> This template is structured as a monorepo, which makes it easy for demonstrating Squide. However, if you are building a federated application that composes remote modules at runtime, the "host" application and the "remote module" should be in distinct repositories.
+> This template is structured as a monorepo, which makes it easy for demonstrating Squide.
 
 ## Install the template
 

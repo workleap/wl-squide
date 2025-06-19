@@ -1,5 +1,5 @@
 ---
-order: 100
+order: 210
 label: Create an host app
 ---
 
@@ -10,18 +10,18 @@ label: Create an host app
 We highly recommend going through the entire getting started guide. However, if you prefer to scaffold the application we'll be building, a template is available with [degit](https://github.com/Rich-Harris/degit):
 
 ```bash
-corepack pnpx degit https://github.com/workleap/wl-squide/templates/getting-started
+corepack pnpm dlx degit https://github.com/workleap/wl-squide/templates/getting-started-remote
 ```
 !!!
 
-Let's begin by creating the application that will serve as the entry point for our modular application and host the application modules.
+Let's begin by creating the application that will serve as the entry point for our federated application and host the application modules.
 
 ## Install the packages
 
 Create a new application (we'll refer to ours as `host`), then open a terminal at the root of the new solution and install the following packages:
 
 ```bash
-pnpm add -D @workleap/rsbuild-configs @workleap/browserslist-config @rsbuild/core @rspack/core browserslist typescript @types/react @types/react-dom
+pnpm add -D @workleap/swc-configs @workleap/browserslist-config @squide/firefly-webpack-configs webpack webpack-dev-server webpack-cli @swc/core @swc/helpers browserslist postcss typescript @types/react @types/react-dom
 pnpm add @squide/firefly react react-dom react-router @tanstack/react-query
 ```
 
@@ -37,11 +37,14 @@ host
 ├──── App.tsx
 ├──── RootLayout.tsx
 ├──── HomePage.tsx
-├──── index.tsx
+├──── bootstrap.tsx
+├──── index.ts
 ├──── register.tsx
 ├── .browserslistrc
-├── rsbuild.dev.ts
-├── rsbuild.build.ts
+├── swc.dev.js
+├── swc.build.js
+├── webpack.dev.js
+├── webpack.build.js
 ├── package.json
 ```
 
@@ -53,16 +56,39 @@ Then, ensure that you are developing your application using [ESM syntax](https:/
 }
 ```
 
+Finally, use a dynamic import to add an async boundary:
+
+```ts host/src/index.ts
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+// @ts-ignore doesn't support file extension.
+import("./bootstrap");
+
+// TS1208: 'index.tsx' cannot be compiled under '--isolatedModules' because it is considered a global script file. Add an import, export, or an
+// empty 'export {}' statement to make it a module.
+export {};
+```
+
+!!!tip
+To learn more about this async boundary and the `bootstrap.tsx` file, read the following [article](https://dev.to/infoxicator/module-federation-shared-api-ach#using-an-async-boundary).
+!!!
+
 ### Module registration
 
-Next, to register the modules, instanciate a shell [FireflyRuntime](/reference/runtime/runtime-class.md) instance. A local module will be registered in the [next section](create-local-module.md) of this quick start guide. 
+Next, to register the modules, instanciate a shell [FireflyRuntime](/reference/runtime/runtime-class.md) instance and register the remote module with the [initializeFirefly](/reference/registration/initializeFirefly.md) function (the configuration of the remote module will be covered in the [next section](create-remote-module.md)):
 
-```tsx !#5-7 host/src/index.tsx
+```tsx !#11-14 host/src/bootstrap.tsx
 import { createRoot } from "react-dom/client";
 import { ConsoleLogger, FireflyProvider, initializeFirefly, type RemoteDefinition } from "@squide/firefly";
 import { App } from "./App.tsx";
 
+// Define the remote modules.
+const Remotes: RemoteDefinition[] = [
+    { name: "remote1" }
+];
+
+// Register the remote module.
 const runtime = initializeFirefly({
+    remotes: Remotes,
     loggers: [x => new ConsoleLogger(x)]
 });
 
@@ -146,7 +172,7 @@ const renderSection: RenderSectionFunction = (elements, key) => {
 };
 
 export function RootLayout() {
-    // Retrieve the navigation items registered by the modules.
+    // Retrieve the navigation items registered by the remote modules.
     const navigationItems = useNavigationItems();
 
     // Transform the navigation items into React elements.
@@ -224,14 +250,21 @@ The [PublicRoutes](../reference/routing/publicRoutes.md) and [ProtectedRoutes](.
 
 Finally, update the bootstrapping code to [register](../reference/registration/registerLocalModules.md) the newly created local module:
 
-```tsx !#6-9 host/src/index.tsx
+```tsx !#13 host/src/bootstrap.tsx
 import { createRoot } from "react-dom/client";
 import { ConsoleLogger, FireflyProvider, initializeFirefly, type RemoteDefinition } from "@squide/firefly";
-import { registerHost } from "./register.tsx";
 import { App } from "./App.tsx";
+import { registerHost } from "./register.tsx";
 
+// Define the remote modules.
+const Remotes: RemoteDefinition[] = [
+    { name: "remote1" }
+];
+
+// Register the modules.
 const runtime = initializeFirefly({
-    localModules: [registerHost, registerMyLocalModule],
+    localModules: [registerHost],
+    remotes: Remotes,
     loggers: [x => new ConsoleLogger(x)]
 });
 
@@ -288,13 +321,13 @@ export const registerHost: ModuleRegisterFunction<FireflyRuntime> = runtime => {
 };
 ```
 
-## Configure Rsbuild
+## Configure webpack
 
 !!!tip
-For additional information about this Rsbuild setup, refer to the [development](https://workleap.github.io/wl-web-configs/rsbuild/configure-dev/) and [production](https://workleap.github.io/wl-web-configs/rsbuild/configure-build/) configuration documentation of the [Web Configs](https://workleap.github.io/wl-web-configs/rsbuild) libraries.
+Squide webpack configuration is built on top of [@workleap/webpack-configs](https://workleap.github.io/wl-web-configs/webpack/), [@workleap/browserslist-config](https://workleap.github.io/wl-web-configs/browserslist/) and [@workleap/swc-configs](https://workleap.github.io/wl-web-configs/swc/). If you are having issues with the configuration of these tools, refer to the tools documentation websites.
 !!!
 
-First, open the `public/index.html` file created at the beginning of this guide and copy/paste the following template:
+First, open the `public/index.html` file created at the beginning of this guide and copy/paste the following [HtmlWebpackPlugin](https://webpack.js.org/plugins/html-webpack-plugin/) template:
 
 ```html host/public/index.html
 <!DOCTYPE html>
@@ -315,23 +348,79 @@ extends @workleap/browserslist-config
 
 ### Development configuration
 
-To configure Rsbuild for a **development** environment, open the `rsbuild.dev.ts` file and use the [defineDevConfig](https://workleap.github.io/wl-web-configs/rsbuild/configure-dev/#rsbuilddevts) function to configure Rsbuild:
+To configure webpack for a **development** environment, first open the `swc.dev.js` file and copy/paste the following code:
 
-```ts host/rsbuild.dev.ts
-import { defineDevConfig } from "@workleap/rsbuild-configs";
+```js host/swc.dev.js
+// @ts-check
 
-export default defineDevConfig();
+import { browserslistToSwc, defineDevConfig } from "@workleap/swc-configs";
+
+const targets = browserslistToSwc();
+
+export const swcConfig = defineDevConfig(targets);
 ```
+
+Then, open the `webpack.dev.js` file and use the [defineDevHostConfig](/reference/webpack/defineDevHostConfig.md) function to configure webpack:
+
+```js !#13 host/webpack.dev.js
+// @ts-check
+
+import { defineDevHostConfig } from "@squide/firefly-webpack-configs";
+import { swcConfig } from "./swc.dev.js";
+
+/**
+ * @typedef {import("@squide/firefly-webpack-configs").RemoteDefinition[]}
+ */
+const Remotes = [
+    { name: "remote1", url: "http://localhost:8081" }
+];
+
+export default defineDevHostConfig(swcConfig, 8080, Remotes);
+```
+
+> If you are having issues with the wepack configuration that are not related to module federation, refer to the [@workleap/webpack-configs](https://workleap.github.io/wl-web-configs/webpack/configure-dev/) documentation.
+
+!!!tip
+If the application _**does not**_ not include any remote modules, use the [defineDevConfig](https://workleap.github.io/wl-web-configs/webpack/configure-dev/) function instead of [defineDevHostConfig](../reference/webpack/defineDevHostConfig.md).
+!!!
 
 ### Build configuration
 
-To configure Rsbuild for a **build** environment, open the `rsbuild.build.ts` file and use the [defineBuildConfig](https://workleap.github.io/wl-web-configs/rsbuild/configure-build/#rsbuildbuildts) function to configure Rsbuild:
+To configure webpack for a **build** environment, first open the `swc.build.js` file and copy/paste the following code:
 
-```ts host/rsbuild.build.ts
-import { defineBuildConfig } from "@workleap/rsbuild-configs";
+```js host/swc.build.js
+// @ts-check
 
-export default defineBuildConfig();
+import { browserslistToSwc, defineBuildConfig } from "@workleap/swc-configs";
+
+const targets = browserslistToSwc();
+
+export const swcConfig = defineBuildConfig(targets);
 ```
+
+Then, open the `webpack.build.js` file and use the [defineBuildHostConfig](/reference/webpack/defineBuildHostConfig.md) function to configure webpack:
+
+```js !#13 host/webpack.build.js
+// @ts-check
+
+import { defineBuildHostConfig } from "@squide/firefly-webpack-configs";
+import { swcConfig } from "./swc.build.js";
+
+/**
+ * @typedef {import("@squide/firefly-webpack-configs").RemoteDefinition[]}
+ */
+const Remotes = [
+    { name: "remote1", url: "http://localhost:8081" }
+];
+
+export default defineBuildHostConfig(swcConfig, Remotes);
+```
+
+> If you are having issues with the wepack configuration that are not related to module federation, refer to the [@workleap/webpack-configs](https://workleap.github.io/wl-web-configs/webpack/configure-build/) documentation.
+
+!!!tip
+If the application _**does not**_ not include any remote modules, use the [defineBuildConfig](https://workleap.github.io/wl-web-configs/rsbuild/configure-build/) function instead of [defineBuildHostConfig](../reference/webpack/defineBuildHostConfig.md).
+!!!
 
 ## Add CLI scripts
 
@@ -339,7 +428,7 @@ To initiate the development server, add the following script to the application 
 
 ```json host/package.json
 {
-    "dev": "rsbuild dev --config ./rsbuild.dev.ts"
+    "dev": "webpack serve --config webpack.dev.js"
 }
 ```
 
@@ -347,13 +436,13 @@ To build the application, add the following script to the application `package.j
 
 ```json host/package.json
 {
-    "build": "rsbuild build --config rsbuild.build.ts"
+    "build": "webpack --config webpack.build.js"
 }
 ```
 
 ## Try it :rocket:
 
-Start the application in a development environment using the `dev` script. You should see the homepage.
+Start the application in a development environment using the `dev` script. You should see the homepage. Even if the remote module application is not yet available, the host application will gracefully (and ignore the remote module).
 
 ### Troubleshoot issues
 
@@ -363,6 +452,9 @@ If you are experiencing issues with this guide:
     - `[squide] Found 1 local module to register.`
     - `[squide] 1/1 Registering local module.`
     - `[squide] 1/1 Local module registration completed.`
+    - `[squide] Found 1 remote module to register.`
+    - `[squide] 1/1 Loading module "register" of "remote1".`
+    - `[squide] 1/1 Registering module "register" of remote "remote1".`
+    - `[squide] 1/1 The registration of the remote "remote1" is completed.`
 - Refer to a working example on [GitHub](https://github.com/workleap/wl-squide/tree/main/samples/basic/host).
 - Refer to the [troubleshooting](../troubleshooting.md) page.
-

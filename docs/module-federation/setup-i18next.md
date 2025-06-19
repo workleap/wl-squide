@@ -1,3 +1,7 @@
+---
+order: 140
+---
+
 ### Update the webpack configurations
 
 Finally, update the webpack development and build configurations to activate the `i18next` feature. Enabling this feature will configure the `i18next` libraries as [shared dependencies](./add-a-shared-dependency.md):

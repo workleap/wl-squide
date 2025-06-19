@@ -75,10 +75,6 @@ export function useFeatureFlags() {
 }
 ```
 
-!!!tip
-Ensure that the shared project is configured as a [shared dependency](./add-a-shared-dependency.md).
-!!!
-
 ## Fetch the feature flags remote data
 
 Then, open the host application code and update the `App` component to fetch the feature flags data with the [usePublicDataQueries](../reference/tanstack-query/usePublicDataQueries.md) hook:

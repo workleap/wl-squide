@@ -178,7 +178,10 @@ Be sure to read, at a minimum, the following guides:
 - [Manage shared state](../guides/manage-shared-state.md)
 - [Isolate module failures](../guides/isolate-module-failures.md)
 - [Add authentication](../guides/add-authentication.md)
-- [Add a shared dependency](../guides/add-a-shared-dependency.md)
+
+If your application is a federated application, be sure to also check out the following guides:
+
+- [Add a shared dependency](../module-federation/add-a-shared-dependency.md)
 
 ## Reference
 

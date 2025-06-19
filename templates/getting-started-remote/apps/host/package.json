@@ -11,13 +11,13 @@
     },
     "dependencies": {
         "@getting-started-remote/local-module": "workspace:*",
-        "@squide/firefly": "https://pkg.pr.new/workleap/wl-squide/@squide/firefly@279",
+        "@squide/firefly": "13.0.0",
         "react": "19.1.0",
         "react-dom": "19.1.0",
         "react-router": "7.6.2"
     },
     "devDependencies": {
-        "@squide/firefly-webpack-configs": "https://pkg.pr.new/workleap/wl-squide/@squide/firefly-webpack-configs@279",
+        "@squide/firefly-webpack-configs": "5.0.4",
         "@swc/core": "1.12.1",
         "@swc/helpers": "0.5.17",
         "@types/react": "19.1.8",

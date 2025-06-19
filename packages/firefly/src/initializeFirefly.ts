@@ -2,7 +2,7 @@ import { isFunction, registerLocalModules, type ModuleRegisterFunction, type Reg
 import { registerRemoteModules, type RemoteDefinition } from "@squide/module-federation";
 import { setMswAsReady } from "@squide/msw";
 import { FireflyRuntime, type FireflyRuntimeOptions } from "./FireflyRuntime.tsx";
-// import { canRegisterHoneycombInstrumentation } from "./honeycomb/canRegisterHoneycombInstrumentation.ts";
+import { initializeHoneycomb } from "./honeycomb/initializeHoneycomb.ts";
 
 export const ApplicationBootstrappingStartedEvent = "squide-app-bootstrapping-started";
 
@@ -70,7 +70,8 @@ export function initializeFirefly<TContext = unknown, TData = unknown>(options: 
         mode,
         useMsw,
         loggers,
-        plugins
+        plugins,
+        onError
     } = options;
 
     if (hasExecuted) {
@@ -86,32 +87,15 @@ export function initializeFirefly<TContext = unknown, TData = unknown>(options: 
         plugins
     });
 
-    // if (canRegisterHoneycombInstrumentation()) {
-    //     // Dynamically import the Honeycomb instrumentation to prevent loading all the Honeycomb libraries
-    //     // if Honeycomb instrumentation is not registered by the hosting application.
-    //     import("./honeycomb/registerHoneycombInstrumentation.ts")
-    //         .then(module => {
-    //             module.registerHoneycombInstrumentation(runtime);
-    //         })
-    //         .catch((error: unknown) => {
-    //             if (options.onError) {
-    //                 options.onError(error);
-    //             }
-
-    //             runtime.logger.error("[squide] Failed to register Honeycomb instrumentation. The \"./honeycomb/registerHoneycombInstrumentation.ts\" cannot be imported.");
-    //         })
-    //         .finally(() => {
-    //             // Wait for the instrumentation to be ready before bootstrapping
-    //             // the application.
-    //             bootstrap(runtime, options);
-    //         });
-    // } else {
-    //     runtime.logger.debug("[squide] Cannot register Honeycomb instrumentation because the host application is not using the \"@workleap/honeycomb\" package.");
-
-    //     // When Honeycomb instrumentation is not enabled, move forward
-    //     // with the bootstrapping of the application.
-    //     bootstrap(runtime, options);
-    // }
+    initializeHoneycomb(runtime)
+        .catch((error: unknown) => {
+            if (onError) {
+                onError(error);
+            }
+        })
+        .finally(() => {
+            bootstrap(runtime, options);
+        });
 
     return runtime;
 }
