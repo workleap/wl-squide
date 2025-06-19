@@ -7,7 +7,7 @@ toc:
 # defineBuildHostConfig
 
 !!!warning
-If the application _**does not**_ not include any remote modules, use the [defineBuildConfig](https://workleap.github.io/wl-web-configs/webpack/configure-build/) function instead of `defineBuildHostConfig`.
+If the application _**does not**_ not include any remote modules, use the [defineBuildConfig](https://workleap.github.io/wl-web-configs/webpack/configure-build/) function from [@workleap/webpack-configs](https://workleap.github.io/wl-web-configs/webpack/) instead of the `defineBuildHostConfig` function.
 !!!
 
 Creates a webpack [configuration object](https://webpack.js.org/concepts/configuration/) that is adapted for a Squide host application in **build** mode. This function is a wrapper built on top of [@workleap/webpack-configs](https://www.npmjs.com/package/@workleap/webpack-configs). Make sure to read the [defineBuildConfig](https://workleap.github.io/wl-web-configs/webpack/configure-build/) documentation first.
