@@ -1,5 +1,11 @@
 # @squide/firefly
 
+## 13.0.1
+
+### Patch Changes
+
+- [#279](https://github.com/workleap/wl-squide/pull/279) [`9d15afc`](https://github.com/workleap/wl-squide/commit/9d15afc8b75c69dc3f0239876fb25a1d72ed9b29) Thanks [@patricklafrance](https://github.com/patricklafrance)! - The `opentelemetry/api` package has been moved from an optional peer dependency to a regular peer dependency.
+
 ## 13.0.0
 
 ### Major Changes
