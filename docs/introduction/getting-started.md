@@ -14,7 +14,7 @@ Welcome to Squide (yes :squid: with an **"e"**), a React modular application she
 
 Squide is a React modular application shell tailored for the needs of Workleap's web applications. It **enforces architectural patterns** that we deem important to write **scalable** and **maintainable** web **applications** at Workleap. 
 
-By "modular application", we mean that much like in backend systems, a web application built with Squide should be **organized** as a **collection** of **independent modules**, each responsible for a specific part of the system (i.e., a bounded context or domain):
+By "modular application", we mean that much like in backend systems, a web application built with Squide should be **organized** as a **collection** of **independent modules**, each responsible for a specific part of the system (i.e., a domain or subdomain):
 
 ```powershell !#3,9-11
 monorepo
