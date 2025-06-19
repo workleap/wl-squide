@@ -14,7 +14,7 @@ The examples in this guide load all the resources from single localized resource
 
 :mag_right: This section is similar to the [Setup the host application section](../guides/setup-i18next.md#setup-the-host-application) from the non–Module Federation guide on developing a module in isolation. The key difference is that in a Module Federation setup, the host application's entry point is `bootstrap.tsx` instead of `index.tsx`.
 
-## Setup a module
+## Setup a remote module
 
 First, open a terminal at the root of the remote module application and install the following packages:
 
