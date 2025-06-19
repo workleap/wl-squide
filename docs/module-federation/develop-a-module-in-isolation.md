@@ -33,7 +33,7 @@ monorepo
 - The host application's entry point is `bootstrap.tsx` rather than `index.tsx`.
 - A [remote module](../reference/registration/initializeFirefly.md#register-a-remote-module) should be registered rather than a [local module](../reference/registration/initializeFirefly.md#register-a-local-module).
 
-## Setup a module
+## Setup a remote module
 
 With the new `shell` package in place, we can now configure the remote module to be developed in isolation. The goal is to start the module development server and render the module pages with the same layout and functionalities as if it was rendered by the host application.
 
