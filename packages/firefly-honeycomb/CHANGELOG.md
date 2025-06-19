@@ -1,5 +1,12 @@
 # @squide/firefly-honeycomb
 
+## 3.0.2
+
+### Patch Changes
+
+- Updated dependencies [[`9d15afc`](https://github.com/workleap/wl-squide/commit/9d15afc8b75c69dc3f0239876fb25a1d72ed9b29)]:
+  - @squide/firefly@13.0.1
+
 ## 3.0.1
 
 ### Patch Changes
