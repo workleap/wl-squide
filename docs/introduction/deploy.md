@@ -36,12 +36,7 @@ Or by adding a `_redirects` file into the Netlify publish directory:
 If your modular applications includes [remote modules](../reference/registration/registerRemoteModules.md), configure the remote modules production URL:
 
 ```js
-// @ts-check
-
-/**
- * @typedef {import("@squide/firefly-webpack-configs").RemoteDefinition[]}
- */
-const Remotes: RemoteDefinition[] = [
+const Remotes = [
     {
         name: "remote1",
         url: process.env.isNetlify ? "https://squide-remote-module.netlify.app" : "http://localhost:8081"

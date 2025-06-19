@@ -10,7 +10,7 @@ In a Squide application, the visibility indicator determines whether routes will
 
 When a route is registered with the [registerRoute](../reference/runtime/runtime-class.md#register-routes) function, it is considered `protected` by default. Therefore, if a route does not rely on the application's global protected data, it should be explicitly registered as `public` using the [registerPublicRoute](../reference/runtime/runtime-class.md#register-a-public-route) function:
 
-```tsx !#6 remote/src/register.tsx
+```tsx !#6 local-module/src/register.tsx
 import type { ModuleRegisterFunction, FireflyRuntime } from "@squide/firefly";
 import { Page } from "./Page.tsx";
 

@@ -4,7 +4,7 @@ order: 880
 
 # Override the host layout
 
-The `RootLayout` component defined in the [Create an host application](../introduction/create-host.md#navigation-items) starting guide serves as the default layout for the homepage and all the managed routes.
+The `RootLayout` component defined in the [Create an host app](../introduction/create-host.md#navigation-items) starting guide serves as the default layout for the homepage and all the managed routes.
 
 For most routes, this behavior is what the author expects. However, as an application introduces [authentication](./add-authentication.md) and adds many session-related features to the default layout, this default layout may no longer be suitable for every route. For example, a login page doesn't require session-related features, as the user isn't authenticated yet. In such cases, the default layout isn't appropriate.
 

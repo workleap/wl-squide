@@ -1,12 +1,8 @@
 ---
-order: 740
+order: 180
 ---
 
 # Add a shared dependency
-
-!!!warning
-This guide only applies to federated applications (applications including [remote modules](../reference/registration/registerRemoteModules.md)).
-!!!
 
 [Shared dependencies](https://module-federation.io/configure/shared.html) is one of the most powerful concepts of Module Federation. However, mastering its configuration can be quite challenging. **Failure** to configure shared dependencies properly in a federated application using Module Federation can significantly **impact** both **user** and **developer experiences**.
 

@@ -6,33 +6,28 @@
     "private": true,
     "type": "module",
     "scripts": {
-        "dev": "webpack serve --config webpack.dev.js",
-        "build": "webpack --config webpack.build.js"
+        "dev": "rsbuild dev --config ./rsbuild.dev.ts",
+        "build": "rsbuild build --config rsbuild.build.ts"
     },
     "dependencies": {
         "@getting-started/local-module": "workspace:*",
-        "@squide/firefly": "9.3.4",
-        "react": "19.0.0",
-        "react-dom": "19.0.0",
-        "react-router": "7.1.5"
+        "@squide/firefly": "13.0.0",
+        "react": "19.1.0",
+        "react-dom": "19.1.0",
+        "react-router": "7.6.2"
     },
     "devDependencies": {
-        "@squide/firefly-webpack-configs": "4.2.3",
-        "@swc/core": "1.10.12",
-        "@swc/helpers": "0.5.15",
-        "@types/react": "19.0.8",
-        "@types/react-dom": "19.0.3",
-        "@workleap/browserslist-config": "2.0.2",
-        "@workleap/eslint-plugin": "3.2.6",
-        "@workleap/swc-configs": "2.2.4",
-        "@workleap/typescript-configs": "3.0.2",
-        "browserslist": "4.24.4",
+        "@rsbuild/core": "1.3.22",
+        "@rspack/core": "1.3.15",
+        "@types/react": "19.1.8",
+        "@types/react-dom": "19.1.6",
+        "@workleap/browserslist-config": "2.0.4",
+        "@workleap/eslint-plugin": "3.4.2",
+        "@workleap/rsbuild-configs": "3.0.2",
+        "@workleap/typescript-configs": "3.0.4",
+        "browserslist": "4.25.0",
         "eslint": "8.57.0",
-        "postcss": "8.5.1",
-        "typescript": "5.5.4",
-        "webpack": "5.97.1",
-        "webpack-cli": "6.0.1",
-        "webpack-dev-server": "5.2.0"
+        "typescript": "5.8.3"
     },
     "engines": {
         "node": ">=21.1.0"

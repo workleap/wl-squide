@@ -98,7 +98,7 @@ runtime.registerRoute(route, options?: { hoist?, parentPath?, parentId? })
 ```tsx
 import { Page } from "./Page.tsx"
 
-// Register a new route from a local or remote module.
+// Register a new route from a module.
 runtime.registerRoute({
     path: "/page-1",
     element: <Page />
@@ -260,7 +260,7 @@ We recommend always providing an `$id` option for a navigation item, as it ensur
 !!!
 
 ```ts
-// Register a new navigation item from a local or remote module.
+// Register a new navigation item from a module.
 runtime.registerNavigationItem({
     $id: "page-1",
     $label: "Page 1",

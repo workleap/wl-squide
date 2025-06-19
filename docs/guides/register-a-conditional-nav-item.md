@@ -2,13 +2,26 @@
 order: 840
 ---
 
-# Use feature flags
+# Register a conditional navigation item
 
 !!!warning
 Before going forward with this guide, make sure that you completed the [Setup Mock Service Worker](./setup-msw.md) and [Fetch global data](./fetch-global-data.md) guides.
 !!!
 
-To continuously deliver value to our customers, Workleap has adopted a feature flag system that enables functionalities to be activated or deactivated without requiring a code deployment. While implementing "in-page" feature flags in a Squide application is straightforward, feature flags that conditionally register navigation items require a more advanced [deferred registration](../reference/registration/registerLocalModules.md#defer-the-registration-of-navigation-items) mechanism.
+Conditionally registering navigation items based on remote data is complex because **Squide's default registration mechanism runs before the application has bootstrapped**, meaning that the remote data have not yet been fetched from the server.
+
+To address this, Squide offers an alternate [deferred registration](../reference/registration/registerLocalModules.md#defer-the-registration-of-navigation-items) mechanism in two-phases:
+
+1. The first phase allows modules to register their _static_ navigation items that are not dependent on remote data.
+2. The second phase enables modules to register _deferred_ navigation items that are dependent on remote data. We refer to this second phase as **deferred registrations**.
+
+To defer a registration to the second phase, a module's registration function can **return an anonymous function** matching the `DeferredRegistrationFunction` type: `(data, operation: "register" | "update") => Promise | void`.
+
+Once the modules are registered and the [useDeferredRegistrations](../reference/registration/useDeferredRegistrations.md) hook is rendered, the deferred registration functions will be executed with either `"register"` or `"update"` as the value for the `operation` argument, depending on whether this is the initial or subsequent execution of the functions.
+
+## Using feature flags as an example
+
+In this guide, we'll use a hypothetical feature flags endpoint as an example. The endpoint returns values that indicate whether specific features are enabled. A navigation item will be registered only if its corresponding feature is active.
 
 ## Add an endpoint
 
@@ -27,7 +40,7 @@ export const requestHandlers: HttpHandler[] = [
 ];
 ```
 
-Finally, register the request handler using the module registration function:
+Then, register the request handler using the module registration function:
 
 ```tsx host/src/register.tsx
 import type { ModuleRegisterFunction, FireflyRuntime } from "@squide/firefly";
@@ -43,9 +56,9 @@ export const register: ModuleRegisterFunction<FireflyRuntime> = async runtime =>
 }
 ```
 
-### Create a shared context
+## Create a shared context
 
-Now, in a shared project, create a `FeatureFlagsContext`:
+Next, in a shared project, create a `FeatureFlagsContext`:
 
 ```ts shared/src/featureFlagsContext.ts
 import { createContext, useContext } from "react";
@@ -62,13 +75,9 @@ export function useFeatureFlags() {
 }
 ```
 
-!!!tip
-Ensure that the shared project is configured as a [shared dependency](./add-a-shared-dependency.md).
-!!!
+## Fetch the feature flags remote data
 
-## Fetch the feature flags
-
-Finally, open the host application code and update the `App` component to fetch the feature flags data with the [usePublicDataQueries](../reference/tanstack-query/usePublicDataQueries.md) hook:
+Then, open the host application code and update the `App` component to fetch the feature flags data with the [usePublicDataQueries](../reference/tanstack-query/usePublicDataQueries.md) hook:
 
 ```tsx !#7-22,29 host/src/App.tsx
 import { AppRouter, usePublicDataQueries, useIsBootstrapping } from "@squide/firefly";
@@ -131,64 +140,9 @@ export function App() {
 }
 ```
 
-## Conditionally render a page section
+## Setup the deferred registration
 
-Now, let's use the `featureA` flag from `FeatureFlagsContext` to conditionally render a section of a new `Page` component. In this example, a section of the `Page` component will only be rendered if `featureA` is activated:
-
-```tsx remote/src/Page.tsx
-import { useFeatureFlags } from "@sample/shared";
-
-export function Page() {
-    const { featureFlags } = useFeatureFlags();
-
-    return (
-        <>
-            {featureFlags?.featureA ? <div>This section is only rendered when "featureA" is activated.</div>}
-            <div>Hello from Page!</div>
-        </>
-    );
-}
-```
-
-Then, register the `Page` component using the module registration function:
-
-```tsx remote/src/register.tsx
-import type { ModuleRegisterFunction, FireflyRuntime } from "@squide/firefly";
-import { Page } from "./Page.tsx";
-
-export const register: ModuleRegisterFunction<FireflyRuntime> = runtime => {
-    runtime.registerRoute({
-        path: "/page",
-        element: <Page />
-    });
-
-    runtime.registerNavigationItem({
-        $id: "page",
-        $label: "Page",
-        to: "/page"
-    });
-}
-```
-
-!!!tip
-If you've already registered a `Page` component in a previous guide, use a different name for this component.
-!!!
-
-## Conditionally register a navigation item
-
-Conditionally registering navigation items based on a feature flag is more complex because Squide's default registration mechanism runs before the application has bootstrapped, meaning that the feature flags have not yet been fetched from the server.
-
-To address this, Squide offers an alternate [deferred registration](../reference/registration/registerLocalModules.md#defer-the-registration-of-navigation-items) mechanism in two-phases:
-
-1. The first phase allows modules to register their _static_ navigation items that are not dependent on initial data.
-
-2. The second phase enables modules to register _deferred_ navigation items that are dependent on initial data. We refer to this second phase as **deferred registrations**.
-
-To defer a registration to the second phase, a module's registration function can **return an anonymous function** matching the `DeferredRegistrationFunction` type: `(data, operation: "register" | "update") => Promise | void`.
-
-Once the modules are registered and the [useDeferredRegistrations](../reference/registration/useDeferredRegistrations.md) hook is rendered, the deferred registration functions will be executed with either `"register"` or `"update"` as the value for the `operation` argument, depending on whether this is the initial or subsequent execution of the functions.
-
-First, let's define a `DeferredRegistrationData` interface to a shared project, specifiying the initial data that module's deferred registration functions can expect:
+Now, let's add a `DeferredRegistrationData` interface to the shared project, specifiying the remote data that module's deferred registration functions can expect:
 
 ```ts shared/src/deferredData.ts
 import { FeatureFlags } from "./featureFlagsContext.ts";
@@ -198,34 +152,7 @@ export interface DeferredRegistrationData {
 }
 ```
 
-Then, add `DeferredRegistrationData` to the `ModuleRegisterFunction` type definition and update the module `register` function to defer the registration of the `Page` component navigation item:
-
-```tsx !#5,12-21 src/register.tsx
-import type { ModuleRegisterFunction, FireflyRuntime } from "@squide/firefly";
-import type { DeferredRegistrationData } from "@sample/shared";
-import { Page } from "./Page.tsx";
-
-export const register: ModuleRegisterFunction<FireflyRuntime, unknown, DeferredRegistrationData> = runtime => {
-    runtime.registerRoute({
-        path: "/page",
-        element: <Page />
-    });
-
-    // Return a deferred registration function.
-    return ({ featureFlags }) => {
-        // Only register the "Page" navigation items if "featureB" is activated.
-        if (featureFlags?.featureB) {
-            runtime.registerNavigationItem({
-                $id: "page",
-                $label: "Page",
-                to: "/page"
-            });
-        }
-    };
-}
-```
-
-Finally, update the host application's `App` component to use the [useDeferredRegistrations](../reference/registration/useDeferredRegistrations.md) hook. By passing the feature flags data to `useDeferredRegistrations`, this data will be available to the module's deferred registration functions:
+Then, update the host application `App` component to use the [useDeferredRegistrations](../reference/registration/useDeferredRegistrations.md) hook. By passing the feature flags data to `useDeferredRegistrations`, this data will be available to the module's deferred registration functions:
 
 ```tsx !#27-29,31 host/src/App.tsx
 import { AppRouter, usePublicDataQueries, useIsBootstrapping, useDeferredRegistrations } from "@squide/firefly";
@@ -252,7 +179,7 @@ function BootstrappingRoute() {
         }
     ]);
 
-    // The useMemo is super important otherwise the hook will consider that the feature flags
+    // The useMemo hook is super important otherwise the hook will consider that the feature flags
     // changed everytime the hook is rendered.
     const data: DeferredRegistrationData = useMemo(() => ({ 
         featureFlags 
@@ -294,6 +221,35 @@ export function App() {
             }}
         </AppRouter>
     );
+}
+```
+
+## Register the conditional navigation item
+
+Finally, add `DeferredRegistrationData` to the `ModuleRegisterFunction` type definition and update the module `register` function to defer the registration of the `Page` component navigation item. The `Page` component navigation item will only be registered if `featureB` is active:
+
+```tsx !#5,12-21 src/register.tsx
+import type { ModuleRegisterFunction, FireflyRuntime } from "@squide/firefly";
+import type { DeferredRegistrationData } from "@sample/shared";
+import { Page } from "./Page.tsx";
+
+export const register: ModuleRegisterFunction<FireflyRuntime, unknown, DeferredRegistrationData> = runtime => {
+    runtime.registerRoute({
+        path: "/page",
+        element: <Page />
+    });
+
+    // Return a deferred registration function.
+    return ({ featureFlags }) => {
+        // Only register the "Page" navigation items if "featureB" is activated.
+        if (featureFlags?.featureB) {
+            runtime.registerNavigationItem({
+                $id: "page",
+                $label: "Page",
+                to: "/page"
+            });
+        }
+    };
 }
 ```
 

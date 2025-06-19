@@ -9,19 +9,17 @@ order: 80
 We highly recommend going through the entire getting started guide. However, if you prefer to scaffold the application we'll be building, a template is available with [degit](https://github.com/Rich-Harris/degit):
 
 ```bash
-corepack pnpm dlx degit https://github.com/workleap/wl-squide/templates/getting-started
+corepack pnpx degit https://github.com/workleap/wl-squide/templates/getting-started
 ```
 !!!
 
-Local modules are regular modules that are part of the **host application build**. They are independent modules that expose a `registration` function to the host application's bootstrapping code. A local module can be a standalone package, a sibling project (in a monorepo setup), or even a local folder within the host application.
-
-Local modules have many uses but are especially useful when **launching** a **new product** with an unrefined business domain or **migrating** from a **monolithic application** to a distributed application.
+Local modules expose a `registration` function to the host application's bootstrapping code. A local module can be a standalone package, a sibling project (in a monorepo setup), or even a local folder within the host application.
 
 Let's add a local module to demonstrate how it's done!
 
 ## Install the packages
 
-Create a new application (we'll refer to ours as `local-module`), then open a terminal at the root of the new solution and install the following packages:
+Create a new application (we'll refer to ours as `local-module`), then open a terminal at the root of the application and install the following packages:
 
 ```bash
 pnpm add -D typescript @types/react @types/react-dom react react-dom react-router @tanstack/react-query
@@ -68,10 +66,10 @@ Finally, add the following `peerDependencies`:
     "version": "0.0.1",
     "exports": "./src/register.tsx",
     "peerDependencies": {
-        "@tanstack/react-query": "*",
-        "react": "*",
-        "react-dom": "*",
-        "react-router": "*"
+        "@tanstack/react-query": "^1.2.3",
+        "react": "^1.2.3",
+        "react-dom": "^1.2.3",
+        "react-router": "^1.2.3"
     }
 }
 ```
@@ -126,7 +124,7 @@ If your project is set up as a monorepo, use `workspace:*` for the version inste
 
 Then, register the local module with the [initializeFirefly](/reference/registration/initializeFirefly.md) function:
 
-```tsx !#3,14 host/src/bootstrap.tsx
+```tsx !#3,14 host/src/index.tsx
 import { createRoot } from "react-dom/client";
 import { ConsoleLogger, FireflyProvider, initializeFirefly, type RemoteDefinition } from "@squide/firefly";
 import { register as registerMyLocalModule } from "@getting-started/local-module";
@@ -156,7 +154,7 @@ root.render(
 
 ## Try it :rocket:
 
-Start the `host` and `remote-module` applications in development mode using the `dev` script. You should notice an additional link labelled `Local/Page` in the navigation menu. Click on the link to navigate to the page of your new **local** module!
+Start the `host` application in development mode using the `dev` script. You should notice an additional link labelled `Local/Page` in the navigation menu. Click on the link to navigate to the page of your new **local** module!
 
 ### Troubleshoot issues
 

@@ -1,6 +1,11 @@
 ---
-order: 90
+order: 200
 ---
+
+!!!tip
+The documentation for Squide firefly v8 is available [here](https://squide-firefly-v8.netlify.app/getting-started/).
+!!!
+
 
 # Create a remote module
 
@@ -9,7 +14,7 @@ order: 90
 We highly recommend going through the entire getting started guide. However, if you prefer to scaffold the application we'll be building, a template is available with [degit](https://github.com/Rich-Harris/degit):
 
 ```bash
-corepack pnpm dlx degit https://github.com/workleap/wl-squide/templates/getting-started
+corepack pnpx degit https://github.com/workleap/wl-squide/templates/getting-started-remote
 ```
 !!!
 

@@ -15,13 +15,9 @@ Retrieving the global data of an application is a crucial aspect that isn't alwa
 At first glance, one might wonder what could be so complicated about fetching the global data of an application. It's only fetches ...right? Well, there are several concerns to take into account for a Squide application:
 
 - When in development, the global data cannot be fetched until the Mock Service Worker (MSW) **request handlers** are **registered** and **MSW is ready**.
-
 - To register the MSW request handlers, the **modules** (including the remote modules) must be **registered** first.
-
 - If the requested page is _public_, only the global public data should be fetched.
-
 - If the requested page is _protected_, **both** the global **public** and **protected data** should be **fetched**.
-
 - The requested page rendering must be delayed until the global data has been fetched.
 
 - A **unique loading spinner** should be displayed to the user during this process, ensuring there's **no flickering** due to different spinners being rendered.
@@ -79,10 +75,6 @@ export function useFetchCount() {
     return useContext(FetchCountContext);
 }
 ```
-
-!!!tip
-Ensure that the shared project is configured as a [shared dependency](./add-a-shared-dependency.md).
-!!!
 
 ### Create a custom error class
 
@@ -323,10 +315,6 @@ export function useSubscription() {
     return useContext(SubscriptionContext);
 }
 ```
-
-!!!tip
-If you're not adding the `SubscriptionContext` to the shared project created earlier for the public data example, make sure to configure this new shared project as a [shared dependency](./add-a-shared-dependency.md).
-!!!
 
 ### Fetch the data
 

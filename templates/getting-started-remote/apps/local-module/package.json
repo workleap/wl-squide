@@ -1,0 +1,29 @@
+{
+    "name": "@getting-started-remote/local-module",
+    "author": "Workleap",
+    "version": "0.0.1",
+    "description": "Local module of the getting-started template.",
+    "private": true,
+    "type": "module",
+    "exports": "./src/register.tsx",
+    "peerDependencies": {
+        "@squide/firefly": "^13.0.0",
+        "react": "^19.0.0",
+        "react-dom": "^19.0.0",
+        "react-router": "^7.1.5"
+    },
+    "devDependencies": {
+        "@squide/firefly": "13.0.0",
+        "@types/react": "19.1.8",
+        "@types/react-dom": "19.1.6",
+        "@workleap/eslint-plugin": "3.4.2",
+        "eslint": "8.57.0",
+        "react": "19.1.0",
+        "react-dom": "19.1.0",
+        "react-router": "7.6.2",
+        "typescript": "5.8.3"
+    },
+    "engines": {
+        "node": ">=21.1.0"
+    }
+}

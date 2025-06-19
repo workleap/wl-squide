@@ -1,0 +1,31 @@
+{
+    "name": "@getting-started-remote/root",
+    "author": "Workleap",
+    "version": "0.0.0",
+    "description": "A template for the getting-started guide of Squide.",
+    "private": true,
+    "type": "module",
+    "scripts": {
+        "dev": "pnpm -r --parallel dev",
+        "build": "pnpm -r --parallel build",
+        "lint": "pnpm run \"/^lint:.*/\"",
+        "lint:eslint": "eslint . --max-warnings=-0 --cache --cache-location node_modules/.cache/eslint",
+        "lint:types": "pnpm -r --parallel --include-workspace-root exec tsc",
+        "list-outdated-deps": "pnpm outdated -r --format list !eslint",
+        "update-outdated-deps": "pnpm update -r --latest !eslint",
+        "clean": "pnpm -r --parallel --include-workspace-root exec pnpx rimraf dist .rslib node_modules/.cache",
+        "reset": "pnpm clean && pnpm reset:modules",
+        "reset:modules": "pnpm -r --parallel --include-workspace-root exec pnpx rimraf node_modules pnpm-lock.yaml"
+    },
+    "devDependencies": {
+        "@typescript-eslint/parser": "8.34.1",
+        "@workleap/eslint-plugin": "3.4.2",
+        "@workleap/typescript-configs": "3.0.4",
+        "eslint": "8.57.0",
+        "typescript": "5.8.3"
+    },
+    "engines": {
+        "node": ">=21.1.0",
+        "pnpm": ">=9"
+    }
+}

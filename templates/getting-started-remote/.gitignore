@@ -1,0 +1,9 @@
+node_modules
+dist
+.pnpm-debug.log*
+.netlify
+.turbo
+
+# Mac
+.DS_Store
+*.pem

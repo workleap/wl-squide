@@ -1,0 +1,4 @@
+{
+    "extends": "@workleap/typescript-configs/web-application.json",
+    "exclude": ["dist", "node_modules"]
+}

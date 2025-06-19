@@ -31,7 +31,7 @@ To resolve this issue:
 
 If the issue persists, update your host application and remote module's webpack build configuration with the `optimize: false` option. Afterward, build the bundles and serve them. Open a web browser, access the DevTools, switch to the Network tab (ensure that JS files are listed), navigate to the application's homepage, and inspect the downloaded bundle files. The problematic React context definition should appear only once; otherwise, you may have multiple instances of the React context.
 
-For additional information on shared dependency versioning, please refer to the [add a shared dependency guide](./guides/add-a-shared-dependency.md).
+For additional information on shared dependency versioning, please refer to the [add a shared dependency guide](./module-federation/add-a-shared-dependency.md).
 
 ## Console logs
 

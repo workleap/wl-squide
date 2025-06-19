@@ -8,9 +8,9 @@ While it's typically recommended for a Squide application to maintain the bounda
 
 For this guide, we'll take as an example a page for which the parts that are owned by different domains are organized by tabs (modular tabs) and registered by different modules:
 
-- `Tab 1`: Registered by `Remote Module 1`
-- `Tab 2`: Registered by `Remote Module 2`
-- `Tab 3`: Registered by `Local Module`
+- `Tab 1`: Registered by `Local Module 1`
+- `Tab 2`: Registered by `Local Module 2`
+- `Tab 3`: Registered by `Local Module 3`
 
 :::align-image-left
 ![Anatomy of a page rendering modular tabs](../static/modular-tabs-anatomy.svg)
@@ -20,7 +20,7 @@ For this guide, we'll take as an example a page for which the parts that are own
 
 To build this page while adhering to Squide's constraint of avoiding hard references to elements from other modules, let's start by defining a React Router [nested layout](https://reactrouter.com/en/main/start/tutorial#nested-routes). This nested layout will handle rendering all the tab headers and the content of the active tab:
 
-```tsx !#9-11,15 remote-module-3/src/tabs-layout.tsx
+```tsx !#9-11,15 host/src/tabs-layout.tsx
 import { Suspense } from "react";
 import { Link, Outlet } from "react-router/dom";
 
@@ -47,7 +47,7 @@ In the previous code sample, the `TabsLayout` component is similar to the `RootL
 
 To register the newly created layout as a nested layout, use the [registerRoute](../reference/runtime/runtime-class.md#register-routes) function:
 
-```tsx !#7-8 remote-module-3/src/register.tsx
+```tsx !#7-8 host/src/register.tsx
 import type { ModuleRegisterFunction, FireflyRuntime } from "@squide/firefly";
 import { TabsLayout } from "./TabsLayout.tsx";
 
@@ -78,7 +78,7 @@ It is recommended to define the shared layouts in a standalone package as it's d
 
 Next, let's add the actual tabs to the modules. To do so, we'll use the [parentPath](../reference/runtime/runtime-class.md#register-nested-routes) option of the [registerRoute](../reference/runtime/runtime-class.md#register-routes) function to register the routes under the `TabsLayout` component:
 
-```tsx !#7,10 remote-module-1/src/register.tsx
+```tsx !#7,10 local-module-1/src/register.tsx
 import type { ModuleRegisterFunction, FireflyRuntime } from "@squide/firefly";
 import { Tab1 } from "./Tab1.tsx";
 
@@ -93,7 +93,7 @@ export const register: ModuleRegisterFunction<FireflyRuntime> = runtime => {
 }
 ```
 
-```tsx remote-module-1/src/Tab1.tsx
+```tsx local-module-1/src/Tab1.tsx
 export function Tab1() {
     return (
         <div>Hey, this is Tab 1 content</div>
@@ -101,7 +101,7 @@ export function Tab1() {
 }
 ```
 
-```tsx !#8,11 remote-module-2/src/register.tsx
+```tsx !#8,11 local-module-2/src/register.tsx
 import type { ModuleRegisterFunction, FireflyRuntime } from "@squide/firefly";
 import { Tab2 } from "./Tab2.tsx";
 
@@ -117,7 +117,7 @@ export const register: ModuleRegisterFunction<FireflyRuntime> = runtime => {
 }
 ```
 
-```tsx remote-module-2/src/Tab2.tsx
+```tsx local-module-2/src/Tab2.tsx
 export function Tab2() {
     return (
         <div>Hey, this is Tab 2 content</div>
@@ -125,7 +125,7 @@ export function Tab2() {
 }
 ```
 
-```tsx !#8,11 local-module/src/register.tsx
+```tsx !#8,11 local-module-3/src/register.tsx
 import type { ModuleRegisterFunction, FireflyRuntime } from "@squide/firefly";
 import { Tab3 } from "./Tab3.tsx";
 
@@ -141,7 +141,7 @@ export const register: ModuleRegisterFunction<FireflyRuntime> = runtime => {
 }
 ```
 
-```tsx local-module/src/Tab3.tsx
+```tsx local-module-3/src/Tab3.tsx
 export function Tab3() {
     return (
         <div>Hey, this is Tab 3 content</div>
@@ -149,7 +149,7 @@ export function Tab3() {
 }
 ```
 
-Now that the tabs has been registered, ensure that all four modules (including `remote-modules-3`) are registered in the host application. Start the development servers using the `dev` script. Navigate to the `/tabs` page, you should see the tab headers. Click on each tab header to confirm that the content renders correctly.
+Now that the tabs has been registered, ensure that all four modules are registered in the host application. Start the development servers using the `dev` script. Navigate to the `/tabs` page, you should see the tab headers. Click on each tab header to confirm that the content renders correctly.
 
 ## Decouple the navigation items
 
@@ -159,7 +159,7 @@ To decouple the navigation items, similar to what is done for regular module's r
 
 First, let's register the navigation items with the `menuId` option. For this example the `menuId` will be `/tabs` (it can be anything):
 
-```tsx !#20 remote-module-1/src/register.tsx
+```tsx !#20 local-module-1/src/register.tsx
 import type { ModuleRegisterFunction, FireflyRuntime } from "@squide/firefly";
 import { Tab1 } from "./Tab1.tsx";
 
@@ -184,7 +184,7 @@ export const register: ModuleRegisterFunction<FireflyRuntime> = runtime => {
 }
 ```
 
-```tsx !#21 remote-module-2/src/register.tsx
+```tsx !#21 local-module-2/src/register.tsx
 import type { ModuleRegisterFunction, FireflyRuntime } from "@squide/firefly";
 import { Tab2 } from "./Tab2.tsx";
 
@@ -210,7 +210,7 @@ export const register: ModuleRegisterFunction<FireflyRuntime> = runtime => {
 }
 ```
 
-```tsx !#21 local-module/src/register.tsx
+```tsx !#21 local-module-3/src/register.tsx
 import type { ModuleRegisterFunction, FireflyRuntime } from "@squide/firefly";
 import { Tab3 } from "./Tab3.tsx";
 
@@ -238,7 +238,7 @@ export const register: ModuleRegisterFunction<FireflyRuntime> = runtime => {
 
 Then, update the `TabsLayout` component to render the registered navigation items instead of the hardcoded URLs:
 
-```tsx !#32 remote-module-3/src/tabs-layout.tsx
+```tsx !#32 host/src/tabs-layout.tsx
 import { 
     useNavigationItems,
     useRenderedNavigationItems,
@@ -293,7 +293,7 @@ Similarly to how the display order of regular navigation items can be configured
 
 To force `Tab 3` to be positioned first, we'll give him a priority of `999`: 
 
-```tsx !#16 local-module/src/register.tsx
+```tsx !#16 local-module-3/src/register.tsx
 import type { ModuleRegisterFunction, FireflyRuntime } from "@squide/firefly";
 import { Tab3 } from "./Tab3.tsx";
 

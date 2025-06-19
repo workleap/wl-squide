@@ -10,7 +10,7 @@ Now that we've created a host application, loaded a few modules and registered r
 
 In an effort to optimize the development experience, Squide can be bootstrapped in `development` or `production` mode:
 
-```ts host/src/bootstrap.tsx
+```ts host/src/index.tsx
 import { FireflyRuntime, ConsoleLogger, type LogLevel } from "@squide/firefly";
 
 const runtime = new FireflyRuntime({
@@ -26,7 +26,7 @@ Squide includes a built-in logging feature that integrates with the [FireflyRunt
 
 First, register your own custom logger by implementing the [Logger](../reference/logging/Logger.md) interface or register Squide built-in [ConsoleLogger](../reference/logging/ConsoleLogger):
 
-```ts host/src/bootstrap.tsx
+```ts host/src/index.tsx
 import { FireflyRuntime, ConsoleLogger, type LogLevel } from "@squide/firefly";
 
 const runtime = new FireflyRuntime({
@@ -178,7 +178,10 @@ Be sure to read, at a minimum, the following guides:
 - [Manage shared state](../guides/manage-shared-state.md)
 - [Isolate module failures](../guides/isolate-module-failures.md)
 - [Add authentication](../guides/add-authentication.md)
-- [Add a shared dependency](../guides/add-a-shared-dependency.md)
+
+If your application is a federated application, be sure to also check out the following guides:
+
+- [Add a shared dependency](../module-federation/add-a-shared-dependency.md)
 
 ## Reference
 

@@ -10,7 +10,7 @@ Before going forward with this guide, make sure that you completed the [Setup Mo
 
 Environment variables are incredibly useful when working with **multiple environments**, such as `dev`, `staging`, and `production`, by **decoupling configuration from** the **code**. This allows to change an application's behavior without modifying the code itself. A common example is the URLs of dedicated API services, where each environment uses a different URL.
 
-In webpack, environment variables are typically passed from the CLI to the application code using the [DefinePlugin](https://webpack.js.org/plugins/define-plugin/) and accessed through `process.env`, e.g. `process.env.BASE_API_URL`.
+In Rsbuild, environment variables are typically passed from the CLI to the build code, and injected through `process.env`, e.g. `process.env.BASE_API_URL`.
 
 While accessing environment variables from `process.env` works, it has a few downsides:
 
@@ -19,7 +19,7 @@ While accessing environment variables from `process.env` works, it has a few dow
 
 To replace `process.env`, Squide provides the [EnvironmentVariablesPlugin](../reference/env-vars/getEnvironmentVariablesPlugin.md). This plugin acts as a registry and integrates with the [Runtime API](../reference/runtime/runtime-class.md), allowing modules to register and retrieve environment variables.
 
-Before this plugin, page components would directly rely on `process.env`:
+Without this plugin, page components would directly rely on `process.env`:
 
 ```tsx !#6
 import { fetchJson } from "@sample/shared";
@@ -36,7 +36,7 @@ export function Page() {
 }
 ```
 
-With the `EnvironmentVariablesPlugin`, a page component can now retrieve the `baseApiUrl` from Squide's runtime instance by using the [useEnvironmentVariable](../reference/env-vars/useEnvironmentVariable.md) hook:
+With this plugin, a page component can now retrieve the `baseApiUrl` from Squide's runtime instance by using the [useEnvironmentVariable](../reference/env-vars/useEnvironmentVariable.md) hook:
 
 ```tsx !#6,9
 import { useEnvironmentVariable } from "@squide/env-vars";
@@ -70,21 +70,16 @@ pnpm add @squide/env-vars
 
 Then, update the host application boostrapping code to register an instance of the [EnvironmentVariablesPlugin](../reference/env-vars/EnvironmentVariablesPlugin.md) with the [FireflyRuntime](../reference/runtime/runtime-class.md) instance:
 
-```tsx !#15 host/src/bootstrap.tsx
+```tsx !#10 host/src/index.tsx
 import { createRoot } from "react-dom/client";
-import { ConsoleLogger, FireflyProvider, initializeFirefly, type RemoteDefinition } from "@squide/firefly";
+import { ConsoleLogger, FireflyProvider, initializeFirefly } from "@squide/firefly";
 import { EnvironmentVariablesPlugin } from "@squide/env-vars";
 import { App } from "./App.tsx";
 import { registerHost } from "./register.tsx";
 import { registerShell } from "@sample/shell";
 
-const Remotes: RemoteDefinition[] = [
-    { url: name: "remote1" }
-];
-
 const runtime = initializeFirefly(runtime, {
     localModules: [registerShell, registerHost],
-    remotes: Remotes,
     plugins: [x => new EnvironmentVariablesPlugin(x)],
     loggers: [x => new ConsoleLogger(x)]
 })
@@ -555,18 +550,6 @@ Finally, when [tsc](https://www.typescriptlang.org/docs/handbook/compiler-option
 ```json !#6 local-module/tsconfig.json
 {
     "extends": "@workleap/typescript-configs/library.json",
-    "include": [
-        "src",
-        "types"
-        "../shell/types"
-    ],
-    "exclude": ["dist", "node_modules"]
-}
-```
-
-```json !#6 remote-module/tsconfig.json
-{
-    "extends": "@workleap/typescript-configs/web-application.json",
     "include": [
         "src",
         "types"

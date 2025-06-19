@@ -18,7 +18,7 @@ pnpm add msw
 Then [initialize](https://mswjs.io/docs/cli/init/) MSW by executing the following command:
 
 ```bash
-pnpm dlx msw init ./public
+pnpx msw init ./public
 ```
 
 ### Add an environment variable
@@ -28,36 +28,29 @@ Then, update the `dev` PNPM script to define with [cross-env](https://www.npmjs.
 ```json host/package.json
 {
     "scripts": {
-        "dev": "cross-env USE_MSW=true webpack serve --config webpack.dev.js"
+        "dev": "cross-env USE_MSW=true rsbuild dev --config ./rsbuild.dev.ts"
     }
 }
 ```
 
-Then, update the development [webpack](https://webpack.js.org/) configuration file to include the `USE_MSW` environment variable into the application bundles:
+Then, update the development [Rsbuild](https://rsbuild.dev/) configuration file to include the `USE_MSW` environment variable into the application bundles:
 
-```js !#14 host/webpack.dev.js
-// @ts-check
+```js !#5 host/rsbuild.dev.ts
+import { defineDevConfig } from "@squide/firefly-webpack-configs";
 
-import { defineDevHostConfig } from "@squide/firefly-webpack-configs";
-
-/**
- * @typedef {import("@squide/firefly-webpack-configs").RemoteDefinition[]}
- */
-const Remotes = [
-    { name: "remote1", url: "http://localhost:8081" }
-];
-
-export default defineDevHostConfig(swcConfig, 8080, Remotes, {
+export default defineDevConfig({
     environmentVariables: {
         "USE_MSW": process.env.USE_MSW === "true"
     }
 });
 ```
 
-> For more information about the `environmentVariables` predefined option, refer to the [webpack configuration documentation](https://workleap.github.io/wl-web-configs/webpack/configure-dev/#define-environment-variables).
+!!!tip
+For additional information about the `environmentVariables` predefined option, refer to the [Rsbuild configuration documentation](https://workleap.github.io/wl-web-configs/rsbuild/configure-dev/#define-environment-variables).
+!!!
 
-!!!warning
-Don't forget to define the `USE_MSW` environment variable for the build script and build webpack configuration as well.
+!!!tip
+Make sure to define the `USE_MSW` environment variable for the build configuration as well.
 !!!
 
 ### Start the service
@@ -81,20 +74,15 @@ export function startMsw(moduleRequestHandlers: RequestHandler[]) {
 
 Then, update the bootstrapping code to [start MSW](https://mswjs.io/docs/integrations/browser#setup) when it's enabled:
 
-```tsx !#11,15-19 host/src/bootstrap.tsx
+```tsx !#7,10-14 host/src/index.tsx
 import { createRoot } from "react-dom/client";
-import { ConsoleLogger, FireflyProvider, initializeFirefly, type RemoteDefinition } from "@squide/firefly";
+import { ConsoleLogger, FireflyProvider, initializeFirefly } from "@squide/firefly";
 import { App } from "./App.tsx";
 import { registerHost } from "./register.tsx";
-
-const Remotes: RemoteDefinition[] = [
-    { name: "remote1" }
-];
 
 const runtime = initializeFirefly(runtime, {
     useMsw: !!process.env.USE_MSW,
     localModules: [registerHost],
-    remote: Remotes,
     loggers: [x => new ConsoleLogger(x)]
     startMsw: async () => {
         // Files that includes an import to the "msw" package are included dynamically to prevent adding
@@ -112,9 +100,9 @@ root.render(
 );
 ```
 
-## Setup a remote module
+## Setup a module
 
-First, open a terminal at the root of the remote module application and install the [msw](https://www.npmjs.com/package/msw) package:
+First, open a terminal at the root of the local module and install the [msw](https://www.npmjs.com/package/msw) package:
 
 ```bash
 pnpm add msw
@@ -122,7 +110,7 @@ pnpm add msw
 
 Then, define a [request handler](https://mswjs.io/docs/concepts/request-handler/):
 
-```ts remote-module/mocks/handlers.ts
+```ts local-module/mocks/handlers.ts
 import { HttpResponse, http, type HttpHandler } from "msw";
 
 export const requestHandlers: HttpHandler[] = [
@@ -138,7 +126,7 @@ export const requestHandlers: HttpHandler[] = [
 
 Finally, register the request handler with the [FireflyRuntime](../reference/runtime/runtime-class.md) instance:
 
-```ts !#4,7,9 remote-module/src/register.tsx
+```ts !#4,7,9 relocalmote-module/src/register.tsx
 import type { ModuleRegisterFunction, FireflyRuntime } from "@squide/firefly"; 
 
 export const register: ModuleRegisterFunction<FireflyRuntime> = async runtime => {
@@ -151,10 +139,6 @@ export const register: ModuleRegisterFunction<FireflyRuntime> = async runtime =>
     }
 }
 ```
-
-## Setup a local module
-
-Follow the same steps as for a [remote module](#setup-a-remote-module).
 
 ## Try it :rocket:
 

@@ -11,7 +11,7 @@ If you are migrating from `v8.*`, follow the [Migrate from v8.* to v13.0](./migr
 
 This major version deprecates the [@squide/firefly-honeycomb](https://www.npmjs.com/package/@squide/firefly-honeycomb) package in favor of [@workleap/honeycomb](https://www.npmjs.com/package/@workleap/honeycomb).
 
-Host applications can now automatically get Honeycomb performance traces for Squide's' applications by registering `@workleap/honeycomb` version 5 or higher instrumentation.
+Host applications can now automatically get Honeycomb performance traces for Squide's' applications by registering `@workleap/honeycomb` v5 or higher instrumentation.
 
 When a host application registers `@workleap/honeycomb` instrumentation, Squide will detect it automatically and dynamically register everything needed to traces to performance of it's bootstrapping process, no additional setup required.
 
