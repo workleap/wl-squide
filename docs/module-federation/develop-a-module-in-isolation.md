@@ -24,11 +24,11 @@ monorepo
 
 ## Create a shell package
 
-This section is similar to the [Create a shell package section](../guides/develop-a-module-in-isolation.md#create-a-shell-package) from the non–Module Federation guide on developing a module in isolation. The key difference is that in a Module Federation setup, the host application's entry point is `bootstrap.tsx` instead of `index.tsx`.
+:mag_right: This section is similar to the [Create a shell package section](../guides/develop-a-module-in-isolation.md#create-a-shell-package) from the non–Module Federation guide on developing a module in isolation. The key difference is that in a Module Federation setup, the host application's entry point is `bootstrap.tsx` instead of `index.tsx`.
 
 ## Update the host application
 
-This section is similar to the [Update the host application section](../guides/develop-a-module-in-isolation.md#update-the-host-application) from the non–Module Federation guide on developing a module in isolation. The key differences are that in a Module Federation setup:
+:mag_right: This section is similar to the [Update the host application section](../guides/develop-a-module-in-isolation.md#update-the-host-application) from the non–Module Federation guide on developing a module in isolation. The key differences are that in a Module Federation setup:
 
 - The host application's entry point is `bootstrap.tsx` rather than `index.tsx`.
 - A [remote module](../reference/registration/initializeFirefly.md#register-a-remote-module) should be registered rather than a [local module](../reference/registration/initializeFirefly.md#register-a-local-module).
