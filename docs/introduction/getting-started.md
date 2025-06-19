@@ -16,7 +16,7 @@ Squide is a React modular application shell tailored for the needs of Workleap's
 
 By "modular application", we mean that much like in backend systems, a web application built with Squide should be **organized** as a **collection** of **independent modules**, each responsible for a specific part of the system (i.e., a bounded context or domain):
 
-```powershell !#9-11
+```powershell !#3,9-11
 monorepo
 ├── apps
 ├────── host
@@ -63,8 +63,8 @@ Development and production frontend infrastructure | Squide offers ready to use 
 - :ok_hand: Encourage modularity
 - :octagonal_sign: Stop reinventing the wheel
 - :chart_with_downwards_trend: Lower product operating costs
-- :bullettrain_front: Accelerate time to market for initial product releases
 - :chart_with_upwards_trend: Boost product development velocity
+- :bullettrain_front: Accelerate time to market for initial product releases
 - :sparkles: Enhance product quality and maintainability with a well designed API, tests suites and documentation
 
 **Long version:**
