@@ -7,7 +7,7 @@ toc:
 # defineDevHostConfig
 
 !!!warning
-If the application _**does not**_ not include any remote modules, use the [defineDevConfig](https://workleap.github.io/wl-web-configs/webpack/configure-dev/) function instead of `defineDevHostConfig`.
+If the application _**does not**_ include any remote modules, use the [defineDevConfig](https://workleap.github.io/wl-web-configs/webpack/configure-dev/) function from [@workleap/webpack-configs](https://workleap.github.io/wl-web-configs/webpack/) instead of the `defineDevHostConfig` function.
 !!!
 
 Creates a webpack [configuration object](https://webpack.js.org/concepts/configuration/) that is adapted for a Squide host application in **development** mode. This function is a wrapper built on top of [@workleap/webpack-configs](https://www.npmjs.com/package/@workleap/webpack-configs). Make sure to read the [defineDevConfig](https://workleap.github.io/wl-web-configs/webpack/configure-dev/) documentation first.

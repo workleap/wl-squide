@@ -2,11 +2,6 @@
 order: 200
 ---
 
-!!!tip
-The documentation for Squide firefly v8 is available [here](https://squide-firefly-v8.netlify.app/getting-started/).
-!!!
-
-
 # Create a remote module
 
 !!!info Use an existing template
