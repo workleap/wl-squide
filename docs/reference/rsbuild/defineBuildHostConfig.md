@@ -11,7 +11,7 @@ This is an experimental feature.
 !!!
 
 !!!warning
-If the application _**does not**_ not include any remote modules, use the [defineBuildConfig](https://workleap.github.io/wl-web-configs/rsbuild/configure-build/) function from [@workleap/rsbuild-configs](https://workleap.github.io/wl-web-configs/rsbuild/) instead of the `defineBuildHostConfig` function.
+If the application _**does not**_ include any remote modules, use the [defineBuildConfig](https://workleap.github.io/wl-web-configs/rsbuild/configure-build/) function from [@workleap/rsbuild-configs](https://workleap.github.io/wl-web-configs/rsbuild/) instead of the `defineBuildHostConfig` function.
 !!!
 
 Creates an Rsbuild [configuration object](https://rsbuild.dev/config/index) that is adapted for a Squide host application in **build** mode. This function is a wrapper built on top of [@workleap/rsbuild-configs](https://www.npmjs.com/package/@workleap/rsbuild-configs). Make sure to read the [defineBuildConfig](https://workleap.github.io/wl-web-configs/rsbuild/configure-build/) documentation first.
