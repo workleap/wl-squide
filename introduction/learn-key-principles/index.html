@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <meta name="turbo-root" content="/wl-squide">
-    <meta name="turbo-cache-control" content="no-cache" data-turbo-track="reload" data-track-token="3.10.1.803662478624">
+    <meta name="turbo-cache-control" content="no-cache" data-turbo-track="reload" data-track-token="3.10.1.803664222025">
 
     <!-- See retype.com -->
     <meta name="generator" content="Retype 3.10.1">
@@ -32,11 +32,11 @@
     <script data-cfasync="false">(function(){var cl=document.documentElement.classList,ls=localStorage.getItem("retype_scheme"),hd=cl.contains("dark"),hl=cl.contains("light"),wm=window.matchMedia&&window.matchMedia("(prefers-color-scheme: dark)").matches;if(ls==="dark"||(!ls&&wm&&!hd&&!hl)){cl.remove("light");cl.add("dark")}else if(ls==="light"||(!ls&&!wm&&!hd&&!hl)){cl.remove("dark");cl.add("light")}})();</script>
 
     <link href="../../static/favicon.png" rel="icon">
-    <link href="../../resources/css/retype.css?v=3.10.1.803662478624" rel="stylesheet">
+    <link href="../../resources/css/retype.css?v=3.10.1.803664222025" rel="stylesheet">
 
-    <script data-cfasync="false" src="../../resources/js/config.js?v=3.10.1.803662478624" data-turbo-eval="false" defer></script>
+    <script data-cfasync="false" src="../../resources/js/config.js?v=3.10.1.803664222025" data-turbo-eval="false" defer></script>
     <script data-cfasync="false" src="../../resources/js/retype.js?v=3.10.1" data-turbo-eval="false" defer></script>
-    <script id="lunr-js" data-cfasync="false" src="../../resources/js/lunr.js?v=3.10.1.803662478624" data-turbo-eval="false" defer></script>
+    <script id="lunr-js" data-cfasync="false" src="../../resources/js/lunr.js?v=3.10.1.803664222025" data-turbo-eval="false" defer></script>
 
     <link href="https://workleap.github.io/wl-idp-docs-hub/static/retype-customization.css" rel="stylesheet" />
 
@@ -302,7 +302,7 @@
 </doc-anchor-target>
 <p>While developing the <a href="../../reference/">API</a> of Squide, we kept a few key principles in mind. Those principles are not settled stones, you might want to diverge from them from time to time, but adhering to those will make your experience more enjoyable:</p>
 <ul>
-<li>A module should correspond to a <strong>subdomain</strong> of the application&#x27;s business domain.</li>
+<li>A module should correspond to a <strong>domain</strong> or <strong>subdomain</strong> of the application.</li>
 <li>A module should be <strong>autonomous</strong>.</li>
 <li>A module should <strong>not directly reference</strong> the <strong>other modules</strong> of the application. To coordinate with other modules, including the host application, a module should always use Squide&#x27;s <a href="../../reference/runtime/runtime-class/">Runtime API</a>.</li>
 <li>A modular application should <strong>feel cohesive</strong>. Different parts of the application should have the ability to communicate with each others and react to changes happening outside of their boundaries (without taking an hard reference on other parts of the application).</li>
