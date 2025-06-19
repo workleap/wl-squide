@@ -30,6 +30,10 @@ monorepo
 ├────── inventory
 ```
 
+> "Modular design is not just a trend but a proven strategy for success in software engineering."
+
+> "Modular software architecture enables the creation of complex systems by breaking them down into smaller, independent components. This approach enhances reusability, maintainability, and scalability while reducing the development time and cost."
+
 In addition to modularity, Squide offers built-in mechanisms to handle most of the **cross-cutting functionalities** of a web application:
 
 - Modular Routing
