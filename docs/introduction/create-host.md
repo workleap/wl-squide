@@ -1,6 +1,6 @@
 ---
 order: 100
-label: Create an host app
+label: Create an host application
 ---
 
 # Create an host application
