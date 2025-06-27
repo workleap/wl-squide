@@ -1,5 +1,11 @@
 # @squide/firefly-rsbuild-configs
 
+## 2.0.6
+
+### Patch Changes
+
+- [#289](https://github.com/workleap/wl-squide/pull/289) [`ee6f7d5`](https://github.com/workleap/wl-squide/commit/ee6f7d52ff6afa8ac757770c89b39978c40a70bc) Thanks [@patricklafrance](https://github.com/patricklafrance)! - Fixed Honeycomb telemetry traces when data fetching fails and bumped dependencies versions.
+
 ## 2.0.5
 
 ### Patch Changes
