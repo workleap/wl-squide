@@ -45,19 +45,19 @@
     },
     "devDependencies": {
         "@changesets/changelog-github": "0.5.1",
-        "@changesets/cli": "2.29.4",
-        "@types/node": "22.15.21",
-        "@typescript-eslint/parser": "8.32.1",
+        "@changesets/cli": "2.29.5",
+        "@types/node": "24.0.4",
+        "@typescript-eslint/parser": "8.35.0",
         "@workleap/eslint-plugin": "3.4.2",
         "@workleap/typescript-configs": "3.0.4",
         "cross-env": "7.0.3",
         "eslint": "8.57.0",
         "installed-check": "9.3.0",
-        "knip": "5.58.1",
-        "pkg-pr-new": "0.0.50",
+        "knip": "5.61.2",
+        "pkg-pr-new": "0.0.53",
         "retypeapp": "3.10.1",
         "syncpack": "13.0.4",
-        "turbo": "2.5.3",
+        "turbo": "2.5.4",
         "typescript": "5.8.3"
     },
     "engines": {
@@ -66,4 +66,3 @@
     },
     "packageManager": "pnpm@9.5.0+sha512.140036830124618d624a2187b50d04289d5a087f326c9edfc0ccd733d76c4f52c3a313d4fc148794a2a9d81553016004e6742e8cf850670268a7387fc220c903"
 }
-
