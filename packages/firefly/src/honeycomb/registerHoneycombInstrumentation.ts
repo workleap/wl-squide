@@ -40,8 +40,8 @@ import {
 import { ApplicationBoostrappedEvent, ModulesReadyEvent, ModulesRegisteredEvent, MswReadyEvent, ProtectedDataReadyEvent, PublicDataReadyEvent } from "../AppRouterReducer.ts";
 import type { FireflyRuntime } from "../FireflyRuntime.tsx";
 import { ApplicationBootstrappingStartedEvent } from "../initializeFirefly.ts";
-import { ProtectedDataFetchStartedEvent } from "../useProtectedDataQueries.ts";
-import { PublicDataFetchStartedEvent } from "../usePublicDataQueries.ts";
+import { ProtectedDataFetchFailedEvent, ProtectedDataFetchStartedEvent } from "../useProtectedDataQueries.ts";
+import { PublicDataFetchFailedEvent, PublicDataFetchStartedEvent } from "../usePublicDataQueries.ts";
 import { type ActiveSpan, createOverrideFetchRequestSpanWithActiveSpanContext, registerActiveSpanStack } from "./activeSpan.ts";
 import { getTracer } from "./tracer.ts";
 import { endActiveSpan, startActiveChildSpan, startChildSpan, startSpan, traceError } from "./utils.ts";
@@ -49,30 +49,29 @@ import { endActiveSpan, startActiveChildSpan, startChildSpan, startSpan, traceEr
 // TIPS:
 // To query those traces in Honeycomb, use the following query filter: "root.name = squide-bootstrapping".
 
-type DataFetchState = "none" | "fetching-data" | "public-data-ready" | "protected-data-ready" | "data-ready";
+type DataFetchState = "none" | "fetching-data" | "public-data-ready" | "protected-data-ready" | "data-ready" | "data-fetch-failed";
 
 export function reduceDataFetchEvents(
     runtime: FireflyRuntime,
-    onDataFetchingStarted: () => void,
+    onDataFetchStarted: () => void,
     onDataReady: () => void,
     onPublicDataFetchStarted: () => void,
     onPublicDataReady: () => void,
     onProtectedDataFetchStarted: () => void,
-    onProtectedDataReady: () => void
+    onProtectedDataReady: () => void,
+    onDataFetchFailed: (queriesErrors: Error[]) => void
 ) {
     let dataFetchState: DataFetchState = "none";
 
-    // TODO: Validate if this handler should use { once: true }.
     runtime.eventBus.addListener(PublicDataFetchStartedEvent, () => {
         if (dataFetchState === "none") {
             dataFetchState = "fetching-data";
-            onDataFetchingStarted();
+            onDataFetchStarted();
         }
 
         onPublicDataFetchStarted();
-    });
+    }, { once: true });
 
-    // TODO: Validate if this handler should use { once: true }.
     runtime.eventBus.addListener(PublicDataReadyEvent, () => {
         onPublicDataReady();
 
@@ -82,19 +81,17 @@ export function reduceDataFetchEvents(
             dataFetchState = "data-ready";
             onDataReady();
         }
-    });
+    }, { once: true });
 
-    // TODO: Validate if this handler should use { once: true }.
     runtime.eventBus.addListener(ProtectedDataFetchStartedEvent, () => {
         if (dataFetchState === "none") {
             dataFetchState = "fetching-data";
-            onDataFetchingStarted();
+            onDataFetchStarted();
         }
 
         onProtectedDataFetchStarted();
-    });
+    }, { once: true });
 
-    // TODO: Validate if this handler should use { once: true }.
     runtime.eventBus.addListener(ProtectedDataReadyEvent, () => {
         onProtectedDataReady();
 
@@ -104,7 +101,18 @@ export function reduceDataFetchEvents(
             dataFetchState = "data-ready";
             onDataReady();
         }
-    });
+    }, { once: true });
+
+    const handleDataFetchFailed = (payload: unknown) => {
+        if (dataFetchState !== "data-fetch-failed") {
+            dataFetchState = "data-fetch-failed";
+
+            onDataFetchFailed(payload as Error[]);
+        }
+    };
+
+    runtime.eventBus.addListener(PublicDataFetchFailedEvent, handleDataFetchFailed, { once: true });
+    runtime.eventBus.addListener(ProtectedDataFetchFailedEvent, handleDataFetchFailed, { once: true });
 }
 
 function registerTrackingListeners(runtime: FireflyRuntime) {
@@ -316,6 +324,24 @@ function registerTrackingListeners(runtime: FireflyRuntime) {
         }
     };
 
+    const handleDataFetchFailed = (queriesErrors: Error[]) => {
+        if (dataFetchSpan) {
+            queriesErrors.forEach(x => {
+                traceError(dataFetchSpan.instance, x);
+            });
+
+            dataFetchSpan.instance.end();
+        }
+
+        if (bootstrappingSpan) {
+            queriesErrors.forEach(x => {
+                traceError(bootstrappingSpan, x);
+            });
+
+            bootstrappingSpan.end();
+        }
+    };
+
     reduceDataFetchEvents(
         runtime,
         handleFetchDataStarted,
@@ -323,7 +349,8 @@ function registerTrackingListeners(runtime: FireflyRuntime) {
         handlePublicDataFetchStarted,
         handlePublicDataReady,
         handleProtectedDataFetchStarted,
-        handleProtectedDataReady
+        handleProtectedDataReady,
+        handleDataFetchFailed
     );
 
     runtime.eventBus.addListener(ModulesRegisteredEvent, () => {
