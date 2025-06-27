@@ -332,14 +332,6 @@ function registerTrackingListeners(runtime: FireflyRuntime) {
 
             dataFetchSpan.instance.end();
         }
-
-        if (bootstrappingSpan) {
-            queriesErrors.forEach(x => {
-                traceError(bootstrappingSpan, x);
-            });
-
-            bootstrappingSpan.end();
-        }
     };
 
     reduceDataFetchEvents(
