@@ -1,7 +1,7 @@
 {
     "name": "@squide/firefly-honeycomb",
     "author": "Workleap",
-    "version": "3.0.3",
+    "version": "3.0.4",
     "description": "Honeycomb instrumentation for the Squide firefly technology stack.",
     "license": "Apache-2.0",
     "repository": {

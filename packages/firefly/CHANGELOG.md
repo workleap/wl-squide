@@ -1,5 +1,11 @@
 # @squide/firefly
 
+## 13.0.3
+
+### Patch Changes
+
+- [#291](https://github.com/workleap/wl-squide/pull/291) [`f0ed2f2`](https://github.com/workleap/wl-squide/commit/f0ed2f2f226e5e614fab05b8affdcebb94dd2755) Thanks [@patricklafrance](https://github.com/patricklafrance)! - Remove redundant error tracing with Honeycomb instrumentation.
+
 ## 13.0.2
 
 ### Patch Changes
