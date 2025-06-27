@@ -38,30 +38,30 @@
         "@opentelemetry/api": "^1.9.0"
     },
     "dependencies": {
-        "@honeycombio/opentelemetry-web": "^0.18.0",
-        "@opentelemetry/auto-instrumentations-web": "^0.47.0",
-        "@opentelemetry/instrumentation-document-load": "^0.46.0",
-        "@opentelemetry/instrumentation-fetch": "^0.201.1",
-        "@opentelemetry/instrumentation-user-interaction": "^0.46.0",
-        "@opentelemetry/instrumentation-xml-http-request": "^0.201.1",
+        "@honeycombio/opentelemetry-web": "^0.20.0",
+        "@opentelemetry/auto-instrumentations-web": "^0.48.0",
+        "@opentelemetry/instrumentation-document-load": "^0.47.0",
+        "@opentelemetry/instrumentation-fetch": "^0.202.0",
+        "@opentelemetry/instrumentation-user-interaction": "^0.47.0",
+        "@opentelemetry/instrumentation-xml-http-request": "^0.202.0",
         "@opentelemetry/sdk-trace-web": "^2.0.1",
         "@squide/core": "workspace:*",
         "@squide/firefly": "workspace:*",
         "@types/uuid": "^10.0.0",
-        "@workleap/honeycomb": "^5.0.2",
+        "@workleap/honeycomb": "^5.2.1",
         "uuid": "^11.1.0"
     },
     "devDependencies": {
-        "@rsbuild/core": "1.3.21",
-        "@rslib/core": "0.8.0",
-        "@typescript-eslint/parser": "8.32.1",
+        "@rsbuild/core": "1.4.0",
+        "@rslib/core": "0.10.3",
+        "@typescript-eslint/parser": "8.35.0",
         "@workleap/eslint-plugin": "3.4.2",
         "@workleap/rslib-configs": "1.0.6",
         "@workleap/typescript-configs": "3.0.4",
         "eslint": "8.57.0",
-        "happy-dom": "17.4.7",
+        "happy-dom": "18.0.1",
         "typescript": "5.8.3",
-        "vitest": "3.1.4"
+        "vitest": "3.2.4"
     },
     "sideEffects": false,
     "engines": {

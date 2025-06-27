@@ -37,9 +37,9 @@
         "@squide/core": "workspace:*"
     },
     "devDependencies": {
-        "@rsbuild/core": "1.3.21",
-        "@rslib/core": "0.8.0",
-        "@typescript-eslint/parser": "8.32.1",
+        "@rsbuild/core": "1.4.0",
+        "@rslib/core": "0.10.3",
+        "@typescript-eslint/parser": "8.35.0",
         "@workleap/eslint-plugin": "3.4.2",
         "@workleap/rslib-configs": "1.0.6",
         "@workleap/typescript-configs": "3.0.4",
