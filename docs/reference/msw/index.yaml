@@ -1,2 +1,3 @@
 order: -20
 label: "Mock Service Worker"
+visibility: hidden

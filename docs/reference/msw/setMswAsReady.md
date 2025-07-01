@@ -1,3 +1,7 @@
+---
+visibility: hidden
+---
+
 # setMswAsReady
 
 !!!warning

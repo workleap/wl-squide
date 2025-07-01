@@ -1,5 +1,6 @@
 ---
 order: 100
+visibility: hidden
 toc:
     depth: 2-3
 ---
