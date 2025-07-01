@@ -1,2 +1,4 @@
 order: -80
 label: "Rsbuild"
+nav:
+    badge: experimental|danger

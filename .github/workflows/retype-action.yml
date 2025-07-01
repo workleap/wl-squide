@@ -20,7 +20,7 @@ jobs:
           with:
             dotnet-version: 9.0.x
 
-        - uses: retypeapp/action-build@latest
+        - uses: retypeapp/action-build@next
           with:
             license: ${{ secrets.RETYPE_API_KEY }}
 

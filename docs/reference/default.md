@@ -26,8 +26,6 @@ toc:
 ### Registration
 
 - [initializeFirefly](./registration/initializeFirefly.md)
-- [registerLocalModules](./registration/registerLocalModules.md) [!badge variant="secondary" size="xs" text="deprecated"]
-- [registerRemoteModules](./registration/registerRemoteModules.md) [!badge variant="secondary" size="xs" text="deprecated"]
 - [useDeferredRegistrations](./registration/useDeferredRegistrations.md)
 - [mergeDeferredRegistrations](./registration/mergeDeferredRegistrations.md)
 
@@ -59,10 +57,6 @@ toc:
 - [usePublicDataQueries](./tanstack-query/usePublicDataQueries.md)
 - [useProtectedDataQueries](./tanstack-query/useProtectedDataQueries.md)
 - [isGlobalDataQueriesError](./tanstack-query/isGlobalDataQueriesError.md)
-
-### Mock Service Worker
-
-- [setMswAsReady](./msw/setMswAsReady.md) [!badge variant="secondary" size="xs" text="deprecated"]
 
 ### i18next
 
