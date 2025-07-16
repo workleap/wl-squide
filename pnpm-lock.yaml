@@ -21,8 +21,8 @@ importers:
         specifier: 8.37.0
         version: 8.37.0(eslint@8.57.0)(typescript@5.8.3)
       '@workleap/eslint-plugin':
-        specifier: 3.4.2
-        version: 3.4.2(@types/estree@1.0.8)(@typescript-eslint/parser@8.37.0(eslint@8.57.0)(typescript@5.8.3))(eslint@8.57.0)(typescript@5.8.3)(vitest@3.2.4(@types/node@24.0.14))
+        specifier: 3.5.0
+        version: 3.5.0(@types/estree@1.0.8)(@typescript-eslint/parser@8.37.0(eslint@8.57.0)(typescript@5.8.3))(eslint@8.57.0)(typescript@5.8.3)(vitest@3.2.4(@types/node@24.0.14))
       '@workleap/typescript-configs':
         specifier: 3.0.4
         version: 3.0.4(typescript@5.8.3)
@@ -48,8 +48,8 @@ importers:
         specifier: 13.0.4
         version: 13.0.4(typescript@5.8.3)
       turbo:
-        specifier: 2.5.4
-        version: 2.5.4
+        specifier: 2.5.5
+        version: 2.5.5
       typescript:
         specifier: 5.8.3
         version: 5.8.3
@@ -79,11 +79,11 @@ importers:
         specifier: 4.6.0
         version: 4.6.0(vite@7.0.4(@types/node@24.0.14)(jiti@2.4.2)(terser@5.43.1)(tsx@4.20.3)(yaml@2.8.0))
       '@workleap/eslint-plugin':
-        specifier: 3.4.2
-        version: 3.4.2(@types/estree@1.0.8)(@typescript-eslint/parser@8.37.0(eslint@8.57.0)(typescript@5.8.3))(eslint@8.57.0)(typescript@5.8.3)(vitest@3.2.4(@types/node@24.0.14)(tsx@4.20.3))
+        specifier: 3.5.0
+        version: 3.5.0(@types/estree@1.0.8)(@typescript-eslint/parser@8.37.0(eslint@8.57.0)(typescript@5.8.3))(eslint@8.57.0)(typescript@5.8.3)(vitest@3.2.4(@types/node@24.0.14)(tsx@4.20.3))
       '@workleap/rslib-configs':
-        specifier: 1.0.6
-        version: 1.0.6(@rsbuild/core@1.4.7)(@rslib/core@0.10.6(typescript@5.8.3))(typescript@5.8.3)
+        specifier: 1.1.0
+        version: 1.1.0(@rsbuild/core@1.4.7)(@rslib/core@0.10.6(typescript@5.8.3))(typescript@5.8.3)
       '@workleap/typescript-configs':
         specifier: 3.0.4
         version: 3.0.4(typescript@5.8.3)
@@ -125,11 +125,11 @@ importers:
         specifier: 4.6.0
         version: 4.6.0(vite@7.0.4(@types/node@24.0.14)(jiti@2.4.2)(terser@5.43.1)(tsx@4.20.3)(yaml@2.8.0))
       '@workleap/eslint-plugin':
-        specifier: 3.4.2
-        version: 3.4.2(@types/estree@1.0.8)(@typescript-eslint/parser@8.37.0(eslint@8.57.0)(typescript@5.8.3))(eslint@8.57.0)(typescript@5.8.3)(vitest@3.2.4(@types/node@24.0.14)(tsx@4.20.3))
+        specifier: 3.5.0
+        version: 3.5.0(@types/estree@1.0.8)(@typescript-eslint/parser@8.37.0(eslint@8.57.0)(typescript@5.8.3))(eslint@8.57.0)(typescript@5.8.3)(vitest@3.2.4(@types/node@24.0.14)(tsx@4.20.3))
       '@workleap/rslib-configs':
-        specifier: 1.0.6
-        version: 1.0.6(@rsbuild/core@1.4.7)(@rslib/core@0.10.6(typescript@5.8.3))(typescript@5.8.3)
+        specifier: 1.1.0
+        version: 1.1.0(@rsbuild/core@1.4.7)(@rslib/core@0.10.6(typescript@5.8.3))(typescript@5.8.3)
       '@workleap/typescript-configs':
         specifier: 3.0.4
         version: 3.0.4(typescript@5.8.3)
@@ -162,11 +162,11 @@ importers:
         specifier: 8.37.0
         version: 8.37.0(eslint@8.57.0)(typescript@5.8.3)
       '@workleap/eslint-plugin':
-        specifier: 3.4.2
-        version: 3.4.2(@types/estree@1.0.8)(@typescript-eslint/parser@8.37.0(eslint@8.57.0)(typescript@5.8.3))(eslint@8.57.0)(typescript@5.8.3)(vitest@3.2.4(@types/node@24.0.14))
+        specifier: 3.5.0
+        version: 3.5.0(@types/estree@1.0.8)(@typescript-eslint/parser@8.37.0(eslint@8.57.0)(typescript@5.8.3))(eslint@8.57.0)(typescript@5.8.3)(vitest@3.2.4(@types/node@24.0.14))
       '@workleap/rslib-configs':
-        specifier: 1.0.6
-        version: 1.0.6(@rsbuild/core@1.4.7)(@rslib/core@0.10.6(typescript@5.8.3))(typescript@5.8.3)
+        specifier: 1.1.0
+        version: 1.1.0(@rsbuild/core@1.4.7)(@rslib/core@0.10.6(typescript@5.8.3))(typescript@5.8.3)
       '@workleap/typescript-configs':
         specifier: 3.0.4
         version: 3.0.4(typescript@5.8.3)
@@ -207,8 +207,8 @@ importers:
         specifier: ^18.0.0 || ^19.0.0
         version: 19.1.0(react@19.1.0)
       react-router:
-        specifier: ^7.6.3
-        version: 7.6.3(react-dom@19.1.0(react@19.1.0))(react@19.1.0)
+        specifier: ^7.7.0
+        version: 7.7.0(react-dom@19.1.0(react@19.1.0))(react@19.1.0)
       uuid:
         specifier: ^11.1.0
         version: 11.1.0
@@ -235,11 +235,11 @@ importers:
         specifier: 4.6.0
         version: 4.6.0(vite@7.0.4(@types/node@24.0.14)(jiti@2.4.2)(terser@5.43.1)(tsx@4.20.3)(yaml@2.8.0))
       '@workleap/eslint-plugin':
-        specifier: 3.4.2
-        version: 3.4.2(@types/estree@1.0.8)(@typescript-eslint/parser@8.37.0(eslint@8.57.0)(typescript@5.8.3))(eslint@8.57.0)(typescript@5.8.3)(vitest@3.2.4(@types/node@24.0.14)(tsx@4.20.3))
+        specifier: 3.5.0
+        version: 3.5.0(@types/estree@1.0.8)(@typescript-eslint/parser@8.37.0(eslint@8.57.0)(typescript@5.8.3))(eslint@8.57.0)(typescript@5.8.3)(vitest@3.2.4(@types/node@24.0.14)(tsx@4.20.3))
       '@workleap/rslib-configs':
-        specifier: 1.0.6
-        version: 1.0.6(@rsbuild/core@1.4.7)(@rslib/core@0.10.6(typescript@5.8.3))(typescript@5.8.3)
+        specifier: 1.1.0
+        version: 1.1.0(@rsbuild/core@1.4.7)(@rslib/core@0.10.6(typescript@5.8.3))(typescript@5.8.3)
       '@workleap/typescript-configs':
         specifier: 3.0.4
         version: 3.0.4(typescript@5.8.3)
@@ -265,8 +265,8 @@ importers:
         specifier: 0.11.4
         version: 0.11.4(@rsbuild/core@1.4.7)(@rspack/core@1.4.8(@swc/helpers@0.5.17))(react-dom@19.1.0(react@19.1.0))(react@19.1.0)(typescript@5.8.3)(webpack@5.100.2)
       '@workleap/rsbuild-configs':
-        specifier: ^3.0.2
-        version: 3.0.2(@rsbuild/core@1.4.7)(@rspack/core@1.4.8(@swc/helpers@0.5.17))(typescript@5.8.3)
+        specifier: ^3.1.0
+        version: 3.1.0(@rsbuild/core@1.4.7)(@rspack/core@1.4.8(@swc/helpers@0.5.17))(typescript@5.8.3)
       deepmerge:
         specifier: ^4.3.1
         version: 4.3.1
@@ -293,11 +293,11 @@ importers:
         specifier: 8.37.0
         version: 8.37.0(eslint@8.57.0)(typescript@5.8.3)
       '@workleap/eslint-plugin':
-        specifier: 3.4.2
-        version: 3.4.2(@types/estree@1.0.8)(@typescript-eslint/parser@8.37.0(eslint@8.57.0)(typescript@5.8.3))(eslint@8.57.0)(typescript@5.8.3)(vitest@3.2.4(@types/node@24.0.14)(tsx@4.20.3))
+        specifier: 3.5.0
+        version: 3.5.0(@types/estree@1.0.8)(@typescript-eslint/parser@8.37.0(eslint@8.57.0)(typescript@5.8.3))(eslint@8.57.0)(typescript@5.8.3)(vitest@3.2.4(@types/node@24.0.14)(tsx@4.20.3))
       '@workleap/rslib-configs':
-        specifier: 1.0.6
-        version: 1.0.6(@rsbuild/core@1.4.7)(@rslib/core@0.10.6(typescript@5.8.3))(typescript@5.8.3)
+        specifier: 1.1.0
+        version: 1.1.0(@rsbuild/core@1.4.7)(@rslib/core@0.10.6(typescript@5.8.3))(typescript@5.8.3)
       '@workleap/typescript-configs':
         specifier: 3.0.4
         version: 3.0.4(typescript@5.8.3)
@@ -323,11 +323,11 @@ importers:
         specifier: ^0.5.17
         version: 0.5.17
       '@workleap/swc-configs':
-        specifier: ^2.2.8
-        version: 2.2.8(@swc/core@1.12.14(@swc/helpers@0.5.17))(@swc/helpers@0.5.17)(browserslist@4.25.1)
+        specifier: ^2.3.0
+        version: 2.3.0(@swc/core@1.12.14(@swc/helpers@0.5.17))(@swc/helpers@0.5.17)(browserslist@4.25.1)
       '@workleap/webpack-configs':
-        specifier: ^1.5.7
-        version: 1.5.7(@rspack/core@1.4.8(@swc/helpers@0.5.17))(@swc/core@1.12.14(@swc/helpers@0.5.17))(@swc/helpers@0.5.17)(browserslist@4.25.1)(postcss@8.5.6)(type-fest@4.41.0)(typescript@5.8.3)(webpack-dev-server@5.2.2(webpack@5.100.2(@swc/core@1.12.14(@swc/helpers@0.5.17))))(webpack@5.100.2(@swc/core@1.12.14(@swc/helpers@0.5.17)))
+        specifier: ^1.6.0
+        version: 1.6.0(@rspack/core@1.4.8(@swc/helpers@0.5.17))(@swc/core@1.12.14(@swc/helpers@0.5.17))(@swc/helpers@0.5.17)(browserslist@4.25.1)(postcss@8.5.6)(type-fest@4.41.0)(typescript@5.8.3)(webpack-dev-server@5.2.2(webpack@5.100.2(@swc/core@1.12.14(@swc/helpers@0.5.17))))(webpack@5.100.2(@swc/core@1.12.14(@swc/helpers@0.5.17)))
       browserslist:
         specifier: ^4.25.1
         version: 4.25.1
@@ -360,11 +360,11 @@ importers:
         specifier: 8.37.0
         version: 8.37.0(eslint@8.57.0)(typescript@5.8.3)
       '@workleap/eslint-plugin':
-        specifier: 3.4.2
-        version: 3.4.2(@types/estree@1.0.8)(@typescript-eslint/parser@8.37.0(eslint@8.57.0)(typescript@5.8.3))(eslint@8.57.0)(typescript@5.8.3)(vitest@3.2.4(@types/node@24.0.14)(tsx@4.20.3))
+        specifier: 3.5.0
+        version: 3.5.0(@types/estree@1.0.8)(@typescript-eslint/parser@8.37.0(eslint@8.57.0)(typescript@5.8.3))(eslint@8.57.0)(typescript@5.8.3)(vitest@3.2.4(@types/node@24.0.14)(tsx@4.20.3))
       '@workleap/rslib-configs':
-        specifier: 1.0.6
-        version: 1.0.6(@rsbuild/core@1.4.7)(@rslib/core@0.10.6(typescript@5.8.3))(typescript@5.8.3)
+        specifier: 1.1.0
+        version: 1.1.0(@rsbuild/core@1.4.7)(@rslib/core@0.10.6(typescript@5.8.3))(typescript@5.8.3)
       '@workleap/typescript-configs':
         specifier: 3.0.4
         version: 3.0.4(typescript@5.8.3)
@@ -418,11 +418,11 @@ importers:
         specifier: 8.37.0
         version: 8.37.0(eslint@8.57.0)(typescript@5.8.3)
       '@workleap/eslint-plugin':
-        specifier: 3.4.2
-        version: 3.4.2(@types/estree@1.0.8)(@typescript-eslint/parser@8.37.0(eslint@8.57.0)(typescript@5.8.3))(eslint@8.57.0)(typescript@5.8.3)(vitest@3.2.4(@types/node@24.0.14)(tsx@4.20.3))
+        specifier: 3.5.0
+        version: 3.5.0(@types/estree@1.0.8)(@typescript-eslint/parser@8.37.0(eslint@8.57.0)(typescript@5.8.3))(eslint@8.57.0)(typescript@5.8.3)(vitest@3.2.4(@types/node@24.0.14)(tsx@4.20.3))
       '@workleap/rslib-configs':
-        specifier: 1.0.6
-        version: 1.0.6(@rsbuild/core@1.4.7)(@rslib/core@0.10.6(typescript@5.8.3))(typescript@5.8.3)
+        specifier: 1.1.0
+        version: 1.1.0(@rsbuild/core@1.4.7)(@rslib/core@0.10.6(typescript@5.8.3))(typescript@5.8.3)
       '@workleap/typescript-configs':
         specifier: 3.0.4
         version: 3.0.4(typescript@5.8.3)
@@ -458,11 +458,11 @@ importers:
         specifier: 8.37.0
         version: 8.37.0(eslint@8.57.0)(typescript@5.8.3)
       '@workleap/eslint-plugin':
-        specifier: 3.4.2
-        version: 3.4.2(@types/estree@1.0.8)(@typescript-eslint/parser@8.37.0(eslint@8.57.0)(typescript@5.8.3))(eslint@8.57.0)(typescript@5.8.3)(vitest@3.2.4(@types/node@24.0.14)(tsx@4.20.3))
+        specifier: 3.5.0
+        version: 3.5.0(@types/estree@1.0.8)(@typescript-eslint/parser@8.37.0(eslint@8.57.0)(typescript@5.8.3))(eslint@8.57.0)(typescript@5.8.3)(vitest@3.2.4(@types/node@24.0.14)(tsx@4.20.3))
       '@workleap/rslib-configs':
-        specifier: 1.0.6
-        version: 1.0.6(@rsbuild/core@1.4.7)(@rslib/core@0.10.6(typescript@5.8.3))(typescript@5.8.3)
+        specifier: 1.1.0
+        version: 1.1.0(@rsbuild/core@1.4.7)(@rslib/core@0.10.6(typescript@5.8.3))(typescript@5.8.3)
       '@workleap/typescript-configs':
         specifier: 3.0.4
         version: 3.0.4(typescript@5.8.3)
@@ -495,11 +495,11 @@ importers:
         specifier: 8.37.0
         version: 8.37.0(eslint@8.57.0)(typescript@5.8.3)
       '@workleap/eslint-plugin':
-        specifier: 3.4.2
-        version: 3.4.2(@types/estree@1.0.8)(@typescript-eslint/parser@8.37.0(eslint@8.57.0)(typescript@5.8.3))(eslint@8.57.0)(typescript@5.8.3)(vitest@3.2.4(@types/node@24.0.14))
+        specifier: 3.5.0
+        version: 3.5.0(@types/estree@1.0.8)(@typescript-eslint/parser@8.37.0(eslint@8.57.0)(typescript@5.8.3))(eslint@8.57.0)(typescript@5.8.3)(vitest@3.2.4(@types/node@24.0.14))
       '@workleap/rslib-configs':
-        specifier: 1.0.6
-        version: 1.0.6(@rsbuild/core@1.4.7)(@rslib/core@0.10.6(typescript@5.8.3))(typescript@5.8.3)
+        specifier: 1.1.0
+        version: 1.1.0(@rsbuild/core@1.4.7)(@rslib/core@0.10.6(typescript@5.8.3))(typescript@5.8.3)
       '@workleap/typescript-configs':
         specifier: 3.0.4
         version: 3.0.4(typescript@5.8.3)
@@ -525,8 +525,8 @@ importers:
         specifier: ^18.0.0 || ^19.0.0
         version: 19.1.0(react@19.1.0)
       react-router:
-        specifier: ^7.6.3
-        version: 7.6.3(react-dom@19.1.0(react@19.1.0))(react@19.1.0)
+        specifier: ^7.7.0
+        version: 7.7.0(react-dom@19.1.0(react@19.1.0))(react@19.1.0)
     devDependencies:
       '@rsbuild/core':
         specifier: 1.4.7
@@ -550,11 +550,11 @@ importers:
         specifier: 4.6.0
         version: 4.6.0(vite@7.0.4(@types/node@24.0.14)(jiti@2.4.2)(terser@5.43.1)(tsx@4.20.3)(yaml@2.8.0))
       '@workleap/eslint-plugin':
-        specifier: 3.4.2
-        version: 3.4.2(@types/estree@1.0.8)(@typescript-eslint/parser@8.37.0(eslint@8.57.0)(typescript@5.8.3))(eslint@8.57.0)(typescript@5.8.3)(vitest@3.2.4(@types/node@24.0.14)(tsx@4.20.3))
+        specifier: 3.5.0
+        version: 3.5.0(@types/estree@1.0.8)(@typescript-eslint/parser@8.37.0(eslint@8.57.0)(typescript@5.8.3))(eslint@8.57.0)(typescript@5.8.3)(vitest@3.2.4(@types/node@24.0.14)(tsx@4.20.3))
       '@workleap/rslib-configs':
-        specifier: 1.0.6
-        version: 1.0.6(@rsbuild/core@1.4.7)(@rslib/core@0.10.6(typescript@5.8.3))(typescript@5.8.3)
+        specifier: 1.1.0
+        version: 1.1.0(@rsbuild/core@1.4.7)(@rslib/core@0.10.6(typescript@5.8.3))(typescript@5.8.3)
       '@workleap/typescript-configs':
         specifier: 3.0.4
         version: 3.0.4(typescript@5.8.3)
@@ -598,8 +598,8 @@ importers:
         specifier: 19.1.0
         version: 19.1.0(react@19.1.0)
       react-router:
-        specifier: 7.6.3
-        version: 7.6.3(react-dom@19.1.0(react@19.1.0))(react@19.1.0)
+        specifier: 7.7.0
+        version: 7.7.0(react-dom@19.1.0(react@19.1.0))(react@19.1.0)
       useless-lib:
         specifier: 3.0.0
         version: 3.0.0
@@ -623,14 +623,14 @@ importers:
         specifier: 8.37.0
         version: 8.37.0(eslint@8.57.0)(typescript@5.8.3)
       '@workleap/browserslist-config':
-        specifier: 2.0.4
-        version: 2.0.4
+        specifier: 2.1.0
+        version: 2.1.0
       '@workleap/eslint-plugin':
-        specifier: 3.4.2
-        version: 3.4.2(@types/estree@1.0.8)(@typescript-eslint/parser@8.37.0(eslint@8.57.0)(typescript@5.8.3))(eslint@8.57.0)(typescript@5.8.3)(vitest@3.2.4(@types/node@24.0.14))
+        specifier: 3.5.0
+        version: 3.5.0(@types/estree@1.0.8)(@typescript-eslint/parser@8.37.0(eslint@8.57.0)(typescript@5.8.3))(eslint@8.57.0)(typescript@5.8.3)(vitest@3.2.4(@types/node@24.0.14))
       '@workleap/swc-configs':
-        specifier: 2.2.8
-        version: 2.2.8(@swc/core@1.12.14(@swc/helpers@0.5.17))(@swc/helpers@0.5.17)(browserslist@4.25.1)
+        specifier: 2.3.0
+        version: 2.3.0(@swc/core@1.12.14(@swc/helpers@0.5.17))(@swc/helpers@0.5.17)(browserslist@4.25.1)
       '@workleap/typescript-configs':
         specifier: 3.0.4
         version: 3.0.4(typescript@5.8.3)
@@ -692,8 +692,8 @@ importers:
         specifier: 19.1.0
         version: 19.1.0(react@19.1.0)
       react-router:
-        specifier: 7.6.3
-        version: 7.6.3(react-dom@19.1.0(react@19.1.0))(react@19.1.0)
+        specifier: 7.7.0
+        version: 7.7.0(react-dom@19.1.0(react@19.1.0))(react@19.1.0)
       useless-lib:
         specifier: ^2.0.0
         version: 2.1.0
@@ -714,11 +714,11 @@ importers:
         specifier: 8.37.0
         version: 8.37.0(eslint@8.57.0)(typescript@5.8.3)
       '@workleap/browserslist-config':
-        specifier: 2.0.4
-        version: 2.0.4
+        specifier: 2.1.0
+        version: 2.1.0
       '@workleap/eslint-plugin':
-        specifier: 3.4.2
-        version: 3.4.2(@types/estree@1.0.8)(@typescript-eslint/parser@8.37.0(eslint@8.57.0)(typescript@5.8.3))(eslint@8.57.0)(typescript@5.8.3)(vitest@3.2.4(@types/node@24.0.14))
+        specifier: 3.5.0
+        version: 3.5.0(@types/estree@1.0.8)(@typescript-eslint/parser@8.37.0(eslint@8.57.0)(typescript@5.8.3))(eslint@8.57.0)(typescript@5.8.3)(vitest@3.2.4(@types/node@24.0.14))
       '@workleap/typescript-configs':
         specifier: 3.0.4
         version: 3.0.4(typescript@5.8.3)
@@ -778,11 +778,11 @@ importers:
         specifier: 8.37.0
         version: 8.37.0(eslint@8.57.0)(typescript@5.8.3)
       '@workleap/browserslist-config':
-        specifier: 2.0.4
-        version: 2.0.4
+        specifier: 2.1.0
+        version: 2.1.0
       '@workleap/eslint-plugin':
-        specifier: 3.4.2
-        version: 3.4.2(@types/estree@1.0.8)(@typescript-eslint/parser@8.37.0(eslint@8.57.0)(typescript@5.8.3))(eslint@8.57.0)(typescript@5.8.3)(vitest@3.2.4(@types/node@24.0.14))
+        specifier: 3.5.0
+        version: 3.5.0(@types/estree@1.0.8)(@typescript-eslint/parser@8.37.0(eslint@8.57.0)(typescript@5.8.3))(eslint@8.57.0)(typescript@5.8.3)(vitest@3.2.4(@types/node@24.0.14))
       '@workleap/typescript-configs':
         specifier: 3.0.4
         version: 3.0.4(typescript@5.8.3)
@@ -799,8 +799,8 @@ importers:
         specifier: 19.1.0
         version: 19.1.0(react@19.1.0)
       react-router:
-        specifier: 7.6.3
-        version: 7.6.3(react-dom@19.1.0(react@19.1.0))(react@19.1.0)
+        specifier: 7.7.0
+        version: 7.7.0(react-dom@19.1.0(react@19.1.0))(react@19.1.0)
       typescript:
         specifier: 5.8.3
         version: 5.8.3
@@ -832,8 +832,8 @@ importers:
         specifier: 19.1.0
         version: 19.1.0(react@19.1.0)
       react-router:
-        specifier: 7.6.3
-        version: 7.6.3(react-dom@19.1.0(react@19.1.0))(react@19.1.0)
+        specifier: 7.7.0
+        version: 7.7.0(react-dom@19.1.0(react@19.1.0))(react@19.1.0)
       useless-lib:
         specifier: ^2.1.0
         version: 2.1.0
@@ -857,14 +857,14 @@ importers:
         specifier: 8.37.0
         version: 8.37.0(eslint@8.57.0)(typescript@5.8.3)
       '@workleap/browserslist-config':
-        specifier: 2.0.4
-        version: 2.0.4
+        specifier: 2.1.0
+        version: 2.1.0
       '@workleap/eslint-plugin':
-        specifier: 3.4.2
-        version: 3.4.2(@types/estree@1.0.8)(@typescript-eslint/parser@8.37.0(eslint@8.57.0)(typescript@5.8.3))(eslint@8.57.0)(typescript@5.8.3)(vitest@3.2.4(@types/node@24.0.14))
+        specifier: 3.5.0
+        version: 3.5.0(@types/estree@1.0.8)(@typescript-eslint/parser@8.37.0(eslint@8.57.0)(typescript@5.8.3))(eslint@8.57.0)(typescript@5.8.3)(vitest@3.2.4(@types/node@24.0.14))
       '@workleap/swc-configs':
-        specifier: 2.2.8
-        version: 2.2.8(@swc/core@1.12.14(@swc/helpers@0.5.17))(@swc/helpers@0.5.17)(browserslist@4.25.1)
+        specifier: 2.3.0
+        version: 2.3.0(@swc/core@1.12.14(@swc/helpers@0.5.17))(@swc/helpers@0.5.17)(browserslist@4.25.1)
       '@workleap/typescript-configs':
         specifier: 3.0.4
         version: 3.0.4(typescript@5.8.3)
@@ -905,8 +905,8 @@ importers:
         specifier: ^19.1.0
         version: 19.1.0(react@19.1.0)
       react-router:
-        specifier: ^7.6.3
-        version: 7.6.3(react-dom@19.1.0(react@19.1.0))(react@19.1.0)
+        specifier: ^7.7.0
+        version: 7.7.0(react-dom@19.1.0(react@19.1.0))(react@19.1.0)
     devDependencies:
       '@types/react':
         specifier: 19.1.8
@@ -918,8 +918,8 @@ importers:
         specifier: 8.37.0
         version: 8.37.0(eslint@8.57.0)(typescript@5.8.3)
       '@workleap/eslint-plugin':
-        specifier: 3.4.2
-        version: 3.4.2(@types/estree@1.0.8)(@typescript-eslint/parser@8.37.0(eslint@8.57.0)(typescript@5.8.3))(eslint@8.57.0)(typescript@5.8.3)(vitest@3.2.4(@types/node@24.0.14))
+        specifier: 3.5.0
+        version: 3.5.0(@types/estree@1.0.8)(@typescript-eslint/parser@8.37.0(eslint@8.57.0)(typescript@5.8.3))(eslint@8.57.0)(typescript@5.8.3)(vitest@3.2.4(@types/node@24.0.14))
       '@workleap/typescript-configs':
         specifier: 3.0.4
         version: 3.0.4(typescript@5.8.3)
@@ -954,8 +954,8 @@ importers:
         specifier: ^19.1.0
         version: 19.1.0(react@19.1.0)
       react-router:
-        specifier: ^7.6.3
-        version: 7.6.3(react-dom@19.1.0(react@19.1.0))(react@19.1.0)
+        specifier: ^7.7.0
+        version: 7.7.0(react-dom@19.1.0(react@19.1.0))(react@19.1.0)
     devDependencies:
       '@types/react':
         specifier: 19.1.8
@@ -967,8 +967,8 @@ importers:
         specifier: 8.37.0
         version: 8.37.0(eslint@8.57.0)(typescript@5.8.3)
       '@workleap/eslint-plugin':
-        specifier: 3.4.2
-        version: 3.4.2(@types/estree@1.0.8)(@typescript-eslint/parser@8.37.0(eslint@8.57.0)(typescript@5.8.3))(eslint@8.57.0)(typescript@5.8.3)(vitest@3.2.4(@types/node@24.0.14))
+        specifier: 3.5.0
+        version: 3.5.0(@types/estree@1.0.8)(@typescript-eslint/parser@8.37.0(eslint@8.57.0)(typescript@5.8.3))(eslint@8.57.0)(typescript@5.8.3)(vitest@3.2.4(@types/node@24.0.14))
       '@workleap/typescript-configs':
         specifier: 3.0.4
         version: 3.0.4(typescript@5.8.3)
@@ -1006,8 +1006,8 @@ importers:
         specifier: 19.1.0
         version: 19.1.0(react@19.1.0)
       react-router:
-        specifier: 7.6.3
-        version: 7.6.3(react-dom@19.1.0(react@19.1.0))(react@19.1.0)
+        specifier: 7.7.0
+        version: 7.7.0(react-dom@19.1.0(react@19.1.0))(react@19.1.0)
       useless-lib:
         specifier: 3.0.0
         version: 3.0.0
@@ -1031,14 +1031,14 @@ importers:
         specifier: 8.37.0
         version: 8.37.0(eslint@8.57.0)(typescript@5.8.3)
       '@workleap/browserslist-config':
-        specifier: 2.0.4
-        version: 2.0.4
+        specifier: 2.1.0
+        version: 2.1.0
       '@workleap/eslint-plugin':
-        specifier: 3.4.2
-        version: 3.4.2(@types/estree@1.0.8)(@typescript-eslint/parser@8.37.0(eslint@8.57.0)(typescript@5.8.3))(eslint@8.57.0)(typescript@5.8.3)(vitest@3.2.4(@types/node@24.0.14))
+        specifier: 3.5.0
+        version: 3.5.0(@types/estree@1.0.8)(@typescript-eslint/parser@8.37.0(eslint@8.57.0)(typescript@5.8.3))(eslint@8.57.0)(typescript@5.8.3)(vitest@3.2.4(@types/node@24.0.14))
       '@workleap/swc-configs':
-        specifier: 2.2.8
-        version: 2.2.8(@swc/core@1.12.14(@swc/helpers@0.5.17))(@swc/helpers@0.5.17)(browserslist@4.25.1)
+        specifier: 2.3.0
+        version: 2.3.0(@swc/core@1.12.14(@swc/helpers@0.5.17))(@swc/helpers@0.5.17)(browserslist@4.25.1)
       '@workleap/typescript-configs':
         specifier: 3.0.4
         version: 3.0.4(typescript@5.8.3)
@@ -1100,8 +1100,8 @@ importers:
         specifier: 19.1.0
         version: 19.1.0(react@19.1.0)
       react-router:
-        specifier: 7.6.3
-        version: 7.6.3(react-dom@19.1.0(react@19.1.0))(react@19.1.0)
+        specifier: 7.7.0
+        version: 7.7.0(react-dom@19.1.0(react@19.1.0))(react@19.1.0)
       useless-lib:
         specifier: ^2.0.0
         version: 2.1.0
@@ -1125,14 +1125,14 @@ importers:
         specifier: 8.37.0
         version: 8.37.0(eslint@8.57.0)(typescript@5.8.3)
       '@workleap/browserslist-config':
-        specifier: 2.0.4
-        version: 2.0.4
+        specifier: 2.1.0
+        version: 2.1.0
       '@workleap/eslint-plugin':
-        specifier: 3.4.2
-        version: 3.4.2(@types/estree@1.0.8)(@typescript-eslint/parser@8.37.0(eslint@8.57.0)(typescript@5.8.3))(eslint@8.57.0)(typescript@5.8.3)(vitest@3.2.4(@types/node@24.0.14))
+        specifier: 3.5.0
+        version: 3.5.0(@types/estree@1.0.8)(@typescript-eslint/parser@8.37.0(eslint@8.57.0)(typescript@5.8.3))(eslint@8.57.0)(typescript@5.8.3)(vitest@3.2.4(@types/node@24.0.14))
       '@workleap/swc-configs':
-        specifier: 2.2.8
-        version: 2.2.8(@swc/core@1.12.14(@swc/helpers@0.5.17))(@swc/helpers@0.5.17)(browserslist@4.25.1)
+        specifier: 2.3.0
+        version: 2.3.0(@swc/core@1.12.14(@swc/helpers@0.5.17))(@swc/helpers@0.5.17)(browserslist@4.25.1)
       '@workleap/typescript-configs':
         specifier: 3.0.4
         version: 3.0.4(typescript@5.8.3)
@@ -1201,14 +1201,14 @@ importers:
         specifier: 8.37.0
         version: 8.37.0(eslint@8.57.0)(typescript@5.8.3)
       '@workleap/browserslist-config':
-        specifier: 2.0.4
-        version: 2.0.4
+        specifier: 2.1.0
+        version: 2.1.0
       '@workleap/eslint-plugin':
-        specifier: 3.4.2
-        version: 3.4.2(@types/estree@1.0.8)(@typescript-eslint/parser@8.37.0(eslint@8.57.0)(typescript@5.8.3))(eslint@8.57.0)(typescript@5.8.3)(vitest@3.2.4(@types/node@24.0.14))
+        specifier: 3.5.0
+        version: 3.5.0(@types/estree@1.0.8)(@typescript-eslint/parser@8.37.0(eslint@8.57.0)(typescript@5.8.3))(eslint@8.57.0)(typescript@5.8.3)(vitest@3.2.4(@types/node@24.0.14))
       '@workleap/swc-configs':
-        specifier: 2.2.8
-        version: 2.2.8(@swc/core@1.12.14(@swc/helpers@0.5.17))(@swc/helpers@0.5.17)(browserslist@4.25.1)
+        specifier: 2.3.0
+        version: 2.3.0(@swc/core@1.12.14(@swc/helpers@0.5.17))(@swc/helpers@0.5.17)(browserslist@4.25.1)
       '@workleap/typescript-configs':
         specifier: 3.0.4
         version: 3.0.4(typescript@5.8.3)
@@ -1225,8 +1225,8 @@ importers:
         specifier: 19.1.0
         version: 19.1.0(react@19.1.0)
       react-router:
-        specifier: 7.6.3
-        version: 7.6.3(react-dom@19.1.0(react@19.1.0))(react@19.1.0)
+        specifier: 7.7.0
+        version: 7.7.0(react-dom@19.1.0(react@19.1.0))(react@19.1.0)
       typescript:
         specifier: 5.8.3
         version: 5.8.3
@@ -1267,8 +1267,8 @@ importers:
         specifier: 19.1.0
         version: 19.1.0(react@19.1.0)
       react-router:
-        specifier: 7.6.3
-        version: 7.6.3(react-dom@19.1.0(react@19.1.0))(react@19.1.0)
+        specifier: 7.7.0
+        version: 7.7.0(react-dom@19.1.0(react@19.1.0))(react@19.1.0)
       useless-lib:
         specifier: ^2.1.0
         version: 2.1.0
@@ -1292,14 +1292,14 @@ importers:
         specifier: 8.37.0
         version: 8.37.0(eslint@8.57.0)(typescript@5.8.3)
       '@workleap/browserslist-config':
-        specifier: 2.0.4
-        version: 2.0.4
+        specifier: 2.1.0
+        version: 2.1.0
       '@workleap/eslint-plugin':
-        specifier: 3.4.2
-        version: 3.4.2(@types/estree@1.0.8)(@typescript-eslint/parser@8.37.0(eslint@8.57.0)(typescript@5.8.3))(eslint@8.57.0)(typescript@5.8.3)(vitest@3.2.4(@types/node@24.0.14))
+        specifier: 3.5.0
+        version: 3.5.0(@types/estree@1.0.8)(@typescript-eslint/parser@8.37.0(eslint@8.57.0)(typescript@5.8.3))(eslint@8.57.0)(typescript@5.8.3)(vitest@3.2.4(@types/node@24.0.14))
       '@workleap/swc-configs':
-        specifier: 2.2.8
-        version: 2.2.8(@swc/core@1.12.14(@swc/helpers@0.5.17))(@swc/helpers@0.5.17)(browserslist@4.25.1)
+        specifier: 2.3.0
+        version: 2.3.0(@swc/core@1.12.14(@swc/helpers@0.5.17))(@swc/helpers@0.5.17)(browserslist@4.25.1)
       '@workleap/typescript-configs':
         specifier: 3.0.4
         version: 3.0.4(typescript@5.8.3)
@@ -1340,8 +1340,8 @@ importers:
         specifier: ^19.1.0
         version: 19.1.0(react@19.1.0)
       react-router:
-        specifier: ^7.6.3
-        version: 7.6.3(react-dom@19.1.0(react@19.1.0))(react@19.1.0)
+        specifier: ^7.7.0
+        version: 7.7.0(react-dom@19.1.0(react@19.1.0))(react@19.1.0)
     devDependencies:
       '@types/react':
         specifier: 19.1.8
@@ -1353,8 +1353,8 @@ importers:
         specifier: 8.37.0
         version: 8.37.0(eslint@8.57.0)(typescript@5.8.3)
       '@workleap/eslint-plugin':
-        specifier: 3.4.2
-        version: 3.4.2(@types/estree@1.0.8)(@typescript-eslint/parser@8.37.0(eslint@8.57.0)(typescript@5.8.3))(eslint@8.57.0)(typescript@5.8.3)(vitest@3.2.4(@types/node@24.0.14))
+        specifier: 3.5.0
+        version: 3.5.0(@types/estree@1.0.8)(@typescript-eslint/parser@8.37.0(eslint@8.57.0)(typescript@5.8.3))(eslint@8.57.0)(typescript@5.8.3)(vitest@3.2.4(@types/node@24.0.14))
       '@workleap/typescript-configs':
         specifier: 3.0.4
         version: 3.0.4(typescript@5.8.3)
@@ -1389,8 +1389,8 @@ importers:
         specifier: ^19.1.0
         version: 19.1.0(react@19.1.0)
       react-router:
-        specifier: ^7.6.3
-        version: 7.6.3(react-dom@19.1.0(react@19.1.0))(react@19.1.0)
+        specifier: ^7.7.0
+        version: 7.7.0(react-dom@19.1.0(react@19.1.0))(react@19.1.0)
     devDependencies:
       '@types/react':
         specifier: 19.1.8
@@ -1402,8 +1402,8 @@ importers:
         specifier: 8.37.0
         version: 8.37.0(eslint@8.57.0)(typescript@5.8.3)
       '@workleap/eslint-plugin':
-        specifier: 3.4.2
-        version: 3.4.2(@types/estree@1.0.8)(@typescript-eslint/parser@8.37.0(eslint@8.57.0)(typescript@5.8.3))(eslint@8.57.0)(typescript@5.8.3)(vitest@3.2.4(@types/node@24.0.14))
+        specifier: 3.5.0
+        version: 3.5.0(@types/estree@1.0.8)(@typescript-eslint/parser@8.37.0(eslint@8.57.0)(typescript@5.8.3))(eslint@8.57.0)(typescript@5.8.3)(vitest@3.2.4(@types/node@24.0.14))
       '@workleap/typescript-configs':
         specifier: 3.0.4
         version: 3.0.4(typescript@5.8.3)
@@ -1441,8 +1441,8 @@ importers:
         specifier: 19.1.0
         version: 19.1.0(react@19.1.0)
       react-router:
-        specifier: 7.6.3
-        version: 7.6.3(react-dom@19.1.0(react@19.1.0))(react@19.1.0)
+        specifier: 7.7.0
+        version: 7.7.0(react-dom@19.1.0(react@19.1.0))(react@19.1.0)
       useless-lib:
         specifier: 3.0.0
         version: 3.0.0
@@ -1463,11 +1463,11 @@ importers:
         specifier: 8.37.0
         version: 8.37.0(eslint@8.57.0)(typescript@5.8.3)
       '@workleap/browserslist-config':
-        specifier: 2.0.4
-        version: 2.0.4
+        specifier: 2.1.0
+        version: 2.1.0
       '@workleap/eslint-plugin':
-        specifier: 3.4.2
-        version: 3.4.2(@types/estree@1.0.8)(@typescript-eslint/parser@8.37.0(eslint@8.57.0)(typescript@5.8.3))(eslint@8.57.0)(typescript@5.8.3)(vitest@3.2.4(@types/node@24.0.14))
+        specifier: 3.5.0
+        version: 3.5.0(@types/estree@1.0.8)(@typescript-eslint/parser@8.37.0(eslint@8.57.0)(typescript@5.8.3))(eslint@8.57.0)(typescript@5.8.3)(vitest@3.2.4(@types/node@24.0.14))
       '@workleap/typescript-configs':
         specifier: 3.0.4
         version: 3.0.4(typescript@5.8.3)
@@ -1523,8 +1523,8 @@ importers:
         specifier: 19.1.0
         version: 19.1.0(react@19.1.0)
       react-router:
-        specifier: 7.6.3
-        version: 7.6.3(react-dom@19.1.0(react@19.1.0))(react@19.1.0)
+        specifier: 7.7.0
+        version: 7.7.0(react-dom@19.1.0(react@19.1.0))(react@19.1.0)
       useless-lib:
         specifier: ^2.0.0
         version: 2.1.0
@@ -1545,11 +1545,11 @@ importers:
         specifier: 8.37.0
         version: 8.37.0(eslint@8.57.0)(typescript@5.8.3)
       '@workleap/browserslist-config':
-        specifier: 2.0.4
-        version: 2.0.4
+        specifier: 2.1.0
+        version: 2.1.0
       '@workleap/eslint-plugin':
-        specifier: 3.4.2
-        version: 3.4.2(@types/estree@1.0.8)(@typescript-eslint/parser@8.37.0(eslint@8.57.0)(typescript@5.8.3))(eslint@8.57.0)(typescript@5.8.3)(vitest@3.2.4(@types/node@24.0.14))
+        specifier: 3.5.0
+        version: 3.5.0(@types/estree@1.0.8)(@typescript-eslint/parser@8.37.0(eslint@8.57.0)(typescript@5.8.3))(eslint@8.57.0)(typescript@5.8.3)(vitest@3.2.4(@types/node@24.0.14))
       '@workleap/typescript-configs':
         specifier: 3.0.4
         version: 3.0.4(typescript@5.8.3)
@@ -1609,11 +1609,11 @@ importers:
         specifier: 8.37.0
         version: 8.37.0(eslint@8.57.0)(typescript@5.8.3)
       '@workleap/browserslist-config':
-        specifier: 2.0.4
-        version: 2.0.4
+        specifier: 2.1.0
+        version: 2.1.0
       '@workleap/eslint-plugin':
-        specifier: 3.4.2
-        version: 3.4.2(@types/estree@1.0.8)(@typescript-eslint/parser@8.37.0(eslint@8.57.0)(typescript@5.8.3))(eslint@8.57.0)(typescript@5.8.3)(vitest@3.2.4(@types/node@24.0.14))
+        specifier: 3.5.0
+        version: 3.5.0(@types/estree@1.0.8)(@typescript-eslint/parser@8.37.0(eslint@8.57.0)(typescript@5.8.3))(eslint@8.57.0)(typescript@5.8.3)(vitest@3.2.4(@types/node@24.0.14))
       '@workleap/typescript-configs':
         specifier: 3.0.4
         version: 3.0.4(typescript@5.8.3)
@@ -1630,8 +1630,8 @@ importers:
         specifier: 19.1.0
         version: 19.1.0(react@19.1.0)
       react-router:
-        specifier: 7.6.3
-        version: 7.6.3(react-dom@19.1.0(react@19.1.0))(react@19.1.0)
+        specifier: 7.7.0
+        version: 7.7.0(react-dom@19.1.0(react@19.1.0))(react@19.1.0)
       typescript:
         specifier: 5.8.3
         version: 5.8.3
@@ -1663,8 +1663,8 @@ importers:
         specifier: 19.1.0
         version: 19.1.0(react@19.1.0)
       react-router:
-        specifier: 7.6.3
-        version: 7.6.3(react-dom@19.1.0(react@19.1.0))(react@19.1.0)
+        specifier: 7.7.0
+        version: 7.7.0(react-dom@19.1.0(react@19.1.0))(react@19.1.0)
       useless-lib:
         specifier: ^2.1.0
         version: 2.1.0
@@ -1685,11 +1685,11 @@ importers:
         specifier: 8.37.0
         version: 8.37.0(eslint@8.57.0)(typescript@5.8.3)
       '@workleap/browserslist-config':
-        specifier: 2.0.4
-        version: 2.0.4
+        specifier: 2.1.0
+        version: 2.1.0
       '@workleap/eslint-plugin':
-        specifier: 3.4.2
-        version: 3.4.2(@types/estree@1.0.8)(@typescript-eslint/parser@8.37.0(eslint@8.57.0)(typescript@5.8.3))(eslint@8.57.0)(typescript@5.8.3)(vitest@3.2.4(@types/node@24.0.14))
+        specifier: 3.5.0
+        version: 3.5.0(@types/estree@1.0.8)(@typescript-eslint/parser@8.37.0(eslint@8.57.0)(typescript@5.8.3))(eslint@8.57.0)(typescript@5.8.3)(vitest@3.2.4(@types/node@24.0.14))
       '@workleap/typescript-configs':
         specifier: 3.0.4
         version: 3.0.4(typescript@5.8.3)
@@ -1724,8 +1724,8 @@ importers:
         specifier: ^19.1.0
         version: 19.1.0(react@19.1.0)
       react-router:
-        specifier: ^7.6.3
-        version: 7.6.3(react-dom@19.1.0(react@19.1.0))(react@19.1.0)
+        specifier: ^7.7.0
+        version: 7.7.0(react-dom@19.1.0(react@19.1.0))(react@19.1.0)
     devDependencies:
       '@types/react':
         specifier: 19.1.8
@@ -1737,8 +1737,8 @@ importers:
         specifier: 8.37.0
         version: 8.37.0(eslint@8.57.0)(typescript@5.8.3)
       '@workleap/eslint-plugin':
-        specifier: 3.4.2
-        version: 3.4.2(@types/estree@1.0.8)(@typescript-eslint/parser@8.37.0(eslint@8.57.0)(typescript@5.8.3))(eslint@8.57.0)(typescript@5.8.3)(vitest@3.2.4(@types/node@24.0.14))
+        specifier: 3.5.0
+        version: 3.5.0(@types/estree@1.0.8)(@typescript-eslint/parser@8.37.0(eslint@8.57.0)(typescript@5.8.3))(eslint@8.57.0)(typescript@5.8.3)(vitest@3.2.4(@types/node@24.0.14))
       '@workleap/typescript-configs':
         specifier: 3.0.4
         version: 3.0.4(typescript@5.8.3)
@@ -1773,8 +1773,8 @@ importers:
         specifier: ^19.1.0
         version: 19.1.0(react@19.1.0)
       react-router:
-        specifier: ^7.6.3
-        version: 7.6.3(react-dom@19.1.0(react@19.1.0))(react@19.1.0)
+        specifier: ^7.7.0
+        version: 7.7.0(react-dom@19.1.0(react@19.1.0))(react@19.1.0)
     devDependencies:
       '@types/react':
         specifier: 19.1.8
@@ -1786,8 +1786,8 @@ importers:
         specifier: 8.37.0
         version: 8.37.0(eslint@8.57.0)(typescript@5.8.3)
       '@workleap/eslint-plugin':
-        specifier: 3.4.2
-        version: 3.4.2(@types/estree@1.0.8)(@typescript-eslint/parser@8.37.0(eslint@8.57.0)(typescript@5.8.3))(eslint@8.57.0)(typescript@5.8.3)(vitest@3.2.4(@types/node@24.0.14))
+        specifier: 3.5.0
+        version: 3.5.0(@types/estree@1.0.8)(@typescript-eslint/parser@8.37.0(eslint@8.57.0)(typescript@5.8.3))(eslint@8.57.0)(typescript@5.8.3)(vitest@3.2.4(@types/node@24.0.14))
       '@workleap/typescript-configs':
         specifier: 3.0.4
         version: 3.0.4(typescript@5.8.3)
@@ -1844,8 +1844,8 @@ importers:
         specifier: 8.37.0
         version: 8.37.0(eslint@8.57.0)(typescript@5.8.3)
       '@workleap/eslint-plugin':
-        specifier: 3.4.2
-        version: 3.4.2(@types/estree@1.0.8)(@typescript-eslint/parser@8.37.0(eslint@8.57.0)(typescript@5.8.3))(eslint@8.57.0)(typescript@5.8.3)(vitest@3.2.4(@types/node@24.0.14)(tsx@4.20.3))
+        specifier: 3.5.0
+        version: 3.5.0(@types/estree@1.0.8)(@typescript-eslint/parser@8.37.0(eslint@8.57.0)(typescript@5.8.3))(eslint@8.57.0)(typescript@5.8.3)(vitest@3.2.4(@types/node@24.0.14)(tsx@4.20.3))
       '@workleap/typescript-configs':
         specifier: 3.0.4
         version: 3.0.4(typescript@5.8.3)
@@ -1919,8 +1919,8 @@ importers:
         specifier: 15.6.0
         version: 15.6.0(i18next@25.3.2(typescript@5.8.3))(react-dom@19.1.0(react@19.1.0))(react@19.1.0)(typescript@5.8.3)
       react-router:
-        specifier: 7.6.3
-        version: 7.6.3(react-dom@19.1.0(react@19.1.0))(react@19.1.0)
+        specifier: 7.7.0
+        version: 7.7.0(react-dom@19.1.0(react@19.1.0))(react@19.1.0)
     devDependencies:
       '@rsbuild/core':
         specifier: 1.4.7
@@ -1938,11 +1938,11 @@ importers:
         specifier: 8.37.0
         version: 8.37.0(eslint@8.57.0)(typescript@5.8.3)
       '@workleap/browserslist-config':
-        specifier: 2.0.4
-        version: 2.0.4
+        specifier: 2.1.0
+        version: 2.1.0
       '@workleap/eslint-plugin':
-        specifier: 3.4.2
-        version: 3.4.2(@types/estree@1.0.8)(@typescript-eslint/parser@8.37.0(eslint@8.57.0)(typescript@5.8.3))(eslint@8.57.0)(typescript@5.8.3)(vitest@3.2.4(@types/node@24.0.14))
+        specifier: 3.5.0
+        version: 3.5.0(@types/estree@1.0.8)(@typescript-eslint/parser@8.37.0(eslint@8.57.0)(typescript@5.8.3))(eslint@8.57.0)(typescript@5.8.3)(vitest@3.2.4(@types/node@24.0.14))
       '@workleap/typescript-configs':
         specifier: 3.0.4
         version: 3.0.4(typescript@5.8.3)
@@ -1999,11 +1999,14 @@ importers:
         specifier: 8.37.0
         version: 8.37.0(eslint@8.57.0)(typescript@5.8.3)
       '@workleap/eslint-plugin':
-        specifier: 3.4.2
-        version: 3.4.2(@types/estree@1.0.8)(@typescript-eslint/parser@8.37.0(eslint@8.57.0)(typescript@5.8.3))(eslint@8.57.0)(typescript@5.8.3)(vitest@3.2.4(@types/node@24.0.14))
+        specifier: 3.5.0
+        version: 3.5.0(@types/estree@1.0.8)(@typescript-eslint/parser@8.37.0(eslint@8.57.0)(typescript@5.8.3))(eslint@8.57.0)(typescript@5.8.3)(vitest@3.2.4(@types/node@24.0.14))
       '@workleap/typescript-configs':
         specifier: 3.0.4
         version: 3.0.4(typescript@5.8.3)
+      eslint:
+        specifier: 8.57.0
+        version: 8.57.0
       typescript:
         specifier: 5.8.3
         version: 5.8.3
@@ -2038,8 +2041,8 @@ importers:
         specifier: ^15.6.0
         version: 15.6.0(i18next@25.3.2(typescript@5.8.3))(react-dom@19.1.0(react@19.1.0))(react@19.1.0)(typescript@5.8.3)
       react-router:
-        specifier: ^7.6.3
-        version: 7.6.3(react-dom@19.1.0(react@19.1.0))(react@19.1.0)
+        specifier: ^7.7.0
+        version: 7.7.0(react-dom@19.1.0(react@19.1.0))(react@19.1.0)
     devDependencies:
       '@types/react':
         specifier: 19.1.8
@@ -2051,8 +2054,8 @@ importers:
         specifier: 8.37.0
         version: 8.37.0(eslint@8.57.0)(typescript@5.8.3)
       '@workleap/eslint-plugin':
-        specifier: 3.4.2
-        version: 3.4.2(@types/estree@1.0.8)(@typescript-eslint/parser@8.37.0(eslint@8.57.0)(typescript@5.8.3))(eslint@8.57.0)(typescript@5.8.3)(vitest@3.2.4(@types/node@24.0.14))
+        specifier: 3.5.0
+        version: 3.5.0(@types/estree@1.0.8)(@typescript-eslint/parser@8.37.0(eslint@8.57.0)(typescript@5.8.3))(eslint@8.57.0)(typescript@5.8.3)(vitest@3.2.4(@types/node@24.0.14))
       '@workleap/typescript-configs':
         specifier: 3.0.4
         version: 3.0.4(typescript@5.8.3)
@@ -2112,11 +2115,11 @@ importers:
         specifier: 8.37.0
         version: 8.37.0(eslint@8.57.0)(typescript@5.8.3)
       '@workleap/browserslist-config':
-        specifier: 2.0.4
-        version: 2.0.4
+        specifier: 2.1.0
+        version: 2.1.0
       '@workleap/eslint-plugin':
-        specifier: 3.4.2
-        version: 3.4.2(@types/estree@1.0.8)(@typescript-eslint/parser@8.37.0(eslint@8.57.0)(typescript@5.8.3))(eslint@8.57.0)(typescript@5.8.3)(vitest@3.2.4(@types/node@24.0.14))
+        specifier: 3.5.0
+        version: 3.5.0(@types/estree@1.0.8)(@typescript-eslint/parser@8.37.0(eslint@8.57.0)(typescript@5.8.3))(eslint@8.57.0)(typescript@5.8.3)(vitest@3.2.4(@types/node@24.0.14))
       '@workleap/typescript-configs':
         specifier: 3.0.4
         version: 3.0.4(typescript@5.8.3)
@@ -2202,8 +2205,8 @@ importers:
         specifier: 15.6.0
         version: 15.6.0(i18next@25.3.2(typescript@5.8.3))(react-dom@19.1.0(react@19.1.0))(react@19.1.0)(typescript@5.8.3)
       react-router:
-        specifier: 7.6.3
-        version: 7.6.3(react-dom@19.1.0(react@19.1.0))(react@19.1.0)
+        specifier: 7.7.0
+        version: 7.7.0(react-dom@19.1.0(react@19.1.0))(react@19.1.0)
     devDependencies:
       '@rsbuild/core':
         specifier: 1.4.7
@@ -2224,11 +2227,11 @@ importers:
         specifier: 8.37.0
         version: 8.37.0(eslint@8.57.0)(typescript@5.8.3)
       '@workleap/browserslist-config':
-        specifier: 2.0.4
-        version: 2.0.4
+        specifier: 2.1.0
+        version: 2.1.0
       '@workleap/eslint-plugin':
-        specifier: 3.4.2
-        version: 3.4.2(@types/estree@1.0.8)(@typescript-eslint/parser@8.37.0(eslint@8.57.0)(typescript@5.8.3))(eslint@8.57.0)(typescript@5.8.3)(vitest@3.2.4(@types/node@24.0.14))
+        specifier: 3.5.0
+        version: 3.5.0(@types/estree@1.0.8)(@typescript-eslint/parser@8.37.0(eslint@8.57.0)(typescript@5.8.3))(eslint@8.57.0)(typescript@5.8.3)(vitest@3.2.4(@types/node@24.0.14))
       '@workleap/typescript-configs':
         specifier: 3.0.4
         version: 3.0.4(typescript@5.8.3)
@@ -2285,8 +2288,8 @@ importers:
         specifier: 8.37.0
         version: 8.37.0(eslint@8.57.0)(typescript@5.8.3)
       '@workleap/eslint-plugin':
-        specifier: 3.4.2
-        version: 3.4.2(@types/estree@1.0.8)(@typescript-eslint/parser@8.37.0(eslint@8.57.0)(typescript@5.8.3))(eslint@8.57.0)(typescript@5.8.3)(vitest@3.2.4(@types/node@24.0.14))
+        specifier: 3.5.0
+        version: 3.5.0(@types/estree@1.0.8)(@typescript-eslint/parser@8.37.0(eslint@8.57.0)(typescript@5.8.3))(eslint@8.57.0)(typescript@5.8.3)(vitest@3.2.4(@types/node@24.0.14))
       '@workleap/typescript-configs':
         specifier: 3.0.4
         version: 3.0.4(typescript@5.8.3)
@@ -2339,8 +2342,8 @@ importers:
         specifier: ^15.6.0
         version: 15.6.0(i18next@25.3.2(typescript@5.8.3))(react-dom@19.1.0(react@19.1.0))(react@19.1.0)(typescript@5.8.3)
       react-router:
-        specifier: ^7.6.3
-        version: 7.6.3(react-dom@19.1.0(react@19.1.0))(react@19.1.0)
+        specifier: ^7.7.0
+        version: 7.7.0(react-dom@19.1.0(react@19.1.0))(react@19.1.0)
     devDependencies:
       '@types/node':
         specifier: 24.0.14
@@ -2355,8 +2358,8 @@ importers:
         specifier: 8.37.0
         version: 8.37.0(eslint@8.57.0)(typescript@5.8.3)
       '@workleap/eslint-plugin':
-        specifier: 3.4.2
-        version: 3.4.2(@types/estree@1.0.8)(@typescript-eslint/parser@8.37.0(eslint@8.57.0)(typescript@5.8.3))(eslint@8.57.0)(typescript@5.8.3)(vitest@3.2.4(@types/node@24.0.14))
+        specifier: 3.5.0
+        version: 3.5.0(@types/estree@1.0.8)(@typescript-eslint/parser@8.37.0(eslint@8.57.0)(typescript@5.8.3))(eslint@8.57.0)(typescript@5.8.3)(vitest@3.2.4(@types/node@24.0.14))
       '@workleap/typescript-configs':
         specifier: 3.0.4
         version: 3.0.4(typescript@5.8.3)
@@ -5918,11 +5921,11 @@ packages:
   '@types/yauzl@2.10.3':
     resolution: {integrity: sha512-oJoftv0LSuaDZE3Le4DbKX+KS9G36NzOeSap90UIK0yMA/NhKJhqlSGtNDORNRaIbQfzjXDrQa0ytJ6mNRGz/Q==}
 
-  '@typescript-eslint/eslint-plugin@8.37.0':
-    resolution: {integrity: sha512-jsuVWeIkb6ggzB+wPCsR4e6loj+rM72ohW6IBn2C+5NCvfUVY8s33iFPySSVXqtm5Hu29Ne/9bnA0JmyLmgenA==}
+  '@typescript-eslint/eslint-plugin@8.32.1':
+    resolution: {integrity: sha512-6u6Plg9nP/J1GRpe/vcjjabo6Uc5YQPAMxsgQyGC/I0RuukiG1wIe3+Vtg3IrSCVJDmqK3j8adrtzXSENRtFgg==}
     engines: {node: ^18.18.0 || ^20.9.0 || >=21.1.0}
     peerDependencies:
-      '@typescript-eslint/parser': ^8.37.0
+      '@typescript-eslint/parser': ^8.0.0 || ^8.0.0-alpha.0
       eslint: ^8.57.0 || ^9.0.0
       typescript: '>=4.8.4 <5.9.0'
 
@@ -5939,6 +5942,10 @@ packages:
     peerDependencies:
       typescript: '>=4.8.4 <5.9.0'
 
+  '@typescript-eslint/scope-manager@8.32.1':
+    resolution: {integrity: sha512-7IsIaIDeZn7kffk7qXC3o6Z4UblZJKV3UBpkvRNpr5NSyLji7tvTcvmnMNYuYLyh26mN8W723xpo3i4MlD33vA==}
+    engines: {node: ^18.18.0 || ^20.9.0 || >=21.1.0}
+
   '@typescript-eslint/scope-manager@8.37.0':
     resolution: {integrity: sha512-0vGq0yiU1gbjKob2q691ybTg9JX6ShiVXAAfm2jGf3q0hdP6/BruaFjL/ManAR/lj05AvYCH+5bbVo0VtzmjOA==}
     engines: {node: ^18.18.0 || ^20.9.0 || >=21.1.0}
@@ -5949,21 +5956,38 @@ packages:
     peerDependencies:
       typescript: '>=4.8.4 <5.9.0'
 
-  '@typescript-eslint/type-utils@8.37.0':
-    resolution: {integrity: sha512-SPkXWIkVZxhgwSwVq9rqj/4VFo7MnWwVaRNznfQDc/xPYHjXnPfLWn+4L6FF1cAz6e7dsqBeMawgl7QjUMj4Ow==}
+  '@typescript-eslint/type-utils@8.32.1':
+    resolution: {integrity: sha512-mv9YpQGA8iIsl5KyUPi+FGLm7+bA4fgXaeRcFKRDRwDMu4iwrSHeDPipwueNXhdIIZltwCJv+NkxftECbIZWfA==}
     engines: {node: ^18.18.0 || ^20.9.0 || >=21.1.0}
     peerDependencies:
       eslint: ^8.57.0 || ^9.0.0
       typescript: '>=4.8.4 <5.9.0'
 
+  '@typescript-eslint/types@8.32.1':
+    resolution: {integrity: sha512-YmybwXUJcgGqgAp6bEsgpPXEg6dcCyPyCSr0CAAueacR/CCBi25G3V8gGQ2kRzQRBNol7VQknxMs9HvVa9Rvfg==}
+    engines: {node: ^18.18.0 || ^20.9.0 || >=21.1.0}
+
   '@typescript-eslint/types@8.37.0':
     resolution: {integrity: sha512-ax0nv7PUF9NOVPs+lmQ7yIE7IQmAf8LGcXbMvHX5Gm+YJUYNAl340XkGnrimxZ0elXyoQJuN5sbg6C4evKA4SQ==}
     engines: {node: ^18.18.0 || ^20.9.0 || >=21.1.0}
+
+  '@typescript-eslint/typescript-estree@8.32.1':
+    resolution: {integrity: sha512-Y3AP9EIfYwBb4kWGb+simvPaqQoT5oJuzzj9m0i6FCY6SPvlomY2Ei4UEMm7+FXtlNJbor80ximyslzaQF6xhg==}
+    engines: {node: ^18.18.0 || ^20.9.0 || >=21.1.0}
+    peerDependencies:
+      typescript: '>=4.8.4 <5.9.0'
 
   '@typescript-eslint/typescript-estree@8.37.0':
     resolution: {integrity: sha512-zuWDMDuzMRbQOM+bHyU4/slw27bAUEcKSKKs3hcv2aNnc/tvE/h7w60dwVw8vnal2Pub6RT1T7BI8tFZ1fE+yg==}
     engines: {node: ^18.18.0 || ^20.9.0 || >=21.1.0}
     peerDependencies:
+      typescript: '>=4.8.4 <5.9.0'
+
+  '@typescript-eslint/utils@8.32.1':
+    resolution: {integrity: sha512-DsSFNIgLSrc89gpq1LJB7Hm1YpuhK086DRDJSNrewcGvYloWW1vZLHBTIvarKZDcAORIy/uWNx8Gad+4oMpkSA==}
+    engines: {node: ^18.18.0 || ^20.9.0 || >=21.1.0}
+    peerDependencies:
+      eslint: ^8.57.0 || ^9.0.0
       typescript: '>=4.8.4 <5.9.0'
 
   '@typescript-eslint/utils@8.37.0':
@@ -5972,6 +5996,10 @@ packages:
     peerDependencies:
       eslint: ^8.57.0 || ^9.0.0
       typescript: '>=4.8.4 <5.9.0'
+
+  '@typescript-eslint/visitor-keys@8.32.1':
+    resolution: {integrity: sha512-ar0tjQfObzhSaW3C3QNmTc5ofj0hDoNQ5XWrCy6zDyabdr0TWhCkClp+rywGNj/odAFBVzzJrK4tEq5M4Hmu4w==}
+    engines: {node: ^18.18.0 || ^20.9.0 || >=21.1.0}
 
   '@typescript-eslint/visitor-keys@8.37.0':
     resolution: {integrity: sha512-YzfhzcTnZVPiLfP/oeKtDp2evwvHLMe0LOy7oe+hb9KKIumLNohYS9Hgp1ifwpu42YWxhZE8yieggz6JpqO/1w==}
@@ -5991,8 +6019,8 @@ packages:
     peerDependencies:
       vite: ^4.2.0 || ^5.0.0 || ^6.0.0 || ^7.0.0-beta.0
 
-  '@vitest/eslint-plugin@1.3.4':
-    resolution: {integrity: sha512-EOg8d0jn3BAiKnR55WkFxmxfWA3nmzrbIIuOXyTe6A72duryNgyU+bdBEauA97Aab3ho9kLmAwgPX63Ckj4QEg==}
+  '@vitest/eslint-plugin@1.2.1':
+    resolution: {integrity: sha512-JQr1jdVcrsoS7Sdzn83h9sq4DvREf9Q/onTZbJCqTVlv/76qb+TZrLv/9VhjnjSMHweQH5FdpMDeCR6aDe2fgw==}
     peerDependencies:
       eslint: '>= 8.57.0'
       typescript: '>= 5.0.0'
@@ -6149,13 +6177,13 @@ packages:
     resolution: {integrity: sha512-GwpdMgUmwIp0jGjP535YtViP/nnmETAyHpGPWPZKdX++Qht/tSLbGXgFUMSsQvEACmZAR1lAPNu2CnYL1HpBgg==}
     engines: {node: '>=18.0.0'}
 
-  '@workleap/browserslist-config@2.0.4':
-    resolution: {integrity: sha512-IsHjHrxHx3PwDqpRo4R3PB6vWn2ZstRS4CYU5PEHR9f56ZQ1/RMB9kxvlyzPOXhFdxYYMst1nh7galc3Oh4/WA==}
+  '@workleap/browserslist-config@2.1.0':
+    resolution: {integrity: sha512-GUUlnt4D9UvrgPBGLT//1BkGuH21CoQphhG2xgL8JH9tNAFaRNz6YvvHzA2LUjL/MRhZGkd+Nq3cfvZSB7NfHg==}
 
-  '@workleap/eslint-plugin@3.4.2':
-    resolution: {integrity: sha512-+lYjlCZFv6CgQVFIug/qEv3dACJPsj6/m6LOOHisPmAELNDwyMFsivaBlHMaC1LVRt3FCs7dlxGe3pl4Ptomyw==}
+  '@workleap/eslint-plugin@3.5.0':
+    resolution: {integrity: sha512-DllnlpwqJzDYokJGhuVrBIn2oyh/3Nu5ql98ARKg9XSHH8h3FqCKSc4lfD6eidfbqc1nR+lR9jk0bUgrm52LfQ==}
     peerDependencies:
-      '@typescript-eslint/parser': ^8.32.1
+      '@typescript-eslint/parser': 8.32.1
       eslint: ^8.57.0
       typescript: ^5.8.3
     peerDependenciesMeta:
@@ -6173,25 +6201,25 @@ packages:
       '@opentelemetry/api': ^1.9.0
       '@workleap/telemetry': 1.0.0
 
-  '@workleap/rsbuild-configs@3.0.2':
-    resolution: {integrity: sha512-/W4w4Fq1duFPveVtpVqHecCplWQ8cN1I0Rx5Whd3hOcPTsfd5i7UbXMRBdsg49fy+OMmpRM2CIL0Lq/anwgAog==}
+  '@workleap/rsbuild-configs@3.1.0':
+    resolution: {integrity: sha512-WtlN/G0+u+5xMlAzFMRE+iwVsrxLtMkOMHng/IbZ+MgoycCh7Do8Yc6yo8eku5agOmzuMvUrW6if1BgRlO9jDA==}
     peerDependencies:
-      '@rsbuild/core': ^1.3.21
-      '@rspack/core': ^1.3.11
+      '@rsbuild/core': ^1.4.7
+      '@rspack/core': ^1.4.8
 
-  '@workleap/rslib-configs@1.0.6':
-    resolution: {integrity: sha512-fM+AaGV4UMpuOnsg5FAtfdiaPAVE7nlmLf3/2KSh9jthH6j2HLuyF1DC58UrlQYl6DujF+9Dsl6JgeqTgQRFAg==}
+  '@workleap/rslib-configs@1.1.0':
+    resolution: {integrity: sha512-O2swpY+cx1FALks7V1kS+aphZo+SjPwyjQCMQeC8wwiQJNBAcYxxf9Lq5PNPE925TSHKXGtg6ah2aQyEt03ONA==}
     peerDependencies:
-      '@rsbuild/core': ^1.3.21
-      '@rslib/core': ^0.8.0
+      '@rsbuild/core': ^1.4.7
+      '@rslib/core': ^0.10.6
 
-  '@workleap/swc-configs@2.2.8':
-    resolution: {integrity: sha512-ivDPMC7nJHX8YJ+777X7DpZELOiYkY7fSYKe/kk9U8j2cqHpdcqegiSPq+4uRJ1ETeqobSfaL7jfq1CKNO8BDg==}
+  '@workleap/swc-configs@2.3.0':
+    resolution: {integrity: sha512-UP7gum7j5AQsl/uJTwvAl4E1AasAilWfYFmc3Oi1Ix2ECq4hcyUwoiN5SNLDlwCaI0uAZcYatpzuapZl0DC6RA==}
     peerDependencies:
-      '@swc/core': ^1.11.29
+      '@swc/core': ^1.12.14
       '@swc/helpers': ^0.5.17
-      '@swc/jest': ^0.2.38
-      browserslist: ^4.24.5
+      '@swc/jest': ^0.2.39
+      browserslist: ^4.25.1
     peerDependenciesMeta:
       '@swc/jest':
         optional: true
@@ -6206,15 +6234,15 @@ packages:
     peerDependencies:
       typescript: ^5.8.3
 
-  '@workleap/webpack-configs@1.5.7':
-    resolution: {integrity: sha512-mytTe3d3RacqZ+YO/n4KssyTLFSyid/Zb/VNZNqKCW7Te2ZkTTkAVRC/CyJFIX8p2GM2JfTbVZNqDwvOijDsAQ==}
+  '@workleap/webpack-configs@1.6.0':
+    resolution: {integrity: sha512-nlfgJ22kfLS+gNRguwEN4SdaBJM4ctY3srqgDG4a2ddBzr95T/y3fhYc6ifRfjKZWwglH9M7CS3aSoTKDxeLug==}
     peerDependencies:
-      '@swc/core': ^1.11.29
+      '@swc/core': ^1.12.14
       '@swc/helpers': ^0.5.17
-      browserslist: ^4.24.5
-      postcss: ^8.5.3
-      webpack: ^5.99.9
-      webpack-dev-server: ^5.2.1
+      browserslist: ^4.25.1
+      postcss: ^8.5.6
+      webpack: ^5.100.2
+      webpack-dev-server: ^5.2.2
     peerDependenciesMeta:
       webpack-dev-server:
         optional: true
@@ -7677,8 +7705,8 @@ packages:
       eslint-import-resolver-webpack:
         optional: true
 
-  eslint-plugin-import@2.32.0:
-    resolution: {integrity: sha512-whOE1HFo/qJDyX4SnXzP4N6zOWn79WhnCUY/iDR0mPfQZO8wcYE4JClzI2oZrhBnnMUCBCHZhO6VQyoBU95mZA==}
+  eslint-plugin-import@2.31.0:
+    resolution: {integrity: sha512-ixmkI62Rbc2/w8Vfxyh1jQRTdRTF52VxwRVHl/ykPAmqG+Nb7/kNn+byLP0LxPgI7zWA16Jt82SybJInmMia3A==}
     engines: {node: '>=4'}
     peerDependencies:
       '@typescript-eslint/parser': '*'
@@ -7687,8 +7715,8 @@ packages:
       '@typescript-eslint/parser':
         optional: true
 
-  eslint-plugin-jest@28.14.0:
-    resolution: {integrity: sha512-P9s/qXSMTpRTerE2FQ0qJet2gKbcGyFTPAJipoKxmWqR6uuFqIqk8FuEfg5yBieOezVrEfAMZrEwJ6yEp+1MFQ==}
+  eslint-plugin-jest@28.11.0:
+    resolution: {integrity: sha512-QAfipLcNCWLVocVbZW8GimKn5p5iiMcgGbRzz8z/P5q7xw+cNEpYqyzFMtIF/ZgF2HLOyy+dYBut+DoYolvqig==}
     engines: {node: ^16.10.0 || ^18.12.0 || >=20.0.0}
     peerDependencies:
       '@typescript-eslint/eslint-plugin': ^6.0.0 || ^7.0.0 || ^8.0.0
@@ -7706,8 +7734,8 @@ packages:
     peerDependencies:
       eslint: ^3 || ^4 || ^5 || ^6 || ^7 || ^8 || ^9
 
-  eslint-plugin-mdx@3.6.2:
-    resolution: {integrity: sha512-RfMd5HYD/9+cqANhVWJbuBRg3huWUsAoGJNGmPsyiRD2X6BaG6bvt1omyk1ORlg81GK8ST7Ojt5fNAuwWhWU8A==}
+  eslint-plugin-mdx@3.4.2:
+    resolution: {integrity: sha512-deXcJ4hTLkQ7F2JLto74UXeDkZYXu1Xtgvy0ZHlJ4CNwCYAZier3qNvTMBwE9VEnowxN+TgB18OhMLYyaR9hXA==}
     engines: {node: '>=18.0.0'}
     peerDependencies:
       eslint: '>=8.0.0'
@@ -7743,8 +7771,8 @@ packages:
     peerDependencies:
       eslint: '>=8'
 
-  eslint-plugin-testing-library@7.6.0:
-    resolution: {integrity: sha512-rxCz4VQFb45kDeFLnQcjGpeb72r4HmCh6v49d+DhrD2HVpnJuwK/GOnPjezWS7CytkNjQjpXcPopxLN++FlXxw==}
+  eslint-plugin-testing-library@7.2.2:
+    resolution: {integrity: sha512-PaE4gwP3tMhmlcpOV0Hl21BA5SZIz3PiQYSgnHOY4rrSWZV4+r2BwbzUt2yU0xay2GtA+VNJxzKCbNMvEG2Uig==}
     engines: {node: ^18.18.0 || ^20.9.0 || >=21.1.0, pnpm: ^9.14.0}
     peerDependencies:
       eslint: ^8.57.0 || ^9.0.0
@@ -10498,8 +10526,8 @@ packages:
     resolution: {integrity: sha512-z6F7K9bV85EfseRCp2bzrpyQ0Gkw1uLoCel9XBVWPg/TjRj94SkJzUTGfOa4bs7iJvBWtQG0Wq7wnI0syw3EBQ==}
     engines: {node: '>=0.10.0'}
 
-  react-router@7.6.3:
-    resolution: {integrity: sha512-zf45LZp5skDC6I3jDLXQUu0u26jtuP4lEGbc7BbdyxenBN1vJSTA18czM2D+h5qyMBuMrD+9uB+mU37HIoKGRA==}
+  react-router@7.7.0:
+    resolution: {integrity: sha512-3FUYSwlvB/5wRJVTL/aavqHmfUKe0+Xm9MllkYgGo9eDwNdkvwlJGjpPxono1kCycLt6AnDTgjmXvK3/B4QGuw==}
     engines: {node: '>=20.0.0'}
     peerDependencies:
       react: '>=18'
@@ -11488,38 +11516,38 @@ packages:
   tunnel-agent@0.6.0:
     resolution: {integrity: sha512-McnNiV1l8RYeY8tBgEpuodCC1mLUdbSN+CYBL7kJsJNInOP8UjDDEwdk6Mw60vdLLrr5NHKZhMAOSrR2NZuQ+w==}
 
-  turbo-darwin-64@2.5.4:
-    resolution: {integrity: sha512-ah6YnH2dErojhFooxEzmvsoZQTMImaruZhFPfMKPBq8sb+hALRdvBNLqfc8NWlZq576FkfRZ/MSi4SHvVFT9PQ==}
+  turbo-darwin-64@2.5.5:
+    resolution: {integrity: sha512-RYnTz49u4F5tDD2SUwwtlynABNBAfbyT2uU/brJcyh5k6lDLyNfYKdKmqd3K2ls4AaiALWrFKVSBsiVwhdFNzQ==}
     cpu: [x64]
     os: [darwin]
 
-  turbo-darwin-arm64@2.5.4:
-    resolution: {integrity: sha512-2+Nx6LAyuXw2MdXb7pxqle3MYignLvS7OwtsP9SgtSBaMlnNlxl9BovzqdYAgkUW3AsYiQMJ/wBRb7d+xemM5A==}
+  turbo-darwin-arm64@2.5.5:
+    resolution: {integrity: sha512-Tk+ZeSNdBobZiMw9aFypQt0DlLsWSFWu1ymqsAdJLuPoAH05qCfYtRxE1pJuYHcJB5pqI+/HOxtJoQ40726Btw==}
     cpu: [arm64]
     os: [darwin]
 
-  turbo-linux-64@2.5.4:
-    resolution: {integrity: sha512-5May2kjWbc8w4XxswGAl74GZ5eM4Gr6IiroqdLhXeXyfvWEdm2mFYCSWOzz0/z5cAgqyGidF1jt1qzUR8hTmOA==}
+  turbo-linux-64@2.5.5:
+    resolution: {integrity: sha512-2/XvMGykD7VgsvWesZZYIIVXMlgBcQy+ZAryjugoTcvJv8TZzSU/B1nShcA7IAjZ0q7OsZ45uP2cOb8EgKT30w==}
     cpu: [x64]
     os: [linux]
 
-  turbo-linux-arm64@2.5.4:
-    resolution: {integrity: sha512-/2yqFaS3TbfxV3P5yG2JUI79P7OUQKOUvAnx4MV9Bdz6jqHsHwc9WZPpO4QseQm+NvmgY6ICORnoVPODxGUiJg==}
+  turbo-linux-arm64@2.5.5:
+    resolution: {integrity: sha512-DW+8CjCjybu0d7TFm9dovTTVg1VRnlkZ1rceO4zqsaLrit3DgHnN4to4uwyuf9s2V/BwS3IYcRy+HG9BL596Iw==}
     cpu: [arm64]
     os: [linux]
 
-  turbo-windows-64@2.5.4:
-    resolution: {integrity: sha512-EQUO4SmaCDhO6zYohxIjJpOKRN3wlfU7jMAj3CgcyTPvQR/UFLEKAYHqJOnJtymbQmiiM/ihX6c6W6Uq0yC7mA==}
+  turbo-windows-64@2.5.5:
+    resolution: {integrity: sha512-q5p1BOy8ChtSZfULuF1BhFMYIx6bevXu4fJ+TE/hyNfyHJIfjl90Z6jWdqAlyaFLmn99X/uw+7d6T/Y/dr5JwQ==}
     cpu: [x64]
     os: [win32]
 
-  turbo-windows-arm64@2.5.4:
-    resolution: {integrity: sha512-oQ8RrK1VS8lrxkLriotFq+PiF7iiGgkZtfLKF4DDKsmdbPo0O9R2mQxm7jHLuXraRCuIQDWMIw6dpcr7Iykf4A==}
+  turbo-windows-arm64@2.5.5:
+    resolution: {integrity: sha512-AXbF1KmpHUq3PKQwddMGoKMYhHsy5t1YBQO8HZ04HLMR0rWv9adYlQ8kaeQJTko1Ay1anOBFTqaxfVOOsu7+1Q==}
     cpu: [arm64]
     os: [win32]
 
-  turbo@2.5.4:
-    resolution: {integrity: sha512-kc8ZibdRcuWUG1pbYSBFWqmIjynlD8Lp7IB6U3vIzvOv9VG+6Sp8bzyeBWE3Oi8XV5KsQrznyRTBPvrf99E4mA==}
+  turbo@2.5.5:
+    resolution: {integrity: sha512-eZ7wI6KjtT1eBqCnh2JPXWNUAxtoxxfi6VdBdZFvil0ychCOTxbm7YLRBi1JSt7U3c+u3CLxpoPxLdvr/Npr3A==}
     hasBin: true
 
   type-check@0.4.0:
@@ -16555,14 +16583,14 @@ snapshots:
       '@types/node': 24.0.14
     optional: true
 
-  '@typescript-eslint/eslint-plugin@8.37.0(@typescript-eslint/parser@8.37.0(eslint@8.57.0)(typescript@5.8.3))(eslint@8.57.0)(typescript@5.8.3)':
+  '@typescript-eslint/eslint-plugin@8.32.1(@typescript-eslint/parser@8.37.0(eslint@8.57.0)(typescript@5.8.3))(eslint@8.57.0)(typescript@5.8.3)':
     dependencies:
       '@eslint-community/regexpp': 4.12.1
       '@typescript-eslint/parser': 8.37.0(eslint@8.57.0)(typescript@5.8.3)
-      '@typescript-eslint/scope-manager': 8.37.0
-      '@typescript-eslint/type-utils': 8.37.0(eslint@8.57.0)(typescript@5.8.3)
-      '@typescript-eslint/utils': 8.37.0(eslint@8.57.0)(typescript@5.8.3)
-      '@typescript-eslint/visitor-keys': 8.37.0
+      '@typescript-eslint/scope-manager': 8.32.1
+      '@typescript-eslint/type-utils': 8.32.1(eslint@8.57.0)(typescript@5.8.3)
+      '@typescript-eslint/utils': 8.32.1(eslint@8.57.0)(typescript@5.8.3)
+      '@typescript-eslint/visitor-keys': 8.32.1
       eslint: 8.57.0
       graphemer: 1.4.0
       ignore: 7.0.5
@@ -16602,6 +16630,11 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
+  '@typescript-eslint/scope-manager@8.32.1':
+    dependencies:
+      '@typescript-eslint/types': 8.32.1
+      '@typescript-eslint/visitor-keys': 8.32.1
+
   '@typescript-eslint/scope-manager@8.37.0':
     dependencies:
       '@typescript-eslint/types': 8.37.0
@@ -16611,11 +16644,10 @@ snapshots:
     dependencies:
       typescript: 5.8.3
 
-  '@typescript-eslint/type-utils@8.37.0(eslint@8.57.0)(typescript@5.8.3)':
+  '@typescript-eslint/type-utils@8.32.1(eslint@8.57.0)(typescript@5.8.3)':
     dependencies:
-      '@typescript-eslint/types': 8.37.0
-      '@typescript-eslint/typescript-estree': 8.37.0(typescript@5.8.3)
-      '@typescript-eslint/utils': 8.37.0(eslint@8.57.0)(typescript@5.8.3)
+      '@typescript-eslint/typescript-estree': 8.32.1(typescript@5.8.3)
+      '@typescript-eslint/utils': 8.32.1(eslint@8.57.0)(typescript@5.8.3)
       debug: 4.4.1(supports-color@5.5.0)
       eslint: 8.57.0
       ts-api-utils: 2.1.0(typescript@5.8.3)
@@ -16623,7 +16655,23 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
+  '@typescript-eslint/types@8.32.1': {}
+
   '@typescript-eslint/types@8.37.0': {}
+
+  '@typescript-eslint/typescript-estree@8.32.1(typescript@5.8.3)':
+    dependencies:
+      '@typescript-eslint/types': 8.32.1
+      '@typescript-eslint/visitor-keys': 8.32.1
+      debug: 4.4.1(supports-color@5.5.0)
+      fast-glob: 3.3.3
+      is-glob: 4.0.3
+      minimatch: 9.0.5
+      semver: 7.7.2
+      ts-api-utils: 2.1.0(typescript@5.8.3)
+      typescript: 5.8.3
+    transitivePeerDependencies:
+      - supports-color
 
   '@typescript-eslint/typescript-estree@8.37.0(supports-color@10.0.0)(typescript@5.8.3)':
     dependencies:
@@ -16657,6 +16705,17 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
+  '@typescript-eslint/utils@8.32.1(eslint@8.57.0)(typescript@5.8.3)':
+    dependencies:
+      '@eslint-community/eslint-utils': 4.7.0(eslint@8.57.0)
+      '@typescript-eslint/scope-manager': 8.32.1
+      '@typescript-eslint/types': 8.32.1
+      '@typescript-eslint/typescript-estree': 8.32.1(typescript@5.8.3)
+      eslint: 8.57.0
+      typescript: 5.8.3
+    transitivePeerDependencies:
+      - supports-color
+
   '@typescript-eslint/utils@8.37.0(eslint@8.57.0)(typescript@5.8.3)':
     dependencies:
       '@eslint-community/eslint-utils': 4.7.0(eslint@8.57.0)
@@ -16667,6 +16726,11 @@ snapshots:
       typescript: 5.8.3
     transitivePeerDependencies:
       - supports-color
+
+  '@typescript-eslint/visitor-keys@8.32.1':
+    dependencies:
+      '@typescript-eslint/types': 8.32.1
+      eslint-visitor-keys: 4.2.1
 
   '@typescript-eslint/visitor-keys@8.37.0':
     dependencies:
@@ -16706,7 +16770,7 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
-  '@vitest/eslint-plugin@1.3.4(eslint@8.57.0)(typescript@5.8.3)(vitest@3.2.4(@types/node@24.0.14)(tsx@4.20.3))':
+  '@vitest/eslint-plugin@1.2.1(eslint@8.57.0)(typescript@5.8.3)(vitest@3.2.4(@types/node@24.0.14)(tsx@4.20.3))':
     dependencies:
       '@typescript-eslint/utils': 8.37.0(eslint@8.57.0)(typescript@5.8.3)
       eslint: 8.57.0
@@ -16716,7 +16780,7 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
-  '@vitest/eslint-plugin@1.3.4(eslint@8.57.0)(typescript@5.8.3)(vitest@3.2.4(@types/node@24.0.14))':
+  '@vitest/eslint-plugin@1.2.1(eslint@8.57.0)(typescript@5.8.3)(vitest@3.2.4(@types/node@24.0.14))':
     dependencies:
       '@typescript-eslint/utils': 8.37.0(eslint@8.57.0)(typescript@5.8.3)
       eslint: 8.57.0
@@ -16943,23 +17007,23 @@ snapshots:
       '@whatwg-node/promise-helpers': 1.3.2
       tslib: 2.8.1
 
-  '@workleap/browserslist-config@2.0.4': {}
+  '@workleap/browserslist-config@2.1.0': {}
 
-  '@workleap/eslint-plugin@3.4.2(@types/estree@1.0.8)(@typescript-eslint/parser@8.37.0(eslint@8.57.0)(typescript@5.8.3))(eslint@8.57.0)(typescript@5.8.3)(vitest@3.2.4(@types/node@24.0.14)(tsx@4.20.3))':
+  '@workleap/eslint-plugin@3.5.0(@types/estree@1.0.8)(@typescript-eslint/parser@8.37.0(eslint@8.57.0)(typescript@5.8.3))(eslint@8.57.0)(typescript@5.8.3)(vitest@3.2.4(@types/node@24.0.14)(tsx@4.20.3))':
     dependencies:
       '@stylistic/eslint-plugin-ts': 2.13.0(eslint@8.57.0)(typescript@5.8.3)
-      '@typescript-eslint/eslint-plugin': 8.37.0(@typescript-eslint/parser@8.37.0(eslint@8.57.0)(typescript@5.8.3))(eslint@8.57.0)(typescript@5.8.3)
-      '@vitest/eslint-plugin': 1.3.4(eslint@8.57.0)(typescript@5.8.3)(vitest@3.2.4(@types/node@24.0.14)(tsx@4.20.3))
-      eslint-plugin-import: 2.32.0(@typescript-eslint/parser@8.37.0(eslint@8.57.0)(typescript@5.8.3))(eslint@8.57.0)
-      eslint-plugin-jest: 28.14.0(@typescript-eslint/eslint-plugin@8.37.0(@typescript-eslint/parser@8.37.0(eslint@8.57.0)(typescript@5.8.3))(eslint@8.57.0)(typescript@5.8.3))(eslint@8.57.0)(typescript@5.8.3)
+      '@typescript-eslint/eslint-plugin': 8.32.1(@typescript-eslint/parser@8.37.0(eslint@8.57.0)(typescript@5.8.3))(eslint@8.57.0)(typescript@5.8.3)
+      '@vitest/eslint-plugin': 1.2.1(eslint@8.57.0)(typescript@5.8.3)(vitest@3.2.4(@types/node@24.0.14)(tsx@4.20.3))
+      eslint-plugin-import: 2.31.0(@typescript-eslint/parser@8.37.0(eslint@8.57.0)(typescript@5.8.3))(eslint@8.57.0)
+      eslint-plugin-jest: 28.11.0(@typescript-eslint/eslint-plugin@8.32.1(@typescript-eslint/parser@8.37.0(eslint@8.57.0)(typescript@5.8.3))(eslint@8.57.0)(typescript@5.8.3))(eslint@8.57.0)(typescript@5.8.3)
       eslint-plugin-jsx-a11y: 6.10.2(eslint@8.57.0)
-      eslint-plugin-mdx: 3.6.2(eslint@8.57.0)
+      eslint-plugin-mdx: 3.4.2(eslint@8.57.0)
       eslint-plugin-package-json: 0.31.0(@types/estree@1.0.8)(eslint@8.57.0)(jsonc-eslint-parser@2.4.0)
       eslint-plugin-react: 7.37.5(eslint@8.57.0)
       eslint-plugin-react-compiler: 19.1.0-rc.2(eslint@8.57.0)
       eslint-plugin-react-hooks: 5.2.0(eslint@8.57.0)
       eslint-plugin-storybook: 0.12.0(eslint@8.57.0)(typescript@5.8.3)
-      eslint-plugin-testing-library: 7.6.0(eslint@8.57.0)(typescript@5.8.3)
+      eslint-plugin-testing-library: 7.2.2(eslint@8.57.0)(typescript@5.8.3)
       eslint-plugin-yml: 1.18.0(eslint@8.57.0)
       jsonc-eslint-parser: 2.4.0
       yaml-eslint-parser: 1.3.0
@@ -16977,21 +17041,21 @@ snapshots:
       - supports-color
       - vitest
 
-  '@workleap/eslint-plugin@3.4.2(@types/estree@1.0.8)(@typescript-eslint/parser@8.37.0(eslint@8.57.0)(typescript@5.8.3))(eslint@8.57.0)(typescript@5.8.3)(vitest@3.2.4(@types/node@24.0.14))':
+  '@workleap/eslint-plugin@3.5.0(@types/estree@1.0.8)(@typescript-eslint/parser@8.37.0(eslint@8.57.0)(typescript@5.8.3))(eslint@8.57.0)(typescript@5.8.3)(vitest@3.2.4(@types/node@24.0.14))':
     dependencies:
       '@stylistic/eslint-plugin-ts': 2.13.0(eslint@8.57.0)(typescript@5.8.3)
-      '@typescript-eslint/eslint-plugin': 8.37.0(@typescript-eslint/parser@8.37.0(eslint@8.57.0)(typescript@5.8.3))(eslint@8.57.0)(typescript@5.8.3)
-      '@vitest/eslint-plugin': 1.3.4(eslint@8.57.0)(typescript@5.8.3)(vitest@3.2.4(@types/node@24.0.14))
-      eslint-plugin-import: 2.32.0(@typescript-eslint/parser@8.37.0(eslint@8.57.0)(typescript@5.8.3))(eslint@8.57.0)
-      eslint-plugin-jest: 28.14.0(@typescript-eslint/eslint-plugin@8.37.0(@typescript-eslint/parser@8.37.0(eslint@8.57.0)(typescript@5.8.3))(eslint@8.57.0)(typescript@5.8.3))(eslint@8.57.0)(typescript@5.8.3)
+      '@typescript-eslint/eslint-plugin': 8.32.1(@typescript-eslint/parser@8.37.0(eslint@8.57.0)(typescript@5.8.3))(eslint@8.57.0)(typescript@5.8.3)
+      '@vitest/eslint-plugin': 1.2.1(eslint@8.57.0)(typescript@5.8.3)(vitest@3.2.4(@types/node@24.0.14))
+      eslint-plugin-import: 2.31.0(@typescript-eslint/parser@8.37.0(eslint@8.57.0)(typescript@5.8.3))(eslint@8.57.0)
+      eslint-plugin-jest: 28.11.0(@typescript-eslint/eslint-plugin@8.32.1(@typescript-eslint/parser@8.37.0(eslint@8.57.0)(typescript@5.8.3))(eslint@8.57.0)(typescript@5.8.3))(eslint@8.57.0)(typescript@5.8.3)
       eslint-plugin-jsx-a11y: 6.10.2(eslint@8.57.0)
-      eslint-plugin-mdx: 3.6.2(eslint@8.57.0)
+      eslint-plugin-mdx: 3.4.2(eslint@8.57.0)
       eslint-plugin-package-json: 0.31.0(@types/estree@1.0.8)(eslint@8.57.0)(jsonc-eslint-parser@2.4.0)
       eslint-plugin-react: 7.37.5(eslint@8.57.0)
       eslint-plugin-react-compiler: 19.1.0-rc.2(eslint@8.57.0)
       eslint-plugin-react-hooks: 5.2.0(eslint@8.57.0)
       eslint-plugin-storybook: 0.12.0(eslint@8.57.0)(typescript@5.8.3)
-      eslint-plugin-testing-library: 7.6.0(eslint@8.57.0)(typescript@5.8.3)
+      eslint-plugin-testing-library: 7.2.2(eslint@8.57.0)(typescript@5.8.3)
       eslint-plugin-yml: 1.18.0(eslint@8.57.0)
       jsonc-eslint-parser: 2.4.0
       yaml-eslint-parser: 1.3.0
@@ -17026,7 +17090,7 @@ snapshots:
       - supports-color
       - zone.js
 
-  '@workleap/rsbuild-configs@3.0.2(@rsbuild/core@1.4.7)(@rspack/core@1.4.8(@swc/helpers@0.5.17))(typescript@5.8.3)':
+  '@workleap/rsbuild-configs@3.1.0(@rsbuild/core@1.4.7)(@rspack/core@1.4.8(@swc/helpers@0.5.17))(typescript@5.8.3)':
     dependencies:
       '@rsbuild/core': 1.4.7
       '@rsbuild/plugin-basic-ssl': 1.1.1(@rsbuild/core@1.4.7)
@@ -17039,7 +17103,7 @@ snapshots:
       - typescript
       - webpack-hot-middleware
 
-  '@workleap/rslib-configs@1.0.6(@rsbuild/core@1.4.7)(@rslib/core@0.10.6(typescript@5.8.3))(typescript@5.8.3)':
+  '@workleap/rslib-configs@1.1.0(@rsbuild/core@1.4.7)(@rslib/core@0.10.6(typescript@5.8.3))(typescript@5.8.3)':
     dependencies:
       '@rsbuild/core': 1.4.7
       '@rsbuild/plugin-react': 1.3.4(@rsbuild/core@1.4.7)
@@ -17050,7 +17114,7 @@ snapshots:
       - typescript
       - webpack-hot-middleware
 
-  '@workleap/swc-configs@2.2.8(@swc/core@1.12.14(@swc/helpers@0.5.17))(@swc/helpers@0.5.17)(browserslist@4.25.1)':
+  '@workleap/swc-configs@2.3.0(@swc/core@1.12.14(@swc/helpers@0.5.17))(@swc/helpers@0.5.17)(browserslist@4.25.1)':
     dependencies:
       '@swc/core': 1.12.14(@swc/helpers@0.5.17)
       '@swc/helpers': 0.5.17
@@ -17066,7 +17130,7 @@ snapshots:
     dependencies:
       typescript: 5.8.3
 
-  '@workleap/webpack-configs@1.5.7(@rspack/core@1.4.8(@swc/helpers@0.5.17))(@swc/core@1.12.14(@swc/helpers@0.5.17))(@swc/helpers@0.5.17)(browserslist@4.25.1)(postcss@8.5.6)(type-fest@4.41.0)(typescript@5.8.3)(webpack-dev-server@5.2.2(webpack@5.100.2(@swc/core@1.12.14(@swc/helpers@0.5.17))))(webpack@5.100.2(@swc/core@1.12.14(@swc/helpers@0.5.17)))':
+  '@workleap/webpack-configs@1.6.0(@rspack/core@1.4.8(@swc/helpers@0.5.17))(@swc/core@1.12.14(@swc/helpers@0.5.17))(@swc/helpers@0.5.17)(browserslist@4.25.1)(postcss@8.5.6)(type-fest@4.41.0)(typescript@5.8.3)(webpack-dev-server@5.2.2(webpack@5.100.2(@swc/core@1.12.14(@swc/helpers@0.5.17))))(webpack@5.100.2(@swc/core@1.12.14(@swc/helpers@0.5.17)))':
     dependencies:
       '@pmmmwh/react-refresh-webpack-plugin': 0.6.1(react-refresh@0.17.0)(type-fest@4.41.0)(webpack-dev-server@5.2.2(webpack@5.100.2(@swc/core@1.12.14(@swc/helpers@0.5.17))))(webpack@5.100.2(@swc/core@1.12.14(@swc/helpers@0.5.17)))
       '@svgr/webpack': 8.1.0(typescript@5.8.3)
@@ -18708,7 +18772,7 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
-  eslint-plugin-import@2.32.0(@typescript-eslint/parser@8.37.0(eslint@8.57.0)(typescript@5.8.3))(eslint@8.57.0):
+  eslint-plugin-import@2.31.0(@typescript-eslint/parser@8.37.0(eslint@8.57.0)(typescript@5.8.3))(eslint@8.57.0):
     dependencies:
       '@rtsao/scc': 1.1.0
       array-includes: 3.1.9
@@ -18737,12 +18801,12 @@ snapshots:
       - eslint-import-resolver-webpack
       - supports-color
 
-  eslint-plugin-jest@28.14.0(@typescript-eslint/eslint-plugin@8.37.0(@typescript-eslint/parser@8.37.0(eslint@8.57.0)(typescript@5.8.3))(eslint@8.57.0)(typescript@5.8.3))(eslint@8.57.0)(typescript@5.8.3):
+  eslint-plugin-jest@28.11.0(@typescript-eslint/eslint-plugin@8.32.1(@typescript-eslint/parser@8.37.0(eslint@8.57.0)(typescript@5.8.3))(eslint@8.57.0)(typescript@5.8.3))(eslint@8.57.0)(typescript@5.8.3):
     dependencies:
       '@typescript-eslint/utils': 8.37.0(eslint@8.57.0)(typescript@5.8.3)
       eslint: 8.57.0
     optionalDependencies:
-      '@typescript-eslint/eslint-plugin': 8.37.0(@typescript-eslint/parser@8.37.0(eslint@8.57.0)(typescript@5.8.3))(eslint@8.57.0)(typescript@5.8.3)
+      '@typescript-eslint/eslint-plugin': 8.32.1(@typescript-eslint/parser@8.37.0(eslint@8.57.0)(typescript@5.8.3))(eslint@8.57.0)(typescript@5.8.3)
     transitivePeerDependencies:
       - supports-color
       - typescript
@@ -18766,7 +18830,7 @@ snapshots:
       safe-regex-test: 1.1.0
       string.prototype.includes: 2.0.1
 
-  eslint-plugin-mdx@3.6.2(eslint@8.57.0):
+  eslint-plugin-mdx@3.4.2(eslint@8.57.0):
     dependencies:
       eslint: 8.57.0
       eslint-mdx: 3.6.2(eslint@8.57.0)
@@ -18777,6 +18841,7 @@ snapshots:
       remark-parse: 11.0.0
       remark-stringify: 11.0.0
       synckit: 0.11.8
+      tslib: 2.8.1
       unified: 11.0.5
       vfile: 6.0.3
     transitivePeerDependencies:
@@ -18848,7 +18913,7 @@ snapshots:
       - supports-color
       - typescript
 
-  eslint-plugin-testing-library@7.6.0(eslint@8.57.0)(typescript@5.8.3):
+  eslint-plugin-testing-library@7.2.2(eslint@8.57.0)(typescript@5.8.3):
     dependencies:
       '@typescript-eslint/scope-manager': 8.37.0
       '@typescript-eslint/utils': 8.37.0(eslint@8.57.0)(typescript@5.8.3)
@@ -22162,7 +22227,7 @@ snapshots:
 
   react-refresh@0.17.0: {}
 
-  react-router@7.6.3(react-dom@19.1.0(react@19.1.0))(react@19.1.0):
+  react-router@7.7.0(react-dom@19.1.0(react@19.1.0))(react@19.1.0):
     dependencies:
       cookie: 1.0.2
       react: 19.1.0
@@ -23336,32 +23401,32 @@ snapshots:
     dependencies:
       safe-buffer: 5.2.1
 
-  turbo-darwin-64@2.5.4:
+  turbo-darwin-64@2.5.5:
     optional: true
 
-  turbo-darwin-arm64@2.5.4:
+  turbo-darwin-arm64@2.5.5:
     optional: true
 
-  turbo-linux-64@2.5.4:
+  turbo-linux-64@2.5.5:
     optional: true
 
-  turbo-linux-arm64@2.5.4:
+  turbo-linux-arm64@2.5.5:
     optional: true
 
-  turbo-windows-64@2.5.4:
+  turbo-windows-64@2.5.5:
     optional: true
 
-  turbo-windows-arm64@2.5.4:
+  turbo-windows-arm64@2.5.5:
     optional: true
 
-  turbo@2.5.4:
+  turbo@2.5.5:
     optionalDependencies:
-      turbo-darwin-64: 2.5.4
-      turbo-darwin-arm64: 2.5.4
-      turbo-linux-64: 2.5.4
-      turbo-linux-arm64: 2.5.4
-      turbo-windows-64: 2.5.4
-      turbo-windows-arm64: 2.5.4
+      turbo-darwin-64: 2.5.5
+      turbo-darwin-arm64: 2.5.5
+      turbo-linux-64: 2.5.5
+      turbo-linux-arm64: 2.5.5
+      turbo-windows-64: 2.5.5
+      turbo-windows-arm64: 2.5.5
 
   type-check@0.4.0:
     dependencies:
