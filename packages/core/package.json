@@ -41,10 +41,10 @@
         "eventemitter3": "^5.0.1"
     },
     "devDependencies": {
-        "@rsbuild/core": "1.4.0",
-        "@rslib/core": "0.10.3",
+        "@rsbuild/core": "1.4.7",
+        "@rslib/core": "0.10.6",
         "@types/react": "19.1.8",
-        "@typescript-eslint/parser": "8.35.0",
+        "@typescript-eslint/parser": "8.37.0",
         "@vitejs/plugin-react": "4.6.0",
         "@workleap/eslint-plugin": "3.4.2",
         "@workleap/rslib-configs": "1.0.6",
