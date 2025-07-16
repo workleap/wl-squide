@@ -55,15 +55,3 @@ const runtime = new FireflyRuntime({
     mode: process.env.isNetlify ? "production" : "development"
 });
 ```
-
-## Remove the console logger
-
-Remove the [ConsoleLogger](../reference/logging/ConsoleLogger.md) from the production build:
-
-```ts
-import { ConsoleLogger, FireflyRuntime } from "@squide/firefly";
-
-const runtime = new FireflyRuntime({
-    loggers: process.env.isNetlify ? [] : [x => new ConsoleLogger(x)]
-});
-```

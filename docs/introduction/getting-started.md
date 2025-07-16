@@ -51,7 +51,7 @@ In addition to modularity, Squide offers built-in mechanisms to handle most of t
 Those cross-cutting functionalities uses most of the libraries recommended by Workleap's frontend technology stacks:
 
 Feature | Library
----    | ---
+---  | ---
 Modular Routing | Squide extends [React Router](https://reactrouter.com/), adding modular routing capabilities.
 Public and Protected pages | Squide bootstrapping flow facilitate the implementation of public & protected routes by providing a [Tanstack Query](https://tanstack.com/query/latest) wrapper, allowing applications to only load their protected data (session related data) if the requested route is protected. Additionally, Squide bootstrapping flow is smart enough to delay the rendering of the requested page until the initial data of an application is ready.
 Localization | Squide includes built-in support for localization, powered by [i18next](https://www.i18next.com/). 

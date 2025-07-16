@@ -13,7 +13,7 @@ If the provided array contains `undefined` values, they will safely be ignored.
 ## Reference
 
 ```ts
-mergeDeferredRegistrations(candidates: []);
+const registrations = mergeDeferredRegistrations(candidates: []);
 ```
 
 ### Parameters

@@ -67,7 +67,7 @@ pnpm install
 
 [Honeycomb](https://www.honeycomb.io/) is one of the monitoring platforms used at Workleap. The [endpoints](./samples/endpoints/) sample of this repository is already configured to send traces to Honeycomb but needs a valid Honeycomb API key.
 
-First, create a file named `.env.local` at the root of the workspace.
+First, create a file named `.env.local` at the root of the workspace:
 
 ``` !#3
 workspace

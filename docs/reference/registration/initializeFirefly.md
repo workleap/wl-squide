@@ -15,7 +15,7 @@ Create a [Runtime](../runtime/runtime-class.md) instance, register **local** or 
 ## Reference
 
 ```ts
-initializeFirefly(options?: { localModules?, remotes?, startMsw?, onError?, context?, mode?, useMsw?, loggers?, plugins? })
+const runtime = initializeFirefly(options?: { localModules?, remotes?, startMsw?, onError?, context?, mode?, useMsw?, loggers?, plugins? })
 ```
 
 ### Parameters
