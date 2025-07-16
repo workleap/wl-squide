@@ -1,7 +1,7 @@
 {
     "name": "@squide/fakes",
     "author": "Workleap",
-    "version": "2.1.11",
+    "version": "2.2.0",
     "description": "Fake implementations to facilitate the development of modules in isolation with @squide.",
     "license": "Apache-2.0",
     "repository": {
