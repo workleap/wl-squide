@@ -18,7 +18,6 @@ A modular web application shell built on top of [Module Federation](https://modu
 | [@squide/firefly](packages/firefly/README.md) | [![npm version](https://img.shields.io/npm/v/@squide/firefly)](https://www.npmjs.com/package/@squide/firefly) |
 | [@squide/firefly-webpack-configs](packages/firefly-webpack-configs/README.md) | [![npm version](https://img.shields.io/npm/v/@squide/firefly-webpack-configs)](https://www.npmjs.com/package/@squide/firefly-webpack-configs) |
 | [@squide/firefly-rsbuild-configs](packages/firefly-rsbuild-configs/README.md) | [![npm version](https://img.shields.io/npm/v/@squide/firefly-rsbuild-configs)](https://www.npmjs.com/package/@squide/firefly-rsbuild-configs) |
-| [@squide/firefly-honeycomb](packages/firefly-honeycomb/README.md) | [![npm version](https://img.shields.io/npm/v/@squide/firefly-honeycomb)](https://www.npmjs.com/package/@squide/firefly-honeycomb) |
 | [@squide/fakes](packages/fakes/README.md) | [![npm version](https://img.shields.io/npm/v/@squide/fakes)](https://www.npmjs.com/package/@squide/fakes) |
 
 ## Have a question or found an issue?
