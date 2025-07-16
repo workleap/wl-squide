@@ -5,7 +5,7 @@ order: 800
 # Setup Honeycomb
 
 !!!warning
-Before going forward with this guide, make sure that you migrated to [v13](../upgrading/migrate-to-firefly-v13.0.md).
+Before going forward with this guide, make sure that you migrated to [v13](../updating/migrate-to-firefly-v13.0.md).
 !!!
 
 To monitor application performance, Workleap has adopted [Honeycomb](https://www.honeycomb.io/), a tool that helps teams manage and analyze telemetry data from distributed systems. Built on OpenTelemetry, Honeycomb provides a [robust API](https://open-telemetry.github.io/opentelemetry-js/) for tracking frontend telemetry.

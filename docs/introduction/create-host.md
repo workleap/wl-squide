@@ -55,7 +55,7 @@ Then, ensure that you are developing your application using [ESM syntax](https:/
 
 ### Module registration
 
-Next, to register the modules, instanciate a shell [FireflyRuntime](/reference/runtime/runtime-class.md) instance. A local module will be registered in the [next section](create-local-module.md) of this quick start guide. 
+Next, to register the modules, instanciate a shell [FireflyRuntime](/reference/runtime/runtime-class.md) instance. A local module will be registered in the [next section](create-local-module.md) of this quick start guide:
 
 ```tsx !#5-7 host/src/index.tsx
 import { createRoot } from "react-dom/client";
