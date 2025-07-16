@@ -4,10 +4,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <meta name="turbo-root" content="/wl-squide">
-    <meta name="turbo-cache-control" content="no-cache" data-turbo-track="reload" data-track-token="3.11.0-preview6.804660603146">
+    <meta name="turbo-cache-control" content="no-cache" data-turbo-track="reload" data-track-token="3.12.0-preview2.806006202581">
 
     <!-- See retype.com -->
-    <meta name="generator" content="Retype 3.11.0-preview6">
+    <meta name="generator" content="Retype 3.12.0-preview2">
 
     <!-- Primary Meta Tags -->
     <title>FireflyRuntime class</title>
@@ -31,13 +31,13 @@
 
     <script data-cfasync="false">(function(){var cl=document.documentElement.classList,ls=localStorage.getItem("retype_scheme"),hd=cl.contains("dark"),hl=cl.contains("light"),wm=window.matchMedia&&window.matchMedia("(prefers-color-scheme: dark)").matches;if(ls==="dark"||(!ls&&wm&&!hd&&!hl)){cl.remove("light");cl.add("dark")}else if(ls==="light"||(!ls&&!wm&&!hd&&!hl)){cl.remove("dark");cl.add("light")}})();</script>
 
-    <link href="../../../static/favicon.png" rel="icon">
-    <link href="../../../resources/css/retype.css?v=3.11.0-preview6.804660603146" rel="stylesheet">
+    <link id="retype-favicon" rel="icon" href="../../../static/favicon.png" />
+    <link href="../../../resources/css/retype.css?v=3.12.0-preview2.806006202581" rel="stylesheet">
 
-    <script data-cfasync="false" src="../../../resources/js/config.js?v=3.11.0-preview6.804660603146" data-turbo-eval="false" defer></script>
-    <script data-cfasync="false" src="../../../resources/js/retype.js?v=3.11.0-preview6" data-turbo-eval="false" defer></script>
-    <script id="lunr-js" data-cfasync="false" src="../../../resources/js/lunr.js?v=3.11.0-preview6.804660603146" data-turbo-eval="false" defer></script>
-    <script id="prism-js" data-cfasync="false" src="../../../resources/js/prism.js?v=3.11.0-preview6.804660603146" defer></script>
+    <script data-cfasync="false" src="../../../resources/js/config.js?v=3.12.0-preview2.806006202581" data-turbo-eval="false" defer></script>
+    <script data-cfasync="false" src="../../../resources/js/retype.js?v=3.12.0-preview2" data-turbo-eval="false" defer></script>
+    <script id="lunr-js" data-cfasync="false" src="../../../resources/js/lunr.js?v=3.12.0-preview2.806006202581" data-turbo-eval="false" defer></script>
+    <script id="prism-js" data-cfasync="false" src="../../../resources/js/prism.js?v=3.12.0-preview2.806006202581" defer></script>
 
     <link href="https://workleap.github.io/wl-idp-docs-hub/static/retype-customization.css" rel="stylesheet" />
 
@@ -139,31 +139,6 @@
         
                         </ul>
                     </nav>
-        
-                    <!-- Header Right Skeleton -->
-                    <div v-cloak class="flex justify-end grow skeleton">
-        
-                        <!-- Search input mock -->
-                        <div class="relative hidden w-40 lg:block lg:max-w-sm lg:ml-auto">
-                            <div class="absolute flex items-center justify-center h-full pl-3 dark:text-dark-300">
-                                <svg xmlns="http://www.w3.org/2000/svg" class="icon-base" width="16" height="16" viewBox="0 0 24 24" aria-labelledby="icon" role="presentation" style="margin-bottom: 1px;"><g fill="currentColor" ><path d="M21.71 20.29l-3.68-3.68A8.963 8.963 0 0020 11c0-4.96-4.04-9-9-9s-9 4.04-9 9 4.04 9 9 9c2.12 0 4.07-.74 5.61-1.97l3.68 3.68c.2.19.45.29.71.29s.51-.1.71-.29c.39-.39.39-1.03 0-1.42zM4 11c0-3.86 3.14-7 7-7s7 3.14 7 7c0 1.92-.78 3.66-2.04 4.93-.01.01-.02.01-.02.01-.01.01-.01.01-.01.02A6.98 6.98 0 0111 18c-3.86 0-7-3.14-7-7z" ></path></g></svg>
-                            </div>
-                            <input class="w-full h-10 placeholder-search-placeholder transition-colors duration-200 ease-in bg-search-bg border border-transparent rounded md:text-sm hover:border-search-border-hover focus:outline-none focus:border-search-border-focus" style="padding: 0.625rem 0.75rem 0.625rem 2rem" type="text" placeholder="Search">
-                        </div>
-        
-                        <!-- Mobile search button -->
-                        <div class="flex items-center justify-center w-10 h-10 lg:hidden">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="shrink-0 icon-base" width="20" height="20" viewBox="0 0 24 24" aria-labelledby="icon" role="presentation" style="margin-bottom: 0px;"><g fill="currentColor" ><path d="M21.71 20.29l-3.68-3.68A8.963 8.963 0 0020 11c0-4.96-4.04-9-9-9s-9 4.04-9 9 4.04 9 9 9c2.12 0 4.07-.74 5.61-1.97l3.68 3.68c.2.19.45.29.71.29s.51-.1.71-.29c.39-.39.39-1.03 0-1.42zM4 11c0-3.86 3.14-7 7-7s7 3.14 7 7c0 1.92-.78 3.66-2.04 4.93-.01.01-.02.01-.02.01-.01.01-.01.01-.01.02A6.98 6.98 0 0111 18c-3.86 0-7-3.14-7-7z" ></path></g></svg>
-                        </div>
-        
-                        <!-- Dark mode switch placeholder -->
-                        <div class="w-10 h-10 lg:ml-2"></div>
-        
-                        <!-- History button -->
-                        <div class="flex items-center justify-center w-10 h-10" style="margin-right: -0.625rem;">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="shrink-0 icon-base" width="22" height="22" viewBox="0 0 24 24" aria-labelledby="icon" role="presentation" style="margin-bottom: 0px;"><g fill="currentColor" ><g ><path d="M12.01 6.01c-.55 0-1 .45-1 1V12a1 1 0 00.4.8l3 2.22a.985.985 0 001.39-.2.996.996 0 00-.21-1.4l-2.6-1.92V7.01c.02-.55-.43-1-.98-1z"></path><path d="M12.01 1.91c-5.33 0-9.69 4.16-10.05 9.4l-.29-.26a.997.997 0 10-1.34 1.48l1.97 1.79c.19.17.43.26.67.26s.48-.09.67-.26l1.97-1.79a.997.997 0 10-1.34-1.48l-.31.28c.34-4.14 3.82-7.41 8.05-7.41 4.46 0 8.08 3.63 8.08 8.09s-3.63 8.08-8.08 8.08c-2.18 0-4.22-.85-5.75-2.4a.996.996 0 10-1.42 1.4 10.02 10.02 0 007.17 2.99c5.56 0 10.08-4.52 10.08-10.08.01-5.56-4.52-10.09-10.08-10.09z"></path></g></g></svg>
-                        </div>
-                    </div>
         
                     <div v-cloak class="flex justify-end grow">
                         <div id="retype-mobile-search-button"></div>
@@ -322,7 +297,7 @@
             </svg>
         </div>
         <div class="pr-5 ml-3 w-full">
-<p>Don&#x27;t instanciate your own instance of <code v-pre>FireflyRuntime</code>, use the <a href="../../registration/initializefirefly/">initializeFirefly</a> function instead.</p>
+<p>Don&#x27;t instanciate your own instance of <code translate="no" v-pre>FireflyRuntime</code>, use the <a href="../../registration/initializefirefly/">initializeFirefly</a> function instead.</p>
         </div>
     </div>
 </div>
@@ -343,12 +318,12 @@
     </h3>
 </doc-anchor-target>
 <ul>
-<li><code v-pre>options</code>: An optional object literal of options:
+<li><code translate="no" v-pre>options</code>: An optional object literal of options:
 <ul>
-<li><code v-pre>mode</code>: An optional mode to optimize Squide for production. Values are <code v-pre>&quot;development&quot;</code> (default) and <code v-pre>&quot;production&quot;</code>.</li>
-<li><code v-pre>useMsw</code>: An optional <code v-pre>boolean</code> value indicating whether or not to create the runtime with <a href="https://mswjs.io/" class="outbound" target="_blank">Mock Service Work</a> (MSW) support.</li>
-<li><code v-pre>loggers</code>: An optional array of <code v-pre>Logger</code> instances.</li>
-<li><code v-pre>plugins</code>: An optional array of <code v-pre>Plugin</code> factory functions.</li>
+<li><code translate="no" v-pre>mode</code>: An optional mode to optimize Squide for production. Values are <code translate="no" v-pre>&quot;development&quot;</code> (default) and <code translate="no" v-pre>&quot;production&quot;</code>.</li>
+<li><code translate="no" v-pre>useMsw</code>: An optional <code translate="no" v-pre>boolean</code> value indicating whether or not to create the runtime with <a href="https://mswjs.io/" class="outbound" target="_blank">Mock Service Work</a> (MSW) support.</li>
+<li><code translate="no" v-pre>loggers</code>: An optional array of <code translate="no" v-pre>Logger</code> instances.</li>
+<li><code translate="no" v-pre>plugins</code>: An optional array of <code translate="no" v-pre>Plugin</code> factory functions.</li>
 </ul>
 </li>
 </ul>
@@ -359,11 +334,11 @@
     </h3>
 </doc-anchor-target>
 <ul>
-<li><code v-pre>registerRoute(route, options?)</code>: Register a route.</li>
-<li><code v-pre>registerNavigationItem(navigationItem, options?)</code>: Register a navigation item.</li>
-<li><code v-pre>getNavigationItems(menuId?)</code>: Retrieve the registered navigation items.</li>
-<li><code v-pre>registerRequestHandlers(handlers)</code>: Register the MSW request handlers.</li>
-<li><code v-pre>getPlugin(name)</code>: Retrieve the registered plugin by the specified <code v-pre>name</code>.</li>
+<li><code translate="no" v-pre>registerRoute(route, options?)</code>: Register a route.</li>
+<li><code translate="no" v-pre>registerNavigationItem(navigationItem, options?)</code>: Register a navigation item.</li>
+<li><code translate="no" v-pre>getNavigationItems(menuId?)</code>: Retrieve the registered navigation items.</li>
+<li><code translate="no" v-pre>registerRequestHandlers(handlers)</code>: Register the MSW request handlers.</li>
+<li><code translate="no" v-pre>getPlugin(name)</code>: Retrieve the registered plugin by the specified <code translate="no" v-pre>name</code>.</li>
 </ul>
 <doc-anchor-target id="getters">
     <h3>
@@ -372,13 +347,13 @@
     </h3>
 </doc-anchor-target>
 <ul>
-<li><code v-pre>mode</code>: Retrieve the runtime mode.</li>
-<li><code v-pre>routes</code>: Retrieve the registered routes.</li>
-<li><code v-pre>requestHandlers</code>: Retrieve the registered MSW request handlers.</li>
-<li><code v-pre>plugins</code>: Retrieve the registered plugins.</li>
-<li><code v-pre>logger</code>: Retrieve the runtime logger.</li>
-<li><code v-pre>eventBus</code>: Retrieve the runtime event bus.</li>
-<li><code v-pre>isMswEnabled</code>: Indicate whether or not MSW is enabled.</li>
+<li><code translate="no" v-pre>mode</code>: Retrieve the runtime mode.</li>
+<li><code translate="no" v-pre>routes</code>: Retrieve the registered routes.</li>
+<li><code translate="no" v-pre>requestHandlers</code>: Retrieve the registered MSW request handlers.</li>
+<li><code translate="no" v-pre>plugins</code>: Retrieve the registered plugins.</li>
+<li><code translate="no" v-pre>logger</code>: Retrieve the runtime logger.</li>
+<li><code translate="no" v-pre>eventBus</code>: Retrieve the runtime event bus.</li>
+<li><code translate="no" v-pre>isMswEnabled</code>: Indicate whether or not MSW is enabled.</li>
 </ul>
 <doc-anchor-target id="usage">
     <h2>
@@ -440,17 +415,17 @@ if (runtime.isMswEnabled) {
 <pre translate="no" class="language-typescript"><code v-pre class="language-typescript">runtime.registerRoute(route, options?: { hoist?, parentPath?, parentId? })</code></pre>
 </doc-codeblock></div>
 <ul>
-<li><code v-pre>route</code>: accept any properties of a React Router <a href="https://reactrouter.com/en/main/components/route" class="outbound" target="_blank">Route</a> component with the addition of:
+<li><code translate="no" v-pre>route</code>: accept any properties of a React Router <a href="https://reactrouter.com/en/main/components/route" class="outbound" target="_blank">Route</a> component with the addition of:
 <ul>
-<li><code v-pre>$id</code>: An optional identifier for the route. Usually used to nest routes under a specific route.</li>
-<li><code v-pre>$visibility</code>: An optional visibility indicator for the route. Accepted values are <code v-pre>&quot;public&quot;</code> or <code v-pre>&quot;protected&quot;</code>.</li>
+<li><code translate="no" v-pre>$id</code>: An optional identifier for the route. Usually used to nest routes under a specific route.</li>
+<li><code translate="no" v-pre>$visibility</code>: An optional visibility indicator for the route. Accepted values are <code translate="no" v-pre>&quot;public&quot;</code> or <code translate="no" v-pre>&quot;protected&quot;</code>.</li>
 </ul>
 </li>
-<li><code v-pre>options</code>: An optional object literal of options:
+<li><code translate="no" v-pre>options</code>: An optional object literal of options:
 <ul>
-<li><code v-pre>hoist</code>: An optional <code v-pre>boolean</code> value to register the route at the root of the router. The default value is <code v-pre>false</code>.</li>
-<li><code v-pre>parentPath</code>: An optional path of a parent route to register this new route under.</li>
-<li><code v-pre>parentId</code>: An optional id of a parent route to register this new route under.</li>
+<li><code translate="no" v-pre>hoist</code>: An optional <code translate="no" v-pre>boolean</code> value to register the route at the root of the router. The default value is <code translate="no" v-pre>false</code>.</li>
+<li><code translate="no" v-pre>parentPath</code>: An optional path of a parent route to register this new route under.</li>
+<li><code translate="no" v-pre>parentId</code>: An optional id of a parent route to register this new route under.</li>
 </ul>
 </li>
 </ul>
@@ -469,7 +444,7 @@ runtime.registerRoute({
         <span>Register an hoisted route</span>
     </h3>
 </doc-anchor-target>
-<p>Unlike a regular route, a hoisted route is added at the root of the router, outside of the host application&#x27;s root layout, root error boundary and even root authentication boundary. This means that a hoisted route has full control over its rendering. To mark a route as hoisted, provide an <code v-pre>hoist</code> option to the route options.</p>
+<p>Unlike a regular route, a hoisted route is added at the root of the router, outside of the host application&#x27;s root layout, root error boundary and even root authentication boundary. This means that a hoisted route has full control over its rendering. To mark a route as hoisted, provide an <code translate="no" v-pre>hoist</code> option to the route options.</p>
 <div class="codeblock-wrapper"><doc-codeblock>
 <pre translate="no" class="language-tsx" data-line="7"><code v-pre class="language-tsx">import { Page } from &quot;./Page.tsx&quot;;
 
@@ -506,7 +481,7 @@ runtime.registerRoute({
         <span>Register a public route</span>
     </h3>
 </doc-anchor-target>
-<p>When registering a route, a value can be provided indicating whether the route is <code v-pre>&quot;public&quot;</code> or <code v-pre>&quot;protected&quot;</code>. This is especially useful when dealing with code that <strong>fetches global data for protected routes</strong> (e.g. a session). Although a route definition accepts a <code v-pre>$visibility</code> value, we recommended using the runtime <code v-pre>registerPublicRoute</code> function to register a <strong>root</strong> public route instead.</p>
+<p>When registering a route, a value can be provided indicating whether the route is <code translate="no" v-pre>&quot;public&quot;</code> or <code translate="no" v-pre>&quot;protected&quot;</code>. This is especially useful when dealing with code that <strong>fetches global data for protected routes</strong> (e.g. a session). Although a route definition accepts a <code translate="no" v-pre>$visibility</code> value, we recommended using the runtime <code translate="no" v-pre>registerPublicRoute</code> function to register a <strong>root</strong> public route instead.</p>
 <div class="codeblock-wrapper"><doc-codeblock>
 <pre translate="no" class="language-tsx"><code v-pre class="language-tsx">import { Page } from &quot;./Page.tsx&quot;;
 
@@ -543,7 +518,7 @@ runtime.registerPublicRoute({
             </svg>
         </div>
         <div class="pr-5 ml-3 w-full">
-<p>When no <code v-pre>$visibility</code> indicator is provided, a route is considered <code v-pre>protected</code>.</p>
+<p>When no <code translate="no" v-pre>$visibility</code> indicator is provided, a route is considered <code translate="no" v-pre>protected</code>.</p>
         </div>
     </div>
 </div>
@@ -553,9 +528,9 @@ runtime.registerPublicRoute({
         <span>Register a route with an id</span>
     </h3>
 </doc-anchor-target>
-<p>The <code v-pre>registerRoute</code> function accepts a <code v-pre>parentId</code> option, allowing a route to be <doc-anchor-trigger to="#register-nested-routes">nested under an existing parent route</doc-anchor-trigger>. When searching for the parent route matching the <code v-pre>parentId</code> option, the <code v-pre>parentId</code> will be matched against the <code v-pre>$id</code> option of every route.</p>
+<p>The <code translate="no" v-pre>registerRoute</code> function accepts a <code translate="no" v-pre>parentId</code> option, allowing a route to be <doc-anchor-trigger to="#register-nested-routes">nested under an existing parent route</doc-anchor-trigger>. When searching for the parent route matching the <code translate="no" v-pre>parentId</code> option, the <code translate="no" v-pre>parentId</code> will be matched against the <code translate="no" v-pre>$id</code> option of every route.</p>
 <blockquote>
-<p>A <code v-pre>$id</code> option should only be defined for routes that doesn&#x27;t have a path like an error boundary or an authentication boundary.</p>
+<p>A <code translate="no" v-pre>$id</code> option should only be defined for routes that doesn&#x27;t have a path like an error boundary or an authentication boundary.</p>
 </blockquote>
 <div class="codeblock-wrapper"><doc-codeblock>
 <pre translate="no" class="language-tsx" data-line="4"><code v-pre class="language-tsx">import { RootErrorBoundary } from &quot;./RootErrorBoundary.tsx&quot;;
@@ -572,8 +547,8 @@ runtime.registerRoute({
     </h3>
 </doc-anchor-target>
 <p>React router <a href="https://reactrouter.com/en/main/start/tutorial#nested-routes" class="outbound" target="_blank">nested routes</a> enable applications to render nested layouts at various points within the router tree. This is quite helpful for modular applications as it enables composable and decoupled UI.</p>
-<p>To fully harness the power of nested routes, the <code v-pre>registerRoute</code> function allows a route to be registered <strong>under any</strong> previously <strong>registered route</strong>, even if that route was registered by another module. The only requirement is that the <strong>parent route</strong> must have been registered with the <code v-pre>registerRoute</code> function.</p>
-<p>When registering a new route with the <code v-pre>registerRoute</code> function, to render the route under a parent route, specify a <code v-pre>parentPath</code> option that matches the parent route&#x27;s <code v-pre>path</code> option:</p>
+<p>To fully harness the power of nested routes, the <code translate="no" v-pre>registerRoute</code> function allows a route to be registered <strong>under any</strong> previously <strong>registered route</strong>, even if that route was registered by another module. The only requirement is that the <strong>parent route</strong> must have been registered with the <code translate="no" v-pre>registerRoute</code> function.</p>
+<p>When registering a new route with the <code translate="no" v-pre>registerRoute</code> function, to render the route under a parent route, specify a <code translate="no" v-pre>parentPath</code> option that matches the parent route&#x27;s <code translate="no" v-pre>path</code> option:</p>
 <div class="codeblock-wrapper"><doc-codeblock>
 <pre translate="no" class="language-tsx" data-line="7"><code v-pre class="language-tsx">import { Page } from &quot;./Page.tsx&quot;;
 
@@ -584,7 +559,7 @@ runtime.registerRoute({
     parentPath: &quot;/layout&quot; // Register the route under an existing route having &quot;/layout&quot; as its &quot;path&quot;.
 });</code></pre>
 </doc-codeblock></div>
-<p>Or a <code v-pre>parentId</code> option that matches the parent route&#x27;s <code v-pre>$id</code> option:</p>
+<p>Or a <code translate="no" v-pre>parentId</code> option that matches the parent route&#x27;s <code translate="no" v-pre>$id</code> option:</p>
 <div class="codeblock-wrapper"><doc-codeblock>
 <pre translate="no" class="language-tsx" data-line="7"><code v-pre class="language-tsx">import { Page } from &quot;./Page.tsx&quot;;
 
@@ -620,7 +595,7 @@ runtime.registerRoute({
             </svg>
         </div>
         <div class="pr-5 ml-3 w-full">
-<p>Likewise any other React Router routes, the <code v-pre>path</code> option of a route rendered under an existing parent route must be an absolute path. For example, if a parent route <code v-pre>path</code> is <code v-pre>/layout</code>, the <code v-pre>path</code> option of a route rendered under that parent route and responding to the <code v-pre>/page-1</code> url, should be <code v-pre>/layout/page-1</code>.</p>
+<p>Likewise any other React Router routes, the <code translate="no" v-pre>path</code> option of a route rendered under an existing parent route must be an absolute path. For example, if a parent route <code translate="no" v-pre>path</code> is <code translate="no" v-pre>/layout</code>, the <code translate="no" v-pre>path</code> option of a route rendered under that parent route and responding to the <code translate="no" v-pre>/page-1</code> url, should be <code translate="no" v-pre>/layout/page-1</code>.</p>
         </div>
     </div>
 </div>
@@ -630,7 +605,7 @@ runtime.registerRoute({
         <span>Retrieve routes</span>
     </h3>
 </doc-anchor-target>
-<p>The registered routes are accessible from a <code v-pre>FireflyRuntime</code> instance, but keep in mind that the preferred way to retrieve the routes is with the <a href="../useroutes/">useRoutes</a> hook.</p>
+<p>The registered routes are accessible from a <code translate="no" v-pre>FireflyRuntime</code> instance, but keep in mind that the preferred way to retrieve the routes is with the <a href="../useroutes/">useRoutes</a> hook.</p>
 <div class="codeblock-wrapper"><doc-codeblock>
 <pre translate="no" class="language-tsx"><code v-pre class="language-tsx">const routes = runtime.routes;</code></pre>
 </doc-codeblock></div>
@@ -644,42 +619,42 @@ runtime.registerRoute({
 <pre translate="no" class="language-typescript"><code v-pre class="language-typescript">runtime.registerNavigationItem(item, options?: { menuId?, sectionId? })</code></pre>
 </doc-codeblock></div>
 <ul>
-<li><code v-pre>item</code>: <code v-pre>NavigationSection | NavigationLink</code>.</li>
-<li><code v-pre>options</code>: An optional object literal of options:
+<li><code translate="no" v-pre>item</code>: <code translate="no" v-pre>NavigationSection | NavigationLink</code>.</li>
+<li><code translate="no" v-pre>options</code>: An optional object literal of options:
 <ul>
-<li><code v-pre>menuId</code>: An optional menu id to associate the item with.</li>
-<li><code v-pre>sectionId</code>: An optional section id of a parent navigation section to register this new item under.</li>
+<li><code translate="no" v-pre>menuId</code>: An optional menu id to associate the item with.</li>
+<li><code translate="no" v-pre>sectionId</code>: An optional section id of a parent navigation section to register this new item under.</li>
 </ul>
 </li>
 </ul>
-<p>A Squide navigation item can either be a <code v-pre>NavigationLink</code> or a <code v-pre>NavigationSection</code>. Both types can be intertwined to create a multi-level menu hierarchy. A <code v-pre>NavigationSection</code> item is used to setup a new level while a <code v-pre>NavigationLink</code> define a link.</p>
+<p>A Squide navigation item can either be a <code translate="no" v-pre>NavigationLink</code> or a <code translate="no" v-pre>NavigationSection</code>. Both types can be intertwined to create a multi-level menu hierarchy. A <code translate="no" v-pre>NavigationSection</code> item is used to setup a new level while a <code translate="no" v-pre>NavigationLink</code> define a link.</p>
 <doc-anchor-target id="navigationlink">
     <h4>
         <doc-anchor-trigger class="header-anchor-trigger" to="#navigationlink">#</doc-anchor-trigger>
-        <span><code v-pre>NavigationLink</code></span>
+        <span><code translate="no" v-pre>NavigationLink</code></span>
     </h4>
 </doc-anchor-target>
 <p>Accept any properties of a React Router <a href="https://reactrouter.com/en/main/components/link" class="outbound" target="_blank">Link</a> component with the addition of:</p>
 <ul>
-<li><code v-pre>$id</code>: An optional identifier for the link. Usually used as the React element <a href="https://legacy.reactjs.org/docs/lists-and-keys.html#keys" class="outbound" target="_blank">key</a> property.</li>
-<li><code v-pre>$label</code>: The link text.</li>
-<li><code v-pre>$canRender</code>: An optional function accepting an object and returning a <code v-pre>boolean</code> indicating whether or not the link should be rendered.</li>
-<li><code v-pre>$priority</code>: An order priority affecting the position of the item in the menu (higher first)</li>
-<li><code v-pre>$additionalProps</code>: Additional properties to be forwarded to the link renderer.</li>
+<li><code translate="no" v-pre>$id</code>: An optional identifier for the link. Usually used as the React element <a href="https://legacy.reactjs.org/docs/lists-and-keys.html#keys" class="outbound" target="_blank">key</a> property.</li>
+<li><code translate="no" v-pre>$label</code>: The link text.</li>
+<li><code translate="no" v-pre>$canRender</code>: An optional function accepting an object and returning a <code translate="no" v-pre>boolean</code> indicating whether or not the link should be rendered.</li>
+<li><code translate="no" v-pre>$priority</code>: An order priority affecting the position of the item in the menu (higher first)</li>
+<li><code translate="no" v-pre>$additionalProps</code>: Additional properties to be forwarded to the link renderer.</li>
 </ul>
 <doc-anchor-target id="navigationsection">
     <h4>
         <doc-anchor-trigger class="header-anchor-trigger" to="#navigationsection">#</doc-anchor-trigger>
-        <span><code v-pre>NavigationSection</code></span>
+        <span><code translate="no" v-pre>NavigationSection</code></span>
     </h4>
 </doc-anchor-target>
 <ul>
-<li><code v-pre>$id</code>: An optional identifier for the section. Usually used to nest navigation items under a specific section and as the React element <a href="https://legacy.reactjs.org/docs/lists-and-keys.html#keys" class="outbound" target="_blank">key</a> property.</li>
-<li><code v-pre>$label</code>: The section text.</li>
-<li><code v-pre>$canRender</code>: An optional function accepting an object and returning a <code v-pre>boolean</code> indicating whether or not the section should be rendered.</li>
-<li><code v-pre>$priority</code>: An order priority affecting the position of the item in the menu (higher first)</li>
-<li><code v-pre>$additionalProps</code>: Additional properties to be forwarded to the section renderer.</li>
-<li><code v-pre>children</code>: The section content.</li>
+<li><code translate="no" v-pre>$id</code>: An optional identifier for the section. Usually used to nest navigation items under a specific section and as the React element <a href="https://legacy.reactjs.org/docs/lists-and-keys.html#keys" class="outbound" target="_blank">key</a> property.</li>
+<li><code translate="no" v-pre>$label</code>: The section text.</li>
+<li><code translate="no" v-pre>$canRender</code>: An optional function accepting an object and returning a <code translate="no" v-pre>boolean</code> indicating whether or not the section should be rendered.</li>
+<li><code translate="no" v-pre>$priority</code>: An order priority affecting the position of the item in the menu (higher first)</li>
+<li><code translate="no" v-pre>$additionalProps</code>: Additional properties to be forwarded to the section renderer.</li>
+<li><code translate="no" v-pre>children</code>: The section content.</li>
 </ul>
 <div class="flex mb-6">
     <div class="shrink-0 w-1.5 rounded-tl-lg rounded-bl-lg bg-callout-tip"></div>
@@ -692,7 +667,7 @@ runtime.registerRoute({
             </svg>
         </div>
         <div class="pr-5 ml-3 w-full">
-<p>We recommend always providing an <code v-pre>$id</code> option for a navigation item, as it ensures the menus doesn&#x27;t flicker when <a href="../../registration/registerlocalmodules/#defer-the-registration-of-navigation-items">deferred registrations</a> are updated. Be sure to use a unique identifier.</p>
+<p>We recommend always providing an <code translate="no" v-pre>$id</code> option for a navigation item, as it ensures the menus doesn&#x27;t flicker when <a href="../../registration/registerlocalmodules/#defer-the-registration-of-navigation-items">deferred registrations</a> are updated. Be sure to use a unique identifier.</p>
         </div>
     </div>
 </div>
@@ -724,7 +699,7 @@ runtime.registerNavigationItem({
         <span>Register a navigation item with an id</span>
     </h3>
 </doc-anchor-target>
-<p>The <code v-pre>registerNavigationItem</code> function accepts a <code v-pre>sectionId</code> option, allowing a navigation item to be nested under an existing navigation section. When searching the parent navigation section matching the <code v-pre>sectionId</code> option, the <code v-pre>sectionId</code> will be match against the <code v-pre>$id</code> option of every navigation item.</p>
+<p>The <code translate="no" v-pre>registerNavigationItem</code> function accepts a <code translate="no" v-pre>sectionId</code> option, allowing a navigation item to be nested under an existing navigation section. When searching the parent navigation section matching the <code translate="no" v-pre>sectionId</code> option, the <code translate="no" v-pre>sectionId</code> will be match against the <code translate="no" v-pre>$id</code> option of every navigation item.</p>
 <div class="codeblock-wrapper"><doc-codeblock>
 <pre translate="no" class="language-typescript"><code v-pre class="language-typescript">runtime.registerNavigationItem({
     $id: &quot;page-1&quot;,
@@ -732,14 +707,14 @@ runtime.registerNavigationItem({
     to: &quot;/page-1&quot;
 });</code></pre>
 </doc-codeblock></div>
-<p>Additionally, when combined with the <a href="">useRenderedNavigationItems</a> function, the <code v-pre>$id</code> option will be used as the React element <code v-pre>key</code> property.</p>
+<p>Additionally, when combined with the <a href="">useRenderedNavigationItems</a> function, the <code translate="no" v-pre>$id</code> option will be used as the React element <code translate="no" v-pre>key</code> property.</p>
 <doc-anchor-target id="register-nested-navigation-items">
     <h3>
         <doc-anchor-trigger class="header-anchor-trigger" to="#register-nested-navigation-items">#</doc-anchor-trigger>
         <span>Register nested navigation items</span>
     </h3>
 </doc-anchor-target>
-<p>Similarly to <doc-anchor-trigger to="#register-nested-navigation-items">nested routes</doc-anchor-trigger>, a navigation item can be nested under an existing section be specifying a <code v-pre>sectionId</code> option that matches the section&#x27;s <code v-pre>$id</code> option:</p>
+<p>Similarly to <doc-anchor-trigger to="#register-nested-navigation-items">nested routes</doc-anchor-trigger>, a navigation item can be nested under an existing section be specifying a <code translate="no" v-pre>sectionId</code> option that matches the section&#x27;s <code translate="no" v-pre>$id</code> option:</p>
 <div class="codeblock-wrapper"><doc-codeblock>
 <pre translate="no" class="language-typescript" data-line="7"><code v-pre class="language-typescript">runtime.registerNavigationItem({
     $id: &quot;link&quot;,
@@ -787,7 +762,7 @@ runtime.registerNavigationItem({
         <span>Register navigation items for a specific menu</span>
     </h3>
 </doc-anchor-target>
-<p>By default, every navigation item registered with the <code v-pre>registerNavigationItem</code> function is registered as part of the <code v-pre>root</code> navigation menu. To register a navigation item for a different navigation menu, specify a <code v-pre>menuId</code> option when registering the items.</p>
+<p>By default, every navigation item registered with the <code translate="no" v-pre>registerNavigationItem</code> function is registered as part of the <code translate="no" v-pre>root</code> navigation menu. To register a navigation item for a different navigation menu, specify a <code translate="no" v-pre>menuId</code> option when registering the items.</p>
 <div class="codeblock-wrapper"><doc-codeblock>
 <pre translate="no" class="language-tsx" data-line="6"><code v-pre class="language-tsx">runtime.registerNavigationItem({
     $id: &quot;page-1&quot;,
@@ -803,12 +778,12 @@ runtime.registerNavigationItem({
         <span>Sort navigation items</span>
     </h3>
 </doc-anchor-target>
-<p>A <code v-pre>$priority</code> option can be added to a navigation item to affect it&#x27;s position in the menu. The sorting algorithm is as follow:</p>
+<p>A <code translate="no" v-pre>$priority</code> option can be added to a navigation item to affect it&#x27;s position in the menu. The sorting algorithm is as follow:</p>
 <ul>
-<li>By default a navigation item have a priority of <code v-pre>0</code>.</li>
+<li>By default a navigation item have a priority of <code translate="no" v-pre>0</code>.</li>
 <li>If no navigation item have a priority, the items are positioned according to their registration order.</li>
-<li>If an item have a priority <code v-pre>&gt; 0</code>, the item will be positioned before any other items with a lower priority (or without an explicit priority value).</li>
-<li>If an item have a priority <code v-pre>&lt; 0</code>, the item will be positioned after any other items with a higher priority (or without an explicit priority value).</li>
+<li>If an item have a priority <code translate="no" v-pre>&gt; 0</code>, the item will be positioned before any other items with a lower priority (or without an explicit priority value).</li>
+<li>If an item have a priority <code translate="no" v-pre>&lt; 0</code>, the item will be positioned after any other items with a higher priority (or without an explicit priority value).</li>
 </ul>
 <div class="codeblock-wrapper"><doc-codeblock>
 <pre translate="no" class="language-typescript" data-line="4,13"><code v-pre class="language-typescript">runtime.registerNavigationItem({
@@ -919,7 +894,7 @@ runtime.registerNavigationItem({
 });</code></pre>
 </doc-codeblock></div>
 <blockquote>
-<p>It&#x27;s the responsibility of the code rendering the menu to execute the navigation items <code v-pre>$canRender</code> function and conditionally render the items based on the return value.</p>
+<p>It&#x27;s the responsibility of the code rendering the menu to execute the navigation items <code translate="no" v-pre>$canRender</code> function and conditionally render the items based on the return value.</p>
 </blockquote>
 <doc-anchor-target id="render-additional-props-on-a-navigation-item">
     <h3>
@@ -946,12 +921,12 @@ runtime.registerNavigationItem({
         <span>Retrieve navigation items</span>
     </h3>
 </doc-anchor-target>
-<p>The registered navigation items are accessible from a <code v-pre>FireflyRuntime</code> instance, but keep in mind that the preferred way to retrieve the navigation items is with the <a href="../usenavigationitems/">useNavigationItems</a> hook.</p>
-<p>By default, the <code v-pre>getNavigationItems</code> will return the navigation items for the <code v-pre>root</code> menu:</p>
+<p>The registered navigation items are accessible from a <code translate="no" v-pre>FireflyRuntime</code> instance, but keep in mind that the preferred way to retrieve the navigation items is with the <a href="../usenavigationitems/">useNavigationItems</a> hook.</p>
+<p>By default, the <code translate="no" v-pre>getNavigationItems</code> will return the navigation items for the <code translate="no" v-pre>root</code> menu:</p>
 <div class="codeblock-wrapper"><doc-codeblock>
 <pre translate="no" class="language-tsx"><code v-pre class="language-tsx">const navigationItems = runtime.getNavigationItems();</code></pre>
 </doc-codeblock></div>
-<p>To retrieve the navigation items for a <strong>specific</strong> navigation menu, provide a <code v-pre>menuId</code>:</p>
+<p>To retrieve the navigation items for a <strong>specific</strong> navigation menu, provide a <code translate="no" v-pre>menuId</code>:</p>
 <div class="codeblock-wrapper"><doc-codeblock>
 <pre translate="no" class="language-tsx"><code v-pre class="language-tsx">const navigationItems = runtime.getNavigationItems(&quot;my-custom-layout&quot;);</code></pre>
 </doc-codeblock></div>
@@ -1032,7 +1007,7 @@ runtime.eventBus.dispatch(&quot;write-to-host&quot;, &quot;Hello host!&quot;);</
         <span>Register a plugin</span>
     </h3>
 </doc-anchor-target>
-<p>The plugin factory function receives the <code v-pre>Runtime</code> instance as parameter.</p>
+<p>The plugin factory function receives the <code translate="no" v-pre>Runtime</code> instance as parameter.</p>
 <div class="codeblock-wrapper"><doc-codeblock>
 <pre translate="no" class="language-typescript" data-line="5"><code v-pre class="language-typescript">import { FireflyRuntime } from &quot;@squide/firefly&quot;;
 import { MyPlugin } from &quot;@sample/my-plugin&quot;;

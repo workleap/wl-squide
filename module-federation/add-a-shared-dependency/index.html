@@ -4,10 +4,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <meta name="turbo-root" content="/wl-squide">
-    <meta name="turbo-cache-control" content="no-cache" data-turbo-track="reload" data-track-token="3.11.0-preview6.804660603146">
+    <meta name="turbo-cache-control" content="no-cache" data-turbo-track="reload" data-track-token="3.12.0-preview2.806006202581">
 
     <!-- See retype.com -->
-    <meta name="generator" content="Retype 3.11.0-preview6">
+    <meta name="generator" content="Retype 3.12.0-preview2">
 
     <!-- Primary Meta Tags -->
     <title>Add a shared dependency</title>
@@ -31,13 +31,13 @@
 
     <script data-cfasync="false">(function(){var cl=document.documentElement.classList,ls=localStorage.getItem("retype_scheme"),hd=cl.contains("dark"),hl=cl.contains("light"),wm=window.matchMedia&&window.matchMedia("(prefers-color-scheme: dark)").matches;if(ls==="dark"||(!ls&&wm&&!hd&&!hl)){cl.remove("light");cl.add("dark")}else if(ls==="light"||(!ls&&!wm&&!hd&&!hl)){cl.remove("dark");cl.add("light")}})();</script>
 
-    <link href="../../static/favicon.png" rel="icon">
-    <link href="../../resources/css/retype.css?v=3.11.0-preview6.804660603146" rel="stylesheet">
+    <link id="retype-favicon" rel="icon" href="../../static/favicon.png" />
+    <link href="../../resources/css/retype.css?v=3.12.0-preview2.806006202581" rel="stylesheet">
 
-    <script data-cfasync="false" src="../../resources/js/config.js?v=3.11.0-preview6.804660603146" data-turbo-eval="false" defer></script>
-    <script data-cfasync="false" src="../../resources/js/retype.js?v=3.11.0-preview6" data-turbo-eval="false" defer></script>
-    <script id="lunr-js" data-cfasync="false" src="../../resources/js/lunr.js?v=3.11.0-preview6.804660603146" data-turbo-eval="false" defer></script>
-    <script id="prism-js" data-cfasync="false" src="../../resources/js/prism.js?v=3.11.0-preview6.804660603146" defer></script>
+    <script data-cfasync="false" src="../../resources/js/config.js?v=3.12.0-preview2.806006202581" data-turbo-eval="false" defer></script>
+    <script data-cfasync="false" src="../../resources/js/retype.js?v=3.12.0-preview2" data-turbo-eval="false" defer></script>
+    <script id="lunr-js" data-cfasync="false" src="../../resources/js/lunr.js?v=3.12.0-preview2.806006202581" data-turbo-eval="false" defer></script>
+    <script id="prism-js" data-cfasync="false" src="../../resources/js/prism.js?v=3.12.0-preview2.806006202581" defer></script>
 
     <link href="https://workleap.github.io/wl-idp-docs-hub/static/retype-customization.css" rel="stylesheet" />
 
@@ -139,31 +139,6 @@
         
                         </ul>
                     </nav>
-        
-                    <!-- Header Right Skeleton -->
-                    <div v-cloak class="flex justify-end grow skeleton">
-        
-                        <!-- Search input mock -->
-                        <div class="relative hidden w-40 lg:block lg:max-w-sm lg:ml-auto">
-                            <div class="absolute flex items-center justify-center h-full pl-3 dark:text-dark-300">
-                                <svg xmlns="http://www.w3.org/2000/svg" class="icon-base" width="16" height="16" viewBox="0 0 24 24" aria-labelledby="icon" role="presentation" style="margin-bottom: 1px;"><g fill="currentColor" ><path d="M21.71 20.29l-3.68-3.68A8.963 8.963 0 0020 11c0-4.96-4.04-9-9-9s-9 4.04-9 9 4.04 9 9 9c2.12 0 4.07-.74 5.61-1.97l3.68 3.68c.2.19.45.29.71.29s.51-.1.71-.29c.39-.39.39-1.03 0-1.42zM4 11c0-3.86 3.14-7 7-7s7 3.14 7 7c0 1.92-.78 3.66-2.04 4.93-.01.01-.02.01-.02.01-.01.01-.01.01-.01.02A6.98 6.98 0 0111 18c-3.86 0-7-3.14-7-7z" ></path></g></svg>
-                            </div>
-                            <input class="w-full h-10 placeholder-search-placeholder transition-colors duration-200 ease-in bg-search-bg border border-transparent rounded md:text-sm hover:border-search-border-hover focus:outline-none focus:border-search-border-focus" style="padding: 0.625rem 0.75rem 0.625rem 2rem" type="text" placeholder="Search">
-                        </div>
-        
-                        <!-- Mobile search button -->
-                        <div class="flex items-center justify-center w-10 h-10 lg:hidden">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="shrink-0 icon-base" width="20" height="20" viewBox="0 0 24 24" aria-labelledby="icon" role="presentation" style="margin-bottom: 0px;"><g fill="currentColor" ><path d="M21.71 20.29l-3.68-3.68A8.963 8.963 0 0020 11c0-4.96-4.04-9-9-9s-9 4.04-9 9 4.04 9 9 9c2.12 0 4.07-.74 5.61-1.97l3.68 3.68c.2.19.45.29.71.29s.51-.1.71-.29c.39-.39.39-1.03 0-1.42zM4 11c0-3.86 3.14-7 7-7s7 3.14 7 7c0 1.92-.78 3.66-2.04 4.93-.01.01-.02.01-.02.01-.01.01-.01.01-.01.02A6.98 6.98 0 0111 18c-3.86 0-7-3.14-7-7z" ></path></g></svg>
-                        </div>
-        
-                        <!-- Dark mode switch placeholder -->
-                        <div class="w-10 h-10 lg:ml-2"></div>
-        
-                        <!-- History button -->
-                        <div class="flex items-center justify-center w-10 h-10" style="margin-right: -0.625rem;">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="shrink-0 icon-base" width="22" height="22" viewBox="0 0 24 24" aria-labelledby="icon" role="presentation" style="margin-bottom: 0px;"><g fill="currentColor" ><g ><path d="M12.01 6.01c-.55 0-1 .45-1 1V12a1 1 0 00.4.8l3 2.22a.985.985 0 001.39-.2.996.996 0 00-.21-1.4l-2.6-1.92V7.01c.02-.55-.43-1-.98-1z"></path><path d="M12.01 1.91c-5.33 0-9.69 4.16-10.05 9.4l-.29-.26a.997.997 0 10-1.34 1.48l1.97 1.79c.19.17.43.26.67.26s.48-.09.67-.26l1.97-1.79a.997.997 0 10-1.34-1.48l-.31.28c.34-4.14 3.82-7.41 8.05-7.41 4.46 0 8.08 3.63 8.08 8.09s-3.63 8.08-8.08 8.08c-2.18 0-4.22-.85-5.75-2.4a.996.996 0 10-1.42 1.4 10.02 10.02 0 007.17 2.99c5.56 0 10.08-4.52 10.08-10.08.01-5.56-4.52-10.09-10.08-10.09z"></path></g></g></svg>
-                        </div>
-                    </div>
         
                     <div v-cloak class="flex justify-end grow">
                         <div id="retype-mobile-search-button"></div>
@@ -318,7 +293,7 @@
         <span>Strict versioning</span>
     </h3>
 </doc-anchor-target>
-<p>Sometimes, a <code v-pre>singleton</code> shared dependency is paired with the <a href="https://webpack.js.org/plugins/module-federation-plugin/#strictversion" class="outbound" target="_blank">strictVersion</a> option:</p>
+<p>Sometimes, a <code translate="no" v-pre>singleton</code> shared dependency is paired with the <a href="https://webpack.js.org/plugins/module-federation-plugin/#strictversion" class="outbound" target="_blank">strictVersion</a> option:</p>
 <div class="codeblock-wrapper"><doc-codeblock>
 <div class="codeblock-title">webpack.config.js</div>
 <pre translate="no" class="language-javascript" data-line="10"><code v-pre class="language-javascript">// @ts-check
@@ -335,7 +310,7 @@ export default defineDevHostConfig(swcConfig, 8080, [], {
     }
 });</code></pre>
 </doc-codeblock></div>
-<p>When specified, the <code v-pre>strictVersion</code> option will generate a <strong>runtime error</strong> if a module attempts to load a <strong>version</strong> of the dependency that is <strong>incompatible</strong> with the specified version. It&#x27;s <strong>often unnecessary</strong> to use a strict version, and omitting it provides greater flexibility when it comes time to update the shared dependency version.</p>
+<p>When specified, the <code translate="no" v-pre>strictVersion</code> option will generate a <strong>runtime error</strong> if a module attempts to load a <strong>version</strong> of the dependency that is <strong>incompatible</strong> with the specified version. It&#x27;s <strong>often unnecessary</strong> to use a strict version, and omitting it provides greater flexibility when it comes time to update the shared dependency version.</p>
 <doc-anchor-target id="expected-behaviors">
     <h3>
         <doc-anchor-trigger class="header-anchor-trigger" to="#expected-behaviors">#</doc-anchor-trigger>
@@ -366,8 +341,8 @@ export default defineDevHostConfig(swcConfig, 8080, [], {
 </doc-anchor-target>
 <p>When the version difference between a host application and a remote module is a <strong>minor</strong> or <strong>patch</strong> version, the higher version of the dependency will be loaded. For example:</p>
 <ul>
-<li>If the host application is on <code v-pre>10.1.0</code> and a remote module is on <code v-pre>10.1.1</code> -&gt; <code v-pre>10.1.1</code> will be loaded</li>
-<li>If the host application is on <code v-pre>10.1.0</code> and a remote module is on <code v-pre>10.2.0</code> -&gt; <code v-pre>10.2.0</code> will be loaded</li>
+<li>If the host application is on <code translate="no" v-pre>10.1.0</code> and a remote module is on <code translate="no" v-pre>10.1.1</code> -&gt; <code translate="no" v-pre>10.1.1</code> will be loaded</li>
+<li>If the host application is on <code translate="no" v-pre>10.1.0</code> and a remote module is on <code translate="no" v-pre>10.2.0</code> -&gt; <code translate="no" v-pre>10.2.0</code> will be loaded</li>
 </ul>
 <doc-anchor-target id="major-version">
     <h4>
@@ -377,8 +352,8 @@ export default defineDevHostConfig(swcConfig, 8080, [], {
 </doc-anchor-target>
 <p>If the version difference between a host application and a remote module is a <strong>major</strong> version, once again, the higher version of the dependency will be loaded only if it&#x27;s requested by the host application. For example:</p>
 <ul>
-<li>If the host application is on <code v-pre>11.0.0</code> and a remote module is on <code v-pre>10.0.0</code> -&gt; <code v-pre>11.0.0</code> will be loaded</li>
-<li>If the host application is on <code v-pre>10.0.0</code> and a remote module is on <code v-pre>11.0.0</code> -&gt; <code v-pre>10.0.0</code> will be loaded</li>
+<li>If the host application is on <code translate="no" v-pre>11.0.0</code> and a remote module is on <code translate="no" v-pre>10.0.0</code> -&gt; <code translate="no" v-pre>11.0.0</code> will be loaded</li>
+<li>If the host application is on <code translate="no" v-pre>10.0.0</code> and a remote module is on <code translate="no" v-pre>11.0.0</code> -&gt; <code translate="no" v-pre>10.0.0</code> will be loaded</li>
 </ul>
 <doc-anchor-target id="additional-examples">
     <h4>
@@ -398,7 +373,7 @@ export default defineDevHostConfig(swcConfig, 8080, [], {
 remote-1:    2.1   &lt;-----
 remote-2:    2.0</code></pre>
 </doc-codeblock></div>
-<p>The version requested by <code v-pre>remote-1</code> is selected because it only represents a <strong>minor</strong> difference from the version requested by the <code v-pre>host</code> application.</p>
+<p>The version requested by <code translate="no" v-pre>remote-1</code> is selected because it only represents a <strong>minor</strong> difference from the version requested by the <code translate="no" v-pre>host</code> application.</p>
 <doc-anchor-target id="example-2">
     <h5>
         <doc-anchor-trigger class="header-anchor-trigger" to="#example-2">#</doc-anchor-trigger>
@@ -410,7 +385,7 @@ remote-2:    2.0</code></pre>
 remote-1:    3.1
 remote-2:    2.0</code></pre>
 </doc-codeblock></div>
-<p>The version requested by the <code v-pre>host</code> application is selected because <code v-pre>remote-1</code> is requesting a version with a <strong>major</strong> difference from the one requested by the <code v-pre>host</code> application.</p>
+<p>The version requested by the <code translate="no" v-pre>host</code> application is selected because <code translate="no" v-pre>remote-1</code> is requesting a version with a <strong>major</strong> difference from the one requested by the <code translate="no" v-pre>host</code> application.</p>
 <doc-anchor-target id="example-3">
     <h5>
         <doc-anchor-trigger class="header-anchor-trigger" to="#example-3">#</doc-anchor-trigger>
@@ -422,7 +397,7 @@ remote-2:    2.0</code></pre>
 remote-1:    3.1
 remote-2:    2.1   &lt;-----</code></pre>
 </doc-codeblock></div>
-<p>The version requested by <code v-pre>remote-2</code> is selected because <code v-pre>remote-1</code> is requesting a version with a <strong>major</strong> difference from the one requested by the <code v-pre>host</code> application. Therefore, <code v-pre>remote-2</code> requests the next highest version, which represents only a <strong>minor</strong> difference from the version requested by the <code v-pre>host</code> application.</p>
+<p>The version requested by <code translate="no" v-pre>remote-2</code> is selected because <code translate="no" v-pre>remote-1</code> is requesting a version with a <strong>major</strong> difference from the one requested by the <code translate="no" v-pre>host</code> application. Therefore, <code translate="no" v-pre>remote-2</code> requests the next highest version, which represents only a <strong>minor</strong> difference from the version requested by the <code translate="no" v-pre>host</code> application.</p>
 <doc-anchor-target id="what-should-be-configured-as-a-shared-dependency">
     <h3>
         <doc-anchor-trigger class="header-anchor-trigger" to="#what-should-be-configured-as-a-shared-dependency">#</doc-anchor-trigger>
@@ -432,7 +407,7 @@ remote-2:    2.1   &lt;-----</code></pre>
 <p>Libraries matching the following criterias are strong candidates to be configured as shared dependencies:</p>
 <ul>
 <li>Medium to large libraries that are used by multiple modules.</li>
-<li>Libraries that requires a <doc-anchor-trigger to="#react-dependencies-requirements">single instance</doc-anchor-trigger> to work properly (like <code v-pre>react</code>).</li>
+<li>Libraries that requires a <doc-anchor-trigger to="#react-dependencies-requirements">single instance</doc-anchor-trigger> to work properly (like <code translate="no" v-pre>react</code>).</li>
 <li>Libraries exporting <doc-anchor-trigger to="#react-context-limitations">React contexts</doc-anchor-trigger>.</li>
 </ul>
 <doc-anchor-target id="understanding-eager-dependencies">
@@ -458,7 +433,7 @@ export default defineDevHostConfig(swcConfig, 8080, [], {
     }
 });</code></pre>
 </doc-codeblock></div>
-<p>The key point to remember about <code v-pre>eager</code> dependencies is that <strong>only one application or remote module should configure a shared dependency as eager</strong>. Otherwise, the dependency will be included in the bundle of the host application and of every remote module that set the dependency as <code v-pre>eager</code>.</p>
+<p>The key point to remember about <code translate="no" v-pre>eager</code> dependencies is that <strong>only one application or remote module should configure a shared dependency as eager</strong>. Otherwise, the dependency will be included in the bundle of the host application and of every remote module that set the dependency as <code translate="no" v-pre>eager</code>.</p>
 <doc-anchor-target id="what-should-be-configured-as-an-eager-dependency">
     <h3>
         <doc-anchor-trigger class="header-anchor-trigger" to="#what-should-be-configured-as-an-eager-dependency">#</doc-anchor-trigger>
@@ -492,7 +467,7 @@ export default defineDevHostConfig(swcConfig, 8080, [], {
         <span>Add custom shared dependencies</span>
     </h2>
 </doc-anchor-target>
-<p>To configure shared dependencies, use the <code v-pre>sharedDependencies</code> option of any <a href="../../reference/#webpack">define*</a> function:</p>
+<p>To configure shared dependencies, use the <code translate="no" v-pre>sharedDependencies</code> option of any <a href="../../reference/#webpack">define*</a> function:</p>
 <div class="codeblock-wrapper"><doc-codeblock>
 <div class="codeblock-title">host/webpack.dev.js</div>
 <pre translate="no" class="language-javascript" data-line="7-11"><code v-pre class="language-javascript">// @ts-check
@@ -530,7 +505,7 @@ export default defineDevRemoteModuleConfig(swcConfig, &quot;remote1&quot;, 8081,
         <span>React context limitations</span>
     </h2>
 </doc-anchor-target>
-<p>For a React context to be provided by the host application and consumed by the remote modules, the library exporting the React context must be set as a <code v-pre>singleton</code>.</p>
+<p>For a React context to be provided by the host application and consumed by the remote modules, the library exporting the React context must be set as a <code translate="no" v-pre>singleton</code>.</p>
 <p>To troubleshoot a React context issue or find more information about the limitations, refer to the <a href="../../troubleshooting/#react-context-values-are-undefined">troubleshooting</a> page.</p>
 <doc-anchor-target id="react-dependencies-requirements">
     <h2>
@@ -538,8 +513,8 @@ export default defineDevRemoteModuleConfig(swcConfig, &quot;remote1&quot;, 8081,
         <span>React dependencies requirements</span>
     </h2>
 </doc-anchor-target>
-<p><code v-pre>react</code> and <code v-pre>react-dom</code> dependencies must be configured as a <code v-pre>singleton</code>, otherwise either an error will be thrown at bootstrapping if the loaded <code v-pre>react</code> versions are incompatible, or features like <code v-pre>useState</code> will not work.</p>
-<p>The <code v-pre>react-router</code> dependency must as well be configured as a <code v-pre>singleton</code> because it relies on a global React context that needs to be declared in the host application and is consumed by remote modules.</p>
+<p><code translate="no" v-pre>react</code> and <code translate="no" v-pre>react-dom</code> dependencies must be configured as a <code translate="no" v-pre>singleton</code>, otherwise either an error will be thrown at bootstrapping if the loaded <code translate="no" v-pre>react</code> versions are incompatible, or features like <code translate="no" v-pre>useState</code> will not work.</p>
+<p>The <code translate="no" v-pre>react-router</code> dependency must as well be configured as a <code translate="no" v-pre>singleton</code> because it relies on a global React context that needs to be declared in the host application and is consumed by remote modules.</p>
 <doc-anchor-target id="learn-more">
     <h2>
         <doc-anchor-trigger class="header-anchor-trigger" to="#learn-more">#</doc-anchor-trigger>

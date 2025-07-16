@@ -4,10 +4,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <meta name="turbo-root" content="/wl-squide">
-    <meta name="turbo-cache-control" content="no-cache" data-turbo-track="reload" data-track-token="3.11.0-preview6.804660603146">
+    <meta name="turbo-cache-control" content="no-cache" data-turbo-track="reload" data-track-token="3.12.0-preview2.806006202581">
 
     <!-- See retype.com -->
-    <meta name="generator" content="Retype 3.11.0-preview6">
+    <meta name="generator" content="Retype 3.12.0-preview2">
 
     <!-- Primary Meta Tags -->
     <title>Override a React context</title>
@@ -31,13 +31,13 @@
 
     <script data-cfasync="false">(function(){var cl=document.documentElement.classList,ls=localStorage.getItem("retype_scheme"),hd=cl.contains("dark"),hl=cl.contains("light"),wm=window.matchMedia&&window.matchMedia("(prefers-color-scheme: dark)").matches;if(ls==="dark"||(!ls&&wm&&!hd&&!hl)){cl.remove("light");cl.add("dark")}else if(ls==="light"||(!ls&&!wm&&!hd&&!hl)){cl.remove("dark");cl.add("light")}})();</script>
 
-    <link href="../../static/favicon.png" rel="icon">
-    <link href="../../resources/css/retype.css?v=3.11.0-preview6.804660603146" rel="stylesheet">
+    <link id="retype-favicon" rel="icon" href="../../static/favicon.png" />
+    <link href="../../resources/css/retype.css?v=3.12.0-preview2.806006202581" rel="stylesheet">
 
-    <script data-cfasync="false" src="../../resources/js/config.js?v=3.11.0-preview6.804660603146" data-turbo-eval="false" defer></script>
-    <script data-cfasync="false" src="../../resources/js/retype.js?v=3.11.0-preview6" data-turbo-eval="false" defer></script>
-    <script id="lunr-js" data-cfasync="false" src="../../resources/js/lunr.js?v=3.11.0-preview6.804660603146" data-turbo-eval="false" defer></script>
-    <script id="prism-js" data-cfasync="false" src="../../resources/js/prism.js?v=3.11.0-preview6.804660603146" defer></script>
+    <script data-cfasync="false" src="../../resources/js/config.js?v=3.12.0-preview2.806006202581" data-turbo-eval="false" defer></script>
+    <script data-cfasync="false" src="../../resources/js/retype.js?v=3.12.0-preview2" data-turbo-eval="false" defer></script>
+    <script id="lunr-js" data-cfasync="false" src="../../resources/js/lunr.js?v=3.12.0-preview2.806006202581" data-turbo-eval="false" defer></script>
+    <script id="prism-js" data-cfasync="false" src="../../resources/js/prism.js?v=3.12.0-preview2.806006202581" defer></script>
 
     <link href="https://workleap.github.io/wl-idp-docs-hub/static/retype-customization.css" rel="stylesheet" />
 
@@ -139,31 +139,6 @@
         
                         </ul>
                     </nav>
-        
-                    <!-- Header Right Skeleton -->
-                    <div v-cloak class="flex justify-end grow skeleton">
-        
-                        <!-- Search input mock -->
-                        <div class="relative hidden w-40 lg:block lg:max-w-sm lg:ml-auto">
-                            <div class="absolute flex items-center justify-center h-full pl-3 dark:text-dark-300">
-                                <svg xmlns="http://www.w3.org/2000/svg" class="icon-base" width="16" height="16" viewBox="0 0 24 24" aria-labelledby="icon" role="presentation" style="margin-bottom: 1px;"><g fill="currentColor" ><path d="M21.71 20.29l-3.68-3.68A8.963 8.963 0 0020 11c0-4.96-4.04-9-9-9s-9 4.04-9 9 4.04 9 9 9c2.12 0 4.07-.74 5.61-1.97l3.68 3.68c.2.19.45.29.71.29s.51-.1.71-.29c.39-.39.39-1.03 0-1.42zM4 11c0-3.86 3.14-7 7-7s7 3.14 7 7c0 1.92-.78 3.66-2.04 4.93-.01.01-.02.01-.02.01-.01.01-.01.01-.01.02A6.98 6.98 0 0111 18c-3.86 0-7-3.14-7-7z" ></path></g></svg>
-                            </div>
-                            <input class="w-full h-10 placeholder-search-placeholder transition-colors duration-200 ease-in bg-search-bg border border-transparent rounded md:text-sm hover:border-search-border-hover focus:outline-none focus:border-search-border-focus" style="padding: 0.625rem 0.75rem 0.625rem 2rem" type="text" placeholder="Search">
-                        </div>
-        
-                        <!-- Mobile search button -->
-                        <div class="flex items-center justify-center w-10 h-10 lg:hidden">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="shrink-0 icon-base" width="20" height="20" viewBox="0 0 24 24" aria-labelledby="icon" role="presentation" style="margin-bottom: 0px;"><g fill="currentColor" ><path d="M21.71 20.29l-3.68-3.68A8.963 8.963 0 0020 11c0-4.96-4.04-9-9-9s-9 4.04-9 9 4.04 9 9 9c2.12 0 4.07-.74 5.61-1.97l3.68 3.68c.2.19.45.29.71.29s.51-.1.71-.29c.39-.39.39-1.03 0-1.42zM4 11c0-3.86 3.14-7 7-7s7 3.14 7 7c0 1.92-.78 3.66-2.04 4.93-.01.01-.02.01-.02.01-.01.01-.01.01-.01.02A6.98 6.98 0 0111 18c-3.86 0-7-3.14-7-7z" ></path></g></svg>
-                        </div>
-        
-                        <!-- Dark mode switch placeholder -->
-                        <div class="w-10 h-10 lg:ml-2"></div>
-        
-                        <!-- History button -->
-                        <div class="flex items-center justify-center w-10 h-10" style="margin-right: -0.625rem;">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="shrink-0 icon-base" width="22" height="22" viewBox="0 0 24 24" aria-labelledby="icon" role="presentation" style="margin-bottom: 0px;"><g fill="currentColor" ><g ><path d="M12.01 6.01c-.55 0-1 .45-1 1V12a1 1 0 00.4.8l3 2.22a.985.985 0 001.39-.2.996.996 0 00-.21-1.4l-2.6-1.92V7.01c.02-.55-.43-1-.98-1z"></path><path d="M12.01 1.91c-5.33 0-9.69 4.16-10.05 9.4l-.29-.26a.997.997 0 10-1.34 1.48l1.97 1.79c.19.17.43.26.67.26s.48-.09.67-.26l1.97-1.79a.997.997 0 10-1.34-1.48l-.31.28c.34-4.14 3.82-7.41 8.05-7.41 4.46 0 8.08 3.63 8.08 8.09s-3.63 8.08-8.08 8.08c-2.18 0-4.22-.85-5.75-2.4a.996.996 0 10-1.42 1.4 10.02 10.02 0 007.17 2.99c5.56 0 10.08-4.52 10.08-10.08.01-5.56-4.52-10.09-10.08-10.09z"></path></g></g></svg>
-                        </div>
-                    </div>
         
                     <div v-cloak class="flex justify-end grow">
                         <div id="retype-mobile-search-button"></div>
@@ -303,7 +278,7 @@
     </h1>
 </doc-anchor-target>
 <p>In a modular application, it&#x27;s typical to configure various global <a href="https://legacy.reactjs.org/docs/context.html" class="outbound" target="_blank">React context</a> at the root of the host application. These contexts are then used by the layouts and pages of the modules.</p>
-<p>Let&#x27;s explore a simple example using a <code v-pre>BackgroundColorContext</code>:</p>
+<p>Let&#x27;s explore a simple example using a <code translate="no" v-pre>BackgroundColorContext</code>:</p>
 <div class="codeblock-wrapper"><doc-codeblock>
 <div class="codeblock-title">host/src/App.tsx</div>
 <pre translate="no" class="language-tsx" data-line="8"><code v-pre class="language-tsx">import { AppRouter } from &quot;@squide/firefly&quot;;
@@ -359,14 +334,14 @@ export function ColoredPage() {
     );
 }</code></pre>
 </doc-codeblock></div>
-<p>In the previous code samples, the host application provides a value for the <code v-pre>BackgroundColorContext</code>, and the <code v-pre>ColoredPage</code> component of the remote module uses this value to set its background color (to <code v-pre>blue</code> for this example).</p>
+<p>In the previous code samples, the host application provides a value for the <code translate="no" v-pre>BackgroundColorContext</code>, and the <code translate="no" v-pre>ColoredPage</code> component of the remote module uses this value to set its background color (to <code translate="no" v-pre>blue</code> for this example).</p>
 <doc-anchor-target id="override-the-context-for-the-module">
     <h2>
         <doc-anchor-trigger class="header-anchor-trigger" to="#override-the-context-for-the-module">#</doc-anchor-trigger>
         <span>Override the context for the module</span>
     </h2>
 </doc-anchor-target>
-<p>Now, suppose the requirements change, and a page of the remote module must have a <code v-pre>red</code> background. The context can be overriden for that page by declaring a new provider directly in the routes registration:</p>
+<p>Now, suppose the requirements change, and a page of the remote module must have a <code translate="no" v-pre>red</code> background. The context can be overriden for that page by declaring a new provider directly in the routes registration:</p>
 <div class="codeblock-wrapper"><doc-codeblock>
 <div class="codeblock-title">remote-module/src/register.tsx</div>
 <pre translate="no" class="language-tsx" data-line="9"><code v-pre class="language-tsx">import type { ModuleRegisterFunction, FireflyRuntime } from &quot;@squide/firefly&quot;;
@@ -435,7 +410,7 @@ export const register: ModuleRegisterFunction&lt;FireflyRuntime&gt; = runtime =&
         </div>
     </div>
 </div>
-<p>Let&#x27;s consider a more specific use case where the host application declares a <code v-pre>ThemeContext</code> from Workleap&#x27;s new design system, <a href="https://hopper.workleap.design/" class="outbound" target="_blank">Hopper</a>:</p>
+<p>Let&#x27;s consider a more specific use case where the host application declares a <code translate="no" v-pre>ThemeContext</code> from Workleap&#x27;s new design system, <a href="https://hopper.workleap.design/" class="outbound" target="_blank">Hopper</a>:</p>
 <div class="codeblock-wrapper"><doc-codeblock>
 <div class="codeblock-title">host/src/App.tsx</div>
 <pre translate="no" class="language-tsx" data-line="8"><code v-pre class="language-tsx">import { AppRouter } from &quot;@squide/firefly&quot;;
@@ -465,7 +440,7 @@ export function App() {
     );
 }</code></pre>
 </doc-codeblock></div>
-<p>In this scenario, Hopper&#x27;s components are used throughout the entire application, including the modules. Moreover, <code v-pre>@hopper/components</code> is defined as a <a href="https://module-federation.io/configure/shared.html#singleton" class="outbound" target="_blank">singleton</a> shared dependency:</p>
+<p>In this scenario, Hopper&#x27;s components are used throughout the entire application, including the modules. Moreover, <code translate="no" v-pre>@hopper/components</code> is defined as a <a href="https://module-federation.io/configure/shared.html#singleton" class="outbound" target="_blank">singleton</a> shared dependency:</p>
 <div class="codeblock-wrapper"><doc-codeblock>
 <div class="codeblock-title">host/webpack.dev.js</div>
 <pre translate="no" class="language-javascript" data-line="8-10"><code v-pre class="language-javascript">// @ts-check
@@ -497,7 +472,7 @@ export default defineDevRemoteModuleConfig(swcConfig, &quot;remote-module&quot;,
 });</code></pre>
 </doc-codeblock></div>
 <p>Now, consider a situation where Hopper releases a new version of the package that includes breaking changes, without a &quot;compatibility&quot; package to ensure backward compatility with the previous version.</p>
-<p>To update the host application without breaking the modules, we recommend to temporary &quot;break&quot; the singleton shared dependency by loading two versions of the <code v-pre>@hopper/components</code> dependency in parallel (one for the host application and one for the modules that have not been updated yet):</p>
+<p>To update the host application without breaking the modules, we recommend to temporary &quot;break&quot; the singleton shared dependency by loading two versions of the <code translate="no" v-pre>@hopper/components</code> dependency in parallel (one for the host application and one for the modules that have not been updated yet):</p>
 <div class="codeblock-wrapper"><doc-codeblock>
 <div class="codeblock-title">remote-module/webpack.dev.js</div>
 <pre translate="no" class="language-javascript" data-line="8-10"><code v-pre class="language-javascript">// @ts-check
@@ -513,7 +488,7 @@ export default defineDevRemoteModuleConfig(swcConfig, &quot;remote-module&quot;,
     }
 });</code></pre>
 </doc-codeblock></div>
-<p>As <code v-pre>@hopper/components</code> expose the <code v-pre>ThemeContext</code>, the context must be re-declared in each module until every part of the federated application has been updated to the latest version of <code v-pre>@hopper/components</code>:</p>
+<p>As <code translate="no" v-pre>@hopper/components</code> expose the <code translate="no" v-pre>ThemeContext</code>, the context must be re-declared in each module until every part of the federated application has been updated to the latest version of <code translate="no" v-pre>@hopper/components</code>:</p>
 <div class="codeblock-wrapper"><doc-codeblock>
 <div class="codeblock-title">remote-module/src/register.tsx</div>
 <pre translate="no" class="language-tsx" data-line="6-12,17"><code v-pre class="language-tsx">import type { ModuleRegisterFunction, FireflyRuntime } from &quot;@squide/firefly&quot;;

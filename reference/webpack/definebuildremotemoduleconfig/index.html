@@ -4,10 +4,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <meta name="turbo-root" content="/wl-squide">
-    <meta name="turbo-cache-control" content="no-cache" data-turbo-track="reload" data-track-token="3.11.0-preview6.804660603146">
+    <meta name="turbo-cache-control" content="no-cache" data-turbo-track="reload" data-track-token="3.12.0-preview2.806006202581">
 
     <!-- See retype.com -->
-    <meta name="generator" content="Retype 3.11.0-preview6">
+    <meta name="generator" content="Retype 3.12.0-preview2">
 
     <!-- Primary Meta Tags -->
     <title>defineBuildRemoteModuleConfig</title>
@@ -31,13 +31,13 @@
 
     <script data-cfasync="false">(function(){var cl=document.documentElement.classList,ls=localStorage.getItem("retype_scheme"),hd=cl.contains("dark"),hl=cl.contains("light"),wm=window.matchMedia&&window.matchMedia("(prefers-color-scheme: dark)").matches;if(ls==="dark"||(!ls&&wm&&!hd&&!hl)){cl.remove("light");cl.add("dark")}else if(ls==="light"||(!ls&&!wm&&!hd&&!hl)){cl.remove("dark");cl.add("light")}})();</script>
 
-    <link href="../../../static/favicon.png" rel="icon">
-    <link href="../../../resources/css/retype.css?v=3.11.0-preview6.804660603146" rel="stylesheet">
+    <link id="retype-favicon" rel="icon" href="../../../static/favicon.png" />
+    <link href="../../../resources/css/retype.css?v=3.12.0-preview2.806006202581" rel="stylesheet">
 
-    <script data-cfasync="false" src="../../../resources/js/config.js?v=3.11.0-preview6.804660603146" data-turbo-eval="false" defer></script>
-    <script data-cfasync="false" src="../../../resources/js/retype.js?v=3.11.0-preview6" data-turbo-eval="false" defer></script>
-    <script id="lunr-js" data-cfasync="false" src="../../../resources/js/lunr.js?v=3.11.0-preview6.804660603146" data-turbo-eval="false" defer></script>
-    <script id="prism-js" data-cfasync="false" src="../../../resources/js/prism.js?v=3.11.0-preview6.804660603146" defer></script>
+    <script data-cfasync="false" src="../../../resources/js/config.js?v=3.12.0-preview2.806006202581" data-turbo-eval="false" defer></script>
+    <script data-cfasync="false" src="../../../resources/js/retype.js?v=3.12.0-preview2" data-turbo-eval="false" defer></script>
+    <script id="lunr-js" data-cfasync="false" src="../../../resources/js/lunr.js?v=3.12.0-preview2.806006202581" data-turbo-eval="false" defer></script>
+    <script id="prism-js" data-cfasync="false" src="../../../resources/js/prism.js?v=3.12.0-preview2.806006202581" defer></script>
 
     <link href="https://workleap.github.io/wl-idp-docs-hub/static/retype-customization.css" rel="stylesheet" />
 
@@ -139,31 +139,6 @@
         
                         </ul>
                     </nav>
-        
-                    <!-- Header Right Skeleton -->
-                    <div v-cloak class="flex justify-end grow skeleton">
-        
-                        <!-- Search input mock -->
-                        <div class="relative hidden w-40 lg:block lg:max-w-sm lg:ml-auto">
-                            <div class="absolute flex items-center justify-center h-full pl-3 dark:text-dark-300">
-                                <svg xmlns="http://www.w3.org/2000/svg" class="icon-base" width="16" height="16" viewBox="0 0 24 24" aria-labelledby="icon" role="presentation" style="margin-bottom: 1px;"><g fill="currentColor" ><path d="M21.71 20.29l-3.68-3.68A8.963 8.963 0 0020 11c0-4.96-4.04-9-9-9s-9 4.04-9 9 4.04 9 9 9c2.12 0 4.07-.74 5.61-1.97l3.68 3.68c.2.19.45.29.71.29s.51-.1.71-.29c.39-.39.39-1.03 0-1.42zM4 11c0-3.86 3.14-7 7-7s7 3.14 7 7c0 1.92-.78 3.66-2.04 4.93-.01.01-.02.01-.02.01-.01.01-.01.01-.01.02A6.98 6.98 0 0111 18c-3.86 0-7-3.14-7-7z" ></path></g></svg>
-                            </div>
-                            <input class="w-full h-10 placeholder-search-placeholder transition-colors duration-200 ease-in bg-search-bg border border-transparent rounded md:text-sm hover:border-search-border-hover focus:outline-none focus:border-search-border-focus" style="padding: 0.625rem 0.75rem 0.625rem 2rem" type="text" placeholder="Search">
-                        </div>
-        
-                        <!-- Mobile search button -->
-                        <div class="flex items-center justify-center w-10 h-10 lg:hidden">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="shrink-0 icon-base" width="20" height="20" viewBox="0 0 24 24" aria-labelledby="icon" role="presentation" style="margin-bottom: 0px;"><g fill="currentColor" ><path d="M21.71 20.29l-3.68-3.68A8.963 8.963 0 0020 11c0-4.96-4.04-9-9-9s-9 4.04-9 9 4.04 9 9 9c2.12 0 4.07-.74 5.61-1.97l3.68 3.68c.2.19.45.29.71.29s.51-.1.71-.29c.39-.39.39-1.03 0-1.42zM4 11c0-3.86 3.14-7 7-7s7 3.14 7 7c0 1.92-.78 3.66-2.04 4.93-.01.01-.02.01-.02.01-.01.01-.01.01-.01.02A6.98 6.98 0 0111 18c-3.86 0-7-3.14-7-7z" ></path></g></svg>
-                        </div>
-        
-                        <!-- Dark mode switch placeholder -->
-                        <div class="w-10 h-10 lg:ml-2"></div>
-        
-                        <!-- History button -->
-                        <div class="flex items-center justify-center w-10 h-10" style="margin-right: -0.625rem;">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="shrink-0 icon-base" width="22" height="22" viewBox="0 0 24 24" aria-labelledby="icon" role="presentation" style="margin-bottom: 0px;"><g fill="currentColor" ><g ><path d="M12.01 6.01c-.55 0-1 .45-1 1V12a1 1 0 00.4.8l3 2.22a.985.985 0 001.39-.2.996.996 0 00-.21-1.4l-2.6-1.92V7.01c.02-.55-.43-1-.98-1z"></path><path d="M12.01 1.91c-5.33 0-9.69 4.16-10.05 9.4l-.29-.26a.997.997 0 10-1.34 1.48l1.97 1.79c.19.17.43.26.67.26s.48-.09.67-.26l1.97-1.79a.997.997 0 10-1.34-1.48l-.31.28c.34-4.14 3.82-7.41 8.05-7.41 4.46 0 8.08 3.63 8.08 8.09s-3.63 8.08-8.08 8.08c-2.18 0-4.22-.85-5.75-2.4a.996.996 0 10-1.42 1.4 10.02 10.02 0 007.17 2.99c5.56 0 10.08-4.52 10.08-10.08.01-5.56-4.52-10.09-10.08-10.09z"></path></g></g></svg>
-                        </div>
-                    </div>
         
                     <div v-cloak class="flex justify-end grow">
                         <div id="retype-mobile-search-button"></div>
@@ -327,21 +302,21 @@
     </h2>
 </doc-anchor-target>
 <ul>
-<li><code v-pre>swcConfig</code>: An SWC <a href="https://swc.rs/docs/configuration/swcrc" class="outbound" target="_blank">configuration object</a>.</li>
-<li><code v-pre>applicationName</code>: The remote module application name.</li>
-<li><code v-pre>options</code>: An optional object literal of options:
+<li><code translate="no" v-pre>swcConfig</code>: An SWC <a href="https://swc.rs/docs/configuration/swcrc" class="outbound" target="_blank">configuration object</a>.</li>
+<li><code translate="no" v-pre>applicationName</code>: The remote module application name.</li>
+<li><code translate="no" v-pre>options</code>: An optional object literal of options:
 <ul>
-<li>Accepts most of webpack <code v-pre>definedDevConfig</code> <a href="https://workleap.github.io/wl-web-configs/webpack/configure-dev/#3-set-predefined-options" class="outbound" target="_blank">predefined options</a>.</li>
-<li><code v-pre>features</code>: An optional object literal of feature switches to define additional shared dependencies.
+<li>Accepts most of webpack <code translate="no" v-pre>definedDevConfig</code> <a href="https://workleap.github.io/wl-web-configs/webpack/configure-dev/#3-set-predefined-options" class="outbound" target="_blank">predefined options</a>.</li>
+<li><code translate="no" v-pre>features</code>: An optional object literal of feature switches to define additional shared dependencies.
 <ul>
-<li><code v-pre>i18next</code>: Whether or not to add <code v-pre>@squide/i18next</code> as a shared dependency.</li>
-<li><code v-pre>environmentVariables</code>: Whether or not to add <code v-pre>@squide/env-vars</code> as a shared dependency.</li>
-<li><code v-pre>honeycomb</code>: Whether or not to add <code v-pre>@squide/firefly-honeycomb</code> as a shared dependency.</li>
-<li><code v-pre>msw</code>: <code v-pre>false</code> to remove <code v-pre>@squide/msw</code> from shared dependencies.</li>
+<li><code translate="no" v-pre>i18next</code>: Whether or not to add <code translate="no" v-pre>@squide/i18next</code> as a shared dependency.</li>
+<li><code translate="no" v-pre>environmentVariables</code>: Whether or not to add <code translate="no" v-pre>@squide/env-vars</code> as a shared dependency.</li>
+<li><code translate="no" v-pre>honeycomb</code>: Whether or not to add <code translate="no" v-pre>@squide/firefly-honeycomb</code> as a shared dependency.</li>
+<li><code translate="no" v-pre>msw</code>: <code translate="no" v-pre>false</code> to remove <code translate="no" v-pre>@squide/msw</code> from shared dependencies.</li>
 </ul>
 </li>
-<li><code v-pre>sharedDependencies</code>: An optional object literal of additional (or updated) module federation shared dependencies.</li>
-<li><code v-pre>moduleFederationPluginOptions</code>: An optional object literal of <a href="https://module-federation.io/configure/index.html" class="outbound" target="_blank">ModuleFederationPlugin</a> options.</li>
+<li><code translate="no" v-pre>sharedDependencies</code>: An optional object literal of additional (or updated) module federation shared dependencies.</li>
+<li><code translate="no" v-pre>moduleFederationPluginOptions</code>: An optional object literal of <a href="https://module-federation.io/configure/index.html" class="outbound" target="_blank">ModuleFederationPlugin</a> options.</li>
 </ul>
 </li>
 </ul>
@@ -358,7 +333,7 @@
         <span>Conventions</span>
     </h2>
 </doc-anchor-target>
-<p>To fulfill Squide remote module requirements, the <code v-pre>defineBuildRemoteModuleConfig</code> function will pre-configure the <a href="https://module-federation.io/configure/index.html" class="outbound" target="_blank">ModuleFederationPlugin</a> with the following <code v-pre>filename</code> and <code v-pre>exposes</code> properties.</p>
+<p>To fulfill Squide remote module requirements, the <code translate="no" v-pre>defineBuildRemoteModuleConfig</code> function will pre-configure the <a href="https://module-federation.io/configure/index.html" class="outbound" target="_blank">ModuleFederationPlugin</a> with the following <code translate="no" v-pre>filename</code> and <code translate="no" v-pre>exposes</code> properties.</p>
 <div class="codeblock-wrapper"><doc-codeblock>
 <pre translate="no" class="language-javascript"><code v-pre class="language-javascript">{
     filename: &quot;/remoteEntry.js&quot;,
@@ -380,7 +355,7 @@
             </svg>
         </div>
         <div class="pr-5 ml-3 w-full">
-<p>If the remote module <code v-pre>publicPath</code> is <code v-pre>http://localhost/8081</code>, the remote module bundle is available at <code v-pre>http://localhost:8081/remoteEntry.js</code>.</p>
+<p>If the remote module <code translate="no" v-pre>publicPath</code> is <code translate="no" v-pre>http://localhost/8081</code>, the remote module bundle is available at <code translate="no" v-pre>http://localhost:8081/remoteEntry.js</code>.</p>
         </div>
     </div>
 </div>
@@ -390,7 +365,7 @@
         <span>Default shared dependencies</span>
     </h2>
 </doc-anchor-target>
-<p>The <code v-pre>defineBuildRemoteModuleConfig</code> function will add the following shared dependencies as <code v-pre>singleton</code> by default:</p>
+<p>The <code translate="no" v-pre>defineBuildRemoteModuleConfig</code> function will add the following shared dependencies as <code translate="no" v-pre>singleton</code> by default:</p>
 <ul>
 <li><a href="https://www.npmjs.com/package/react" class="outbound" target="_blank">react</a></li>
 <li><a href="https://www.npmjs.com/package/react-dom" class="outbound" target="_blank">react-dom</a></li>
@@ -515,7 +490,7 @@ export default defineBuildRemoteModuleConfig(swcConfig, &quot;remote1&quot;, {
     }
 });</code></pre>
 </doc-codeblock></div>
-<p>In the previous code sample, the <code v-pre>react</code> shared dependency will be <strong>augmented</strong> with the newly provided <code v-pre>strictVersion</code> option. The resulting shared dependency will be:</p>
+<p>In the previous code sample, the <code translate="no" v-pre>react</code> shared dependency will be <strong>augmented</strong> with the newly provided <code translate="no" v-pre>strictVersion</code> option. The resulting shared dependency will be:</p>
 <div class="codeblock-wrapper"><doc-codeblock>
 <pre translate="no" class="language-javascript" data-line="5"><code v-pre class="language-javascript">{
     &quot;react&quot;: {
@@ -546,7 +521,7 @@ export default defineBuildRemoteModuleConfig(swcConfig, &quot;remote1&quot;, {
     }
 });</code></pre>
 </doc-codeblock></div>
-<p>In the previous code sample, the <code v-pre>react</code> shared dependency <code v-pre>singleton</code> option will be <strong>overrided</strong> by the newly provided value. The resulting shared dependency will be:</p>
+<p>In the previous code sample, the <code translate="no" v-pre>react</code> shared dependency <code translate="no" v-pre>singleton</code> option will be <strong>overrided</strong> by the newly provided value. The resulting shared dependency will be:</p>
 <div class="codeblock-wrapper"><doc-codeblock>
 <pre translate="no" class="language-javascript" data-line="4"><code v-pre class="language-javascript">{
     &quot;react&quot;: {
@@ -561,7 +536,7 @@ export default defineBuildRemoteModuleConfig(swcConfig, &quot;remote1&quot;, {
         <span>Customize module federation configuration</span>
     </h3>
 </doc-anchor-target>
-<p>While you could customize the <a href="https://module-federation.io/configure/index.html" class="outbound" target="_blank">ModuleFederationPlugin</a> configuration by providing your own object literal through the <code v-pre>moduleFederationPluginOptions</code> option, we recommend using the <code v-pre>defineRemoteModuleFederationPluginOptions(applicationName, options)</code> function as it will take care of <strong>merging</strong> the custom options with the default plugin options.</p>
+<p>While you could customize the <a href="https://module-federation.io/configure/index.html" class="outbound" target="_blank">ModuleFederationPlugin</a> configuration by providing your own object literal through the <code translate="no" v-pre>moduleFederationPluginOptions</code> option, we recommend using the <code translate="no" v-pre>defineRemoteModuleFederationPluginOptions(applicationName, options)</code> function as it will take care of <strong>merging</strong> the custom options with the default plugin options.</p>
 <div class="codeblock-wrapper"><doc-codeblock>
 <div class="codeblock-title">remote-module/webpack.build.js</div>
 <pre translate="no" class="language-javascript" data-line="7-9"><code v-pre class="language-javascript">// @ts-check
@@ -576,8 +551,8 @@ export default defineBuildRemoteModuleConfig(swcConfig, &quot;remote1&quot;, {
 });</code></pre>
 </doc-codeblock></div>
 <ul>
-<li><code v-pre>applicationName</code>: The host application name.</li>
-<li><code v-pre>moduleFederationPluginOptions</code>: An object literal of <a href="https://module-federation.io/configure/index.html" class="outbound" target="_blank">ModuleFederationPlugin</a> options.</li>
+<li><code translate="no" v-pre>applicationName</code>: The host application name.</li>
+<li><code translate="no" v-pre>moduleFederationPluginOptions</code>: An object literal of <a href="https://module-federation.io/configure/index.html" class="outbound" target="_blank">ModuleFederationPlugin</a> options.</li>
 </ul>
 <doc-anchor-target id="expose-an-additional-module">
     <h3>

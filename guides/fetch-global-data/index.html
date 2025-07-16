@@ -4,10 +4,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <meta name="turbo-root" content="/wl-squide">
-    <meta name="turbo-cache-control" content="no-cache" data-turbo-track="reload" data-track-token="3.11.0-preview6.804660603146">
+    <meta name="turbo-cache-control" content="no-cache" data-turbo-track="reload" data-track-token="3.12.0-preview2.806006202581">
 
     <!-- See retype.com -->
-    <meta name="generator" content="Retype 3.11.0-preview6">
+    <meta name="generator" content="Retype 3.12.0-preview2">
 
     <!-- Primary Meta Tags -->
     <title>Fetch global data</title>
@@ -31,13 +31,13 @@
 
     <script data-cfasync="false">(function(){var cl=document.documentElement.classList,ls=localStorage.getItem("retype_scheme"),hd=cl.contains("dark"),hl=cl.contains("light"),wm=window.matchMedia&&window.matchMedia("(prefers-color-scheme: dark)").matches;if(ls==="dark"||(!ls&&wm&&!hd&&!hl)){cl.remove("light");cl.add("dark")}else if(ls==="light"||(!ls&&!wm&&!hd&&!hl)){cl.remove("dark");cl.add("light")}})();</script>
 
-    <link href="../../static/favicon.png" rel="icon">
-    <link href="../../resources/css/retype.css?v=3.11.0-preview6.804660603146" rel="stylesheet">
+    <link id="retype-favicon" rel="icon" href="../../static/favicon.png" />
+    <link href="../../resources/css/retype.css?v=3.12.0-preview2.806006202581" rel="stylesheet">
 
-    <script data-cfasync="false" src="../../resources/js/config.js?v=3.11.0-preview6.804660603146" data-turbo-eval="false" defer></script>
-    <script data-cfasync="false" src="../../resources/js/retype.js?v=3.11.0-preview6" data-turbo-eval="false" defer></script>
-    <script id="lunr-js" data-cfasync="false" src="../../resources/js/lunr.js?v=3.11.0-preview6.804660603146" data-turbo-eval="false" defer></script>
-    <script id="prism-js" data-cfasync="false" src="../../resources/js/prism.js?v=3.11.0-preview6.804660603146" defer></script>
+    <script data-cfasync="false" src="../../resources/js/config.js?v=3.12.0-preview2.806006202581" data-turbo-eval="false" defer></script>
+    <script data-cfasync="false" src="../../resources/js/retype.js?v=3.12.0-preview2" data-turbo-eval="false" defer></script>
+    <script id="lunr-js" data-cfasync="false" src="../../resources/js/lunr.js?v=3.12.0-preview2.806006202581" data-turbo-eval="false" defer></script>
+    <script id="prism-js" data-cfasync="false" src="../../resources/js/prism.js?v=3.12.0-preview2.806006202581" defer></script>
 
     <link href="https://workleap.github.io/wl-idp-docs-hub/static/retype-customization.css" rel="stylesheet" />
 
@@ -139,31 +139,6 @@
         
                         </ul>
                     </nav>
-        
-                    <!-- Header Right Skeleton -->
-                    <div v-cloak class="flex justify-end grow skeleton">
-        
-                        <!-- Search input mock -->
-                        <div class="relative hidden w-40 lg:block lg:max-w-sm lg:ml-auto">
-                            <div class="absolute flex items-center justify-center h-full pl-3 dark:text-dark-300">
-                                <svg xmlns="http://www.w3.org/2000/svg" class="icon-base" width="16" height="16" viewBox="0 0 24 24" aria-labelledby="icon" role="presentation" style="margin-bottom: 1px;"><g fill="currentColor" ><path d="M21.71 20.29l-3.68-3.68A8.963 8.963 0 0020 11c0-4.96-4.04-9-9-9s-9 4.04-9 9 4.04 9 9 9c2.12 0 4.07-.74 5.61-1.97l3.68 3.68c.2.19.45.29.71.29s.51-.1.71-.29c.39-.39.39-1.03 0-1.42zM4 11c0-3.86 3.14-7 7-7s7 3.14 7 7c0 1.92-.78 3.66-2.04 4.93-.01.01-.02.01-.02.01-.01.01-.01.01-.01.02A6.98 6.98 0 0111 18c-3.86 0-7-3.14-7-7z" ></path></g></svg>
-                            </div>
-                            <input class="w-full h-10 placeholder-search-placeholder transition-colors duration-200 ease-in bg-search-bg border border-transparent rounded md:text-sm hover:border-search-border-hover focus:outline-none focus:border-search-border-focus" style="padding: 0.625rem 0.75rem 0.625rem 2rem" type="text" placeholder="Search">
-                        </div>
-        
-                        <!-- Mobile search button -->
-                        <div class="flex items-center justify-center w-10 h-10 lg:hidden">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="shrink-0 icon-base" width="20" height="20" viewBox="0 0 24 24" aria-labelledby="icon" role="presentation" style="margin-bottom: 0px;"><g fill="currentColor" ><path d="M21.71 20.29l-3.68-3.68A8.963 8.963 0 0020 11c0-4.96-4.04-9-9-9s-9 4.04-9 9 4.04 9 9 9c2.12 0 4.07-.74 5.61-1.97l3.68 3.68c.2.19.45.29.71.29s.51-.1.71-.29c.39-.39.39-1.03 0-1.42zM4 11c0-3.86 3.14-7 7-7s7 3.14 7 7c0 1.92-.78 3.66-2.04 4.93-.01.01-.02.01-.02.01-.01.01-.01.01-.01.02A6.98 6.98 0 0111 18c-3.86 0-7-3.14-7-7z" ></path></g></svg>
-                        </div>
-        
-                        <!-- Dark mode switch placeholder -->
-                        <div class="w-10 h-10 lg:ml-2"></div>
-        
-                        <!-- History button -->
-                        <div class="flex items-center justify-center w-10 h-10" style="margin-right: -0.625rem;">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="shrink-0 icon-base" width="22" height="22" viewBox="0 0 24 24" aria-labelledby="icon" role="presentation" style="margin-bottom: 0px;"><g fill="currentColor" ><g ><path d="M12.01 6.01c-.55 0-1 .45-1 1V12a1 1 0 00.4.8l3 2.22a.985.985 0 001.39-.2.996.996 0 00-.21-1.4l-2.6-1.92V7.01c.02-.55-.43-1-.98-1z"></path><path d="M12.01 1.91c-5.33 0-9.69 4.16-10.05 9.4l-.29-.26a.997.997 0 10-1.34 1.48l1.97 1.79c.19.17.43.26.67.26s.48-.09.67-.26l1.97-1.79a.997.997 0 10-1.34-1.48l-.31.28c.34-4.14 3.82-7.41 8.05-7.41 4.46 0 8.08 3.63 8.08 8.09s-3.63 8.08-8.08 8.08c-2.18 0-4.22-.85-5.75-2.4a.996.996 0 10-1.42 1.4 10.02 10.02 0 007.17 2.99c5.56 0 10.08-4.52 10.08-10.08.01-5.56-4.52-10.09-10.08-10.09z"></path></g></g></svg>
-                        </div>
-                    </div>
         
                     <div v-cloak class="flex justify-end grow">
                         <div id="retype-mobile-search-button"></div>
@@ -334,7 +309,7 @@
 <li>The requested page rendering must be delayed until the global data has been fetched.</li>
 <li>A <strong>unique loading spinner</strong> should be displayed to the user during this process, ensuring there&#x27;s <strong>no flickering</strong> due to different spinners being rendered.</li>
 </ul>
-<p>To help manage those concerns, Squide offer an <code v-pre>AppRouter</code> component that takes care of setuping Squide&#x27;s primitive and orchestrating the different states.</p>
+<p>To help manage those concerns, Squide offer an <code translate="no" v-pre>AppRouter</code> component that takes care of setuping Squide&#x27;s primitive and orchestrating the different states.</p>
 <doc-anchor-target id="fetch-public-data">
     <h2>
         <doc-anchor-trigger class="header-anchor-trigger" to="#fetch-public-data">#</doc-anchor-trigger>
@@ -385,7 +360,7 @@ export const register: ModuleRegisterFunction&lt;FireflyRuntime&gt; = async runt
         <span>Create a shared context</span>
     </h3>
 </doc-anchor-target>
-<p>Then, in a shared project, create a React context named <code v-pre>FetchCountContext</code>:</p>
+<p>Then, in a shared project, create a React context named <code translate="no" v-pre>FetchCountContext</code>:</p>
 <div class="codeblock-wrapper"><doc-codeblock>
 <div class="codeblock-title">shared/src/fetchCountContext.ts</div>
 <pre translate="no" class="language-typescript"><code v-pre class="language-typescript">import { createContext, useContext } from &quot;react&quot;;
@@ -402,7 +377,7 @@ export function useFetchCount() {
         <span>Create a custom error class</span>
     </h3>
 </doc-anchor-target>
-<p>Then, in the same shared project, create a <code v-pre>ApiError</code> class:</p>
+<p>Then, in the same shared project, create a <code translate="no" v-pre>ApiError</code> class:</p>
 <div class="codeblock-wrapper"><doc-codeblock>
 <div class="codeblock-title">shared/src/apiError.ts</div>
 <pre translate="no" class="language-typescript"><code v-pre class="language-typescript">export class ApiError extends Error {
@@ -441,7 +416,7 @@ export function isApiError(error?: unknown): error is ApiError {
         <span>Fetch the data</span>
     </h3>
 </doc-anchor-target>
-<p>Finally, update the <code v-pre>App</code> component to add the <a href="../../reference/tanstack-query/usepublicdataqueries/">usePublicDataQueries</a> hook. The hook will fetch the data from <code v-pre>/api/count</code> and forward the retrieved <code v-pre>fetchCount</code> value through <code v-pre>FetchCountContext</code>:</p>
+<p>Finally, update the <code translate="no" v-pre>App</code> component to add the <a href="../../reference/tanstack-query/usepublicdataqueries/">usePublicDataQueries</a> hook. The hook will fetch the data from <code translate="no" v-pre>/api/count</code> and forward the retrieved <code translate="no" v-pre>fetchCount</code> value through <code translate="no" v-pre>FetchCountContext</code>:</p>
 <div class="codeblock-wrapper"><doc-codeblock>
 <div class="codeblock-title">host/src/App.tsx</div>
 <pre translate="no" class="language-tsx" data-line="7-22,24-26,37"><code v-pre class="language-tsx">import { AppRouter, usePublicDataQueries, useIsBootstrapping } from &quot;@squide/firefly&quot;;
@@ -506,25 +481,25 @@ export function App() {
 <doc-anchor-target id="usepublicdataqueries">
     <h4>
         <doc-anchor-trigger class="header-anchor-trigger" to="#usepublicdataqueries">#</doc-anchor-trigger>
-        <span><code v-pre>usePublicDataQueries</code></span>
+        <span><code translate="no" v-pre>usePublicDataQueries</code></span>
     </h4>
 </doc-anchor-target>
-<p>The <code v-pre>usePublicDataQueries</code> hook is a wrapper around TanStack Query&#x27;s native <a href="https://tanstack.com/query/latest/docs/framework/react/reference/useQueries" class="outbound" target="_blank">useQueries</a> hook. This wrapper coordinates the execution of the queries with the <code v-pre>AppRouter</code> component&#x27;s state.</p>
+<p>The <code translate="no" v-pre>usePublicDataQueries</code> hook is a wrapper around TanStack Query&#x27;s native <a href="https://tanstack.com/query/latest/docs/framework/react/reference/useQueries" class="outbound" target="_blank">useQueries</a> hook. This wrapper coordinates the execution of the queries with the <code translate="no" v-pre>AppRouter</code> component&#x27;s state.</p>
 <doc-anchor-target id="waitforpublicdata--useisbootstrapping">
     <h4>
         <doc-anchor-trigger class="header-anchor-trigger" to="#waitforpublicdata--useisbootstrapping">#</doc-anchor-trigger>
-        <span><code v-pre>waitForPublicData</code> &amp; <code v-pre>useIsBootstrapping</code></span>
+        <span><code translate="no" v-pre>waitForPublicData</code> &amp; <code translate="no" v-pre>useIsBootstrapping</code></span>
     </h4>
 </doc-anchor-target>
-<p>To ensure the <code v-pre>AppRouter</code> component wait for the public data to be ready before rendering the requested route, set the <a href="../../reference/routing/approuter/#delay-rendering-until-the-public-data-is-ready">waitForPublicData</a> property to <code v-pre>true</code>.</p>
-<p>Combine the <code v-pre>usePublicDataQueries</code> with the <a href="../../reference/routing/useisbootstrapping/">useIsBootstrapping</a> hook to display a loader until the public data is fetched and the application is ready.</p>
+<p>To ensure the <code translate="no" v-pre>AppRouter</code> component wait for the public data to be ready before rendering the requested route, set the <a href="../../reference/routing/approuter/#delay-rendering-until-the-public-data-is-ready">waitForPublicData</a> property to <code translate="no" v-pre>true</code>.</p>
+<p>Combine the <code translate="no" v-pre>usePublicDataQueries</code> with the <a href="../../reference/routing/useisbootstrapping/">useIsBootstrapping</a> hook to display a loader until the public data is fetched and the application is ready.</p>
 <doc-anchor-target id="use-the-endpoint-data">
     <h3>
         <doc-anchor-trigger class="header-anchor-trigger" to="#use-the-endpoint-data">#</doc-anchor-trigger>
         <span>Use the endpoint data</span>
     </h3>
 </doc-anchor-target>
-<p>Now, create a <code v-pre>GlobalDataLayout</code> component that uses the count retrieved from <code v-pre>FetchCountContext</code> and render pages with a green background color if the value is odd:</p>
+<p>Now, create a <code translate="no" v-pre>GlobalDataLayout</code> component that uses the count retrieved from <code translate="no" v-pre>FetchCountContext</code> and render pages with a green background color if the value is odd:</p>
 <div class="codeblock-wrapper"><doc-codeblock>
 <div class="codeblock-title">host/src/GlobalDataLayout.tsx</div>
 <pre translate="no" class="language-tsx" data-line="5,10"><code v-pre class="language-tsx">import { useFetchCount } from &quot;@sample/shared&quot;;
@@ -542,7 +517,7 @@ export function GlobalDataLayout() {
     )
 }</code></pre>
 </doc-codeblock></div>
-<p>Then, create a <code v-pre>Page</code> component:</p>
+<p>Then, create a <code translate="no" v-pre>Page</code> component:</p>
 <div class="codeblock-wrapper"><doc-codeblock>
 <div class="codeblock-title">host/src/Page.tsx</div>
 <pre translate="no" class="language-tsx"><code v-pre class="language-tsx">export function Page() {
@@ -589,7 +564,7 @@ export const register: ModuleRegisterFunction&lt;FireflyRuntime&gt; = async runt
         <span>Try it <span class="docs-emoji">&#x1F680;</span></span>
     </h3>
 </doc-anchor-target>
-<p>Start the application in a development environment using the <code v-pre>dev</code> script and navigate to the <code v-pre>/global-data</code> page. Refresh the page a few times, the background color should alternate between transparent and green.</p>
+<p>Start the application in a development environment using the <code translate="no" v-pre>dev</code> script and navigate to the <code translate="no" v-pre>/global-data</code> page. Refresh the page a few times, the background color should alternate between transparent and green.</p>
 <doc-anchor-target id="troubleshoot-issues">
     <h4>
         <doc-anchor-trigger class="header-anchor-trigger" to="#troubleshoot-issues">#</doc-anchor-trigger>
@@ -648,7 +623,7 @@ export const requestHandlers: HttpHandler[] = [
         <span>Create a shared context</span>
     </h3>
 </doc-anchor-target>
-<p>Then, in a shared project, create a <code v-pre>SubscriptionContext</code>:</p>
+<p>Then, in a shared project, create a <code translate="no" v-pre>SubscriptionContext</code>:</p>
 <div class="codeblock-wrapper"><doc-codeblock>
 <div class="codeblock-title">shared/src/subscriptionContext.ts</div>
 <pre translate="no" class="language-typescript"><code v-pre class="language-typescript">import { createContext, useContext } from &quot;react&quot;;
@@ -669,7 +644,7 @@ export function useSubscription() {
         <span>Fetch the data</span>
     </h3>
 </doc-anchor-target>
-<p>Finally, update the <code v-pre>App</code> component to add the <a href="../../reference/tanstack-query/useprotecteddataqueries/">useProtectedDataQueries</a> hook. The hook will fetch the data from <code v-pre>/api/subscription</code> and forward the retrieved <code v-pre>subscription</code> data through <code v-pre>SubscriptionContext</code>:</p>
+<p>Finally, update the <code translate="no" v-pre>App</code> component to add the <a href="../../reference/tanstack-query/useprotecteddataqueries/">useProtectedDataQueries</a> hook. The hook will fetch the data from <code translate="no" v-pre>/api/subscription</code> and forward the retrieved <code translate="no" v-pre>subscription</code> data through <code translate="no" v-pre>SubscriptionContext</code>:</p>
 <div class="codeblock-wrapper"><doc-codeblock>
 <div class="codeblock-title">host/src/App.tsx</div>
 <pre translate="no" class="language-tsx" data-line="24-43,62"><code v-pre class="language-tsx">import { AppRouter, usePublicDataQueries, useProtectedDataQueries, useIsBootstrapping } from &quot;@squide/firefly&quot;;
@@ -760,24 +735,24 @@ export function App() {
 <doc-anchor-target id="useprotecteddataqueries">
     <h4>
         <doc-anchor-trigger class="header-anchor-trigger" to="#useprotecteddataqueries">#</doc-anchor-trigger>
-        <span><code v-pre>useProtectedDataQueries</code></span>
+        <span><code translate="no" v-pre>useProtectedDataQueries</code></span>
     </h4>
 </doc-anchor-target>
-<p>The <code v-pre>useProtectedDataQueries</code> hook is a wrapper around TanStack Query&#x27;s native <a href="https://tanstack.com/query/latest/docs/framework/react/reference/useQueries" class="outbound" target="_blank">useQueries</a> hook. This wrapper coordinates the execution of the queries with the <code v-pre>AppRouter</code> component&#x27;s state.</p>
+<p>The <code translate="no" v-pre>useProtectedDataQueries</code> hook is a wrapper around TanStack Query&#x27;s native <a href="https://tanstack.com/query/latest/docs/framework/react/reference/useQueries" class="outbound" target="_blank">useQueries</a> hook. This wrapper coordinates the execution of the queries with the <code translate="no" v-pre>AppRouter</code> component&#x27;s state.</p>
 <doc-anchor-target id="waitforprotecteddata">
     <h4>
         <doc-anchor-trigger class="header-anchor-trigger" to="#waitforprotecteddata">#</doc-anchor-trigger>
-        <span><code v-pre>waitForProtectedData</code></span>
+        <span><code translate="no" v-pre>waitForProtectedData</code></span>
     </h4>
 </doc-anchor-target>
-<p>To ensure the <code v-pre>AppRouter</code> component wait for the protected data to be ready before rendering the requested route, set the <a href="../../reference/routing/approuter/#delay-rendering-until-the-public-data-is-ready">waitForProtectedData</a> property to <code v-pre>true</code>.</p>
+<p>To ensure the <code translate="no" v-pre>AppRouter</code> component wait for the protected data to be ready before rendering the requested route, set the <a href="../../reference/routing/approuter/#delay-rendering-until-the-public-data-is-ready">waitForProtectedData</a> property to <code translate="no" v-pre>true</code>.</p>
 <doc-anchor-target id="use-the-endpoint-data-1">
     <h3>
         <doc-anchor-trigger class="header-anchor-trigger" to="#use-the-endpoint-data-1">#</doc-anchor-trigger>
         <span>Use the endpoint data</span>
     </h3>
 </doc-anchor-target>
-<p>Now, update the <code v-pre>GlobalDataLayout</code> component that was previously created for the <doc-anchor-trigger to="#use-the-endpoint-data">public data example</doc-anchor-trigger> to render the user tenant subscription status:</p>
+<p>Now, update the <code translate="no" v-pre>GlobalDataLayout</code> component that was previously created for the <doc-anchor-trigger to="#use-the-endpoint-data">public data example</doc-anchor-trigger> to render the user tenant subscription status:</p>
 <div class="codeblock-wrapper"><doc-codeblock>
 <div class="codeblock-title">host/src/GlobalDataLayout.tsx</div>
 <pre translate="no" class="language-tsx" data-line="6,11"><code v-pre class="language-tsx">import { useFetchCount, useSubscription } from &quot;@sample/shared&quot;;
@@ -803,7 +778,7 @@ export function GlobalDataLayout() {
         <span>Try it <span class="docs-emoji">&#x1F680;</span></span>
     </h3>
 </doc-anchor-target>
-<p>Start the application in a development environment using the <code v-pre>dev</code> script and navigate to the <code v-pre>/global-data</code> page. You should notice the subscription status.</p>
+<p>Start the application in a development environment using the <code translate="no" v-pre>dev</code> script and navigate to the <code translate="no" v-pre>/global-data</code> page. You should notice the subscription status.</p>
 <doc-anchor-target id="troubleshoot-issues-1">
     <h4>
         <doc-anchor-trigger class="header-anchor-trigger" to="#troubleshoot-issues-1">#</doc-anchor-trigger>

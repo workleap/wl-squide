@@ -4,10 +4,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <meta name="turbo-root" content="/wl-squide">
-    <meta name="turbo-cache-control" content="no-cache" data-turbo-track="reload" data-track-token="3.11.0-preview6.804660603146">
+    <meta name="turbo-cache-control" content="no-cache" data-turbo-track="reload" data-track-token="3.12.0-preview2.806006202581">
 
     <!-- See retype.com -->
-    <meta name="generator" content="Retype 3.11.0-preview6">
+    <meta name="generator" content="Retype 3.12.0-preview2">
 
     <!-- Primary Meta Tags -->
     <title>Use environment variables</title>
@@ -31,13 +31,13 @@
 
     <script data-cfasync="false">(function(){var cl=document.documentElement.classList,ls=localStorage.getItem("retype_scheme"),hd=cl.contains("dark"),hl=cl.contains("light"),wm=window.matchMedia&&window.matchMedia("(prefers-color-scheme: dark)").matches;if(ls==="dark"||(!ls&&wm&&!hd&&!hl)){cl.remove("light");cl.add("dark")}else if(ls==="light"||(!ls&&!wm&&!hd&&!hl)){cl.remove("dark");cl.add("light")}})();</script>
 
-    <link href="../../static/favicon.png" rel="icon">
-    <link href="../../resources/css/retype.css?v=3.11.0-preview6.804660603146" rel="stylesheet">
+    <link id="retype-favicon" rel="icon" href="../../static/favicon.png" />
+    <link href="../../resources/css/retype.css?v=3.12.0-preview2.806006202581" rel="stylesheet">
 
-    <script data-cfasync="false" src="../../resources/js/config.js?v=3.11.0-preview6.804660603146" data-turbo-eval="false" defer></script>
-    <script data-cfasync="false" src="../../resources/js/retype.js?v=3.11.0-preview6" data-turbo-eval="false" defer></script>
-    <script id="lunr-js" data-cfasync="false" src="../../resources/js/lunr.js?v=3.11.0-preview6.804660603146" data-turbo-eval="false" defer></script>
-    <script id="prism-js" data-cfasync="false" src="../../resources/js/prism.js?v=3.11.0-preview6.804660603146" defer></script>
+    <script data-cfasync="false" src="../../resources/js/config.js?v=3.12.0-preview2.806006202581" data-turbo-eval="false" defer></script>
+    <script data-cfasync="false" src="../../resources/js/retype.js?v=3.12.0-preview2" data-turbo-eval="false" defer></script>
+    <script id="lunr-js" data-cfasync="false" src="../../resources/js/lunr.js?v=3.12.0-preview2.806006202581" data-turbo-eval="false" defer></script>
+    <script id="prism-js" data-cfasync="false" src="../../resources/js/prism.js?v=3.12.0-preview2.806006202581" defer></script>
 
     <link href="https://workleap.github.io/wl-idp-docs-hub/static/retype-customization.css" rel="stylesheet" />
 
@@ -139,31 +139,6 @@
         
                         </ul>
                     </nav>
-        
-                    <!-- Header Right Skeleton -->
-                    <div v-cloak class="flex justify-end grow skeleton">
-        
-                        <!-- Search input mock -->
-                        <div class="relative hidden w-40 lg:block lg:max-w-sm lg:ml-auto">
-                            <div class="absolute flex items-center justify-center h-full pl-3 dark:text-dark-300">
-                                <svg xmlns="http://www.w3.org/2000/svg" class="icon-base" width="16" height="16" viewBox="0 0 24 24" aria-labelledby="icon" role="presentation" style="margin-bottom: 1px;"><g fill="currentColor" ><path d="M21.71 20.29l-3.68-3.68A8.963 8.963 0 0020 11c0-4.96-4.04-9-9-9s-9 4.04-9 9 4.04 9 9 9c2.12 0 4.07-.74 5.61-1.97l3.68 3.68c.2.19.45.29.71.29s.51-.1.71-.29c.39-.39.39-1.03 0-1.42zM4 11c0-3.86 3.14-7 7-7s7 3.14 7 7c0 1.92-.78 3.66-2.04 4.93-.01.01-.02.01-.02.01-.01.01-.01.01-.01.02A6.98 6.98 0 0111 18c-3.86 0-7-3.14-7-7z" ></path></g></svg>
-                            </div>
-                            <input class="w-full h-10 placeholder-search-placeholder transition-colors duration-200 ease-in bg-search-bg border border-transparent rounded md:text-sm hover:border-search-border-hover focus:outline-none focus:border-search-border-focus" style="padding: 0.625rem 0.75rem 0.625rem 2rem" type="text" placeholder="Search">
-                        </div>
-        
-                        <!-- Mobile search button -->
-                        <div class="flex items-center justify-center w-10 h-10 lg:hidden">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="shrink-0 icon-base" width="20" height="20" viewBox="0 0 24 24" aria-labelledby="icon" role="presentation" style="margin-bottom: 0px;"><g fill="currentColor" ><path d="M21.71 20.29l-3.68-3.68A8.963 8.963 0 0020 11c0-4.96-4.04-9-9-9s-9 4.04-9 9 4.04 9 9 9c2.12 0 4.07-.74 5.61-1.97l3.68 3.68c.2.19.45.29.71.29s.51-.1.71-.29c.39-.39.39-1.03 0-1.42zM4 11c0-3.86 3.14-7 7-7s7 3.14 7 7c0 1.92-.78 3.66-2.04 4.93-.01.01-.02.01-.02.01-.01.01-.01.01-.01.02A6.98 6.98 0 0111 18c-3.86 0-7-3.14-7-7z" ></path></g></svg>
-                        </div>
-        
-                        <!-- Dark mode switch placeholder -->
-                        <div class="w-10 h-10 lg:ml-2"></div>
-        
-                        <!-- History button -->
-                        <div class="flex items-center justify-center w-10 h-10" style="margin-right: -0.625rem;">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="shrink-0 icon-base" width="22" height="22" viewBox="0 0 24 24" aria-labelledby="icon" role="presentation" style="margin-bottom: 0px;"><g fill="currentColor" ><g ><path d="M12.01 6.01c-.55 0-1 .45-1 1V12a1 1 0 00.4.8l3 2.22a.985.985 0 001.39-.2.996.996 0 00-.21-1.4l-2.6-1.92V7.01c.02-.55-.43-1-.98-1z"></path><path d="M12.01 1.91c-5.33 0-9.69 4.16-10.05 9.4l-.29-.26a.997.997 0 10-1.34 1.48l1.97 1.79c.19.17.43.26.67.26s.48-.09.67-.26l1.97-1.79a.997.997 0 10-1.34-1.48l-.31.28c.34-4.14 3.82-7.41 8.05-7.41 4.46 0 8.08 3.63 8.08 8.09s-3.63 8.08-8.08 8.08c-2.18 0-4.22-.85-5.75-2.4a.996.996 0 10-1.42 1.4 10.02 10.02 0 007.17 2.99c5.56 0 10.08-4.52 10.08-10.08.01-5.56-4.52-10.09-10.08-10.09z"></path></g></g></svg>
-                        </div>
-                    </div>
         
                     <div v-cloak class="flex justify-end grow">
                         <div id="retype-mobile-search-button"></div>
@@ -318,15 +293,15 @@
         </div>
     </div>
 </div>
-<p>Environment variables are incredibly useful when working with <strong>multiple environments</strong>, such as <code v-pre>dev</code>, <code v-pre>staging</code>, and <code v-pre>production</code>, by <strong>decoupling configuration from</strong> the <strong>code</strong>. This allows to change an application&#x27;s behavior without modifying the code itself. A common example is the URLs of dedicated API services, where each environment uses a different URL.</p>
-<p>In Rsbuild, environment variables are typically passed from the CLI to the build code, and injected through <code v-pre>process.env</code>, e.g. <code v-pre>process.env.BASE_API_URL</code>.</p>
-<p>While accessing environment variables from <code v-pre>process.env</code> works, it has a few downsides:</p>
+<p>Environment variables are incredibly useful when working with <strong>multiple environments</strong>, such as <code translate="no" v-pre>dev</code>, <code translate="no" v-pre>staging</code>, and <code translate="no" v-pre>production</code>, by <strong>decoupling configuration from</strong> the <strong>code</strong>. This allows to change an application&#x27;s behavior without modifying the code itself. A common example is the URLs of dedicated API services, where each environment uses a different URL.</p>
+<p>In Rsbuild, environment variables are typically passed from the CLI to the build code, and injected through <code translate="no" v-pre>process.env</code>, e.g. <code translate="no" v-pre>process.env.BASE_API_URL</code>.</p>
+<p>While accessing environment variables from <code translate="no" v-pre>process.env</code> works, it has a few downsides:</p>
 <ul>
 <li><strong>It&#x27;s not ideal for testing</strong>. Tests relying on global variables can inadvertently affect other tests, introducing potential issues that affect test reliability, maintainability, and isolation.</li>
 <li><strong>It complicates</strong> <a href="../develop-a-module-in-isolation/">module development in isolation</a>. A modular application <a href="../develop-a-module-in-isolation/#create-a-shell-package">shell</a> often makes requests to multiple endpoints, which vary depending on the environment. These endpoints require environment variables to define their URLs. When developing modules in isolation, modules should not provide these environment variables to the shell. Instead, to <strong>improve DX</strong>, the shell library should <strong>manage</strong> these environment variables <strong>internally</strong>.</li>
 </ul>
-<p>To replace <code v-pre>process.env</code>, Squide provides the <a href="../../reference/env-vars/getenvironmentvariablesplugin/">EnvironmentVariablesPlugin</a>. This plugin acts as a registry and integrates with the <a href="../../reference/runtime/runtime-class/">Runtime API</a>, allowing modules to register and retrieve environment variables.</p>
-<p>Without this plugin, page components would directly rely on <code v-pre>process.env</code>:</p>
+<p>To replace <code translate="no" v-pre>process.env</code>, Squide provides the <a href="../../reference/env-vars/getenvironmentvariablesplugin/">EnvironmentVariablesPlugin</a>. This plugin acts as a registry and integrates with the <a href="../../reference/runtime/runtime-class/">Runtime API</a>, allowing modules to register and retrieve environment variables.</p>
+<p>Without this plugin, page components would directly rely on <code translate="no" v-pre>process.env</code>:</p>
 <div class="codeblock-wrapper"><doc-codeblock>
 <pre translate="no" class="language-tsx" data-line="6"><code v-pre class="language-tsx">import { fetchJson } from &quot;@sample/shared&quot;;
 import { useSuspenseQuery } from &quot;@tanstack/react-query&quot;;
@@ -341,7 +316,7 @@ export function Page() {
     );
 }</code></pre>
 </doc-codeblock></div>
-<p>With this plugin, a page component can now retrieve the <code v-pre>baseApiUrl</code> from Squide&#x27;s runtime instance by using the <a href="../../reference/env-vars/useenvironmentvariable/">useEnvironmentVariable</a> hook:</p>
+<p>With this plugin, a page component can now retrieve the <code translate="no" v-pre>baseApiUrl</code> from Squide&#x27;s runtime instance by using the <a href="../../reference/env-vars/useenvironmentvariable/">useEnvironmentVariable</a> hook:</p>
 <div class="codeblock-wrapper"><doc-codeblock>
 <pre translate="no" class="language-tsx" data-line="6,9"><code v-pre class="language-tsx">import { useEnvironmentVariable } from &quot;@squide/env-vars&quot;;
 import { fetchJson } from &quot;@sample/shared&quot;;
@@ -406,8 +381,8 @@ root.render(
         <span>Module augmentation</span>
     </h3>
 </doc-anchor-target>
-<p>Before registering variables, modules must <a href="https://www.typescriptlang.org/docs/handbook/declaration-merging.html#module-augmentation" class="outbound" target="_blank">augment</a> the <code v-pre>EnvironmentVariables</code> TypeScript interface with the variables they intend to register to ensure type safety and autocompletion.</p>
-<p>To do this, first create a <code v-pre>types</code> folder:</p>
+<p>Before registering variables, modules must <a href="https://www.typescriptlang.org/docs/handbook/declaration-merging.html#module-augmentation" class="outbound" target="_blank">augment</a> the <code translate="no" v-pre>EnvironmentVariables</code> TypeScript interface with the variables they intend to register to ensure type safety and autocompletion.</p>
+<p>To do this, first create a <code translate="no" v-pre>types</code> folder:</p>
 <div class="codeblock-wrapper"><doc-codeblock>
 <pre translate="no" class="language-none" data-line="7-8"><code v-pre class="language-none">host
 ├── src
@@ -418,7 +393,7 @@ root.render(
 ├── types
 ├────── env-vars.d.ts</code></pre>
 </doc-codeblock></div>
-<p>Then create an <code v-pre>env-vars.d.ts</code> file:</p>
+<p>Then create an <code translate="no" v-pre>env-vars.d.ts</code> file:</p>
 <div class="codeblock-wrapper"><doc-codeblock>
 <div class="codeblock-title">host/types/env-vars.d.ts</div>
 <pre translate="no" class="language-typescript" data-line="6"><code v-pre class="language-typescript">import &quot;@squide/env-vars&quot;;
@@ -430,7 +405,7 @@ declare module &quot;@squide/env-vars&quot; {
     }
 }</code></pre>
 </doc-codeblock></div>
-<p>Finally, update the module <code v-pre>tsconfig.json</code> to include the <code v-pre>types</code> folder:</p>
+<p>Finally, update the module <code translate="no" v-pre>tsconfig.json</code> to include the <code translate="no" v-pre>types</code> folder:</p>
 <div class="codeblock-wrapper"><doc-codeblock>
 <div class="codeblock-title">host/tsconfig.json</div>
 <pre translate="no" class="language-json" data-line="3"><code v-pre class="language-json">{
@@ -505,7 +480,7 @@ export const registerHost: ModuleRegisterFunction&lt;FireflyRuntime&gt; = runtim
             </svg>
         </div>
         <div class="pr-5 ml-3 w-full">
-<p>If multiple modules need to use the same environment variable, we recommend that each module register its own instance of the variable to maintain modularity. The <code v-pre>EnvironmentVariablesPlugin</code> registry will ignore any subsequent registrations for existing keys, as long as the variable value remains the same.</p>
+<p>If multiple modules need to use the same environment variable, we recommend that each module register its own instance of the variable to maintain modularity. The <code translate="no" v-pre>EnvironmentVariablesPlugin</code> registry will ignore any subsequent registrations for existing keys, as long as the variable value remains the same.</p>
         </div>
     </div>
 </div>
@@ -515,7 +490,7 @@ export const registerHost: ModuleRegisterFunction&lt;FireflyRuntime&gt; = runtim
         <span>Retrieve a variable in React code</span>
     </h3>
 </doc-anchor-target>
-<p>Then, retrieve the variables in a new <code v-pre>DataPage</code> component using either the <a href="../../reference/env-vars/useenvironmentvariable/">useEnvironmentVariable</a> or <a href="../../reference/env-vars/useenvironmentvariables/">useEnvironmentVariables</a> hook:</p>
+<p>Then, retrieve the variables in a new <code translate="no" v-pre>DataPage</code> component using either the <a href="../../reference/env-vars/useenvironmentvariable/">useEnvironmentVariable</a> or <a href="../../reference/env-vars/useenvironmentvariables/">useEnvironmentVariables</a> hook:</p>
 <div class="codeblock-wrapper"><doc-codeblock>
 <div class="codeblock-title">host/src/DataPage.tsx</div>
 <pre translate="no" class="language-tsx" data-line="6,9"><code v-pre class="language-tsx">import { useEnvironmentVariable } from &quot;@squide/env-vars&quot;;
@@ -586,7 +561,7 @@ export const registerHost: ModuleRegisterFunction&lt;FireflyRuntime&gt; = runtim
         <span>Retrieve a variable for MSW handlers</span>
     </h3>
 </doc-anchor-target>
-<p>Next, create an MSW handlers for the <code v-pre>DataPage</code> component. An handler can retrieve the variables using either the plugin&#x27;s <a href="../../reference/env-vars/environmentvariablesplugin/#retrieve-a-single-environment-variable">getVariable</a> or <a href="../../reference/env-vars/environmentvariablesplugin/#retrieve-all-the-environment-variables">getVariables</a> function:</p>
+<p>Next, create an MSW handlers for the <code translate="no" v-pre>DataPage</code> component. An handler can retrieve the variables using either the plugin&#x27;s <a href="../../reference/env-vars/environmentvariablesplugin/#retrieve-a-single-environment-variable">getVariable</a> or <a href="../../reference/env-vars/environmentvariablesplugin/#retrieve-all-the-environment-variables">getVariables</a> function:</p>
 <div class="codeblock-wrapper"><doc-codeblock>
 <div class="codeblock-title">host/src/mocks/api.ts</div>
 <pre translate="no" class="language-tsx" data-line="8,11"><code v-pre class="language-tsx">import type { FireflyRuntime } from &quot;@squide/firefly&quot;;
@@ -671,7 +646,7 @@ export const registerHost: ModuleRegisterFunction&lt;FireflyRuntime&gt; = async 
         <span>Try it <span class="docs-emoji">&#x1F680;</span></span>
     </h2>
 </doc-anchor-target>
-<p>Start the application in a development environment using the <code v-pre>dev</code> script and navigate to the <code v-pre>/data</code> page. The page should render <code v-pre>{ &quot;foo&quot;: &quot;bar&quot; }</code>.</p>
+<p>Start the application in a development environment using the <code translate="no" v-pre>dev</code> script and navigate to the <code translate="no" v-pre>/data</code> page. The page should render <code translate="no" v-pre>{ &quot;foo&quot;: &quot;bar&quot; }</code>.</p>
 <doc-anchor-target id="troubleshoot-issues">
     <h3>
         <doc-anchor-trigger class="header-anchor-trigger" to="#troubleshoot-issues">#</doc-anchor-trigger>
@@ -690,7 +665,7 @@ export const registerHost: ModuleRegisterFunction&lt;FireflyRuntime&gt; = async 
         <span>Integrate with tests</span>
     </h2>
 </doc-anchor-target>
-<p>If the code under test uses environment variables, the <code v-pre>EnvironmentVariablesPlugin</code> can be used to mock these variables.</p>
+<p>If the code under test uses environment variables, the <code translate="no" v-pre>EnvironmentVariablesPlugin</code> can be used to mock these variables.</p>
 <p>Considering the following utility hook:</p>
 <div class="codeblock-wrapper"><doc-codeblock>
 <div class="codeblock-title">host/src/useAbsoluteUrl.ts</div>
@@ -700,7 +675,7 @@ export const registerHost: ModuleRegisterFunction&lt;FireflyRuntime&gt; = async 
     return `${apiBaseUrl}/${path}`;
 }</code></pre>
 </doc-codeblock></div>
-<p>You can write the following unit test to mock the value of <code v-pre>apiBaseUrl</code> and test the ouput of the <code v-pre>useAbsoluteUrl</code> hook:</p>
+<p>You can write the following unit test to mock the value of <code translate="no" v-pre>apiBaseUrl</code> and test the ouput of the <code translate="no" v-pre>useAbsoluteUrl</code> hook:</p>
 <div class="codeblock-wrapper"><doc-codeblock>
 <div class="codeblock-title">host/tests/useAbsoluteUrl.tsx</div>
 <pre translate="no" class="language-tsx" data-line="9,13"><code v-pre class="language-tsx">import { FireflyProvider, FireflyRuntime } from &quot;@squide/firefly&quot;;
@@ -734,7 +709,7 @@ test(&quot;an absolute URL including the API base URL is returned&quot;, () =&gt
         <span>Integrate with stories</span>
     </h2>
 </doc-anchor-target>
-<p>Components included in <a href="https://storybook.js.org/docs" class="outbound" target="_blank">Storybook</a> stories often rely on environment variables. The <code v-pre>EnvironmentVariablesPlugin</code> can be used to mock these variables:</p>
+<p>Components included in <a href="https://storybook.js.org/docs" class="outbound" target="_blank">Storybook</a> stories often rely on environment variables. The <code translate="no" v-pre>EnvironmentVariablesPlugin</code> can be used to mock these variables:</p>
 <div class="codeblock-wrapper"><doc-codeblock>
 <div class="codeblock-title">.storybook/preview.tsx</div>
 <pre translate="no" class="language-tsx" data-line="6"><code v-pre class="language-tsx">import { FireflyRuntime, RuntimeProvider } from &quot;@squide/firefly&quot;;
@@ -767,7 +742,7 @@ export default preview;</code></pre>
     </h2>
 </doc-anchor-target>
 <p>Libraries, such as an application <a href="../develop-a-module-in-isolation/#create-a-shell-package">Shell</a>, often need to manage environment variables internally to be portable.</p>
-<p>Assuming the host application registers the <code v-pre>EnvironmentVariablesPlugin</code> into the runtime, and given the following file structure:</p>
+<p>Assuming the host application registers the <code translate="no" v-pre>EnvironmentVariablesPlugin</code> into the runtime, and given the following file structure:</p>
 <div class="codeblock-wrapper"><doc-codeblock>
 <pre translate="no" class="language-none"><code v-pre class="language-none">shell
 ├── src
@@ -775,7 +750,7 @@ export default preview;</code></pre>
 ├── types
 ├────── env-vars.d.ts</code></pre>
 </doc-codeblock></div>
-<p>To setup such a library, first, create a <code v-pre>registerShell</code> function that accepts an argument indicating the current environment (e.g., <code v-pre>dev</code>, <code v-pre>staging</code> or <code v-pre>production</code>):</p>
+<p>To setup such a library, first, create a <code translate="no" v-pre>registerShell</code> function that accepts an argument indicating the current environment (e.g., <code translate="no" v-pre>dev</code>, <code translate="no" v-pre>staging</code> or <code translate="no" v-pre>production</code>):</p>
 <div class="codeblock-wrapper"><doc-codeblock>
 <div class="codeblock-title">shell/src/register.tsx</div>
 <pre translate="no" class="language-typescript" data-line="5-9"><code v-pre class="language-typescript">import type { ModuleRegisterFunction } from &quot;@squide/firefly&quot;;
@@ -794,7 +769,7 @@ export function registerShell(env: Environment) {
         <span>Register variables</span>
     </h3>
 </doc-anchor-target>
-<p>Then, update the <code v-pre>registerShell</code> function to register the <code v-pre>apiBaseUrl</code> environment variable based on the provided <code v-pre>env</code> argument:</p>
+<p>Then, update the <code translate="no" v-pre>registerShell</code> function to register the <code translate="no" v-pre>apiBaseUrl</code> environment variable based on the provided <code translate="no" v-pre>env</code> argument:</p>
 <div class="codeblock-wrapper"><doc-codeblock>
 <div class="codeblock-title">shell/src/register.tsx</div>
 <pre translate="no" class="language-typescript" data-line="41-44"><code v-pre class="language-typescript">import type { ModuleRegisterFunction } from &quot;@squide/firefly&quot;;
@@ -850,7 +825,7 @@ export function registerShell(env: Environment) {
         <span>Module augmentation</span>
     </h3>
 </doc-anchor-target>
-<p>Then, augment the <code v-pre>EnvironmentVariables</code> TypeScript interface to include the <code v-pre>apiBaseUrl</code> variable:</p>
+<p>Then, augment the <code translate="no" v-pre>EnvironmentVariables</code> TypeScript interface to include the <code translate="no" v-pre>apiBaseUrl</code> variable:</p>
 <div class="codeblock-wrapper"><doc-codeblock>
 <div class="codeblock-title">shell/types/env-vars.d.ts</div>
 <pre translate="no" class="language-typescript" data-line="6"><code v-pre class="language-typescript">import &quot;@squide/env-vars&quot;;
@@ -862,7 +837,7 @@ declare module &quot;@squide/env-vars&quot; {
     }
 }</code></pre>
 </doc-codeblock></div>
-<p>Then, update the module <code v-pre>tsconfig.json</code> to include the <code v-pre>types</code> folder:</p>
+<p>Then, update the module <code translate="no" v-pre>tsconfig.json</code> to include the <code translate="no" v-pre>types</code> folder:</p>
 <div class="codeblock-wrapper"><doc-codeblock>
 <div class="codeblock-title">shell/tsconfig.json</div>
 <pre translate="no" class="language-json" data-line="3"><code v-pre class="language-json">{
@@ -871,7 +846,7 @@ declare module &quot;@squide/env-vars&quot; {
     &quot;exclude&quot;: [&quot;dist&quot;, &quot;node_modules&quot;]
 }</code></pre>
 </doc-codeblock></div>
-<p>Finally, when <a href="https://www.typescriptlang.org/docs/handbook/compiler-options.html" class="outbound" target="_blank">tsc</a> is linting the codebase, it expects every code library that augments the <code v-pre>EnvironmentVariables</code> interface to include its typings. To do this, add each code library&#x27;s <code v-pre>types</code> folder to every projects&#x27; tsconfig.json file that depends on code libraries:</p>
+<p>Finally, when <a href="https://www.typescriptlang.org/docs/handbook/compiler-options.html" class="outbound" target="_blank">tsc</a> is linting the codebase, it expects every code library that augments the <code translate="no" v-pre>EnvironmentVariables</code> interface to include its typings. To do this, add each code library&#x27;s <code translate="no" v-pre>types</code> folder to every projects&#x27; tsconfig.json file that depends on code libraries:</p>
 <div class="codeblock-wrapper"><doc-codeblock>
 <div class="codeblock-title">host/tsconfig.json</div>
 <pre translate="no" class="language-json" data-line="6"><code v-pre class="language-json">{
@@ -906,7 +881,7 @@ declare module &quot;@squide/env-vars&quot; {
 <ul>
 <li>Open the <a href="https://developer.chrome.com/docs/devtools/" class="outbound" target="_blank">DevTools</a> console. You&#x27;ll find a log entry for each environment variable registration that occurs and error messages if something went wrong:
 <ul>
-<li><code v-pre>[squide] The following environment variables has been registered: {...}</code></li>
+<li><code translate="no" v-pre>[squide] The following environment variables has been registered: {...}</code></li>
 </ul>
 </li>
 <li>Refer to a working example on <a href="https://github.com/workleap/wl-squide/tree/main/samples/endpoints" class="outbound" target="_blank">GitHub</a>.</li>

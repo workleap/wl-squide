@@ -4,10 +4,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <meta name="turbo-root" content="/wl-squide">
-    <meta name="turbo-cache-control" content="no-cache" data-turbo-track="reload" data-track-token="3.11.0-preview6.804660603146">
+    <meta name="turbo-cache-control" content="no-cache" data-turbo-track="reload" data-track-token="3.12.0-preview2.806006202581">
 
     <!-- See retype.com -->
-    <meta name="generator" content="Retype 3.11.0-preview6">
+    <meta name="generator" content="Retype 3.12.0-preview2">
 
     <!-- Primary Meta Tags -->
     <title>Create an host application</title>
@@ -31,13 +31,13 @@
 
     <script data-cfasync="false">(function(){var cl=document.documentElement.classList,ls=localStorage.getItem("retype_scheme"),hd=cl.contains("dark"),hl=cl.contains("light"),wm=window.matchMedia&&window.matchMedia("(prefers-color-scheme: dark)").matches;if(ls==="dark"||(!ls&&wm&&!hd&&!hl)){cl.remove("light");cl.add("dark")}else if(ls==="light"||(!ls&&!wm&&!hd&&!hl)){cl.remove("dark");cl.add("light")}})();</script>
 
-    <link href="../../static/favicon.png" rel="icon">
-    <link href="../../resources/css/retype.css?v=3.11.0-preview6.804660603146" rel="stylesheet">
+    <link id="retype-favicon" rel="icon" href="../../static/favicon.png" />
+    <link href="../../resources/css/retype.css?v=3.12.0-preview2.806006202581" rel="stylesheet">
 
-    <script data-cfasync="false" src="../../resources/js/config.js?v=3.11.0-preview6.804660603146" data-turbo-eval="false" defer></script>
-    <script data-cfasync="false" src="../../resources/js/retype.js?v=3.11.0-preview6" data-turbo-eval="false" defer></script>
-    <script id="lunr-js" data-cfasync="false" src="../../resources/js/lunr.js?v=3.11.0-preview6.804660603146" data-turbo-eval="false" defer></script>
-    <script id="prism-js" data-cfasync="false" src="../../resources/js/prism.js?v=3.11.0-preview6.804660603146" defer></script>
+    <script data-cfasync="false" src="../../resources/js/config.js?v=3.12.0-preview2.806006202581" data-turbo-eval="false" defer></script>
+    <script data-cfasync="false" src="../../resources/js/retype.js?v=3.12.0-preview2" data-turbo-eval="false" defer></script>
+    <script id="lunr-js" data-cfasync="false" src="../../resources/js/lunr.js?v=3.12.0-preview2.806006202581" data-turbo-eval="false" defer></script>
+    <script id="prism-js" data-cfasync="false" src="../../resources/js/prism.js?v=3.12.0-preview2.806006202581" defer></script>
 
     <link href="https://workleap.github.io/wl-idp-docs-hub/static/retype-customization.css" rel="stylesheet" />
 
@@ -139,31 +139,6 @@
         
                         </ul>
                     </nav>
-        
-                    <!-- Header Right Skeleton -->
-                    <div v-cloak class="flex justify-end grow skeleton">
-        
-                        <!-- Search input mock -->
-                        <div class="relative hidden w-40 lg:block lg:max-w-sm lg:ml-auto">
-                            <div class="absolute flex items-center justify-center h-full pl-3 dark:text-dark-300">
-                                <svg xmlns="http://www.w3.org/2000/svg" class="icon-base" width="16" height="16" viewBox="0 0 24 24" aria-labelledby="icon" role="presentation" style="margin-bottom: 1px;"><g fill="currentColor" ><path d="M21.71 20.29l-3.68-3.68A8.963 8.963 0 0020 11c0-4.96-4.04-9-9-9s-9 4.04-9 9 4.04 9 9 9c2.12 0 4.07-.74 5.61-1.97l3.68 3.68c.2.19.45.29.71.29s.51-.1.71-.29c.39-.39.39-1.03 0-1.42zM4 11c0-3.86 3.14-7 7-7s7 3.14 7 7c0 1.92-.78 3.66-2.04 4.93-.01.01-.02.01-.02.01-.01.01-.01.01-.01.02A6.98 6.98 0 0111 18c-3.86 0-7-3.14-7-7z" ></path></g></svg>
-                            </div>
-                            <input class="w-full h-10 placeholder-search-placeholder transition-colors duration-200 ease-in bg-search-bg border border-transparent rounded md:text-sm hover:border-search-border-hover focus:outline-none focus:border-search-border-focus" style="padding: 0.625rem 0.75rem 0.625rem 2rem" type="text" placeholder="Search">
-                        </div>
-        
-                        <!-- Mobile search button -->
-                        <div class="flex items-center justify-center w-10 h-10 lg:hidden">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="shrink-0 icon-base" width="20" height="20" viewBox="0 0 24 24" aria-labelledby="icon" role="presentation" style="margin-bottom: 0px;"><g fill="currentColor" ><path d="M21.71 20.29l-3.68-3.68A8.963 8.963 0 0020 11c0-4.96-4.04-9-9-9s-9 4.04-9 9 4.04 9 9 9c2.12 0 4.07-.74 5.61-1.97l3.68 3.68c.2.19.45.29.71.29s.51-.1.71-.29c.39-.39.39-1.03 0-1.42zM4 11c0-3.86 3.14-7 7-7s7 3.14 7 7c0 1.92-.78 3.66-2.04 4.93-.01.01-.02.01-.02.01-.01.01-.01.01-.01.02A6.98 6.98 0 0111 18c-3.86 0-7-3.14-7-7z" ></path></g></svg>
-                        </div>
-        
-                        <!-- Dark mode switch placeholder -->
-                        <div class="w-10 h-10 lg:ml-2"></div>
-        
-                        <!-- History button -->
-                        <div class="flex items-center justify-center w-10 h-10" style="margin-right: -0.625rem;">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="shrink-0 icon-base" width="22" height="22" viewBox="0 0 24 24" aria-labelledby="icon" role="presentation" style="margin-bottom: 0px;"><g fill="currentColor" ><g ><path d="M12.01 6.01c-.55 0-1 .45-1 1V12a1 1 0 00.4.8l3 2.22a.985.985 0 001.39-.2.996.996 0 00-.21-1.4l-2.6-1.92V7.01c.02-.55-.43-1-.98-1z"></path><path d="M12.01 1.91c-5.33 0-9.69 4.16-10.05 9.4l-.29-.26a.997.997 0 10-1.34 1.48l1.97 1.79c.19.17.43.26.67.26s.48-.09.67-.26l1.97-1.79a.997.997 0 10-1.34-1.48l-.31.28c.34-4.14 3.82-7.41 8.05-7.41 4.46 0 8.08 3.63 8.08 8.09s-3.63 8.08-8.08 8.08c-2.18 0-4.22-.85-5.75-2.4a.996.996 0 10-1.42 1.4 10.02 10.02 0 007.17 2.99c5.56 0 10.08-4.52 10.08-10.08.01-5.56-4.52-10.09-10.08-10.09z"></path></g></g></svg>
-                        </div>
-                    </div>
         
                     <div v-cloak class="flex justify-end grow">
                         <div id="retype-mobile-search-button"></div>
@@ -330,7 +305,7 @@
         <span>Install the packages</span>
     </h2>
 </doc-anchor-target>
-<p>Create a new application (we&#x27;ll refer to ours as <code v-pre>host</code>), then open a terminal at the root of the new solution and install the following packages:</p>
+<p>Create a new application (we&#x27;ll refer to ours as <code translate="no" v-pre>host</code>), then open a terminal at the root of the new solution and install the following packages:</p>
 <div class="codeblock-wrapper"><doc-codeblock>
 <pre translate="no" class="language-bash"><code v-pre class="language-bash">pnpm add -D @workleap/rsbuild-configs @workleap/browserslist-config @rsbuild/core @rspack/core browserslist typescript @types/react @types/react-dom
 pnpm add @squide/firefly react react-dom react-router @tanstack/react-query</code></pre>
@@ -357,7 +332,7 @@ pnpm add @squide/firefly react react-dom react-router @tanstack/react-query</cod
 ├── rsbuild.build.ts
 ├── package.json</code></pre>
 </doc-codeblock></div>
-<p>Then, ensure that you are developing your application using <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Modules" class="outbound" target="_blank">ESM syntax</a> by specifying <code v-pre>type: module</code> in your <code v-pre>package.json</code> file:</p>
+<p>Then, ensure that you are developing your application using <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Modules" class="outbound" target="_blank">ESM syntax</a> by specifying <code translate="no" v-pre>type: module</code> in your <code translate="no" v-pre>package.json</code> file:</p>
 <div class="codeblock-wrapper"><doc-codeblock>
 <div class="codeblock-title">host/package.json</div>
 <pre translate="no" class="language-json"><code v-pre class="language-json">{
@@ -370,7 +345,7 @@ pnpm add @squide/firefly react react-dom react-router @tanstack/react-query</cod
         <span>Module registration</span>
     </h3>
 </doc-anchor-target>
-<p>Next, to register the modules, instanciate a shell <a href="../../reference/runtime/runtime-class/">FireflyRuntime</a> instance. A local module will be registered in the <a href="../create-local-module/">next section</a> of this quick start guide.</p>
+<p>Next, to register the modules, instanciate a shell <a href="../../reference/runtime/runtime-class/">FireflyRuntime</a> instance. A local module will be registered in the <a href="../create-local-module/">next section</a> of this quick start guide:</p>
 <div class="codeblock-wrapper"><doc-codeblock>
 <div class="codeblock-title">host/src/index.tsx</div>
 <pre translate="no" class="language-tsx" data-line="5-7"><code v-pre class="language-tsx">import { createRoot } from &quot;react-dom/client&quot;;
@@ -422,7 +397,7 @@ export function App() {
         <span>Navigation items</span>
     </h3>
 </doc-anchor-target>
-<p>Next, create a layout component to <a href="../../reference/routing/userenderednavigationitems/">render the navigation items</a>. In many applications, multiple pages often share a <strong>common layout</strong> that includes elements such as a navigation bar, a user profile menu, and a main content section. In a <a href="https://reactrouter.com/en/main" class="outbound" target="_blank">React Router</a> application, this shared layout is commonly referred to as a <code v-pre>RootLayout</code>:</p>
+<p>Next, create a layout component to <a href="../../reference/routing/userenderednavigationitems/">render the navigation items</a>. In many applications, multiple pages often share a <strong>common layout</strong> that includes elements such as a navigation bar, a user profile menu, and a main content section. In a <a href="https://reactrouter.com/en/main" class="outbound" target="_blank">React Router</a> application, this shared layout is commonly referred to as a <code translate="no" v-pre>RootLayout</code>:</p>
 <div class="codeblock-wrapper"><doc-codeblock>
 <div class="codeblock-title">host/src/RootLayout.tsx</div>
 <pre translate="no" class="language-tsx" data-line="40,43"><code v-pre class="language-tsx">import { Suspense } from &quot;react&quot;;
@@ -479,14 +454,14 @@ export function RootLayout() {
     );
 }</code></pre>
 </doc-codeblock></div>
-<p>The <code v-pre>RootLayout</code> component created in the previous sample will serves as the default layout for the homepage as well as for every page (route) registered by a module that are not nested under a parent route with either the <a href="../../reference/runtime/runtime-class/#register-nested-routes">parentPath</a> or the <a href="../../reference/runtime/runtime-class/#register-a-route-with-an-id">parentId</a> option.</p>
+<p>The <code translate="no" v-pre>RootLayout</code> component created in the previous sample will serves as the default layout for the homepage as well as for every page (route) registered by a module that are not nested under a parent route with either the <a href="../../reference/runtime/runtime-class/#register-nested-routes">parentPath</a> or the <a href="../../reference/runtime/runtime-class/#register-a-route-with-an-id">parentId</a> option.</p>
 <doc-anchor-target id="homepage">
     <h3>
         <doc-anchor-trigger class="header-anchor-trigger" to="#homepage">#</doc-anchor-trigger>
         <span>Homepage</span>
     </h3>
 </doc-anchor-target>
-<p>Next, create the <code v-pre>HomePage</code> component that will serve as the homepage:</p>
+<p>Next, create the <code translate="no" v-pre>HomePage</code> component that will serve as the homepage:</p>
 <div class="codeblock-wrapper"><doc-codeblock>
 <div class="codeblock-title">host/src/HomePage.tsx</div>
 <pre translate="no" class="language-tsx"><code v-pre class="language-tsx">export function HomePage() {
@@ -508,7 +483,7 @@ export const registerHost: ModuleRegisterFunction&lt;FireflyRuntime&gt; = runtim
     });
 };</code></pre>
 </doc-codeblock></div>
-<p>And an <a href="../../reference/runtime/runtime-class/#register-an-hoisted-route">hoisted route</a> to render the <code v-pre>RootLayout</code> with the <a href="../../reference/routing/publicroutes/">PublicRoutes</a> and <a href="../../reference/routing/protectedroutes/">ProtectedRoutes</a> placeholders:</p>
+<p>And an <a href="../../reference/runtime/runtime-class/#register-an-hoisted-route">hoisted route</a> to render the <code translate="no" v-pre>RootLayout</code> with the <a href="../../reference/routing/publicroutes/">PublicRoutes</a> and <a href="../../reference/routing/protectedroutes/">ProtectedRoutes</a> placeholders:</p>
 <div class="codeblock-wrapper"><doc-codeblock>
 <div class="codeblock-title">host/src/register.tsx</div>
 <pre translate="no" class="language-tsx" data-line="8,11,12,15"><code v-pre class="language-tsx">import { PublicRoutes, ProtectedRoutes, type ModuleRegisterFunction, type FireflyRuntime } from &quot;@squide/firefly&quot;;
@@ -545,7 +520,7 @@ export const registerHost: ModuleRegisterFunction&lt;FireflyRuntime&gt; = runtim
             </svg>
         </div>
         <div class="pr-5 ml-3 w-full">
-<p>The <a href="../../reference/routing/publicroutes/">PublicRoutes</a> and <a href="../../reference/routing/protectedroutes/">ProtectedRoutes</a> placeholders indicates where routes that are neither hoisted or nested with a <a href="../../reference/runtime/runtime-class/#register-nested-navigation-items">parentPath</a> or <a href="../../reference/runtime/runtime-class/#register-a-route-with-an-id">parentId</a> option will be rendered. In this example, the homepage route is considered as a protected route and will be rendered under the <code v-pre>ProtectedRoutes</code> placeholder.</p>
+<p>The <a href="../../reference/routing/publicroutes/">PublicRoutes</a> and <a href="../../reference/routing/protectedroutes/">ProtectedRoutes</a> placeholders indicates where routes that are neither hoisted or nested with a <a href="../../reference/runtime/runtime-class/#register-nested-navigation-items">parentPath</a> or <a href="../../reference/runtime/runtime-class/#register-a-route-with-an-id">parentId</a> option will be rendered. In this example, the homepage route is considered as a protected route and will be rendered under the <code translate="no" v-pre>ProtectedRoutes</code> placeholder.</p>
         </div>
     </div>
 </div>
@@ -576,7 +551,7 @@ root.render(
         <span>Not found page (404)</span>
     </h3>
 </doc-anchor-target>
-<p>Now, let&#x27;s ensure that users who enter a wrong URL end up somewhere by registering a custom <a href="https://reactrouter.com/en/main/start/faq#how-do-i-add-a-no-match-404-route-in-react-router-v6" class="outbound" target="_blank">no-match route</a>. First, create the <code v-pre>NotFoundPage</code> component, which will serve as the page for handling not found routes:</p>
+<p>Now, let&#x27;s ensure that users who enter a wrong URL end up somewhere by registering a custom <a href="https://reactrouter.com/en/main/start/faq#how-do-i-add-a-no-match-404-route-in-react-router-v6" class="outbound" target="_blank">no-match route</a>. First, create the <code translate="no" v-pre>NotFoundPage</code> component, which will serve as the page for handling not found routes:</p>
 <div class="codeblock-wrapper"><doc-codeblock>
 <div class="codeblock-title">host/src/NotFoundPage.tsx</div>
 <pre translate="no" class="language-tsx"><code v-pre class="language-tsx">export function NotFoundPage() {
@@ -585,7 +560,7 @@ root.render(
     );
 }</code></pre>
 </doc-codeblock></div>
-<p>Then, register the newly created component as the <code v-pre>*</code> route:</p>
+<p>Then, register the newly created component as the <code translate="no" v-pre>*</code> route:</p>
 <div class="codeblock-wrapper"><doc-codeblock>
 <div class="codeblock-title">host/src/register.tsx</div>
 <pre translate="no" class="language-tsx" data-line="18-21"><code v-pre class="language-tsx">import { PublicRoutes, ProtectedRoutes, type ModuleRegisterFunction, type FireflyRuntime } from &quot;@squide/firefly&quot;;
@@ -637,7 +612,7 @@ export const registerHost: ModuleRegisterFunction&lt;FireflyRuntime&gt; = runtim
         </div>
     </div>
 </div>
-<p>First, open the <code v-pre>public/index.html</code> file created at the beginning of this guide and copy/paste the following template:</p>
+<p>First, open the <code translate="no" v-pre>public/index.html</code> file created at the beginning of this guide and copy/paste the following template:</p>
 <div class="codeblock-wrapper"><doc-codeblock>
 <div class="codeblock-title">host/public/index.html</div>
 <pre translate="no" class="language-markup"><code v-pre class="language-markup">&lt;!DOCTYPE html&gt;
@@ -649,7 +624,7 @@ export const registerHost: ModuleRegisterFunction&lt;FireflyRuntime&gt; = runtim
     &lt;/body&gt;
 &lt;/html&gt;</code></pre>
 </doc-codeblock></div>
-<p>Then, open the <code v-pre>.browserslist</code> file and copy/paste the following content:</p>
+<p>Then, open the <code translate="no" v-pre>.browserslist</code> file and copy/paste the following content:</p>
 <div class="codeblock-wrapper"><doc-codeblock>
 <div class="codeblock-title">host/.browserslistrc</div>
 <pre translate="no" class="language-none"><code v-pre class="language-none">extends @workleap/browserslist-config</code></pre>
@@ -660,7 +635,7 @@ export const registerHost: ModuleRegisterFunction&lt;FireflyRuntime&gt; = runtim
         <span>Development configuration</span>
     </h3>
 </doc-anchor-target>
-<p>To configure Rsbuild for a <strong>development</strong> environment, open the <code v-pre>rsbuild.dev.ts</code> file and use the <a href="https://workleap.github.io/wl-web-configs/rsbuild/configure-dev/#rsbuilddevts" class="outbound" target="_blank">defineDevConfig</a> function to configure Rsbuild:</p>
+<p>To configure Rsbuild for a <strong>development</strong> environment, open the <code translate="no" v-pre>rsbuild.dev.ts</code> file and use the <a href="https://workleap.github.io/wl-web-configs/rsbuild/configure-dev/#rsbuilddevts" class="outbound" target="_blank">defineDevConfig</a> function to configure Rsbuild:</p>
 <div class="codeblock-wrapper"><doc-codeblock>
 <div class="codeblock-title">host/rsbuild.dev.ts</div>
 <pre translate="no" class="language-typescript"><code v-pre class="language-typescript">import { defineDevConfig } from &quot;@workleap/rsbuild-configs&quot;;
@@ -673,7 +648,7 @@ export default defineDevConfig();</code></pre>
         <span>Build configuration</span>
     </h3>
 </doc-anchor-target>
-<p>To configure Rsbuild for a <strong>build</strong> environment, open the <code v-pre>rsbuild.build.ts</code> file and use the <a href="https://workleap.github.io/wl-web-configs/rsbuild/configure-build/#rsbuildbuildts" class="outbound" target="_blank">defineBuildConfig</a> function to configure Rsbuild:</p>
+<p>To configure Rsbuild for a <strong>build</strong> environment, open the <code translate="no" v-pre>rsbuild.build.ts</code> file and use the <a href="https://workleap.github.io/wl-web-configs/rsbuild/configure-build/#rsbuildbuildts" class="outbound" target="_blank">defineBuildConfig</a> function to configure Rsbuild:</p>
 <div class="codeblock-wrapper"><doc-codeblock>
 <div class="codeblock-title">host/rsbuild.build.ts</div>
 <pre translate="no" class="language-typescript"><code v-pre class="language-typescript">import { defineBuildConfig } from &quot;@workleap/rsbuild-configs&quot;;
@@ -686,14 +661,14 @@ export default defineBuildConfig();</code></pre>
         <span>Add CLI scripts</span>
     </h2>
 </doc-anchor-target>
-<p>To initiate the development server, add the following script to the application <code v-pre>package.json</code> file:</p>
+<p>To initiate the development server, add the following script to the application <code translate="no" v-pre>package.json</code> file:</p>
 <div class="codeblock-wrapper"><doc-codeblock>
 <div class="codeblock-title">host/package.json</div>
 <pre translate="no" class="language-json"><code v-pre class="language-json">{
     &quot;dev&quot;: &quot;rsbuild dev --config ./rsbuild.dev.ts&quot;
 }</code></pre>
 </doc-codeblock></div>
-<p>To build the application, add the following script to the application <code v-pre>package.json</code> file:</p>
+<p>To build the application, add the following script to the application <code translate="no" v-pre>package.json</code> file:</p>
 <div class="codeblock-wrapper"><doc-codeblock>
 <div class="codeblock-title">host/package.json</div>
 <pre translate="no" class="language-json"><code v-pre class="language-json">{
@@ -706,7 +681,7 @@ export default defineBuildConfig();</code></pre>
         <span>Try it <span class="docs-emoji">&#x1F680;</span></span>
     </h2>
 </doc-anchor-target>
-<p>Start the application in a development environment using the <code v-pre>dev</code> script. You should see the homepage.</p>
+<p>Start the application in a development environment using the <code translate="no" v-pre>dev</code> script. You should see the homepage.</p>
 <doc-anchor-target id="troubleshoot-issues">
     <h3>
         <doc-anchor-trigger class="header-anchor-trigger" to="#troubleshoot-issues">#</doc-anchor-trigger>
@@ -717,9 +692,9 @@ export default defineBuildConfig();</code></pre>
 <ul>
 <li>Open the <a href="https://developer.chrome.com/docs/devtools/" class="outbound" target="_blank">DevTools</a> console. You&#x27;ll find a log entry for each registration that occurs and error messages if something went wrong:
 <ul>
-<li><code v-pre>[squide] Found 1 local module to register.</code></li>
-<li><code v-pre>[squide] 1/1 Registering local module.</code></li>
-<li><code v-pre>[squide] 1/1 Local module registration completed.</code></li>
+<li><code translate="no" v-pre>[squide] Found 1 local module to register.</code></li>
+<li><code translate="no" v-pre>[squide] 1/1 Registering local module.</code></li>
+<li><code translate="no" v-pre>[squide] 1/1 Local module registration completed.</code></li>
 </ul>
 </li>
 <li>Refer to a working example on <a href="https://github.com/workleap/wl-squide/tree/main/samples/basic/host" class="outbound" target="_blank">GitHub</a>.</li>

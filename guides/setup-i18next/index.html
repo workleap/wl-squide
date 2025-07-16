@@ -4,10 +4,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <meta name="turbo-root" content="/wl-squide">
-    <meta name="turbo-cache-control" content="no-cache" data-turbo-track="reload" data-track-token="3.11.0-preview6.804660603146">
+    <meta name="turbo-cache-control" content="no-cache" data-turbo-track="reload" data-track-token="3.12.0-preview2.806006202581">
 
     <!-- See retype.com -->
-    <meta name="generator" content="Retype 3.11.0-preview6">
+    <meta name="generator" content="Retype 3.12.0-preview2">
 
     <!-- Primary Meta Tags -->
     <title>Setup i18next</title>
@@ -31,13 +31,13 @@
 
     <script data-cfasync="false">(function(){var cl=document.documentElement.classList,ls=localStorage.getItem("retype_scheme"),hd=cl.contains("dark"),hl=cl.contains("light"),wm=window.matchMedia&&window.matchMedia("(prefers-color-scheme: dark)").matches;if(ls==="dark"||(!ls&&wm&&!hd&&!hl)){cl.remove("light");cl.add("dark")}else if(ls==="light"||(!ls&&!wm&&!hd&&!hl)){cl.remove("dark");cl.add("light")}})();</script>
 
-    <link href="../../static/favicon.png" rel="icon">
-    <link href="../../resources/css/retype.css?v=3.11.0-preview6.804660603146" rel="stylesheet">
+    <link id="retype-favicon" rel="icon" href="../../static/favicon.png" />
+    <link href="../../resources/css/retype.css?v=3.12.0-preview2.806006202581" rel="stylesheet">
 
-    <script data-cfasync="false" src="../../resources/js/config.js?v=3.11.0-preview6.804660603146" data-turbo-eval="false" defer></script>
-    <script data-cfasync="false" src="../../resources/js/retype.js?v=3.11.0-preview6" data-turbo-eval="false" defer></script>
-    <script id="lunr-js" data-cfasync="false" src="../../resources/js/lunr.js?v=3.11.0-preview6.804660603146" data-turbo-eval="false" defer></script>
-    <script id="prism-js" data-cfasync="false" src="../../resources/js/prism.js?v=3.11.0-preview6.804660603146" defer></script>
+    <script data-cfasync="false" src="../../resources/js/config.js?v=3.12.0-preview2.806006202581" data-turbo-eval="false" defer></script>
+    <script data-cfasync="false" src="../../resources/js/retype.js?v=3.12.0-preview2" data-turbo-eval="false" defer></script>
+    <script id="lunr-js" data-cfasync="false" src="../../resources/js/lunr.js?v=3.12.0-preview2.806006202581" data-turbo-eval="false" defer></script>
+    <script id="prism-js" data-cfasync="false" src="../../resources/js/prism.js?v=3.12.0-preview2.806006202581" defer></script>
 
     <link href="https://workleap.github.io/wl-idp-docs-hub/static/retype-customization.css" rel="stylesheet" />
 
@@ -139,31 +139,6 @@
         
                         </ul>
                     </nav>
-        
-                    <!-- Header Right Skeleton -->
-                    <div v-cloak class="flex justify-end grow skeleton">
-        
-                        <!-- Search input mock -->
-                        <div class="relative hidden w-40 lg:block lg:max-w-sm lg:ml-auto">
-                            <div class="absolute flex items-center justify-center h-full pl-3 dark:text-dark-300">
-                                <svg xmlns="http://www.w3.org/2000/svg" class="icon-base" width="16" height="16" viewBox="0 0 24 24" aria-labelledby="icon" role="presentation" style="margin-bottom: 1px;"><g fill="currentColor" ><path d="M21.71 20.29l-3.68-3.68A8.963 8.963 0 0020 11c0-4.96-4.04-9-9-9s-9 4.04-9 9 4.04 9 9 9c2.12 0 4.07-.74 5.61-1.97l3.68 3.68c.2.19.45.29.71.29s.51-.1.71-.29c.39-.39.39-1.03 0-1.42zM4 11c0-3.86 3.14-7 7-7s7 3.14 7 7c0 1.92-.78 3.66-2.04 4.93-.01.01-.02.01-.02.01-.01.01-.01.01-.01.02A6.98 6.98 0 0111 18c-3.86 0-7-3.14-7-7z" ></path></g></svg>
-                            </div>
-                            <input class="w-full h-10 placeholder-search-placeholder transition-colors duration-200 ease-in bg-search-bg border border-transparent rounded md:text-sm hover:border-search-border-hover focus:outline-none focus:border-search-border-focus" style="padding: 0.625rem 0.75rem 0.625rem 2rem" type="text" placeholder="Search">
-                        </div>
-        
-                        <!-- Mobile search button -->
-                        <div class="flex items-center justify-center w-10 h-10 lg:hidden">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="shrink-0 icon-base" width="20" height="20" viewBox="0 0 24 24" aria-labelledby="icon" role="presentation" style="margin-bottom: 0px;"><g fill="currentColor" ><path d="M21.71 20.29l-3.68-3.68A8.963 8.963 0 0020 11c0-4.96-4.04-9-9-9s-9 4.04-9 9 4.04 9 9 9c2.12 0 4.07-.74 5.61-1.97l3.68 3.68c.2.19.45.29.71.29s.51-.1.71-.29c.39-.39.39-1.03 0-1.42zM4 11c0-3.86 3.14-7 7-7s7 3.14 7 7c0 1.92-.78 3.66-2.04 4.93-.01.01-.02.01-.02.01-.01.01-.01.01-.01.02A6.98 6.98 0 0111 18c-3.86 0-7-3.14-7-7z" ></path></g></svg>
-                        </div>
-        
-                        <!-- Dark mode switch placeholder -->
-                        <div class="w-10 h-10 lg:ml-2"></div>
-        
-                        <!-- History button -->
-                        <div class="flex items-center justify-center w-10 h-10" style="margin-right: -0.625rem;">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="shrink-0 icon-base" width="22" height="22" viewBox="0 0 24 24" aria-labelledby="icon" role="presentation" style="margin-bottom: 0px;"><g fill="currentColor" ><g ><path d="M12.01 6.01c-.55 0-1 .45-1 1V12a1 1 0 00.4.8l3 2.22a.985.985 0 001.39-.2.996.996 0 00-.21-1.4l-2.6-1.92V7.01c.02-.55-.43-1-.98-1z"></path><path d="M12.01 1.91c-5.33 0-9.69 4.16-10.05 9.4l-.29-.26a.997.997 0 10-1.34 1.48l1.97 1.79c.19.17.43.26.67.26s.48-.09.67-.26l1.97-1.79a.997.997 0 10-1.34-1.48l-.31.28c.34-4.14 3.82-7.41 8.05-7.41 4.46 0 8.08 3.63 8.08 8.09s-3.63 8.08-8.08 8.08c-2.18 0-4.22-.85-5.75-2.4a.996.996 0 10-1.42 1.4 10.02 10.02 0 007.17 2.99c5.56 0 10.08-4.52 10.08-10.08.01-5.56-4.52-10.09-10.08-10.09z"></path></g></g></svg>
-                        </div>
-                    </div>
         
                     <div v-cloak class="flex justify-end grow">
                         <div id="retype-mobile-search-button"></div>
@@ -368,14 +343,14 @@ root.render(
     &lt;/FireflyProvider&gt;
 );</code></pre>
 </doc-codeblock></div>
-<p>In the previous code sample, upon creating an <code v-pre>i18nextPlugin</code> instance, the user language is automatically detected using the <code v-pre>plugin.detectUserLanguage</code> function. Applications <strong>should always</strong> detect the user language at bootstrapping, even if the current language is expected to be overriden by a preferred language setting once the user session has been loaded.</p>
+<p>In the previous code sample, upon creating an <code translate="no" v-pre>i18nextPlugin</code> instance, the user language is automatically detected using the <code translate="no" v-pre>plugin.detectUserLanguage</code> function. Applications <strong>should always</strong> detect the user language at bootstrapping, even if the current language is expected to be overriden by a preferred language setting once the user session has been loaded.</p>
 <doc-anchor-target id="define-the-localized-resources">
     <h3>
         <doc-anchor-trigger class="header-anchor-trigger" to="#define-the-localized-resources">#</doc-anchor-trigger>
         <span>Define the localized resources</span>
     </h3>
 </doc-anchor-target>
-<p>Next, create the localized resource files for the <code v-pre>en-US</code> and <code v-pre>fr-CA</code> locales:</p>
+<p>Next, create the localized resource files for the <code translate="no" v-pre>en-US</code> and <code translate="no" v-pre>fr-CA</code> locales:</p>
 <div class="codeblock-wrapper"><doc-codeblock>
 <div class="codeblock-title">host/src/locales/en-US.json</div>
 <pre translate="no" class="language-json"><code v-pre class="language-json">{
@@ -398,7 +373,7 @@ root.render(
         <span>Register an i18next instance</span>
     </h3>
 </doc-anchor-target>
-<p>Then, update the host application local module&#x27;s <a href="../../reference/registration/registerlocalmodules/">register</a> function to create and register an <code v-pre>i18next</code> instance with the retrieved <code v-pre>i18nextPlugin</code> instance. Due to how the internals of <code v-pre>i18next</code> works, each module (including the host application) must create its own instance of the third-party library. <code v-pre>i18nextPlugin</code> will handle synchronizing the language changes across all <code v-pre>i18next</code> instances:</p>
+<p>Then, update the host application local module&#x27;s <a href="../../reference/registration/registerlocalmodules/">register</a> function to create and register an <code translate="no" v-pre>i18next</code> instance with the retrieved <code translate="no" v-pre>i18nextPlugin</code> instance. Due to how the internals of <code translate="no" v-pre>i18next</code> works, each module (including the host application) must create its own instance of the third-party library. <code translate="no" v-pre>i18nextPlugin</code> will handle synchronizing the language changes across all <code translate="no" v-pre>i18next</code> instances:</p>
 <div class="codeblock-wrapper"><doc-codeblock>
 <div class="codeblock-title">host/src/register.tsx</div>
 <pre translate="no" class="language-tsx" data-line="12-14,16-23,26"><code v-pre class="language-tsx">import type { ModuleRegisterFunction, FireflyRuntime } from &quot;@squide/firefly&quot;;
@@ -436,14 +411,14 @@ export const registerHost: ModuleRegisterFunction&lt;FireflyRuntime&gt; = runtim
     });
 };</code></pre>
 </doc-codeblock></div>
-<p>In the previous code sample, notice that the <code v-pre>i18next</code> instance has been initialized with the current language of the <code v-pre>i18nextPlugin</code> instance by providing the <code v-pre>lng</code> option. If the user language has been detected during bootstrapping, the <code v-pre>i18next</code> instance will then be initialized with the user language which has been deduced from either a <code v-pre>?language</code> querystring parameter or the user navigator language settings. Otherwise, the application instance will be initialized with the fallback language, which is <code v-pre>en-US</code> for this guide.</p>
+<p>In the previous code sample, notice that the <code translate="no" v-pre>i18next</code> instance has been initialized with the current language of the <code translate="no" v-pre>i18nextPlugin</code> instance by providing the <code translate="no" v-pre>lng</code> option. If the user language has been detected during bootstrapping, the <code translate="no" v-pre>i18next</code> instance will then be initialized with the user language which has been deduced from either a <code translate="no" v-pre>?language</code> querystring parameter or the user navigator language settings. Otherwise, the application instance will be initialized with the fallback language, which is <code translate="no" v-pre>en-US</code> for this guide.</p>
 <doc-anchor-target id="localize-the-home-page-resources">
     <h3>
         <doc-anchor-trigger class="header-anchor-trigger" to="#localize-the-home-page-resources">#</doc-anchor-trigger>
         <span>Localize the home page resources</span>
     </h3>
 </doc-anchor-target>
-<p>Then, update the <code v-pre>HomePage</code> component to use the newly created localized resource:</p>
+<p>Then, update the <code translate="no" v-pre>HomePage</code> component to use the newly created localized resource:</p>
 <div class="codeblock-wrapper"><doc-codeblock>
 <div class="codeblock-title">host/src/HomePage.tsx</div>
 <pre translate="no" class="language-tsx" data-line="6-7,10"><code v-pre class="language-tsx">import { useI18nextInstance } from &quot;@squide/i18next&quot;;
@@ -475,7 +450,7 @@ export function HomePage() {
         <span>Define the localized resources</span>
     </h3>
 </doc-anchor-target>
-<p>Then, create the localized resource files for the <code v-pre>en-US</code> and <code v-pre>fr-CA</code> locales:</p>
+<p>Then, create the localized resource files for the <code translate="no" v-pre>en-US</code> and <code translate="no" v-pre>fr-CA</code> locales:</p>
 <div class="codeblock-wrapper"><doc-codeblock>
 <div class="codeblock-title">local-module/src/locales/en-US.json</div>
 <pre translate="no" class="language-json"><code v-pre class="language-json">{
@@ -498,14 +473,14 @@ export function HomePage() {
     }
 }</code></pre>
 </doc-codeblock></div>
-<p>Notice that this time, a standard <code v-pre>navigationItems</code> namespace has been added to the resource files. The resources in the <code v-pre>navigationItems</code> namespace will be used later on to localize the <a href="../../reference/registration/registerlocalmodules/">navigation items</a> labels.</p>
+<p>Notice that this time, a standard <code translate="no" v-pre>navigationItems</code> namespace has been added to the resource files. The resources in the <code translate="no" v-pre>navigationItems</code> namespace will be used later on to localize the <a href="../../reference/registration/registerlocalmodules/">navigation items</a> labels.</p>
 <doc-anchor-target id="register-an-i18next-instance-1">
     <h3>
         <doc-anchor-trigger class="header-anchor-trigger" to="#register-an-i18next-instance-1">#</doc-anchor-trigger>
         <span>Register an i18next instance</span>
     </h3>
 </doc-anchor-target>
-<p>Then, update the local module&#x27;s <a href="../../reference/registration/registerlocalmodules/">register</a> function to create and register an instance of <code v-pre>i18next</code> with the <code v-pre>i18nextPlugin</code> plugin instance. Similarly to the <doc-anchor-trigger to="#register-an-i18next-instance">host application</doc-anchor-trigger>, due to how the internals of <code v-pre>i18next</code> works, this local module requires to register its own instance of the third-party library:</p>
+<p>Then, update the local module&#x27;s <a href="../../reference/registration/registerlocalmodules/">register</a> function to create and register an instance of <code translate="no" v-pre>i18next</code> with the <code translate="no" v-pre>i18nextPlugin</code> plugin instance. Similarly to the <doc-anchor-trigger to="#register-an-i18next-instance">host application</doc-anchor-trigger>, due to how the internals of <code translate="no" v-pre>i18next</code> works, this local module requires to register its own instance of the third-party library:</p>
 <div class="codeblock-wrapper"><doc-codeblock>
 <div class="codeblock-title">local-module/src/register.tsx</div>
 <pre translate="no" class="language-tsx" data-line="10,12-14,16-23,26"><code v-pre class="language-tsx">import type { ModuleRegisterFunction, FireflyRuntime } from &quot;@squide/firefly&quot;;
@@ -554,7 +529,7 @@ export const register: ModuleRegisterFunction&lt;FireflyRuntime&gt; = runtime =&
         <span>Localize the navigation item labels</span>
     </h3>
 </doc-anchor-target>
-<p>Then, localize the navigation items labels using the <a href="../../reference/i18next/i18nextnavigationitemlabel/">I18nextNavigationItemLabel</a> component. Since this example resources are in the <code v-pre>navigationItems</code> namespace, there&#x27;s no need to specify a <code v-pre>namespace</code> property on the components as it will be inferred:</p>
+<p>Then, localize the navigation items labels using the <a href="../../reference/i18next/i18nextnavigationitemlabel/">I18nextNavigationItemLabel</a> component. Since this example resources are in the <code translate="no" v-pre>navigationItems</code> namespace, there&#x27;s no need to specify a <code translate="no" v-pre>namespace</code> property on the components as it will be inferred:</p>
 <div class="codeblock-wrapper"><doc-codeblock>
 <div class="codeblock-title">local-module/src/register.tsx</div>
 <pre translate="no" class="language-tsx" data-line="37"><code v-pre class="language-tsx">import type { ModuleRegisterFunction, FireflyRuntime } from &quot;@squide/firefly&quot;;
@@ -604,7 +579,7 @@ export const register: ModuleRegisterFunction&lt;FireflyRuntime&gt; = runtime =&
         <span>Localize the page resources</span>
     </h3>
 </doc-anchor-target>
-<p>Then, update the <code v-pre>Page</code> component to use the newly created localized resource:</p>
+<p>Then, update the <code translate="no" v-pre>Page</code> component to use the newly created localized resource:</p>
 <div class="codeblock-wrapper"><doc-codeblock>
 <div class="codeblock-title">local-module/src/Page.tsx</div>
 <pre translate="no" class="language-tsx" data-line="6,7,10"><code v-pre class="language-tsx">import { useI18nextInstance } from &quot;@squide/i18next&quot;;
@@ -719,7 +694,7 @@ export function App() {
             </svg>
         </div>
         <div class="pr-5 ml-3 w-full">
-<p>The previous code sample assumes that your <code v-pre>@sample/shared</code> project includes the primitives created in the <a href="../add-authentication/">Add authentication</a> guide as well as the session Mock Server Worker request handlers.</p>
+<p>The previous code sample assumes that your <code translate="no" v-pre>@sample/shared</code> project includes the primitives created in the <a href="../add-authentication/">Add authentication</a> guide as well as the session Mock Server Worker request handlers.</p>
         </div>
     </div>
 </div>
@@ -729,7 +704,7 @@ export function App() {
         <span>Use the Trans component</span>
     </h2>
 </doc-anchor-target>
-<p>The <a href="https://react.i18next.com/latest/trans-component" class="outbound" target="_blank">Trans</a> component is useful for scenarios involving interpolation to render a localized resources. To use the <code v-pre>Trans</code> component with Squide, pair it with an <code v-pre>i18next</code> instance retrieved from <a href="../../reference/i18next/usei18nextinstance/">useI18nextInstance</a> hook:</p>
+<p>The <a href="https://react.i18next.com/latest/trans-component" class="outbound" target="_blank">Trans</a> component is useful for scenarios involving interpolation to render a localized resources. To use the <code translate="no" v-pre>Trans</code> component with Squide, pair it with an <code translate="no" v-pre>i18next</code> instance retrieved from <a href="../../reference/i18next/usei18nextinstance/">useI18nextInstance</a> hook:</p>
 <div class="codeblock-wrapper"><doc-codeblock>
 <pre translate="no" class="language-tsx" data-line="5,9,11"><code v-pre class="language-tsx">import { useI18nextInstance } from &quot;@squide/i18next&quot;;
 import { Trans, useTranslation } from &quot;react-i18next&quot;;
@@ -745,7 +720,7 @@ return (
     /&gt;
 );</code></pre>
 </doc-codeblock></div>
-<p>The <code v-pre>Trans</code> component can also be used without the <code v-pre>t</code> function by including a namespace to the <code v-pre>i18nKey</code> property value:</p>
+<p>The <code translate="no" v-pre>Trans</code> component can also be used without the <code translate="no" v-pre>t</code> function by including a namespace to the <code translate="no" v-pre>i18nKey</code> property value:</p>
 <div class="codeblock-wrapper"><doc-codeblock>
 <pre translate="no" class="language-tsx" data-line="4,8,9"><code v-pre class="language-tsx">import { useI18nextInstance } from &quot;@squide/i18next&quot;;
 import { Trans, useTranslation } from &quot;react-i18next&quot;;
@@ -765,7 +740,7 @@ return (
         <span>Try it <span class="docs-emoji">&#x1F680;</span></span>
     </h2>
 </doc-anchor-target>
-<p>Start the application in a development environment using the <code v-pre>dev</code> script. The homepage and the navigation items should render the english (<code v-pre>en-US</code>) resources. Then append <code v-pre>?language=fr-CA</code> to the URL. The homepage and the navigation items should now render the french (<code v-pre>fr-CA</code>) resources.</p>
+<p>Start the application in a development environment using the <code translate="no" v-pre>dev</code> script. The homepage and the navigation items should render the english (<code translate="no" v-pre>en-US</code>) resources. Then append <code translate="no" v-pre>?language=fr-CA</code> to the URL. The homepage and the navigation items should now render the french (<code translate="no" v-pre>fr-CA</code>) resources.</p>
 <doc-anchor-target id="troubleshoot-issues">
     <h3>
         <doc-anchor-trigger class="header-anchor-trigger" to="#troubleshoot-issues">#</doc-anchor-trigger>
@@ -774,10 +749,10 @@ return (
 </doc-anchor-target>
 <p>If you are experiencing issues with this guide:</p>
 <ul>
-<li>Open the <a href="https://developer.chrome.com/docs/devtools/" class="outbound" target="_blank">DevTools</a> console. You&#x27;ll find a log entry for each <code v-pre>i18next</code> instance that is being registered and another log everytime the language is changed:
+<li>Open the <a href="https://developer.chrome.com/docs/devtools/" class="outbound" target="_blank">DevTools</a> console. You&#x27;ll find a log entry for each <code translate="no" v-pre>i18next</code> instance that is being registered and another log everytime the language is changed:
 <ul>
-<li><code v-pre>[squide] Registered a new i18next instance with key &quot;local-module&quot;.</code></li>
-<li><code v-pre>[squide] The language has been changed to &quot;fr-CA&quot;.</code></li>
+<li><code translate="no" v-pre>[squide] Registered a new i18next instance with key &quot;local-module&quot;.</code></li>
+<li><code translate="no" v-pre>[squide] The language has been changed to &quot;fr-CA&quot;.</code></li>
 </ul>
 </li>
 <li>Refer to a working example on <a href="https://github.com/workleap/wl-squide/tree/main/samples/endpoints" class="outbound" target="_blank">GitHub</a>.</li>

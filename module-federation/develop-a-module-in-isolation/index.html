@@ -4,10 +4,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <meta name="turbo-root" content="/wl-squide">
-    <meta name="turbo-cache-control" content="no-cache" data-turbo-track="reload" data-track-token="3.11.0-preview6.804660603146">
+    <meta name="turbo-cache-control" content="no-cache" data-turbo-track="reload" data-track-token="3.12.0-preview2.806006202581">
 
     <!-- See retype.com -->
-    <meta name="generator" content="Retype 3.11.0-preview6">
+    <meta name="generator" content="Retype 3.12.0-preview2">
 
     <!-- Primary Meta Tags -->
     <title>Develop a module in isolation</title>
@@ -31,13 +31,13 @@
 
     <script data-cfasync="false">(function(){var cl=document.documentElement.classList,ls=localStorage.getItem("retype_scheme"),hd=cl.contains("dark"),hl=cl.contains("light"),wm=window.matchMedia&&window.matchMedia("(prefers-color-scheme: dark)").matches;if(ls==="dark"||(!ls&&wm&&!hd&&!hl)){cl.remove("light");cl.add("dark")}else if(ls==="light"||(!ls&&!wm&&!hd&&!hl)){cl.remove("dark");cl.add("light")}})();</script>
 
-    <link href="../../static/favicon.png" rel="icon">
-    <link href="../../resources/css/retype.css?v=3.11.0-preview6.804660603146" rel="stylesheet">
+    <link id="retype-favicon" rel="icon" href="../../static/favicon.png" />
+    <link href="../../resources/css/retype.css?v=3.12.0-preview2.806006202581" rel="stylesheet">
 
-    <script data-cfasync="false" src="../../resources/js/config.js?v=3.11.0-preview6.804660603146" data-turbo-eval="false" defer></script>
-    <script data-cfasync="false" src="../../resources/js/retype.js?v=3.11.0-preview6" data-turbo-eval="false" defer></script>
-    <script id="lunr-js" data-cfasync="false" src="../../resources/js/lunr.js?v=3.11.0-preview6.804660603146" data-turbo-eval="false" defer></script>
-    <script id="prism-js" data-cfasync="false" src="../../resources/js/prism.js?v=3.11.0-preview6.804660603146" defer></script>
+    <script data-cfasync="false" src="../../resources/js/config.js?v=3.12.0-preview2.806006202581" data-turbo-eval="false" defer></script>
+    <script data-cfasync="false" src="../../resources/js/retype.js?v=3.12.0-preview2" data-turbo-eval="false" defer></script>
+    <script id="lunr-js" data-cfasync="false" src="../../resources/js/lunr.js?v=3.12.0-preview2.806006202581" data-turbo-eval="false" defer></script>
+    <script id="prism-js" data-cfasync="false" src="../../resources/js/prism.js?v=3.12.0-preview2.806006202581" defer></script>
 
     <link href="https://workleap.github.io/wl-idp-docs-hub/static/retype-customization.css" rel="stylesheet" />
 
@@ -139,31 +139,6 @@
         
                         </ul>
                     </nav>
-        
-                    <!-- Header Right Skeleton -->
-                    <div v-cloak class="flex justify-end grow skeleton">
-        
-                        <!-- Search input mock -->
-                        <div class="relative hidden w-40 lg:block lg:max-w-sm lg:ml-auto">
-                            <div class="absolute flex items-center justify-center h-full pl-3 dark:text-dark-300">
-                                <svg xmlns="http://www.w3.org/2000/svg" class="icon-base" width="16" height="16" viewBox="0 0 24 24" aria-labelledby="icon" role="presentation" style="margin-bottom: 1px;"><g fill="currentColor" ><path d="M21.71 20.29l-3.68-3.68A8.963 8.963 0 0020 11c0-4.96-4.04-9-9-9s-9 4.04-9 9 4.04 9 9 9c2.12 0 4.07-.74 5.61-1.97l3.68 3.68c.2.19.45.29.71.29s.51-.1.71-.29c.39-.39.39-1.03 0-1.42zM4 11c0-3.86 3.14-7 7-7s7 3.14 7 7c0 1.92-.78 3.66-2.04 4.93-.01.01-.02.01-.02.01-.01.01-.01.01-.01.02A6.98 6.98 0 0111 18c-3.86 0-7-3.14-7-7z" ></path></g></svg>
-                            </div>
-                            <input class="w-full h-10 placeholder-search-placeholder transition-colors duration-200 ease-in bg-search-bg border border-transparent rounded md:text-sm hover:border-search-border-hover focus:outline-none focus:border-search-border-focus" style="padding: 0.625rem 0.75rem 0.625rem 2rem" type="text" placeholder="Search">
-                        </div>
-        
-                        <!-- Mobile search button -->
-                        <div class="flex items-center justify-center w-10 h-10 lg:hidden">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="shrink-0 icon-base" width="20" height="20" viewBox="0 0 24 24" aria-labelledby="icon" role="presentation" style="margin-bottom: 0px;"><g fill="currentColor" ><path d="M21.71 20.29l-3.68-3.68A8.963 8.963 0 0020 11c0-4.96-4.04-9-9-9s-9 4.04-9 9 4.04 9 9 9c2.12 0 4.07-.74 5.61-1.97l3.68 3.68c.2.19.45.29.71.29s.51-.1.71-.29c.39-.39.39-1.03 0-1.42zM4 11c0-3.86 3.14-7 7-7s7 3.14 7 7c0 1.92-.78 3.66-2.04 4.93-.01.01-.02.01-.02.01-.01.01-.01.01-.01.02A6.98 6.98 0 0111 18c-3.86 0-7-3.14-7-7z" ></path></g></svg>
-                        </div>
-        
-                        <!-- Dark mode switch placeholder -->
-                        <div class="w-10 h-10 lg:ml-2"></div>
-        
-                        <!-- History button -->
-                        <div class="flex items-center justify-center w-10 h-10" style="margin-right: -0.625rem;">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="shrink-0 icon-base" width="22" height="22" viewBox="0 0 24 24" aria-labelledby="icon" role="presentation" style="margin-bottom: 0px;"><g fill="currentColor" ><g ><path d="M12.01 6.01c-.55 0-1 .45-1 1V12a1 1 0 00.4.8l3 2.22a.985.985 0 001.39-.2.996.996 0 00-.21-1.4l-2.6-1.92V7.01c.02-.55-.43-1-.98-1z"></path><path d="M12.01 1.91c-5.33 0-9.69 4.16-10.05 9.4l-.29-.26a.997.997 0 10-1.34 1.48l1.97 1.79c.19.17.43.26.67.26s.48-.09.67-.26l1.97-1.79a.997.997 0 10-1.34-1.48l-.31.28c.34-4.14 3.82-7.41 8.05-7.41 4.46 0 8.08 3.63 8.08 8.09s-3.63 8.08-8.08 8.08c-2.18 0-4.22-.85-5.75-2.4a.996.996 0 10-1.42 1.4 10.02 10.02 0 007.17 2.99c5.56 0 10.08-4.52 10.08-10.08.01-5.56-4.52-10.09-10.08-10.09z"></path></g></g></svg>
-                        </div>
-                    </div>
         
                     <div v-cloak class="flex justify-end grow">
                         <div id="retype-mobile-search-button"></div>
@@ -325,7 +300,7 @@
         <span>Create a shell package</span>
     </h2>
 </doc-anchor-target>
-<p><span class="docs-emoji">&#x1F50E;</span> This section is similar to the <a href="../../guides/develop-a-module-in-isolation/#create-a-shell-package">Create a shell package section</a> from the non–Module Federation guide on developing a module in isolation. The key difference is that in a Module Federation setup, the host application&#x27;s entry point is <code v-pre>bootstrap.tsx</code> instead of <code v-pre>index.tsx</code>.</p>
+<p><span class="docs-emoji">&#x1F50E;</span> This section is similar to the <a href="../../guides/develop-a-module-in-isolation/#create-a-shell-package">Create a shell package section</a> from the non–Module Federation guide on developing a module in isolation. The key difference is that in a Module Federation setup, the host application&#x27;s entry point is <code translate="no" v-pre>bootstrap.tsx</code> instead of <code translate="no" v-pre>index.tsx</code>.</p>
 <doc-anchor-target id="update-the-host-application">
     <h2>
         <doc-anchor-trigger class="header-anchor-trigger" to="#update-the-host-application">#</doc-anchor-trigger>
@@ -334,7 +309,7 @@
 </doc-anchor-target>
 <p><span class="docs-emoji">&#x1F50E;</span> This section is similar to the <a href="../../guides/develop-a-module-in-isolation/#update-the-host-application">Update the host application section</a> from the non–Module Federation guide on developing a module in isolation. The key differences are that in a Module Federation setup:</p>
 <ul>
-<li>The host application&#x27;s entry point is <code v-pre>bootstrap.tsx</code> rather than <code v-pre>index.tsx</code>.</li>
+<li>The host application&#x27;s entry point is <code translate="no" v-pre>bootstrap.tsx</code> rather than <code translate="no" v-pre>index.tsx</code>.</li>
 <li>A <a href="../../reference/registration/initializefirefly/#register-a-remote-module">remote module</a> should be registered rather than a <a href="../../reference/registration/initializefirefly/#register-a-local-module">local module</a>.</li>
 </ul>
 <doc-anchor-target id="setup-a-remote-module">
@@ -343,8 +318,8 @@
         <span>Setup a remote module</span>
     </h2>
 </doc-anchor-target>
-<p>With the new <code v-pre>shell</code> package in place, we can now configure the remote module to be developed in isolation. The goal is to start the module development server and render the module pages with the same layout and functionalities as if it was rendered by the host application.</p>
-<p>To begin, let&#x27;s start by adding a dependency to the <code v-pre>@sample/shell</code> package:</p>
+<p>With the new <code translate="no" v-pre>shell</code> package in place, we can now configure the remote module to be developed in isolation. The goal is to start the module development server and render the module pages with the same layout and functionalities as if it was rendered by the host application.</p>
+<p>To begin, let&#x27;s start by adding a dependency to the <code translate="no" v-pre>@sample/shell</code> package:</p>
 <div class="codeblock-wrapper"><doc-codeblock>
 <div class="codeblock-title">remote-module/package.json</div>
 <pre translate="no" class="language-json"><code v-pre class="language-json">{
@@ -375,7 +350,7 @@
         <span>index.tsx</span>
     </h3>
 </doc-anchor-target>
-<p>The <code v-pre>index.tsx</code> file is similar to the <code v-pre>bootstrap.tsx</code> file of an host application but, tailored for an isolated module. The key distinctions are that all the modules are registered as local modules, and a new <code v-pre>registerDev</code> function is introduced to register the development homepage (which will be covered in an upcoming section):</p>
+<p>The <code translate="no" v-pre>index.tsx</code> file is similar to the <code translate="no" v-pre>bootstrap.tsx</code> file of an host application but, tailored for an isolated module. The key distinctions are that all the modules are registered as local modules, and a new <code translate="no" v-pre>registerDev</code> function is introduced to register the development homepage (which will be covered in an upcoming section):</p>
 <div class="codeblock-wrapper"><doc-codeblock>
 <div class="codeblock-title">remote-module/src/dev/index.tsx</div>
 <pre translate="no" class="language-tsx" data-line="8-13"><code v-pre class="language-tsx">import { createRoot } from &quot;react-dom/client&quot;;
@@ -406,7 +381,7 @@ root.render(
         <span>App.tsx</span>
     </h3>
 </doc-anchor-target>
-<p>The <code v-pre>App.tsx</code> file uses the newly created <code v-pre>AppRouter</code> component to setup Squide&#x27;s primitives with a <a href="https://reactrouter.com/" class="outbound" target="_blank">React Router</a> instance:</p>
+<p>The <code translate="no" v-pre>App.tsx</code> file uses the newly created <code translate="no" v-pre>AppRouter</code> component to setup Squide&#x27;s primitives with a <a href="https://reactrouter.com/" class="outbound" target="_blank">React Router</a> instance:</p>
 <div class="codeblock-wrapper"><doc-codeblock>
 <div class="codeblock-title">remote-module/src/dev/App.tsx</div>
 <pre translate="no" class="language-tsx"><code v-pre class="language-tsx">import { AppRouter } from &quot;@sample/shell&quot;;
@@ -423,7 +398,7 @@ export function App() {
         <span>DevHome.tsx</span>
     </h3>
 </doc-anchor-target>
-<p>The <code v-pre>DevHome</code> component is the homepage when the remote module is developed in isolation:</p>
+<p>The <code translate="no" v-pre>DevHome</code> component is the homepage when the remote module is developed in isolation:</p>
 <div class="codeblock-wrapper"><doc-codeblock>
 <div class="codeblock-title">remote-module/src/dev/DevHome.tsx</div>
 <pre translate="no" class="language-tsx"><code v-pre class="language-tsx">function DevHome() {
@@ -454,7 +429,7 @@ export const registerDev: ModuleRegisterFunction&lt;FireflyRuntime&gt; = runtime
         <span>Add a new CLI script</span>
     </h3>
 </doc-anchor-target>
-<p>Next, add a new <code v-pre>dev-isolated</code> script to the <code v-pre>package.json</code> file to start the local development server in <strong>isolation</strong>:</p>
+<p>Next, add a new <code translate="no" v-pre>dev-isolated</code> script to the <code translate="no" v-pre>package.json</code> file to start the local development server in <strong>isolation</strong>:</p>
 <div class="codeblock-wrapper"><doc-codeblock>
 <div class="codeblock-title">remote-module/package.json</div>
 <pre translate="no" class="language-json" data-line="3"><code v-pre class="language-json">{
@@ -473,18 +448,18 @@ export const registerDev: ModuleRegisterFunction&lt;FireflyRuntime&gt; = runtime
             </svg>
         </div>
         <div class="pr-5 ml-3 w-full">
-<p>If your project&#x27;s <code v-pre>package.json</code> file does not already include the <a href="https://www.npmjs.com/package/cross-env" class="outbound" target="_blank">cross-env</a> dependency, be sure to install <code v-pre>cross-env</code> as a development dependency.</p>
+<p>If your project&#x27;s <code translate="no" v-pre>package.json</code> file does not already include the <a href="https://www.npmjs.com/package/cross-env" class="outbound" target="_blank">cross-env</a> dependency, be sure to install <code translate="no" v-pre>cross-env</code> as a development dependency.</p>
         </div>
     </div>
 </div>
-<p>The <code v-pre>dev-isolated</code> script is similar to the <code v-pre>dev</code> script but introduces an <code v-pre>ISOLATED</code> environment variable. This variable will be used by the <code v-pre>webpack.dev.js</code> file to conditionally configure the development server to either serve the module as an application for isolated development or as a remote endpoint by the host application through the <code v-pre>/remoteEntry.js</code> entry point.</p>
+<p>The <code translate="no" v-pre>dev-isolated</code> script is similar to the <code translate="no" v-pre>dev</code> script but introduces an <code translate="no" v-pre>ISOLATED</code> environment variable. This variable will be used by the <code translate="no" v-pre>webpack.dev.js</code> file to conditionally configure the development server to either serve the module as an application for isolated development or as a remote endpoint by the host application through the <code translate="no" v-pre>/remoteEntry.js</code> entry point.</p>
 <doc-anchor-target id="configure-webpack">
     <h3>
         <doc-anchor-trigger class="header-anchor-trigger" to="#configure-webpack">#</doc-anchor-trigger>
         <span>Configure webpack</span>
     </h3>
 </doc-anchor-target>
-<p>First, open the <code v-pre>public/index.html</code> file created at the beginning of this guide and copy/paste the following <a href="https://webpack.js.org/plugins/html-webpack-plugin/" class="outbound" target="_blank">HtmlWebpackPlugin</a> template:</p>
+<p>First, open the <code translate="no" v-pre>public/index.html</code> file created at the beginning of this guide and copy/paste the following <a href="https://webpack.js.org/plugins/html-webpack-plugin/" class="outbound" target="_blank">HtmlWebpackPlugin</a> template:</p>
 <div class="codeblock-wrapper"><doc-codeblock>
 <div class="codeblock-title">host/public/index.html</div>
 <pre translate="no" class="language-markup"><code v-pre class="language-markup">&lt;!DOCTYPE html&gt;
@@ -496,7 +471,7 @@ export const registerDev: ModuleRegisterFunction&lt;FireflyRuntime&gt; = runtime
     &lt;/body&gt;
 &lt;/html&gt;</code></pre>
 </doc-codeblock></div>
-<p>Then, open the <code v-pre>.browserslist</code> file and copy/paste the following content:</p>
+<p>Then, open the <code translate="no" v-pre>.browserslist</code> file and copy/paste the following content:</p>
 <div class="codeblock-wrapper"><doc-codeblock>
 <div class="codeblock-title">host/.browserslistrc</div>
 <pre translate="no" class="language-none"><code v-pre class="language-none">extends @workleap/browserslist-config</code></pre>
@@ -507,7 +482,7 @@ export const registerDev: ModuleRegisterFunction&lt;FireflyRuntime&gt; = runtime
         <span>Isolated environment configuration</span>
     </h4>
 </doc-anchor-target>
-<p>To configure webpack, open the <code v-pre>webpack.dev.js</code> file and update the configuration to incorporate the <code v-pre>ISOLATED</code> environment variable and the <a href="../../reference/webpack/definedevhostconfig/">defineDevHostConfig</a> function:</p>
+<p>To configure webpack, open the <code translate="no" v-pre>webpack.dev.js</code> file and update the configuration to incorporate the <code translate="no" v-pre>ISOLATED</code> environment variable and the <a href="../../reference/webpack/definedevhostconfig/">defineDevHostConfig</a> function:</p>
 <div class="codeblock-wrapper"><doc-codeblock>
 <div class="codeblock-title">remote-module/webpack.dev.js</div>
 <pre translate="no" class="language-javascript" data-line="8,11"><code v-pre class="language-javascript">// @ts-check
@@ -546,7 +521,7 @@ export default config;</code></pre>
         <span>Try it <span class="docs-emoji">&#x1F680;</span></span>
     </h3>
 </doc-anchor-target>
-<p>Start the remote module in isolation by running the <code v-pre>dev-isolated</code> script. The application shell should wrap the pages of the module and the default page should be <code v-pre>DevHome</code>.</p>
+<p>Start the remote module in isolation by running the <code translate="no" v-pre>dev-isolated</code> script. The application shell should wrap the pages of the module and the default page should be <code translate="no" v-pre>DevHome</code>.</p>
 <doc-anchor-target id="troubleshoot-issues">
     <h4>
         <doc-anchor-trigger class="header-anchor-trigger" to="#troubleshoot-issues">#</doc-anchor-trigger>

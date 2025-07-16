@@ -4,39 +4,40 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <meta name="turbo-root" content="/wl-squide">
-    <meta name="turbo-cache-control" content="no-cache" data-turbo-track="reload" data-track-token="3.11.0-preview6.804660603146">
+    <meta name="turbo-cache-control" content="no-cache" data-turbo-track="reload" data-track-token="3.12.0-preview2.806006202581">
 
     <!-- See retype.com -->
-    <meta name="generator" content="Retype 3.11.0-preview6">
+    <meta name="generator" content="Retype 3.12.0-preview2">
 
     <!-- Primary Meta Tags -->
-    <title>Updating</title>
-    <meta name="title" content="Updating">
-    <meta name="description" content="Migrate to firefly v9.0">
+    <title>Migrate to firefly v9.3</title>
+    <meta name="title" content="Migrate to firefly v9.3">
+    <meta name="description" content="If you are migrating from v8.*, follow the Migrate from v8.* to v13.0 guide.">
 
     <!-- Canonical -->
-    <link rel="canonical" href="https://workleap.github.io/wl-squide/upgrading/">
+    <link rel="canonical" href="https://workleap.github.io/wl-squide/updating/migrate-to-firefly-v9.3/">
 
     <!-- Open Graph / Facebook -->
     <meta property="og:type" content="website">
-    <meta property="og:url" content="https://workleap.github.io/wl-squide/upgrading/">
-    <meta property="og:title" content="Updating">
-    <meta property="og:description" content="Migrate to firefly v9.0">
+    <meta property="og:url" content="https://workleap.github.io/wl-squide/updating/migrate-to-firefly-v9.3/">
+    <meta property="og:title" content="Migrate to firefly v9.3">
+    <meta property="og:description" content="If you are migrating from v8.*, follow the Migrate from v8.* to v13.0 guide.">
 
     <!-- Twitter -->
     <meta property="twitter:card" content="summary_large_image">
-    <meta property="twitter:url" content="https://workleap.github.io/wl-squide/upgrading/">
-    <meta property="twitter:title" content="Updating">
-    <meta property="twitter:description" content="Migrate to firefly v9.0">
+    <meta property="twitter:url" content="https://workleap.github.io/wl-squide/updating/migrate-to-firefly-v9.3/">
+    <meta property="twitter:title" content="Migrate to firefly v9.3">
+    <meta property="twitter:description" content="If you are migrating from v8.*, follow the Migrate from v8.* to v13.0 guide.">
 
     <script data-cfasync="false">(function(){var cl=document.documentElement.classList,ls=localStorage.getItem("retype_scheme"),hd=cl.contains("dark"),hl=cl.contains("light"),wm=window.matchMedia&&window.matchMedia("(prefers-color-scheme: dark)").matches;if(ls==="dark"||(!ls&&wm&&!hd&&!hl)){cl.remove("light");cl.add("dark")}else if(ls==="light"||(!ls&&!wm&&!hd&&!hl)){cl.remove("dark");cl.add("light")}})();</script>
 
-    <link href="../static/favicon.png" rel="icon">
-    <link href="../resources/css/retype.css?v=3.11.0-preview6.804660603146" rel="stylesheet">
+    <link id="retype-favicon" rel="icon" href="../../static/favicon.png" />
+    <link href="../../resources/css/retype.css?v=3.12.0-preview2.806006202581" rel="stylesheet">
 
-    <script data-cfasync="false" src="../resources/js/config.js?v=3.11.0-preview6.804660603146" data-turbo-eval="false" defer></script>
-    <script data-cfasync="false" src="../resources/js/retype.js?v=3.11.0-preview6" data-turbo-eval="false" defer></script>
-    <script id="lunr-js" data-cfasync="false" src="../resources/js/lunr.js?v=3.11.0-preview6.804660603146" data-turbo-eval="false" defer></script>
+    <script data-cfasync="false" src="../../resources/js/config.js?v=3.12.0-preview2.806006202581" data-turbo-eval="false" defer></script>
+    <script data-cfasync="false" src="../../resources/js/retype.js?v=3.12.0-preview2" data-turbo-eval="false" defer></script>
+    <script id="lunr-js" data-cfasync="false" src="../../resources/js/lunr.js?v=3.12.0-preview2.806006202581" data-turbo-eval="false" defer></script>
+    <script id="prism-js" data-cfasync="false" src="../../resources/js/prism.js?v=3.12.0-preview2.806006202581" defer></script>
 
     <link href="https://workleap.github.io/wl-idp-docs-hub/static/retype-customization.css" rel="stylesheet" />
 
@@ -59,10 +60,10 @@
                                 <path d="M10.6763 23.0822C10.4303 23.328 10.0967 23.4661 9.74885 23.4661C9.40103 23.4661 9.06744 23.328 8.82135 23.0822L1.38384 15.6447C1.13806 15.3986 1 15.065 1 14.7172C1 14.3694 1.13806 14.0358 1.38384 13.7897L8.82135 6.35222C9.0703 6.1205 9.39939 5.99432 9.73945 6.0002C10.0795 6.00607 10.404 6.14354 10.6448 6.38372C10.885 6.62452 11.0225 6.94906 11.0284 7.28912C11.0342 7.62917 10.9081 7.95826 10.6763 8.20722L4.16635 14.7172L10.6763 21.2272C10.9221 21.4733 11.0602 21.8069 11.0602 22.1547C11.0602 22.5025 10.9221 22.8361 10.6763 23.0822Z" />
                             </svg>
                         </a>
-                        <a id="retype-branding-logo" href="../" class="flex items-center leading-snug text-2xl">
+                        <a id="retype-branding-logo" href="../../" class="flex items-center leading-snug text-2xl">
                             <span class="w-10 mr-2 grow-0 shrink-0 overflow-hidden">
-                                <img class="max-h-10 dark:hidden md:inline-block" src="../static/logo.png">
-                                <img class="max-h-10 hidden dark:inline-block" src="../static/logo.png">
+                                <img class="max-h-10 dark:hidden md:inline-block" src="../../static/logo.png">
+                                <img class="max-h-10 hidden dark:inline-block" src="../../static/logo.png">
                             </span>
                             <span class="dark:text-white font-bold line-clamp-1 md:line-clamp-2">Squide</span>
                         </a>
@@ -76,7 +77,7 @@
                     <nav id="retype-header-nav" class="hidden md:flex">
                         <ul class="flex flex-col mb-4 md:pl-16 md:mb-0 md:flex-row md:items-center">
                             <li class="mr-6">
-                                <a class="py-2 md:mb-0 inline-flex items-center text-sm whitespace-nowrap transition-colors duration-200 ease-linear md:text-header-text font-header-text-weight hover:text-header-text-hover" href="../introduction/getting-started/">
+                                <a class="py-2 md:mb-0 inline-flex items-center text-sm whitespace-nowrap transition-colors duration-200 ease-linear md:text-header-text font-header-text-weight hover:text-header-text-hover" href="../../introduction/getting-started/">
                                     <svg xmlns="http://www.w3.org/2000/svg" class="mb-px mr-1" width="18" height="18" viewBox="0 0 24 24" role="presentation">
                                         <g fill="currentColor">
                                             <path d="M11.03 2.59a1.501 1.501 0 0 1 1.94 0l7.5 6.363a1.5 1.5 0 0 1 .53 1.144V19.5a1.5 1.5 0 0 1-1.5 1.5h-5.75a.75.75 0 0 1-.75-.75V14h-2v6.25a.75.75 0 0 1-.75.75H4.5A1.5 1.5 0 0 1 3 19.5v-9.403c0-.44.194-.859.53-1.144ZM12 3.734l-7.5 6.363V19.5h5v-6.25a.75.75 0 0 1 .75-.75h3.5a.75.75 0 0 1 .75.75v6.25h5v-9.403Z"/>
@@ -139,31 +140,6 @@
                         </ul>
                     </nav>
         
-                    <!-- Header Right Skeleton -->
-                    <div v-cloak class="flex justify-end grow skeleton">
-        
-                        <!-- Search input mock -->
-                        <div class="relative hidden w-40 lg:block lg:max-w-sm lg:ml-auto">
-                            <div class="absolute flex items-center justify-center h-full pl-3 dark:text-dark-300">
-                                <svg xmlns="http://www.w3.org/2000/svg" class="icon-base" width="16" height="16" viewBox="0 0 24 24" aria-labelledby="icon" role="presentation" style="margin-bottom: 1px;"><g fill="currentColor" ><path d="M21.71 20.29l-3.68-3.68A8.963 8.963 0 0020 11c0-4.96-4.04-9-9-9s-9 4.04-9 9 4.04 9 9 9c2.12 0 4.07-.74 5.61-1.97l3.68 3.68c.2.19.45.29.71.29s.51-.1.71-.29c.39-.39.39-1.03 0-1.42zM4 11c0-3.86 3.14-7 7-7s7 3.14 7 7c0 1.92-.78 3.66-2.04 4.93-.01.01-.02.01-.02.01-.01.01-.01.01-.01.02A6.98 6.98 0 0111 18c-3.86 0-7-3.14-7-7z" ></path></g></svg>
-                            </div>
-                            <input class="w-full h-10 placeholder-search-placeholder transition-colors duration-200 ease-in bg-search-bg border border-transparent rounded md:text-sm hover:border-search-border-hover focus:outline-none focus:border-search-border-focus" style="padding: 0.625rem 0.75rem 0.625rem 2rem" type="text" placeholder="Search">
-                        </div>
-        
-                        <!-- Mobile search button -->
-                        <div class="flex items-center justify-center w-10 h-10 lg:hidden">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="shrink-0 icon-base" width="20" height="20" viewBox="0 0 24 24" aria-labelledby="icon" role="presentation" style="margin-bottom: 0px;"><g fill="currentColor" ><path d="M21.71 20.29l-3.68-3.68A8.963 8.963 0 0020 11c0-4.96-4.04-9-9-9s-9 4.04-9 9 4.04 9 9 9c2.12 0 4.07-.74 5.61-1.97l3.68 3.68c.2.19.45.29.71.29s.51-.1.71-.29c.39-.39.39-1.03 0-1.42zM4 11c0-3.86 3.14-7 7-7s7 3.14 7 7c0 1.92-.78 3.66-2.04 4.93-.01.01-.02.01-.02.01-.01.01-.01.01-.01.02A6.98 6.98 0 0111 18c-3.86 0-7-3.14-7-7z" ></path></g></svg>
-                        </div>
-        
-                        <!-- Dark mode switch placeholder -->
-                        <div class="w-10 h-10 lg:ml-2"></div>
-        
-                        <!-- History button -->
-                        <div class="flex items-center justify-center w-10 h-10" style="margin-right: -0.625rem;">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="shrink-0 icon-base" width="22" height="22" viewBox="0 0 24 24" aria-labelledby="icon" role="presentation" style="margin-bottom: 0px;"><g fill="currentColor" ><g ><path d="M12.01 6.01c-.55 0-1 .45-1 1V12a1 1 0 00.4.8l3 2.22a.985.985 0 001.39-.2.996.996 0 00-.21-1.4l-2.6-1.92V7.01c.02-.55-.43-1-.98-1z"></path><path d="M12.01 1.91c-5.33 0-9.69 4.16-10.05 9.4l-.29-.26a.997.997 0 10-1.34 1.48l1.97 1.79c.19.17.43.26.67.26s.48-.09.67-.26l1.97-1.79a.997.997 0 10-1.34-1.48l-.31.28c.34-4.14 3.82-7.41 8.05-7.41 4.46 0 8.08 3.63 8.08 8.09s-3.63 8.08-8.08 8.08c-2.18 0-4.22-.85-5.75-2.4a.996.996 0 10-1.42 1.4 10.02 10.02 0 007.17 2.99c5.56 0 10.08-4.52 10.08-10.08.01-5.56-4.52-10.09-10.08-10.09z"></path></g></g></svg>
-                        </div>
-                    </div>
-        
                     <div v-cloak class="flex justify-end grow">
                         <div id="retype-mobile-search-button"></div>
                         <doc-search-desktop></doc-search-desktop>
@@ -201,7 +177,7 @@
                             <nav>
                                 <ul class="flex flex-wrap justify-center items-center">
                                     <li class="mr-6">
-                                        <a class="block py-1 inline-flex items-center text-sm whitespace-nowrap transition-colors duration-200 ease-linear md:text-header-text font-header-text-weight hover:text-header-text-hover" href="../introduction/getting-started/">
+                                        <a class="block py-1 inline-flex items-center text-sm whitespace-nowrap transition-colors duration-200 ease-linear md:text-header-text font-header-text-weight hover:text-header-text-hover" href="../../introduction/getting-started/">
                                             <svg xmlns="http://www.w3.org/2000/svg" class="mb-px mr-1" width="18" height="18" viewBox="0 0 24 24" role="presentation">
                                                 <g fill="currentColor">
                                                     <path d="M11.03 2.59a1.501 1.501 0 0 1 1.94 0l7.5 6.363a1.5 1.5 0 0 1 .53 1.144V19.5a1.5 1.5 0 0 1-1.5 1.5h-5.75a.75.75 0 0 1-.75-.75V14h-2v6.25a.75.75 0 0 1-.75.75H4.5A1.5 1.5 0 0 1 3 19.5v-9.403c0-.44.194-.859.53-1.144ZM12 3.734l-7.5 6.363V19.5h5v-6.25a.75.75 0 0 1 .75-.75h3.5a.75.75 0 0 1 .75.75v6.25h5v-9.403Z"/>
@@ -276,26 +252,241 @@
                             <div class="retype-markdown" id="retype-content">
                                 <!-- Rendered if sidebar right is enabled -->
                                 <div id="retype-sidebar-right-toggle"></div>
+                                <nav id="retype-breadcrumb" class="breadcrumb" aria-label="Breadcrumb">
+                                    <ol role="list">
+                                        <li class="pr-4">
+                                            <a href="../../updating/" class="pr-4">
+                                                Updating
+                                            </a>
+                                            <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" width="18" height="18" viewBox="0 0 24 24" aria-hidden="true">
+                                                <path d="M8.72 18.78a.75.75 0 0 1 0-1.06L14.44 12 8.72 6.28a.751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018l6.25 6.25a.75.75 0 0 1 0 1.06l-6.25 6.25a.75.75 0 0 1-1.06 0Z"/>
+                                            </svg>
+                                        </li>
+                                        <li class="pr-4">
+                                            <a href="../../updating/migrate-to-firefly-v9.3/" class="pr-4">
+                                                Migrate to firefly v​9.​3
+                                            </a>
+                                        </li>
+                                    </ol>
+                                </nav>
+                
                                 <!-- Page content  -->
-<doc-anchor-target id="updating" class="break-words">
+<doc-anchor-target id="migrate-to-firefly-v93" class="break-words">
     <h1>
-        <doc-anchor-trigger class="header-anchor-trigger" to="#updating">#</doc-anchor-trigger>
-        <span>Updating</span>
+        <doc-anchor-trigger class="header-anchor-trigger" to="#migrate-to-firefly-v93">#</doc-anchor-trigger>
+        <span>Migrate to firefly v9.3</span>
     </h1>
 </doc-anchor-target>
+<div class="flex mb-6">
+    <div class="shrink-0 w-1.5 rounded-tl-lg rounded-bl-lg bg-callout-warning"></div>
+    <div class="flex w-full py-4 border border-l-0 rounded-tr-lg rounded-br-lg doc-callout bg-callout-base-bg border-callout-base-border" role="alert">
+        <div class="flex items-center ml-4 h-7">
+            <svg xmlns="http://www.w3.org/2000/svg" class="mb-px text-callout-warning" width="22" height="22" viewBox="0 0 24 24" role="presentation">
+                <g fill="currentColor"><g>
+                    <path d="M22.48 15.59L14.01 1.45A2.968 2.968 0 0012.16.09c-.78-.19-1.58-.07-2.27.35-.41.25-.76.6-1.01 1.01v.01L.4 15.6c-.83 1.43-.33 3.27 1.1 4.1.45.26.95.4 1.48.4h16.95c.8-.01 1.55-.33 2.11-.9.56-.57.87-1.33.86-2.13a3.04 3.04 0 00-.42-1.48zm-1.87 2.21c-.19.19-.44.3-.69.3H2.99c-.17 0-.34-.05-.49-.13a.992.992 0 01-.37-1.35L10.6 2.48c.08-.14.2-.25.34-.33a.992.992 0 011.37.33l8.46 14.13c.09.15.13.32.13.49 0 .26-.1.51-.29.7z"></path>
+                    <path d="M11.45 12.1c.55 0 1-.45 1-1v-4c0-.55-.45-1-1-1s-1 .45-1 1v4c0 .56.45 1 1 1zM11.46 14.1c-.56 0-1 .45-1 1s.45 1 1 1 1-.45 1-1-.45-1-1-1z"></path>
+                </g></g>
+            </svg>
+        </div>
+        <div class="pr-5 ml-3 w-full">
+<p>If you are migrating from <code translate="no" v-pre>v8.*</code>, follow the <a href="../migrate-from-v8-to-v13.0/">Migrate from v8.* to v13.0</a> guide.</p>
+        </div>
+    </div>
+</div>
+<p>This minor version deprecate the <a href="../../reference/registration/registerlocalmodules/">registerLocalModules</a>, <a href="../../reference/registration/registerremotemodules/">registerRemoteModules</a> and <a href="../../reference/msw/setmswasready/">setMswAsReady</a> in favor of a <code translate="no" v-pre>bootstrap</code> function.</p>
+<doc-anchor-target id="deprecation">
+    <h2>
+        <doc-anchor-trigger class="header-anchor-trigger" to="#deprecation">#</doc-anchor-trigger>
+        <span>Deprecation</span>
+    </h2>
+</doc-anchor-target>
 <ul>
-<li><a href="migrate-to-firefly-v9.0/">Migrate to firefly v9.0</a></li>
-<li><a href="migrate-to-firefly-v9.3/">Migrate to firefly v9.3</a></li>
-<li><a href="migrate-to-firefly-v10.0/">Migrate to firefly v10.0</a></li>
-<li><a href="migrate-to-firefly-v11.0/">Migrate to firefly v11.0</a></li>
-<li><a href="migrate-to-firefly-v12.0/">Migrate to firefly v12.0</a></li>
-<li><a href="migrate-to-firefly-v13.0/">Migrate to firefly v13.0</a></li>
-<li><a href="migrate-from-v8-to-v13.0/">Migrate from v8 to v13.0</a></li>
-<li><a href="migrate-to-rsbuild/">Migrate to Rsbuild</a> <span class="no-link inline-flex align-middle items-center justify-center font-medium leading-none whitespace-nowrap text-badge-danger-text bg-badge-danger border border-badge-danger-border h-4.5 px-1.5 text-3xs rounded">
-    <span>experimental</span>
-</span></li>
-<li><a href="migrate-to-jit-packages/">Migrate to Just-In-Time (JIT) packages</a></li>
+<li>The <a href="../../reference/registration/registerlocalmodules/">registerLocalModules</a> function has been <strong>deprecated</strong>, use the <code translate="no" v-pre>bootstrap</code> function instead.</li>
+<li>The <a href="../../reference/registration/registerremotemodules/">registerRemoteModules</a> function has been <strong>deprecated</strong>, use the <code translate="no" v-pre>bootstrap</code> function instead.</li>
+<li>The <a href="../../reference/msw/setmswasready/">setMswAsReady</a> function has been <strong>deprecated</strong>, use the <code translate="no" v-pre>bootstrap</code> function instead.</li>
 </ul>
+<doc-anchor-target id="migrate-an-host-application">
+    <h2>
+        <doc-anchor-trigger class="header-anchor-trigger" to="#migrate-an-host-application">#</doc-anchor-trigger>
+        <span>Migrate an host application</span>
+    </h2>
+</doc-anchor-target>
+<p>The <code translate="no" v-pre>bootstrap</code> function is a new primitive that simplifies the bootstrapping of a Squide application. It replaces the <a href="../../reference/registration/registerlocalmodules/">registerLocalModules</a>, <a href="../../reference/registration/registerremotemodules/">registerRemoteModules</a> and <a href="../../reference/msw/setmswasready/">setMswAsReady</a> functions.</p>
+<doc-anchor-target id="modules-registration">
+    <h3>
+        <doc-anchor-trigger class="header-anchor-trigger" to="#modules-registration">#</doc-anchor-trigger>
+        <span>Modules registration</span>
+    </h3>
+</doc-anchor-target>
+<p>To update an application&#x27;s module registration code, replace the <code translate="no" v-pre>registerLocalModules</code> and <code translate="no" v-pre>registerRemoteModules</code> functions with a call to the <code translate="no" v-pre>bootstrap</code> function:</p>
+<div class="codeblock-wrapper"><doc-codeblock>
+<pre translate="no" class="language-typescript"><code v-pre class="language-typescript">await bootstrap({
+    localModules: [...],
+    remotes: [...]
+})</code></pre>
+</doc-codeblock></div>
+<p>Before:</p>
+<div class="codeblock-wrapper"><doc-codeblock>
+<div class="codeblock-title">bootstrap.tsx</div>
+<pre translate="no" class="language-tsx" data-line="18,21"><code v-pre class="language-tsx">import { ConsoleLogger, RuntimeContext, FireflyRuntime, registerRemoteModules, registerLocalModules, type RemoteDefinition } from &quot;@squide/firefly&quot;;
+import { register as registerMyLocalModule } from &quot;@getting-started/local-module&quot;;
+import { createRoot } from &quot;react-dom/client&quot;;
+import { App } from &quot;./App.tsx&quot;;
+import { registerHost } from &quot;./register.tsx&quot;;
+
+// Define the remote modules.
+const Remotes: RemoteDefinition[] = [
+    { name: &quot;remote1&quot; }
+];
+
+// Create the shell runtime.
+const runtime = new FireflyRuntime({
+    loggers: [x =&gt; new ConsoleLogger(x)]
+});
+
+// Register the local module.
+await registerLocalModules([registerHost, registerMyLocalModule], runtime);
+
+// Register the remote module.
+await registerRemoteModules(Remotes, runtime);
+
+const root = createRoot(document.getElementById(&quot;root&quot;)!);
+
+root.render(
+    &lt;RuntimeContext.Provider value={runtime}&gt;
+        &lt;App /&gt;
+    &lt;/RuntimeContext.Provider&gt;
+);</code></pre>
+</doc-codeblock></div>
+<p>Now:</p>
+<div class="codeblock-wrapper"><doc-codeblock>
+<div class="codeblock-title">bootstrap.tsx</div>
+<pre translate="no" class="language-tsx" data-line="18-21"><code v-pre class="language-tsx">import { ConsoleLogger, RuntimeContext, FireflyRuntime, bootstrap, type RemoteDefinition } from &quot;@squide/firefly&quot;;
+import { register as registerMyLocalModule } from &quot;@getting-started/local-module&quot;;
+import { createRoot } from &quot;react-dom/client&quot;;
+import { App } from &quot;./App.tsx&quot;;
+import { registerHost } from &quot;./register.tsx&quot;;
+
+// Define the remote modules.
+const Remotes: RemoteDefinition[] = [
+    { name: &quot;remote1&quot; }
+];
+
+// Create the shell runtime.
+const runtime = new FireflyRuntime({
+    loggers: [x =&gt; new ConsoleLogger(x)]
+});
+
+// Register the modules.
+await bootstrap(runtime, {
+    localModules: [registerHost, registerMyLocalModule],
+    remotes: Remotes
+});
+
+const root = createRoot(document.getElementById(&quot;root&quot;)!);
+
+root.render(
+    &lt;RuntimeContext.Provider value={runtime}&gt;
+        &lt;App /&gt;
+    &lt;/RuntimeContext.Provider&gt;
+);</code></pre>
+</doc-codeblock></div>
+<doc-anchor-target id="mock-service-worker">
+    <h3>
+        <doc-anchor-trigger class="header-anchor-trigger" to="#mock-service-worker">#</doc-anchor-trigger>
+        <span>Mock Service Worker</span>
+    </h3>
+</doc-anchor-target>
+<p>The MSW bootstrapping logic has been moved from user code to the <code translate="no" v-pre>bootstrap</code> function. To update an application, replace the user code with the <code translate="no" v-pre>startMsw</code> option of the bootstrap function.</p>
+<p>Before:</p>
+<div class="codeblock-wrapper"><doc-codeblock>
+<div class="codeblock-title">bootstrap.tsx</div>
+<pre translate="no" class="language-tsx" data-line="19,28-42"><code v-pre class="language-tsx">import { 
+    ConsoleLogger,
+    RuntimeContext,
+    FireflyRuntime,
+    registerRemoteModules,
+    registerLocalModules,
+    setMswAsReady,
+    type RemoteDefinition
+} from &quot;@squide/firefly&quot;;
+import { createRoot } from &quot;react-dom/client&quot;;
+import { App } from &quot;./App.tsx&quot;;
+import { registerHost } from &quot;./register.tsx&quot;;
+
+const Remotes: RemoteDefinition[] = [
+    { name: &quot;remote1&quot; }
+];
+
+const runtime = new FireflyRuntime({
+    useMsw: !!process.env.USE_MSW,
+    loggers: [x =&gt; new ConsoleLogger(x)]
+});
+
+await registerLocalModules([registerHost], runtime);
+
+await registerRemoteModules(Remotes, runtime);
+
+// Once both register functions are done, we can safely assume that all the request handlers has been registered.
+if (runtime.isMswEnabled) {
+    // Files that includes an import to the &quot;msw&quot; package are included dynamically to prevent adding
+    // unused MSW stuff to the application bundles.
+    const startMsw = (await import(&quot;../mocks/browser.ts&quot;)).startMsw;
+
+    // Will start MSW with the modules request handlers.
+    startMsw(runtime.requestHandlers)
+        .then(() =&gt; {
+            // Indicate that MSW is ready and the routes can now be safely rendered.
+            setMswAsReady();
+        })
+        .catch((error: unknown) =&gt; {
+            consoleLogger.debug(&quot;[host-app] An error occured while starting MSW.&quot;, error);
+        });
+}
+
+const root = createRoot(document.getElementById(&quot;root&quot;)!);
+
+root.render(
+    &lt;RuntimeContext.Provider value={runtime}&gt;
+        &lt;App /&gt;
+    &lt;/RuntimeContext.Provider&gt;
+);</code></pre>
+</doc-codeblock></div>
+<p>Now:</p>
+<div class="codeblock-wrapper"><doc-codeblock>
+<div class="codeblock-title">bootstrap.tsx</div>
+<pre translate="no" class="language-tsx" data-line="11,18-22"><code v-pre class="language-tsx">import { ConsoleLogger, RuntimeContext, FireflyRuntime, bootstrap, type RemoteDefinition } from &quot;@squide/firefly&quot;;
+import { createRoot } from &quot;react-dom/client&quot;;
+import { App } from &quot;./App.tsx&quot;;
+import { registerHost } from &quot;./register.tsx&quot;;
+
+const Remotes: RemoteDefinition[] = [
+    { name: &quot;remote1&quot; }
+];
+
+const runtime = new FireflyRuntime({
+    useMsw: !!process.env.USE_MSW,
+    loggers: [x =&gt; new ConsoleLogger(x)]
+});
+
+await bootstrap(runtime, {
+    localModules: [registerHost],
+    remote: Remotes,
+    startMsw: async () =&gt; {
+        // Files that includes an import to the &quot;msw&quot; package are included dynamically to prevent adding
+        // unused MSW stuff to the code bundles.
+        (await import(&quot;../mocks/browser.ts&quot;)).startMsw(runtime.requestHandlers);
+    }
+});
+
+const root = createRoot(document.getElementById(&quot;root&quot;)!);
+
+root.render(
+    &lt;RuntimeContext.Provider value={runtime}&gt;
+        &lt;App /&gt;
+    &lt;/RuntimeContext.Provider&gt;
+);</code></pre>
+</doc-codeblock></div>
 
                                 
                                 <!-- Required only on API pages -->
@@ -303,7 +494,7 @@
                             </div>
                             <footer id="retype-content-footer" class="clear-both">
                                 <div class="flex flex-wrap items-center justify-between mt-14">
-                                    <a id="retype-edit-this-page" class="my-2.5 inline-flex items-center text-sm whitespace-nowrap text-body-link font-body-link-weight hover:text-body-link-hover hover:underline" href="https://github.com/workleap/wl-squide/blob/main/docs/upgrading/default.md" target="_blank" rel="noopener">
+                                    <a id="retype-edit-this-page" class="my-2.5 inline-flex items-center text-sm whitespace-nowrap text-body-link font-body-link-weight hover:text-body-link-hover hover:underline" href="https://github.com/workleap/wl-squide/blob/main/docs/updating/migrate-to-firefly-v9.3.md" target="_blank" rel="noopener">
                                         <svg class="mr-1.5" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="currentColor" overflow="visible"><path d="M20 12c-.55 0-1 .45-1 1v7c0 .55-.45 1-1 1H4c-.55 0-1-.45-1-1V6c0-.55.45-1 1-1h7c.55 0 1-.45 1-1s-.45-1-1-1H4C2.35 3 1 4.35 1 6v14c0 1.65 1.35 3 3 3h14c1.65 0 3-1.35 3-3v-7c0-.55-.45-1-1-1z" /><path d="M22.21 1.79c-1.18-1.18-3.24-1.18-4.41 0l-9.5 9.5c-.13.13-.22.29-.26.46l-1 4c-.08.34.01.7.26.95.18.2.44.3.7.3.08 0 .16-.01.24-.03l4-1c.18-.04.34-.13.46-.26l9.5-9.5c1.22-1.22 1.22-3.2.01-4.42zm-1.42 3l-9.3 9.3-2.11.53.53-2.11 9.3-9.3c.42-.42 1.16-.42 1.59 0 .43.43.43 1.15-.01 1.58z" /><path fill="none" d="M0 0h24v24H0z" /></svg>
                                         <span>Edit this page</span>
                                     </a>
@@ -311,20 +502,20 @@
                             
                                 <nav id="retype-nextprev" class="print:hidden flex mt-14">
                                     <div class="w-1/2">
-                                        <a class="px-5 py-4 h-full flex items-center break-normal font-medium text-body-link border border-base-border hover:border-base-border-hover rounded-l-lg transition-colors duration-150 relative hover:z-5" href="../reference/miscellaneous/useprotecteddatahandler/">
+                                        <a class="px-5 py-4 h-full flex items-center break-normal font-medium text-body-link border border-base-border hover:border-base-border-hover rounded-l-lg transition-colors duration-150 relative hover:z-5" href="../../updating/migrate-to-firefly-v9.0/">
                                             <svg xmlns="http://www.w3.org/2000/svg" class="mr-3" width="24" height="24" viewBox="0 0 24 24" fill="currentColor" overflow="visible"><path d="M19 11H7.41l5.29-5.29a.996.996 0 10-1.41-1.41l-7 7a1 1 0 000 1.42l7 7a1.024 1.024 0 001.42-.01.996.996 0 000-1.41L7.41 13H19c.55 0 1-.45 1-1s-.45-1-1-1z" /><path fill="none" d="M0 0h24v24H0z" /></svg>
                                             <span>
                                                 <span class="block text-xs font-normal text-base-text-muted">Previous</span>
-                                                <span class="block mt-1">use​Protected​Data​Handler</span>
+                                                <span class="block mt-1">Migrate to firefly v​9.​0</span>
                                             </span>
                                         </a>
                                     </div>
                             
                                     <div class="w-1/2">
-                                        <a class="px-5 py-4 -mx-px h-full flex items-center justify-end break-normal font-medium text-body-link border border-base-border hover:border-base-border-hover rounded-r-lg transition-colors duration-150 relative hover:z-5" href="../upgrading/migrate-to-firefly-v9.0/">
+                                        <a class="px-5 py-4 -mx-px h-full flex items-center justify-end break-normal font-medium text-body-link border border-base-border hover:border-base-border-hover rounded-r-lg transition-colors duration-150 relative hover:z-5" href="../../updating/migrate-to-firefly-v10.0/">
                                             <span>
                                                 <span class="block text-xs font-normal text-right text-base-text-muted">Next</span>
-                                                <span class="block mt-1">Migrate to firefly v​9.​0</span>
+                                                <span class="block mt-1">Migrate to firefly v​10.​0</span>
                                             </span>
                                             <svg xmlns="http://www.w3.org/2000/svg" class="ml-3" width="24" height="24" viewBox="0 0 24 24" fill="currentColor" overflow="visible"><path d="M19.92 12.38a1 1 0 00-.22-1.09l-7-7a.996.996 0 10-1.41 1.41l5.3 5.3H5c-.55 0-1 .45-1 1s.45 1 1 1h11.59l-5.29 5.29a.996.996 0 000 1.41c.19.2.44.3.7.3s.51-.1.71-.29l7-7c.09-.09.16-.21.21-.33z" /><path fill="none" d="M0 0h24v24H0z" /></svg>
                                         </a>
@@ -338,7 +529,7 @@
                                 <div id="retype-footer-links" class="print:hidden">
                                     <ul class="flex flex-wrap items-center text-sm">
                                         <li>
-                                            <a class="inline-flex items-center mr-4 py-2 text-sm whitespace-nowrap transition-colors duration-200 ease-linear text-footer-link hover:text-footer-link-hover md:mb-0" href="../about/">
+                                            <a class="inline-flex items-center mr-4 py-2 text-sm whitespace-nowrap transition-colors duration-200 ease-linear text-footer-link hover:text-footer-link-hover md:mb-0" href="../../about/">
                                                 <svg xmlns="http://www.w3.org/2000/svg" class="mb-px mr-1" width="18" height="18" viewBox="0 0 24 24" role="presentation">
                                                     <g fill="currentColor">
                                                         <path d="M10.97 8.265a1.45 1.45 0 0 0-.487.57.75.75 0 0 1-1.341-.67c.2-.402.513-.826.997-1.148C10.627 6.69 11.244 6.5 12 6.5c.658 0 1.369.195 1.934.619a2.45 2.45 0 0 1 1.004 2.006c0 1.033-.513 1.72-1.027 2.215-.19.183-.399.358-.579.508l-.147.123a4.329 4.329 0 0 0-.435.409v1.37a.75.75 0 1 1-1.5 0v-1.473c0-.237.067-.504.247-.736.22-.28.486-.517.718-.714l.183-.153.001-.001c.172-.143.324-.27.47-.412.368-.355.569-.676.569-1.136a.953.953 0 0 0-.404-.806C12.766 8.118 12.384 8 12 8c-.494 0-.814.121-1.03.265ZM13 17a1 1 0 1 1-2 0 1 1 0 0 1 2 0Z"/><path d="M12 1c6.075 0 11 4.925 11 11s-4.925 11-11 11S1 18.075 1 12 5.925 1 12 1ZM2.5 12a9.5 9.5 0 0 0 9.5 9.5 9.5 9.5 0 0 0 9.5-9.5A9.5 9.5 0 0 0 12 2.5 9.5 9.5 0 0 0 2.5 12Z"/>
@@ -388,6 +579,6 @@
 
     <div id="retype-overlay-target"></div>
 
-    <script data-cfasync="false">window.__DOCS__ = { "title": "Updating", level: 1, icon: "file", hasPrism: false, hasMermaid: false, hasMath: false, tocDepth: 2 }</script>
+    <script data-cfasync="false">window.__DOCS__ = { "title": "Migrate to firefly v9.3", level: 2, icon: "file", hasPrism: true, hasMermaid: false, hasMath: false, tocDepth: 2 }</script>
 </body>
 </html>

@@ -4,10 +4,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <meta name="turbo-root" content="/wl-squide">
-    <meta name="turbo-cache-control" content="no-cache" data-turbo-track="reload" data-track-token="3.11.0-preview6.804660603146">
+    <meta name="turbo-cache-control" content="no-cache" data-turbo-track="reload" data-track-token="3.12.0-preview2.806006202581">
 
     <!-- See retype.com -->
-    <meta name="generator" content="Retype 3.11.0-preview6">
+    <meta name="generator" content="Retype 3.12.0-preview2">
 
     <!-- Primary Meta Tags -->
     <title>Use modular tabs</title>
@@ -33,13 +33,13 @@
 
     <script data-cfasync="false">(function(){var cl=document.documentElement.classList,ls=localStorage.getItem("retype_scheme"),hd=cl.contains("dark"),hl=cl.contains("light"),wm=window.matchMedia&&window.matchMedia("(prefers-color-scheme: dark)").matches;if(ls==="dark"||(!ls&&wm&&!hd&&!hl)){cl.remove("light");cl.add("dark")}else if(ls==="light"||(!ls&&!wm&&!hd&&!hl)){cl.remove("dark");cl.add("light")}})();</script>
 
-    <link href="../../static/favicon.png" rel="icon">
-    <link href="../../resources/css/retype.css?v=3.11.0-preview6.804660603146" rel="stylesheet">
+    <link id="retype-favicon" rel="icon" href="../../static/favicon.png" />
+    <link href="../../resources/css/retype.css?v=3.12.0-preview2.806006202581" rel="stylesheet">
 
-    <script data-cfasync="false" src="../../resources/js/config.js?v=3.11.0-preview6.804660603146" data-turbo-eval="false" defer></script>
-    <script data-cfasync="false" src="../../resources/js/retype.js?v=3.11.0-preview6" data-turbo-eval="false" defer></script>
-    <script id="lunr-js" data-cfasync="false" src="../../resources/js/lunr.js?v=3.11.0-preview6.804660603146" data-turbo-eval="false" defer></script>
-    <script id="prism-js" data-cfasync="false" src="../../resources/js/prism.js?v=3.11.0-preview6.804660603146" defer></script>
+    <script data-cfasync="false" src="../../resources/js/config.js?v=3.12.0-preview2.806006202581" data-turbo-eval="false" defer></script>
+    <script data-cfasync="false" src="../../resources/js/retype.js?v=3.12.0-preview2" data-turbo-eval="false" defer></script>
+    <script id="lunr-js" data-cfasync="false" src="../../resources/js/lunr.js?v=3.12.0-preview2.806006202581" data-turbo-eval="false" defer></script>
+    <script id="prism-js" data-cfasync="false" src="../../resources/js/prism.js?v=3.12.0-preview2.806006202581" defer></script>
 
     <link href="https://workleap.github.io/wl-idp-docs-hub/static/retype-customization.css" rel="stylesheet" />
 
@@ -141,31 +141,6 @@
         
                         </ul>
                     </nav>
-        
-                    <!-- Header Right Skeleton -->
-                    <div v-cloak class="flex justify-end grow skeleton">
-        
-                        <!-- Search input mock -->
-                        <div class="relative hidden w-40 lg:block lg:max-w-sm lg:ml-auto">
-                            <div class="absolute flex items-center justify-center h-full pl-3 dark:text-dark-300">
-                                <svg xmlns="http://www.w3.org/2000/svg" class="icon-base" width="16" height="16" viewBox="0 0 24 24" aria-labelledby="icon" role="presentation" style="margin-bottom: 1px;"><g fill="currentColor" ><path d="M21.71 20.29l-3.68-3.68A8.963 8.963 0 0020 11c0-4.96-4.04-9-9-9s-9 4.04-9 9 4.04 9 9 9c2.12 0 4.07-.74 5.61-1.97l3.68 3.68c.2.19.45.29.71.29s.51-.1.71-.29c.39-.39.39-1.03 0-1.42zM4 11c0-3.86 3.14-7 7-7s7 3.14 7 7c0 1.92-.78 3.66-2.04 4.93-.01.01-.02.01-.02.01-.01.01-.01.01-.01.02A6.98 6.98 0 0111 18c-3.86 0-7-3.14-7-7z" ></path></g></svg>
-                            </div>
-                            <input class="w-full h-10 placeholder-search-placeholder transition-colors duration-200 ease-in bg-search-bg border border-transparent rounded md:text-sm hover:border-search-border-hover focus:outline-none focus:border-search-border-focus" style="padding: 0.625rem 0.75rem 0.625rem 2rem" type="text" placeholder="Search">
-                        </div>
-        
-                        <!-- Mobile search button -->
-                        <div class="flex items-center justify-center w-10 h-10 lg:hidden">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="shrink-0 icon-base" width="20" height="20" viewBox="0 0 24 24" aria-labelledby="icon" role="presentation" style="margin-bottom: 0px;"><g fill="currentColor" ><path d="M21.71 20.29l-3.68-3.68A8.963 8.963 0 0020 11c0-4.96-4.04-9-9-9s-9 4.04-9 9 4.04 9 9 9c2.12 0 4.07-.74 5.61-1.97l3.68 3.68c.2.19.45.29.71.29s.51-.1.71-.29c.39-.39.39-1.03 0-1.42zM4 11c0-3.86 3.14-7 7-7s7 3.14 7 7c0 1.92-.78 3.66-2.04 4.93-.01.01-.02.01-.02.01-.01.01-.01.01-.01.02A6.98 6.98 0 0111 18c-3.86 0-7-3.14-7-7z" ></path></g></svg>
-                        </div>
-        
-                        <!-- Dark mode switch placeholder -->
-                        <div class="w-10 h-10 lg:ml-2"></div>
-        
-                        <!-- History button -->
-                        <div class="flex items-center justify-center w-10 h-10" style="margin-right: -0.625rem;">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="shrink-0 icon-base" width="22" height="22" viewBox="0 0 24 24" aria-labelledby="icon" role="presentation" style="margin-bottom: 0px;"><g fill="currentColor" ><g ><path d="M12.01 6.01c-.55 0-1 .45-1 1V12a1 1 0 00.4.8l3 2.22a.985.985 0 001.39-.2.996.996 0 00-.21-1.4l-2.6-1.92V7.01c.02-.55-.43-1-.98-1z"></path><path d="M12.01 1.91c-5.33 0-9.69 4.16-10.05 9.4l-.29-.26a.997.997 0 10-1.34 1.48l1.97 1.79c.19.17.43.26.67.26s.48-.09.67-.26l1.97-1.79a.997.997 0 10-1.34-1.48l-.31.28c.34-4.14 3.82-7.41 8.05-7.41 4.46 0 8.08 3.63 8.08 8.09s-3.63 8.08-8.08 8.08c-2.18 0-4.22-.85-5.75-2.4a.996.996 0 10-1.42 1.4 10.02 10.02 0 007.17 2.99c5.56 0 10.08-4.52 10.08-10.08.01-5.56-4.52-10.09-10.08-10.09z"></path></g></g></svg>
-                        </div>
-                    </div>
         
                     <div v-cloak class="flex justify-end grow">
                         <div id="retype-mobile-search-button"></div>
@@ -307,9 +282,9 @@
 <p>While it&#x27;s typically recommended for a Squide application to maintain the boundary of a page within a single domain, there are situations where <strong>enhancing</strong> the <strong>user experience</strong> necessitates rendering a page with parts from <strong>multiple domains</strong>, or at the very least, simulating it <span class="docs-emoji">&#x1F60A;</span>.</p>
 <p>For this guide, we&#x27;ll take as an example a page for which the parts that are owned by different domains are organized by tabs (modular tabs) and registered by different modules:</p>
 <ul>
-<li><code v-pre>Tab 1</code>: Registered by <code v-pre>Local Module 1</code></li>
-<li><code v-pre>Tab 2</code>: Registered by <code v-pre>Local Module 2</code></li>
-<li><code v-pre>Tab 3</code>: Registered by <code v-pre>Local Module 3</code></li>
+<li><code translate="no" v-pre>Tab 1</code>: Registered by <code translate="no" v-pre>Local Module 1</code></li>
+<li><code translate="no" v-pre>Tab 2</code>: Registered by <code translate="no" v-pre>Local Module 2</code></li>
+<li><code translate="no" v-pre>Tab 3</code>: Registered by <code translate="no" v-pre>Local Module 3</code></li>
 </ul>
 <div class="align-image-left"><p><figure class="content-center">
     <img src="../../static/modular-tabs-anatomy.svg" alt="Anatomy of a page rendering modular tabs" class="rounded-image-rounded border-image-border border-image-border-width" />
@@ -347,7 +322,7 @@ export function TabsLayout() {
     );
 }</code></pre>
 </doc-codeblock></div>
-<p>In the previous code sample, the <code v-pre>TabsLayout</code> component is similar to the <code v-pre>RootLayout</code> component introduced in previous guides. However, the key distinction is that this layout will be bound to the <code v-pre>/tabs</code> URL path. By nesting the layout under a specific path, it will only render when the user navigates to one of the modular tab pages (e.g. <code v-pre>/tabs</code>, <code v-pre>/tabs/tab-1</code>, <code v-pre>/tabs/tab-2</code>, <code v-pre>/tabs/tab-3</code>).</p>
+<p>In the previous code sample, the <code translate="no" v-pre>TabsLayout</code> component is similar to the <code translate="no" v-pre>RootLayout</code> component introduced in previous guides. However, the key distinction is that this layout will be bound to the <code translate="no" v-pre>/tabs</code> URL path. By nesting the layout under a specific path, it will only render when the user navigates to one of the modular tab pages (e.g. <code translate="no" v-pre>/tabs</code>, <code translate="no" v-pre>/tabs/tab-1</code>, <code translate="no" v-pre>/tabs/tab-2</code>, <code translate="no" v-pre>/tabs/tab-3</code>).</p>
 <p>To register the newly created layout as a nested layout, use the <a href="../../reference/runtime/runtime-class/#register-routes">registerRoute</a> function:</p>
 <div class="codeblock-wrapper"><doc-codeblock>
 <div class="codeblock-title">host/src/register.tsx</div>
@@ -391,7 +366,7 @@ export const register: ModuleRegisterFunction&lt;FireflyRuntime&gt; = runtime =&
         <span>Create the tab routes</span>
     </h2>
 </doc-anchor-target>
-<p>Next, let&#x27;s add the actual tabs to the modules. To do so, we&#x27;ll use the <a href="../../reference/runtime/runtime-class/#register-nested-routes">parentPath</a> option of the <a href="../../reference/runtime/runtime-class/#register-routes">registerRoute</a> function to register the routes under the <code v-pre>TabsLayout</code> component:</p>
+<p>Next, let&#x27;s add the actual tabs to the modules. To do so, we&#x27;ll use the <a href="../../reference/runtime/runtime-class/#register-nested-routes">parentPath</a> option of the <a href="../../reference/runtime/runtime-class/#register-routes">registerRoute</a> function to register the routes under the <code translate="no" v-pre>TabsLayout</code> component:</p>
 <div class="codeblock-wrapper"><doc-codeblock>
 <div class="codeblock-title">local-module-1/src/register.tsx</div>
 <pre translate="no" class="language-tsx" data-line="7,10"><code v-pre class="language-tsx">import type { ModuleRegisterFunction, FireflyRuntime } from &quot;@squide/firefly&quot;;
@@ -463,16 +438,16 @@ export const register: ModuleRegisterFunction&lt;FireflyRuntime&gt; = runtime =&
     );
 }</code></pre>
 </doc-codeblock></div>
-<p>Now that the tabs has been registered, ensure that all four modules are registered in the host application. Start the development servers using the <code v-pre>dev</code> script. Navigate to the <code v-pre>/tabs</code> page, you should see the tab headers. Click on each tab header to confirm that the content renders correctly.</p>
+<p>Now that the tabs has been registered, ensure that all four modules are registered in the host application. Start the development servers using the <code translate="no" v-pre>dev</code> script. Navigate to the <code translate="no" v-pre>/tabs</code> page, you should see the tab headers. Click on each tab header to confirm that the content renders correctly.</p>
 <doc-anchor-target id="decouple-the-navigation-items">
     <h2>
         <doc-anchor-trigger class="header-anchor-trigger" to="#decouple-the-navigation-items">#</doc-anchor-trigger>
         <span>Decouple the navigation items</span>
     </h2>
 </doc-anchor-target>
-<p>Althought it&#x27;s functional, the modules are currently coupled by hardcoded URLs within the <code v-pre>TabsLayout</code> component.</p>
-<p>To decouple the navigation items, similar to what is done for regular module&#x27;s routes, we&#x27;ll use the <a href="../../reference/runtime/runtime-class/#register-navigation-items">registerNavigationItem</a> function. In this case, we&#x27;ll specify a <a href="../../reference/runtime/runtime-class/#register-navigation-items-for-a-specific-menu">menuId</a> option. Defining the <code v-pre>menuId</code> option will allow the <code v-pre>TabsLayout</code> component to exclusively retrieve the navigation items that belongs to him.</p>
-<p>First, let&#x27;s register the navigation items with the <code v-pre>menuId</code> option. For this example the <code v-pre>menuId</code> will be <code v-pre>/tabs</code> (it can be anything):</p>
+<p>Althought it&#x27;s functional, the modules are currently coupled by hardcoded URLs within the <code translate="no" v-pre>TabsLayout</code> component.</p>
+<p>To decouple the navigation items, similar to what is done for regular module&#x27;s routes, we&#x27;ll use the <a href="../../reference/runtime/runtime-class/#register-navigation-items">registerNavigationItem</a> function. In this case, we&#x27;ll specify a <a href="../../reference/runtime/runtime-class/#register-navigation-items-for-a-specific-menu">menuId</a> option. Defining the <code translate="no" v-pre>menuId</code> option will allow the <code translate="no" v-pre>TabsLayout</code> component to exclusively retrieve the navigation items that belongs to him.</p>
+<p>First, let&#x27;s register the navigation items with the <code translate="no" v-pre>menuId</code> option. For this example the <code translate="no" v-pre>menuId</code> will be <code translate="no" v-pre>/tabs</code> (it can be anything):</p>
 <div class="codeblock-wrapper"><doc-codeblock>
 <div class="codeblock-title">local-module-1/src/register.tsx</div>
 <pre translate="no" class="language-tsx" data-line="20"><code v-pre class="language-tsx">import type { ModuleRegisterFunction, FireflyRuntime } from &quot;@squide/firefly&quot;;
@@ -550,7 +525,7 @@ export const register: ModuleRegisterFunction&lt;FireflyRuntime&gt; = runtime =&
     });
 }</code></pre>
 </doc-codeblock></div>
-<p>Then, update the <code v-pre>TabsLayout</code> component to render the registered navigation items instead of the hardcoded URLs:</p>
+<p>Then, update the <code translate="no" v-pre>TabsLayout</code> component to render the registered navigation items instead of the hardcoded URLs:</p>
 <div class="codeblock-wrapper"><doc-codeblock>
 <div class="codeblock-title">host/src/tabs-layout.tsx</div>
 <pre translate="no" class="language-tsx" data-line="32"><code v-pre class="language-tsx">import { 
@@ -607,7 +582,7 @@ export function TabsLayout() {
     </h2>
 </doc-anchor-target>
 <p>Similarly to how the display order of regular navigation items can be configured, a modular tab position can be affected with the <a href="http://localhost:5000/wl-squide/reference/runtime/runtime-class/#sort-registered-navigation-items" class="outbound" target="_blank">priority</a> option.</p>
-<p>To force <code v-pre>Tab 3</code> to be positioned first, we&#x27;ll give him a priority of <code v-pre>999</code>:</p>
+<p>To force <code translate="no" v-pre>Tab 3</code> to be positioned first, we&#x27;ll give him a priority of <code translate="no" v-pre>999</code>:</p>
 <div class="codeblock-wrapper"><doc-codeblock>
 <div class="codeblock-title">local-module-3/src/register.tsx</div>
 <pre translate="no" class="language-tsx" data-line="16"><code v-pre class="language-tsx">import type { ModuleRegisterFunction, FireflyRuntime } from &quot;@squide/firefly&quot;;
@@ -638,7 +613,7 @@ export const register: ModuleRegisterFunction&lt;FireflyRuntime&gt; = runtime =&
         <span>Try it <span class="docs-emoji">&#x1F680;</span></span>
     </h2>
 </doc-anchor-target>
-<p>To ensure everything is still working correctly, start the development servers using the <code v-pre>dev</code> script and navigate to the <code v-pre>/tabs</code> page. You should see all three tabs, and you should be able to switch between them by clicking on the tab headers.</p>
+<p>To ensure everything is still working correctly, start the development servers using the <code translate="no" v-pre>dev</code> script and navigate to the <code translate="no" v-pre>/tabs</code> page. You should see all three tabs, and you should be able to switch between them by clicking on the tab headers.</p>
 <doc-anchor-target id="troubleshoot-issues">
     <h3>
         <doc-anchor-trigger class="header-anchor-trigger" to="#troubleshoot-issues">#</doc-anchor-trigger>
@@ -649,8 +624,8 @@ export const register: ModuleRegisterFunction&lt;FireflyRuntime&gt; = runtime =&
 <ul>
 <li>Open the <a href="https://developer.chrome.com/docs/devtools/" class="outbound" target="_blank">DevTools</a> console. You&#x27;ll find a log entry for each registration that occurs and error messages if something went wrong:
 <ul>
-<li><code v-pre>[squide] The following route has been registered as a children of the &quot;/tabs&quot; route.</code></li>
-<li><code v-pre>[squide] The following static navigation item has been registered to the &quot;/tabs&quot; menu for a total of 1 item.</code></li>
+<li><code translate="no" v-pre>[squide] The following route has been registered as a children of the &quot;/tabs&quot; route.</code></li>
+<li><code translate="no" v-pre>[squide] The following static navigation item has been registered to the &quot;/tabs&quot; menu for a total of 1 item.</code></li>
 </ul>
 </li>
 <li>Refer to a working example on <a href="https://github.com/workleap/wl-squide/tree/main/samples/basic" class="outbound" target="_blank">GitHub</a>.</li>
