@@ -24,7 +24,7 @@
         "@types/react": "19.1.8",
         "@types/react-dom": "19.1.6",
         "@types/uuid": "10.0.0",
-        "@typescript-eslint/parser": "8.35.0",
+        "@typescript-eslint/parser": "8.37.0",
         "@workleap/eslint-plugin": "3.4.2",
         "@workleap/typescript-configs": "3.0.4",
         "eslint": "8.57.0",

@@ -35,12 +35,12 @@
         "test": "vitest --config vitest.config.ts --no-watch"
     },
     "peerDependencies": {
-        "@swc/core": "^1.12.7",
+        "@swc/core": "^1.12.14",
         "@swc/helpers": "^0.5.17",
         "@workleap/swc-configs": "^2.2.8",
         "browserslist": "^4.25.1",
         "postcss": "^8.5.3",
-        "webpack": "^5.99.9",
+        "webpack": "^5.100.2",
         "webpack-dev-server": "^5.2.2"
     },
     "dependencies": {
@@ -51,18 +51,18 @@
         "semver": "^7.7.2"
     },
     "devDependencies": {
-        "@rsbuild/core": "1.4.0",
-        "@rslib/core": "0.10.3",
-        "@types/node": "24.0.4",
+        "@rsbuild/core": "1.4.7",
+        "@rslib/core": "0.10.6",
+        "@types/node": "24.0.14",
         "@types/semver": "7.7.0",
-        "@typescript-eslint/parser": "8.35.0",
+        "@typescript-eslint/parser": "8.37.0",
         "@workleap/eslint-plugin": "3.4.2",
         "@workleap/rslib-configs": "1.0.6",
         "@workleap/typescript-configs": "3.0.4",
         "eslint": "8.57.0",
         "typescript": "5.8.3",
         "vitest": "3.2.4",
-        "webpack": "5.99.9",
+        "webpack": "5.100.2",
         "webpack-dev-server": "5.2.2"
     },
     "engines": {

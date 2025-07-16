@@ -36,13 +36,13 @@
     },
     "dependencies": {
         "@module-federation/enhanced": "0.11.4",
-        "@rspack/core": "^1.4.0",
+        "@rspack/core": "^1.4.8",
         "@squide/core": "workspace:*"
     },
     "devDependencies": {
-        "@rsbuild/core": "1.4.0",
-        "@rslib/core": "0.10.3",
-        "@typescript-eslint/parser": "8.35.0",
+        "@rsbuild/core": "1.4.7",
+        "@rslib/core": "0.10.6",
+        "@typescript-eslint/parser": "8.37.0",
         "@workleap/eslint-plugin": "3.4.2",
         "@workleap/rslib-configs": "1.0.6",
         "@workleap/typescript-configs": "3.0.4",
