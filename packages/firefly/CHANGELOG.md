@@ -1,5 +1,13 @@
 # @squide/firefly
 
+## 13.1.1
+
+### Patch Changes
+
+- [#298](https://github.com/workleap/wl-squide/pull/298) [`6a81ee3`](https://github.com/workleap/wl-squide/commit/6a81ee3fdf73726fb0bf050d960e4f16f807b4a7) Thanks [@patricklafrance](https://github.com/patricklafrance)! - Fix Honeycomb integration. Previously `globalThis.__WLP_HONEYCOMB_REGISTER_DYNAMIC_FETCH_REQUEST_HOOK` was exposed by `@workleap/honeycomb` instead of `globalThis.__WLP_HONEYCOMB_REGISTER_DYNAMIC_FETCH_REQUEST_HOOK__`.
+
+  This PR support both until every application migrate to a new version of this package and `@workleap/honeycomb`.
+
 ## 13.1.0
 
 ### Minor Changes
