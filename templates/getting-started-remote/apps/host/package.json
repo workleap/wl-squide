@@ -12,6 +12,7 @@
     "dependencies": {
         "@getting-started-remote/local-module": "workspace:*",
         "@squide/firefly": "13.0.1",
+        "@workleap/logging": "1.2.2",
         "react": "19.1.0",
         "react-dom": "19.1.0",
         "react-router": "7.6.2"

@@ -63,25 +63,22 @@ To install the dependencies of this repository, open a terminal at the root of t
 pnpm install
 ```
 
-### Setup Honeycomb
+### Setup environment variables
 
-[Honeycomb](https://www.honeycomb.io/) is one of the monitoring platforms used at Workleap. The [endpoints](./samples/endpoints/) sample of this repository is already configured to send traces to Honeycomb but needs a valid Honeycomb API key.
+Ids, keys and tokens must set to send data to the different development environment of the telemetry platforms.
 
 First, create a file named `.env.local` at the root of the workspace:
 
-``` !#3
+```
 workspace
 ├── package.json
 ├── .env.local
 ```
 
-Then, retrieve a valid [Honeycomb API Key](https://docs.honeycomb.io/get-started/configure/environments/manage-api-keys/) from your Vault (or ask IT a key for Honeycomb's "frontend-platform-team-dev" environment).
+Then, add the following key/values to the newly created `.env.local` file:
 
-Finally, open the newly created `.env.local` file add a value named `HONEYCOMB_API_KEY`.
-
-```bash .env.local
-HONEYCOMB_API_KEY="YOUR_API_KEY"
-```
+- `LOGROCKET_APP_ID`: The application id of the `frontend-platform-team-dev` LogRocket project.
+- `HONEYCOMB_API_KEY`: The API key of the `frontend-platform-team-dev` Honeycomb environment.
 
 > [!NOTE]
 > The `.env.local` file is configured to be ignored by Git and will not be pushed to the remote repository.
@@ -129,6 +126,16 @@ pnpm dev-endpoints
 You can then open your favorite browser and navigate to `http://localhost:8080/` to get a live preview of your code.
 
 > To test that a remote module is working correctly, navigate to the remote module entry file. For a remote module hosted on the port `8081`, the URL should be `http://localhost:8081/remoteEntry.js`.
+
+### LogRocket
+
+The sample applications' telemetry data is sent to the `frontend-platform-team-dev` project in LogRocket.
+
+### Honeycomb
+
+Depending on the sample application, traces are sent to the corresponding project within the `frontend-platform-team-dev` environment in Honeycomb:
+
+- `endpoints`: `squide-endpoints-sample`
 
 ## Release the packages
 

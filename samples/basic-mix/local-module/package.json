@@ -23,7 +23,8 @@
         "@basic-mix/shared": "workspace:*",
         "@basic-mix/shell": "workspace:*",
         "@squide/fakes": "workspace:*",
-        "@squide/firefly": "workspace:*"
+        "@squide/firefly": "workspace:*",
+        "@workleap/logging": "^1.2.2"
     },
     "devDependencies": {
         "@react-aria/toast": "3.0.5",

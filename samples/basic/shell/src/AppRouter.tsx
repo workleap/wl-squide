@@ -38,7 +38,10 @@ export function AppRouter() {
     return (
         <FireflyAppRouter>
             {({ rootRoute, registeredRoutes, routerProviderProps }) => {
-                logger.debug("[shell] React Router will be rendered with the following route definitions: ", registeredRoutes);
+                logger
+                    .withText("[shell] React Router will be rendered with the following route definitions:")
+                    .withObject(registeredRoutes)
+                    .debug();
 
                 return (
                     <RouterProvider

@@ -1,7 +1,8 @@
 import { registerLocalModule } from "@basic/local-module";
 import { registerLayouts, type AppContext } from "@basic/shared";
 import { registerShell } from "@basic/shell";
-import { ConsoleLogger, FireflyProvider, initializeFirefly } from "@squide/firefly";
+import { FireflyProvider, initializeFirefly } from "@squide/firefly";
+import { BrowserConsoleLogger } from "@workleap/logging";
 import { StrictMode } from "react";
 import { createRoot } from "react-dom/client";
 import { Remotes } from "../remotes.ts";
@@ -21,7 +22,7 @@ const context: AppContext = {
 const runtime = initializeFirefly({
     localModules: [registerShell({ host: "@basic/host" }), registerLayouts({ host: "@basic/host" }), registerHost, registerLocalModule],
     remotes: Remotes,
-    loggers: [x => new ConsoleLogger(x)],
+    loggers: [new BrowserConsoleLogger()],
     context
 });
 

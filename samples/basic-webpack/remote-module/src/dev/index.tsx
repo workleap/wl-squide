@@ -1,6 +1,7 @@
 import { registerLayouts } from "@basic-webpack/shared";
 import { registerShell } from "@basic-webpack/shell";
-import { ConsoleLogger, FireflyProvider, initializeFirefly } from "@squide/firefly";
+import { FireflyProvider, initializeFirefly } from "@squide/firefly";
+import { BrowserConsoleLogger } from "@workleap/logging";
 import { StrictMode } from "react";
 import { createRoot } from "react-dom/client";
 import { register as registerModule } from "../register.tsx";
@@ -11,7 +12,7 @@ import { registerDev } from "./register.tsx";
 // is local when developing in isolation.
 const runtime = initializeFirefly({
     localModules: [registerShell(), registerLayouts(), registerDev, registerModule],
-    loggers: [x => new ConsoleLogger(x)]
+    loggers: [new BrowserConsoleLogger()]
 });
 
 const root = createRoot(document.getElementById("root")!);
