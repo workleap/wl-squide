@@ -19,7 +19,10 @@ export class EnvironmentVariablesPlugin extends Plugin {
     registerVariables(variables: Partial<EnvironmentVariables>) {
         this.#environmentVariablesRegistry.addVariables(variables);
 
-        this._runtime.logger.debug("[squide] The following environment variables has been registered:", variables);
+        this._runtime.logger
+            .withText("[squide] The following environment variables has been registered:")
+            .withObject(variables)
+            .debug();
     }
 
     getVariable(key: EnvironmentVariablesRegistryKey) {

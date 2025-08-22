@@ -1,5 +1,5 @@
 import { test, vi } from "vitest";
-import { ModuleRegistrationError } from "../src/index.ts";
+import { ModuleRegistrationError } from "../src/registration/moduleRegistry.ts";
 import { LocalModuleRegistrationFailedEvent, LocalModuleRegistry, LocalModulesRegistrationCompletedEvent, LocalModulesRegistrationStartedEvent } from "../src/registration/registerLocalModules.ts";
 import { Runtime } from "../src/runtime/runtime.ts";
 

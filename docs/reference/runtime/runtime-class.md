@@ -4,7 +4,7 @@ toc:
     depth: 2-3
 ---
 
-# FireflyRuntime class
+# FireflyRuntime
 
 !!!warning
 Don't instanciate your own instance of `FireflyRuntime`, use the [initializeFirefly](../registration/initializeFirefly.md) function instead.

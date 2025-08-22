@@ -1,16 +1,14 @@
-import type { Logger } from "../logging/logger.ts";
+import { createCompositeLogger, type RootLogger } from "@workleap/logging";
 import { EventBus } from "../messaging/eventBus.ts";
 import type { Plugin } from "../plugins/plugin.ts";
-import { RuntimeLogger } from "./RuntimeLogger.ts";
 
 export type RuntimeMode = "development" | "production";
 
-export type LoggerFactory = (runtime: Runtime) => Logger;
 export type PluginFactory = (runtime: Runtime) => Plugin;
 
 export interface RuntimeOptions {
     mode?: RuntimeMode;
-    loggers?: LoggerFactory[];
+    loggers?: RootLogger[];
     plugins?: PluginFactory[];
 }
 
@@ -29,13 +27,20 @@ export const RootMenuId = "root";
 
 export abstract class Runtime<TRoute = unknown, TNavigationItem = unknown> {
     protected _mode: RuntimeMode;
-    protected readonly _logger: RuntimeLogger;
+    protected readonly _logger: RootLogger;
     protected readonly _eventBus: EventBus;
     protected readonly _plugins: Plugin[];
 
-    constructor({ mode = "development", loggers, plugins = [] }: RuntimeOptions = {}) {
+    constructor(options: RuntimeOptions = {}) {
+        const {
+            mode = "development",
+            loggers = [],
+            plugins = []
+        } = options;
+
         this._mode = mode;
-        this._logger = new RuntimeLogger(loggers?.map(x => x(this)));
+        // TODO: Could be worth supporting a "verbose" option instead, TBD.
+        this._logger = createCompositeLogger(mode === "development", loggers);
         this._eventBus = new EventBus({ logger: this._logger });
         this._plugins = plugins.map(x => x(this));
     }

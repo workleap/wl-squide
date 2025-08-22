@@ -130,12 +130,6 @@ You can then open your favorite browser and navigate to `http://localhost:8080/`
 
 > To test that a remote module is working correctly, navigate to the remote module entry file. For a remote module hosted on the port `8081`, the URL should be `http://localhost:8081/remoteEntry.js`.
 
-If you prefer to develop without a sample application, use the `dev-pkg` script instead:
-
-```bash
-pnpm dev-pkg
-```
-
 ## Release the packages
 
 When you are ready to release the packages, you must follow the following steps:
@@ -210,14 +204,6 @@ Another prompt with a few questions will appear and then the sites will automati
 ## Commands
 
 From the project root, you have access to many commands. The most important ones are:
-
-### dev-pkg
-
-Start a watch process for the packages.
-
-```bash
-pnpm dev-pkg
-```
 
 ### dev-basic
 

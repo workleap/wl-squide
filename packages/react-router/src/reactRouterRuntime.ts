@@ -67,27 +67,60 @@ export class ReactRouterRuntime extends Runtime<Route, RootNavigationItem> {
         const parentId = translateOutletsParentId(result.parentId);
 
         if (result.registrationStatus === "registered") {
-            const parentLog = parentId ? ` as a children of the "${parentId}" route` : "";
+            const parentLog = parentId ? `as a children of the "${parentId}" route` : "";
 
-            this._logger.debug(
-                `[squide] The following route has been %cregistered%c${parentLog}.`, "color: white; background-color: green;", "%s",
-                "Newly registered item:", route,
-                "All registered routes:", this.#routeRegistry.routes
-            );
+            this._logger
+                .withText("[squide] The following route has been")
+                .withText("registered", {
+                    style: {
+                        color: "white",
+                        backgroundColor: "green"
+                    }
+                })
+                .withText(`${parentLog}.`)
+                .withLineChange()
+                .withText("Newly registered item:")
+                .withObject(route)
+                .withLineChange()
+                .withText("All registered routes:")
+                .withObject(this.#routeRegistry.routes)
+                .debug();
 
             if (result.completedPendingRegistrations.length > 0) {
-                this._logger.debug(
-                    `[squide] The pending registration of the following route${result.completedPendingRegistrations.length !== 1 ? "s" : ""} has been %ccompleted%c.`, "color: white; background-color: green;", "%s",
-                    "Newly registered routes:", result.completedPendingRegistrations,
-                    "All registered routes:", this.#routeRegistry.routes
-                );
+                this._logger
+                    .withText(`[squide] The pending registration of the following route${result.completedPendingRegistrations.length !== 1 ? "s" : ""} has been`)
+                    .withText("completed", {
+                        style: {
+                            color: "white",
+                            backgroundColor: "green"
+                        }
+                    })
+                    .withText(".")
+                    .withLineChange()
+                    .withText("Newly registered routes:")
+                    .withObject(result.completedPendingRegistrations)
+                    .withLineChange()
+                    .withText("All registered routes:")
+                    .withObject(this.#routeRegistry.routes)
+                    .debug();
             }
         } else {
-            this._logger.debug(
-                `[squide] The following route registration is %cpending%c until "${parentId}" is registered.`, "color: black; background-color: yellow;", "%s",
-                "Pending registration:", route,
-                "All registered routes:", this.#routeRegistry.routes
-            );
+            this._logger
+                .withText("[squide] The following route registration is")
+                .withText("pending", {
+                    style: {
+                        color: "black",
+                        backgroundColor: "yellow"
+                    }
+                })
+                .withText("is registered.")
+                .withLineChange()
+                .withText("Pending registration:")
+                .withObject(route)
+                .withLineChange()
+                .withText("All registered routes:")
+                .withObject(this.#routeRegistry.routes)
+                .debug();
         }
     }
 
@@ -129,25 +162,58 @@ export class ReactRouterRuntime extends Runtime<Route, RootNavigationItem> {
         if (registrationStatus === "registered") {
             const sectionLog = sectionId ? `under the "${sectionId}" section of` : "to";
 
-            this._logger.debug(
-                `[squide] The following ${registrationType} navigation item has been %cregistered%c ${sectionLog} the "${menuId}" menu for a total of ${registeredItems.length} ${registrationType} item${registeredItems.length !== 1 ? "s" : ""}.`, "color: white; background-color: green;", "%s",
-                "Newly registered item:", newItem,
-                "All registered items:", registeredItems
-            );
+            this._logger
+                .withText(`[squide] The following ${registrationType} navigation item has been`)
+                .withText("registered", {
+                    style: {
+                        color: "white",
+                        backgroundColor: "green"
+                    }
+                })
+                .withText(`${sectionLog} the "${menuId}" menu for a total of ${registeredItems.length} ${registrationType} item${registeredItems.length !== 1 ? "s" : ""}.`)
+                .withLineChange()
+                .withText("Newly registered item:")
+                .withObject(newItem)
+                .withLineChange()
+                .withText("All registered items:")
+                .withObject(registeredItems)
+                .debug();
 
             if (completedPendingRegistrations.length > 0) {
-                this._logger.debug(
-                    `[squide] The pending registration of the following ${registrationType} navigation item${completedPendingRegistrations.length !== 1 ? "s" : ""} has been %ccompleted%c.`, "color: white; background-color: green;", "%s",
-                    "Newly registered items:", completedPendingRegistrations,
-                    "All registered items:", registeredItems
-                );
+                this._logger
+                    .withText(`[squide] The pending registration of the following ${registrationType} navigation item${completedPendingRegistrations.length !== 1 ? "s" : ""} has been`)
+                    .withText("completed", {
+                        style: {
+                            color: "white",
+                            backgroundColor: "green"
+                        }
+                    })
+                    .withText(".")
+                    .withLineChange()
+                    .withText("Newly registered items:")
+                    .withObject(completedPendingRegistrations)
+                    .withLineChange()
+                    .withText("All registered items:")
+                    .withObject(registeredItems)
+                    .debug();
             }
         } else {
-            this._logger.debug(
-                `[squide] The following ${registrationType} navigation item registration is %cpending%c until the "${sectionId}" section of the "${menuId}" menu is registered.`, "color: black; background-color: yellow;", "%s",
-                "Pending registration:", newItem,
-                "All registered items:", registeredItems
-            );
+            this._logger
+                .withText(`[squide] The following ${registrationType} navigation item registration is`)
+                .withText("pending", {
+                    style: {
+                        color: "black",
+                        backgroundColor: "yellow"
+                    }
+                })
+                .withText(`until the "${sectionId}" section of the "${menuId}" menu is registered.`)
+                .withLineChange()
+                .withText("Pending registration:")
+                .withObject(newItem)
+                .withLineChange()
+                .withText("All registered items:")
+                .withObject(registeredItems)
+                .debug();
         }
     }
 

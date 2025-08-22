@@ -14,7 +14,10 @@ export class MswPlugin extends Plugin {
     registerRequestHandlers(handlers: RequestHandler[]) {
         this.#requestHandlerRegistry.add(handlers);
 
-        this._runtime.logger.debug("[squide] The following MSW request handlers has been registered: ", handlers);
+        this._runtime.logger
+            .withText("[squide] The following MSW request handlers has been registered:")
+            .withObject(handlers)
+            .debug();
     }
 
     get requestHandlers(): RequestHandler[] {

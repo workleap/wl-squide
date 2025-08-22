@@ -1,5 +1,6 @@
 import { loadRemote as loadModuleFederationRemote } from "@module-federation/enhanced/runtime";
-import { isFunction, isNil, ModuleRegistrationError, registerModule, type DeferredRegistrationFunction, type ModuleRegistrationStatus, type ModuleRegistrationStatusChangedListener, type ModuleRegistry, type RegisterModulesOptions, type Runtime, type RuntimeLogger } from "@squide/core";
+import { isFunction, isNil, ModuleRegistrationError, registerModule, type DeferredRegistrationFunction, type ModuleRegistrationStatus, type ModuleRegistrationStatusChangedListener, type ModuleRegistry, type RegisterModulesOptions, type Runtime } from "@squide/core";
+import type { RootLogger } from "@workleap/logging";
 import type { RemoteDefinition } from "./remoteDefinition.ts";
 
 export const RemoteModulesRegistrationStartedEvent = "squide-remote-modules-registration-started";
@@ -80,7 +81,7 @@ export class RemoteModuleRegistry implements ModuleRegistry {
         this.#loadRemote = loadRemote;
     }
 
-    #logSharedScope(logger: RuntimeLogger) {
+    #logSharedScope(logger: RootLogger) {
         // eslint-disable-next-line @typescript-eslint/ban-ts-comment
         // @ts-ignore
         if (__webpack_share_scopes__) {
@@ -139,10 +140,10 @@ export class RemoteModuleRegistry implements ModuleRegistry {
 
                     runtime.logger.debug(`[squide] ${index + 1}/${remotes.length} The registration of the remote "${remoteName}" is completed.`);
                 } catch (error: unknown) {
-                    runtime.logger.error(
-                        `[squide] ${index + 1}/${remotes.length} An error occured while registering module "${RemoteRegisterModuleName}" of remote "${remoteName}".`,
-                        error
-                    );
+                    runtime.logger
+                        .withText(`[squide] ${index + 1}/${remotes.length} An error occured while registering module "${RemoteRegisterModuleName}" of remote "${remoteName}".`)
+                        .withError(error as Error)
+                        .error();
 
                     errors.push(
                         new RemoteModuleRegistrationError(
@@ -215,10 +216,10 @@ export class RemoteModuleRegistry implements ModuleRegistry {
 
                 completedCount += 1;
             } catch (error: unknown) {
-                runtime.logger.error(
-                    `[squide] ${index} An error occured while registering the deferred registrations for module "${RemoteRegisterModuleName}" of remote "${remoteName}".`,
-                    error
-                );
+                runtime.logger
+                    .withText(`[squide] ${index} An error occured while registering the deferred registrations for module "${RemoteRegisterModuleName}" of remote "${remoteName}".`)
+                    .withError(error as Error)
+                    .error();
 
                 errors.push(
                     new RemoteModuleRegistrationError(
@@ -271,10 +272,10 @@ export class RemoteModuleRegistry implements ModuleRegistry {
 
                 completedCount += 1;
             } catch (error: unknown) {
-                runtime.logger.error(
-                    `[squide] ${index} An error occured while updating the deferred registrations for module "${RemoteRegisterModuleName}" of remote "${remoteName}".`,
-                    error
-                );
+                runtime.logger
+                    .withText(`[squide] ${index} An error occured while updating the deferred registrations for module "${RemoteRegisterModuleName}" of remote "${remoteName}".`)
+                    .withError(error as Error)
+                    .error();
 
                 errors.push(
                     new RemoteModuleRegistrationError(

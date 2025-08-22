@@ -56,7 +56,10 @@ export class i18nextPlugin<T extends string = string> extends Plugin {
     registerInstance(key: string, instance: i18n) {
         this.#registry.add(key, instance);
 
-        this._runtime.logger.debug(`[squide] Registered a new i18next instance with key "${key}":`, instance);
+        this._runtime.logger
+            .withText(`[squide] Registered a new i18next instance with key "${key}":`)
+            .withObject(instance)
+            .debug();
     }
 
     getInstance(key: string) {

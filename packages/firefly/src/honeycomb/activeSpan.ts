@@ -1,5 +1,6 @@
 import type { Span } from "@opentelemetry/api";
-import { isPlainObject, type RuntimeLogger } from "@squide/core";
+import { isPlainObject } from "@squide/core";
+import type { RootLogger } from "@workleap/logging";
 import { v4 as uuidv4 } from "uuid";
 import { createTraceContextId } from "./createTraceContextId.ts";
 
@@ -96,7 +97,7 @@ export function popActiveSpan(span: ActiveSpan) {
     }
 }
 
-export function createOverrideFetchRequestSpanWithActiveSpanContext(logger: RuntimeLogger) {
+export function createOverrideFetchRequestSpanWithActiveSpanContext(logger: RootLogger) {
     return (span: Span, request: Request | RequestInit) => {
         const activeSpan = getActiveSpan();
 
@@ -105,12 +106,18 @@ export function createOverrideFetchRequestSpanWithActiveSpanContext(logger: Runt
             const requestSpanContext = span.spanContext();
 
             if (activeSpanContext) {
-                logger.debug(
-                    "[squide] Found a Honeycomb active context to apply to the following fetch request: \r\n",
-                    "Request span context: ", requestSpanContext, "\r\n",
-                    "Active span context: ", activeSpanContext, "\r\n",
-                    "Request: ", request, "\r\n"
-                );
+                logger
+                    .withText("[squide] Found a Honeycomb active context to apply to the following fetch request:")
+                    .withLineChange()
+                    .withText("Request span context:")
+                    .withObject(requestSpanContext)
+                    .withLineChange()
+                    .withText("Active span context:")
+                    .withObject(activeSpanContext)
+                    .withLineChange()
+                    .withText("Request:")
+                    .withObject(request)
+                    .debug();
 
                 span.setAttribute("trace.trace_id", activeSpanContext.traceId);
                 span.setAttribute("trace.parent_id", activeSpanContext.spanId);
