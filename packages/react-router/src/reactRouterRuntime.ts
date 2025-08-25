@@ -77,7 +77,10 @@ export class ReactRouterRuntime extends Runtime<Route, RootNavigationItem> {
                         backgroundColor: "green"
                     }
                 })
-                .withText(`${parentLog}.`)
+                .withText(parentLog)
+                .withText(".", {
+                    leadingSpace: false
+                })
                 .withLineChange()
                 .withText("Newly registered item:")
                 .withObject(route)
@@ -95,7 +98,9 @@ export class ReactRouterRuntime extends Runtime<Route, RootNavigationItem> {
                             backgroundColor: "green"
                         }
                     })
-                    .withText(".")
+                    .withText(".", {
+                        leadingSpace: false
+                    })
                     .withLineChange()
                     .withText("Newly registered routes:")
                     .withObject(result.completedPendingRegistrations)
@@ -188,7 +193,9 @@ export class ReactRouterRuntime extends Runtime<Route, RootNavigationItem> {
                             backgroundColor: "green"
                         }
                     })
-                    .withText(".")
+                    .withText(".", {
+                        leadingSpace: false
+                    })
                     .withLineChange()
                     .withText("Newly registered items:")
                     .withObject(completedPendingRegistrations)

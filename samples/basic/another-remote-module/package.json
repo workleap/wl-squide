@@ -22,7 +22,7 @@
         "@react-stately/toast": "3.1.1",
         "@squide/fakes": "workspace:*",
         "@squide/firefly": "workspace:*",
-        "@workleap/logging": "1.2.2",
+        "@workleap/logging": "1.2.5",
         "react": "19.1.0",
         "react-dom": "19.1.0",
         "react-router": "7.7.0",

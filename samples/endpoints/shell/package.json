@@ -27,7 +27,7 @@
         "@squide/fakes": "workspace:*",
         "@squide/firefly": "workspace:*",
         "@squide/i18next": "workspace:*",
-        "@workleap/honeycomb": "^6.1.4"
+        "@workleap/honeycomb": "^6.1.6"
     },
     "devDependencies": {
         "@types/node": "24.0.14",

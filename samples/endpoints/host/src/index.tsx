@@ -12,22 +12,30 @@ import { Remotes } from "../remotes.ts";
 import { App } from "./App.tsx";
 import { registerHost } from "./register.tsx";
 
-const loggers: RootLogger[] = [
-    new BrowserConsoleLogger(),
-    new LogRocketLogger()
-];
+const loggers: RootLogger[] = [new BrowserConsoleLogger()];
 
-registerHoneycombInstrumentation("sample", "squide-endpoints-sample", [/http:\/\/localhost:1234\.*/], {
-    // Default to a space so it doesn't throw at runtime.
-    apiKey: process.env.HONEYCOMB_API_KEY ?? " ",
-    verbose: true,
-    loggers
-});
+if (process.env.LOGROCKET_APP_ID) {
+    loggers.push(new LogRocketLogger());
+}
 
-registerLogRocketInstrumentation(process.env.LOGROCKET_APP_ID as string, {
-    verbose: true,
-    loggers
-});
+if (process.env.HONEYCOMB_API_KEY) {
+    registerHoneycombInstrumentation("sample", "squide-endpoints-sample", [/http:\/\/localhost:1234\.*/], {
+        apiKey: process.env.HONEYCOMB_API_KEY,
+        verbose: true,
+        loggers
+    });
+} else {
+    console.warn("[host] Cannot register Honeycomb instrumentation because the HONEYCOMB_API_KEY environment variable has not been configured.");
+}
+
+if (process.env.LOGROCKET_APP_ID) {
+    registerLogRocketInstrumentation(process.env.LOGROCKET_APP_ID as string, {
+        verbose: true,
+        loggers
+    });
+} else {
+    console.warn("[host] Cannot register LogRocket instrumentation because the LOGROCKET_APP_ID environment variable has not been configured.");
+}
 
 const runtime = initializeFirefly({
     useMsw: !!process.env.USE_MSW,

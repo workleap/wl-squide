@@ -74,7 +74,9 @@ function BootstrappingRoute() {
                         backgroundColor: "green"
                     }
                 })
-                .withText(":")
+                .withText(":", {
+                    leadingSpace: false
+                })
                 .withObject(featureFlags)
                 .debug();
         }
@@ -119,7 +121,9 @@ function BootstrappingRoute() {
                         backgroundColor: "green"
                     }
                 })
-                .withText(":")
+                .withText(":", {
+                    leadingSpace: false
+                })
                 .withObject(session)
                 .debug();
 
@@ -145,7 +149,9 @@ function BootstrappingRoute() {
                         backgroundColor: "green"
                     }
                 })
-                .withText(":")
+                .withText(":", {
+                    leadingSpace: false
+                })
                 .withObject(subscription)
                 .debug();
         }

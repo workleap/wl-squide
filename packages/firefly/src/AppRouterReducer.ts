@@ -191,7 +191,9 @@ export function useModuleRegistrationStatusDispatcher(areModulesRegisteredValue:
                         backgroundColor: "green"
                     }
                 })
-                .withText(".")
+                .withText(".", {
+                    leadingSpace: false
+                })
                 .debug();
 
             return true;
@@ -212,7 +214,9 @@ export function useModuleRegistrationStatusDispatcher(areModulesRegisteredValue:
                         backgroundColor: "green"
                     }
                 })
-                .withText(".")
+                .withText(".", {
+                    leadingSpace: false
+                })
                 .debug();
 
             return true;
@@ -257,7 +261,9 @@ export function useMswStatusDispatcher(isMswReadyValue: boolean, dispatch: AppRo
                         backgroundColor: "green"
                     }
                 })
-                .withText(".")
+                .withText(".", {
+                    leadingSpace: false
+                })
                 .debug();
 
             return true;

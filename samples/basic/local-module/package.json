@@ -24,7 +24,7 @@
         "@basic/shell": "workspace:*",
         "@squide/fakes": "workspace:*",
         "@squide/firefly": "workspace:*",
-        "@workleap/logging": "^1.2.2"
+        "@workleap/logging": "^1.2.5"
     },
     "devDependencies": {
         "@react-aria/toast": "3.0.5",
