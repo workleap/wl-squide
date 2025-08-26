@@ -59,7 +59,7 @@ In the previous code sample, upon creating an `i18nextPlugin` instance, the user
 
 Next, create the localized resource files for the `en-US` and `fr-CA` locales:
 
-```json host/src/locales/en-US.json
+```json !#2-4 host/src/locales/en-US.json
 {
     "HomePage": {
         "bodyText": "Hello from the Home page!"
@@ -67,7 +67,7 @@ Next, create the localized resource files for the `en-US` and `fr-CA` locales:
 }
 ```
 
-```json host/src/locales/fr-CA.json
+```json !#2-4 host/src/locales/fr-CA.json
 {
     "HomePage": {
         "bodyText": "Bonjour depuis la page d'accueil!"
@@ -149,7 +149,7 @@ pnpm add @squide/i18next i18next i18next-browser-languagedetector react-i18next
 
 Then, create the localized resource files for the `en-US` and `fr-CA` locales:
 
-```json local-module/src/locales/en-US.json
+```json !#2-7 local-module/src/locales/en-US.json
 {
     "navigationItems": {
         "page": "Local Module/Page - en-US"
@@ -160,7 +160,7 @@ Then, create the localized resource files for the `en-US` and `fr-CA` locales:
 }
 ```
 
-```json local-module/src/locales/fr-CA.json
+```json !#2-7 local-module/src/locales/fr-CA.json
 {
     "navigationItems": {
         "page": "Local Module/Page - fr-CA"

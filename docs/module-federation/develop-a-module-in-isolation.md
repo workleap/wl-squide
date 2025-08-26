@@ -39,7 +39,7 @@ With the new `shell` package in place, we can now configure the remote module to
 
 To begin, let's start by adding a dependency to the `@sample/shell` package:
 
-```json remote-module/package.json
+```json !#3 remote-module/package.json
 {
     "dependencies": {
         "@sample/shell": "0.0.1"
@@ -96,7 +96,7 @@ root.render(
 
 The `App.tsx` file uses the newly created `AppRouter` component to setup Squide's primitives with a [React Router](https://reactrouter.com/) instance:
 
-```tsx remote-module/src/dev/App.tsx
+```tsx !#5 remote-module/src/dev/App.tsx
 import { AppRouter } from "@sample/shell";
 
 export function App() {
@@ -123,7 +123,7 @@ function DevHome() {
 
 To register the development homepage, create a new local module specifically for configuring the remote during isolated development:
 
-```tsx remote-module/src/dev/register.tsx
+```tsx !#4-9 remote-module/src/dev/register.tsx
 import type { ModuleRegisterFunction, FireflyRuntime } from "@squide/firefly";
 import { DevHome } from "./DevHome.tsx";
 
@@ -169,7 +169,7 @@ First, open the `public/index.html` file created at the beginning of this guide 
 
 Then, open the `.browserslist` file and copy/paste the following content:
 
-``` host/.browserslistrc
+```!#1 host/.browserslistrc
 extends @workleap/browserslist-config
 ```
 

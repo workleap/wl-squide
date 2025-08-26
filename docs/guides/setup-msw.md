@@ -25,7 +25,7 @@ pnpx msw init ./public
 
 Then, update the `dev` PNPM script to define with [cross-env](https://www.npmjs.com/package/cross-env) an `USE_MSW` environment variable that will [conditionally include MSW code](https://mswjs.io/docs/integrations/browser#conditionally-enable-mocking) into the application bundles:
 
-```json host/package.json
+```json !#3 host/package.json
 {
     "scripts": {
         "dev": "cross-env USE_MSW=true rsbuild dev --config ./rsbuild.dev.ts"
@@ -59,7 +59,7 @@ With the newly added `USE_MSW` environment variable, the host application bootst
 
 First, define a function to start MSW:
 
-```ts host/mocks/browser.ts
+```ts !#4-10 host/mocks/browser.ts
 import type { RequestHandler } from "msw";
 import { setupWorker } from "msw/browser";
 
@@ -109,7 +109,7 @@ pnpm add msw
 
 Then, define a [request handler](https://mswjs.io/docs/concepts/request-handler/):
 
-```ts local-module/mocks/handlers.ts
+```ts !#3-11 local-module/mocks/handlers.ts
 import { HttpResponse, http, type HttpHandler } from "msw";
 
 export const requestHandlers: HttpHandler[] = [

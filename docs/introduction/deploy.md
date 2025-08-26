@@ -12,13 +12,13 @@ However, there are a few essential configurations that need to be made regardles
 
 To enable support for direct page hits, add the following redirect rule to your host application's hosting provider:
 
-```
+```!#1
 /* /index.html 200
 ```
 
 For [Netlify](https://www.netlify.com/), it can either be with a `netlify.toml` file at the root of project:
 
-```netlify.toml
+```!#1-4 netlify.toml
 [[redirects]]
     from = "/*"
     to = "/index.html"
@@ -27,7 +27,7 @@ For [Netlify](https://www.netlify.com/), it can either be with a `netlify.toml` 
 
 Or by adding a `_redirects` file into the Netlify publish directory:
 
-```_redirects
+```!#1 _redirects
 /* /index.html 200
 ```
 
@@ -35,7 +35,7 @@ Or by adding a `_redirects` file into the Netlify publish directory:
 
 If your modular applications includes [remote modules](../reference/registration/registerRemoteModules.md), configure the remote modules production URL:
 
-```js
+```js !#4
 const Remotes = [
     {
         name: "remote1",
@@ -48,10 +48,10 @@ const Remotes = [
 
 Don't forget to change the [FireflyRuntime mode](../reference/runtime/runtime-class.md#change-the-runtime-mode) to `production`:
 
-```ts
-import { FireflyRuntime } from "@squide/firefly";
+```ts !#4
+import { initializeFirefly } from "@squide/firefly";
 
-const runtime = new FireflyRuntime({
+const runtime = initializeFirefly({
     mode: process.env.isNetlify ? "production" : "development"
 });
 ```

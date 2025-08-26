@@ -26,7 +26,7 @@ pnpm add @squide/i18next i18next i18next-browser-languagedetector react-i18next
 
 Then, create the localized resource files for the `en-US` and `fr-CA` locales:
 
-```json remote-module/src/locales/en-US.json
+```json !#2-7 remote-module/src/locales/en-US.json
 {
     "navigationItems": {
         "page": "Remote/Page - en-US"
@@ -37,7 +37,7 @@ Then, create the localized resource files for the `en-US` and `fr-CA` locales:
 }
 ```
 
-```json remote-module/src/locales/fr-CA.json
+```json !#2-7 remote-module/src/locales/fr-CA.json
 {
     "navigationItems": {
         "page": "Remote/Page - fr-CA"

@@ -219,7 +219,7 @@ Now, every trace recorded **after** the session initialization will include the 
 
 Applications are expected to use the [OpenTelemetry API](https://docs.honeycomb.io/send-data/javascript-browser/honeycomb-distribution/#add-custom-instrumentation) to send custom traces to Honeycomb:
 
-```tsx host/src/Page.tsx
+```tsx !#4,9-10 host/src/Page.tsx
 import { useEffect } from "react";
 import { trace } from "@opentelemetry/api";
 

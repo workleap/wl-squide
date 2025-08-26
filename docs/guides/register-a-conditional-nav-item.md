@@ -27,7 +27,7 @@ In this guide, we'll use a hypothetical feature flags endpoint as an example. Th
 
 First, define a MSW request handler that returns the feature flags:
 
-```ts host/mocks/handlers.ts
+```ts !#3-10 host/mocks/handlers.ts
 import { HttpResponse, http, type HttpHandler } from "msw";
 
 export const requestHandlers: HttpHandler[] = [
@@ -42,7 +42,7 @@ export const requestHandlers: HttpHandler[] = [
 
 Then, register the request handler using the module registration function:
 
-```tsx host/src/register.tsx
+```tsx !#3-11 host/src/register.tsx
 import type { ModuleRegisterFunction, FireflyRuntime } from "@squide/firefly";
 
 export const register: ModuleRegisterFunction<FireflyRuntime> = async runtime => {
@@ -60,7 +60,7 @@ export const register: ModuleRegisterFunction<FireflyRuntime> = async runtime =>
 
 Next, in a shared project, create a `FeatureFlagsContext`:
 
-```ts shared/src/featureFlagsContext.ts
+```ts !#8 shared/src/featureFlagsContext.ts
 import { createContext, useContext } from "react";
 
 export interface FeatureFlags {
@@ -144,7 +144,7 @@ export function App() {
 
 Now, let's add a `DeferredRegistrationData` interface to the shared project, specifiying the remote data that module's deferred registration functions can expect:
 
-```ts shared/src/deferredData.ts
+```ts !#3-5 shared/src/deferredData.ts
 import { FeatureFlags } from "./featureFlagsContext.ts";
 
 export interface DeferredRegistrationData {
