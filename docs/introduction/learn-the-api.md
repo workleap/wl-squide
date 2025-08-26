@@ -18,7 +18,7 @@ const runtime = initializeFirefly({
 });
 ```
 
-By default, the Runtime [mode](../reference/runtime/runtime-class.md#change-the-runtime-mode) is `development`.
+By default, the runtime [mode](../reference/runtime/runtime-class.md#change-the-runtime-mode) is `development`.
 
 ## Logging
 

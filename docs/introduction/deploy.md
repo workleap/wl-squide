@@ -46,7 +46,7 @@ const Remotes = [
 
 ## Update the runtime mode
 
-Don't forget to change the [FireflyRuntime mode](../reference/runtime/runtime-class.md#change-the-runtime-mode) to `production`:
+Don't forget to change the [runtime mode](../reference/runtime/runtime-class.md#change-the-runtime-mode) to `production`:
 
 ```ts !#4
 import { initializeFirefly } from "@squide/firefly";
@@ -56,9 +56,9 @@ const runtime = initializeFirefly({
 });
 ```
 
-## Add a logger for LogRocket
+## Register a LogRocket logger
 
-If your application uses [LogRocket](https://logrocket.com/), add register a [LogRocketLogger](https://workleap.github.io/wl-telemetry/logrocket/reference/logrocketlogger/) instance to capture log entries in LogRocket session replays:
+If your application uses [LogRocket](https://logrocket.com/), register a [LogRocketLogger](https://workleap.github.io/wl-telemetry/logrocket/reference/logrocketlogger/) instance to capture log entries in LogRocket session replays:
 
 ```ts !#6
 import { initializeFirefly } from "@squide/firefly";
