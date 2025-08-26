@@ -1814,12 +1814,10 @@ describe("_validateRegistrations", () => {
             expect(() => runtime._validateRegistrations()).not.toThrow();
         });
 
-        test.concurrent.only("when there are pending registrations, throw an error", ({ expect }) => {
-            // const runtime = new ReactRouterRuntime({
-            //     loggers: [new NoopLogger()]
-            // });
-
-            const runtime = new ReactRouterRuntime();
+        test.concurrent("when there are pending registrations, throw an error", ({ expect }) => {
+            const runtime = new ReactRouterRuntime({
+                loggers: [new NoopLogger()]
+            });
 
             runtime.registerNavigationItem({
                 $label: "Link",
