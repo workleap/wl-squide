@@ -1,5 +1,6 @@
 import { RuntimeContext } from "@squide/core";
 import { renderHook } from "@testing-library/react";
+import { NoopLogger } from "@workleap/logging";
 import type { ReactNode } from "react";
 import { test } from "vitest";
 import { ReactRouterRuntime } from "../src/reactRouterRuntime.ts";
@@ -16,7 +17,9 @@ function renderUseNavigationItemsHook(runtime: ReactRouterRuntime, menuId?: stri
 }
 
 test.concurrent("when no menu id is specified, returns all the registered navigation items for the root menu", ({ expect }) => {
-    const runtime = new ReactRouterRuntime();
+    const runtime = new ReactRouterRuntime({
+        loggers: [new NoopLogger()]
+    });
 
     runtime.registerNavigationItem({
         $label: "Item 1",
@@ -53,7 +56,9 @@ test.concurrent("when no menu id is specified, returns all the registered naviga
 });
 
 test.concurrent("when a menu id is specified, returns all the registered navigation items for that specific menu", ({ expect }) => {
-    const runtime = new ReactRouterRuntime();
+    const runtime = new ReactRouterRuntime({
+        loggers: [new NoopLogger()]
+    });
 
     runtime.registerNavigationItem({
         $label: "Item 1",
@@ -90,7 +95,9 @@ test.concurrent("when a menu id is specified, returns all the registered navigat
 });
 
 test.concurrent("returned array is immutable", ({ expect }) => {
-    const runtime = new ReactRouterRuntime();
+    const runtime = new ReactRouterRuntime({
+        loggers: [new NoopLogger()]
+    });
 
     runtime.registerNavigationItem({
         $label: "Foo",

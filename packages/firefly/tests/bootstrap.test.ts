@@ -1,6 +1,7 @@
 import { __clearLocalModuleRegistry, __setLocalModuleRegistry, LocalModuleRegistry, ModuleRegistrationError } from "@squide/core";
 import { __clearRemoteModuleRegistry, __setRemoteModuleRegistry, RemoteModuleRegistrationError, RemoteModuleRegistry } from "@squide/module-federation";
 import { __clearMswState, __setMswState, MswState } from "@squide/msw";
+import { NoopLogger } from "@workleap/logging";
 import { afterEach, expect, test, vi } from "vitest";
 import { FireflyRuntime } from "../src/FireflyRuntime.tsx";
 import { ApplicationBootstrappingStartedEvent, bootstrap } from "../src/initializeFirefly.ts";
@@ -12,7 +13,9 @@ afterEach(() => {
 });
 
 test("dispatch ApplicationBootstrappingStartedEvent", async () => {
-    const runtime = new FireflyRuntime();
+    const runtime = new FireflyRuntime({
+        loggers: [new NoopLogger()]
+    });
 
     const listener = vi.fn();
 
@@ -24,7 +27,10 @@ test("dispatch ApplicationBootstrappingStartedEvent", async () => {
 });
 
 test("when local modules are provided, register the local modules", async () => {
-    const runtime = new FireflyRuntime();
+    const runtime = new FireflyRuntime({
+        loggers: [new NoopLogger()]
+    });
+
     const localModuleRegistry = new LocalModuleRegistry();
 
     __setLocalModuleRegistry(localModuleRegistry);
@@ -39,7 +45,9 @@ test("when local modules are provided, register the local modules", async () => 
 });
 
 test("when remote modules are provided, register the remote modules", async () => {
-    const runtime = new FireflyRuntime();
+    const runtime = new FireflyRuntime({
+        loggers: [new NoopLogger()]
+    });
 
     const loadRemote = vi.fn().mockResolvedValue({
         register: () => {}
@@ -59,7 +67,10 @@ test("when remote modules are provided, register the remote modules", async () =
 });
 
 test("when local and remote modules are provided, register all the modules", async () => {
-    const runtime = new FireflyRuntime();
+    const runtime = new FireflyRuntime({
+        loggers: [new NoopLogger()]
+    });
+
     const localModuleRegistry = new LocalModuleRegistry();
 
     const loadRemote = vi.fn().mockResolvedValue({
@@ -85,7 +96,10 @@ test("when local and remote modules are provided, register all the modules", asy
 });
 
 test("when an error occurs while registering a local and an onError function is provided, call the function with the error", async () => {
-    const runtime = new FireflyRuntime();
+    const runtime = new FireflyRuntime({
+        loggers: [new NoopLogger()]
+    });
+
     const localModuleRegistry = new LocalModuleRegistry();
 
     __setLocalModuleRegistry(localModuleRegistry);
@@ -106,7 +120,9 @@ test("when an error occurs while registering a local and an onError function is 
 });
 
 test("when an error occurs while registering a remote module and an onError function is provided, call the function with the error", async () => {
-    const runtime = new FireflyRuntime();
+    const runtime = new FireflyRuntime({
+        loggers: [new NoopLogger()]
+    });
 
     const loadRemote = vi.fn().mockResolvedValue({
         register: () => {
@@ -133,7 +149,8 @@ test("when an error occurs while registering a remote module and an onError func
 
 test("when MSW is enabled and a start function is provided, call the start function", async () => {
     const runtime = new FireflyRuntime({
-        useMsw: true
+        useMsw: true,
+        loggers: [new NoopLogger()]
     });
 
     const fct = vi.fn(() => Promise.resolve());
@@ -147,7 +164,8 @@ test("when MSW is enabled and a start function is provided, call the start funct
 
 test("when MSW is disabled and a start function is provided, do not call the start function", () => {
     const runtime = new FireflyRuntime({
-        useMsw: false
+        useMsw: false,
+        loggers: [new NoopLogger()]
     });
 
     const fct = vi.fn(() => Promise.resolve());
@@ -170,7 +188,8 @@ test("when MSW is disabled and a start function is provided, do not call the sta
 
 test("when MSW is enabled and a start function is provided, MSW is ready once the start function is called", async () => {
     const runtime = new FireflyRuntime({
-        useMsw: true
+        useMsw: true,
+        loggers: [new NoopLogger()]
     });
 
     const mswState = new MswState();

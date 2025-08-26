@@ -1,14 +1,9 @@
-import type { RootLogger } from "@workleap/logging";
+import type { Logger } from "@workleap/logging";
 import { EventEmitter } from "eventemitter3";
 
 export type EventName = string | symbol;
 
 export type EventCallbackFunction<TPayload = unknown> = (data?: TPayload) => void;
-
-export interface EventBusOptions {
-    // TODO: Remove the optional from this.
-    logger?: RootLogger;
-}
 
 export interface AddListenerOptions {
     once?: boolean;
@@ -20,9 +15,9 @@ export interface RemoveListenerOptions {
 
 export class EventBus<TEventNames extends EventName = EventName, TPayload = unknown> {
     readonly #eventEmitter: EventEmitter;
-    #logger?: RootLogger;
+    #logger: Logger;
 
-    constructor({ logger }: EventBusOptions = {}) {
+    constructor(logger: Logger) {
         this.#eventEmitter = new EventEmitter();
         this.#logger = logger;
     }
@@ -41,7 +36,7 @@ export class EventBus<TEventNames extends EventName = EventName, TPayload = unkn
 
     dispatch(eventName: TEventNames, payload?: TPayload) {
         this.#logger
-            ?.withText(`[squide] Dispatching event "${String(eventName)}"`)
+            .withText(`[squide] Dispatching event "${String(eventName)}"`)
             .withObject(payload)
             .debug();
 

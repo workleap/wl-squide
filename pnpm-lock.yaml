@@ -518,6 +518,9 @@ importers:
       '@squide/core':
         specifier: workspace:*
         version: link:../core
+      '@workleap/logging':
+        specifier: ^1.2.5
+        version: 1.2.5
       memoize:
         specifier: ^10.1.0
         version: 10.1.0

@@ -39,9 +39,8 @@ export abstract class Runtime<TRoute = unknown, TNavigationItem = unknown> {
         } = options;
 
         this._mode = mode;
-        // TODO: Could be worth supporting a "verbose" option instead, TBD.
         this._logger = createCompositeLogger(mode === "development", loggers);
-        this._eventBus = new EventBus({ logger: this._logger });
+        this._eventBus = new EventBus(this._logger);
         this._plugins = plugins.map(x => x(this));
     }
 
