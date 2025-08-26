@@ -130,15 +130,14 @@ And finally include the `registerShell` function to setup the `RootLayout` and `
 
 ```tsx !#9 host/src/index.tsx
 import { createRoot } from "react-dom/client";
-import { ConsoleLogger, FireflyProvider, initializeFirefly } from "@squide/firefly";
+import { FireflyProvider, initializeFirefly } from "@squide/firefly";
 import { App } from "./App.tsx";
 import { registerHost } from "./register.tsx";
 import { registerShell } from "@sample/shell";
 
 const runtime = initializeFirefly(runtime, {
     // Register the newly created shell module.
-    localModules: [registerShell, registerHost],
-    loggers: [x => new ConsoleLogger(x)]
+    localModules: [registerShell, registerHost]
 });
 
 const root = createRoot(document.getElementById("root")!);
@@ -197,17 +196,16 @@ local-module
 
 The `index.tsx` file of a local module is tailored for isolated development. The key distinction is that a new `registerDev` function is introduced to register the development homepage (which will be covered in an upcoming section):
 
-```tsx !#8-11 local-module/src/dev/index.tsx
+```tsx !#8-10 local-module/src/dev/index.tsx
 import { createRoot } from "react-dom/client";
-import { ConsoleLogger, FireflyProvider, initializeFirefly } from "@squide/firefly";
+import { FireflyProvider, initializeFirefly } from "@squide/firefly";
 import { App } from "./App.tsx";
 import { register as registerModule } from "./register.tsx";
 import { registerDev } from "./dev/register.tsx";
 import { registerShell } from "@sample/shell";
 
 const runtime = initializeFirefly(runtime, {
-    localModules: [registerModule, registerDev, registerShell],
-    loggers: [x => new ConsoleLogger(x)]
+    localModules: [registerModule, registerDev, registerShell]
 });
 
 const root = createRoot(document.getElementById("root")!);

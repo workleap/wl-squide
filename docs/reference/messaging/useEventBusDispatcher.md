@@ -23,7 +23,7 @@ A dispatch function: `(eventName: string, payload?: {}) => void`.
 
 ## Usage
 
-```ts
+```ts !#3,5
 import { useEventBusDispatcher } from "@squide/firefly";
 
 const dispatch = useEventBusDispatcher();

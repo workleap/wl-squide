@@ -41,11 +41,6 @@ toc:
 - [resolveRouteSegments](./routing/resolveRouteSegments.md)
 - [isNavigationLink](./routing/isNavigationLink.md)
 
-### Logging
-
-- [Logger](./logging/Logger.md)
-- [ConsoleLogger](./logging/ConsoleLogger.md)
-
 ### Messaging
 
 - [EventBus](./messaging/EventBus.md)

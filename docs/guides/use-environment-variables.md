@@ -72,7 +72,7 @@ Then, update the host application boostrapping code to register an instance of t
 
 ```tsx !#10 host/src/index.tsx
 import { createRoot } from "react-dom/client";
-import { ConsoleLogger, FireflyProvider, initializeFirefly } from "@squide/firefly";
+import { FireflyProvider, initializeFirefly } from "@squide/firefly";
 import { EnvironmentVariablesPlugin } from "@squide/env-vars";
 import { App } from "./App.tsx";
 import { registerHost } from "./register.tsx";
@@ -80,8 +80,7 @@ import { registerShell } from "@sample/shell";
 
 const runtime = initializeFirefly(runtime, {
     localModules: [registerShell, registerHost],
-    plugins: [x => new EnvironmentVariablesPlugin(x)],
-    loggers: [x => new ConsoleLogger(x)]
+    plugins: [x => new EnvironmentVariablesPlugin(x)]
 })
 
 const root = createRoot(document.getElementById("root")!);

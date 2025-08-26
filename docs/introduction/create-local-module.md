@@ -126,7 +126,7 @@ Then, register the local module with the [initializeFirefly](/reference/registra
 
 ```tsx !#3,14 host/src/index.tsx
 import { createRoot } from "react-dom/client";
-import { ConsoleLogger, FireflyProvider, initializeFirefly, type RemoteDefinition } from "@squide/firefly";
+import { FireflyProvider, initializeFirefly, type RemoteDefinition } from "@squide/firefly";
 import { register as registerMyLocalModule } from "@getting-started/local-module";
 import { App } from "./App.tsx";
 import { registerHost } from "./register.tsx";
@@ -139,8 +139,7 @@ const Remotes: RemoteDefinition[] = [
 // Register the modules.
 const runtime = initializeFirefly(runtime, {
     localModules: [registerHost, registerMyLocalModule],
-    remotes: Remotes,
-    loggers: [x => new ConsoleLogger(x)]
+    remotes: Remotes
 })
 
 const root = createRoot(document.getElementById("root")!);

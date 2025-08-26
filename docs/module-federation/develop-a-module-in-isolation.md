@@ -69,9 +69,9 @@ remote-module
 
 The `index.tsx` file is similar to the `bootstrap.tsx` file of an host application but, tailored for an isolated module. The key distinctions are that all the modules are registered as local modules, and a new `registerDev` function is introduced to register the development homepage (which will be covered in an upcoming section):
 
-```tsx !#8-13 remote-module/src/dev/index.tsx
+```tsx !#8-12 remote-module/src/dev/index.tsx
 import { createRoot } from "react-dom/client";
-import { ConsoleLogger, FireflyProvider, initializeFirefly } from "@squide/firefly";
+import { FireflyProvider, initializeFirefly } from "@squide/firefly";
 import { App } from "./App.tsx";
 import { register as registerModule } from "./register.tsx";
 import { registerDev } from "./dev/register.tsx";
@@ -80,8 +80,7 @@ import { registerShell } from "@sample/shell";
 const runtime = initializeFirefly(runtime, {
     // Registering the remote module as a local module because the "register" function 
     // is local when developing in isolation.
-    localModules: [registerModule, registerDev, registerShell],
-    loggers: [x => new ConsoleLogger(x)]
+    localModules: [registerModule, registerDev, registerShell]
 });
 
 const root = createRoot(document.getElementById("root")!);

@@ -10,13 +10,12 @@ A basic implementation of a [pub/sub](https://en.wikipedia.org/wiki/Publish%E2%8
 ## Reference
 
 ```ts
-const eventBus = new EventBus(options?: { logger? })
+const eventBus = new EventBus(logger)
 ```
 
 ### Parameters
 
-- `options`: An optional object literal of options:
-    - `logger`: An optional logger to facilitate debugging.
+- `logger`: A logger instance.
 
 ### Methods
 
@@ -28,11 +27,12 @@ const eventBus = new EventBus(options?: { logger? })
 
 ### Create an event bus instance
 
-```ts
-import { EventBus, RuntimeLogger } from "@squide/firefly";
+```ts !#4-6
+import { EventBus } from "@squide/firefly";
+import { BrowserConsoleLogger } from "@workleap/logging";
 
 const eventBus = new EventBus({
-    logger: new RuntimeLogger([])
+    logger: new BrowserConsoleLogger([])
 });
 ```
 
@@ -42,7 +42,7 @@ const eventBus = new EventBus({
 When possible, prefer [useEventBusListener](useEventBusListener.md) to `eventBus.addListener`.
 !!!
 
-```ts
+```ts !#8,11
 import { useCallback } from "react";
 
 const handleFoo = useCallback((data, context) => {
@@ -58,7 +58,7 @@ eventBus.addListener("foo-once", handleFoo, { once: true });
 
 ### Remove a listener
 
-```ts
+```ts !#2,5
 // Remove a regular listener.
 eventBus.removeListener("foo", handleFoo);
 
@@ -72,7 +72,7 @@ eventBus.removeListener("foo-once", handleFoo, { once: true });
 When possible, prefer [useEventBusDispatcher](useEventBusListener.md) to `eventBus.dispatch`.
 !!!
 
-```ts
+```ts !#1
 eventBus.dispatch("foo", "bar");
 ```
 

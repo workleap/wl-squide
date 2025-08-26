@@ -18,4 +18,3 @@ order: 80
 - [Setup i18next](./setup-i18next.md)
 - [Setup Honeycomb](./setup-honeycomb.md)
 - [Develop a module in isolation](./develop-a-module-in-isolation.md)
-- [Implement a custom logger](./implement-a-custom-logger.md)

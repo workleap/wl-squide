@@ -76,9 +76,9 @@ To learn more about this async boundary and the `bootstrap.tsx` file, read the f
 
 Next, to register the modules, instanciate a shell [FireflyRuntime](/reference/runtime/runtime-class.md) instance and register the remote module with the [initializeFirefly](/reference/registration/initializeFirefly.md) function (the configuration of the remote module will be covered in the [next section](create-remote-module.md)):
 
-```tsx !#11-14 host/src/bootstrap.tsx
+```tsx !#11-13 host/src/bootstrap.tsx
 import { createRoot } from "react-dom/client";
-import { ConsoleLogger, FireflyProvider, initializeFirefly, type RemoteDefinition } from "@squide/firefly";
+import { FireflyProvider, initializeFirefly, type RemoteDefinition } from "@squide/firefly";
 import { App } from "./App.tsx";
 
 // Define the remote modules.
@@ -88,8 +88,7 @@ const Remotes: RemoteDefinition[] = [
 
 // Register the remote module.
 const runtime = initializeFirefly({
-    remotes: Remotes,
-    loggers: [x => new ConsoleLogger(x)]
+    remotes: Remotes
 });
 
 const root = createRoot(document.getElementById("root")!);
@@ -252,7 +251,7 @@ Finally, update the bootstrapping code to [register](../reference/registration/r
 
 ```tsx !#13 host/src/bootstrap.tsx
 import { createRoot } from "react-dom/client";
-import { ConsoleLogger, FireflyProvider, initializeFirefly, type RemoteDefinition } from "@squide/firefly";
+import { FireflyProvider, initializeFirefly, type RemoteDefinition } from "@squide/firefly";
 import { App } from "./App.tsx";
 import { registerHost } from "./register.tsx";
 
@@ -264,8 +263,7 @@ const Remotes: RemoteDefinition[] = [
 // Register the modules.
 const runtime = initializeFirefly({
     localModules: [registerHost],
-    remotes: Remotes,
-    loggers: [x => new ConsoleLogger(x)]
+    remotes: Remotes
 });
 
 const root = createRoot(document.getElementById("root")!);

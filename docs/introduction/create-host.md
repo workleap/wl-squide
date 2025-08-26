@@ -57,14 +57,12 @@ Then, ensure that you are developing your application using [ESM syntax](https:/
 
 Next, to register the modules, instanciate a shell [FireflyRuntime](/reference/runtime/runtime-class.md) instance. A local module will be registered in the [next section](create-local-module.md) of this quick start guide:
 
-```tsx !#5-7 host/src/index.tsx
+```tsx !#5 host/src/index.tsx
 import { createRoot } from "react-dom/client";
-import { ConsoleLogger, FireflyProvider, initializeFirefly, type RemoteDefinition } from "@squide/firefly";
+import { FireflyProvider, initializeFirefly, type RemoteDefinition } from "@squide/firefly";
 import { App } from "./App.tsx";
 
-const runtime = initializeFirefly({
-    loggers: [x => new ConsoleLogger(x)]
-});
+const runtime = initializeFirefly();
 
 const root = createRoot(document.getElementById("root")!);
 
@@ -224,15 +222,14 @@ The [PublicRoutes](../reference/routing/publicRoutes.md) and [ProtectedRoutes](.
 
 Finally, update the bootstrapping code to [register](../reference/registration/registerLocalModules.md) the newly created local module:
 
-```tsx !#6-9 host/src/index.tsx
+```tsx !#6-8 host/src/index.tsx
 import { createRoot } from "react-dom/client";
-import { ConsoleLogger, FireflyProvider, initializeFirefly, type RemoteDefinition } from "@squide/firefly";
+import { FireflyProvider, initializeFirefly, type RemoteDefinition } from "@squide/firefly";
 import { registerHost } from "./register.tsx";
 import { App } from "./App.tsx";
 
 const runtime = initializeFirefly({
-    localModules: [registerHost, registerMyLocalModule],
-    loggers: [x => new ConsoleLogger(x)]
+    localModules: [registerHost, registerMyLocalModule]
 });
 
 const root = createRoot(document.getElementById("root")!);

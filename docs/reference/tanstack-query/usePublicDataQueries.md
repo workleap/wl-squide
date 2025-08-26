@@ -144,7 +144,10 @@ export function RootErrorBoundary() {
 
     useEffect(() => {
         if (isGlobalDataQueriesError(error)) {
-            logger.error(`[shell] An unmanaged error occurred while rendering the route with path ${location.pathname}`, error.message, error.errors);
+            logger
+                .withText(`[shell] An unmanaged error occurred while rendering the route with path ${location.pathname} ${error.message}`)
+                .withError(error.errors)
+                .error(();
         }
     }, [location.pathname, error, logger]);
 

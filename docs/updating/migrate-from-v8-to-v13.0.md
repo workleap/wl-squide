@@ -301,8 +301,8 @@ Versions `v9.3`, `v11.0` and `v12.0` introduce changes to how the [FireflyRuntim
 
 Before:
 
-```tsx !#13-15,18,21 bootstrap.tsx
-import { ConsoleLogger, FireflyProvider, FireflyRuntime, registerRemoteModules, registerLocalModules, type RemoteDefinition } from "@squide/firefly";
+```tsx !#13,16,19 bootstrap.tsx
+import { FireflyProvider, FireflyRuntime, registerRemoteModules, registerLocalModules, type RemoteDefinition } from "@squide/firefly";
 import { register as registerMyLocalModule } from "@getting-started/local-module";
 import { createRoot } from "react-dom/client";
 import { App } from "./App.tsx";
@@ -314,9 +314,7 @@ const Remotes: RemoteDefinition[] = [
 ];
 
 // Create the shell runtime.
-const runtime = new FireflyRuntime({
-    loggers: [x => new ConsoleLogger(x)]
-});
+const runtime = new FireflyRuntime();
 
 // Register the local module.
 await registerLocalModules([registerHost, registerMyLocalModule], runtime);
@@ -335,8 +333,8 @@ root.render(
 
 Now:
 
-```tsx !#12-16 bootstrap.tsx
-import { ConsoleLogger, FireflyProvider, FireflyRuntime, initializeFirefly, type RemoteDefinition } from "@squide/firefly";
+```tsx !#12-15 bootstrap.tsx
+import { FireflyProvider, FireflyRuntime, initializeFirefly, type RemoteDefinition } from "@squide/firefly";
 import { register as registerMyLocalModule } from "@getting-started/local-module";
 import { createRoot } from "react-dom/client";
 import { App } from "./App.tsx";
@@ -349,8 +347,7 @@ const Remotes: RemoteDefinition[] = [
 
 const runtime = initializeFirefly(runtime, {
     localModules: [registerHost, registerMyLocalModule],
-    remotes: Remotes,
-    loggers: [x => new ConsoleLogger(x)]
+    remotes: Remotes
 });
 
 const root = createRoot(document.getElementById("root")!);

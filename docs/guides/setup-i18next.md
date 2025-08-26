@@ -24,7 +24,7 @@ Then, update the host application boostrapping code to register an instance of t
 
 ```tsx !#10-19 host/src/index.tsx
 import { createRoot } from "react-dom/client";
-import { ConsoleLogger, FireflyProvider, initializeFirefly } from "@squide/firefly";
+import { FireflyProvider, initializeFirefly } from "@squide/firefly";
 import { i18nextPlugin } from "@squide/i18next";
 import { App } from "./App.tsx";
 import { registerHost } from "./register.tsx";
@@ -41,8 +41,7 @@ const runtime = initializeFirefly(runtime, {
 
         // Always detect the user language early on.
         i18nextPlugin.detectUserLanguage();
-    }],
-    loggers: [x => new ConsoleLogger(x)]
+    }]
 });
 
 const root = createRoot(document.getElementById("root")!);

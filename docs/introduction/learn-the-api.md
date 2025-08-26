@@ -10,10 +10,10 @@ Now that we've created a host application, loaded a few modules and registered r
 
 In an effort to optimize the development experience, Squide can be bootstrapped in `development` or `production` mode:
 
-```ts host/src/index.tsx
-import { FireflyRuntime, ConsoleLogger, type LogLevel } from "@squide/firefly";
+```ts !#4 host/src/index.tsx
+import { initializeFirefly } from "@squide/firefly";
 
-const runtime = new FireflyRuntime({
+const runtime = initializeFirefly({
     mode: "production"
 });
 ```
@@ -22,36 +22,27 @@ By default, the Runtime [mode](../reference/runtime/runtime-class.md#change-the-
 
 ## Logging
 
-Squide includes a built-in logging feature that integrates with the [FireflyRuntime](../reference/runtime/runtime-class.md) class and the [useLogger](../reference/runtime/useLogger.md) hook.
+Squide integrates with the [@workleap/logging](https://workleap.github.io/wl-logging/introduction/getting-started/) library by accepting an optional array of loggers and making them available anywhere in the application through the [useLogger](../reference/runtime/useLogger.md) hook.
 
-First, register your own custom logger by implementing the [Logger](../reference/logging/Logger.md) interface or register Squide built-in [ConsoleLogger](../reference/logging/ConsoleLogger):
+First, install the `@workleap/logging` package and register a logger:
 
-```ts host/src/index.tsx
-import { FireflyRuntime, ConsoleLogger, type LogLevel } from "@squide/firefly";
+```ts !#5 host/src/index.tsx
+import { initializeFirefly } from "@squide/firefly";
+import { BrowserConsoleLogger } from "@workleap/logging";
 
-const runtime = new FireflyRuntime({
-    loggers: [x => new ConsoleLogger(x, LogLevel.debug)]
+const runtime = initializeFirefly({
+    loggers: [new BrowserConsoleLogger()]
 });
 ```
 
 Then, log entries from any parts of your modular application with the [useLogger](../reference/runtime/useLogger.md) hook:
 
-```ts
+```ts !#3,5
 import { useLogger } from "@squide/firefly";
 
 const logger = useLogger();
 
-logger.debug("Hello", { world: "!" });
-```
-
-Or the [useLoggers](../reference/runtime/useLoggers.md) hook to target specific logger instances:
-
-```ts
-import { useLoggers, ConsoleLogger } from "@squide/firefly";
-
-const logger = useLoggers([ConsoleLogger.name]);
-
-logger.debug("Hello", { world: "!" });
+logger.debug("Hello!");
 ```
 
 The logger is also available from the [FireflyRuntime](../reference/runtime/runtime-class.md#log-a-message) instance.
@@ -62,7 +53,7 @@ It's crucial that the parts of a modular application remains loosely coupled. To
 
 First, listen to an event with the [useEventBusListener](../reference/messaging/useEventBusListener.md) hook:
 
-```ts
+```ts !#8
 import { useCallback } from "react";
 import { useEventBusListener } from "@squide/firefly";
 
@@ -75,7 +66,7 @@ useEventBusListener("foo", handleFoo);
 
 Then, dispatch an event from anywhere with the [useEventBusDispatcher](../reference/messaging/useEventBusDispatcher.md) hook:
 
-```ts
+```ts !#3,5
 import { useEventDispatcher } from "@squide/firefly";
 
 const dispatch = useEventBusDispatcher();
@@ -93,18 +84,18 @@ To keep Squide lightweight, not all functionalities should be integrated as a co
 
 Plugins can be registered at bootstrapping with the [FireflyRuntime](../reference/runtime/runtime-class.md) instance:
 
-```ts host/src/boostrap.tsx
-import { FireflyRuntime } from "@squide/firefly";
+```ts !#5 host/src/boostrap.tsx
+import { initializeFirefly } from "@squide/firefly";
 import { MyPlugin } from "@sample/my-plugin";
 
-const runtime = new FireflyRuntime({
+const runtime = initializeFirefly({
     plugins: [x => new MyPlugin(x)]
 });
 ```
 
 And can be accessed from any parts of the application with the `usePlugin` hook:
 
-```ts
+```ts !#4
 import { usePlugin } from "@squide/firefly";
 import { MyPlugin } from "@sample/my-plugin";
 
@@ -119,24 +110,22 @@ A plugin can also be retrieved from the [FireflyRuntime](../reference/runtime/ru
 
 Hooks are available to retrieve global application data using [TanStack Query](https://tanstack.com/query/latest). To fetch public data, use the [usePublicDataQueries](../reference/tanstack-query/usePublicDataQueries.md) hook:
 
-```tsx
+```tsx !#3-10
 import { usePublicDataQueries } from "@squide/firefly";
 
-const [featureFlags] = usePublicDataQueries([
-{
+const [featureFlags] = usePublicDataQueries([{
     queryKey: ["/api/feature-flags"],
     queryFn: async () => {
         const response = await fetch("/api/feature-flags");
 
         return response.json();
     }
-}
-]);
+}]);
 ```
 
 To retrieve protected data, use the [useProtectedDataQueries](../reference/tanstack-query/useProtectedDataQueries.md) hook instead:
 
-```tsx
+```tsx !#4-21
 import { useProtectedDataQueries } from "@squide/firefly";
 import { ApiError } from "@sample/shared";
 

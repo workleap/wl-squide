@@ -48,12 +48,10 @@ const runtime = new FireflyRuntime(options?: { mode?, useMsw?, loggers?, plugins
 
 ### Create a runtime instance
 
-```ts
-import { ConsoleLogger, FireflyRuntime } from "@squide/firefly";
+```ts !#3
+import { FireflyRuntime } from "@squide/firefly";
 
-const runtime = new FireflyRuntime({
-    loggers: [x => new ConsoleLogger(x)]
-});
+const runtime = new FireflyRuntime();
 ```
 
 ### Change the runtime mode
@@ -95,7 +93,7 @@ runtime.registerRoute(route, options?: { hoist?, parentPath?, parentId? })
     - `parentPath`: An optional path of a parent route to register this new route under.
     - `parentId`: An optional id of a parent route to register this new route under.
 
-```tsx
+```tsx !#4-7
 import { Page } from "./Page.tsx"
 
 // Register a new route from a module.
@@ -131,7 +129,7 @@ By declaring a route as hoisted, other parts of the application will not be isol
 
 When registering a route, a value can be provided indicating whether the route is `"public"` or `"protected"`. This is especially useful when dealing with code that **fetches global data for protected routes** (e.g. a session). Although a route definition accepts a `$visibility` value, we recommended using the runtime `registerPublicRoute` function to register a **root** public route instead.
 
-```tsx
+```tsx !#3-6
 import { Page } from "./Page.tsx";
 
 runtime.registerPublicRoute({
@@ -220,7 +218,7 @@ Likewise any other React Router routes, the `path` option of a route rendered un
 
 The registered routes are accessible from a `FireflyRuntime` instance, but keep in mind that the preferred way to retrieve the routes is with the [useRoutes](./useRoutes) hook.
 
-```tsx
+```tsx !#1
 const routes = runtime.routes;
 ```
 
@@ -259,7 +257,7 @@ Accept any properties of a React Router [Link](https://reactrouter.com/en/main/c
 We recommend always providing an `$id` option for a navigation item, as it ensures the menus doesn't flicker when [deferred registrations](../registration/registerLocalModules.md#defer-the-registration-of-navigation-items) are updated. Be sure to use a unique identifier.
 !!!
 
-```ts
+```ts !#2-6
 // Register a new navigation item from a module.
 runtime.registerNavigationItem({
     $id: "page-1",
@@ -274,7 +272,7 @@ runtime.registerNavigationItem({
 
 The `registerNavigationItem` function accepts a `sectionId` option, allowing a navigation item to be nested under an existing navigation section. When searching the parent navigation section matching the `sectionId` option, the `sectionId` will be match against the `$id` option of every navigation item.
 
-```ts
+```ts !#1-5
 runtime.registerNavigationItem({
     $id: "page-1",
     $label: "Page 1",
@@ -466,7 +464,7 @@ const navigationItems = runtime.getNavigationItems();
 
 To retrieve the navigation items for a **specific** navigation menu, provide a `menuId`:
 
-```tsx
+```tsx !#1
 const navigationItems = runtime.getNavigationItems("my-custom-layout");
 ```
 
@@ -474,7 +472,7 @@ const navigationItems = runtime.getNavigationItems("my-custom-layout");
 
 The registered handlers must be [Mock Service Worker](https://mswjs.io/docs/concepts/request-handler) request handlers:
 
-```tsx
+```tsx !#3
 import { requestHandlers } from "../mocks/handlers.ts";
 
 runtime.registerRequestHandlers(requestHandlers);
@@ -484,30 +482,21 @@ runtime.registerRequestHandlers(requestHandlers);
 
 ### Retrieve request handlers
 
-```tsx
+```tsx !#1
 const requestHandlers = runtime.requestHandlers;
 ```
 
 ### Log a message
 
-```ts
+```ts !#3
 // Write a debug log entry.
 // If the runtime has been instanciated with multiple logger instances, every logger instance will be invoked.
 runtime.logger.debug("Hello!");
 ```
 
-### Log a message to specific logger instances
-
-```ts
-// Write a debug log entry to the specified loggers.
-const logger = runtime.logger.use([ConsoleLogger.name]);
-
-logger.debug("Hello!");
-```
-
 ### Use the event bus
 
-```ts
+```ts !#2,5
 // Listen to an event dispatch by the host application or a module.
 runtime.eventBus.addListener("write-to-host", () => {});
 
@@ -532,7 +521,7 @@ const runtime = new FireflyRuntime({
 
 ### Retrieve a plugin
 
-```ts
+```ts !#4
 import { MyPlugin } from "@sample/my-plugin";
 
 // If the plugin isn't registered, an error is thrown.

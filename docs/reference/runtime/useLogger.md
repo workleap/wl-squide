@@ -5,7 +5,7 @@ toc:
 
 # useLogger
 
-Retrieve a `RuntimeLogger` instance from the `FireflyRuntime` instance. The returned logger will log messages to all registered [Logger](../logging/Logger.md) instances.
+Retrieve a logger instance from the `FireflyRuntime` instance. The returned logger will log messages to all registered logger instances.
 
 ## Reference
 
@@ -19,14 +19,14 @@ None
 
 ### Returns
 
-A `RuntimeLogger` instance.
+A logger instance.
 
 ## Usage
 
-```ts
+```ts !#3,5
 import { useLogger } from "@squide/firefly";
 
 const logger = useLogger();
 
-logger.debug("Hello", { world: "!" });
+logger.debug("Hello!");
 ```

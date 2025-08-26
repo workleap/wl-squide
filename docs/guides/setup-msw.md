@@ -74,16 +74,15 @@ export function startMsw(moduleRequestHandlers: RequestHandler[]) {
 
 Then, update the bootstrapping code to [start MSW](https://mswjs.io/docs/integrations/browser#setup) when it's enabled:
 
-```tsx !#7,10-14 host/src/index.tsx
+```tsx !#7,9-13 host/src/index.tsx
 import { createRoot } from "react-dom/client";
-import { ConsoleLogger, FireflyProvider, initializeFirefly } from "@squide/firefly";
+import { FireflyProvider, initializeFirefly } from "@squide/firefly";
 import { App } from "./App.tsx";
 import { registerHost } from "./register.tsx";
 
 const runtime = initializeFirefly(runtime, {
     useMsw: !!process.env.USE_MSW,
     localModules: [registerHost],
-    loggers: [x => new ConsoleLogger(x)]
     startMsw: async () => {
         // Files that includes an import to the "msw" package are included dynamically to prevent adding
         // unused MSW stuff to the code bundles.
