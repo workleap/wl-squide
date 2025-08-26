@@ -15,7 +15,7 @@ export async function initializeHoneycomb(runtime: FireflyRuntime) {
             throw error;
         }
     } else {
-        runtime.logger.debug("[squide] Cannot register Honeycomb instrumentation because the host application is not using the \"@workleap/honeycomb\" package.");
+        runtime.logger.information("[squide] Cannot register Honeycomb instrumentation because the host application is not using the \"@workleap/honeycomb\" package.");
     }
 }
 

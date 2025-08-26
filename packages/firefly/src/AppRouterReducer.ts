@@ -194,7 +194,7 @@ export function useModuleRegistrationStatusDispatcher(areModulesRegisteredValue:
                 .withText(".", {
                     leadingSpace: false
                 })
-                .debug();
+                .information();
 
             return true;
         }
@@ -217,7 +217,7 @@ export function useModuleRegistrationStatusDispatcher(areModulesRegisteredValue:
                 .withText(".", {
                     leadingSpace: false
                 })
-                .debug();
+                .information();
 
             return true;
         }
@@ -264,7 +264,7 @@ export function useMswStatusDispatcher(isMswReadyValue: boolean, dispatch: AppRo
                 .withText(".", {
                     leadingSpace: false
                 })
-                .debug();
+                .information();
 
             return true;
         }

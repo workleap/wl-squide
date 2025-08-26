@@ -58,7 +58,7 @@ export class LocalModuleRegistry implements ModuleRegistry {
         }
 
         if (registrationFunctions.length > 0) {
-            runtime.logger.debug(`[squide] Found ${registrationFunctions.length} local module${registrationFunctions.length !== 1 ? "s" : ""} to register.`);
+            runtime.logger.information(`[squide] Found ${registrationFunctions.length} local module${registrationFunctions.length !== 1 ? "s" : ""} to register.`);
 
             this.#setRegistrationStatus("registering-modules");
 
@@ -93,7 +93,7 @@ export class LocalModuleRegistry implements ModuleRegistry {
                     );
                 }
 
-                runtime.logger.debug(`[squide] ${index + 1}/${registrationFunctions.length} Local module registration completed.`);
+                runtime.logger.information(`[squide] ${index + 1}/${registrationFunctions.length} Local module registration completed.`);
             }));
 
             if (errors.length > 0) {
@@ -162,7 +162,7 @@ export class LocalModuleRegistry implements ModuleRegistry {
                 );
             }
 
-            runtime.logger.debug(`[squide] ${index} Registered local module deferred registrations.`);
+            runtime.logger.information(`[squide] ${index} Registered local module deferred registrations.`);
         }));
 
         if (errors.length > 0) {
@@ -216,7 +216,7 @@ export class LocalModuleRegistry implements ModuleRegistry {
                 );
             }
 
-            runtime.logger.debug(`[squide] ${index} Updated local module deferred registration.`);
+            runtime.logger.information(`[squide] ${index} Updated local module deferred registration.`);
         }));
 
         if (errors.length > 0) {

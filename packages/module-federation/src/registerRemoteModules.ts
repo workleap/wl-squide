@@ -102,7 +102,7 @@ export class RemoteModuleRegistry implements ModuleRegistry {
         }
 
         if (remotes.length > 0) {
-            runtime.logger.debug(`[squide] Found ${remotes.length} remote module${remotes.length !== 1 ? "s" : ""} to register.`);
+            runtime.logger.information(`[squide] Found ${remotes.length} remote module${remotes.length !== 1 ? "s" : ""} to register.`);
 
             this.#setRegistrationStatus("registering-modules");
 
@@ -138,7 +138,7 @@ export class RemoteModuleRegistry implements ModuleRegistry {
 
                     completedCount += 1;
 
-                    runtime.logger.debug(`[squide] ${index + 1}/${remotes.length} The registration of the remote "${remoteName}" is completed.`);
+                    runtime.logger.information(`[squide] ${index + 1}/${remotes.length} The registration of the remote "${remoteName}" is completed.`);
                 } catch (error: unknown) {
                     runtime.logger
                         .withText(`[squide] ${index + 1}/${remotes.length} An error occured while registering module "${RemoteRegisterModuleName}" of remote "${remoteName}".`)
@@ -231,7 +231,7 @@ export class RemoteModuleRegistry implements ModuleRegistry {
                 );
             }
 
-            runtime.logger.debug(`[squide] ${index} Registered the deferred registrations for module "${RemoteRegisterModuleName}" of remote "${remoteName}".`);
+            runtime.logger.information(`[squide] ${index} Registered the deferred registrations for module "${RemoteRegisterModuleName}" of remote "${remoteName}".`);
         }));
 
         if (errors.length > 0) {
@@ -287,7 +287,7 @@ export class RemoteModuleRegistry implements ModuleRegistry {
                 );
             }
 
-            runtime.logger.debug(`[squide] ${index} Updated the deferred registrations for module "${RemoteRegisterModuleName}" of remote "${remoteName}".`);
+            runtime.logger.information(`[squide] ${index} Updated the deferred registrations for module "${RemoteRegisterModuleName}" of remote "${remoteName}".`);
         }));
 
         if (errors.length > 0) {

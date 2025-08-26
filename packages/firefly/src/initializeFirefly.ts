@@ -55,7 +55,7 @@ export function bootstrap<TRuntime extends FireflyRuntime = FireflyRuntime, TCon
                     runtime.logger
                         .withText("[squide] An error occured while starting MSW.")
                         .withError(error as Error)
-                        .debug();
+                        .error();
                 });
         }
 

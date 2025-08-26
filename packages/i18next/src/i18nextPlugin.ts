@@ -79,12 +79,12 @@ export class i18nextPlugin<T extends string = string> extends Plugin {
         if (detectedLanguage) {
             // The navigator language preferences could be something like ["en-US", "en", "fr-CA", "fr"].
             if (Array.isArray(detectedLanguage)) {
-                this._runtime.logger.debug(`[squide] Detected ${detectedLanguage.map(x => `"${x}"`).join(",")} as user language${detectedLanguage.length >= 1 ? "s" : ""}.`);
+                this._runtime.logger.information(`[squide] Detected ${detectedLanguage.map(x => `"${x}"`).join(",")} as user language${detectedLanguage.length >= 1 ? "s" : ""}.`);
 
                 // Ensure the navigator language preferences includes at least one supported language.
                 detectedLanguage = findSupportedPreferredLanguage(detectedLanguage, this.#supportedLanguages);
             } else {
-                this._runtime.logger.debug(`[squide] Detected "${detectedLanguage}" as user language.`);
+                this._runtime.logger.information(`[squide] Detected "${detectedLanguage}" as user language.`);
 
                 // Ensure the navigator language preferences includes at least one supported language.
                 detectedLanguage = findSupportedPreferredLanguage([detectedLanguage], this.#supportedLanguages);
@@ -97,7 +97,7 @@ export class i18nextPlugin<T extends string = string> extends Plugin {
 
         this.#currentLanguage = detectedLanguage as T;
 
-        this._runtime.logger.debug(`[squide] The language has been set to "${this.#currentLanguage}".`);
+        this._runtime.logger.information(`[squide] The language has been set to "${this.#currentLanguage}".`);
     }
 
     get currentLanguage() {
@@ -120,7 +120,7 @@ export class i18nextPlugin<T extends string = string> extends Plugin {
 
             this.#currentLanguage = language;
 
-            this._runtime.logger.debug(`[squide] The language has been changed to "${this.#currentLanguage}".`);
+            this._runtime.logger.information(`[squide] The language has been changed to "${this.#currentLanguage}".`);
         }
     }
 }
