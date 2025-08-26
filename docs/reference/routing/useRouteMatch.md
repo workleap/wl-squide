@@ -30,7 +30,7 @@ If `throwWhenThereIsNoMatch` is disabled and there's no route matching `location
 
 ### Using `useLocation`
 
-```ts
+```ts !#6
 import { useLocation } from "react-router/dom";
 import { useRouteMatch } from "@squide/firefly";
 
@@ -41,7 +41,7 @@ const activeRoute = useRouteMatch(location);
 
 ### Using `window.location`
 
-```ts
+```ts !#3
 import { useRouteMatch } from "@squide/firefly";
 
 const activeRoute = useRouteMatch(window.location);

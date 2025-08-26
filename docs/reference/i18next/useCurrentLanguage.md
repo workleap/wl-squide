@@ -24,7 +24,7 @@ The current language of the `i18nextPlugin` instance.
 
 ## Usage
 
-```tsx
+```tsx !#3
 import { useCurrentLanguage } from "@squide/i18next";
 
 const language = useCurrentLanguage();
@@ -32,7 +32,7 @@ const language = useCurrentLanguage();
 
 Or with a typed language:
 
-```tsx
+```tsx !#4
 import { useCurrentLanguage } from "@squide/i18next";
 import { LanguageKey } from "@sample/shared";
 

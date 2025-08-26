@@ -24,7 +24,7 @@ An `EnvironmentVariablesPlugin` instance if the plugin has been registered, othe
 
 ## Usage
 
-```ts
+```ts !#3
 import { getEnvironmentVariablesPlugin } from "@squide/env-vars";
 
 const plugin = getEnvironmentVariablesPlugin(runtime);

@@ -37,7 +37,7 @@ const runtime = new FireflyRuntime({
 
 ### Retrieve the plugin instance
 
-```ts
+```ts !#3
 import { i18nextPlugin, i18nextPluginName } from "@squide/i18next";
 
 const plugin = runtime.getPlugin(i18nextPluginName) as i18nextPlugin;

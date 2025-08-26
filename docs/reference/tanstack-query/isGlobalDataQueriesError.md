@@ -30,7 +30,7 @@ A `boolean` value indicating whether or not the error is an instance of [GlobalD
 
 ### Handle within an error boundary
 
-```tsx
+```tsx !#9
 import { isGlobalDataQueriesError } from "@squide/firefly";
 import { useLocation, useRouteError } from "react-router/dom";
 
@@ -55,7 +55,7 @@ export function ErrorBoundary() {
 
 ### Handle with a try/catch
 
-```ts
+```ts !#6
 import { isGlobalDataQueriesError } from "@squide/firefly";
 
 try {

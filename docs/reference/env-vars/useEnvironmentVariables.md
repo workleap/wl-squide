@@ -24,7 +24,7 @@ Returns all registered environment variables as an object literal. If no environ
 
 ## Usage
 
-```ts
+```ts !#3
 import { useEnvironmentVariables } from "@squide/env-vars";
 
 const variables = useEnvironmentVariables();

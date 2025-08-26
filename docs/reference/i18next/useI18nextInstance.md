@@ -26,7 +26,7 @@ An `i18next` instance.
 
 ### Retrieve an instance
 
-```tsx
+```tsx !#3
 import { useI18nextInstance } from "@squide/i18next";
 
 const instance = useI18nextInstance("an-instance-key");

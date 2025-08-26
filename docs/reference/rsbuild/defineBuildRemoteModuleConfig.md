@@ -69,7 +69,7 @@ For the full shared dependencies configuration, have a look at the [defineConfig
 
 ### Define an Rsbuild config
 
-```ts remote-module/rsbuild.build.ts
+```ts !#3 remote-module/rsbuild.build.ts
 import { defineBuildRemoteModuleConfig } from "@squide/firefly-rsbuild-configs";
 
 export default defineBuildRemoteModuleConfig("remote1");

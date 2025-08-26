@@ -24,7 +24,7 @@ An `i18nextPlugin` instance if the plugin has been registered, otherwise an `Err
 
 ## Usage
 
-```ts
+```ts !#3
 import { getI18nextPlugin } from "@squide/i18next";
 
 const plugin = getI18nextPlugin(runtime);

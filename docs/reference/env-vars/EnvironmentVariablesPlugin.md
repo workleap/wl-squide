@@ -37,7 +37,7 @@ const runtime = new FireflyRuntime({
 
 ### Retrieve the plugin instance
 
-```ts
+```ts !#3
 import { EnvironmentVariablesPlugin, EnvironmentVariablesPluginName } from "@squide/i18next";
 
 const plugin = runtime.getPlugin(EnvironmentVariablesPluginName) as EnvironmentVariablesPlugin;

@@ -24,7 +24,7 @@ Either `"development"` or `"production"`.
 
 ## Usage
 
-```ts
+```ts !#3
 import { useRuntimeMode } from "@squide/firefly";
 
 const mode = useRuntimeMode();

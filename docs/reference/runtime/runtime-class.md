@@ -224,7 +224,7 @@ const routes = runtime.routes;
 
 ### Register navigation items
 
-```ts
+```ts !#1
 runtime.registerNavigationItem(item, options?: { menuId?, sectionId? })
 ```
 
@@ -299,7 +299,7 @@ runtime.registerNavigationItem({
 
 Navigation items can also be nested by registering multipe items in a single registration block:
 
-```ts
+```ts !#7-28
 // Register the following menu hierarchy:
 //
 //  Section
@@ -458,7 +458,7 @@ The registered navigation items are accessible from a `FireflyRuntime` instance,
 
 By default, the `getNavigationItems` will return the navigation items for the `root` menu:
 
-```tsx
+```tsx !#1
 const navigationItems = runtime.getNavigationItems();
 ```
 

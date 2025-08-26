@@ -19,7 +19,7 @@ An abstract base class to define a plugin.
 
 ### Define a plugin
 
-```ts my-plugin/src/myPlugin.ts
+```ts !#3-7 my-plugin/src/myPlugin.ts
 import { Plugin, type Runtime } from "@squide/firefly";
 
 export class MyPlugin extends Plugin {
@@ -58,7 +58,7 @@ export class MyPlugin extends Plugin {
 
 ### Retrieve a plugin from a runtime instance
 
-```ts
+```ts !#3
 import { MyPlugin } from "@sample/my-plugin";
 
 const myPlugin = runtime.getPlugin(MyPlugin.name) as MyPlugin;
@@ -82,7 +82,7 @@ export function getMyPlugin(runtime: FireflyRuntime) {
 }
 ```
 
-```ts
+```ts !#3
 import { getMyPlugin } from "@sample/my-plugin";
 
 const myPlugin = getMyPlugin(runtime);
