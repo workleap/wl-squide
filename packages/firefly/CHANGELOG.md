@@ -1,5 +1,19 @@
 # @squide/firefly
 
+## 13.3.0
+
+### Minor Changes
+
+- [#302](https://github.com/workleap/wl-squide/pull/302) [`e55c60b`](https://github.com/workleap/wl-squide/commit/e55c60b8e5a3c258a5a7d667ce990f73021f8e5d) Thanks [@patricklafrance](https://github.com/patricklafrance)! - Improved the logging API.
+
+### Patch Changes
+
+- Updated dependencies [[`e55c60b`](https://github.com/workleap/wl-squide/commit/e55c60b8e5a3c258a5a7d667ce990f73021f8e5d)]:
+  - @squide/module-federation@6.5.0
+  - @squide/react-router@7.3.0
+  - @squide/core@5.7.0
+  - @squide/msw@3.5.0
+
 ## 13.2.0
 
 ### Minor Changes
