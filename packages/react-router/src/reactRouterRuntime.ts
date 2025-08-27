@@ -118,7 +118,7 @@ export class ReactRouterRuntime extends Runtime<Route, RootNavigationItem> {
                         backgroundColor: "yellow"
                     }
                 })
-                .withText("is registered.")
+                .withText(`until "${parentId}" is registered.`)
                 .withLineChange()
                 .withText("Pending registration:")
                 .withObject(route)

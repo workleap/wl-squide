@@ -147,7 +147,7 @@ export function RootErrorBoundary() {
             logger
                 .withText(`[shell] An unmanaged error occurred while rendering the route with path ${location.pathname} ${error.message}`)
                 .withError(error.errors)
-                .error(();
+                .error();
         }
     }, [location.pathname, error, logger]);
 
