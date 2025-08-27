@@ -59,7 +59,7 @@ Next, to register the modules, instanciate a shell [FireflyRuntime](/reference/r
 
 ```tsx !#5 host/src/index.tsx
 import { createRoot } from "react-dom/client";
-import { FireflyProvider, initializeFirefly, type RemoteDefinition } from "@squide/firefly";
+import { FireflyProvider, initializeFirefly } from "@squide/firefly";
 import { App } from "./App.tsx";
 
 const runtime = initializeFirefly();
@@ -224,7 +224,7 @@ Finally, update the bootstrapping code to [register](../reference/registration/r
 
 ```tsx !#6-8 host/src/index.tsx
 import { createRoot } from "react-dom/client";
-import { FireflyProvider, initializeFirefly, type RemoteDefinition } from "@squide/firefly";
+import { FireflyProvider, initializeFirefly } from "@squide/firefly";
 import { registerHost } from "./register.tsx";
 import { App } from "./App.tsx";
 
