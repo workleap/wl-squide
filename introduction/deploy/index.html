@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <meta name="turbo-root" content="/wl-squide">
-    <meta name="turbo-cache-control" content="no-cache" data-turbo-track="reload" data-track-token="3.12.0-preview2.806084822220">
+    <meta name="turbo-cache-control" content="no-cache" data-turbo-track="reload" data-track-token="3.12.0-preview2.809575206658">
 
     <!-- See retype.com -->
     <meta name="generator" content="Retype 3.12.0-preview2">
@@ -32,12 +32,12 @@
     <script data-cfasync="false">(function(){var cl=document.documentElement.classList,ls=localStorage.getItem("retype_scheme"),hd=cl.contains("dark"),hl=cl.contains("light"),wm=window.matchMedia&&window.matchMedia("(prefers-color-scheme: dark)").matches;if(ls==="dark"||(!ls&&wm&&!hd&&!hl)){cl.remove("light");cl.add("dark")}else if(ls==="light"||(!ls&&!wm&&!hd&&!hl)){cl.remove("dark");cl.add("light")}})();</script>
 
     <link id="retype-favicon" rel="icon" href="../../static/favicon.png" />
-    <link href="../../resources/css/retype.css?v=3.12.0-preview2.806084822220" rel="stylesheet">
+    <link href="../../resources/css/retype.css?v=3.12.0-preview2.809575206658" rel="stylesheet">
 
-    <script data-cfasync="false" src="../../resources/js/config.js?v=3.12.0-preview2.806084822220" data-turbo-eval="false" defer></script>
+    <script data-cfasync="false" src="../../resources/js/config.js?v=3.12.0-preview2.809575206658" data-turbo-eval="false" defer></script>
     <script data-cfasync="false" src="../../resources/js/retype.js?v=3.12.0-preview2" data-turbo-eval="false" defer></script>
-    <script id="lunr-js" data-cfasync="false" src="../../resources/js/lunr.js?v=3.12.0-preview2.806084822220" data-turbo-eval="false" defer></script>
-    <script id="prism-js" data-cfasync="false" src="../../resources/js/prism.js?v=3.12.0-preview2.806084822220" defer></script>
+    <script id="lunr-js" data-cfasync="false" src="../../resources/js/lunr.js?v=3.12.0-preview2.809575206658" data-turbo-eval="false" defer></script>
+    <script id="prism-js" data-cfasync="false" src="../../resources/js/prism.js?v=3.12.0-preview2.809575206658" defer></script>
 
     <link href="https://workleap.github.io/wl-idp-docs-hub/static/retype-customization.css" rel="stylesheet" />
 
@@ -287,12 +287,12 @@
 </doc-anchor-target>
 <p>To enable support for direct page hits, add the following redirect rule to your host application&#x27;s hosting provider:</p>
 <div class="codeblock-wrapper"><doc-codeblock>
-<pre translate="no" class="language-none"><code v-pre class="language-none">/* /index.html 200</code></pre>
+<pre translate="no" class="language-none" data-line="1"><code v-pre class="language-none">/* /index.html 200</code></pre>
 </doc-codeblock></div>
 <p>For <a href="https://www.netlify.com/" class="outbound" target="_blank">Netlify</a>, it can either be with a <code translate="no" v-pre>netlify.toml</code> file at the root of project:</p>
 <div class="codeblock-wrapper"><doc-codeblock>
 <div class="codeblock-title">netlify.toml</div>
-<pre translate="no" class="language-none"><code v-pre class="language-none">[[redirects]]
+<pre translate="no" class="language-none" data-line="1-4"><code v-pre class="language-none">[[redirects]]
     from = &quot;/*&quot;
     to = &quot;/index.html&quot;
     status = 200</code></pre>
@@ -300,7 +300,7 @@
 <p>Or by adding a <code translate="no" v-pre>_redirects</code> file into the Netlify publish directory:</p>
 <div class="codeblock-wrapper"><doc-codeblock>
 <div class="codeblock-title">_redirects</div>
-<pre translate="no" class="language-none"><code v-pre class="language-none">/* /index.html 200</code></pre>
+<pre translate="no" class="language-none" data-line="1"><code v-pre class="language-none">/* /index.html 200</code></pre>
 </doc-codeblock></div>
 <doc-anchor-target id="set-the-remote-url">
     <h2>
@@ -310,7 +310,7 @@
 </doc-anchor-target>
 <p>If your modular applications includes <a href="../../reference/registration/registerremotemodules/">remote modules</a>, configure the remote modules production URL:</p>
 <div class="codeblock-wrapper"><doc-codeblock>
-<pre translate="no" class="language-javascript"><code v-pre class="language-javascript">const Remotes = [
+<pre translate="no" class="language-javascript" data-line="4"><code v-pre class="language-javascript">const Remotes = [
     {
         name: &quot;remote1&quot;,
         url: process.env.isNetlify ? &quot;https://squide-remote-module.netlify.app&quot; : &quot;http://localhost:8081&quot;
@@ -323,12 +323,28 @@
         <span>Update the runtime mode</span>
     </h2>
 </doc-anchor-target>
-<p>Don&#x27;t forget to change the <a href="../../reference/runtime/runtime-class/#change-the-runtime-mode">FireflyRuntime mode</a> to <code translate="no" v-pre>production</code>:</p>
+<p>Don&#x27;t forget to change the <a href="../../reference/runtime/runtime-class/#change-the-runtime-mode">runtime mode</a> to <code translate="no" v-pre>production</code>:</p>
 <div class="codeblock-wrapper"><doc-codeblock>
-<pre translate="no" class="language-typescript"><code v-pre class="language-typescript">import { FireflyRuntime } from &quot;@squide/firefly&quot;;
+<pre translate="no" class="language-typescript" data-line="4"><code v-pre class="language-typescript">import { initializeFirefly } from &quot;@squide/firefly&quot;;
 
-const runtime = new FireflyRuntime({
+const runtime = initializeFirefly({
     mode: process.env.isNetlify ? &quot;production&quot; : &quot;development&quot;
+});</code></pre>
+</doc-codeblock></div>
+<doc-anchor-target id="register-a-logrocket-logger">
+    <h2>
+        <doc-anchor-trigger class="header-anchor-trigger" to="#register-a-logrocket-logger">#</doc-anchor-trigger>
+        <span>Register a LogRocket logger</span>
+    </h2>
+</doc-anchor-target>
+<p>If your application uses <a href="https://logrocket.com/" class="outbound" target="_blank">LogRocket</a>, register a <a href="https://workleap.github.io/wl-telemetry/logrocket/reference/logrocketlogger/" class="outbound" target="_blank">LogRocketLogger</a> instance to capture log entries in LogRocket session replays:</p>
+<div class="codeblock-wrapper"><doc-codeblock>
+<pre translate="no" class="language-typescript" data-line="6"><code v-pre class="language-typescript">import { initializeFirefly } from &quot;@squide/firefly&quot;;
+import { BrowserConsoleLogger, LogLevel } from &quot;@workleap/logging&quot;;
+import { LogRocketLogger } from &quot;@workleap/logrocket&quot;;
+
+const runtime = initializeFirefly({
+    loggers: [process.env.isNetlify ? new LogRocketLogger({ logLevel: LogLevel.information }) : new BrowserConsoleLogger()]
 });</code></pre>
 </doc-codeblock></div>
 

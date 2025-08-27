@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <meta name="turbo-root" content="/wl-squide">
-    <meta name="turbo-cache-control" content="no-cache" data-turbo-track="reload" data-track-token="3.12.0-preview2.806084822220">
+    <meta name="turbo-cache-control" content="no-cache" data-turbo-track="reload" data-track-token="3.12.0-preview2.809575206658">
 
     <!-- See retype.com -->
     <meta name="generator" content="Retype 3.12.0-preview2">
@@ -32,12 +32,12 @@
     <script data-cfasync="false">(function(){var cl=document.documentElement.classList,ls=localStorage.getItem("retype_scheme"),hd=cl.contains("dark"),hl=cl.contains("light"),wm=window.matchMedia&&window.matchMedia("(prefers-color-scheme: dark)").matches;if(ls==="dark"||(!ls&&wm&&!hd&&!hl)){cl.remove("light");cl.add("dark")}else if(ls==="light"||(!ls&&!wm&&!hd&&!hl)){cl.remove("dark");cl.add("light")}})();</script>
 
     <link id="retype-favicon" rel="icon" href="../../static/favicon.png" />
-    <link href="../../resources/css/retype.css?v=3.12.0-preview2.806084822220" rel="stylesheet">
+    <link href="../../resources/css/retype.css?v=3.12.0-preview2.809575206658" rel="stylesheet">
 
-    <script data-cfasync="false" src="../../resources/js/config.js?v=3.12.0-preview2.806084822220" data-turbo-eval="false" defer></script>
+    <script data-cfasync="false" src="../../resources/js/config.js?v=3.12.0-preview2.809575206658" data-turbo-eval="false" defer></script>
     <script data-cfasync="false" src="../../resources/js/retype.js?v=3.12.0-preview2" data-turbo-eval="false" defer></script>
-    <script id="lunr-js" data-cfasync="false" src="../../resources/js/lunr.js?v=3.12.0-preview2.806084822220" data-turbo-eval="false" defer></script>
-    <script id="prism-js" data-cfasync="false" src="../../resources/js/prism.js?v=3.12.0-preview2.806084822220" defer></script>
+    <script id="lunr-js" data-cfasync="false" src="../../resources/js/lunr.js?v=3.12.0-preview2.809575206658" data-turbo-eval="false" defer></script>
+    <script id="prism-js" data-cfasync="false" src="../../resources/js/prism.js?v=3.12.0-preview2.809575206658" defer></script>
 
     <link href="https://workleap.github.io/wl-idp-docs-hub/static/retype-customization.css" rel="stylesheet" />
 
@@ -331,7 +331,7 @@
 <p>Then, install the package dependencies and create an <code translate="no" v-pre>AppRouter</code> component in the shell package to provide a <strong>reusable router configuration</strong> that can be shared between the host application and the isolated modules. This new <code translate="no" v-pre>AppRouter</code> component should wrap the <code translate="no" v-pre>@squide/firefly</code> <a href="../../reference/routing/approuter/">AppRouter</a> component:</p>
 <div class="codeblock-wrapper"><doc-codeblock>
 <div class="codeblock-title">shell/src/AppRouter.tsx</div>
-<pre translate="no" class="language-tsx"><code v-pre class="language-tsx">import { AppRouter as FireflyAppRouter } from &quot;@squide/firefly&quot;;
+<pre translate="no" class="language-tsx" data-line="6-25"><code v-pre class="language-tsx">import { AppRouter as FireflyAppRouter } from &quot;@squide/firefly&quot;;
 import { createBrowserRouter } from &quot;react-router&quot;;
 import { RouterProvider } from &quot;react-router/dom&quot;;
 import { RootErrorBoundary } from &quot;./RootErrorBoundary.tsx&quot;;
@@ -360,7 +360,7 @@ export function FireflyAppRouter() {
 <p>Finally, create a local module to register the <strong>application shell</strong>. This module will be used by both the host application and the isolated modules:</p>
 <div class="codeblock-wrapper"><doc-codeblock>
 <div class="codeblock-title">shell/src/register.tsx</div>
-<pre translate="no" class="language-tsx"><code v-pre class="language-tsx">import { PublicRoutes, ProtectedRoutes, type ModuleRegisterFunction, type FireflyRuntime } from &quot;@squide/firefly&quot;;
+<pre translate="no" class="language-tsx" data-line="5-20"><code v-pre class="language-tsx">import { PublicRoutes, ProtectedRoutes, type ModuleRegisterFunction, type FireflyRuntime } from &quot;@squide/firefly&quot;;
 import { RootLayout } from &quot;./RootLayout.tsx&quot;;
 import { ModuleErrorBoundary } from &quot;./ModuleErrorBoundary.tsx&quot;;
 
@@ -407,7 +407,7 @@ export const registerShell: ModuleRegisterFunction&lt;FireflyRuntime&gt; = runti
 <p>Now, let&#x27;s revisit the host application by adding the new <code translate="no" v-pre>@sample/shell</code> package as a dependency:</p>
 <div class="codeblock-wrapper"><doc-codeblock>
 <div class="codeblock-title">host/package.json</div>
-<pre translate="no" class="language-json"><code v-pre class="language-json">{
+<pre translate="no" class="language-json" data-line="3"><code v-pre class="language-json">{
     &quot;dependencies&quot;: {
         &quot;@sample/shell&quot;: &quot;0.0.1&quot;
     }
@@ -416,7 +416,7 @@ export const registerShell: ModuleRegisterFunction&lt;FireflyRuntime&gt; = runti
 <p>Then, integrate the <code translate="no" v-pre>AppRouter</code> component from the <code translate="no" v-pre>@sample/shell</code> package into the application:</p>
 <div class="codeblock-wrapper"><doc-codeblock>
 <div class="codeblock-title">host/src/App.tsx</div>
-<pre translate="no" class="language-tsx"><code v-pre class="language-tsx">import { AppRouter } from &quot;@sample/shell&quot;;
+<pre translate="no" class="language-tsx" data-line="5"><code v-pre class="language-tsx">import { AppRouter } from &quot;@sample/shell&quot;;
 
 export function App() {
     return (
@@ -428,15 +428,14 @@ export function App() {
 <div class="codeblock-wrapper"><doc-codeblock>
 <div class="codeblock-title">host/src/index.tsx</div>
 <pre translate="no" class="language-tsx" data-line="9"><code v-pre class="language-tsx">import { createRoot } from &quot;react-dom/client&quot;;
-import { ConsoleLogger, FireflyProvider, initializeFirefly } from &quot;@squide/firefly&quot;;
+import { FireflyProvider, initializeFirefly } from &quot;@squide/firefly&quot;;
 import { App } from &quot;./App.tsx&quot;;
 import { registerHost } from &quot;./register.tsx&quot;;
 import { registerShell } from &quot;@sample/shell&quot;;
 
 const runtime = initializeFirefly(runtime, {
     // Register the newly created shell module.
-    localModules: [registerShell, registerHost],
-    loggers: [x =&gt; new ConsoleLogger(x)]
+    localModules: [registerShell, registerHost]
 });
 
 const root = createRoot(document.getElementById(&quot;root&quot;)!);
@@ -461,7 +460,7 @@ root.render(
 <p>Then, add a dev dependency to the <code translate="no" v-pre>@sample/shell</code> package:</p>
 <div class="codeblock-wrapper"><doc-codeblock>
 <div class="codeblock-title">local-module/package.json</div>
-<pre translate="no" class="language-json"><code v-pre class="language-json">{
+<pre translate="no" class="language-json" data-line="3"><code v-pre class="language-json">{
     &quot;devDependencies&quot;: {
         &quot;@sample/shell&quot;: &quot;0.0.1&quot;
     }
@@ -508,16 +507,15 @@ root.render(
 <p>The <code translate="no" v-pre>index.tsx</code> file of a local module is tailored for isolated development. The key distinction is that a new <code translate="no" v-pre>registerDev</code> function is introduced to register the development homepage (which will be covered in an upcoming section):</p>
 <div class="codeblock-wrapper"><doc-codeblock>
 <div class="codeblock-title">local-module/src/dev/index.tsx</div>
-<pre translate="no" class="language-tsx" data-line="8-11"><code v-pre class="language-tsx">import { createRoot } from &quot;react-dom/client&quot;;
-import { ConsoleLogger, FireflyProvider, initializeFirefly } from &quot;@squide/firefly&quot;;
+<pre translate="no" class="language-tsx" data-line="8-10"><code v-pre class="language-tsx">import { createRoot } from &quot;react-dom/client&quot;;
+import { FireflyProvider, initializeFirefly } from &quot;@squide/firefly&quot;;
 import { App } from &quot;./App.tsx&quot;;
 import { register as registerModule } from &quot;./register.tsx&quot;;
 import { registerDev } from &quot;./dev/register.tsx&quot;;
 import { registerShell } from &quot;@sample/shell&quot;;
 
 const runtime = initializeFirefly(runtime, {
-    localModules: [registerModule, registerDev, registerShell],
-    loggers: [x =&gt; new ConsoleLogger(x)]
+    localModules: [registerModule, registerDev, registerShell]
 });
 
 const root = createRoot(document.getElementById(&quot;root&quot;)!);
@@ -537,7 +535,7 @@ root.render(
 <p>The <code translate="no" v-pre>App.tsx</code> file uses the newly created <code translate="no" v-pre>AppRouter</code> component to setup Squide&#x27;s primitives with a <a href="https://reactrouter.com/" class="outbound" target="_blank">React Router</a> instance:</p>
 <div class="codeblock-wrapper"><doc-codeblock>
 <div class="codeblock-title">local-module/src/dev/App.tsx</div>
-<pre translate="no" class="language-tsx"><code v-pre class="language-tsx">import { AppRouter } from &quot;@sample/shell&quot;;
+<pre translate="no" class="language-tsx" data-line="5"><code v-pre class="language-tsx">import { AppRouter } from &quot;@sample/shell&quot;;
 
 export function App() {
     return (
@@ -566,7 +564,7 @@ export function App() {
 <p>To register the development homepage, create a new local module specifically for configuring the module during isolated development:</p>
 <div class="codeblock-wrapper"><doc-codeblock>
 <div class="codeblock-title">local-module/src/dev/register.tsx</div>
-<pre translate="no" class="language-tsx"><code v-pre class="language-tsx">import type { ModuleRegisterFunction, FireflyRuntime } from &quot;@squide/firefly&quot;;
+<pre translate="no" class="language-tsx" data-line="4-9"><code v-pre class="language-tsx">import type { ModuleRegisterFunction, FireflyRuntime } from &quot;@squide/firefly&quot;;
 import { DevHome } from &quot;./DevHome.tsx&quot;;
 
 export const registerDev: ModuleRegisterFunction&lt;FireflyRuntime&gt; = runtime =&gt; {
@@ -612,12 +610,12 @@ export const registerDev: ModuleRegisterFunction&lt;FireflyRuntime&gt; = runtime
 <p>Then, open the <code translate="no" v-pre>.browserslist</code> file and copy/paste the following content:</p>
 <div class="codeblock-wrapper"><doc-codeblock>
 <div class="codeblock-title">host/.browserslistrc</div>
-<pre translate="no" class="language-none"><code v-pre class="language-none">extends @workleap/browserslist-config</code></pre>
+<pre translate="no" class="language-none" data-line="1"><code v-pre class="language-none">extends @workleap/browserslist-config</code></pre>
 </doc-codeblock></div>
 <p>Finally, open the <code translate="no" v-pre>rsbuild.config.ts</code> file and use the the <a href="https://workleap.github.io/wl-web-configs/rsbuild/configure-dev/#rsbuilddevts" class="outbound" target="_blank">defineDevConfig</a> function to configure Rsbuild:</p>
 <div class="codeblock-wrapper"><doc-codeblock>
 <div class="codeblock-title">local-module/rsbuild.config.ts</div>
-<pre translate="no" class="language-typescript"><code v-pre class="language-typescript">import { defineDevHostConfig } from &quot;@workleap/rsbuild-configs&quot;;
+<pre translate="no" class="language-typescript" data-line="3"><code v-pre class="language-typescript">import { defineDevHostConfig } from &quot;@workleap/rsbuild-configs&quot;;
 
 export default defineDevHostConfig();</code></pre>
 </doc-codeblock></div>
@@ -630,7 +628,7 @@ export default defineDevHostConfig();</code></pre>
 <p>Next, add a new <code translate="no" v-pre>dev-isolated</code> script to the <code translate="no" v-pre>package.json</code> file to start the local development server:</p>
 <div class="codeblock-wrapper"><doc-codeblock>
 <div class="codeblock-title">local-module/package.json</div>
-<pre translate="no" class="language-json"><code v-pre class="language-json">{
+<pre translate="no" class="language-json" data-line="2"><code v-pre class="language-json">{
     &quot;dev-isolated&quot;: &quot;rsbuild dev --config ./rsbuild.dev.ts&quot;
 }</code></pre>
 </doc-codeblock></div>
@@ -678,10 +676,10 @@ export default defineDevHostConfig();</code></pre>
                                     </div>
                             
                                     <div class="w-1/2">
-                                        <a class="px-5 py-4 -mx-px h-full flex items-center justify-end break-normal font-medium text-body-link border border-base-border hover:border-base-border-hover rounded-r-lg transition-colors duration-150 relative hover:z-5" href="../../guides/implement-a-custom-logger/">
+                                        <a class="px-5 py-4 -mx-px h-full flex items-center justify-end break-normal font-medium text-body-link border border-base-border hover:border-base-border-hover rounded-r-lg transition-colors duration-150 relative hover:z-5" href="../../guides/use-a-logger/">
                                             <span>
                                                 <span class="block text-xs font-normal text-right text-base-text-muted">Next</span>
-                                                <span class="block mt-1">Implement a custom logger</span>
+                                                <span class="block mt-1">Use a logger</span>
                                             </span>
                                             <svg xmlns="http://www.w3.org/2000/svg" class="ml-3" width="24" height="24" viewBox="0 0 24 24" fill="currentColor" overflow="visible"><path d="M19.92 12.38a1 1 0 00-.22-1.09l-7-7a.996.996 0 10-1.41 1.41l5.3 5.3H5c-.55 0-1 .45-1 1s.45 1 1 1h11.59l-5.29 5.29a.996.996 0 000 1.41c.19.2.44.3.7.3s.51-.1.71-.29l7-7c.09-.09.16-.21.21-.33z" /><path fill="none" d="M0 0h24v24H0z" /></svg>
                                         </a>

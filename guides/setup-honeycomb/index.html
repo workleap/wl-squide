@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <meta name="turbo-root" content="/wl-squide">
-    <meta name="turbo-cache-control" content="no-cache" data-turbo-track="reload" data-track-token="3.12.0-preview2.806084822220">
+    <meta name="turbo-cache-control" content="no-cache" data-turbo-track="reload" data-track-token="3.12.0-preview2.809575206658">
 
     <!-- See retype.com -->
     <meta name="generator" content="Retype 3.12.0-preview2">
@@ -34,12 +34,12 @@
     <script data-cfasync="false">(function(){var cl=document.documentElement.classList,ls=localStorage.getItem("retype_scheme"),hd=cl.contains("dark"),hl=cl.contains("light"),wm=window.matchMedia&&window.matchMedia("(prefers-color-scheme: dark)").matches;if(ls==="dark"||(!ls&&wm&&!hd&&!hl)){cl.remove("light");cl.add("dark")}else if(ls==="light"||(!ls&&!wm&&!hd&&!hl)){cl.remove("dark");cl.add("light")}})();</script>
 
     <link id="retype-favicon" rel="icon" href="../../static/favicon.png" />
-    <link href="../../resources/css/retype.css?v=3.12.0-preview2.806084822220" rel="stylesheet">
+    <link href="../../resources/css/retype.css?v=3.12.0-preview2.809575206658" rel="stylesheet">
 
-    <script data-cfasync="false" src="../../resources/js/config.js?v=3.12.0-preview2.806084822220" data-turbo-eval="false" defer></script>
+    <script data-cfasync="false" src="../../resources/js/config.js?v=3.12.0-preview2.809575206658" data-turbo-eval="false" defer></script>
     <script data-cfasync="false" src="../../resources/js/retype.js?v=3.12.0-preview2" data-turbo-eval="false" defer></script>
-    <script id="lunr-js" data-cfasync="false" src="../../resources/js/lunr.js?v=3.12.0-preview2.806084822220" data-turbo-eval="false" defer></script>
-    <script id="prism-js" data-cfasync="false" src="../../resources/js/prism.js?v=3.12.0-preview2.806084822220" defer></script>
+    <script id="lunr-js" data-cfasync="false" src="../../resources/js/lunr.js?v=3.12.0-preview2.809575206658" data-turbo-eval="false" defer></script>
+    <script id="prism-js" data-cfasync="false" src="../../resources/js/prism.js?v=3.12.0-preview2.809575206658" defer></script>
 
     <link href="https://workleap.github.io/wl-idp-docs-hub/static/retype-customization.css" rel="stylesheet" />
 
@@ -318,7 +318,7 @@
 <p>Then, update the host application bootstrapping code to register Honeycomb instrumentation:</p>
 <div class="codeblock-wrapper"><doc-codeblock>
 <div class="codeblock-title">host/src/index.tsx</div>
-<pre translate="no" class="language-tsx" data-line="8-11"><code v-pre class="language-tsx">import { ConsoleLogger, FireflyProvider, initializeFirefly } from &quot;@squide/firefly&quot;;
+<pre translate="no" class="language-tsx" data-line="9-11"><code v-pre class="language-tsx">import { FireflyProvider, initializeFirefly } from &quot;@squide/firefly&quot;;
 import { registerHoneycombInstrumentation } from &quot;@workleap/honeycomb&quot;;
 import { register as registerMyLocalModule } from &quot;@sample/local-module&quot;;
 import { createRoot } from &quot;react-dom/client&quot;;
@@ -331,8 +331,7 @@ registerHoneycombInstrumentation(&quot;sample&quot;, &quot;squide-sample&quot;, 
 });
 
 const runtime = initializeFirefly({
-    localModules: [registerHost, registerMyLocalModule],
-    loggers: [x =&gt; new ConsoleLogger(x)]
+    localModules: [registerHost, registerMyLocalModule]
 });
 
 const root = createRoot(document.getElementById(&quot;root&quot;)!);
@@ -586,7 +585,7 @@ export function App() {
 <p>Applications are expected to use the <a href="https://docs.honeycomb.io/send-data/javascript-browser/honeycomb-distribution/#add-custom-instrumentation" class="outbound" target="_blank">OpenTelemetry API</a> to send custom traces to Honeycomb:</p>
 <div class="codeblock-wrapper"><doc-codeblock>
 <div class="codeblock-title">host/src/Page.tsx</div>
-<pre translate="no" class="language-tsx"><code v-pre class="language-tsx">import { useEffect } from &quot;react&quot;;
+<pre translate="no" class="language-tsx" data-line="4,9-10"><code v-pre class="language-tsx">import { useEffect } from &quot;react&quot;;
 import { trace } from &quot;@opentelemetry/api&quot;;
 
 const tracer = trace.getTracer(&quot;my-tracer&quot;);

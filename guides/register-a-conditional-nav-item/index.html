@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <meta name="turbo-root" content="/wl-squide">
-    <meta name="turbo-cache-control" content="no-cache" data-turbo-track="reload" data-track-token="3.12.0-preview2.806084822220">
+    <meta name="turbo-cache-control" content="no-cache" data-turbo-track="reload" data-track-token="3.12.0-preview2.809575206658">
 
     <!-- See retype.com -->
     <meta name="generator" content="Retype 3.12.0-preview2">
@@ -32,12 +32,12 @@
     <script data-cfasync="false">(function(){var cl=document.documentElement.classList,ls=localStorage.getItem("retype_scheme"),hd=cl.contains("dark"),hl=cl.contains("light"),wm=window.matchMedia&&window.matchMedia("(prefers-color-scheme: dark)").matches;if(ls==="dark"||(!ls&&wm&&!hd&&!hl)){cl.remove("light");cl.add("dark")}else if(ls==="light"||(!ls&&!wm&&!hd&&!hl)){cl.remove("dark");cl.add("light")}})();</script>
 
     <link id="retype-favicon" rel="icon" href="../../static/favicon.png" />
-    <link href="../../resources/css/retype.css?v=3.12.0-preview2.806084822220" rel="stylesheet">
+    <link href="../../resources/css/retype.css?v=3.12.0-preview2.809575206658" rel="stylesheet">
 
-    <script data-cfasync="false" src="../../resources/js/config.js?v=3.12.0-preview2.806084822220" data-turbo-eval="false" defer></script>
+    <script data-cfasync="false" src="../../resources/js/config.js?v=3.12.0-preview2.809575206658" data-turbo-eval="false" defer></script>
     <script data-cfasync="false" src="../../resources/js/retype.js?v=3.12.0-preview2" data-turbo-eval="false" defer></script>
-    <script id="lunr-js" data-cfasync="false" src="../../resources/js/lunr.js?v=3.12.0-preview2.806084822220" data-turbo-eval="false" defer></script>
-    <script id="prism-js" data-cfasync="false" src="../../resources/js/prism.js?v=3.12.0-preview2.806084822220" defer></script>
+    <script id="lunr-js" data-cfasync="false" src="../../resources/js/lunr.js?v=3.12.0-preview2.809575206658" data-turbo-eval="false" defer></script>
+    <script id="prism-js" data-cfasync="false" src="../../resources/js/prism.js?v=3.12.0-preview2.809575206658" defer></script>
 
     <link href="https://workleap.github.io/wl-idp-docs-hub/static/retype-customization.css" rel="stylesheet" />
 
@@ -317,7 +317,7 @@
 <p>First, define a MSW request handler that returns the feature flags:</p>
 <div class="codeblock-wrapper"><doc-codeblock>
 <div class="codeblock-title">host/mocks/handlers.ts</div>
-<pre translate="no" class="language-typescript"><code v-pre class="language-typescript">import { HttpResponse, http, type HttpHandler } from &quot;msw&quot;;
+<pre translate="no" class="language-typescript" data-line="3-10"><code v-pre class="language-typescript">import { HttpResponse, http, type HttpHandler } from &quot;msw&quot;;
 
 export const requestHandlers: HttpHandler[] = [
     http.get(&quot;/api/feature-flags&quot;, () =&gt; {
@@ -331,7 +331,7 @@ export const requestHandlers: HttpHandler[] = [
 <p>Then, register the request handler using the module registration function:</p>
 <div class="codeblock-wrapper"><doc-codeblock>
 <div class="codeblock-title">host/src/register.tsx</div>
-<pre translate="no" class="language-tsx"><code v-pre class="language-tsx">import type { ModuleRegisterFunction, FireflyRuntime } from &quot;@squide/firefly&quot;;
+<pre translate="no" class="language-tsx" data-line="3-11"><code v-pre class="language-tsx">import type { ModuleRegisterFunction, FireflyRuntime } from &quot;@squide/firefly&quot;;
 
 export const register: ModuleRegisterFunction&lt;FireflyRuntime&gt; = async runtime =&gt; {
     if (runtime.isMswEnabled) {
@@ -352,7 +352,7 @@ export const register: ModuleRegisterFunction&lt;FireflyRuntime&gt; = async runt
 <p>Next, in a shared project, create a <code translate="no" v-pre>FeatureFlagsContext</code>:</p>
 <div class="codeblock-wrapper"><doc-codeblock>
 <div class="codeblock-title">shared/src/featureFlagsContext.ts</div>
-<pre translate="no" class="language-typescript"><code v-pre class="language-typescript">import { createContext, useContext } from &quot;react&quot;;
+<pre translate="no" class="language-typescript" data-line="8"><code v-pre class="language-typescript">import { createContext, useContext } from &quot;react&quot;;
 
 export interface FeatureFlags {
     featureA: boolean;
@@ -442,7 +442,7 @@ export function App() {
 <p>Now, let&#x27;s add a <code translate="no" v-pre>DeferredRegistrationData</code> interface to the shared project, specifiying the remote data that module&#x27;s deferred registration functions can expect:</p>
 <div class="codeblock-wrapper"><doc-codeblock>
 <div class="codeblock-title">shared/src/deferredData.ts</div>
-<pre translate="no" class="language-typescript"><code v-pre class="language-typescript">import { FeatureFlags } from &quot;./featureFlagsContext.ts&quot;;
+<pre translate="no" class="language-typescript" data-line="3-5"><code v-pre class="language-typescript">import { FeatureFlags } from &quot;./featureFlagsContext.ts&quot;;
 
 export interface DeferredRegistrationData {
     featureFlags?: FeatureFlags;

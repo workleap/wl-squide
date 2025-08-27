@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <meta name="turbo-root" content="/wl-squide">
-    <meta name="turbo-cache-control" content="no-cache" data-turbo-track="reload" data-track-token="3.12.0-preview2.806084822220">
+    <meta name="turbo-cache-control" content="no-cache" data-turbo-track="reload" data-track-token="3.12.0-preview2.809575206658">
 
     <!-- See retype.com -->
     <meta name="generator" content="Retype 3.12.0-preview2">
@@ -32,12 +32,12 @@
     <script data-cfasync="false">(function(){var cl=document.documentElement.classList,ls=localStorage.getItem("retype_scheme"),hd=cl.contains("dark"),hl=cl.contains("light"),wm=window.matchMedia&&window.matchMedia("(prefers-color-scheme: dark)").matches;if(ls==="dark"||(!ls&&wm&&!hd&&!hl)){cl.remove("light");cl.add("dark")}else if(ls==="light"||(!ls&&!wm&&!hd&&!hl)){cl.remove("dark");cl.add("light")}})();</script>
 
     <link id="retype-favicon" rel="icon" href="../static/favicon.png" />
-    <link href="../resources/css/retype.css?v=3.12.0-preview2.806084822220" rel="stylesheet">
+    <link href="../resources/css/retype.css?v=3.12.0-preview2.809575206658" rel="stylesheet">
 
-    <script data-cfasync="false" src="../resources/js/config.js?v=3.12.0-preview2.806084822220" data-turbo-eval="false" defer></script>
+    <script data-cfasync="false" src="../resources/js/config.js?v=3.12.0-preview2.809575206658" data-turbo-eval="false" defer></script>
     <script data-cfasync="false" src="../resources/js/retype.js?v=3.12.0-preview2" data-turbo-eval="false" defer></script>
-    <script id="lunr-js" data-cfasync="false" src="../resources/js/lunr.js?v=3.12.0-preview2.806084822220" data-turbo-eval="false" defer></script>
-    <script id="prism-js" data-cfasync="false" src="../resources/js/prism.js?v=3.12.0-preview2.806084822220" defer></script>
+    <script id="lunr-js" data-cfasync="false" src="../resources/js/lunr.js?v=3.12.0-preview2.809575206658" data-turbo-eval="false" defer></script>
+    <script id="prism-js" data-cfasync="false" src="../resources/js/prism.js?v=3.12.0-preview2.809575206658" defer></script>
 
     <link href="https://workleap.github.io/wl-idp-docs-hub/static/retype-customization.css" rel="stylesheet" />
 
@@ -267,10 +267,26 @@
 </doc-anchor-target>
 <p>In an effort to optimize the development experience, Squide can be bootstrapped in <code translate="no" v-pre>development</code> or <code translate="no" v-pre>production</code> mode. To troubleshoot a persistent issue, make sure that the runtime mode is development:</p>
 <div class="codeblock-wrapper"><doc-codeblock>
-<pre translate="no" class="language-typescript"><code v-pre class="language-typescript">import { FireflyRuntime, ConsoleLogger, type LogLevel } from &quot;@squide/firefly&quot;;
+<pre translate="no" class="language-typescript"><code v-pre class="language-typescript">import { initializeFirefly, type LogLevel } from &quot;@squide/firefly&quot;;
 
-const runtime = new FireflyRuntime({
+const runtime = initializeFirefly({
     mode: &quot;development&quot;
+});</code></pre>
+</doc-codeblock></div>
+<doc-anchor-target id="troubleshoot-a-production-issue">
+    <h2>
+        <doc-anchor-trigger class="header-anchor-trigger" to="#troubleshoot-a-production-issue">#</doc-anchor-trigger>
+        <span>Troubleshoot a production issue</span>
+    </h2>
+</doc-anchor-target>
+<p>Frontend production issues are best troubleshoot using <a href="https://logrocket.com/" class="outbound" target="_blank">LogRocket</a>. To output log entries to LogRocket&#x27;s session replay, install the <code translate="no" v-pre>@workleap/logrocket</code> package and provide an instance of <code translate="no" v-pre>LogRocket</code> to the <code translate="no" v-pre>initializeFirefly</code> function:</p>
+<p>For troubleshooting frontend production issues, we recommend using <a href="https://logrocket.com/" class="outbound" target="_blank">LogRocket</a>. To capture log entries in LogRocket session replays, install the <code translate="no" v-pre>@workleap/logrocket</code> package and pass an instance of <a href="https://workleap.github.io/wl-telemetry/logrocket/reference/logrocketlogger/" class="outbound" target="_blank">LogRocketLogger</a> to the <code translate="no" v-pre>initializeFirefly</code> function:</p>
+<div class="codeblock-wrapper"><doc-codeblock>
+<pre translate="no" class="language-typescript"><code v-pre class="language-typescript">import { initializeFirefly, type LogLevel } from &quot;@squide/firefly&quot;;
+import { LogRocketLogger } from &quot;@workleap/logrocket&quot;;
+
+const runtime = initializeFirefly({
+    loggers: [new LogRocketLogger()]
 });</code></pre>
 </doc-codeblock></div>
 <doc-anchor-target id="react-context-values-are-undefined">
@@ -282,12 +298,9 @@ const runtime = new FireflyRuntime({
 <p>If your application utilize <a href="../reference/registration/registerremotemodules/">remote modules</a> and you are encountering <code translate="no" v-pre>undefined</code> values when providing a React context from the host application and consuming the context in modules, it is likely due to two possible reasons: either you have two instances of React, or you have multiple instances of that React context.</p>
 <p>To resolve this issue:</p>
 <ol>
-<li><p>Ensure that the <code translate="no" v-pre>react</code> and <code translate="no" v-pre>react-dom</code> dependencies are shared as <a href="https://module-federation.io/configure/shared.html#singleton" class="outbound" target="_blank">singletons</a> between the host application and the remote modules. A React context value cannot be shared between different parts of an application that use different instances of React.</p>
-</li>
-<li><p>Confirm that the shared React context resides in a library shared as a <a href="https://module-federation.io/configure/shared.html#singleton" class="outbound" target="_blank">singleton</a>.</p>
-</li>
-<li><p>If you are using <a href="https://module-federation.io/configure/shared.html#eager" class="outbound" target="_blank">eager</a> shared dependencies, ensure that ONLY the host application configures these dependencies as <code translate="no" v-pre>eager</code>.</p>
-</li>
+<li>Ensure that the <code translate="no" v-pre>react</code> and <code translate="no" v-pre>react-dom</code> dependencies are shared as <a href="https://module-federation.io/configure/shared.html#singleton" class="outbound" target="_blank">singletons</a> between the host application and the remote modules. A React context value cannot be shared between different parts of an application that use different instances of React.</li>
+<li>Confirm that the shared React context resides in a library shared as a <a href="https://module-federation.io/configure/shared.html#singleton" class="outbound" target="_blank">singleton</a>.</li>
+<li>If you are using <a href="https://module-federation.io/configure/shared.html#eager" class="outbound" target="_blank">eager</a> shared dependencies, ensure that ONLY the host application configures these dependencies as <code translate="no" v-pre>eager</code>.</li>
 </ol>
 <p>If the issue persists, update your host application and remote module&#x27;s webpack build configuration with the <code translate="no" v-pre>optimize: false</code> option. Afterward, build the bundles and serve them. Open a web browser, access the DevTools, switch to the Network tab (ensure that JS files are listed), navigate to the application&#x27;s homepage, and inspect the downloaded bundle files. The problematic React context definition should appear only once; otherwise, you may have multiple instances of the React context.</p>
 <p>For additional information on shared dependency versioning, please refer to the <a href="../module-federation/add-a-shared-dependency/">add a shared dependency guide</a>.</p>
@@ -297,56 +310,17 @@ const runtime = new FireflyRuntime({
         <span>Console logs</span>
     </h2>
 </doc-anchor-target>
-<p>To faciliate the debugging of a Squide application bootstrapping flow, a lot of information is logged into the console when in development. We recommend using these logs if you suspect that <strong>something</strong> is <strong>wrong</strong> with the <strong>bootstrapping</strong> process of your <strong>application</strong>.</p>
-<doc-anchor-target id="modules-registration">
-    <h3>
-        <doc-anchor-trigger class="header-anchor-trigger" to="#modules-registration">#</doc-anchor-trigger>
-        <span>Modules registration</span>
-    </h3>
-</doc-anchor-target>
+<p>To faciliate the debugging of a Squide application bootstrapping flow, a lot of information is logged into the console. We recommend using these logs if you suspect that <strong>something</strong> is <strong>wrong</strong> with the <strong>bootstrapping</strong> process of your <strong>application</strong>.</p>
 <doc-anchor-target id="local-modules">
-    <h4>
+    <h3>
         <doc-anchor-trigger class="header-anchor-trigger" to="#local-modules">#</doc-anchor-trigger>
         <span>Local modules</span>
-    </h4>
+    </h3>
 </doc-anchor-target>
 <ul>
 <li><code translate="no" v-pre>[squide] Found 4 local modules to register.</code></li>
 <li><code translate="no" v-pre>[squide] 1/4 Registering local module.</code></li>
 <li><code translate="no" v-pre>[squide] 1/4 Local module registration completed.</code></li>
-</ul>
-<doc-anchor-target id="remote-modules">
-    <h4>
-        <doc-anchor-trigger class="header-anchor-trigger" to="#remote-modules">#</doc-anchor-trigger>
-        <span>Remote modules</span>
-    </h4>
-</doc-anchor-target>
-<ul>
-<li><code translate="no" v-pre>[squide] Found 1 remote module to register.</code></li>
-<li><code translate="no" v-pre>[squide] 1/1 Loading module &quot;register&quot; of remote &quot;remote1&quot;.</code></li>
-<li><code translate="no" v-pre>[squide] 1/1 Registering module &quot;register&quot; of remote &quot;remote1&quot;.</code></li>
-<li><code translate="no" v-pre>[squide] 1/1 The registration of the remote &quot;remote1&quot; is completed.</code></li>
-</ul>
-<doc-anchor-target id="deferred-registrations">
-    <h4>
-        <doc-anchor-trigger class="header-anchor-trigger" to="#deferred-registrations">#</doc-anchor-trigger>
-        <span>Deferred registrations</span>
-    </h4>
-</doc-anchor-target>
-<ul>
-<li><code translate="no" v-pre>[squide] 1/1 Registering the deferred registrations for module &quot;register&quot; of remote &quot;remote1&quot;.</code></li>
-<li><code translate="no" v-pre>[squide] 1/1 Registered the deferred registrations for module &quot;register&quot; of remote &quot;remote1&quot;.</code></li>
-<li><code translate="no" v-pre>[squide] 3/3 Updating local module deferred registration.</code></li>
-<li><code translate="no" v-pre>[squide] 3/3 Updated local module deferred registration.</code></li>
-</ul>
-<doc-anchor-target id="ready">
-    <h4>
-        <doc-anchor-trigger class="header-anchor-trigger" to="#ready">#</doc-anchor-trigger>
-        <span>Ready</span>
-    </h4>
-</doc-anchor-target>
-<ul>
-<li><code translate="no" v-pre>[squide] Modules are ready.</code></li>
 </ul>
 <doc-anchor-target id="routes-registration">
     <h3>
@@ -410,14 +384,53 @@ const runtime = new FireflyRuntime({
 <ul>
 <li><code translate="no" v-pre>[squide] The following environment variables has been registered: {...}</code></li>
 </ul>
-<doc-anchor-target id="module-federation-logs">
+<doc-anchor-target id="modules-registration">
     <h3>
+        <doc-anchor-trigger class="header-anchor-trigger" to="#modules-registration">#</doc-anchor-trigger>
+        <span>Modules registration</span>
+    </h3>
+</doc-anchor-target>
+<doc-anchor-target id="remote-modules">
+    <h4>
+        <doc-anchor-trigger class="header-anchor-trigger" to="#remote-modules">#</doc-anchor-trigger>
+        <span>Remote modules</span>
+    </h4>
+</doc-anchor-target>
+<ul>
+<li><code translate="no" v-pre>[squide] Found 1 remote module to register.</code></li>
+<li><code translate="no" v-pre>[squide] 1/1 Loading module &quot;register&quot; of remote &quot;remote1&quot;.</code></li>
+<li><code translate="no" v-pre>[squide] 1/1 Registering module &quot;register&quot; of remote &quot;remote1&quot;.</code></li>
+<li><code translate="no" v-pre>[squide] 1/1 The registration of the remote &quot;remote1&quot; is completed.</code></li>
+</ul>
+<doc-anchor-target id="deferred-registrations">
+    <h4>
+        <doc-anchor-trigger class="header-anchor-trigger" to="#deferred-registrations">#</doc-anchor-trigger>
+        <span>Deferred registrations</span>
+    </h4>
+</doc-anchor-target>
+<ul>
+<li><code translate="no" v-pre>[squide] 1/1 Registering the deferred registrations for module &quot;register&quot; of remote &quot;remote1&quot;.</code></li>
+<li><code translate="no" v-pre>[squide] 1/1 Registered the deferred registrations for module &quot;register&quot; of remote &quot;remote1&quot;.</code></li>
+<li><code translate="no" v-pre>[squide] 3/3 Updating local module deferred registration.</code></li>
+<li><code translate="no" v-pre>[squide] 3/3 Updated local module deferred registration.</code></li>
+</ul>
+<doc-anchor-target id="module-federation-logs">
+    <h4>
         <doc-anchor-trigger class="header-anchor-trigger" to="#module-federation-logs">#</doc-anchor-trigger>
         <span>Module federation logs</span>
-    </h3>
+    </h4>
 </doc-anchor-target>
 <ul>
 <li><code translate="no" v-pre>[squide] Module Federation shared scope is available: {...}</code></li>
+</ul>
+<doc-anchor-target id="ready">
+    <h3>
+        <doc-anchor-trigger class="header-anchor-trigger" to="#ready">#</doc-anchor-trigger>
+        <span>Ready</span>
+    </h3>
+</doc-anchor-target>
+<ul>
+<li><code translate="no" v-pre>[squide] Modules are ready.</code></li>
 </ul>
 
                                 

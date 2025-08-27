@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <meta name="turbo-root" content="/wl-squide">
-    <meta name="turbo-cache-control" content="no-cache" data-turbo-track="reload" data-track-token="3.12.0-preview2.806084822220">
+    <meta name="turbo-cache-control" content="no-cache" data-turbo-track="reload" data-track-token="3.12.0-preview2.809575206658">
 
     <!-- See retype.com -->
     <meta name="generator" content="Retype 3.12.0-preview2">
@@ -32,12 +32,12 @@
     <script data-cfasync="false">(function(){var cl=document.documentElement.classList,ls=localStorage.getItem("retype_scheme"),hd=cl.contains("dark"),hl=cl.contains("light"),wm=window.matchMedia&&window.matchMedia("(prefers-color-scheme: dark)").matches;if(ls==="dark"||(!ls&&wm&&!hd&&!hl)){cl.remove("light");cl.add("dark")}else if(ls==="light"||(!ls&&!wm&&!hd&&!hl)){cl.remove("dark");cl.add("light")}})();</script>
 
     <link id="retype-favicon" rel="icon" href="../../static/favicon.png" />
-    <link href="../../resources/css/retype.css?v=3.12.0-preview2.806084822220" rel="stylesheet">
+    <link href="../../resources/css/retype.css?v=3.12.0-preview2.809575206658" rel="stylesheet">
 
-    <script data-cfasync="false" src="../../resources/js/config.js?v=3.12.0-preview2.806084822220" data-turbo-eval="false" defer></script>
+    <script data-cfasync="false" src="../../resources/js/config.js?v=3.12.0-preview2.809575206658" data-turbo-eval="false" defer></script>
     <script data-cfasync="false" src="../../resources/js/retype.js?v=3.12.0-preview2" data-turbo-eval="false" defer></script>
-    <script id="lunr-js" data-cfasync="false" src="../../resources/js/lunr.js?v=3.12.0-preview2.806084822220" data-turbo-eval="false" defer></script>
-    <script id="prism-js" data-cfasync="false" src="../../resources/js/prism.js?v=3.12.0-preview2.806084822220" defer></script>
+    <script id="lunr-js" data-cfasync="false" src="../../resources/js/lunr.js?v=3.12.0-preview2.809575206658" data-turbo-eval="false" defer></script>
+    <script id="prism-js" data-cfasync="false" src="../../resources/js/prism.js?v=3.12.0-preview2.809575206658" defer></script>
 
     <link href="https://workleap.github.io/wl-idp-docs-hub/static/retype-customization.css" rel="stylesheet" />
 
@@ -378,7 +378,7 @@ export const requestHandlers: HttpHandler[] = [
 <p>Next, register the request handler using the host application registration function:</p>
 <div class="codeblock-wrapper"><doc-codeblock>
 <div class="codeblock-title">host/src/register.tsx</div>
-<pre translate="no" class="language-tsx"><code v-pre class="language-tsx">import type { ModuleRegisterFunction, FireflyRuntime } from &quot;@squide/firefly&quot;;
+<pre translate="no" class="language-tsx" data-line="3-11"><code v-pre class="language-tsx">import type { ModuleRegisterFunction, FireflyRuntime } from &quot;@squide/firefly&quot;;
 
 export const registerHost: ModuleRegisterFunction&lt;FireflyRuntime&gt; = async runtime =&gt; {
     if (runtime.isMswEnabled) {
@@ -462,7 +462,7 @@ export function Login() {
 <p>Next, create a shared type for the session and the session manager:</p>
 <div class="codeblock-wrapper"><doc-codeblock>
 <div class="codeblock-title">shared/src/session.ts</div>
-<pre translate="no" class="language-typescript"><code v-pre class="language-typescript">export interface Session {
+<pre translate="no" class="language-typescript" data-line="7-10"><code v-pre class="language-typescript">export interface Session {
     user: {
         name: string;
     };
@@ -476,7 +476,7 @@ export interface SessionManager {
 <p>Then, create a shared <code translate="no" v-pre>SessionManagerContext</code> along with some utility hooks. This React context will be used to share the <code translate="no" v-pre>SessionManager</code> instance down the components tree:</p>
 <div class="codeblock-wrapper"><doc-codeblock>
 <div class="codeblock-title">shared/src/session.ts</div>
-<pre translate="no" class="language-typescript"><code v-pre class="language-typescript">export const SessionManagerContext = createContext&lt;SessionManager | undefined&gt;(undefined);
+<pre translate="no" class="language-typescript" data-line="1"><code v-pre class="language-typescript">export const SessionManagerContext = createContext&lt;SessionManager | undefined&gt;(undefined);
 
 export function useSessionManager() {
     return useContext(SessionManagerContext);
@@ -497,7 +497,7 @@ export function useIsAuthenticated() {
 <p>Finally, let&#x27;s go back to the host application and create a <a href="https://tanstack.com/query/latest" class="outbound" target="_blank">TanStack Query</a> implementation of the shared <code translate="no" v-pre>SessionManager</code> interface created previously:</p>
 <div class="codeblock-wrapper"><doc-codeblock>
 <div class="codeblock-title">host/src/sessionManager.ts</div>
-<pre translate="no" class="language-typescript"><code v-pre class="language-typescript">import type { SessionManager, Session } from &quot;@sample/shared&quot;;
+<pre translate="no" class="language-typescript" data-line="4-22"><code v-pre class="language-typescript">import type { SessionManager, Session } from &quot;@sample/shared&quot;;
 import { useQueryClient, type QueryClient } from &quot;@tanstack/react-query&quot;;
 
 class TanstackQuerySessionManager implements SessionManager {
@@ -711,7 +711,7 @@ export function isApiError(error?: unknown): error is ApiError {
 <p>Next, create an authentication boundary component using the shared <code translate="no" v-pre>useIsAuthenticated</code> hook created earlier to redirect unauthenticated user to the login page:</p>
 <div class="codeblock-wrapper"><doc-codeblock>
 <div class="codeblock-title">host/src/AuthenticationBoundary.tsx</div>
-<pre translate="no" class="language-tsx"><code v-pre class="language-tsx">import { Navigate, Outlet } from &quot;react-router/dom&quot;;
+<pre translate="no" class="language-tsx" data-line="4-12"><code v-pre class="language-tsx">import { Navigate, Outlet } from &quot;react-router/dom&quot;;
 import { useIsAuthenticated } from &quot;@sample/shared&quot;;
 
 export function AuthenticationBoundary() {
@@ -896,7 +896,7 @@ export function AuthenticatedLayout() {
 <p>By creating a new <code translate="no" v-pre>AuthenticatedLayout</code> component, much of the layout code has been transferred from the <code translate="no" v-pre>RootLayout</code> to the <code translate="no" v-pre>AuthenticatedLayout</code>, leaving the root layout responsible only for styling the outer wrapper of the application for now:</p>
 <div class="codeblock-wrapper"><doc-codeblock>
 <div class="codeblock-title">host/src/RootLayout.tsx</div>
-<pre translate="no" class="language-tsx"><code v-pre class="language-tsx">import { Suspense } from &quot;react&quot;;
+<pre translate="no" class="language-tsx" data-line="7-9"><code v-pre class="language-tsx">import { Suspense } from &quot;react&quot;;
 import { Outlet } from &quot;react-router/dom&quot;;
 
 export function RootLayout() {

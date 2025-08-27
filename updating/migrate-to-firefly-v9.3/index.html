@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <meta name="turbo-root" content="/wl-squide">
-    <meta name="turbo-cache-control" content="no-cache" data-turbo-track="reload" data-track-token="3.12.0-preview2.806084822220">
+    <meta name="turbo-cache-control" content="no-cache" data-turbo-track="reload" data-track-token="3.12.0-preview2.809575206658">
 
     <!-- See retype.com -->
     <meta name="generator" content="Retype 3.12.0-preview2">
@@ -32,12 +32,12 @@
     <script data-cfasync="false">(function(){var cl=document.documentElement.classList,ls=localStorage.getItem("retype_scheme"),hd=cl.contains("dark"),hl=cl.contains("light"),wm=window.matchMedia&&window.matchMedia("(prefers-color-scheme: dark)").matches;if(ls==="dark"||(!ls&&wm&&!hd&&!hl)){cl.remove("light");cl.add("dark")}else if(ls==="light"||(!ls&&!wm&&!hd&&!hl)){cl.remove("dark");cl.add("light")}})();</script>
 
     <link id="retype-favicon" rel="icon" href="../../static/favicon.png" />
-    <link href="../../resources/css/retype.css?v=3.12.0-preview2.806084822220" rel="stylesheet">
+    <link href="../../resources/css/retype.css?v=3.12.0-preview2.809575206658" rel="stylesheet">
 
-    <script data-cfasync="false" src="../../resources/js/config.js?v=3.12.0-preview2.806084822220" data-turbo-eval="false" defer></script>
+    <script data-cfasync="false" src="../../resources/js/config.js?v=3.12.0-preview2.809575206658" data-turbo-eval="false" defer></script>
     <script data-cfasync="false" src="../../resources/js/retype.js?v=3.12.0-preview2" data-turbo-eval="false" defer></script>
-    <script id="lunr-js" data-cfasync="false" src="../../resources/js/lunr.js?v=3.12.0-preview2.806084822220" data-turbo-eval="false" defer></script>
-    <script id="prism-js" data-cfasync="false" src="../../resources/js/prism.js?v=3.12.0-preview2.806084822220" defer></script>
+    <script id="lunr-js" data-cfasync="false" src="../../resources/js/lunr.js?v=3.12.0-preview2.809575206658" data-turbo-eval="false" defer></script>
+    <script id="prism-js" data-cfasync="false" src="../../resources/js/prism.js?v=3.12.0-preview2.809575206658" defer></script>
 
     <link href="https://workleap.github.io/wl-idp-docs-hub/static/retype-customization.css" rel="stylesheet" />
 
@@ -328,7 +328,7 @@
 <p>Before:</p>
 <div class="codeblock-wrapper"><doc-codeblock>
 <div class="codeblock-title">bootstrap.tsx</div>
-<pre translate="no" class="language-tsx" data-line="18,21"><code v-pre class="language-tsx">import { ConsoleLogger, RuntimeContext, FireflyRuntime, registerRemoteModules, registerLocalModules, type RemoteDefinition } from &quot;@squide/firefly&quot;;
+<pre translate="no" class="language-tsx" data-line="16,19"><code v-pre class="language-tsx">import { RuntimeContext, FireflyRuntime, registerRemoteModules, registerLocalModules, type RemoteDefinition } from &quot;@squide/firefly&quot;;
 import { register as registerMyLocalModule } from &quot;@getting-started/local-module&quot;;
 import { createRoot } from &quot;react-dom/client&quot;;
 import { App } from &quot;./App.tsx&quot;;
@@ -340,9 +340,7 @@ const Remotes: RemoteDefinition[] = [
 ];
 
 // Create the shell runtime.
-const runtime = new FireflyRuntime({
-    loggers: [x =&gt; new ConsoleLogger(x)]
-});
+const runtime = new FireflyRuntime();
 
 // Register the local module.
 await registerLocalModules([registerHost, registerMyLocalModule], runtime);
@@ -361,7 +359,7 @@ root.render(
 <p>Now:</p>
 <div class="codeblock-wrapper"><doc-codeblock>
 <div class="codeblock-title">bootstrap.tsx</div>
-<pre translate="no" class="language-tsx" data-line="18-21"><code v-pre class="language-tsx">import { ConsoleLogger, RuntimeContext, FireflyRuntime, bootstrap, type RemoteDefinition } from &quot;@squide/firefly&quot;;
+<pre translate="no" class="language-tsx" data-line="16-19"><code v-pre class="language-tsx">import { RuntimeContext, FireflyRuntime, bootstrap, type RemoteDefinition } from &quot;@squide/firefly&quot;;
 import { register as registerMyLocalModule } from &quot;@getting-started/local-module&quot;;
 import { createRoot } from &quot;react-dom/client&quot;;
 import { App } from &quot;./App.tsx&quot;;
@@ -373,9 +371,7 @@ const Remotes: RemoteDefinition[] = [
 ];
 
 // Create the shell runtime.
-const runtime = new FireflyRuntime({
-    loggers: [x =&gt; new ConsoleLogger(x)]
-});
+const runtime = new FireflyRuntime(});
 
 // Register the modules.
 await bootstrap(runtime, {
@@ -401,8 +397,7 @@ root.render(
 <p>Before:</p>
 <div class="codeblock-wrapper"><doc-codeblock>
 <div class="codeblock-title">bootstrap.tsx</div>
-<pre translate="no" class="language-tsx" data-line="19,28-42"><code v-pre class="language-tsx">import { 
-    ConsoleLogger,
+<pre translate="no" class="language-tsx" data-line="18,26-40"><code v-pre class="language-tsx">import { 
     RuntimeContext,
     FireflyRuntime,
     registerRemoteModules,
@@ -419,8 +414,7 @@ const Remotes: RemoteDefinition[] = [
 ];
 
 const runtime = new FireflyRuntime({
-    useMsw: !!process.env.USE_MSW,
-    loggers: [x =&gt; new ConsoleLogger(x)]
+    useMsw: !!process.env.USE_MSW
 });
 
 await registerLocalModules([registerHost], runtime);
@@ -440,7 +434,7 @@ if (runtime.isMswEnabled) {
             setMswAsReady();
         })
         .catch((error: unknown) =&gt; {
-            consoleLogger.debug(&quot;[host-app] An error occured while starting MSW.&quot;, error);
+            runtime.logger.debug(&quot;[host-app] An error occured while starting MSW.&quot;, error);
         });
 }
 
@@ -455,7 +449,7 @@ root.render(
 <p>Now:</p>
 <div class="codeblock-wrapper"><doc-codeblock>
 <div class="codeblock-title">bootstrap.tsx</div>
-<pre translate="no" class="language-tsx" data-line="11,18-22"><code v-pre class="language-tsx">import { ConsoleLogger, RuntimeContext, FireflyRuntime, bootstrap, type RemoteDefinition } from &quot;@squide/firefly&quot;;
+<pre translate="no" class="language-tsx" data-line="11,17-21"><code v-pre class="language-tsx">import { RuntimeContext, FireflyRuntime, bootstrap, type RemoteDefinition } from &quot;@squide/firefly&quot;;
 import { createRoot } from &quot;react-dom/client&quot;;
 import { App } from &quot;./App.tsx&quot;;
 import { registerHost } from &quot;./register.tsx&quot;;
@@ -465,8 +459,7 @@ const Remotes: RemoteDefinition[] = [
 ];
 
 const runtime = new FireflyRuntime({
-    useMsw: !!process.env.USE_MSW,
-    loggers: [x =&gt; new ConsoleLogger(x)]
+    useMsw: !!process.env.USE_MSW
 });
 
 await bootstrap(runtime, {

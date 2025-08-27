@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <meta name="turbo-root" content="/wl-squide">
-    <meta name="turbo-cache-control" content="no-cache" data-turbo-track="reload" data-track-token="3.12.0-preview2.806084822220">
+    <meta name="turbo-cache-control" content="no-cache" data-turbo-track="reload" data-track-token="3.12.0-preview2.809575206658">
 
     <!-- See retype.com -->
     <meta name="generator" content="Retype 3.12.0-preview2">
@@ -32,12 +32,12 @@
     <script data-cfasync="false">(function(){var cl=document.documentElement.classList,ls=localStorage.getItem("retype_scheme"),hd=cl.contains("dark"),hl=cl.contains("light"),wm=window.matchMedia&&window.matchMedia("(prefers-color-scheme: dark)").matches;if(ls==="dark"||(!ls&&wm&&!hd&&!hl)){cl.remove("light");cl.add("dark")}else if(ls==="light"||(!ls&&!wm&&!hd&&!hl)){cl.remove("dark");cl.add("light")}})();</script>
 
     <link id="retype-favicon" rel="icon" href="../../static/favicon.png" />
-    <link href="../../resources/css/retype.css?v=3.12.0-preview2.806084822220" rel="stylesheet">
+    <link href="../../resources/css/retype.css?v=3.12.0-preview2.809575206658" rel="stylesheet">
 
-    <script data-cfasync="false" src="../../resources/js/config.js?v=3.12.0-preview2.806084822220" data-turbo-eval="false" defer></script>
+    <script data-cfasync="false" src="../../resources/js/config.js?v=3.12.0-preview2.809575206658" data-turbo-eval="false" defer></script>
     <script data-cfasync="false" src="../../resources/js/retype.js?v=3.12.0-preview2" data-turbo-eval="false" defer></script>
-    <script id="lunr-js" data-cfasync="false" src="../../resources/js/lunr.js?v=3.12.0-preview2.806084822220" data-turbo-eval="false" defer></script>
-    <script id="prism-js" data-cfasync="false" src="../../resources/js/prism.js?v=3.12.0-preview2.806084822220" defer></script>
+    <script id="lunr-js" data-cfasync="false" src="../../resources/js/lunr.js?v=3.12.0-preview2.809575206658" data-turbo-eval="false" defer></script>
+    <script id="prism-js" data-cfasync="false" src="../../resources/js/prism.js?v=3.12.0-preview2.809575206658" defer></script>
 
     <link href="https://workleap.github.io/wl-idp-docs-hub/static/retype-customization.css" rel="stylesheet" />
 
@@ -328,14 +328,14 @@ pnpm add @squide/firefly</code></pre>
 <p>Then, ensure that you are developing your module using <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Modules" class="outbound" target="_blank">ESM syntax</a> by specifying <code translate="no" v-pre>type: module</code> in your <code translate="no" v-pre>package.json</code> file:</p>
 <div class="codeblock-wrapper"><doc-codeblock>
 <div class="codeblock-title">local-module/package.json</div>
-<pre translate="no" class="language-json"><code v-pre class="language-json">{
+<pre translate="no" class="language-json" data-line="2"><code v-pre class="language-json">{
     &quot;type&quot;: &quot;module&quot;
 }</code></pre>
 </doc-codeblock></div>
 <p>Then, configure the package to be shareable by adding the <code translate="no" v-pre>name</code>, <code translate="no" v-pre>version</code>, and <code translate="no" v-pre>export</code> fields to the <code translate="no" v-pre>package.json</code> file:</p>
 <div class="codeblock-wrapper"><doc-codeblock>
 <div class="codeblock-title">local-module/package.json</div>
-<pre translate="no" class="language-json"><code v-pre class="language-json">{
+<pre translate="no" class="language-json" data-line="2-4"><code v-pre class="language-json">{
     &quot;name&quot;: &quot;@getting-started/local-module&quot;,
     &quot;version&quot;: &quot;0.0.1&quot;,
     &quot;exports&quot;: &quot;./src/register.tsx&quot;
@@ -402,7 +402,7 @@ export const register: ModuleRegisterFunction&lt;FireflyRuntime&gt; = runtime =&
 <p>Go back to the <code translate="no" v-pre>host</code> application and add a dependency to the <code translate="no" v-pre>@getting-started/local-module</code> package in the host application <code translate="no" v-pre>package.json</code> file:</p>
 <div class="codeblock-wrapper"><doc-codeblock>
 <div class="codeblock-title">host/package.json</div>
-<pre translate="no" class="language-json"><code v-pre class="language-json">{
+<pre translate="no" class="language-json" data-line="3"><code v-pre class="language-json">{
     &quot;dependencies&quot;: {
         &quot;@getting-started/local-module&quot;: &quot;0.0.1&quot;
     }
@@ -427,7 +427,7 @@ export const register: ModuleRegisterFunction&lt;FireflyRuntime&gt; = runtime =&
 <div class="codeblock-wrapper"><doc-codeblock>
 <div class="codeblock-title">host/src/index.tsx</div>
 <pre translate="no" class="language-tsx" data-line="3,14"><code v-pre class="language-tsx">import { createRoot } from &quot;react-dom/client&quot;;
-import { ConsoleLogger, FireflyProvider, initializeFirefly, type RemoteDefinition } from &quot;@squide/firefly&quot;;
+import { FireflyProvider, initializeFirefly, type RemoteDefinition } from &quot;@squide/firefly&quot;;
 import { register as registerMyLocalModule } from &quot;@getting-started/local-module&quot;;
 import { App } from &quot;./App.tsx&quot;;
 import { registerHost } from &quot;./register.tsx&quot;;
@@ -440,8 +440,7 @@ const Remotes: RemoteDefinition[] = [
 // Register the modules.
 const runtime = initializeFirefly(runtime, {
     localModules: [registerHost, registerMyLocalModule],
-    remotes: Remotes,
-    loggers: [x =&gt; new ConsoleLogger(x)]
+    remotes: Remotes
 })
 
 const root = createRoot(document.getElementById(&quot;root&quot;)!);

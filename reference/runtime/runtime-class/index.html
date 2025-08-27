@@ -4,14 +4,14 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <meta name="turbo-root" content="/wl-squide">
-    <meta name="turbo-cache-control" content="no-cache" data-turbo-track="reload" data-track-token="3.12.0-preview2.806084822220">
+    <meta name="turbo-cache-control" content="no-cache" data-turbo-track="reload" data-track-token="3.12.0-preview2.809575206658">
 
     <!-- See retype.com -->
     <meta name="generator" content="Retype 3.12.0-preview2">
 
     <!-- Primary Meta Tags -->
-    <title>FireflyRuntime class</title>
-    <meta name="title" content="FireflyRuntime class">
+    <title>FireflyRuntime</title>
+    <meta name="title" content="FireflyRuntime">
     <meta name="description" content="Don't instanciate your own instance of FireflyRuntime, use the initializeFirefly function instead.">
 
     <!-- Canonical -->
@@ -20,24 +20,24 @@
     <!-- Open Graph / Facebook -->
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://workleap.github.io/wl-squide/reference/runtime/runtime-class/">
-    <meta property="og:title" content="FireflyRuntime class">
+    <meta property="og:title" content="FireflyRuntime">
     <meta property="og:description" content="Don't instanciate your own instance of FireflyRuntime, use the initializeFirefly function instead.">
 
     <!-- Twitter -->
     <meta property="twitter:card" content="summary_large_image">
     <meta property="twitter:url" content="https://workleap.github.io/wl-squide/reference/runtime/runtime-class/">
-    <meta property="twitter:title" content="FireflyRuntime class">
+    <meta property="twitter:title" content="FireflyRuntime">
     <meta property="twitter:description" content="Don't instanciate your own instance of FireflyRuntime, use the initializeFirefly function instead.">
 
     <script data-cfasync="false">(function(){var cl=document.documentElement.classList,ls=localStorage.getItem("retype_scheme"),hd=cl.contains("dark"),hl=cl.contains("light"),wm=window.matchMedia&&window.matchMedia("(prefers-color-scheme: dark)").matches;if(ls==="dark"||(!ls&&wm&&!hd&&!hl)){cl.remove("light");cl.add("dark")}else if(ls==="light"||(!ls&&!wm&&!hd&&!hl)){cl.remove("dark");cl.add("light")}})();</script>
 
     <link id="retype-favicon" rel="icon" href="../../../static/favicon.png" />
-    <link href="../../../resources/css/retype.css?v=3.12.0-preview2.806084822220" rel="stylesheet">
+    <link href="../../../resources/css/retype.css?v=3.12.0-preview2.809575206658" rel="stylesheet">
 
-    <script data-cfasync="false" src="../../../resources/js/config.js?v=3.12.0-preview2.806084822220" data-turbo-eval="false" defer></script>
+    <script data-cfasync="false" src="../../../resources/js/config.js?v=3.12.0-preview2.809575206658" data-turbo-eval="false" defer></script>
     <script data-cfasync="false" src="../../../resources/js/retype.js?v=3.12.0-preview2" data-turbo-eval="false" defer></script>
-    <script id="lunr-js" data-cfasync="false" src="../../../resources/js/lunr.js?v=3.12.0-preview2.806084822220" data-turbo-eval="false" defer></script>
-    <script id="prism-js" data-cfasync="false" src="../../../resources/js/prism.js?v=3.12.0-preview2.806084822220" defer></script>
+    <script id="lunr-js" data-cfasync="false" src="../../../resources/js/lunr.js?v=3.12.0-preview2.809575206658" data-turbo-eval="false" defer></script>
+    <script id="prism-js" data-cfasync="false" src="../../../resources/js/prism.js?v=3.12.0-preview2.809575206658" defer></script>
 
     <link href="https://workleap.github.io/wl-idp-docs-hub/static/retype-customization.css" rel="stylesheet" />
 
@@ -272,17 +272,17 @@
                                         </li>
                                         <li class="pr-4">
                                             <a href="../../../reference/runtime/runtime-class/" class="pr-4">
-                                                Firefly​Runtime class
+                                                Firefly​Runtime
                                             </a>
                                         </li>
                                     </ol>
                                 </nav>
                 
                                 <!-- Page content  -->
-<doc-anchor-target id="fireflyruntime-class" class="break-words">
+<doc-anchor-target id="fireflyruntime" class="break-words">
     <h1>
-        <doc-anchor-trigger class="header-anchor-trigger" to="#fireflyruntime-class">#</doc-anchor-trigger>
-        <span>FireflyRuntime class</span>
+        <doc-anchor-trigger class="header-anchor-trigger" to="#fireflyruntime">#</doc-anchor-trigger>
+        <span>FireflyRuntime</span>
     </h1>
 </doc-anchor-target>
 <div class="flex mb-6">
@@ -368,11 +368,9 @@
     </h3>
 </doc-anchor-target>
 <div class="codeblock-wrapper"><doc-codeblock>
-<pre translate="no" class="language-typescript"><code v-pre class="language-typescript">import { ConsoleLogger, FireflyRuntime } from &quot;@squide/firefly&quot;;
+<pre translate="no" class="language-typescript" data-line="3"><code v-pre class="language-typescript">import { FireflyRuntime } from &quot;@squide/firefly&quot;;
 
-const runtime = new FireflyRuntime({
-    loggers: [x =&gt; new ConsoleLogger(x)]
-});</code></pre>
+const runtime = new FireflyRuntime();</code></pre>
 </doc-codeblock></div>
 <doc-anchor-target id="change-the-runtime-mode">
     <h3>
@@ -430,7 +428,7 @@ if (runtime.isMswEnabled) {
 </li>
 </ul>
 <div class="codeblock-wrapper"><doc-codeblock>
-<pre translate="no" class="language-tsx"><code v-pre class="language-tsx">import { Page } from &quot;./Page.tsx&quot;
+<pre translate="no" class="language-tsx" data-line="4-7"><code v-pre class="language-tsx">import { Page } from &quot;./Page.tsx&quot;
 
 // Register a new route from a module.
 runtime.registerRoute({
@@ -483,7 +481,7 @@ runtime.registerRoute({
 </doc-anchor-target>
 <p>When registering a route, a value can be provided indicating whether the route is <code translate="no" v-pre>&quot;public&quot;</code> or <code translate="no" v-pre>&quot;protected&quot;</code>. This is especially useful when dealing with code that <strong>fetches global data for protected routes</strong> (e.g. a session). Although a route definition accepts a <code translate="no" v-pre>$visibility</code> value, we recommended using the runtime <code translate="no" v-pre>registerPublicRoute</code> function to register a <strong>root</strong> public route instead.</p>
 <div class="codeblock-wrapper"><doc-codeblock>
-<pre translate="no" class="language-tsx"><code v-pre class="language-tsx">import { Page } from &quot;./Page.tsx&quot;;
+<pre translate="no" class="language-tsx" data-line="3-6"><code v-pre class="language-tsx">import { Page } from &quot;./Page.tsx&quot;;
 
 runtime.registerPublicRoute({
     path: &quot;/page-1&quot;,
@@ -607,7 +605,7 @@ runtime.registerRoute({
 </doc-anchor-target>
 <p>The registered routes are accessible from a <code translate="no" v-pre>FireflyRuntime</code> instance, but keep in mind that the preferred way to retrieve the routes is with the <a href="../useroutes/">useRoutes</a> hook.</p>
 <div class="codeblock-wrapper"><doc-codeblock>
-<pre translate="no" class="language-tsx"><code v-pre class="language-tsx">const routes = runtime.routes;</code></pre>
+<pre translate="no" class="language-tsx" data-line="1"><code v-pre class="language-tsx">const routes = runtime.routes;</code></pre>
 </doc-codeblock></div>
 <doc-anchor-target id="register-navigation-items">
     <h3>
@@ -616,7 +614,7 @@ runtime.registerRoute({
     </h3>
 </doc-anchor-target>
 <div class="codeblock-wrapper"><doc-codeblock>
-<pre translate="no" class="language-typescript"><code v-pre class="language-typescript">runtime.registerNavigationItem(item, options?: { menuId?, sectionId? })</code></pre>
+<pre translate="no" class="language-typescript" data-line="1"><code v-pre class="language-typescript">runtime.registerNavigationItem(item, options?: { menuId?, sectionId? })</code></pre>
 </doc-codeblock></div>
 <ul>
 <li><code translate="no" v-pre>item</code>: <code translate="no" v-pre>NavigationSection | NavigationLink</code>.</li>
@@ -672,7 +670,7 @@ runtime.registerRoute({
     </div>
 </div>
 <div class="codeblock-wrapper"><doc-codeblock>
-<pre translate="no" class="language-typescript"><code v-pre class="language-typescript">// Register a new navigation item from a module.
+<pre translate="no" class="language-typescript" data-line="2-6"><code v-pre class="language-typescript">// Register a new navigation item from a module.
 runtime.registerNavigationItem({
     $id: &quot;page-1&quot;,
     $label: &quot;Page 1&quot;,
@@ -701,7 +699,7 @@ runtime.registerNavigationItem({
 </doc-anchor-target>
 <p>The <code translate="no" v-pre>registerNavigationItem</code> function accepts a <code translate="no" v-pre>sectionId</code> option, allowing a navigation item to be nested under an existing navigation section. When searching the parent navigation section matching the <code translate="no" v-pre>sectionId</code> option, the <code translate="no" v-pre>sectionId</code> will be match against the <code translate="no" v-pre>$id</code> option of every navigation item.</p>
 <div class="codeblock-wrapper"><doc-codeblock>
-<pre translate="no" class="language-typescript"><code v-pre class="language-typescript">runtime.registerNavigationItem({
+<pre translate="no" class="language-typescript" data-line="1-5"><code v-pre class="language-typescript">runtime.registerNavigationItem({
     $id: &quot;page-1&quot;,
     $label: &quot;Page 1&quot;,
     to: &quot;/page-1&quot;
@@ -727,7 +725,7 @@ runtime.registerNavigationItem({
 </doc-codeblock></div>
 <p>Navigation items can also be nested by registering multipe items in a single registration block:</p>
 <div class="codeblock-wrapper"><doc-codeblock>
-<pre translate="no" class="language-typescript"><code v-pre class="language-typescript">// Register the following menu hierarchy:
+<pre translate="no" class="language-typescript" data-line="7-28"><code v-pre class="language-typescript">// Register the following menu hierarchy:
 //
 //  Section
 //  --- Nested Section
@@ -924,11 +922,11 @@ runtime.registerNavigationItem({
 <p>The registered navigation items are accessible from a <code translate="no" v-pre>FireflyRuntime</code> instance, but keep in mind that the preferred way to retrieve the navigation items is with the <a href="../usenavigationitems/">useNavigationItems</a> hook.</p>
 <p>By default, the <code translate="no" v-pre>getNavigationItems</code> will return the navigation items for the <code translate="no" v-pre>root</code> menu:</p>
 <div class="codeblock-wrapper"><doc-codeblock>
-<pre translate="no" class="language-tsx"><code v-pre class="language-tsx">const navigationItems = runtime.getNavigationItems();</code></pre>
+<pre translate="no" class="language-tsx" data-line="1"><code v-pre class="language-tsx">const navigationItems = runtime.getNavigationItems();</code></pre>
 </doc-codeblock></div>
 <p>To retrieve the navigation items for a <strong>specific</strong> navigation menu, provide a <code translate="no" v-pre>menuId</code>:</p>
 <div class="codeblock-wrapper"><doc-codeblock>
-<pre translate="no" class="language-tsx"><code v-pre class="language-tsx">const navigationItems = runtime.getNavigationItems(&quot;my-custom-layout&quot;);</code></pre>
+<pre translate="no" class="language-tsx" data-line="1"><code v-pre class="language-tsx">const navigationItems = runtime.getNavigationItems(&quot;my-custom-layout&quot;);</code></pre>
 </doc-codeblock></div>
 <doc-anchor-target id="register-request-handlers">
     <h3>
@@ -938,7 +936,7 @@ runtime.registerNavigationItem({
 </doc-anchor-target>
 <p>The registered handlers must be <a href="https://mswjs.io/docs/concepts/request-handler" class="outbound" target="_blank">Mock Service Worker</a> request handlers:</p>
 <div class="codeblock-wrapper"><doc-codeblock>
-<pre translate="no" class="language-tsx"><code v-pre class="language-tsx">import { requestHandlers } from &quot;../mocks/handlers.ts&quot;;
+<pre translate="no" class="language-tsx" data-line="3"><code v-pre class="language-tsx">import { requestHandlers } from &quot;../mocks/handlers.ts&quot;;
 
 runtime.registerRequestHandlers(requestHandlers);</code></pre>
 </doc-codeblock></div>
@@ -963,7 +961,7 @@ runtime.registerRequestHandlers(requestHandlers);</code></pre>
     </h3>
 </doc-anchor-target>
 <div class="codeblock-wrapper"><doc-codeblock>
-<pre translate="no" class="language-tsx"><code v-pre class="language-tsx">const requestHandlers = runtime.requestHandlers;</code></pre>
+<pre translate="no" class="language-tsx" data-line="1"><code v-pre class="language-tsx">const requestHandlers = runtime.requestHandlers;</code></pre>
 </doc-codeblock></div>
 <doc-anchor-target id="log-a-message">
     <h3>
@@ -972,21 +970,9 @@ runtime.registerRequestHandlers(requestHandlers);</code></pre>
     </h3>
 </doc-anchor-target>
 <div class="codeblock-wrapper"><doc-codeblock>
-<pre translate="no" class="language-typescript"><code v-pre class="language-typescript">// Write a debug log entry.
+<pre translate="no" class="language-typescript" data-line="3"><code v-pre class="language-typescript">// Write a debug log entry.
 // If the runtime has been instanciated with multiple logger instances, every logger instance will be invoked.
 runtime.logger.debug(&quot;Hello!&quot;);</code></pre>
-</doc-codeblock></div>
-<doc-anchor-target id="log-a-message-to-specific-logger-instances">
-    <h3>
-        <doc-anchor-trigger class="header-anchor-trigger" to="#log-a-message-to-specific-logger-instances">#</doc-anchor-trigger>
-        <span>Log a message to specific logger instances</span>
-    </h3>
-</doc-anchor-target>
-<div class="codeblock-wrapper"><doc-codeblock>
-<pre translate="no" class="language-typescript"><code v-pre class="language-typescript">// Write a debug log entry to the specified loggers.
-const logger = runtime.logger.use([ConsoleLogger.name]);
-
-logger.debug(&quot;Hello!&quot;);</code></pre>
 </doc-codeblock></div>
 <doc-anchor-target id="use-the-event-bus">
     <h3>
@@ -995,7 +981,7 @@ logger.debug(&quot;Hello!&quot;);</code></pre>
     </h3>
 </doc-anchor-target>
 <div class="codeblock-wrapper"><doc-codeblock>
-<pre translate="no" class="language-typescript"><code v-pre class="language-typescript">// Listen to an event dispatch by the host application or a module.
+<pre translate="no" class="language-typescript" data-line="2,5"><code v-pre class="language-typescript">// Listen to an event dispatch by the host application or a module.
 runtime.eventBus.addListener(&quot;write-to-host&quot;, () =&gt; {});
 
 // Dispatch an event to the host application or a module.
@@ -1037,7 +1023,7 @@ const runtime = new FireflyRuntime({
     </h3>
 </doc-anchor-target>
 <div class="codeblock-wrapper"><doc-codeblock>
-<pre translate="no" class="language-typescript"><code v-pre class="language-typescript">import { MyPlugin } from &quot;@sample/my-plugin&quot;;
+<pre translate="no" class="language-typescript" data-line="4"><code v-pre class="language-typescript">import { MyPlugin } from &quot;@sample/my-plugin&quot;;
 
 // If the plugin isn't registered, an error is thrown.
 const plugin = runtime.getPlugin(MyPlugin.name) as MyPlugin;</code></pre>
@@ -1148,6 +1134,6 @@ const plugin = runtime.getPlugin(MyPlugin.name) as MyPlugin;</code></pre>
 
     <div id="retype-overlay-target"></div>
 
-    <script data-cfasync="false">window.__DOCS__ = { "title": "FireflyRuntime class", level: 3, icon: "file", hasPrism: true, hasMermaid: false, hasMath: false, tocDepth: 23 }</script>
+    <script data-cfasync="false">window.__DOCS__ = { "title": "FireflyRuntime", level: 3, icon: "file", hasPrism: true, hasMermaid: false, hasMath: false, tocDepth: 23 }</script>
 </body>
 </html>

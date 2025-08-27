@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <meta name="turbo-root" content="/wl-squide">
-    <meta name="turbo-cache-control" content="no-cache" data-turbo-track="reload" data-track-token="3.12.0-preview2.806084822220">
+    <meta name="turbo-cache-control" content="no-cache" data-turbo-track="reload" data-track-token="3.12.0-preview2.809575206658">
 
     <!-- See retype.com -->
     <meta name="generator" content="Retype 3.12.0-preview2">
@@ -32,12 +32,12 @@
     <script data-cfasync="false">(function(){var cl=document.documentElement.classList,ls=localStorage.getItem("retype_scheme"),hd=cl.contains("dark"),hl=cl.contains("light"),wm=window.matchMedia&&window.matchMedia("(prefers-color-scheme: dark)").matches;if(ls==="dark"||(!ls&&wm&&!hd&&!hl)){cl.remove("light");cl.add("dark")}else if(ls==="light"||(!ls&&!wm&&!hd&&!hl)){cl.remove("dark");cl.add("light")}})();</script>
 
     <link id="retype-favicon" rel="icon" href="../../static/favicon.png" />
-    <link href="../../resources/css/retype.css?v=3.12.0-preview2.806084822220" rel="stylesheet">
+    <link href="../../resources/css/retype.css?v=3.12.0-preview2.809575206658" rel="stylesheet">
 
-    <script data-cfasync="false" src="../../resources/js/config.js?v=3.12.0-preview2.806084822220" data-turbo-eval="false" defer></script>
+    <script data-cfasync="false" src="../../resources/js/config.js?v=3.12.0-preview2.809575206658" data-turbo-eval="false" defer></script>
     <script data-cfasync="false" src="../../resources/js/retype.js?v=3.12.0-preview2" data-turbo-eval="false" defer></script>
-    <script id="lunr-js" data-cfasync="false" src="../../resources/js/lunr.js?v=3.12.0-preview2.806084822220" data-turbo-eval="false" defer></script>
-    <script id="prism-js" data-cfasync="false" src="../../resources/js/prism.js?v=3.12.0-preview2.806084822220" defer></script>
+    <script id="lunr-js" data-cfasync="false" src="../../resources/js/lunr.js?v=3.12.0-preview2.809575206658" data-turbo-eval="false" defer></script>
+    <script id="prism-js" data-cfasync="false" src="../../resources/js/prism.js?v=3.12.0-preview2.809575206658" defer></script>
 
     <link href="https://workleap.github.io/wl-idp-docs-hub/static/retype-customization.css" rel="stylesheet" />
 
@@ -313,15 +313,14 @@
 <p>Before:</p>
 <div class="codeblock-wrapper"><doc-codeblock>
 <div class="codeblock-title">bootstrap.tsx</div>
-<pre translate="no" class="language-tsx" data-line="2,12-14"><code v-pre class="language-tsx">import { ConsoleLogger, initializeFirefly } from &quot;@squide/firefly&quot;;
+<pre translate="no" class="language-tsx" data-line="2,11-13"><code v-pre class="language-tsx">import { initializeFirefly } from &quot;@squide/firefly&quot;;
 import { registerHoneycombInstrumentation } from &quot;@squide/firefly-honeycomb&quot;;
 import { register as registerMyLocalModule } from &quot;@sample/local-module&quot;;
 import { registerHost } from &quot;./register.tsx&quot;;
 
 const runtime = initializeFirefly({
     localModules: [registerHost, registerMyLocalModule],
-    remotes: Remotes,
-    loggers: [x =&gt; new ConsoleLogger(x)]
+    remotes: Remotes
 });
 
 registerHoneycombInstrumentation(runtime, &quot;sample&quot;, &quot;squide-sample&quot;, [/.+/g,], {
@@ -331,7 +330,7 @@ registerHoneycombInstrumentation(runtime, &quot;sample&quot;, &quot;squide-sampl
 <p>After:</p>
 <div class="codeblock-wrapper"><doc-codeblock>
 <div class="codeblock-title">bootstrap.tsx</div>
-<pre translate="no" class="language-tsx" data-line="2,7-9"><code v-pre class="language-tsx">import { ConsoleLogger, initializeFirefly } from &quot;@squide/firefly&quot;;
+<pre translate="no" class="language-tsx" data-line="2,7-9"><code v-pre class="language-tsx">import { initializeFirefly } from &quot;@squide/firefly&quot;;
 import { registerHoneycombInstrumentation } from &quot;@workleap/honeycomb&quot;;
 import { register as registerMyLocalModule } from &quot;@sample/local-module&quot;;
 import { registerHost } from &quot;./register.tsx&quot;;
@@ -343,8 +342,7 @@ registerHoneycombInstrumentation(&quot;sample&quot;, &quot;squide-sample&quot;, 
 
 const runtime = initializeFirefly({
     localModules: [registerHost, registerMyLocalModule],
-    remotes: Remotes,
-    loggers: [x =&gt; new ConsoleLogger(x)]
+    remotes: Remotes
 });</code></pre>
 </doc-codeblock></div>
 

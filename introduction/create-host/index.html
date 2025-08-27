@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <meta name="turbo-root" content="/wl-squide">
-    <meta name="turbo-cache-control" content="no-cache" data-turbo-track="reload" data-track-token="3.12.0-preview2.806084822220">
+    <meta name="turbo-cache-control" content="no-cache" data-turbo-track="reload" data-track-token="3.12.0-preview2.809575206658">
 
     <!-- See retype.com -->
     <meta name="generator" content="Retype 3.12.0-preview2">
@@ -32,12 +32,12 @@
     <script data-cfasync="false">(function(){var cl=document.documentElement.classList,ls=localStorage.getItem("retype_scheme"),hd=cl.contains("dark"),hl=cl.contains("light"),wm=window.matchMedia&&window.matchMedia("(prefers-color-scheme: dark)").matches;if(ls==="dark"||(!ls&&wm&&!hd&&!hl)){cl.remove("light");cl.add("dark")}else if(ls==="light"||(!ls&&!wm&&!hd&&!hl)){cl.remove("dark");cl.add("light")}})();</script>
 
     <link id="retype-favicon" rel="icon" href="../../static/favicon.png" />
-    <link href="../../resources/css/retype.css?v=3.12.0-preview2.806084822220" rel="stylesheet">
+    <link href="../../resources/css/retype.css?v=3.12.0-preview2.809575206658" rel="stylesheet">
 
-    <script data-cfasync="false" src="../../resources/js/config.js?v=3.12.0-preview2.806084822220" data-turbo-eval="false" defer></script>
+    <script data-cfasync="false" src="../../resources/js/config.js?v=3.12.0-preview2.809575206658" data-turbo-eval="false" defer></script>
     <script data-cfasync="false" src="../../resources/js/retype.js?v=3.12.0-preview2" data-turbo-eval="false" defer></script>
-    <script id="lunr-js" data-cfasync="false" src="../../resources/js/lunr.js?v=3.12.0-preview2.806084822220" data-turbo-eval="false" defer></script>
-    <script id="prism-js" data-cfasync="false" src="../../resources/js/prism.js?v=3.12.0-preview2.806084822220" defer></script>
+    <script id="lunr-js" data-cfasync="false" src="../../resources/js/lunr.js?v=3.12.0-preview2.809575206658" data-turbo-eval="false" defer></script>
+    <script id="prism-js" data-cfasync="false" src="../../resources/js/prism.js?v=3.12.0-preview2.809575206658" defer></script>
 
     <link href="https://workleap.github.io/wl-idp-docs-hub/static/retype-customization.css" rel="stylesheet" />
 
@@ -335,7 +335,7 @@ pnpm add @squide/firefly react react-dom react-router @tanstack/react-query</cod
 <p>Then, ensure that you are developing your application using <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Modules" class="outbound" target="_blank">ESM syntax</a> by specifying <code translate="no" v-pre>type: module</code> in your <code translate="no" v-pre>package.json</code> file:</p>
 <div class="codeblock-wrapper"><doc-codeblock>
 <div class="codeblock-title">host/package.json</div>
-<pre translate="no" class="language-json"><code v-pre class="language-json">{
+<pre translate="no" class="language-json" data-line="2"><code v-pre class="language-json">{
     &quot;type&quot;: &quot;module&quot;
 }</code></pre>
 </doc-codeblock></div>
@@ -348,13 +348,11 @@ pnpm add @squide/firefly react react-dom react-router @tanstack/react-query</cod
 <p>Next, to register the modules, instanciate a shell <a href="../../reference/runtime/runtime-class/">FireflyRuntime</a> instance. A local module will be registered in the <a href="../create-local-module/">next section</a> of this quick start guide:</p>
 <div class="codeblock-wrapper"><doc-codeblock>
 <div class="codeblock-title">host/src/index.tsx</div>
-<pre translate="no" class="language-tsx" data-line="5-7"><code v-pre class="language-tsx">import { createRoot } from &quot;react-dom/client&quot;;
-import { ConsoleLogger, FireflyProvider, initializeFirefly, type RemoteDefinition } from &quot;@squide/firefly&quot;;
+<pre translate="no" class="language-tsx" data-line="5"><code v-pre class="language-tsx">import { createRoot } from &quot;react-dom/client&quot;;
+import { FireflyProvider, initializeFirefly, type RemoteDefinition } from &quot;@squide/firefly&quot;;
 import { App } from &quot;./App.tsx&quot;;
 
-const runtime = initializeFirefly({
-    loggers: [x =&gt; new ConsoleLogger(x)]
-});
+const runtime = initializeFirefly();
 
 const root = createRoot(document.getElementById(&quot;root&quot;)!);
 
@@ -367,7 +365,7 @@ root.render(
 <p>Then, render the <a href="../../reference/routing/approuter/">AppRouter</a> component to define a React Router <a href="https://reactrouter.com/en/main/routers/create-browser-router" class="outbound" target="_blank">browser instance</a> configured with the registered routes:</p>
 <div class="codeblock-wrapper"><doc-codeblock>
 <div class="codeblock-title">host/src/App.tsx</div>
-<pre translate="no" class="language-tsx"><code v-pre class="language-tsx">import { AppRouter } from &quot;@squide/firefly&quot;;
+<pre translate="no" class="language-tsx" data-line="7-21"><code v-pre class="language-tsx">import { AppRouter } from &quot;@squide/firefly&quot;;
 import { createBrowserRouter } from &quot;react-router&quot;;
 import { RouterProvider } from &quot;react-router/dom&quot;;
 
@@ -473,7 +471,7 @@ export function RootLayout() {
 <p>Then, add a <a href="../../reference/registration/registerlocalmodules/">local module</a> at the root of the host application to register the homepage:</p>
 <div class="codeblock-wrapper"><doc-codeblock>
 <div class="codeblock-title">host/src/register.tsx</div>
-<pre translate="no" class="language-tsx"><code v-pre class="language-tsx">import type { ModuleRegisterFunction, FireflyRuntime } from &quot;@squide/firefly&quot;;
+<pre translate="no" class="language-tsx" data-line="4-9"><code v-pre class="language-tsx">import type { ModuleRegisterFunction, FireflyRuntime } from &quot;@squide/firefly&quot;;
 import { HomePage } from &quot;./HomePage.tsx&quot;;
 
 export const registerHost: ModuleRegisterFunction&lt;FireflyRuntime&gt; = runtime =&gt; {
@@ -527,14 +525,13 @@ export const registerHost: ModuleRegisterFunction&lt;FireflyRuntime&gt; = runtim
 <p>Finally, update the bootstrapping code to <a href="../../reference/registration/registerlocalmodules/">register</a> the newly created local module:</p>
 <div class="codeblock-wrapper"><doc-codeblock>
 <div class="codeblock-title">host/src/index.tsx</div>
-<pre translate="no" class="language-tsx" data-line="6-9"><code v-pre class="language-tsx">import { createRoot } from &quot;react-dom/client&quot;;
-import { ConsoleLogger, FireflyProvider, initializeFirefly, type RemoteDefinition } from &quot;@squide/firefly&quot;;
+<pre translate="no" class="language-tsx" data-line="6-8"><code v-pre class="language-tsx">import { createRoot } from &quot;react-dom/client&quot;;
+import { FireflyProvider, initializeFirefly, type RemoteDefinition } from &quot;@squide/firefly&quot;;
 import { registerHost } from &quot;./register.tsx&quot;;
 import { App } from &quot;./App.tsx&quot;;
 
 const runtime = initializeFirefly({
-    localModules: [registerHost, registerMyLocalModule],
-    loggers: [x =&gt; new ConsoleLogger(x)]
+    localModules: [registerHost, registerMyLocalModule]
 });
 
 const root = createRoot(document.getElementById(&quot;root&quot;)!);
@@ -627,7 +624,7 @@ export const registerHost: ModuleRegisterFunction&lt;FireflyRuntime&gt; = runtim
 <p>Then, open the <code translate="no" v-pre>.browserslist</code> file and copy/paste the following content:</p>
 <div class="codeblock-wrapper"><doc-codeblock>
 <div class="codeblock-title">host/.browserslistrc</div>
-<pre translate="no" class="language-none"><code v-pre class="language-none">extends @workleap/browserslist-config</code></pre>
+<pre translate="no" class="language-none" data-line="1"><code v-pre class="language-none">extends @workleap/browserslist-config</code></pre>
 </doc-codeblock></div>
 <doc-anchor-target id="development-configuration">
     <h3>
@@ -638,7 +635,7 @@ export const registerHost: ModuleRegisterFunction&lt;FireflyRuntime&gt; = runtim
 <p>To configure Rsbuild for a <strong>development</strong> environment, open the <code translate="no" v-pre>rsbuild.dev.ts</code> file and use the <a href="https://workleap.github.io/wl-web-configs/rsbuild/configure-dev/#rsbuilddevts" class="outbound" target="_blank">defineDevConfig</a> function to configure Rsbuild:</p>
 <div class="codeblock-wrapper"><doc-codeblock>
 <div class="codeblock-title">host/rsbuild.dev.ts</div>
-<pre translate="no" class="language-typescript"><code v-pre class="language-typescript">import { defineDevConfig } from &quot;@workleap/rsbuild-configs&quot;;
+<pre translate="no" class="language-typescript" data-line="3"><code v-pre class="language-typescript">import { defineDevConfig } from &quot;@workleap/rsbuild-configs&quot;;
 
 export default defineDevConfig();</code></pre>
 </doc-codeblock></div>
@@ -651,7 +648,7 @@ export default defineDevConfig();</code></pre>
 <p>To configure Rsbuild for a <strong>build</strong> environment, open the <code translate="no" v-pre>rsbuild.build.ts</code> file and use the <a href="https://workleap.github.io/wl-web-configs/rsbuild/configure-build/#rsbuildbuildts" class="outbound" target="_blank">defineBuildConfig</a> function to configure Rsbuild:</p>
 <div class="codeblock-wrapper"><doc-codeblock>
 <div class="codeblock-title">host/rsbuild.build.ts</div>
-<pre translate="no" class="language-typescript"><code v-pre class="language-typescript">import { defineBuildConfig } from &quot;@workleap/rsbuild-configs&quot;;
+<pre translate="no" class="language-typescript" data-line="3"><code v-pre class="language-typescript">import { defineBuildConfig } from &quot;@workleap/rsbuild-configs&quot;;
 
 export default defineBuildConfig();</code></pre>
 </doc-codeblock></div>
@@ -664,14 +661,14 @@ export default defineBuildConfig();</code></pre>
 <p>To initiate the development server, add the following script to the application <code translate="no" v-pre>package.json</code> file:</p>
 <div class="codeblock-wrapper"><doc-codeblock>
 <div class="codeblock-title">host/package.json</div>
-<pre translate="no" class="language-json"><code v-pre class="language-json">{
+<pre translate="no" class="language-json" data-line="2"><code v-pre class="language-json">{
     &quot;dev&quot;: &quot;rsbuild dev --config ./rsbuild.dev.ts&quot;
 }</code></pre>
 </doc-codeblock></div>
 <p>To build the application, add the following script to the application <code translate="no" v-pre>package.json</code> file:</p>
 <div class="codeblock-wrapper"><doc-codeblock>
 <div class="codeblock-title">host/package.json</div>
-<pre translate="no" class="language-json"><code v-pre class="language-json">{
+<pre translate="no" class="language-json" data-line="2"><code v-pre class="language-json">{
     &quot;build&quot;: &quot;rsbuild build --config rsbuild.build.ts&quot;
 }</code></pre>
 </doc-codeblock></div>

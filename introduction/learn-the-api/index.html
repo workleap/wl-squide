@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <meta name="turbo-root" content="/wl-squide">
-    <meta name="turbo-cache-control" content="no-cache" data-turbo-track="reload" data-track-token="3.12.0-preview2.806084822220">
+    <meta name="turbo-cache-control" content="no-cache" data-turbo-track="reload" data-track-token="3.12.0-preview2.809575206658">
 
     <!-- See retype.com -->
     <meta name="generator" content="Retype 3.12.0-preview2">
@@ -32,12 +32,12 @@
     <script data-cfasync="false">(function(){var cl=document.documentElement.classList,ls=localStorage.getItem("retype_scheme"),hd=cl.contains("dark"),hl=cl.contains("light"),wm=window.matchMedia&&window.matchMedia("(prefers-color-scheme: dark)").matches;if(ls==="dark"||(!ls&&wm&&!hd&&!hl)){cl.remove("light");cl.add("dark")}else if(ls==="light"||(!ls&&!wm&&!hd&&!hl)){cl.remove("dark");cl.add("light")}})();</script>
 
     <link id="retype-favicon" rel="icon" href="../../static/favicon.png" />
-    <link href="../../resources/css/retype.css?v=3.12.0-preview2.806084822220" rel="stylesheet">
+    <link href="../../resources/css/retype.css?v=3.12.0-preview2.809575206658" rel="stylesheet">
 
-    <script data-cfasync="false" src="../../resources/js/config.js?v=3.12.0-preview2.806084822220" data-turbo-eval="false" defer></script>
+    <script data-cfasync="false" src="../../resources/js/config.js?v=3.12.0-preview2.809575206658" data-turbo-eval="false" defer></script>
     <script data-cfasync="false" src="../../resources/js/retype.js?v=3.12.0-preview2" data-turbo-eval="false" defer></script>
-    <script id="lunr-js" data-cfasync="false" src="../../resources/js/lunr.js?v=3.12.0-preview2.806084822220" data-turbo-eval="false" defer></script>
-    <script id="prism-js" data-cfasync="false" src="../../resources/js/prism.js?v=3.12.0-preview2.806084822220" defer></script>
+    <script id="lunr-js" data-cfasync="false" src="../../resources/js/lunr.js?v=3.12.0-preview2.809575206658" data-turbo-eval="false" defer></script>
+    <script id="prism-js" data-cfasync="false" src="../../resources/js/prism.js?v=3.12.0-preview2.809575206658" defer></script>
 
     <link href="https://workleap.github.io/wl-idp-docs-hub/static/retype-customization.css" rel="stylesheet" />
 
@@ -287,44 +287,37 @@
 <p>In an effort to optimize the development experience, Squide can be bootstrapped in <code translate="no" v-pre>development</code> or <code translate="no" v-pre>production</code> mode:</p>
 <div class="codeblock-wrapper"><doc-codeblock>
 <div class="codeblock-title">host/src/index.tsx</div>
-<pre translate="no" class="language-typescript"><code v-pre class="language-typescript">import { FireflyRuntime, ConsoleLogger, type LogLevel } from &quot;@squide/firefly&quot;;
+<pre translate="no" class="language-typescript" data-line="4"><code v-pre class="language-typescript">import { initializeFirefly } from &quot;@squide/firefly&quot;;
 
-const runtime = new FireflyRuntime({
+const runtime = initializeFirefly({
     mode: &quot;production&quot;
 });</code></pre>
 </doc-codeblock></div>
-<p>By default, the Runtime <a href="../../reference/runtime/runtime-class/#change-the-runtime-mode">mode</a> is <code translate="no" v-pre>development</code>.</p>
+<p>By default, the runtime <a href="../../reference/runtime/runtime-class/#change-the-runtime-mode">mode</a> is <code translate="no" v-pre>development</code>.</p>
 <doc-anchor-target id="logging">
     <h2>
         <doc-anchor-trigger class="header-anchor-trigger" to="#logging">#</doc-anchor-trigger>
         <span>Logging</span>
     </h2>
 </doc-anchor-target>
-<p>Squide includes a built-in logging feature that integrates with the <a href="../../reference/runtime/runtime-class/">FireflyRuntime</a> class and the <a href="../../reference/runtime/uselogger/">useLogger</a> hook.</p>
-<p>First, register your own custom logger by implementing the <a href="../../reference/logging/logger/">Logger</a> interface or register Squide built-in <a href="../../reference/logging/consolelogger/">ConsoleLogger</a>:</p>
+<p>Squide integrates with the <a href="https://workleap.github.io/wl-logging/introduction/getting-started/" class="outbound" target="_blank">@workleap/logging</a> library by accepting an optional array of loggers and making them available anywhere in the application through the <a href="../../reference/runtime/uselogger/">useLogger</a> hook.</p>
+<p>First, install the <code translate="no" v-pre>@workleap/logging</code> package and register a logger:</p>
 <div class="codeblock-wrapper"><doc-codeblock>
 <div class="codeblock-title">host/src/index.tsx</div>
-<pre translate="no" class="language-typescript"><code v-pre class="language-typescript">import { FireflyRuntime, ConsoleLogger, type LogLevel } from &quot;@squide/firefly&quot;;
+<pre translate="no" class="language-typescript" data-line="5"><code v-pre class="language-typescript">import { initializeFirefly } from &quot;@squide/firefly&quot;;
+import { BrowserConsoleLogger } from &quot;@workleap/logging&quot;;
 
-const runtime = new FireflyRuntime({
-    loggers: [x =&gt; new ConsoleLogger(x, LogLevel.debug)]
+const runtime = initializeFirefly({
+    loggers: [new BrowserConsoleLogger()]
 });</code></pre>
 </doc-codeblock></div>
 <p>Then, log entries from any parts of your modular application with the <a href="../../reference/runtime/uselogger/">useLogger</a> hook:</p>
 <div class="codeblock-wrapper"><doc-codeblock>
-<pre translate="no" class="language-typescript"><code v-pre class="language-typescript">import { useLogger } from &quot;@squide/firefly&quot;;
+<pre translate="no" class="language-typescript" data-line="3,5"><code v-pre class="language-typescript">import { useLogger } from &quot;@squide/firefly&quot;;
 
 const logger = useLogger();
 
-logger.debug(&quot;Hello&quot;, { world: &quot;!&quot; });</code></pre>
-</doc-codeblock></div>
-<p>Or the <a href="../../reference/runtime/useloggers/">useLoggers</a> hook to target specific logger instances:</p>
-<div class="codeblock-wrapper"><doc-codeblock>
-<pre translate="no" class="language-typescript"><code v-pre class="language-typescript">import { useLoggers, ConsoleLogger } from &quot;@squide/firefly&quot;;
-
-const logger = useLoggers([ConsoleLogger.name]);
-
-logger.debug(&quot;Hello&quot;, { world: &quot;!&quot; });</code></pre>
+logger.debug(&quot;Hello!&quot;);</code></pre>
 </doc-codeblock></div>
 <p>The logger is also available from the <a href="../../reference/runtime/runtime-class/#log-a-message">FireflyRuntime</a> instance.</p>
 <doc-anchor-target id="messaging">
@@ -336,7 +329,7 @@ logger.debug(&quot;Hello&quot;, { world: &quot;!&quot; });</code></pre>
 <p>It&#x27;s crucial that the parts of a modular application remains loosely coupled. To help with that, Squide offers a built-in <a href="../../reference/messaging/eventbus/">Event Bus</a>.</p>
 <p>First, listen to an event with the <a href="../../reference/messaging/useeventbuslistener/">useEventBusListener</a> hook:</p>
 <div class="codeblock-wrapper"><doc-codeblock>
-<pre translate="no" class="language-typescript"><code v-pre class="language-typescript">import { useCallback } from &quot;react&quot;;
+<pre translate="no" class="language-typescript" data-line="8"><code v-pre class="language-typescript">import { useCallback } from &quot;react&quot;;
 import { useEventBusListener } from &quot;@squide/firefly&quot;;
 
 const handleFoo = useCallback((data, context) =&gt; {
@@ -347,7 +340,7 @@ useEventBusListener(&quot;foo&quot;, handleFoo);</code></pre>
 </doc-codeblock></div>
 <p>Then, dispatch an event from anywhere with the <a href="../../reference/messaging/useeventbusdispatcher/">useEventBusDispatcher</a> hook:</p>
 <div class="codeblock-wrapper"><doc-codeblock>
-<pre translate="no" class="language-typescript"><code v-pre class="language-typescript">import { useEventDispatcher } from &quot;@squide/firefly&quot;;
+<pre translate="no" class="language-typescript" data-line="3,5"><code v-pre class="language-typescript">import { useEventDispatcher } from &quot;@squide/firefly&quot;;
 
 const dispatch = useEventBusDispatcher();
 
@@ -365,16 +358,16 @@ dispatch(&quot;foo&quot;, &quot;bar&quot;);</code></pre>
 <p>Plugins can be registered at bootstrapping with the <a href="../../reference/runtime/runtime-class/">FireflyRuntime</a> instance:</p>
 <div class="codeblock-wrapper"><doc-codeblock>
 <div class="codeblock-title">host/src/boostrap.tsx</div>
-<pre translate="no" class="language-typescript"><code v-pre class="language-typescript">import { FireflyRuntime } from &quot;@squide/firefly&quot;;
+<pre translate="no" class="language-typescript" data-line="5"><code v-pre class="language-typescript">import { initializeFirefly } from &quot;@squide/firefly&quot;;
 import { MyPlugin } from &quot;@sample/my-plugin&quot;;
 
-const runtime = new FireflyRuntime({
+const runtime = initializeFirefly({
     plugins: [x =&gt; new MyPlugin(x)]
 });</code></pre>
 </doc-codeblock></div>
 <p>And can be accessed from any parts of the application with the <code translate="no" v-pre>usePlugin</code> hook:</p>
 <div class="codeblock-wrapper"><doc-codeblock>
-<pre translate="no" class="language-typescript"><code v-pre class="language-typescript">import { usePlugin } from &quot;@squide/firefly&quot;;
+<pre translate="no" class="language-typescript" data-line="4"><code v-pre class="language-typescript">import { usePlugin } from &quot;@squide/firefly&quot;;
 import { MyPlugin } from &quot;@sample/my-plugin&quot;;
 
 const myPlugin = usePlugin(MyPlugin.name) as MyPlugin;</code></pre>
@@ -391,22 +384,20 @@ const myPlugin = usePlugin(MyPlugin.name) as MyPlugin;</code></pre>
 </doc-anchor-target>
 <p>Hooks are available to retrieve global application data using <a href="https://tanstack.com/query/latest" class="outbound" target="_blank">TanStack Query</a>. To fetch public data, use the <a href="../../reference/tanstack-query/usepublicdataqueries/">usePublicDataQueries</a> hook:</p>
 <div class="codeblock-wrapper"><doc-codeblock>
-<pre translate="no" class="language-tsx"><code v-pre class="language-tsx">import { usePublicDataQueries } from &quot;@squide/firefly&quot;;
+<pre translate="no" class="language-tsx" data-line="3-10"><code v-pre class="language-tsx">import { usePublicDataQueries } from &quot;@squide/firefly&quot;;
 
-const [featureFlags] = usePublicDataQueries([
-{
+const [featureFlags] = usePublicDataQueries([{
     queryKey: [&quot;/api/feature-flags&quot;],
     queryFn: async () =&gt; {
         const response = await fetch(&quot;/api/feature-flags&quot;);
 
         return response.json();
     }
-}
-]);</code></pre>
+}]);</code></pre>
 </doc-codeblock></div>
 <p>To retrieve protected data, use the <a href="../../reference/tanstack-query/useprotecteddataqueries/">useProtectedDataQueries</a> hook instead:</p>
 <div class="codeblock-wrapper"><doc-codeblock>
-<pre translate="no" class="language-tsx"><code v-pre class="language-tsx">import { useProtectedDataQueries } from &quot;@squide/firefly&quot;;
+<pre translate="no" class="language-tsx" data-line="4-21"><code v-pre class="language-tsx">import { useProtectedDataQueries } from &quot;@squide/firefly&quot;;
 import { ApiError } from &quot;@sample/shared&quot;;
 
 const [session, subscription] = useProtectedDataQueries([

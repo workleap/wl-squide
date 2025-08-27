@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <meta name="turbo-root" content="/wl-squide">
-    <meta name="turbo-cache-control" content="no-cache" data-turbo-track="reload" data-track-token="3.12.0-preview2.806084822220">
+    <meta name="turbo-cache-control" content="no-cache" data-turbo-track="reload" data-track-token="3.12.0-preview2.809575206658">
 
     <!-- See retype.com -->
     <meta name="generator" content="Retype 3.12.0-preview2">
@@ -32,12 +32,12 @@
     <script data-cfasync="false">(function(){var cl=document.documentElement.classList,ls=localStorage.getItem("retype_scheme"),hd=cl.contains("dark"),hl=cl.contains("light"),wm=window.matchMedia&&window.matchMedia("(prefers-color-scheme: dark)").matches;if(ls==="dark"||(!ls&&wm&&!hd&&!hl)){cl.remove("light");cl.add("dark")}else if(ls==="light"||(!ls&&!wm&&!hd&&!hl)){cl.remove("dark");cl.add("light")}})();</script>
 
     <link id="retype-favicon" rel="icon" href="../../static/favicon.png" />
-    <link href="../../resources/css/retype.css?v=3.12.0-preview2.806084822220" rel="stylesheet">
+    <link href="../../resources/css/retype.css?v=3.12.0-preview2.809575206658" rel="stylesheet">
 
-    <script data-cfasync="false" src="../../resources/js/config.js?v=3.12.0-preview2.806084822220" data-turbo-eval="false" defer></script>
+    <script data-cfasync="false" src="../../resources/js/config.js?v=3.12.0-preview2.809575206658" data-turbo-eval="false" defer></script>
     <script data-cfasync="false" src="../../resources/js/retype.js?v=3.12.0-preview2" data-turbo-eval="false" defer></script>
-    <script id="lunr-js" data-cfasync="false" src="../../resources/js/lunr.js?v=3.12.0-preview2.806084822220" data-turbo-eval="false" defer></script>
-    <script id="prism-js" data-cfasync="false" src="../../resources/js/prism.js?v=3.12.0-preview2.806084822220" defer></script>
+    <script id="lunr-js" data-cfasync="false" src="../../resources/js/lunr.js?v=3.12.0-preview2.809575206658" data-turbo-eval="false" defer></script>
+    <script id="prism-js" data-cfasync="false" src="../../resources/js/prism.js?v=3.12.0-preview2.809575206658" defer></script>
 
     <link href="https://workleap.github.io/wl-idp-docs-hub/static/retype-customization.css" rel="stylesheet" />
 
@@ -333,7 +333,7 @@ pnpm add @squide/firefly react react-dom react-router @tanstack/react-query</cod
 <p>Then, ensure that you are developing your module using <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Modules" class="outbound" target="_blank">ESM syntax</a> by specifying <code translate="no" v-pre>type: module</code> in your <code translate="no" v-pre>package.json</code> file:</p>
 <div class="codeblock-wrapper"><doc-codeblock>
 <div class="codeblock-title">remote-module/package.json</div>
-<pre translate="no" class="language-json"><code v-pre class="language-json">{
+<pre translate="no" class="language-json" data-line="2"><code v-pre class="language-json">{
     &quot;type&quot;: &quot;module&quot;
 }</code></pre>
 </doc-codeblock></div>
@@ -401,7 +401,7 @@ export const register: ModuleRegisterFunction&lt;FireflyRuntime&gt; = runtime =&
 <p>To configure webpack for a <strong>development</strong> environment, first open the <code translate="no" v-pre>swc.dev.js</code> file and copy/paste the following code:</p>
 <div class="codeblock-wrapper"><doc-codeblock>
 <div class="codeblock-title">remote-module/swc.dev.js</div>
-<pre translate="no" class="language-javascript"><code v-pre class="language-javascript">// @ts-check
+<pre translate="no" class="language-javascript" data-line="5,7"><code v-pre class="language-javascript">// @ts-check
 
 import { browserslistToSwc, defineDevConfig } from &quot;@workleap/swc-configs&quot;;
 
@@ -431,7 +431,7 @@ export default defineDevRemoteModuleConfig(swcConfig, &quot;remote1&quot;, 8081)
 <p>To configure webpack for a <strong>build</strong> environment, first open the <code translate="no" v-pre>swc.build.js</code> file and copy/paste the following code:</p>
 <div class="codeblock-wrapper"><doc-codeblock>
 <div class="codeblock-title">remote-module/swc.build.js</div>
-<pre translate="no" class="language-javascript"><code v-pre class="language-javascript">// @ts-check
+<pre translate="no" class="language-javascript" data-line="5,7"><code v-pre class="language-javascript">// @ts-check
 
 import { browserslistToSwc, defineBuildConfig } from &quot;@workleap/swc-configs&quot;;
 
@@ -461,14 +461,14 @@ export default defineBuildRemoteModuleConfig(swcConfig, &quot;remote1&quot;);</c
 <p>To initiate the development server, add the following script to the application <code translate="no" v-pre>package.json</code> file:</p>
 <div class="codeblock-wrapper"><doc-codeblock>
 <div class="codeblock-title">remote-module/package.json</div>
-<pre translate="no" class="language-json"><code v-pre class="language-json">{
+<pre translate="no" class="language-json" data-line="2"><code v-pre class="language-json">{
     &quot;dev&quot;: &quot;webpack serve --config webpack.dev.js&quot;
 }</code></pre>
 </doc-codeblock></div>
 <p>To build the module, add the following script to the application <code translate="no" v-pre>package.json</code> file:</p>
 <div class="codeblock-wrapper"><doc-codeblock>
 <div class="codeblock-title">remote-module/package.json</div>
-<pre translate="no" class="language-json"><code v-pre class="language-json">{
+<pre translate="no" class="language-json" data-line="2"><code v-pre class="language-json">{
     &quot;build&quot;: &quot;webpack --config webpack.build.js&quot;
 }</code></pre>
 </doc-codeblock></div>

@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <meta name="turbo-root" content="/wl-squide">
-    <meta name="turbo-cache-control" content="no-cache" data-turbo-track="reload" data-track-token="3.12.0-preview2.806084822220">
+    <meta name="turbo-cache-control" content="no-cache" data-turbo-track="reload" data-track-token="3.12.0-preview2.809575206658">
 
     <!-- See retype.com -->
     <meta name="generator" content="Retype 3.12.0-preview2">
@@ -32,12 +32,12 @@
     <script data-cfasync="false">(function(){var cl=document.documentElement.classList,ls=localStorage.getItem("retype_scheme"),hd=cl.contains("dark"),hl=cl.contains("light"),wm=window.matchMedia&&window.matchMedia("(prefers-color-scheme: dark)").matches;if(ls==="dark"||(!ls&&wm&&!hd&&!hl)){cl.remove("light");cl.add("dark")}else if(ls==="light"||(!ls&&!wm&&!hd&&!hl)){cl.remove("dark");cl.add("light")}})();</script>
 
     <link id="retype-favicon" rel="icon" href="../../static/favicon.png" />
-    <link href="../../resources/css/retype.css?v=3.12.0-preview2.806084822220" rel="stylesheet">
+    <link href="../../resources/css/retype.css?v=3.12.0-preview2.809575206658" rel="stylesheet">
 
-    <script data-cfasync="false" src="../../resources/js/config.js?v=3.12.0-preview2.806084822220" data-turbo-eval="false" defer></script>
+    <script data-cfasync="false" src="../../resources/js/config.js?v=3.12.0-preview2.809575206658" data-turbo-eval="false" defer></script>
     <script data-cfasync="false" src="../../resources/js/retype.js?v=3.12.0-preview2" data-turbo-eval="false" defer></script>
-    <script id="lunr-js" data-cfasync="false" src="../../resources/js/lunr.js?v=3.12.0-preview2.806084822220" data-turbo-eval="false" defer></script>
-    <script id="prism-js" data-cfasync="false" src="../../resources/js/prism.js?v=3.12.0-preview2.806084822220" defer></script>
+    <script id="lunr-js" data-cfasync="false" src="../../resources/js/lunr.js?v=3.12.0-preview2.809575206658" data-turbo-eval="false" defer></script>
+    <script id="prism-js" data-cfasync="false" src="../../resources/js/prism.js?v=3.12.0-preview2.809575206658" defer></script>
 
     <link href="https://workleap.github.io/wl-idp-docs-hub/static/retype-customization.css" rel="stylesheet" />
 
@@ -314,7 +314,7 @@
 <div class="codeblock-wrapper"><doc-codeblock>
 <div class="codeblock-title">host/src/index.tsx</div>
 <pre translate="no" class="language-tsx" data-line="10-19"><code v-pre class="language-tsx">import { createRoot } from &quot;react-dom/client&quot;;
-import { ConsoleLogger, FireflyProvider, initializeFirefly } from &quot;@squide/firefly&quot;;
+import { FireflyProvider, initializeFirefly } from &quot;@squide/firefly&quot;;
 import { i18nextPlugin } from &quot;@squide/i18next&quot;;
 import { App } from &quot;./App.tsx&quot;;
 import { registerHost } from &quot;./register.tsx&quot;;
@@ -331,8 +331,7 @@ const runtime = initializeFirefly(runtime, {
 
         // Always detect the user language early on.
         i18nextPlugin.detectUserLanguage();
-    }],
-    loggers: [x =&gt; new ConsoleLogger(x)]
+    }]
 });
 
 const root = createRoot(document.getElementById(&quot;root&quot;)!);
@@ -353,7 +352,7 @@ root.render(
 <p>Next, create the localized resource files for the <code translate="no" v-pre>en-US</code> and <code translate="no" v-pre>fr-CA</code> locales:</p>
 <div class="codeblock-wrapper"><doc-codeblock>
 <div class="codeblock-title">host/src/locales/en-US.json</div>
-<pre translate="no" class="language-json"><code v-pre class="language-json">{
+<pre translate="no" class="language-json" data-line="2-4"><code v-pre class="language-json">{
     &quot;HomePage&quot;: {
         &quot;bodyText&quot;: &quot;Hello from the Home page!&quot;
     }
@@ -361,7 +360,7 @@ root.render(
 </doc-codeblock></div>
 <div class="codeblock-wrapper"><doc-codeblock>
 <div class="codeblock-title">host/src/locales/fr-CA.json</div>
-<pre translate="no" class="language-json"><code v-pre class="language-json">{
+<pre translate="no" class="language-json" data-line="2-4"><code v-pre class="language-json">{
     &quot;HomePage&quot;: {
         &quot;bodyText&quot;: &quot;Bonjour depuis la page d'accueil!&quot;
     }
@@ -453,7 +452,7 @@ export function HomePage() {
 <p>Then, create the localized resource files for the <code translate="no" v-pre>en-US</code> and <code translate="no" v-pre>fr-CA</code> locales:</p>
 <div class="codeblock-wrapper"><doc-codeblock>
 <div class="codeblock-title">local-module/src/locales/en-US.json</div>
-<pre translate="no" class="language-json"><code v-pre class="language-json">{
+<pre translate="no" class="language-json" data-line="2-7"><code v-pre class="language-json">{
     &quot;navigationItems&quot;: {
         &quot;page&quot;: &quot;Local Module/Page - en-US&quot;
     },
@@ -464,7 +463,7 @@ export function HomePage() {
 </doc-codeblock></div>
 <div class="codeblock-wrapper"><doc-codeblock>
 <div class="codeblock-title">local-module/src/locales/fr-CA.json</div>
-<pre translate="no" class="language-json"><code v-pre class="language-json">{
+<pre translate="no" class="language-json" data-line="2-7"><code v-pre class="language-json">{
     &quot;navigationItems&quot;: {
         &quot;page&quot;: &quot;Local Module/Page - fr-CA&quot;
     },
