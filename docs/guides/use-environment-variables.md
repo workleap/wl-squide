@@ -458,7 +458,7 @@ export function registerShell(env: Environment) {
 
 Then, update the `registerShell` function to register the `apiBaseUrl` environment variable based on the provided `env` argument:
 
-```ts !#41-44 shell/src/register.tsx
+```ts !#41-42,44 shell/src/register.tsx
 import type { ModuleRegisterFunction } from "@squide/firefly";
 import { getEnvironmentVariablesPlugin } from "@squide/env-vars";
 
@@ -500,8 +500,8 @@ function getEnvironmentVariables(env: Environment): ShellEnvironmentVariables {
 export function registerShell(env: Environment) {
     const register: ModuleRegisterFunction = runtime => {
         const variables = getEnvironmentVariables(env);
-
         const plugin = getEnvironmentVariablesPlugin(runtime);
+
         runtime.registerVariables(variables);
     }
 }
