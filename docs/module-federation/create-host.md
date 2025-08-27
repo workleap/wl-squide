@@ -50,7 +50,7 @@ host
 
 Then, ensure that you are developing your application using [ESM syntax](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Modules) by specifying `type: module` in your `package.json` file:
 
-```json host/package.json
+```json !#2 host/package.json
 {
     "type": "module"
 }
@@ -58,7 +58,7 @@ Then, ensure that you are developing your application using [ESM syntax](https:/
 
 Finally, use a dynamic import to add an async boundary:
 
-```ts host/src/index.ts
+```ts !#3 host/src/index.ts
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-ignore doesn't support file extension.
 import("./bootstrap");
@@ -76,9 +76,9 @@ To learn more about this async boundary and the `bootstrap.tsx` file, read the f
 
 Next, to register the modules, instanciate a shell [FireflyRuntime](/reference/runtime/runtime-class.md) instance and register the remote module with the [initializeFirefly](/reference/registration/initializeFirefly.md) function (the configuration of the remote module will be covered in the [next section](create-remote-module.md)):
 
-```tsx !#11-14 host/src/bootstrap.tsx
+```tsx !#11-13 host/src/bootstrap.tsx
 import { createRoot } from "react-dom/client";
-import { ConsoleLogger, FireflyProvider, initializeFirefly, type RemoteDefinition } from "@squide/firefly";
+import { FireflyProvider, initializeFirefly, type RemoteDefinition } from "@squide/firefly";
 import { App } from "./App.tsx";
 
 // Define the remote modules.
@@ -88,8 +88,7 @@ const Remotes: RemoteDefinition[] = [
 
 // Register the remote module.
 const runtime = initializeFirefly({
-    remotes: Remotes,
-    loggers: [x => new ConsoleLogger(x)]
+    remotes: Remotes
 });
 
 const root = createRoot(document.getElementById("root")!);
@@ -103,7 +102,7 @@ root.render(
 
 Then, render the [AppRouter](../reference/routing/appRouter.md) component to define a React Router [browser instance](https://reactrouter.com/en/main/routers/create-browser-router) configured with the registered routes:
 
-```tsx host/src/App.tsx
+```tsx !#5-23 host/src/App.tsx
 import { AppRouter } from "@squide/firefly";
 import { createBrowserRouter } from "react-router";
 import { RouterProvider } from "react-router/dom";
@@ -205,7 +204,7 @@ export function HomePage() {
 
 Then, add a [local module](../reference/registration/registerLocalModules.md) at the root of the host application to register the homepage:
 
-```tsx host/src/register.tsx
+```tsx !#4-9 host/src/register.tsx
 import type { ModuleRegisterFunction, FireflyRuntime } from "@squide/firefly";
 import { HomePage } from "./HomePage.tsx";
 
@@ -252,7 +251,7 @@ Finally, update the bootstrapping code to [register](../reference/registration/r
 
 ```tsx !#13 host/src/bootstrap.tsx
 import { createRoot } from "react-dom/client";
-import { ConsoleLogger, FireflyProvider, initializeFirefly, type RemoteDefinition } from "@squide/firefly";
+import { FireflyProvider, initializeFirefly, type RemoteDefinition } from "@squide/firefly";
 import { App } from "./App.tsx";
 import { registerHost } from "./register.tsx";
 
@@ -264,8 +263,7 @@ const Remotes: RemoteDefinition[] = [
 // Register the modules.
 const runtime = initializeFirefly({
     localModules: [registerHost],
-    remotes: Remotes,
-    loggers: [x => new ConsoleLogger(x)]
+    remotes: Remotes
 });
 
 const root = createRoot(document.getElementById("root")!);
@@ -342,7 +340,7 @@ First, open the `public/index.html` file created at the beginning of this guide 
 
 Then, open the `.browserslist` file and copy/paste the following content:
 
-``` host/.browserslistrc
+```!#1 host/.browserslistrc
 extends @workleap/browserslist-config
 ```
 
@@ -350,7 +348,7 @@ extends @workleap/browserslist-config
 
 To configure webpack for a **development** environment, first open the `swc.dev.js` file and copy/paste the following code:
 
-```js host/swc.dev.js
+```js !#5,7 host/swc.dev.js
 // @ts-check
 
 import { browserslistToSwc, defineDevConfig } from "@workleap/swc-configs";
@@ -388,7 +386,7 @@ If the application _**does not**_ not include any remote modules, use the [defin
 
 To configure webpack for a **build** environment, first open the `swc.build.js` file and copy/paste the following code:
 
-```js host/swc.build.js
+```js !#5,7 host/swc.build.js
 // @ts-check
 
 import { browserslistToSwc, defineBuildConfig } from "@workleap/swc-configs";
@@ -426,7 +424,7 @@ If the application _**does not**_ not include any remote modules, use the [defin
 
 To initiate the development server, add the following script to the application `package.json` file:
 
-```json host/package.json
+```json !#2 host/package.json
 {
     "dev": "webpack serve --config webpack.dev.js"
 }
@@ -434,7 +432,7 @@ To initiate the development server, add the following script to the application 
 
 To build the application, add the following script to the application `package.json` file:
 
-```json host/package.json
+```json !#2 host/package.json
 {
     "build": "webpack --config webpack.build.js"
 }

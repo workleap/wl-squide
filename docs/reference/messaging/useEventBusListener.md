@@ -24,7 +24,7 @@ Nothing
 
 ## Usage
 
-```ts
+```ts !#9,12
 import { useCallback } from "react";
 import { useEventBusListener } from "@squide/firefly";
 

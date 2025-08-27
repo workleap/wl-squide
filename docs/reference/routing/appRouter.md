@@ -106,7 +106,7 @@ A React Router [errorElement](https://reactrouter.com/en/main/route/error-elemen
 
 The root error boundary should always wrap the `registeredRoutes` and, when application, the `BootstrapingRoute` component.
 
-```tsx host/src/RootErrorBoundary.tsx
+```tsx !#3-12 host/src/RootErrorBoundary.tsx
 import { useRouteError } from "react-router/dom";
 
 export function RootErrorBoundary() {

@@ -22,7 +22,7 @@ const sessionAccessor = new ReadonlySessionLocalStorage(options?: { key? })
 
 ### Create an accessor instance
 
-```ts
+```ts !#4
 import { ReadonlySessionLocalStorage } from "@squide/fakes";
 import type { Session } from "@sample/share";
 
@@ -31,7 +31,7 @@ const sessionAccessor = new ReadonlySessionLocalStorage<Session>();
 
 ### Get the current session
 
-```ts
+```ts !#1
 const session = sessionAccessor.getSession();
 ```
 

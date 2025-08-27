@@ -58,7 +58,7 @@ export class LocalModuleRegistry implements ModuleRegistry {
         }
 
         if (registrationFunctions.length > 0) {
-            runtime.logger.debug(`[squide] Found ${registrationFunctions.length} local module${registrationFunctions.length !== 1 ? "s" : ""} to register.`);
+            runtime.logger.information(`[squide] Found ${registrationFunctions.length} local module${registrationFunctions.length !== 1 ? "s" : ""} to register.`);
 
             this.#setRegistrationStatus("registering-modules");
 
@@ -83,17 +83,17 @@ export class LocalModuleRegistry implements ModuleRegistry {
 
                     completedCount += 1;
                 } catch (error: unknown) {
-                    runtime.logger.error(
-                        `[squide] ${index + 1}/${registrationFunctions.length} An error occured while registering a local module.`,
-                        error
-                    );
+                    runtime.logger
+                        .withText(`[squide] ${index + 1}/${registrationFunctions.length} An error occured while registering a local module.`)
+                        .withError(error as Error)
+                        .error();
 
                     errors.push(
                         new ModuleRegistrationError("An error occured while registering a local module.", { cause: error })
                     );
                 }
 
-                runtime.logger.debug(`[squide] ${index + 1}/${registrationFunctions.length} Local module registration completed.`);
+                runtime.logger.information(`[squide] ${index + 1}/${registrationFunctions.length} Local module registration completed.`);
             }));
 
             if (errors.length > 0) {
@@ -141,24 +141,28 @@ export class LocalModuleRegistry implements ModuleRegistry {
         let completedCount = 0;
 
         await Promise.allSettled(this.#deferredRegistrations.map(async ({ index, fct: deferredRegister }) => {
-            runtime.logger.debug(`[squide] ${index} Registering local module deferred registrations.`, "Data:", data);
+            runtime.logger
+                .withText(`[squide] ${index} Registering local module deferred registrations.`)
+                .withText("Data:")
+                .withObject(data)
+                .debug();
 
             try {
                 await deferredRegister(data, "register");
 
                 completedCount += 1;
             } catch (error: unknown) {
-                runtime.logger.error(
-                    `[squide] ${index} An error occured while registering the deferred registrations of a local module.`,
-                    error
-                );
+                runtime.logger
+                    .withText(`[squide] ${index} An error occured while registering the deferred registrations of a local module.`)
+                    .withError(error as Error)
+                    .error();
 
                 errors.push(
                     new ModuleRegistrationError("An error occured while registering the deferred registrations of a local module.", { cause: error })
                 );
             }
 
-            runtime.logger.debug(`[squide] ${index} Registered local module deferred registrations.`);
+            runtime.logger.information(`[squide] ${index} Registered local module deferred registrations.`);
         }));
 
         if (errors.length > 0) {
@@ -191,24 +195,28 @@ export class LocalModuleRegistry implements ModuleRegistry {
         let completedCount = 0;
 
         await Promise.allSettled(this.#deferredRegistrations.map(async ({ index, fct: deferredRegister }) => {
-            runtime.logger.debug(`[squide] ${index} Updating local module deferred registrations.`, "Data:", data);
+            runtime.logger
+                .withText(`[squide] ${index} Updating local module deferred registrations.`)
+                .withText("Data:")
+                .withObject(data)
+                .debug();
 
             try {
                 await deferredRegister(data, "update");
 
                 completedCount += 1;
             } catch (error: unknown) {
-                runtime.logger.error(
-                    `[squide] ${index} An error occured while updating the deferred registrations of a local module.`,
-                    error
-                );
+                runtime.logger
+                    .withText(`[squide] ${index} An error occured while updating the deferred registrations of a local module.`)
+                    .withError(error as Error)
+                    .error();
 
                 errors.push(
                     new ModuleRegistrationError("An error occured while updating the deferred registrations a local module.", { cause: error })
                 );
             }
 
-            runtime.logger.debug(`[squide] ${index} Updated local module deferred registration.`);
+            runtime.logger.information(`[squide] ${index} Updated local module deferred registration.`);
         }));
 
         if (errors.length > 0) {

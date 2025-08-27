@@ -34,8 +34,8 @@ await bootstrap({
 
 Before:
 
-```tsx !#18,21 bootstrap.tsx
-import { ConsoleLogger, RuntimeContext, FireflyRuntime, registerRemoteModules, registerLocalModules, type RemoteDefinition } from "@squide/firefly";
+```tsx !#16,19 bootstrap.tsx
+import { RuntimeContext, FireflyRuntime, registerRemoteModules, registerLocalModules, type RemoteDefinition } from "@squide/firefly";
 import { register as registerMyLocalModule } from "@getting-started/local-module";
 import { createRoot } from "react-dom/client";
 import { App } from "./App.tsx";
@@ -47,9 +47,7 @@ const Remotes: RemoteDefinition[] = [
 ];
 
 // Create the shell runtime.
-const runtime = new FireflyRuntime({
-    loggers: [x => new ConsoleLogger(x)]
-});
+const runtime = new FireflyRuntime();
 
 // Register the local module.
 await registerLocalModules([registerHost, registerMyLocalModule], runtime);
@@ -68,8 +66,8 @@ root.render(
 
 Now:
 
-```tsx !#18-21 bootstrap.tsx
-import { ConsoleLogger, RuntimeContext, FireflyRuntime, bootstrap, type RemoteDefinition } from "@squide/firefly";
+```tsx !#16-19 bootstrap.tsx
+import { RuntimeContext, FireflyRuntime, bootstrap, type RemoteDefinition } from "@squide/firefly";
 import { register as registerMyLocalModule } from "@getting-started/local-module";
 import { createRoot } from "react-dom/client";
 import { App } from "./App.tsx";
@@ -81,9 +79,7 @@ const Remotes: RemoteDefinition[] = [
 ];
 
 // Create the shell runtime.
-const runtime = new FireflyRuntime({
-    loggers: [x => new ConsoleLogger(x)]
-});
+const runtime = new FireflyRuntime(});
 
 // Register the modules.
 await bootstrap(runtime, {
@@ -106,9 +102,8 @@ The MSW bootstrapping logic has been moved from user code to the `bootstrap` fun
 
 Before:
 
-```tsx !#19,28-42 bootstrap.tsx
+```tsx !#18,26-40 bootstrap.tsx
 import { 
-    ConsoleLogger,
     RuntimeContext,
     FireflyRuntime,
     registerRemoteModules,
@@ -125,8 +120,7 @@ const Remotes: RemoteDefinition[] = [
 ];
 
 const runtime = new FireflyRuntime({
-    useMsw: !!process.env.USE_MSW,
-    loggers: [x => new ConsoleLogger(x)]
+    useMsw: !!process.env.USE_MSW
 });
 
 await registerLocalModules([registerHost], runtime);
@@ -146,7 +140,7 @@ if (runtime.isMswEnabled) {
             setMswAsReady();
         })
         .catch((error: unknown) => {
-            consoleLogger.debug("[host-app] An error occured while starting MSW.", error);
+            runtime.logger.debug("[host-app] An error occured while starting MSW.", error);
         });
 }
 
@@ -161,8 +155,8 @@ root.render(
 
 Now:
 
-```tsx !#11,18-22 bootstrap.tsx
-import { ConsoleLogger, RuntimeContext, FireflyRuntime, bootstrap, type RemoteDefinition } from "@squide/firefly";
+```tsx !#11,17-21 bootstrap.tsx
+import { RuntimeContext, FireflyRuntime, bootstrap, type RemoteDefinition } from "@squide/firefly";
 import { createRoot } from "react-dom/client";
 import { App } from "./App.tsx";
 import { registerHost } from "./register.tsx";
@@ -172,8 +166,7 @@ const Remotes: RemoteDefinition[] = [
 ];
 
 const runtime = new FireflyRuntime({
-    useMsw: !!process.env.USE_MSW,
-    loggers: [x => new ConsoleLogger(x)]
+    useMsw: !!process.env.USE_MSW
 });
 
 await bootstrap(runtime, {

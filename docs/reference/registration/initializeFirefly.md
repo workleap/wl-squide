@@ -28,7 +28,7 @@ const runtime = initializeFirefly(options?: { localModules?, remotes?, startMsw?
     - `context`: An optional context object that will be pass to the registration function.
     - `mode`: An optional mode to optimize Squide for production. Values are `"development"` (default) and `"production"`.
     - `useMsw`: An optional `boolean` value indicating whether or not to create the runtime with [Mock Service Work](https://mswjs.io/) (MSW) support.
-    - `loggers`: An optional array of `Logger` instances.
+    - `loggers`: An optional array of logger instances.
     - `plugins`: An optional array of `Plugin` factory functions.
 
 ### Returns
@@ -196,11 +196,12 @@ const runtime = initializeFirefly({
 
 The logger intance receives the `Runtime` instance as parameter.
 
-```ts !#4
+```ts !#5
 import { ConsoleLogger, initializeFirefly } from "@squide/firefly";
+import { BrowserConsoleLogger } from "@workleap/logging";
 
 const runtime = initializeFirefly({
-    loggers: [x => new ConsoleLogger(x)]
+    loggers: [new BrowserConsoleLogger()]
 });
 ```
 

@@ -10,10 +10,25 @@ icon: question
 In an effort to optimize the development experience, Squide can be bootstrapped in `development` or `production` mode. To troubleshoot a persistent issue, make sure that the runtime mode is development:
 
 ```ts
-import { FireflyRuntime, ConsoleLogger, type LogLevel } from "@squide/firefly";
+import { initializeFirefly, type LogLevel } from "@squide/firefly";
 
-const runtime = new FireflyRuntime({
+const runtime = initializeFirefly({
     mode: "development"
+});
+```
+
+## Troubleshoot a production issue
+
+Frontend production issues are best troubleshoot using [LogRocket](https://logrocket.com/). To output log entries to LogRocket's session replay, install the `@workleap/logrocket` package and provide an instance of `LogRocket` to the `initializeFirefly` function:
+
+For troubleshooting frontend production issues, we recommend using [LogRocket](https://logrocket.com/). To capture log entries in LogRocket session replays, install the `@workleap/logrocket` package and pass an instance of [LogRocketLogger](https://workleap.github.io/wl-telemetry/logrocket/reference/logrocketlogger/) to the `initializeFirefly` function:
+
+```ts
+import { initializeFirefly, type LogLevel } from "@squide/firefly";
+import { LogRocketLogger } from "@workleap/logrocket";
+
+const runtime = initializeFirefly({
+    loggers: [new LogRocketLogger()]
 });
 ```
 
@@ -24,9 +39,7 @@ If your application utilize [remote modules](./reference/registration/registerRe
 To resolve this issue:
 
 1. Ensure that the `react` and `react-dom` dependencies are shared as [singletons](https://module-federation.io/configure/shared.html#singleton) between the host application and the remote modules. A React context value cannot be shared between different parts of an application that use different instances of React.
-
 2. Confirm that the shared React context resides in a library shared as a [singleton](https://module-federation.io/configure/shared.html#singleton).
-
 3. If you are using [eager](https://module-federation.io/configure/shared.html#eager) shared dependencies, ensure that ONLY the host application configures these dependencies as `eager`.
 
 If the issue persists, update your host application and remote module's webpack build configuration with the `optimize: false` option. Afterward, build the bundles and serve them. Open a web browser, access the DevTools, switch to the Network tab (ensure that JS files are listed), navigate to the application's homepage, and inspect the downloaded bundle files. The problematic React context definition should appear only once; otherwise, you may have multiple instances of the React context.
@@ -35,33 +48,13 @@ For additional information on shared dependency versioning, please refer to the 
 
 ## Console logs
 
-To faciliate the debugging of a Squide application bootstrapping flow, a lot of information is logged into the console when in development. We recommend using these logs if you suspect that **something** is **wrong** with the **bootstrapping** process of your **application**.
+To faciliate the debugging of a Squide application bootstrapping flow, a lot of information is logged into the console. We recommend using these logs if you suspect that **something** is **wrong** with the **bootstrapping** process of your **application**.
 
-### Modules registration
-
-#### Local modules
+### Local modules
 
 - `[squide] Found 4 local modules to register.`
 - `[squide] 1/4 Registering local module.`
 - `[squide] 1/4 Local module registration completed.`
-
-#### Remote modules
-
-- `[squide] Found 1 remote module to register.`
-- `[squide] 1/1 Loading module "register" of remote "remote1".`
-- `[squide] 1/1 Registering module "register" of remote "remote1".`
-- `[squide] 1/1 The registration of the remote "remote1" is completed.`
-
-#### Deferred registrations
-
-- `[squide] 1/1 Registering the deferred registrations for module "register" of remote "remote1".`
-- `[squide] 1/1 Registered the deferred registrations for module "register" of remote "remote1".`
-- `[squide] 3/3 Updating local module deferred registration.`
-- `[squide] 3/3 Updated local module deferred registration.`
-
-#### Ready
-
-- `[squide] Modules are ready.`
 
 ### Routes registration
 
@@ -95,7 +88,27 @@ To faciliate the debugging of a Squide application bootstrapping flow, a lot of 
 
 - `[squide] The following environment variables has been registered: {...}`
 
-### Module federation logs
+### Modules registration
+
+#### Remote modules
+
+- `[squide] Found 1 remote module to register.`
+- `[squide] 1/1 Loading module "register" of remote "remote1".`
+- `[squide] 1/1 Registering module "register" of remote "remote1".`
+- `[squide] 1/1 The registration of the remote "remote1" is completed.`
+
+#### Deferred registrations
+
+- `[squide] 1/1 Registering the deferred registrations for module "register" of remote "remote1".`
+- `[squide] 1/1 Registered the deferred registrations for module "register" of remote "remote1".`
+- `[squide] 3/3 Updating local module deferred registration.`
+- `[squide] 3/3 Updated local module deferred registration.`
+
+#### Module federation logs
 
 - `[squide] Module Federation shared scope is available: {...}`
+
+### Ready
+
+- `[squide] Modules are ready.`
 

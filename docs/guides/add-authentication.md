@@ -81,7 +81,7 @@ Our security department reminds you to refrain from using a fake `LocalStorageSe
 
 Next, register the request handler using the host application registration function:
 
-```tsx host/src/register.tsx
+```tsx !#3-11 host/src/register.tsx
 import type { ModuleRegisterFunction, FireflyRuntime } from "@squide/firefly";
 
 export const registerHost: ModuleRegisterFunction<FireflyRuntime> = async runtime => {
@@ -164,7 +164,7 @@ After the user logs in, the application is reloaded, this is a requirement of th
 
 Next, create a shared type for the session and the session manager:
 
-```ts shared/src/session.ts
+```ts !#7-10 shared/src/session.ts
 export interface Session {
     user: {
         name: string;
@@ -179,7 +179,7 @@ export interface SessionManager {
 
 Then, create a shared `SessionManagerContext` along with some utility hooks. This React context will be used to share the `SessionManager` instance down the components tree:
 
-```ts shared/src/session.ts
+```ts !#1 shared/src/session.ts
 export const SessionManagerContext = createContext<SessionManager | undefined>(undefined);
 
 export function useSessionManager() {
@@ -201,7 +201,7 @@ export function useIsAuthenticated() {
 
 Finally, let's go back to the host application and create a [TanStack Query](https://tanstack.com/query/latest) implementation of the shared `SessionManager` interface created previously:
 
-```ts host/src/sessionManager.ts
+```ts !#4-22 host/src/sessionManager.ts
 import type { SessionManager, Session } from "@sample/shared";
 import { useQueryClient, type QueryClient } from "@tanstack/react-query";
 
@@ -411,7 +411,7 @@ export function isApiError(error?: unknown): error is ApiError {
 
 Next, create an authentication boundary component using the shared `useIsAuthenticated` hook created earlier to redirect unauthenticated user to the login page:
 
-```tsx host/src/AuthenticationBoundary.tsx
+```tsx !#4-12 host/src/AuthenticationBoundary.tsx
 import { Navigate, Outlet } from "react-router/dom";
 import { useIsAuthenticated } from "@sample/shared";
 
@@ -596,7 +596,7 @@ export function AuthenticatedLayout() {
 
 By creating a new `AuthenticatedLayout` component, much of the layout code has been transferred from the `RootLayout` to the `AuthenticatedLayout`, leaving the root layout responsible only for styling the outer wrapper of the application for now:
 
-```tsx host/src/RootLayout.tsx
+```tsx !#7-9 host/src/RootLayout.tsx
 import { Suspense } from "react";
 import { Outlet } from "react-router/dom";
 

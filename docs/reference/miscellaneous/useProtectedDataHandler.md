@@ -24,7 +24,7 @@ Nothing
 
 ## Usage
 
-```ts
+```ts !#3-5
 import { useProtectedDataHandler } from "@squide/firefly";
 
 useProtectedDataHandler(() => {

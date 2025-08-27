@@ -183,7 +183,18 @@ export function useModuleRegistrationStatusDispatcher(areModulesRegisteredValue:
         if (getAreModulesRegistered()) {
             dispatch({ type: "modules-registered" });
 
-            logger.debug("[squide] %cModules are registered%c.", "color: white; background-color: green;", "");
+            logger
+                .withText("[squide]")
+                .withText("Modules are registered", {
+                    style: {
+                        color: "white",
+                        backgroundColor: "green"
+                    }
+                })
+                .withText(".", {
+                    leadingSpace: false
+                })
+                .information();
 
             return true;
         }
@@ -195,7 +206,18 @@ export function useModuleRegistrationStatusDispatcher(areModulesRegisteredValue:
         if (getAreModulesReady()) {
             dispatch({ type: "modules-ready" });
 
-            logger.debug("[squide] %cModules are ready%c.", "color: white; background-color: green;", "");
+            logger
+                .withText("[squide]")
+                .withText("Modules are ready", {
+                    style: {
+                        color: "white",
+                        backgroundColor: "green"
+                    }
+                })
+                .withText(".", {
+                    leadingSpace: false
+                })
+                .information();
 
             return true;
         }
@@ -231,7 +253,18 @@ export function useMswStatusDispatcher(isMswReadyValue: boolean, dispatch: AppRo
         if (isMswReady()) {
             dispatch({ type: "msw-ready" });
 
-            logger.debug("[squide] %cMSW is ready%c.", "color: white; background-color: green;", "");
+            logger
+                .withText("[squide]")
+                .withText("MSW is ready", {
+                    style: {
+                        color: "white",
+                        backgroundColor: "green"
+                    }
+                })
+                .withText(".", {
+                    leadingSpace: false
+                })
+                .information();
 
             return true;
         }
@@ -291,7 +324,10 @@ function useEnhancedReducerDispatch(reducerDispatch: AppRouterDispatch) {
     const eventBus = useEventBus();
 
     return useCallback((action: AppRouterAction) => {
-        logger.debug("[squide] The following action has been dispatched to the AppRouter reducer:", action);
+        logger
+            .withText("[squide] The following action has been dispatched to the AppRouter reducer:")
+            .withObject(action)
+            .debug();
 
         appRouterStore.dispatch(action);
         eventBus.dispatch(`squide-${action.type}`);

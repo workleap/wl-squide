@@ -25,7 +25,7 @@ The resolved route.
 
 ## Usage
 
-```ts
+```ts !#6
 import { resolveRouteSegments, type NavigationLinkRenderProps } from "@squide/firefly";
 
 function renderLinkItem({ label, linkProps: { to, ...linkProps } }: NavigationLinkRenderProps, index: number, level: number) {

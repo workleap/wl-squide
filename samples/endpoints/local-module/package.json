@@ -31,7 +31,8 @@
         "@squide/env-vars": "workspace:*",
         "@squide/fakes": "workspace:*",
         "@squide/firefly": "workspace:*",
-        "@squide/i18next": "workspace:*"
+        "@squide/i18next": "workspace:*",
+        "@workleap/logging": "^1.2.5"
     },
     "devDependencies": {
         "@rsbuild/core": "1.4.7",

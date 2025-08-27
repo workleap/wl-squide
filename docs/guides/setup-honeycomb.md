@@ -28,8 +28,8 @@ pnpm add @workleap/honeycomb @opentelemetry/api
 
 Then, update the host application bootstrapping code to register Honeycomb instrumentation:
 
-```tsx !#8-11 host/src/index.tsx
-import { ConsoleLogger, FireflyProvider, initializeFirefly } from "@squide/firefly";
+```tsx !#9-11 host/src/index.tsx
+import { FireflyProvider, initializeFirefly } from "@squide/firefly";
 import { registerHoneycombInstrumentation } from "@workleap/honeycomb";
 import { register as registerMyLocalModule } from "@sample/local-module";
 import { createRoot } from "react-dom/client";
@@ -42,8 +42,7 @@ registerHoneycombInstrumentation("sample", "squide-sample", [/.+/g,], {
 });
 
 const runtime = initializeFirefly({
-    localModules: [registerHost, registerMyLocalModule],
-    loggers: [x => new ConsoleLogger(x)]
+    localModules: [registerHost, registerMyLocalModule]
 });
 
 const root = createRoot(document.getElementById("root")!);
@@ -220,7 +219,7 @@ Now, every trace recorded **after** the session initialization will include the 
 
 Applications are expected to use the [OpenTelemetry API](https://docs.honeycomb.io/send-data/javascript-browser/honeycomb-distribution/#add-custom-instrumentation) to send custom traces to Honeycomb:
 
-```tsx host/src/Page.tsx
+```tsx !#4,9-10 host/src/Page.tsx
 import { useEffect } from "react";
 import { trace } from "@opentelemetry/api";
 

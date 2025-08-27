@@ -66,7 +66,10 @@ export function AppRouter(props: AppRouterProps) {
     useStrictRegistrationMode();
 
     useEffect(() => {
-        logger.debug("[squide] AppRouter state updated:", state);
+        logger
+            .withText("[squide] AppRouter state updated:")
+            .withObject(state)
+            .debug();
     }, [state, logger]);
 
     const routerProvider = useRenderRouterProvider(state, renderRouterProvider);

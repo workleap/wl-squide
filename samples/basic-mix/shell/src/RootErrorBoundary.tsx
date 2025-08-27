@@ -21,7 +21,10 @@ export function RootErrorBoundary() {
         window.location.reload();
     }, []);
 
-    logger.error(`[shell] An unmanaged error occurred while rendering the route with path ${location.pathname}`, error);
+    logger
+        .withText(`[shell] An unmanaged error occurred while rendering the route with path ${location.pathname}:`)
+        .withError(error as Error)
+        .error();
 
     return (
         <div style={{ color: "red" }}>

@@ -43,7 +43,7 @@ Accept any properties of a React Router [Link](https://reactrouter.com/en/main/c
 
 ### Retrieve the items for the root menu
 
-```ts
+```ts !#3
 import { useNavigationItems } from "@squide/firefly";
 
 const items = useNavigationItems();
@@ -51,7 +51,7 @@ const items = useNavigationItems();
 
 ### Retrieve the items for a specific menu
 
-```ts
+```ts !#3
 import { useNavigationItems } from "@squide/firefly";
 
 const items = useNavigationItems({ menuId: "my-custom-menu" });

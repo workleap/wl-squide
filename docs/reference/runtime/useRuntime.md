@@ -28,7 +28,7 @@ A `FireflyRuntime` instance.
 
 ## Usage
 
-```ts
+```ts !#3
 import { useRuntime } from "@squide/firefly";
 
 const runtime = useRuntime();

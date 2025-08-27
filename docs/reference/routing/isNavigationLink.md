@@ -24,7 +24,7 @@ A `boolean` value indicating whether or not the navigation item should be render
 
 ## Usage
 
-```ts
+```ts !#4
 import { isNavigationLink, type RenderItemFunction } from "@squide/firefly";
 
 const renderItem: RenderItemFunction = item => {

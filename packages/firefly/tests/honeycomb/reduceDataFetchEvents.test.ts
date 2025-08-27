@@ -1,3 +1,4 @@
+import { NoopLogger } from "@workleap/logging";
 import { test, vi } from "vitest";
 import { ProtectedDataReadyEvent, PublicDataReadyEvent } from "../../src/AppRouterReducer.ts";
 import { FireflyRuntime } from "../../src/FireflyRuntime.tsx";
@@ -6,7 +7,9 @@ import { ProtectedDataFetchFailedEvent, ProtectedDataFetchStartedEvent } from ".
 import { PublicDataFetchFailedEvent, PublicDataFetchStartedEvent } from "../../src/usePublicDataQueries.ts";
 
 test.concurrent("when the state is \"none\" and PublicDataFetchStartedEvent is handled, call the onDataFetchStarted handler", ({ expect }) => {
-    const runtime = new FireflyRuntime();
+    const runtime = new FireflyRuntime({
+        loggers: [new NoopLogger()]
+    });
 
     const onDataFetchStarted = vi.fn();
     const onDataReady = vi.fn();
@@ -34,7 +37,9 @@ test.concurrent("when the state is \"none\" and PublicDataFetchStartedEvent is h
 });
 
 test.concurrent("when the state is \"fetching-data\" and PublicDataFetchStartedEvent is handled, do not call the onDataFetchStarted handler", ({ expect }) => {
-    const runtime = new FireflyRuntime();
+    const runtime = new FireflyRuntime({
+        loggers: [new NoopLogger()]
+    });
 
     const onDataFetchStarted = vi.fn();
     const onDataReady = vi.fn();
@@ -66,7 +71,9 @@ test.concurrent("when the state is \"fetching-data\" and PublicDataFetchStartedE
 });
 
 test.concurrent("when the state is \"none\" and ProtectedDataFetchStartedEvent is handled, call the onDataFetchStarted handler", ({ expect }) => {
-    const runtime = new FireflyRuntime();
+    const runtime = new FireflyRuntime({
+        loggers: [new NoopLogger()]
+    });
 
     const onDataFetchStarted = vi.fn();
     const onDataReady = vi.fn();
@@ -94,7 +101,9 @@ test.concurrent("when the state is \"none\" and ProtectedDataFetchStartedEvent i
 });
 
 test.concurrent("when the state is \"fetching-data\" and ProtectedDataFetchStartedEvent is handled, do not call the onDataFetchStarted handler", ({ expect }) => {
-    const runtime = new FireflyRuntime();
+    const runtime = new FireflyRuntime({
+        loggers: [new NoopLogger()]
+    });
 
     const onDataFetchStarted = vi.fn();
     const onDataReady = vi.fn();
@@ -126,7 +135,9 @@ test.concurrent("when the state is \"fetching-data\" and ProtectedDataFetchStart
 });
 
 test.concurrent("when the state is \"protected-data-ready\" and PublicDataReadyEvent is handled, call the onDataReady handler", ({ expect }) => {
-    const runtime = new FireflyRuntime();
+    const runtime = new FireflyRuntime({
+        loggers: [new NoopLogger()]
+    });
 
     const onDataFetchStarted = vi.fn();
     const onDataReady = vi.fn();
@@ -166,7 +177,9 @@ test.concurrent("when the state is \"protected-data-ready\" and PublicDataReadyE
 });
 
 test.concurrent("when the state is \"public-data-ready\" and PublicDataReadyEvent is handled, do not call the onDataReady handler", ({ expect }) => {
-    const runtime = new FireflyRuntime();
+    const runtime = new FireflyRuntime({
+        loggers: [new NoopLogger()]
+    });
 
     const onDataFetchStarted = vi.fn();
     const onDataReady = vi.fn();
@@ -205,7 +218,9 @@ test.concurrent("when the state is \"public-data-ready\" and PublicDataReadyEven
 });
 
 test.concurrent("when the state is \"data-ready\" and PublicDataReadyEvent is handled, do not call the onDataReady handler", ({ expect }) => {
-    const runtime = new FireflyRuntime();
+    const runtime = new FireflyRuntime({
+        loggers: [new NoopLogger()]
+    });
 
     const onDataFetchStarted = vi.fn();
     const onDataReady = vi.fn();
@@ -246,7 +261,9 @@ test.concurrent("when the state is \"data-ready\" and PublicDataReadyEvent is ha
 });
 
 test.concurrent("when the state is \"public-data-ready\" and ProtectedDataReadyEvent is handled, call the onDataReady handler", ({ expect }) => {
-    const runtime = new FireflyRuntime();
+    const runtime = new FireflyRuntime({
+        loggers: [new NoopLogger()]
+    });
 
     const onDataFetchStarted = vi.fn();
     const onDataReady = vi.fn();
@@ -286,7 +303,9 @@ test.concurrent("when the state is \"public-data-ready\" and ProtectedDataReadyE
 });
 
 test.concurrent("when the state is \"protected-data-ready\" and ProtectedDataReadyEvent is handled, do not call the onDataReady handler", ({ expect }) => {
-    const runtime = new FireflyRuntime();
+    const runtime = new FireflyRuntime({
+        loggers: [new NoopLogger()]
+    });
 
     const onDataFetchStarted = vi.fn();
     const onDataReady = vi.fn();
@@ -325,7 +344,9 @@ test.concurrent("when the state is \"protected-data-ready\" and ProtectedDataRea
 });
 
 test.concurrent("when the state is not \"data-fetch-failed\" and PublicDataFetchFailedEvent is handled, call the onDataFetchFailed handler", ({ expect }) => {
-    const runtime = new FireflyRuntime();
+    const runtime = new FireflyRuntime({
+        loggers: [new NoopLogger()]
+    });
 
     const onDataFetchStarted = vi.fn();
     const onDataReady = vi.fn();
@@ -352,7 +373,9 @@ test.concurrent("when the state is not \"data-fetch-failed\" and PublicDataFetch
 });
 
 test.concurrent("when the state is \"data-fetch-failed\" and PublicDataFetchFailedEvent is handled, call the onDataFetchFailed handler", ({ expect }) => {
-    const runtime = new FireflyRuntime();
+    const runtime = new FireflyRuntime({
+        loggers: [new NoopLogger()]
+    });
 
     const onDataFetchStarted = vi.fn();
     const onDataReady = vi.fn();
@@ -381,7 +404,9 @@ test.concurrent("when the state is \"data-fetch-failed\" and PublicDataFetchFail
 });
 
 test.concurrent("when the state is not \"data-fetch-failed\" and ProtectedDataFetchFailedEvent is handled, call the onDataFetchFailed handler", ({ expect }) => {
-    const runtime = new FireflyRuntime();
+    const runtime = new FireflyRuntime({
+        loggers: [new NoopLogger()]
+    });
 
     const onDataFetchStarted = vi.fn();
     const onDataReady = vi.fn();
@@ -410,7 +435,9 @@ test.concurrent("when the state is not \"data-fetch-failed\" and ProtectedDataFe
 });
 
 test.concurrent("when the state is \"data-fetch-failed\" and ProtectedDataFetchFailedEvent is handled, call the onDataFetchFailed handler", ({ expect }) => {
-    const runtime = new FireflyRuntime();
+    const runtime = new FireflyRuntime({
+        loggers: [new NoopLogger()]
+    });
 
     const onDataFetchStarted = vi.fn();
     const onDataReady = vi.fn();
@@ -437,7 +464,9 @@ test.concurrent("when the state is \"data-fetch-failed\" and ProtectedDataFetchF
 });
 
 test.concurrent("when the state is \"data-ready\" and ProtectedDataReadyEvent is handled, do not call the onDataReady handler", ({ expect }) => {
-    const runtime = new FireflyRuntime();
+    const runtime = new FireflyRuntime({
+        loggers: [new NoopLogger()]
+    });
 
     const onDataFetchStarted = vi.fn();
     const onDataReady = vi.fn();
@@ -478,7 +507,9 @@ test.concurrent("when the state is \"data-ready\" and ProtectedDataReadyEvent is
 });
 
 test.concurrent("events sequencing", ({ expect }) => {
-    const runtime = new FireflyRuntime();
+    const runtime = new FireflyRuntime({
+        loggers: [new NoopLogger()]
+    });
 
     const onDataFetchStarted = vi.fn();
     const onDataReady = vi.fn();

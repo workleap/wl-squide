@@ -22,6 +22,7 @@ import {
 import { ProtectedRoutes } from "@squide/react-router";
 import { QueryClientProvider } from "@tanstack/react-query";
 import { render, screen, waitFor } from "@testing-library/react";
+import { NoopLogger } from "@workleap/logging";
 import type { ReactNode } from "react";
 import { createMemoryRouter, Outlet, RouterProvider } from "react-router";
 import { afterEach, expect, test, vi } from "vitest";
@@ -102,7 +103,8 @@ afterEach(() => {
 
 test("msw + local modules + remote modules + public data + protected data + local deferred + remote deferred", async () => {
     const runtime = new FireflyRuntime({
-        useMsw: true
+        useMsw: true,
+        loggers: [new NoopLogger()]
     });
 
     const onApplicationBootstrappingStarted = vi.fn();
@@ -280,7 +282,8 @@ test("msw + local modules + remote modules + public data + protected data + loca
 
 test("msw + local modules + remote modules + public data + protected data", async () => {
     const runtime = new FireflyRuntime({
-        useMsw: true
+        useMsw: true,
+        loggers: [new NoopLogger()]
     });
 
     const onApplicationBootstrappingStarted = vi.fn();
@@ -424,7 +427,8 @@ test("msw + local modules + remote modules + public data + protected data", asyn
 
 test("msw + local modules + remote modules + public data + local deferred + remote deferred", async () => {
     const runtime = new FireflyRuntime({
-        useMsw: true
+        useMsw: true,
+        loggers: [new NoopLogger()]
     });
 
     const onApplicationBootstrappingStarted = vi.fn();
@@ -586,7 +590,8 @@ test("msw + local modules + remote modules + public data + local deferred + remo
 
 test("msw + local modules + remote modules + protected data + local deferred + remote deferred", async () => {
     const runtime = new FireflyRuntime({
-        useMsw: true
+        useMsw: true,
+        loggers: [new NoopLogger()]
     });
 
     const onApplicationBootstrappingStarted = vi.fn();
@@ -748,7 +753,8 @@ test("msw + local modules + remote modules + protected data + local deferred + r
 
 test("msw + local modules + remote modules", async () => {
     const runtime = new FireflyRuntime({
-        useMsw: true
+        useMsw: true,
+        loggers: [new NoopLogger()]
     });
 
     const onApplicationBootstrappingStarted = vi.fn();
@@ -854,7 +860,8 @@ test("msw + local modules + remote modules", async () => {
 
 test("msw + local modules + remote modules + public data + protected data + local deferred", async () => {
     const runtime = new FireflyRuntime({
-        useMsw: true
+        useMsw: true,
+        loggers: [new NoopLogger()]
     });
 
     const onApplicationBootstrappingStarted = vi.fn();
@@ -1021,7 +1028,8 @@ test("msw + local modules + remote modules + public data + protected data + loca
 
 test("msw + local modules + remote modules + public data + protected data + remote deferred", async () => {
     const runtime = new FireflyRuntime({
-        useMsw: true
+        useMsw: true,
+        loggers: [new NoopLogger()]
     });
 
     const onApplicationBootstrappingStarted = vi.fn();
@@ -1186,7 +1194,8 @@ test("msw + local modules + remote modules + public data + protected data + remo
 
 test("local modules + remote modules + public data + protected data + local deferred + remote deferred", async () => {
     const runtime = new FireflyRuntime({
-        useMsw: false
+        useMsw: false,
+        loggers: [new NoopLogger()]
     });
 
     const onApplicationBootstrappingStarted = vi.fn();
@@ -1356,7 +1365,8 @@ test("local modules + remote modules + public data + protected data + local defe
 
 test("failing local module registration", async () => {
     const runtime = new FireflyRuntime({
-        useMsw: true
+        useMsw: true,
+        loggers: [new NoopLogger()]
     });
 
     const onApplicationBootstrappingStarted = vi.fn();
@@ -1543,7 +1553,8 @@ test("failing local module registration", async () => {
 
 test("failing remote module registration", async () => {
     const runtime = new FireflyRuntime({
-        useMsw: true
+        useMsw: true,
+        loggers: [new NoopLogger()]
     });
 
     const onApplicationBootstrappingStarted = vi.fn();

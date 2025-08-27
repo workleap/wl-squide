@@ -47,6 +47,7 @@
         "@squide/module-federation": "workspace:*",
         "@squide/msw": "workspace:*",
         "@squide/react-router": "workspace:*",
+        "@workleap/logging": "^1.2.5",
         "uuid": "^11.1.0"
     },
     "devDependencies": {

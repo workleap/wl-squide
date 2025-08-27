@@ -30,7 +30,7 @@ To help manage those concerns, Squide offer an `AppRouter` component that takes 
 
 First, define in the host application an MSW request handler that returns the number of times it has been fetched:
 
-```ts host/mocks/handlers.ts
+```ts !#5-13 host/mocks/handlers.ts
 import { HttpResponse, http, type HttpHandler } from "msw";
 
 let fetchCount = 0;

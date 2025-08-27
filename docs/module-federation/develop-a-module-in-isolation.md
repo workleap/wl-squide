@@ -39,7 +39,7 @@ With the new `shell` package in place, we can now configure the remote module to
 
 To begin, let's start by adding a dependency to the `@sample/shell` package:
 
-```json remote-module/package.json
+```json !#3 remote-module/package.json
 {
     "dependencies": {
         "@sample/shell": "0.0.1"
@@ -69,9 +69,9 @@ remote-module
 
 The `index.tsx` file is similar to the `bootstrap.tsx` file of an host application but, tailored for an isolated module. The key distinctions are that all the modules are registered as local modules, and a new `registerDev` function is introduced to register the development homepage (which will be covered in an upcoming section):
 
-```tsx !#8-13 remote-module/src/dev/index.tsx
+```tsx !#8-12 remote-module/src/dev/index.tsx
 import { createRoot } from "react-dom/client";
-import { ConsoleLogger, FireflyProvider, initializeFirefly } from "@squide/firefly";
+import { FireflyProvider, initializeFirefly } from "@squide/firefly";
 import { App } from "./App.tsx";
 import { register as registerModule } from "./register.tsx";
 import { registerDev } from "./dev/register.tsx";
@@ -80,8 +80,7 @@ import { registerShell } from "@sample/shell";
 const runtime = initializeFirefly(runtime, {
     // Registering the remote module as a local module because the "register" function 
     // is local when developing in isolation.
-    localModules: [registerModule, registerDev, registerShell],
-    loggers: [x => new ConsoleLogger(x)]
+    localModules: [registerModule, registerDev, registerShell]
 });
 
 const root = createRoot(document.getElementById("root")!);
@@ -97,7 +96,7 @@ root.render(
 
 The `App.tsx` file uses the newly created `AppRouter` component to setup Squide's primitives with a [React Router](https://reactrouter.com/) instance:
 
-```tsx remote-module/src/dev/App.tsx
+```tsx !#5 remote-module/src/dev/App.tsx
 import { AppRouter } from "@sample/shell";
 
 export function App() {
@@ -124,7 +123,7 @@ function DevHome() {
 
 To register the development homepage, create a new local module specifically for configuring the remote during isolated development:
 
-```tsx remote-module/src/dev/register.tsx
+```tsx !#4-9 remote-module/src/dev/register.tsx
 import type { ModuleRegisterFunction, FireflyRuntime } from "@squide/firefly";
 import { DevHome } from "./DevHome.tsx";
 
@@ -170,7 +169,7 @@ First, open the `public/index.html` file created at the beginning of this guide 
 
 Then, open the `.browserslist` file and copy/paste the following content:
 
-``` host/.browserslistrc
+```!#1 host/.browserslistrc
 extends @workleap/browserslist-config
 ```
 

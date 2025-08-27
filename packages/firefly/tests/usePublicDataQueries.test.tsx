@@ -1,6 +1,7 @@
 import type { Runtime } from "@squide/core";
 import { QueryClientProvider, type QueryClient } from "@tanstack/react-query";
 import { render, screen, waitFor } from "@testing-library/react";
+import { NoopLogger } from "@workleap/logging";
 import { Component, type PropsWithChildren, type ReactNode } from "react";
 import { afterEach, beforeEach, describe, expect, test, vi, type MockInstance } from "vitest";
 import { AppRouterDispatcherContext, AppRouterStateContext } from "../src/AppRouterContext.ts";
@@ -29,7 +30,9 @@ function renderAppRouter(appRouter: ReactNode, runtime: Runtime, state: AppRoute
 }
 
 test("when queries are executed, PublicDataFetchStartedEvent is dispatched", async () => {
-    const runtime = new FireflyRuntime();
+    const runtime = new FireflyRuntime({
+        loggers: [new NoopLogger()]
+    });
 
     const dispatch = vi.fn();
     const listener = vi.fn();
@@ -57,7 +60,9 @@ test("when queries are executed, PublicDataFetchStartedEvent is dispatched", asy
 });
 
 test("when data is ready, \"public-data-ready\" is dispatched", async () => {
-    const runtime = new FireflyRuntime();
+    const runtime = new FireflyRuntime({
+        loggers: [new NoopLogger()]
+    });
 
     const dispatch = vi.fn();
 
@@ -90,7 +95,9 @@ test("when data is ready, \"public-data-ready\" is dispatched", async () => {
 });
 
 test("when data is updated, \"public-data-updated\" is dispatched", async () => {
-    const runtime = new FireflyRuntime();
+    const runtime = new FireflyRuntime({
+        loggers: [new NoopLogger()]
+    });
 
     const dispatch = vi.fn();
 
@@ -146,7 +153,9 @@ describe("when a query fail", () => {
     });
 
     test("should throw an error", async () => {
-        const runtime = new FireflyRuntime();
+        const runtime = new FireflyRuntime({
+            loggers: [new NoopLogger()]
+        });
 
         const dispatch = vi.fn();
 
@@ -195,7 +204,9 @@ describe("when a query fail", () => {
     });
 
     test("should dispatch PublicDataFetchFailedEvent", async () => {
-        const runtime = new FireflyRuntime();
+        const runtime = new FireflyRuntime({
+            loggers: [new NoopLogger()]
+        });
 
         const dispatch = vi.fn();
         const listener = vi.fn();

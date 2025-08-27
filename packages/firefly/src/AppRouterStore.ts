@@ -2,7 +2,7 @@
 // access to the state and ease the integration with third-party libraries such as the Platform Widgets.
 // Eventually, AppRouterReducer should be deprecated in favor of this new AppRouterStore.
 
-import type { RuntimeLogger } from "@squide/core";
+import type { RootLogger } from "@workleap/logging";
 import type { AppRouterAction, AppRouterState } from "./AppRouterReducer.ts";
 
 export type AppRouterStoreState = Omit<AppRouterState, "waitForMsw" | "waitForPublicData" | "waitForProtectedData">;
@@ -13,9 +13,9 @@ export class AppRouterStore {
     #state: AppRouterStoreState;
 
     readonly #listeners = new Set<AppRouterStoreListenerFunction>();
-    readonly #logger?: RuntimeLogger;
+    readonly #logger: RootLogger;
 
-    constructor(initialialState: AppRouterStoreState, logger: RuntimeLogger) {
+    constructor(initialialState: AppRouterStoreState, logger: RootLogger) {
         this.#state = initialialState;
         this.#logger = logger;
     }
@@ -35,7 +35,11 @@ export class AppRouterStore {
     dispatch(action: AppRouterAction) {
         const newState = this.#reducer({ ...this.#state }, action);
 
-        this.#logger?.debug("[squide] The AppRouterStore state has been updated to:", newState);
+        this.#logger
+            .withText("[squide] The AppRouterStore state has been updated to:")
+            .withObject(newState)
+            .debug();
+
         this.#state = newState;
 
         // Creating a copy of the listeners in case some are removed during the looping.
@@ -156,7 +160,7 @@ export class AppRouterStore {
     }
 }
 
-export function createAppRouterStore(logger: RuntimeLogger) {
+export function createAppRouterStore(logger: RootLogger) {
     const initialState: AppRouterStoreState = {
         areModulesRegistered: false,
         areModulesReady: false,

@@ -22,7 +22,7 @@ const sessionManager = new LocalStorageSessionManager(options?: { key? })
 
 ### Create a manager instance
 
-```ts
+```ts !#4
 import { LocalStorageSessionManager } from "@squide/fakes";
 import type { Session } from "@sample/share";
 
@@ -31,19 +31,19 @@ const sessionManager = new LocalStorageSessionManager<Session>();
 
 ### Set a session
 
-```ts
+```ts !#1
 sessionManager.setSession({ username: "Foo" });
 ```
 
 ### Get the current session
 
-```ts
+```ts !#1
 const session = sessionManager.getSession();
 ```
 
 ### Clear the current session
 
-```ts
+```ts !#1
 sessionManager.clearSession();
 ```
 

@@ -25,16 +25,15 @@ To ensure full functionality, make sure to register the Honeycomb instrumentatio
 
 Before:
 
-```tsx !#2,12-14 bootstrap.tsx
-import { ConsoleLogger, initializeFirefly } from "@squide/firefly";
+```tsx !#2,11-13 bootstrap.tsx
+import { initializeFirefly } from "@squide/firefly";
 import { registerHoneycombInstrumentation } from "@squide/firefly-honeycomb";
 import { register as registerMyLocalModule } from "@sample/local-module";
 import { registerHost } from "./register.tsx";
 
 const runtime = initializeFirefly({
     localModules: [registerHost, registerMyLocalModule],
-    remotes: Remotes,
-    loggers: [x => new ConsoleLogger(x)]
+    remotes: Remotes
 });
 
 registerHoneycombInstrumentation(runtime, "sample", "squide-sample", [/.+/g,], {
@@ -45,7 +44,7 @@ registerHoneycombInstrumentation(runtime, "sample", "squide-sample", [/.+/g,], {
 After:
 
 ```tsx !#2,7-9 bootstrap.tsx
-import { ConsoleLogger, initializeFirefly } from "@squide/firefly";
+import { initializeFirefly } from "@squide/firefly";
 import { registerHoneycombInstrumentation } from "@workleap/honeycomb";
 import { register as registerMyLocalModule } from "@sample/local-module";
 import { registerHost } from "./register.tsx";
@@ -57,8 +56,7 @@ registerHoneycombInstrumentation("sample", "squide-sample", [/.+/g,], {
 
 const runtime = initializeFirefly({
     localModules: [registerHost, registerMyLocalModule],
-    remotes: Remotes,
-    loggers: [x => new ConsoleLogger(x)]
+    remotes: Remotes
 });
 ```
 

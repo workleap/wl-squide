@@ -26,9 +26,9 @@ The `bootstrap` function has been replaced by the [initializeFirefly](../referen
 
 Before:
 
-```tsx !#10-18 bootstrap.tsx
+```tsx !#10-16 bootstrap.tsx
 import { createRoot } from "react-dom/client";
-import { ConsoleLogger, FireflyProvider, FireflyRuntime, bootstrap, type RemoteDefinition } from "@squide/firefly";
+import { FireflyProvider, FireflyRuntime, bootstrap, type RemoteDefinition } from "@squide/firefly";
 import { App } from "./App.tsx";
 
 // Define the remote modules.
@@ -37,9 +37,7 @@ const Remotes: RemoteDefinition[] = [
 ];
 
 // Create the shell runtime.
-const runtime = new FireflyRuntime({
-    loggers: [x => new ConsoleLogger(x)]
-});
+const runtime = new FireflyRuntime();
 
 // Register the remote module.
 bootstrap(runtime, {
@@ -57,9 +55,9 @@ root.render(
 
 Now:
 
-```tsx !#10-13 bootstrap.tsx
+```tsx !#10-12 bootstrap.tsx
 import { createRoot } from "react-dom/client";
-import { ConsoleLogger, FireflyProvider, initializeFirefly, type RemoteDefinition } from "@squide/firefly";
+import { FireflyProvider, initializeFirefly, type RemoteDefinition } from "@squide/firefly";
 import { App } from "./App.tsx";
 
 // Define the remote modules.
@@ -68,8 +66,7 @@ const Remotes: RemoteDefinition[] = [
 ];
 
 const runtime = initializeFirefly(runtime, {
-    remotes: Remotes,
-    loggers: [x => new ConsoleLogger(x)]
+    remotes: Remotes
 });
 
 const root = createRoot(document.getElementById("root")!);

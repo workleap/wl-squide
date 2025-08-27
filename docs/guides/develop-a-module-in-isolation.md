@@ -45,7 +45,7 @@ First, create a new package (we'll refer to ours as `shell`) and add the followi
 
 Then, install the package dependencies and create an `AppRouter` component in the shell package to provide a **reusable router configuration** that can be shared between the host application and the isolated modules. This new `AppRouter` component should wrap the `@squide/firefly` [AppRouter](../reference/routing/appRouter.md) component:
 
-```tsx shell/src/AppRouter.tsx
+```tsx !#6-25 shell/src/AppRouter.tsx
 import { AppRouter as FireflyAppRouter } from "@squide/firefly";
 import { createBrowserRouter } from "react-router";
 import { RouterProvider } from "react-router/dom";
@@ -75,7 +75,7 @@ export function FireflyAppRouter() {
 
 Finally, create a local module to register the **application shell**. This module will be used by both the host application and the isolated modules:
 
-```tsx shell/src/register.tsx
+```tsx !#5-20 shell/src/register.tsx
 import { PublicRoutes, ProtectedRoutes, type ModuleRegisterFunction, type FireflyRuntime } from "@squide/firefly";
 import { RootLayout } from "./RootLayout.tsx";
 import { ModuleErrorBoundary } from "./ModuleErrorBoundary.tsx";
@@ -106,7 +106,7 @@ This guide only covers the `RootLayout`, `RootErrorBoundary` and `ModuleErrorBou
 
 Now, let's revisit the host application by adding the new `@sample/shell` package as a dependency:
 
-```json host/package.json
+```json !#3 host/package.json
 {
     "dependencies": {
         "@sample/shell": "0.0.1"
@@ -116,7 +116,7 @@ Now, let's revisit the host application by adding the new `@sample/shell` packag
 
 Then, integrate the `AppRouter` component from the `@sample/shell` package into the application:
 
-```tsx host/src/App.tsx
+```tsx !#5 host/src/App.tsx
 import { AppRouter } from "@sample/shell";
 
 export function App() {
@@ -130,15 +130,14 @@ And finally include the `registerShell` function to setup the `RootLayout` and `
 
 ```tsx !#9 host/src/index.tsx
 import { createRoot } from "react-dom/client";
-import { ConsoleLogger, FireflyProvider, initializeFirefly } from "@squide/firefly";
+import { FireflyProvider, initializeFirefly } from "@squide/firefly";
 import { App } from "./App.tsx";
 import { registerHost } from "./register.tsx";
 import { registerShell } from "@sample/shell";
 
 const runtime = initializeFirefly(runtime, {
     // Register the newly created shell module.
-    localModules: [registerShell, registerHost],
-    loggers: [x => new ConsoleLogger(x)]
+    localModules: [registerShell, registerHost]
 });
 
 const root = createRoot(document.getElementById("root")!);
@@ -162,7 +161,7 @@ pnpm add -D @workleap/rsbuild-configs @workleap/browserslist-config browserslist
 
 Then, add a dev dependency to the `@sample/shell` package:
 
-```json local-module/package.json
+```json !#3 local-module/package.json
 {
     "devDependencies": {
         "@sample/shell": "0.0.1"
@@ -197,17 +196,16 @@ local-module
 
 The `index.tsx` file of a local module is tailored for isolated development. The key distinction is that a new `registerDev` function is introduced to register the development homepage (which will be covered in an upcoming section):
 
-```tsx !#8-11 local-module/src/dev/index.tsx
+```tsx !#8-10 local-module/src/dev/index.tsx
 import { createRoot } from "react-dom/client";
-import { ConsoleLogger, FireflyProvider, initializeFirefly } from "@squide/firefly";
+import { FireflyProvider, initializeFirefly } from "@squide/firefly";
 import { App } from "./App.tsx";
 import { register as registerModule } from "./register.tsx";
 import { registerDev } from "./dev/register.tsx";
 import { registerShell } from "@sample/shell";
 
 const runtime = initializeFirefly(runtime, {
-    localModules: [registerModule, registerDev, registerShell],
-    loggers: [x => new ConsoleLogger(x)]
+    localModules: [registerModule, registerDev, registerShell]
 });
 
 const root = createRoot(document.getElementById("root")!);
@@ -223,7 +221,7 @@ root.render(
 
 The `App.tsx` file uses the newly created `AppRouter` component to setup Squide's primitives with a [React Router](https://reactrouter.com/) instance:
 
-```tsx local-module/src/dev/App.tsx
+```tsx !#5 local-module/src/dev/App.tsx
 import { AppRouter } from "@sample/shell";
 
 export function App() {
@@ -250,7 +248,7 @@ function DevHome() {
 
 To register the development homepage, create a new local module specifically for configuring the module during isolated development:
 
-```tsx local-module/src/dev/register.tsx
+```tsx !#4-9 local-module/src/dev/register.tsx
 import type { ModuleRegisterFunction, FireflyRuntime } from "@squide/firefly";
 import { DevHome } from "./DevHome.tsx";
 
@@ -283,13 +281,13 @@ First, open the `public/index.html` file created at the beginning of this guide 
 
 Then, open the `.browserslist` file and copy/paste the following content:
 
-``` host/.browserslistrc
+```!#1 host/.browserslistrc
 extends @workleap/browserslist-config
 ```
 
 Finally, open the `rsbuild.config.ts` file and use the the [defineDevConfig](https://workleap.github.io/wl-web-configs/rsbuild/configure-dev/#rsbuilddevts) function to configure Rsbuild:
 
-```ts local-module/rsbuild.config.ts
+```ts !#3 local-module/rsbuild.config.ts
 import { defineDevHostConfig } from "@workleap/rsbuild-configs";
 
 export default defineDevHostConfig();
@@ -299,7 +297,7 @@ export default defineDevHostConfig();
 
 Next, add a new `dev-isolated` script to the `package.json` file to start the local development server:
 
-```json local-module/package.json
+```json !#2 local-module/package.json
 {
     "dev-isolated": "rsbuild dev --config ./rsbuild.dev.ts"
 }

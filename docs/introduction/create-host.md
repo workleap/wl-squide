@@ -47,7 +47,7 @@ host
 
 Then, ensure that you are developing your application using [ESM syntax](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Modules) by specifying `type: module` in your `package.json` file:
 
-```json host/package.json
+```json !#2 host/package.json
 {
     "type": "module"
 }
@@ -57,14 +57,12 @@ Then, ensure that you are developing your application using [ESM syntax](https:/
 
 Next, to register the modules, instanciate a shell [FireflyRuntime](/reference/runtime/runtime-class.md) instance. A local module will be registered in the [next section](create-local-module.md) of this quick start guide:
 
-```tsx !#5-7 host/src/index.tsx
+```tsx !#5 host/src/index.tsx
 import { createRoot } from "react-dom/client";
-import { ConsoleLogger, FireflyProvider, initializeFirefly, type RemoteDefinition } from "@squide/firefly";
+import { FireflyProvider, initializeFirefly, type RemoteDefinition } from "@squide/firefly";
 import { App } from "./App.tsx";
 
-const runtime = initializeFirefly({
-    loggers: [x => new ConsoleLogger(x)]
-});
+const runtime = initializeFirefly();
 
 const root = createRoot(document.getElementById("root")!);
 
@@ -77,7 +75,7 @@ root.render(
 
 Then, render the [AppRouter](../reference/routing/appRouter.md) component to define a React Router [browser instance](https://reactrouter.com/en/main/routers/create-browser-router) configured with the registered routes:
 
-```tsx host/src/App.tsx
+```tsx !#7-21 host/src/App.tsx
 import { AppRouter } from "@squide/firefly";
 import { createBrowserRouter } from "react-router";
 import { RouterProvider } from "react-router/dom";
@@ -179,7 +177,7 @@ export function HomePage() {
 
 Then, add a [local module](../reference/registration/registerLocalModules.md) at the root of the host application to register the homepage:
 
-```tsx host/src/register.tsx
+```tsx !#4-9 host/src/register.tsx
 import type { ModuleRegisterFunction, FireflyRuntime } from "@squide/firefly";
 import { HomePage } from "./HomePage.tsx";
 
@@ -224,15 +222,14 @@ The [PublicRoutes](../reference/routing/publicRoutes.md) and [ProtectedRoutes](.
 
 Finally, update the bootstrapping code to [register](../reference/registration/registerLocalModules.md) the newly created local module:
 
-```tsx !#6-9 host/src/index.tsx
+```tsx !#6-8 host/src/index.tsx
 import { createRoot } from "react-dom/client";
-import { ConsoleLogger, FireflyProvider, initializeFirefly, type RemoteDefinition } from "@squide/firefly";
+import { FireflyProvider, initializeFirefly, type RemoteDefinition } from "@squide/firefly";
 import { registerHost } from "./register.tsx";
 import { App } from "./App.tsx";
 
 const runtime = initializeFirefly({
-    localModules: [registerHost, registerMyLocalModule],
-    loggers: [x => new ConsoleLogger(x)]
+    localModules: [registerHost, registerMyLocalModule]
 });
 
 const root = createRoot(document.getElementById("root")!);
@@ -309,7 +306,7 @@ First, open the `public/index.html` file created at the beginning of this guide 
 
 Then, open the `.browserslist` file and copy/paste the following content:
 
-``` host/.browserslistrc
+```!#1 host/.browserslistrc
 extends @workleap/browserslist-config
 ```
 
@@ -317,7 +314,7 @@ extends @workleap/browserslist-config
 
 To configure Rsbuild for a **development** environment, open the `rsbuild.dev.ts` file and use the [defineDevConfig](https://workleap.github.io/wl-web-configs/rsbuild/configure-dev/#rsbuilddevts) function to configure Rsbuild:
 
-```ts host/rsbuild.dev.ts
+```ts !#3 host/rsbuild.dev.ts
 import { defineDevConfig } from "@workleap/rsbuild-configs";
 
 export default defineDevConfig();
@@ -327,7 +324,7 @@ export default defineDevConfig();
 
 To configure Rsbuild for a **build** environment, open the `rsbuild.build.ts` file and use the [defineBuildConfig](https://workleap.github.io/wl-web-configs/rsbuild/configure-build/#rsbuildbuildts) function to configure Rsbuild:
 
-```ts host/rsbuild.build.ts
+```ts !#3 host/rsbuild.build.ts
 import { defineBuildConfig } from "@workleap/rsbuild-configs";
 
 export default defineBuildConfig();
@@ -337,7 +334,7 @@ export default defineBuildConfig();
 
 To initiate the development server, add the following script to the application `package.json` file:
 
-```json host/package.json
+```json !#2 host/package.json
 {
     "dev": "rsbuild dev --config ./rsbuild.dev.ts"
 }
@@ -345,7 +342,7 @@ To initiate the development server, add the following script to the application 
 
 To build the application, add the following script to the application `package.json` file:
 
-```json host/package.json
+```json !#2 host/package.json
 {
     "build": "rsbuild build --config rsbuild.build.ts"
 }

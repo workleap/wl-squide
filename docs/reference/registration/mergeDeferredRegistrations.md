@@ -30,7 +30,7 @@ A function or `undefined`:
 
 ## Usage
 
-```tsx host/src/register.tsx
+```tsx !#10-14 host/src/register.tsx
 import { mergeDeferredRegistrations, type ModuleRegisterFunction, type FireflyRuntime } from "@squide/firefly";
 import { registerLayouts } from "./registerLayouts.tsx";
 import { registerAppShell } from "./registerAppShell.tsx";

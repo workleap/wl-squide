@@ -167,7 +167,7 @@ export const register: ModuleRegisterFunction<FireflyRuntime> = runtime => {
 
 Now, let's fetch some data. First, add a [Mock Service Worker](https://mswjs.io/) (MSW) request handler to the local module:
 
-```ts local-module/mocks/handlers.ts
+```ts !#3-15 local-module/mocks/handlers.ts
 import { HttpResponse, http, type HttpHandler } from "msw";
 
 export const requestHandlers: HttpHandler[] = [

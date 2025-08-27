@@ -66,7 +66,19 @@ function BootstrappingRoute() {
 
     useEffect(() => {
         if (featureFlags) {
-            logger.debug("[shell] %cFeature flags has been fetched%c:", "color: white; background-color: green;", "", featureFlags);
+            logger
+                .withText("[shell]")
+                .withText("Feature flags has been fetched", {
+                    style: {
+                        color: "white",
+                        backgroundColor: "green"
+                    }
+                })
+                .withText(":", {
+                    leadingSpace: false
+                })
+                .withObject(featureFlags)
+                .debug();
         }
     }, [featureFlags, logger]);
 
@@ -101,7 +113,19 @@ function BootstrappingRoute() {
 
     useEffect(() => {
         if (session) {
-            logger.debug("[shell] %cSession has been fetched%c:", "color: white; background-color: green;", "", session);
+            logger
+                .withText("[shell]")
+                .withText("Session has been fetched", {
+                    style: {
+                        color: "white",
+                        backgroundColor: "green"
+                    }
+                })
+                .withText(":", {
+                    leadingSpace: false
+                })
+                .withObject(session)
+                .debug();
 
             // Update telemetry global attributes.
             setGlobalSpanAttributes({
@@ -117,7 +141,19 @@ function BootstrappingRoute() {
 
     useEffect(() => {
         if (subscription) {
-            logger.debug("[shell] %cSubscription has been fetched%c:", "color: white; background-color: green;", "", subscription);
+            logger
+                .withText("[shell]")
+                .withText("Subscription has been fetched", {
+                    style: {
+                        color: "white",
+                        backgroundColor: "green"
+                    }
+                })
+                .withText(":", {
+                    leadingSpace: false
+                })
+                .withObject(subscription)
+                .debug();
         }
     }, [subscription, logger]);
 
@@ -149,7 +185,10 @@ export function AppRouter() {
     return (
         <FireflyAppRouter waitForPublicData waitForProtectedData>
             {({ rootRoute, registeredRoutes, routerProviderProps }) => {
-                logger.debug("[shell] React Router will be rendered with the following route definitions: ", registeredRoutes);
+                logger
+                    .withText("[shell] React Router will be rendered with the following route definitions:")
+                    .withObject(registeredRoutes)
+                    .debug();
 
                 return (
                     <RouterProvider

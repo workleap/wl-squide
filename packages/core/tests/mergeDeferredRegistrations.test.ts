@@ -1,6 +1,6 @@
 import { test, vi } from "vitest";
-import type { DeferredRegistrationFunction } from "../src/index.ts";
 import { mergeDeferredRegistrations } from "../src/registration/mergeDeferredRegistrations.ts";
+import type { DeferredRegistrationFunction } from "../src/registration/registerModule.ts";
 
 function noop() {}
 

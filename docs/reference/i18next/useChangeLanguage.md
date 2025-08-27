@@ -24,7 +24,7 @@ A function to change the current language of an `i18nextPlugin` instance: `(newL
 
 ## Usage
 
-```tsx
+```tsx !#3,5
 import { useChangeLanguage } from "@squide/i18next";
 
 const changeLanguage = useChangeLanguage();

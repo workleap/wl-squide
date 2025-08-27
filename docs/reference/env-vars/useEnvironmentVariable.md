@@ -24,7 +24,7 @@ The environment variable value if there's a match, otherwise an `Error` is throw
 
 ## Usage
 
-```ts
+```ts !#3
 import { useEnvironmentVariable } from "@squide/env-vars";
 
 const apiBaseUrl = useEnvironmentVariable("apiBaseUrl");

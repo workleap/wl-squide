@@ -41,7 +41,7 @@ root.render(
 
 ### Retrieve a runtime instance
 
-```ts !#3
+```ts !#3,5
 import { useRuntime } from "@squide/firefly";
 
 const runtime = useRuntime();

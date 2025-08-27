@@ -29,11 +29,18 @@ export function ModuleErrorBoundary() {
 
     useEffect(() => {
         if (isRouteErrorResponse(error)) {
-            logger.error(`[shell] An unmanaged error occurred while rendering the route with path ${location.pathname}`, `${error.status} ${error.statusText}`);
+            logger.error(`[shell] An unmanaged error occurred while rendering the route with path ${location.pathname} ${error.status} ${error.statusText}.`);
         } else if (isGlobalDataQueriesError(error)) {
-            logger.error(`[shell] An unmanaged error occurred while rendering the route with path ${location.pathname}`, error.message, error.errors);
+            logger
+                .withText(`[shell] An unmanaged error occurred while rendering the route with path ${location.pathname}:`)
+                .withText(error.message)
+                .withObject(error.errors)
+                .error();
         } else {
-            logger.error(`[shell] An unmanaged error occurred while rendering the route with path ${location.pathname}`, error);
+            logger
+                .withText(`[shell] An unmanaged error occurred while rendering the route with path ${location.pathname}:`)
+                .withError(error)
+                .error();
         }
     }, [location.pathname, error, logger]);
 

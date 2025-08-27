@@ -52,7 +52,10 @@ export function bootstrap<TRuntime extends FireflyRuntime = FireflyRuntime, TCon
                     setMswAsReady();
                 })
                 .catch((error: unknown) => {
-                    runtime.logger.debug("[squide] An error occured while starting MSW.", error);
+                    runtime.logger
+                        .withText("[squide] An error occured while starting MSW.")
+                        .withError(error as Error)
+                        .error();
                 });
         }
 

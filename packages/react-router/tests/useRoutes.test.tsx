@@ -1,5 +1,6 @@
 import { RuntimeContext } from "@squide/core";
 import { renderHook, type RenderHookOptions } from "@testing-library/react";
+import { NoopLogger } from "@workleap/logging";
 import { test } from "vitest";
 import { ReactRouterRuntime } from "../src/reactRouterRuntime.ts";
 import { useRoutes } from "../src/useRoutes.ts";
@@ -16,7 +17,9 @@ function renderUseRoutesHook<TProps>(runtime: ReactRouterRuntime, additionalProp
 }
 
 test.concurrent("returns all the registered routes", ({ expect }) => {
-    const runtime = new ReactRouterRuntime();
+    const runtime = new ReactRouterRuntime({
+        loggers: [new NoopLogger()]
+    });
 
     runtime.registerRoute({
         path: "/foo",
@@ -38,7 +41,9 @@ test.concurrent("returns all the registered routes", ({ expect }) => {
 });
 
 test.concurrent("returned array is immutable", ({ expect }) => {
-    const runtime = new ReactRouterRuntime();
+    const runtime = new ReactRouterRuntime({
+        loggers: [new NoopLogger()]
+    });
 
     runtime.registerRoute({
         path: "/foo",

@@ -24,7 +24,7 @@ An array of `Route`.
 
 ## Usage
 
-```ts
+```ts !#3
 import { useRoutes } from "@squide/firefly";
 
 const routes = useRoutes();

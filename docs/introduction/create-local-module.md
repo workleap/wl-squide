@@ -40,7 +40,7 @@ local-modules
 
 Then, ensure that you are developing your module using [ESM syntax](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Modules) by specifying `type: module` in your `package.json` file:
 
-```json local-module/package.json
+```json !#2 local-module/package.json
 {
     "type": "module"
 }
@@ -48,7 +48,7 @@ Then, ensure that you are developing your module using [ESM syntax](https://deve
 
 Then, configure the package to be shareable by adding the `name`, `version`, and `export` fields to the `package.json` file:
 
-```json local-module/package.json
+```json !#2-4 local-module/package.json
 {
     "name": "@getting-started/local-module",
     "version": "0.0.1",
@@ -110,7 +110,7 @@ export function Page() {
 
 Go back to the `host` application and add a dependency to the `@getting-started/local-module` package in the host application `package.json` file:
 
-```json host/package.json
+```json !#3 host/package.json
 {
     "dependencies": {
         "@getting-started/local-module": "0.0.1"
@@ -126,7 +126,7 @@ Then, register the local module with the [initializeFirefly](/reference/registra
 
 ```tsx !#3,14 host/src/index.tsx
 import { createRoot } from "react-dom/client";
-import { ConsoleLogger, FireflyProvider, initializeFirefly, type RemoteDefinition } from "@squide/firefly";
+import { FireflyProvider, initializeFirefly, type RemoteDefinition } from "@squide/firefly";
 import { register as registerMyLocalModule } from "@getting-started/local-module";
 import { App } from "./App.tsx";
 import { registerHost } from "./register.tsx";
@@ -139,8 +139,7 @@ const Remotes: RemoteDefinition[] = [
 // Register the modules.
 const runtime = initializeFirefly(runtime, {
     localModules: [registerHost, registerMyLocalModule],
-    remotes: Remotes,
-    loggers: [x => new ConsoleLogger(x)]
+    remotes: Remotes
 })
 
 const root = createRoot(document.getElementById("root")!);

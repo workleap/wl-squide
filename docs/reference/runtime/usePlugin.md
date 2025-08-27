@@ -23,7 +23,7 @@ A plugin instance if the plugin has been registered, otherwise an `Error` is thr
 
 ## Usage
 
-```ts
+```ts !#4
 import { usePlugin } from "@squide/firefly";
 import { MyPlugin } from "@sample/my-plugin";
 

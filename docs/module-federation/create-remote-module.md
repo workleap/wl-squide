@@ -45,7 +45,7 @@ remote-module
 
 Then, ensure that you are developing your module using [ESM syntax](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Modules) by specifying `type: module` in your `package.json` file:
 
-```json remote-module/package.json
+```json !#2 remote-module/package.json
 {
     "type": "module"
 }
@@ -93,7 +93,7 @@ Squide webpack configuration is built on top of [@workleap/webpack-configs](http
 
 To configure webpack for a **development** environment, first open the `swc.dev.js` file and copy/paste the following code:
 
-```js remote-module/swc.dev.js
+```js !#5,7 remote-module/swc.dev.js
 // @ts-check
 
 import { browserslistToSwc, defineDevConfig } from "@workleap/swc-configs";
@@ -120,7 +120,7 @@ export default defineDevRemoteModuleConfig(swcConfig, "remote1", 8081);
 
 To configure webpack for a **build** environment, first open the `swc.build.js` file and copy/paste the following code:
 
-```js remote-module/swc.build.js
+```js !#5,7 remote-module/swc.build.js
 // @ts-check
 
 import { browserslistToSwc, defineBuildConfig } from "@workleap/swc-configs";
@@ -147,7 +147,7 @@ export default defineBuildRemoteModuleConfig(swcConfig, "remote1");
 
 To initiate the development server, add the following script to the application `package.json` file:
 
-```json remote-module/package.json
+```json !#2 remote-module/package.json
 {
     "dev": "webpack serve --config webpack.dev.js"
 }
@@ -155,7 +155,7 @@ To initiate the development server, add the following script to the application 
 
 To build the module, add the following script to the application `package.json` file:
 
-```json remote-module/package.json
+```json !#2 remote-module/package.json
 {
     "build": "webpack --config webpack.build.js"
 }
