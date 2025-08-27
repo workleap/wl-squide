@@ -1,5 +1,16 @@
 # @squide/msw
 
+## 3.4.0
+
+### Minor Changes
+
+- [#300](https://github.com/workleap/wl-squide/pull/300) [`8d3eae2`](https://github.com/workleap/wl-squide/commit/8d3eae2ee4dc0331f83047e3ef313c6abb15dc3f) Thanks [@patricklafrance](https://github.com/patricklafrance)! - Improved the logging API.
+
+### Patch Changes
+
+- Updated dependencies [[`8d3eae2`](https://github.com/workleap/wl-squide/commit/8d3eae2ee4dc0331f83047e3ef313c6abb15dc3f)]:
+  - @squide/core@5.6.0
+
 ## 3.3.0
 
 ### Minor Changes
