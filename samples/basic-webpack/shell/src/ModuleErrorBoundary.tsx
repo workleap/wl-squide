@@ -23,7 +23,7 @@ export function ModuleErrorBoundary() {
 
     useEffect(() => {
         logger
-            .withText(`[shell] An unmanaged error occurred while rendering the route with path ${location.pathname}`)
+            .withText(`[shell] An unmanaged error occurred while rendering the route with path ${location.pathname}:`)
             .withError(error as Error)
             .error();
     }, [location.pathname, error, logger]);

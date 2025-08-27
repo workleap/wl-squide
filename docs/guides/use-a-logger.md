@@ -4,7 +4,11 @@ order: 760
 
 # Use a logger
 
-By default, when running in [development mode](../reference/runtime/runtime-class.md#change-the-runtime-mode), a [BrowserConsoleLogger](https://workleap.github.io/wl-logging/reference/browserconsolelogger/) is automatically added if no custom loggers are provided through the `loggers` option of the [initializeFirefly](../reference/registration/initializeFirefly.md) function. To override this behavior, provide your own loggers array during initialization:
+By default, when running in [development mode](../reference/runtime/runtime-class.md#change-the-runtime-mode), a [BrowserConsoleLogger](https://workleap.github.io/wl-logging/reference/browserconsolelogger/) is automatically added if no custom loggers are provided through the `loggers` option of the [initializeFirefly](../reference/registration/initializeFirefly.md) function.
+
+## Use a custom logger
+
+To override this behavior, provide your own loggers array during initialization:
 
 ```tsx !#7 host/src/index.tsx
 import { createRoot } from "react-dom/client";
@@ -25,17 +29,18 @@ root.render(
 );
 ```
 
-## Production mode
+## Enable console logging in production
 
-To log to the browser console when Squide is not running in [development mode](../reference/runtime/runtime-class.md#change-the-runtime-mode), provide an instance of [BrowserConsoleLogger](https://workleap.github.io/wl-logging/reference/browserconsolelogger/):
+To log to the browser console when Squide is running in [production mode](../reference/runtime/runtime-class.md#change-the-runtime-mode), install the [@workleap/logging](https://www.npmjs.com/package/@workleap/logging) package and provide an instance of [BrowserConsoleLogger](https://workleap.github.io/wl-logging/reference/browserconsolelogger/):
 
-```tsx !#7 host/src/index.tsx
+```tsx !#8 host/src/index.tsx
 import { createRoot } from "react-dom/client";
 import { FireflyProvider, initializeFirefly, type RemoteDefinition } from "@squide/firefly";
 import { BrowserConsoleLogger } from "@workleap/logging";
 import { App } from "./App.tsx";
 
 const runtime = initializeFirefly({
+    mode: "production",
     loggers: [new BrowserConsoleLogger()]
 });
 
@@ -48,8 +53,27 @@ root.render(
 );
 ```
 
-!!!tip
-To capture logs in LogRocket session replays in production, see the [add a LogRocket logger](./add-a-logrocket-logger.md) guide.
-!!!
+## Capture logs in LogRocket
+
+To capture logs in LogRocket session replays, install the [@workleap/logrocket](https://www.npmjs.com/package/@workleap/logrocket) package and provide an instance of [LogRocketLogger](https://workleap.github.io/wl-telemetry/logrocket/reference/logrocketlogger/):
+
+```tsx !#7 host/src/index.tsx
+import { createRoot } from "react-dom/client";
+import { FireflyProvider, initializeFirefly, type RemoteDefinition } from "@squide/firefly";
+import { LogRocketLogger } from "@workleap/logrocket";
+import { App } from "./App.tsx";
+
+const runtime = initializeFirefly({
+    loggers: [new LogRocketLogger()]
+});
+
+const root = createRoot(document.getElementById("root")!);
+
+root.render(
+    <FireflyProvider runtime={runtime}>
+        <App />
+    </FireflyProvider>
+);
+```
 
 
