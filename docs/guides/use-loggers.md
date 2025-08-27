@@ -12,7 +12,7 @@ To override this behavior, provide your own loggers array during initialization:
 
 ```tsx !#7 host/src/index.tsx
 import { createRoot } from "react-dom/client";
-import { FireflyProvider, initializeFirefly, type RemoteDefinition } from "@squide/firefly";
+import { FireflyProvider, initializeFirefly } from "@squide/firefly";
 import { MyLogger } from "./MyLogger.tsx";
 import { App } from "./App.tsx";
 
@@ -35,7 +35,7 @@ To log to the browser console when Squide is running in [production mode](../ref
 
 ```tsx !#8 host/src/index.tsx
 import { createRoot } from "react-dom/client";
-import { FireflyProvider, initializeFirefly, type RemoteDefinition } from "@squide/firefly";
+import { FireflyProvider, initializeFirefly } from "@squide/firefly";
 import { BrowserConsoleLogger } from "@workleap/logging";
 import { App } from "./App.tsx";
 
@@ -59,7 +59,7 @@ To capture logs in LogRocket session replays, install the [@workleap/logrocket](
 
 ```tsx !#7 host/src/index.tsx
 import { createRoot } from "react-dom/client";
-import { FireflyProvider, initializeFirefly, type RemoteDefinition } from "@squide/firefly";
+import { FireflyProvider, initializeFirefly } from "@squide/firefly";
 import { LogRocketLogger } from "@workleap/logrocket";
 import { App } from "./App.tsx";
 
