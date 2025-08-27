@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <meta name="turbo-root" content="/wl-squide">
-    <meta name="turbo-cache-control" content="no-cache" data-turbo-track="reload" data-track-token="3.12.0-preview2.809629260311">
+    <meta name="turbo-cache-control" content="no-cache" data-turbo-track="reload" data-track-token="3.12.0-preview2.809629590357">
 
     <!-- See retype.com -->
     <meta name="generator" content="Retype 3.12.0-preview2">
@@ -32,12 +32,12 @@
     <script data-cfasync="false">(function(){var cl=document.documentElement.classList,ls=localStorage.getItem("retype_scheme"),hd=cl.contains("dark"),hl=cl.contains("light"),wm=window.matchMedia&&window.matchMedia("(prefers-color-scheme: dark)").matches;if(ls==="dark"||(!ls&&wm&&!hd&&!hl)){cl.remove("light");cl.add("dark")}else if(ls==="light"||(!ls&&!wm&&!hd&&!hl)){cl.remove("dark");cl.add("light")}})();</script>
 
     <link id="retype-favicon" rel="icon" href="../../static/favicon.png" />
-    <link href="../../resources/css/retype.css?v=3.12.0-preview2.809629260311" rel="stylesheet">
+    <link href="../../resources/css/retype.css?v=3.12.0-preview2.809629590357" rel="stylesheet">
 
-    <script data-cfasync="false" src="../../resources/js/config.js?v=3.12.0-preview2.809629260311" data-turbo-eval="false" defer></script>
+    <script data-cfasync="false" src="../../resources/js/config.js?v=3.12.0-preview2.809629590357" data-turbo-eval="false" defer></script>
     <script data-cfasync="false" src="../../resources/js/retype.js?v=3.12.0-preview2" data-turbo-eval="false" defer></script>
-    <script id="lunr-js" data-cfasync="false" src="../../resources/js/lunr.js?v=3.12.0-preview2.809629260311" data-turbo-eval="false" defer></script>
-    <script id="prism-js" data-cfasync="false" src="../../resources/js/prism.js?v=3.12.0-preview2.809629260311" defer></script>
+    <script id="lunr-js" data-cfasync="false" src="../../resources/js/lunr.js?v=3.12.0-preview2.809629590357" data-turbo-eval="false" defer></script>
+    <script id="prism-js" data-cfasync="false" src="../../resources/js/prism.js?v=3.12.0-preview2.809629590357" defer></script>
 
     <link href="https://workleap.github.io/wl-idp-docs-hub/static/retype-customization.css" rel="stylesheet" />
 
@@ -771,7 +771,7 @@ export function registerShell(env: Environment) {
 <p>Then, update the <code translate="no" v-pre>registerShell</code> function to register the <code translate="no" v-pre>apiBaseUrl</code> environment variable based on the provided <code translate="no" v-pre>env</code> argument:</p>
 <div class="codeblock-wrapper"><doc-codeblock>
 <div class="codeblock-title">shell/src/register.tsx</div>
-<pre translate="no" class="language-typescript" data-line="41-44"><code v-pre class="language-typescript">import type { ModuleRegisterFunction } from &quot;@squide/firefly&quot;;
+<pre translate="no" class="language-typescript" data-line="41-42,44"><code v-pre class="language-typescript">import type { ModuleRegisterFunction } from &quot;@squide/firefly&quot;;
 import { getEnvironmentVariablesPlugin } from &quot;@squide/env-vars&quot;;
 
 export type Environment = &quot;dev&quot; | &quot;staging&quot; | &quot;production&quot;;
@@ -812,8 +812,8 @@ function getEnvironmentVariables(env: Environment): ShellEnvironmentVariables {
 export function registerShell(env: Environment) {
     const register: ModuleRegisterFunction = runtime =&gt; {
         const variables = getEnvironmentVariables(env);
-
         const plugin = getEnvironmentVariablesPlugin(runtime);
+
         runtime.registerVariables(variables);
     }
 }</code></pre>
