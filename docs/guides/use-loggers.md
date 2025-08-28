@@ -96,6 +96,14 @@ const runtime = useRuntime();
 runtime.logger.debug("Hello!");
 ```
 
+!!!warning
+Never log any **Personally Identifiable Information (PII)**.
+
+API responses frequently contain sensitive user data such as names, email addresses, phone numbers, or IDs. Remove all logs outputting API response before deploying to production, as these can expose private information that will be included in session replays.
+
+For debugging, use `console.log` instead, since its output is not captured in LogRocket session replays.
+!!!
+
 
 
 
