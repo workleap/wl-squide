@@ -2,7 +2,7 @@
 order: 1000
 ---
 
-# Setup Mock Service Worker
+# Setup MSW
 
 To speed up frontend development and encourage an [API first](https://swagger.io/resources/articles/adopting-an-api-first-approach/) approach, Squide has built-in support for [Mock Service Worker](https://mswjs.io/) (MSW). MSW offers an API to host fake endpoints directly in the browser. This means that unlike alternative solutions, it doesn't require running an additional process.
 

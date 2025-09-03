@@ -1,5 +1,5 @@
 ---
-order: 820
+order: 800
 ---
 
 # Setup i18next

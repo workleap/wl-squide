@@ -5,7 +5,7 @@ order: 980
 # Fetch global data
 
 !!!warning
-Before going forward with this guide, make sure that you completed the [Setup Mock Service Worker](./setup-msw.md) guide.
+Before going forward with this guide, make sure that you completed the [Setup MSW](./setup-msw.md) guide.
 !!!
 
 Retrieving the global data of an application is a crucial aspect that isn't always straightforward to implement. That's why we encourage feature teams to build their global data fetching strategy on top of the Squide [AppRouter](../reference/routing/appRouter.md) component.

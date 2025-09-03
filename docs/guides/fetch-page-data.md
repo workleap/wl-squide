@@ -5,7 +5,7 @@ order: 975
 # Fetch page data
 
 !!!warning
-Before going forward with this guide, make sure that you completed the [Setup Mock Service Worker](./setup-msw.md) guide.
+Before going forward with this guide, make sure that you completed the [Setup MSW](./setup-msw.md) guide.
 !!!
 
 There are various approaches to fetching data for pages. At Workleap, our preference is to develop a backend for frontend (BFF) with a **dedicated endpoint per page**, returning a **data** structure specifically **tailored** for that **page**. We rely on **server state** as our single **source of truth** and leverage [TanStack Query](https://tanstack.com/query/latest/) to manage data fetching.

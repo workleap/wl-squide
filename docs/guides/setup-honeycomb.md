@@ -1,5 +1,5 @@
 ---
-order: 800
+order: 780
 ---
 
 # Setup Honeycomb

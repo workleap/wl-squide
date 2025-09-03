@@ -5,7 +5,7 @@ order: 920
 # Add authentication
 
 !!!warning
-Before going forward with this guide, make sure that you completed the [Setup Mock Service Worker](./setup-msw.md) and [Fetch global data](./fetch-global-data.md) guides.
+Before going forward with this guide, make sure that you completed the [Setup MSW](./setup-msw.md) and [Fetch global data](./fetch-global-data.md) guides.
 !!!
 
 Most of Workleap's applications, if not all, will eventually require user authentication. While Squide doesn't offer built-in primitives for this process, it can assist by providing a **well-established recipe** to integrate an authentication flow with Squide.

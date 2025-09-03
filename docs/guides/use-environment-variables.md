@@ -5,7 +5,7 @@ order: 830
 # Use environment variables
 
 !!!warning
-Before going forward with this guide, make sure that you completed the [Setup Mock Service Worker](./setup-msw.md) guide.
+Before going forward with this guide, make sure that you completed the [Setup MSW](./setup-msw.md) guide.
 !!!
 
 Environment variables are incredibly useful when working with **multiple environments**, such as `dev`, `staging`, and `production`, by **decoupling configuration from** the **code**. This allows to change an application's behavior without modifying the code itself. A common example is the URLs of dedicated API services, where each environment uses a different URL.
