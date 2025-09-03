@@ -137,6 +137,8 @@ Depending on the sample application, traces are sent to the corresponding projec
 
 - `endpoints`: `squide-endpoints-sample`
 
+To query the traces, go to the query dashboard of your Honeycomb project, input `root.name = squide-bootstrapping` into the `WHERE` condition field and run the query.
+
 ## Release the packages
 
 When you are ready to release the packages, you must follow the following steps:

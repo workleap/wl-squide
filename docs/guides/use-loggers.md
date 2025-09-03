@@ -31,7 +31,13 @@ root.render(
 
 ## Enable console logging in production
 
-To log to the browser console when Squide is running in [production mode](../reference/runtime/runtime-class.md#change-the-runtime-mode), install the [@workleap/logging](https://www.npmjs.com/package/@workleap/logging) package and provide an instance of [BrowserConsoleLogger](https://workleap.github.io/wl-logging/reference/browserconsolelogger/):
+To log to the browser console when Squide is running in [production mode](../reference/runtime/runtime-class.md#change-the-runtime-mode), first, open a terminal at the root of the host application and install the [@workleap/logging](https://www.npmjs.com/package/@workleap/logging) package:
+
+``` bash
+pnpm add @workleap/logging
+```
+
+Then, provide an instance of [BrowserConsoleLogger](https://workleap.github.io/wl-logging/reference/browserconsolelogger/) at initialization:
 
 ```tsx !#8 host/src/index.tsx
 import { createRoot } from "react-dom/client";
@@ -55,7 +61,13 @@ root.render(
 
 ## Capture logs in LogRocket
 
-To capture logs in LogRocket session replays, install the [@workleap/logrocket](https://www.npmjs.com/package/@workleap/logrocket) package and provide an instance of [LogRocketLogger](https://workleap.github.io/wl-telemetry/logrocket/reference/logrocketlogger/):
+To capture logs in LogRocket session replays, first, open a terminal at the root of the host application and install the [@workleap/logrocket](https://www.npmjs.com/package/@workleap/logrocket) package:
+
+``` bash
+pnpm add @workleap/logrocket
+```
+
+Then, provide an instance of [LogRocketLogger](https://workleap.github.io/wl-telemetry/logrocket/reference/logrocketlogger/) at initialization:
 
 ```tsx !#7 host/src/index.tsx
 import { createRoot } from "react-dom/client";
@@ -65,6 +77,30 @@ import { App } from "./App.tsx";
 
 const runtime = initializeFirefly({
     loggers: [new LogRocketLogger()]
+});
+
+const root = createRoot(document.getElementById("root")!);
+
+root.render(
+    <FireflyProvider runtime={runtime}>
+        <App />
+    </FireflyProvider>
+);
+```
+
+## Use multiple loggers
+
+Multiple loggers can be provided at initialization:
+
+```tsx !#8 host/src/index.tsx
+import { createRoot } from "react-dom/client";
+import { FireflyProvider, initializeFirefly } from "@squide/firefly";
+import { BrowserConsoleLogger } from "@workleap/logging";
+import { LogRocketLogger } from "@workleap/logrocket";
+import { App } from "./App.tsx";
+
+const runtime = initializeFirefly({
+    loggers: [new BrowserConsoleLogger(), new LogRocketLogger()]
 });
 
 const root = createRoot(document.getElementById("root")!);
