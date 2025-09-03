@@ -1,5 +1,11 @@
 # @squide/firefly
 
+## 13.3.1
+
+### Patch Changes
+
+- [#307](https://github.com/workleap/wl-squide/pull/307) [`4bd0a34`](https://github.com/workleap/wl-squide/commit/4bd0a34b443caeb12f6c65faa5443c4a48784562) Thanks [@patricklafrance](https://github.com/patricklafrance)! - Fix Honeycomb traces for certain usecases, including global data fetch failures.
+
 ## 13.3.0
 
 ### Minor Changes
