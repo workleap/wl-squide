@@ -9,7 +9,7 @@ The Workleap platform widgets library provides native integration with Squide Fi
 First, open a terminal at the root of the solution and install the `@worleap-widgets/squide-firefly` package:
 
 ```bash
-pnpm add @worleap-widgets/squide-firefly
+pnpm add @workleap-widgets/squide-firefly
 ```
 
 Then, import the `initializeWidgets` function from `@workleap-widgets/squide-firefly` in the host application, and call it with a Squide Firefly [runtime](../reference/runtime//runtime-class.md) instance to initialize the widgets:
