@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <meta name="turbo-root" content="/wl-squide">
-    <meta name="turbo-cache-control" content="no-cache" data-turbo-track="reload" data-track-token="3.12.0-preview2.809664621025">
+    <meta name="turbo-cache-control" content="no-cache" data-turbo-track="reload" data-track-token="3.12.0-preview2.810180542892">
 
     <!-- See retype.com -->
     <meta name="generator" content="Retype 3.12.0-preview2">
@@ -32,12 +32,12 @@
     <script data-cfasync="false">(function(){var cl=document.documentElement.classList,ls=localStorage.getItem("retype_scheme"),hd=cl.contains("dark"),hl=cl.contains("light"),wm=window.matchMedia&&window.matchMedia("(prefers-color-scheme: dark)").matches;if(ls==="dark"||(!ls&&wm&&!hd&&!hl)){cl.remove("light");cl.add("dark")}else if(ls==="light"||(!ls&&!wm&&!hd&&!hl)){cl.remove("dark");cl.add("light")}})();</script>
 
     <link id="retype-favicon" rel="icon" href="../../static/favicon.png" />
-    <link href="../../resources/css/retype.css?v=3.12.0-preview2.809664621025" rel="stylesheet">
+    <link href="../../resources/css/retype.css?v=3.12.0-preview2.810180542892" rel="stylesheet">
 
-    <script data-cfasync="false" src="../../resources/js/config.js?v=3.12.0-preview2.809664621025" data-turbo-eval="false" defer></script>
+    <script data-cfasync="false" src="../../resources/js/config.js?v=3.12.0-preview2.810180542892" data-turbo-eval="false" defer></script>
     <script data-cfasync="false" src="../../resources/js/retype.js?v=3.12.0-preview2" data-turbo-eval="false" defer></script>
-    <script id="lunr-js" data-cfasync="false" src="../../resources/js/lunr.js?v=3.12.0-preview2.809664621025" data-turbo-eval="false" defer></script>
-    <script id="prism-js" data-cfasync="false" src="../../resources/js/prism.js?v=3.12.0-preview2.809664621025" defer></script>
+    <script id="lunr-js" data-cfasync="false" src="../../resources/js/lunr.js?v=3.12.0-preview2.810180542892" data-turbo-eval="false" defer></script>
+    <script id="prism-js" data-cfasync="false" src="../../resources/js/prism.js?v=3.12.0-preview2.810180542892" defer></script>
 
     <link href="https://workleap.github.io/wl-idp-docs-hub/static/retype-customization.css" rel="stylesheet" />
 
@@ -310,7 +310,11 @@ root.render(
         <span>Enable console logging in production</span>
     </h2>
 </doc-anchor-target>
-<p>To log to the browser console when Squide is running in <a href="../../reference/runtime/runtime-class/#change-the-runtime-mode">production mode</a>, install the <a href="https://www.npmjs.com/package/@workleap/logging" class="outbound" target="_blank">@workleap/logging</a> package and provide an instance of <a href="https://workleap.github.io/wl-logging/reference/browserconsolelogger/" class="outbound" target="_blank">BrowserConsoleLogger</a>:</p>
+<p>To log to the browser console when Squide is running in <a href="../../reference/runtime/runtime-class/#change-the-runtime-mode">production mode</a>, first, open a terminal at the root of the host application and install the <a href="https://www.npmjs.com/package/@workleap/logging" class="outbound" target="_blank">@workleap/logging</a> package:</p>
+<div class="codeblock-wrapper"><doc-codeblock>
+<pre translate="no" class="language-bash"><code v-pre class="language-bash">pnpm add @workleap/logging</code></pre>
+</doc-codeblock></div>
+<p>Then, provide an instance of <a href="https://workleap.github.io/wl-logging/reference/browserconsolelogger/" class="outbound" target="_blank">BrowserConsoleLogger</a> at initialization:</p>
 <div class="codeblock-wrapper"><doc-codeblock>
 <div class="codeblock-title">host/src/index.tsx</div>
 <pre translate="no" class="language-tsx" data-line="8"><code v-pre class="language-tsx">import { createRoot } from &quot;react-dom/client&quot;;
@@ -337,7 +341,11 @@ root.render(
         <span>Capture logs in LogRocket</span>
     </h2>
 </doc-anchor-target>
-<p>To capture logs in LogRocket session replays, install the <a href="https://www.npmjs.com/package/@workleap/logrocket" class="outbound" target="_blank">@workleap/logrocket</a> package and provide an instance of <a href="https://workleap.github.io/wl-telemetry/logrocket/reference/logrocketlogger/" class="outbound" target="_blank">LogRocketLogger</a>:</p>
+<p>To capture logs in LogRocket session replays, first, open a terminal at the root of the host application and install the <a href="https://www.npmjs.com/package/@workleap/logrocket" class="outbound" target="_blank">@workleap/logrocket</a> package:</p>
+<div class="codeblock-wrapper"><doc-codeblock>
+<pre translate="no" class="language-bash"><code v-pre class="language-bash">pnpm add @workleap/logrocket</code></pre>
+</doc-codeblock></div>
+<p>Then, provide an instance of <a href="https://workleap.github.io/wl-telemetry/logrocket/reference/logrocketlogger/" class="outbound" target="_blank">LogRocketLogger</a> at initialization:</p>
 <div class="codeblock-wrapper"><doc-codeblock>
 <div class="codeblock-title">host/src/index.tsx</div>
 <pre translate="no" class="language-tsx" data-line="7"><code v-pre class="language-tsx">import { createRoot } from &quot;react-dom/client&quot;;
@@ -347,6 +355,33 @@ import { App } from &quot;./App.tsx&quot;;
 
 const runtime = initializeFirefly({
     loggers: [new LogRocketLogger()]
+});
+
+const root = createRoot(document.getElementById(&quot;root&quot;)!);
+
+root.render(
+    &lt;FireflyProvider runtime={runtime}&gt;
+        &lt;App /&gt;
+    &lt;/FireflyProvider&gt;
+);</code></pre>
+</doc-codeblock></div>
+<doc-anchor-target id="use-multiple-loggers">
+    <h2>
+        <doc-anchor-trigger class="header-anchor-trigger" to="#use-multiple-loggers">#</doc-anchor-trigger>
+        <span>Use multiple loggers</span>
+    </h2>
+</doc-anchor-target>
+<p>Multiple loggers can be provided at initialization:</p>
+<div class="codeblock-wrapper"><doc-codeblock>
+<div class="codeblock-title">host/src/index.tsx</div>
+<pre translate="no" class="language-tsx" data-line="8"><code v-pre class="language-tsx">import { createRoot } from &quot;react-dom/client&quot;;
+import { FireflyProvider, initializeFirefly } from &quot;@squide/firefly&quot;;
+import { BrowserConsoleLogger } from &quot;@workleap/logging&quot;;
+import { LogRocketLogger } from &quot;@workleap/logrocket&quot;;
+import { App } from &quot;./App.tsx&quot;;
+
+const runtime = initializeFirefly({
+    loggers: [new BrowserConsoleLogger(), new LogRocketLogger()]
 });
 
 const root = createRoot(document.getElementById(&quot;root&quot;)!);
