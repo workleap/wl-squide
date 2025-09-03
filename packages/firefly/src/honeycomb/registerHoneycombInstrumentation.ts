@@ -37,7 +37,7 @@ import {
     RemoteModulesRegistrationStartedEvent,
     type RemoteModulesRegistrationStartedEventPayload
 } from "@squide/module-federation";
-import { ApplicationBoostrappedEvent, ModulesReadyEvent, ModulesRegisteredEvent, MswReadyEvent, ProtectedDataReadyEvent, PublicDataReadyEvent } from "../AppRouterReducer.ts";
+import { ApplicationBoostrappedEvent, type AppRouterWaitState, ModulesReadyEvent, ModulesRegisteredEvent, MswReadyEvent, ProtectedDataReadyEvent, PublicDataReadyEvent } from "../AppRouterReducer.ts";
 import type { FireflyRuntime } from "../FireflyRuntime.tsx";
 import { ApplicationBootstrappingStartedEvent } from "../initializeFirefly.ts";
 import { ProtectedDataFetchFailedEvent, ProtectedDataFetchStartedEvent } from "../useProtectedDataQueries.ts";
@@ -72,11 +72,16 @@ export function reduceDataFetchEvents(
         onPublicDataFetchStarted();
     }, { once: true });
 
-    runtime.eventBus.addListener(PublicDataReadyEvent, () => {
+    runtime.eventBus.addListener(PublicDataReadyEvent, payload => {
         onPublicDataReady();
 
         if (dataFetchState === "fetching-data") {
-            dataFetchState = "public-data-ready";
+            if (payload && !(payload as AppRouterWaitState).waitForProtectedData) {
+                dataFetchState = "data-ready";
+                onDataReady();
+            } else {
+                dataFetchState = "public-data-ready";
+            }
         } else if (dataFetchState === "protected-data-ready") {
             dataFetchState = "data-ready";
             onDataReady();
@@ -92,11 +97,16 @@ export function reduceDataFetchEvents(
         onProtectedDataFetchStarted();
     }, { once: true });
 
-    runtime.eventBus.addListener(ProtectedDataReadyEvent, () => {
+    runtime.eventBus.addListener(ProtectedDataReadyEvent, payload => {
         onProtectedDataReady();
 
         if (dataFetchState === "fetching-data") {
-            dataFetchState = "protected-data-ready";
+            if (payload && !(payload as AppRouterWaitState).waitForPublicData) {
+                dataFetchState = "data-ready";
+                onDataReady();
+            } else {
+                dataFetchState = "protected-data-ready";
+            }
         } else if (dataFetchState === "public-data-ready") {
             dataFetchState = "data-ready";
             onDataReady();
@@ -330,7 +340,13 @@ function registerTrackingListeners(runtime: FireflyRuntime) {
                 traceError(dataFetchSpan.instance, x);
             });
 
-            dataFetchSpan.instance.end();
+            endActiveSpan(dataFetchSpan);
+
+            // Global data fetch errors are unmanaged, which mean the host application bootstrapping flow
+            // will be aborted and a react-router error boundary will be rendered.
+            if (bootstrappingSpan) {
+                bootstrappingSpan.end();
+            }
         }
     };
 

@@ -178,6 +178,7 @@ describe("useAppRouterReducer", () => {
         });
 
         expect(listener).toHaveBeenCalledTimes(1);
+        expect(listener).toHaveBeenCalledWith({ waitForMsw: false, waitForPublicData: false, waitForProtectedData: false });
     });
 
     test.concurrent("when \"modules-ready\" is dispatched, \"areModulesReady\" is true", ({ expect }) => {
@@ -220,6 +221,7 @@ describe("useAppRouterReducer", () => {
         });
 
         expect(listener).toHaveBeenCalledTimes(1);
+        expect(listener).toHaveBeenCalledWith({ waitForMsw: false, waitForPublicData: false, waitForProtectedData: false });
     });
 
     test.concurrent("when \"modules-ready\" is dispatched, \"deferredRegistrationsUpdatedAt\" is set to the current timestamp", ({ expect }) => {
@@ -248,7 +250,7 @@ describe("useAppRouterReducer", () => {
 
     test.concurrent("when \"msw-ready\" is dispatched, \"isMswReady\" is true", ({ expect }) => {
         const runtime = new FireflyRuntime({
-            useMsw: false,
+            useMsw: true,
             loggers: [new NoopLogger()]
         });
 
@@ -268,7 +270,7 @@ describe("useAppRouterReducer", () => {
 
     test.concurrent("when \"msw-ready\" is dispatched, MswReadyEvent is dispatched", ({ expect }) => {
         const runtime = new FireflyRuntime({
-            useMsw: false,
+            useMsw: true,
             loggers: [new NoopLogger()]
         });
 
@@ -286,6 +288,7 @@ describe("useAppRouterReducer", () => {
         });
 
         expect(listener).toHaveBeenCalledTimes(1);
+        expect(listener).toHaveBeenCalledWith({ waitForMsw: true, waitForPublicData: false, waitForProtectedData: false });
     });
 
     test.concurrent("when \"public-data-ready\" is dispatched, \"isPublicDataReady\" is true", ({ expect }) => {
@@ -294,7 +297,7 @@ describe("useAppRouterReducer", () => {
             loggers: [new NoopLogger()]
         });
 
-        const { result } = renderUseAppRouterReducerHook(runtime, false, false);
+        const { result } = renderUseAppRouterReducerHook(runtime, true, false);
 
         expect(result.current[0].isPublicDataReady).toBeFalsy();
         expect(runtime.appRouterStore.state.isPublicDataReady).toBeFalsy();
@@ -318,7 +321,7 @@ describe("useAppRouterReducer", () => {
 
         runtime.eventBus.addListener(PublicDataReadyEvent, listener);
 
-        const { result } = renderUseAppRouterReducerHook(runtime, false, false);
+        const { result } = renderUseAppRouterReducerHook(runtime, true, false);
 
         expect(result.current[0].isPublicDataReady).toBeFalsy();
 
@@ -328,6 +331,7 @@ describe("useAppRouterReducer", () => {
         });
 
         expect(listener).toHaveBeenCalledTimes(1);
+        expect(listener).toHaveBeenCalledWith({ waitForMsw: false, waitForPublicData: true, waitForProtectedData: false });
     });
 
     test.concurrent("when \"public-data-ready\" is dispatched, \"publicDataUpdatedAt\" is set to the current timestamp", ({ expect }) => {
@@ -340,7 +344,7 @@ describe("useAppRouterReducer", () => {
             loggers: [new NoopLogger()]
         });
 
-        const { result } = renderUseAppRouterReducerHook(runtime, false, false);
+        const { result } = renderUseAppRouterReducerHook(runtime, true, false);
 
         expect(result.current[0].publicDataUpdatedAt).toBeUndefined();
         expect(runtime.appRouterStore.state.publicDataUpdatedAt).toBeUndefined();
@@ -360,7 +364,7 @@ describe("useAppRouterReducer", () => {
             loggers: [new NoopLogger()]
         });
 
-        const { result } = renderUseAppRouterReducerHook(runtime, false, false);
+        const { result } = renderUseAppRouterReducerHook(runtime, false, true);
 
         expect(result.current[0].isProtectedDataReady).toBeFalsy();
         expect(runtime.appRouterStore.state.isProtectedDataReady).toBeFalsy();
@@ -384,7 +388,7 @@ describe("useAppRouterReducer", () => {
 
         runtime.eventBus.addListener(ProtectedDataReadyEvent, listener);
 
-        const { result } = renderUseAppRouterReducerHook(runtime, false, false);
+        const { result } = renderUseAppRouterReducerHook(runtime, false, true);
 
         expect(result.current[0].isProtectedDataReady).toBeFalsy();
 
@@ -394,6 +398,7 @@ describe("useAppRouterReducer", () => {
         });
 
         expect(listener).toHaveBeenCalledTimes(1);
+        expect(listener).toHaveBeenCalledWith({ waitForMsw: false, waitForPublicData: false, waitForProtectedData: true });
     });
 
     test.concurrent("when \"protected-data-ready\" is dispatched, \"protectedDataUpdatedAt\" is set to the current timestamp", ({ expect }) => {
@@ -406,7 +411,7 @@ describe("useAppRouterReducer", () => {
             loggers: [new NoopLogger()]
         });
 
-        const { result } = renderUseAppRouterReducerHook(runtime, false, false);
+        const { result } = renderUseAppRouterReducerHook(runtime, false, true);
 
         expect(result.current[0].protectedDataUpdatedAt).toBeUndefined();
         expect(runtime.appRouterStore.state.protectedDataUpdatedAt).toBeUndefined();
@@ -546,6 +551,7 @@ describe("useAppRouterReducer", () => {
         });
 
         expect(listener).toHaveBeenCalledTimes(1);
+        expect(listener).toHaveBeenCalledWith({ waitForMsw: false, waitForPublicData: false, waitForProtectedData: false });
     });
 
     test.concurrent("when \"active-route-is-protected\" is dispatched, \"activeRouteVisiblity\" is \"protected\"", ({ expect }) => {
@@ -588,6 +594,7 @@ describe("useAppRouterReducer", () => {
         });
 
         expect(listener).toHaveBeenCalledTimes(1);
+        expect(listener).toHaveBeenCalledWith({ waitForMsw: false, waitForPublicData: false, waitForProtectedData: false });
     });
 
     test.concurrent("when \"is-unauthorized\" is dispatched, \"isUnauthorized\" is true", ({ expect }) => {
@@ -647,6 +654,7 @@ describe("useAppRouterReducer", () => {
         renderUseAppRouterReducerHook(runtime, false, false);
 
         expect(listener).toHaveBeenCalledTimes(1);
+        expect(listener).toHaveBeenCalledWith({ waitForMsw: false, waitForPublicData: false, waitForProtectedData: false });
     });
 
     test.concurrent("when local modules are registered and no remote modules has been provided, \"areModulesRegistered\" is true at initialization", ({ expect }) => {
@@ -686,6 +694,7 @@ describe("useAppRouterReducer", () => {
         renderUseAppRouterReducerHook(runtime, false, false);
 
         expect(listener).toHaveBeenCalledTimes(1);
+        expect(listener).toHaveBeenCalledWith({ waitForMsw: false, waitForPublicData: false, waitForProtectedData: false });
     });
 
     test.concurrent("when no local modules has been provided and remote modules are registered, \"areModulesRegistered\" is true at initialization", ({ expect }) => {
@@ -725,6 +734,7 @@ describe("useAppRouterReducer", () => {
         renderUseAppRouterReducerHook(runtime, false, false);
 
         expect(listener).toHaveBeenCalledTimes(1);
+        expect(listener).toHaveBeenCalledWith({ waitForMsw: false, waitForPublicData: false, waitForProtectedData: false });
     });
 
     test.concurrent("when local modules are registered and remote modules are registering, \"areModulesRegistered\" is false at initialization", ({ expect }) => {
@@ -800,6 +810,7 @@ describe("useAppRouterReducer", () => {
         renderUseAppRouterReducerHook(runtime, false, false);
 
         expect(listener).toHaveBeenCalledTimes(1);
+        expect(listener).toHaveBeenCalledWith({ waitForMsw: false, waitForPublicData: false, waitForProtectedData: false });
     });
 
     test.concurrent("when local modules are ready and no remote modules has been provided, \"areModulesReady\" is true at initialization", ({ expect }) => {
@@ -839,6 +850,7 @@ describe("useAppRouterReducer", () => {
         renderUseAppRouterReducerHook(runtime, false, false);
 
         expect(listener).toHaveBeenCalledTimes(1);
+        expect(listener).toHaveBeenCalledWith({ waitForMsw: false, waitForPublicData: false, waitForProtectedData: false });
     });
 
     test.concurrent("when no local modules has been provided and remote modules are ready, \"areModulesReady\" is true at initialization", ({ expect }) => {
@@ -878,6 +890,7 @@ describe("useAppRouterReducer", () => {
         renderUseAppRouterReducerHook(runtime, false, false);
 
         expect(listener).toHaveBeenCalledTimes(1);
+        expect(listener).toHaveBeenCalledWith({ waitForMsw: false, waitForPublicData: false, waitForProtectedData: false });
     });
 
     test.concurrent("when local modules are ready and remote modules are not ready, \"areModulesReady\" is false at initialization", ({ expect }) => {
@@ -949,6 +962,7 @@ describe("useAppRouterReducer", () => {
         renderUseAppRouterReducerHook(runtime, false, false);
 
         expect(listener).toHaveBeenCalledTimes(1);
+        expect(listener).toHaveBeenCalledWith({ waitForMsw: false, waitForPublicData: false, waitForProtectedData: false });
     });
 
     test.concurrent("when msw is not ready, \"isMswReady\" is false at initialization", ({ expect }) => {
