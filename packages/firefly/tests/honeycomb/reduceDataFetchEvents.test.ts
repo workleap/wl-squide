@@ -162,7 +162,7 @@ test.concurrent("when the state is \"fetching-data\", \"waitForProtectedData\" i
     runtime.eventBus.dispatch(PublicDataFetchStartedEvent);
     runtime.eventBus.dispatch(ProtectedDataFetchStartedEvent);
 
-    // Snould call onDataReady.
+    // Should call onDataReady.
     runtime.eventBus.dispatch(PublicDataReadyEvent, {
         waitForProtectedData: true
     });
@@ -202,7 +202,7 @@ test.concurrent("when the state is \"fetching-data\", \"waitForProtectedData\" i
     runtime.eventBus.dispatch(PublicDataFetchStartedEvent);
     runtime.eventBus.dispatch(ProtectedDataFetchStartedEvent);
 
-    // Snould call onDataReady.
+    // Should call onDataReady.
     runtime.eventBus.dispatch(PublicDataReadyEvent, {
         waitForProtectedData: false
     });
@@ -245,7 +245,7 @@ test.concurrent("when the state is \"protected-data-ready\" and PublicDataReadyE
     // Will update the state to "protected-data-ready".
     runtime.eventBus.dispatch(ProtectedDataReadyEvent);
 
-    // Snould call onDataReady.
+    // Should call onDataReady.
     runtime.eventBus.dispatch(PublicDataReadyEvent);
 
     expect(onDataFetchStarted).toHaveBeenCalledTimes(1);
@@ -368,7 +368,7 @@ test.concurrent("when the state is \"fetching-data\", \"waitForPublicData\" is t
     runtime.eventBus.dispatch(PublicDataFetchStartedEvent);
     runtime.eventBus.dispatch(ProtectedDataFetchStartedEvent);
 
-    // Snould call onDataReady.
+    // Should call onDataReady.
     runtime.eventBus.dispatch(ProtectedDataReadyEvent, { waitForPublicData: true });
 
     expect(onDataFetchStarted).toHaveBeenCalledTimes(1);
@@ -406,7 +406,7 @@ test.concurrent("when the state is \"fetching-data\", \"waitForPublicData\" is f
     runtime.eventBus.dispatch(PublicDataFetchStartedEvent);
     runtime.eventBus.dispatch(ProtectedDataFetchStartedEvent);
 
-    // Snould call onDataReady.
+    // Should call onDataReady.
     runtime.eventBus.dispatch(ProtectedDataReadyEvent, { waitForPublicData: false });
 
     expect(onDataFetchStarted).toHaveBeenCalledTimes(1);
@@ -447,7 +447,7 @@ test.concurrent("when the state is \"public-data-ready\" and ProtectedDataReadyE
     // Will update the state to "public-data-ready".
     runtime.eventBus.dispatch(PublicDataReadyEvent);
 
-    // Snould call onDataReady.
+    // Should call onDataReady.
     runtime.eventBus.dispatch(ProtectedDataReadyEvent);
 
     expect(onDataFetchStarted).toHaveBeenCalledTimes(1);
