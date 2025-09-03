@@ -5,7 +5,7 @@ order: 840
 # Register a conditional navigation item
 
 !!!warning
-Before going forward with this guide, make sure that you completed the [Setup Mock Service Worker](./setup-msw.md) and [Fetch global data](./fetch-global-data.md) guides.
+Before going forward with this guide, make sure that you completed the [Setup MSW](./setup-msw.md) and [Fetch global data](./fetch-global-data.md) guides.
 !!!
 
 Conditionally registering navigation items based on remote data is complex because **Squide's default registration mechanism runs before the application has bootstrapped**, meaning that the remote data have not yet been fetched from the server.

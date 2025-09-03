@@ -2,7 +2,7 @@
 order: 760
 ---
 
-# Use loggers
+# Setup loggers
 
 By default, when running in [development mode](../reference/runtime/runtime-class.md#change-the-runtime-mode), a [BrowserConsoleLogger](https://workleap.github.io/wl-logging/reference/browserconsolelogger/) is automatically added if no custom loggers are provided through the `loggers` option of the [initializeFirefly](../reference/registration/initializeFirefly.md) function.
 

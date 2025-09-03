@@ -161,7 +161,7 @@ Explore the [guides](../guides/default.md) section to learn about Squide advance
 
 Be sure to read, at a minimum, the following guides:
 
-- [Setup Mock Service Worker](../guides/setup-msw.md)
+- [Setup MSW](../guides/setup-msw.md)
 - [Fetch global data](../guides/fetch-global-data.md)
 - [Fetch page data](../guides/fetch-page-data.md)
 - [Manage shared state](../guides/manage-shared-state.md)
