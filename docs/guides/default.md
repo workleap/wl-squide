@@ -19,3 +19,4 @@ order: 80
 - [Setup Honeycomb](./setup-honeycomb.md)
 - [Develop a module in isolation](./develop-a-module-in-isolation.md)
 - [Use loggers](./use-loggers.md)
+- [Integrate with platform widgets](./integrate-with-platform-widgets.md)
