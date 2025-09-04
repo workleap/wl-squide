@@ -19,4 +19,4 @@ order: 80
 - [Setup i18next](./setup-i18next.md)
 - [Setup Honeycomb](./setup-honeycomb.md)
 - [Setup loggers](./setup-loggers.md)
-- [Setup Platform widgets](./setup-platform-widgets.md)
+- [Setup platform widgets](./setup-platform-widgets.md)

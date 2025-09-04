@@ -2,9 +2,9 @@
 order: 740
 ---
 
-# Setup Platform widgets
+# Setup platform widgets
 
-The Workleap Platform widgets library provides native integration with Squide Firefly, allowing the two libraries to share configuration and integrate seamlessly during bootstrap.
+The Workleap platform widgets library provides native integration with Squide Firefly, allowing the two libraries to share configuration and integrate seamlessly during bootstrap.
 
 First, open a terminal at the root of the solution and install the `@worleap-widgets/squide-firefly` package:
 

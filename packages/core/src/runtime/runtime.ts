@@ -1,4 +1,4 @@
-import { createCompositeLogger, type RootLogger } from "@workleap/logging";
+import { createCompositeLogger, type Logger, type RootLogger } from "@workleap/logging";
 import { EventBus } from "../messaging/eventBus.ts";
 import type { Plugin } from "../plugins/plugin.ts";
 
@@ -25,23 +25,57 @@ export interface RegisterNavigationItemOptions {
 
 export const RootMenuId = "root";
 
+export interface RuntimeMembers {
+    mode: RuntimeMode;
+    logger: Logger;
+    eventBus: EventBus;
+    plugins: Plugin[];
+}
+
+const runtimeMembersKeys: (keyof RuntimeMembers)[] = [
+    "mode",
+    "logger",
+    "eventBus",
+    "plugins"
+];
+
+export function isRuntimeMembers(obj: unknown): obj is RuntimeMembers {
+    if (obj && typeof obj === "object") {
+        return runtimeMembersKeys.every(
+            x => x in obj
+        );
+    }
+
+    return false;
+}
+
 export abstract class Runtime<TRoute = unknown, TNavigationItem = unknown> {
     protected _mode: RuntimeMode;
-    protected readonly _logger: RootLogger;
+    protected readonly _logger: Logger;
     protected readonly _eventBus: EventBus;
     protected readonly _plugins: Plugin[];
 
-    constructor(options: RuntimeOptions = {}) {
-        const {
-            mode = "development",
-            loggers = [],
-            plugins = []
-        } = options;
+    constructor(options?: RuntimeOptions);
+    constructor(members?: RuntimeMembers);
 
-        this._mode = mode;
-        this._logger = createCompositeLogger(mode === "development", loggers);
-        this._eventBus = new EventBus(this._logger);
-        this._plugins = plugins.map(x => x(this));
+    constructor(obj?: RuntimeOptions | RuntimeMembers) {
+        if (isRuntimeMembers(obj)) {
+            this._mode = obj.mode;
+            this._logger = obj.logger;
+            this._eventBus = obj.eventBus;
+            this._plugins = obj.plugins;
+        } else {
+            const {
+                mode = "development",
+                loggers = [],
+                plugins = []
+            } = (obj ?? {});
+
+            this._mode = mode;
+            this._logger = createCompositeLogger(mode === "development", loggers);
+            this._eventBus = new EventBus(this._logger);
+            this._plugins = plugins.map(x => x(this));
+        }
     }
 
     abstract registerRoute(route: TRoute, options?: RegisterRouteOptions): void;
@@ -84,7 +118,7 @@ export abstract class Runtime<TRoute = unknown, TNavigationItem = unknown> {
         return this._eventBus;
     }
 
-    // Prefixed by _ to indicate that it's considered as an "internal" method, cannot use "#"" because of inheritance.
-    // Not abstract so concrete classes are not required to provide an implementation.
-    _validateRegistrations() {}
+    abstract startScope(logger: Logger): Runtime;
+
+    validateRegistrations() {}
 }

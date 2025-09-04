@@ -1626,7 +1626,7 @@ describe("startDeferredRegistrationScope & completeDeferredRegistrationScope", (
     });
 });
 
-describe("_validateRegistrations", () => {
+describe("validateRegistrations", () => {
     describe("managed routes", () => {
         test.concurrent("when public routes are registered but the public routes outlet is missing, the error message mentions the PublicRoutes outlet", ({ expect }) => {
             const runtime = new ReactRouterRuntime({
@@ -1649,7 +1649,7 @@ describe("_validateRegistrations", () => {
             });
 
             try {
-                runtime._validateRegistrations();
+                runtime.validateRegistrations();
             } catch (error: unknown) {
                 errorMessage = (error as Error).message;
             }
@@ -1678,7 +1678,7 @@ describe("_validateRegistrations", () => {
             });
 
             try {
-                runtime._validateRegistrations();
+                runtime.validateRegistrations();
             } catch (error: unknown) {
                 errorMessage = (error as Error).message;
             }
@@ -1704,7 +1704,7 @@ describe("_validateRegistrations", () => {
             });
 
             try {
-                runtime._validateRegistrations();
+                runtime.validateRegistrations();
             } catch (error: unknown) {
                 errorMessage = (error as Error).message;
             }
@@ -1734,7 +1734,7 @@ describe("_validateRegistrations", () => {
                 hoist: true
             });
 
-            expect(() => runtime._validateRegistrations()).not.toThrow();
+            expect(() => runtime.validateRegistrations()).not.toThrow();
         });
 
         test.concurrent("when there are pending registrations, throw an error", ({ expect }) => {
@@ -1749,7 +1749,7 @@ describe("_validateRegistrations", () => {
                 parentPath: "/layout"
             });
 
-            expect(() => runtime._validateRegistrations()).toThrow();
+            expect(() => runtime.validateRegistrations()).toThrow();
         });
     });
 
@@ -1773,7 +1773,7 @@ describe("_validateRegistrations", () => {
                 hoist: true
             });
 
-            expect(() => runtime._validateRegistrations()).not.toThrow();
+            expect(() => runtime.validateRegistrations()).not.toThrow();
         });
 
         test.concurrent("when there are pending registrations, throw an error", ({ expect }) => {
@@ -1788,7 +1788,7 @@ describe("_validateRegistrations", () => {
                 parentId: "layout"
             });
 
-            expect(() => runtime._validateRegistrations()).toThrow();
+            expect(() => runtime.validateRegistrations()).toThrow();
         });
     });
 
@@ -1811,7 +1811,7 @@ describe("_validateRegistrations", () => {
                 children: []
             });
 
-            expect(() => runtime._validateRegistrations()).not.toThrow();
+            expect(() => runtime.validateRegistrations()).not.toThrow();
         });
 
         test.concurrent("when there are pending registrations, throw an error", ({ expect }) => {
@@ -1826,7 +1826,7 @@ describe("_validateRegistrations", () => {
                 sectionId: "section"
             });
 
-            expect(() => runtime._validateRegistrations()).toThrow();
+            expect(() => runtime.validateRegistrations()).toThrow();
         });
     });
 });

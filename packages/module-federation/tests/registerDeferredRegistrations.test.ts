@@ -1,9 +1,10 @@
 import { __clearLocalModuleRegistry, __setLocalModuleRegistry, LocalModuleRegistry, registerLocalModules, Runtime } from "@squide/core";
+import { NoopLogger } from "@workleap/logging";
 import { afterEach, expect, test, vi } from "vitest";
 import { registerDeferredRegistrations } from "../src/registerDeferredRegistrations.ts";
 import { __clearRemoteModuleRegistry, __setRemoteModuleRegistry, registerRemoteModules, RemoteModuleRegistry } from "../src/registerRemoteModules.ts";
 
-class DummyRuntime extends Runtime<unknown, unknown> {
+class DummyRuntime extends Runtime {
     registerRoute() {
         throw new Error("Method not implemented.");
     }
@@ -29,6 +30,10 @@ class DummyRuntime extends Runtime<unknown, unknown> {
 
     completeDeferredRegistrationScope(): void {
     }
+
+    startScope(): Runtime {
+        return new DummyRuntime({ loggers: [new NoopLogger()] });
+    }
 }
 
 afterEach(() => {
@@ -37,7 +42,7 @@ afterEach(() => {
 });
 
 test("register local and remote deferred registrations", async () => {
-    const runtime = new DummyRuntime();
+    const runtime = new DummyRuntime({ loggers: [new NoopLogger()] });
 
     const localModuleRegistry = new LocalModuleRegistry();
 
@@ -73,7 +78,7 @@ test("register local and remote deferred registrations", async () => {
 });
 
 test("start and complete a deferred registration scope", async () => {
-    const runtime = new DummyRuntime();
+    const runtime = new DummyRuntime({ loggers: [new NoopLogger()] });
 
     const localModuleRegistry = new LocalModuleRegistry();
 
@@ -109,7 +114,7 @@ test("start and complete a deferred registration scope", async () => {
 });
 
 test("when an unmanaged error is thrown, complete the deferred registration scope", async () => {
-    const runtime = new DummyRuntime();
+    const runtime = new DummyRuntime({ loggers: [new NoopLogger()] });
 
     const localModuleRegistry = new LocalModuleRegistry();
 

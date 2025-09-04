@@ -8,6 +8,10 @@ order: 840
 Before going forward with this guide, make sure that you completed the [Setup MSW](./setup-msw.md) and [Fetch global data](./fetch-global-data.md) guides.
 !!!
 
+!!!warning
+This guide uses feature flags as an example, but it **does not represent** how feature flags should be implemented in a Workleap application.
+!!!
+
 Conditionally registering navigation items based on remote data is complex because **Squide's default registration mechanism runs before the application has bootstrapped**, meaning that the remote data have not yet been fetched from the server.
 
 To address this, Squide offers an alternate [deferred registration](../reference/registration/registerLocalModules.md#defer-the-registration-of-navigation-items) mechanism in two-phases:

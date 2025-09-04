@@ -1,9 +1,10 @@
 import { LocalModuleRegistry, Runtime } from "@squide/core";
+import { NoopLogger } from "@workleap/logging";
 import { test, vi } from "vitest";
 import { areModulesRegistered } from "../src/areModulesRegistered.ts";
 import { RemoteModuleRegistry } from "../src/registerRemoteModules.ts";
 
-class DummyRuntime extends Runtime<unknown, unknown> {
+class DummyRuntime extends Runtime {
     registerRoute() {
         throw new Error("Method not implemented.");
     }
@@ -31,6 +32,10 @@ class DummyRuntime extends Runtime<unknown, unknown> {
     completeDeferredRegistrationScope(): void {
         throw new Error("Method not implemented.");
     }
+
+    startScope(): Runtime {
+        return new DummyRuntime({ loggers: [new NoopLogger()] });
+    }
 }
 
 test.concurrent("when no modules are registered, return false", ({ expect }) => {
@@ -44,7 +49,7 @@ test.concurrent("when no modules are registered, return false", ({ expect }) => 
 });
 
 test.concurrent("when only local modules are registered, return true", async ({ expect }) => {
-    const runtime = new DummyRuntime();
+    const runtime = new DummyRuntime({ loggers: [new NoopLogger()] });
     const localModuleRegistry = new LocalModuleRegistry();
 
     const remoteModuleRegistry = new RemoteModuleRegistry(vi.fn().mockResolvedValue({
@@ -61,7 +66,7 @@ test.concurrent("when only local modules are registered, return true", async ({ 
 });
 
 test.concurrent("when only remote modules are registered, return true", async ({ expect }) => {
-    const runtime = new DummyRuntime();
+    const runtime = new DummyRuntime({ loggers: [new NoopLogger()] });
     const localModuleRegistry = new LocalModuleRegistry();
 
     const remoteModuleRegistry = new RemoteModuleRegistry(vi.fn().mockResolvedValue({
@@ -78,7 +83,7 @@ test.concurrent("when only remote modules are registered, return true", async ({
 });
 
 test.concurrent("when local modules and remote modules are registered, return true", async ({ expect }) => {
-    const runtime = new DummyRuntime();
+    const runtime = new DummyRuntime({ loggers: [new NoopLogger()] });
     const localModuleRegistry = new LocalModuleRegistry();
 
     const remoteModuleRegistry = new RemoteModuleRegistry(vi.fn().mockResolvedValue({
@@ -101,7 +106,7 @@ test.concurrent("when local modules and remote modules are registered, return tr
 });
 
 test.concurrent("when only local module deferred registrations are registered, return true", async ({ expect }) => {
-    const runtime = new DummyRuntime();
+    const runtime = new DummyRuntime({ loggers: [new NoopLogger()] });
     const localModuleRegistry = new LocalModuleRegistry();
 
     const remoteModuleRegistry = new RemoteModuleRegistry(vi.fn().mockResolvedValue({
@@ -118,7 +123,7 @@ test.concurrent("when only local module deferred registrations are registered, r
 });
 
 test.concurrent("when only remote module deferred registrations are registered, return true", async ({ expect }) => {
-    const runtime = new DummyRuntime();
+    const runtime = new DummyRuntime({ loggers: [new NoopLogger()] });
     const localModuleRegistry = new LocalModuleRegistry();
 
     const remoteModuleRegistry = new RemoteModuleRegistry(vi.fn().mockResolvedValue({
@@ -135,7 +140,7 @@ test.concurrent("when only remote module deferred registrations are registered, 
 });
 
 test.concurrent("when local module deferred registrations and remote module deferred registrations are registered, return true", async ({ expect }) => {
-    const runtime = new DummyRuntime();
+    const runtime = new DummyRuntime({ loggers: [new NoopLogger()] });
     const localModuleRegistry = new LocalModuleRegistry();
 
     const remoteModuleRegistry = new RemoteModuleRegistry(vi.fn().mockResolvedValue({
@@ -158,7 +163,7 @@ test.concurrent("when local module deferred registrations and remote module defe
 });
 
 test.concurrent("when local module deferred registrations and remote modules are registered, return true", async ({ expect }) => {
-    const runtime = new DummyRuntime();
+    const runtime = new DummyRuntime({ loggers: [new NoopLogger()] });
     const localModuleRegistry = new LocalModuleRegistry();
 
     const remoteModuleRegistry = new RemoteModuleRegistry(vi.fn().mockResolvedValue({
@@ -181,7 +186,7 @@ test.concurrent("when local module deferred registrations and remote modules are
 });
 
 test.concurrent("when local modules and remote module deferred registrations are registered, return true", async ({ expect }) => {
-    const runtime = new DummyRuntime();
+    const runtime = new DummyRuntime({ loggers: [new NoopLogger()] });
     const localModuleRegistry = new LocalModuleRegistry();
 
     const remoteModuleRegistry = new RemoteModuleRegistry(vi.fn().mockResolvedValue({

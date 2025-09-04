@@ -2,7 +2,7 @@
 // access to the state and ease the integration with third-party libraries such as the Platform Widgets.
 // Eventually, AppRouterReducer should be deprecated in favor of this new AppRouterStore.
 
-import type { RootLogger } from "@workleap/logging";
+import type { Logger } from "@workleap/logging";
 import type { AppRouterAction, AppRouterState } from "./AppRouterReducer.ts";
 
 export type AppRouterStoreState = Omit<AppRouterState, "waitForMsw" | "waitForPublicData" | "waitForProtectedData">;
@@ -13,9 +13,9 @@ export class AppRouterStore {
     #state: AppRouterStoreState;
 
     readonly #listeners = new Set<AppRouterStoreListenerFunction>();
-    readonly #logger: RootLogger;
+    readonly #logger: Logger;
 
-    constructor(initialialState: AppRouterStoreState, logger: RootLogger) {
+    constructor(initialialState: AppRouterStoreState, logger: Logger) {
         this.#state = initialialState;
         this.#logger = logger;
     }
@@ -160,7 +160,7 @@ export class AppRouterStore {
     }
 }
 
-export function createAppRouterStore(logger: RootLogger) {
+export function createAppRouterStore(logger: Logger) {
     const initialState: AppRouterStoreState = {
         areModulesRegistered: false,
         areModulesReady: false,

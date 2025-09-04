@@ -1,3 +1,4 @@
+import type { RootLogger } from "@workleap/logging";
 import type { Runtime } from "../runtime/runtime.ts";
 import { isFunction } from "../shared/assertions.ts";
 import { ModuleRegistrationError, type ModuleRegistrationStatus, type ModuleRegistrationStatusChangedListener, type ModuleRegistry, type RegisterModulesOptions } from "./moduleRegistry.ts";
@@ -69,10 +70,11 @@ export class LocalModuleRegistry implements ModuleRegistry {
             let completedCount = 0;
 
             await Promise.allSettled(registrationFunctions.map(async (x, index) => {
-                runtime.logger.debug(`[squide] ${index + 1}/${registrationFunctions.length} Registering local module.`);
+                const loggerScope = (runtime.logger as RootLogger).startScope(`[squide] ${index + 1}/${registrationFunctions.length} Registering local module.`);
+                const runtimeScope = runtime.startScope(loggerScope);
 
                 try {
-                    const optionalDeferredRegistration = await registerModule(x as ModuleRegisterFunction<Runtime, TContext, TData>, runtime, context);
+                    const optionalDeferredRegistration = await registerModule(x as ModuleRegisterFunction<Runtime, TContext, TData>, runtimeScope, context);
 
                     if (isFunction(optionalDeferredRegistration)) {
                         this.#deferredRegistrations.push({
@@ -83,17 +85,33 @@ export class LocalModuleRegistry implements ModuleRegistry {
 
                     completedCount += 1;
                 } catch (error: unknown) {
-                    runtime.logger
-                        .withText(`[squide] ${index + 1}/${registrationFunctions.length} An error occured while registering a local module.`)
+                    loggerScope
+                        .withText("[squide] An error occured while registering the local module.")
                         .withError(error as Error)
                         .error();
+
+                    loggerScope.end({
+                        labelStyle: {
+                            color: "red"
+                        }
+                    });
 
                     errors.push(
                         new ModuleRegistrationError("An error occured while registering a local module.", { cause: error })
                     );
                 }
 
-                runtime.logger.information(`[squide] ${index + 1}/${registrationFunctions.length} Local module registration completed.`);
+                loggerScope.information("[squide] Successfully registered local module.", {
+                    style: {
+                        color: "green"
+                    }
+                });
+
+                loggerScope.end({
+                    labelStyle: {
+                        color: "green"
+                    }
+                });
             }));
 
             if (errors.length > 0) {

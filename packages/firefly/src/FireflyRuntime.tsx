@@ -1,6 +1,7 @@
 import type { RegisterRouteOptions, RuntimeOptions } from "@squide/core";
 import { MswPlugin, MswPluginName } from "@squide/msw";
-import { ReactRouterRuntime, type Route } from "@squide/react-router";
+import { isReactRouterRuntimeMembers, ReactRouterRuntime, type ReactRouterRuntimeMembers, type Route } from "@squide/react-router";
+import type { Logger } from "@workleap/logging";
 import type { RequestHandler } from "msw";
 import { getAreModulesRegistered } from "./AppRouterReducer.ts";
 import { type AppRouterStore, createAppRouterStore } from "./AppRouterStore.ts";
@@ -9,31 +10,67 @@ export interface FireflyRuntimeOptions extends RuntimeOptions {
     useMsw?: boolean;
 }
 
+export interface FireflyRuntimeMembers extends ReactRouterRuntimeMembers {
+    appRouterStore: AppRouterStore;
+    useMsw: boolean;
+}
+
+const fireflyRuntimeMembersKeys: (keyof FireflyRuntimeMembers)[] = [
+    "appRouterStore",
+    "useMsw"
+];
+
+export function isFireflyRuntimeMembers(obj: unknown): obj is FireflyRuntimeMembers {
+    if (obj && typeof obj === "object") {
+        return isReactRouterRuntimeMembers(obj) && fireflyRuntimeMembersKeys.every(
+            x => x in obj
+        );
+    }
+
+    return false;
+}
+
 export class FireflyRuntime extends ReactRouterRuntime {
-    readonly #appRouterStore: AppRouterStore;
-    readonly #useMsw: boolean;
+    protected readonly _appRouterStore: AppRouterStore;
+    protected readonly _useMsw: boolean;
 
-    constructor({ plugins, useMsw, ...options }: FireflyRuntimeOptions = {}) {
-        if (useMsw) {
-            super({
-                plugins: [
-                    ...(plugins ?? []),
-                    runtime => new MswPlugin(runtime)
-                ],
-                ...options
-            });
+    constructor(options?: FireflyRuntimeOptions);
+    constructor(members?: FireflyRuntimeMembers);
 
-            this.#useMsw = true;
+    constructor(obj?: FireflyRuntimeOptions | FireflyRuntimeMembers) {
+        if (isFireflyRuntimeMembers(obj)) {
+            super(obj);
+
+            this._appRouterStore = obj.appRouterStore;
+            this._useMsw = obj.useMsw;
         } else {
-            super({
+            const {
                 plugins,
+                useMsw,
                 ...options
-            });
+            } = (obj ?? {});
 
-            this.#useMsw = false;
+            if (useMsw) {
+                super({
+                    plugins: [
+                        ...(plugins ?? []),
+                        runtime => new MswPlugin(runtime)
+                    ],
+                    ...options
+                });
+
+                this._useMsw = true;
+            } else {
+                super({
+                    plugins,
+                    ...options
+                });
+
+                this._useMsw = false;
+            }
+
+            this._appRouterStore = createAppRouterStore(this._logger);
         }
-
-        this.#appRouterStore = createAppRouterStore(this._logger);
     }
 
     registerRequestHandlers(handlers: RequestHandler[]) {
@@ -70,10 +107,24 @@ export class FireflyRuntime extends ReactRouterRuntime {
     }
 
     get appRouterStore() {
-        return this.#appRouterStore;
+        return this._appRouterStore;
     }
 
     get isMswEnabled() {
-        return this.#useMsw;
+        return this._useMsw;
+    }
+
+    startScope(logger: Logger): FireflyRuntime {
+        return new FireflyRuntime({
+            mode: this._mode,
+            logger,
+            eventBus: this._eventBus,
+            plugins: this._plugins,
+            routeRegistry: this._routeRegistry,
+            navigationItemRegistry: this._navigationItemRegistry,
+            navigationItemScope: this._navigationItemScope,
+            appRouterStore: this._appRouterStore,
+            useMsw: this._useMsw
+        });
     }
 }

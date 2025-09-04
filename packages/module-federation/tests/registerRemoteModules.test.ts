@@ -1,8 +1,9 @@
 import { Runtime } from "@squide/core";
+import { NoopLogger } from "@workleap/logging";
 import { test, vi } from "vitest";
 import { RemoteModuleRegistrationError, RemoteModuleRegistrationFailedEvent, RemoteModuleRegistry, RemoteModulesRegistrationCompletedEvent, RemoteModulesRegistrationStartedEvent } from "../src/registerRemoteModules.ts";
 
-class DummyRuntime extends Runtime<unknown, unknown> {
+class DummyRuntime extends Runtime {
     registerRoute() {
         throw new Error("Method not implemented.");
     }
@@ -30,10 +31,14 @@ class DummyRuntime extends Runtime<unknown, unknown> {
     completeDeferredRegistrationScope(): void {
         throw new Error("Method not implemented.");
     }
+
+    startScope(): Runtime {
+        return new DummyRuntime({ loggers: [new NoopLogger()] });
+    }
 }
 
 test.concurrent("should register all the modules", async ({ expect }) => {
-    const runtime = new DummyRuntime();
+    const runtime = new DummyRuntime({ loggers: [new NoopLogger()] });
 
     const register1 = vi.fn();
     const register2 = vi.fn();
@@ -67,7 +72,7 @@ test.concurrent("should register all the modules", async ({ expect }) => {
 });
 
 test.concurrent("when called twice, throw an error", async ({ expect }) => {
-    const runtime = new DummyRuntime();
+    const runtime = new DummyRuntime({ loggers: [new NoopLogger()] });
 
     const loadRemote = vi.fn().mockResolvedValue({
         register: () => {}
@@ -81,7 +86,7 @@ test.concurrent("when called twice, throw an error", async ({ expect }) => {
 });
 
 test.concurrent("should dispatch RemoteModulesRegistrationStartedEvent", async ({ expect }) => {
-    const runtime = new DummyRuntime();
+    const runtime = new DummyRuntime({ loggers: [new NoopLogger()] });
 
     const listener = vi.fn();
 
@@ -102,7 +107,7 @@ test.concurrent("should dispatch RemoteModulesRegistrationStartedEvent", async (
 });
 
 test.concurrent("when there are no deferred registrations, once all the modules are registered, set the status to \"ready\"", async ({ expect }) => {
-    const runtime = new DummyRuntime();
+    const runtime = new DummyRuntime({ loggers: [new NoopLogger()] });
 
     const loadRemote = vi.fn().mockResolvedValue({
         register: () => {}
@@ -119,7 +124,7 @@ test.concurrent("when there are no deferred registrations, once all the modules 
 });
 
 test.concurrent("when there are no deferred registrations, once all the modules are registered, RemoteModulesRegistrationCompletedEvent is dispatched", async ({ expect }) => {
-    const runtime = new DummyRuntime();
+    const runtime = new DummyRuntime({ loggers: [new NoopLogger()] });
 
     const listener = vi.fn();
 
@@ -143,7 +148,7 @@ test.concurrent("when there are no deferred registrations, once all the modules 
 });
 
 test.concurrent("when there are deferred registrations, once all the modules are registered, set the status to \"modules-registered\"", async ({ expect }) => {
-    const runtime = new DummyRuntime();
+    const runtime = new DummyRuntime({ loggers: [new NoopLogger()] });
 
     const loadRemote = vi.fn().mockResolvedValue({
         register: () => () => {}
@@ -160,7 +165,7 @@ test.concurrent("when there are deferred registrations, once all the modules are
 });
 
 test.concurrent("when there are deferred registrations, once all the modules are registered, RemoteModulesRegistrationCompletedEvent is dispatched", async ({ expect }) => {
-    const runtime = new DummyRuntime();
+    const runtime = new DummyRuntime({ loggers: [new NoopLogger()] });
 
     const listener = vi.fn();
 
@@ -184,7 +189,7 @@ test.concurrent("when there are deferred registrations, once all the modules are
 });
 
 test.concurrent("when a module registration fail, register the remaining modules", async ({ expect }) => {
-    const runtime = new DummyRuntime();
+    const runtime = new DummyRuntime({ loggers: [new NoopLogger()] });
 
     const register1 = vi.fn();
     const register3 = vi.fn();
@@ -215,7 +220,7 @@ test.concurrent("when a module registration fail, register the remaining modules
 });
 
 test.concurrent("when a module registration fail, return the error", async ({ expect }) => {
-    const runtime = new DummyRuntime();
+    const runtime = new DummyRuntime({ loggers: [new NoopLogger()] });
 
     const loadRemote = vi.fn()
         .mockResolvedValueOnce({
@@ -241,7 +246,7 @@ test.concurrent("when a module registration fail, return the error", async ({ ex
 });
 
 test.concurrent("when a module registration fail, RemoteModuleRegistrationFailedEvent is dispatched", async ({ expect }) => {
-    const runtime = new DummyRuntime();
+    const runtime = new DummyRuntime({ loggers: [new NoopLogger()] });
 
     const listener = vi.fn();
 
@@ -273,7 +278,7 @@ test.concurrent("when a module registration fail, RemoteModuleRegistrationFailed
 });
 
 test.concurrent("when a module registration fail, RemoteModulesRegistrationCompletedEvent is dispatched", async ({ expect }) => {
-    const runtime = new DummyRuntime();
+    const runtime = new DummyRuntime({ loggers: [new NoopLogger()] });
 
     const listener = vi.fn();
 
@@ -307,7 +312,7 @@ test.concurrent("when a module registration fail, RemoteModulesRegistrationCompl
 });
 
 test.concurrent("when a context is provided, all the register functions receive the provided context", async ({ expect }) => {
-    const runtime = new DummyRuntime();
+    const runtime = new DummyRuntime({ loggers: [new NoopLogger()] });
 
     const register1 = vi.fn();
     const register2 = vi.fn();
@@ -345,7 +350,7 @@ test.concurrent("when a context is provided, all the register functions receive 
 });
 
 test.concurrent("when no modules are provided, the status is \"ready\"", async ({ expect }) => {
-    const runtime = new DummyRuntime();
+    const runtime = new DummyRuntime({ loggers: [new NoopLogger()] });
     const registry = new RemoteModuleRegistry(vi.fn());
 
     await registry.registerModules([], runtime);
@@ -354,7 +359,7 @@ test.concurrent("when no modules are provided, the status is \"ready\"", async (
 });
 
 test.concurrent("when no modules are provided, do not dispatch RemoteModulesRegistrationStartedEvent", async ({ expect }) => {
-    const runtime = new DummyRuntime();
+    const runtime = new DummyRuntime({ loggers: [new NoopLogger()] });
 
     const listener = vi.fn();
 
@@ -368,7 +373,7 @@ test.concurrent("when no modules are provided, do not dispatch RemoteModulesRegi
 });
 
 test.concurrent("when no modules are provided, do not dispatch RemoteModulesRegistrationCompletedEvent", async ({ expect }) => {
-    const runtime = new DummyRuntime();
+    const runtime = new DummyRuntime({ loggers: [new NoopLogger()] });
 
     const listener = vi.fn();
 

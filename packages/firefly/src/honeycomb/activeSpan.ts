@@ -1,6 +1,6 @@
 import type { Span } from "@opentelemetry/api";
 import { isPlainObject } from "@squide/core";
-import type { RootLogger } from "@workleap/logging";
+import type { Logger } from "@workleap/logging";
 import { v4 as uuidv4 } from "uuid";
 import { createTraceContextId } from "./createTraceContextId.ts";
 
@@ -97,7 +97,7 @@ export function popActiveSpan(span: ActiveSpan) {
     }
 }
 
-export function createOverrideFetchRequestSpanWithActiveSpanContext(logger: RootLogger) {
+export function createOverrideFetchRequestSpanWithActiveSpanContext(logger: Logger) {
     return (span: Span, request: Request | RequestInit) => {
         const activeSpan = getActiveSpan();
 

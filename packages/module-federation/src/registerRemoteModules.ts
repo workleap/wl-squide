@@ -1,6 +1,6 @@
 import { loadRemote as loadModuleFederationRemote } from "@module-federation/enhanced/runtime";
 import { isFunction, isNil, ModuleRegistrationError, registerModule, type DeferredRegistrationFunction, type ModuleRegistrationStatus, type ModuleRegistrationStatusChangedListener, type ModuleRegistry, type RegisterModulesOptions, type Runtime } from "@squide/core";
-import type { RootLogger } from "@workleap/logging";
+import type { Logger } from "@workleap/logging";
 import type { RemoteDefinition } from "./remoteDefinition.ts";
 
 export const RemoteModulesRegistrationStartedEvent = "squide-remote-modules-registration-started";
@@ -81,7 +81,7 @@ export class RemoteModuleRegistry implements ModuleRegistry {
         this.#loadRemote = loadRemote;
     }
 
-    #logSharedScope(logger: RootLogger) {
+    #logSharedScope(logger: Logger) {
         // eslint-disable-next-line @typescript-eslint/ban-ts-comment
         // @ts-ignore
         if (__webpack_share_scopes__) {
