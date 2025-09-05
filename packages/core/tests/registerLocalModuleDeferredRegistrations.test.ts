@@ -291,9 +291,9 @@ test.concurrent("all the deferred module registrations receive the data object",
 
     await registry.registerDeferredRegistrations(data, runtime);
 
-    expect(register1).toHaveBeenCalledWith(data, "register");
-    expect(register2).toHaveBeenCalledWith(data, "register");
-    expect(register3).toHaveBeenCalledWith(data, "register");
+    expect(register1).toHaveBeenCalledWith(runtime, data, "register");
+    expect(register2).toHaveBeenCalledWith(runtime, data, "register");
+    expect(register3).toHaveBeenCalledWith(runtime, data, "register");
 });
 
 test.concurrent("all the deferred module registrations receive \"register\" as state", async ({ expect }) => {
@@ -316,9 +316,9 @@ test.concurrent("all the deferred module registrations receive \"register\" as s
 
     await registry.registerDeferredRegistrations(data, runtime);
 
-    expect(register1).toHaveBeenCalledWith(data, "register");
-    expect(register2).toHaveBeenCalledWith(data, "register");
-    expect(register3).toHaveBeenCalledWith(data, "register");
+    expect(register1).toHaveBeenCalledWith(runtime, data, "register");
+    expect(register2).toHaveBeenCalledWith(runtime, data, "register");
+    expect(register3).toHaveBeenCalledWith(runtime, data, "register");
 });
 
 

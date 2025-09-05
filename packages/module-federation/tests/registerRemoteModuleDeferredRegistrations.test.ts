@@ -407,9 +407,9 @@ test.concurrent("all the deferred registrations receive the data object", async 
     expect(register1).toHaveBeenCalledTimes(1);
     expect(register2).toHaveBeenCalledTimes(1);
     expect(register3).toHaveBeenCalledTimes(1);
-    expect(register1).toHaveBeenCalledWith(data, "register");
-    expect(register2).toHaveBeenCalledWith(data, "register");
-    expect(register3).toHaveBeenCalledWith(data, "register");
+    expect(register1).toHaveBeenCalledWith(runtime, data, "register");
+    expect(register2).toHaveBeenCalledWith(runtime, data, "register");
+    expect(register3).toHaveBeenCalledWith(runtime, data, "register");
 });
 
 test.concurrent("all the deferred registrations receive \"register\" as state", async ({ expect }) => {
@@ -447,9 +447,9 @@ test.concurrent("all the deferred registrations receive \"register\" as state", 
     expect(register1).toHaveBeenCalledTimes(1);
     expect(register2).toHaveBeenCalledTimes(1);
     expect(register3).toHaveBeenCalledTimes(1);
-    expect(register1).toHaveBeenCalledWith(data, "register");
-    expect(register2).toHaveBeenCalledWith(data, "register");
-    expect(register3).toHaveBeenCalledWith(data, "register");
+    expect(register1).toHaveBeenCalledWith(runtime, data, "register");
+    expect(register2).toHaveBeenCalledWith(runtime, data, "register");
+    expect(register3).toHaveBeenCalledWith(runtime, data, "register");
 });
 
 
