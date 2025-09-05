@@ -228,6 +228,11 @@ export class RemoteModuleRegistry implements ModuleRegistry {
             const loggerScope = (runtime.logger as RootLogger).startScope(`[squide] ${index} Registering the deferred registrations for module "${RemoteRegisterModuleName}" of remote "${remoteName}".`);
             const runtimeScope = runtime.startScope(loggerScope);
 
+            loggerScope
+                .withText("Data:")
+                .withObject(data)
+                .debug();
+
             try {
                 await deferredRegister(runtimeScope, data, "register");
 
@@ -300,6 +305,11 @@ export class RemoteModuleRegistry implements ModuleRegistry {
         await Promise.allSettled(this.#deferredRegistrations.map(async ({ remoteName, index, fct: deferredRegister }) => {
             const loggerScope = (runtime.logger as RootLogger).startScope(`[squide] ${index} Updating the deferred registrations for module "${RemoteRegisterModuleName}" of remote "${remoteName}".`);
             const runtimeScope = runtime.startScope(loggerScope);
+
+            loggerScope
+                .withText("Data:")
+                .withObject(data)
+                .debug();
 
             try {
                 await deferredRegister(runtimeScope, data, "update");

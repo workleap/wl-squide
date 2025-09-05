@@ -36,11 +36,11 @@
     },
     "peerDependencies": {
         "@opentelemetry/api": "^1.9.0",
-        "@tanstack/react-query": "^5.83.0",
-        "msw": "^2.10.4",
+        "@tanstack/react-query": "^5.87.1",
+        "msw": "^2.11.1",
         "react": "^18.0.0 || ^19.0.0",
         "react-dom": "^18.0.0 || ^19.0.0",
-        "react-router": "^7.7.0"
+        "react-router": "^7.8.2"
     },
     "dependencies": {
         "@squide/core": "workspace:*",
@@ -48,22 +48,22 @@
         "@squide/msw": "workspace:*",
         "@squide/react-router": "workspace:*",
         "@workleap/logging": "^1.3.0",
-        "uuid": "^11.1.0"
+        "uuid": "^12.0.0"
     },
     "devDependencies": {
-        "@rsbuild/core": "1.4.7",
-        "@rslib/core": "0.10.6",
+        "@rsbuild/core": "1.5.4",
+        "@rslib/core": "0.12.4",
         "@testing-library/react": "16.3.0",
-        "@types/react": "19.1.8",
-        "@types/react-dom": "19.1.6",
-        "@typescript-eslint/parser": "8.37.0",
-        "@vitejs/plugin-react": "4.6.0",
+        "@types/react": "19.1.12",
+        "@types/react-dom": "19.1.9",
+        "@typescript-eslint/parser": "8.42.0",
+        "@vitejs/plugin-react": "5.0.2",
         "@workleap/eslint-plugin": "3.5.0",
         "@workleap/rslib-configs": "1.1.0",
         "@workleap/typescript-configs": "3.0.4",
         "eslint": "8.57.0",
         "happy-dom": "18.0.1",
-        "typescript": "5.8.3",
+        "typescript": "5.9.2",
         "vitest": "3.2.4"
     },
     "sideEffects": false,

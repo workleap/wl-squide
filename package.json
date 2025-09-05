@@ -43,18 +43,18 @@
     },
     "devDependencies": {
         "@changesets/changelog-github": "0.5.1",
-        "@changesets/cli": "2.29.5",
-        "@types/node": "24.0.14",
-        "@typescript-eslint/parser": "8.37.0",
+        "@changesets/cli": "2.29.6",
+        "@types/node": "24.3.1",
+        "@typescript-eslint/parser": "8.42.0",
         "@workleap/eslint-plugin": "3.5.0",
         "@workleap/typescript-configs": "3.0.4",
-        "cross-env": "7.0.3",
+        "cross-env": "10.0.0",
         "eslint": "8.57.0",
-        "pkg-pr-new": "0.0.54",
+        "pkg-pr-new": "0.0.59",
         "retypeapp": "3.11.0",
         "syncpack": "13.0.4",
-        "turbo": "2.5.5",
-        "typescript": "5.8.3"
+        "turbo": "2.5.6",
+        "typescript": "5.9.2"
     },
     "engines": {
         "node": ">=22.0.0",

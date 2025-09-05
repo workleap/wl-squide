@@ -1,5 +1,8 @@
 {
     "$schema": "https://json.schemastore.org/eslintrc",
     "root": true,
-    "extends": "plugin:@workleap/typescript-library"
+    "extends": "plugin:@workleap/typescript-library",
+    "rules": {
+        "@stylistic/ts/indent": "off"
+    }
 }

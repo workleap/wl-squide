@@ -12,23 +12,23 @@
         "typecheck": "tsc"
     },
     "peerDependencies": {
-        "react": "^19.1.0",
-        "react-dom": "^19.1.0"
+        "react": "^19.1.1",
+        "react-dom": "^19.1.1"
     },
     "dependencies": {
         "@squide/fakes": "workspace:*",
         "@squide/firefly": "workspace:*",
-        "uuid": "^11.1.0"
+        "uuid": "^12.0.0"
     },
     "devDependencies": {
-        "@types/react": "19.1.8",
-        "@types/react-dom": "19.1.6",
+        "@types/react": "19.1.12",
+        "@types/react-dom": "19.1.9",
         "@types/uuid": "10.0.0",
-        "@typescript-eslint/parser": "8.37.0",
+        "@typescript-eslint/parser": "8.42.0",
         "@workleap/eslint-plugin": "3.5.0",
         "@workleap/typescript-configs": "3.0.4",
         "eslint": "8.57.0",
-        "typescript": "5.8.3"
+        "typescript": "5.9.2"
     },
     "engines": {
         "node": ">=21.1.0"
