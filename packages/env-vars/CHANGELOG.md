@@ -1,5 +1,12 @@
 # @squide/env-vars
 
+## 1.4.1
+
+### Patch Changes
+
+- Updated dependencies [[`cc52e8b`](https://github.com/workleap/wl-squide/commit/cc52e8bfbe9d3d215f51d12755743f17c0c69772)]:
+  - @squide/core@6.0.0
+
 ## 1.4.0
 
 ### Minor Changes

@@ -1,7 +1,7 @@
 {
     "name": "@squide/module-federation",
     "author": "Workleap",
-    "version": "6.5.0",
+    "version": "7.0.0",
     "description": "Add support for Module Federation to @squide application shell.",
     "license": "Apache-2.0",
     "repository": {
