@@ -44,6 +44,10 @@ class DummyRuntime extends Runtime {
     startScope(): Runtime {
         return new DummyRuntime({ loggers: [new NoopLogger()] });
     }
+
+    _validateRegistrations(): void {
+        throw new Error("Method not implemented.");
+    }
 }
 
 test.concurrent("when called before registerLocalModules, throw an error", async ({ expect }) => {

@@ -1240,7 +1240,7 @@ describe("registerNavigationItem", () => {
             menuId: "link-menu"
         });
 
-        expect(runtime.getNavigationItems("link-menu")[0].to).toBe("/link");
+        expect(runtime.getNavigationItems({ menuId: "link-menu" })[0].to).toBe("/link");
     });
 
     test.concurrent("should register a navigation section for a specific menu id", ({ expect }) => {
@@ -1260,7 +1260,7 @@ describe("registerNavigationItem", () => {
             menuId: "section-menu"
         });
 
-        expect(runtime.getNavigationItems("section-menu")[0].$label).toBe("Section");
+        expect(runtime.getNavigationItems({ menuId: "section-menu" })[0].$label).toBe("Section");
     });
 
     test.concurrent("should register a navitation link with a key", ({ expect }) => {
@@ -1407,8 +1407,8 @@ describe("registerNavigationItem", () => {
                 menuId: "foo"
             });
 
-            expect(runtime.getNavigationItems("foo")[0].$id).toBe("section");
-            expect(runtime.getNavigationItems("foo")[0].children![0].$label).toBe("Link");
+            expect(runtime.getNavigationItems({ menuId: "foo" })[0].$id).toBe("section");
+            expect(runtime.getNavigationItems({ menuId: "foo" })[0].children![0].$label).toBe("Link");
         });
 
         test.concurrent("when a section is registered with the same id but for a different menu, do not register the nested item", ({ expect }) => {
@@ -1434,10 +1434,10 @@ describe("registerNavigationItem", () => {
                 menuId: "bar"
             });
 
-            expect(runtime.getNavigationItems("foo").length).toBe(0);
-            expect(runtime.getNavigationItems("bar").length).toBe(1);
-            expect(runtime.getNavigationItems("bar")[0].$id).toBe("section");
-            expect(runtime.getNavigationItems("bar")[0].children!.length).toBe(0);
+            expect(runtime.getNavigationItems({ menuId: "foo" }).length).toBe(0);
+            expect(runtime.getNavigationItems({ menuId: "bar" }).length).toBe(1);
+            expect(runtime.getNavigationItems({ menuId: "bar" })[0].$id).toBe("section");
+            expect(runtime.getNavigationItems({ menuId: "bar" })[0].children!.length).toBe(0);
         });
     });
 });
@@ -1516,7 +1516,7 @@ describe("getNavigationItems", () => {
             menuId: "menu-2"
         });
 
-        expect(runtime.getNavigationItems("menu-1")[0].to).toBe("/item-4");
+        expect(runtime.getNavigationItems({ menuId: "menu-1" })[0].to).toBe("/item-4");
     });
 });
 
@@ -1626,7 +1626,7 @@ describe("startDeferredRegistrationScope & completeDeferredRegistrationScope", (
     });
 });
 
-describe("validateRegistrations", () => {
+describe("_validateRegistrations", () => {
     describe("managed routes", () => {
         test.concurrent("when public routes are registered but the public routes outlet is missing, the error message mentions the PublicRoutes outlet", ({ expect }) => {
             const runtime = new ReactRouterRuntime({
@@ -1649,7 +1649,7 @@ describe("validateRegistrations", () => {
             });
 
             try {
-                runtime.validateRegistrations();
+                runtime._validateRegistrations();
             } catch (error: unknown) {
                 errorMessage = (error as Error).message;
             }
@@ -1678,7 +1678,7 @@ describe("validateRegistrations", () => {
             });
 
             try {
-                runtime.validateRegistrations();
+                runtime._validateRegistrations();
             } catch (error: unknown) {
                 errorMessage = (error as Error).message;
             }
@@ -1704,7 +1704,7 @@ describe("validateRegistrations", () => {
             });
 
             try {
-                runtime.validateRegistrations();
+                runtime._validateRegistrations();
             } catch (error: unknown) {
                 errorMessage = (error as Error).message;
             }
@@ -1734,7 +1734,7 @@ describe("validateRegistrations", () => {
                 hoist: true
             });
 
-            expect(() => runtime.validateRegistrations()).not.toThrow();
+            expect(() => runtime._validateRegistrations()).not.toThrow();
         });
 
         test.concurrent("when there are pending registrations, throw an error", ({ expect }) => {
@@ -1749,7 +1749,7 @@ describe("validateRegistrations", () => {
                 parentPath: "/layout"
             });
 
-            expect(() => runtime.validateRegistrations()).toThrow();
+            expect(() => runtime._validateRegistrations()).toThrow();
         });
     });
 
@@ -1773,7 +1773,7 @@ describe("validateRegistrations", () => {
                 hoist: true
             });
 
-            expect(() => runtime.validateRegistrations()).not.toThrow();
+            expect(() => runtime._validateRegistrations()).not.toThrow();
         });
 
         test.concurrent("when there are pending registrations, throw an error", ({ expect }) => {
@@ -1788,7 +1788,7 @@ describe("validateRegistrations", () => {
                 parentId: "layout"
             });
 
-            expect(() => runtime.validateRegistrations()).toThrow();
+            expect(() => runtime._validateRegistrations()).toThrow();
         });
     });
 
@@ -1811,7 +1811,7 @@ describe("validateRegistrations", () => {
                 children: []
             });
 
-            expect(() => runtime.validateRegistrations()).not.toThrow();
+            expect(() => runtime._validateRegistrations()).not.toThrow();
         });
 
         test.concurrent("when there are pending registrations, throw an error", ({ expect }) => {
@@ -1826,7 +1826,7 @@ describe("validateRegistrations", () => {
                 sectionId: "section"
             });
 
-            expect(() => runtime.validateRegistrations()).toThrow();
+            expect(() => runtime._validateRegistrations()).toThrow();
         });
     });
 });

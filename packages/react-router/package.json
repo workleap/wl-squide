@@ -41,7 +41,7 @@
     },
     "dependencies": {
         "@squide/core": "workspace:*",
-        "@workleap/logging": "^1.2.5",
+        "@workleap/logging": "^1.3.0",
         "memoize": "^10.1.0"
     },
     "devDependencies": {

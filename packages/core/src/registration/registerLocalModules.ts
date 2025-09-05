@@ -159,6 +159,9 @@ export class LocalModuleRegistry implements ModuleRegistry {
         let completedCount = 0;
 
         await Promise.allSettled(this.#deferredRegistrations.map(async ({ index, fct: deferredRegister }) => {
+            // const loggerScope = (runtime.logger as RootLogger).startScope(`[squide] ${index} Registering local module deferred registrations.`);
+            // const runtimeScope = runtime.startScope(loggerScope);
+
             runtime.logger
                 .withText(`[squide] ${index} Registering local module deferred registrations.`)
                 .withText("Data:")
@@ -166,6 +169,20 @@ export class LocalModuleRegistry implements ModuleRegistry {
                 .debug();
 
             try {
+                // TODO: Must provide the runtime to deferredRegister because it shouldn't hold a reference on a runtime
+                // TODO: Wathever we do, I think we should still pass it
+                // TODO: OTHER
+                //  -> I don't think that creating a clone of the Runtime is a good idea
+                //  -> What if an host application was creating a custom Runtime with private members? How would those be duplicated?
+                //  -> I guess that would work if the "startScope" function is implemented
+                //  -> But it really complicates stuff - It seem like a bad API idea?
+                //
+                //  -> But I guess that with initializeFirefly, having a custom Runtime implementation is already out?
+                //
+                //  -> Could there be an alternative?
+                //      -> A runtime could accept a "loggerAccessor"
+                //      -> This loggerAccessor could be mutated by squide flows
+                //          -> This might be less complicated than manipulating multiple runtime instances?!
                 await deferredRegister(data, "register");
 
                 completedCount += 1;

@@ -22,7 +22,7 @@ export function useStrictRegistrationMode() {
 
     useEffect(() => {
         if (areModulesReady(localModuleStatus, remoteModuleStatus)) {
-            runtime.validateRegistrations();
+            runtime._validateRegistrations();
         }
     }, [runtime, localModuleStatus, remoteModuleStatus]);
 }

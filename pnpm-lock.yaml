@@ -51,8 +51,8 @@ importers:
   packages/core:
     dependencies:
       '@workleap/logging':
-        specifier: ^1.2.5
-        version: 1.2.5
+        specifier: ^1.3.0
+        version: 1.3.0
       eventemitter3:
         specifier: ^5.0.1
         version: 5.0.1
@@ -195,8 +195,8 @@ importers:
         specifier: ^5.83.0
         version: 5.83.0(react@19.1.0)
       '@workleap/logging':
-        specifier: ^1.2.5
-        version: 1.2.5
+        specifier: ^1.3.0
+        version: 1.3.0
       msw:
         specifier: ^2.10.4
         version: 2.10.4(@types/node@24.0.14)(typescript@5.8.3)
@@ -448,8 +448,8 @@ importers:
         specifier: workspace:*
         version: link:../core
       '@workleap/logging':
-        specifier: ^1.2.5
-        version: 1.2.5
+        specifier: ^1.3.0
+        version: 1.3.0
     devDependencies:
       '@rsbuild/core':
         specifier: 1.4.7
@@ -484,6 +484,9 @@ importers:
       '@squide/core':
         specifier: workspace:*
         version: link:../core
+      '@workleap/logging':
+        specifier: ^1.3.0
+        version: 1.3.0
       msw:
         specifier: ^2.10.4
         version: 2.10.4(@types/node@24.0.14)(typescript@5.8.3)
@@ -519,8 +522,8 @@ importers:
         specifier: workspace:*
         version: link:../core
       '@workleap/logging':
-        specifier: ^1.2.5
-        version: 1.2.5
+        specifier: ^1.3.0
+        version: 1.3.0
       memoize:
         specifier: ^10.1.0
         version: 10.1.0
@@ -598,8 +601,8 @@ importers:
         specifier: workspace:*
         version: link:../../../packages/firefly
       '@workleap/logging':
-        specifier: 1.2.5
-        version: 1.2.5
+        specifier: 1.3.0
+        version: 1.3.0
       react:
         specifier: 19.1.0
         version: 19.1.0
@@ -695,8 +698,8 @@ importers:
         specifier: 5.83.0
         version: 5.83.0(react@19.1.0)
       '@workleap/logging':
-        specifier: 1.2.5
-        version: 1.2.5
+        specifier: 1.3.0
+        version: 1.3.0
       react:
         specifier: 19.1.0
         version: 19.1.0
@@ -768,8 +771,8 @@ importers:
         specifier: workspace:*
         version: link:../../../packages/firefly
       '@workleap/logging':
-        specifier: ^1.2.5
-        version: 1.2.5
+        specifier: ^1.3.0
+        version: 1.3.0
     devDependencies:
       '@react-aria/toast':
         specifier: 3.0.5
@@ -841,8 +844,8 @@ importers:
         specifier: workspace:*
         version: link:../../../packages/firefly
       '@workleap/logging':
-        specifier: 1.2.5
-        version: 1.2.5
+        specifier: 1.3.0
+        version: 1.3.0
       react:
         specifier: 19.1.0
         version: 19.1.0
@@ -1018,8 +1021,8 @@ importers:
         specifier: workspace:*
         version: link:../../../packages/firefly
       '@workleap/logging':
-        specifier: 1.2.5
-        version: 1.2.5
+        specifier: 1.3.0
+        version: 1.3.0
       react:
         specifier: 19.1.0
         version: 19.1.0
@@ -1115,8 +1118,8 @@ importers:
         specifier: 5.83.0
         version: 5.83.0(react@19.1.0)
       '@workleap/logging':
-        specifier: 1.2.5
-        version: 1.2.5
+        specifier: 1.3.0
+        version: 1.3.0
       react:
         specifier: 19.1.0
         version: 19.1.0
@@ -1206,8 +1209,8 @@ importers:
         specifier: 19.1.6
         version: 19.1.6(@types/react@19.1.8)
       '@workleap/logging':
-        specifier: ^1.2.5
-        version: 1.2.5
+        specifier: ^1.3.0
+        version: 1.3.0
     devDependencies:
       '@react-aria/toast':
         specifier: 3.0.5
@@ -1288,8 +1291,8 @@ importers:
         specifier: workspace:*
         version: link:../../../packages/firefly
       '@workleap/logging':
-        specifier: 1.2.5
-        version: 1.2.5
+        specifier: 1.3.0
+        version: 1.3.0
       react:
         specifier: 19.1.0
         version: 19.1.0
@@ -1465,8 +1468,8 @@ importers:
         specifier: workspace:*
         version: link:../../../packages/firefly
       '@workleap/logging':
-        specifier: 1.2.5
-        version: 1.2.5
+        specifier: 1.3.0
+        version: 1.3.0
       react:
         specifier: 19.1.0
         version: 19.1.0
@@ -1550,8 +1553,8 @@ importers:
         specifier: 5.83.0
         version: 5.83.0(react@19.1.0)
       '@workleap/logging':
-        specifier: 1.2.5
-        version: 1.2.5
+        specifier: 1.3.0
+        version: 1.3.0
       react:
         specifier: 19.1.0
         version: 19.1.0
@@ -1623,8 +1626,8 @@ importers:
         specifier: workspace:*
         version: link:../../../packages/firefly
       '@workleap/logging':
-        specifier: ^1.2.5
-        version: 1.2.5
+        specifier: ^1.3.0
+        version: 1.3.0
     devDependencies:
       '@react-aria/toast':
         specifier: 3.0.5
@@ -1696,8 +1699,8 @@ importers:
         specifier: workspace:*
         version: link:../../../packages/firefly
       '@workleap/logging':
-        specifier: 1.2.5
-        version: 1.2.5
+        specifier: 1.3.0
+        version: 1.3.0
       react:
         specifier: 19.1.0
         version: 19.1.0
@@ -1940,8 +1943,8 @@ importers:
         specifier: 6.1.6
         version: 6.1.6(@opentelemetry/api@1.9.0)(zone.js@0.15.1)
       '@workleap/logging':
-        specifier: 1.2.5
-        version: 1.2.5
+        specifier: 1.3.0
+        version: 1.3.0
       '@workleap/logrocket':
         specifier: 1.2.5
         version: 1.2.5(logrocket@10.1.0)
@@ -2141,8 +2144,8 @@ importers:
         specifier: workspace:*
         version: link:../../../packages/i18next
       '@workleap/logging':
-        specifier: ^1.2.5
-        version: 1.2.5
+        specifier: ^1.3.0
+        version: 1.3.0
     devDependencies:
       '@rsbuild/core':
         specifier: 1.4.7
@@ -2235,8 +2238,8 @@ importers:
         specifier: 5.83.0
         version: 5.83.0(react@19.1.0)
       '@workleap/logging':
-        specifier: 1.2.5
-        version: 1.2.5
+        specifier: 1.3.0
+        version: 1.3.0
       i18next:
         specifier: 25.3.2
         version: 25.3.2(typescript@5.8.3)
@@ -6342,8 +6345,8 @@ packages:
     peerDependencies:
       '@opentelemetry/api': ^1.9.0
 
-  '@workleap/logging@1.2.5':
-    resolution: {integrity: sha512-Ou1im6GgqKAkyI12AqWG6ZQr+ktB1MXgdE/QiwTRjM0WGdH4dIdOe1MaJTDviPP8OVgbys5deF4y2QTkQLI67w==}
+  '@workleap/logging@1.3.0':
+    resolution: {integrity: sha512-eTZia6dN3zdQ25sB8SCfKrrDnE5kBQYsrXdjGVaKzpj7cBiL3NwGhd3Hh6Px3a1lzgTUnxdrWO0B+hOxWc/WZg==}
 
   '@workleap/logrocket@1.2.5':
     resolution: {integrity: sha512-o6reYb4qgBT1qyAyTCLZSpipvQ8olkR3XZuwxs3GdOvanRE++heWedveMBvzGl6plTAJjJH4gvkomaZTunuYTw==}
@@ -17260,18 +17263,18 @@ snapshots:
       '@opentelemetry/instrumentation-user-interaction': 0.48.0(@opentelemetry/api@1.9.0)(zone.js@0.15.1)
       '@opentelemetry/instrumentation-xml-http-request': 0.203.0(@opentelemetry/api@1.9.0)
       '@opentelemetry/sdk-trace-web': 2.0.1(@opentelemetry/api@1.9.0)
-      '@workleap/logging': 1.2.5
+      '@workleap/logging': 1.3.0
       '@workleap/telemetry': 1.1.6
     transitivePeerDependencies:
       - '@opentelemetry/context-zone'
       - supports-color
       - zone.js
 
-  '@workleap/logging@1.2.5': {}
+  '@workleap/logging@1.3.0': {}
 
   '@workleap/logrocket@1.2.5(logrocket@10.1.0)':
     dependencies:
-      '@workleap/logging': 1.2.5
+      '@workleap/logging': 1.3.0
       '@workleap/telemetry': 1.1.6
       logrocket: 10.1.0
       logrocket-fuzzy-search-sanitizer: 0.0.2
@@ -17309,7 +17312,7 @@ snapshots:
 
   '@workleap/telemetry@1.1.6':
     dependencies:
-      '@workleap/logging': 1.2.5
+      '@workleap/logging': 1.3.0
       js-cookie: 3.0.5
       uuid: 11.1.0
 

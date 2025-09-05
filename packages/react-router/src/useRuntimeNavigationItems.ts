@@ -10,5 +10,7 @@ export interface UseRuntimeNavigationItemsOptions {
 export function useRuntimeNavigationItems({ menuId }: UseRuntimeNavigationItemsOptions = {}) {
     const runtime = useRuntime() as ReactRouterRuntime;
 
-    return runtime.getNavigationItems(menuId);
+    return runtime.getNavigationItems({
+        menuId
+    });
 }
