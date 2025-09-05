@@ -4,7 +4,7 @@ import { registerShell } from "@endpoints/shell";
 import { EnvironmentVariablesPlugin } from "@squide/env-vars";
 import { FireflyProvider, initializeFirefly } from "@squide/firefly";
 import { registerHoneycombInstrumentation } from "@workleap/honeycomb";
-import { BrowserConsoleLogger, LogLevel, type RootLogger } from "@workleap/logging";
+import { BrowserConsoleLogger, type RootLogger } from "@workleap/logging";
 import { LogRocketLogger, registerLogRocketInstrumentation } from "@workleap/logrocket";
 import { StrictMode } from "react";
 import { createRoot } from "react-dom/client";
@@ -12,7 +12,7 @@ import { Remotes } from "../remotes.ts";
 import { App } from "./App.tsx";
 import { registerHost } from "./register.tsx";
 
-const loggers: RootLogger[] = [new BrowserConsoleLogger({ logLevel: LogLevel.information })];
+const loggers: RootLogger[] = [new BrowserConsoleLogger()];
 
 if (process.env.LOGROCKET_APP_ID) {
     loggers.push(new LogRocketLogger());

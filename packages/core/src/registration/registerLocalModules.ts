@@ -40,9 +40,9 @@ export interface LocalModulesDeferredRegistrationsUpdateCompletedEventPayload {
     registrationCount: number;
 }
 
-interface DeferredRegistration<TData = unknown> {
+interface DeferredRegistration<TRuntime extends Runtime = Runtime, TData = unknown> {
     index: string;
-    fct: DeferredRegistrationFunction<TData>;
+    fct: DeferredRegistrationFunction<TRuntime, TData>;
 }
 
 export class LocalModuleRegistry implements ModuleRegistry {
@@ -51,7 +51,7 @@ export class LocalModuleRegistry implements ModuleRegistry {
     readonly #deferredRegistrations: DeferredRegistration[] = [];
     readonly #statusChangedListeners = new Set<ModuleRegistrationStatusChangedListener>();
 
-    async registerModules<TRuntime extends Runtime = Runtime<unknown, unknown>, TContext = unknown, TData = unknown>(registrationFunctions: ModuleRegisterFunction<TRuntime, TContext, TData>[], runtime: TRuntime, { context }: RegisterModulesOptions<TContext> = {}) {
+    async registerModules<TRuntime extends Runtime = Runtime, TContext = unknown, TData = unknown>(registrationFunctions: ModuleRegisterFunction<TRuntime, TContext, TData>[], runtime: TRuntime, { context }: RegisterModulesOptions<TContext> = {}) {
         const errors: ModuleRegistrationError[] = [];
 
         if (this.#registrationStatus !== "none") {
@@ -74,7 +74,7 @@ export class LocalModuleRegistry implements ModuleRegistry {
                 const runtimeScope = runtime.startScope(loggerScope);
 
                 try {
-                    const optionalDeferredRegistration = await registerModule(x as ModuleRegisterFunction<Runtime, TContext, TData>, runtimeScope, context);
+                    const optionalDeferredRegistration = await registerModule(x as ModuleRegisterFunction<TRuntime, TContext, TData>, runtimeScope as TRuntime, context);
 
                     if (isFunction(optionalDeferredRegistration)) {
                         this.#deferredRegistrations.push({
@@ -159,45 +159,46 @@ export class LocalModuleRegistry implements ModuleRegistry {
         let completedCount = 0;
 
         await Promise.allSettled(this.#deferredRegistrations.map(async ({ index, fct: deferredRegister }) => {
-            // const loggerScope = (runtime.logger as RootLogger).startScope(`[squide] ${index} Registering local module deferred registrations.`);
-            // const runtimeScope = runtime.startScope(loggerScope);
+            const loggerScope = (runtime.logger as RootLogger).startScope(`[squide] ${index} Registering local module deferred registrations.`);
+            const runtimeScope = runtime.startScope(loggerScope);
 
-            runtime.logger
-                .withText(`[squide] ${index} Registering local module deferred registrations.`)
+            loggerScope
                 .withText("Data:")
                 .withObject(data)
                 .debug();
 
             try {
-                // TODO: Must provide the runtime to deferredRegister because it shouldn't hold a reference on a runtime
-                // TODO: Wathever we do, I think we should still pass it
-                // TODO: OTHER
-                //  -> I don't think that creating a clone of the Runtime is a good idea
-                //  -> What if an host application was creating a custom Runtime with private members? How would those be duplicated?
-                //  -> I guess that would work if the "startScope" function is implemented
-                //  -> But it really complicates stuff - It seem like a bad API idea?
-                //
-                //  -> But I guess that with initializeFirefly, having a custom Runtime implementation is already out?
-                //
-                //  -> Could there be an alternative?
-                //      -> A runtime could accept a "loggerAccessor"
-                //      -> This loggerAccessor could be mutated by squide flows
-                //          -> This might be less complicated than manipulating multiple runtime instances?!
-                await deferredRegister(data, "register");
+                await deferredRegister(runtimeScope, data, "register");
 
                 completedCount += 1;
             } catch (error: unknown) {
-                runtime.logger
-                    .withText(`[squide] ${index} An error occured while registering the deferred registrations of a local module.`)
+                loggerScope
+                    .withText("[squide] An error occured while registering the deferred registrations.")
                     .withError(error as Error)
                     .error();
+
+                loggerScope.end({
+                    labelStyle: {
+                        color: "red"
+                    }
+                });
 
                 errors.push(
                     new ModuleRegistrationError("An error occured while registering the deferred registrations of a local module.", { cause: error })
                 );
             }
 
-            runtime.logger.information(`[squide] ${index} Registered local module deferred registrations.`);
+            loggerScope.information("[squide] Successfully registered deferred registrations.", {
+                style: {
+                    color: "green"
+                }
+            });
+
+            loggerScope.end({
+                labelStyle: {
+                    color: "green"
+                }
+            });
         }));
 
         if (errors.length > 0) {
@@ -230,28 +231,46 @@ export class LocalModuleRegistry implements ModuleRegistry {
         let completedCount = 0;
 
         await Promise.allSettled(this.#deferredRegistrations.map(async ({ index, fct: deferredRegister }) => {
-            runtime.logger
-                .withText(`[squide] ${index} Updating local module deferred registrations.`)
+            const loggerScope = (runtime.logger as RootLogger).startScope(`[squide] ${index} Updating local module deferred registrations.`);
+            const runtimeScope = runtime.startScope(loggerScope);
+
+            loggerScope
                 .withText("Data:")
                 .withObject(data)
                 .debug();
 
             try {
-                await deferredRegister(data, "update");
+                await deferredRegister(runtimeScope, data, "update");
 
                 completedCount += 1;
             } catch (error: unknown) {
-                runtime.logger
-                    .withText(`[squide] ${index} An error occured while updating the deferred registrations of a local module.`)
+                loggerScope
+                    .withText(`[squide] ${index} An error occured while updating the deferred registrations.`)
                     .withError(error as Error)
                     .error();
+
+                loggerScope.end({
+                    labelStyle: {
+                        color: "red"
+                    }
+                });
 
                 errors.push(
                     new ModuleRegistrationError("An error occured while updating the deferred registrations a local module.", { cause: error })
                 );
             }
 
-            runtime.logger.information(`[squide] ${index} Updated local module deferred registration.`);
+            loggerScope.information("[squide] Successfully updated deferred registrations.", {
+                style: {
+                    color: "green"
+                }
+            });
+
+            loggerScope.end({
+                labelStyle: {
+                    color: "green"
+                }
+            });
         }));
 
         if (errors.length > 0) {

@@ -67,15 +67,10 @@ function BootstrappingRoute() {
     useEffect(() => {
         if (featureFlags) {
             logger
-                .withText("[shell]")
-                .withText("Feature flags has been fetched", {
+                .withText("[shell] Feature flags has been fetched:", {
                     style: {
-                        color: "white",
-                        backgroundColor: "green"
+                        color: "orange"
                     }
-                })
-                .withText(":", {
-                    leadingSpace: false
                 })
                 .withObject(featureFlags)
                 .debug();
@@ -114,15 +109,10 @@ function BootstrappingRoute() {
     useEffect(() => {
         if (session) {
             logger
-                .withText("[shell]")
-                .withText("Session has been fetched", {
+                .withText("[shell] Session has been fetched:", {
                     style: {
-                        color: "white",
-                        backgroundColor: "green"
+                        color: "orange"
                     }
-                })
-                .withText(":", {
-                    leadingSpace: false
                 })
                 .withObject(session)
                 .debug();
@@ -142,15 +132,10 @@ function BootstrappingRoute() {
     useEffect(() => {
         if (subscription) {
             logger
-                .withText("[shell]")
-                .withText("Subscription has been fetched", {
+                .withText("[shell] Subscription has been fetched:", {
                     style: {
-                        color: "white",
-                        backgroundColor: "green"
+                        color: "orange"
                     }
-                })
-                .withText(":", {
-                    leadingSpace: false
                 })
                 .withObject(subscription)
                 .debug();
