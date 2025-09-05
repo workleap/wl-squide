@@ -333,10 +333,10 @@ export const register: ModuleRegisterFunction<FireflyRuntime, unknown, DeferredR
 
     // Once the feature flags has been loaded by the host application, by completing the module registrations process,
     // the deferred registration function will be called with the feature flags data.
-    return ({ featureFlags }) => {
+    return (deferredRuntime, { featureFlags }) => {
         // Only register the "feature-a" route and navigation item if the feature is active.
         if (featureFlags.featureA) {
-            runtime.registerNavigationItem({
+            deferredRuntime.registerNavigationItem({
                 $id: "feature-a",
                 $label: "Feature A",
                 to: "/feature-a"
@@ -373,10 +373,10 @@ export const register: ModuleRegisterFunction<FireflyRuntime> = runtime => {
 
     // Once the feature flags has been loaded by the host application, by completing the module registrations process,
     // the deferred registration function will be called with the feature flags data.
-    return ({ featureFlags }) => {
+    return (deferredRuntime, { featureFlags }) => {
         // Only register the "feature-b route and navigation item if the feature is active.
         if (featureFlags.featureB) {
-            runtime.registerNavigationItem({
+            deferredRuntime.registerNavigationItem({
                 $id: "feature-b",
                 $label: "Feature B",
                 to: "/feature-b"
@@ -385,6 +385,10 @@ export const register: ModuleRegisterFunction<FireflyRuntime> = runtime => {
     };
 }
 ```
+
+!!!warning
+It's important to register conditional navigation items using the `deferredRuntime` argument rather than the root `runtime` argument.
+!!!
 
 [!ref useDeferredRegistrations](./useDeferredRegistrations.md)
 
@@ -418,10 +422,10 @@ export const register: ModuleRegisterFunction<FireflyRuntime, unknown, DeferredR
 
     // Once the feature flags has been loaded by the host application, by completing the module registrations process,
     // the deferred registration function will be called with the feature flags data.
-    return ({ featureFlags }, operation) => {
+    return (deferredRuntime, { featureFlags }, operation) => {
         // Only register the "feature-a" route and navigation item if the feature is active.
         if (featureFlags.featureA) {
-            runtime.registerNavigationItem({
+            deferredRuntime.registerNavigationItem({
                 $id: "feature-a",
                 $label: operation === "register" ? "Feature A" : "Feature A updated",
                 to: "/feature-a"

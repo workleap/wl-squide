@@ -8,6 +8,10 @@ order: 840
 Before going forward with this guide, make sure that you completed the [Setup MSW](./setup-msw.md) and [Fetch global data](./fetch-global-data.md) guides.
 !!!
 
+!!!warning
+This guide uses feature flags as an example, but it **does not represent** how feature flags should be implemented in a Workleap application.
+!!!
+
 Conditionally registering navigation items based on remote data is complex because **Squide's default registration mechanism runs before the application has bootstrapped**, meaning that the remote data have not yet been fetched from the server.
 
 To address this, Squide offers an alternate [deferred registration](../reference/registration/registerLocalModules.md#defer-the-registration-of-navigation-items) mechanism in two-phases:
@@ -240,10 +244,10 @@ export const register: ModuleRegisterFunction<FireflyRuntime, unknown, DeferredR
     });
 
     // Return a deferred registration function.
-    return ({ featureFlags }) => {
+    return (deferredRuntime, { featureFlags }) => {
         // Only register the "Page" navigation items if "featureB" is activated.
         if (featureFlags?.featureB) {
-            runtime.registerNavigationItem({
+            deferredRuntime.registerNavigationItem({
                 $id: "page",
                 $label: "Page",
                 to: "/page"
@@ -257,6 +261,10 @@ export const register: ModuleRegisterFunction<FireflyRuntime, unknown, DeferredR
 A key feature of [TanStack Query](https://tanstack.com/query/latest) is its ability to keep the frontend state synchronized with the server state. To fully leverage this, whenever the data passed to `useDeferredRegistrations` changes, all deferred registration functions are re-executed.
 
 Remember to use [useMemo](https://react.dev/reference/react/useMemo) for your deferred registration data and to specify the `$id` option for your navigation items!
+!!!
+
+!!!warning
+It's important to register conditional navigation items using the `deferredRuntime` argument rather than the root `runtime` argument.
 !!!
 
 ## Try it :rocket:

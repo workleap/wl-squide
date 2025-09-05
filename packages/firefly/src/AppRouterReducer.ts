@@ -188,15 +188,10 @@ export function useModuleRegistrationStatusDispatcher(areModulesRegisteredValue:
             dispatch({ type: "modules-registered" });
 
             logger
-                .withText("[squide]")
-                .withText("Modules are registered", {
+                .withText("[squide] Modules are registered.", {
                     style: {
-                        color: "white",
-                        backgroundColor: "green"
+                        color: "green"
                     }
-                })
-                .withText(".", {
-                    leadingSpace: false
                 })
                 .information();
 
@@ -211,15 +206,10 @@ export function useModuleRegistrationStatusDispatcher(areModulesRegisteredValue:
             dispatch({ type: "modules-ready" });
 
             logger
-                .withText("[squide]")
-                .withText("Modules are ready", {
+                .withText("[squide] Modules are ready.", {
                     style: {
-                        color: "white",
-                        backgroundColor: "green"
+                        color: "green"
                     }
-                })
-                .withText(".", {
-                    leadingSpace: false
                 })
                 .information();
 
@@ -258,15 +248,10 @@ export function useMswStatusDispatcher(isMswReadyValue: boolean, dispatch: AppRo
             dispatch({ type: "msw-ready" });
 
             logger
-                .withText("[squide]")
-                .withText("MSW is ready", {
+                .withText("[squide] MSW is ready.", {
                     style: {
-                        color: "white",
-                        backgroundColor: "green"
+                        color: "green"
                     }
-                })
-                .withText(".", {
-                    leadingSpace: false
                 })
                 .information();
 

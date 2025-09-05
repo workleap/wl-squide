@@ -5,7 +5,9 @@ export const DeferredRegistrationsUpdateStartedEvent = "squide-deferred-registra
 export const DeferredRegistrationsUpdateCompletedEvent = "squide-deferred-registrations-update-completed-started";
 
 export async function updateDeferredRegistrations<TData = unknown, TRuntime extends Runtime = Runtime>(data: TData, runtime: TRuntime) {
-    runtime.startDeferredRegistrationScope(true);
+    runtime.startDeferredRegistrationScope({
+        transactional: true
+    });
 
     try {
         runtime.eventBus.dispatch(DeferredRegistrationsUpdateStartedEvent);

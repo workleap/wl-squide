@@ -19,7 +19,7 @@ function Providers({ children }: ProvidersProps) {
     );
 }
 
-function registerRoutes(runtime: FireflyRuntime, i18nextInstance: i18n): DeferredRegistrationFunction<DeferredRegistrationData> {
+function registerRoutes(runtime: FireflyRuntime, i18nextInstance: i18n): DeferredRegistrationFunction<FireflyRuntime, DeferredRegistrationData> {
     runtime.registerPublicRoute({
         path: "/anonymous",
         lazy: async () => {
@@ -116,9 +116,9 @@ function registerRoutes(runtime: FireflyRuntime, i18nextInstance: i18n): Deferre
         menuId: "/federated-tabs"
     });
 
-    return ({ featureFlags }) => {
+    return (deferredRuntime, { featureFlags }) => {
         if (featureFlags?.featureB) {
-            runtime.registerNavigationItem({
+            deferredRuntime.registerNavigationItem({
                 $id: "feature-b",
                 $label: <I18nextNavigationItemLabel i18next={i18nextInstance} resourceKey="featureBPage" />,
                 to: "/feature-b"
@@ -126,7 +126,7 @@ function registerRoutes(runtime: FireflyRuntime, i18nextInstance: i18n): Deferre
         }
 
         if (featureFlags?.featureC) {
-            runtime.registerNavigationItem({
+            deferredRuntime.registerNavigationItem({
                 $id: "feature-c",
                 $label: <I18nextNavigationItemLabel i18next={i18nextInstance} resourceKey="featureCPage" />,
                 to: "/feature-c"

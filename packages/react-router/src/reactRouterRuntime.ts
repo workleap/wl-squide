@@ -1,4 +1,5 @@
-import { RootMenuId, Runtime, type RegisterNavigationItemOptions, type RegisterRouteOptions } from "@squide/core";
+import { RootMenuId, Runtime, RuntimeScope, type GetNavigationItemsOptions, type IRuntime, type RegisterNavigationItemOptions, type RegisterRouteOptions, type StartDeferredRegistrationScopeOptions, type ValidateRegistrationsOptions } from "@squide/core";
+import type { Logger } from "@workleap/logging";
 import { NavigationItemDeferredRegistrationScope, NavigationItemDeferredRegistrationTransactionalScope, NavigationItemRegistry, parseSectionIndexKey, type NavigationItemRegistrationResult, type RootNavigationItem } from "./navigationItemRegistry.ts";
 import { ProtectedRoutesOutletId, PublicRoutesOutletId } from "./outlets.ts";
 import { RouteRegistry, type Route } from "./routeRegistry.ts";
@@ -33,43 +34,50 @@ function logRoutesTree(routes: Route[], depth: number = 0) {
     return log;
 }
 
-export class ReactRouterRuntime extends Runtime<Route, RootNavigationItem> {
-    readonly #routeRegistry = new RouteRegistry();
-    readonly #navigationItemRegistry = new NavigationItemRegistry();
-    #navigationItemScope?: NavigationItemDeferredRegistrationScope;
+export interface IReactRouterRuntime extends IRuntime<Route, RootNavigationItem> {}
 
-    startDeferredRegistrationScope(transactional: boolean = false) {
-        if (this.#navigationItemScope) {
+export class ReactRouterRuntime extends Runtime<Route, RootNavigationItem> implements IReactRouterRuntime {
+    protected _routeRegistry = new RouteRegistry();
+    protected _navigationItemRegistry = new NavigationItemRegistry();
+    protected _navigationItemScope?: NavigationItemDeferredRegistrationScope;
+
+    startDeferredRegistrationScope(options: StartDeferredRegistrationScopeOptions = {}) {
+        const {
+            transactional = false
+        } = options;
+
+        if (this._navigationItemScope) {
             throw new Error("[squide] Cannot start a new deferred registration scope when there's already an active scope. Did you forget to complete the previous scope?");
         }
 
         if (transactional) {
-            this.#navigationItemScope = new NavigationItemDeferredRegistrationTransactionalScope(this.#navigationItemRegistry);
+            this._navigationItemScope = new NavigationItemDeferredRegistrationTransactionalScope(this._navigationItemRegistry);
         } else {
-            this.#navigationItemScope = new NavigationItemDeferredRegistrationScope(this.#navigationItemRegistry);
+            this._navigationItemScope = new NavigationItemDeferredRegistrationScope(this._navigationItemRegistry);
         }
     }
 
     completeDeferredRegistrationScope() {
-        if (!this.#navigationItemScope) {
+        if (!this._navigationItemScope) {
             throw new Error("[squide] A deferred registration scope must be started before calling the complete function. Did you forget to start the scope?");
         }
 
-        if (this.#navigationItemScope) {
-            this.#navigationItemScope.complete();
-            this.#navigationItemScope = undefined;
+        if (this._navigationItemScope) {
+            this._navigationItemScope.complete();
+            this._navigationItemScope = undefined;
         }
     }
 
     registerRoute(route: Route, options: RegisterRouteOptions = {}) {
-        const result = this.#routeRegistry.add(route, options);
+        const logger = this._getLogger(options);
+        const result = this._routeRegistry.add(route, options);
 
         const parentId = translateOutletsParentId(result.parentId);
 
         if (result.registrationStatus === "registered") {
             const parentLog = parentId ? `as a children of the "${parentId}" route` : "";
 
-            this._logger
+            logger
                 .withText("[squide] The following route has been")
                 .withText("registered", {
                     style: {
@@ -86,11 +94,11 @@ export class ReactRouterRuntime extends Runtime<Route, RootNavigationItem> {
                 .withObject(route)
                 .withLineChange()
                 .withText("All registered routes:")
-                .withObject(this.#routeRegistry.routes)
+                .withObject(this._routeRegistry.routes)
                 .debug();
 
             if (result.completedPendingRegistrations.length > 0) {
-                this._logger
+                logger
                     .withText(`[squide] The pending registration of the following route${result.completedPendingRegistrations.length !== 1 ? "s" : ""} has been`)
                     .withText("completed", {
                         style: {
@@ -106,11 +114,11 @@ export class ReactRouterRuntime extends Runtime<Route, RootNavigationItem> {
                     .withObject(result.completedPendingRegistrations)
                     .withLineChange()
                     .withText("All registered routes:")
-                    .withObject(this.#routeRegistry.routes)
+                    .withObject(this._routeRegistry.routes)
                     .debug();
             }
         } else {
-            this._logger
+            logger
                 .withText("[squide] The following route registration is")
                 .withText("pending", {
                     style: {
@@ -124,12 +132,12 @@ export class ReactRouterRuntime extends Runtime<Route, RootNavigationItem> {
                 .withObject(route)
                 .withLineChange()
                 .withText("All registered routes:")
-                .withObject(this.#routeRegistry.routes)
+                .withObject(this._routeRegistry.routes)
                 .debug();
         }
     }
 
-    registerPublicRoute(route: Omit<Route, "$visibility">, options?: RegisterRouteOptions): void {
+    registerPublicRoute(route: Omit<Route, "$visibility">, options?: RegisterRouteOptions) {
         this.registerRoute({
             $visibility: "public",
             ...route
@@ -137,24 +145,30 @@ export class ReactRouterRuntime extends Runtime<Route, RootNavigationItem> {
     }
 
     get routes() {
-        return this.#routeRegistry.routes;
+        return this._routeRegistry.routes;
     }
 
-    registerNavigationItem(navigationItem: RootNavigationItem, { menuId = RootMenuId, ...options }: RegisterNavigationItemOptions = {}) {
-        if (this.#navigationItemScope) {
-            const result = this.#navigationItemScope.addItem(menuId, navigationItem, options);
-            const items = this.#navigationItemScope.getItems(menuId)!;
+    registerNavigationItem(navigationItem: RootNavigationItem, options: RegisterNavigationItemOptions = {}) {
+        const {
+            menuId = RootMenuId
+        } = options;
 
-            this.#logNavigationItemRegistrationResult(result, items);
+        const logger = this._getLogger(options);
+
+        if (this._navigationItemScope) {
+            const result = this._navigationItemScope.addItem(menuId, navigationItem, options);
+            const items = this._navigationItemScope.getItems(menuId)!;
+
+            this.#logNavigationItemRegistrationResult(result, items, logger);
         } else {
-            const result = this.#navigationItemRegistry.add(menuId, "static", navigationItem, options);
-            const items = this.#navigationItemRegistry.getItems(menuId)!;
+            const result = this._navigationItemRegistry.add(menuId, "static", navigationItem, options);
+            const items = this._navigationItemRegistry.getItems(menuId)!;
 
-            this.#logNavigationItemRegistrationResult(result, items);
+            this.#logNavigationItemRegistrationResult(result, items, logger);
         }
     }
 
-    #logNavigationItemRegistrationResult(result: NavigationItemRegistrationResult, registeredItems: RootNavigationItem[]) {
+    #logNavigationItemRegistrationResult(result: NavigationItemRegistrationResult, registeredItems: RootNavigationItem[], logger: Logger) {
         const {
             registrationStatus,
             completedPendingRegistrations,
@@ -167,7 +181,7 @@ export class ReactRouterRuntime extends Runtime<Route, RootNavigationItem> {
         if (registrationStatus === "registered") {
             const sectionLog = sectionId ? `under the "${sectionId}" section of` : "to";
 
-            this._logger
+            logger
                 .withText(`[squide] The following ${registrationType} navigation item has been`)
                 .withText("registered", {
                     style: {
@@ -185,7 +199,7 @@ export class ReactRouterRuntime extends Runtime<Route, RootNavigationItem> {
                 .debug();
 
             if (completedPendingRegistrations.length > 0) {
-                this._logger
+                logger
                     .withText(`[squide] The pending registration of the following ${registrationType} navigation item${completedPendingRegistrations.length !== 1 ? "s" : ""} has been`)
                     .withText("completed", {
                         style: {
@@ -205,7 +219,7 @@ export class ReactRouterRuntime extends Runtime<Route, RootNavigationItem> {
                     .debug();
             }
         } else {
-            this._logger
+            logger
                 .withText(`[squide] The following ${registrationType} navigation item registration is`)
                 .withText("pending", {
                     style: {
@@ -224,19 +238,27 @@ export class ReactRouterRuntime extends Runtime<Route, RootNavigationItem> {
         }
     }
 
-    getNavigationItems(menuId: string = RootMenuId) {
-        return this.#navigationItemRegistry.getItems(menuId);
+    getNavigationItems(options: GetNavigationItemsOptions = {}) {
+        const {
+            menuId = RootMenuId
+        } = options;
+
+        return this._navigationItemRegistry.getItems(menuId);
     }
 
-    _validateRegistrations() {
-        this.#validateRouteRegistrations();
-        this.#validateNavigationItemRegistrations();
-
-        super._validateRegistrations();
+    startScope(logger: Logger): ReactRouterRuntime {
+        return (new ReactRouterRuntimeScope(this, logger) as unknown) as ReactRouterRuntime;
     }
 
-    #validateRouteRegistrations() {
-        const pendingRegistrations = this.#routeRegistry.getPendingRegistrations();
+    _validateRegistrations(options?: ValidateRegistrationsOptions) {
+        const logger = this._getLogger(options);
+
+        this.#validateRouteRegistrations(logger);
+        this.#validateNavigationItemRegistrations(logger);
+    }
+
+    #validateRouteRegistrations(logger: Logger) {
+        const pendingRegistrations = this._routeRegistry.getPendingRegistrations();
         const pendingRoutes = pendingRegistrations.getPendingRouteIds();
 
         if (pendingRoutes.length > 0) {
@@ -265,7 +287,7 @@ export class ReactRouterRuntime extends Runtime<Route, RootNavigationItem> {
             });
 
             message += "Registered routes:\r\n";
-            message += logRoutesTree(this.#routeRegistry.routes, 1);
+            message += logRoutesTree(this._routeRegistry.routes, 1);
             message += "\r\n";
 
             message += `If you are certain that the route${pendingRoutes.length !== 1 ? "s" : ""} has been registered, make sure that the following conditions are met:\r\n`;
@@ -277,13 +299,13 @@ export class ReactRouterRuntime extends Runtime<Route, RootNavigationItem> {
             if (this._mode === "development") {
                 throw new Error(message);
             } else {
-                this._logger.error(message);
+                logger.error(message);
             }
         }
     }
 
-    #validateNavigationItemRegistrations() {
-        const pendingRegistrations = this.#navigationItemRegistry.getPendingRegistrations();
+    #validateNavigationItemRegistrations(logger: Logger) {
+        const pendingRegistrations = this._navigationItemRegistry.getPendingRegistrations();
         const pendingSectionIds = pendingRegistrations.getPendingSectionIds();
 
         if (pendingSectionIds.length > 0) {
@@ -311,8 +333,10 @@ export class ReactRouterRuntime extends Runtime<Route, RootNavigationItem> {
             if (this._mode === "development") {
                 throw new Error(message);
             } else {
-                this._logger.error(message);
+                logger.error(message);
             }
         }
     }
 }
+
+export class ReactRouterRuntimeScope<TRuntime extends ReactRouterRuntime = ReactRouterRuntime> extends RuntimeScope<Route, RootNavigationItem, TRuntime> implements IReactRouterRuntime {}

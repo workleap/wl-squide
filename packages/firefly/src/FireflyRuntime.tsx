@@ -1,6 +1,7 @@
-import type { RegisterRouteOptions, RuntimeOptions } from "@squide/core";
+import type { RegisterRouteOptions, RuntimeMethodOptions, RuntimeOptions } from "@squide/core";
 import { MswPlugin, MswPluginName } from "@squide/msw";
-import { ReactRouterRuntime, type Route } from "@squide/react-router";
+import { type IReactRouterRuntime, ReactRouterRuntime, ReactRouterRuntimeScope, type Route } from "@squide/react-router";
+import type { Logger } from "@workleap/logging";
 import type { RequestHandler } from "msw";
 import { getAreModulesRegistered } from "./AppRouterReducer.ts";
 import { type AppRouterStore, createAppRouterStore } from "./AppRouterStore.ts";
@@ -9,9 +10,18 @@ export interface FireflyRuntimeOptions extends RuntimeOptions {
     useMsw?: boolean;
 }
 
-export class FireflyRuntime extends ReactRouterRuntime {
-    readonly #appRouterStore: AppRouterStore;
-    readonly #useMsw: boolean;
+export interface RegisterRequestHandlersOptions extends RuntimeMethodOptions {}
+
+export interface IFireflyRuntime extends IReactRouterRuntime {
+    registerRequestHandlers: (handlers: RequestHandler[]) => void;
+    get requestHandlers(): RequestHandler[];
+    get appRouterStore(): AppRouterStore;
+    get isMswEnabled(): boolean;
+}
+
+export class FireflyRuntime extends ReactRouterRuntime implements IFireflyRuntime {
+    protected _appRouterStore: AppRouterStore;
+    protected _useMsw: boolean;
 
     constructor({ plugins, useMsw, ...options }: FireflyRuntimeOptions = {}) {
         if (useMsw) {
@@ -23,20 +33,21 @@ export class FireflyRuntime extends ReactRouterRuntime {
                 ...options
             });
 
-            this.#useMsw = true;
+            this._useMsw = true;
         } else {
             super({
                 plugins,
                 ...options
             });
 
-            this.#useMsw = false;
+            this._useMsw = false;
         }
 
-        this.#appRouterStore = createAppRouterStore(this._logger);
+        this._appRouterStore = createAppRouterStore(this._logger);
     }
 
-    registerRequestHandlers(handlers: RequestHandler[]) {
+    registerRequestHandlers(handlers: RequestHandler[], options: RegisterRequestHandlersOptions = {}) {
+        const logger = this._getLogger(options);
         const mswPlugin = this.getPlugin(MswPluginName) as MswPlugin;
 
         if (!mswPlugin) {
@@ -47,7 +58,9 @@ export class FireflyRuntime extends ReactRouterRuntime {
             throw new Error("[squide] Cannot register an MSW request handlers once the modules are registered. Are you trying to register an MSW request handler in a deferred registration function? Only navigation items can be registered in a deferred registration function.");
         }
 
-        mswPlugin.registerRequestHandlers(handlers);
+        mswPlugin.registerRequestHandlers(handlers, {
+            logger
+        });
     }
 
     // Must define a return type otherwise we get an "error TS2742: The inferred type of 'requestHandlers' cannot be named" error.
@@ -70,10 +83,35 @@ export class FireflyRuntime extends ReactRouterRuntime {
     }
 
     get appRouterStore() {
-        return this.#appRouterStore;
+        return this._appRouterStore;
     }
 
     get isMswEnabled() {
-        return this.#useMsw;
+        return this._useMsw;
+    }
+
+    startScope(logger: Logger): FireflyRuntime {
+        return (new FireflyRuntimeScope(this, logger) as unknown) as FireflyRuntime;
+    }
+}
+
+export class FireflyRuntimeScope<TRuntime extends FireflyRuntime = FireflyRuntime> extends ReactRouterRuntimeScope<TRuntime> implements IFireflyRuntime {
+    registerRequestHandlers(handlers: RequestHandler[], options: RegisterRequestHandlersOptions = {}) {
+        this._runtime.registerRequestHandlers(handlers, {
+            ...options,
+            logger: this._getLogger(options)
+        });
+    }
+
+    get requestHandlers(): RequestHandler[] {
+        return this._runtime.requestHandlers;
+    }
+
+    get appRouterStore() {
+        return this._runtime.appRouterStore;
+    }
+
+    get isMswEnabled() {
+        return this._runtime.isMswEnabled;
     }
 }

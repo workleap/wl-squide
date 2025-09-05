@@ -1,3 +1,4 @@
+import type { RootLogger } from "@workleap/logging";
 import type { Runtime } from "../runtime/runtime.ts";
 import { isFunction } from "../shared/assertions.ts";
 import { ModuleRegistrationError, type ModuleRegistrationStatus, type ModuleRegistrationStatusChangedListener, type ModuleRegistry, type RegisterModulesOptions } from "./moduleRegistry.ts";
@@ -39,9 +40,9 @@ export interface LocalModulesDeferredRegistrationsUpdateCompletedEventPayload {
     registrationCount: number;
 }
 
-interface DeferredRegistration<TData = unknown> {
+interface DeferredRegistration<TRuntime extends Runtime = Runtime, TData = unknown> {
     index: string;
-    fct: DeferredRegistrationFunction<TData>;
+    fct: DeferredRegistrationFunction<TRuntime, TData>;
 }
 
 export class LocalModuleRegistry implements ModuleRegistry {
@@ -50,7 +51,7 @@ export class LocalModuleRegistry implements ModuleRegistry {
     readonly #deferredRegistrations: DeferredRegistration[] = [];
     readonly #statusChangedListeners = new Set<ModuleRegistrationStatusChangedListener>();
 
-    async registerModules<TRuntime extends Runtime = Runtime<unknown, unknown>, TContext = unknown, TData = unknown>(registrationFunctions: ModuleRegisterFunction<TRuntime, TContext, TData>[], runtime: TRuntime, { context }: RegisterModulesOptions<TContext> = {}) {
+    async registerModules<TRuntime extends Runtime = Runtime, TContext = unknown, TData = unknown>(registrationFunctions: ModuleRegisterFunction<TRuntime, TContext, TData>[], runtime: TRuntime, { context }: RegisterModulesOptions<TContext> = {}) {
         const errors: ModuleRegistrationError[] = [];
 
         if (this.#registrationStatus !== "none") {
@@ -69,10 +70,11 @@ export class LocalModuleRegistry implements ModuleRegistry {
             let completedCount = 0;
 
             await Promise.allSettled(registrationFunctions.map(async (x, index) => {
-                runtime.logger.debug(`[squide] ${index + 1}/${registrationFunctions.length} Registering local module.`);
+                const loggerScope = (runtime.logger as RootLogger).startScope(`[squide] ${index + 1}/${registrationFunctions.length} Registering local module.`);
+                const runtimeScope = runtime.startScope(loggerScope);
 
                 try {
-                    const optionalDeferredRegistration = await registerModule(x as ModuleRegisterFunction<Runtime, TContext, TData>, runtime, context);
+                    const optionalDeferredRegistration = await registerModule(x as ModuleRegisterFunction<TRuntime, TContext, TData>, runtimeScope as TRuntime, context);
 
                     if (isFunction(optionalDeferredRegistration)) {
                         this.#deferredRegistrations.push({
@@ -83,17 +85,33 @@ export class LocalModuleRegistry implements ModuleRegistry {
 
                     completedCount += 1;
                 } catch (error: unknown) {
-                    runtime.logger
-                        .withText(`[squide] ${index + 1}/${registrationFunctions.length} An error occured while registering a local module.`)
+                    loggerScope
+                        .withText("[squide] An error occured while registering the local module.")
                         .withError(error as Error)
                         .error();
+
+                    loggerScope.end({
+                        labelStyle: {
+                            color: "red"
+                        }
+                    });
 
                     errors.push(
                         new ModuleRegistrationError("An error occured while registering a local module.", { cause: error })
                     );
                 }
 
-                runtime.logger.information(`[squide] ${index + 1}/${registrationFunctions.length} Local module registration completed.`);
+                loggerScope.information("[squide] Successfully registered local module.", {
+                    style: {
+                        color: "green"
+                    }
+                });
+
+                loggerScope.end({
+                    labelStyle: {
+                        color: "green"
+                    }
+                });
             }));
 
             if (errors.length > 0) {
@@ -141,28 +159,46 @@ export class LocalModuleRegistry implements ModuleRegistry {
         let completedCount = 0;
 
         await Promise.allSettled(this.#deferredRegistrations.map(async ({ index, fct: deferredRegister }) => {
-            runtime.logger
-                .withText(`[squide] ${index} Registering local module deferred registrations.`)
+            const loggerScope = (runtime.logger as RootLogger).startScope(`[squide] ${index} Registering local module deferred registrations.`);
+            const runtimeScope = runtime.startScope(loggerScope);
+
+            loggerScope
                 .withText("Data:")
                 .withObject(data)
                 .debug();
 
             try {
-                await deferredRegister(data, "register");
+                await deferredRegister(runtimeScope, data, "register");
 
                 completedCount += 1;
             } catch (error: unknown) {
-                runtime.logger
-                    .withText(`[squide] ${index} An error occured while registering the deferred registrations of a local module.`)
+                loggerScope
+                    .withText("[squide] An error occured while registering the deferred registrations.")
                     .withError(error as Error)
                     .error();
+
+                loggerScope.end({
+                    labelStyle: {
+                        color: "red"
+                    }
+                });
 
                 errors.push(
                     new ModuleRegistrationError("An error occured while registering the deferred registrations of a local module.", { cause: error })
                 );
             }
 
-            runtime.logger.information(`[squide] ${index} Registered local module deferred registrations.`);
+            loggerScope.information("[squide] Successfully registered deferred registrations.", {
+                style: {
+                    color: "green"
+                }
+            });
+
+            loggerScope.end({
+                labelStyle: {
+                    color: "green"
+                }
+            });
         }));
 
         if (errors.length > 0) {
@@ -195,28 +231,46 @@ export class LocalModuleRegistry implements ModuleRegistry {
         let completedCount = 0;
 
         await Promise.allSettled(this.#deferredRegistrations.map(async ({ index, fct: deferredRegister }) => {
-            runtime.logger
-                .withText(`[squide] ${index} Updating local module deferred registrations.`)
+            const loggerScope = (runtime.logger as RootLogger).startScope(`[squide] ${index} Updating local module deferred registrations.`);
+            const runtimeScope = runtime.startScope(loggerScope);
+
+            loggerScope
                 .withText("Data:")
                 .withObject(data)
                 .debug();
 
             try {
-                await deferredRegister(data, "update");
+                await deferredRegister(runtimeScope, data, "update");
 
                 completedCount += 1;
             } catch (error: unknown) {
-                runtime.logger
-                    .withText(`[squide] ${index} An error occured while updating the deferred registrations of a local module.`)
+                loggerScope
+                    .withText(`[squide] ${index} An error occured while updating the deferred registrations.`)
                     .withError(error as Error)
                     .error();
+
+                loggerScope.end({
+                    labelStyle: {
+                        color: "red"
+                    }
+                });
 
                 errors.push(
                     new ModuleRegistrationError("An error occured while updating the deferred registrations a local module.", { cause: error })
                 );
             }
 
-            runtime.logger.information(`[squide] ${index} Updated local module deferred registration.`);
+            loggerScope.information("[squide] Successfully updated deferred registrations.", {
+                style: {
+                    color: "green"
+                }
+            });
+
+            loggerScope.end({
+                labelStyle: {
+                    color: "green"
+                }
+            });
         }));
 
         if (errors.length > 0) {

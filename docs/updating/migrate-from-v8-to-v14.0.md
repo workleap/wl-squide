@@ -1,11 +1,11 @@
 ---
 order: 800
-label: Migrate from v8.* to v13.0
+label: Migrate from v8.* to v14.0
 ---
 
-# Migrate from v8.* to v13.0
+# Migrate from v8.* to v14.0
 
-This migration guide is an aggregation of all the changes that happened between Squide Firefly `v9.0` and `v13.0`:
+This migration guide is an aggregation of all the changes that happened between Squide Firefly `v9.0` and `v14.0`:
 
 ## Changes summary
 
@@ -49,6 +49,12 @@ This major version introduces a new [initializeFirefly](../reference/registratio
 
 This major version deprecates the [@squide/firefly-honeycomb](https://www.npmjs.com/package/@squide/firefly-honeycomb) package in favor of [@workleap/honeycomb](https://www.npmjs.com/package/@workleap/honeycomb).
 
+### v14.0
+
+:icon-checklist: [Migrate to firefly v13.0](./migrate-to-firefly-v14.0.md)
+
+This major version introduces a new **first argument to deferred registration functions**: the runtime instance.
+
 ## Breaking changes
 
 ### Removed
@@ -83,6 +89,42 @@ This major version deprecates the [@squide/firefly-honeycomb](https://www.npmjs.
 - The [setMswAsReady](../reference/msw/setMswAsReady.md) function has been **deprecated**, use the `bootstrap` function instead.
 - The `RuntimeContext.Provider` has been **deprecated**, use [FireflyProvider](../reference/runtime/FireflyProvider.md) instead.
 - The [@squide/firefly-honeycomb](https://www.npmjs.com/package/@squide/firefly-honeycomb) package has been **deprecated**.
+
+### Deferred registration functions now receive a runtime instance as their first argument
+
+As of `v14.0`, [Deferred registration](../reference/registration/registerLocalModules.md#defer-the-registration-of-navigation-items) functions now receive a runtime instance as their first argument.
+
+Before:
+
+```ts !#1,2,4
+export const register: ModuleRegisterFunction<FireflyRuntime, unknown, DeferredRegistrationData> = runtime => {
+    return ({ featureFlags }, operation) => {
+        if (featureFlags.featureA) {
+            runtime.registerNavigationItem({
+                $id: "feature-a",
+                $label: operation === "register" ? "Feature A" : "Feature A updated",
+                to: "/feature-a"
+            });
+        }
+    };
+}
+```
+
+After:
+
+```ts !#2,4
+export const register: ModuleRegisterFunction<FireflyRuntime, unknown, DeferredRegistrationData> = runtime => {
+    return (deferredRuntime, { featureFlags }, operation) => {
+        if (featureFlags.featureA) {
+            deferredRuntime.registerNavigationItem({
+                $id: "feature-a",
+                $label: operation === "register" ? "Feature A" : "Feature A updated",
+                to: "/feature-a"
+            });
+        }
+    };
+}
+```
 
 ### Removed support for deferred routes
 
@@ -124,9 +166,9 @@ export const register: ModuleRegisterFunction<FireflyRuntime, unknown, DeferredR
         element: <Page />
     });
 
-    return ({ featureFlags }) => {
+    return (deferredRuntime, { featureFlags }) => {
         if (featureFlags?.featureB) {
-            runtime.registerNavigationItem({
+            deferredRuntime.registerNavigationItem({
                 $id: "page",
                 $label: "Page",
                 to: "/page"
@@ -640,8 +682,9 @@ export function App() {
 The changes have minimal impact on module code. To migrate an existing module, follow these steps:
 
 1. Remove the `react-router-dom` dependency and update to `react-router@7*`. [View example](#replace-react-router-dom-with-react-router)
-2. Convert all deferred routes into static routes. [View example](#removed-support-for-deferred-routes)
-3. Add a `$id` option to the navigation item registrations. [View example](#new-id-option-for-navigation-items)
+2. Add a `runtime` argument as the first parameter of deferred registration functions. [View example](#deferred-registration-functions-now-receive-a-runtime-instance-as-their-first-argument)
+3. Convert all deferred routes into static routes. [View example](#removed-support-for-deferred-routes)
+4. Add a `$id` option to the navigation item registrations. [View example](#new-id-option-for-navigation-items)
 
 !!!warning
 Ensure that modules registering deferred routes are updated to convert those routes into static routes and are deployed before the host application. **Failure to do so may lead to runtime errors in the production environment**.

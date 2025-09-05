@@ -1,3 +1,4 @@
+import { NoopLogger } from "@workleap/logging";
 import { test, vi } from "vitest";
 import { ModuleRegistrationError } from "../src/registration/moduleRegistry.ts";
 import { LocalModuleDeferredRegistrationUpdateFailedEvent, LocalModuleRegistry, LocalModulesDeferredRegistrationsUpdateCompletedEvent, LocalModulesDeferredRegistrationsUpdateStartedEvent } from "../src/registration/registerLocalModules.ts";
@@ -11,7 +12,7 @@ function simulateDelay(delay: number) {
     });
 }
 
-class DummyRuntime extends Runtime<unknown, unknown> {
+class DummyRuntime extends Runtime {
     registerRoute() {
         throw new Error("Method not implemented.");
     }
@@ -39,17 +40,25 @@ class DummyRuntime extends Runtime<unknown, unknown> {
     completeDeferredRegistrationScope(): void {
         throw new Error("Method not implemented.");
     }
+
+    startScope(): Runtime {
+        return new DummyRuntime({ loggers: [new NoopLogger()] });
+    }
+
+    _validateRegistrations(): void {
+        throw new Error("Method not implemented.");
+    }
 }
 
 test.concurrent("when called before registerLocalModules, throw an error", async ({ expect }) => {
-    const runtime = new DummyRuntime();
+    const runtime = new DummyRuntime({ loggers: [new NoopLogger()] });
     const registry = new LocalModuleRegistry();
 
     await expect(() => registry.updateDeferredRegistrations({}, runtime)).rejects.toThrow(/The updateDeferredRegistrations function can only be called once the local modules are ready/);
 });
 
 test.concurrent("when called before registerLocalModuleDeferredRegistrations, throw an error", async ({ expect }) => {
-    const runtime = new DummyRuntime();
+    const runtime = new DummyRuntime({ loggers: [new NoopLogger()] });
     const registry = new LocalModuleRegistry();
 
     await registry.registerModules([
@@ -62,7 +71,7 @@ test.concurrent("when called before registerLocalModuleDeferredRegistrations, th
 });
 
 test.concurrent("should dispatch LocalModulesDeferredRegistrationsUpdateStartedEvent", async ({ expect }) => {
-    const runtime = new DummyRuntime();
+    const runtime = new DummyRuntime({ loggers: [new NoopLogger()] });
 
     const listener = vi.fn();
 
@@ -86,7 +95,7 @@ test.concurrent("should dispatch LocalModulesDeferredRegistrationsUpdateStartedE
 });
 
 test.concurrent("should update all the deferred registrations", async ({ expect }) => {
-    const runtime = new DummyRuntime();
+    const runtime = new DummyRuntime({ loggers: [new NoopLogger()] });
     const registry = new LocalModuleRegistry();
 
     const register1 = vi.fn();
@@ -113,7 +122,7 @@ test.concurrent("should update all the deferred registrations", async ({ expect 
 });
 
 test.concurrent("when all deferred registrations has been updated, LocalModulesDeferredRegistrationsUpdateCompletedEvent is dispatched", async ({ expect }) => {
-    const runtime = new DummyRuntime();
+    const runtime = new DummyRuntime({ loggers: [new NoopLogger()] });
 
     const listener = vi.fn();
 
@@ -137,7 +146,7 @@ test.concurrent("when all deferred registrations has been updated, LocalModulesD
 });
 
 test.concurrent("when a deferred registration is asynchronous, the function can be awaited", async ({ expect }) => {
-    const runtime = new DummyRuntime();
+    const runtime = new DummyRuntime({ loggers: [new NoopLogger()] });
     const registry = new LocalModuleRegistry();
 
     let hasBeenCompleted = false;
@@ -163,7 +172,7 @@ test.concurrent("when a deferred registration is asynchronous, the function can 
 });
 
 test.concurrent("when a deferred registration fail, update the remaining deferred registrations", async ({ expect }) => {
-    const runtime = new DummyRuntime();
+    const runtime = new DummyRuntime({ loggers: [new NoopLogger()] });
     const registry = new LocalModuleRegistry();
 
     const register1 = vi.fn();
@@ -192,7 +201,7 @@ test.concurrent("when a deferred registration fail, update the remaining deferre
 });
 
 test.concurrent("when a deferred registration fail, return the error", async ({ expect }) => {
-    const runtime = new DummyRuntime();
+    const runtime = new DummyRuntime({ loggers: [new NoopLogger()] });
     const registry = new LocalModuleRegistry();
 
     await registry.registerModules([
@@ -215,7 +224,7 @@ test.concurrent("when a deferred registration fail, return the error", async ({ 
 });
 
 test.concurrent("when a deferred registration fail, LocalModuleDeferredRegistrationUpdateFailedEvent is dispatched", async ({ expect }) => {
-    const runtime = new DummyRuntime();
+    const runtime = new DummyRuntime({ loggers: [new NoopLogger()] });
 
     const listener = vi.fn();
 
@@ -243,7 +252,7 @@ test.concurrent("when a deferred registration fail, LocalModuleDeferredRegistrat
 });
 
 test.concurrent("when a deferred registration fail, LocalModulesDeferredRegistrationsUpdateCompletedEvent is dispatched", async ({ expect }) => {
-    const runtime = new DummyRuntime();
+    const runtime = new DummyRuntime({ loggers: [new NoopLogger()] });
 
     const listener = vi.fn();
 
@@ -273,7 +282,7 @@ test.concurrent("when a deferred registration fail, LocalModulesDeferredRegistra
 });
 
 test.concurrent("all the deferred module registrations receive the data object", async ({ expect }) => {
-    const runtime = new DummyRuntime();
+    const runtime = new DummyRuntime({ loggers: [new NoopLogger()] });
     const registry = new LocalModuleRegistry();
 
     const register1 = vi.fn();
@@ -301,13 +310,13 @@ test.concurrent("all the deferred module registrations receive the data object",
     expect(register1).toHaveBeenCalledTimes(1);
     expect(register2).toHaveBeenCalledTimes(1);
     expect(register3).toHaveBeenCalledTimes(1);
-    expect(register1).toHaveBeenCalledWith(data, "update");
-    expect(register2).toHaveBeenCalledWith(data, "update");
-    expect(register3).toHaveBeenCalledWith(data, "update");
+    expect(register1).toHaveBeenCalledWith(runtime, data, "update");
+    expect(register2).toHaveBeenCalledWith(runtime, data, "update");
+    expect(register3).toHaveBeenCalledWith(runtime, data, "update");
 });
 
 test.concurrent("all the deferred module registrations receive \"update\" as state", async ({ expect }) => {
-    const runtime = new DummyRuntime();
+    const runtime = new DummyRuntime({ loggers: [new NoopLogger()] });
     const registry = new LocalModuleRegistry();
 
     const register1 = vi.fn();
@@ -335,7 +344,7 @@ test.concurrent("all the deferred module registrations receive \"update\" as sta
     expect(register1).toHaveBeenCalledTimes(1);
     expect(register2).toHaveBeenCalledTimes(1);
     expect(register3).toHaveBeenCalledTimes(1);
-    expect(register1).toHaveBeenCalledWith(data, "update");
-    expect(register2).toHaveBeenCalledWith(data, "update");
-    expect(register3).toHaveBeenCalledWith(data, "update");
+    expect(register1).toHaveBeenCalledWith(runtime, data, "update");
+    expect(register2).toHaveBeenCalledWith(runtime, data, "update");
+    expect(register3).toHaveBeenCalledWith(runtime, data, "update");
 });

@@ -36,19 +36,19 @@
     },
     "dependencies": {
         "@module-federation/enhanced": "0.11.4",
-        "@rspack/core": "^1.4.8",
+        "@rspack/core": "^1.5.2",
         "@squide/core": "workspace:*",
-        "@workleap/logging": "^1.2.5"
+        "@workleap/logging": "^1.3.0"
     },
     "devDependencies": {
-        "@rsbuild/core": "1.4.7",
-        "@rslib/core": "0.10.6",
-        "@typescript-eslint/parser": "8.37.0",
+        "@rsbuild/core": "1.5.4",
+        "@rslib/core": "0.12.4",
+        "@typescript-eslint/parser": "8.42.0",
         "@workleap/eslint-plugin": "3.5.0",
         "@workleap/rslib-configs": "1.1.0",
         "@workleap/typescript-configs": "3.0.4",
         "eslint": "8.57.0",
-        "typescript": "5.8.3",
+        "typescript": "5.9.2",
         "vitest": "3.2.4"
     },
     "sideEffects": false,
