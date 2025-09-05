@@ -1,5 +1,60 @@
 # @squide/react-router
 
+## 8.0.0
+
+### Major Changes
+
+- [#311](https://github.com/workleap/wl-squide/pull/311) [`cc52e8b`](https://github.com/workleap/wl-squide/commit/cc52e8bfbe9d3d215f51d12755743f17c0c69772) Thanks [@patricklafrance](https://github.com/patricklafrance)! - Deferred registration functions now receives a runtime instance as the first argument. This new scope runtime instance should used whenever runtime access is required within a deferred registration function scope.
+
+  Before:
+
+  The `runtime` argument of the registration function is used to register the navigation item.
+
+  ```ts !#1,2,4
+  export const register: ModuleRegisterFunction<
+    FireflyRuntime,
+    unknown,
+    DeferredRegistrationData
+  > = (runtime) => {
+    return ({ featureFlags }, operation) => {
+      if (featureFlags.featureA) {
+        runtime.registerNavigationItem({
+          $id: "feature-a",
+          $label: operation === "register" ? "Feature A" : "Feature A updated",
+          to: "/feature-a",
+        });
+      }
+    };
+  };
+  ```
+
+  After:
+
+  The `deferredRuntime` argument of the **deferred** registration function is used to register the navigation item.
+
+  ```ts !#2,4
+  export const register: ModuleRegisterFunction<
+    FireflyRuntime,
+    unknown,
+    DeferredRegistrationData
+  > = (runtime) => {
+    return (deferredRuntime, { featureFlags }, operation) => {
+      if (featureFlags.featureA) {
+        deferredRuntime.registerNavigationItem({
+          $id: "feature-a",
+          $label: operation === "register" ? "Feature A" : "Feature A updated",
+          to: "/feature-a",
+        });
+      }
+    };
+  };
+  ```
+
+### Patch Changes
+
+- Updated dependencies [[`cc52e8b`](https://github.com/workleap/wl-squide/commit/cc52e8bfbe9d3d215f51d12755743f17c0c69772)]:
+  - @squide/core@6.0.0
+
 ## 7.3.0
 
 ### Minor Changes
