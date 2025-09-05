@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <meta name="turbo-root" content="/wl-squide">
-    <meta name="turbo-cache-control" content="no-cache" data-turbo-track="reload" data-track-token="3.12.0-preview2.810190336871">
+    <meta name="turbo-cache-control" content="no-cache" data-turbo-track="reload" data-track-token="3.12.0-preview2.810417688039">
 
     <!-- See retype.com -->
     <meta name="generator" content="Retype 3.12.0-preview2">
@@ -32,12 +32,12 @@
     <script data-cfasync="false">(function(){var cl=document.documentElement.classList,ls=localStorage.getItem("retype_scheme"),hd=cl.contains("dark"),hl=cl.contains("light"),wm=window.matchMedia&&window.matchMedia("(prefers-color-scheme: dark)").matches;if(ls==="dark"||(!ls&&wm&&!hd&&!hl)){cl.remove("light");cl.add("dark")}else if(ls==="light"||(!ls&&!wm&&!hd&&!hl)){cl.remove("dark");cl.add("light")}})();</script>
 
     <link id="retype-favicon" rel="icon" href="../../../static/favicon.png" />
-    <link href="../../../resources/css/retype.css?v=3.12.0-preview2.810190336871" rel="stylesheet">
+    <link href="../../../resources/css/retype.css?v=3.12.0-preview2.810417688039" rel="stylesheet">
 
-    <script data-cfasync="false" src="../../../resources/js/config.js?v=3.12.0-preview2.810190336871" data-turbo-eval="false" defer></script>
+    <script data-cfasync="false" src="../../../resources/js/config.js?v=3.12.0-preview2.810417688039" data-turbo-eval="false" defer></script>
     <script data-cfasync="false" src="../../../resources/js/retype.js?v=3.12.0-preview2" data-turbo-eval="false" defer></script>
-    <script id="lunr-js" data-cfasync="false" src="../../../resources/js/lunr.js?v=3.12.0-preview2.810190336871" data-turbo-eval="false" defer></script>
-    <script id="prism-js" data-cfasync="false" src="../../../resources/js/prism.js?v=3.12.0-preview2.810190336871" defer></script>
+    <script id="lunr-js" data-cfasync="false" src="../../../resources/js/lunr.js?v=3.12.0-preview2.810417688039" data-turbo-eval="false" defer></script>
+    <script id="prism-js" data-cfasync="false" src="../../../resources/js/prism.js?v=3.12.0-preview2.810417688039" defer></script>
 
     <link href="https://workleap.github.io/wl-idp-docs-hub/static/retype-customization.css" rel="stylesheet" />
 
@@ -673,10 +673,10 @@ export const register: ModuleRegisterFunction&lt;FireflyRuntime, unknown, Deferr
 
     // Once the feature flags has been loaded by the host application, by completing the module registrations process,
     // the deferred registration function will be called with the feature flags data.
-    return ({ featureFlags }) =&gt; {
+    return (deferredRuntime, { featureFlags }) =&gt; {
         // Only register the &quot;feature-a&quot; route and navigation item if the feature is active.
         if (featureFlags.featureA) {
-            runtime.registerNavigationItem({
+            deferredRuntime.registerNavigationItem({
                 $id: &quot;feature-a&quot;,
                 $label: &quot;Feature A&quot;,
                 to: &quot;/feature-a&quot;
@@ -713,10 +713,10 @@ export const register: ModuleRegisterFunction&lt;FireflyRuntime&gt; = runtime =&
 
     // Once the feature flags has been loaded by the host application, by completing the module registrations process,
     // the deferred registration function will be called with the feature flags data.
-    return ({ featureFlags }) =&gt; {
+    return (deferredRuntime, { featureFlags }) =&gt; {
         // Only register the &quot;feature-b route and navigation item if the feature is active.
         if (featureFlags.featureB) {
-            runtime.registerNavigationItem({
+            deferredRuntime.registerNavigationItem({
                 $id: &quot;feature-b&quot;,
                 $label: &quot;Feature B&quot;,
                 to: &quot;/feature-b&quot;
@@ -725,6 +725,22 @@ export const register: ModuleRegisterFunction&lt;FireflyRuntime&gt; = runtime =&
     };
 }</code></pre>
 </doc-codeblock></div>
+<div class="flex mb-6">
+    <div class="shrink-0 w-1.5 rounded-tl-lg rounded-bl-lg bg-callout-warning"></div>
+    <div class="flex w-full py-4 border border-l-0 rounded-tr-lg rounded-br-lg doc-callout bg-callout-base-bg border-callout-base-border" role="alert">
+        <div class="flex items-center ml-4 h-7">
+            <svg xmlns="http://www.w3.org/2000/svg" class="mb-px text-callout-warning" width="22" height="22" viewBox="0 0 24 24" role="presentation">
+                <g fill="currentColor"><g>
+                    <path d="M22.48 15.59L14.01 1.45A2.968 2.968 0 0012.16.09c-.78-.19-1.58-.07-2.27.35-.41.25-.76.6-1.01 1.01v.01L.4 15.6c-.83 1.43-.33 3.27 1.1 4.1.45.26.95.4 1.48.4h16.95c.8-.01 1.55-.33 2.11-.9.56-.57.87-1.33.86-2.13a3.04 3.04 0 00-.42-1.48zm-1.87 2.21c-.19.19-.44.3-.69.3H2.99c-.17 0-.34-.05-.49-.13a.992.992 0 01-.37-1.35L10.6 2.48c.08-.14.2-.25.34-.33a.992.992 0 011.37.33l8.46 14.13c.09.15.13.32.13.49 0 .26-.1.51-.29.7z"></path>
+                    <path d="M11.45 12.1c.55 0 1-.45 1-1v-4c0-.55-.45-1-1-1s-1 .45-1 1v4c0 .56.45 1 1 1zM11.46 14.1c-.56 0-1 .45-1 1s.45 1 1 1 1-.45 1-1-.45-1-1-1z"></path>
+                </g></g>
+            </svg>
+        </div>
+        <div class="pr-5 ml-3 w-full">
+<p>It&#x27;s important to register conditional navigation items using the <code translate="no" v-pre>deferredRuntime</code> argument rather than the root <code translate="no" v-pre>runtime</code> argument.</p>
+        </div>
+    </div>
+</div>
 <p>
 <div class="mb-6 px-5 py-4 flex justify-between relative border border-base-border hover:border-base-border-hover rounded transition-colors duration-150">
     <div class="flex items-center text-base-500">
@@ -774,10 +790,10 @@ export const register: ModuleRegisterFunction&lt;FireflyRuntime, unknown, Deferr
 
     // Once the feature flags has been loaded by the host application, by completing the module registrations process,
     // the deferred registration function will be called with the feature flags data.
-    return ({ featureFlags }, operation) =&gt; {
+    return (deferredRuntime, { featureFlags }, operation) =&gt; {
         // Only register the &quot;feature-a&quot; route and navigation item if the feature is active.
         if (featureFlags.featureA) {
-            runtime.registerNavigationItem({
+            deferredRuntime.registerNavigationItem({
                 $id: &quot;feature-a&quot;,
                 $label: operation === &quot;register&quot; ? &quot;Feature A&quot; : &quot;Feature A updated&quot;,
                 to: &quot;/feature-a&quot;
