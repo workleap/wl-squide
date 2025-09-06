@@ -169,7 +169,7 @@ export function reduceDataFetchEvents(
 
 function registerTrackingListeners(runtime: FireflyRuntime) {
     let bootstrappingSpan: Span;
-    let bootstrappingHasEnded: boolean = false;
+    let bootstrappingSpanHasEnded: boolean = false;
     let localModuleRegistrationSpan: Span;
     let localModuleDeferredRegistrationSpan: Span;
     let remoteModuleRegistrationSpan: Span;
@@ -180,11 +180,11 @@ function registerTrackingListeners(runtime: FireflyRuntime) {
     let remoteModuleDeferredRegistrationsUpdateSpan: ActiveSpan;
 
     const handleUnmanagedError = (error: unknown) => {
-        if (bootstrappingSpan && !bootstrappingHasEnded) {
+        if (bootstrappingSpan && !bootstrappingSpanHasEnded) {
             traceError(bootstrappingSpan, error as Error);
 
             bootstrappingSpan.end();
-            bootstrappingHasEnded = true;
+            bootstrappingSpanHasEnded = true;
         }
 
         if (localModuleRegistrationSpan) {
@@ -230,7 +230,7 @@ function registerTrackingListeners(runtime: FireflyRuntime) {
     addProtectedListener(runtime, ApplicationBoostrappedEvent, () => {
         if (bootstrappingSpan) {
             bootstrappingSpan.end();
-            bootstrappingHasEnded = true;
+            bootstrappingSpanHasEnded = true;
         }
     }, {
         once: true,
@@ -472,7 +472,7 @@ function registerTrackingListeners(runtime: FireflyRuntime) {
             // will be aborted and a react-router error boundary will be rendered.
             if (bootstrappingSpan) {
                 bootstrappingSpan.end();
-                bootstrappingHasEnded = true;
+                bootstrappingSpanHasEnded = true;
             }
         }
     };
