@@ -17,7 +17,7 @@ Placing the `runtime` argument first is intentional: it emphasizes that consumer
 
 Before:
 
-The `runtime` argument of the registration function is used to register the navigation item.
+The `runtime` argument of the **registration** function is used to register the navigation item.
 
 ```ts !#1,2,4
 export const register: ModuleRegisterFunction<FireflyRuntime, unknown, DeferredRegistrationData> = runtime => {

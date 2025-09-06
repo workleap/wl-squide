@@ -15,14 +15,18 @@ export interface RemoveListenerOptions {
 
 export class EventBus<TEventNames extends EventName = EventName, TPayload = unknown> {
     readonly #eventEmitter: EventEmitter;
-    #logger: Logger;
+    readonly #logger: Logger;
 
     constructor(logger: Logger) {
         this.#eventEmitter = new EventEmitter();
         this.#logger = logger;
     }
 
-    addListener(eventName: TEventNames, callback: EventCallbackFunction<TPayload>, { once }: AddListenerOptions = {}) {
+    addListener(eventName: TEventNames, callback: EventCallbackFunction<TPayload>, options: AddListenerOptions = {}) {
+        const {
+            once
+        } = options;
+
         if (once === true) {
             this.#eventEmitter.once(eventName, callback);
         } else {
@@ -30,7 +34,11 @@ export class EventBus<TEventNames extends EventName = EventName, TPayload = unkn
         }
     }
 
-    removeListener(eventName: TEventNames, callback: EventCallbackFunction<TPayload>, { once }: RemoveListenerOptions = {}) {
+    removeListener(eventName: TEventNames, callback: EventCallbackFunction<TPayload>, options: RemoveListenerOptions = {}) {
+        const {
+            once
+        } = options;
+
         this.#eventEmitter.removeListener(eventName, callback, undefined, once);
     }
 
