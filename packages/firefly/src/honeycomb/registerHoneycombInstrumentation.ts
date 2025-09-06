@@ -62,7 +62,7 @@ function addProtectedListener(runtime: FireflyRuntime, eventName: EventName, cal
             callback(...args);
         } catch (error: unknown) {
             runtime.logger
-                .withText(`[squide] An unmanaged error occured while handling event "${eventName.toString()}" of Honeycomb instrumentation:`)
+                .withText(`[squide] An unmanaged error occured while handling event "${eventName.toString()}" for Honeycomb instrumentation:`)
                 .withError(error as Error)
                 .error();
         }
