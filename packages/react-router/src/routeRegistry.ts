@@ -3,16 +3,17 @@ import { ProtectedRoutes, ProtectedRoutesOutletId, PublicRoutes, PublicRoutesOut
 
 export type RouteVisibility = "public" | "protected";
 
+// REMEMBER: In React Router, an "index" route cannot have children.
 export interface IndexRoute extends IndexRouteObject {
     $id?: string;
     $visibility?: RouteVisibility;
-    $parentPath?: string;
+    $parentIndexPath?: string;
 }
 
 export interface NonIndexRoute extends Omit<NonIndexRouteObject, "children"> {
     $id?: string;
     $visibility?: RouteVisibility;
-    $parentPath?: string;
+    $parentIndexPath?: string;
     children?: Route[];
 }
 
@@ -60,20 +61,33 @@ function normalizePath(routePath?: string) {
     return normalizedPath;
 }
 
-// TODO: $id or path LOGIC should be extracted from this function because sometimes
-// TWO ids should probably be created?!
-export function createIndexKey(route: Route, parentPath?: string) {
-    if (route.path) {
-        if (parentPath) {
-            return normalizePath(appendPath(parentPath, route.path));
-        }
+export function createIndexKeys(route: Route, parentIndexPath?: string) {
+    const keys: string[] = [];
 
-        return normalizePath(route.path);
+    if (route.path) {
+        const key = normalizePath(parentIndexPath
+            ? appendPath(parentIndexPath, route.path)
+            : route.path
+        ) as string;
+
+        keys.push(key);
     }
 
     if (route.$id) {
-        return route.$id;
+        keys.push(route.$id);
     }
+
+    return keys;
+}
+
+function resolveParentIndexPath(route: Route, parentIndexPath?: string) {
+    if (parentIndexPath && route.path) {
+        return appendPath(parentIndexPath, route.path);
+    } else if (parentIndexPath) {
+        return parentIndexPath;
+    }
+
+    return route.path;
 }
 
 export class RouteRegistry {
@@ -87,21 +101,21 @@ export class RouteRegistry {
     // <parentPath | parentId, Route[]>
     readonly #pendingRegistrationsIndex: Map<string, Route[]> = new Map();
 
-    #addIndex(route: Route, parentPath?: string) {
-        const key = createIndexKey(route, parentPath);
+    #addIndex(route: Route, parentIndexPath?: string) {
+        const keys = createIndexKeys(route, parentIndexPath);
 
-        if (key) {
-            if (this.#routesIndex.has(key)) {
-                throw new Error(`[squide] A route index has already been registered for the key: "${key}". Did you register two routes with the same "path" or "name" option?`);
+        keys.forEach(x => {
+            if (this.#routesIndex.has(x)) {
+                throw new Error(`[squide] A route index has already been registered for the key: "${x}". Did you register two routes with the same "path", or "$id" option or a route with the value for the "path" and "$id" option?`);
             }
 
-            this.#routesIndex.set(key, route);
-        }
+            this.#routesIndex.set(x, route);
+        });
 
-        return key;
+        return keys;
     }
 
-    #recursivelyAddRoutes(routes: Route[], parentPath?: string) {
+    #recursivelyAddRoutes(routes: Route[], parentIndexPath?: string) {
         const newRoutes: Route[] = [];
         const completedPendingRegistrations: Route[] = [];
 
@@ -110,17 +124,14 @@ export class RouteRegistry {
             const route = {
                 ...x,
                 $visibility: x.$visibility ?? "protected",
-                $parentPath: parentPath
-            };
+                $parentIndexPath: parentIndexPath
+            } satisfies Route;
 
             if (route.children) {
-                // TODO: probably missing index routes - and HOW should a parentPath for an index route be determined?
-                // -> Add an "[index]" token?
-
                 // Recursively go through the children.
                 const result = this.#recursivelyAddRoutes(
                     route.children,
-                    parentPath && route.path ? appendPath(parentPath, route.path) : route.path
+                    resolveParentIndexPath(route, parentIndexPath)
                 );
 
                 route.children = result.newRoutes;
@@ -128,13 +139,13 @@ export class RouteRegistry {
             }
 
             // Add index entries to speed up the registration of future nested routes.
-            const indexKey = this.#addIndex(route, parentPath);
+            const indexKeys = this.#addIndex(route, parentIndexPath);
 
             // IMPORTANT: do not handle the pending registrations before recursively going through the children.
             // Otherwise pending routes will be handled twice (one time as a pending registration and one time as child
             // of the route).
-            if (indexKey) {
-                const result = this.#tryRegisterPendingRoutes(indexKey);
+            if (indexKeys.length > 0) {
+                const result = this.#tryRegisterPendingRoutes(indexKeys);
                 completedPendingRegistrations.unshift(...result);
             }
 
@@ -147,20 +158,23 @@ export class RouteRegistry {
         };
     }
 
-    #tryRegisterPendingRoutes(parentId: string) {
+    #tryRegisterPendingRoutes(parentIds: string[]) {
         const completedPendingRegistrations: Route[] = [];
-        const pendingRegistrations = this.#pendingRegistrationsIndex.get(parentId);
 
-        if (pendingRegistrations) {
-            completedPendingRegistrations.push(...pendingRegistrations);
+        parentIds.forEach(x => {
+            const pendingRegistrations = this.#pendingRegistrationsIndex.get(x);
 
-            // Register the pending routes.
-            const result = this.#addNestedRoutes(pendingRegistrations, parentId);
-            completedPendingRegistrations.push(...result.completedPendingRegistrations);
+            if (pendingRegistrations) {
+                completedPendingRegistrations.push(...pendingRegistrations);
 
-            // Delete the pending registrations.
-            this.#pendingRegistrationsIndex.delete(parentId);
-        }
+                // Register the pending routes.
+                const result = this.#addNestedRoutes(pendingRegistrations, x);
+                completedPendingRegistrations.push(...result.completedPendingRegistrations);
+
+                // Delete the pending registrations.
+                this.#pendingRegistrationsIndex.delete(x);
+            }
+        });
 
         return completedPendingRegistrations;
     }
@@ -237,26 +251,10 @@ export class RouteRegistry {
             };
         }
 
-        /*
-
-        Missing use cases:
-
-            /root
-                /nested
-                    |index-route|
-                        /another-level
-
-        */
-
-        let parentPath = parentRoute.path;
-
-        if (parentRoute.$parentPath && parentRoute.path) {
-            parentPath = appendPath(parentRoute.$parentPath, parentRoute.path);
-        } else if (parentRoute.$parentPath) {
-            parentPath = parentRoute.$parentPath;
-        }
-
-        const { newRoutes, completedPendingRegistrations } = this.#recursivelyAddRoutes(routes, parentPath);
+        const { newRoutes, completedPendingRegistrations } = this.#recursivelyAddRoutes(
+            routes,
+            resolveParentIndexPath(parentRoute, parentRoute.$parentIndexPath)
+        );
 
         // Register new nested routes as children of their parent route.
         parentRoute.children = [

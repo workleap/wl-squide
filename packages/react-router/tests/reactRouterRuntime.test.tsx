@@ -4,6 +4,15 @@ import { isProtectedRoutesOutletRoute, isPublicRoutesOutletRoute, ProtectedRoute
 import { ReactRouterRuntime } from "../src/reactRouterRuntime.ts";
 import type { Route } from "../src/routeRegistry.ts";
 
+/*
+
+parentPath with index routes
+
+    - when a route has an index, can register a nested route using the path
+    - BLA BLA
+
+*/
+
 describe("registerRoute", () => {
     describe("outlets", () => {
         describe("PublicRoutes", () => {
@@ -924,6 +933,54 @@ describe("registerRoute", () => {
                 parentPath: "/foo"
             })).toThrow();
         });
+
+        test.concurrent("when a parent route has a path and an $id, can register a nested route with the path", ({ expect }) => {
+            const runtime = new ReactRouterRuntime({
+                loggers: [new NoopLogger()]
+            });
+
+            runtime.registerRoute({
+                $id: "layout-id",
+                path: "/layout",
+                element: <div>Hello!</div>
+            }, {
+                hoist: true
+            });
+
+            runtime.registerRoute({
+                path: "/nested",
+                element: <div>Hello!</div>
+            }, {
+                parentPath: "/layout"
+            });
+
+            expect(runtime.routes[0].children![0].path).toBe("/nested");
+        });
+
+        test.concurrent("when a parent route has a path and an $id, pending registrations using the parent route path are registered", ({ expect }) => {
+            const runtime = new ReactRouterRuntime({
+                loggers: [new NoopLogger()]
+            });
+
+            runtime.registerRoute({
+                path: "/nested",
+                element: <div>Hello!</div>
+            }, {
+                parentPath: "/layout"
+            });
+
+            expect(runtime.routes.length).toBe(0);
+
+            runtime.registerRoute({
+                $id: "layout-id",
+                path: "/layout",
+                element: <div>Hello!</div>
+            }, {
+                hoist: true
+            });
+
+            expect(runtime.routes[0].children![0].path).toBe("/nested");
+        });
     });
 
     describe("parentId", () => {
@@ -1131,6 +1188,54 @@ describe("registerRoute", () => {
                 parentId: "foo"
             })).toThrow();
         });
+
+        test.concurrent("when a parent route has a path and an $id, can register a nested route with the path", ({ expect }) => {
+            const runtime = new ReactRouterRuntime({
+                loggers: [new NoopLogger()]
+            });
+
+            runtime.registerRoute({
+                $id: "layout-id",
+                path: "/layout",
+                element: <div>Hello!</div>
+            }, {
+                hoist: true
+            });
+
+            runtime.registerRoute({
+                path: "/nested",
+                element: <div>Hello!</div>
+            }, {
+                parentId: "layout-id"
+            });
+
+            expect(runtime.routes[0].children![0].path).toBe("/nested");
+        });
+
+        test.concurrent("when a parent route has a path and an $id, pending registrations using the parent route path are registered", ({ expect }) => {
+            const runtime = new ReactRouterRuntime({
+                loggers: [new NoopLogger()]
+            });
+
+            runtime.registerRoute({
+                path: "/nested",
+                element: <div>Hello!</div>
+            }, {
+                parentId: "layout-id"
+            });
+
+            expect(runtime.routes.length).toBe(0);
+
+            runtime.registerRoute({
+                $id: "layout-id",
+                path: "/layout",
+                element: <div>Hello!</div>
+            }, {
+                hoist: true
+            });
+
+            expect(runtime.routes[0].children![0].path).toBe("/nested");
+        });
     });
 
     describe("nested routes", () => {
@@ -1302,6 +1407,22 @@ describe("registerRoute", () => {
 
         expect(runtime.routes.length).toBe(1);
         expect(runtime.routes[0].$id).toBe("foo");
+    });
+
+    test.concurrent("when a route is registered with the same value for the path and $id, throw an error", ({ expect }) => {
+        const runtime = new ReactRouterRuntime({
+            loggers: [new NoopLogger()]
+        });
+
+        expect(() => {
+            runtime.registerRoute({
+                $id: "layout",
+                path: "layout",
+                element: <div>Hello!</div>
+            }, {
+                hoist: true
+            });
+        }).toThrow();
     });
 });
 
