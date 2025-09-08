@@ -53,7 +53,7 @@ This major version deprecates the [@squide/firefly-honeycomb](https://www.npmjs.
 
 :icon-checklist: [Migrate to firefly v13.0](./migrate-to-firefly-v14.0.md)
 
-This major version introduces a new **first argument to deferred registration functions**: the runtime instance.
+This major version introduces a new first argument to deferred registration functions, and changes how child paths are defined in nested structures.
 
 ## Breaking changes
 
@@ -90,7 +90,7 @@ This major version introduces a new **first argument to deferred registration fu
 - The `RuntimeContext.Provider` has been **deprecated**, use [FireflyProvider](../reference/runtime/FireflyProvider.md) instead.
 - The [@squide/firefly-honeycomb](https://www.npmjs.com/package/@squide/firefly-honeycomb) package has been **deprecated**.
 
-### Deferred registration functions now receive a runtime instance as their first argument
+### Update deferred registration functions signature
 
 As of `v14.0`, [Deferred registration](../reference/registration/registerLocalModules.md#defer-the-registration-of-navigation-items) functions now receive a runtime instance as their first argument.
 
@@ -513,6 +513,50 @@ According to React Router [migration guide](https://reactrouter.com/upgrading/v6
 find ./path/to/src \( -name "*.tsx" -o -name "*.ts" -o -name "*.js" -o -name "*.jsx" \) -type f -exec sed -i '' 's|from "react-router-dom"|from "react-router"|g' {} +
 ```
 
+### Replace nested structures child paths for relative paths
+
+As of React Router `6.4`, plain object routes became consistent with the JSX `<Route>` API, e.g. child paths are now relative to their parent and are automatically prefixed with the parent path.
+
+In your code, update all nested structures child paths to be relative to their parent, rather than explicit.
+
+Before:
+
+```tsx !#5,9
+import { createBrowserRouter } from "react-router-dom";
+
+const router = createBrowserRouter([
+    {
+        path: "dashboard",
+        element: <Dashboard />,
+        children: [
+            {
+                path: "dashboard/settings",
+                element: <Settings />
+            }
+        ]
+    }
+]);
+```
+
+After:
+
+```tsx !#5,9
+import { createBrowserRouter } from "react-router-dom";
+
+const router = createBrowserRouter([
+    {
+        path: "dashboard",
+        element: <Dashboard />,
+        children: [
+            {
+                path: "settings",
+                element: <Settings />
+            }
+        ]
+    }
+]);
+```
+
 ## New hooks and functions
 
 - A new [useIsBoostrapping](../reference/routing/useIsBootstrapping.md) hook is now available.
@@ -682,9 +726,10 @@ export function App() {
 The changes have minimal impact on module code. To migrate an existing module, follow these steps:
 
 1. Remove the `react-router-dom` dependency and update to `react-router@7*`. [View example](#replace-react-router-dom-with-react-router)
-2. Add a `runtime` argument as the first parameter of deferred registration functions. [View example](#deferred-registration-functions-now-receive-a-runtime-instance-as-their-first-argument)
+2. Add a `runtime` argument as the first parameter of deferred registration functions. [View example](#update-deferred-registration-functions-signature)
 3. Convert all deferred routes into static routes. [View example](#removed-support-for-deferred-routes)
 4. Add a `$id` option to the navigation item registrations. [View example](#new-id-option-for-navigation-items)
+5. Convert all nested structures child paths to relative paths. [View example](#replace-nested-structures-child-paths-for-relative-paths)
 
 !!!warning
 Ensure that modules registering deferred routes are updated to convert those routes into static routes and are deployed before the host application. **Failure to do so may lead to runtime errors in the production environment**.

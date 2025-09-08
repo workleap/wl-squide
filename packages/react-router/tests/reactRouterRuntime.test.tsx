@@ -472,7 +472,7 @@ describe("registerRoute", () => {
                 children: [
                     {
                         $visibility: "public",
-                        path: "/layout/nested",
+                        path: "/nested",
                         element: <div>Hello!</div>
                     }
                 ]
@@ -480,7 +480,7 @@ describe("registerRoute", () => {
                 hoist: true
             });
 
-            expect(runtime.routes[0].children![0].path).toBe("/layout/nested");
+            expect(runtime.routes[0].children![0].path).toBe("/nested");
             expect(runtime.routes[0].children![0].$visibility).toBe("public");
         });
 
@@ -495,7 +495,7 @@ describe("registerRoute", () => {
                 children: [
                     {
                         $visibility: "protected",
-                        path: "/layout/nested",
+                        path: "/nested",
                         element: <div>Hello!</div>
                     }
                 ]
@@ -503,11 +503,11 @@ describe("registerRoute", () => {
                 hoist: true
             });
 
-            expect(runtime.routes[0].children![0].path).toBe("/layout/nested");
+            expect(runtime.routes[0].children![0].path).toBe("/nested");
             expect(runtime.routes[0].children![0].$visibility).toBe("protected");
         });
 
-        test.concurrent("when a nested route has no visibility option, it is considered as an \"protected\" route", ({ expect }) => {
+        test.concurrent("when a nested route has no visibility option, it is considered as a \"protected\" route", ({ expect }) => {
             const runtime = new ReactRouterRuntime({
                 loggers: [new NoopLogger()]
             });
@@ -517,7 +517,7 @@ describe("registerRoute", () => {
                 element: <div>Hello!</div>,
                 children: [
                     {
-                        path: "/layout/nested",
+                        path: "/nested",
                         element: <div>Hello!</div>
                     }
                 ]
@@ -525,7 +525,7 @@ describe("registerRoute", () => {
                 hoist: true
             });
 
-            expect(runtime.routes[0].children![0].path).toBe("/layout/nested");
+            expect(runtime.routes[0].children![0].path).toBe("/nested");
             expect(runtime.routes[0].children![0].$visibility).toBe("protected");
         });
 
@@ -583,14 +583,24 @@ describe("registerRoute", () => {
             expect(runtime.routes.length).toBe(1);
 
             runtime.registerRoute({
-                path: "/layout/nested",
+                path: "/nested",
                 element: <div>Hello!</div>
             }, {
                 parentPath: "/layout"
             });
 
             expect(runtime.routes.length).toBe(1);
-            expect(runtime.routes[0].children![0].path).toBe("/layout/nested");
+            expect(runtime.routes[0].children![0].path).toBe("/nested");
+
+            runtime.registerRoute({
+                path: "/another-nested",
+                element: <div>Hello!</div>
+            }, {
+                parentPath: "/layout/nested"
+            });
+
+            expect(runtime.routes.length).toBe(1);
+            expect(runtime.routes[0].children![0].children![0].path).toBe("/another-nested");
         });
 
         test.concurrent("when the parent route has not been registered, do not register the nested route", ({ expect }) => {
@@ -599,7 +609,7 @@ describe("registerRoute", () => {
             });
 
             runtime.registerRoute({
-                path: "/layout/nested",
+                path: "/nested",
                 element: <div>Hello!</div>
             }, {
                 parentPath: "/layout"
@@ -614,14 +624,14 @@ describe("registerRoute", () => {
             });
 
             runtime.registerRoute({
-                path: "/layout/nested",
+                path: "/nested",
                 element: <div>Hello!</div>
             }, {
                 parentPath: "/layout"
             });
 
             runtime.registerRoute({
-                path: "/layout/another-nested",
+                path: "/another-nested",
                 element: <div>Hello!</div>
             }, {
                 parentPath: "/layout"
@@ -650,16 +660,69 @@ describe("registerRoute", () => {
             expect(runtime.routes[1].children?.length).toBe(2);
         });
 
+        test.concurrent("when the parent route has not been registered, and the parent route is nested in a pending registration single block with multiple layers of relative paths, register the pending route once the parent route is registered", ({ expect }) => {
+            const runtime = new ReactRouterRuntime({
+                loggers: [new NoopLogger()]
+            });
+
+            runtime.registerRoute({
+                path: "/more-nested",
+                element: <div>Hello!</div>
+            }, {
+                parentPath: "/deeply/nested/layout"
+            });
+
+            runtime.registerRoute({
+                path: "/another-nested",
+                element: <div>Hello!</div>
+            }, {
+                parentPath: "/deeply/nested/layout/more-nested"
+            });
+
+            expect(runtime.routes.length).toBe(0);
+
+            runtime.registerRoute({
+                path: "/deeply",
+                element: <div>Hello</div>,
+                children: [
+                    {
+                        path: "/nested",
+                        element: <div>You!</div>,
+                        children: [
+                            {
+                                path: "/layout",
+                                element: <div>Hello from nested!</div>
+                            }
+                        ]
+                    }
+                ]
+            }, {
+                hoist: true
+            });
+
+            expect(runtime.routes.length).toBe(1);
+            expect(runtime.routes[0].path).toBe("/deeply");
+            expect(runtime.routes[0].children![0].children![0].children![0].path).toBe("/more-nested");
+            expect(runtime.routes[0].children![0].children![0].children![0].children![0].path).toBe("/another-nested");
+        });
+
         test.concurrent("when the parent route has not been registered, and the parent route is nested in a pending registration single block, register the pending route once the parent route is registered", ({ expect }) => {
             const runtime = new ReactRouterRuntime({
                 loggers: [new NoopLogger()]
             });
 
             runtime.registerRoute({
-                path: "/layout/nested",
+                path: "/nested",
                 element: <div>Hello!</div>
             }, {
                 parentPath: "/layout"
+            });
+
+            runtime.registerRoute({
+                path: "/another-nested",
+                element: <div>Hello!</div>
+            }, {
+                parentPath: "/layout/nested"
             });
 
             expect(runtime.routes.length).toBe(0);
@@ -683,7 +746,8 @@ describe("registerRoute", () => {
 
             expect(runtime.routes.length).toBe(1);
             expect(runtime.routes[0].path).toBeUndefined();
-            expect(runtime.routes[0].children![0].children![0].children![0].path).toBe("/layout/nested");
+            expect(runtime.routes[0].children![0].children![0].children![0].path).toBe("/nested");
+            expect(runtime.routes[0].children![0].children![0].children![0].children![0].path).toBe("/another-nested");
         });
 
         test.concurrent("should register a route under a deeply nested layout", ({ expect }) => {
@@ -699,21 +763,66 @@ describe("registerRoute", () => {
             });
 
             runtime.registerRoute({
-                path: "/layout/nested",
+                path: "/nested",
                 element: <div>Hello!</div>
             }, {
                 parentPath: "/layout"
             });
 
             runtime.registerRoute({
-                path: "/layout/nested/another-level",
+                path: "/another-level",
                 element: <div>Hello!</div>
             }, {
                 parentPath: "/layout/nested"
             });
 
             expect(runtime.routes.length).toBe(1);
-            expect(runtime.routes[0].children![0].children![0].path).toBe("/layout/nested/another-level");
+            expect(runtime.routes[0].children![0].children![0].path).toBe("/another-level");
+        });
+
+        test.concurrent("should register a route under a deeply nested layout that has been registered in a single block with multiple layers of relative paths", ({ expect }) => {
+            const runtime = new ReactRouterRuntime({
+                loggers: [new NoopLogger()]
+            });
+
+            runtime.registerRoute({
+                path: "/deeply",
+                element: <div>Hello</div>,
+                children: [
+                    {
+                        path: "/nested",
+                        element: <div>You!</div>,
+                        children: [
+                            {
+                                path: "/layout",
+                                element: <div>Hello from nested!</div>
+                            }
+                        ]
+                    }
+                ]
+            }, {
+                hoist: true
+            });
+
+            runtime.registerRoute({
+                path: "/another-level",
+                element: <div>Hello!</div>
+            }, {
+                parentPath: "/deeply/nested/layout"
+            });
+
+            expect(runtime.routes.length).toBe(1);
+            expect(runtime.routes[0].children![0].children![0].children![0].path).toBe("/another-level");
+
+            runtime.registerRoute({
+                path: "/yet-another-level",
+                element: <div>Hello!</div>
+            }, {
+                parentPath: "/deeply/nested/layout/another-level"
+            });
+
+            expect(runtime.routes.length).toBe(1);
+            expect(runtime.routes[0].children![0].children![0].children![0].children![0].path).toBe("/yet-another-level");
         });
 
         test.concurrent("should register a route under a deeply nested layout that has been registered in a single block", ({ expect }) => {
@@ -739,24 +848,24 @@ describe("registerRoute", () => {
             });
 
             runtime.registerRoute({
-                path: "/deeply-nested-layout/another-level",
+                path: "/another-level",
                 element: <div>Hello!</div>
             }, {
                 parentPath: "/deeply-nested-layout"
             });
 
             expect(runtime.routes.length).toBe(1);
-            expect(runtime.routes[0].children![0].children![0].children![0].path).toBe("/deeply-nested-layout/another-level");
+            expect(runtime.routes[0].children![0].children![0].children![0].path).toBe("/another-level");
 
             runtime.registerRoute({
-                path: "/deeply-nested-layout/another-level/yet-another-level",
+                path: "/yet-another-level",
                 element: <div>Hello!</div>
             }, {
                 parentPath: "/deeply-nested-layout/another-level"
             });
 
             expect(runtime.routes.length).toBe(1);
-            expect(runtime.routes[0].children![0].children![0].children![0].children![0].path).toBe("/deeply-nested-layout/another-level/yet-another-level");
+            expect(runtime.routes[0].children![0].children![0].children![0].children![0].path).toBe("/yet-another-level");
         });
 
         test.concurrent("when the specified parent path has a trailing separator but the parent route path doesn't have a trailing separator, the nested route is registered", ({ expect }) => {
@@ -772,13 +881,13 @@ describe("registerRoute", () => {
             });
 
             runtime.registerRoute({
-                path: "/layout/nested",
+                path: "/nested",
                 element: <div>Hello!</div>
             }, {
                 parentPath: "/layout/"
             });
 
-            expect(runtime.routes[0].children![0].path).toBe("/layout/nested");
+            expect(runtime.routes[0].children![0].path).toBe("/nested");
         });
 
         test.concurrent("when the specified parent path doesn't have a trailing separator but the parent route path have a trailing separator, the nested route is registered", ({ expect }) => {
@@ -794,13 +903,13 @@ describe("registerRoute", () => {
             });
 
             runtime.registerRoute({
-                path: "/layout/nested",
+                path: "/nested",
                 element: <div>Hello!</div>
             }, {
                 parentPath: "/layout"
             });
 
-            expect(runtime.routes[0].children![0].path).toBe("/layout/nested");
+            expect(runtime.routes[0].children![0].path).toBe("/nested");
         });
 
         test.concurrent("when a route is hoisted, it cannot be nested under another route", ({ expect }) => {
@@ -833,14 +942,14 @@ describe("registerRoute", () => {
             expect(runtime.routes.length).toBe(1);
 
             runtime.registerRoute({
-                path: "/layout/nested",
+                path: "/nested",
                 element: <div>Hello!</div>
             }, {
                 parentId: "layout"
             });
 
             expect(runtime.routes.length).toBe(1);
-            expect(runtime.routes[0].children![0].path).toBe("/layout/nested");
+            expect(runtime.routes[0].children![0].path).toBe("/nested");
         });
 
         test.concurrent("when the parent route has not been registered, do not register the nested route", ({ expect }) => {
@@ -849,7 +958,7 @@ describe("registerRoute", () => {
             });
 
             runtime.registerRoute({
-                path: "/layout/nested",
+                path: "/nested",
                 element: <div>Hello!</div>
             }, {
                 parentId: "layout"
@@ -864,13 +973,13 @@ describe("registerRoute", () => {
             });
 
             runtime.registerRoute({
-                path: "/layout/nested",
+                path: "/nested",
                 element: <div>Hello!</div>
             }, {
                 parentId: "layout" });
 
             runtime.registerRoute({
-                path: "/layout/another-nested",
+                path: "/another-nested",
                 element: <div>Hello!</div>
             }
             , {
@@ -906,7 +1015,7 @@ describe("registerRoute", () => {
             });
 
             runtime.registerRoute({
-                path: "/layout/nested",
+                path: "/nested",
                 element: <div>Hello!</div>
             }, {
                 parentId: "layout"
@@ -933,7 +1042,7 @@ describe("registerRoute", () => {
 
             expect(runtime.routes.length).toBe(1);
             expect(runtime.routes[0].path).toBeUndefined();
-            expect(runtime.routes[0].children![0].children![0].children![0].path).toBe("/layout/nested");
+            expect(runtime.routes[0].children![0].children![0].children![0].path).toBe("/nested");
         });
 
         test.concurrent("should register a route under a deeply nested layout", ({ expect }) => {
@@ -957,14 +1066,14 @@ describe("registerRoute", () => {
             });
 
             runtime.registerRoute({
-                path: "/layout/nested/another-level",
+                path: "/another-level",
                 element: <div>Hello!</div>
             }, {
                 parentId: "layout-nested"
             });
 
             expect(runtime.routes.length).toBe(1);
-            expect(runtime.routes[0].children![0].children![0].path).toBe("/layout/nested/another-level");
+            expect(runtime.routes[0].children![0].children![0].path).toBe("/another-level");
         });
 
         test.concurrent("should register a route under a deeply nested layout that has been registered in a single block", ({ expect }) => {
@@ -1000,14 +1109,14 @@ describe("registerRoute", () => {
             expect(runtime.routes[0].children![0].children![0].children![0].$id).toBe("deeply-nested-layout/another-level");
 
             runtime.registerRoute({
-                path: "/deeply-nested-layout/another-level/yet-another-level",
+                path: "/yet-another-level",
                 element: <div>Hello!</div>
             }, {
                 parentId: "deeply-nested-layout/another-level"
             });
 
             expect(runtime.routes.length).toBe(1);
-            expect(runtime.routes[0].children![0].children![0].children![0].children![0].path).toBe("/deeply-nested-layout/another-level/yet-another-level");
+            expect(runtime.routes[0].children![0].children![0].children![0].children![0].path).toBe("/yet-another-level");
         });
 
         test.concurrent("when a route is hoisted, it cannot be nested under another route", ({ expect }) => {
@@ -1088,7 +1197,7 @@ describe("registerRoute", () => {
                 children: [
                     {
                         $visibility: "public",
-                        path: "/layout/nested",
+                        path: "/nested",
                         element: <div>Hello!</div>
                     }
                 ]
@@ -1096,7 +1205,7 @@ describe("registerRoute", () => {
                 hoist: true
             });
 
-            expect(runtime.routes[0].children![0].path).toBe("/layout/nested");
+            expect(runtime.routes[0].children![0].path).toBe("/nested");
             expect(runtime.routes[0].children![0].$visibility).toBe("public");
         });
 
@@ -1110,7 +1219,7 @@ describe("registerRoute", () => {
                 element: <div>Hello!</div>,
                 children: [
                     {
-                        path: "/layout/nested",
+                        path: "/nested",
                         element: <div>Hello!</div>
                     }
                 ]
@@ -1118,7 +1227,7 @@ describe("registerRoute", () => {
                 hoist: true
             });
 
-            expect(runtime.routes[0].children![0].path).toBe("/layout/nested");
+            expect(runtime.routes[0].children![0].path).toBe("/nested");
             expect(runtime.routes[0].children![0].$visibility).toBe("protected");
         });
 

@@ -1,6 +1,8 @@
 ---
 order: 1000
 label: Migrate to firefly v9.0
+toc:
+    depth: 2-3
 ---
 
 # Migrate to firefly v9.0

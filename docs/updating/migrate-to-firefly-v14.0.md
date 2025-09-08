@@ -1,6 +1,8 @@
 ---
 order: 900
 label: Migrate to firefly v14.0
+toc:
+    depth: 2-3
 ---
 
 # Migrate to firefly v14.0
@@ -9,11 +11,25 @@ label: Migrate to firefly v14.0
 If you are migrating from `v8.*`, follow the [Migrate from v8.* to v14.0](./migrate-from-v8-to-v14.0.md) guide.
 !!!
 
-This major version introduces a new **first argument to deferred registration functions**: the runtime instance. This new runtime instance passed to deferred registration functions **should be used whenever runtime access is required**, instead of the root runtime provided to module registration function.
+!!!warning
+Although this migration guide is labeled for version `14.0.0`, it is actually intended for migrating from version `13.*` to version `14.1.0`. Therefore, please ensure you upgrade to `@squide/firefly` version `14.1.0` instead of `14.0.0`.
+
+We apologize for the confusion.
+!!!
+
+This major version introduces a new first argument to deferred registration functions, and changes how child paths are defined in nested structures. 
+
+## Breaking changes
+
+### New runtime instance argument for deferred registration function
+
+A new first argument is provided to deferred registration functions: a scoped runtime instance.
+
+This new scoped runtime instance argument **should be used whenever runtime access is required**, instead of the root runtime provided to module registration function.
 
 _Reminder: A deferred registration function is a function returned by a module registration function and is executed later, once global data has been fetched. A common use case for deferred registrations is [conditionally rendering navigation items](../guides/register-a-conditional-nav-item.md)._
 
-Placing the `runtime` argument first is intentional: it emphasizes that consumers should rely on this specific runtime within the deferred registration function scope, rather than the root runtime instance passed to the module registration function.
+Placing the `runtime` argument first **is intentional**: it emphasizes that consumers should rely on this specific runtime within the deferred registration function scope, rather than the root runtime instance passed to the module registration function.
 
 Before:
 
@@ -50,3 +66,45 @@ export const register: ModuleRegisterFunction<FireflyRuntime, unknown, DeferredR
     };
 }
 ```
+
+### Replace nested structures child paths for relative paths
+
+In early 6.x versions of [React Router](https://reactrouter.com/), routes defined with plain objects required you to **manually concatenate** parent and child paths in nested structures:
+
+```tsx !#5,9
+import { createBrowserRouter } from "react-router-dom";
+
+const router = createBrowserRouter([
+    {
+        path: "dashboard",
+        element: <Dashboard />,
+        children: [
+            {
+                path: "dashboard/settings",
+                element: <Settings />
+            }
+        ]
+    }
+]);
+```
+
+Starting with React Router `6.4`, plain object routes became consistent with the JSX `<Route>` API, e.g. child paths are now relative to their parent and are automatically prefixed with the parent path:
+
+```tsx !#5,9
+import { createBrowserRouter } from "react-router-dom";
+
+const router = createBrowserRouter([
+    {
+        path: "dashboard",
+        element: <Dashboard />,
+        children: [
+            {
+                path: "settings",
+                element: <Settings />
+            }
+        ]
+    }
+]);
+```
+
+Since Squide was created before React Router `6.4`, it originally relied on child paths explicitly including their parent paths. As of version `14.1.0`, Squide expect all child paths to be relative to their parent.
