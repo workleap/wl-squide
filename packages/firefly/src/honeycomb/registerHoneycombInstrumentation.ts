@@ -1,5 +1,8 @@
 import type { Span } from "@opentelemetry/api";
 import {
+    type AddListenerOptions,
+    type EventCallbackFunction,
+    type EventName,
     LocalModuleDeferredRegistrationFailedEvent,
     LocalModuleDeferredRegistrationUpdateFailedEvent,
     LocalModuleRegistrationFailedEvent,
@@ -49,6 +52,25 @@ import { endActiveSpan, startActiveChildSpan, startChildSpan, startSpan, traceEr
 // TIPS:
 // To query those traces in Honeycomb, use the following query filter: "root.name = squide-bootstrapping".
 
+interface AddProtectedListenerOptions extends AddListenerOptions {
+    onError?: (error: unknown) => void;
+}
+
+function addProtectedListener(runtime: FireflyRuntime, eventName: EventName, callback: EventCallbackFunction, options?: AddProtectedListenerOptions) {
+    const protectedCallback = (...args: unknown[]) => {
+        try {
+            callback(...args);
+        } catch (error: unknown) {
+            runtime.logger
+                .withText(`[squide] An unmanaged error occurred while handling event "${eventName.toString()}" for Honeycomb instrumentation:`)
+                .withError(error as Error)
+                .error();
+        }
+    };
+
+    runtime.eventBus.addListener(eventName, protectedCallback, options);
+}
+
 type DataFetchState = "none" | "fetching-data" | "public-data-ready" | "protected-data-ready" | "data-ready" | "data-fetch-failed";
 
 export function reduceDataFetchEvents(
@@ -59,20 +81,24 @@ export function reduceDataFetchEvents(
     onPublicDataReady: () => void,
     onProtectedDataFetchStarted: () => void,
     onProtectedDataReady: () => void,
-    onDataFetchFailed: (queriesErrors: Error[]) => void
+    onDataFetchFailed: (queriesErrors: Error[]) => void,
+    onUnmanagedError: (error: unknown) => void
 ) {
     let dataFetchState: DataFetchState = "none";
 
-    runtime.eventBus.addListener(PublicDataFetchStartedEvent, () => {
+    addProtectedListener(runtime, PublicDataFetchStartedEvent, () => {
         if (dataFetchState === "none") {
             dataFetchState = "fetching-data";
             onDataFetchStarted();
         }
 
         onPublicDataFetchStarted();
-    }, { once: true });
+    }, {
+        once: true,
+        onError: onUnmanagedError
+    });
 
-    runtime.eventBus.addListener(PublicDataReadyEvent, payload => {
+    addProtectedListener(runtime, PublicDataReadyEvent, payload => {
         onPublicDataReady();
 
         if (dataFetchState === "fetching-data") {
@@ -86,18 +112,24 @@ export function reduceDataFetchEvents(
             dataFetchState = "data-ready";
             onDataReady();
         }
-    }, { once: true });
+    }, {
+        once: true,
+        onError: onUnmanagedError
+    });
 
-    runtime.eventBus.addListener(ProtectedDataFetchStartedEvent, () => {
+    addProtectedListener(runtime, ProtectedDataFetchStartedEvent, () => {
         if (dataFetchState === "none") {
             dataFetchState = "fetching-data";
             onDataFetchStarted();
         }
 
         onProtectedDataFetchStarted();
-    }, { once: true });
+    }, {
+        once: true,
+        onError: onUnmanagedError
+    });
 
-    runtime.eventBus.addListener(ProtectedDataReadyEvent, payload => {
+    addProtectedListener(runtime, ProtectedDataReadyEvent, payload => {
         onProtectedDataReady();
 
         if (dataFetchState === "fetching-data") {
@@ -111,7 +143,10 @@ export function reduceDataFetchEvents(
             dataFetchState = "data-ready";
             onDataReady();
         }
-    }, { once: true });
+    }, {
+        once: true,
+        onError: onUnmanagedError
+    });
 
     const handleDataFetchFailed = (payload: unknown) => {
         if (dataFetchState !== "data-fetch-failed") {
@@ -121,12 +156,20 @@ export function reduceDataFetchEvents(
         }
     };
 
-    runtime.eventBus.addListener(PublicDataFetchFailedEvent, handleDataFetchFailed, { once: true });
-    runtime.eventBus.addListener(ProtectedDataFetchFailedEvent, handleDataFetchFailed, { once: true });
+    addProtectedListener(runtime, PublicDataFetchFailedEvent, handleDataFetchFailed, {
+        once: true,
+        onError: onUnmanagedError
+    });
+
+    addProtectedListener(runtime, ProtectedDataFetchFailedEvent, handleDataFetchFailed, {
+        once: true,
+        onError: onUnmanagedError
+    });
 }
 
 function registerTrackingListeners(runtime: FireflyRuntime) {
     let bootstrappingSpan: Span;
+    let bootstrappingSpanHasEnded: boolean = false;
     let localModuleRegistrationSpan: Span;
     let localModuleDeferredRegistrationSpan: Span;
     let remoteModuleRegistrationSpan: Span;
@@ -136,23 +179,74 @@ function registerTrackingListeners(runtime: FireflyRuntime) {
     let localModuleDeferredRegistrationsUpdateSpan: ActiveSpan;
     let remoteModuleDeferredRegistrationsUpdateSpan: ActiveSpan;
 
-    runtime.eventBus.addListener(ApplicationBootstrappingStartedEvent, () => {
-        bootstrappingSpan = startSpan((options, context) => getTracer().startSpan("squide-bootstrapping", options, context));
-    }, { once: true });
+    const handleUnmanagedError = (error: unknown) => {
+        if (bootstrappingSpan && !bootstrappingSpanHasEnded) {
+            traceError(bootstrappingSpan, error as Error);
 
-    runtime.eventBus.addListener(ApplicationBoostrappedEvent, () => {
+            bootstrappingSpan.end();
+            bootstrappingSpanHasEnded = true;
+        }
+
+        if (localModuleRegistrationSpan) {
+            localModuleRegistrationSpan.end();
+        }
+
+        if (localModuleDeferredRegistrationSpan) {
+            localModuleDeferredRegistrationSpan.end();
+        }
+
+        if (remoteModuleRegistrationSpan) {
+            remoteModuleRegistrationSpan.end();
+        }
+
+        if (remoteModuleDeferredRegistrationSpan) {
+            remoteModuleDeferredRegistrationSpan.end();
+        }
+
+        if (dataFetchSpan) {
+            dataFetchSpan.instance.end();
+        }
+
+        if (deferredRegistrationsUpdateSpan) {
+            deferredRegistrationsUpdateSpan.end();
+        }
+
+        if (localModuleDeferredRegistrationsUpdateSpan) {
+            localModuleDeferredRegistrationsUpdateSpan.instance.end();
+        }
+
+        if (remoteModuleDeferredRegistrationsUpdateSpan) {
+            remoteModuleDeferredRegistrationsUpdateSpan.instance.end();
+        }
+    };
+
+    addProtectedListener(runtime, ApplicationBootstrappingStartedEvent, () => {
+        bootstrappingSpan = startSpan((options, context) => getTracer().startSpan("squide-bootstrapping", options, context));
+    }, {
+        once: true,
+        onError: handleUnmanagedError
+    });
+
+    addProtectedListener(runtime, ApplicationBoostrappedEvent, () => {
         if (bootstrappingSpan) {
             bootstrappingSpan.end();
+            bootstrappingSpanHasEnded = true;
         }
-    }, { once: true });
+    }, {
+        once: true,
+        onError: handleUnmanagedError
+    });
 
-    runtime.eventBus.addListener(MswReadyEvent, () => {
+    addProtectedListener(runtime, MswReadyEvent, () => {
         if (bootstrappingSpan) {
             bootstrappingSpan.addEvent("msw-ready");
         }
-    }, { once: true });
+    }, {
+        once: true,
+        onError: handleUnmanagedError
+    });
 
-    runtime.eventBus.addListener(LocalModulesRegistrationStartedEvent, (payload: unknown) => {
+    addProtectedListener(runtime, LocalModulesRegistrationStartedEvent, (payload: unknown) => {
         const attributes = {
             "app.squide.module_count": (payload as LocalModulesRegistrationStartedEventPayload).moduleCount
         };
@@ -164,9 +258,12 @@ function registerTrackingListeners(runtime: FireflyRuntime) {
         localModuleRegistrationSpan = startChildSpan(bootstrappingSpan, (options, context) => {
             return getTracer().startSpan("local-module-registration", { ...options, attributes }, context);
         });
-    }, { once: true });
+    }, {
+        once: true,
+        onError: handleUnmanagedError
+    });
 
-    runtime.eventBus.addListener(LocalModulesRegistrationCompletedEvent, (payload: unknown) => {
+    addProtectedListener(runtime, LocalModulesRegistrationCompletedEvent, (payload: unknown) => {
         if (bootstrappingSpan) {
             bootstrappingSpan.addEvent("local-module-registration-completed", {
                 "app.squide.module_count": (payload as LocalModulesRegistrationCompletedEventPayload).moduleCount
@@ -176,18 +273,23 @@ function registerTrackingListeners(runtime: FireflyRuntime) {
         if (localModuleRegistrationSpan) {
             localModuleRegistrationSpan.end();
         }
-    }, { once: true });
+    }, {
+        once: true,
+        onError: handleUnmanagedError
+    });
 
     // Can occur multiple times.
-    runtime.eventBus.addListener(LocalModuleRegistrationFailedEvent, (payload: unknown) => {
+    addProtectedListener(runtime, LocalModuleRegistrationFailedEvent, (payload: unknown) => {
         const registrationError = payload as ModuleRegistrationError;
 
         if (localModuleRegistrationSpan) {
             traceError(localModuleRegistrationSpan, registrationError);
         }
+    }, {
+        onError: handleUnmanagedError
     });
 
-    runtime.eventBus.addListener(LocalModulesDeferredRegistrationStartedEvent, (payload: unknown) => {
+    addProtectedListener(runtime, LocalModulesDeferredRegistrationStartedEvent, (payload: unknown) => {
         const attributes = {
             "app.squide.registration_count": (payload as LocalModulesDeferredRegistrationStartedEventPayload).registrationCount
         };
@@ -199,9 +301,12 @@ function registerTrackingListeners(runtime: FireflyRuntime) {
         localModuleDeferredRegistrationSpan = startChildSpan(bootstrappingSpan, (options, context) => {
             return getTracer().startSpan("local-module-deferred-registration", { ...options, attributes }, context);
         });
-    }, { once: true });
+    }, {
+        once: true,
+        onError: handleUnmanagedError
+    });
 
-    runtime.eventBus.addListener(LocalModulesDeferredRegistrationCompletedEvent, (payload: unknown) => {
+    addProtectedListener(runtime, LocalModulesDeferredRegistrationCompletedEvent, (payload: unknown) => {
         if (bootstrappingSpan) {
             bootstrappingSpan.addEvent("local-module-deferred-registration-completed", {
                 "app.squide.registration_count": (payload as LocalModulesDeferredRegistrationCompletedEventPayload).registrationCount
@@ -211,18 +316,23 @@ function registerTrackingListeners(runtime: FireflyRuntime) {
         if (localModuleDeferredRegistrationSpan) {
             localModuleDeferredRegistrationSpan.end();
         }
-    }, { once: true });
+    }, {
+        once: true,
+        onError: handleUnmanagedError
+    });
 
     // Can occur multiple times.
-    runtime.eventBus.addListener(LocalModuleDeferredRegistrationFailedEvent, (payload: unknown) => {
+    addProtectedListener(runtime, LocalModuleDeferredRegistrationFailedEvent, (payload: unknown) => {
         const registrationError = payload as ModuleRegistrationError;
 
         if (localModuleDeferredRegistrationSpan) {
             traceError(localModuleRegistrationSpan, registrationError);
         }
+    }, {
+        onError: handleUnmanagedError
     });
 
-    runtime.eventBus.addListener(RemoteModulesRegistrationStartedEvent, (payload: unknown) => {
+    addProtectedListener(runtime, RemoteModulesRegistrationStartedEvent, (payload: unknown) => {
         const attributes = {
             "app.squide.remote_count": (payload as RemoteModulesRegistrationStartedEventPayload).remoteCount
         };
@@ -234,9 +344,12 @@ function registerTrackingListeners(runtime: FireflyRuntime) {
         remoteModuleRegistrationSpan = startChildSpan(bootstrappingSpan, (options, context) => {
             return getTracer().startSpan("remote-module-registration", { ...options, attributes }, context);
         });
-    }, { once: true });
+    }, {
+        once: true,
+        onError: handleUnmanagedError
+    });
 
-    runtime.eventBus.addListener(RemoteModulesRegistrationCompletedEvent, (payload: unknown) => {
+    addProtectedListener(runtime, RemoteModulesRegistrationCompletedEvent, (payload: unknown) => {
         if (bootstrappingSpan) {
             bootstrappingSpan.addEvent("remote-module-registration-completed", {
                 "app.squide.remote_count": (payload as RemoteModulesRegistrationCompletedEventPayload).remoteCount
@@ -246,18 +359,23 @@ function registerTrackingListeners(runtime: FireflyRuntime) {
         if (remoteModuleRegistrationSpan) {
             remoteModuleRegistrationSpan.end();
         }
-    }, { once: true });
+    }, {
+        once: true,
+        onError: handleUnmanagedError
+    });
 
     // Can occur multiple times.
-    runtime.eventBus.addListener(RemoteModuleRegistrationFailedEvent, (payload: unknown) => {
+    addProtectedListener(runtime, RemoteModuleRegistrationFailedEvent, (payload: unknown) => {
         const registrationError = payload as RemoteModuleRegistrationError;
 
         if (remoteModuleRegistrationSpan) {
             traceError(remoteModuleRegistrationSpan, registrationError);
         }
+    }, {
+        onError: handleUnmanagedError
     });
 
-    runtime.eventBus.addListener(RemoteModulesDeferredRegistrationStartedEvent, (payload: unknown) => {
+    addProtectedListener(runtime, RemoteModulesDeferredRegistrationStartedEvent, (payload: unknown) => {
         const attributes = {
             "app.squide.registration_count": (payload as RemoteModulesDeferredRegistrationStartedEventPayload).registrationCount
         };
@@ -269,9 +387,12 @@ function registerTrackingListeners(runtime: FireflyRuntime) {
         remoteModuleDeferredRegistrationSpan = startChildSpan(bootstrappingSpan, (options, context) => {
             return getTracer().startSpan("remote-module-deferred-registration", { ...options, attributes }, context);
         });
-    }, { once: true });
+    }, {
+        once: true,
+        onError: handleUnmanagedError
+    });
 
-    runtime.eventBus.addListener(RemoteModulesDeferredRegistrationCompletedEvent, (payload: unknown) => {
+    addProtectedListener(runtime, RemoteModulesDeferredRegistrationCompletedEvent, (payload: unknown) => {
         if (bootstrappingSpan) {
             bootstrappingSpan.addEvent("remote-module-deferred-registration-completed", {
                 "app.squide.registration_count": (payload as RemoteModulesDeferredRegistrationCompletedEventPayload).registrationCount
@@ -281,15 +402,20 @@ function registerTrackingListeners(runtime: FireflyRuntime) {
         if (remoteModuleDeferredRegistrationSpan) {
             remoteModuleDeferredRegistrationSpan.end();
         }
-    }, { once: true });
+    }, {
+        once: true,
+        onError: handleUnmanagedError
+    });
 
     // Can occur multiple times.
-    runtime.eventBus.addListener(RemoteModuleDeferredRegistrationFailedEvent, (payload: unknown) => {
+    addProtectedListener(runtime, RemoteModuleDeferredRegistrationFailedEvent, (payload: unknown) => {
         const registrationError = payload as RemoteModuleRegistrationError;
 
         if (remoteModuleDeferredRegistrationSpan) {
             traceError(remoteModuleDeferredRegistrationSpan, registrationError);
         }
+    }, {
+        onError: handleUnmanagedError
     });
 
     const handleFetchDataStarted = () => {
@@ -346,6 +472,7 @@ function registerTrackingListeners(runtime: FireflyRuntime) {
             // will be aborted and a react-router error boundary will be rendered.
             if (bootstrappingSpan) {
                 bootstrappingSpan.end();
+                bootstrappingSpanHasEnded = true;
             }
         }
     };
@@ -358,35 +485,46 @@ function registerTrackingListeners(runtime: FireflyRuntime) {
         handlePublicDataReady,
         handleProtectedDataFetchStarted,
         handleProtectedDataReady,
-        handleDataFetchFailed
+        handleDataFetchFailed,
+        handleUnmanagedError
     );
 
-    runtime.eventBus.addListener(ModulesRegisteredEvent, () => {
+    addProtectedListener(runtime, ModulesRegisteredEvent, () => {
         if (bootstrappingSpan) {
             bootstrappingSpan.addEvent("modules-registered");
         }
-    }, { once: true });
+    }, {
+        once: true,
+        onError: handleUnmanagedError
+    });
 
-    runtime.eventBus.addListener(ModulesReadyEvent, () => {
+    addProtectedListener(runtime, ModulesReadyEvent, () => {
         if (bootstrappingSpan) {
             bootstrappingSpan.addEvent("modules-ready");
         }
-    }, { once: true });
-
-    // Can occur multiple times.
-    runtime.eventBus.addListener(DeferredRegistrationsUpdateStartedEvent, () => {
-        deferredRegistrationsUpdateSpan = startSpan((options, context) => getTracer().startSpan("squide-deferred-registrations-update", options, context));
+    }, {
+        once: true,
+        onError: handleUnmanagedError
     });
 
     // Can occur multiple times.
-    runtime.eventBus.addListener(DeferredRegistrationsUpdateCompletedEvent, () => {
+    addProtectedListener(runtime, DeferredRegistrationsUpdateStartedEvent, () => {
+        deferredRegistrationsUpdateSpan = startSpan((options, context) => getTracer().startSpan("squide-deferred-registrations-update", options, context));
+    }, {
+        onError: handleUnmanagedError
+    });
+
+    // Can occur multiple times.
+    addProtectedListener(runtime, DeferredRegistrationsUpdateCompletedEvent, () => {
         if (deferredRegistrationsUpdateSpan) {
             deferredRegistrationsUpdateSpan.end();
         }
+    }, {
+        onError: handleUnmanagedError
     });
 
     // Can occur multiple times.
-    runtime.eventBus.addListener(LocalModulesDeferredRegistrationsUpdateStartedEvent, (payload: unknown) => {
+    addProtectedListener(runtime, LocalModulesDeferredRegistrationsUpdateStartedEvent, (payload: unknown) => {
         const attributes = {
             "app.squide.registration_count": (payload as LocalModulesDeferredRegistrationsUpdateStartedEventPayload).registrationCount
         };
@@ -408,10 +546,12 @@ function registerTrackingListeners(runtime: FireflyRuntime) {
                 span
             };
         });
+    }, {
+        onError: handleUnmanagedError
     });
 
     // Can occur multiple times.
-    runtime.eventBus.addListener(LocalModulesDeferredRegistrationsUpdateCompletedEvent, (payload: unknown) => {
+    addProtectedListener(runtime, LocalModulesDeferredRegistrationsUpdateCompletedEvent, (payload: unknown) => {
         if (deferredRegistrationsUpdateSpan) {
             deferredRegistrationsUpdateSpan.addEvent("local-module-deferred-registrations-update-completed", {
                 "app.squide.registration_count": (payload as LocalModulesDeferredRegistrationsUpdateCompletedEventPayload).registrationCount
@@ -421,19 +561,23 @@ function registerTrackingListeners(runtime: FireflyRuntime) {
         if (localModuleDeferredRegistrationsUpdateSpan) {
             endActiveSpan(localModuleDeferredRegistrationsUpdateSpan);
         }
+    }, {
+        onError: handleUnmanagedError
     });
 
     // Can occur multiple times.
-    runtime.eventBus.addListener(LocalModuleDeferredRegistrationUpdateFailedEvent, (payload: unknown) => {
+    addProtectedListener(runtime, LocalModuleDeferredRegistrationUpdateFailedEvent, (payload: unknown) => {
         const registrationError = payload as ModuleRegistrationError;
 
         if (localModuleDeferredRegistrationsUpdateSpan) {
             traceError(localModuleDeferredRegistrationsUpdateSpan.instance, registrationError);
         }
+    }, {
+        onError: handleUnmanagedError
     });
 
     // Can occur multiple times.
-    runtime.eventBus.addListener(RemoteModulesDeferredRegistrationsUpdateStartedEvent, (payload: unknown) => {
+    addProtectedListener(runtime, RemoteModulesDeferredRegistrationsUpdateStartedEvent, (payload: unknown) => {
         const attributes = {
             "app.squide.registration_count": (payload as RemoteModulesDeferredRegistrationsUpdateStartedEventPayload).registrationCount
         };
@@ -455,10 +599,12 @@ function registerTrackingListeners(runtime: FireflyRuntime) {
                 span
             };
         });
+    }, {
+        onError: handleUnmanagedError
     });
 
     // Can occur multiple times.
-    runtime.eventBus.addListener(RemoteModulesDeferredRegistrationsUpdateCompletedEvent, (payload: unknown) => {
+    addProtectedListener(runtime, RemoteModulesDeferredRegistrationsUpdateCompletedEvent, (payload: unknown) => {
         if (deferredRegistrationsUpdateSpan) {
             deferredRegistrationsUpdateSpan.addEvent("remote-module-deferred-registrations-update-completed", {
                 "app.squide.registration_count": (payload as RemoteModulesDeferredRegistrationsUpdateCompletedEventPayload).registrationCount
@@ -468,15 +614,19 @@ function registerTrackingListeners(runtime: FireflyRuntime) {
         if (remoteModuleDeferredRegistrationsUpdateSpan) {
             endActiveSpan(remoteModuleDeferredRegistrationsUpdateSpan);
         }
+    }, {
+        onError: handleUnmanagedError
     });
 
     // Can occur multiple times.
-    runtime.eventBus.addListener(RemoteModuleDeferredRegistrationUpdateFailedEvent, (payload: unknown) => {
+    addProtectedListener(runtime, RemoteModuleDeferredRegistrationUpdateFailedEvent, (payload: unknown) => {
         const registrationError = payload as RemoteModuleRegistrationError;
 
         if (remoteModuleDeferredRegistrationsUpdateSpan) {
             traceError(remoteModuleDeferredRegistrationsUpdateSpan.instance, registrationError);
         }
+    }, {
+        onError: handleUnmanagedError
     });
 }
 
@@ -496,19 +646,26 @@ function getRegisterFetchRequestHookFunction() {
 }
 
 export function registerHoneycombInstrumentation(runtime: FireflyRuntime) {
-    const registerFetchRequestHookFunction = getRegisterFetchRequestHookFunction();
+    try {
+        const registerFetchRequestHookFunction = getRegisterFetchRequestHookFunction();
 
-    if (registerFetchRequestHookFunction) {
-        registerActiveSpanStack();
+        if (registerFetchRequestHookFunction) {
+            registerActiveSpanStack();
 
-        const activeSpanOverrideFunction = createOverrideFetchRequestSpanWithActiveSpanContext(runtime.logger);
+            const activeSpanOverrideFunction = createOverrideFetchRequestSpanWithActiveSpanContext(runtime.logger);
 
-        // Dynamically registering this request hook function to nest the HTTP requests
-        // of squide bootstrapping under the appropriate Honeycomb span.
-        registerFetchRequestHookFunction(activeSpanOverrideFunction);
-    } else {
-        runtime.logger.warning("[squide] Cannot register Honeycomb fetch request hook because \"globalThis.__WLP_HONEYCOMB_REGISTER_DYNAMIC_FETCH_REQUEST_HOOK__\" is not available. Honeycomb instrumentation is still functional but in degraded mode.");
+            // Dynamically registering this request hook function to nest the HTTP requests
+            // of squide bootstrapping under the appropriate Honeycomb span.
+            registerFetchRequestHookFunction(activeSpanOverrideFunction);
+        } else {
+            runtime.logger.warning("[squide] Cannot register Honeycomb fetch request hook because \"globalThis.__WLP_HONEYCOMB_REGISTER_DYNAMIC_FETCH_REQUEST_HOOK__\" is not available. Honeycomb instrumentation is still functional but in degraded mode.");
+        }
+
+        registerTrackingListeners(runtime);
+    } catch (error: unknown) {
+        runtime.logger
+            .withText("[squide] An error occurred while registering Honeycomb instrumentation:")
+            .withError(error as Error)
+            .error();
     }
-
-    registerTrackingListeners(runtime);
 }

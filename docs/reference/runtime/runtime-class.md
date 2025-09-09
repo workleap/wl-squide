@@ -211,8 +211,40 @@ runtime.registerRoute({
 [!ref text="Learn more about using nested routes for modular tabs"](../../guides/use-modular-tabs.md)
 
 !!!tip
-Likewise any other React Router routes, the `path` option of a route rendered under an existing parent route must be an absolute path. For example, if a parent route `path` is `/layout`, the `path` option of a route rendered under that parent route and responding to the `/page-1` url, should be `/layout/page-1`.
+The `path` option of a route rendered under an existing parent route must be a React Router absolute path (a path starting with a `/`). For example, if a parent route `path` is `/layout`, the `path` option of a route rendered under that parent route and responding to the `/page-1` url, should be `/layout/page-1`.
 !!!
+
+Routes can also be nested by registering multipe routes in a single registration block:
+
+```tsx !#7-10
+import { Layout } from "./Layout.tsx";
+import { Page } from "./Page.tsx";
+
+runtime.registerRoute({
+    path: "/layout",
+    element: <Layout />,
+    children: [{
+        path: "/layout/page-1",
+        element: <Page />
+    }]
+});
+```
+
+The previous example registers the routes with React Router absolute paths (a path starting with a `/`). A single registration block can also define routes with relative paths:
+
+```tsx !#5,8
+import { Layout } from "./Layout.tsx";
+import { Page } from "./Page.tsx";
+
+runtime.registerRoute({
+    path: "layout",
+    element: <Layout />,
+    children: [{
+        path: "page-1",
+        element: <Page />
+    }]
+});
+```
 
 ### Retrieve routes
 

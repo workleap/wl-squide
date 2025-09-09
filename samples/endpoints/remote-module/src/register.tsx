@@ -32,7 +32,7 @@ function registerRoutes(runtime: FireflyRuntime, i18nextInstance: i18n): Deferre
     });
 
     runtime.registerRoute({
-        path: "/federated-tabs/episodes",
+        path: "episodes",
         lazy: async () => {
             const { EpisodesTab } = await import("./EpisodesTab.tsx");
 
@@ -45,7 +45,7 @@ function registerRoutes(runtime: FireflyRuntime, i18nextInstance: i18n): Deferre
     });
 
     runtime.registerRoute({
-        path: "/federated-tabs/locations",
+        path: "locations",
         lazy: async () => {
             const { LocationsTab } = await import("./LocationsTab.tsx");
 
@@ -58,7 +58,7 @@ function registerRoutes(runtime: FireflyRuntime, i18nextInstance: i18n): Deferre
     });
 
     runtime.registerRoute({
-        path: "/federated-tabs/failing",
+        path: "failing",
         lazy: async () => {
             const { FailingTab } = await import("./FailingTab.tsx");
 

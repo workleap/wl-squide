@@ -75,10 +75,21 @@ export class ReactRouterRuntime extends Runtime<Route, RootNavigationItem> imple
         const parentId = translateOutletsParentId(result.parentId);
 
         if (result.registrationStatus === "registered") {
-            const parentLog = parentId ? `as a children of the "${parentId}" route` : "";
+            const parentLog = parentId ? `as a children of the route with id "${parentId}"` : "";
+
+            if (route.index) {
+                logger.withText("[squide] An index route has been");
+            } else {
+                if (route.path) {
+                    logger.withText(`[squide] A route with path "${route.path}" has been`);
+                } else if (route.id) {
+                    logger.withText(`[squide] A route with id "${route.id}" has been`);
+                } else {
+                    logger.withText("[squide] A pathless route has been");
+                }
+            }
 
             logger
-                .withText("[squide] The following route has been")
                 .withText("registered", {
                     style: {
                         color: "white",
@@ -118,8 +129,19 @@ export class ReactRouterRuntime extends Runtime<Route, RootNavigationItem> imple
                     .debug();
             }
         } else {
+            if (route.index) {
+                logger.withText("[squide] An index route registration is");
+            } else {
+                if (route.path) {
+                    logger.withText(`[squide] A route with path "${route.path}" registration is`);
+                } else if (route.id) {
+                    logger.withText(`[squide] A route with id "${route.id}" registration is`);
+                } else {
+                    logger.withText("[squide] A pathless route registration is");
+                }
+            }
+
             logger
-                .withText("[squide] The following route registration is")
                 .withText("pending", {
                     style: {
                         color: "black",
@@ -179,10 +201,15 @@ export class ReactRouterRuntime extends Runtime<Route, RootNavigationItem> imple
         } = result;
 
         if (registrationStatus === "registered") {
-            const sectionLog = sectionId ? `under the "${sectionId}" section of` : "to";
+            const sectionLog = sectionId ? `under the section with id "${sectionId}" of` : "to";
+
+            if (newItem.$id) {
+                logger.withText(`[squide] A ${registrationType} navigation item with path "${newItem.to}" and id "${newItem.$id}" has been`);
+            } else {
+                logger.withText(`[squide] A ${registrationType} navigation item with path "${newItem.to}" has been`);
+            }
 
             logger
-                .withText(`[squide] The following ${registrationType} navigation item has been`)
                 .withText("registered", {
                     style: {
                         color: "white",
@@ -219,8 +246,13 @@ export class ReactRouterRuntime extends Runtime<Route, RootNavigationItem> imple
                     .debug();
             }
         } else {
+            if (newItem.$id) {
+                logger.withText(`[squide] A ${registrationType} navigation item with path "${newItem.to}" and id "${newItem.$id}" registration is`);
+            } else {
+                logger.withText(`[squide] A ${registrationType} navigation item with path "${newItem.to}" registration is`);
+            }
+
             logger
-                .withText(`[squide] The following ${registrationType} navigation item registration is`)
                 .withText("pending", {
                     style: {
                         color: "black",
