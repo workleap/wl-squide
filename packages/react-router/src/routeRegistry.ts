@@ -250,9 +250,6 @@ export class RouteRegistry {
         };
     }
 
-    // parentId: "/deeply/nested/layout/more-nested"
-    // et le path du parent est: "more-nested",
-
     #addNestedRoutes(routes: Route[], parentId: string): RouteRegistrationResult {
         const parentRoute = this.#routesIndex.get(parentId);
 

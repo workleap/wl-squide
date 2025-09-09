@@ -4,13 +4,6 @@ import { isProtectedRoutesOutletRoute, isPublicRoutesOutletRoute, ProtectedRoute
 import { ReactRouterRuntime } from "../src/reactRouterRuntime.ts";
 import type { Route } from "../src/routeRegistry.ts";
 
-/*
-
-TODO: MAYBE WHEN LOOKING FOR AN INDEX, SHOULD TRY WITH A FORWARD SLASH AND WITHOUT A FORWARD SLASH?
-
-
-*/
-
 describe("registerRoute", () => {
     describe("outlets", () => {
         describe("PublicRoutes", () => {
