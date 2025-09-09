@@ -1,5 +1,16 @@
 # @squide/react-router
 
+## 8.1.0
+
+### Minor Changes
+
+- [#313](https://github.com/workleap/wl-squide/pull/313) [`bea660b`](https://github.com/workleap/wl-squide/commit/bea660bf827dd123a52f6062a7be8865dc99055b) Thanks [@patricklafrance](https://github.com/patricklafrance)! - Hardened Honeycomb integration and added support for React Router relative paths.
+
+### Patch Changes
+
+- Updated dependencies [[`bea660b`](https://github.com/workleap/wl-squide/commit/bea660bf827dd123a52f6062a7be8865dc99055b)]:
+  - @squide/core@6.1.0
+
 ## 8.0.0
 
 ### Major Changes
