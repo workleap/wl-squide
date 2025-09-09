@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <meta name="turbo-root" content="/wl-squide">
-    <meta name="turbo-cache-control" content="no-cache" data-turbo-track="reload" data-track-token="3.12.0-preview2.810417939839">
+    <meta name="turbo-cache-control" content="no-cache" data-turbo-track="reload" data-track-token="3.12.0-preview2.810759665982">
 
     <!-- See retype.com -->
     <meta name="generator" content="Retype 3.12.0-preview2">
@@ -32,12 +32,12 @@
     <script data-cfasync="false">(function(){var cl=document.documentElement.classList,ls=localStorage.getItem("retype_scheme"),hd=cl.contains("dark"),hl=cl.contains("light"),wm=window.matchMedia&&window.matchMedia("(prefers-color-scheme: dark)").matches;if(ls==="dark"||(!ls&&wm&&!hd&&!hl)){cl.remove("light");cl.add("dark")}else if(ls==="light"||(!ls&&!wm&&!hd&&!hl)){cl.remove("dark");cl.add("light")}})();</script>
 
     <link id="retype-favicon" rel="icon" href="../../../static/favicon.png" />
-    <link href="../../../resources/css/retype.css?v=3.12.0-preview2.810417939839" rel="stylesheet">
+    <link href="../../../resources/css/retype.css?v=3.12.0-preview2.810759665982" rel="stylesheet">
 
-    <script data-cfasync="false" src="../../../resources/js/config.js?v=3.12.0-preview2.810417939839" data-turbo-eval="false" defer></script>
+    <script data-cfasync="false" src="../../../resources/js/config.js?v=3.12.0-preview2.810759665982" data-turbo-eval="false" defer></script>
     <script data-cfasync="false" src="../../../resources/js/retype.js?v=3.12.0-preview2" data-turbo-eval="false" defer></script>
-    <script id="lunr-js" data-cfasync="false" src="../../../resources/js/lunr.js?v=3.12.0-preview2.810417939839" data-turbo-eval="false" defer></script>
-    <script id="prism-js" data-cfasync="false" src="../../../resources/js/prism.js?v=3.12.0-preview2.810417939839" defer></script>
+    <script id="lunr-js" data-cfasync="false" src="../../../resources/js/lunr.js?v=3.12.0-preview2.810759665982" data-turbo-eval="false" defer></script>
+    <script id="prism-js" data-cfasync="false" src="../../../resources/js/prism.js?v=3.12.0-preview2.810759665982" defer></script>
 
     <link href="https://workleap.github.io/wl-idp-docs-hub/static/retype-customization.css" rel="stylesheet" />
 
@@ -593,10 +593,38 @@ runtime.registerRoute({
             </svg>
         </div>
         <div class="pr-5 ml-3 w-full">
-<p>Likewise any other React Router routes, the <code translate="no" v-pre>path</code> option of a route rendered under an existing parent route must be an absolute path. For example, if a parent route <code translate="no" v-pre>path</code> is <code translate="no" v-pre>/layout</code>, the <code translate="no" v-pre>path</code> option of a route rendered under that parent route and responding to the <code translate="no" v-pre>/page-1</code> url, should be <code translate="no" v-pre>/layout/page-1</code>.</p>
+<p>The <code translate="no" v-pre>path</code> option of a route rendered under an existing parent route must be a React Router absolute path (a path starting with a <code translate="no" v-pre>/</code>). For example, if a parent route <code translate="no" v-pre>path</code> is <code translate="no" v-pre>/layout</code>, the <code translate="no" v-pre>path</code> option of a route rendered under that parent route and responding to the <code translate="no" v-pre>/page-1</code> url, should be <code translate="no" v-pre>/layout/page-1</code>.</p>
         </div>
     </div>
 </div>
+<p>Routes can also be nested by registering multipe routes in a single registration block:</p>
+<div class="codeblock-wrapper"><doc-codeblock>
+<pre translate="no" class="language-tsx" data-line="7-10"><code v-pre class="language-tsx">import { Layout } from &quot;./Layout.tsx&quot;;
+import { Page } from &quot;./Page.tsx&quot;;
+
+runtime.registerRoute({
+    path: &quot;/layout&quot;,
+    element: &lt;Layout /&gt;,
+    children: [{
+        path: &quot;/layout/page-1&quot;,
+        element: &lt;Page /&gt;
+    }]
+});</code></pre>
+</doc-codeblock></div>
+<p>The previous example registers the routes with React Router absolute paths (a path starting with a <code translate="no" v-pre>/</code>). A single registration block can also define routes with relative paths:</p>
+<div class="codeblock-wrapper"><doc-codeblock>
+<pre translate="no" class="language-tsx" data-line="5,8"><code v-pre class="language-tsx">import { Layout } from &quot;./Layout.tsx&quot;;
+import { Page } from &quot;./Page.tsx&quot;;
+
+runtime.registerRoute({
+    path: &quot;layout&quot;,
+    element: &lt;Layout /&gt;,
+    children: [{
+        path: &quot;page-1&quot;,
+        element: &lt;Page /&gt;
+    }]
+});</code></pre>
+</doc-codeblock></div>
 <doc-anchor-target id="retrieve-routes">
     <h3>
         <doc-anchor-trigger class="header-anchor-trigger" to="#retrieve-routes">#</doc-anchor-trigger>
