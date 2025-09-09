@@ -18,6 +18,7 @@ test.concurrent("when the state is \"none\" and PublicDataFetchStartedEvent is h
     const onProtectedDataFetchStarted = vi.fn();
     const onProtectedDataReady = vi.fn();
     const onDataFetchFailed = vi.fn();
+    const onUnmanagedError = vi.fn();
 
     reduceDataFetchEvents(
         runtime,
@@ -27,7 +28,8 @@ test.concurrent("when the state is \"none\" and PublicDataFetchStartedEvent is h
         onPublicDataReady,
         onProtectedDataFetchStarted,
         onProtectedDataReady,
-        onDataFetchFailed
+        onDataFetchFailed,
+        onUnmanagedError
     );
 
     runtime.eventBus.dispatch(PublicDataFetchStartedEvent);
@@ -48,6 +50,7 @@ test.concurrent("when the state is \"fetching-data\" and PublicDataFetchStartedE
     const onProtectedDataFetchStarted = vi.fn();
     const onProtectedDataReady = vi.fn();
     const onDataFetchFailed = vi.fn();
+    const onUnmanagedError = vi.fn();
 
     reduceDataFetchEvents(
         runtime,
@@ -57,7 +60,8 @@ test.concurrent("when the state is \"fetching-data\" and PublicDataFetchStartedE
         onPublicDataReady,
         onProtectedDataFetchStarted,
         onProtectedDataReady,
-        onDataFetchFailed
+        onDataFetchFailed,
+        onUnmanagedError
     );
 
     // Will update the state to "fetching-data".
@@ -82,6 +86,7 @@ test.concurrent("when the state is \"none\" and ProtectedDataFetchStartedEvent i
     const onProtectedDataFetchStarted = vi.fn();
     const onProtectedDataReady = vi.fn();
     const onDataFetchFailed = vi.fn();
+    const onUnmanagedError = vi.fn();
 
     reduceDataFetchEvents(
         runtime,
@@ -91,7 +96,8 @@ test.concurrent("when the state is \"none\" and ProtectedDataFetchStartedEvent i
         onPublicDataReady,
         onProtectedDataFetchStarted,
         onProtectedDataReady,
-        onDataFetchFailed
+        onDataFetchFailed,
+        onUnmanagedError
     );
 
     runtime.eventBus.dispatch(ProtectedDataFetchStartedEvent);
@@ -112,6 +118,7 @@ test.concurrent("when the state is \"fetching-data\" and ProtectedDataFetchStart
     const onProtectedDataFetchStarted = vi.fn();
     const onProtectedDataReady = vi.fn();
     const onDataFetchFailed = vi.fn();
+    const onUnmanagedError = vi.fn();
 
     reduceDataFetchEvents(
         runtime,
@@ -121,7 +128,8 @@ test.concurrent("when the state is \"fetching-data\" and ProtectedDataFetchStart
         onPublicDataReady,
         onProtectedDataFetchStarted,
         onProtectedDataReady,
-        onDataFetchFailed
+        onDataFetchFailed,
+        onUnmanagedError
     );
 
     // Will update the state to "fetching-data".
@@ -146,6 +154,7 @@ test.concurrent("when the state is \"fetching-data\", \"waitForProtectedData\" i
     const onProtectedDataFetchStarted = vi.fn();
     const onProtectedDataReady = vi.fn();
     const onDataFetchFailed = vi.fn();
+    const onUnmanagedError = vi.fn();
 
     reduceDataFetchEvents(
         runtime,
@@ -155,7 +164,8 @@ test.concurrent("when the state is \"fetching-data\", \"waitForProtectedData\" i
         onPublicDataReady,
         onProtectedDataFetchStarted,
         onProtectedDataReady,
-        onDataFetchFailed
+        onDataFetchFailed,
+        onUnmanagedError
     );
 
     // Will update the state to "fetching-data".
@@ -186,6 +196,7 @@ test.concurrent("when the state is \"fetching-data\", \"waitForProtectedData\" i
     const onProtectedDataFetchStarted = vi.fn();
     const onProtectedDataReady = vi.fn();
     const onDataFetchFailed = vi.fn();
+    const onUnmanagedError = vi.fn();
 
     reduceDataFetchEvents(
         runtime,
@@ -195,7 +206,8 @@ test.concurrent("when the state is \"fetching-data\", \"waitForProtectedData\" i
         onPublicDataReady,
         onProtectedDataFetchStarted,
         onProtectedDataReady,
-        onDataFetchFailed
+        onDataFetchFailed,
+        onUnmanagedError
     );
 
     // Will update the state to "fetching-data".
@@ -226,6 +238,7 @@ test.concurrent("when the state is \"protected-data-ready\" and PublicDataReadyE
     const onProtectedDataFetchStarted = vi.fn();
     const onProtectedDataReady = vi.fn();
     const onDataFetchFailed = vi.fn();
+    const onUnmanagedError = vi.fn();
 
     reduceDataFetchEvents(
         runtime,
@@ -235,7 +248,8 @@ test.concurrent("when the state is \"protected-data-ready\" and PublicDataReadyE
         onPublicDataReady,
         onProtectedDataFetchStarted,
         onProtectedDataReady,
-        onDataFetchFailed
+        onDataFetchFailed,
+        onUnmanagedError
     );
 
     // Will update the state to "fetching-data".
@@ -268,6 +282,7 @@ test.concurrent("when the state is \"public-data-ready\" and PublicDataReadyEven
     const onProtectedDataFetchStarted = vi.fn();
     const onProtectedDataReady = vi.fn();
     const onDataFetchFailed = vi.fn();
+    const onUnmanagedError = vi.fn();
 
     reduceDataFetchEvents(
         runtime,
@@ -277,7 +292,8 @@ test.concurrent("when the state is \"public-data-ready\" and PublicDataReadyEven
         onPublicDataReady,
         onProtectedDataFetchStarted,
         onProtectedDataReady,
-        onDataFetchFailed
+        onDataFetchFailed,
+        onUnmanagedError
     );
 
     // Will update the state to "fetching-data".
@@ -309,6 +325,7 @@ test.concurrent("when the state is \"data-ready\" and PublicDataReadyEvent is ha
     const onProtectedDataFetchStarted = vi.fn();
     const onProtectedDataReady = vi.fn();
     const onDataFetchFailed = vi.fn();
+    const onUnmanagedError = vi.fn();
 
     reduceDataFetchEvents(
         runtime,
@@ -318,7 +335,8 @@ test.concurrent("when the state is \"data-ready\" and PublicDataReadyEvent is ha
         onPublicDataReady,
         onProtectedDataFetchStarted,
         onProtectedDataReady,
-        onDataFetchFailed
+        onDataFetchFailed,
+        onUnmanagedError
     );
 
     // Will update the state to "fetching-data".
@@ -352,6 +370,7 @@ test.concurrent("when the state is \"fetching-data\", \"waitForPublicData\" is t
     const onProtectedDataFetchStarted = vi.fn();
     const onProtectedDataReady = vi.fn();
     const onDataFetchFailed = vi.fn();
+    const onUnmanagedError = vi.fn();
 
     reduceDataFetchEvents(
         runtime,
@@ -361,7 +380,8 @@ test.concurrent("when the state is \"fetching-data\", \"waitForPublicData\" is t
         onPublicDataReady,
         onProtectedDataFetchStarted,
         onProtectedDataReady,
-        onDataFetchFailed
+        onDataFetchFailed,
+        onUnmanagedError
     );
 
     // Will update the state to "fetching-data".
@@ -390,6 +410,7 @@ test.concurrent("when the state is \"fetching-data\", \"waitForPublicData\" is f
     const onProtectedDataFetchStarted = vi.fn();
     const onProtectedDataReady = vi.fn();
     const onDataFetchFailed = vi.fn();
+    const onUnmanagedError = vi.fn();
 
     reduceDataFetchEvents(
         runtime,
@@ -399,7 +420,8 @@ test.concurrent("when the state is \"fetching-data\", \"waitForPublicData\" is f
         onPublicDataReady,
         onProtectedDataFetchStarted,
         onProtectedDataReady,
-        onDataFetchFailed
+        onDataFetchFailed,
+        onUnmanagedError
     );
 
     // Will update the state to "fetching-data".
@@ -428,6 +450,7 @@ test.concurrent("when the state is \"public-data-ready\" and ProtectedDataReadyE
     const onProtectedDataFetchStarted = vi.fn();
     const onProtectedDataReady = vi.fn();
     const onDataFetchFailed = vi.fn();
+    const onUnmanagedError = vi.fn();
 
     reduceDataFetchEvents(
         runtime,
@@ -437,7 +460,8 @@ test.concurrent("when the state is \"public-data-ready\" and ProtectedDataReadyE
         onPublicDataReady,
         onProtectedDataFetchStarted,
         onProtectedDataReady,
-        onDataFetchFailed
+        onDataFetchFailed,
+        onUnmanagedError
     );
 
     // Will update the state to "fetching-data".
@@ -470,6 +494,7 @@ test.concurrent("when the state is \"protected-data-ready\" and ProtectedDataRea
     const onProtectedDataFetchStarted = vi.fn();
     const onProtectedDataReady = vi.fn();
     const onDataFetchFailed = vi.fn();
+    const onUnmanagedError = vi.fn();
 
     reduceDataFetchEvents(
         runtime,
@@ -479,7 +504,8 @@ test.concurrent("when the state is \"protected-data-ready\" and ProtectedDataRea
         onPublicDataReady,
         onProtectedDataFetchStarted,
         onProtectedDataReady,
-        onDataFetchFailed
+        onDataFetchFailed,
+        onUnmanagedError
     );
 
     // Will update the state to "fetching-data".
@@ -511,6 +537,7 @@ test.concurrent("when the state is \"data-ready\" and ProtectedDataReadyEvent is
     const onProtectedDataFetchStarted = vi.fn();
     const onProtectedDataReady = vi.fn();
     const onDataFetchFailed = vi.fn();
+    const onUnmanagedError = vi.fn();
 
     reduceDataFetchEvents(
         runtime,
@@ -520,7 +547,8 @@ test.concurrent("when the state is \"data-ready\" and ProtectedDataReadyEvent is
         onPublicDataReady,
         onProtectedDataFetchStarted,
         onProtectedDataReady,
-        onDataFetchFailed
+        onDataFetchFailed,
+        onUnmanagedError
     );
 
     // Will update the state to "fetching-data".
@@ -554,6 +582,7 @@ test.concurrent("when the state is not \"data-fetch-failed\" and PublicDataFetch
     const onProtectedDataFetchStarted = vi.fn();
     const onProtectedDataReady = vi.fn();
     const onDataFetchFailed = vi.fn();
+    const onUnmanagedError = vi.fn();
 
     reduceDataFetchEvents(
         runtime,
@@ -563,7 +592,8 @@ test.concurrent("when the state is not \"data-fetch-failed\" and PublicDataFetch
         onPublicDataReady,
         onProtectedDataFetchStarted,
         onProtectedDataReady,
-        onDataFetchFailed
+        onDataFetchFailed,
+        onUnmanagedError
     );
 
     runtime.eventBus.dispatch(PublicDataFetchFailedEvent);
@@ -583,6 +613,7 @@ test.concurrent("when the state is \"data-fetch-failed\" and PublicDataFetchFail
     const onProtectedDataFetchStarted = vi.fn();
     const onProtectedDataReady = vi.fn();
     const onDataFetchFailed = vi.fn();
+    const onUnmanagedError = vi.fn();
 
     reduceDataFetchEvents(
         runtime,
@@ -592,7 +623,8 @@ test.concurrent("when the state is \"data-fetch-failed\" and PublicDataFetchFail
         onPublicDataReady,
         onProtectedDataFetchStarted,
         onProtectedDataReady,
-        onDataFetchFailed
+        onDataFetchFailed,
+        onUnmanagedError
     );
 
     // The first dispatch will update the state to "fetching-data".
@@ -614,6 +646,7 @@ test.concurrent("when the state is not \"data-fetch-failed\" and ProtectedDataFe
     const onProtectedDataFetchStarted = vi.fn();
     const onProtectedDataReady = vi.fn();
     const onDataFetchFailed = vi.fn();
+    const onUnmanagedError = vi.fn();
 
     reduceDataFetchEvents(
         runtime,
@@ -623,7 +656,8 @@ test.concurrent("when the state is not \"data-fetch-failed\" and ProtectedDataFe
         onPublicDataReady,
         onProtectedDataFetchStarted,
         onProtectedDataReady,
-        onDataFetchFailed
+        onDataFetchFailed,
+        onUnmanagedError
     );
 
     // The first dispatch will update the state to "fetching-data".
@@ -645,6 +679,7 @@ test.concurrent("when the state is \"data-fetch-failed\" and ProtectedDataFetchF
     const onProtectedDataFetchStarted = vi.fn();
     const onProtectedDataReady = vi.fn();
     const onDataFetchFailed = vi.fn();
+    const onUnmanagedError = vi.fn();
 
     reduceDataFetchEvents(
         runtime,
@@ -654,7 +689,8 @@ test.concurrent("when the state is \"data-fetch-failed\" and ProtectedDataFetchF
         onPublicDataReady,
         onProtectedDataFetchStarted,
         onProtectedDataReady,
-        onDataFetchFailed
+        onDataFetchFailed,
+        onUnmanagedError
     );
 
     runtime.eventBus.dispatch(ProtectedDataFetchFailedEvent);
@@ -674,6 +710,7 @@ test.concurrent("events sequencing", ({ expect }) => {
     const onProtectedDataFetchStarted = vi.fn();
     const onProtectedDataReady = vi.fn();
     const onDataFetchFailed = vi.fn();
+    const onUnmanagedError = vi.fn();
 
     reduceDataFetchEvents(
         runtime,
@@ -683,7 +720,8 @@ test.concurrent("events sequencing", ({ expect }) => {
         onPublicDataReady,
         onProtectedDataFetchStarted,
         onProtectedDataReady,
-        onDataFetchFailed
+        onDataFetchFailed,
+        onUnmanagedError
     );
 
     // Expected order is:
