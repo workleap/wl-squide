@@ -1,5 +1,12 @@
 # @squide/i18next
 
+## 2.5.2
+
+### Patch Changes
+
+- Updated dependencies [[`bea660b`](https://github.com/workleap/wl-squide/commit/bea660bf827dd123a52f6062a7be8865dc99055b)]:
+  - @squide/core@6.1.0
+
 ## 2.5.1
 
 ### Patch Changes
