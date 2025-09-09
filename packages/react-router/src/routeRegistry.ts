@@ -1,9 +1,18 @@
 import type { IndexRouteObject, NonIndexRouteObject } from "react-router";
 import { ProtectedRoutes, ProtectedRoutesOutletId, PublicRoutes, PublicRoutesOutletId, isProtectedRoutesOutletRoute, isPublicRoutesOutletRoute } from "./outlets.ts";
 
+/*
+
+REMEMBER:
+
+- In React Router, an "index" route cannot have children.
+- In React Router, routes with a path starting with a "/", are considered as absolute (their parent paths will not automatically be prepended).
+- In React Router, routes with a part not starting with a "/", are considere as relative to their parents.
+
+*/
+
 export type RouteVisibility = "public" | "protected";
 
-// REMEMBER: In React Router, an "index" route cannot have children.
 export interface IndexRoute extends IndexRouteObject {
     $id?: string;
     $visibility?: RouteVisibility;
@@ -33,6 +42,11 @@ export interface RouteRegistrationResult {
     parentId?: string;
 }
 
+function isAbsoluteRoute(route: Route) {
+    // Strangely, with React Router an absolute route path starts with a "/".
+    return route && route.path && route.path.startsWith("/");
+}
+
 function appendPath(parentPath: string, childPath: string) {
     if (parentPath === "/") {
         return childPath;
@@ -49,13 +63,16 @@ function appendPath(parentPath: string, childPath: string) {
     return `${normalizedParentPath}/${normalizedChildPath}`;
 }
 
-function normalizePath(routePath?: string) {
+function normalizePath(routePath: string) {
     let normalizedPath = routePath;
 
-    if (normalizedPath && normalizedPath !== "/") {
-        if (normalizedPath.endsWith("/")) {
-            normalizedPath = normalizedPath.slice(0, -1);
-        }
+    if (normalizedPath !== "/" && normalizedPath.endsWith("/")) {
+        normalizedPath = normalizedPath.slice(0, -1);
+    }
+
+    // Only work with "absolute" paths internally.
+    if (!normalizedPath.startsWith("/")) {
+        normalizedPath = `/${normalizedPath}`;
     }
 
     return normalizedPath;
@@ -65,12 +82,11 @@ export function createIndexKeys(route: Route, parentIndexPath?: string) {
     const keys: string[] = [];
 
     if (route.path) {
-        const key = normalizePath(parentIndexPath
-            ? appendPath(parentIndexPath, route.path)
-            : route.path
-        ) as string;
+        const key = isAbsoluteRoute(route)
+            ? route.path
+            : parentIndexPath ? appendPath(parentIndexPath, route.path) : route.path;
 
-        keys.push(key);
+        keys.push(normalizePath(key));
     }
 
     if (route.$id) {
@@ -81,10 +97,12 @@ export function createIndexKeys(route: Route, parentIndexPath?: string) {
 }
 
 function resolveParentIndexPath(route: Route, parentIndexPath?: string) {
-    if (parentIndexPath && route.path) {
-        return appendPath(parentIndexPath, route.path);
-    } else if (parentIndexPath) {
-        return parentIndexPath;
+    if (!isAbsoluteRoute(route)) {
+        if (parentIndexPath && route.path) {
+            return appendPath(parentIndexPath, route.path);
+        } else if (parentIndexPath) {
+            return parentIndexPath;
+        }
     }
 
     return route.path;
@@ -231,6 +249,9 @@ export class RouteRegistry {
             completedPendingRegistrations
         };
     }
+
+    // parentId: "/deeply/nested/layout/more-nested"
+    // et le path du parent est: "more-nested",
 
     #addNestedRoutes(routes: Route[], parentId: string): RouteRegistrationResult {
         const parentRoute = this.#routesIndex.get(parentId);

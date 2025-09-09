@@ -2,7 +2,7 @@ import { describe, test } from "vitest";
 import { RouteRegistry, createIndexKeys } from "../src/routeRegistry.ts";
 
 describe("createIndexKey", () => {
-    test.concurrent("when the route is an route path, return an empty array", ({ expect }) => {
+    test.concurrent("when the route is an index route, return an empty array", ({ expect }) => {
         const result = createIndexKeys({
             index: true,
             element: <div>Hello!</div>
@@ -11,32 +11,126 @@ describe("createIndexKey", () => {
         expect(result.length).toBe(0);
     });
 
-    test.concurrent("when the route has a path, return the route path", ({ expect }) => {
-        const result1 = createIndexKeys({
-            path: "/nested",
-            element: <div>Hello!</div>
+    describe("absolute paths", () => {
+        test.concurrent("when the route has a path, return the route path", ({ expect }) => {
+            const result1 = createIndexKeys({
+                path: "/nested",
+                element: <div>Hello!</div>
+            });
+
+            expect(result1.length).toBe(1);
+            expect(result1[0]).toBe("/nested");
+
+            const result2 = createIndexKeys({
+                path: "/parent/nested",
+                element: <div>Hello!</div>
+            });
+
+            expect(result2.length).toBe(1);
+            expect(result2[0]).toBe("/parent/nested");
         });
 
-        expect(result1.length).toBe(1);
-        expect(result1[0]).toBe("/nested");
+        test.concurrent("when the route has a path and the path has a trailing separator, strip the separator", ({ expect }) => {
+            const result = createIndexKeys({
+                path: "/parent/nested/",
+                element: <div>Hello!</div>
+            });
 
-        const result2 = createIndexKeys({
-            path: "/parent/nested",
-            element: <div>Hello!</div>
+            expect(result.length).toBe(1);
+            expect(result[0]).toBe("/parent/nested");
         });
 
-        expect(result2.length).toBe(1);
-        expect(result2[0]).toBe("/parent/nested");
+        test.concurrent("when the route has a path and a parentPath is provided, ignore the parentPath", ({ expect }) => {
+            const result1 = createIndexKeys({
+                path: "/nested",
+                element: <div>Hello!</div>
+            }, "/parent");
+
+            expect(result1.length).toBe(1);
+            expect(result1[0]).toBe("/nested");
+        });
+
+        test.concurrent("when the route has a path and an $id, return an index key for both", ({ expect }) => {
+            const result = createIndexKeys({
+                $id: "nested-id",
+                path: "/nested",
+                element: <div>Hello!</div>
+            });
+
+            expect(result.length).toBe(2);
+            expect(result[0]).toBe("/nested");
+            expect(result[1]).toBe("nested-id");
+        });
     });
 
-    test.concurrent("when the route has a path and the path has a trailing separator, strip the separator", ({ expect }) => {
-        const result = createIndexKeys({
-            path: "/parent/nested/",
-            element: <div>Hello!</div>
+    describe("relative paths", () => {
+        test.concurrent("when the route has a path, return the route path", ({ expect }) => {
+            const result1 = createIndexKeys({
+                path: "nested",
+                element: <div>Hello!</div>
+            });
+
+            expect(result1.length).toBe(1);
+            expect(result1[0]).toBe("/nested");
+
+            const result2 = createIndexKeys({
+                path: "parent/nested",
+                element: <div>Hello!</div>
+            });
+
+            expect(result2.length).toBe(1);
+            expect(result2[0]).toBe("/parent/nested");
         });
 
-        expect(result.length).toBe(1);
-        expect(result[0]).toBe("/parent/nested");
+        test.concurrent("when the route has a path and the path has a trailing separator, strip the separator", ({ expect }) => {
+            const result = createIndexKeys({
+                path: "parent/nested/",
+                element: <div>Hello!</div>
+            });
+
+            expect(result.length).toBe(1);
+            expect(result[0]).toBe("/parent/nested");
+        });
+
+        test.concurrent("when the route has a path and a parentPath is provided, prepend the parentPath", ({ expect }) => {
+            const result1 = createIndexKeys({
+                path: "nested",
+                element: <div>Hello!</div>
+            }, "/parent");
+
+            expect(result1.length).toBe(1);
+            expect(result1[0]).toBe("/parent/nested");
+
+            const result2 = createIndexKeys({
+                path: "nested",
+                element: <div>Hello!</div>
+            }, "parent");
+
+            expect(result2.length).toBe(1);
+            expect(result2[0]).toBe("/parent/nested");
+        });
+
+        test.concurrent("when the route has a path and the parentPath has a trailing separator, strip the separator", ({ expect }) => {
+            const result = createIndexKeys({
+                path: "nested",
+                element: <div>Hello!</div>
+            }, "parent/");
+
+            expect(result.length).toBe(1);
+            expect(result[0]).toBe("/parent/nested");
+        });
+
+        test.concurrent("when the route has a path and an $id, return an index key for both", ({ expect }) => {
+            const result = createIndexKeys({
+                $id: "nested-id",
+                path: "nested",
+                element: <div>Hello!</div>
+            });
+
+            expect(result.length).toBe(2);
+            expect(result[0]).toBe("/nested");
+            expect(result[1]).toBe("nested-id");
+        });
     });
 
     test.concurrent("when the route has an $id, return the route $id", ({ expect }) => {
@@ -49,7 +143,7 @@ describe("createIndexKey", () => {
         expect(result[0]).toBe("foo");
     });
 
-    test.concurrent("when this a pathless route, return an empty array", ({ expect }) => {
+    test.concurrent("when this is a pathless route, return an empty array", ({ expect }) => {
         const result = createIndexKeys({
             element: <div>Hello!</div>
         });
@@ -57,7 +151,7 @@ describe("createIndexKey", () => {
         expect(result.length).toBe(0);
     });
 
-    test.concurrent("when the route is pathless and a parentPath is provided, return an empty array", ({ expect }) => {
+    test.concurrent("when the route is pathless route and a parentPath is provided, return an empty array", ({ expect }) => {
         const result = createIndexKeys({
             element: <div>Hello!</div>
         }, "/parent");
@@ -65,72 +159,14 @@ describe("createIndexKey", () => {
         expect(result.length).toBe(0);
     });
 
-    test.concurrent("when the route has a path and a parentPath is provided, append the parentPath to the route path", ({ expect }) => {
-        const result1 = createIndexKeys({
-            path: "/nested",
-            element: <div>Hello!</div>
-        }, "/parent");
-
-        expect(result1.length).toBe(1);
-        expect(result1[0]).toBe("/parent/nested");
-
-        const result2 = createIndexKeys({
-            path: "nested",
-            element: <div>Hello!</div>
-        }, "/parent");
-
-        expect(result2.length).toBe(1);
-        expect(result2[0]).toBe("/parent/nested");
-
-        const result3 = createIndexKeys({
-            path: "nested",
-            element: <div>Hello!</div>
-        }, "parent");
-
-        expect(result3.length).toBe(1);
-        expect(result3[0]).toBe("parent/nested");
-    });
-
-    test.concurrent("when the route has a path and the parentPath has a trailing separator, strip the separator", ({ expect }) => {
-        const result = createIndexKeys({
-            path: "/nested",
-            element: <div>Hello!</div>
-        }, "/parent/");
-
-        expect(result.length).toBe(1);
-        expect(result[0]).toBe("/parent/nested");
-    });
-
-    test.concurrent("when the route path has a trailing separator and a parentPath is provided, strip the separator", ({ expect }) => {
-        const result = createIndexKeys({
-            path: "/nested",
-            element: <div>Hello!</div>
-        }, "/parent");
-
-        expect(result.length).toBe(1);
-        expect(result[0]).toBe("/parent/nested");
-    });
-
-    test.concurrent("when the route has an $id and a parent path is provided, return the $id", ({ expect }) => {
+    test.concurrent("when the route has an $id and a parentPath is provided, return the $id", ({ expect }) => {
         const result = createIndexKeys({
             $id: "nested",
             element: <div>Hello!</div>
-        }, "/parent");
+        }, "parent");
 
         expect(result.length).toBe(1);
         expect(result[0]).toBe("nested");
-    });
-
-    test.concurrent("when the route has a path and an $id, return an index key for both", ({ expect }) => {
-        const result = createIndexKeys({
-            $id: "nested-id",
-            path: "/nested",
-            element: <div>Hello!</div>
-        });
-
-        expect(result.length).toBe(2);
-        expect(result[0]).toBe("/nested");
-        expect(result[1]).toBe("nested-id");
     });
 });
 
@@ -240,14 +276,14 @@ describe("add", () => {
         const registry = new RouteRegistry();
 
         registry.add({
-            path: "/another-level-1",
+            path: "/root/another-level/yet-another-level/another-level-1",
             element: <div>Hello</div>
         }, {
             parentPath: "/root/another-level/yet-another-level"
         });
 
         registry.add({
-            path: "/another-level-2",
+            path: "/root/another-level/yet-another-level/another-level-2",
             element: <div>Hello</div>
         }, {
             parentPath: "/root/another-level/yet-another-level"
@@ -261,13 +297,13 @@ describe("add", () => {
         });
 
         const result = registry.add({
-            path: "/another-level/yet-another-level",
+            path: "/root/another-level/yet-another-level",
             element: <div>Hello</div>
         }, {
             parentPath: "/root"
         });
 
-        expect(result.completedPendingRegistrations![0].path).toBe("/another-level-1");
-        expect(result.completedPendingRegistrations![1].path).toBe("/another-level-2");
+        expect(result.completedPendingRegistrations![0].path).toBe("/root/another-level/yet-another-level/another-level-1");
+        expect(result.completedPendingRegistrations![1].path).toBe("/root/another-level/yet-another-level/another-level-2");
     });
 });

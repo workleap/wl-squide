@@ -77,7 +77,7 @@ function registerRoutes(runtime: FireflyRuntime) {
     // Register federated tab.
 
     runtime.registerRoute({
-        path: "/federated-tabs/skills",
+        path: "/skills",
         lazy: () => import("./SkillsTab.tsx")
     }, {
         parentPath: "/federated-tabs"
