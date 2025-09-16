@@ -214,7 +214,7 @@ runtime.registerRoute({
 The `path` option of a route rendered under an existing parent route must be a React Router absolute path (a path starting with a `/`). For example, if a parent route `path` is `/layout`, the `path` option of a route rendered under that parent route and responding to the `/page-1` url, should be `/layout/page-1`.
 !!!
 
-Routes can also be nested by registering multipe routes in a single registration block:
+Routes can also be nested by registering multipe routes in a **single registration block**:
 
 ```tsx !#7-10
 import { Layout } from "./Layout.tsx";
@@ -230,7 +230,7 @@ runtime.registerRoute({
 });
 ```
 
-The previous example registers the routes with React Router absolute paths (a path starting with a `/`). A single registration block can also define routes with relative paths:
+The previous example registers the routes with React Router **absolute paths** (a path starting with a `/`). A single registration block can also define routes with **relative paths**:
 
 ```tsx !#5,8
 import { Layout } from "./Layout.tsx";

@@ -245,7 +245,7 @@ import {
     type NavigationLinkRenderProps,
     type RenderItemFunction,
     type RenderSectionFunction
-} from "@squide/react-router";
+} from "@squide/firefly";
 import { Suspense } from "react";
 import { Link, Outlet } from "react-router/dom";
 
