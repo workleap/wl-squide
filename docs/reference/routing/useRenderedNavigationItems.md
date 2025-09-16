@@ -69,7 +69,7 @@ import {
     type RenderSectionFunction, 
     type NavigationLinkRenderProps, 
     type NavigationSectionRenderProps
-} from "@squide/react-router";
+} from "@squide/firefly";
 
 type RenderLinkItemFunction = (item: NavigationLinkRenderProps, key: string) => ReactNode;
 
@@ -137,7 +137,7 @@ import {
     type RenderSectionFunction, 
     type NavigationLinkRenderProps, 
     type NavigationSectionRenderProps
-} from "@squide/react-router";
+} from "@squide/firefly";
 
 type RenderLinkItemFunction = (item: NavigationLinkRenderProps, key: string, userId: string) => ReactNode;
 

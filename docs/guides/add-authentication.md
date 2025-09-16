@@ -517,7 +517,7 @@ import {
     isNavigationLink,
     type RenderItemFunction,
     type RenderSectionFunction
-} from "@squide/react-router";
+} from "@squide/firefly";
 import { useSessionManager } from "@sample/shared";
 
 const renderItem: RenderItemFunction = (item, key) => {
