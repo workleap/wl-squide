@@ -140,6 +140,14 @@ API responses frequently contain sensitive user data such as names, email addres
 For debugging, use `console.log` instead, since its output is not captured in LogRocket session replays.
 !!!
 
+## Try it :rocket:
+
+Start the application in a development environment. Open the [DevTools](https://developer.chrome.com/docs/devtools/) console, render a page, and look for log entries such as:
+
+- `[squide] Found X local modules to register.`
+- `[squide] 1/X Registering local module.`
+- `[squide] Successfully registered local module.`
+
 
 
 

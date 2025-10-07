@@ -1,3 +1,4 @@
+// DEPRECATED: Grace period ends on January 1th 2026.
 export function canRegisterHoneycombInstrumentation() {
     // The second one is due to an error. Will be able to remove soon.
     // eslint-disable-next-line @typescript-eslint/ban-ts-comment

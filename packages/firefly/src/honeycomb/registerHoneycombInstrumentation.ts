@@ -630,6 +630,7 @@ function registerTrackingListeners(runtime: FireflyRuntime) {
     });
 }
 
+// DEPRECATED: Grace period ends on January 1th 2026.
 function getRegisterFetchRequestHookFunction() {
     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
     // @ts-ignore
