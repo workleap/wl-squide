@@ -89,11 +89,12 @@ export function initializeFirefly<TContext = unknown, TData = unknown>(options: 
     const runtime = new FireflyRuntime({
         mode,
         useMsw,
+        honeycombInstrumentationClient,
         loggers,
         plugins
     });
 
-    initializeHoneycomb(runtime, honeycombInstrumentationClient)
+    initializeHoneycomb(runtime)
         .catch((error: unknown) => {
             if (onError) {
                 onError(error);
