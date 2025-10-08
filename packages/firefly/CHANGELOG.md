@@ -1,5 +1,11 @@
 # @squide/firefly
 
+## 15.0.1
+
+### Patch Changes
+
+- [#323](https://github.com/workleap/wl-squide/pull/323) [`8388f6d`](https://github.com/workleap/wl-squide/commit/8388f6dc03e45a0823da8d29fc73b7654c733db7) Thanks [@patricklafrance](https://github.com/patricklafrance)! - Added the honeycomb client to Squide runtime.
+
 ## 15.0.0
 
 ### Major Changes
