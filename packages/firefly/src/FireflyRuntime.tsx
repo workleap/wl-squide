@@ -105,9 +105,6 @@ export class FireflyRuntime extends ReactRouterRuntime implements IFireflyRuntim
 }
 
 export class FireflyRuntimeScope<TRuntime extends FireflyRuntime = FireflyRuntime> extends ReactRouterRuntimeScope<TRuntime> implements IFireflyRuntime {
-    get honeycombInstrumentClient(): HoneycombInstrumentationPartialClient | undefined {
-        throw new Error("Method not implemented.");
-    }
     registerRequestHandlers(handlers: RequestHandler[], options: RegisterRequestHandlersOptions = {}) {
         this._runtime.registerRequestHandlers(handlers, {
             ...options,
