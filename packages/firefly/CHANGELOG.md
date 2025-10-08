@@ -1,5 +1,19 @@
 # @squide/firefly
 
+## 15.0.0
+
+### Major Changes
+
+- [#318](https://github.com/workleap/wl-squide/pull/318) [`6bf9a65`](https://github.com/workleap/wl-squide/commit/6bf9a65f222a6201655cf1ee525e94211aabe0b7) Thanks [@patricklafrance](https://github.com/patricklafrance)! - Honeycomb instrumentation is now registered when an Honeycomb client is provided to the `initializeFirefly` function rather than by implicitly using global variables. Also updated dependency versions.
+
+### Patch Changes
+
+- Updated dependencies [[`6bf9a65`](https://github.com/workleap/wl-squide/commit/6bf9a65f222a6201655cf1ee525e94211aabe0b7)]:
+  - @squide/module-federation@7.0.2
+  - @squide/react-router@8.1.1
+  - @squide/core@6.1.1
+  - @squide/msw@4.0.2
+
 ## 14.1.0
 
 ### Minor Changes
