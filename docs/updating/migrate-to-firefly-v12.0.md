@@ -8,7 +8,7 @@ toc:
 # Migrate to firefly v12.0
 
 !!!warning
-If you are migrating from `v8.*`, follow the [Migrate from v8.* to v14.0](./migrate-from-v8-to-v14.0.md) guide.
+If you are migrating from `v8.*`, follow the [Migrate from v8.* to v15.0](./migrate-from-v8-to-v15.0.md) guide.
 !!!
 
 This major version introduces a new [initializeFirefly](../reference/registration/initializeFirefly.md) function, replacing the `bootstrap` function. This new `initializeFirefly` function is similar the previous `bootstrap` function with the addition that it takes care of creating and returning a [Runtime](../reference/runtime/runtime-class.md) instance.

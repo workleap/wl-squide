@@ -5,7 +5,7 @@ label: Migrate from v8.* to v14.0
 
 # Migrate from v8.* to v14.0
 
-This migration guide is an aggregation of all the changes that happened between Squide Firefly `v9.0` and `v14.0`:
+This migration guide is an aggregation of all the changes that happened between Squide Firefly `v9.0` and `v15.0`:
 
 ## Changes summary
 
@@ -51,9 +51,15 @@ This major version deprecates the [@squide/firefly-honeycomb](https://www.npmjs.
 
 ### v14.0
 
-:icon-checklist: [Migrate to firefly v13.0](./migrate-to-firefly-v14.0.md)
+:icon-checklist: [Migrate to firefly v14.0](./migrate-to-firefly-v14.0.md)
 
 This major version introduces a new first argument to deferred registration functions.
+
+### v15.0
+
+:icon-checklist: [Migrate to firefly v15.0](./migrate-to-firefly-v15.0.md)
+
+This major version changes how Squide integrates with [Honeycomb](https://www.honeycomb.io/). In previous versions, the Honeycomb integration depended on global variables registered by the [@workleap/honeycomb](https://www.npmjs.com/package/@workleap/honeycomb) package. Starting with this version, Squide integrates with Honeycomb only when it is initialized with a [HoneycombInstrumentationClient](https://workleap.github.io/wl-telemetry/reference/telemetry/honeycombinstrumentationclient/) instance.
 
 ## Breaking changes
 
