@@ -28,7 +28,7 @@ pnpm add @workleap/telemetry @opentelemetry/api
 
 Then, update the host application bootstrapping code to register Honeycomb instrumentation:
 
-```tsx !#8-15,19 host/src/index.tsx
+```tsx !#8-17,21 host/src/index.tsx
 import { FireflyProvider, initializeFirefly } from "@squide/firefly";
 import { initializeTelemetry } from "@workleap/telemetry/react";
 import { register as registerMyLocalModule } from "@sample/local-module";
@@ -37,11 +37,13 @@ import { App } from "./App.tsx";
 import { registerHost } from "./register.tsx";
 
 const telemetryClient = initializeTelemetry({
-    namespace: "sample",
-    serviceName: "squide-sample",
-    apiServiceUrls: [/.+/g,],
-    options: {
-        proxy: "https://my-proxy.com"
+    honeycomb: {
+        namespace: "sample",
+        serviceName: "squide-sample",
+        apiServiceUrls: [/.+/g,],
+        options: {
+            proxy: "https://my-proxy.com"
+        }
     }
 });
 
