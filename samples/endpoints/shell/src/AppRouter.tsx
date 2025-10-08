@@ -13,7 +13,7 @@ import {
 import { useEnvironmentVariables } from "@squide/env-vars";
 import { AppRouter as FireflyAppRouter, useDeferredRegistrations, useIsBootstrapping, useLogger, useProtectedDataQueries, usePublicDataQueries } from "@squide/firefly";
 import { useChangeLanguage } from "@squide/i18next";
-import { setGlobalSpanAttributes } from "@workleap/honeycomb";
+import { useHoneycombInstrumentationClient } from "@workleap/telemetry/react";
 import { useEffect, useMemo } from "react";
 import { createBrowserRouter, Outlet } from "react-router";
 import { RouterProvider } from "react-router/dom";
@@ -104,6 +104,7 @@ function BootstrappingRoute() {
         }
     ], error => isApiError(error) && error.status === 401);
 
+    const honeycombClient = useHoneycombInstrumentationClient();
     const changeLanguage = useChangeLanguage();
 
     useEffect(() => {
@@ -117,8 +118,7 @@ function BootstrappingRoute() {
                 .withObject(session)
                 .debug();
 
-            // Update telemetry global attributes.
-            setGlobalSpanAttributes({
+            honeycombClient.setGlobalSpanAttributes({
                 "app.user_id": session.user.id,
                 "app.user_prefered_language": session.user.preferredLanguage
             });
@@ -127,7 +127,7 @@ function BootstrappingRoute() {
             // preferred language.
             changeLanguage(session.user.preferredLanguage);
         }
-    }, [session, changeLanguage, logger]);
+    }, [session, honeycombClient, changeLanguage, logger]);
 
     useEffect(() => {
         if (subscription) {

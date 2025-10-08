@@ -1,6 +1,7 @@
 import { isFunction, registerLocalModules, type ModuleRegisterFunction, type RegisterModulesOptions } from "@squide/core";
 import { registerRemoteModules, type RemoteDefinition } from "@squide/module-federation";
 import { setMswAsReady } from "@squide/msw";
+import type { HoneycombInstrumentationPartialClient } from "@workleap-telemetry/core";
 import { FireflyRuntime, type FireflyRuntimeOptions } from "./FireflyRuntime.tsx";
 import { initializeHoneycomb } from "./honeycomb/initializeHoneycomb.ts";
 
@@ -13,6 +14,7 @@ export type StartMswFunction<TRuntime = FireflyRuntime> = (runtime: TRuntime) =>
 export interface InitializeFireflyOptions<TRuntime extends FireflyRuntime, TContext = unknown, TData = unknown> extends RegisterModulesOptions<TContext>, FireflyRuntimeOptions {
     localModules?: ModuleRegisterFunction<TRuntime, TContext, TData>[];
     remotes?: RemoteDefinition[];
+    honeycombInstrumentationClient?: HoneycombInstrumentationPartialClient;
     startMsw?: StartMswFunction<FireflyRuntime>;
     onError?: OnInitializationErrorFunction;
 }
@@ -74,6 +76,7 @@ export function initializeFirefly<TContext = unknown, TData = unknown>(options: 
         useMsw,
         loggers,
         plugins,
+        honeycombInstrumentationClient,
         onError
     } = options;
 
@@ -90,7 +93,7 @@ export function initializeFirefly<TContext = unknown, TData = unknown>(options: 
         plugins
     });
 
-    initializeHoneycomb(runtime)
+    initializeHoneycomb(runtime, honeycombInstrumentationClient)
         .catch((error: unknown) => {
             if (onError) {
                 onError(error);

@@ -12,21 +12,21 @@
         "typecheck": "tsc"
     },
     "peerDependencies": {
-        "react": "^19.1.1",
-        "react-dom": "^19.1.1",
-        "react-router": "^7.8.2"
+        "react": "19.2.0",
+        "react-dom": "19.2.0",
+        "react-router": "7.9.3"
     },
     "dependencies": {
         "@squide/firefly": "workspace:*"
     },
     "devDependencies": {
-        "@types/react": "19.1.12",
-        "@types/react-dom": "19.1.9",
-        "@typescript-eslint/parser": "8.42.0",
+        "@types/react": "19.2.2",
+        "@types/react-dom": "19.2.1",
+        "@typescript-eslint/parser": "8.46.0",
         "@workleap/eslint-plugin": "3.5.0",
         "@workleap/typescript-configs": "3.0.4",
         "eslint": "8.57.0",
-        "typescript": "5.9.2"
+        "typescript": "5.9.3"
     },
     "engines": {
         "node": ">=21.1.0"

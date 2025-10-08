@@ -38,9 +38,9 @@
         "@swc/core": "^1.13.5",
         "@swc/helpers": "^0.5.17",
         "@workleap/swc-configs": "^2.3.0",
-        "browserslist": "^4.25.4",
+        "browserslist": "^4.26.3",
         "postcss": "^8.5.3",
-        "webpack": "^5.101.3",
+        "webpack": "^5.102.1",
         "webpack-dev-server": "^5.2.2"
     },
     "dependencies": {
@@ -48,21 +48,21 @@
         "@workleap/webpack-configs": "^1.6.0",
         "deepmerge": "^4.3.1",
         "html-webpack-plugin": "^5.6.4",
-        "semver": "^7.7.2"
+        "semver": "^7.7.3"
     },
     "devDependencies": {
-        "@rsbuild/core": "1.5.4",
-        "@rslib/core": "0.12.4",
-        "@types/node": "24.3.1",
+        "@rsbuild/core": "1.5.13",
+        "@rslib/core": "0.15.0",
+        "@types/node": "24.7.0",
         "@types/semver": "7.7.1",
-        "@typescript-eslint/parser": "8.42.0",
+        "@typescript-eslint/parser": "8.46.0",
         "@workleap/eslint-plugin": "3.5.0",
         "@workleap/rslib-configs": "1.1.0",
         "@workleap/typescript-configs": "3.0.4",
         "eslint": "8.57.0",
-        "typescript": "5.9.2",
+        "typescript": "5.9.3",
         "vitest": "3.2.4",
-        "webpack": "5.101.3",
+        "webpack": "5.102.1",
         "webpack-dev-server": "5.2.2"
     },
     "engines": {
