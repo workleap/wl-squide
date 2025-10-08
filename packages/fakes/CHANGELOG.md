@@ -1,5 +1,14 @@
 # @squide/fakes
 
+## 2.2.5
+
+### Patch Changes
+
+- [#318](https://github.com/workleap/wl-squide/pull/318) [`6bf9a65`](https://github.com/workleap/wl-squide/commit/6bf9a65f222a6201655cf1ee525e94211aabe0b7) Thanks [@patricklafrance](https://github.com/patricklafrance)! - Updated dependency versions.
+
+- Updated dependencies [[`6bf9a65`](https://github.com/workleap/wl-squide/commit/6bf9a65f222a6201655cf1ee525e94211aabe0b7)]:
+  - @squide/core@6.1.1
+
 ## 2.2.4
 
 ### Patch Changes
