@@ -19,7 +19,7 @@ export interface IFireflyRuntime extends IReactRouterRuntime {
     get requestHandlers(): RequestHandler[];
     get appRouterStore(): AppRouterStore;
     get isMswEnabled(): boolean;
-    get honeycombInstrumentClient(): HoneycombInstrumentationPartialClient | undefined;
+    get honeycombInstrumentationClient(): HoneycombInstrumentationPartialClient | undefined;
 }
 
 export class FireflyRuntime extends ReactRouterRuntime implements IFireflyRuntime {
@@ -49,9 +49,6 @@ export class FireflyRuntime extends ReactRouterRuntime implements IFireflyRuntim
 
         this._appRouterStore = createAppRouterStore(this._logger);
         this._honeycombInstrumentationClient = honeycombInstrumentationClient;
-    }
-    get honeycombInstrumentClient(): HoneycombInstrumentationPartialClient | undefined {
-        throw new Error("Method not implemented.");
     }
 
     registerRequestHandlers(handlers: RequestHandler[], options: RegisterRequestHandlersOptions = {}) {
