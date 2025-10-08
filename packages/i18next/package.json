@@ -35,25 +35,25 @@
         "test": "vitest --config vitest.config.ts --no-watch"
     },
     "peerDependencies": {
-        "i18next": "^25.5.2",
+        "i18next": "^25.5.3",
         "i18next-browser-languagedetector": "^8.2.0",
         "react": "^18.0.0 || ^19.0.0",
-        "react-i18next": "^15.7.3"
+        "react-i18next": "^16.0.0"
     },
     "dependencies": {
-        "@formatjs/intl-localematcher": "^0.6.1",
+        "@formatjs/intl-localematcher": "^0.6.2",
         "@squide/core": "workspace:*"
     },
     "devDependencies": {
-        "@rsbuild/core": "1.5.4",
-        "@rslib/core": "0.12.4",
-        "@types/react": "19.1.12",
-        "@typescript-eslint/parser": "8.42.0",
+        "@rsbuild/core": "1.5.13",
+        "@rslib/core": "0.15.0",
+        "@types/react": "19.2.2",
+        "@typescript-eslint/parser": "8.46.0",
         "@workleap/eslint-plugin": "3.5.0",
         "@workleap/rslib-configs": "1.1.0",
         "@workleap/typescript-configs": "3.0.4",
         "eslint": "8.57.0",
-        "typescript": "5.9.2",
+        "typescript": "5.9.3",
         "vitest": "3.2.4"
     },
     "sideEffects": false,

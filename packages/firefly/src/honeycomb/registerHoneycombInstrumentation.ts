@@ -40,6 +40,7 @@ import {
     RemoteModulesRegistrationStartedEvent,
     type RemoteModulesRegistrationStartedEventPayload
 } from "@squide/module-federation";
+import type { HoneycombInstrumentationPartialClient } from "@workleap-telemetry/core";
 import { ApplicationBoostrappedEvent, type AppRouterWaitState, ModulesReadyEvent, ModulesRegisteredEvent, MswReadyEvent, ProtectedDataReadyEvent, PublicDataReadyEvent } from "../AppRouterReducer.ts";
 import type { FireflyRuntime } from "../FireflyRuntime.tsx";
 import { ApplicationBootstrappingStartedEvent } from "../initializeFirefly.ts";
@@ -630,38 +631,17 @@ function registerTrackingListeners(runtime: FireflyRuntime) {
     });
 }
 
-function getRegisterFetchRequestHookFunction() {
-    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-    // @ts-ignore
-    if (globalThis.__WLP_HONEYCOMB_REGISTER_DYNAMIC_FETCH_REQUEST_HOOK__) {
-        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-        // @ts-ignore
-        return globalThis.__WLP_HONEYCOMB_REGISTER_DYNAMIC_FETCH_REQUEST_HOOK__;
-    }
-
-    // Fallback to fix an error. Will remove soon.
-    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-    // @ts-ignore
-    return globalThis.__WLP_HONEYCOMB_REGISTER_DYNAMIC_FETCH_REQUEST_HOOK;
-}
-
-export function registerHoneycombInstrumentation(runtime: FireflyRuntime) {
+export function registerHoneycombInstrumentation(runtime: FireflyRuntime, honeycombInstrumentationClient: HoneycombInstrumentationPartialClient) {
     try {
-        const registerFetchRequestHookFunction = getRegisterFetchRequestHookFunction();
+        registerActiveSpanStack();
 
-        if (registerFetchRequestHookFunction) {
-            registerActiveSpanStack();
-
-            const activeSpanOverrideFunction = createOverrideFetchRequestSpanWithActiveSpanContext(runtime.logger);
-
-            // Dynamically registering this request hook function to nest the HTTP requests
-            // of squide bootstrapping under the appropriate Honeycomb span.
-            registerFetchRequestHookFunction(activeSpanOverrideFunction);
-        } else {
-            runtime.logger.warning("[squide] Cannot register Honeycomb fetch request hook because \"globalThis.__WLP_HONEYCOMB_REGISTER_DYNAMIC_FETCH_REQUEST_HOOK__\" is not available. Honeycomb instrumentation is still functional but in degraded mode.");
-        }
+        // Dynamically registering this request hook function to nest the HTTP requests
+        // of squide bootstrapping under the appropriate Honeycomb span.
+        honeycombInstrumentationClient.registerFetchRequestHook(createOverrideFetchRequestSpanWithActiveSpanContext(runtime.logger));
 
         registerTrackingListeners(runtime);
+
+        runtime.logger.information("[squide] Honeycomb instrumentation is registered.");
     } catch (error: unknown) {
         runtime.logger
             .withText("[squide] An error occurred while registering Honeycomb instrumentation:")

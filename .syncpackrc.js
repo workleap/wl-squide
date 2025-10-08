@@ -41,6 +41,17 @@ export default {
             "label": "Samples and Getting Started templates host applications and remote-modules should pin dependencies and devDependencies."
         },
         {
+            "packages": [
+                "@basic/local-module", "@basic/shared", "@basic/shell",
+                "@basic-mix/local-module", "@basic-mix/shared", "@basic-mix/shell",
+                "@basic-webpack/local-module", "@basic-webpack/shared", "@basic-webpack/shell",
+                "@endpoints/i18next", "@endpoints/layouts", "@endpoints/local-module", "@endpoints/shared", "@endpoints/shell"
+            ],
+            "dependencyTypes": ["peer"],
+            "range": "^",
+            "label": "Samples library projects should use ^ for peerDependencies."
+        },
+        {
             "packages": ["workspace-root"],
             "dependencyTypes": ["dev"],
             "range": "",
