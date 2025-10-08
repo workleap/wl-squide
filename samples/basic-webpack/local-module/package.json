@@ -13,11 +13,11 @@
         "typecheck": "tsc"
     },
     "peerDependencies": {
-        "@react-aria/toast": "3.0.8",
+        "@react-aria/toast": "^3.0.8",
         "@react-stately/toast": "^3.1.2",
-        "react": "19.2.0",
-        "react-dom": "19.2.0",
-        "react-router": "7.9.3"
+        "react": "^19.2.0",
+        "react-dom": "^19.2.0",
+        "react-router": "^7.9.3"
     },
     "dependencies": {
         "@basic-webpack/shared": "workspace:*",

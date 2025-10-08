@@ -12,12 +12,12 @@
         "typecheck": "tsc"
     },
     "peerDependencies": {
-        "i18next": "25.5.3",
-        "react": "19.2.0",
-        "react-dom": "19.2.0",
+        "i18next": "^25.5.3",
+        "react": "^19.2.0",
+        "react-dom": "^19.2.0",
         "react-error-boundary": "^6.0.0",
-        "react-i18next": "16.0.0",
-        "react-router": "7.9.3"
+        "react-i18next": "^16.0.0",
+        "react-router": "^7.9.3"
     },
     "dependencies": {
         "@endpoints/i18next": "workspace:*",

@@ -12,12 +12,12 @@
         "typecheck": "tsc"
     },
     "peerDependencies": {
-        "@tanstack/react-query": "5.90.2",
-        "msw": "2.11.3",
-        "react": "19.2.0",
-        "react-dom": "19.2.0",
-        "react-i18next": "16.0.0",
-        "react-router": "7.9.3"
+        "@tanstack/react-query": "^5.90.2",
+        "msw": "^2.11.3",
+        "react": "^19.2.0",
+        "react-dom": "^19.2.0",
+        "react-i18next": "^16.0.0",
+        "react-router": "^7.9.3"
     },
     "dependencies": {
         "@endpoints/i18next": "workspace:*",
