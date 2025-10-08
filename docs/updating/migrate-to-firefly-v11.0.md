@@ -8,7 +8,7 @@ toc:
 # Migrate to firefly v11.0
 
 !!!warning
-If you are migrating from `v8.*`, follow the [Migrate from v8.* to v14.0](./migrate-from-v8-to-v14.0.md) guide.
+If you are migrating from `v8.*`, follow the [Migrate from v8.* to v15.0](./migrate-from-v8-to-v15.0.md) guide.
 !!!
 
 This major version transform the `bootstrap` function from an async function a sync function. It also introduces a new [FireflyProvider](../reference/runtime/FireflyProvider.md) alias for `RuntimeContext.Provider`.
