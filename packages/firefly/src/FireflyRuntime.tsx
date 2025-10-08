@@ -1,6 +1,7 @@
 import type { RegisterRouteOptions, RuntimeMethodOptions, RuntimeOptions } from "@squide/core";
 import { MswPlugin, MswPluginName } from "@squide/msw";
 import { type IReactRouterRuntime, ReactRouterRuntime, ReactRouterRuntimeScope, type Route } from "@squide/react-router";
+import type { HoneycombInstrumentationPartialClient } from "@workleap-telemetry/core";
 import type { Logger } from "@workleap/logging";
 import type { RequestHandler } from "msw";
 import { getAreModulesRegistered } from "./AppRouterReducer.ts";
@@ -8,6 +9,7 @@ import { type AppRouterStore, createAppRouterStore } from "./AppRouterStore.ts";
 
 export interface FireflyRuntimeOptions extends RuntimeOptions {
     useMsw?: boolean;
+    honeycombInstrumentationClient?: HoneycombInstrumentationPartialClient;
 }
 
 export interface RegisterRequestHandlersOptions extends RuntimeMethodOptions {}
@@ -17,13 +19,15 @@ export interface IFireflyRuntime extends IReactRouterRuntime {
     get requestHandlers(): RequestHandler[];
     get appRouterStore(): AppRouterStore;
     get isMswEnabled(): boolean;
+    get honeycombInstrumentationClient(): HoneycombInstrumentationPartialClient | undefined;
 }
 
 export class FireflyRuntime extends ReactRouterRuntime implements IFireflyRuntime {
     protected _appRouterStore: AppRouterStore;
     protected _useMsw: boolean;
+    protected _honeycombInstrumentationClient: HoneycombInstrumentationPartialClient | undefined;
 
-    constructor({ plugins, useMsw, ...options }: FireflyRuntimeOptions = {}) {
+    constructor({ plugins, useMsw, honeycombInstrumentationClient, ...options }: FireflyRuntimeOptions = {}) {
         if (useMsw) {
             super({
                 plugins: [
@@ -44,6 +48,7 @@ export class FireflyRuntime extends ReactRouterRuntime implements IFireflyRuntim
         }
 
         this._appRouterStore = createAppRouterStore(this._logger);
+        this._honeycombInstrumentationClient = honeycombInstrumentationClient;
     }
 
     registerRequestHandlers(handlers: RequestHandler[], options: RegisterRequestHandlersOptions = {}) {
@@ -90,6 +95,10 @@ export class FireflyRuntime extends ReactRouterRuntime implements IFireflyRuntim
         return this._useMsw;
     }
 
+    get honeycombInstrumentationClient() {
+        return this._honeycombInstrumentationClient;
+    }
+
     startScope(logger: Logger): FireflyRuntime {
         return (new FireflyRuntimeScope(this, logger) as unknown) as FireflyRuntime;
     }
@@ -113,5 +122,9 @@ export class FireflyRuntimeScope<TRuntime extends FireflyRuntime = FireflyRuntim
 
     get isMswEnabled() {
         return this._runtime.isMswEnabled;
+    }
+
+    get honeycombInstrumentationClient() {
+        return this._runtime.honeycombInstrumentationClient;
     }
 }

@@ -40,7 +40,6 @@ import {
     RemoteModulesRegistrationStartedEvent,
     type RemoteModulesRegistrationStartedEventPayload
 } from "@squide/module-federation";
-import type { HoneycombInstrumentationPartialClient } from "@workleap-telemetry/core";
 import { ApplicationBoostrappedEvent, type AppRouterWaitState, ModulesReadyEvent, ModulesRegisteredEvent, MswReadyEvent, ProtectedDataReadyEvent, PublicDataReadyEvent } from "../AppRouterReducer.ts";
 import type { FireflyRuntime } from "../FireflyRuntime.tsx";
 import { ApplicationBootstrappingStartedEvent } from "../initializeFirefly.ts";
@@ -631,13 +630,13 @@ function registerTrackingListeners(runtime: FireflyRuntime) {
     });
 }
 
-export function registerHoneycombInstrumentation(runtime: FireflyRuntime, honeycombInstrumentationClient: HoneycombInstrumentationPartialClient) {
+export function registerHoneycombInstrumentation(runtime: FireflyRuntime) {
     try {
         registerActiveSpanStack();
 
         // Dynamically registering this request hook function to nest the HTTP requests
         // of squide bootstrapping under the appropriate Honeycomb span.
-        honeycombInstrumentationClient.registerFetchRequestHook(createOverrideFetchRequestSpanWithActiveSpanContext(runtime.logger));
+        runtime.honeycombInstrumentationClient?.registerFetchRequestHook(createOverrideFetchRequestSpanWithActiveSpanContext(runtime.logger));
 
         registerTrackingListeners(runtime);
 
