@@ -1,5 +1,11 @@
 # @squide/firefly
 
+## 15.0.2
+
+### Patch Changes
+
+- [#325](https://github.com/workleap/wl-squide/pull/325) [`779e392`](https://github.com/workleap/wl-squide/commit/779e392619e24e0d875c1d375f90b7e783f3a86d) Thanks [@patricklafrance](https://github.com/patricklafrance)! - Move `@workeap-telemetry/core` and `@workleap/logging` as a peerDependency of `@workleap/firefly`.
+
 ## 15.0.1
 
 ### Patch Changes
