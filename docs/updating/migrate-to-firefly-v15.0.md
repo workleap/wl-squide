@@ -77,3 +77,6 @@ root.render(
 );
 ```
 
+### New `@worleap-telemetry/core` peer dependency
+
+This version also introduces `@worleap-telemetry/core` as a peer dependency.
