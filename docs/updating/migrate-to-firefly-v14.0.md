@@ -60,7 +60,3 @@ export const register: ModuleRegisterFunction<FireflyRuntime, unknown, DeferredR
     };
 }
 ```
-
-### New `@workleap/logging` peer dependency
-
-This version also introduces `@workleap/logging` as a peer dependency.

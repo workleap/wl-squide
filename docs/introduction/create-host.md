@@ -22,7 +22,7 @@ Create a new application (we'll refer to ours as `host`), then open a terminal a
 
 ```bash
 pnpm add -D @workleap/rsbuild-configs @workleap/browserslist-config @rsbuild/core @rspack/core browserslist typescript @types/react @types/react-dom
-pnpm add @squide/firefly react react-dom react-router @tanstack/react-query @workleap-telemetry/core @workleap/logging
+pnpm add @squide/firefly react react-dom react-router @tanstack/react-query
 ```
 
 ## Setup the application
