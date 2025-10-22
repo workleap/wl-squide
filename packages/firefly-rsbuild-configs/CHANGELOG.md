@@ -1,5 +1,11 @@
 # @squide/firefly-rsbuild-configs
 
+## 2.1.2
+
+### Patch Changes
+
+- [#330](https://github.com/workleap/wl-squide/pull/330) [`09ffa31`](https://github.com/workleap/wl-squide/commit/09ffa3167a82182e7f7793615402ce8b6702f77b) Thanks [@copilot-swe-agent](https://github.com/apps/copilot-swe-agent)! - Bump versions to test OIDC publishing
+
 ## 2.1.1
 
 ### Patch Changes
