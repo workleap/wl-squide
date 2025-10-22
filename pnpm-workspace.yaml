@@ -1,3 +1,7 @@
 packages:
   - "packages/*"
   - "samples/**"
+
+minimumReleaseAge: 1440
+minimumReleaseAgeExclude:
+  - "@workleap*"
