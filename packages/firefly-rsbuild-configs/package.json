@@ -24,8 +24,7 @@
     "files": [
         "src",
         "dist",
-        "CHANGELOG.md",
-        "README.md"
+        "CHANGELOG.md"
     ],
     "scripts": {
         "dev": "rslib build --watch --config ./rslib.dev.ts",
@@ -46,17 +45,19 @@
         "semver": "^7.7.3"
     },
     "devDependencies": {
+        "@eslint/js": "9.38.0",
         "@rsbuild/core": "1.5.13",
         "@rslib/core": "0.15.0",
         "@rspack/core": "1.5.8",
         "@types/node": "24.7.0",
         "@types/semver": "7.7.1",
         "@typescript-eslint/parser": "8.46.0",
-        "@workleap/eslint-plugin": "3.5.0",
+        "@workleap/eslint-configs": "0.0.2",
         "@workleap/rslib-configs": "1.1.0",
         "@workleap/typescript-configs": "3.0.4",
-        "eslint": "8.57.0",
+        "eslint": "9.38.0",
         "typescript": "5.9.3",
+        "typescript-eslint": "8.46.2",
         "vitest": "3.2.4"
     },
     "engines": {

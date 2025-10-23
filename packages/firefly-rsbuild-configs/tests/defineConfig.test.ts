@@ -780,7 +780,6 @@ describe("defineBuildRemoteModuleConfig", () => {
             }
         });
 
-
         const plugin = findPlugin("rsbuild:module-federation-enhanced", config.plugins);
 
         expect(plugin).toBeDefined();

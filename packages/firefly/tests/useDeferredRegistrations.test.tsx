@@ -862,5 +862,3 @@ test("when an error occurs while updating the deferred registrations of the loca
         })
     ));
 });
-
-

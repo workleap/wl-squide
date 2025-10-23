@@ -25,8 +25,7 @@
     "files": [
         "src",
         "dist",
-        "CHANGELOG.md",
-        "README.md"
+        "CHANGELOG.md"
     ],
     "scripts": {
         "build": "rslib build --config ./rslib.build.ts",
@@ -52,6 +51,7 @@
         "uuid": "^13.0.0"
     },
     "devDependencies": {
+        "@eslint/js": "9.38.0",
         "@rsbuild/core": "1.5.13",
         "@rslib/core": "0.15.0",
         "@testing-library/react": "16.3.0",
@@ -59,12 +59,13 @@
         "@types/react-dom": "19.2.1",
         "@typescript-eslint/parser": "8.46.0",
         "@vitejs/plugin-react": "5.0.4",
-        "@workleap/eslint-plugin": "3.5.0",
+        "@workleap/eslint-configs": "0.0.2",
         "@workleap/rslib-configs": "1.1.0",
         "@workleap/typescript-configs": "3.0.4",
-        "eslint": "8.57.0",
+        "eslint": "9.38.0",
         "happy-dom": "19.0.2",
         "typescript": "5.9.3",
+        "typescript-eslint": "8.46.2",
         "vitest": "3.2.4"
     },
     "sideEffects": false,

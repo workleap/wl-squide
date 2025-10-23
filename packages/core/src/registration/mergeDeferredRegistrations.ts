@@ -3,7 +3,7 @@ import { isFunction } from "../shared/assertions.ts";
 import type { DeferredRegistrationFunction } from "./registerModule.ts";
 
 export function mergeDeferredRegistrations<TRuntime extends Runtime, TData>(candidates: (DeferredRegistrationFunction<TRuntime, TData> | void)[]) {
-    const deferredRegistrations = candidates.filter(x => isFunction(x)) as DeferredRegistrationFunction<TRuntime, TData>[];
+    const deferredRegistrations = candidates.filter(x => isFunction(x));
 
     if (deferredRegistrations.length === 0) {
         return;

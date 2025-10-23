@@ -2,6 +2,8 @@ packages:
   - "packages/*"
   - "samples/**"
 
-minimumReleaseAge: 1440
-minimumReleaseAgeExclude:
-  - "@workleap*"
+# minimumReleaseAge: 1440
+# minimumReleaseAgeExclude:
+#   - "@workleap*"
+
+dangerouslyAllowAllBuilds: true
