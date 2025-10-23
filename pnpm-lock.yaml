@@ -688,6 +688,9 @@ importers:
         specifier: 3.0.0
         version: 3.0.0
     devDependencies:
+      '@eslint/js':
+        specifier: 9.38.0
+        version: 9.38.0
       '@squide/firefly-webpack-configs':
         specifier: workspace:*
         version: link:../../../packages/firefly-webpack-configs
@@ -705,13 +708,13 @@ importers:
         version: 19.2.1(@types/react@19.2.2)
       '@typescript-eslint/parser':
         specifier: 8.46.0
-        version: 8.46.0(eslint@8.57.0)(typescript@5.9.3)
+        version: 8.46.0(eslint@9.38.0(jiti@2.6.1))(typescript@5.9.3)
       '@workleap/browserslist-config':
         specifier: 2.1.0
         version: 2.1.0
-      '@workleap/eslint-plugin':
-        specifier: 3.5.0
-        version: 3.5.0(@types/estree@1.0.8)(@typescript-eslint/parser@8.46.0(eslint@8.57.0)(typescript@5.9.3))(eslint@8.57.0)(typescript@5.9.3)(vitest@3.2.4(@types/debug@4.1.12)(@types/node@24.7.0)(happy-dom@19.0.2)(jiti@2.6.1)(msw@2.11.3(@types/node@24.7.0)(typescript@5.9.3))(terser@5.44.0)(tsx@4.20.6)(yaml@2.8.1))
+      '@workleap/eslint-configs':
+        specifier: file:C:\Dev\workleap\wl-web-configs\packages\eslint-configs
+        version: file:../wl-web-configs/packages/eslint-configs(@eslint/js@9.38.0)(@types/estree@1.0.8)(@typescript-eslint/eslint-plugin@8.46.2(@typescript-eslint/parser@8.46.0(eslint@9.38.0(jiti@2.6.1))(typescript@5.9.3))(eslint@9.38.0(jiti@2.6.1))(typescript@5.9.3))(@typescript-eslint/parser@8.46.0(eslint@9.38.0(jiti@2.6.1))(typescript@5.9.3))(eslint@9.38.0(jiti@2.6.1))(jsonc-eslint-parser@2.4.0)(storybook@9.1.13(@testing-library/dom@10.4.1)(msw@2.11.3(@types/node@24.7.0)(typescript@5.9.3))(prettier@2.8.8)(vite@7.1.12(@types/node@24.7.0)(jiti@2.6.1)(terser@5.44.0)(tsx@4.20.6)(yaml@2.8.1)))(typescript-eslint@8.46.2(eslint@9.38.0(jiti@2.6.1))(typescript@5.9.3))(typescript@5.9.3)(vitest@3.2.4(@types/debug@4.1.12)(@types/node@24.7.0)(happy-dom@19.0.2)(jiti@2.6.1)(msw@2.11.3(@types/node@24.7.0)(typescript@5.9.3))(terser@5.44.0)(tsx@4.20.6)(yaml@2.8.1))
       '@workleap/swc-configs':
         specifier: 2.3.0
         version: 2.3.0(@swc/core@1.13.5(@swc/helpers@0.5.17))(@swc/helpers@0.5.17)(browserslist@4.26.3)
@@ -725,14 +728,17 @@ importers:
         specifier: 10.1.0
         version: 10.1.0
       eslint:
-        specifier: 8.57.0
-        version: 8.57.0
+        specifier: 9.38.0
+        version: 9.38.0(jiti@2.6.1)
       http-server:
         specifier: 14.1.1
         version: 14.1.1
       typescript:
         specifier: 5.9.3
         version: 5.9.3
+      typescript-eslint:
+        specifier: 8.46.2
+        version: 8.46.2(eslint@9.38.0(jiti@2.6.1))(typescript@5.9.3)
       webpack:
         specifier: 5.102.1
         version: 5.102.1(@swc/core@1.13.5(@swc/helpers@0.5.17))(esbuild@0.25.11)(webpack-cli@6.0.1)
@@ -785,6 +791,9 @@ importers:
         specifier: ^2.0.0
         version: 2.1.0
     devDependencies:
+      '@eslint/js':
+        specifier: 9.38.0
+        version: 9.38.0
       '@rsbuild/core':
         specifier: 1.5.13
         version: 1.5.13
@@ -799,13 +808,13 @@ importers:
         version: 19.2.1(@types/react@19.2.2)
       '@typescript-eslint/parser':
         specifier: 8.46.0
-        version: 8.46.0(eslint@8.57.0)(typescript@5.9.3)
+        version: 8.46.0(eslint@9.38.0(jiti@2.6.1))(typescript@5.9.3)
       '@workleap/browserslist-config':
         specifier: 2.1.0
         version: 2.1.0
-      '@workleap/eslint-plugin':
-        specifier: 3.5.0
-        version: 3.5.0(@types/estree@1.0.8)(@typescript-eslint/parser@8.46.0(eslint@8.57.0)(typescript@5.9.3))(eslint@8.57.0)(typescript@5.9.3)(vitest@3.2.4(@types/debug@4.1.12)(@types/node@24.7.0)(happy-dom@19.0.2)(jiti@2.6.1)(msw@2.11.3(@types/node@24.7.0)(typescript@5.9.3))(terser@5.44.0)(tsx@4.20.6)(yaml@2.8.1))
+      '@workleap/eslint-configs':
+        specifier: file:C:\Dev\workleap\wl-web-configs\packages\eslint-configs
+        version: file:../wl-web-configs/packages/eslint-configs(@eslint/js@9.38.0)(@types/estree@1.0.8)(@typescript-eslint/eslint-plugin@8.46.2(@typescript-eslint/parser@8.46.0(eslint@9.38.0(jiti@2.6.1))(typescript@5.9.3))(eslint@9.38.0(jiti@2.6.1))(typescript@5.9.3))(@typescript-eslint/parser@8.46.0(eslint@9.38.0(jiti@2.6.1))(typescript@5.9.3))(eslint@9.38.0(jiti@2.6.1))(jsonc-eslint-parser@2.4.0)(storybook@9.1.13(@testing-library/dom@10.4.1)(msw@2.11.3(@types/node@24.7.0)(typescript@5.9.3))(prettier@2.8.8)(vite@7.1.12(@types/node@24.7.0)(jiti@2.6.1)(terser@5.44.0)(tsx@4.20.6)(yaml@2.8.1)))(typescript-eslint@8.46.2(eslint@9.38.0(jiti@2.6.1))(typescript@5.9.3))(typescript@5.9.3)(vitest@3.2.4(@types/debug@4.1.12)(@types/node@24.7.0)(happy-dom@19.0.2)(jiti@2.6.1)(msw@2.11.3(@types/node@24.7.0)(typescript@5.9.3))(terser@5.44.0)(tsx@4.20.6)(yaml@2.8.1))
       '@workleap/typescript-configs':
         specifier: 3.0.4
         version: 3.0.4(typescript@5.9.3)
@@ -816,8 +825,8 @@ importers:
         specifier: 2.4.1
         version: 2.4.1
       eslint:
-        specifier: 8.57.0
-        version: 8.57.0
+        specifier: 9.38.0
+        version: 9.38.0(jiti@2.6.1)
       http-server:
         specifier: 14.1.1
         version: 14.1.1
@@ -827,6 +836,9 @@ importers:
       typescript:
         specifier: 5.9.3
         version: 5.9.3
+      typescript-eslint:
+        specifier: 8.46.2
+        version: 8.46.2(eslint@9.38.0(jiti@2.6.1))(typescript@5.9.3)
 
   samples/basic-mix/local-module:
     dependencies:
@@ -846,6 +858,9 @@ importers:
         specifier: ^1.3.0
         version: 1.3.0
     devDependencies:
+      '@eslint/js':
+        specifier: 9.38.0
+        version: 9.38.0
       '@react-aria/toast':
         specifier: 3.0.8
         version: 3.0.8(react-dom@19.2.0(react@19.2.0))(react@19.2.0)
@@ -866,13 +881,13 @@ importers:
         version: 19.2.1(@types/react@19.2.2)
       '@typescript-eslint/parser':
         specifier: 8.46.0
-        version: 8.46.0(eslint@8.57.0)(typescript@5.9.3)
+        version: 8.46.0(eslint@9.38.0(jiti@2.6.1))(typescript@5.9.3)
       '@workleap/browserslist-config':
         specifier: 2.1.0
         version: 2.1.0
-      '@workleap/eslint-plugin':
-        specifier: 3.5.0
-        version: 3.5.0(@types/estree@1.0.8)(@typescript-eslint/parser@8.46.0(eslint@8.57.0)(typescript@5.9.3))(eslint@8.57.0)(typescript@5.9.3)(vitest@3.2.4(@types/debug@4.1.12)(@types/node@24.7.0)(happy-dom@19.0.2)(jiti@2.6.1)(msw@2.11.3(@types/node@24.7.0)(typescript@5.9.3))(terser@5.44.0)(tsx@4.20.6)(yaml@2.8.1))
+      '@workleap/eslint-configs':
+        specifier: file:C:\Dev\workleap\wl-web-configs\packages\eslint-configs
+        version: file:../wl-web-configs/packages/eslint-configs(@eslint/js@9.38.0)(@types/estree@1.0.8)(@typescript-eslint/eslint-plugin@8.46.2(@typescript-eslint/parser@8.46.0(eslint@9.38.0(jiti@2.6.1))(typescript@5.9.3))(eslint@9.38.0(jiti@2.6.1))(typescript@5.9.3))(@typescript-eslint/parser@8.46.0(eslint@9.38.0(jiti@2.6.1))(typescript@5.9.3))(eslint@9.38.0(jiti@2.6.1))(jsonc-eslint-parser@2.4.0)(storybook@9.1.13(@testing-library/dom@10.4.1)(msw@2.11.3(@types/node@24.7.0)(typescript@5.9.3))(prettier@2.8.8)(vite@7.1.12(@types/node@24.7.0)(jiti@2.6.1)(terser@5.44.0)(tsx@4.20.6)(yaml@2.8.1)))(typescript-eslint@8.46.2(eslint@9.38.0(jiti@2.6.1))(typescript@5.9.3))(typescript@5.9.3)(vitest@3.2.4(@types/debug@4.1.12)(@types/node@24.7.0)(happy-dom@19.0.2)(jiti@2.6.1)(msw@2.11.3(@types/node@24.7.0)(typescript@5.9.3))(terser@5.44.0)(tsx@4.20.6)(yaml@2.8.1))
       '@workleap/typescript-configs':
         specifier: 3.0.4
         version: 3.0.4(typescript@5.9.3)
@@ -880,8 +895,8 @@ importers:
         specifier: 4.26.3
         version: 4.26.3
       eslint:
-        specifier: 8.57.0
-        version: 8.57.0
+        specifier: 9.38.0
+        version: 9.38.0(jiti@2.6.1)
       react:
         specifier: 19.2.0
         version: 19.2.0
@@ -894,6 +909,9 @@ importers:
       typescript:
         specifier: 5.9.3
         version: 5.9.3
+      typescript-eslint:
+        specifier: 8.46.2
+        version: 8.46.2(eslint@9.38.0(jiti@2.6.1))(typescript@5.9.3)
 
   samples/basic-mix/remote-module:
     dependencies:
@@ -931,6 +949,9 @@ importers:
         specifier: ^2.1.0
         version: 2.1.0
     devDependencies:
+      '@eslint/js':
+        specifier: 9.38.0
+        version: 9.38.0
       '@squide/firefly-webpack-configs':
         specifier: workspace:*
         version: link:../../../packages/firefly-webpack-configs
@@ -948,13 +969,13 @@ importers:
         version: 19.2.1(@types/react@19.2.2)
       '@typescript-eslint/parser':
         specifier: 8.46.0
-        version: 8.46.0(eslint@8.57.0)(typescript@5.9.3)
+        version: 8.46.0(eslint@9.38.0(jiti@2.6.1))(typescript@5.9.3)
       '@workleap/browserslist-config':
         specifier: 2.1.0
         version: 2.1.0
-      '@workleap/eslint-plugin':
-        specifier: 3.5.0
-        version: 3.5.0(@types/estree@1.0.8)(@typescript-eslint/parser@8.46.0(eslint@8.57.0)(typescript@5.9.3))(eslint@8.57.0)(typescript@5.9.3)(vitest@3.2.4(@types/debug@4.1.12)(@types/node@24.7.0)(happy-dom@19.0.2)(jiti@2.6.1)(msw@2.11.3(@types/node@24.7.0)(typescript@5.9.3))(terser@5.44.0)(tsx@4.20.6)(yaml@2.8.1))
+      '@workleap/eslint-configs':
+        specifier: file:C:\Dev\workleap\wl-web-configs\packages\eslint-configs
+        version: file:../wl-web-configs/packages/eslint-configs(@eslint/js@9.38.0)(@types/estree@1.0.8)(@typescript-eslint/eslint-plugin@8.46.2(@typescript-eslint/parser@8.46.0(eslint@9.38.0(jiti@2.6.1))(typescript@5.9.3))(eslint@9.38.0(jiti@2.6.1))(typescript@5.9.3))(@typescript-eslint/parser@8.46.0(eslint@9.38.0(jiti@2.6.1))(typescript@5.9.3))(eslint@9.38.0(jiti@2.6.1))(jsonc-eslint-parser@2.4.0)(storybook@9.1.13(@testing-library/dom@10.4.1)(msw@2.11.3(@types/node@24.7.0)(typescript@5.9.3))(prettier@2.8.8)(vite@7.1.12(@types/node@24.7.0)(jiti@2.6.1)(terser@5.44.0)(tsx@4.20.6)(yaml@2.8.1)))(typescript-eslint@8.46.2(eslint@9.38.0(jiti@2.6.1))(typescript@5.9.3))(typescript@5.9.3)(vitest@3.2.4(@types/debug@4.1.12)(@types/node@24.7.0)(happy-dom@19.0.2)(jiti@2.6.1)(msw@2.11.3(@types/node@24.7.0)(typescript@5.9.3))(terser@5.44.0)(tsx@4.20.6)(yaml@2.8.1))
       '@workleap/swc-configs':
         specifier: 2.3.0
         version: 2.3.0(@swc/core@1.13.5(@swc/helpers@0.5.17))(@swc/helpers@0.5.17)(browserslist@4.26.3)
@@ -968,14 +989,17 @@ importers:
         specifier: 10.1.0
         version: 10.1.0
       eslint:
-        specifier: 8.57.0
-        version: 8.57.0
+        specifier: 9.38.0
+        version: 9.38.0(jiti@2.6.1)
       http-server:
         specifier: 14.1.1
         version: 14.1.1
       typescript:
         specifier: 5.9.3
         version: 5.9.3
+      typescript-eslint:
+        specifier: 8.46.2
+        version: 8.46.2(eslint@9.38.0(jiti@2.6.1))(typescript@5.9.3)
       webpack:
         specifier: 5.102.1
         version: 5.102.1(@swc/core@1.13.5(@swc/helpers@0.5.17))(esbuild@0.25.11)(webpack-cli@6.0.1)
@@ -1001,6 +1025,9 @@ importers:
         specifier: ^7.9.3
         version: 7.9.3(react-dom@19.2.0(react@19.2.0))(react@19.2.0)
     devDependencies:
+      '@eslint/js':
+        specifier: 9.38.0
+        version: 9.38.0
       '@types/react':
         specifier: 19.2.2
         version: 19.2.2
@@ -1009,19 +1036,22 @@ importers:
         version: 19.2.1(@types/react@19.2.2)
       '@typescript-eslint/parser':
         specifier: 8.46.0
-        version: 8.46.0(eslint@8.57.0)(typescript@5.9.3)
-      '@workleap/eslint-plugin':
-        specifier: 3.5.0
-        version: 3.5.0(@types/estree@1.0.8)(@typescript-eslint/parser@8.46.0(eslint@8.57.0)(typescript@5.9.3))(eslint@8.57.0)(typescript@5.9.3)(vitest@3.2.4(@types/debug@4.1.12)(@types/node@24.7.0)(happy-dom@19.0.2)(jiti@2.6.1)(msw@2.11.3(@types/node@24.7.0)(typescript@5.9.3))(terser@5.44.0)(tsx@4.20.6)(yaml@2.8.1))
+        version: 8.46.0(eslint@9.38.0(jiti@2.6.1))(typescript@5.9.3)
+      '@workleap/eslint-configs':
+        specifier: file:C:\Dev\workleap\wl-web-configs\packages\eslint-configs
+        version: file:../wl-web-configs/packages/eslint-configs(@eslint/js@9.38.0)(@types/estree@1.0.8)(@typescript-eslint/eslint-plugin@8.46.2(@typescript-eslint/parser@8.46.0(eslint@9.38.0(jiti@2.6.1))(typescript@5.9.3))(eslint@9.38.0(jiti@2.6.1))(typescript@5.9.3))(@typescript-eslint/parser@8.46.0(eslint@9.38.0(jiti@2.6.1))(typescript@5.9.3))(eslint@9.38.0(jiti@2.6.1))(jsonc-eslint-parser@2.4.0)(storybook@9.1.13(@testing-library/dom@10.4.1)(msw@2.11.3(@types/node@24.7.0)(typescript@5.9.3))(prettier@2.8.8)(vite@7.1.12(@types/node@24.7.0)(jiti@2.6.1)(terser@5.44.0)(tsx@4.20.6)(yaml@2.8.1)))(typescript-eslint@8.46.2(eslint@9.38.0(jiti@2.6.1))(typescript@5.9.3))(typescript@5.9.3)(vitest@3.2.4(@types/debug@4.1.12)(@types/node@24.7.0)(happy-dom@19.0.2)(jiti@2.6.1)(msw@2.11.3(@types/node@24.7.0)(typescript@5.9.3))(terser@5.44.0)(tsx@4.20.6)(yaml@2.8.1))
       '@workleap/typescript-configs':
         specifier: 3.0.4
         version: 3.0.4(typescript@5.9.3)
       eslint:
-        specifier: 8.57.0
-        version: 8.57.0
+        specifier: 9.38.0
+        version: 9.38.0(jiti@2.6.1)
       typescript:
         specifier: 5.9.3
         version: 5.9.3
+      typescript-eslint:
+        specifier: 8.46.2
+        version: 8.46.2(eslint@9.38.0(jiti@2.6.1))(typescript@5.9.3)
 
   samples/basic-mix/shell:
     dependencies:
@@ -1050,6 +1080,9 @@ importers:
         specifier: ^7.9.3
         version: 7.9.3(react-dom@19.2.0(react@19.2.0))(react@19.2.0)
     devDependencies:
+      '@eslint/js':
+        specifier: 9.38.0
+        version: 9.38.0
       '@types/react':
         specifier: 19.2.2
         version: 19.2.2
@@ -1058,19 +1091,22 @@ importers:
         version: 19.2.1(@types/react@19.2.2)
       '@typescript-eslint/parser':
         specifier: 8.46.0
-        version: 8.46.0(eslint@8.57.0)(typescript@5.9.3)
-      '@workleap/eslint-plugin':
-        specifier: 3.5.0
-        version: 3.5.0(@types/estree@1.0.8)(@typescript-eslint/parser@8.46.0(eslint@8.57.0)(typescript@5.9.3))(eslint@8.57.0)(typescript@5.9.3)(vitest@3.2.4(@types/debug@4.1.12)(@types/node@24.7.0)(happy-dom@19.0.2)(jiti@2.6.1)(msw@2.11.3(@types/node@24.7.0)(typescript@5.9.3))(terser@5.44.0)(tsx@4.20.6)(yaml@2.8.1))
+        version: 8.46.0(eslint@9.38.0(jiti@2.6.1))(typescript@5.9.3)
+      '@workleap/eslint-configs':
+        specifier: file:C:\Dev\workleap\wl-web-configs\packages\eslint-configs
+        version: file:../wl-web-configs/packages/eslint-configs(@eslint/js@9.38.0)(@types/estree@1.0.8)(@typescript-eslint/eslint-plugin@8.46.2(@typescript-eslint/parser@8.46.0(eslint@9.38.0(jiti@2.6.1))(typescript@5.9.3))(eslint@9.38.0(jiti@2.6.1))(typescript@5.9.3))(@typescript-eslint/parser@8.46.0(eslint@9.38.0(jiti@2.6.1))(typescript@5.9.3))(eslint@9.38.0(jiti@2.6.1))(jsonc-eslint-parser@2.4.0)(storybook@9.1.13(@testing-library/dom@10.4.1)(msw@2.11.3(@types/node@24.7.0)(typescript@5.9.3))(prettier@2.8.8)(vite@7.1.12(@types/node@24.7.0)(jiti@2.6.1)(terser@5.44.0)(tsx@4.20.6)(yaml@2.8.1)))(typescript-eslint@8.46.2(eslint@9.38.0(jiti@2.6.1))(typescript@5.9.3))(typescript@5.9.3)(vitest@3.2.4(@types/debug@4.1.12)(@types/node@24.7.0)(happy-dom@19.0.2)(jiti@2.6.1)(msw@2.11.3(@types/node@24.7.0)(typescript@5.9.3))(terser@5.44.0)(tsx@4.20.6)(yaml@2.8.1))
       '@workleap/typescript-configs':
         specifier: 3.0.4
         version: 3.0.4(typescript@5.9.3)
       eslint:
-        specifier: 8.57.0
-        version: 8.57.0
+        specifier: 9.38.0
+        version: 9.38.0(jiti@2.6.1)
       typescript:
         specifier: 5.9.3
         version: 5.9.3
+      typescript-eslint:
+        specifier: 8.46.2
+        version: 8.46.2(eslint@9.38.0(jiti@2.6.1))(typescript@5.9.3)
 
   samples/basic-webpack/another-remote-module:
     dependencies:
@@ -1646,6 +1682,9 @@ importers:
         specifier: ^2.0.0
         version: 2.1.0
     devDependencies:
+      '@eslint/js':
+        specifier: 9.38.0
+        version: 9.38.0
       '@rsbuild/core':
         specifier: 1.5.13
         version: 1.5.13
@@ -1660,13 +1699,13 @@ importers:
         version: 19.2.1(@types/react@19.2.2)
       '@typescript-eslint/parser':
         specifier: 8.46.0
-        version: 8.46.0(eslint@8.57.0)(typescript@5.9.3)
+        version: 8.46.0(eslint@9.38.0(jiti@2.6.1))(typescript@5.9.3)
       '@workleap/browserslist-config':
         specifier: 2.1.0
         version: 2.1.0
-      '@workleap/eslint-plugin':
-        specifier: 3.5.0
-        version: 3.5.0(@types/estree@1.0.8)(@typescript-eslint/parser@8.46.0(eslint@8.57.0)(typescript@5.9.3))(eslint@8.57.0)(typescript@5.9.3)(vitest@3.2.4(@types/debug@4.1.12)(@types/node@24.7.0)(happy-dom@19.0.2)(jiti@2.6.1)(msw@2.11.3(@types/node@24.7.0)(typescript@5.9.3))(terser@5.44.0)(tsx@4.20.6)(yaml@2.8.1))
+      '@workleap/eslint-configs':
+        specifier: file:C:\Dev\workleap\wl-web-configs\packages\eslint-configs
+        version: file:../wl-web-configs/packages/eslint-configs(@eslint/js@9.38.0)(@types/estree@1.0.8)(@typescript-eslint/eslint-plugin@8.46.2(@typescript-eslint/parser@8.46.0(eslint@9.38.0(jiti@2.6.1))(typescript@5.9.3))(eslint@9.38.0(jiti@2.6.1))(typescript@5.9.3))(@typescript-eslint/parser@8.46.0(eslint@9.38.0(jiti@2.6.1))(typescript@5.9.3))(eslint@9.38.0(jiti@2.6.1))(jsonc-eslint-parser@2.4.0)(storybook@9.1.13(@testing-library/dom@10.4.1)(msw@2.11.3(@types/node@24.7.0)(typescript@5.9.3))(prettier@2.8.8)(vite@7.1.12(@types/node@24.7.0)(jiti@2.6.1)(terser@5.44.0)(tsx@4.20.6)(yaml@2.8.1)))(typescript-eslint@8.46.2(eslint@9.38.0(jiti@2.6.1))(typescript@5.9.3))(typescript@5.9.3)(vitest@3.2.4(@types/debug@4.1.12)(@types/node@24.7.0)(happy-dom@19.0.2)(jiti@2.6.1)(msw@2.11.3(@types/node@24.7.0)(typescript@5.9.3))(terser@5.44.0)(tsx@4.20.6)(yaml@2.8.1))
       '@workleap/typescript-configs':
         specifier: 3.0.4
         version: 3.0.4(typescript@5.9.3)
@@ -1677,8 +1716,8 @@ importers:
         specifier: 2.4.1
         version: 2.4.1
       eslint:
-        specifier: 8.57.0
-        version: 8.57.0
+        specifier: 9.38.0
+        version: 9.38.0(jiti@2.6.1)
       http-server:
         specifier: 14.1.1
         version: 14.1.1
@@ -1688,6 +1727,9 @@ importers:
       typescript:
         specifier: 5.9.3
         version: 5.9.3
+      typescript-eslint:
+        specifier: 8.46.2
+        version: 8.46.2(eslint@9.38.0(jiti@2.6.1))(typescript@5.9.3)
 
   samples/basic/local-module:
     dependencies:
@@ -1707,6 +1749,9 @@ importers:
         specifier: ^1.3.0
         version: 1.3.0
     devDependencies:
+      '@eslint/js':
+        specifier: 9.38.0
+        version: 9.38.0
       '@react-aria/toast':
         specifier: 3.0.8
         version: 3.0.8(react-dom@19.2.0(react@19.2.0))(react@19.2.0)
@@ -1727,13 +1772,13 @@ importers:
         version: 19.2.1(@types/react@19.2.2)
       '@typescript-eslint/parser':
         specifier: 8.46.0
-        version: 8.46.0(eslint@8.57.0)(typescript@5.9.3)
+        version: 8.46.0(eslint@9.38.0(jiti@2.6.1))(typescript@5.9.3)
       '@workleap/browserslist-config':
         specifier: 2.1.0
         version: 2.1.0
-      '@workleap/eslint-plugin':
-        specifier: 3.5.0
-        version: 3.5.0(@types/estree@1.0.8)(@typescript-eslint/parser@8.46.0(eslint@8.57.0)(typescript@5.9.3))(eslint@8.57.0)(typescript@5.9.3)(vitest@3.2.4(@types/debug@4.1.12)(@types/node@24.7.0)(happy-dom@19.0.2)(jiti@2.6.1)(msw@2.11.3(@types/node@24.7.0)(typescript@5.9.3))(terser@5.44.0)(tsx@4.20.6)(yaml@2.8.1))
+      '@workleap/eslint-configs':
+        specifier: file:C:\Dev\workleap\wl-web-configs\packages\eslint-configs
+        version: file:../wl-web-configs/packages/eslint-configs(@eslint/js@9.38.0)(@types/estree@1.0.8)(@typescript-eslint/eslint-plugin@8.46.2(@typescript-eslint/parser@8.46.0(eslint@9.38.0(jiti@2.6.1))(typescript@5.9.3))(eslint@9.38.0(jiti@2.6.1))(typescript@5.9.3))(@typescript-eslint/parser@8.46.0(eslint@9.38.0(jiti@2.6.1))(typescript@5.9.3))(eslint@9.38.0(jiti@2.6.1))(jsonc-eslint-parser@2.4.0)(storybook@9.1.13(@testing-library/dom@10.4.1)(msw@2.11.3(@types/node@24.7.0)(typescript@5.9.3))(prettier@2.8.8)(vite@7.1.12(@types/node@24.7.0)(jiti@2.6.1)(terser@5.44.0)(tsx@4.20.6)(yaml@2.8.1)))(typescript-eslint@8.46.2(eslint@9.38.0(jiti@2.6.1))(typescript@5.9.3))(typescript@5.9.3)(vitest@3.2.4(@types/debug@4.1.12)(@types/node@24.7.0)(happy-dom@19.0.2)(jiti@2.6.1)(msw@2.11.3(@types/node@24.7.0)(typescript@5.9.3))(terser@5.44.0)(tsx@4.20.6)(yaml@2.8.1))
       '@workleap/typescript-configs':
         specifier: 3.0.4
         version: 3.0.4(typescript@5.9.3)
@@ -1741,8 +1786,8 @@ importers:
         specifier: 4.26.3
         version: 4.26.3
       eslint:
-        specifier: 8.57.0
-        version: 8.57.0
+        specifier: 9.38.0
+        version: 9.38.0(jiti@2.6.1)
       react:
         specifier: 19.2.0
         version: 19.2.0
@@ -1755,6 +1800,9 @@ importers:
       typescript:
         specifier: 5.9.3
         version: 5.9.3
+      typescript-eslint:
+        specifier: 8.46.2
+        version: 8.46.2(eslint@9.38.0(jiti@2.6.1))(typescript@5.9.3)
 
   samples/basic/remote-module:
     dependencies:
@@ -1792,6 +1840,9 @@ importers:
         specifier: ^2.1.0
         version: 2.1.0
     devDependencies:
+      '@eslint/js':
+        specifier: 9.38.0
+        version: 9.38.0
       '@rsbuild/core':
         specifier: 1.5.13
         version: 1.5.13
@@ -1806,13 +1857,13 @@ importers:
         version: 19.2.1(@types/react@19.2.2)
       '@typescript-eslint/parser':
         specifier: 8.46.0
-        version: 8.46.0(eslint@8.57.0)(typescript@5.9.3)
+        version: 8.46.0(eslint@9.38.0(jiti@2.6.1))(typescript@5.9.3)
       '@workleap/browserslist-config':
         specifier: 2.1.0
         version: 2.1.0
-      '@workleap/eslint-plugin':
-        specifier: 3.5.0
-        version: 3.5.0(@types/estree@1.0.8)(@typescript-eslint/parser@8.46.0(eslint@8.57.0)(typescript@5.9.3))(eslint@8.57.0)(typescript@5.9.3)(vitest@3.2.4(@types/debug@4.1.12)(@types/node@24.7.0)(happy-dom@19.0.2)(jiti@2.6.1)(msw@2.11.3(@types/node@24.7.0)(typescript@5.9.3))(terser@5.44.0)(tsx@4.20.6)(yaml@2.8.1))
+      '@workleap/eslint-configs':
+        specifier: file:C:\Dev\workleap\wl-web-configs\packages\eslint-configs
+        version: file:../wl-web-configs/packages/eslint-configs(@eslint/js@9.38.0)(@types/estree@1.0.8)(@typescript-eslint/eslint-plugin@8.46.2(@typescript-eslint/parser@8.46.0(eslint@9.38.0(jiti@2.6.1))(typescript@5.9.3))(eslint@9.38.0(jiti@2.6.1))(typescript@5.9.3))(@typescript-eslint/parser@8.46.0(eslint@9.38.0(jiti@2.6.1))(typescript@5.9.3))(eslint@9.38.0(jiti@2.6.1))(jsonc-eslint-parser@2.4.0)(storybook@9.1.13(@testing-library/dom@10.4.1)(msw@2.11.3(@types/node@24.7.0)(typescript@5.9.3))(prettier@2.8.8)(vite@7.1.12(@types/node@24.7.0)(jiti@2.6.1)(terser@5.44.0)(tsx@4.20.6)(yaml@2.8.1)))(typescript-eslint@8.46.2(eslint@9.38.0(jiti@2.6.1))(typescript@5.9.3))(typescript@5.9.3)(vitest@3.2.4(@types/debug@4.1.12)(@types/node@24.7.0)(happy-dom@19.0.2)(jiti@2.6.1)(msw@2.11.3(@types/node@24.7.0)(typescript@5.9.3))(terser@5.44.0)(tsx@4.20.6)(yaml@2.8.1))
       '@workleap/typescript-configs':
         specifier: 3.0.4
         version: 3.0.4(typescript@5.9.3)
@@ -1823,8 +1874,8 @@ importers:
         specifier: 10.1.0
         version: 10.1.0
       eslint:
-        specifier: 8.57.0
-        version: 8.57.0
+        specifier: 9.38.0
+        version: 9.38.0(jiti@2.6.1)
       http-server:
         specifier: 14.1.1
         version: 14.1.1
@@ -1834,6 +1885,9 @@ importers:
       typescript:
         specifier: 5.9.3
         version: 5.9.3
+      typescript-eslint:
+        specifier: 8.46.2
+        version: 8.46.2(eslint@9.38.0(jiti@2.6.1))(typescript@5.9.3)
 
   samples/basic/shared:
     dependencies:
@@ -1850,6 +1904,9 @@ importers:
         specifier: ^7.9.3
         version: 7.9.3(react-dom@19.2.0(react@19.2.0))(react@19.2.0)
     devDependencies:
+      '@eslint/js':
+        specifier: 9.38.0
+        version: 9.38.0
       '@types/react':
         specifier: 19.2.2
         version: 19.2.2
@@ -1858,19 +1915,22 @@ importers:
         version: 19.2.1(@types/react@19.2.2)
       '@typescript-eslint/parser':
         specifier: 8.46.0
-        version: 8.46.0(eslint@8.57.0)(typescript@5.9.3)
-      '@workleap/eslint-plugin':
-        specifier: 3.5.0
-        version: 3.5.0(@types/estree@1.0.8)(@typescript-eslint/parser@8.46.0(eslint@8.57.0)(typescript@5.9.3))(eslint@8.57.0)(typescript@5.9.3)(vitest@3.2.4(@types/debug@4.1.12)(@types/node@24.7.0)(happy-dom@19.0.2)(jiti@2.6.1)(msw@2.11.3(@types/node@24.7.0)(typescript@5.9.3))(terser@5.44.0)(tsx@4.20.6)(yaml@2.8.1))
+        version: 8.46.0(eslint@9.38.0(jiti@2.6.1))(typescript@5.9.3)
+      '@workleap/eslint-configs':
+        specifier: file:C:\Dev\workleap\wl-web-configs\packages\eslint-configs
+        version: file:../wl-web-configs/packages/eslint-configs(@eslint/js@9.38.0)(@types/estree@1.0.8)(@typescript-eslint/eslint-plugin@8.46.2(@typescript-eslint/parser@8.46.0(eslint@9.38.0(jiti@2.6.1))(typescript@5.9.3))(eslint@9.38.0(jiti@2.6.1))(typescript@5.9.3))(@typescript-eslint/parser@8.46.0(eslint@9.38.0(jiti@2.6.1))(typescript@5.9.3))(eslint@9.38.0(jiti@2.6.1))(jsonc-eslint-parser@2.4.0)(storybook@9.1.13(@testing-library/dom@10.4.1)(msw@2.11.3(@types/node@24.7.0)(typescript@5.9.3))(prettier@2.8.8)(vite@7.1.12(@types/node@24.7.0)(jiti@2.6.1)(terser@5.44.0)(tsx@4.20.6)(yaml@2.8.1)))(typescript-eslint@8.46.2(eslint@9.38.0(jiti@2.6.1))(typescript@5.9.3))(typescript@5.9.3)(vitest@3.2.4(@types/debug@4.1.12)(@types/node@24.7.0)(happy-dom@19.0.2)(jiti@2.6.1)(msw@2.11.3(@types/node@24.7.0)(typescript@5.9.3))(terser@5.44.0)(tsx@4.20.6)(yaml@2.8.1))
       '@workleap/typescript-configs':
         specifier: 3.0.4
         version: 3.0.4(typescript@5.9.3)
       eslint:
-        specifier: 8.57.0
-        version: 8.57.0
+        specifier: 9.38.0
+        version: 9.38.0(jiti@2.6.1)
       typescript:
         specifier: 5.9.3
         version: 5.9.3
+      typescript-eslint:
+        specifier: 8.46.2
+        version: 8.46.2(eslint@9.38.0(jiti@2.6.1))(typescript@5.9.3)
 
   samples/basic/shell:
     dependencies:
@@ -1899,6 +1959,9 @@ importers:
         specifier: ^7.9.3
         version: 7.9.3(react-dom@19.2.0(react@19.2.0))(react@19.2.0)
     devDependencies:
+      '@eslint/js':
+        specifier: 9.38.0
+        version: 9.38.0
       '@types/react':
         specifier: 19.2.2
         version: 19.2.2
@@ -1907,22 +1970,25 @@ importers:
         version: 19.2.1(@types/react@19.2.2)
       '@typescript-eslint/parser':
         specifier: 8.46.0
-        version: 8.46.0(eslint@8.57.0)(typescript@5.9.3)
-      '@workleap/eslint-plugin':
-        specifier: 3.5.0
-        version: 3.5.0(@types/estree@1.0.8)(@typescript-eslint/parser@8.46.0(eslint@8.57.0)(typescript@5.9.3))(eslint@8.57.0)(typescript@5.9.3)(vitest@3.2.4(@types/debug@4.1.12)(@types/node@24.7.0)(happy-dom@19.0.2)(jiti@2.6.1)(msw@2.11.3(@types/node@24.7.0)(typescript@5.9.3))(terser@5.44.0)(tsx@4.20.6)(yaml@2.8.1))
+        version: 8.46.0(eslint@9.38.0(jiti@2.6.1))(typescript@5.9.3)
+      '@workleap/eslint-configs':
+        specifier: file:C:\Dev\workleap\wl-web-configs\packages\eslint-configs
+        version: file:../wl-web-configs/packages/eslint-configs(@eslint/js@9.38.0)(@types/estree@1.0.8)(@typescript-eslint/eslint-plugin@8.46.2(@typescript-eslint/parser@8.46.0(eslint@9.38.0(jiti@2.6.1))(typescript@5.9.3))(eslint@9.38.0(jiti@2.6.1))(typescript@5.9.3))(@typescript-eslint/parser@8.46.0(eslint@9.38.0(jiti@2.6.1))(typescript@5.9.3))(eslint@9.38.0(jiti@2.6.1))(jsonc-eslint-parser@2.4.0)(storybook@9.1.13(@testing-library/dom@10.4.1)(msw@2.11.3(@types/node@24.7.0)(typescript@5.9.3))(prettier@2.8.8)(vite@7.1.12(@types/node@24.7.0)(jiti@2.6.1)(terser@5.44.0)(tsx@4.20.6)(yaml@2.8.1)))(typescript-eslint@8.46.2(eslint@9.38.0(jiti@2.6.1))(typescript@5.9.3))(typescript@5.9.3)(vitest@3.2.4(@types/debug@4.1.12)(@types/node@24.7.0)(happy-dom@19.0.2)(jiti@2.6.1)(msw@2.11.3(@types/node@24.7.0)(typescript@5.9.3))(terser@5.44.0)(tsx@4.20.6)(yaml@2.8.1))
       '@workleap/typescript-configs':
         specifier: 3.0.4
         version: 3.0.4(typescript@5.9.3)
       eslint:
-        specifier: 8.57.0
-        version: 8.57.0
+        specifier: 9.38.0
+        version: 9.38.0(jiti@2.6.1)
       nodemon:
         specifier: 3.1.10
         version: 3.1.10
       typescript:
         specifier: 5.9.3
         version: 5.9.3
+      typescript-eslint:
+        specifier: 8.46.2
+        version: 8.46.2(eslint@9.38.0(jiti@2.6.1))(typescript@5.9.3)
 
   samples/endpoints/express-server:
     dependencies:

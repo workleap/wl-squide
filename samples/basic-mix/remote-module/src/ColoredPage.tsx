@@ -12,7 +12,6 @@ export function ColoredPage() {
                 <p>There are a few distinctive features that are showcased with this page:</p>
                 <ul>
                     <li>This page demonstrates that a React context defined in an host application can be overried in a remote module.</li>
-                    {/* eslint-disable-next-line max-len */}
                     <li>The host application React context define that background color as <span style={{ backgroundColor: "blue", color: "white" }}>blue</span> and the nested React context in the remote module override the background color to be <span style={{ backgroundColor: "red", color: "white" }}>red</span>.</li>
                     <li>Toggle between the <Link to="/context-override">Context override</Link> and <Link to="/no-context-override">No context override</Link> pages to view the difference.</li>
                 </ul>
