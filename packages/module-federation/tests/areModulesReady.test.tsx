@@ -46,7 +46,7 @@ class DummyRuntime extends Runtime {
     }
 }
 
-test.concurrent("when no modules are registered, return false", async ({ expect }) => {
+test.concurrent("when no modules are registered, return false", ({ expect }) => {
     const localModuleRegistry = new LocalModuleRegistry();
 
     const remoteModuleRegistry = new RemoteModuleRegistry(vi.fn().mockResolvedValue({
@@ -126,7 +126,6 @@ test.concurrent("when only remote module deferred registrations are registered a
         { name: "Dummy-2" },
         { name: "Dummy-3" }
     ], runtime);
-
 
     await remoteModuleRegistry.registerDeferredRegistrations({}, runtime);
 

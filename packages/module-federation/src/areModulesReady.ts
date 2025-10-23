@@ -7,5 +7,5 @@ export function areModulesReady(localModuleRegistrationStatus: ModuleRegistratio
 
     // The registration for local or remote modules could be "none" if an application doesn't register either local or remote modules.
     return (localModuleRegistrationStatus === "none" || localModuleRegistrationStatus === "ready") &&
-           (remoteModuleRegistrationStatus === "none" || remoteModuleRegistrationStatus === "ready");
+        (remoteModuleRegistrationStatus === "none" || remoteModuleRegistrationStatus === "ready");
 }

@@ -15,7 +15,7 @@ export function useRouteMatch(locationArg: Partial<Location>, { throwWhenThereIs
         if (matchingRoutes.length > 0) {
             // When a route is nested, it also returns all the parts that constituate the whole route (for example the layouts and the boundaries).
             // We only want to know the visiblity of the actual route that has been requested, which is always the last entry.
-            return matchingRoutes[matchingRoutes.length - 1]!.route;
+            return matchingRoutes[matchingRoutes.length - 1].route;
         } else {
             if (throwWhenThereIsNoMatch) {
                 throw new Error(`[squide] There's no matching route for the location: "${locationArg.pathname}". Did you add routes to React Router without using the runtime.registerRoute() function?`);

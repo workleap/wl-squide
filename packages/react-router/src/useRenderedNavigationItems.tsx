@@ -96,7 +96,7 @@ export function useRenderedNavigationItems(
                     return 0;
                 }
 
-                return xp! > yp! ? -1 : 1;
+                return xp > yp ? -1 : 1;
             })
             // priority is intentionally omitted.
             // eslint-disable-next-line @typescript-eslint/no-unused-vars

@@ -240,7 +240,6 @@ test.concurrent("when a deferred registration fail, update the remaining deferre
             register: () => register3
         });
 
-
     const registry = new RemoteModuleRegistry(loadRemote);
 
     await registry.registerModules([
@@ -300,7 +299,7 @@ test.concurrent("when a deferred registration fail, return the error", async ({ 
     const errors = await registry.updateDeferredRegistrations({}, runtime);
 
     expect(errors.length).toBe(1);
-    expect(errors[0]!.cause!.toString()).toContain("Module 2 registration failed");
+    expect(errors[0].cause!.toString()).toContain("Module 2 registration failed");
 });
 
 test.concurrent("when a deferred registration fail, RemoteModuleDeferredRegistrationUpdateFailedEvent is dispatched", async ({ expect }) => {
@@ -333,7 +332,6 @@ test.concurrent("when a deferred registration fail, RemoteModuleDeferredRegistra
         .mockResolvedValueOnce({
             register: () => register3
         });
-
 
     const registry = new RemoteModuleRegistry(loadRemote);
 
@@ -381,7 +379,6 @@ test.concurrent("when a deferred registration fail, RemoteModulesDeferredRegistr
             register: () => register3
         });
 
-
     const registry = new RemoteModuleRegistry(loadRemote);
 
     await registry.registerModules([
@@ -416,7 +413,6 @@ test.concurrent("all the deferred module registrations receive the data object",
         .mockResolvedValueOnce({
             register: () => register3
         });
-
 
     const registry = new RemoteModuleRegistry(loadRemote);
 

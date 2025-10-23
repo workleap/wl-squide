@@ -246,7 +246,7 @@ test.concurrent("when a module registration fail, return the error", async ({ ex
     ], runtime);
 
     expect(errors.length).toBe(1);
-    expect(errors[0]!.cause!.toString()).toContain("Module 2 registration failed");
+    expect(errors[0].cause!.toString()).toContain("Module 2 registration failed");
 });
 
 test.concurrent("when a module registration fail, RemoteModuleRegistrationFailedEvent is dispatched", async ({ expect }) => {

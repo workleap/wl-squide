@@ -212,4 +212,3 @@ test.concurrent("when local modules and remote module deferred registrations are
     expect(areModulesRegistered(localModuleRegistry.registrationStatus, remoteModuleRegistry.registrationStatus)).toBeTruthy();
 });
 
-
