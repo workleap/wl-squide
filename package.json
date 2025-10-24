@@ -25,7 +25,7 @@
         "deploy-endpoints": "cross-env NETLIFY=true turbo run deploy --filter=./samples/endpoints/*",
         "deploy-endpoints-isolated": "cross-env NETLIFY=true turbo run deploy-isolated --filter=./samples/endpoints/*",
         "lint": "turbo run lint --continue",
-        "eslint": "eslint . --ignore-pattern packages --ignore-pattern samples --ignore-pattern templates --max-warnings=-0 --cache --cache-location node_modules/.cache/eslint",
+        "eslint": "eslint . --max-warnings=-0 --cache --cache-location node_modules/.cache/eslint",
         "typecheck": "tsc",
         "syncpack": "syncpack lint",
         "test": "turbo run test --continue --force",
