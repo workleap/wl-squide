@@ -443,46 +443,6 @@ exports[`defineBuildHostConfig > when no asset prefix is provided, the default a
 }
 `;
 
-exports[`defineBuildHostConfig > when no asset prefix is provided, the default asset prefix is "auto" 1`] = `
-{
-  "dts": false,
-  "manifest": false,
-  "name": "host",
-  "remotes": {},
-  "shared": {
-    "@squide/core": {
-      "eager": true,
-      "singleton": true,
-    },
-    "@squide/module-federation": {
-      "eager": true,
-      "singleton": true,
-    },
-    "@squide/msw": {
-      "eager": true,
-      "singleton": true,
-    },
-    "@squide/react-router": {
-      "eager": true,
-      "singleton": true,
-    },
-    "react": {
-      "eager": true,
-      "requiredVersion": undefined,
-      "singleton": true,
-    },
-    "react-dom": {
-      "eager": true,
-      "singleton": true,
-    },
-    "react-router": {
-      "eager": true,
-      "singleton": true,
-    },
-  },
-}
-`;
-
 exports[`defineBuildHostConfig > when overriding options are provided for a default shared dependency, use the consumer option 1`] = `
 {
   "dts": false,

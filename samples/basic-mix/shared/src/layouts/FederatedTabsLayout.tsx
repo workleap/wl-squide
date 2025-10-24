@@ -56,4 +56,3 @@ export function FederatedTabsLayout({ host }: FederatedTabsLayoutProps) {
 /** @alias */
 export const Component = FederatedTabsLayout;
 
-

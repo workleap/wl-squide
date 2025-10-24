@@ -243,7 +243,6 @@ describe("defineDevHostConfig", () => {
     });
 });
 
-
 describe("defineBuildHostConfig", () => {
     const SwcConfig = defineSwcBuildConfig({
         chrome: "116"

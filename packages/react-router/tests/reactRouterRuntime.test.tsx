@@ -14,14 +14,14 @@ describe("registerRoute", () => {
             function getPublicRoutes(routes: Route[]): Route[] | undefined {
                 for (const route of routes) {
                     if (isPublicRoutesOutletRoute(route)) {
-                        return route.children as Route[];
+                        return route.children!;
                     }
 
                     if (route.children) {
                         const publicRoutes = getPublicRoutes(route.children);
 
                         if (publicRoutes) {
-                            return publicRoutes as Route[];
+                            return publicRoutes;
                         }
                     }
                 }
@@ -161,14 +161,14 @@ describe("registerRoute", () => {
             function getProtectedRoutes(routes: Route[]): Route[] | undefined {
                 for (const route of routes) {
                     if (isProtectedRoutesOutletRoute(route)) {
-                        return route.children as Route[];
+                        return route.children!;
                     }
 
                     if (route.children) {
                         const protectedRoutes = getProtectedRoutes(route.children);
 
                         if (protectedRoutes) {
-                            return protectedRoutes as Route[];
+                            return protectedRoutes;
                         }
                     }
                 }
@@ -1780,8 +1780,7 @@ describe("registerRoute", () => {
             runtime.registerRoute({
                 $id: "layout-nested",
                 element: <div>Hello!</div>
-            }
-            , {
+            }, {
                 parentId: "layout"
             });
 
@@ -2513,7 +2512,6 @@ describe("startDeferredRegistrationScope & completeDeferredRegistrationScope", (
         }, {
             hoist: true
         });
-
 
         expect(runtime.routes.length).toBe(2);
     });

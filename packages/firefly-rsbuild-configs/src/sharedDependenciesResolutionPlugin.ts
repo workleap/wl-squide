@@ -22,7 +22,7 @@ remote-2:    2.1   <-----
 */
 
 import type { FederationHost, FederationRuntimePlugin } from "@module-federation/enhanced/runtime";
-import { minVersion, parse, rcompare, type SemVer } from "semver";
+import { minVersion, parse, rcompare } from "semver";
 import { HostApplicationName } from "./shared.ts";
 
 type Shared = FederationHost["shareScopeMap"][string][string][string];
@@ -39,7 +39,7 @@ function log(...args: unknown[]) {
 function findHighestVersionForMajor(entries: Shared[], major: number) {
     return entries.find(x => {
         return parse(x.version)!.major === major;
-    }) as Shared;
+    })!;
 }
 
 interface ResolveSharedDependencyResult {
@@ -90,8 +90,8 @@ export function resolveSharedDependency(pkgName: string, entries: Shared[], logF
 
     logFct(`[squide] ${pkgName} version requested by the host is:`, hostEntry.version, hostEntry);
 
-    const parsedHighestVersion = parse(highestVersionEntry.version) as SemVer;
-    const parsedHostVersion = parse(hostEntry.version) as SemVer;
+    const parsedHighestVersion = parse(highestVersionEntry.version)!;
+    const parsedHostVersion = parse(hostEntry.version)!;
 
     // Major versions should always be introduced by the host application.
     if (parsedHighestVersion.major === parsedHostVersion.major) {
@@ -121,7 +121,7 @@ export function resolveSharedDependency(pkgName: string, entries: Shared[], logF
 const plugin: () => FederationRuntimePlugin = () => {
     return {
         name: "shared-dependencies-resolution-plugin",
-        resolveShare: function(args) {
+        resolveShare: function (args) {
             const { shareScopeMap, scope, pkgName } = args;
 
             log(`[squide] Resolving ${pkgName}:`, args);
@@ -133,7 +133,7 @@ const plugin: () => FederationRuntimePlugin = () => {
                     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
                     // @ts-ignore
                     x.singleton ||
-                    (x.shareConfig && x.shareConfig.singleton)
+                    (x.shareConfig?.singleton)
                 );
             });
 
@@ -158,7 +158,6 @@ const plugin: () => FederationRuntimePlugin = () => {
                 const { resolvedEntry, highestVersionEntry } = resolveSharedDependency(pkgName, entries, log);
 
                 if (resolvedEntry.version !== highestVersionEntry.version) {
-                    // eslint-disable-next-line max-len
                     console.log(`%c[squide] "${highestVersionEntry.from}" requested version "${highestVersionEntry.version}" of "${pkgName}". This version is higher than the major number of the version requested by the host for this dependency (${resolvedEntry.version}). The version for "${pkgName}" has been forced to "${resolvedEntry.version}".`, "color: white; background-color: red;");
                 }
 

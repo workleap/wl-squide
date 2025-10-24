@@ -209,7 +209,7 @@ test.concurrent("when a module registration fail, return the error", async ({ ex
     ], runtime);
 
     expect(errors.length).toBe(1);
-    expect(errors[0]!.cause!.toString()).toContain("Module 2 registration failed");
+    expect(errors[0].cause!.toString()).toContain("Module 2 registration failed");
 });
 
 test.concurrent("when a module registration fail, LocalModuleRegistrationFailedEvent is dispatched", async ({ expect }) => {
@@ -314,5 +314,4 @@ test.concurrent("when no modules are provided, do not dispatch LocalModulesRegis
 
     expect(listener).not.toHaveBeenCalled();
 });
-
 

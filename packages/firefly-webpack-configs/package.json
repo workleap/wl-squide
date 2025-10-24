@@ -24,8 +24,7 @@
     "files": [
         "src",
         "dist",
-        "CHANGELOG.md",
-        "README.md"
+        "CHANGELOG.md"
     ],
     "scripts": {
         "dev": "rslib build --watch --config ./rslib.dev.ts",
@@ -37,35 +36,34 @@
     "peerDependencies": {
         "@swc/core": "^1.13.5",
         "@swc/helpers": "^0.5.17",
-        "@workleap/swc-configs": "^2.3.0",
-        "browserslist": "^4.26.3",
+        "@workleap/swc-configs": "^2.3.3",
+        "browserslist": "^4.27.0",
         "postcss": "^8.5.3",
         "webpack": "^5.102.1",
         "webpack-dev-server": "^5.2.2"
     },
     "dependencies": {
         "@module-federation/enhanced": "0.11.4",
-        "@workleap/webpack-configs": "^1.6.0",
+        "@workleap/webpack-configs": "^1.6.3",
         "deepmerge": "^4.3.1",
         "html-webpack-plugin": "^5.6.4",
         "semver": "^7.7.3"
     },
     "devDependencies": {
-        "@rsbuild/core": "1.5.13",
-        "@rslib/core": "0.15.0",
-        "@types/node": "24.7.0",
+        "@eslint/js": "9.38.0",
+        "@rsbuild/core": "1.5.17",
+        "@rslib/core": "0.16.1",
+        "@types/node": "24.9.1",
         "@types/semver": "7.7.1",
-        "@typescript-eslint/parser": "8.46.0",
-        "@workleap/eslint-plugin": "3.5.0",
-        "@workleap/rslib-configs": "1.1.0",
-        "@workleap/typescript-configs": "3.0.4",
-        "eslint": "8.57.0",
+        "@typescript-eslint/parser": "8.46.2",
+        "@workleap/eslint-configs": "0.0.5",
+        "@workleap/rslib-configs": "1.1.3",
+        "@workleap/typescript-configs": "3.0.7",
+        "eslint": "9.38.0",
         "typescript": "5.9.3",
-        "vitest": "3.2.4",
+        "typescript-eslint": "8.46.2",
+        "vitest": "4.0.2",
         "webpack": "5.102.1",
         "webpack-dev-server": "5.2.2"
-    },
-    "engines": {
-        "node": ">=21.1.0"
     }
 }

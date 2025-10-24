@@ -137,7 +137,6 @@ export function AuthenticatedLayout() {
                 </nav>
                 <div style={{ whiteSpace: "nowrap", marginRight: "20px" }}>
                     {/* Must check for a null session because when the disconnect button is clicked, it will clear the session and rerender this layout. */}
-                    {/* eslint-disable-next-line max-len */}
                     ({t("subscriptionLabel")}: <span style={{ fontWeight: "bold" }}>{subscriptionStatusLabel}</span><span style={{ marginLeft: "10px", marginRight: "10px" }}>-</span>{t("userLabel")}: <span style={{ fontWeight: "bold" }}>{session?.user?.name}/{session?.user?.preferredLanguage}</span>)
                 </div>
                 <div>

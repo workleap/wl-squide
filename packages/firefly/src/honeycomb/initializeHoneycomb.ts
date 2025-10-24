@@ -17,5 +17,3 @@ export async function initializeHoneycomb(runtime: FireflyRuntime) {
         runtime.logger.information("[squide] Cannot register Honeycomb instrumentation because the host application hasn't provided a client.");
     }
 }
-
-

@@ -222,5 +222,3 @@ export abstract class RuntimeScope<TRoute = unknown, TNavigationItem = unknown, 
         });
     }
 }
-
-

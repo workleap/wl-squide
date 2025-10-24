@@ -44,7 +44,7 @@ export interface RouteRegistrationResult {
 
 function isAbsoluteRoute(route: Route) {
     // Strangely, with React Router an absolute route path starts with a "/".
-    return route && route.path && route.path.startsWith("/");
+    return route?.path?.startsWith("/");
 }
 
 function appendPath(parentPath: string, childPath: string) {
@@ -228,7 +228,7 @@ export class RouteRegistry {
         if (parentPath) {
             // The normalized path cannot be undefined because it's been provided by the consumer
             // (e.g. it cannot be a pathless route).
-            return this.#addNestedRoutes([route], normalizePath(parentPath)!);
+            return this.#addNestedRoutes([route], normalizePath(parentPath));
         }
 
         if (parentId) {

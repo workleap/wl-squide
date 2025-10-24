@@ -1015,7 +1015,7 @@ describe("useModuleRegistrationStatusDispatcher", () => {
         expect(dispatch).not.toHaveBeenCalled();
     });
 
-    test.concurrent("when local modules are registered but remote modules are not registered, do not dispatch the \"modules-registered\" action", async ({ expect }) => {
+    test.concurrent("when local modules are registered but remote modules are not registered, do not dispatch the \"modules-registered\" action", ({ expect }) => {
         const localModuleRegistry = new DummyModuleRegistry("modules-registered");
         const remoteModuleRegistry = new DummyModuleRegistry("registering-modules");
 
@@ -1032,7 +1032,7 @@ describe("useModuleRegistrationStatusDispatcher", () => {
         expect(dispatch).not.toHaveBeenCalled();
     });
 
-    test.concurrent("when local modules are not registered but remote modules are registered, do not dispatch the \"modules-registered\" action", async ({ expect }) => {
+    test.concurrent("when local modules are not registered but remote modules are registered, do not dispatch the \"modules-registered\" action", ({ expect }) => {
         const localModuleRegistry = new DummyModuleRegistry("registering-modules");
         const remoteModuleRegistry = new DummyModuleRegistry("modules-registered");
 
@@ -1049,7 +1049,7 @@ describe("useModuleRegistrationStatusDispatcher", () => {
         expect(dispatch).not.toHaveBeenCalled();
     });
 
-    test.concurrent("when local modules and remote modules are registered, dispatch the \"modules-registered\" action", async ({ expect }) => {
+    test.concurrent("when local modules and remote modules are registered, dispatch the \"modules-registered\" action", ({ expect }) => {
         const localModuleRegistry = new DummyModuleRegistry("modules-registered");
         const remoteModuleRegistry = new DummyModuleRegistry("modules-registered");
 
@@ -1135,7 +1135,7 @@ describe("useModuleRegistrationStatusDispatcher", () => {
         expect(dispatch).not.toHaveBeenCalled();
     });
 
-    test.concurrent("when local modules and remote modules are ready, dispatch the \"modules-ready\" action", async ({ expect }) => {
+    test.concurrent("when local modules and remote modules are ready, dispatch the \"modules-ready\" action", ({ expect }) => {
         const localModuleRegistry = new DummyModuleRegistry("ready");
         const remoteModuleRegistry = new DummyModuleRegistry("ready");
 
@@ -1153,7 +1153,7 @@ describe("useModuleRegistrationStatusDispatcher", () => {
         expect(dispatch).toHaveBeenCalledWith({ type: "modules-ready" });
     });
 
-    test.concurrent("when local modules and remote modules are ready and \"areModulesReady\" is already true, do not dispatch the \"modules-ready\" action", async ({ expect }) => {
+    test.concurrent("when local modules and remote modules are ready and \"areModulesReady\" is already true, do not dispatch the \"modules-ready\" action", ({ expect }) => {
         const localModuleRegistry = new DummyModuleRegistry("ready");
         const remoteModuleRegistry = new DummyModuleRegistry("ready");
 

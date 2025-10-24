@@ -1,5 +1,3 @@
-/* eslint-disable max-len */
-
 import type { EnvironmentVariables } from "@squide/env-vars";
 import { HttpResponse, http, type HttpHandler } from "msw";
 import { sessionAccessor } from "./session.ts";

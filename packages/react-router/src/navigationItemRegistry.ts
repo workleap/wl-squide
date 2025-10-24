@@ -360,7 +360,6 @@ export class NavigationItemRegistry {
     clearDeferredItems() {
         const keys = this.#menusIndex.keys();
 
-        // eslint-disable-next-line no-constant-condition
         while (true) {
             const next = keys.next();
 

@@ -15,7 +15,7 @@ export function getFeatureFlagsHandlers(environmentVariables: EnvironmentVariabl
             return HttpResponse.json(featureFlags);
         }),
 
-        http.post(`${environmentVariables.featureFlagsApiBaseUrl}shuffle`, async () => {
+        http.post(`${environmentVariables.featureFlagsApiBaseUrl}shuffle`, () => {
             const newFeatureFlags = {
                 featureA: Math.random() < 0.5,
                 featureB: true,
@@ -34,7 +34,7 @@ export function getFeatureFlagsHandlers(environmentVariables: EnvironmentVariabl
             });
         }),
 
-        http.post(`${environmentVariables.featureFlagsApiBaseUrl}deactivateFeatureB`, async () => {
+        http.post(`${environmentVariables.featureFlagsApiBaseUrl}deactivateFeatureB`, () => {
             featureFlagsManager.setFeatureFlags({
                 featureA: true,
                 featureB: false,

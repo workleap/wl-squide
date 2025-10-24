@@ -179,12 +179,12 @@ export class ReactRouterRuntime extends Runtime<Route, RootNavigationItem> imple
 
         if (this._navigationItemScope) {
             const result = this._navigationItemScope.addItem(menuId, navigationItem, options);
-            const items = this._navigationItemScope.getItems(menuId)!;
+            const items = this._navigationItemScope.getItems(menuId);
 
             this.#logNavigationItemRegistrationResult(result, items, logger);
         } else {
             const result = this._navigationItemRegistry.add(menuId, "static", navigationItem, options);
-            const items = this._navigationItemRegistry.getItems(menuId)!;
+            const items = this._navigationItemRegistry.getItems(menuId);
 
             this.#logNavigationItemRegistrationResult(result, items, logger);
         }
@@ -295,7 +295,6 @@ export class ReactRouterRuntime extends Runtime<Route, RootNavigationItem> imple
 
         if (pendingRoutes.length > 0) {
             if (pendingRegistrations.isPublicRoutesOutletPending() && pendingRegistrations.isProtectedRoutesOutletPending()) {
-                // eslint-disable-next-line max-len
                 throw new Error("[squide] The PublicRoutes and ProtectedRoutes outlets are missing from the router configuration. The PublicRoutes and ProtectedRoutes outlets must be defined as a children of an hoisted route. Did you include the PublicRoutes and ProtectedRoutes outlets and hoist the outlets' parent routes?");
             } else if (pendingRegistrations.isPublicRoutesOutletPending()) {
                 throw new Error("[squide] The PublicRoutes outlet is missing from the router configuration. The PublicRoutes outlet must be defined as a children of an hoisted route. Did you include the PublicRoutes outlet and hoist the outlet's parent routes");

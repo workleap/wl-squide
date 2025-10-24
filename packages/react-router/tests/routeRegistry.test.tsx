@@ -208,8 +208,8 @@ describe("add", () => {
             hoist: true
         });
 
-        expect(result.completedPendingRegistrations![0].path).toBe("/root/another-level-1");
-        expect(result.completedPendingRegistrations![1].path).toBe("/root/another-level-2");
+        expect(result.completedPendingRegistrations[0].path).toBe("/root/another-level-1");
+        expect(result.completedPendingRegistrations[1].path).toBe("/root/another-level-2");
     });
 
     test.concurrent("when a root route is added and do not complete any pending registration, return an empty \"completedPendingRegistrations\" array", ({ expect }) => {
@@ -236,7 +236,7 @@ describe("add", () => {
             hoist: true
         });
 
-        expect(result.completedPendingRegistrations!.length).toBe(0);
+        expect(result.completedPendingRegistrations.length).toBe(0);
     });
 
     test.concurrent("when a nested route is pending for registration, return the \"pending\" registration status", ({ expect }) => {
@@ -303,7 +303,7 @@ describe("add", () => {
             parentPath: "/root"
         });
 
-        expect(result.completedPendingRegistrations![0].path).toBe("/root/another-level/yet-another-level/another-level-1");
-        expect(result.completedPendingRegistrations![1].path).toBe("/root/another-level/yet-another-level/another-level-2");
+        expect(result.completedPendingRegistrations[0].path).toBe("/root/another-level/yet-another-level/another-level-1");
+        expect(result.completedPendingRegistrations[1].path).toBe("/root/another-level/yet-another-level/another-level-2");
     });
 });

@@ -41,7 +41,7 @@ function TestComponent({ navigationItems }: TestComponentProps) {
     }, []);
 
     const renderItem: RenderItemFunction = useCallback((item, key, index, level) => {
-        if (!item.canRender || (item.canRender && item.canRender())) {
+        if (!item.canRender || (item.canRender?.())) {
             return isNavigationLink(item) ? renderLinkItem(item, key, index, level) : renderLinkSection(item, key, index, level);
         }
     }, [renderLinkItem, renderLinkSection]);

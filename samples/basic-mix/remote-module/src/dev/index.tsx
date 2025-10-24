@@ -24,5 +24,3 @@ root.render(
         </FireflyProvider>
     </StrictMode>
 );
-
-

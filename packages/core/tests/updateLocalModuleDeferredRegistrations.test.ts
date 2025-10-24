@@ -183,7 +183,7 @@ test.concurrent("when a deferred registration fail, update the remaining deferre
         // Do not throw on the "registerDeferredRegistrations" call but throw on the "updateDeferredRegistrations" call.
         () => vi.fn()
             .mockImplementationOnce(() => {})
-            .mockImplementationOnce(async () => {
+            .mockImplementationOnce(() => {
                 throw new Error("Module 2 registration failed");
             }),
         () => register3
@@ -209,7 +209,7 @@ test.concurrent("when a deferred registration fail, return the error", async ({ 
         // Do not throw on the "registerDeferredRegistrations" call but throw on the "updateDeferredRegistrations" call.
         () => vi.fn()
             .mockImplementationOnce(() => {})
-            .mockImplementationOnce(async () => {
+            .mockImplementationOnce(() => {
                 throw new Error("Module 2 registration failed");
             }),
         () => () => {}
@@ -220,7 +220,7 @@ test.concurrent("when a deferred registration fail, return the error", async ({ 
     const errors = await registry.updateDeferredRegistrations({}, runtime);
 
     expect(errors.length).toBe(1);
-    expect(errors[0]!.cause!.toString()).toContain("Module 2 registration failed");
+    expect(errors[0].cause!.toString()).toContain("Module 2 registration failed");
 });
 
 test.concurrent("when a deferred registration fail, LocalModuleDeferredRegistrationUpdateFailedEvent is dispatched", async ({ expect }) => {
@@ -238,7 +238,7 @@ test.concurrent("when a deferred registration fail, LocalModuleDeferredRegistrat
         // Do not throw on the "registerDeferredRegistrations" call but throw on the "updateDeferredRegistrations" call.
         () => vi.fn()
             .mockImplementationOnce(() => {})
-            .mockImplementationOnce(async () => {
+            .mockImplementationOnce(() => {
                 throw registrationError;
             }),
         () => () => {}
@@ -266,7 +266,7 @@ test.concurrent("when a deferred registration fail, LocalModulesDeferredRegistra
         // Do not throw on the "registerDeferredRegistrations" call but throw on the "updateDeferredRegistrations" call.
         () => vi.fn()
             .mockImplementationOnce(() => {})
-            .mockImplementationOnce(async () => {
+            .mockImplementationOnce(() => {
                 throw registrationError;
             }),
         () => () => {}

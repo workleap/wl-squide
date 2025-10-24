@@ -29,17 +29,17 @@ export interface AppRouterState extends AppRouterWaitState {
 }
 
 export type AppRouterActionType =
-| "modules-registered"
-| "modules-ready"
-| "msw-ready"
-| "public-data-ready"
-| "protected-data-ready"
-| "public-data-updated"
-| "protected-data-updated"
-| "deferred-registrations-updated"
-| "active-route-is-public"
-| "active-route-is-protected"
-| "is-unauthorized";
+    | "modules-registered"
+    | "modules-ready"
+    | "msw-ready"
+    | "public-data-ready"
+    | "protected-data-ready"
+    | "public-data-updated"
+    | "protected-data-updated"
+    | "deferred-registrations-updated"
+    | "active-route-is-public"
+    | "active-route-is-protected"
+    | "is-unauthorized";
 
 // The followings event const are a concatenation of "squide-" with AppRouterActionType.
 // They are dispatched by the useEnhancedReducerDispatch hook.

@@ -191,7 +191,7 @@ function createSetUniqueNameTransformer(uniqueName: string) {
 }
 
 function resolveEntryFilePath(entryPaths: string[]) {
-    for (const entryPath in entryPaths) {
+    for (const entryPath of entryPaths) {
         if (fs.existsSync(path.resolve(applicationDirectory, entryPath))) {
             return entryPath;
         }

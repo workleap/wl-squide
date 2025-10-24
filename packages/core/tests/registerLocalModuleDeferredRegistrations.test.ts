@@ -222,7 +222,7 @@ test.concurrent("when a deferred registration fail, return the error", async ({ 
     const errors = await registry.registerDeferredRegistrations({}, runtime);
 
     expect(errors.length).toBe(1);
-    expect(errors[0]!.cause!.toString()).toContain("Module 2 deferred registration failed");
+    expect(errors[0].cause!.toString()).toContain("Module 2 deferred registration failed");
 });
 
 test.concurrent("when a deferred registration fail, LocalModuleDeferredRegistrationFailedEvent is dispatched", async ({ expect }) => {
@@ -320,5 +320,4 @@ test.concurrent("all the deferred module registrations receive \"register\" as s
     expect(register2).toHaveBeenCalledWith(runtime, data, "register");
     expect(register3).toHaveBeenCalledWith(runtime, data, "register");
 });
-
 

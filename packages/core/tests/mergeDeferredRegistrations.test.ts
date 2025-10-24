@@ -106,7 +106,7 @@ test.concurrent("when a single deferred registration is provided, the deferred r
     expect(fct).toHaveBeenCalledWith(runtime, "foo", "register");
 });
 
-test.concurrent("when a single deferred registration is provided, return the deferred registration", async ({ expect }) => {
+test.concurrent("when a single deferred registration is provided, return the deferred registration", ({ expect }) => {
     const fct: DeferredRegistrationFunction<Runtime, string> = () => {};
 
     const mergeFunction = mergeDeferredRegistrations([fct]);

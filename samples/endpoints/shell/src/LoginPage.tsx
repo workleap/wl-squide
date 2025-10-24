@@ -60,16 +60,18 @@ export function LoginPage({ host }: LoginPageProps) {
     return (
         <>
             <h1>{t("title")}</h1>
-            {host && <p style={{ backgroundColor: "blue", color: "white", width: "fit-content" }}>
-                <Trans
-                    i18n={i18nextInstance}
-                    i18nKey="servedBy"
-                    t={t}
-                    shouldUnescape
-                    values={{ host }}
-                    components={{ code: <code /> }}
-                />
-            </p>}
+            {host && (
+                <p style={{ backgroundColor: "blue", color: "white", width: "fit-content" }}>
+                    <Trans
+                        i18n={i18nextInstance}
+                        i18nKey="servedBy"
+                        t={t}
+                        shouldUnescape
+                        values={{ host }}
+                        components={{ code: <code /> }}
+                    />
+                </p>
+            )}
             <form>
                 <div>
                     <label htmlFor="username">{t("usernameLabel")}</label>

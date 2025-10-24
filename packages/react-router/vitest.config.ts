@@ -7,9 +7,6 @@ export default defineConfig({
         include: ["tests/**/*.test.{ts,tsx}"],
         exclude: ["node_modules", "dist"],
         setupFiles: ["./vitest-setup.ts"],
-        testTransformMode: {
-            web: [".ts", ".tsx"]
-        },
         reporters: "verbose"
     },
     cacheDir: "./node_modules/.cache/vitest",

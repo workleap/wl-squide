@@ -74,7 +74,7 @@ export class LocalModuleRegistry implements ModuleRegistry {
                 const runtimeScope = runtime.startScope(loggerScope);
 
                 try {
-                    const optionalDeferredRegistration = await registerModule(x as ModuleRegisterFunction<TRuntime, TContext, TData>, runtimeScope as TRuntime, context);
+                    const optionalDeferredRegistration = await registerModule(x, runtimeScope as TRuntime, context);
 
                     if (isFunction(optionalDeferredRegistration)) {
                         this.#deferredRegistrations.push({

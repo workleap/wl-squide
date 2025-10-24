@@ -147,7 +147,7 @@ function BootstrappingRoute() {
         session
     }), [featureFlags, session]));
 
-    const sessionManager = useSessionManagerInstance(session!);
+    const sessionManager = useSessionManagerInstance(session);
 
     if (useIsBootstrapping()) {
         return <Loading />;
