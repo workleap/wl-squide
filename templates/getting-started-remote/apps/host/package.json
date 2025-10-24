@@ -18,19 +18,20 @@
         "react-router": "7.6.2"
     },
     "devDependencies": {
+        "@eslint/js": "9.38.0",
         "@squide/firefly-webpack-configs": "5.0.4",
         "@swc/core": "1.12.1",
         "@swc/helpers": "0.5.17",
         "@types/react": "19.1.8",
         "@types/react-dom": "19.1.6",
         "@workleap/browserslist-config": "2.0.4",
-        "@workleap/eslint-plugin": "3.4.2",
+        "@workleap/eslint-configs": "0.0.4",
         "@workleap/swc-configs": "2.2.8",
         "@workleap/typescript-configs": "3.0.4",
         "browserslist": "4.25.0",
-        "eslint": "8.57.0",
+        "eslint": "9.38.0",
         "postcss": "8.5.6",
-        "typescript": "5.8.3",
+        "typescript": "5.9.3",
         "webpack": "5.99.9",
         "webpack-cli": "6.0.1",
         "webpack-dev-server": "5.2.2"
