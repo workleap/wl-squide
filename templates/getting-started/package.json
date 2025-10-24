@@ -9,7 +9,7 @@
         "dev": "pnpm -r --parallel dev",
         "build": "pnpm -r --parallel build",
         "lint": "pnpm run \"/^lint:.*/\"",
-        "lint:eslint": "eslint . --max-warnings=-0 --cache --cache-location node_modules/.cache/eslint",
+        "lint:eslint": "eslint . --max-warnings=0 --cache --cache-location node_modules/.cache/eslint",
         "lint:types": "pnpm -r --parallel --include-workspace-root exec tsc",
         "list-outdated-deps": "pnpm outdated -r --format list !eslint",
         "update-outdated-deps": "pnpm update -r --latest !eslint",

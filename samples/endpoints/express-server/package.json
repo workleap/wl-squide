@@ -9,7 +9,7 @@
     "scripts": {
         "dev": "tsx src/index.ts",
         "serve-build": "tsx src/index.ts",
-        "eslint": "eslint . --max-warnings=-0 --cache --cache-location node_modules/.cache/eslint",
+        "eslint": "eslint . --max-warnings=0 --cache --cache-location node_modules/.cache/eslint",
         "typecheck": "tsc"
     },
     "dependencies": {

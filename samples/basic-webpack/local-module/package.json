@@ -9,7 +9,7 @@
     "exports": "./src/register.tsx",
     "scripts": {
         "dev-isolated": "webpack serve --config webpack.config.js",
-        "eslint": "eslint . --max-warnings=-0 --cache --cache-location node_modules/.cache/eslint",
+        "eslint": "eslint . --max-warnings=0 --cache --cache-location node_modules/.cache/eslint",
         "typecheck": "tsc"
     },
     "peerDependencies": {

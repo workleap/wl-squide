@@ -8,7 +8,7 @@
     "type": "module",
     "exports": "./src/index.ts",
     "scripts": {
-        "eslint": "eslint . --max-warnings=-0 --cache --cache-location node_modules/.cache/eslint",
+        "eslint": "eslint . --max-warnings=0 --cache --cache-location node_modules/.cache/eslint",
         "typecheck": "tsc"
     },
     "peerDependencies": {

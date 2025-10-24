@@ -12,7 +12,7 @@
         "dev-isolated": "cross-env USE_MSW=true ISOLATED=true rsbuild dev --config rsbuild.dev.ts",
         "build-isolated": "cross-env USE_MSW=true ISOLATED=true rsbuild build --config rsbuild.build.ts",
         "serve-build-isolated": "pnpm http-server dist -p 8080 -P http://localhost:8080? -c-1",
-        "eslint": "eslint . --max-warnings=-0 --cache --cache-location node_modules/.cache/eslint",
+        "eslint": "eslint . --max-warnings=0 --cache --cache-location node_modules/.cache/eslint",
         "typecheck": "tsc"
     },
     "peerDependencies": {

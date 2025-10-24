@@ -19,7 +19,7 @@
         "serve-build-isolated": "pnpm http-server dist -p 8080 -P http://localhost:8080? -c-1",
         "deploy": "netlify deploy --dir=samples/endpoints/remote-module/dist --site=a3f091c3-2bc9-4c50-83a0-72fc6d7fa158 --prod",
         "deploy-isolated": "netlify deploy --dir=samples/endpoints/remote-module/dist --site=1eacb274-6182-420e-b6e7-ada6f10cc487 --prod",
-        "eslint": "eslint . --max-warnings=-0 --cache --cache-location node_modules/.cache/eslint",
+        "eslint": "eslint . --max-warnings=0 --cache --cache-location node_modules/.cache/eslint",
         "typecheck": "tsc"
     },
     "dependencies": {
