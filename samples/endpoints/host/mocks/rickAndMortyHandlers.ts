@@ -1,5 +1,3 @@
-/* eslint-disable max-len */
-
 import type { EnvironmentVariables } from "@squide/env-vars";
 import { HttpResponse, http, type HttpHandler } from "msw";
 import { sessionAccessor } from "./session.ts";
@@ -8,7 +6,7 @@ import { sessionAccessor } from "./session.ts";
 // A type annotation is necessary.
 export function getRickAndMortyHandlers(environmentVariables: EnvironmentVariables): HttpHandler[] {
     return [
-        http.get(`${environmentVariables.rickAndMortyApiBaseUrl}character/1,2`, async () => {
+        http.get(`${environmentVariables.rickAndMortyApiBaseUrl}character/1,2`, () => {
             const session = sessionAccessor.getSession();
 
             if (!session) {

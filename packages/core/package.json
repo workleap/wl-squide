@@ -55,8 +55,5 @@
         "typescript-eslint": "8.46.2",
         "vitest": "3.2.4"
     },
-    "sideEffects": false,
-    "engines": {
-        "node": ">=21.1.0"
-    }
+    "sideEffects": false
 }

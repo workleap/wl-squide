@@ -28,6 +28,7 @@
         "useless-lib": "^2.1.0"
     },
     "devDependencies": {
+        "@eslint/js": "9.38.0",
         "@squide/firefly-webpack-configs": "workspace:*",
         "@swc/core": "1.13.5",
         "@swc/helpers": "0.5.17",
@@ -35,19 +36,17 @@
         "@types/react-dom": "19.2.1",
         "@typescript-eslint/parser": "8.46.0",
         "@workleap/browserslist-config": "2.1.0",
-        "@workleap/eslint-plugin": "3.5.0",
+        "@workleap/eslint-configs": "0.0.2",
         "@workleap/swc-configs": "2.3.0",
         "@workleap/typescript-configs": "3.0.4",
         "browserslist": "4.26.3",
         "cross-env": "10.1.0",
-        "eslint": "8.57.0",
+        "eslint": "9.38.0",
         "http-server": "14.1.1",
         "typescript": "5.9.3",
+        "typescript-eslint": "8.46.2",
         "webpack": "5.102.1",
         "webpack-cli": "6.0.1",
         "webpack-dev-server": "5.2.2"
-    },
-    "engines": {
-        "node": ">=21.1.0"
     }
 }

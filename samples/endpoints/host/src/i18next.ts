@@ -21,5 +21,3 @@ export function initI18next(runtime: FireflyRuntime) {
 
     return instance;
 }
-
-

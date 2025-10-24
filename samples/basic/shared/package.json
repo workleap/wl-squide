@@ -29,8 +29,5 @@
         "eslint": "9.38.0",
         "typescript": "5.9.3",
         "typescript-eslint": "8.46.2"
-    },
-    "engines": {
-        "node": ">=21.1.0"
     }
 }

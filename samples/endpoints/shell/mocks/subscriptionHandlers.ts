@@ -6,7 +6,7 @@ import { sessionManager } from "./session.ts";
 // A type annotation is necessary.
 export function getSubscriptionHandlers(environmentVariables: EnvironmentVariables): HttpHandler[] {
     return [
-        http.get(`${environmentVariables.subscriptionApiBaseUrl}getSubscription`, async () => {
+        http.get(`${environmentVariables.subscriptionApiBaseUrl}getSubscription`, () => {
             if (!sessionManager.getSession()) {
                 return new HttpResponse(null, {
                     status: 401
@@ -19,7 +19,7 @@ export function getSubscriptionHandlers(environmentVariables: EnvironmentVariabl
                 status: "paid"
             });
         }),
-        http.get(`${environmentVariables.subscriptionApiBaseUrl}failing`, async () => {
+        http.get(`${environmentVariables.subscriptionApiBaseUrl}failing`, () => {
             throw new Error("This is an HTTP error!");
         })
     ];

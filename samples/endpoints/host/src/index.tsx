@@ -23,7 +23,7 @@ if (process.env.LOGROCKET_APP_ID) {
     loggers.push(new LogRocketLogger());
 
     telemetryOptions.logRocket = {
-        appId: process.env.LOGROCKET_APP_ID as string
+        appId: process.env.LOGROCKET_APP_ID
     };
 } else {
     console.warn("[host] Cannot register LogRocket instrumentation because the LOGROCKET_APP_ID environment variable has not been configured.");

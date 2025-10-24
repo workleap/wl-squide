@@ -53,7 +53,7 @@ export function getAuthenticationHandlers(environmentVariables: EnvironmentVaria
             });
         }),
 
-        http.post(`${environmentVariables.authenticationApiBaseUrl}logout`, async () => {
+        http.post(`${environmentVariables.authenticationApiBaseUrl}logout`, () => {
             sessionManager.clearSession();
 
             return new HttpResponse(null, {

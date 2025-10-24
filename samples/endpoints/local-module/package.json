@@ -35,6 +35,7 @@
         "@workleap/logging": "^1.3.0"
     },
     "devDependencies": {
+        "@eslint/js": "9.38.0",
         "@rsbuild/core": "1.5.13",
         "@squide/firefly-rsbuild-configs": "workspace:*",
         "@tanstack/react-query": "5.90.2",
@@ -43,23 +44,21 @@
         "@types/react-dom": "19.2.1",
         "@typescript-eslint/parser": "8.46.0",
         "@workleap/browserslist-config": "2.1.0",
-        "@workleap/eslint-plugin": "3.5.0",
+        "@workleap/eslint-configs": "0.0.2",
         "@workleap/typescript-configs": "3.0.4",
         "browserslist": "4.26.3",
         "cross-env": "10.1.0",
-        "eslint": "8.57.0",
+        "eslint": "9.38.0",
         "http-server": "14.1.1",
         "i18next": "25.5.3",
         "msw": "2.11.3",
         "react": "19.2.0",
         "react-dom": "19.2.0",
         "react-i18next": "16.0.0",
-        "typescript": "5.9.3"
+        "typescript": "5.9.3",
+        "typescript-eslint": "8.46.2"
     },
     "msw": {
         "workerDirectory": "public"
-    },
-    "engines": {
-        "node": ">=21.1.0"
     }
 }

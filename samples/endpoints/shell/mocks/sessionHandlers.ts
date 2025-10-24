@@ -20,7 +20,7 @@ export function getSessionHandlers(environmentVariables: EnvironmentVariables): 
 
             return HttpResponse.json(session);
         }),
-        http.post(`${environmentVariables.sessionApiBaseUrl}updateSession`, async () => {
+        http.post(`${environmentVariables.sessionApiBaseUrl}updateSession`, () => {
             const session = sessionManager.getSession();
 
             if (!session) {

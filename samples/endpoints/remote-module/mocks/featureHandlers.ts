@@ -7,7 +7,7 @@ import { sessionAccessor } from "./session.ts";
 // A type annotation is necessary.
 export function getFeatureHandlers(environmentVariables: EnvironmentVariables): HttpHandler[] {
     return [
-        http.get(`${environmentVariables.featureApiBaseUrl}getFeatureB`, async () => {
+        http.get(`${environmentVariables.featureApiBaseUrl}getFeatureB`, () => {
             const session = sessionAccessor.getSession();
 
             if (!session) {
@@ -37,7 +37,7 @@ export function getFeatureHandlers(environmentVariables: EnvironmentVariables): 
             }
         }),
 
-        http.get(`${environmentVariables.featureApiBaseUrl}getFeatureC`, async () => {
+        http.get(`${environmentVariables.featureApiBaseUrl}getFeatureC`, () => {
             const session = sessionAccessor.getSession();
 
             if (!session) {
