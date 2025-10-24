@@ -27,11 +27,8 @@
         "deploy-isolated": {
             "dependsOn": ["build-isolated"]
         },
-        // "lint": {
-        //     "dependsOn": ["eslint", "typecheck", "//#syncpack"]
-        // },
         "lint": {
-            "dependsOn": ["eslint"]
+            "dependsOn": ["eslint", "typecheck", "//#syncpack"]
         },
         "//#eslint": {
             "outputs": ["node_modules/.cache/eslint"]
