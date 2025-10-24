@@ -27,7 +27,7 @@
 
     "json.format.enable": false, // Disables the default formatter to use ESLint instead
 
-    "css.validate": false, // Disables the default validating to use Stylelint instead
+    "css.validate": false, // Disables the default validation to use Stylelint instead
 
     // Settings for third parties that are frequently used
     "files.associations": {
