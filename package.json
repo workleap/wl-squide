@@ -36,19 +36,19 @@
         "reset": "pnpm clean && pnpm run --sequential \"/^reset:.*/\"",
         "reset:modules": "pnpm -r --parallel --include-workspace-root exec pnpx rimraf node_modules pnpm-lock.yaml",
         "reset:templates": "cd templates/getting-started && pnpm reset:modules",
-        "list-outdated-deps": "pnpm outdated -r --format list !eslint !useless-lib !@module-federation/enhanced !@module-federation/rsbuild-plugin",
+        "list-outdated-deps": "pnpm outdated -r --format list !useless-lib !@module-federation/enhanced !@module-federation/rsbuild-plugin",
         "update-outdated-deps": "pnpm run --sequential \"/^update-outdated-deps:.*/\"",
-        "update-outdated-deps:update-versions": "pnpm update -r --latest !eslint !useless-lib !@module-federation/enhanced !@module-federation/rsbuild-plugin",
+        "update-outdated-deps:update-versions": "pnpm update -r --latest !useless-lib !@module-federation/enhanced !@module-federation/rsbuild-plugin",
         "update-outdated-deps:update-peers": "syncpack fix-mismatches"
     },
     "devDependencies": {
         "@changesets/changelog-github": "0.5.1",
         "@changesets/cli": "2.29.7",
         "@eslint/js": "9.38.0",
-        "@types/node": "24.7.0",
-        "@typescript-eslint/parser": "8.46.0",
-        "@workleap/eslint-configs": "0.0.2",
-        "@workleap/typescript-configs": "3.0.4",
+        "@types/node": "24.9.1",
+        "@typescript-eslint/parser": "8.46.2",
+        "@workleap/eslint-configs": "0.0.5",
+        "@workleap/typescript-configs": "3.0.7",
         "cross-env": "10.1.0",
         "eslint": "9.38.0",
         "pkg-pr-new": "0.0.60",
@@ -62,10 +62,5 @@
         "node": ">=24.0.0",
         "pnpm": ">=10"
     },
-    "packageManager": "pnpm@10.19.0",
-    "pnpm": {
-        "overrides": {
-            "@workleap/eslint-configs": "file:C:\\Dev\\workleap\\wl-web-configs\\packages\\eslint-configs"
-        }
-    }
+    "packageManager": "pnpm@10.19.0"
 }
