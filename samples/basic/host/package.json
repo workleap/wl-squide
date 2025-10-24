@@ -14,7 +14,7 @@
         "build:copy-public-files": "copyfiles -u 1 public/favicon.png dist",
         "serve-build": "pnpm http-server dist -p 8080 -P http://localhost:8080? -c-1",
         "deploy": "netlify deploy --dir=samples/basic/host/dist --site=ae684cea-e6b1-4293-95d6-fc82462654c8 --prod",
-        "eslint": "eslint . --max-warnings=-0 --cache --cache-location node_modules/.cache/eslint",
+        "eslint": "eslint . --max-warnings=0 --cache --cache-location node_modules/.cache/eslint",
         "typecheck": "tsc"
     },
     "dependencies": {
