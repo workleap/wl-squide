@@ -1,5 +1,14 @@
 # @squide/react-router
 
+## 8.1.3
+
+### Patch Changes
+
+- [#332](https://github.com/workleap/wl-squide/pull/332) [`eb933a7`](https://github.com/workleap/wl-squide/commit/eb933a72514ff3e01f5d3dafa17556e1a07471f6) Thanks [@patricklafrance](https://github.com/patricklafrance)! - Bumpbed dependencies
+
+- Updated dependencies [[`eb933a7`](https://github.com/workleap/wl-squide/commit/eb933a72514ff3e01f5d3dafa17556e1a07471f6)]:
+  - @squide/core@6.1.3
+
 ## 8.1.2
 
 ### Patch Changes
