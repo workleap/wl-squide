@@ -29,6 +29,16 @@
 
     "css.validate": false, // Disables the default validation to use Stylelint instead
 
+    "eslint.probe": [
+        "javascript",
+        "javascriptreact",
+        "typescript",
+        "typescriptreact",
+        "json",
+        "jsonc",
+        "yaml"
+    ],
+
     // Settings for third parties that are frequently used
     "files.associations": {
         "*.snap": "javascriptreact",
