@@ -177,7 +177,6 @@ test("when MSW is disabled and a start function is provided, do not call the sta
     expect(fct).not.toHaveBeenCalled();
 });
 
-// eslint-disable-next-line jest/no-commented-out-tests
 // test("when MSW is enabled and no start function has been provided, throw an error", async () => {
 //     const runtime = new FireflyRuntime({
 //         useMsw: true
