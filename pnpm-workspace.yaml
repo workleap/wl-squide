@@ -2,8 +2,18 @@ packages:
   - "packages/*"
   - "samples/**"
 
-minimumReleaseAge: 1440
-minimumReleaseAgeExclude:
-  - '@workleap*'
+# minimumReleaseAge: 1440
+# minimumReleaseAgeExclude:
+#   - "@workleap*"
 
-dangerouslyAllowAllBuilds: true
+onlyBuiltDependencies:
+  - "@parcel/watcher"
+  - "@swc/core"
+  - core-js
+  - core-js-pure
+  - esbuild
+  - msw
+  - netlify-cli
+  - protobufjs
+  - sharp
+  - unix-dgram

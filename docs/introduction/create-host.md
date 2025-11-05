@@ -107,7 +107,7 @@ Next, create a layout component to [render the navigation items](/reference/rout
 
 ```tsx !#40,43 host/src/RootLayout.tsx
 import { Suspense } from "react";
-import { Link, Outlet } from "react-router/dom";
+import { Link, Outlet } from "react-router";
 import { 
     useNavigationItems,
     useRenderedNavigationItems,
