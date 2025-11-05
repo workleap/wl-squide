@@ -22,7 +22,7 @@ To build this page while adhering to Squide's constraint of avoiding hard refere
 
 ```tsx !#9-11,15 host/src/tabs-layout.tsx
 import { Suspense } from "react";
-import { Link, Outlet } from "react-router/dom";
+import { Link, Outlet } from "react-router";
 
 export function TabsLayout() {
     return (
@@ -247,7 +247,7 @@ import {
     type RenderSectionFunction
 } from "@squide/firefly";
 import { Suspense } from "react";
-import { Link, Outlet } from "react-router/dom";
+import { Link, Outlet } from "react-router";
 
 const renderItem: RenderItemFunction = (item, key) => {
     const { label, linkProps } = item as NavigationLinkRenderProps;
