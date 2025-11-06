@@ -5,7 +5,7 @@ export const EnvironmentVariablesPluginName = "env-vars-plugin";
 
 export interface EnvironmentVariablesPluginOptions {
     environmentVariables?: Partial<EnvironmentVariables>;
-};
+}
 
 export class EnvironmentVariablesPlugin extends Plugin {
     readonly #environmentVariablesRegistry = new EnvironmentVariablesRegistry();
