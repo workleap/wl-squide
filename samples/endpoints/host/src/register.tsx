@@ -35,7 +35,7 @@ function registerRoutes(runtime: FireflyRuntime, i18nextInstance: i18n) {
 }
 
 async function registerMsw(runtime: FireflyRuntime) {
-    if (process.env.USE_MSW) {
+    if (runtime.isMswEnabled) {
         const environmentVariables = getEnvironmentVariablesPlugin(runtime).getVariables();
 
         // Files including an import to the "msw" package are included dynamically to prevent adding

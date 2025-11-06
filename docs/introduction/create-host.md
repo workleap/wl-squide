@@ -75,10 +75,18 @@ root.render(
 
 Then, render the [AppRouter](../reference/routing/appRouter.md) component to define a React Router [browser instance](https://reactrouter.com/en/main/routers/create-browser-router) configured with the registered routes:
 
-```tsx !#7-21 host/src/App.tsx
-import { AppRouter } from "@squide/firefly";
-import { createBrowserRouter } from "react-router";
+```tsx !#5-11,15-34 host/src/App.tsx
+import { AppRouter, useIsBootstrapping } from "@squide/firefly";
+import { createBrowserRouter, Outlet } from "react-router";
 import { RouterProvider } from "react-router/dom";
+
+function BootstrappingRoute() {
+    if (useIsBootstrapping()) {
+        return <div>Loading...</div>;
+    }
+
+    return <Outlet />;
+}
 
 export function App() {
     return (
@@ -89,7 +97,12 @@ export function App() {
                         router={createBrowserRouter([
                             {
                                 element: rootRoute,
-                                children: registeredRoutes
+                                children: [
+                                    {
+                                        element: <BootstrappingRoute />,
+                                        children: registeredRoutes
+                                    }
+                                ]
                             }
                         ])}
                         {...routerProviderProps}

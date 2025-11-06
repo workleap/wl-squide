@@ -51,16 +51,16 @@ import { createBrowserRouter } from "react-router";
 import { RouterProvider } from "react-router/dom";
 import { RootErrorBoundary } from "./RootErrorBoundary.tsx";
 
-export function FireflyAppRouter() {
+export function AppRouter() {
     return (
-        <AppRouter>
+        <FireflyAppRouter>
             {({ rootRoute, registeredRoutes, routerProviderProps }) => {
                 return (
                     <RouterProvider
                         router={createBrowserRouter([
                             {
                                 element: rootRoute,
-                                errorElement: <RootErrorBoundary />
+                                errorElement: <RootErrorBoundary />,
                                 children: registeredRoutes
                             }
                         ])}
@@ -68,7 +68,7 @@ export function FireflyAppRouter() {
                     />
                 );
             }}
-        </AppRouter>
+        </FireflyAppRouter>
     );
 }
 ```

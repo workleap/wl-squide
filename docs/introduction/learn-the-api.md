@@ -6,6 +6,25 @@ order: 50
 
 Now that we've created a host application, loaded a few modules and registered routes and navigation items, let's delve into the APIs provided by this shell.
 
+<!-- ## Register routes
+
+TBD
+
+- Register an index route
+- Register a route with a path
+- Register a lazy route
+- Register a public route
+- Register a nested route
+- Register an hoisted route
+
+## Register navigation items
+
+TBD
+
+- Register a navigation item
+- Register a nested navigation item
+- Register a navigation item for a specific menu -->
+
 ## Runtime mode
 
 In an effort to optimize the development experience, Squide can be bootstrapped in `development` or `production` mode:
