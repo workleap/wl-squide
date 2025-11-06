@@ -526,7 +526,7 @@ Then, update the module `tsconfig.json` to include the `types` folder:
 
 ```json !#3 shell/tsconfig.json
 {
-    "extends": "@workleap/typescript-configs/web-application.json",
+    "extends": "@workleap/typescript-configs/react-library.json",
     "include": ["src", "types"],
     "exclude": ["dist", "node_modules"]
 }
@@ -548,7 +548,7 @@ Finally, when [tsc](https://www.typescriptlang.org/docs/handbook/compiler-option
 
 ```json !#6 local-module/tsconfig.json
 {
-    "extends": "@workleap/typescript-configs/library.json",
+    "extends": "@workleap/typescript-configs/react-library.json",
     "include": [
         "src",
         "types"

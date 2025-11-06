@@ -112,8 +112,8 @@ importers:
         specifier: workspace:*
         version: link:../core
       '@workleap/logging':
-        specifier: ^1.3.2
-        version: 1.3.2
+        specifier: ^1.3.1
+        version: 1.3.1
       memoize:
         specifier: ^10.2.0
         version: 10.2.0
@@ -6644,9 +6644,6 @@ packages:
 
   '@workleap/logging@1.3.1':
     resolution: {integrity: sha512-vMtrRxpxT5Evy7a1n7GVr1/WFOHXASzAaLnSn0BOeb0CnSwa1jJ5Udv2JnI7Vc418YrNPU8FbgqNZTyASnTZDQ==}
-
-  '@workleap/logging@1.3.2':
-    resolution: {integrity: sha512-slx0b+ndk5SHeWMUZD1/DGggkpqqUrQJRR+pqHta8wNbs3i8PHMHs+EUkc7tuVPdaEidzfaRiB69/p+R0GkDrA==}
 
   '@workleap/logrocket@2.1.5':
     resolution: {integrity: sha512-8cQmrFXz7NeCPZTICMVuiC9UdxQHd+MMCstO+0ceefMcP3f2H6WBw08V83AUWn7JbZ0v+Pym0YbwBTyZPgpF6Q==}
@@ -17181,7 +17178,7 @@ snapshots:
 
   '@workleap-telemetry/core@1.0.4':
     dependencies:
-      '@workleap/logging': 1.3.2
+      '@workleap/logging': 1.3.1
       js-cookie: 3.0.5
       uuid: 13.0.0
 
@@ -17232,7 +17229,7 @@ snapshots:
       '@opentelemetry/instrumentation-xml-http-request': 0.207.0(@opentelemetry/api@1.9.0)
       '@opentelemetry/sdk-trace-web': 2.2.0(@opentelemetry/api@1.9.0)
       '@workleap-telemetry/core': 1.0.4
-      '@workleap/logging': 1.3.2
+      '@workleap/logging': 1.3.1
     optionalDependencies:
       react: 19.2.0
       react-dom: 19.2.0(react@19.2.0)
@@ -17243,12 +17240,10 @@ snapshots:
 
   '@workleap/logging@1.3.1': {}
 
-  '@workleap/logging@1.3.2': {}
-
   '@workleap/logrocket@2.1.5(logrocket@10.1.0)(react-dom@19.2.0(react@19.2.0))(react@19.2.0)':
     dependencies:
       '@workleap-telemetry/core': 1.0.4
-      '@workleap/logging': 1.3.2
+      '@workleap/logging': 1.3.1
       logrocket: 10.1.0
       logrocket-fuzzy-search-sanitizer: 0.0.2
     optionalDependencies:
@@ -17258,7 +17253,7 @@ snapshots:
   '@workleap/mixpanel@4.0.5(@workleap/logrocket@2.1.5(logrocket@10.1.0)(react-dom@19.2.0(react@19.2.0))(react@19.2.0))(react-dom@19.2.0(react@19.2.0))(react@19.2.0)':
     dependencies:
       '@workleap-telemetry/core': 1.0.4
-      '@workleap/logging': 1.3.2
+      '@workleap/logging': 1.3.1
     optionalDependencies:
       '@workleap/logrocket': 2.1.5(logrocket@10.1.0)(react-dom@19.2.0(react@19.2.0))(react@19.2.0)
       react: 19.2.0
@@ -17300,7 +17295,7 @@ snapshots:
       '@opentelemetry/sdk-trace-web': 2.2.0(@opentelemetry/api@1.9.0)
       '@workleap-telemetry/core': 1.0.4
       '@workleap/honeycomb': 7.1.5(@opentelemetry/api@1.9.0)(react-dom@19.2.0(react@19.2.0))(react@19.2.0)(zone.js@0.15.1)
-      '@workleap/logging': 1.3.2
+      '@workleap/logging': 1.3.1
       '@workleap/logrocket': 2.1.5(logrocket@10.1.0)(react-dom@19.2.0(react@19.2.0))(react@19.2.0)
       '@workleap/mixpanel': 4.0.5(@workleap/logrocket@2.1.5(logrocket@10.1.0)(react-dom@19.2.0(react@19.2.0))(react@19.2.0))(react-dom@19.2.0(react@19.2.0))(react@19.2.0)
     optionalDependencies:
