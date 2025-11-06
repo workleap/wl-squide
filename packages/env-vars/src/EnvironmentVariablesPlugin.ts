@@ -3,11 +3,23 @@ import { type EnvironmentVariables, EnvironmentVariablesRegistry, type Environme
 
 export const EnvironmentVariablesPluginName = "env-vars-plugin";
 
+export interface EnvironmentVariablesPluginOptions {
+    environmentVariables?: Partial<EnvironmentVariables>;
+};
+
 export class EnvironmentVariablesPlugin extends Plugin {
     readonly #environmentVariablesRegistry = new EnvironmentVariablesRegistry();
 
-    constructor(runtime: Runtime) {
+    constructor(runtime: Runtime, options: EnvironmentVariablesPluginOptions = {}) {
         super(EnvironmentVariablesPluginName, runtime);
+
+        const {
+            environmentVariables
+        } = options;
+
+        if (environmentVariables) {
+            this.#environmentVariablesRegistry.addVariables(environmentVariables);
+        }
     }
 
     registerVariable(key: EnvironmentVariablesRegistryKey, value: EnvironmentVariablesRegistryValue) {

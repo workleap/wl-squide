@@ -18,7 +18,7 @@ First, define a React Router's error boundary to catch module errors. For this e
 export function ModuleErrorBoundary() {
     return (
         <div>An error occured while rendering a page from a module!</div>
-    )
+    );
 }
 ```
 

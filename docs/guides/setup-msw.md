@@ -63,10 +63,10 @@ First, define a function to start MSW:
 import type { RequestHandler } from "msw";
 import { setupWorker } from "msw/browser";
 
-export function startMsw(moduleRequestHandlers: RequestHandler[]) {
+export async function startMsw(moduleRequestHandlers: RequestHandler[]) {
     const worker = setupWorker(...moduleRequestHandlers);
 
-    return worker.start({
+    await worker.start({
         onUnhandledRequest: "bypass"
     });
 }
@@ -83,10 +83,10 @@ import { registerHost } from "./register.tsx";
 const runtime = initializeFirefly(runtime, {
     useMsw: !!process.env.USE_MSW,
     localModules: [registerHost],
-    startMsw: async () => {
+    startMsw: async x => {
         // Files that includes an import to the "msw" package are included dynamically to prevent adding
         // unused MSW stuff to the code bundles.
-        (await import("../mocks/browser.ts")).startMsw(runtime.requestHandlers);
+        return (await import("../mocks/browser.ts")).startMsw(x.requestHandlers);
     }
 });
 
