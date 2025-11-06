@@ -1,5 +1,11 @@
 # @squide/env-vars
 
+## 1.4.6
+
+### Patch Changes
+
+- [#337](https://github.com/workleap/wl-squide/pull/337) [`04600f0`](https://github.com/workleap/wl-squide/commit/04600f08ba724291bfb8102ebdd2d977d8a69f45) Thanks [@patricklafrance](https://github.com/patricklafrance)! - Environment variables can now be provided from the plugin constructor.
+
 ## 1.4.5
 
 ### Patch Changes
