@@ -94,7 +94,7 @@ export abstract class Runtime<TRoute = unknown, TNavigationItem = unknown> imple
             registryId: LocalModuleRegistryId
         }));
 
-        this._moduleManager.registerModules(definitions, options)
+        this._moduleManager.registerModules(definitions, options);
     }
 
     get moduleManager(): ModuleManager {
@@ -162,19 +162,13 @@ export abstract class RuntimeScope<TRoute = unknown, TNavigationItem = unknown, 
         this._runtime = runtime;
         this._logger = logger;
     }
-    registerLocalModules<TContext = unknown, TData = unknown>(registrationFunctions: ModuleRegisterFunction<Runtime, TContext, TData>[], options?: RegisterModulesOptions<TContext>): void {
-        throw new Error("Method not implemented.");
+
+    registerLocalModules() {
+        throw new Error("[squide] Cannot register local modules from a runtime scope instance.");
     }
 
     get moduleManager(): ModuleManager {
-    registerLocalModules<TContext = unknown, TData = unknown>(registrationFunctions: ModuleRegisterFunction<Runtime, TContext, TData>[], options?: RegisterModulesOptions<TContext>): void {
-        throw new Error("Method not implemented.");
-    }
-        throw new Error("Method not implemented.");
-    }
-
-    get localModulesRegistry() {
-        return this._runtime.localModulesRegistry;
+        throw new Error("[squide] Cannot retrieve the module manager from a runtime scope instance.");
     }
 
     registerRoute(route: TRoute, options: RegisterRouteOptions = {}) {
@@ -206,18 +200,26 @@ export abstract class RuntimeScope<TRoute = unknown, TNavigationItem = unknown, 
         return this._runtime.getNavigationItems(options);
     }
 
-    startDeferredRegistrationScope(options: StartDeferredRegistrationScopeOptions = {}) {
-        this._runtime.startDeferredRegistrationScope({
-            ...options,
-            logger: this._getLogger(options)
-        });
+    // startDeferredRegistrationScope(options: StartDeferredRegistrationScopeOptions = {}) {
+    //     this._runtime.startDeferredRegistrationScope({
+    //         ...options,
+    //         logger: this._getLogger(options)
+    //     });
+    // }
+
+    // completeDeferredRegistrationScope(options: CompleteDeferredRegistrationScopeOptions = {}) {
+    //     this._runtime.completeDeferredRegistrationScope({
+    //         ...options,
+    //         logger: this._getLogger(options)
+    //     });
+    // }
+
+    startDeferredRegistrationScope() {
+        throw new Error("[squide] Cannot start a deferred registration scope from a runtime scope instance.");
     }
 
-    completeDeferredRegistrationScope(options: CompleteDeferredRegistrationScopeOptions = {}) {
-        this._runtime.completeDeferredRegistrationScope({
-            ...options,
-            logger: this._getLogger(options)
-        });
+    completeDeferredRegistrationScope() {
+        throw new Error("[squide] Cannot complete a deferred registration scope from a runtime scope instance.");
     }
 
     get mode(): RuntimeMode {
@@ -241,7 +243,7 @@ export abstract class RuntimeScope<TRoute = unknown, TNavigationItem = unknown, 
     }
 
     startScope(): TRuntime {
-        throw new Error("[squide] Cannot start a runtime scope from a scope instance.");
+        throw new Error("[squide] Cannot start a runtime scope from a runtime scope instance.");
     }
 
     _getLogger(options: RuntimeMethodOptions = {}) {
@@ -252,10 +254,14 @@ export abstract class RuntimeScope<TRoute = unknown, TNavigationItem = unknown, 
         return logger ? logger : this._logger;
     }
 
-    _validateRegistrations(options: ValidateRegistrationsOptions = {}) {
-        this._runtime._validateRegistrations({
-            ...options,
-            logger: this._getLogger(options)
-        });
+    // _validateRegistrations(options: ValidateRegistrationsOptions = {}) {
+    //     this._runtime._validateRegistrations({
+    //         ...options,
+    //         logger: this._getLogger(options)
+    //     });
+    // }
+
+    _validateRegistrations() {
+        throw new Error("[squide] Cannot validate registrations from a runtime scope instance.");
     }
 }
