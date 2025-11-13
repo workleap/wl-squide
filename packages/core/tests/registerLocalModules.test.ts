@@ -1,7 +1,7 @@
 import { NoopLogger } from "@workleap/logging";
 import { test, vi } from "vitest";
+import { LocalModuleRegistrationFailedEvent, LocalModuleRegistry, LocalModulesRegistrationCompletedEvent, LocalModulesRegistrationStartedEvent } from "../src/registration/LocalModuleRegistry.ts";
 import { ModuleRegistrationError } from "../src/registration/moduleRegistry.ts";
-import { LocalModuleRegistrationFailedEvent, LocalModuleRegistry, LocalModulesRegistrationCompletedEvent, LocalModulesRegistrationStartedEvent } from "../src/registration/registerLocalModules.ts";
 import { Runtime } from "../src/runtime/runtime.ts";
 
 function simulateDelay(delay: number) {

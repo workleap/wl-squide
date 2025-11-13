@@ -1,6 +1,9 @@
 import { createCompositeLogger, type Logger, type RootLogger } from "@workleap/logging";
 import { EventBus } from "../messaging/eventBus.ts";
 import type { Plugin } from "../plugins/plugin.ts";
+import { RegisterModulesOptions } from "../registration/moduleRegistry.ts";
+import { ModuleRegisterFunction } from "../registration/registerModule.ts";
+import { LocalModuleRegistry } from "../registration/LocalModuleRegistry.ts";
 
 export type RuntimeMode = "development" | "production";
 
@@ -10,6 +13,7 @@ export interface RuntimeOptions {
     mode?: RuntimeMode;
     loggers?: RootLogger[];
     plugins?: PluginFactory[];
+    localModulesRegistry?:
 }
 
 export interface RuntimeMethodOptions {
@@ -42,6 +46,8 @@ export interface ValidateRegistrationsOptions extends RuntimeMethodOptions {}
 export const RootMenuId = "root";
 
 export interface IRuntime<TRoute = unknown, TNavigationItem = unknown> {
+    registerLocalModules: <TRuntime extends Runtime = Runtime, TContext = unknown, TData = unknown>(registrationFunctions: ModuleRegisterFunction<TRuntime, TContext, TData>[], options?: RegisterModulesOptions<TContext>) => void;
+    get localModulesRegistry(): LocalModuleRegistry;
     registerRoute: (route: TRoute, options?: RegisterRouteOptions) => void;
     registerPublicRoute: (route: Omit<TRoute, "visibility">, options?: RegisterRouteOptions) => void;
     get routes(): TRoute[];
@@ -64,19 +70,37 @@ export abstract class Runtime<TRoute = unknown, TNavigationItem = unknown> imple
     protected readonly _logger: Logger;
     protected readonly _eventBus: EventBus;
     protected readonly _plugins: Plugin[];
+    protected readonly _localModuleRegistry: LocalModuleRegistry;
 
     constructor(options: RuntimeOptions = {}) {
         const {
             mode = "development",
             loggers = [],
-            plugins = []
+            plugins = [],
+            localModulesRegistry = new LocalModuleRegistry()
         } = options;
 
         this._mode = mode;
         this._logger = createCompositeLogger(mode === "development", loggers);
         this._eventBus = new EventBus(this._logger);
         this._plugins = plugins.map(x => x(this));
+        this._localModuleRegistry = localModulesRegistry;
     }
+
+    registerLocalModules<TRuntime extends Runtime = Runtime, TContext = unknown, TData = unknown>(
+        registrationFunctions: ModuleRegisterFunction<TRuntime, TContext, TData>[],
+        options?: RegisterModulesOptions<TContext>
+    ) {
+        this._localModuleRegistry.registerModules(registrationFunctions, this, options);
+    }
+
+    get localModulesRegistry() {
+        return this._localModuleRegistry;
+    }
+
+    // TODO:
+    // - also need registerDeferredRegistrations and updateDeferredRegistrations
+    // - should also expose the local module registry to allow other parts to access the registrationStatus and register events
 
     abstract registerRoute(route: TRoute, options?: RegisterRouteOptions): void;
 
@@ -139,6 +163,8 @@ export abstract class RuntimeScope<TRoute = unknown, TNavigationItem = unknown, 
         this._runtime = runtime;
         this._logger = logger;
     }
+
+    registerLocalModules: <TContext = unknown, TData = unknown>(registrationFunctions: ModuleRegisterFunction<TContext, TData>[], { context }?: RegisterModulesOptions<TContext>) => void;
 
     registerRoute(route: TRoute, options: RegisterRouteOptions = {}) {
         this._runtime.registerRoute(route, {
