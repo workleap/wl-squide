@@ -1,4 +1,4 @@
-import { addLocalModuleRegistrationStatusChangedListener, getLocalModuleRegistrationStatus, removeLocalModuleRegistrationStatusChangedListener, useEventBus, useLogger, useRuntime } from "@squide/core";
+import { useEventBus, useLogger, useRuntime } from "@squide/core";
 import { addRemoteModuleRegistrationStatusChangedListener, areModulesReady, areModulesRegistered, getRemoteModuleRegistrationStatus, removeRemoteModuleRegistrationStatusChangedListener } from "@squide/module-federation";
 import { addMswStateChangedListener, isMswReady, removeMswStateChangedListener } from "@squide/msw";
 import { useCallback, useEffect, useMemo, useReducer, type Dispatch } from "react";
@@ -166,25 +166,25 @@ function reducer(state: AppRouterState, action: AppRouterAction) {
     return newState;
 }
 
-export function getAreModulesRegistered() {
-    const localModuleStatus = getLocalModuleRegistrationStatus();
+export function getAreModulesRegistered(runtime: FireflyRuntime) {
+    const localModuleStatus = runtime.localModulesRegistry.registrationStatus;
     const remoteModuleStatus = getRemoteModuleRegistrationStatus();
 
     return areModulesRegistered(localModuleStatus, remoteModuleStatus);
 }
 
-export function getAreModulesReady() {
-    const localModuleStatus = getLocalModuleRegistrationStatus();
+export function getAreModulesReady(runtime: FireflyRuntime) {
+    const localModuleStatus = runtime.localModulesRegistry.registrationStatus;
     const remoteModuleStatus = getRemoteModuleRegistrationStatus();
 
     return areModulesReady(localModuleStatus, remoteModuleStatus);
 }
 
-export function useModuleRegistrationStatusDispatcher(areModulesRegisteredValue: boolean, areModulesReadyValue: boolean, dispatch: AppRouterDispatch) {
+export function useModuleRegistrationStatusDispatcher(runtime: FireflyRuntime, areModulesRegisteredValue: boolean, areModulesReadyValue: boolean, dispatch: AppRouterDispatch) {
     const logger = useLogger();
 
     const dispatchModulesRegistered = useExecuteOnce(useCallback(() => {
-        if (getAreModulesRegistered()) {
+        if (getAreModulesRegistered(runtime)) {
             dispatch({ type: "modules-registered" });
 
             logger
@@ -199,10 +199,10 @@ export function useModuleRegistrationStatusDispatcher(areModulesRegisteredValue:
         }
 
         return false;
-    }, [dispatch, logger]));
+    }, [runtime, dispatch, logger]));
 
     const dispatchModulesReady = useExecuteOnce(useCallback(() => {
-        if (getAreModulesReady()) {
+        if (getAreModulesReady(runtime)) {
             dispatch({ type: "modules-ready" });
 
             logger
@@ -217,24 +217,24 @@ export function useModuleRegistrationStatusDispatcher(areModulesRegisteredValue:
         }
 
         return false;
-    }, [dispatch, logger]));
+    }, [runtime, dispatch, logger]));
 
     return useEffect(() => {
         if (!areModulesRegisteredValue) {
-            addLocalModuleRegistrationStatusChangedListener(dispatchModulesRegistered);
+            runtime.localModulesRegistry.registerStatusChangedListener(dispatchModulesRegistered);
             addRemoteModuleRegistrationStatusChangedListener(dispatchModulesRegistered);
         }
 
         if (!areModulesReadyValue) {
-            addLocalModuleRegistrationStatusChangedListener(dispatchModulesReady);
+            runtime.localModulesRegistry.registerStatusChangedListener(dispatchModulesReady);
             addRemoteModuleRegistrationStatusChangedListener(dispatchModulesReady);
         }
 
         return () => {
-            removeLocalModuleRegistrationStatusChangedListener(dispatchModulesRegistered);
+            runtime.localModulesRegistry.removeStatusChangedListener(dispatchModulesRegistered);
             removeRemoteModuleRegistrationStatusChangedListener(dispatchModulesRegistered);
 
-            removeLocalModuleRegistrationStatusChangedListener(dispatchModulesReady);
+            runtime.localModulesRegistry.removeStatusChangedListener(dispatchModulesReady);
             removeRemoteModuleRegistrationStatusChangedListener(dispatchModulesReady);
         };
     }, [areModulesRegisteredValue, areModulesReadyValue, dispatchModulesRegistered, dispatchModulesReady]);
@@ -332,8 +332,8 @@ export function useAppRouterReducer(waitForPublicData: boolean, waitForProtected
 
     const isMswEnabled = runtime.isMswEnabled;
 
-    const areModulesInitiallyRegistered = getAreModulesRegistered();
-    const areModulesInitiallyReady = getAreModulesReady();
+    const areModulesInitiallyRegistered = getAreModulesRegistered(runtime);
+    const areModulesInitiallyReady = getAreModulesReady(runtime);
     const isMswInitiallyReady = isMswReady();
 
     const waitState = useMemo(() => ({
@@ -402,7 +402,7 @@ export function useAppRouterReducer(waitForPublicData: boolean, waitForProtected
     const dispatchProxy = useReducerDispatchProxy(reactDispatch);
     const dispatch = useEnhancedReducerDispatch(waitState, dispatchProxy);
 
-    useModuleRegistrationStatusDispatcher(areModulesRegisteredValue, areModulesReadyValue, dispatch);
+    useModuleRegistrationStatusDispatcher(runtime, areModulesRegisteredValue, areModulesReadyValue, dispatch);
     useMswStatusDispatcher(isMswReadyValue, dispatch);
     useBootstrappingCompletedDispatcher(waitState, state);
 

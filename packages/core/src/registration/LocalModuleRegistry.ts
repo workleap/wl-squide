@@ -4,6 +4,8 @@ import { isFunction } from "../shared/assertions.ts";
 import { ModuleRegistrationError, type ModuleRegistrationStatus, type ModuleRegistrationStatusChangedListener, type ModuleRegistry, type RegisterModulesOptions } from "./moduleRegistry.ts";
 import { registerModule, type DeferredRegistrationFunction, type ModuleRegisterFunction } from "./registerModule.ts";
 
+export const LocalModuleRegistryId = "local";
+
 export const LocalModulesRegistrationStartedEvent = "squide-local-modules-registration-started";
 export const LocalModulesRegistrationCompletedEvent = "squide-local-modules-registration-completed";
 export const LocalModuleRegistrationFailedEvent = "squide-local-module-registration-failed";
@@ -50,6 +52,10 @@ export class LocalModuleRegistry implements ModuleRegistry {
 
     readonly #deferredRegistrations: DeferredRegistration[] = [];
     readonly #statusChangedListeners = new Set<ModuleRegistrationStatusChangedListener>();
+
+    get id() {
+        return LocalModuleRegistryId;
+    }
 
     async registerModules<TRuntime extends Runtime = Runtime, TContext = unknown, TData = unknown>(registrationFunctions: ModuleRegisterFunction<TRuntime, TContext, TData>[], runtime: TRuntime, { context }: RegisterModulesOptions<TContext> = {}) {
         const errors: ModuleRegistrationError[] = [];

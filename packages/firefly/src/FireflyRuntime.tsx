@@ -59,7 +59,7 @@ export class FireflyRuntime extends ReactRouterRuntime implements IFireflyRuntim
             throw new Error("[squide] Cannot register the provided MSW request handlers because the runtime hasn't been initialized with MSW. Did you instanciate the FireflyRuntime with the \"useMsw\" option?");
         }
 
-        if (getAreModulesRegistered()) {
+        if (getAreModulesRegistered(this)) {
             throw new Error("[squide] Cannot register an MSW request handlers once the modules are registered. Are you trying to register an MSW request handler in a deferred registration function? Only navigation items can be registered in a deferred registration function.");
         }
 
@@ -80,7 +80,7 @@ export class FireflyRuntime extends ReactRouterRuntime implements IFireflyRuntim
     }
 
     registerRoute(route: Route, options: RegisterRouteOptions = {}) {
-        if (getAreModulesRegistered()) {
+        if (getAreModulesRegistered(this)) {
             throw new Error("[squide] Cannot register a route once the modules are registered. Are you trying to register a route in a deferred registration function? Only navigation items can be registered in a deferred registration function.");
         }
 

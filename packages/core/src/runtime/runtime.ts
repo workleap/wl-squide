@@ -1,9 +1,10 @@
 import { createCompositeLogger, type Logger, type RootLogger } from "@workleap/logging";
 import { EventBus } from "../messaging/eventBus.ts";
 import type { Plugin } from "../plugins/plugin.ts";
+import { LocalModuleRegistry, LocalModuleRegistryId } from "../registration/LocalModuleRegistry.ts";
+import { ModuleDefinition, ModuleManager } from "../registration/ModuleManager.ts";
 import { RegisterModulesOptions } from "../registration/moduleRegistry.ts";
 import { ModuleRegisterFunction } from "../registration/registerModule.ts";
-import { LocalModuleRegistry } from "../registration/LocalModuleRegistry.ts";
 
 export type RuntimeMode = "development" | "production";
 
@@ -11,9 +12,9 @@ export type PluginFactory = (runtime: Runtime) => Plugin;
 
 export interface RuntimeOptions {
     mode?: RuntimeMode;
+    moduleManager?: ModuleManager;
     loggers?: RootLogger[];
     plugins?: PluginFactory[];
-    localModulesRegistry?:
 }
 
 export interface RuntimeMethodOptions {
@@ -46,8 +47,8 @@ export interface ValidateRegistrationsOptions extends RuntimeMethodOptions {}
 export const RootMenuId = "root";
 
 export interface IRuntime<TRoute = unknown, TNavigationItem = unknown> {
-    registerLocalModules: <TRuntime extends Runtime = Runtime, TContext = unknown, TData = unknown>(registrationFunctions: ModuleRegisterFunction<TRuntime, TContext, TData>[], options?: RegisterModulesOptions<TContext>) => void;
-    get localModulesRegistry(): LocalModuleRegistry;
+    registerLocalModules<TContext = unknown, TData = unknown>(registrationFunctions: ModuleRegisterFunction<Runtime, TContext, TData>[], options?: RegisterModulesOptions<TContext>): void;
+    get moduleManager(): ModuleManager;
     registerRoute: (route: TRoute, options?: RegisterRouteOptions) => void;
     registerPublicRoute: (route: Omit<TRoute, "visibility">, options?: RegisterRouteOptions) => void;
     get routes(): TRoute[];
@@ -67,40 +68,38 @@ export interface IRuntime<TRoute = unknown, TNavigationItem = unknown> {
 
 export abstract class Runtime<TRoute = unknown, TNavigationItem = unknown> implements IRuntime<TRoute, TNavigationItem> {
     protected readonly _mode: RuntimeMode;
+    protected readonly _moduleManager: ModuleManager;
     protected readonly _logger: Logger;
     protected readonly _eventBus: EventBus;
     protected readonly _plugins: Plugin[];
-    protected readonly _localModuleRegistry: LocalModuleRegistry;
 
     constructor(options: RuntimeOptions = {}) {
         const {
             mode = "development",
+            moduleManager = new ModuleManager(this, [new LocalModuleRegistry()]),
             loggers = [],
-            plugins = [],
-            localModulesRegistry = new LocalModuleRegistry()
+            plugins = []
         } = options;
 
         this._mode = mode;
+        this._moduleManager = moduleManager;
         this._logger = createCompositeLogger(mode === "development", loggers);
         this._eventBus = new EventBus(this._logger);
         this._plugins = plugins.map(x => x(this));
-        this._localModuleRegistry = localModulesRegistry;
     }
 
-    registerLocalModules<TRuntime extends Runtime = Runtime, TContext = unknown, TData = unknown>(
-        registrationFunctions: ModuleRegisterFunction<TRuntime, TContext, TData>[],
-        options?: RegisterModulesOptions<TContext>
-    ) {
-        this._localModuleRegistry.registerModules(registrationFunctions, this, options);
+    registerLocalModules<TContext = unknown, TData = unknown>(registrationFunctions: ModuleRegisterFunction<this, TContext, TData>[], options?: RegisterModulesOptions<TContext>) {
+        const definitions: ModuleDefinition[] = registrationFunctions.map(x => ({
+            definition: x,
+            registryId: LocalModuleRegistryId
+        }));
+
+        this._moduleManager.registerModules(definitions, options)
     }
 
-    get localModulesRegistry() {
-        return this._localModuleRegistry;
+    get moduleManager(): ModuleManager {
+        return this._moduleManager;
     }
-
-    // TODO:
-    // - also need registerDeferredRegistrations and updateDeferredRegistrations
-    // - should also expose the local module registry to allow other parts to access the registrationStatus and register events
 
     abstract registerRoute(route: TRoute, options?: RegisterRouteOptions): void;
 
@@ -163,8 +162,20 @@ export abstract class RuntimeScope<TRoute = unknown, TNavigationItem = unknown, 
         this._runtime = runtime;
         this._logger = logger;
     }
+    registerLocalModules<TContext = unknown, TData = unknown>(registrationFunctions: ModuleRegisterFunction<Runtime, TContext, TData>[], options?: RegisterModulesOptions<TContext>): void {
+        throw new Error("Method not implemented.");
+    }
 
-    registerLocalModules: <TContext = unknown, TData = unknown>(registrationFunctions: ModuleRegisterFunction<TContext, TData>[], { context }?: RegisterModulesOptions<TContext>) => void;
+    get moduleManager(): ModuleManager {
+    registerLocalModules<TContext = unknown, TData = unknown>(registrationFunctions: ModuleRegisterFunction<Runtime, TContext, TData>[], options?: RegisterModulesOptions<TContext>): void {
+        throw new Error("Method not implemented.");
+    }
+        throw new Error("Method not implemented.");
+    }
+
+    get localModulesRegistry() {
+        return this._runtime.localModulesRegistry;
+    }
 
     registerRoute(route: TRoute, options: RegisterRouteOptions = {}) {
         this._runtime.registerRoute(route, {

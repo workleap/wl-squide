@@ -1,4 +1,4 @@
-import { isFunction, registerLocalModules, type ModuleRegisterFunction, type RegisterModulesOptions } from "@squide/core";
+import { isFunction, type ModuleRegisterFunction, type RegisterModulesOptions } from "@squide/core";
 import { registerRemoteModules, type RemoteDefinition } from "@squide/module-federation";
 import { setMswAsReady } from "@squide/msw";
 import type { HoneycombInstrumentationPartialClient } from "@workleap-telemetry/core";
@@ -41,7 +41,8 @@ export function bootstrap<TRuntime extends FireflyRuntime = FireflyRuntime, TCon
     runtime.eventBus.dispatch(ApplicationBootstrappingStartedEvent);
 
     Promise.allSettled([
-        registerLocalModules<TRuntime, TContext, TData>(localModules, runtime, { context }),
+        runtime.localModulesRegistry.registerModules(localModules, runtime, { context }),
+        // registerLocalModules<TRuntime, TContext, TData>(localModules, runtime, { context }),
         registerRemoteModules(remotes, runtime, { context })
     ]).then(results => {
         if (runtime.isMswEnabled) {

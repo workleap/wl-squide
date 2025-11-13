@@ -1,11 +1,14 @@
-import { addLocalModuleRegistrationStatusChangedListener, getLocalModuleRegistrationStatus, removeLocalModuleRegistrationStatusChangedListener, useRuntime } from "@squide/core";
+// import { addLocalModuleRegistrationStatusChangedListener, getLocalModuleRegistrationStatus, removeLocalModuleRegistrationStatusChangedListener, useRuntime } from "@squide/core";
+import { Runtime, useRuntime } from "@squide/core";
 import { addRemoteModuleRegistrationStatusChangedListener, areModulesReady, getRemoteModuleRegistrationStatus, removeRemoteModuleRegistrationStatusChangedListener } from "@squide/module-federation";
 import { useEffect, useSyncExternalStore } from "react";
 
-function subscribeToLocalModuleRegistrationStatusChanged(callback: () => void) {
-    addLocalModuleRegistrationStatusChangedListener(callback);
+function subscribeToLocalModuleRegistrationStatusChanged(runtime: Runtime) {
+    return (callback: () => void) => {
+        runtime.localModulesRegistry.registerStatusChangedListener(callback);
 
-    return () => removeLocalModuleRegistrationStatusChangedListener(callback);
+        return () => runtime.localModulesRegistry.removeStatusChangedListener(callback);
+    };
 }
 
 function subscribeToRemoteModuleRegistrationStatusChanged(callback: () => void) {
@@ -17,7 +20,7 @@ function subscribeToRemoteModuleRegistrationStatusChanged(callback: () => void) 
 export function useStrictRegistrationMode() {
     const runtime = useRuntime();
 
-    const localModuleStatus = useSyncExternalStore(subscribeToLocalModuleRegistrationStatusChanged, getLocalModuleRegistrationStatus);
+    const localModuleStatus = useSyncExternalStore(subscribeToLocalModuleRegistrationStatusChanged(runtime), () => runtime.localModulesRegistry.registrationStatus);
     const remoteModuleStatus = useSyncExternalStore(subscribeToRemoteModuleRegistrationStatusChanged, getRemoteModuleRegistrationStatus);
 
     useEffect(() => {
