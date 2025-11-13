@@ -88,13 +88,11 @@ export abstract class Runtime<TRoute = unknown, TNavigationItem = unknown> imple
         this._plugins = plugins.map(x => x(this));
     }
 
-    registerLocalModules<TContext = unknown, TData = unknown>(registrationFunctions: ModuleRegisterFunction<this, TContext, TData>[], options?: RegisterModulesOptions<TContext>) {
-        const definitions: ModuleDefinition[] = registrationFunctions.map(x => ({
+    registerLocalModules<TContext = unknown, TData = unknown>(registrationFunctions: ModuleRegisterFunction<Runtime, TContext, TData>[], options?: RegisterModulesOptions<TContext>) {
+        this._moduleManager.registerModules(registrationFunctions.map(x => ({
             definition: x,
             registryId: LocalModuleRegistryId
-        }));
-
-        this._moduleManager.registerModules(definitions, options);
+        })), options);
     }
 
     get moduleManager(): ModuleManager {
