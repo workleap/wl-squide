@@ -40,16 +40,19 @@ export class ModuleManager {
 
         await Promise.allSettled(Object.keys(definitionsByRegistryId).map(async x => {
             const registry = this.moduleRegistries.find(y => y.id === x);
+            const definitions = definitionsByRegistryId[x]!.map(y => y.definition);
 
             if (registry) {
-                const definitions = definitionsByRegistryId[x]!.map(y => y.definition);
                 const registrationErrors = await registry.registerModules(definitions, this.runtime, options);
 
                 errors.push(...registrationErrors);
             } else {
-                throw new Error("**** SHOULD NOT HAPPEN!!! ****");
-                // TODO: LOG AN ERROR.
-                // TODO: PUSH AN ERROR TO THE ERRORS OBJECT
+                this.runtime.logger
+                    .withText(`[squide] Cannot find a module registry with id "${x}". Skipping ${definitions.length} module definition${definitions.length > 1 ? "s" : ""}.`)
+                    .withObject(definitions)
+                    .error();
+
+                errors.push(new ModuleRegistrationError(`Cannot find a module registry with id "${x}"`));
             }
         }));
 
