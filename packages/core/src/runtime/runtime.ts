@@ -8,11 +8,13 @@ import { ModuleRegisterFunction } from "../registration/registerModule.ts";
 
 export type RuntimeMode = "development" | "production";
 
+export type ModuleManagerFactory = (runtime: Runtime) => ModuleManager;
+
 export type PluginFactory = (runtime: Runtime) => Plugin;
 
 export interface RuntimeOptions {
     mode?: RuntimeMode;
-    moduleManager?: ModuleManager;
+    moduleManager?: ModuleManagerFactory;
     loggers?: RootLogger[];
     plugins?: PluginFactory[];
 }
@@ -76,13 +78,13 @@ export abstract class Runtime<TRoute = unknown, TNavigationItem = unknown> imple
     constructor(options: RuntimeOptions = {}) {
         const {
             mode = "development",
-            moduleManager = new ModuleManager(this, [new LocalModuleRegistry()]),
+            moduleManager = x => new ModuleManager(x, [new LocalModuleRegistry()]),
             loggers = [],
             plugins = []
         } = options;
 
         this._mode = mode;
-        this._moduleManager = moduleManager;
+        this._moduleManager = moduleManager(this);
         this._logger = createCompositeLogger(mode === "development", loggers);
         this._eventBus = new EventBus(this._logger);
         this._plugins = plugins.map(x => x(this));

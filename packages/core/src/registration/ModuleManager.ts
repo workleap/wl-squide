@@ -2,10 +2,6 @@ import { Runtime } from "../runtime/runtime.ts";
 import { ModuleRegistrationError, ModuleRegistry, RegisterModulesOptions } from "./moduleRegistry.ts";
 import { ModuleRegisterFunction } from "./registerModule.ts";
 
-// TODO: It should be move somewhere into @squide/firefly
-export const DeferredRegistrationsUpdateStartedEvent = "squide-deferred-registrations-update-started";
-export const DeferredRegistrationsUpdateCompletedEvent = "squide-deferred-registrations-update-completed-started";
-
 export type ModuleRegistrationStatusListener = () => void;
 
 export interface ModuleDefinition<TRuntime extends Runtime = Runtime, TContext = unknown, TData = unknown> {
@@ -40,16 +36,18 @@ export class ModuleManager {
         //         { registryId: "remote", definition: {...} }
         //     ]
         // }
-        const definitionByRegistryId = Object.groupBy(definitions, x => x.registryId);
+        const definitionsByRegistryId = Object.groupBy(definitions, x => x.registryId);
 
-        await Promise.allSettled(Object.keys(definitionByRegistryId).map(async x => {
+        await Promise.allSettled(Object.keys(definitionsByRegistryId).map(async x => {
             const registry = this.moduleRegistries.find(y => y.id === x);
 
             if (registry) {
-                const registrationErrors = await registry.registerModules(definitionByRegistryId[x], this.runtime, options);
+                const definitions = definitionsByRegistryId[x]!.map(y => y.definition);
+                const registrationErrors = await registry.registerModules(definitions, this.runtime, options);
 
                 errors.push(...registrationErrors);
             } else {
+                throw new Error("**** SHOULD NOT HAPPEN!!! ****");
                 // TODO: LOG AN ERROR.
                 // TODO: PUSH AN ERROR TO THE ERRORS OBJECT
             }
@@ -84,8 +82,8 @@ export class ModuleManager {
         try {
             const errors: ModuleRegistrationError[] = [];
 
-            // TODO: It should be move somewhere into @squide/firefly
-            this.runtime.eventBus.dispatch(DeferredRegistrationsUpdateStartedEvent);
+            // // TODO: It should be move somewhere into @squide/firefly
+            // this.runtime.eventBus.dispatch(DeferredRegistrationsUpdateStartedEvent);
 
             await Promise.allSettled(this.moduleRegistries.map(async x => {
                 const registrationErrors = await x.updateDeferredRegistrations(data, this.runtime);
@@ -93,8 +91,8 @@ export class ModuleManager {
                 errors.push(...registrationErrors);
             }));
 
-            // TODO: It should be move somewhere into @squide/firefly
-            this.runtime.eventBus.dispatch(DeferredRegistrationsUpdateCompletedEvent);
+            // // TODO: It should be move somewhere into @squide/firefly
+            // this.runtime.eventBus.dispatch(DeferredRegistrationsUpdateCompletedEvent);
 
             return errors;
         } finally {

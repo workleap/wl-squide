@@ -3,6 +3,8 @@ import { isFunction, isNil, ModuleRegistrationError, registerModule, type Deferr
 import type { Logger, RootLogger } from "@workleap/logging";
 import type { RemoteDefinition } from "./remoteDefinition.ts";
 
+export const RemoteModuleRegistryId = "remote";
+
 export const RemoteModulesRegistrationStartedEvent = "squide-remote-modules-registration-started";
 export const RemoteModulesRegistrationCompletedEvent = "squide-remote-modules-registration-completed";
 export const RemoteModuleRegistrationFailedEvent = "squide-remote-module-registration-failed";
@@ -79,6 +81,10 @@ export class RemoteModuleRegistry implements ModuleRegistry {
 
     constructor(loadRemote: LoadRemoteFunction) {
         this.#loadRemote = loadRemote;
+    }
+
+    get id() {
+        return RemoteModuleRegistryId;
     }
 
     #logSharedScope(logger: Logger) {

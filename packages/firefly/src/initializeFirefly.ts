@@ -88,9 +88,9 @@ export function initializeFirefly<TContext = unknown, TData = unknown>(options: 
     const {
         mode,
         useMsw,
-        loggers,
         plugins,
         honeycombInstrumentationClient,
+        loggers,
         onError
     } = options;
 

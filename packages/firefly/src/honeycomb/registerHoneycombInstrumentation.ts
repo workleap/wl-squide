@@ -21,8 +21,8 @@ import {
     type ModuleRegistrationError
 } from "@squide/core";
 import {
-    DeferredRegistrationsUpdateCompletedEvent,
-    DeferredRegistrationsUpdateStartedEvent,
+    // DeferredRegistrationsUpdateCompletedEvent,
+    // DeferredRegistrationsUpdateStartedEvent,
     RemoteModuleDeferredRegistrationFailedEvent,
     RemoteModuleDeferredRegistrationUpdateFailedEvent,
     type RemoteModuleRegistrationError,
@@ -45,6 +45,7 @@ import type { FireflyRuntime } from "../FireflyRuntime.tsx";
 import { ApplicationBootstrappingStartedEvent } from "../initializeFirefly.ts";
 import { ProtectedDataFetchFailedEvent, ProtectedDataFetchStartedEvent } from "../useProtectedDataQueries.ts";
 import { PublicDataFetchFailedEvent, PublicDataFetchStartedEvent } from "../usePublicDataQueries.ts";
+import { DeferredRegistrationsUpdateCompletedEvent, DeferredRegistrationsUpdateStartedEvent } from "../useUpdateDeferredRegistrations.ts";
 import { type ActiveSpan, createOverrideFetchRequestSpanWithActiveSpanContext, registerActiveSpanStack } from "./activeSpan.ts";
 import { getTracer } from "./tracer.ts";
 import { endActiveSpan, startActiveChildSpan, startChildSpan, startSpan, traceError } from "./utils.ts";

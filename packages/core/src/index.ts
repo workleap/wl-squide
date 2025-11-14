@@ -1,6 +1,23 @@
 export * from "./shared/assertions.ts";
 
-export * from "./runtime/runtime.ts";
+export {
+    RootMenuId,
+    Runtime,
+    RuntimeScope,
+    type CompleteDeferredRegistrationScopeOptions,
+    type GetNavigationItemsOptions,
+    type IRuntime,
+    type ModuleManagerFactory,
+    type PluginFactory,
+    type RegisterNavigationItemOptions,
+    type RegisterRouteOptions,
+    type RuntimeMethodOptions,
+    type RuntimeMode,
+    type RuntimeOptions,
+    type StartDeferredRegistrationScopeOptions,
+    type ValidateRegistrationsOptions
+} from "./runtime/runtime.ts";
+
 export * from "./runtime/RuntimeContext.ts";
 export * from "./runtime/useEventBus.ts";
 export * from "./runtime/useLogger.ts";
@@ -29,6 +46,8 @@ export {
     type LocalModulesRegistrationCompletedEventPayload,
     type LocalModulesRegistrationStartedEventPayload
 } from "./registration/LocalModuleRegistry.ts";
+
+export { ModuleManager } from "./registration/ModuleManager.ts";
 
 export * from "./registration/mergeDeferredRegistrations.ts";
 export * from "./registration/moduleRegistry.ts";

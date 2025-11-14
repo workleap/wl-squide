@@ -1,5 +1,4 @@
-import { type ModuleRegistrationError, type ModuleRegistrationStatus, type ModuleRegistrationStatusChangedListener, type ModuleRegistry, type Runtime } from "@squide/core";
-import { __clearRemoteModuleRegistry, __setRemoteModuleRegistry } from "@squide/module-federation";
+import { ModuleManager, type ModuleRegistrationError, type ModuleRegistrationStatus, type ModuleRegistrationStatusChangedListener, type ModuleRegistry, type Runtime } from "@squide/core";
 import { __clearMswState, __setMswState, MswState, type MswStateChangedListener } from "@squide/msw";
 import { act, renderHook, type RenderHookOptions } from "@testing-library/react";
 import { NoopLogger } from "@workleap/logging";
@@ -22,11 +21,17 @@ import { FireflyProvider } from "../src/FireflyProvider.tsx";
 import { FireflyRuntime } from "../src/FireflyRuntime.tsx";
 
 class DummyModuleRegistry implements ModuleRegistry {
+    readonly #registryId: string;
     readonly #registrationStatus: ModuleRegistrationStatus;
     readonly #statusChangedListeners = new Set<ModuleRegistrationStatusChangedListener>();
 
-    constructor(registrationStatus: ModuleRegistrationStatus) {
+    constructor(registryId: string, registrationStatus: ModuleRegistrationStatus) {
+        this.#registryId = registryId;
         this.#registrationStatus = registrationStatus;
+    }
+
+    get id() {
+        return this.#registryId;
     }
 
     registerModules(): Promise<ModuleRegistrationError[]> {
@@ -92,7 +97,7 @@ class DummyMswState extends MswState {
 
 afterEach(() => {
     // __clearLocalModuleRegistry();
-    __clearRemoteModuleRegistry();
+    // __clearRemoteModuleRegistry();
     __clearMswState();
 });
 
@@ -617,16 +622,16 @@ describe("useAppRouterReducer", () => {
         expect(runtime.appRouterStore.state.isUnauthorized).toBeTruthy();
     });
 
-    test.concurrent("when local modules and remote modules are registered, \"areModulesRegistered\" is true at initialization", ({ expect }) => {
-        // const localModuleRegistry = new DummyModuleRegistry("modules-registered");
-        const remoteModuleRegistry = new DummyModuleRegistry("modules-registered");
-
-        // __setLocalModuleRegistry(localModuleRegistry);
-        __setRemoteModuleRegistry(remoteModuleRegistry);
+    test.concurrent("when all registries modules are registered, \"areModulesRegistered\" is true at initialization", ({ expect }) => {
+        const localModuleRegistry = new DummyModuleRegistry("local", "modules-registered");
+        const remoteModuleRegistry = new DummyModuleRegistry("remote", "modules-registered");
 
         const runtime = new FireflyRuntime({
             useMsw: false,
-            localModulesRegistry: new DummyModuleRegistry("modules-registered"),
+            moduleManager: x => new ModuleManager(x, [
+                localModuleRegistry,
+                remoteModuleRegistry
+            ]),
             loggers: [new NoopLogger()]
         });
 
@@ -636,16 +641,16 @@ describe("useAppRouterReducer", () => {
         expect(runtime.appRouterStore.state.areModulesRegistered).toBeTruthy();
     });
 
-    test.concurrent("when local modules and remote modules are registered, ModulesRegisteredEvent is dispatched at initialization", ({ expect }) => {
-        // const localModuleRegistry = new DummyModuleRegistry("modules-registered");
-        const remoteModuleRegistry = new DummyModuleRegistry("modules-registered");
-
-        // __setLocalModuleRegistry(localModuleRegistry);
-        __setRemoteModuleRegistry(remoteModuleRegistry);
+    test.concurrent("when all registries modules are registered, ModulesRegisteredEvent is dispatched at initialization", ({ expect }) => {
+        const localModuleRegistry = new DummyModuleRegistry("local", "modules-registered");
+        const remoteModuleRegistry = new DummyModuleRegistry("remote", "modules-registered");
 
         const runtime = new FireflyRuntime({
             useMsw: false,
-            localModulesRegistry: new DummyModuleRegistry("modules-registered"),
+            moduleManager: x => new ModuleManager(x, [
+                localModuleRegistry,
+                remoteModuleRegistry
+            ]),
             loggers: [new NoopLogger()]
         });
 
@@ -660,15 +665,15 @@ describe("useAppRouterReducer", () => {
     });
 
     test.concurrent("when local modules are registered and no remote modules has been provided, \"areModulesRegistered\" is true at initialization", ({ expect }) => {
-        // const localModuleRegistry = new DummyModuleRegistry("modules-registered");
-        const remoteModuleRegistry = new DummyModuleRegistry("none");
-
-        // __setLocalModuleRegistry(localModuleRegistry);
-        __setRemoteModuleRegistry(remoteModuleRegistry);
+        const localModuleRegistry = new DummyModuleRegistry("local", "modules-registered");
+        const remoteModuleRegistry = new DummyModuleRegistry("remote", "none");
 
         const runtime = new FireflyRuntime({
             useMsw: false,
-            localModulesRegistry: new DummyModuleRegistry("modules-registered"),
+            moduleManager: x => new ModuleManager(x, [
+                localModuleRegistry,
+                remoteModuleRegistry
+            ]),
             loggers: [new NoopLogger()]
         });
 
@@ -679,15 +684,15 @@ describe("useAppRouterReducer", () => {
     });
 
     test.concurrent("when local modules are registered and no remote modules has been provided, ModulesRegisteredEvent is dispatched at initialization", ({ expect }) => {
-        // const localModuleRegistry = new DummyModuleRegistry("modules-registered");
-        const remoteModuleRegistry = new DummyModuleRegistry("none");
-
-        // __setLocalModuleRegistry(localModuleRegistry);
-        __setRemoteModuleRegistry(remoteModuleRegistry);
+        const localModuleRegistry = new DummyModuleRegistry("local", "modules-registered");
+        const remoteModuleRegistry = new DummyModuleRegistry("remote", "none");
 
         const runtime = new FireflyRuntime({
             useMsw: false,
-            localModulesRegistry: new DummyModuleRegistry("modules-registered"),
+            moduleManager: x => new ModuleManager(x, [
+                localModuleRegistry,
+                remoteModuleRegistry
+            ]),
             loggers: [new NoopLogger()]
         });
 
@@ -702,15 +707,15 @@ describe("useAppRouterReducer", () => {
     });
 
     test.concurrent("when no local modules has been provided and remote modules are registered, \"areModulesRegistered\" is true at initialization", ({ expect }) => {
-        // const localModuleRegistry = new DummyModuleRegistry("none");
-        const remoteModuleRegistry = new DummyModuleRegistry("modules-registered");
-
-        // __setLocalModuleRegistry(localModuleRegistry);
-        __setRemoteModuleRegistry(remoteModuleRegistry);
+        const localModuleRegistry = new DummyModuleRegistry("local", "none");
+        const remoteModuleRegistry = new DummyModuleRegistry("remote", "modules-registered");
 
         const runtime = new FireflyRuntime({
             useMsw: false,
-            localModulesRegistry: new DummyModuleRegistry("none"),
+            moduleManager: x => new ModuleManager(x, [
+                localModuleRegistry,
+                remoteModuleRegistry
+            ]),
             loggers: [new NoopLogger()]
         });
 
@@ -721,15 +726,15 @@ describe("useAppRouterReducer", () => {
     });
 
     test.concurrent("when no local modules are registered and remote modules are registered, ModulesRegisteredEvent is dispatched at initialization", ({ expect }) => {
-        // const localModuleRegistry = new DummyModuleRegistry("none");
-        const remoteModuleRegistry = new DummyModuleRegistry("modules-registered");
-
-        // __setLocalModuleRegistry(localModuleRegistry);
-        __setRemoteModuleRegistry(remoteModuleRegistry);
+        const localModuleRegistry = new DummyModuleRegistry("local", "none");
+        const remoteModuleRegistry = new DummyModuleRegistry("remote", "modules-registered");
 
         const runtime = new FireflyRuntime({
             useMsw: false,
-            localModulesRegistry: new DummyModuleRegistry("none"),
+            moduleManager: x => new ModuleManager(x, [
+                localModuleRegistry,
+                remoteModuleRegistry
+            ]),
             loggers: [new NoopLogger()]
         });
 
@@ -744,15 +749,15 @@ describe("useAppRouterReducer", () => {
     });
 
     test.concurrent("when local modules are registered and remote modules are registering, \"areModulesRegistered\" is false at initialization", ({ expect }) => {
-        // const localModuleRegistry = new DummyModuleRegistry("modules-registered");
-        const remoteModuleRegistry = new DummyModuleRegistry("registering-modules");
-
-        // __setLocalModuleRegistry(localModuleRegistry);
-        __setRemoteModuleRegistry(remoteModuleRegistry);
+        const localModuleRegistry = new DummyModuleRegistry("local", "modules-registered");
+        const remoteModuleRegistry = new DummyModuleRegistry("remote", "registering-modules");
 
         const runtime = new FireflyRuntime({
             useMsw: false,
-            localModulesRegistry: new DummyModuleRegistry("modules-registered"),
+            moduleManager: x => new ModuleManager(x, [
+                localModuleRegistry,
+                remoteModuleRegistry
+            ]),
             loggers: [new NoopLogger()]
         });
 
@@ -763,15 +768,15 @@ describe("useAppRouterReducer", () => {
     });
 
     test.concurrent("when local modules are registering and remote modules are registered, \"areModulesRegistered\" is false at initialization", ({ expect }) => {
-        // const localModuleRegistry = new DummyModuleRegistry("registering-modules");
-        const remoteModuleRegistry = new DummyModuleRegistry("modules-registered");
-
-        // __setLocalModuleRegistry(localModuleRegistry);
-        __setRemoteModuleRegistry(remoteModuleRegistry);
+        const localModuleRegistry = new DummyModuleRegistry("local", "registering-modules");
+        const remoteModuleRegistry = new DummyModuleRegistry("remote", "modules-registered");
 
         const runtime = new FireflyRuntime({
             useMsw: false,
-            localModulesRegistry: new DummyModuleRegistry("registering-modules"),
+            moduleManager: x => new ModuleManager(x, [
+                localModuleRegistry,
+                remoteModuleRegistry
+            ]),
             loggers: [new NoopLogger()]
         });
 
@@ -781,16 +786,16 @@ describe("useAppRouterReducer", () => {
         expect(runtime.appRouterStore.state.areModulesRegistered).toBeFalsy();
     });
 
-    test.concurrent("when local modules and remote modules are ready, \"areModulesReady\" is true at initialization", ({ expect }) => {
-        // const localModuleRegistry = new DummyModuleRegistry("ready");
-        const remoteModuleRegistry = new DummyModuleRegistry("ready");
-
-        // __setLocalModuleRegistry(localModuleRegistry);
-        __setRemoteModuleRegistry(remoteModuleRegistry);
+    test.concurrent("when all registries modules are ready, \"areModulesReady\" is true at initialization", ({ expect }) => {
+        const localModuleRegistry = new DummyModuleRegistry("local", "ready");
+        const remoteModuleRegistry = new DummyModuleRegistry("remote", "ready");
 
         const runtime = new FireflyRuntime({
             useMsw: false,
-            localModulesRegistry: new DummyModuleRegistry("ready"),
+            moduleManager: x => new ModuleManager(x, [
+                localModuleRegistry,
+                remoteModuleRegistry
+            ]),
             loggers: [new NoopLogger()]
         });
 
@@ -800,16 +805,16 @@ describe("useAppRouterReducer", () => {
         expect(runtime.appRouterStore.state.areModulesReady).toBeTruthy();
     });
 
-    test.concurrent("when local modules and remote modules are ready, ModulesReadyEvent is dispatched at initialization", ({ expect }) => {
-        // const localModuleRegistry = new DummyModuleRegistry("ready");
-        const remoteModuleRegistry = new DummyModuleRegistry("ready");
-
-        // __setLocalModuleRegistry(localModuleRegistry);
-        __setRemoteModuleRegistry(remoteModuleRegistry);
+    test.concurrent("when all registries modules are ready, ModulesReadyEvent is dispatched at initialization", ({ expect }) => {
+        const localModuleRegistry = new DummyModuleRegistry("local", "ready");
+        const remoteModuleRegistry = new DummyModuleRegistry("remote", "ready");
 
         const runtime = new FireflyRuntime({
             useMsw: false,
-            localModulesRegistry: new DummyModuleRegistry("ready"),
+            moduleManager: x => new ModuleManager(x, [
+                localModuleRegistry,
+                remoteModuleRegistry
+            ]),
             loggers: [new NoopLogger()]
         });
 
@@ -824,15 +829,15 @@ describe("useAppRouterReducer", () => {
     });
 
     test.concurrent("when local modules are ready and no remote modules has been provided, \"areModulesReady\" is true at initialization", ({ expect }) => {
-        // const localModuleRegistry = new DummyModuleRegistry("ready");
-        const remoteModuleRegistry = new DummyModuleRegistry("none");
-
-        // __setLocalModuleRegistry(localModuleRegistry);
-        __setRemoteModuleRegistry(remoteModuleRegistry);
+        const localModuleRegistry = new DummyModuleRegistry("local", "ready");
+        const remoteModuleRegistry = new DummyModuleRegistry("remote", "none");
 
         const runtime = new FireflyRuntime({
             useMsw: false,
-            localModulesRegistry: new DummyModuleRegistry("ready"),
+            moduleManager: x => new ModuleManager(x, [
+                localModuleRegistry,
+                remoteModuleRegistry
+            ]),
             loggers: [new NoopLogger()]
         });
 
@@ -843,15 +848,15 @@ describe("useAppRouterReducer", () => {
     });
 
     test.concurrent("when local modules are ready and no remote modules has been provided, ModulesReadyEvent is dispatched at initialization", ({ expect }) => {
-        // const localModuleRegistry = new DummyModuleRegistry("ready");
-        const remoteModuleRegistry = new DummyModuleRegistry("none");
-
-        // __setLocalModuleRegistry(localModuleRegistry);
-        __setRemoteModuleRegistry(remoteModuleRegistry);
+        const localModuleRegistry = new DummyModuleRegistry("local", "ready");
+        const remoteModuleRegistry = new DummyModuleRegistry("remote", "none");
 
         const runtime = new FireflyRuntime({
             useMsw: false,
-            localModulesRegistry: new DummyModuleRegistry("ready"),
+            moduleManager: x => new ModuleManager(x, [
+                localModuleRegistry,
+                remoteModuleRegistry
+            ]),
             loggers: [new NoopLogger()]
         });
 
@@ -866,15 +871,15 @@ describe("useAppRouterReducer", () => {
     });
 
     test.concurrent("when no local modules has been provided and remote modules are ready, \"areModulesReady\" is true at initialization", ({ expect }) => {
-        // const localModuleRegistry = new DummyModuleRegistry("none");
-        const remoteModuleRegistry = new DummyModuleRegistry("ready");
-
-        // __setLocalModuleRegistry(localModuleRegistry);
-        __setRemoteModuleRegistry(remoteModuleRegistry);
+        const localModuleRegistry = new DummyModuleRegistry("local", "none");
+        const remoteModuleRegistry = new DummyModuleRegistry("remote", "ready");
 
         const runtime = new FireflyRuntime({
             useMsw: false,
-            localModulesRegistry: new DummyModuleRegistry("none"),
+            moduleManager: x => new ModuleManager(x, [
+                localModuleRegistry,
+                remoteModuleRegistry
+            ]),
             loggers: [new NoopLogger()]
         });
 
@@ -885,15 +890,15 @@ describe("useAppRouterReducer", () => {
     });
 
     test.concurrent("when no local modules has been provided and remote modules are ready, ModulesReadyEvent is dispatched at initialization", ({ expect }) => {
-        // const localModuleRegistry = new DummyModuleRegistry("none");
-        const remoteModuleRegistry = new DummyModuleRegistry("ready");
-
-        // __setLocalModuleRegistry(localModuleRegistry);
-        __setRemoteModuleRegistry(remoteModuleRegistry);
+        const localModuleRegistry = new DummyModuleRegistry("local", "none");
+        const remoteModuleRegistry = new DummyModuleRegistry("remote", "ready");
 
         const runtime = new FireflyRuntime({
             useMsw: false,
-            localModulesRegistry: new DummyModuleRegistry("none"),
+            moduleManager: x => new ModuleManager(x, [
+                localModuleRegistry,
+                remoteModuleRegistry
+            ]),
             loggers: [new NoopLogger()]
         });
 
@@ -908,15 +913,15 @@ describe("useAppRouterReducer", () => {
     });
 
     test.concurrent("when local modules are ready and remote modules are not ready, \"areModulesReady\" is false at initialization", ({ expect }) => {
-        // const localModuleRegistry = new DummyModuleRegistry("ready");
-        const remoteModuleRegistry = new DummyModuleRegistry("modules-registered");
-
-        // __setLocalModuleRegistry(localModuleRegistry);
-        __setRemoteModuleRegistry(remoteModuleRegistry);
+        const localModuleRegistry = new DummyModuleRegistry("local", "ready");
+        const remoteModuleRegistry = new DummyModuleRegistry("remote", "modules-registered");
 
         const runtime = new FireflyRuntime({
             useMsw: false,
-            localModulesRegistry: new DummyModuleRegistry("ready"),
+            moduleManager: x => new ModuleManager(x, [
+                localModuleRegistry,
+                remoteModuleRegistry
+            ]),
             loggers: [new NoopLogger()]
         });
 
@@ -927,15 +932,15 @@ describe("useAppRouterReducer", () => {
     });
 
     test.concurrent("when local modules are not ready and remote modules are ready, \"areModulesReady\" is false at initialization", ({ expect }) => {
-        // const localModuleRegistry = new DummyModuleRegistry("modules-registered");
-        const remoteModuleRegistry = new DummyModuleRegistry("ready");
-
-        // __setLocalModuleRegistry(localModuleRegistry);
-        __setRemoteModuleRegistry(remoteModuleRegistry);
+        const localModuleRegistry = new DummyModuleRegistry("local", "modules-registered");
+        const remoteModuleRegistry = new DummyModuleRegistry("remote", "ready");
 
         const runtime = new FireflyRuntime({
             useMsw: false,
-            localModulesRegistry: new DummyModuleRegistry("modules-registered"),
+            moduleManager: x => new ModuleManager(x, [
+                localModuleRegistry,
+                remoteModuleRegistry
+            ]),
             loggers: [new NoopLogger()]
         });
 

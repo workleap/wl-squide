@@ -8,7 +8,7 @@ import { LogRocketLogger } from "@workleap/logrocket";
 import { initializeTelemetry, TelemetryProvider, type InitializeTelemetryOptions } from "@workleap/telemetry/react";
 import { StrictMode } from "react";
 import { createRoot } from "react-dom/client";
-import { Remotes } from "../remotes.ts";
+// import { Remotes } from "../remotes.ts";
 import { App } from "./App.tsx";
 import { registerHost } from "./register.tsx";
 
@@ -47,14 +47,17 @@ const telemetryClient = initializeTelemetry(telemetryOptions);
 const runtime = initializeFirefly({
     useMsw: !!process.env.USE_MSW,
     localModules: [registerShell({ host: "@endpoints/host" }), registerHost, registerLocalModule],
-    remotes: Remotes,
-    plugins: [x => createI18NextPlugin(x), x => new EnvironmentVariablesPlugin(x)],
-    honeycombInstrumentationClient: telemetryClient.honeycomb,
+    // remotes: Remotes,
     startMsw: async x => {
         // Files that includes an import to the "msw" package are included dynamically to prevent adding
         // unused MSW stuff to the code bundles.
         return (await import("../mocks/browser.ts")).startMsw(x.requestHandlers);
     },
+    plugins: [
+        x => createI18NextPlugin(x),
+        x => new EnvironmentVariablesPlugin(x)
+    ],
+    honeycombInstrumentationClient: telemetryClient.honeycomb,
     loggers
 });
 

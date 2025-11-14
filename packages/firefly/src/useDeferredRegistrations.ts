@@ -5,19 +5,10 @@ import { useCanUpdateDeferredRegistrations } from "./useCanUpdateDeferredRegistr
 import { useRegisterDeferredRegistrations } from "./useRegisterDeferredRegistrations.ts";
 import { useUpdateDeferredRegistrations } from "./useUpdateDeferredRegistrations.ts";
 
-export interface DeferredRegistrationsErrorsObject {
-    localModuleErrors: ModuleRegistrationError[];
-    remoteModuleErrors: ModuleRegistrationError[];
-}
-
-export type DeferredRegistrationsErrorCallback = (errorsObject: DeferredRegistrationsErrorsObject) => void;
+export type DeferredRegistrationsErrorCallback = (errors: ModuleRegistrationError[]) => void;
 
 export interface UseDeferredRegistrationsOptions {
     onError?: DeferredRegistrationsErrorCallback;
-}
-
-function hasError({ localModuleErrors, remoteModuleErrors }: DeferredRegistrationsErrorsObject) {
-    return localModuleErrors.length > 0 || remoteModuleErrors.length > 0;
 }
 
 export function useDeferredRegistrations(data: unknown, { onError }: UseDeferredRegistrationsOptions = {}) {
@@ -34,7 +25,7 @@ export function useDeferredRegistrations(data: unknown, { onError }: UseDeferred
             const register = async () => {
                 const errors = await registerDeferredRegistrations(data, runtime);
 
-                if (hasError(errors) && onError) {
+                if (errors.length > 0 && onError) {
                     onError(errors);
                 }
             };
@@ -48,7 +39,7 @@ export function useDeferredRegistrations(data: unknown, { onError }: UseDeferred
             const update = async () => {
                 const errors = await updateDeferredRegistrations(data, runtime);
 
-                if (hasError(errors) && onError) {
+                if (errors.length > 0 && onError) {
                     onError(errors);
                 }
             };

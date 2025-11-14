@@ -218,7 +218,7 @@ export function useModuleRegistrationStatusDispatcher(runtime: FireflyRuntime, a
     //     return false;
     // }, [runtime, dispatch, logger]));
 
-    const dispatchModulesRegistered = () => {
+    const dispatchModulesRegistered = useCallback(() => {
         dispatch({ type: "modules-registered" });
 
         logger
@@ -228,9 +228,9 @@ export function useModuleRegistrationStatusDispatcher(runtime: FireflyRuntime, a
                 }
             })
             .information();
-    };
+    }, [dispatch, logger]);
 
-    const dispatchModulesReady = () => {
+    const dispatchModulesReady = useCallback(() => {
         dispatch({ type: "modules-ready" });
 
         logger
@@ -240,7 +240,7 @@ export function useModuleRegistrationStatusDispatcher(runtime: FireflyRuntime, a
                 }
             })
             .information();
-    };
+    }, [dispatch, logger]);
 
     return useEffect(() => {
         if (!areModulesRegisteredValue) {
@@ -259,7 +259,7 @@ export function useModuleRegistrationStatusDispatcher(runtime: FireflyRuntime, a
 
         return () => {
             runtime.moduleManager.removeModulesRegisteredListener(dispatchModulesRegistered);
-            runtime.moduleManager.registerModulesReadyListener(dispatchModulesReady);
+            runtime.moduleManager.removeModulesReadyListener(dispatchModulesReady);
 
             // runtime.localModulesRegistry.removeStatusChangedListener(dispatchModulesRegistered);
             // removeRemoteModuleRegistrationStatusChangedListener(dispatchModulesRegistered);
