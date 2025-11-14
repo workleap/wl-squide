@@ -1,15 +1,9 @@
 import { ModuleRegistrationError } from "@squide/core";
-import { __clearMswState, __setMswState, MswState } from "@squide/msw";
+import { MswPlugin, MswState } from "@squide/msw";
 import { NoopLogger } from "@workleap/logging";
-import { afterEach, expect, test, vi } from "vitest";
+import { expect, test, vi } from "vitest";
 import { FireflyRuntime } from "../src/FireflyRuntime.tsx";
 import { ApplicationBootstrappingStartedEvent, bootstrap } from "../src/initializeFirefly.ts";
-
-afterEach(() => {
-    // __clearLocalModuleRegistry();
-    // __clearRemoteModuleRegistry();
-    __clearMswState();
-});
 
 test("dispatch ApplicationBootstrappingStartedEvent", async () => {
     const runtime = new FireflyRuntime({
@@ -183,14 +177,15 @@ test("when MSW is disabled and a start function is provided, do not call the sta
 // });
 
 test("when MSW is enabled and a start function is provided, MSW is ready once the start function is called", async () => {
-    const runtime = new FireflyRuntime({
-        useMsw: true,
-        loggers: [new NoopLogger()]
-    });
-
     const mswState = new MswState();
 
-    __setMswState(mswState);
+    const runtime = new FireflyRuntime({
+        useMsw: true,
+        plugins: [x => new MswPlugin(x, {
+            mswState
+        })],
+        loggers: [new NoopLogger()]
+    });
 
     bootstrap(runtime, {
         startMsw: vi.fn(() => Promise.resolve())

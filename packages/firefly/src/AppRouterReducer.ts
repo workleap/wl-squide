@@ -1,5 +1,5 @@
 import { useEventBus, useLogger, useRuntime } from "@squide/core";
-import { addMswStateChangedListener, isMswReady, removeMswStateChangedListener } from "@squide/msw";
+// import { addMswStateChangedListener, isMswReady, removeMswStateChangedListener } from "@squide/msw";
 import { useCallback, useEffect, useMemo, useReducer, type Dispatch } from "react";
 import type { FireflyRuntime } from "./FireflyRuntime.tsx";
 import { useAppRouterStore } from "./useAppRouterStore.ts";
@@ -270,36 +270,51 @@ export function useModuleRegistrationStatusDispatcher(runtime: FireflyRuntime, a
     }, [areModulesRegisteredValue, areModulesReadyValue, dispatchModulesRegistered, dispatchModulesReady]);
 }
 
-export function useMswStatusDispatcher(isMswReadyValue: boolean, dispatch: AppRouterDispatch) {
+export function useMswStatusDispatcher(runtime: FireflyRuntime, isMswReadyValue: boolean, dispatch: AppRouterDispatch) {
     const logger = useLogger();
 
-    const dispatchMswReady = useExecuteOnce(useCallback(() => {
-        if (isMswReady()) {
-            dispatch({ type: "msw-ready" });
+    // const dispatchMswReady = useExecuteOnce(useCallback(() => {
+    //     // if (isMswReady()) {
+    //     if (runtime.mswState.isReady) {
+    //         dispatch({ type: "msw-ready" });
 
-            logger
-                .withText("[squide] MSW is ready.", {
-                    style: {
-                        color: "green"
-                    }
-                })
-                .information();
+    //         logger
+    //             .withText("[squide] MSW is ready.", {
+    //                 style: {
+    //                     color: "green"
+    //                 }
+    //             })
+    //             .information();
 
-            return true;
-        }
+    //         return true;
+    //     }
 
-        return false;
-    }, [dispatch, logger]));
+    //     return false;
+    // }, [dispatch, logger]));
+
+    const dispatchMswReady = useCallback(() => {
+        dispatch({ type: "msw-ready" });
+
+        logger
+            .withText("[squide] MSW is ready.", {
+                style: {
+                    color: "green"
+                }
+            })
+            .information();
+    }, [dispatch, logger]);
 
     useEffect(() => {
         if (!isMswReadyValue) {
-            addMswStateChangedListener(dispatchMswReady);
+            // addMswStateChangedListener(dispatchMswReady);
+            runtime.mswState.addMswReadyListener(dispatchMswReady);
         }
 
         return () => {
-            removeMswStateChangedListener(dispatchMswReady);
+            // removeMswStateChangedListener(dispatchMswReady);
+            runtime.mswState.removeMswReadyListener(dispatchMswReady);
         };
-    }, [isMswReadyValue, dispatchMswReady]);
+    }, [runtime, isMswReadyValue, dispatchMswReady]);
 }
 
 function useBootstrappingCompletedDispatcher(waitState: AppRouterWaitState, state: AppRouterState) {
@@ -364,10 +379,11 @@ export function useAppRouterReducer(waitForPublicData: boolean, waitForProtected
 
     // const areModulesInitiallyRegistered = getAreModulesRegistered(runtime);
     // const areModulesInitiallyReady = getAreModulesReady(runtime);
+    // const isMswInitiallyReady = isMswReady();
 
     const areModulesInitiallyRegistered = runtime.moduleManager.getAreModulesRegistered();
     const areModulesInitiallyReady = runtime.moduleManager.getAreModulesReady();
-    const isMswInitiallyReady = isMswReady();
+    const isMswInitiallyReady = runtime.mswState.isReady;
 
     const waitState = useMemo(() => ({
         waitForMsw: isMswEnabled,
@@ -436,7 +452,7 @@ export function useAppRouterReducer(waitForPublicData: boolean, waitForProtected
     const dispatch = useEnhancedReducerDispatch(waitState, dispatchProxy);
 
     useModuleRegistrationStatusDispatcher(runtime, areModulesRegisteredValue, areModulesReadyValue, dispatch);
-    useMswStatusDispatcher(isMswReadyValue, dispatch);
+    useMswStatusDispatcher(runtime, isMswReadyValue, dispatch);
     useBootstrappingCompletedDispatcher(waitState, state);
 
     return [state, dispatch];

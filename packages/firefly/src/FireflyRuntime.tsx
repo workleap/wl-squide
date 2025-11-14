@@ -1,5 +1,5 @@
 import type { RegisterRouteOptions, RuntimeMethodOptions, RuntimeOptions } from "@squide/core";
-import { MswPlugin, MswPluginName } from "@squide/msw";
+import { MswPlugin, MswPluginName, MswState } from "@squide/msw";
 import { type IReactRouterRuntime, ReactRouterRuntime, ReactRouterRuntimeScope, type Route } from "@squide/react-router";
 import type { HoneycombInstrumentationPartialClient } from "@workleap-telemetry/core";
 import type { Logger } from "@workleap/logging";
@@ -14,6 +14,7 @@ export interface FireflyRuntimeOptions extends RuntimeOptions {
 export interface RegisterRequestHandlersOptions extends RuntimeMethodOptions {}
 
 export interface IFireflyRuntime extends IReactRouterRuntime {
+    get mswState(): MswState;
     registerRequestHandlers: (handlers: RequestHandler[]) => void;
     get requestHandlers(): RequestHandler[];
     get appRouterStore(): AppRouterStore;
@@ -26,28 +27,41 @@ export class FireflyRuntime extends ReactRouterRuntime implements IFireflyRuntim
     protected _useMsw: boolean;
     protected _honeycombInstrumentationClient: HoneycombInstrumentationPartialClient | undefined;
 
-    constructor({ plugins, useMsw, honeycombInstrumentationClient, ...options }: FireflyRuntimeOptions = {}) {
-        if (useMsw) {
-            super({
-                plugins: [
-                    ...(plugins ?? []),
-                    runtime => new MswPlugin(runtime)
-                ],
-                ...options
-            });
+    constructor({ useMsw, honeycombInstrumentationClient, ...options }: FireflyRuntimeOptions = {}) {
+        // if (useMsw) {
+        //     super({
+        //         plugins: [
+        //             ...(plugins ?? []),
+        //             x => new MswPlugin(x)
+        //         ],
+        //         ...options
+        //     });
 
-            this._useMsw = true;
-        } else {
-            super({
-                plugins,
-                ...options
-            });
+        //     this._useMsw = true;
+        // } else {
+        //     super({
+        //         plugins,
+        //         ...options
+        //     });
 
-            this._useMsw = false;
-        }
+        //     this._useMsw = false;
+        // }
+
+        super(options);
 
         this._appRouterStore = createAppRouterStore(this._logger);
+        this._useMsw = !!useMsw;
         this._honeycombInstrumentationClient = honeycombInstrumentationClient;
+    }
+
+    get mswState() {
+        const mswPlugin = this.getPlugin(MswPluginName) as MswPlugin;
+
+        if (!mswPlugin) {
+            throw new Error("[squide] Cannot register the provided MSW request handlers because the runtime hasn't been initialized with MSW. Did you instanciate the FireflyRuntime with the \"useMsw\" option?");
+        }
+
+        return mswPlugin.mswState;
     }
 
     registerRequestHandlers(handlers: RequestHandler[], options: RegisterRequestHandlersOptions = {}) {
@@ -106,6 +120,10 @@ export class FireflyRuntime extends ReactRouterRuntime implements IFireflyRuntim
 }
 
 export class FireflyRuntimeScope<TRuntime extends FireflyRuntime = FireflyRuntime> extends ReactRouterRuntimeScope<TRuntime> implements IFireflyRuntime {
+    get mswState() {
+        return this._runtime.mswState;
+    }
+
     registerRequestHandlers(handlers: RequestHandler[], options: RegisterRequestHandlersOptions = {}) {
         this._runtime.registerRequestHandlers(handlers, {
             ...options,
@@ -113,7 +131,7 @@ export class FireflyRuntimeScope<TRuntime extends FireflyRuntime = FireflyRuntim
         });
     }
 
-    get requestHandlers(): RequestHandler[] {
+    get requestHandlers() {
         return this._runtime.requestHandlers;
     }
 

@@ -1,9 +1,9 @@
 import { ModuleManager, type ModuleRegistrationError, type ModuleRegistrationStatus, type ModuleRegistrationStatusChangedListener, type ModuleRegistry, type Runtime } from "@squide/core";
-import { __clearMswState, __setMswState, MswState, type MswStateChangedListener } from "@squide/msw";
+import { MswPlugin, MswState, type MswReadyListener } from "@squide/msw";
 import { act, renderHook, type RenderHookOptions } from "@testing-library/react";
 import { NoopLogger } from "@workleap/logging";
 import type { ReactNode } from "react";
-import { afterEach, describe, test, vi } from "vitest";
+import { describe, test, vi } from "vitest";
 import {
     ActiveRouteIsProtectedEvent,
     ActiveRouteIsPublicEvent,
@@ -13,7 +13,7 @@ import {
     ProtectedDataReadyEvent,
     PublicDataReadyEvent,
     useAppRouterReducer,
-    // useModuleRegistrationStatusDispatcher,
+    useModuleRegistrationStatusDispatcher,
     useMswStatusDispatcher,
     type AppRouterDispatch
 } from "../src/AppRouterReducer.ts";
@@ -68,7 +68,7 @@ class DummyModuleRegistry implements ModuleRegistry {
 class DummyMswState extends MswState {
     #isReady = false;
 
-    readonly #stateChangedListeners = new Set<MswStateChangedListener>();
+    readonly #stateChangedListeners = new Set<MswReadyListener>();
 
     constructor(isReady: boolean) {
         super();
@@ -76,11 +76,11 @@ class DummyMswState extends MswState {
         this.#isReady = isReady;
     }
 
-    addStateChangedListener(callback: MswStateChangedListener) {
+    addMswReadyListener(callback: MswReadyListener) {
         this.#stateChangedListeners.add(callback);
     }
 
-    removeStateChangedListener(callback: MswStateChangedListener) {
+    removeMswReadyListener(callback: MswReadyListener) {
         this.#stateChangedListeners.delete(callback);
     }
 
@@ -94,12 +94,6 @@ class DummyMswState extends MswState {
         return this.#isReady;
     }
 }
-
-afterEach(() => {
-    // __clearLocalModuleRegistry();
-    // __clearRemoteModuleRegistry();
-    __clearMswState();
-});
 
 describe("useAppRouterReducer", () => {
     function renderUseAppRouterReducerHook<TProps>(runtime: Runtime, waitForPublicData: boolean, waitForProtectedData: boolean, additionalProps: RenderHookOptions<TProps> = {}) {
@@ -953,10 +947,13 @@ describe("useAppRouterReducer", () => {
     test.concurrent("when msw is ready, \"isMswReady\" is true at initialization", ({ expect }) => {
         const mswState = new DummyMswState(true);
 
-        __setMswState(mswState);
+        // __setMswState(mswState);
 
         const runtime = new FireflyRuntime({
             useMsw: false,
+            plugins: [x => new MswPlugin(x, {
+                mswState
+            })],
             loggers: [new NoopLogger()]
         });
 
@@ -969,10 +966,13 @@ describe("useAppRouterReducer", () => {
     test.concurrent("when msw is ready, MswReadyEvent is dispatched at initialization", ({ expect }) => {
         const mswState = new DummyMswState(true);
 
-        __setMswState(mswState);
+        // __setMswState(mswState);
 
         const runtime = new FireflyRuntime({
             useMsw: false,
+            plugins: [x => new MswPlugin(x, {
+                mswState
+            })],
             loggers: [new NoopLogger()]
         });
 
@@ -989,10 +989,13 @@ describe("useAppRouterReducer", () => {
     test.concurrent("when msw is not ready, \"isMswReady\" is false at initialization", ({ expect }) => {
         const mswState = new DummyMswState(false);
 
-        __setMswState(mswState);
+        // __setMswState(mswState);
 
         const runtime = new FireflyRuntime({
             useMsw: false,
+            plugins: [x => new MswPlugin(x, {
+                mswState
+            })],
             loggers: [new NoopLogger()]
         });
 
@@ -1003,202 +1006,244 @@ describe("useAppRouterReducer", () => {
     });
 });
 
-// describe("useModuleRegistrationStatusDispatcher", () => {
-//     function renderUseModuleRegistrationStatusDispatcherHook<TProps>(areModulesRegistered: boolean, areModulesReady: boolean, dispatch: AppRouterDispatch, additionalProps: RenderHookOptions<TProps> = {}) {
-//         const runtime = new FireflyRuntime({
-//             loggers: [new NoopLogger()]
-//         });
+describe("useModuleRegistrationStatusDispatcher", () => {
+    function renderUseModuleRegistrationStatusDispatcherHook<TProps>(runtime: FireflyRuntime, areModulesRegistered: boolean, areModulesReady: boolean, dispatch: AppRouterDispatch, additionalProps: RenderHookOptions<TProps> = {}) {
+        return renderHook(() => useModuleRegistrationStatusDispatcher(runtime, areModulesRegistered, areModulesReady, dispatch), {
+            wrapper: ({ children }: { children?: ReactNode }) => (
+                <FireflyProvider runtime={runtime}>
+                    {children}
+                </FireflyProvider>
+            ),
+            ...additionalProps
+        });
+    }
 
-//         return renderHook(() => useModuleRegistrationStatusDispatcher(areModulesRegistered, areModulesReady, dispatch), {
-//             wrapper: ({ children }: { children?: ReactNode }) => (
-//                 <FireflyProvider runtime={runtime}>
-//                     {children}
-//                 </FireflyProvider>
-//             ),
-//             ...additionalProps
-//         });
-//     }
+    test.concurrent("when registries modules are not registered, do not dispatch the \"modules-registered\" action", ({ expect }) => {
+        const localModuleRegistry = new DummyModuleRegistry("local", "registering-modules");
+        const remoteModuleRegistry = new DummyModuleRegistry("remote", "registering-modules");
 
-//     test.concurrent("when local modules and remote modules are not registered, do not dispatch the \"modules-registered\" action", ({ expect }) => {
-//         const localModuleRegistry = new DummyModuleRegistry("registering-modules");
-//         const remoteModuleRegistry = new DummyModuleRegistry("registering-modules");
-
-//         __setLocalModuleRegistry(localModuleRegistry);
-//         __setRemoteModuleRegistry(remoteModuleRegistry);
-
-//         const dispatch = vi.fn();
-
-//         renderUseModuleRegistrationStatusDispatcherHook(false, false, dispatch);
-
-//         localModuleRegistry.invokeEventListeners();
-//         remoteModuleRegistry.invokeEventListeners();
-
-//         expect(dispatch).not.toHaveBeenCalled();
-//     });
-
-//     test.concurrent("when local modules are registered but remote modules are not registered, do not dispatch the \"modules-registered\" action", ({ expect }) => {
-//         const localModuleRegistry = new DummyModuleRegistry("modules-registered");
-//         const remoteModuleRegistry = new DummyModuleRegistry("registering-modules");
-
-//         __setLocalModuleRegistry(localModuleRegistry);
-//         __setRemoteModuleRegistry(remoteModuleRegistry);
-
-//         const dispatch = vi.fn();
-
-//         renderUseModuleRegistrationStatusDispatcherHook(false, false, dispatch);
-
-//         localModuleRegistry.invokeEventListeners();
-//         remoteModuleRegistry.invokeEventListeners();
-
-//         expect(dispatch).not.toHaveBeenCalled();
-//     });
-
-//     test.concurrent("when local modules are not registered but remote modules are registered, do not dispatch the \"modules-registered\" action", ({ expect }) => {
-//         const localModuleRegistry = new DummyModuleRegistry("registering-modules");
-//         const remoteModuleRegistry = new DummyModuleRegistry("modules-registered");
-
-//         __setLocalModuleRegistry(localModuleRegistry);
-//         __setRemoteModuleRegistry(remoteModuleRegistry);
-
-//         const dispatch = vi.fn();
-
-//         renderUseModuleRegistrationStatusDispatcherHook(false, false, dispatch);
-
-//         localModuleRegistry.invokeEventListeners();
-//         remoteModuleRegistry.invokeEventListeners();
-
-//         expect(dispatch).not.toHaveBeenCalled();
-//     });
-
-//     test.concurrent("when local modules and remote modules are registered, dispatch the \"modules-registered\" action", ({ expect }) => {
-//         const localModuleRegistry = new DummyModuleRegistry("modules-registered");
-//         const remoteModuleRegistry = new DummyModuleRegistry("modules-registered");
-
-//         __setLocalModuleRegistry(localModuleRegistry);
-//         __setRemoteModuleRegistry(remoteModuleRegistry);
-
-//         const dispatch = vi.fn();
-
-//         renderUseModuleRegistrationStatusDispatcherHook(false, false, dispatch);
-
-//         localModuleRegistry.invokeEventListeners();
-//         remoteModuleRegistry.invokeEventListeners();
-
-//         expect(dispatch).toHaveBeenCalledTimes(1);
-//         expect(dispatch).toHaveBeenCalledWith({ type: "modules-registered" });
-//     });
-
-//     test.concurrent("when local modules and remote modules are registered and \"areModulesRegistered\" is already true, do not dispatch the \"modules-registered\" action", ({ expect }) => {
-//         const localModuleRegistry = new DummyModuleRegistry("modules-registered");
-//         const remoteModuleRegistry = new DummyModuleRegistry("modules-registered");
-
-//         __setLocalModuleRegistry(localModuleRegistry);
-//         __setRemoteModuleRegistry(remoteModuleRegistry);
-
-//         const dispatch = vi.fn();
-
-//         renderUseModuleRegistrationStatusDispatcherHook(true, false, dispatch);
-
-//         localModuleRegistry.invokeEventListeners();
-//         remoteModuleRegistry.invokeEventListeners();
-
-//         expect(dispatch).not.toHaveBeenCalled();
-//     });
-
-//     test.concurrent("when local modules and remote modules are not ready, do not dispatch the \"modules-ready\" action", ({ expect }) => {
-//         const localModuleRegistry = new DummyModuleRegistry("modules-registered");
-//         const remoteModuleRegistry = new DummyModuleRegistry("modules-registered");
-
-//         __setLocalModuleRegistry(localModuleRegistry);
-//         __setRemoteModuleRegistry(remoteModuleRegistry);
-
-//         const dispatch = vi.fn();
-
-//         renderUseModuleRegistrationStatusDispatcherHook(true, false, dispatch);
-
-//         localModuleRegistry.invokeEventListeners();
-//         remoteModuleRegistry.invokeEventListeners();
-
-//         expect(dispatch).not.toHaveBeenCalled();
-//     });
-
-//     test.concurrent("when local modules are ready but remote modules are not ready, do not dispatch the \"modules-ready\" action", ({ expect }) => {
-//         const localModuleRegistry = new DummyModuleRegistry("ready");
-//         const remoteModuleRegistry = new DummyModuleRegistry("modules-registered");
-
-//         __setLocalModuleRegistry(localModuleRegistry);
-//         __setRemoteModuleRegistry(remoteModuleRegistry);
-
-//         const dispatch = vi.fn();
-
-//         renderUseModuleRegistrationStatusDispatcherHook(true, false, dispatch);
-
-//         localModuleRegistry.invokeEventListeners();
-//         remoteModuleRegistry.invokeEventListeners();
-
-//         expect(dispatch).not.toHaveBeenCalled();
-//     });
-
-//     test.concurrent("when local modules are not ready but remote modules are ready, do not dispatch the \"modules-ready\" action", ({ expect }) => {
-//         const localModuleRegistry = new DummyModuleRegistry("modules-registered");
-//         const remoteModuleRegistry = new DummyModuleRegistry("ready");
-
-//         __setLocalModuleRegistry(localModuleRegistry);
-//         __setRemoteModuleRegistry(remoteModuleRegistry);
-
-//         const dispatch = vi.fn();
-
-//         renderUseModuleRegistrationStatusDispatcherHook(true, false, dispatch);
-
-//         localModuleRegistry.invokeEventListeners();
-//         remoteModuleRegistry.invokeEventListeners();
-
-//         expect(dispatch).not.toHaveBeenCalled();
-//     });
-
-//     test.concurrent("when local modules and remote modules are ready, dispatch the \"modules-ready\" action", ({ expect }) => {
-//         const localModuleRegistry = new DummyModuleRegistry("ready");
-//         const remoteModuleRegistry = new DummyModuleRegistry("ready");
-
-//         __setLocalModuleRegistry(localModuleRegistry);
-//         __setRemoteModuleRegistry(remoteModuleRegistry);
-
-//         const dispatch = vi.fn();
-
-//         renderUseModuleRegistrationStatusDispatcherHook(true, false, dispatch);
-
-//         localModuleRegistry.invokeEventListeners();
-//         remoteModuleRegistry.invokeEventListeners();
-
-//         expect(dispatch).toHaveBeenCalledTimes(1);
-//         expect(dispatch).toHaveBeenCalledWith({ type: "modules-ready" });
-//     });
-
-//     test.concurrent("when local modules and remote modules are ready and \"areModulesReady\" is already true, do not dispatch the \"modules-ready\" action", ({ expect }) => {
-//         const localModuleRegistry = new DummyModuleRegistry("ready");
-//         const remoteModuleRegistry = new DummyModuleRegistry("ready");
-
-//         __setLocalModuleRegistry(localModuleRegistry);
-//         __setRemoteModuleRegistry(remoteModuleRegistry);
-
-//         const dispatch = vi.fn();
-
-//         renderUseModuleRegistrationStatusDispatcherHook(true, true, dispatch);
-
-//         localModuleRegistry.invokeEventListeners();
-//         remoteModuleRegistry.invokeEventListeners();
-
-//         expect(dispatch).not.toHaveBeenCalled();
-//     });
-// });
-
-describe("useMswStatusDispatcher", () => {
-    function renderUseMswStatusDispatcherHook<TProps>(isMswReady: boolean, dispatch: AppRouterDispatch, additionalProps: RenderHookOptions<TProps> = {}) {
         const runtime = new FireflyRuntime({
+            moduleManager: x => new ModuleManager(x, [
+                localModuleRegistry,
+                remoteModuleRegistry
+            ]),
             loggers: [new NoopLogger()]
         });
 
-        return renderHook(() => useMswStatusDispatcher(isMswReady, dispatch), {
+        const dispatch = vi.fn();
+
+        renderUseModuleRegistrationStatusDispatcherHook(runtime, false, false, dispatch);
+
+        localModuleRegistry.invokeEventListeners();
+        remoteModuleRegistry.invokeEventListeners();
+
+        expect(dispatch).not.toHaveBeenCalled();
+    });
+
+    test.concurrent("when local modules are registered but remote modules are not registered, do not dispatch the \"modules-registered\" action", ({ expect }) => {
+        const localModuleRegistry = new DummyModuleRegistry("local", "modules-registered");
+        const remoteModuleRegistry = new DummyModuleRegistry("remote", "registering-modules");
+
+        const runtime = new FireflyRuntime({
+            moduleManager: x => new ModuleManager(x, [
+                localModuleRegistry,
+                remoteModuleRegistry
+            ]),
+            loggers: [new NoopLogger()]
+        });
+
+        const dispatch = vi.fn();
+
+        renderUseModuleRegistrationStatusDispatcherHook(runtime, false, false, dispatch);
+
+        localModuleRegistry.invokeEventListeners();
+        remoteModuleRegistry.invokeEventListeners();
+
+        expect(dispatch).not.toHaveBeenCalled();
+    });
+
+    test.concurrent("when local modules are not registered but remote modules are registered, do not dispatch the \"modules-registered\" action", ({ expect }) => {
+        const localModuleRegistry = new DummyModuleRegistry("local", "registering-modules");
+        const remoteModuleRegistry = new DummyModuleRegistry("remote", "modules-registered");
+
+        const runtime = new FireflyRuntime({
+            moduleManager: x => new ModuleManager(x, [
+                localModuleRegistry,
+                remoteModuleRegistry
+            ]),
+            loggers: [new NoopLogger()]
+        });
+
+        const dispatch = vi.fn();
+
+        renderUseModuleRegistrationStatusDispatcherHook(runtime, false, false, dispatch);
+
+        localModuleRegistry.invokeEventListeners();
+        remoteModuleRegistry.invokeEventListeners();
+
+        expect(dispatch).not.toHaveBeenCalled();
+    });
+
+    test.concurrent("when registries modules are registered, dispatch the \"modules-registered\" action", ({ expect }) => {
+        const localModuleRegistry = new DummyModuleRegistry("local", "modules-registered");
+        const remoteModuleRegistry = new DummyModuleRegistry("remote", "modules-registered");
+
+        const runtime = new FireflyRuntime({
+            moduleManager: x => new ModuleManager(x, [
+                localModuleRegistry,
+                remoteModuleRegistry
+            ]),
+            loggers: [new NoopLogger()]
+        });
+
+        const dispatch = vi.fn();
+
+        renderUseModuleRegistrationStatusDispatcherHook(runtime, false, false, dispatch);
+
+        localModuleRegistry.invokeEventListeners();
+        remoteModuleRegistry.invokeEventListeners();
+
+        expect(dispatch).toHaveBeenCalledTimes(1);
+        expect(dispatch).toHaveBeenCalledWith({ type: "modules-registered" });
+    });
+
+    test.concurrent("when local modules and remote modules are registered and \"areModulesRegistered\" is already true, do not dispatch the \"modules-registered\" action", ({ expect }) => {
+        const localModuleRegistry = new DummyModuleRegistry("local", "modules-registered");
+        const remoteModuleRegistry = new DummyModuleRegistry("remote", "modules-registered");
+
+        const runtime = new FireflyRuntime({
+            moduleManager: x => new ModuleManager(x, [
+                localModuleRegistry,
+                remoteModuleRegistry
+            ]),
+            loggers: [new NoopLogger()]
+        });
+
+        const dispatch = vi.fn();
+
+        renderUseModuleRegistrationStatusDispatcherHook(runtime, true, false, dispatch);
+
+        localModuleRegistry.invokeEventListeners();
+        remoteModuleRegistry.invokeEventListeners();
+
+        expect(dispatch).not.toHaveBeenCalled();
+    });
+
+    test.concurrent("when local modules and remote modules are not ready, do not dispatch the \"modules-ready\" action", ({ expect }) => {
+        const localModuleRegistry = new DummyModuleRegistry("local", "modules-registered");
+        const remoteModuleRegistry = new DummyModuleRegistry("remote", "modules-registered");
+
+        const runtime = new FireflyRuntime({
+            moduleManager: x => new ModuleManager(x, [
+                localModuleRegistry,
+                remoteModuleRegistry
+            ]),
+            loggers: [new NoopLogger()]
+        });
+
+        const dispatch = vi.fn();
+
+        renderUseModuleRegistrationStatusDispatcherHook(runtime, true, false, dispatch);
+
+        localModuleRegistry.invokeEventListeners();
+        remoteModuleRegistry.invokeEventListeners();
+
+        expect(dispatch).not.toHaveBeenCalled();
+    });
+
+    test.concurrent("when local modules are ready but remote modules are not ready, do not dispatch the \"modules-ready\" action", ({ expect }) => {
+        const localModuleRegistry = new DummyModuleRegistry("local", "ready");
+        const remoteModuleRegistry = new DummyModuleRegistry("remote", "modules-registered");
+
+        const runtime = new FireflyRuntime({
+            moduleManager: x => new ModuleManager(x, [
+                localModuleRegistry,
+                remoteModuleRegistry
+            ]),
+            loggers: [new NoopLogger()]
+        });
+
+        const dispatch = vi.fn();
+
+        renderUseModuleRegistrationStatusDispatcherHook(runtime, true, false, dispatch);
+
+        localModuleRegistry.invokeEventListeners();
+        remoteModuleRegistry.invokeEventListeners();
+
+        expect(dispatch).not.toHaveBeenCalled();
+    });
+
+    test.concurrent("when local modules are not ready but remote modules are ready, do not dispatch the \"modules-ready\" action", ({ expect }) => {
+        const localModuleRegistry = new DummyModuleRegistry("local", "modules-registered");
+        const remoteModuleRegistry = new DummyModuleRegistry("remote", "ready");
+
+        const runtime = new FireflyRuntime({
+            moduleManager: x => new ModuleManager(x, [
+                localModuleRegistry,
+                remoteModuleRegistry
+            ]),
+            loggers: [new NoopLogger()]
+        });
+
+        const dispatch = vi.fn();
+
+        renderUseModuleRegistrationStatusDispatcherHook(runtime, true, false, dispatch);
+
+        localModuleRegistry.invokeEventListeners();
+        remoteModuleRegistry.invokeEventListeners();
+
+        expect(dispatch).not.toHaveBeenCalled();
+    });
+
+    test.concurrent("when registries modules are ready, dispatch the \"modules-ready\" action", ({ expect }) => {
+        const localModuleRegistry = new DummyModuleRegistry("local", "ready");
+        const remoteModuleRegistry = new DummyModuleRegistry("remote", "ready");
+
+        const runtime = new FireflyRuntime({
+            moduleManager: x => new ModuleManager(x, [
+                localModuleRegistry,
+                remoteModuleRegistry
+            ]),
+            loggers: [new NoopLogger()]
+        });
+
+        const dispatch = vi.fn();
+
+        renderUseModuleRegistrationStatusDispatcherHook(runtime, true, false, dispatch);
+
+        localModuleRegistry.invokeEventListeners();
+        remoteModuleRegistry.invokeEventListeners();
+
+        expect(dispatch).toHaveBeenCalledTimes(1);
+        expect(dispatch).toHaveBeenCalledWith({ type: "modules-ready" });
+    });
+
+    test.concurrent("when registries modules are ready and \"areModulesReady\" is already true, do not dispatch the \"modules-ready\" action", ({ expect }) => {
+        const localModuleRegistry = new DummyModuleRegistry("local", "ready");
+        const remoteModuleRegistry = new DummyModuleRegistry("remote", "ready");
+
+        const runtime = new FireflyRuntime({
+            moduleManager: x => new ModuleManager(x, [
+                localModuleRegistry,
+                remoteModuleRegistry
+            ]),
+            loggers: [new NoopLogger()]
+        });
+
+        const dispatch = vi.fn();
+
+        renderUseModuleRegistrationStatusDispatcherHook(runtime, true, true, dispatch);
+
+        localModuleRegistry.invokeEventListeners();
+        remoteModuleRegistry.invokeEventListeners();
+
+        expect(dispatch).not.toHaveBeenCalled();
+    });
+});
+
+describe("useMswStatusDispatcher", () => {
+    function renderUseMswStatusDispatcherHook<TProps>(runtime: FireflyRuntime, isMswReady: boolean, dispatch: AppRouterDispatch, additionalProps: RenderHookOptions<TProps> = {}) {
+        return renderHook(() => useMswStatusDispatcher(runtime, isMswReady, dispatch), {
             wrapper: ({ children }: { children?: ReactNode }) => (
                 <FireflyProvider runtime={runtime}>
                     {children}
@@ -1211,11 +1256,16 @@ describe("useMswStatusDispatcher", () => {
     test.concurrent("when msw is not ready, do not dispatch the \"msw-ready\" action", ({ expect }) => {
         const mswState = new DummyMswState(false);
 
-        __setMswState(mswState);
+        const runtime = new FireflyRuntime({
+            plugins: [x => new MswPlugin(x, {
+                mswState
+            })],
+            loggers: [new NoopLogger()]
+        });
 
         const dispatch = vi.fn();
 
-        renderUseMswStatusDispatcherHook(false, dispatch);
+        renderUseMswStatusDispatcherHook(runtime, false, dispatch);
 
         mswState.invokeEventListeners();
 
@@ -1225,11 +1275,16 @@ describe("useMswStatusDispatcher", () => {
     test.concurrent("when msw is ready, dispatch the \"msw-ready\" action", ({ expect }) => {
         const mswState = new DummyMswState(true);
 
-        __setMswState(mswState);
+        const runtime = new FireflyRuntime({
+            plugins: [x => new MswPlugin(x, {
+                mswState
+            })],
+            loggers: [new NoopLogger()]
+        });
 
         const dispatch = vi.fn();
 
-        renderUseMswStatusDispatcherHook(false, dispatch);
+        renderUseMswStatusDispatcherHook(runtime, false, dispatch);
 
         mswState.invokeEventListeners();
 
@@ -1240,11 +1295,16 @@ describe("useMswStatusDispatcher", () => {
     test.concurrent("when msw is ready and \"isMswReady\" is already true, do not dispatch the \"msw-ready\" action", ({ expect }) => {
         const mswState = new DummyMswState(true);
 
-        __setMswState(mswState);
+        const runtime = new FireflyRuntime({
+            plugins: [x => new MswPlugin(x, {
+                mswState
+            })],
+            loggers: [new NoopLogger()]
+        });
 
         const dispatch = vi.fn();
 
-        renderUseMswStatusDispatcherHook(true, dispatch);
+        renderUseMswStatusDispatcherHook(runtime, true, dispatch);
 
         mswState.invokeEventListeners();
 

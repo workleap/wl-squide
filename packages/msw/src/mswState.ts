@@ -1,23 +1,23 @@
-export type MswStateChangedListener = () => void;
+export type MswReadyListener = () => void;
 
 export class MswState {
     #isReady = false;
 
-    readonly #stateChangedListeners = new Set<MswStateChangedListener>();
+    readonly #mswReadyListeners = new Set<MswReadyListener>();
 
-    addStateChangedListener(callback: MswStateChangedListener) {
-        this.#stateChangedListeners.add(callback);
+    addMswReadyListener(callback: MswReadyListener) {
+        this.#mswReadyListeners.add(callback);
     }
 
-    removeStateChangedListener(callback: MswStateChangedListener) {
-        this.#stateChangedListeners.delete(callback);
+    removeMswReadyListener(callback: MswReadyListener) {
+        this.#mswReadyListeners.delete(callback);
     }
 
     setAsReady() {
         if (!this.#isReady) {
             this.#isReady = true;
 
-            this.#stateChangedListeners.forEach(x => {
+            this.#mswReadyListeners.forEach(x => {
                 x();
             });
         }
@@ -28,38 +28,38 @@ export class MswState {
     }
 }
 
-let mswState: MswState | undefined;
+// let mswState: MswState | undefined;
 
-function getMswState() {
-    if (!mswState) {
-        mswState = new MswState();
-    }
+// function getMswState() {
+//     if (!mswState) {
+//         mswState = new MswState();
+//     }
 
-    return mswState;
-}
+//     return mswState;
+// }
 
-// This function should only be used by tests.
-export function __setMswState(state: MswState) {
-    mswState = state;
-}
+// // This function should only be used by tests.
+// export function __setMswState(state: MswState) {
+//     mswState = state;
+// }
 
-// This function should only be used by tests.
-export function __clearMswState() {
-    mswState = undefined;
-}
+// // This function should only be used by tests.
+// export function __clearMswState() {
+//     mswState = undefined;
+// }
 
-export function setMswAsReady() {
-    getMswState().setAsReady();
-}
+// export function setMswAsReady() {
+//     getMswState().setAsReady();
+// }
 
-export function isMswReady() {
-    return getMswState().isReady;
-}
+// export function isMswReady() {
+//     return getMswState().isReady;
+// }
 
-export function addMswStateChangedListener(callback: MswStateChangedListener) {
-    getMswState().addStateChangedListener(callback);
-}
+// export function addMswStateChangedListener(callback: MswStateChangedListener) {
+//     getMswState().addStateChangedListener(callback);
+// }
 
-export function removeMswStateChangedListener(callback: MswStateChangedListener) {
-    getMswState().removeStateChangedListener(callback);
-}
+// export function removeMswStateChangedListener(callback: MswStateChangedListener) {
+//     getMswState().removeStateChangedListener(callback);
+// }

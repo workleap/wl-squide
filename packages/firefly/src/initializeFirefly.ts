@@ -1,5 +1,5 @@
 import { isFunction, type ModuleRegisterFunction, type RegisterModulesOptions } from "@squide/core";
-import { setMswAsReady } from "@squide/msw";
+import { MswPlugin } from "@squide/msw";
 import type { HoneycombInstrumentationPartialClient } from "@workleap-telemetry/core";
 import { FireflyRuntime, type FireflyRuntimeOptions } from "./FireflyRuntime.tsx";
 import { initializeHoneycomb } from "./honeycomb/initializeHoneycomb.ts";
@@ -64,7 +64,8 @@ export function bootstrap<TRuntime extends FireflyRuntime = FireflyRuntime, TCon
 
                 startMsw(runtime)
                     .then(() => {
-                        setMswAsReady();
+                        // setMswAsReady();
+                        runtime.mswState.setAsReady();
                     })
                     .catch((error: unknown) => {
                         runtime.logger
@@ -88,7 +89,7 @@ export function initializeFirefly<TContext = unknown, TData = unknown>(options: 
     const {
         mode,
         useMsw,
-        plugins,
+        plugins = [],
         honeycombInstrumentationClient,
         loggers,
         onError
@@ -99,6 +100,10 @@ export function initializeFirefly<TContext = unknown, TData = unknown>(options: 
     }
 
     hasExecuted = true;
+
+    if (useMsw) {
+        plugins.push(x => new MswPlugin(x));
+    }
 
     const runtime = new FireflyRuntime({
         mode,
@@ -121,6 +126,6 @@ export function initializeFirefly<TContext = unknown, TData = unknown>(options: 
     return runtime;
 }
 
-export function __resetHasExecuteGuard() {
+export function __resetHasExecutedGuard() {
     hasExecuted = false;
 }

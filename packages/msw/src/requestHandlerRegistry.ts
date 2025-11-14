@@ -1,11 +1,17 @@
 import type { RequestHandler } from "msw";
-import { isMswReady } from "./mswState.ts";
+import { MswState } from "./mswState.ts";
+// import { isMswReady } from "./mswState.ts";
 
 export class RequestHandlerRegistry {
+    readonly #mswState: MswState;
     readonly #handlers: RequestHandler[] = [];
 
+    constructor(mswState: MswState) {
+        this.#mswState = mswState;
+    }
+
     add(handlers: RequestHandler[]) {
-        if (isMswReady()) {
+        if (this.#mswState.isReady) {
             throw new Error("[squide] MSW request handlers cannot be registered once MSW is started. Did you defer the registration of a MSW request handler?");
         }
 

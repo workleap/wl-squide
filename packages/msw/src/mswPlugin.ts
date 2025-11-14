@@ -1,19 +1,36 @@
 import { Plugin, isNil, type Runtime } from "@squide/core";
 import type { Logger } from "@workleap/logging";
 import type { RequestHandler } from "msw";
+import { MswState } from "./mswState.ts";
 import { RequestHandlerRegistry } from "./requestHandlerRegistry.ts";
 
 export const MswPluginName = "msw-plugin";
+
+export interface MswPluginOptions {
+    mswState?: MswState;
+}
 
 export interface MswPluginRegisterRequestHandlersOptions {
     logger?: Logger;
 }
 
 export class MswPlugin extends Plugin {
-    readonly #requestHandlerRegistry = new RequestHandlerRegistry();
+    readonly #mswState: MswState;
+    readonly #requestHandlerRegistry: RequestHandlerRegistry;
 
-    constructor(runtime: Runtime) {
+    constructor(runtime: Runtime, options: MswPluginOptions = {}) {
+        const {
+            mswState = new MswState()
+        } = options;
+
         super(MswPluginName, runtime);
+
+        this.#mswState = mswState;
+        this.#requestHandlerRegistry = new RequestHandlerRegistry(this.#mswState);
+    }
+
+    get mswState() {
+        return this.#mswState;
     }
 
     registerRequestHandlers(handlers: RequestHandler[], options: MswPluginRegisterRequestHandlersOptions = {}) {
