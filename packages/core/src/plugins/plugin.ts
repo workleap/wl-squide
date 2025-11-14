@@ -1,10 +1,10 @@
-import type { Runtime } from "../runtime/runtime.ts";
+import { Runtime } from "../runtime/runtime.ts";
 
-export abstract class Plugin {
+export abstract class Plugin<TRuntime extends Runtime = Runtime> {
     protected readonly _name: string;
-    protected readonly _runtime: Runtime;
+    protected readonly _runtime: TRuntime;
 
-    constructor(name: string, runtime: Runtime) {
+    constructor(name: string, runtime: TRuntime) {
         this._name = name;
         this._runtime = runtime;
     }

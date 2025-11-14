@@ -1,4 +1,4 @@
-import { ModuleRegistrationError } from "@squide/core";
+import { ModuleRegistrationError, toLocalModuleDefinitions } from "@squide/core";
 import { MswPlugin, MswState } from "@squide/msw";
 import { NoopLogger } from "@workleap/logging";
 import { expect, test, vi } from "vitest";
@@ -14,7 +14,7 @@ test("dispatch ApplicationBootstrappingStartedEvent", async () => {
 
     runtime.eventBus.addListener(ApplicationBootstrappingStartedEvent, listener);
 
-    bootstrap(runtime);
+    bootstrap(runtime, []);
 
     await vi.waitFor(() => expect(listener).toHaveBeenCalledTimes(1));
 });
@@ -24,13 +24,9 @@ test("when local modules are provided, register the local modules", async () => 
         loggers: [new NoopLogger()]
     });
 
-    // __setLocalModuleRegistry(localModuleRegistry);
-
-    bootstrap(runtime, {
-        localModules: [
-            () => {}
-        ]
-    });
+    bootstrap(runtime, toLocalModuleDefinitions([
+        () => {}
+    ]));
 
     await vi.waitFor(() => expect(runtime.moduleManager.getAreModulesReady()).toBeTruthy());
 });
@@ -91,18 +87,13 @@ test("when an error occurs while registering a local and an onError function is 
         loggers: [new NoopLogger()]
     });
 
-    // const localModuleRegistry = new LocalModuleRegistry();
-
-    // __setLocalModuleRegistry(localModuleRegistry);
-
     const onError = vi.fn();
 
-    bootstrap(runtime, {
-        localModules: [
-            () => {
-                throw new Error("Dummy");
-            }
-        ],
+    bootstrap(runtime, toLocalModuleDefinitions([
+        () => {
+            throw new Error("Dummy");
+        }
+    ]), {
         onError
     });
 
@@ -146,7 +137,7 @@ test("when MSW is enabled and a start function is provided, call the start funct
 
     const fct = vi.fn(() => Promise.resolve());
 
-    bootstrap(runtime, {
+    bootstrap(runtime, [], {
         startMsw: fct
     });
 
@@ -160,7 +151,7 @@ test("when MSW is disabled and a start function is provided, do not call the sta
 
     const fct = vi.fn(() => Promise.resolve());
 
-    bootstrap(runtime, {
+    bootstrap(runtime, [], {
         startMsw: fct
     });
 
@@ -185,7 +176,7 @@ test("when MSW is enabled and a start function is provided, MSW is ready once th
         loggers: [new NoopLogger()]
     });
 
-    bootstrap(runtime, {
+    bootstrap(runtime, [], {
         startMsw: vi.fn(() => Promise.resolve())
     });
 

@@ -294,6 +294,9 @@ importers:
       '@module-federation/enhanced':
         specifier: 0.11.4
         version: 0.11.4(@rspack/core@1.5.8(@swc/helpers@0.5.17))(react-dom@19.2.0(react@19.2.0))(react@19.2.0)(typescript@5.9.3)(webpack@5.102.1(esbuild@0.25.11))
+      '@opentelemetry/api':
+        specifier: ^1.9.0
+        version: 1.9.0
       '@rspack/core':
         specifier: ^1.5.8
         version: 1.5.8(@swc/helpers@0.5.17)

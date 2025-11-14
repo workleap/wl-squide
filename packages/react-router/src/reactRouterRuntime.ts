@@ -36,7 +36,8 @@ function logRoutesTree(routes: Route[], depth: number = 0) {
 
 export interface IReactRouterRuntime extends IRuntime<Route, RootNavigationItem> {}
 
-export class ReactRouterRuntime extends Runtime<Route, RootNavigationItem> implements IReactRouterRuntime {
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export class ReactRouterRuntime<TRuntime extends ReactRouterRuntime = any> extends Runtime<Route, RootNavigationItem, TRuntime> implements IReactRouterRuntime {
     protected _routeRegistry = new RouteRegistry();
     protected _navigationItemRegistry = new NavigationItemRegistry();
     protected _navigationItemScope?: NavigationItemDeferredRegistrationScope;
@@ -278,8 +279,8 @@ export class ReactRouterRuntime extends Runtime<Route, RootNavigationItem> imple
         return this._navigationItemRegistry.getItems(menuId);
     }
 
-    startScope(logger: Logger): ReactRouterRuntime {
-        return (new ReactRouterRuntimeScope(this, logger) as unknown) as ReactRouterRuntime;
+    startScope(logger: Logger): TRuntime {
+        return (new ReactRouterRuntimeScope(this, logger) as unknown) as TRuntime;
     }
 
     _validateRegistrations(options?: ValidateRegistrationsOptions) {

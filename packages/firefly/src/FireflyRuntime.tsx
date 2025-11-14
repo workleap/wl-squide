@@ -6,8 +6,7 @@ import type { Logger } from "@workleap/logging";
 import type { RequestHandler } from "msw";
 import { type AppRouterStore, createAppRouterStore } from "./AppRouterStore.ts";
 
-export interface FireflyRuntimeOptions extends RuntimeOptions {
-    // useMsw?: boolean;
+export interface FireflyRuntimeOptions<TRuntime extends FireflyRuntime = FireflyRuntime> extends RuntimeOptions<TRuntime> {
     honeycombInstrumentationClient?: HoneycombInstrumentationPartialClient;
 }
 
@@ -22,17 +21,15 @@ export interface IFireflyRuntime extends IReactRouterRuntime {
     get honeycombInstrumentationClient(): HoneycombInstrumentationPartialClient | undefined;
 }
 
-export class FireflyRuntime extends ReactRouterRuntime implements IFireflyRuntime {
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export class FireflyRuntime<TRuntime extends FireflyRuntime = any> extends ReactRouterRuntime<TRuntime> implements IFireflyRuntime {
     protected _appRouterStore: AppRouterStore;
-    // protected _useMsw: boolean;
     protected _honeycombInstrumentationClient: HoneycombInstrumentationPartialClient | undefined;
 
-    // constructor({ useMsw, honeycombInstrumentationClient, ...options }: FireflyRuntimeOptions = {}) {
     constructor({ honeycombInstrumentationClient, ...options }: FireflyRuntimeOptions = {}) {
         super(options);
 
         this._appRouterStore = createAppRouterStore(this._logger);
-        // this._useMsw = !!useMsw;
         this._honeycombInstrumentationClient = honeycombInstrumentationClient;
     }
 
@@ -54,7 +51,6 @@ export class FireflyRuntime extends ReactRouterRuntime implements IFireflyRuntim
             throw new Error("[squide] Cannot register the provided MSW request handlers because the runtime hasn't been initialized with MSW. Did you instanciate the FireflyRuntime with the \"useMsw\" option?");
         }
 
-        // if (getAreModulesRegistered(this)) {
         if (this.moduleManager.getAreModulesRegistered()) {
             throw new Error("[squide] Cannot register an MSW request handlers once the modules are registered. Are you trying to register an MSW request handler in a deferred registration function? Only navigation items can be registered in a deferred registration function.");
         }
@@ -76,7 +72,6 @@ export class FireflyRuntime extends ReactRouterRuntime implements IFireflyRuntim
     }
 
     registerRoute(route: Route, options: RegisterRouteOptions = {}) {
-        // if (getAreModulesRegistered(this)) {
         if (this.moduleManager.getAreModulesRegistered()) {
             throw new Error("[squide] Cannot register a route once the modules are registered. Are you trying to register a route in a deferred registration function? Only navigation items can be registered in a deferred registration function.");
         }
@@ -96,8 +91,8 @@ export class FireflyRuntime extends ReactRouterRuntime implements IFireflyRuntim
         return this._honeycombInstrumentationClient;
     }
 
-    startScope(logger: Logger): FireflyRuntime {
-        return (new FireflyRuntimeScope(this, logger) as unknown) as FireflyRuntime;
+    startScope(logger: Logger): TRuntime {
+        return (new FireflyRuntimeScope(this, logger) as unknown) as TRuntime;
     }
 }
 

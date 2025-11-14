@@ -8,13 +8,13 @@ export type RuntimeMode = "development" | "production";
 
 export type ModuleManagerFactory = (runtime: Runtime) => ModuleManager;
 
-export type PluginFactory = (runtime: Runtime) => Plugin;
+export type PluginFactory<TRuntime extends Runtime = Runtime> = (runtime: TRuntime) => Plugin;
 
-export interface RuntimeOptions {
+export interface RuntimeOptions<TRuntime extends Runtime = Runtime> {
     mode?: RuntimeMode;
     moduleManager?: ModuleManagerFactory;
     loggers?: RootLogger[];
-    plugins?: PluginFactory[];
+    plugins?: PluginFactory<TRuntime>[];
 }
 
 export interface RuntimeMethodOptions {
@@ -46,7 +46,8 @@ export interface ValidateRegistrationsOptions extends RuntimeMethodOptions {}
 
 export const RootMenuId = "root";
 
-export interface IRuntime<TRoute = unknown, TNavigationItem = unknown> {
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export interface IRuntime<TRoute = unknown, TNavigationItem = unknown, TRuntime extends Runtime<TRoute, TNavigationItem, TRuntime> = any> {
     get moduleManager(): ModuleManager;
     registerRoute: (route: TRoute, options?: RegisterRouteOptions) => void;
     registerPublicRoute: (route: Omit<TRoute, "visibility">, options?: RegisterRouteOptions) => void;
@@ -60,19 +61,20 @@ export interface IRuntime<TRoute = unknown, TNavigationItem = unknown> {
     getPlugin: (pluginName: string) => Plugin;
     get logger(): Logger;
     get eventBus(): EventBus;
-    startScope: (logger: Logger) => Runtime;
+    startScope: (logger: Logger) => TRuntime;
     _getLogger: (options?: RuntimeMethodOptions) => Logger;
     _validateRegistrations: (options?: ValidateRegistrationsOptions) => void;
 }
 
-export abstract class Runtime<TRoute = unknown, TNavigationItem = unknown> implements IRuntime<TRoute, TNavigationItem> {
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export abstract class Runtime<TRoute = unknown, TNavigationItem = unknown, TRuntime extends Runtime<TRoute, TNavigationItem, TRuntime> = any> implements IRuntime<TRoute, TNavigationItem, TRuntime> {
     protected readonly _mode: RuntimeMode;
     protected readonly _moduleManager: ModuleManager;
     protected readonly _logger: Logger;
     protected readonly _eventBus: EventBus;
     protected readonly _plugins: Plugin[];
 
-    constructor(options: RuntimeOptions = {}) {
+    constructor(options: RuntimeOptions<TRuntime> = {}) {
         const {
             mode = "development",
             moduleManager = x => new ModuleManager(x, [new LocalModuleRegistry()]),
@@ -84,7 +86,7 @@ export abstract class Runtime<TRoute = unknown, TNavigationItem = unknown> imple
         this._moduleManager = moduleManager(this);
         this._logger = createCompositeLogger(mode === "development", loggers);
         this._eventBus = new EventBus(this._logger);
-        this._plugins = plugins.map(x => x(this));
+        this._plugins = plugins.map(x => x(this as unknown as TRuntime));
     }
 
     get moduleManager(): ModuleManager {
@@ -131,7 +133,7 @@ export abstract class Runtime<TRoute = unknown, TNavigationItem = unknown> imple
         return this._eventBus;
     }
 
-    abstract startScope(logger: Logger): Runtime;
+    abstract startScope(logger: Logger): TRuntime;
 
     _getLogger(options: RuntimeMethodOptions = {}) {
         const {
