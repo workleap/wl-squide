@@ -47,7 +47,7 @@ export interface ValidateRegistrationsOptions extends RuntimeMethodOptions {}
 export const RootMenuId = "root";
 
 export interface IRuntime<TRoute = unknown, TNavigationItem = unknown> {
-    registerLocalModules<TContext = unknown, TData = unknown>(registrationFunctions: ModuleRegisterFunction<Runtime, TContext, TData>[], options?: RegisterModulesOptions<TContext>): Promise<ModuleRegistrationError[]>;
+    registerLocalModules<TRuntime extends Runtime = Runtime, TContext = unknown, TData = unknown>(registrationFunctions: ModuleRegisterFunction<TRuntime, TContext, TData>[], options?: RegisterModulesOptions<TContext>): Promise<ModuleRegistrationError[]>;
     get moduleManager(): ModuleManager;
     registerRoute: (route: TRoute, options?: RegisterRouteOptions) => void;
     registerPublicRoute: (route: Omit<TRoute, "visibility">, options?: RegisterRouteOptions) => void;
@@ -88,7 +88,7 @@ export abstract class Runtime<TRoute = unknown, TNavigationItem = unknown> imple
         this._plugins = plugins.map(x => x(this));
     }
 
-    registerLocalModules<TContext = unknown, TData = unknown>(registrationFunctions: ModuleRegisterFunction<Runtime, TContext, TData>[], options?: RegisterModulesOptions<TContext>) {
+    registerLocalModules<TRuntime extends Runtime = Runtime, TContext = unknown, TData = unknown>(registrationFunctions: ModuleRegisterFunction<TRuntime, TContext, TData>[], options?: RegisterModulesOptions<TContext>) {
         return this._moduleManager.registerModules(registrationFunctions.map(x => ({
             definition: x,
             registryId: LocalModuleRegistryId

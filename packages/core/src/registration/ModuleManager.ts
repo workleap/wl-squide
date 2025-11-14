@@ -27,7 +27,7 @@ export class ModuleManager {
         this.moduleRegistries.push(moduleRegistry);
     }
 
-    async registerModules<TContext = unknown, TData = unknown>(definitions: ModuleDefinition<Runtime, TContext, TData>[], options?: RegisterModulesOptions<TContext>) {
+    async registerModules<TRuntime extends Runtime = Runtime, TContext = unknown, TData = unknown>(definitions: ModuleDefinition<TRuntime, TContext, TData>[], options?: RegisterModulesOptions<TContext>) {
         const errors: ModuleRegistrationError[] = [];
 
         // {
