@@ -17,16 +17,6 @@ export interface InitializeFireflyOptions<TRuntime extends FireflyRuntime, TCont
     onError?: OnInitializationErrorFunction;
 }
 
-function propagateRegistrationErrors(results: PromiseSettledResult<unknown[]>, onError: OnInitializationErrorFunction) {
-    if (results) {
-        if (results.status === "fulfilled") {
-            results.value.forEach(x => {
-                onError(x);
-            });
-        }
-    }
-}
-
 export function bootstrap<TRuntime extends FireflyRuntime = FireflyRuntime, TContext = unknown, TData = unknown>(runtime: TRuntime, options: InitializeFireflyOptions<TRuntime, TContext, TData> = {}) {
     const {
         localModules = [],
@@ -85,7 +75,9 @@ export function bootstrap<TRuntime extends FireflyRuntime = FireflyRuntime, TCon
             }
 
             if (onError) {
-                propagateRegistrationErrors(results[0], onError);
+                results.forEach(error => {
+                    onError(error);
+                });
             }
         });
 }
