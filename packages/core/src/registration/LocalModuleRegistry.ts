@@ -317,3 +317,10 @@ export class LocalModuleRegistry implements ModuleRegistry {
         return this.#registrationStatus;
     }
 }
+
+export function toLocalModuleDefinitions<TRuntime extends Runtime = Runtime, TContext = unknown, TData = unknown>(localModules: ModuleRegisterFunction<TRuntime, TContext, TData>[]) {
+    return localModules.map(x => ({
+        definition: x,
+        registryId: LocalModuleRegistryId
+    }));
+}

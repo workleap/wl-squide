@@ -1,3 +1,4 @@
+export { initializeFireflyWithModuleFederation, type InitializeFireflyWithModuleFederationOptions } from "./initializeFireflyWithModuleFederation.ts";
 export { getModuleFederationPlugin, ModuleFederationPlugin, ModuleFederationPluginName } from "./ModuleFederationPlugin.ts";
 export type { RemoteDefinition } from "./RemoteDefinition.ts";
 export {

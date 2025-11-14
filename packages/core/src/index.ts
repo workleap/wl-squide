@@ -39,6 +39,7 @@ export {
     LocalModulesDeferredRegistrationsUpdateStartedEvent,
     LocalModulesRegistrationCompletedEvent,
     LocalModulesRegistrationStartedEvent,
+    toLocalModuleDefinitions,
     type LocalModulesDeferredRegistrationCompletedEventPayload,
     type LocalModulesDeferredRegistrationStartedEventPayload,
     type LocalModulesDeferredRegistrationsUpdateCompletedEventPayload,
@@ -46,10 +47,8 @@ export {
     type LocalModulesRegistrationCompletedEventPayload,
     type LocalModulesRegistrationStartedEventPayload
 } from "./registration/LocalModuleRegistry.ts";
-
-export { ModuleManager } from "./registration/ModuleManager.ts";
-
 export * from "./registration/mergeDeferredRegistrations.ts";
+export { ModuleManager, type ModuleDefinition, type ModuleRegistrationStatusListener } from "./registration/ModuleManager.ts";
 export * from "./registration/moduleRegistry.ts";
 export * from "./registration/registerModule.ts";
 

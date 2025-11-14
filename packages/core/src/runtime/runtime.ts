@@ -1,10 +1,8 @@
 import { createCompositeLogger, type Logger, type RootLogger } from "@workleap/logging";
 import { EventBus } from "../messaging/eventBus.ts";
 import type { Plugin } from "../plugins/plugin.ts";
-import { LocalModuleRegistry, LocalModuleRegistryId } from "../registration/LocalModuleRegistry.ts";
+import { LocalModuleRegistry } from "../registration/LocalModuleRegistry.ts";
 import { ModuleManager } from "../registration/ModuleManager.ts";
-import { ModuleRegistrationError, RegisterModulesOptions } from "../registration/moduleRegistry.ts";
-import { ModuleRegisterFunction } from "../registration/registerModule.ts";
 
 export type RuntimeMode = "development" | "production";
 
@@ -49,7 +47,6 @@ export interface ValidateRegistrationsOptions extends RuntimeMethodOptions {}
 export const RootMenuId = "root";
 
 export interface IRuntime<TRoute = unknown, TNavigationItem = unknown> {
-    registerLocalModules<TRuntime extends Runtime = Runtime, TContext = unknown, TData = unknown>(registrationFunctions: ModuleRegisterFunction<TRuntime, TContext, TData>[], options?: RegisterModulesOptions<TContext>): Promise<ModuleRegistrationError[]>;
     get moduleManager(): ModuleManager;
     registerRoute: (route: TRoute, options?: RegisterRouteOptions) => void;
     registerPublicRoute: (route: Omit<TRoute, "visibility">, options?: RegisterRouteOptions) => void;
@@ -88,13 +85,6 @@ export abstract class Runtime<TRoute = unknown, TNavigationItem = unknown> imple
         this._logger = createCompositeLogger(mode === "development", loggers);
         this._eventBus = new EventBus(this._logger);
         this._plugins = plugins.map(x => x(this));
-    }
-
-    registerLocalModules<TRuntime extends Runtime = Runtime, TContext = unknown, TData = unknown>(registrationFunctions: ModuleRegisterFunction<TRuntime, TContext, TData>[], options?: RegisterModulesOptions<TContext>) {
-        return this._moduleManager.registerModules(registrationFunctions.map(x => ({
-            definition: x,
-            registryId: LocalModuleRegistryId
-        })), options);
     }
 
     get moduleManager(): ModuleManager {
@@ -163,10 +153,6 @@ export abstract class RuntimeScope<TRoute = unknown, TNavigationItem = unknown, 
         this._logger = logger;
     }
 
-    registerLocalModules(): Promise<ModuleRegistrationError[]> {
-        throw new Error("[squide] Cannot register local modules from a runtime scope instance.");
-    }
-
     get moduleManager(): ModuleManager {
         throw new Error("[squide] Cannot retrieve the module manager from a runtime scope instance.");
     }
@@ -200,20 +186,6 @@ export abstract class RuntimeScope<TRoute = unknown, TNavigationItem = unknown, 
         return this._runtime.getNavigationItems(options);
     }
 
-    // startDeferredRegistrationScope(options: StartDeferredRegistrationScopeOptions = {}) {
-    //     this._runtime.startDeferredRegistrationScope({
-    //         ...options,
-    //         logger: this._getLogger(options)
-    //     });
-    // }
-
-    // completeDeferredRegistrationScope(options: CompleteDeferredRegistrationScopeOptions = {}) {
-    //     this._runtime.completeDeferredRegistrationScope({
-    //         ...options,
-    //         logger: this._getLogger(options)
-    //     });
-    // }
-
     startDeferredRegistrationScope() {
         throw new Error("[squide] Cannot start a deferred registration scope from a runtime scope instance.");
     }
@@ -227,7 +199,7 @@ export abstract class RuntimeScope<TRoute = unknown, TNavigationItem = unknown, 
     }
 
     get plugins(): Plugin[] {
-        return this._runtime.plugins;
+        throw new Error("[squide] Cannot retrieve the plugins from a runtime scope instance.");
     }
 
     getPlugin(pluginName: string) {
@@ -253,13 +225,6 @@ export abstract class RuntimeScope<TRoute = unknown, TNavigationItem = unknown, 
 
         return logger ? logger : this._logger;
     }
-
-    // _validateRegistrations(options: ValidateRegistrationsOptions = {}) {
-    //     this._runtime._validateRegistrations({
-    //         ...options,
-    //         logger: this._getLogger(options)
-    //     });
-    // }
 
     _validateRegistrations() {
         throw new Error("[squide] Cannot validate registrations from a runtime scope instance.");

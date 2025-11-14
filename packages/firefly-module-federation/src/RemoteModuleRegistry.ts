@@ -388,3 +388,10 @@ export class RemoteModuleRegistry implements ModuleRegistry {
         return this.#registrationStatus;
     }
 }
+
+export function toRemoteModuleDefinitions(remotes: RemoteDefinition[]) {
+    return remotes.map(x => ({
+        definition: x,
+        registryId: RemoteModuleRegistryId
+    }));
+}

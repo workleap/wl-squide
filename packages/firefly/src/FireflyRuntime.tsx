@@ -117,15 +117,15 @@ export class FireflyRuntimeScope<TRuntime extends FireflyRuntime = FireflyRuntim
         return this._runtime.requestHandlers;
     }
 
-    get appRouterStore() {
-        return this._runtime.appRouterStore;
+    get appRouterStore(): AppRouterStore {
+        throw new Error("[squide] Cannot retrieve the app router store from a runtime scope instance.");
     }
 
     get isMswEnabled() {
         return this._runtime.isMswEnabled;
     }
 
-    get honeycombInstrumentationClient() {
-        return this._runtime.honeycombInstrumentationClient;
+    get honeycombInstrumentationClient(): HoneycombInstrumentationPartialClient {
+        throw new Error("[squide] Cannot retrieve the Honeycomb instrumentation client from a runtime scope instance.");
     }
 }

@@ -12,8 +12,8 @@ export class ModuleFederationPlugin extends Plugin {
         this._runtime.moduleManager.addModuleRegistry(new RemoteModuleRegistry((remoteName, moduleName) => loadModuleFederationRemote(`${remoteName}/${moduleName}`)));
     }
 
-    registerRemoteModules<TRuntime extends Runtime = Runtime, TContext = unknown, TData = unknown>(remotes: RemoteDefinition[], options?: RegisterModulesOptions<TContext>) {
-        return this._runtime.moduleManager.registerModules<TRuntime, TContext, TData>(remotes.map(x => ({
+    registerRemoteModules<TContext = unknown>(remotes: RemoteDefinition[], options?: RegisterModulesOptions<TContext>) {
+        return this._runtime.moduleManager.registerModules(remotes.map(x => ({
             definition: x,
             registryId: RemoteModuleRegistryId
         })), options);

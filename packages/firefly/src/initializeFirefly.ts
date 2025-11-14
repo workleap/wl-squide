@@ -1,4 +1,4 @@
-import { isFunction, type ModuleRegisterFunction, type RegisterModulesOptions } from "@squide/core";
+import { isFunction, ModuleDefinition, toLocalModuleDefinitions, type ModuleRegisterFunction, type RegisterModulesOptions } from "@squide/core";
 import { MswPlugin } from "@squide/msw";
 import type { HoneycombInstrumentationPartialClient } from "@workleap-telemetry/core";
 import { FireflyRuntime, type FireflyRuntimeOptions } from "./FireflyRuntime.tsx";
@@ -12,15 +12,19 @@ export type StartMswFunction<TRuntime = FireflyRuntime> = (runtime: TRuntime) =>
 
 export interface InitializeFireflyOptions<TRuntime extends FireflyRuntime, TContext = unknown, TData = unknown> extends RegisterModulesOptions<TContext>, FireflyRuntimeOptions {
     localModules?: ModuleRegisterFunction<TRuntime, TContext, TData>[];
+    moduleDefinitions?: ModuleDefinition<TRuntime, TContext, TData>[];
     useMsw?: boolean;
     honeycombInstrumentationClient?: HoneycombInstrumentationPartialClient;
     startMsw?: StartMswFunction<FireflyRuntime>;
     onError?: OnInitializationErrorFunction;
 }
 
-export function bootstrap<TRuntime extends FireflyRuntime = FireflyRuntime, TContext = unknown, TData = unknown>(runtime: TRuntime, options: InitializeFireflyOptions<TRuntime, TContext, TData> = {}) {
+export function bootstrap<TRuntime extends FireflyRuntime = FireflyRuntime, TContext = unknown, TData = unknown>(
+    runtime: TRuntime,
+    modulesDefinitions: ModuleDefinition<TRuntime, TContext, TData>[],
+    options: Omit<InitializeFireflyOptions<TRuntime, TContext, TData>, "localModules" | "moduleDefinitions"> = {}
+) {
     const {
-        localModules = [],
         startMsw,
         onError,
         context
@@ -28,35 +32,7 @@ export function bootstrap<TRuntime extends FireflyRuntime = FireflyRuntime, TCon
 
     runtime.eventBus.dispatch(ApplicationBootstrappingStartedEvent);
 
-    // Promise.allSettled([
-    //     runtime.localModulesRegistry.registerModules(localModules, runtime, { context }),
-    //     // registerLocalModules<TRuntime, TContext, TData>(localModules, runtime, { context }),
-    //     registerRemoteModules(remotes, runtime, { context })
-    // ]).then(results => {
-    //     if (runtime.isMswEnabled) {
-    //         if (!isFunction(startMsw)) {
-    //             throw new Error("[squide] When MSW is enabled, the \"startMsw\" function must be provided.");
-    //         }
-
-    //         startMsw(runtime)
-    //             .then(() => {
-    //                 setMswAsReady();
-    //             })
-    //             .catch((error: unknown) => {
-    //                 runtime.logger
-    //                     .withText("[squide] An error occured while starting MSW.")
-    //                     .withError(error as Error)
-    //                     .error();
-    //             });
-    //     }
-
-    //     if (onError) {
-    //         propagateRegistrationErrors(results[0], onError);
-    //         propagateRegistrationErrors(results[1], onError);
-    //     }
-    // });
-
-    runtime.registerLocalModules(localModules, { context })
+    runtime.moduleManager.registerModules(modulesDefinitions, { context })
         .then(results => {
             if (runtime.isMswEnabled) {
                 if (!isFunction(startMsw)) {
@@ -65,7 +41,6 @@ export function bootstrap<TRuntime extends FireflyRuntime = FireflyRuntime, TCon
 
                 startMsw(runtime)
                     .then(() => {
-                        // setMswAsReady();
                         runtime.mswState.setAsReady();
                     })
                     .catch((error: unknown) => {
@@ -86,9 +61,16 @@ export function bootstrap<TRuntime extends FireflyRuntime = FireflyRuntime, TCon
 
 let hasExecuted = false;
 
+// Should only be used by tests.
+export function __resetHasExecutedGuard() {
+    hasExecuted = false;
+}
+
 export function initializeFirefly<TContext = unknown, TData = unknown>(options: InitializeFireflyOptions<FireflyRuntime, TContext, TData> = {}) {
     const {
         mode,
+        localModules = [],
+        moduleDefinitions = [],
         useMsw,
         plugins = [],
         honeycombInstrumentationClient,
@@ -120,12 +102,12 @@ export function initializeFirefly<TContext = unknown, TData = unknown>(options: 
             }
         })
         .finally(() => {
-            bootstrap(runtime, options);
+            bootstrap(
+                runtime,
+                [...moduleDefinitions, ...toLocalModuleDefinitions(localModules)],
+                options
+            );
         });
 
     return runtime;
-}
-
-export function __resetHasExecutedGuard() {
-    hasExecuted = false;
 }
