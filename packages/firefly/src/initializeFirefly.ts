@@ -1,5 +1,4 @@
 import { isFunction, type ModuleRegisterFunction, type RegisterModulesOptions } from "@squide/core";
-import { registerRemoteModules, type RemoteDefinition } from "@squide/module-federation";
 import { setMswAsReady } from "@squide/msw";
 import type { HoneycombInstrumentationPartialClient } from "@workleap-telemetry/core";
 import { FireflyRuntime, type FireflyRuntimeOptions } from "./FireflyRuntime.tsx";
@@ -13,7 +12,6 @@ export type StartMswFunction<TRuntime = FireflyRuntime> = (runtime: TRuntime) =>
 
 export interface InitializeFireflyOptions<TRuntime extends FireflyRuntime, TContext = unknown, TData = unknown> extends RegisterModulesOptions<TContext>, FireflyRuntimeOptions {
     localModules?: ModuleRegisterFunction<TRuntime, TContext, TData>[];
-    remotes?: RemoteDefinition[];
     honeycombInstrumentationClient?: HoneycombInstrumentationPartialClient;
     startMsw?: StartMswFunction<FireflyRuntime>;
     onError?: OnInitializationErrorFunction;
@@ -32,7 +30,6 @@ function propagateRegistrationErrors(results: PromiseSettledResult<unknown[]>, o
 export function bootstrap<TRuntime extends FireflyRuntime = FireflyRuntime, TContext = unknown, TData = unknown>(runtime: TRuntime, options: InitializeFireflyOptions<TRuntime, TContext, TData> = {}) {
     const {
         localModules = [],
-        remotes = [],
         startMsw,
         onError,
         context
@@ -40,33 +37,57 @@ export function bootstrap<TRuntime extends FireflyRuntime = FireflyRuntime, TCon
 
     runtime.eventBus.dispatch(ApplicationBootstrappingStartedEvent);
 
-    Promise.allSettled([
-        runtime.localModulesRegistry.registerModules(localModules, runtime, { context }),
-        // registerLocalModules<TRuntime, TContext, TData>(localModules, runtime, { context }),
-        registerRemoteModules(remotes, runtime, { context })
-    ]).then(results => {
-        if (runtime.isMswEnabled) {
-            if (!isFunction(startMsw)) {
-                throw new Error("[squide] When MSW is enabled, the \"startMsw\" function must be provided.");
+    // Promise.allSettled([
+    //     runtime.localModulesRegistry.registerModules(localModules, runtime, { context }),
+    //     // registerLocalModules<TRuntime, TContext, TData>(localModules, runtime, { context }),
+    //     registerRemoteModules(remotes, runtime, { context })
+    // ]).then(results => {
+    //     if (runtime.isMswEnabled) {
+    //         if (!isFunction(startMsw)) {
+    //             throw new Error("[squide] When MSW is enabled, the \"startMsw\" function must be provided.");
+    //         }
+
+    //         startMsw(runtime)
+    //             .then(() => {
+    //                 setMswAsReady();
+    //             })
+    //             .catch((error: unknown) => {
+    //                 runtime.logger
+    //                     .withText("[squide] An error occured while starting MSW.")
+    //                     .withError(error as Error)
+    //                     .error();
+    //             });
+    //     }
+
+    //     if (onError) {
+    //         propagateRegistrationErrors(results[0], onError);
+    //         propagateRegistrationErrors(results[1], onError);
+    //     }
+    // });
+
+    runtime.registerLocalModules(localModules, { context })
+        .then(results => {
+            if (runtime.isMswEnabled) {
+                if (!isFunction(startMsw)) {
+                    throw new Error("[squide] When MSW is enabled, the \"startMsw\" function must be provided.");
+                }
+
+                startMsw(runtime)
+                    .then(() => {
+                        setMswAsReady();
+                    })
+                    .catch((error: unknown) => {
+                        runtime.logger
+                            .withText("[squide] An error occured while starting MSW.")
+                            .withError(error as Error)
+                            .error();
+                    });
             }
 
-            startMsw(runtime)
-                .then(() => {
-                    setMswAsReady();
-                })
-                .catch((error: unknown) => {
-                    runtime.logger
-                        .withText("[squide] An error occured while starting MSW.")
-                        .withError(error as Error)
-                        .error();
-                });
-        }
-
-        if (onError) {
-            propagateRegistrationErrors(results[0], onError);
-            propagateRegistrationErrors(results[1], onError);
-        }
-    });
+            if (onError) {
+                propagateRegistrationErrors(results[0], onError);
+            }
+        });
 }
 
 let hasExecuted = false;

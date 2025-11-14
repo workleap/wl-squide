@@ -2,6 +2,7 @@ import { Runtime } from "../runtime/runtime.ts";
 import { ModuleRegistrationError, ModuleRegistry, RegisterModulesOptions } from "./moduleRegistry.ts";
 import { ModuleRegisterFunction } from "./registerModule.ts";
 
+// TODO: It should be move somewhere into @squide/firefly
 export const DeferredRegistrationsUpdateStartedEvent = "squide-deferred-registrations-update-started";
 export const DeferredRegistrationsUpdateCompletedEvent = "squide-deferred-registrations-update-completed-started";
 
@@ -83,6 +84,7 @@ export class ModuleManager {
         try {
             const errors: ModuleRegistrationError[] = [];
 
+            // TODO: It should be move somewhere into @squide/firefly
             this.runtime.eventBus.dispatch(DeferredRegistrationsUpdateStartedEvent);
 
             await Promise.allSettled(this.moduleRegistries.map(async x => {
@@ -91,6 +93,7 @@ export class ModuleManager {
                 errors.push(...registrationErrors);
             }));
 
+            // TODO: It should be move somewhere into @squide/firefly
             this.runtime.eventBus.dispatch(DeferredRegistrationsUpdateCompletedEvent);
 
             return errors;

@@ -2,8 +2,8 @@ import { createCompositeLogger, type Logger, type RootLogger } from "@workleap/l
 import { EventBus } from "../messaging/eventBus.ts";
 import type { Plugin } from "../plugins/plugin.ts";
 import { LocalModuleRegistry, LocalModuleRegistryId } from "../registration/LocalModuleRegistry.ts";
-import { ModuleDefinition, ModuleManager } from "../registration/ModuleManager.ts";
-import { RegisterModulesOptions } from "../registration/moduleRegistry.ts";
+import { ModuleManager } from "../registration/ModuleManager.ts";
+import { ModuleRegistrationError, RegisterModulesOptions } from "../registration/moduleRegistry.ts";
 import { ModuleRegisterFunction } from "../registration/registerModule.ts";
 
 export type RuntimeMode = "development" | "production";
@@ -47,7 +47,7 @@ export interface ValidateRegistrationsOptions extends RuntimeMethodOptions {}
 export const RootMenuId = "root";
 
 export interface IRuntime<TRoute = unknown, TNavigationItem = unknown> {
-    registerLocalModules<TContext = unknown, TData = unknown>(registrationFunctions: ModuleRegisterFunction<Runtime, TContext, TData>[], options?: RegisterModulesOptions<TContext>): void;
+    registerLocalModules<TContext = unknown, TData = unknown>(registrationFunctions: ModuleRegisterFunction<Runtime, TContext, TData>[], options?: RegisterModulesOptions<TContext>): Promise<ModuleRegistrationError[]>;
     get moduleManager(): ModuleManager;
     registerRoute: (route: TRoute, options?: RegisterRouteOptions) => void;
     registerPublicRoute: (route: Omit<TRoute, "visibility">, options?: RegisterRouteOptions) => void;
@@ -89,7 +89,7 @@ export abstract class Runtime<TRoute = unknown, TNavigationItem = unknown> imple
     }
 
     registerLocalModules<TContext = unknown, TData = unknown>(registrationFunctions: ModuleRegisterFunction<Runtime, TContext, TData>[], options?: RegisterModulesOptions<TContext>) {
-        this._moduleManager.registerModules(registrationFunctions.map(x => ({
+        return this._moduleManager.registerModules(registrationFunctions.map(x => ({
             definition: x,
             registryId: LocalModuleRegistryId
         })), options);
@@ -161,7 +161,7 @@ export abstract class RuntimeScope<TRoute = unknown, TNavigationItem = unknown, 
         this._logger = logger;
     }
 
-    registerLocalModules() {
+    registerLocalModules(): Promise<ModuleRegistrationError[]> {
         throw new Error("[squide] Cannot register local modules from a runtime scope instance.");
     }
 
