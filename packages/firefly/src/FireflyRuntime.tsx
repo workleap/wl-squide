@@ -7,7 +7,7 @@ import type { RequestHandler } from "msw";
 import { type AppRouterStore, createAppRouterStore } from "./AppRouterStore.ts";
 
 export interface FireflyRuntimeOptions extends RuntimeOptions {
-    useMsw?: boolean;
+    // useMsw?: boolean;
     honeycombInstrumentationClient?: HoneycombInstrumentationPartialClient;
 }
 
@@ -24,33 +24,15 @@ export interface IFireflyRuntime extends IReactRouterRuntime {
 
 export class FireflyRuntime extends ReactRouterRuntime implements IFireflyRuntime {
     protected _appRouterStore: AppRouterStore;
-    protected _useMsw: boolean;
+    // protected _useMsw: boolean;
     protected _honeycombInstrumentationClient: HoneycombInstrumentationPartialClient | undefined;
 
-    constructor({ useMsw, honeycombInstrumentationClient, ...options }: FireflyRuntimeOptions = {}) {
-        // if (useMsw) {
-        //     super({
-        //         plugins: [
-        //             ...(plugins ?? []),
-        //             x => new MswPlugin(x)
-        //         ],
-        //         ...options
-        //     });
-
-        //     this._useMsw = true;
-        // } else {
-        //     super({
-        //         plugins,
-        //         ...options
-        //     });
-
-        //     this._useMsw = false;
-        // }
-
+    // constructor({ useMsw, honeycombInstrumentationClient, ...options }: FireflyRuntimeOptions = {}) {
+    constructor({ honeycombInstrumentationClient, ...options }: FireflyRuntimeOptions = {}) {
         super(options);
 
         this._appRouterStore = createAppRouterStore(this._logger);
-        this._useMsw = !!useMsw;
+        // this._useMsw = !!useMsw;
         this._honeycombInstrumentationClient = honeycombInstrumentationClient;
     }
 
@@ -107,7 +89,7 @@ export class FireflyRuntime extends ReactRouterRuntime implements IFireflyRuntim
     }
 
     get isMswEnabled() {
-        return this._useMsw;
+        return this._plugins.some(x => x.name === MswPluginName);
     }
 
     get honeycombInstrumentationClient() {

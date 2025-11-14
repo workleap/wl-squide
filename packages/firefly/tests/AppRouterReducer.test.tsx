@@ -109,7 +109,7 @@ describe("useAppRouterReducer", () => {
 
     test.concurrent("the reducer is initialized with the provided values for \"waitForMsw\", \"waitForPublicData\" and \"waitForProtectedData\" 1", ({ expect }) => {
         const runtime = new FireflyRuntime({
-            useMsw: true,
+            plugins: [x => new MswPlugin(x)],
             loggers: [new NoopLogger()]
         });
 
@@ -124,7 +124,6 @@ describe("useAppRouterReducer", () => {
 
     test.concurrent("the reducer is initialized with the provided values for \"waitForMsw\", \"waitForPublicData\" and \"waitForProtectedData\" 2", ({ expect }) => {
         const runtime = new FireflyRuntime({
-            useMsw: false,
             loggers: [new NoopLogger()]
         });
 
@@ -139,7 +138,6 @@ describe("useAppRouterReducer", () => {
 
     test.concurrent("when \"modules-registered\" is dispatched, \"areModulesRegistered\" is true", ({ expect }) => {
         const runtime = new FireflyRuntime({
-            useMsw: false,
             loggers: [new NoopLogger()]
         });
 
@@ -159,7 +157,6 @@ describe("useAppRouterReducer", () => {
 
     test.concurrent("when \"modules-registered\" is dispatched, ModulesRegisteredEvent is dispatched", ({ expect }) => {
         const runtime = new FireflyRuntime({
-            useMsw: false,
             loggers: [new NoopLogger()]
         });
 
@@ -182,7 +179,6 @@ describe("useAppRouterReducer", () => {
 
     test.concurrent("when \"modules-ready\" is dispatched, \"areModulesReady\" is true", ({ expect }) => {
         const runtime = new FireflyRuntime({
-            useMsw: false,
             loggers: [new NoopLogger()]
         });
 
@@ -202,7 +198,6 @@ describe("useAppRouterReducer", () => {
 
     test.concurrent("when \"modules-ready\" is dispatched, ModulesReadyEvent is dispatched", ({ expect }) => {
         const runtime = new FireflyRuntime({
-            useMsw: false,
             loggers: [new NoopLogger()]
         });
 
@@ -229,7 +224,6 @@ describe("useAppRouterReducer", () => {
             .mockImplementationOnce(() => Date.parse("2020-02-14"));
 
         const runtime = new FireflyRuntime({
-            useMsw: false,
             loggers: [new NoopLogger()]
         });
 
@@ -249,7 +243,7 @@ describe("useAppRouterReducer", () => {
 
     test.concurrent("when \"msw-ready\" is dispatched, \"isMswReady\" is true", ({ expect }) => {
         const runtime = new FireflyRuntime({
-            useMsw: true,
+            plugins: [x => new MswPlugin(x)],
             loggers: [new NoopLogger()]
         });
 
@@ -269,7 +263,7 @@ describe("useAppRouterReducer", () => {
 
     test.concurrent("when \"msw-ready\" is dispatched, MswReadyEvent is dispatched", ({ expect }) => {
         const runtime = new FireflyRuntime({
-            useMsw: true,
+            plugins: [x => new MswPlugin(x)],
             loggers: [new NoopLogger()]
         });
 
@@ -292,7 +286,6 @@ describe("useAppRouterReducer", () => {
 
     test.concurrent("when \"public-data-ready\" is dispatched, \"isPublicDataReady\" is true", ({ expect }) => {
         const runtime = new FireflyRuntime({
-            useMsw: false,
             loggers: [new NoopLogger()]
         });
 
@@ -312,7 +305,6 @@ describe("useAppRouterReducer", () => {
 
     test.concurrent("when \"public-data-ready\" is dispatched, PublicDataReadyEvent is dispatched", ({ expect }) => {
         const runtime = new FireflyRuntime({
-            useMsw: false,
             loggers: [new NoopLogger()]
         });
 
@@ -339,7 +331,6 @@ describe("useAppRouterReducer", () => {
             .mockImplementationOnce(() => Date.parse("2020-02-14"));
 
         const runtime = new FireflyRuntime({
-            useMsw: false,
             loggers: [new NoopLogger()]
         });
 
@@ -359,7 +350,6 @@ describe("useAppRouterReducer", () => {
 
     test.concurrent("when \"protected-data-ready\" is dispatched, \"isProtectedDataReady\" is true", ({ expect }) => {
         const runtime = new FireflyRuntime({
-            useMsw: false,
             loggers: [new NoopLogger()]
         });
 
@@ -379,7 +369,6 @@ describe("useAppRouterReducer", () => {
 
     test.concurrent("when \"protected-data-ready\" is dispatched, ProtectedDataReadyEvent is dispatched", ({ expect }) => {
         const runtime = new FireflyRuntime({
-            useMsw: false,
             loggers: [new NoopLogger()]
         });
 
@@ -406,7 +395,6 @@ describe("useAppRouterReducer", () => {
             .mockImplementationOnce(() => Date.parse("2020-02-14"));
 
         const runtime = new FireflyRuntime({
-            useMsw: false,
             loggers: [new NoopLogger()]
         });
 
@@ -432,7 +420,6 @@ describe("useAppRouterReducer", () => {
             .mockImplementationOnce(() => Date.parse("2021-02-14"));
 
         const runtime = new FireflyRuntime({
-            useMsw: false,
             loggers: [new NoopLogger()]
         });
 
@@ -463,7 +450,6 @@ describe("useAppRouterReducer", () => {
             .mockImplementationOnce(() => Date.parse("2021-02-14"));
 
         const runtime = new FireflyRuntime({
-            useMsw: false,
             loggers: [new NoopLogger()]
         });
 
@@ -492,7 +478,6 @@ describe("useAppRouterReducer", () => {
             .mockImplementationOnce(() => Date.parse("2020-02-14"));
 
         const runtime = new FireflyRuntime({
-            useMsw: false,
             loggers: [new NoopLogger()]
         });
 
@@ -512,7 +497,6 @@ describe("useAppRouterReducer", () => {
 
     test.concurrent("when \"active-route-is-public\" is dispatched, \"activeRouteVisiblity\" is \"public\"", ({ expect }) => {
         const runtime = new FireflyRuntime({
-            useMsw: false,
             loggers: [new NoopLogger()]
         });
 
@@ -532,7 +516,6 @@ describe("useAppRouterReducer", () => {
 
     test.concurrent("when \"active-route-is-public\" is dispatched, ActiveRouteIsPublicEvent is dispatched", ({ expect }) => {
         const runtime = new FireflyRuntime({
-            useMsw: false,
             loggers: [new NoopLogger()]
         });
 
@@ -555,7 +538,6 @@ describe("useAppRouterReducer", () => {
 
     test.concurrent("when \"active-route-is-protected\" is dispatched, \"activeRouteVisiblity\" is \"protected\"", ({ expect }) => {
         const runtime = new FireflyRuntime({
-            useMsw: false,
             loggers: [new NoopLogger()]
         });
 
@@ -575,7 +557,6 @@ describe("useAppRouterReducer", () => {
 
     test.concurrent("when \"active-route-is-protected\" is dispatched, ActiveRouteIsProtectedEvent is dispatched", ({ expect }) => {
         const runtime = new FireflyRuntime({
-            useMsw: false,
             loggers: [new NoopLogger()]
         });
 
@@ -598,7 +579,6 @@ describe("useAppRouterReducer", () => {
 
     test.concurrent("when \"is-unauthorized\" is dispatched, \"isUnauthorized\" is true", ({ expect }) => {
         const runtime = new FireflyRuntime({
-            useMsw: false,
             loggers: [new NoopLogger()]
         });
 
@@ -621,7 +601,6 @@ describe("useAppRouterReducer", () => {
         const remoteModuleRegistry = new DummyModuleRegistry("remote", "modules-registered");
 
         const runtime = new FireflyRuntime({
-            useMsw: false,
             moduleManager: x => new ModuleManager(x, [
                 localModuleRegistry,
                 remoteModuleRegistry
@@ -640,7 +619,6 @@ describe("useAppRouterReducer", () => {
         const remoteModuleRegistry = new DummyModuleRegistry("remote", "modules-registered");
 
         const runtime = new FireflyRuntime({
-            useMsw: false,
             moduleManager: x => new ModuleManager(x, [
                 localModuleRegistry,
                 remoteModuleRegistry
@@ -663,7 +641,6 @@ describe("useAppRouterReducer", () => {
         const remoteModuleRegistry = new DummyModuleRegistry("remote", "none");
 
         const runtime = new FireflyRuntime({
-            useMsw: false,
             moduleManager: x => new ModuleManager(x, [
                 localModuleRegistry,
                 remoteModuleRegistry
@@ -682,7 +659,6 @@ describe("useAppRouterReducer", () => {
         const remoteModuleRegistry = new DummyModuleRegistry("remote", "none");
 
         const runtime = new FireflyRuntime({
-            useMsw: false,
             moduleManager: x => new ModuleManager(x, [
                 localModuleRegistry,
                 remoteModuleRegistry
@@ -705,7 +681,6 @@ describe("useAppRouterReducer", () => {
         const remoteModuleRegistry = new DummyModuleRegistry("remote", "modules-registered");
 
         const runtime = new FireflyRuntime({
-            useMsw: false,
             moduleManager: x => new ModuleManager(x, [
                 localModuleRegistry,
                 remoteModuleRegistry
@@ -724,7 +699,6 @@ describe("useAppRouterReducer", () => {
         const remoteModuleRegistry = new DummyModuleRegistry("remote", "modules-registered");
 
         const runtime = new FireflyRuntime({
-            useMsw: false,
             moduleManager: x => new ModuleManager(x, [
                 localModuleRegistry,
                 remoteModuleRegistry
@@ -747,7 +721,6 @@ describe("useAppRouterReducer", () => {
         const remoteModuleRegistry = new DummyModuleRegistry("remote", "registering-modules");
 
         const runtime = new FireflyRuntime({
-            useMsw: false,
             moduleManager: x => new ModuleManager(x, [
                 localModuleRegistry,
                 remoteModuleRegistry
@@ -766,7 +739,6 @@ describe("useAppRouterReducer", () => {
         const remoteModuleRegistry = new DummyModuleRegistry("remote", "modules-registered");
 
         const runtime = new FireflyRuntime({
-            useMsw: false,
             moduleManager: x => new ModuleManager(x, [
                 localModuleRegistry,
                 remoteModuleRegistry
@@ -785,7 +757,6 @@ describe("useAppRouterReducer", () => {
         const remoteModuleRegistry = new DummyModuleRegistry("remote", "ready");
 
         const runtime = new FireflyRuntime({
-            useMsw: false,
             moduleManager: x => new ModuleManager(x, [
                 localModuleRegistry,
                 remoteModuleRegistry
@@ -804,7 +775,6 @@ describe("useAppRouterReducer", () => {
         const remoteModuleRegistry = new DummyModuleRegistry("remote", "ready");
 
         const runtime = new FireflyRuntime({
-            useMsw: false,
             moduleManager: x => new ModuleManager(x, [
                 localModuleRegistry,
                 remoteModuleRegistry
@@ -827,7 +797,6 @@ describe("useAppRouterReducer", () => {
         const remoteModuleRegistry = new DummyModuleRegistry("remote", "none");
 
         const runtime = new FireflyRuntime({
-            useMsw: false,
             moduleManager: x => new ModuleManager(x, [
                 localModuleRegistry,
                 remoteModuleRegistry
@@ -846,7 +815,6 @@ describe("useAppRouterReducer", () => {
         const remoteModuleRegistry = new DummyModuleRegistry("remote", "none");
 
         const runtime = new FireflyRuntime({
-            useMsw: false,
             moduleManager: x => new ModuleManager(x, [
                 localModuleRegistry,
                 remoteModuleRegistry
@@ -869,7 +837,6 @@ describe("useAppRouterReducer", () => {
         const remoteModuleRegistry = new DummyModuleRegistry("remote", "ready");
 
         const runtime = new FireflyRuntime({
-            useMsw: false,
             moduleManager: x => new ModuleManager(x, [
                 localModuleRegistry,
                 remoteModuleRegistry
@@ -888,7 +855,6 @@ describe("useAppRouterReducer", () => {
         const remoteModuleRegistry = new DummyModuleRegistry("remote", "ready");
 
         const runtime = new FireflyRuntime({
-            useMsw: false,
             moduleManager: x => new ModuleManager(x, [
                 localModuleRegistry,
                 remoteModuleRegistry
@@ -911,7 +877,6 @@ describe("useAppRouterReducer", () => {
         const remoteModuleRegistry = new DummyModuleRegistry("remote", "modules-registered");
 
         const runtime = new FireflyRuntime({
-            useMsw: false,
             moduleManager: x => new ModuleManager(x, [
                 localModuleRegistry,
                 remoteModuleRegistry
@@ -930,7 +895,6 @@ describe("useAppRouterReducer", () => {
         const remoteModuleRegistry = new DummyModuleRegistry("remote", "ready");
 
         const runtime = new FireflyRuntime({
-            useMsw: false,
             moduleManager: x => new ModuleManager(x, [
                 localModuleRegistry,
                 remoteModuleRegistry
@@ -947,10 +911,7 @@ describe("useAppRouterReducer", () => {
     test.concurrent("when msw is ready, \"isMswReady\" is true at initialization", ({ expect }) => {
         const mswState = new DummyMswState(true);
 
-        // __setMswState(mswState);
-
         const runtime = new FireflyRuntime({
-            useMsw: false,
             plugins: [x => new MswPlugin(x, {
                 mswState
             })],
@@ -966,10 +927,7 @@ describe("useAppRouterReducer", () => {
     test.concurrent("when msw is ready, MswReadyEvent is dispatched at initialization", ({ expect }) => {
         const mswState = new DummyMswState(true);
 
-        // __setMswState(mswState);
-
         const runtime = new FireflyRuntime({
-            useMsw: false,
             plugins: [x => new MswPlugin(x, {
                 mswState
             })],
@@ -989,10 +947,7 @@ describe("useAppRouterReducer", () => {
     test.concurrent("when msw is not ready, \"isMswReady\" is false at initialization", ({ expect }) => {
         const mswState = new DummyMswState(false);
 
-        // __setMswState(mswState);
-
         const runtime = new FireflyRuntime({
-            useMsw: false,
             plugins: [x => new MswPlugin(x, {
                 mswState
             })],

@@ -12,6 +12,7 @@ export type StartMswFunction<TRuntime = FireflyRuntime> = (runtime: TRuntime) =>
 
 export interface InitializeFireflyOptions<TRuntime extends FireflyRuntime, TContext = unknown, TData = unknown> extends RegisterModulesOptions<TContext>, FireflyRuntimeOptions {
     localModules?: ModuleRegisterFunction<TRuntime, TContext, TData>[];
+    useMsw?: boolean;
     honeycombInstrumentationClient?: HoneycombInstrumentationPartialClient;
     startMsw?: StartMswFunction<FireflyRuntime>;
     onError?: OnInitializationErrorFunction;
@@ -107,7 +108,6 @@ export function initializeFirefly<TContext = unknown, TData = unknown>(options: 
 
     const runtime = new FireflyRuntime({
         mode,
-        useMsw,
         honeycombInstrumentationClient,
         loggers,
         plugins

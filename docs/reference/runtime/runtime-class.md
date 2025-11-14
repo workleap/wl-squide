@@ -64,7 +64,7 @@ const runtime = new FireflyRuntime({
 });
 ```
 
-### Use Mock Service Worker
+### Use MSW
 
 ```ts !#4,8
 import { FireflyRuntime } from "@squide/firefly";
@@ -502,7 +502,7 @@ const navigationItems = runtime.getNavigationItems("my-custom-layout");
 
 ### Register request handlers
 
-The registered handlers must be [Mock Service Worker](https://mswjs.io/docs/concepts/request-handler) request handlers:
+The registered handlers must be valid MSW [request handlers](https://mswjs.io/docs/concepts/request-handler):
 
 ```tsx !#3
 import { requestHandlers } from "../mocks/handlers.ts";
@@ -510,7 +510,7 @@ import { requestHandlers } from "../mocks/handlers.ts";
 runtime.registerRequestHandlers(requestHandlers);
 ```
 
-[!ref text="Learn more about setuping Mock Service Worker"](../../guides/setup-msw.md)
+[!ref text="Learn more about setuping MSW"](../../guides/setup-msw.md)
 
 ### Retrieve request handlers
 

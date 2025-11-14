@@ -140,7 +140,7 @@ test("when an error occurs while registering a local and an onError function is 
 
 test("when MSW is enabled and a start function is provided, call the start function", async () => {
     const runtime = new FireflyRuntime({
-        useMsw: true,
+        plugins: [x => new MswPlugin(x)],
         loggers: [new NoopLogger()]
     });
 
@@ -155,7 +155,6 @@ test("when MSW is enabled and a start function is provided, call the start funct
 
 test("when MSW is disabled and a start function is provided, do not call the start function", () => {
     const runtime = new FireflyRuntime({
-        useMsw: false,
         loggers: [new NoopLogger()]
     });
 
@@ -180,7 +179,6 @@ test("when MSW is enabled and a start function is provided, MSW is ready once th
     const mswState = new MswState();
 
     const runtime = new FireflyRuntime({
-        useMsw: true,
         plugins: [x => new MswPlugin(x, {
             mswState
         })],
