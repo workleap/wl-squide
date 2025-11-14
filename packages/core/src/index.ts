@@ -32,7 +32,7 @@ export {
     LocalModuleDeferredRegistrationFailedEvent,
     LocalModuleDeferredRegistrationUpdateFailedEvent,
     LocalModuleRegistrationFailedEvent,
-    LocalModuleRegistry,
+    LocalModuleRegistryId,
     LocalModulesDeferredRegistrationCompletedEvent,
     LocalModulesDeferredRegistrationStartedEvent,
     LocalModulesDeferredRegistrationsUpdateCompletedEvent,
