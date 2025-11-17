@@ -2174,6 +2174,9 @@ importers:
       '@squide/firefly':
         specifier: workspace:*
         version: link:../../../packages/firefly
+      '@squide/firefly-module-federation':
+        specifier: workspace:*
+        version: link:../../../packages/firefly-module-federation
       '@squide/i18next':
         specifier: workspace:*
         version: link:../../../packages/i18next

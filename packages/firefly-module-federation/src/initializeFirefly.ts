@@ -1,13 +1,13 @@
-import { FireflyRuntime, initializeFirefly, type InitializeFireflyOptions } from "@squide/firefly";
+import { FireflyRuntime, initializeFirefly as baseInitializeFirefly, type InitializeFireflyOptions as BaseInitializeFireflyOptions } from "@squide/firefly";
 import { ModuleFederationPlugin } from "./ModuleFederationPlugin.ts";
 import { RemoteDefinition } from "./RemoteDefinition.ts";
 import { toRemoteModuleDefinitions } from "./RemoteModuleRegistry.ts";
 
-export interface InitializeFireflyWithModuleFederationOptions<TRuntime extends FireflyRuntime, TContext = unknown, TData = unknown> extends InitializeFireflyOptions<TRuntime, TContext, TData> {
+export interface InitializeFireflyOptions<TRuntime extends FireflyRuntime, TContext = unknown, TData = unknown> extends BaseInitializeFireflyOptions<TRuntime, TContext, TData> {
     remotes?: RemoteDefinition[];
 }
 
-export function initializeFireflyWithModuleFederation<TContext = unknown, TData = unknown>(options: InitializeFireflyWithModuleFederationOptions<FireflyRuntime, TContext, TData> = {}) {
+export function initializeFirefly<TContext = unknown, TData = unknown>(options: InitializeFireflyOptions<FireflyRuntime, TContext, TData> = {}) {
     const {
         remotes = [],
         moduleDefinitions = [],
@@ -15,7 +15,7 @@ export function initializeFireflyWithModuleFederation<TContext = unknown, TData 
         ...rest
     } = options;
 
-    return initializeFirefly({
+    return baseInitializeFirefly({
         moduleDefinitions: [
             ...moduleDefinitions,
             ...toRemoteModuleDefinitions(remotes)

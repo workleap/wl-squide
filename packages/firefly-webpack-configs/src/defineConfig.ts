@@ -202,7 +202,7 @@ function resolveEntryFilePath(entryPaths: string[]) {
 
 ////////////////////////////  Host  /////////////////////////////
 
-export interface RemoteDefinition {
+export interface RemoteDefinition extends Record<string, unknown> {
     // The name of the remote module.
     name: string;
     // The URL of the remote, ex: http://localhost:8081.

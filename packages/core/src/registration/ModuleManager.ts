@@ -85,17 +85,13 @@ export class ModuleManager {
         try {
             const errors: ModuleRegistrationError[] = [];
 
-            // // TODO: It should be move somewhere into @squide/firefly
-            // this.runtime.eventBus.dispatch(DeferredRegistrationsUpdateStartedEvent);
-
-            await Promise.allSettled(this.moduleRegistries.map(async x => {
+            // IMPORTANT: Currently cannot make this a concurrent operation because it cause errors
+            // with the Honeycomb telemetry due to "active spans".
+            for (const x of this.moduleRegistries) {
                 const registrationErrors = await x.updateDeferredRegistrations(data, this.runtime);
 
                 errors.push(...registrationErrors);
-            }));
-
-            // // TODO: It should be move somewhere into @squide/firefly
-            // this.runtime.eventBus.dispatch(DeferredRegistrationsUpdateCompletedEvent);
+            };
 
             return errors;
         } finally {

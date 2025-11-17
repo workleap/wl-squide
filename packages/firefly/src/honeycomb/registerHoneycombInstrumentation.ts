@@ -32,7 +32,9 @@ import { getTracer } from "./tracer.ts";
 import { endActiveSpan, startActiveChildSpan, startChildSpan, startSpan, traceError } from "./utils.ts";
 
 // TIPS:
-// To query those traces in Honeycomb, use the following query filter: "root.name = squide-bootstrapping".
+// To query those traces in Honeycomb, use the following query filter:
+// "root.name = squide-bootstrapping" and
+// "root.name = squide-deferred-registrations-update".
 
 export interface AddProtectedListenerOptions extends AddListenerOptions {
     onError?: (error: unknown) => void;
@@ -179,14 +181,6 @@ function registerTrackingListeners(runtime: FireflyRuntime) {
             localModuleDeferredRegistrationSpan.end();
         }
 
-        // if (remoteModuleRegistrationSpan) {
-        //     remoteModuleRegistrationSpan.end();
-        // }
-
-        // if (remoteModuleDeferredRegistrationSpan) {
-        //     remoteModuleDeferredRegistrationSpan.end();
-        // }
-
         if (dataFetchSpan) {
             dataFetchSpan.instance.end();
         }
@@ -199,9 +193,9 @@ function registerTrackingListeners(runtime: FireflyRuntime) {
             localModuleDeferredRegistrationsUpdateSpan.instance.end();
         }
 
-        // if (remoteModuleDeferredRegistrationsUpdateSpan) {
-        //     remoteModuleDeferredRegistrationsUpdateSpan.instance.end();
-        // }
+        pluginsUnmanagedErrorHandlers.forEach(x => {
+            x(error);
+        });
     };
 
     addProtectedListener(runtime, ApplicationBootstrappingStartedEvent, () => {
