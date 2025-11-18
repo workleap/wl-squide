@@ -1,12 +1,12 @@
 import { NoopLogger } from "@workleap/logging";
-import { afterEach, expect, test } from "vitest";
+import { afterEach, test } from "vitest";
 import { __resetHasExecutedGuard, initializeFirefly } from "../src/initializeFirefly.ts";
 
 afterEach(() => {
     __resetHasExecutedGuard();
 });
 
-test("when the function is called twice, throw an error", () => {
+test("when the function is called twice, throw an error", ({ expect }) => {
     initializeFirefly({
         loggers: [new NoopLogger()]
     });

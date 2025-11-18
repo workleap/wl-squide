@@ -3,7 +3,7 @@ import { QueryClientProvider, type QueryClient } from "@tanstack/react-query";
 import { render, screen, waitFor } from "@testing-library/react";
 import { NoopLogger } from "@workleap/logging";
 import { Component, type PropsWithChildren, type ReactNode } from "react";
-import { afterEach, beforeEach, describe, expect, test, vi, type MockInstance } from "vitest";
+import { afterEach, beforeEach, describe, test, vi, type MockInstance } from "vitest";
 import { AppRouterDispatcherContext, AppRouterStateContext } from "../src/AppRouterContext.ts";
 import type { AppRouterDispatch, AppRouterState } from "../src/AppRouterReducer.ts";
 import { FireflyProvider } from "../src/FireflyProvider.tsx";
@@ -29,7 +29,7 @@ function renderAppRouter(appRouter: ReactNode, runtime: Runtime, state: AppRoute
     });
 }
 
-test("when queries are executed, PublicDataFetchStartedEvent is dispatched", async () => {
+test("when queries are executed, PublicDataFetchStartedEvent is dispatched", async ({ expect }) => {
     const runtime = new FireflyRuntime({
         loggers: [new NoopLogger()]
     });
@@ -59,7 +59,7 @@ test("when queries are executed, PublicDataFetchStartedEvent is dispatched", asy
     expect(listener).toHaveBeenCalledTimes(1);
 });
 
-test("when data is ready, \"public-data-ready\" is dispatched", async () => {
+test("when data is ready, \"public-data-ready\" is dispatched", async ({ expect }) => {
     const runtime = new FireflyRuntime({
         loggers: [new NoopLogger()]
     });
@@ -94,7 +94,7 @@ test("when data is ready, \"public-data-ready\" is dispatched", async () => {
     }));
 });
 
-test("when data is updated, \"public-data-updated\" is dispatched", async () => {
+test("when data is updated, \"public-data-updated\" is dispatched", async ({ expect }) => {
     const runtime = new FireflyRuntime({
         loggers: [new NoopLogger()]
     });
@@ -152,7 +152,7 @@ describe("when a query fail", () => {
         consoleMock.mockRestore();
     });
 
-    test("should throw an error", async () => {
+    test("should throw an error", async ({ expect }) => {
         const runtime = new FireflyRuntime({
             loggers: [new NoopLogger()]
         });
@@ -203,7 +203,7 @@ describe("when a query fail", () => {
         expect(element).toBeDefined();
     });
 
-    test("should dispatch PublicDataFetchFailedEvent", async () => {
+    test("should dispatch PublicDataFetchFailedEvent", async ({ expect }) => {
         const runtime = new FireflyRuntime({
             loggers: [new NoopLogger()]
         });

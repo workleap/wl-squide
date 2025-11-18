@@ -65,11 +65,17 @@ export class ModuleManager {
         try {
             const errors: ModuleRegistrationError[] = [];
 
-            await Promise.allSettled(this.moduleRegistries.map(async x => {
+            // await Promise.allSettled(this.moduleRegistries.map(async x => {
+            //     const registrationErrors = await x.registerDeferredRegistrations(data, this.runtime);
+
+            //     errors.push(...registrationErrors);
+            // }));
+
+            for (const x of this.moduleRegistries) {
                 const registrationErrors = await x.registerDeferredRegistrations(data, this.runtime);
 
                 errors.push(...registrationErrors);
-            }));
+            };
 
             return errors;
         } finally {

@@ -1,11 +1,11 @@
 import { ModuleRegistrationError, toLocalModuleDefinitions } from "@squide/core";
 import { MswPlugin, MswState } from "@squide/msw";
 import { NoopLogger } from "@workleap/logging";
-import { expect, test, vi } from "vitest";
+import { test, vi } from "vitest";
 import { FireflyRuntime } from "../src/FireflyRuntime.tsx";
 import { ApplicationBootstrappingStartedEvent, bootstrap } from "../src/initializeFirefly.ts";
 
-test("dispatch ApplicationBootstrappingStartedEvent", async () => {
+test.concurrent("dispatch ApplicationBootstrappingStartedEvent", async ({ expect }) => {
     const runtime = new FireflyRuntime({
         loggers: [new NoopLogger()]
     });
@@ -19,7 +19,7 @@ test("dispatch ApplicationBootstrappingStartedEvent", async () => {
     await vi.waitFor(() => expect(listener).toHaveBeenCalledTimes(1));
 });
 
-test("when local modules are provided, register the local modules", async () => {
+test.concurrent("when local modules are provided, register the local modules", async ({ expect }) => {
     const runtime = new FireflyRuntime({
         loggers: [new NoopLogger()]
     });
@@ -31,58 +31,7 @@ test("when local modules are provided, register the local modules", async () => 
     await vi.waitFor(() => expect(runtime.moduleManager.getAreModulesReady()).toBeTruthy());
 });
 
-// test("when remote modules are provided, register the remote modules", async () => {
-//     const runtime = new FireflyRuntime({
-//         loggers: [new NoopLogger()]
-//     });
-
-//     const loadRemote = vi.fn().mockResolvedValue({
-//         register: () => {}
-//     });
-
-//     const remoteModuleRegistry = new RemoteModuleRegistry(loadRemote);
-
-//     __setRemoteModuleRegistry(remoteModuleRegistry);
-
-//     bootstrap(runtime, {
-//         remotes: [
-//             { name: "Dummy-1" }
-//         ]
-//     });
-
-//     await vi.waitFor(() => expect(remoteModuleRegistry.registrationStatus).toBe("ready"));
-// });
-
-// test("when local and remote modules are provided, register all the modules", async () => {
-//     const runtime = new FireflyRuntime({
-//         loggers: [new NoopLogger()]
-//     });
-
-//     const localModuleRegistry = new LocalModuleRegistry();
-
-//     const loadRemote = vi.fn().mockResolvedValue({
-//         register: () => {}
-//     });
-
-//     const remoteModuleRegistry = new RemoteModuleRegistry(loadRemote);
-
-//     __setLocalModuleRegistry(localModuleRegistry);
-//     __setRemoteModuleRegistry(remoteModuleRegistry);
-
-//     bootstrap(runtime, {
-//         localModules: [
-//             () => {}
-//         ],
-//         remotes: [
-//             { name: "Dummy-1" }
-//         ]
-//     });
-
-//     await vi.waitFor(() => expect(localModuleRegistry.registrationStatus).toBe("ready"));
-//     await vi.waitFor(() => expect(remoteModuleRegistry.registrationStatus).toBe("ready"));
-// });
-
-test("when an error occurs while registering a local and an onError function is provided, call the function with the error", async () => {
+test.concurrent("when an error occurs while registering a local and an onError function is provided, call the function with the error", async ({ expect }) => {
     const runtime = new FireflyRuntime({
         loggers: [new NoopLogger()]
     });
@@ -101,35 +50,7 @@ test("when an error occurs while registering a local and an onError function is 
     expect(onError).toHaveBeenCalledWith(expect.any(ModuleRegistrationError));
 });
 
-// test("when an error occurs while registering a remote module and an onError function is provided, call the function with the error", async () => {
-//     const runtime = new FireflyRuntime({
-//         loggers: [new NoopLogger()]
-//     });
-
-//     const loadRemote = vi.fn().mockResolvedValue({
-//         register: () => {
-//             throw new Error("Dummy");
-//         }
-//     });
-
-//     const remoteModuleRegistry = new RemoteModuleRegistry(loadRemote);
-
-//     __setRemoteModuleRegistry(remoteModuleRegistry);
-
-//     const onError = vi.fn();
-
-//     bootstrap(runtime, {
-//         remotes: [
-//             { name: "Dummy-1" }
-//         ],
-//         onError
-//     });
-
-//     await vi.waitFor(() => expect(onError).toHaveBeenCalledTimes(1));
-//     expect(onError).toHaveBeenCalledWith(expect.any(RemoteModuleRegistrationError));
-// });
-
-test("when MSW is enabled and a start function is provided, call the start function", async () => {
+test.concurrent("when MSW is enabled and a start function is provided, call the start function", async ({ expect }) => {
     const runtime = new FireflyRuntime({
         plugins: [x => new MswPlugin(x)],
         loggers: [new NoopLogger()]
@@ -144,7 +65,7 @@ test("when MSW is enabled and a start function is provided, call the start funct
     await vi.waitFor(() => expect(fct).toHaveBeenCalledTimes(1));
 });
 
-test("when MSW is disabled and a start function is provided, do not call the start function", () => {
+test.concurrent("when MSW is disabled and a start function is provided, do not call the start function", ({ expect }) => {
     const runtime = new FireflyRuntime({
         loggers: [new NoopLogger()]
     });
@@ -166,7 +87,7 @@ test("when MSW is disabled and a start function is provided, do not call the sta
 //     await vi.waitFor(() => expect(() => bootstrap(runtime)).toThrow(/When MSW is enabled, the "startMsw" function must be provided/));
 // });
 
-test("when MSW is enabled and a start function is provided, MSW is ready once the start function is called", async () => {
+test.concurrent("when MSW is enabled and a start function is provided, MSW is ready once the start function is called", async ({ expect }) => {
     const mswState = new MswState();
 
     const runtime = new FireflyRuntime({

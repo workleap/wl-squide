@@ -1,15 +1,34 @@
-import { LocalModuleRegistry, ModuleRegistrationError, type Runtime } from "@squide/core";
-// import { registerRemoteModules, RemoteModuleRegistrationError, RemoteModuleRegistry } from "@squide/module-federation";
+import { LocalModuleRegistry } from "@squide/core/internal";
+import {
+    FireflyProvider,
+    FireflyRuntime,
+    ModuleManager,
+    ModuleRegistrationError,
+    MswPlugin,
+    toLocalModuleDefinitions,
+    useDeferredRegistrations,
+    type DeferredRegistrationsErrorCallback,
+    type Runtime
+} from "@squide/firefly";
+import {
+    AppRouterDispatch,
+    AppRouterDispatcherContext,
+    AppRouterState,
+    AppRouterStateContext,
+    __clearAppReducerDispatchProxy,
+    __setAppReducerDispatchProxyFactory,
+    useAppRouterReducer
+} from "@squide/firefly/internal";
+import { createDefaultAppRouterState } from "@squide/firefly/tests";
 import { act, renderHook, waitFor, type RenderHookOptions } from "@testing-library/react";
 import { NoopLogger } from "@workleap/logging";
 import type { ReactNode } from "react";
-import { afterEach, expect, test, vi, type Mock } from "vitest";
-import { AppRouterDispatcherContext, AppRouterStateContext } from "../src/AppRouterContext.ts";
-import { __clearAppReducerDispatchProxy, __setAppReducerDispatchProxyFactory, useAppRouterReducer, type AppRouterDispatch, type AppRouterState } from "../src/AppRouterReducer.ts";
-import { FireflyProvider } from "../src/FireflyProvider.tsx";
-import { FireflyRuntime } from "../src/FireflyRuntime.tsx";
-import { useDeferredRegistrations, type DeferredRegistrationsErrorCallback } from "../src/useDeferredRegistrations.ts";
-import { createDefaultAppRouterState, sleep } from "./utils.ts";
+import { afterEach, test, vi, type Mock } from "vitest";
+import { RemoteModuleRegistrationError, RemoteModuleRegistry, toRemoteModuleDefinitions } from "../src/RemoteModuleRegistry.ts";
+import { sleep } from "./utils.ts";
+
+// TODO:
+// Copy all those tests to the @squide/firefly project but remove the "remote modules" parts.
 
 function renderUseAppReducerHook<TProps>(runtime: Runtime, additionalProps: RenderHookOptions<TProps> = {}) {
     return renderHook(() => useAppRouterReducer(true, true), {
@@ -41,9 +60,23 @@ afterEach(() => {
     __clearAppReducerDispatchProxy();
 });
 
-test("when modules are registered but not ready, global data is ready and msw is ready, register the deferred registrations", async () => {
+test("when modules are registered but not ready, global data is ready and msw is ready, register the deferred registrations", async ({ expect }) => {
+    const localModuleRegistry = new LocalModuleRegistry();
+
+    const loadRemote = vi.fn().mockResolvedValue({
+        register: () => () => {}
+    });
+
+    const remoteModuleRegistry = new RemoteModuleRegistry(loadRemote);
+
     const runtime = new FireflyRuntime({
-        useMsw: true,
+        moduleManager: x => new ModuleManager(x, [
+            localModuleRegistry,
+            remoteModuleRegistry
+        ]),
+        plugins: [
+            x => new MswPlugin(x)
+        ],
         loggers: [new NoopLogger()]
     });
 
@@ -59,27 +92,17 @@ test("when modules are registered but not ready, global data is ready and msw is
 
     __setAppReducerDispatchProxyFactory(dispatchProxyFactory);
 
-    const localModuleRegistry = new LocalModuleRegistry();
-
-    const loadRemote = vi.fn().mockResolvedValue({
-        register: () => () => {}
-    });
-
-    const remoteModuleRegistry = new RemoteModuleRegistry(loadRemote);
-
-    __setLocalModuleRegistry(localModuleRegistry);
-    __setRemoteModuleRegistry(remoteModuleRegistry);
-
     renderUseAppReducerHook(runtime);
 
-    await registerLocalModules([
-        () => () => {}
-    ], runtime);
-
-    await registerRemoteModules([
-        { name: "Dummy-1" },
-        { name: "Dummy-2" }
-    ], runtime);
+    await runtime.moduleManager.registerModules([
+        ...toLocalModuleDefinitions([
+            () => () => {}
+        ]),
+        ...toRemoteModuleDefinitions([
+            { name: "Dummy-1" },
+            { name: "Dummy-2" }
+        ])
+    ]);
 
     const state = createDefaultAppRouterState();
     state.areModulesRegistered = true;
@@ -100,9 +123,23 @@ test("when modules are registered but not ready, global data is ready and msw is
     await waitFor(() => expect(dispatch).toHaveBeenLastCalledWith({ type: "modules-ready" }));
 });
 
-test("when modules are ready, msw is ready, and the public data change, update the deferred registrations", async () => {
+test("when modules are ready, msw is ready, and the public data change, update the deferred registrations", async ({ expect }) => {
+    const localModuleRegistry = new LocalModuleRegistry();
+
+    const loadRemote = vi.fn().mockResolvedValue({
+        register: () => () => {}
+    });
+
+    const remoteModuleRegistry = new RemoteModuleRegistry(loadRemote);
+
     const runtime = new FireflyRuntime({
-        useMsw: true,
+        moduleManager: x => new ModuleManager(x, [
+            localModuleRegistry,
+            remoteModuleRegistry
+        ]),
+        plugins: [
+            x => new MswPlugin(x)
+        ],
         loggers: [new NoopLogger()]
     });
 
@@ -118,27 +155,17 @@ test("when modules are ready, msw is ready, and the public data change, update t
 
     __setAppReducerDispatchProxyFactory(dispatchProxyFactory);
 
-    const localModuleRegistry = new LocalModuleRegistry();
-
-    const loadRemote = vi.fn().mockResolvedValue({
-        register: () => () => {}
-    });
-
-    const remoteModuleRegistry = new RemoteModuleRegistry(loadRemote);
-
-    __setLocalModuleRegistry(localModuleRegistry);
-    __setRemoteModuleRegistry(remoteModuleRegistry);
-
     renderUseAppReducerHook(runtime);
 
-    await registerLocalModules([
-        () => () => {}
-    ], runtime);
-
-    await registerRemoteModules([
-        { name: "Dummy-1" },
-        { name: "Dummy-2" }
-    ], runtime);
+    await runtime.moduleManager.registerModules([
+        ...toLocalModuleDefinitions([
+            () => () => {}
+        ]),
+        ...toRemoteModuleDefinitions([
+            { name: "Dummy-1" },
+            { name: "Dummy-2" }
+        ])
+    ]);
 
     const state1 = createDefaultAppRouterState();
     state1.areModulesRegistered = true;
@@ -181,9 +208,23 @@ test("when modules are ready, msw is ready, and the public data change, update t
     await waitFor(() => expect(dispatch).toHaveBeenLastCalledWith({ type: "deferred-registrations-updated" }));
 });
 
-test("when modules are ready, msw is ready, and the protected data change, update the deferred registrations", async () => {
+test("when modules are ready, msw is ready, and the protected data change, update the deferred registrations", async ({ expect }) => {
+    const localModuleRegistry = new LocalModuleRegistry();
+
+    const loadRemote = vi.fn().mockResolvedValue({
+        register: () => () => {}
+    });
+
+    const remoteModuleRegistry = new RemoteModuleRegistry(loadRemote);
+
     const runtime = new FireflyRuntime({
-        useMsw: true,
+        moduleManager: x => new ModuleManager(x, [
+            localModuleRegistry,
+            remoteModuleRegistry
+        ]),
+        plugins: [
+            x => new MswPlugin(x)
+        ],
         loggers: [new NoopLogger()]
     });
 
@@ -199,27 +240,17 @@ test("when modules are ready, msw is ready, and the protected data change, updat
 
     __setAppReducerDispatchProxyFactory(dispatchProxyFactory);
 
-    const localModuleRegistry = new LocalModuleRegistry();
-
-    const loadRemote = vi.fn().mockResolvedValue({
-        register: () => () => {}
-    });
-
-    const remoteModuleRegistry = new RemoteModuleRegistry(loadRemote);
-
-    __setLocalModuleRegistry(localModuleRegistry);
-    __setRemoteModuleRegistry(remoteModuleRegistry);
-
     renderUseAppReducerHook(runtime);
 
-    await registerLocalModules([
-        () => () => {}
-    ], runtime);
-
-    await registerRemoteModules([
-        { name: "Dummy-1" },
-        { name: "Dummy-2" }
-    ], runtime);
+    await runtime.moduleManager.registerModules([
+        ...toLocalModuleDefinitions([
+            () => () => {}
+        ]),
+        ...toRemoteModuleDefinitions([
+            { name: "Dummy-1" },
+            { name: "Dummy-2" }
+        ])
+    ]);
 
     const state1 = createDefaultAppRouterState();
     state1.areModulesRegistered = true;
@@ -262,9 +293,23 @@ test("when modules are ready, msw is ready, and the protected data change, updat
     await waitFor(() => expect(dispatch).toHaveBeenLastCalledWith({ type: "deferred-registrations-updated" }));
 });
 
-test("when modules are not registered, do not register the deferred registrations", async () => {
+test("when modules are not registered, do not register the deferred registrations", async ({ expect }) => {
+    const localModuleRegistry = new LocalModuleRegistry();
+
+    const loadRemote = vi.fn().mockResolvedValue({
+        register: () => () => {}
+    });
+
+    const remoteModuleRegistry = new RemoteModuleRegistry(loadRemote);
+
     const runtime = new FireflyRuntime({
-        useMsw: true,
+        moduleManager: x => new ModuleManager(x, [
+            localModuleRegistry,
+            remoteModuleRegistry
+        ]),
+        plugins: [
+            x => new MswPlugin(x)
+        ],
         loggers: [new NoopLogger()]
     });
 
@@ -280,27 +325,17 @@ test("when modules are not registered, do not register the deferred registration
 
     __setAppReducerDispatchProxyFactory(dispatchProxyFactory);
 
-    const localModuleRegistry = new LocalModuleRegistry();
-
-    const loadRemote = vi.fn().mockResolvedValue({
-        register: () => () => {}
-    });
-
-    const remoteModuleRegistry = new RemoteModuleRegistry(loadRemote);
-
-    __setLocalModuleRegistry(localModuleRegistry);
-    __setRemoteModuleRegistry(remoteModuleRegistry);
-
     renderUseAppReducerHook(runtime);
 
-    await registerLocalModules([
-        () => () => {}
-    ], runtime);
-
-    await registerRemoteModules([
-        { name: "Dummy-1" },
-        { name: "Dummy-2" }
-    ], runtime);
+    await runtime.moduleManager.registerModules([
+        ...toLocalModuleDefinitions([
+            () => () => {}
+        ]),
+        ...toRemoteModuleDefinitions([
+            { name: "Dummy-1" },
+            { name: "Dummy-2" }
+        ])
+    ]);
 
     const state = createDefaultAppRouterState();
     state.areModulesRegistered = false;
@@ -329,9 +364,23 @@ test("when modules are not registered, do not register the deferred registration
     expect(dispatch).not.toHaveBeenCalledWith({ type: "modules-ready" });
 });
 
-test("when modules are ready, msw is ready, but the global data hasn't change, do not update the deferred registrations", async () => {
+test("when modules are ready, msw is ready, but the global data hasn't change, do not update the deferred registrations", async ({ expect }) => {
+    const localModuleRegistry = new LocalModuleRegistry();
+
+    const loadRemote = vi.fn().mockResolvedValue({
+        register: () => () => {}
+    });
+
+    const remoteModuleRegistry = new RemoteModuleRegistry(loadRemote);
+
     const runtime = new FireflyRuntime({
-        useMsw: true,
+        moduleManager: x => new ModuleManager(x, [
+            localModuleRegistry,
+            remoteModuleRegistry
+        ]),
+        plugins: [
+            x => new MswPlugin(x)
+        ],
         loggers: [new NoopLogger()]
     });
 
@@ -347,27 +396,17 @@ test("when modules are ready, msw is ready, but the global data hasn't change, d
 
     __setAppReducerDispatchProxyFactory(dispatchProxyFactory);
 
-    const localModuleRegistry = new LocalModuleRegistry();
-
-    const loadRemote = vi.fn().mockResolvedValue({
-        register: () => () => {}
-    });
-
-    const remoteModuleRegistry = new RemoteModuleRegistry(loadRemote);
-
-    __setLocalModuleRegistry(localModuleRegistry);
-    __setRemoteModuleRegistry(remoteModuleRegistry);
-
     renderUseAppReducerHook(runtime);
 
-    await registerLocalModules([
-        () => () => {}
-    ], runtime);
-
-    await registerRemoteModules([
-        { name: "Dummy-1" },
-        { name: "Dummy-2" }
-    ], runtime);
+    await runtime.moduleManager.registerModules([
+        ...toLocalModuleDefinitions([
+            () => () => {}
+        ]),
+        ...toRemoteModuleDefinitions([
+            { name: "Dummy-1" },
+            { name: "Dummy-2" }
+        ])
+    ]);
 
     const data = {
         foo: "bar"
@@ -415,15 +454,7 @@ test("when modules are ready, msw is ready, but the global data hasn't change, d
     expect(dispatch).not.toHaveBeenCalledWith({ type: "deferred-registrations-updated" });
 });
 
-test("when an error occurs while registering the deferred registrations of the local modules, invoke the onError callback", async () => {
-    const runtime = new FireflyRuntime({
-        useMsw: true,
-        loggers: [new NoopLogger()]
-    });
-
-    // Setting a dummy dispatch proxy to prevent: "Warning: An update to TestComponent inside a test was not wrapped in act(...)"
-    __setAppReducerDispatchProxyFactory(() => vi.fn());
-
+test("when an error occurs while registering the deferred registrations of the local modules, invoke the onError callback", async ({ expect }) => {
     const localModuleRegistrationError = new ModuleRegistrationError("toto");
     const localModuleRegistry = new LocalModuleRegistry();
 
@@ -439,19 +470,31 @@ test("when an error occurs while registering the deferred registrations of the l
 
     const remoteModuleRegistry = new RemoteModuleRegistry(loadRemote);
 
-    __setLocalModuleRegistry(localModuleRegistry);
-    __setRemoteModuleRegistry(remoteModuleRegistry);
+    const runtime = new FireflyRuntime({
+        moduleManager: x => new ModuleManager(x, [
+            localModuleRegistry,
+            remoteModuleRegistry
+        ]),
+        plugins: [
+            x => new MswPlugin(x)
+        ],
+        loggers: [new NoopLogger()]
+    });
+
+    // Setting a dummy dispatch proxy to prevent: "Warning: An update to TestComponent inside a test was not wrapped in act(...)"
+    __setAppReducerDispatchProxyFactory(() => vi.fn());
 
     renderUseAppReducerHook(runtime);
 
-    await registerLocalModules([
-        () => () => {}
-    ], runtime);
-
-    await registerRemoteModules([
-        { name: "Dummy-1" },
-        { name: "Dummy-2" }
-    ], runtime);
+    await runtime.moduleManager.registerModules([
+        ...toLocalModuleDefinitions([
+            () => () => {}
+        ]),
+        ...toRemoteModuleDefinitions([
+            { name: "Dummy-1" },
+            { name: "Dummy-2" }
+        ])
+    ]);
 
     const state = createDefaultAppRouterState();
     state.areModulesRegistered = true;
@@ -470,21 +513,11 @@ test("when an error occurs while registering the deferred registrations of the l
     renderUseDeferredRegistrationsHook(runtime, state, dispatch, initialData, onError);
 
     await waitFor(() => expect(onError).toHaveBeenCalledWith(
-        expect.objectContaining({
-            localModuleErrors: expect.arrayContaining([localModuleRegistrationError])
-        })
+        expect.arrayContaining([localModuleRegistrationError])
     ));
 });
 
-test("when an error occurs while registering the deferred registrations of the remote modules, invoke the onError callback", async () => {
-    const runtime = new FireflyRuntime({
-        useMsw: true,
-        loggers: [new NoopLogger()]
-    });
-
-    // Setting a dummy dispatch proxy to prevent: "Warning: An update to TestComponent inside a test was not wrapped in act(...)"
-    __setAppReducerDispatchProxyFactory(() => vi.fn());
-
+test("when an error occurs while registering the deferred registrations of the remote modules, invoke the onError callback", async ({ expect }) => {
     const localModuleRegistry = new LocalModuleRegistry();
 
     const loadRemote = vi.fn().mockResolvedValue({
@@ -500,19 +533,31 @@ test("when an error occurs while registering the deferred registrations of the r
         ]);
     });
 
-    __setLocalModuleRegistry(localModuleRegistry);
-    __setRemoteModuleRegistry(remoteModuleRegistry);
+    const runtime = new FireflyRuntime({
+        moduleManager: x => new ModuleManager(x, [
+            localModuleRegistry,
+            remoteModuleRegistry
+        ]),
+        plugins: [
+            x => new MswPlugin(x)
+        ],
+        loggers: [new NoopLogger()]
+    });
+
+    // Setting a dummy dispatch proxy to prevent: "Warning: An update to TestComponent inside a test was not wrapped in act(...)"
+    __setAppReducerDispatchProxyFactory(() => vi.fn());
 
     renderUseAppReducerHook(runtime);
 
-    await registerLocalModules([
-        () => () => {}
-    ], runtime);
-
-    await registerRemoteModules([
-        { name: "Dummy-1" },
-        { name: "Dummy-2" }
-    ], runtime);
+    await runtime.moduleManager.registerModules([
+        ...toLocalModuleDefinitions([
+            () => () => {}
+        ]),
+        ...toRemoteModuleDefinitions([
+            { name: "Dummy-1" },
+            { name: "Dummy-2" }
+        ])
+    ]);
 
     const state = createDefaultAppRouterState();
     state.areModulesRegistered = true;
@@ -531,21 +576,11 @@ test("when an error occurs while registering the deferred registrations of the r
     renderUseDeferredRegistrationsHook(runtime, state, dispatch, initialData, onError);
 
     await waitFor(() => expect(onError).toHaveBeenCalledWith(
-        expect.objectContaining({
-            remoteModuleErrors: expect.arrayContaining([remoteModuleRegistrationError])
-        })
+        expect.arrayContaining([remoteModuleRegistrationError])
     ));
 });
 
-test("when an error occurs while registering the deferred registrations of the local & remote modules, invoke the onError callback", async () => {
-    const runtime = new FireflyRuntime({
-        useMsw: true,
-        loggers: [new NoopLogger()]
-    });
-
-    // Setting a dummy dispatch proxy to prevent: "Warning: An update to TestComponent inside a test was not wrapped in act(...)"
-    __setAppReducerDispatchProxyFactory(() => vi.fn());
-
+test("when an error occurs while registering the deferred registrations of the local & remote modules, invoke the onError callback", async ({ expect }) => {
     const localModuleRegistrationError = new ModuleRegistrationError("toto");
     const localModuleRegistry = new LocalModuleRegistry();
 
@@ -568,19 +603,31 @@ test("when an error occurs while registering the deferred registrations of the l
         ]);
     });
 
-    __setLocalModuleRegistry(localModuleRegistry);
-    __setRemoteModuleRegistry(remoteModuleRegistry);
+    const runtime = new FireflyRuntime({
+        moduleManager: x => new ModuleManager(x, [
+            localModuleRegistry,
+            remoteModuleRegistry
+        ]),
+        plugins: [
+            x => new MswPlugin(x)
+        ],
+        loggers: [new NoopLogger()]
+    });
+
+    // Setting a dummy dispatch proxy to prevent: "Warning: An update to TestComponent inside a test was not wrapped in act(...)"
+    __setAppReducerDispatchProxyFactory(() => vi.fn());
 
     renderUseAppReducerHook(runtime);
 
-    await registerLocalModules([
-        () => () => {}
-    ], runtime);
-
-    await registerRemoteModules([
-        { name: "Dummy-1" },
-        { name: "Dummy-2" }
-    ], runtime);
+    await runtime.moduleManager.registerModules([
+        ...toLocalModuleDefinitions([
+            () => () => {}
+        ]),
+        ...toRemoteModuleDefinitions([
+            { name: "Dummy-1" },
+            { name: "Dummy-2" }
+        ])
+    ]);
 
     const state = createDefaultAppRouterState();
     state.areModulesRegistered = true;
@@ -599,22 +646,11 @@ test("when an error occurs while registering the deferred registrations of the l
     renderUseDeferredRegistrationsHook(runtime, state, dispatch, initialData, onError);
 
     await waitFor(() => expect(onError).toHaveBeenCalledWith(
-        expect.objectContaining({
-            localModuleErrors: expect.arrayContaining([localModuleRegistrationError]),
-            remoteModuleErrors: expect.arrayContaining([remoteModuleRegistrationError])
-        })
+        expect.arrayContaining([localModuleRegistrationError, remoteModuleRegistrationError])
     ));
 });
 
-test("when an error occurs while updating the deferred registrations of the local modules, invoke the onError callback", async () => {
-    const runtime = new FireflyRuntime({
-        useMsw: true,
-        loggers: [new NoopLogger()]
-    });
-
-    // Setting a dummy dispatch proxy to prevent: "Warning: An update to TestComponent inside a test was not wrapped in act(...)"
-    __setAppReducerDispatchProxyFactory(() => vi.fn());
-
+test("when an error occurs while updating the deferred registrations of the local modules, invoke the onError callback", async ({ expect }) => {
     const localModuleRegistrationError = new ModuleRegistrationError("toto");
     const localModuleRegistry = new LocalModuleRegistry();
 
@@ -628,19 +664,31 @@ test("when an error occurs while updating the deferred registrations of the loca
 
     const remoteModuleRegistry = new RemoteModuleRegistry(loadRemote);
 
-    __setLocalModuleRegistry(localModuleRegistry);
-    __setRemoteModuleRegistry(remoteModuleRegistry);
+    const runtime = new FireflyRuntime({
+        moduleManager: x => new ModuleManager(x, [
+            localModuleRegistry,
+            remoteModuleRegistry
+        ]),
+        plugins: [
+            x => new MswPlugin(x)
+        ],
+        loggers: [new NoopLogger()]
+    });
+
+    // Setting a dummy dispatch proxy to prevent: "Warning: An update to TestComponent inside a test was not wrapped in act(...)"
+    __setAppReducerDispatchProxyFactory(() => vi.fn());
 
     renderUseAppReducerHook(runtime);
 
-    await registerLocalModules([
-        () => () => {}
-    ], runtime);
-
-    await registerRemoteModules([
-        { name: "Dummy-1" },
-        { name: "Dummy-2" }
-    ], runtime);
+    await runtime.moduleManager.registerModules([
+        ...toLocalModuleDefinitions([
+            () => () => {}
+        ]),
+        ...toRemoteModuleDefinitions([
+            { name: "Dummy-1" },
+            { name: "Dummy-2" }
+        ])
+    ]);
 
     const dispatch = vi.fn();
     const onError = vi.fn();
@@ -683,21 +731,11 @@ test("when an error occurs while updating the deferred registrations of the loca
     renderUseDeferredRegistrationsHook(runtime, state2, dispatch, updatedData, onError);
 
     await waitFor(() => expect(onError).toHaveBeenCalledWith(
-        expect.objectContaining({
-            localModuleErrors: expect.arrayContaining([localModuleRegistrationError])
-        })
+        expect.arrayContaining([localModuleRegistrationError])
     ));
 });
 
-test("when an error occurs while updating the deferred registrations of the protected modules, invoke the onError callback", async () => {
-    const runtime = new FireflyRuntime({
-        useMsw: true,
-        loggers: [new NoopLogger()]
-    });
-
-    // Setting a dummy dispatch proxy to prevent: "Warning: An update to TestComponent inside a test was not wrapped in act(...)"
-    __setAppReducerDispatchProxyFactory(() => vi.fn());
-
+test("when an error occurs while updating the deferred registrations of the protected modules, invoke the onError callback", async ({ expect }) => {
     const localModuleRegistry = new LocalModuleRegistry();
 
     const loadRemote = vi.fn().mockResolvedValue({
@@ -711,19 +749,31 @@ test("when an error occurs while updating the deferred registrations of the prot
         return Promise.resolve([remoteModuleRegistrationError]);
     });
 
-    __setLocalModuleRegistry(localModuleRegistry);
-    __setRemoteModuleRegistry(remoteModuleRegistry);
+    const runtime = new FireflyRuntime({
+        moduleManager: x => new ModuleManager(x, [
+            localModuleRegistry,
+            remoteModuleRegistry
+        ]),
+        plugins: [
+            x => new MswPlugin(x)
+        ],
+        loggers: [new NoopLogger()]
+    });
+
+    // Setting a dummy dispatch proxy to prevent: "Warning: An update to TestComponent inside a test was not wrapped in act(...)"
+    __setAppReducerDispatchProxyFactory(() => vi.fn());
 
     renderUseAppReducerHook(runtime);
 
-    await registerLocalModules([
-        () => () => {}
-    ], runtime);
-
-    await registerRemoteModules([
-        { name: "Dummy-1" },
-        { name: "Dummy-2" }
-    ], runtime);
+    await runtime.moduleManager.registerModules([
+        ...toLocalModuleDefinitions([
+            () => () => {}
+        ]),
+        ...toRemoteModuleDefinitions([
+            { name: "Dummy-1" },
+            { name: "Dummy-2" }
+        ])
+    ]);
 
     const dispatch = vi.fn();
     const onError = vi.fn();
@@ -766,21 +816,11 @@ test("when an error occurs while updating the deferred registrations of the prot
     renderUseDeferredRegistrationsHook(runtime, state2, dispatch, updatedData, onError);
 
     await waitFor(() => expect(onError).toHaveBeenCalledWith(
-        expect.objectContaining({
-            remoteModuleErrors: expect.arrayContaining([remoteModuleRegistrationError])
-        })
+        expect.arrayContaining([remoteModuleRegistrationError])
     ));
 });
 
-test("when an error occurs while updating the deferred registrations of the local & protected modules, invoke the onError callback", async () => {
-    const runtime = new FireflyRuntime({
-        useMsw: true,
-        loggers: [new NoopLogger()]
-    });
-
-    // Setting a dummy dispatch proxy to prevent: "Warning: An update to TestComponent inside a test was not wrapped in act(...)"
-    __setAppReducerDispatchProxyFactory(() => vi.fn());
-
+test("when an error occurs while updating the deferred registrations of the local & protected modules, invoke the onError callback", async ({ expect }) => {
     const localModuleRegistrationError = new ModuleRegistrationError("toto");
     const localModuleRegistry = new LocalModuleRegistry();
 
@@ -799,19 +839,31 @@ test("when an error occurs while updating the deferred registrations of the loca
         return Promise.resolve([remoteModuleRegistrationError]);
     });
 
-    __setLocalModuleRegistry(localModuleRegistry);
-    __setRemoteModuleRegistry(remoteModuleRegistry);
+    const runtime = new FireflyRuntime({
+        moduleManager: x => new ModuleManager(x, [
+            localModuleRegistry,
+            remoteModuleRegistry
+        ]),
+        plugins: [
+            x => new MswPlugin(x)
+        ],
+        loggers: [new NoopLogger()]
+    });
+
+    // Setting a dummy dispatch proxy to prevent: "Warning: An update to TestComponent inside a test was not wrapped in act(...)"
+    __setAppReducerDispatchProxyFactory(() => vi.fn());
 
     renderUseAppReducerHook(runtime);
 
-    await registerLocalModules([
-        () => () => {}
-    ], runtime);
-
-    await registerRemoteModules([
-        { name: "Dummy-1" },
-        { name: "Dummy-2" }
-    ], runtime);
+    await runtime.moduleManager.registerModules([
+        ...toLocalModuleDefinitions([
+            () => () => {}
+        ]),
+        ...toRemoteModuleDefinitions([
+            { name: "Dummy-1" },
+            { name: "Dummy-2" }
+        ])
+    ]);
 
     const dispatch = vi.fn();
     const onError = vi.fn();
@@ -854,9 +906,6 @@ test("when an error occurs while updating the deferred registrations of the loca
     renderUseDeferredRegistrationsHook(runtime, state2, dispatch, updatedData, onError);
 
     await waitFor(() => expect(onError).toHaveBeenCalledWith(
-        expect.objectContaining({
-            localModuleErrors: expect.arrayContaining([localModuleRegistrationError]),
-            remoteModuleErrors: expect.arrayContaining([remoteModuleRegistrationError])
-        })
+        expect.arrayContaining([localModuleRegistrationError, remoteModuleRegistrationError])
     ));
 });

@@ -16,7 +16,7 @@ import { render, screen, waitFor } from "@testing-library/react";
 import { NoopLogger } from "@workleap/logging";
 import type { ReactNode } from "react";
 import { createMemoryRouter, Outlet, RouterProvider } from "react-router";
-import { expect, test, vi } from "vitest";
+import { test, vi } from "vitest";
 import { AppRouter as FireflyAppRouter } from "../src/AppRouter.tsx";
 import { ApplicationBoostrappedEvent, ModulesReadyEvent, ModulesRegisteredEvent, MswReadyEvent, ProtectedDataReadyEvent, PublicDataReadyEvent } from "../src/AppRouterReducer.ts";
 import { FireflyProvider } from "../src/FireflyProvider.tsx";
@@ -87,7 +87,7 @@ function renderAppRouter(props: AppRouterProps, runtime: Runtime) {
     });
 }
 
-test("msw + local modules + public data + protected data + local deferred", async () => {
+test("msw + local modules + public data + protected data + local deferred", async ({ expect }) => {
     const localModuleRegistry = new LocalModuleRegistry();
 
     const runtime = new FireflyRuntime({
@@ -239,7 +239,7 @@ test("msw + local modules + public data + protected data + local deferred", asyn
     expect(onModulesReady.mock.invocationCallOrder[0]).toBeLessThan(onApplicationBoostrapped.mock.invocationCallOrder[0]);
 });
 
-test("msw + local modules + public data + protected data", async () => {
+test("msw + local modules + public data + protected data", async ({ expect }) => {
     const localModuleRegistry = new LocalModuleRegistry();
 
     const runtime = new FireflyRuntime({
@@ -370,7 +370,7 @@ test("msw + local modules + public data + protected data", async () => {
     expect(onProtectedDataReady.mock.invocationCallOrder[0]).toBeLessThan(onApplicationBoostrapped.mock.invocationCallOrder[0]);
 });
 
-test("msw + local modules + public data + local deferred", async () => {
+test("msw + local modules + public data + local deferred", async ({ expect }) => {
     const localModuleRegistry = new LocalModuleRegistry();
 
     const runtime = new FireflyRuntime({
@@ -509,7 +509,7 @@ test("msw + local modules + public data + local deferred", async () => {
     expect(onModulesReady.mock.invocationCallOrder[0]).toBeLessThan(onApplicationBoostrapped.mock.invocationCallOrder[0]);
 });
 
-test("msw + local modules + protected data + local deferred", async () => {
+test("msw + local modules + protected data + local deferred", async ({ expect }) => {
     const localModuleRegistry = new LocalModuleRegistry();
 
     const runtime = new FireflyRuntime({
@@ -648,7 +648,7 @@ test("msw + local modules + protected data + local deferred", async () => {
     expect(onModulesReady.mock.invocationCallOrder[0]).toBeLessThan(onApplicationBoostrapped.mock.invocationCallOrder[0]);
 });
 
-test("msw + local modules", async () => {
+test("msw + local modules", async ({ expect }) => {
     const localModuleRegistry = new LocalModuleRegistry();
 
     const runtime = new FireflyRuntime({
@@ -741,7 +741,7 @@ test("msw + local modules", async () => {
     expect(onMswReady.mock.invocationCallOrder[0]).toBeLessThan(onApplicationBoostrapped.mock.invocationCallOrder[0]);
 });
 
-test("local modules + public data + protected data + local deferred", async () => {
+test("local modules + public data + protected data + local deferred", async ({ expect }) => {
     const localModuleRegistry = new LocalModuleRegistry();
 
     const runtime = new FireflyRuntime({
@@ -887,7 +887,7 @@ test("local modules + public data + protected data + local deferred", async () =
     expect(onModulesReady.mock.invocationCallOrder[0]).toBeLessThan(onApplicationBoostrapped.mock.invocationCallOrder[0]);
 });
 
-test("failing local module registration", async () => {
+test("failing local module registration", async ({ expect }) => {
     const localModuleRegistry = new LocalModuleRegistry();
 
     const runtime = new FireflyRuntime({

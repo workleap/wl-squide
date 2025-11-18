@@ -3,7 +3,7 @@ import { type QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { render, screen, waitFor } from "@testing-library/react";
 import { NoopLogger } from "@workleap/logging";
 import { Component, type PropsWithChildren, type ReactNode } from "react";
-import { afterEach, beforeEach, describe, expect, type MockInstance, test, vi } from "vitest";
+import { afterEach, beforeEach, describe, type MockInstance, test, vi } from "vitest";
 import { AppRouterDispatcherContext, AppRouterStateContext } from "../src/AppRouterContext.ts";
 import type { AppRouterDispatch, AppRouterState } from "../src/AppRouterReducer.ts";
 import { FireflyProvider } from "../src/FireflyProvider.tsx";
@@ -29,7 +29,7 @@ function renderAppRouter(appRouter: ReactNode, runtime: Runtime, state: AppRoute
     });
 }
 
-test("when queries are executed, ProtectedDataFetchStartedEvent is dispatched", async () => {
+test("when queries are executed, ProtectedDataFetchStartedEvent is dispatched", async ({ expect }) => {
     const runtime = new FireflyRuntime({
         loggers: [new NoopLogger()]
     });
@@ -61,7 +61,7 @@ test("when queries are executed, ProtectedDataFetchStartedEvent is dispatched", 
     expect(listener).toHaveBeenCalledTimes(1);
 });
 
-test("when data is ready, \"protected-data-ready\" is dispatched", async () => {
+test("when data is ready, \"protected-data-ready\" is dispatched", async ({ expect }) => {
     const runtime = new FireflyRuntime({
         loggers: [new NoopLogger()]
     });
@@ -97,7 +97,7 @@ test("when data is ready, \"protected-data-ready\" is dispatched", async () => {
     }));
 });
 
-test("when data is updated, \"protected-data-updated\" is dispatched", async () => {
+test("when data is updated, \"protected-data-updated\" is dispatched", async ({ expect }) => {
     const runtime = new FireflyRuntime({
         loggers: [new NoopLogger()]
     });
@@ -156,7 +156,7 @@ describe("when a query fail", () => {
         consoleMock.mockRestore();
     });
 
-    test("should throw an error", async () => {
+    test("should throw an error", async ({ expect }) => {
         const runtime = new FireflyRuntime({
             loggers: [new NoopLogger()]
         });
@@ -208,7 +208,7 @@ describe("when a query fail", () => {
         expect(element).toBeDefined();
     });
 
-    test("when it's a unauthorized error, \"is-unauthorized\" is dispatched", async () => {
+    test("when it's a unauthorized error, \"is-unauthorized\" is dispatched", async ({ expect }) => {
         const runtime = new FireflyRuntime({
             loggers: [new NoopLogger()]
         });
@@ -245,7 +245,7 @@ describe("when a query fail", () => {
         }));
     });
 
-    test("should dispatch ProtectedDataFetchFailedEvent", async () => {
+    test("should dispatch ProtectedDataFetchFailedEvent", async ({ expect }) => {
         const runtime = new FireflyRuntime({
             loggers: [new NoopLogger()]
         });
@@ -303,7 +303,7 @@ describe("when a query fail", () => {
         expect(listener).toHaveBeenCalledWith(expect.arrayContaining([queryError]));
     });
 
-    test("when a query fail and it's a unauthorized error, ProtectedDataFetchFailedEvent is not dispatched", async () => {
+    test("when a query fail and it's a unauthorized error, ProtectedDataFetchFailedEvent is not dispatched", async ({ expect }) => {
         const runtime = new FireflyRuntime({
             loggers: [new NoopLogger()]
         });
