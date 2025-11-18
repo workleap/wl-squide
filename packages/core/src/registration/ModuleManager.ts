@@ -38,7 +38,8 @@ export class ModuleManager {
         // }
         const definitionsByRegistryId = Object.groupBy(definitions, x => x.registryId);
 
-        await Promise.allSettled(Object.keys(definitionsByRegistryId).map(async x => {
+        // Using Promise.all rather than Promise.allSettled to throw any errors that occurs.
+        await Promise.all(Object.keys(definitionsByRegistryId).map(async x => {
             const registry = this.moduleRegistries.find(y => y.id === x);
             const definitions = definitionsByRegistryId[x]!.map(y => y.definition);
 
@@ -65,17 +66,12 @@ export class ModuleManager {
         try {
             const errors: ModuleRegistrationError[] = [];
 
-            // await Promise.allSettled(this.moduleRegistries.map(async x => {
-            //     const registrationErrors = await x.registerDeferredRegistrations(data, this.runtime);
-
-            //     errors.push(...registrationErrors);
-            // }));
-
-            for (const x of this.moduleRegistries) {
+            // Using Promise.all rather than Promise.allSettled to throw any errors that occurs.
+            await Promise.all(this.moduleRegistries.map(async x => {
                 const registrationErrors = await x.registerDeferredRegistrations(data, this.runtime);
 
                 errors.push(...registrationErrors);
-            };
+            }));
 
             return errors;
         } finally {
