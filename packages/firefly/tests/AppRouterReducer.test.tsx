@@ -95,7 +95,7 @@ class DummyMswState extends MswState {
     }
 }
 
-describe("useAppRouterReducer", () => {
+describe.concurrent("useAppRouterReducer", () => {
     function renderUseAppRouterReducerHook<TProps>(runtime: Runtime, waitForPublicData: boolean, waitForProtectedData: boolean, additionalProps: RenderHookOptions<TProps> = {}) {
         return renderHook(() => useAppRouterReducer(waitForPublicData, waitForProtectedData), {
             wrapper: ({ children }: { children?: ReactNode }) => (
@@ -961,7 +961,7 @@ describe("useAppRouterReducer", () => {
     });
 });
 
-describe("useModuleRegistrationStatusDispatcher", () => {
+describe.concurrent("useModuleRegistrationStatusDispatcher", () => {
     function renderUseModuleRegistrationStatusDispatcherHook<TProps>(runtime: FireflyRuntime, areModulesRegistered: boolean, areModulesReady: boolean, dispatch: AppRouterDispatch, additionalProps: RenderHookOptions<TProps> = {}) {
         return renderHook(() => useModuleRegistrationStatusDispatcher(runtime, areModulesRegistered, areModulesReady, dispatch), {
             wrapper: ({ children }: { children?: ReactNode }) => (
@@ -1196,7 +1196,7 @@ describe("useModuleRegistrationStatusDispatcher", () => {
     });
 });
 
-describe("useMswStatusDispatcher", () => {
+describe.concurrent("useMswStatusDispatcher", () => {
     function renderUseMswStatusDispatcherHook<TProps>(runtime: FireflyRuntime, isMswReady: boolean, dispatch: AppRouterDispatch, additionalProps: RenderHookOptions<TProps> = {}) {
         return renderHook(() => useMswStatusDispatcher(runtime, isMswReady, dispatch), {
             wrapper: ({ children }: { children?: ReactNode }) => (

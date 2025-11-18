@@ -46,7 +46,7 @@ function prepareModuleFederationPluginForSnapshot(plugin: RsbuildPlugin) {
     return options;
 }
 
-describe("defineDevHostConfig", () => {
+describe.concurrent("defineDevHostConfig", () => {
     beforeAll(() => {
         __setModuleFederationPluginFactory(pluginModuleFederationWrapper);
     });
@@ -263,7 +263,7 @@ describe("defineDevHostConfig", () => {
     });
 });
 
-describe("defineBuildHostConfig", () => {
+describe.concurrent("defineBuildHostConfig", () => {
     beforeAll(() => {
         __setModuleFederationPluginFactory(pluginModuleFederationWrapper);
     });
@@ -462,7 +462,7 @@ describe("defineBuildHostConfig", () => {
     });
 });
 
-describe("defineDevRemoteModuleConfig", () => {
+describe.concurrent("defineDevRemoteModuleConfig", () => {
     beforeAll(() => {
         __setModuleFederationPluginFactory(pluginModuleFederationWrapper);
     });
@@ -667,7 +667,7 @@ describe("defineDevRemoteModuleConfig", () => {
     });
 });
 
-describe("defineBuildRemoteModuleConfig", () => {
+describe.concurrent("defineBuildRemoteModuleConfig", () => {
     beforeAll(() => {
         __setModuleFederationPluginFactory(pluginModuleFederationWrapper);
     });

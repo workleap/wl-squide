@@ -1,7 +1,7 @@
 import { describe, test } from "vitest";
 import { NavigationItemDeferredRegistrationScope, NavigationItemDeferredRegistrationTransactionalScope, NavigationItemRegistry } from "../src/navigationItemRegistry.ts";
 
-describe("add", () => {
+describe.concurrent("add", () => {
     test.concurrent("should add a single deferred item", ({ expect }) => {
         const registry = new NavigationItemRegistry();
 
@@ -576,7 +576,7 @@ describe("add", () => {
     });
 });
 
-describe("getItems", () => {
+describe.concurrent("getItems", () => {
     test.concurrent("an empty array is returned when there's no registered items for the specified menu id", ({ expect }) => {
         const registry = new NavigationItemRegistry();
 
@@ -647,7 +647,7 @@ describe("getItems", () => {
     });
 });
 
-describe("clearDeferredItems", () => {
+describe.concurrent("clearDeferredItems", () => {
     test.concurrent("clear all deferred items", ({ expect }) => {
         const registry = new NavigationItemRegistry();
 
@@ -710,7 +710,7 @@ describe("clearDeferredItems", () => {
     });
 });
 
-describe("NavigationItemDeferredRegistrationScope", () => {
+describe.concurrent("NavigationItemDeferredRegistrationScope", () => {
     test.concurrent("should add a single item", ({ expect }) => {
         const registry = new NavigationItemRegistry();
         const scope = new NavigationItemDeferredRegistrationScope(registry);
@@ -877,7 +877,7 @@ describe("NavigationItemDeferredRegistrationScope", () => {
     });
 });
 
-describe("NavigationItemDeferredRegistrationTransactionalScope", () => {
+describe.concurrent("NavigationItemDeferredRegistrationTransactionalScope", () => {
     test.concurrent("should add a single item", ({ expect }) => {
         const registry = new NavigationItemRegistry();
         const scope = new NavigationItemDeferredRegistrationTransactionalScope(registry);

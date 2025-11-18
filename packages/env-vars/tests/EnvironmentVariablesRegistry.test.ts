@@ -9,7 +9,7 @@ declare module "../src/EnvironmentVariablesRegistry.ts" {
     }
 }
 
-describe("add", () => {
+describe.concurrent("add", () => {
     test.concurrent("should add a new variable", ({ expect }) => {
         const registry = new EnvironmentVariablesRegistry();
 
@@ -36,7 +36,7 @@ describe("add", () => {
     });
 });
 
-describe("addVariables", () => {
+describe.concurrent("addVariables", () => {
     test.concurrent("add all variables", ({ expect }) => {
         const registry = new EnvironmentVariablesRegistry();
 
@@ -61,7 +61,7 @@ describe("addVariables", () => {
     });
 });
 
-describe("getVariable", () => {
+describe.concurrent("getVariable", () => {
     test.concurrent("when the key doesn't match any value, throw an error", ({ expect }) => {
         const registry = new EnvironmentVariablesRegistry();
 
@@ -69,7 +69,7 @@ describe("getVariable", () => {
     });
 });
 
-describe("getVariables", () => {
+describe.concurrent("getVariables", () => {
     test.concurrent("return all the variables", ({ expect }) => {
         const registry = new EnvironmentVariablesRegistry();
 

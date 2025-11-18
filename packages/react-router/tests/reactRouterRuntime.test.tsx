@@ -4,9 +4,9 @@ import { isProtectedRoutesOutletRoute, isPublicRoutesOutletRoute, ProtectedRoute
 import { ReactRouterRuntime } from "../src/reactRouterRuntime.ts";
 import type { Route } from "../src/routeRegistry.ts";
 
-describe("registerRoute", () => {
-    describe("outlets", () => {
-        describe("PublicRoutes", () => {
+describe.concurrent("registerRoute", () => {
+    describe.concurrent("outlets", () => {
+        describe.concurrent("PublicRoutes", () => {
             function registerPublicRoutesOutlet(runtime: ReactRouterRuntime) {
                 runtime.registerRoute(PublicRoutes);
             }
@@ -153,7 +153,7 @@ describe("registerRoute", () => {
             });
         });
 
-        describe("ProtectedRoutes", () => {
+        describe.concurrent("ProtectedRoutes", () => {
             function registerProtectedRoutesOutlet(runtime: ReactRouterRuntime) {
                 runtime.registerRoute(ProtectedRoutes);
             }
@@ -294,7 +294,7 @@ describe("registerRoute", () => {
         });
     });
 
-    describe("hoisted", () => {
+    describe.concurrent("hoisted", () => {
         test.concurrent("should register an index route", ({ expect }) => {
             const runtime = new ReactRouterRuntime({
                 loggers: [new NoopLogger()]
@@ -567,8 +567,8 @@ describe("registerRoute", () => {
         });
     });
 
-    describe("parentPath", () => {
-        describe("absolute paths", () => {
+    describe.concurrent("parentPath", () => {
+        describe.concurrent("absolute paths", () => {
             test.concurrent("when the parent route has already been registered, register the nested route", ({ expect }) => {
                 const runtime = new ReactRouterRuntime({
                     loggers: [new NoopLogger()]
@@ -962,7 +962,7 @@ describe("registerRoute", () => {
             });
         });
 
-        describe("relative paths", () => {
+        describe.concurrent("relative paths", () => {
             test.concurrent("when the parent route has already been registered, register the nested route", ({ expect }) => {
                 const runtime = new ReactRouterRuntime({
                     loggers: [new NoopLogger()]
@@ -1356,7 +1356,7 @@ describe("registerRoute", () => {
             });
         });
 
-        describe("mixed absolute and relative paths", () => {
+        describe.concurrent("mixed absolute and relative paths", () => {
             test.concurrent("when the parent route has an absolute path, a child route with a relative path can be nested under the parent route", ({ expect }) => {
                 const runtime = new ReactRouterRuntime({
                     loggers: [new NoopLogger()]
@@ -1647,7 +1647,7 @@ describe("registerRoute", () => {
         });
     });
 
-    describe("parentId", () => {
+    describe.concurrent("parentId", () => {
         test.concurrent("when the parent route has already been registered, register the nested route", ({ expect }) => {
             const runtime = new ReactRouterRuntime({
                 loggers: [new NoopLogger()]
@@ -1900,7 +1900,7 @@ describe("registerRoute", () => {
         });
     });
 
-    describe("nested routes", () => {
+    describe.concurrent("nested routes", () => {
         test.concurrent("should register a deeply nested route with pathless parent routes", ({ expect }) => {
             const runtime = new ReactRouterRuntime({
                 loggers: [new NoopLogger()]
@@ -2088,7 +2088,7 @@ describe("registerRoute", () => {
     });
 });
 
-describe("registerNavigationItem", () => {
+describe.concurrent("registerNavigationItem", () => {
     test.concurrent("should register a root navigation link", ({ expect }) => {
         const runtime = new ReactRouterRuntime({
             loggers: [new NoopLogger()]
@@ -2183,7 +2183,7 @@ describe("registerNavigationItem", () => {
         expect(runtime.getNavigationItems()[0].$id).toBe("section");
     });
 
-    describe("sectionId", () => {
+    describe.concurrent("sectionId", () => {
         test.concurrent("when the section has already been registered, register the nested item", ({ expect }) => {
             const runtime = new ReactRouterRuntime({
                 loggers: [new NoopLogger()]
@@ -2334,7 +2334,7 @@ describe("registerNavigationItem", () => {
     });
 });
 
-describe("getNavigationItems", () => {
+describe.concurrent("getNavigationItems", () => {
     test.concurrent("when no menu id is specified, returns all the registered navigation items for the root menu", ({ expect }) => {
         const runtime = new ReactRouterRuntime({
             loggers: [new NoopLogger()]
@@ -2412,7 +2412,7 @@ describe("getNavigationItems", () => {
     });
 });
 
-describe("startDeferredRegistrationScope & completeDeferredRegistrationScope", () => {
+describe.concurrent("startDeferredRegistrationScope & completeDeferredRegistrationScope", () => {
     test.concurrent("should start and complete a scope", ({ expect }) => {
         const runtime = new ReactRouterRuntime({
             loggers: [new NoopLogger()]
@@ -2517,8 +2517,8 @@ describe("startDeferredRegistrationScope & completeDeferredRegistrationScope", (
     });
 });
 
-describe("_validateRegistrations", () => {
-    describe("managed routes", () => {
+describe.concurrent("_validateRegistrations", () => {
+    describe.concurrent("managed routes", () => {
         test.concurrent("when public routes are registered but the public routes outlet is missing, the error message mentions the PublicRoutes outlet", ({ expect }) => {
             const runtime = new ReactRouterRuntime({
                 loggers: [new NoopLogger()]
@@ -2605,7 +2605,7 @@ describe("_validateRegistrations", () => {
         });
     });
 
-    describe("parentPath", () => {
+    describe.concurrent("parentPath", () => {
         test.concurrent("when there are no pending registrations, do nothing", ({ expect }) => {
             const runtime = new ReactRouterRuntime({
                 loggers: [new NoopLogger()]
@@ -2644,7 +2644,7 @@ describe("_validateRegistrations", () => {
         });
     });
 
-    describe("parentId", () => {
+    describe.concurrent("parentId", () => {
         test.concurrent("when there are no pending registrations, do nothing", ({ expect }) => {
             const runtime = new ReactRouterRuntime({
                 loggers: [new NoopLogger()]
@@ -2683,7 +2683,7 @@ describe("_validateRegistrations", () => {
         });
     });
 
-    describe("sectionId", () => {
+    describe.concurrent("sectionId", () => {
         test.concurrent("when there are no pending registrations, do nothing", ({ expect }) => {
             const runtime = new ReactRouterRuntime({
                 loggers: [new NoopLogger()]

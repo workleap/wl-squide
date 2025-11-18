@@ -1,7 +1,7 @@
 import { describe, test } from "vitest";
 import { RouteRegistry, createIndexKeys } from "../src/routeRegistry.ts";
 
-describe("createIndexKey", () => {
+describe.concurrent("createIndexKey", () => {
     test.concurrent("when the route is an index route, return an empty array", ({ expect }) => {
         const result = createIndexKeys({
             index: true,
@@ -11,7 +11,7 @@ describe("createIndexKey", () => {
         expect(result.length).toBe(0);
     });
 
-    describe("absolute paths", () => {
+    describe.concurrent("absolute paths", () => {
         test.concurrent("when the route has a path, return the route path", ({ expect }) => {
             const result1 = createIndexKeys({
                 path: "/nested",
@@ -63,7 +63,7 @@ describe("createIndexKey", () => {
         });
     });
 
-    describe("relative paths", () => {
+    describe.concurrent("relative paths", () => {
         test.concurrent("when the route has a path, return the route path", ({ expect }) => {
             const result1 = createIndexKeys({
                 path: "nested",
@@ -170,7 +170,7 @@ describe("createIndexKey", () => {
     });
 });
 
-describe("add", () => {
+describe.concurrent("add", () => {
     test.concurrent("when a root route is added, return the \"registered\" registration status", ({ expect }) => {
         const registry = new RouteRegistry();
 

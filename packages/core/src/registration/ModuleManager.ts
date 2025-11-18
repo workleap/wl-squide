@@ -102,6 +102,10 @@ export class ModuleManager {
     }
 
     getAreModulesRegistered() {
+        if (this.moduleRegistries.length === 0) {
+            return true;
+        }
+
         if (this.moduleRegistries.every(x => x.registrationStatus === "none")) {
             return false;
         }
@@ -117,6 +121,10 @@ export class ModuleManager {
     }
 
     getAreModulesReady() {
+        if (this.moduleRegistries.length === 0) {
+            return true;
+        }
+
         if (this.moduleRegistries.every(x => x.registrationStatus === "none")) {
             return false;
         }
