@@ -56,7 +56,7 @@ afterEach(() => {
     __clearAppReducerDispatchProxy();
 });
 
-test("when local modules are registered but not ready, global data is ready and msw is ready, register the deferred registrations", async ({ expect }) => {
+test.concurrent("when local modules are registered but not ready, global data is ready and msw is ready, register the deferred registrations", async ({ expect }) => {
     const localModuleRegistry = new LocalModuleRegistry();
 
     const runtime = new FireflyRuntime({
@@ -108,7 +108,7 @@ test("when local modules are registered but not ready, global data is ready and 
     await waitFor(() => expect(dispatch).toHaveBeenLastCalledWith({ type: "modules-ready" }));
 });
 
-test("when local modules are ready, msw is ready, and the public data change, update the deferred registrations", async ({ expect }) => {
+test.concurrent("when local modules are ready, msw is ready, and the public data change, update the deferred registrations", async ({ expect }) => {
     const localModuleRegistry = new LocalModuleRegistry();
 
     const runtime = new FireflyRuntime({
@@ -182,7 +182,7 @@ test("when local modules are ready, msw is ready, and the public data change, up
     await waitFor(() => expect(dispatch).toHaveBeenLastCalledWith({ type: "deferred-registrations-updated" }));
 });
 
-test("when local modules are ready, msw is ready, and the protected data change, update the deferred registrations", async ({ expect }) => {
+test.concurrent("when local modules are ready, msw is ready, and the protected data change, update the deferred registrations", async ({ expect }) => {
     const localModuleRegistry = new LocalModuleRegistry();
 
     const runtime = new FireflyRuntime({
@@ -256,7 +256,7 @@ test("when local modules are ready, msw is ready, and the protected data change,
     await waitFor(() => expect(dispatch).toHaveBeenLastCalledWith({ type: "deferred-registrations-updated" }));
 });
 
-test("when local modules are not registered, do not register the deferred registrations", async ({ expect }) => {
+test.concurrent("when local modules are not registered, do not register the deferred registrations", async ({ expect }) => {
     const localModuleRegistry = new LocalModuleRegistry();
 
     const runtime = new FireflyRuntime({
@@ -316,7 +316,7 @@ test("when local modules are not registered, do not register the deferred regist
     expect(dispatch).not.toHaveBeenCalledWith({ type: "modules-ready" });
 });
 
-test("when local modules are ready, msw is ready, but the global data hasn't change, do not update the deferred registrations", async ({ expect }) => {
+test.concurrent("when local modules are ready, msw is ready, but the global data hasn't change, do not update the deferred registrations", async ({ expect }) => {
     const localModuleRegistry = new LocalModuleRegistry();
 
     const runtime = new FireflyRuntime({
@@ -395,7 +395,7 @@ test("when local modules are ready, msw is ready, but the global data hasn't cha
     expect(dispatch).not.toHaveBeenCalledWith({ type: "deferred-registrations-updated" });
 });
 
-test("when an error occurs while registering the deferred registrations of the local modules, invoke the onError callback", async ({ expect }) => {
+test.concurrent("when an error occurs while registering the deferred registrations of the local modules, invoke the onError callback", async ({ expect }) => {
     const localModuleRegistrationError = new ModuleRegistrationError("toto");
     const localModuleRegistry = new LocalModuleRegistry();
 
@@ -447,7 +447,7 @@ test("when an error occurs while registering the deferred registrations of the l
     ));
 });
 
-test("when an error occurs while updating the deferred registrations of the local modules, invoke the onError callback", async ({ expect }) => {
+test.concurrent("when an error occurs while updating the deferred registrations of the local modules, invoke the onError callback", async ({ expect }) => {
     const localModuleRegistrationError = new ModuleRegistrationError("toto");
     const localModuleRegistry = new LocalModuleRegistry();
 

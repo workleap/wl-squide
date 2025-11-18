@@ -57,7 +57,7 @@ afterEach(() => {
     __clearAppReducerDispatchProxy();
 });
 
-test("when local and remote modules are registered but not ready, global data is ready and msw is ready, register the deferred registrations", async ({ expect }) => {
+test.concurrent("when local and remote modules are registered but not ready, global data is ready and msw is ready, register the deferred registrations", async ({ expect }) => {
     const localModuleRegistry = new LocalModuleRegistry();
 
     const loadRemote = vi.fn().mockResolvedValue({
@@ -120,7 +120,7 @@ test("when local and remote modules are registered but not ready, global data is
     await waitFor(() => expect(dispatch).toHaveBeenLastCalledWith({ type: "modules-ready" }));
 });
 
-test("when local and remote modules are ready, msw is ready, and the public data change, update the deferred registrations", async ({ expect }) => {
+test.concurrent("when local and remote modules are ready, msw is ready, and the public data change, update the deferred registrations", async ({ expect }) => {
     const localModuleRegistry = new LocalModuleRegistry();
 
     const loadRemote = vi.fn().mockResolvedValue({
@@ -205,7 +205,7 @@ test("when local and remote modules are ready, msw is ready, and the public data
     await waitFor(() => expect(dispatch).toHaveBeenLastCalledWith({ type: "deferred-registrations-updated" }));
 });
 
-test("when local and remote modules are ready, msw is ready, and the protected data change, update the deferred registrations", async ({ expect }) => {
+test.concurrent("when local and remote modules are ready, msw is ready, and the protected data change, update the deferred registrations", async ({ expect }) => {
     const localModuleRegistry = new LocalModuleRegistry();
 
     const loadRemote = vi.fn().mockResolvedValue({
@@ -290,7 +290,7 @@ test("when local and remote modules are ready, msw is ready, and the protected d
     await waitFor(() => expect(dispatch).toHaveBeenLastCalledWith({ type: "deferred-registrations-updated" }));
 });
 
-test("when local and remote modules are not registered, do not register the deferred registrations", async ({ expect }) => {
+test.concurrent("when local and remote modules are not registered, do not register the deferred registrations", async ({ expect }) => {
     const localModuleRegistry = new LocalModuleRegistry();
 
     const loadRemote = vi.fn().mockResolvedValue({
@@ -361,7 +361,7 @@ test("when local and remote modules are not registered, do not register the defe
     expect(dispatch).not.toHaveBeenCalledWith({ type: "modules-ready" });
 });
 
-test("when local and remote modules are ready, msw is ready, but the global data hasn't change, do not update the deferred registrations", async ({ expect }) => {
+test.concurrent("when local and remote modules are ready, msw is ready, but the global data hasn't change, do not update the deferred registrations", async ({ expect }) => {
     const localModuleRegistry = new LocalModuleRegistry();
 
     const loadRemote = vi.fn().mockResolvedValue({
@@ -451,7 +451,7 @@ test("when local and remote modules are ready, msw is ready, but the global data
     expect(dispatch).not.toHaveBeenCalledWith({ type: "deferred-registrations-updated" });
 });
 
-test("when an error occurs while registering the deferred registrations of the local modules, invoke the onError callback", async ({ expect }) => {
+test.concurrent("when an error occurs while registering the deferred registrations of the local modules, invoke the onError callback", async ({ expect }) => {
     const localModuleRegistrationError = new ModuleRegistrationError("toto");
     const localModuleRegistry = new LocalModuleRegistry();
 
@@ -514,7 +514,7 @@ test("when an error occurs while registering the deferred registrations of the l
     ));
 });
 
-test("when an error occurs while registering the deferred registrations of the remote modules, invoke the onError callback", async ({ expect }) => {
+test.concurrent("when an error occurs while registering the deferred registrations of the remote modules, invoke the onError callback", async ({ expect }) => {
     const localModuleRegistry = new LocalModuleRegistry();
 
     const loadRemote = vi.fn().mockResolvedValue({
@@ -577,7 +577,7 @@ test("when an error occurs while registering the deferred registrations of the r
     ));
 });
 
-test("when an error occurs while registering the deferred registrations of the local & remote modules, invoke the onError callback", async ({ expect }) => {
+test.concurrent("when an error occurs while registering the deferred registrations of the local & remote modules, invoke the onError callback", async ({ expect }) => {
     const localModuleRegistrationError = new ModuleRegistrationError("toto");
     const localModuleRegistry = new LocalModuleRegistry();
 
@@ -647,7 +647,7 @@ test("when an error occurs while registering the deferred registrations of the l
     ));
 });
 
-test("when an error occurs while updating the deferred registrations of the local modules, invoke the onError callback", async ({ expect }) => {
+test.concurrent("when an error occurs while updating the deferred registrations of the local modules, invoke the onError callback", async ({ expect }) => {
     const localModuleRegistrationError = new ModuleRegistrationError("toto");
     const localModuleRegistry = new LocalModuleRegistry();
 
@@ -732,7 +732,7 @@ test("when an error occurs while updating the deferred registrations of the loca
     ));
 });
 
-test("when an error occurs while updating the deferred registrations of the protected modules, invoke the onError callback", async ({ expect }) => {
+test.concurrent("when an error occurs while updating the deferred registrations of the protected modules, invoke the onError callback", async ({ expect }) => {
     const localModuleRegistry = new LocalModuleRegistry();
 
     const loadRemote = vi.fn().mockResolvedValue({
@@ -817,7 +817,7 @@ test("when an error occurs while updating the deferred registrations of the prot
     ));
 });
 
-test("when an error occurs while updating the deferred registrations of the local & protected modules, invoke the onError callback", async ({ expect }) => {
+test.concurrent("when an error occurs while updating the deferred registrations of the local & protected modules, invoke the onError callback", async ({ expect }) => {
     const localModuleRegistrationError = new ModuleRegistrationError("toto");
     const localModuleRegistry = new LocalModuleRegistry();
 
