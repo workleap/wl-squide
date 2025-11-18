@@ -1,6 +1,10 @@
 import { NoopLogger } from "@workleap/logging";
-import { describe, test, vi } from "vitest";
-import { ModuleManager, ModuleRegistrationError, ModuleRegistrationStatus, ModuleRegistrationStatusChangedListener, ModuleRegistry, RegisterModulesOptions, Runtime } from "../src/index.ts";
+import { describe, test } from "vitest";
+import { ModuleManager } from "../src/registration/ModuleManager.ts";
+import { ModuleRegistrationError, ModuleRegistrationStatus, ModuleRegistry } from "../src/registration/moduleRegistry.ts";
+import { Runtime } from "../src/runtime/runtime.ts";
+
+// import { ModuleManager, ModuleRegistrationError, ModuleRegistrationStatus, ModuleRegistrationStatusChangedListener, ModuleRegistry, RegisterModulesOptions, Runtime } from "../src/index.ts";
 
 class DummyRuntime extends Runtime {
     registerRoute() {
