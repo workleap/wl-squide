@@ -1,4 +1,5 @@
 import {
+    LocalModuleRegistrationFailedEvent,
     LocalModulesDeferredRegistrationCompletedEvent,
     LocalModulesDeferredRegistrationStartedEvent,
     LocalModulesRegistrationCompletedEvent,
@@ -1598,6 +1599,202 @@ test("failing remote module registration", async () => {
     expect(onRemoteModulesRegistrationStarted.mock.invocationCallOrder[0]).toBeLessThan(onRemoteModulesRegistrationCompleted.mock.invocationCallOrder[0]);
 
     expect(onRemoteModuleRegistrationFailed.mock.invocationCallOrder[0]).toBeLessThan(onRemoteModulesRegistrationCompleted.mock.invocationCallOrder[0]);
+
+    expect(onLocalModulesRegistrationCompleted.mock.invocationCallOrder[0]).toBeLessThan(onModulesRegistered.mock.invocationCallOrder[0]);
+    expect(onRemoteModulesRegistrationCompleted.mock.invocationCallOrder[0]).toBeLessThan(onModulesRegistered.mock.invocationCallOrder[0]);
+
+    expect(onModulesRegistered.mock.invocationCallOrder[0]).toBeLessThan(onMswReady.mock.invocationCallOrder[0]);
+    expect(onModulesRegistered.mock.invocationCallOrder[0]).toBeLessThan(onPublicDataFetchStarted.mock.invocationCallOrder[0]);
+    expect(onModulesRegistered.mock.invocationCallOrder[0]).toBeLessThan(onProtectedDataFetchStarted.mock.invocationCallOrder[0]);
+
+    expect(onMswReady.mock.invocationCallOrder[0]).toBeLessThan(onPublicDataFetchStarted.mock.invocationCallOrder[0]);
+    expect(onMswReady.mock.invocationCallOrder[0]).toBeLessThan(onProtectedDataFetchStarted.mock.invocationCallOrder[0]);
+
+    expect(onPublicDataFetchStarted.mock.invocationCallOrder[0]).toBeLessThan(onPublicDataReady.mock.invocationCallOrder[0]);
+    expect(onProtectedDataFetchStarted.mock.invocationCallOrder[0]).toBeLessThan(onProtectedDataReady.mock.invocationCallOrder[0]);
+
+    expect(onPublicDataReady.mock.invocationCallOrder[0]).toBeLessThan(onLocalModulesDeferredRegistrationStarted.mock.invocationCallOrder[0]);
+    expect(onPublicDataReady.mock.invocationCallOrder[0]).toBeLessThan(onRemoteModulesDeferredRegistrationStarted.mock.invocationCallOrder[0]);
+    expect(onProtectedDataReady.mock.invocationCallOrder[0]).toBeLessThan(onLocalModulesDeferredRegistrationStarted.mock.invocationCallOrder[0]);
+    expect(onProtectedDataReady.mock.invocationCallOrder[0]).toBeLessThan(onRemoteModulesDeferredRegistrationStarted.mock.invocationCallOrder[0]);
+
+    expect(onLocalModulesDeferredRegistrationStarted.mock.invocationCallOrder[0]).toBeLessThan(onLocalModulesDeferredRegistrationCompleted.mock.invocationCallOrder[0]);
+    expect(onRemoteModulesDeferredRegistrationStarted.mock.invocationCallOrder[0]).toBeLessThan(onRemoteModulesDeferredRegistrationCompleted.mock.invocationCallOrder[0]);
+
+    expect(onLocalModulesDeferredRegistrationCompleted.mock.invocationCallOrder[0]).toBeLessThan(onModulesReady.mock.invocationCallOrder[0]);
+    expect(onRemoteModulesDeferredRegistrationCompleted.mock.invocationCallOrder[0]).toBeLessThan(onModulesReady.mock.invocationCallOrder[0]);
+
+    expect(onModulesReady.mock.invocationCallOrder[0]).toBeLessThan(onApplicationBoostrapped.mock.invocationCallOrder[0]);
+});
+
+test("failing local module registration", async () => {
+    const localModuleRegistry = new LocalModuleRegistry();
+
+    const loadRemote = vi.fn().mockResolvedValue({
+        // Deferred registration.
+        register: () => () => {}
+    });
+
+    const remoteModuleRegistry = new RemoteModuleRegistry(loadRemote);
+
+    const runtime = new FireflyRuntime({
+        plugins: [
+            x => new MswPlugin(x)
+        ],
+        moduleManager: x => new ModuleManager(x, [
+            localModuleRegistry,
+            remoteModuleRegistry
+        ]),
+        loggers: [new NoopLogger()]
+    });
+
+    const onApplicationBootstrappingStarted = vi.fn();
+    const onLocalModulesRegistrationStarted = vi.fn();
+    const onLocalModulesRegistrationCompleted = vi.fn();
+    const onLocalModuleRegistrationFailed = vi.fn();
+    const onRemoteModulesRegistrationStarted = vi.fn();
+    const onRemoteModulesRegistrationCompleted = vi.fn();
+    const onModulesRegistered = vi.fn();
+    const onMswReady = vi.fn();
+    const onPublicDataFetchStarted = vi.fn();
+    const onPublicDataReady = vi.fn();
+    const onProtectedDataFetchStarted = vi.fn();
+    const onProtectedDataReady = vi.fn();
+    const onLocalModulesDeferredRegistrationStarted = vi.fn();
+    const onLocalModulesDeferredRegistrationCompleted = vi.fn();
+    const onRemoteModulesDeferredRegistrationStarted = vi.fn();
+    const onRemoteModulesDeferredRegistrationCompleted = vi.fn();
+    const onModulesReady = vi.fn();
+    const onApplicationBoostrapped = vi.fn();
+
+    runtime.eventBus.addListener(ApplicationBootstrappingStartedEvent, onApplicationBootstrappingStarted);
+    runtime.eventBus.addListener(LocalModulesRegistrationStartedEvent, onLocalModulesRegistrationStarted);
+    runtime.eventBus.addListener(LocalModulesRegistrationCompletedEvent, onLocalModulesRegistrationCompleted);
+    runtime.eventBus.addListener(LocalModuleRegistrationFailedEvent, onLocalModuleRegistrationFailed);
+    runtime.eventBus.addListener(RemoteModulesRegistrationStartedEvent, onRemoteModulesRegistrationStarted);
+    runtime.eventBus.addListener(RemoteModulesRegistrationCompletedEvent, onRemoteModulesRegistrationCompleted);
+    runtime.eventBus.addListener(ModulesRegisteredEvent, onModulesRegistered);
+    runtime.eventBus.addListener(MswReadyEvent, onMswReady);
+    runtime.eventBus.addListener(PublicDataFetchStartedEvent, onPublicDataFetchStarted);
+    runtime.eventBus.addListener(PublicDataReadyEvent, onPublicDataReady);
+    runtime.eventBus.addListener(ProtectedDataFetchStartedEvent, onProtectedDataFetchStarted);
+    runtime.eventBus.addListener(ProtectedDataReadyEvent, onProtectedDataReady);
+    runtime.eventBus.addListener(LocalModulesDeferredRegistrationStartedEvent, onLocalModulesDeferredRegistrationStarted);
+    runtime.eventBus.addListener(LocalModulesDeferredRegistrationCompletedEvent, onLocalModulesDeferredRegistrationCompleted);
+    runtime.eventBus.addListener(RemoteModulesDeferredRegistrationStartedEvent, onRemoteModulesDeferredRegistrationStarted);
+    runtime.eventBus.addListener(RemoteModulesDeferredRegistrationCompletedEvent, onRemoteModulesDeferredRegistrationCompleted);
+    runtime.eventBus.addListener(ModulesReadyEvent, onModulesReady);
+    runtime.eventBus.addListener(ApplicationBoostrappedEvent, onApplicationBoostrapped);
+
+    const localModules = toLocalModuleDefinitions([
+        x => {
+            x.registerRoute({
+                children: [
+                    ProtectedRoutes
+                ]
+            }, {
+                hoist: true
+            });
+
+            x.registerRoute({
+                path: "/foo",
+                element: "bar"
+            });
+
+            // Deferred registration.
+            return () => {};
+        },
+        () => {
+            throw new Error("Module 2 registration error.");
+        }
+    ]);
+
+    const remoteModules = toRemoteModuleDefinitions([
+        { name: "Dummy-1" }
+    ]);
+
+    bootstrap(runtime, [
+        ...localModules,
+        ...remoteModules
+    ], {
+        startMsw: vi.fn(() => Promise.resolve())
+    });
+
+    await vi.waitUntil(() => localModuleRegistry.registrationStatus === "modules-registered");
+    await vi.waitUntil(() => remoteModuleRegistry.registrationStatus === "modules-registered");
+
+    function BootstrappingRoute() {
+        usePublicDataQueries([{
+            queryKey: ["foo"],
+            queryFn: () => "bar"
+        }]);
+
+        useProtectedDataQueries([{
+            queryKey: ["john"],
+            queryFn: () => "doe"
+        }], () => false);
+
+        useDeferredRegistrations({});
+
+        if (useIsBootstrapping()) {
+            return "loading";
+        }
+
+        return <Outlet />;
+    }
+
+    const props: AppRouterProps = {
+        waitForPublicData: true,
+        waitForProtectedData: true,
+        initialEntries: ["/foo"],
+        initialIndex: 0,
+        bootstrappingRoute: <BootstrappingRoute />
+    };
+
+    renderAppRouter(props, runtime);
+
+    await waitFor(() => screen.findByText("loading"));
+    await waitFor(() => screen.findByText("bar"));
+
+    expect(onApplicationBootstrappingStarted).toHaveBeenCalledTimes(1);
+    expect(onLocalModulesRegistrationStarted).toHaveBeenCalledTimes(1);
+    expect(onLocalModulesRegistrationCompleted).toHaveBeenCalledTimes(1);
+    expect(onLocalModuleRegistrationFailed).toHaveBeenCalledTimes(1);
+    expect(onRemoteModulesRegistrationStarted).toHaveBeenCalledTimes(1);
+    expect(onRemoteModulesRegistrationCompleted).toHaveBeenCalledTimes(1);
+    expect(onModulesRegistered).toHaveBeenCalledTimes(1);
+    expect(onMswReady).toHaveBeenCalledTimes(1);
+    expect(onPublicDataFetchStarted).toHaveBeenCalledTimes(1);
+    expect(onPublicDataReady).toHaveBeenCalledTimes(1);
+    expect(onProtectedDataFetchStarted).toHaveBeenCalledTimes(1);
+    expect(onProtectedDataReady).toHaveBeenCalledTimes(1);
+    expect(onLocalModulesDeferredRegistrationStarted).toHaveBeenCalledTimes(1);
+    expect(onLocalModulesDeferredRegistrationCompleted).toHaveBeenCalledTimes(1);
+    expect(onRemoteModulesDeferredRegistrationStarted).toHaveBeenCalledTimes(1);
+    expect(onRemoteModulesDeferredRegistrationCompleted).toHaveBeenCalledTimes(1);
+    expect(onModulesReady).toHaveBeenCalledTimes(1);
+    expect(onApplicationBoostrapped).toHaveBeenCalledTimes(1);
+
+    // Expected order is:
+    //    ApplicationBootstrappingStartedEvent
+    //    LocalModuleRegistrationStartedEvent - RemoteModulesRegistrationStartedEvent
+    //    LocalModuleRegistrationFailed
+    //    LocalModulesRegistrationCompletedEvent - RemoteModulesRegistrationCompletedEvent
+    //    ModulesRegisteredEvent
+    //    MswReadyEvent
+    //    PublicDataFetchStartedEvent - ProtectedDataFetchStartedEvent
+    //    PublicDataReadyEvent - ProtectedDataReadyEvent
+    //    LocalModuleDeferredRegistrationStartedEvent - RemoteModuleDeferredRegistrationStartedEvent
+    //    LocalModuleDeferredRegistrationCompletedEvent - RemoteModuleDeferredRegistrationCompletedEvent
+    //    ModulesReadyEvent
+    //    ApplicationBoostrappedEvent
+    expect(onApplicationBootstrappingStarted.mock.invocationCallOrder[0]).toBeLessThan(onLocalModulesRegistrationStarted.mock.invocationCallOrder[0]);
+    expect(onApplicationBootstrappingStarted.mock.invocationCallOrder[0]).toBeLessThan(onRemoteModulesRegistrationStarted.mock.invocationCallOrder[0]);
+
+    expect(onLocalModulesRegistrationStarted.mock.invocationCallOrder[0]).toBeLessThan(onLocalModulesRegistrationCompleted.mock.invocationCallOrder[0]);
+    expect(onRemoteModulesRegistrationStarted.mock.invocationCallOrder[0]).toBeLessThan(onRemoteModulesRegistrationCompleted.mock.invocationCallOrder[0]);
+
+    expect(onLocalModuleRegistrationFailed.mock.invocationCallOrder[0]).toBeLessThan(onLocalModulesRegistrationCompleted.mock.invocationCallOrder[0]);
 
     expect(onLocalModulesRegistrationCompleted.mock.invocationCallOrder[0]).toBeLessThan(onModulesRegistered.mock.invocationCallOrder[0]);
     expect(onRemoteModulesRegistrationCompleted.mock.invocationCallOrder[0]).toBeLessThan(onModulesRegistered.mock.invocationCallOrder[0]);

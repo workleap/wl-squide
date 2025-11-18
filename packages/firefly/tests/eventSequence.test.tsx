@@ -7,15 +7,6 @@ import {
     LocalModulesRegistrationStartedEvent,
     type Runtime
 } from "@squide/core";
-// import {
-//     __setRemoteModuleRegistry,
-//     RemoteModuleRegistrationFailedEvent,
-//     RemoteModuleRegistry,
-//     RemoteModulesDeferredRegistrationCompletedEvent,
-//     RemoteModulesDeferredRegistrationStartedEvent,
-//     RemoteModulesRegistrationCompletedEvent,
-//     RemoteModulesRegistrationStartedEvent
-// } from "@squide/module-federation";
 import { ProtectedRoutes } from "@squide/react-router";
 import { QueryClientProvider } from "@tanstack/react-query";
 import { render, screen, waitFor } from "@testing-library/react";
