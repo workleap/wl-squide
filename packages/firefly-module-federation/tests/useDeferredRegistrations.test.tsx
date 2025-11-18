@@ -27,9 +27,6 @@ import { afterEach, test, vi, type Mock } from "vitest";
 import { RemoteModuleRegistrationError, RemoteModuleRegistry, toRemoteModuleDefinitions } from "../src/RemoteModuleRegistry.ts";
 import { sleep } from "./utils.ts";
 
-// TODO:
-// Copy all those tests to the @squide/firefly project but remove the "remote modules" parts.
-
 function renderUseAppReducerHook<TProps>(runtime: Runtime, additionalProps: RenderHookOptions<TProps> = {}) {
     return renderHook(() => useAppRouterReducer(true, true), {
         wrapper: ({ children }: { children?: ReactNode }) => (
@@ -60,7 +57,7 @@ afterEach(() => {
     __clearAppReducerDispatchProxy();
 });
 
-test("when modules are registered but not ready, global data is ready and msw is ready, register the deferred registrations", async ({ expect }) => {
+test("when local and remote modules are registered but not ready, global data is ready and msw is ready, register the deferred registrations", async ({ expect }) => {
     const localModuleRegistry = new LocalModuleRegistry();
 
     const loadRemote = vi.fn().mockResolvedValue({
@@ -123,7 +120,7 @@ test("when modules are registered but not ready, global data is ready and msw is
     await waitFor(() => expect(dispatch).toHaveBeenLastCalledWith({ type: "modules-ready" }));
 });
 
-test("when modules are ready, msw is ready, and the public data change, update the deferred registrations", async ({ expect }) => {
+test("when local and remote modules are ready, msw is ready, and the public data change, update the deferred registrations", async ({ expect }) => {
     const localModuleRegistry = new LocalModuleRegistry();
 
     const loadRemote = vi.fn().mockResolvedValue({
@@ -208,7 +205,7 @@ test("when modules are ready, msw is ready, and the public data change, update t
     await waitFor(() => expect(dispatch).toHaveBeenLastCalledWith({ type: "deferred-registrations-updated" }));
 });
 
-test("when modules are ready, msw is ready, and the protected data change, update the deferred registrations", async ({ expect }) => {
+test("when local and remote modules are ready, msw is ready, and the protected data change, update the deferred registrations", async ({ expect }) => {
     const localModuleRegistry = new LocalModuleRegistry();
 
     const loadRemote = vi.fn().mockResolvedValue({
@@ -293,7 +290,7 @@ test("when modules are ready, msw is ready, and the protected data change, updat
     await waitFor(() => expect(dispatch).toHaveBeenLastCalledWith({ type: "deferred-registrations-updated" }));
 });
 
-test("when modules are not registered, do not register the deferred registrations", async ({ expect }) => {
+test("when local and remote modules are not registered, do not register the deferred registrations", async ({ expect }) => {
     const localModuleRegistry = new LocalModuleRegistry();
 
     const loadRemote = vi.fn().mockResolvedValue({
@@ -364,7 +361,7 @@ test("when modules are not registered, do not register the deferred registration
     expect(dispatch).not.toHaveBeenCalledWith({ type: "modules-ready" });
 });
 
-test("when modules are ready, msw is ready, but the global data hasn't change, do not update the deferred registrations", async ({ expect }) => {
+test("when local and remote modules are ready, msw is ready, but the global data hasn't change, do not update the deferred registrations", async ({ expect }) => {
     const localModuleRegistry = new LocalModuleRegistry();
 
     const loadRemote = vi.fn().mockResolvedValue({
