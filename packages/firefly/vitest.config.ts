@@ -9,11 +9,11 @@ export default defineConfig({
         setupFiles: ["./vitest-setup.ts"],
         reporters: "verbose"
     },
-    define: {
-        __webpack_share_scopes__: {
-            default: {}
-        }
-    },
+    // define: {
+    //     __webpack_share_scopes__: {
+    //         default: {}
+    //     }
+    // },
     cacheDir: "./node_modules/.cache/vitest",
     plugins: [react()]
 });

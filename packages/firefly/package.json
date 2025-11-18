@@ -21,7 +21,10 @@
             }
         }
     },
-    "exports": "./src/index.ts",
+    "exports": {
+        ".": "./src/index.ts",
+        "./tests": "./tests/utils.ts"
+    },
     "files": [
         "src",
         "dist",
