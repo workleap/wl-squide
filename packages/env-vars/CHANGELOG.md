@@ -1,5 +1,14 @@
 # @squide/env-vars
 
+## 1.4.7
+
+### Patch Changes
+
+- [#339](https://github.com/workleap/wl-squide/pull/339) [`de6b333`](https://github.com/workleap/wl-squide/commit/de6b3335f538252bac9545d82c8f1218612eb923) Thanks [@patricklafrance](https://github.com/patricklafrance)! - Bumped packages version.
+
+- Updated dependencies [[`de6b333`](https://github.com/workleap/wl-squide/commit/de6b3335f538252bac9545d82c8f1218612eb923)]:
+  - @squide/core@6.1.4
+
 ## 1.4.6
 
 ### Patch Changes
