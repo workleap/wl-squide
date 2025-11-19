@@ -12,12 +12,12 @@
         "typecheck": "tsc"
     },
     "peerDependencies": {
-        "@tanstack/react-query": "^5.90.5",
-        "msw": "^2.11.6",
+        "@tanstack/react-query": "^5.90.10",
+        "msw": "^2.12.2",
         "react": "^19.2.0",
         "react-dom": "^19.2.0",
-        "react-i18next": "^16.2.1",
-        "react-router": "^7.9.4"
+        "react-i18next": "^16.3.4",
+        "react-router": "^7.9.6"
     },
     "dependencies": {
         "@endpoints/i18next": "workspace:*",
@@ -30,15 +30,15 @@
         "@workleap/telemetry": "^2.1.6"
     },
     "devDependencies": {
-        "@eslint/js": "9.38.0",
-        "@types/node": "24.9.2",
-        "@types/react": "19.2.2",
-        "@types/react-dom": "19.2.2",
-        "@typescript-eslint/parser": "8.46.2",
-        "@workleap/eslint-configs": "1.0.1",
+        "@eslint/js": "9.39.1",
+        "@types/node": "24.10.1",
+        "@types/react": "19.2.6",
+        "@types/react-dom": "19.2.3",
+        "@typescript-eslint/parser": "8.47.0",
+        "@workleap/eslint-configs": "1.1.5",
         "@workleap/typescript-configs": "3.0.7",
-        "eslint": "9.38.0",
+        "eslint": "9.39.1",
         "typescript": "5.9.3",
-        "typescript-eslint": "8.46.2"
+        "typescript-eslint": "8.47.0"
     }
 }
