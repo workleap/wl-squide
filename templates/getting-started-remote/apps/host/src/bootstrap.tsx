@@ -1,5 +1,6 @@
 import { register as registerMyLocalModule } from "@getting-started-remote/local-module";
-import { FireflyProvider, initializeFirefly, type RemoteDefinition } from "@squide/firefly";
+import { FireflyProvider, type RemoteDefinition } from "@squide/firefly";
+import { initializeFirefly } from "@squide/firefly-module-federation";
 import { BrowserConsoleLogger } from "@workleap/logging";
 import { createRoot } from "react-dom/client";
 import { App } from "./App.tsx";
