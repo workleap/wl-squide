@@ -1,5 +1,5 @@
 import { describe, test } from "vitest";
-import { RouteRegistry, createIndexKeys } from "../src/routeRegistry2.ts";
+import { RouteRegistry, createIndexKeys } from "../src/RouteRegistry.ts";
 
 describe.concurrent("createIndexKey", () => {
     test.concurrent("when the route is an index route, return an empty array", ({ expect }) => {

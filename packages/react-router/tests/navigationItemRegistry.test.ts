@@ -1,5 +1,5 @@
 import { describe, test } from "vitest";
-import { NavigationItemDeferredRegistrationScope, NavigationItemDeferredRegistrationTransactionalScope, NavigationItemRegistry } from "../src/navigationItemRegistry2.ts";
+import { NavigationItemDeferredRegistrationScope, NavigationItemDeferredRegistrationTransactionalScope, NavigationItemRegistry } from "../src/NavigationItemRegistry.ts";
 
 describe.concurrent("add", () => {
     test.concurrent("should add a single deferred item", ({ expect }) => {

@@ -2,7 +2,7 @@ import { RuntimeContext } from "@squide/core";
 import { renderHook, type RenderHookOptions } from "@testing-library/react";
 import { NoopLogger } from "@workleap/logging";
 import { test } from "vitest";
-import { ReactRouterRuntime } from "../src/reactRouterRuntime2.ts";
+import { ReactRouterRuntime } from "../src/ReactRouterRuntime.ts";
 import { useRoutes } from "../src/useRoutes.ts";
 
 function renderUseRoutesHook<TProps>(runtime: ReactRouterRuntime, additionalProps: RenderHookOptions<TProps> = {}) {

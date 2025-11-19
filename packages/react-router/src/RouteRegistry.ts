@@ -1,5 +1,5 @@
 import type { IndexRouteObject, NonIndexRouteObject } from "react-router";
-import { ProtectedRoutes, ProtectedRoutesOutletId, PublicRoutes, PublicRoutesOutletId, isProtectedRoutesOutletRoute, isPublicRoutesOutletRoute } from "./outlets2.ts";
+import { ProtectedRoutes, ProtectedRoutesOutletId, PublicRoutes, PublicRoutesOutletId, isProtectedRoutesOutletRoute, isPublicRoutesOutletRoute } from "./outlets.ts";
 
 /*
 

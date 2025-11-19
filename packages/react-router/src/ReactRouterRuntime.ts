@@ -1,8 +1,8 @@
 import { RootMenuId, Runtime, RuntimeScope, type GetNavigationItemsOptions, type IRuntime, type RegisterNavigationItemOptions, type RegisterRouteOptions, type StartDeferredRegistrationScopeOptions, type ValidateRegistrationsOptions } from "@squide/core";
 import type { Logger } from "@workleap/logging";
-import { NavigationItemDeferredRegistrationScope, NavigationItemDeferredRegistrationTransactionalScope, NavigationItemRegistry, parseSectionIndexKey, type NavigationItemRegistrationResult, type RootNavigationItem } from "./navigationItemRegistry2.ts";
-import { ProtectedRoutesOutletId, PublicRoutesOutletId } from "./outlets2.ts";
-import { RouteRegistry, type Route } from "./routeRegistry2.ts";
+import { NavigationItemDeferredRegistrationScope, NavigationItemDeferredRegistrationTransactionalScope, NavigationItemRegistry, parseSectionIndexKey, type NavigationItemRegistrationResult, type RootNavigationItem } from "./NavigationItemRegistry.ts";
+import { ProtectedRoutesOutletId, PublicRoutesOutletId } from "./outlets.ts";
+import { RouteRegistry, type Route } from "./RouteRegistry.ts";
 
 function indent(text: string, depth: number) {
     return `${" ".repeat(depth * 4)}${text}`;
