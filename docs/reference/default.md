@@ -94,6 +94,10 @@ Squide offers a collection of fake implementations designed to facilitate the se
 - [defineBuildHostConfig](./rsbuild/defineBuildHostConfig.md) [!badge variant="danger" size="xs" text="experimental"]
 - [defineBuildRemoteModuleConfig](./rsbuild/defineBuildRemoteModuleConfig.md) [!badge variant="danger" size="xs" text="experimental"]
 
+### Module Federation
+
+- [initializeFirefly](./module-federation/initializeFirefly.md)
+
 ### Miscellaneous
 
 - [usePublicDataHandler](./miscellaneous/usePublicDataHandler.md)

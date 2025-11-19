@@ -14,7 +14,7 @@ This guide uses feature flags as an example, but it **does not represent** how f
 
 Conditionally registering navigation items based on remote data is complex because **Squide's default registration mechanism runs before the application has bootstrapped**, meaning that the remote data have not yet been fetched from the server.
 
-To address this, Squide offers an alternate [deferred registration](../reference/registration/registerLocalModules.md#defer-the-registration-of-navigation-items) mechanism in two-phases:
+To address this, Squide offers an alternate deferred registration mechanism in two-phases:
 
 1. The first phase allows modules to register their _static_ navigation items that are not dependent on remote data.
 2. The second phase enables modules to register _deferred_ navigation items that are dependent on remote data. We refer to this second phase as **deferred registrations**.

@@ -21,7 +21,7 @@ This major version of `@squide/firefly` introduces [TanStack Query](https://tans
 
 Prior to `v9.0`, Squide applications couldn't use TanStack Query to fetch global data, making it **challenging** for Workleap's applications to **keep** their **global data** in **sync** with the **server state**. With `v9.0`, applications can now leverage [custom wrappers](../guides/fetch-global-data.md) of the TanStack Query's [useQueries](https://tanstack.com/query/latest/docs/framework/react/reference/useQueries) hook to fetch and keep their global data up-to-date with the server state. Additionally, the new [deferred registrations update](../reference/registration/useDeferredRegistrations.md#register-or-update-deferred-registrations) feature allows applications to even **keep** their conditional **navigation items in sync** with the **server state**.
 
-Finally, with `v9.0`, Squide's philosophy has evolved. We used to describe Squide as a shell for **federated** applications. Now, we refer to Squide as a shell for **modular** applications. After playing with Squide's [local module](../reference/registration/registerLocalModules.md) feature for a while, we discovered that Squide offers significant value even for **non-federated applications**, which triggered this shift in philosophy.
+Finally, with `v9.0`, Squide's philosophy has evolved. We used to describe Squide as a shell for **federated** applications. Now, we refer to Squide as a shell for **modular** applications. After playing with Squide's local module feature for a while, we discovered that Squide offers significant value even for **non-federated applications**, which triggered this shift in philosophy.
 
 ## Breaking changes
 
@@ -51,7 +51,7 @@ Finally, with `v9.0`, Squide's philosophy has evolved. We used to describe Squid
 
 ### Removed support for deferred routes
 
-[Deferred registration](../reference/registration/registerLocalModules.md#defer-the-registration-of-navigation-items) functions no longer support route registration; they are now **exclusively** used for **registering navigation items**. Since deferred registration functions can now be re-executed whenever the global data changes, registering routes in deferred registration functions no longer makes sense as updating the routes registry after the application has bootstrapped could lead to issues.
+Deferred registration functions no longer support route registration; they are now **exclusively** used for **registering navigation items**. Since deferred registration functions can now be re-executed whenever the global data changes, registering routes in deferred registration functions no longer makes sense as updating the routes registry after the application has bootstrapped could lead to issues.
 
 This change is a significant improvement for Squide's internals, allowing us to eliminate quirks like:
 
@@ -260,7 +260,7 @@ export function App() {
 ## Improvements
 
 - Deferred registration functions now always receive a `data` argument.
-- Deferred registration functions now receives a new [operations](../reference/registration/registerLocalModules.md#use-the-deferred-registration-operation-argument) argument.
+- Deferred registration functions now receives a new operations argument.
 - Navigation items now include a [$canRender](../reference/runtime/runtime-class.md#conditionally-render-a-navigation-item) option, enabling modules to control whether a navigation item should be rendered.
 
 ### New `$id` option for navigation items

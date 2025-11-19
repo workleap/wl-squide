@@ -2,7 +2,8 @@ import { createI18NextPlugin } from "@endpoints/i18next";
 import { registerLocalModule } from "@endpoints/local-module";
 import { registerShell } from "@endpoints/shell";
 import { EnvironmentVariablesPlugin } from "@squide/env-vars";
-import { FireflyProvider, initializeFirefly } from "@squide/firefly";
+import { FireflyProvider } from "@squide/firefly";
+import { initializeFirefly } from "@squide/firefly-module-federation";
 import { BrowserConsoleLogger, type RootLogger } from "@workleap/logging";
 import { LogRocketLogger } from "@workleap/logrocket";
 import { initializeTelemetry, TelemetryProvider, type InitializeTelemetryOptions } from "@workleap/telemetry/react";
@@ -48,13 +49,16 @@ const runtime = initializeFirefly({
     useMsw: !!process.env.USE_MSW,
     localModules: [registerShell({ host: "@endpoints/host" }), registerHost, registerLocalModule],
     remotes: Remotes,
-    plugins: [x => createI18NextPlugin(x), x => new EnvironmentVariablesPlugin(x)],
-    honeycombInstrumentationClient: telemetryClient.honeycomb,
     startMsw: async x => {
         // Files that includes an import to the "msw" package are included dynamically to prevent adding
         // unused MSW stuff to the code bundles.
         return (await import("../mocks/browser.ts")).startMsw(x.requestHandlers);
     },
+    plugins: [
+        x => createI18NextPlugin(x),
+        x => new EnvironmentVariablesPlugin(x)
+    ],
+    honeycombInstrumentationClient: telemetryClient.honeycomb,
     loggers
 });
 

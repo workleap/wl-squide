@@ -1,14 +1,25 @@
 export * from "@squide/core";
-export * from "@squide/module-federation";
 export * from "@squide/msw";
 export * from "@squide/react-router";
 
+export type { FireflyPlugin } from "./FireflyPlugin.ts";
 export * from "./FireflyProvider.tsx";
 export * from "./FireflyRuntime.tsx";
 
 export * from "./AppRouter.tsx";
-export * from "./AppRouterContext.ts";
-export * from "./AppRouterReducer.ts";
+export {
+    ActiveRouteIsProtectedEvent,
+    ActiveRouteIsPublicEvent,
+    ApplicationBoostrappedEvent,
+    DeferredRegistrationsUpdatedEvent,
+    ModulesReadyEvent,
+    ModulesRegisteredEvent,
+    MswReadyEvent,
+    ProtectedDataReadyEvent,
+    ProtectedDataUpdatedEvent,
+    PublicDataReadyEvent,
+    PublicDataUpdatedEvent
+} from "./AppRouterReducer.ts";
 
 export * from "./AppRouterStore.ts";
 export * from "./GlobalDataQueriesError.ts";

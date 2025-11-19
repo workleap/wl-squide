@@ -34,7 +34,7 @@ const runtime = initializeFirefly({
 
 ## React context values are undefined
 
-If your application utilize [remote modules](./reference/registration/registerRemoteModules.md) and you are encountering `undefined` values when providing a React context from the host application and consuming the context in modules, it is likely due to two possible reasons: either you have two instances of React, or you have multiple instances of that React context.
+If your application utilize [remote modules](./module-federation/create-remote-module.md) and you are encountering `undefined` values when providing a React context from the host application and consuming the context in modules, it is likely due to two possible reasons: either you have two instances of React, or you have multiple instances of that React context.
 
 To resolve this issue:
 

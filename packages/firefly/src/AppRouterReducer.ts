@@ -1,6 +1,4 @@
-import { addLocalModuleRegistrationStatusChangedListener, getLocalModuleRegistrationStatus, removeLocalModuleRegistrationStatusChangedListener, useEventBus, useLogger, useRuntime } from "@squide/core";
-import { addRemoteModuleRegistrationStatusChangedListener, areModulesReady, areModulesRegistered, getRemoteModuleRegistrationStatus, removeRemoteModuleRegistrationStatusChangedListener } from "@squide/module-federation";
-import { addMswStateChangedListener, isMswReady, removeMswStateChangedListener } from "@squide/msw";
+import { useEventBus, useLogger, useRuntime } from "@squide/core";
 import { useCallback, useEffect, useMemo, useReducer, type Dispatch } from "react";
 import type { FireflyRuntime } from "./FireflyRuntime.tsx";
 import { useAppRouterStore } from "./useAppRouterStore.ts";
@@ -166,110 +164,75 @@ function reducer(state: AppRouterState, action: AppRouterAction) {
     return newState;
 }
 
-export function getAreModulesRegistered() {
-    const localModuleStatus = getLocalModuleRegistrationStatus();
-    const remoteModuleStatus = getRemoteModuleRegistrationStatus();
-
-    return areModulesRegistered(localModuleStatus, remoteModuleStatus);
-}
-
-export function getAreModulesReady() {
-    const localModuleStatus = getLocalModuleRegistrationStatus();
-    const remoteModuleStatus = getRemoteModuleRegistrationStatus();
-
-    return areModulesReady(localModuleStatus, remoteModuleStatus);
-}
-
-export function useModuleRegistrationStatusDispatcher(areModulesRegisteredValue: boolean, areModulesReadyValue: boolean, dispatch: AppRouterDispatch) {
+export function useModuleRegistrationStatusDispatcher(runtime: FireflyRuntime, areModulesRegisteredValue: boolean, areModulesReadyValue: boolean, dispatch: AppRouterDispatch) {
     const logger = useLogger();
 
-    const dispatchModulesRegistered = useExecuteOnce(useCallback(() => {
-        if (getAreModulesRegistered()) {
-            dispatch({ type: "modules-registered" });
+    const dispatchModulesRegistered = useCallback(() => {
+        dispatch({ type: "modules-registered" });
 
-            logger
-                .withText("[squide] Modules are registered.", {
-                    style: {
-                        color: "green"
-                    }
-                })
-                .information();
+        logger
+            .withText("[squide] Modules are registered.", {
+                style: {
+                    color: "green"
+                }
+            })
+            .information();
+    }, [dispatch, logger]);
 
-            return true;
-        }
+    const dispatchModulesReady = useCallback(() => {
+        dispatch({ type: "modules-ready" });
 
-        return false;
-    }, [dispatch, logger]));
-
-    const dispatchModulesReady = useExecuteOnce(useCallback(() => {
-        if (getAreModulesReady()) {
-            dispatch({ type: "modules-ready" });
-
-            logger
-                .withText("[squide] Modules are ready.", {
-                    style: {
-                        color: "green"
-                    }
-                })
-                .information();
-
-            return true;
-        }
-
-        return false;
-    }, [dispatch, logger]));
+        logger
+            .withText("[squide] Modules are ready.", {
+                style: {
+                    color: "green"
+                }
+            })
+            .information();
+    }, [dispatch, logger]);
 
     return useEffect(() => {
         if (!areModulesRegisteredValue) {
-            addLocalModuleRegistrationStatusChangedListener(dispatchModulesRegistered);
-            addRemoteModuleRegistrationStatusChangedListener(dispatchModulesRegistered);
+            runtime.moduleManager.registerModulesRegisteredListener(dispatchModulesRegistered);
         }
 
         if (!areModulesReadyValue) {
-            addLocalModuleRegistrationStatusChangedListener(dispatchModulesReady);
-            addRemoteModuleRegistrationStatusChangedListener(dispatchModulesReady);
+            runtime.moduleManager.registerModulesReadyListener(dispatchModulesReady);
         }
 
         return () => {
-            removeLocalModuleRegistrationStatusChangedListener(dispatchModulesRegistered);
-            removeRemoteModuleRegistrationStatusChangedListener(dispatchModulesRegistered);
-
-            removeLocalModuleRegistrationStatusChangedListener(dispatchModulesReady);
-            removeRemoteModuleRegistrationStatusChangedListener(dispatchModulesReady);
+            runtime.moduleManager.removeModulesRegisteredListener(dispatchModulesRegistered);
+            runtime.moduleManager.removeModulesReadyListener(dispatchModulesReady);
         };
     }, [areModulesRegisteredValue, areModulesReadyValue, dispatchModulesRegistered, dispatchModulesReady]);
 }
 
-export function useMswStatusDispatcher(isMswReadyValue: boolean, dispatch: AppRouterDispatch) {
+export function useMswStatusDispatcher(runtime: FireflyRuntime, isMswReadyValue: boolean, dispatch: AppRouterDispatch) {
     const logger = useLogger();
 
-    const dispatchMswReady = useExecuteOnce(useCallback(() => {
-        if (isMswReady()) {
-            dispatch({ type: "msw-ready" });
+    const dispatchMswReady = useCallback(() => {
+        dispatch({ type: "msw-ready" });
 
-            logger
-                .withText("[squide] MSW is ready.", {
-                    style: {
-                        color: "green"
-                    }
-                })
-                .information();
-
-            return true;
-        }
-
-        return false;
-    }, [dispatch, logger]));
+        logger
+            .withText("[squide] MSW is ready.", {
+                style: {
+                    color: "green"
+                }
+            })
+            .information();
+    }, [dispatch, logger]);
 
     useEffect(() => {
-        if (!isMswReadyValue) {
-            addMswStateChangedListener(dispatchMswReady);
-        }
+        if (runtime.isMswEnabled) {
+            if (!isMswReadyValue) {
+                runtime.getMswState().addMswReadyListener(dispatchMswReady);
+            }
 
-        return () => {
-            removeMswStateChangedListener(dispatchMswReady);
-        };
-    }, [isMswReadyValue, dispatchMswReady]);
+            return () => {
+                runtime.getMswState().removeMswReadyListener(dispatchMswReady);
+            };
+        }
+    }, [runtime, isMswReadyValue, dispatchMswReady]);
 }
 
 function useBootstrappingCompletedDispatcher(waitState: AppRouterWaitState, state: AppRouterState) {
@@ -331,10 +294,9 @@ export function useAppRouterReducer(waitForPublicData: boolean, waitForProtected
     const appRouterStore = useAppRouterStore();
 
     const isMswEnabled = runtime.isMswEnabled;
-
-    const areModulesInitiallyRegistered = getAreModulesRegistered();
-    const areModulesInitiallyReady = getAreModulesReady();
-    const isMswInitiallyReady = isMswReady();
+    const areModulesInitiallyRegistered = runtime.moduleManager.getAreModulesRegistered();
+    const areModulesInitiallyReady = runtime.moduleManager.getAreModulesReady();
+    const isMswInitiallyReady = runtime.isMswEnabled ? runtime.getMswState().isReady : false;
 
     const waitState = useMemo(() => ({
         waitForMsw: isMswEnabled,
@@ -402,8 +364,8 @@ export function useAppRouterReducer(waitForPublicData: boolean, waitForProtected
     const dispatchProxy = useReducerDispatchProxy(reactDispatch);
     const dispatch = useEnhancedReducerDispatch(waitState, dispatchProxy);
 
-    useModuleRegistrationStatusDispatcher(areModulesRegisteredValue, areModulesReadyValue, dispatch);
-    useMswStatusDispatcher(isMswReadyValue, dispatch);
+    useModuleRegistrationStatusDispatcher(runtime, areModulesRegisteredValue, areModulesReadyValue, dispatch);
+    useMswStatusDispatcher(runtime, isMswReadyValue, dispatch);
     useBootstrappingCompletedDispatcher(waitState, state);
 
     return [state, dispatch];

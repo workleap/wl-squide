@@ -121,7 +121,7 @@ export function resolveSharedDependency(pkgName: string, entries: Shared[], logF
 const plugin: () => FederationRuntimePlugin = () => {
     return {
         name: "shared-dependencies-resolution-plugin",
-        resolveShare: function (args) {
+        resolveShare: function(args) {
             const { shareScopeMap, scope, pkgName } = args;
 
             log(`[squide] Resolving ${pkgName}:`, args);

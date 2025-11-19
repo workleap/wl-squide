@@ -1,6 +1,5 @@
-import { isFunction, registerLocalModules, type ModuleRegisterFunction, type RegisterModulesOptions } from "@squide/core";
-import { registerRemoteModules, type RemoteDefinition } from "@squide/module-federation";
-import { setMswAsReady } from "@squide/msw";
+import { isFunction, ModuleDefinition, toLocalModuleDefinitions, type ModuleRegisterFunction, type RegisterModulesOptions } from "@squide/core";
+import { MswPlugin } from "@squide/msw";
 import type { HoneycombInstrumentationPartialClient } from "@workleap-telemetry/core";
 import { FireflyRuntime, type FireflyRuntimeOptions } from "./FireflyRuntime.tsx";
 import { initializeHoneycomb } from "./honeycomb/initializeHoneycomb.ts";
@@ -13,26 +12,19 @@ export type StartMswFunction<TRuntime = FireflyRuntime> = (runtime: TRuntime) =>
 
 export interface InitializeFireflyOptions<TRuntime extends FireflyRuntime, TContext = unknown, TData = unknown> extends RegisterModulesOptions<TContext>, FireflyRuntimeOptions {
     localModules?: ModuleRegisterFunction<TRuntime, TContext, TData>[];
-    remotes?: RemoteDefinition[];
+    moduleDefinitions?: ModuleDefinition<TRuntime, TContext, TData>[];
+    useMsw?: boolean;
     honeycombInstrumentationClient?: HoneycombInstrumentationPartialClient;
     startMsw?: StartMswFunction<FireflyRuntime>;
     onError?: OnInitializationErrorFunction;
 }
 
-function propagateRegistrationErrors(results: PromiseSettledResult<unknown[]>, onError: OnInitializationErrorFunction) {
-    if (results) {
-        if (results.status === "fulfilled") {
-            results.value.forEach(x => {
-                onError(x);
-            });
-        }
-    }
-}
-
-export function bootstrap<TRuntime extends FireflyRuntime = FireflyRuntime, TContext = unknown, TData = unknown>(runtime: TRuntime, options: InitializeFireflyOptions<TRuntime, TContext, TData> = {}) {
+export function bootstrap<TRuntime extends FireflyRuntime = FireflyRuntime, TContext = unknown, TData = unknown>(
+    runtime: TRuntime,
+    modulesDefinitions: ModuleDefinition<TRuntime, TContext, TData>[],
+    options: Omit<InitializeFireflyOptions<TRuntime, TContext, TData>, "localModules" | "moduleDefinitions"> = {}
+) {
     const {
-        localModules = [],
-        remotes = [],
         startMsw,
         onError,
         context
@@ -40,43 +32,51 @@ export function bootstrap<TRuntime extends FireflyRuntime = FireflyRuntime, TCon
 
     runtime.eventBus.dispatch(ApplicationBootstrappingStartedEvent);
 
-    Promise.allSettled([
-        registerLocalModules<TRuntime, TContext, TData>(localModules, runtime, { context }),
-        registerRemoteModules(remotes, runtime, { context })
-    ]).then(results => {
-        if (runtime.isMswEnabled) {
-            if (!isFunction(startMsw)) {
-                throw new Error("[squide] When MSW is enabled, the \"startMsw\" function must be provided.");
+    runtime.moduleManager.registerModules(modulesDefinitions, { context })
+        .then(results => {
+            if (runtime.isMswEnabled) {
+                if (!isFunction(startMsw)) {
+                    throw new Error("[squide] When MSW is enabled, the \"startMsw\" function must be provided.");
+                }
+
+                startMsw(runtime)
+                    .then(() => {
+                        if (runtime.isMswEnabled) {
+                            runtime.getMswState().setAsReady();
+                        }
+                    })
+                    .catch((error: unknown) => {
+                        runtime.logger
+                            .withText("[squide] An error occured while starting MSW.")
+                            .withError(error as Error)
+                            .error();
+                    });
             }
 
-            startMsw(runtime)
-                .then(() => {
-                    setMswAsReady();
-                })
-                .catch((error: unknown) => {
-                    runtime.logger
-                        .withText("[squide] An error occured while starting MSW.")
-                        .withError(error as Error)
-                        .error();
+            if (onError) {
+                results.forEach(error => {
+                    onError(error);
                 });
-        }
-
-        if (onError) {
-            propagateRegistrationErrors(results[0], onError);
-            propagateRegistrationErrors(results[1], onError);
-        }
-    });
+            }
+        });
 }
 
 let hasExecuted = false;
 
+// Should only be used by tests.
+export function __resetHasExecutedGuard() {
+    hasExecuted = false;
+}
+
 export function initializeFirefly<TContext = unknown, TData = unknown>(options: InitializeFireflyOptions<FireflyRuntime, TContext, TData> = {}) {
     const {
         mode,
+        localModules = [],
+        moduleDefinitions = [],
         useMsw,
-        loggers,
-        plugins,
+        plugins = [],
         honeycombInstrumentationClient,
+        loggers,
         onError
     } = options;
 
@@ -86,9 +86,12 @@ export function initializeFirefly<TContext = unknown, TData = unknown>(options: 
 
     hasExecuted = true;
 
+    if (useMsw) {
+        plugins.push(x => new MswPlugin(x));
+    }
+
     const runtime = new FireflyRuntime({
         mode,
-        useMsw,
         honeycombInstrumentationClient,
         loggers,
         plugins
@@ -101,12 +104,12 @@ export function initializeFirefly<TContext = unknown, TData = unknown>(options: 
             }
         })
         .finally(() => {
-            bootstrap(runtime, options);
+            bootstrap(
+                runtime,
+                [...moduleDefinitions, ...toLocalModuleDefinitions(localModules)],
+                options
+            );
         });
 
     return runtime;
-}
-
-export function __resetHasExecuteGuard() {
-    hasExecuted = false;
 }

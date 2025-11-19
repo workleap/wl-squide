@@ -1,5 +1,5 @@
 import { useRuntime } from "@squide/core";
-import type { ReactRouterRuntime } from "./reactRouterRuntime.ts";
+import type { ReactRouterRuntime } from "./ReactRouterRuntime.ts";
 
 export interface UseRuntimeNavigationItemsOptions {
     menuId?: string;

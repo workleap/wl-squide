@@ -1,20 +1,19 @@
 import type { RegisterRouteOptions, RuntimeMethodOptions, RuntimeOptions } from "@squide/core";
-import { MswPlugin, MswPluginName } from "@squide/msw";
+import { MswPlugin, MswPluginName, MswState } from "@squide/msw";
 import { type IReactRouterRuntime, ReactRouterRuntime, ReactRouterRuntimeScope, type Route } from "@squide/react-router";
 import type { HoneycombInstrumentationPartialClient } from "@workleap-telemetry/core";
 import type { Logger } from "@workleap/logging";
 import type { RequestHandler } from "msw";
-import { getAreModulesRegistered } from "./AppRouterReducer.ts";
 import { type AppRouterStore, createAppRouterStore } from "./AppRouterStore.ts";
 
-export interface FireflyRuntimeOptions extends RuntimeOptions {
-    useMsw?: boolean;
+export interface FireflyRuntimeOptions<TRuntime extends FireflyRuntime = FireflyRuntime> extends RuntimeOptions<TRuntime> {
     honeycombInstrumentationClient?: HoneycombInstrumentationPartialClient;
 }
 
 export interface RegisterRequestHandlersOptions extends RuntimeMethodOptions {}
 
 export interface IFireflyRuntime extends IReactRouterRuntime {
+    getMswState(): MswState;
     registerRequestHandlers: (handlers: RequestHandler[]) => void;
     get requestHandlers(): RequestHandler[];
     get appRouterStore(): AppRouterStore;
@@ -22,33 +21,26 @@ export interface IFireflyRuntime extends IReactRouterRuntime {
     get honeycombInstrumentationClient(): HoneycombInstrumentationPartialClient | undefined;
 }
 
-export class FireflyRuntime extends ReactRouterRuntime implements IFireflyRuntime {
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export class FireflyRuntime<TRuntime extends FireflyRuntime = any> extends ReactRouterRuntime<TRuntime> implements IFireflyRuntime {
     protected _appRouterStore: AppRouterStore;
-    protected _useMsw: boolean;
     protected _honeycombInstrumentationClient: HoneycombInstrumentationPartialClient | undefined;
 
-    constructor({ plugins, useMsw, honeycombInstrumentationClient, ...options }: FireflyRuntimeOptions = {}) {
-        if (useMsw) {
-            super({
-                plugins: [
-                    ...(plugins ?? []),
-                    runtime => new MswPlugin(runtime)
-                ],
-                ...options
-            });
-
-            this._useMsw = true;
-        } else {
-            super({
-                plugins,
-                ...options
-            });
-
-            this._useMsw = false;
-        }
+    constructor({ honeycombInstrumentationClient, ...options }: FireflyRuntimeOptions = {}) {
+        super(options);
 
         this._appRouterStore = createAppRouterStore(this._logger);
         this._honeycombInstrumentationClient = honeycombInstrumentationClient;
+    }
+
+    getMswState() {
+        const mswPlugin = this.getPlugin(MswPluginName) as MswPlugin;
+
+        if (!mswPlugin) {
+            throw new Error("[squide] Cannot register the provided MSW request handlers because the runtime hasn't been initialized with MSW. Did you instanciate the FireflyRuntime with the \"useMsw\" option?");
+        }
+
+        return mswPlugin.mswState;
     }
 
     registerRequestHandlers(handlers: RequestHandler[], options: RegisterRequestHandlersOptions = {}) {
@@ -59,7 +51,7 @@ export class FireflyRuntime extends ReactRouterRuntime implements IFireflyRuntim
             throw new Error("[squide] Cannot register the provided MSW request handlers because the runtime hasn't been initialized with MSW. Did you instanciate the FireflyRuntime with the \"useMsw\" option?");
         }
 
-        if (getAreModulesRegistered()) {
+        if (this.moduleManager.getAreModulesRegistered()) {
             throw new Error("[squide] Cannot register an MSW request handlers once the modules are registered. Are you trying to register an MSW request handler in a deferred registration function? Only navigation items can be registered in a deferred registration function.");
         }
 
@@ -80,7 +72,7 @@ export class FireflyRuntime extends ReactRouterRuntime implements IFireflyRuntim
     }
 
     registerRoute(route: Route, options: RegisterRouteOptions = {}) {
-        if (getAreModulesRegistered()) {
+        if (this.moduleManager.getAreModulesRegistered()) {
             throw new Error("[squide] Cannot register a route once the modules are registered. Are you trying to register a route in a deferred registration function? Only navigation items can be registered in a deferred registration function.");
         }
 
@@ -92,19 +84,23 @@ export class FireflyRuntime extends ReactRouterRuntime implements IFireflyRuntim
     }
 
     get isMswEnabled() {
-        return this._useMsw;
+        return this._plugins.some(x => x.name === MswPluginName);
     }
 
     get honeycombInstrumentationClient() {
         return this._honeycombInstrumentationClient;
     }
 
-    startScope(logger: Logger): FireflyRuntime {
-        return (new FireflyRuntimeScope(this, logger) as unknown) as FireflyRuntime;
+    startScope(logger: Logger): TRuntime {
+        return (new FireflyRuntimeScope(this, logger) as unknown) as TRuntime;
     }
 }
 
 export class FireflyRuntimeScope<TRuntime extends FireflyRuntime = FireflyRuntime> extends ReactRouterRuntimeScope<TRuntime> implements IFireflyRuntime {
+    getMswState() {
+        return this._runtime.getMswState();
+    }
+
     registerRequestHandlers(handlers: RequestHandler[], options: RegisterRequestHandlersOptions = {}) {
         this._runtime.registerRequestHandlers(handlers, {
             ...options,
@@ -112,19 +108,20 @@ export class FireflyRuntimeScope<TRuntime extends FireflyRuntime = FireflyRuntim
         });
     }
 
+    // Must define a return type otherwise we get an "error TS2742: The inferred type of 'requestHandlers' cannot be named" error.
     get requestHandlers(): RequestHandler[] {
         return this._runtime.requestHandlers;
     }
 
-    get appRouterStore() {
-        return this._runtime.appRouterStore;
+    get appRouterStore(): AppRouterStore {
+        throw new Error("[squide] Cannot retrieve the app router store from a runtime scope instance.");
     }
 
     get isMswEnabled() {
         return this._runtime.isMswEnabled;
     }
 
-    get honeycombInstrumentationClient() {
-        return this._runtime.honeycombInstrumentationClient;
+    get honeycombInstrumentationClient(): HoneycombInstrumentationPartialClient {
+        throw new Error("[squide] Cannot retrieve the Honeycomb instrumentation client from a runtime scope instance.");
     }
 }

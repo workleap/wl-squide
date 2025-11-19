@@ -6,24 +6,19 @@ toc:
 
 # initializeFirefly
 
-Create a [Runtime](../runtime/runtime-class.md) instance, register **local** or **remote** modules and optionally start [MSW](https://mswjs.io/). During the registration process, the modules' registration function will be invoked with a [FireflyRuntime](../runtime/runtime-class.md) instance and an optional `context` object. To **defer the registration** of specific navigation items, a registration function can return an anonymous function.
-
-> A local module is a regular module that is part of the **host application build** and is bundled at build time, as opposed to a remote module which is loaded at runtime from a remote server.
-
-> A remote module is a module that is not part of the current build but is **loaded at runtime** from a remote server.
+Create a [Runtime](../runtime/runtime-class.md) instance, register **local** modules and optionally start [MSW](https://mswjs.io/). During the registration process, the modules' registration function will be invoked with a [FireflyRuntime](../runtime/runtime-class.md) instance and an optional `context` object. To [defer the registration](#defer-the-registration-of-navigation-items) of specific navigation items, a registration function can return an anonymous function.
 
 ## Reference
 
 ```ts
-const runtime = initializeFirefly(options?: { localModules?, remotes?, startMsw?, onError?, context?, mode?, useMsw?, loggers?, plugins? })
+const runtime = initializeFirefly(options?: { localModules?, startMsw?, onError?, context?, mode?, useMsw?, loggers?, plugins? })
 ```
 
 ### Parameters
 
 - `options`: An optional object literal of options:
     - `localModules`: An optional array of `ModuleRegisterFunction`.
-    - `remotes`: An optional array of [RemoteDefinition](#remote-definition).
-    - `startMsw`: An optional function to register MSW request handlers and start MSW service. This function is required if [MSW is enabled](../runtime/runtime-class.md#use-mock-service-worker).
+    - `startMsw`: An optional function to register MSW request handlers and start MSW service. This function is required if [MSW is enabled](#use-msw).
     - `onError`: An optional function that is called whenever a bootstrapping error occurs.
     - `context`: An optional context object that will be pass to the registration function.
     - `mode`: An optional mode to optimize Squide for production. Values are `"development"` (default) and `"production"`.
@@ -62,48 +57,6 @@ export const register: ModuleRegisterFunction<FireflyRuntime> = runtime => {
         $id: "local-page",
         $label: "Local/Page",
         to: "/local/page"
-    });
-}
-```
-
-### Register a remote module
-
-```tsx !#5-7,10 host/src/bootstrap.tsx
-import { FireflyProvider, initializeFirefly, type RemoteDefinition } from "@squide/firefly";
-import { createRoot } from "react";
-import { App } from "./App.tsx";
-
-const Remotes: RemoteDefinition = [
-    { name: "remote1" }
-];
-
-const runtime = initializeFirefly({
-    remotes: Remotes
-});
-
-const root = createRoot(document.getElementById("root")!);
-
-root.render(
-    <FireflyProvider runtime={runtime}>
-        <App />
-    </FireflyProvider>
-);
-```
-
-```tsx !#5-8,10-14 remote-module/src/register.tsx
-import type { ModuleRegisterFunction, FireflyRuntime } from "@squide/firefly";
-import { Page } from "./Page.tsx";
-
-export const register: ModuleRegisterFunction<FireflyRuntime> = runtime => {
-    runtime.registerRoute({
-        path: "/remote/page",
-        element: <Page />
-    });
-
-    runtime.registerNavigationItem({
-        $id: "remote-page",
-        $label: "Remote/Page",
-        to: "/remote/page"
     });
 }
 ```

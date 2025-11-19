@@ -22,7 +22,6 @@ const runtime = new FireflyRuntime(options?: { mode?, useMsw?, loggers?, plugins
 
 - `options`: An optional object literal of options:
     - `mode`: An optional mode to optimize Squide for production. Values are `"development"` (default) and `"production"`.
-    - `useMsw`: An optional `boolean` value indicating whether or not to create the runtime with [Mock Service Work](https://mswjs.io/) (MSW) support.
     - `loggers`: An optional array of `Logger` instances.
     - `plugins`: An optional array of `Plugin` factory functions.
 
@@ -62,21 +61,6 @@ import { FireflyRuntime } from "@squide/firefly";
 const runtime = new FireflyRuntime({
     mode: "production"
 });
-```
-
-### Use Mock Service Worker
-
-```ts !#4,8
-import { FireflyRuntime } from "@squide/firefly";
-
-const runtime = new FireflyRuntime({
-    useMsw: true
-});
-
-// Use the runtime to determine if MSW handlers should be registered.
-if (runtime.isMswEnabled) {
-    // ...
-}
 ```
 
 ### Register routes
@@ -286,7 +270,7 @@ Accept any properties of a React Router [Link](https://reactrouter.com/en/main/c
 - `children`: The section content.
 
 !!!tip
-We recommend always providing an `$id` option for a navigation item, as it ensures the menus doesn't flicker when [deferred registrations](../registration/registerLocalModules.md#defer-the-registration-of-navigation-items) are updated. Be sure to use a unique identifier.
+We recommend always providing an `$id` option for a navigation item, as it ensures the menus doesn't flicker when [deferred registrations](../registration/initializeFirefly.md#defer-the-registration-of-navigation-items) are updated. Be sure to use a unique identifier.
 !!!
 
 ```ts !#2-6
@@ -502,7 +486,7 @@ const navigationItems = runtime.getNavigationItems("my-custom-layout");
 
 ### Register request handlers
 
-The registered handlers must be [Mock Service Worker](https://mswjs.io/docs/concepts/request-handler) request handlers:
+The registered handlers must be valid MSW [request handlers](https://mswjs.io/docs/concepts/request-handler):
 
 ```tsx !#3
 import { requestHandlers } from "../mocks/handlers.ts";
@@ -510,7 +494,7 @@ import { requestHandlers } from "../mocks/handlers.ts";
 runtime.registerRequestHandlers(requestHandlers);
 ```
 
-[!ref text="Learn more about setuping Mock Service Worker"](../../guides/setup-msw.md)
+[!ref text="Learn more about setuping MSW"](../../guides/setup-msw.md)
 
 ### Retrieve request handlers
 

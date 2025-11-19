@@ -31,7 +31,7 @@ monorepo
 :mag_right: This section is similar to the [Update the host application section](../guides/develop-a-module-in-isolation.md#update-the-host-application) from the non–Module Federation guide on developing a module in isolation. The key differences are that in a Module Federation setup:
 
 - The host application's entry point is `bootstrap.tsx` rather than `index.tsx`.
-- A [remote module](../reference/registration/initializeFirefly.md#register-a-remote-module) should be registered rather than a [local module](../reference/registration/initializeFirefly.md#register-a-local-module).
+- A [remote module](../module-federation/create-remote-module.md) should be registered rather than a [local module](../reference/registration/initializeFirefly.md#register-a-local-module).
 
 ## Setup a remote module
 
@@ -69,9 +69,10 @@ remote-module
 
 The `index.tsx` file is similar to the `bootstrap.tsx` file of an host application but, tailored for an isolated module. The key distinctions are that all the modules are registered as local modules, and a new `registerDev` function is introduced to register the development homepage (which will be covered in an upcoming section):
 
-```tsx !#8-12 remote-module/src/dev/index.tsx
+```tsx !#9-13 remote-module/src/dev/index.tsx
 import { createRoot } from "react-dom/client";
-import { FireflyProvider, initializeFirefly } from "@squide/firefly";
+import { FireflyProvider } from "@squide/firefly";
+import { initializeFirefly } from "@squide/firefly-module-federation";
 import { App } from "./App.tsx";
 import { register as registerModule } from "./register.tsx";
 import { registerDev } from "./dev/register.tsx";

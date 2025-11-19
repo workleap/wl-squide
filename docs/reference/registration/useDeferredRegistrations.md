@@ -5,10 +5,10 @@ toc:
 
 # useDeferredRegistrations
 
-Register the modules [deferred registration](./registerLocalModules.md#defer-the-registration-of-navigation-items) functions when the global data is initially fetched or update the deferred registration functions whenever the global data change.
+Register the modules [deferred registration](./initializeFirefly.md#defer-the-registration-of-navigation-items) functions when the global data is initially fetched or update the deferred registration functions whenever the global data change.
 
 !!!tip
-This hook should always be used in combination with [deferred registration](./registerLocalModules.md#defer-the-registration-of-navigation-items) functions and with either the [usePublicDataQueries](../tanstack-query/usePublicDataQueries.md) hook or the [useProtectedDataQueries](../tanstack-query/useProtectedDataQueries.md) hook (can be both).
+This hook should always be used in combination with [deferred registration](./initializeFirefly.md#defer-the-registration-of-navigation-items) functions and with either the [usePublicDataQueries](../tanstack-query/usePublicDataQueries.md) hook or the [useProtectedDataQueries](../tanstack-query/useProtectedDataQueries.md) hook (can be both).
 !!!
 
 ## Reference
@@ -21,16 +21,7 @@ useDeferredRegistrations(data: {}, options?: { onError? });
 
 - `data`: An object literal of data that will be passed to the deferred registration functions.
 - `options`: An optional object literal of options:
-    - `onError`: An optional function receiving an `DeferredRegistrationsErrorsObject` object as an argument.
-
-#### `DeferredRegistrationsErrorsObject`
-
-- `localModuleErrors`: An array of errors that occured during the deferred registrations of local modules.
-    - `error`: The original `Error` object.
-- `remoteModuleErrors`: An array of errors that occured during the deferred registrations of remote modules.
-    - `remoteName`: The name of the remote module that failed to load.
-    - `moduleName`: The name of the [module](./registerRemoteModules.md#name) that Squide attempted to recover.
-    - `error`: The original `Error` object.
+    - `onError`: An optional function receiving an array of `ModuleRegistrationError` instances as argument.
 
 ### Returns
 
@@ -100,7 +91,7 @@ export function AppRouter() {
 
 ### Handle registration errors
 
-```tsx !#10-18,21 host/src/AppRouter.tsx
+```tsx !#10-14,17 host/src/AppRouter.tsx
 import { useDeferredRegistrations, type DeferredRegistrationsErrorCallback } from "@squide/firefly";
 import type { DeferredRegistrationData } from "@sample/shared";
 import { useMemo } from "react";
@@ -110,12 +101,8 @@ function BootstrappingRoute() {
 
     const data: DeferredRegistrationData = useMemo(() => ({ featureFlags }), [featureFlags]);
 
-    const handleErrors: DeferredRegistrationsErrorCallback = ({ localModuleErrors, remoteModuleErrors }) => {
-        localModuleErrors.forEach(x => {
-            console.error(x);
-        });
-
-        remoteModuleErrors.forEach(x => {
+    const handleErrors: DeferredRegistrationsErrorCallback = errors => {
+        errors.forEach(x => {
             console.error(x);
         });
     };

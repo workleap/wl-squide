@@ -17,13 +17,13 @@ This major version of `@squide/firefly` introduces [TanStack Query](https://tans
 
 Prior to `v9.0`, Squide applications couldn't use TanStack Query to fetch global data, making it **challenging** for Workleap's applications to **keep** their **global data** in **sync** with the **server state**. With `v9.0`, applications can now leverage [custom wrappers](../guides/fetch-global-data.md) of the TanStack Query's [useQueries](https://tanstack.com/query/latest/docs/framework/react/reference/useQueries) hook to fetch and keep their global data up-to-date with the server state. Additionally, the new [deferred registrations update](../reference/registration/useDeferredRegistrations.md#register-or-update-deferred-registrations) feature allows applications to even **keep** their conditional **navigation items in sync** with the **server state**.
 
-Finally, with `v9.0`, Squide's philosophy has evolved. We used to describe Squide as a shell for **federated** applications. Now, we refer to Squide as a shell for **modular** applications. After playing with Squide's [local module](../reference/registration/registerLocalModules.md) feature for a while, we discovered that Squide offers significant value even for **non-federated applications**, which triggered this shift in philosophy.
+Finally, with `v9.0`, Squide's philosophy has evolved. We used to describe Squide as a shell for **federated** applications. Now, we refer to Squide as a shell for **modular** applications. After playing with Squide's local module feature for a while, we discovered that Squide offers significant value even for **non-federated applications**, which triggered this shift in philosophy.
 
 ### v9.3
 
 :icon-checklist: [Migrate to firefly v9.3](./migrate-to-firefly-v9.3.md)
 
-This minor version deprecate the [registerLocalModules](../reference/registration/registerLocalModules.md), [registerRemoteModules](../reference/registration/registerRemoteModules.md) and [setMswAsReady](../reference/msw/setMswAsReady.md) in favor of a `bootstrap` function.
+This minor version deprecate the `registerLocalModules`, `registerRemoteModules` in favor of a `bootstrap` function.
 
 ### v10.0
 
@@ -90,15 +90,15 @@ This major version changes how Squide integrates with [Honeycomb](https://www.ho
 
 ### Deprecation
 
-- The [registerLocalModules](../reference/registration/registerLocalModules.md) function has been **deprecated**, use the `bootstrap` function instead.
-- The [registerRemoteModules](../reference/registration/registerRemoteModules.md) function has been **deprecated**, use the `bootstrap` function instead.
+- The `registerLocalModules` function has been **deprecated**, use the `bootstrap` function instead.
+- The `registerRemoteModules` function has been **deprecated**, use the `bootstrap` function instead.
 - The [setMswAsReady](../reference/msw/setMswAsReady.md) function has been **deprecated**, use the `bootstrap` function instead.
 - The `RuntimeContext.Provider` has been **deprecated**, use [FireflyProvider](../reference/runtime/FireflyProvider.md) instead.
 - The [@squide/firefly-honeycomb](https://www.npmjs.com/package/@squide/firefly-honeycomb) package has been **deprecated**.
 
 ### Update deferred registration functions signature
 
-As of `v14.0`, [Deferred registration](../reference/registration/registerLocalModules.md#defer-the-registration-of-navigation-items) functions now receive a runtime instance as their first argument.
+As of `v14.0`, Deferred registration functions now receive a runtime instance as their first argument.
 
 Before:
 
@@ -134,7 +134,7 @@ export const register: ModuleRegisterFunction<FireflyRuntime, unknown, DeferredR
 
 ### Removed support for deferred routes
 
-As of `v9.0`, [Deferred registration](../reference/registration/registerLocalModules.md#defer-the-registration-of-navigation-items) functions no longer support route registration; they are now **exclusively** used for **registering navigation items**. Since deferred registration functions can now be re-executed whenever the global data changes, registering routes in deferred registration functions no longer makes sense as updating the routes registry after the application has bootstrapped could lead to issues.
+As of `v9.0`, Deferred registration functions no longer support route registration; they are now **exclusively** used for **registering navigation items**. Since deferred registration functions can now be re-executed whenever the global data changes, registering routes in deferred registration functions no longer makes sense as updating the routes registry after the application has bootstrapped could lead to issues.
 
 This change is a significant improvement for Squide's internals, allowing us to eliminate quirks like:
 
@@ -531,7 +531,7 @@ find ./path/to/src \( -name "*.tsx" -o -name "*.ts" -o -name "*.js" -o -name "*.
 ## Improvements
 
 - Deferred registration functions now always receive a `data` argument.
-- Deferred registration functions now receives a new [operations](../reference/registration/registerLocalModules.md#use-the-deferred-registration-operation-argument) argument.
+- Deferred registration functions now receives a new operations argument.
 - Navigation items now include a [$canRender](../reference/runtime/runtime-class.md#conditionally-render-a-navigation-item) option, enabling modules to control whether a navigation item should be rendered.
 
 ### New `$id` option for navigation items
@@ -600,7 +600,7 @@ Follow these steps to migrate an existing host application:
 9. Replace the `ManagedRoutes` placeholder with the new [PublicRoutes](../reference/routing/publicRoutes.md) and [ProtectedRoutes](../reference/routing/protectedRoutes.md) placeholders. [View example](../introduction/create-host.md#homepage)
 10. Convert all deferred routes into static routes. [View example](#removed-support-for-deferred-routes)
 11. Add an `$id` option to the navigation item registrations. [View example](#new-id-option-for-navigation-items)
-12. Replace the [registerLocalModules](../reference/registration/registerLocalModules.md), [registerRemoteModules](../reference/registration/registerRemoteModules.md), [setMswAsReady](../reference/msw/setMswAsReady.md) function and the [FireflyRuntime](../reference/runtime/runtime-class.md) by the [initializeFirefly](../reference/registration/initializeFirefly.md) function. [View example](#use-the-initializefirefly-function)
+12. Replace the `registerLocalModules`, `registerRemoteModules`, [setMswAsReady](../reference/msw/setMswAsReady.md) function and the [FireflyRuntime](../reference/runtime/runtime-class.md) by the [initializeFirefly](../reference/registration/initializeFirefly.md) function. [View example](#use-the-initializefirefly-function)
 13. Rename `RuntimeContext.Provider` for [FireflyProvider](../reference/runtime/FireflyProvider.md). [View example](#rename-runtimecontextprovider-to-fireflyprovider)
 
 ### `useMsw`

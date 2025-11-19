@@ -46,15 +46,15 @@ function prepareModuleFederationPluginForSnapshot(plugin: RsbuildPlugin) {
     return options;
 }
 
-describe("defineDevHostConfig", () => {
-    beforeAll(() => {
-        __setModuleFederationPluginFactory(pluginModuleFederationWrapper);
-    });
+beforeAll(() => {
+    __setModuleFederationPluginFactory(pluginModuleFederationWrapper);
+});
 
-    afterAll(() => {
-        __clearModuleFederationPluginFactory();
-    });
+afterAll(() => {
+    __clearModuleFederationPluginFactory();
+});
 
+describe.concurrent("defineDevHostConfig", () => {
     test.concurrent("the application name is set as the federation plugin application name", ({ expect }) => {
         const config = defineDevHostConfig(8080, []);
         const plugin = findPlugin("rsbuild:module-federation-enhanced", config.plugins);
@@ -263,15 +263,7 @@ describe("defineDevHostConfig", () => {
     });
 });
 
-describe("defineBuildHostConfig", () => {
-    beforeAll(() => {
-        __setModuleFederationPluginFactory(pluginModuleFederationWrapper);
-    });
-
-    afterAll(() => {
-        __clearModuleFederationPluginFactory();
-    });
-
+describe.concurrent("defineBuildHostConfig", () => {
     test.concurrent("the application name is set as the federation plugin application name", ({ expect }) => {
         const config = defineBuildHostConfig([]);
         const plugin = findPlugin("rsbuild:module-federation-enhanced", config.plugins);
@@ -462,15 +454,7 @@ describe("defineBuildHostConfig", () => {
     });
 });
 
-describe("defineDevRemoteModuleConfig", () => {
-    beforeAll(() => {
-        __setModuleFederationPluginFactory(pluginModuleFederationWrapper);
-    });
-
-    afterAll(() => {
-        __clearModuleFederationPluginFactory();
-    });
-
+describe.concurrent("defineDevRemoteModuleConfig", () => {
     test.concurrent("the application name is set as the federation plugin application name", ({ expect }) => {
         const config = defineDevRemoteModuleConfig("remote1", 8081);
         const plugin = findPlugin("rsbuild:module-federation-enhanced", config.plugins);
@@ -667,15 +651,7 @@ describe("defineDevRemoteModuleConfig", () => {
     });
 });
 
-describe("defineBuildRemoteModuleConfig", () => {
-    beforeAll(() => {
-        __setModuleFederationPluginFactory(pluginModuleFederationWrapper);
-    });
-
-    afterAll(() => {
-        __clearModuleFederationPluginFactory();
-    });
-
+describe.concurrent("defineBuildRemoteModuleConfig", () => {
     test.concurrent("the application name is set as the federation plugin application name", ({ expect }) => {
         const config = defineBuildRemoteModuleConfig("remote1");
         const plugin = findPlugin("rsbuild:module-federation-enhanced", config.plugins);

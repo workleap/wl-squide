@@ -1,4 +1,4 @@
-import type { Runtime } from "../runtime/runtime.ts";
+import type { Runtime } from "../runtime/Runtime.ts";
 
 export type DeferredRegistrationOperation = "register" | "update";
 

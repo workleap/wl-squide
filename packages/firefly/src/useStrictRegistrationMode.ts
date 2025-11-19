@@ -1,28 +1,23 @@
-import { addLocalModuleRegistrationStatusChangedListener, getLocalModuleRegistrationStatus, removeLocalModuleRegistrationStatusChangedListener, useRuntime } from "@squide/core";
-import { addRemoteModuleRegistrationStatusChangedListener, areModulesReady, getRemoteModuleRegistrationStatus, removeRemoteModuleRegistrationStatusChangedListener } from "@squide/module-federation";
+import { Runtime, useRuntime } from "@squide/core";
 import { useEffect, useSyncExternalStore } from "react";
 
-function subscribeToLocalModuleRegistrationStatusChanged(callback: () => void) {
-    addLocalModuleRegistrationStatusChangedListener(callback);
+function subscribeToModulesReady(runtime: Runtime) {
+    return (callback: () => void) => {
+        runtime.moduleManager.registerModulesReadyListener(callback);
 
-    return () => removeLocalModuleRegistrationStatusChangedListener(callback);
-}
-
-function subscribeToRemoteModuleRegistrationStatusChanged(callback: () => void) {
-    addRemoteModuleRegistrationStatusChangedListener(callback);
-
-    return () => removeRemoteModuleRegistrationStatusChangedListener(callback);
+        return () => runtime.moduleManager.removeModulesReadyListener(callback);
+    };
 }
 
 export function useStrictRegistrationMode() {
     const runtime = useRuntime();
 
-    const localModuleStatus = useSyncExternalStore(subscribeToLocalModuleRegistrationStatusChanged, getLocalModuleRegistrationStatus);
-    const remoteModuleStatus = useSyncExternalStore(subscribeToRemoteModuleRegistrationStatusChanged, getRemoteModuleRegistrationStatus);
+    // This listener is only executed if the modules are ready.
+    const areModulesReady = useSyncExternalStore(subscribeToModulesReady(runtime), () => runtime.moduleManager.getAreModulesReady());
 
     useEffect(() => {
-        if (areModulesReady(localModuleStatus, remoteModuleStatus)) {
+        if (areModulesReady) {
             runtime._validateRegistrations();
         }
-    }, [runtime, localModuleStatus, remoteModuleStatus]);
+    }, [runtime, areModulesReady]);
 }
