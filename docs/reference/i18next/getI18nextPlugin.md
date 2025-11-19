@@ -6,7 +6,7 @@ toc:
 
 # getI18nextPlugin
 
-Return an instance of [i18nextPlugin](../i18next/i18nextPlugin.md) from the list of plugins registered with a [Runtime](../runtime/runtime-class.md) instance.
+Return an instance of [i18nextPlugin](../i18next/i18nextPlugin.md) from the list of plugins registered with a [Runtime](../runtime/FireflyRuntime.md) instance.
 
 ## Reference
 

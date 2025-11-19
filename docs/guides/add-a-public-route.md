@@ -8,7 +8,7 @@ A route can be registered as either `public` or `protected`. This visibility ind
 
 In a Squide application, the visibility indicator determines whether routes will be rendered as children of either the [PublicRoutes](../reference/routing/publicRoutes.md) or [ProtectedRoutes](../reference/routing/protectedRoutes.md) placeholders and whether the [usePublicDataQueries](../reference/tanstack-query/usePublicDataQueries.md) or [useProtectedDataQueries](../reference/tanstack-query/useProtectedDataQueries.md) hooks should execute their requests. If the initially requested route is marked as `protected` and both hooks are defined, each query hook will execute its respective requests. However, if the route is marked as `public`, only the `usePublicDataQueries` hook will execute its requests.
 
-When a route is registered with the [registerRoute](../reference/runtime/runtime-class.md#register-routes) function, it is considered `protected` by default. Therefore, if a route does not rely on the application's global protected data, it should be explicitly registered as `public` using the [registerPublicRoute](../reference/runtime/runtime-class.md#register-a-public-route) function:
+When a route is registered with the [registerRoute](../reference/runtime/FireflyRuntime.md#register-routes) function, it is considered `protected` by default. Therefore, if a route does not rely on the application's global protected data, it should be explicitly registered as `public` using the [registerPublicRoute](../reference/runtime/FireflyRuntime.md#register-a-public-route) function:
 
 ```tsx !#6 local-module/src/register.tsx
 import type { ModuleRegisterFunction, FireflyRuntime } from "@squide/firefly";

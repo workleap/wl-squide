@@ -46,7 +46,7 @@ const Remotes = [
 
 ## Update the runtime mode
 
-Don't forget to change the [runtime mode](../reference/runtime/runtime-class.md#change-the-runtime-mode) to `production`:
+Don't forget to change the [runtime mode](../reference/runtime/FireflyRuntime.md#change-the-runtime-mode) to `production`:
 
 ```ts !#4
 import { initializeFirefly } from "@squide/firefly";

@@ -6,7 +6,7 @@ toc:
 
 # getEnvironmentVariablesPlugin
 
-Return an instance of [EnvironmentVariablesPlugin](./EnvironmentVariablesPlugin.md) from the list of plugins registered with a [Runtime](../runtime/runtime-class.md) instance.
+Return an instance of [EnvironmentVariablesPlugin](./EnvironmentVariablesPlugin.md) from the list of plugins registered with a [Runtime](../runtime/FireflyRuntime.md) instance.
 
 ## Reference
 

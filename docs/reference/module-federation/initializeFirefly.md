@@ -23,7 +23,7 @@ const runtime = initializeFirefly(options?: { localModules?, remotes?, startMsw?
 
 ### Returns
 
-A [FireflyRuntime](../runtime/runtime-class.md) instance.
+A [FireflyRuntime](../runtime/FireflyRuntime.md) instance.
 
 ## Usage
 

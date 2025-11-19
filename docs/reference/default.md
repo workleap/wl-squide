@@ -14,7 +14,7 @@ toc:
 
 ### Runtime
 
-- [FireflyRuntime class](./runtime/runtime-class.md)
+- [FireflyRuntime class](./runtime/FireflyRuntime.md)
 - [FireflyProvider](./runtime/FireflyProvider.md)
 - [useRuntime](./runtime/useRuntime.md)
 - [useRuntimeMode](./runtime/useRuntimeMode.md)

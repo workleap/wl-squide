@@ -11,9 +11,9 @@ toc:
 If you are migrating from `v8.*`, follow the [Migrate from v8.* to v15.0](./migrate-from-v8-to-v15.0.md) guide.
 !!!
 
-This major version introduces a new [initializeFirefly](../reference/registration/initializeFirefly.md) function, replacing the `bootstrap` function. This new `initializeFirefly` function is similar the previous `bootstrap` function with the addition that it takes care of creating and returning a [Runtime](../reference/runtime/runtime-class.md) instance.
+This major version introduces a new [initializeFirefly](../reference/registration/initializeFirefly.md) function, replacing the `bootstrap` function. This new `initializeFirefly` function is similar the previous `bootstrap` function with the addition that it takes care of creating and returning a [Runtime](../reference/runtime/FireflyRuntime.md) instance.
 
-This major version introduces a new [initializeFirefly](../reference/registration/initializeFirefly.md) function that replaces the legacy `bootstrap` function. In addition to providing similar functionality, `initializeFirefly` creates and returns a [Runtime](../reference/runtime/runtime-class.md) instance.
+This major version introduces a new [initializeFirefly](../reference/registration/initializeFirefly.md) function that replaces the legacy `bootstrap` function. In addition to providing similar functionality, `initializeFirefly` creates and returns a [Runtime](../reference/runtime/FireflyRuntime.md) instance.
 
 ## Breaking changes
 
@@ -24,7 +24,7 @@ This major version introduces a new [initializeFirefly](../reference/registratio
 
 ### Replaced `bootstrap` by `initializeFirefly`
 
-The `bootstrap` function has been replaced by the [initializeFirefly](../reference/registration/initializeFirefly.md) function. This new function behaves similarly to the former `bootstrap function, accepting all its previous arguments, but additionally creates and returns a [Runtime](../reference/runtime/runtime-class.md) instance.
+The `bootstrap` function has been replaced by the [initializeFirefly](../reference/registration/initializeFirefly.md) function. This new function behaves similarly to the former `bootstrap function, accepting all its previous arguments, but additionally creates and returns a [Runtime](../reference/runtime/FireflyRuntime.md) instance.
 
 Before:
 

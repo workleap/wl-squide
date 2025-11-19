@@ -56,7 +56,7 @@ By implementing this mechanism, the level of failure isolation achieved is **com
 
 ### Hoisted pages
 
-If your application is [hoisting pages](../reference/runtime/runtime-class.md#register-an-hoisted-route), it's important to note that they will be rendered outside of the host application's `ModuleErrorBoundary` component. To prevent breaking the entire application when an hoisted page encounters unhandled errors, it is highly recommended to declare a React Router's error boundary for each hoisted page as well, again using [errorElement](https://reactrouter.com/en/main/route/error-element):
+If your application is [hoisting pages](../reference/runtime/FireflyRuntime.md#register-an-hoisted-route), it's important to note that they will be rendered outside of the host application's `ModuleErrorBoundary` component. To prevent breaking the entire application when an hoisted page encounters unhandled errors, it is highly recommended to declare a React Router's error boundary for each hoisted page as well, again using [errorElement](https://reactrouter.com/en/main/route/error-element):
 
 ```tsx !#9,11 local-module/src/register.tsx
 import { type ModuleRegisterFunction, type FireflyRuntime } from "@squide/firefly";

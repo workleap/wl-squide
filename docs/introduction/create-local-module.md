@@ -76,7 +76,7 @@ Finally, add the following `peerDependencies`:
 
 ### Routes registration
 
-Next, register the local module routes and navigation items with [registerRoute](/reference/runtime/runtime-class.md#register-routes) and [registerNavigationItem](/reference/runtime/runtime-class.md#register-navigation-items) functions:
+Next, register the local module routes and navigation items with [registerRoute](/reference/runtime/FireflyRuntime.md#register-routes) and [registerNavigationItem](/reference/runtime/FireflyRuntime.md#register-navigation-items) functions:
 
 ```tsx !#5-8,10-14 local-module/src/register.tsx
 import type { ModuleRegisterFunction, FireflyRuntime } from "@squide/firefly";

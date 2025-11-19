@@ -20,7 +20,7 @@ pnpm add @squide/i18next i18next i18next-browser-languagedetector react-i18next
 
 ### Register the i18nextPlugin
 
-Then, update the host application boostrapping code to register an instance of the [i18nextplugin](../reference/i18next/i18nextPlugin.md) with the [FireflyRuntime](../reference/runtime/runtime-class.md) instance:
+Then, update the host application boostrapping code to register an instance of the [i18nextplugin](../reference/i18next/i18nextPlugin.md) with the [FireflyRuntime](../reference/runtime/FireflyRuntime.md) instance:
 
 ```tsx !#10-19 host/src/index.tsx
 import { createRoot } from "react-dom/client";
