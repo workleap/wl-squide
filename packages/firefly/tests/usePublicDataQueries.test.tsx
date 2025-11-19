@@ -1,3 +1,8 @@
+// IMPORTANT: Tests in this file cannot run concurrently because they use React Testing Library's
+// "render" function which renders components into a shared DOM environment (document.body). When tests run concurrently,
+// they all share the same DOM, causing queries like "screen.findByText()"" to find elements from other concurrent
+// tests. This is different from "renderHook" which can run concurrently because it doesn't render into the DOM.
+
 import type { Runtime } from "@squide/core";
 import { QueryClientProvider, type QueryClient } from "@tanstack/react-query";
 import { render, screen, waitFor } from "@testing-library/react";
