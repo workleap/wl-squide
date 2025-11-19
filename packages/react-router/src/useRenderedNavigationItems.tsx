@@ -1,7 +1,7 @@
 import { isNil } from "@squide/core";
 import { useMemo, type ReactNode } from "react";
 import type { LinkProps } from "react-router";
-import { isLinkItem, type NavigationItem, type NavigationLink, type NavigationSection, type RootNavigationItem } from "./navigationItemRegistry.ts";
+import { isLinkItem, type NavigationItem, type NavigationLink, type NavigationSection, type RootNavigationItem } from "./navigationItemRegistry2.ts";
 
 export interface NavigationLinkRenderProps {
     label: ReactNode;

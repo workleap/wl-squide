@@ -1,4 +1,4 @@
-import type { NonIndexRoute, Route } from "./routeRegistry.ts";
+import type { NonIndexRoute, Route } from "./routeRegistry2.ts";
 
 export const PublicRoutesOutletId = "__squide-public-routes-outlet__";
 

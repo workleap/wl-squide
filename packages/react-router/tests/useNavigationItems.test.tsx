@@ -3,7 +3,7 @@ import { renderHook } from "@testing-library/react";
 import { NoopLogger } from "@workleap/logging";
 import type { ReactNode } from "react";
 import { test } from "vitest";
-import { ReactRouterRuntime } from "../src/reactRouterRuntime.ts";
+import { ReactRouterRuntime } from "../src/reactRouterRuntime2.ts";
 import { useRuntimeNavigationItems } from "../src/useRuntimeNavigationItems.ts";
 
 function renderUseNavigationItemsHook(runtime: ReactRouterRuntime, menuId?: string) {

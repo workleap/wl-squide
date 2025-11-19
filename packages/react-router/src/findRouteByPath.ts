@@ -1,4 +1,4 @@
-import type { Route } from "./routeRegistry.ts";
+import type { Route } from "./routeRegistry2.ts";
 
 export function findRouteByPath(routes: Route[], path: string): Route | undefined {
     for (const route of routes.values()) {

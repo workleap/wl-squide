@@ -1,8 +1,8 @@
 import { NoopLogger } from "@workleap/logging";
 import { describe, test } from "vitest";
-import { isProtectedRoutesOutletRoute, isPublicRoutesOutletRoute, ProtectedRoutes, ProtectedRoutesOutletId, PublicRoutes, PublicRoutesOutletId } from "../src/outlets.ts";
-import { ReactRouterRuntime } from "../src/reactRouterRuntime.ts";
-import type { Route } from "../src/routeRegistry.ts";
+import { isProtectedRoutesOutletRoute, isPublicRoutesOutletRoute, ProtectedRoutes, ProtectedRoutesOutletId, PublicRoutes, PublicRoutesOutletId } from "../src/outlets2.ts";
+import { ReactRouterRuntime } from "../src/reactRouterRuntime2.ts";
+import type { Route } from "../src/routeRegistry2.ts";
 
 describe.concurrent("registerRoute", () => {
     describe.concurrent("outlets", () => {
