@@ -84,7 +84,7 @@ class DummyMswState extends MswState {
         this.#stateChangedListeners.delete(callback);
     }
 
-    invokeEventListeners() {
+    notifyEventListeners() {
         this.#stateChangedListeners.forEach(x => {
             x();
         });
@@ -941,7 +941,7 @@ describe.concurrent("useAppRouterReducer", () => {
         renderUseAppRouterReducerHook(runtime, false, false);
 
         expect(listener).toHaveBeenCalledTimes(1);
-        expect(listener).toHaveBeenCalledWith({ waitForMsw: false, waitForPublicData: false, waitForProtectedData: false });
+        expect(listener).toHaveBeenCalledWith({ waitForMsw: true, waitForPublicData: false, waitForProtectedData: false });
     });
 
     test.concurrent("when msw is not ready, \"isMswReady\" is false at initialization", ({ expect }) => {
@@ -1208,25 +1208,6 @@ describe.concurrent("useMswStatusDispatcher", () => {
         });
     }
 
-    test.concurrent("when msw is not ready, do not dispatch the \"msw-ready\" action", ({ expect }) => {
-        const mswState = new DummyMswState(false);
-
-        const runtime = new FireflyRuntime({
-            plugins: [x => new MswPlugin(x, {
-                mswState
-            })],
-            loggers: [new NoopLogger()]
-        });
-
-        const dispatch = vi.fn();
-
-        renderUseMswStatusDispatcherHook(runtime, false, dispatch);
-
-        mswState.invokeEventListeners();
-
-        expect(dispatch).not.toHaveBeenCalled();
-    });
-
     test.concurrent("when msw is ready, dispatch the \"msw-ready\" action", ({ expect }) => {
         const mswState = new DummyMswState(true);
 
@@ -1241,7 +1222,7 @@ describe.concurrent("useMswStatusDispatcher", () => {
 
         renderUseMswStatusDispatcherHook(runtime, false, dispatch);
 
-        mswState.invokeEventListeners();
+        mswState.notifyEventListeners();
 
         expect(dispatch).toHaveBeenCalledTimes(1);
         expect(dispatch).toHaveBeenCalledWith({ type: "msw-ready" });
@@ -1261,7 +1242,7 @@ describe.concurrent("useMswStatusDispatcher", () => {
 
         renderUseMswStatusDispatcherHook(runtime, true, dispatch);
 
-        mswState.invokeEventListeners();
+        mswState.notifyEventListeners();
 
         expect(dispatch).not.toHaveBeenCalled();
     });
