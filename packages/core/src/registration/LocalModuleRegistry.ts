@@ -1,7 +1,7 @@
 import type { RootLogger } from "@workleap/logging";
-import type { Runtime } from "../runtime/runtime2.ts";
+import type { Runtime } from "../runtime/Runtime.ts";
 import { isFunction } from "../shared/assertions.ts";
-import { ModuleRegistrationError, type ModuleRegistrationStatus, type ModuleRegistrationStatusChangedListener, type ModuleRegistry, type RegisterModulesOptions } from "./moduleRegistry2.ts";
+import { ModuleRegistrationError, type ModuleRegistrationStatus, type ModuleRegistrationStatusChangedListener, type ModuleRegistry, type RegisterModulesOptions } from "./ModuleRegistry.ts";
 import { registerModule, type DeferredRegistrationFunction, type ModuleRegisterFunction } from "./registerModule.ts";
 
 export const LocalModuleRegistryId = "local";

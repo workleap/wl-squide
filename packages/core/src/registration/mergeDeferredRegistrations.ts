@@ -1,4 +1,4 @@
-import type { Runtime } from "../runtime/runtime2.ts";
+import type { Runtime } from "../runtime/Runtime.ts";
 import { isFunction } from "../shared/assertions.ts";
 import type { DeferredRegistrationFunction } from "./registerModule.ts";
 

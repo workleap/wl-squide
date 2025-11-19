@@ -1,4 +1,4 @@
-export * from "./shared/assertions.ts";
+export { isDefined, isFunction, isNil, isNilOrEmpty, isNull, isPlainObject, isUndefined } from "./shared/assertions.ts";
 
 export {
     RootMenuId,
@@ -16,17 +16,17 @@ export {
     type RuntimeOptions,
     type StartDeferredRegistrationScopeOptions,
     type ValidateRegistrationsOptions
-} from "./runtime/runtime2.ts";
+} from "./runtime/Runtime.ts";
 
-export * from "./runtime/RuntimeContext.ts";
-export * from "./runtime/useEventBus.ts";
-export * from "./runtime/useLogger.ts";
-export * from "./runtime/usePlugin.ts";
-export * from "./runtime/useRuntimeMode.ts";
+export { RuntimeContext, useRuntime } from "./runtime/RuntimeContext.ts";
+export { useEventBus } from "./runtime/useEventBus.ts";
+export { useLogger } from "./runtime/useLogger.ts";
+export { usePlugin } from "./runtime/usePlugin.ts";
+export { useRuntimeMode } from "./runtime/useRuntimeMode.ts";
 
-export * from "./messaging/eventBus2.ts";
-export * from "./messaging/useEventBusDispatcher.ts";
-export * from "./messaging/useEventBusListener.ts";
+export { type AddListenerOptions, type EventBus, type EventCallbackFunction, type EventName, type RemoveListenerOptions } from "./messaging/EventBus.ts";
+export { useEventBusDispatcher } from "./messaging/useEventBusDispatcher.ts";
+export { useEventBusListener } from "./messaging/useEventBusListener.ts";
 
 export {
     LocalModuleDeferredRegistrationFailedEvent,
@@ -47,10 +47,10 @@ export {
     type LocalModulesRegistrationCompletedEventPayload,
     type LocalModulesRegistrationStartedEventPayload
 } from "./registration/LocalModuleRegistry.ts";
-export * from "./registration/mergeDeferredRegistrations.ts";
+export { mergeDeferredRegistrations } from "./registration/mergeDeferredRegistrations.ts";
 export { ModuleManager, type ModuleDefinition, type ModuleRegistrationStatusListener } from "./registration/ModuleManager.ts";
-export * from "./registration/moduleRegistry2.ts";
-export * from "./registration/registerModule.ts";
+export { ModuleRegistrationError, ModuleRegistry, type ModuleRegistrationStatus, type ModuleRegistrationStatusChangedListener, type RegisterModulesOptions } from "./registration/ModuleRegistry.ts";
+export { registerModule, type DeferredRegistrationFunction, type DeferredRegistrationOperation, type ModuleRegisterFunction } from "./registration/registerModule.ts";
 
-export * from "./plugins/plugin.ts";
+export { Plugin } from "./plugins/Plugin.ts";
 

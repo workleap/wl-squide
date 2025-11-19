@@ -1,4 +1,4 @@
-import type { EventBus, EventName } from "../messaging/eventBus2.ts";
+import type { EventBus, EventName } from "../messaging/EventBus.ts";
 
 import { useRuntime } from "./RuntimeContext.ts";
 

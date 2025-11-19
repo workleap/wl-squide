@@ -2,7 +2,7 @@ import { NoopLogger } from "@workleap/logging";
 import { test, vi } from "vitest";
 import { mergeDeferredRegistrations } from "../src/registration/mergeDeferredRegistrations.ts";
 import type { DeferredRegistrationFunction } from "../src/registration/registerModule.ts";
-import { Runtime } from "../src/runtime/runtime2.ts";
+import { Runtime } from "../src/runtime/Runtime.ts";
 
 class DummyRuntime extends Runtime {
     registerRoute() {
