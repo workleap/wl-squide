@@ -78,8 +78,8 @@ Next, to register the modules, instanciate a shell [FireflyRuntime](/reference/r
 
 ```tsx !#12-14 host/src/bootstrap.tsx
 import { createRoot } from "react-dom/client";
-import { FireflyProvider, type RemoteDefinition } from "@squide/firefly";
-import { initializeFirefly } from "@squide/firefly-module-federation";
+import { FireflyProvider } from "@squide/firefly";
+import { initializeFirefly, type RemoteDefinition } from "@squide/firefly-module-federation";
 import { App } from "./App.tsx";
 
 // Define the remote modules.
@@ -252,8 +252,8 @@ Finally, update the bootstrapping code to register the newly created local modul
 
 ```tsx !#14 host/src/bootstrap.tsx
 import { createRoot } from "react-dom/client";
-import { FireflyProvider, type RemoteDefinition } from "@squide/firefly";
-import { initializeFirefly } from "@squide/firefly-module-federation";
+import { FireflyProvider } from "@squide/firefly";
+import { initializeFirefly, type RemoteDefinition } from "@squide/firefly-module-federation";
 import { App } from "./App.tsx";
 import { registerHost } from "./register.tsx";
 

@@ -29,8 +29,9 @@ A [FireflyRuntime](../runtime/runtime-class.md) instance.
 
 ### Register a remote module
 
-```tsx !#5-7,10 host/src/bootstrap.tsx
-import { FireflyProvider, initializeFirefly, type RemoteDefinition } from "@squide/firefly";
+```tsx !#6-8,11 host/src/bootstrap.tsx
+import { FireflyProvider } from "@squide/firefly";
+import { FireflyProvider, initializeFirefly, type RemoteDefinition } from "@squide/firefly-module-federation";
 import { createRoot } from "react";
 import { App } from "./App.tsx";
 
