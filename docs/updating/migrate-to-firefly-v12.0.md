@@ -20,7 +20,7 @@ This major version introduces a new [initializeFirefly](../reference/registratio
 ### Removed
 
 - The `bootstrap` function has been removed, use the [initializeFirefly](../reference/registration/initializeFirefly.md) function instead.
-- The `waitForMsw` property has been removed from the [AppRouter](../reference/routing/appRouter.md) component.
+- The `waitForMsw` property has been removed from the [AppRouter](../reference/routing/AppRouter.md) component.
 
 ### Replaced `bootstrap` by `initializeFirefly`
 

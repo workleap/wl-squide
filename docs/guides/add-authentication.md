@@ -158,7 +158,7 @@ export function Login() {
 }
 ```
 
-After the user logs in, the application is reloaded, this is a requirement of the [AppRouter](../reference/routing/appRouter.md) component. Nevertheless, it's not a concern because Workleap's applications use a third-party service for authentication which requires a full refresh of the application.
+After the user logs in, the application is reloaded, this is a requirement of the [AppRouter](../reference/routing/AppRouter.md) component. Nevertheless, it's not a concern because Workleap's applications use a third-party service for authentication which requires a full refresh of the application.
 
 ## Create a session manager
 

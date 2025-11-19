@@ -101,7 +101,7 @@ root.render(
 );
 ```
 
-Then, render the [AppRouter](../reference/routing/appRouter.md) component to define a React Router [browser instance](https://reactrouter.com/en/main/routers/create-browser-router) configured with the registered routes:
+Then, render the [AppRouter](../reference/routing/AppRouter.md) component to define a React Router [browser instance](https://reactrouter.com/en/main/routers/create-browser-router) configured with the registered routes:
 
 ```tsx !#5-23 host/src/App.tsx
 import { AppRouter } from "@squide/firefly";

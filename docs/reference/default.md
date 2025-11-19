@@ -71,7 +71,7 @@ toc:
 
 ### Plugins
 
-- [Plugin](./plugins/plugin.md)
+- [Plugin](./plugins/Plugin.md)
 
 ### Fakes
 

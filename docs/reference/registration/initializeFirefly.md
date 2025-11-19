@@ -171,7 +171,7 @@ const runtime = initializeFirefly({
 });
 ```
 
-[!ref Learn more about plugins](../plugins/plugin.md)
+[!ref Learn more about plugins](../plugins/Plugin.md)
 
 ### Defer the registration of navigation items
 

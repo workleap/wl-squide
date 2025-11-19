@@ -17,7 +17,7 @@ Although this migration guide is labeled for version `9.0.0`, it is actually int
 We apologize for the confusion.
 !!!
 
-This major version of `@squide/firefly` introduces [TanStack Query](https://tanstack.com/query/latest) as the official library for fetching the global data of a Squide's application and features a complete rewrite of the [AppRouter](../reference/routing/appRouter.md) component, which now uses a state machine to manage the application's bootstrapping flow.
+This major version of `@squide/firefly` introduces [TanStack Query](https://tanstack.com/query/latest) as the official library for fetching the global data of a Squide's application and features a complete rewrite of the [AppRouter](../reference/routing/AppRouter.md) component, which now uses a state machine to manage the application's bootstrapping flow.
 
 Prior to `v9.0`, Squide applications couldn't use TanStack Query to fetch global data, making it **challenging** for Workleap's applications to **keep** their **global data** in **sync** with the **server state**. With `v9.0`, applications can now leverage [custom wrappers](../guides/fetch-global-data.md) of the TanStack Query's [useQueries](https://tanstack.com/query/latest/docs/framework/react/reference/useQueries) hook to fetch and keep their global data up-to-date with the server state. Additionally, the new [deferred registrations update](../reference/registration/useDeferredRegistrations.md#register-or-update-deferred-registrations) feature allows applications to even **keep** their conditional **navigation items in sync** with the **server state**.
 
@@ -157,7 +157,7 @@ const runtime = new FireflyRuntime({
 
 ### Rewrite of the `AppRouter` component
 
-This release features a full rewrite of the [AppRouter](../reference/routing/appRouter.md) component. The `AppRouter` component used to handle many concerns like global data fetching, deferred registrations, error handling and a loading state. Those concerns have been delegated to the consumer code, supported by the new [useIsBootstrapping](../reference/routing/useIsBootstrapping.md), [usePublicDataQueries](../reference/tanstack-query/usePublicDataQueries.md), [useProtectedDataQueries](../reference/tanstack-query/useProtectedDataQueries.md) and [useDeferredRegistrations](../reference/registration/useDeferredRegistrations.md) hooks.
+This release features a full rewrite of the [AppRouter](../reference/routing/AppRouter.md) component. The `AppRouter` component used to handle many concerns like global data fetching, deferred registrations, error handling and a loading state. Those concerns have been delegated to the consumer code, supported by the new [useIsBootstrapping](../reference/routing/useIsBootstrapping.md), [usePublicDataQueries](../reference/tanstack-query/usePublicDataQueries.md), [useProtectedDataQueries](../reference/tanstack-query/useProtectedDataQueries.md) and [useDeferredRegistrations](../reference/registration/useDeferredRegistrations.md) hooks.
 
 Before:
 

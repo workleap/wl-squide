@@ -99,7 +99,7 @@ The event bus is also available from the [FireflyRuntime](../reference/runtime/F
 
 ## Plugins
 
-To keep Squide lightweight, not all functionalities should be integrated as a core functionality. However, to accommodate a broad range of technologies, a [plugin system](../reference/plugins/plugin.md) has been implemented to fill the gap.
+To keep Squide lightweight, not all functionalities should be integrated as a core functionality. However, to accommodate a broad range of technologies, a [plugin system](../reference/plugins/Plugin.md) has been implemented to fill the gap.
 
 Plugins can be registered at bootstrapping with the [FireflyRuntime](../reference/runtime/FireflyRuntime.md) instance:
 

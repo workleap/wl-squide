@@ -533,7 +533,7 @@ const runtime = new FireflyRuntime({
 });
 ```
 
-[!ref Learn more about plugins](../plugins/plugin.md)
+[!ref Learn more about plugins](../plugins/Plugin.md)
 
 ### Retrieve a plugin
 
@@ -544,4 +544,4 @@ import { MyPlugin } from "@sample/my-plugin";
 const plugin = runtime.getPlugin(MyPlugin.name) as MyPlugin;
 ```
 
-[!ref Learn more about plugins](../plugins/plugin.md)
+[!ref Learn more about plugins](../plugins/Plugin.md)

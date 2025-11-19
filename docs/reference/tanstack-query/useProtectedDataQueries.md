@@ -154,7 +154,7 @@ export function isApiError(error?: unknown): error is ApiError {
 
 #### `waitForProtectedData` & `useIsBootstrapping`
 
-To ensure the `AppRouter` component wait for the protected data to be ready before rendering the requested route, set the [waitForProtectedData](../routing/appRouter.md#delay-rendering-until-the-protected-data-is-ready) property to `true`.
+To ensure the `AppRouter` component wait for the protected data to be ready before rendering the requested route, set the [waitForProtectedData](../routing/AppRouter.md#delay-rendering-until-the-protected-data-is-ready) property to `true`.
 
 Combine this hook with the [useIsBootstrapping](../routing/useIsBootstrapping.md) hook to display a loader until the protected data is fetched and the application is ready.
 
