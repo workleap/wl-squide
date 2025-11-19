@@ -1,4 +1,3 @@
-export * from "./mswPlugin2.ts";
-export * from "./mswState.ts";
-export * from "./requestHandlerRegistry2.ts";
+export { getMswPlugin, MswPlugin, MswPluginName, type MswPluginOptions, type MswPluginRegisterRequestHandlersOptions } from "./MswPlugin.ts";
+export { type MswReadyListener, type MswState } from "./MswState.ts";
 

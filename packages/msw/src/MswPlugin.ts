@@ -1,8 +1,8 @@
 import { Plugin, isNil, type Runtime } from "@squide/core";
 import type { Logger } from "@workleap/logging";
 import type { RequestHandler } from "msw";
-import { MswState } from "./mswState2.ts";
-import { RequestHandlerRegistry } from "./requestHandlerRegistry2.ts";
+import { MswState } from "./MswState.ts";
+import { RequestHandlerRegistry } from "./RequestHandlerRegistry.ts";
 
 export const MswPluginName = "msw-plugin";
 

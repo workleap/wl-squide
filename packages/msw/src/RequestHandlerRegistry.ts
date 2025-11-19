@@ -1,5 +1,5 @@
 import type { RequestHandler } from "msw";
-import { MswState } from "./mswState2.ts";
+import { MswState } from "./MswState.ts";
 
 export class RequestHandlerRegistry {
     readonly #mswState: MswState;

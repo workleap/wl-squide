@@ -18,10 +18,18 @@
                 "types": "./dist/index.d.ts",
                 "import": "./dist/index.js",
                 "default": "./dist/index.js"
+            },
+            "./internal": {
+                "types": "./dist/internal.d.ts",
+                "import": "./dist/internal.js",
+                "default": "./dist/internal.js"
             }
         }
     },
-    "exports": "./src/index.ts",
+    "exports": {
+        ".": "./src/index.ts",
+        "./internal": "./src/internal.ts"
+    },
     "files": [
         "src",
         "dist",

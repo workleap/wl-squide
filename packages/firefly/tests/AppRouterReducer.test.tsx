@@ -1,5 +1,6 @@
 import { ModuleManager, type ModuleRegistrationError, type ModuleRegistrationStatus, type ModuleRegistrationStatusChangedListener, type ModuleRegistry, type Runtime } from "@squide/core";
-import { MswPlugin, MswState, type MswReadyListener } from "@squide/msw";
+import { MswPlugin, type MswReadyListener } from "@squide/msw";
+import { MswState } from "@squide/msw/internal";
 import { act, renderHook, type RenderHookOptions } from "@testing-library/react";
 import { NoopLogger } from "@workleap/logging";
 import type { ReactNode } from "react";

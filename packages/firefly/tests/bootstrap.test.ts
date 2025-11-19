@@ -1,5 +1,6 @@
 import { ModuleRegistrationError, toLocalModuleDefinitions } from "@squide/core";
-import { MswPlugin, MswState } from "@squide/msw";
+import { MswPlugin } from "@squide/msw";
+import { MswState } from "@squide/msw/internal";
 import { NoopLogger } from "@workleap/logging";
 import { test, vi } from "vitest";
 import { FireflyRuntime } from "../src/FireflyRuntime.tsx";
