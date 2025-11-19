@@ -1,5 +1,5 @@
 import { createCompositeLogger, type Logger, type RootLogger } from "@workleap/logging";
-import { EventBus } from "../messaging/eventBus.ts";
+import { EventBus } from "../messaging/eventBus2.ts";
 import type { Plugin } from "../plugins/plugin.ts";
 import { LocalModuleRegistry } from "../registration/LocalModuleRegistry.ts";
 import { ModuleManager } from "../registration/ModuleManager.ts";

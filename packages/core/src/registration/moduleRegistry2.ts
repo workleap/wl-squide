@@ -1,4 +1,4 @@
-import type { Runtime } from "../runtime/runtime.ts";
+import type { Runtime } from "../runtime/runtime2.ts";
 
 export type ModuleRegistrationStatus = "none" | "registering-modules" | "modules-registered" | "registering-deferred-registration" | "ready";
 

@@ -1,5 +1,5 @@
-import { Runtime } from "../runtime/runtime.ts";
-import { ModuleRegistrationError, ModuleRegistry, RegisterModulesOptions } from "./moduleRegistry.ts";
+import { Runtime } from "../runtime/runtime2.ts";
+import { ModuleRegistrationError, ModuleRegistry, RegisterModulesOptions } from "./moduleRegistry2.ts";
 import { ModuleRegisterFunction } from "./registerModule.ts";
 
 export type ModuleRegistrationStatusListener = () => void;

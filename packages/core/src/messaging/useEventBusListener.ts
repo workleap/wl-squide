@@ -1,4 +1,4 @@
-import type { AddListenerOptions, EventCallbackFunction, EventName } from "./eventBus.ts";
+import type { AddListenerOptions, EventCallbackFunction, EventName } from "./eventBus2.ts";
 
 import { useEffect } from "react";
 import { useEventBus } from "../runtime/useEventBus.ts";
