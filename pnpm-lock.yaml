@@ -854,6 +854,9 @@ importers:
       '@squide/firefly':
         specifier: workspace:*
         version: link:../../../packages/firefly
+      '@squide/firefly-module-federation':
+        specifier: workspace:*
+        version: link:../../../packages/firefly-module-federation
       '@tanstack/react-query':
         specifier: 5.90.5
         version: 5.90.5(react@19.2.0)
@@ -1310,6 +1313,9 @@ importers:
       '@squide/firefly':
         specifier: workspace:*
         version: link:../../../packages/firefly
+      '@squide/firefly-module-federation':
+        specifier: workspace:*
+        version: link:../../../packages/firefly-module-federation
       '@tanstack/react-query':
         specifier: 5.90.5
         version: 5.90.5(react@19.2.0)
@@ -1781,6 +1787,9 @@ importers:
       '@squide/firefly':
         specifier: workspace:*
         version: link:../../../packages/firefly
+      '@squide/firefly-module-federation':
+        specifier: workspace:*
+        version: link:../../../packages/firefly-module-federation
       '@tanstack/react-query':
         specifier: 5.90.5
         version: 5.90.5(react@19.2.0)

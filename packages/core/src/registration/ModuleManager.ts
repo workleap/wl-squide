@@ -175,9 +175,9 @@ export class ModuleManager {
         if (onChange) {
             this.moduleRegistries.forEach(x => {
                 x.removeStatusChangedListener(onChange);
-
-                this.listenerRefs.delete(callback);
             });
+
+            this.listenerRefs.delete(callback);
         }
     }
 
@@ -187,5 +187,9 @@ export class ModuleManager {
 
     removeModulesReadyListener(callback: ModuleRegistrationStatusListener) {
         this.#removeRegistrationStatusListener(callback);
+    }
+
+    get listenersCount() {
+        return this.listenerRefs.size;
     }
 }
