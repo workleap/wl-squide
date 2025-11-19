@@ -1,4 +1,4 @@
-export * from "./mswPlugin.ts";
+export * from "./mswPlugin2.ts";
 export * from "./mswState.ts";
-export * from "./requestHandlerRegistry.ts";
+export * from "./requestHandlerRegistry2.ts";
 
