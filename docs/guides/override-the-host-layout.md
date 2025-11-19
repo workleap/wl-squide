@@ -22,9 +22,9 @@ root
 
 Package managers supporting workspaces such as Yarn and NPM call this mechanism "hoisting", which means "raise (something) by means of ropes and pulleys". This is exactly what we are trying to achieve here.
 
-Squide has a built-in [hoist](../reference/runtime/runtime-class.md#register-an-hoisted-route) functionality capable of raising module routes marked as `hoist` at the root of the routes array, before the `RootLayout` declaration. Thus, an hoisted route will not be wrapped by the `RootLayout` component (or any authentication boundaries) and will have full control over its rendering.
+Squide has a built-in [hoist](../reference/runtime/FireflyRuntime.md#register-an-hoisted-route) functionality capable of raising module routes marked as `hoist` at the root of the routes array, before the `RootLayout` declaration. Thus, an hoisted route will not be wrapped by the `RootLayout` component (or any authentication boundaries) and will have full control over its rendering.
 
-To hoist module routes, add the [hoist](../reference/runtime/runtime-class.md#register-an-hoisted-route) option to the route registration options and optionally use a different layout:
+To hoist module routes, add the [hoist](../reference/runtime/FireflyRuntime.md#register-an-hoisted-route) option to the route registration options and optionally use a different layout:
 
 ```tsx !#9,14,24 local-module/src/register.tsx
 import type { ModuleRegisterFunction, FireflyRuntime } from "@squide/firefly";

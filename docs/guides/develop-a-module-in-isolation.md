@@ -43,7 +43,7 @@ First, create a new package (we'll refer to ours as `shell`) and add the followi
 }
 ```
 
-Then, install the package dependencies and create an `AppRouter` component in the shell package to provide a **reusable router configuration** that can be shared between the host application and the isolated modules. This new `AppRouter` component should wrap the `@squide/firefly` [AppRouter](../reference/routing/appRouter.md) component:
+Then, install the package dependencies and create an `AppRouter` component in the shell package to provide a **reusable router configuration** that can be shared between the host application and the isolated modules. This new `AppRouter` component should wrap the `@squide/firefly` [AppRouter](../reference/routing/AppRouter.md) component:
 
 ```tsx !#6-25 shell/src/AppRouter.tsx
 import { AppRouter as FireflyAppRouter } from "@squide/firefly";

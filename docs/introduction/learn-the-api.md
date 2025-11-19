@@ -37,7 +37,7 @@ const runtime = initializeFirefly({
 });
 ```
 
-By default, the runtime [mode](../reference/runtime/runtime-class.md#change-the-runtime-mode) is `development`.
+By default, the runtime [mode](../reference/runtime/FireflyRuntime.md#change-the-runtime-mode) is `development`.
 
 ## Logging
 
@@ -64,7 +64,7 @@ const logger = useLogger();
 logger.debug("Hello!");
 ```
 
-The logger is also available from the [FireflyRuntime](../reference/runtime/runtime-class.md#log-a-message) instance.
+The logger is also available from the [FireflyRuntime](../reference/runtime/FireflyRuntime.md#log-a-message) instance.
 
 ## Messaging
 
@@ -95,13 +95,13 @@ dispatch("foo", "bar");
 
 You can use the event bus to enable various communication scenarios, such as notifying components of state changes, broadcasting messages across modules, or triggering actions based on specific events.
 
-The event bus is also available from the [FireflyRuntime](../reference/runtime/runtime-class.md#use-the-event-bus) instance.
+The event bus is also available from the [FireflyRuntime](../reference/runtime/FireflyRuntime.md#use-the-event-bus) instance.
 
 ## Plugins
 
-To keep Squide lightweight, not all functionalities should be integrated as a core functionality. However, to accommodate a broad range of technologies, a [plugin system](../reference/plugins/plugin.md) has been implemented to fill the gap.
+To keep Squide lightweight, not all functionalities should be integrated as a core functionality. However, to accommodate a broad range of technologies, a [plugin system](../reference/plugins/Plugin.md) has been implemented to fill the gap.
 
-Plugins can be registered at bootstrapping with the [FireflyRuntime](../reference/runtime/runtime-class.md) instance:
+Plugins can be registered at bootstrapping with the [FireflyRuntime](../reference/runtime/FireflyRuntime.md) instance:
 
 ```ts !#5 host/src/boostrap.tsx
 import { initializeFirefly } from "@squide/firefly";
@@ -121,7 +121,7 @@ import { MyPlugin } from "@sample/my-plugin";
 const myPlugin = usePlugin(MyPlugin.name) as MyPlugin;
 ```
 
-A plugin can also be retrieved from the [FireflyRuntime](../reference/runtime/runtime-class.md#retrieve-a-plugin) instance.
+A plugin can also be retrieved from the [FireflyRuntime](../reference/runtime/FireflyRuntime.md#retrieve-a-plugin) instance.
 
 > By default, the `FireflyRuntime` registers Squide's [MSW plugin](../guides/setup-msw.md). An optional [i18next plugin](../guides/setup-i18next.md) is available.
 

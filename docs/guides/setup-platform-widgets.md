@@ -12,7 +12,7 @@ First, open a terminal at the root of the solution and install the `@worleap-wid
 pnpm add @workleap-widgets/squide-firefly
 ```
 
-Then, import the `initializeWidgets` function from `@workleap-widgets/squide-firefly` in the host application, and call it with a Squide Firefly [runtime](../reference/runtime/runtime-class.md) instance to initialize the widgets:
+Then, import the `initializeWidgets` function from `@workleap-widgets/squide-firefly` in the host application, and call it with a Squide Firefly [runtime](../reference/runtime/FireflyRuntime.md) instance to initialize the widgets:
 
 ```tsx host/src/index.tsx
 import { initializeWidgets } from "@workleap-widgets/squide-firefly";

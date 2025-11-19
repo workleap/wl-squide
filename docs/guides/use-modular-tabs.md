@@ -45,7 +45,7 @@ export function TabsLayout() {
 
 In the previous code sample, the `TabsLayout` component is similar to the `RootLayout` component introduced in previous guides. However, the key distinction is that this layout will be bound to the `/tabs` URL path. By nesting the layout under a specific path, it will only render when the user navigates to one of the modular tab pages (e.g. `/tabs`, `/tabs/tab-1`, `/tabs/tab-2`, `/tabs/tab-3`).
 
-To register the newly created layout as a nested layout, use the [registerRoute](../reference/runtime/runtime-class.md#register-routes) function:
+To register the newly created layout as a nested layout, use the [registerRoute](../reference/runtime/FireflyRuntime.md#register-routes) function:
 
 ```tsx !#7-8 host/src/register.tsx
 import type { ModuleRegisterFunction, FireflyRuntime } from "@squide/firefly";
@@ -76,7 +76,7 @@ It is recommended to define the shared layouts in a standalone package as it's d
 
 ## Create the tab routes
 
-Next, let's add the actual tabs to the modules. To do so, we'll use the [parentPath](../reference/runtime/runtime-class.md#register-nested-routes) option of the [registerRoute](../reference/runtime/runtime-class.md#register-routes) function to register the routes under the `TabsLayout` component:
+Next, let's add the actual tabs to the modules. To do so, we'll use the [parentPath](../reference/runtime/FireflyRuntime.md#register-nested-routes) option of the [registerRoute](../reference/runtime/FireflyRuntime.md#register-routes) function to register the routes under the `TabsLayout` component:
 
 ```tsx !#7,10 local-module-1/src/register.tsx
 import type { ModuleRegisterFunction, FireflyRuntime } from "@squide/firefly";
@@ -155,7 +155,7 @@ Now that the tabs has been registered, ensure that all four modules are register
 
 Althought it's functional, the modules are currently coupled by hardcoded URLs within the `TabsLayout` component.
 
-To decouple the navigation items, similar to what is done for regular module's routes, we'll use the [registerNavigationItem](../reference/runtime/runtime-class.md#register-navigation-items) function. In this case, we'll specify a [menuId](../reference/runtime/runtime-class.md#register-navigation-items-for-a-specific-menu) option. Defining the `menuId` option will allow the `TabsLayout` component to exclusively retrieve the navigation items that belongs to him.
+To decouple the navigation items, similar to what is done for regular module's routes, we'll use the [registerNavigationItem](../reference/runtime/FireflyRuntime.md#register-navigation-items) function. In this case, we'll specify a [menuId](../reference/runtime/FireflyRuntime.md#register-navigation-items-for-a-specific-menu) option. Defining the `menuId` option will allow the `TabsLayout` component to exclusively retrieve the navigation items that belongs to him.
 
 First, let's register the navigation items with the `menuId` option. For this example the `menuId` will be `/tabs` (it can be anything):
 

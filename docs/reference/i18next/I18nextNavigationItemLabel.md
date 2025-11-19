@@ -6,7 +6,7 @@ toc:
 
 # I18nextNavigationItemLabel
 
-A React component to localize the label of Squide [navigation items](../runtime/runtime-class.md#register-navigation-items).
+A React component to localize the label of Squide [navigation items](../runtime/FireflyRuntime.md#register-navigation-items).
 
 ## Reference
 

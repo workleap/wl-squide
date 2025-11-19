@@ -8,7 +8,7 @@ toc:
 
 Determine whether or not a route is considered as `protected`.
 
-> To take advantage of this hook, make sure to add a [$visibility](../runtime/runtime-class.md#register-a-public-route) hint to your public pages.
+> To take advantage of this hook, make sure to add a [$visibility](../runtime/FireflyRuntime.md#register-a-public-route) hint to your public pages.
 
 ## Reference
 

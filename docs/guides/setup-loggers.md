@@ -4,7 +4,7 @@ order: 760
 
 # Setup loggers
 
-By default, when running in [development mode](../reference/runtime/runtime-class.md#change-the-runtime-mode), a [BrowserConsoleLogger](https://workleap.github.io/wl-logging/reference/browserconsolelogger/) is automatically added if no custom loggers are provided through the `loggers` option of the [initializeFirefly](../reference/registration/initializeFirefly.md) function.
+By default, when running in [development mode](../reference/runtime/FireflyRuntime.md#change-the-runtime-mode), a [BrowserConsoleLogger](https://workleap.github.io/wl-logging/reference/browserconsolelogger/) is automatically added if no custom loggers are provided through the `loggers` option of the [initializeFirefly](../reference/registration/initializeFirefly.md) function.
 
 ## Use a custom logger
 
@@ -31,7 +31,7 @@ root.render(
 
 ## Enable console logging in production
 
-To log to the browser console when Squide is running in [production mode](../reference/runtime/runtime-class.md#change-the-runtime-mode), first, open a terminal at the root of the host application and install the [@workleap/logging](https://www.npmjs.com/package/@workleap/logging) package:
+To log to the browser console when Squide is running in [production mode](../reference/runtime/FireflyRuntime.md#change-the-runtime-mode), first, open a terminal at the root of the host application and install the [@workleap/logging](https://www.npmjs.com/package/@workleap/logging) package:
 
 ``` bash
 pnpm add @workleap/logging
@@ -114,7 +114,7 @@ root.render(
 
 ## Custom logs
 
-Once loggers are configured, the application can output custom log entries using either the [useLogger](../reference/runtime/useLogger.md) hook or the [FireflyRuntime](../reference/runtime/runtime-class.md#log-a-message) instance:
+Once loggers are configured, the application can output custom log entries using either the [useLogger](../reference/runtime/useLogger.md) hook or the [FireflyRuntime](../reference/runtime/FireflyRuntime.md#log-a-message) instance:
 
 ```ts !#3,5
 import { useLogger } from "@squide/firefly";

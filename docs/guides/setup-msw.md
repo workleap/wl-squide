@@ -123,7 +123,7 @@ export const requestHandlers: HttpHandler[] = [
 ];
 ```
 
-Finally, register the request handler with the [FireflyRuntime](../reference/runtime/runtime-class.md) instance:
+Finally, register the request handler with the [FireflyRuntime](../reference/runtime/FireflyRuntime.md) instance:
 
 ```ts !#4,7,9 relocalmote-module/src/register.tsx
 import type { ModuleRegisterFunction, FireflyRuntime } from "@squide/firefly"; 

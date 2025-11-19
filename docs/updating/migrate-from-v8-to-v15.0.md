@@ -13,7 +13,7 @@ This migration guide is an aggregation of all the changes that happened between 
 
 :icon-checklist: [Migrate to firefly v9.0](./migrate-to-firefly-v9.0.md)
 
-This major version of `@squide/firefly` introduces [TanStack Query](https://tanstack.com/query/latest) as the official library for fetching the global data of a Squide's application and features a complete rewrite of the [AppRouter](../reference/routing/appRouter.md) component, which now uses a state machine to manage the application's bootstrapping flow.
+This major version of `@squide/firefly` introduces [TanStack Query](https://tanstack.com/query/latest) as the official library for fetching the global data of a Squide's application and features a complete rewrite of the [AppRouter](../reference/routing/AppRouter.md) component, which now uses a state machine to manage the application's bootstrapping flow.
 
 Prior to `v9.0`, Squide applications couldn't use TanStack Query to fetch global data, making it **challenging** for Workleap's applications to **keep** their **global data** in **sync** with the **server state**. With `v9.0`, applications can now leverage [custom wrappers](../guides/fetch-global-data.md) of the TanStack Query's [useQueries](https://tanstack.com/query/latest/docs/framework/react/reference/useQueries) hook to fetch and keep their global data up-to-date with the server state. Additionally, the new [deferred registrations update](../reference/registration/useDeferredRegistrations.md#register-or-update-deferred-registrations) feature allows applications to even **keep** their conditional **navigation items in sync** with the **server state**.
 
@@ -41,7 +41,7 @@ This major version transform the `bootstrap` function from an async function a s
 
 :icon-checklist: [Migrate to firefly v12.0](./migrate-to-firefly-v12.0.md)
 
-This major version introduces a new [initializeFirefly](../reference/registration/initializeFirefly.md) function, replacing the `bootstrap` function. This new `initializeFirefly` function is similar to the previous `bootstrap` function with the addition that it takes care of creating and returning a [Runtime](../reference/runtime/runtime-class.md) instance and initializing other internal features of Squide.
+This major version introduces a new [initializeFirefly](../reference/registration/initializeFirefly.md) function, replacing the `bootstrap` function. This new `initializeFirefly` function is similar to the previous `bootstrap` function with the addition that it takes care of creating and returning a [Runtime](../reference/runtime/FireflyRuntime.md) instance and initializing other internal features of Squide.
 
 ### v13.0
 
@@ -73,14 +73,14 @@ This major version changes how Squide integrates with [Honeycomb](https://www.ho
 - The `completeRemoteModuleRegistrations` function has been removed use the [useDeferredRegistrations](../reference/registration/useDeferredRegistrations.md) hook instead.
 - The `useSession` hook has been removed, define your own React context instead.
 - The `useIsAuthenticated` hook has been removed, define your own React context instead.
-- The `sessionAccessor` option has been removed from the [FireflyRuntime](../reference/runtime/runtime-class.md) options, define your own React context instead.
+- The `sessionAccessor` option has been removed from the [FireflyRuntime](../reference/runtime/FireflyRuntime.md) options, define your own React context instead.
 - The `ManagedRoutes`placeholder has been removed, use [PublicRoutes](../reference/routing/publicRoutes.md) and [ProtectedRoutes](../reference/routing/protectedRoutes.md) instead.
 
 ### Renamed
 
 - The `setMswAsStarted` function has been renamed to [setMswIsReady](../reference/msw/setMswAsReady.md).
-- A route definition `$name` option has been renamed to [$id](../reference/runtime/runtime-class.md#register-a-route-with-an-id).
-- The [registerRoute](../reference/runtime/runtime-class.md#register-routes) `parentName` option has been renamed to [parentId](../reference/runtime/runtime-class.md#register-nested-routes).
+- A route definition `$name` option has been renamed to [$id](../reference/runtime/FireflyRuntime.md#register-a-route-with-an-id).
+- The [registerRoute](../reference/runtime/FireflyRuntime.md#register-routes) `parentName` option has been renamed to [parentId](../reference/runtime/FireflyRuntime.md#register-nested-routes).
 
 ### Dependencies updates
 
@@ -220,7 +220,7 @@ export class MyPlugin extends Plugin {
 
 ### Plugins now registers with a factory function
 
-Prior to `v9.0`, the [FireflyRuntime](../reference/runtime/runtime-class.md) accepted plugin instances as options. Now plugins should be registered with the [initializeFirefly](../reference/registration/initializeFirefly.md) function which accepts **factory functions** instead of plugin instances. This change allows plugins to receive the runtime instance as a constructor argument.
+Prior to `v9.0`, the [FireflyRuntime](../reference/runtime/FireflyRuntime.md) accepted plugin instances as options. Now plugins should be registered with the [initializeFirefly](../reference/registration/initializeFirefly.md) function which accepts **factory functions** instead of plugin instances. This change allows plugins to receive the runtime instance as a constructor argument.
 
 Before:
 
@@ -244,7 +244,7 @@ const runtime = initializeFirefly({
 
 ### Rewrite of the `AppRouter` component
 
-`v9.0` features a full rewrite of the [AppRouter](../reference/routing/appRouter.md) component. The `AppRouter` component used to handle many concerns like global data fetching, deferred registrations, error handling and a loading state. Those concerns have been delegated to the consumer code, supported by the new [useIsBootstrapping](../reference/routing/useIsBootstrapping.md), [usePublicDataQueries](../reference/tanstack-query/usePublicDataQueries.md), [useProtectedDataQueries](../reference/tanstack-query/useProtectedDataQueries.md) and [useDeferredRegistrations](../reference/registration/useDeferredRegistrations.md) hooks.
+`v9.0` features a full rewrite of the [AppRouter](../reference/routing/AppRouter.md) component. The `AppRouter` component used to handle many concerns like global data fetching, deferred registrations, error handling and a loading state. Those concerns have been delegated to the consumer code, supported by the new [useIsBootstrapping](../reference/routing/useIsBootstrapping.md), [usePublicDataQueries](../reference/tanstack-query/usePublicDataQueries.md), [useProtectedDataQueries](../reference/tanstack-query/useProtectedDataQueries.md) and [useDeferredRegistrations](../reference/registration/useDeferredRegistrations.md) hooks.
 
 Before:
 
@@ -345,7 +345,7 @@ export function App() {
 
 ### Use the `initializeFirefly` function
 
-Versions `v9.3`, `v11.0` and `v12.0` introduce changes to how the [FireflyRuntime](../reference/runtime/runtime-class.md) instance should be created and how the modules should be registered.
+Versions `v9.3`, `v11.0` and `v12.0` introduce changes to how the [FireflyRuntime](../reference/runtime/FireflyRuntime.md) instance should be created and how the modules should be registered.
 
 Before:
 
@@ -526,13 +526,13 @@ find ./path/to/src \( -name "*.tsx" -o -name "*.ts" -o -name "*.js" -o -name "*.
 - A new [usePublicDataQueries](../reference/tanstack-query/usePublicDataQueries.md) hook is now available.
 - A new [useProtectedDataQueries](../reference/tanstack-query/useProtectedDataQueries.md) hook is now available.
 - A new [isGlobalDataQueriesError](../reference/tanstack-query/isGlobalDataQueriesError.md) function is now available.
-- A new [registerPublicRoute](../reference/runtime/runtime-class.md#register-a-public-route) function is now available.
+- A new [registerPublicRoute](../reference/runtime/FireflyRuntime.md#register-a-public-route) function is now available.
 
 ## Improvements
 
 - Deferred registration functions now always receive a `data` argument.
 - Deferred registration functions now receives a new operations argument.
-- Navigation items now include a [$canRender](../reference/runtime/runtime-class.md#conditionally-render-a-navigation-item) option, enabling modules to control whether a navigation item should be rendered.
+- Navigation items now include a [$canRender](../reference/runtime/FireflyRuntime.md#conditionally-render-a-navigation-item) option, enabling modules to control whether a navigation item should be rendered.
 
 ### New `$id` option for navigation items
 
@@ -600,12 +600,12 @@ Follow these steps to migrate an existing host application:
 9. Replace the `ManagedRoutes` placeholder with the new [PublicRoutes](../reference/routing/publicRoutes.md) and [ProtectedRoutes](../reference/routing/protectedRoutes.md) placeholders. [View example](../introduction/create-host.md#homepage)
 10. Convert all deferred routes into static routes. [View example](#removed-support-for-deferred-routes)
 11. Add an `$id` option to the navigation item registrations. [View example](#new-id-option-for-navigation-items)
-12. Replace the `registerLocalModules`, `registerRemoteModules`, [setMswAsReady](../reference/msw/setMswAsReady.md) function and the [FireflyRuntime](../reference/runtime/runtime-class.md) by the [initializeFirefly](../reference/registration/initializeFirefly.md) function. [View example](#use-the-initializefirefly-function)
+12. Replace the `registerLocalModules`, `registerRemoteModules`, [setMswAsReady](../reference/msw/setMswAsReady.md) function and the [FireflyRuntime](../reference/runtime/FireflyRuntime.md) by the [initializeFirefly](../reference/registration/initializeFirefly.md) function. [View example](#use-the-initializefirefly-function)
 13. Rename `RuntimeContext.Provider` for [FireflyProvider](../reference/runtime/FireflyProvider.md). [View example](#rename-runtimecontextprovider-to-fireflyprovider)
 
 ### `useMsw`
 
-If the application register MSW [request handlers](https://mswjs.io/docs/concepts/request-handler/) with the [runtime.registerRequestHandlers](../reference/runtime/runtime-class.md#register-request-handlers) function, add the `useMsw` property to the [initializeFirefly](../reference/registration/initializeFirefly.md) function:
+If the application register MSW [request handlers](https://mswjs.io/docs/concepts/request-handler/) with the [runtime.registerRequestHandlers](../reference/runtime/FireflyRuntime.md#register-request-handlers) function, add the `useMsw` property to the [initializeFirefly](../reference/registration/initializeFirefly.md) function:
 
 ```tsx
 initializeFirefly({

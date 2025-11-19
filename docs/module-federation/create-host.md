@@ -74,7 +74,7 @@ To learn more about this async boundary and the `bootstrap.tsx` file, read the f
 
 ### Module registration
 
-Next, to register the modules, instanciate a shell [FireflyRuntime](/reference/runtime/runtime-class.md) instance and register the remote module with the [initializeFirefly](/reference/registration/initializeFirefly.md) function (the configuration of the remote module will be covered in the [next section](create-remote-module.md)):
+Next, to register the modules, instanciate a shell [FireflyRuntime](/reference/runtime/FireflyRuntime.md) instance and register the remote module with the [initializeFirefly](/reference/registration/initializeFirefly.md) function (the configuration of the remote module will be covered in the [next section](create-remote-module.md)):
 
 ```tsx !#12-14 host/src/bootstrap.tsx
 import { createRoot } from "react-dom/client";
@@ -101,7 +101,7 @@ root.render(
 );
 ```
 
-Then, render the [AppRouter](../reference/routing/appRouter.md) component to define a React Router [browser instance](https://reactrouter.com/en/main/routers/create-browser-router) configured with the registered routes:
+Then, render the [AppRouter](../reference/routing/AppRouter.md) component to define a React Router [browser instance](https://reactrouter.com/en/main/routers/create-browser-router) configured with the registered routes:
 
 ```tsx !#5-23 host/src/App.tsx
 import { AppRouter } from "@squide/firefly";
@@ -189,7 +189,7 @@ export function RootLayout() {
 }
 ```
 
-The `RootLayout` component created in the previous sample will serves as the default layout for the homepage as well as for every page (route) registered by a module that are not nested under a parent route with either the [parentPath](../reference/runtime/runtime-class.md#register-nested-routes) or the [parentId](../reference/runtime/runtime-class.md#register-a-route-with-an-id) option.
+The `RootLayout` component created in the previous sample will serves as the default layout for the homepage as well as for every page (route) registered by a module that are not nested under a parent route with either the [parentPath](../reference/runtime/FireflyRuntime.md#register-nested-routes) or the [parentId](../reference/runtime/FireflyRuntime.md#register-a-route-with-an-id) option.
 
 ### Homepage
 
@@ -217,7 +217,7 @@ export const registerHost: ModuleRegisterFunction<FireflyRuntime> = runtime => {
 };
 ```
 
-And an [hoisted route](../reference/runtime/runtime-class.md#register-an-hoisted-route) to render the `RootLayout` with the [PublicRoutes](../reference/routing/publicRoutes.md) and [ProtectedRoutes](../reference/routing/protectedRoutes.md) placeholders:
+And an [hoisted route](../reference/runtime/FireflyRuntime.md#register-an-hoisted-route) to render the `RootLayout` with the [PublicRoutes](../reference/routing/publicRoutes.md) and [ProtectedRoutes](../reference/routing/protectedRoutes.md) placeholders:
 
 ```tsx !#8,11,12,15 host/src/register.tsx
 import { PublicRoutes, ProtectedRoutes, type ModuleRegisterFunction, type FireflyRuntime } from "@squide/firefly";
@@ -245,7 +245,7 @@ export const registerHost: ModuleRegisterFunction<FireflyRuntime> = runtime => {
 ```
 
 !!!tip
-The [PublicRoutes](../reference/routing/publicRoutes.md) and [ProtectedRoutes](../reference/routing/protectedRoutes.md) placeholders indicates where routes that are neither hoisted or nested with a [parentPath](../reference/runtime/runtime-class.md#register-nested-navigation-items) or [parentId](../reference/runtime/runtime-class.md#register-a-route-with-an-id) option will be rendered. In this example, the homepage route is considered as a protected route and will be rendered under the `ProtectedRoutes` placeholder.
+The [PublicRoutes](../reference/routing/publicRoutes.md) and [ProtectedRoutes](../reference/routing/protectedRoutes.md) placeholders indicates where routes that are neither hoisted or nested with a [parentPath](../reference/runtime/FireflyRuntime.md#register-nested-navigation-items) or [parentId](../reference/runtime/FireflyRuntime.md#register-a-route-with-an-id) option will be rendered. In this example, the homepage route is considered as a protected route and will be rendered under the `ProtectedRoutes` placeholder.
 !!!
 
 Finally, update the bootstrapping code to register the newly created local module:

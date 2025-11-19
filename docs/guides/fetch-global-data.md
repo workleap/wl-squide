@@ -8,7 +8,7 @@ order: 980
 Before going forward with this guide, make sure that you completed the [Setup MSW](./setup-msw.md) guide.
 !!!
 
-Retrieving the global data of an application is a crucial aspect that isn't always straightforward to implement. That's why we encourage feature teams to build their global data fetching strategy on top of the Squide [AppRouter](../reference/routing/appRouter.md) component.
+Retrieving the global data of an application is a crucial aspect that isn't always straightforward to implement. That's why we encourage feature teams to build their global data fetching strategy on top of the Squide [AppRouter](../reference/routing/AppRouter.md) component.
 
 ## Challenges with global data
 
@@ -183,7 +183,7 @@ The `usePublicDataQueries` hook is a wrapper around TanStack Query's native [use
 
 #### `waitForPublicData` & `useIsBootstrapping`
 
-To ensure the `AppRouter` component wait for the public data to be ready before rendering the requested route, set the [waitForPublicData](../reference/routing/appRouter.md#delay-rendering-until-the-public-data-is-ready) property to `true`.
+To ensure the `AppRouter` component wait for the public data to be ready before rendering the requested route, set the [waitForPublicData](../reference/routing/AppRouter.md#delay-rendering-until-the-public-data-is-ready) property to `true`.
 
 Combine the `usePublicDataQueries` with the [useIsBootstrapping](../reference/routing/useIsBootstrapping.md) hook to display a loader until the public data is fetched and the application is ready.
 
@@ -413,7 +413,7 @@ The `useProtectedDataQueries` hook is a wrapper around TanStack Query's native [
 
 #### `waitForProtectedData`
 
-To ensure the `AppRouter` component wait for the protected data to be ready before rendering the requested route, set the [waitForProtectedData](../reference/routing/appRouter.md#delay-rendering-until-the-public-data-is-ready) property to `true`.
+To ensure the `AppRouter` component wait for the protected data to be ready before rendering the requested route, set the [waitForProtectedData](../reference/routing/AppRouter.md#delay-rendering-until-the-public-data-is-ready) property to `true`.
 
 ### Use the endpoint data
 

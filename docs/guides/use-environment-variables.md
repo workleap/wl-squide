@@ -17,7 +17,7 @@ While accessing environment variables from `process.env` works, it has a few dow
 - **It's not ideal for testing**. Tests relying on global variables can inadvertently affect other tests, introducing potential issues that affect test reliability, maintainability, and isolation.
 - **It complicates** [module development in isolation](./develop-a-module-in-isolation.md). A modular application [shell](./develop-a-module-in-isolation.md#create-a-shell-package) often makes requests to multiple endpoints, which vary depending on the environment. These endpoints require environment variables to define their URLs. When developing modules in isolation, modules should not provide these environment variables to the shell. Instead, to **improve DX**, the shell library should **manage** these environment variables **internally**.
 
-To replace `process.env`, Squide provides the [EnvironmentVariablesPlugin](../reference/env-vars/getEnvironmentVariablesPlugin.md). This plugin acts as a registry and integrates with the [Runtime API](../reference/runtime/runtime-class.md), allowing modules to register and retrieve environment variables.
+To replace `process.env`, Squide provides the [EnvironmentVariablesPlugin](../reference/env-vars/getEnvironmentVariablesPlugin.md). This plugin acts as a registry and integrates with the [Runtime API](../reference/runtime/FireflyRuntime.md), allowing modules to register and retrieve environment variables.
 
 Without this plugin, page components would directly rely on `process.env`:
 
@@ -68,7 +68,7 @@ pnpm add @squide/env-vars
 
 ## Setup the plugin
 
-Then, update the host application boostrapping code to register an instance of the [EnvironmentVariablesPlugin](../reference/env-vars/EnvironmentVariablesPlugin.md) with the [FireflyRuntime](../reference/runtime/runtime-class.md) instance:
+Then, update the host application boostrapping code to register an instance of the [EnvironmentVariablesPlugin](../reference/env-vars/EnvironmentVariablesPlugin.md) with the [FireflyRuntime](../reference/runtime/FireflyRuntime.md) instance:
 
 ```tsx !#10 host/src/index.tsx
 import { createRoot } from "react-dom/client";
