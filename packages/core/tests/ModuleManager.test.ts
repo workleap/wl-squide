@@ -83,7 +83,7 @@ describe.concurrent("registerModules", () => {
         }
     }
 
-    test.concurrent("can register all the modules of every registry", ({ expect }) => {
+    test.concurrent("can register the modules of every registry", async ({ expect }) => {
         const moduleRegistry1 = new DummyModuleRegistry("registry-1");
         const moduleRegistry2 = new DummyModuleRegistry("registry-2");
         const moduleRegistry3 = new DummyModuleRegistry("registry-3");
@@ -92,7 +92,48 @@ describe.concurrent("registerModules", () => {
         const spy2 = vi.spyOn(moduleRegistry2, "registerModules");
         const spy3 = vi.spyOn(moduleRegistry3, "registerModules");
 
-        const manager = new ModuleManager(new DummyRuntime(), [
+        const runtime = new DummyRuntime();
+
+        const manager = new ModuleManager(runtime, [
+            moduleRegistry1,
+            moduleRegistry2,
+            moduleRegistry3
+        ]);
+
+        const fct1 = () => {};
+        const fct2 = () => {};
+        const fct3 = () => {};
+        const fct4 = () => {};
+
+        const definition1 = { registryId: "registry-1", definition: fct1 };
+        const definition2 = { registryId: "registry-2", definition: fct2 };
+        const definition3 = { registryId: "registry-2", definition: fct3 };
+        const definition4 = { registryId: "registry-3", definition: fct4 };
+
+        await manager.registerModules([
+            definition1,
+            definition2,
+            definition3,
+            definition4
+        ]);
+
+        expect(spy1).toHaveBeenCalledExactlyOnceWith([fct1], runtime, undefined);
+        expect(spy2).toHaveBeenCalledExactlyOnceWith([fct2, fct3], runtime, undefined);
+        expect(spy3).toHaveBeenCalledExactlyOnceWith([fct4], runtime, undefined);
+    });
+
+    test.concurrent("when an unmanaged errors is thrown, the error bubbles up", async ({ expect }) => {
+        const moduleRegistry1 = new DummyModuleRegistry("registry-1");
+        const moduleRegistry2 = new DummyModuleRegistry("registry-2");
+        const moduleRegistry3 = new DummyModuleRegistry("registry-3");
+
+        vi.spyOn(moduleRegistry2, "registerModules").mockImplementationOnce(() => {
+            throw new Error("Can me if you can!");
+        });
+
+        const runtime = new DummyRuntime();
+
+        const manager = new ModuleManager(runtime, [
             moduleRegistry1,
             moduleRegistry2,
             moduleRegistry3
@@ -100,32 +141,75 @@ describe.concurrent("registerModules", () => {
 
         const definition1 = { registryId: "registry-1", definition: () => {} };
         const definition2 = { registryId: "registry-2", definition: () => {} };
-        const definition3 = { registryId: "registry-2", definition: () => {} };
-        const definition4 = { registryId: "registry-3", definition: () => {} };
+        const definition3 = { registryId: "registry-3", definition: () => {} };
 
-        manager.registerModules([
+        await expect(() => manager.registerModules([
             definition1,
             definition2,
-            definition3,
-            definition4
-        ]);
-
-        expect(spy1).toHaveBeenCalledExactlyOnceWith([definition1], expect.anything(), expect.anything());
-        // expect(spy2).toHaveBeenCalledTimes(2);
-        // expect(spy3).toHaveBeenCalledOnce();
+            definition3
+        ])).rejects.toThrow("Can me if you can!");
     });
 
-    /*
+    test.concurrent("when a module is registered for a registry that has not been added, an error is thrown", async ({ expect }) => {
+        const moduleRegistry1 = new DummyModuleRegistry("registry-1");
+        const moduleRegistry2 = new DummyModuleRegistry("registry-2");
+        const moduleRegistry3 = new DummyModuleRegistry("registry-3");
 
-- register all the modules of every registry
+        const runtime = new DummyRuntime();
 
-- when an unmanaged errors is thrown, the error bubbles up
+        const manager = new ModuleManager(runtime, [
+            moduleRegistry1,
+            moduleRegistry2,
+            moduleRegistry3
+        ]);
 
-- when a module is registered for a registry that has not been added, an error is thrown
+        const definition1 = { registryId: "registry-1", definition: () => {} };
+        const definition2 = { registryId: "registry-2", definition: () => {} };
+        const definition3 = { registryId: "registry-345", definition: () => {} };
 
-- managed errors returned by the registries are aggregated
+        await expect(() => manager.registerModules([
+            definition1,
+            definition2,
+            definition3
+        ])).rejects.toThrow("Cannot find a module registry with id \"registry-345\"");
+    });
 
-*/
+    test.concurrent("managed errors returned by the registries are aggregated", async ({ expect }) => {
+        const moduleRegistry1 = new DummyModuleRegistry("registry-1");
+        const moduleRegistry2 = new DummyModuleRegistry("registry-2");
+        const moduleRegistry3 = new DummyModuleRegistry("registry-3");
+
+        const error1 = new ModuleRegistrationError("Error 1");
+        const error2 = new ModuleRegistrationError("Error 2");
+        const error3 = new ModuleRegistrationError("Error 3");
+
+        vi.spyOn(moduleRegistry1, "registerModules").mockImplementationOnce(() => Promise.resolve([error1]));
+        vi.spyOn(moduleRegistry2, "registerModules").mockImplementationOnce(() => Promise.resolve([error2]));
+        vi.spyOn(moduleRegistry3, "registerModules").mockImplementationOnce(() => Promise.resolve([error3]));
+
+        const runtime = new DummyRuntime();
+
+        const manager = new ModuleManager(runtime, [
+            moduleRegistry1,
+            moduleRegistry2,
+            moduleRegistry3
+        ]);
+
+        const definition1 = { registryId: "registry-1", definition: () => {} };
+        const definition2 = { registryId: "registry-2", definition: () => {} };
+        const definition3 = { registryId: "registry-3", definition: () => {} };
+
+        const errors = await manager.registerModules([
+            definition1,
+            definition2,
+            definition3
+        ]);
+
+        expect(errors.length).toBe(3);
+        expect(errors[0]).toBe(error1);
+        expect(errors[1]).toBe(error2);
+        expect(errors[2]).toBe(error3);
+    });
 });
 
 describe.concurrent("registerDeferredRegistrations", () => {
@@ -239,18 +323,9 @@ describe.concurrent("registerDeferredRegistrations", () => {
             foo: "bar"
         };
 
-        let errorHasBubbleUp = false;
-
-        // Oddly, I can't get it to work with expect(() => {}).toThrow();
-        try {
-            await runtime.moduleManager.registerDeferredRegistrations(data);
-            // eslint-disable-next-line @typescript-eslint/no-unused-vars
-        } catch (error: unknown) {
-            errorHasBubbleUp = true;
-        }
+        await expect(() => runtime.moduleManager.registerDeferredRegistrations(data)).rejects.toThrow();
 
         expect(completeScopeSpy).toHaveBeenCalledTimes(1);
-        expect(errorHasBubbleUp).toBeTruthy();
     });
 
     test.concurrent("errors returned by the registries are aggragated", async ({ expect }) => {
@@ -399,18 +474,9 @@ describe.concurrent("updateDeferredRegistrations", () => {
             foo: "bar"
         };
 
-        let errorHasBubbleUp = false;
-
-        // Oddly, I can't get it to work with expect(() => {}).toThrow();
-        try {
-            await runtime.moduleManager.updateDeferredRegistrations(data);
-            // eslint-disable-next-line @typescript-eslint/no-unused-vars
-        } catch (error: unknown) {
-            errorHasBubbleUp = true;
-        }
+        await expect(() => runtime.moduleManager.updateDeferredRegistrations(data)).rejects.toThrow();
 
         expect(completeScopeSpy).toHaveBeenCalledTimes(1);
-        expect(errorHasBubbleUp).toBeTruthy();
     });
 
     test.concurrent("managed errors returned by the registries are aggregated", async ({ expect }) => {
