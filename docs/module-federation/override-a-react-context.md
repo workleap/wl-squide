@@ -115,7 +115,7 @@ export const register: ModuleRegisterFunction<FireflyRuntime> = runtime => {
 ## Update a singleton dependency version
 
 !!!warning
-This section only applies to federated applications (applications including [remote modules](../reference/registration/registerRemoteModules.md)).
+This section only applies to federated applications (applications including [remote modules](../module-federation/create-remote-module.md)).
 !!!
 
 Let's consider a more specific use case where the host application declares a `ThemeContext` from Workleap's new design system, [Hopper](https://hopper.workleap.design/):

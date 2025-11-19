@@ -48,11 +48,11 @@ Then, create the localized resource files for the `en-US` and `fr-CA` locales:
 }
 ```
 
-Notice that this time, a standard `navigationItems` namespace has been added to the resource files. The resources in the `navigationItems` namespace will be used later on to localize the [navigation items](../reference/registration/registerLocalModules.md) labels.
+Notice that this time, a standard `navigationItems` namespace has been added to the resource files. The resources in the `navigationItems` namespace will be used later on to localize the navigation items labels.
 
 ### Register an i18next instance
 
-Then, update the remote module's [register](../reference/registration/registerLocalModules.md) function to create and register an instance of `i18next` with the `i18nextPlugin` plugin instance. Similarly to the [host application](#register-an-i18next-instance), due to how the internals of `i18next` works, this local module requires to register its own instance of the third-party library:
+Then, update the remote module's register function to create and register an instance of `i18next` with the `i18nextPlugin` plugin instance. Similarly to the [host application](#register-an-i18next-instance), due to how the internals of `i18next` works, this local module requires to register its own instance of the third-party library:
 
 ```tsx !#10,12-14,16-23,26 remote-module/src/register.tsx
 import type { ModuleRegisterFunction, FireflyRuntime } from "@squide/firefly";

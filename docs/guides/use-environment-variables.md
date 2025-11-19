@@ -144,7 +144,7 @@ If the project contains Typescript files at its root that need to be linted (suc
 
 ### Register variables
 
-Now, let's register our first variable. We recommend registering environment variables in the module's [register function](../reference/registration/registerLocalModules.md#register-a-local-module) as it's the most logical place to access the runtime instance:
+Now, let's register our first variable. We recommend registering environment variables in the module's register function as it's the most logical place to access the runtime instance:
 
 ```tsx !#7-11 host/src/register.tsx
 import { PublicRoutes, ProtectedRoutes, type ModuleRegisterFunction, type FireflyRuntime } from "@squide/firefly";

@@ -53,7 +53,7 @@ An array of `ReactElement`.
 ### Render nested items
 
 !!!tip
-We recommend always providing an `$id` option for a navigation item, as it ensures the menus doesn't flicker when [deferred registrations](../registration/registerLocalModules.md#defer-the-registration-of-navigation-items) are updated. Be sure to use a unique key.
+We recommend always providing an `$id` option for a navigation item, as it ensures the menus doesn't flicker when deferred registrations are updated. Be sure to use a unique key.
 
 When no `$id` option is provided, a default `key` argument is computed based on the `index` and `level` properties. While this works in most cases, the default key cannot guarantee that the menu won't flicker during updates.
 !!!

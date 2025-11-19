@@ -77,7 +77,7 @@ Next, create the localized resource files for the `en-US` and `fr-CA` locales:
 
 ### Register an i18next instance
 
-Then, update the host application local module's [register](../reference/registration/registerLocalModules.md) function to create and register an `i18next` instance with the retrieved `i18nextPlugin` instance. Due to how the internals of `i18next` works, each module (including the host application) must create its own instance of the third-party library. `i18nextPlugin` will handle synchronizing the language changes across all `i18next` instances:
+Then, update the host application local module's register function to create and register an `i18next` instance with the retrieved `i18nextPlugin` instance. Due to how the internals of `i18next` works, each module (including the host application) must create its own instance of the third-party library. `i18nextPlugin` will handle synchronizing the language changes across all `i18next` instances:
 
 ```tsx !#12-14,16-23,26 host/src/register.tsx
 import type { ModuleRegisterFunction, FireflyRuntime } from "@squide/firefly";
@@ -171,11 +171,11 @@ Then, create the localized resource files for the `en-US` and `fr-CA` locales:
 }
 ```
 
-Notice that this time, a standard `navigationItems` namespace has been added to the resource files. The resources in the `navigationItems` namespace will be used later on to localize the [navigation items](../reference/registration/registerLocalModules.md) labels.
+Notice that this time, a standard `navigationItems` namespace has been added to the resource files. The resources in the `navigationItems` namespace will be used later on to localize the navigation items labels.
 
 ### Register an i18next instance
 
-Then, update the local module's [register](../reference/registration/registerLocalModules.md) function to create and register an instance of `i18next` with the `i18nextPlugin` plugin instance. Similarly to the [host application](#register-an-i18next-instance), due to how the internals of `i18next` works, this local module requires to register its own instance of the third-party library:
+Then, update the local module's register function to create and register an instance of `i18next` with the `i18nextPlugin` plugin instance. Similarly to the [host application](#register-an-i18next-instance), due to how the internals of `i18next` works, this local module requires to register its own instance of the third-party library:
 
 ```tsx !#10,12-14,16-23,26 local-module/src/register.tsx
 import type { ModuleRegisterFunction, FireflyRuntime } from "@squide/firefly";

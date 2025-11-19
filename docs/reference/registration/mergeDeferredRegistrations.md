@@ -6,7 +6,7 @@ toc:
 
 # mergeDeferredRegistrations
 
-Utility function that takes an array of [deferred registration](./registerLocalModules.md#defer-the-registration-of-navigation-items) functions and returns a single function wrapping and merging all the provided deferred registration functions.
+Utility function that takes an array of [deferred registration](./initializeFirefly.md#defer-the-registration-of-navigation-items) functions and returns a single function wrapping and merging all the provided deferred registration functions.
 
 If the provided array contains `undefined` values, they will safely be ignored.
 
@@ -18,7 +18,7 @@ const registrations = mergeDeferredRegistrations(candidates: []);
 
 ### Parameters
 
-- `candidates`: An array of [deferred registration](./registerLocalModules.md#defer-the-registration-of-navigation-items) functions.
+- `candidates`: An array of [deferred registration](./initializeFirefly.md#defer-the-registration-of-navigation-items) functions.
 
 ### Returns
 

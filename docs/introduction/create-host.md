@@ -22,7 +22,7 @@ Create a new application (we'll refer to ours as `host`), then open a terminal a
 
 ```bash
 pnpm add -D @workleap/rsbuild-configs @workleap/browserslist-config @rsbuild/core @rspack/core browserslist typescript @types/react @types/react-dom
-pnpm add @squide/firefly react react-dom react-router @tanstack/react-query
+pnpm add @squide/firefly react react-dom react-router msw @opentelemetry/api @tanstack/react-query
 ```
 
 ## Setup the application
@@ -188,7 +188,7 @@ export function HomePage() {
 }
 ```
 
-Then, add a [local module](../reference/registration/registerLocalModules.md) at the root of the host application to register the homepage:
+Then, add a local module at the root of the host application to register the homepage:
 
 ```tsx !#4-9 host/src/register.tsx
 import type { ModuleRegisterFunction, FireflyRuntime } from "@squide/firefly";
@@ -233,7 +233,7 @@ export const registerHost: ModuleRegisterFunction<FireflyRuntime> = runtime => {
 The [PublicRoutes](../reference/routing/publicRoutes.md) and [ProtectedRoutes](../reference/routing/protectedRoutes.md) placeholders indicates where routes that are neither hoisted or nested with a [parentPath](../reference/runtime/runtime-class.md#register-nested-navigation-items) or [parentId](../reference/runtime/runtime-class.md#register-a-route-with-an-id) option will be rendered. In this example, the homepage route is considered as a protected route and will be rendered under the `ProtectedRoutes` placeholder.
 !!!
 
-Finally, update the bootstrapping code to [register](../reference/registration/registerLocalModules.md) the newly created local module:
+Finally, update the bootstrapping code to register the newly created local module:
 
 ```tsx !#6-8 host/src/index.tsx
 import { createRoot } from "react-dom/client";

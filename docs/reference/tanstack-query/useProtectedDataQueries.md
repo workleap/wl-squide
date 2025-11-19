@@ -284,7 +284,7 @@ export function AuthenticationBoundary() {
 ```
 
 !!!info
-The `registerHost` function is registered as a [local module](../registration/registerLocalModules.md) of the host application.
+The `registerHost` function is registered as a [local module](../registration/initializeFirefly.md#register-a-local-module) of the host application.
 !!!
 
 ```tsx !#8 host/src/registerHost.tsx
