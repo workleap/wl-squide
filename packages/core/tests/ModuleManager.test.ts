@@ -44,9 +44,89 @@ class DummyRuntime extends Runtime {
     }
 }
 
-// describe.concurrent("registerModules", () => {
+describe.concurrent("registerModules", () => {
+    class DummyModuleRegistry extends ModuleRegistry {
+        readonly #id: string;
 
-// });
+        constructor(id: string) {
+            super();
+
+            this.#id = id;
+        }
+
+        get id(): string {
+            return this.#id;
+        }
+
+        registerModules(): Promise<ModuleRegistrationError[]> {
+            return Promise.resolve([]);
+        }
+
+        registerDeferredRegistrations(): Promise<ModuleRegistrationError[]> {
+            throw new Error("Method not implemented.");
+        }
+
+        updateDeferredRegistrations(): Promise<ModuleRegistrationError[]> {
+            throw new Error("Method not implemented.");
+        }
+
+        registerStatusChangedListener(): void {
+            throw new Error("Method not implemented.");
+        }
+
+        removeStatusChangedListener(): void {
+            throw new Error("Method not implemented.");
+        }
+
+        get registrationStatus(): ModuleRegistrationStatus {
+            throw new Error("Method not implemented.");
+        }
+    }
+
+    test.concurrent("can register all the modules of every registry", ({ expect }) => {
+        const moduleRegistry1 = new DummyModuleRegistry("registry-1");
+        const moduleRegistry2 = new DummyModuleRegistry("registry-2");
+        const moduleRegistry3 = new DummyModuleRegistry("registry-3");
+
+        const spy1 = vi.spyOn(moduleRegistry1, "registerModules");
+        const spy2 = vi.spyOn(moduleRegistry2, "registerModules");
+        const spy3 = vi.spyOn(moduleRegistry3, "registerModules");
+
+        const manager = new ModuleManager(new DummyRuntime(), [
+            moduleRegistry1,
+            moduleRegistry2,
+            moduleRegistry3
+        ]);
+
+        const definition1 = { registryId: "registry-1", definition: () => {} };
+        const definition2 = { registryId: "registry-2", definition: () => {} };
+        const definition3 = { registryId: "registry-2", definition: () => {} };
+        const definition4 = { registryId: "registry-3", definition: () => {} };
+
+        manager.registerModules([
+            definition1,
+            definition2,
+            definition3,
+            definition4
+        ]);
+
+        expect(spy1).toHaveBeenCalledExactlyOnceWith([definition1], expect.anything(), expect.anything());
+        // expect(spy2).toHaveBeenCalledTimes(2);
+        // expect(spy3).toHaveBeenCalledOnce();
+    });
+
+    /*
+
+- register all the modules of every registry
+
+- when an unmanaged errors is thrown, the error bubbles up
+
+- when a module is registered for a registry that has not been added, an error is thrown
+
+- managed errors returned by the registries are aggregated
+
+*/
+});
 
 describe.concurrent("registerDeferredRegistrations", () => {
     class DummyModuleRegistry extends ModuleRegistry {
@@ -108,7 +188,7 @@ describe.concurrent("registerDeferredRegistrations", () => {
         expect(spy3).toHaveBeenCalledExactlyOnceWith(data, runtime);
     });
 
-    test.concurrent("start and complete a deferred registration scope", async ({ expect }) => {
+    test.concurrent("can start and complete a deferred registration scope", async ({ expect }) => {
         const moduleRegistry1 = new DummyModuleRegistry();
         const moduleRegistry2 = new DummyModuleRegistry();
         const moduleRegistry3 = new DummyModuleRegistry();
@@ -268,7 +348,7 @@ describe.concurrent("updateDeferredRegistrations", () => {
         expect(spy3).toHaveBeenCalledWith(data, runtime);
     });
 
-    test.concurrent("start and complete a deferred registration scope", async ({ expect }) => {
+    test.concurrent("can start and complete a deferred registration scope", async ({ expect }) => {
         const moduleRegistry1 = new DummyModuleRegistry();
         const moduleRegistry2 = new DummyModuleRegistry();
         const moduleRegistry3 = new DummyModuleRegistry();
@@ -333,7 +413,7 @@ describe.concurrent("updateDeferredRegistrations", () => {
         expect(errorHasBubbleUp).toBeTruthy();
     });
 
-    test.concurrent("errors returned by the registries are aggragated", async ({ expect }) => {
+    test.concurrent("managed errors returned by the registries are aggregated", async ({ expect }) => {
         const moduleRegistry1 = new DummyModuleRegistry();
         const moduleRegistry2 = new DummyModuleRegistry();
         const moduleRegistry3 = new DummyModuleRegistry();

@@ -53,7 +53,7 @@ export class ModuleManager {
                     .withObject(definitions)
                     .error();
 
-                errors.push(new ModuleRegistrationError(`Cannot find a module registry with id "${x}"`));
+                throw new ModuleRegistrationError(`Cannot find a module registry with id "${x}"`);
             }
         }));
 
