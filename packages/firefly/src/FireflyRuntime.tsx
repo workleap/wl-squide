@@ -108,7 +108,8 @@ export class FireflyRuntimeScope<TRuntime extends FireflyRuntime = FireflyRuntim
         });
     }
 
-    get requestHandlers() {
+    // Must define a return type otherwise we get an "error TS2742: The inferred type of 'requestHandlers' cannot be named" error.
+    get requestHandlers(): RequestHandler[] {
         return this._runtime.requestHandlers;
     }
 
