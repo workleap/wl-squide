@@ -2,28 +2,9 @@
 order: 50
 ---
 
-# Learn the API
+# Learn the core pieces (TODO)
 
 Now that we've created a host application, loaded a few modules and registered routes and navigation items, let's delve into the APIs provided by this shell.
-
-<!-- ## Register routes
-
-TBD
-
-- Register an index route
-- Register a route with a path
-- Register a lazy route
-- Register a public route
-- Register a nested route
-- Register an hoisted route
-
-## Register navigation items
-
-TBD
-
-- Register a navigation item
-- Register a nested navigation item
-- Register a navigation item for a specific menu -->
 
 ## Runtime mode
 
@@ -169,10 +150,6 @@ const [session, subscription] = useProtectedDataQueries([
 ```
 
 If an unmanaged error occur while retrieving the data, a [GlobalDataQueriesError](../reference/tanstack-query/isGlobalDataQueriesError.md) is thrown.
-
-## Fakes
-
-Take a look at the [fake implementations](../reference/default.md#fakes). These implementations are designed to facilitate the set up of a module isolated environment.
 
 ## Guides
 

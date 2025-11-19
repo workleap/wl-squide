@@ -214,7 +214,7 @@ runtime.registerRoute({
 });
 ```
 
-The previous example registers the routes with React Router **absolute paths** (a path starting with a `/`). A single registration block can also define routes with **relative paths**:
+A single registration block routes can also be define routes with **relative paths** (rather than starting with a `/`):
 
 ```tsx !#5,8
 import { Layout } from "./Layout.tsx";
