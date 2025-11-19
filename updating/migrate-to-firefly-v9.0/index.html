@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <meta name="turbo-root" content="/wl-squide">
-    <meta name="turbo-cache-control" content="no-cache" data-turbo-track="reload" data-track-token="3.12.0-preview2.815715386982">
+    <meta name="turbo-cache-control" content="no-cache" data-turbo-track="reload" data-track-token="3.12.0-preview2.816893990223">
 
     <!-- See retype.com -->
     <meta name="generator" content="Retype 3.12.0-preview2">
@@ -32,12 +32,12 @@
     <script data-cfasync="false">(function(){var cl=document.documentElement.classList,ls=localStorage.getItem("retype_scheme"),hd=cl.contains("dark"),hl=cl.contains("light"),wm=window.matchMedia&&window.matchMedia("(prefers-color-scheme: dark)").matches;if(ls==="dark"||(!ls&&wm&&!hd&&!hl)){cl.remove("light");cl.add("dark")}else if(ls==="light"||(!ls&&!wm&&!hd&&!hl)){cl.remove("dark");cl.add("light")}})();</script>
 
     <link id="retype-favicon" rel="icon" href="../../static/favicon.png" />
-    <link href="../../resources/css/retype.css?v=3.12.0-preview2.815715386982" rel="stylesheet">
+    <link href="../../resources/css/retype.css?v=3.12.0-preview2.816893990223" rel="stylesheet">
 
-    <script data-cfasync="false" src="../../resources/js/config.js?v=3.12.0-preview2.815715386982" data-turbo-eval="false" defer></script>
+    <script data-cfasync="false" src="../../resources/js/config.js?v=3.12.0-preview2.816893990223" data-turbo-eval="false" defer></script>
     <script data-cfasync="false" src="../../resources/js/retype.js?v=3.12.0-preview2" data-turbo-eval="false" defer></script>
-    <script id="lunr-js" data-cfasync="false" src="../../resources/js/lunr.js?v=3.12.0-preview2.815715386982" data-turbo-eval="false" defer></script>
-    <script id="prism-js" data-cfasync="false" src="../../resources/js/prism.js?v=3.12.0-preview2.815715386982" defer></script>
+    <script id="lunr-js" data-cfasync="false" src="../../resources/js/lunr.js?v=3.12.0-preview2.816893990223" data-turbo-eval="false" defer></script>
+    <script id="prism-js" data-cfasync="false" src="../../resources/js/prism.js?v=3.12.0-preview2.816893990223" defer></script>
 
     <link href="https://workleap.github.io/wl-idp-docs-hub/static/retype-customization.css" rel="stylesheet" />
 
@@ -312,7 +312,7 @@
 </div>
 <p>This major version of <code translate="no" v-pre>@squide/firefly</code> introduces <a href="https://tanstack.com/query/latest" class="outbound" target="_blank">TanStack Query</a> as the official library for fetching the global data of a Squide&#x27;s application and features a complete rewrite of the <a href="../../reference/routing/approuter/">AppRouter</a> component, which now uses a state machine to manage the application&#x27;s bootstrapping flow.</p>
 <p>Prior to <code translate="no" v-pre>v9.0</code>, Squide applications couldn&#x27;t use TanStack Query to fetch global data, making it <strong>challenging</strong> for Workleap&#x27;s applications to <strong>keep</strong> their <strong>global data</strong> in <strong>sync</strong> with the <strong>server state</strong>. With <code translate="no" v-pre>v9.0</code>, applications can now leverage <a href="../../guides/fetch-global-data/">custom wrappers</a> of the TanStack Query&#x27;s <a href="https://tanstack.com/query/latest/docs/framework/react/reference/useQueries" class="outbound" target="_blank">useQueries</a> hook to fetch and keep their global data up-to-date with the server state. Additionally, the new <a href="../../reference/registration/usedeferredregistrations/#register-or-update-deferred-registrations">deferred registrations update</a> feature allows applications to even <strong>keep</strong> their conditional <strong>navigation items in sync</strong> with the <strong>server state</strong>.</p>
-<p>Finally, with <code translate="no" v-pre>v9.0</code>, Squide&#x27;s philosophy has evolved. We used to describe Squide as a shell for <strong>federated</strong> applications. Now, we refer to Squide as a shell for <strong>modular</strong> applications. After playing with Squide&#x27;s <a href="../../reference/registration/registerlocalmodules/">local module</a> feature for a while, we discovered that Squide offers significant value even for <strong>non-federated applications</strong>, which triggered this shift in philosophy.</p>
+<p>Finally, with <code translate="no" v-pre>v9.0</code>, Squide&#x27;s philosophy has evolved. We used to describe Squide as a shell for <strong>federated</strong> applications. Now, we refer to Squide as a shell for <strong>modular</strong> applications. After playing with Squide&#x27;s local module feature for a while, we discovered that Squide offers significant value even for <strong>non-federated applications</strong>, which triggered this shift in philosophy.</p>
 <doc-anchor-target id="breaking-changes">
     <h2>
         <doc-anchor-trigger class="header-anchor-trigger" to="#breaking-changes">#</doc-anchor-trigger>
@@ -364,7 +364,7 @@
         <span>Removed support for deferred routes</span>
     </h3>
 </doc-anchor-target>
-<p><a href="../../reference/registration/registerlocalmodules/#defer-the-registration-of-navigation-items">Deferred registration</a> functions no longer support route registration; they are now <strong>exclusively</strong> used for <strong>registering navigation items</strong>. Since deferred registration functions can now be re-executed whenever the global data changes, registering routes in deferred registration functions no longer makes sense as updating the routes registry after the application has bootstrapped could lead to issues.</p>
+<p>Deferred registration functions no longer support route registration; they are now <strong>exclusively</strong> used for <strong>registering navigation items</strong>. Since deferred registration functions can now be re-executed whenever the global data changes, registering routes in deferred registration functions no longer makes sense as updating the routes registry after the application has bootstrapped could lead to issues.</p>
 <p>This change is a significant improvement for Squide&#x27;s internals, allowing us to eliminate quirks like:</p>
 <ul>
 <li><p>Treating unknown routes as <code translate="no" v-pre>protected</code>: When a user initially requested a deferred route, Squide couldn&#x27;t determine if the route was <code translate="no" v-pre>public</code> or <code translate="no" v-pre>protected</code> because it wasn&#x27;t registered yet. As a result, for that initial request, the route was considered <code translate="no" v-pre>protected</code>, even if the deferred registration later registered it as <code translate="no" v-pre>public</code>.</p>
@@ -579,7 +579,7 @@ export function App() {
 </doc-anchor-target>
 <ul>
 <li>Deferred registration functions now always receive a <code translate="no" v-pre>data</code> argument.</li>
-<li>Deferred registration functions now receives a new <a href="../../reference/registration/registerlocalmodules/#use-the-deferred-registration-operation-argument">operations</a> argument.</li>
+<li>Deferred registration functions now receives a new operations argument.</li>
 <li>Navigation items now include a <a href="../../reference/runtime/runtime-class/#conditionally-render-a-navigation-item">$canRender</a> option, enabling modules to control whether a navigation item should be rendered.</li>
 </ul>
 <doc-anchor-target id="new-id-option-for-navigation-items">

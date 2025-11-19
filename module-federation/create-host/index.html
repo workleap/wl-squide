@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <meta name="turbo-root" content="/wl-squide">
-    <meta name="turbo-cache-control" content="no-cache" data-turbo-track="reload" data-track-token="3.12.0-preview2.815715386982">
+    <meta name="turbo-cache-control" content="no-cache" data-turbo-track="reload" data-track-token="3.12.0-preview2.816893990223">
 
     <!-- See retype.com -->
     <meta name="generator" content="Retype 3.12.0-preview2">
@@ -32,12 +32,12 @@
     <script data-cfasync="false">(function(){var cl=document.documentElement.classList,ls=localStorage.getItem("retype_scheme"),hd=cl.contains("dark"),hl=cl.contains("light"),wm=window.matchMedia&&window.matchMedia("(prefers-color-scheme: dark)").matches;if(ls==="dark"||(!ls&&wm&&!hd&&!hl)){cl.remove("light");cl.add("dark")}else if(ls==="light"||(!ls&&!wm&&!hd&&!hl)){cl.remove("dark");cl.add("light")}})();</script>
 
     <link id="retype-favicon" rel="icon" href="../../static/favicon.png" />
-    <link href="../../resources/css/retype.css?v=3.12.0-preview2.815715386982" rel="stylesheet">
+    <link href="../../resources/css/retype.css?v=3.12.0-preview2.816893990223" rel="stylesheet">
 
-    <script data-cfasync="false" src="../../resources/js/config.js?v=3.12.0-preview2.815715386982" data-turbo-eval="false" defer></script>
+    <script data-cfasync="false" src="../../resources/js/config.js?v=3.12.0-preview2.816893990223" data-turbo-eval="false" defer></script>
     <script data-cfasync="false" src="../../resources/js/retype.js?v=3.12.0-preview2" data-turbo-eval="false" defer></script>
-    <script id="lunr-js" data-cfasync="false" src="../../resources/js/lunr.js?v=3.12.0-preview2.815715386982" data-turbo-eval="false" defer></script>
-    <script id="prism-js" data-cfasync="false" src="../../resources/js/prism.js?v=3.12.0-preview2.815715386982" defer></script>
+    <script id="lunr-js" data-cfasync="false" src="../../resources/js/lunr.js?v=3.12.0-preview2.816893990223" data-turbo-eval="false" defer></script>
+    <script id="prism-js" data-cfasync="false" src="../../resources/js/prism.js?v=3.12.0-preview2.816893990223" defer></script>
 
     <link href="https://workleap.github.io/wl-idp-docs-hub/static/retype-customization.css" rel="stylesheet" />
 
@@ -308,7 +308,7 @@
 <p>Create a new application (we&#x27;ll refer to ours as <code translate="no" v-pre>host</code>), then open a terminal at the root of the new solution and install the following packages:</p>
 <div class="codeblock-wrapper"><doc-codeblock>
 <pre translate="no" class="language-bash"><code v-pre class="language-bash">pnpm add -D @workleap/swc-configs @workleap/browserslist-config @squide/firefly-webpack-configs webpack webpack-dev-server webpack-cli @swc/core @swc/helpers browserslist postcss typescript @types/react @types/react-dom
-pnpm add @squide/firefly react react-dom react-router @tanstack/react-query</code></pre>
+pnpm add @squide/firefly @squide/firefly-module-federation react react-dom react-router msw @opentelemetry/api @tanstack/react-query</code></pre>
 </doc-codeblock></div>
 <doc-anchor-target id="setup-the-application">
     <h2>
@@ -377,8 +377,9 @@ export {};</code></pre>
 <p>Next, to register the modules, instanciate a shell <a href="../../reference/runtime/runtime-class/">FireflyRuntime</a> instance and register the remote module with the <a href="../../reference/registration/initializefirefly/">initializeFirefly</a> function (the configuration of the remote module will be covered in the <a href="../create-remote-module/">next section</a>):</p>
 <div class="codeblock-wrapper"><doc-codeblock>
 <div class="codeblock-title">host/src/bootstrap.tsx</div>
-<pre translate="no" class="language-tsx" data-line="11-13"><code v-pre class="language-tsx">import { createRoot } from &quot;react-dom/client&quot;;
-import { FireflyProvider, initializeFirefly, type RemoteDefinition } from &quot;@squide/firefly&quot;;
+<pre translate="no" class="language-tsx" data-line="12-14"><code v-pre class="language-tsx">import { createRoot } from &quot;react-dom/client&quot;;
+import { FireflyProvider } from &quot;@squide/firefly&quot;;
+import { initializeFirefly, type RemoteDefinition } from &quot;@squide/firefly-module-federation&quot;;
 import { App } from &quot;./App.tsx&quot;;
 
 // Define the remote modules.
@@ -505,7 +506,7 @@ export function RootLayout() {
     );
 }</code></pre>
 </doc-codeblock></div>
-<p>Then, add a <a href="../../reference/registration/registerlocalmodules/">local module</a> at the root of the host application to register the homepage:</p>
+<p>Then, add a local module at the root of the host application to register the homepage:</p>
 <div class="codeblock-wrapper"><doc-codeblock>
 <div class="codeblock-title">host/src/register.tsx</div>
 <pre translate="no" class="language-tsx" data-line="4-9"><code v-pre class="language-tsx">import type { ModuleRegisterFunction, FireflyRuntime } from &quot;@squide/firefly&quot;;
@@ -559,11 +560,12 @@ export const registerHost: ModuleRegisterFunction&lt;FireflyRuntime&gt; = runtim
         </div>
     </div>
 </div>
-<p>Finally, update the bootstrapping code to <a href="../../reference/registration/registerlocalmodules/">register</a> the newly created local module:</p>
+<p>Finally, update the bootstrapping code to register the newly created local module:</p>
 <div class="codeblock-wrapper"><doc-codeblock>
 <div class="codeblock-title">host/src/bootstrap.tsx</div>
-<pre translate="no" class="language-tsx" data-line="13"><code v-pre class="language-tsx">import { createRoot } from &quot;react-dom/client&quot;;
-import { FireflyProvider, initializeFirefly, type RemoteDefinition } from &quot;@squide/firefly&quot;;
+<pre translate="no" class="language-tsx" data-line="14"><code v-pre class="language-tsx">import { createRoot } from &quot;react-dom/client&quot;;
+import { FireflyProvider } from &quot;@squide/firefly&quot;;
+import { initializeFirefly, type RemoteDefinition } from &quot;@squide/firefly-module-federation&quot;;
 import { App } from &quot;./App.tsx&quot;;
 import { registerHost } from &quot;./register.tsx&quot;;
 

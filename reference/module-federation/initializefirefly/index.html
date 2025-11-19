@@ -4,40 +4,40 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <meta name="turbo-root" content="/wl-squide">
-    <meta name="turbo-cache-control" content="no-cache" data-turbo-track="reload" data-track-token="3.12.0-preview2.815715386982">
+    <meta name="turbo-cache-control" content="no-cache" data-turbo-track="reload" data-track-token="3.12.0-preview2.816893990223">
 
     <!-- See retype.com -->
     <meta name="generator" content="Retype 3.12.0-preview2">
 
     <!-- Primary Meta Tags -->
-    <title>registerRemoteModules</title>
-    <meta name="title" content="registerRemoteModules">
-    <meta name="description" content="This function is deprecated, use the initializeFirefly function instead.">
+    <title>initializeFirefly</title>
+    <meta name="title" content="initializeFirefly">
+    <meta name="description" content="This function is a wrapper around the original initializeFirefly function, adapted for use with Module Federation.">
 
     <!-- Canonical -->
-    <link rel="canonical" href="https://workleap.github.io/wl-squide/reference/registration/registerremotemodules/">
+    <link rel="canonical" href="https://workleap.github.io/wl-squide/reference/module-federation/initializefirefly/">
 
     <!-- Open Graph / Facebook -->
     <meta property="og:type" content="website">
-    <meta property="og:url" content="https://workleap.github.io/wl-squide/reference/registration/registerremotemodules/">
-    <meta property="og:title" content="registerRemoteModules">
-    <meta property="og:description" content="This function is deprecated, use the initializeFirefly function instead.">
+    <meta property="og:url" content="https://workleap.github.io/wl-squide/reference/module-federation/initializefirefly/">
+    <meta property="og:title" content="initializeFirefly">
+    <meta property="og:description" content="This function is a wrapper around the original initializeFirefly function, adapted for use with Module Federation.">
 
     <!-- Twitter -->
     <meta property="twitter:card" content="summary_large_image">
-    <meta property="twitter:url" content="https://workleap.github.io/wl-squide/reference/registration/registerremotemodules/">
-    <meta property="twitter:title" content="registerRemoteModules">
-    <meta property="twitter:description" content="This function is deprecated, use the initializeFirefly function instead.">
+    <meta property="twitter:url" content="https://workleap.github.io/wl-squide/reference/module-federation/initializefirefly/">
+    <meta property="twitter:title" content="initializeFirefly">
+    <meta property="twitter:description" content="This function is a wrapper around the original initializeFirefly function, adapted for use with Module Federation.">
 
     <script data-cfasync="false">(function(){var cl=document.documentElement.classList,ls=localStorage.getItem("retype_scheme"),hd=cl.contains("dark"),hl=cl.contains("light"),wm=window.matchMedia&&window.matchMedia("(prefers-color-scheme: dark)").matches;if(ls==="dark"||(!ls&&wm&&!hd&&!hl)){cl.remove("light");cl.add("dark")}else if(ls==="light"||(!ls&&!wm&&!hd&&!hl)){cl.remove("dark");cl.add("light")}})();</script>
 
     <link id="retype-favicon" rel="icon" href="../../../static/favicon.png" />
-    <link href="../../../resources/css/retype.css?v=3.12.0-preview2.815715386982" rel="stylesheet">
+    <link href="../../../resources/css/retype.css?v=3.12.0-preview2.816893990223" rel="stylesheet">
 
-    <script data-cfasync="false" src="../../../resources/js/config.js?v=3.12.0-preview2.815715386982" data-turbo-eval="false" defer></script>
+    <script data-cfasync="false" src="../../../resources/js/config.js?v=3.12.0-preview2.816893990223" data-turbo-eval="false" defer></script>
     <script data-cfasync="false" src="../../../resources/js/retype.js?v=3.12.0-preview2" data-turbo-eval="false" defer></script>
-    <script id="lunr-js" data-cfasync="false" src="../../../resources/js/lunr.js?v=3.12.0-preview2.815715386982" data-turbo-eval="false" defer></script>
-    <script id="prism-js" data-cfasync="false" src="../../../resources/js/prism.js?v=3.12.0-preview2.815715386982" defer></script>
+    <script id="lunr-js" data-cfasync="false" src="../../../resources/js/lunr.js?v=3.12.0-preview2.816893990223" data-turbo-eval="false" defer></script>
+    <script id="prism-js" data-cfasync="false" src="../../../resources/js/prism.js?v=3.12.0-preview2.816893990223" defer></script>
 
     <link href="https://workleap.github.io/wl-idp-docs-hub/static/retype-customization.css" rel="stylesheet" />
 
@@ -264,39 +264,44 @@
                                         </li>
                                         <li class="pr-4">
                                             <span class="pr-4">
-                                                Registration
+                                                Module Federation
                                             </span>
+                                            <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" width="18" height="18" viewBox="0 0 24 24" aria-hidden="true">
+                                                <path d="M8.72 18.78a.75.75 0 0 1 0-1.06L14.44 12 8.72 6.28a.751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018l6.25 6.25a.75.75 0 0 1 0 1.06l-6.25 6.25a.75.75 0 0 1-1.06 0Z"/>
+                                            </svg>
+                                        </li>
+                                        <li class="pr-4">
+                                            <a href="../../../reference/module-federation/initializefirefly/" class="pr-4">
+                                                initialize​Firefly
+                                            </a>
                                         </li>
                                     </ol>
                                 </nav>
                 
                                 <!-- Page content  -->
-<doc-anchor-target id="registerremotemodules" class="break-words">
+<doc-anchor-target id="initializefirefly" class="break-words">
     <h1>
-        <doc-anchor-trigger class="header-anchor-trigger" to="#registerremotemodules">#</doc-anchor-trigger>
-        <span>registerRemoteModules</span>
+        <doc-anchor-trigger class="header-anchor-trigger" to="#initializefirefly">#</doc-anchor-trigger>
+        <span>initializeFirefly</span>
     </h1>
 </doc-anchor-target>
 <div class="flex mb-6">
-    <div class="shrink-0 w-1.5 rounded-tl-lg rounded-bl-lg bg-callout-warning"></div>
+    <div class="shrink-0 w-1.5 rounded-tl-lg rounded-bl-lg bg-callout-info"></div>
     <div class="flex w-full py-4 border border-l-0 rounded-tr-lg rounded-br-lg doc-callout bg-callout-base-bg border-callout-base-border" role="alert">
         <div class="flex items-center ml-4 h-7">
-            <svg xmlns="http://www.w3.org/2000/svg" class="mb-px text-callout-warning" width="22" height="22" viewBox="0 0 24 24" role="presentation">
+            <svg xmlns="http://www.w3.org/2000/svg" class="mb-px text-callout-info" width="22" height="22" viewBox="0 0 24 24" role="presentation">
                 <g fill="currentColor"><g>
-                    <path d="M22.48 15.59L14.01 1.45A2.968 2.968 0 0012.16.09c-.78-.19-1.58-.07-2.27.35-.41.25-.76.6-1.01 1.01v.01L.4 15.6c-.83 1.43-.33 3.27 1.1 4.1.45.26.95.4 1.48.4h16.95c.8-.01 1.55-.33 2.11-.9.56-.57.87-1.33.86-2.13a3.04 3.04 0 00-.42-1.48zm-1.87 2.21c-.19.19-.44.3-.69.3H2.99c-.17 0-.34-.05-.49-.13a.992.992 0 01-.37-1.35L10.6 2.48c.08-.14.2-.25.34-.33a.992.992 0 011.37.33l8.46 14.13c.09.15.13.32.13.49 0 .26-.1.51-.29.7z"></path>
-                    <path d="M11.45 12.1c.55 0 1-.45 1-1v-4c0-.55-.45-1-1-1s-1 .45-1 1v4c0 .56.45 1 1 1zM11.46 14.1c-.56 0-1 .45-1 1s.45 1 1 1 1-.45 1-1-.45-1-1-1z"></path>
+                    <path d="M12 1C5.93 1 1 5.93 1 12s4.93 11 11 11 11-4.93 11-11S18.07 1 12 1zm0 20c-4.96 0-9-4.04-9-9s4.04-9 9-9 9 4.04 9 9-4.04 9-9 9z"></path>
+                    <path d="M12 11c-.55 0-1 .45-1 1v4c0 .55.45 1 1 1s1-.45 1-1v-4c0-.55-.45-1-1-1zM12.01 7c-.56 0-1 .45-1 1s.45 1 1 1 1-.45 1-1-.45-1-1-1z"></path>
+                    <path fill="none" d="M0 0h24v24H0z"></path>
                 </g></g>
             </svg>
         </div>
         <div class="pr-5 ml-3 w-full">
-<p>This function is <strong>deprecated</strong>, use the <a href="../initializefirefly/">initializeFirefly</a> function instead.</p>
+<p>This function is a wrapper around the original <a href="../../registration/initializefirefly/">initializeFirefly</a> function, adapted for use with Module Federation. This page documents only the differences between the original function and this adapted version.</p>
         </div>
     </div>
 </div>
-<p>Register one or many remote module(s). During the registration process, the module <code translate="no" v-pre>register</code> function will be invoked with a <code translate="no" v-pre>FireflyRuntime</code> instance and an optional <code translate="no" v-pre>context</code> object. To <strong>defer the registration</strong> of navigation items, a registration function can return an anonymous function.</p>
-<blockquote>
-<p>A remote module is a module that is not part of the current build but is <strong>loaded at runtime</strong> from a remote server.</p>
-</blockquote>
 <doc-anchor-target id="reference">
     <h2>
         <doc-anchor-trigger class="header-anchor-trigger" to="#reference">#</doc-anchor-trigger>
@@ -304,7 +309,7 @@
     </h2>
 </doc-anchor-target>
 <div class="codeblock-wrapper"><doc-codeblock>
-<pre translate="no" class="language-typescript"><code v-pre class="language-typescript">registerRemoteModules(remotes: [], runtime, options?: { context? })</code></pre>
+<pre translate="no" class="language-typescript"><code v-pre class="language-typescript">const runtime = initializeFirefly(options?: { localModules?, remotes?, startMsw?, onError?, context?, mode?, useMsw?, loggers?, plugins? })</code></pre>
 </doc-codeblock></div>
 <doc-anchor-target id="parameters">
     <h3>
@@ -313,11 +318,9 @@
     </h3>
 </doc-anchor-target>
 <ul>
-<li><code translate="no" v-pre>remotes</code>: An array of <doc-anchor-trigger to="#remote-definition">RemoteDefinition</doc-anchor-trigger>.</li>
-<li><code translate="no" v-pre>runtime</code>: A <code translate="no" v-pre>FireflyRuntime</code> instance.</li>
 <li><code translate="no" v-pre>options</code>: An optional object literal of options:
 <ul>
-<li><code translate="no" v-pre>context</code>: An optional context object that will be pass to the registration function.</li>
+<li><code translate="no" v-pre>remotes</code>: An optional array of <doc-anchor-trigger to="#remote-definition">RemoteDefinition</doc-anchor-trigger>.</li>
 </ul>
 </li>
 </ul>
@@ -327,18 +330,7 @@
         <span>Returns</span>
     </h3>
 </doc-anchor-target>
-<p>A <code translate="no" v-pre>Promise</code> object with an array of <code translate="no" v-pre>RemoteModuleRegistrationError</code> if any error happens during the registration.</p>
-<doc-anchor-target id="remotemoduleregistrationerror">
-    <h4>
-        <doc-anchor-trigger class="header-anchor-trigger" to="#remotemoduleregistrationerror">#</doc-anchor-trigger>
-        <span><code translate="no" v-pre>RemoteModuleRegistrationError</code></span>
-    </h4>
-</doc-anchor-target>
-<ul>
-<li><code translate="no" v-pre>remoteName</code>: The name of the remote module that failed to load.</li>
-<li><code translate="no" v-pre>moduleName</code>: The name of the <doc-anchor-trigger to="#name">module</doc-anchor-trigger> that Squide attempted to recover.</li>
-<li><code translate="no" v-pre>error</code>: The original <code translate="no" v-pre>Error</code> object.</li>
-</ul>
+<p>A <a href="../../runtime/runtime-class/">FireflyRuntime</a> instance.</p>
 <doc-anchor-target id="usage">
     <h2>
         <doc-anchor-trigger class="header-anchor-trigger" to="#usage">#</doc-anchor-trigger>
@@ -353,17 +345,18 @@
 </doc-anchor-target>
 <div class="codeblock-wrapper"><doc-codeblock>
 <div class="codeblock-title">host/src/bootstrap.tsx</div>
-<pre translate="no" class="language-tsx" data-line="7-9,11"><code v-pre class="language-tsx">import { FireflyProvider, FireflyRuntime, registerRemoteModules, type RemoteDefinition } from &quot;@squide/firefly&quot;;
+<pre translate="no" class="language-tsx" data-line="6-8,11"><code v-pre class="language-tsx">import { FireflyProvider } from &quot;@squide/firefly&quot;;
+import { FireflyProvider, initializeFirefly, type RemoteDefinition } from &quot;@squide/firefly-module-federation&quot;;
 import { createRoot } from &quot;react&quot;;
 import { App } from &quot;./App.tsx&quot;;
-
-const runtime = new FireflyRuntime();
 
 const Remotes: RemoteDefinition = [
     { name: &quot;remote1&quot; }
 ];
 
-await registerRemoteModules(Remotes, runtime);
+const runtime = initializeFirefly({
+    remotes: Remotes
+});
 
 const root = createRoot(document.getElementById(&quot;root&quot;)!);
 
@@ -376,233 +369,20 @@ root.render(
 <div class="codeblock-wrapper"><doc-codeblock>
 <div class="codeblock-title">remote-module/src/register.tsx</div>
 <pre translate="no" class="language-tsx" data-line="5-8,10-14"><code v-pre class="language-tsx">import type { ModuleRegisterFunction, FireflyRuntime } from &quot;@squide/firefly&quot;;
-import { AboutPage } from &quot;./AboutPage.tsx&quot;;
+import { Page } from &quot;./Page.tsx&quot;;
 
 export const register: ModuleRegisterFunction&lt;FireflyRuntime&gt; = runtime =&gt; {
     runtime.registerRoute({
-        path: &quot;/about&quot;,
-        element: &lt;AboutPage /&gt;
+        path: &quot;/remote/page&quot;,
+        element: &lt;Page /&gt;
     });
 
     runtime.registerNavigationItem({
-        $id: &quot;about&quot;,
-        $label: &quot;About&quot;,
-        to: &quot;/about&quot;
+        $id: &quot;remote-page&quot;,
+        $label: &quot;Remote/Page&quot;,
+        to: &quot;/remote/page&quot;
     });
 }</code></pre>
-</doc-codeblock></div>
-<doc-anchor-target id="defer-the-registration-of-navigation-items">
-    <h3>
-        <doc-anchor-trigger class="header-anchor-trigger" to="#defer-the-registration-of-navigation-items">#</doc-anchor-trigger>
-        <span>Defer the registration of navigation items</span>
-    </h3>
-</doc-anchor-target>
-<p>Sometimes, data must be fetched to determine which navigation items should be registered by a given module. To address this, Squide offers a <strong>two-phase registration mechanism</strong>:</p>
-<ol>
-<li><p>The first phase allows modules to register navigation items that are not dependent on initial data (in addition to their routes and MSW request handlers when fake endpoints are available).</p>
-</li>
-<li><p>The second phase enables modules to register navigation items that are dependent on initial data. Such a use case would be determining whether a navigation item should be registered based on a feature flag. We refer to this second phase as <strong>deferred registrations</strong>.</p>
-</li>
-</ol>
-<p>To defer a registration to the second phase, a module registration function can <strong>return an anonymous function</strong> matching the <code translate="no" v-pre>DeferredRegistrationFunction</code> type: <code translate="no" v-pre>(data, operation: &quot;register&quot; | &quot;update&quot;) =&gt; Promise | void</code>.</p>
-<p>Once the modules are registered, the deferred registration functions will be executed with the deferred data and <code translate="no" v-pre>&quot;register&quot;</code> as the value for the <code translate="no" v-pre>operation</code> argument. Afterward, whenever the deferred data changes, the deferred registration functions will be re-executed with the updated deferred data and <code translate="no" v-pre>&quot;update&quot;</code> as the value for the <code translate="no" v-pre>operation</code> argument.</p>
-<div class="codeblock-wrapper"><doc-codeblock>
-<div class="codeblock-title">host/src/bootstrap.tsx</div>
-<pre translate="no" class="language-tsx" data-line="12"><code v-pre class="language-tsx">import { FireflyProvider, FireflyRuntime, registerRemoteModules, type RemoteDefinition } from &quot;@squide/firefly&quot;;
-import { createRoot } from &quot;react&quot;;
-import { register } from &quot;@sample/local-module&quot;;
-import { App } from &quot;./App.tsx&quot;;
-
-const runtime = new FireflyRuntime();
-
-const Remotes: RemoteDefinition = [
-    { name: &quot;remote1&quot; }
-];
-
-await registerRemoteModules(Remotes, runtime);
-
-const root = createRoot(document.getElementById(&quot;root&quot;)!);
-
-root.render(
-    &lt;FireflyProvider runtime={runtime}&gt;
-        &lt;App /&gt;
-    &lt;/FireflyProvider&gt;
-);</code></pre>
-</doc-codeblock></div>
-<div class="codeblock-wrapper"><doc-codeblock>
-<div class="codeblock-title">host/src/AppRouter.tsx</div>
-<pre translate="no" class="language-tsx" data-line="11-17"><code v-pre class="language-tsx">import { usePublicDataQueries, useDeferredRegistrations, useIsBootstrapping, AppRouter as FireflyAppRouter } from &quot;@squide/firefly&quot;;
-import { useMemo } from &quot;react&quot;;
-import { createBrowserRouter, Outlet } from &quot;react-router&quot;;
-import { RouterProvider } from &quot;react-router/dom&quot;;
-import type { DeferredRegistrationData } from &quot;@sample/shared&quot;;
-import { getFeatureFlagsQuery } from &quot;./getFeatureFlagsQuery.ts&quot;;
-
-function BootstrappingRoute() {
-    const [featureFlags] = usePublicDataQueries([getFeatureFlagsQuery]);
-
-    // The useMemo is super important otherwise the hook will consider that the feature flags
-    // changed everytime the hook is rendered.
-    const data: DeferredRegistrationData = useMemo(() =&gt; ({ 
-        featureFlags 
-    }), [featureFlags]);
-
-    useDeferredRegistrations(data);
-
-    if (useIsBootstrapping()) {
-        return &lt;div&gt;Loading...&lt;/div&gt;;
-    }
-
-    return &lt;Outlet /&gt;;
-}
-
-export function AppRouter() {
-    return (
-        &lt;FireflyAppRouter waitForPublicData&gt;
-            {({ rootRoute, registeredRoutes, routerProviderProps }) =&gt; {
-                return (
-                    &lt;RouterProvider
-                        router={createBrowserRouter([
-                            {
-                                element: rootRoute,
-                                children: [
-                                    {
-                                        element: &lt;BootstrappingRoute /&gt;,
-                                        children: registeredRoutes
-                                    }
-                                ]
-                            }
-                        ])}
-                        {...routerProviderProps}
-                    /&gt;
-                );
-            }}
-        &lt;/FireflyAppRouter&gt;
-    );
-}</code></pre>
-</doc-codeblock></div>
-<p>Routes are always registered, but navigation items can be conditionally registered using a deferred registration function.</p>
-<div class="codeblock-wrapper"><doc-codeblock>
-<div class="codeblock-title">local-module/src/register.tsx</div>
-<pre translate="no" class="language-tsx" data-line="20-23,28-37"><code v-pre class="language-tsx">import type { ModuleRegisterFunction, FireflyRuntime } from &quot;@squide/firefly&quot;;
-import type { DeferredRegistrationData } from &quot;@sample/shared&quot;;
-import { AboutPage } from &quot;./AboutPage.tsx&quot;;
-import { FeatureAPage } from &quot;./FeatureAPage.tsx&quot;;
-
-export const register: ModuleRegisterFunction&lt;FireflyRuntime, unknown, DeferredRegistrationData&gt; = runtime =&gt; {
-    runtime.registerRoute({
-        path: &quot;/about&quot;,
-        element: &lt;AboutPage /&gt;
-    });
-
-    runtime.registerNavigationItem({
-        $id: &quot;about&quot;,
-        $label: &quot;About&quot;,
-        to: &quot;/about&quot;
-    });
-
-    // Routes are always registered. If a route may not be available for a group of users, conditionally register
-    // its navigation item with a deferred registration.
-    // To manage direct hits to a conditional route, render an error boundary whenever the route's endpoint returns a 401 status code.
-    runtime.registerRoute({
-        path: &quot;/feature-a&quot;,
-        element: &lt;FeatureAPage /&gt;
-    });
-
-    // Once the feature flags has been loaded by the host application, by completing the module registrations process,
-    // the deferred registration function will be called with the feature flags data.
-    return ({ featureFlags }) =&gt; {
-        // Only register the &quot;feature-a&quot; route and navigation item if the feature is active.
-        if (featureFlags.featureA) {
-            runtime.registerNavigationItem({
-                $id: &quot;feature-a&quot;,
-                $label: &quot;Feature A&quot;,
-                to: &quot;/feature-a&quot;
-            });
-        }
-    };
-}</code></pre>
-</doc-codeblock></div>
-<p>
-<div class="mb-6 px-5 py-4 flex justify-between relative border border-base-border hover:border-base-border-hover rounded transition-colors duration-150">
-    <div class="flex items-center text-base-500">
-        <span class="inline-block mb-px">
-            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" role="presentation" fill="currentColor"><path fill="none" d="M0 0h24v24H0z"/><path d="M19.92 12.38a1 1 0 00-.22-1.09l-7-7a.996.996 0 10-1.41 1.41l5.3 5.3H5c-.55 0-1 .45-1 1s.45 1 1 1h11.59l-5.29 5.29a.996.996 0 000 1.41c.19.2.44.3.7.3s.51-.1.71-.29l7-7c.09-.09.16-.21.21-.33z"/></svg>
-        </span>
-        <span class="inline-block font-medium ml-2">useDeferredRegistrations</span>
-    </div>
-    <div class="flex items-center text-xs text-gray-400 dark:text-dark-400">
-        <span>../usedeferredregistrations/</span>
-    </div>
-    <a href="../usedeferredregistrations/" class="absolute block inset-0"></a>
-</div>
-</p>
-<doc-anchor-target id="use-the-deferred-registration-operation-argument">
-    <h3>
-        <doc-anchor-trigger class="header-anchor-trigger" to="#use-the-deferred-registration-operation-argument">#</doc-anchor-trigger>
-        <span>Use the deferred registration operation argument</span>
-    </h3>
-</doc-anchor-target>
-<div class="codeblock-wrapper"><doc-codeblock>
-<div class="codeblock-title">local-module/src/register.tsx</div>
-<pre translate="no" class="language-tsx" data-line="28,33"><code v-pre class="language-tsx">import type { ModuleRegisterFunction, FireflyRuntime } from &quot;@squide/firefly&quot;;
-import type { DeferredRegistrationData } from &quot;@sample/shared&quot;;
-import { AboutPage } from &quot;./AboutPage.tsx&quot;;
-import { FeatureAPage } from &quot;./FeatureAPage.tsx&quot;;
-
-export const register: ModuleRegisterFunction&lt;FireflyRuntime, unknown, DeferredRegistrationData&gt; = runtime =&gt; {
-    runtime.registerRoute({
-        path: &quot;/about&quot;,
-        element: &lt;AboutPage /&gt;
-    });
-
-    runtime.registerNavigationItem({
-        $id: &quot;about&quot;,
-        $label: &quot;About&quot;,
-        to: &quot;/about&quot;
-    });
-
-    // Routes are always registered. If a route may not be available for a group of users, conditionally register
-    // its navigation item with a deferred registration.
-    // To manage direct hits to a conditional route, render an error boundary whenever the route's endpoint returns a 401 status code.
-    runtime.registerRoute({
-        path: &quot;/feature-a&quot;,
-        element: &lt;FeatureAPage /&gt;
-    });
-
-    // Once the feature flags has been loaded by the host application, by completing the module registrations process,
-    // the deferred registration function will be called with the feature flags data.
-    return ({ featureFlags }, operation) =&gt; {
-        // Only register the &quot;feature-a&quot; route and navigation item if the feature is active.
-        if (featureFlags.featureA) {
-            runtime.registerNavigationItem({
-                $id: &quot;feature-a&quot;,
-                $label: operation === &quot;register&quot; ? &quot;Feature A&quot; : &quot;Feature A updated&quot;,
-                to: &quot;/feature-a&quot;
-            });
-        }
-    };
-}</code></pre>
-</doc-codeblock></div>
-<doc-anchor-target id="handle-registration-errors">
-    <h3>
-        <doc-anchor-trigger class="header-anchor-trigger" to="#handle-registration-errors">#</doc-anchor-trigger>
-        <span>Handle registration errors</span>
-    </h3>
-</doc-anchor-target>
-<div class="codeblock-wrapper"><doc-codeblock>
-<div class="codeblock-title">host/src/bootstrap.tsx</div>
-<pre translate="no" class="language-tsx" data-line="9-11"><code v-pre class="language-tsx">import { FireflyRuntime, registerRemoteModules, type RemoteDefinition } from &quot;@squide/firefly&quot;;
-
-const runtime = new FireflyRuntime();
-
-const Remotes: RemoteDefinition = [
-    { name: &quot;remote1&quot; }
-];
-
-(await registerRemoteModules(Remotes, runtime)).forEach(x =&gt; {
-    console.error(x);
-});</code></pre>
 </doc-codeblock></div>
 <doc-anchor-target id="remote-definition">
     <h2>
@@ -626,7 +406,7 @@ const Remotes: RemoteDefinition = [
     </h3>
 </doc-anchor-target>
 <p>The <code translate="no" v-pre>name</code> option of a remote definition <strong>must match</strong> the <code translate="no" v-pre>name</code> option defined in the remote module <a href="https://module-federation.io/configure/index.html" class="outbound" target="_blank">ModuleFederationPlugin</a> configuration.</p>
-<p>If you are relying on either the Squide <a href="../../webpack/definedevremotemoduleconfig/">defineDevRemoteModuleConfig</a> or <a href="../../webpack/definebuildremotemoduleconfig/">defineBuildRemoteModuleConfig</a> functions to add the <code translate="no" v-pre>ModuleFederationPlugin</code> to the remote module webpack <a href="https://module-federation.io/" class="outbound" target="_blank">configuration object</a>, then the remote module <code translate="no" v-pre>name</code> is the second argument of the function.</p>
+<p>If you are using either the Squide <a href="../../webpack/definedevremotemoduleconfig/">defineDevRemoteModuleConfig</a> or <a href="../../webpack/definebuildremotemoduleconfig/">defineBuildRemoteModuleConfig</a> functions to add the <code translate="no" v-pre>ModuleFederationPlugin</code> to the remote module webpack <a href="https://module-federation.io/" class="outbound" target="_blank">configuration object</a>, then the remote module <code translate="no" v-pre>name</code> is the second argument of the function.</p>
 <p>In the following exemple, the remote module <code translate="no" v-pre>name</code> is <code translate="no" v-pre>remote1</code>.</p>
 <div class="codeblock-wrapper"><doc-codeblock>
 <div class="codeblock-title">host/src/bootstrap.tsx</div>
@@ -650,12 +430,33 @@ export default defineDevRemoteModuleConfig(swcConfig, &quot;remote1&quot;, 8081)
                             </div>
                             <footer id="retype-content-footer" class="clear-both">
                                 <div class="flex flex-wrap items-center justify-between mt-14">
-                                    <a id="retype-edit-this-page" class="my-2.5 inline-flex items-center text-sm whitespace-nowrap text-body-link font-body-link-weight hover:text-body-link-hover hover:underline" href="https://github.com/workleap/wl-squide/blob/main/docs/reference/registration/registerRemoteModules.md" target="_blank" rel="noopener">
+                                    <a id="retype-edit-this-page" class="my-2.5 inline-flex items-center text-sm whitespace-nowrap text-body-link font-body-link-weight hover:text-body-link-hover hover:underline" href="https://github.com/workleap/wl-squide/blob/main/docs/reference/module-federation/initializeFirefly.md" target="_blank" rel="noopener">
                                         <svg class="mr-1.5" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="currentColor" overflow="visible"><path d="M20 12c-.55 0-1 .45-1 1v7c0 .55-.45 1-1 1H4c-.55 0-1-.45-1-1V6c0-.55.45-1 1-1h7c.55 0 1-.45 1-1s-.45-1-1-1H4C2.35 3 1 4.35 1 6v14c0 1.65 1.35 3 3 3h14c1.65 0 3-1.35 3-3v-7c0-.55-.45-1-1-1z" /><path d="M22.21 1.79c-1.18-1.18-3.24-1.18-4.41 0l-9.5 9.5c-.13.13-.22.29-.26.46l-1 4c-.08.34.01.7.26.95.18.2.44.3.7.3.08 0 .16-.01.24-.03l4-1c.18-.04.34-.13.46-.26l9.5-9.5c1.22-1.22 1.22-3.2.01-4.42zm-1.42 3l-9.3 9.3-2.11.53.53-2.11 9.3-9.3c.42-.42 1.16-.42 1.59 0 .43.43.43 1.15-.01 1.58z" /><path fill="none" d="M0 0h24v24H0z" /></svg>
                                         <span>Edit this page</span>
                                     </a>
                                 </div>
                             
+                                <nav id="retype-nextprev" class="print:hidden flex mt-14">
+                                    <div class="w-1/2">
+                                        <a class="px-5 py-4 h-full flex items-center break-normal font-medium text-body-link border border-base-border hover:border-base-border-hover rounded-l-lg transition-colors duration-150 relative hover:z-5" href="../../../reference/rsbuild/definebuildremotemoduleconfig/">
+                                            <svg xmlns="http://www.w3.org/2000/svg" class="mr-3" width="24" height="24" viewBox="0 0 24 24" fill="currentColor" overflow="visible"><path d="M19 11H7.41l5.29-5.29a.996.996 0 10-1.41-1.41l-7 7a1 1 0 000 1.42l7 7a1.024 1.024 0 001.42-.01.996.996 0 000-1.41L7.41 13H19c.55 0 1-.45 1-1s-.45-1-1-1z" /><path fill="none" d="M0 0h24v24H0z" /></svg>
+                                            <span>
+                                                <span class="block text-xs font-normal text-base-text-muted">Previous</span>
+                                                <span class="block mt-1">define​Build​Remote​Module​Config</span>
+                                            </span>
+                                        </a>
+                                    </div>
+                            
+                                    <div class="w-1/2">
+                                        <a class="px-5 py-4 -mx-px h-full flex items-center justify-end break-normal font-medium text-body-link border border-base-border hover:border-base-border-hover rounded-r-lg transition-colors duration-150 relative hover:z-5" href="../../../reference/miscellaneous/usepublicdatahandler/">
+                                            <span>
+                                                <span class="block text-xs font-normal text-right text-base-text-muted">Next</span>
+                                                <span class="block mt-1">use​Public​Data​Handler</span>
+                                            </span>
+                                            <svg xmlns="http://www.w3.org/2000/svg" class="ml-3" width="24" height="24" viewBox="0 0 24 24" fill="currentColor" overflow="visible"><path d="M19.92 12.38a1 1 0 00-.22-1.09l-7-7a.996.996 0 10-1.41 1.41l5.3 5.3H5c-.55 0-1 .45-1 1s.45 1 1 1h11.59l-5.29 5.29a.996.996 0 000 1.41c.19.2.44.3.7.3s.51-.1.71-.29l7-7c.09-.09.16-.21.21-.33z" /><path fill="none" d="M0 0h24v24H0z" /></svg>
+                                        </a>
+                                    </div>
+                                </nav>
                             </footer>
                         </main>
                 
@@ -714,6 +515,6 @@ export default defineDevRemoteModuleConfig(swcConfig, &quot;remote1&quot;, 8081)
 
     <div id="retype-overlay-target"></div>
 
-    <script data-cfasync="false">window.__DOCS__ = { "title": "registerRemoteModules", level: 3, icon: "file", hasPrism: true, hasMermaid: false, hasMath: false, tocDepth: 23 }</script>
+    <script data-cfasync="false">window.__DOCS__ = { "title": "initializeFirefly", level: 3, icon: "file", hasPrism: true, hasMermaid: false, hasMath: false, tocDepth: 23 }</script>
 </body>
 </html>

@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <meta name="turbo-root" content="/wl-squide">
-    <meta name="turbo-cache-control" content="no-cache" data-turbo-track="reload" data-track-token="3.12.0-preview2.815715386982">
+    <meta name="turbo-cache-control" content="no-cache" data-turbo-track="reload" data-track-token="3.12.0-preview2.816893990223">
 
     <!-- See retype.com -->
     <meta name="generator" content="Retype 3.12.0-preview2">
@@ -32,12 +32,12 @@
     <script data-cfasync="false">(function(){var cl=document.documentElement.classList,ls=localStorage.getItem("retype_scheme"),hd=cl.contains("dark"),hl=cl.contains("light"),wm=window.matchMedia&&window.matchMedia("(prefers-color-scheme: dark)").matches;if(ls==="dark"||(!ls&&wm&&!hd&&!hl)){cl.remove("light");cl.add("dark")}else if(ls==="light"||(!ls&&!wm&&!hd&&!hl)){cl.remove("dark");cl.add("light")}})();</script>
 
     <link id="retype-favicon" rel="icon" href="../../static/favicon.png" />
-    <link href="../../resources/css/retype.css?v=3.12.0-preview2.815715386982" rel="stylesheet">
+    <link href="../../resources/css/retype.css?v=3.12.0-preview2.816893990223" rel="stylesheet">
 
-    <script data-cfasync="false" src="../../resources/js/config.js?v=3.12.0-preview2.815715386982" data-turbo-eval="false" defer></script>
+    <script data-cfasync="false" src="../../resources/js/config.js?v=3.12.0-preview2.816893990223" data-turbo-eval="false" defer></script>
     <script data-cfasync="false" src="../../resources/js/retype.js?v=3.12.0-preview2" data-turbo-eval="false" defer></script>
-    <script id="lunr-js" data-cfasync="false" src="../../resources/js/lunr.js?v=3.12.0-preview2.815715386982" data-turbo-eval="false" defer></script>
-    <script id="prism-js" data-cfasync="false" src="../../resources/js/prism.js?v=3.12.0-preview2.815715386982" defer></script>
+    <script id="lunr-js" data-cfasync="false" src="../../resources/js/lunr.js?v=3.12.0-preview2.816893990223" data-turbo-eval="false" defer></script>
+    <script id="prism-js" data-cfasync="false" src="../../resources/js/prism.js?v=3.12.0-preview2.816893990223" defer></script>
 
     <link href="https://workleap.github.io/wl-idp-docs-hub/static/retype-customization.css" rel="stylesheet" />
 
@@ -293,7 +293,7 @@
 <p><svg xmlns="http://www.w3.org/2000/svg" class="docs-icon" viewBox="0 0 24 24" role="presentation"><g fill="currentColor"><g><path d="M3.5 3.75a.25.25 0 0 1 .25-.25h13.5a.25.25 0 0 1 .25.25v10a.75.75 0 0 0 1.5 0v-10A1.75 1.75 0 0 0 17.25 2H3.75A1.75 1.75 0 0 0 2 3.75v16.5c0 .966.784 1.75 1.75 1.75h7a.75.75 0 0 0 0-1.5h-7a.25.25 0 0 1-.25-.25V3.75Z"/><path d="M6.25 7a.75.75 0 0 0 0 1.5h8.5a.75.75 0 0 0 0-1.5h-8.5Zm-.75 4.75a.75.75 0 0 1 .75-.75h4.5a.75.75 0 0 1 0 1.5h-4.5a.75.75 0 0 1-.75-.75Zm16.28 4.53a.75.75 0 1 0-1.06-1.06l-4.97 4.97-1.97-1.97a.75.75 0 1 0-1.06 1.06l2.5 2.5a.75.75 0 0 0 1.06 0l5.5-5.5Z"/></g></g></svg> <a href="../migrate-to-firefly-v9.0/">Migrate to firefly v9.0</a></p>
 <p>This major version of <code translate="no" v-pre>@squide/firefly</code> introduces <a href="https://tanstack.com/query/latest" class="outbound" target="_blank">TanStack Query</a> as the official library for fetching the global data of a Squide&#x27;s application and features a complete rewrite of the <a href="../../reference/routing/approuter/">AppRouter</a> component, which now uses a state machine to manage the application&#x27;s bootstrapping flow.</p>
 <p>Prior to <code translate="no" v-pre>v9.0</code>, Squide applications couldn&#x27;t use TanStack Query to fetch global data, making it <strong>challenging</strong> for Workleap&#x27;s applications to <strong>keep</strong> their <strong>global data</strong> in <strong>sync</strong> with the <strong>server state</strong>. With <code translate="no" v-pre>v9.0</code>, applications can now leverage <a href="../../guides/fetch-global-data/">custom wrappers</a> of the TanStack Query&#x27;s <a href="https://tanstack.com/query/latest/docs/framework/react/reference/useQueries" class="outbound" target="_blank">useQueries</a> hook to fetch and keep their global data up-to-date with the server state. Additionally, the new <a href="../../reference/registration/usedeferredregistrations/#register-or-update-deferred-registrations">deferred registrations update</a> feature allows applications to even <strong>keep</strong> their conditional <strong>navigation items in sync</strong> with the <strong>server state</strong>.</p>
-<p>Finally, with <code translate="no" v-pre>v9.0</code>, Squide&#x27;s philosophy has evolved. We used to describe Squide as a shell for <strong>federated</strong> applications. Now, we refer to Squide as a shell for <strong>modular</strong> applications. After playing with Squide&#x27;s <a href="../../reference/registration/registerlocalmodules/">local module</a> feature for a while, we discovered that Squide offers significant value even for <strong>non-federated applications</strong>, which triggered this shift in philosophy.</p>
+<p>Finally, with <code translate="no" v-pre>v9.0</code>, Squide&#x27;s philosophy has evolved. We used to describe Squide as a shell for <strong>federated</strong> applications. Now, we refer to Squide as a shell for <strong>modular</strong> applications. After playing with Squide&#x27;s local module feature for a while, we discovered that Squide offers significant value even for <strong>non-federated applications</strong>, which triggered this shift in philosophy.</p>
 <doc-anchor-target id="v93">
     <h3>
         <doc-anchor-trigger class="header-anchor-trigger" to="#v93">#</doc-anchor-trigger>
@@ -301,7 +301,7 @@
     </h3>
 </doc-anchor-target>
 <p><svg xmlns="http://www.w3.org/2000/svg" class="docs-icon" viewBox="0 0 24 24" role="presentation"><g fill="currentColor"><g><path d="M3.5 3.75a.25.25 0 0 1 .25-.25h13.5a.25.25 0 0 1 .25.25v10a.75.75 0 0 0 1.5 0v-10A1.75 1.75 0 0 0 17.25 2H3.75A1.75 1.75 0 0 0 2 3.75v16.5c0 .966.784 1.75 1.75 1.75h7a.75.75 0 0 0 0-1.5h-7a.25.25 0 0 1-.25-.25V3.75Z"/><path d="M6.25 7a.75.75 0 0 0 0 1.5h8.5a.75.75 0 0 0 0-1.5h-8.5Zm-.75 4.75a.75.75 0 0 1 .75-.75h4.5a.75.75 0 0 1 0 1.5h-4.5a.75.75 0 0 1-.75-.75Zm16.28 4.53a.75.75 0 1 0-1.06-1.06l-4.97 4.97-1.97-1.97a.75.75 0 1 0-1.06 1.06l2.5 2.5a.75.75 0 0 0 1.06 0l5.5-5.5Z"/></g></g></svg> <a href="../migrate-to-firefly-v9.3/">Migrate to firefly v9.3</a></p>
-<p>This minor version deprecate the <a href="../../reference/registration/registerlocalmodules/">registerLocalModules</a>, <a href="../../reference/registration/registerremotemodules/">registerRemoteModules</a> and <a href="../../reference/msw/setmswasready/">setMswAsReady</a> in favor of a <code translate="no" v-pre>bootstrap</code> function.</p>
+<p>This minor version deprecate the <code translate="no" v-pre>registerLocalModules</code>, <code translate="no" v-pre>registerRemoteModules</code> in favor of a <code translate="no" v-pre>bootstrap</code> function.</p>
 <doc-anchor-target id="v100">
     <h3>
         <doc-anchor-trigger class="header-anchor-trigger" to="#v100">#</doc-anchor-trigger>
@@ -403,8 +403,8 @@
     </h3>
 </doc-anchor-target>
 <ul>
-<li>The <a href="../../reference/registration/registerlocalmodules/">registerLocalModules</a> function has been <strong>deprecated</strong>, use the <code translate="no" v-pre>bootstrap</code> function instead.</li>
-<li>The <a href="../../reference/registration/registerremotemodules/">registerRemoteModules</a> function has been <strong>deprecated</strong>, use the <code translate="no" v-pre>bootstrap</code> function instead.</li>
+<li>The <code translate="no" v-pre>registerLocalModules</code> function has been <strong>deprecated</strong>, use the <code translate="no" v-pre>bootstrap</code> function instead.</li>
+<li>The <code translate="no" v-pre>registerRemoteModules</code> function has been <strong>deprecated</strong>, use the <code translate="no" v-pre>bootstrap</code> function instead.</li>
 <li>The <a href="../../reference/msw/setmswasready/">setMswAsReady</a> function has been <strong>deprecated</strong>, use the <code translate="no" v-pre>bootstrap</code> function instead.</li>
 <li>The <code translate="no" v-pre>RuntimeContext.Provider</code> has been <strong>deprecated</strong>, use <a href="../../reference/runtime/fireflyprovider/">FireflyProvider</a> instead.</li>
 <li>The <a href="https://www.npmjs.com/package/@squide/firefly-honeycomb" class="outbound" target="_blank">@squide/firefly-honeycomb</a> package has been <strong>deprecated</strong>.</li>
@@ -415,7 +415,7 @@
         <span>Update deferred registration functions signature</span>
     </h3>
 </doc-anchor-target>
-<p>As of <code translate="no" v-pre>v14.0</code>, <a href="../../reference/registration/registerlocalmodules/#defer-the-registration-of-navigation-items">Deferred registration</a> functions now receive a runtime instance as their first argument.</p>
+<p>As of <code translate="no" v-pre>v14.0</code>, Deferred registration functions now receive a runtime instance as their first argument.</p>
 <p>Before:</p>
 <div class="codeblock-wrapper"><doc-codeblock>
 <pre translate="no" class="language-typescript" data-line="1,2,4"><code v-pre class="language-typescript">export const register: ModuleRegisterFunction&lt;FireflyRuntime, unknown, DeferredRegistrationData&gt; = runtime =&gt; {
@@ -450,7 +450,7 @@
         <span>Removed support for deferred routes</span>
     </h3>
 </doc-anchor-target>
-<p>As of <code translate="no" v-pre>v9.0</code>, <a href="../../reference/registration/registerlocalmodules/#defer-the-registration-of-navigation-items">Deferred registration</a> functions no longer support route registration; they are now <strong>exclusively</strong> used for <strong>registering navigation items</strong>. Since deferred registration functions can now be re-executed whenever the global data changes, registering routes in deferred registration functions no longer makes sense as updating the routes registry after the application has bootstrapped could lead to issues.</p>
+<p>As of <code translate="no" v-pre>v9.0</code>, Deferred registration functions no longer support route registration; they are now <strong>exclusively</strong> used for <strong>registering navigation items</strong>. Since deferred registration functions can now be re-executed whenever the global data changes, registering routes in deferred registration functions no longer makes sense as updating the routes registry after the application has bootstrapped could lead to issues.</p>
 <p>This change is a significant improvement for Squide&#x27;s internals, allowing us to eliminate quirks like:</p>
 <ul>
 <li><p>Treating unknown routes as <code translate="no" v-pre>protected</code>: When a user initially requested a deferred route, Squide couldn&#x27;t determine if the route was <code translate="no" v-pre>public</code> or <code translate="no" v-pre>protected</code> because it wasn&#x27;t registered yet. As a result, for that initial request, the route was considered <code translate="no" v-pre>protected</code>, even if the deferred registration later registered it as <code translate="no" v-pre>public</code>.</p>
@@ -858,7 +858,7 @@ import { RouterProvider } from &quot;react-router/dom&quot;;</code></pre>
 </doc-anchor-target>
 <ul>
 <li>Deferred registration functions now always receive a <code translate="no" v-pre>data</code> argument.</li>
-<li>Deferred registration functions now receives a new <a href="../../reference/registration/registerlocalmodules/#use-the-deferred-registration-operation-argument">operations</a> argument.</li>
+<li>Deferred registration functions now receives a new operations argument.</li>
 <li>Navigation items now include a <a href="../../reference/runtime/runtime-class/#conditionally-render-a-navigation-item">$canRender</a> option, enabling modules to control whether a navigation item should be rendered.</li>
 </ul>
 <doc-anchor-target id="new-id-option-for-navigation-items">
@@ -933,7 +933,7 @@ const navigationElements = useRenderedNavigationItems(navigationItems, renderIte
 <li>Replace the <code translate="no" v-pre>ManagedRoutes</code> placeholder with the new <a href="../../reference/routing/publicroutes/">PublicRoutes</a> and <a href="../../reference/routing/protectedroutes/">ProtectedRoutes</a> placeholders. <a href="../../introduction/create-host/#homepage">View example</a></li>
 <li>Convert all deferred routes into static routes. <doc-anchor-trigger to="#removed-support-for-deferred-routes">View example</doc-anchor-trigger></li>
 <li>Add an <code translate="no" v-pre>$id</code> option to the navigation item registrations. <doc-anchor-trigger to="#new-id-option-for-navigation-items">View example</doc-anchor-trigger></li>
-<li>Replace the <a href="../../reference/registration/registerlocalmodules/">registerLocalModules</a>, <a href="../../reference/registration/registerremotemodules/">registerRemoteModules</a>, <a href="../../reference/msw/setmswasready/">setMswAsReady</a> function and the <a href="../../reference/runtime/runtime-class/">FireflyRuntime</a> by the <a href="../../reference/registration/initializefirefly/">initializeFirefly</a> function. <doc-anchor-trigger to="#use-the-initializefirefly-function">View example</doc-anchor-trigger></li>
+<li>Replace the <code translate="no" v-pre>registerLocalModules</code>, <code translate="no" v-pre>registerRemoteModules</code>, <a href="../../reference/msw/setmswasready/">setMswAsReady</a> function and the <a href="../../reference/runtime/runtime-class/">FireflyRuntime</a> by the <a href="../../reference/registration/initializefirefly/">initializeFirefly</a> function. <doc-anchor-trigger to="#use-the-initializefirefly-function">View example</doc-anchor-trigger></li>
 <li>Rename <code translate="no" v-pre>RuntimeContext.Provider</code> for <a href="../../reference/runtime/fireflyprovider/">FireflyProvider</a>. <doc-anchor-trigger to="#rename-runtimecontextprovider-to-fireflyprovider">View example</doc-anchor-trigger></li>
 </ol>
 <doc-anchor-target id="usemsw">
@@ -1066,11 +1066,11 @@ const navigationElements = useRenderedNavigationItems(navigationItems, renderIte
                             
                                 <nav id="retype-nextprev" class="print:hidden flex mt-14">
                                     <div class="w-1/2">
-                                        <a class="px-5 py-4 h-full flex items-center break-normal font-medium text-body-link border border-base-border hover:border-base-border-hover rounded-l-lg transition-colors duration-150 relative hover:z-5" href="../../updating/migrate-to-firefly-v15.0/">
+                                        <a class="px-5 py-4 h-full flex items-center break-normal font-medium text-body-link border border-base-border hover:border-base-border-hover rounded-l-lg transition-colors duration-150 relative hover:z-5" href="../../updating/migrate-to-firefly-v16.0/">
                                             <svg xmlns="http://www.w3.org/2000/svg" class="mr-3" width="24" height="24" viewBox="0 0 24 24" fill="currentColor" overflow="visible"><path d="M19 11H7.41l5.29-5.29a.996.996 0 10-1.41-1.41l-7 7a1 1 0 000 1.42l7 7a1.024 1.024 0 001.42-.01.996.996 0 000-1.41L7.41 13H19c.55 0 1-.45 1-1s-.45-1-1-1z" /><path fill="none" d="M0 0h24v24H0z" /></svg>
                                             <span>
                                                 <span class="block text-xs font-normal text-base-text-muted">Previous</span>
-                                                <span class="block mt-1">Migrate to firefly v​15.​0</span>
+                                                <span class="block mt-1">Migrate to firefly v​16.​0</span>
                                             </span>
                                         </a>
                                     </div>
