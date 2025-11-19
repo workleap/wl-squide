@@ -1,4 +1,4 @@
-import { LocalStorageAccessor } from "./localStorageAccessor2.ts";
+import { LocalStorageAccessor } from "./LocalStorageAccessor.ts";
 import { SessionLocalStorageKey } from "./sessionKey.ts";
 
 export interface LocalStorageSessionAccessorOptions {

@@ -1,4 +1,4 @@
-import { LocalStorageManager } from "./localStorageManager2.ts";
+import { LocalStorageManager } from "./LocalStorageManager.ts";
 import { SessionLocalStorageKey } from "./sessionKey.ts";
 
 export interface LocalStorageSessionManagerOptions {
