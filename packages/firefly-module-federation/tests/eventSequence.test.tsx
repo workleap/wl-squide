@@ -1,3 +1,6 @@
+// IMPORTANT: The tests in this file cannot be concurrent because they rely on mock.invocationCallOrder,
+// which is a global counter in Vitest that tracks the order of all mock function calls across all tests.
+
 import {
     LocalModuleRegistrationFailedEvent,
     LocalModulesDeferredRegistrationCompletedEvent,
