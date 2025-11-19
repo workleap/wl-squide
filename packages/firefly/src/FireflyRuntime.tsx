@@ -13,7 +13,7 @@ export interface FireflyRuntimeOptions<TRuntime extends FireflyRuntime = Firefly
 export interface RegisterRequestHandlersOptions extends RuntimeMethodOptions {}
 
 export interface IFireflyRuntime extends IReactRouterRuntime {
-    get mswState(): MswState;
+    getMswState(): MswState;
     registerRequestHandlers: (handlers: RequestHandler[]) => void;
     get requestHandlers(): RequestHandler[];
     get appRouterStore(): AppRouterStore;
@@ -33,7 +33,7 @@ export class FireflyRuntime<TRuntime extends FireflyRuntime = any> extends React
         this._honeycombInstrumentationClient = honeycombInstrumentationClient;
     }
 
-    get mswState() {
+    getMswState() {
         const mswPlugin = this.getPlugin(MswPluginName) as MswPlugin;
 
         if (!mswPlugin) {
@@ -97,8 +97,8 @@ export class FireflyRuntime<TRuntime extends FireflyRuntime = any> extends React
 }
 
 export class FireflyRuntimeScope<TRuntime extends FireflyRuntime = FireflyRuntime> extends ReactRouterRuntimeScope<TRuntime> implements IFireflyRuntime {
-    get mswState() {
-        return this._runtime.mswState;
+    getMswState() {
+        return this._runtime.getMswState();
     }
 
     registerRequestHandlers(handlers: RequestHandler[], options: RegisterRequestHandlersOptions = {}) {

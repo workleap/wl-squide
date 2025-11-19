@@ -42,7 +42,7 @@ export function bootstrap<TRuntime extends FireflyRuntime = FireflyRuntime, TCon
                 startMsw(runtime)
                     .then(() => {
                         if (runtime.isMswEnabled) {
-                            runtime.mswState.setAsReady();
+                            runtime.getMswState().setAsReady();
                         }
                     })
                     .catch((error: unknown) => {
