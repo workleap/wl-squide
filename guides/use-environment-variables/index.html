@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <meta name="turbo-root" content="/wl-squide">
-    <meta name="turbo-cache-control" content="no-cache" data-turbo-track="reload" data-track-token="3.12.0-preview2.816894151474">
+    <meta name="turbo-cache-control" content="no-cache" data-turbo-track="reload" data-track-token="3.12.0-preview2.816895050904">
 
     <!-- See retype.com -->
     <meta name="generator" content="Retype 3.12.0-preview2">
@@ -32,12 +32,12 @@
     <script data-cfasync="false">(function(){var cl=document.documentElement.classList,ls=localStorage.getItem("retype_scheme"),hd=cl.contains("dark"),hl=cl.contains("light"),wm=window.matchMedia&&window.matchMedia("(prefers-color-scheme: dark)").matches;if(ls==="dark"||(!ls&&wm&&!hd&&!hl)){cl.remove("light");cl.add("dark")}else if(ls==="light"||(!ls&&!wm&&!hd&&!hl)){cl.remove("dark");cl.add("light")}})();</script>
 
     <link id="retype-favicon" rel="icon" href="../../static/favicon.png" />
-    <link href="../../resources/css/retype.css?v=3.12.0-preview2.816894151474" rel="stylesheet">
+    <link href="../../resources/css/retype.css?v=3.12.0-preview2.816895050904" rel="stylesheet">
 
-    <script data-cfasync="false" src="../../resources/js/config.js?v=3.12.0-preview2.816894151474" data-turbo-eval="false" defer></script>
+    <script data-cfasync="false" src="../../resources/js/config.js?v=3.12.0-preview2.816895050904" data-turbo-eval="false" defer></script>
     <script data-cfasync="false" src="../../resources/js/retype.js?v=3.12.0-preview2" data-turbo-eval="false" defer></script>
-    <script id="lunr-js" data-cfasync="false" src="../../resources/js/lunr.js?v=3.12.0-preview2.816894151474" data-turbo-eval="false" defer></script>
-    <script id="prism-js" data-cfasync="false" src="../../resources/js/prism.js?v=3.12.0-preview2.816894151474" defer></script>
+    <script id="lunr-js" data-cfasync="false" src="../../resources/js/lunr.js?v=3.12.0-preview2.816895050904" data-turbo-eval="false" defer></script>
+    <script id="prism-js" data-cfasync="false" src="../../resources/js/prism.js?v=3.12.0-preview2.816895050904" defer></script>
 
     <link href="https://workleap.github.io/wl-idp-docs-hub/static/retype-customization.css" rel="stylesheet" />
 
@@ -300,7 +300,7 @@
 <li><strong>It&#x27;s not ideal for testing</strong>. Tests relying on global variables can inadvertently affect other tests, introducing potential issues that affect test reliability, maintainability, and isolation.</li>
 <li><strong>It complicates</strong> <a href="../develop-a-module-in-isolation/">module development in isolation</a>. A modular application <a href="../develop-a-module-in-isolation/#create-a-shell-package">shell</a> often makes requests to multiple endpoints, which vary depending on the environment. These endpoints require environment variables to define their URLs. When developing modules in isolation, modules should not provide these environment variables to the shell. Instead, to <strong>improve DX</strong>, the shell library should <strong>manage</strong> these environment variables <strong>internally</strong>.</li>
 </ul>
-<p>To replace <code translate="no" v-pre>process.env</code>, Squide provides the <a href="../../reference/env-vars/getenvironmentvariablesplugin/">EnvironmentVariablesPlugin</a>. This plugin acts as a registry and integrates with the <a href="../../reference/runtime/runtime-class/">Runtime API</a>, allowing modules to register and retrieve environment variables.</p>
+<p>To replace <code translate="no" v-pre>process.env</code>, Squide provides the <a href="../../reference/env-vars/getenvironmentvariablesplugin/">EnvironmentVariablesPlugin</a>. This plugin acts as a registry and integrates with the <a href="../../reference/runtime/fireflyruntime/">Runtime API</a>, allowing modules to register and retrieve environment variables.</p>
 <p>Without this plugin, page components would directly rely on <code translate="no" v-pre>process.env</code>:</p>
 <div class="codeblock-wrapper"><doc-codeblock>
 <pre translate="no" class="language-tsx" data-line="6"><code v-pre class="language-tsx">import { fetchJson } from &quot;@sample/shared&quot;;
@@ -351,7 +351,7 @@ export function Page() {
         <span>Setup the plugin</span>
     </h2>
 </doc-anchor-target>
-<p>Then, update the host application boostrapping code to register an instance of the <a href="../../reference/env-vars/environmentvariablesplugin/">EnvironmentVariablesPlugin</a> with the <a href="../../reference/runtime/runtime-class/">FireflyRuntime</a> instance:</p>
+<p>Then, update the host application boostrapping code to register an instance of the <a href="../../reference/env-vars/environmentvariablesplugin/">EnvironmentVariablesPlugin</a> with the <a href="../../reference/runtime/fireflyruntime/">FireflyRuntime</a> instance:</p>
 <div class="codeblock-wrapper"><doc-codeblock>
 <div class="codeblock-title">host/src/index.tsx</div>
 <pre translate="no" class="language-tsx" data-line="10"><code v-pre class="language-tsx">import { createRoot } from &quot;react-dom/client&quot;;

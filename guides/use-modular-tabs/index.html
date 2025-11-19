@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <meta name="turbo-root" content="/wl-squide">
-    <meta name="turbo-cache-control" content="no-cache" data-turbo-track="reload" data-track-token="3.12.0-preview2.816894151474">
+    <meta name="turbo-cache-control" content="no-cache" data-turbo-track="reload" data-track-token="3.12.0-preview2.816895050904">
 
     <!-- See retype.com -->
     <meta name="generator" content="Retype 3.12.0-preview2">
@@ -34,12 +34,12 @@
     <script data-cfasync="false">(function(){var cl=document.documentElement.classList,ls=localStorage.getItem("retype_scheme"),hd=cl.contains("dark"),hl=cl.contains("light"),wm=window.matchMedia&&window.matchMedia("(prefers-color-scheme: dark)").matches;if(ls==="dark"||(!ls&&wm&&!hd&&!hl)){cl.remove("light");cl.add("dark")}else if(ls==="light"||(!ls&&!wm&&!hd&&!hl)){cl.remove("dark");cl.add("light")}})();</script>
 
     <link id="retype-favicon" rel="icon" href="../../static/favicon.png" />
-    <link href="../../resources/css/retype.css?v=3.12.0-preview2.816894151474" rel="stylesheet">
+    <link href="../../resources/css/retype.css?v=3.12.0-preview2.816895050904" rel="stylesheet">
 
-    <script data-cfasync="false" src="../../resources/js/config.js?v=3.12.0-preview2.816894151474" data-turbo-eval="false" defer></script>
+    <script data-cfasync="false" src="../../resources/js/config.js?v=3.12.0-preview2.816895050904" data-turbo-eval="false" defer></script>
     <script data-cfasync="false" src="../../resources/js/retype.js?v=3.12.0-preview2" data-turbo-eval="false" defer></script>
-    <script id="lunr-js" data-cfasync="false" src="../../resources/js/lunr.js?v=3.12.0-preview2.816894151474" data-turbo-eval="false" defer></script>
-    <script id="prism-js" data-cfasync="false" src="../../resources/js/prism.js?v=3.12.0-preview2.816894151474" defer></script>
+    <script id="lunr-js" data-cfasync="false" src="../../resources/js/lunr.js?v=3.12.0-preview2.816895050904" data-turbo-eval="false" defer></script>
+    <script id="prism-js" data-cfasync="false" src="../../resources/js/prism.js?v=3.12.0-preview2.816895050904" defer></script>
 
     <link href="https://workleap.github.io/wl-idp-docs-hub/static/retype-customization.css" rel="stylesheet" />
 
@@ -323,7 +323,7 @@ export function TabsLayout() {
 }</code></pre>
 </doc-codeblock></div>
 <p>In the previous code sample, the <code translate="no" v-pre>TabsLayout</code> component is similar to the <code translate="no" v-pre>RootLayout</code> component introduced in previous guides. However, the key distinction is that this layout will be bound to the <code translate="no" v-pre>/tabs</code> URL path. By nesting the layout under a specific path, it will only render when the user navigates to one of the modular tab pages (e.g. <code translate="no" v-pre>/tabs</code>, <code translate="no" v-pre>/tabs/tab-1</code>, <code translate="no" v-pre>/tabs/tab-2</code>, <code translate="no" v-pre>/tabs/tab-3</code>).</p>
-<p>To register the newly created layout as a nested layout, use the <a href="../../reference/runtime/runtime-class/#register-routes">registerRoute</a> function:</p>
+<p>To register the newly created layout as a nested layout, use the <a href="../../reference/runtime/fireflyruntime/#register-routes">registerRoute</a> function:</p>
 <div class="codeblock-wrapper"><doc-codeblock>
 <div class="codeblock-title">host/src/register.tsx</div>
 <pre translate="no" class="language-tsx" data-line="7-8"><code v-pre class="language-tsx">import type { ModuleRegisterFunction, FireflyRuntime } from &quot;@squide/firefly&quot;;
@@ -366,7 +366,7 @@ export const register: ModuleRegisterFunction&lt;FireflyRuntime&gt; = runtime =&
         <span>Create the tab routes</span>
     </h2>
 </doc-anchor-target>
-<p>Next, let&#x27;s add the actual tabs to the modules. To do so, we&#x27;ll use the <a href="../../reference/runtime/runtime-class/#register-nested-routes">parentPath</a> option of the <a href="../../reference/runtime/runtime-class/#register-routes">registerRoute</a> function to register the routes under the <code translate="no" v-pre>TabsLayout</code> component:</p>
+<p>Next, let&#x27;s add the actual tabs to the modules. To do so, we&#x27;ll use the <a href="../../reference/runtime/fireflyruntime/#register-nested-routes">parentPath</a> option of the <a href="../../reference/runtime/fireflyruntime/#register-routes">registerRoute</a> function to register the routes under the <code translate="no" v-pre>TabsLayout</code> component:</p>
 <div class="codeblock-wrapper"><doc-codeblock>
 <div class="codeblock-title">local-module-1/src/register.tsx</div>
 <pre translate="no" class="language-tsx" data-line="7,10"><code v-pre class="language-tsx">import type { ModuleRegisterFunction, FireflyRuntime } from &quot;@squide/firefly&quot;;
@@ -446,7 +446,7 @@ export const register: ModuleRegisterFunction&lt;FireflyRuntime&gt; = runtime =&
     </h2>
 </doc-anchor-target>
 <p>Althought it&#x27;s functional, the modules are currently coupled by hardcoded URLs within the <code translate="no" v-pre>TabsLayout</code> component.</p>
-<p>To decouple the navigation items, similar to what is done for regular module&#x27;s routes, we&#x27;ll use the <a href="../../reference/runtime/runtime-class/#register-navigation-items">registerNavigationItem</a> function. In this case, we&#x27;ll specify a <a href="../../reference/runtime/runtime-class/#register-navigation-items-for-a-specific-menu">menuId</a> option. Defining the <code translate="no" v-pre>menuId</code> option will allow the <code translate="no" v-pre>TabsLayout</code> component to exclusively retrieve the navigation items that belongs to him.</p>
+<p>To decouple the navigation items, similar to what is done for regular module&#x27;s routes, we&#x27;ll use the <a href="../../reference/runtime/fireflyruntime/#register-navigation-items">registerNavigationItem</a> function. In this case, we&#x27;ll specify a <a href="../../reference/runtime/fireflyruntime/#register-navigation-items-for-a-specific-menu">menuId</a> option. Defining the <code translate="no" v-pre>menuId</code> option will allow the <code translate="no" v-pre>TabsLayout</code> component to exclusively retrieve the navigation items that belongs to him.</p>
 <p>First, let&#x27;s register the navigation items with the <code translate="no" v-pre>menuId</code> option. For this example the <code translate="no" v-pre>menuId</code> will be <code translate="no" v-pre>/tabs</code> (it can be anything):</p>
 <div class="codeblock-wrapper"><doc-codeblock>
 <div class="codeblock-title">local-module-1/src/register.tsx</div>

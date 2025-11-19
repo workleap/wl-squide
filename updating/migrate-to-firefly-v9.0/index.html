@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <meta name="turbo-root" content="/wl-squide">
-    <meta name="turbo-cache-control" content="no-cache" data-turbo-track="reload" data-track-token="3.12.0-preview2.816894151474">
+    <meta name="turbo-cache-control" content="no-cache" data-turbo-track="reload" data-track-token="3.12.0-preview2.816895050904">
 
     <!-- See retype.com -->
     <meta name="generator" content="Retype 3.12.0-preview2">
@@ -32,12 +32,12 @@
     <script data-cfasync="false">(function(){var cl=document.documentElement.classList,ls=localStorage.getItem("retype_scheme"),hd=cl.contains("dark"),hl=cl.contains("light"),wm=window.matchMedia&&window.matchMedia("(prefers-color-scheme: dark)").matches;if(ls==="dark"||(!ls&&wm&&!hd&&!hl)){cl.remove("light");cl.add("dark")}else if(ls==="light"||(!ls&&!wm&&!hd&&!hl)){cl.remove("dark");cl.add("light")}})();</script>
 
     <link id="retype-favicon" rel="icon" href="../../static/favicon.png" />
-    <link href="../../resources/css/retype.css?v=3.12.0-preview2.816894151474" rel="stylesheet">
+    <link href="../../resources/css/retype.css?v=3.12.0-preview2.816895050904" rel="stylesheet">
 
-    <script data-cfasync="false" src="../../resources/js/config.js?v=3.12.0-preview2.816894151474" data-turbo-eval="false" defer></script>
+    <script data-cfasync="false" src="../../resources/js/config.js?v=3.12.0-preview2.816895050904" data-turbo-eval="false" defer></script>
     <script data-cfasync="false" src="../../resources/js/retype.js?v=3.12.0-preview2" data-turbo-eval="false" defer></script>
-    <script id="lunr-js" data-cfasync="false" src="../../resources/js/lunr.js?v=3.12.0-preview2.816894151474" data-turbo-eval="false" defer></script>
-    <script id="prism-js" data-cfasync="false" src="../../resources/js/prism.js?v=3.12.0-preview2.816894151474" defer></script>
+    <script id="lunr-js" data-cfasync="false" src="../../resources/js/lunr.js?v=3.12.0-preview2.816895050904" data-turbo-eval="false" defer></script>
+    <script id="prism-js" data-cfasync="false" src="../../resources/js/prism.js?v=3.12.0-preview2.816895050904" defer></script>
 
     <link href="https://workleap.github.io/wl-idp-docs-hub/static/retype-customization.css" rel="stylesheet" />
 
@@ -334,7 +334,7 @@
 <li>The <code translate="no" v-pre>completeRemoteModuleRegistrations</code> function has been removed use the <a href="../../reference/registration/usedeferredregistrations/">useDeferredRegistrations</a> hook instead.</li>
 <li>The <code translate="no" v-pre>useSession</code> hook has been removed, define your own React context instead.</li>
 <li>The <code translate="no" v-pre>useIsAuthenticated</code> hook has been removed, define your own React context instead.</li>
-<li>The <code translate="no" v-pre>sessionAccessor</code> option has been removed from the <a href="../../reference/runtime/runtime-class/">FireflyRuntime</a> options, define your own React context instead.</li>
+<li>The <code translate="no" v-pre>sessionAccessor</code> option has been removed from the <a href="../../reference/runtime/fireflyruntime/">FireflyRuntime</a> options, define your own React context instead.</li>
 <li>The <code translate="no" v-pre>ManagedRoutes</code>placeholder has been removed, use <a href="../../reference/routing/publicroutes/">PublicRoutes</a> and <a href="../../reference/routing/protectedroutes/">ProtectedRoutes</a> instead.</li>
 </ul>
 <doc-anchor-target id="renamed">
@@ -345,8 +345,8 @@
 </doc-anchor-target>
 <ul>
 <li>The <code translate="no" v-pre>setMswAsStarted</code> function has been renamed to <a href="../../reference/msw/setmswasready/">setMswIsReady</a>.</li>
-<li>A route definition <code translate="no" v-pre>$name</code> option has been renamed to <a href="../../reference/runtime/runtime-class/#register-a-route-with-an-id">$id</a>.</li>
-<li>The <a href="../../reference/runtime/runtime-class/#register-routes">registerRoute</a> <code translate="no" v-pre>parentName</code> option has been renamed to <a href="../../reference/runtime/runtime-class/#register-nested-routes">parentId</a>.</li>
+<li>A route definition <code translate="no" v-pre>$name</code> option has been renamed to <a href="../../reference/runtime/fireflyruntime/#register-a-route-with-an-id">$id</a>.</li>
+<li>The <a href="../../reference/runtime/fireflyruntime/#register-routes">registerRoute</a> <code translate="no" v-pre>parentName</code> option has been renamed to <a href="../../reference/runtime/fireflyruntime/#register-nested-routes">parentId</a>.</li>
 </ul>
 <doc-anchor-target id="others">
     <h3>
@@ -452,7 +452,7 @@
         <span>Plugins now registers with a factory function</span>
     </h3>
 </doc-anchor-target>
-<p>Prior to this release, the <a href="../../reference/runtime/runtime-class/">FireflyRuntime</a> accepted plugin instances as options. Now, <code translate="no" v-pre>FireflyRuntime</code> accepts <strong>factory functions</strong> instead of plugin instances. This change allows plugins to receive the runtime instance as a constructor argument.</p>
+<p>Prior to this release, the <a href="../../reference/runtime/fireflyruntime/">FireflyRuntime</a> accepted plugin instances as options. Now, <code translate="no" v-pre>FireflyRuntime</code> accepts <strong>factory functions</strong> instead of plugin instances. This change allows plugins to receive the runtime instance as a constructor argument.</p>
 <p>Before:</p>
 <div class="codeblock-wrapper"><doc-codeblock>
 <pre translate="no" class="language-tsx"><code v-pre class="language-tsx">const runtime = new FireflyRuntime({
@@ -569,7 +569,7 @@ export function App() {
 <li>A new <a href="../../reference/tanstack-query/usepublicdataqueries/">usePublicDataQueries</a> hook is now available.</li>
 <li>A new <a href="../../reference/tanstack-query/useprotecteddataqueries/">useProtectedDataQueries</a> hook is now available.</li>
 <li>A new <a href="../../reference/tanstack-query/isglobaldataquerieserror/">isGlobalDataQueriesError</a> function is now available.</li>
-<li>A new <a href="../../reference/runtime/runtime-class/#register-a-public-route">registerPublicRoute</a> function is now available.</li>
+<li>A new <a href="../../reference/runtime/fireflyruntime/#register-a-public-route">registerPublicRoute</a> function is now available.</li>
 </ul>
 <doc-anchor-target id="improvements">
     <h2>
@@ -580,7 +580,7 @@ export function App() {
 <ul>
 <li>Deferred registration functions now always receive a <code translate="no" v-pre>data</code> argument.</li>
 <li>Deferred registration functions now receives a new operations argument.</li>
-<li>Navigation items now include a <a href="../../reference/runtime/runtime-class/#conditionally-render-a-navigation-item">$canRender</a> option, enabling modules to control whether a navigation item should be rendered.</li>
+<li>Navigation items now include a <a href="../../reference/runtime/fireflyruntime/#conditionally-render-a-navigation-item">$canRender</a> option, enabling modules to control whether a navigation item should be rendered.</li>
 </ul>
 <doc-anchor-target id="new-id-option-for-navigation-items">
     <h3>
@@ -664,7 +664,7 @@ const navigationElements = useRenderedNavigationItems(navigationItems, renderIte
     </h3>
 </doc-anchor-target>
 <p>The <code translate="no" v-pre>AppRouter</code> component accepts the <code translate="no" v-pre>waitForMsw</code>, <code translate="no" v-pre>waitForPublicData</code>, and <code translate="no" v-pre>waitForProtectedData</code> properties. These properties are forwarded directly to the Squide bootstrapping flow state machine, where they are used to determine its initial state.</p>
-<p>If the application register MSW <a href="https://mswjs.io/docs/concepts/request-handler/" class="outbound" target="_blank">request handlers</a> with the <a href="../../reference/runtime/runtime-class/#register-request-handlers">runtime.registerRequestHandlers</a> function, add the <code translate="no" v-pre>waitForMsw</code> property to the <code translate="no" v-pre>AppRouter</code> component:</p>
+<p>If the application register MSW <a href="https://mswjs.io/docs/concepts/request-handler/" class="outbound" target="_blank">request handlers</a> with the <a href="../../reference/runtime/fireflyruntime/#register-request-handlers">runtime.registerRequestHandlers</a> function, add the <code translate="no" v-pre>waitForMsw</code> property to the <code translate="no" v-pre>AppRouter</code> component:</p>
 <div class="codeblock-wrapper"><doc-codeblock>
 <pre translate="no" class="language-tsx"><code v-pre class="language-tsx">&lt;AppRouter waitForMsw&gt;
     ...

@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <meta name="turbo-root" content="/wl-squide">
-    <meta name="turbo-cache-control" content="no-cache" data-turbo-track="reload" data-track-token="3.12.0-preview2.816894151474">
+    <meta name="turbo-cache-control" content="no-cache" data-turbo-track="reload" data-track-token="3.12.0-preview2.816895050904">
 
     <!-- See retype.com -->
     <meta name="generator" content="Retype 3.12.0-preview2">
@@ -32,12 +32,12 @@
     <script data-cfasync="false">(function(){var cl=document.documentElement.classList,ls=localStorage.getItem("retype_scheme"),hd=cl.contains("dark"),hl=cl.contains("light"),wm=window.matchMedia&&window.matchMedia("(prefers-color-scheme: dark)").matches;if(ls==="dark"||(!ls&&wm&&!hd&&!hl)){cl.remove("light");cl.add("dark")}else if(ls==="light"||(!ls&&!wm&&!hd&&!hl)){cl.remove("dark");cl.add("light")}})();</script>
 
     <link id="retype-favicon" rel="icon" href="../../static/favicon.png" />
-    <link href="../../resources/css/retype.css?v=3.12.0-preview2.816894151474" rel="stylesheet">
+    <link href="../../resources/css/retype.css?v=3.12.0-preview2.816895050904" rel="stylesheet">
 
-    <script data-cfasync="false" src="../../resources/js/config.js?v=3.12.0-preview2.816894151474" data-turbo-eval="false" defer></script>
+    <script data-cfasync="false" src="../../resources/js/config.js?v=3.12.0-preview2.816895050904" data-turbo-eval="false" defer></script>
     <script data-cfasync="false" src="../../resources/js/retype.js?v=3.12.0-preview2" data-turbo-eval="false" defer></script>
-    <script id="lunr-js" data-cfasync="false" src="../../resources/js/lunr.js?v=3.12.0-preview2.816894151474" data-turbo-eval="false" defer></script>
-    <script id="prism-js" data-cfasync="false" src="../../resources/js/prism.js?v=3.12.0-preview2.816894151474" defer></script>
+    <script id="lunr-js" data-cfasync="false" src="../../resources/js/lunr.js?v=3.12.0-preview2.816895050904" data-turbo-eval="false" defer></script>
+    <script id="prism-js" data-cfasync="false" src="../../resources/js/prism.js?v=3.12.0-preview2.816895050904" defer></script>
 
     <link href="https://workleap.github.io/wl-idp-docs-hub/static/retype-customization.css" rel="stylesheet" />
 
@@ -279,7 +279,7 @@
 </doc-anchor-target>
 <p>A route can be registered as either <code translate="no" v-pre>public</code> or <code translate="no" v-pre>protected</code>. This visibility indicator does not determine whether a route is accessible to everyone or restricted to authenticated users; that protection is typically enforced by an <a href="../add-authentication/#add-an-authentication-boundary">authentication boundary</a>.</p>
 <p>In a Squide application, the visibility indicator determines whether routes will be rendered as children of either the <a href="../../reference/routing/publicroutes/">PublicRoutes</a> or <a href="../../reference/routing/protectedroutes/">ProtectedRoutes</a> placeholders and whether the <a href="../../reference/tanstack-query/usepublicdataqueries/">usePublicDataQueries</a> or <a href="../../reference/tanstack-query/useprotecteddataqueries/">useProtectedDataQueries</a> hooks should execute their requests. If the initially requested route is marked as <code translate="no" v-pre>protected</code> and both hooks are defined, each query hook will execute its respective requests. However, if the route is marked as <code translate="no" v-pre>public</code>, only the <code translate="no" v-pre>usePublicDataQueries</code> hook will execute its requests.</p>
-<p>When a route is registered with the <a href="../../reference/runtime/runtime-class/#register-routes">registerRoute</a> function, it is considered <code translate="no" v-pre>protected</code> by default. Therefore, if a route does not rely on the application&#x27;s global protected data, it should be explicitly registered as <code translate="no" v-pre>public</code> using the <a href="../../reference/runtime/runtime-class/#register-a-public-route">registerPublicRoute</a> function:</p>
+<p>When a route is registered with the <a href="../../reference/runtime/fireflyruntime/#register-routes">registerRoute</a> function, it is considered <code translate="no" v-pre>protected</code> by default. Therefore, if a route does not rely on the application&#x27;s global protected data, it should be explicitly registered as <code translate="no" v-pre>public</code> using the <a href="../../reference/runtime/fireflyruntime/#register-a-public-route">registerPublicRoute</a> function:</p>
 <div class="codeblock-wrapper"><doc-codeblock>
 <div class="codeblock-title">local-module/src/register.tsx</div>
 <pre translate="no" class="language-tsx" data-line="6"><code v-pre class="language-tsx">import type { ModuleRegisterFunction, FireflyRuntime } from &quot;@squide/firefly&quot;;

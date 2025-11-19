@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <meta name="turbo-root" content="/wl-squide">
-    <meta name="turbo-cache-control" content="no-cache" data-turbo-track="reload" data-track-token="3.12.0-preview2.816894151474">
+    <meta name="turbo-cache-control" content="no-cache" data-turbo-track="reload" data-track-token="3.12.0-preview2.816895050904">
 
     <!-- See retype.com -->
     <meta name="generator" content="Retype 3.12.0-preview2">
@@ -32,12 +32,12 @@
     <script data-cfasync="false">(function(){var cl=document.documentElement.classList,ls=localStorage.getItem("retype_scheme"),hd=cl.contains("dark"),hl=cl.contains("light"),wm=window.matchMedia&&window.matchMedia("(prefers-color-scheme: dark)").matches;if(ls==="dark"||(!ls&&wm&&!hd&&!hl)){cl.remove("light");cl.add("dark")}else if(ls==="light"||(!ls&&!wm&&!hd&&!hl)){cl.remove("dark");cl.add("light")}})();</script>
 
     <link id="retype-favicon" rel="icon" href="../../../static/favicon.png" />
-    <link href="../../../resources/css/retype.css?v=3.12.0-preview2.816894151474" rel="stylesheet">
+    <link href="../../../resources/css/retype.css?v=3.12.0-preview2.816895050904" rel="stylesheet">
 
-    <script data-cfasync="false" src="../../../resources/js/config.js?v=3.12.0-preview2.816894151474" data-turbo-eval="false" defer></script>
+    <script data-cfasync="false" src="../../../resources/js/config.js?v=3.12.0-preview2.816895050904" data-turbo-eval="false" defer></script>
     <script data-cfasync="false" src="../../../resources/js/retype.js?v=3.12.0-preview2" data-turbo-eval="false" defer></script>
-    <script id="lunr-js" data-cfasync="false" src="../../../resources/js/lunr.js?v=3.12.0-preview2.816894151474" data-turbo-eval="false" defer></script>
-    <script id="prism-js" data-cfasync="false" src="../../../resources/js/prism.js?v=3.12.0-preview2.816894151474" defer></script>
+    <script id="lunr-js" data-cfasync="false" src="../../../resources/js/lunr.js?v=3.12.0-preview2.816895050904" data-turbo-eval="false" defer></script>
+    <script id="prism-js" data-cfasync="false" src="../../../resources/js/prism.js?v=3.12.0-preview2.816895050904" defer></script>
 
     <link href="https://workleap.github.io/wl-idp-docs-hub/static/retype-customization.css" rel="stylesheet" />
 
@@ -287,7 +287,7 @@
 </doc-anchor-target>
 <p>A placeholder indicating where in the routing tree should the public routes be rendered. The <code translate="no" v-pre>PublicRoutes</code> placeholder concept is similar to React Router&#x27;s <a href="https://reactrouter.com/en/main/components/outlet" class="outbound" target="_blank">outlet</a>, it&#x27;s a pipeline to inject routes at a predetermined location.</p>
 <blockquote>
-<p>A public route is a route with a <code translate="no" v-pre>&quot;public&quot;</code> visibility that is not <a href="../../runtime/runtime-class/#register-an-hoisted-route">hoisted</a> or nested with either a <a href="../../runtime/runtime-class/#register-nested-routes">parentPath</a> or <a href="../../runtime/runtime-class/#register-a-route-with-an-id">parentId</a> option.</p>
+<p>A public route is a route with a <code translate="no" v-pre>&quot;public&quot;</code> visibility that is not <a href="../../runtime/fireflyruntime/#register-an-hoisted-route">hoisted</a> or nested with either a <a href="../../runtime/fireflyruntime/#register-nested-routes">parentPath</a> or <a href="../../runtime/fireflyruntime/#register-a-route-with-an-id">parentId</a> option.</p>
 </blockquote>
 <doc-anchor-target id="reference">
     <h2>
@@ -311,7 +311,7 @@
         <span>Usage</span>
     </h2>
 </doc-anchor-target>
-<p>The route defining the <code translate="no" v-pre>PublicRoutes</code> placeholder must be <a href="../../runtime/runtime-class/#register-an-hoisted-route">hoisted</a>; otherwise, there will be an infinite loop as the <code translate="no" v-pre>PublicRoutes</code> placeholder will render within itself.</p>
+<p>The route defining the <code translate="no" v-pre>PublicRoutes</code> placeholder must be <a href="../../runtime/fireflyruntime/#register-an-hoisted-route">hoisted</a>; otherwise, there will be an infinite loop as the <code translate="no" v-pre>PublicRoutes</code> placeholder will render within itself.</p>
 <div class="codeblock-wrapper"><doc-codeblock>
 <div class="codeblock-title">shell/src/register.tsx</div>
 <pre translate="no" class="language-tsx" data-line="8,11"><code v-pre class="language-tsx">import { PublicRoutes } from &quot;@squide/firefly&quot;;

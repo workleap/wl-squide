@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <meta name="turbo-root" content="/wl-squide">
-    <meta name="turbo-cache-control" content="no-cache" data-turbo-track="reload" data-track-token="3.12.0-preview2.816894151474">
+    <meta name="turbo-cache-control" content="no-cache" data-turbo-track="reload" data-track-token="3.12.0-preview2.816895050904">
 
     <!-- See retype.com -->
     <meta name="generator" content="Retype 3.12.0-preview2">
@@ -32,12 +32,12 @@
     <script data-cfasync="false">(function(){var cl=document.documentElement.classList,ls=localStorage.getItem("retype_scheme"),hd=cl.contains("dark"),hl=cl.contains("light"),wm=window.matchMedia&&window.matchMedia("(prefers-color-scheme: dark)").matches;if(ls==="dark"||(!ls&&wm&&!hd&&!hl)){cl.remove("light");cl.add("dark")}else if(ls==="light"||(!ls&&!wm&&!hd&&!hl)){cl.remove("dark");cl.add("light")}})();</script>
 
     <link id="retype-favicon" rel="icon" href="../../static/favicon.png" />
-    <link href="../../resources/css/retype.css?v=3.12.0-preview2.816894151474" rel="stylesheet">
+    <link href="../../resources/css/retype.css?v=3.12.0-preview2.816895050904" rel="stylesheet">
 
-    <script data-cfasync="false" src="../../resources/js/config.js?v=3.12.0-preview2.816894151474" data-turbo-eval="false" defer></script>
+    <script data-cfasync="false" src="../../resources/js/config.js?v=3.12.0-preview2.816895050904" data-turbo-eval="false" defer></script>
     <script data-cfasync="false" src="../../resources/js/retype.js?v=3.12.0-preview2" data-turbo-eval="false" defer></script>
-    <script id="lunr-js" data-cfasync="false" src="../../resources/js/lunr.js?v=3.12.0-preview2.816894151474" data-turbo-eval="false" defer></script>
-    <script id="prism-js" data-cfasync="false" src="../../resources/js/prism.js?v=3.12.0-preview2.816894151474" defer></script>
+    <script id="lunr-js" data-cfasync="false" src="../../resources/js/lunr.js?v=3.12.0-preview2.816895050904" data-turbo-eval="false" defer></script>
+    <script id="prism-js" data-cfasync="false" src="../../resources/js/prism.js?v=3.12.0-preview2.816895050904" defer></script>
 
     <link href="https://workleap.github.io/wl-idp-docs-hub/static/retype-customization.css" rel="stylesheet" />
 
@@ -311,7 +311,7 @@ const runtime = initializeFirefly({
     mode: &quot;production&quot;
 });</code></pre>
 </doc-codeblock></div>
-<p>By default, the runtime <a href="../../reference/runtime/runtime-class/#change-the-runtime-mode">mode</a> is <code translate="no" v-pre>development</code>.</p>
+<p>By default, the runtime <a href="../../reference/runtime/fireflyruntime/#change-the-runtime-mode">mode</a> is <code translate="no" v-pre>development</code>.</p>
 <doc-anchor-target id="logging">
     <h2>
         <doc-anchor-trigger class="header-anchor-trigger" to="#logging">#</doc-anchor-trigger>
@@ -337,7 +337,7 @@ const logger = useLogger();
 
 logger.debug(&quot;Hello!&quot;);</code></pre>
 </doc-codeblock></div>
-<p>The logger is also available from the <a href="../../reference/runtime/runtime-class/#log-a-message">FireflyRuntime</a> instance.</p>
+<p>The logger is also available from the <a href="../../reference/runtime/fireflyruntime/#log-a-message">FireflyRuntime</a> instance.</p>
 <doc-anchor-target id="messaging">
     <h2>
         <doc-anchor-trigger class="header-anchor-trigger" to="#messaging">#</doc-anchor-trigger>
@@ -365,7 +365,7 @@ const dispatch = useEventBusDispatcher();
 dispatch(&quot;foo&quot;, &quot;bar&quot;);</code></pre>
 </doc-codeblock></div>
 <p>You can use the event bus to enable various communication scenarios, such as notifying components of state changes, broadcasting messages across modules, or triggering actions based on specific events.</p>
-<p>The event bus is also available from the <a href="../../reference/runtime/runtime-class/#use-the-event-bus">FireflyRuntime</a> instance.</p>
+<p>The event bus is also available from the <a href="../../reference/runtime/fireflyruntime/#use-the-event-bus">FireflyRuntime</a> instance.</p>
 <doc-anchor-target id="plugins">
     <h2>
         <doc-anchor-trigger class="header-anchor-trigger" to="#plugins">#</doc-anchor-trigger>
@@ -373,7 +373,7 @@ dispatch(&quot;foo&quot;, &quot;bar&quot;);</code></pre>
     </h2>
 </doc-anchor-target>
 <p>To keep Squide lightweight, not all functionalities should be integrated as a core functionality. However, to accommodate a broad range of technologies, a <a href="../../reference/plugins/plugin/">plugin system</a> has been implemented to fill the gap.</p>
-<p>Plugins can be registered at bootstrapping with the <a href="../../reference/runtime/runtime-class/">FireflyRuntime</a> instance:</p>
+<p>Plugins can be registered at bootstrapping with the <a href="../../reference/runtime/fireflyruntime/">FireflyRuntime</a> instance:</p>
 <div class="codeblock-wrapper"><doc-codeblock>
 <div class="codeblock-title">host/src/boostrap.tsx</div>
 <pre translate="no" class="language-typescript" data-line="5"><code v-pre class="language-typescript">import { initializeFirefly } from &quot;@squide/firefly&quot;;
@@ -390,7 +390,7 @@ import { MyPlugin } from &quot;@sample/my-plugin&quot;;
 
 const myPlugin = usePlugin(MyPlugin.name) as MyPlugin;</code></pre>
 </doc-codeblock></div>
-<p>A plugin can also be retrieved from the <a href="../../reference/runtime/runtime-class/#retrieve-a-plugin">FireflyRuntime</a> instance.</p>
+<p>A plugin can also be retrieved from the <a href="../../reference/runtime/fireflyruntime/#retrieve-a-plugin">FireflyRuntime</a> instance.</p>
 <blockquote>
 <p>By default, the <code translate="no" v-pre>FireflyRuntime</code> registers Squide&#x27;s <a href="../../guides/setup-msw/">MSW plugin</a>. An optional <a href="../../guides/setup-i18next/">i18next plugin</a> is available.</p>
 </blockquote>

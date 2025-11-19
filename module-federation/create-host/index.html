@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <meta name="turbo-root" content="/wl-squide">
-    <meta name="turbo-cache-control" content="no-cache" data-turbo-track="reload" data-track-token="3.12.0-preview2.816894151474">
+    <meta name="turbo-cache-control" content="no-cache" data-turbo-track="reload" data-track-token="3.12.0-preview2.816895050904">
 
     <!-- See retype.com -->
     <meta name="generator" content="Retype 3.12.0-preview2">
@@ -32,12 +32,12 @@
     <script data-cfasync="false">(function(){var cl=document.documentElement.classList,ls=localStorage.getItem("retype_scheme"),hd=cl.contains("dark"),hl=cl.contains("light"),wm=window.matchMedia&&window.matchMedia("(prefers-color-scheme: dark)").matches;if(ls==="dark"||(!ls&&wm&&!hd&&!hl)){cl.remove("light");cl.add("dark")}else if(ls==="light"||(!ls&&!wm&&!hd&&!hl)){cl.remove("dark");cl.add("light")}})();</script>
 
     <link id="retype-favicon" rel="icon" href="../../static/favicon.png" />
-    <link href="../../resources/css/retype.css?v=3.12.0-preview2.816894151474" rel="stylesheet">
+    <link href="../../resources/css/retype.css?v=3.12.0-preview2.816895050904" rel="stylesheet">
 
-    <script data-cfasync="false" src="../../resources/js/config.js?v=3.12.0-preview2.816894151474" data-turbo-eval="false" defer></script>
+    <script data-cfasync="false" src="../../resources/js/config.js?v=3.12.0-preview2.816895050904" data-turbo-eval="false" defer></script>
     <script data-cfasync="false" src="../../resources/js/retype.js?v=3.12.0-preview2" data-turbo-eval="false" defer></script>
-    <script id="lunr-js" data-cfasync="false" src="../../resources/js/lunr.js?v=3.12.0-preview2.816894151474" data-turbo-eval="false" defer></script>
-    <script id="prism-js" data-cfasync="false" src="../../resources/js/prism.js?v=3.12.0-preview2.816894151474" defer></script>
+    <script id="lunr-js" data-cfasync="false" src="../../resources/js/lunr.js?v=3.12.0-preview2.816895050904" data-turbo-eval="false" defer></script>
+    <script id="prism-js" data-cfasync="false" src="../../resources/js/prism.js?v=3.12.0-preview2.816895050904" defer></script>
 
     <link href="https://workleap.github.io/wl-idp-docs-hub/static/retype-customization.css" rel="stylesheet" />
 
@@ -374,7 +374,7 @@ export {};</code></pre>
         <span>Module registration</span>
     </h3>
 </doc-anchor-target>
-<p>Next, to register the modules, instanciate a shell <a href="../../reference/runtime/runtime-class/">FireflyRuntime</a> instance and register the remote module with the <a href="../../reference/registration/initializefirefly/">initializeFirefly</a> function (the configuration of the remote module will be covered in the <a href="../create-remote-module/">next section</a>):</p>
+<p>Next, to register the modules, instanciate a shell <a href="../../reference/runtime/fireflyruntime/">FireflyRuntime</a> instance and register the remote module with the <a href="../../reference/registration/initializefirefly/">initializeFirefly</a> function (the configuration of the remote module will be covered in the <a href="../create-remote-module/">next section</a>):</p>
 <div class="codeblock-wrapper"><doc-codeblock>
 <div class="codeblock-title">host/src/bootstrap.tsx</div>
 <pre translate="no" class="language-tsx" data-line="12-14"><code v-pre class="language-tsx">import { createRoot } from &quot;react-dom/client&quot;;
@@ -490,7 +490,7 @@ export function RootLayout() {
     );
 }</code></pre>
 </doc-codeblock></div>
-<p>The <code translate="no" v-pre>RootLayout</code> component created in the previous sample will serves as the default layout for the homepage as well as for every page (route) registered by a module that are not nested under a parent route with either the <a href="../../reference/runtime/runtime-class/#register-nested-routes">parentPath</a> or the <a href="../../reference/runtime/runtime-class/#register-a-route-with-an-id">parentId</a> option.</p>
+<p>The <code translate="no" v-pre>RootLayout</code> component created in the previous sample will serves as the default layout for the homepage as well as for every page (route) registered by a module that are not nested under a parent route with either the <a href="../../reference/runtime/fireflyruntime/#register-nested-routes">parentPath</a> or the <a href="../../reference/runtime/fireflyruntime/#register-a-route-with-an-id">parentId</a> option.</p>
 <doc-anchor-target id="homepage">
     <h3>
         <doc-anchor-trigger class="header-anchor-trigger" to="#homepage">#</doc-anchor-trigger>
@@ -519,7 +519,7 @@ export const registerHost: ModuleRegisterFunction&lt;FireflyRuntime&gt; = runtim
     });
 };</code></pre>
 </doc-codeblock></div>
-<p>And an <a href="../../reference/runtime/runtime-class/#register-an-hoisted-route">hoisted route</a> to render the <code translate="no" v-pre>RootLayout</code> with the <a href="../../reference/routing/publicroutes/">PublicRoutes</a> and <a href="../../reference/routing/protectedroutes/">ProtectedRoutes</a> placeholders:</p>
+<p>And an <a href="../../reference/runtime/fireflyruntime/#register-an-hoisted-route">hoisted route</a> to render the <code translate="no" v-pre>RootLayout</code> with the <a href="../../reference/routing/publicroutes/">PublicRoutes</a> and <a href="../../reference/routing/protectedroutes/">ProtectedRoutes</a> placeholders:</p>
 <div class="codeblock-wrapper"><doc-codeblock>
 <div class="codeblock-title">host/src/register.tsx</div>
 <pre translate="no" class="language-tsx" data-line="8,11,12,15"><code v-pre class="language-tsx">import { PublicRoutes, ProtectedRoutes, type ModuleRegisterFunction, type FireflyRuntime } from &quot;@squide/firefly&quot;;
@@ -556,7 +556,7 @@ export const registerHost: ModuleRegisterFunction&lt;FireflyRuntime&gt; = runtim
             </svg>
         </div>
         <div class="pr-5 ml-3 w-full">
-<p>The <a href="../../reference/routing/publicroutes/">PublicRoutes</a> and <a href="../../reference/routing/protectedroutes/">ProtectedRoutes</a> placeholders indicates where routes that are neither hoisted or nested with a <a href="../../reference/runtime/runtime-class/#register-nested-navigation-items">parentPath</a> or <a href="../../reference/runtime/runtime-class/#register-a-route-with-an-id">parentId</a> option will be rendered. In this example, the homepage route is considered as a protected route and will be rendered under the <code translate="no" v-pre>ProtectedRoutes</code> placeholder.</p>
+<p>The <a href="../../reference/routing/publicroutes/">PublicRoutes</a> and <a href="../../reference/routing/protectedroutes/">ProtectedRoutes</a> placeholders indicates where routes that are neither hoisted or nested with a <a href="../../reference/runtime/fireflyruntime/#register-nested-navigation-items">parentPath</a> or <a href="../../reference/runtime/fireflyruntime/#register-a-route-with-an-id">parentId</a> option will be rendered. In this example, the homepage route is considered as a protected route and will be rendered under the <code translate="no" v-pre>ProtectedRoutes</code> placeholder.</p>
         </div>
     </div>
 </div>

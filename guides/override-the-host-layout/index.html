@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <meta name="turbo-root" content="/wl-squide">
-    <meta name="turbo-cache-control" content="no-cache" data-turbo-track="reload" data-track-token="3.12.0-preview2.816894151474">
+    <meta name="turbo-cache-control" content="no-cache" data-turbo-track="reload" data-track-token="3.12.0-preview2.816895050904">
 
     <!-- See retype.com -->
     <meta name="generator" content="Retype 3.12.0-preview2">
@@ -32,12 +32,12 @@
     <script data-cfasync="false">(function(){var cl=document.documentElement.classList,ls=localStorage.getItem("retype_scheme"),hd=cl.contains("dark"),hl=cl.contains("light"),wm=window.matchMedia&&window.matchMedia("(prefers-color-scheme: dark)").matches;if(ls==="dark"||(!ls&&wm&&!hd&&!hl)){cl.remove("light");cl.add("dark")}else if(ls==="light"||(!ls&&!wm&&!hd&&!hl)){cl.remove("dark");cl.add("light")}})();</script>
 
     <link id="retype-favicon" rel="icon" href="../../static/favicon.png" />
-    <link href="../../resources/css/retype.css?v=3.12.0-preview2.816894151474" rel="stylesheet">
+    <link href="../../resources/css/retype.css?v=3.12.0-preview2.816895050904" rel="stylesheet">
 
-    <script data-cfasync="false" src="../../resources/js/config.js?v=3.12.0-preview2.816894151474" data-turbo-eval="false" defer></script>
+    <script data-cfasync="false" src="../../resources/js/config.js?v=3.12.0-preview2.816895050904" data-turbo-eval="false" defer></script>
     <script data-cfasync="false" src="../../resources/js/retype.js?v=3.12.0-preview2" data-turbo-eval="false" defer></script>
-    <script id="lunr-js" data-cfasync="false" src="../../resources/js/lunr.js?v=3.12.0-preview2.816894151474" data-turbo-eval="false" defer></script>
-    <script id="prism-js" data-cfasync="false" src="../../resources/js/prism.js?v=3.12.0-preview2.816894151474" defer></script>
+    <script id="lunr-js" data-cfasync="false" src="../../resources/js/lunr.js?v=3.12.0-preview2.816895050904" data-turbo-eval="false" defer></script>
+    <script id="prism-js" data-cfasync="false" src="../../resources/js/prism.js?v=3.12.0-preview2.816895050904" defer></script>
 
     <link href="https://workleap.github.io/wl-idp-docs-hub/static/retype-customization.css" rel="stylesheet" />
 
@@ -294,8 +294,8 @@
     </h2>
 </doc-anchor-target>
 <p>Package managers supporting workspaces such as Yarn and NPM call this mechanism &quot;hoisting&quot;, which means &quot;raise (something) by means of ropes and pulleys&quot;. This is exactly what we are trying to achieve here.</p>
-<p>Squide has a built-in <a href="../../reference/runtime/runtime-class/#register-an-hoisted-route">hoist</a> functionality capable of raising module routes marked as <code translate="no" v-pre>hoist</code> at the root of the routes array, before the <code translate="no" v-pre>RootLayout</code> declaration. Thus, an hoisted route will not be wrapped by the <code translate="no" v-pre>RootLayout</code> component (or any authentication boundaries) and will have full control over its rendering.</p>
-<p>To hoist module routes, add the <a href="../../reference/runtime/runtime-class/#register-an-hoisted-route">hoist</a> option to the route registration options and optionally use a different layout:</p>
+<p>Squide has a built-in <a href="../../reference/runtime/fireflyruntime/#register-an-hoisted-route">hoist</a> functionality capable of raising module routes marked as <code translate="no" v-pre>hoist</code> at the root of the routes array, before the <code translate="no" v-pre>RootLayout</code> declaration. Thus, an hoisted route will not be wrapped by the <code translate="no" v-pre>RootLayout</code> component (or any authentication boundaries) and will have full control over its rendering.</p>
+<p>To hoist module routes, add the <a href="../../reference/runtime/fireflyruntime/#register-an-hoisted-route">hoist</a> option to the route registration options and optionally use a different layout:</p>
 <div class="codeblock-wrapper"><doc-codeblock>
 <div class="codeblock-title">local-module/src/register.tsx</div>
 <pre translate="no" class="language-tsx" data-line="9,14,24"><code v-pre class="language-tsx">import type { ModuleRegisterFunction, FireflyRuntime } from &quot;@squide/firefly&quot;;
