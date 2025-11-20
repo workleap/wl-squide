@@ -1,10 +1,12 @@
 ---
 order: 500
+toc:
+    depth: 2-3
 ---
 
 # Register routes
 
-Routes are the first central to the Squide modular experience. By allowing consumers to register dynamic routes, Squide makes it possible to build scalable modular applications with hard boundaries.
+Routes are the first pillar of the Squide modular experience. By allowing consumers to register dynamic routes, Squide enables developers to build scalable modular applications with well-defined boundaries.
 
 Below are the most common use cases. For more details, refer to the [reference](../reference/runtime/FireflyRuntime.md) documentation.
 
