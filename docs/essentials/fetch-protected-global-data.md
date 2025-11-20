@@ -2,3 +2,185 @@
 order: 450
 label: Fetch protected global data
 ---
+
+# Fetch protected global data
+
+Retrieving the global protected data of an application is a crucial aspect that isn't always straightforward to implement. To facilitate this process, Squide offer an [AppRouter](../reference/routing/AppRouter.md) component that takes care of setuping a modular application primitives and orchestrating the different states.
+
+==- Challenges with global data
+At first glance, one might wonder what could be so complicated about fetching the global data of an application. It's only fetches ...right? Well, there are several concerns to take into account for a modular application:
+
+- When in development, the global data cannot be fetched until the Mock Service Worker (MSW) **request handlers** are **registered** and **MSW is ready**.
+- To register the MSW request handlers, the **modules** must be **registered** first.
+- If the requested page is _public_, only the global public data should be fetched.
+- If the requested page is _protected_, **both** the global **public** and **protected data** should be **fetched**.
+- The requested page rendering must be delayed until the global data has been fetched.
+
+- A **unique loading spinner** should be displayed to the user during this process, ensuring there's **no flickering** due to different spinners being rendered.
+===
+
+## Fetch data
+
+There are four key steps to fetch global protected data:
+
+- Set the `waitForProtectedData` prop of the [AppRouter](../reference/routing/AppRouter.md) component to `true`.
+- Fetch the data using the [useProtectedDataQueries](../reference/tanstack-query/useProtectedDataQueries.md) hook.
+- Use the [useIsBootstrapping](../reference/routing/useIsBootstrapping.md) hook to display a loading spinner while the data is being retrieved.
+- Forward the data to the pages through a [React context](https://react.dev/learn/passing-data-deeply-with-context).
+
+Here's an example:
+
+```tsx !#7-22,24-26,29,31,37
+import { AppRouter, useProtectedDataQueries, useIsBootstrapping } from "@squide/firefly";
+import { createBrowserRouter, Outlet } from "react-router";
+import { RouterProvider } from "react-router/dom";
+import { SubscriptionContext, ApiError } from "@sample/shared";
+
+function BootstrappingRoute() {
+    const [subscription] = useProtectedDataQueries([
+        {
+            queryKey: ["/api/subscription"],
+            queryFn: async () => {
+                const response = await fetch("/api/subscription");
+
+                if (!response.ok) {
+                    throw new ApiError(response.status, response.statusText);
+                }
+
+                const data = await response.json();
+
+                return data.status as string;
+            }
+        }
+    ], error => isApiError(error) && error.status === 401);
+
+    if (useIsBootstrapping()) {
+        return <div>Loading...</div>;
+    }
+
+    return (
+        <SubscriptionContext.Provider value={subscription}>
+            <Outlet />
+        </SubscriptionContext.Provider>
+    );
+}
+
+export function App() {
+    return (
+        <AppRouter waitForProtectedData>
+            {({ rootRoute, registeredRoutes, routerProviderProps }) => {
+                return (
+                    <RouterProvider
+                        router={createBrowserRouter([
+                            {
+                                element: rootRoute,
+                                children: [
+                                    {
+                                        element: <BootstrappingRoute />,
+                                        children: registeredRoutes
+                                    }
+                                ]
+                            }
+                        ])}
+                        {...routerProviderProps}
+                    />
+                );
+            }}
+        </AppRouter>
+    );
+}
+```
+
+```ts @sample/shared
+import { createContext, useContext } from "react";
+
+export interface Subscription {
+    status: string
+}
+
+export const SubscriptionContext = createContext(Subscription | undefined);
+
+export function useSubscription() {
+    return useContext(SubscriptionContext);
+}
+```
+
+```ts @sample/shared
+export class ApiError extends Error {
+    readonly #status: number;
+    readonly #statusText: string;
+    readonly #stack?: string;
+
+    constructor(status: number, statusText: string, innerStack?: string) {
+        super(`${status} ${statusText}`);
+
+        this.#status = status;
+        this.#statusText = statusText;
+        this.#stack = innerStack;
+    }
+
+    get status() {
+        return this.#status;
+    }
+
+    get statusText() {
+        return this.#statusText;
+    }
+
+    get stack() {
+        return this.#stack;
+    }
+}
+
+export function isApiError(error?: unknown): error is ApiError {
+    return error !== undefined && error !== null && error instanceof ApiError;
+}
+```
+
+==- Setup the MSW handler used in the example
+First, define an MSW request handler that returns the number of times it has been fetched:
+
+```ts mocks/handlers.ts
+import { HttpResponse, http, type HttpHandler } from "msw";
+
+export const requestHandlers: HttpHandler[] = [
+    http.get("/api/subscription", () => {
+        // NOTE: The user id should be retrieved from the current session and the subscription should be retrieved from a database with this id.
+        // For the sake of simplicity, we haven't done it for this guide, instead we return hardcoded data.
+        return HttpResponse.json([{
+            "status": "paid"
+        }]);
+    })
+];
+```
+
+Then, register the request handler using the module registration function:
+
+```ts
+import type { ModuleRegisterFunction, FireflyRuntime } from "@squide/firefly"; 
+
+export const register: ModuleRegisterFunction<FireflyRuntime> = async runtime => {
+    if (runtime.isMswEnabled) {
+        // Files that includes an import to the "msw" package are included dynamically to prevent adding
+        // unused MSW stuff to the application bundles.
+        const requestHandlers = (await import("../mocks/handlers.ts")).requestHandlers;
+
+        runtime.registerRequestHandlers(requestHandlers);
+    }
+}
+```
+===
+
+==- Use the data in a page
+```tsx !#4
+import { useSubscription } from "@sample/shared";
+
+export function Page() {
+    const subscription = useSubscription();
+
+    return (
+        <p>Subscription status: {subscription?.status}</p>
+    )
+}
+```
+===
