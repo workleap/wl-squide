@@ -122,7 +122,7 @@ runtime.registerPublicRoute({
 });
 ```
 
-A nested route can also be public:
+To define a nested route as public, use the `$visibility` option:
 
 ```tsx !#9
 import { Layout } from "./Layout.tsx";
