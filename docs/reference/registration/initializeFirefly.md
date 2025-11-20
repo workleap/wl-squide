@@ -179,7 +179,7 @@ Sometimes, data must be fetched to determine which navigation items should be re
 
 1. The first phase allows modules to register their navigation items that are **not dependent on initial data** (in addition to their routes and MSW request handlers when fake endpoints are available).
 
-2. The second phase enables modules to register navigation items that are dependent on initial data. Such a use case would be determining whether a navigation item should be registered based on a feature flag. We refer to this second phase as **deferred registrations**.
+2. The second phase enables modules to register navigation items that are dependent on initial data. Such a use case would be determining whether a navigation item should be registered based on a user profile. We refer to this second phase as **deferred registrations**.
 
 To defer a registration to the second phase, a module registration function can **return an anonymous function** matching the `DeferredRegistrationFunction` type: `(data, operation: "register" | "update") => Promise | void`.
 
@@ -210,16 +210,16 @@ import { useMemo } from "react";
 import { createBrowserRouter, Outlet } from "react-router";
 import { RouterProvider } from "react-router/dom";
 import type { DeferredRegistrationData } from "@sample/shared";
-import { getFeatureFlagsQuery } from "./getFeatureFlagsQuery.ts";
+import { getUserInfoQuery } from "./getUserInfoQuery.ts";
 
 function BootstrappingRoute() {
-    const [featureFlags] = usePublicDataQueries([getFeatureFlagsQuery]);
+    const [userInfo] = usePublicDataQueries([getUserInfoQuery]);
 
-    // The useMemo is super important otherwise the hook will consider that the feature flags
-    // changed everytime the hook is rendered.
+    // The useMemo is super important otherwise the hook will consider that the user info
+    // object changed everytime the hook is rendered.
     const data: DeferredRegistrationData = useMemo(() => ({ 
-        featureFlags 
-    }), [featureFlags]);
+        userInfo 
+    }), [userInfo]);
 
     useDeferredRegistrations(data);
 
@@ -284,11 +284,11 @@ export const register: ModuleRegisterFunction<FireflyRuntime, unknown, DeferredR
         element: <FeatureAPage />
     });
 
-    // Once the feature flags has been loaded by the host application, by completing the module registrations process,
-    // the deferred registration function will be called with the feature flags data.
-    return (deferredRuntime, { featureFlags }) => {
-        // Only register the "feature-a" route and navigation item if the feature is active.
-        if (featureFlags.featureA) {
+    // Once the user info has been loaded by the host application, by completing the module registrations process,
+    // the deferred registration function will be called with the user data.
+    return (deferredRuntime, { userInfo }) => {
+        // Only register the "feature-a" route and navigation item if the user is an administrator.
+        if (userInfo.isAdmin) {
             deferredRuntime.registerNavigationItem({
                 $id: "feature-a",
                 $label: "Feature A",
@@ -324,11 +324,11 @@ export const register: ModuleRegisterFunction<FireflyRuntime> = runtime => {
         element: <FeatureBPage />
     });
 
-    // Once the feature flags has been loaded by the host application, by completing the module registrations process,
-    // the deferred registration function will be called with the feature flags data.
-    return (deferredRuntime, { featureFlags }) => {
-        // Only register the "feature-b route and navigation item if the feature is active.
-        if (featureFlags.featureB) {
+    // Once the user info has been loaded by the host application, by completing the module registrations process,
+    // the deferred registration function will be called with the user data.
+    return (deferredRuntime, { userInfo }) => {
+        // Only register the "feature-b route and navigation item if the user is a manager.
+        if (featureFlags.isManager) {
             deferredRuntime.registerNavigationItem({
                 $id: "feature-b",
                 $label: "Feature B",
@@ -373,11 +373,11 @@ export const register: ModuleRegisterFunction<FireflyRuntime, unknown, DeferredR
         element: <FeatureAPage />
     });
 
-    // Once the feature flags has been loaded by the host application, by completing the module registrations process,
-    // the deferred registration function will be called with the feature flags data.
-    return (deferredRuntime, { featureFlags }, operation) => {
-        // Only register the "feature-a" route and navigation item if the feature is active.
-        if (featureFlags.featureA) {
+    // Once the user info has been loaded by the host application, by completing the module registrations process,
+    // the deferred registration function will be called with the user data.
+    return (deferredRuntime, { userInfo }, operation) => {
+        // Only register the "feature-a" route and navigation item if the user is an administrator.
+        if (userInfo.isAdmin) {
             deferredRuntime.registerNavigationItem({
                 $id: "feature-a",
                 $label: operation === "register" ? "Feature A" : "Feature A updated",

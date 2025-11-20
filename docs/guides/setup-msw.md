@@ -1,5 +1,6 @@
 ---
 order: 1000
+visibility: hidden
 ---
 
 # Setup MSW

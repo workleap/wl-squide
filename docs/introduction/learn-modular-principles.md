@@ -2,9 +2,9 @@
 order: 11
 ---
 
-# Learn the key principles
+# Learn the modular design principles
 
-While developing the [API](/reference) of Squide, we kept a few key principles in mind. Those principles are not settled stones, you might want to diverge from them from time to time, but adhering to those will make your experience more enjoyable:
+While developing the [API](/reference) of Squide, we kept a few modular design principles in mind. Those principles are not settled stones, you might want to diverge from them from time to time, but adhering to those will make your experience more enjoyable:
 
 - A module should correspond to a **domain** or **subdomain** of the application.
 - A module should be **autonomous**.

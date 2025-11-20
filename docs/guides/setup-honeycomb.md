@@ -1,5 +1,6 @@
 ---
 order: 780
+visibility: hidden
 ---
 
 # Setup Honeycomb

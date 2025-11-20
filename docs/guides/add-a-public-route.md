@@ -1,5 +1,6 @@
 ---
 order: 900
+visibility: hidden
 ---
 
 # Add a public route

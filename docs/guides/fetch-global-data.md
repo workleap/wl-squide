@@ -1,5 +1,6 @@
 ---
 order: 980
+visibility: hidden
 ---
 
 # Fetch global data

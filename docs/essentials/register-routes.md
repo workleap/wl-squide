@@ -12,15 +12,18 @@ Below are the most common use cases. For more details, refer to the [reference](
 
 ## Register a basic route
 
-Most of the time, simple routes using only the `path` and `element` options will be defined:
+Typically, simple routes using only the `path` and `element` options will be defined:
 
-```tsx !#3-6
+```tsx !#5-8
+import type { ModuleRegisterFunction, FireflyRuntime } from "@squide/firefly";
 import { Page } from "./Page.tsx"
 
-runtime.registerRoute({
-    path: "/page-1",
-    element: <Page />
-});
+export const register: ModuleRegisterFunction<FireflyRuntime> = runtime => {
+    runtime.registerRoute({
+        path: "/page-1",
+        element: <Page />
+    });
+};
 ```
 
 ## Register a route with an id
@@ -29,13 +32,16 @@ The `registerRoute` function accepts a `parentId` option, allowing a route to be
 
 Here's an example of a "pathless" route with an id:
 
-```tsx !#4
+```tsx !#6
+import type { ModuleRegisterFunction, FireflyRuntime } from "@squide/firefly";
 import { RootErrorBoundary } from "./RootErrorBoundary.tsx";
 
-runtime.registerRoute({
-    $id: "error-boundary",
-    element: <RootErrorBoundary />
-});
+export const register: ModuleRegisterFunction<FireflyRuntime> = runtime => {
+    runtime.registerRoute({
+        $id: "error-boundary",
+        element: <RootErrorBoundary />
+    });
+};
 ```
 
 ## Register a nested route
@@ -46,28 +52,34 @@ To fully harness the power of nested routes, the `registerRoute` function allows
 
 When registering a new route with the `registerRoute` function, to render the route under a parent route, specify a `parentPath` option that matches the parent route's `path` option:
 
-```tsx !#7
+```tsx !#9
+import type { ModuleRegisterFunction, FireflyRuntime } from "@squide/firefly";
 import { Page } from "./Page.tsx";
 
-runtime.registerRoute({
-    path: "/layout/page-1",
-    element: <Page />
-}, { 
-    parentPath: "/layout" // Register the route under an existing route having "/layout" as its "path".
-});
+export const register: ModuleRegisterFunction<FireflyRuntime> = runtime => {
+    runtime.registerRoute({
+        path: "/layout/page-1",
+        element: <Page />
+    }, { 
+        parentPath: "/layout" // Register the route under an existing route having "/layout" as its "path".
+    });
+};
 ```
 
 Or a `parentId` option that matches the parent route's `$id` option:
 
-```tsx !#7
+```tsx !#9
+import type { ModuleRegisterFunction, FireflyRuntime } from "@squide/firefly";
 import { Page } from "./Page.tsx";
 
-runtime.registerRoute({
-    path: "/page-1",
-    element: <Page />
-}, { 
-    parentId: "error-boundary" // Register the route under an existing route having "error-boundary" as its "$id".
-});
+export const register: ModuleRegisterFunction<FireflyRuntime> = runtime => {
+    runtime.registerRoute({
+        path: "/page-1",
+        element: <Page />
+    }, { 
+        parentId: "error-boundary" // Register the route under an existing route having "error-boundary" as its "$id".
+    });
+};
 ```
 
 !!!tip
@@ -76,49 +88,58 @@ The `path` option of a route rendered under an existing parent route must be a R
 
 Routes can also be nested by registering multiple routes in a **single registration block**:
 
-```tsx !#7-10
+```tsx !#8-12
+import type { ModuleRegisterFunction, FireflyRuntime } from "@squide/firefly";
 import { Layout } from "./Layout.tsx";
 import { Page } from "./Page.tsx";
 
-runtime.registerRoute({
-    path: "/layout",
-    element: <Layout />,
-    children: [{
-        path: "/layout/page-1",
-        element: <Page />
-    }]
-});
+export const register: ModuleRegisterFunction<FireflyRuntime> = runtime => {
+    runtime.registerRoute({
+        path: "/layout",
+        element: <Layout />,
+        children: [{
+            path: "/layout/page-1",
+            element: <Page />
+        }]
+    });
+};
 ```
 
 A single registration block routes can also be define routes with **relative paths** (rather than starting with a `/`):
 
-```tsx !#5,8
+```tsx !#7,10
+import type { ModuleRegisterFunction, FireflyRuntime } from "@squide/firefly";
 import { Layout } from "./Layout.tsx";
 import { Page } from "./Page.tsx";
 
-runtime.registerRoute({
-    path: "layout",
-    element: <Layout />,
-    children: [{
-        path: "page-1",
-        element: <Page />
-    }]
-});
+export const register: ModuleRegisterFunction<FireflyRuntime> = runtime => {
+    runtime.registerRoute({
+        path: "layout",
+        element: <Layout />,
+        children: [{
+            path: "page-1",
+            element: <Page />
+        }]
+    });
+};
 ```
 
 ## Register an hoisted route
 
 Unlike a regular route, a hoisted route is added directly at the root of the router. This gives it full control over its rendering, as it is not nested under any root layouts. To mark a route as hoisted, include the `hoist` option in the route configuration:
 
-```tsx !#7
+```tsx !#9
+import type { ModuleRegisterFunction, FireflyRuntime } from "@squide/firefly";
 import { Page } from "./Page.tsx";
 
-runtime.registerRoute({
-    path: "/page-1",
-    element: <Page />
-}, {
-    hoist: true
-});
+export const register: ModuleRegisterFunction<FireflyRuntime> = runtime => {
+    runtime.registerRoute({
+        path: "/page-1",
+        element: <Page />
+    }, {
+        hoist: true
+    });
+};
 ```
 
 !!!tip
@@ -133,32 +154,38 @@ If the hoisted route requires an authentication, make sure to **wrap** the route
 
 When registering a route, a value can be provided indicating whether the route is `"public"` or `"protected"`. This is especially useful when dealing with code that **fetches global data for protected routes** (e.g. a session). Although a route definition accepts a `$visibility` value, we recommended using the runtime `registerPublicRoute` function to register a **root** public route instead.
 
-```tsx !#3-6
+```tsx !#5-8
+import type { ModuleRegisterFunction, FireflyRuntime } from "@squide/firefly";
 import { Page } from "./Page.tsx";
 
-runtime.registerPublicRoute({
-    path: "/page-1",
-    element: <Page />
-});
+export const register: ModuleRegisterFunction<FireflyRuntime> = runtime => {
+    runtime.registerPublicRoute({
+        path: "/page-1",
+        element: <Page />
+    });
+};
 ```
 
 To define a nested route as public, use the `$visibility` option:
 
-```tsx !#9
+```tsx !#11
+import type { ModuleRegisterFunction, FireflyRuntime } from "@squide/firefly";
 import { Layout } from "./Layout.tsx";
 import { Page } from "./Page.tsx";
 
-runtime.registerPublicRoute({
-    path: "/layout",
-    element: <Layout />,
-    children: [
-        {
-            $visibility: "public",
-            path: "/page-1",
-            element: <Page />,
-        }
-    ]
-});
+export const register: ModuleRegisterFunction<FireflyRuntime> = runtime => {
+    runtime.registerPublicRoute({
+        path: "/layout",
+        element: <Layout />,
+        children: [
+            {
+                $visibility: "public",
+                path: "/page-1",
+                element: <Page />,
+            }
+        ]
+    });
+};
 ```
 
 !!!tip

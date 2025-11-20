@@ -488,7 +488,7 @@ const navigationItems = runtime.getNavigationItems("my-custom-layout");
 
 The registered handlers must be valid MSW [request handlers](https://mswjs.io/docs/concepts/request-handler):
 
-```tsx !#3
+```ts !#3
 import { requestHandlers } from "../mocks/handlers.ts";
 
 runtime.registerRequestHandlers(requestHandlers);
@@ -498,8 +498,14 @@ runtime.registerRequestHandlers(requestHandlers);
 
 ### Retrieve request handlers
 
-```tsx !#1
+```ts !#1
 const requestHandlers = runtime.requestHandlers;
+```
+
+### Validate if MSW is enabled
+
+```ts !#1
+const isMswEnabled = runtime.isMswEnabled;
 ```
 
 ### Log a message

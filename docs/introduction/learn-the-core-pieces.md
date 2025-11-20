@@ -4,21 +4,54 @@ order: 50
 
 # Learn the core pieces (TODO)
 
+-------------------
+
+Runtime
+
+Modular routing
+
+-> View essentials
+
+Modular navigation
+
+-> View essentials (register nav item and register deferred registrations)
+
+Modular request handlers
+
+-> View essentials
+
+Public and protected pages
+
+Global data
+
+Messaging
+
+Logging
+
+Environments variables
+
+-> View integrations
+-> View essentials
+
+Feature flags
+
+-> View Launch Darkly
+-> View essentials
+
+Plugins
+
+
+
+
+View integrations
+View essentials
+View samples
+
+-------------------
+
+
+
 Now that we've created a host application, loaded a few modules and registered routes and navigation items, let's delve into the APIs provided by this shell.
-
-## Runtime mode
-
-In an effort to optimize the development experience, Squide can be bootstrapped in `development` or `production` mode:
-
-```ts !#4 host/src/index.tsx
-import { initializeFirefly } from "@squide/firefly";
-
-const runtime = initializeFirefly({
-    mode: "production"
-});
-```
-
-By default, the runtime [mode](../reference/runtime/FireflyRuntime.md#change-the-runtime-mode) is `development`.
 
 ## Logging
 

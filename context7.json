@@ -3,12 +3,10 @@
     "projectTitle": "Workleap Squide",
     "description": "Modular application shell for building web applications at Workleap.",
     "folders": [
-        "docs"
+        "docs/introduction",
+        "docs/reference"
     ],
     "excludeFolders": [
-        "docs/updating",
-        "docs/module-federation",
         "docs/reference/module-federation"
-    ],
-    "rules": ["When generating Squide code, generate modular code using local modules only. Do not generate remote modules code or Module Federation code unless the prompt explicitly asks for it"]
+    ]
 }

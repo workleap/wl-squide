@@ -1,5 +1,6 @@
 ---
 order: 800
+visibility: hidden
 ---
 
 # Setup i18next

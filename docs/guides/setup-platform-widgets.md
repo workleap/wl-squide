@@ -1,5 +1,6 @@
 ---
 order: 740
+visibility: hidden
 ---
 
 # Setup platform widgets

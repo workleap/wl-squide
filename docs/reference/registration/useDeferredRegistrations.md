@@ -37,12 +37,12 @@ import { useMemo } from "react";
 import { createBrowserRouter, Outlet } from "react-router";
 import { RouterProvider } from "react-router/dom";
 import { DeferredRegistrationData } from "@sample/shared";
-import { getFeatureFlagsQuery } from "./getFeatureFlagsQuery.ts";
+import { getUserInfoQuery } from "./getUserInfoQuery.ts";
 import { getSessionQuery } from "./getSessionQuery.ts";
 import { isApiError } from "./isApiError.ts";
 
 function BootstrappingRoute() {
-    const [featureFlags] = usePublicDataQueries([getFeatureFlagsQuery]);
+    const [userInfo] = usePublicDataQueries([getUserInfoQuery]);
 
     const [session] = useProtectedDataQueries(
         [getSessionQuery],
@@ -50,9 +50,9 @@ function BootstrappingRoute() {
     );
 
     const data: DeferredRegistrationData = useMemo(() => ({
-        featureFlags,
+        userInfo,
         session
-    }), [featureFlags, session]);
+    }), [userInfo, session]);
 
     useDeferredRegistrations(data);
 
@@ -91,15 +91,16 @@ export function AppRouter() {
 
 ### Handle registration errors
 
-```tsx !#10-14,17 host/src/AppRouter.tsx
+```tsx !#11-15,18 host/src/AppRouter.tsx
 import { useDeferredRegistrations, type DeferredRegistrationsErrorCallback } from "@squide/firefly";
 import type { DeferredRegistrationData } from "@sample/shared";
 import { useMemo } from "react";
+import { getUserInfoQuery } from "./getUserInfoQuery";
 
 function BootstrappingRoute() {
-    const [featureFlags] = usePublicDataQueries([getFeatureFlagsQuery]);
+    const [userInfo] = usePublicDataQueries([getUserInfoQuery]);
 
-    const data: DeferredRegistrationData = useMemo(() => ({ featureFlags }), [featureFlags]);
+    const data: DeferredRegistrationData = useMemo(() => ({ userInfo }), [userInfo]);
 
     const handleErrors: DeferredRegistrationsErrorCallback = errors => {
         errors.forEach(x => {

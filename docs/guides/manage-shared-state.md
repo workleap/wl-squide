@@ -1,5 +1,6 @@
 ---
 order: 960
+visibility: hidden
 ---
 
 # Manage shared state

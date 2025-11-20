@@ -1,5 +1,6 @@
 ---
 order: 760
+visibility: hidden
 ---
 
 # Setup loggers

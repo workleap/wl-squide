@@ -1,5 +1,6 @@
 ---
 order: 840
+visibility: hidden
 ---
 
 # Register a conditional navigation item
