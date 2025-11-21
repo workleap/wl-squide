@@ -82,7 +82,7 @@ The logger is also available from the [FireflyRuntime](../reference/runtime/Fire
 
 ## Messaging
 
-It's crucial that the parts of a modular application remains loosely coupled. To help with that, Squide offers a built-in [Event Bus](../reference/messaging/EventBus.md).
+It's crucial that the parts of a modular application remains loosely coupled. To help with that, Squide offers a built-in event bus.
 
 First, listen to an event with the [useEventBusListener](../reference/messaging/useEventBusListener.md) hook:
 

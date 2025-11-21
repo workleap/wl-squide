@@ -17,18 +17,10 @@ Loggers are available throughout the application via the `FireflyRuntime` instan
 runtime.logger.debug("Hello!");
 ```
 
-```tsx !#4,6
-import { useLogger } from "@squide/firefly";
+```tsx !#1,3
+const logger = useLogger();
 
-export function Page() {
-    const logger = useLogger();
-
-    logger.debug("Page is rendered.");
-
-    return (
-        <div>Hello from page!</div>
-    );
-}
+logger.debug("Hello!");
 ```
 
 !!!tip

@@ -43,7 +43,6 @@ toc:
 
 ### Messaging
 
-- [EventBus](./messaging/EventBus.md)
 - [useEventBusDispatcher](./messaging/useEventBusDispatcher.md)
 - [useEventBusListener](./messaging/useEventBusListener.md)
 
