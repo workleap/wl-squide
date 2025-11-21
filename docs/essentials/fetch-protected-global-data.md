@@ -21,7 +21,7 @@ At first glance, one might wonder what could be so complicated about fetching th
 
 ## Fetch data
 
-There are four key steps to fetch global protected data:
+:point_right: There are four key steps to fetch global protected data:
 
 - Set the `waitForProtectedData` prop of the [AppRouter](../reference/routing/AppRouter.md) component to `true`.
 - Fetch the data using the [useProtectedDataQueries](../reference/tanstack-query/useProtectedDataQueries.md) hook.
@@ -162,7 +162,7 @@ import type { ModuleRegisterFunction, FireflyRuntime } from "@squide/firefly";
 export const register: ModuleRegisterFunction<FireflyRuntime> = async runtime => {
     if (runtime.isMswEnabled) {
         // Files that includes an import to the "msw" package are included dynamically to prevent adding
-        // unused MSW stuff to the application bundles.
+        // unused MSW code to the production bundles.
         const requestHandlers = (await import("../mocks/handlers.ts")).requestHandlers;
 
         runtime.registerRequestHandlers(requestHandlers);
