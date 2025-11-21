@@ -47,11 +47,13 @@ toc:
 - [useEventBusDispatcher](./messaging/useEventBusDispatcher.md)
 - [useEventBusListener](./messaging/useEventBusListener.md)
 
-### TanStack Query
+### Global data fetching
 
-- [usePublicDataQueries](./tanstack-query/usePublicDataQueries.md)
-- [useProtectedDataQueries](./tanstack-query/useProtectedDataQueries.md)
-- [isGlobalDataQueriesError](./tanstack-query/isGlobalDataQueriesError.md)
+- [usePublicDataQueries](./global-data-fetching/usePublicDataQueries.md)
+- [useProtectedDataQueries](./global-data-fetching/useProtectedDataQueries.md)
+- [usePublicDataHandler](./global-data-fetching/usePublicDataHandler.md)
+- [useProtectedDataHandler](./global-data-fetching/useProtectedDataHandler.md)
+- [isGlobalDataQueriesError](./global-data-fetching/isGlobalDataQueriesError.md)
 
 ### i18next
 
@@ -97,8 +99,3 @@ Squide offers a collection of fake implementations designed to facilitate the se
 ### Module Federation
 
 - [initializeFirefly](./module-federation/initializeFirefly.md)
-
-### Miscellaneous
-
-- [usePublicDataHandler](./miscellaneous/usePublicDataHandler.md)
-- [useProtectedDataHandler](./miscellaneous/useProtectedDataHandler.md)

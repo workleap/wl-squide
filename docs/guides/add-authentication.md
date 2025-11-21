@@ -301,7 +301,7 @@ export const requestHandlers: HttpHandler[] = [
 ];
 ```
 
-Then, update the host application `App` component to load the session with the [useProtectedDataQueries](../reference/tanstack-query/useProtectedDataQueries.md) hook and create an instance of `TanstackQuerySessionManager` with the retrieved session to share the sessuib via the `SessionManagerContext`:
+Then, update the host application `App` component to load the session with the [useProtectedDataQueries](../reference/global-data-fetching/useProtectedDataQueries.md) hook and create an instance of `TanstackQuerySessionManager` with the retrieved session to share the sessuib via the `SessionManagerContext`:
 
 ```tsx !#8-29,31,38,46,56 host/src/App.tsx
 import { AppRouter, useProtectedDataQueries, useIsBootstrapping } from "@squide/firefly";

@@ -151,7 +151,7 @@ export function App() {
 
 ### Delay rendering until the public data is ready
 
-A `BootstrappingRoute` component is introduced in the following example because the [usePublicDataQueries](../tanstack-query/usePublicDataQueries.md) hook must be rendered as a child of `rootRoute`.
+A `BootstrappingRoute` component is introduced in the following example because the [usePublicDataQueries](../global-data-fetching/usePublicDataQueries.md) hook must be rendered as a child of `rootRoute`.
 
 ```tsx !#8,23 host/src/App.tsx
 import { useIsBootstrapping, usePublicDataQueries, AppRouter } from "@squide/firefly";
@@ -202,7 +202,7 @@ export function App() {
 
 ### Delay rendering until the protected data is ready
 
-A `BootstrappingRoute` component is introduced in the following example because the [useProtectedDataQueries](../tanstack-query/useProtectedDataQueries.md) hook must be rendered as a child of `rootRoute`.
+A `BootstrappingRoute` component is introduced in the following example because the [useProtectedDataQueries](../global-data-fetching/useProtectedDataQueries.md) hook must be rendered as a child of `rootRoute`.
 
 ```tsx !#8-11,26 host/src/App.tsx
 import { useIsBootstrapping, useProtectedDataQueries, AppRouter } from "@squide/firefly";

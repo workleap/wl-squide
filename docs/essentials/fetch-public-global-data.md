@@ -19,12 +19,14 @@ At first glance, one might wonder what could be so complicated about fetching th
 - A **unique loading spinner** should be displayed to the user during this process, ensuring there's **no flickering** due to different spinners being rendered.
 ===
 
+For more details, refer to the [reference](../reference/global-data-fetching/usePublicDataQueries.md) documentation.
+
 ## Fetch data
 
 :point_right: There are four key steps to fetch global public data:
 
 - Set the `waitForPublicData` prop of the [AppRouter](../reference/routing/AppRouter.md) component to `true`.
-- Fetch the data using the [usePublicDataQueries](../reference/tanstack-query/usePublicDataQueries.md) hook.
+- Fetch the data using the [usePublicDataQueries](../reference/global-data-fetching/usePublicDataQueries.md) hook.
 - Use the [useIsBootstrapping](../reference/routing/useIsBootstrapping.md) hook to display a loading spinner while the data is being retrieved.
 - Forward the data to the pages through a [React context](https://react.dev/learn/passing-data-deeply-with-context).
 
@@ -154,3 +156,7 @@ export function Page() {
 }
 ```
 ===
+
+## Setup TanStack Query
+
+Fetching data with the `usePublicDataQueries` hook requires [TanStack Query](https://tanstack.com/query/latest) to be configured. To set it up, follow the [Setup TanStack Query](../integrations/setup-tanstack-query.md) integration guide.

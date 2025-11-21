@@ -22,7 +22,7 @@ Modular request handlers
 
 Public and protected pages
 
-Global data
+Global data fetching
 
 Messaging
 
@@ -141,7 +141,7 @@ A plugin can also be retrieved from the [FireflyRuntime](../reference/runtime/Fi
 
 ## TanStack Query
 
-Hooks are available to retrieve global application data using [TanStack Query](https://tanstack.com/query/latest). To fetch public data, use the [usePublicDataQueries](../reference/tanstack-query/usePublicDataQueries.md) hook:
+Hooks are available to retrieve global application data using [TanStack Query](https://tanstack.com/query/latest). To fetch public data, use the [usePublicDataQueries](../reference/global-data-fetching/usePublicDataQueries.md) hook:
 
 ```tsx !#3-10
 import { usePublicDataQueries } from "@squide/firefly";
@@ -156,7 +156,7 @@ const [featureFlags] = usePublicDataQueries([{
 }]);
 ```
 
-To retrieve protected data, use the [useProtectedDataQueries](../reference/tanstack-query/useProtectedDataQueries.md) hook instead:
+To retrieve protected data, use the [useProtectedDataQueries](../reference/global-data-fetching/useProtectedDataQueries.md) hook instead:
 
 ```tsx !#4-21
 import { useProtectedDataQueries } from "@squide/firefly";
@@ -182,7 +182,7 @@ const [session, subscription] = useProtectedDataQueries([
 ], error => isApiError(error) && error.status === 401);
 ```
 
-If an unmanaged error occur while retrieving the data, a [GlobalDataQueriesError](../reference/tanstack-query/isGlobalDataQueriesError.md) is thrown.
+If an unmanaged error occur while retrieving the data, a [GlobalDataQueriesError](../reference/global-data-fetching/isGlobalDataQueriesError.md) is thrown.
 
 ## Guides
 

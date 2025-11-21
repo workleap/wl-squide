@@ -8,7 +8,7 @@ toc:
 Register the modules [deferred registration](./initializeFirefly.md#defer-the-registration-of-navigation-items) functions when the global data is initially fetched or update the deferred registration functions whenever the global data change.
 
 !!!tip
-This hook should always be used in combination with [deferred registration](./initializeFirefly.md#defer-the-registration-of-navigation-items) functions and with either the [usePublicDataQueries](../tanstack-query/usePublicDataQueries.md) hook or the [useProtectedDataQueries](../tanstack-query/useProtectedDataQueries.md) hook (can be both).
+This hook should always be used in combination with [deferred registration](./initializeFirefly.md#defer-the-registration-of-navigation-items) functions and with either the [usePublicDataQueries](../global-data-fetching/usePublicDataQueries.md) hook or the [useProtectedDataQueries](../global-data-fetching/useProtectedDataQueries.md) hook (can be both).
 !!!
 
 ## Reference

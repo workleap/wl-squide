@@ -115,7 +115,7 @@ export function isApiError(error?: unknown): error is ApiError {
 
 ### Fetch the data
 
-Finally, update the `App` component to add the [usePublicDataQueries](../reference/tanstack-query/usePublicDataQueries.md) hook. The hook will fetch the data from `/api/count` and forward the retrieved `fetchCount` value through `FetchCountContext`:
+Finally, update the `App` component to add the [usePublicDataQueries](../reference/global-data-fetching/usePublicDataQueries.md) hook. The hook will fetch the data from `/api/count` and forward the retrieved `fetchCount` value through `FetchCountContext`:
 
 ```tsx !#7-22,24-26,37 host/src/App.tsx
 import { AppRouter, usePublicDataQueries, useIsBootstrapping } from "@squide/firefly";
@@ -266,7 +266,7 @@ If you are experiencing issues with this section of the guide:
 
 ## Fetch protected data
 
-Now, let's load _protected_ data. The process is similar to fetching public data, but this time, we'll use the [useProtectedDataQueries](../reference/tanstack-query/useProtectedDataQueries.md) hook instead.
+Now, let's load _protected_ data. The process is similar to fetching public data, but this time, we'll use the [useProtectedDataQueries](../reference/global-data-fetching/useProtectedDataQueries.md) hook instead.
 
 ### Add an endpoint
 
@@ -319,7 +319,7 @@ export function useSubscription() {
 
 ### Fetch the data
 
-Finally, update the `App` component to add the [useProtectedDataQueries](../reference/tanstack-query/useProtectedDataQueries.md) hook. The hook will fetch the data from `/api/subscription` and forward the retrieved `subscription` data through `SubscriptionContext`:
+Finally, update the `App` component to add the [useProtectedDataQueries](../reference/global-data-fetching/useProtectedDataQueries.md) hook. The hook will fetch the data from `/api/subscription` and forward the retrieved `subscription` data through `SubscriptionContext`:
 
 ```tsx !#24-43,62 host/src/App.tsx
 import { AppRouter, usePublicDataQueries, useProtectedDataQueries, useIsBootstrapping } from "@squide/firefly";

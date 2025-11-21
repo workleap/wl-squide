@@ -459,3 +459,7 @@ export const register: ModuleRegisterFunction<FireflyRuntime> = runtime => {
     });
 };
 ```
+
+### Setup i18next
+
+Localizing labels requires [i18next](https://www.i18next.com/) to be configured. To set it up, follow the [Setup i18next](../integrations/setup-i18next.md) integration guide.

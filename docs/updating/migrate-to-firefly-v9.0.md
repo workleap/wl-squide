@@ -157,7 +157,7 @@ const runtime = new FireflyRuntime({
 
 ### Rewrite of the `AppRouter` component
 
-This release features a full rewrite of the [AppRouter](../reference/routing/AppRouter.md) component. The `AppRouter` component used to handle many concerns like global data fetching, deferred registrations, error handling and a loading state. Those concerns have been delegated to the consumer code, supported by the new [useIsBootstrapping](../reference/routing/useIsBootstrapping.md), [usePublicDataQueries](../reference/tanstack-query/usePublicDataQueries.md), [useProtectedDataQueries](../reference/tanstack-query/useProtectedDataQueries.md) and [useDeferredRegistrations](../reference/registration/useDeferredRegistrations.md) hooks.
+This release features a full rewrite of the [AppRouter](../reference/routing/AppRouter.md) component. The `AppRouter` component used to handle many concerns like global data fetching, deferred registrations, error handling and a loading state. Those concerns have been delegated to the consumer code, supported by the new [useIsBootstrapping](../reference/routing/useIsBootstrapping.md), [usePublicDataQueries](../reference/global-data-fetching/usePublicDataQueries.md), [useProtectedDataQueries](../reference/global-data-fetching/useProtectedDataQueries.md) and [useDeferredRegistrations](../reference/registration/useDeferredRegistrations.md) hooks.
 
 Before:
 
@@ -252,9 +252,9 @@ export function App() {
 
 - A new [useIsBoostrapping](../reference/routing/useIsBootstrapping.md) hook is now available.
 - A new [useDeferredRegistrations](../reference/registration/useDeferredRegistrations.md) hook is now available.
-- A new [usePublicDataQueries](../reference/tanstack-query/usePublicDataQueries.md) hook is now available.
-- A new [useProtectedDataQueries](../reference/tanstack-query/useProtectedDataQueries.md) hook is now available.
-- A new [isGlobalDataQueriesError](../reference/tanstack-query/isGlobalDataQueriesError.md) function is now available.
+- A new [usePublicDataQueries](../reference/global-data-fetching/usePublicDataQueries.md) hook is now available.
+- A new [useProtectedDataQueries](../reference/global-data-fetching/useProtectedDataQueries.md) hook is now available.
+- A new [isGlobalDataQueriesError](../reference/global-data-fetching/isGlobalDataQueriesError.md) function is now available.
 - A new [registerPublicRoute](../reference/runtime/FireflyRuntime.md#register-a-public-route) function is now available.
 
 ## Improvements
@@ -317,8 +317,8 @@ The `v9.0` release introduces several breaking changes affecting the host applic
 
 1. Add a dependency to `@tanstack/react-query`.
 2. Transition to the new `AppRouter` component. [View example](#rewrite-of-the-approuter-component)
-    - `onLoadPublicData` + `isPublicDataLoaded` becomes [usePublicDataQueries](../reference/tanstack-query/usePublicDataQueries.md)
-    - `onLoadProtectedData` + `isProtectedDataLoaded` becomes [useProtectedDataQueries](../reference/tanstack-query/useProtectedDataQueries.md)
+    - `onLoadPublicData` + `isPublicDataLoaded` becomes [usePublicDataQueries](../reference/global-data-fetching/usePublicDataQueries.md)
+    - `onLoadProtectedData` + `isProtectedDataLoaded` becomes [useProtectedDataQueries](../reference/global-data-fetching/useProtectedDataQueries.md)
     - `onCompleteRegistrations` becomes [useDeferredRegistrations](../reference/registration/useDeferredRegistrations.md)
     - `fallbackElement` becomes [useIsBootstrapping](../reference/routing/useIsBootstrapping.md)
     - `errorElement` is removed and somewhat replaced by a [root error boundary](#root-error-boundary)
@@ -343,7 +343,7 @@ If the application register MSW [request handlers](https://mswjs.io/docs/concept
 </AppRouter>
 ```
 
-If the application uses the [usePublicDataQueries](../reference/tanstack-query/usePublicDataQueries.md), add the `waitForPublicData` property to the `AppRouter` component:
+If the application uses the [usePublicDataQueries](../reference/global-data-fetching/usePublicDataQueries.md), add the `waitForPublicData` property to the `AppRouter` component:
 
 ```tsx
 <AppRouter waitForPublicData>
@@ -351,7 +351,7 @@ If the application uses the [usePublicDataQueries](../reference/tanstack-query/u
 </AppRouter>
 ```
 
-If the application uses the [useProtectedDataQueries](../reference/tanstack-query/useProtectedDataQueries.md), add the `waitForProtectedData` property to the `AppRouter` component:
+If the application uses the [useProtectedDataQueries](../reference/global-data-fetching/useProtectedDataQueries.md), add the `waitForProtectedData` property to the `AppRouter` component:
 
 ```tsx
 <AppRouter waitForProtectedData>

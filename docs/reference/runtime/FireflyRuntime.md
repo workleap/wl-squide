@@ -508,6 +508,17 @@ const requestHandlers = runtime.requestHandlers;
 const isMswEnabled = runtime.isMswEnabled;
 ```
 
+### Setup a logger
+
+```ts !#5
+import { initializeFirefly } from "@squide/firefly";
+import { MyLogger } from "./MyLogger.tsx";
+
+const runtime = initializeFirefly({
+    loggers: [new MyLogger()]
+});
+```
+
 ### Log a message
 
 ```ts !#3

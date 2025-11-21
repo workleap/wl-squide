@@ -1,5 +1,5 @@
 ---
-order: 100
+order: 70
 toc:
     depth: 2-3
 ---

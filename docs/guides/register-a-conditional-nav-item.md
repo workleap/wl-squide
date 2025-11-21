@@ -82,7 +82,7 @@ export function useFeatureFlags() {
 
 ## Fetch the feature flags remote data
 
-Then, open the host application code and update the `App` component to fetch the feature flags data with the [usePublicDataQueries](../reference/tanstack-query/usePublicDataQueries.md) hook:
+Then, open the host application code and update the `App` component to fetch the feature flags data with the [usePublicDataQueries](../reference/global-data-fetching/usePublicDataQueries.md) hook:
 
 ```tsx !#7-22,29 host/src/App.tsx
 import { AppRouter, usePublicDataQueries, useIsBootstrapping } from "@squide/firefly";

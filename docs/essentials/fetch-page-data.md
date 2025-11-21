@@ -11,7 +11,7 @@ There are several approaches to fetching data for pages. We prefer using a backe
 
 :point_right: There are two key steps to fetch page data:
 
-- Fetch the data using the [useSuspenseQuery]() hook.
+- Fetch the data using the [useSuspenseQuery](https://tanstack.com/query/latest/docs/framework/react/reference/useSuspenseQuery) hook.
 - Define a fallback element in the layout component using the [Suspense]() component
 
 ```tsx !#9-13
