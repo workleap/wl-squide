@@ -1,5 +1,5 @@
 import { isNil, Plugin, type Runtime } from "@squide/core";
-import { EnvironmentVariablesRegistry, type EnvironmentVariables, type EnvironmentVariablesKey, type EnvironmentVariablesValue } from "./EnvironmentVariablesRegistry.ts";
+import { EnvironmentVariablesRegistry, type EnvironmentVariableKey, type EnvironmentVariables, type EnvironmentVariableValue } from "./EnvironmentVariablesRegistry.ts";
 
 export const EnvironmentVariablesPluginName = "env-vars-plugin";
 
@@ -22,7 +22,7 @@ export class EnvironmentVariablesPlugin extends Plugin {
         }
     }
 
-    registerVariable(key: EnvironmentVariablesKey, value: EnvironmentVariablesValue) {
+    registerVariable(key: EnvironmentVariableKey, value: EnvironmentVariableValue) {
         this.#environmentVariablesRegistry.add(key, value);
 
         this._runtime.logger.debug(`[squide] An environment variable for key "${key}" has been registered with the value "${value}".`);
@@ -37,7 +37,7 @@ export class EnvironmentVariablesPlugin extends Plugin {
             .debug();
     }
 
-    getVariable(key: EnvironmentVariablesKey) {
+    getVariable(key: EnvironmentVariableKey) {
         return this.#environmentVariablesRegistry.getVariable(key);
     }
 

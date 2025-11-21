@@ -35,7 +35,7 @@ function registerRoutes(runtime: FireflyRuntime, i18nextInstance: i18n) {
 
 async function registerMsw(runtime: FireflyRuntime) {
     if (runtime.isMswEnabled) {
-        const environmentVariables = runtime.getVariables();
+        const environmentVariables = runtime.getEnvironmentVariables();
 
         // Files including an import to the "msw" package are included dynamically to prevent adding
         // MSW stuff to the bundled when it's not used.
@@ -46,7 +46,7 @@ async function registerMsw(runtime: FireflyRuntime) {
 }
 
 function registerEnvironmentVariables(runtime: FireflyRuntime) {
-    runtime.registerVariables({
+    runtime.registerEnvironmentVariables({
         rickAndMortyApiBaseUrl: "/api/r&m/"
     });
 }

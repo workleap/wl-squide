@@ -1,5 +1,5 @@
 import type { RegisterRouteOptions, RuntimeMethodOptions, RuntimeOptions } from "@squide/core";
-import { EnvironmentVariables, EnvironmentVariablesKey, EnvironmentVariablesPlugin, EnvironmentVariablesValue, getEnvironmentVariablesPlugin } from "@squide/env-vars";
+import { EnvironmentVariableKey, EnvironmentVariables, EnvironmentVariableValue, getEnvironmentVariablesPlugin } from "@squide/env-vars";
 import { getMswPlugin, MswPluginName, MswState } from "@squide/msw";
 import { type IReactRouterRuntime, ReactRouterRuntime, ReactRouterRuntimeScope, type Route } from "@squide/react-router";
 import type { HoneycombInstrumentationPartialClient } from "@workleap-telemetry/core";
@@ -8,7 +8,6 @@ import type { RequestHandler } from "msw";
 import { type AppRouterStore, createAppRouterStore } from "./AppRouterStore.ts";
 
 export interface FireflyRuntimeOptions<TRuntime extends FireflyRuntime = FireflyRuntime> extends RuntimeOptions<TRuntime> {
-    environmentVariables?: Partial<EnvironmentVariables>;
     honeycombInstrumentationClient?: HoneycombInstrumentationPartialClient;
 }
 
@@ -19,10 +18,10 @@ export interface IFireflyRuntime extends IReactRouterRuntime {
     registerRequestHandlers: (handlers: RequestHandler[]) => void;
     get requestHandlers(): RequestHandler[];
     get isMswEnabled(): boolean;
-    registerVariable(key: EnvironmentVariablesKey, value: EnvironmentVariablesValue): void;
-    registerVariables(variables: Partial<EnvironmentVariables>): void;
-    getVariable(key: EnvironmentVariablesKey): EnvironmentVariablesValue;
-    getVariables(): EnvironmentVariables;
+    registerEnvironmentVariable(key: EnvironmentVariableKey, value: EnvironmentVariableValue): void;
+    registerEnvironmentVariables(variables: Partial<EnvironmentVariables>): void;
+    getEnvironmentVariable(key: EnvironmentVariableKey): EnvironmentVariableValue;
+    getEnvironmentVariables(): EnvironmentVariables;
     get appRouterStore(): AppRouterStore;
     get honeycombInstrumentationClient(): HoneycombInstrumentationPartialClient | undefined;
 }
@@ -34,19 +33,10 @@ export class FireflyRuntime<TRuntime extends FireflyRuntime = any> extends React
 
     constructor(options: FireflyRuntimeOptions = {}) {
         const {
-            environmentVariables,
-            plugins = [],
-            honeycombInstrumentationClient,
-            ...rest
+            honeycombInstrumentationClient
         } = options;
 
-        super({
-            plugins: [
-                x => new EnvironmentVariablesPlugin(x, { environmentVariables }),
-                ...plugins
-            ],
-            ...rest
-        });
+        super(options);
 
         this._appRouterStore = createAppRouterStore(this._logger);
         this._honeycombInstrumentationClient = honeycombInstrumentationClient;
@@ -90,25 +80,25 @@ export class FireflyRuntime<TRuntime extends FireflyRuntime = any> extends React
         return this._plugins.some(x => x.name === MswPluginName);
     }
 
-    getVariable(key: EnvironmentVariablesKey) {
+    getEnvironmentVariable(key: EnvironmentVariableKey) {
         const plugin = getEnvironmentVariablesPlugin(this);
 
         return plugin.getVariable(key);
     }
 
-    getVariables() {
+    getEnvironmentVariables() {
         const plugin = getEnvironmentVariablesPlugin(this);
 
         return plugin.getVariables();
     }
 
-    registerVariable(key: EnvironmentVariablesKey, value: EnvironmentVariablesValue) {
+    registerEnvironmentVariable(key: EnvironmentVariableKey, value: EnvironmentVariableValue) {
         const plugin = getEnvironmentVariablesPlugin(this);
 
         return plugin.registerVariable(key, value);
     }
 
-    registerVariables(variables: Partial<EnvironmentVariables>) {
+    registerEnvironmentVariables(variables: Partial<EnvironmentVariables>) {
         const plugin = getEnvironmentVariablesPlugin(this);
 
         return plugin.registerVariables(variables);
@@ -148,20 +138,20 @@ export class FireflyRuntimeScope<TRuntime extends FireflyRuntime = FireflyRuntim
         return this._runtime.isMswEnabled;
     }
 
-    getVariables(): EnvironmentVariables {
-        return this._runtime.getVariables();
+    getEnvironmentVariables() {
+        return this._runtime.getEnvironmentVariables();
     }
 
-    getVariable(key: EnvironmentVariablesKey): EnvironmentVariablesValue {
-        return this._runtime.getVariable(key);
+    getEnvironmentVariable(key: EnvironmentVariableKey) {
+        return this._runtime.getEnvironmentVariable(key);
     }
 
-    registerVariable(): void {
-        throw new Error("[squide] Cannot register an environment variable from a runtime scope instance.");
+    registerEnvironmentVariable(key: EnvironmentVariableKey, value: EnvironmentVariableValue) {
+        this._runtime.registerEnvironmentVariable(key, value);
     }
 
-    registerVariables() {
-        throw new Error("[squide] Cannot register environment variables from a runtime scope instance.");
+    registerEnvironmentVariables(variables: Partial<EnvironmentVariables>) {
+        this._runtime.registerEnvironmentVariables(variables);
     }
 
     get appRouterStore(): AppRouterStore {

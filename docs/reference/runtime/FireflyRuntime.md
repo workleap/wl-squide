@@ -15,13 +15,14 @@ A runtime instance give modules access to functionalities such as routing, navig
 ## Reference
 
 ```ts
-const runtime = new FireflyRuntime(options?: { mode?, useMsw?, loggers?, plugins? })
+const runtime = new FireflyRuntime(options?: { mode?, honeycombInstrumentationClient?, loggers?, plugins? })
 ```
 
 ### Parameters
 
 - `options`: An optional object literal of options:
     - `mode`: An optional mode to optimize Squide for production. Values are `"development"` (default) and `"production"`.
+    - `honeycombInstrumentationClient`: An optional Honeycomb instrumentation client for tracing the Squide bootstrapping flow.
     - `loggers`: An optional array of `Logger` instances.
     - `plugins`: An optional array of `Plugin` factory functions.
 
@@ -31,6 +32,10 @@ const runtime = new FireflyRuntime(options?: { mode?, useMsw?, loggers?, plugins
 - `registerNavigationItem(navigationItem, options?)`: Register a navigation item.
 - `getNavigationItems(menuId?)`: Retrieve the registered navigation items.
 - `registerRequestHandlers(handlers)`: Register the MSW request handlers.
+- `getEnvironmentVariable(key)`: Retrieve an environment variable.
+- `getEnvironmentVariables()`: Retrieve all environment variables.
+- `registerEnvironmentVariable(key, value)`: Register a single environment variable.
+- `registerEnvironmentVariables(variables)`: Register multiple environment variables.
 - `getPlugin(name)`: Retrieve the registered plugin by the specified `name`.
 
 ### Getters
@@ -38,10 +43,10 @@ const runtime = new FireflyRuntime(options?: { mode?, useMsw?, loggers?, plugins
 - `mode`: Retrieve the runtime mode.
 - `routes`: Retrieve the registered routes.
 - `requestHandlers`: Retrieve the registered MSW request handlers.
-- `plugins`: Retrieve the registered plugins.
+- `isMswEnabled`: Indicate whether or not MSW is enabled.
 - `logger`: Retrieve the runtime logger.
 - `eventBus`: Retrieve the runtime event bus.
-- `isMswEnabled`: Indicate whether or not MSW is enabled.
+- `plugins`: Retrieve the registered plugins.
 
 ## Usage
 
@@ -508,17 +513,6 @@ const requestHandlers = runtime.requestHandlers;
 const isMswEnabled = runtime.isMswEnabled;
 ```
 
-### Setup a logger
-
-```ts !#5
-import { initializeFirefly } from "@squide/firefly";
-import { MyLogger } from "./MyLogger.tsx";
-
-const runtime = initializeFirefly({
-    loggers: [new MyLogger()]
-});
-```
-
 ### Log a message
 
 ```ts !#3
@@ -535,6 +529,33 @@ runtime.eventBus.addListener("write-to-host", () => {});
 
 // Dispatch an event to the host application or a module.
 runtime.eventBus.dispatch("write-to-host", "Hello host!");
+```
+
+### Register an environment variable
+
+```ts !#1
+runtime.registerEnvironmentVariable("foo", "bar");
+```
+
+### Register multiple environment variables at once
+
+```ts !#1-4
+runtime.registerEnvironmentVariables({
+    "foo", "bar",
+    "john", "doe"
+});
+```
+
+### Retrieve an environment variable
+
+```ts !#1
+const environmentVariable = runtime.getEnvironmentVariable("foo");
+```
+
+### Retrieve all environment variables
+
+```ts !#1
+const environmentVariables = runtime.getEnvironmentVariables();
 ```
 
 ### Register a plugin

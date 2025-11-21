@@ -11,26 +11,49 @@ Create a [Runtime](../runtime/FireflyRuntime.md) instance, register **local** mo
 ## Reference
 
 ```ts
-const runtime = initializeFirefly(options?: { localModules?, startMsw?, onError?, context?, mode?, useMsw?, loggers?, plugins? })
+const runtime = initializeFirefly(options?: { 
+    mode?,
+    localModules?,
+    context?,
+    useMsw?,
+    startMsw?,
+    environmentVariables?,
+    honeycombInstrumentationClient?,
+    loggers?,
+    plugins?,
+    onError?
+})
 ```
 
 ### Parameters
 
 - `options`: An optional object literal of options:
-    - `localModules`: An optional array of `ModuleRegisterFunction`.
-    - `startMsw`: An optional function to register MSW request handlers and start MSW service. This function is required if [MSW is enabled](#use-msw).
-    - `onError`: An optional function that is called whenever a bootstrapping error occurs.
-    - `context`: An optional context object that will be pass to the registration function.
     - `mode`: An optional mode to optimize Squide for production. Values are `"development"` (default) and `"production"`.
+    - `localModules`: An optional array of `ModuleRegisterFunction`.
+    - `context`: An optional context object that will be pass to the registration function.
     - `useMsw`: An optional `boolean` value indicating whether or not to create the runtime with [Mock Service Work](https://mswjs.io/) (MSW) support.
+    - `startMsw`: An optional function to register MSW request handlers and start MSW service. This function is required if [MSW is enabled](#use-msw).
+    - `environmentVariables`: An optional object of environment variables.
+    - `honeycombInstrumentationClient`: An optional Honeycomb instrumentation client for tracing the Squide bootstrapping flow.
     - `loggers`: An optional array of logger instances.
     - `plugins`: An optional array of `Plugin` factory functions.
+    - `onError`: An optional function that is called whenever a bootstrapping error occurs.
 
 ### Returns
 
 A [FireflyRuntime](../runtime/FireflyRuntime.md) instance.
 
 ## Usage
+
+### Change the runtime mode
+
+```ts !#4
+import { initializeFirefly } from "@squide/firefly";
+
+const runtime = initializeFirefly({
+    mode: "production"
+});
+```
 
 ### Register a local module
 
@@ -61,22 +84,18 @@ export const register: ModuleRegisterFunction<FireflyRuntime> = runtime => {
 }
 ```
 
-### Use MSW
+### Provide a registration context
 
-```tsx !#7,9-13 host/src/index.tsx
+```tsx #8-9 host/src/index.tsx
 import { FireflyProvider, initializeFirefly } from "@squide/firefly";
 import { register } from "@sample/local-module";
 import { createRoot } from "react";
 import { App } from "./App.tsx";
 
 const runtime = initializeFirefly({
-    useMsw: true,
     localModules: [register],
-    startMsw: async () => {
-        // Files that includes an import to the "msw" package are included dynamically to prevent adding
-        // unused MSW stuff to the code bundles.
-        (await import("./mocks/browser.ts")).startMsw(runtime.requestHandlers);
-    }
+    // Can be anything.
+    context: { foo: "bar" }
 });
 
 const root = createRoot(document.getElementById("root")!);
@@ -112,18 +131,22 @@ root.render(
 );
 ```
 
-### Provide a registration context
+### Use MSW
 
-```tsx #8-9 host/src/index.tsx
+```tsx !#7,9-13 host/src/index.tsx
 import { FireflyProvider, initializeFirefly } from "@squide/firefly";
 import { register } from "@sample/local-module";
 import { createRoot } from "react";
 import { App } from "./App.tsx";
 
 const runtime = initializeFirefly({
+    useMsw: true,
     localModules: [register],
-    // Can be anything.
-    context: { foo: "bar" }
+    startMsw: async () => {
+        // Files that includes an import to the "msw" package are included dynamically to prevent adding
+        // unused MSW stuff to the code bundles.
+        (await import("./mocks/browser.ts")).startMsw(runtime.requestHandlers);
+    }
 });
 
 const root = createRoot(document.getElementById("root")!);
@@ -135,13 +158,35 @@ root.render(
 );
 ```
 
-### Change the runtime mode
+### Provide environment variables
 
-```ts !#4
+```ts !#4-7
 import { initializeFirefly } from "@squide/firefly";
 
 const runtime = initializeFirefly({
-    mode: "production"
+    environmentVariables: {
+        "foo": "bar",
+        "john": "doe"
+    }
+});
+```
+
+### Provide an Honeycomb instrumentation client
+
+```ts !#13
+import { initializeFirefly } from "@squide/firefly";
+import { initializeTelemetry } from "@workleap/telemetry/react";
+
+const telemetryClient = initializeTelemetry({
+    serviceName: "sample",
+    apiServiceUrls: [/http:\/\/localhost\.*/],
+    options: {
+        apiKey: "123"
+    }
+});
+
+const runtime = initializeFirefly({
+    honeycombInstrumentationClient: telemetryClient.honeycomb
 });
 ```
 
@@ -150,28 +195,13 @@ const runtime = initializeFirefly({
 The logger intance receives the `Runtime` instance as parameter.
 
 ```ts !#5
-import { ConsoleLogger, initializeFirefly } from "@squide/firefly";
+import { initializeFirefly } from "@squide/firefly";
 import { BrowserConsoleLogger } from "@workleap/logging";
 
 const runtime = initializeFirefly({
     loggers: [new BrowserConsoleLogger()]
 });
 ```
-
-### Register a plugin
-
-The plugin factory function receives the `Runtime` instance as parameter.
-
-```ts !#5
-import { initializeFirefly } from "@squide/firefly";
-import { MyPlugin } from "@sample/my-plugin";
-
-const runtime = initializeFirefly({
-    plugins: [x => new MyPlugin(x)]
-});
-```
-
-[!ref Learn more about plugins](../plugins/Plugin.md)
 
 ### Defer the registration of navigation items
 
@@ -388,37 +418,17 @@ export const register: ModuleRegisterFunction<FireflyRuntime, unknown, DeferredR
 }
 ```
 
-## Remote definition
+### Register a plugin
 
-To ease the configuration of remote modules, make sure that you first import the `RemoteDefinition` type and assign it to your remote definitions array declaration.
+The plugin factory function receives the `Runtime` instance as parameter.
 
-```ts !#3 host/src/bootstrap.tsx
-import type { RemoteDefinition } from "@squide/firefly";
+```ts !#5
+import { initializeFirefly } from "@squide/firefly";
+import { MyPlugin } from "@sample/my-plugin";
 
-const Remotes: RemoteDefinition = [
-    { name: "remote1" }
-];
+const runtime = initializeFirefly({
+    plugins: [x => new MyPlugin(x)]
+});
 ```
 
-### `name`
-
-The `name` option of a remote definition **must match** the `name` option defined in the remote module [ModuleFederationPlugin](https://module-federation.io/configure/index.html) configuration.
-
-If you are using either the Squide [defineDevRemoteModuleConfig](../webpack/defineDevRemoteModuleConfig.md) or [defineBuildRemoteModuleConfig](../webpack/defineBuildRemoteModuleConfig.md) functions to add the `ModuleFederationPlugin` to the remote module webpack [configuration object](https://module-federation.io/), then the remote module `name` is the second argument of the function.
-
-In the following exemple, the remote module `name` is `remote1`.
-
-```ts !#2 host/src/bootstrap.tsx
-const Remotes: RemoteDefinition = [
-    { name: "remote1" }
-];
-```
-
-```js !#6 remote-module/webpack.dev.js
-// @ts-check
-
-import { defineDevRemoteModuleConfig } from "@squide/firefly-webpack-configs";
-import { swcConfig } from "./swc.dev.js";
-
-export default defineDevRemoteModuleConfig(swcConfig, "remote1", 8081);
-```
+[!ref Learn more about plugins](../plugins/Plugin.md)

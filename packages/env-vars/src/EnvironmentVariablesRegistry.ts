@@ -5,17 +5,17 @@ import memoize, { memoizeClear } from "memoize";
 // eslint-disable-next-line @typescript-eslint/no-empty-object-type
 export interface EnvironmentVariables {}
 
-export type EnvironmentVariablesKey = keyof EnvironmentVariables;
-export type EnvironmentVariablesValue = EnvironmentVariables[keyof EnvironmentVariables];
+export type EnvironmentVariableKey = keyof EnvironmentVariables;
+export type EnvironmentVariableValue = EnvironmentVariables[keyof EnvironmentVariables];
 
 export class EnvironmentVariablesRegistry {
-    readonly #variables = new Map<EnvironmentVariablesKey, EnvironmentVariablesValue>();
+    readonly #variables = new Map<EnvironmentVariableKey, EnvironmentVariableValue>();
 
     // Since the "getVariables" function is transforming the variables from a Map to an Object, the result of
     // the transformation is memoized to ensure the returned Object is immutable and can be use in React closures.
     readonly #memoizedGetVariables = memoize(() => Object.fromEntries(this.#variables) as unknown as EnvironmentVariables);
 
-    add(key: EnvironmentVariablesKey, value: EnvironmentVariablesValue) {
+    add(key: EnvironmentVariableKey, value: EnvironmentVariableValue) {
         if (this.#variables.has(key)) {
             const existingValue = this.#variables.get(key);
 
@@ -33,14 +33,14 @@ export class EnvironmentVariablesRegistry {
         // Do not clear the "getVariables" memoize result if there are no variables.
         if (Object.keys(variables).length > 0) {
             for (const [key, value] of Object.entries(variables)) {
-                this.add(key as EnvironmentVariablesKey, value as EnvironmentVariablesValue);
+                this.add(key as EnvironmentVariableKey, value as EnvironmentVariableValue);
             }
 
             memoizeClear(this.#memoizedGetVariables);
         }
     }
 
-    getVariable(key: EnvironmentVariablesKey) {
+    getVariable(key: EnvironmentVariableKey) {
         const value = this.#variables.get(key);
 
         if (!value) {
