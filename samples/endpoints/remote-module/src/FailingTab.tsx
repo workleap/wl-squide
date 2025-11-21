@@ -1,5 +1,5 @@
 import { fetchJson } from "@endpoints/shared";
-import { useEnvironmentVariable } from "@squide/env-vars";
+import { useEnvironmentVariable } from "@squide/firefly";
 import { useI18nextInstance } from "@squide/i18next";
 import { useSuspenseQuery } from "@tanstack/react-query";
 import { useTranslation } from "react-i18next";

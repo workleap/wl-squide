@@ -4,7 +4,7 @@ toc:
     depth: 2-3
 ---
 
-# EnvironmentVariablesPlugin
+# EnvironmentVariablesPlugin (TO FIX)
 
 A plugin to faciliate the usage of environment variables in a modular application.
 
@@ -43,7 +43,7 @@ import { EnvironmentVariablesPlugin, EnvironmentVariablesPluginName } from "@squ
 const plugin = runtime.getPlugin(EnvironmentVariablesPluginName) as EnvironmentVariablesPlugin;
 ```
 
-[!ref Prefer using `getEnvironmentVariablesPlugin` when possible](./getEnvironmentVariablesPlugin.md)
+<!-- [!ref Prefer using `getEnvironmentVariablesPlugin` when possible](./getEnvironmentVariablesPlugin.md) -->
 
 ### Register an environment variable
 

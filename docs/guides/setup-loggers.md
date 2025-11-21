@@ -115,7 +115,7 @@ root.render(
 
 ## Custom logs
 
-Once loggers are configured, the application can output custom log entries using either the [useLogger](../reference/runtime/useLogger.md) hook or the [FireflyRuntime](../reference/runtime/FireflyRuntime.md#log-a-message) instance:
+Once loggers are configured, the application can output custom log entries using either the [useLogger](../reference/logging/useLogger.md) hook or the [FireflyRuntime](../reference/runtime/FireflyRuntime.md#log-a-message) instance:
 
 ```ts !#3,5
 import { useLogger } from "@squide/firefly";

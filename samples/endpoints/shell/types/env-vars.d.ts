@@ -1,6 +1,6 @@
-import "@squide/env-vars";
+import "@squide/firefly";
 
-declare module "@squide/env-vars" {
+declare module "@squide/firefly" {
     interface EnvironmentVariables {
         authenticationApiBaseUrl: string;
         featureFlagsApiBaseUrl: string;

@@ -19,19 +19,15 @@ While accessing environment variables through `process.env` works, it comes with
 
 For more details, refer to the [reference](../reference/env-vars/EnvironmentVariablesPlugin.md) documentation.
 
-## Retrieve the plugin instance
+## Register variables at initialization
 
 ## Register a variable
 
 ## Register multiple variables at once
 
 
--> Can also register multiple environment variables at once during the plugin instanciation (maybe add this in a collapse?)
+-> Can also register multiple environment variables at once during Squide initialization (maybe add this in a collapse?)
 
 ## Retrieve a single variable
 
 ## Retrieve all the variables
-
-## Setup the plugin
-
-Refer to the [Setup environment variables](../integrations/setup-env-vars.md) integration guide.

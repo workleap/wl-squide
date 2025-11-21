@@ -52,6 +52,7 @@
     },
     "dependencies": {
         "@squide/core": "workspace:*",
+        "@squide/env-vars": "workspace:*",
         "@squide/msw": "workspace:*",
         "@squide/react-router": "workspace:*",
         "@workleap-telemetry/core": "^1.0.4",

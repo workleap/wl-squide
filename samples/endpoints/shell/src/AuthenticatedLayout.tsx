@@ -1,6 +1,5 @@
 import { fetchJson, postJson, toSubscriptionStatusLabel, useSessionManager, useSubscription } from "@endpoints/shared";
-import { useEnvironmentVariable, useEnvironmentVariables } from "@squide/env-vars";
-import { isNavigationLink, useLogger, useNavigationItems, useRenderedNavigationItems, type NavigationLinkRenderProps, type NavigationSectionRenderProps, type RenderItemFunction, type RenderSectionFunction } from "@squide/firefly";
+import { isNavigationLink, useEnvironmentVariable, useEnvironmentVariables, useLogger, useNavigationItems, useRenderedNavigationItems, type NavigationLinkRenderProps, type NavigationSectionRenderProps, type RenderItemFunction, type RenderSectionFunction } from "@squide/firefly";
 import { useI18nextInstance } from "@squide/i18next";
 import { useQueryClient } from "@tanstack/react-query";
 import { Suspense, useCallback, type MouseEvent, type ReactNode } from "react";

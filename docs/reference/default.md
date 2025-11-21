@@ -18,10 +18,6 @@ toc:
 - [FireflyProvider](./runtime/FireflyProvider.md)
 - [useRuntime](./runtime/useRuntime.md)
 - [useRuntimeMode](./runtime/useRuntimeMode.md)
-- [useRoutes](./runtime/useRoutes.md)
-- [useNavigationItems](./runtime/useNavigationItems.md)
-- [useLogger](./runtime/useLogger.md)
-- [usePlugin](./runtime/usePlugin.md)
 
 ### Registration
 
@@ -34,11 +30,13 @@ toc:
 - [AppRouter](./routing/AppRouter.md)
 - [PublicRoutes](./routing/publicRoutes.md)
 - [ProtectedRoutes](./routing/protectedRoutes.md)
-- [useRenderedNavigationItems](./routing/useRenderedNavigationItems.md)
 - [useIsBoostrapping](./routing/useIsBootstrapping.md)
+- [useRoutes](./routing/useRoutes.md)
 - [useRouteMatch](./routing/useRouteMatch.md)
 - [useIsRouteProtected](./routing/useIsRouteProtected.md)
 - [resolveRouteSegments](./routing/resolveRouteSegments.md)
+- [useRenderedNavigationItems](./routing/useRenderedNavigationItems.md)
+- [useNavigationItems](./routing/useNavigationItems.md)
 - [isNavigationLink](./routing/isNavigationLink.md)
 
 ### Messaging
@@ -66,13 +64,17 @@ toc:
 ### Environment variables
 
 - [EnvironmentVariablesPlugin](./env-vars/EnvironmentVariablesPlugin.md)
-- [getEnvironmentVariablesPlugin](./env-vars/getEnvironmentVariablesPlugin.md)
 - [useEnvironmentVariable](./env-vars/useEnvironmentVariable.md)
 - [useEnvironmentVariables](./env-vars/useEnvironmentVariables.md)
+
+### Logging
+
+- [useLogger](./logging/useLogger.md)
 
 ### Plugins
 
 - [Plugin](./plugins/Plugin.md)
+- [usePlugin](./plugins/usePlugin.md)
 
 ### Fakes
 

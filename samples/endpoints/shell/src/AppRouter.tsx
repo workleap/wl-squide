@@ -10,8 +10,7 @@ import {
     type Session,
     type Subscription
 } from "@endpoints/shared";
-import { useEnvironmentVariables } from "@squide/env-vars";
-import { AppRouter as FireflyAppRouter, useDeferredRegistrations, useIsBootstrapping, useLogger, useProtectedDataQueries, usePublicDataQueries } from "@squide/firefly";
+import { AppRouter as FireflyAppRouter, useDeferredRegistrations, useEnvironmentVariables, useIsBootstrapping, useLogger, useProtectedDataQueries, usePublicDataQueries } from "@squide/firefly";
 import { useChangeLanguage } from "@squide/i18next";
 import { useHoneycombInstrumentationClient } from "@workleap/telemetry/react";
 import { useEffect, useMemo } from "react";

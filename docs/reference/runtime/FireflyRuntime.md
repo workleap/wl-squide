@@ -232,7 +232,7 @@ runtime.registerRoute({
 
 ### Retrieve routes
 
-The registered routes are accessible from a `FireflyRuntime` instance, but keep in mind that the preferred way to retrieve the routes is with the [useRoutes](./useRoutes) hook.
+The registered routes are accessible from a `FireflyRuntime` instance, but keep in mind that the preferred way to retrieve the routes is with the [useRoutes](../routing/useRoutes.md) hook.
 
 ```tsx !#1
 const routes = runtime.routes;
@@ -470,7 +470,7 @@ runtime.registerNavigationItem({
 
 ### Retrieve navigation items
 
-The registered navigation items are accessible from a `FireflyRuntime` instance, but keep in mind that the preferred way to retrieve the navigation items is with the [useNavigationItems](./useNavigationItems) hook.
+The registered navigation items are accessible from a `FireflyRuntime` instance, but keep in mind that the preferred way to retrieve the navigation items is with the [useNavigationItems](../routing/useNavigationItems.md) hook.
 
 By default, the `getNavigationItems` will return the navigation items for the `root` menu:
 

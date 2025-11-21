@@ -360,7 +360,7 @@ By default, every navigation item registered through `registerNavigationItem` is
 
 ### Define a menu
 
-To define an additional menu in a layout or page, retrieve the navigation items associated with that menu by passing the menu's identifier to the [useNavigationItems](../reference/runtime/useNavigationItems.md) hook using the `menuId` option:
+To define an additional menu in a layout or page, retrieve the navigation items associated with that menu by passing the menu's identifier to the [useNavigationItems](../reference/routing/useNavigationItems.md) hook using the `menuId` option:
 
 ```tsx !#3
 import { useNavigationItems } from "@squide/firefly";

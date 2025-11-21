@@ -1,4 +1,11 @@
 export * from "@squide/core";
+export {
+    useEnvironmentVariable,
+    useEnvironmentVariables,
+    type EnvironmentVariables,
+    type EnvironmentVariablesKey,
+    type EnvironmentVariablesValue
+} from "@squide/env-vars";
 export * from "@squide/msw";
 export * from "@squide/react-router";
 

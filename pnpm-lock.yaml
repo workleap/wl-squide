@@ -209,6 +209,9 @@ importers:
       '@squide/core':
         specifier: workspace:*
         version: link:../core
+      '@squide/env-vars':
+        specifier: workspace:*
+        version: link:../env-vars
       '@squide/msw':
         specifier: workspace:*
         version: link:../msw
@@ -2152,9 +2155,6 @@ importers:
       '@opentelemetry/api':
         specifier: 1.9.0
         version: 1.9.0
-      '@squide/env-vars':
-        specifier: workspace:*
-        version: link:../../../packages/env-vars
       '@squide/fakes':
         specifier: workspace:*
         version: link:../../../packages/fakes
@@ -2380,9 +2380,6 @@ importers:
       '@endpoints/shell':
         specifier: workspace:*
         version: link:../shell
-      '@squide/env-vars':
-        specifier: workspace:*
-        version: link:../../../packages/env-vars
       '@squide/fakes':
         specifier: workspace:*
         version: link:../../../packages/fakes
@@ -2477,9 +2474,6 @@ importers:
       '@endpoints/shell':
         specifier: workspace:*
         version: link:../shell
-      '@squide/env-vars':
-        specifier: workspace:*
-        version: link:../../../packages/env-vars
       '@squide/fakes':
         specifier: workspace:*
         version: link:../../../packages/fakes
@@ -2635,9 +2629,6 @@ importers:
       '@endpoints/shared':
         specifier: workspace:*
         version: link:../shared
-      '@squide/env-vars':
-        specifier: workspace:*
-        version: link:../../../packages/env-vars
       '@squide/fakes':
         specifier: workspace:*
         version: link:../../../packages/fakes

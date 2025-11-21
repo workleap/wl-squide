@@ -1,5 +1,5 @@
 import { isApiError, postJson } from "@endpoints/shared";
-import { useEnvironmentVariable } from "@squide/env-vars";
+import { useEnvironmentVariable } from "@squide/firefly";
 import { useI18nextInstance } from "@squide/i18next";
 import { useCallback, useState, type ChangeEvent, type MouseEvent } from "react";
 import { Trans, useTranslation } from "react-i18next";

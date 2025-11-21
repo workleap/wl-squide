@@ -1,5 +1,5 @@
 ---
-order: 80
+order: 55
 toc:
     depth: 2-3
 ---
@@ -8,7 +8,7 @@ toc:
 
 Recursively parse a navigation items structure to transform the items into React Elements.
 
-> The [useNavigationItems](../runtime/useNavigationItems.md) hook returns the navigation items tree structure as is, meaning the consumer has to recursively parse the structure to transform the items into actual React Elements.
+> The [useNavigationItems](../routing/useNavigationItems.md) hook returns the navigation items tree structure as is, meaning the consumer has to recursively parse the structure to transform the items into actual React Elements.
 >
 > As it's a non-trivial process, Squide provides this utility hook.
 

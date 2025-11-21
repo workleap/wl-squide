@@ -1,8 +1,8 @@
 import { useRuntime } from "@squide/core";
 import { getEnvironmentVariablesPlugin } from "./EnvironmentVariablesPlugin.ts";
-import type { EnvironmentVariablesRegistryKey } from "./EnvironmentVariablesRegistry.ts";
+import type { EnvironmentVariablesKey } from "./EnvironmentVariablesRegistry.ts";
 
-export function useEnvironmentVariable(key: EnvironmentVariablesRegistryKey) {
+export function useEnvironmentVariable(key: EnvironmentVariablesKey) {
     const runtime = useRuntime();
     const plugin = getEnvironmentVariablesPlugin(runtime);
 

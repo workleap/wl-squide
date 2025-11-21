@@ -55,7 +55,7 @@ Now that we've created a host application, loaded a few modules and registered r
 
 ## Logging
 
-Squide integrates with the [@workleap/logging](https://workleap.github.io/wl-logging/introduction/getting-started/) library by accepting an optional array of loggers and making them available anywhere in the application through the [useLogger](../reference/runtime/useLogger.md) hook.
+Squide integrates with the [@workleap/logging](https://workleap.github.io/wl-logging/introduction/getting-started/) library by accepting an optional array of loggers and making them available anywhere in the application through the [useLogger](../reference/logging/useLogger.md) hook.
 
 First, install the `@workleap/logging` package and register a logger:
 
@@ -68,7 +68,7 @@ const runtime = initializeFirefly({
 });
 ```
 
-Then, log entries from any parts of your modular application with the [useLogger](../reference/runtime/useLogger.md) hook:
+Then, log entries from any parts of your modular application with the [useLogger](../reference/logging/useLogger.md) hook:
 
 ```ts !#3,5
 import { useLogger } from "@squide/firefly";
