@@ -11,7 +11,9 @@ For more details, refer to the [useEventBusListener](../reference/messaging/useE
 
 ## Add an event listener
 
-```ts
+Register a function that will be invoked each time the specified event is dispatched:
+
+```ts !#9
 import { useCallback } from "react";
 import { useEventBusListener } from "@squide/firefly";
 
@@ -21,18 +23,32 @@ const handleFoo = useCallback((data, context) => {
 
 // Listen to every "foo" events.
 useEventBusListener("foo", handleFoo);
+```
 
-// Listen to the first "foo" event, then automatically remove the listener.
+## Add an event listener that will be invoked once
+
+Register a function that will be invoked and will then automatically unregisters itself right after it's execution:
+
+```ts !#9
+import { useCallback } from "react";
+import { useEventBusListener } from "@squide/firefly";
+
+const handleFoo = useCallback((data, context) => {
+    // Do something...
+}, []);
+
+// Listen to the first "foo" event.
 useEventBusListener("foo", handleFoo, { once: true };
 ```
 
 ## Dispatch an event
 
-```ts
+```ts !#3,6
 import { useEventBusDispatcher } from "@squide/firefly";
 
 const dispatch = useEventBusDispatcher();
 
+// Dispatch a "foo" event with a "bar" payload.
 dispatch("foo", "bar");
 ```
 
