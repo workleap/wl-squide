@@ -27,7 +27,7 @@ useEventBusListener("foo", handleFoo);
 
 ## Add an event listener that will be invoked once
 
-Register a function that will be invoked and will then automatically unregisters itself right after it's execution:
+Register a function that will be invoked once, and then automatically unregisters itself:
 
 ```ts !#9
 import { useCallback } from "react";
