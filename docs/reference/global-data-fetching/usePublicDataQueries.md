@@ -131,9 +131,9 @@ Combine this hook with the [useIsBootstrapping](../routing/useIsBootstrapping.md
 
 ### Handle fetch errors
 
-The `usePublicDataQueries` hook can throw [GlobalDataQueriesError](./isGlobalDataQueriesError.md#globaldataquerieserror) instances, which are typically **unmanaged** and should be handled by an error boundary. To assert that an error is an instance of `GlobalDataQueriesError`, use the [isGlobalDataQueriesError](./isGlobalDataQueriesError.md) function.
+The `usePublicDataQueries` hook can throw [GlobalDataQueriesError](./isGlobalDataQueriesError.md#globaldataquerieserror) instances, which are typically **unmanaged** and should be handled by an error boundary. To assert in an error boundary that an error is an instance of `GlobalDataQueriesError`, use the [isGlobalDataQueriesError](./isGlobalDataQueriesError.md) function.
 
-```tsx !#10
+```tsx !#10 ./RootErrorBoundary.tsx
 import { useLogger, isGlobalDataQueriesError } from "@squide/firefly";
 import { useLocation, useRouteError } from "react-router/dom";
 

@@ -7,7 +7,7 @@ label: Fetch protected global data
 
 Retrieving the global protected data of an application is a crucial aspect that isn't always straightforward to implement. To facilitate this process, Squide offer an [AppRouter](../reference/routing/AppRouter.md) component that takes care of setuping a modular application primitives and orchestrating the different states.
 
-==- Challenges with global data
+==- The challenges with global data
 At first glance, one might wonder what could be so complicated about fetching the global data of an application. It's only fetches ...right? Well, there are several concerns to take into account for a modular application:
 
 - When in development, the global data cannot be fetched until the Mock Service Worker (MSW) **request handlers** are **registered** and **MSW is ready**.
@@ -186,6 +186,36 @@ export function Page() {
 }
 ```
 ===
+
+## Handle fetch errors
+
+The `useProtectedDataQueries` hook can throw [GlobalDataQueriesError](../reference/global-data-fetching/isGlobalDataQueriesError.md#globaldataquerieserror) instances, which are typically **unmanaged** and should be handled by an error boundary. To assert in an error boundary that an error is an instance of `GlobalDataQueriesError`, use the [isGlobalDataQueriesError](../reference/global-data-fetching/isGlobalDataQueriesError.md) function:
+
+```tsx !#10
+import { useLogger, isGlobalDataQueriesError } from "@squide/firefly";
+import { useLocation, useRouteError } from "react-router/dom";
+
+export function ErrorBoundary() {
+    const error = useRouteError() as Error;
+    const location = useLocation();
+    const logger = useLogger();
+
+    useEffect(() => {
+        if (isGlobalDataQueriesError(error)) {
+            logger
+                .withText(`[shell] An unmanaged error occurred while rendering the route with path ${location.pathname} ${error.message}`)
+                .withError(error.errors)
+                .error();
+    }, [location.pathname, error, logger]);
+
+    return (
+        <div>
+            <h2>Unmanaged error</h2>
+            <p>An unmanaged error occurred and the application is broken, try refreshing your browser.</p>
+        </div>
+    );
+}
+```
 
 ## Setup TanStack Query
 
