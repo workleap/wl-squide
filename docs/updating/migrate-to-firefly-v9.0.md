@@ -40,7 +40,7 @@ Finally, with `v9.0`, Squide's philosophy has evolved. We used to describe Squid
 
 ### Renamed
 
-- The `setMswAsStarted` function has been renamed to [setMswIsReady](../reference/msw/setMswAsReady.md).
+- The `setMswAsStarted` function has been renamed to `setMswIsReady`.
 - A route definition `$name` option has been renamed to [$id](../reference/runtime/FireflyRuntime.md#register-a-route-with-an-id).
 - The [registerRoute](../reference/runtime/FireflyRuntime.md#register-routes) `parentName` option has been renamed to [parentId](../reference/runtime/FireflyRuntime.md#register-nested-routes).
 

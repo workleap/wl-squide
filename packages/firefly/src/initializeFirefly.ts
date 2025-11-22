@@ -99,7 +99,7 @@ export function initializeFirefly<TContext = unknown, TData = unknown>(options: 
         loggers,
         plugins: [
             x => new EnvironmentVariablesPlugin(x, {
-                environmentVariables
+                variables: environmentVariables
             }),
             ...plugins
         ]

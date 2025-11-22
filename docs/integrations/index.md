@@ -10,3 +10,4 @@ order: 97
 - [Setup i18next](./setup-i18next.md)
 - [Setup Launch Darkly](./setup-launch-darkly.md)
 - [Setup loggers](./setup-loggers.md)
+- [Setup Storybook](./setup-storybook.md)

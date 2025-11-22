@@ -534,22 +534,22 @@ runtime.eventBus.dispatch("write-to-host", "Hello host!");
 ### Register an environment variable
 
 ```ts !#1
-runtime.registerEnvironmentVariable("foo", "bar");
+runtime.registerEnvironmentVariable("apiBaseUrl", "https://my-api.com");
 ```
 
 ### Register multiple environment variables at once
 
 ```ts !#1-4
 runtime.registerEnvironmentVariables({
-    "foo", "bar",
-    "john", "doe"
+    "apiBaseUrl", "https://my-api.com",
+    "telemetryBaseUrl", "https://my-telemetry.com"
 });
 ```
 
 ### Retrieve an environment variable
 
 ```ts !#1
-const environmentVariable = runtime.getEnvironmentVariable("foo");
+const environmentVariable = runtime.getEnvironmentVariable("apiBaseUrl");
 ```
 
 ### Retrieve all environment variables

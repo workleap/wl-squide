@@ -78,7 +78,7 @@ This major version changes how Squide integrates with [Honeycomb](https://www.ho
 
 ### Renamed
 
-- The `setMswAsStarted` function has been renamed to [setMswIsReady](../reference/msw/setMswAsReady.md).
+- The `setMswAsStarted` function has been renamed to `setMswIsReady`.
 - A route definition `$name` option has been renamed to [$id](../reference/runtime/FireflyRuntime.md#register-a-route-with-an-id).
 - The [registerRoute](../reference/runtime/FireflyRuntime.md#register-routes) `parentName` option has been renamed to [parentId](../reference/runtime/FireflyRuntime.md#register-nested-routes).
 
@@ -92,7 +92,7 @@ This major version changes how Squide integrates with [Honeycomb](https://www.ho
 
 - The `registerLocalModules` function has been **deprecated**, use the `bootstrap` function instead.
 - The `registerRemoteModules` function has been **deprecated**, use the `bootstrap` function instead.
-- The [setMswAsReady](../reference/msw/setMswAsReady.md) function has been **deprecated**, use the `bootstrap` function instead.
+- The `setMswAsReady```` function has been **deprecated**, use the `bootstrap` function instead.
 - The `RuntimeContext.Provider` has been **deprecated**, use [FireflyProvider](../reference/runtime/FireflyProvider.md) instead.
 - The [@squide/firefly-honeycomb](https://www.npmjs.com/package/@squide/firefly-honeycomb) package has been **deprecated**.
 
@@ -600,7 +600,7 @@ Follow these steps to migrate an existing host application:
 9. Replace the `ManagedRoutes` placeholder with the new [PublicRoutes](../reference/routing/publicRoutes.md) and [ProtectedRoutes](../reference/routing/protectedRoutes.md) placeholders. [View example](../introduction/create-host.md#homepage)
 10. Convert all deferred routes into static routes. [View example](#removed-support-for-deferred-routes)
 11. Add an `$id` option to the navigation item registrations. [View example](#new-id-option-for-navigation-items)
-12. Replace the `registerLocalModules`, `registerRemoteModules`, [setMswAsReady](../reference/msw/setMswAsReady.md) function and the [FireflyRuntime](../reference/runtime/FireflyRuntime.md) by the [initializeFirefly](../reference/registration/initializeFirefly.md) function. [View example](#use-the-initializefirefly-function)
+12. Replace the `registerLocalModules`, `registerRemoteModules`, `setMswAsReady` function and the [FireflyRuntime](../reference/runtime/FireflyRuntime.md) by the [initializeFirefly](../reference/registration/initializeFirefly.md) function. [View example](#use-the-initializefirefly-function)
 13. Rename `RuntimeContext.Provider` for [FireflyProvider](../reference/runtime/FireflyProvider.md). [View example](#rename-runtimecontextprovider-to-fireflyprovider)
 
 ### `useMsw`

@@ -6,7 +6,7 @@ toc:
 
 # useEnvironmentVariable
 
-Retrieve a specific environment variable registered with the [EnvironmentVariablesPlugin](./EnvironmentVariablesPlugin.md) instance.
+Retrieve a specific environment variable registered with the [FireflyRuntime](../runtime/FireflyRuntime.md) instance.
 
 ## Reference
 
@@ -25,7 +25,7 @@ The environment variable value if there's a match, otherwise an `Error` is throw
 ## Usage
 
 ```ts !#3
-import { useEnvironmentVariable } from "@squide/env-vars";
+import { useEnvironmentVariable } from "@squide/firefly";
 
 const apiBaseUrl = useEnvironmentVariable("apiBaseUrl");
 ```

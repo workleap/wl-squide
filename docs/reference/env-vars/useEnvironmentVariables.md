@@ -6,7 +6,7 @@ toc:
 
 # useEnvironmentVariables
 
-Retrieve all the environment variables registered with the [EnvironmentVariablesPlugin](./EnvironmentVariablesPlugin.md) instance.
+Retrieve all the environment variables registered with the [FireflyRuntime](../runtime/FireflyRuntime.md) instance.
 
 ## Reference
 
@@ -25,7 +25,7 @@ Returns all registered environment variables as an object literal. If no environ
 ## Usage
 
 ```ts !#3
-import { useEnvironmentVariables } from "@squide/env-vars";
+import { useEnvironmentVariables } from "@squide/firefly";
 
 const variables = useEnvironmentVariables();
 ```

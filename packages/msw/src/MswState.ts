@@ -1,9 +1,20 @@
 export type MswReadyListener = () => void;
 
-export class MswState {
-    #isReady = false;
+export interface MswStateOptions {
+    isReady?: boolean;
+}
 
+export class MswState {
+    #isReady: boolean;
     readonly #mswReadyListeners = new Set<MswReadyListener>();
+
+    constructor(options: MswStateOptions = {}) {
+        const {
+            isReady = false
+        } = options;
+
+        this.#isReady = isReady;
+    }
 
     addMswReadyListener(callback: MswReadyListener) {
         this.#mswReadyListeners.add(callback);

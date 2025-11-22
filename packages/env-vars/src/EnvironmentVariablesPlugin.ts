@@ -4,7 +4,7 @@ import { EnvironmentVariablesRegistry, type EnvironmentVariableKey, type Environ
 export const EnvironmentVariablesPluginName = "env-vars-plugin";
 
 export interface EnvironmentVariablesPluginOptions {
-    environmentVariables?: Partial<EnvironmentVariables>;
+    variables?: Partial<EnvironmentVariables>;
 }
 
 export class EnvironmentVariablesPlugin extends Plugin {
@@ -14,11 +14,11 @@ export class EnvironmentVariablesPlugin extends Plugin {
         super(EnvironmentVariablesPluginName, runtime);
 
         const {
-            environmentVariables
+            variables
         } = options;
 
-        if (environmentVariables) {
-            this.#environmentVariablesRegistry.addVariables(environmentVariables);
+        if (variables) {
+            this.#environmentVariablesRegistry.addVariables(variables);
         }
     }
 

@@ -53,7 +53,7 @@ test.concurrent("can provide environment variables as an option", ({ expect }) =
     const runtime = new DummyRuntime();
 
     const plugin = new EnvironmentVariablesPlugin(runtime, {
-        environmentVariables: {
+        variables: {
             foo: "bar",
             john: "doe"
         }

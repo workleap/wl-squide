@@ -52,6 +52,10 @@ toc:
 - [useProtectedDataHandler](./global-data-fetching/useProtectedDataHandler.md)
 - [isGlobalDataQueriesError](./global-data-fetching/isGlobalDataQueriesError.md)
 
+### Mock Service Worker
+
+- [MswPlugin](./msw/MswPlugin.md)
+
 ### i18next
 
 - [i18nextPlugin](./i18next/i18nextPlugin.md)
@@ -64,6 +68,7 @@ toc:
 ### Environment variables
 
 - [EnvironmentVariablesPlugin](./env-vars/EnvironmentVariablesPlugin.md)
+- [EnvironmentVariables](./env-vars/EnvironmentVariables.md)
 - [useEnvironmentVariable](./env-vars/useEnvironmentVariable.md)
 - [useEnvironmentVariables](./env-vars/useEnvironmentVariables.md)
 

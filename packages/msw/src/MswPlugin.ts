@@ -7,7 +7,7 @@ import { RequestHandlerRegistry } from "./RequestHandlerRegistry.ts";
 export const MswPluginName = "msw-plugin";
 
 export interface MswPluginOptions {
-    mswState?: MswState;
+    state?: MswState;
 }
 
 export interface MswPluginRegisterRequestHandlersOptions {
@@ -20,12 +20,12 @@ export class MswPlugin extends Plugin {
 
     constructor(runtime: Runtime, options: MswPluginOptions = {}) {
         const {
-            mswState = new MswState()
+            state = new MswState()
         } = options;
 
         super(MswPluginName, runtime);
 
-        this.#mswState = mswState;
+        this.#mswState = state;
         this.#requestHandlerRegistry = new RequestHandlerRegistry(this.#mswState);
     }
 
