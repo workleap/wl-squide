@@ -36,7 +36,7 @@ If an unmanaged error occur while performing any of the fetch requests, a [Globa
 
 A `BootstrappingRoute` component is introduced in the following example because this hook must be rendered as a child of `rootRoute`.
 
-```tsx !#7-20,22-24,35,44 host/src/App.tsx
+```tsx !#7-20,22-24,35,44
 import { usePublicDataQueries, useIsBootstrapping, AppRouter } from "@squide/firefly";
 import { createBrowserRouter } from "react-router";
 import { RouterProvider } from "react-router/dom";
@@ -95,7 +95,7 @@ export function App() {
 }
 ```
 
-```ts shared/src/apiError.ts
+```ts @sample/shared
 export class ApiError extends Error {
     readonly #status: number;
     readonly #statusText: string;
@@ -131,9 +131,9 @@ Combine this hook with the [useIsBootstrapping](../routing/useIsBootstrapping.md
 
 ### Handle fetch errors
 
-This hook throws [GlobalDataQueriesError](./isGlobalDataQueriesError.md#globaldataquerieserror) instances, which are typically **unmanaged** and should be handled by an error boundary. To assert that an error is an instance of `GlobalDataQueriesError`, use the [isGlobalDataQueriesError](./isGlobalDataQueriesError.md) function.
+The `usePublicDataQueries` hook can throw [GlobalDataQueriesError](./isGlobalDataQueriesError.md#globaldataquerieserror) instances, which are typically **unmanaged** and should be handled by an error boundary. To assert that an error is an instance of `GlobalDataQueriesError`, use the [isGlobalDataQueriesError](./isGlobalDataQueriesError.md) function.
 
-```tsx !#10 host/src/RootErrorBoundary.tsx
+```tsx !#10
 import { useLogger, isGlobalDataQueriesError } from "@squide/firefly";
 import { useLocation, useRouteError } from "react-router/dom";
 
@@ -160,7 +160,7 @@ export function RootErrorBoundary() {
 }
 ```
 
-```tsx !#43 host/src/App.tsx
+```tsx !#43
 import { usePublicDataQueries, useIsBootstrapping, AppRouter } from "@squide/firefly";
 import { createBrowserRouter } from "react-router";
 import { RouterProvider } from "react-router/dom";

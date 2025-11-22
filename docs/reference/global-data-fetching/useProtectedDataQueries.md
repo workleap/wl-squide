@@ -37,7 +37,7 @@ If an unmanaged error occur while performing any of the fetch requests, a [Globa
 
 A `BootstrappingRoute` component is introduced in the following example because this hook must be rendered as a child of `rootRoute`.
 
-```tsx !#7-42,44-46,59,68 host/src/App.tsx
+```tsx !#7-42,44-46,59,68
 import { useProtectedDataQueries, useIsBootstrapping, AppRouter } from "@squide/firefly";
 import { createBrowserRouter } from "react-router";
 import { RouterProvider } from "react-router/dom";
@@ -120,7 +120,7 @@ export function App() {
 }
 ```
 
-```ts shared/src/apiError.ts
+```ts @sample/shared
 export class ApiError extends Error {
     readonly #status: number;
     readonly #statusText: string;
@@ -160,9 +160,9 @@ Combine this hook with the [useIsBootstrapping](../routing/useIsBootstrapping.md
 
 ### Handle fetch errors
 
-This hook throws [GlobalDataQueriesError](./isGlobalDataQueriesError.md#globaldataquerieserror) instances, which are typically **unmanaged** and should be handled by an error boundary. To assert that an error is an instance of `GlobalDataQueriesError`, use the [isGlobalDataQueriesError](./isGlobalDataQueriesError.md) function.
+The `useProtectedDataQueries` hook can throw [GlobalDataQueriesError](./isGlobalDataQueriesError.md#globaldataquerieserror) instances, which are typically **unmanaged** and should be handled by an error boundary. To assert that an error is an instance of `GlobalDataQueriesError`, use the [isGlobalDataQueriesError](./isGlobalDataQueriesError.md) function.
 
-```tsx !#10 host/src/RootErrorBoundary.tsx
+```tsx !#10
 import { useLogger, isGlobalDataQueriesError } from "@squide/firefly";
 import { useLocation, useRouteError } from "react-router/dom";
 
@@ -188,7 +188,7 @@ export function RootErrorBoundary() {
 }
 ```
 
-```tsx !#53 host/src/App.tsx
+```tsx !#53
 import { useProtectedDataQueries, useIsBootstrapping, AppRouter } from "@squide/firefly";
 import { createBrowserRouter } from "react-router";
 import { RouterProvider } from "react-router/dom";
@@ -267,7 +267,7 @@ To handle this, when the server returns a `401` status code, the `useProtectedDa
 
 Since Squide manages this process behind the scenes, you only need to register an `AuthenticationBoundary` component and provide an `isUnauthorizedError` handler to the `useProtectedDataQueries` hook.
 
-```tsx host/src/AuthenticationBoundary.tsx
+```tsx ./AuthenticationBoundary.tsx
 import { useContext } from "react";
 import { Outlet, Navigate } from "react-router/dom";
 import { SessionContext } from "@sample/shared";
@@ -283,11 +283,7 @@ export function AuthenticationBoundary() {
 }
 ```
 
-!!!info
-The `registerHost` function is registered as a [local module](../registration/initializeFirefly.md#register-a-local-module) of the host application.
-!!!
-
-```tsx !#8 host/src/registerHost.tsx
+```tsx !#8
 import { PublicRoutes, ProtectedRoutes, type ModuleRegisterFunction, type FireflyRuntime } from "@squide/firefly";
 import { AuthenticationBoundary } from "./AuthenticationBoundary.tsx";
 
@@ -309,7 +305,7 @@ export function registerHost() {
 }
 ```
 
-```tsx !#30 host/src/App.tsx
+```tsx !#30
 import { useProtectedDataQueries, useIsBootstrapping, AppRouter } from "@squide/firefly";
 import { createBrowserRouter } from "react-router";
 import { RouterProvider } from "react-router/dom";

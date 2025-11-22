@@ -24,7 +24,7 @@ None
 
 The route defining the `PublicRoutes` placeholder must be [hoisted](../runtime/FireflyRuntime.md#register-an-hoisted-route); otherwise, there will be an infinite loop as the `PublicRoutes` placeholder will render within itself.
 
-```tsx !#8,11 shell/src/register.tsx
+```tsx !#8,11
 import { PublicRoutes } from "@squide/firefly";
 import { RootLayout } from "./RootLayout.tsx";
 
