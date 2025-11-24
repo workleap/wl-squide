@@ -36,7 +36,7 @@ export async function startMsw(moduleRequestHandlers: RequestHandler[]) {
 
 ### Update the bootstrapping code
 
-Finally, refer to the [create an host application](../introduction/create-host.md) guide and update the bootstrapping code to conditionally enable MSW based on an environment variable, and call the `startMsw` function when MSW is active:
+Finally, refer to the [create an host application](../introduction/create-host.md) guide as a starting point and update the bootstrapping code to conditionally enable MSW based on an environment variable, and call the `startMsw` function when MSW is active:
 
 ```tsx !#7,9-13 host/src/index.tsx
 import { createRoot } from "react-dom/client";

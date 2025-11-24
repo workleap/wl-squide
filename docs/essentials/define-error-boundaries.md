@@ -1,5 +1,5 @@
 ---
-order: 380
+order: 350
 label: Define error boundaries
 ---
 
@@ -68,7 +68,7 @@ export function RootErrorBoundary() {
 
 ## Handle module errors
 
-A failure in a single module can potentially break the entire application. To isolate module-level errors, refer to the [register the root layout](../introduction/create-host.md#register-the-root-layout) section of the [create an host application](../introduction/create-host.md) guide and wrap the [PublicRoutes](../reference/routing/publicRoutes.md) and [ProtectedRouter](../reference/routing/protectedRoutes.md) placeholders in a pathless route that provides an [errorElement](https://reactrouter.com/api/components/Route#errorelement) property:
+A failure in a single module can potentially break the entire application. To isolate module-level errors, refer to the [register the root layout](../introduction/create-host.md#register-the-root-layout) section of the [create an host application](../introduction/create-host.md) guide as a starting point and wrap the [PublicRoutes](../reference/routing/publicRoutes.md) and [ProtectedRouter](../reference/routing/protectedRoutes.md) placeholders in a pathless route that provides an [errorElement](https://reactrouter.com/api/components/Route#errorelement) property:
 
 ```tsx !#11
 import { PublicRoutes, ProtectedRoutes, type ModuleRegisterFunction, type FireflyRuntime } from "@squide/firefly";

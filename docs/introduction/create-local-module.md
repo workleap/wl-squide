@@ -84,14 +84,14 @@ import { Page } from "./Page.tsx";
 
 export const register: ModuleRegisterFunction<FireflyRuntime> = runtime => {
     runtime.registerRoute({
-        path: "/local/page",
+        path: "/page",
         element: <Page />
     });
 
     runtime.registerNavigationItem({
-        $id: "local-page",
-        $label: "Local/Page",
-        to: "/local/page"
+        $id: "page",
+        $label: "Page",
+        to: "/page"
     });
 }
 ```

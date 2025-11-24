@@ -21,7 +21,7 @@ pnpm add @workleap/telemetry @opentelemetry/api
 
 ### Register the instrumentation
 
-Then, refer to the [create an host application](../introduction/create-host.md) guide and update the host application bootstrapping code to register Honeycomb instrumentation:
+Then, refer to the [create an host application](../introduction/create-host.md) guide as a starting point and update the host application bootstrapping code to register Honeycomb instrumentation:
 
 ```tsx !#7-16,20
 import { FireflyProvider, initializeFirefly } from "@squide/firefly";
