@@ -5,7 +5,7 @@ label: Fetch protected global data
 
 # Fetch protected global data
 
-Retrieving the global protected data of an application is a crucial aspect that isn't always straightforward to implement. To facilitate this process, Squide offer an [AppRouter](../reference/routing/AppRouter.md) component that takes care of setuping a modular application primitives and orchestrating the different states.
+To make global protected data fetching easier, Squide provides primitives build on top of [Tanstack Query](https://tanstack.com/query) to orchestrate both the data-loading states and the associated UI.
 
 ==- The challenges with global data
 At first glance, one might wonder what could be so complicated about fetching the global data of an application. It's only fetches ...right? Well, there are several concerns to take into account for a modular application:

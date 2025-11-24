@@ -5,7 +5,7 @@ label: Register MSW handlers
 
 # Register MSW handlers
 
-[Mock Service Worker]() (MSW) handlers are the third pillar of the Squide modular experience. By allowing consumers to register dynamic request handlers, Squide enables developers to build scalable modular applications with well-defined boundaries.
+By allowing consumers to register dynamic request handlers, Squide enables developers to build scalable modular applications with well-defined boundaries. Each module contributes its own [Mock Service Workers](https://mswjs.io/), which the host assembles into a unified set.
 
 For more details, refer to the [reference](../reference/runtime/FireflyRuntime.md) documentation.
 

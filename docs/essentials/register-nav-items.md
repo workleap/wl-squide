@@ -7,7 +7,7 @@ toc:
 
 # Register navigation items
 
-Navigation items are the second pillar of the Squide modular experience. By allowing consumers to register dynamic navigation items, Squide enables developers to build scalable modular applications with well-defined boundaries.
+By allowing consumers to register dynamic navigation items, Squide enables developers to build scalable modular applications with well-defined boundaries. Each module contributes its own navigation items, which the host assembles into a unified application.
 
 Below are the most common use cases. For more details, refer to the [reference](../reference/runtime/FireflyRuntime.md) documentation.
 

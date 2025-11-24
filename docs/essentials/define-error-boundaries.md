@@ -37,7 +37,7 @@ export const registerHost: ModuleRegisterFunction<FireflyRuntime> = runtime => {
 };
 ```
 
-==- RootErrorBoundary.tsx
+==- Root error boundary example
 ```tsx !#6,9,11,16 ./RootErrorBoundary.tsx
 import { isGlobalDataQueriesError } from "@squide/firefly";
 import { useCallback, useEffect } from "react";
@@ -94,7 +94,7 @@ export const registerHost: ModuleRegisterFunction<FireflyRuntime> = runtime => {
 };
 ```
 
-==- ModuleErrorBoundary.tsx
+==- Module error boundary example
 ```tsx !#5,8,13 ./ModuleErrorBoundary.tsx
 import { useCallback, useEffect } from "react";
 import { isRouteErrorResponse, useRouteError } from "react-router";
@@ -148,7 +148,7 @@ export const registerHost: ModuleRegisterFunction<FireflyRuntime> = runtime => {
 };
 ```
 
-==- RouteErrorBoundary.tsx
+==- Route error boundary example
 ```tsx !#5,8,13 ./RouteErrorBoundary.tsx
 import { useCallback, useEffect } from "react";
 import { isRouteErrorResponse, useRouteError } from "react-router";
@@ -190,7 +190,6 @@ export const registerHost: ModuleRegisterFunction<FireflyRuntime> = runtime => {
 };
 ```
 
-==- NotFoundPage.tsx
 ```tsx ./NotFoundPage.tsx
 export function NotFoundPage() {
     return (
@@ -198,4 +197,3 @@ export function NotFoundPage() {
     );
 }
 ```
-===
