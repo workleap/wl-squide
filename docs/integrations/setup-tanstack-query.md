@@ -5,6 +5,8 @@ label: Setup TanStack Query
 
 # Setup TanStack Query
 
+[TanStack Query](https://tanstack.com/query) is a library that simplifies managing server state in frontend applications. It provides tools for handling data fetching, caching, background updates, loading states, and error handling, making these tasks predictable and efficient. It focuses on keeping backend-driven data in sync with the UI without requiring manual state management.
+
 ## Setup the query client
 
 To setup TanStack client, refer to the [create an host application](../introduction/create-host.md) guide as a starting point and update the bootstrapping code with a [QueryClientProvider](https://tanstack.com/query/v4/docs/framework/react/reference/QueryClientProvider):
