@@ -93,6 +93,10 @@ export const register: ModuleRegisterFunction<FireflyRuntime> = async runtime =>
 ```
 ===
 
+## Handle fetch errors
+
+Refer to the [Define error boundaries](./define-error-boundaries.md) essential page.
+
 ## Setup TanStack Query
 
 Refer to the [Setup TanStack Query](../integrations/setup-tanstack-query.md) integration guide.

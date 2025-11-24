@@ -142,6 +142,21 @@ export const register: ModuleRegisterFunction<FireflyRuntime> = runtime => {
 };
 ```
 
+==- What does "hoist" means?
+Package managers supporting workspaces such as Yarn and NPM call this mechanism "hoisting", which means "raise (something) by means of ropes and pulleys". This is exactly what we are trying to achieve here.
+
+Squide has a built-in hoist functionality capable of raising module routes marked as hoist at the root of the routes array, before the root layout declaration. Thus, an hoisted route will not be wrapped by the root layout component (or any components) and will have full control over its rendering.
+
+In this example, if we defined both an authentication boundary and a root layout, `page-1` would become a sibling of the authentication boundary rather than one of its children:
+
+``` !#2
+root
+├── Page 1   <---------------- Raise the page here
+├── Authentication boundary
+├────── Root layout
+```
+===
+
 !!!tip
 To **avoid breaking** the entire **application** when an hoisted route encounters unhandled errors, it is highly recommended to declare a React Router's [errorElement](https://reactrouter.com/en/main/route/error-element) property for each hoisted route.
 !!!

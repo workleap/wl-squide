@@ -7,7 +7,7 @@ label: Use environment variables
 
 Environment variables are incredibly useful when working with **multiple environments**, such as `dev`, `staging`, and `production` because they **decouple configuration** from **code**. This allows to change an application's behavior without modifying the code itself. A common example is the URLs of dedicated API services, where each environment uses a different URL.
 
-By attaching environment variables to a [FireflyRuntime](../reference/runtime/FireflyRuntime.md) instance, rather than accessing `process.env` throughout the codebase, Squide provides a more modular, robust, and centralized way to manage environment variables.
+By attaching environment variables to a [FireflyRuntime](../reference/runtime/FireflyRuntime.md) instance, rather than accessing `process.env` throughout the codebase, Squide supports a modular architecture and makes it easier to write tests and Storybook stories by isolating configuration from global state.
 
 ==- Why is using `process.env` problematic?
 While accessing environment variables through `process.env` works, it comes with several drawbacks:

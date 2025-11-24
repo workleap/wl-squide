@@ -106,11 +106,32 @@ A React Router [errorElement](https://reactrouter.com/en/main/route/error-elemen
 
 The root error boundary should always wrap the `registeredRoutes` and, when application, the `BootstrapingRoute` component.
 
-```tsx !#3-12 host/src/RootErrorBoundary.tsx
-import { useRouteError } from "react-router/dom";
+```tsx !#5-33 host/src/RootErrorBoundary.tsx
+import { isGlobalDataQueriesError, useLogger } from "@squide/firefly";
+import { useRouteError, isRouteErrorResponse } from "react-router";
+import { useEffect } from "react";
 
 export function RootErrorBoundary() {
-    const error = useRouteError();
+    const error = useRouteError() as Error;
+    const location = useLocation();
+    const logger = useLogger();
+
+    useEffect(() => {
+        if (isRouteErrorResponse(error)) {
+            logger.error(`An unmanaged error occurred while rendering the route with path ${location.pathname} ${error.status} ${error.statusText}.`);
+        } else if (isGlobalDataQueriesError(error)) {
+            logger
+                .withText(`An unmanaged error occurred while rendering the route with path ${location.pathname}:`)
+                .withText(error.message)
+                .withObject(error.errors)
+                .error();
+        } else {
+            logger
+                .withText(`[shell] An unmanaged error occurred while rendering the route with path ${location.pathname}:`)
+                .withError(error)
+                .error();
+        }
+    }, [location.pathname, error, logger]);
 
     return (
         <div>
