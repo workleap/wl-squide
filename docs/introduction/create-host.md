@@ -22,7 +22,7 @@ Create a new application (we'll refer to ours as `host`), then open a terminal a
 
 ```bash
 pnpm add -D @workleap/rsbuild-configs @workleap/browserslist-config @rsbuild/core @rspack/core browserslist typescript @types/react @types/react-dom
-pnpm add @squide/firefly react react-dom react-router msw @opentelemetry/api @tanstack/react-query
+pnpm add @squide/firefly react react-dom react-router msw @tanstack/react-query
 ```
 
 ## Setup the application
@@ -211,7 +211,7 @@ import { registerHost } from "./register.tsx";
 import { App } from "./App.tsx";
 
 const runtime = initializeFirefly({
-    localModules: [registerHost, registerMyLocalModule]
+    localModules: [registerHost]
 });
 
 const root = createRoot(document.getElementById("root")!);

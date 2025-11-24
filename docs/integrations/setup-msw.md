@@ -46,7 +46,7 @@ import { App } from "./App.tsx";
 
 const runtime = initializeFirefly({
     useMsw: !!process.env.USE_MSW
-    localModules: [registerHost, registerMyLocalModule],
+    localModules: [registerHost],
     startMsw: async x => {
         // Files that includes an import to the "msw" package are included dynamically to prevent adding
         // unused MSW stuff to the code bundles.
@@ -91,11 +91,19 @@ export default defineDevConfig({
     }
 });
 ```
+
+!!!tip
+For additional information about the `environmentVariables` predefined option, refer to the [Rsbuild configuration documentation](https://workleap.github.io/wl-web-configs/rsbuild/configure-dev/#define-environment-variables).
+!!!
+
+!!!tip
+Make sure to define the `USE_MSW` environment variable for the build configuration as well.
+!!!
 ===
 
 ## Fetch the handler data
 
-Next, follow the [fetch page data](../essentials/fetch-page-data.md) essential guide to register an MSW handler and fetch its data from a page using [TanStack Query](https://tanstack.com/query/latest).
+Next, follow the [fetch page data](../essentials/fetch-page-data.md) essential page to register an MSW handler and fetch its data from a page using [TanStack Query](https://tanstack.com/query/latest).
 
 ## Try it :rocket:
 

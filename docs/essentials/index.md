@@ -17,3 +17,4 @@ order: 95
 <!-- - [Use feature flags](./use-feature-flags.md) -->
 - [Register plugins](./register-plugins.md)
 - [Define error boundaries](./define-error-boundaries.md)
+- [Set Honeycomb custom attributes](./set-honeycomb-custom-attributes.md)

@@ -23,7 +23,7 @@ Create a new application (we'll refer to ours as `local-module`), then open a te
 
 ```bash
 pnpm add -D typescript @types/react @types/react-dom react react-dom react-router @tanstack/react-query
-pnpm add @squide/firefly react react-dom react-router msw @opentelemetry/api @tanstack/react-query
+pnpm add @squide/firefly react react-dom react-router msw @tanstack/react-query
 ```
 
 ## Setup the application
