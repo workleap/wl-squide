@@ -1,5 +1,5 @@
 ---
-order: 350
+order: 340
 label: Define error boundaries
 ---
 

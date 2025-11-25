@@ -5,10 +5,10 @@ label: Setup TanStack Query
 
 # Setup TanStack Query
 
-[TanStack Query](https://tanstack.com/query) simplifies server state management in frontend applications by keeping backend data in sync with the UI without requiring manual state management. It provides predictable and efficient data fetching, caching (with efficient Stale-While-Revalidate), background updates, loading states, and error handling.
+[TanStack Query](https://tanstack.com/query) simplifies server state management in frontend applications by keeping backend data synchronized with the UI without requiring manual state handling. It uses a default "stale-while-revalidate" caching strategy, which prioritizes a responsive user experience by showing cached (possibly stale) data immediately while fetching updated data in the background.
 
-==- What is Stale-While-Revalidate?
-Stale-While-Revalidate (SWR) refers to a caching strategy where previously fetched data is shown immediately (even if it's outdated), while the library fetches fresh data in the background to update the UI once the new result arrives.
+==- More about stale-while-revalidate
+"stale-while-revalidate refers" to a caching strategy where previously fetched data is shown immediately (even if it's outdated), while the library fetches fresh data in the background to update the UI once the new result arrives.
 
 Here's the idea in simple terms:
 
@@ -19,7 +19,7 @@ Here's the idea in simple terms:
 
 ## Setup the query client
 
-To setup TanStack client, refer to the [create an host application](../introduction/create-host.md) guide as a starting point and update the bootstrapping code with a [QueryClientProvider](https://tanstack.com/query/v4/docs/framework/react/reference/QueryClientProvider):
+To setup TanStack client, refer to the [create an host application](../introduction/create-host.md) guide as a starting point and update the host application bootstrapping code with a [QueryClientProvider](https://tanstack.com/query/v4/docs/framework/react/reference/QueryClientProvider):
 
 ```tsx !#11,17,19
 import { createRoot } from "react-dom/client";
@@ -100,7 +100,7 @@ By default, React Query Devtools are only included in bundles when `process.env.
 
 ## Add a suspense boundary
 
-Refer to the [create an host application](../introduction/create-host.md) guide and update the layout component by adding a [Suspense](https://react.dev/reference/react/Suspense) boundary. This enables the use of the [useSuspenseQuery](https://tanstack.com/query/v5/docs/framework/react/reference/useSuspenseQuery) hook inside pages:
+To add a suspense boundary, refer to the [create an host application](../introduction/create-host.md) guide and update the layout component by adding a [Suspense](https://react.dev/reference/react/Suspense) boundary. This enables the use of the [useSuspenseQuery](https://tanstack.com/query/v5/docs/framework/react/reference/useSuspenseQuery) hook inside pages:
 
 ```tsx !#15,17
 import { Suspense } from "react";

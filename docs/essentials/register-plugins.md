@@ -1,5 +1,5 @@
 ---
-order: 360
+order: 350
 ---
 
 # Register plugins

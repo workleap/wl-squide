@@ -78,7 +78,7 @@ Next, create the localized resource files for the `en-US` and `fr-CA` locales:
 
 ### Register an i18next instance
 
-Then, update the host application local module's register function to create and register an `i18next` instance with the retrieved `i18nextPlugin` instance. Due to how the internals of `i18next` works, each module (including the host application) must create its own instance of the third-party library. `i18nextPlugin` will handle synchronizing the language changes across all `i18next` instances:
+Then, update the module's register function to create and register an `i18next` instance with the `i18nextPlugin` instance. Due to how the internals of `i18next` works, each module (including the host application) must create its own instance of the third-party library. `i18nextPlugin` will handle synchronizing the language changes across all `i18next` instances:
 
 ```tsx !#12-14,16-23,26 host/src/register.tsx
 import type { ModuleRegisterFunction, FireflyRuntime } from "@squide/firefly";

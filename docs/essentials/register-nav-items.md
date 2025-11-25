@@ -436,30 +436,6 @@ export const register: ModuleRegisterFunction<FireflyRuntime> = runtime => {
 };
 ```
 
-## i18next
+## Localize an item label
 
-!!!warning
-This section assumes that your application is already [set up with i18next](../guides/setup-i18next.md).
-!!!
-
-### Localize the label of an item
-
-A navigation item can be localized by combining the `$label` option with the [I18nextNavigationItemLabel](../reference/i18next/I18nextNavigationItemLabel.md) component:
-
-```tsx !#8
-import type { FireflyRuntime, ModuleRegisterFunction } from "@squide/firefly";
-import { I18nextNavigationItemLabel, useI18nextInstance } from "@squide/i18next";
-
-export const register: ModuleRegisterFunction<FireflyRuntime> = runtime => {
-    const i18nextInstance = useI18nextInstance("my-app");
-
-    runtime.registerNavigationItem({
-        $label: <I18nextNavigationItemLabel i18next={i18nextInstance} resourceKey="aboutPage"  />
-        to: "/about"
-    });
-};
-```
-
-### Setup i18next
-
-Localizing labels requires [i18next](https://www.i18next.com/) to be configured. To set it up, follow the [Setup i18next](../integrations/setup-i18next.md) integration guide.
+Refer to the [localize resources](./localize-resources.md#localize-a-navigation-item-label) essential page.

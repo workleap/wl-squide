@@ -11,7 +11,7 @@ For more details, refer to the [initializeFirefly](../reference/registration/ini
 
 ## Log a message
 
-Loggers are available throughout the application via the `useLogger` hook.
+To log a message, retrieve Squide logger instance throughout the application with the `useLogger` hook and write a log entry using any of the available methods:
 
 ```tsx !#1,3
 const logger = useLogger();
