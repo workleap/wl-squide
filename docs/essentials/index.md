@@ -7,7 +7,7 @@ order: 95
 - [Register routes](./register-routes.md)
 - [Register navigation items](./register-nav-items.md)
 - [Register deferred navigation items](./register-deferred-nav-items.md)
-- [Register MSW handlers](./register-msw-handlers.md)
+- [Register MSW request handlers](./register-msw-handlers.md)
 - [Fetch public global data](./fetch-public-global-data.md)
 - [Fetch protected global data](./fetch-protected-global-data.md)
 - [Fetch page data](./fetch-page-data.md)

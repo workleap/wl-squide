@@ -6,7 +6,7 @@ toc:
 
 # Register routes
 
-By allowing consumers to register dynamic routes, Squide enables developers to build scalable modular applications with well-defined boundaries. Each module contributes its own routing configuration, which the host assembles into a unified application.
+By allowing consumers to register dynamic routes, Squide enables developers to build scalable modular applications with well-defined boundaries. Each module contributes its own routing configuration, which the host assembles into a unified routing structure at bootstrapping.
 
 Below are the most common use cases. For more details, refer to the [reference](../reference/runtime/FireflyRuntime.md) documentation.
 

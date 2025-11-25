@@ -15,7 +15,6 @@ At first glance, one might wonder what could be so complicated about fetching th
 - If the requested page is _public_, only the global public data should be fetched.
 - If the requested page is _protected_, **both** the global **public** and **protected data** should be **fetched**.
 - The requested page rendering must be delayed until the global data has been fetched.
-
 - A **unique loading spinner** should be displayed to the user during this process, ensuring there's **no flickering** due to different spinners being rendered.
 ===
 

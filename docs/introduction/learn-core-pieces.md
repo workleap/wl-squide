@@ -2,7 +2,7 @@
 order: 50
 ---
 
-# Learn the core pieces (TODO)
+# Learn the core pieces
 
 -------------------
 

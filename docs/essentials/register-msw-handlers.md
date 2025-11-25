@@ -1,9 +1,9 @@
 ---
 order: 460
-label: Register MSW handlers
+label: Register MSW request handlers
 ---
 
-# Register MSW handlers
+# Register MSW request handlers
 
 By allowing consumers to register dynamic request handlers, Squide enables developers to build scalable modular applications with well-defined boundaries. Each module contributes its own [Mock Service Workers](https://mswjs.io/), which the host assembles into a unified set.
 

@@ -5,7 +5,7 @@ label: Setup the logger
 
 # Setup the logger
 
-When enabled, the Squide logger provides visibility into the application's bootstrapping flow and how modules behave and interact. It also offers an abstraction that allows applications to emit custom logs to multiple destinations defined by the host application.
+Squide logger provides visibility into the application's bootstrapping flow and how modules behave and interact. It also offers an abstraction that allows applications to emit custom logs to multiple destinations defined by the host application.
 
 By default, when running in [development mode](../reference/runtime/FireflyRuntime.md#change-the-runtime-mode), a [BrowserConsoleLogger](https://workleap.github.io/wl-logging/reference/browserconsolelogger/) is automatically added if no custom loggers are provided through the `loggers` option of the [initializeFirefly](../reference/registration/initializeFirefly.md) function.
 

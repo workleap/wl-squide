@@ -13,7 +13,9 @@ For more details, refer to the [initializeFirefly](../reference/registration/ini
 
 To log a message, retrieve Squide logger instance throughout the application with the `useLogger` hook and write a log entry using any of the available methods:
 
-```tsx !#1,3
+```ts !#3,5
+import { useLogger } from "@squide/firefly";
+
 const logger = useLogger();
 
 logger.debug("Hello!");
