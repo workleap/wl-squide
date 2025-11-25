@@ -193,7 +193,36 @@ logger.debug("Hello!");
 
 ## Environment variables
 
+Squide attaches environment variables to a [FireflyRuntime](../reference/runtime/FireflyRuntime.md) instance rather than accessing `process.env` throughout the codebase. This strategy supports a modular architecture and makes it easier to write tests and Storybook stories by isolating configuration from global state and making environment variables independent from build-time specifics.
+
+==- :icon-file-code: Code sample
+```ts
+import { initializeFirefly } from "@squide/firefly";
+
+const runtime = initializeFirefly({
+    environmentVariables: {
+        "apiBaseUrl", "https://my-api.com",
+        "telemetryBaseUrl", "https://my-telemetry.com"
+    }
+});
+```
+
+```ts !#3
+import { useEnvironmentVariable } from "@squide/firefly";
+
+const variable = useEnvironmentVariable("apiBaseUrl");
+```
+===
+
+#### Learn more
+
+- [Use environment variables](../essentials/use-env-variables.md)
+
 <!-- ## Feature flags -->
+
+## Honeycomb
+
+
 
 ## Plugins
 
