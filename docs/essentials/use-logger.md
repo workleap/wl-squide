@@ -20,12 +20,20 @@ logger.debug("Hello!");
 ```
 
 !!!tip
-If Squide is initialized with multiple logger instances, all of them will receive the log entries.
+For details on how to use the logger, see the `@workleap/logging` package's [documentation](https://workleap.github.io/wl-logging/introduction/getting-started/).
+!!!
+
+!!!warning
+Never log any **Personally Identifiable Information (PII)**.
+
+API responses frequently contain sensitive user data such as names, email addresses, phone numbers, or IDs. Remove all logs outputting API response before deploying to production, as these can expose private information that will be included in session replays.
+
+For debugging, use `console.log` instead, since its output is not captured in LogRocket session replays.
 !!!
 
 ## Setup loggers
 
-Refer to the [Setup logger](../integrations/setup-loggers.md) integration guide.
+Refer to the [Setup the logger](../integrations/setup-logger.md) integration guide.
 
 
 

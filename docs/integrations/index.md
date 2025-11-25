@@ -9,5 +9,5 @@ order: 97
 - [Setup Honeycomb](./setup-honeycomb.md)
 - [Setup i18next](./setup-i18next.md)
 - [Setup Launch Darkly](./setup-launch-darkly.md)
-- [Setup loggers](./setup-loggers.md)
+- [Setup the logger](./setup-logger.md)
 - [Setup Storybook](./setup-storybook.md)

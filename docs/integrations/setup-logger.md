@@ -1,17 +1,19 @@
 ---
-order: 760
-visibility: hidden
+order: 410
+label: Setup the logger
 ---
 
-# Setup loggers
+# Setup the logger
+
+When enabled, the Squide logger provides visibility into the application's bootstrapping flow and how modules behave and interact. It also offers an abstraction that allows applications to emit custom logs to multiple destinations defined by the host application.
 
 By default, when running in [development mode](../reference/runtime/FireflyRuntime.md#change-the-runtime-mode), a [BrowserConsoleLogger](https://workleap.github.io/wl-logging/reference/browserconsolelogger/) is automatically added if no custom loggers are provided through the `loggers` option of the [initializeFirefly](../reference/registration/initializeFirefly.md) function.
 
-## Use a custom logger
+## Configure loggers
 
-To override this behavior, provide your own loggers array during initialization:
+To replace the default console logging behavior, configure your own loggers during initialization:
 
-```tsx !#7 host/src/index.tsx
+```tsx !#7
 import { createRoot } from "react-dom/client";
 import { FireflyProvider, initializeFirefly } from "@squide/firefly";
 import { MyLogger } from "./MyLogger.tsx";
@@ -30,25 +32,23 @@ root.render(
 );
 ```
 
-## Enable console logging in production
-
-To log to the browser console when Squide is running in [production mode](../reference/runtime/FireflyRuntime.md#change-the-runtime-mode), first, open a terminal at the root of the host application and install the [@workleap/logging](https://www.npmjs.com/package/@workleap/logging) package:
+To keep logging to the console, first, open a terminal at the root of the host application and install the [@workleap/logging](https://www.npmjs.com/package/@workleap/logging) package:
 
 ``` bash
 pnpm add @workleap/logging
 ```
 
-Then, provide an instance of [BrowserConsoleLogger](https://workleap.github.io/wl-logging/reference/browserconsolelogger/) at initialization:
+Then, explicitly provide a `BrowserConsoleLogger` instance:
 
-```tsx !#8 host/src/index.tsx
+```tsx !#8
 import { createRoot } from "react-dom/client";
 import { FireflyProvider, initializeFirefly } from "@squide/firefly";
 import { BrowserConsoleLogger } from "@workleap/logging";
+import { MyLogger } from "./MyLogger.tsx";
 import { App } from "./App.tsx";
 
 const runtime = initializeFirefly({
-    mode: "production",
-    loggers: [new BrowserConsoleLogger()]
+    loggers: [new MyLogger(), new BrowserConsoleLogger()]
 });
 
 const root = createRoot(document.getElementById("root")!);
@@ -70,7 +70,7 @@ pnpm add @workleap/logrocket
 
 Then, provide an instance of [LogRocketLogger](https://workleap.github.io/wl-telemetry/logrocket/reference/logrocketlogger/) at initialization:
 
-```tsx !#7 host/src/index.tsx
+```tsx !#7
 import { createRoot } from "react-dom/client";
 import { FireflyProvider, initializeFirefly } from "@squide/firefly";
 import { LogRocketLogger } from "@workleap/logrocket";
@@ -89,19 +89,25 @@ root.render(
 );
 ```
 
-## Use multiple loggers
+## Enable console logging in production
 
-Multiple loggers can be provided at initialization:
+To log to the browser console when Squide is running in [production mode](../reference/runtime/FireflyRuntime.md#change-the-runtime-mode), first, open a terminal at the root of the host application and install the [@workleap/logging](https://www.npmjs.com/package/@workleap/logging) package:
+
+``` bash
+pnpm add @workleap/logging
+```
+
+Then, provide an instance of `BrowserConsoleLogger` at initialization:
 
 ```tsx !#8 host/src/index.tsx
 import { createRoot } from "react-dom/client";
 import { FireflyProvider, initializeFirefly } from "@squide/firefly";
 import { BrowserConsoleLogger } from "@workleap/logging";
-import { LogRocketLogger } from "@workleap/logrocket";
 import { App } from "./App.tsx";
 
 const runtime = initializeFirefly({
-    loggers: [new BrowserConsoleLogger(), new LogRocketLogger()]
+    mode: "production",
+    loggers: [new BrowserConsoleLogger()]
 });
 
 const root = createRoot(document.getElementById("root")!);
@@ -126,7 +132,3 @@ Start the application in a development environment. Open the [DevTools](https://
 - `[squide] Found X local modules to register.`
 - `[squide] 1/X Registering local module.`
 - `[squide] Successfully registered local module.`
-
-
-
-

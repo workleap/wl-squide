@@ -9,11 +9,11 @@ label: Setup Honeycomb
 
 Squide can integrate with a host application's Honeycomb setup that uses either [@workleap/telemetry](https://www.npmjs.com/package/@workleap/telemetry) v2 or higher or [@workleap/honeycomb](https://www.npmjs.com/package/@workleap/honeycomb) v7 or higher. When integrated, the performance of Squide initialization is automatically tracked in Honeycomb.
 
-## Setup the host application
+## Configure the host application
 
 ### Install the packages
 
-First, open a terminal at the root of the host application and install the following packages:
+To set up Honeycomb, first, open a terminal at the root of the host application and install the following packages:
 
 ```bash
 pnpm add @workleap/telemetry @opentelemetry/api

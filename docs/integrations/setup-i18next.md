@@ -7,11 +7,11 @@ label: Setup i18next
 
 [react-i18next](https://react.i18next.com/) is a React internationalization (i18n) library that helps applications manage translations, language detection, and localization logic. It provides a flexible API for loading translation files, formatting text, handling plurals, and switching languages at runtime.
 
-## Setup the host application
+## Configure the host application
 
 ### Install the packages
 
-First, open a terminal at the root of the host application and install the following packages:
+To set up `i18next`, first, open a terminal at the root of the host application and install the following packages:
 
  ```bash
 pnpm add @squide/i18next i18next i18next-browser-languagedetector react-i18next

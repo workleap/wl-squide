@@ -7,7 +7,7 @@ label: Setup MSW
 
 Squide includes built-in support for [Mock Service Worker](https://mswjs.io/) (MSW) to speed up frontend development and promote an [API first](https://swagger.io/resources/articles/adopting-an-api-first-approach/) approach. Modules can dynamically register their own mock request handlers, and Squide composes them into a unified set.
 
-## Setup the host application
+## Configure the host application
 
 ### Initialize MSW
 
