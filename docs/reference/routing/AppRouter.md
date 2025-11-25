@@ -8,10 +8,6 @@ toc:
 
 A component that sets up Squide's primitives with a [React Router](https://reactrouter.com/en/main) instance.
 
-!!!warning
-The `AppRouter` component is required for any Squide application.
-!!!
-
 ## Reference
 
 ```tsx

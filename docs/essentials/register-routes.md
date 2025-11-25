@@ -206,3 +206,19 @@ export const register: ModuleRegisterFunction<FireflyRuntime> = runtime => {
 !!!tip
 When no `$visibility` indicator is provided, a route is considered `protected`.
 !!!
+
+## Register a not found route
+
+A no-match route can be defined to catch invalid or unknown URLs. To do this, register a route with `*` as the `path`:
+
+```tsx !#6
+import { type ModuleRegisterFunction, type FireflyRuntime } from "@squide/firefly";
+import { NotFoundPage } from "./NotFoundPage.tsx";
+
+export const registerHost: ModuleRegisterFunction<FireflyRuntime> = runtime => {
+    runtime.registerPublicRoute({
+        path: "*",
+        element: <NotFoundPage />
+    });
+};
+```

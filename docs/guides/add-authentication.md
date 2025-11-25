@@ -5,7 +5,7 @@ order: 920
 # Add authentication
 
 !!!warning
-Before going forward with this guide, make sure that you completed the [Setup MSW](./setup-msw.md) and [Fetch global data](./fetch-global-data.md) guides.
+Before going forward with this recipe, make sure that you complete the [Setup MSW](../integrations/setup-msw.md) and [Fetch global protected data](../essentials/fetch-protected-global-data.md) guides.
 !!!
 
 Most of Workleap's applications, if not all, will eventually require user authentication. While Squide doesn't offer built-in primitives for this process, it can assist by providing a **well-established recipe** to integrate an authentication flow with Squide.
@@ -79,7 +79,7 @@ In the previous code sample, the endpoint attempts to authenticate the provided 
 Our security department reminds you to refrain from using a fake `LocalStorageSessionManager` in a production application :blush:
 !!!
 
-Next, register the request handler using the host application registration function:
+Next, register the request handler using the host application module registration function:
 
 ```tsx !#3-11 host/src/register.tsx
 import type { ModuleRegisterFunction, FireflyRuntime } from "@squide/firefly";
@@ -412,7 +412,7 @@ export function isApiError(error?: unknown): error is ApiError {
 Next, create an authentication boundary component using the shared `useIsAuthenticated` hook created earlier to redirect unauthenticated user to the login page:
 
 ```tsx !#4-12 host/src/AuthenticationBoundary.tsx
-import { Navigate, Outlet } from "react-router/dom";
+import { Navigate, Outlet } from "react-router";
 import { useIsAuthenticated } from "@sample/shared";
 
 export function AuthenticationBoundary() {
@@ -432,7 +432,7 @@ Now, let's add a specific layout for authenticated users that passes through the
 
 First, add a MSW request handler to log out a user:
 
-```ts !#50-57 host/mocks/handlers.ts
+```ts !#48-55 host/mocks/handlers.ts
 import { HttpResponse, http, type HttpHandler } from "msw";
 import { LocalStorageSessionManager } from "@squide/fakes";
 
@@ -441,12 +441,10 @@ interface LoginCredentials {
     password: string;
 }
 
-const Users = [
-    {
-        username: "temp",
-        password: "temp"
-    }
-];
+const Users = [{
+    username: "temp",
+    password: "temp"
+}];
 
 export interface Session {
     username: string;
@@ -598,7 +596,7 @@ By creating a new `AuthenticatedLayout` component, much of the layout code has b
 
 ```tsx !#7-9 host/src/RootLayout.tsx
 import { Suspense } from "react";
-import { Outlet } from "react-router/dom";
+import { Outlet } from "react-router";
 
 export function RootLayout() {
     return (

@@ -48,7 +48,7 @@ export function Page() {
 
 ```tsx !#6,8
 import { Suspense } from "react";
-import { Outlet } from "react-router/dom";
+import { Outlet } from "react-router";
 
 export function RootLayout() {
     return (
