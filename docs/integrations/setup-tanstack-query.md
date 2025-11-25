@@ -5,7 +5,17 @@ label: Setup TanStack Query
 
 # Setup TanStack Query
 
-[TanStack Query](https://tanstack.com/query) is a library that simplifies managing server state in frontend applications. It provides tools for handling data fetching, caching, background updates, loading states, and error handling, making these tasks predictable and efficient. It focuses on keeping backend-driven data in sync with the UI without requiring manual state management.
+[TanStack Query](https://tanstack.com/query) simplifies server state management in frontend applications by keeping backend data in sync with the UI without requiring manual state management. It provides predictable and efficient data fetching, caching (with efficient Stale-While-Revalidate), background updates, loading states, and error handling.
+
+==- What is Stale-While-Revalidate?
+Stale-While-Revalidate (SWR) refers to a caching strategy where previously fetched data is shown immediately (even if it's outdated), while the library fetches fresh data in the background to update the UI once the new result arrives.
+
+Here's the idea in simple terms:
+
+1. **Serve stale data instantly**: If data exists in the cache, TanStack Query returns it right away, even if it's considered stale. This keeps the UI fast and responsive.
+2. **Revalidate (refetch) in the background**: At the same time, TanStack Query automatically triggers a background refetch to get the most recent data from the server.
+3. **Update the UI when fresh data arrives**: Once the refetch completes, the new data replaces the stale data, and components automatically re-render.
+===
 
 ## Setup the query client
 
