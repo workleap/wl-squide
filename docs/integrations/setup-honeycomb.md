@@ -5,9 +5,7 @@ label: Setup Honeycomb
 
 # Setup Honeycomb
 
-[Honeycomb](https://www.honeycomb.io/) provides powerful capabilities for monitoring application performance by collecting and analyzing telemetry data from distributed systems. Built on OpenTelemetry, it offers a [robust API](https://open-telemetry.github.io/opentelemetry-js/) suitable for capturing frontend telemetry.
-
-Squide can integrate with a host application's Honeycomb setup that uses either [@workleap/telemetry](https://www.npmjs.com/package/@workleap/telemetry) v2 or higher or [@workleap/honeycomb](https://www.npmjs.com/package/@workleap/honeycomb) v7 or higher. When integrated, the performance of Squide initialization is automatically tracked in Honeycomb.
+Squide integrates with [@workleap/telemetry](https://www.npmjs.com/package/@workleap/telemetry) v2 or later (or [@workleap/honeycomb](https://www.npmjs.com/package/@workleap/honeycomb) v7 or later) to automatically send performance traces for the bootstrapping flow of an application.
 
 ## Configure the host application
 

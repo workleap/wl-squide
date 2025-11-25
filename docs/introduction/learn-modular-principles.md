@@ -1,5 +1,6 @@
 ---
-order: 11
+order: 50
+label: Learn the modular design principles
 ---
 
 # Learn the modular design principles

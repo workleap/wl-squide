@@ -5,7 +5,7 @@ label: Set Honeycomb custom attributes
 
 # Set Honeycomb custom attributes
 
-[Honeycomb](https://www.honeycomb.io/) is an observability platform that collects and visualizes tracing data to help understand how systems behave. For Honeycomb traces to be useful, most application needs to set information about the current user environment on monitoring and performance traces. To help with that, Squide leverage can integrate with the `setGlobalSpanAttributes` method of the [HoneycombInstrumentationClient](https://workleap.github.io/wl-telemetry/reference/telemetry/honeycombinstrumentationclient/).
+For Honeycomb traces to be useful, most application needs to set information about the current user environment on monitoring and performance traces. To help with that, Squide can integrate with the `setGlobalSpanAttributes` method of the [HoneycombInstrumentationClient](https://workleap.github.io/wl-telemetry/reference/telemetry/honeycombinstrumentationclient/).
 
 To set information retrieved from the global data as custom attributes on Honeycomb traces, refer to the [fetch protected global data](../essentials/fetch-protected-global-data.md) essential page as a starting point and update the `BootstrappingRoute` component to retrieve the Honeycomb client instance and set the attributes:
 

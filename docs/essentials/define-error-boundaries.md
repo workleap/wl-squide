@@ -5,7 +5,7 @@ label: Define error boundaries
 
 # Define error boundaries
 
-Squide uses React Router's [error-boundary system](https://reactrouter.com/how-to/error-boundary) to isolate failures when possible and to catch unhandled errors. This page explains how Squide integrates with React Router's error boundaries and how to define them at different levels of your application.
+Squide uses React Router's [error boundary system](https://reactrouter.com/how-to/error-boundary) to isolate failures when possible and to catch unhandled errors. This page explains how Squide integrates with React Router's error boundaries and how to define them at different levels of your application.
 
 ## Handle unmanaged errors
 

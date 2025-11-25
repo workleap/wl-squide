@@ -5,7 +5,7 @@ label: Setup i18next
 
 # Setup i18next
 
-[react-i18next](https://react.i18next.com/) is a React internationalization (i18n) library that helps applications manage translations, language detection, and localization logic. It provides a flexible API for loading translation files, formatting text, handling plurals, and switching languages at runtime.
+[react-i18next](https://react.i18next.com/) is an internationalization library that helps applications manage translations, language detection, and localization logic. It provides a flexible API for loading translation files, formatting text, handling plurals, and switching languages at runtime.
 
 ## Configure the host application
 
