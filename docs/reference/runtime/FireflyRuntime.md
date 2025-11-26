@@ -197,7 +197,7 @@ runtime.registerRoute({
 });
 ```
 
-[!ref text="Learn more about using nested routes for modular tabs"](../../guides/use-modular-tabs.md)
+[!ref text="Learn more about using nested routes for modular tabs"](../../recipes/use-modular-tabs.md)
 
 !!!tip
 The `path` option of a route rendered under an existing parent route must be a React Router absolute path (a path starting with a `/`). For example, if a parent route `path` is `/layout`, the `path` option of a route rendered under that parent route and responding to the `/page-1` url, should be `/layout/page-1`.
