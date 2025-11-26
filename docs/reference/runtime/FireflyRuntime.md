@@ -499,7 +499,7 @@ import { requestHandlers } from "../mocks/handlers.ts";
 runtime.registerRequestHandlers(requestHandlers);
 ```
 
-[!ref text="Learn more about setuping MSW"](../../guides/setup-msw.md)
+[!ref text="Learn more about setuping MSW"](../../integrations/setup-msw.md)
 
 ### Retrieve request handlers
 
