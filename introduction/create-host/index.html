@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <meta name="turbo-root" content="/wl-squide">
-    <meta name="turbo-cache-control" content="no-cache" data-turbo-track="reload" data-track-token="3.12.0-preview2.816895050904">
+    <meta name="turbo-cache-control" content="no-cache" data-turbo-track="reload" data-track-token="3.12.0-preview2.817444945591">
 
     <!-- See retype.com -->
     <meta name="generator" content="Retype 3.12.0-preview2">
@@ -32,12 +32,12 @@
     <script data-cfasync="false">(function(){var cl=document.documentElement.classList,ls=localStorage.getItem("retype_scheme"),hd=cl.contains("dark"),hl=cl.contains("light"),wm=window.matchMedia&&window.matchMedia("(prefers-color-scheme: dark)").matches;if(ls==="dark"||(!ls&&wm&&!hd&&!hl)){cl.remove("light");cl.add("dark")}else if(ls==="light"||(!ls&&!wm&&!hd&&!hl)){cl.remove("dark");cl.add("light")}})();</script>
 
     <link id="retype-favicon" rel="icon" href="../../static/favicon.png" />
-    <link href="../../resources/css/retype.css?v=3.12.0-preview2.816895050904" rel="stylesheet">
+    <link href="../../resources/css/retype.css?v=3.12.0-preview2.817444945591" rel="stylesheet">
 
-    <script data-cfasync="false" src="../../resources/js/config.js?v=3.12.0-preview2.816895050904" data-turbo-eval="false" defer></script>
+    <script data-cfasync="false" src="../../resources/js/config.js?v=3.12.0-preview2.817444945591" data-turbo-eval="false" defer></script>
     <script data-cfasync="false" src="../../resources/js/retype.js?v=3.12.0-preview2" data-turbo-eval="false" defer></script>
-    <script id="lunr-js" data-cfasync="false" src="../../resources/js/lunr.js?v=3.12.0-preview2.816895050904" data-turbo-eval="false" defer></script>
-    <script id="prism-js" data-cfasync="false" src="../../resources/js/prism.js?v=3.12.0-preview2.816895050904" defer></script>
+    <script id="lunr-js" data-cfasync="false" src="../../resources/js/lunr.js?v=3.12.0-preview2.817444945591" data-turbo-eval="false" defer></script>
+    <script id="prism-js" data-cfasync="false" src="../../resources/js/prism.js?v=3.12.0-preview2.817444945591" defer></script>
 
     <link href="https://workleap.github.io/wl-idp-docs-hub/static/retype-customization.css" rel="stylesheet" />
 
@@ -308,7 +308,7 @@
 <p>Create a new application (we&#x27;ll refer to ours as <code translate="no" v-pre>host</code>), then open a terminal at the root of the new solution and install the following packages:</p>
 <div class="codeblock-wrapper"><doc-codeblock>
 <pre translate="no" class="language-bash"><code v-pre class="language-bash">pnpm add -D @workleap/rsbuild-configs @workleap/browserslist-config @rsbuild/core @rspack/core browserslist typescript @types/react @types/react-dom
-pnpm add @squide/firefly react react-dom react-router msw @opentelemetry/api @tanstack/react-query</code></pre>
+pnpm add @squide/firefly react react-dom react-router msw @tanstack/react-query</code></pre>
 </doc-codeblock></div>
 <doc-anchor-target id="setup-the-application">
     <h2>
@@ -411,8 +411,7 @@ export function App() {
 <p>Next, create a layout component to <a href="../../reference/routing/userenderednavigationitems/">render the navigation items</a>. In many applications, multiple pages often share a <strong>common layout</strong> that includes elements such as a navigation bar, a user profile menu, and a main content section. In a <a href="https://reactrouter.com/en/main" class="outbound" target="_blank">React Router</a> application, this shared layout is commonly referred to as a <code translate="no" v-pre>RootLayout</code>:</p>
 <div class="codeblock-wrapper"><doc-codeblock>
 <div class="codeblock-title">host/src/RootLayout.tsx</div>
-<pre translate="no" class="language-tsx" data-line="40,43"><code v-pre class="language-tsx">import { Suspense } from &quot;react&quot;;
-import { Link, Outlet } from &quot;react-router&quot;;
+<pre translate="no" class="language-tsx" data-line="39,42"><code v-pre class="language-tsx">import { Link, Outlet } from &quot;react-router&quot;;
 import { 
     useNavigationItems,
     useRenderedNavigationItems,
@@ -458,9 +457,7 @@ export function RootLayout() {
     return (
         &lt;&gt;
             &lt;nav&gt;{navigationElements}&lt;/nav&gt;
-            &lt;Suspense fallback={&lt;div&gt;Loading...&lt;/div&gt;}&gt;
-                &lt;Outlet /&gt;
-            &lt;/Suspense&gt;
+            &lt;Outlet /&gt;
         &lt;/&gt;
     );
 }</code></pre>
@@ -494,7 +491,33 @@ export const registerHost: ModuleRegisterFunction&lt;FireflyRuntime&gt; = runtim
     });
 };</code></pre>
 </doc-codeblock></div>
-<p>And an <a href="../../reference/runtime/fireflyruntime/#register-an-hoisted-route">hoisted route</a> to render the <code translate="no" v-pre>RootLayout</code> with the <a href="../../reference/routing/publicroutes/">PublicRoutes</a> and <a href="../../reference/routing/protectedroutes/">ProtectedRoutes</a> placeholders:</p>
+<p>And, update the bootstrapping code to register the newly created local module:</p>
+<div class="codeblock-wrapper"><doc-codeblock>
+<div class="codeblock-title">host/src/index.tsx</div>
+<pre translate="no" class="language-tsx" data-line="6-8"><code v-pre class="language-tsx">import { createRoot } from &quot;react-dom/client&quot;;
+import { FireflyProvider, initializeFirefly } from &quot;@squide/firefly&quot;;
+import { registerHost } from &quot;./register.tsx&quot;;
+import { App } from &quot;./App.tsx&quot;;
+
+const runtime = initializeFirefly({
+    localModules: [registerHost]
+});
+
+const root = createRoot(document.getElementById(&quot;root&quot;)!);
+
+root.render(
+    &lt;FireflyProvider runtime={runtime}&gt;
+        &lt;App /&gt;
+    &lt;/FireflyProvider&gt;
+);</code></pre>
+</doc-codeblock></div>
+<doc-anchor-target id="register-the-root-layout">
+    <h3>
+        <doc-anchor-trigger class="header-anchor-trigger" to="#register-the-root-layout">#</doc-anchor-trigger>
+        <span>Register the root layout</span>
+    </h3>
+</doc-anchor-target>
+<p>Finally, add an <a href="../../reference/runtime/fireflyruntime/#register-an-hoisted-route">hoisted route</a> to render the <code translate="no" v-pre>RootLayout</code> with the <a href="../../reference/routing/publicroutes/">PublicRoutes</a> and <a href="../../reference/routing/protectedroutes/">ProtectedRoutes</a> placeholders:</p>
 <div class="codeblock-wrapper"><doc-codeblock>
 <div class="codeblock-title">host/src/register.tsx</div>
 <pre translate="no" class="language-tsx" data-line="8,11,12,15"><code v-pre class="language-tsx">import { PublicRoutes, ProtectedRoutes, type ModuleRegisterFunction, type FireflyRuntime } from &quot;@squide/firefly&quot;;
@@ -535,33 +558,13 @@ export const registerHost: ModuleRegisterFunction&lt;FireflyRuntime&gt; = runtim
         </div>
     </div>
 </div>
-<p>Finally, update the bootstrapping code to register the newly created local module:</p>
-<div class="codeblock-wrapper"><doc-codeblock>
-<div class="codeblock-title">host/src/index.tsx</div>
-<pre translate="no" class="language-tsx" data-line="6-8"><code v-pre class="language-tsx">import { createRoot } from &quot;react-dom/client&quot;;
-import { FireflyProvider, initializeFirefly } from &quot;@squide/firefly&quot;;
-import { registerHost } from &quot;./register.tsx&quot;;
-import { App } from &quot;./App.tsx&quot;;
-
-const runtime = initializeFirefly({
-    localModules: [registerHost, registerMyLocalModule]
-});
-
-const root = createRoot(document.getElementById(&quot;root&quot;)!);
-
-root.render(
-    &lt;FireflyProvider runtime={runtime}&gt;
-        &lt;App /&gt;
-    &lt;/FireflyProvider&gt;
-);</code></pre>
-</doc-codeblock></div>
 <doc-anchor-target id="not-found-page-404">
     <h3>
         <doc-anchor-trigger class="header-anchor-trigger" to="#not-found-page-404">#</doc-anchor-trigger>
         <span>Not found page (404)</span>
     </h3>
 </doc-anchor-target>
-<p>Now, let&#x27;s ensure that users who enter a wrong URL end up somewhere by registering a custom <a href="https://reactrouter.com/en/main/start/faq#how-do-i-add-a-no-match-404-route-in-react-router-v6" class="outbound" target="_blank">no-match route</a>. First, create the <code translate="no" v-pre>NotFoundPage</code> component, which will serve as the page for handling not found routes:</p>
+<p>Now, let&#x27;s ensure that users who enter a wrong URL end up somewhere by registering a custom no-match route. First, create the <code translate="no" v-pre>NotFoundPage</code> component, which will serve as the page for handling not found routes:</p>
 <div class="codeblock-wrapper"><doc-codeblock>
 <div class="codeblock-title">host/src/NotFoundPage.tsx</div>
 <pre translate="no" class="language-tsx"><code v-pre class="language-tsx">export function NotFoundPage() {

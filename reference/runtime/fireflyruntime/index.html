@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <meta name="turbo-root" content="/wl-squide">
-    <meta name="turbo-cache-control" content="no-cache" data-turbo-track="reload" data-track-token="3.12.0-preview2.816895050904">
+    <meta name="turbo-cache-control" content="no-cache" data-turbo-track="reload" data-track-token="3.12.0-preview2.817444945591">
 
     <!-- See retype.com -->
     <meta name="generator" content="Retype 3.12.0-preview2">
@@ -32,12 +32,12 @@
     <script data-cfasync="false">(function(){var cl=document.documentElement.classList,ls=localStorage.getItem("retype_scheme"),hd=cl.contains("dark"),hl=cl.contains("light"),wm=window.matchMedia&&window.matchMedia("(prefers-color-scheme: dark)").matches;if(ls==="dark"||(!ls&&wm&&!hd&&!hl)){cl.remove("light");cl.add("dark")}else if(ls==="light"||(!ls&&!wm&&!hd&&!hl)){cl.remove("dark");cl.add("light")}})();</script>
 
     <link id="retype-favicon" rel="icon" href="../../../static/favicon.png" />
-    <link href="../../../resources/css/retype.css?v=3.12.0-preview2.816895050904" rel="stylesheet">
+    <link href="../../../resources/css/retype.css?v=3.12.0-preview2.817444945591" rel="stylesheet">
 
-    <script data-cfasync="false" src="../../../resources/js/config.js?v=3.12.0-preview2.816895050904" data-turbo-eval="false" defer></script>
+    <script data-cfasync="false" src="../../../resources/js/config.js?v=3.12.0-preview2.817444945591" data-turbo-eval="false" defer></script>
     <script data-cfasync="false" src="../../../resources/js/retype.js?v=3.12.0-preview2" data-turbo-eval="false" defer></script>
-    <script id="lunr-js" data-cfasync="false" src="../../../resources/js/lunr.js?v=3.12.0-preview2.816895050904" data-turbo-eval="false" defer></script>
-    <script id="prism-js" data-cfasync="false" src="../../../resources/js/prism.js?v=3.12.0-preview2.816895050904" defer></script>
+    <script id="lunr-js" data-cfasync="false" src="../../../resources/js/lunr.js?v=3.12.0-preview2.817444945591" data-turbo-eval="false" defer></script>
+    <script id="prism-js" data-cfasync="false" src="../../../resources/js/prism.js?v=3.12.0-preview2.817444945591" defer></script>
 
     <link href="https://workleap.github.io/wl-idp-docs-hub/static/retype-customization.css" rel="stylesheet" />
 
@@ -309,7 +309,7 @@
     </h2>
 </doc-anchor-target>
 <div class="codeblock-wrapper"><doc-codeblock>
-<pre translate="no" class="language-typescript"><code v-pre class="language-typescript">const runtime = new FireflyRuntime(options?: { mode?, useMsw?, loggers?, plugins? })</code></pre>
+<pre translate="no" class="language-typescript"><code v-pre class="language-typescript">const runtime = new FireflyRuntime(options?: { mode?, honeycombInstrumentationClient?, loggers?, plugins? })</code></pre>
 </doc-codeblock></div>
 <doc-anchor-target id="parameters">
     <h3>
@@ -321,6 +321,7 @@
 <li><code translate="no" v-pre>options</code>: An optional object literal of options:
 <ul>
 <li><code translate="no" v-pre>mode</code>: An optional mode to optimize Squide for production. Values are <code translate="no" v-pre>&quot;development&quot;</code> (default) and <code translate="no" v-pre>&quot;production&quot;</code>.</li>
+<li><code translate="no" v-pre>honeycombInstrumentationClient</code>: An optional Honeycomb instrumentation client for tracing the Squide bootstrapping flow.</li>
 <li><code translate="no" v-pre>loggers</code>: An optional array of <code translate="no" v-pre>Logger</code> instances.</li>
 <li><code translate="no" v-pre>plugins</code>: An optional array of <code translate="no" v-pre>Plugin</code> factory functions.</li>
 </ul>
@@ -337,6 +338,10 @@
 <li><code translate="no" v-pre>registerNavigationItem(navigationItem, options?)</code>: Register a navigation item.</li>
 <li><code translate="no" v-pre>getNavigationItems(menuId?)</code>: Retrieve the registered navigation items.</li>
 <li><code translate="no" v-pre>registerRequestHandlers(handlers)</code>: Register the MSW request handlers.</li>
+<li><code translate="no" v-pre>getEnvironmentVariable(key)</code>: Retrieve an environment variable.</li>
+<li><code translate="no" v-pre>getEnvironmentVariables()</code>: Retrieve all environment variables.</li>
+<li><code translate="no" v-pre>registerEnvironmentVariable(key, value)</code>: Register a single environment variable.</li>
+<li><code translate="no" v-pre>registerEnvironmentVariables(variables)</code>: Register multiple environment variables.</li>
 <li><code translate="no" v-pre>getPlugin(name)</code>: Retrieve the registered plugin by the specified <code translate="no" v-pre>name</code>.</li>
 </ul>
 <doc-anchor-target id="getters">
@@ -349,10 +354,10 @@
 <li><code translate="no" v-pre>mode</code>: Retrieve the runtime mode.</li>
 <li><code translate="no" v-pre>routes</code>: Retrieve the registered routes.</li>
 <li><code translate="no" v-pre>requestHandlers</code>: Retrieve the registered MSW request handlers.</li>
-<li><code translate="no" v-pre>plugins</code>: Retrieve the registered plugins.</li>
+<li><code translate="no" v-pre>isMswEnabled</code>: Indicate whether or not MSW is enabled.</li>
 <li><code translate="no" v-pre>logger</code>: Retrieve the runtime logger.</li>
 <li><code translate="no" v-pre>eventBus</code>: Retrieve the runtime event bus.</li>
-<li><code translate="no" v-pre>isMswEnabled</code>: Indicate whether or not MSW is enabled.</li>
+<li><code translate="no" v-pre>plugins</code>: Retrieve the registered plugins.</li>
 </ul>
 <doc-anchor-target id="usage">
     <h2>
@@ -469,7 +474,7 @@ runtime.registerPublicRoute({
     element: &lt;Page /&gt;
 });</code></pre>
 </doc-codeblock></div>
-<p>A nested route can also be public:</p>
+<p>To define a nested route as public, use the <code translate="no" v-pre>$visibility</code> option:</p>
 <div class="codeblock-wrapper"><doc-codeblock>
 <pre translate="no" class="language-tsx" data-line="9"><code v-pre class="language-tsx">import { Layout } from &quot;./Layout.tsx&quot;;
 import { Page } from &quot;./Page.tsx&quot;;
@@ -558,9 +563,9 @@ runtime.registerRoute({
         <span class="inline-block font-medium ml-2">Learn more about using nested routes for modular tabs</span>
     </div>
     <div class="flex items-center text-xs text-gray-400 dark:text-dark-400">
-        <span>../../../guides/use-modular-tabs/</span>
+        <span>../../../recipes/use-modular-tabs/</span>
     </div>
-    <a href="../../../guides/use-modular-tabs/" class="absolute block inset-0"></a>
+    <a href="../../../recipes/use-modular-tabs/" class="absolute block inset-0"></a>
 </div>
 </p>
 <div class="flex mb-6">
@@ -592,7 +597,7 @@ runtime.registerRoute({
     }]
 });</code></pre>
 </doc-codeblock></div>
-<p>The previous example registers the routes with React Router <strong>absolute paths</strong> (a path starting with a <code translate="no" v-pre>/</code>). A single registration block can also define routes with <strong>relative paths</strong>:</p>
+<p>A single registration block routes can also be define routes with <strong>relative paths</strong> (rather than starting with a <code translate="no" v-pre>/</code>):</p>
 <div class="codeblock-wrapper"><doc-codeblock>
 <pre translate="no" class="language-tsx" data-line="5,8"><code v-pre class="language-tsx">import { Layout } from &quot;./Layout.tsx&quot;;
 import { Page } from &quot;./Page.tsx&quot;;
@@ -612,7 +617,7 @@ runtime.registerRoute({
         <span>Retrieve routes</span>
     </h3>
 </doc-anchor-target>
-<p>The registered routes are accessible from a <code translate="no" v-pre>FireflyRuntime</code> instance, but keep in mind that the preferred way to retrieve the routes is with the <a href="../useroutes/">useRoutes</a> hook.</p>
+<p>The registered routes are accessible from a <code translate="no" v-pre>FireflyRuntime</code> instance, but keep in mind that the preferred way to retrieve the routes is with the <a href="../../routing/useroutes/">useRoutes</a> hook.</p>
 <div class="codeblock-wrapper"><doc-codeblock>
 <pre translate="no" class="language-tsx" data-line="1"><code v-pre class="language-tsx">const routes = runtime.routes;</code></pre>
 </doc-codeblock></div>
@@ -928,7 +933,7 @@ runtime.registerNavigationItem({
         <span>Retrieve navigation items</span>
     </h3>
 </doc-anchor-target>
-<p>The registered navigation items are accessible from a <code translate="no" v-pre>FireflyRuntime</code> instance, but keep in mind that the preferred way to retrieve the navigation items is with the <a href="../usenavigationitems/">useNavigationItems</a> hook.</p>
+<p>The registered navigation items are accessible from a <code translate="no" v-pre>FireflyRuntime</code> instance, but keep in mind that the preferred way to retrieve the navigation items is with the <a href="../../routing/usenavigationitems/">useNavigationItems</a> hook.</p>
 <p>By default, the <code translate="no" v-pre>getNavigationItems</code> will return the navigation items for the <code translate="no" v-pre>root</code> menu:</p>
 <div class="codeblock-wrapper"><doc-codeblock>
 <pre translate="no" class="language-tsx" data-line="1"><code v-pre class="language-tsx">const navigationItems = runtime.getNavigationItems();</code></pre>
@@ -945,7 +950,7 @@ runtime.registerNavigationItem({
 </doc-anchor-target>
 <p>The registered handlers must be valid MSW <a href="https://mswjs.io/docs/concepts/request-handler" class="outbound" target="_blank">request handlers</a>:</p>
 <div class="codeblock-wrapper"><doc-codeblock>
-<pre translate="no" class="language-tsx" data-line="3"><code v-pre class="language-tsx">import { requestHandlers } from &quot;../mocks/handlers.ts&quot;;
+<pre translate="no" class="language-typescript" data-line="3"><code v-pre class="language-typescript">import { requestHandlers } from &quot;../mocks/handlers.ts&quot;;
 
 runtime.registerRequestHandlers(requestHandlers);</code></pre>
 </doc-codeblock></div>
@@ -958,9 +963,9 @@ runtime.registerRequestHandlers(requestHandlers);</code></pre>
         <span class="inline-block font-medium ml-2">Learn more about setuping MSW</span>
     </div>
     <div class="flex items-center text-xs text-gray-400 dark:text-dark-400">
-        <span>../../../guides/setup-msw/</span>
+        <span>../../../integrations/setup-msw/</span>
     </div>
-    <a href="../../../guides/setup-msw/" class="absolute block inset-0"></a>
+    <a href="../../../integrations/setup-msw/" class="absolute block inset-0"></a>
 </div>
 </p>
 <doc-anchor-target id="retrieve-request-handlers">
@@ -970,7 +975,16 @@ runtime.registerRequestHandlers(requestHandlers);</code></pre>
     </h3>
 </doc-anchor-target>
 <div class="codeblock-wrapper"><doc-codeblock>
-<pre translate="no" class="language-tsx" data-line="1"><code v-pre class="language-tsx">const requestHandlers = runtime.requestHandlers;</code></pre>
+<pre translate="no" class="language-typescript" data-line="1"><code v-pre class="language-typescript">const requestHandlers = runtime.requestHandlers;</code></pre>
+</doc-codeblock></div>
+<doc-anchor-target id="validate-if-msw-is-enabled">
+    <h3>
+        <doc-anchor-trigger class="header-anchor-trigger" to="#validate-if-msw-is-enabled">#</doc-anchor-trigger>
+        <span>Validate if MSW is enabled</span>
+    </h3>
+</doc-anchor-target>
+<div class="codeblock-wrapper"><doc-codeblock>
+<pre translate="no" class="language-typescript" data-line="1"><code v-pre class="language-typescript">const isMswEnabled = runtime.isMswEnabled;</code></pre>
 </doc-codeblock></div>
 <doc-anchor-target id="log-a-message">
     <h3>
@@ -995,6 +1009,45 @@ runtime.eventBus.addListener(&quot;write-to-host&quot;, () =&gt; {});
 
 // Dispatch an event to the host application or a module.
 runtime.eventBus.dispatch(&quot;write-to-host&quot;, &quot;Hello host!&quot;);</code></pre>
+</doc-codeblock></div>
+<doc-anchor-target id="register-an-environment-variable">
+    <h3>
+        <doc-anchor-trigger class="header-anchor-trigger" to="#register-an-environment-variable">#</doc-anchor-trigger>
+        <span>Register an environment variable</span>
+    </h3>
+</doc-anchor-target>
+<div class="codeblock-wrapper"><doc-codeblock>
+<pre translate="no" class="language-typescript" data-line="1"><code v-pre class="language-typescript">runtime.registerEnvironmentVariable(&quot;apiBaseUrl&quot;, &quot;https://my-api.com&quot;);</code></pre>
+</doc-codeblock></div>
+<doc-anchor-target id="register-multiple-environment-variables-at-once">
+    <h3>
+        <doc-anchor-trigger class="header-anchor-trigger" to="#register-multiple-environment-variables-at-once">#</doc-anchor-trigger>
+        <span>Register multiple environment variables at once</span>
+    </h3>
+</doc-anchor-target>
+<div class="codeblock-wrapper"><doc-codeblock>
+<pre translate="no" class="language-typescript" data-line="1-4"><code v-pre class="language-typescript">runtime.registerEnvironmentVariables({
+    &quot;apiBaseUrl&quot;, &quot;https://my-api.com&quot;,
+    &quot;telemetryBaseUrl&quot;, &quot;https://my-telemetry.com&quot;
+});</code></pre>
+</doc-codeblock></div>
+<doc-anchor-target id="retrieve-an-environment-variable">
+    <h3>
+        <doc-anchor-trigger class="header-anchor-trigger" to="#retrieve-an-environment-variable">#</doc-anchor-trigger>
+        <span>Retrieve an environment variable</span>
+    </h3>
+</doc-anchor-target>
+<div class="codeblock-wrapper"><doc-codeblock>
+<pre translate="no" class="language-typescript" data-line="1"><code v-pre class="language-typescript">const environmentVariable = runtime.getEnvironmentVariable(&quot;apiBaseUrl&quot;);</code></pre>
+</doc-codeblock></div>
+<doc-anchor-target id="retrieve-all-environment-variables">
+    <h3>
+        <doc-anchor-trigger class="header-anchor-trigger" to="#retrieve-all-environment-variables">#</doc-anchor-trigger>
+        <span>Retrieve all environment variables</span>
+    </h3>
+</doc-anchor-target>
+<div class="codeblock-wrapper"><doc-codeblock>
+<pre translate="no" class="language-typescript" data-line="1"><code v-pre class="language-typescript">const environmentVariables = runtime.getEnvironmentVariables();</code></pre>
 </doc-codeblock></div>
 <doc-anchor-target id="register-a-plugin">
     <h3>

@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <meta name="turbo-root" content="/wl-squide">
-    <meta name="turbo-cache-control" content="no-cache" data-turbo-track="reload" data-track-token="3.12.0-preview2.816895050904">
+    <meta name="turbo-cache-control" content="no-cache" data-turbo-track="reload" data-track-token="3.12.0-preview2.817444945591">
 
     <!-- See retype.com -->
     <meta name="generator" content="Retype 3.12.0-preview2">
@@ -32,12 +32,12 @@
     <script data-cfasync="false">(function(){var cl=document.documentElement.classList,ls=localStorage.getItem("retype_scheme"),hd=cl.contains("dark"),hl=cl.contains("light"),wm=window.matchMedia&&window.matchMedia("(prefers-color-scheme: dark)").matches;if(ls==="dark"||(!ls&&wm&&!hd&&!hl)){cl.remove("light");cl.add("dark")}else if(ls==="light"||(!ls&&!wm&&!hd&&!hl)){cl.remove("dark");cl.add("light")}})();</script>
 
     <link id="retype-favicon" rel="icon" href="../../static/favicon.png" />
-    <link href="../../resources/css/retype.css?v=3.12.0-preview2.816895050904" rel="stylesheet">
+    <link href="../../resources/css/retype.css?v=3.12.0-preview2.817444945591" rel="stylesheet">
 
-    <script data-cfasync="false" src="../../resources/js/config.js?v=3.12.0-preview2.816895050904" data-turbo-eval="false" defer></script>
+    <script data-cfasync="false" src="../../resources/js/config.js?v=3.12.0-preview2.817444945591" data-turbo-eval="false" defer></script>
     <script data-cfasync="false" src="../../resources/js/retype.js?v=3.12.0-preview2" data-turbo-eval="false" defer></script>
-    <script id="lunr-js" data-cfasync="false" src="../../resources/js/lunr.js?v=3.12.0-preview2.816895050904" data-turbo-eval="false" defer></script>
-    <script id="prism-js" data-cfasync="false" src="../../resources/js/prism.js?v=3.12.0-preview2.816895050904" defer></script>
+    <script id="lunr-js" data-cfasync="false" src="../../resources/js/lunr.js?v=3.12.0-preview2.817444945591" data-turbo-eval="false" defer></script>
+    <script id="prism-js" data-cfasync="false" src="../../resources/js/prism.js?v=3.12.0-preview2.817444945591" defer></script>
 
     <link href="https://workleap.github.io/wl-idp-docs-hub/static/retype-customization.css" rel="stylesheet" />
 
@@ -292,7 +292,7 @@
 </doc-anchor-target>
 <p><svg xmlns="http://www.w3.org/2000/svg" class="docs-icon" viewBox="0 0 24 24" role="presentation"><g fill="currentColor"><g><path d="M3.5 3.75a.25.25 0 0 1 .25-.25h13.5a.25.25 0 0 1 .25.25v10a.75.75 0 0 0 1.5 0v-10A1.75 1.75 0 0 0 17.25 2H3.75A1.75 1.75 0 0 0 2 3.75v16.5c0 .966.784 1.75 1.75 1.75h7a.75.75 0 0 0 0-1.5h-7a.25.25 0 0 1-.25-.25V3.75Z"/><path d="M6.25 7a.75.75 0 0 0 0 1.5h8.5a.75.75 0 0 0 0-1.5h-8.5Zm-.75 4.75a.75.75 0 0 1 .75-.75h4.5a.75.75 0 0 1 0 1.5h-4.5a.75.75 0 0 1-.75-.75Zm16.28 4.53a.75.75 0 1 0-1.06-1.06l-4.97 4.97-1.97-1.97a.75.75 0 1 0-1.06 1.06l2.5 2.5a.75.75 0 0 0 1.06 0l5.5-5.5Z"/></g></g></svg> <a href="../migrate-to-firefly-v9.0/">Migrate to firefly v9.0</a></p>
 <p>This major version of <code translate="no" v-pre>@squide/firefly</code> introduces <a href="https://tanstack.com/query/latest" class="outbound" target="_blank">TanStack Query</a> as the official library for fetching the global data of a Squide&#x27;s application and features a complete rewrite of the <a href="../../reference/routing/approuter/">AppRouter</a> component, which now uses a state machine to manage the application&#x27;s bootstrapping flow.</p>
-<p>Prior to <code translate="no" v-pre>v9.0</code>, Squide applications couldn&#x27;t use TanStack Query to fetch global data, making it <strong>challenging</strong> for Workleap&#x27;s applications to <strong>keep</strong> their <strong>global data</strong> in <strong>sync</strong> with the <strong>server state</strong>. With <code translate="no" v-pre>v9.0</code>, applications can now leverage <a href="../../guides/fetch-global-data/">custom wrappers</a> of the TanStack Query&#x27;s <a href="https://tanstack.com/query/latest/docs/framework/react/reference/useQueries" class="outbound" target="_blank">useQueries</a> hook to fetch and keep their global data up-to-date with the server state. Additionally, the new <a href="../../reference/registration/usedeferredregistrations/#register-or-update-deferred-registrations">deferred registrations update</a> feature allows applications to even <strong>keep</strong> their conditional <strong>navigation items in sync</strong> with the <strong>server state</strong>.</p>
+<p>Prior to <code translate="no" v-pre>v9.0</code>, Squide applications couldn&#x27;t use TanStack Query to fetch global data, making it <strong>challenging</strong> for Workleap&#x27;s applications to <strong>keep</strong> their <strong>global data</strong> in <strong>sync</strong> with the <strong>server state</strong>. With <code translate="no" v-pre>v9.0</code>, applications can now leverage custom wrappers of the TanStack Query&#x27;s <a href="https://tanstack.com/query/latest/docs/framework/react/reference/useQueries" class="outbound" target="_blank">useQueries</a> hook to fetch and keep their global data up-to-date with the server state. Additionally, the new <a href="../../reference/registration/usedeferredregistrations/#register-or-update-deferred-registrations">deferred registrations update</a> feature allows applications to even <strong>keep</strong> their conditional <strong>navigation items in sync</strong> with the <strong>server state</strong>.</p>
 <p>Finally, with <code translate="no" v-pre>v9.0</code>, Squide&#x27;s philosophy has evolved. We used to describe Squide as a shell for <strong>federated</strong> applications. Now, we refer to Squide as a shell for <strong>modular</strong> applications. After playing with Squide&#x27;s local module feature for a while, we discovered that Squide offers significant value even for <strong>non-federated applications</strong>, which triggered this shift in philosophy.</p>
 <doc-anchor-target id="v93">
     <h3>
@@ -381,7 +381,7 @@
     </h3>
 </doc-anchor-target>
 <ul>
-<li>The <code translate="no" v-pre>setMswAsStarted</code> function has been renamed to <a href="../../reference/msw/setmswasready/">setMswIsReady</a>.</li>
+<li>The <code translate="no" v-pre>setMswAsStarted</code> function has been renamed to <code translate="no" v-pre>setMswIsReady</code>.</li>
 <li>A route definition <code translate="no" v-pre>$name</code> option has been renamed to <a href="../../reference/runtime/fireflyruntime/#register-a-route-with-an-id">$id</a>.</li>
 <li>The <a href="../../reference/runtime/fireflyruntime/#register-routes">registerRoute</a> <code translate="no" v-pre>parentName</code> option has been renamed to <a href="../../reference/runtime/fireflyruntime/#register-nested-routes">parentId</a>.</li>
 </ul>
@@ -405,7 +405,7 @@
 <ul>
 <li>The <code translate="no" v-pre>registerLocalModules</code> function has been <strong>deprecated</strong>, use the <code translate="no" v-pre>bootstrap</code> function instead.</li>
 <li>The <code translate="no" v-pre>registerRemoteModules</code> function has been <strong>deprecated</strong>, use the <code translate="no" v-pre>bootstrap</code> function instead.</li>
-<li>The <a href="../../reference/msw/setmswasready/">setMswAsReady</a> function has been <strong>deprecated</strong>, use the <code translate="no" v-pre>bootstrap</code> function instead.</li>
+<li>The <code translate="no" v-pre>setMswAsReady```` function has been **deprecated**, use the </code>bootstrap&#x60; function instead.</li>
 <li>The <code translate="no" v-pre>RuntimeContext.Provider</code> has been <strong>deprecated</strong>, use <a href="../../reference/runtime/fireflyprovider/">FireflyProvider</a> instead.</li>
 <li>The <a href="https://www.npmjs.com/package/@squide/firefly-honeycomb" class="outbound" target="_blank">@squide/firefly-honeycomb</a> package has been <strong>deprecated</strong>.</li>
 </ul>
@@ -565,7 +565,7 @@ const runtime = initializeFirefly({
         <span>Rewrite of the <code translate="no" v-pre>AppRouter</code> component</span>
     </h3>
 </doc-anchor-target>
-<p><code translate="no" v-pre>v9.0</code> features a full rewrite of the <a href="../../reference/routing/approuter/">AppRouter</a> component. The <code translate="no" v-pre>AppRouter</code> component used to handle many concerns like global data fetching, deferred registrations, error handling and a loading state. Those concerns have been delegated to the consumer code, supported by the new <a href="../../reference/routing/useisbootstrapping/">useIsBootstrapping</a>, <a href="../../reference/tanstack-query/usepublicdataqueries/">usePublicDataQueries</a>, <a href="../../reference/tanstack-query/useprotecteddataqueries/">useProtectedDataQueries</a> and <a href="../../reference/registration/usedeferredregistrations/">useDeferredRegistrations</a> hooks.</p>
+<p><code translate="no" v-pre>v9.0</code> features a full rewrite of the <a href="../../reference/routing/approuter/">AppRouter</a> component. The <code translate="no" v-pre>AppRouter</code> component used to handle many concerns like global data fetching, deferred registrations, error handling and a loading state. Those concerns have been delegated to the consumer code, supported by the new <a href="../../reference/routing/useisbootstrapping/">useIsBootstrapping</a>, <a href="../../reference/global-data-fetching/usepublicdataqueries/">usePublicDataQueries</a>, <a href="../../reference/global-data-fetching/useprotecteddataqueries/">useProtectedDataQueries</a> and <a href="../../reference/registration/usedeferredregistrations/">useDeferredRegistrations</a> hooks.</p>
 <p>Before:</p>
 <div class="codeblock-wrapper"><doc-codeblock>
 <pre translate="no" class="language-tsx"><code v-pre class="language-tsx">export function App() {
@@ -845,9 +845,9 @@ import { RouterProvider } from &quot;react-router/dom&quot;;</code></pre>
 <ul>
 <li>A new <a href="../../reference/routing/useisbootstrapping/">useIsBoostrapping</a> hook is now available.</li>
 <li>A new <a href="../../reference/registration/usedeferredregistrations/">useDeferredRegistrations</a> hook is now available.</li>
-<li>A new <a href="../../reference/tanstack-query/usepublicdataqueries/">usePublicDataQueries</a> hook is now available.</li>
-<li>A new <a href="../../reference/tanstack-query/useprotecteddataqueries/">useProtectedDataQueries</a> hook is now available.</li>
-<li>A new <a href="../../reference/tanstack-query/isglobaldataquerieserror/">isGlobalDataQueriesError</a> function is now available.</li>
+<li>A new <a href="../../reference/global-data-fetching/usepublicdataqueries/">usePublicDataQueries</a> hook is now available.</li>
+<li>A new <a href="../../reference/global-data-fetching/useprotecteddataqueries/">useProtectedDataQueries</a> hook is now available.</li>
+<li>A new <a href="../../reference/global-data-fetching/isglobaldataquerieserror/">isGlobalDataQueriesError</a> function is now available.</li>
 <li>A new <a href="../../reference/runtime/fireflyruntime/#register-a-public-route">registerPublicRoute</a> function is now available.</li>
 </ul>
 <doc-anchor-target id="improvements">
@@ -918,22 +918,22 @@ const navigationElements = useRenderedNavigationItems(navigationItems, renderIte
 <li>Remove the <code translate="no" v-pre>react-router-dom</code> dependency and update to <code translate="no" v-pre>react-router@7*</code>. <doc-anchor-trigger to="#replace-react-router-dom-with-react-router">View example</doc-anchor-trigger></li>
 <li>Transition to the new <code translate="no" v-pre>AppRouter</code> component. <doc-anchor-trigger to="#rewrite-of-the-approuter-component">View example</doc-anchor-trigger>
 <ul>
-<li><code translate="no" v-pre>onLoadPublicData</code> + <code translate="no" v-pre>isPublicDataLoaded</code> becomes <a href="../../reference/tanstack-query/usepublicdataqueries/">usePublicDataQueries</a></li>
-<li><code translate="no" v-pre>onLoadProtectedData</code> + <code translate="no" v-pre>isProtectedDataLoaded</code> becomes <a href="../../reference/tanstack-query/useprotecteddataqueries/">useProtectedDataQueries</a></li>
+<li><code translate="no" v-pre>onLoadPublicData</code> + <code translate="no" v-pre>isPublicDataLoaded</code> becomes <a href="../../reference/global-data-fetching/usepublicdataqueries/">usePublicDataQueries</a></li>
+<li><code translate="no" v-pre>onLoadProtectedData</code> + <code translate="no" v-pre>isProtectedDataLoaded</code> becomes <a href="../../reference/global-data-fetching/useprotecteddataqueries/">useProtectedDataQueries</a></li>
 <li><code translate="no" v-pre>onCompleteRegistrations</code> becomes <a href="../../reference/registration/usedeferredregistrations/">useDeferredRegistrations</a></li>
 <li><code translate="no" v-pre>fallbackElement</code> becomes <a href="../../reference/routing/useisbootstrapping/">useIsBootstrapping</a></li>
 <li><code translate="no" v-pre>errorElement</code> is removed and somewhat replaced by a <doc-anchor-trigger to="#root-error-boundary">root error boundary</doc-anchor-trigger></li>
 </ul>
 </li>
-<li>Create a <code translate="no" v-pre>TanStackSessionManager</code> class and the <code translate="no" v-pre>SessionManagerContext</code>. Replace the session&#x27;s deprecated hooks by creating the customs <code translate="no" v-pre>useSession</code> and <code translate="no" v-pre>useIsAuthenticated</code> hooks. <a href="../../guides/add-authentication/#create-a-session-manager">View example</a></li>
-<li>Remove the <code translate="no" v-pre>sessionAccessor</code> option from the <code translate="no" v-pre>FireflyRuntime</code> instance. Update the <code translate="no" v-pre>BootstrappingRoute</code> component to create a <code translate="no" v-pre>TanStackSessionManager</code> instance and share it down the component tree using a <code translate="no" v-pre>SessionManagedContext</code> provider. <a href="../../guides/add-authentication/#fetch-the-session">View example</a></li>
-<li>Add or update the <code translate="no" v-pre>AuthenticationBoundary</code> component to use the new <code translate="no" v-pre>useIsAuthenticated</code> hook. Global data fetch request shouldn&#x27;t be throwing 401 error anymore when the user is not authenticated. <a href="../../guides/add-authentication/#add-an-authentication-boundary">View example</a></li>
-<li>Update the <code translate="no" v-pre>AuthenticatedLayout</code> component to use the session manager instance to clear the session. Retrieve the session manager instance from the context defined in the <code translate="no" v-pre>BootstrappingRoute</code> component using the <code translate="no" v-pre>useSessionManager</code> hook. <a href="../../guides/add-authentication/#define-an-authenticated-layout">View example</a></li>
+<li>Create a <code translate="no" v-pre>TanStackSessionManager</code> class and the <code translate="no" v-pre>SessionManagerContext</code>. Replace the session&#x27;s deprecated hooks by creating the customs <code translate="no" v-pre>useSession</code> and <code translate="no" v-pre>useIsAuthenticated</code> hooks. <a href="../../recipes/add-authentication/#create-a-session-manager">View example</a></li>
+<li>Remove the <code translate="no" v-pre>sessionAccessor</code> option from the <code translate="no" v-pre>FireflyRuntime</code> instance. Update the <code translate="no" v-pre>BootstrappingRoute</code> component to create a <code translate="no" v-pre>TanStackSessionManager</code> instance and share it down the component tree using a <code translate="no" v-pre>SessionManagedContext</code> provider. <a href="../../recipes/add-authentication/#fetch-the-session">View example</a></li>
+<li>Add or update the <code translate="no" v-pre>AuthenticationBoundary</code> component to use the new <code translate="no" v-pre>useIsAuthenticated</code> hook. Global data fetch request shouldn&#x27;t be throwing 401 error anymore when the user is not authenticated. <a href="../../recipes/add-authentication/#add-an-authentication-boundary">View example</a></li>
+<li>Update the <code translate="no" v-pre>AuthenticatedLayout</code> component to use the session manager instance to clear the session. Retrieve the session manager instance from the context defined in the <code translate="no" v-pre>BootstrappingRoute</code> component using the <code translate="no" v-pre>useSessionManager</code> hook. <a href="../../recipes/add-authentication/#define-an-authenticated-layout">View example</a></li>
 <li>Update the <code translate="no" v-pre>AuthenticatedLayout</code> component to use the new <code translate="no" v-pre>key</code> argument. <doc-anchor-trigger to="#new-id-option-for-navigation-items">View example</doc-anchor-trigger></li>
 <li>Replace the <code translate="no" v-pre>ManagedRoutes</code> placeholder with the new <a href="../../reference/routing/publicroutes/">PublicRoutes</a> and <a href="../../reference/routing/protectedroutes/">ProtectedRoutes</a> placeholders. <a href="../../introduction/create-host/#homepage">View example</a></li>
 <li>Convert all deferred routes into static routes. <doc-anchor-trigger to="#removed-support-for-deferred-routes">View example</doc-anchor-trigger></li>
 <li>Add an <code translate="no" v-pre>$id</code> option to the navigation item registrations. <doc-anchor-trigger to="#new-id-option-for-navigation-items">View example</doc-anchor-trigger></li>
-<li>Replace the <code translate="no" v-pre>registerLocalModules</code>, <code translate="no" v-pre>registerRemoteModules</code>, <a href="../../reference/msw/setmswasready/">setMswAsReady</a> function and the <a href="../../reference/runtime/fireflyruntime/">FireflyRuntime</a> by the <a href="../../reference/registration/initializefirefly/">initializeFirefly</a> function. <doc-anchor-trigger to="#use-the-initializefirefly-function">View example</doc-anchor-trigger></li>
+<li>Replace the <code translate="no" v-pre>registerLocalModules</code>, <code translate="no" v-pre>registerRemoteModules</code>, <code translate="no" v-pre>setMswAsReady</code> function and the <a href="../../reference/runtime/fireflyruntime/">FireflyRuntime</a> by the <a href="../../reference/registration/initializefirefly/">initializeFirefly</a> function. <doc-anchor-trigger to="#use-the-initializefirefly-function">View example</doc-anchor-trigger></li>
 <li>Rename <code translate="no" v-pre>RuntimeContext.Provider</code> for <a href="../../reference/runtime/fireflyprovider/">FireflyProvider</a>. <doc-anchor-trigger to="#rename-runtimecontextprovider-to-fireflyprovider">View example</doc-anchor-trigger></li>
 </ol>
 <doc-anchor-target id="usemsw">
@@ -955,13 +955,13 @@ const navigationElements = useRenderedNavigationItems(navigationItems, renderIte
     </h3>
 </doc-anchor-target>
 <p>The <code translate="no" v-pre>AppRouter</code> component accepts the <code translate="no" v-pre>waitForPublicData</code>, and <code translate="no" v-pre>waitForProtectedData</code> properties. These properties are forwarded directly to the Squide bootstrapping flow state machine, where they are used to determine its initial state.</p>
-<p>If the application uses the <a href="../../reference/tanstack-query/usepublicdataqueries/">usePublicDataQueries</a>, add the <code translate="no" v-pre>waitForPublicData</code> property to the <code translate="no" v-pre>AppRouter</code> component:</p>
+<p>If the application uses the <a href="../../reference/global-data-fetching/usepublicdataqueries/">usePublicDataQueries</a>, add the <code translate="no" v-pre>waitForPublicData</code> property to the <code translate="no" v-pre>AppRouter</code> component:</p>
 <div class="codeblock-wrapper"><doc-codeblock>
 <pre translate="no" class="language-tsx"><code v-pre class="language-tsx">&lt;AppRouter waitForPublicData&gt;
     ...
 &lt;/AppRouter&gt;</code></pre>
 </doc-codeblock></div>
-<p>If the application uses the <a href="../../reference/tanstack-query/useprotecteddataqueries/">useProtectedDataQueries</a>, add the <code translate="no" v-pre>waitForProtectedData</code> property to the <code translate="no" v-pre>AppRouter</code> component:</p>
+<p>If the application uses the <a href="../../reference/global-data-fetching/useprotecteddataqueries/">useProtectedDataQueries</a>, add the <code translate="no" v-pre>waitForProtectedData</code> property to the <code translate="no" v-pre>AppRouter</code> component:</p>
 <div class="codeblock-wrapper"><doc-codeblock>
 <pre translate="no" class="language-tsx"><code v-pre class="language-tsx">&lt;AppRouter waitForProtectedData&gt;
     ...
@@ -1050,7 +1050,7 @@ const navigationElements = useRenderedNavigationItems(navigationItems, renderIte
         <span>Isolated development</span>
     </h3>
 </doc-anchor-target>
-<p>If your module is set up for <a href="../../guides/develop-a-module-in-isolation/">isolated development</a>, ensure that you also apply the <doc-anchor-trigger to="#migrate-an-host-application">host application migration steps</doc-anchor-trigger> to your isolated setup.</p>
+<p>If your module is set up for isolated development, ensure that you also apply the <doc-anchor-trigger to="#migrate-an-host-application">host application migration steps</doc-anchor-trigger> to your isolated setup.</p>
 
                                 
                                 <!-- Required only on API pages -->

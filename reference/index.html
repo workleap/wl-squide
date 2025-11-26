@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <meta name="turbo-root" content="/wl-squide">
-    <meta name="turbo-cache-control" content="no-cache" data-turbo-track="reload" data-track-token="3.12.0-preview2.816895050904">
+    <meta name="turbo-cache-control" content="no-cache" data-turbo-track="reload" data-track-token="3.12.0-preview2.817444945591">
 
     <!-- See retype.com -->
     <meta name="generator" content="Retype 3.12.0-preview2">
@@ -32,11 +32,11 @@
     <script data-cfasync="false">(function(){var cl=document.documentElement.classList,ls=localStorage.getItem("retype_scheme"),hd=cl.contains("dark"),hl=cl.contains("light"),wm=window.matchMedia&&window.matchMedia("(prefers-color-scheme: dark)").matches;if(ls==="dark"||(!ls&&wm&&!hd&&!hl)){cl.remove("light");cl.add("dark")}else if(ls==="light"||(!ls&&!wm&&!hd&&!hl)){cl.remove("dark");cl.add("light")}})();</script>
 
     <link id="retype-favicon" rel="icon" href="../static/favicon.png" />
-    <link href="../resources/css/retype.css?v=3.12.0-preview2.816895050904" rel="stylesheet">
+    <link href="../resources/css/retype.css?v=3.12.0-preview2.817444945591" rel="stylesheet">
 
-    <script data-cfasync="false" src="../resources/js/config.js?v=3.12.0-preview2.816895050904" data-turbo-eval="false" defer></script>
+    <script data-cfasync="false" src="../resources/js/config.js?v=3.12.0-preview2.817444945591" data-turbo-eval="false" defer></script>
     <script data-cfasync="false" src="../resources/js/retype.js?v=3.12.0-preview2" data-turbo-eval="false" defer></script>
-    <script id="lunr-js" data-cfasync="false" src="../resources/js/lunr.js?v=3.12.0-preview2.816895050904" data-turbo-eval="false" defer></script>
+    <script id="lunr-js" data-cfasync="false" src="../resources/js/lunr.js?v=3.12.0-preview2.817444945591" data-turbo-eval="false" defer></script>
 
     <link href="https://workleap.github.io/wl-idp-docs-hub/static/retype-customization.css" rel="stylesheet" />
 
@@ -284,10 +284,6 @@
 <li><a href="runtime/fireflyprovider/">FireflyProvider</a></li>
 <li><a href="runtime/useruntime/">useRuntime</a></li>
 <li><a href="runtime/useruntimemode/">useRuntimeMode</a></li>
-<li><a href="runtime/useroutes/">useRoutes</a></li>
-<li><a href="runtime/usenavigationitems/">useNavigationItems</a></li>
-<li><a href="runtime/uselogger/">useLogger</a></li>
-<li><a href="runtime/useplugin/">usePlugin</a></li>
 </ul>
 <doc-anchor-target id="registration">
     <h3>
@@ -310,11 +306,13 @@
 <li><a href="routing/approuter/">AppRouter</a></li>
 <li><a href="routing/publicroutes/">PublicRoutes</a></li>
 <li><a href="routing/protectedroutes/">ProtectedRoutes</a></li>
-<li><a href="routing/userenderednavigationitems/">useRenderedNavigationItems</a></li>
 <li><a href="routing/useisbootstrapping/">useIsBoostrapping</a></li>
+<li><a href="routing/useroutes/">useRoutes</a></li>
 <li><a href="routing/useroutematch/">useRouteMatch</a></li>
 <li><a href="routing/useisrouteprotected/">useIsRouteProtected</a></li>
 <li><a href="routing/resolveroutesegments/">resolveRouteSegments</a></li>
+<li><a href="routing/userenderednavigationitems/">useRenderedNavigationItems</a></li>
+<li><a href="routing/usenavigationitems/">useNavigationItems</a></li>
 <li><a href="routing/isnavigationlink/">isNavigationLink</a></li>
 </ul>
 <doc-anchor-target id="messaging">
@@ -324,20 +322,30 @@
     </h3>
 </doc-anchor-target>
 <ul>
-<li><a href="messaging/eventbus/">EventBus</a></li>
 <li><a href="messaging/useeventbusdispatcher/">useEventBusDispatcher</a></li>
 <li><a href="messaging/useeventbuslistener/">useEventBusListener</a></li>
 </ul>
-<doc-anchor-target id="tanstack-query">
+<doc-anchor-target id="global-data-fetching">
     <h3>
-        <doc-anchor-trigger class="header-anchor-trigger" to="#tanstack-query">#</doc-anchor-trigger>
-        <span>TanStack Query</span>
+        <doc-anchor-trigger class="header-anchor-trigger" to="#global-data-fetching">#</doc-anchor-trigger>
+        <span>Global data fetching</span>
     </h3>
 </doc-anchor-target>
 <ul>
-<li><a href="tanstack-query/usepublicdataqueries/">usePublicDataQueries</a></li>
-<li><a href="tanstack-query/useprotecteddataqueries/">useProtectedDataQueries</a></li>
-<li><a href="tanstack-query/isglobaldataquerieserror/">isGlobalDataQueriesError</a></li>
+<li><a href="global-data-fetching/usepublicdataqueries/">usePublicDataQueries</a></li>
+<li><a href="global-data-fetching/useprotecteddataqueries/">useProtectedDataQueries</a></li>
+<li><a href="global-data-fetching/usepublicdatahandler/">usePublicDataHandler</a></li>
+<li><a href="global-data-fetching/useprotecteddatahandler/">useProtectedDataHandler</a></li>
+<li><a href="global-data-fetching/isglobaldataquerieserror/">isGlobalDataQueriesError</a></li>
+</ul>
+<doc-anchor-target id="mock-service-worker">
+    <h3>
+        <doc-anchor-trigger class="header-anchor-trigger" to="#mock-service-worker">#</doc-anchor-trigger>
+        <span>Mock Service Worker</span>
+    </h3>
+</doc-anchor-target>
+<ul>
+<li><a href="msw/mswplugin/">MswPlugin</a></li>
 </ul>
 <doc-anchor-target id="i18next">
     <h3>
@@ -361,9 +369,18 @@
 </doc-anchor-target>
 <ul>
 <li><a href="env-vars/environmentvariablesplugin/">EnvironmentVariablesPlugin</a></li>
-<li><a href="env-vars/getenvironmentvariablesplugin/">getEnvironmentVariablesPlugin</a></li>
+<li><a href="env-vars/environmentvariables/">EnvironmentVariables</a></li>
 <li><a href="env-vars/useenvironmentvariable/">useEnvironmentVariable</a></li>
 <li><a href="env-vars/useenvironmentvariables/">useEnvironmentVariables</a></li>
+</ul>
+<doc-anchor-target id="logging">
+    <h3>
+        <doc-anchor-trigger class="header-anchor-trigger" to="#logging">#</doc-anchor-trigger>
+        <span>Logging</span>
+    </h3>
+</doc-anchor-target>
+<ul>
+<li><a href="logging/uselogger/">useLogger</a></li>
 </ul>
 <doc-anchor-target id="plugins">
     <h3>
@@ -373,6 +390,7 @@
 </doc-anchor-target>
 <ul>
 <li><a href="plugins/plugin/">Plugin</a></li>
+<li><a href="plugins/useplugin/">usePlugin</a></li>
 </ul>
 <doc-anchor-target id="fakes">
     <h3>
@@ -426,16 +444,6 @@
 <ul>
 <li><a href="module-federation/initializefirefly/">initializeFirefly</a></li>
 </ul>
-<doc-anchor-target id="miscellaneous">
-    <h3>
-        <doc-anchor-trigger class="header-anchor-trigger" to="#miscellaneous">#</doc-anchor-trigger>
-        <span>Miscellaneous</span>
-    </h3>
-</doc-anchor-target>
-<ul>
-<li><a href="miscellaneous/usepublicdatahandler/">usePublicDataHandler</a></li>
-<li><a href="miscellaneous/useprotecteddatahandler/">useProtectedDataHandler</a></li>
-</ul>
 
                                 
                                 <!-- Required only on API pages -->
@@ -451,11 +459,11 @@
                             
                                 <nav id="retype-nextprev" class="print:hidden flex mt-14">
                                     <div class="w-1/2">
-                                        <a class="px-5 py-4 h-full flex items-center break-normal font-medium text-body-link border border-base-border hover:border-base-border-hover rounded-l-lg transition-colors duration-150 relative hover:z-5" href="../module-federation/override-a-react-context/">
+                                        <a class="px-5 py-4 h-full flex items-center break-normal font-medium text-body-link border border-base-border hover:border-base-border-hover rounded-l-lg transition-colors duration-150 relative hover:z-5" href="../recipes/use-modular-tabs/">
                                             <svg xmlns="http://www.w3.org/2000/svg" class="mr-3" width="24" height="24" viewBox="0 0 24 24" fill="currentColor" overflow="visible"><path d="M19 11H7.41l5.29-5.29a.996.996 0 10-1.41-1.41l-7 7a1 1 0 000 1.42l7 7a1.024 1.024 0 001.42-.01.996.996 0 000-1.41L7.41 13H19c.55 0 1-.45 1-1s-.45-1-1-1z" /><path fill="none" d="M0 0h24v24H0z" /></svg>
                                             <span>
                                                 <span class="block text-xs font-normal text-base-text-muted">Previous</span>
-                                                <span class="block mt-1">Override a React context</span>
+                                                <span class="block mt-1">Use modular tabs</span>
                                             </span>
                                         </a>
                                     </div>

@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <meta name="turbo-root" content="/wl-squide">
-    <meta name="turbo-cache-control" content="no-cache" data-turbo-track="reload" data-track-token="3.12.0-preview2.816895050904">
+    <meta name="turbo-cache-control" content="no-cache" data-turbo-track="reload" data-track-token="3.12.0-preview2.817444945591">
 
     <!-- See retype.com -->
     <meta name="generator" content="Retype 3.12.0-preview2">
@@ -32,12 +32,12 @@
     <script data-cfasync="false">(function(){var cl=document.documentElement.classList,ls=localStorage.getItem("retype_scheme"),hd=cl.contains("dark"),hl=cl.contains("light"),wm=window.matchMedia&&window.matchMedia("(prefers-color-scheme: dark)").matches;if(ls==="dark"||(!ls&&wm&&!hd&&!hl)){cl.remove("light");cl.add("dark")}else if(ls==="light"||(!ls&&!wm&&!hd&&!hl)){cl.remove("dark");cl.add("light")}})();</script>
 
     <link id="retype-favicon" rel="icon" href="../../../static/favicon.png" />
-    <link href="../../../resources/css/retype.css?v=3.12.0-preview2.816895050904" rel="stylesheet">
+    <link href="../../../resources/css/retype.css?v=3.12.0-preview2.817444945591" rel="stylesheet">
 
-    <script data-cfasync="false" src="../../../resources/js/config.js?v=3.12.0-preview2.816895050904" data-turbo-eval="false" defer></script>
+    <script data-cfasync="false" src="../../../resources/js/config.js?v=3.12.0-preview2.817444945591" data-turbo-eval="false" defer></script>
     <script data-cfasync="false" src="../../../resources/js/retype.js?v=3.12.0-preview2" data-turbo-eval="false" defer></script>
-    <script id="lunr-js" data-cfasync="false" src="../../../resources/js/lunr.js?v=3.12.0-preview2.816895050904" data-turbo-eval="false" defer></script>
-    <script id="prism-js" data-cfasync="false" src="../../../resources/js/prism.js?v=3.12.0-preview2.816895050904" defer></script>
+    <script id="lunr-js" data-cfasync="false" src="../../../resources/js/lunr.js?v=3.12.0-preview2.817444945591" data-turbo-eval="false" defer></script>
+    <script id="prism-js" data-cfasync="false" src="../../../resources/js/prism.js?v=3.12.0-preview2.817444945591" defer></script>
 
     <link href="https://workleap.github.io/wl-idp-docs-hub/static/retype-customization.css" rel="stylesheet" />
 
@@ -311,8 +311,8 @@
 <li><code translate="no" v-pre>features</code>: An optional object literal of feature switches to define additional shared dependencies.
 <ul>
 <li><code translate="no" v-pre>i18next</code>: Whether or not to add <code translate="no" v-pre>@squide/i18next</code> as a shared dependency.</li>
-<li><code translate="no" v-pre>environmentVariables</code>: Whether or not to add <code translate="no" v-pre>@squide/env-vars</code> as a shared dependency.</li>
-<li><code translate="no" v-pre>honeycomb</code>: Whether or not to add <code translate="no" v-pre>@squide/firefly-honeycomb</code> as a shared dependency.</li>
+<li><code translate="no" v-pre>environmentVariables</code>: <code translate="no" v-pre>false</code> to remove <code translate="no" v-pre>@squide/env-vars</code> from shared dependencies.</li>
+<li><code translate="no" v-pre>honeycomb</code>: <code translate="no" v-pre>false</code> to remove Honeycomb packages from shared dependencies.</li>
 <li><code translate="no" v-pre>msw</code>: <code translate="no" v-pre>false</code> to remove <code translate="no" v-pre>@squide/msw</code> from shared dependencies.</li>
 </ul>
 </li>
@@ -375,6 +375,8 @@
 <li><a href="https://www.npmjs.com/package/@squide/react-router" class="outbound" target="_blank">@squide/react-router</a></li>
 <li><a href="https://www.npmjs.com/package/@squide/module-federation" class="outbound" target="_blank">@squide/module-federation</a></li>
 <li><a href="https://www.npmjs.com/package/@squide/msw" class="outbound" target="_blank">@squide/msw</a></li>
+<li><a href="https://www.npmjs.com/package/@squide/env-vars" class="outbound" target="_blank">@squide/env-vars</a></li>
+<li><a href="https://www.npmjs.com/package/@opentelemetry/api" class="outbound" target="_blank">@opentelemetry/api</a></li>
 </ul>
 <p>For the full shared dependencies configuration, have a look at the <a href="https://github.com/workleap/wl-squide/blob/main/packages/firefly-webpack-configs/src/defineConfig.ts" class="outbound" target="_blank">defineConfig.ts</a> file on Github.</p>
 <doc-anchor-target id="usage">

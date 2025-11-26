@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <meta name="turbo-root" content="/wl-squide">
-    <meta name="turbo-cache-control" content="no-cache" data-turbo-track="reload" data-track-token="3.12.0-preview2.816895050904">
+    <meta name="turbo-cache-control" content="no-cache" data-turbo-track="reload" data-track-token="3.12.0-preview2.817444945591">
 
     <!-- See retype.com -->
     <meta name="generator" content="Retype 3.12.0-preview2">
@@ -32,12 +32,12 @@
     <script data-cfasync="false">(function(){var cl=document.documentElement.classList,ls=localStorage.getItem("retype_scheme"),hd=cl.contains("dark"),hl=cl.contains("light"),wm=window.matchMedia&&window.matchMedia("(prefers-color-scheme: dark)").matches;if(ls==="dark"||(!ls&&wm&&!hd&&!hl)){cl.remove("light");cl.add("dark")}else if(ls==="light"||(!ls&&!wm&&!hd&&!hl)){cl.remove("dark");cl.add("light")}})();</script>
 
     <link id="retype-favicon" rel="icon" href="../../../static/favicon.png" />
-    <link href="../../../resources/css/retype.css?v=3.12.0-preview2.816895050904" rel="stylesheet">
+    <link href="../../../resources/css/retype.css?v=3.12.0-preview2.817444945591" rel="stylesheet">
 
-    <script data-cfasync="false" src="../../../resources/js/config.js?v=3.12.0-preview2.816895050904" data-turbo-eval="false" defer></script>
+    <script data-cfasync="false" src="../../../resources/js/config.js?v=3.12.0-preview2.817444945591" data-turbo-eval="false" defer></script>
     <script data-cfasync="false" src="../../../resources/js/retype.js?v=3.12.0-preview2" data-turbo-eval="false" defer></script>
-    <script id="lunr-js" data-cfasync="false" src="../../../resources/js/lunr.js?v=3.12.0-preview2.816895050904" data-turbo-eval="false" defer></script>
-    <script id="prism-js" data-cfasync="false" src="../../../resources/js/prism.js?v=3.12.0-preview2.816895050904" defer></script>
+    <script id="lunr-js" data-cfasync="false" src="../../../resources/js/lunr.js?v=3.12.0-preview2.817444945591" data-turbo-eval="false" defer></script>
+    <script id="prism-js" data-cfasync="false" src="../../../resources/js/prism.js?v=3.12.0-preview2.817444945591" defer></script>
 
     <link href="https://workleap.github.io/wl-idp-docs-hub/static/retype-customization.css" rel="stylesheet" />
 
@@ -293,7 +293,18 @@
     </h2>
 </doc-anchor-target>
 <div class="codeblock-wrapper"><doc-codeblock>
-<pre translate="no" class="language-typescript"><code v-pre class="language-typescript">const runtime = initializeFirefly(options?: { localModules?, startMsw?, onError?, context?, mode?, useMsw?, loggers?, plugins? })</code></pre>
+<pre translate="no" class="language-typescript"><code v-pre class="language-typescript">const runtime = initializeFirefly(options?: { 
+    mode?,
+    localModules?,
+    context?,
+    useMsw?,
+    startMsw?,
+    environmentVariables?,
+    honeycombInstrumentationClient?,
+    loggers?,
+    plugins?,
+    onError?
+})</code></pre>
 </doc-codeblock></div>
 <doc-anchor-target id="parameters">
     <h3>
@@ -304,14 +315,16 @@
 <ul>
 <li><code translate="no" v-pre>options</code>: An optional object literal of options:
 <ul>
-<li><code translate="no" v-pre>localModules</code>: An optional array of <code translate="no" v-pre>ModuleRegisterFunction</code>.</li>
-<li><code translate="no" v-pre>startMsw</code>: An optional function to register MSW request handlers and start MSW service. This function is required if <doc-anchor-trigger to="#use-msw">MSW is enabled</doc-anchor-trigger>.</li>
-<li><code translate="no" v-pre>onError</code>: An optional function that is called whenever a bootstrapping error occurs.</li>
-<li><code translate="no" v-pre>context</code>: An optional context object that will be pass to the registration function.</li>
 <li><code translate="no" v-pre>mode</code>: An optional mode to optimize Squide for production. Values are <code translate="no" v-pre>&quot;development&quot;</code> (default) and <code translate="no" v-pre>&quot;production&quot;</code>.</li>
+<li><code translate="no" v-pre>localModules</code>: An optional array of <code translate="no" v-pre>ModuleRegisterFunction</code>.</li>
+<li><code translate="no" v-pre>context</code>: An optional context object that will be pass to the registration function.</li>
 <li><code translate="no" v-pre>useMsw</code>: An optional <code translate="no" v-pre>boolean</code> value indicating whether or not to create the runtime with <a href="https://mswjs.io/" class="outbound" target="_blank">Mock Service Work</a> (MSW) support.</li>
+<li><code translate="no" v-pre>startMsw</code>: An optional function to register MSW request handlers and start MSW service. This function is required if <doc-anchor-trigger to="#use-msw">MSW is enabled</doc-anchor-trigger>.</li>
+<li><code translate="no" v-pre>environmentVariables</code>: An optional object of environment variables.</li>
+<li><code translate="no" v-pre>honeycombInstrumentationClient</code>: An optional Honeycomb instrumentation client for tracing the Squide bootstrapping flow.</li>
 <li><code translate="no" v-pre>loggers</code>: An optional array of logger instances.</li>
 <li><code translate="no" v-pre>plugins</code>: An optional array of <code translate="no" v-pre>Plugin</code> factory functions.</li>
+<li><code translate="no" v-pre>onError</code>: An optional function that is called whenever a bootstrapping error occurs.</li>
 </ul>
 </li>
 </ul>
@@ -328,6 +341,19 @@
         <span>Usage</span>
     </h2>
 </doc-anchor-target>
+<doc-anchor-target id="change-the-runtime-mode">
+    <h3>
+        <doc-anchor-trigger class="header-anchor-trigger" to="#change-the-runtime-mode">#</doc-anchor-trigger>
+        <span>Change the runtime mode</span>
+    </h3>
+</doc-anchor-target>
+<div class="codeblock-wrapper"><doc-codeblock>
+<pre translate="no" class="language-typescript" data-line="4"><code v-pre class="language-typescript">import { initializeFirefly } from &quot;@squide/firefly&quot;;
+
+const runtime = initializeFirefly({
+    mode: &quot;production&quot;
+});</code></pre>
+</doc-codeblock></div>
 <doc-anchor-target id="register-a-local-module">
     <h3>
         <doc-anchor-trigger class="header-anchor-trigger" to="#register-a-local-module">#</doc-anchor-trigger>
@@ -361,27 +387,23 @@ export const register: ModuleRegisterFunction&lt;FireflyRuntime&gt; = runtime =&
     });
 }</code></pre>
 </doc-codeblock></div>
-<doc-anchor-target id="use-msw">
+<doc-anchor-target id="provide-a-registration-context">
     <h3>
-        <doc-anchor-trigger class="header-anchor-trigger" to="#use-msw">#</doc-anchor-trigger>
-        <span>Use MSW</span>
+        <doc-anchor-trigger class="header-anchor-trigger" to="#provide-a-registration-context">#</doc-anchor-trigger>
+        <span>Provide a registration context</span>
     </h3>
 </doc-anchor-target>
-<div class="codeblock-wrapper"><doc-codeblock>
+<div class="codeblock-wrapper"><doc-codeblock line-numbers>
 <div class="codeblock-title">host/src/index.tsx</div>
-<pre translate="no" class="language-tsx" data-line="7,9-13"><code v-pre class="language-tsx">import { FireflyProvider, initializeFirefly } from &quot;@squide/firefly&quot;;
+<pre translate="no" class="language-tsx" data-line="8-9"><code v-pre class="language-tsx">import { FireflyProvider, initializeFirefly } from &quot;@squide/firefly&quot;;
 import { register } from &quot;@sample/local-module&quot;;
 import { createRoot } from &quot;react&quot;;
 import { App } from &quot;./App.tsx&quot;;
 
 const runtime = initializeFirefly({
-    useMsw: true,
     localModules: [register],
-    startMsw: async () =&gt; {
-        // Files that includes an import to the &quot;msw&quot; package are included dynamically to prevent adding
-        // unused MSW stuff to the code bundles.
-        (await import(&quot;./mocks/browser.ts&quot;)).startMsw(runtime.requestHandlers);
-    }
+    // Can be anything.
+    context: { foo: &quot;bar&quot; }
 });
 
 const root = createRoot(document.getElementById(&quot;root&quot;)!);
@@ -420,23 +442,27 @@ root.render(
     &lt;/FireflyProvider&gt;
 );</code></pre>
 </doc-codeblock></div>
-<doc-anchor-target id="provide-a-registration-context">
+<doc-anchor-target id="use-msw">
     <h3>
-        <doc-anchor-trigger class="header-anchor-trigger" to="#provide-a-registration-context">#</doc-anchor-trigger>
-        <span>Provide a registration context</span>
+        <doc-anchor-trigger class="header-anchor-trigger" to="#use-msw">#</doc-anchor-trigger>
+        <span>Use MSW</span>
     </h3>
 </doc-anchor-target>
-<div class="codeblock-wrapper"><doc-codeblock line-numbers>
+<div class="codeblock-wrapper"><doc-codeblock>
 <div class="codeblock-title">host/src/index.tsx</div>
-<pre translate="no" class="language-tsx" data-line="8-9"><code v-pre class="language-tsx">import { FireflyProvider, initializeFirefly } from &quot;@squide/firefly&quot;;
+<pre translate="no" class="language-tsx" data-line="7,9-13"><code v-pre class="language-tsx">import { FireflyProvider, initializeFirefly } from &quot;@squide/firefly&quot;;
 import { register } from &quot;@sample/local-module&quot;;
 import { createRoot } from &quot;react&quot;;
 import { App } from &quot;./App.tsx&quot;;
 
 const runtime = initializeFirefly({
+    useMsw: true,
     localModules: [register],
-    // Can be anything.
-    context: { foo: &quot;bar&quot; }
+    startMsw: async () =&gt; {
+        // Files that includes an import to the &quot;msw&quot; package are included dynamically to prevent adding
+        // unused MSW stuff to the code bundles.
+        (await import(&quot;./mocks/browser.ts&quot;)).startMsw(runtime.requestHandlers);
+    }
 });
 
 const root = createRoot(document.getElementById(&quot;root&quot;)!);
@@ -447,17 +473,42 @@ root.render(
     &lt;/FireflyProvider&gt;
 );</code></pre>
 </doc-codeblock></div>
-<doc-anchor-target id="change-the-runtime-mode">
+<doc-anchor-target id="provide-environment-variables">
     <h3>
-        <doc-anchor-trigger class="header-anchor-trigger" to="#change-the-runtime-mode">#</doc-anchor-trigger>
-        <span>Change the runtime mode</span>
+        <doc-anchor-trigger class="header-anchor-trigger" to="#provide-environment-variables">#</doc-anchor-trigger>
+        <span>Provide environment variables</span>
     </h3>
 </doc-anchor-target>
 <div class="codeblock-wrapper"><doc-codeblock>
-<pre translate="no" class="language-typescript" data-line="4"><code v-pre class="language-typescript">import { initializeFirefly } from &quot;@squide/firefly&quot;;
+<pre translate="no" class="language-typescript" data-line="4-7"><code v-pre class="language-typescript">import { initializeFirefly } from &quot;@squide/firefly&quot;;
 
 const runtime = initializeFirefly({
-    mode: &quot;production&quot;
+    environmentVariables: {
+        &quot;foo&quot;: &quot;bar&quot;,
+        &quot;john&quot;: &quot;doe&quot;
+    }
+});</code></pre>
+</doc-codeblock></div>
+<doc-anchor-target id="provide-an-honeycomb-instrumentation-client">
+    <h3>
+        <doc-anchor-trigger class="header-anchor-trigger" to="#provide-an-honeycomb-instrumentation-client">#</doc-anchor-trigger>
+        <span>Provide an Honeycomb instrumentation client</span>
+    </h3>
+</doc-anchor-target>
+<div class="codeblock-wrapper"><doc-codeblock>
+<pre translate="no" class="language-typescript" data-line="13"><code v-pre class="language-typescript">import { initializeFirefly } from &quot;@squide/firefly&quot;;
+import { initializeTelemetry } from &quot;@workleap/telemetry/react&quot;;
+
+const telemetryClient = initializeTelemetry({
+    serviceName: &quot;sample&quot;,
+    apiServiceUrls: [/http:\/\/localhost\.*/],
+    options: {
+        apiKey: &quot;123&quot;
+    }
+});
+
+const runtime = initializeFirefly({
+    honeycombInstrumentationClient: telemetryClient.honeycomb
 });</code></pre>
 </doc-codeblock></div>
 <doc-anchor-target id="register-a-logger">
@@ -468,42 +519,13 @@ const runtime = initializeFirefly({
 </doc-anchor-target>
 <p>The logger intance receives the <code translate="no" v-pre>Runtime</code> instance as parameter.</p>
 <div class="codeblock-wrapper"><doc-codeblock>
-<pre translate="no" class="language-typescript" data-line="5"><code v-pre class="language-typescript">import { ConsoleLogger, initializeFirefly } from &quot;@squide/firefly&quot;;
+<pre translate="no" class="language-typescript" data-line="5"><code v-pre class="language-typescript">import { initializeFirefly } from &quot;@squide/firefly&quot;;
 import { BrowserConsoleLogger } from &quot;@workleap/logging&quot;;
 
 const runtime = initializeFirefly({
     loggers: [new BrowserConsoleLogger()]
 });</code></pre>
 </doc-codeblock></div>
-<doc-anchor-target id="register-a-plugin">
-    <h3>
-        <doc-anchor-trigger class="header-anchor-trigger" to="#register-a-plugin">#</doc-anchor-trigger>
-        <span>Register a plugin</span>
-    </h3>
-</doc-anchor-target>
-<p>The plugin factory function receives the <code translate="no" v-pre>Runtime</code> instance as parameter.</p>
-<div class="codeblock-wrapper"><doc-codeblock>
-<pre translate="no" class="language-typescript" data-line="5"><code v-pre class="language-typescript">import { initializeFirefly } from &quot;@squide/firefly&quot;;
-import { MyPlugin } from &quot;@sample/my-plugin&quot;;
-
-const runtime = initializeFirefly({
-    plugins: [x =&gt; new MyPlugin(x)]
-});</code></pre>
-</doc-codeblock></div>
-<p>
-<div class="mb-6 px-5 py-4 flex justify-between relative border border-base-border hover:border-base-border-hover rounded transition-colors duration-150">
-    <div class="flex items-center text-base-500">
-        <span class="inline-block mb-px">
-            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" role="presentation" fill="currentColor"><path fill="none" d="M0 0h24v24H0z"/><path d="M19.92 12.38a1 1 0 00-.22-1.09l-7-7a.996.996 0 10-1.41 1.41l5.3 5.3H5c-.55 0-1 .45-1 1s.45 1 1 1h11.59l-5.29 5.29a.996.996 0 000 1.41c.19.2.44.3.7.3s.51-.1.71-.29l7-7c.09-.09.16-.21.21-.33z"/></svg>
-        </span>
-        <span class="inline-block font-medium ml-2">Learn more about plugins</span>
-    </div>
-    <div class="flex items-center text-xs text-gray-400 dark:text-dark-400">
-        <span>../../plugins/plugin/</span>
-    </div>
-    <a href="../../plugins/plugin/" class="absolute block inset-0"></a>
-</div>
-</p>
 <doc-anchor-target id="defer-the-registration-of-navigation-items">
     <h3>
         <doc-anchor-trigger class="header-anchor-trigger" to="#defer-the-registration-of-navigation-items">#</doc-anchor-trigger>
@@ -514,7 +536,7 @@ const runtime = initializeFirefly({
 <ol>
 <li><p>The first phase allows modules to register their navigation items that are <strong>not dependent on initial data</strong> (in addition to their routes and MSW request handlers when fake endpoints are available).</p>
 </li>
-<li><p>The second phase enables modules to register navigation items that are dependent on initial data. Such a use case would be determining whether a navigation item should be registered based on a feature flag. We refer to this second phase as <strong>deferred registrations</strong>.</p>
+<li><p>The second phase enables modules to register navigation items that are dependent on initial data. Such a use case would be determining whether a navigation item should be registered based on a user profile. We refer to this second phase as <strong>deferred registrations</strong>.</p>
 </li>
 </ol>
 <p>To defer a registration to the second phase, a module registration function can <strong>return an anonymous function</strong> matching the <code translate="no" v-pre>DeferredRegistrationFunction</code> type: <code translate="no" v-pre>(data, operation: &quot;register&quot; | &quot;update&quot;) =&gt; Promise | void</code>.</p>
@@ -545,16 +567,16 @@ import { useMemo } from &quot;react&quot;;
 import { createBrowserRouter, Outlet } from &quot;react-router&quot;;
 import { RouterProvider } from &quot;react-router/dom&quot;;
 import type { DeferredRegistrationData } from &quot;@sample/shared&quot;;
-import { getFeatureFlagsQuery } from &quot;./getFeatureFlagsQuery.ts&quot;;
+import { getUserInfoQuery } from &quot;./getUserInfoQuery.ts&quot;;
 
 function BootstrappingRoute() {
-    const [featureFlags] = usePublicDataQueries([getFeatureFlagsQuery]);
+    const [userInfo] = usePublicDataQueries([getUserInfoQuery]);
 
-    // The useMemo is super important otherwise the hook will consider that the feature flags
-    // changed everytime the hook is rendered.
+    // The useMemo is super important otherwise the hook will consider that the user info
+    // object changed everytime the hook is rendered.
     const data: DeferredRegistrationData = useMemo(() =&gt; ({ 
-        featureFlags 
-    }), [featureFlags]);
+        userInfo 
+    }), [userInfo]);
 
     useDeferredRegistrations(data);
 
@@ -618,11 +640,11 @@ export const register: ModuleRegisterFunction&lt;FireflyRuntime, unknown, Deferr
         element: &lt;FeatureAPage /&gt;
     });
 
-    // Once the feature flags has been loaded by the host application, by completing the module registrations process,
-    // the deferred registration function will be called with the feature flags data.
-    return (deferredRuntime, { featureFlags }) =&gt; {
-        // Only register the &quot;feature-a&quot; route and navigation item if the feature is active.
-        if (featureFlags.featureA) {
+    // Once the user info has been loaded by the host application, by completing the module registrations process,
+    // the deferred registration function will be called with the user data.
+    return (deferredRuntime, { userInfo }) =&gt; {
+        // Only register the &quot;feature-a&quot; route and navigation item if the user is an administrator.
+        if (userInfo.isAdmin) {
             deferredRuntime.registerNavigationItem({
                 $id: &quot;feature-a&quot;,
                 $label: &quot;Feature A&quot;,
@@ -658,11 +680,11 @@ export const register: ModuleRegisterFunction&lt;FireflyRuntime&gt; = runtime =&
         element: &lt;FeatureBPage /&gt;
     });
 
-    // Once the feature flags has been loaded by the host application, by completing the module registrations process,
-    // the deferred registration function will be called with the feature flags data.
-    return (deferredRuntime, { featureFlags }) =&gt; {
-        // Only register the &quot;feature-b route and navigation item if the feature is active.
-        if (featureFlags.featureB) {
+    // Once the user info has been loaded by the host application, by completing the module registrations process,
+    // the deferred registration function will be called with the user data.
+    return (deferredRuntime, { userInfo }) =&gt; {
+        // Only register the &quot;feature-b route and navigation item if the user is a manager.
+        if (featureFlags.isManager) {
             deferredRuntime.registerNavigationItem({
                 $id: &quot;feature-b&quot;,
                 $label: &quot;Feature B&quot;,
@@ -735,11 +757,11 @@ export const register: ModuleRegisterFunction&lt;FireflyRuntime, unknown, Deferr
         element: &lt;FeatureAPage /&gt;
     });
 
-    // Once the feature flags has been loaded by the host application, by completing the module registrations process,
-    // the deferred registration function will be called with the feature flags data.
-    return (deferredRuntime, { featureFlags }, operation) =&gt; {
-        // Only register the &quot;feature-a&quot; route and navigation item if the feature is active.
-        if (featureFlags.featureA) {
+    // Once the user info has been loaded by the host application, by completing the module registrations process,
+    // the deferred registration function will be called with the user data.
+    return (deferredRuntime, { userInfo }, operation) =&gt; {
+        // Only register the &quot;feature-a&quot; route and navigation item if the user is an administrator.
+        if (userInfo.isAdmin) {
             deferredRuntime.registerNavigationItem({
                 $id: &quot;feature-a&quot;,
                 $label: operation === &quot;register&quot; ? &quot;Feature A&quot; : &quot;Feature A updated&quot;,
@@ -749,45 +771,35 @@ export const register: ModuleRegisterFunction&lt;FireflyRuntime, unknown, Deferr
     };
 }</code></pre>
 </doc-codeblock></div>
-<doc-anchor-target id="remote-definition">
-    <h2>
-        <doc-anchor-trigger class="header-anchor-trigger" to="#remote-definition">#</doc-anchor-trigger>
-        <span>Remote definition</span>
-    </h2>
-</doc-anchor-target>
-<p>To ease the configuration of remote modules, make sure that you first import the <code translate="no" v-pre>RemoteDefinition</code> type and assign it to your remote definitions array declaration.</p>
-<div class="codeblock-wrapper"><doc-codeblock>
-<div class="codeblock-title">host/src/bootstrap.tsx</div>
-<pre translate="no" class="language-typescript" data-line="3"><code v-pre class="language-typescript">import type { RemoteDefinition } from &quot;@squide/firefly&quot;;
-
-const Remotes: RemoteDefinition = [
-    { name: &quot;remote1&quot; }
-];</code></pre>
-</doc-codeblock></div>
-<doc-anchor-target id="name">
+<doc-anchor-target id="register-a-plugin">
     <h3>
-        <doc-anchor-trigger class="header-anchor-trigger" to="#name">#</doc-anchor-trigger>
-        <span><code translate="no" v-pre>name</code></span>
+        <doc-anchor-trigger class="header-anchor-trigger" to="#register-a-plugin">#</doc-anchor-trigger>
+        <span>Register a plugin</span>
     </h3>
 </doc-anchor-target>
-<p>The <code translate="no" v-pre>name</code> option of a remote definition <strong>must match</strong> the <code translate="no" v-pre>name</code> option defined in the remote module <a href="https://module-federation.io/configure/index.html" class="outbound" target="_blank">ModuleFederationPlugin</a> configuration.</p>
-<p>If you are using either the Squide <a href="../../webpack/definedevremotemoduleconfig/">defineDevRemoteModuleConfig</a> or <a href="../../webpack/definebuildremotemoduleconfig/">defineBuildRemoteModuleConfig</a> functions to add the <code translate="no" v-pre>ModuleFederationPlugin</code> to the remote module webpack <a href="https://module-federation.io/" class="outbound" target="_blank">configuration object</a>, then the remote module <code translate="no" v-pre>name</code> is the second argument of the function.</p>
-<p>In the following exemple, the remote module <code translate="no" v-pre>name</code> is <code translate="no" v-pre>remote1</code>.</p>
+<p>The plugin factory function receives the <code translate="no" v-pre>Runtime</code> instance as parameter.</p>
 <div class="codeblock-wrapper"><doc-codeblock>
-<div class="codeblock-title">host/src/bootstrap.tsx</div>
-<pre translate="no" class="language-typescript" data-line="2"><code v-pre class="language-typescript">const Remotes: RemoteDefinition = [
-    { name: &quot;remote1&quot; }
-];</code></pre>
-</doc-codeblock></div>
-<div class="codeblock-wrapper"><doc-codeblock>
-<div class="codeblock-title">remote-module/webpack.dev.js</div>
-<pre translate="no" class="language-javascript" data-line="6"><code v-pre class="language-javascript">// @ts-check
+<pre translate="no" class="language-typescript" data-line="5"><code v-pre class="language-typescript">import { initializeFirefly } from &quot;@squide/firefly&quot;;
+import { MyPlugin } from &quot;@sample/my-plugin&quot;;
 
-import { defineDevRemoteModuleConfig } from &quot;@squide/firefly-webpack-configs&quot;;
-import { swcConfig } from &quot;./swc.dev.js&quot;;
-
-export default defineDevRemoteModuleConfig(swcConfig, &quot;remote1&quot;, 8081);</code></pre>
+const runtime = initializeFirefly({
+    plugins: [x =&gt; new MyPlugin(x)]
+});</code></pre>
 </doc-codeblock></div>
+<p>
+<div class="mb-6 px-5 py-4 flex justify-between relative border border-base-border hover:border-base-border-hover rounded transition-colors duration-150">
+    <div class="flex items-center text-base-500">
+        <span class="inline-block mb-px">
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" role="presentation" fill="currentColor"><path fill="none" d="M0 0h24v24H0z"/><path d="M19.92 12.38a1 1 0 00-.22-1.09l-7-7a.996.996 0 10-1.41 1.41l5.3 5.3H5c-.55 0-1 .45-1 1s.45 1 1 1h11.59l-5.29 5.29a.996.996 0 000 1.41c.19.2.44.3.7.3s.51-.1.71-.29l7-7c.09-.09.16-.21.21-.33z"/></svg>
+        </span>
+        <span class="inline-block font-medium ml-2">Learn more about plugins</span>
+    </div>
+    <div class="flex items-center text-xs text-gray-400 dark:text-dark-400">
+        <span>../../plugins/plugin/</span>
+    </div>
+    <a href="../../plugins/plugin/" class="absolute block inset-0"></a>
+</div>
+</p>
 
                                 
                                 <!-- Required only on API pages -->
@@ -803,11 +815,11 @@ export default defineDevRemoteModuleConfig(swcConfig, &quot;remote1&quot;, 8081)
                             
                                 <nav id="retype-nextprev" class="print:hidden flex mt-14">
                                     <div class="w-1/2">
-                                        <a class="px-5 py-4 h-full flex items-center break-normal font-medium text-body-link border border-base-border hover:border-base-border-hover rounded-l-lg transition-colors duration-150 relative hover:z-5" href="../../../reference/runtime/useplugin/">
+                                        <a class="px-5 py-4 h-full flex items-center break-normal font-medium text-body-link border border-base-border hover:border-base-border-hover rounded-l-lg transition-colors duration-150 relative hover:z-5" href="../../../reference/runtime/useruntimemode/">
                                             <svg xmlns="http://www.w3.org/2000/svg" class="mr-3" width="24" height="24" viewBox="0 0 24 24" fill="currentColor" overflow="visible"><path d="M19 11H7.41l5.29-5.29a.996.996 0 10-1.41-1.41l-7 7a1 1 0 000 1.42l7 7a1.024 1.024 0 001.42-.01.996.996 0 000-1.41L7.41 13H19c.55 0 1-.45 1-1s-.45-1-1-1z" /><path fill="none" d="M0 0h24v24H0z" /></svg>
                                             <span>
                                                 <span class="block text-xs font-normal text-base-text-muted">Previous</span>
-                                                <span class="block mt-1">use​Plugin</span>
+                                                <span class="block mt-1">use​Runtime​Mode</span>
                                             </span>
                                         </a>
                                     </div>

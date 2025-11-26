@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <meta name="turbo-root" content="/wl-squide">
-    <meta name="turbo-cache-control" content="no-cache" data-turbo-track="reload" data-track-token="3.12.0-preview2.816895050904">
+    <meta name="turbo-cache-control" content="no-cache" data-turbo-track="reload" data-track-token="3.12.0-preview2.817444945591">
 
     <!-- See retype.com -->
     <meta name="generator" content="Retype 3.12.0-preview2">
@@ -32,12 +32,12 @@
     <script data-cfasync="false">(function(){var cl=document.documentElement.classList,ls=localStorage.getItem("retype_scheme"),hd=cl.contains("dark"),hl=cl.contains("light"),wm=window.matchMedia&&window.matchMedia("(prefers-color-scheme: dark)").matches;if(ls==="dark"||(!ls&&wm&&!hd&&!hl)){cl.remove("light");cl.add("dark")}else if(ls==="light"||(!ls&&!wm&&!hd&&!hl)){cl.remove("dark");cl.add("light")}})();</script>
 
     <link id="retype-favicon" rel="icon" href="../static/favicon.png" />
-    <link href="../resources/css/retype.css?v=3.12.0-preview2.816895050904" rel="stylesheet">
+    <link href="../resources/css/retype.css?v=3.12.0-preview2.817444945591" rel="stylesheet">
 
-    <script data-cfasync="false" src="../resources/js/config.js?v=3.12.0-preview2.816895050904" data-turbo-eval="false" defer></script>
+    <script data-cfasync="false" src="../resources/js/config.js?v=3.12.0-preview2.817444945591" data-turbo-eval="false" defer></script>
     <script data-cfasync="false" src="../resources/js/retype.js?v=3.12.0-preview2" data-turbo-eval="false" defer></script>
-    <script id="lunr-js" data-cfasync="false" src="../resources/js/lunr.js?v=3.12.0-preview2.816895050904" data-turbo-eval="false" defer></script>
-    <script id="prism-js" data-cfasync="false" src="../resources/js/prism.js?v=3.12.0-preview2.816895050904" defer></script>
+    <script id="lunr-js" data-cfasync="false" src="../resources/js/lunr.js?v=3.12.0-preview2.817444945591" data-turbo-eval="false" defer></script>
+    <script id="prism-js" data-cfasync="false" src="../resources/js/prism.js?v=3.12.0-preview2.817444945591" defer></script>
 
     <link href="https://workleap.github.io/wl-idp-docs-hub/static/retype-customization.css" rel="stylesheet" />
 
@@ -267,7 +267,7 @@
 </doc-anchor-target>
 <p>In an effort to optimize the development experience, Squide can be bootstrapped in <code translate="no" v-pre>development</code> or <code translate="no" v-pre>production</code> mode. To troubleshoot a persistent issue, make sure that the runtime mode is development:</p>
 <div class="codeblock-wrapper"><doc-codeblock>
-<pre translate="no" class="language-typescript"><code v-pre class="language-typescript">import { initializeFirefly, type LogLevel } from &quot;@squide/firefly&quot;;
+<pre translate="no" class="language-typescript" data-line="4"><code v-pre class="language-typescript">import { initializeFirefly, type LogLevel } from &quot;@squide/firefly&quot;;
 
 const runtime = initializeFirefly({
     mode: &quot;development&quot;
@@ -282,7 +282,7 @@ const runtime = initializeFirefly({
 <p>Frontend production issues are best troubleshoot using <a href="https://logrocket.com/" class="outbound" target="_blank">LogRocket</a>. To output log entries to LogRocket&#x27;s session replay, install the <code translate="no" v-pre>@workleap/logrocket</code> package and provide an instance of <code translate="no" v-pre>LogRocket</code> to the <code translate="no" v-pre>initializeFirefly</code> function:</p>
 <p>For troubleshooting frontend production issues, we recommend using <a href="https://logrocket.com/" class="outbound" target="_blank">LogRocket</a>. To capture log entries in LogRocket session replays, install the <code translate="no" v-pre>@workleap/logrocket</code> package and pass an instance of <a href="https://workleap.github.io/wl-telemetry/logrocket/reference/logrocketlogger/" class="outbound" target="_blank">LogRocketLogger</a> to the <code translate="no" v-pre>initializeFirefly</code> function:</p>
 <div class="codeblock-wrapper"><doc-codeblock>
-<pre translate="no" class="language-typescript"><code v-pre class="language-typescript">import { initializeFirefly, type LogLevel } from &quot;@squide/firefly&quot;;
+<pre translate="no" class="language-typescript" data-line="5"><code v-pre class="language-typescript">import { initializeFirefly, type LogLevel } from &quot;@squide/firefly&quot;;
 import { LogRocketLogger } from &quot;@workleap/logrocket&quot;;
 
 const runtime = initializeFirefly({
