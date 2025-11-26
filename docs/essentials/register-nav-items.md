@@ -215,7 +215,7 @@ export const register: ModuleRegisterFunction<FireflyRuntime> = runtime => {
 
 It's the responsibility of the code rendering the menu to execute the navigation items `$canRender` function and conditionally render the items based on the return value.
 
-==- Layout code example
+==- :icon-file-code: Layout code example
 ```tsx !#12-14
 import { Suspense } from "react";
 import { Link, Outlet } from "react-router";
@@ -295,7 +295,7 @@ export const register: ModuleRegisterFunction<FireflyRuntime> = runtime => {
 
 It's the responsibility of the code rendering the menu to handle the additional properties.
 
-==- Layout code example
+==- :icon-file-code: Layout code example
 ```tsx !#20,23
 import { Suspense } from "react";
 import { Link, Outlet } from "react-router";

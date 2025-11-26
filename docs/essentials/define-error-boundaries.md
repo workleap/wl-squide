@@ -37,7 +37,7 @@ export const registerHost: ModuleRegisterFunction<FireflyRuntime> = runtime => {
 };
 ```
 
-==- Root error boundary example
+==- :icon-file-code: Root error boundary example
 ```tsx !#6,9,11,16 ./RootErrorBoundary.tsx
 import { isGlobalDataQueriesError } from "@squide/firefly";
 import { useCallback, useEffect } from "react";
@@ -94,7 +94,7 @@ export const registerHost: ModuleRegisterFunction<FireflyRuntime> = runtime => {
 };
 ```
 
-==- Module error boundary example
+==- :icon-file-code: Module error boundary example
 ```tsx !#5,8,13 ./ModuleErrorBoundary.tsx
 import { useCallback, useEffect } from "react";
 import { isRouteErrorResponse, useRouteError } from "react-router";
@@ -120,7 +120,7 @@ export function ModuleErrorBoundary() {
 ```
 ===
 
-==- Similarities with iframe-based architectures
+==- :icon-light-bulb: Similarities with iframe-based architectures
 One of the key characteristics of a modular implementation such as [iframes](https://martinfowler.com/articles/micro-frontends.html#Run-timeIntegrationViaIframes) is the ability to isolate failures within individual iframe, preventing them from breaking the entire application.
 
 However, this characteristic is not inherent to a standard Squide implementation as all the modules share the same browsing context (e.g. the same [Document object](https://developer.mozilla.org/en-US/docs/Web/API/Document), the same [Window object](https://developer.mozilla.org/en-US/docs/Web/API/Window), and the same DOM). A failure in one module can potentially breaks the entire application. 
@@ -148,7 +148,7 @@ export const registerHost: ModuleRegisterFunction<FireflyRuntime> = runtime => {
 };
 ```
 
-==- Route error boundary example
+==- :icon-file-code: Route error boundary example
 ```tsx !#5,8,13 ./RouteErrorBoundary.tsx
 import { useCallback, useEffect } from "react";
 import { isRouteErrorResponse, useRouteError } from "react-router";

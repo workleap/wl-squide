@@ -7,7 +7,7 @@ label: Fetch public global data
 
 To make global protected data fetching easier, Squide provides primitives build on top of [Tanstack Query](https://tanstack.com/query) to orchestrate both the data-loading states and the associated UI.
 
-==- The challenges with global data
+==- :icon-light-bulb: The challenges with global data
 At first glance, one might wonder what could be so complicated about fetching the global data of an application. It's only fetches ...right? Well, there are several concerns to take into account for a modular application:
 
 - When in development, the global data cannot be fetched until the Mock Service Worker (MSW) **request handlers** are **registered** and **MSW is ready**.
@@ -102,7 +102,7 @@ export function useFetchCount() {
 }
 ```
 
-==- Setup the MSW handler used in the example
+==- :icon-file-code: Setup the MSW handler used in the example
 First, define an MSW request handler that returns the number of times it has been fetched:
 
 ```ts mocks/handlers.ts
@@ -138,7 +138,7 @@ export const register: ModuleRegisterFunction<FireflyRuntime> = async runtime =>
 ```
 ===
 
-==- Use the data in a page
+==- :icon-file-code: Use the data in a page
 ```tsx !#4
 import { useFetchCount } from "@sample/shared";
 

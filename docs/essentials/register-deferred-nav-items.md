@@ -54,7 +54,7 @@ It's important to register conditional navigation items using the `deferredRunti
 
 It's the responsibility of the application shell code to execute the deferred registrations once the remote data is retrieved.
 
-==- Shell code example
+==- :icon-file-code: Shell code example
 ```tsx !#7-21,23-27,29,40
 import { AppRouter, useIsBootstrapping } from "@squide/firefly";
 import { createBrowserRouter, Outlet } from "react-router";

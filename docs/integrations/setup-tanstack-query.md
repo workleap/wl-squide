@@ -7,7 +7,7 @@ label: Setup TanStack Query
 
 [TanStack Query](https://tanstack.com/query) simplifies server state management in frontend applications by keeping backend data synchronized with the UI without requiring manual state handling. It uses a default "stale-while-revalidate" caching strategy, which prioritizes a responsive user experience by showing cached (possibly stale) data immediately while fetching updated data in the background.
 
-==- More about stale-while-revalidate
+==- :icon-light-bulb: What is stale-while-revalidate?
 "stale-while-revalidate refers" to a caching strategy where previously fetched data is shown immediately (even if it's outdated), while the library fetches fresh data in the background to update the UI once the new result arrives.
 
 Here's the idea in simple terms:
@@ -51,7 +51,7 @@ root.render(
 
 We recommend giving the Devtools a try during development.
 
-==- Devtools benefits
+==- :icon-light-bulb: What are the Devtools benefits?
 - Inspect query states (idle, loading, success, error, stale vs fresh)
 - View cached data (what data is cached, when it updates, whether stale-time or cache-time settings work as intended)
 - Observe refetching behavior (window refocus, network reconnect, manual invalidation, background updates)

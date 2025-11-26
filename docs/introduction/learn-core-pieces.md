@@ -19,6 +19,26 @@ The [runtime instance](../reference/runtime/FireflyRuntime.md) serves as the bac
 
 Squide enables developers to build scalable modular applications with well-defined boundaries by allowing consumers to register dynamic routes, navigation items and MSW request handlers in modules. Each module contributes its own routing configuration, which the host application then assembles into unified structures at bootstrapping. This keeps routing, navigation and request handlers isolated within each module.
 
+==- :icon-light-bulb: The challenges with a tighly coupled architecture
+The opposite of a modular architecture is a tightly coupled architecture. This style of architecture often evolves into what is commonly described as a **"big ball of mud"**. As the codebase grows, teams face increasing maintenance difficulties, scaling limitations, and unpredictable side effects.
+
+Systems with highly coupled architectures are typically characterized by:
+
+- Unclear internal structure
+- Low cohesion and weak boundaries
+- Inconsistent design decisions
+
+While such an architecture seems appropriate during the first weeks or months of a project, problems emerge quickly as the system grows:
+
+- **Harder to understand:** The codebase lacks boundaries and consistent patterns, making it difficult for developers to build a clear mental model. Logic becomes scattered across unrelated areas of the system.
+- **Higher cost of change and risk of regressions:** Modifying one part of the system often produces unexpected side effects elsewhere. The tight coupling increases the likelihood of regressions.
+- **Slower onboarding:** New developers take longer to understand the system due to the absence of clear boundaries and scattered logic.
+- **Increased coordination needs:** As more teams contribute to the same codebase, they frequently touch overlapping areas. This requires cross-team synchronization and generates coordination overhead.
+- **Slower releases:** Testing and releasing new features require validating the entire system, extending release cycles.
+- **Unclear ownership:** Without well-defined boundaries, ownership becomes ambiguous. This slows decision-making and complicates maintenance responsibilities.
+- **Growing accidental complexity:** Temporary workarounds accumulate rather than being replaced by proper abstractions, causing technical debt to rise quickly.
+===
+
 ==- :icon-file-code: Code sample
 ```tsx !#5-8,10-14,16-22
 import type { ModuleRegisterFunction, FireflyRuntime } from "@squide/firefly";
@@ -93,8 +113,7 @@ export const register: ModuleRegisterFunction<FireflyRuntime> = runtime => {
 
 Squide makes global protected data fetching easier, by providing primitives build on top of [Tanstack Query](https://tanstack.com/query) to orchestrate both the data-loading states and the associated UI.
 
-#### The challenges with global data
-
+==- :icon-light-bulb: The challenges with global data
 At first glance, one might wonder what could be so complicated about fetching the global data of an application. It's only fetches ...right? Well, there are several concerns to take into account for a modular application:
 
 - When in development, the global data cannot be fetched until the Mock Service Worker (MSW) **request handlers** are **registered** and **MSW is ready**.
@@ -103,6 +122,7 @@ At first glance, one might wonder what could be so complicated about fetching th
 - If the requested page is _protected_, **both** the global **public** and **protected data** should be **fetched**.
 - The requested page rendering must be delayed until the global data has been fetched.
 - A **unique loading spinner** should be displayed to the user during this process, ensuring there's **no flickering** due to different spinners being rendered.
+===
 
 ==- :icon-file-code: Code sample
 ```tsx !#6-13,15-22

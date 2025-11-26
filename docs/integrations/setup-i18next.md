@@ -51,7 +51,7 @@ root.render(
 );
 ```
 
-==- User language detection
+==- :icon-light-bulb: User language detection order
 By calling the [detectUserLanguage](../reference/i18next/i18nextPlugin.md#detect-the-user-language) method of the plugin instance, the user language is automatically detected. Applications should always detect the user language at bootstrapping, even if the current language is expected to be overriden by a preferred language setting once the user information has been loaded.
 
 The language detection happens in the following order:
@@ -145,7 +145,7 @@ export function App() {
 }
 ```
 
-==- @sample/shared
+==- :icon-file-code: @sample/shared
 ```ts
 export interface User {
     name: string;
