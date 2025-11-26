@@ -70,10 +70,6 @@ With this nested layout in place, thanks to the React Router [Outlet](https://re
 
 As a bonus, each individual tab will have its own dedicated URL! :partying_face:
 
-!!!tip
-It is recommended to define the shared layouts in a standalone package as it's done for the [endpoints sample layouts project](https://github.com/workleap/wl-squide/tree/main/samples/endpoints/layouts).
-!!!
-
 ## Create the tab routes
 
 Next, let's add the actual tabs to the modules. To do so, we'll use the [parentPath](../reference/runtime/FireflyRuntime.md#register-nested-routes) option of the [registerRoute](../reference/runtime/FireflyRuntime.md#register-routes) function to register the routes under the `TabsLayout` component:

@@ -23,7 +23,7 @@ Create a new application (we'll refer to ours as `remote-module`), then open a t
 
 ```bash
 pnpm add -D @workleap/swc-configs @workleap/browserslist-config @squide/firefly-webpack-configs webpack webpack-dev-server webpack-cli @swc/core @swc/helpers browserslist postcss @types/react @types/react-dom
-pnpm add @squide/firefly react react-dom react-router @tanstack/react-query
+pnpm add @squide/firefly react react-dom react-router msw @tanstack/react-query
 ```
 
 ## Setup the application
@@ -114,7 +114,9 @@ import { swcConfig } from "./swc.dev.js";
 export default defineDevRemoteModuleConfig(swcConfig, "remote1", 8081);
 ```
 
-> If you are having issues with the wepack configuration that are not related to module federation, refer to the [@workleap/webpack-configs](https://workleap.github.io/wl-web-configs/webpack/configure-dev/) documentation.
+!!!tip
+If you are having issues with the wepack configuration that are not related to module federation, refer to the [@workleap/webpack-configs](https://workleap.github.io/wl-web-configs/webpack/configure-dev/) documentation.
+!!!
 
 ### Build configuration
 

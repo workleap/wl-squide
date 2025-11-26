@@ -2,9 +2,9 @@
 order: 160
 ---
 
-To develop their own independent module, a team should not need to install the host application or any other modules of the application they do not own. However, they should have a way to integrate their module with the application shell (e.g., RootLayout, RootErrorBoundary, etc..) while working in isolation.
+To develop their own independent module, a team should not need to install the host application or any other modules of the application they do not own. However, they should have a way to integrate their module with the application shell (e.g., `RootLayout`, `RootErrorBoundary`, etc..) while working in isolation.
 
-To achieve this, the first step is to extract the application shell from the host application. There are various ways to accomplish this, but in this guide, we'll transform the host application into a monorepo and introduce a new local package named @sample/shell specifically for this purpose:
+To achieve this, the first step is to extract the application shell from the host application. There are various ways to accomplish this, but in this guide, we'll transform the host application into a monorepo and introduce a new local package named `@sample/shell` specifically for this purpose:
 
 ``` !#4-11
 monorepo
@@ -19,23 +19,137 @@ monorepo
 ├─────────── index.ts
 ├───────── package.json
 ├── modules
-├───────── remote-module
+├────── remote-module
 ```
 
 ## Create a shell package
 
-:mag_right: This section is similar to the [Create a shell package section](../guides/develop-a-module-in-isolation.md#create-a-shell-package) from the non–Module Federation guide on developing a module in isolation. The key difference is that in a Module Federation setup, the host application's entry point is `bootstrap.tsx` instead of `index.tsx`.
+!!!info
+The implementation details of the `RootLayout`, `RootErrorBoundary` and `ModuleErrorBoundary` components won't be covered by this guide as it already has been covered many times by other guides.
+
+For additional information refer to the [create an host app](../introduction/create-host.md) and [define error boundaries](../essentials/define-error-boundaries.md) guides.
+!!!
+
+First, create a new package (we'll refer to ours as `shell`) and add the following fields to the `package.json` file:
+
+```json shell/package.json
+{
+    "name": "@sample/shell",
+    "version": "0.0.1",
+    "type": "module",
+    "exports": "./src/index.ts"
+}
+```
+
+Then, install the package dependencies and create an `AppRouter` component in the shell package to provide a **reusable router configuration** that can be shared between the host application and the isolated modules. This new `AppRouter` component should wrap the `@squide/firefly` [AppRouter](../reference/routing/AppRouter.md) component:
+
+```tsx !#6-25 shell/src/AppRouter.tsx
+import { AppRouter as FireflyAppRouter } from "@squide/firefly";
+import { createBrowserRouter } from "react-router";
+import { RouterProvider } from "react-router/dom";
+import { RootErrorBoundary } from "./RootErrorBoundary.tsx";
+
+export function AppRouter() {
+    return (
+        <FireflyAppRouter>
+            {({ rootRoute, registeredRoutes, routerProviderProps }) => {
+                return (
+                    <RouterProvider
+                        router={createBrowserRouter([
+                            {
+                                element: rootRoute,
+                                errorElement: <RootErrorBoundary />,
+                                children: registeredRoutes
+                            }
+                        ])}
+                        {...routerProviderProps}
+                    />
+                );
+            }}
+        </FireflyAppRouter>
+    );
+}
+```
+
+Finally, create a local module to register the **application shell**. This module will be used by both the host application and the isolated modules:
+
+```tsx !#5-20 shell/src/register.tsx
+import { PublicRoutes, ProtectedRoutes, type ModuleRegisterFunction, type FireflyRuntime } from "@squide/firefly";
+import { RootLayout } from "./RootLayout.tsx";
+import { ModuleErrorBoundary } from "./ModuleErrorBoundary.tsx";
+
+export const registerShell: ModuleRegisterFunction<FireflyRuntime> = runtime => {
+    runtime.registerRoute({
+        element: <RootLayout />,
+        children: [
+            {
+                errorElement: <ModuleErrorBoundary />,
+                children: [
+                    PublicRoutes,
+                    ProtectedRoutes
+                ]
+            }
+        ]
+    }, {
+        hoist: true
+    });
+};
+```
+
+!!!info
+This guide only covers the `RootLayout`, `RootErrorBoundary` and `ModuleErrorBoundary` components but the same goes for other shell assets such as an `AuthenticationBoundary` component.
+!!!
 
 ## Update the host application
 
-:mag_right: This section is similar to the [Update the host application section](../guides/develop-a-module-in-isolation.md#update-the-host-application) from the non–Module Federation guide on developing a module in isolation. The key differences are that in a Module Federation setup:
+Now, let's revisit the host application by adding the new `@sample/shell` package as a dependency:
 
-- The host application's entry point is `bootstrap.tsx` rather than `index.tsx`.
-- A [remote module](../module-federation/create-remote-module.md) should be registered rather than a [local module](../reference/registration/initializeFirefly.md#register-a-local-module).
+```json !#3 host/package.json
+{
+    "dependencies": {
+        "@sample/shell": "0.0.1"
+    }
+}
+```
+
+Then, integrate the `AppRouter` component from the `@sample/shell` package into the application:
+
+```tsx !#5 host/src/App.tsx
+import { AppRouter } from "@sample/shell";
+
+export function App() {
+    return (
+        <AppRouter />
+    );
+}
+```
+
+And finally include the `registerShell` function to setup the `RootLayout` and `RootErrorBoundary` components as well as any other shell assets:
+
+```tsx !#9 host/src/bootstrap.tsx
+import { createRoot } from "react-dom/client";
+import { FireflyProvider, initializeFirefly } from "@squide/firefly";
+import { App } from "./App.tsx";
+import { registerHost } from "./register.tsx";
+import { registerShell } from "@sample/shell";
+
+const runtime = initializeFirefly(runtime, {
+    // Register the newly created shell module.
+    localModules: [registerShell, registerHost]
+});
+
+const root = createRoot(document.getElementById("root")!);
+
+root.render(
+    <FireflyProvider runtime={runtime}>
+        <App />
+    </FireflyProvider>
+);
+```
 
 ## Setup a remote module
 
-With the new `shell` package in place, we can now configure the remote module to be developed in isolation. The goal is to start the module development server and render the module pages with the same layout and functionalities as if it was rendered by the host application.
+With the new `shell` package in place, we can now configure the remote module to be developed in isolation. The goal is to start the module development server and render the module pages with the **same layout and shared functionalities** as if it was rendered by the host application.
 
 To begin, let's start by adding a dependency to the `@sample/shell` package:
 
