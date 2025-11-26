@@ -8,10 +8,6 @@ toc:
 
 Retrieve a `FireflyRuntime` instance.
 
-!!!info
-Consider using [useRoutes](./useRoutes.md), [useNavigationItems](./useNavigationItems.md), [useLogger](./useLogger.md) instead of `useRuntime`.
-!!!
-
 ## Reference
 
 ```ts

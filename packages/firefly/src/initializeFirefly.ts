@@ -1,4 +1,5 @@
 import { isFunction, ModuleDefinition, toLocalModuleDefinitions, type ModuleRegisterFunction, type RegisterModulesOptions } from "@squide/core";
+import { EnvironmentVariables, EnvironmentVariablesPlugin } from "@squide/env-vars";
 import { MswPlugin } from "@squide/msw";
 import type { HoneycombInstrumentationPartialClient } from "@workleap-telemetry/core";
 import { FireflyRuntime, type FireflyRuntimeOptions } from "./FireflyRuntime.tsx";
@@ -14,6 +15,7 @@ export interface InitializeFireflyOptions<TRuntime extends FireflyRuntime, TCont
     localModules?: ModuleRegisterFunction<TRuntime, TContext, TData>[];
     moduleDefinitions?: ModuleDefinition<TRuntime, TContext, TData>[];
     useMsw?: boolean;
+    environmentVariables?: Partial<EnvironmentVariables>;
     honeycombInstrumentationClient?: HoneycombInstrumentationPartialClient;
     startMsw?: StartMswFunction<FireflyRuntime>;
     onError?: OnInitializationErrorFunction;
@@ -75,6 +77,7 @@ export function initializeFirefly<TContext = unknown, TData = unknown>(options: 
         moduleDefinitions = [],
         useMsw,
         plugins = [],
+        environmentVariables,
         honeycombInstrumentationClient,
         loggers,
         onError
@@ -94,7 +97,12 @@ export function initializeFirefly<TContext = unknown, TData = unknown>(options: 
         mode,
         honeycombInstrumentationClient,
         loggers,
-        plugins
+        plugins: [
+            x => new EnvironmentVariablesPlugin(x, {
+                variables: environmentVariables
+            }),
+            ...plugins
+        ]
     });
 
     initializeHoneycomb(runtime)

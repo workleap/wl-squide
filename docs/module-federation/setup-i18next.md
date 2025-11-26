@@ -6,13 +6,136 @@ order: 140
 
 Most Workleap's application are either already bilingual or will be in the future. To help feature teams deal with localized resources, Squide provides a native [plugin](../reference/i18next/i18nextPlugin.md) designed to adapt the [i18next](https://www.i18next.com/) library for modular applications.
 
-!!!warning
+!!!info
 The examples in this guide load all the resources from single localized resources files. For a real Workleap application, you probably want to spread the resources into multiple files and load the files with a i18next [backend plugin](https://www.i18next.com/overview/plugins-and-utils#backends).
 !!!
 
 ## Setup the host application
 
-:mag_right: This section is similar to the [Setup the host application section](../guides/setup-i18next.md#setup-the-host-application) from the non–Module Federation guide on developing a module in isolation. The key difference is that in a Module Federation setup, the host application's entry point is `bootstrap.tsx` instead of `index.tsx`.
+Let's start by configuring the host application. First, open a terminal at the root of the host application and install the following packages:
+
+```bash
+pnpm add @squide/i18next i18next i18next-browser-languagedetector react-i18next
+```
+
+### Register the i18nextPlugin
+
+Then, update the host application boostrapping code to register an instance of the [i18nextplugin](../reference/i18next/i18nextPlugin.md) with the [FireflyRuntime](../reference/runtime/FireflyRuntime.md) instance:
+
+```tsx !#10-19 host/src/bootstrap.tsx
+import { createRoot } from "react-dom/client";
+import { FireflyProvider, initializeFirefly } from "@squide/firefly";
+import { i18nextPlugin } from "@squide/i18next";
+import { App } from "./App.tsx";
+import { registerHost } from "./register.tsx";
+import { registerShell } from "@sample/shell";
+
+const runtime = initializeFirefly(runtime, {
+    localModules: [registerShell, registerHost],
+    plugins: [x => {
+        // In this example:
+        // - The supported languages are "en-US" and "fr-CA"
+        // - The fallback language is "en-US"
+        // - The URL querystring parameter to detect the current language is "language"
+        const i18nextPlugin = new i18nextPlugin(["en-US", "fr-CA"], "en-US", "language", undefined, x);
+
+        // Always detect the user language early on.
+        i18nextPlugin.detectUserLanguage();
+    }]
+});
+
+const root = createRoot(document.getElementById("root")!);
+
+root.render(
+    <FireflyProvider runtime={runtime}>
+        <App />
+    </FireflyProvider>
+);
+```
+
+In the previous code sample, upon creating an `i18nextPlugin` instance, the user language is automatically detected using the `plugin.detectUserLanguage` function. Applications **should always** detect the user language at bootstrapping, even if the current language is expected to be overriden by a preferred language setting once the user session has been loaded.
+
+### Define the localized resources
+
+Next, create the localized resource files for the `en-US` and `fr-CA` locales:
+
+```json !#2-4 host/src/locales/en-US.json
+{
+    "HomePage": {
+        "bodyText": "Hello from the Home page!"
+    }
+}
+```
+
+```json !#2-4 host/src/locales/fr-CA.json
+{
+    "HomePage": {
+        "bodyText": "Bonjour depuis la page d'accueil!"
+    }
+}
+```
+
+### Register an i18next instance
+
+Then, update the host application local module's register function to create and register an `i18next` instance with the retrieved `i18nextPlugin` instance. Due to how the internals of `i18next` works, each module (including the host application) must create its own instance of the third-party library. `i18nextPlugin` will handle synchronizing the language changes across all `i18next` instances:
+
+```tsx !#12-14,16-23,26 host/src/register.tsx
+import type { ModuleRegisterFunction, FireflyRuntime } from "@squide/firefly";
+import { getI18nextPlugin } from "@squide/i18next";
+import { HomePage } from "./HomePage.tsx";
+import i18n from "i18next";
+import { initReactI18next } from "react-i18next";
+import resourcesEn from "./locales/en-US/resources.json";
+import resourcesFr from "./locales/fr-CA/resources.json";
+
+export const registerHost: ModuleRegisterFunction<FireflyRuntime> = runtime => {
+    const i18nextPlugin = getI18nextPlugin(runtime);
+
+    const i18nextInstance = i18n
+        .createInstance()
+        .use(initReactI18next);
+
+    i18nextInstance.init({
+        // Create the instance with the language that has been detected earlier in the bootstrapping code.
+        lng: i18nextPlugin.currentLanguage,
+        resources: {
+            "en-US": resourcesEn,
+            "fr-CA": resourcesFr
+        }
+    });
+
+    // Will associate the instance with the "host" key.
+    i18nextPlugin.registerInstance("host", i18nextInstance);
+
+    // --------
+
+    runtime.registerRoute({
+        index: true,
+        element: <HomePage />
+    });
+};
+```
+
+In the previous code sample, notice that the `i18next` instance has been initialized with the current language of the `i18nextPlugin` instance by providing the `lng` option. If the user language has been detected during bootstrapping, the `i18next` instance will then be initialized with the user language which has been deduced from either a `?language` querystring parameter or the user navigator language settings. Otherwise, the application instance will be initialized with the fallback language, which is `en-US` for this guide.
+
+### Localize the home page resources
+
+Then, update the `HomePage` component to use the newly created localized resource:
+
+```tsx !#6-7,10 host/src/HomePage.tsx
+import { useI18nextInstance } from "@squide/i18next";
+import { useTranslation } from "react-i18next";
+
+export function HomePage() {
+    // Must be the same instance key that has been used to register the i18next instance previously in the "register" function.
+    const i18nextInstance = useI18nextInstance("host");
+    const { t } = useTranslation("HomePage", { i18n: i18nextInstance });
+
+    return (
+        <div>{t("bodyText")}</div>
+    );
+}
+```
 
 ## Setup a remote module
 
@@ -204,11 +327,11 @@ export default defineBuildRemoteModuleConfig(swcConfig, "remote1", {
 
 ## Integrate a backend language setting
 
-:mag_right: This section is similar to the [Integrate a backend language setting section](../guides/setup-i18next.md#integrate-a-backend-language-setting) from the non–Module Federation guide on developing a module in isolation.
+Refer to the [integrate a backend language setting](../integrations/setup-i18next.md#integrate-a-backend-language-setting) section of the [setup i18next](../integrations/setup-i18next.md) integration guide.
 
 ## Use the Trans component
 
-:mag_right: This section is similar to the [Use the Trans component section](../guides/setup-i18next.md#use-the-trans-component) from the non–Module Federation guide on developing a module in isolation.
+Refer to the [use the Trans component](../essentials/localize-resources.md#use-the-trans-component) section of the [localize resources](../essentials/localize-resources.md) page.
 
 ## Try it :rocket:
 

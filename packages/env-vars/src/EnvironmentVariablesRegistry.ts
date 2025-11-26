@@ -1,21 +1,21 @@
 import memoize, { memoizeClear } from "memoize";
 
-// The "EnvironmentVariables" interface is expected to be extended by remote modules adding their own environment variables to the runtime.
+// The "EnvironmentVariables" interface is expected to be extended by modules adding their own environment variables to the runtime.
 // This magic is called module augmentation: https://www.typescriptlang.org/docs/handbook/declaration-merging.html#module-augmentation.
 // eslint-disable-next-line @typescript-eslint/no-empty-object-type
 export interface EnvironmentVariables {}
 
-export type EnvironmentVariablesRegistryKey = keyof EnvironmentVariables;
-export type EnvironmentVariablesRegistryValue = EnvironmentVariables[keyof EnvironmentVariables];
+export type EnvironmentVariableKey = keyof EnvironmentVariables;
+export type EnvironmentVariableValue = EnvironmentVariables[keyof EnvironmentVariables];
 
 export class EnvironmentVariablesRegistry {
-    readonly #variables = new Map<EnvironmentVariablesRegistryKey, EnvironmentVariablesRegistryValue>();
+    readonly #variables = new Map<EnvironmentVariableKey, EnvironmentVariableValue>();
 
     // Since the "getVariables" function is transforming the variables from a Map to an Object, the result of
     // the transformation is memoized to ensure the returned Object is immutable and can be use in React closures.
     readonly #memoizedGetVariables = memoize(() => Object.fromEntries(this.#variables) as unknown as EnvironmentVariables);
 
-    add(key: EnvironmentVariablesRegistryKey, value: EnvironmentVariablesRegistryValue) {
+    add(key: EnvironmentVariableKey, value: EnvironmentVariableValue) {
         if (this.#variables.has(key)) {
             const existingValue = this.#variables.get(key);
 
@@ -33,14 +33,14 @@ export class EnvironmentVariablesRegistry {
         // Do not clear the "getVariables" memoize result if there are no variables.
         if (Object.keys(variables).length > 0) {
             for (const [key, value] of Object.entries(variables)) {
-                this.add(key as EnvironmentVariablesRegistryKey, value as EnvironmentVariablesRegistryValue);
+                this.add(key as EnvironmentVariableKey, value as EnvironmentVariableValue);
             }
 
             memoizeClear(this.#memoizedGetVariables);
         }
     }
 
-    getVariable(key: EnvironmentVariablesRegistryKey) {
+    getVariable(key: EnvironmentVariableKey) {
         const value = this.#variables.get(key);
 
         if (!value) {

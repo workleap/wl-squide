@@ -1,4 +1,4 @@
-import type { EnvironmentVariables } from "@squide/env-vars";
+import { EnvironmentVariables } from "@squide/firefly";
 import type { HttpHandler } from "msw";
 import { getAuthenticationHandlers } from "./authenticationHandlers.ts";
 import { getFeatureFlagsHandlers } from "./featureFlagsHandlers.ts";

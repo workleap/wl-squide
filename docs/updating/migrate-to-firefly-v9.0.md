@@ -19,7 +19,7 @@ We apologize for the confusion.
 
 This major version of `@squide/firefly` introduces [TanStack Query](https://tanstack.com/query/latest) as the official library for fetching the global data of a Squide's application and features a complete rewrite of the [AppRouter](../reference/routing/AppRouter.md) component, which now uses a state machine to manage the application's bootstrapping flow.
 
-Prior to `v9.0`, Squide applications couldn't use TanStack Query to fetch global data, making it **challenging** for Workleap's applications to **keep** their **global data** in **sync** with the **server state**. With `v9.0`, applications can now leverage [custom wrappers](../guides/fetch-global-data.md) of the TanStack Query's [useQueries](https://tanstack.com/query/latest/docs/framework/react/reference/useQueries) hook to fetch and keep their global data up-to-date with the server state. Additionally, the new [deferred registrations update](../reference/registration/useDeferredRegistrations.md#register-or-update-deferred-registrations) feature allows applications to even **keep** their conditional **navigation items in sync** with the **server state**.
+Prior to `v9.0`, Squide applications couldn't use TanStack Query to fetch global data, making it **challenging** for Workleap's applications to **keep** their **global data** in **sync** with the **server state**. With `v9.0`, applications can now leverage custom wrappers of the TanStack Query's [useQueries](https://tanstack.com/query/latest/docs/framework/react/reference/useQueries) hook to fetch and keep their global data up-to-date with the server state. Additionally, the new [deferred registrations update](../reference/registration/useDeferredRegistrations.md#register-or-update-deferred-registrations) feature allows applications to even **keep** their conditional **navigation items in sync** with the **server state**.
 
 Finally, with `v9.0`, Squide's philosophy has evolved. We used to describe Squide as a shell for **federated** applications. Now, we refer to Squide as a shell for **modular** applications. After playing with Squide's local module feature for a while, we discovered that Squide offers significant value even for **non-federated applications**, which triggered this shift in philosophy.
 
@@ -40,7 +40,7 @@ Finally, with `v9.0`, Squide's philosophy has evolved. We used to describe Squid
 
 ### Renamed
 
-- The `setMswAsStarted` function has been renamed to [setMswIsReady](../reference/msw/setMswAsReady.md).
+- The `setMswAsStarted` function has been renamed to `setMswIsReady`.
 - A route definition `$name` option has been renamed to [$id](../reference/runtime/FireflyRuntime.md#register-a-route-with-an-id).
 - The [registerRoute](../reference/runtime/FireflyRuntime.md#register-routes) `parentName` option has been renamed to [parentId](../reference/runtime/FireflyRuntime.md#register-nested-routes).
 
@@ -157,7 +157,7 @@ const runtime = new FireflyRuntime({
 
 ### Rewrite of the `AppRouter` component
 
-This release features a full rewrite of the [AppRouter](../reference/routing/AppRouter.md) component. The `AppRouter` component used to handle many concerns like global data fetching, deferred registrations, error handling and a loading state. Those concerns have been delegated to the consumer code, supported by the new [useIsBootstrapping](../reference/routing/useIsBootstrapping.md), [usePublicDataQueries](../reference/tanstack-query/usePublicDataQueries.md), [useProtectedDataQueries](../reference/tanstack-query/useProtectedDataQueries.md) and [useDeferredRegistrations](../reference/registration/useDeferredRegistrations.md) hooks.
+This release features a full rewrite of the [AppRouter](../reference/routing/AppRouter.md) component. The `AppRouter` component used to handle many concerns like global data fetching, deferred registrations, error handling and a loading state. Those concerns have been delegated to the consumer code, supported by the new [useIsBootstrapping](../reference/routing/useIsBootstrapping.md), [usePublicDataQueries](../reference/global-data-fetching/usePublicDataQueries.md), [useProtectedDataQueries](../reference/global-data-fetching/useProtectedDataQueries.md) and [useDeferredRegistrations](../reference/registration/useDeferredRegistrations.md) hooks.
 
 Before:
 
@@ -252,9 +252,9 @@ export function App() {
 
 - A new [useIsBoostrapping](../reference/routing/useIsBootstrapping.md) hook is now available.
 - A new [useDeferredRegistrations](../reference/registration/useDeferredRegistrations.md) hook is now available.
-- A new [usePublicDataQueries](../reference/tanstack-query/usePublicDataQueries.md) hook is now available.
-- A new [useProtectedDataQueries](../reference/tanstack-query/useProtectedDataQueries.md) hook is now available.
-- A new [isGlobalDataQueriesError](../reference/tanstack-query/isGlobalDataQueriesError.md) function is now available.
+- A new [usePublicDataQueries](../reference/global-data-fetching/usePublicDataQueries.md) hook is now available.
+- A new [useProtectedDataQueries](../reference/global-data-fetching/useProtectedDataQueries.md) hook is now available.
+- A new [isGlobalDataQueriesError](../reference/global-data-fetching/isGlobalDataQueriesError.md) function is now available.
 - A new [registerPublicRoute](../reference/runtime/FireflyRuntime.md#register-a-public-route) function is now available.
 
 ## Improvements
@@ -317,15 +317,15 @@ The `v9.0` release introduces several breaking changes affecting the host applic
 
 1. Add a dependency to `@tanstack/react-query`.
 2. Transition to the new `AppRouter` component. [View example](#rewrite-of-the-approuter-component)
-    - `onLoadPublicData` + `isPublicDataLoaded` becomes [usePublicDataQueries](../reference/tanstack-query/usePublicDataQueries.md)
-    - `onLoadProtectedData` + `isProtectedDataLoaded` becomes [useProtectedDataQueries](../reference/tanstack-query/useProtectedDataQueries.md)
+    - `onLoadPublicData` + `isPublicDataLoaded` becomes [usePublicDataQueries](../reference/global-data-fetching/usePublicDataQueries.md)
+    - `onLoadProtectedData` + `isProtectedDataLoaded` becomes [useProtectedDataQueries](../reference/global-data-fetching/useProtectedDataQueries.md)
     - `onCompleteRegistrations` becomes [useDeferredRegistrations](../reference/registration/useDeferredRegistrations.md)
     - `fallbackElement` becomes [useIsBootstrapping](../reference/routing/useIsBootstrapping.md)
     - `errorElement` is removed and somewhat replaced by a [root error boundary](#root-error-boundary)
-3. Create a `TanStackSessionManager` class and the `SessionManagerContext`. Replace the session's deprecated hooks by creating the customs `useSession` and `useIsAuthenticated` hooks. [View example](../guides/add-authentication.md#create-a-session-manager)
-4. Remove the `sessionAccessor` option from the `FireflyRuntime` instance. Update the `BootstrappingRoute` component to create a `TanStackSessionManager` instance and share it down the component tree using a `SessionManagedContext` provider. [View example](../guides/add-authentication.md#fetch-the-session)
-5. Add or update the `AuthenticationBoundary` component to use the new `useIsAuthenticated` hook. Global data fetch request shouldn't be throwing 401 error anymore when the user is not authenticated. [View example](../guides/add-authentication.md#add-an-authentication-boundary)
-6. Update the `AuthenticatedLayout` component to use the session manager instance to clear the session. Retrieve the session manager instance from the context defined in the `BootstrappingRoute` component using the `useSessionManager` hook. [View example](../guides/add-authentication.md#define-an-authenticated-layout)
+3. Create a `TanStackSessionManager` class and the `SessionManagerContext`. Replace the session's deprecated hooks by creating the customs `useSession` and `useIsAuthenticated` hooks. [View example](../recipes/add-authentication.md#create-a-session-manager)
+4. Remove the `sessionAccessor` option from the `FireflyRuntime` instance. Update the `BootstrappingRoute` component to create a `TanStackSessionManager` instance and share it down the component tree using a `SessionManagedContext` provider. [View example](../recipes/add-authentication.md#fetch-the-session)
+5. Add or update the `AuthenticationBoundary` component to use the new `useIsAuthenticated` hook. Global data fetch request shouldn't be throwing 401 error anymore when the user is not authenticated. [View example](../recipes/add-authentication.md#add-an-authentication-boundary)
+6. Update the `AuthenticatedLayout` component to use the session manager instance to clear the session. Retrieve the session manager instance from the context defined in the `BootstrappingRoute` component using the `useSessionManager` hook. [View example](../recipes/add-authentication.md#define-an-authenticated-layout)
 7. Update the `AuthenticatedLayout` component to use the new `key` argument. [View example](#new-id-option-for-navigation-items)
 8. Replace the `ManagedRoutes` placeholder with the new [PublicRoutes](../reference/routing/publicRoutes.md) and [ProtectedRoutes](../reference/routing/protectedRoutes.md) placeholders. [View example](../introduction/create-host.md#homepage)
 9. Convert all deferred routes into static routes. [View example](#removed-support-for-deferred-routes)
@@ -343,7 +343,7 @@ If the application register MSW [request handlers](https://mswjs.io/docs/concept
 </AppRouter>
 ```
 
-If the application uses the [usePublicDataQueries](../reference/tanstack-query/usePublicDataQueries.md), add the `waitForPublicData` property to the `AppRouter` component:
+If the application uses the [usePublicDataQueries](../reference/global-data-fetching/usePublicDataQueries.md), add the `waitForPublicData` property to the `AppRouter` component:
 
 ```tsx
 <AppRouter waitForPublicData>
@@ -351,7 +351,7 @@ If the application uses the [usePublicDataQueries](../reference/tanstack-query/u
 </AppRouter>
 ```
 
-If the application uses the [useProtectedDataQueries](../reference/tanstack-query/useProtectedDataQueries.md), add the `waitForProtectedData` property to the `AppRouter` component:
+If the application uses the [useProtectedDataQueries](../reference/global-data-fetching/useProtectedDataQueries.md), add the `waitForProtectedData` property to the `AppRouter` component:
 
 ```tsx
 <AppRouter waitForProtectedData>
@@ -424,4 +424,4 @@ Ensure that modules registering deferred routes are updated to convert those rou
 
 ### Isolated development
 
-If your module is set up for [isolated development](../guides/develop-a-module-in-isolation.md), ensure that you also apply the [host application migration steps](#migrate-an-host-application) to your isolated setup.
+If your module is set up for isolated development, ensure that you also apply the [host application migration steps](#migrate-an-host-application) to your isolated setup.

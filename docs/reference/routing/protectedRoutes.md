@@ -24,7 +24,7 @@ None
 
 The route defining the `ProtectedRoutes` placeholder must be [hoisted](../runtime/FireflyRuntime.md#register-an-hoisted-route); otherwise, there will be an infinite loop as the `ProtectedRoutes` placeholder will render within itself.
 
-```tsx !#8,11 shell/src/register.tsx
+```tsx !#8,11
 import { ProtectedRoutes } from "@squide/firefly";
 import { RootLayout } from "./RootLayout.tsx";
 

@@ -1,7 +1,6 @@
 import { createI18NextPlugin } from "@endpoints/i18next";
 import { registerLocalModule } from "@endpoints/local-module";
 import { registerShell } from "@endpoints/shell";
-import { EnvironmentVariablesPlugin } from "@squide/env-vars";
 import { FireflyProvider } from "@squide/firefly";
 import { initializeFirefly } from "@squide/firefly-module-federation";
 import { BrowserConsoleLogger, type RootLogger } from "@workleap/logging";
@@ -55,8 +54,7 @@ const runtime = initializeFirefly({
         return (await import("../mocks/browser.ts")).startMsw(x.requestHandlers);
     },
     plugins: [
-        x => createI18NextPlugin(x),
-        x => new EnvironmentVariablesPlugin(x)
+        x => createI18NextPlugin(x)
     ],
     honeycombInstrumentationClient: telemetryClient.honeycomb,
     loggers

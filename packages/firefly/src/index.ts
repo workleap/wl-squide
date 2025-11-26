@@ -1,5 +1,21 @@
 export * from "@squide/core";
-export * from "@squide/msw";
+export {
+    EnvironmentVariablesPlugin,
+    useEnvironmentVariable,
+    useEnvironmentVariables,
+    type EnvironmentVariableKey,
+    type EnvironmentVariables,
+    type EnvironmentVariablesPluginOptions,
+    type EnvironmentVariableValue
+} from "@squide/env-vars";
+export {
+    MswPlugin,
+    MswState,
+    type MswPluginOptions,
+    type MswPluginRegisterRequestHandlersOptions,
+    type MswReadyListener,
+    type MswStateOptions
+} from "@squide/msw";
 export * from "@squide/react-router";
 
 export type { FireflyPlugin } from "./FireflyPlugin.ts";

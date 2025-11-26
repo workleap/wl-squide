@@ -22,7 +22,7 @@ Create a new application (we'll refer to ours as `host`), then open a terminal a
 
 ```bash
 pnpm add -D @workleap/rsbuild-configs @workleap/browserslist-config @rsbuild/core @rspack/core browserslist typescript @types/react @types/react-dom
-pnpm add @squide/firefly react react-dom react-router msw @opentelemetry/api @tanstack/react-query
+pnpm add @squide/firefly react react-dom react-router msw @tanstack/react-query
 ```
 
 ## Setup the application
@@ -118,8 +118,7 @@ export function App() {
 
 Next, create a layout component to [render the navigation items](/reference/routing/useRenderedNavigationItems.md). In many applications, multiple pages often share a **common layout** that includes elements such as a navigation bar, a user profile menu, and a main content section. In a [React Router](https://reactrouter.com/en/main) application, this shared layout is commonly referred to as a `RootLayout`:
 
-```tsx !#40,43 host/src/RootLayout.tsx
-import { Suspense } from "react";
+```tsx !#39,42 host/src/RootLayout.tsx
 import { Link, Outlet } from "react-router";
 import { 
     useNavigationItems,
@@ -166,9 +165,7 @@ export function RootLayout() {
     return (
         <>
             <nav>{navigationElements}</nav>
-            <Suspense fallback={<div>Loading...</div>}>
-                <Outlet />
-            </Suspense>
+            <Outlet />
         </>
     );
 }
@@ -202,7 +199,30 @@ export const registerHost: ModuleRegisterFunction<FireflyRuntime> = runtime => {
 };
 ```
 
-And an [hoisted route](../reference/runtime/FireflyRuntime.md#register-an-hoisted-route) to render the `RootLayout` with the [PublicRoutes](../reference/routing/publicRoutes.md) and [ProtectedRoutes](../reference/routing/protectedRoutes.md) placeholders:
+And, update the bootstrapping code to register the newly created local module:
+
+```tsx !#6-8 host/src/index.tsx
+import { createRoot } from "react-dom/client";
+import { FireflyProvider, initializeFirefly } from "@squide/firefly";
+import { registerHost } from "./register.tsx";
+import { App } from "./App.tsx";
+
+const runtime = initializeFirefly({
+    localModules: [registerHost]
+});
+
+const root = createRoot(document.getElementById("root")!);
+
+root.render(
+    <FireflyProvider runtime={runtime}>
+        <App />
+    </FireflyProvider>
+);
+```
+
+### Register the root layout
+
+Finally, add an [hoisted route](../reference/runtime/FireflyRuntime.md#register-an-hoisted-route) to render the `RootLayout` with the [PublicRoutes](../reference/routing/publicRoutes.md) and [ProtectedRoutes](../reference/routing/protectedRoutes.md) placeholders:
 
 ```tsx !#8,11,12,15 host/src/register.tsx
 import { PublicRoutes, ProtectedRoutes, type ModuleRegisterFunction, type FireflyRuntime } from "@squide/firefly";
@@ -233,30 +253,9 @@ export const registerHost: ModuleRegisterFunction<FireflyRuntime> = runtime => {
 The [PublicRoutes](../reference/routing/publicRoutes.md) and [ProtectedRoutes](../reference/routing/protectedRoutes.md) placeholders indicates where routes that are neither hoisted or nested with a [parentPath](../reference/runtime/FireflyRuntime.md#register-nested-navigation-items) or [parentId](../reference/runtime/FireflyRuntime.md#register-a-route-with-an-id) option will be rendered. In this example, the homepage route is considered as a protected route and will be rendered under the `ProtectedRoutes` placeholder.
 !!!
 
-Finally, update the bootstrapping code to register the newly created local module:
-
-```tsx !#6-8 host/src/index.tsx
-import { createRoot } from "react-dom/client";
-import { FireflyProvider, initializeFirefly } from "@squide/firefly";
-import { registerHost } from "./register.tsx";
-import { App } from "./App.tsx";
-
-const runtime = initializeFirefly({
-    localModules: [registerHost, registerMyLocalModule]
-});
-
-const root = createRoot(document.getElementById("root")!);
-
-root.render(
-    <FireflyProvider runtime={runtime}>
-        <App />
-    </FireflyProvider>
-);
-```
-
 ### Not found page (404)
 
-Now, let's ensure that users who enter a wrong URL end up somewhere by registering a custom [no-match route](https://reactrouter.com/en/main/start/faq#how-do-i-add-a-no-match-404-route-in-react-router-v6). First, create the `NotFoundPage` component, which will serve as the page for handling not found routes:
+Now, let's ensure that users who enter a wrong URL end up somewhere by registering a custom no-match route. First, create the `NotFoundPage` component, which will serve as the page for handling not found routes:
 
 ```tsx host/src/NotFoundPage.tsx
 export function NotFoundPage() {

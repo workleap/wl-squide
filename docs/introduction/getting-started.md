@@ -43,6 +43,7 @@ In addition to modularity, Squide offers built-in mechanisms to handle most of t
 - Public and Protected pages
 - Localization
 - Observability
+- Logging
 - Errors handling
 - Messaging
 - Environment variables
@@ -56,8 +57,8 @@ Modular Routing | Squide extends [React Router](https://reactrouter.com/), addin
 Public and Protected pages | Squide bootstrapping flow facilitate the implementation of public & protected routes by providing a [Tanstack Query](https://tanstack.com/query/latest) wrapper, allowing applications to only load their protected data (session related data) if the requested route is protected. Additionally, Squide bootstrapping flow is smart enough to delay the rendering of the requested page until the initial data of an application is ready.
 Localization | Squide includes built-in support for localization, powered by [i18next](https://www.i18next.com/). 
 Observability | Squide includes built-in observability powered by [Honeycomb](https://www.honeycomb.io/).
+Logging | Squide includes a built-in logger powered by [@workleap/logging](https://workleap.github.io/wl-logging).
 API requests mocking | When in development, Squide bootstrapping flow ensure that the rendering of the requested page is delayed until all of the application [MSW](https://mswjs.io/) request handlers has been registered.
-Development and production frontend infrastructure | Squide offers ready to use packages for [webpack](https://webpack.js.org/) and [Rsbuild](https://rsbuild.dev/).
 
 ## Why is Squide relevant?
 

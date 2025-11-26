@@ -18,10 +18,6 @@ toc:
 - [FireflyProvider](./runtime/FireflyProvider.md)
 - [useRuntime](./runtime/useRuntime.md)
 - [useRuntimeMode](./runtime/useRuntimeMode.md)
-- [useRoutes](./runtime/useRoutes.md)
-- [useNavigationItems](./runtime/useNavigationItems.md)
-- [useLogger](./runtime/useLogger.md)
-- [usePlugin](./runtime/usePlugin.md)
 
 ### Registration
 
@@ -34,24 +30,31 @@ toc:
 - [AppRouter](./routing/AppRouter.md)
 - [PublicRoutes](./routing/publicRoutes.md)
 - [ProtectedRoutes](./routing/protectedRoutes.md)
-- [useRenderedNavigationItems](./routing/useRenderedNavigationItems.md)
 - [useIsBoostrapping](./routing/useIsBootstrapping.md)
+- [useRoutes](./routing/useRoutes.md)
 - [useRouteMatch](./routing/useRouteMatch.md)
 - [useIsRouteProtected](./routing/useIsRouteProtected.md)
 - [resolveRouteSegments](./routing/resolveRouteSegments.md)
+- [useRenderedNavigationItems](./routing/useRenderedNavigationItems.md)
+- [useNavigationItems](./routing/useNavigationItems.md)
 - [isNavigationLink](./routing/isNavigationLink.md)
 
 ### Messaging
 
-- [EventBus](./messaging/EventBus.md)
 - [useEventBusDispatcher](./messaging/useEventBusDispatcher.md)
 - [useEventBusListener](./messaging/useEventBusListener.md)
 
-### TanStack Query
+### Global data fetching
 
-- [usePublicDataQueries](./tanstack-query/usePublicDataQueries.md)
-- [useProtectedDataQueries](./tanstack-query/useProtectedDataQueries.md)
-- [isGlobalDataQueriesError](./tanstack-query/isGlobalDataQueriesError.md)
+- [usePublicDataQueries](./global-data-fetching/usePublicDataQueries.md)
+- [useProtectedDataQueries](./global-data-fetching/useProtectedDataQueries.md)
+- [usePublicDataHandler](./global-data-fetching/usePublicDataHandler.md)
+- [useProtectedDataHandler](./global-data-fetching/useProtectedDataHandler.md)
+- [isGlobalDataQueriesError](./global-data-fetching/isGlobalDataQueriesError.md)
+
+### Mock Service Worker
+
+- [MswPlugin](./msw/MswPlugin.md)
 
 ### i18next
 
@@ -65,13 +68,18 @@ toc:
 ### Environment variables
 
 - [EnvironmentVariablesPlugin](./env-vars/EnvironmentVariablesPlugin.md)
-- [getEnvironmentVariablesPlugin](./env-vars/getEnvironmentVariablesPlugin.md)
+- [EnvironmentVariables](./env-vars/EnvironmentVariables.md)
 - [useEnvironmentVariable](./env-vars/useEnvironmentVariable.md)
 - [useEnvironmentVariables](./env-vars/useEnvironmentVariables.md)
+
+### Logging
+
+- [useLogger](./logging/useLogger.md)
 
 ### Plugins
 
 - [Plugin](./plugins/Plugin.md)
+- [usePlugin](./plugins/usePlugin.md)
 
 ### Fakes
 
@@ -97,8 +105,3 @@ Squide offers a collection of fake implementations designed to facilitate the se
 ### Module Federation
 
 - [initializeFirefly](./module-federation/initializeFirefly.md)
-
-### Miscellaneous
-
-- [usePublicDataHandler](./miscellaneous/usePublicDataHandler.md)
-- [useProtectedDataHandler](./miscellaneous/useProtectedDataHandler.md)

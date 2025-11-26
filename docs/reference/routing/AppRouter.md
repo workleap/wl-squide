@@ -8,10 +8,6 @@ toc:
 
 A component that sets up Squide's primitives with a [React Router](https://reactrouter.com/en/main) instance.
 
-!!!warning
-The `AppRouter` component is required for any Squide application.
-!!!
-
 ## Reference
 
 ```tsx
@@ -106,11 +102,32 @@ A React Router [errorElement](https://reactrouter.com/en/main/route/error-elemen
 
 The root error boundary should always wrap the `registeredRoutes` and, when application, the `BootstrapingRoute` component.
 
-```tsx !#3-12 host/src/RootErrorBoundary.tsx
-import { useRouteError } from "react-router/dom";
+```tsx !#5-33 host/src/RootErrorBoundary.tsx
+import { isGlobalDataQueriesError, useLogger } from "@squide/firefly";
+import { useRouteError, isRouteErrorResponse } from "react-router";
+import { useEffect } from "react";
 
 export function RootErrorBoundary() {
-    const error = useRouteError();
+    const error = useRouteError() as Error;
+    const location = useLocation();
+    const logger = useLogger();
+
+    useEffect(() => {
+        if (isRouteErrorResponse(error)) {
+            logger.error(`An unmanaged error occurred while rendering the route with path ${location.pathname} ${error.status} ${error.statusText}.`);
+        } else if (isGlobalDataQueriesError(error)) {
+            logger
+                .withText(`An unmanaged error occurred while rendering the route with path ${location.pathname}:`)
+                .withText(error.message)
+                .withObject(error.errors)
+                .error();
+        } else {
+            logger
+                .withText(`[shell] An unmanaged error occurred while rendering the route with path ${location.pathname}:`)
+                .withError(error)
+                .error();
+        }
+    }, [location.pathname, error, logger]);
 
     return (
         <div>
@@ -151,7 +168,7 @@ export function App() {
 
 ### Delay rendering until the public data is ready
 
-A `BootstrappingRoute` component is introduced in the following example because the [usePublicDataQueries](../tanstack-query/usePublicDataQueries.md) hook must be rendered as a child of `rootRoute`.
+A `BootstrappingRoute` component is introduced in the following example because the [usePublicDataQueries](../global-data-fetching/usePublicDataQueries.md) hook must be rendered as a child of `rootRoute`.
 
 ```tsx !#8,23 host/src/App.tsx
 import { useIsBootstrapping, usePublicDataQueries, AppRouter } from "@squide/firefly";
@@ -202,7 +219,7 @@ export function App() {
 
 ### Delay rendering until the protected data is ready
 
-A `BootstrappingRoute` component is introduced in the following example because the [useProtectedDataQueries](../tanstack-query/useProtectedDataQueries.md) hook must be rendered as a child of `rootRoute`.
+A `BootstrappingRoute` component is introduced in the following example because the [useProtectedDataQueries](../global-data-fetching/useProtectedDataQueries.md) hook must be rendered as a child of `rootRoute`.
 
 ```tsx !#8-11,26 host/src/App.tsx
 import { useIsBootstrapping, useProtectedDataQueries, AppRouter } from "@squide/firefly";

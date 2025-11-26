@@ -5,7 +5,7 @@ toc:
 
 # useEventBusDispatcher
 
-Retrieve an `EventBus` instance from the `FireflyRuntime` and provide a function to dispatch an event.
+Use the `FireflyRuntime` instance event bus to dispatch an event.
 
 ## Reference
 

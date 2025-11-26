@@ -914,7 +914,7 @@ describe.concurrent("useAppRouterReducer", () => {
 
         const runtime = new FireflyRuntime({
             plugins: [x => new MswPlugin(x, {
-                mswState
+                state: mswState
             })],
             loggers: [new NoopLogger()]
         });
@@ -930,7 +930,7 @@ describe.concurrent("useAppRouterReducer", () => {
 
         const runtime = new FireflyRuntime({
             plugins: [x => new MswPlugin(x, {
-                mswState
+                state: mswState
             })],
             loggers: [new NoopLogger()]
         });
@@ -950,7 +950,7 @@ describe.concurrent("useAppRouterReducer", () => {
 
         const runtime = new FireflyRuntime({
             plugins: [x => new MswPlugin(x, {
-                mswState
+                state: mswState
             })],
             loggers: [new NoopLogger()]
         });
@@ -1214,7 +1214,7 @@ describe.concurrent("useMswStatusDispatcher", () => {
 
         const runtime = new FireflyRuntime({
             plugins: [x => new MswPlugin(x, {
-                mswState
+                state: mswState
             })],
             loggers: [new NoopLogger()]
         });
@@ -1234,7 +1234,7 @@ describe.concurrent("useMswStatusDispatcher", () => {
 
         const runtime = new FireflyRuntime({
             plugins: [x => new MswPlugin(x, {
-                mswState
+                state: mswState
             })],
             loggers: [new NoopLogger()]
         });

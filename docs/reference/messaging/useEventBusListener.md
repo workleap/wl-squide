@@ -5,6 +5,8 @@ toc:
 
 # useEventBusListener
 
+Attach a listener to the `FireflyRuntime` instance event bus.
+
 ## Reference
 
 ```ts
@@ -29,7 +31,7 @@ import { useCallback } from "react";
 import { useEventBusListener } from "@squide/firefly";
 
 const handleFoo = useCallback((data, context) => {
-    // do something...
+    // Do something...
 }, []);
 
 // Listen to every "foo" events.

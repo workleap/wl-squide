@@ -93,7 +93,7 @@ test.concurrent("when MSW is enabled and a start function is provided, MSW is re
 
     const runtime = new FireflyRuntime({
         plugins: [x => new MswPlugin(x, {
-            mswState
+            state: mswState
         })],
         loggers: [new NoopLogger()]
     });

@@ -22,7 +22,7 @@ Create a new application (we'll refer to ours as `host`), then open a terminal a
 
 ```bash
 pnpm add -D @workleap/swc-configs @workleap/browserslist-config @squide/firefly-webpack-configs webpack webpack-dev-server webpack-cli @swc/core @swc/helpers browserslist postcss typescript @types/react @types/react-dom
-pnpm add @squide/firefly @squide/firefly-module-federation react react-dom react-router msw @opentelemetry/api @tanstack/react-query
+pnpm add @squide/firefly @squide/firefly-module-federation react react-dom react-router msw @tanstack/react-query
 ```
 
 ## Setup the application

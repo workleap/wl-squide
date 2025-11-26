@@ -1,5 +1,5 @@
 ---
-order: 80
+order: 55
 toc:
     depth: 2-3
 ---
@@ -8,7 +8,7 @@ toc:
 
 Recursively parse a navigation items structure to transform the items into React Elements.
 
-> The [useNavigationItems](../runtime/useNavigationItems.md) hook returns the navigation items tree structure as is, meaning the consumer has to recursively parse the structure to transform the items into actual React Elements.
+> The [useNavigationItems](../routing/useNavigationItems.md) hook returns the navigation items tree structure as is, meaning the consumer has to recursively parse the structure to transform the items into actual React Elements.
 >
 > As it's a non-trivial process, Squide provides this utility hook.
 
@@ -58,7 +58,7 @@ We recommend always providing an `$id` option for a navigation item, as it ensur
 When no `$id` option is provided, a default `key` argument is computed based on the `index` and `level` properties. While this works in most cases, the default key cannot guarantee that the menu won't flicker during updates.
 !!!
 
-```tsx !#38-40,42-48,52 host/src/RootLayout.tsx
+```tsx !#38-40,42-48,52
 import type { ReactNode } from "react";
 import { Link, Outlet } from "react-router";
 import { 
@@ -125,7 +125,7 @@ export function RootLayout() {
 
 The `to` option of a navigation item can include dynamic segments (`/user-profile/:userId`), enabling the rendering of dynamic routes based on contextual values. To resolve a route dynamic segments, use the [resolveRouteSegments](resolveRouteSegments.md) function.
 
-```tsx !#14,18,21,39-45,56,59 host/src/UserProfileLayout.tsx
+```tsx !#14,18,21,39-45,56,59
 import type { ReactNode } from "react";
 import { Link, Outlet } from "react-router";
 import { 
@@ -195,10 +195,10 @@ export function UserProfileLayout() {
 }
 ```
 
-```tsx !#7 remote-module/src/register.tsx
+```tsx !#7
 import type { ModuleRegisterFunction, FireflyRuntime } from "@squide/firefly";
 
-export const register: ModuleRegisterFunction<FireflyRuntime> = (runtime) => {
+export const register: ModuleRegisterFunction<FireflyRuntime> = runtime => {
     runtime.registerNavigationItem({
         $id: "user-profile",
         $label: "User profile",

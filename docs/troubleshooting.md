@@ -9,7 +9,7 @@ icon: question
 
 In an effort to optimize the development experience, Squide can be bootstrapped in `development` or `production` mode. To troubleshoot a persistent issue, make sure that the runtime mode is development:
 
-```ts
+```ts !#4
 import { initializeFirefly, type LogLevel } from "@squide/firefly";
 
 const runtime = initializeFirefly({
@@ -23,7 +23,7 @@ Frontend production issues are best troubleshoot using [LogRocket](https://logro
 
 For troubleshooting frontend production issues, we recommend using [LogRocket](https://logrocket.com/). To capture log entries in LogRocket session replays, install the `@workleap/logrocket` package and pass an instance of [LogRocketLogger](https://workleap.github.io/wl-telemetry/logrocket/reference/logrocketlogger/) to the `initializeFirefly` function:
 
-```ts
+```ts !#5
 import { initializeFirefly, type LogLevel } from "@squide/firefly";
 import { LogRocketLogger } from "@workleap/logrocket";
 

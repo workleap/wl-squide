@@ -50,8 +50,14 @@
         "react-dom": "^18.0.0 || ^19.0.0",
         "react-router": "^7.9.6"
     },
+    "peerDependenciesMeta": {
+        "@opentelemetry/api": {
+            "optional": true
+        }
+    },
     "dependencies": {
         "@squide/core": "workspace:*",
+        "@squide/env-vars": "workspace:*",
         "@squide/msw": "workspace:*",
         "@squide/react-router": "workspace:*",
         "@workleap-telemetry/core": "^1.0.4",

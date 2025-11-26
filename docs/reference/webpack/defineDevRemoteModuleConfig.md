@@ -23,8 +23,8 @@ const webpackConfig = defineDevRemoteModuleConfig(swcConfig: {}, applicationName
     - Accepts most of webpack `definedDevConfig` [predefined options](https://workleap.github.io/wl-web-configs/webpack/configure-dev/#3-set-predefined-options).
     - `features`: An optional object literal of feature switches to define additional shared dependencies.
         - `i18next`: Whether or not to add `@squide/i18next` as a shared dependency.
-        - `environmentVariables`: Whether or not to add `@squide/env-vars` as a shared dependency.
-        - `honeycomb`: Whether or not to add `@squide/firefly-honeycomb` as a shared dependency.
+        - `environmentVariables`: `false` to remove `@squide/env-vars` from shared dependencies.
+        - `honeycomb`: `false` to remove Honeycomb packages from shared dependencies.
         - `msw`: `false` to remove `@squide/msw` from shared dependencies.
     - `sharedDependencies`: An optional object literal of additional (or updated) module federation shared dependencies.
     - `moduleFederationPluginOptions`: An optional object literal of [ModuleFederationPlugin](https://module-federation.io/configure/index.html) options.
@@ -60,6 +60,8 @@ The `defineDevRemoteModuleConfig` function will add the following shared depende
 - [@squide/react-router](https://www.npmjs.com/package/@squide/react-router)
 - [@squide/module-federation](https://www.npmjs.com/package/@squide/module-federation)
 - [@squide/msw](https://www.npmjs.com/package/@squide/msw)
+- [@squide/env-vars](https://www.npmjs.com/package/@squide/env-vars)
+- [@opentelemetry/api](https://www.npmjs.com/package/@opentelemetry/api)
 
 For the full shared dependencies configuration, have a look at the [defineConfig.ts](https://github.com/workleap/wl-squide/blob/main/packages/firefly-webpack-configs/src/defineConfig.ts) file on Github.
 

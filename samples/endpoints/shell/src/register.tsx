@@ -1,5 +1,4 @@
 import { registerLayouts } from "@endpoints/layouts";
-import { getEnvironmentVariablesPlugin } from "@squide/env-vars";
 import { mergeDeferredRegistrations, ProtectedRoutes, PublicRoutes, type FireflyRuntime, type ModuleRegisterFunction } from "@squide/firefly";
 import { RootLayout } from "./RootLayout.tsx";
 import { initI18next } from "./i18next.ts";
@@ -92,7 +91,7 @@ function registerRoutes(runtime: FireflyRuntime, host?: string) {
 
 async function registerMsw(runtime: FireflyRuntime) {
     if (runtime.isMswEnabled) {
-        const environmentVariables = getEnvironmentVariablesPlugin(runtime).getVariables();
+        const environmentVariables = runtime.getEnvironmentVariables();
 
         // Files including an import to the "msw" package are included dynamically to prevent adding
         // MSW stuff to the bundled when it's not used.
@@ -103,9 +102,7 @@ async function registerMsw(runtime: FireflyRuntime) {
 }
 
 function registerEnvironmentVariables(runtime: FireflyRuntime) {
-    const plugin = getEnvironmentVariablesPlugin(runtime);
-
-    plugin.registerVariables({
+    runtime.registerEnvironmentVariables({
         authenticationApiBaseUrl: "/api/auth/",
         featureFlagsApiBaseUrl: "/api/flags/",
         otherFeatureFlagsApiUrl: "http://localhost:1234/api/otherFeatureFlags",

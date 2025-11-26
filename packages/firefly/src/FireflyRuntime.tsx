@@ -1,5 +1,6 @@
 import type { RegisterRouteOptions, RuntimeMethodOptions, RuntimeOptions } from "@squide/core";
-import { MswPlugin, MswPluginName, MswState } from "@squide/msw";
+import { EnvironmentVariableKey, EnvironmentVariables, EnvironmentVariableValue, getEnvironmentVariablesPlugin } from "@squide/env-vars";
+import { getMswPlugin, MswPluginName, MswState } from "@squide/msw";
 import { type IReactRouterRuntime, ReactRouterRuntime, ReactRouterRuntimeScope, type Route } from "@squide/react-router";
 import type { HoneycombInstrumentationPartialClient } from "@workleap-telemetry/core";
 import type { Logger } from "@workleap/logging";
@@ -16,8 +17,12 @@ export interface IFireflyRuntime extends IReactRouterRuntime {
     getMswState(): MswState;
     registerRequestHandlers: (handlers: RequestHandler[]) => void;
     get requestHandlers(): RequestHandler[];
-    get appRouterStore(): AppRouterStore;
     get isMswEnabled(): boolean;
+    registerEnvironmentVariable(key: EnvironmentVariableKey, value: EnvironmentVariableValue): void;
+    registerEnvironmentVariables(variables: Partial<EnvironmentVariables>): void;
+    getEnvironmentVariable(key: EnvironmentVariableKey): EnvironmentVariableValue;
+    getEnvironmentVariables(): EnvironmentVariables;
+    get appRouterStore(): AppRouterStore;
     get honeycombInstrumentationClient(): HoneycombInstrumentationPartialClient | undefined;
 }
 
@@ -26,49 +31,15 @@ export class FireflyRuntime<TRuntime extends FireflyRuntime = any> extends React
     protected _appRouterStore: AppRouterStore;
     protected _honeycombInstrumentationClient: HoneycombInstrumentationPartialClient | undefined;
 
-    constructor({ honeycombInstrumentationClient, ...options }: FireflyRuntimeOptions = {}) {
+    constructor(options: FireflyRuntimeOptions = {}) {
+        const {
+            honeycombInstrumentationClient
+        } = options;
+
         super(options);
 
         this._appRouterStore = createAppRouterStore(this._logger);
         this._honeycombInstrumentationClient = honeycombInstrumentationClient;
-    }
-
-    getMswState() {
-        const mswPlugin = this.getPlugin(MswPluginName) as MswPlugin;
-
-        if (!mswPlugin) {
-            throw new Error("[squide] Cannot register the provided MSW request handlers because the runtime hasn't been initialized with MSW. Did you instanciate the FireflyRuntime with the \"useMsw\" option?");
-        }
-
-        return mswPlugin.mswState;
-    }
-
-    registerRequestHandlers(handlers: RequestHandler[], options: RegisterRequestHandlersOptions = {}) {
-        const logger = this._getLogger(options);
-        const mswPlugin = this.getPlugin(MswPluginName) as MswPlugin;
-
-        if (!mswPlugin) {
-            throw new Error("[squide] Cannot register the provided MSW request handlers because the runtime hasn't been initialized with MSW. Did you instanciate the FireflyRuntime with the \"useMsw\" option?");
-        }
-
-        if (this.moduleManager.getAreModulesRegistered()) {
-            throw new Error("[squide] Cannot register an MSW request handlers once the modules are registered. Are you trying to register an MSW request handler in a deferred registration function? Only navigation items can be registered in a deferred registration function.");
-        }
-
-        mswPlugin.registerRequestHandlers(handlers, {
-            logger
-        });
-    }
-
-    // Must define a return type otherwise we get an "error TS2742: The inferred type of 'requestHandlers' cannot be named" error.
-    get requestHandlers(): RequestHandler[] {
-        const mswPlugin = this.getPlugin(MswPluginName) as MswPlugin;
-
-        if (!mswPlugin) {
-            throw new Error("[squide] Cannot retrieve MSW request handlers because the runtime hasn't been initialized with MSW. Did you instanciate the FireflyRuntime with the \"useMsw\" option?");
-        }
-
-        return mswPlugin.requestHandlers;
     }
 
     registerRoute(route: Route, options: RegisterRouteOptions = {}) {
@@ -79,12 +50,62 @@ export class FireflyRuntime<TRuntime extends FireflyRuntime = any> extends React
         super.registerRoute(route, options);
     }
 
-    get appRouterStore() {
-        return this._appRouterStore;
+    getMswState() {
+        const plugin = getMswPlugin(this);
+
+        return plugin.mswState;
+    }
+
+    registerRequestHandlers(handlers: RequestHandler[], options: RegisterRequestHandlersOptions = {}) {
+        const logger = this._getLogger(options);
+        const plugin = getMswPlugin(this);
+
+        if (this.moduleManager.getAreModulesRegistered()) {
+            throw new Error("[squide] Cannot register an MSW request handlers once the modules are registered. Are you trying to register an MSW request handler in a deferred registration function? Only navigation items can be registered in a deferred registration function.");
+        }
+
+        plugin.registerRequestHandlers(handlers, {
+            logger
+        });
+    }
+
+    // Must define a return type otherwise we get an "error TS2742: The inferred type of 'requestHandlers' cannot be named" error.
+    get requestHandlers(): RequestHandler[] {
+        const plugin = getMswPlugin(this);
+
+        return plugin.requestHandlers;
     }
 
     get isMswEnabled() {
         return this._plugins.some(x => x.name === MswPluginName);
+    }
+
+    getEnvironmentVariable(key: EnvironmentVariableKey) {
+        const plugin = getEnvironmentVariablesPlugin(this);
+
+        return plugin.getVariable(key);
+    }
+
+    getEnvironmentVariables() {
+        const plugin = getEnvironmentVariablesPlugin(this);
+
+        return plugin.getVariables();
+    }
+
+    registerEnvironmentVariable(key: EnvironmentVariableKey, value: EnvironmentVariableValue) {
+        const plugin = getEnvironmentVariablesPlugin(this);
+
+        return plugin.registerVariable(key, value);
+    }
+
+    registerEnvironmentVariables(variables: Partial<EnvironmentVariables>) {
+        const plugin = getEnvironmentVariablesPlugin(this);
+
+        return plugin.registerVariables(variables);
+    }
+
+    get appRouterStore() {
+        return this._appRouterStore;
     }
 
     get honeycombInstrumentationClient() {
@@ -113,12 +134,28 @@ export class FireflyRuntimeScope<TRuntime extends FireflyRuntime = FireflyRuntim
         return this._runtime.requestHandlers;
     }
 
-    get appRouterStore(): AppRouterStore {
-        throw new Error("[squide] Cannot retrieve the app router store from a runtime scope instance.");
-    }
-
     get isMswEnabled() {
         return this._runtime.isMswEnabled;
+    }
+
+    getEnvironmentVariables() {
+        return this._runtime.getEnvironmentVariables();
+    }
+
+    getEnvironmentVariable(key: EnvironmentVariableKey) {
+        return this._runtime.getEnvironmentVariable(key);
+    }
+
+    registerEnvironmentVariable(key: EnvironmentVariableKey, value: EnvironmentVariableValue) {
+        this._runtime.registerEnvironmentVariable(key, value);
+    }
+
+    registerEnvironmentVariables(variables: Partial<EnvironmentVariables>) {
+        this._runtime.registerEnvironmentVariables(variables);
+    }
+
+    get appRouterStore(): AppRouterStore {
+        throw new Error("[squide] Cannot retrieve the app router store from a runtime scope instance.");
     }
 
     get honeycombInstrumentationClient(): HoneycombInstrumentationPartialClient {

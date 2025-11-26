@@ -22,8 +22,7 @@ Let's add a local module to demonstrate how it's done!
 Create a new application (we'll refer to ours as `local-module`), then open a terminal at the root of the application and install the following packages:
 
 ```bash
-pnpm add -D typescript @types/react @types/react-dom react react-dom react-router @tanstack/react-query
-pnpm add @squide/firefly react react-dom react-router msw @opentelemetry/api @tanstack/react-query
+pnpm add -D typescript @types/react @types/react-dom
 ```
 
 ## Setup the application
@@ -60,13 +59,15 @@ Then, configure the package to be shareable by adding the `name`, `version`, and
 
 Finally, add the following `peerDependencies`:
 
-```json !#5-10 local-module/package.json
+```json !#5-12 local-module/package.json
 {
     "name": "@getting-started/local-module",
     "version": "0.0.1",
     "exports": "./src/register.tsx",
     "peerDependencies": {
+        "@squide/firefly": "^1.2.3",
         "@tanstack/react-query": "^1.2.3",
+        "msw": "^1.2.3",
         "react": "^1.2.3",
         "react-dom": "^1.2.3",
         "react-router": "^1.2.3"
@@ -84,14 +85,14 @@ import { Page } from "./Page.tsx";
 
 export const register: ModuleRegisterFunction<FireflyRuntime> = runtime => {
     runtime.registerRoute({
-        path: "/local/page",
+        path: "/page",
         element: <Page />
     });
 
     runtime.registerNavigationItem({
-        $id: "local-page",
-        $label: "Local/Page",
-        to: "/local/page"
+        $id: "page",
+        $label: "Page",
+        to: "/page"
     });
 }
 ```

@@ -11,17 +11,17 @@ toc:
 If you are migrating from `v8.*`, follow the [Migrate from v8.* to v15.0](./migrate-from-v8-to-v15.0.md) guide.
 !!!
 
-This minor version deprecate the `registerLocalModules`, `registerRemoteModules` and [setMswAsReady](../reference/msw/setMswAsReady.md) in favor of a `bootstrap` function.
+This minor version deprecate the `registerLocalModules`, `registerRemoteModules` and `setMswAsReady` in favor of a `bootstrap` function.
 
 ## Deprecation
 
 - The `registerLocalModules` function has been **deprecated**, use the `bootstrap` function instead.
 - The `registerRemoteModules` function has been **deprecated**, use the `bootstrap` function instead.
-- The [setMswAsReady](../reference/msw/setMswAsReady.md) function has been **deprecated**, use the `bootstrap` function instead.
+- The `setMswAsReady` function has been **deprecated**, use the `bootstrap` function instead.
 
 ## Migrate an host application
 
-The `bootstrap` function is a new primitive that simplifies the bootstrapping of a Squide application. It replaces the `registerLocalModules`, `registerRemoteModules` and [setMswAsReady](../reference/msw/setMswAsReady.md) functions.
+The `bootstrap` function is a new primitive that simplifies the bootstrapping of a Squide application. It replaces the `registerLocalModules`, `registerRemoteModules` and `setMswAsReady` functions.
 
 ### Modules registration
 

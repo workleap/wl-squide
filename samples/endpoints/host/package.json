@@ -25,7 +25,6 @@
         "@endpoints/shared": "workspace:*",
         "@endpoints/shell": "workspace:*",
         "@opentelemetry/api": "1.9.0",
-        "@squide/env-vars": "workspace:*",
         "@squide/fakes": "workspace:*",
         "@squide/firefly": "workspace:*",
         "@squide/firefly-module-federation": "workspace:*",

@@ -200,8 +200,8 @@ export abstract class RuntimeScope<TRoute = unknown, TNavigationItem = unknown, 
         return this._runtime.mode;
     }
 
-    get plugins(): Plugin[] {
-        throw new Error("[squide] Cannot retrieve the plugins from a runtime scope instance.");
+    get plugins() {
+        return this._runtime.plugins;
     }
 
     getPlugin(pluginName: string) {

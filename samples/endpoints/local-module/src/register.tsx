@@ -1,5 +1,4 @@
 import type { DeferredRegistrationData } from "@endpoints/shared";
-import { getEnvironmentVariablesPlugin } from "@squide/env-vars";
 import type { DeferredRegistrationFunction, FireflyRuntime, ModuleRegisterFunction } from "@squide/firefly";
 import { I18nextNavigationItemLabel } from "@squide/i18next";
 import type { i18n } from "i18next";
@@ -82,7 +81,7 @@ function registerRoutes(runtime: FireflyRuntime, i18nextInstance: i18n): Deferre
 
 async function registerMsw(runtime: FireflyRuntime) {
     if (runtime.isMswEnabled) {
-        const environmentVariables = getEnvironmentVariablesPlugin(runtime).getVariables();
+        const environmentVariables = runtime.getEnvironmentVariables();
 
         // Files including an import to the "msw" package are included dynamically to prevent adding
         // MSW stuff to the bundled when it's not used.
@@ -93,9 +92,7 @@ async function registerMsw(runtime: FireflyRuntime) {
 }
 
 function registerEnvironmentVariables(runtime: FireflyRuntime) {
-    const plugin = getEnvironmentVariablesPlugin(runtime);
-
-    plugin.registerVariables({
+    runtime.registerEnvironmentVariables({
         rickAndMortyApiBaseUrl: "/api/r&m/",
         featureApiBaseUrl: "/api/feature/"
     });

@@ -15,13 +15,14 @@ A runtime instance give modules access to functionalities such as routing, navig
 ## Reference
 
 ```ts
-const runtime = new FireflyRuntime(options?: { mode?, useMsw?, loggers?, plugins? })
+const runtime = new FireflyRuntime(options?: { mode?, honeycombInstrumentationClient?, loggers?, plugins? })
 ```
 
 ### Parameters
 
 - `options`: An optional object literal of options:
     - `mode`: An optional mode to optimize Squide for production. Values are `"development"` (default) and `"production"`.
+    - `honeycombInstrumentationClient`: An optional Honeycomb instrumentation client for tracing the Squide bootstrapping flow.
     - `loggers`: An optional array of `Logger` instances.
     - `plugins`: An optional array of `Plugin` factory functions.
 
@@ -31,6 +32,10 @@ const runtime = new FireflyRuntime(options?: { mode?, useMsw?, loggers?, plugins
 - `registerNavigationItem(navigationItem, options?)`: Register a navigation item.
 - `getNavigationItems(menuId?)`: Retrieve the registered navigation items.
 - `registerRequestHandlers(handlers)`: Register the MSW request handlers.
+- `getEnvironmentVariable(key)`: Retrieve an environment variable.
+- `getEnvironmentVariables()`: Retrieve all environment variables.
+- `registerEnvironmentVariable(key, value)`: Register a single environment variable.
+- `registerEnvironmentVariables(variables)`: Register multiple environment variables.
 - `getPlugin(name)`: Retrieve the registered plugin by the specified `name`.
 
 ### Getters
@@ -38,10 +43,10 @@ const runtime = new FireflyRuntime(options?: { mode?, useMsw?, loggers?, plugins
 - `mode`: Retrieve the runtime mode.
 - `routes`: Retrieve the registered routes.
 - `requestHandlers`: Retrieve the registered MSW request handlers.
-- `plugins`: Retrieve the registered plugins.
+- `isMswEnabled`: Indicate whether or not MSW is enabled.
 - `logger`: Retrieve the runtime logger.
 - `eventBus`: Retrieve the runtime event bus.
-- `isMswEnabled`: Indicate whether or not MSW is enabled.
+- `plugins`: Retrieve the registered plugins.
 
 ## Usage
 
@@ -122,7 +127,7 @@ runtime.registerPublicRoute({
 });
 ```
 
-A nested route can also be public:
+To define a nested route as public, use the `$visibility` option:
 
 ```tsx !#9
 import { Layout } from "./Layout.tsx";
@@ -192,7 +197,7 @@ runtime.registerRoute({
 });
 ```
 
-[!ref text="Learn more about using nested routes for modular tabs"](../../guides/use-modular-tabs.md)
+[!ref text="Learn more about using nested routes for modular tabs"](../../recipes/use-modular-tabs.md)
 
 !!!tip
 The `path` option of a route rendered under an existing parent route must be a React Router absolute path (a path starting with a `/`). For example, if a parent route `path` is `/layout`, the `path` option of a route rendered under that parent route and responding to the `/page-1` url, should be `/layout/page-1`.
@@ -214,7 +219,7 @@ runtime.registerRoute({
 });
 ```
 
-The previous example registers the routes with React Router **absolute paths** (a path starting with a `/`). A single registration block can also define routes with **relative paths**:
+A single registration block routes can also be define routes with **relative paths** (rather than starting with a `/`):
 
 ```tsx !#5,8
 import { Layout } from "./Layout.tsx";
@@ -232,7 +237,7 @@ runtime.registerRoute({
 
 ### Retrieve routes
 
-The registered routes are accessible from a `FireflyRuntime` instance, but keep in mind that the preferred way to retrieve the routes is with the [useRoutes](./useRoutes) hook.
+The registered routes are accessible from a `FireflyRuntime` instance, but keep in mind that the preferred way to retrieve the routes is with the [useRoutes](../routing/useRoutes.md) hook.
 
 ```tsx !#1
 const routes = runtime.routes;
@@ -470,7 +475,7 @@ runtime.registerNavigationItem({
 
 ### Retrieve navigation items
 
-The registered navigation items are accessible from a `FireflyRuntime` instance, but keep in mind that the preferred way to retrieve the navigation items is with the [useNavigationItems](./useNavigationItems) hook.
+The registered navigation items are accessible from a `FireflyRuntime` instance, but keep in mind that the preferred way to retrieve the navigation items is with the [useNavigationItems](../routing/useNavigationItems.md) hook.
 
 By default, the `getNavigationItems` will return the navigation items for the `root` menu:
 
@@ -488,18 +493,24 @@ const navigationItems = runtime.getNavigationItems("my-custom-layout");
 
 The registered handlers must be valid MSW [request handlers](https://mswjs.io/docs/concepts/request-handler):
 
-```tsx !#3
+```ts !#3
 import { requestHandlers } from "../mocks/handlers.ts";
 
 runtime.registerRequestHandlers(requestHandlers);
 ```
 
-[!ref text="Learn more about setuping MSW"](../../guides/setup-msw.md)
+[!ref text="Learn more about setuping MSW"](../../integrations/setup-msw.md)
 
 ### Retrieve request handlers
 
-```tsx !#1
+```ts !#1
 const requestHandlers = runtime.requestHandlers;
+```
+
+### Validate if MSW is enabled
+
+```ts !#1
+const isMswEnabled = runtime.isMswEnabled;
 ```
 
 ### Log a message
@@ -518,6 +529,33 @@ runtime.eventBus.addListener("write-to-host", () => {});
 
 // Dispatch an event to the host application or a module.
 runtime.eventBus.dispatch("write-to-host", "Hello host!");
+```
+
+### Register an environment variable
+
+```ts !#1
+runtime.registerEnvironmentVariable("apiBaseUrl", "https://my-api.com");
+```
+
+### Register multiple environment variables at once
+
+```ts !#1-4
+runtime.registerEnvironmentVariables({
+    "apiBaseUrl", "https://my-api.com",
+    "telemetryBaseUrl", "https://my-telemetry.com"
+});
+```
+
+### Retrieve an environment variable
+
+```ts !#1
+const environmentVariable = runtime.getEnvironmentVariable("apiBaseUrl");
+```
+
+### Retrieve all environment variables
+
+```ts !#1
+const environmentVariables = runtime.getEnvironmentVariables();
 ```
 
 ### Register a plugin
