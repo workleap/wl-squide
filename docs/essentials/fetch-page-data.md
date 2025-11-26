@@ -14,7 +14,7 @@ There are several approaches to fetching data for pages. We prefer using a backe
 - Fetch the data using the [useSuspenseQuery](https://tanstack.com/query/latest/docs/framework/react/reference/useSuspenseQuery) hook.
 - Define a fallback element in the layout component using the [Suspense](https://react.dev/reference/react/Suspense) component
 
-Refer to the [create a local module](../introduction/create-local-module.md) guide and update both the module and its `Page` component to fetch data:
+Refer to the [create a local module](../introduction/create-local-module.md) guide as a starting point and update both the module and its `Page` component to fetch data:
 
 ```tsx !#9-13
 import { useSuspenseQuery } from "@tanstack/react-query";

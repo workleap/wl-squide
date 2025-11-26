@@ -12,7 +12,7 @@ To address this, Squide offers an alternate deferred registration mechanism in *
 - The first phase allows modules to register their _static navigation_ items that are not dependent on remote data.
 - The second phase enables modules to register deferred navigation items that are dependent on remote data by returning a function. We refer to this second phase as **deferred registrations**.
 
-For more details, see the [initializeFirefly](../reference/registration/initializeFirefly.md#defer-the-registration-of-navigation-items) and [useDeferredRegistrations](../reference/registration/useDeferredRegistrations.md) sections of the reference documentation.
+For more details, refer to the [initializeFirefly](../reference/registration/initializeFirefly.md#defer-the-registration-of-navigation-items) and [useDeferredRegistrations](../reference/registration/useDeferredRegistrations.md) reference documentation.
 
 ## Register a deferred item
 
