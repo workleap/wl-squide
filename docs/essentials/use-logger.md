@@ -22,7 +22,7 @@ logger.debug("Hello!");
 ```
 
 !!!tip
-For details on how to use the logger, see the `@workleap/logging` package's [documentation](https://workleap.github.io/wl-logging/introduction/getting-started/).
+For more information on how to use the logger, refer to the `@workleap/logging` package's [documentation](https://workleap.github.io/wl-logging/introduction/getting-started/).
 !!!
 
 !!!warning

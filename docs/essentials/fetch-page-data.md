@@ -59,7 +59,7 @@ export function RootLayout() {
 }
 ```
 
-==- Setup the MSW handler used in the example
+==- :icon-file-code: Setup the MSW handler used in the example
 First, define an MSW request handler that returns the number of times it has been fetched:
 
 ```ts

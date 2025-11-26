@@ -11,7 +11,6 @@ For more detail, refer to the `i18next` [reference](../reference/i18next/i18next
 
 ## Localize a page resource
 
-
 To localize a resource within a page, first retrieve the module's `i18next` instance using the [useI18nextInstance](../reference/i18next/useI18nextInstance.md) hook. Then, use that instance with `i18next` native [useTranslation](https://react.i18next.com/latest/usetranslation-hook) hook to access the translated resources:
 
 ```tsx !#5-6,9
@@ -28,7 +27,7 @@ export function Page() {
 }
 ```
 
-==- Localized resource files
+==- :icon-file-code: Localized resource files
 ```json !#1-5 ./locales/en-US.json
 {
     "Page": {
@@ -91,7 +90,7 @@ export const register: ModuleRegisterFunction<FireflyRuntime> = runtime => {
 }
 ```
 
-==- Localized resource files
+==- :icon-file-code: Localized resource files
 ```json !#1-5 ./locales/en-US.json
 {
     "navigationItems": {

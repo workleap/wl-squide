@@ -142,7 +142,7 @@ export const register: ModuleRegisterFunction<FireflyRuntime> = runtime => {
 };
 ```
 
-==- What does "hoist" means?
+==- :icon-light-bulb: What does "hoist" means?
 Package managers supporting workspaces such as Yarn and NPM call this mechanism "hoisting", which means "raise (something) by means of ropes and pulleys". This is exactly what we are trying to achieve here.
 
 Squide has a built-in hoist functionality capable of raising module routes marked as hoist at the root of the routes array, before the root layout declaration. Thus, an hoisted route will not be wrapped by the root layout component (or any components) and will have full control over its rendering.
@@ -215,7 +215,7 @@ A no-match route can be defined to catch invalid or unknown URLs. To do this, re
 import { type ModuleRegisterFunction, type FireflyRuntime } from "@squide/firefly";
 import { NotFoundPage } from "./NotFoundPage.tsx";
 
-export const registerHost: ModuleRegisterFunction<FireflyRuntime> = runtime => {
+export const register: ModuleRegisterFunction<FireflyRuntime> = runtime => {
     runtime.registerPublicRoute({
         path: "*",
         element: <NotFoundPage />

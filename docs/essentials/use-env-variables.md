@@ -9,7 +9,7 @@ Environment variables are incredibly useful when working with **multiple environ
 
 By attaching environment variables to a [FireflyRuntime](../reference/runtime/FireflyRuntime.md) instance, rather than accessing `process.env` throughout the codebase, Squide supports a modular architecture and makes it easier to write tests and Storybook stories by isolating configuration from global state.
 
-==- Why is using `process.env` problematic?
+==- :icon-light-bulb: Why is using `process.env` problematic?
 While accessing environment variables through `process.env` works, it comes with several drawbacks:
 
 - **Not ideal for testing**: Mocking `process.env` for testing is cumbersome because it is a global variable. This often results in flaky tests, poor isolation, and unexpected side effects.

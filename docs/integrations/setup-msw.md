@@ -63,7 +63,7 @@ root.render(
 );
 ```
 
-==- Define the `USE_MSW` environment variable
+==- :icon-file-code: Define the `USE_MSW` environment variable
 First open a terminal at the root of the host application and install the [cross-env](https://www.npmjs.com/package/cross-env) package:
 
 ```bash
