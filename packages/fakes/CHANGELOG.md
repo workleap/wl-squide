@@ -1,5 +1,12 @@
 # @squide/fakes
 
+## 2.2.9
+
+### Patch Changes
+
+- Updated dependencies [[`3be4070`](https://github.com/workleap/wl-squide/commit/3be4070d2d647804903b5cc01113e20d5d71cb11)]:
+  - @squide/core@6.1.5
+
 ## 2.2.8
 
 ### Patch Changes

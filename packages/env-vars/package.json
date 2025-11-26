@@ -1,7 +1,7 @@
 {
     "name": "@squide/env-vars",
     "author": "Workleap",
-    "version": "1.4.7",
+    "version": "1.4.8",
     "description": "Add support for environment variables to @squide application shell.",
     "license": "Apache-2.0",
     "repository": {
