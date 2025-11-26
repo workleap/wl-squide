@@ -9,14 +9,11 @@ Now that we've created a host application, loaded a few modules, registered rout
 
 ## Runtime
 
-The [runtime](../reference/runtime/FireflyRuntime.md) instance serves as the backbone of a Squide application, enabling modularity and maintaining a decoupled and extendable system. It's purpose is to configure and manage the environment of the application, register the modules and plugins, and centralize cross-cutting concerns such as messaging, logging, telemetry/observability, environment variables and feature flags.
+The [runtime instance](../reference/runtime/FireflyRuntime.md) serves as the backbone of a Squide application, enabling modularity and maintaining a decoupled and extendable system. It's purpose is to configure and manage the environment of the application, register the modules and plugins, and centralize cross-cutting concerns such as messaging, logging, telemetry/observability, environment variables and feature flags.
 
 #### Learn more
 
 - [Reference documentation](../reference/runtime/FireflyRuntime.md)
-
-
-A runtime instance typically exists to act as a central coordination layer within an application or framework. Its purpose is not to run “the program” in the general sense, but to manage the environment in which features, modules, or plugins operate. In software architecture, it usually serves several key roles:
 
 ## Modular registration
 
@@ -208,7 +205,7 @@ logger.debug("Hello!");
 Squide attaches environment variables to a [FireflyRuntime](../reference/runtime/FireflyRuntime.md) instance rather than accessing `process.env` throughout the codebase. This strategy supports a modular architecture and makes it easier to write tests and Storybook stories by isolating configuration from global state and making environment variables independent from build-time specifics.
 
 ==- :icon-file-code: Code sample
-```ts
+```ts !#4-7
 import { initializeFirefly } from "@squide/firefly";
 
 const runtime = initializeFirefly({
