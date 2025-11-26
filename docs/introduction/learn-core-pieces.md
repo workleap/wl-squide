@@ -19,7 +19,7 @@ The [runtime instance](../reference/runtime/FireflyRuntime.md) serves as the bac
 
 Squide enables developers to build scalable modular applications with well-defined boundaries by allowing consumers to register dynamic routes, navigation items and MSW request handlers in modules. Each module contributes its own routing configuration, which the host application then assembles into unified structures at bootstrapping. This keeps routing, navigation and request handlers isolated within each module.
 
-==- :icon-light-bulb: The challenges with a tighly coupled architecture
+==- :icon-light-bulb: The challenges with a tightly coupled architecture
 The opposite of a modular architecture is a tightly coupled architecture. This style of architecture often evolves into what is commonly described as a **"big ball of mud"**. As the codebase grows, teams face increasing maintenance difficulties, scaling limitations, and unpredictable side effects.
 
 Systems with highly coupled architectures are typically characterized by:
