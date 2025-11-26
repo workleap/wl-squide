@@ -1,5 +1,17 @@
 # @squide/firefly
 
+## 16.0.1
+
+### Patch Changes
+
+- [#342](https://github.com/workleap/wl-squide/pull/342) [`3be4070`](https://github.com/workleap/wl-squide/commit/3be4070d2d647804903b5cc01113e20d5d71cb11) Thanks [@patricklafrance](https://github.com/patricklafrance)! - Minor fine tuning following v16 release.
+
+- Updated dependencies [[`3be4070`](https://github.com/workleap/wl-squide/commit/3be4070d2d647804903b5cc01113e20d5d71cb11)]:
+  - @squide/env-vars@1.4.8
+  - @squide/core@6.1.5
+  - @squide/msw@4.0.6
+  - @squide/react-router@8.1.5
+
 ## 16.0.0
 
 ### Major Changes
