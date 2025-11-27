@@ -1,5 +1,14 @@
 # @squide/msw
 
+## 4.0.7
+
+### Patch Changes
+
+- [#347](https://github.com/workleap/wl-squide/pull/347) [`6354489`](https://github.com/workleap/wl-squide/commit/6354489117e9826291da71f977daae55a5c5484a) Thanks [@patricklafrance](https://github.com/patricklafrance)! - Bumped package versions.
+
+- Updated dependencies [[`6354489`](https://github.com/workleap/wl-squide/commit/6354489117e9826291da71f977daae55a5c5484a)]:
+  - @squide/core@6.1.6
+
 ## 4.0.6
 
 ### Patch Changes
