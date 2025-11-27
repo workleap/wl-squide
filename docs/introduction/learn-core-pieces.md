@@ -25,7 +25,9 @@ The opposite of a modular architecture is a tightly coupled architecture. This s
 Systems with highly coupled architectures are typically characterized by:
 
 - Unclear internal structure
-- Low cohesion and weak boundaries
+- Weak boundaries
+- High coupling
+- Low cohesion 
 - Inconsistent design decisions
 
 While such an architecture seems appropriate during the first weeks or months of a project, problems emerge quickly as the system grows:

@@ -35,7 +35,7 @@ For debugging, use `console.log` instead, since its output is not captured in Lo
 
 ## Setup loggers
 
-Refer to the [Setup the logger](../integrations/setup-logger.md) integration guide.
+Refer to the [setup the logger](../integrations/setup-logger.md) integration guide.
 
 
 

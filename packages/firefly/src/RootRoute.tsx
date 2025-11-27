@@ -3,9 +3,20 @@ import { Outlet } from "react-router";
 import { useAppRouterDispatcher, useAppRouterState } from "./AppRouterContext.ts";
 import { useIsActiveRouteProtected } from "./useIsActiveRouteProtected.ts";
 
-export function RootRoute() {
+export interface RootRouteProps {
+    strictMode?: boolean;
+}
+
+export function RootRoute(props: RootRouteProps) {
+    const {
+        strictMode = true
+    } = props;
+
     const state = useAppRouterState();
-    const isActiveRouteProtected = useIsActiveRouteProtected(state.areModulesReady);
+
+    const isActiveRouteProtected = useIsActiveRouteProtected(state.areModulesReady, {
+        throwWhenThereIsNoMatch: strictMode
+    });
 
     const dispatch = useAppRouterDispatcher();
 
