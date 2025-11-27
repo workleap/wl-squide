@@ -59,6 +59,7 @@ Localization | Squide includes built-in support for localization, powered by [i1
 Observability | Squide includes built-in observability powered by [Honeycomb](https://www.honeycomb.io/).
 Logging | Squide includes a built-in logger powered by [@workleap/logging](https://workleap.github.io/wl-logging).
 API requests mocking | When in development, Squide bootstrapping flow ensure that the rendering of the requested page is delayed until all of the application [MSW](https://mswjs.io/) request handlers has been registered.
+Storybook | Squide integrates with [Storybook](https://storybook.js.org/) stories.
 
 ## Why is Squide relevant?
 
