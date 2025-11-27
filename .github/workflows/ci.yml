@@ -60,11 +60,11 @@ jobs:
       - name: Build basic webpack sample
         run: pnpm build-basic-webpack
 
-      - name: Build basic mix sample
-        run: pnpm build-basic-mix
-
       - name: Build endpoints sample
         run: pnpm build-endpoints
+
+      - name: Build Storybook sample
+        run: pnpm build-storybook
 
       - name: Test packages
         run: pnpm test

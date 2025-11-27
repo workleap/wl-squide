@@ -199,7 +199,7 @@ test("an absolute URL including the API base URL is returned", () => {
 });
 ```
 
-## Setup with stories
+## Setup with Storybook
 
 Components included in [Storybook](https://storybook.js.org/docs) stories often rely on environment variables. The [EnvironmentVariablesPlugin]() instance can be used to mock these variables:
 

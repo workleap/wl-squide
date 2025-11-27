@@ -14,7 +14,7 @@
     },
     "dependencies": {
         "@opentelemetry/api": "1.9.0",
-        "@opentelemetry/auto-instrumentations-node": "0.67.0",
+        "@opentelemetry/auto-instrumentations-node": "0.67.2",
         "@opentelemetry/exporter-trace-otlp-http": "0.208.0",
         "@opentelemetry/instrumentation-express": "0.57.0",
         "@opentelemetry/instrumentation-http": "0.208.0",
@@ -28,12 +28,12 @@
         "@types/cors": "2.8.19",
         "@types/express": "5.0.5",
         "@types/node": "24.10.1",
-        "@typescript-eslint/parser": "8.47.0",
+        "@typescript-eslint/parser": "8.48.0",
         "@workleap/eslint-configs": "1.1.5",
         "@workleap/typescript-configs": "3.0.7",
         "eslint": "9.39.1",
         "tsx": "4.20.6",
         "typescript": "5.9.3",
-        "typescript-eslint": "8.47.0"
+        "typescript-eslint": "8.48.0"
     }
 }

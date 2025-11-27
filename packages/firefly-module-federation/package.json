@@ -35,27 +35,27 @@
     },
     "peerDependencies": {
         "@opentelemetry/api": "^1.9.0",
-        "@tanstack/react-query": "^5.90.10",
-        "msw": "^2.12.2",
+        "@tanstack/react-query": "^5.90.11",
+        "msw": "^2.12.3",
         "react": "^18.0.0 || ^19.0.0",
         "react-dom": "^18.0.0 || ^19.0.0",
         "react-router": "^7.9.6"
     },
     "dependencies": {
         "@module-federation/enhanced": "0.11.4",
-        "@rspack/core": "^1.6.4",
+        "@rspack/core": "^1.6.5",
         "@squide/core": "workspace:*",
         "@squide/firefly": "workspace:*",
         "@workleap/logging": "^1.3.2"
     },
     "devDependencies": {
         "@eslint/js": "9.39.1",
-        "@rsbuild/core": "1.6.7",
-        "@rslib/core": "0.18.0",
+        "@rsbuild/core": "1.6.9",
+        "@rslib/core": "0.18.2",
         "@testing-library/react": "16.3.0",
-        "@types/react": "19.2.6",
+        "@types/react": "19.2.7",
         "@types/react-dom": "19.2.3",
-        "@typescript-eslint/parser": "8.47.0",
+        "@typescript-eslint/parser": "8.48.0",
         "@vitejs/plugin-react": "5.1.1",
         "@workleap/eslint-configs": "1.1.5",
         "@workleap/rslib-configs": "1.1.3",
@@ -63,8 +63,8 @@
         "eslint": "9.39.1",
         "happy-dom": "20.0.10",
         "typescript": "5.9.3",
-        "typescript-eslint": "8.47.0",
-        "vitest": "4.0.10"
+        "typescript-eslint": "8.48.0",
+        "vitest": "4.0.14"
     },
     "sideEffects": false
 }

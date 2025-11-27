@@ -1,4 +1,4 @@
-import { ModuleManager, type ModuleRegistrationError, type ModuleRegistrationStatus, type ModuleRegistrationStatusChangedListener, type ModuleRegistry, type Runtime } from "@squide/core";
+import { ModuleManager, type ModuleRegistrationError, type ModuleRegistrationStatus, type ModuleRegistrationStatusChangedListener, type ModuleRegistry } from "@squide/core";
 import { MswPlugin, type MswReadyListener } from "@squide/msw";
 import { MswState } from "@squide/msw/internal";
 import { act, renderHook, type RenderHookOptions } from "@testing-library/react";
@@ -97,7 +97,7 @@ class DummyMswState extends MswState {
 }
 
 describe.concurrent("useAppRouterReducer", () => {
-    function renderUseAppRouterReducerHook<TProps>(runtime: Runtime, waitForPublicData: boolean, waitForProtectedData: boolean, additionalProps: RenderHookOptions<TProps> = {}) {
+    function renderUseAppRouterReducerHook<TProps>(runtime: FireflyRuntime, waitForPublicData: boolean, waitForProtectedData: boolean, additionalProps: RenderHookOptions<TProps> = {}) {
         return renderHook(() => useAppRouterReducer(waitForPublicData, waitForProtectedData), {
             wrapper: ({ children }: { children?: ReactNode }) => (
                 <FireflyProvider runtime={runtime}>
