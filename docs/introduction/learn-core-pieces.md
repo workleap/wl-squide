@@ -27,7 +27,7 @@ Systems with highly coupled architectures are typically characterized by:
 - Unclear internal structure
 - Weak boundaries
 - High coupling
-- Low cohesion 
+- Low cohesion
 - Inconsistent design decisions
 
 While such an architecture seems appropriate during the first weeks or months of a project, problems emerge quickly as the system grows:
