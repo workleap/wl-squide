@@ -24,9 +24,11 @@ export async function initializeFireflyForStorybook(options: InitializeFireflyFo
         ]
     });
 
-    await runtime.moduleManager.registerModules([
-        ...toLocalModuleDefinitions(localModules)
-    ]);
+    if (localModules) {
+        await runtime.moduleManager.registerModules([
+            ...toLocalModuleDefinitions(localModules)
+        ]);
+    }
 
     return runtime;
 }
