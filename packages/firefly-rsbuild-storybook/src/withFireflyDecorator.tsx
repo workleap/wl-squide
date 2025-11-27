@@ -30,13 +30,17 @@ export function FireflyDecorator(props: FireflyDecoratorProps) {
                 {({ rootRoute, routerProviderProps }) => {
                     return (
                         <RouterProvider
-                            router={createMemoryRouter([{
-                                element: rootRoute,
-                                children: [{
-                                    path: "/story",
-                                    element: story
-                                }]
-                            }], {
+                            router={createMemoryRouter([
+                                {
+                                    element: rootRoute,
+                                    children: [
+                                        {
+                                            path: "/story",
+                                            element: story
+                                        }
+                                    ]
+                                }
+                            ], {
                                 initialEntries: ["/story"]
                             })}
                             {...routerProviderProps}
