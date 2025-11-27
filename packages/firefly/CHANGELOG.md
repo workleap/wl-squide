@@ -1,5 +1,11 @@
 # @squide/firefly
 
+## 16.0.2
+
+### Patch Changes
+
+- [#345](https://github.com/workleap/wl-squide/pull/345) [`d05a890`](https://github.com/workleap/wl-squide/commit/d05a890517a1a9d9a0b4946690b36c14ea07aa49) Thanks [@patricklafrance](https://github.com/patricklafrance)! - Added a `strictMode` prop to the `AppRouter` component.
+
 ## 16.0.1
 
 ### Patch Changes
