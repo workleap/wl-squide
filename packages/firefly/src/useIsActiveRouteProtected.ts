@@ -1,12 +1,20 @@
 import { useIsRouteProtected, useRouteMatch } from "@squide/react-router";
 import { useLocation } from "react-router";
 
-export function useIsActiveRouteProtected(areModulesReady: boolean) {
+export interface UseIsActiveRouteProtectedOptions {
+    throwWhenThereIsNoMatch?: boolean;
+}
+
+export function useIsActiveRouteProtected(areModulesReady: boolean, options: UseIsActiveRouteProtectedOptions = {}) {
+    const {
+        throwWhenThereIsNoMatch = true
+    } = options;
+
     // Using this hook instead of window.location to retrieve the current location because it triggers a re-render everytime the browser location change.
     const location = useLocation();
 
     // Only throw when there's no match if the modules are ready, otherwise it's expected that no route will be found since they are not all registered yet.
-    const activeRoute = useRouteMatch(location, { throwWhenThereIsNoMatch: areModulesReady });
+    const activeRoute = useRouteMatch(location, { throwWhenThereIsNoMatch: throwWhenThereIsNoMatch && areModulesReady });
 
     return useIsRouteProtected(activeRoute);
 }

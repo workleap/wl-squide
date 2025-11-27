@@ -142,7 +142,7 @@ import { RouteErrorBoundary } from "./RouteErrorBoundary.tsx";
 export const registerHost: ModuleRegisterFunction<FireflyRuntime> = runtime => {
     runtime.registerRoute({
         path: "/page-1",
-        element: <Page />
+        element: <Page />,
         errorElement: <RouteErrorBoundary />
     });
 };

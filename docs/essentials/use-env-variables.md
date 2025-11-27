@@ -12,10 +12,10 @@ By attaching environment variables to a [FireflyRuntime](../reference/runtime/Fi
 ==- :icon-light-bulb: Why is using `process.env` problematic?
 While accessing environment variables through `process.env` works, it comes with several drawbacks:
 
-- **Not ideal for testing**: Mocking `process.env` for testing is cumbersome because it is a global variable. This often results in flaky tests, poor isolation, and unexpected side effects.
-- **Not ideal for stories**: Mocking `process.env` in Storybook stories can also be cumbersome.
-- **Not ideal for modular code**: Modules that rely on global variables are harder to load independently, reuse, or run in different host applications. This goes against modular design principles.
-- **Couples the code to Node.js**: Many environments do not support `process.env`, including browsers, Web Workers, Service Workers, Cloudflare Workers, Vercel Edge Functions, Netlify Edge Functions, and Deno (unless running in Node-compatibility mode).
+- **Not ideal for testing:** Mocking `process.env` for testing is cumbersome because it is a global variable. This often results in flaky tests, poor isolation, and unexpected side effects.
+- **Not ideal for stories:** Mocking `process.env` in Storybook stories can also be cumbersome.
+- **Not ideal for modular code:** Modules that rely on global variables are harder to load independently, reuse, or run in different host applications. This goes against modular design principles.
+- **Couples the code to Node.js:** Many environments do not support `process.env`, including browsers, Web Workers, Service Workers, Cloudflare Workers, Vercel Edge Functions, Netlify Edge Functions, and Deno (unless running in Node-compatibility mode).
 ===
 
 For more details, refer to the [reference](../reference/env-vars/EnvironmentVariablesPlugin.md) documentation.

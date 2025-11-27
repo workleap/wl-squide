@@ -1,6 +1,8 @@
 export * from "@squide/core";
 export {
     EnvironmentVariablesPlugin,
+    EnvironmentVariablesPluginName,
+    getEnvironmentVariablesPlugin,
     useEnvironmentVariable,
     useEnvironmentVariables,
     type EnvironmentVariableKey,
@@ -9,7 +11,9 @@ export {
     type EnvironmentVariableValue
 } from "@squide/env-vars";
 export {
+    getMswPlugin,
     MswPlugin,
+    MswPluginName,
     MswState,
     type MswPluginOptions,
     type MswPluginRegisterRequestHandlersOptions,

@@ -27,7 +27,7 @@ export function useCanRenderRouter({ areModulesRegistered, areModulesReady: areM
     );
 }
 
-function useRenderRouterProvider(state: AppRouterState, renderRouterProvider: RenderRouterProviderFunction) {
+function useRenderRouterProvider(state: AppRouterState, renderRouterProvider: RenderRouterProviderFunction, strictMode: boolean) {
     const routes = useRoutes();
 
     // The value is computed outside of the router provider memo to prevent
@@ -37,19 +37,20 @@ function useRenderRouterProvider(state: AppRouterState, renderRouterProvider: Re
     return useMemo(() => {
         if (canRenderRouter) {
             return renderRouterProvider({
-                rootRoute: <RootRoute />,
+                rootRoute: <RootRoute strictMode={strictMode} />,
                 registeredRoutes: routes,
                 routerProviderProps: {}
             });
         }
 
         return null;
-    }, [canRenderRouter, routes, renderRouterProvider]);
+    }, [canRenderRouter, routes, renderRouterProvider, strictMode]);
 }
 
 export interface AppRouterProps {
     waitForPublicData?: boolean;
     waitForProtectedData?: boolean;
+    strictMode?: boolean;
     children: RenderRouterProviderFunction;
 }
 
@@ -57,13 +58,16 @@ export function AppRouter(props: AppRouterProps) {
     const {
         waitForPublicData = false,
         waitForProtectedData = false,
+        strictMode = true,
         children: renderRouterProvider
     } = props;
     const [state, dispatch] = useAppRouterReducer(waitForPublicData, waitForProtectedData);
 
     const logger = useLogger();
 
-    useStrictRegistrationMode();
+    useStrictRegistrationMode({
+        isEnabled: strictMode
+    });
 
     useEffect(() => {
         logger
@@ -72,7 +76,7 @@ export function AppRouter(props: AppRouterProps) {
             .debug();
     }, [state, logger]);
 
-    const routerProvider = useRenderRouterProvider(state, renderRouterProvider);
+    const routerProvider = useRenderRouterProvider(state, renderRouterProvider, strictMode);
 
     return (
         <AppRouterDispatcherContext.Provider value={dispatch}>
