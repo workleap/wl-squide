@@ -42,11 +42,11 @@
         "update-outdated-deps:update-peers": "syncpack fix-mismatches"
     },
     "devDependencies": {
-        "@changesets/changelog-github": "0.5.1",
-        "@changesets/cli": "2.29.7",
+        "@changesets/changelog-github": "0.5.2",
+        "@changesets/cli": "2.29.8",
         "@eslint/js": "9.39.1",
         "@types/node": "24.10.1",
-        "@typescript-eslint/parser": "8.47.0",
+        "@typescript-eslint/parser": "8.48.0",
         "@workleap/eslint-configs": "1.1.5",
         "@workleap/typescript-configs": "3.0.7",
         "cross-env": "10.1.0",
@@ -56,7 +56,7 @@
         "syncpack": "13.0.4",
         "turbo": "2.6.1",
         "typescript": "5.9.3",
-        "typescript-eslint": "8.47.0"
+        "typescript-eslint": "8.48.0"
     },
     "engines": {
         "node": ">=24.0.0",

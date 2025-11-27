@@ -40,7 +40,7 @@
         "http-server": "14.1.1",
         "msw": "2.12.3",
         "storybook": "10.1.0",
-        "storybook-react-rsbuild": "2.1.6",
+        "storybook-react-rsbuild": "3.0.0",
         "stylelint": "16.26.0",
         "typescript": "5.9.3",
         "typescript-eslint": "8.48.0"
