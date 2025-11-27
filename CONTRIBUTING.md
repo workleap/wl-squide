@@ -45,9 +45,9 @@ Under [samples/](samples/) are applications to test the Squide functionalities w
 You'll find four samples:
 
 - `basic`: A sample application showcasing the basic features of Squide.
-- `basic-wenpack`: A sample application showcasing the basic features of Squide using webpack as a bundle.
-- `basic-mix`: A sample application showcasing the basic features of Squide using an rsbuild host application and webpack remote modules.
+- `basic-webpack`: A sample application showcasing the basic features of Squide using webpack as a bundle.
 - `endpoints`: A more complexe sample application showcasing the different usecases related to data fetching and localization.
+- `storybook`: A sample application the Storybook integration.
 
 ## Installation
 
@@ -114,13 +114,13 @@ pnpm dev-basic-webpack
 or
 
 ```bash
-pnpm dev-basic-mix
+pnpm dev-endpoints
 ```
 
 or
 
 ```bash
-pnpm dev-endpoints
+pnpm dev-storybook
 ```
 
 You can then open your favorite browser and navigate to `http://localhost:8080/` to get a live preview of your code.
@@ -230,20 +230,20 @@ Start a watch process for the "basic" sample application using a webpack bundler
 pnpm dev-basic-webpack
 ```
 
-### dev-basic-mix
-
-Start a watch process for the "basic" sample application with an host application using rsbuild and remote modules using webpack.
-
-```bash
-pnpm dev-basic-mix
-```
-
 ### dev-endpoints
 
 Start a watch process for the "endpoints" sample application.
 
 ```bash
 pnpm dev-endpoints
+```
+
+### dev-storybook
+
+Start a watch process for the Storybook sample application.
+
+```bash
+pnpm dev-storybook
 ```
 
 ### dev-docs
@@ -278,20 +278,20 @@ Build for release the "basic" sample application using webpack bundler.
 pnpm build-basic-webpack
 ```
 
-### build-basic-mix
-
-Build for release the "basic" sample with an host application using rsbuild and remote modules using webpack.
-
-```bash
-pnpm build-basic-webpack
-```
-
 ### build-endpoints
 
 Build the "endpoints" sample application for release.
 
 ```bash
 pnpm build-endpoints
+```
+
+### build-storybook
+
+Build for deploy the Storybook sample application.
+
+```bash
+pnpm build-storybook
 ```
 
 ### serve-basic
@@ -310,20 +310,20 @@ Build the sample "basic" application using webpack bundler for deployment and st
 pnpm serve-basic-webpack
 ```
 
-### serve-basic-mix
-
-Build the sample "basic" application with an rsbuild host application and remote modules using webpack for deployment and start a local web server to serve the application.
-
-```bash
-pnpm serve-basic-mix
-```
-
 ### serve-endpoints
 
 Build the sample "endpoints" application for deployment and start a local web server to serve the application.
 
 ```bash
 pnpm serve-endpoints
+```
+
+### serve-storybook
+
+Build the sample Storybook application and start a local web server to serve the application.
+
+```bash
+pnpm serve-basic-mix
 ```
 
 ### test

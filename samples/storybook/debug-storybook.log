@@ -1,0 +1,25 @@
+[15:01:36.456] [INFO] storybook v10.1.0
+[15:01:37.034] [DEBUG] Getting package.json info for C:/Dev/workleap/wl-squide/samples/storybook/package.json...
+[15:01:37.861] [DEBUG] Serving static files from [36msamples/storybook/.storybook/public[39m at [36m/[39m
+[15:01:37.861] [INFO] Starting...
+[15:01:37.990] [DEBUG] Starting preview..
+[15:01:37.996] [ERROR] Failed to build the preview
+[15:01:37.998] [ERROR] [38;2;241;97;97mSB_CORE-COMMON_0004 (InvalidStoriesEntryError): Storybook could not index your stories.
+Your main configuration does not contain a 'stories' field, or it resolved to an empty array.
+
+Please check your main configuration file and make sure it exports a 'stories' field that is not an empty array.
+
+More info: https://storybook.js.org/docs/faq?ref=error#can-i-have-a-storybook-with-no-local-stories
+[39m
+    at normalizeStories (file:///C:/Dev/workleap/wl-squide/node_modules/.pnpm/storybook@10.1.0_@testing-l_7a9df8da9aea5a35e84c4ccfa2d9f554/node_modules/storybook/dist/_node-chunks/chunk-3H6TSCUK.js:12045:11)
+    at iframe_rsbuild_config_default (C:\Dev\workleap\wl-squide\node_modules\.pnpm\storybook-builder-rsbuild@2_6e3fd2bf81ec7b80e6fe185e2a5bdf07\node_modules\storybook-builder-rsbuild\dist\index.js:544:55)
+    at async rsbuild (C:\Dev\workleap\wl-squide\node_modules\.pnpm\storybook-builder-rsbuild@2_6e3fd2bf81ec7b80e6fe185e2a5bdf07\node_modules\storybook-builder-rsbuild\dist\index.js:873:32)
+    at async Object.start (C:\Dev\workleap\wl-squide\node_modules\.pnpm\storybook-builder-rsbuild@2_6e3fd2bf81ec7b80e6fe185e2a5bdf07\node_modules\storybook-builder-rsbuild\dist\index.js:908:18)
+    at async storybookDevServer (file:///C:/Dev/workleap/wl-squide/node_modules/.pnpm/storybook@10.1.0_@testing-l_7a9df8da9aea5a35e84c4ccfa2d9f554/node_modules/storybook/dist/core-server/index.js:7180:82)
+    at async buildOrThrow (file:///C:/Dev/workleap/wl-squide/node_modules/.pnpm/storybook@10.1.0_@testing-l_7a9df8da9aea5a35e84c4ccfa2d9f554/node_modules/storybook/dist/core-server/index.js:5556:12)
+    at async buildDevStandalone (file:///C:/Dev/workleap/wl-squide/node_modules/.pnpm/storybook@10.1.0_@testing-l_7a9df8da9aea5a35e84c4ccfa2d9f554/node_modules/storybook/dist/core-server/index.js:7582:66)
+    at async withTelemetry (file:///C:/Dev/workleap/wl-squide/node_modules/.pnpm/storybook@10.1.0_@testing-l_7a9df8da9aea5a35e84c4ccfa2d9f554/node_modules/storybook/dist/_node-chunks/chunk-SF2DKOPT.js:205:12)
+    at async dev (file:///C:/Dev/workleap/wl-squide/node_modules/.pnpm/storybook@10.1.0_@testing-l_7a9df8da9aea5a35e84c4ccfa2d9f554/node_modules/storybook/dist/bin/core.js:2734:3)
+    at async _Command.<anonymous> (file:///C:/Dev/workleap/wl-squide/node_modules/.pnpm/storybook@10.1.0_@testing-l_7a9df8da9aea5a35e84c4ccfa2d9f554/node_modules/storybook/dist/bin/core.js:2795:92)
+[15:01:38.000] [WARN] Broken build, fix the error above.
+You may need to refresh the browser.

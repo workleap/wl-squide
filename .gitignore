@@ -6,6 +6,7 @@ dist
 .rslib
 .retype
 *.env.local
+storybook-static
 
 # Mac
 .DS_Store

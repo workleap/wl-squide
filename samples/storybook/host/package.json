@@ -1,0 +1,53 @@
+{
+    "name": "@storybook/host",
+    "description": "ShareGate Home application",
+    "private": true,
+    "author": "Workleap",
+    "version": "0.0.0",
+    "license": "Apache-2.0",
+    "type": "module",
+    "scripts": {
+        "postinstall": "pnpm msw init",
+        "dev": "rsbuild dev --config rsbuild.dev.ts",
+        "build": "rsbuild build --config rsbuild.build.ts",
+        "serve-build": "pnpm http-server dist/app -p 8081 -P http://localhost:8081? -c-1 --cors",
+        "eslint": "eslint . --max-warnings=0 --cache --cache-location node_modules/.cache/eslint",
+        "typecheck": "tsc"
+    },
+    "dependencies": {
+        "@opentelemetry/api": "1.9.0",
+        "@squide/firefly": "workspace:*",
+        "@tanstack/react-query": "5.90.11",
+        "react": "19.2.0",
+        "react-dom": "19.2.0",
+        "react-router": "7.9.6"
+    },
+    "devDependencies": {
+        "@eslint/js": "9.39.1",
+        "@rsbuild/core": "1.6.9",
+        "@rslib/core": "0.18.2",
+        "@rspack/core": "1.6.5",
+        "@squide/firefly-rsbuild-storybook": "workspace:*",
+        "@types/react": "19.2.7",
+        "@types/react-dom": "19.2.3",
+        "@typescript-eslint/parser": "8.48.0",
+        "@workleap/browserslist-config": "2.1.3",
+        "@workleap/eslint-configs": "1.1.5",
+        "@workleap/rsbuild-configs": "3.1.4",
+        "@workleap/stylelint-configs": "2.1.3",
+        "@workleap/typescript-configs": "3.0.7",
+        "eslint": "9.39.1",
+        "http-server": "14.1.1",
+        "msw": "2.12.3",
+        "storybook": "10.1.0",
+        "storybook-react-rsbuild": "2.1.6",
+        "stylelint": "16.26.0",
+        "typescript": "5.9.3",
+        "typescript-eslint": "8.48.0"
+    },
+    "msw": {
+        "workerDirectory": [
+            "public"
+        ]
+    }
+}

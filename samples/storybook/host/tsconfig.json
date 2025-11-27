@@ -1,0 +1,12 @@
+{
+    "extends": "@workleap/typescript-configs/library.json",
+    "compilerOptions": {
+        "incremental": true,
+        "tsBuildInfoFile": "node_modules/.cache/tsbuildinfo.json",
+        "types": [
+            "../storybook/parameters.d.ts",
+            "./env-vars.d.ts"
+        ]
+    },
+    "exclude": ["dist", "node_modules"]
+}

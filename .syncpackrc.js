@@ -22,7 +22,7 @@ export default {
             "label": "Packages should use ^ for dependencies and peerDependencies."
         },
         {
-            "packages": ["@squide/*", "@basic/*", "@basic-mix/*", "@basic-webpack/*", "@endpoints/*", "@getting-started/*", "@getting-started-remote/*"],
+            "packages": ["@squide/*", "@basic/*", "@basic-webpack/*", "@endpoints/*", "@storybook/*", "@getting-started/*", "@getting-started-remote/*"],
             "dependencyTypes": ["dev"],
             "range": "",
             "label": "Samples and Getting Started templates should pin devDependencies."
@@ -30,7 +30,6 @@ export default {
         {
             "packages": [
                 "@basic/host", "@basic/remote-module", "@basic/another-remote-module",
-                "@basic-mix/host", "@basic-mix/remote-module", "@basic-mix/another-remote-module",
                 "@basic-webpack/host", "@basic-webpack/remote-module", "@basic-webpack/another-remote-module",
                 "@endpoints/host", "@endpoints/remote-module", "@endpoints/express-server",
                 "@getting-started/host",
@@ -43,7 +42,6 @@ export default {
         {
             "packages": [
                 "@basic/local-module", "@basic/shared", "@basic/shell",
-                "@basic-mix/local-module", "@basic-mix/shared", "@basic-mix/shell",
                 "@basic-webpack/local-module", "@basic-webpack/shared", "@basic-webpack/shell",
                 "@endpoints/i18next", "@endpoints/layouts", "@endpoints/local-module", "@endpoints/shared", "@endpoints/shell"
             ],
