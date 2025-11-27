@@ -7,8 +7,7 @@ import {
     MswPlugin,
     toLocalModuleDefinitions,
     useDeferredRegistrations,
-    type DeferredRegistrationsErrorCallback,
-    type Runtime
+    type DeferredRegistrationsErrorCallback
 } from "@squide/firefly";
 import {
     AppRouterDispatch,
@@ -26,7 +25,7 @@ import type { ReactNode } from "react";
 import { afterEach, test, vi, type Mock } from "vitest";
 import { sleep } from "./utils.ts";
 
-function renderUseAppReducerHook<TProps>(runtime: Runtime, additionalProps: RenderHookOptions<TProps> = {}) {
+function renderUseAppReducerHook<TProps>(runtime: FireflyRuntime, additionalProps: RenderHookOptions<TProps> = {}) {
     return renderHook(() => useAppRouterReducer(true, true), {
         wrapper: ({ children }: { children?: ReactNode }) => (
             <FireflyProvider runtime={runtime}>
@@ -37,7 +36,7 @@ function renderUseAppReducerHook<TProps>(runtime: Runtime, additionalProps: Rend
     });
 }
 
-function renderUseDeferredRegistrationsHook<TProps>(runtime: Runtime, state: AppRouterState, dispatch: AppRouterDispatch, data: unknown, onError?: DeferredRegistrationsErrorCallback, additionalProps: RenderHookOptions<TProps> = {}) {
+function renderUseDeferredRegistrationsHook<TProps>(runtime: FireflyRuntime, state: AppRouterState, dispatch: AppRouterDispatch, data: unknown, onError?: DeferredRegistrationsErrorCallback, additionalProps: RenderHookOptions<TProps> = {}) {
     return renderHook(() => useDeferredRegistrations(data, { onError }), {
         wrapper: ({ children }: { children?: ReactNode }) => (
             <FireflyProvider runtime={runtime}>

@@ -1,4 +1,10 @@
 import { defineMonorepoWorkspaceConfig } from "@workleap/eslint-configs";
+import { defineConfig, globalIgnores } from "eslint/config";
 
-defineMonorepoWorkspaceConfig(import.meta.dirname)
-
+export default defineConfig([
+    globalIgnores([
+        "storybook-static",
+        "host"
+    ]),
+    defineMonorepoWorkspaceConfig(import.meta.dirname)
+]);

@@ -3,7 +3,6 @@
 // they all share the same DOM, causing queries like "screen.findByText()"" to find elements from other concurrent
 // tests. This is different from "renderHook" which can run concurrently because it doesn't render into the DOM.
 
-import type { Runtime } from "@squide/core";
 import { QueryClientProvider, type QueryClient } from "@tanstack/react-query";
 import { render, screen, waitFor } from "@testing-library/react";
 import { NoopLogger } from "@workleap/logging";
@@ -16,7 +15,7 @@ import { FireflyRuntime } from "../src/FireflyRuntime.tsx";
 import { PublicDataFetchFailedEvent, PublicDataFetchStartedEvent, usePublicDataQueries } from "../src/usePublicDataQueries.ts";
 import { createDefaultAppRouterState, createQueryClient } from "./utils.ts";
 
-function renderAppRouter(appRouter: ReactNode, runtime: Runtime, state: AppRouterState, dispatch: AppRouterDispatch, queryClient?: QueryClient) {
+function renderAppRouter(appRouter: ReactNode, runtime: FireflyRuntime, state: AppRouterState, dispatch: AppRouterDispatch, queryClient?: QueryClient) {
     const client = queryClient ?? createQueryClient();
 
     return render(appRouter, {

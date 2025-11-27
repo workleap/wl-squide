@@ -8,8 +8,7 @@ import {
     LocalModulesRegistrationCompletedEvent,
     LocalModulesRegistrationStartedEvent,
     ModuleManager,
-    toLocalModuleDefinitions,
-    type Runtime
+    toLocalModuleDefinitions
 } from "@squide/core";
 import { LocalModuleRegistry } from "@squide/core/internal";
 import { MswPlugin } from "@squide/msw";
@@ -76,7 +75,7 @@ function AppRouter(props: AppRouterProps) {
     );
 }
 
-function renderAppRouter(props: AppRouterProps, runtime: Runtime) {
+function renderAppRouter(props: AppRouterProps, runtime: FireflyRuntime) {
     const queryClient = createQueryClient();
 
     return render(<AppRouter {...props} />, {

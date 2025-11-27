@@ -8201,8 +8201,8 @@ packages:
   ee-first@1.1.1:
     resolution: {integrity: sha512-WMwm9LhRUo+WUaRN+vRuETqG89IgZphVSNkdFgeb6sS/E4OrDIN7t48CAewSHXc6C8lefD8KKfr5vY61brQlow==}
 
-  effect@3.19.7:
-    resolution: {integrity: sha512-mIUJjaKrnvoZufOpuzjL9SbYuKTLqJQMCcQXK0p8XrsJqf4sulCQzMRpdpXyAlc9GwDubxmnuw9ow7bZWZIhLw==}
+  effect@3.19.8:
+    resolution: {integrity: sha512-OmLw8EfH02vdmyU2fO4uY9He/wepwKI5E/JNpE2pseaWWUbaYOK9UlxIiKP20ZEqQr+S/jSqRDGmpiqD/2DeCQ==}
 
   electron-to-chromium@1.5.262:
     resolution: {integrity: sha512-NlAsMteRHek05jRUxUR0a5jpjYq9ykk6+kO0yRaMi5moe7u0fVIOeQ3Y30A8dIiWFBNUoQGi1ljb1i5VtS9WQQ==}
@@ -19788,7 +19788,7 @@ snapshots:
 
   ee-first@1.1.1: {}
 
-  effect@3.19.7:
+  effect@3.19.8:
     dependencies:
       '@standard-schema/spec': 1.0.0
       fast-check: 3.23.2
@@ -24492,7 +24492,7 @@ snapshots:
       chalk-template: 1.1.2
       commander: 13.1.0
       cosmiconfig: 9.0.0(typescript@5.9.3)
-      effect: 3.19.7
+      effect: 3.19.8
       enquirer: 2.4.1
       fast-check: 3.23.2
       globby: 14.1.0

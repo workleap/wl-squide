@@ -32,6 +32,7 @@ export default {
                 "@basic/host", "@basic/remote-module", "@basic/another-remote-module",
                 "@basic-webpack/host", "@basic-webpack/remote-module", "@basic-webpack/another-remote-module",
                 "@endpoints/host", "@endpoints/remote-module", "@endpoints/express-server",
+                "@storybook/app", "@storybook/host",
                 "@getting-started/host",
                 "@getting-started-remote/host"
             ],
@@ -43,7 +44,8 @@ export default {
             "packages": [
                 "@basic/local-module", "@basic/shared", "@basic/shell",
                 "@basic-webpack/local-module", "@basic-webpack/shared", "@basic-webpack/shell",
-                "@endpoints/i18next", "@endpoints/layouts", "@endpoints/local-module", "@endpoints/shared", "@endpoints/shell"
+                "@endpoints/i18next", "@endpoints/layouts", "@endpoints/local-module", "@endpoints/shared", "@endpoints/shell",
+                "@storybook/app", "@storybook/host"
             ],
             "dependencyTypes": ["peer"],
             "range": "^",
