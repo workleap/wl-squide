@@ -9,5 +9,5 @@ order: 97
 - [Setup Tanstack Query](./setup-tanstack-query.md)
 - [Setup i18next](./setup-i18next.md)
 - [Setup the logger](./setup-logger.md)
+- [Setup Storybook](./setup-storybook.md)
 <!-- - [Setup Launch Darkly](./setup-launch-darkly.md) -->
-<!-- - [Setup Storybook](./setup-storybook.md) -->

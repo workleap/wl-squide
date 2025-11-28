@@ -6,7 +6,7 @@ toc:
 
 # initializeFirefly
 
-Create a [Runtime](../runtime/FireflyRuntime.md) instance, register **local** modules and optionally start [MSW](https://mswjs.io/). During the registration process, the modules' registration function will be invoked with a [FireflyRuntime](../runtime/FireflyRuntime.md) instance and an optional `context` object. To [defer the registration](#defer-the-registration-of-navigation-items) of specific navigation items, a registration function can return an anonymous function.
+Create a [Runtime](../runtime/FireflyRuntime.md) instance, register local modules and optionally start [MSW](https://mswjs.io/). During the registration process, the modules' registration function will be invoked with a [FireflyRuntime](../runtime/FireflyRuntime.md) instance and an optional `context` object. To [defer the registration](#defer-the-registration-of-navigation-items) of specific navigation items, a registration function can return an anonymous function.
 
 ## Reference
 

@@ -6,7 +6,7 @@ toc:
 
 # initializeFireflyForStorybook
 
-Create a runtime instance tailored for Storybook and optionally register **local** modules. 
+Create a runtime instance tailored for [Storybook](https://storybook.js.org/) and optionally register local modules. 
 
 ## Reference
 
