@@ -146,7 +146,7 @@ type Story = StoryObj<typeof meta>;
 export const Default = {} satisfies Story;
 ```
 
-Or embed the [FireflyDecorator](../reference/storybook/FireflyDecorator.md) component in an existant decorator:
+Or embed the [FireflyDecorator](../reference/storybook/FireflyDecorator.md) component in an existing decorator:
 
 ```tsx !#13-19
 import { initializeFireflyForStorybook, FireflyDecorator } from "@squide/firefly-rsbuild-storybook";
