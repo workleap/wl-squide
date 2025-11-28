@@ -46,7 +46,7 @@ const preview: Preview = {
 export default preview;
 ```
 
-Finally, update the standard `.storybook/main.ts` file and set the `staticDirs` option to `["public"]`:
+Then, update the standard `.storybook/main.ts` file and set the `staticDirs` option to `["public"]`:
 
 ```tsx !#12
 import { createRequire } from "node:module";
@@ -77,9 +77,13 @@ function getAbsolutePath(value: string): any {
 
 ```
 
-!!!tip
-Verify that MSW is properly [initialized](https://mswjs.io/docs/best-practices/managing-the-worker/), e.g. confirm that a `mockServiceWorker.js` file has been generated in the `/public` folder.
-!!!
+### Initialize MSW
+
+Finally, ensure that MSW is correctly initialized. Confirm that a `mockServiceWorker.js` file exists in the `/public` folder. If it's missing, open a terminal at the root of the Storybook application and execute the following command:
+
+```bash
+pnpm dlx msw init
+```
 
 ## Configure a project
 
