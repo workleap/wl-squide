@@ -48,7 +48,7 @@ export default preview;
 
 Then, update the standard `.storybook/main.ts` file and set the `staticDirs` option to `["public"]`:
 
-```tsx !#12
+```tsx !#9
 import { createRequire } from "node:module";
 import { dirname, join } from "node:path";
 import type { StorybookConfig } from "storybook-react-rsbuild";
@@ -57,15 +57,7 @@ const require = createRequire(import.meta.url);
 
 const storybookConfig: StorybookConfig = {
     framework: getAbsolutePath("storybook-react-rsbuild"),
-    addons: [
-        getAbsolutePath("@storybook/addon-a11y")
-    ],
-    staticDirs: ["public"],
-    rsbuildFinal: config => {
-        config.plugins = config.plugins || [];
-
-        return config;
-    }
+    staticDirs: ["public"]
 };
 
 export default storybookConfig;
