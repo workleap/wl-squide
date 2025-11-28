@@ -83,10 +83,18 @@ toc:
 
 ### Fakes
 
-Squide offers a collection of fake implementations designed to facilitate the set up of a module isolated environment.
-
 - [LocalStorageSessionManager](./fakes/localStorageSessionManager.md)
 - [ReadonlySessionLocalStorage](./fakes/readonlySessionLocalStorage.md)
+
+### Storybook
+
+- [initializeFireflyForStorybook](./storybook/initializeFireflyForStorybook.md)
+- [withFireflyDecorator](./storybook/withFireflyDecorator.md)
+- [FireflyDecorator](./storybook/FireflyDecorator.md)
+
+### Module Federation
+
+- [initializeFirefly](./module-federation/initializeFirefly.md)
 
 ### webpack
 
@@ -101,7 +109,3 @@ Squide offers a collection of fake implementations designed to facilitate the se
 - [defineDevRemoteModuleConfig](./rsbuild/defineDevRemoteModuleConfig.md) [!badge variant="danger" size="xs" text="experimental"]
 - [defineBuildHostConfig](./rsbuild/defineBuildHostConfig.md) [!badge variant="danger" size="xs" text="experimental"]
 - [defineBuildRemoteModuleConfig](./rsbuild/defineBuildRemoteModuleConfig.md) [!badge variant="danger" size="xs" text="experimental"]
-
-### Module Federation
-
-- [initializeFirefly](./module-federation/initializeFirefly.md)

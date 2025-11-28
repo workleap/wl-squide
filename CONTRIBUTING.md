@@ -323,7 +323,7 @@ pnpm serve-endpoints
 Build the sample Storybook application and start a local web server to serve the application.
 
 ```bash
-pnpm serve-basic-mix
+pnpm serve-storybook
 ```
 
 ### test
