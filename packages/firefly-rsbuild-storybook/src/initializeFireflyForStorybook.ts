@@ -24,7 +24,7 @@ export async function initializeFireflyForStorybook(options: InitializeFireflyFo
         ]
     });
 
-    if (localModules) {
+    if (localModules.length > 0) {
         await runtime.moduleManager.registerModules([
             ...toLocalModuleDefinitions(localModules)
         ]);
