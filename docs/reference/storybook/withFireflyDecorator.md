@@ -20,7 +20,7 @@ const decorator = withFireflyDecorator(runtime)
 
 ### Returns
 
-A `FireflyDecorator` component.
+A `Decorator` function.
 
 ## Usage
 
