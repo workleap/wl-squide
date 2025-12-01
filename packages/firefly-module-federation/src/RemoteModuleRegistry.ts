@@ -1,4 +1,4 @@
-import { isFunction, isNil, ModuleRegistrationError, registerModule, type DeferredRegistrationFunction, type ModuleRegistrationStatus, type ModuleRegistrationStatusChangedListener, type ModuleRegistry, type RegisterModulesOptions, type Runtime } from "@squide/core";
+import { isFunction, isNil, ModuleDefinition, ModuleRegistrationError, registerModule, type DeferredRegistrationFunction, type ModuleRegistrationStatus, type ModuleRegistrationStatusChangedListener, type ModuleRegistry, type RegisterModulesOptions, type Runtime } from "@squide/core";
 import type { Logger, RootLogger } from "@workleap/logging";
 import type { RemoteDefinition } from "./RemoteDefinition.ts";
 
@@ -389,9 +389,11 @@ export class RemoteModuleRegistry implements ModuleRegistry {
     }
 }
 
-export function toRemoteModuleDefinitions(remotes: RemoteDefinition[]) {
-    return remotes.map(x => ({
-        definition: x,
-        registryId: RemoteModuleRegistryId
-    }));
+export function toRemoteModuleDefinitions(remotes: (RemoteDefinition | undefined)[]): ModuleDefinition[] {
+    return remotes
+        .filter((x): x is RemoteDefinition => Boolean(x))
+        .map(x => ({
+            definition: x,
+            registryId: RemoteModuleRegistryId
+        }));
 }

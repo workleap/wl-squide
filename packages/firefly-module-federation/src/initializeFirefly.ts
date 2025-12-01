@@ -4,7 +4,7 @@ import { RemoteDefinition } from "./RemoteDefinition.ts";
 import { toRemoteModuleDefinitions } from "./RemoteModuleRegistry.ts";
 
 export interface InitializeFireflyOptions<TRuntime extends FireflyRuntime, TContext = unknown, TData = unknown> extends BaseInitializeFireflyOptions<TRuntime, TContext, TData> {
-    remotes?: RemoteDefinition[];
+    remotes?: (RemoteDefinition | undefined)[];
 }
 
 export function initializeFirefly<TContext = unknown, TData = unknown>(options: InitializeFireflyOptions<FireflyRuntime, TContext, TData> = {}) {

@@ -6,6 +6,25 @@ import { test, vi } from "vitest";
 import { FireflyRuntime } from "../src/FireflyRuntime.tsx";
 import { ApplicationBootstrappingStartedEvent, bootstrap } from "../src/initializeFirefly.ts";
 
+test.concurrent("filter out undefined definitions", async ({ expect }) => {
+    const runtime = new FireflyRuntime({
+        loggers: [new NoopLogger()]
+    });
+
+    const listener = vi.fn();
+
+    runtime.eventBus.addListener(ApplicationBootstrappingStartedEvent, listener);
+
+    bootstrap(runtime, [
+        undefined,
+        ...toLocalModuleDefinitions([
+            () => {}
+        ])
+    ]);
+
+    await vi.waitFor(() => expect(runtime.moduleManager.getAreModulesReady()).toBeTruthy());
+});
+
 test.concurrent("dispatch ApplicationBootstrappingStartedEvent", async ({ expect }) => {
     const runtime = new FireflyRuntime({
         loggers: [new NoopLogger()]

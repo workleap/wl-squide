@@ -1,6 +1,7 @@
 import type { RootLogger } from "@workleap/logging";
 import type { Runtime } from "../runtime/Runtime.ts";
 import { isFunction } from "../shared/assertions.ts";
+import { ModuleDefinition } from "./ModuleManager.ts";
 import { ModuleRegistrationError, type ModuleRegistrationStatus, type ModuleRegistrationStatusChangedListener, type ModuleRegistry, type RegisterModulesOptions } from "./ModuleRegistry.ts";
 import { registerModule, type DeferredRegistrationFunction, type ModuleRegisterFunction } from "./registerModule.ts";
 
@@ -318,9 +319,11 @@ export class LocalModuleRegistry implements ModuleRegistry {
     }
 }
 
-export function toLocalModuleDefinitions<TRuntime extends Runtime = Runtime, TContext = unknown, TData = unknown>(localModules: ModuleRegisterFunction<TRuntime, TContext, TData>[]) {
-    return localModules.map(x => ({
-        definition: x,
-        registryId: LocalModuleRegistryId
-    }));
+export function toLocalModuleDefinitions<TRuntime extends Runtime = Runtime, TContext = unknown, TData = unknown>(localModules: (ModuleRegisterFunction<TRuntime, TContext, TData> | undefined)[]): ModuleDefinition<TRuntime, TContext, TData>[] {
+    return localModules
+        .filter((x): x is ModuleRegisterFunction<TRuntime, TContext, TData> => Boolean(x))
+        .map(x => ({
+            definition: x,
+            registryId: LocalModuleRegistryId
+        }));
 }

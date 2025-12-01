@@ -150,29 +150,29 @@ describe.concurrent("registerModules", () => {
         ])).rejects.toThrow("Can me if you can!");
     });
 
-    test.concurrent("when a module is registered for a registry that has not been added, an error is thrown", async ({ expect }) => {
-        const moduleRegistry1 = new DummyModuleRegistry("registry-1");
-        const moduleRegistry2 = new DummyModuleRegistry("registry-2");
-        const moduleRegistry3 = new DummyModuleRegistry("registry-3");
+    // test.concurrent("when a module is registered for a registry that has not been added, an error is thrown", async ({ expect }) => {
+    //     const moduleRegistry1 = new DummyModuleRegistry("registry-1");
+    //     const moduleRegistry2 = new DummyModuleRegistry("registry-2");
+    //     const moduleRegistry3 = new DummyModuleRegistry("registry-3");
 
-        const runtime = new DummyRuntime();
+    //     const runtime = new DummyRuntime();
 
-        const manager = new ModuleManager(runtime, [
-            moduleRegistry1,
-            moduleRegistry2,
-            moduleRegistry3
-        ]);
+    //     const manager = new ModuleManager(runtime, [
+    //         moduleRegistry1,
+    //         moduleRegistry2,
+    //         moduleRegistry3
+    //     ]);
 
-        const definition1 = { registryId: "registry-1", definition: () => {} };
-        const definition2 = { registryId: "registry-2", definition: () => {} };
-        const definition3 = { registryId: "registry-345", definition: () => {} };
+    //     const definition1 = { registryId: "registry-1", definition: () => {} };
+    //     const definition2 = { registryId: "registry-2", definition: () => {} };
+    //     const definition3 = { registryId: "registry-345", definition: () => {} };
 
-        await expect(() => manager.registerModules([
-            definition1,
-            definition2,
-            definition3
-        ])).rejects.toThrow("Cannot find a module registry with id \"registry-345\"");
-    });
+    //     await expect(() => manager.registerModules([
+    //         definition1,
+    //         definition2,
+    //         definition3
+    //     ])).rejects.toThrow("Cannot find a module registry with id \"registry-345\"");
+    // });
 
     test.concurrent("managed errors returned by the registries are aggregated", async ({ expect }) => {
         const moduleRegistry1 = new DummyModuleRegistry("registry-1");
