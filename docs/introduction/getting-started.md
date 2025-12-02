@@ -47,6 +47,7 @@ In addition to modularity, Squide offers built-in mechanisms to handle most of t
 - Errors handling
 - Messaging
 - Environment variables
+- Feature flags
 - API requests mocking
 
 Those cross-cutting functionalities uses most of the libraries recommended by Workleap's frontend technology stacks:
@@ -59,6 +60,7 @@ Localization | Squide includes built-in support for localization, powered by [i1
 Observability | Squide includes built-in observability powered by [Honeycomb](https://www.honeycomb.io/).
 Logging | Squide includes a built-in logger powered by [@workleap/logging](https://workleap.github.io/wl-logging).
 API requests mocking | When in development, Squide bootstrapping flow ensure that the rendering of the requested page is delayed until all of the application [MSW](https://mswjs.io/) request handlers has been registered.
+Feature flags | Squide includes built-in support for [LaunchDarkly](https://launchdarkly.com/) feature flags.
 Storybook | Squide integrates with [Storybook](https://storybook.js.org/) stories.
 
 ## Why is Squide relevant?

@@ -11,6 +11,17 @@ export {
     type EnvironmentVariableValue
 } from "@squide/env-vars";
 export {
+    getBooleanFeatureFlag,
+    getLaunchDarklyPlugin,
+    LaunchDarklyPlugin,
+    LaunchDarklyPluginName,
+    useBooleanFeatureFlag,
+    useFeatureFlag,
+    useFeatureFlags,
+    useFeatureFlagsChangedListener,
+    type FeatureFlagsChangedListener
+} from "@squide/launch-darkly";
+export {
     getMswPlugin,
     MswPlugin,
     MswPluginName,

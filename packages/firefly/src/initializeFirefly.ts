@@ -1,7 +1,9 @@
 import { isFunction, ModuleDefinition, toLocalModuleDefinitions, type ModuleRegisterFunction, type RegisterModulesOptions } from "@squide/core";
 import { EnvironmentVariables, EnvironmentVariablesPlugin } from "@squide/env-vars";
+import { LaunchDarklyPlugin } from "@squide/launch-darkly";
 import { MswPlugin } from "@squide/msw";
 import type { HoneycombInstrumentationPartialClient } from "@workleap-telemetry/core";
+import { LDClient } from "launchdarkly-js-client-sdk";
 import { FireflyRuntime, type FireflyRuntimeOptions } from "./FireflyRuntime.tsx";
 import { initializeHoneycomb } from "./honeycomb/initializeHoneycomb.ts";
 
@@ -17,6 +19,7 @@ export interface InitializeFireflyOptions<TRuntime extends FireflyRuntime, TCont
     useMsw?: boolean;
     environmentVariables?: Partial<EnvironmentVariables>;
     honeycombInstrumentationClient?: HoneycombInstrumentationPartialClient;
+    launchDarklyClient?: LDClient;
     startMsw?: StartMswFunction<FireflyRuntime>;
     onError?: OnInitializationErrorFunction;
 }
@@ -81,6 +84,7 @@ export function initializeFirefly<TContext = unknown, TData = unknown>(options: 
         plugins = [],
         environmentVariables,
         honeycombInstrumentationClient,
+        launchDarklyClient,
         loggers,
         onError
     } = options;
@@ -93,6 +97,10 @@ export function initializeFirefly<TContext = unknown, TData = unknown>(options: 
 
     if (useMsw) {
         plugins.push(x => new MswPlugin(x));
+    }
+
+    if (launchDarklyClient) {
+        plugins.push(x => new LaunchDarklyPlugin(x, launchDarklyClient));
     }
 
     const runtime = new FireflyRuntime({

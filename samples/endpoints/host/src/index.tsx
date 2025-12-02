@@ -1,7 +1,7 @@
 import { createI18NextPlugin } from "@endpoints/i18next";
 import { registerLocalModule } from "@endpoints/local-module";
 import { registerShell } from "@endpoints/shell";
-import { FireflyProvider } from "@squide/firefly";
+import { FireflyProvider, getBooleanFeatureFlag } from "@squide/firefly";
 import { initializeFirefly } from "@squide/firefly-module-federation";
 import { BrowserConsoleLogger, type RootLogger } from "@workleap/logging";
 import { LogRocketLogger } from "@workleap/logrocket";
@@ -32,13 +32,13 @@ const launchDarklyClient = initializeLaunchDarkly(process.env.LAUNCH_DARKLY_CLIE
 
 // Will later integrate with a plugin and use the Squide logger.
 launchDarklyClient.on("ready", () => {
-    console.log("[host] Launch Darkly client is ready:", launchDarklyClient.allFlags());
+    console.log("[host] LaunchDarkly is ready:", launchDarklyClient.allFlags());
 
-    const isLogRocketEnabled = launchDarklyClient.variation("enable-log-rocket", false) as boolean;
-    const isHoneycombEnabled = launchDarklyClient.variation("enable-honeycomb", false) as boolean;
-    const shouldRegisterLocalModule = launchDarklyClient.variation("register-local-module", true) as boolean;
-    const shouldRegisterRemoteModule = launchDarklyClient.variation("register-remote-module", true) as boolean;
-    // const showShuffleFeatureFlagsButton = launchDarklyClient.variation("show-shuffle-feature-flags-button", true);
+    const isLogRocketEnabled = getBooleanFeatureFlag(launchDarklyClient, "enable-log-rocket", false);
+    const isHoneycombEnabled = getBooleanFeatureFlag(launchDarklyClient, "enable-honeycomb", false);
+    const shouldRegisterLocalModule = getBooleanFeatureFlag(launchDarklyClient, "register-local-module", true);
+    const shouldRegisterRemoteModule = getBooleanFeatureFlag(launchDarklyClient, "register-remote-module", true);
+    // const showRenderShuffleFeatureFlagsButton = launchDarklyClient.variation("show-shuffle-feature-flags-button", true);
     // const showDeactivateFeatureBButton = launchDarklyClient.variation("show-deactivate-feature-b-button", true);
     // const showUpdateSessionButton = launchDarklyClient.variation("show-update-session-button", true);
 
@@ -93,6 +93,7 @@ launchDarklyClient.on("ready", () => {
             x => createI18NextPlugin(x)
         ],
         honeycombInstrumentationClient: telemetryClient.honeycomb,
+        launchDarklyClient,
         loggers
     });
 
@@ -109,19 +110,19 @@ launchDarklyClient.on("ready", () => {
     );
 });
 
-// Will later integrate with a plugin and use the Squide logger.
-launchDarklyClient.on("error", error => {
-    console.log("[host] An error occured with the Launch Darkly client:", error);
-});
+// // Will later integrate with a plugin and use the Squide logger.
+// launchDarklyClient.on("error", error => {
+//     console.log("[host] An error occured with the Launch Darkly client:", error);
+// });
 
-// Will later integrate with a plugin and use the Squide logger.
-launchDarklyClient.on("failed", error => {
-    console.log("[host] Launch Darkly client failed:", error);
-});
+// // Will later integrate with a plugin and use the Squide logger.
+// launchDarklyClient.on("failed", error => {
+//     console.log("[host] Launch Darkly client failed:", error);
+// });
 
-launchDarklyClient.on("change", changes => {
-    console.log("[host] Launch Darkly flags changed:", changes);
-});
+// launchDarklyClient.on("change", changes => {
+//     console.log("[host] Launch Darkly flags changed:", changes);
+// });
 
 try {
     await launchDarklyClient.waitForInitialization(5);

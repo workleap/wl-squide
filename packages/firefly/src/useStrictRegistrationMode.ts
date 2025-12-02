@@ -1,13 +1,5 @@
-import { Runtime, useRuntime } from "@squide/core";
-import { useEffect, useSyncExternalStore } from "react";
-
-function subscribeToModulesReady(runtime: Runtime) {
-    return (callback: () => void) => {
-        runtime.moduleManager.registerModulesReadyListener(callback);
-
-        return () => runtime.moduleManager.removeModulesReadyListener(callback);
-    };
-}
+import { useRuntime } from "@squide/core";
+import { useCallback, useEffect, useSyncExternalStore } from "react";
 
 export interface UseStrictRegistrationModeOptions {
     isEnabled?: boolean;
@@ -20,8 +12,14 @@ export function useStrictRegistrationMode(options: UseStrictRegistrationModeOpti
 
     const runtime = useRuntime();
 
+    const subscribe = useCallback((callback: () => void) => {
+        runtime.moduleManager.registerModulesReadyListener(callback);
+
+        return () => runtime.moduleManager.removeModulesReadyListener(callback);
+    }, [runtime]);
+
     // This listener is only executed if the modules are ready.
-    const areModulesReady = useSyncExternalStore(subscribeToModulesReady(runtime), () => runtime.moduleManager.getAreModulesReady());
+    const areModulesReady = useSyncExternalStore(subscribe, () => runtime.moduleManager.getAreModulesReady());
 
     useEffect(() => {
         if (areModulesReady && isEnabled) {

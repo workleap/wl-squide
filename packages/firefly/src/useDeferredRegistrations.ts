@@ -11,6 +11,16 @@ export interface UseDeferredRegistrationsOptions {
     onError?: DeferredRegistrationsErrorCallback;
 }
 
+/*
+
+- I think I would have to remember the last provided data OBJECT
+
+- And use a SyncExternalStore to trigger a re-render when  the feature flags changes
+
+- BUT FIRST, integrate the rest with the React Hooks and everything
+
+*/
+
 export function useDeferredRegistrations(data: unknown, { onError }: UseDeferredRegistrationsOptions = {}) {
     const runtime = useRuntime();
 

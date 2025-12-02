@@ -1,5 +1,5 @@
 import { fetchJson, postJson, toSubscriptionStatusLabel, useSessionManager, useSubscription } from "@endpoints/shared";
-import { isNavigationLink, useEnvironmentVariable, useEnvironmentVariables, useLogger, useNavigationItems, useRenderedNavigationItems, type NavigationLinkRenderProps, type NavigationSectionRenderProps, type RenderItemFunction, type RenderSectionFunction } from "@squide/firefly";
+import { isNavigationLink, useBooleanFeatureFlag, useEnvironmentVariable, useEnvironmentVariables, useLogger, useNavigationItems, useRenderedNavigationItems, type NavigationLinkRenderProps, type NavigationSectionRenderProps, type RenderItemFunction, type RenderSectionFunction } from "@squide/firefly";
 import { useI18nextInstance } from "@squide/i18next";
 import { useQueryClient } from "@tanstack/react-query";
 import { Suspense, useCallback, type MouseEvent, type ReactNode } from "react";
@@ -67,6 +67,10 @@ export function AuthenticatedLayout() {
 
     const queryClient = useQueryClient();
     const environmentVariables = useEnvironmentVariables();
+
+    const showUpdateSessionButton = useBooleanFeatureFlag("show-update-session-button", true);
+    const showRenderShuffleFeatureFlagsButton = useBooleanFeatureFlag("show-shuffle-feature-flags-button", true);
+    const showDeactivateFeatureBButton = useBooleanFeatureFlag("show-deactivate-feature-b-button", true);
 
     const navigate = useNavigate();
 
@@ -138,21 +142,27 @@ export function AuthenticatedLayout() {
                     {/* Must check for a null session because when the disconnect button is clicked, it will clear the session and rerender this layout. */}
                     ({t("subscriptionLabel")}: <span style={{ fontWeight: "bold" }}>{subscriptionStatusLabel}</span><span style={{ marginLeft: "10px", marginRight: "10px" }}>-</span>{t("userLabel")}: <span style={{ fontWeight: "bold" }}>{session?.user?.name}/{session?.user?.preferredLanguage}</span>)
                 </div>
-                <div>
-                    <button type="button" onClick={handleUpdateSession} style={{ whiteSpace: "nowrap", marginRight: "10px" }}>
-                        {t("updateSessionButtonLabel")}
-                    </button>
-                </div>
-                <div>
-                    <button type="button" onClick={handleShuffleFeatureFlags} style={{ whiteSpace: "nowrap", marginRight: "10px" }}>
-                        {t("shuffleFeatureFlagsLabel")}
-                    </button>
-                </div>
-                <div>
-                    <button type="button" onClick={handleDeactivateFeatureB} style={{ whiteSpace: "nowrap", marginRight: "10px" }}>
-                        {t("deactivateFeatureBLabel")}
-                    </button>
-                </div>
+                {showUpdateSessionButton && (
+                    <div>
+                        <button type="button" onClick={handleUpdateSession} style={{ whiteSpace: "nowrap", marginRight: "10px" }}>
+                            {t("updateSessionButtonLabel")}
+                        </button>
+                    </div>
+                )}
+                {showRenderShuffleFeatureFlagsButton && (
+                    <div>
+                        <button type="button" onClick={handleShuffleFeatureFlags} style={{ whiteSpace: "nowrap", marginRight: "10px" }}>
+                            {t("shuffleFeatureFlagsLabel")}
+                        </button>
+                    </div>
+                )}
+                {showDeactivateFeatureBButton && (
+                    <div>
+                        <button type="button" onClick={handleDeactivateFeatureB} style={{ whiteSpace: "nowrap", marginRight: "10px" }}>
+                            {t("deactivateFeatureBLabel")}
+                        </button>
+                    </div>
+                )}
                 <div>
                     <button type="button" onClick={handleFailing} style={{ whiteSpace: "nowrap", marginRight: "10px" }}>
                         {t("failingLabel")}
