@@ -1869,6 +1869,9 @@ importers:
       launchdarkly-js-client-sdk:
         specifier: 3.9.0
         version: 3.9.0
+      logrocket:
+        specifier: 10.1.1
+        version: 10.1.1
       msw:
         specifier: 2.12.3
         version: 2.12.3(@types/node@24.10.1)(typescript@5.9.3)
@@ -2328,6 +2331,9 @@ importers:
       '@workleap/telemetry':
         specifier: ^2.1.6
         version: 2.1.6(@opentelemetry/api@1.9.0)(logrocket@10.1.1)(react-dom@19.2.0(react@19.2.0))(react@19.2.0)(zone.js@0.15.1)
+      logrocket:
+        specifier: 10.1.1
+        version: 10.1.1
       msw:
         specifier: ^2.12.3
         version: 2.12.3(@types/node@24.10.1)(typescript@5.9.3)

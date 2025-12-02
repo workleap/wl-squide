@@ -13,6 +13,7 @@
     },
     "peerDependencies": {
         "@tanstack/react-query": "^5.90.11",
+        "logrocket": "10.1.1",
         "msw": "^2.12.3",
         "react": "^19.2.0",
         "react-dom": "^19.2.0",

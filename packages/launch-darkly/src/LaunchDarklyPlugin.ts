@@ -44,14 +44,14 @@ export class LaunchDarklyPlugin extends Plugin {
     #registerLoggingListeners() {
         this.#launchDarklyClient.on("error", error => {
             this._runtime.logger
-                .withText("[LaunchDarkly] An error occured with the client:")
+                .withText("[launch-darkly] An error occured with the client:")
                 .withError(error)
                 .error();
         });
 
         this.#launchDarklyClient.on("change", changes => {
             this._runtime.logger
-                .withText("[LaunchDarkly] Feature flags changed:")
+                .withText("[launch-darkly] Feature flags changed:")
                 .withObject(changes)
                 .debug();
         });

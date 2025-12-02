@@ -15,22 +15,11 @@ import { registerHost } from "./register.tsx";
 
 const launchDarklyClient = initializeLaunchDarkly(process.env.LAUNCH_DARKLY_CLIENT_ID!, {
     kind: "user",
-    key: "anonymous"
+    anonymous: true
 }, {
     streaming: true
-    // NOTE: This is the old pattern, the new one is to use "variation" at retrieval.
-    // bootstrap: {
-    //     "enable-honeycomb": true,
-    //     "enable-log-rocket": true,
-    //     "register-remote-module": true,
-    //     "register-local-module": true,
-    //     "show-deactivate-feature-b-button": true,
-    //     "show-shuffle-feature-flags-button": true,
-    //     "show-update-session-button": true
-    // }
 });
 
-// Will later integrate with a plugin and use the Squide logger.
 launchDarklyClient.on("ready", () => {
     console.log("[host] LaunchDarkly is ready:", launchDarklyClient.allFlags());
 
@@ -38,9 +27,6 @@ launchDarklyClient.on("ready", () => {
     const isHoneycombEnabled = getBooleanFeatureFlag(launchDarklyClient, "enable-honeycomb", false);
     const shouldRegisterLocalModule = getBooleanFeatureFlag(launchDarklyClient, "register-local-module", true);
     const shouldRegisterRemoteModule = getBooleanFeatureFlag(launchDarklyClient, "register-remote-module", true);
-    // const showRenderShuffleFeatureFlagsButton = launchDarklyClient.variation("show-shuffle-feature-flags-button", true);
-    // const showDeactivateFeatureBButton = launchDarklyClient.variation("show-deactivate-feature-b-button", true);
-    // const showUpdateSessionButton = launchDarklyClient.variation("show-update-session-button", true);
 
     const loggers: RootLogger[] = [new BrowserConsoleLogger()];
 
@@ -110,24 +96,9 @@ launchDarklyClient.on("ready", () => {
     );
 });
 
-// // Will later integrate with a plugin and use the Squide logger.
-// launchDarklyClient.on("error", error => {
-//     console.log("[host] An error occured with the Launch Darkly client:", error);
-// });
-
-// // Will later integrate with a plugin and use the Squide logger.
-// launchDarklyClient.on("failed", error => {
-//     console.log("[host] Launch Darkly client failed:", error);
-// });
-
-// launchDarklyClient.on("change", changes => {
-//     console.log("[host] Launch Darkly flags changed:", changes);
-// });
-
 try {
     await launchDarklyClient.waitForInitialization(5);
-
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 } catch (error: unknown) {
-    // do nothing.
+    // Do nothing.
 }

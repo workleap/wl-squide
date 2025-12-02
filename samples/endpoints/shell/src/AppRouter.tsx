@@ -10,9 +10,10 @@ import {
     type Session,
     type Subscription
 } from "@endpoints/shared";
-import { AppRouter as FireflyAppRouter, useDeferredRegistrations, useEnvironmentVariables, useIsBootstrapping, useLogger, useProtectedDataQueries, usePublicDataQueries } from "@squide/firefly";
+import { AppRouter as FireflyAppRouter, useDeferredRegistrations, useEnvironmentVariables, useIsBootstrapping, useLaunchDarklyClient, useLogger, useProtectedDataQueries, usePublicDataQueries } from "@squide/firefly";
 import { useChangeLanguage } from "@squide/i18next";
 import { useHoneycombInstrumentationClient } from "@workleap/telemetry/react";
+import LogRocket from "logrocket";
 import { useEffect, useMemo } from "react";
 import { createBrowserRouter, Outlet } from "react-router";
 import { RouterProvider } from "react-router/dom";
@@ -104,6 +105,8 @@ function BootstrappingRoute() {
     ], error => isApiError(error) && error.status === 401);
 
     const honeycombClient = useHoneycombInstrumentationClient();
+    const launchDarklyClient = useLaunchDarklyClient();
+
     const changeLanguage = useChangeLanguage();
 
     useEffect(() => {
@@ -122,11 +125,28 @@ function BootstrappingRoute() {
                 "app.user_prefered_language": session.user.preferredLanguage
             });
 
+            launchDarklyClient.identify({
+                kind: "user",
+                key: session.user.id.toString(),
+                name: session.user.name
+            }).then(() => {
+                logger
+                    .withText("[shell] LaunchDarkly session identified")
+                    .withObject(launchDarklyClient.getContext?.())
+                    .debug();
+            }).catch(() => {
+                logger.error("[shell] Failed to identify LaunchDarkly session.");
+            });
+
+            LogRocket.identify(session.user.id.toString(), {
+                "Name": session.user.name
+            });
+
             // When the session has been retrieved, update the language to match the user
             // preferred language.
             changeLanguage(session.user.preferredLanguage);
         }
-    }, [session, honeycombClient, changeLanguage, logger]);
+    }, [session, honeycombClient, launchDarklyClient, changeLanguage, logger]);
 
     useEffect(() => {
         if (subscription) {

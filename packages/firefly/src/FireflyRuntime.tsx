@@ -1,5 +1,6 @@
 import type { RegisterRouteOptions, RuntimeMethodOptions, RuntimeOptions } from "@squide/core";
 import { EnvironmentVariableKey, EnvironmentVariables, EnvironmentVariableValue, getEnvironmentVariablesPlugin } from "@squide/env-vars";
+import { getLaunchDarklyPlugin } from "@squide/launch-darkly";
 import { getMswPlugin, MswPluginName, MswState } from "@squide/msw";
 import { type IReactRouterRuntime, ReactRouterRuntime, ReactRouterRuntimeScope, type Route } from "@squide/react-router";
 import type { HoneycombInstrumentationPartialClient } from "@workleap-telemetry/core";
@@ -112,6 +113,10 @@ export class FireflyRuntime<TRuntime extends FireflyRuntime = any> extends React
         return this._honeycombInstrumentationClient;
     }
 
+    get launchDarklyClient() {
+        return getLaunchDarklyPlugin(this).client;
+    }
+
     startScope(logger: Logger): TRuntime {
         return (new FireflyRuntimeScope(this, logger) as unknown) as TRuntime;
     }
@@ -160,5 +165,9 @@ export class FireflyRuntimeScope<TRuntime extends FireflyRuntime = FireflyRuntim
 
     get honeycombInstrumentationClient(): HoneycombInstrumentationPartialClient {
         throw new Error("[squide] Cannot retrieve the Honeycomb instrumentation client from a runtime scope instance.");
+    }
+
+    get launchDarklyClient() {
+        return this._runtime.launchDarklyClient;
     }
 }

@@ -23,6 +23,7 @@ const runtime = new FireflyRuntime(options?: { mode?, honeycombInstrumentationCl
 - `options`: An optional object literal of options:
     - `mode`: An optional mode to optimize Squide for production. Values are `"development"` (default) and `"production"`.
     - `honeycombInstrumentationClient`: An optional Honeycomb instrumentation client for tracing the Squide bootstrapping flow.
+    - `launchDarklyClient`: An optional LaunchDarkly client.
     - `loggers`: An optional array of `Logger` instances.
     - `plugins`: An optional array of `Plugin` factory functions.
 
@@ -47,6 +48,7 @@ const runtime = new FireflyRuntime(options?: { mode?, honeycombInstrumentationCl
 - `logger`: Retrieve the runtime logger.
 - `eventBus`: Retrieve the runtime event bus.
 - `plugins`: Retrieve the registered plugins.
+- `launchDarklyClient`: Retrieve the LaunchDarkly client.
 
 ## Usage
 
@@ -583,3 +585,9 @@ const plugin = runtime.getPlugin(MyPlugin.name) as MyPlugin;
 ```
 
 [!ref Learn more about plugins](../plugins/Plugin.md)
+
+### Retrieve LaunchDarkly client
+
+```ts !#1
+const client = runtime.launchDarkClient;
+```

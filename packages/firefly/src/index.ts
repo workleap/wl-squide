@@ -19,6 +19,7 @@ export {
     useFeatureFlag,
     useFeatureFlags,
     useFeatureFlagsChangedListener,
+    useLaunchDarklyClient,
     type FeatureFlagsChangedListener
 } from "@squide/launch-darkly";
 export {
