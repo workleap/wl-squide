@@ -51,7 +51,7 @@ export function AuthenticatedLayout() {
 
     const authenticationApiBaseUrl = useEnvironmentVariable("authenticationApiBaseUrl");
     const sessionApiBaseUrl = useEnvironmentVariable("sessionApiBaseUrl");
-    const featureFlagsApiBaseUrl = useEnvironmentVariable("featureFlagsApiBaseUrl");
+    const userRoleApiBaseUrl = useEnvironmentVariable("userRoleApiBaseUrl");
     const subscriptionApiBaseUrl = useEnvironmentVariable("subscriptionApiBaseUrl");
 
     const logger = useLogger();
@@ -69,8 +69,7 @@ export function AuthenticatedLayout() {
     const environmentVariables = useEnvironmentVariables();
 
     const showUpdateSessionButton = useBooleanFeatureFlag("show-update-session-button", true);
-    const showRenderShuffleFeatureFlagsButton = useBooleanFeatureFlag("show-shuffle-feature-flags-button", true);
-    const showDeactivateFeatureBButton = useBooleanFeatureFlag("show-deactivate-feature-b-button", true);
+    const showSwitchUserRoleButton = useBooleanFeatureFlag("show-switch-user-role-button", true);
 
     const navigate = useNavigate();
 
@@ -101,27 +100,16 @@ export function AuthenticatedLayout() {
         queryClient.refetchQueries({ queryKey: [`${environmentVariables.sessionApiBaseUrl}getSession`] });
     }, [logger, sessionApiBaseUrl, queryClient, environmentVariables]);
 
-    const handleShuffleFeatureFlags = useCallback(async (event: MouseEvent<HTMLButtonElement>) => {
+    const handleSwitchUserRole = useCallback(async (event: MouseEvent<HTMLButtonElement>) => {
         event.preventDefault();
 
-        await postJson(`${featureFlagsApiBaseUrl}shuffle`)
+        await postJson(`${userRoleApiBaseUrl}switch`)
             .then(() => {
-                logger.debug("[shell] Shuffled the feature flags.");
+                logger.debug("[shell] Switch the user role.");
             });
 
-        queryClient.refetchQueries({ queryKey: [`${environmentVariables.featureFlagsApiBaseUrl}getAll`] });
-    }, [logger, featureFlagsApiBaseUrl, queryClient, environmentVariables]);
-
-    const handleDeactivateFeatureB = useCallback(async (event: MouseEvent<HTMLButtonElement>) => {
-        event.preventDefault();
-
-        await postJson(`${featureFlagsApiBaseUrl}deactivateFeatureB`)
-            .then(() => {
-                logger.debug("[shell] Deactivated feature B.");
-            });
-
-        queryClient.refetchQueries({ queryKey: [`${environmentVariables.featureFlagsApiBaseUrl}getAll`] });
-    }, [logger, featureFlagsApiBaseUrl, queryClient, environmentVariables]);
+        queryClient.refetchQueries({ queryKey: [`${environmentVariables.userRoleApiBaseUrl}getRole`] });
+    }, [logger, userRoleApiBaseUrl, queryClient, environmentVariables]);
 
     const handleFailing = useCallback(async (event: MouseEvent<HTMLButtonElement>) => {
         event.preventDefault();
@@ -149,17 +137,10 @@ export function AuthenticatedLayout() {
                         </button>
                     </div>
                 )}
-                {showRenderShuffleFeatureFlagsButton && (
+                {showSwitchUserRoleButton && (
                     <div>
-                        <button type="button" onClick={handleShuffleFeatureFlags} style={{ whiteSpace: "nowrap", marginRight: "10px" }}>
-                            {t("shuffleFeatureFlagsLabel")}
-                        </button>
-                    </div>
-                )}
-                {showDeactivateFeatureBButton && (
-                    <div>
-                        <button type="button" onClick={handleDeactivateFeatureB} style={{ whiteSpace: "nowrap", marginRight: "10px" }}>
-                            {t("deactivateFeatureBLabel")}
+                        <button type="button" onClick={handleSwitchUserRole} style={{ whiteSpace: "nowrap", marginRight: "10px" }}>
+                            {t("switchUserRoleLabel")}
                         </button>
                     </div>
                 )}

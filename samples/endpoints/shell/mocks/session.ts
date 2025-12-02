@@ -2,7 +2,7 @@ import { FakeSessionStorageKey } from "@endpoints/shared";
 import { LocalStorageSessionManager } from "@squide/fakes";
 
 export interface Session {
-    userId: number;
+    userId: string;
     username: string;
     preferredLanguage: string;
 }

@@ -15,7 +15,9 @@ export function useFeatureFlag(key: string, defaultValue?: unknown) {
 
         client.on("change", listener);
 
-        return () => client.off("change", listener);
+        return () => {
+            client.off("change", listener);
+        };
     }, [key, client]);
 
     return useSyncExternalStore(subscribe, () => client.variation(key, defaultValue));

@@ -68,8 +68,8 @@ function registerRoutes(runtime: FireflyRuntime, i18nextInstance: i18n): Deferre
         menuId: "/federated-tabs"
     });
 
-    return (deferredRuntime, { featureFlags }) => {
-        if (featureFlags?.featureA) {
+    return (deferredRuntime, { role }) => {
+        if (role === "admin") {
             deferredRuntime.registerNavigationItem({
                 $id: "feature-a",
                 $label: <I18nextNavigationItemLabel i18next={i18nextInstance} resourceKey="featureAPage" />,

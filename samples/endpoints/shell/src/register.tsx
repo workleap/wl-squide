@@ -104,8 +104,8 @@ async function registerMsw(runtime: FireflyRuntime) {
 function registerEnvironmentVariables(runtime: FireflyRuntime) {
     runtime.registerEnvironmentVariables({
         authenticationApiBaseUrl: "/api/auth/",
-        featureFlagsApiBaseUrl: "/api/flags/",
-        otherFeatureFlagsApiUrl: "http://localhost:1234/api/otherFeatureFlags",
+        userInfoApiBaseUrl: "http://localhost:1234/api/user-info/",
+        userRoleApiBaseUrl: "/api/user-role/",
         sessionApiBaseUrl: "/api/session/",
         subscriptionApiBaseUrl: "/api/subscription/"
     });

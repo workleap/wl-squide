@@ -80,17 +80,6 @@ function registerRoutes(runtime: FireflyRuntime, i18nextInstance: i18n): Deferre
         }
     });
 
-    runtime.registerRoute({
-        path: "/feature-c",
-        lazy: async () => {
-            const { FeatureCPage } = await import("./FeatureCPage.tsx");
-
-            return {
-                element: <Providers><FeatureCPage /></Providers>
-            };
-        }
-    });
-
     runtime.registerNavigationItem({
         $id: "episodes-tab",
         $label: <I18nextNavigationItemLabel i18next={i18nextInstance} resourceKey="episodesTab" />,
@@ -115,20 +104,12 @@ function registerRoutes(runtime: FireflyRuntime, i18nextInstance: i18n): Deferre
         menuId: "/federated-tabs"
     });
 
-    return (deferredRuntime, { featureFlags }) => {
-        if (featureFlags?.featureB) {
+    return (deferredRuntime, { role }) => {
+        if (role === "admin") {
             deferredRuntime.registerNavigationItem({
                 $id: "feature-b",
                 $label: <I18nextNavigationItemLabel i18next={i18nextInstance} resourceKey="featureBPage" />,
                 to: "/feature-b"
-            });
-        }
-
-        if (featureFlags?.featureC) {
-            deferredRuntime.registerNavigationItem({
-                $id: "feature-c",
-                $label: <I18nextNavigationItemLabel i18next={i18nextInstance} resourceKey="featureCPage" />,
-                to: "/feature-c"
             });
         }
     };

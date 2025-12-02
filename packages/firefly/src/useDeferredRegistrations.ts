@@ -2,6 +2,7 @@ import { useRuntime, type ModuleRegistrationError } from "@squide/core";
 import { useEffect } from "react";
 import { useCanRegisterDeferredRegistrations } from "./useCanRegisterDeferredRegistrations.ts";
 import { useCanUpdateDeferredRegistrations } from "./useCanUpdateDeferredRegistrations.ts";
+import { useCommittedRef } from "./useComittedRef.ts";
 import { useRegisterDeferredRegistrations } from "./useRegisterDeferredRegistrations.ts";
 import { useUpdateDeferredRegistrations } from "./useUpdateDeferredRegistrations.ts";
 
@@ -23,6 +24,10 @@ export interface UseDeferredRegistrationsOptions {
 
 export function useDeferredRegistrations(data: unknown, { onError }: UseDeferredRegistrationsOptions = {}) {
     const runtime = useRuntime();
+
+    // // Saving the last known data object because we now also re-execute the deferred registrations
+    // // when the feature flags
+    // const currentDataRef = useCommittedRef(data);
 
     const canRegisterDeferredRegistrations = useCanRegisterDeferredRegistrations();
     const canUpdateDeferredRegistrations = useCanUpdateDeferredRegistrations();
@@ -57,4 +62,11 @@ export function useDeferredRegistrations(data: unknown, { onError }: UseDeferred
             update();
         }
     }, [canUpdateDeferredRegistrations, updateDeferredRegistrations, data, onError, runtime]);
+
+    /*
+
+    - areModulesReady - YES
+    - feature flags changed
+
+    */
 }

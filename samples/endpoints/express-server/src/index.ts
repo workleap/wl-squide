@@ -42,11 +42,12 @@ const port = 1234;
 
 app.use(cors());
 
-app.get("/api/otherFeatureFlags", (req: Request, res: Response) => {
-    tracer.startActiveSpan("other-feature-flags", span => {
+app.get("/api/user-info/getInfo", (req: Request, res: Response) => {
+    tracer.startActiveSpan("get-user-info", span => {
         res.json({
-            otherA: true,
-            otherB: true
+            email: "ava.morgan92@example.com",
+            createdAt: "2024-08-19T10:42:15Z",
+            status: "active"
         });
 
         span.end();

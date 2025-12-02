@@ -12,7 +12,9 @@ export function useFeatureFlags() {
     const subscribe = useCallback((callback: () => void) => {
         client.on("change", callback);
 
-        return () => client.off("change", callback);
+        return () => {
+            client.off("change", callback);
+        };
     }, [client]);
 
     return useSyncExternalStore(subscribe, () => client.allFlags());
