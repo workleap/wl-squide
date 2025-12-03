@@ -1,6 +1,6 @@
 import type { RegisterRouteOptions, RuntimeMethodOptions, RuntimeOptions } from "@squide/core";
 import { EnvironmentVariableKey, EnvironmentVariables, EnvironmentVariableValue, getEnvironmentVariablesPlugin } from "@squide/env-vars";
-import { getLaunchDarklyPlugin, LaunchDarklyPluginName } from "@squide/launch-darkly";
+import { FeatureFlagSetSnapshot, getLaunchDarklyPlugin, LaunchDarklyPluginName } from "@squide/launch-darkly";
 import { getMswPlugin, MswPluginName, MswState } from "@squide/msw";
 import { type IReactRouterRuntime, ReactRouterRuntime, ReactRouterRuntimeScope, type Route } from "@squide/react-router";
 import type { HoneycombInstrumentationPartialClient } from "@workleap-telemetry/core";
@@ -27,7 +27,8 @@ export interface IFireflyRuntime extends IReactRouterRuntime {
     get appRouterStore(): AppRouterStore;
     get honeycombInstrumentationClient(): HoneycombInstrumentationPartialClient | undefined;
     get isLaunchDarklyEnabled(): boolean;
-    get launchDarklyClient(): LDClient | undefined;
+    get launchDarklyClient(): LDClient;
+    get featureFlagSetSnapshot(): FeatureFlagSetSnapshot;
     getFeatureFlag(key: string, defaultValue?: unknown): unknown;
     getBooleanFeatureFlag(key: string, defaultValue?: boolean): boolean;
 }
@@ -130,6 +131,10 @@ export class FireflyRuntime<TRuntime extends FireflyRuntime = any> extends React
         return getLaunchDarklyPlugin(this).client;
     }
 
+    get featureFlagSetSnapshot() {
+        return getLaunchDarklyPlugin(this).featureFlagSetSnapshot;
+    }
+
     getFeatureFlag(key: string, defaultValue?: unknown) {
         return getLaunchDarklyPlugin(this).getFeatureFlag(key, defaultValue);
     }
@@ -194,6 +199,10 @@ export class FireflyRuntimeScope<TRuntime extends FireflyRuntime = FireflyRuntim
 
     get launchDarklyClient() {
         return this._runtime.launchDarklyClient;
+    }
+
+    get featureFlagSetSnapshot() {
+        return this._runtime.featureFlagSetSnapshot;
     }
 
     getFeatureFlag(key: string, defaultValue?: unknown) {

@@ -1,6 +1,5 @@
 import { useEventBus, useLogger, useRuntime } from "@squide/core";
-import type { FeatureFlagsChangedListener } from "@squide/launch-darkly";
-import { getLaunchDarklyPlugin } from "@squide/launch-darkly";
+import type { FeatureFlagSetSnapshotChangedListener } from "@squide/launch-darkly";
 import { useCallback, useEffect, useMemo, useReducer, type Dispatch } from "react";
 import type { FireflyRuntime } from "./FireflyRuntime.tsx";
 import { useAppRouterStore } from "./useAppRouterStore.ts";
@@ -257,14 +256,14 @@ export function useFeatureFlagsDispatcher(runtime: FireflyRuntime, dispatch: App
             .withText("[squide] Feature flags has been updated to:")
             .withObject(changes)
             .debug();
-    }) satisfies FeatureFlagsChangedListener, [dispatch, logger]);
+    }) satisfies FeatureFlagSetSnapshotChangedListener, [dispatch, logger]);
 
     useEffect(() => {
         if (runtime.isLaunchDarklyEnabled) {
-            getLaunchDarklyPlugin(runtime).addFeatureFlagsChangedAndStateIsUpdatedListener(dispatchFeatureFlagsUpdated);
+            runtime.featureFlagSetSnapshot.addSnapshotChangedListener(dispatchFeatureFlagsUpdated);
 
             return () => {
-                getLaunchDarklyPlugin(runtime).removeFeatureFlagsChangedAndStateIsUpdatedListener(dispatchFeatureFlagsUpdated);
+                runtime.featureFlagSetSnapshot.removeSnapshotChangedListener(dispatchFeatureFlagsUpdated);
             };
         }
     }, [runtime]);

@@ -1,15 +1,8 @@
 import { Plugin, Runtime } from "@squide/core";
-import { LDClient, LDFlagSet } from "launchdarkly-js-client-sdk";
+import { LDClient } from "launchdarkly-js-client-sdk";
+import { FeatureFlagSetSnapshot } from "./FeatureFlagSetSnapshot.ts";
 
 /*
-
-- Recevoir un LD Client
-
-- Update les deferred registrations quand un feature flag change
-    -> Mais uniquement après que les modules soient ready
-    -> PAS ÉVIDENT - ÇA PRENDS LE DATA AUSSI, ON LE PRENDS OU!?!
-
-- Les features flags vont toujours être récupéré de LDClient
 
 EXPECTATION:
 
@@ -21,26 +14,23 @@ EXPECTATION:
 
 export const LaunchDarklyPluginName = "launch-darkly-plugin";
 
-export type FeatureFlagsChangedListener = (changes: Record<string, unknown>) => void;
+export interface LaunchDarklyPluginOptions {
+    featureFlagSetSnapshot?: FeatureFlagSetSnapshot;
+}
 
 export class LaunchDarklyPlugin extends Plugin {
     readonly #client: LDClient;
+    readonly #featureFlagSetSnapshot: FeatureFlagSetSnapshot;
 
-    // Taking a snapshot of the feature flags because the LaunchDarkly client
-    // always returns a new object which is causing infinite loops with the external hook such as "useSyncExternalStore".
-    #featureFlagSetSnapshot: LDFlagSet;
+    constructor(runtime: Runtime, launchDarklyClient: LDClient, options: LaunchDarklyPluginOptions = {}) {
+        const {
+            featureFlagSetSnapshot
+        } = options;
 
-    // Custom listeners ensuring the listeners are notified after the snapshot has been updated.
-    readonly #featureFlagsChangedListeners = new Set<FeatureFlagsChangedListener>();
-
-    constructor(runtime: Runtime, launchDarklyClient: LDClient) {
         super(LaunchDarklyPluginName, runtime);
 
         this.#client = launchDarklyClient;
-
-        // The client is expected to already be initialized. Therefore this call shouldn't
-        // trigger a remote call.
-        this.#featureFlagSetSnapshot = launchDarklyClient.allFlags();
+        this.#featureFlagSetSnapshot = featureFlagSetSnapshot ?? new FeatureFlagSetSnapshot(this.#client);
 
         this.#registerClientListeners();
     }
@@ -54,19 +44,13 @@ export class LaunchDarklyPlugin extends Plugin {
     }
 
     getFeatureFlag(key: string, defaultValue?: unknown) {
+        // It's important to get single flag values from original client "variation" function
+        // because there are configurable rules that could influence the returned value.
         return this.#client.variation(key, defaultValue);
     }
 
     getBooleanFeatureFlag(key: string, defaultValue?: boolean) {
         return this.getFeatureFlag(key, defaultValue) as boolean;
-    }
-
-    addFeatureFlagsChangedAndStateIsUpdatedListener(callback: FeatureFlagsChangedListener) {
-        this.#featureFlagsChangedListeners.add(callback);
-    }
-
-    removeFeatureFlagsChangedAndStateIsUpdatedListener(callback: FeatureFlagsChangedListener) {
-        this.#featureFlagsChangedListeners.delete(callback);
     }
 
     #registerClientListeners() {
@@ -76,14 +60,6 @@ export class LaunchDarklyPlugin extends Plugin {
                 .withText("[squide] An error occured with the launch darkly client:")
                 .withError(error)
                 .error();
-        });
-
-        this.#client.on("change", changes => {
-            this.#featureFlagSetSnapshot = this.#client.allFlags();
-
-            this.#featureFlagsChangedListeners.forEach(x => {
-                x(changes);
-            });
         });
     }
 }

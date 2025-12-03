@@ -1,11 +1,14 @@
+import { useRuntime } from "@squide/core";
 import { useCallback, useSyncExternalStore } from "react";
-import { useLaunchDarklyClient } from "./useLaunchDarklyClient.ts";
+import { FeatureFlagSetSnapshotChangedListener } from "./FeatureFlagSetSnapshot.ts";
+import { getLaunchDarklyPlugin } from "./LaunchDarklyPlugin.ts";
 
 export function useFeatureFlag(key: string, defaultValue?: unknown) {
-    const client = useLaunchDarklyClient();
+    const runtime = useRuntime();
+    const plugin = getLaunchDarklyPlugin(runtime);
 
     const subscribe = useCallback((callback: () => void) => {
-        const listener = (changes: Record<string, unknown>) => {
+        const listener: FeatureFlagSetSnapshotChangedListener = (_, changes: Record<string, unknown>) => {
             if (changes) {
                 if (Object.keys(changes).includes(key)) {
                     callback();
@@ -13,12 +16,12 @@ export function useFeatureFlag(key: string, defaultValue?: unknown) {
             }
         };
 
-        client.on("change", listener);
+        plugin.featureFlagSetSnapshot.addSnapshotChangedListener(listener);
 
         return () => {
-            client.off("change", listener);
+            plugin.featureFlagSetSnapshot.removeSnapshotChangedListener(listener);
         };
-    }, [key, client]);
+    }, [key, plugin]);
 
-    return useSyncExternalStore(subscribe, () => client.variation(key, defaultValue));
+    return useSyncExternalStore(subscribe, () => plugin.client.variation(key, defaultValue));
 }
