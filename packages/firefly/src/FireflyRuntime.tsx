@@ -1,10 +1,11 @@
 import type { RegisterRouteOptions, RuntimeMethodOptions, RuntimeOptions } from "@squide/core";
 import { EnvironmentVariableKey, EnvironmentVariables, EnvironmentVariableValue, getEnvironmentVariablesPlugin } from "@squide/env-vars";
-import { getLaunchDarklyPlugin } from "@squide/launch-darkly";
+import { getLaunchDarklyPlugin, LaunchDarklyPluginName } from "@squide/launch-darkly";
 import { getMswPlugin, MswPluginName, MswState } from "@squide/msw";
 import { type IReactRouterRuntime, ReactRouterRuntime, ReactRouterRuntimeScope, type Route } from "@squide/react-router";
 import type { HoneycombInstrumentationPartialClient } from "@workleap-telemetry/core";
 import type { Logger } from "@workleap/logging";
+import { LDClient } from "launchdarkly-js-client-sdk";
 import type { RequestHandler } from "msw";
 import { type AppRouterStore, createAppRouterStore } from "./AppRouterStore.ts";
 
@@ -25,12 +26,18 @@ export interface IFireflyRuntime extends IReactRouterRuntime {
     getEnvironmentVariables(): EnvironmentVariables;
     get appRouterStore(): AppRouterStore;
     get honeycombInstrumentationClient(): HoneycombInstrumentationPartialClient | undefined;
+    get isLaunchDarklyEnabled(): boolean;
+    get launchDarklyClient(): LDClient | undefined;
+    getFeatureFlag(key: string, defaultValue?: unknown): unknown;
+    getBooleanFeatureFlag(key: string, defaultValue?: boolean): boolean;
 }
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export class FireflyRuntime<TRuntime extends FireflyRuntime = any> extends ReactRouterRuntime<TRuntime> implements IFireflyRuntime {
-    protected _appRouterStore: AppRouterStore;
-    protected _honeycombInstrumentationClient: HoneycombInstrumentationPartialClient | undefined;
+    readonly #appRouterStore: AppRouterStore;
+    readonly #honeycombInstrumentationClient: HoneycombInstrumentationPartialClient | undefined;
+    readonly #isMswEnabled: boolean;
+    readonly #isLaunchDarklyEnabled: boolean;
 
     constructor(options: FireflyRuntimeOptions = {}) {
         const {
@@ -39,8 +46,10 @@ export class FireflyRuntime<TRuntime extends FireflyRuntime = any> extends React
 
         super(options);
 
-        this._appRouterStore = createAppRouterStore(this._logger);
-        this._honeycombInstrumentationClient = honeycombInstrumentationClient;
+        this.#appRouterStore = createAppRouterStore(this._logger);
+        this.#honeycombInstrumentationClient = honeycombInstrumentationClient;
+        this.#isMswEnabled = this._plugins.some(x => x.name === MswPluginName);
+        this.#isLaunchDarklyEnabled = this._plugins.some(x => x.name === LaunchDarklyPluginName);
     }
 
     registerRoute(route: Route, options: RegisterRouteOptions = {}) {
@@ -78,7 +87,7 @@ export class FireflyRuntime<TRuntime extends FireflyRuntime = any> extends React
     }
 
     get isMswEnabled() {
-        return this._plugins.some(x => x.name === MswPluginName);
+        return this.#isMswEnabled;
     }
 
     getEnvironmentVariable(key: EnvironmentVariableKey) {
@@ -106,11 +115,15 @@ export class FireflyRuntime<TRuntime extends FireflyRuntime = any> extends React
     }
 
     get appRouterStore() {
-        return this._appRouterStore;
+        return this.#appRouterStore;
     }
 
     get honeycombInstrumentationClient() {
-        return this._honeycombInstrumentationClient;
+        return this.#honeycombInstrumentationClient;
+    }
+
+    get isLaunchDarklyEnabled() {
+        return this.#isLaunchDarklyEnabled;
     }
 
     get launchDarklyClient() {
@@ -173,6 +186,10 @@ export class FireflyRuntimeScope<TRuntime extends FireflyRuntime = FireflyRuntim
 
     get honeycombInstrumentationClient(): HoneycombInstrumentationPartialClient {
         throw new Error("[squide] Cannot retrieve the Honeycomb instrumentation client from a runtime scope instance.");
+    }
+
+    get isLaunchDarklyEnabled() {
+        return this._runtime.isLaunchDarklyEnabled;
     }
 
     get launchDarklyClient() {

@@ -1,4 +1,4 @@
-import { isNil, Plugin, Runtime } from "@squide/core";
+import { Plugin, Runtime } from "@squide/core";
 import { LDClient, LDFlagSet } from "launchdarkly-js-client-sdk";
 
 /*
@@ -61,11 +61,11 @@ export class LaunchDarklyPlugin extends Plugin {
         return this.getFeatureFlag(key, defaultValue) as boolean;
     }
 
-    addFeatureFlagsChangedListener(callback: FeatureFlagsChangedListener) {
+    addFeatureFlagsChangedAndStateIsUpdatedListener(callback: FeatureFlagsChangedListener) {
         this.#featureFlagsChangedListeners.add(callback);
     }
 
-    removeFeatureFlagsChangedListener(callback: FeatureFlagsChangedListener) {
+    removeFeatureFlagsChangedAndStateIsUpdatedListener(callback: FeatureFlagsChangedListener) {
         this.#featureFlagsChangedListeners.delete(callback);
     }
 
@@ -89,11 +89,5 @@ export class LaunchDarklyPlugin extends Plugin {
 }
 
 export function getLaunchDarklyPlugin(runtime: Runtime) {
-    const plugin = runtime.getPlugin(LaunchDarklyPluginName);
-
-    if (isNil(plugin)) {
-        throw new Error("[squide] The getLaunchDarklyPlugin function is called but no LaunchDarklyPlugin instance has been registered with the runtime.");
-    }
-
-    return plugin as LaunchDarklyPlugin;
+    return runtime.getPlugin(LaunchDarklyPluginName) as LaunchDarklyPlugin;
 }

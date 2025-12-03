@@ -1,6 +1,6 @@
 import { loadRemote as loadModuleFederationRemote } from "@module-federation/enhanced/runtime";
 import { Span } from "@opentelemetry/api";
-import { isNil, Plugin, RegisterModulesOptions, type Runtime } from "@squide/core";
+import { Plugin, RegisterModulesOptions, type Runtime } from "@squide/core";
 import { FireflyPlugin, FireflyRuntime } from "@squide/firefly";
 import { ActiveSpan, addProtectedListener, endActiveSpan, getTracer, HoneycombTrackingUnmanagedErrorHandler, startActiveChildSpan, startChildSpan, traceError, type GetSpanFunction } from "@squide/firefly/internal";
 import { RemoteDefinition } from "./RemoteDefinition.ts";
@@ -206,11 +206,5 @@ export class ModuleFederationPlugin extends Plugin<FireflyRuntime> implements Fi
 }
 
 export function getModuleFederationPlugin(runtime: Runtime) {
-    const plugin = runtime.getPlugin(ModuleFederationPluginName);
-
-    if (isNil(plugin)) {
-        throw new Error("[squide] The getModuleFederationPlugin function is called but no ModuleFederationPlugin instance has been registered with the runtime.");
-    }
-
-    return plugin as ModuleFederationPlugin;
+    return runtime.getPlugin(ModuleFederationPluginName) as ModuleFederationPlugin;
 }

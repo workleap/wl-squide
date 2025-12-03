@@ -75,7 +75,7 @@ To faciliate the debugging of a Squide application bootstrapping flow, a lot of 
 
 ### AppRouter logs
 
-- `[squide] AppRouter state updated: {...}`
+- `[squide] AppRouter state has been updated to: {...}`
 - `[squide] The following action has been dispatched to the AppRouter reducer: {...}`
 
 ### i18n logs

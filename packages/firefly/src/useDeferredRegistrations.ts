@@ -1,6 +1,6 @@
 import { useRuntime, type ModuleRegistrationError } from "@squide/core";
-import { useFeatureFlags } from "@squide/launch-darkly";
 import { useEffect } from "react";
+import { FireflyRuntime } from "./FireflyRuntime.tsx";
 import { useCanRegisterDeferredRegistrations } from "./useCanRegisterDeferredRegistrations.ts";
 import { useCanUpdateDeferredRegistrations } from "./useCanUpdateDeferredRegistrations.ts";
 import { useRegisterDeferredRegistrations } from "./useRegisterDeferredRegistrations.ts";
@@ -13,10 +13,7 @@ export interface UseDeferredRegistrationsOptions {
 }
 
 export function useDeferredRegistrations(data: unknown, { onError }: UseDeferredRegistrationsOptions = {}) {
-    const runtime = useRuntime();
-
-    // Using the feature flags to force a re-render when the feature flags change.
-    const featureFlags = useFeatureFlags();
+    const runtime = useRuntime() as FireflyRuntime;
 
     const canRegisterDeferredRegistrations = useCanRegisterDeferredRegistrations();
     const canUpdateDeferredRegistrations = useCanUpdateDeferredRegistrations();
@@ -50,6 +47,13 @@ export function useDeferredRegistrations(data: unknown, { onError }: UseDeferred
 
             update();
         }
-    // IMPORTANT: Added the featureFlags to trigger a deferred registrations update if they changed.
-    }, [canUpdateDeferredRegistrations, updateDeferredRegistrations, data, featureFlags, onError, runtime]);
+    }, [
+        canUpdateDeferredRegistrations,
+        updateDeferredRegistrations,
+        data,
+        onError,
+        runtime,
+        // Triggers the deferred registrations update if when the feature flags changed.
+        runtime.appRouterStore.state.featureFlagsUpdatedAt
+    ]);
 }

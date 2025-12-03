@@ -126,11 +126,5 @@ export class i18nextPlugin<T extends string = string> extends Plugin {
 }
 
 export function getI18nextPlugin(runtime: Runtime) {
-    const plugin = runtime.getPlugin(i18nextPluginName);
-
-    if (isNil(plugin)) {
-        throw new Error("[squide] The getI18nextPlugin function is called but no i18nextPlugin instance has been registered with the runtime.");
-    }
-
-    return plugin as i18nextPlugin;
+    return runtime.getPlugin(i18nextPluginName) as i18nextPlugin;
 }

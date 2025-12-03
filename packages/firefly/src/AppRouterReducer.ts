@@ -254,17 +254,19 @@ export function useFeatureFlagsDispatcher(runtime: FireflyRuntime, dispatch: App
         dispatch({ type: "feature-flags-updated" });
 
         logger
-            .withText("[squide] Feature flags updated:")
+            .withText("[squide] Feature flags has been updated to:")
             .withObject(changes)
             .debug();
     }) satisfies FeatureFlagsChangedListener, [dispatch, logger]);
 
     useEffect(() => {
-        getLaunchDarklyPlugin(runtime).addFeatureFlagsChangedListener(dispatchFeatureFlagsUpdated);
+        if (runtime.isLaunchDarklyEnabled) {
+            getLaunchDarklyPlugin(runtime).addFeatureFlagsChangedAndStateIsUpdatedListener(dispatchFeatureFlagsUpdated);
 
-        return () => {
-            getLaunchDarklyPlugin(runtime).removeFeatureFlagsChangedListener(dispatchFeatureFlagsUpdated);
-        };
+            return () => {
+                getLaunchDarklyPlugin(runtime).removeFeatureFlagsChangedAndStateIsUpdatedListener(dispatchFeatureFlagsUpdated);
+            };
+        }
     }, [runtime]);
 }
 

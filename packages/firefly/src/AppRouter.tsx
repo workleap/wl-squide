@@ -71,7 +71,7 @@ export function AppRouter(props: AppRouterProps) {
 
     useEffect(() => {
         logger
-            .withText("[squide] AppRouter state updated:")
+            .withText("[squide] AppRouter state has been updated to:")
             .withObject(state)
             .debug();
     }, [state, logger]);

@@ -1,4 +1,4 @@
-import { Plugin, isNil, type Runtime } from "@squide/core";
+import { Plugin, type Runtime } from "@squide/core";
 import type { Logger } from "@workleap/logging";
 import type { RequestHandler } from "msw";
 import { MswState } from "./MswState.ts";
@@ -52,11 +52,5 @@ export class MswPlugin extends Plugin {
 }
 
 export function getMswPlugin(runtime: Runtime) {
-    const plugin = runtime.getPlugin(MswPluginName);
-
-    if (isNil(plugin)) {
-        throw new Error("[squide] The getMswPlugin function is called but no MswPlugin instance has been registered with the runtime.");
-    }
-
-    return plugin as MswPlugin;
+    return runtime.getPlugin(MswPluginName) as MswPlugin;
 }

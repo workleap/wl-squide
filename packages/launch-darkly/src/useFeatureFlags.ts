@@ -12,10 +12,10 @@ export function useFeatureFlags() {
     const plugin = getLaunchDarklyPlugin(runtime);
 
     const subscribe = useCallback((callback: () => void) => {
-        plugin.addFeatureFlagsChangedListener(callback);
+        plugin.addFeatureFlagsChangedAndStateIsUpdatedListener(callback);
 
         return () => {
-            plugin.removeFeatureFlagsChangedListener(callback);
+            plugin.removeFeatureFlagsChangedAndStateIsUpdatedListener(callback);
         };
     }, [plugin]);
 
