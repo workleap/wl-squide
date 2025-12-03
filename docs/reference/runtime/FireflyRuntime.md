@@ -37,7 +37,9 @@ const runtime = new FireflyRuntime(options?: { mode?, honeycombInstrumentationCl
 - `getEnvironmentVariables()`: Retrieve all environment variables.
 - `registerEnvironmentVariable(key, value)`: Register a single environment variable.
 - `registerEnvironmentVariables(variables)`: Register multiple environment variables.
-- `getPlugin(name)`: Retrieve the registered plugin by the specified `name`.
+- `getPlugin(name)`: Retrieve the registered plugin matching the specified `name`.
+- `getFeatureFlag(key, defaultValue?)`: Retrieve the LaunchDarkly feature flag matching the specified `key`. If the feature flag is not available, `defaultValue` is returned.
+- `getBooleanFeatureFlag(key, defaultValue?)`: Retrieve the LaunchDarkly boolean feature flag matching the specified `key`. If the feature flag is not available, `defaultValue` is returned.
 
 ### Getters
 
@@ -590,4 +592,20 @@ const plugin = runtime.getPlugin(MyPlugin.name) as MyPlugin;
 
 ```ts !#1
 const client = runtime.launchDarkClient;
+```
+
+### Retrieve a feature flag value
+
+If the `foo` feature flag is not available, `true` will be returned.
+
+```ts !#1
+const flag = runtime.getFeatureFlag("foo", true);
+```
+
+### Retrieve a boolean feature flag value
+
+If the `foo` feature flag is not available, `true` will be returned.
+
+```ts !#1
+const flag = runtime.getBooleanFeatureFlag("foo", true);
 ```

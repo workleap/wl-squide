@@ -10,5 +10,6 @@ export interface UserInfo {
 export interface DeferredRegistrationData {
     session?: Session;
     userInfo?: UserInfo;
-    role: UserRole;
+    role?: UserRole;
+    featureFlags?: Record<string, unknown>;
 }

@@ -117,6 +117,14 @@ export class FireflyRuntime<TRuntime extends FireflyRuntime = any> extends React
         return getLaunchDarklyPlugin(this).client;
     }
 
+    getFeatureFlag(key: string, defaultValue?: unknown) {
+        return getLaunchDarklyPlugin(this).getFeatureFlag(key, defaultValue);
+    }
+
+    getBooleanFeatureFlag(key: string, defaultValue?: boolean) {
+        return getLaunchDarklyPlugin(this).getBooleanFeatureFlag(key, defaultValue);
+    }
+
     startScope(logger: Logger): TRuntime {
         return (new FireflyRuntimeScope(this, logger) as unknown) as TRuntime;
     }
@@ -169,5 +177,13 @@ export class FireflyRuntimeScope<TRuntime extends FireflyRuntime = FireflyRuntim
 
     get launchDarklyClient() {
         return this._runtime.launchDarklyClient;
+    }
+
+    getFeatureFlag(key: string, defaultValue?: unknown) {
+        return this._runtime.getFeatureFlag(key, defaultValue);
+    }
+
+    getBooleanFeatureFlag(key: string, defaultValue?: boolean) {
+        return this._runtime.getBooleanFeatureFlag(key, defaultValue);
     }
 }

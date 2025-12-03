@@ -5,6 +5,7 @@ export function useCanUpdateDeferredRegistrations() {
         areModulesReady,
         publicDataUpdatedAt,
         protectedDataUpdatedAt,
+        featureFlagsUpdatedAt,
         deferredRegistrationsUpdatedAt
     } = useAppRouterState();
 
@@ -17,7 +18,8 @@ export function useCanUpdateDeferredRegistrations() {
         // If either the public data or the protected data has been updated, update the deferred registrations.
         && (
             (publicDataUpdatedAt && publicDataUpdatedAt > deferredRegistrationsUpdatedAt) ||
-            (protectedDataUpdatedAt && protectedDataUpdatedAt > deferredRegistrationsUpdatedAt)
+            (protectedDataUpdatedAt && protectedDataUpdatedAt > deferredRegistrationsUpdatedAt) ||
+            (featureFlagsUpdatedAt && featureFlagsUpdatedAt > deferredRegistrationsUpdatedAt)
         )
     );
 }

@@ -1,5 +1,6 @@
+import { useRuntime } from "@squide/core";
 import { useCallback, useSyncExternalStore } from "react";
-import { useLaunchDarklyClient } from "./useLaunchDarklyClient.ts";
+import { getLaunchDarklyPlugin } from "./LaunchDarklyPlugin.ts";
 
 /**
  * Returns a map of all available flags to the current context's values.
@@ -7,15 +8,16 @@ import { useLaunchDarklyClient } from "./useLaunchDarklyClient.ts";
  * Note that there is no way to specify a default value for each flag as there is with variation, so any flag that cannot be evaluated will have a null value.
  */
 export function useFeatureFlags() {
-    const client = useLaunchDarklyClient();
+    const runtime = useRuntime();
+    const plugin = getLaunchDarklyPlugin(runtime);
 
     const subscribe = useCallback((callback: () => void) => {
-        client.on("change", callback);
+        plugin.addFeatureFlagsChangedListener(callback);
 
         return () => {
-            client.off("change", callback);
+            plugin.removeFeatureFlagsChangedListener(callback);
         };
-    }, [client]);
+    }, [plugin]);
 
-    return useSyncExternalStore(subscribe, () => client.allFlags());
+    return useSyncExternalStore(subscribe, () => plugin.featureFlagSetSnapshot);
 }

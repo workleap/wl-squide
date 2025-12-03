@@ -1,4 +1,6 @@
 import { useEventBus, useLogger, useRuntime } from "@squide/core";
+import type { FeatureFlagsChangedListener } from "@squide/launch-darkly";
+import { getLaunchDarklyPlugin } from "@squide/launch-darkly";
 import { useCallback, useEffect, useMemo, useReducer, type Dispatch } from "react";
 import type { FireflyRuntime } from "./FireflyRuntime.tsx";
 import { useAppRouterStore } from "./useAppRouterStore.ts";
@@ -21,6 +23,7 @@ export interface AppRouterState extends AppRouterWaitState {
     isProtectedDataReady: boolean;
     publicDataUpdatedAt?: number;
     protectedDataUpdatedAt?: number;
+    featureFlagsUpdatedAt?: number;
     deferredRegistrationsUpdatedAt?: number;
     activeRouteVisibility: ActiveRouteVisiblity;
     isUnauthorized: boolean;
@@ -34,6 +37,7 @@ export type AppRouterActionType =
     | "protected-data-ready"
     | "public-data-updated"
     | "protected-data-updated"
+    | "feature-flags-updated"
     | "deferred-registrations-updated"
     | "active-route-is-public"
     | "active-route-is-protected"
@@ -120,6 +124,14 @@ function reducer(state: AppRouterState, action: AppRouterAction) {
             newState = {
                 ...newState,
                 protectedDataUpdatedAt: Date.now()
+            };
+
+            break;
+        }
+        case "feature-flags-updated": {
+            newState = {
+                ...newState,
+                featureFlagsUpdatedAt: Date.now()
             };
 
             break;
@@ -233,6 +245,27 @@ export function useMswStatusDispatcher(runtime: FireflyRuntime, isMswReadyValue:
             };
         }
     }, [runtime, isMswReadyValue, dispatchMswReady]);
+}
+
+export function useFeatureFlagsDispatcher(runtime: FireflyRuntime, dispatch: AppRouterDispatch) {
+    const logger = useLogger();
+
+    const dispatchFeatureFlagsUpdated = useCallback((changes => {
+        dispatch({ type: "feature-flags-updated" });
+
+        logger
+            .withText("[squide] Feature flags updated:")
+            .withObject(changes)
+            .debug();
+    }) satisfies FeatureFlagsChangedListener, [dispatch, logger]);
+
+    useEffect(() => {
+        getLaunchDarklyPlugin(runtime).addFeatureFlagsChangedListener(dispatchFeatureFlagsUpdated);
+
+        return () => {
+            getLaunchDarklyPlugin(runtime).removeFeatureFlagsChangedListener(dispatchFeatureFlagsUpdated);
+        };
+    }, [runtime]);
 }
 
 function useBootstrappingCompletedDispatcher(waitState: AppRouterWaitState, state: AppRouterState) {
@@ -366,6 +399,7 @@ export function useAppRouterReducer(waitForPublicData: boolean, waitForProtected
 
     useModuleRegistrationStatusDispatcher(runtime, areModulesRegisteredValue, areModulesReadyValue, dispatch);
     useMswStatusDispatcher(runtime, isMswReadyValue, dispatch);
+    useFeatureFlagsDispatcher(runtime, dispatch);
     useBootstrappingCompletedDispatcher(waitState, state);
 
     return [state, dispatch];

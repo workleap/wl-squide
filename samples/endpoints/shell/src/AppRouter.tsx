@@ -21,7 +21,9 @@ import { useSessionManagerInstance } from "./useSessionManagerInstance.ts";
 
 function BootstrappingRoute() {
     const logger = useLogger();
+
     const environmentVariables = useEnvironmentVariables();
+    // const featureFlags = useFeatureFlags();
 
     // The chosen endpoints doesn't really make sense for "public" global data as those are never examples of public endpoints
     // but I quickly migrated to those from "feature flags" when introducing the LaunchDarkly plugin
@@ -171,6 +173,7 @@ function BootstrappingRoute() {
         session,
         userInfo,
         role: userRole
+        // featureFlags
     }), [session, userInfo, userRole]));
 
     const sessionManager = useSessionManagerInstance(session);

@@ -15,7 +15,9 @@ export function useStrictRegistrationMode(options: UseStrictRegistrationModeOpti
     const subscribe = useCallback((callback: () => void) => {
         runtime.moduleManager.registerModulesReadyListener(callback);
 
-        return () => runtime.moduleManager.removeModulesReadyListener(callback);
+        return () => {
+            runtime.moduleManager.removeModulesReadyListener(callback);
+        };
     }, [runtime]);
 
     // This listener is only executed if the modules are ready.

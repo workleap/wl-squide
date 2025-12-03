@@ -1,8 +1,8 @@
 import { useRuntime, type ModuleRegistrationError } from "@squide/core";
+import { useFeatureFlags } from "@squide/launch-darkly";
 import { useEffect } from "react";
 import { useCanRegisterDeferredRegistrations } from "./useCanRegisterDeferredRegistrations.ts";
 import { useCanUpdateDeferredRegistrations } from "./useCanUpdateDeferredRegistrations.ts";
-import { useCommittedRef } from "./useComittedRef.ts";
 import { useRegisterDeferredRegistrations } from "./useRegisterDeferredRegistrations.ts";
 import { useUpdateDeferredRegistrations } from "./useUpdateDeferredRegistrations.ts";
 
@@ -12,22 +12,11 @@ export interface UseDeferredRegistrationsOptions {
     onError?: DeferredRegistrationsErrorCallback;
 }
 
-/*
-
-- I think I would have to remember the last provided data OBJECT
-
-- And use a SyncExternalStore to trigger a re-render when  the feature flags changes
-
-- BUT FIRST, integrate the rest with the React Hooks and everything
-
-*/
-
 export function useDeferredRegistrations(data: unknown, { onError }: UseDeferredRegistrationsOptions = {}) {
     const runtime = useRuntime();
 
-    // // Saving the last known data object because we now also re-execute the deferred registrations
-    // // when the feature flags
-    // const currentDataRef = useCommittedRef(data);
+    // Using the feature flags to force a re-render when the feature flags change.
+    const featureFlags = useFeatureFlags();
 
     const canRegisterDeferredRegistrations = useCanRegisterDeferredRegistrations();
     const canUpdateDeferredRegistrations = useCanUpdateDeferredRegistrations();
@@ -61,12 +50,6 @@ export function useDeferredRegistrations(data: unknown, { onError }: UseDeferred
 
             update();
         }
-    }, [canUpdateDeferredRegistrations, updateDeferredRegistrations, data, onError, runtime]);
-
-    /*
-
-    - areModulesReady - YES
-    - feature flags changed
-
-    */
+    // IMPORTANT: Added the featureFlags to trigger a deferred registrations update if they changed.
+    }, [canUpdateDeferredRegistrations, updateDeferredRegistrations, data, featureFlags, onError, runtime]);
 }
