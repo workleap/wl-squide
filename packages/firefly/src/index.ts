@@ -14,13 +14,17 @@ export {
     FeatureFlagSetSnapshot,
     getBooleanFeatureFlag,
     getLaunchDarklyPlugin,
+    InMemoryLaunchDarklyClient,
+    LaunchDarklyClientNotifier,
     LaunchDarklyPlugin,
     LaunchDarklyPluginName,
     useBooleanFeatureFlag,
     useFeatureFlag,
     useFeatureFlags,
     useLaunchDarklyClient,
-    type FeatureFlagSetSnapshotChangedListener
+    type FeatureFlagSetSnapshotChangedListener,
+    type InMemoryLaunchDarklyClientOptions,
+    type LaunchDarklyClientListener
 } from "@squide/launch-darkly";
 export {
     getMswPlugin,
