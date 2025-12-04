@@ -1,11 +1,13 @@
 import { EnvironmentVariables, EnvironmentVariablesPlugin } from "@squide/env-vars";
 import { FireflyRuntime, ModuleRegisterFunction, toLocalModuleDefinitions } from "@squide/firefly";
 import { MswPlugin } from "@squide/msw";
+import { LDFlagSet } from "launchdarkly-js-client-sdk";
 import { StorybookRuntime } from "./StorybookRuntime.ts";
 
 export interface InitializeFireflyForStorybookOptions {
     localModules?: ModuleRegisterFunction<FireflyRuntime>[];
     environmentVariables?: EnvironmentVariables;
+    featureFlags?: LDFlagSet;
 }
 
 export async function initializeFireflyForStorybook(options: InitializeFireflyForStorybookOptions = {}) {

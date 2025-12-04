@@ -1,4 +1,4 @@
-import { useEnvironmentVariables } from "@squide/firefly";
+import { useEnvironmentVariables, useFeatureFlag } from "@squide/firefly";
 import { useSuspenseQuery } from "@tanstack/react-query";
 
 interface Character {
@@ -8,6 +8,7 @@ interface Character {
 }
 
 export function HomePage() {
+    const showCharacters = useFeatureFlag("show-characters", true);
     const environmentVariables = useEnvironmentVariables();
 
     const { data: characters } = useSuspenseQuery({ queryKey: [`${environmentVariables.hostApiBaseUrl}/character/1,2`], queryFn: async () => {
@@ -23,19 +24,21 @@ export function HomePage() {
     return (
         <div>
             <h2>Home</h2>
-            <div>
-                {characters.map(x => {
-                    return (
-                        <div key={x.id}>
-                            <span>Id: {x.id}</span>
-                            <span> - </span>
-                            <span>Name: {x.name}</span>
-                            <span> - </span>
-                            <span>Species: {x.species}</span>
-                        </div>
-                    );
-                })}
-            </div>
+            {showCharacters && (
+                <div>
+                    {characters.map(x => {
+                        return (
+                            <div key={x.id}>
+                                <span>Id: {x.id}</span>
+                                <span> - </span>
+                                <span>Name: {x.name}</span>
+                                <span> - </span>
+                                <span>Species: {x.species}</span>
+                            </div>
+                        );
+                    })}
+                </div>
+            )}
         </div>
     );
 }

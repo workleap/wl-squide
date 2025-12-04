@@ -455,6 +455,9 @@ importers:
       '@squide/firefly':
         specifier: workspace:*
         version: link:../firefly
+      '@squide/launch-darkly':
+        specifier: workspace:*
+        version: link:../launch-darkly
       '@squide/msw':
         specifier: workspace:*
         version: link:../msw
@@ -467,6 +470,9 @@ importers:
       '@workleap/logging':
         specifier: ^1.3.2
         version: 1.3.2
+      launchdarkly-js-client-sdk:
+        specifier: ^3.9.0
+        version: 3.9.0
       msw:
         specifier: ^2.12.3
         version: 2.12.3(@types/node@24.10.1)(typescript@5.9.3)
@@ -2456,6 +2462,9 @@ importers:
       '@tanstack/react-query':
         specifier: 5.90.11
         version: 5.90.11(react@19.2.0)
+      launchdarkly-js-client-sdk:
+        specifier: 3.9.0
+        version: 3.9.0
       react:
         specifier: 19.2.0
         version: 19.2.0
