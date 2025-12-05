@@ -1,9 +1,10 @@
+import { LDFlagValue } from "launchdarkly-js-client-sdk";
 import { PropsWithChildren, useLayoutEffect } from "react";
 import { Decorator } from "storybook-react-rsbuild";
 
 interface OverrideFeatureFlagsProps extends PropsWithChildren {
-    featureFlags: Map<string, unknown>;
-    overrides: Record<string, unknown>;
+    featureFlags: Map<string, LDFlagValue>;
+    overrides: Record<string, LDFlagValue>;
 }
 
 function OverrideFeatureFlags(props: OverrideFeatureFlagsProps) {
@@ -15,7 +16,7 @@ function OverrideFeatureFlags(props: OverrideFeatureFlagsProps) {
 
     // Must use a layout effect to override the feature flags before the story renders.
     useLayoutEffect(() => {
-        const originalValues: Record<string, unknown> = {};
+        const originalValues: Record<string, LDFlagValue> = {};
 
         Object.entries(overrides).forEach(([key, value]) => {
             originalValues[key] = featureFlags.get(key);
@@ -33,7 +34,7 @@ function OverrideFeatureFlags(props: OverrideFeatureFlagsProps) {
     return children;
 }
 
-export function withFeatureFlagsOverrideDecorator(featureFlags: Map<string, unknown>, overrides: Record<string, unknown>): Decorator {
+export function withFeatureFlagsOverrideDecorator(featureFlags: Map<string, LDFlagValue>, overrides: Record<string, LDFlagValue>): Decorator {
     if (!(featureFlags instanceof Map)) {
         throw new TypeError("[squide] The \"featureFlags\" argument must be a Map instance.");
     }
