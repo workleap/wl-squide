@@ -1,5 +1,4 @@
 import { initializeFireflyForStorybook, withFeatureFlagsOverrideDecorator, withFireflyDecorator } from "@squide/firefly-rsbuild-storybook";
-import { LDFlagValue } from "launchdarkly-js-client-sdk";
 import type { Decorator, Meta, StoryObj } from "storybook-react-rsbuild";
 import { HomePage } from "./HomePage.tsx";
 import { QueryProvider } from "./QueryProvider.tsx";
@@ -15,7 +14,7 @@ function withQueryDecorator(): Decorator {
     };
 }
 
-const featureFlags = new Map<string, LDFlagValue>(Object.entries({
+const featureFlags = new Map<string, unknown>(Object.entries({
     "show-characters": true
 }));
 
