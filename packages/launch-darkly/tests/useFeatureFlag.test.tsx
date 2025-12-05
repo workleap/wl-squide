@@ -1,5 +1,5 @@
 import { Runtime, RuntimeContext } from "@squide/core";
-import { renderHook, waitFor } from "@testing-library/react";
+import { renderHook, RenderHookResult, waitFor } from "@testing-library/react";
 import { NoopLogger } from "@workleap/logging";
 import { ReactNode } from "react";
 import { test } from "vitest";
@@ -45,14 +45,28 @@ class DummyRuntime extends Runtime {
     }
 }
 
-function renderUseFeatureFlagHook(runtime: Runtime, key: string, defaultValue?: unknown) {
-    return renderHook(() => useFeatureFlag(key, defaultValue), {
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+function renderUseFeatureFlagHook(runtime: Runtime, key: string, defaultValue?: unknown): [RenderHookResult<any, unknown>, () => number] {
+    let renderCount = 0;
+
+    const renderCountAccessor = () => {
+        return renderCount;
+    };
+
+    // eslint-disable-next-line testing-library/render-result-naming-convention
+    const result = renderHook(() => {
+        renderCount += 1;
+
+        return useFeatureFlag(key, defaultValue);
+    }, {
         wrapper: ({ children }: { children?: ReactNode }) => (
             <RuntimeContext.Provider value={runtime}>
                 {children}
             </RuntimeContext.Provider>
         )
     });
+
+    return [result, renderCountAccessor];
 }
 
 test.concurrent("when the flag exist, return the flag value", ({ expect }) => {
@@ -69,7 +83,7 @@ test.concurrent("when the flag exist, return the flag value", ({ expect }) => {
         ]
     });
 
-    const { result } = renderUseFeatureFlagHook(runtime, "flag-a", false);
+    const [{ result }] = renderUseFeatureFlagHook(runtime, "flag-a", false);
 
     expect(result.current).toBeTruthy();
 });
@@ -85,7 +99,7 @@ test.concurrent("when the flag doesn't exist, and a default value is provided, r
         ]
     });
 
-    const { result } = renderUseFeatureFlagHook(runtime, "flag-a", false);
+    const [{ result }] = renderUseFeatureFlagHook(runtime, "flag-a", false);
 
     expect(result.current).toBeFalsy();
 });
@@ -101,7 +115,7 @@ test.concurrent("when the flag doesn't exist, and not default value is provided,
         ]
     });
 
-    const { result } = renderUseFeatureFlagHook(runtime, "flag-a");
+    const [{ result }] = renderUseFeatureFlagHook(runtime, "flag-a");
 
     expect(result.current).toBeUndefined();
 });
@@ -124,7 +138,7 @@ test.concurrent("when the flag value is updated, return the updated value", asyn
         ]
     });
 
-    const { result } = renderUseFeatureFlagHook(runtime, "flag-a");
+    const [{ result }, renderCountAccessor] = renderUseFeatureFlagHook(runtime, "flag-a");
 
     expect(result.current).toBeTruthy();
 
@@ -137,6 +151,8 @@ test.concurrent("when the flag value is updated, return the updated value", asyn
     await waitFor(() => {
         expect(result.current).toBeFalsy();
     });
+
+    expect(renderCountAccessor()).toBe(2);
 });
 
 test.concurrent("when another flag value is updated, do not update the value", async ({ expect }) => {
@@ -157,7 +173,7 @@ test.concurrent("when another flag value is updated, do not update the value", a
         ]
     });
 
-    const { result } = renderUseFeatureFlagHook(runtime, "flag-a");
+    const [{ result }, renderCountAccessor] = renderUseFeatureFlagHook(runtime, "flag-a");
 
     expect(result.current).toBeTruthy();
 
@@ -170,6 +186,8 @@ test.concurrent("when another flag value is updated, do not update the value", a
     await waitFor(() => {
         expect(result.current).toBeTruthy();
     });
+
+    expect(renderCountAccessor()).toBe(1);
 });
 
 test.concurrent("when a flag is deleted, return undefined", async ({ expect }) => {
@@ -190,7 +208,7 @@ test.concurrent("when a flag is deleted, return undefined", async ({ expect }) =
         ]
     });
 
-    const { result } = renderUseFeatureFlagHook(runtime, "flag-a");
+    const [{ result }] = renderUseFeatureFlagHook(runtime, "flag-a");
 
     expect(result.current).toBeTruthy();
 
