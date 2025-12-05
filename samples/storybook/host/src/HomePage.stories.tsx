@@ -44,7 +44,11 @@ export default meta;
 
 type Story = StoryObj<typeof meta>;
 
-export const Default = {} satisfies Story;
+export const Default = {
+    decorators: [
+        withFeatureFlagsOverrideDecorator(featureFlags, { "show-characters": true })
+    ]
+} satisfies Story;
 
 export const WithoutCharacters = {
     decorators: [
