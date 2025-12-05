@@ -1,4 +1,5 @@
-import { initializeFireflyForStorybook, withFireflyDecorator } from "@squide/firefly-rsbuild-storybook";
+import { initializeFireflyForStorybook, withFeatureFlagsOverrideDecorator, withFireflyDecorator } from "@squide/firefly-rsbuild-storybook";
+import { LDFlagValue } from "launchdarkly-js-client-sdk";
 import type { Decorator, Meta, StoryObj } from "storybook-react-rsbuild";
 import { HomePage } from "./HomePage.tsx";
 import { QueryProvider } from "./QueryProvider.tsx";
@@ -14,11 +15,13 @@ function withQueryDecorator(): Decorator {
     };
 }
 
+const featureFlags = new Map<string, LDFlagValue>(Object.entries({
+    "show-characters": true
+}));
+
 const fireflyRuntime = await initializeFireflyForStorybook({
     localModules: [registerHost],
-    featureFlags: {
-        "show-characters": false
-    }
+    featureFlags: featureFlags
 });
 
 const meta = {
@@ -42,3 +45,9 @@ export default meta;
 type Story = StoryObj<typeof meta>;
 
 export const Default = {} satisfies Story;
+
+export const WithoutCharacters = {
+    decorators: [
+        withFeatureFlagsOverrideDecorator(featureFlags, { "show-characters": false })
+    ]
+} satisfies Story;

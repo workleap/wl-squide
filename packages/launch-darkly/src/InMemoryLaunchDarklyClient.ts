@@ -34,17 +34,21 @@ export interface InMemoryLaunchDarklyClientOptions {
 }
 
 export class InMemoryLaunchDarklyClient implements LDClient {
-    readonly #flags: LDFlagSet;
+    readonly #flags: Map<string, LDFlagValue>;
     readonly #context: LDContext;
     readonly #notifier?: LaunchDarklyClientNotifier;
 
-    constructor(flags: LDFlagSet, options: InMemoryLaunchDarklyClientOptions = {}) {
+    constructor(featureFlags: Map<string, LDFlagValue>, options: InMemoryLaunchDarklyClientOptions = {}) {
         const {
             context,
             notifier
         } = options;
 
-        this.#flags = flags;
+        if (!(featureFlags instanceof Map)) {
+            throw new TypeError("[squide] The \"featureFlags\" argument must be a Map instance.");
+        }
+
+        this.#flags = featureFlags;
 
         this.#context = context ?? {
             kind: "user",
@@ -81,13 +85,13 @@ export class InMemoryLaunchDarklyClient implements LDClient {
     }
 
     variation(key: string, defaultValue?: LDFlagValue) {
-        const flag = this.#flags[key];
+        const flag = this.#flags.get(key);
 
         return flag ?? defaultValue;
     }
 
     variationDetail(key: string, defaultValue?: LDFlagValue) {
-        const flag = this.#flags[key];
+        const flag = this.#flags.get(key);
 
         return !isNil(flag) ? { value: flag } : defaultValue;
     }
@@ -111,7 +115,7 @@ export class InMemoryLaunchDarklyClient implements LDClient {
     track(): void {}
 
     allFlags() {
-        return this.#flags;
+        return Object.fromEntries(this.#flags);
     }
 
     close(onDone?: () => void) {

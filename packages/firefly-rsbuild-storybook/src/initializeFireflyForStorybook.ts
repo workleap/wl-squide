@@ -1,13 +1,13 @@
 import { EnvironmentVariables, EnvironmentVariablesPlugin } from "@squide/env-vars";
 import { FireflyRuntime, InMemoryLaunchDarklyClient, LaunchDarklyPlugin, ModuleRegisterFunction, toLocalModuleDefinitions } from "@squide/firefly";
 import { MswPlugin } from "@squide/msw";
-import { LDClient, LDFlagSet } from "launchdarkly-js-client-sdk";
+import { LDClient, LDFlagValue } from "launchdarkly-js-client-sdk";
 import { StorybookRuntime } from "./StorybookRuntime.ts";
 
 export interface InitializeFireflyForStorybookOptions {
     localModules?: ModuleRegisterFunction<FireflyRuntime>[];
     environmentVariables?: EnvironmentVariables;
-    featureFlags?: LDFlagSet;
+    featureFlags?: Map<string, LDFlagValue> | Record<string, LDFlagValue>;
     launchDarklyClient?: LDClient;
 }
 
@@ -15,7 +15,7 @@ export async function initializeFireflyForStorybook(options: InitializeFireflyFo
     const {
         localModules,
         environmentVariables,
-        featureFlags,
+        featureFlags = {},
         launchDarklyClient
     } = options;
 
@@ -28,7 +28,13 @@ export async function initializeFireflyForStorybook(options: InitializeFireflyFo
             }),
             x => new LaunchDarklyPlugin(
                 x,
-                launchDarklyClient ?? new InMemoryLaunchDarklyClient(featureFlags ?? {})
+                // 1- If no client is provided create it.
+                // 2- If feature flags are provided and it's an instance of Map, use the argument.
+                // 3- If feature flags are provided (or the default value) and it's an object literal, convert the object to a Map instance.
+                launchDarklyClient ?? new InMemoryLaunchDarklyClient(featureFlags instanceof Map
+                    ? featureFlags
+                    : new Map<string, LDFlagValue>(Object.entries(featureFlags))
+                )
             )
         ]
     });

@@ -1,4 +1,4 @@
-import { isNil, isNilOrEmpty } from "@squide/core";
+import { isNil, isNilOrEmpty } from "@squide/core/internal";
 
 export class LocalStorageManager<T> {
     readonly #key: string;

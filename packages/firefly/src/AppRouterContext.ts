@@ -1,4 +1,4 @@
-import { isNil } from "@squide/core";
+import { isNil } from "@squide/core/internal";
 import { createContext, useContext } from "react";
 import type { AppRouterDispatch, AppRouterState } from "./AppRouterReducer.ts";
 

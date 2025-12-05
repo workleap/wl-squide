@@ -1,4 +1,4 @@
-import { isNil } from "@squide/core";
+import { isNil } from "@squide/core/internal";
 import memoize, { memoizeClear } from "memoize";
 import type { ReactNode } from "react";
 import type { LinkProps } from "react-router";

@@ -1,4 +1,5 @@
-import { isFunction, isNil, ModuleDefinition, ModuleRegistrationError, registerModule, type DeferredRegistrationFunction, type ModuleRegistrationStatus, type ModuleRegistrationStatusChangedListener, type ModuleRegistry, type RegisterModulesOptions, type Runtime } from "@squide/core";
+import { ModuleDefinition, ModuleRegistrationError, registerModule, type DeferredRegistrationFunction, type ModuleRegistrationStatus, type ModuleRegistrationStatusChangedListener, type ModuleRegistry, type RegisterModulesOptions, type Runtime } from "@squide/core";
+import { isFunction, isNil } from "@squide/core/internal";
 import type { Logger, RootLogger } from "@workleap/logging";
 import type { RemoteDefinition } from "./RemoteDefinition.ts";
 
