@@ -15,7 +15,10 @@ function withQueryDecorator(): Decorator {
 }
 
 const fireflyRuntime = await initializeFireflyForStorybook({
-    localModules: [registerHost]
+    localModules: [registerHost],
+    featureFlags: {
+        "show-characters": false
+    }
 });
 
 const meta = {

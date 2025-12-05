@@ -1,4 +1,5 @@
-import { isFunction, ModuleDefinition, toLocalModuleDefinitions, type ModuleRegisterFunction, type RegisterModulesOptions } from "@squide/core";
+import { ModuleDefinition, toLocalModuleDefinitions, type ModuleRegisterFunction, type RegisterModulesOptions } from "@squide/core";
+import { isFunction } from "@squide/core/internal";
 import { EnvironmentVariables, EnvironmentVariablesPlugin } from "@squide/env-vars";
 import { LaunchDarklyPlugin } from "@squide/launch-darkly";
 import { MswPlugin } from "@squide/msw";

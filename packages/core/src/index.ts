@@ -1,5 +1,3 @@
-export { isDefined, isFunction, isNil, isNilOrEmpty, isNull, isPlainObject, isUndefined } from "./shared/assertions.ts";
-
 export {
     RootMenuId,
     Runtime,

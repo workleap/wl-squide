@@ -1,5 +1,6 @@
 import { match } from "@formatjs/intl-localematcher";
-import { Plugin, isNil, type Runtime } from "@squide/core";
+import { Plugin, type Runtime } from "@squide/core";
+import { isNil } from "@squide/core/internal";
 import type { i18n } from "i18next";
 import LanguageDetector, { type DetectorOptions } from "i18next-browser-languagedetector";
 import { i18nextInstanceRegistry } from "./i18nextInstanceRegistry.ts";
@@ -126,5 +127,13 @@ export class i18nextPlugin<T extends string = string> extends Plugin {
 }
 
 export function getI18nextPlugin(runtime: Runtime) {
-    return runtime.getPlugin(i18nextPluginName) as i18nextPlugin;
+    const plugin = runtime.getPlugin(i18nextPluginName, {
+        throwOnNotFound: false
+    }) as i18nextPlugin;
+
+    if (!plugin) {
+        throw new Error("[squide] The getI18nextPlugin function is called but no i18nextPlugin instance has been registered with the runtime. Did you provide a i18nextPlugin instance to the runtime instance or the initializeFirefly function?");
+    }
+
+    return plugin;
 }

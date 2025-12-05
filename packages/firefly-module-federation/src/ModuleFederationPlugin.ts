@@ -206,5 +206,13 @@ export class ModuleFederationPlugin extends Plugin<FireflyRuntime> implements Fi
 }
 
 export function getModuleFederationPlugin(runtime: Runtime) {
-    return runtime.getPlugin(ModuleFederationPluginName) as ModuleFederationPlugin;
+    const plugin = runtime.getPlugin(ModuleFederationPluginName, {
+        throwOnNotFound: false
+    }) as ModuleFederationPlugin;
+
+    if (!plugin) {
+        throw new Error("[squide] The getModuleFederationPlugin function is called but no ModuleFederationPlugin instance has been registered with the runtime. Did you import the initializeFirefly function from the \"@squide/firefly-module-federation\" package?");
+    }
+
+    return plugin;
 }

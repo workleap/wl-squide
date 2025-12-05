@@ -47,5 +47,13 @@ export class EnvironmentVariablesPlugin extends Plugin {
 }
 
 export function getEnvironmentVariablesPlugin(runtime: Runtime) {
-    return runtime.getPlugin(EnvironmentVariablesPluginName) as EnvironmentVariablesPlugin;
+    const plugin = runtime.getPlugin(EnvironmentVariablesPluginName, {
+        throwOnNotFound: false
+    }) as EnvironmentVariablesPlugin;
+
+    if (!plugin) {
+        throw new Error("[squide] The getEnvironmentVariablesPlugin function is called but no EnvironmentVariablesPlugin instance has been registered with the runtime. Did you provide a EnvironmentVariablesPlugin instance to the runtime instance?");
+    }
+
+    return plugin;
 }

@@ -52,5 +52,13 @@ export class MswPlugin extends Plugin {
 }
 
 export function getMswPlugin(runtime: Runtime) {
-    return runtime.getPlugin(MswPluginName) as MswPlugin;
+    const plugin = runtime.getPlugin(MswPluginName, {
+        throwOnNotFound: false
+    }) as MswPlugin;
+
+    if (!plugin) {
+        throw new Error("[squide] The getMswPlugin function is called but no MswPlugin instance has been registered with the runtime. Did you provide a MswPlugin instance to the runtime instance or set the useMsw option of the initializeFirefly function to true?");
+    }
+
+    return plugin;
 }

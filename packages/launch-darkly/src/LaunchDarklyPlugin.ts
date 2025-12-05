@@ -65,5 +65,13 @@ export class LaunchDarklyPlugin extends Plugin {
 }
 
 export function getLaunchDarklyPlugin(runtime: Runtime) {
-    return runtime.getPlugin(LaunchDarklyPluginName) as LaunchDarklyPlugin;
+    const plugin = runtime.getPlugin(LaunchDarklyPluginName, {
+        throwOnNotFound: false
+    }) as LaunchDarklyPlugin;
+
+    if (!plugin) {
+        throw new Error("[squide] The getLaunchDarklyPlugin function is called but no LaunchDarklyPlugin instance has been registered with the runtime. Did you provide a LaunchDarkly client instance to either the runtime instance, the initializeFirefly function, or the initializeFireflyForStorybook function?");
+    }
+
+    return plugin;
 }
