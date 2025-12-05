@@ -1,5 +1,5 @@
 import type { Span } from "@opentelemetry/api";
-import { isPlainObject } from "@squide/core";
+import { isPlainObject } from "@squide/core/internal";
 import type { Logger } from "@workleap/logging";
 import { v4 as uuidv4 } from "uuid";
 import { createTraceContextId } from "./createTraceContextId.ts";
