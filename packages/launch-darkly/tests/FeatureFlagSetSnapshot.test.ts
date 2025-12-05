@@ -54,7 +54,7 @@ test.concurrent("when the client flags change, the snapshot is updated", ({ expe
     expect(value2["flag-b"]).toBeFalsy();
 });
 
-test.concurrent("can register listeners", ({ expect }) => {
+test.concurrent("can add listeners", ({ expect }) => {
     const flags = new Map<string, boolean>(Object.entries({
         "flag-a": true
     }));

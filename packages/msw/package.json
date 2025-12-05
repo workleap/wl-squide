@@ -38,7 +38,8 @@
     "scripts": {
         "build": "rslib build --config ./rslib.build.ts",
         "eslint": "eslint . --max-warnings=0 --cache --cache-location node_modules/.cache/eslint",
-        "typecheck": "tsc"
+        "typecheck": "tsc",
+        "test": "vitest --config vitest.config.ts --no-watch"
     },
     "peerDependencies": {
         "msw": "^2.12.3"
@@ -52,12 +53,15 @@
         "@rsbuild/core": "1.6.9",
         "@rslib/core": "0.18.2",
         "@typescript-eslint/parser": "8.48.0",
+        "@vitejs/plugin-react": "5.1.1",
         "@workleap/eslint-configs": "1.1.5",
         "@workleap/rslib-configs": "1.1.3",
         "@workleap/typescript-configs": "3.0.7",
         "eslint": "9.39.1",
+        "happy-dom": "20.0.10",
         "typescript": "5.9.3",
-        "typescript-eslint": "8.48.0"
+        "typescript-eslint": "8.48.0",
+        "vitest": "4.0.14"
     },
     "sideEffects": false
 }
