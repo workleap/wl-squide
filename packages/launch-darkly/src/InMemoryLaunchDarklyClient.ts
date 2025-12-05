@@ -1,4 +1,3 @@
-import { isNil } from "@squide/core/internal";
 import { LDClient } from "launchdarkly-js-client-sdk";
 import { LDContext, LDFlagSet, LDFlagValue } from "launchdarkly-js-sdk-common";
 
@@ -93,7 +92,9 @@ export class InMemoryLaunchDarklyClient implements LDClient {
     variationDetail(key: string, defaultValue?: LDFlagValue) {
         const flag = this.#flags.get(key);
 
-        return !isNil(flag) ? { value: flag } : defaultValue;
+        return {
+            value: flag ?? defaultValue
+        };
     }
 
     setStreaming(): void {}

@@ -3,22 +3,22 @@ import { FeatureFlagSetSnapshot } from "../src/FeatureFlagSetSnapshot.ts";
 import { InMemoryLaunchDarklyClient, LaunchDarklyClientNotifier } from "../src/InMemoryLaunchDarklyClient.ts";
 
 test.concurrent("initially set the client flags as the current snapshot", ({ expect }) => {
-    const initialFlags = new Map<string, boolean>(Object.entries({
+    const flags = new Map<string, boolean>(Object.entries({
         "flag-a": true
     }));
 
-    const client = new InMemoryLaunchDarklyClient(initialFlags);
+    const client = new InMemoryLaunchDarklyClient(flags);
     const snapshot = new FeatureFlagSetSnapshot(client);
 
-    expect(snapshot.value).toEqual(Object.fromEntries(initialFlags));
+    expect(snapshot.value).toEqual(Object.fromEntries(flags));
 });
 
 test.concurrent("when the flags are retrieved twice, the same snapshot object is returned", ({ expect }) => {
-    const initialFlags = new Map<string, boolean>(Object.entries({
+    const flags = new Map<string, boolean>(Object.entries({
         "flag-a": true
     }));
 
-    const client = new InMemoryLaunchDarklyClient(initialFlags);
+    const client = new InMemoryLaunchDarklyClient(flags);
     const snapshot = new FeatureFlagSetSnapshot(client);
 
     const value1 = snapshot.value;
@@ -28,13 +28,13 @@ test.concurrent("when the flags are retrieved twice, the same snapshot object is
 });
 
 test.concurrent("when the client flags change, the snapshot is updated", ({ expect }) => {
-    const initialFlags = new Map<string, boolean>(Object.entries({
+    const flags = new Map<string, boolean>(Object.entries({
         "flag-a": true
     }));
 
     const notifier = new LaunchDarklyClientNotifier();
 
-    const client = new InMemoryLaunchDarklyClient(initialFlags, {
+    const client = new InMemoryLaunchDarklyClient(flags, {
         notifier
     });
 
@@ -42,7 +42,7 @@ test.concurrent("when the client flags change, the snapshot is updated", ({ expe
 
     const value1 = snapshot.value;
 
-    initialFlags.set("flag-b", false);
+    flags.set("flag-b", false);
 
     notifier.notify("change", {
         "flag-b": false
@@ -54,14 +54,14 @@ test.concurrent("when the client flags change, the snapshot is updated", ({ expe
     expect(value2["flag-b"]).toBeFalsy();
 });
 
-test.concurrent.only("can register listeners", ({ expect }) => {
-    const initialFlags = new Map<string, boolean>(Object.entries({
+test.concurrent("can register listeners", ({ expect }) => {
+    const flags = new Map<string, boolean>(Object.entries({
         "flag-a": true
     }));
 
     const notifier = new LaunchDarklyClientNotifier();
 
-    const client = new InMemoryLaunchDarklyClient(initialFlags, {
+    const client = new InMemoryLaunchDarklyClient(flags, {
         notifier
     });
 
@@ -73,7 +73,7 @@ test.concurrent.only("can register listeners", ({ expect }) => {
     snapshot.addSnapshotChangedListener(listener1);
     snapshot.addSnapshotChangedListener(listener2);
 
-    initialFlags.set("flag-b", false);
+    flags.set("flag-b", false);
 
     const changes = {
         "flag-b": false
@@ -85,14 +85,14 @@ test.concurrent.only("can register listeners", ({ expect }) => {
     expect(listener2).toHaveBeenCalledExactlyOnceWith(expect.objectContaining(changes), changes);
 });
 
-test.concurrent.only("can remove listeners", ({ expect }) => {
-    const initialFlags = new Map<string, boolean>(Object.entries({
+test.concurrent("can remove listeners", ({ expect }) => {
+    const flags = new Map<string, boolean>(Object.entries({
         "flag-a": true
     }));
 
     const notifier = new LaunchDarklyClientNotifier();
 
-    const client = new InMemoryLaunchDarklyClient(initialFlags, {
+    const client = new InMemoryLaunchDarklyClient(flags, {
         notifier
     });
 
@@ -107,7 +107,7 @@ test.concurrent.only("can remove listeners", ({ expect }) => {
     snapshot.removeSnapshotChangedListener(listener1);
     snapshot.removeSnapshotChangedListener(listener2);
 
-    initialFlags.set("flag-b", false);
+    flags.set("flag-b", false);
 
     const changes = {
         "flag-b": false
