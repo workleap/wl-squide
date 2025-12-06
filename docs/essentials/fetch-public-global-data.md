@@ -138,7 +138,7 @@ export const register: ModuleRegisterFunction<FireflyRuntime> = async runtime =>
 ```
 ===
 
-==- :icon-file-code: Use the data in a page
+==- :icon-file-code: Use the global data in a page
 ```tsx !#4
 import { useFetchCount } from "@sample/shared";
 

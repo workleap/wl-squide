@@ -27,7 +27,7 @@ export function Page() {
 }
 ```
 
-==- :icon-file-code: Localized resource files
+==- :icon-file-code: Localized resource files used in the example
 ```json !#1-5 ./locales/en-US.json
 {
     "Page": {
@@ -90,7 +90,7 @@ export const register: ModuleRegisterFunction<FireflyRuntime> = runtime => {
 }
 ```
 
-==- :icon-file-code: Localized resource files
+==- :icon-file-code: Localized resource files used in the example
 ```json !#1-5 ./locales/en-US.json
 {
     "navigationItems": {
