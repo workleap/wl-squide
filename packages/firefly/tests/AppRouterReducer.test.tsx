@@ -470,6 +470,36 @@ describe.concurrent("useAppRouterReducer", () => {
         expect(runtime.appRouterStore.state.protectedDataUpdatedAt).toEqual(Date.parse("2021-02-14"));
     });
 
+    test.concurrent("when \"feature-flags-updated\" is dispatched, \"featureFlagsUpdatedAt\" is set to the current timestamp", ({ expect }) => {
+        vi.spyOn(global.Date, "now")
+            .mockImplementationOnce(() => Date.parse("2020-02-14"))
+            .mockImplementationOnce(() => Date.parse("2020-02-14"))
+            .mockImplementationOnce(() => Date.parse("2021-02-14"))
+            .mockImplementationOnce(() => Date.parse("2021-02-14"));
+
+        const runtime = new FireflyRuntime({
+            loggers: [new NoopLogger()]
+        });
+
+        const { result } = renderUseAppRouterReducerHook(runtime, false, false);
+
+        act(() => {
+            // dispatch
+            result.current[1]({ type: "feature-flags-updated" });
+        });
+
+        expect(result.current[0].featureFlagsUpdatedAt).toEqual(Date.parse("2020-02-14"));
+        expect(runtime.appRouterStore.state.featureFlagsUpdatedAt).toEqual(Date.parse("2020-02-14"));
+
+        act(() => {
+            // dispatch
+            result.current[1]({ type: "feature-flags-updated" });
+        });
+
+        expect(result.current[0].featureFlagsUpdatedAt).toEqual(Date.parse("2021-02-14"));
+        expect(runtime.appRouterStore.state.featureFlagsUpdatedAt).toEqual(Date.parse("2021-02-14"));
+    });
+
     test.concurrent("when \"deferred-registrations-updated\" is dispatched, \"deferredRegistrationsUpdatedAt\" is set to the current timestamp", ({ expect }) => {
         vi.spyOn(global.Date, "now")
             .mockImplementationOnce(() => Date.parse("2020-02-14"))
