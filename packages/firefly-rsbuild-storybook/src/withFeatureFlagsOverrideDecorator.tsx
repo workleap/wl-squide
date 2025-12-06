@@ -34,7 +34,7 @@ function OverrideFeatureFlags(props: OverrideFeatureFlagsProps) {
     return children;
 }
 
-export function withFeatureFlagsOverrideDecorator(featureFlags: Map<string, LDFlagValue>, overrides: Record<string, LDFlagValue>): Decorator {
+export function withFeatureFlagsOverrideDecorator<const T extends string>(featureFlags: Map<T, LDFlagValue>, overrides: Partial<Record<T, LDFlagValue>>): Decorator {
     if (!(featureFlags instanceof Map)) {
         throw new TypeError("[squide] The \"featureFlags\" argument must be a Map instance.");
     }
