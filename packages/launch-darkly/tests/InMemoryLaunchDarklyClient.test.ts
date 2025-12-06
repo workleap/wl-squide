@@ -3,7 +3,7 @@ import { InMemoryLaunchDarklyClient } from "../src/InMemoryLaunchDarklyClient.ts
 
 describe("variation", () => {
     test.concurrent("when the flag is available, return the flag", ({ expect }) => {
-        const flags = new Map<string, boolean>(Object.entries({
+        const flags = new Map(Object.entries({
             "flag-a": true
         }));
 
@@ -35,7 +35,7 @@ describe("variation", () => {
 
 describe("variationDetail", () => {
     test.concurrent("when the flag is available, return the flag", ({ expect }) => {
-        const flags = new Map<string, boolean>(Object.entries({
+        const flags = new Map(Object.entries({
             "flag-a": true
         }));
 

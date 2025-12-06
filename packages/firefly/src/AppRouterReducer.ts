@@ -246,7 +246,7 @@ export function useMswStatusDispatcher(runtime: FireflyRuntime, isMswReadyValue:
     }, [runtime, isMswReadyValue, dispatchMswReady]);
 }
 
-export function useFeatureFlagsDispatcher(runtime: FireflyRuntime, dispatch: AppRouterDispatch) {
+export function useFeatureFlagsUpdatedDispatcher(runtime: FireflyRuntime, dispatch: AppRouterDispatch) {
     const logger = useLogger();
 
     const dispatchFeatureFlagsUpdated = useCallback((changes => {
@@ -400,7 +400,7 @@ export function useAppRouterReducer(waitForPublicData: boolean, waitForProtected
 
     useModuleRegistrationStatusDispatcher(runtime, areModulesRegisteredValue, areModulesReadyValue, dispatch);
     useMswStatusDispatcher(runtime, isMswReadyValue, dispatch);
-    useFeatureFlagsDispatcher(runtime, dispatch);
+    useFeatureFlagsUpdatedDispatcher(runtime, dispatch);
     useBootstrappingCompletedDispatcher(waitState, state);
 
     return [state, dispatch];

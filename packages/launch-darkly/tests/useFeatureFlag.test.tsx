@@ -70,7 +70,7 @@ function renderUseFeatureFlagHook(runtime: Runtime, key: string, defaultValue?: 
 }
 
 test.concurrent("when the flag exist, return the flag value", ({ expect }) => {
-    const flags = new Map<string, boolean>(Object.entries({
+    const flags = new Map(Object.entries({
         "flag-a": true
     }));
 
@@ -121,7 +121,7 @@ test.concurrent("when the flag doesn't exist, and not default value is provided,
 });
 
 test.concurrent("when the flag value is updated, return the updated value", async ({ expect }) => {
-    const flags = new Map<string, boolean>(Object.entries({
+    const flags = new Map(Object.entries({
         "flag-a": true
     }));
 
@@ -156,7 +156,7 @@ test.concurrent("when the flag value is updated, return the updated value", asyn
 });
 
 test.concurrent("when another flag value is updated, do not update the value", async ({ expect }) => {
-    const flags = new Map<string, boolean>(Object.entries({
+    const flags = new Map(Object.entries({
         "flag-a": true
     }));
 
@@ -191,7 +191,7 @@ test.concurrent("when another flag value is updated, do not update the value", a
 });
 
 test.concurrent("when a flag is deleted, return undefined", async ({ expect }) => {
-    const flags = new Map<string, boolean>(Object.entries({
+    const flags = new Map(Object.entries({
         "flag-a": true
     }));
 

@@ -56,7 +56,7 @@ function renderUseFeatureFlags(runtime: Runtime) {
 }
 
 test.concurrent("can return the feature flags", ({ expect }) => {
-    const flags = new Map<string, boolean>(Object.entries({
+    const flags = new Map(Object.entries({
         "flag-a": true
     }));
 
@@ -77,7 +77,7 @@ test.concurrent("can return the feature flags", ({ expect }) => {
 });
 
 test.concurrent("when a feature flag value is updated, return the updated feature flags", async ({ expect }) => {
-    const flags = new Map<string, boolean>(Object.entries({
+    const flags = new Map(Object.entries({
         "flag-a": true,
         "flag-b": true,
         "flag-c": true
@@ -120,7 +120,7 @@ test.concurrent("when a feature flag value is updated, return the updated featur
 });
 
 test.concurrent("when a feature flag is added, return the updated feature flags", async ({ expect }) => {
-    const flags = new Map<string, boolean>(Object.entries({
+    const flags = new Map(Object.entries({
         "flag-a": true,
         "flag-b": true,
         "flag-c": true
@@ -164,7 +164,7 @@ test.concurrent("when a feature flag is added, return the updated feature flags"
 });
 
 test.concurrent("when a feature flag is delete, return the updated feature flags", async ({ expect }) => {
-    const flags = new Map<string, boolean>(Object.entries({
+    const flags = new Map(Object.entries({
         "flag-a": true,
         "flag-b": true,
         "flag-c": true

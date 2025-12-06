@@ -3,7 +3,7 @@ import { FeatureFlagSetSnapshot } from "../src/FeatureFlagSetSnapshot.ts";
 import { InMemoryLaunchDarklyClient, LaunchDarklyClientNotifier } from "../src/InMemoryLaunchDarklyClient.ts";
 
 test.concurrent("initially set the client flags as the current snapshot", ({ expect }) => {
-    const flags = new Map<string, boolean>(Object.entries({
+    const flags = new Map(Object.entries({
         "flag-a": true
     }));
 
@@ -14,7 +14,7 @@ test.concurrent("initially set the client flags as the current snapshot", ({ exp
 });
 
 test.concurrent("when the flags are retrieved twice, the same snapshot object is returned", ({ expect }) => {
-    const flags = new Map<string, boolean>(Object.entries({
+    const flags = new Map(Object.entries({
         "flag-a": true
     }));
 
@@ -28,7 +28,7 @@ test.concurrent("when the flags are retrieved twice, the same snapshot object is
 });
 
 test.concurrent("when the client flags change, the snapshot is updated", ({ expect }) => {
-    const flags = new Map<string, boolean>(Object.entries({
+    const flags = new Map(Object.entries({
         "flag-a": true
     }));
 
@@ -55,7 +55,7 @@ test.concurrent("when the client flags change, the snapshot is updated", ({ expe
 });
 
 test.concurrent("can add listeners", ({ expect }) => {
-    const flags = new Map<string, boolean>(Object.entries({
+    const flags = new Map(Object.entries({
         "flag-a": true
     }));
 
@@ -86,7 +86,7 @@ test.concurrent("can add listeners", ({ expect }) => {
 });
 
 test.concurrent("can remove listeners", ({ expect }) => {
-    const flags = new Map<string, boolean>(Object.entries({
+    const flags = new Map(Object.entries({
         "flag-a": true
     }));
 

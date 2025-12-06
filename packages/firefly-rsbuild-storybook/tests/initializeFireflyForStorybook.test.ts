@@ -29,7 +29,7 @@ test.concurrent("when environment variables are provided, the environment variab
 });
 
 test.concurrent("when a launch darkly client is provided, the client is available from the runtime", async ({ expect }) => {
-    const featureFlags = new Map<string, boolean>(Object.entries({
+    const featureFlags = new Map(Object.entries({
         "flag-a": true
     }));
 
