@@ -1,6 +1,6 @@
 import type { RegisterRouteOptions, RuntimeMethodOptions, RuntimeOptions } from "@squide/core";
 import { EnvironmentVariableKey, EnvironmentVariables, EnvironmentVariableValue, getEnvironmentVariablesPlugin } from "@squide/env-vars";
-import { FeatureFlagSetSnapshot, getLaunchDarklyPlugin, LaunchDarklyPluginName } from "@squide/launch-darkly";
+import { FeatureFlagKey, FeatureFlags, FeatureFlagSetSnapshot, getLaunchDarklyPlugin, LaunchDarklyPluginName } from "@squide/launch-darkly";
 import { getMswPlugin, MswPluginName, MswState } from "@squide/msw";
 import { type IReactRouterRuntime, ReactRouterRuntime, ReactRouterRuntimeScope, type Route } from "@squide/react-router";
 import type { HoneycombInstrumentationPartialClient } from "@workleap-telemetry/core";
@@ -135,11 +135,11 @@ export class FireflyRuntime<TRuntime extends FireflyRuntime = any> extends React
         return getLaunchDarklyPlugin(this).featureFlagSetSnapshot;
     }
 
-    getFeatureFlag(key: string, defaultValue?: unknown) {
+    getFeatureFlag<T extends FeatureFlagKey>(key: T, defaultValue?: FeatureFlags[T]) {
         return getLaunchDarklyPlugin(this).getFeatureFlag(key, defaultValue);
     }
 
-    getBooleanFeatureFlag(key: string, defaultValue?: boolean) {
+    getBooleanFeatureFlag(key: FeatureFlagKey, defaultValue?: boolean) {
         return getLaunchDarklyPlugin(this).getBooleanFeatureFlag(key, defaultValue);
     }
 
@@ -205,11 +205,19 @@ export class FireflyRuntimeScope<TRuntime extends FireflyRuntime = FireflyRuntim
         return this._runtime.featureFlagSetSnapshot;
     }
 
-    getFeatureFlag(key: string, defaultValue?: unknown) {
+    getFeatureFlag<T extends FeatureFlagKey>(key: T, defaultValue?: FeatureFlags[T]) {
+        // The error is because the FeatureFlags interface is empty as it is expected to be augmented by the
+        // consumer application.
+        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+        // @ts-ignore
         return this._runtime.getFeatureFlag(key, defaultValue);
     }
 
-    getBooleanFeatureFlag(key: string, defaultValue?: boolean) {
+    getBooleanFeatureFlag(key: FeatureFlagKey, defaultValue?: boolean) {
+        // The error is because the FeatureFlags interface is empty as it is expected to be augmented by the
+        // consumer application.
+        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+        // @ts-ignore
         return this._runtime.getBooleanFeatureFlag(key, defaultValue);
     }
 }

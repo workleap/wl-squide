@@ -3,19 +3,15 @@
     "compilerOptions": {
         "incremental": true,
         "tsBuildInfoFile": "node_modules/.cache/tsbuildinfo.json",
+        "types": [
+            "../shell/types/env-vars.d.ts",
+            "../shell/types/feature-flags.d.ts",
+            "../local-module/types/env-vars.d.ts",
+            "../local-module/types/feature-flags.d.ts",
+        ],
         "paths": {
             "@squide/firefly-rsbuild-configs": ["../../../packages/firefly-rsbuild-configs/src/index.ts"]
         }
     },
-    "include": [
-        ".",
-        /**
-         * Since we are using module augmentation in the packages, and we use tsconfig paths to resolve the packages
-         * from this repo, we need to include the types folder in the packages to make sure the types are included
-         * in the build.
-        */
-        "../shell/types",
-        "../local-module/types",
-    ],
     "exclude": ["dist", "node_modules"]
 }

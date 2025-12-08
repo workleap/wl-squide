@@ -7,6 +7,15 @@ import { InMemoryLaunchDarklyClient, LaunchDarklyClientNotifier } from "../src/I
 import { LaunchDarklyPlugin } from "../src/LaunchDarklyPlugin.ts";
 import { useFeatureFlags } from "../src/useFeatureFlags.ts";
 
+declare module "@squide/launch-darkly" {
+    interface FeatureFlags {
+        "flag-a": boolean;
+        "flag-b": boolean;
+        "flag-c": boolean;
+        "flag-d": boolean;
+    }
+}
+
 class DummyRuntime extends Runtime {
     registerRoute() {
         throw new Error("Method not implemented.");

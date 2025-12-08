@@ -22,6 +22,8 @@ export {
     useFeatureFlag,
     useFeatureFlags,
     useLaunchDarklyClient,
+    type FeatureFlagKey,
+    type FeatureFlags,
     type FeatureFlagSetSnapshotChangedListener,
     type InMemoryLaunchDarklyClientOptions,
     type LaunchDarklyClientListener

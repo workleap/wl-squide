@@ -1,6 +1,13 @@
 import { describe, test } from "vitest";
 import { InMemoryLaunchDarklyClient } from "../src/InMemoryLaunchDarklyClient.ts";
 
+declare module "@squide/launch-darkly" {
+    interface FeatureFlags {
+        "flag-a": boolean;
+        "flag-b": boolean;
+    }
+}
+
 describe("variation", () => {
     test.concurrent("when the flag is available, return the flag", ({ expect }) => {
         const flags = new Map(Object.entries({

@@ -2,6 +2,13 @@ import { test, vi } from "vitest";
 import { FeatureFlagSetSnapshot } from "../src/FeatureFlagSetSnapshot.ts";
 import { InMemoryLaunchDarklyClient, LaunchDarklyClientNotifier } from "../src/InMemoryLaunchDarklyClient.ts";
 
+declare module "@squide/launch-darkly" {
+    interface FeatureFlags {
+        "flag-a": boolean;
+        "flag-b": boolean;
+    }
+}
+
 test.concurrent("initially set the client flags as the current snapshot", ({ expect }) => {
     const flags = new Map(Object.entries({
         "flag-a": true

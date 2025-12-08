@@ -1,6 +1,7 @@
 import { Plugin, Runtime } from "@squide/core";
 import { LDClient } from "launchdarkly-js-client-sdk";
 import { FeatureFlagSetSnapshot } from "./FeatureFlagSetSnapshot.ts";
+import { FeatureFlagKey, FeatureFlags } from "./featureFlags.ts";
 
 /*
 
@@ -43,13 +44,17 @@ export class LaunchDarklyPlugin extends Plugin {
         return this.#featureFlagSetSnapshot;
     }
 
-    getFeatureFlag(key: string, defaultValue?: unknown) {
-        // It's important to get single flag values from original client "variation" function
+    getFeatureFlag<T extends FeatureFlagKey>(key: T, defaultValue?: FeatureFlags[T]) {
+        // It's important to get single flag values from the original client "variation" function
         // because there are configurable rules that could influence the returned value.
-        return this.#client.variation(key, defaultValue);
+        return this.#client.variation(key, defaultValue) as FeatureFlags[T];
     }
 
-    getBooleanFeatureFlag(key: string, defaultValue?: boolean) {
+    getBooleanFeatureFlag(key: FeatureFlagKey, defaultValue?: boolean) {
+        // The error is because the FeatureFlags interface is empty as it is expected to be augmented by the
+        // consumer application.
+        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+        // @ts-ignore
         return this.getFeatureFlag(key, defaultValue) as boolean;
     }
 

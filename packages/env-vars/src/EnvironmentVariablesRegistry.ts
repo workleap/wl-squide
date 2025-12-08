@@ -1,6 +1,6 @@
 import memoize, { memoizeClear } from "memoize";
 
-// The "EnvironmentVariables" interface is expected to be extended by modules adding their own environment variables to the runtime.
+// The "EnvironmentVariables" interface is expected to be extended by the consumer application.
 // This magic is called module augmentation: https://www.typescriptlang.org/docs/handbook/declaration-merging.html#module-augmentation.
 // eslint-disable-next-line @typescript-eslint/no-empty-object-type
 export interface EnvironmentVariables {}

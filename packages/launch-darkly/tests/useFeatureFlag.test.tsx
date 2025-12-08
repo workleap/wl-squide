@@ -1,4 +1,5 @@
 import { Runtime, RuntimeContext } from "@squide/core";
+import { FeatureFlagKey, FeatureFlags } from "@squide/launch-darkly";
 import { renderHook, RenderHookResult, waitFor } from "@testing-library/react";
 import { NoopLogger } from "@workleap/logging";
 import { ReactNode } from "react";
@@ -6,6 +7,13 @@ import { test } from "vitest";
 import { InMemoryLaunchDarklyClient, LaunchDarklyClientNotifier } from "../src/InMemoryLaunchDarklyClient.ts";
 import { LaunchDarklyPlugin } from "../src/LaunchDarklyPlugin.ts";
 import { useFeatureFlag } from "../src/useFeatureFlag.ts";
+
+declare module "@squide/launch-darkly" {
+    interface FeatureFlags {
+        "flag-a": boolean;
+        "flag-b": boolean;
+    }
+}
 
 class DummyRuntime extends Runtime {
     registerRoute() {
@@ -46,7 +54,7 @@ class DummyRuntime extends Runtime {
 }
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
-function renderUseFeatureFlagHook(runtime: Runtime, key: string, defaultValue?: unknown): [RenderHookResult<any, unknown>, () => number] {
+function renderUseFeatureFlagHook<T extends FeatureFlagKey>(runtime: Runtime, key: T, defaultValue?: FeatureFlags[T]): [RenderHookResult<any, unknown>, () => number] {
     let renderCount = 0;
 
     const renderCountAccessor = () => {
