@@ -69,7 +69,7 @@ function registerRoutes(runtime: FireflyRuntime, i18nextInstance: i18n): Deferre
     });
 
     return (deferredRuntime, { role }) => {
-        if (role === "admin" && deferredRuntime.getBooleanFeatureFlag("enable-feature-a", true)) {
+        if (role === "admin" && deferredRuntime.getFeatureFlag("enable-feature-a", true)) {
             deferredRuntime.registerNavigationItem({
                 $id: "feature-a",
                 $label: <I18nextNavigationItemLabel i18next={i18nextInstance} resourceKey="featureAPage" />,

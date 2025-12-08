@@ -1,5 +1,5 @@
 import { fetchJson, postJson, toSubscriptionStatusLabel, useSessionManager, useSubscription } from "@endpoints/shared";
-import { isNavigationLink, useBooleanFeatureFlag, useEnvironmentVariable, useEnvironmentVariables, useLogger, useNavigationItems, useRenderedNavigationItems, type NavigationLinkRenderProps, type NavigationSectionRenderProps, type RenderItemFunction, type RenderSectionFunction } from "@squide/firefly";
+import { isNavigationLink, useEnvironmentVariable, useEnvironmentVariables, useFeatureFlag, useLogger, useNavigationItems, useRenderedNavigationItems, type NavigationLinkRenderProps, type NavigationSectionRenderProps, type RenderItemFunction, type RenderSectionFunction } from "@squide/firefly";
 import { useI18nextInstance } from "@squide/i18next";
 import { useQueryClient } from "@tanstack/react-query";
 import { Suspense, useCallback, type MouseEvent, type ReactNode } from "react";
@@ -68,8 +68,8 @@ export function AuthenticatedLayout() {
     const queryClient = useQueryClient();
     const environmentVariables = useEnvironmentVariables();
 
-    const showUpdateSessionButton = useBooleanFeatureFlag("show-update-session-button", true);
-    const showSwitchUserRoleButton = useBooleanFeatureFlag("show-switch-user-role-button", true);
+    const showUpdateSessionButton = useFeatureFlag("show-update-session-button", true);
+    const showSwitchUserRoleButton = useFeatureFlag("show-switch-user-role-button", true);
 
     const navigate = useNavigate();
 

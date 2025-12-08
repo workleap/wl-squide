@@ -1,7 +1,7 @@
 import { createI18NextPlugin } from "@endpoints/i18next";
 import { registerLocalModule } from "@endpoints/local-module";
 import { registerShell } from "@endpoints/shell";
-import { FireflyProvider, getBooleanFeatureFlag } from "@squide/firefly";
+import { FireflyProvider, getFeatureFlag } from "@squide/firefly";
 import { initializeFirefly } from "@squide/firefly-module-federation";
 import { BrowserConsoleLogger, type RootLogger } from "@workleap/logging";
 import { LogRocketLogger } from "@workleap/logrocket";
@@ -28,10 +28,10 @@ try {
     console.error("[host] Failed to initialize the LaunchDarkly client:", error);
 }
 
-const isLogRocketEnabled = getBooleanFeatureFlag(launchDarklyClient, "enable-log-rocket", true);
-const isHoneycombEnabled = getBooleanFeatureFlag(launchDarklyClient, "enable-honeycomb", true);
-const shouldRegisterLocalModule = getBooleanFeatureFlag(launchDarklyClient, "register-local-module", true);
-const shouldRegisterRemoteModule = getBooleanFeatureFlag(launchDarklyClient, "register-remote-module", true);
+const isLogRocketEnabled = getFeatureFlag(launchDarklyClient, "enable-log-rocket", true);
+const isHoneycombEnabled = getFeatureFlag(launchDarklyClient, "enable-honeycomb", true);
+const shouldRegisterLocalModule = getFeatureFlag(launchDarklyClient, "register-local-module", true);
+const shouldRegisterRemoteModule = getFeatureFlag(launchDarklyClient, "register-remote-module", true);
 
 const loggers: RootLogger[] = [new BrowserConsoleLogger()];
 

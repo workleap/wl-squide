@@ -30,7 +30,6 @@ export interface IFireflyRuntime extends IReactRouterRuntime {
     get launchDarklyClient(): LDClient;
     get featureFlagSetSnapshot(): FeatureFlagSetSnapshot;
     getFeatureFlag(key: string, defaultValue?: unknown): unknown;
-    getBooleanFeatureFlag(key: string, defaultValue?: boolean): boolean;
 }
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -139,10 +138,6 @@ export class FireflyRuntime<TRuntime extends FireflyRuntime = any> extends React
         return getLaunchDarklyPlugin(this).getFeatureFlag(key, defaultValue);
     }
 
-    getBooleanFeatureFlag(key: FeatureFlagKey, defaultValue?: boolean) {
-        return getLaunchDarklyPlugin(this).getBooleanFeatureFlag(key, defaultValue);
-    }
-
     startScope(logger: Logger): TRuntime {
         return (new FireflyRuntimeScope(this, logger) as unknown) as TRuntime;
     }
@@ -211,13 +206,5 @@ export class FireflyRuntimeScope<TRuntime extends FireflyRuntime = FireflyRuntim
         // eslint-disable-next-line @typescript-eslint/ban-ts-comment
         // @ts-ignore
         return this._runtime.getFeatureFlag(key, defaultValue);
-    }
-
-    getBooleanFeatureFlag(key: FeatureFlagKey, defaultValue?: boolean) {
-        // The error is because the FeatureFlags interface is empty as it is expected to be augmented by the
-        // consumer application.
-        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-        // @ts-ignore
-        return this._runtime.getBooleanFeatureFlag(key, defaultValue);
     }
 }

@@ -12,13 +12,12 @@ export {
 } from "@squide/env-vars";
 export {
     FeatureFlagSetSnapshot,
-    getBooleanFeatureFlag,
+    getFeatureFlag,
     getLaunchDarklyPlugin,
     InMemoryLaunchDarklyClient,
     LaunchDarklyClientNotifier,
     LaunchDarklyPlugin,
     LaunchDarklyPluginName,
-    useBooleanFeatureFlag,
     useFeatureFlag,
     useFeatureFlags,
     useLaunchDarklyClient,
