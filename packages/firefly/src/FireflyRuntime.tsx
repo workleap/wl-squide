@@ -1,5 +1,5 @@
 import type { RegisterRouteOptions, RuntimeMethodOptions, RuntimeOptions } from "@squide/core";
-import { EnvironmentVariableKey, EnvironmentVariables, EnvironmentVariableValue, getEnvironmentVariablesPlugin } from "@squide/env-vars";
+import { EnvironmentVariableKey, EnvironmentVariables, getEnvironmentVariablesPlugin } from "@squide/env-vars";
 import { FeatureFlagKey, FeatureFlags, FeatureFlagSetSnapshot, getLaunchDarklyPlugin, LaunchDarklyPluginName } from "@squide/launch-darkly";
 import { getMswPlugin, MswPluginName, MswState } from "@squide/msw";
 import { type IReactRouterRuntime, ReactRouterRuntime, ReactRouterRuntimeScope, type Route } from "@squide/react-router";
@@ -20,9 +20,9 @@ export interface IFireflyRuntime extends IReactRouterRuntime {
     registerRequestHandlers: (handlers: RequestHandler[]) => void;
     get requestHandlers(): RequestHandler[];
     get isMswEnabled(): boolean;
-    registerEnvironmentVariable(key: EnvironmentVariableKey, value: EnvironmentVariableValue): void;
+    registerEnvironmentVariable<T extends EnvironmentVariableKey>(key: T, value: EnvironmentVariables[T]): void;
     registerEnvironmentVariables(variables: Partial<EnvironmentVariables>): void;
-    getEnvironmentVariable(key: EnvironmentVariableKey): EnvironmentVariableValue;
+    getEnvironmentVariable<T extends EnvironmentVariableKey>(key: T): EnvironmentVariables[T];
     getEnvironmentVariables(): EnvironmentVariables;
     get appRouterStore(): AppRouterStore;
     get honeycombInstrumentationClient(): HoneycombInstrumentationPartialClient | undefined;
@@ -102,7 +102,7 @@ export class FireflyRuntime<TRuntime extends FireflyRuntime = any> extends React
         return plugin.getVariables();
     }
 
-    registerEnvironmentVariable(key: EnvironmentVariableKey, value: EnvironmentVariableValue) {
+    registerEnvironmentVariable<T extends EnvironmentVariableKey>(key: T, value: EnvironmentVariables[T]) {
         const plugin = getEnvironmentVariablesPlugin(this);
 
         return plugin.registerVariable(key, value);
@@ -172,7 +172,7 @@ export class FireflyRuntimeScope<TRuntime extends FireflyRuntime = FireflyRuntim
         return this._runtime.getEnvironmentVariable(key);
     }
 
-    registerEnvironmentVariable(key: EnvironmentVariableKey, value: EnvironmentVariableValue) {
+    registerEnvironmentVariable<T extends EnvironmentVariableKey>(key: T, value: EnvironmentVariables[T]) {
         this._runtime.registerEnvironmentVariable(key, value);
     }
 

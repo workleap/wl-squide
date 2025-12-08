@@ -7,8 +7,7 @@ export {
     useEnvironmentVariables,
     type EnvironmentVariableKey,
     type EnvironmentVariables,
-    type EnvironmentVariablesPluginOptions,
-    type EnvironmentVariableValue
+    type EnvironmentVariablesPluginOptions
 } from "@squide/env-vars";
 export {
     FeatureFlagSetSnapshot,
