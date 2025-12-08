@@ -53,7 +53,8 @@ export function useDeferredRegistrations(data: unknown, { onError }: UseDeferred
         data,
         onError,
         runtime,
-        // Trigger this closure when the feature flags changed. Using the timestamp because we don't
+        // Trigger this closure when the feature flags changed. Using the timestamp because the
+        // actual feature flags are not forwarded to the deferred registrations.
         runtime.appRouterStore.state.featureFlagsUpdatedAt
     ]);
 }
