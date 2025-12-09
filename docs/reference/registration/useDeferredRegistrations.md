@@ -33,8 +33,8 @@ Nothing
 
 If the deferred registration depends on remote data (and optionally on feature flags as well), the registrations must be registered and updated with a data object:
 
-```tsx !#18-21,23 host/src/AppRouter.tsx
-import { usePublicDataQueries, useProtectedDataQueries, useDeferredRegistrations, useIsBootstrapping, AppRouter as FireflyAppRouter } from "@squide/firefly";
+```tsx !#18-21,23 host/src/App.tsx
+import { usePublicDataQueries, useProtectedDataQueries, useDeferredRegistrations, useIsBootstrapping, AppRouter } from "@squide/firefly";
 import { useMemo } from "react";
 import { createBrowserRouter, Outlet } from "react-router";
 import { RouterProvider } from "react-router/dom";
@@ -65,9 +65,9 @@ function BootstrappingRoute() {
     return <Outlet />;
 }
 
-export function AppRouter() {
+export function App() {
     return (
-        <FireflyAppRouter waitForPublicData waitForProtectedData>
+        <AppRouter waitForPublicData waitForProtectedData>
             {({ rootRoute, registeredRoutes, routerProviderProps }) => {
                 return (
                     <RouterProvider
@@ -86,7 +86,7 @@ export function AppRouter() {
                     />
                 );
             }}
-        </FireflyAppRouter>
+        </AppRouter>
     );
 }
 ```
@@ -95,8 +95,8 @@ export function AppRouter() {
 
 If the deferred registration only depends on feature flags, the deferred registrations can be registered or updated without providing a data object:
 
-```tsx !#6 host/src/AppRouter.tsx
-import { useDeferredRegistrations, useIsBootstrapping, AppRouter as FireflyAppRouter } from "@squide/firefly";
+```tsx !#6 host/src/App.tsx
+import { useDeferredRegistrations, useIsBootstrapping, AppRouter } from "@squide/firefly";
 import { createBrowserRouter, Outlet } from "react-router";
 import { RouterProvider } from "react-router/dom";
 
@@ -110,9 +110,9 @@ function BootstrappingRoute() {
     return <Outlet />;
 }
 
-export function AppRouter() {
+export function App() {
     return (
-        <FireflyAppRouter>
+        <AppRouter>
             {({ rootRoute, registeredRoutes, routerProviderProps }) => {
                 return (
                     <RouterProvider
@@ -131,14 +131,14 @@ export function AppRouter() {
                     />
                 );
             }}
-        </FireflyAppRouter>
+        </AppRouter>
     );
 }
 ```
 
 ### Handle registration errors
 
-```tsx !#4-8,11 host/src/AppRouter.tsx
+```tsx !#4-8,11 host/src/App.tsx
 import { useDeferredRegistrations, type DeferredRegistrationsErrorCallback } from "@squide/firefly";
 
 function BootstrappingRoute() {

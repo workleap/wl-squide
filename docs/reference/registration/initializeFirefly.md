@@ -234,12 +234,12 @@ const runtime = initializeFirefly({
 
 Sometimes, data must be fetched to determine which navigation items should be registered by a given module. To address this, Squide offers a **two-phase registration mechanism**:
 
-1. The first phase allows modules to register their navigation items that are **not dependent** on initial data or feature flags (in addition to their routes and MSW request handlers when fake endpoints are available).
-2. The second phase enables modules to register navigation items that are dependent on initial data or feature flags. Such a use case would be determining whether a navigation item should be registered based on a user profile or a flag. We refer to this second phase as **deferred registrations**.
+1. The first phase allows modules to register their navigation items that are **not dependent** on initial data and feature flags (in addition to their routes and MSW request handlers when fake endpoints are available).
+2. The second phase enables modules to register navigation items that are dependent on initial data and/or feature flags. Such a use case would be determining whether a navigation item should be registered based on a user profile or a flag. We refer to this second phase as **deferred registrations**.
 
 To defer a registration to the second phase, a module registration function can **return an anonymous function** matching the `DeferredRegistrationFunction` type: `(data, operation: "register" | "update") => Promise | void`.
 
-Once the modules are registered, the deferred registration functions will be executed with the optional deferred data and `"register"` as the value for the `operation` argument. Afterward, whenever the deferred data or the feature flags changes, the deferred registration functions will be re-executed with the updated deferred data and `"update"` as the value for the `operation` argument.
+Once the modules are registered, the deferred registration functions will be executed with the optional deferred data and `"register"` as the value for the `operation` argument. Afterward, whenever the deferred data and/or the feature flags changes, the deferred registration functions will be re-executed with the updated deferred data and `"update"` as the value for the `operation` argument.
 
 ```tsx host/src/index.tsx
 import { FireflyProvider, initializeFirefly } from "@squide/firefly";
@@ -260,8 +260,8 @@ root.render(
 );
 ```
 
-```tsx !#13-15,19 host/src/AppRouter.tsx
-import { usePublicDataQueries, useDeferredRegistrations, useIsBootstrapping, AppRouter as FireflyAppRouter } from "@squide/firefly";
+```tsx !#13-15,19 host/src/App.tsx
+import { usePublicDataQueries, useDeferredRegistrations, useIsBootstrapping, AppRouter } from "@squide/firefly";
 import { useMemo } from "react";
 import { createBrowserRouter, Outlet } from "react-router";
 import { RouterProvider } from "react-router/dom";
@@ -288,9 +288,9 @@ function BootstrappingRoute() {
     return <Outlet />;
 }
 
-export function AppRouter() {
+export function App() {
     return (
-        <FireflyAppRouter waitForPublicData>
+        <AppRouter waitForPublicData>
             {({ rootRoute, registeredRoutes, routerProviderProps }) => {
                 return (
                     <RouterProvider
@@ -309,7 +309,7 @@ export function AppRouter() {
                     />
                 );
             }}
-        </FireflyAppRouter>
+        </AppRouter>
     );
 }
 ```

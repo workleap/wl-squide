@@ -5,12 +5,12 @@ label: Register deferred navigation items
 
 # Register deferred navigation items
 
-Navigation items cannot always be registered before the application bootstrapping process, as some of them depend on remote data or feature flags.
+Navigation items cannot always be registered before the application bootstrapping process, as some of them depend on remote data and/or feature flags.
 
 To address this, Squide offers an alternate deferred registration mechanism in **two-phases**:
 
-1. The first phase allows modules to register their navigation items that are **not dependent** on remote data or feature flags.
-2. The second phase enables modules to register deferred navigation items that are dependent on remote data or feature flags by returning a function. We refer to this second phase as **deferred registrations**.
+1. The first phase allows modules to register their navigation items that are **not dependent** on remote data and feature flags.
+2. The second phase enables modules to register deferred navigation items that are dependent on remote data and/or feature flags by returning a function. We refer to this second phase as **deferred registrations**.
 
 For more details, refer to the [initializeFirefly](../reference/registration/initializeFirefly.md#defer-the-registration-of-navigation-items) and [useDeferredRegistrations](../reference/registration/useDeferredRegistrations.md) reference documentation.
 
@@ -55,11 +55,13 @@ export interface DeferredRegistrationData {
 It's important to register conditional navigation items using the `deferredRuntime` argument rather than the root `runtime` argument.
 !!!
 
-It's the responsibility of the application shell code to execute the deferred registrations once the remote data is retrieved.
+## Execute the deferred registrations
 
-==- :icon-file-code: Shell code example
+It's the responsibility of the application shell to execute deferred registrations. If deferred registrations depend on remote data, register them once that data has been retrieved:
+
+==- :icon-file-code: Shell code with remote data example
 ```tsx !#7-21,23-27,29,40
-import { AppRouter, useIsBootstrapping } from "@squide/firefly";
+import { AppRouter, useIsBootstrapping, usePublicDataQueries, useDeferredRegistrations } from "@squide/firefly";
 import { createBrowserRouter, Outlet } from "react-router";
 import { RouterProvider } from "react-router/dom";
 import { DeferredRegistrationData, UserInfo } from "@sample/shared";
@@ -123,6 +125,51 @@ export function App() {
 ```
 ===
 
+Otherwise, the deferred registrations can be registered without providing a data object:
+
+==- :icon-file-code: Shell code without remote data example
+```tsx !#6
+import { AppRouter, useIsBootstrapping, useDeferredRegistrations } from "@squide/firefly";
+import { createBrowserRouter, Outlet } from "react-router";
+import { RouterProvider } from "react-router/dom";
+
+function BootstrappingRoute() {
+    useDeferredRegistrations();
+
+    if (useIsBootstrapping()) {
+        return <div>Loading...</div>;
+    }
+
+    return <Outlet />;
+}
+
+export function App() {
+    return (
+        <AppRouter>
+            {({ rootRoute, registeredRoutes, routerProviderProps }) => {
+                return (
+                    <RouterProvider
+                        router={createBrowserRouter([
+                            {
+                                element: rootRoute,
+                                children: [
+                                    {
+                                        element: <BootstrappingRoute />,
+                                        children: registeredRoutes
+                                    }
+                                ]
+                            }
+                        ])}
+                        {...routerProviderProps}
+                    />
+                );
+            }}
+        </AppRouter>
+    );
+}
+```
+===
+
 ## Update deferred items
 
 Since Squide integrates with [TanStack Query](https://tanstack.com/query/latest) and [LaunchDarkly](https://launchdarkly.com/) feature flags, and both regularly get fresh data from the server, the remote data or feature flags on which deferred navigation items depend may change over time. When this happens, the deferred navigation items must be updated to reflect the current state of the application. For example, a user could be promoted from a regular user to an administrator and should then see additional navigation items. Similarly, a feature flag might enable or disable a feature, which would require navigation items to be added or removed accordingly.
@@ -131,6 +178,7 @@ Since Squide integrates with [TanStack Query](https://tanstack.com/query/latest)
 
 By using the [useDeferredRegistrations](../reference/registration/useDeferredRegistrations.md) hook in combination with TanStack Query, deferred registrations are automatically updated whenever a fresh remote data object is forwarded to `useDeferredRegistrations`:
 
+==- :icon-file-code: Shell code with remote data example
 ```tsx !#24-26,28
 import { useIsBootstrapping, useDeferredRegistrations, usePublicDataQueries } from "@squide/firefly";
 import { Outlet } from "react-router";
@@ -168,11 +216,13 @@ function BootstrappingRoute() {
     return <Outlet />;
 }
 ```
+===
 
 ### Feature flag updates
 
 When the LaunchDarkly SDK client provided during [initialization](../reference/registration/initializeFirefly.md) notifies Squide that a feature flag value has changed, Squide automatically updates deferred registrations. In this case, the [useDeferredRegistrations](../reference/registration/useDeferredRegistrations.md) hook can be called **with or without a data object**:
 
+==- :icon-file-code: Shell code without remote data example
 ```tsx !#5
 import { useIsBootstrapping, useDeferredRegistrations } from "@squide/firefly";
 import { Outlet } from "react-router";
@@ -187,6 +237,7 @@ function BootstrappingRoute() {
     return <Outlet />;
 }
 ```
+===
 
 
 
