@@ -125,9 +125,11 @@ export function App() {
 
 ## Update deferred items
 
-Since Squide integrates with [TanStack Query](https://tanstack.com/query/latest) and [LaunchDarkly](https://launchdarkly.com/) feature flags, and both regularly get fresh data from the server, the remote data or feature flags on which deferred navigation items depend may change over time. When this happens, the deferred navigation items must be updated to reflect the current state of the application. For example, a user might be promoted from a regular user to an administrator and should then see additional navigation items or a feature flag can enable a new feature for a set of tenant.
+Since Squide integrates with [TanStack Query](https://tanstack.com/query/latest) and [LaunchDarkly](https://launchdarkly.com/) feature flags, and both regularly get fresh data from the server, the remote data or feature flags on which deferred navigation items depend may change over time. When this happens, the deferred navigation items must be updated to reflect the current state of the application. For example, a user could be promoted from a regular user to an administrator and should then see additional navigation items. Similarly, a feature flag might enable or disable a feature, which would require navigation items to be added or removed accordingly.
 
-By using the [useDeferredRegistrations](../reference/registration/useDeferredRegistrations.md) hook in combination with a TanStack Query, deferred registrations are automatically updated whenever the data object passed to `useDeferredRegistrations` changes:
+### Remote data updates
+
+By using the [useDeferredRegistrations](../reference/registration/useDeferredRegistrations.md) hook in combination with TanStack Query, deferred registrations are automatically updated whenever a fresh remote data object is forwarded to `useDeferredRegistrations`:
 
 ```tsx !#24-26,28
 import { useIsBootstrapping, useDeferredRegistrations, usePublicDataQueries } from "@squide/firefly";
@@ -169,7 +171,7 @@ function BootstrappingRoute() {
 
 ### Feature flag updates
 
-Whenever feature flags change and Squide is notified by the LaunchDarkly SDK client provided during [initialization](../reference/registration/initializeFirefly.md), Squide automatically updates the deferred registrations event if no data object is provided:
+When the LaunchDarkly SDK client provided during [initialization](../reference/registration/initializeFirefly.md) notifies Squide that a feature flag value has changed, Squide automatically updates deferred registrations. In this case, the [useDeferredRegistrations](../reference/registration/useDeferredRegistrations.md) hook can be called **with or without a data object**:
 
 ```tsx !#5
 import { useIsBootstrapping, useDeferredRegistrations } from "@squide/firefly";

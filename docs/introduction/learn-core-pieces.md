@@ -289,7 +289,7 @@ const variable = useEnvironmentVariable("apiBaseUrl");
 
 - [Use environment variables](../essentials/use-env-variables.md)
 
-## Feature flags (LaunchDarkly)
+## Feature flags
 
 TBD
 

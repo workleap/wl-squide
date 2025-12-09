@@ -239,7 +239,7 @@ Sometimes, data must be fetched to determine which navigation items should be re
 
 To defer a registration to the second phase, a module registration function can **return an anonymous function** matching the `DeferredRegistrationFunction` type: `(data, operation: "register" | "update") => Promise | void`.
 
-Once the modules are registered, the deferred registration functions will be executed with the deferred data and `"register"` as the value for the `operation` argument. Afterward, whenever the deferred data or the feature flags changes, the deferred registration functions will be re-executed with the updated deferred data and `"update"` as the value for the `operation` argument.
+Once the modules are registered, the deferred registration functions will be executed with the optional deferred data and `"register"` as the value for the `operation` argument. Afterward, whenever the deferred data or the feature flags changes, the deferred registration functions will be re-executed with the updated deferred data and `"update"` as the value for the `operation` argument.
 
 ```tsx host/src/index.tsx
 import { FireflyProvider, initializeFirefly } from "@squide/firefly";
@@ -260,7 +260,7 @@ root.render(
 );
 ```
 
-```tsx !#13-15,17 host/src/AppRouter.tsx
+```tsx !#13-15,19 host/src/AppRouter.tsx
 import { usePublicDataQueries, useDeferredRegistrations, useIsBootstrapping, AppRouter as FireflyAppRouter } from "@squide/firefly";
 import { useMemo } from "react";
 import { createBrowserRouter, Outlet } from "react-router";
@@ -277,6 +277,8 @@ function BootstrappingRoute() {
         userInfo 
     }), [userInfo]);
 
+    // The data object is optional. If the modules deferred registrations only depends on
+    // feature flags, do not forward any data.
     useDeferredRegistrations(data);
 
     if (useIsBootstrapping()) {
