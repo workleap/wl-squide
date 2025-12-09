@@ -22,13 +22,9 @@ const runtime = new FireflyRuntime(options?: { mode?, honeycombInstrumentationCl
 
 - `options`: An optional object literal of options:
     - `mode`: An optional mode to optimize Squide for production. Values are `"development"` (default) and `"production"`.
-    - `requestHandlers`: The registered MSW request handlers.
-    - `isMswEnabled`: Whether or not MSW is enabled.
     - `environmentVariables`: Retrieve all the environment variables.
     - `honeycombInstrumentationClient`: An optional Honeycomb instrumentation client for tracing the Squide bootstrapping flow.
-    - `isLaunchDarklyEnabled`: Whether or not LaunchDarkly is enabled.
     - `launchDarklyClient`: An optional LaunchDarkly client.
-    - `featureFlagSetSnapshot`: Retrieve a snapshot of all the LaunchDarkly feature flags. A snapshot is available because the SDK client always returns a new object literal, which doesn't play nice with React.
     - `loggers`: An optional array of `Logger` instances.
     - `plugins`: An optional array of `Plugin` factory functions.
 
@@ -50,10 +46,13 @@ const runtime = new FireflyRuntime(options?: { mode?, honeycombInstrumentationCl
 - `routes`: Retrieve the registered routes.
 - `requestHandlers`: Retrieve the registered MSW request handlers.
 - `isMswEnabled`: Indicate whether or not MSW is enabled.
+- `honeycombInstrumentationClient`: Retrieve the Honeycomb instrumentation client.
+- `isLaunchDarklyEnabled`: Whether or not LaunchDarkly is enabled.
+- `launchDarklyClient`: Retrieve the LaunchDarkly client.
+- `featureFlagSetSnapshot`: Retrieve a snapshot of all the LaunchDarkly feature flags. A snapshot is necessary because the LaunchDarkly SDK returns a fresh object on every call, so the reference changes even when the values don't. React hooks treats that as a change and triggers extra updates.
 - `logger`: Retrieve the runtime logger.
 - `eventBus`: Retrieve the runtime event bus.
 - `plugins`: Retrieve the registered plugins.
-- `launchDarklyClient`: Retrieve the LaunchDarkly client.
 
 ## Usage
 
@@ -538,6 +537,12 @@ runtime.eventBus.addListener("write-to-host", () => {});
 runtime.eventBus.dispatch("write-to-host", "Hello host!");
 ```
 
+### Retrieve Honeycomb instrumentation client
+
+```ts !#1
+const client = runtime.honeycombInstrumentationClient;
+```
+
 ### Register an environment variable
 
 ```ts !#1
@@ -562,7 +567,29 @@ const environmentVariable = runtime.getEnvironmentVariable("apiBaseUrl");
 ### Retrieve all environment variables
 
 ```ts !#1
-const environmentVariables = runtime.getEnvironmentVariables();
+const environmentVariables = runtime.environmentVariables;
+```
+
+### Retrieve a feature flag value
+
+If the `foo` feature flag is not available, `true` will be returned.
+
+```ts !#1
+const flag = runtime.getFeatureFlag("foo", true);
+```
+
+### Retrieve a snapshot of all the feature flags
+
+A snapshot is necessary because the LaunchDarkly SDK returns a fresh object on every call, so the reference changes even when the values don't. React hooks treats that as a change and triggers extra updates.
+
+```ts !#1
+const flags = runtime.featureFlagSetSnapshot;
+```
+
+### Retrieve LaunchDarkly client
+
+```ts !#1
+const client = runtime.launchDarkClient;
 ```
 
 ### Register a plugin
@@ -599,18 +626,4 @@ import { MyPlugin } from "@sample/my-plugin";
 const plugin = runtime.getPlugin(MyPlugin.name, {
     throwWhenNotFound: false
 }) as MyPlugin;
-```
-
-### Retrieve LaunchDarkly client
-
-```ts !#1
-const client = runtime.launchDarkClient;
-```
-
-### Retrieve a feature flag value
-
-If the `foo` feature flag is not available, `true` will be returned.
-
-```ts !#1
-const flag = runtime.getFeatureFlag("foo", true);
 ```

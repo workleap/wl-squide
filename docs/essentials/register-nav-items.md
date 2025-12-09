@@ -274,6 +274,8 @@ export function RootLayout() {
 ```
 ===
 
+[!ref text="Register a conditional navigation item with a deferred registration"](./register-deferred-nav-items.md)
+
 ## Render additional props on an item
 
 Any properties defined in the `$additionalProps` option will be forwarded to the layout:

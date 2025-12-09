@@ -5,12 +5,12 @@ label: Register deferred navigation items
 
 # Register deferred navigation items
 
-Navigation items cannot always be registered before the application bootstrapping process, as some of them depend on remote data retrieved asynchronously from the backend-for-frontend or a third-party service.
+Navigation items cannot always be registered before the application bootstrapping process, as some of them depend on remote data or feature flags.
 
 To address this, Squide offers an alternate deferred registration mechanism in **two-phases**:
 
-- The first phase allows modules to register their _static navigation_ items that are not dependent on remote data.
-- The second phase enables modules to register deferred navigation items that are dependent on remote data by returning a function. We refer to this second phase as **deferred registrations**.
+- The first phase allows modules to register their navigation items that are **not dependent** on remote data or feature flags.
+- The second phase enables modules to register deferred navigation items that are dependent on remote data or feature flags by returning a function. We refer to this second phase as **deferred registrations**.
 
 For more details, refer to the [initializeFirefly](../reference/registration/initializeFirefly.md#defer-the-registration-of-navigation-items) and [useDeferredRegistrations](../reference/registration/useDeferredRegistrations.md) reference documentation.
 
@@ -18,7 +18,7 @@ For more details, refer to the [initializeFirefly](../reference/registration/ini
 
 To defer a registration to the second phase, a module's registration function can return an anonymous function matching the `DeferredRegistrationFunction` type: `(data, operation: "register" | "update") => Promise | void`:
 
-```tsx !#7-16
+```tsx !#7-17
 import type { ModuleRegisterFunction, FireflyRuntime } from "@squide/firefly";
 import type { DeferredRegistrationData } from "@sample/shared";
 
@@ -26,8 +26,9 @@ export const register: ModuleRegisterFunction<FireflyRuntime, unknown, DeferredR
     // Once the user data has been loaded by the host application, by completing the module registrations process,
     // the deferred registration function will be called with the user data.
     return (deferredRuntime, { userData }) => {
-        // Only register the "feature-a" route and navigation item if the user is an administrator.
-        if (userData.isAdmin) {
+        // Only register the "feature-a" route and navigation item if the user is an administrator
+        // and the "feature-a" flag is activated.
+        if (userData.isAdmin && deferredRuntime.getFeatureFlag("enable-feature-a")) {
             deferredRuntime.registerNavigationItem({
                 $id: "feature-a",
                 $label: "Feature A",
@@ -38,7 +39,8 @@ export const register: ModuleRegisterFunction<FireflyRuntime, unknown, DeferredR
 };
 ```
 
-```ts !#1-3,5-7 @sample/shared
+==- :icon-file-code: @sample/shared
+```ts !#1-3,5-7 
 export interface UserInfo {
     isAdmin: boolean;
 }
@@ -47,6 +49,7 @@ export interface DeferredRegistrationData {
     userInfo?: UserInfo;
 }
 ```
+===
 
 !!!tip
 It's important to register conditional navigation items using the `deferredRuntime` argument rather than the root `runtime` argument.
@@ -122,7 +125,7 @@ export function App() {
 
 ## Update deferred items
 
-Since Squide integrates with [TanStack Query](https://tanstack.com/query/latest), and TanStack queries regularly fetch fresh data from the server, the remote data on which deferred navigation items depend may change over time. When this happens, the deferred navigation items must update to reflect the current state of the application. For example, a user might be promoted from a regular user to an administrator and should then see additional navigation items.
+Since Squide integrates with [TanStack Query](https://tanstack.com/query/latest) and [LaunchDarkly](https://launchdarkly.com/) feature flags, and both regularly get fresh data from the server, the remote data or feature flags on which deferred navigation items depend may change over time. When this happens, the deferred navigation items must be updated to reflect the current state of the application. For example, a user might be promoted from a regular user to an administrator and should then see additional navigation items or a feature flag can enable a new feature for a set of tenant.
 
 By using the [useDeferredRegistrations](../reference/registration/useDeferredRegistrations.md) hook in combination with a TanStack Query, deferred registrations are automatically updated whenever the data object passed to `useDeferredRegistrations` changes:
 
@@ -163,6 +166,10 @@ function BootstrappingRoute() {
     return <Outlet />;
 }
 ```
+
+### Feature flag updates
+
+Whenever feature flags change and Squide is notified by the LaunchDarkly SDK client provided during [initialization](../reference/registration/initializeFirefly.md), Squide automatically updates the deferred registrations.
 
 
 
