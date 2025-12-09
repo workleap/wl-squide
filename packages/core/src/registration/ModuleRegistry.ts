@@ -13,11 +13,11 @@ export class ModuleRegistrationError extends Error {}
 export abstract class ModuleRegistry {
     abstract get id(): string;
 
-    abstract registerModules<TRuntime extends Runtime = Runtime, TContext = unknown>(modules: unknown, runtime: TRuntime, options?: RegisterModulesOptions<TContext>): Promise<ModuleRegistrationError[]>;
+    abstract registerModules<TRuntime extends Runtime = Runtime, TContext = unknown>(runtime: TRuntime, modules: unknown, options?: RegisterModulesOptions<TContext>): Promise<ModuleRegistrationError[]>;
 
-    abstract registerDeferredRegistrations<TRuntime extends Runtime = Runtime, TData = unknown>(data: TData, runtime: TRuntime): Promise<ModuleRegistrationError[]>;
+    abstract registerDeferredRegistrations<TRuntime extends Runtime = Runtime, TData = unknown>(runtime: TRuntime, data?: TData): Promise<ModuleRegistrationError[]>;
 
-    abstract updateDeferredRegistrations<TRuntime extends Runtime = Runtime, TData = unknown>(data: TData, runtime: TRuntime): Promise<ModuleRegistrationError[]>;
+    abstract updateDeferredRegistrations<TRuntime extends Runtime = Runtime, TData = unknown>(runtime: TRuntime, data?: TData): Promise<ModuleRegistrationError[]>;
 
     abstract registerStatusChangedListener(callback: ModuleRegistrationStatusChangedListener): void;
 

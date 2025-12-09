@@ -14,8 +14,8 @@ order: 95
 - [Use the logger](./use-logger.md)
 - [Use the event bus](./use-event-bus.md)
 - [Use environment variables](./use-env-variables.md)
+- [Use feature flags (with LaunchDarkly)](./use-feature-flags.md)
 - [Set Honeycomb custom attributes](./set-honeycomb-custom-attributes.md)
 - [Localize resources](./localize-resources.md)
 - [Register plugins](./register-plugins.md)
 - [Define error boundaries](./define-error-boundaries.md)
-<!-- - [Use feature flags](./use-feature-flags.md) -->

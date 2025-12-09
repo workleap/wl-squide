@@ -249,7 +249,9 @@ const variable = useEnvironmentVariable("apiBaseUrl");
 
 - [Use environment variables](../essentials/use-env-variables.md)
 
-<!-- ## Feature flags -->
+## Feature flags (LaunchDarkly)
+
+TBD
 
 ## Honeycomb
 

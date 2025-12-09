@@ -12,7 +12,7 @@ export interface UseDeferredRegistrationsOptions {
     onError?: DeferredRegistrationsErrorCallback;
 }
 
-export function useDeferredRegistrations(data: unknown, { onError }: UseDeferredRegistrationsOptions = {}) {
+export function useDeferredRegistrations(data?: unknown, { onError }: UseDeferredRegistrationsOptions = {}) {
     const runtime = useRuntime() as FireflyRuntime;
 
     const canRegisterDeferredRegistrations = useCanRegisterDeferredRegistrations();
@@ -24,7 +24,7 @@ export function useDeferredRegistrations(data: unknown, { onError }: UseDeferred
     useEffect(() => {
         if (canRegisterDeferredRegistrations) {
             const register = async () => {
-                const errors = await registerDeferredRegistrations(data, runtime);
+                const errors = await registerDeferredRegistrations(data);
 
                 if (errors.length > 0 && onError) {
                     onError(errors);
@@ -33,12 +33,12 @@ export function useDeferredRegistrations(data: unknown, { onError }: UseDeferred
 
             register();
         }
-    }, [canRegisterDeferredRegistrations, registerDeferredRegistrations, data, onError, runtime]);
+    }, [canRegisterDeferredRegistrations, registerDeferredRegistrations, data, onError]);
 
     useEffect(() => {
         if (canUpdateDeferredRegistrations) {
             const update = async () => {
-                const errors = await updateDeferredRegistrations(data, runtime);
+                const errors = await updateDeferredRegistrations(data);
 
                 if (errors.length > 0 && onError) {
                     onError(errors);
@@ -52,7 +52,6 @@ export function useDeferredRegistrations(data: unknown, { onError }: UseDeferred
         updateDeferredRegistrations,
         data,
         onError,
-        runtime,
         // Trigger this closure when the feature flags changed. Using the timestamp because the
         // actual feature flags are not forwarded to the deferred registrations.
         runtime.appRouterStore.state.featureFlagsUpdatedAt

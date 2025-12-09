@@ -21,7 +21,7 @@ pnpm add @squide/i18next i18next i18next-browser-languagedetector react-i18next
 
 Then, refer to the [create host application](../introduction/create-host.md) guide as a starting point and update the host application boostrapping code to register an instance of the [i18nextplugin](../reference/i18next/i18nextPlugin.md) with the [FireflyRuntime](../reference/runtime/FireflyRuntime.md) instance:
 
-```tsx !#9-18
+```tsx !#9-20
 import { createRoot } from "react-dom/client";
 import { FireflyProvider, initializeFirefly } from "@squide/firefly";
 import { i18nextPlugin } from "@squide/i18next";
@@ -35,10 +35,12 @@ const runtime = initializeFirefly(runtime, {
         // - The supported languages are "en-US" and "fr-CA"
         // - The fallback language is "en-US"
         // - The URL querystring parameter to detect the current language is "language"
-        const i18nextPlugin = new i18nextPlugin(["en-US", "fr-CA"], "en-US", "language", undefined, x);
+        const i18nextPlugin = new i18nextPlugin(x, ["en-US", "fr-CA"], "en-US", "language");
 
         // Always detect the user language early on.
         i18nextPlugin.detectUserLanguage();
+
+        return i18nextPlugin;
     }]
 });
 

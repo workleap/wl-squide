@@ -53,9 +53,9 @@ test.concurrent("when deferred registrations are provided, all the deferred regi
 
     await mergeFunction!(new DummyRuntime(), "foo", "register");
 
-    expect(fct1).toHaveBeenCalledTimes(1);
-    expect(fct2).toHaveBeenCalledTimes(1);
-    expect(fct3).toHaveBeenCalledTimes(1);
+    expect(fct1).toHaveBeenCalledOnce();
+    expect(fct2).toHaveBeenCalledOnce();
+    expect(fct3).toHaveBeenCalledOnce();
 });
 
 test.concurrent("when deferred registrations are provided, all the deferred registrations are called with the provided data and state", async ({ expect }) => {
@@ -69,9 +69,9 @@ test.concurrent("when deferred registrations are provided, all the deferred regi
 
     await mergeFunction!(runtime, "foo", "register");
 
-    expect(fct1).toHaveBeenCalledWith(runtime, "foo", "register");
-    expect(fct2).toHaveBeenCalledWith(runtime, "foo", "register");
-    expect(fct3).toHaveBeenCalledWith(runtime, "foo", "register");
+    expect(fct1).toHaveBeenCalledExactlyOnceWith(runtime, "foo", "register");
+    expect(fct2).toHaveBeenCalledExactlyOnceWith(runtime, "foo", "register");
+    expect(fct3).toHaveBeenCalledExactlyOnceWith(runtime, "foo", "register");
 });
 
 test.concurrent("when void results are provided, the void results are ignored", async ({ expect }) => {
@@ -84,8 +84,8 @@ test.concurrent("when void results are provided, the void results are ignored", 
 
     await mergeFunction!(runtime, "foo", "register");
 
-    expect(fct1).toHaveBeenCalledWith(runtime, "foo", "register");
-    expect(fct2).toHaveBeenCalledWith(runtime, "foo", "register");
+    expect(fct1).toHaveBeenCalledExactlyOnceWith(runtime, "foo", "register");
+    expect(fct2).toHaveBeenCalledExactlyOnceWith(runtime, "foo", "register");
 });
 
 test.concurrent("when no deferred registrations are provided, return undefined", ({ expect }) => {

@@ -21,7 +21,7 @@ Create a new application (we'll refer to ours as `host`), then open a terminal a
 
 ```bash
 pnpm add -D @workleap/rsbuild-configs @workleap/browserslist-config @rsbuild/core @rspack/core browserslist typescript @types/react @types/react-dom
-pnpm add @squide/firefly react react-dom react-router msw @tanstack/react-query
+pnpm add @squide/firefly @tanstack/react-query react react-dom react-router msw launchdarkly-js-client-sdk
 ```
 
 ## Setup the application

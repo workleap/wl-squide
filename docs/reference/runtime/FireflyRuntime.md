@@ -22,8 +22,13 @@ const runtime = new FireflyRuntime(options?: { mode?, honeycombInstrumentationCl
 
 - `options`: An optional object literal of options:
     - `mode`: An optional mode to optimize Squide for production. Values are `"development"` (default) and `"production"`.
+    - `requestHandlers`: The registered MSW request handlers.
+    - `isMswEnabled`: Whether or not MSW is enabled.
+    - `environmentVariables`: Retrieve all the environment variables.
     - `honeycombInstrumentationClient`: An optional Honeycomb instrumentation client for tracing the Squide bootstrapping flow.
+    - `isLaunchDarklyEnabled`: Whether or not LaunchDarkly is enabled.
     - `launchDarklyClient`: An optional LaunchDarkly client.
+    - `featureFlagSetSnapshot`: Retrieve a snapshot of all the LaunchDarkly feature flags. A snapshot is available because the SDK client always returns a new object literal, which doesn't play nice with React.
     - `loggers`: An optional array of `Logger` instances.
     - `plugins`: An optional array of `Plugin` factory functions.
 
@@ -34,7 +39,6 @@ const runtime = new FireflyRuntime(options?: { mode?, honeycombInstrumentationCl
 - `getNavigationItems(menuId?)`: Retrieve the registered navigation items.
 - `registerRequestHandlers(handlers)`: Register the MSW request handlers.
 - `getEnvironmentVariable(key)`: Retrieve an environment variable.
-- `getEnvironmentVariables()`: Retrieve all environment variables.
 - `registerEnvironmentVariable(key, value)`: Register a single environment variable.
 - `registerEnvironmentVariables(variables)`: Register multiple environment variables.
 - `getPlugin(name, options?)`: Retrieve the registered plugin matching the specified `name`.

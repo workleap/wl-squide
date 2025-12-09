@@ -81,7 +81,7 @@ export class ModuleManager {
             const registryDefinitions = definitionsByRegistryId[x.id];
             const modules = registryDefinitions ? registryDefinitions.map(y => y.definition) : [];
 
-            const registrationErrors = await x.registerModules(modules, this.runtime, options);
+            const registrationErrors = await x.registerModules(this.runtime, modules, options);
 
             errors.push(...registrationErrors);
         }));
@@ -89,7 +89,7 @@ export class ModuleManager {
         return errors;
     }
 
-    async registerDeferredRegistrations<TData = unknown>(data: TData) {
+    async registerDeferredRegistrations<TData = unknown>(data?: TData) {
         this.runtime.startDeferredRegistrationScope();
 
         try {
@@ -97,7 +97,7 @@ export class ModuleManager {
 
             // Using Promise.all rather than Promise.allSettled to throw any errors that occurs.
             await Promise.all(this.moduleRegistries.map(async x => {
-                const registrationErrors = await x.registerDeferredRegistrations(data, this.runtime);
+                const registrationErrors = await x.registerDeferredRegistrations(this.runtime, data);
 
                 errors.push(...registrationErrors);
             }));
@@ -108,7 +108,7 @@ export class ModuleManager {
         }
     }
 
-    async updateDeferredRegistrations<TData = unknown>(data: TData) {
+    async updateDeferredRegistrations<TData = unknown>(data?: TData) {
         this.runtime.startDeferredRegistrationScope({
             transactional: true
         });
@@ -119,7 +119,7 @@ export class ModuleManager {
             // IMPORTANT: Currently cannot make this a concurrent operation because it cause errors
             // with the Honeycomb telemetry due to "active spans".
             for (const x of this.moduleRegistries) {
-                const registrationErrors = await x.updateDeferredRegistrations(data, this.runtime);
+                const registrationErrors = await x.updateDeferredRegistrations(this.runtime, data);
 
                 errors.push(...registrationErrors);
             };

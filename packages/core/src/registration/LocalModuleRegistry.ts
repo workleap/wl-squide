@@ -58,7 +58,7 @@ export class LocalModuleRegistry implements ModuleRegistry {
         return LocalModuleRegistryId;
     }
 
-    async registerModules<TRuntime extends Runtime = Runtime, TContext = unknown, TData = unknown>(registrationFunctions: ModuleRegisterFunction<TRuntime, TContext, TData>[], runtime: TRuntime, { context }: RegisterModulesOptions<TContext> = {}) {
+    async registerModules<TRuntime extends Runtime = Runtime, TContext = unknown, TData = unknown>(runtime: TRuntime, registrationFunctions: ModuleRegisterFunction<TRuntime, TContext, TData>[], { context }: RegisterModulesOptions<TContext> = {}) {
         const errors: ModuleRegistrationError[] = [];
 
         if (this.#registrationStatus !== "none") {
@@ -141,7 +141,7 @@ export class LocalModuleRegistry implements ModuleRegistry {
         return errors;
     }
 
-    async registerDeferredRegistrations<TData = unknown, TRuntime extends Runtime = Runtime>(data: TData, runtime: TRuntime) {
+    async registerDeferredRegistrations<TRuntime extends Runtime = Runtime, TData = unknown>(runtime: TRuntime, data?: TData) {
         const errors: ModuleRegistrationError[] = [];
 
         if (this.#registrationStatus === "ready" && this.#deferredRegistrations.length === 0) {
@@ -224,7 +224,7 @@ export class LocalModuleRegistry implements ModuleRegistry {
         return errors;
     }
 
-    async updateDeferredRegistrations<TData = unknown, TRuntime extends Runtime = Runtime>(data: TData, runtime: TRuntime) {
+    async updateDeferredRegistrations<TRuntime extends Runtime = Runtime, TData = unknown>(runtime: TRuntime, data?: TData) {
         const errors: ModuleRegistrationError[] = [];
 
         if (this.#registrationStatus !== "ready") {

@@ -9,11 +9,12 @@ A plugin to faciliate the integration of [Mock Service Worker](https://mswjs.io/
 ## Reference
 
 ```ts
-const plugin = new MswPlugin(options?: { mswState? })
+const plugin = new MswPlugin(runtime, options?: { mswState? })
 ```
 
 ### Parameters
 
+- `runtime`: A runtime instance.
 - `options`: An optional object literal of options:
     - `mswState`: An optional object with the initial MSW state.
 

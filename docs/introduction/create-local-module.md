@@ -18,7 +18,7 @@ Let's add a local module to demonstrate how it's done!
 
 ## Install the packages
 
-Create a new application (we'll refer to ours as `local-module`), then open a terminal at the root of the application and install the following packages:
+Create a new application (we'll refer to ours as `local-module`), then open a terminal at the root of the local module and install the following packages:
 
 ```bash
 pnpm add -D typescript @types/react @types/react-dom
@@ -58,14 +58,16 @@ Then, configure the package to be shareable by adding the `name`, `version`, and
 
 Finally, add the following `peerDependencies`:
 
-```json !#5-12 local-module/package.json
+```json !#5-14 local-module/package.json
 {
     "name": "@getting-started/local-module",
     "version": "0.0.1",
     "exports": "./src/register.tsx",
     "peerDependencies": {
+        "@opentelemetry/api": "^1.2.3",
         "@squide/firefly": "^1.2.3",
         "@tanstack/react-query": "^1.2.3",
+        "launchdarkly-js-client-sdk": "^1.2.3",
         "msw": "^1.2.3",
         "react": "^1.2.3",
         "react-dom": "^1.2.3",

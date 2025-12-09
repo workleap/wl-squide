@@ -1,5 +1,6 @@
 ---
-order: 470
-label: Setup Launch Darkly
-visibility: hidden
+order: 486
+label: Setup LaunchDarkly
 ---
+
+TBD

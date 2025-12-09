@@ -23,7 +23,7 @@ export interface IFireflyRuntime extends IReactRouterRuntime {
     registerEnvironmentVariable<T extends EnvironmentVariableKey>(key: T, value: EnvironmentVariables[T]): void;
     registerEnvironmentVariables(variables: Partial<EnvironmentVariables>): void;
     getEnvironmentVariable<T extends EnvironmentVariableKey>(key: T): EnvironmentVariables[T];
-    getEnvironmentVariables(): EnvironmentVariables;
+    get environmentVariables(): EnvironmentVariables;
     get appRouterStore(): AppRouterStore;
     get honeycombInstrumentationClient(): HoneycombInstrumentationPartialClient | undefined;
     get isLaunchDarklyEnabled(): boolean;
@@ -96,7 +96,7 @@ export class FireflyRuntime<TRuntime extends FireflyRuntime = any> extends React
         return plugin.getVariable(key);
     }
 
-    getEnvironmentVariables() {
+    get environmentVariables() {
         const plugin = getEnvironmentVariablesPlugin(this);
 
         return plugin.getVariables();
@@ -164,12 +164,12 @@ export class FireflyRuntimeScope<TRuntime extends FireflyRuntime = FireflyRuntim
         return this._runtime.isMswEnabled;
     }
 
-    getEnvironmentVariables() {
-        return this._runtime.getEnvironmentVariables();
-    }
-
     getEnvironmentVariable(key: EnvironmentVariableKey) {
         return this._runtime.getEnvironmentVariable(key);
+    }
+
+    get environmentVariables() {
+        return this._runtime.environmentVariables;
     }
 
     registerEnvironmentVariable<T extends EnvironmentVariableKey>(key: T, value: EnvironmentVariables[T]) {

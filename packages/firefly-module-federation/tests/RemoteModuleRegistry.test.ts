@@ -75,18 +75,15 @@ describe.concurrent("registerModules", () => {
 
         const registry = new RemoteModuleRegistry(loadRemote);
 
-        await registry.registerModules([
+        await registry.registerModules(runtime, [
             { name: "Dummy-1" },
             { name: "Dummy-2" },
             { name: "Dummy-3" }
-        ], runtime);
+        ]);
 
-        expect(register1).toHaveBeenCalledTimes(1);
-        expect(register2).toHaveBeenCalledTimes(1);
-        expect(register3).toHaveBeenCalledTimes(1);
-        expect(register1).toHaveBeenCalled();
-        expect(register2).toHaveBeenCalled();
-        expect(register3).toHaveBeenCalled();
+        expect(register1).toHaveBeenCalledOnce();
+        expect(register2).toHaveBeenCalledOnce();
+        expect(register3).toHaveBeenCalledOnce();
     });
 
     test.concurrent("when called twice, throw an error", async ({ expect }) => {
@@ -98,9 +95,9 @@ describe.concurrent("registerModules", () => {
 
         const registry = new RemoteModuleRegistry(loadRemote);
 
-        await registry.registerModules([{ name: "Dummy-1" }], runtime);
+        await registry.registerModules(runtime, [{ name: "Dummy-1" }]);
 
-        await expect(async () => registry.registerModules([{ name: "Dummy-1" }], runtime)).rejects.toThrow(/The registerRemoteModules function can only be called once/);
+        await expect(async () => registry.registerModules(runtime, [{ name: "Dummy-1" }])).rejects.toThrow(/The registerRemoteModules function can only be called once/);
     });
 
     test.concurrent("should dispatch RemoteModulesRegistrationStartedEvent", async ({ expect }) => {
@@ -116,10 +113,9 @@ describe.concurrent("registerModules", () => {
 
         const registry = new RemoteModuleRegistry(loadRemote);
 
-        await registry.registerModules([{ name: "Dummy-1" }], runtime);
+        await registry.registerModules(runtime, [{ name: "Dummy-1" }]);
 
-        expect(listener).toHaveBeenCalledTimes(1);
-        expect(listener).toHaveBeenCalledWith(expect.objectContaining({
+        expect(listener).toHaveBeenCalledExactlyOnceWith(expect.objectContaining({
             remoteCount: 1
         }));
     });
@@ -133,10 +129,10 @@ describe.concurrent("registerModules", () => {
 
         const registry = new RemoteModuleRegistry(loadRemote);
 
-        await registry.registerModules([
+        await registry.registerModules(runtime, [
             { name: "Dummy-1" },
             { name: "Dummy-2" }
-        ], runtime);
+        ]);
 
         expect(registry.registrationStatus).toBe("ready");
     });
@@ -154,13 +150,12 @@ describe.concurrent("registerModules", () => {
 
         const registry = new RemoteModuleRegistry(loadRemote);
 
-        await registry.registerModules([
+        await registry.registerModules(runtime, [
             { name: "Dummy-1" },
             { name: "Dummy-2" }
-        ], runtime);
+        ]);
 
-        expect(listener).toHaveBeenCalledTimes(1);
-        expect(listener).toHaveBeenCalledWith(expect.objectContaining({
+        expect(listener).toHaveBeenCalledExactlyOnceWith(expect.objectContaining({
             remoteCount: 2
         }));
     });
@@ -174,10 +169,10 @@ describe.concurrent("registerModules", () => {
 
         const registry = new RemoteModuleRegistry(loadRemote);
 
-        await registry.registerModules([
+        await registry.registerModules(runtime, [
             { name: "Dummy-1" },
             { name: "Dummy-2" }
-        ], runtime);
+        ]);
 
         expect(registry.registrationStatus).toBe("modules-registered");
     });
@@ -195,13 +190,12 @@ describe.concurrent("registerModules", () => {
 
         const registry = new RemoteModuleRegistry(loadRemote);
 
-        await registry.registerModules([
+        await registry.registerModules(runtime, [
             { name: "Dummy-1" },
             { name: "Dummy-2" }
-        ], runtime);
+        ]);
 
-        expect(listener).toHaveBeenCalledTimes(1);
-        expect(listener).toHaveBeenCalledWith(expect.objectContaining({
+        expect(listener).toHaveBeenCalledExactlyOnceWith(expect.objectContaining({
             remoteCount: 2
         }));
     });
@@ -225,16 +219,14 @@ describe.concurrent("registerModules", () => {
 
         const registry = new RemoteModuleRegistry(loadRemote);
 
-        await registry.registerModules([
+        await registry.registerModules(runtime, [
             { name: "Dummy-1" },
             { name: "Dummy-2" },
             { name: "Dummy-3" }
-        ], runtime);
+        ]);
 
-        expect(register1).toHaveBeenCalledTimes(1);
-        expect(register3).toHaveBeenCalledTimes(1);
-        expect(register1).toHaveBeenCalled();
-        expect(register3).toHaveBeenCalled();
+        expect(register1).toHaveBeenCalledOnce();
+        expect(register3).toHaveBeenCalledOnce();
     });
 
     test.concurrent("when a module registration fail, return the error", async ({ expect }) => {
@@ -253,11 +245,11 @@ describe.concurrent("registerModules", () => {
 
         const registry = new RemoteModuleRegistry(loadRemote);
 
-        const errors = await registry.registerModules([
+        const errors = await registry.registerModules(runtime, [
             { name: "Dummy-1" },
             { name: "Dummy-2" },
             { name: "Dummy-3" }
-        ], runtime);
+        ]);
 
         expect(errors.length).toBe(1);
         expect(errors[0].cause!.toString()).toContain("Module 2 registration failed");
@@ -285,14 +277,13 @@ describe.concurrent("registerModules", () => {
 
         const registry = new RemoteModuleRegistry(loadRemote);
 
-        await registry.registerModules([
+        await registry.registerModules(runtime, [
             { name: "Dummy-1" },
             { name: "Dummy-2" },
             { name: "Dummy-3" }
-        ], runtime);
+        ]);
 
-        expect(listener).toHaveBeenCalledTimes(1);
-        expect(listener).toHaveBeenCalledWith(expect.any(RemoteModuleRegistrationError));
+        expect(listener).toHaveBeenCalledExactlyOnceWith(expect.any(RemoteModuleRegistrationError));
     });
 
     test.concurrent("when a module registration fail, RemoteModulesRegistrationCompletedEvent is dispatched", async ({ expect }) => {
@@ -317,14 +308,13 @@ describe.concurrent("registerModules", () => {
 
         const registry = new RemoteModuleRegistry(loadRemote);
 
-        await registry.registerModules([
+        await registry.registerModules(runtime, [
             { name: "Dummy-1" },
             { name: "Dummy-2" },
             { name: "Dummy-3" }
-        ], runtime);
+        ]);
 
-        expect(listener).toHaveBeenCalledTimes(1);
-        expect(listener).toHaveBeenCalledWith(expect.objectContaining({
+        expect(listener).toHaveBeenCalledExactlyOnceWith(expect.objectContaining({
             remoteCount: 2
         }));
     });
@@ -353,25 +343,22 @@ describe.concurrent("registerModules", () => {
             foo: "bar"
         };
 
-        await registry.registerModules([
+        await registry.registerModules(runtime, [
             { name: "Dummy-1" },
             { name: "Dummy-2" },
             { name: "Dummy-3" }
-        ], runtime, { context });
+        ], { context });
 
-        expect(register1).toHaveBeenCalledTimes(1);
-        expect(register2).toHaveBeenCalledTimes(1);
-        expect(register3).toHaveBeenCalledTimes(1);
-        expect(register1).toHaveBeenCalledWith(runtime, context);
-        expect(register2).toHaveBeenCalledWith(runtime, context);
-        expect(register3).toHaveBeenCalledWith(runtime, context);
+        expect(register1).toHaveBeenCalledExactlyOnceWith(runtime, context);
+        expect(register2).toHaveBeenCalledExactlyOnceWith(runtime, context);
+        expect(register3).toHaveBeenCalledExactlyOnceWith(runtime, context);
     });
 
     test.concurrent("when no modules are provided, the status is \"ready\"", async ({ expect }) => {
         const runtime = new DummyRuntime({ loggers: [new NoopLogger()] });
         const registry = new RemoteModuleRegistry(vi.fn());
 
-        await registry.registerModules([], runtime);
+        await registry.registerModules(runtime, []);
 
         expect(registry.registrationStatus).toBe("ready");
     });
@@ -385,7 +372,7 @@ describe.concurrent("registerModules", () => {
 
         const registry = new RemoteModuleRegistry(vi.fn());
 
-        await registry.registerModules([], runtime);
+        await registry.registerModules(runtime, []);
 
         expect(listener).not.toHaveBeenCalled();
     });
@@ -399,7 +386,7 @@ describe.concurrent("registerModules", () => {
 
         const registry = new RemoteModuleRegistry(vi.fn());
 
-        await registry.registerModules([], runtime);
+        await registry.registerModules(runtime, []);
 
         expect(listener).not.toHaveBeenCalled();
     });
@@ -410,7 +397,7 @@ describe.concurrent("registerDeferredRegistrations", () => {
         const runtime = new DummyRuntime({ loggers: [new NoopLogger()] });
         const registry = new RemoteModuleRegistry(vi.fn());
 
-        await expect(() => registry.registerDeferredRegistrations({}, runtime)).rejects.toThrow(/The registerDeferredRegistrations function can only be called once the remote modules are registered/);
+        await expect(() => registry.registerDeferredRegistrations(runtime, {})).rejects.toThrow(/The registerDeferredRegistrations function can only be called once the remote modules are registered/);
     });
 
     test.concurrent("when called twice, throw an error", async ({ expect }) => {
@@ -422,14 +409,14 @@ describe.concurrent("registerDeferredRegistrations", () => {
 
         const registry = new RemoteModuleRegistry(loadRemote);
 
-        await registry.registerModules([
+        await registry.registerModules(runtime, [
             { name: "Dummy-1" },
             { name: "Dummy-2" }
-        ], runtime);
+        ]);
 
-        await registry.registerDeferredRegistrations({}, runtime);
+        await registry.registerDeferredRegistrations(runtime, {});
 
-        await expect(() => registry.registerDeferredRegistrations({}, runtime)).rejects.toThrow(/The registerDeferredRegistrations function can only be called once/);
+        await expect(() => registry.registerDeferredRegistrations(runtime, {})).rejects.toThrow(/The registerDeferredRegistrations function can only be called once/);
     });
 
     test.concurrent("when called for the first time but the registration status is already \"ready\", return a resolving promise", async ({ expect }) => {
@@ -442,14 +429,14 @@ describe.concurrent("registerDeferredRegistrations", () => {
 
         const registry = new RemoteModuleRegistry(loadRemote);
 
-        await registry.registerModules([
+        await registry.registerModules(runtime, [
             { name: "Dummy-1" },
             { name: "Dummy-2" }
-        ], runtime);
+        ]);
 
         expect(registry.registrationStatus).toBe("ready");
 
-        await registry.registerDeferredRegistrations({}, runtime);
+        await registry.registerDeferredRegistrations(runtime, {});
 
         expect(registry.registrationStatus).toBe("ready");
     });
@@ -467,15 +454,14 @@ describe.concurrent("registerDeferredRegistrations", () => {
 
         const registry = new RemoteModuleRegistry(loadRemote);
 
-        await registry.registerModules([
+        await registry.registerModules(runtime, [
             { name: "Dummy-1" },
             { name: "Dummy-2" }
-        ], runtime);
+        ]);
 
-        await registry.registerDeferredRegistrations({}, runtime);
+        await registry.registerDeferredRegistrations(runtime, {});
 
-        expect(listener).toHaveBeenCalledTimes(1);
-        expect(listener).toHaveBeenCalledWith(expect.objectContaining({
+        expect(listener).toHaveBeenCalledExactlyOnceWith(expect.objectContaining({
             registrationCount: 2
         }));
     });
@@ -500,20 +486,17 @@ describe.concurrent("registerDeferredRegistrations", () => {
 
         const registry = new RemoteModuleRegistry(loadRemote);
 
-        await registry.registerModules([
+        await registry.registerModules(runtime, [
             { name: "Dummy-1" },
             { name: "Dummy-2" },
             { name: "Dummy-3" }
-        ], runtime);
+        ]);
 
-        await registry.registerDeferredRegistrations({}, runtime);
+        await registry.registerDeferredRegistrations(runtime, {});
 
-        expect(register1).toHaveBeenCalledTimes(1);
-        expect(register2).toHaveBeenCalledTimes(1);
-        expect(register3).toHaveBeenCalledTimes(1);
-        expect(register1).toHaveBeenCalled();
-        expect(register2).toHaveBeenCalled();
-        expect(register3).toHaveBeenCalled();
+        expect(register1).toHaveBeenCalledOnce();
+        expect(register2).toHaveBeenCalledOnce();
+        expect(register3).toHaveBeenCalledOnce();
     });
 
     test.concurrent("when all the deferred registrations are completed, set the status to \"ready\"", async ({ expect }) => {
@@ -525,15 +508,15 @@ describe.concurrent("registerDeferredRegistrations", () => {
 
         const registry = new RemoteModuleRegistry(loadRemote);
 
-        await registry.registerModules([
+        await registry.registerModules(runtime, [
             { name: "Dummy-1" },
             { name: "Dummy-2" },
             { name: "Dummy-3" }
-        ], runtime);
+        ]);
 
         expect(registry.registrationStatus).toBe("modules-registered");
 
-        await registry.registerDeferredRegistrations({}, runtime);
+        await registry.registerDeferredRegistrations(runtime, {});
 
         expect(registry.registrationStatus).toBe("ready");
     });
@@ -551,16 +534,15 @@ describe.concurrent("registerDeferredRegistrations", () => {
 
         const registry = new RemoteModuleRegistry(loadRemote);
 
-        await registry.registerModules([
+        await registry.registerModules(runtime, [
             { name: "Dummy-1" },
             { name: "Dummy-2" },
             { name: "Dummy-3" }
-        ], runtime);
+        ]);
 
-        await registry.registerDeferredRegistrations({}, runtime);
+        await registry.registerDeferredRegistrations(runtime, {});
 
-        expect(listener).toHaveBeenCalledTimes(1);
-        expect(listener).toHaveBeenCalledWith(expect.objectContaining({
+        expect(listener).toHaveBeenCalledExactlyOnceWith(expect.objectContaining({
             registrationCount: 3
         }));
     });
@@ -587,13 +569,13 @@ describe.concurrent("registerDeferredRegistrations", () => {
 
         const registry = new RemoteModuleRegistry(loadRemote);
 
-        await registry.registerModules([
+        await registry.registerModules(runtime, [
             { name: "Dummy-1" },
             { name: "Dummy-2" },
             { name: "Dummy-3" }
-        ], runtime);
+        ]);
 
-        await registry.registerDeferredRegistrations({}, runtime);
+        await registry.registerDeferredRegistrations(runtime, {});
 
         expect(hasBeenCompleted).toBeTruthy();
     });
@@ -617,18 +599,16 @@ describe.concurrent("registerDeferredRegistrations", () => {
 
         const registry = new RemoteModuleRegistry(loadRemote);
 
-        await registry.registerModules([
+        await registry.registerModules(runtime, [
             { name: "Dummy-1" },
             { name: "Dummy-2" },
             { name: "Dummy-3" }
-        ], runtime);
+        ]);
 
-        await registry.registerDeferredRegistrations({}, runtime);
+        await registry.registerDeferredRegistrations(runtime, {});
 
-        expect(register1).toHaveBeenCalledTimes(1);
-        expect(register3).toHaveBeenCalledTimes(1);
-        expect(register1).toHaveBeenCalled();
-        expect(register3).toHaveBeenCalled();
+        expect(register1).toHaveBeenCalledOnce();
+        expect(register3).toHaveBeenCalledOnce();
     });
 
     test.concurrent("when a deferred registration fail, return the error", async ({ expect }) => {
@@ -647,13 +627,13 @@ describe.concurrent("registerDeferredRegistrations", () => {
 
         const registry = new RemoteModuleRegistry(loadRemote);
 
-        await registry.registerModules([
+        await registry.registerModules(runtime, [
             { name: "Dummy-1" },
             { name: "Dummy-2" },
             { name: "Dummy-3" }
-        ], runtime);
+        ]);
 
-        const errors = await registry.registerDeferredRegistrations({}, runtime);
+        const errors = await registry.registerDeferredRegistrations(runtime, {});
 
         expect(errors.length).toBe(1);
         expect(errors[0].cause!.toString()).toContain("Module 2 deferred registration failed");
@@ -681,16 +661,15 @@ describe.concurrent("registerDeferredRegistrations", () => {
 
         const registry = new RemoteModuleRegistry(loadRemote);
 
-        await registry.registerModules([
+        await registry.registerModules(runtime, [
             { name: "Dummy-1" },
             { name: "Dummy-2" },
             { name: "Dummy-3" }
-        ], runtime);
+        ]);
 
-        await registry.registerDeferredRegistrations({}, runtime);
+        await registry.registerDeferredRegistrations(runtime, {});
 
-        expect(listener).toHaveBeenCalledTimes(1);
-        expect(listener).toHaveBeenCalledWith(expect.any(RemoteModuleRegistrationError));
+        expect(listener).toHaveBeenCalledExactlyOnceWith(expect.any(RemoteModuleRegistrationError));
     });
 
     test.concurrent("when a deferred registration fail, RemoteModulesDeferredRegistrationCompletedEvent is dispatched", async ({ expect }) => {
@@ -715,16 +694,15 @@ describe.concurrent("registerDeferredRegistrations", () => {
 
         const registry = new RemoteModuleRegistry(loadRemote);
 
-        await registry.registerModules([
+        await registry.registerModules(runtime, [
             { name: "Dummy-1" },
             { name: "Dummy-2" },
             { name: "Dummy-3" }
-        ], runtime);
+        ]);
 
-        await registry.registerDeferredRegistrations({}, runtime);
+        await registry.registerDeferredRegistrations(runtime, {});
 
-        expect(listener).toHaveBeenCalledTimes(1);
-        expect(listener).toHaveBeenCalledWith(expect.objectContaining({
+        expect(listener).toHaveBeenCalledExactlyOnceWith(expect.objectContaining({
             registrationCount: 2
         }));
     });
@@ -749,24 +727,21 @@ describe.concurrent("registerDeferredRegistrations", () => {
 
         const registry = new RemoteModuleRegistry(loadRemote);
 
-        await registry.registerModules([
+        await registry.registerModules(runtime, [
             { name: "Dummy-1" },
             { name: "Dummy-2" },
             { name: "Dummy-3" }
-        ], runtime);
+        ]);
 
         const data = {
             foo: "bar"
         };
 
-        await registry.registerDeferredRegistrations(data, runtime);
+        await registry.registerDeferredRegistrations(runtime, data);
 
-        expect(register1).toHaveBeenCalledTimes(1);
-        expect(register2).toHaveBeenCalledTimes(1);
-        expect(register3).toHaveBeenCalledTimes(1);
-        expect(register1).toHaveBeenCalledWith(runtime, data, "register");
-        expect(register2).toHaveBeenCalledWith(runtime, data, "register");
-        expect(register3).toHaveBeenCalledWith(runtime, data, "register");
+        expect(register1).toHaveBeenCalledExactlyOnceWith(runtime, data, "register");
+        expect(register2).toHaveBeenCalledExactlyOnceWith(runtime, data, "register");
+        expect(register3).toHaveBeenCalledExactlyOnceWith(runtime, data, "register");
     });
 
     test.concurrent("all the deferred registrations receive \"register\" as state", async ({ expect }) => {
@@ -789,24 +764,21 @@ describe.concurrent("registerDeferredRegistrations", () => {
 
         const registry = new RemoteModuleRegistry(loadRemote);
 
-        await registry.registerModules([
+        await registry.registerModules(runtime, [
             { name: "Dummy-1" },
             { name: "Dummy-2" },
             { name: "Dummy-3" }
-        ], runtime);
+        ]);
 
         const data = {
             foo: "bar"
         };
 
-        await registry.registerDeferredRegistrations(data, runtime);
+        await registry.registerDeferredRegistrations(runtime, data);
 
-        expect(register1).toHaveBeenCalledTimes(1);
-        expect(register2).toHaveBeenCalledTimes(1);
-        expect(register3).toHaveBeenCalledTimes(1);
-        expect(register1).toHaveBeenCalledWith(runtime, data, "register");
-        expect(register2).toHaveBeenCalledWith(runtime, data, "register");
-        expect(register3).toHaveBeenCalledWith(runtime, data, "register");
+        expect(register1).toHaveBeenCalledExactlyOnceWith(runtime, data, "register");
+        expect(register2).toHaveBeenCalledExactlyOnceWith(runtime, data, "register");
+        expect(register3).toHaveBeenCalledExactlyOnceWith(runtime, data, "register");
     });
 });
 
@@ -817,7 +789,7 @@ describe.concurrent("updateDeferredRegistrations", () => {
 
         const registry = new RemoteModuleRegistry(loadRemote);
 
-        await expect(() => registry.updateDeferredRegistrations({}, runtime)).rejects.toThrow(/The updateDeferredRegistrations function can only be called once the remote modules are ready/);
+        await expect(() => registry.updateDeferredRegistrations(runtime, {})).rejects.toThrow(/The updateDeferredRegistrations function can only be called once the remote modules are ready/);
     });
 
     test.concurrent("when called before registerLocalModuleDeferredRegistrations, throw an error", async ({ expect }) => {
@@ -829,12 +801,12 @@ describe.concurrent("updateDeferredRegistrations", () => {
 
         const registry = new RemoteModuleRegistry(loadRemote);
 
-        await registry.registerModules([
+        await registry.registerModules(runtime, [
             { name: "Dummy-1" },
             { name: "Dummy-2" }
-        ], runtime);
+        ]);
 
-        await expect(() => registry.updateDeferredRegistrations({}, runtime)).rejects.toThrow(/The updateDeferredRegistrations function can only be called once the remote modules are ready/);
+        await expect(() => registry.updateDeferredRegistrations(runtime, {})).rejects.toThrow(/The updateDeferredRegistrations function can only be called once the remote modules are ready/);
     });
 
     test.concurrent("should dispatch RemoteModulesDeferredRegistrationsUpdateStartedEvent", async ({ expect }) => {
@@ -850,16 +822,15 @@ describe.concurrent("updateDeferredRegistrations", () => {
 
         const registry = new RemoteModuleRegistry(loadRemote);
 
-        await registry.registerModules([
+        await registry.registerModules(runtime, [
             { name: "Dummy-1" },
             { name: "Dummy-2" }
-        ], runtime);
+        ]);
 
-        await registry.registerDeferredRegistrations({}, runtime);
-        await registry.updateDeferredRegistrations({}, runtime);
+        await registry.registerDeferredRegistrations(runtime, {});
+        await registry.updateDeferredRegistrations(runtime, {});
 
-        expect(listener).toHaveBeenCalledTimes(1);
-        expect(listener).toHaveBeenCalledWith(expect.objectContaining({
+        expect(listener).toHaveBeenCalledExactlyOnceWith(expect.objectContaining({
             registrationCount: 2
         }));
     });
@@ -884,26 +855,23 @@ describe.concurrent("updateDeferredRegistrations", () => {
 
         const registry = new RemoteModuleRegistry(loadRemote);
 
-        await registry.registerModules([
+        await registry.registerModules(runtime, [
             { name: "Dummy-1" },
             { name: "Dummy-2" },
             { name: "Dummy-3" }
-        ], runtime);
+        ]);
 
-        await registry.registerDeferredRegistrations({}, runtime);
+        await registry.registerDeferredRegistrations(runtime, {});
 
         register1.mockReset();
         register2.mockReset();
         register3.mockReset();
 
-        await registry.updateDeferredRegistrations({}, runtime);
+        await registry.updateDeferredRegistrations(runtime, {});
 
-        expect(register1).toHaveBeenCalledTimes(1);
-        expect(register2).toHaveBeenCalledTimes(1);
-        expect(register3).toHaveBeenCalledTimes(1);
-        expect(register1).toHaveBeenCalled();
-        expect(register2).toHaveBeenCalled();
-        expect(register3).toHaveBeenCalled();
+        expect(register1).toHaveBeenCalledOnce();
+        expect(register2).toHaveBeenCalledOnce();
+        expect(register3).toHaveBeenCalledOnce();
     });
 
     test.concurrent("when all deferred registrations has been updated, RemoteModulesDeferredRegistrationsUpdateCompletedEvent is dispatched", async ({ expect }) => {
@@ -919,16 +887,15 @@ describe.concurrent("updateDeferredRegistrations", () => {
 
         const registry = new RemoteModuleRegistry(loadRemote);
 
-        await registry.registerModules([
+        await registry.registerModules(runtime, [
             { name: "Dummy-1" },
             { name: "Dummy-2" }
-        ], runtime);
+        ]);
 
-        await registry.registerDeferredRegistrations({}, runtime);
-        await registry.updateDeferredRegistrations({}, runtime);
+        await registry.registerDeferredRegistrations(runtime, {});
+        await registry.updateDeferredRegistrations(runtime, {});
 
-        expect(listener).toHaveBeenCalledTimes(1);
-        expect(listener).toHaveBeenCalledWith(expect.objectContaining({
+        expect(listener).toHaveBeenCalledExactlyOnceWith(expect.objectContaining({
             registrationCount: 2
         }));
     });
@@ -964,15 +931,15 @@ describe.concurrent("updateDeferredRegistrations", () => {
 
         const registry = new RemoteModuleRegistry(loadRemote);
 
-        await registry.registerModules([
+        await registry.registerModules(runtime, [
             { name: "Dummy-1" },
             { name: "Dummy-2" },
             { name: "Dummy-3" }
-        ], runtime);
+        ]);
 
-        await registry.registerDeferredRegistrations({}, runtime);
+        await registry.registerDeferredRegistrations(runtime, {});
 
-        await registry.updateDeferredRegistrations({}, runtime);
+        await registry.updateDeferredRegistrations(runtime, {});
 
         expect(hasBeenCompleted).toBeTruthy();
     });
@@ -1004,23 +971,21 @@ describe.concurrent("updateDeferredRegistrations", () => {
 
         const registry = new RemoteModuleRegistry(loadRemote);
 
-        await registry.registerModules([
+        await registry.registerModules(runtime, [
             { name: "Dummy-1" },
             { name: "Dummy-2" },
             { name: "Dummy-3" }
-        ], runtime);
+        ]);
 
-        await registry.registerDeferredRegistrations({}, runtime);
+        await registry.registerDeferredRegistrations(runtime, {});
 
         register1.mockReset();
         register3.mockReset();
 
-        await registry.updateDeferredRegistrations({}, runtime);
+        await registry.updateDeferredRegistrations(runtime, {});
 
-        expect(register1).toHaveBeenCalledTimes(1);
-        expect(register3).toHaveBeenCalledTimes(1);
-        expect(register1).toHaveBeenCalled();
-        expect(register3).toHaveBeenCalled();
+        expect(register1).toHaveBeenCalledOnce();
+        expect(register3).toHaveBeenCalledOnce();
     });
 
     test.concurrent("when a deferred registration fail, return the error", async ({ expect }) => {
@@ -1050,15 +1015,15 @@ describe.concurrent("updateDeferredRegistrations", () => {
 
         const registry = new RemoteModuleRegistry(loadRemote);
 
-        await registry.registerModules([
+        await registry.registerModules(runtime, [
             { name: "Dummy-1" },
             { name: "Dummy-2" },
             { name: "Dummy-3" }
-        ], runtime);
+        ]);
 
-        await registry.registerDeferredRegistrations({}, runtime);
+        await registry.registerDeferredRegistrations(runtime, {});
 
-        const errors = await registry.updateDeferredRegistrations({}, runtime);
+        const errors = await registry.updateDeferredRegistrations(runtime, {});
 
         expect(errors.length).toBe(1);
         expect(errors[0].cause!.toString()).toContain("Module 2 registration failed");
@@ -1097,17 +1062,16 @@ describe.concurrent("updateDeferredRegistrations", () => {
 
         const registry = new RemoteModuleRegistry(loadRemote);
 
-        await registry.registerModules([
+        await registry.registerModules(runtime, [
             { name: "Dummy-1" },
             { name: "Dummy-2" },
             { name: "Dummy-3" }
-        ], runtime);
+        ]);
 
-        await registry.registerDeferredRegistrations({}, runtime);
-        await registry.updateDeferredRegistrations({}, runtime);
+        await registry.registerDeferredRegistrations(runtime, {});
+        await registry.updateDeferredRegistrations(runtime, {});
 
-        expect(listener).toHaveBeenCalledTimes(1);
-        expect(listener).toHaveBeenCalledWith(expect.any(RemoteModuleRegistrationError));
+        expect(listener).toHaveBeenCalledExactlyOnceWith(expect.any(RemoteModuleRegistrationError));
     });
 
     test.concurrent("when a deferred registration fail, RemoteModulesDeferredRegistrationsUpdateCompletedEvent is dispatched", async ({ expect }) => {
@@ -1143,17 +1107,16 @@ describe.concurrent("updateDeferredRegistrations", () => {
 
         const registry = new RemoteModuleRegistry(loadRemote);
 
-        await registry.registerModules([
+        await registry.registerModules(runtime, [
             { name: "Dummy-1" },
             { name: "Dummy-2" },
             { name: "Dummy-3" }
-        ], runtime);
+        ]);
 
-        await registry.registerDeferredRegistrations({}, runtime);
-        await registry.updateDeferredRegistrations({}, runtime);
+        await registry.registerDeferredRegistrations(runtime, {});
+        await registry.updateDeferredRegistrations(runtime, {});
 
-        expect(listener).toHaveBeenCalledTimes(1);
-        expect(listener).toHaveBeenCalledWith(expect.objectContaining({
+        expect(listener).toHaveBeenCalledExactlyOnceWith(expect.objectContaining({
             registrationCount: 2
         }));
     });
@@ -1178,13 +1141,13 @@ describe.concurrent("updateDeferredRegistrations", () => {
 
         const registry = new RemoteModuleRegistry(loadRemote);
 
-        await registry.registerModules([
+        await registry.registerModules(runtime, [
             { name: "Dummy-1" },
             { name: "Dummy-2" },
             { name: "Dummy-3" }
-        ], runtime);
+        ]);
 
-        await registry.registerDeferredRegistrations({}, runtime);
+        await registry.registerDeferredRegistrations(runtime, {});
 
         register1.mockReset();
         register2.mockReset();
@@ -1194,14 +1157,11 @@ describe.concurrent("updateDeferredRegistrations", () => {
             foo: "bar"
         };
 
-        await registry.updateDeferredRegistrations(data, runtime);
+        await registry.updateDeferredRegistrations(runtime, data);
 
-        expect(register1).toHaveBeenCalledTimes(1);
-        expect(register2).toHaveBeenCalledTimes(1);
-        expect(register3).toHaveBeenCalledTimes(1);
-        expect(register1).toHaveBeenCalledWith(runtime, data, "update");
-        expect(register2).toHaveBeenCalledWith(runtime, data, "update");
-        expect(register3).toHaveBeenCalledWith(runtime, data, "update");
+        expect(register1).toHaveBeenCalledExactlyOnceWith(runtime, data, "update");
+        expect(register2).toHaveBeenCalledExactlyOnceWith(runtime, data, "update");
+        expect(register3).toHaveBeenCalledExactlyOnceWith(runtime, data, "update");
     });
 
     test.concurrent("all the deferred module registrations receive \"update\" as state", async ({ expect }) => {
@@ -1224,13 +1184,13 @@ describe.concurrent("updateDeferredRegistrations", () => {
 
         const registry = new RemoteModuleRegistry(loadRemote);
 
-        await registry.registerModules([
+        await registry.registerModules(runtime, [
             { name: "Dummy-1" },
             { name: "Dummy-2" },
             { name: "Dummy-3" }
-        ], runtime);
+        ]);
 
-        await registry.registerDeferredRegistrations({}, runtime);
+        await registry.registerDeferredRegistrations(runtime, {});
 
         register1.mockReset();
         register2.mockReset();
@@ -1240,13 +1200,10 @@ describe.concurrent("updateDeferredRegistrations", () => {
             foo: "bar"
         };
 
-        await registry.updateDeferredRegistrations(data, runtime);
+        await registry.updateDeferredRegistrations(runtime, data);
 
-        expect(register1).toHaveBeenCalledTimes(1);
-        expect(register2).toHaveBeenCalledTimes(1);
-        expect(register3).toHaveBeenCalledTimes(1);
-        expect(register1).toHaveBeenCalledWith(runtime, data, "update");
-        expect(register2).toHaveBeenCalledWith(runtime, data, "update");
-        expect(register3).toHaveBeenCalledWith(runtime, data, "update");
+        expect(register1).toHaveBeenCalledExactlyOnceWith(runtime, data, "update");
+        expect(register2).toHaveBeenCalledExactlyOnceWith(runtime, data, "update");
+        expect(register3).toHaveBeenCalledExactlyOnceWith(runtime, data, "update");
     });
 });

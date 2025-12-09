@@ -72,6 +72,16 @@ toc:
 - [useEnvironmentVariable](./env-vars/useEnvironmentVariable.md)
 - [useEnvironmentVariables](./env-vars/useEnvironmentVariables.md)
 
+### LaunchDarkly
+
+- [LaunchDarklyPlugin](./launch-darkly/LaunchDarklyPlugin.md)
+- [useFeatureFlag](./launch-darkly/useFeatureFlag.md)
+- [useFeatureFlags](./launch-darkly/useFeatureFlags.md)
+- [useLaunchDarklyClient](./launch-darkly/useLaunchDarklyClient.md)
+- [getFeatureFlag](./launch-darkly/getFeatureFlag.md)
+- [InMemoryLaunchDarklyClient](./launch-darkly/InMemoryLaunchDarklyClient.md)
+- [FeatureFlagSetSnapshot](./launch-darkly/FeatureFlagSetSnapshot.md)
+
 ### Logging
 
 - [useLogger](./logging/useLogger.md)

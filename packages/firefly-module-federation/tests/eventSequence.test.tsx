@@ -230,23 +230,23 @@ test("msw + local modules + remote modules + public data + protected data + loca
     await waitFor(() => screen.findByText("loading"));
     await waitFor(() => screen.findByText("bar"));
 
-    expect(onApplicationBootstrappingStarted).toHaveBeenCalledTimes(1);
-    expect(onLocalModulesRegistrationStarted).toHaveBeenCalledTimes(1);
-    expect(onLocalModulesRegistrationCompleted).toHaveBeenCalledTimes(1);
-    expect(onRemoteModulesRegistrationStarted).toHaveBeenCalledTimes(1);
-    expect(onRemoteModulesRegistrationCompleted).toHaveBeenCalledTimes(1);
-    expect(onModulesRegistered).toHaveBeenCalledTimes(1);
-    expect(onMswReady).toHaveBeenCalledTimes(1);
-    expect(onPublicDataFetchStarted).toHaveBeenCalledTimes(1);
-    expect(onPublicDataReady).toHaveBeenCalledTimes(1);
-    expect(onProtectedDataFetchStarted).toHaveBeenCalledTimes(1);
-    expect(onProtectedDataReady).toHaveBeenCalledTimes(1);
-    expect(onLocalModulesDeferredRegistrationStarted).toHaveBeenCalledTimes(1);
-    expect(onLocalModulesDeferredRegistrationCompleted).toHaveBeenCalledTimes(1);
-    expect(onRemoteModulesDeferredRegistrationStarted).toHaveBeenCalledTimes(1);
-    expect(onRemoteModulesDeferredRegistrationCompleted).toHaveBeenCalledTimes(1);
-    expect(onModulesReady).toHaveBeenCalledTimes(1);
-    expect(onApplicationBoostrapped).toHaveBeenCalledTimes(1);
+    expect(onApplicationBootstrappingStarted).toHaveBeenCalledOnce();
+    expect(onLocalModulesRegistrationStarted).toHaveBeenCalledOnce();
+    expect(onLocalModulesRegistrationCompleted).toHaveBeenCalledOnce();
+    expect(onRemoteModulesRegistrationStarted).toHaveBeenCalledOnce();
+    expect(onRemoteModulesRegistrationCompleted).toHaveBeenCalledOnce();
+    expect(onModulesRegistered).toHaveBeenCalledOnce();
+    expect(onMswReady).toHaveBeenCalledOnce();
+    expect(onPublicDataFetchStarted).toHaveBeenCalledOnce();
+    expect(onPublicDataReady).toHaveBeenCalledOnce();
+    expect(onProtectedDataFetchStarted).toHaveBeenCalledOnce();
+    expect(onProtectedDataReady).toHaveBeenCalledOnce();
+    expect(onLocalModulesDeferredRegistrationStarted).toHaveBeenCalledOnce();
+    expect(onLocalModulesDeferredRegistrationCompleted).toHaveBeenCalledOnce();
+    expect(onRemoteModulesDeferredRegistrationStarted).toHaveBeenCalledOnce();
+    expect(onRemoteModulesDeferredRegistrationCompleted).toHaveBeenCalledOnce();
+    expect(onModulesReady).toHaveBeenCalledOnce();
+    expect(onApplicationBoostrapped).toHaveBeenCalledOnce();
 
     // Expected order is:
     //    ApplicationBootstrappingStartedEvent
@@ -401,18 +401,18 @@ test("msw + local modules + remote modules + public data + protected data", asyn
     await waitFor(() => screen.findByText("loading"));
     await waitFor(() => screen.findByText("bar"));
 
-    expect(onApplicationBootstrappingStarted).toHaveBeenCalledTimes(1);
-    expect(onLocalModulesRegistrationStarted).toHaveBeenCalledTimes(1);
-    expect(onLocalModulesRegistrationCompleted).toHaveBeenCalledTimes(1);
-    expect(onRemoteModulesRegistrationStarted).toHaveBeenCalledTimes(1);
-    expect(onRemoteModulesRegistrationCompleted).toHaveBeenCalledTimes(1);
-    expect(onModulesReady).toHaveBeenCalledTimes(1);
-    expect(onMswReady).toHaveBeenCalledTimes(1);
-    expect(onPublicDataFetchStarted).toHaveBeenCalledTimes(1);
-    expect(onPublicDataReady).toHaveBeenCalledTimes(1);
-    expect(onProtectedDataFetchStarted).toHaveBeenCalledTimes(1);
-    expect(onProtectedDataReady).toHaveBeenCalledTimes(1);
-    expect(onApplicationBoostrapped).toHaveBeenCalledTimes(1);
+    expect(onApplicationBootstrappingStarted).toHaveBeenCalledOnce();
+    expect(onLocalModulesRegistrationStarted).toHaveBeenCalledOnce();
+    expect(onLocalModulesRegistrationCompleted).toHaveBeenCalledOnce();
+    expect(onRemoteModulesRegistrationStarted).toHaveBeenCalledOnce();
+    expect(onRemoteModulesRegistrationCompleted).toHaveBeenCalledOnce();
+    expect(onModulesReady).toHaveBeenCalledOnce();
+    expect(onMswReady).toHaveBeenCalledOnce();
+    expect(onPublicDataFetchStarted).toHaveBeenCalledOnce();
+    expect(onPublicDataReady).toHaveBeenCalledOnce();
+    expect(onProtectedDataFetchStarted).toHaveBeenCalledOnce();
+    expect(onProtectedDataReady).toHaveBeenCalledOnce();
+    expect(onApplicationBoostrapped).toHaveBeenCalledOnce();
 
     // Expected order is:
     //    ApplicationBootstrappingStartedEvent
@@ -561,21 +561,21 @@ test("msw + local modules + remote modules + public data + local deferred + remo
     await waitFor(() => screen.findByText("loading"));
     await waitFor(() => screen.findByText("bar"));
 
-    expect(onApplicationBootstrappingStarted).toHaveBeenCalledTimes(1);
-    expect(onLocalModulesRegistrationStarted).toHaveBeenCalledTimes(1);
-    expect(onLocalModulesRegistrationCompleted).toHaveBeenCalledTimes(1);
-    expect(onRemoteModulesRegistrationStarted).toHaveBeenCalledTimes(1);
-    expect(onRemoteModulesRegistrationCompleted).toHaveBeenCalledTimes(1);
-    expect(onModulesRegistered).toHaveBeenCalledTimes(1);
-    expect(onMswReady).toHaveBeenCalledTimes(1);
-    expect(onPublicDataFetchStarted).toHaveBeenCalledTimes(1);
-    expect(onPublicDataReady).toHaveBeenCalledTimes(1);
-    expect(onLocalModulesDeferredRegistrationStarted).toHaveBeenCalledTimes(1);
-    expect(onLocalModulesDeferredRegistrationCompleted).toHaveBeenCalledTimes(1);
-    expect(onRemoteModulesDeferredRegistrationStarted).toHaveBeenCalledTimes(1);
-    expect(onRemoteModulesDeferredRegistrationCompleted).toHaveBeenCalledTimes(1);
-    expect(onModulesReady).toHaveBeenCalledTimes(1);
-    expect(onApplicationBoostrapped).toHaveBeenCalledTimes(1);
+    expect(onApplicationBootstrappingStarted).toHaveBeenCalledOnce();
+    expect(onLocalModulesRegistrationStarted).toHaveBeenCalledOnce();
+    expect(onLocalModulesRegistrationCompleted).toHaveBeenCalledOnce();
+    expect(onRemoteModulesRegistrationStarted).toHaveBeenCalledOnce();
+    expect(onRemoteModulesRegistrationCompleted).toHaveBeenCalledOnce();
+    expect(onModulesRegistered).toHaveBeenCalledOnce();
+    expect(onMswReady).toHaveBeenCalledOnce();
+    expect(onPublicDataFetchStarted).toHaveBeenCalledOnce();
+    expect(onPublicDataReady).toHaveBeenCalledOnce();
+    expect(onLocalModulesDeferredRegistrationStarted).toHaveBeenCalledOnce();
+    expect(onLocalModulesDeferredRegistrationCompleted).toHaveBeenCalledOnce();
+    expect(onRemoteModulesDeferredRegistrationStarted).toHaveBeenCalledOnce();
+    expect(onRemoteModulesDeferredRegistrationCompleted).toHaveBeenCalledOnce();
+    expect(onModulesReady).toHaveBeenCalledOnce();
+    expect(onApplicationBoostrapped).toHaveBeenCalledOnce();
 
     // Expected order is:
     //    ApplicationBootstrappingStartedEvent
@@ -732,21 +732,21 @@ test("msw + local modules + remote modules + protected data + local deferred + r
     await waitFor(() => screen.findByText("loading"));
     await waitFor(() => screen.findByText("bar"));
 
-    expect(onApplicationBootstrappingStarted).toHaveBeenCalledTimes(1);
-    expect(onLocalModulesRegistrationStarted).toHaveBeenCalledTimes(1);
-    expect(onLocalModulesRegistrationCompleted).toHaveBeenCalledTimes(1);
-    expect(onRemoteModulesRegistrationStarted).toHaveBeenCalledTimes(1);
-    expect(onRemoteModulesRegistrationCompleted).toHaveBeenCalledTimes(1);
-    expect(onModulesRegistered).toHaveBeenCalledTimes(1);
-    expect(onMswReady).toHaveBeenCalledTimes(1);
-    expect(onProtectedDataFetchStarted).toHaveBeenCalledTimes(1);
-    expect(onProtectedDataReady).toHaveBeenCalledTimes(1);
-    expect(onLocalModulesDeferredRegistrationStarted).toHaveBeenCalledTimes(1);
-    expect(onLocalModulesDeferredRegistrationCompleted).toHaveBeenCalledTimes(1);
-    expect(onRemoteModulesDeferredRegistrationStarted).toHaveBeenCalledTimes(1);
-    expect(onRemoteModulesDeferredRegistrationCompleted).toHaveBeenCalledTimes(1);
-    expect(onModulesReady).toHaveBeenCalledTimes(1);
-    expect(onApplicationBoostrapped).toHaveBeenCalledTimes(1);
+    expect(onApplicationBootstrappingStarted).toHaveBeenCalledOnce();
+    expect(onLocalModulesRegistrationStarted).toHaveBeenCalledOnce();
+    expect(onLocalModulesRegistrationCompleted).toHaveBeenCalledOnce();
+    expect(onRemoteModulesRegistrationStarted).toHaveBeenCalledOnce();
+    expect(onRemoteModulesRegistrationCompleted).toHaveBeenCalledOnce();
+    expect(onModulesRegistered).toHaveBeenCalledOnce();
+    expect(onMswReady).toHaveBeenCalledOnce();
+    expect(onProtectedDataFetchStarted).toHaveBeenCalledOnce();
+    expect(onProtectedDataReady).toHaveBeenCalledOnce();
+    expect(onLocalModulesDeferredRegistrationStarted).toHaveBeenCalledOnce();
+    expect(onLocalModulesDeferredRegistrationCompleted).toHaveBeenCalledOnce();
+    expect(onRemoteModulesDeferredRegistrationStarted).toHaveBeenCalledOnce();
+    expect(onRemoteModulesDeferredRegistrationCompleted).toHaveBeenCalledOnce();
+    expect(onModulesReady).toHaveBeenCalledOnce();
+    expect(onApplicationBoostrapped).toHaveBeenCalledOnce();
 
     // Expected order is:
     //    ApplicationBootstrappingStartedEvent
@@ -873,14 +873,14 @@ test("msw + local modules + remote modules", async ({ expect }) => {
 
     await waitFor(() => screen.findByText("bar"));
 
-    expect(onApplicationBootstrappingStarted).toHaveBeenCalledTimes(1);
-    expect(onLocalModulesRegistrationStarted).toHaveBeenCalledTimes(1);
-    expect(onLocalModulesRegistrationCompleted).toHaveBeenCalledTimes(1);
-    expect(onRemoteModulesRegistrationStarted).toHaveBeenCalledTimes(1);
-    expect(onRemoteModulesRegistrationCompleted).toHaveBeenCalledTimes(1);
-    expect(onMswReady).toHaveBeenCalledTimes(1);
-    expect(onModulesReady).toHaveBeenCalledTimes(1);
-    expect(onApplicationBoostrapped).toHaveBeenCalledTimes(1);
+    expect(onApplicationBootstrappingStarted).toHaveBeenCalledOnce();
+    expect(onLocalModulesRegistrationStarted).toHaveBeenCalledOnce();
+    expect(onLocalModulesRegistrationCompleted).toHaveBeenCalledOnce();
+    expect(onRemoteModulesRegistrationStarted).toHaveBeenCalledOnce();
+    expect(onRemoteModulesRegistrationCompleted).toHaveBeenCalledOnce();
+    expect(onMswReady).toHaveBeenCalledOnce();
+    expect(onModulesReady).toHaveBeenCalledOnce();
+    expect(onApplicationBoostrapped).toHaveBeenCalledOnce();
 
     // Expected order is:
     //    ApplicationBootstrappingStartedEvent
@@ -1022,21 +1022,21 @@ test("msw + local modules + remote modules + public data + protected data + loca
     await waitFor(() => screen.findByText("loading"));
     await waitFor(() => screen.findByText("bar"));
 
-    expect(onApplicationBootstrappingStarted).toHaveBeenCalledTimes(1);
-    expect(onLocalModulesRegistrationStarted).toHaveBeenCalledTimes(1);
-    expect(onLocalModulesRegistrationCompleted).toHaveBeenCalledTimes(1);
-    expect(onRemoteModulesRegistrationStarted).toHaveBeenCalledTimes(1);
-    expect(onRemoteModulesRegistrationCompleted).toHaveBeenCalledTimes(1);
-    expect(onModulesRegistered).toHaveBeenCalledTimes(1);
-    expect(onMswReady).toHaveBeenCalledTimes(1);
-    expect(onPublicDataFetchStarted).toHaveBeenCalledTimes(1);
-    expect(onPublicDataReady).toHaveBeenCalledTimes(1);
-    expect(onProtectedDataFetchStarted).toHaveBeenCalledTimes(1);
-    expect(onProtectedDataReady).toHaveBeenCalledTimes(1);
-    expect(onLocalModulesDeferredRegistrationStarted).toHaveBeenCalledTimes(1);
-    expect(onLocalModulesDeferredRegistrationCompleted).toHaveBeenCalledTimes(1);
-    expect(onModulesReady).toHaveBeenCalledTimes(1);
-    expect(onApplicationBoostrapped).toHaveBeenCalledTimes(1);
+    expect(onApplicationBootstrappingStarted).toHaveBeenCalledOnce();
+    expect(onLocalModulesRegistrationStarted).toHaveBeenCalledOnce();
+    expect(onLocalModulesRegistrationCompleted).toHaveBeenCalledOnce();
+    expect(onRemoteModulesRegistrationStarted).toHaveBeenCalledOnce();
+    expect(onRemoteModulesRegistrationCompleted).toHaveBeenCalledOnce();
+    expect(onModulesRegistered).toHaveBeenCalledOnce();
+    expect(onMswReady).toHaveBeenCalledOnce();
+    expect(onPublicDataFetchStarted).toHaveBeenCalledOnce();
+    expect(onPublicDataReady).toHaveBeenCalledOnce();
+    expect(onProtectedDataFetchStarted).toHaveBeenCalledOnce();
+    expect(onProtectedDataReady).toHaveBeenCalledOnce();
+    expect(onLocalModulesDeferredRegistrationStarted).toHaveBeenCalledOnce();
+    expect(onLocalModulesDeferredRegistrationCompleted).toHaveBeenCalledOnce();
+    expect(onModulesReady).toHaveBeenCalledOnce();
+    expect(onApplicationBoostrapped).toHaveBeenCalledOnce();
 
     // Expected order is:
     //    ApplicationBootstrappingStartedEvent
@@ -1196,21 +1196,21 @@ test("msw + local modules + remote modules + public data + protected data + remo
     await waitFor(() => screen.findByText("loading"));
     await waitFor(() => screen.findByText("bar"));
 
-    expect(onApplicationBootstrappingStarted).toHaveBeenCalledTimes(1);
-    expect(onLocalModulesRegistrationStarted).toHaveBeenCalledTimes(1);
-    expect(onLocalModulesRegistrationCompleted).toHaveBeenCalledTimes(1);
-    expect(onRemoteModulesRegistrationStarted).toHaveBeenCalledTimes(1);
-    expect(onRemoteModulesRegistrationCompleted).toHaveBeenCalledTimes(1);
-    expect(onModulesRegistered).toHaveBeenCalledTimes(1);
-    expect(onMswReady).toHaveBeenCalledTimes(1);
-    expect(onPublicDataFetchStarted).toHaveBeenCalledTimes(1);
-    expect(onPublicDataReady).toHaveBeenCalledTimes(1);
-    expect(onProtectedDataFetchStarted).toHaveBeenCalledTimes(1);
-    expect(onProtectedDataReady).toHaveBeenCalledTimes(1);
-    expect(onRemoteModulesDeferredRegistrationStarted).toHaveBeenCalledTimes(1);
-    expect(onRemoteModulesDeferredRegistrationCompleted).toHaveBeenCalledTimes(1);
-    expect(onModulesReady).toHaveBeenCalledTimes(1);
-    expect(onApplicationBoostrapped).toHaveBeenCalledTimes(1);
+    expect(onApplicationBootstrappingStarted).toHaveBeenCalledOnce();
+    expect(onLocalModulesRegistrationStarted).toHaveBeenCalledOnce();
+    expect(onLocalModulesRegistrationCompleted).toHaveBeenCalledOnce();
+    expect(onRemoteModulesRegistrationStarted).toHaveBeenCalledOnce();
+    expect(onRemoteModulesRegistrationCompleted).toHaveBeenCalledOnce();
+    expect(onModulesRegistered).toHaveBeenCalledOnce();
+    expect(onMswReady).toHaveBeenCalledOnce();
+    expect(onPublicDataFetchStarted).toHaveBeenCalledOnce();
+    expect(onPublicDataReady).toHaveBeenCalledOnce();
+    expect(onProtectedDataFetchStarted).toHaveBeenCalledOnce();
+    expect(onProtectedDataReady).toHaveBeenCalledOnce();
+    expect(onRemoteModulesDeferredRegistrationStarted).toHaveBeenCalledOnce();
+    expect(onRemoteModulesDeferredRegistrationCompleted).toHaveBeenCalledOnce();
+    expect(onModulesReady).toHaveBeenCalledOnce();
+    expect(onApplicationBoostrapped).toHaveBeenCalledOnce();
 
     // Expected order is:
     //    ApplicationBootstrappingStartedEvent
@@ -1375,22 +1375,22 @@ test("local modules + remote modules + public data + protected data + local defe
     await waitFor(() => screen.findByText("loading"));
     await waitFor(() => screen.findByText("bar"));
 
-    expect(onApplicationBootstrappingStarted).toHaveBeenCalledTimes(1);
-    expect(onLocalModulesRegistrationStarted).toHaveBeenCalledTimes(1);
-    expect(onLocalModulesRegistrationCompleted).toHaveBeenCalledTimes(1);
-    expect(onRemoteModulesRegistrationStarted).toHaveBeenCalledTimes(1);
-    expect(onRemoteModulesRegistrationCompleted).toHaveBeenCalledTimes(1);
-    expect(onModulesRegistered).toHaveBeenCalledTimes(1);
-    expect(onPublicDataFetchStarted).toHaveBeenCalledTimes(1);
-    expect(onPublicDataReady).toHaveBeenCalledTimes(1);
-    expect(onProtectedDataFetchStarted).toHaveBeenCalledTimes(1);
-    expect(onProtectedDataReady).toHaveBeenCalledTimes(1);
-    expect(onLocalModulesDeferredRegistrationStarted).toHaveBeenCalledTimes(1);
-    expect(onLocalModulesDeferredRegistrationCompleted).toHaveBeenCalledTimes(1);
-    expect(onRemoteModulesDeferredRegistrationStarted).toHaveBeenCalledTimes(1);
-    expect(onRemoteModulesDeferredRegistrationCompleted).toHaveBeenCalledTimes(1);
-    expect(onModulesReady).toHaveBeenCalledTimes(1);
-    expect(onApplicationBoostrapped).toHaveBeenCalledTimes(1);
+    expect(onApplicationBootstrappingStarted).toHaveBeenCalledOnce();
+    expect(onLocalModulesRegistrationStarted).toHaveBeenCalledOnce();
+    expect(onLocalModulesRegistrationCompleted).toHaveBeenCalledOnce();
+    expect(onRemoteModulesRegistrationStarted).toHaveBeenCalledOnce();
+    expect(onRemoteModulesRegistrationCompleted).toHaveBeenCalledOnce();
+    expect(onModulesRegistered).toHaveBeenCalledOnce();
+    expect(onPublicDataFetchStarted).toHaveBeenCalledOnce();
+    expect(onPublicDataReady).toHaveBeenCalledOnce();
+    expect(onProtectedDataFetchStarted).toHaveBeenCalledOnce();
+    expect(onProtectedDataReady).toHaveBeenCalledOnce();
+    expect(onLocalModulesDeferredRegistrationStarted).toHaveBeenCalledOnce();
+    expect(onLocalModulesDeferredRegistrationCompleted).toHaveBeenCalledOnce();
+    expect(onRemoteModulesDeferredRegistrationStarted).toHaveBeenCalledOnce();
+    expect(onRemoteModulesDeferredRegistrationCompleted).toHaveBeenCalledOnce();
+    expect(onModulesReady).toHaveBeenCalledOnce();
+    expect(onApplicationBoostrapped).toHaveBeenCalledOnce();
 
     // Expected order is:
     //    ApplicationBootstrappingStartedEvent
@@ -1562,24 +1562,24 @@ test("failing remote module registration", async ({ expect }) => {
     await waitFor(() => screen.findByText("loading"));
     await waitFor(() => screen.findByText("bar"));
 
-    expect(onApplicationBootstrappingStarted).toHaveBeenCalledTimes(1);
-    expect(onLocalModulesRegistrationStarted).toHaveBeenCalledTimes(1);
-    expect(onLocalModulesRegistrationCompleted).toHaveBeenCalledTimes(1);
-    expect(onRemoteModulesRegistrationStarted).toHaveBeenCalledTimes(1);
-    expect(onRemoteModulesRegistrationCompleted).toHaveBeenCalledTimes(1);
-    expect(onRemoteModuleRegistrationFailed).toHaveBeenCalledTimes(1);
-    expect(onModulesRegistered).toHaveBeenCalledTimes(1);
-    expect(onMswReady).toHaveBeenCalledTimes(1);
-    expect(onPublicDataFetchStarted).toHaveBeenCalledTimes(1);
-    expect(onPublicDataReady).toHaveBeenCalledTimes(1);
-    expect(onProtectedDataFetchStarted).toHaveBeenCalledTimes(1);
-    expect(onProtectedDataReady).toHaveBeenCalledTimes(1);
-    expect(onLocalModulesDeferredRegistrationStarted).toHaveBeenCalledTimes(1);
-    expect(onLocalModulesDeferredRegistrationCompleted).toHaveBeenCalledTimes(1);
-    expect(onRemoteModulesDeferredRegistrationStarted).toHaveBeenCalledTimes(1);
-    expect(onRemoteModulesDeferredRegistrationCompleted).toHaveBeenCalledTimes(1);
-    expect(onModulesReady).toHaveBeenCalledTimes(1);
-    expect(onApplicationBoostrapped).toHaveBeenCalledTimes(1);
+    expect(onApplicationBootstrappingStarted).toHaveBeenCalledOnce();
+    expect(onLocalModulesRegistrationStarted).toHaveBeenCalledOnce();
+    expect(onLocalModulesRegistrationCompleted).toHaveBeenCalledOnce();
+    expect(onRemoteModulesRegistrationStarted).toHaveBeenCalledOnce();
+    expect(onRemoteModulesRegistrationCompleted).toHaveBeenCalledOnce();
+    expect(onRemoteModuleRegistrationFailed).toHaveBeenCalledOnce();
+    expect(onModulesRegistered).toHaveBeenCalledOnce();
+    expect(onMswReady).toHaveBeenCalledOnce();
+    expect(onPublicDataFetchStarted).toHaveBeenCalledOnce();
+    expect(onPublicDataReady).toHaveBeenCalledOnce();
+    expect(onProtectedDataFetchStarted).toHaveBeenCalledOnce();
+    expect(onProtectedDataReady).toHaveBeenCalledOnce();
+    expect(onLocalModulesDeferredRegistrationStarted).toHaveBeenCalledOnce();
+    expect(onLocalModulesDeferredRegistrationCompleted).toHaveBeenCalledOnce();
+    expect(onRemoteModulesDeferredRegistrationStarted).toHaveBeenCalledOnce();
+    expect(onRemoteModulesDeferredRegistrationCompleted).toHaveBeenCalledOnce();
+    expect(onModulesReady).toHaveBeenCalledOnce();
+    expect(onApplicationBoostrapped).toHaveBeenCalledOnce();
 
     // Expected order is:
     //    ApplicationBootstrappingStartedEvent
@@ -1758,24 +1758,24 @@ test("failing local module registration", async ({ expect }) => {
     await waitFor(() => screen.findByText("loading"));
     await waitFor(() => screen.findByText("bar"));
 
-    expect(onApplicationBootstrappingStarted).toHaveBeenCalledTimes(1);
-    expect(onLocalModulesRegistrationStarted).toHaveBeenCalledTimes(1);
-    expect(onLocalModulesRegistrationCompleted).toHaveBeenCalledTimes(1);
-    expect(onLocalModuleRegistrationFailed).toHaveBeenCalledTimes(1);
-    expect(onRemoteModulesRegistrationStarted).toHaveBeenCalledTimes(1);
-    expect(onRemoteModulesRegistrationCompleted).toHaveBeenCalledTimes(1);
-    expect(onModulesRegistered).toHaveBeenCalledTimes(1);
-    expect(onMswReady).toHaveBeenCalledTimes(1);
-    expect(onPublicDataFetchStarted).toHaveBeenCalledTimes(1);
-    expect(onPublicDataReady).toHaveBeenCalledTimes(1);
-    expect(onProtectedDataFetchStarted).toHaveBeenCalledTimes(1);
-    expect(onProtectedDataReady).toHaveBeenCalledTimes(1);
-    expect(onLocalModulesDeferredRegistrationStarted).toHaveBeenCalledTimes(1);
-    expect(onLocalModulesDeferredRegistrationCompleted).toHaveBeenCalledTimes(1);
-    expect(onRemoteModulesDeferredRegistrationStarted).toHaveBeenCalledTimes(1);
-    expect(onRemoteModulesDeferredRegistrationCompleted).toHaveBeenCalledTimes(1);
-    expect(onModulesReady).toHaveBeenCalledTimes(1);
-    expect(onApplicationBoostrapped).toHaveBeenCalledTimes(1);
+    expect(onApplicationBootstrappingStarted).toHaveBeenCalledOnce();
+    expect(onLocalModulesRegistrationStarted).toHaveBeenCalledOnce();
+    expect(onLocalModulesRegistrationCompleted).toHaveBeenCalledOnce();
+    expect(onLocalModuleRegistrationFailed).toHaveBeenCalledOnce();
+    expect(onRemoteModulesRegistrationStarted).toHaveBeenCalledOnce();
+    expect(onRemoteModulesRegistrationCompleted).toHaveBeenCalledOnce();
+    expect(onModulesRegistered).toHaveBeenCalledOnce();
+    expect(onMswReady).toHaveBeenCalledOnce();
+    expect(onPublicDataFetchStarted).toHaveBeenCalledOnce();
+    expect(onPublicDataReady).toHaveBeenCalledOnce();
+    expect(onProtectedDataFetchStarted).toHaveBeenCalledOnce();
+    expect(onProtectedDataReady).toHaveBeenCalledOnce();
+    expect(onLocalModulesDeferredRegistrationStarted).toHaveBeenCalledOnce();
+    expect(onLocalModulesDeferredRegistrationCompleted).toHaveBeenCalledOnce();
+    expect(onRemoteModulesDeferredRegistrationStarted).toHaveBeenCalledOnce();
+    expect(onRemoteModulesDeferredRegistrationCompleted).toHaveBeenCalledOnce();
+    expect(onModulesReady).toHaveBeenCalledOnce();
+    expect(onApplicationBoostrapped).toHaveBeenCalledOnce();
 
     // Expected order is:
     //    ApplicationBootstrappingStartedEvent

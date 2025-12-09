@@ -394,8 +394,8 @@ test.concurrent("doesn't rerender when the navigation items haven't changed", ({
         navigationItems: initialItems
     });
 
-    expect(renderItem).toHaveBeenCalledTimes(1);
-    expect(renderSection).toHaveBeenCalledTimes(1);
+    expect(renderItem).toHaveBeenCalledOnce();
+    expect(renderSection).toHaveBeenCalledOnce();
 });
 
 test.concurrent("rerender when the navigation items change", ({ expect }) => {

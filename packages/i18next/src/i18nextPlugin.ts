@@ -41,7 +41,7 @@ export class i18nextPlugin<T extends string = string> extends Plugin {
     readonly #languageDetector: LanguageDetector;
     readonly #registry = new i18nextInstanceRegistry();
 
-    constructor(supportedLanguages: T[], fallbackLanguage: T, queryStringKey: string, { detection }: i18nextPluginOptions = {}, runtime: Runtime) {
+    constructor(runtime: Runtime, supportedLanguages: T[], fallbackLanguage: T, queryStringKey: string, { detection }: i18nextPluginOptions = {}) {
         super(i18nextPluginName, runtime);
 
         this.#supportedLanguages = supportedLanguages;

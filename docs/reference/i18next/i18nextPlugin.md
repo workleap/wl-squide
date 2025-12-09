@@ -11,11 +11,12 @@ A plugin to faciliate the integration of [i18next](https://www.i18next.com/) in 
 ## Reference
 
 ```ts
-const plugin = new i18nextPlugin(supportedLanguages: [], fallbackLanguage, queryStringKey, options?: { detection? })
+const plugin = new i18nextPlugin(runtime, supportedLanguages: [], fallbackLanguage, queryStringKey, options?: { detection? })
 ```
 
 ### Parameters
 
+- `runtime`: A runtime instance.
 - `supportedLanguages`: An array of languages supported by the application.
 - `fallbackLanguage`: The language to default to if none of the detected user's languages match any supported language.
 - `queryStringKey`: The querystring parameter lookup when detecting the user's language.
@@ -26,12 +27,17 @@ const plugin = new i18nextPlugin(supportedLanguages: [], fallbackLanguage, query
 
 ### Register the plugin
 
-```ts !#5
+```ts !#5-10
 import { i18nextPlugin } from "@squide/i18next";
 import { FireflyRuntime } from "@squide/firefly";
 
 const runtime = new FireflyRuntime({
-    plugins: [x => new i18nextPlugin(["en-US", "fr-CA"], "en-US", "language", undefined, runtime)]
+    plugins: [x => {
+        const i18nextPlugin = new i18nextPlugin(x, ["en-US", "fr-CA"], "en-US", "language");
+        i18nextPlugin.detectUserLanguage();
+
+        return i18nextPlugin;
+    }]
 });
 ```
 
@@ -80,17 +86,19 @@ const instance = plugin.getInstance("an-instance-key");
 
 Whenever a plugin instance is created, the user's language should always be detected immediatly using the `detectUserLanguage` function.
 
-```ts !#7
+```ts !#9
 import { i18nextPlugin } from "@squide/i18next";
 import { FireflyRuntime } from "@squide/firefly";
 
-const plugin = new i18nextPlugin(["en-US", "fr-CA"], "en-US", "language");
-
-// If no detected languages match any of the supported languages, the fallback language will be applied.
-plugin.detectUserLanguage();
-
 const runtime = new FireflyRuntime({
-    plugins: [plugin]
+    plugins: [x => {
+        const i18nextPlugin = new i18nextPlugin(x, ["en-US", "fr-CA"], "en-US", "language");
+
+        // If no detected languages match any of the supported languages, the fallback language will be applied.
+        i18nextPlugin.detectUserLanguage();
+
+        return i18nextPlugin;
+    }]
 });
 ```
 
