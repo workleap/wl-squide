@@ -31,7 +31,7 @@ Nothing
 
 ### Register or update deferred registrations with global data
 
-If the deferred registration depends on remote data, the registrations must be registered and updated with a data object:
+If the deferred registration depends on remote data (and optionally on feature flags as well), the registrations must be registered and updated with a data object:
 
 ```tsx !#18-21,23 host/src/AppRouter.tsx
 import { usePublicDataQueries, useProtectedDataQueries, useDeferredRegistrations, useIsBootstrapping, AppRouter as FireflyAppRouter } from "@squide/firefly";
