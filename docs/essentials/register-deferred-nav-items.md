@@ -9,7 +9,7 @@ Navigation items cannot always be registered before the application bootstrappin
 
 To address this, Squide offers an alternate deferred registration mechanism in **two-phases**:
 
-1. The first phase allows modules to register their navigation items that are **not dependent** on remote data and feature flags.
+1. The first phase allows modules to register their navigation items that are **not dependent** on remote data or feature flags.
 2. The second phase enables modules to register deferred navigation items that are dependent on remote data and/or feature flags by returning a function. We refer to this second phase as **deferred registrations**.
 
 For more details, refer to the [initializeFirefly](../reference/registration/initializeFirefly.md#defer-the-registration-of-navigation-items) and [useDeferredRegistrations](../reference/registration/useDeferredRegistrations.md) reference documentation.

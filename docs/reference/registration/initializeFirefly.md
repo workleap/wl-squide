@@ -234,7 +234,7 @@ const runtime = initializeFirefly({
 
 Sometimes, data must be fetched to determine which navigation items should be registered by a given module. To address this, Squide offers a **two-phase registration mechanism**:
 
-1. The first phase allows modules to register their navigation items that are **not dependent** on initial data and feature flags (in addition to their routes and MSW request handlers when fake endpoints are available).
+1. The first phase allows modules to register their navigation items that are **not dependent** on initial data or feature flags (in addition to their routes and MSW request handlers when fake endpoints are available).
 2. The second phase enables modules to register navigation items that are dependent on initial data and/or feature flags. Such a use case would be determining whether a navigation item should be registered based on a user profile or a flag. We refer to this second phase as **deferred registrations**.
 
 To defer a registration to the second phase, a module registration function can **return an anonymous function** matching the `DeferredRegistrationFunction` type: `(data, operation: "register" | "update") => Promise | void`.
