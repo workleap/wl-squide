@@ -77,6 +77,46 @@ export const register: ModuleRegisterFunction<FireflyRuntime> = runtime => {
 - [Register MSW request handlers](../essentials/register-msw-handlers.md)
 - [Setup MSW](../integrations/setup-msw.md)
 
+## Deferred registrations
+
+Modules can delay registering navigation items until global data or feature flags are available by returning a registration function. That function is re-executed whenever global data or feature flags change, keeping the registrations up to date.
+
+==- :icon-file-code: Code sample
+```tsx !#18-26
+import type { ModuleRegisterFunction, FireflyRuntime } from "@squide/firefly";
+import { Page } from "./Page.tsx"
+
+export const register: ModuleRegisterFunction<FireflyRuntime> = runtime => {
+    runtime.registerRoute({
+        path: "/page-1",
+        element: <Page />
+    });
+
+    if (runtime.isMswEnabled) {
+        // Files that includes an import to the "msw" package are included dynamically to prevent adding
+        // unused MSW code in production bundles.
+        const requestHandlers = (await import("../mocks/handlers.ts")).requestHandlers;
+
+        runtime.registerRequestHandlers(requestHandlers);
+    }
+
+    return (deferredRuntime, { userData }) => {
+        if (userData.isAdmin && deferredRuntime.getFeatureFlag("enable-page-1")) {
+            runtime.registerNavigationItem({
+                $id: "page-1",
+                $label: "Page 1",
+                to: "/page-1"
+            });
+        }
+    };
+};
+```
+===
+
+#### Learn more
+
+- [Register deferred navigation items](../essentials/register-deferred-nav-items.md)
+
 ## Public and protected pages
 
 Modules can declare routes which are meant to be [publicly accessible](../essentials/register-routes.md#register-a-public-route) or that are protected (requires an authentication). Squide built-in primitives handles the bootstrapping orchestration to:
