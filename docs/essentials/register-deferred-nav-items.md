@@ -9,8 +9,8 @@ Navigation items cannot always be registered before the application bootstrappin
 
 To address this, Squide offers an alternate deferred registration mechanism in **two-phases**:
 
-- The first phase allows modules to register their navigation items that are **not dependent** on remote data or feature flags.
-- The second phase enables modules to register deferred navigation items that are dependent on remote data or feature flags by returning a function. We refer to this second phase as **deferred registrations**.
+1. The first phase allows modules to register their navigation items that are **not dependent** on remote data or feature flags.
+2. The second phase enables modules to register deferred navigation items that are dependent on remote data or feature flags by returning a function. We refer to this second phase as **deferred registrations**.
 
 For more details, refer to the [initializeFirefly](../reference/registration/initializeFirefly.md#defer-the-registration-of-navigation-items) and [useDeferredRegistrations](../reference/registration/useDeferredRegistrations.md) reference documentation.
 
@@ -130,7 +130,7 @@ Since Squide integrates with [TanStack Query](https://tanstack.com/query/latest)
 By using the [useDeferredRegistrations](../reference/registration/useDeferredRegistrations.md) hook in combination with a TanStack Query, deferred registrations are automatically updated whenever the data object passed to `useDeferredRegistrations` changes:
 
 ```tsx !#24-26,28
-import { useIsBootstrapping } from "@squide/firefly";
+import { useIsBootstrapping, useDeferredRegistrations, usePublicDataQueries } from "@squide/firefly";
 import { Outlet } from "react-router";
 import { DeferredRegistrationData, UserInfo } from "@sample/shared";
 
@@ -169,7 +169,22 @@ function BootstrappingRoute() {
 
 ### Feature flag updates
 
-Whenever feature flags change and Squide is notified by the LaunchDarkly SDK client provided during [initialization](../reference/registration/initializeFirefly.md), Squide automatically updates the deferred registrations.
+Whenever feature flags change and Squide is notified by the LaunchDarkly SDK client provided during [initialization](../reference/registration/initializeFirefly.md), Squide automatically updates the deferred registrations event if no data object is provided:
+
+```tsx !#5
+import { useIsBootstrapping, useDeferredRegistrations } from "@squide/firefly";
+import { Outlet } from "react-router";
+
+function BootstrappingRoute() {
+    useDeferredRegistrations();
+
+    if (useIsBootstrapping()) {
+        return <div>Loading...</div>;
+    }
+
+    return <Outlet />;
+}
+```
 
 
 

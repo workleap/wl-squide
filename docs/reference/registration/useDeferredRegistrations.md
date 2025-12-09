@@ -136,24 +136,17 @@ export function AppRouter() {
 
 ### Handle registration errors
 
-```tsx !#11-15,18 host/src/AppRouter.tsx
+```tsx !#4-8,11 host/src/AppRouter.tsx
 import { useDeferredRegistrations, type DeferredRegistrationsErrorCallback } from "@squide/firefly";
-import type { DeferredRegistrationData } from "@sample/shared";
-import { useMemo } from "react";
-import { getUserInfoQuery } from "./getUserInfoQuery";
 
 function BootstrappingRoute() {
-    const [userInfo] = usePublicDataQueries([getUserInfoQuery]);
-
-    const data: DeferredRegistrationData = useMemo(() => ({ userInfo }), [userInfo]);
-
     const handleErrors: DeferredRegistrationsErrorCallback = errors => {
         errors.forEach(x => {
             console.error(x);
         });
     };
 
-    useDeferredRegistrations(data, {
+    useDeferredRegistrations(undefined, {
         onError: handleErrors
     });
 
