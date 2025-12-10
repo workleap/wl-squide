@@ -22,7 +22,7 @@ const featureFlags = new Map([
 
 const fireflyRuntime = await initializeFireflyForStorybook({
     localModules: [registerHost],
-    featureFlags: featureFlags
+    featureFlags
 });
 
 const meta = {
