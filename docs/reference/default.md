@@ -75,6 +75,7 @@ toc:
 ### LaunchDarkly
 
 - [LaunchDarklyPlugin](./launch-darkly/LaunchDarklyPlugin.md)
+- [FeatureFlags](./launch-darkly/FeatureFlags.md)
 - [useFeatureFlag](./launch-darkly/useFeatureFlag.md)
 - [useFeatureFlags](./launch-darkly/useFeatureFlags.md)
 - [useLaunchDarklyClient](./launch-darkly/useLaunchDarklyClient.md)
@@ -103,18 +104,18 @@ toc:
 - [FireflyDecorator](./storybook/FireflyDecorator.md)
 - [withFeatureFlagsOverrideDecorator](./storybook/withFeatureFlagsOverrideDecorator.md)
 
-### Module Federation [!badge variant="light" size="xs" text="module federation only"]
+### Module Federation
 
 - [initializeFirefly](./module-federation/initializeFirefly.md)
 
-### webpack [!badge variant="light" size="xs" text="module federation only"]
+### webpack
 
 - [defineDevHostConfig](./webpack/defineDevHostConfig.md)
 - [defineDevRemoteModuleConfig](./webpack/defineDevRemoteModuleConfig.md)
 - [defineBuildHostConfig](./webpack/defineBuildHostConfig.md)
 - [defineBuildRemoteModuleConfig](./webpack/defineBuildRemoteModuleConfig.md)
 
-### Rsbuild [!badge variant="light" size="xs" text="module federation only"]
+### Rsbuild
 
 - [defineDevHostConfig](./rsbuild/defineDevHostConfig.md) [!badge variant="danger" size="xs" text="experimental"]
 - [defineDevRemoteModuleConfig](./rsbuild/defineDevRemoteModuleConfig.md) [!badge variant="danger" size="xs" text="experimental"]

@@ -56,7 +56,7 @@ To receive real-time feature flag updates, initialize the LaunchDarkly client wi
 [initializeFirefly](../reference/registration/initializeFirefly.md) expects the LaunchDarkly SDK client to be initialized before it's called.
 !!!
 
-## Retrieve a feature flag
+## Add feature flags
 
 Next, follow the [use feature flags](../essentials/use-feature-flags.md) essential page to add feature flags to your application.
 
