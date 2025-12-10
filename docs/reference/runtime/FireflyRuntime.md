@@ -49,7 +49,7 @@ const runtime = new FireflyRuntime(options?: { mode?, honeycombInstrumentationCl
 - `honeycombInstrumentationClient`: Retrieve the Honeycomb instrumentation client.
 - `isLaunchDarklyEnabled`: Whether or not LaunchDarkly is enabled.
 - `launchDarklyClient`: Retrieve the LaunchDarkly client.
-- `featureFlagSetSnapshot`: Retrieve a snapshot of all the LaunchDarkly feature flags. A snapshot is necessary because the LaunchDarkly SDK returns a fresh object on every call, so the reference changes even when the values don't. React hooks treats that as a change and triggers extra updates.
+- `featureFlags`: Retrieve the LaunchDarkly feature flags.
 - `logger`: Retrieve the runtime logger.
 - `eventBus`: Retrieve the runtime event bus.
 - `plugins`: Retrieve the registered plugins.
@@ -578,12 +578,10 @@ If the `foo` feature flag is not available, `true` will be returned.
 const flag = runtime.getFeatureFlag("foo", true);
 ```
 
-### Retrieve a snapshot of all the feature flags
-
-A snapshot is necessary because the LaunchDarkly SDK returns a fresh object on every call, so the reference changes even when the values don't. React hooks treats that as a change and triggers extra updates.
+### Retrieve all the feature flags
 
 ```ts !#1
-const flags = runtime.featureFlagSetSnapshot;
+const flags = runtime.featureFlags;
 ```
 
 ### Retrieve LaunchDarkly client

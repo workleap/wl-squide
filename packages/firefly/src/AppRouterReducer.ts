@@ -236,11 +236,11 @@ export function useMswStatusDispatcher(runtime: FireflyRuntime, isMswReadyValue:
     useEffect(() => {
         if (runtime.isMswEnabled) {
             if (!isMswReadyValue) {
-                runtime.getMswState().addMswReadyListener(dispatchMswReady);
+                runtime.mswState.addMswReadyListener(dispatchMswReady);
             }
 
             return () => {
-                runtime.getMswState().removeMswReadyListener(dispatchMswReady);
+                runtime.mswState.removeMswReadyListener(dispatchMswReady);
             };
         }
     }, [runtime, isMswReadyValue, dispatchMswReady]);
@@ -330,7 +330,7 @@ export function useAppRouterReducer(waitForPublicData: boolean, waitForProtected
     const isMswEnabled = runtime.isMswEnabled;
     const areModulesInitiallyRegistered = runtime.moduleManager.getAreModulesRegistered();
     const areModulesInitiallyReady = runtime.moduleManager.getAreModulesReady();
-    const isMswInitiallyReady = runtime.isMswEnabled ? runtime.getMswState().isReady : false;
+    const isMswInitiallyReady = runtime.isMswEnabled ? runtime.mswState.isReady : false;
 
     const waitState = useMemo(() => ({
         waitForMsw: isMswEnabled,

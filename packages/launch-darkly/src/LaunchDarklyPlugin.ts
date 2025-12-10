@@ -3,35 +3,17 @@ import { LDClient } from "launchdarkly-js-client-sdk";
 import { FeatureFlagSetSnapshot } from "./FeatureFlagSetSnapshot.ts";
 import { FeatureFlagKey, FeatureFlags } from "./featureFlags.ts";
 
-/*
-
-EXPECTATION:
-
--> Expect que c'est le consumer qui initialize le client.
-
--> Expect que le client va être initialize avec un stream.
-
-*/
-
 export const LaunchDarklyPluginName = "launch-darkly-plugin";
-
-export interface LaunchDarklyPluginOptions {
-    featureFlagSetSnapshot?: FeatureFlagSetSnapshot;
-}
 
 export class LaunchDarklyPlugin extends Plugin {
     readonly #client: LDClient;
     readonly #featureFlagSetSnapshot: FeatureFlagSetSnapshot;
 
-    constructor(runtime: Runtime, launchDarklyClient: LDClient, options: LaunchDarklyPluginOptions = {}) {
-        const {
-            featureFlagSetSnapshot
-        } = options;
-
+    constructor(runtime: Runtime, launchDarklyClient: LDClient) {
         super(LaunchDarklyPluginName, runtime);
 
         this.#client = launchDarklyClient;
-        this.#featureFlagSetSnapshot = featureFlagSetSnapshot ?? new FeatureFlagSetSnapshot(this.#client);
+        this.#featureFlagSetSnapshot = new FeatureFlagSetSnapshot(this.#client);
 
         this.#registerClientListeners();
     }

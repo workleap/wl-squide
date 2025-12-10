@@ -16,10 +16,10 @@ export interface FireflyRuntimeOptions<TRuntime extends FireflyRuntime = Firefly
 export interface RegisterRequestHandlersOptions extends RuntimeMethodOptions {}
 
 export interface IFireflyRuntime extends IReactRouterRuntime {
-    getMswState(): MswState;
+    get isMswEnabled(): boolean;
+    get mswState(): MswState;
     registerRequestHandlers: (handlers: RequestHandler[]) => void;
     get requestHandlers(): RequestHandler[];
-    get isMswEnabled(): boolean;
     registerEnvironmentVariable<T extends EnvironmentVariableKey>(key: T, value: EnvironmentVariables[T]): void;
     registerEnvironmentVariables(variables: Partial<EnvironmentVariables>): void;
     getEnvironmentVariable<T extends EnvironmentVariableKey>(key: T): EnvironmentVariables[T];
@@ -28,8 +28,9 @@ export interface IFireflyRuntime extends IReactRouterRuntime {
     get honeycombInstrumentationClient(): HoneycombInstrumentationPartialClient | undefined;
     get isLaunchDarklyEnabled(): boolean;
     get launchDarklyClient(): LDClient;
-    get featureFlagSetSnapshot(): FeatureFlagSetSnapshot;
+    get featureFlags(): FeatureFlags;
     getFeatureFlag(key: string, defaultValue?: unknown): unknown;
+    get featureFlagSetSnapshot(): FeatureFlagSetSnapshot;
 }
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -60,7 +61,11 @@ export class FireflyRuntime<TRuntime extends FireflyRuntime = any> extends React
         super.registerRoute(route, options);
     }
 
-    getMswState() {
+    get isMswEnabled() {
+        return this.#isMswEnabled;
+    }
+
+    get mswState() {
         const plugin = getMswPlugin(this);
 
         return plugin.mswState;
@@ -84,10 +89,6 @@ export class FireflyRuntime<TRuntime extends FireflyRuntime = any> extends React
         const plugin = getMswPlugin(this);
 
         return plugin.requestHandlers;
-    }
-
-    get isMswEnabled() {
-        return this.#isMswEnabled;
     }
 
     getEnvironmentVariable(key: EnvironmentVariableKey) {
@@ -130,12 +131,16 @@ export class FireflyRuntime<TRuntime extends FireflyRuntime = any> extends React
         return getLaunchDarklyPlugin(this).client;
     }
 
-    get featureFlagSetSnapshot() {
-        return getLaunchDarklyPlugin(this).featureFlagSetSnapshot;
+    get featureFlags() {
+        return this.featureFlagSetSnapshot.value;
     }
 
     getFeatureFlag<T extends FeatureFlagKey>(key: T, defaultValue?: FeatureFlags[T]) {
         return getLaunchDarklyPlugin(this).getFeatureFlag(key, defaultValue);
+    }
+
+    get featureFlagSetSnapshot() {
+        return getLaunchDarklyPlugin(this).featureFlagSetSnapshot;
     }
 
     startScope(logger: Logger): TRuntime {
@@ -144,8 +149,12 @@ export class FireflyRuntime<TRuntime extends FireflyRuntime = any> extends React
 }
 
 export class FireflyRuntimeScope<TRuntime extends FireflyRuntime = FireflyRuntime> extends ReactRouterRuntimeScope<TRuntime> implements IFireflyRuntime {
-    getMswState() {
-        return this._runtime.getMswState();
+    get isMswEnabled() {
+        return this._runtime.isMswEnabled;
+    }
+
+    get mswState() {
+        return this._runtime.mswState;
     }
 
     registerRequestHandlers(handlers: RequestHandler[], options: RegisterRequestHandlersOptions = {}) {
@@ -158,10 +167,6 @@ export class FireflyRuntimeScope<TRuntime extends FireflyRuntime = FireflyRuntim
     // Must define a return type otherwise we get an "error TS2742: The inferred type of 'requestHandlers' cannot be named" error.
     get requestHandlers(): RequestHandler[] {
         return this._runtime.requestHandlers;
-    }
-
-    get isMswEnabled() {
-        return this._runtime.isMswEnabled;
     }
 
     getEnvironmentVariable(key: EnvironmentVariableKey) {
@@ -196,8 +201,8 @@ export class FireflyRuntimeScope<TRuntime extends FireflyRuntime = FireflyRuntim
         return this._runtime.launchDarklyClient;
     }
 
-    get featureFlagSetSnapshot() {
-        return this._runtime.featureFlagSetSnapshot;
+    get featureFlags() {
+        return this._runtime.featureFlags;
     }
 
     getFeatureFlag<T extends FeatureFlagKey>(key: T, defaultValue?: FeatureFlags[T]) {
@@ -206,5 +211,9 @@ export class FireflyRuntimeScope<TRuntime extends FireflyRuntime = FireflyRuntim
         // eslint-disable-next-line @typescript-eslint/ban-ts-comment
         // @ts-ignore
         return this._runtime.getFeatureFlag(key, defaultValue);
+    }
+
+    get featureFlagSetSnapshot() {
+        return this._runtime.featureFlagSetSnapshot;
     }
 }
