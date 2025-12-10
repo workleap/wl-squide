@@ -7,9 +7,7 @@ label: Setup Honeycomb
 
 Squide integrates with [@workleap/telemetry](https://www.npmjs.com/package/@workleap/telemetry) v2 or later (or [@workleap/honeycomb](https://www.npmjs.com/package/@workleap/honeycomb) v7 or later) to automatically send performance traces for the bootstrapping flow of an application.
 
-## Configure the host application
-
-### Install the packages
+## Install the packages
 
 To set up Honeycomb, first, open a terminal at the root of the host application and install the following packages:
 
@@ -17,7 +15,7 @@ To set up Honeycomb, first, open a terminal at the root of the host application 
 pnpm add @workleap/telemetry @opentelemetry/api
 ```
 
-### Register the instrumentation
+## Register the instrumentation
 
 Then, refer to the [create an host application](../introduction/create-host.md) guide as a starting point and update the host application bootstrapping code to register Honeycomb instrumentation:
 
@@ -65,7 +63,9 @@ Avoid using `/.+/g,` in production, as it could expose customer data to third pa
 We recommend using an [OpenTelemetry collector](https://docs.honeycomb.io/send-data/opentelemetry/collector/) over an ingestion [API key](https://docs.honeycomb.io/get-started/configure/environments/manage-api-keys/#create-api-key), as API keys can expose Workleap to potential attacks. To use a collector, set the `proxy` option with your collector's proxy address.
 !!!
 
-With instrumentation in place, a few traces are now available :point_down:
+## Default instrumentation
+
+With instrumentation in place, a few default traces are now available :point_down:
 
 ### Bootstrapping flow
 

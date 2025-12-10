@@ -7,9 +7,7 @@ label: Setup Storybook
 
 Squide provides helpers to set up a [Storybook](https://storybook.js.org/) story file for rendering components using Squide Firefly. _This guide assumes that you already have a working Storybook environment_.
 
-## Configure Storybook
-
-### Install the packages
+## Install the packages
 
 To set up Storybook, first, open a terminal at the root of the Storybook application and install the following packages:
 
@@ -17,7 +15,7 @@ To set up Storybook, first, open a terminal at the root of the Storybook applica
 pnpm add msw msw-storybook-addon
 ```
 
-### Register the MSW addon
+## Register the MSW addon
 
 Then, update the standard `.storybook/preview.tsx` file and register the [Mock Service Worker](https://mswjs.io/) (MSW) addon:
 
@@ -69,7 +67,7 @@ function getAbsolutePath(value: string): any {
 
 ```
 
-### Initialize MSW
+## Initialize MSW
 
 Finally, ensure that MSW is correctly initialized. Confirm that a `mockServiceWorker.js` file exists in the `/public` folder. If it's missing, open a terminal at the root of the Storybook application and execute the following command:
 

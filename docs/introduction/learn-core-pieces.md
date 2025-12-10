@@ -291,7 +291,7 @@ const variable = useEnvironmentVariable("apiBaseUrl");
 
 ## Feature flags
 
-Squide integrates with [LaunchDarkly](https://launchdarkly.com/) to attach feature flags to the [FireflyRuntime](../reference/runtime/FireflyRuntime.md) instance and automatically update deferred registrations whenever a flag value changes.
+Squide integrates with [LaunchDarkly](https://launchdarkly.com/) to attach feature flags to the [FireflyRuntime](../reference/runtime/FireflyRuntime.md) instance and automatically update [deferred registrations](../essentials/register-deferred-nav-items.md) whenever a flag value changes.
 
 ==- :icon-file-code: Code sample
 ```ts !#14

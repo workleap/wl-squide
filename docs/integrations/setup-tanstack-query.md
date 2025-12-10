@@ -125,13 +125,15 @@ export function RootLayout() {
 }
 ```
 
+## Fetch data
+
+Next, follow the [fetch public global data](../essentials/fetch-public-global-data.md), [fetch protected global data](../essentials/fetch-protected-global-data.md) and [fetch page data](../essentials/fetch-page-data.md) essential pages to fetch data with TanStack Query.
+
 ## Try it :rocket:
 
-Go through the [fetch page data](../essentials/fetch-page-data.md) essential page steps, then, start the application in a development environment using the `dev` script, then, navigate to the `/page` page. 
+Start the application in a development environment using the `dev` script, then, navigate to the `/page` page. You should notice that the character's data is being fetch from the MSW request handler and rendered on the page. Additionally, you should notice that the TanStack Query devtools are available (a ribbon at the bottom right corner).
 
-You should notice that the character's data is being fetch from the MSW request handler and rendered on the page. Additionally, you should notice that the TanStack Query devtools are available (a ribbon at the bottom right corner).
-
-#### Troubleshoot issues
+### Troubleshoot issues
 
 If you are experiencing issues with this section of the guide:
 

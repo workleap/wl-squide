@@ -7,9 +7,7 @@ label: Setup MSW
 
 Squide includes built-in support for [Mock Service Worker](https://mswjs.io/) (MSW) to speed up frontend development and promote an [API first](https://swagger.io/resources/articles/adopting-an-api-first-approach/) approach. Modules can dynamically register their own mock request handlers, and Squide composes them into a unified set.
 
-## Configure the host application
-
-### Initialize MSW
+## Initialize MSW
 
 First, [initialize](https://mswjs.io/docs/cli/init/) MSW by executing the following command at the root of the host application:
 
@@ -17,7 +15,7 @@ First, [initialize](https://mswjs.io/docs/cli/init/) MSW by executing the follow
 pnpx msw init ./public
 ```
 
-### Create a start function
+## Create a start function
 
 Then, create a function to start MSW with the modules request handlers:
 
@@ -34,7 +32,7 @@ export async function startMsw(moduleRequestHandlers: RequestHandler[]) {
 }
 ```
 
-### Update the bootstrapping code
+## Update the bootstrapping code
 
 Finally, refer to the [create an host application](../introduction/create-host.md) guide as a starting point and update the bootstrapping code to conditionally enable MSW based on an environment variable, and call the `startMsw` function when MSW is active:
 

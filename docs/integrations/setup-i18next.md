@@ -7,9 +7,7 @@ label: Setup i18next
 
 [react-i18next](https://react.i18next.com/) is an internationalization library that helps applications manage translations, language detection, and localization logic. It provides a flexible API for loading translation files, formatting text, handling plurals, and switching languages at runtime.
 
-## Configure the host application
-
-### Install the packages
+## Install the packages
 
 To set up `i18next`, first, open a terminal at the root of the host application and install the following packages:
 
@@ -17,7 +15,7 @@ To set up `i18next`, first, open a terminal at the root of the host application 
 pnpm add @squide/i18next i18next i18next-browser-languagedetector react-i18next
 ```
 
-### Register the i18nextPlugin
+## Register the plugin
 
 Then, refer to the [create host application](../introduction/create-host.md) guide as a starting point and update the host application boostrapping code to register an instance of the [i18nextplugin](../reference/i18next/i18nextPlugin.md) with the [FireflyRuntime](../reference/runtime/FireflyRuntime.md) instance:
 
@@ -63,7 +61,7 @@ The language detection happens in the following order:
 3. Use the fallback language, which is `en-US` in this example.
 ===
 
-### Integrate a backend language setting
+## Integrate a backend language setting
 
 For many applications, the displayed language is expected to be derived from an application specific user "preferred language" setting stored in a remote database. Therefore, the frontend remains unaware of this setting value until the user session is loaded.
 
@@ -191,7 +189,7 @@ export function isApiError(error?: unknown): error is ApiError {
 ```
 ===
 
-## Setup a module
+## Configure a module
 
 ### Define a localized resource file
 
@@ -264,22 +262,7 @@ The examples in this guide load all the resources from single localized resource
 
 ### Localize a page resource
 
-Then, update the `Page` component to use the newly created localized resource:
-
-```tsx !#6-7,10
-import { useI18nextInstance } from "@squide/i18next";
-import { useTranslation } from "react-i18next";
-
-export function Page() {
-    // Must be the same instance key that has been used to register the i18next instance previously in the "register" function.
-    const i18nextInstance = useI18nextInstance("local-module");
-    const { t } = useTranslation("Page", { i18n: i18nextInstance });
-
-    return (
-        <div>{t("bodyText")}</div>
-    );
-}
-```
+Next, follow the [localize resources](../essentials/localize-resources.md) essential page to use the newly created localized resource.
 
 ## Try it :rocket:
 
