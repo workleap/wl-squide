@@ -8,7 +8,7 @@ toc:
 
 A class tracking and memoizing the latest version of the [LaunchDarkly](https://launchdarkly.com/) feature flags.
 
-> The LaunchDarkly SDK [client](https://launchdarkly.com/docs/sdk/client-side/javascript) returns a new object containing feature flags every time they’re accessed. This class tracks flag updates and keeps an in-memory, memoized snapshot of the flags, returning the same object reference until a flag value changes.
+> The LaunchDarkly SDK [client](https://launchdarkly.com/docs/sdk/client-side/javascript) returns a new object containing feature flags every time they're accessed. This class tracks flag updates and keeps an in-memory, memoized snapshot of the flags, returning the same object reference until a flag value changes.
 
 ## Reference
 
