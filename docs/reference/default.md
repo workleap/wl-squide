@@ -101,19 +101,20 @@ toc:
 - [initializeFireflyForStorybook](./storybook/initializeFireflyForStorybook.md)
 - [withFireflyDecorator](./storybook/withFireflyDecorator.md)
 - [FireflyDecorator](./storybook/FireflyDecorator.md)
+- [withFeatureFlagsOverrideDecorator](./storybook/withFeatureFlagsOverrideDecorator.md)
 
-### Module Federation
+### Module Federation [!badge variant="light" size="xs" text="module federation only"]
 
 - [initializeFirefly](./module-federation/initializeFirefly.md)
 
-### webpack
+### webpack [!badge variant="light" size="xs" text="module federation only"]
 
 - [defineDevHostConfig](./webpack/defineDevHostConfig.md)
 - [defineDevRemoteModuleConfig](./webpack/defineDevRemoteModuleConfig.md)
 - [defineBuildHostConfig](./webpack/defineBuildHostConfig.md)
 - [defineBuildRemoteModuleConfig](./webpack/defineBuildRemoteModuleConfig.md)
 
-### Rsbuild
+### Rsbuild [!badge variant="light" size="xs" text="module federation only"]
 
 - [defineDevHostConfig](./rsbuild/defineDevHostConfig.md) [!badge variant="danger" size="xs" text="experimental"]
 - [defineDevRemoteModuleConfig](./rsbuild/defineDevRemoteModuleConfig.md) [!badge variant="danger" size="xs" text="experimental"]
