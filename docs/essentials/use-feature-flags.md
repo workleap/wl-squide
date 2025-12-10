@@ -101,6 +101,6 @@ TBD
 
 ## Setup with Storybook
 
-TBD
+To set up [Storybook](https://storybook.js.org/docs) stories with feature flags, refer to the [setup Storybook](../integrations/setup-storybook.md#setup-feature-flags) integration guide.
 
 

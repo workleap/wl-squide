@@ -173,7 +173,7 @@ export const Default = {} satisfies Story;
 
 ### Setup MSW
 
-Finally, forward the MSW request handlers registered by the modules to the Storybook addon:
+Next, forward the MSW request handlers registered by the modules to the Storybook addon:
 
 ```tsx !#20-24
 import { initializeFireflyForStorybook, FireflyDecorator } from "@squide/firefly-rsbuild-storybook";
@@ -207,6 +207,110 @@ export default meta;
 type Story = StoryObj<typeof meta>;
 
 export const Default = {} satisfies Story;
+```
+
+### Setup environment variables
+
+Then, if the components included in the stories rely on environment variables, mock the environment variables using the [initializeFireflyForStorybook](../reference/storybook/initializeFireflyForStorybook.md) function:
+
+```tsx !#8-10
+import { initializeFireflyForStorybook, withFireflyDecorator } from "@squide/firefly-rsbuild-storybook";
+import type { Decorator, Meta, StoryObj } from "storybook-react-rsbuild";
+import { Page } from "./Page.tsx";
+import { registerModule } from "./registerModule.tsx";
+
+const runtime = await initializeFireflyForStorybook({
+    localModules: [registerModule],
+    environmentVariables: {
+        apiBaseUrl: "https://my-api.com"
+    }
+});
+
+const meta = {
+    title: "Page",
+    component: Page,
+    decorators: [
+        withFireflyDecorator(runtime)
+    ]
+} satisfies Meta<typeof Page>;
+
+export default meta;
+
+type Story = StoryObj<typeof meta>;
+
+export const Default = {} satisfies Story;
+```
+
+### Setup feature flags
+
+Finally, if the components included in the stories rely on feature flags, mock the feature flags using the [initializeFireflyForStorybook](../reference/storybook/initializeFireflyForStorybook.md) function:
+
+```tsx !#12
+import { initializeFireflyForStorybook, withFireflyDecorator } from "@squide/firefly-rsbuild-storybook";
+import type { Decorator, Meta, StoryObj } from "storybook-react-rsbuild";
+import { Page } from "./Page.tsx";
+import { registerModule } from "./registerModule.tsx";
+
+const featureFlags = new Map([
+    ["foo", true]
+] as const);
+
+const runtime = await initializeFireflyForStorybook({
+    localModules: [registerModule],
+    featureFlags
+});
+
+const meta = {
+    title: "Page",
+    component: Page,
+    decorators: [
+        withFireflyDecorator(runtime)
+    ]
+} satisfies Meta<typeof Page>;
+
+export default meta;
+
+type Story = StoryObj<typeof meta>;
+
+export const Default = {} satisfies Story;
+```
+
+To test different variations of a feature flag, use the [withFeatureFlagsOverrideDecorator](../reference/storybook/withFeatureFlagsOverrideDecorator.md) hook:
+
+```tsx !#31
+import { initializeFireflyForStorybook, withFireflyDecorator, withFeatureFlagsOverrideDecorator } from "@squide/firefly-rsbuild-storybook";
+import type { Decorator, Meta, StoryObj } from "storybook-react-rsbuild";
+import { Page } from "./Page.tsx";
+import { registerModule } from "./registerModule.tsx";
+
+// This syntax with the nested arrays and "as const" is super important to get type safety with
+// the "withFeatureFlagsOverrideDecorator" decorator.
+const featureFlags = new Map([
+    ["foo", true]
+] as const);
+
+const runtime = await initializeFireflyForStorybook({
+    localModules: [registerModule],
+    featureFlags
+});
+
+const meta = {
+    title: "Page",
+    component: Page,
+    decorators: [
+        withFireflyDecorator(runtime)
+    ]
+} satisfies Meta<typeof Page>;
+
+export default meta;
+
+type Story = StoryObj<typeof meta>;
+
+export const Default = {
+    decorators: [
+        withFeatureFlagsOverrideDecorator(featureFlags, { foo: false })
+    ]
+} satisfies Story;
 ```
 
 ## Try it :rocket:

@@ -26,7 +26,7 @@ A `Decorator` function.
 ## Usage
 
 ```tsx !#34
-import { initializeFireflyForStorybook, withFireflyDecorator } from "@squide/firefly-rsbuild-storybook";
+import { initializeFireflyForStorybook, withFireflyDecorator, withFeatureFlagsOverrideDecorator } from "@squide/firefly-rsbuild-storybook";
 import type { Decorator, Meta, StoryObj } from "storybook-react-rsbuild";
 import { Page } from "./Page.tsx";
 import { registerModule } from "./registerModule.tsx";
@@ -34,7 +34,7 @@ import { registerModule } from "./registerModule.tsx";
 // This syntax with the nested arrays and "as const" is super important to get type safety with
 // the "withFeatureFlagsOverrideDecorator" decorator.
 const featureFlags = new Map([
-    ["show-characters", true]
+    ["foo", true]
 ] as const);
 
 const fireflyRuntime = await initializeFireflyForStorybook({
@@ -59,7 +59,7 @@ const meta = {
 
 export const Default = {
     decorators: [
-        withFeatureFlagsOverrideDecorator(featureFlags, { "show-characters": false })
+        withFeatureFlagsOverrideDecorator(featureFlags, { foo: false })
     ]
 } satisfies Story;
 ```
