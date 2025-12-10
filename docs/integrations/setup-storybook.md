@@ -5,7 +5,7 @@ label: Setup Storybook
 
 # Setup Storybook
 
-Squide provides helpers to set up a [Storybook](https://storybook.js.org/) story file for rendering components using Squide Firefly. _This guide assumes that you already have a working Storybook environment_.
+Squide provides helpers to set up a [Storybook](https://storybook.js.org/) story file for rendering components using Squide. _This guide assumes that you already have a working Storybook environment_.
 
 ## Install the packages
 
@@ -211,4 +211,4 @@ export const Default = {} satisfies Story;
 
 ## Try it :rocket:
 
-Start the Storybook application using the development script. Then open a story that uses Squide firefly components. It should render without errors. Make a change to the story and confirm that it re-renders correctly.
+Start the Storybook application using the development script. Then open a story that uses Squide components. It should render without errors. Make a change to the story and confirm that it re-renders correctly.

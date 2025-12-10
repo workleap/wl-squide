@@ -5,7 +5,7 @@ label: Migrate from v8.* to v15.0
 
 # Migrate from v8.* to v15.0
 
-This migration guide is an aggregation of all the changes that happened between Squide Firefly `v9.0` and `v15.0`:
+This migration guide is an aggregation of all the changes that happened between Squide firefly `v9.0` and `v15.0`:
 
 ## Changes summary
 
