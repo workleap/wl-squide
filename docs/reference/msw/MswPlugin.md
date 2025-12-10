@@ -16,7 +16,7 @@ const plugin = new MswPlugin(runtime, options?: { mswState? })
 
 - `runtime`: A runtime instance.
 - `options`: An optional object literal of options:
-    - `mswState`: An optional object with the initial MSW state.
+    - `mswState`: An `MswState` instance.
 
 ## Usage
 

@@ -8,6 +8,10 @@ toc:
 
 An abstract base class to define a plugin.
 
+## Parameters
+
+- `runtime`: A runtime instance.
+
 ## Protected members
 
 - `_runtime`: Access the plugin `Runtime` instance.

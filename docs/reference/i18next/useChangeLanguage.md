@@ -10,7 +10,7 @@ Provide a function to change the current language of every [i18next](https://www
 
 ## Reference
 
-```tsx
+```ts
 const changeLanguage = useChangeLanguage()
 ```
 
@@ -24,7 +24,7 @@ A function to change the current language of an `i18nextPlugin` instance: `(newL
 
 ## Usage
 
-```tsx !#3,5
+```ts !#3,5
 import { useChangeLanguage } from "@squide/i18next";
 
 const changeLanguage = useChangeLanguage();
