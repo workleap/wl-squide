@@ -212,3 +212,13 @@ export const Default = {} satisfies Story;
 ## Try it :rocket:
 
 Start the Storybook application using the development script. Then open a story that uses Squide components. It should render without errors. Make a change to the story and confirm that it re-renders correctly.
+
+### Troubleshoot issues
+
+If you are experiencing issues with this guide:
+
+- Set the [initializeTelemetry](https://workleap.github.io/wl-telemetry/reference/telemetry/initializetelemetry/) function `verbose` option to `true`.
+- Open the [DevTools](https://developer.chrome.com/docs/devtools/) console and look for any relevant logs or errors.
+- Refer to a working example on [GitHub](https://github.com/workleap/wl-squide/tree/main/samples/storybook).
+- Refer to the [troubleshooting](../troubleshooting.md) page.
+
