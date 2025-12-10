@@ -71,7 +71,7 @@ If you are experiencing issues with this guide:
 - Set the [initializeTelemetry](https://workleap.github.io/wl-telemetry/reference/telemetry/initializetelemetry/) function `verbose` option to `true`.
 - Open the [DevTools](https://developer.chrome.com/docs/devtools/) console. You'll see a log entry everytime a feature flag is updated, along with console outputs from LaunchDarkly SDK client.
     - `[LaunchDarkly] LaunchDarkly client initialized`
-    - `[LaunchDarkly] Opening stream connection to`
+    - `[LaunchDarkly] Opening stream connection to:`
     - `[squide] Dispatching event "squide-feature-flags-updated"`
     - `[squide] Feature flags has been updated to:`
 - Refer to a working example on [GitHub](https://github.com/workleap/wl-squide/tree/main/samples/endpoints).
