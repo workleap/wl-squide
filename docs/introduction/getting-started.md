@@ -77,9 +77,9 @@ Storybook | Squide integrates with [Storybook](https://storybook.js.org/) storie
 
 **Long version:**
 
-Every Workleap's frontend applications must **implement**, to some extent, most of the **cross-cutting functionalities** listed in the [previous section](#what-is-squide) of this document. Implementing those cross-cutting functionalities require significant effort, typically involving senior or staff frontend developers and taking a **few months** of full-time **work** to **complete** (when done right). This process can slow down product teams, impact their velocity and **delay** the initial **release** of a new product.
+Every Workleap's frontend applications must **implement**, to some extent, most of the **cross-cutting functionalities** listed in the [previous section](#what-is-squide) of this document. Implementing those cross-cutting functionalities require significant effort, typically involving senior or staff frontend developers and taking a **few months** of full-time **work** to **complete** (when done right). This process can slow down product teams, impact their velocity and **delay** the **release** of features.
 
-Squide helps reduce both the initial development costs and the ongoing maintenance costs of frontend applications by offering a reusable, **well-tested**, and **thoroughly documented solution** developed by experienced frontend engineers. Squide streamlines the implementation of cross-cutting functionalities, allowing product teams to focus on delivering value without reinventing the wheel.
+Squide helps reduce both the initial development costs and the ongoing maintenance costs of frontend applications by offering a reusable, **well-tested**, and **documented solution** developed by experienced frontend developers. Squide streamlines the implementation of cross-cutting functionalities, allowing product teams to focus on delivering value without reinventing the wheel.
 
 Having a well-tested and well-documented shell is a significant advantage, as application shell code is often poorly understood by product teams and typically lacks proper testing and documentation, which complicates the maintenance of a custom application shell.
 
