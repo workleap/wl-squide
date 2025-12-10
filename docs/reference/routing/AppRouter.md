@@ -98,9 +98,7 @@ export function App() {
 
 ### Define a root error boundary
 
-A React Router [errorElement](https://reactrouter.com/en/main/route/error-element) retrieves the current error using the [useRouteError](https://reactrouter.com/en/main/hooks/use-route-error) hook.
-
-The root error boundary should always wrap the `registeredRoutes` and, when application, the `BootstrapingRoute` component.
+A React Router [errorElement](https://reactrouter.com/en/main/route/error-element) retrieves the current error using the [useRouteError](https://reactrouter.com/en/main/hooks/use-route-error) hook. The root error boundary should always wrap the `registeredRoutes` and, when application, the `BootstrapingRoute` component.
 
 ```tsx !#5-33 host/src/RootErrorBoundary.tsx
 import { isGlobalDataQueriesError, useLogger } from "@squide/firefly";

@@ -260,7 +260,6 @@ describe("when a query fail", () => {
 
         await waitFor(() => screen.findByText("[squide] Global public data queries failed."));
 
-        expect(listener).toHaveBeenCalledOnce();
-        expect(listener).toHaveBeenCalledWith(expect.arrayContaining([queryError]));
+        expect(listener).toHaveBeenCalledExactlyOnceWith(expect.arrayContaining([queryError]));
     });
 });

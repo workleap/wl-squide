@@ -91,7 +91,7 @@ const variables = useEnvironmentVariables();
 Using the runtime instance:
 
 ```ts !#1
-const variables = runtime.getEnvironmentVariables();
+const variables = runtime.environmentVariables;
 ```
 
 ## Setup the typings

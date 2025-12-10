@@ -243,8 +243,7 @@ describe("when a query fail", () => {
 
         await waitFor(() => screen.findByText("doe"));
 
-        expect(dispatch).toHaveBeenCalledOnce();
-        expect(dispatch).toHaveBeenCalledWith(expect.objectContaining({
+        expect(dispatch).toHaveBeenCalledExactlyOnceWith(expect.objectContaining({
             type: "is-unauthorized"
         }));
     });
@@ -303,8 +302,7 @@ describe("when a query fail", () => {
 
         await waitFor(() => screen.findByText("[squide] Global protected data queries failed."));
 
-        expect(listener).toHaveBeenCalledOnce();
-        expect(listener).toHaveBeenCalledWith(expect.arrayContaining([queryError]));
+        expect(listener).toHaveBeenCalledExactlyOnceWith(expect.arrayContaining([queryError]));
     });
 
     test("when a query fail and it's a unauthorized error, ProtectedDataFetchFailedEvent is not dispatched", async ({ expect }) => {
