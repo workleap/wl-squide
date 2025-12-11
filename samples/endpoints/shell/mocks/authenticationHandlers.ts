@@ -2,6 +2,7 @@ import { EnvironmentVariables } from "@squide/firefly";
 import { HttpResponse, http, type HttpHandler } from "msw";
 import { sessionManager } from "./session.ts";
 import { simulateDelay } from "./simulateDelay.ts";
+import crypto from "crypto";
 
 interface LoginCredentials {
     username: string;
@@ -10,13 +11,13 @@ interface LoginCredentials {
 
 const Users = [
     {
-        userId: Math.random().toString(),
+        userId: crypto.randomBytes(16).toString("hex"),
         username: "temp",
         preferredLanguage: "en-US",
         password: "temp"
     },
     {
-        userId: Math.random().toString(),
+        userId: crypto.randomBytes(16).toString("hex"),
         username: "fr",
         preferredLanguage: "fr-CA",
         password: "fr"
