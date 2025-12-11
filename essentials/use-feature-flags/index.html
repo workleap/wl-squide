@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <meta name="turbo-root" content="/wl-squide">
-    <meta name="turbo-cache-control" content="no-cache" data-turbo-track="reload" data-track-token="3.12.0-preview2.818746904588">
+    <meta name="turbo-cache-control" content="no-cache" data-turbo-track="reload" data-track-token="3.12.0-preview2.818797254558">
 
     <!-- See retype.com -->
     <meta name="generator" content="Retype 3.12.0-preview2">
@@ -22,22 +22,24 @@
     <meta property="og:url" content="https://workleap.github.io/wl-squide/essentials/use-feature-flags/">
     <meta property="og:title" content="Use feature flags">
     <meta property="og:description" content="To use feature flags, start by following the setup LaunchDarkly integration guide to create and initialize a LaunchDarkly SDK ">
+    <meta property="og:image" content="https://workleap.github.io/wl-squide/static/feature-flags-typings.png">
 
     <!-- Twitter -->
     <meta property="twitter:card" content="summary_large_image">
     <meta property="twitter:url" content="https://workleap.github.io/wl-squide/essentials/use-feature-flags/">
     <meta property="twitter:title" content="Use feature flags">
     <meta property="twitter:description" content="To use feature flags, start by following the setup LaunchDarkly integration guide to create and initialize a LaunchDarkly SDK ">
+    <meta property="twitter:image" content="https://workleap.github.io/wl-squide/static/feature-flags-typings.png">
 
     <script data-cfasync="false">(function(){var cl=document.documentElement.classList,ls=localStorage.getItem("retype_scheme"),hd=cl.contains("dark"),hl=cl.contains("light"),wm=window.matchMedia&&window.matchMedia("(prefers-color-scheme: dark)").matches;if(ls==="dark"||(!ls&&wm&&!hd&&!hl)){cl.remove("light");cl.add("dark")}else if(ls==="light"||(!ls&&!wm&&!hd&&!hl)){cl.remove("dark");cl.add("light")}})();</script>
 
     <link id="retype-favicon" rel="icon" href="../../static/favicon.png" />
-    <link href="../../resources/css/retype.css?v=3.12.0-preview2.818746904588" rel="stylesheet">
+    <link href="../../resources/css/retype.css?v=3.12.0-preview2.818797254558" rel="stylesheet">
 
-    <script data-cfasync="false" src="../../resources/js/config.js?v=3.12.0-preview2.818746904588" data-turbo-eval="false" defer></script>
+    <script data-cfasync="false" src="../../resources/js/config.js?v=3.12.0-preview2.818797254558" data-turbo-eval="false" defer></script>
     <script data-cfasync="false" src="../../resources/js/retype.js?v=3.12.0-preview2" data-turbo-eval="false" defer></script>
-    <script id="lunr-js" data-cfasync="false" src="../../resources/js/lunr.js?v=3.12.0-preview2.818746904588" data-turbo-eval="false" defer></script>
-    <script id="prism-js" data-cfasync="false" src="../../resources/js/prism.js?v=3.12.0-preview2.818746904588" defer></script>
+    <script id="lunr-js" data-cfasync="false" src="../../resources/js/lunr.js?v=3.12.0-preview2.818797254558" data-turbo-eval="false" defer></script>
+    <script id="prism-js" data-cfasync="false" src="../../resources/js/prism.js?v=3.12.0-preview2.818797254558" defer></script>
 
     <link href="https://workleap.github.io/wl-idp-docs-hub/static/retype-customization.css" rel="stylesheet" />
 
@@ -370,6 +372,13 @@ declare module &quot;@squide/firefly&quot; {
     &quot;exclude&quot;: [&quot;dist&quot;, &quot;node_modules&quot;]
 }</code></pre>
 </doc-codeblock></div>
+<p>Once configured, all feature flag hooks and functions are fully typed and support auto-completion:</p>
+<div class="align-image-left"><p><figure class="content-center">
+    <img src="../../static/feature-flags-typings.png" alt="Auto-completion example" class="rounded-image-rounded border-image-border border-image-border-width" width="837" />
+    <figcaption class="caption">Auto-completion example</figcaption>
+</figure>
+</p>
+</div>
 <doc-anchor-target id="setup-with-tests">
     <h2>
         <doc-anchor-trigger class="header-anchor-trigger" to="#setup-with-tests">#</doc-anchor-trigger>
