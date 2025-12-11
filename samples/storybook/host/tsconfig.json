@@ -5,7 +5,8 @@
         "tsBuildInfoFile": "node_modules/.cache/tsbuildinfo.json",
         "types": [
             "../parameters.d.ts",
-            "./env-vars.d.ts"
+            "./types/env-vars.d.ts",
+            "./types/feature-flags.d.ts"
         ]
     },
     "exclude": ["dist", "node_modules"]

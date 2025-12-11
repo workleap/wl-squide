@@ -36,6 +36,10 @@ export interface GetNavigationItemsOptions {
     menuId?: string;
 }
 
+export interface GetPluginOptions {
+    throwOnNotFound?: boolean;
+}
+
 export interface StartDeferredRegistrationScopeOptions extends RuntimeMethodOptions {
     transactional?: boolean;
 }
@@ -58,7 +62,7 @@ export interface IRuntime<TRoute = unknown, TNavigationItem = unknown, TRuntime 
     completeDeferredRegistrationScope: (options?: CompleteDeferredRegistrationScopeOptions) => void;
     get mode(): RuntimeMode;
     get plugins(): Plugin[];
-    getPlugin: (pluginName: string) => Plugin;
+    getPlugin: (pluginName: string, options?: GetPluginOptions) => Plugin | undefined;
     get logger(): Logger;
     get eventBus(): EventBus;
     startScope: (logger: Logger) => TRuntime;
@@ -115,11 +119,15 @@ export abstract class Runtime<TRoute = unknown, TNavigationItem = unknown, TRunt
         return this._plugins;
     }
 
-    getPlugin(pluginName: string) {
+    getPlugin(pluginName: string, options: GetPluginOptions = {}) {
+        const {
+            throwOnNotFound = true
+        } = options;
+
         const plugin = this._plugins.find(x => x.name === pluginName);
 
-        if (!plugin) {
-            throw new Error(`[squide] Cannot find a plugin named "${pluginName}". Did you register an instance of the plugin with the application Runtime instance?`);
+        if (!plugin && throwOnNotFound) {
+            throw new Error(`[squide] Cannot find a plugin named "${pluginName}". Did you register an instance of the plugin with the application runtime instance?`);
         }
 
         return plugin;
@@ -204,8 +212,8 @@ export abstract class RuntimeScope<TRoute = unknown, TNavigationItem = unknown, 
         return this._runtime.plugins;
     }
 
-    getPlugin(pluginName: string) {
-        return this._runtime.getPlugin(pluginName);
+    getPlugin(pluginName: string, options?: GetPluginOptions) {
+        return this._runtime.getPlugin(pluginName, options);
     }
 
     get logger() {

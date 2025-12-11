@@ -5,8 +5,8 @@ export interface MswStateOptions {
 }
 
 export class MswState {
-    #isReady: boolean;
     readonly #mswReadyListeners = new Set<MswReadyListener>();
+    #isReady: boolean;
 
     constructor(options: MswStateOptions = {}) {
         const {

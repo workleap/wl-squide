@@ -6,6 +6,25 @@ import { test, vi } from "vitest";
 import { FireflyRuntime } from "../src/FireflyRuntime.tsx";
 import { ApplicationBootstrappingStartedEvent, bootstrap } from "../src/initializeFirefly.ts";
 
+test.concurrent("filter out undefined definitions", async ({ expect }) => {
+    const runtime = new FireflyRuntime({
+        loggers: [new NoopLogger()]
+    });
+
+    const listener = vi.fn();
+
+    runtime.eventBus.addListener(ApplicationBootstrappingStartedEvent, listener);
+
+    bootstrap(runtime, [
+        undefined,
+        ...toLocalModuleDefinitions([
+            () => {}
+        ])
+    ]);
+
+    await vi.waitFor(() => expect(runtime.moduleManager.getAreModulesReady()).toBeTruthy());
+});
+
 test.concurrent("dispatch ApplicationBootstrappingStartedEvent", async ({ expect }) => {
     const runtime = new FireflyRuntime({
         loggers: [new NoopLogger()]
@@ -17,7 +36,7 @@ test.concurrent("dispatch ApplicationBootstrappingStartedEvent", async ({ expect
 
     bootstrap(runtime, []);
 
-    await vi.waitFor(() => expect(listener).toHaveBeenCalledTimes(1));
+    await vi.waitFor(() => expect(listener).toHaveBeenCalledOnce());
 });
 
 test.concurrent("when local modules are provided, register the local modules", async ({ expect }) => {
@@ -47,7 +66,7 @@ test.concurrent("when an error occurs while registering a local and an onError f
         onError
     });
 
-    await vi.waitFor(() => expect(onError).toHaveBeenCalledTimes(1));
+    await vi.waitFor(() => expect(onError).toHaveBeenCalledOnce());
     expect(onError).toHaveBeenCalledWith(expect.any(ModuleRegistrationError));
 });
 
@@ -63,7 +82,7 @@ test.concurrent("when MSW is enabled and a start function is provided, call the 
         startMsw: fct
     });
 
-    await vi.waitFor(() => expect(fct).toHaveBeenCalledTimes(1));
+    await vi.waitFor(() => expect(fct).toHaveBeenCalledOnce());
 });
 
 test.concurrent("when MSW is disabled and a start function is provided, do not call the start function", ({ expect }) => {

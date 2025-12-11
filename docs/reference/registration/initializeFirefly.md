@@ -19,6 +19,7 @@ const runtime = initializeFirefly(options?: {
     startMsw?,
     environmentVariables?,
     honeycombInstrumentationClient?,
+    launchDarklyClient?,
     loggers?,
     plugins?,
     onError?
@@ -35,6 +36,7 @@ const runtime = initializeFirefly(options?: {
     - `startMsw`: An optional function to register MSW request handlers and start MSW service. This function is required if [MSW is enabled](#use-msw).
     - `environmentVariables`: An optional object of environment variables.
     - `honeycombInstrumentationClient`: An optional Honeycomb instrumentation client for tracing the Squide bootstrapping flow.
+    - `launchDarklyClient`: An optional LaunchDarkly client for enabling feature flags.
     - `loggers`: An optional array of logger instances.
     - `plugins`: An optional array of `Plugin` factory functions.
     - `onError`: An optional function that is called whenever a bootstrapping error occurs.
@@ -190,6 +192,31 @@ const runtime = initializeFirefly({
 });
 ```
 
+### Provide a LaunchDarkly client
+
+Before creating the plugin instance, initialize the LaunchDarkly client with [streaming](https://launchdarkly.github.io/js-client-sdk/interfaces/LDOptions.html#streaming) enabled, then wait until the [client is ready](https://launchdarkly.com/docs/sdk/client-side/javascript#determine-when-the-client-is-ready).
+
+```ts !#17
+import { initializeFirefly, LaunchDarklyPlugin } from "@squide/firefly";
+import { initialize as initializeLaunchDarkly } from "launchdarkly-js-client-sdk";
+
+const launchDarklyClient = initializeLaunchDarkly("123", {
+    kind: "user",
+    anonymous: true
+}, {
+    // It's important to use the stream mode to receive feature flags
+    // updates in real time.
+    stream: true
+});
+
+// Always initialize the client before creating the plugin instance.
+await launchDarklyClient.waitForInitialization(5);
+
+const rumtime = initializeFirefly({
+    launchDarklyClient
+});
+```
+
 ### Register a logger
 
 The logger intance receives the `Runtime` instance as parameter.
@@ -207,13 +234,12 @@ const runtime = initializeFirefly({
 
 Sometimes, data must be fetched to determine which navigation items should be registered by a given module. To address this, Squide offers a **two-phase registration mechanism**:
 
-1. The first phase allows modules to register their navigation items that are **not dependent on initial data** (in addition to their routes and MSW request handlers when fake endpoints are available).
-
-2. The second phase enables modules to register navigation items that are dependent on initial data. Such a use case would be determining whether a navigation item should be registered based on a user profile. We refer to this second phase as **deferred registrations**.
+1. The first phase allows modules to register their navigation items that are **not dependent** on initial data or feature flags (in addition to their routes and MSW request handlers when fake endpoints are available).
+2. The second phase enables modules to register navigation items that are dependent on initial data and/or feature flags. Such a use case would be determining whether a navigation item should be registered based on a user profile or a flag. We refer to this second phase as **deferred registrations**.
 
 To defer a registration to the second phase, a module registration function can **return an anonymous function** matching the `DeferredRegistrationFunction` type: `(data, operation: "register" | "update") => Promise | void`.
 
-Once the modules are registered, the deferred registration functions will be executed with the deferred data and `"register"` as the value for the `operation` argument. Afterward, whenever the deferred data changes, the deferred registration functions will be re-executed with the updated deferred data and `"update"` as the value for the `operation` argument.
+Once the modules are registered, the deferred registration functions will be executed with the optional deferred data and `"register"` as the value for the `operation` argument. Afterward, whenever the deferred data and/or the feature flags changes, the deferred registration functions will be re-executed with the updated deferred data and `"update"` as the value for the `operation` argument.
 
 ```tsx host/src/index.tsx
 import { FireflyProvider, initializeFirefly } from "@squide/firefly";
@@ -234,8 +260,8 @@ root.render(
 );
 ```
 
-```tsx !#11-17 host/src/AppRouter.tsx
-import { usePublicDataQueries, useDeferredRegistrations, useIsBootstrapping, AppRouter as FireflyAppRouter } from "@squide/firefly";
+```tsx !#13-15,19 host/src/App.tsx
+import { usePublicDataQueries, useDeferredRegistrations, useIsBootstrapping, AppRouter } from "@squide/firefly";
 import { useMemo } from "react";
 import { createBrowserRouter, Outlet } from "react-router";
 import { RouterProvider } from "react-router/dom";
@@ -251,6 +277,8 @@ function BootstrappingRoute() {
         userInfo 
     }), [userInfo]);
 
+    // The data object is optional. If the modules deferred registrations only depends on
+    // feature flags, do not forward any data.
     useDeferredRegistrations(data);
 
     if (useIsBootstrapping()) {
@@ -260,9 +288,9 @@ function BootstrappingRoute() {
     return <Outlet />;
 }
 
-export function AppRouter() {
+export function App() {
     return (
-        <FireflyAppRouter waitForPublicData>
+        <AppRouter waitForPublicData>
             {({ rootRoute, registeredRoutes, routerProviderProps }) => {
                 return (
                     <RouterProvider
@@ -281,14 +309,14 @@ export function AppRouter() {
                     />
                 );
             }}
-        </FireflyAppRouter>
+        </AppRouter>
     );
 }
 ```
 
 Routes are always registered, but navigation items can be conditionally registered using a deferred registration function.
 
-```tsx !#21-24,28-37 local-module/src/register.tsx
+```tsx !#21-24,28-38 local-module/src/register.tsx
 import type { ModuleRegisterFunction, FireflyRuntime } from "@squide/firefly";
 import type { DeferredRegistrationData } from "@sample/shared";
 import { Page } from "./Page.tsx";
@@ -317,8 +345,9 @@ export const register: ModuleRegisterFunction<FireflyRuntime, unknown, DeferredR
     // Once the user info has been loaded by the host application, by completing the module registrations process,
     // the deferred registration function will be called with the user data.
     return (deferredRuntime, { userInfo }) => {
-        // Only register the "feature-a" route and navigation item if the user is an administrator.
-        if (userInfo.isAdmin) {
+        // Only register the "feature-a" route and navigation item if the user is an administrator
+        // and the "feature-a" flag is activated.
+        if (userInfo.isAdmin && deferredRuntime.getFeatureFlag("enable-feature-a", true)) {
             deferredRuntime.registerNavigationItem({
                 $id: "feature-a",
                 $label: "Feature A",
@@ -329,7 +358,7 @@ export const register: ModuleRegisterFunction<FireflyRuntime, unknown, DeferredR
 }
 ```
 
-```tsx !#20-23,27-36 remote-module/src/register.tsx
+```tsx !#20-23,27-37 remote-module/src/register.tsx
 import type { ModuleRegisterFunction, FireflyRuntime } from "@squide/firefly";
 import { Page } from "./Page.tsx";
 import { FeatureBPage } from "./FeatureBPage.tsx";
@@ -357,8 +386,9 @@ export const register: ModuleRegisterFunction<FireflyRuntime> = runtime => {
     // Once the user info has been loaded by the host application, by completing the module registrations process,
     // the deferred registration function will be called with the user data.
     return (deferredRuntime, { userInfo }) => {
-        // Only register the "feature-b route and navigation item if the user is a manager.
-        if (featureFlags.isManager) {
+        // Only register the "feature-b route and navigation item if the user is a manager
+        // and the "feature-b" flag is activated.
+        if (featureFlags.isManager && deferredRuntime.getFeatureFlag("enable-feature-b")) {
             deferredRuntime.registerNavigationItem({
                 $id: "feature-b",
                 $label: "Feature B",
@@ -377,7 +407,7 @@ It's important to register conditional navigation items using the `deferredRunti
 
 ### Use the deferred registration operation argument
 
-```tsx !#28,33 local-module/src/register.tsx
+```tsx !#28,34 local-module/src/register.tsx
 import type { ModuleRegisterFunction, FireflyRuntime } from "@squide/firefly";
 import type { DeferredRegistrationData } from "@sample/shared";
 import { Page } from "./Page.tsx";
@@ -406,8 +436,9 @@ export const register: ModuleRegisterFunction<FireflyRuntime, unknown, DeferredR
     // Once the user info has been loaded by the host application, by completing the module registrations process,
     // the deferred registration function will be called with the user data.
     return (deferredRuntime, { userInfo }, operation) => {
-        // Only register the "feature-a" route and navigation item if the user is an administrator.
-        if (userInfo.isAdmin) {
+        // Only register the "feature-a" route and navigation item if the user is an administrator
+        // and the "feature-a" flag is activated.
+        if (userInfo.isAdmin  && deferredRuntime.getFeatureFlag("enable-feature-a", true)) {
             deferredRuntime.registerNavigationItem({
                 $id: "feature-a",
                 $label: operation === "register" ? "Feature A" : "Feature A updated",

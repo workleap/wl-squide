@@ -22,7 +22,9 @@ const runtime = new FireflyRuntime(options?: { mode?, honeycombInstrumentationCl
 
 - `options`: An optional object literal of options:
     - `mode`: An optional mode to optimize Squide for production. Values are `"development"` (default) and `"production"`.
+    - `environmentVariables`: Retrieve all the environment variables.
     - `honeycombInstrumentationClient`: An optional Honeycomb instrumentation client for tracing the Squide bootstrapping flow.
+    - `launchDarklyClient`: An optional LaunchDarkly client.
     - `loggers`: An optional array of `Logger` instances.
     - `plugins`: An optional array of `Plugin` factory functions.
 
@@ -33,10 +35,10 @@ const runtime = new FireflyRuntime(options?: { mode?, honeycombInstrumentationCl
 - `getNavigationItems(menuId?)`: Retrieve the registered navigation items.
 - `registerRequestHandlers(handlers)`: Register the MSW request handlers.
 - `getEnvironmentVariable(key)`: Retrieve an environment variable.
-- `getEnvironmentVariables()`: Retrieve all environment variables.
 - `registerEnvironmentVariable(key, value)`: Register a single environment variable.
 - `registerEnvironmentVariables(variables)`: Register multiple environment variables.
-- `getPlugin(name)`: Retrieve the registered plugin by the specified `name`.
+- `getPlugin(name, options?)`: Retrieve the registered plugin matching the specified `name`.
+- `getFeatureFlag(key, defaultValue?)`: Retrieve the LaunchDarkly feature flag matching the specified `key`. If the feature flag is not available, `defaultValue` is returned.
 
 ### Getters
 
@@ -44,6 +46,10 @@ const runtime = new FireflyRuntime(options?: { mode?, honeycombInstrumentationCl
 - `routes`: Retrieve the registered routes.
 - `requestHandlers`: Retrieve the registered MSW request handlers.
 - `isMswEnabled`: Indicate whether or not MSW is enabled.
+- `honeycombInstrumentationClient`: Retrieve the Honeycomb instrumentation client.
+- `isLaunchDarklyEnabled`: Whether or not LaunchDarkly is enabled.
+- `launchDarklyClient`: Retrieve the LaunchDarkly client.
+- `featureFlags`: Retrieve the LaunchDarkly feature flags.
 - `logger`: Retrieve the runtime logger.
 - `eventBus`: Retrieve the runtime event bus.
 - `plugins`: Retrieve the registered plugins.
@@ -531,6 +537,12 @@ runtime.eventBus.addListener("write-to-host", () => {});
 runtime.eventBus.dispatch("write-to-host", "Hello host!");
 ```
 
+### Retrieve Honeycomb instrumentation client
+
+```ts !#1
+const client = runtime.honeycombInstrumentationClient;
+```
+
 ### Register an environment variable
 
 ```ts !#1
@@ -555,7 +567,27 @@ const environmentVariable = runtime.getEnvironmentVariable("apiBaseUrl");
 ### Retrieve all environment variables
 
 ```ts !#1
-const environmentVariables = runtime.getEnvironmentVariables();
+const environmentVariables = runtime.environmentVariables;
+```
+
+### Retrieve a feature flag value
+
+If the `foo` feature flag is not available, `true` will be returned.
+
+```ts !#1
+const flag = runtime.getFeatureFlag("foo", true);
+```
+
+### Retrieve all the feature flags
+
+```ts !#1
+const flags = runtime.featureFlags;
+```
+
+### Retrieve LaunchDarkly client
+
+```ts !#1
+const client = runtime.launchDarkClient;
 ```
 
 ### Register a plugin
@@ -583,3 +615,13 @@ const plugin = runtime.getPlugin(MyPlugin.name) as MyPlugin;
 ```
 
 [!ref Learn more about plugins](../plugins/Plugin.md)
+
+### Retrieve a plugin without throwing if it isn't registered
+
+```ts !#4
+import { MyPlugin } from "@sample/my-plugin";
+
+const plugin = runtime.getPlugin(MyPlugin.name, {
+    throwWhenNotFound: false
+}) as MyPlugin;
+```

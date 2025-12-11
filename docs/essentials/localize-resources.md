@@ -5,7 +5,7 @@ label: Localize resources
 
 # Localize resources
 
-To localize resources for a Squide application, start by following the [setup i18next](../integrations/setup-i18next.md) integration guide to configure the [i118nextPlugin]() and create and register an `i18next` instance for your module. Once the setup is complete, the examples below cover the most common use cases.
+To localize resources for a Squide application, start by following the [setup i18next](../integrations/setup-i18next.md) integration guide to configure the [i118nextPlugin](../reference/i18next/i18nextPlugin.md) and create and register an `i18next` instance for your module. Once the setup is complete, the examples below cover the most common use cases.
 
 For more detail, refer to the `i18next` [reference](../reference/i18next/i18nextPlugin.md) documentation.
 
@@ -27,7 +27,7 @@ export function Page() {
 }
 ```
 
-==- :icon-file-code: Localized resource files
+==- :icon-file-code: Localized resource files used in the example
 ```json !#1-5 ./locales/en-US.json
 {
     "Page": {
@@ -90,7 +90,7 @@ export const register: ModuleRegisterFunction<FireflyRuntime> = runtime => {
 }
 ```
 
-==- :icon-file-code: Localized resource files
+==- :icon-file-code: Localized resource files used in the example
 ```json !#1-5 ./locales/en-US.json
 {
     "navigationItems": {

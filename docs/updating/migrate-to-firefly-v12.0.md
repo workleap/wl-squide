@@ -82,7 +82,7 @@ root.render(
 
 ### Remove the `waitForMsw` property of `AppRouter`
 
-Because the `initializeFirefly` function accepts the [useMsw](../reference/registration/initializeFirefly.md#use-msw) option, the Squide Firefly state machine automatically detects when the application is using Mock Service Worker, eliminating the need to specify the value again.
+Because the `initializeFirefly` function accepts the [useMsw](../reference/registration/initializeFirefly.md#use-msw) option, the Squide firefly state machine automatically detects when the application is using Mock Service Worker, eliminating the need to specify the value again.
 
 Before:
 

@@ -1,7 +1,10 @@
-import { isFunction, ModuleDefinition, toLocalModuleDefinitions, type ModuleRegisterFunction, type RegisterModulesOptions } from "@squide/core";
+import { ModuleDefinition, toLocalModuleDefinitions, type ModuleRegisterFunction, type RegisterModulesOptions } from "@squide/core";
+import { isFunction } from "@squide/core/internal";
 import { EnvironmentVariables, EnvironmentVariablesPlugin } from "@squide/env-vars";
+import { LaunchDarklyPlugin } from "@squide/launch-darkly";
 import { MswPlugin } from "@squide/msw";
 import type { HoneycombInstrumentationPartialClient } from "@workleap-telemetry/core";
+import { LDClient } from "launchdarkly-js-client-sdk";
 import { FireflyRuntime, type FireflyRuntimeOptions } from "./FireflyRuntime.tsx";
 import { initializeHoneycomb } from "./honeycomb/initializeHoneycomb.ts";
 
@@ -12,18 +15,19 @@ export type OnInitializationErrorFunction = (error: unknown) => void;
 export type StartMswFunction<TRuntime = FireflyRuntime> = (runtime: TRuntime) => Promise<void>;
 
 export interface InitializeFireflyOptions<TRuntime extends FireflyRuntime, TContext = unknown, TData = unknown> extends RegisterModulesOptions<TContext>, FireflyRuntimeOptions {
-    localModules?: ModuleRegisterFunction<TRuntime, TContext, TData>[];
+    localModules?: (ModuleRegisterFunction<TRuntime, TContext, TData> | undefined)[];
     moduleDefinitions?: ModuleDefinition<TRuntime, TContext, TData>[];
     useMsw?: boolean;
     environmentVariables?: Partial<EnvironmentVariables>;
     honeycombInstrumentationClient?: HoneycombInstrumentationPartialClient;
+    launchDarklyClient?: LDClient;
     startMsw?: StartMswFunction<FireflyRuntime>;
     onError?: OnInitializationErrorFunction;
 }
 
 export function bootstrap<TRuntime extends FireflyRuntime = FireflyRuntime, TContext = unknown, TData = unknown>(
     runtime: TRuntime,
-    modulesDefinitions: ModuleDefinition<TRuntime, TContext, TData>[],
+    modulesDefinitions: (ModuleDefinition<TRuntime, TContext, TData> | undefined)[],
     options: Omit<InitializeFireflyOptions<TRuntime, TContext, TData>, "localModules" | "moduleDefinitions"> = {}
 ) {
     const {
@@ -34,33 +38,35 @@ export function bootstrap<TRuntime extends FireflyRuntime = FireflyRuntime, TCon
 
     runtime.eventBus.dispatch(ApplicationBootstrappingStartedEvent);
 
-    runtime.moduleManager.registerModules(modulesDefinitions, { context })
-        .then(results => {
-            if (runtime.isMswEnabled) {
-                if (!isFunction(startMsw)) {
-                    throw new Error("[squide] When MSW is enabled, the \"startMsw\" function must be provided.");
-                }
-
-                startMsw(runtime)
-                    .then(() => {
-                        if (runtime.isMswEnabled) {
-                            runtime.getMswState().setAsReady();
-                        }
-                    })
-                    .catch((error: unknown) => {
-                        runtime.logger
-                            .withText("[squide] An error occured while starting MSW.")
-                            .withError(error as Error)
-                            .error();
-                    });
+    runtime.moduleManager.registerModules(
+        modulesDefinitions.filter((x): x is ModuleDefinition => Boolean(x)),
+        { context }
+    ).then(results => {
+        if (runtime.isMswEnabled) {
+            if (!isFunction(startMsw)) {
+                throw new Error("[squide] When MSW is enabled, the \"startMsw\" function must be provided.");
             }
 
-            if (onError) {
-                results.forEach(error => {
-                    onError(error);
+            startMsw(runtime)
+                .then(() => {
+                    if (runtime.isMswEnabled) {
+                        runtime.mswState.setAsReady();
+                    }
+                })
+                .catch((error: unknown) => {
+                    runtime.logger
+                        .withText("[squide] An error occured while starting MSW.")
+                        .withError(error as Error)
+                        .error();
                 });
-            }
-        });
+        }
+
+        if (onError) {
+            results.forEach(error => {
+                onError(error);
+            });
+        }
+    });
 }
 
 let hasExecuted = false;
@@ -79,6 +85,7 @@ export function initializeFirefly<TContext = unknown, TData = unknown>(options: 
         plugins = [],
         environmentVariables,
         honeycombInstrumentationClient,
+        launchDarklyClient,
         loggers,
         onError
     } = options;
@@ -91,6 +98,10 @@ export function initializeFirefly<TContext = unknown, TData = unknown>(options: 
 
     if (useMsw) {
         plugins.push(x => new MswPlugin(x));
+    }
+
+    if (launchDarklyClient) {
+        plugins.push(x => new LaunchDarklyPlugin(x, launchDarklyClient));
     }
 
     const runtime = new FireflyRuntime({

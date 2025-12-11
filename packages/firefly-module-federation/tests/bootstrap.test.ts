@@ -87,6 +87,6 @@ test.concurrent("when an error occurs while registering a remote module and an o
         onError
     });
 
-    await vi.waitFor(() => expect(onError).toHaveBeenCalledTimes(1));
+    await vi.waitFor(() => expect(onError).toHaveBeenCalledOnce());
     expect(onError).toHaveBeenCalledWith(expect.any(RemoteModuleRegistrationError));
 });

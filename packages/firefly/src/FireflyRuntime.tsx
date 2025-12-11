@@ -1,9 +1,11 @@
 import type { RegisterRouteOptions, RuntimeMethodOptions, RuntimeOptions } from "@squide/core";
-import { EnvironmentVariableKey, EnvironmentVariables, EnvironmentVariableValue, getEnvironmentVariablesPlugin } from "@squide/env-vars";
+import { EnvironmentVariableKey, EnvironmentVariables, getEnvironmentVariablesPlugin } from "@squide/env-vars";
+import { FeatureFlagKey, FeatureFlags, FeatureFlagSetSnapshot, getLaunchDarklyPlugin, LaunchDarklyPluginName } from "@squide/launch-darkly";
 import { getMswPlugin, MswPluginName, MswState } from "@squide/msw";
 import { type IReactRouterRuntime, ReactRouterRuntime, ReactRouterRuntimeScope, type Route } from "@squide/react-router";
 import type { HoneycombInstrumentationPartialClient } from "@workleap-telemetry/core";
 import type { Logger } from "@workleap/logging";
+import { LDClient } from "launchdarkly-js-client-sdk";
 import type { RequestHandler } from "msw";
 import { type AppRouterStore, createAppRouterStore } from "./AppRouterStore.ts";
 
@@ -14,22 +16,29 @@ export interface FireflyRuntimeOptions<TRuntime extends FireflyRuntime = Firefly
 export interface RegisterRequestHandlersOptions extends RuntimeMethodOptions {}
 
 export interface IFireflyRuntime extends IReactRouterRuntime {
-    getMswState(): MswState;
+    get isMswEnabled(): boolean;
+    get mswState(): MswState;
     registerRequestHandlers: (handlers: RequestHandler[]) => void;
     get requestHandlers(): RequestHandler[];
-    get isMswEnabled(): boolean;
-    registerEnvironmentVariable(key: EnvironmentVariableKey, value: EnvironmentVariableValue): void;
+    registerEnvironmentVariable<T extends EnvironmentVariableKey>(key: T, value: EnvironmentVariables[T]): void;
     registerEnvironmentVariables(variables: Partial<EnvironmentVariables>): void;
-    getEnvironmentVariable(key: EnvironmentVariableKey): EnvironmentVariableValue;
-    getEnvironmentVariables(): EnvironmentVariables;
+    getEnvironmentVariable<T extends EnvironmentVariableKey>(key: T): EnvironmentVariables[T];
+    get environmentVariables(): EnvironmentVariables;
     get appRouterStore(): AppRouterStore;
     get honeycombInstrumentationClient(): HoneycombInstrumentationPartialClient | undefined;
+    get isLaunchDarklyEnabled(): boolean;
+    get launchDarklyClient(): LDClient;
+    get featureFlags(): FeatureFlags;
+    getFeatureFlag(key: string, defaultValue?: unknown): unknown;
+    get featureFlagSetSnapshot(): FeatureFlagSetSnapshot;
 }
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export class FireflyRuntime<TRuntime extends FireflyRuntime = any> extends ReactRouterRuntime<TRuntime> implements IFireflyRuntime {
-    protected _appRouterStore: AppRouterStore;
-    protected _honeycombInstrumentationClient: HoneycombInstrumentationPartialClient | undefined;
+    readonly #appRouterStore: AppRouterStore;
+    readonly #honeycombInstrumentationClient: HoneycombInstrumentationPartialClient | undefined;
+    readonly #isMswEnabled: boolean;
+    readonly #isLaunchDarklyEnabled: boolean;
 
     constructor(options: FireflyRuntimeOptions = {}) {
         const {
@@ -38,8 +47,10 @@ export class FireflyRuntime<TRuntime extends FireflyRuntime = any> extends React
 
         super(options);
 
-        this._appRouterStore = createAppRouterStore(this._logger);
-        this._honeycombInstrumentationClient = honeycombInstrumentationClient;
+        this.#appRouterStore = createAppRouterStore(this._logger);
+        this.#honeycombInstrumentationClient = honeycombInstrumentationClient;
+        this.#isMswEnabled = this._plugins.some(x => x.name === MswPluginName);
+        this.#isLaunchDarklyEnabled = this._plugins.some(x => x.name === LaunchDarklyPluginName);
     }
 
     registerRoute(route: Route, options: RegisterRouteOptions = {}) {
@@ -50,7 +61,11 @@ export class FireflyRuntime<TRuntime extends FireflyRuntime = any> extends React
         super.registerRoute(route, options);
     }
 
-    getMswState() {
+    get isMswEnabled() {
+        return this.#isMswEnabled;
+    }
+
+    get mswState() {
         const plugin = getMswPlugin(this);
 
         return plugin.mswState;
@@ -76,23 +91,19 @@ export class FireflyRuntime<TRuntime extends FireflyRuntime = any> extends React
         return plugin.requestHandlers;
     }
 
-    get isMswEnabled() {
-        return this._plugins.some(x => x.name === MswPluginName);
-    }
-
     getEnvironmentVariable(key: EnvironmentVariableKey) {
         const plugin = getEnvironmentVariablesPlugin(this);
 
         return plugin.getVariable(key);
     }
 
-    getEnvironmentVariables() {
+    get environmentVariables() {
         const plugin = getEnvironmentVariablesPlugin(this);
 
         return plugin.getVariables();
     }
 
-    registerEnvironmentVariable(key: EnvironmentVariableKey, value: EnvironmentVariableValue) {
+    registerEnvironmentVariable<T extends EnvironmentVariableKey>(key: T, value: EnvironmentVariables[T]) {
         const plugin = getEnvironmentVariablesPlugin(this);
 
         return plugin.registerVariable(key, value);
@@ -105,11 +116,31 @@ export class FireflyRuntime<TRuntime extends FireflyRuntime = any> extends React
     }
 
     get appRouterStore() {
-        return this._appRouterStore;
+        return this.#appRouterStore;
     }
 
     get honeycombInstrumentationClient() {
-        return this._honeycombInstrumentationClient;
+        return this.#honeycombInstrumentationClient;
+    }
+
+    get isLaunchDarklyEnabled() {
+        return this.#isLaunchDarklyEnabled;
+    }
+
+    get launchDarklyClient() {
+        return getLaunchDarklyPlugin(this).client;
+    }
+
+    get featureFlags() {
+        return this.featureFlagSetSnapshot.value;
+    }
+
+    getFeatureFlag<T extends FeatureFlagKey>(key: T, defaultValue?: FeatureFlags[T]) {
+        return getLaunchDarklyPlugin(this).getFeatureFlag(key, defaultValue);
+    }
+
+    get featureFlagSetSnapshot() {
+        return getLaunchDarklyPlugin(this).featureFlagSetSnapshot;
     }
 
     startScope(logger: Logger): TRuntime {
@@ -118,8 +149,12 @@ export class FireflyRuntime<TRuntime extends FireflyRuntime = any> extends React
 }
 
 export class FireflyRuntimeScope<TRuntime extends FireflyRuntime = FireflyRuntime> extends ReactRouterRuntimeScope<TRuntime> implements IFireflyRuntime {
-    getMswState() {
-        return this._runtime.getMswState();
+    get isMswEnabled() {
+        return this._runtime.isMswEnabled;
+    }
+
+    get mswState() {
+        return this._runtime.mswState;
     }
 
     registerRequestHandlers(handlers: RequestHandler[], options: RegisterRequestHandlersOptions = {}) {
@@ -134,19 +169,15 @@ export class FireflyRuntimeScope<TRuntime extends FireflyRuntime = FireflyRuntim
         return this._runtime.requestHandlers;
     }
 
-    get isMswEnabled() {
-        return this._runtime.isMswEnabled;
-    }
-
-    getEnvironmentVariables() {
-        return this._runtime.getEnvironmentVariables();
-    }
-
     getEnvironmentVariable(key: EnvironmentVariableKey) {
         return this._runtime.getEnvironmentVariable(key);
     }
 
-    registerEnvironmentVariable(key: EnvironmentVariableKey, value: EnvironmentVariableValue) {
+    get environmentVariables() {
+        return this._runtime.environmentVariables;
+    }
+
+    registerEnvironmentVariable<T extends EnvironmentVariableKey>(key: T, value: EnvironmentVariables[T]) {
         this._runtime.registerEnvironmentVariable(key, value);
     }
 
@@ -160,5 +191,29 @@ export class FireflyRuntimeScope<TRuntime extends FireflyRuntime = FireflyRuntim
 
     get honeycombInstrumentationClient(): HoneycombInstrumentationPartialClient {
         throw new Error("[squide] Cannot retrieve the Honeycomb instrumentation client from a runtime scope instance.");
+    }
+
+    get isLaunchDarklyEnabled() {
+        return this._runtime.isLaunchDarklyEnabled;
+    }
+
+    get launchDarklyClient() {
+        return this._runtime.launchDarklyClient;
+    }
+
+    get featureFlags() {
+        return this._runtime.featureFlags;
+    }
+
+    getFeatureFlag<T extends FeatureFlagKey>(key: T, defaultValue?: FeatureFlags[T]) {
+        // The error is because the FeatureFlags interface is empty as it is expected to be augmented by the
+        // consumer application.
+        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+        // @ts-ignore
+        return this._runtime.getFeatureFlag(key, defaultValue);
+    }
+
+    get featureFlagSetSnapshot() {
+        return this._runtime.featureFlagSetSnapshot;
     }
 }

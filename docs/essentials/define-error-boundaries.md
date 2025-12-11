@@ -37,7 +37,7 @@ export const registerHost: ModuleRegisterFunction<FireflyRuntime> = runtime => {
 };
 ```
 
-==- :icon-file-code: Root error boundary example
+==- :icon-file-code: Root error boundary used in the example
 ```tsx !#6,9,11,16 ./RootErrorBoundary.tsx
 import { isGlobalDataQueriesError } from "@squide/firefly";
 import { useCallback, useEffect } from "react";
@@ -94,7 +94,7 @@ export const registerHost: ModuleRegisterFunction<FireflyRuntime> = runtime => {
 };
 ```
 
-==- :icon-file-code: Module error boundary example
+==- :icon-file-code: Module error boundary used in the example
 ```tsx !#5,8,13 ./ModuleErrorBoundary.tsx
 import { useCallback, useEffect } from "react";
 import { isRouteErrorResponse, useRouteError } from "react-router";
@@ -148,7 +148,7 @@ export const registerHost: ModuleRegisterFunction<FireflyRuntime> = runtime => {
 };
 ```
 
-==- :icon-file-code: Route error boundary example
+==- :icon-file-code: Route error boundary used in the example
 ```tsx !#5,8,13 ./RouteErrorBoundary.tsx
 import { useCallback, useEffect } from "react";
 import { isRouteErrorResponse, useRouteError } from "react-router";

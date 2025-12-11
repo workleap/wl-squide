@@ -18,7 +18,6 @@ To install the sample and start the application with a developer server, follow 
 
 - The application should render a login page. Use `temp` as the username and `temp` as the password.
 
-
 ## Sample application topology
 
 - The sample application code is located [here](https://github.com/workleap/wl-squide/tree/troubleshoot-msw-2.6.0/samples/endpoints)

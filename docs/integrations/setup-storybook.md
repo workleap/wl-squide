@@ -5,11 +5,9 @@ label: Setup Storybook
 
 # Setup Storybook
 
-Squide provides helpers to set up a [Storybook](https://storybook.js.org/) story file for rendering components using Squide Firefly. _This guide assumes that you already have a working Storybook environment_.
+Squide provides helpers to set up a [Storybook](https://storybook.js.org/) story file for rendering components using Squide. _This guide assumes that you already have a working Storybook environment_.
 
-## Configure Storybook
-
-### Install the packages
+## Install the packages
 
 To set up Storybook, first, open a terminal at the root of the Storybook application and install the following packages:
 
@@ -17,7 +15,7 @@ To set up Storybook, first, open a terminal at the root of the Storybook applica
 pnpm add msw msw-storybook-addon
 ```
 
-### Register the MSW addon
+## Register the MSW addon
 
 Then, update the standard `.storybook/preview.tsx` file and register the [Mock Service Worker](https://mswjs.io/) (MSW) addon:
 
@@ -69,7 +67,7 @@ function getAbsolutePath(value: string): any {
 
 ```
 
-### Initialize MSW
+## Initialize MSW
 
 Finally, ensure that MSW is correctly initialized. Confirm that a `mockServiceWorker.js` file exists in the `/public` folder. If it's missing, open a terminal at the root of the Storybook application and execute the following command:
 
@@ -175,7 +173,7 @@ export const Default = {} satisfies Story;
 
 ### Setup MSW
 
-Finally, forward the MSW request handlers registered by the modules to the Storybook addon:
+Next, forward the MSW request handlers registered by the modules to the Storybook addon:
 
 ```tsx !#20-24
 import { initializeFireflyForStorybook, FireflyDecorator } from "@squide/firefly-rsbuild-storybook";
@@ -211,6 +209,120 @@ type Story = StoryObj<typeof meta>;
 export const Default = {} satisfies Story;
 ```
 
+### Setup environment variables
+
+Then, if the components included in the stories rely on environment variables, mock the environment variables using the [initializeFireflyForStorybook](../reference/storybook/initializeFireflyForStorybook.md) function:
+
+```tsx !#8-10
+import { initializeFireflyForStorybook, withFireflyDecorator } from "@squide/firefly-rsbuild-storybook";
+import type { Decorator, Meta, StoryObj } from "storybook-react-rsbuild";
+import { Page } from "./Page.tsx";
+import { registerModule } from "./registerModule.tsx";
+
+const runtime = await initializeFireflyForStorybook({
+    localModules: [registerModule],
+    environmentVariables: {
+        apiBaseUrl: "https://my-api.com"
+    }
+});
+
+const meta = {
+    title: "Page",
+    component: Page,
+    decorators: [
+        withFireflyDecorator(runtime)
+    ]
+} satisfies Meta<typeof Page>;
+
+export default meta;
+
+type Story = StoryObj<typeof meta>;
+
+export const Default = {} satisfies Story;
+```
+
+### Setup feature flags
+
+Finally, if the components included in the stories rely on feature flags, mock the feature flags using the [initializeFireflyForStorybook](../reference/storybook/initializeFireflyForStorybook.md) function:
+
+```tsx !#12
+import { initializeFireflyForStorybook, withFireflyDecorator } from "@squide/firefly-rsbuild-storybook";
+import type { Decorator, Meta, StoryObj } from "storybook-react-rsbuild";
+import { Page } from "./Page.tsx";
+import { registerModule } from "./registerModule.tsx";
+
+const featureFlags = new Map([
+    ["render-summary", true]
+] as const);
+
+const runtime = await initializeFireflyForStorybook({
+    localModules: [registerModule],
+    featureFlags
+});
+
+const meta = {
+    title: "Page",
+    component: Page,
+    decorators: [
+        withFireflyDecorator(runtime)
+    ]
+} satisfies Meta<typeof Page>;
+
+export default meta;
+
+type Story = StoryObj<typeof meta>;
+
+export const Default = {} satisfies Story;
+```
+
+To test different variations of a feature flag, use the [withFeatureFlagsOverrideDecorator](../reference/storybook/withFeatureFlagsOverrideDecorator.md) hook:
+
+```tsx !#31
+import { initializeFireflyForStorybook, withFireflyDecorator, withFeatureFlagsOverrideDecorator } from "@squide/firefly-rsbuild-storybook";
+import type { Decorator, Meta, StoryObj } from "storybook-react-rsbuild";
+import { Page } from "./Page.tsx";
+import { registerModule } from "./registerModule.tsx";
+
+// This syntax with the nested arrays and "as const" is super important to get type safety with
+// the "withFeatureFlagsOverrideDecorator" decorator.
+const featureFlags = new Map([
+    ["render-summary", true]
+] as const);
+
+const runtime = await initializeFireflyForStorybook({
+    localModules: [registerModule],
+    featureFlags
+});
+
+const meta = {
+    title: "Page",
+    component: Page,
+    decorators: [
+        withFireflyDecorator(runtime)
+    ]
+} satisfies Meta<typeof Page>;
+
+export default meta;
+
+type Story = StoryObj<typeof meta>;
+
+export const Default = {
+    decorators: [
+        withFeatureFlagsOverrideDecorator(featureFlags, { "render-summary": false })
+    ]
+} satisfies Story;
+```
+
 ## Try it :rocket:
 
-Start the Storybook application using the development script. Then open a story that uses Squide firefly components. It should render without errors. Make a change to the story and confirm that it re-renders correctly.
+Start the Storybook application using the development script. Then open a story that uses Squide components. It should render without errors. Make a change to the story and confirm that it re-renders correctly.
+
+### Troubleshoot issues
+
+If you are experiencing issues with this guide:
+
+- Set the [initializeTelemetry](https://workleap.github.io/wl-telemetry/reference/telemetry/initializetelemetry/) function `verbose` option to `true`.
+- Open the [DevTools](https://developer.chrome.com/docs/devtools/) console and look for any relevant logs or errors.
+- Refer to a working example on [GitHub](https://github.com/workleap/wl-squide/tree/main/samples/storybook).
+- Refer to the [troubleshooting](../troubleshooting.md) page.
+

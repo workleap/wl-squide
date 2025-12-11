@@ -34,8 +34,8 @@ test.concurrent("when the state is \"none\" and PublicDataFetchStartedEvent is h
 
     runtime.eventBus.dispatch(PublicDataFetchStartedEvent);
 
-    expect(onDataFetchStarted).toHaveBeenCalledTimes(1);
-    expect(onPublicDataFetchStarted).toHaveBeenCalledTimes(1);
+    expect(onDataFetchStarted).toHaveBeenCalledOnce();
+    expect(onPublicDataFetchStarted).toHaveBeenCalledOnce();
 });
 
 test.concurrent("when the state is \"fetching-data\" and PublicDataFetchStartedEvent is handled, do not call the onDataFetchStarted handler", ({ expect }) => {
@@ -70,8 +70,8 @@ test.concurrent("when the state is \"fetching-data\" and PublicDataFetchStartedE
     // Should not call onDataFetchStarted.
     runtime.eventBus.dispatch(PublicDataFetchStartedEvent);
 
-    expect(onDataFetchStarted).toHaveBeenCalledTimes(1);
-    expect(onPublicDataFetchStarted).toHaveBeenCalledTimes(1);
+    expect(onDataFetchStarted).toHaveBeenCalledOnce();
+    expect(onPublicDataFetchStarted).toHaveBeenCalledOnce();
 });
 
 test.concurrent("when the state is \"none\" and ProtectedDataFetchStartedEvent is handled, call the onDataFetchStarted handler", ({ expect }) => {
@@ -102,8 +102,8 @@ test.concurrent("when the state is \"none\" and ProtectedDataFetchStartedEvent i
 
     runtime.eventBus.dispatch(ProtectedDataFetchStartedEvent);
 
-    expect(onDataFetchStarted).toHaveBeenCalledTimes(1);
-    expect(onProtectedDataFetchStarted).toHaveBeenCalledTimes(1);
+    expect(onDataFetchStarted).toHaveBeenCalledOnce();
+    expect(onProtectedDataFetchStarted).toHaveBeenCalledOnce();
 });
 
 test.concurrent("when the state is \"fetching-data\" and ProtectedDataFetchStartedEvent is handled, do not call the onDataFetchStarted handler", ({ expect }) => {
@@ -138,8 +138,8 @@ test.concurrent("when the state is \"fetching-data\" and ProtectedDataFetchStart
     // Should not call onDataFetchStarted.
     runtime.eventBus.dispatch(ProtectedDataFetchStartedEvent);
 
-    expect(onDataFetchStarted).toHaveBeenCalledTimes(1);
-    expect(onProtectedDataFetchStarted).toHaveBeenCalledTimes(1);
+    expect(onDataFetchStarted).toHaveBeenCalledOnce();
+    expect(onProtectedDataFetchStarted).toHaveBeenCalledOnce();
 });
 
 test.concurrent("when the state is \"fetching-data\", \"waitForProtectedData\" is true, and PublicDataReadyEvent is handled, do not call the onDataReadyHandler", ({ expect }) => {
@@ -177,11 +177,11 @@ test.concurrent("when the state is \"fetching-data\", \"waitForProtectedData\" i
         waitForProtectedData: true
     });
 
-    expect(onDataFetchStarted).toHaveBeenCalledTimes(1);
+    expect(onDataFetchStarted).toHaveBeenCalledOnce();
     expect(onDataReady).not.toHaveBeenCalled();
-    expect(onPublicDataFetchStarted).toHaveBeenCalledTimes(1);
-    expect(onProtectedDataFetchStarted).toHaveBeenCalledTimes(1);
-    expect(onPublicDataReady).toHaveBeenCalledTimes(1);
+    expect(onPublicDataFetchStarted).toHaveBeenCalledOnce();
+    expect(onProtectedDataFetchStarted).toHaveBeenCalledOnce();
+    expect(onPublicDataReady).toHaveBeenCalledOnce();
 });
 
 test.concurrent("when the state is \"fetching-data\", \"waitForProtectedData\" is false, and PublicDataReadyEvent is handled, call the onDataReadyHandler", ({ expect }) => {
@@ -219,11 +219,11 @@ test.concurrent("when the state is \"fetching-data\", \"waitForProtectedData\" i
         waitForProtectedData: false
     });
 
-    expect(onDataFetchStarted).toHaveBeenCalledTimes(1);
-    expect(onDataReady).toHaveBeenCalledTimes(1);
-    expect(onPublicDataFetchStarted).toHaveBeenCalledTimes(1);
-    expect(onProtectedDataFetchStarted).toHaveBeenCalledTimes(1);
-    expect(onPublicDataReady).toHaveBeenCalledTimes(1);
+    expect(onDataFetchStarted).toHaveBeenCalledOnce();
+    expect(onDataReady).toHaveBeenCalledOnce();
+    expect(onPublicDataFetchStarted).toHaveBeenCalledOnce();
+    expect(onProtectedDataFetchStarted).toHaveBeenCalledOnce();
+    expect(onPublicDataReady).toHaveBeenCalledOnce();
 });
 
 test.concurrent("when the state is \"protected-data-ready\" and PublicDataReadyEvent is handled, call the onDataReady handler", ({ expect }) => {
@@ -262,12 +262,12 @@ test.concurrent("when the state is \"protected-data-ready\" and PublicDataReadyE
     // Should call onDataReady.
     runtime.eventBus.dispatch(PublicDataReadyEvent);
 
-    expect(onDataFetchStarted).toHaveBeenCalledTimes(1);
-    expect(onDataReady).toHaveBeenCalledTimes(1);
-    expect(onPublicDataFetchStarted).toHaveBeenCalledTimes(1);
-    expect(onProtectedDataFetchStarted).toHaveBeenCalledTimes(1);
-    expect(onPublicDataReady).toHaveBeenCalledTimes(1);
-    expect(onProtectedDataReady).toHaveBeenCalledTimes(1);
+    expect(onDataFetchStarted).toHaveBeenCalledOnce();
+    expect(onDataReady).toHaveBeenCalledOnce();
+    expect(onPublicDataFetchStarted).toHaveBeenCalledOnce();
+    expect(onProtectedDataFetchStarted).toHaveBeenCalledOnce();
+    expect(onPublicDataReady).toHaveBeenCalledOnce();
+    expect(onProtectedDataReady).toHaveBeenCalledOnce();
 });
 
 test.concurrent("when the state is \"public-data-ready\" and PublicDataReadyEvent is handled, do not call the onDataReady handler", ({ expect }) => {
@@ -306,11 +306,11 @@ test.concurrent("when the state is \"public-data-ready\" and PublicDataReadyEven
     // Should not call onDataReady.
     runtime.eventBus.dispatch(PublicDataReadyEvent);
 
-    expect(onDataFetchStarted).toHaveBeenCalledTimes(1);
+    expect(onDataFetchStarted).toHaveBeenCalledOnce();
     expect(onDataReady).toHaveBeenCalledTimes(0);
-    expect(onPublicDataFetchStarted).toHaveBeenCalledTimes(1);
-    expect(onProtectedDataFetchStarted).toHaveBeenCalledTimes(1);
-    expect(onPublicDataReady).toHaveBeenCalledTimes(1);
+    expect(onPublicDataFetchStarted).toHaveBeenCalledOnce();
+    expect(onProtectedDataFetchStarted).toHaveBeenCalledOnce();
+    expect(onPublicDataReady).toHaveBeenCalledOnce();
 });
 
 test.concurrent("when the state is \"data-ready\" and PublicDataReadyEvent is handled, do not call the onDataReady handler", ({ expect }) => {
@@ -350,12 +350,12 @@ test.concurrent("when the state is \"data-ready\" and PublicDataReadyEvent is ha
     // Should not call onDataReady again.
     runtime.eventBus.dispatch(PublicDataReadyEvent);
 
-    expect(onDataFetchStarted).toHaveBeenCalledTimes(1);
-    expect(onDataReady).toHaveBeenCalledTimes(1);
-    expect(onPublicDataFetchStarted).toHaveBeenCalledTimes(1);
-    expect(onProtectedDataFetchStarted).toHaveBeenCalledTimes(1);
-    expect(onPublicDataReady).toHaveBeenCalledTimes(1);
-    expect(onProtectedDataReady).toHaveBeenCalledTimes(1);
+    expect(onDataFetchStarted).toHaveBeenCalledOnce();
+    expect(onDataReady).toHaveBeenCalledOnce();
+    expect(onPublicDataFetchStarted).toHaveBeenCalledOnce();
+    expect(onProtectedDataFetchStarted).toHaveBeenCalledOnce();
+    expect(onPublicDataReady).toHaveBeenCalledOnce();
+    expect(onProtectedDataReady).toHaveBeenCalledOnce();
 });
 
 test.concurrent("when the state is \"fetching-data\", \"waitForPublicData\" is true, and ProtectedDataReadyEvent is handled, do not call the onDataReadyHandler", ({ expect }) => {
@@ -391,11 +391,11 @@ test.concurrent("when the state is \"fetching-data\", \"waitForPublicData\" is t
     // Should call onDataReady.
     runtime.eventBus.dispatch(ProtectedDataReadyEvent, { waitForPublicData: true });
 
-    expect(onDataFetchStarted).toHaveBeenCalledTimes(1);
+    expect(onDataFetchStarted).toHaveBeenCalledOnce();
     expect(onDataReady).not.toHaveBeenCalled();
-    expect(onPublicDataFetchStarted).toHaveBeenCalledTimes(1);
-    expect(onProtectedDataFetchStarted).toHaveBeenCalledTimes(1);
-    expect(onProtectedDataReady).toHaveBeenCalledTimes(1);
+    expect(onPublicDataFetchStarted).toHaveBeenCalledOnce();
+    expect(onProtectedDataFetchStarted).toHaveBeenCalledOnce();
+    expect(onProtectedDataReady).toHaveBeenCalledOnce();
 });
 
 test.concurrent("when the state is \"fetching-data\", \"waitForPublicData\" is false, and ProtectedDataReadyEvent is handled, call the onDataReadyHandler", ({ expect }) => {
@@ -431,11 +431,11 @@ test.concurrent("when the state is \"fetching-data\", \"waitForPublicData\" is f
     // Should call onDataReady.
     runtime.eventBus.dispatch(ProtectedDataReadyEvent, { waitForPublicData: false });
 
-    expect(onDataFetchStarted).toHaveBeenCalledTimes(1);
-    expect(onDataReady).toHaveBeenCalledTimes(1);
-    expect(onPublicDataFetchStarted).toHaveBeenCalledTimes(1);
-    expect(onProtectedDataFetchStarted).toHaveBeenCalledTimes(1);
-    expect(onProtectedDataReady).toHaveBeenCalledTimes(1);
+    expect(onDataFetchStarted).toHaveBeenCalledOnce();
+    expect(onDataReady).toHaveBeenCalledOnce();
+    expect(onPublicDataFetchStarted).toHaveBeenCalledOnce();
+    expect(onProtectedDataFetchStarted).toHaveBeenCalledOnce();
+    expect(onProtectedDataReady).toHaveBeenCalledOnce();
 });
 
 test.concurrent("when the state is \"public-data-ready\" and ProtectedDataReadyEvent is handled, call the onDataReady handler", ({ expect }) => {
@@ -474,12 +474,12 @@ test.concurrent("when the state is \"public-data-ready\" and ProtectedDataReadyE
     // Should call onDataReady.
     runtime.eventBus.dispatch(ProtectedDataReadyEvent);
 
-    expect(onDataFetchStarted).toHaveBeenCalledTimes(1);
-    expect(onDataReady).toHaveBeenCalledTimes(1);
-    expect(onPublicDataFetchStarted).toHaveBeenCalledTimes(1);
-    expect(onProtectedDataFetchStarted).toHaveBeenCalledTimes(1);
-    expect(onPublicDataReady).toHaveBeenCalledTimes(1);
-    expect(onProtectedDataReady).toHaveBeenCalledTimes(1);
+    expect(onDataFetchStarted).toHaveBeenCalledOnce();
+    expect(onDataReady).toHaveBeenCalledOnce();
+    expect(onPublicDataFetchStarted).toHaveBeenCalledOnce();
+    expect(onProtectedDataFetchStarted).toHaveBeenCalledOnce();
+    expect(onPublicDataReady).toHaveBeenCalledOnce();
+    expect(onProtectedDataReady).toHaveBeenCalledOnce();
 });
 
 test.concurrent("when the state is \"protected-data-ready\" and ProtectedDataReadyEvent is handled, do not call the onDataReady handler", ({ expect }) => {
@@ -518,11 +518,11 @@ test.concurrent("when the state is \"protected-data-ready\" and ProtectedDataRea
     // Should not call onDataReady.
     runtime.eventBus.dispatch(ProtectedDataReadyEvent);
 
-    expect(onDataFetchStarted).toHaveBeenCalledTimes(1);
+    expect(onDataFetchStarted).toHaveBeenCalledOnce();
     expect(onDataReady).toHaveBeenCalledTimes(0);
-    expect(onPublicDataFetchStarted).toHaveBeenCalledTimes(1);
-    expect(onProtectedDataFetchStarted).toHaveBeenCalledTimes(1);
-    expect(onProtectedDataReady).toHaveBeenCalledTimes(1);
+    expect(onPublicDataFetchStarted).toHaveBeenCalledOnce();
+    expect(onProtectedDataFetchStarted).toHaveBeenCalledOnce();
+    expect(onProtectedDataReady).toHaveBeenCalledOnce();
 });
 
 test.concurrent("when the state is \"data-ready\" and ProtectedDataReadyEvent is handled, do not call the onDataReady handler", ({ expect }) => {
@@ -562,12 +562,12 @@ test.concurrent("when the state is \"data-ready\" and ProtectedDataReadyEvent is
     // Should not call onDataReady again.
     runtime.eventBus.dispatch(ProtectedDataReadyEvent);
 
-    expect(onDataFetchStarted).toHaveBeenCalledTimes(1);
-    expect(onDataReady).toHaveBeenCalledTimes(1);
-    expect(onPublicDataFetchStarted).toHaveBeenCalledTimes(1);
-    expect(onProtectedDataFetchStarted).toHaveBeenCalledTimes(1);
-    expect(onPublicDataReady).toHaveBeenCalledTimes(1);
-    expect(onProtectedDataReady).toHaveBeenCalledTimes(1);
+    expect(onDataFetchStarted).toHaveBeenCalledOnce();
+    expect(onDataReady).toHaveBeenCalledOnce();
+    expect(onPublicDataFetchStarted).toHaveBeenCalledOnce();
+    expect(onProtectedDataFetchStarted).toHaveBeenCalledOnce();
+    expect(onPublicDataReady).toHaveBeenCalledOnce();
+    expect(onProtectedDataReady).toHaveBeenCalledOnce();
 });
 
 test.concurrent("when the state is not \"data-fetch-failed\" and PublicDataFetchFailedEvent is handled, call the onDataFetchFailed handler", ({ expect }) => {
@@ -598,7 +598,7 @@ test.concurrent("when the state is not \"data-fetch-failed\" and PublicDataFetch
 
     runtime.eventBus.dispatch(PublicDataFetchFailedEvent);
 
-    expect(onDataFetchFailed).toHaveBeenCalledTimes(1);
+    expect(onDataFetchFailed).toHaveBeenCalledOnce();
 });
 
 test.concurrent("when the state is \"data-fetch-failed\" and PublicDataFetchFailedEvent is handled, call the onDataFetchFailed handler", ({ expect }) => {
@@ -631,7 +631,7 @@ test.concurrent("when the state is \"data-fetch-failed\" and PublicDataFetchFail
     runtime.eventBus.dispatch(PublicDataFetchFailedEvent);
     runtime.eventBus.dispatch(PublicDataFetchFailedEvent);
 
-    expect(onDataFetchFailed).toHaveBeenCalledTimes(1);
+    expect(onDataFetchFailed).toHaveBeenCalledOnce();
 });
 
 test.concurrent("when the state is not \"data-fetch-failed\" and ProtectedDataFetchFailedEvent is handled, call the onDataFetchFailed handler", ({ expect }) => {
@@ -664,7 +664,7 @@ test.concurrent("when the state is not \"data-fetch-failed\" and ProtectedDataFe
     runtime.eventBus.dispatch(ProtectedDataFetchFailedEvent);
     runtime.eventBus.dispatch(ProtectedDataFetchFailedEvent);
 
-    expect(onDataFetchFailed).toHaveBeenCalledTimes(1);
+    expect(onDataFetchFailed).toHaveBeenCalledOnce();
 });
 
 test.concurrent("when the state is \"data-fetch-failed\" and ProtectedDataFetchFailedEvent is handled, call the onDataFetchFailed handler", ({ expect }) => {
@@ -695,7 +695,7 @@ test.concurrent("when the state is \"data-fetch-failed\" and ProtectedDataFetchF
 
     runtime.eventBus.dispatch(ProtectedDataFetchFailedEvent);
 
-    expect(onDataFetchFailed).toHaveBeenCalledTimes(1);
+    expect(onDataFetchFailed).toHaveBeenCalledOnce();
 });
 
 test.concurrent("events sequencing", ({ expect }) => {

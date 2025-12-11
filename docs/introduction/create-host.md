@@ -6,11 +6,10 @@ label: Create an host application
 # Create an host application
 
 !!!info Use an existing template
-
 We highly recommend going through the entire getting started guide. However, if you prefer to scaffold the application we'll be building, a template is available with [degit](https://github.com/Rich-Harris/degit):
 
 ```bash
-corepack pnpx degit https://github.com/workleap/wl-squide/templates/getting-started
+pnpx degit https://github.com/workleap/wl-squide/templates/getting-started
 ```
 !!!
 
@@ -22,7 +21,7 @@ Create a new application (we'll refer to ours as `host`), then open a terminal a
 
 ```bash
 pnpm add -D @workleap/rsbuild-configs @workleap/browserslist-config @rsbuild/core @rspack/core browserslist typescript @types/react @types/react-dom
-pnpm add @squide/firefly react react-dom react-router msw @tanstack/react-query
+pnpm add @squide/firefly @tanstack/react-query react react-dom react-router msw launchdarkly-js-client-sdk
 ```
 
 ## Setup the application

@@ -1,5 +1,5 @@
 import { fetchJson, postJson, toSubscriptionStatusLabel, useSessionManager, useSubscription } from "@endpoints/shared";
-import { isNavigationLink, useEnvironmentVariable, useEnvironmentVariables, useLogger, useNavigationItems, useRenderedNavigationItems, type NavigationLinkRenderProps, type NavigationSectionRenderProps, type RenderItemFunction, type RenderSectionFunction } from "@squide/firefly";
+import { isNavigationLink, useEnvironmentVariable, useEnvironmentVariables, useFeatureFlag, useLogger, useNavigationItems, useRenderedNavigationItems, type NavigationLinkRenderProps, type NavigationSectionRenderProps, type RenderItemFunction, type RenderSectionFunction } from "@squide/firefly";
 import { useI18nextInstance } from "@squide/i18next";
 import { useQueryClient } from "@tanstack/react-query";
 import { Suspense, useCallback, type MouseEvent, type ReactNode } from "react";
@@ -51,7 +51,7 @@ export function AuthenticatedLayout() {
 
     const authenticationApiBaseUrl = useEnvironmentVariable("authenticationApiBaseUrl");
     const sessionApiBaseUrl = useEnvironmentVariable("sessionApiBaseUrl");
-    const featureFlagsApiBaseUrl = useEnvironmentVariable("featureFlagsApiBaseUrl");
+    const userRoleApiBaseUrl = useEnvironmentVariable("userRoleApiBaseUrl");
     const subscriptionApiBaseUrl = useEnvironmentVariable("subscriptionApiBaseUrl");
 
     const logger = useLogger();
@@ -67,6 +67,9 @@ export function AuthenticatedLayout() {
 
     const queryClient = useQueryClient();
     const environmentVariables = useEnvironmentVariables();
+
+    const showUpdateSessionButton = useFeatureFlag("show-update-session-button", true);
+    const showSwitchUserRoleButton = useFeatureFlag("show-switch-user-role-button", true);
 
     const navigate = useNavigate();
 
@@ -97,27 +100,16 @@ export function AuthenticatedLayout() {
         queryClient.refetchQueries({ queryKey: [`${environmentVariables.sessionApiBaseUrl}getSession`] });
     }, [logger, sessionApiBaseUrl, queryClient, environmentVariables]);
 
-    const handleShuffleFeatureFlags = useCallback(async (event: MouseEvent<HTMLButtonElement>) => {
+    const handleSwitchUserRole = useCallback(async (event: MouseEvent<HTMLButtonElement>) => {
         event.preventDefault();
 
-        await postJson(`${featureFlagsApiBaseUrl}shuffle`)
+        await postJson(`${userRoleApiBaseUrl}switch`)
             .then(() => {
-                logger.debug("[shell] Shuffled the feature flags.");
+                logger.debug("[shell] Switch the user role.");
             });
 
-        queryClient.refetchQueries({ queryKey: [`${environmentVariables.featureFlagsApiBaseUrl}getAll`] });
-    }, [logger, featureFlagsApiBaseUrl, queryClient, environmentVariables]);
-
-    const handleDeactivateFeatureB = useCallback(async (event: MouseEvent<HTMLButtonElement>) => {
-        event.preventDefault();
-
-        await postJson(`${featureFlagsApiBaseUrl}deactivateFeatureB`)
-            .then(() => {
-                logger.debug("[shell] Deactivated feature B.");
-            });
-
-        queryClient.refetchQueries({ queryKey: [`${environmentVariables.featureFlagsApiBaseUrl}getAll`] });
-    }, [logger, featureFlagsApiBaseUrl, queryClient, environmentVariables]);
+        queryClient.refetchQueries({ queryKey: [`${environmentVariables.userRoleApiBaseUrl}getRole`] });
+    }, [logger, userRoleApiBaseUrl, queryClient, environmentVariables]);
 
     const handleFailing = useCallback(async (event: MouseEvent<HTMLButtonElement>) => {
         event.preventDefault();
@@ -138,21 +130,20 @@ export function AuthenticatedLayout() {
                     {/* Must check for a null session because when the disconnect button is clicked, it will clear the session and rerender this layout. */}
                     ({t("subscriptionLabel")}: <span style={{ fontWeight: "bold" }}>{subscriptionStatusLabel}</span><span style={{ marginLeft: "10px", marginRight: "10px" }}>-</span>{t("userLabel")}: <span style={{ fontWeight: "bold" }}>{session?.user?.name}/{session?.user?.preferredLanguage}</span>)
                 </div>
-                <div>
-                    <button type="button" onClick={handleUpdateSession} style={{ whiteSpace: "nowrap", marginRight: "10px" }}>
-                        {t("updateSessionButtonLabel")}
-                    </button>
-                </div>
-                <div>
-                    <button type="button" onClick={handleShuffleFeatureFlags} style={{ whiteSpace: "nowrap", marginRight: "10px" }}>
-                        {t("shuffleFeatureFlagsLabel")}
-                    </button>
-                </div>
-                <div>
-                    <button type="button" onClick={handleDeactivateFeatureB} style={{ whiteSpace: "nowrap", marginRight: "10px" }}>
-                        {t("deactivateFeatureBLabel")}
-                    </button>
-                </div>
+                {showUpdateSessionButton && (
+                    <div>
+                        <button type="button" onClick={handleUpdateSession} style={{ whiteSpace: "nowrap", marginRight: "10px" }}>
+                            {t("updateSessionButtonLabel")}
+                        </button>
+                    </div>
+                )}
+                {showSwitchUserRoleButton && (
+                    <div>
+                        <button type="button" onClick={handleSwitchUserRole} style={{ whiteSpace: "nowrap", marginRight: "10px" }}>
+                            {t("switchUserRoleLabel")}
+                        </button>
+                    </div>
+                )}
                 <div>
                     <button type="button" onClick={handleFailing} style={{ whiteSpace: "nowrap", marginRight: "10px" }}>
                         {t("failingLabel")}

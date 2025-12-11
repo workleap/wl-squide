@@ -11,11 +11,12 @@ A plugin to faciliate the usage of environment variables in a modular applicatio
 ## Reference
 
 ```ts
-const plugin = new EnvironmentVariablesPlugin({ options?: { environmentVariables? } })
+const plugin = new EnvironmentVariablesPlugin(runtime, { options?: { environmentVariables? } })
 ```
 
 ### Parameters
 
+- `runtime`: A runtime instance.
 - `options`: An optional object literal of options:
     - `environmentVariables`: An optional object of environment variables.
 

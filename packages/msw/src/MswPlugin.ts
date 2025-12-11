@@ -1,4 +1,4 @@
-import { Plugin, isNil, type Runtime } from "@squide/core";
+import { Plugin, type Runtime } from "@squide/core";
 import type { Logger } from "@workleap/logging";
 import type { RequestHandler } from "msw";
 import { MswState } from "./MswState.ts";
@@ -52,11 +52,13 @@ export class MswPlugin extends Plugin {
 }
 
 export function getMswPlugin(runtime: Runtime) {
-    const plugin = runtime.getPlugin(MswPluginName);
+    const plugin = runtime.getPlugin(MswPluginName, {
+        throwOnNotFound: false
+    }) as MswPlugin;
 
-    if (isNil(plugin)) {
-        throw new Error("[squide] The getMswPlugin function is called but no MswPlugin instance has been registered with the runtime.");
+    if (!plugin) {
+        throw new Error("[squide] The getMswPlugin function is called but no MswPlugin instance has been registered with the runtime. Did you provide a MswPlugin instance to the runtime instance or set the useMsw option of the initializeFirefly function to true?");
     }
 
-    return plugin as MswPlugin;
+    return plugin;
 }

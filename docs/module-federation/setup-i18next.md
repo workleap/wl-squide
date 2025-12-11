@@ -22,7 +22,7 @@ pnpm add @squide/i18next i18next i18next-browser-languagedetector react-i18next
 
 Then, update the host application boostrapping code to register an instance of the [i18nextplugin](../reference/i18next/i18nextPlugin.md) with the [FireflyRuntime](../reference/runtime/FireflyRuntime.md) instance:
 
-```tsx !#10-19 host/src/bootstrap.tsx
+```tsx !#10-21 host/src/bootstrap.tsx
 import { createRoot } from "react-dom/client";
 import { FireflyProvider, initializeFirefly } from "@squide/firefly";
 import { i18nextPlugin } from "@squide/i18next";
@@ -41,6 +41,8 @@ const runtime = initializeFirefly(runtime, {
 
         // Always detect the user language early on.
         i18nextPlugin.detectUserLanguage();
+
+        return i18nextPlugin;
     }]
 });
 

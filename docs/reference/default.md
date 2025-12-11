@@ -72,6 +72,17 @@ toc:
 - [useEnvironmentVariable](./env-vars/useEnvironmentVariable.md)
 - [useEnvironmentVariables](./env-vars/useEnvironmentVariables.md)
 
+### LaunchDarkly
+
+- [LaunchDarklyPlugin](./launch-darkly/LaunchDarklyPlugin.md)
+- [FeatureFlags](./launch-darkly/FeatureFlags.md)
+- [useFeatureFlag](./launch-darkly/useFeatureFlag.md)
+- [useFeatureFlags](./launch-darkly/useFeatureFlags.md)
+- [useLaunchDarklyClient](./launch-darkly/useLaunchDarklyClient.md)
+- [getFeatureFlag](./launch-darkly/getFeatureFlag.md)
+- [InMemoryLaunchDarklyClient](./launch-darkly/InMemoryLaunchDarklyClient.md)
+- [FeatureFlagSetSnapshot](./launch-darkly/FeatureFlagSetSnapshot.md)
+
 ### Logging
 
 - [useLogger](./logging/useLogger.md)
@@ -91,6 +102,7 @@ toc:
 - [initializeFireflyForStorybook](./storybook/initializeFireflyForStorybook.md)
 - [withFireflyDecorator](./storybook/withFireflyDecorator.md)
 - [FireflyDecorator](./storybook/FireflyDecorator.md)
+- [withFeatureFlagsOverrideDecorator](./storybook/withFeatureFlagsOverrideDecorator.md)
 
 ### Module Federation
 

@@ -11,8 +11,7 @@
         "notPaidLabel": "Non payé",
         "userLabel": "Utilisateur",
         "updateSessionButtonLabel": "Modifier la session",
-        "shuffleFeatureFlagsLabel": "Brasser les feature flags",
-        "deactivateFeatureBLabel": "Désactiver la feature B",
+        "switchUserRoleLabel": "Inverser le rôle",
         "failingLabel": "Requête va échouer",
         "disconnectButtonLabel": "Se déconnecter"
     },

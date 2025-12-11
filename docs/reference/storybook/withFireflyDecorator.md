@@ -6,7 +6,7 @@ toc:
 
 # withFireflyDecorator
 
-Create a `Decorator` function that returns a [FireflyDecorator](./FireflyDecorator.md) component wrapping the story with all the required plumbing to render a component using Squide Firefly, including a [RouterProvider](https://reactrouter.com/api/data-routers/RouterProvider).
+Create a `Decorator` function that returns a [FireflyDecorator](./FireflyDecorator.md) component wrapping the story with all the required plumbing to render a component using Squide, including a [RouterProvider](https://reactrouter.com/api/data-routers/RouterProvider).
 
 ## Reference
 

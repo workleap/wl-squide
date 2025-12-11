@@ -77,6 +77,46 @@ export const register: ModuleRegisterFunction<FireflyRuntime> = runtime => {
 - [Register MSW request handlers](../essentials/register-msw-handlers.md)
 - [Setup MSW](../integrations/setup-msw.md)
 
+## Deferred registrations
+
+Modules can delay registering navigation items until global data or feature flags are available by returning a registration function. That function is re-executed whenever global data or feature flags change, keeping the registrations up to date.
+
+==- :icon-file-code: Code sample
+```tsx !#18-26
+import type { ModuleRegisterFunction, FireflyRuntime } from "@squide/firefly";
+import { Page } from "./Page.tsx"
+
+export const register: ModuleRegisterFunction<FireflyRuntime> = runtime => {
+    runtime.registerRoute({
+        path: "/page-1",
+        element: <Page />
+    });
+
+    if (runtime.isMswEnabled) {
+        // Files that includes an import to the "msw" package are included dynamically to prevent adding
+        // unused MSW code in production bundles.
+        const requestHandlers = (await import("../mocks/handlers.ts")).requestHandlers;
+
+        runtime.registerRequestHandlers(requestHandlers);
+    }
+
+    return (deferredRuntime, { userData }) => {
+        if (userData.isAdmin && deferredRuntime.getFeatureFlag("enable-page-1")) {
+            runtime.registerNavigationItem({
+                $id: "page-1",
+                $label: "Page 1",
+                to: "/page-1"
+            });
+        }
+    };
+};
+```
+===
+
+#### Learn more
+
+- [Register deferred navigation items](../essentials/register-deferred-nav-items.md)
+
 ## Public and protected pages
 
 Modules can declare routes which are meant to be [publicly accessible](../essentials/register-routes.md#register-a-public-route) or that are protected (requires an authentication). Squide built-in primitives handles the bootstrapping orchestration to:
@@ -249,7 +289,40 @@ const variable = useEnvironmentVariable("apiBaseUrl");
 
 - [Use environment variables](../essentials/use-env-variables.md)
 
-<!-- ## Feature flags -->
+## Feature flags
+
+Squide integrates with [LaunchDarkly](https://launchdarkly.com/) to attach feature flags to the [FireflyRuntime](../reference/runtime/FireflyRuntime.md) instance and automatically update [deferred registrations](../essentials/register-deferred-nav-items.md) whenever a flag value changes.
+
+==- :icon-file-code: Code sample
+```ts !#14
+import { FireflyRuntime, LaunchDarklyPlugin } from "@squide/firefly";
+import { initialize as initializeLaunchDarkly } from "launchdarkly-js-client-sdk";
+
+const launchDarklyClient = initializeLaunchDarkly("123", {
+    kind: "user",
+    anonymous: true
+}, {
+    stream: true
+});
+
+await launchDarklyClient.waitForInitialization(5);
+
+const runtime = new FireflyRuntime({
+    plugins: [x => new LaunchDarklyPlugin(x, launchDarklyClient)]
+});
+```
+
+```ts !#3
+import { useFeatureFlag } from "@squide/firefly";
+
+const value = useFeatureFlag("show-characters", true);
+```
+===
+
+#### Learn more
+
+- [Setup LaunchDarkly](../integrations/setup-launch-darkly.md)
+- [Use feature flags](../essentials/use-feature-flags.md)
 
 ## Honeycomb
 

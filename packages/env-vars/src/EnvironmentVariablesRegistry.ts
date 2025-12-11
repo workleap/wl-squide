@@ -1,21 +1,24 @@
 import memoize, { memoizeClear } from "memoize";
 
-// The "EnvironmentVariables" interface is expected to be extended by modules adding their own environment variables to the runtime.
+// The "EnvironmentVariables" interface is expected to be extended by the consumer application.
 // This magic is called module augmentation: https://www.typescriptlang.org/docs/handbook/declaration-merging.html#module-augmentation.
 // eslint-disable-next-line @typescript-eslint/no-empty-object-type
 export interface EnvironmentVariables {}
 
 export type EnvironmentVariableKey = keyof EnvironmentVariables;
-export type EnvironmentVariableValue = EnvironmentVariables[keyof EnvironmentVariables];
+
+export function typedEntries<T extends object>(obj: T) {
+    return Object.entries(obj) as Array<[keyof T, T[keyof T]]>;
+}
 
 export class EnvironmentVariablesRegistry {
-    readonly #variables = new Map<EnvironmentVariableKey, EnvironmentVariableValue>();
+    readonly #variables = new Map<EnvironmentVariableKey, unknown>();
 
     // Since the "getVariables" function is transforming the variables from a Map to an Object, the result of
     // the transformation is memoized to ensure the returned Object is immutable and can be use in React closures.
     readonly #memoizedGetVariables = memoize(() => Object.fromEntries(this.#variables) as unknown as EnvironmentVariables);
 
-    add(key: EnvironmentVariableKey, value: EnvironmentVariableValue) {
+    add<T extends EnvironmentVariableKey>(key: T, value: EnvironmentVariables[T]) {
         if (this.#variables.has(key)) {
             const existingValue = this.#variables.get(key);
 
@@ -32,22 +35,24 @@ export class EnvironmentVariablesRegistry {
     addVariables(variables: Partial<EnvironmentVariables>) {
         // Do not clear the "getVariables" memoize result if there are no variables.
         if (Object.keys(variables).length > 0) {
-            for (const [key, value] of Object.entries(variables)) {
-                this.add(key as EnvironmentVariableKey, value as EnvironmentVariableValue);
+            for (const [key, value] of typedEntries(variables)) {
+                if (value) {
+                    this.add(key, value);
+                }
             }
 
             memoizeClear(this.#memoizedGetVariables);
         }
     }
 
-    getVariable(key: EnvironmentVariableKey) {
+    getVariable<T extends EnvironmentVariableKey>(key: T) {
         const value = this.#variables.get(key);
 
         if (!value) {
             throw new Error(`[squide] No environment variable has been registered for the key "${key}".`);
         }
 
-        return value;
+        return value as EnvironmentVariables[T];
     }
 
     getVariables() {

@@ -10,13 +10,13 @@ interface LoginCredentials {
 
 const Users = [
     {
-        userId: Math.random(),
+        userId: Math.random().toString(),
         username: "temp",
         preferredLanguage: "en-US",
         password: "temp"
     },
     {
-        userId: Math.random(),
+        userId: Math.random().toString(),
         username: "fr",
         preferredLanguage: "fr-CA",
         password: "fr"

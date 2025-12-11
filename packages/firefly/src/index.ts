@@ -7,9 +7,25 @@ export {
     useEnvironmentVariables,
     type EnvironmentVariableKey,
     type EnvironmentVariables,
-    type EnvironmentVariablesPluginOptions,
-    type EnvironmentVariableValue
+    type EnvironmentVariablesPluginOptions
 } from "@squide/env-vars";
+export {
+    FeatureFlagSetSnapshot,
+    getFeatureFlag,
+    getLaunchDarklyPlugin,
+    InMemoryLaunchDarklyClient,
+    LaunchDarklyClientNotifier,
+    LaunchDarklyPlugin,
+    LaunchDarklyPluginName,
+    useFeatureFlag,
+    useFeatureFlags,
+    useLaunchDarklyClient,
+    type FeatureFlagKey,
+    type FeatureFlags,
+    type FeatureFlagSetSnapshotChangedListener,
+    type InMemoryLaunchDarklyClientOptions,
+    type LaunchDarklyClientListener
+} from "@squide/launch-darkly";
 export {
     getMswPlugin,
     MswPlugin,

@@ -1,18 +1,17 @@
 import {
-    FeatureFlagsContext,
     fetchJson,
     isApiError,
     SessionManagerContext,
     SubscriptionContext,
-    type FeatureFlags,
-    type OgFeatureFlags,
-    type OtherFeatureFlags,
+    UserInfo,
+    UserRole,
     type Session,
     type Subscription
 } from "@endpoints/shared";
-import { AppRouter as FireflyAppRouter, useDeferredRegistrations, useEnvironmentVariables, useIsBootstrapping, useLogger, useProtectedDataQueries, usePublicDataQueries } from "@squide/firefly";
+import { AppRouter as FireflyAppRouter, useDeferredRegistrations, useEnvironmentVariables, useIsBootstrapping, useLaunchDarklyClient, useLogger, useProtectedDataQueries, usePublicDataQueries } from "@squide/firefly";
 import { useChangeLanguage } from "@squide/i18next";
 import { useHoneycombInstrumentationClient } from "@workleap/telemetry/react";
+import LogRocket from "logrocket";
 import { useEffect, useMemo } from "react";
 import { createBrowserRouter, Outlet } from "react-router";
 import { RouterProvider } from "react-router/dom";
@@ -24,27 +23,32 @@ function BootstrappingRoute() {
     const logger = useLogger();
     const environmentVariables = useEnvironmentVariables();
 
-    const [ogFeatureFlags, otherFeatureFlags] = usePublicDataQueries([
+    // The chosen endpoints doesn't really make sense for "public" global data as those are never examples of public endpoints
+    // but I quickly migrated to those from "feature flags" when introducing the LaunchDarkly plugin
+    // and this is what it is for now.
+    const [userRole, userInfo] = usePublicDataQueries([
         {
-            queryKey: [`${environmentVariables.featureFlagsApiBaseUrl}getAll`],
+            queryKey: [`${environmentVariables.userRoleApiBaseUrl}getRole`],
             queryFn: async () => {
-                const data = await fetchJson(`${environmentVariables.featureFlagsApiBaseUrl}getAll`);
+                const data = await fetchJson(`${environmentVariables.userRoleApiBaseUrl}getRole`);
 
-                return data as OgFeatureFlags;
+                return data as UserRole;
             }
         },
         {
-            queryKey: [environmentVariables.otherFeatureFlagsApiUrl],
+            queryKey: [`${environmentVariables.userInfoApiBaseUrl}getInfo`],
             queryFn: async () => {
-                let data: OtherFeatureFlags = {
-                    otherA: false,
-                    otherB: false
+                let data: UserInfo = {
+                    email: "",
+                    createdAt: "",
+                    status: ""
                 };
 
                 try {
-                    data = (await fetchJson(environmentVariables.otherFeatureFlagsApiUrl)) as OtherFeatureFlags;
+                    data = (await fetchJson(`${environmentVariables.userInfoApiBaseUrl}getInfo`)) as UserInfo;
                 } catch (error: unknown) {
                     if (isApiError(error)) {
+                        // Because the Express server is not deployed on Netlify.
                         if (error.status !== 404) {
                             throw error;
                         }
@@ -56,25 +60,28 @@ function BootstrappingRoute() {
         }
     ]);
 
-    const featureFlags = useMemo(() => {
-        return {
-            ...ogFeatureFlags,
-            ...otherFeatureFlags
-        } satisfies FeatureFlags;
-    }, [ogFeatureFlags, otherFeatureFlags]);
+    useEffect(() => {
+        if (userRole) {
+            logger.debug(`[shell] User role has been fetched: "${userRole}".`, {
+                style: {
+                    color: "orange"
+                }
+            });
+        }
+    }, [userRole, logger]);
 
     useEffect(() => {
-        if (featureFlags) {
+        if (userInfo) {
             logger
-                .withText("[shell] Feature flags has been fetched:", {
+                .withText("[shell] User info has been fetched", {
                     style: {
                         color: "orange"
                     }
                 })
-                .withObject(featureFlags)
+                .withObject(userInfo)
                 .debug();
         }
-    }, [featureFlags, logger]);
+    }, [userInfo, logger]);
 
     const [session, subscription] = useProtectedDataQueries([
         {
@@ -104,6 +111,8 @@ function BootstrappingRoute() {
     ], error => isApiError(error) && error.status === 401);
 
     const honeycombClient = useHoneycombInstrumentationClient();
+    const launchDarklyClient = useLaunchDarklyClient();
+
     const changeLanguage = useChangeLanguage();
 
     useEffect(() => {
@@ -122,11 +131,28 @@ function BootstrappingRoute() {
                 "app.user_prefered_language": session.user.preferredLanguage
             });
 
+            launchDarklyClient.identify({
+                kind: "user",
+                key: session.user.id,
+                name: session.user.name
+            }).then(() => {
+                logger
+                    .withText("[shell] LaunchDarkly session identified:")
+                    .withObject(launchDarklyClient.getContext?.())
+                    .debug();
+            }).catch(() => {
+                logger.error("[shell] Failed to identify LaunchDarkly session.");
+            });
+
+            LogRocket.identify(session.user.id, {
+                "Name": session.user.name
+            });
+
             // When the session has been retrieved, update the language to match the user
             // preferred language.
             changeLanguage(session.user.preferredLanguage);
         }
-    }, [session, honeycombClient, changeLanguage, logger]);
+    }, [session, honeycombClient, launchDarklyClient, changeLanguage, logger]);
 
     useEffect(() => {
         if (subscription) {
@@ -142,9 +168,10 @@ function BootstrappingRoute() {
     }, [subscription, logger]);
 
     useDeferredRegistrations(useMemo(() => ({
-        featureFlags,
-        session
-    }), [featureFlags, session]));
+        session,
+        userInfo,
+        role: userRole
+    }), [session, userInfo, userRole]));
 
     const sessionManager = useSessionManagerInstance(session);
 
@@ -153,13 +180,11 @@ function BootstrappingRoute() {
     }
 
     return (
-        <FeatureFlagsContext.Provider value={featureFlags}>
-            <SessionManagerContext.Provider value={sessionManager}>
-                <SubscriptionContext.Provider value={subscription}>
-                    <Outlet />
-                </SubscriptionContext.Provider>
-            </SessionManagerContext.Provider>
-        </FeatureFlagsContext.Provider>
+        <SessionManagerContext.Provider value={sessionManager}>
+            <SubscriptionContext.Provider value={subscription}>
+                <Outlet />
+            </SubscriptionContext.Provider>
+        </SessionManagerContext.Provider>
     );
 }
 

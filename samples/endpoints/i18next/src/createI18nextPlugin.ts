@@ -3,7 +3,7 @@ import type { Runtime } from "@squide/firefly";
 import { i18nextPlugin, type i18nextPluginOptions } from "@squide/i18next";
 
 export function createI18NextPlugin(runtime: Runtime, options?: i18nextPluginOptions) {
-    const plugin = new i18nextPlugin<LanguageKey>(["en-US", "fr-CA"], "en-US", "language", options, runtime);
+    const plugin = new i18nextPlugin<LanguageKey>(runtime, ["en-US", "fr-CA"], "en-US", "language", options);
 
     // By default, detect user default language for anonymous pages.
     // If the user is authenticated, the language will be changed for the persisted user

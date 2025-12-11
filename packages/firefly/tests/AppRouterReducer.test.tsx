@@ -1,4 +1,5 @@
 import { ModuleManager, type ModuleRegistrationError, type ModuleRegistrationStatus, type ModuleRegistrationStatusChangedListener, type ModuleRegistry } from "@squide/core";
+import { InMemoryLaunchDarklyClient, LaunchDarklyClientNotifier, LaunchDarklyPlugin } from "@squide/launch-darkly";
 import { MswPlugin, type MswReadyListener } from "@squide/msw";
 import { MswState } from "@squide/msw/internal";
 import { act, renderHook, type RenderHookOptions } from "@testing-library/react";
@@ -14,6 +15,7 @@ import {
     ProtectedDataReadyEvent,
     PublicDataReadyEvent,
     useAppRouterReducer,
+    useFeatureFlagsUpdatedDispatcher,
     useModuleRegistrationStatusDispatcher,
     useMswStatusDispatcher,
     type AppRouterDispatch
@@ -174,8 +176,7 @@ describe.concurrent("useAppRouterReducer", () => {
             result.current[1]({ type: "modules-registered" });
         });
 
-        expect(listener).toHaveBeenCalledTimes(1);
-        expect(listener).toHaveBeenCalledWith({ waitForMsw: false, waitForPublicData: false, waitForProtectedData: false });
+        expect(listener).toHaveBeenCalledExactlyOnceWith({ waitForMsw: false, waitForPublicData: false, waitForProtectedData: false });
     });
 
     test.concurrent("when \"modules-ready\" is dispatched, \"areModulesReady\" is true", ({ expect }) => {
@@ -215,8 +216,7 @@ describe.concurrent("useAppRouterReducer", () => {
             result.current[1]({ type: "modules-ready" });
         });
 
-        expect(listener).toHaveBeenCalledTimes(1);
-        expect(listener).toHaveBeenCalledWith({ waitForMsw: false, waitForPublicData: false, waitForProtectedData: false });
+        expect(listener).toHaveBeenCalledExactlyOnceWith({ waitForMsw: false, waitForPublicData: false, waitForProtectedData: false });
     });
 
     test.concurrent("when \"modules-ready\" is dispatched, \"deferredRegistrationsUpdatedAt\" is set to the current timestamp", ({ expect }) => {
@@ -281,8 +281,7 @@ describe.concurrent("useAppRouterReducer", () => {
             result.current[1]({ type: "msw-ready" });
         });
 
-        expect(listener).toHaveBeenCalledTimes(1);
-        expect(listener).toHaveBeenCalledWith({ waitForMsw: true, waitForPublicData: false, waitForProtectedData: false });
+        expect(listener).toHaveBeenCalledExactlyOnceWith({ waitForMsw: true, waitForPublicData: false, waitForProtectedData: false });
     });
 
     test.concurrent("when \"public-data-ready\" is dispatched, \"isPublicDataReady\" is true", ({ expect }) => {
@@ -322,8 +321,7 @@ describe.concurrent("useAppRouterReducer", () => {
             result.current[1]({ type: "public-data-ready" });
         });
 
-        expect(listener).toHaveBeenCalledTimes(1);
-        expect(listener).toHaveBeenCalledWith({ waitForMsw: false, waitForPublicData: true, waitForProtectedData: false });
+        expect(listener).toHaveBeenCalledExactlyOnceWith({ waitForMsw: false, waitForPublicData: true, waitForProtectedData: false });
     });
 
     test.concurrent("when \"public-data-ready\" is dispatched, \"publicDataUpdatedAt\" is set to the current timestamp", ({ expect }) => {
@@ -386,8 +384,7 @@ describe.concurrent("useAppRouterReducer", () => {
             result.current[1]({ type: "protected-data-ready" });
         });
 
-        expect(listener).toHaveBeenCalledTimes(1);
-        expect(listener).toHaveBeenCalledWith({ waitForMsw: false, waitForPublicData: false, waitForProtectedData: true });
+        expect(listener).toHaveBeenCalledExactlyOnceWith({ waitForMsw: false, waitForPublicData: false, waitForProtectedData: true });
     });
 
     test.concurrent("when \"protected-data-ready\" is dispatched, \"protectedDataUpdatedAt\" is set to the current timestamp", ({ expect }) => {
@@ -473,6 +470,36 @@ describe.concurrent("useAppRouterReducer", () => {
         expect(runtime.appRouterStore.state.protectedDataUpdatedAt).toEqual(Date.parse("2021-02-14"));
     });
 
+    test.concurrent("when \"feature-flags-updated\" is dispatched, \"featureFlagsUpdatedAt\" is set to the current timestamp", ({ expect }) => {
+        vi.spyOn(global.Date, "now")
+            .mockImplementationOnce(() => Date.parse("2020-02-14"))
+            .mockImplementationOnce(() => Date.parse("2020-02-14"))
+            .mockImplementationOnce(() => Date.parse("2021-02-14"))
+            .mockImplementationOnce(() => Date.parse("2021-02-14"));
+
+        const runtime = new FireflyRuntime({
+            loggers: [new NoopLogger()]
+        });
+
+        const { result } = renderUseAppRouterReducerHook(runtime, false, false);
+
+        act(() => {
+            // dispatch
+            result.current[1]({ type: "feature-flags-updated" });
+        });
+
+        expect(result.current[0].featureFlagsUpdatedAt).toEqual(Date.parse("2020-02-14"));
+        expect(runtime.appRouterStore.state.featureFlagsUpdatedAt).toEqual(Date.parse("2020-02-14"));
+
+        act(() => {
+            // dispatch
+            result.current[1]({ type: "feature-flags-updated" });
+        });
+
+        expect(result.current[0].featureFlagsUpdatedAt).toEqual(Date.parse("2021-02-14"));
+        expect(runtime.appRouterStore.state.featureFlagsUpdatedAt).toEqual(Date.parse("2021-02-14"));
+    });
+
     test.concurrent("when \"deferred-registrations-updated\" is dispatched, \"deferredRegistrationsUpdatedAt\" is set to the current timestamp", ({ expect }) => {
         vi.spyOn(global.Date, "now")
             .mockImplementationOnce(() => Date.parse("2020-02-14"))
@@ -533,8 +560,7 @@ describe.concurrent("useAppRouterReducer", () => {
             result.current[1]({ type: "active-route-is-public" });
         });
 
-        expect(listener).toHaveBeenCalledTimes(1);
-        expect(listener).toHaveBeenCalledWith({ waitForMsw: false, waitForPublicData: false, waitForProtectedData: false });
+        expect(listener).toHaveBeenCalledExactlyOnceWith({ waitForMsw: false, waitForPublicData: false, waitForProtectedData: false });
     });
 
     test.concurrent("when \"active-route-is-protected\" is dispatched, \"activeRouteVisiblity\" is \"protected\"", ({ expect }) => {
@@ -574,8 +600,7 @@ describe.concurrent("useAppRouterReducer", () => {
             result.current[1]({ type: "active-route-is-protected" });
         });
 
-        expect(listener).toHaveBeenCalledTimes(1);
-        expect(listener).toHaveBeenCalledWith({ waitForMsw: false, waitForPublicData: false, waitForProtectedData: false });
+        expect(listener).toHaveBeenCalledExactlyOnceWith({ waitForMsw: false, waitForPublicData: false, waitForProtectedData: false });
     });
 
     test.concurrent("when \"is-unauthorized\" is dispatched, \"isUnauthorized\" is true", ({ expect }) => {
@@ -633,8 +658,7 @@ describe.concurrent("useAppRouterReducer", () => {
 
         renderUseAppRouterReducerHook(runtime, false, false);
 
-        expect(listener).toHaveBeenCalledTimes(1);
-        expect(listener).toHaveBeenCalledWith({ waitForMsw: false, waitForPublicData: false, waitForProtectedData: false });
+        expect(listener).toHaveBeenCalledExactlyOnceWith({ waitForMsw: false, waitForPublicData: false, waitForProtectedData: false });
     });
 
     test.concurrent("when local modules are registered and no remote modules has been provided, \"areModulesRegistered\" is true at initialization", ({ expect }) => {
@@ -673,8 +697,7 @@ describe.concurrent("useAppRouterReducer", () => {
 
         renderUseAppRouterReducerHook(runtime, false, false);
 
-        expect(listener).toHaveBeenCalledTimes(1);
-        expect(listener).toHaveBeenCalledWith({ waitForMsw: false, waitForPublicData: false, waitForProtectedData: false });
+        expect(listener).toHaveBeenCalledExactlyOnceWith({ waitForMsw: false, waitForPublicData: false, waitForProtectedData: false });
     });
 
     test.concurrent("when no local modules has been provided and remote modules are registered, \"areModulesRegistered\" is true at initialization", ({ expect }) => {
@@ -713,8 +736,7 @@ describe.concurrent("useAppRouterReducer", () => {
 
         renderUseAppRouterReducerHook(runtime, false, false);
 
-        expect(listener).toHaveBeenCalledTimes(1);
-        expect(listener).toHaveBeenCalledWith({ waitForMsw: false, waitForPublicData: false, waitForProtectedData: false });
+        expect(listener).toHaveBeenCalledExactlyOnceWith({ waitForMsw: false, waitForPublicData: false, waitForProtectedData: false });
     });
 
     test.concurrent("when local modules are registered and remote modules are registering, \"areModulesRegistered\" is false at initialization", ({ expect }) => {
@@ -789,8 +811,7 @@ describe.concurrent("useAppRouterReducer", () => {
 
         renderUseAppRouterReducerHook(runtime, false, false);
 
-        expect(listener).toHaveBeenCalledTimes(1);
-        expect(listener).toHaveBeenCalledWith({ waitForMsw: false, waitForPublicData: false, waitForProtectedData: false });
+        expect(listener).toHaveBeenCalledExactlyOnceWith({ waitForMsw: false, waitForPublicData: false, waitForProtectedData: false });
     });
 
     test.concurrent("when local modules are ready and no remote modules has been provided, \"areModulesReady\" is true at initialization", ({ expect }) => {
@@ -829,8 +850,7 @@ describe.concurrent("useAppRouterReducer", () => {
 
         renderUseAppRouterReducerHook(runtime, false, false);
 
-        expect(listener).toHaveBeenCalledTimes(1);
-        expect(listener).toHaveBeenCalledWith({ waitForMsw: false, waitForPublicData: false, waitForProtectedData: false });
+        expect(listener).toHaveBeenCalledExactlyOnceWith({ waitForMsw: false, waitForPublicData: false, waitForProtectedData: false });
     });
 
     test.concurrent("when no local modules has been provided and remote modules are ready, \"areModulesReady\" is true at initialization", ({ expect }) => {
@@ -869,8 +889,7 @@ describe.concurrent("useAppRouterReducer", () => {
 
         renderUseAppRouterReducerHook(runtime, false, false);
 
-        expect(listener).toHaveBeenCalledTimes(1);
-        expect(listener).toHaveBeenCalledWith({ waitForMsw: false, waitForPublicData: false, waitForProtectedData: false });
+        expect(listener).toHaveBeenCalledExactlyOnceWith({ waitForMsw: false, waitForPublicData: false, waitForProtectedData: false });
     });
 
     test.concurrent("when local modules are ready and remote modules are not ready, \"areModulesReady\" is false at initialization", ({ expect }) => {
@@ -941,8 +960,7 @@ describe.concurrent("useAppRouterReducer", () => {
 
         renderUseAppRouterReducerHook(runtime, false, false);
 
-        expect(listener).toHaveBeenCalledTimes(1);
-        expect(listener).toHaveBeenCalledWith({ waitForMsw: true, waitForPublicData: false, waitForProtectedData: false });
+        expect(listener).toHaveBeenCalledExactlyOnceWith({ waitForMsw: true, waitForPublicData: false, waitForProtectedData: false });
     });
 
     test.concurrent("when msw is not ready, \"isMswReady\" is false at initialization", ({ expect }) => {
@@ -1059,8 +1077,7 @@ describe.concurrent("useModuleRegistrationStatusDispatcher", () => {
         localModuleRegistry.invokeEventListeners();
         remoteModuleRegistry.invokeEventListeners();
 
-        expect(dispatch).toHaveBeenCalledTimes(1);
-        expect(dispatch).toHaveBeenCalledWith({ type: "modules-registered" });
+        expect(dispatch).toHaveBeenCalledExactlyOnceWith({ type: "modules-registered" });
     });
 
     test.concurrent("when local modules and remote modules are registered and \"areModulesRegistered\" is already true, do not dispatch the \"modules-registered\" action", ({ expect }) => {
@@ -1170,8 +1187,7 @@ describe.concurrent("useModuleRegistrationStatusDispatcher", () => {
         localModuleRegistry.invokeEventListeners();
         remoteModuleRegistry.invokeEventListeners();
 
-        expect(dispatch).toHaveBeenCalledTimes(1);
-        expect(dispatch).toHaveBeenCalledWith({ type: "modules-ready" });
+        expect(dispatch).toHaveBeenCalledExactlyOnceWith({ type: "modules-ready" });
     });
 
     test.concurrent("when registries modules are ready and \"areModulesReady\" is already true, do not dispatch the \"modules-ready\" action", ({ expect }) => {
@@ -1225,8 +1241,7 @@ describe.concurrent("useMswStatusDispatcher", () => {
 
         mswState.notifyEventListeners();
 
-        expect(dispatch).toHaveBeenCalledTimes(1);
-        expect(dispatch).toHaveBeenCalledWith({ type: "msw-ready" });
+        expect(dispatch).toHaveBeenCalledExactlyOnceWith({ type: "msw-ready" });
     });
 
     test.concurrent("when msw is ready and \"isMswReady\" is already true, do not dispatch the \"msw-ready\" action", ({ expect }) => {
@@ -1246,5 +1261,47 @@ describe.concurrent("useMswStatusDispatcher", () => {
         mswState.notifyEventListeners();
 
         expect(dispatch).not.toHaveBeenCalled();
+    });
+});
+
+describe.concurrent("useFeatureFlagsUpdatedDispatcher", () => {
+    function renderUseFeatureFlagsUpdatedDispatcherHook<TProps>(runtime: FireflyRuntime, dispatch: AppRouterDispatch, additionalProps: RenderHookOptions<TProps> = {}) {
+        return renderHook(() => useFeatureFlagsUpdatedDispatcher(runtime, dispatch), {
+            wrapper: ({ children }: { children?: ReactNode }) => (
+                <FireflyProvider runtime={runtime}>
+                    {children}
+                </FireflyProvider>
+            ),
+            ...additionalProps
+        });
+    }
+
+    test.concurrent("when the feature flags is updated, dispatch the \"feature-flags-updated\" action", ({ expect }) => {
+        const featureFlags = new Map(Object.entries({
+            "flag-a": true
+        }));
+
+        const notifier = new LaunchDarklyClientNotifier();
+
+        const launchDarlyClient = new InMemoryLaunchDarklyClient(featureFlags, {
+            notifier
+        });
+
+        const runtime = new FireflyRuntime({
+            plugins: [x => new LaunchDarklyPlugin(x, launchDarlyClient)],
+            loggers: [new NoopLogger()]
+        });
+
+        const dispatch = vi.fn();
+
+        renderUseFeatureFlagsUpdatedDispatcherHook(runtime, dispatch);
+
+        featureFlags.set("flag-a", false);
+
+        notifier.notify("change", {
+            "flag-a": true
+        });
+
+        expect(dispatch).toHaveBeenCalledOnce();
     });
 });

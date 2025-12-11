@@ -6,7 +6,7 @@ toc:
 
 # FireflyDecorator
 
-Wrap a story with all the required plumbing to render a component using Squide Firefly, including a [RouterProvider](https://reactrouter.com/api/data-routers/RouterProvider).
+Wrap a story with all the required plumbing to render a component using Squide, including a [RouterProvider](https://reactrouter.com/api/data-routers/RouterProvider).
 
 ## Reference
 

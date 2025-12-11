@@ -91,11 +91,9 @@ function registerRoutes(runtime: FireflyRuntime, host?: string) {
 
 async function registerMsw(runtime: FireflyRuntime) {
     if (runtime.isMswEnabled) {
-        const environmentVariables = runtime.getEnvironmentVariables();
-
         // Files including an import to the "msw" package are included dynamically to prevent adding
         // MSW stuff to the bundled when it's not used.
-        const requestHandlers = (await import("../mocks/handlers.ts")).getRequestHandlers(environmentVariables);
+        const requestHandlers = (await import("../mocks/handlers.ts")).getRequestHandlers(runtime.environmentVariables);
 
         runtime.registerRequestHandlers(requestHandlers);
     }
@@ -104,8 +102,8 @@ async function registerMsw(runtime: FireflyRuntime) {
 function registerEnvironmentVariables(runtime: FireflyRuntime) {
     runtime.registerEnvironmentVariables({
         authenticationApiBaseUrl: "/api/auth/",
-        featureFlagsApiBaseUrl: "/api/flags/",
-        otherFeatureFlagsApiUrl: "http://localhost:1234/api/otherFeatureFlags",
+        userInfoApiBaseUrl: "http://localhost:1234/api/user-info/",
+        userRoleApiBaseUrl: "/api/user-role/",
         sessionApiBaseUrl: "/api/session/",
         subscriptionApiBaseUrl: "/api/subscription/"
     });

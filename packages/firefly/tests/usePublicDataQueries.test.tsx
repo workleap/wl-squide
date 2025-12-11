@@ -60,7 +60,7 @@ test("when queries are executed, PublicDataFetchStartedEvent is dispatched", asy
 
     await waitFor(() => screen.findByText("bar"));
 
-    expect(listener).toHaveBeenCalledTimes(1);
+    expect(listener).toHaveBeenCalledOnce();
 });
 
 test("when data is ready, \"public-data-ready\" is dispatched", async ({ expect }) => {
@@ -260,7 +260,6 @@ describe("when a query fail", () => {
 
         await waitFor(() => screen.findByText("[squide] Global public data queries failed."));
 
-        expect(listener).toHaveBeenCalledTimes(1);
-        expect(listener).toHaveBeenCalledWith(expect.arrayContaining([queryError]));
+        expect(listener).toHaveBeenCalledExactlyOnceWith(expect.arrayContaining([queryError]));
     });
 });

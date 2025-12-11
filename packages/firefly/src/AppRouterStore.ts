@@ -115,6 +115,14 @@ export class AppRouterStore {
 
                 break;
             }
+            case "feature-flags-updated": {
+                newState = {
+                    ...newState,
+                    featureFlagsUpdatedAt: Date.now()
+                };
+
+                break;
+            }
             case "deferred-registrations-updated": {
                 newState = {
                     ...newState,

@@ -91,7 +91,7 @@ const variables = useEnvironmentVariables();
 Using the runtime instance:
 
 ```ts !#1
-const variables = runtime.getEnvironmentVariables();
+const variables = runtime.environmentVariables;
 ```
 
 ## Setup the typings
@@ -172,7 +172,7 @@ export function useAbsoluteUrl(path: string) {
 
 The following unit test can be written to mock the value of `apiBaseUrl` and test the ouput of the `useAbsoluteUrl` hook:
 
-```tsx !#8-12,17,19 ./tests/useAbsoluteUrl.tsx
+```tsx !#8-12,17,19 ./tests/useAbsoluteUrl.test.tsx
 import { FireflyProvider, FireflyRuntime, EnvironmentVariablesPlugin } from "@squide/firefly";
 import { renderHook } from "@testing-library/react";
 import type { ReactNode } from "react";
@@ -201,32 +201,7 @@ test("an absolute URL including the API base URL is returned", () => {
 
 ## Setup with Storybook
 
-Components included in [Storybook](https://storybook.js.org/docs) stories often rely on environment variables. The [EnvironmentVariablesPlugin]() instance can be used to mock these variables:
-
-```tsx !#5-9,15,17 .storybook/preview.tsx
-import { FireflyRuntime, FireflyProvider, EnvironmentVariablesPlugin } from "@squide/firefly";
-import type { Preview } from "@storybook/react";
-
-const runtime = new FireflyRuntime({
-    plugins: [x => new EnvironmentVariablesPlugin({
-        variables: {
-            "apiBaseUrl": "https://my-api.com"
-        }
-    })]
-});
-
-const preview: Preview = {
-    decorators: [Story => {
-        return (
-            <FireflyProvider runtime={runtime}>
-                <Story />
-            </FireflyProvider>
-        );
-    }]
-};
-
-export default preview;
-```
+To set up [Storybook](https://storybook.js.org/docs) stories with environment variables, refer to the [setup Storybook](../integrations/setup-storybook.md#setup-environment-variables) integration guide.
 
 
 

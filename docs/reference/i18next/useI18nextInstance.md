@@ -10,7 +10,7 @@ Retrieve a registered [i18next](https://www.i18next.com/) instance from the [i18
 
 ## Reference
 
-```tsx
+```ts
 const instance = useI18nextInstance(key)
 ```
 
@@ -26,7 +26,7 @@ An `i18next` instance.
 
 ### Retrieve an instance
 
-```tsx !#3
+```ts !#3
 import { useI18nextInstance } from "@squide/i18next";
 
 const instance = useI18nextInstance("an-instance-key");
@@ -34,7 +34,7 @@ const instance = useI18nextInstance("an-instance-key");
 
 ### Use with the useTranslation hook
 
-```tsx !#4,7
+```ts !#4,7
 import { useI18nextInstance } from "@squide/i18next";
 import { useTranslation } from "react-i18next";
 

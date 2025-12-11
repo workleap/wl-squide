@@ -5,7 +5,7 @@ export const FakeSessionStorageKey = "squide-endpoints-msw-session-v2";
 
 export interface Session {
     user: {
-        id: number;
+        id: string;
         name: string;
         preferredLanguage: LanguageKey;
     };

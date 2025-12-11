@@ -5,7 +5,7 @@ label: Fetch public global data
 
 # Fetch public global data
 
-To make global protected data fetching easier, Squide provides primitives build on top of [Tanstack Query](https://tanstack.com/query) to orchestrate both the data-loading states and the associated UI.
+To make global public data fetching easier, Squide provides primitives build on top of [TanStack Query](https://tanstack.com/query) to orchestrate both the data-loading states and the associated UI.
 
 ==- :icon-light-bulb: The challenges with global data
 At first glance, one might wonder what could be so complicated about fetching the global data of an application. It's only fetches ...right? Well, there are several concerns to take into account for a modular application:
@@ -17,6 +17,8 @@ At first glance, one might wonder what could be so complicated about fetching th
 - The requested page rendering must be delayed until the global data has been fetched.
 - A **unique loading spinner** should be displayed to the user during this process, ensuring there's **no flickering** due to different spinners being rendered.
 ===
+
+Before fetching data with TanStack Query, start by following the [setup Tanstack Query](../integrations/setup-tanstack-query.md) integration guide to setup the Query client and the React provider. Once the setup is complete, the examples below cover the most common use cases.
 
 For more details, refer to the [reference](../reference/global-data-fetching/usePublicDataQueries.md) documentation.
 
@@ -138,7 +140,7 @@ export const register: ModuleRegisterFunction<FireflyRuntime> = async runtime =>
 ```
 ===
 
-==- :icon-file-code: Use the data in a page
+==- :icon-file-code: Use the global data in a page
 ```tsx !#4
 import { useFetchCount } from "@sample/shared";
 
@@ -187,6 +189,6 @@ export function ErrorBoundary() {
 }
 ```
 
-## Setup TanStack Query
+## Register a conditionnal navigation item
 
-Fetching data with the `usePublicDataQueries` hook requires [TanStack Query](https://tanstack.com/query/latest) to be configured. To set it up, follow the [Setup TanStack Query](../integrations/setup-tanstack-query.md) integration guide.
+To register a navigation item based on public remote data, refer to the [register deferred navigation items](./register-deferred-nav-items.md) guide.

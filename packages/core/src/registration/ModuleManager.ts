@@ -23,6 +23,43 @@ export class ModuleManager {
         this.moduleRegistries.push(moduleRegistry);
     }
 
+    // async registerModules<TRuntime extends Runtime = Runtime, TContext = unknown, TData = unknown>(definitions: ModuleDefinition<TRuntime, TContext, TData>[], options?: RegisterModulesOptions<TContext>) {
+    //     const errors: ModuleRegistrationError[] = [];
+
+    //     // {
+    //     //     local: [
+    //     //         { registryId: "local", definition: () => ... },
+    //     //         { registryId: "local", definition: () => ... }
+    //     //     ],
+    //     //     remote: [
+    //     //         { registryId: "remote", definition: {...} },
+    //     //         { registryId: "remote", definition: {...} }
+    //     //     ]
+    //     // }
+    //     const definitionsByRegistryId = Object.groupBy(definitions, x => x.registryId);
+
+    //     // Using Promise.all rather than Promise.allSettled to throw any errors that occurs.
+    //     await Promise.all(Object.keys(definitionsByRegistryId).map(async x => {
+    //         const registry = this.moduleRegistries.find(y => y.id === x);
+    //         const definitions = definitionsByRegistryId[x]!.map(y => y.definition);
+
+    //         if (registry) {
+    //             const registrationErrors = await registry.registerModules(definitions, this.runtime, options);
+
+    //             errors.push(...registrationErrors);
+    //         } else {
+    //             this.runtime.logger
+    //                 .withText(`[squide] Cannot find a module registry with id "${x}". Skipping ${definitions.length} module definition${definitions.length > 1 ? "s" : ""}.`)
+    //                 .withObject(definitions)
+    //                 .error();
+
+    //             throw new ModuleRegistrationError(`Cannot find a module registry with id "${x}"`);
+    //         }
+    //     }));
+
+    //     return errors;
+    // }
+
     async registerModules<TRuntime extends Runtime = Runtime, TContext = unknown, TData = unknown>(definitions: ModuleDefinition<TRuntime, TContext, TData>[], options?: RegisterModulesOptions<TContext>) {
         const errors: ModuleRegistrationError[] = [];
 
@@ -38,29 +75,21 @@ export class ModuleManager {
         // }
         const definitionsByRegistryId = Object.groupBy(definitions, x => x.registryId);
 
+        // It's important to always to though all the registered registries even if there's no module definitions.
         // Using Promise.all rather than Promise.allSettled to throw any errors that occurs.
-        await Promise.all(Object.keys(definitionsByRegistryId).map(async x => {
-            const registry = this.moduleRegistries.find(y => y.id === x);
-            const definitions = definitionsByRegistryId[x]!.map(y => y.definition);
+        await Promise.all(this.moduleRegistries.map(async x => {
+            const registryDefinitions = definitionsByRegistryId[x.id];
+            const modules = registryDefinitions ? registryDefinitions.map(y => y.definition) : [];
 
-            if (registry) {
-                const registrationErrors = await registry.registerModules(definitions, this.runtime, options);
+            const registrationErrors = await x.registerModules(this.runtime, modules, options);
 
-                errors.push(...registrationErrors);
-            } else {
-                this.runtime.logger
-                    .withText(`[squide] Cannot find a module registry with id "${x}". Skipping ${definitions.length} module definition${definitions.length > 1 ? "s" : ""}.`)
-                    .withObject(definitions)
-                    .error();
-
-                throw new ModuleRegistrationError(`Cannot find a module registry with id "${x}"`);
-            }
+            errors.push(...registrationErrors);
         }));
 
         return errors;
     }
 
-    async registerDeferredRegistrations<TData = unknown>(data: TData) {
+    async registerDeferredRegistrations<TData = unknown>(data?: TData) {
         this.runtime.startDeferredRegistrationScope();
 
         try {
@@ -68,7 +97,7 @@ export class ModuleManager {
 
             // Using Promise.all rather than Promise.allSettled to throw any errors that occurs.
             await Promise.all(this.moduleRegistries.map(async x => {
-                const registrationErrors = await x.registerDeferredRegistrations(data, this.runtime);
+                const registrationErrors = await x.registerDeferredRegistrations(this.runtime, data);
 
                 errors.push(...registrationErrors);
             }));
@@ -79,7 +108,7 @@ export class ModuleManager {
         }
     }
 
-    async updateDeferredRegistrations<TData = unknown>(data: TData) {
+    async updateDeferredRegistrations<TData = unknown>(data?: TData) {
         this.runtime.startDeferredRegistrationScope({
             transactional: true
         });
@@ -90,7 +119,7 @@ export class ModuleManager {
             // IMPORTANT: Currently cannot make this a concurrent operation because it cause errors
             // with the Honeycomb telemetry due to "active spans".
             for (const x of this.moduleRegistries) {
-                const registrationErrors = await x.updateDeferredRegistrations(data, this.runtime);
+                const registrationErrors = await x.updateDeferredRegistrations(this.runtime, data);
 
                 errors.push(...registrationErrors);
             };

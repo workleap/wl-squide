@@ -1,16 +1,37 @@
 import { createI18NextPlugin } from "@endpoints/i18next";
 import { registerLocalModule } from "@endpoints/local-module";
 import { registerShell } from "@endpoints/shell";
-import { FireflyProvider } from "@squide/firefly";
+import { FireflyProvider, getFeatureFlag } from "@squide/firefly";
 import { initializeFirefly } from "@squide/firefly-module-federation";
 import { BrowserConsoleLogger, type RootLogger } from "@workleap/logging";
 import { LogRocketLogger } from "@workleap/logrocket";
 import { initializeTelemetry, TelemetryProvider, type InitializeTelemetryOptions } from "@workleap/telemetry/react";
+import { initialize as initializeLaunchDarkly } from "launchdarkly-js-client-sdk";
 import { StrictMode } from "react";
 import { createRoot } from "react-dom/client";
-import { Remotes } from "../remotes.ts";
+import { Remote1Definition } from "../remotes.ts";
 import { App } from "./App.tsx";
 import { registerHost } from "./register.tsx";
+
+const launchDarklyClient = initializeLaunchDarkly(process.env.LAUNCH_DARKLY_CLIENT_ID!, {
+    kind: "user",
+    anonymous: true
+}, {
+    streaming: true
+});
+
+try {
+    await launchDarklyClient.waitForInitialization(5);
+
+    console.log("[host] LaunchDarkly is ready:", launchDarklyClient.allFlags());
+} catch (error: unknown) {
+    console.error("[host] Failed to initialize the LaunchDarkly client:", error);
+}
+
+const isLogRocketEnabled = getFeatureFlag(launchDarklyClient, "enable-log-rocket", true);
+const isHoneycombEnabled = getFeatureFlag(launchDarklyClient, "enable-honeycomb", true);
+const shouldRegisterLocalModule = getFeatureFlag(launchDarklyClient, "register-local-module", true);
+const shouldRegisterRemoteModule = getFeatureFlag(launchDarklyClient, "register-remote-module", true);
 
 const loggers: RootLogger[] = [new BrowserConsoleLogger()];
 
@@ -19,17 +40,17 @@ const telemetryOptions: InitializeTelemetryOptions = {
     loggers
 };
 
-if (process.env.LOGROCKET_APP_ID) {
+if (process.env.LOGROCKET_APP_ID && isLogRocketEnabled) {
     loggers.push(new LogRocketLogger());
 
     telemetryOptions.logRocket = {
         appId: process.env.LOGROCKET_APP_ID
     };
 } else {
-    console.warn("[host] Cannot register LogRocket instrumentation because the LOGROCKET_APP_ID environment variable has not been configured.");
+    console.warn("[host] Cannot register LogRocket instrumentation because the LOGROCKET_APP_ID environment variable has not been configured or the feature flag is off.");
 }
 
-if (process.env.HONEYCOMB_API_KEY) {
+if (process.env.HONEYCOMB_API_KEY && isHoneycombEnabled) {
     telemetryOptions.honeycomb = {
         namespace: "sample",
         serviceName: "squide-endpoints-sample",
@@ -39,15 +60,21 @@ if (process.env.HONEYCOMB_API_KEY) {
         }
     };
 } else {
-    console.warn("[host] Cannot register Honeycomb instrumentation because the HONEYCOMB_API_KEY environment variable has not been configured.");
+    console.warn("[host] Cannot register Honeycomb instrumentation because the HONEYCOMB_API_KEY environment variable has not been configured or the feature flag is off.");
 }
 
 const telemetryClient = initializeTelemetry(telemetryOptions);
 
 const runtime = initializeFirefly({
     useMsw: !!process.env.USE_MSW,
-    localModules: [registerShell({ host: "@endpoints/host" }), registerHost, registerLocalModule],
-    remotes: Remotes,
+    localModules: [
+        registerShell({ host: "@endpoints/host" }),
+        registerHost,
+        shouldRegisterLocalModule ? registerLocalModule : undefined
+    ],
+    remotes: [
+        shouldRegisterRemoteModule ? Remote1Definition : undefined
+    ],
     startMsw: async x => {
         // Files that includes an import to the "msw" package are included dynamically to prevent adding
         // unused MSW stuff to the code bundles.
@@ -57,6 +84,7 @@ const runtime = initializeFirefly({
         x => createI18NextPlugin(x)
     ],
     honeycombInstrumentationClient: telemetryClient.honeycomb,
+    launchDarklyClient,
     loggers
 });
 

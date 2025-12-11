@@ -1,5 +1,5 @@
-import { isNil, Plugin, type Runtime } from "@squide/core";
-import { EnvironmentVariablesRegistry, type EnvironmentVariableKey, type EnvironmentVariables, type EnvironmentVariableValue } from "./EnvironmentVariablesRegistry.ts";
+import { Plugin, type Runtime } from "@squide/core";
+import { EnvironmentVariablesRegistry, type EnvironmentVariableKey, type EnvironmentVariables } from "./EnvironmentVariablesRegistry.ts";
 
 export const EnvironmentVariablesPluginName = "env-vars-plugin";
 
@@ -22,7 +22,7 @@ export class EnvironmentVariablesPlugin extends Plugin {
         }
     }
 
-    registerVariable(key: EnvironmentVariableKey, value: EnvironmentVariableValue) {
+    registerVariable<T extends EnvironmentVariableKey>(key: T, value: EnvironmentVariables[T]) {
         this.#environmentVariablesRegistry.add(key, value);
 
         this._runtime.logger.debug(`[squide] An environment variable for key "${key}" has been registered with the value "${value}".`);
@@ -37,7 +37,7 @@ export class EnvironmentVariablesPlugin extends Plugin {
             .debug();
     }
 
-    getVariable(key: EnvironmentVariableKey) {
+    getVariable<T extends EnvironmentVariableKey>(key: T) {
         return this.#environmentVariablesRegistry.getVariable(key);
     }
 
@@ -47,11 +47,13 @@ export class EnvironmentVariablesPlugin extends Plugin {
 }
 
 export function getEnvironmentVariablesPlugin(runtime: Runtime) {
-    const plugin = runtime.getPlugin(EnvironmentVariablesPluginName);
+    const plugin = runtime.getPlugin(EnvironmentVariablesPluginName, {
+        throwOnNotFound: false
+    }) as EnvironmentVariablesPlugin;
 
-    if (isNil(plugin)) {
-        throw new Error("[squide] The getEnvironmentVariablesPlugin function is called but no EnvironmentVariablesPlugin instance has been registered with the runtime.");
+    if (!plugin) {
+        throw new Error("[squide] The getEnvironmentVariablesPlugin function is called but no EnvironmentVariablesPlugin instance has been registered with the runtime. Did you provide a EnvironmentVariablesPlugin instance to the runtime instance?");
     }
 
-    return plugin as EnvironmentVariablesPlugin;
+    return plugin;
 }

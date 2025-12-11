@@ -62,7 +62,7 @@ test("when queries are executed, ProtectedDataFetchStartedEvent is dispatched", 
 
     await waitFor(() => screen.findByText("bar"));
 
-    expect(listener).toHaveBeenCalledTimes(1);
+    expect(listener).toHaveBeenCalledOnce();
 });
 
 test("when data is ready, \"protected-data-ready\" is dispatched", async ({ expect }) => {
@@ -243,8 +243,7 @@ describe("when a query fail", () => {
 
         await waitFor(() => screen.findByText("doe"));
 
-        expect(dispatch).toHaveBeenCalledTimes(1);
-        expect(dispatch).toHaveBeenCalledWith(expect.objectContaining({
+        expect(dispatch).toHaveBeenCalledExactlyOnceWith(expect.objectContaining({
             type: "is-unauthorized"
         }));
     });
@@ -303,8 +302,7 @@ describe("when a query fail", () => {
 
         await waitFor(() => screen.findByText("[squide] Global protected data queries failed."));
 
-        expect(listener).toHaveBeenCalledTimes(1);
-        expect(listener).toHaveBeenCalledWith(expect.arrayContaining([queryError]));
+        expect(listener).toHaveBeenCalledExactlyOnceWith(expect.arrayContaining([queryError]));
     });
 
     test("when a query fail and it's a unauthorized error, ProtectedDataFetchFailedEvent is not dispatched", async ({ expect }) => {

@@ -3,8 +3,8 @@ import "@squide/firefly";
 declare module "@squide/firefly" {
     interface EnvironmentVariables {
         authenticationApiBaseUrl: string;
-        featureFlagsApiBaseUrl: string;
-        otherFeatureFlagsApiUrl: string;
+        userInfoApiBaseUrl: string;
+        userRoleApiBaseUrl: string;
         sessionApiBaseUrl: string;
         subscriptionApiBaseUrl: string;
     }

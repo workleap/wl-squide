@@ -1,4 +1,5 @@
 import { useEventBus, useLogger, useRuntime } from "@squide/core";
+import type { FeatureFlagSetSnapshotChangedListener } from "@squide/launch-darkly";
 import { useCallback, useEffect, useMemo, useReducer, type Dispatch } from "react";
 import type { FireflyRuntime } from "./FireflyRuntime.tsx";
 import { useAppRouterStore } from "./useAppRouterStore.ts";
@@ -21,6 +22,7 @@ export interface AppRouterState extends AppRouterWaitState {
     isProtectedDataReady: boolean;
     publicDataUpdatedAt?: number;
     protectedDataUpdatedAt?: number;
+    featureFlagsUpdatedAt?: number;
     deferredRegistrationsUpdatedAt?: number;
     activeRouteVisibility: ActiveRouteVisiblity;
     isUnauthorized: boolean;
@@ -34,6 +36,7 @@ export type AppRouterActionType =
     | "protected-data-ready"
     | "public-data-updated"
     | "protected-data-updated"
+    | "feature-flags-updated"
     | "deferred-registrations-updated"
     | "active-route-is-public"
     | "active-route-is-protected"
@@ -120,6 +123,14 @@ function reducer(state: AppRouterState, action: AppRouterAction) {
             newState = {
                 ...newState,
                 protectedDataUpdatedAt: Date.now()
+            };
+
+            break;
+        }
+        case "feature-flags-updated": {
+            newState = {
+                ...newState,
+                featureFlagsUpdatedAt: Date.now()
             };
 
             break;
@@ -225,14 +236,37 @@ export function useMswStatusDispatcher(runtime: FireflyRuntime, isMswReadyValue:
     useEffect(() => {
         if (runtime.isMswEnabled) {
             if (!isMswReadyValue) {
-                runtime.getMswState().addMswReadyListener(dispatchMswReady);
+                runtime.mswState.addMswReadyListener(dispatchMswReady);
             }
 
             return () => {
-                runtime.getMswState().removeMswReadyListener(dispatchMswReady);
+                runtime.mswState.removeMswReadyListener(dispatchMswReady);
             };
         }
     }, [runtime, isMswReadyValue, dispatchMswReady]);
+}
+
+export function useFeatureFlagsUpdatedDispatcher(runtime: FireflyRuntime, dispatch: AppRouterDispatch) {
+    const logger = useLogger();
+
+    const dispatchFeatureFlagsUpdated = useCallback((changes => {
+        dispatch({ type: "feature-flags-updated" });
+
+        logger
+            .withText("[squide] Feature flags has been updated to:")
+            .withObject(changes)
+            .debug();
+    }) satisfies FeatureFlagSetSnapshotChangedListener, [dispatch, logger]);
+
+    useEffect(() => {
+        if (runtime.isLaunchDarklyEnabled) {
+            runtime.featureFlagSetSnapshot.addSnapshotChangedListener(dispatchFeatureFlagsUpdated);
+
+            return () => {
+                runtime.featureFlagSetSnapshot.removeSnapshotChangedListener(dispatchFeatureFlagsUpdated);
+            };
+        }
+    }, [runtime]);
 }
 
 function useBootstrappingCompletedDispatcher(waitState: AppRouterWaitState, state: AppRouterState) {
@@ -296,7 +330,7 @@ export function useAppRouterReducer(waitForPublicData: boolean, waitForProtected
     const isMswEnabled = runtime.isMswEnabled;
     const areModulesInitiallyRegistered = runtime.moduleManager.getAreModulesRegistered();
     const areModulesInitiallyReady = runtime.moduleManager.getAreModulesReady();
-    const isMswInitiallyReady = runtime.isMswEnabled ? runtime.getMswState().isReady : false;
+    const isMswInitiallyReady = runtime.isMswEnabled ? runtime.mswState.isReady : false;
 
     const waitState = useMemo(() => ({
         waitForMsw: isMswEnabled,
@@ -366,6 +400,7 @@ export function useAppRouterReducer(waitForPublicData: boolean, waitForProtected
 
     useModuleRegistrationStatusDispatcher(runtime, areModulesRegisteredValue, areModulesReadyValue, dispatch);
     useMswStatusDispatcher(runtime, isMswReadyValue, dispatch);
+    useFeatureFlagsUpdatedDispatcher(runtime, dispatch);
     useBootstrappingCompletedDispatcher(waitState, state);
 
     return [state, dispatch];
