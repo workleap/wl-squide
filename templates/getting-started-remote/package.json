@@ -11,19 +11,23 @@
         "lint": "pnpm run \"/^lint:.*/\"",
         "lint:eslint": "eslint . --max-warnings=0 --cache --cache-location node_modules/.cache/eslint",
         "lint:types": "pnpm -r --parallel --include-workspace-root exec tsc",
-        "list-outdated-deps": "pnpm outdated -r --format list !eslint",
-        "update-outdated-deps": "pnpm update -r --latest !eslint",
+        "lint:syncpack": "syncpack lint",
+        "list-outdated-deps": "pnpm outdated -r --format list",
+        "update-outdated-deps": "pnpm run --sequential \"/^update-outdated-deps:.*/\"",
+        "update-outdated-deps:update-versions": "pnpm update -r --latest",
+        "update-outdated-deps:update-peers": "syncpack fix-mismatches",
         "clean": "pnpm -r --parallel --include-workspace-root exec pnpx rimraf dist .rslib node_modules/.cache",
         "reset": "pnpm clean && pnpm reset:modules",
         "reset:modules": "pnpm -r --parallel --include-workspace-root exec pnpx rimraf node_modules pnpm-lock.yaml"
     },
     "devDependencies": {
-        "@eslint/js": "9.38.0",
-        "@typescript-eslint/parser": "8.46.2",
-        "@workleap/eslint-configs": "0.0.4",
-        "@workleap/typescript-configs": "3.0.4",
+        "@eslint/js": "9.39.1",
+        "@typescript-eslint/parser": "8.49.0",
+        "@workleap/eslint-configs": "1.1.6",
+        "@workleap/typescript-configs": "3.0.7",
         "eslint": "9.38.0",
+        "syncpack": "13.0.4",
         "typescript": "5.9.3",
-        "typescript-eslint": "8.46.2"
+        "typescript-eslint": "8.49.0"
     }
 }
