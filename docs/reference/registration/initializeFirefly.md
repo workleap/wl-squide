@@ -209,7 +209,7 @@ const launchDarklyClient = initializeLaunchDarkly("123", {
     streaming: true
 });
 
-// Always initialize the client before creating the plugin instance.
+// Always initialize the client before forwarding the instance to the "initializeFirefly" function.
 await launchDarklyClient.waitForInitialization(5);
 
 const rumtime = initializeFirefly({

@@ -24,11 +24,11 @@ const launchDarklyClient = initializeLaunchDarkly("123", {
 }, {
     // It's important to use the stream mode to receive feature flags
     // updates in real time.
-    streming: true
+    streaming: true
 });
 
 try {
-    // Always initialize the client before creating the plugin instance.
+    // Always initialize the client before forwarding the instance to the "initializeFirefly" function.
     await launchDarklyClient.waitForInitialization(5);
 } catch (error: unknown) {
     // Failed to initialize LaunchDarkly...
