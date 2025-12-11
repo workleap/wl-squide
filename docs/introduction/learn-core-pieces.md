@@ -272,8 +272,8 @@ import { initializeFirefly } from "@squide/firefly";
 
 const runtime = initializeFirefly({
     environmentVariables: {
-        "apiBaseUrl", "https://my-api.com",
-        "telemetryBaseUrl", "https://my-telemetry.com"
+        apiBaseUrl: "https://my-api.com",
+        telemetryBaseUrl: "https://my-telemetry.com"
     }
 });
 ```

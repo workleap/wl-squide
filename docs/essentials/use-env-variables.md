@@ -29,8 +29,8 @@ import { initializeFirefly } from "@squide/firefly";
 
 const runtime = initializeFirefly({
     environmentVariables: {
-        "apiBaseUrl", "https://my-api.com",
-        "telemetryBaseUrl", "https://my-telemetry.com"
+        apiBaseUrl: "https://my-api.com",
+        telemetryBaseUrl: "https://my-telemetry.com"
     }
 });
 ```
@@ -56,8 +56,8 @@ import type { ModuleRegisterFunction, FireflyRuntime } from "@squide/firefly";
 
 export const register: ModuleRegisterFunction<FireflyRuntime> = runtime => {
     runtime.registerVariables({
-        "apiBaseUrl", "https://my-api.com",
-        "telemetryBaseUrl", "https://my-telemetry.com"
+        apiBaseUrl: "https://my-api.com",
+        telemetryBaseUrl: "https://my-telemetry.com"
     });
 };
 ```
@@ -182,7 +182,7 @@ test("an absolute URL including the API base URL is returned", () => {
     const runtime = new FireflyRuntime({
         plugins: [x => new EnvironmentVariablesPlugin({
             variables: {
-                "apiBaseUrl": "https://my-api.com"
+                apiBaseUrl: "https://my-api.com"
             }
         })]
     });

@@ -40,7 +40,7 @@ import { FireflyRuntime, EnvironmentVariablesPlugin } from "@squide/firefly";
 const runtime = new FireflyRuntime({
     plugins: [x => new EnvironmentVariablesPlugin(x, {
         variables: {
-            "apiBaseUrl": "https://my-api.com"
+            apiBaseUrl: "https://my-api.com"
         }
     })]
 });
