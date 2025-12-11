@@ -1,7 +1,7 @@
 {
     "name": "@squide/launch-darkly",
     "author": "Workleap",
-    "version": "0.0.0",
+    "version": "1.0.0",
     "description": "Add support for LaunchDarkly feature flags to Squide applications.",
     "license": "Apache-2.0",
     "repository": {

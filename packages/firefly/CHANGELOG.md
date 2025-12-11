@@ -1,5 +1,20 @@
 # @squide/firefly
 
+## 16.1.0
+
+### Minor Changes
+
+- [#352](https://github.com/workleap/wl-squide/pull/352) [`7bd7af5`](https://github.com/workleap/wl-squide/commit/7bd7af5a757912309704b9e93bf8ecf1388e6787) Thanks [@patricklafrance](https://github.com/patricklafrance)! - Added support for LaunchDarkly feature flags.
+
+### Patch Changes
+
+- Updated dependencies [[`7bd7af5`](https://github.com/workleap/wl-squide/commit/7bd7af5a757912309704b9e93bf8ecf1388e6787), [`7bd7af5`](https://github.com/workleap/wl-squide/commit/7bd7af5a757912309704b9e93bf8ecf1388e6787)]:
+  - @squide/react-router@8.1.7
+  - @squide/env-vars@1.4.10
+  - @squide/core@6.1.7
+  - @squide/msw@4.0.8
+  - @squide/launch-darkly@1.0.0
+
 ## 16.0.3
 
 ### Patch Changes
