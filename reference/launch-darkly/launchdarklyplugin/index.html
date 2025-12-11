@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <meta name="turbo-root" content="/wl-squide">
-    <meta name="turbo-cache-control" content="no-cache" data-turbo-track="reload" data-track-token="3.12.0-preview2.818737627514">
+    <meta name="turbo-cache-control" content="no-cache" data-turbo-track="reload" data-track-token="3.12.0-preview2.818739267222">
 
     <!-- See retype.com -->
     <meta name="generator" content="Retype 3.12.0-preview2">
@@ -32,12 +32,12 @@
     <script data-cfasync="false">(function(){var cl=document.documentElement.classList,ls=localStorage.getItem("retype_scheme"),hd=cl.contains("dark"),hl=cl.contains("light"),wm=window.matchMedia&&window.matchMedia("(prefers-color-scheme: dark)").matches;if(ls==="dark"||(!ls&&wm&&!hd&&!hl)){cl.remove("light");cl.add("dark")}else if(ls==="light"||(!ls&&!wm&&!hd&&!hl)){cl.remove("dark");cl.add("light")}})();</script>
 
     <link id="retype-favicon" rel="icon" href="../../../static/favicon.png" />
-    <link href="../../../resources/css/retype.css?v=3.12.0-preview2.818737627514" rel="stylesheet">
+    <link href="../../../resources/css/retype.css?v=3.12.0-preview2.818739267222" rel="stylesheet">
 
-    <script data-cfasync="false" src="../../../resources/js/config.js?v=3.12.0-preview2.818737627514" data-turbo-eval="false" defer></script>
+    <script data-cfasync="false" src="../../../resources/js/config.js?v=3.12.0-preview2.818739267222" data-turbo-eval="false" defer></script>
     <script data-cfasync="false" src="../../../resources/js/retype.js?v=3.12.0-preview2" data-turbo-eval="false" defer></script>
-    <script id="lunr-js" data-cfasync="false" src="../../../resources/js/lunr.js?v=3.12.0-preview2.818737627514" data-turbo-eval="false" defer></script>
-    <script id="prism-js" data-cfasync="false" src="../../../resources/js/prism.js?v=3.12.0-preview2.818737627514" defer></script>
+    <script id="lunr-js" data-cfasync="false" src="../../../resources/js/lunr.js?v=3.12.0-preview2.818739267222" data-turbo-eval="false" defer></script>
+    <script id="prism-js" data-cfasync="false" src="../../../resources/js/prism.js?v=3.12.0-preview2.818739267222" defer></script>
 
     <link href="https://workleap.github.io/wl-idp-docs-hub/static/retype-customization.css" rel="stylesheet" />
 
@@ -318,7 +318,7 @@
 </doc-anchor-target>
 <p>Before creating the plugin instance, initialize the LaunchDarkly client with <a href="https://launchdarkly.github.io/js-client-sdk/interfaces/LDOptions.html#streaming" class="outbound" target="_blank">streaming</a> enabled, then wait until the client <a href="https://launchdarkly.com/docs/sdk/client-side/javascript#determine-when-the-client-is-ready" class="outbound" target="_blank">is ready</a>.</p>
 <div class="codeblock-wrapper"><doc-codeblock>
-<pre translate="no" class="language-typescript" data-line="10,14,17"><code v-pre class="language-typescript">import { FireflyRuntime, LaunchDarklyPlugin } from &quot;@squide/firefly&quot;;
+<pre translate="no" class="language-typescript" data-line="10,15,21"><code v-pre class="language-typescript">import { FireflyRuntime, LaunchDarklyPlugin } from &quot;@squide/firefly&quot;;
 import { initialize as initializeLaunchDarkly } from &quot;launchdarkly-js-client-sdk&quot;;
 
 const launchDarklyClient = initializeLaunchDarkly(&quot;123&quot;, {
@@ -330,8 +330,12 @@ const launchDarklyClient = initializeLaunchDarkly(&quot;123&quot;, {
     stream: true
 });
 
-// Always initialize the client before creating the plugin instance.
-await launchDarklyClient.waitForInitialization(5);
+try {
+    // Always initialize the client before creating the plugin instance.
+    await launchDarklyClient.waitForInitialization(5);
+} catch (error: unknown) {
+    // Failed to initialize LaunchDarkly...
+}
 
 const runtime = new FireflyRuntime({
     plugins: [x =&gt; new LaunchDarklyPlugin(x, launchDarklyClient)]
