@@ -1,2 +1,7 @@
 packages:
   - "apps/*"
+
+onlyBuiltDependencies:
+  - core-js
+  - esbuild
+  - msw

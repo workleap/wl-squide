@@ -553,8 +553,8 @@ runtime.registerEnvironmentVariable("apiBaseUrl", "https://my-api.com");
 
 ```ts !#1-4
 runtime.registerEnvironmentVariables({
-    "apiBaseUrl", "https://my-api.com",
-    "telemetryBaseUrl", "https://my-telemetry.com"
+    apiBaseUrl: "https://my-api.com",
+    telemetryBaseUrl: "https://my-telemetry.com"
 });
 ```
 
