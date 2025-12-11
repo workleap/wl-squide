@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <meta name="turbo-root" content="/wl-squide">
-    <meta name="turbo-cache-control" content="no-cache" data-turbo-track="reload" data-track-token="3.12.0-preview2.817684748532">
+    <meta name="turbo-cache-control" content="no-cache" data-turbo-track="reload" data-track-token="3.12.0-preview2.818737357694">
 
     <!-- See retype.com -->
     <meta name="generator" content="Retype 3.12.0-preview2">
@@ -12,7 +12,7 @@
     <!-- Primary Meta Tags -->
     <title>Setup Storybook</title>
     <meta name="title" content="Setup Storybook">
-    <meta name="description" content="Squide provides helpers to set up a Storybook story file for rendering components using Squide Firefly. ">
+    <meta name="description" content="Squide provides helpers to set up a Storybook story file for rendering components using Squide. This guide assumes that you already have a working...">
 
     <!-- Canonical -->
     <link rel="canonical" href="https://workleap.github.io/wl-squide/integrations/setup-storybook/">
@@ -21,23 +21,23 @@
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://workleap.github.io/wl-squide/integrations/setup-storybook/">
     <meta property="og:title" content="Setup Storybook">
-    <meta property="og:description" content="Squide provides helpers to set up a Storybook story file for rendering components using Squide Firefly. ">
+    <meta property="og:description" content="Squide provides helpers to set up a Storybook story file for rendering components using Squide. This guide assumes that you already have a working...">
 
     <!-- Twitter -->
     <meta property="twitter:card" content="summary_large_image">
     <meta property="twitter:url" content="https://workleap.github.io/wl-squide/integrations/setup-storybook/">
     <meta property="twitter:title" content="Setup Storybook">
-    <meta property="twitter:description" content="Squide provides helpers to set up a Storybook story file for rendering components using Squide Firefly. ">
+    <meta property="twitter:description" content="Squide provides helpers to set up a Storybook story file for rendering components using Squide. This guide assumes that you already have a working...">
 
     <script data-cfasync="false">(function(){var cl=document.documentElement.classList,ls=localStorage.getItem("retype_scheme"),hd=cl.contains("dark"),hl=cl.contains("light"),wm=window.matchMedia&&window.matchMedia("(prefers-color-scheme: dark)").matches;if(ls==="dark"||(!ls&&wm&&!hd&&!hl)){cl.remove("light");cl.add("dark")}else if(ls==="light"||(!ls&&!wm&&!hd&&!hl)){cl.remove("dark");cl.add("light")}})();</script>
 
     <link id="retype-favicon" rel="icon" href="../../static/favicon.png" />
-    <link href="../../resources/css/retype.css?v=3.12.0-preview2.817684748532" rel="stylesheet">
+    <link href="../../resources/css/retype.css?v=3.12.0-preview2.818737357694" rel="stylesheet">
 
-    <script data-cfasync="false" src="../../resources/js/config.js?v=3.12.0-preview2.817684748532" data-turbo-eval="false" defer></script>
+    <script data-cfasync="false" src="../../resources/js/config.js?v=3.12.0-preview2.818737357694" data-turbo-eval="false" defer></script>
     <script data-cfasync="false" src="../../resources/js/retype.js?v=3.12.0-preview2" data-turbo-eval="false" defer></script>
-    <script id="lunr-js" data-cfasync="false" src="../../resources/js/lunr.js?v=3.12.0-preview2.817684748532" data-turbo-eval="false" defer></script>
-    <script id="prism-js" data-cfasync="false" src="../../resources/js/prism.js?v=3.12.0-preview2.817684748532" defer></script>
+    <script id="lunr-js" data-cfasync="false" src="../../resources/js/lunr.js?v=3.12.0-preview2.818737357694" data-turbo-eval="false" defer></script>
+    <script id="prism-js" data-cfasync="false" src="../../resources/js/prism.js?v=3.12.0-preview2.818737357694" defer></script>
 
     <link href="https://workleap.github.io/wl-idp-docs-hub/static/retype-customization.css" rel="stylesheet" />
 
@@ -277,28 +277,22 @@
         <span>Setup Storybook</span>
     </h1>
 </doc-anchor-target>
-<p>Squide provides helpers to set up a <a href="https://storybook.js.org/" class="outbound" target="_blank">Storybook</a> story file for rendering components using Squide Firefly. <em>This guide assumes that you already have a working Storybook environment</em>.</p>
-<doc-anchor-target id="configure-storybook">
-    <h2>
-        <doc-anchor-trigger class="header-anchor-trigger" to="#configure-storybook">#</doc-anchor-trigger>
-        <span>Configure Storybook</span>
-    </h2>
-</doc-anchor-target>
+<p>Squide provides helpers to set up a <a href="https://storybook.js.org/" class="outbound" target="_blank">Storybook</a> story file for rendering components using Squide. <em>This guide assumes that you already have a working Storybook environment</em>.</p>
 <doc-anchor-target id="install-the-packages">
-    <h3>
+    <h2>
         <doc-anchor-trigger class="header-anchor-trigger" to="#install-the-packages">#</doc-anchor-trigger>
         <span>Install the packages</span>
-    </h3>
+    </h2>
 </doc-anchor-target>
 <p>To set up Storybook, first, open a terminal at the root of the Storybook application and install the following packages:</p>
 <div class="codeblock-wrapper"><doc-codeblock>
 <pre translate="no" class="language-bash"><code v-pre class="language-bash">pnpm add msw msw-storybook-addon</code></pre>
 </doc-codeblock></div>
 <doc-anchor-target id="register-the-msw-addon">
-    <h3>
+    <h2>
         <doc-anchor-trigger class="header-anchor-trigger" to="#register-the-msw-addon">#</doc-anchor-trigger>
         <span>Register the MSW addon</span>
-    </h3>
+    </h2>
 </doc-anchor-target>
 <p>Then, update the standard <code translate="no" v-pre>.storybook/preview.tsx</code> file and register the <a href="https://mswjs.io/" class="outbound" target="_blank">Mock Service Worker</a> (MSW) addon:</p>
 <div class="codeblock-wrapper"><doc-codeblock>
@@ -347,10 +341,10 @@ function getAbsolutePath(value: string): any {
 </code></pre>
 </doc-codeblock></div>
 <doc-anchor-target id="initialize-msw">
-    <h3>
+    <h2>
         <doc-anchor-trigger class="header-anchor-trigger" to="#initialize-msw">#</doc-anchor-trigger>
         <span>Initialize MSW</span>
-    </h3>
+    </h2>
 </doc-anchor-target>
 <p>Finally, ensure that MSW is correctly initialized. Confirm that a <code translate="no" v-pre>mockServiceWorker.js</code> file exists in the <code translate="no" v-pre>/public</code> folder. If it&#x27;s missing, open a terminal at the root of the Storybook application and execute the following command:</p>
 <div class="codeblock-wrapper"><doc-codeblock>
@@ -466,7 +460,7 @@ export const Default = {} satisfies Story;</code></pre>
         <span>Setup MSW</span>
     </h3>
 </doc-anchor-target>
-<p>Finally, forward the MSW request handlers registered by the modules to the Storybook addon:</p>
+<p>Next, forward the MSW request handlers registered by the modules to the Storybook addon:</p>
 <div class="codeblock-wrapper"><doc-codeblock>
 <pre translate="no" class="language-tsx" data-line="20-24"><code v-pre class="language-tsx">import { initializeFireflyForStorybook, FireflyDecorator } from &quot;@squide/firefly-rsbuild-storybook&quot;;
 import type { Decorator, Meta, StoryObj } from &quot;storybook-react-rsbuild&quot;;
@@ -500,13 +494,132 @@ type Story = StoryObj&lt;typeof meta&gt;;
 
 export const Default = {} satisfies Story;</code></pre>
 </doc-codeblock></div>
+<doc-anchor-target id="setup-environment-variables">
+    <h3>
+        <doc-anchor-trigger class="header-anchor-trigger" to="#setup-environment-variables">#</doc-anchor-trigger>
+        <span>Setup environment variables</span>
+    </h3>
+</doc-anchor-target>
+<p>Then, if the components included in the stories rely on environment variables, mock the environment variables using the <a href="../../reference/storybook/initializefireflyforstorybook/">initializeFireflyForStorybook</a> function:</p>
+<div class="codeblock-wrapper"><doc-codeblock>
+<pre translate="no" class="language-tsx" data-line="8-10"><code v-pre class="language-tsx">import { initializeFireflyForStorybook, withFireflyDecorator } from &quot;@squide/firefly-rsbuild-storybook&quot;;
+import type { Decorator, Meta, StoryObj } from &quot;storybook-react-rsbuild&quot;;
+import { Page } from &quot;./Page.tsx&quot;;
+import { registerModule } from &quot;./registerModule.tsx&quot;;
+
+const runtime = await initializeFireflyForStorybook({
+    localModules: [registerModule],
+    environmentVariables: {
+        apiBaseUrl: &quot;https://my-api.com&quot;
+    }
+});
+
+const meta = {
+    title: &quot;Page&quot;,
+    component: Page,
+    decorators: [
+        withFireflyDecorator(runtime)
+    ]
+} satisfies Meta&lt;typeof Page&gt;;
+
+export default meta;
+
+type Story = StoryObj&lt;typeof meta&gt;;
+
+export const Default = {} satisfies Story;</code></pre>
+</doc-codeblock></div>
+<doc-anchor-target id="setup-feature-flags">
+    <h3>
+        <doc-anchor-trigger class="header-anchor-trigger" to="#setup-feature-flags">#</doc-anchor-trigger>
+        <span>Setup feature flags</span>
+    </h3>
+</doc-anchor-target>
+<p>Finally, if the components included in the stories rely on feature flags, mock the feature flags using the <a href="../../reference/storybook/initializefireflyforstorybook/">initializeFireflyForStorybook</a> function:</p>
+<div class="codeblock-wrapper"><doc-codeblock>
+<pre translate="no" class="language-tsx" data-line="12"><code v-pre class="language-tsx">import { initializeFireflyForStorybook, withFireflyDecorator } from &quot;@squide/firefly-rsbuild-storybook&quot;;
+import type { Decorator, Meta, StoryObj } from &quot;storybook-react-rsbuild&quot;;
+import { Page } from &quot;./Page.tsx&quot;;
+import { registerModule } from &quot;./registerModule.tsx&quot;;
+
+const featureFlags = new Map([
+    [&quot;render-summary&quot;, true]
+] as const);
+
+const runtime = await initializeFireflyForStorybook({
+    localModules: [registerModule],
+    featureFlags
+});
+
+const meta = {
+    title: &quot;Page&quot;,
+    component: Page,
+    decorators: [
+        withFireflyDecorator(runtime)
+    ]
+} satisfies Meta&lt;typeof Page&gt;;
+
+export default meta;
+
+type Story = StoryObj&lt;typeof meta&gt;;
+
+export const Default = {} satisfies Story;</code></pre>
+</doc-codeblock></div>
+<p>To test different variations of a feature flag, use the <a href="../../reference/storybook/withfeatureflagsoverridedecorator/">withFeatureFlagsOverrideDecorator</a> hook:</p>
+<div class="codeblock-wrapper"><doc-codeblock>
+<pre translate="no" class="language-tsx" data-line="31"><code v-pre class="language-tsx">import { initializeFireflyForStorybook, withFireflyDecorator, withFeatureFlagsOverrideDecorator } from &quot;@squide/firefly-rsbuild-storybook&quot;;
+import type { Decorator, Meta, StoryObj } from &quot;storybook-react-rsbuild&quot;;
+import { Page } from &quot;./Page.tsx&quot;;
+import { registerModule } from &quot;./registerModule.tsx&quot;;
+
+// This syntax with the nested arrays and &quot;as const&quot; is super important to get type safety with
+// the &quot;withFeatureFlagsOverrideDecorator&quot; decorator.
+const featureFlags = new Map([
+    [&quot;render-summary&quot;, true]
+] as const);
+
+const runtime = await initializeFireflyForStorybook({
+    localModules: [registerModule],
+    featureFlags
+});
+
+const meta = {
+    title: &quot;Page&quot;,
+    component: Page,
+    decorators: [
+        withFireflyDecorator(runtime)
+    ]
+} satisfies Meta&lt;typeof Page&gt;;
+
+export default meta;
+
+type Story = StoryObj&lt;typeof meta&gt;;
+
+export const Default = {
+    decorators: [
+        withFeatureFlagsOverrideDecorator(featureFlags, { &quot;render-summary&quot;: false })
+    ]
+} satisfies Story;</code></pre>
+</doc-codeblock></div>
 <doc-anchor-target id="try-it-rocket">
     <h2>
         <doc-anchor-trigger class="header-anchor-trigger" to="#try-it-rocket">#</doc-anchor-trigger>
         <span>Try it <span class="docs-emoji">&#x1F680;</span></span>
     </h2>
 </doc-anchor-target>
-<p>Start the Storybook application using the development script. Then open a story that uses Squide firefly components. It should render without errors. Make a change to the story and confirm that it re-renders correctly.</p>
+<p>Start the Storybook application using the development script. Then open a story that uses Squide components. It should render without errors. Make a change to the story and confirm that it re-renders correctly.</p>
+<doc-anchor-target id="troubleshoot-issues">
+    <h3>
+        <doc-anchor-trigger class="header-anchor-trigger" to="#troubleshoot-issues">#</doc-anchor-trigger>
+        <span>Troubleshoot issues</span>
+    </h3>
+</doc-anchor-target>
+<p>If you are experiencing issues with this guide:</p>
+<ul>
+<li>Set the <a href="https://workleap.github.io/wl-telemetry/reference/telemetry/initializetelemetry/" class="outbound" target="_blank">initializeTelemetry</a> function <code translate="no" v-pre>verbose</code> option to <code translate="no" v-pre>true</code>.</li>
+<li>Open the <a href="https://developer.chrome.com/docs/devtools/" class="outbound" target="_blank">DevTools</a> console and look for any relevant logs or errors.</li>
+<li>Refer to a working example on <a href="https://github.com/workleap/wl-squide/tree/main/samples/storybook" class="outbound" target="_blank">GitHub</a>.</li>
+<li>Refer to the <a href="../../troubleshooting/">troubleshooting</a> page.</li>
+</ul>
 
                                 
                                 <!-- Required only on API pages -->

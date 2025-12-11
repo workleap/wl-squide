@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <meta name="turbo-root" content="/wl-squide">
-    <meta name="turbo-cache-control" content="no-cache" data-turbo-track="reload" data-track-token="3.12.0-preview2.817684748532">
+    <meta name="turbo-cache-control" content="no-cache" data-turbo-track="reload" data-track-token="3.12.0-preview2.818737357694">
 
     <!-- See retype.com -->
     <meta name="generator" content="Retype 3.12.0-preview2">
@@ -32,12 +32,12 @@
     <script data-cfasync="false">(function(){var cl=document.documentElement.classList,ls=localStorage.getItem("retype_scheme"),hd=cl.contains("dark"),hl=cl.contains("light"),wm=window.matchMedia&&window.matchMedia("(prefers-color-scheme: dark)").matches;if(ls==="dark"||(!ls&&wm&&!hd&&!hl)){cl.remove("light");cl.add("dark")}else if(ls==="light"||(!ls&&!wm&&!hd&&!hl)){cl.remove("dark");cl.add("light")}})();</script>
 
     <link id="retype-favicon" rel="icon" href="../../static/favicon.png" />
-    <link href="../../resources/css/retype.css?v=3.12.0-preview2.817684748532" rel="stylesheet">
+    <link href="../../resources/css/retype.css?v=3.12.0-preview2.818737357694" rel="stylesheet">
 
-    <script data-cfasync="false" src="../../resources/js/config.js?v=3.12.0-preview2.817684748532" data-turbo-eval="false" defer></script>
+    <script data-cfasync="false" src="../../resources/js/config.js?v=3.12.0-preview2.818737357694" data-turbo-eval="false" defer></script>
     <script data-cfasync="false" src="../../resources/js/retype.js?v=3.12.0-preview2" data-turbo-eval="false" defer></script>
-    <script id="lunr-js" data-cfasync="false" src="../../resources/js/lunr.js?v=3.12.0-preview2.817684748532" data-turbo-eval="false" defer></script>
-    <script id="prism-js" data-cfasync="false" src="../../resources/js/prism.js?v=3.12.0-preview2.817684748532" defer></script>
+    <script id="lunr-js" data-cfasync="false" src="../../resources/js/lunr.js?v=3.12.0-preview2.818737357694" data-turbo-eval="false" defer></script>
+    <script id="prism-js" data-cfasync="false" src="../../resources/js/prism.js?v=3.12.0-preview2.818737357694" defer></script>
 
     <link href="https://workleap.github.io/wl-idp-docs-hub/static/retype-customization.css" rel="stylesheet" />
 
@@ -293,7 +293,7 @@
             <h5>Use an existing template</h5>
 <p>We highly recommend going through the entire getting started guide. However, if you prefer to scaffold the application we&#x27;ll be building, a template is available with <a href="https://github.com/Rich-Harris/degit" class="outbound" target="_blank">degit</a>:</p>
 <div class="codeblock-wrapper"><doc-codeblock>
-<pre translate="no" class="language-bash"><code v-pre class="language-bash">corepack pnpx degit https://github.com/workleap/wl-squide/templates/getting-started</code></pre>
+<pre translate="no" class="language-bash"><code v-pre class="language-bash">pnpx degit https://github.com/workleap/wl-squide/templates/getting-started</code></pre>
 </doc-codeblock></div>
         </div>
     </div>
@@ -306,7 +306,7 @@
         <span>Install the packages</span>
     </h2>
 </doc-anchor-target>
-<p>Create a new application (we&#x27;ll refer to ours as <code translate="no" v-pre>local-module</code>), then open a terminal at the root of the application and install the following packages:</p>
+<p>Create a new application (we&#x27;ll refer to ours as <code translate="no" v-pre>local-module</code>), then open a terminal at the root of the local module and install the following packages:</p>
 <div class="codeblock-wrapper"><doc-codeblock>
 <pre translate="no" class="language-bash"><code v-pre class="language-bash">pnpm add -D typescript @types/react @types/react-dom</code></pre>
 </doc-codeblock></div>
@@ -346,13 +346,15 @@
 <p>Finally, add the following <code translate="no" v-pre>peerDependencies</code>:</p>
 <div class="codeblock-wrapper"><doc-codeblock>
 <div class="codeblock-title">local-module/package.json</div>
-<pre translate="no" class="language-json" data-line="5-12"><code v-pre class="language-json">{
+<pre translate="no" class="language-json" data-line="5-14"><code v-pre class="language-json">{
     &quot;name&quot;: &quot;@getting-started/local-module&quot;,
     &quot;version&quot;: &quot;0.0.1&quot;,
     &quot;exports&quot;: &quot;./src/register.tsx&quot;,
     &quot;peerDependencies&quot;: {
+        &quot;@opentelemetry/api&quot;: &quot;^1.2.3&quot;,
         &quot;@squide/firefly&quot;: &quot;^1.2.3&quot;,
         &quot;@tanstack/react-query&quot;: &quot;^1.2.3&quot;,
+        &quot;launchdarkly-js-client-sdk&quot;: &quot;^1.2.3&quot;,
         &quot;msw&quot;: &quot;^1.2.3&quot;,
         &quot;react&quot;: &quot;^1.2.3&quot;,
         &quot;react-dom&quot;: &quot;^1.2.3&quot;,

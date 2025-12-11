@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <meta name="turbo-root" content="/wl-squide">
-    <meta name="turbo-cache-control" content="no-cache" data-turbo-track="reload" data-track-token="3.12.0-preview2.817684748532">
+    <meta name="turbo-cache-control" content="no-cache" data-turbo-track="reload" data-track-token="3.12.0-preview2.818737357694">
 
     <!-- See retype.com -->
     <meta name="generator" content="Retype 3.12.0-preview2">
@@ -32,12 +32,12 @@
     <script data-cfasync="false">(function(){var cl=document.documentElement.classList,ls=localStorage.getItem("retype_scheme"),hd=cl.contains("dark"),hl=cl.contains("light"),wm=window.matchMedia&&window.matchMedia("(prefers-color-scheme: dark)").matches;if(ls==="dark"||(!ls&&wm&&!hd&&!hl)){cl.remove("light");cl.add("dark")}else if(ls==="light"||(!ls&&!wm&&!hd&&!hl)){cl.remove("dark");cl.add("light")}})();</script>
 
     <link id="retype-favicon" rel="icon" href="../../static/favicon.png" />
-    <link href="../../resources/css/retype.css?v=3.12.0-preview2.817684748532" rel="stylesheet">
+    <link href="../../resources/css/retype.css?v=3.12.0-preview2.818737357694" rel="stylesheet">
 
-    <script data-cfasync="false" src="../../resources/js/config.js?v=3.12.0-preview2.817684748532" data-turbo-eval="false" defer></script>
+    <script data-cfasync="false" src="../../resources/js/config.js?v=3.12.0-preview2.818737357694" data-turbo-eval="false" defer></script>
     <script data-cfasync="false" src="../../resources/js/retype.js?v=3.12.0-preview2" data-turbo-eval="false" defer></script>
-    <script id="lunr-js" data-cfasync="false" src="../../resources/js/lunr.js?v=3.12.0-preview2.817684748532" data-turbo-eval="false" defer></script>
-    <script id="prism-js" data-cfasync="false" src="../../resources/js/prism.js?v=3.12.0-preview2.817684748532" defer></script>
+    <script id="lunr-js" data-cfasync="false" src="../../resources/js/lunr.js?v=3.12.0-preview2.818737357694" data-turbo-eval="false" defer></script>
+    <script id="prism-js" data-cfasync="false" src="../../resources/js/prism.js?v=3.12.0-preview2.818737357694" defer></script>
 
     <link href="https://workleap.github.io/wl-idp-docs-hub/static/retype-customization.css" rel="stylesheet" />
 
@@ -278,31 +278,25 @@
     </h1>
 </doc-anchor-target>
 <p><a href="https://react.i18next.com/" class="outbound" target="_blank">react-i18next</a> is an internationalization library that helps applications manage translations, language detection, and localization logic. It provides a flexible API for loading translation files, formatting text, handling plurals, and switching languages at runtime.</p>
-<doc-anchor-target id="configure-the-host-application">
-    <h2>
-        <doc-anchor-trigger class="header-anchor-trigger" to="#configure-the-host-application">#</doc-anchor-trigger>
-        <span>Configure the host application</span>
-    </h2>
-</doc-anchor-target>
 <doc-anchor-target id="install-the-packages">
-    <h3>
+    <h2>
         <doc-anchor-trigger class="header-anchor-trigger" to="#install-the-packages">#</doc-anchor-trigger>
         <span>Install the packages</span>
-    </h3>
+    </h2>
 </doc-anchor-target>
 <p>To set up <code translate="no" v-pre>i18next</code>, first, open a terminal at the root of the host application and install the following packages:</p>
 <div class="codeblock-wrapper"><doc-codeblock>
 <pre translate="no" class="language-bash"><code v-pre class="language-bash">pnpm add @squide/i18next i18next i18next-browser-languagedetector react-i18next</code></pre>
 </doc-codeblock></div>
-<doc-anchor-target id="register-the-i18nextplugin">
-    <h3>
-        <doc-anchor-trigger class="header-anchor-trigger" to="#register-the-i18nextplugin">#</doc-anchor-trigger>
-        <span>Register the i18nextPlugin</span>
-    </h3>
+<doc-anchor-target id="register-the-plugin">
+    <h2>
+        <doc-anchor-trigger class="header-anchor-trigger" to="#register-the-plugin">#</doc-anchor-trigger>
+        <span>Register the plugin</span>
+    </h2>
 </doc-anchor-target>
 <p>Then, refer to the <a href="../../introduction/create-host/">create host application</a> guide as a starting point and update the host application boostrapping code to register an instance of the <a href="../../reference/i18next/i18nextplugin/">i18nextplugin</a> with the <a href="../../reference/runtime/fireflyruntime/">FireflyRuntime</a> instance:</p>
 <div class="codeblock-wrapper"><doc-codeblock>
-<pre translate="no" class="language-tsx" data-line="9-18"><code v-pre class="language-tsx">import { createRoot } from &quot;react-dom/client&quot;;
+<pre translate="no" class="language-tsx" data-line="9-20"><code v-pre class="language-tsx">import { createRoot } from &quot;react-dom/client&quot;;
 import { FireflyProvider, initializeFirefly } from &quot;@squide/firefly&quot;;
 import { i18nextPlugin } from &quot;@squide/i18next&quot;;
 import { App } from &quot;./App.tsx&quot;;
@@ -315,10 +309,12 @@ const runtime = initializeFirefly(runtime, {
         // - The supported languages are &quot;en-US&quot; and &quot;fr-CA&quot;
         // - The fallback language is &quot;en-US&quot;
         // - The URL querystring parameter to detect the current language is &quot;language&quot;
-        const i18nextPlugin = new i18nextPlugin([&quot;en-US&quot;, &quot;fr-CA&quot;], &quot;en-US&quot;, &quot;language&quot;, undefined, x);
+        const i18nextPlugin = new i18nextPlugin(x, [&quot;en-US&quot;, &quot;fr-CA&quot;], &quot;en-US&quot;, &quot;language&quot;);
 
         // Always detect the user language early on.
         i18nextPlugin.detectUserLanguage();
+
+        return i18nextPlugin;
     }]
 });
 
@@ -341,10 +337,10 @@ root.render(
 </ol>
 </doc-panel>
 <doc-anchor-target id="integrate-a-backend-language-setting">
-    <h3>
+    <h2>
         <doc-anchor-trigger class="header-anchor-trigger" to="#integrate-a-backend-language-setting">#</doc-anchor-trigger>
         <span>Integrate a backend language setting</span>
-    </h3>
+    </h2>
 </doc-anchor-target>
 <p>For many applications, the displayed language is expected to be derived from an application specific user &quot;preferred language&quot; setting stored in a remote database. Therefore, the frontend remains unaware of this setting value until the user session is loaded.</p>
 <p>Hence, the strategy to select the displayed language should be as follow:</p>
@@ -468,10 +464,10 @@ export function isApiError(error?: unknown): error is ApiError {
 }</code></pre>
 </doc-codeblock></div>
 </doc-panel>
-<doc-anchor-target id="setup-a-module">
+<doc-anchor-target id="configure-a-module">
     <h2>
-        <doc-anchor-trigger class="header-anchor-trigger" to="#setup-a-module">#</doc-anchor-trigger>
-        <span>Setup a module</span>
+        <doc-anchor-trigger class="header-anchor-trigger" to="#configure-a-module">#</doc-anchor-trigger>
+        <span>Configure a module</span>
     </h2>
 </doc-anchor-target>
 <doc-anchor-target id="define-a-localized-resource-file">
@@ -567,21 +563,7 @@ export const registerHost: ModuleRegisterFunction&lt;FireflyRuntime&gt; = runtim
         <span>Localize a page resource</span>
     </h3>
 </doc-anchor-target>
-<p>Then, update the <code translate="no" v-pre>Page</code> component to use the newly created localized resource:</p>
-<div class="codeblock-wrapper"><doc-codeblock>
-<pre translate="no" class="language-tsx" data-line="6-7,10"><code v-pre class="language-tsx">import { useI18nextInstance } from &quot;@squide/i18next&quot;;
-import { useTranslation } from &quot;react-i18next&quot;;
-
-export function Page() {
-    // Must be the same instance key that has been used to register the i18next instance previously in the &quot;register&quot; function.
-    const i18nextInstance = useI18nextInstance(&quot;local-module&quot;);
-    const { t } = useTranslation(&quot;Page&quot;, { i18n: i18nextInstance });
-
-    return (
-        &lt;div&gt;{t(&quot;bodyText&quot;)}&lt;/div&gt;
-    );
-}</code></pre>
-</doc-codeblock></div>
+<p>Next, follow the <a href="../../essentials/localize-resources/">localize resources</a> essential page to use the newly created localized resource.</p>
 <doc-anchor-target id="try-it-rocket">
     <h2>
         <doc-anchor-trigger class="header-anchor-trigger" to="#try-it-rocket">#</doc-anchor-trigger>

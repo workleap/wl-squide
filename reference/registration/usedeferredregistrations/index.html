@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <meta name="turbo-root" content="/wl-squide">
-    <meta name="turbo-cache-control" content="no-cache" data-turbo-track="reload" data-track-token="3.12.0-preview2.817684748532">
+    <meta name="turbo-cache-control" content="no-cache" data-turbo-track="reload" data-track-token="3.12.0-preview2.818737357694">
 
     <!-- See retype.com -->
     <meta name="generator" content="Retype 3.12.0-preview2">
@@ -12,7 +12,7 @@
     <!-- Primary Meta Tags -->
     <title>useDeferredRegistrations</title>
     <meta name="title" content="useDeferredRegistrations">
-    <meta name="description" content="Register the modules deferred registration functions when the global data is initially fetched or update the deferred registration functions whenever...">
+    <meta name="description" content="Register the modules deferred registration functions when the global data is initially fetched and update the deferred registration functions whenever...">
 
     <!-- Canonical -->
     <link rel="canonical" href="https://workleap.github.io/wl-squide/reference/registration/usedeferredregistrations/">
@@ -21,23 +21,23 @@
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://workleap.github.io/wl-squide/reference/registration/usedeferredregistrations/">
     <meta property="og:title" content="useDeferredRegistrations">
-    <meta property="og:description" content="Register the modules deferred registration functions when the global data is initially fetched or update the deferred registration functions whenever...">
+    <meta property="og:description" content="Register the modules deferred registration functions when the global data is initially fetched and update the deferred registration functions whenever...">
 
     <!-- Twitter -->
     <meta property="twitter:card" content="summary_large_image">
     <meta property="twitter:url" content="https://workleap.github.io/wl-squide/reference/registration/usedeferredregistrations/">
     <meta property="twitter:title" content="useDeferredRegistrations">
-    <meta property="twitter:description" content="Register the modules deferred registration functions when the global data is initially fetched or update the deferred registration functions whenever...">
+    <meta property="twitter:description" content="Register the modules deferred registration functions when the global data is initially fetched and update the deferred registration functions whenever...">
 
     <script data-cfasync="false">(function(){var cl=document.documentElement.classList,ls=localStorage.getItem("retype_scheme"),hd=cl.contains("dark"),hl=cl.contains("light"),wm=window.matchMedia&&window.matchMedia("(prefers-color-scheme: dark)").matches;if(ls==="dark"||(!ls&&wm&&!hd&&!hl)){cl.remove("light");cl.add("dark")}else if(ls==="light"||(!ls&&!wm&&!hd&&!hl)){cl.remove("dark");cl.add("light")}})();</script>
 
     <link id="retype-favicon" rel="icon" href="../../../static/favicon.png" />
-    <link href="../../../resources/css/retype.css?v=3.12.0-preview2.817684748532" rel="stylesheet">
+    <link href="../../../resources/css/retype.css?v=3.12.0-preview2.818737357694" rel="stylesheet">
 
-    <script data-cfasync="false" src="../../../resources/js/config.js?v=3.12.0-preview2.817684748532" data-turbo-eval="false" defer></script>
+    <script data-cfasync="false" src="../../../resources/js/config.js?v=3.12.0-preview2.818737357694" data-turbo-eval="false" defer></script>
     <script data-cfasync="false" src="../../../resources/js/retype.js?v=3.12.0-preview2" data-turbo-eval="false" defer></script>
-    <script id="lunr-js" data-cfasync="false" src="../../../resources/js/lunr.js?v=3.12.0-preview2.817684748532" data-turbo-eval="false" defer></script>
-    <script id="prism-js" data-cfasync="false" src="../../../resources/js/prism.js?v=3.12.0-preview2.817684748532" defer></script>
+    <script id="lunr-js" data-cfasync="false" src="../../../resources/js/lunr.js?v=3.12.0-preview2.818737357694" data-turbo-eval="false" defer></script>
+    <script id="prism-js" data-cfasync="false" src="../../../resources/js/prism.js?v=3.12.0-preview2.818737357694" defer></script>
 
     <link href="https://workleap.github.io/wl-idp-docs-hub/static/retype-customization.css" rel="stylesheet" />
 
@@ -285,7 +285,7 @@
         <span>useDeferredRegistrations</span>
     </h1>
 </doc-anchor-target>
-<p>Register the modules <a href="../initializefirefly/#defer-the-registration-of-navigation-items">deferred registration</a> functions when the global data is initially fetched or update the deferred registration functions whenever the global data change.</p>
+<p>Register the modules <a href="../initializefirefly/#defer-the-registration-of-navigation-items">deferred registration</a> functions when the global data is initially fetched and update the deferred registration functions whenever the global data or the feature flags changes.</p>
 <div class="flex mb-6">
     <div class="shrink-0 w-1.5 rounded-tl-lg rounded-bl-lg bg-callout-tip"></div>
     <div class="flex w-full py-4 border border-l-0 rounded-tr-lg rounded-br-lg doc-callout bg-callout-base-bg border-callout-base-border" role="alert">
@@ -297,7 +297,7 @@
             </svg>
         </div>
         <div class="pr-5 ml-3 w-full">
-<p>This hook should always be used in combination with <a href="../initializefirefly/#defer-the-registration-of-navigation-items">deferred registration</a> functions and with either the <a href="../../global-data-fetching/usepublicdataqueries/">usePublicDataQueries</a> hook or the <a href="../../global-data-fetching/useprotecteddataqueries/">useProtectedDataQueries</a> hook (can be both).</p>
+<p>This hook should always be used in combination with <a href="../initializefirefly/#defer-the-registration-of-navigation-items">deferred registrations</a>.</p>
         </div>
     </div>
 </div>
@@ -308,7 +308,7 @@
     </h2>
 </doc-anchor-target>
 <div class="codeblock-wrapper"><doc-codeblock>
-<pre translate="no" class="language-typescript"><code v-pre class="language-typescript">useDeferredRegistrations(data: {}, options?: { onError? });</code></pre>
+<pre translate="no" class="language-typescript"><code v-pre class="language-typescript">useDeferredRegistrations(data?: {}, options?: { onError? });</code></pre>
 </doc-codeblock></div>
 <doc-anchor-target id="parameters">
     <h3>
@@ -317,7 +317,7 @@
     </h3>
 </doc-anchor-target>
 <ul>
-<li><code translate="no" v-pre>data</code>: An object literal of data that will be passed to the deferred registration functions.</li>
+<li><code translate="no" v-pre>data</code>: An optional object literal of data that will be passed to the deferred registration functions.</li>
 <li><code translate="no" v-pre>options</code>: An optional object literal of options:
 <ul>
 <li><code translate="no" v-pre>onError</code>: An optional function receiving an array of <code translate="no" v-pre>ModuleRegistrationError</code> instances as argument.</li>
@@ -337,15 +337,16 @@
         <span>Usage</span>
     </h2>
 </doc-anchor-target>
-<doc-anchor-target id="register-or-update-deferred-registrations">
+<doc-anchor-target id="register-or-update-deferred-registrations-with-global-data">
     <h3>
-        <doc-anchor-trigger class="header-anchor-trigger" to="#register-or-update-deferred-registrations">#</doc-anchor-trigger>
-        <span>Register or update deferred registrations</span>
+        <doc-anchor-trigger class="header-anchor-trigger" to="#register-or-update-deferred-registrations-with-global-data">#</doc-anchor-trigger>
+        <span>Register or update deferred registrations with global data</span>
     </h3>
 </doc-anchor-target>
+<p>If the deferred registration depends on remote data (and optionally on feature flags as well), the registrations must be registered and updated with a data object.</p>
 <div class="codeblock-wrapper"><doc-codeblock>
-<div class="codeblock-title">host/src/AppRouter.tsx</div>
-<pre translate="no" class="language-tsx" data-line="18-23"><code v-pre class="language-tsx">import { usePublicDataQueries, useProtectedDataQueries, useDeferredRegistrations, useIsBootstrapping, AppRouter as FireflyAppRouter } from &quot;@squide/firefly&quot;;
+<div class="codeblock-title">host/src/App.tsx</div>
+<pre translate="no" class="language-tsx" data-line="18-21,23"><code v-pre class="language-tsx">import { usePublicDataQueries, useProtectedDataQueries, useDeferredRegistrations, useIsBootstrapping, AppRouter } from &quot;@squide/firefly&quot;;
 import { useMemo } from &quot;react&quot;;
 import { createBrowserRouter, Outlet } from &quot;react-router&quot;;
 import { RouterProvider } from &quot;react-router/dom&quot;;
@@ -376,9 +377,9 @@ function BootstrappingRoute() {
     return &lt;Outlet /&gt;;
 }
 
-export function AppRouter() {
+export function App() {
     return (
-        &lt;FireflyAppRouter&gt;
+        &lt;AppRouter waitForPublicData waitForProtectedData&gt;
             {({ rootRoute, registeredRoutes, routerProviderProps }) =&gt; {
                 return (
                     &lt;RouterProvider
@@ -397,7 +398,55 @@ export function AppRouter() {
                     /&gt;
                 );
             }}
-        &lt;/FireflyAppRouter&gt;
+        &lt;/AppRouter&gt;
+    );
+}</code></pre>
+</doc-codeblock></div>
+<doc-anchor-target id="register-or-update-deferred-registrations-without-global-data">
+    <h3>
+        <doc-anchor-trigger class="header-anchor-trigger" to="#register-or-update-deferred-registrations-without-global-data">#</doc-anchor-trigger>
+        <span>Register or update deferred registrations without global data</span>
+    </h3>
+</doc-anchor-target>
+<p>If the deferred registration only depends on feature flags, the deferred registrations can be registered or updated without providing a data object.</p>
+<div class="codeblock-wrapper"><doc-codeblock>
+<div class="codeblock-title">host/src/App.tsx</div>
+<pre translate="no" class="language-tsx" data-line="6"><code v-pre class="language-tsx">import { useDeferredRegistrations, useIsBootstrapping, AppRouter } from &quot;@squide/firefly&quot;;
+import { createBrowserRouter, Outlet } from &quot;react-router&quot;;
+import { RouterProvider } from &quot;react-router/dom&quot;;
+
+function BootstrappingRoute() {
+    useDeferredRegistrations();
+
+    if (useIsBootstrapping()) {
+        return &lt;div&gt;Loading...&lt;/div&gt;;
+    }
+
+    return &lt;Outlet /&gt;;
+}
+
+export function App() {
+    return (
+        &lt;AppRouter&gt;
+            {({ rootRoute, registeredRoutes, routerProviderProps }) =&gt; {
+                return (
+                    &lt;RouterProvider
+                        router={createBrowserRouter([
+                            {
+                                element: rootRoute,
+                                children: [
+                                    {
+                                        element: &lt;BootstrappingRoute /&gt;,
+                                        children: registeredRoutes
+                                    }
+                                ]
+                            }
+                        ])}
+                        {...routerProviderProps}
+                    /&gt;
+                );
+            }}
+        &lt;/AppRouter&gt;
     );
 }</code></pre>
 </doc-codeblock></div>
@@ -408,24 +457,17 @@ export function AppRouter() {
     </h3>
 </doc-anchor-target>
 <div class="codeblock-wrapper"><doc-codeblock>
-<div class="codeblock-title">host/src/AppRouter.tsx</div>
-<pre translate="no" class="language-tsx" data-line="11-15,18"><code v-pre class="language-tsx">import { useDeferredRegistrations, type DeferredRegistrationsErrorCallback } from &quot;@squide/firefly&quot;;
-import type { DeferredRegistrationData } from &quot;@sample/shared&quot;;
-import { useMemo } from &quot;react&quot;;
-import { getUserInfoQuery } from &quot;./getUserInfoQuery&quot;;
+<div class="codeblock-title">host/src/App.tsx</div>
+<pre translate="no" class="language-tsx" data-line="4-8,11"><code v-pre class="language-tsx">import { useDeferredRegistrations, type DeferredRegistrationsErrorCallback } from &quot;@squide/firefly&quot;;
 
 function BootstrappingRoute() {
-    const [userInfo] = usePublicDataQueries([getUserInfoQuery]);
-
-    const data: DeferredRegistrationData = useMemo(() =&gt; ({ userInfo }), [userInfo]);
-
     const handleErrors: DeferredRegistrationsErrorCallback = errors =&gt; {
         errors.forEach(x =&gt; {
             console.error(x);
         });
     };
 
-    useDeferredRegistrations(data, {
+    useDeferredRegistrations(undefined, {
         onError: handleErrors
     });
 

@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <meta name="turbo-root" content="/wl-squide">
-    <meta name="turbo-cache-control" content="no-cache" data-turbo-track="reload" data-track-token="3.12.0-preview2.817684748532">
+    <meta name="turbo-cache-control" content="no-cache" data-turbo-track="reload" data-track-token="3.12.0-preview2.818737357694">
 
     <!-- See retype.com -->
     <meta name="generator" content="Retype 3.12.0-preview2">
@@ -32,12 +32,12 @@
     <script data-cfasync="false">(function(){var cl=document.documentElement.classList,ls=localStorage.getItem("retype_scheme"),hd=cl.contains("dark"),hl=cl.contains("light"),wm=window.matchMedia&&window.matchMedia("(prefers-color-scheme: dark)").matches;if(ls==="dark"||(!ls&&wm&&!hd&&!hl)){cl.remove("light");cl.add("dark")}else if(ls==="light"||(!ls&&!wm&&!hd&&!hl)){cl.remove("dark");cl.add("light")}})();</script>
 
     <link id="retype-favicon" rel="icon" href="../../../static/favicon.png" />
-    <link href="../../../resources/css/retype.css?v=3.12.0-preview2.817684748532" rel="stylesheet">
+    <link href="../../../resources/css/retype.css?v=3.12.0-preview2.818737357694" rel="stylesheet">
 
-    <script data-cfasync="false" src="../../../resources/js/config.js?v=3.12.0-preview2.817684748532" data-turbo-eval="false" defer></script>
+    <script data-cfasync="false" src="../../../resources/js/config.js?v=3.12.0-preview2.818737357694" data-turbo-eval="false" defer></script>
     <script data-cfasync="false" src="../../../resources/js/retype.js?v=3.12.0-preview2" data-turbo-eval="false" defer></script>
-    <script id="lunr-js" data-cfasync="false" src="../../../resources/js/lunr.js?v=3.12.0-preview2.817684748532" data-turbo-eval="false" defer></script>
-    <script id="prism-js" data-cfasync="false" src="../../../resources/js/prism.js?v=3.12.0-preview2.817684748532" defer></script>
+    <script id="lunr-js" data-cfasync="false" src="../../../resources/js/lunr.js?v=3.12.0-preview2.818737357694" data-turbo-eval="false" defer></script>
+    <script id="prism-js" data-cfasync="false" src="../../../resources/js/prism.js?v=3.12.0-preview2.818737357694" defer></script>
 
     <link href="https://workleap.github.io/wl-idp-docs-hub/static/retype-customization.css" rel="stylesheet" />
 
@@ -293,7 +293,7 @@
     </h2>
 </doc-anchor-target>
 <div class="codeblock-wrapper"><doc-codeblock>
-<pre translate="no" class="language-typescript"><code v-pre class="language-typescript">const plugin = new i18nextPlugin(supportedLanguages: [], fallbackLanguage, queryStringKey, options?: { detection? })</code></pre>
+<pre translate="no" class="language-typescript"><code v-pre class="language-typescript">const plugin = new i18nextPlugin(runtime, supportedLanguages: [], fallbackLanguage, queryStringKey, options?: { detection? })</code></pre>
 </doc-codeblock></div>
 <doc-anchor-target id="parameters">
     <h3>
@@ -302,6 +302,7 @@
     </h3>
 </doc-anchor-target>
 <ul>
+<li><code translate="no" v-pre>runtime</code>: A runtime instance.</li>
 <li><code translate="no" v-pre>supportedLanguages</code>: An array of languages supported by the application.</li>
 <li><code translate="no" v-pre>fallbackLanguage</code>: The language to default to if none of the detected user&#x27;s languages match any supported language.</li>
 <li><code translate="no" v-pre>queryStringKey</code>: The querystring parameter lookup when detecting the user&#x27;s language.</li>
@@ -324,11 +325,16 @@
     </h3>
 </doc-anchor-target>
 <div class="codeblock-wrapper"><doc-codeblock>
-<pre translate="no" class="language-typescript" data-line="5"><code v-pre class="language-typescript">import { i18nextPlugin } from &quot;@squide/i18next&quot;;
+<pre translate="no" class="language-typescript" data-line="5-10"><code v-pre class="language-typescript">import { i18nextPlugin } from &quot;@squide/i18next&quot;;
 import { FireflyRuntime } from &quot;@squide/firefly&quot;;
 
 const runtime = new FireflyRuntime({
-    plugins: [x =&gt; new i18nextPlugin([&quot;en-US&quot;, &quot;fr-CA&quot;], &quot;en-US&quot;, &quot;language&quot;, undefined, runtime)]
+    plugins: [x =&gt; {
+        const i18nextPlugin = new i18nextPlugin(x, [&quot;en-US&quot;, &quot;fr-CA&quot;], &quot;en-US&quot;, &quot;language&quot;);
+        i18nextPlugin.detectUserLanguage();
+
+        return i18nextPlugin;
+    }]
 });</code></pre>
 </doc-codeblock></div>
 <doc-anchor-target id="retrieve-the-plugin-instance">
@@ -401,16 +407,18 @@ const instance = plugin.getInstance(&quot;an-instance-key&quot;);</code></pre>
 </doc-anchor-target>
 <p>Whenever a plugin instance is created, the user&#x27;s language should always be detected immediatly using the <code translate="no" v-pre>detectUserLanguage</code> function.</p>
 <div class="codeblock-wrapper"><doc-codeblock>
-<pre translate="no" class="language-typescript" data-line="7"><code v-pre class="language-typescript">import { i18nextPlugin } from &quot;@squide/i18next&quot;;
+<pre translate="no" class="language-typescript" data-line="9"><code v-pre class="language-typescript">import { i18nextPlugin } from &quot;@squide/i18next&quot;;
 import { FireflyRuntime } from &quot;@squide/firefly&quot;;
 
-const plugin = new i18nextPlugin([&quot;en-US&quot;, &quot;fr-CA&quot;], &quot;en-US&quot;, &quot;language&quot;);
-
-// If no detected languages match any of the supported languages, the fallback language will be applied.
-plugin.detectUserLanguage();
-
 const runtime = new FireflyRuntime({
-    plugins: [plugin]
+    plugins: [x =&gt; {
+        const i18nextPlugin = new i18nextPlugin(x, [&quot;en-US&quot;, &quot;fr-CA&quot;], &quot;en-US&quot;, &quot;language&quot;);
+
+        // If no detected languages match any of the supported languages, the fallback language will be applied.
+        i18nextPlugin.detectUserLanguage();
+
+        return i18nextPlugin;
+    }]
 });</code></pre>
 </doc-codeblock></div>
 <doc-anchor-target id="retrieve-the-current-language">

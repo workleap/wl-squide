@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <meta name="turbo-root" content="/wl-squide">
-    <meta name="turbo-cache-control" content="no-cache" data-turbo-track="reload" data-track-token="3.12.0-preview2.817684748532">
+    <meta name="turbo-cache-control" content="no-cache" data-turbo-track="reload" data-track-token="3.12.0-preview2.818737357694">
 
     <!-- See retype.com -->
     <meta name="generator" content="Retype 3.12.0-preview2">
@@ -32,12 +32,12 @@
     <script data-cfasync="false">(function(){var cl=document.documentElement.classList,ls=localStorage.getItem("retype_scheme"),hd=cl.contains("dark"),hl=cl.contains("light"),wm=window.matchMedia&&window.matchMedia("(prefers-color-scheme: dark)").matches;if(ls==="dark"||(!ls&&wm&&!hd&&!hl)){cl.remove("light");cl.add("dark")}else if(ls==="light"||(!ls&&!wm&&!hd&&!hl)){cl.remove("dark");cl.add("light")}})();</script>
 
     <link id="retype-favicon" rel="icon" href="../../static/favicon.png" />
-    <link href="../../resources/css/retype.css?v=3.12.0-preview2.817684748532" rel="stylesheet">
+    <link href="../../resources/css/retype.css?v=3.12.0-preview2.818737357694" rel="stylesheet">
 
-    <script data-cfasync="false" src="../../resources/js/config.js?v=3.12.0-preview2.817684748532" data-turbo-eval="false" defer></script>
+    <script data-cfasync="false" src="../../resources/js/config.js?v=3.12.0-preview2.818737357694" data-turbo-eval="false" defer></script>
     <script data-cfasync="false" src="../../resources/js/retype.js?v=3.12.0-preview2" data-turbo-eval="false" defer></script>
-    <script id="lunr-js" data-cfasync="false" src="../../resources/js/lunr.js?v=3.12.0-preview2.817684748532" data-turbo-eval="false" defer></script>
-    <script id="prism-js" data-cfasync="false" src="../../resources/js/prism.js?v=3.12.0-preview2.817684748532" defer></script>
+    <script id="lunr-js" data-cfasync="false" src="../../resources/js/lunr.js?v=3.12.0-preview2.818737357694" data-turbo-eval="false" defer></script>
+    <script id="prism-js" data-cfasync="false" src="../../resources/js/prism.js?v=3.12.0-preview2.818737357694" defer></script>
 
     <link href="https://workleap.github.io/wl-idp-docs-hub/static/retype-customization.css" rel="stylesheet" />
 
@@ -381,7 +381,7 @@ const variables = useEnvironmentVariables();</code></pre>
 </doc-codeblock></div>
 <p>Using the runtime instance:</p>
 <div class="codeblock-wrapper"><doc-codeblock>
-<pre translate="no" class="language-typescript" data-line="1"><code v-pre class="language-typescript">const variables = runtime.getEnvironmentVariables();</code></pre>
+<pre translate="no" class="language-typescript" data-line="1"><code v-pre class="language-typescript">const variables = runtime.environmentVariables;</code></pre>
 </doc-codeblock></div>
 <doc-anchor-target id="setup-the-typings">
     <h2>
@@ -461,7 +461,7 @@ export function useAbsoluteUrl(path: string) {
 </doc-codeblock></div>
 <p>The following unit test can be written to mock the value of <code translate="no" v-pre>apiBaseUrl</code> and test the ouput of the <code translate="no" v-pre>useAbsoluteUrl</code> hook:</p>
 <div class="codeblock-wrapper"><doc-codeblock>
-<div class="codeblock-title">./tests/useAbsoluteUrl.tsx</div>
+<div class="codeblock-title">./tests/useAbsoluteUrl.test.tsx</div>
 <pre translate="no" class="language-tsx" data-line="8-12,17,19"><code v-pre class="language-tsx">import { FireflyProvider, FireflyRuntime, EnvironmentVariablesPlugin } from &quot;@squide/firefly&quot;;
 import { renderHook } from &quot;@testing-library/react&quot;;
 import type { ReactNode } from &quot;react&quot;;
@@ -493,32 +493,7 @@ test(&quot;an absolute URL including the API base URL is returned&quot;, () =&gt
         <span>Setup with Storybook</span>
     </h2>
 </doc-anchor-target>
-<p>Components included in <a href="https://storybook.js.org/docs" class="outbound" target="_blank">Storybook</a> stories often rely on environment variables. The <a href="">EnvironmentVariablesPlugin</a> instance can be used to mock these variables:</p>
-<div class="codeblock-wrapper"><doc-codeblock>
-<div class="codeblock-title">.storybook/preview.tsx</div>
-<pre translate="no" class="language-tsx" data-line="5-9,15,17"><code v-pre class="language-tsx">import { FireflyRuntime, FireflyProvider, EnvironmentVariablesPlugin } from &quot;@squide/firefly&quot;;
-import type { Preview } from &quot;@storybook/react&quot;;
-
-const runtime = new FireflyRuntime({
-    plugins: [x =&gt; new EnvironmentVariablesPlugin({
-        variables: {
-            &quot;apiBaseUrl&quot;: &quot;https://my-api.com&quot;
-        }
-    })]
-});
-
-const preview: Preview = {
-    decorators: [Story =&gt; {
-        return (
-            &lt;FireflyProvider runtime={runtime}&gt;
-                &lt;Story /&gt;
-            &lt;/FireflyProvider&gt;
-        );
-    }]
-};
-
-export default preview;</code></pre>
-</doc-codeblock></div>
+<p>To set up <a href="https://storybook.js.org/docs" class="outbound" target="_blank">Storybook</a> stories with environment variables, refer to the <a href="../../integrations/setup-storybook/#setup-environment-variables">setup Storybook</a> integration guide.</p>
 
                                 
                                 <!-- Required only on API pages -->
@@ -544,10 +519,10 @@ export default preview;</code></pre>
                                     </div>
                             
                                     <div class="w-1/2">
-                                        <a class="px-5 py-4 -mx-px h-full flex items-center justify-end break-normal font-medium text-body-link border border-base-border hover:border-base-border-hover rounded-r-lg transition-colors duration-150 relative hover:z-5" href="../../essentials/set-honeycomb-custom-attributes/">
+                                        <a class="px-5 py-4 -mx-px h-full flex items-center justify-end break-normal font-medium text-body-link border border-base-border hover:border-base-border-hover rounded-r-lg transition-colors duration-150 relative hover:z-5" href="../../essentials/use-feature-flags/">
                                             <span>
                                                 <span class="block text-xs font-normal text-right text-base-text-muted">Next</span>
-                                                <span class="block mt-1">Set Honeycomb custom attributes</span>
+                                                <span class="block mt-1">Use feature flags</span>
                                             </span>
                                             <svg xmlns="http://www.w3.org/2000/svg" class="ml-3" width="24" height="24" viewBox="0 0 24 24" fill="currentColor" overflow="visible"><path d="M19.92 12.38a1 1 0 00-.22-1.09l-7-7a.996.996 0 10-1.41 1.41l5.3 5.3H5c-.55 0-1 .45-1 1s.45 1 1 1h11.59l-5.29 5.29a.996.996 0 000 1.41c.19.2.44.3.7.3s.51-.1.71-.29l7-7c.09-.09.16-.21.21-.33z" /><path fill="none" d="M0 0h24v24H0z" /></svg>
                                         </a>

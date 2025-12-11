@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <meta name="turbo-root" content="/wl-squide">
-    <meta name="turbo-cache-control" content="no-cache" data-turbo-track="reload" data-track-token="3.12.0-preview2.817684748532">
+    <meta name="turbo-cache-control" content="no-cache" data-turbo-track="reload" data-track-token="3.12.0-preview2.818737357694">
 
     <!-- See retype.com -->
     <meta name="generator" content="Retype 3.12.0-preview2">
@@ -32,12 +32,12 @@
     <script data-cfasync="false">(function(){var cl=document.documentElement.classList,ls=localStorage.getItem("retype_scheme"),hd=cl.contains("dark"),hl=cl.contains("light"),wm=window.matchMedia&&window.matchMedia("(prefers-color-scheme: dark)").matches;if(ls==="dark"||(!ls&&wm&&!hd&&!hl)){cl.remove("light");cl.add("dark")}else if(ls==="light"||(!ls&&!wm&&!hd&&!hl)){cl.remove("dark");cl.add("light")}})();</script>
 
     <link id="retype-favicon" rel="icon" href="../../static/favicon.png" />
-    <link href="../../resources/css/retype.css?v=3.12.0-preview2.817684748532" rel="stylesheet">
+    <link href="../../resources/css/retype.css?v=3.12.0-preview2.818737357694" rel="stylesheet">
 
-    <script data-cfasync="false" src="../../resources/js/config.js?v=3.12.0-preview2.817684748532" data-turbo-eval="false" defer></script>
+    <script data-cfasync="false" src="../../resources/js/config.js?v=3.12.0-preview2.818737357694" data-turbo-eval="false" defer></script>
     <script data-cfasync="false" src="../../resources/js/retype.js?v=3.12.0-preview2" data-turbo-eval="false" defer></script>
-    <script id="lunr-js" data-cfasync="false" src="../../resources/js/lunr.js?v=3.12.0-preview2.817684748532" data-turbo-eval="false" defer></script>
-    <script id="prism-js" data-cfasync="false" src="../../resources/js/prism.js?v=3.12.0-preview2.817684748532" defer></script>
+    <script id="lunr-js" data-cfasync="false" src="../../resources/js/lunr.js?v=3.12.0-preview2.818737357694" data-turbo-eval="false" defer></script>
+    <script id="prism-js" data-cfasync="false" src="../../resources/js/prism.js?v=3.12.0-preview2.818737357694" defer></script>
 
     <link href="https://workleap.github.io/wl-idp-docs-hub/static/retype-customization.css" rel="stylesheet" />
 
@@ -364,6 +364,54 @@ export const register: ModuleRegisterFunction&lt;FireflyRuntime&gt; = runtime =&
 <li><a href="../../essentials/register-msw-handlers/">Register MSW request handlers</a></li>
 <li><a href="../../integrations/setup-msw/">Setup MSW</a></li>
 </ul>
+<doc-anchor-target id="deferred-registrations">
+    <h2>
+        <doc-anchor-trigger class="header-anchor-trigger" to="#deferred-registrations">#</doc-anchor-trigger>
+        <span>Deferred registrations</span>
+    </h2>
+</doc-anchor-target>
+<p>Modules can delay registering navigation items until global data or feature flags are available by returning a registration function. That function is re-executed whenever global data or feature flags change, keeping the registrations up to date.</p>
+<doc-panel id="code-sample" collapsed>
+    <template #title><svg xmlns="http://www.w3.org/2000/svg" class="docs-icon" viewBox="0 0 24 24" role="presentation"><g fill="currentColor"><g><path d="M3 3a2 2 0 0 1 2-2h9.982a2 2 0 0 1 1.414.586l4.018 4.018A2 2 0 0 1 21 7.018V21a2 2 0 0 1-2 2H4.75a.75.75 0 0 1 0-1.5H19a.5.5 0 0 0 .5-.5V8.5h-4a2 2 0 0 1-2-2v-4H5a.5.5 0 0 0-.5.5v6.25a.75.75 0 0 1-1.5 0Zm12-.5v4a.5.5 0 0 0 .5.5h4a.5.5 0 0 0-.146-.336l-4.018-4.018A.5.5 0 0 0 15 2.5Z"/><path d="M4.53 12.24a.75.75 0 0 1-.039 1.06l-2.639 2.45 2.64 2.45a.75.75 0 1 1-1.022 1.1l-3.23-3a.75.75 0 0 1 0-1.1l3.23-3a.75.75 0 0 1 1.06.04Zm3.979 1.06a.75.75 0 1 1 1.02-1.1l3.231 3a.75.75 0 0 1 0 1.1l-3.23 3a.75.75 0 1 1-1.021-1.1l2.639-2.45-2.64-2.45Z"/></g></g></svg> Code sample</template>
+<div class="codeblock-wrapper"><doc-codeblock>
+<pre translate="no" class="language-tsx" data-line="18-26"><code v-pre class="language-tsx">import type { ModuleRegisterFunction, FireflyRuntime } from &quot;@squide/firefly&quot;;
+import { Page } from &quot;./Page.tsx&quot;
+
+export const register: ModuleRegisterFunction&lt;FireflyRuntime&gt; = runtime =&gt; {
+    runtime.registerRoute({
+        path: &quot;/page-1&quot;,
+        element: &lt;Page /&gt;
+    });
+
+    if (runtime.isMswEnabled) {
+        // Files that includes an import to the &quot;msw&quot; package are included dynamically to prevent adding
+        // unused MSW code in production bundles.
+        const requestHandlers = (await import(&quot;../mocks/handlers.ts&quot;)).requestHandlers;
+
+        runtime.registerRequestHandlers(requestHandlers);
+    }
+
+    return (deferredRuntime, { userData }) =&gt; {
+        if (userData.isAdmin &amp;&amp; deferredRuntime.getFeatureFlag(&quot;enable-page-1&quot;)) {
+            runtime.registerNavigationItem({
+                $id: &quot;page-1&quot;,
+                $label: &quot;Page 1&quot;,
+                to: &quot;/page-1&quot;
+            });
+        }
+    };
+};</code></pre>
+</doc-codeblock></div>
+</doc-panel>
+<doc-anchor-target id="learn-more-2">
+    <h4>
+        <doc-anchor-trigger class="header-anchor-trigger" to="#learn-more-2">#</doc-anchor-trigger>
+        <span>Learn more</span>
+    </h4>
+</doc-anchor-target>
+<ul>
+<li><a href="../../essentials/register-deferred-nav-items/">Register deferred navigation items</a></li>
+</ul>
 <doc-anchor-target id="public-and-protected-pages">
     <h2>
         <doc-anchor-trigger class="header-anchor-trigger" to="#public-and-protected-pages">#</doc-anchor-trigger>
@@ -395,9 +443,9 @@ export const register: ModuleRegisterFunction&lt;FireflyRuntime&gt; = runtime =&
 };</code></pre>
 </doc-codeblock></div>
 </doc-panel>
-<doc-anchor-target id="learn-more-2">
+<doc-anchor-target id="learn-more-3">
     <h4>
-        <doc-anchor-trigger class="header-anchor-trigger" to="#learn-more-2">#</doc-anchor-trigger>
+        <doc-anchor-trigger class="header-anchor-trigger" to="#learn-more-3">#</doc-anchor-trigger>
         <span>Learn more</span>
     </h4>
 </doc-anchor-target>
@@ -466,9 +514,9 @@ function BootstrappingRoute() {
 }</code></pre>
 </doc-codeblock></div>
 </doc-panel>
-<doc-anchor-target id="learn-more-3">
+<doc-anchor-target id="learn-more-4">
     <h4>
-        <doc-anchor-trigger class="header-anchor-trigger" to="#learn-more-3">#</doc-anchor-trigger>
+        <doc-anchor-trigger class="header-anchor-trigger" to="#learn-more-4">#</doc-anchor-trigger>
         <span>Learn more</span>
     </h4>
 </doc-anchor-target>
@@ -506,9 +554,9 @@ const dispatch = useEventBusDispatcher();
 dispatch(&quot;foo&quot;, &quot;bar&quot;);</code></pre>
 </doc-codeblock></div>
 </doc-panel>
-<doc-anchor-target id="learn-more-4">
+<doc-anchor-target id="learn-more-5">
     <h4>
-        <doc-anchor-trigger class="header-anchor-trigger" to="#learn-more-4">#</doc-anchor-trigger>
+        <doc-anchor-trigger class="header-anchor-trigger" to="#learn-more-5">#</doc-anchor-trigger>
         <span>Learn more</span>
     </h4>
 </doc-anchor-target>
@@ -532,9 +580,9 @@ const logger = useLogger();
 logger.debug(&quot;Hello!&quot;);</code></pre>
 </doc-codeblock></div>
 </doc-panel>
-<doc-anchor-target id="learn-more-5">
+<doc-anchor-target id="learn-more-6">
     <h4>
-        <doc-anchor-trigger class="header-anchor-trigger" to="#learn-more-5">#</doc-anchor-trigger>
+        <doc-anchor-trigger class="header-anchor-trigger" to="#learn-more-6">#</doc-anchor-trigger>
         <span>Learn more</span>
     </h4>
 </doc-anchor-target>
@@ -567,16 +615,57 @@ const runtime = initializeFirefly({
 const variable = useEnvironmentVariable(&quot;apiBaseUrl&quot;);</code></pre>
 </doc-codeblock></div>
 </doc-panel>
-<doc-anchor-target id="learn-more-6">
+<doc-anchor-target id="learn-more-7">
     <h4>
-        <doc-anchor-trigger class="header-anchor-trigger" to="#learn-more-6">#</doc-anchor-trigger>
+        <doc-anchor-trigger class="header-anchor-trigger" to="#learn-more-7">#</doc-anchor-trigger>
         <span>Learn more</span>
     </h4>
 </doc-anchor-target>
 <ul>
 <li><a href="../../essentials/use-env-variables/">Use environment variables</a></li>
 </ul>
-<!-- ## Feature flags -->
+<doc-anchor-target id="feature-flags">
+    <h2>
+        <doc-anchor-trigger class="header-anchor-trigger" to="#feature-flags">#</doc-anchor-trigger>
+        <span>Feature flags</span>
+    </h2>
+</doc-anchor-target>
+<p>Squide integrates with <a href="https://launchdarkly.com/" class="outbound" target="_blank">LaunchDarkly</a> to attach feature flags to the <a href="../../reference/runtime/fireflyruntime/">FireflyRuntime</a> instance and automatically update <a href="../../essentials/register-deferred-nav-items/">deferred registrations</a> whenever a flag value changes.</p>
+<doc-panel id="code-sample" collapsed>
+    <template #title><svg xmlns="http://www.w3.org/2000/svg" class="docs-icon" viewBox="0 0 24 24" role="presentation"><g fill="currentColor"><g><path d="M3 3a2 2 0 0 1 2-2h9.982a2 2 0 0 1 1.414.586l4.018 4.018A2 2 0 0 1 21 7.018V21a2 2 0 0 1-2 2H4.75a.75.75 0 0 1 0-1.5H19a.5.5 0 0 0 .5-.5V8.5h-4a2 2 0 0 1-2-2v-4H5a.5.5 0 0 0-.5.5v6.25a.75.75 0 0 1-1.5 0Zm12-.5v4a.5.5 0 0 0 .5.5h4a.5.5 0 0 0-.146-.336l-4.018-4.018A.5.5 0 0 0 15 2.5Z"/><path d="M4.53 12.24a.75.75 0 0 1-.039 1.06l-2.639 2.45 2.64 2.45a.75.75 0 1 1-1.022 1.1l-3.23-3a.75.75 0 0 1 0-1.1l3.23-3a.75.75 0 0 1 1.06.04Zm3.979 1.06a.75.75 0 1 1 1.02-1.1l3.231 3a.75.75 0 0 1 0 1.1l-3.23 3a.75.75 0 1 1-1.021-1.1l2.639-2.45-2.64-2.45Z"/></g></g></svg> Code sample</template>
+<div class="codeblock-wrapper"><doc-codeblock>
+<pre translate="no" class="language-typescript" data-line="14"><code v-pre class="language-typescript">import { FireflyRuntime, LaunchDarklyPlugin } from &quot;@squide/firefly&quot;;
+import { initialize as initializeLaunchDarkly } from &quot;launchdarkly-js-client-sdk&quot;;
+
+const launchDarklyClient = initializeLaunchDarkly(&quot;123&quot;, {
+    kind: &quot;user&quot;,
+    anonymous: true
+}, {
+    stream: true
+});
+
+await launchDarklyClient.waitForInitialization(5);
+
+const runtime = new FireflyRuntime({
+    plugins: [x =&gt; new LaunchDarklyPlugin(x, launchDarklyClient)]
+});</code></pre>
+</doc-codeblock></div>
+<div class="codeblock-wrapper"><doc-codeblock>
+<pre translate="no" class="language-typescript" data-line="3"><code v-pre class="language-typescript">import { useFeatureFlag } from &quot;@squide/firefly&quot;;
+
+const value = useFeatureFlag(&quot;show-characters&quot;, true);</code></pre>
+</doc-codeblock></div>
+</doc-panel>
+<doc-anchor-target id="learn-more-8">
+    <h4>
+        <doc-anchor-trigger class="header-anchor-trigger" to="#learn-more-8">#</doc-anchor-trigger>
+        <span>Learn more</span>
+    </h4>
+</doc-anchor-target>
+<ul>
+<li><a href="../../integrations/setup-launch-darkly/">Setup LaunchDarkly</a></li>
+<li><a href="../../essentials/use-feature-flags/">Use feature flags</a></li>
+</ul>
 <doc-anchor-target id="honeycomb">
     <h2>
         <doc-anchor-trigger class="header-anchor-trigger" to="#honeycomb">#</doc-anchor-trigger>
@@ -616,9 +705,9 @@ root.render(
 );</code></pre>
 </doc-codeblock></div>
 </doc-panel>
-<doc-anchor-target id="learn-more-7">
+<doc-anchor-target id="learn-more-9">
     <h4>
-        <doc-anchor-trigger class="header-anchor-trigger" to="#learn-more-7">#</doc-anchor-trigger>
+        <doc-anchor-trigger class="header-anchor-trigger" to="#learn-more-9">#</doc-anchor-trigger>
         <span>Learn more</span>
     </h4>
 </doc-anchor-target>
@@ -633,9 +722,9 @@ root.render(
     </h2>
 </doc-anchor-target>
 <p>To keep Squide lightweight, not all functionalities should be integrated as a core functionality. However, to accommodate a broad range of technologies, a <a href="../../reference/plugins/plugin/">plugin system</a> has been implemented to fill the gap.</p>
-<doc-anchor-target id="learn-more-8">
+<doc-anchor-target id="learn-more-10">
     <h4>
-        <doc-anchor-trigger class="header-anchor-trigger" to="#learn-more-8">#</doc-anchor-trigger>
+        <doc-anchor-trigger class="header-anchor-trigger" to="#learn-more-10">#</doc-anchor-trigger>
         <span>Learn more</span>
     </h4>
 </doc-anchor-target>

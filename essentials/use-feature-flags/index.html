@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <meta name="turbo-root" content="/wl-squide">
-    <meta name="turbo-cache-control" content="no-cache" data-turbo-track="reload" data-track-token="3.12.0-preview2.817684748532">
+    <meta name="turbo-cache-control" content="no-cache" data-turbo-track="reload" data-track-token="3.12.0-preview2.818737357694">
 
     <!-- See retype.com -->
     <meta name="generator" content="Retype 3.12.0-preview2">
@@ -12,7 +12,7 @@
     <!-- Primary Meta Tags -->
     <title>Use feature flags</title>
     <meta name="title" content="Use feature flags">
-    <meta name="description" content="TBD">
+    <meta name="description" content="To use feature flags, start by following the setup LaunchDarkly integration guide to create and initialize a LaunchDarkly SDK ">
 
     <!-- Canonical -->
     <link rel="canonical" href="https://workleap.github.io/wl-squide/essentials/use-feature-flags/">
@@ -21,22 +21,23 @@
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://workleap.github.io/wl-squide/essentials/use-feature-flags/">
     <meta property="og:title" content="Use feature flags">
-    <meta property="og:description" content="TBD">
+    <meta property="og:description" content="To use feature flags, start by following the setup LaunchDarkly integration guide to create and initialize a LaunchDarkly SDK ">
 
     <!-- Twitter -->
     <meta property="twitter:card" content="summary_large_image">
     <meta property="twitter:url" content="https://workleap.github.io/wl-squide/essentials/use-feature-flags/">
     <meta property="twitter:title" content="Use feature flags">
-    <meta property="twitter:description" content="TBD">
+    <meta property="twitter:description" content="To use feature flags, start by following the setup LaunchDarkly integration guide to create and initialize a LaunchDarkly SDK ">
 
     <script data-cfasync="false">(function(){var cl=document.documentElement.classList,ls=localStorage.getItem("retype_scheme"),hd=cl.contains("dark"),hl=cl.contains("light"),wm=window.matchMedia&&window.matchMedia("(prefers-color-scheme: dark)").matches;if(ls==="dark"||(!ls&&wm&&!hd&&!hl)){cl.remove("light");cl.add("dark")}else if(ls==="light"||(!ls&&!wm&&!hd&&!hl)){cl.remove("dark");cl.add("light")}})();</script>
 
     <link id="retype-favicon" rel="icon" href="../../static/favicon.png" />
-    <link href="../../resources/css/retype.css?v=3.12.0-preview2.817684748532" rel="stylesheet">
+    <link href="../../resources/css/retype.css?v=3.12.0-preview2.818737357694" rel="stylesheet">
 
-    <script data-cfasync="false" src="../../resources/js/config.js?v=3.12.0-preview2.817684748532" data-turbo-eval="false" defer></script>
+    <script data-cfasync="false" src="../../resources/js/config.js?v=3.12.0-preview2.818737357694" data-turbo-eval="false" defer></script>
     <script data-cfasync="false" src="../../resources/js/retype.js?v=3.12.0-preview2" data-turbo-eval="false" defer></script>
-    <script id="lunr-js" data-cfasync="false" src="../../resources/js/lunr.js?v=3.12.0-preview2.817684748532" data-turbo-eval="false" defer></script>
+    <script id="lunr-js" data-cfasync="false" src="../../resources/js/lunr.js?v=3.12.0-preview2.818737357694" data-turbo-eval="false" defer></script>
+    <script id="prism-js" data-cfasync="false" src="../../resources/js/prism.js?v=3.12.0-preview2.818737357694" defer></script>
 
     <link href="https://workleap.github.io/wl-idp-docs-hub/static/retype-customization.css" rel="stylesheet" />
 
@@ -251,6 +252,24 @@
                             <div class="retype-markdown" id="retype-content">
                                 <!-- Rendered if sidebar right is enabled -->
                                 <div id="retype-sidebar-right-toggle"></div>
+                                <nav id="retype-breadcrumb" class="breadcrumb" aria-label="Breadcrumb">
+                                    <ol role="list">
+                                        <li class="pr-4">
+                                            <a href="../../essentials/" class="pr-4">
+                                                Essentials
+                                            </a>
+                                            <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" width="18" height="18" viewBox="0 0 24 24" aria-hidden="true">
+                                                <path d="M8.72 18.78a.75.75 0 0 1 0-1.06L14.44 12 8.72 6.28a.751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018l6.25 6.25a.75.75 0 0 1 0 1.06l-6.25 6.25a.75.75 0 0 1-1.06 0Z"/>
+                                            </svg>
+                                        </li>
+                                        <li class="pr-4">
+                                            <a href="../../essentials/use-feature-flags/" class="pr-4">
+                                                Use feature flags
+                                            </a>
+                                        </li>
+                                    </ol>
+                                </nav>
+                
                                 <!-- Page content  -->
 <doc-anchor-target id="use-feature-flags" class="break-words">
     <h1>
@@ -258,7 +277,164 @@
         <span>Use feature flags</span>
     </h1>
 </doc-anchor-target>
-<p>TBD</p>
+<p>To use feature flags, start by following the <a href="../../integrations/setup-launch-darkly/">setup LaunchDarkly</a> integration guide to create and initialize a LaunchDarkly SDK <a href="https://launchdarkly.com/docs/sdk/client-side/javascript" class="outbound" target="_blank">client</a> instance. Once the setup is complete, the examples below cover the most common use cases.</p>
+<p>For more details, refer to the <a href="../../reference/launch-darkly/launchdarklyplugin/">reference</a> documentation.</p>
+<doc-anchor-target id="evaluate-a-feature-flag-in-bootstrapping-code">
+    <h2>
+        <doc-anchor-trigger class="header-anchor-trigger" to="#evaluate-a-feature-flag-in-bootstrapping-code">#</doc-anchor-trigger>
+        <span>Evaluate a feature flag in bootstrapping code</span>
+    </h2>
+</doc-anchor-target>
+<p>Once the LaunchDarkly SDK client is ready, feature flags can be evaluated in the bootstrapping code. To faciliate the evaluation of feature flags in non-React code, Squide offers a <a href="../../reference/launch-darkly/getfeatureflag/">getFeatureFlag</a> function:</p>
+<div class="codeblock-wrapper"><doc-codeblock>
+<pre translate="no" class="language-typescript" data-line="4"><code v-pre class="language-typescript">import { getFeatureFlag } from &quot;@squide/firefly&quot;;
+
+// If the `enable-mixpanel` feature flag is not available, `true` will be returned.
+const value = getFeatureFlag(launchDarklyClient, &quot;enable-mixpanel&quot;, true);</code></pre>
+</doc-codeblock></div>
+<doc-anchor-target id="evaluate-a-feature-flag-in-react-code">
+    <h2>
+        <doc-anchor-trigger class="header-anchor-trigger" to="#evaluate-a-feature-flag-in-react-code">#</doc-anchor-trigger>
+        <span>Evaluate a feature flag in React code</span>
+    </h2>
+</doc-anchor-target>
+<p>To evaluate a feature flag in React, use the <a href="../../reference/launch-darkly/usefeatureflag/">useFeatureFlag</a> hook:</p>
+<div class="codeblock-wrapper"><doc-codeblock>
+<pre translate="no" class="language-typescript" data-line="4"><code v-pre class="language-typescript">import { useFeatureFlag } from &quot;@squide/firefly&quot;;
+
+// If the `show-characters` feature flag is not available, `true` will be returned.
+const value = useFeatureFlag(&quot;show-characters&quot;, true);</code></pre>
+</doc-codeblock></div>
+<doc-anchor-target id="register-a-conditionnal-navigation-item">
+    <h2>
+        <doc-anchor-trigger class="header-anchor-trigger" to="#register-a-conditionnal-navigation-item">#</doc-anchor-trigger>
+        <span>Register a conditionnal navigation item</span>
+    </h2>
+</doc-anchor-target>
+<p>To register a navigation item based on feature flags, refer to the <a href="../register-deferred-nav-items/">register deferred navigation items</a> guide.</p>
+<doc-anchor-target id="setup-the-typings">
+    <h2>
+        <doc-anchor-trigger class="header-anchor-trigger" to="#setup-the-typings">#</doc-anchor-trigger>
+        <span>Setup the typings</span>
+    </h2>
+</doc-anchor-target>
+<p>Before evaluating feature flags, modules must <a href="https://www.typescriptlang.org/docs/handbook/declaration-merging.html#module-augmentation" class="outbound" target="_blank">augment</a> the <a href="../../reference/launch-darkly/featureflags/">FeatureFlags</a> interface with the feature flags they intend to evaluate to ensure type safety and autocompletion.</p>
+<p>First, create a types folder in the project:</p>
+<div class="codeblock-wrapper"><doc-codeblock>
+<pre translate="no" class="language-none" data-line="7-8"><code v-pre class="language-none">project
+├── src
+├────── register.tsx
+├────── Page.tsx
+├────── index.tsx
+├────── App.tsx
+├── types
+├────── feature-flags.d.ts</code></pre>
+</doc-codeblock></div>
+<p>Then create an <code translate="no" v-pre>feature-flags.d.ts</code> file:</p>
+<div class="codeblock-wrapper"><doc-codeblock>
+<div class="codeblock-title">project/types/feature-flags.d.ts</div>
+<pre translate="no" class="language-typescript" data-line="6"><code v-pre class="language-typescript">import &quot;@squide/firefly&quot;;
+
+declare module &quot;@squide/firefly&quot; {
+    interface FeatureFlags {
+        // In the example above, the module only intends to evaliate the `show-characters` feature flag.
+        &quot;show-characters&quot;: boolean;
+    }
+}</code></pre>
+</doc-codeblock></div>
+<p>Finally, update the project <code translate="no" v-pre>tsconfig.json</code> to include the <code translate="no" v-pre>types</code> folder:</p>
+<div class="codeblock-wrapper"><doc-codeblock>
+<div class="codeblock-title">project/tsconfig.json</div>
+<pre translate="no" class="language-json" data-line="5-7"><code v-pre class="language-json">{
+    &quot;compilerOptions&quot;: {
+        &quot;incremental&quot;: true,
+        &quot;tsBuildInfoFile&quot;: &quot;node_modules/.cache/tsbuildinfo.json&quot;,
+        &quot;types&quot;: [
+            &quot;./types/feature-flags.d.ts&quot;
+        ]
+    },
+    &quot;exclude&quot;: [&quot;dist&quot;, &quot;node_modules&quot;]
+}</code></pre>
+</doc-codeblock></div>
+<p>If any other project using those environment variables must also reference the project&#x27;s <code translate="no" v-pre>feature-flags.d.ts</code> file:</p>
+<div class="codeblock-wrapper"><doc-codeblock>
+<div class="codeblock-title">project/tsconfig.json</div>
+<pre translate="no" class="language-json" data-line="5-7"><code v-pre class="language-json">{
+    &quot;compilerOptions&quot;: {
+        &quot;incremental&quot;: true,
+        &quot;tsBuildInfoFile&quot;: &quot;node_modules/.cache/tsbuildinfo.json&quot;,
+        &quot;types&quot;: [
+            &quot;../another-project/types/feature-flags.d.ts&quot;
+        ]
+    },
+    &quot;exclude&quot;: [&quot;dist&quot;, &quot;node_modules&quot;]
+}</code></pre>
+</doc-codeblock></div>
+<doc-anchor-target id="setup-with-tests">
+    <h2>
+        <doc-anchor-trigger class="header-anchor-trigger" to="#setup-with-tests">#</doc-anchor-trigger>
+        <span>Setup with tests</span>
+    </h2>
+</doc-anchor-target>
+<p>If the code under test uses environment variables, the <code translate="no" v-pre>FireflyRuntime</code> instance can be used to mock these variables.</p>
+<p>Considering the following page:</p>
+<div class="codeblock-wrapper"><doc-codeblock>
+<div class="codeblock-title">./src/Page.tsx</div>
+<pre translate="no" class="language-tsx" data-line="4"><code v-pre class="language-tsx">import { useFeatureFlag } from &quot;@squide/firefly&quot;;
+
+export function Page() {
+    const showCharacters = useFeatureFlag(&quot;show-characters&quot;, true);
+
+    return (
+        &lt;&gt;
+            &lt;h1&gt;Page!&lt;h1&gt;
+            {showCharacters &amp;&amp; (
+                &lt;ul data-testid=&quot;character-list&quot;&gt;
+                    &lt;li&gt;Maren Holt&lt;/li&gt;
+                    &lt;li&gt;Theo Calder&lt;/li&gt;
+                    &lt;li&gt;Inez Navarro&lt;/li&gt;
+                &lt;/ul&gt;
+            )};
+        &lt;/&gt;
+    );
+}</code></pre>
+</doc-codeblock></div>
+<p>The following unit test can be written to mock the value of <code translate="no" v-pre>show-characters</code> and test the ouput of the <code translate="no" v-pre>createTelemetryClient</code> function:</p>
+<div class="codeblock-wrapper"><doc-codeblock>
+<div class="codeblock-title">./tests/createTelemetryClient.test.tsx</div>
+<pre translate="no" class="language-tsx" data-line="15,19,21"><code v-pre class="language-tsx">import { FireflyProvider, FireflyRuntime, LaunchDarklyPlugin, InMemoryLaunchDarklyClient } from &quot;@squide/firefly&quot;;
+import {render, screen} from &quot;@testing-library/react&quot;;
+import type { ReactNode } from &quot;react&quot;;
+import { Page } from &quot;./src/Page.tsx&quot;;
+import &quot;@testing-library/jest-dom&quot;;
+
+test(&quot;when the \&quot;show-characters\&quot; feature flag is off, do not render the character list&quot;, () =&gt; {
+    const featureFlags = new Map([
+        [&quot;show-characters&quot;, false]
+    ] as const);
+
+    const launchDarklyClient = new InMemoryLaunchDarklyClient(featureFlags);
+
+    const runtime = new FireflyRuntime({
+        plugins: [x =&gt; new LaunchDarklyPlugin(x, launchDarklyClient)]
+    });
+
+    render(
+        &lt;FireflyProvider runtime={runtime}&gt;
+            &lt;Page /&gt;
+        &lt;/FireflyProvider&gt;
+    );
+
+    expect(screen.queryByTestId(&quot;character-list&quot;)).not.toBeInTheDocument();
+});</code></pre>
+</doc-codeblock></div>
+<doc-anchor-target id="setup-with-storybook">
+    <h2>
+        <doc-anchor-trigger class="header-anchor-trigger" to="#setup-with-storybook">#</doc-anchor-trigger>
+        <span>Setup with Storybook</span>
+    </h2>
+</doc-anchor-target>
+<p>To set up <a href="https://storybook.js.org/docs" class="outbound" target="_blank">Storybook</a> stories with feature flags, refer to the <a href="../../integrations/setup-storybook/#setup-feature-flags">setup Storybook</a> integration guide.</p>
 
                                 
                                 <!-- Required only on API pages -->
@@ -272,6 +448,27 @@
                                     </a>
                                 </div>
                             
+                                <nav id="retype-nextprev" class="print:hidden flex mt-14">
+                                    <div class="w-1/2">
+                                        <a class="px-5 py-4 h-full flex items-center break-normal font-medium text-body-link border border-base-border hover:border-base-border-hover rounded-l-lg transition-colors duration-150 relative hover:z-5" href="../../essentials/use-env-variables/">
+                                            <svg xmlns="http://www.w3.org/2000/svg" class="mr-3" width="24" height="24" viewBox="0 0 24 24" fill="currentColor" overflow="visible"><path d="M19 11H7.41l5.29-5.29a.996.996 0 10-1.41-1.41l-7 7a1 1 0 000 1.42l7 7a1.024 1.024 0 001.42-.01.996.996 0 000-1.41L7.41 13H19c.55 0 1-.45 1-1s-.45-1-1-1z" /><path fill="none" d="M0 0h24v24H0z" /></svg>
+                                            <span>
+                                                <span class="block text-xs font-normal text-base-text-muted">Previous</span>
+                                                <span class="block mt-1">Use environment variables</span>
+                                            </span>
+                                        </a>
+                                    </div>
+                            
+                                    <div class="w-1/2">
+                                        <a class="px-5 py-4 -mx-px h-full flex items-center justify-end break-normal font-medium text-body-link border border-base-border hover:border-base-border-hover rounded-r-lg transition-colors duration-150 relative hover:z-5" href="../../essentials/set-honeycomb-custom-attributes/">
+                                            <span>
+                                                <span class="block text-xs font-normal text-right text-base-text-muted">Next</span>
+                                                <span class="block mt-1">Set Honeycomb custom attributes</span>
+                                            </span>
+                                            <svg xmlns="http://www.w3.org/2000/svg" class="ml-3" width="24" height="24" viewBox="0 0 24 24" fill="currentColor" overflow="visible"><path d="M19.92 12.38a1 1 0 00-.22-1.09l-7-7a.996.996 0 10-1.41 1.41l5.3 5.3H5c-.55 0-1 .45-1 1s.45 1 1 1h11.59l-5.29 5.29a.996.996 0 000 1.41c.19.2.44.3.7.3s.51-.1.71-.29l7-7c.09-.09.16-.21.21-.33z" /><path fill="none" d="M0 0h24v24H0z" /></svg>
+                                        </a>
+                                    </div>
+                                </nav>
                             </footer>
                         </main>
                 
@@ -330,6 +527,6 @@
 
     <div id="retype-overlay-target"></div>
 
-    <script data-cfasync="false">window.__DOCS__ = { "title": "Use feature flags", level: 2, icon: "file", hasPrism: false, hasMermaid: false, hasMath: false, tocDepth: 2 }</script>
+    <script data-cfasync="false">window.__DOCS__ = { "title": "Use feature flags", level: 2, icon: "file", hasPrism: true, hasMermaid: false, hasMath: false, tocDepth: 2 }</script>
 </body>
 </html>

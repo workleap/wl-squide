@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <meta name="turbo-root" content="/wl-squide">
-    <meta name="turbo-cache-control" content="no-cache" data-turbo-track="reload" data-track-token="3.12.0-preview2.817684748532">
+    <meta name="turbo-cache-control" content="no-cache" data-turbo-track="reload" data-track-token="3.12.0-preview2.818737357694">
 
     <!-- See retype.com -->
     <meta name="generator" content="Retype 3.12.0-preview2">
@@ -32,12 +32,12 @@
     <script data-cfasync="false">(function(){var cl=document.documentElement.classList,ls=localStorage.getItem("retype_scheme"),hd=cl.contains("dark"),hl=cl.contains("light"),wm=window.matchMedia&&window.matchMedia("(prefers-color-scheme: dark)").matches;if(ls==="dark"||(!ls&&wm&&!hd&&!hl)){cl.remove("light");cl.add("dark")}else if(ls==="light"||(!ls&&!wm&&!hd&&!hl)){cl.remove("dark");cl.add("light")}})();</script>
 
     <link id="retype-favicon" rel="icon" href="../../static/favicon.png" />
-    <link href="../../resources/css/retype.css?v=3.12.0-preview2.817684748532" rel="stylesheet">
+    <link href="../../resources/css/retype.css?v=3.12.0-preview2.818737357694" rel="stylesheet">
 
-    <script data-cfasync="false" src="../../resources/js/config.js?v=3.12.0-preview2.817684748532" data-turbo-eval="false" defer></script>
+    <script data-cfasync="false" src="../../resources/js/config.js?v=3.12.0-preview2.818737357694" data-turbo-eval="false" defer></script>
     <script data-cfasync="false" src="../../resources/js/retype.js?v=3.12.0-preview2" data-turbo-eval="false" defer></script>
-    <script id="lunr-js" data-cfasync="false" src="../../resources/js/lunr.js?v=3.12.0-preview2.817684748532" data-turbo-eval="false" defer></script>
-    <script id="prism-js" data-cfasync="false" src="../../resources/js/prism.js?v=3.12.0-preview2.817684748532" defer></script>
+    <script id="lunr-js" data-cfasync="false" src="../../resources/js/lunr.js?v=3.12.0-preview2.818737357694" data-turbo-eval="false" defer></script>
+    <script id="prism-js" data-cfasync="false" src="../../resources/js/prism.js?v=3.12.0-preview2.818737357694" defer></script>
 
     <link href="https://workleap.github.io/wl-idp-docs-hub/static/retype-customization.css" rel="stylesheet" />
 
@@ -278,27 +278,21 @@
     </h1>
 </doc-anchor-target>
 <p>Squide includes built-in support for <a href="https://mswjs.io/" class="outbound" target="_blank">Mock Service Worker</a> (MSW) to speed up frontend development and promote an <a href="https://swagger.io/resources/articles/adopting-an-api-first-approach/" class="outbound" target="_blank">API first</a> approach. Modules can dynamically register their own mock request handlers, and Squide composes them into a unified set.</p>
-<doc-anchor-target id="configure-the-host-application">
-    <h2>
-        <doc-anchor-trigger class="header-anchor-trigger" to="#configure-the-host-application">#</doc-anchor-trigger>
-        <span>Configure the host application</span>
-    </h2>
-</doc-anchor-target>
 <doc-anchor-target id="initialize-msw">
-    <h3>
+    <h2>
         <doc-anchor-trigger class="header-anchor-trigger" to="#initialize-msw">#</doc-anchor-trigger>
         <span>Initialize MSW</span>
-    </h3>
+    </h2>
 </doc-anchor-target>
 <p>First, <a href="https://mswjs.io/docs/cli/init/" class="outbound" target="_blank">initialize</a> MSW by executing the following command at the root of the host application:</p>
 <div class="codeblock-wrapper"><doc-codeblock>
 <pre translate="no" class="language-bash"><code v-pre class="language-bash">pnpx msw init ./public</code></pre>
 </doc-codeblock></div>
 <doc-anchor-target id="create-a-start-function">
-    <h3>
+    <h2>
         <doc-anchor-trigger class="header-anchor-trigger" to="#create-a-start-function">#</doc-anchor-trigger>
         <span>Create a start function</span>
-    </h3>
+    </h2>
 </doc-anchor-target>
 <p>Then, create a function to start MSW with the modules request handlers:</p>
 <div class="codeblock-wrapper"><doc-codeblock>
@@ -314,10 +308,10 @@ export async function startMsw(moduleRequestHandlers: RequestHandler[]) {
 }</code></pre>
 </doc-codeblock></div>
 <doc-anchor-target id="update-the-bootstrapping-code">
-    <h3>
+    <h2>
         <doc-anchor-trigger class="header-anchor-trigger" to="#update-the-bootstrapping-code">#</doc-anchor-trigger>
         <span>Update the bootstrapping code</span>
-    </h3>
+    </h2>
 </doc-anchor-target>
 <p>Finally, refer to the <a href="../../introduction/create-host/">create an host application</a> guide as a starting point and update the bootstrapping code to conditionally enable MSW based on an environment variable, and call the <code translate="no" v-pre>startMsw</code> function when MSW is active:</p>
 <div class="codeblock-wrapper"><doc-codeblock>

@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <meta name="turbo-root" content="/wl-squide">
-    <meta name="turbo-cache-control" content="no-cache" data-turbo-track="reload" data-track-token="3.12.0-preview2.817684748532">
+    <meta name="turbo-cache-control" content="no-cache" data-turbo-track="reload" data-track-token="3.12.0-preview2.818737357694">
 
     <!-- See retype.com -->
     <meta name="generator" content="Retype 3.12.0-preview2">
@@ -34,12 +34,12 @@
     <script data-cfasync="false">(function(){var cl=document.documentElement.classList,ls=localStorage.getItem("retype_scheme"),hd=cl.contains("dark"),hl=cl.contains("light"),wm=window.matchMedia&&window.matchMedia("(prefers-color-scheme: dark)").matches;if(ls==="dark"||(!ls&&wm&&!hd&&!hl)){cl.remove("light");cl.add("dark")}else if(ls==="light"||(!ls&&!wm&&!hd&&!hl)){cl.remove("dark");cl.add("light")}})();</script>
 
     <link id="retype-favicon" rel="icon" href="../../static/favicon.png" />
-    <link href="../../resources/css/retype.css?v=3.12.0-preview2.817684748532" rel="stylesheet">
+    <link href="../../resources/css/retype.css?v=3.12.0-preview2.818737357694" rel="stylesheet">
 
-    <script data-cfasync="false" src="../../resources/js/config.js?v=3.12.0-preview2.817684748532" data-turbo-eval="false" defer></script>
+    <script data-cfasync="false" src="../../resources/js/config.js?v=3.12.0-preview2.818737357694" data-turbo-eval="false" defer></script>
     <script data-cfasync="false" src="../../resources/js/retype.js?v=3.12.0-preview2" data-turbo-eval="false" defer></script>
-    <script id="lunr-js" data-cfasync="false" src="../../resources/js/lunr.js?v=3.12.0-preview2.817684748532" data-turbo-eval="false" defer></script>
-    <script id="prism-js" data-cfasync="false" src="../../resources/js/prism.js?v=3.12.0-preview2.817684748532" defer></script>
+    <script id="lunr-js" data-cfasync="false" src="../../resources/js/lunr.js?v=3.12.0-preview2.818737357694" data-turbo-eval="false" defer></script>
+    <script id="prism-js" data-cfasync="false" src="../../resources/js/prism.js?v=3.12.0-preview2.818737357694" defer></script>
 
     <link href="https://workleap.github.io/wl-idp-docs-hub/static/retype-customization.css" rel="stylesheet" />
 
@@ -280,27 +280,21 @@
     </h1>
 </doc-anchor-target>
 <p>Squide integrates with <a href="https://www.npmjs.com/package/@workleap/telemetry" class="outbound" target="_blank">@workleap/telemetry</a> v2 or later (or <a href="https://www.npmjs.com/package/@workleap/honeycomb" class="outbound" target="_blank">@workleap/honeycomb</a> v7 or later) to automatically send performance traces for the bootstrapping flow of an application.</p>
-<doc-anchor-target id="configure-the-host-application">
-    <h2>
-        <doc-anchor-trigger class="header-anchor-trigger" to="#configure-the-host-application">#</doc-anchor-trigger>
-        <span>Configure the host application</span>
-    </h2>
-</doc-anchor-target>
 <doc-anchor-target id="install-the-packages">
-    <h3>
+    <h2>
         <doc-anchor-trigger class="header-anchor-trigger" to="#install-the-packages">#</doc-anchor-trigger>
         <span>Install the packages</span>
-    </h3>
+    </h2>
 </doc-anchor-target>
 <p>To set up Honeycomb, first, open a terminal at the root of the host application and install the following packages:</p>
 <div class="codeblock-wrapper"><doc-codeblock>
 <pre translate="no" class="language-bash"><code v-pre class="language-bash">pnpm add @workleap/telemetry @opentelemetry/api</code></pre>
 </doc-codeblock></div>
 <doc-anchor-target id="register-the-instrumentation">
-    <h3>
+    <h2>
         <doc-anchor-trigger class="header-anchor-trigger" to="#register-the-instrumentation">#</doc-anchor-trigger>
         <span>Register the instrumentation</span>
-    </h3>
+    </h2>
 </doc-anchor-target>
 <p>Then, refer to the <a href="../../introduction/create-host/">create an host application</a> guide as a starting point and update the host application bootstrapping code to register Honeycomb instrumentation:</p>
 <div class="codeblock-wrapper"><doc-codeblock>
@@ -381,7 +375,13 @@ root.render(
         </div>
     </div>
 </div>
-<p>With instrumentation in place, a few traces are now available <span class="docs-emoji">&#x1F447;</span></p>
+<doc-anchor-target id="default-instrumentation">
+    <h2>
+        <doc-anchor-trigger class="header-anchor-trigger" to="#default-instrumentation">#</doc-anchor-trigger>
+        <span>Default instrumentation</span>
+    </h2>
+</doc-anchor-target>
+<p>With instrumentation in place, a few default traces are now available <span class="docs-emoji">&#x1F447;</span></p>
 <doc-anchor-target id="bootstrapping-flow">
     <h3>
         <doc-anchor-trigger class="header-anchor-trigger" to="#bootstrapping-flow">#</doc-anchor-trigger>
@@ -558,10 +558,10 @@ export function Page() {
                                     </div>
                             
                                     <div class="w-1/2">
-                                        <a class="px-5 py-4 -mx-px h-full flex items-center justify-end break-normal font-medium text-body-link border border-base-border hover:border-base-border-hover rounded-r-lg transition-colors duration-150 relative hover:z-5" href="../../integrations/setup-tanstack-query/">
+                                        <a class="px-5 py-4 -mx-px h-full flex items-center justify-end break-normal font-medium text-body-link border border-base-border hover:border-base-border-hover rounded-r-lg transition-colors duration-150 relative hover:z-5" href="../../integrations/setup-launch-darkly/">
                                             <span>
                                                 <span class="block text-xs font-normal text-right text-base-text-muted">Next</span>
-                                                <span class="block mt-1">Setup Tan​Stack Query</span>
+                                                <span class="block mt-1">Setup Launch​Darkly</span>
                                             </span>
                                             <svg xmlns="http://www.w3.org/2000/svg" class="ml-3" width="24" height="24" viewBox="0 0 24 24" fill="currentColor" overflow="visible"><path d="M19.92 12.38a1 1 0 00-.22-1.09l-7-7a.996.996 0 10-1.41 1.41l5.3 5.3H5c-.55 0-1 .45-1 1s.45 1 1 1h11.59l-5.29 5.29a.996.996 0 000 1.41c.19.2.44.3.7.3s.51-.1.71-.29l7-7c.09-.09.16-.21.21-.33z" /><path fill="none" d="M0 0h24v24H0z" /></svg>
                                         </a>

@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <meta name="turbo-root" content="/wl-squide">
-    <meta name="turbo-cache-control" content="no-cache" data-turbo-track="reload" data-track-token="3.12.0-preview2.817684748532">
+    <meta name="turbo-cache-control" content="no-cache" data-turbo-track="reload" data-track-token="3.12.0-preview2.818737357694">
 
     <!-- See retype.com -->
     <meta name="generator" content="Retype 3.12.0-preview2">
@@ -12,7 +12,7 @@
     <!-- Primary Meta Tags -->
     <title>Register deferred navigation items</title>
     <meta name="title" content="Register deferred navigation items">
-    <meta name="description" content="Navigation items cannot always be registered before the application bootstrapping process, as some of them depend on remote data retrieved...">
+    <meta name="description" content="Navigation items cannot always be registered before the application bootstrapping process, as some of them depend on remote data and/or feature flags.">
 
     <!-- Canonical -->
     <link rel="canonical" href="https://workleap.github.io/wl-squide/essentials/register-deferred-nav-items/">
@@ -21,23 +21,23 @@
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://workleap.github.io/wl-squide/essentials/register-deferred-nav-items/">
     <meta property="og:title" content="Register deferred navigation items">
-    <meta property="og:description" content="Navigation items cannot always be registered before the application bootstrapping process, as some of them depend on remote data retrieved...">
+    <meta property="og:description" content="Navigation items cannot always be registered before the application bootstrapping process, as some of them depend on remote data and/or feature flags.">
 
     <!-- Twitter -->
     <meta property="twitter:card" content="summary_large_image">
     <meta property="twitter:url" content="https://workleap.github.io/wl-squide/essentials/register-deferred-nav-items/">
     <meta property="twitter:title" content="Register deferred navigation items">
-    <meta property="twitter:description" content="Navigation items cannot always be registered before the application bootstrapping process, as some of them depend on remote data retrieved...">
+    <meta property="twitter:description" content="Navigation items cannot always be registered before the application bootstrapping process, as some of them depend on remote data and/or feature flags.">
 
     <script data-cfasync="false">(function(){var cl=document.documentElement.classList,ls=localStorage.getItem("retype_scheme"),hd=cl.contains("dark"),hl=cl.contains("light"),wm=window.matchMedia&&window.matchMedia("(prefers-color-scheme: dark)").matches;if(ls==="dark"||(!ls&&wm&&!hd&&!hl)){cl.remove("light");cl.add("dark")}else if(ls==="light"||(!ls&&!wm&&!hd&&!hl)){cl.remove("dark");cl.add("light")}})();</script>
 
     <link id="retype-favicon" rel="icon" href="../../static/favicon.png" />
-    <link href="../../resources/css/retype.css?v=3.12.0-preview2.817684748532" rel="stylesheet">
+    <link href="../../resources/css/retype.css?v=3.12.0-preview2.818737357694" rel="stylesheet">
 
-    <script data-cfasync="false" src="../../resources/js/config.js?v=3.12.0-preview2.817684748532" data-turbo-eval="false" defer></script>
+    <script data-cfasync="false" src="../../resources/js/config.js?v=3.12.0-preview2.818737357694" data-turbo-eval="false" defer></script>
     <script data-cfasync="false" src="../../resources/js/retype.js?v=3.12.0-preview2" data-turbo-eval="false" defer></script>
-    <script id="lunr-js" data-cfasync="false" src="../../resources/js/lunr.js?v=3.12.0-preview2.817684748532" data-turbo-eval="false" defer></script>
-    <script id="prism-js" data-cfasync="false" src="../../resources/js/prism.js?v=3.12.0-preview2.817684748532" defer></script>
+    <script id="lunr-js" data-cfasync="false" src="../../resources/js/lunr.js?v=3.12.0-preview2.818737357694" data-turbo-eval="false" defer></script>
+    <script id="prism-js" data-cfasync="false" src="../../resources/js/prism.js?v=3.12.0-preview2.818737357694" defer></script>
 
     <link href="https://workleap.github.io/wl-idp-docs-hub/static/retype-customization.css" rel="stylesheet" />
 
@@ -277,12 +277,12 @@
         <span>Register deferred navigation items</span>
     </h1>
 </doc-anchor-target>
-<p>Navigation items cannot always be registered before the application bootstrapping process, as some of them depend on remote data retrieved asynchronously from the backend-for-frontend or a third-party service.</p>
+<p>Navigation items cannot always be registered before the application bootstrapping process, as some of them depend on remote data and/or feature flags.</p>
 <p>To address this, Squide offers an alternate deferred registration mechanism in <strong>two-phases</strong>:</p>
-<ul>
-<li>The first phase allows modules to register their <em>static navigation</em> items that are not dependent on remote data.</li>
-<li>The second phase enables modules to register deferred navigation items that are dependent on remote data by returning a function. We refer to this second phase as <strong>deferred registrations</strong>.</li>
-</ul>
+<ol>
+<li>The first phase allows modules to register their navigation items that are <strong>not dependent</strong> on remote data or feature flags.</li>
+<li>The second phase enables modules to register deferred navigation items that are dependent on remote data and/or feature flags by returning a function. We refer to this second phase as <strong>deferred registrations</strong>.</li>
+</ol>
 <p>For more details, refer to the <a href="../../reference/registration/initializefirefly/#defer-the-registration-of-navigation-items">initializeFirefly</a> and <a href="../../reference/registration/usedeferredregistrations/">useDeferredRegistrations</a> reference documentation.</p>
 <doc-anchor-target id="register-a-deferred-item">
     <h2>
@@ -290,7 +290,14 @@
         <span>Register a deferred item</span>
     </h2>
 </doc-anchor-target>
-<p>To defer a registration to the second phase, a module&#x27;s registration function can return an anonymous function matching the <code translate="no" v-pre>DeferredRegistrationFunction</code> type: <code translate="no" v-pre>(data, operation: &quot;register&quot; | &quot;update&quot;) =&gt; Promise | void</code>:</p>
+<p>To defer a registration to the second phase, a module&#x27;s registration function can return an anonymous function matching the <code translate="no" v-pre>DeferredRegistrationFunction</code> type: <code translate="no" v-pre>(data, operation: &quot;register&quot; | &quot;update&quot;) =&gt; Promise | void</code>.</p>
+<doc-anchor-target id="remote-data">
+    <h3>
+        <doc-anchor-trigger class="header-anchor-trigger" to="#remote-data">#</doc-anchor-trigger>
+        <span>Remote data</span>
+    </h3>
+</doc-anchor-target>
+<p>The returned registration function can conditionally register navigation items based on the remote data passed as its second argument:</p>
 <div class="codeblock-wrapper"><doc-codeblock>
 <pre translate="no" class="language-tsx" data-line="7-16"><code v-pre class="language-tsx">import type { ModuleRegisterFunction, FireflyRuntime } from &quot;@squide/firefly&quot;;
 import type { DeferredRegistrationData } from &quot;@sample/shared&quot;;
@@ -310,8 +317,35 @@ export const register: ModuleRegisterFunction&lt;FireflyRuntime, unknown, Deferr
     };
 };</code></pre>
 </doc-codeblock></div>
+<doc-anchor-target id="feature-flags">
+    <h3>
+        <doc-anchor-trigger class="header-anchor-trigger" to="#feature-flags">#</doc-anchor-trigger>
+        <span>Feature flags</span>
+    </h3>
+</doc-anchor-target>
+<p>And/or based on a LaunchDarkly feature flag:</p>
 <div class="codeblock-wrapper"><doc-codeblock>
-<div class="codeblock-title">@sample/shared</div>
+<pre translate="no" class="language-tsx" data-line="7-16"><code v-pre class="language-tsx">import type { ModuleRegisterFunction, FireflyRuntime } from &quot;@squide/firefly&quot;;
+import type { DeferredRegistrationData } from &quot;@sample/shared&quot;;
+
+export const register: ModuleRegisterFunction&lt;FireflyRuntime, unknown, DeferredRegistrationData&gt; = runtime =&gt; {
+    // Once the user data has been loaded by the host application, by completing the module registrations process,
+    // the deferred registration function will be called with the user data.
+    return (deferredRuntime) =&gt; {
+        // Only register the &quot;feature-a&quot; route and navigation item if &quot;feature-a&quot; flag is activated.
+        if (deferredRuntime.getFeatureFlag(&quot;enable-feature-a&quot;)) {
+            deferredRuntime.registerNavigationItem({
+                $id: &quot;feature-a&quot;,
+                $label: &quot;Feature A&quot;,
+                to: &quot;/feature-a&quot;
+            });
+        }
+    };
+};</code></pre>
+</doc-codeblock></div>
+<doc-panel id="sampleshared" collapsed>
+    <template #title><svg xmlns="http://www.w3.org/2000/svg" class="docs-icon" viewBox="0 0 24 24" role="presentation"><g fill="currentColor"><g><path d="M3 3a2 2 0 0 1 2-2h9.982a2 2 0 0 1 1.414.586l4.018 4.018A2 2 0 0 1 21 7.018V21a2 2 0 0 1-2 2H4.75a.75.75 0 0 1 0-1.5H19a.5.5 0 0 0 .5-.5V8.5h-4a2 2 0 0 1-2-2v-4H5a.5.5 0 0 0-.5.5v6.25a.75.75 0 0 1-1.5 0Zm12-.5v4a.5.5 0 0 0 .5.5h4a.5.5 0 0 0-.146-.336l-4.018-4.018A.5.5 0 0 0 15 2.5Z"/><path d="M4.53 12.24a.75.75 0 0 1-.039 1.06l-2.639 2.45 2.64 2.45a.75.75 0 1 1-1.022 1.1l-3.23-3a.75.75 0 0 1 0-1.1l3.23-3a.75.75 0 0 1 1.06.04Zm3.979 1.06a.75.75 0 1 1 1.02-1.1l3.231 3a.75.75 0 0 1 0 1.1l-3.23 3a.75.75 0 1 1-1.021-1.1l2.639-2.45-2.64-2.45Z"/></g></g></svg> @sample/shared</template>
+<div class="codeblock-wrapper"><doc-codeblock>
 <pre translate="no" class="language-typescript" data-line="1-3,5-7"><code v-pre class="language-typescript">export interface UserInfo {
     isAdmin: boolean;
 }
@@ -320,6 +354,7 @@ export interface DeferredRegistrationData {
     userInfo?: UserInfo;
 }</code></pre>
 </doc-codeblock></div>
+</doc-panel>
 <div class="flex mb-6">
     <div class="shrink-0 w-1.5 rounded-tl-lg rounded-bl-lg bg-callout-tip"></div>
     <div class="flex w-full py-4 border border-l-0 rounded-tr-lg rounded-br-lg doc-callout bg-callout-base-bg border-callout-base-border" role="alert">
@@ -335,11 +370,17 @@ export interface DeferredRegistrationData {
         </div>
     </div>
 </div>
-<p>It&#x27;s the responsibility of the application shell code to execute the deferred registrations once the remote data is retrieved.</p>
-<doc-panel id="shell-code-example" collapsed>
-    <template #title><svg xmlns="http://www.w3.org/2000/svg" class="docs-icon" viewBox="0 0 24 24" role="presentation"><g fill="currentColor"><g><path d="M3 3a2 2 0 0 1 2-2h9.982a2 2 0 0 1 1.414.586l4.018 4.018A2 2 0 0 1 21 7.018V21a2 2 0 0 1-2 2H4.75a.75.75 0 0 1 0-1.5H19a.5.5 0 0 0 .5-.5V8.5h-4a2 2 0 0 1-2-2v-4H5a.5.5 0 0 0-.5.5v6.25a.75.75 0 0 1-1.5 0Zm12-.5v4a.5.5 0 0 0 .5.5h4a.5.5 0 0 0-.146-.336l-4.018-4.018A.5.5 0 0 0 15 2.5Z"/><path d="M4.53 12.24a.75.75 0 0 1-.039 1.06l-2.639 2.45 2.64 2.45a.75.75 0 1 1-1.022 1.1l-3.23-3a.75.75 0 0 1 0-1.1l3.23-3a.75.75 0 0 1 1.06.04Zm3.979 1.06a.75.75 0 1 1 1.02-1.1l3.231 3a.75.75 0 0 1 0 1.1l-3.23 3a.75.75 0 1 1-1.021-1.1l2.639-2.45-2.64-2.45Z"/></g></g></svg> Shell code example</template>
+<doc-anchor-target id="execute-the-deferred-registrations">
+    <h2>
+        <doc-anchor-trigger class="header-anchor-trigger" to="#execute-the-deferred-registrations">#</doc-anchor-trigger>
+        <span>Execute the deferred registrations</span>
+    </h2>
+</doc-anchor-target>
+<p>It&#x27;s the responsibility of the application shell to execute deferred registrations. If deferred registrations depend on remote data, register them once that data has been retrieved:</p>
+<doc-panel id="shell-code-with-remote-data-example" collapsed>
+    <template #title><svg xmlns="http://www.w3.org/2000/svg" class="docs-icon" viewBox="0 0 24 24" role="presentation"><g fill="currentColor"><g><path d="M3 3a2 2 0 0 1 2-2h9.982a2 2 0 0 1 1.414.586l4.018 4.018A2 2 0 0 1 21 7.018V21a2 2 0 0 1-2 2H4.75a.75.75 0 0 1 0-1.5H19a.5.5 0 0 0 .5-.5V8.5h-4a2 2 0 0 1-2-2v-4H5a.5.5 0 0 0-.5.5v6.25a.75.75 0 0 1-1.5 0Zm12-.5v4a.5.5 0 0 0 .5.5h4a.5.5 0 0 0-.146-.336l-4.018-4.018A.5.5 0 0 0 15 2.5Z"/><path d="M4.53 12.24a.75.75 0 0 1-.039 1.06l-2.639 2.45 2.64 2.45a.75.75 0 1 1-1.022 1.1l-3.23-3a.75.75 0 0 1 0-1.1l3.23-3a.75.75 0 0 1 1.06.04Zm3.979 1.06a.75.75 0 1 1 1.02-1.1l3.231 3a.75.75 0 0 1 0 1.1l-3.23 3a.75.75 0 1 1-1.021-1.1l2.639-2.45-2.64-2.45Z"/></g></g></svg> Shell code with remote data example</template>
 <div class="codeblock-wrapper"><doc-codeblock>
-<pre translate="no" class="language-tsx" data-line="7-21,23-27,29,40"><code v-pre class="language-tsx">import { AppRouter, useIsBootstrapping } from &quot;@squide/firefly&quot;;
+<pre translate="no" class="language-tsx" data-line="7-21,23-27,29,40"><code v-pre class="language-tsx">import { AppRouter, useIsBootstrapping, usePublicDataQueries, useDeferredRegistrations } from &quot;@squide/firefly&quot;;
 import { createBrowserRouter, Outlet } from &quot;react-router&quot;;
 import { RouterProvider } from &quot;react-router/dom&quot;;
 import { DeferredRegistrationData, UserInfo } from &quot;@sample/shared&quot;;
@@ -402,16 +443,68 @@ export function App() {
 }</code></pre>
 </doc-codeblock></div>
 </doc-panel>
+<p>Otherwise, the deferred registrations can be registered without providing a data object:</p>
+<doc-panel id="shell-code-without-remote-data-example" collapsed>
+    <template #title><svg xmlns="http://www.w3.org/2000/svg" class="docs-icon" viewBox="0 0 24 24" role="presentation"><g fill="currentColor"><g><path d="M3 3a2 2 0 0 1 2-2h9.982a2 2 0 0 1 1.414.586l4.018 4.018A2 2 0 0 1 21 7.018V21a2 2 0 0 1-2 2H4.75a.75.75 0 0 1 0-1.5H19a.5.5 0 0 0 .5-.5V8.5h-4a2 2 0 0 1-2-2v-4H5a.5.5 0 0 0-.5.5v6.25a.75.75 0 0 1-1.5 0Zm12-.5v4a.5.5 0 0 0 .5.5h4a.5.5 0 0 0-.146-.336l-4.018-4.018A.5.5 0 0 0 15 2.5Z"/><path d="M4.53 12.24a.75.75 0 0 1-.039 1.06l-2.639 2.45 2.64 2.45a.75.75 0 1 1-1.022 1.1l-3.23-3a.75.75 0 0 1 0-1.1l3.23-3a.75.75 0 0 1 1.06.04Zm3.979 1.06a.75.75 0 1 1 1.02-1.1l3.231 3a.75.75 0 0 1 0 1.1l-3.23 3a.75.75 0 1 1-1.021-1.1l2.639-2.45-2.64-2.45Z"/></g></g></svg> Shell code without remote data example</template>
+<div class="codeblock-wrapper"><doc-codeblock>
+<pre translate="no" class="language-tsx" data-line="6"><code v-pre class="language-tsx">import { AppRouter, useIsBootstrapping, useDeferredRegistrations } from &quot;@squide/firefly&quot;;
+import { createBrowserRouter, Outlet } from &quot;react-router&quot;;
+import { RouterProvider } from &quot;react-router/dom&quot;;
+
+function BootstrappingRoute() {
+    useDeferredRegistrations();
+
+    if (useIsBootstrapping()) {
+        return &lt;div&gt;Loading...&lt;/div&gt;;
+    }
+
+    return &lt;Outlet /&gt;;
+}
+
+export function App() {
+    return (
+        &lt;AppRouter&gt;
+            {({ rootRoute, registeredRoutes, routerProviderProps }) =&gt; {
+                return (
+                    &lt;RouterProvider
+                        router={createBrowserRouter([
+                            {
+                                element: rootRoute,
+                                children: [
+                                    {
+                                        element: &lt;BootstrappingRoute /&gt;,
+                                        children: registeredRoutes
+                                    }
+                                ]
+                            }
+                        ])}
+                        {...routerProviderProps}
+                    /&gt;
+                );
+            }}
+        &lt;/AppRouter&gt;
+    );
+}</code></pre>
+</doc-codeblock></div>
+</doc-panel>
 <doc-anchor-target id="update-deferred-items">
     <h2>
         <doc-anchor-trigger class="header-anchor-trigger" to="#update-deferred-items">#</doc-anchor-trigger>
         <span>Update deferred items</span>
     </h2>
 </doc-anchor-target>
-<p>Since Squide integrates with <a href="https://tanstack.com/query/latest" class="outbound" target="_blank">TanStack Query</a>, and TanStack queries regularly fetch fresh data from the server, the remote data on which deferred navigation items depend may change over time. When this happens, the deferred navigation items must update to reflect the current state of the application. For example, a user might be promoted from a regular user to an administrator and should then see additional navigation items.</p>
-<p>By using the <a href="../../reference/registration/usedeferredregistrations/">useDeferredRegistrations</a> hook in combination with a TanStack Query, deferred registrations are automatically updated whenever the data object passed to <code translate="no" v-pre>useDeferredRegistrations</code> changes:</p>
+<p>Since Squide integrates with <a href="https://tanstack.com/query/latest" class="outbound" target="_blank">TanStack Query</a> and <a href="https://launchdarkly.com/" class="outbound" target="_blank">LaunchDarkly</a> feature flags, and both regularly get fresh data from the server, the remote data or feature flags on which deferred navigation items depend may change over time. When this happens, the deferred navigation items must be updated to reflect the current state of the application. For example, a user could be promoted from a regular user to an administrator and should then see additional navigation items. Similarly, a feature flag might enable or disable a feature, which would require navigation items to be added or removed accordingly.</p>
+<doc-anchor-target id="remote-data-updates">
+    <h3>
+        <doc-anchor-trigger class="header-anchor-trigger" to="#remote-data-updates">#</doc-anchor-trigger>
+        <span>Remote data updates</span>
+    </h3>
+</doc-anchor-target>
+<p>By using the <a href="../../reference/registration/usedeferredregistrations/">useDeferredRegistrations</a> hook in combination with TanStack Query, deferred registrations are automatically updated whenever a fresh remote data object is forwarded to <code translate="no" v-pre>useDeferredRegistrations</code>:</p>
+<doc-panel id="shell-code-with-remote-data-example" collapsed>
+    <template #title><svg xmlns="http://www.w3.org/2000/svg" class="docs-icon" viewBox="0 0 24 24" role="presentation"><g fill="currentColor"><g><path d="M3 3a2 2 0 0 1 2-2h9.982a2 2 0 0 1 1.414.586l4.018 4.018A2 2 0 0 1 21 7.018V21a2 2 0 0 1-2 2H4.75a.75.75 0 0 1 0-1.5H19a.5.5 0 0 0 .5-.5V8.5h-4a2 2 0 0 1-2-2v-4H5a.5.5 0 0 0-.5.5v6.25a.75.75 0 0 1-1.5 0Zm12-.5v4a.5.5 0 0 0 .5.5h4a.5.5 0 0 0-.146-.336l-4.018-4.018A.5.5 0 0 0 15 2.5Z"/><path d="M4.53 12.24a.75.75 0 0 1-.039 1.06l-2.639 2.45 2.64 2.45a.75.75 0 1 1-1.022 1.1l-3.23-3a.75.75 0 0 1 0-1.1l3.23-3a.75.75 0 0 1 1.06.04Zm3.979 1.06a.75.75 0 1 1 1.02-1.1l3.231 3a.75.75 0 0 1 0 1.1l-3.23 3a.75.75 0 1 1-1.021-1.1l2.639-2.45-2.64-2.45Z"/></g></g></svg> Shell code with remote data example</template>
 <div class="codeblock-wrapper"><doc-codeblock>
-<pre translate="no" class="language-tsx" data-line="24-26,28"><code v-pre class="language-tsx">import { useIsBootstrapping } from &quot;@squide/firefly&quot;;
+<pre translate="no" class="language-tsx" data-line="24-26,28"><code v-pre class="language-tsx">import { useIsBootstrapping, useDeferredRegistrations, usePublicDataQueries } from &quot;@squide/firefly&quot;;
 import { Outlet } from &quot;react-router&quot;;
 import { DeferredRegistrationData, UserInfo } from &quot;@sample/shared&quot;;
 
@@ -447,6 +540,31 @@ function BootstrappingRoute() {
     return &lt;Outlet /&gt;;
 }</code></pre>
 </doc-codeblock></div>
+</doc-panel>
+<doc-anchor-target id="feature-flag-updates">
+    <h3>
+        <doc-anchor-trigger class="header-anchor-trigger" to="#feature-flag-updates">#</doc-anchor-trigger>
+        <span>Feature flag updates</span>
+    </h3>
+</doc-anchor-target>
+<p>However, if conditional navigation items only depend on feature flags, the <a href="../../reference/registration/usedeferredregistrations/">useDeferredRegistrations</a> hook can be balled without a data object. Deferred registrations will still be updated automatically whenever a feature flag value changes:</p>
+<doc-panel id="shell-code-without-remote-data-example" collapsed>
+    <template #title><svg xmlns="http://www.w3.org/2000/svg" class="docs-icon" viewBox="0 0 24 24" role="presentation"><g fill="currentColor"><g><path d="M3 3a2 2 0 0 1 2-2h9.982a2 2 0 0 1 1.414.586l4.018 4.018A2 2 0 0 1 21 7.018V21a2 2 0 0 1-2 2H4.75a.75.75 0 0 1 0-1.5H19a.5.5 0 0 0 .5-.5V8.5h-4a2 2 0 0 1-2-2v-4H5a.5.5 0 0 0-.5.5v6.25a.75.75 0 0 1-1.5 0Zm12-.5v4a.5.5 0 0 0 .5.5h4a.5.5 0 0 0-.146-.336l-4.018-4.018A.5.5 0 0 0 15 2.5Z"/><path d="M4.53 12.24a.75.75 0 0 1-.039 1.06l-2.639 2.45 2.64 2.45a.75.75 0 1 1-1.022 1.1l-3.23-3a.75.75 0 0 1 0-1.1l3.23-3a.75.75 0 0 1 1.06.04Zm3.979 1.06a.75.75 0 1 1 1.02-1.1l3.231 3a.75.75 0 0 1 0 1.1l-3.23 3a.75.75 0 1 1-1.021-1.1l2.639-2.45-2.64-2.45Z"/></g></g></svg> Shell code without remote data example</template>
+<div class="codeblock-wrapper"><doc-codeblock>
+<pre translate="no" class="language-tsx" data-line="5"><code v-pre class="language-tsx">import { useIsBootstrapping, useDeferredRegistrations } from &quot;@squide/firefly&quot;;
+import { Outlet } from &quot;react-router&quot;;
+
+function BootstrappingRoute() {
+    useDeferredRegistrations();
+
+    if (useIsBootstrapping()) {
+        return &lt;div&gt;Loading...&lt;/div&gt;;
+    }
+
+    return &lt;Outlet /&gt;;
+}</code></pre>
+</doc-codeblock></div>
+</doc-panel>
 
                                 
                                 <!-- Required only on API pages -->
