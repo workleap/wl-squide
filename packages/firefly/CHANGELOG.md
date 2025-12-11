@@ -1,5 +1,12 @@
 # @squide/firefly
 
+## 16.1.1
+
+### Patch Changes
+
+- Updated dependencies [[`dbbead1`](https://github.com/workleap/wl-squide/commit/dbbead1573c115e553fabbe4fc8b61a9ff929d35)]:
+  - @squide/launch-darkly@1.0.1
+
 ## 16.1.0
 
 ### Minor Changes

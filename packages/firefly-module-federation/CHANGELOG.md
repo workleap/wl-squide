@@ -1,5 +1,12 @@
 # @squide/firefly-module-federation
 
+## 1.0.5
+
+### Patch Changes
+
+- Updated dependencies []:
+  - @squide/firefly@16.1.1
+
 ## 1.0.4
 
 ### Patch Changes
