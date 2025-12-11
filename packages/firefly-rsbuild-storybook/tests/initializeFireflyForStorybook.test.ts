@@ -6,6 +6,10 @@ declare module "@squide/firefly" {
     interface EnvironmentVariables {
         baseUrl: string;
     }
+
+    interface FeatureFlags {
+        "flag-a": boolean;
+    }
 }
 
 test.concurrent("when local modules are provided, the local modules are registered", async ({ expect }) => {
