@@ -8,7 +8,7 @@ interface Character {
 }
 
 export function HomePage() {
-    const showCharacters = useFeatureFlag("show-characters", true);
+    const canShowCharacters = useFeatureFlag("show-characters", true);
     const environmentVariables = useEnvironmentVariables();
 
     const { data: characters } = useSuspenseQuery({ queryKey: [`${environmentVariables.hostApiBaseUrl}/character/1,2`], queryFn: async () => {
@@ -24,7 +24,7 @@ export function HomePage() {
     return (
         <div>
             <h2>Home</h2>
-            {showCharacters && (
+            {canShowCharacters ? (
                 <div>
                     {characters.map(x => {
                         return (
@@ -38,6 +38,8 @@ export function HomePage() {
                         );
                     })}
                 </div>
+            ) : (
+                <p>The <code>show-characters</code> feature flag is off.</p>
             )}
         </div>
     );

@@ -206,7 +206,7 @@ const launchDarklyClient = initializeLaunchDarkly("123", {
 }, {
     // It's important to use the stream mode to receive feature flags
     // updates in real time.
-    stream: true
+    streaming: true
 });
 
 // Always initialize the client before creating the plugin instance.
