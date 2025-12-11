@@ -68,7 +68,6 @@ Start the application in a development environment using the dev script, then na
 
 If you are experiencing issues with this guide:
 
-- Set the [initializeTelemetry](https://workleap.github.io/wl-telemetry/reference/telemetry/initializetelemetry/) function `verbose` option to `true`.
 - Open the [DevTools](https://developer.chrome.com/docs/devtools/) console. You'll see a log entry everytime a feature flag is updated, along with console outputs from LaunchDarkly SDK client.
     - `[LaunchDarkly] LaunchDarkly client initialized`
     - `[LaunchDarkly] Opening stream connection to:`
