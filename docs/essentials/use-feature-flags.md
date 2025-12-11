@@ -95,6 +95,12 @@ If any other project using those environment variables must also reference the p
 }
 ```
 
+Once configured, all feature flag hooks and functions are fully typed and support auto-completion:
+
+:::align-image-left
+![Auto-completion example](../static/feature-flags-typings.png){width=837}
+:::
+
 ## Setup with tests
 
 If the code under test uses environment variables, the `FireflyRuntime` instance can be used to mock these variables.
