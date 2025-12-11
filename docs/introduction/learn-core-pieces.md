@@ -302,7 +302,7 @@ const launchDarklyClient = initializeLaunchDarkly("123", {
     kind: "user",
     anonymous: true
 }, {
-    stream: true
+    streaming: true
 });
 
 try {

@@ -79,6 +79,7 @@ Then, add the following key/values to the newly created `.env.local` file:
 
 - `LOGROCKET_APP_ID`: The application id of the `frontend-platform-team-dev` LogRocket project.
 - `HONEYCOMB_API_KEY`: The API key of the `frontend-platform-team-dev` Honeycomb environment.
+- `LAUNCH_DARKLY_CLIENT_ID`: The API key of the `Frontend-platform-team` LaunchDarkly environment.
 
 > [!NOTE]
 > The `.env.local` file is configured to be ignored by Git and will not be pushed to the remote repository.
