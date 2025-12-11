@@ -46,7 +46,7 @@ const featureFlags = new Map([
 
 const client = new InMemoryLaunchDarklyClient(featureFlags);
 
-featureFlags.set("foo", true);
+featureFlags.set("show-characters", true);
 ```
 
 ### Fake a notification

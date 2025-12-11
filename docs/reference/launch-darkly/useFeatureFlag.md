@@ -25,10 +25,10 @@ The feature flag value or the `defaultValue` if the feature flag is not availabl
 
 ## Usage
 
-If the `foo` feature flag is not available, `true` will be returned.
+If the `show-characters` feature flag is not available, `true` will be returned.
 
 ```ts !#3
 import { useFeatureFlag } from "@squide/firefly";
 
-const value = useFeatureFlag("foo", true);
+const value = useFeatureFlag("show-characters", true);
 ```

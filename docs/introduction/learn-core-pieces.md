@@ -315,7 +315,7 @@ const runtime = new FireflyRuntime({
 ```ts !#3
 import { useFeatureFlag } from "@squide/firefly";
 
-const value = useFeatureFlag("foo", true);
+const value = useFeatureFlag("show-characters", true);
 ```
 ===
 

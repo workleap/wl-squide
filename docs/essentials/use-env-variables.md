@@ -172,7 +172,7 @@ export function useAbsoluteUrl(path: string) {
 
 The following unit test can be written to mock the value of `apiBaseUrl` and test the ouput of the `useAbsoluteUrl` hook:
 
-```tsx !#8-12,17,19 ./tests/useAbsoluteUrl.tsx
+```tsx !#8-12,17,19 ./tests/useAbsoluteUrl.test.tsx
 import { FireflyProvider, FireflyRuntime, EnvironmentVariablesPlugin } from "@squide/firefly";
 import { renderHook } from "@testing-library/react";
 import type { ReactNode } from "react";

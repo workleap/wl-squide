@@ -16,8 +16,8 @@ Once the LaunchDarkly SDK client is ready, feature flags can be evaluated in the
 ```ts !#4
 import { getFeatureFlag } from "@squide/firefly";
 
-// If the `foo` feature flag is not available, `true` will be returned.
-const value = getFeatureFlag(launchDarklyClient, "foo", true);
+// If the `enable-mixpanel` feature flag is not available, `true` will be returned.
+const value = getFeatureFlag(launchDarklyClient, "enable-mixpanel", true);
 ```
 
 ## Evaluate a feature flag in React code
@@ -27,8 +27,8 @@ To evaluate a feature flag in React, use the [useFeatureFlag](../reference/launc
 ```ts !#4
 import { useFeatureFlag } from "@squide/firefly";
 
-// If the `foo` feature flag is not available, `true` will be returned.
-const value = useFeatureFlag("foo", true);
+// If the `show-characters` feature flag is not available, `true` will be returned.
+const value = useFeatureFlag("show-characters", true);
 ```
 
 ## Register a conditionnal navigation item
@@ -59,8 +59,8 @@ import "@squide/firefly";
 
 declare module "@squide/firefly" {
     interface FeatureFlags {
-        // In the example above, the module only intends to evaliate the `foo` feature flag.
-        foo: boolean;
+        // In the example above, the module only intends to evaliate the `show-characters` feature flag.
+        "show-characters": boolean;
     }
 }
 ```
@@ -97,7 +97,60 @@ If any other project using those environment variables must also reference the p
 
 ## Setup with tests
 
-TBD
+If the code under test uses environment variables, the `FireflyRuntime` instance can be used to mock these variables.
+
+Considering the following page:
+
+```tsx !#4 ./src/Page.tsx
+import { useFeatureFlag } from "@squide/firefly";
+
+export function Page() {
+    const showCharacters = useFeatureFlag("show-characters", true);
+
+    return (
+        <>
+            <h1>Page!<h1>
+            {showCharacters && (
+                <ul data-testid="character-list">
+                    <li>Maren Holt</li>
+                    <li>Theo Calder</li>
+                    <li>Inez Navarro</li>
+                </ul>
+            )};
+        </>
+    );
+}
+```
+
+The following unit test can be written to mock the value of `show-characters` and test the ouput of the `createTelemetryClient` function:
+
+```tsx !#15,19,21 ./tests/createTelemetryClient.test.tsx
+import { FireflyProvider, FireflyRuntime, LaunchDarklyPlugin, InMemoryLaunchDarklyClient } from "@squide/firefly";
+import {render, screen} from "@testing-library/react";
+import type { ReactNode } from "react";
+import { Page } from "./src/Page.tsx";
+import "@testing-library/jest-dom";
+
+test("when the \"show-characters\" feature flag is off, do not render the character list", () => {
+    const featureFlags = new Map([
+        ["show-characters", false]
+    ] as const);
+
+    const launchDarklyClient = new InMemoryLaunchDarklyClient(featureFlags);
+
+    const runtime = new FireflyRuntime({
+        plugins: [x => new LaunchDarklyPlugin(x, launchDarklyClient)]
+    });
+
+    render(
+        <FireflyProvider runtime={runtime}>
+            <Page />
+        </FireflyProvider>
+    );
+
+    expect(screen.queryByTestId("character-list")).not.toBeInTheDocument();
+});
+```
 
 ## Setup with Storybook
 

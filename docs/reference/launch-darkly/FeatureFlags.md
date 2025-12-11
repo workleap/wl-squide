@@ -32,8 +32,8 @@ import "@squide/firefly";
 
 declare module "@squide/firefly" {
     interface FeatureFlags {
-        // In the example above, the module only intends to evaliate the `foo` feature flag.
-        foo: boolean;
+        // In the example above, the module only intends to evaliate the `show-characters` feature flag.
+        "show-characters": boolean;
     }
 }
 ```

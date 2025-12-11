@@ -34,7 +34,7 @@ import { registerModule } from "./registerModule.tsx";
 // This syntax with the nested arrays and "as const" is super important to get type safety with
 // the "withFeatureFlagsOverrideDecorator" decorator.
 const featureFlags = new Map([
-    ["foo", true]
+    ["render-summary", true]
 ] as const);
 
 const fireflyRuntime = await initializeFireflyForStorybook({
@@ -59,7 +59,7 @@ const meta = {
 
 export const Default = {
     decorators: [
-        withFeatureFlagsOverrideDecorator(featureFlags, { foo: false })
+        withFeatureFlagsOverrideDecorator(featureFlags, { "render-summary": false })
     ]
 } satisfies Story;
 ```

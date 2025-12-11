@@ -26,10 +26,10 @@ The feature flag value or the `defaultValue` if the feature flag is not availabl
 
 ## Usage
 
-If the `foo` feature flag is not available, `true` will be returned.
+If the `enable-mixpanel` feature flag is not available, `true` will be returned.
 
 ```ts !#3
 import { getFeatureFlag } from "@squide/firefly";
 
-const value = getFeatureFlag(launchDarklyClient, "foo", true);
+const value = getFeatureFlag(launchDarklyClient, "enable-mixpanel", true);
 ```
