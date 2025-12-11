@@ -294,8 +294,8 @@ const variable = useEnvironmentVariable("apiBaseUrl");
 Squide integrates with [LaunchDarkly](https://launchdarkly.com/) to attach feature flags to the [FireflyRuntime](../reference/runtime/FireflyRuntime.md) instance and automatically update [deferred registrations](../essentials/register-deferred-nav-items.md) whenever a flag value changes.
 
 ==- :icon-file-code: Code sample
-```ts !#14
-import { FireflyRuntime, LaunchDarklyPlugin } from "@squide/firefly";
+```ts !#18
+import { initializeFirefly } from "@squide/firefly";
 import { initialize as initializeLaunchDarkly } from "launchdarkly-js-client-sdk";
 
 const launchDarklyClient = initializeLaunchDarkly("123", {
@@ -305,10 +305,14 @@ const launchDarklyClient = initializeLaunchDarkly("123", {
     stream: true
 });
 
-await launchDarklyClient.waitForInitialization(5);
+try {
+    await launchDarklyClient.waitForInitialization(5);
+} catch (error: unknown) {
+    // Failed to initialize LaunchDarkly...
+}
 
-const runtime = new FireflyRuntime({
-    plugins: [x => new LaunchDarklyPlugin(x, launchDarklyClient)]
+const runtime = initializeFirefly({
+    launchDarklyClient
 });
 ```
 

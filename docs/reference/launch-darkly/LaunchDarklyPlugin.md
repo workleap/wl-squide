@@ -25,7 +25,7 @@ const plugin = new LaunchDarklyPlugin(runtime, launchDarklyClient, { options?: {
 
 Before creating the plugin instance, initialize the LaunchDarkly client with [streaming](https://launchdarkly.github.io/js-client-sdk/interfaces/LDOptions.html#streaming) enabled, then wait until the client [is ready](https://launchdarkly.com/docs/sdk/client-side/javascript#determine-when-the-client-is-ready).
 
-```ts !#10,14,17
+```ts !#10,15,21
 import { FireflyRuntime, LaunchDarklyPlugin } from "@squide/firefly";
 import { initialize as initializeLaunchDarkly } from "launchdarkly-js-client-sdk";
 
@@ -38,8 +38,12 @@ const launchDarklyClient = initializeLaunchDarkly("123", {
     stream: true
 });
 
-// Always initialize the client before creating the plugin instance.
-await launchDarklyClient.waitForInitialization(5);
+try {
+    // Always initialize the client before creating the plugin instance.
+    await launchDarklyClient.waitForInitialization(5);
+} catch (error: unknown) {
+    // Failed to initialize LaunchDarkly...
+}
 
 const runtime = new FireflyRuntime({
     plugins: [x => new LaunchDarklyPlugin(x, launchDarklyClient)]
