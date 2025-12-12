@@ -49,7 +49,7 @@ export function getAuthenticationHandlers(environmentVariables: EnvironmentVaria
                 preferredLanguage: user.preferredLanguage
             });
 
-            // By an admin by default.
+            // Set to admin by default.
             userRoleManager.setRole("admin");
 
             return new HttpResponse(null, {

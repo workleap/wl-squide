@@ -78,7 +78,7 @@ const featureFlags = new Map([
     ["show-characters", true]
 ] as const);
 
-const lanchDarklyClient = new InMemoryLaunchDarklyClient(featureFlags);
+const launchDarklyClient = new InMemoryLaunchDarklyClient(featureFlags);
 
 const runtime = initializeFireflyForStorybook({
     launchDarklyClient
