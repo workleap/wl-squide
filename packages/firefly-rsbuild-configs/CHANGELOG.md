@@ -1,5 +1,11 @@
 # @squide/firefly-rsbuild-configs
 
+## 2.2.0
+
+### Minor Changes
+
+- [#363](https://github.com/workleap/wl-squide/pull/363) [`b114284`](https://github.com/workleap/wl-squide/commit/b114284529ff87e719d594d9612a52b1935a0bb2) Thanks [@patricklafrance](https://github.com/patricklafrance)! - Added support for LaunchDarkly.
+
 ## 2.1.8
 
 ### Patch Changes
