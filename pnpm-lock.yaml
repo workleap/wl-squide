@@ -57,8 +57,8 @@ importers:
   packages/core:
     dependencies:
       '@workleap/logging':
-        specifier: ^1.3.2
-        version: 1.3.2
+        specifier: ^1.3.3
+        version: 1.3.3
       eventemitter3:
         specifier: ^5.0.1
         version: 5.0.1
@@ -112,8 +112,8 @@ importers:
         specifier: workspace:*
         version: link:../core
       '@workleap/logging':
-        specifier: ^1.3.2
-        version: 1.3.2
+        specifier: ^1.3.3
+        version: 1.3.3
       memoize:
         specifier: ^10.2.0
         version: 10.2.0
@@ -228,8 +228,8 @@ importers:
         specifier: ^1.0.6
         version: 1.0.6
       '@workleap/logging':
-        specifier: ^1.3.2
-        version: 1.3.2
+        specifier: ^1.3.3
+        version: 1.3.3
       launchdarkly-js-client-sdk:
         specifier: ^3.9.0
         version: 3.9.0
@@ -319,8 +319,8 @@ importers:
         specifier: ^5.90.12
         version: 5.90.12(react@19.2.3)
       '@workleap/logging':
-        specifier: ^1.3.2
-        version: 1.3.2
+        specifier: ^1.3.3
+        version: 1.3.3
       msw:
         specifier: ^2.12.4
         version: 2.12.4(@types/node@25.0.1)(typescript@5.9.3)
@@ -468,8 +468,8 @@ importers:
         specifier: ^1.0.6
         version: 1.0.6
       '@workleap/logging':
-        specifier: ^1.3.2
-        version: 1.3.2
+        specifier: ^1.3.3
+        version: 1.3.3
       launchdarkly-js-client-sdk:
         specifier: ^3.9.0
         version: 3.9.0
@@ -681,8 +681,8 @@ importers:
         specifier: workspace:*
         version: link:../core
       '@workleap/logging':
-        specifier: ^1.3.2
-        version: 1.3.2
+        specifier: ^1.3.3
+        version: 1.3.3
       launchdarkly-js-client-sdk:
         specifier: ^3.9.0
         version: 3.9.0
@@ -748,8 +748,8 @@ importers:
         specifier: workspace:*
         version: link:../core
       '@workleap/logging':
-        specifier: ^1.3.2
-        version: 1.3.2
+        specifier: ^1.3.3
+        version: 1.3.3
       msw:
         specifier: ^2.12.4
         version: 2.12.4(@types/node@25.0.1)(typescript@5.9.3)
@@ -800,8 +800,8 @@ importers:
         specifier: workspace:*
         version: link:../core
       '@workleap/logging':
-        specifier: ^1.3.2
-        version: 1.3.2
+        specifier: ^1.3.3
+        version: 1.3.3
       memoize:
         specifier: ^10.2.0
         version: 10.2.0
@@ -885,8 +885,8 @@ importers:
         specifier: workspace:*
         version: link:../../../packages/firefly
       '@workleap/logging':
-        specifier: 1.3.2
-        version: 1.3.2
+        specifier: 1.3.3
+        version: 1.3.3
       react:
         specifier: 19.2.3
         version: 19.2.3
@@ -991,8 +991,8 @@ importers:
         specifier: 5.90.12
         version: 5.90.12(react@19.2.3)
       '@workleap/logging':
-        specifier: 1.3.2
-        version: 1.3.2
+        specifier: 1.3.3
+        version: 1.3.3
       react:
         specifier: 19.2.3
         version: 19.2.3
@@ -1088,8 +1088,8 @@ importers:
         specifier: ^19.2.3
         version: 19.2.3(@types/react@19.2.7)
       '@workleap/logging':
-        specifier: ^1.3.2
-        version: 1.3.2
+        specifier: ^1.3.3
+        version: 1.3.3
     devDependencies:
       '@eslint/js':
         specifier: 9.39.1
@@ -1176,8 +1176,8 @@ importers:
         specifier: workspace:*
         version: link:../../../packages/firefly
       '@workleap/logging':
-        specifier: 1.3.2
-        version: 1.3.2
+        specifier: 1.3.3
+        version: 1.3.3
       react:
         specifier: 19.2.3
         version: 19.2.3
@@ -1371,8 +1371,8 @@ importers:
         specifier: workspace:*
         version: link:../../../packages/firefly
       '@workleap/logging':
-        specifier: 1.3.2
-        version: 1.3.2
+        specifier: 1.3.3
+        version: 1.3.3
       react:
         specifier: 19.2.3
         version: 19.2.3
@@ -1465,8 +1465,8 @@ importers:
         specifier: 5.90.12
         version: 5.90.12(react@19.2.3)
       '@workleap/logging':
-        specifier: 1.3.2
-        version: 1.3.2
+        specifier: 1.3.3
+        version: 1.3.3
       react:
         specifier: 19.2.3
         version: 19.2.3
@@ -1544,8 +1544,8 @@ importers:
         specifier: workspace:*
         version: link:../../../packages/firefly
       '@workleap/logging':
-        specifier: ^1.3.2
-        version: 1.3.2
+        specifier: ^1.3.3
+        version: 1.3.3
     devDependencies:
       '@eslint/js':
         specifier: 9.39.1
@@ -1623,8 +1623,8 @@ importers:
         specifier: workspace:*
         version: link:../../../packages/firefly
       '@workleap/logging':
-        specifier: 1.3.2
-        version: 1.3.2
+        specifier: 1.3.3
+        version: 1.3.3
       react:
         specifier: 19.2.3
         version: 19.2.3
@@ -1888,8 +1888,8 @@ importers:
         specifier: 5.90.12
         version: 5.90.12(react@19.2.3)
       '@workleap/logging':
-        specifier: 1.3.2
-        version: 1.3.2
+        specifier: 1.3.3
+        version: 1.3.3
       '@workleap/logrocket':
         specifier: 2.1.7
         version: 2.1.7(logrocket@10.1.1)(react-dom@19.2.3(react@19.2.3))(react@19.2.3)
@@ -2113,8 +2113,8 @@ importers:
         specifier: workspace:*
         version: link:../../../packages/i18next
       '@workleap/logging':
-        specifier: ^1.3.2
-        version: 1.3.2
+        specifier: ^1.3.3
+        version: 1.3.3
     devDependencies:
       '@eslint/js':
         specifier: 9.39.1
@@ -2210,8 +2210,8 @@ importers:
         specifier: 5.90.12
         version: 5.90.12(react@19.2.3)
       '@workleap/logging':
-        specifier: 1.3.2
-        version: 1.3.2
+        specifier: 1.3.3
+        version: 1.3.3
       i18next:
         specifier: 25.7.2
         version: 25.7.2(typescript@5.9.3)
@@ -6813,8 +6813,8 @@ packages:
       react-dom:
         optional: true
 
-  '@workleap/logging@1.3.2':
-    resolution: {integrity: sha512-slx0b+ndk5SHeWMUZD1/DGggkpqqUrQJRR+pqHta8wNbs3i8PHMHs+EUkc7tuVPdaEidzfaRiB69/p+R0GkDrA==}
+  '@workleap/logging@1.3.3':
+    resolution: {integrity: sha512-Wn154Xl+vpibYKCa9kVu/pvYlCuOO91V9UJwCOevPbOdUkVKHnohabyPbAglZL1fX7+xG9IIWAZIZZPzwAvGhQ==}
 
   '@workleap/logrocket@2.1.7':
     resolution: {integrity: sha512-+8Z2edxHm+0fu+J7AOnpwUQefRmNN9BxaJWiMy7G+v62YR04AkNaN4FAIwWiStYgq+eCPZt/f7yYzfV8fKARpg==}
@@ -14724,7 +14724,7 @@ snapshots:
       https-proxy-agent: 7.0.6
       node-fetch: 2.7.0
       nopt: 8.1.0
-      semver: 7.7.3
+      semver: 7.7.2
       tar: 7.5.2
     transitivePeerDependencies:
       - encoding
@@ -14737,7 +14737,7 @@ snapshots:
       https-proxy-agent: 7.0.6(supports-color@10.2.2)
       node-fetch: 2.7.0
       nopt: 8.1.0
-      semver: 7.7.3
+      semver: 7.7.2
       tar: 7.5.2
     transitivePeerDependencies:
       - encoding
@@ -15096,7 +15096,7 @@ snapshots:
       find-up: 7.0.0
       minimatch: 9.0.5
       read-pkg: 9.0.1
-      semver: 7.7.3
+      semver: 7.7.2
       yaml: 2.8.2
       yargs: 17.7.2
 
@@ -15144,7 +15144,7 @@ snapshots:
       resolve: 2.0.0-next.5
       rfdc: 1.4.1
       safe-json-stringify: 1.2.0
-      semver: 7.7.3
+      semver: 7.7.2
       string-width: 7.2.0
       supports-color: 10.2.2
       terminal-link: 4.0.0
@@ -15215,7 +15215,7 @@ snapshots:
       image-size: 2.0.2
       js-image-generator: 1.0.4
       parse-gitignore: 2.0.0
-      semver: 7.7.3
+      semver: 7.7.2
       tmp-promise: 3.0.3
       uuid: 11.1.0
       write-file-atomic: 5.0.1
@@ -15233,7 +15233,7 @@ snapshots:
       image-size: 2.0.2
       js-image-generator: 1.0.4
       parse-gitignore: 2.0.0
-      semver: 7.7.3
+      semver: 7.7.2
       tmp-promise: 3.0.3
       uuid: 13.0.0
       write-file-atomic: 5.0.1
@@ -15251,7 +15251,7 @@ snapshots:
       image-size: 2.0.2
       js-image-generator: 1.0.4
       parse-gitignore: 2.0.0
-      semver: 7.7.3
+      semver: 7.7.2
       tmp-promise: 3.0.3
       uuid: 13.0.0
       write-file-atomic: 5.0.1
@@ -15273,7 +15273,7 @@ snapshots:
       p-wait-for: 5.0.2
       parse-imports: 2.2.1
       path-key: 4.0.0
-      semver: 7.7.3
+      semver: 7.7.2
       tar: 7.5.2
       tmp-promise: 3.0.3
       urlpattern-polyfill: 8.0.2
@@ -15429,7 +15429,7 @@ snapshots:
       precinct: 12.2.0
       require-package-name: 2.0.1
       resolve: 2.0.0-next.5
-      semver: 7.7.3
+      semver: 7.7.2
       tmp-promise: 3.0.3
       toml: 3.0.0
       unixify: 1.0.0
@@ -15470,7 +15470,7 @@ snapshots:
       precinct: 12.2.0(supports-color@10.2.2)
       require-package-name: 2.0.1
       resolve: 2.0.0-next.5
-      semver: 7.7.3
+      semver: 7.7.2
       tmp-promise: 3.0.3
       toml: 3.0.0
       unixify: 1.0.0
@@ -15511,7 +15511,7 @@ snapshots:
       precinct: 12.2.0(supports-color@10.2.2)
       require-package-name: 2.0.1
       resolve: 2.0.0-next.5
-      semver: 7.7.3
+      semver: 7.7.2
       tmp-promise: 3.0.3
       toml: 3.0.0
       unixify: 1.0.0
@@ -16536,7 +16536,7 @@ snapshots:
       '@opentelemetry/propagator-b3': 1.30.1(@opentelemetry/api@1.9.0)
       '@opentelemetry/propagator-jaeger': 1.30.1(@opentelemetry/api@1.9.0)
       '@opentelemetry/sdk-trace-base': 1.30.1(@opentelemetry/api@1.9.0)
-      semver: 7.7.3
+      semver: 7.7.2
 
   '@opentelemetry/sdk-trace-node@2.2.0(@opentelemetry/api@1.9.0)':
     dependencies:
@@ -17477,7 +17477,7 @@ snapshots:
 
   '@types/serve-index@1.9.4':
     dependencies:
-      '@types/express': 5.0.6
+      '@types/express': 4.17.25
 
   '@types/serve-static@1.15.10':
     dependencies:
@@ -17931,7 +17931,7 @@ snapshots:
 
   '@workleap-telemetry/core@1.0.6':
     dependencies:
-      '@workleap/logging': 1.3.2
+      '@workleap/logging': 1.3.3
       js-cookie: 3.0.5
       uuid: 13.0.0
 
@@ -18015,7 +18015,7 @@ snapshots:
       '@opentelemetry/instrumentation-xml-http-request': 0.208.0(@opentelemetry/api@1.9.0)
       '@opentelemetry/sdk-trace-web': 2.2.0(@opentelemetry/api@1.9.0)
       '@workleap-telemetry/core': 1.0.6
-      '@workleap/logging': 1.3.2
+      '@workleap/logging': 1.3.3
     optionalDependencies:
       react: 19.2.3
       react-dom: 19.2.3(react@19.2.3)
@@ -18024,12 +18024,12 @@ snapshots:
       - supports-color
       - zone.js
 
-  '@workleap/logging@1.3.2': {}
+  '@workleap/logging@1.3.3': {}
 
   '@workleap/logrocket@2.1.7(logrocket@10.1.1)(react-dom@19.2.3(react@19.2.3))(react@19.2.3)':
     dependencies:
       '@workleap-telemetry/core': 1.0.6
-      '@workleap/logging': 1.3.2
+      '@workleap/logging': 1.3.3
       logrocket: 10.1.1
       logrocket-fuzzy-search-sanitizer: 0.0.2
     optionalDependencies:
@@ -18039,7 +18039,7 @@ snapshots:
   '@workleap/mixpanel@4.0.7(@workleap/logrocket@2.1.7(logrocket@10.1.1)(react-dom@19.2.3(react@19.2.3))(react@19.2.3))(react-dom@19.2.3(react@19.2.3))(react@19.2.3)':
     dependencies:
       '@workleap-telemetry/core': 1.0.6
-      '@workleap/logging': 1.3.2
+      '@workleap/logging': 1.3.3
     optionalDependencies:
       '@workleap/logrocket': 2.1.7(logrocket@10.1.1)(react-dom@19.2.3(react@19.2.3))(react@19.2.3)
       react: 19.2.3
@@ -18089,7 +18089,7 @@ snapshots:
       '@opentelemetry/sdk-trace-web': 2.2.0(@opentelemetry/api@1.9.0)
       '@workleap-telemetry/core': 1.0.6
       '@workleap/honeycomb': 7.1.7(@opentelemetry/api@1.9.0)(react-dom@19.2.3(react@19.2.3))(react@19.2.3)(zone.js@0.15.1)
-      '@workleap/logging': 1.3.2
+      '@workleap/logging': 1.3.3
       '@workleap/logrocket': 2.1.7(logrocket@10.1.1)(react-dom@19.2.3(react@19.2.3))(react@19.2.3)
       '@workleap/mixpanel': 4.0.7(@workleap/logrocket@2.1.7(logrocket@10.1.1)(react-dom@19.2.3(react@19.2.3))(react@19.2.3))(react-dom@19.2.3(react@19.2.3))(react@19.2.3)
     optionalDependencies:
@@ -20307,7 +20307,7 @@ snapshots:
       proxy-addr: 2.0.7
       rfdc: 1.4.1
       secure-json-parse: 2.7.0
-      semver: 7.7.3
+      semver: 7.7.2
       toad-cache: 3.7.0
 
   fastq@1.19.1:
@@ -20642,7 +20642,7 @@ snapshots:
     dependencies:
       '@xhmikosr/downloader': 13.0.1
       node-fetch: 3.3.2
-      semver: 7.7.3
+      semver: 7.7.2
     transitivePeerDependencies:
       - bare-abort-controller
       - react-native-b4a
@@ -21537,7 +21537,7 @@ snapshots:
       lodash.isstring: 4.0.1
       lodash.once: 4.1.1
       ms: 2.1.3
-      semver: 7.7.3
+      semver: 7.7.2
 
   jsx-ast-utils@3.3.5:
     dependencies:
@@ -21830,7 +21830,7 @@ snapshots:
 
   make-dir@4.0.0:
     dependencies:
-      semver: 7.7.3
+      semver: 7.7.2
 
   make-error@1.3.6: {}
 
@@ -22257,13 +22257,13 @@ snapshots:
   normalize-package-data@6.0.2:
     dependencies:
       hosted-git-info: 7.0.2
-      semver: 7.7.3
+      semver: 7.7.2
       validate-npm-package-license: 3.0.4
 
   normalize-package-data@7.0.1:
     dependencies:
       hosted-git-info: 8.1.0
-      semver: 7.7.3
+      semver: 7.7.2
       validate-npm-package-license: 3.0.4
 
   normalize-path@2.1.1:
@@ -22518,7 +22518,7 @@ snapshots:
       ky: 1.14.1
       registry-auth-token: 5.1.0
       registry-url: 6.0.1
-      semver: 7.7.3
+      semver: 7.7.2
 
   package-manager-detector@0.2.11:
     dependencies:
@@ -24599,7 +24599,7 @@ snapshots:
       is-npm: 6.1.0
       latest-version: 9.0.0
       pupa: 3.3.0
-      semver: 7.7.3
+      semver: 7.7.2
       xdg-basedir: 5.1.0
 
   uqr@0.1.2: {}

@@ -46,7 +46,7 @@
         "@rspack/core": "^1.6.7",
         "@squide/core": "workspace:*",
         "@squide/firefly": "workspace:*",
-        "@workleap/logging": "^1.3.2"
+        "@workleap/logging": "^1.3.3"
     },
     "devDependencies": {
         "@eslint/js": "9.39.1",
