@@ -30,6 +30,7 @@ const webpackConfig = defineDevHostConfig(swcConfig: {}, port, remotes: [], opti
         - `i18next`: Whether or not to add `@squide/i18next` as a shared dependency.
         - `environmentVariables`: `false` to remove `@squide/env-vars` from shared dependencies.
         - `honeycomb`: `false` to remove Honeycomb packages from shared dependencies.
+        - `launchDarkly`: `false` to remove LaunchDarkly packages from shared dependencies.
         - `msw`: `false` to remove `@squide/msw` from shared dependencies.
     - `sharedDependencies`: An optional object literal of additional (or updated) module federation shared dependencies.
     - `moduleFederationPluginOptions`: An optional object literal of [ModuleFederationPlugin](https://module-federation.io/configure/index.html) options.
@@ -50,6 +51,8 @@ The `defineDevHostConfig` function will add the following shared dependencies as
 - [@squide/msw](https://www.npmjs.com/package/@squide/msw)
 - [@squide/env-vars](https://www.npmjs.com/package/@squide/env-vars)
 - [@opentelemetry/api](https://www.npmjs.com/package/@opentelemetry/api)
+- [@squide/launch-darkly](https://www.npmjs.com/package/@squide/launch-darkly)
+- [launchdarkly-js-client-sdk](https://www.npmjs.com/package/@launchdarkly/js-client-sdk)
 
 For the full shared dependencies configuration, have a look at the [defineConfig.ts](https://github.com/workleap/wl-squide/blob/main/packages/firefly-webpack-configs/src/defineConfig.ts) file on Github.
 

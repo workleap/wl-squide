@@ -1,3 +1,4 @@
+import { loadEnv } from "@rsbuild/core";
 import { defineBuildHostConfig, defineBuildRemoteModuleConfig } from "@squide/firefly-rsbuild-configs";
 import path from "node:path";
 import { features, getSharedDependencies } from "./rsbuild.common.ts";
@@ -14,6 +15,10 @@ if (!process.env.ISOLATED) {
         }
     });
 } else {
+    const { parsed } = loadEnv({
+        cwd: path.resolve("../../..")
+    });
+
     config = defineBuildHostConfig([], {
         entry: {
             index: path.resolve("./src/dev/index.tsx")
@@ -22,7 +27,8 @@ if (!process.env.ISOLATED) {
         sharedDependencies: getSharedDependencies(true),
         environmentVariables: {
             "NETLIFY": process.env.NETLIFY === "true",
-            "USE_MSW": process.env.USE_MSW === "true"
+            "USE_MSW": process.env.USE_MSW === "true",
+            ...parsed
         }
     });
 }

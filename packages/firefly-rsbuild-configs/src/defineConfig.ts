@@ -76,6 +76,7 @@ export interface Features {
     i18next?: boolean;
     environmentVariables?: boolean;
     honeycomb?: boolean;
+    launchDarkly?: boolean;
 }
 
 // Generally, only the host application should have eager dependencies.
@@ -134,6 +135,19 @@ function getEnvironmentVariablesSharedDependencies(isHost: boolean): ModuleFeder
     };
 }
 
+function getLaunchDarklySharedDependencies(isHost: boolean): ModuleFederationShared {
+    return {
+        "@squide/launch-darkly": {
+            singleton: true,
+            eager: isHost ? true : undefined
+        },
+        "launchdarkly-js-client-sdk": {
+            singleton: true,
+            eager: isHost ? true : undefined
+        }
+    };
+}
+
 function getHoneycombSharedDependencies(isHost: boolean): ModuleFederationShared {
     return {
         "@opentelemetry/api": {
@@ -149,7 +163,8 @@ function getFeaturesDependencies(features: Features, isHost: boolean) {
         msw = true,
         i18next,
         environmentVariables = true,
-        honeycomb = true
+        honeycomb = true,
+        launchDarkly = true
     } = features;
 
     return {
@@ -157,7 +172,8 @@ function getFeaturesDependencies(features: Features, isHost: boolean) {
         ...(msw ? getMswSharedDependency(isHost) : {}),
         ...(i18next ? getI18nextSharedDependency(isHost) : {}),
         ...(environmentVariables ? getEnvironmentVariablesSharedDependencies(isHost) : {}),
-        ...(honeycomb ? getHoneycombSharedDependencies(isHost) : {})
+        ...(honeycomb ? getHoneycombSharedDependencies(isHost) : {}),
+        ...(launchDarkly ? getLaunchDarklySharedDependencies(isHost) : {})
     };
 }
 

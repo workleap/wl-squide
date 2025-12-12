@@ -14,7 +14,5 @@ export function getSharedDependencies() {
 }
 
 export const features: Features = {
-    i18next: true,
-    environmentVariables: true,
-    honeycomb: true
+    i18next: true
 };
