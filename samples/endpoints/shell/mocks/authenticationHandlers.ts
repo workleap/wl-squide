@@ -2,6 +2,7 @@ import { EnvironmentVariables } from "@squide/firefly";
 import { HttpResponse, http, type HttpHandler } from "msw";
 import { sessionManager } from "./session.ts";
 import { simulateDelay } from "./simulateDelay.ts";
+import { userRoleManager } from "./userRole.ts";
 
 interface LoginCredentials {
     username: string;
@@ -47,6 +48,9 @@ export function getAuthenticationHandlers(environmentVariables: EnvironmentVaria
                 username: user.username,
                 preferredLanguage: user.preferredLanguage
             });
+
+            // By an admin by default.
+            userRoleManager.setRole("admin");
 
             return new HttpResponse(null, {
                 status: 200

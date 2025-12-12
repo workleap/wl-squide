@@ -11,7 +11,7 @@ Create a runtime instance tailored for [Storybook](https://storybook.js.org/) an
 ## Reference
 
 ```ts
-const runtime = initializeFireflyForStorybook(options?: { localModules?, environmentVariables?, featureFlags? })
+const runtime = initializeFireflyForStorybook(options?: { localModules?, environmentVariables?, featureFlags?, launchDarklyClient?, loggers? })
 ```
 
 ### Parameters
@@ -20,7 +20,8 @@ const runtime = initializeFireflyForStorybook(options?: { localModules?, environ
     - `localModules`: An optional array of `ModuleRegisterFunction`.
     - `environmentVariables`: An optional object of environment variables.
     - `featureFlags`: An optional Map instance of feature flags.
-
+    - `launchDarklyClient`: An optional LaunchDarkly client to override the default client.
+    - `loggers`: An optional array of logger instances.
 ### Returns
 
 A `StorybookRuntime` instance.
@@ -62,6 +63,25 @@ const featureFlags = new Map([
 
 const runtime = initializeFireflyForStorybook({
     featureFlags
+});
+```
+
+### Initialize with a LaunchDarkly client
+
+```ts !#13
+import { initializeFireflyForStorybook } from "@squide/firefly-rsbuild-storybook";
+import { InMemoryLaunchDarklyClient } from "@squide/firefly";
+
+// This syntax with the nested arrays and "as const" is super important to get type safety when
+// using the "withFeatureFlagsOverrideDecorator" decorator.
+const featureFlags = new Map([
+    ["show-characters", true]
+] as const);
+
+const lanchDarklyClient = new InMemoryLaunchDarklyClient(featureFlags);
+
+const runtime = initializeFireflyForStorybook({
+    launchDarklyClient
 });
 ```
 

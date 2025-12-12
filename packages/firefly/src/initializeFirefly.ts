@@ -1,9 +1,10 @@
-import { ModuleDefinition, toLocalModuleDefinitions, type ModuleRegisterFunction, type RegisterModulesOptions } from "@squide/core";
+import { ModuleDefinition, PluginFactory, toLocalModuleDefinitions, type ModuleRegisterFunction, type RegisterModulesOptions } from "@squide/core";
 import { isFunction } from "@squide/core/internal";
 import { EnvironmentVariables, EnvironmentVariablesPlugin } from "@squide/env-vars";
 import { LaunchDarklyPlugin } from "@squide/launch-darkly";
 import { MswPlugin } from "@squide/msw";
 import type { HoneycombInstrumentationPartialClient } from "@workleap-telemetry/core";
+import { RootLogger } from "@workleap/logging";
 import { LDClient } from "launchdarkly-js-client-sdk";
 import { FireflyRuntime, type FireflyRuntimeOptions } from "./FireflyRuntime.tsx";
 import { initializeHoneycomb } from "./honeycomb/initializeHoneycomb.ts";
@@ -69,6 +70,73 @@ export function bootstrap<TRuntime extends FireflyRuntime = FireflyRuntime, TCon
     });
 }
 
+function logInitializationState<TContext = unknown, TData = unknown>(
+    runtime: FireflyRuntime,
+    options: InitializeFireflyOptions<FireflyRuntime, TContext, TData>,
+    plugins: PluginFactory<FireflyRuntime>[]
+) {
+    const {
+        mode,
+        localModules,
+        moduleDefinitions,
+        useMsw,
+        environmentVariables,
+        honeycombInstrumentationClient,
+        launchDarklyClient
+    } = options;
+    const scope = (runtime.logger as RootLogger).startScope("[squide] Initializing the application.");
+
+    try {
+        scope.information(`[squide] Mode: ${mode ?? "development"}`);
+
+        if (localModules) {
+            scope
+                .withText("[squide] Local modules:")
+                .withObject(localModules)
+                .information();
+        }
+
+        if (moduleDefinitions) {
+            scope
+                .withText("[squide] Module definitions:")
+                .withObject(moduleDefinitions)
+                .information();
+        }
+
+        scope.information(`[squide] Use MSW: ${useMsw ? "Yes" : "No"}`);
+
+        if (environmentVariables && Object.keys(environmentVariables).length > 0) {
+            scope
+                .withText("[squide] Environment variables:")
+                .withObject(environmentVariables)
+                .information();
+        }
+
+        if (honeycombInstrumentationClient) {
+            scope
+                .withText("[squide] Honeycomb instrumentation client:")
+                .withObject(honeycombInstrumentationClient)
+                .information();
+        }
+
+        if (launchDarklyClient) {
+            scope
+                .withText("[squide] LaunchDarkly client:")
+                .withObject(launchDarklyClient)
+                .information();
+        }
+
+        if (plugins.length > 0) {
+            scope
+                .withText("[squide] Plugins:")
+                .withObject(plugins)
+                .information();
+        }
+    } finally {
+        scope.end();
+    }
+}
+
 let hasExecuted = false;
 
 // Should only be used by tests.
@@ -104,60 +172,6 @@ export function initializeFirefly<TContext = unknown, TData = unknown>(options: 
         plugins.push(x => new LaunchDarklyPlugin(x, launchDarklyClient));
     }
 
-    loggers?.forEach(x => {
-        const scope = x.startScope("[squide] Initializing the application.");
-
-        try {
-            scope.information(`[squide] Mode: ${mode ?? "development"}`);
-
-            if (localModules.length > 0) {
-                scope
-                    .withText("[squide] Local modules:")
-                    .withObject(localModules)
-                    .information();
-            }
-
-            if (moduleDefinitions.length > 0) {
-                scope
-                    .withText("[squide] Module definitions:")
-                    .withObject(moduleDefinitions)
-                    .information();
-            }
-
-            scope.information(`[squide] Use MSW: ${useMsw ? "Yes" : "No"}`);
-
-            if (environmentVariables && Object.keys(environmentVariables).length > 0) {
-                scope
-                    .withText("[squide] Environment variables:")
-                    .withObject(environmentVariables)
-                    .information();
-            }
-
-            if (honeycombInstrumentationClient) {
-                scope
-                    .withText("[squide] Honeycomb instrumentation client:")
-                    .withObject(honeycombInstrumentationClient)
-                    .information();
-            }
-
-            if (launchDarklyClient) {
-                scope
-                    .withText("[squide] LaunchDarkly client:")
-                    .withObject(launchDarklyClient)
-                    .information();
-            }
-
-            if (plugins.length > 0) {
-                scope
-                    .withText("[squide] Plugins:")
-                    .withObject(plugins)
-                    .information();
-            }
-        } finally {
-            scope.end();
-        }
-    });
-
     const runtime = new FireflyRuntime({
         mode,
         honeycombInstrumentationClient,
@@ -169,6 +183,8 @@ export function initializeFirefly<TContext = unknown, TData = unknown>(options: 
             ...plugins
         ]
     });
+
+    logInitializationState(runtime, options, plugins);
 
     initializeHoneycomb(runtime)
         .catch((error: unknown) => {
