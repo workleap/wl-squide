@@ -1,5 +1,14 @@
 # @squide/fakes
 
+## 2.2.12
+
+### Patch Changes
+
+- [#361](https://github.com/workleap/wl-squide/pull/361) [`0479f4b`](https://github.com/workleap/wl-squide/commit/0479f4bb0bf17282dbd19dba92b3ac097cf01614) Thanks [@patricklafrance](https://github.com/patricklafrance)! - Bumped dependency versions.
+
+- Updated dependencies [[`0479f4b`](https://github.com/workleap/wl-squide/commit/0479f4bb0bf17282dbd19dba92b3ac097cf01614)]:
+  - @squide/core@6.1.8
+
 ## 2.2.11
 
 ### Patch Changes
