@@ -30,11 +30,6 @@ To ask a question or propose an idea, feel free to start a new [discussion](http
 
 View the [user's documentation](https://workleap.github.io/wl-squide/).
 
-## Live samples
-
-- A [basic sample application](https://squide-basic-host.netlify.app) hosted on Netlify.
-- A [sample application with endpoints](https://squide-endpoints-host.netlify.app) hosted on Netlify.
-
 ## 🤝 Contributing
 
 View the [contributor's documentation](./CONTRIBUTING.md).

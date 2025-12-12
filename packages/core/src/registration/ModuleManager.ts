@@ -23,43 +23,6 @@ export class ModuleManager {
         this.moduleRegistries.push(moduleRegistry);
     }
 
-    // async registerModules<TRuntime extends Runtime = Runtime, TContext = unknown, TData = unknown>(definitions: ModuleDefinition<TRuntime, TContext, TData>[], options?: RegisterModulesOptions<TContext>) {
-    //     const errors: ModuleRegistrationError[] = [];
-
-    //     // {
-    //     //     local: [
-    //     //         { registryId: "local", definition: () => ... },
-    //     //         { registryId: "local", definition: () => ... }
-    //     //     ],
-    //     //     remote: [
-    //     //         { registryId: "remote", definition: {...} },
-    //     //         { registryId: "remote", definition: {...} }
-    //     //     ]
-    //     // }
-    //     const definitionsByRegistryId = Object.groupBy(definitions, x => x.registryId);
-
-    //     // Using Promise.all rather than Promise.allSettled to throw any errors that occurs.
-    //     await Promise.all(Object.keys(definitionsByRegistryId).map(async x => {
-    //         const registry = this.moduleRegistries.find(y => y.id === x);
-    //         const definitions = definitionsByRegistryId[x]!.map(y => y.definition);
-
-    //         if (registry) {
-    //             const registrationErrors = await registry.registerModules(definitions, this.runtime, options);
-
-    //             errors.push(...registrationErrors);
-    //         } else {
-    //             this.runtime.logger
-    //                 .withText(`[squide] Cannot find a module registry with id "${x}". Skipping ${definitions.length} module definition${definitions.length > 1 ? "s" : ""}.`)
-    //                 .withObject(definitions)
-    //                 .error();
-
-    //             throw new ModuleRegistrationError(`Cannot find a module registry with id "${x}"`);
-    //         }
-    //     }));
-
-    //     return errors;
-    // }
-
     async registerModules<TRuntime extends Runtime = Runtime, TContext = unknown, TData = unknown>(definitions: ModuleDefinition<TRuntime, TContext, TData>[], options?: RegisterModulesOptions<TContext>) {
         const errors: ModuleRegistrationError[] = [];
 

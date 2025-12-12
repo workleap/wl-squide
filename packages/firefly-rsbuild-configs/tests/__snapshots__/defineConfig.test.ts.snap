@@ -19,6 +19,10 @@ exports[`defineBuildHostConfig > the application name is set as the federation p
       "eager": true,
       "singleton": true,
     },
+    "@squide/launch-darkly": {
+      "eager": true,
+      "singleton": true,
+    },
     "@squide/module-federation": {
       "eager": true,
       "singleton": true,
@@ -28,6 +32,10 @@ exports[`defineBuildHostConfig > the application name is set as the federation p
       "singleton": true,
     },
     "@squide/react-router": {
+      "eager": true,
+      "singleton": true,
+    },
+    "launchdarkly-js-client-sdk": {
       "eager": true,
       "singleton": true,
     },
@@ -67,6 +75,10 @@ exports[`defineBuildHostConfig > the module federation plugin configuration incl
       "eager": true,
       "singleton": true,
     },
+    "@squide/launch-darkly": {
+      "eager": true,
+      "singleton": true,
+    },
     "@squide/module-federation": {
       "eager": true,
       "singleton": true,
@@ -76,6 +88,10 @@ exports[`defineBuildHostConfig > the module federation plugin configuration incl
       "singleton": true,
     },
     "@squide/react-router": {
+      "eager": true,
+      "singleton": true,
+    },
+    "launchdarkly-js-client-sdk": {
       "eager": true,
       "singleton": true,
     },
@@ -118,6 +134,10 @@ exports[`defineBuildHostConfig > the module federation plugin configuration incl
       "eager": true,
       "singleton": true,
     },
+    "@squide/launch-darkly": {
+      "eager": true,
+      "singleton": true,
+    },
     "@squide/module-federation": {
       "eager": true,
       "singleton": true,
@@ -127,6 +147,10 @@ exports[`defineBuildHostConfig > the module federation plugin configuration incl
       "singleton": true,
     },
     "@squide/react-router": {
+      "eager": true,
+      "singleton": true,
+    },
+    "launchdarkly-js-client-sdk": {
       "eager": true,
       "singleton": true,
     },
@@ -167,6 +191,10 @@ exports[`defineBuildHostConfig > when a function is provided to override the mod
       "eager": true,
       "singleton": true,
     },
+    "@squide/launch-darkly": {
+      "eager": true,
+      "singleton": true,
+    },
     "@squide/module-federation": {
       "eager": true,
       "singleton": true,
@@ -176,6 +204,10 @@ exports[`defineBuildHostConfig > when a function is provided to override the mod
       "singleton": true,
     },
     "@squide/react-router": {
+      "eager": true,
+      "singleton": true,
+    },
+    "launchdarkly-js-client-sdk": {
       "eager": true,
       "singleton": true,
     },
@@ -215,6 +247,10 @@ exports[`defineBuildHostConfig > when additional options are provided for an exi
       "eager": true,
       "singleton": true,
     },
+    "@squide/launch-darkly": {
+      "eager": true,
+      "singleton": true,
+    },
     "@squide/module-federation": {
       "eager": true,
       "singleton": true,
@@ -224,6 +260,10 @@ exports[`defineBuildHostConfig > when additional options are provided for an exi
       "singleton": true,
     },
     "@squide/react-router": {
+      "eager": true,
+      "singleton": true,
+    },
+    "launchdarkly-js-client-sdk": {
       "eager": true,
       "singleton": true,
     },
@@ -263,6 +303,10 @@ exports[`defineBuildHostConfig > when additional shared dependencies are provide
       "eager": true,
       "singleton": true,
     },
+    "@squide/launch-darkly": {
+      "eager": true,
+      "singleton": true,
+    },
     "@squide/module-federation": {
       "eager": true,
       "singleton": true,
@@ -276,6 +320,10 @@ exports[`defineBuildHostConfig > when additional shared dependencies are provide
       "singleton": true,
     },
     "first": {
+      "singleton": true,
+    },
+    "launchdarkly-js-client-sdk": {
+      "eager": true,
       "singleton": true,
     },
     "react": {
@@ -318,6 +366,10 @@ exports[`defineBuildHostConfig > when environmentVariables is env-vars, add env-
       "eager": true,
       "singleton": true,
     },
+    "@squide/launch-darkly": {
+      "eager": true,
+      "singleton": true,
+    },
     "@squide/module-federation": {
       "eager": true,
       "singleton": true,
@@ -327,6 +379,10 @@ exports[`defineBuildHostConfig > when environmentVariables is env-vars, add env-
       "singleton": true,
     },
     "@squide/react-router": {
+      "eager": true,
+      "singleton": true,
+    },
+    "launchdarkly-js-client-sdk": {
       "eager": true,
       "singleton": true,
     },
@@ -366,6 +422,10 @@ exports[`defineBuildHostConfig > when honeycomb is activated, add honeycomb shar
       "eager": true,
       "singleton": true,
     },
+    "@squide/launch-darkly": {
+      "eager": true,
+      "singleton": true,
+    },
     "@squide/module-federation": {
       "eager": true,
       "singleton": true,
@@ -375,6 +435,10 @@ exports[`defineBuildHostConfig > when honeycomb is activated, add honeycomb shar
       "singleton": true,
     },
     "@squide/react-router": {
+      "eager": true,
+      "singleton": true,
+    },
+    "launchdarkly-js-client-sdk": {
       "eager": true,
       "singleton": true,
     },
@@ -418,6 +482,10 @@ exports[`defineBuildHostConfig > when i18next is activated, add i18next shared d
       "eager": true,
       "singleton": true,
     },
+    "@squide/launch-darkly": {
+      "eager": true,
+      "singleton": true,
+    },
     "@squide/module-federation": {
       "eager": true,
       "singleton": true,
@@ -431,6 +499,10 @@ exports[`defineBuildHostConfig > when i18next is activated, add i18next shared d
       "singleton": true,
     },
     "i18next": {
+      "eager": true,
+      "singleton": true,
+    },
+    "launchdarkly-js-client-sdk": {
       "eager": true,
       "singleton": true,
     },
@@ -474,6 +546,10 @@ exports[`defineBuildHostConfig > when no asset prefix is provided, the default a
       "eager": true,
       "singleton": true,
     },
+    "@squide/launch-darkly": {
+      "eager": true,
+      "singleton": true,
+    },
     "@squide/module-federation": {
       "eager": true,
       "singleton": true,
@@ -483,6 +559,10 @@ exports[`defineBuildHostConfig > when no asset prefix is provided, the default a
       "singleton": true,
     },
     "@squide/react-router": {
+      "eager": true,
+      "singleton": true,
+    },
+    "launchdarkly-js-client-sdk": {
       "eager": true,
       "singleton": true,
     },
@@ -522,6 +602,10 @@ exports[`defineBuildHostConfig > when overriding options are provided for a defa
       "eager": true,
       "singleton": true,
     },
+    "@squide/launch-darkly": {
+      "eager": true,
+      "singleton": true,
+    },
     "@squide/module-federation": {
       "eager": true,
       "singleton": true,
@@ -531,6 +615,10 @@ exports[`defineBuildHostConfig > when overriding options are provided for a defa
       "singleton": true,
     },
     "@squide/react-router": {
+      "eager": true,
+      "singleton": true,
+    },
+    "launchdarkly-js-client-sdk": {
       "eager": true,
       "singleton": true,
     },
@@ -570,11 +658,19 @@ exports[`defineBuildHostConfig > when the router is not react-router, do not add
       "eager": true,
       "singleton": true,
     },
+    "@squide/launch-darkly": {
+      "eager": true,
+      "singleton": true,
+    },
     "@squide/module-federation": {
       "eager": true,
       "singleton": true,
     },
     "@squide/msw": {
+      "eager": true,
+      "singleton": true,
+    },
+    "launchdarkly-js-client-sdk": {
       "eager": true,
       "singleton": true,
     },
@@ -613,6 +709,10 @@ exports[`defineBuildRemoteModuleConfig > the application name is set as the fede
       "eager": undefined,
       "singleton": true,
     },
+    "@squide/launch-darkly": {
+      "eager": undefined,
+      "singleton": true,
+    },
     "@squide/module-federation": {
       "eager": undefined,
       "singleton": true,
@@ -622,6 +722,10 @@ exports[`defineBuildRemoteModuleConfig > the application name is set as the fede
       "singleton": true,
     },
     "@squide/react-router": {
+      "eager": undefined,
+      "singleton": true,
+    },
+    "launchdarkly-js-client-sdk": {
       "eager": undefined,
       "singleton": true,
     },
@@ -664,6 +768,10 @@ exports[`defineBuildRemoteModuleConfig > the module federation plugin configurat
       "eager": undefined,
       "singleton": true,
     },
+    "@squide/launch-darkly": {
+      "eager": undefined,
+      "singleton": true,
+    },
     "@squide/module-federation": {
       "eager": undefined,
       "singleton": true,
@@ -673,6 +781,10 @@ exports[`defineBuildRemoteModuleConfig > the module federation plugin configurat
       "singleton": true,
     },
     "@squide/react-router": {
+      "eager": undefined,
+      "singleton": true,
+    },
+    "launchdarkly-js-client-sdk": {
       "eager": undefined,
       "singleton": true,
     },
@@ -715,6 +827,10 @@ exports[`defineBuildRemoteModuleConfig > when a function is provided to override
       "eager": undefined,
       "singleton": true,
     },
+    "@squide/launch-darkly": {
+      "eager": undefined,
+      "singleton": true,
+    },
     "@squide/module-federation": {
       "eager": undefined,
       "singleton": true,
@@ -724,6 +840,10 @@ exports[`defineBuildRemoteModuleConfig > when a function is provided to override
       "singleton": true,
     },
     "@squide/react-router": {
+      "eager": undefined,
+      "singleton": true,
+    },
+    "launchdarkly-js-client-sdk": {
       "eager": undefined,
       "singleton": true,
     },
@@ -766,6 +886,10 @@ exports[`defineBuildRemoteModuleConfig > when additional options are provided fo
       "eager": undefined,
       "singleton": true,
     },
+    "@squide/launch-darkly": {
+      "eager": undefined,
+      "singleton": true,
+    },
     "@squide/module-federation": {
       "eager": undefined,
       "singleton": true,
@@ -775,6 +899,10 @@ exports[`defineBuildRemoteModuleConfig > when additional options are provided fo
       "singleton": true,
     },
     "@squide/react-router": {
+      "eager": undefined,
+      "singleton": true,
+    },
+    "launchdarkly-js-client-sdk": {
       "eager": undefined,
       "singleton": true,
     },
@@ -817,6 +945,10 @@ exports[`defineBuildRemoteModuleConfig > when additional shared dependencies are
       "eager": undefined,
       "singleton": true,
     },
+    "@squide/launch-darkly": {
+      "eager": undefined,
+      "singleton": true,
+    },
     "@squide/module-federation": {
       "eager": undefined,
       "singleton": true,
@@ -830,6 +962,10 @@ exports[`defineBuildRemoteModuleConfig > when additional shared dependencies are
       "singleton": true,
     },
     "first": {
+      "singleton": true,
+    },
+    "launchdarkly-js-client-sdk": {
+      "eager": undefined,
       "singleton": true,
     },
     "react": {
@@ -875,6 +1011,10 @@ exports[`defineBuildRemoteModuleConfig > when environmentVariables is activated,
       "eager": undefined,
       "singleton": true,
     },
+    "@squide/launch-darkly": {
+      "eager": undefined,
+      "singleton": true,
+    },
     "@squide/module-federation": {
       "eager": undefined,
       "singleton": true,
@@ -884,6 +1024,10 @@ exports[`defineBuildRemoteModuleConfig > when environmentVariables is activated,
       "singleton": true,
     },
     "@squide/react-router": {
+      "eager": undefined,
+      "singleton": true,
+    },
+    "launchdarkly-js-client-sdk": {
       "eager": undefined,
       "singleton": true,
     },
@@ -926,6 +1070,10 @@ exports[`defineBuildRemoteModuleConfig > when honeycomb is activated, add honeyc
       "eager": undefined,
       "singleton": true,
     },
+    "@squide/launch-darkly": {
+      "eager": undefined,
+      "singleton": true,
+    },
     "@squide/module-federation": {
       "eager": undefined,
       "singleton": true,
@@ -935,6 +1083,10 @@ exports[`defineBuildRemoteModuleConfig > when honeycomb is activated, add honeyc
       "singleton": true,
     },
     "@squide/react-router": {
+      "eager": undefined,
+      "singleton": true,
+    },
+    "launchdarkly-js-client-sdk": {
       "eager": undefined,
       "singleton": true,
     },
@@ -981,6 +1133,10 @@ exports[`defineBuildRemoteModuleConfig > when i18next is activated, add i18next 
       "eager": undefined,
       "singleton": true,
     },
+    "@squide/launch-darkly": {
+      "eager": undefined,
+      "singleton": true,
+    },
     "@squide/module-federation": {
       "eager": undefined,
       "singleton": true,
@@ -994,6 +1150,10 @@ exports[`defineBuildRemoteModuleConfig > when i18next is activated, add i18next 
       "singleton": true,
     },
     "i18next": {
+      "eager": undefined,
+      "singleton": true,
+    },
+    "launchdarkly-js-client-sdk": {
       "eager": undefined,
       "singleton": true,
     },
@@ -1040,6 +1200,10 @@ exports[`defineBuildRemoteModuleConfig > when overriding options are provided fo
       "eager": undefined,
       "singleton": true,
     },
+    "@squide/launch-darkly": {
+      "eager": undefined,
+      "singleton": true,
+    },
     "@squide/module-federation": {
       "eager": undefined,
       "singleton": true,
@@ -1049,6 +1213,10 @@ exports[`defineBuildRemoteModuleConfig > when overriding options are provided fo
       "singleton": true,
     },
     "@squide/react-router": {
+      "eager": undefined,
+      "singleton": true,
+    },
+    "launchdarkly-js-client-sdk": {
       "eager": undefined,
       "singleton": true,
     },
@@ -1091,11 +1259,19 @@ exports[`defineBuildRemoteModuleConfig > when the router is not react-router, ad
       "eager": undefined,
       "singleton": true,
     },
+    "@squide/launch-darkly": {
+      "eager": undefined,
+      "singleton": true,
+    },
     "@squide/module-federation": {
       "eager": undefined,
       "singleton": true,
     },
     "@squide/msw": {
+      "eager": undefined,
+      "singleton": true,
+    },
+    "launchdarkly-js-client-sdk": {
       "eager": undefined,
       "singleton": true,
     },
@@ -1131,6 +1307,10 @@ exports[`defineDevHostConfig > the application name is set as the federation plu
       "eager": true,
       "singleton": true,
     },
+    "@squide/launch-darkly": {
+      "eager": true,
+      "singleton": true,
+    },
     "@squide/module-federation": {
       "eager": true,
       "singleton": true,
@@ -1140,6 +1320,10 @@ exports[`defineDevHostConfig > the application name is set as the federation plu
       "singleton": true,
     },
     "@squide/react-router": {
+      "eager": true,
+      "singleton": true,
+    },
+    "launchdarkly-js-client-sdk": {
       "eager": true,
       "singleton": true,
     },
@@ -1179,6 +1363,10 @@ exports[`defineDevHostConfig > the module federation plugin configuration includ
       "eager": true,
       "singleton": true,
     },
+    "@squide/launch-darkly": {
+      "eager": true,
+      "singleton": true,
+    },
     "@squide/module-federation": {
       "eager": true,
       "singleton": true,
@@ -1188,6 +1376,10 @@ exports[`defineDevHostConfig > the module federation plugin configuration includ
       "singleton": true,
     },
     "@squide/react-router": {
+      "eager": true,
+      "singleton": true,
+    },
+    "launchdarkly-js-client-sdk": {
       "eager": true,
       "singleton": true,
     },
@@ -1230,6 +1422,10 @@ exports[`defineDevHostConfig > the module federation plugin configuration includ
       "eager": true,
       "singleton": true,
     },
+    "@squide/launch-darkly": {
+      "eager": true,
+      "singleton": true,
+    },
     "@squide/module-federation": {
       "eager": true,
       "singleton": true,
@@ -1239,6 +1435,10 @@ exports[`defineDevHostConfig > the module federation plugin configuration includ
       "singleton": true,
     },
     "@squide/react-router": {
+      "eager": true,
+      "singleton": true,
+    },
+    "launchdarkly-js-client-sdk": {
       "eager": true,
       "singleton": true,
     },
@@ -1279,6 +1479,10 @@ exports[`defineDevHostConfig > when a function is provided to override the modul
       "eager": true,
       "singleton": true,
     },
+    "@squide/launch-darkly": {
+      "eager": true,
+      "singleton": true,
+    },
     "@squide/module-federation": {
       "eager": true,
       "singleton": true,
@@ -1288,6 +1492,10 @@ exports[`defineDevHostConfig > when a function is provided to override the modul
       "singleton": true,
     },
     "@squide/react-router": {
+      "eager": true,
+      "singleton": true,
+    },
+    "launchdarkly-js-client-sdk": {
       "eager": true,
       "singleton": true,
     },
@@ -1327,6 +1535,10 @@ exports[`defineDevHostConfig > when additional options are provided for an exist
       "eager": true,
       "singleton": true,
     },
+    "@squide/launch-darkly": {
+      "eager": true,
+      "singleton": true,
+    },
     "@squide/module-federation": {
       "eager": true,
       "singleton": true,
@@ -1336,6 +1548,10 @@ exports[`defineDevHostConfig > when additional options are provided for an exist
       "singleton": true,
     },
     "@squide/react-router": {
+      "eager": true,
+      "singleton": true,
+    },
+    "launchdarkly-js-client-sdk": {
       "eager": true,
       "singleton": true,
     },
@@ -1375,6 +1591,10 @@ exports[`defineDevHostConfig > when additional shared dependencies are provided,
       "eager": true,
       "singleton": true,
     },
+    "@squide/launch-darkly": {
+      "eager": true,
+      "singleton": true,
+    },
     "@squide/module-federation": {
       "eager": true,
       "singleton": true,
@@ -1388,6 +1608,10 @@ exports[`defineDevHostConfig > when additional shared dependencies are provided,
       "singleton": true,
     },
     "first": {
+      "singleton": true,
+    },
+    "launchdarkly-js-client-sdk": {
+      "eager": true,
       "singleton": true,
     },
     "react": {
@@ -1430,6 +1654,10 @@ exports[`defineDevHostConfig > when environmentVariables is activated, add env-v
       "eager": true,
       "singleton": true,
     },
+    "@squide/launch-darkly": {
+      "eager": true,
+      "singleton": true,
+    },
     "@squide/module-federation": {
       "eager": true,
       "singleton": true,
@@ -1439,6 +1667,10 @@ exports[`defineDevHostConfig > when environmentVariables is activated, add env-v
       "singleton": true,
     },
     "@squide/react-router": {
+      "eager": true,
+      "singleton": true,
+    },
+    "launchdarkly-js-client-sdk": {
       "eager": true,
       "singleton": true,
     },
@@ -1478,6 +1710,10 @@ exports[`defineDevHostConfig > when honeycomb is activated, add honeycomb shared
       "eager": true,
       "singleton": true,
     },
+    "@squide/launch-darkly": {
+      "eager": true,
+      "singleton": true,
+    },
     "@squide/module-federation": {
       "eager": true,
       "singleton": true,
@@ -1487,6 +1723,10 @@ exports[`defineDevHostConfig > when honeycomb is activated, add honeycomb shared
       "singleton": true,
     },
     "@squide/react-router": {
+      "eager": true,
+      "singleton": true,
+    },
+    "launchdarkly-js-client-sdk": {
       "eager": true,
       "singleton": true,
     },
@@ -1530,6 +1770,10 @@ exports[`defineDevHostConfig > when i18next is activated, add i18next shared dep
       "eager": true,
       "singleton": true,
     },
+    "@squide/launch-darkly": {
+      "eager": true,
+      "singleton": true,
+    },
     "@squide/module-federation": {
       "eager": true,
       "singleton": true,
@@ -1543,6 +1787,10 @@ exports[`defineDevHostConfig > when i18next is activated, add i18next shared dep
       "singleton": true,
     },
     "i18next": {
+      "eager": true,
+      "singleton": true,
+    },
+    "launchdarkly-js-client-sdk": {
       "eager": true,
       "singleton": true,
     },
@@ -1586,6 +1834,10 @@ exports[`defineDevHostConfig > when overriding options are provided for a defaul
       "eager": true,
       "singleton": true,
     },
+    "@squide/launch-darkly": {
+      "eager": true,
+      "singleton": true,
+    },
     "@squide/module-federation": {
       "eager": true,
       "singleton": true,
@@ -1595,6 +1847,10 @@ exports[`defineDevHostConfig > when overriding options are provided for a defaul
       "singleton": true,
     },
     "@squide/react-router": {
+      "eager": true,
+      "singleton": true,
+    },
+    "launchdarkly-js-client-sdk": {
       "eager": true,
       "singleton": true,
     },
@@ -1634,11 +1890,19 @@ exports[`defineDevHostConfig > when the router is not react-router, do not add r
       "eager": true,
       "singleton": true,
     },
+    "@squide/launch-darkly": {
+      "eager": true,
+      "singleton": true,
+    },
     "@squide/module-federation": {
       "eager": true,
       "singleton": true,
     },
     "@squide/msw": {
+      "eager": true,
+      "singleton": true,
+    },
+    "launchdarkly-js-client-sdk": {
       "eager": true,
       "singleton": true,
     },
@@ -1677,6 +1941,10 @@ exports[`defineDevRemoteModuleConfig > the application name is set as the federa
       "eager": undefined,
       "singleton": true,
     },
+    "@squide/launch-darkly": {
+      "eager": undefined,
+      "singleton": true,
+    },
     "@squide/module-federation": {
       "eager": undefined,
       "singleton": true,
@@ -1686,6 +1954,10 @@ exports[`defineDevRemoteModuleConfig > the application name is set as the federa
       "singleton": true,
     },
     "@squide/react-router": {
+      "eager": undefined,
+      "singleton": true,
+    },
+    "launchdarkly-js-client-sdk": {
       "eager": undefined,
       "singleton": true,
     },
@@ -1728,6 +2000,10 @@ exports[`defineDevRemoteModuleConfig > the module federation plugin configuratio
       "eager": undefined,
       "singleton": true,
     },
+    "@squide/launch-darkly": {
+      "eager": undefined,
+      "singleton": true,
+    },
     "@squide/module-federation": {
       "eager": undefined,
       "singleton": true,
@@ -1737,6 +2013,10 @@ exports[`defineDevRemoteModuleConfig > the module federation plugin configuratio
       "singleton": true,
     },
     "@squide/react-router": {
+      "eager": undefined,
+      "singleton": true,
+    },
+    "launchdarkly-js-client-sdk": {
       "eager": undefined,
       "singleton": true,
     },
@@ -1779,6 +2059,10 @@ exports[`defineDevRemoteModuleConfig > when a function is provided to override t
       "eager": undefined,
       "singleton": true,
     },
+    "@squide/launch-darkly": {
+      "eager": undefined,
+      "singleton": true,
+    },
     "@squide/module-federation": {
       "eager": undefined,
       "singleton": true,
@@ -1788,6 +2072,10 @@ exports[`defineDevRemoteModuleConfig > when a function is provided to override t
       "singleton": true,
     },
     "@squide/react-router": {
+      "eager": undefined,
+      "singleton": true,
+    },
+    "launchdarkly-js-client-sdk": {
       "eager": undefined,
       "singleton": true,
     },
@@ -1830,6 +2118,10 @@ exports[`defineDevRemoteModuleConfig > when additional options are provided for 
       "eager": undefined,
       "singleton": true,
     },
+    "@squide/launch-darkly": {
+      "eager": undefined,
+      "singleton": true,
+    },
     "@squide/module-federation": {
       "eager": undefined,
       "singleton": true,
@@ -1839,6 +2131,10 @@ exports[`defineDevRemoteModuleConfig > when additional options are provided for 
       "singleton": true,
     },
     "@squide/react-router": {
+      "eager": undefined,
+      "singleton": true,
+    },
+    "launchdarkly-js-client-sdk": {
       "eager": undefined,
       "singleton": true,
     },
@@ -1881,6 +2177,10 @@ exports[`defineDevRemoteModuleConfig > when additional shared dependencies are p
       "eager": undefined,
       "singleton": true,
     },
+    "@squide/launch-darkly": {
+      "eager": undefined,
+      "singleton": true,
+    },
     "@squide/module-federation": {
       "eager": undefined,
       "singleton": true,
@@ -1894,6 +2194,10 @@ exports[`defineDevRemoteModuleConfig > when additional shared dependencies are p
       "singleton": true,
     },
     "first": {
+      "singleton": true,
+    },
+    "launchdarkly-js-client-sdk": {
+      "eager": undefined,
       "singleton": true,
     },
     "react": {
@@ -1936,6 +2240,10 @@ exports[`defineDevRemoteModuleConfig > when environmentVariables is activated, a
       "eager": true,
       "singleton": true,
     },
+    "@squide/launch-darkly": {
+      "eager": true,
+      "singleton": true,
+    },
     "@squide/module-federation": {
       "eager": true,
       "singleton": true,
@@ -1945,6 +2253,10 @@ exports[`defineDevRemoteModuleConfig > when environmentVariables is activated, a
       "singleton": true,
     },
     "@squide/react-router": {
+      "eager": true,
+      "singleton": true,
+    },
+    "launchdarkly-js-client-sdk": {
       "eager": true,
       "singleton": true,
     },
@@ -1984,6 +2296,10 @@ exports[`defineDevRemoteModuleConfig > when honeycomb is activated, add honeycom
       "eager": true,
       "singleton": true,
     },
+    "@squide/launch-darkly": {
+      "eager": true,
+      "singleton": true,
+    },
     "@squide/module-federation": {
       "eager": true,
       "singleton": true,
@@ -1993,6 +2309,10 @@ exports[`defineDevRemoteModuleConfig > when honeycomb is activated, add honeycom
       "singleton": true,
     },
     "@squide/react-router": {
+      "eager": true,
+      "singleton": true,
+    },
+    "launchdarkly-js-client-sdk": {
       "eager": true,
       "singleton": true,
     },
@@ -2039,6 +2359,10 @@ exports[`defineDevRemoteModuleConfig > when i18next is activated, add i18next sh
       "eager": undefined,
       "singleton": true,
     },
+    "@squide/launch-darkly": {
+      "eager": undefined,
+      "singleton": true,
+    },
     "@squide/module-federation": {
       "eager": undefined,
       "singleton": true,
@@ -2052,6 +2376,10 @@ exports[`defineDevRemoteModuleConfig > when i18next is activated, add i18next sh
       "singleton": true,
     },
     "i18next": {
+      "eager": undefined,
+      "singleton": true,
+    },
+    "launchdarkly-js-client-sdk": {
       "eager": undefined,
       "singleton": true,
     },
@@ -2098,6 +2426,10 @@ exports[`defineDevRemoteModuleConfig > when overriding options are provided for 
       "eager": undefined,
       "singleton": true,
     },
+    "@squide/launch-darkly": {
+      "eager": undefined,
+      "singleton": true,
+    },
     "@squide/module-federation": {
       "eager": undefined,
       "singleton": true,
@@ -2107,6 +2439,10 @@ exports[`defineDevRemoteModuleConfig > when overriding options are provided for 
       "singleton": true,
     },
     "@squide/react-router": {
+      "eager": undefined,
+      "singleton": true,
+    },
+    "launchdarkly-js-client-sdk": {
       "eager": undefined,
       "singleton": true,
     },
@@ -2149,11 +2485,19 @@ exports[`defineDevRemoteModuleConfig > when the router is not react-router, add 
       "eager": undefined,
       "singleton": true,
     },
+    "@squide/launch-darkly": {
+      "eager": undefined,
+      "singleton": true,
+    },
     "@squide/module-federation": {
       "eager": undefined,
       "singleton": true,
     },
     "@squide/msw": {
+      "eager": undefined,
+      "singleton": true,
+    },
+    "launchdarkly-js-client-sdk": {
       "eager": undefined,
       "singleton": true,
     },

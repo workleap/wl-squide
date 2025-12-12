@@ -80,11 +80,11 @@ const runtime = initializeFirefly({
         // unused MSW stuff to the code bundles.
         return (await import("../mocks/browser.ts")).startMsw(x.requestHandlers);
     },
+    honeycombInstrumentationClient: telemetryClient.honeycomb,
+    launchDarklyClient,
     plugins: [
         x => createI18NextPlugin(x)
     ],
-    honeycombInstrumentationClient: telemetryClient.honeycomb,
-    launchDarklyClient,
     loggers
 });
 
