@@ -233,6 +233,9 @@ importers:
       launchdarkly-js-client-sdk:
         specifier: ^3.9.0
         version: 3.9.0
+      memoize:
+        specifier: ^10.2.0
+        version: 10.2.0
       msw:
         specifier: ^2.12.4
         version: 2.12.4(@types/node@25.0.1)(typescript@5.9.3)

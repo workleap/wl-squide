@@ -6,6 +6,7 @@ import { type IReactRouterRuntime, ReactRouterRuntime, ReactRouterRuntimeScope, 
 import type { HoneycombInstrumentationPartialClient } from "@workleap-telemetry/core";
 import type { Logger } from "@workleap/logging";
 import { LDClient } from "launchdarkly-js-client-sdk";
+import memoize from "memoize";
 import type { RequestHandler } from "msw";
 import { type AppRouterStore, createAppRouterStore } from "./AppRouterStore.ts";
 
@@ -40,6 +41,10 @@ export class FireflyRuntime<TRuntime extends FireflyRuntime = any> extends React
     readonly #isMswEnabled: boolean;
     readonly #isLaunchDarklyEnabled: boolean;
 
+    readonly #memoizedMswPlugin = memoize(() => getMswPlugin(this));
+    readonly #memoizedEnvironmentVariablePlugin = memoize(() => getEnvironmentVariablesPlugin(this));
+    readonly #memoizedLaunchDarklyPlugin = memoize(() => getLaunchDarklyPlugin(this));
+
     constructor(options: FireflyRuntimeOptions = {}) {
         const {
             honeycombInstrumentationClient
@@ -66,14 +71,12 @@ export class FireflyRuntime<TRuntime extends FireflyRuntime = any> extends React
     }
 
     get mswState() {
-        const plugin = getMswPlugin(this);
-
-        return plugin.mswState;
+        return this.#memoizedMswPlugin().mswState;
     }
 
     registerRequestHandlers(handlers: RequestHandler[], options: RegisterRequestHandlersOptions = {}) {
         const logger = this._getLogger(options);
-        const plugin = getMswPlugin(this);
+        const plugin = this.#memoizedMswPlugin();
 
         if (this.moduleManager.getAreModulesRegistered()) {
             throw new Error("[squide] Cannot register an MSW request handlers once the modules are registered. Are you trying to register an MSW request handler in a deferred registration function? Only navigation items can be registered in a deferred registration function.");
@@ -86,33 +89,23 @@ export class FireflyRuntime<TRuntime extends FireflyRuntime = any> extends React
 
     // Must define a return type otherwise we get an "error TS2742: The inferred type of 'requestHandlers' cannot be named" error.
     get requestHandlers(): RequestHandler[] {
-        const plugin = getMswPlugin(this);
-
-        return plugin.requestHandlers;
+        return this.#memoizedMswPlugin().requestHandlers;
     }
 
     getEnvironmentVariable(key: EnvironmentVariableKey) {
-        const plugin = getEnvironmentVariablesPlugin(this);
-
-        return plugin.getVariable(key);
+        return this.#memoizedEnvironmentVariablePlugin().getVariable(key);
     }
 
     get environmentVariables() {
-        const plugin = getEnvironmentVariablesPlugin(this);
-
-        return plugin.getVariables();
+        return this.#memoizedEnvironmentVariablePlugin().getVariables();
     }
 
     registerEnvironmentVariable<T extends EnvironmentVariableKey>(key: T, value: EnvironmentVariables[T]) {
-        const plugin = getEnvironmentVariablesPlugin(this);
-
-        return plugin.registerVariable(key, value);
+        return this.#memoizedEnvironmentVariablePlugin().registerVariable(key, value);
     }
 
     registerEnvironmentVariables(variables: Partial<EnvironmentVariables>) {
-        const plugin = getEnvironmentVariablesPlugin(this);
-
-        return plugin.registerVariables(variables);
+        return this.#memoizedEnvironmentVariablePlugin().registerVariables(variables);
     }
 
     get appRouterStore() {
@@ -128,7 +121,7 @@ export class FireflyRuntime<TRuntime extends FireflyRuntime = any> extends React
     }
 
     get launchDarklyClient() {
-        return getLaunchDarklyPlugin(this).client;
+        return this.#memoizedLaunchDarklyPlugin().client;
     }
 
     get featureFlags() {
@@ -136,11 +129,11 @@ export class FireflyRuntime<TRuntime extends FireflyRuntime = any> extends React
     }
 
     getFeatureFlag<T extends FeatureFlagKey>(key: T, defaultValue?: FeatureFlags[T]) {
-        return getLaunchDarklyPlugin(this).getFeatureFlag(key, defaultValue);
+        return this.#memoizedLaunchDarklyPlugin().getFeatureFlag(key, defaultValue);
     }
 
     get featureFlagSetSnapshot() {
-        return getLaunchDarklyPlugin(this).featureFlagSetSnapshot;
+        return this.#memoizedLaunchDarklyPlugin().featureFlagSetSnapshot;
     }
 
     startScope(logger: Logger): TRuntime {

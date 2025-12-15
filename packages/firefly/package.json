@@ -64,6 +64,7 @@
         "@squide/react-router": "workspace:*",
         "@workleap-telemetry/core": "^1.0.6",
         "@workleap/logging": "^1.3.3",
+        "memoize": "^10.2.0",
         "uuid": "^13.0.0"
     },
     "devDependencies": {
