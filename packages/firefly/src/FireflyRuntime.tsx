@@ -66,9 +66,7 @@ export class FireflyRuntime<TRuntime extends FireflyRuntime = any> extends React
     }
 
     get mswState() {
-        const plugin = getMswPlugin(this);
-
-        return plugin.mswState;
+        return getMswPlugin(this).mswState;
     }
 
     registerRequestHandlers(handlers: RequestHandler[], options: RegisterRequestHandlersOptions = {}) {
@@ -86,33 +84,23 @@ export class FireflyRuntime<TRuntime extends FireflyRuntime = any> extends React
 
     // Must define a return type otherwise we get an "error TS2742: The inferred type of 'requestHandlers' cannot be named" error.
     get requestHandlers(): RequestHandler[] {
-        const plugin = getMswPlugin(this);
-
-        return plugin.requestHandlers;
+        return getMswPlugin(this).requestHandlers;
     }
 
     getEnvironmentVariable(key: EnvironmentVariableKey) {
-        const plugin = getEnvironmentVariablesPlugin(this);
-
-        return plugin.getVariable(key);
+        return getEnvironmentVariablesPlugin(this).getVariable(key);
     }
 
     get environmentVariables() {
-        const plugin = getEnvironmentVariablesPlugin(this);
-
-        return plugin.getVariables();
+        return getEnvironmentVariablesPlugin(this).getVariables();
     }
 
     registerEnvironmentVariable<T extends EnvironmentVariableKey>(key: T, value: EnvironmentVariables[T]) {
-        const plugin = getEnvironmentVariablesPlugin(this);
-
-        return plugin.registerVariable(key, value);
+        return getEnvironmentVariablesPlugin(this).registerVariable(key, value);
     }
 
     registerEnvironmentVariables(variables: Partial<EnvironmentVariables>) {
-        const plugin = getEnvironmentVariablesPlugin(this);
-
-        return plugin.registerVariables(variables);
+        return getEnvironmentVariablesPlugin(this).registerVariables(variables);
     }
 
     get appRouterStore() {
