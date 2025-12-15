@@ -1,5 +1,11 @@
 # @squide/core
 
+## 6.1.9
+
+### Patch Changes
+
+- [#365](https://github.com/workleap/wl-squide/pull/365) [`992dd28`](https://github.com/workleap/wl-squide/commit/992dd28ce8aa03559c556f24df4ebc9c3129c943) Thanks [@patricklafrance](https://github.com/patricklafrance)! - Added memoize to the plugin retrieval code.
+
 ## 6.1.8
 
 ### Patch Changes

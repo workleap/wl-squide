@@ -1,5 +1,12 @@
 # @squide/fakes
 
+## 2.2.13
+
+### Patch Changes
+
+- Updated dependencies [[`992dd28`](https://github.com/workleap/wl-squide/commit/992dd28ce8aa03559c556f24df4ebc9c3129c943)]:
+  - @squide/core@6.1.9
+
 ## 2.2.12
 
 ### Patch Changes
