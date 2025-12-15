@@ -6,7 +6,6 @@ import { type IReactRouterRuntime, ReactRouterRuntime, ReactRouterRuntimeScope, 
 import type { HoneycombInstrumentationPartialClient } from "@workleap-telemetry/core";
 import type { Logger } from "@workleap/logging";
 import { LDClient } from "launchdarkly-js-client-sdk";
-import memoize from "memoize";
 import type { RequestHandler } from "msw";
 import { type AppRouterStore, createAppRouterStore } from "./AppRouterStore.ts";
 
@@ -41,10 +40,6 @@ export class FireflyRuntime<TRuntime extends FireflyRuntime = any> extends React
     readonly #isMswEnabled: boolean;
     readonly #isLaunchDarklyEnabled: boolean;
 
-    readonly #memoizedMswPlugin = memoize(() => getMswPlugin(this));
-    readonly #memoizedEnvironmentVariablePlugin = memoize(() => getEnvironmentVariablesPlugin(this));
-    readonly #memoizedLaunchDarklyPlugin = memoize(() => getLaunchDarklyPlugin(this));
-
     constructor(options: FireflyRuntimeOptions = {}) {
         const {
             honeycombInstrumentationClient
@@ -71,12 +66,12 @@ export class FireflyRuntime<TRuntime extends FireflyRuntime = any> extends React
     }
 
     get mswState() {
-        return this.#memoizedMswPlugin().mswState;
+        return getMswPlugin(this).mswState;
     }
 
     registerRequestHandlers(handlers: RequestHandler[], options: RegisterRequestHandlersOptions = {}) {
         const logger = this._getLogger(options);
-        const plugin = this.#memoizedMswPlugin();
+        const plugin = getMswPlugin(this);
 
         if (this.moduleManager.getAreModulesRegistered()) {
             throw new Error("[squide] Cannot register an MSW request handlers once the modules are registered. Are you trying to register an MSW request handler in a deferred registration function? Only navigation items can be registered in a deferred registration function.");
@@ -89,23 +84,23 @@ export class FireflyRuntime<TRuntime extends FireflyRuntime = any> extends React
 
     // Must define a return type otherwise we get an "error TS2742: The inferred type of 'requestHandlers' cannot be named" error.
     get requestHandlers(): RequestHandler[] {
-        return this.#memoizedMswPlugin().requestHandlers;
+        return getMswPlugin(this).requestHandlers;
     }
 
     getEnvironmentVariable(key: EnvironmentVariableKey) {
-        return this.#memoizedEnvironmentVariablePlugin().getVariable(key);
+        return getEnvironmentVariablesPlugin(this).getVariable(key);
     }
 
     get environmentVariables() {
-        return this.#memoizedEnvironmentVariablePlugin().getVariables();
+        return getEnvironmentVariablesPlugin(this).getVariables();
     }
 
     registerEnvironmentVariable<T extends EnvironmentVariableKey>(key: T, value: EnvironmentVariables[T]) {
-        return this.#memoizedEnvironmentVariablePlugin().registerVariable(key, value);
+        return getEnvironmentVariablesPlugin(this).registerVariable(key, value);
     }
 
     registerEnvironmentVariables(variables: Partial<EnvironmentVariables>) {
-        return this.#memoizedEnvironmentVariablePlugin().registerVariables(variables);
+        return getEnvironmentVariablesPlugin(this).registerVariables(variables);
     }
 
     get appRouterStore() {
@@ -121,7 +116,7 @@ export class FireflyRuntime<TRuntime extends FireflyRuntime = any> extends React
     }
 
     get launchDarklyClient() {
-        return this.#memoizedLaunchDarklyPlugin().client;
+        return getLaunchDarklyPlugin(this).client;
     }
 
     get featureFlags() {
@@ -129,11 +124,11 @@ export class FireflyRuntime<TRuntime extends FireflyRuntime = any> extends React
     }
 
     getFeatureFlag<T extends FeatureFlagKey>(key: T, defaultValue?: FeatureFlags[T]) {
-        return this.#memoizedLaunchDarklyPlugin().getFeatureFlag(key, defaultValue);
+        return getLaunchDarklyPlugin(this).getFeatureFlag(key, defaultValue);
     }
 
     get featureFlagSetSnapshot() {
-        return this.#memoizedLaunchDarklyPlugin().featureFlagSetSnapshot;
+        return getLaunchDarklyPlugin(this).featureFlagSetSnapshot;
     }
 
     startScope(logger: Logger): TRuntime {

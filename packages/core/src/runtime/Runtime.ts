@@ -1,4 +1,5 @@
 import { createCompositeLogger, type Logger, type RootLogger } from "@workleap/logging";
+import memoize from "memoize";
 import { EventBus } from "../messaging/EventBus.ts";
 import type { Plugin } from "../plugins/Plugin.ts";
 import { LocalModuleRegistry } from "../registration/LocalModuleRegistry.ts";
@@ -78,6 +79,8 @@ export abstract class Runtime<TRoute = unknown, TNavigationItem = unknown, TRunt
     protected readonly _eventBus: EventBus;
     protected readonly _plugins: Plugin[];
 
+    readonly #memoizeGetPlugin = memoize((pluginName: string) => this._plugins.find(x => x.name === pluginName));
+
     constructor(options: RuntimeOptions<TRuntime> = {}) {
         const {
             mode = "development",
@@ -124,7 +127,7 @@ export abstract class Runtime<TRoute = unknown, TNavigationItem = unknown, TRunt
             throwOnNotFound = true
         } = options;
 
-        const plugin = this._plugins.find(x => x.name === pluginName);
+        const plugin = this.#memoizeGetPlugin(pluginName);
 
         if (!plugin && throwOnNotFound) {
             throw new Error(`[squide] Cannot find a plugin named "${pluginName}". Did you register an instance of the plugin with the application runtime instance?`);
