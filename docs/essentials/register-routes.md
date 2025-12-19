@@ -26,6 +26,15 @@ export const register: ModuleRegisterFunction<FireflyRuntime> = runtime => {
 };
 ```
 
+:::callout-nested-list
+!!!tip
+By default, all routes are registered as `protected`. This means:
+
+- The route's `$visibility` value is set to `"protected"`.
+- The route is rendered under the [ProtectedRoutes](../reference/routing/protectedRoutes.md) outlet.
+!!!
+:::my-callout
+
 ## Register a route with an id
 
 The `registerRoute` function accepts a `parentId` option, allowing a route to be [nested under an existing parent route](#register-a-nested-route). When searching for the parent route matching the `parentId` option, the `parentId` will be matched against the `$id` option of every route.
@@ -203,8 +212,17 @@ export const register: ModuleRegisterFunction<FireflyRuntime> = runtime => {
 };
 ```
 
+:::callout-nested-list
 !!!tip
-When no `$visibility` indicator is provided, a route is considered `protected`.
+When a route registered with the `registerPublicRoute` function will be registered as a `public` route. This means:
+
+- The route's `$visibility` value is set to `"public"`.
+- The route is rendered under the [PublicRoutes](../reference/routing/publicRoutes.md) outlet.
+!!!
+:::
+
+!!!tip
+If no `$visibility` indicator is provided, a route is considered `protected`.
 !!!
 
 ## Register a not found route
