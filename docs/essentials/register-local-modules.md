@@ -69,7 +69,7 @@ root.render(
 );
 ```
 
-## Register a module with an higher-order registration function
+## Register a module with a higher-order registration function
 
 Some local modules require specific configuration. A common pattern to provide this configuration is to expose a higher-order registration function that accepts options and returns a "scoped" registration function:
 
