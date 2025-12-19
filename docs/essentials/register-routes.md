@@ -214,7 +214,7 @@ export const register: ModuleRegisterFunction<FireflyRuntime> = runtime => {
 
 :::callout-nested-list
 !!!tip
-When a route registered with the `registerPublicRoute` function will be registered as a `public` route. This means:
+When a route is registered with the `registerPublicRoute` function, it will be registered as a `public` route. This means:
 
 - The route's `$visibility` value is set to `"public"`.
 - The route is rendered under the [PublicRoutes](../reference/routing/publicRoutes.md) outlet.
