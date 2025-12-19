@@ -133,7 +133,7 @@ import { App } from "./App.tsx";
 import { registerHost } from "./register.tsx";
 import { registerShell } from "@sample/shell";
 
-const runtime = initializeFirefly(runtime, {
+const runtime = initializeFirefly({
     // Register the newly created shell module.
     localModules: [registerShell, registerHost]
 });
@@ -192,7 +192,7 @@ import { register as registerModule } from "./register.tsx";
 import { registerDev } from "./dev/register.tsx";
 import { registerShell } from "@sample/shell";
 
-const runtime = initializeFirefly(runtime, {
+const runtime = initializeFirefly({
     // Registering the remote module as a local module because the "register" function 
     // is local when developing in isolation.
     localModules: [registerModule, registerDev, registerShell]

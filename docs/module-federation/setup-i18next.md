@@ -30,7 +30,7 @@ import { App } from "./App.tsx";
 import { registerHost } from "./register.tsx";
 import { registerShell } from "@sample/shell";
 
-const runtime = initializeFirefly(runtime, {
+const runtime = initializeFirefly({
     localModules: [registerShell, registerHost],
     plugins: [x => {
         // In this example:

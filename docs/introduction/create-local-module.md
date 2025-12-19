@@ -134,7 +134,7 @@ import { App } from "./App.tsx";
 import { registerHost } from "./register.tsx";
 
 // Register the modules.
-const runtime = initializeFirefly(runtime, {
+const runtime = initializeFirefly({
     localModules: [registerHost, registerMyLocalModule]
 });
 

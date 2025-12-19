@@ -30,7 +30,7 @@ import { FireflyProvider, initializeFirefly } from "@squide/firefly";
 import { register as registerMyLocalModule } from "@my-app/local-module";
 import { App } from "./App.tsx";
 
-const runtime = initializeFirefly(runtime, {
+const runtime = initializeFirefly({
     localModules: [registerMyLocalModule]
 });
 
@@ -53,7 +53,7 @@ import { FireflyProvider, initializeFirefly } from "@squide/firefly";
 import { register as registerMyLocalModule } from "@my-app/local-module";
 import { App } from "./App.tsx";
 
-const runtime = initializeFirefly(runtime, {
+const runtime = initializeFirefly({
     localModules: [registerMyLocalModule],
     context: { 
         env: "staging" 
