@@ -12,7 +12,7 @@ pnpx degit https://github.com/workleap/wl-squide/templates/getting-started
 ```
 !!!
 
-Local modules expose a `registration` function to the host application's bootstrapping code. A local module can be a standalone package, a sibling project (in a monorepo setup), or even a local folder within the host application.
+Local modules expose a `registration` function to the host application's bootstrapping code. A local module can be a standalone package, a sibling package in a monorepo, or even a local folder within the host application.
 
 Let's add a local module to demonstrate how it's done!
 
@@ -134,9 +134,9 @@ import { App } from "./App.tsx";
 import { registerHost } from "./register.tsx";
 
 // Register the modules.
-const runtime = initializeFirefly(runtime, {
+const runtime = initializeFirefly({
     localModules: [registerHost, registerMyLocalModule]
-})
+});
 
 const root = createRoot(document.getElementById("root")!);
 

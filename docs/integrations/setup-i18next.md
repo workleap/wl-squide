@@ -26,7 +26,7 @@ import { i18nextPlugin } from "@squide/i18next";
 import { App } from "./App.tsx";
 import { registerHost } from "./register.tsx";
 
-const runtime = initializeFirefly(runtime, {
+const runtime = initializeFirefly({
     localModules: [registerHost],
     plugins: [x => {
         // In this example:

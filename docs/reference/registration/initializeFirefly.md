@@ -88,7 +88,7 @@ export const register: ModuleRegisterFunction<FireflyRuntime> = runtime => {
 
 ### Provide a registration context
 
-```tsx #8-9 host/src/index.tsx
+```tsx #9-11 host/src/index.tsx
 import { FireflyProvider, initializeFirefly } from "@squide/firefly";
 import { register } from "@sample/local-module";
 import { createRoot } from "react";
@@ -97,7 +97,9 @@ import { App } from "./App.tsx";
 const runtime = initializeFirefly({
     localModules: [register],
     // Can be anything.
-    context: { foo: "bar" }
+    context: { 
+        foo: "bar"
+    }
 });
 
 const root = createRoot(document.getElementById("root")!);

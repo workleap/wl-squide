@@ -4,6 +4,7 @@ order: 95
 
 # Essentials
 
+- [Register local modules](./register-local-modules.md)
 - [Register routes](./register-routes.md)
 - [Register navigation items](./register-nav-items.md)
 - [Register deferred navigation items](./register-deferred-nav-items.md)
