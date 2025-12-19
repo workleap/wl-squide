@@ -67,7 +67,7 @@ const Remotes: RemoteDefinition[] = [
     { name: "remote1" }
 ];
 
-const runtime = initializeFirefly(runtime, {
+const runtime = initializeFirefly({
     remotes: Remotes
 });
 
