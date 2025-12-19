@@ -33,7 +33,7 @@ By default, all routes are registered as `protected`. This means:
 - The route's `$visibility` value is set to `"protected"`.
 - The route is rendered under the [ProtectedRoutes](../reference/routing/protectedRoutes.md) outlet.
 !!!
-:::my-callout
+:::
 
 ## Register a route with an id
 
