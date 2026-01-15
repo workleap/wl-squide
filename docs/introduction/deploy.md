@@ -58,12 +58,12 @@ const runtime = initializeFirefly({
 
 ## Register a LogRocket logger
 
-If your application uses [LogRocket](https://logrocket.com/), register a [LogRocketLogger](https://workleap.github.io/wl-telemetry/logrocket/reference/logrocketlogger/) instance to capture log entries in LogRocket session replays:
+If your application uses [LogRocket](https://logrocket.com/), register a [LogRocketLogger](https://workleap.github.io/wl-telemetry/reference/logrocketlogger/) instance to capture log entries in LogRocket session replays:
 
 ```ts !#6
 import { initializeFirefly } from "@squide/firefly";
 import { BrowserConsoleLogger, LogLevel } from "@workleap/logging";
-import { LogRocketLogger } from "@workleap/logrocket";
+import { LogRocketLogger } from "@workleap/telemetry/react"; // or from "@workleap/logrocket/react";
 
 const runtime = initializeFirefly({
     loggers: [process.env.isNetlify ? new LogRocketLogger({ logLevel: LogLevel.information }) : new BrowserConsoleLogger()]

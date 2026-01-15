@@ -19,13 +19,13 @@ const runtime = initializeFirefly({
 
 ## Troubleshoot a production issue
 
-Frontend production issues are best troubleshoot using [LogRocket](https://logrocket.com/). To output log entries to LogRocket's session replay, install the `@workleap/logrocket` package and provide an instance of `LogRocket` to the `initializeFirefly` function:
+Frontend production issues are best troubleshoot using [LogRocket](https://logrocket.com/). To output log entries to LogRocket's session replay, install either the [@workleap/telemetry](https://www.npmjs.com/package/@workleap/telemetry) or [@workleap/logrocket](https://www.npmjs.com/package/@workleap/logrocket) package and provide an instance of `LogRocket` to the `initializeFirefly` function:
 
-For troubleshooting frontend production issues, we recommend using [LogRocket](https://logrocket.com/). To capture log entries in LogRocket session replays, install the `@workleap/logrocket` package and pass an instance of [LogRocketLogger](https://workleap.github.io/wl-telemetry/logrocket/reference/logrocketlogger/) to the `initializeFirefly` function:
+For troubleshooting frontend production issues, we recommend using [LogRocket](https://logrocket.com/). To capture log entries in LogRocket session replays, install the `@workleap/logrocket` package and pass an instance of [LogRocketLogger](https://workleap.github.io/wl-telemetry/reference/logrocketlogger/) to the `initializeFirefly` function:
 
 ```ts !#5
 import { initializeFirefly, type LogLevel } from "@squide/firefly";
-import { LogRocketLogger } from "@workleap/logrocket";
+import { LogRocketLogger } from "@workleap/telemetry/react"; // or from "@workleap/logrocket/react";
 
 const runtime = initializeFirefly({
     loggers: [new LogRocketLogger()]

@@ -52,7 +52,6 @@
         "@typescript-eslint/parser": "8.53.0",
         "@workleap/browserslist-config": "2.1.5",
         "@workleap/eslint-configs": "1.1.9",
-        "@workleap/logrocket": "2.1.8",
         "@workleap/telemetry": "2.1.11",
         "@workleap/typescript-configs": "3.0.7",
         "browserslist": "4.28.1",
