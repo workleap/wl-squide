@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <meta name="turbo-root" content="/wl-squide">
-    <meta name="turbo-cache-control" content="no-cache" data-turbo-track="reload" data-track-token="3.12.0-preview2.819429538504">
+    <meta name="turbo-cache-control" content="no-cache" data-turbo-track="reload" data-track-token="3.12.0-preview2.821832107669">
 
     <!-- See retype.com -->
     <meta name="generator" content="Retype 3.12.0-preview2">
@@ -32,12 +32,12 @@
     <script data-cfasync="false">(function(){var cl=document.documentElement.classList,ls=localStorage.getItem("retype_scheme"),hd=cl.contains("dark"),hl=cl.contains("light"),wm=window.matchMedia&&window.matchMedia("(prefers-color-scheme: dark)").matches;if(ls==="dark"||(!ls&&wm&&!hd&&!hl)){cl.remove("light");cl.add("dark")}else if(ls==="light"||(!ls&&!wm&&!hd&&!hl)){cl.remove("dark");cl.add("light")}})();</script>
 
     <link id="retype-favicon" rel="icon" href="../../static/favicon.png" />
-    <link href="../../resources/css/retype.css?v=3.12.0-preview2.819429538504" rel="stylesheet">
+    <link href="../../resources/css/retype.css?v=3.12.0-preview2.821832107669" rel="stylesheet">
 
-    <script data-cfasync="false" src="../../resources/js/config.js?v=3.12.0-preview2.819429538504" data-turbo-eval="false" defer></script>
+    <script data-cfasync="false" src="../../resources/js/config.js?v=3.12.0-preview2.821832107669" data-turbo-eval="false" defer></script>
     <script data-cfasync="false" src="../../resources/js/retype.js?v=3.12.0-preview2" data-turbo-eval="false" defer></script>
-    <script id="lunr-js" data-cfasync="false" src="../../resources/js/lunr.js?v=3.12.0-preview2.819429538504" data-turbo-eval="false" defer></script>
-    <script id="prism-js" data-cfasync="false" src="../../resources/js/prism.js?v=3.12.0-preview2.819429538504" defer></script>
+    <script id="lunr-js" data-cfasync="false" src="../../resources/js/lunr.js?v=3.12.0-preview2.821832107669" data-turbo-eval="false" defer></script>
+    <script id="prism-js" data-cfasync="false" src="../../resources/js/prism.js?v=3.12.0-preview2.821832107669" defer></script>
 
     <link href="https://workleap.github.io/wl-idp-docs-hub/static/retype-customization.css" rel="stylesheet" />
 
@@ -340,15 +340,19 @@ root.render(
         <span>Capture logs in LogRocket</span>
     </h2>
 </doc-anchor-target>
-<p>To capture logs in LogRocket session replays, first, open a terminal at the root of the host application and install the <a href="https://www.npmjs.com/package/@workleap/logrocket" class="outbound" target="_blank">@workleap/logrocket</a> package:</p>
+<p>To capture logs in LogRocket session replays, first, open a terminal at the root of the host application and install the <a href="https://www.npmjs.com/package/@workleap/telemetry" class="outbound" target="_blank">@workleap/telemetry</a> or <a href="https://www.npmjs.com/package/@workleap/logrocket" class="outbound" target="_blank">@workleap/logrocket</a> package:</p>
+<div class="codeblock-wrapper"><doc-codeblock>
+<pre translate="no" class="language-bash"><code v-pre class="language-bash">pnpm add @workleap/telemetry</code></pre>
+</doc-codeblock></div>
+<p>or:</p>
 <div class="codeblock-wrapper"><doc-codeblock>
 <pre translate="no" class="language-bash"><code v-pre class="language-bash">pnpm add @workleap/logrocket</code></pre>
 </doc-codeblock></div>
-<p>Then, provide an instance of <a href="https://workleap.github.io/wl-telemetry/logrocket/reference/logrocketlogger/" class="outbound" target="_blank">LogRocketLogger</a> at initialization:</p>
+<p>Then, provide an instance of <a href="https://workleap.github.io/wl-telemetry/reference/logrocketlogger/" class="outbound" target="_blank">LogRocketLogger</a> at initialization:</p>
 <div class="codeblock-wrapper"><doc-codeblock>
 <pre translate="no" class="language-tsx" data-line="7"><code v-pre class="language-tsx">import { createRoot } from &quot;react-dom/client&quot;;
 import { FireflyProvider, initializeFirefly } from &quot;@squide/firefly&quot;;
-import { LogRocketLogger } from &quot;@workleap/logrocket&quot;;
+import { LogRocketLogger } from &quot;@workleap/telemetry/react&quot;; // or from &quot;@workleap/logrocket/react&quot;;
 import { App } from &quot;./App.tsx&quot;;
 
 const runtime = initializeFirefly({
@@ -477,7 +481,7 @@ root.render(
                                         </li>
                                     </ul>
                                 </div>
-                                <div id="retype-copyright" class="print:justify-center py-2 text-footer-text font-footer-link-weight text-sm leading-relaxed"><p>© Copyright 2025 - Workleap</p></div>
+                                <div id="retype-copyright" class="print:justify-center py-2 text-footer-text font-footer-link-weight text-sm leading-relaxed"><p>© Copyright 2026 - Workleap</p></div>
                             </footer>
                         </div>
                     </div>
