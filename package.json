@@ -44,19 +44,19 @@
     "devDependencies": {
         "@changesets/changelog-github": "0.5.2",
         "@changesets/cli": "2.29.8",
-        "@eslint/js": "9.39.1",
-        "@types/node": "25.0.1",
-        "@typescript-eslint/parser": "8.49.0",
-        "@workleap/eslint-configs": "1.1.7",
+        "@eslint/js": "9.39.2",
+        "@types/node": "25.0.9",
+        "@typescript-eslint/parser": "8.53.0",
+        "@workleap/eslint-configs": "1.1.9",
         "@workleap/typescript-configs": "3.0.7",
         "cross-env": "10.1.0",
-        "eslint": "9.39.1",
+        "eslint": "9.39.2",
         "pkg-pr-new": "0.0.62",
         "retypeapp": "3.11.0",
         "syncpack": "13.0.4",
-        "turbo": "2.6.3",
+        "turbo": "2.7.5-canary.10",
         "typescript": "5.9.3",
-        "typescript-eslint": "8.49.0"
+        "typescript-eslint": "8.53.0"
     },
     "engines": {
         "node": ">=24.0.0",
