@@ -62,18 +62,24 @@ root.render(
 
 ## Capture logs in LogRocket
 
-To capture logs in LogRocket session replays, first, open a terminal at the root of the host application and install the [@workleap/logrocket](https://www.npmjs.com/package/@workleap/logrocket) package:
+To capture logs in LogRocket session replays, first, open a terminal at the root of the host application and install the [@workleap/telemetry](https://www.npmjs.com/package/@workleap/telemetry) or [@workleap/logrocket](https://www.npmjs.com/package/@workleap/logrocket) package:
+
+``` bash
+pnpm add @workleap/telemetry
+```
+
+or:
 
 ``` bash
 pnpm add @workleap/logrocket
 ```
 
-Then, provide an instance of [LogRocketLogger](https://workleap.github.io/wl-telemetry/logrocket/reference/logrocketlogger/) at initialization:
+Then, provide an instance of [LogRocketLogger](https://workleap.github.io/wl-telemetry/reference/logrocketlogger/) at initialization:
 
 ```tsx !#7
 import { createRoot } from "react-dom/client";
 import { FireflyProvider, initializeFirefly } from "@squide/firefly";
-import { LogRocketLogger } from "@workleap/logrocket";
+import { LogRocketLogger } from "@workleap/telemetry/react"; // or from "@workleap/logrocket/react";
 import { App } from "./App.tsx";
 
 const runtime = initializeFirefly({

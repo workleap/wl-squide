@@ -34,30 +34,30 @@
         "test": "vitest --config vitest.config.ts --no-watch"
     },
     "peerDependencies": {
-        "@rsbuild/core": "^1.6.14",
-        "@rspack/core": "^1.6.7"
+        "@rsbuild/core": "^1.7.2",
+        "@rspack/core": "^1.7.2"
     },
     "dependencies": {
         "@module-federation/enhanced": "0.11.4",
         "@module-federation/rsbuild-plugin": "0.11.4",
-        "@workleap/rsbuild-configs": "^3.1.5",
+        "@workleap/rsbuild-configs": "^3.2.0",
         "deepmerge": "^4.3.1",
         "semver": "^7.7.3"
     },
     "devDependencies": {
-        "@eslint/js": "9.39.1",
-        "@rsbuild/core": "1.6.14",
-        "@rslib/core": "0.18.4",
-        "@rspack/core": "1.6.7",
-        "@types/node": "25.0.1",
+        "@eslint/js": "9.39.2",
+        "@rsbuild/core": "1.7.2",
+        "@rslib/core": "0.19.2",
+        "@rspack/core": "1.7.2",
+        "@types/node": "25.0.9",
         "@types/semver": "7.7.1",
-        "@typescript-eslint/parser": "8.49.0",
-        "@workleap/eslint-configs": "1.1.7",
-        "@workleap/rslib-configs": "1.1.4",
+        "@typescript-eslint/parser": "8.53.0",
+        "@workleap/eslint-configs": "1.1.9",
+        "@workleap/rslib-configs": "1.1.5",
         "@workleap/typescript-configs": "3.0.7",
-        "eslint": "9.39.1",
+        "eslint": "9.39.2",
         "typescript": "5.9.3",
-        "typescript-eslint": "8.49.0",
-        "vitest": "4.0.15"
+        "typescript-eslint": "8.53.0",
+        "vitest": "4.0.17"
     }
 }

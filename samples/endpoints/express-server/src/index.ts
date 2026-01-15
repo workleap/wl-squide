@@ -43,15 +43,22 @@ const port = 1234;
 app.use(cors());
 
 app.get("/api/user-info/getInfo", (req: Request, res: Response) => {
-    tracer.startActiveSpan("get-user-info", span => {
-        res.json({
-            email: "ava.morgan92@example.com",
-            createdAt: "2024-08-19T10:42:15Z",
-            status: "active"
-        });
+    try {
+        tracer.startActiveSpan("get-user-info", span => {
+            // HACK: Somehow sometimes a delay is required otherwise the endpoints returns a 404.
+            setTimeout(() => {
+                res.json({
+                    email: "ava.morgan92@example.com",
+                    createdAt: "2024-08-19T10:42:15Z",
+                    status: "active"
+                });
 
-        span.end();
-    });
+                span.end();
+            }, 5);
+        });
+    } catch (error: unknown) {
+        console.error("[server] Failed to start an active OpenTelemetry span:", error);
+    }
 });
 
 app.listen(port, () => {

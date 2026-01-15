@@ -36,16 +36,16 @@
         "@squide/core": "workspace:*"
     },
     "devDependencies": {
-        "@eslint/js": "9.39.1",
-        "@rsbuild/core": "1.6.14",
-        "@rslib/core": "0.18.4",
-        "@typescript-eslint/parser": "8.49.0",
-        "@workleap/eslint-configs": "1.1.7",
-        "@workleap/rslib-configs": "1.1.4",
+        "@eslint/js": "9.39.2",
+        "@rsbuild/core": "1.7.2",
+        "@rslib/core": "0.19.2",
+        "@typescript-eslint/parser": "8.53.0",
+        "@workleap/eslint-configs": "1.1.9",
+        "@workleap/rslib-configs": "1.1.5",
         "@workleap/typescript-configs": "3.0.7",
-        "eslint": "9.39.1",
+        "eslint": "9.39.2",
         "typescript": "5.9.3",
-        "typescript-eslint": "8.49.0"
+        "typescript-eslint": "8.53.0"
     },
     "sideEffects": false
 }
