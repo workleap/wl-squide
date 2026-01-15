@@ -1,7 +1,7 @@
 {
     "name": "@squide/firefly-rsbuild-storybook",
     "author": "Workleap",
-    "version": "1.0.4",
+    "version": "1.0.5",
     "description": "Squide firefly helpers for Storybook and Rsbuild.",
     "license": "Apache-2.0",
     "repository": {

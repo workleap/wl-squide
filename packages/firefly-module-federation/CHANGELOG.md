@@ -1,5 +1,15 @@
 # @squide/firefly-module-federation
 
+## 1.0.9
+
+### Patch Changes
+
+- [#369](https://github.com/workleap/wl-squide/pull/369) [`a7fc49e`](https://github.com/workleap/wl-squide/commit/a7fc49ed2b111189cc310100482c1fcf37cfad58) Thanks [@patricklafrance](https://github.com/patricklafrance)! - Bumped dependencies.
+
+- Updated dependencies [[`a7fc49e`](https://github.com/workleap/wl-squide/commit/a7fc49ed2b111189cc310100482c1fcf37cfad58)]:
+  - @squide/firefly@16.1.5
+  - @squide/core@6.1.10
+
 ## 1.0.8
 
 ### Patch Changes
