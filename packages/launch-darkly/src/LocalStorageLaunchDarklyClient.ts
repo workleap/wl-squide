@@ -20,6 +20,10 @@ export class LocalStorageLaunchDarklyClient extends InMemoryLaunchDarklyClient {
         window.addEventListener("storage", this.onStorageUpdated);
     }
 
+    close(): void {
+        window.removeEventListener("storage", this.onStorageUpdated);
+        super.close();
+    }
     setFeatureFlag(name: string, value: LDFlagValue, options?: SetFlagOptions): void {
         super.setFeatureFlag(name, value, options);
         this.updateLocalStorage();
