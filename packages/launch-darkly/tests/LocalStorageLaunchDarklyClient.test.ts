@@ -13,7 +13,6 @@ const STORAGE_KEY = "test-feature-flags";
 
 beforeEach(() => {
     localStorage.clear();
-    vi.clearAllMocks();
 });
 
 afterEach(() => {
