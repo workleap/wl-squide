@@ -51,7 +51,7 @@ export class LocalStorageLaunchDarklyClient extends InMemoryLaunchDarklyClient {
             }
 
             if (modifiedFeatureFlags.size > 0) {
-                this.setFeatureFlags(Object.fromEntries(modifiedFeatureFlags));
+                super.setFeatureFlags(Object.fromEntries(modifiedFeatureFlags));
             }
         } catch {
             // Ignore malformed updates
