@@ -21,7 +21,10 @@ jobs:
 
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
+        with:
+          # Required for the Turborepo Git filters.
+          fetch-depth: 0
 
       - name: Install pnpm
         uses: pnpm/action-setup@v4
@@ -29,7 +32,7 @@ jobs:
           run_install: false
 
       - name: Install Node.js
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@v6
         with:
             node-version: ">=24.0.0"
             check-latest: true
@@ -41,38 +44,96 @@ jobs:
 
       - name: Restore Turborepo cache
         id: cache-turborepo-restore
-        uses: actions/cache/restore@v4
+        uses: actions/cache/restore@v5
         with:
-          key: ${{ runner.os }}-turborepo-${{ github.sha }}
+          # Using SHA will usually provide cache hit on subsequent commits in a PR
+          # but will not provide cache hits between PRs, meaning the first run of a PR
+          # will usually only be cache misses.
+          key: ${{ runner.os }}-turbo-ci-${{ github.sha }}
           restore-keys: |
-            ${{ runner.os }}-turborepo-
+            ${{ runner.os }}-turbo-ci
+            ${{ runner.os }}-turbo-
           path: .turbo
 
-      - name: Lint packages & samples
-        run: pnpm lint
-
       - name: Build packages
-        run: pnpm build-pkg
+        # For a PR, only build the packages that are diverging from the pull request original baseline.
+        run: |
+            if [ "${{ github.event_name }}" == "pull_request" ]; then
+                pnpm turbo run build --filter={./packages/*}...[${{ github.event.pull_request.base.sha }}]
+            else
+                pnpm build-pkg
+            fi
 
       - name: Build basic sample
-        run: pnpm build-basic
+        # For a PR, only build the sample if it's diverging from the pull request original baseline.
+        run: |
+            if [ "${{ github.event_name }}" == "pull_request" ]; then
+                pnpm turbo run build --filter={./samples/basic/*}...[${{ github.event.pull_request.base.sha }}]
+            else
+                pnpm build-basic
+            fi
 
       - name: Build basic webpack sample
-        run: pnpm build-basic-webpack
+        # For a PR, only build the sample if it's diverging from the pull request original baseline.
+        run: |
+            if [ "${{ github.event_name }}" == "pull_request" ]; then
+                pnpm turbo run build --filter={./samples/basic-webpack/*}...[${{ github.event.pull_request.base.sha }}]
+            else
+                pnpm build-basic-webpack
+            fi
 
       - name: Build endpoints sample
-        run: pnpm build-endpoints
+        # For a PR, only build the sample if it's diverging from the pull request original baseline.
+        run: |
+            if [ "${{ github.event_name }}" == "pull_request" ]; then
+                pnpm turbo run build --filter={./samples/endpoints/*}...[${{ github.event.pull_request.base.sha }}]
+            else
+                pnpm build-endpoints
+            fi
 
       - name: Build Storybook sample
-        run: pnpm build-storybook
+        # For a PR, only build the sample if it's diverging from the pull request original baseline.
+        run: |
+            if [ "${{ github.event_name }}" == "pull_request" ]; then
+                pnpm turbo run build --filter={@storybook/app}...[${{ github.event.pull_request.base.sha }}]
+            else
+                pnpm build-storybook
+            fi
+
+      - name: ESLint
+        # For a PR, only lint the projects that are diverging from the pull request original baseline.
+        run: |
+            if [ "${{ github.event_name }}" == "pull_request" ]; then
+                pnpm turbo run eslint --filter=...[${{ github.event.pull_request.base.sha }}]
+            else
+                pnpm turbo run eslint
+            fi
+
+      - name: Typecheck
+        # For a PR, only typecheck the projects that are diverging from the pull request original baseline.
+        run: |
+            if [ "${{ github.event_name }}" == "pull_request" ]; then
+                pnpm turbo run typecheck --filter=...[${{ github.event.pull_request.base.sha }}]
+            else
+                pnpm turbo run typecheck
+            fi
+
+      - name: Syncpack
+        run: pnpm turbo run syncpack
 
       - name: Test packages
-        run: pnpm test
+        # For a PR, only test the projects that are diverging from the pull request original baseline.
+        run: |
+            if [ "${{ github.event_name }}" == "pull_request" ]; then
+                pnpm test --filter=...[${{ github.event.pull_request.base.sha }}]
+            else
+                pnpm test
+            fi
 
       - name: Save Turborepo cache
         id: cache-turborepo-save
         if: always() && steps.cache-turborepo-restore.outputs.cache-hit != 'true'
-        uses: actions/cache/save@v4
+        uses: actions/cache/save@v5
         with:
           key: ${{ steps.cache-turborepo-restore.outputs.cache-primary-key }}
           path: .turbo
