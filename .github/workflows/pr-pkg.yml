@@ -21,7 +21,7 @@ jobs:
 
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
 
       - name: Install pnpm
         uses: pnpm/action-setup@v4
@@ -29,7 +29,7 @@ jobs:
           run_install: false
 
       - name: Install Node.js
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@v6
         with:
             node-version: ">=24.0.0"
             check-latest: true
@@ -41,11 +41,15 @@ jobs:
 
       - name: Restore Turborepo cache
         id: cache-turborepo-restore
-        uses: actions/cache/restore@v4
+        uses: actions/cache/restore@v5
         with:
-          key: ${{ runner.os }}-turborepo-${{ github.sha }}
+          # Using SHA will usually provide cache hit on subsequent commits in a PR
+          # but will not provide cache hits between PRs, meaning the first run of a PR
+          # will usually only be cache misses.
+          key: ${{ runner.os }}-turbo-pr-pkg-${{ github.sha }}
           restore-keys: |
-            ${{ runner.os }}-turborepo-
+            ${{ runner.os }}-turbo-pr-pkg
+            ${{ runner.os }}-turbo-
           path: .turbo
 
       - name: Build packages
@@ -54,7 +58,7 @@ jobs:
       - name: Save Turborepo cache
         id: cache-turborepo-save
         if: always() && steps.cache-turborepo-restore.outputs.cache-hit != 'true'
-        uses: actions/cache/save@v4
+        uses: actions/cache/save@v5
         with:
           key: ${{ steps.cache-turborepo-restore.outputs.cache-primary-key }}
           path: .turbo

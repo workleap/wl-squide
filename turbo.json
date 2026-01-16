@@ -31,18 +31,24 @@
             "dependsOn": ["eslint", "//#eslint", "typecheck", "//#typecheck", "//#syncpack"]
         },
         "//#eslint": {
+            "inputs": ["$TURBO_DEFAULT$", "!packages", "!samples", "!docs", "!README.md", "!CONTRIBUTING.md"],
             "outputs": ["node_modules/.cache/eslint"]
         },
         "eslint": {
+            "inputs": ["$TURBO_DEFAULT$", "!README.md"],
             "outputs": ["node_modules/.cache/eslint"]
         },
         "//#typecheck": {
+            "inputs": ["src/**/*.ts", "src/**/*.tsx", "test/**/*.ts", "test/**/*.tsx", "tsconfig.json", "!packages", "!samples", "!docs"],
             "outputs": ["node_modules/.cache/tsbuildinfo.json"]
         },
         "typecheck": {
+            "inputs": ["src/**/*.ts", "src/**/*.tsx", "test/**/*.ts", "test/**/*.tsx", "tsconfig.json", "tsconfig.build.json"],
             "outputs": ["node_modules/.cache/tsbuildinfo.json"]
         },
-        "//#syncpack": {},
+        "//#syncpack": {
+            "inputs": [".syncpackrc.js", "package.json", "packages/**/package.json", "samples/**/package.json"]
+        },
         "test": {
             "outputs": ["node_modules/.cache/vitest/**"]
         }
