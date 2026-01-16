@@ -11,3 +11,4 @@ order: 97
 - [Setup i18next](./setup-i18next.md)
 - [Setup the logger](./setup-logger.md)
 - [Setup Storybook](./setup-storybook.md)
+- [Setup with LLMs](./setup-with-llms.md)
