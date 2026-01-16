@@ -24,6 +24,7 @@ export class LocalStorageLaunchDarklyClient extends InMemoryLaunchDarklyClient {
         window.removeEventListener("storage", this.onStorageUpdated);
         super.close();
     }
+
     setFeatureFlag(name: string, value: LDFlagValue, options?: SetFlagOptions): void {
         super.setFeatureFlag(name, value, options);
         this.updateLocalStorage();
@@ -65,7 +66,7 @@ export class LocalStorageLaunchDarklyClient extends InMemoryLaunchDarklyClient {
 
 function initializeFeatureFlags(storageKey: string, defaultFeatureFlags: Map<string, LDFlagValue>) {
     const storedFlags = localStorage.getItem(storageKey);
-    const mswFeatureFlags = new Map<string, LDFlagValue>();
+    const featureFlags = new Map<string, LDFlagValue>();
 
     if (storedFlags) {
         const parsedFlags = JSON.parse(storedFlags);
@@ -74,22 +75,22 @@ function initializeFeatureFlags(storageKey: string, defaultFeatureFlags: Map<str
 
         for (const [key, value] of Object.entries(parsedFlags)) {
             if (defaultFeatureFlags.has(key)) {
-                mswFeatureFlags.set(key, value);
+                featureFlags.set(key, value);
             }
         }
 
         // add all missing feature flags and initialize them to their default value
         for (const [key, value] of defaultFeatureFlags) {
-            if (!mswFeatureFlags.has(key)) {
-                mswFeatureFlags.set(key, value);
+            if (!featureFlags.has(key)) {
+                featureFlags.set(key, value);
             }
         }
     } else {
         // Initialize all feature flags to the default value
         for (const [key, value] of defaultFeatureFlags) {
-            mswFeatureFlags.set(key, value);
+            featureFlags.set(key, value);
         }
     }
 
-    return mswFeatureFlags;
+    return featureFlags;
 }
