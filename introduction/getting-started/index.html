@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <meta name="turbo-root" content="/wl-squide">
-    <meta name="turbo-cache-control" content="no-cache" data-turbo-track="reload" data-track-token="3.12.0-preview2.821850182552">
+    <meta name="turbo-cache-control" content="no-cache" data-turbo-track="reload" data-track-token="3.12.0-preview2.821910386463">
 
     <!-- See retype.com -->
     <meta name="generator" content="Retype 3.12.0-preview2">
@@ -32,12 +32,12 @@
     <script data-cfasync="false">(function(){var cl=document.documentElement.classList,ls=localStorage.getItem("retype_scheme"),hd=cl.contains("dark"),hl=cl.contains("light"),wm=window.matchMedia&&window.matchMedia("(prefers-color-scheme: dark)").matches;if(ls==="dark"||(!ls&&wm&&!hd&&!hl)){cl.remove("light");cl.add("dark")}else if(ls==="light"||(!ls&&!wm&&!hd&&!hl)){cl.remove("dark");cl.add("light")}})();</script>
 
     <link id="retype-favicon" rel="icon" href="../../static/favicon.png" />
-    <link href="../../resources/css/retype.css?v=3.12.0-preview2.821850182552" rel="stylesheet">
+    <link href="../../resources/css/retype.css?v=3.12.0-preview2.821910386463" rel="stylesheet">
 
-    <script data-cfasync="false" src="../../resources/js/config.js?v=3.12.0-preview2.821850182552" data-turbo-eval="false" defer></script>
+    <script data-cfasync="false" src="../../resources/js/config.js?v=3.12.0-preview2.821910386463" data-turbo-eval="false" defer></script>
     <script data-cfasync="false" src="../../resources/js/retype.js?v=3.12.0-preview2" data-turbo-eval="false" defer></script>
-    <script id="lunr-js" data-cfasync="false" src="../../resources/js/lunr.js?v=3.12.0-preview2.821850182552" data-turbo-eval="false" defer></script>
-    <script id="prism-js" data-cfasync="false" src="../../resources/js/prism.js?v=3.12.0-preview2.821850182552" defer></script>
+    <script id="lunr-js" data-cfasync="false" src="../../resources/js/lunr.js?v=3.12.0-preview2.821910386463" data-turbo-eval="false" defer></script>
+    <script id="prism-js" data-cfasync="false" src="../../resources/js/prism.js?v=3.12.0-preview2.821910386463" defer></script>
 
     <link href="https://workleap.github.io/wl-idp-docs-hub/static/retype-customization.css" rel="stylesheet" />
 
@@ -358,7 +358,7 @@
 </tr>
 <tr>
 <td>Public and Protected pages</td>
-<td>Squide bootstrapping flow facilitate the implementation of public &amp; protected routes by providing a <a href="https://tanstack.com/query/latest" class="outbound" target="_blank">Tanstack Query</a> wrapper, allowing applications to only load their protected data (session related data) if the requested route is protected. Additionally, Squide bootstrapping flow is smart enough to delay the rendering of the requested page until the initial data of an application is ready.</td>
+<td>Squide bootstrapping flow facilitate the implementation of public &amp; protected routes by providing a <a href="https://tanstack.com/query/latest" class="outbound" target="_blank">TanStack Query</a> wrapper, allowing applications to only load their protected data (session related data) if the requested route is protected. Additionally, Squide bootstrapping flow is smart enough to delay the rendering of the requested page until the initial data of an application is ready.</td>
 </tr>
 <tr>
 <td>Localization</td>
@@ -399,6 +399,7 @@
 <li><span class="docs-emoji">&#x1F6D1;</span> Stop reinventing the wheel</li>
 <li><span class="docs-emoji">&#x1F4C9;</span> Lower product operating costs</li>
 <li><span class="docs-emoji">&#x1F4C8;</span> Boost product development velocity</li>
+<li><span class="docs-emoji">&#x1F680;</span> Improve the performance of local tooling and CI</li>
 <li><span class="docs-emoji">&#x1F685;</span> Accelerate time to market for initial product releases</li>
 <li><span class="docs-emoji">&#x2728;</span> Enhance product quality and maintainability with a well designed API, tests suites and documentation</li>
 </ul>
@@ -406,6 +407,7 @@
 <p>Every Workleap&#x27;s frontend applications must <strong>implement</strong>, to some extent, most of the <strong>cross-cutting functionalities</strong> listed in the <doc-anchor-trigger to="#what-is-squide">previous section</doc-anchor-trigger> of this document. Implementing those cross-cutting functionalities require significant effort, typically involving senior or staff frontend developers and taking a <strong>few months</strong> of full-time <strong>work</strong> to <strong>complete</strong> (when done right). This process can slow down product teams, impact their velocity and <strong>delay</strong> the <strong>release</strong> of features.</p>
 <p>Squide helps reduce both the initial development costs and the ongoing maintenance costs of frontend applications by offering a reusable, <strong>well-tested</strong>, and <strong>documented solution</strong> developed by experienced frontend developers. Squide streamlines the implementation of cross-cutting functionalities, allowing product teams to focus on delivering value without reinventing the wheel.</p>
 <p>Having a well-tested and well-documented shell is a significant advantage, as application shell code is often poorly understood by product teams and typically lacks proper testing and documentation, which complicates the maintenance of a custom application shell.</p>
+<p>Encouraging a modular architecture unlocks many benefits, including <strong>improved local tooling</strong> and <strong>CI performance</strong> when combined with a build system such as <a href="https://turborepo.dev/" class="outbound" target="_blank">Turborepo</a>. By skipping unchanged modules and leveraging cache hits, tooling execution times are reduced. Skipping unchanged modules also <strong>lowers costs</strong> associated with <strong>third-party services</strong> such as <a href="https://www.chromatic.com/" class="outbound" target="_blank">chromatic</a>.</p>
 <p>By providing most of the required cross-cutting functionalities out of the box, Squide enables product teams to <strong>reduce their operating costs</strong> by minimizing the need for dedicated staff developers to build and maintain a custom application shell.</p>
 <doc-anchor-target id="create-your-project">
     <h2>
