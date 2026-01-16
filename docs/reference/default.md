@@ -82,6 +82,7 @@ toc:
 - [getFeatureFlag](./launch-darkly/getFeatureFlag.md)
 - [InMemoryLaunchDarklyClient](./launch-darkly/InMemoryLaunchDarklyClient.md)
 - [LocalStorageLaunchDarklyClient](./launch-darkly/LocalStorageLaunchDarklyClient.md)
+- [isEditableLDClient](./launch-darkly/isEditableLDClient.md)
 - [FeatureFlagSetSnapshot](./launch-darkly/FeatureFlagSetSnapshot.md)
 
 ### Logging
