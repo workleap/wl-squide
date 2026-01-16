@@ -1,50 +1,61 @@
 import { LDFlagValue } from "launchdarkly-js-sdk-common";
+import type { SetFlagOptions } from "./EditableLDClient.ts";
 import { InMemoryLaunchDarklyClient, type InMemoryLaunchDarklyClientOptions } from "./InMemoryLaunchDarklyClient.ts";
 
 export type LocalStorageLaunchDarklyClientOptions = InMemoryLaunchDarklyClientOptions;
 
 export class LocalStorageLaunchDarklyClient extends InMemoryLaunchDarklyClient {
+    #storageKey: string;
+
     constructor(storageKey: string, defaultFeatureFlagValues: Map<string, LDFlagValue>, options: LocalStorageLaunchDarklyClientOptions = {}) {
         super(initializeFeatureFlags(storageKey, defaultFeatureFlagValues), options);
 
+        this.#storageKey = storageKey;
+
         // Save the feature flags to localStorage initially then on every change
-        this.updateLocalStorage(storageKey);
-        this.on("change", () => {
-            this.updateLocalStorage(storageKey);
-        });
+        this.updateLocalStorage();
 
         // Listen for localStorage changes made in other tabs/windows
-        window.addEventListener("storage", e => {
-            if (e.key !== storageKey || !e.newValue) {
-                return;
-            }
-
-            try {
-                const incoming = JSON.parse(e.newValue);
-                this.onStorageUpdated(incoming);
-            } catch {
-                // ignore malformed updates
-            }
-        });
+        this.onStorageUpdated = this.onStorageUpdated.bind(this);
+        window.addEventListener("storage", this.onStorageUpdated);
     }
 
-    onStorageUpdated(incoming: Record<string, LDFlagValue>) {
-        const currentFlags = new Map(Object.entries(this.allFlags()));
-        const modifiedFeatureFlags = new Map<string, LDFlagValue>();
+    setFeatureFlag(name: string, value: LDFlagValue, options?: SetFlagOptions): void {
+        super.setFeatureFlag(name, value, options);
+        this.updateLocalStorage();
+    }
 
-        for (const [key, value] of Object.entries(incoming)) {
-            if (currentFlags.get(key) !== value) {
-                modifiedFeatureFlags.set(key, value);
-            }
+    setFeatureFlags(flags: Record<string, LDFlagValue>, options?: SetFlagOptions): void {
+        super.setFeatureFlags(flags, options);
+        this.updateLocalStorage();
+    }
+
+    onStorageUpdated(event: StorageEvent) {
+        if (event.key !== this.#storageKey || !event.newValue) {
+            return;
         }
 
-        if (modifiedFeatureFlags.size > 0) {
-            this.setFeatureFlags(Object.fromEntries(modifiedFeatureFlags));
+        try {
+            const incoming = JSON.parse(event.newValue);
+            const currentFlags = new Map(Object.entries(this.allFlags()));
+            const modifiedFeatureFlags = new Map<string, LDFlagValue>();
+
+            for (const [key, value] of Object.entries(incoming)) {
+                if (currentFlags.get(key) !== value) {
+                    modifiedFeatureFlags.set(key, value);
+                }
+            }
+
+            if (modifiedFeatureFlags.size > 0) {
+                this.setFeatureFlags(Object.fromEntries(modifiedFeatureFlags));
+            }
+        } catch {
+            // Ignore malformed updates
         }
     }
 
-    updateLocalStorage(storageKey: string) {
-        localStorage.setItem(storageKey, JSON.stringify(this.allFlags()));
+    updateLocalStorage() {
+        localStorage.setItem(this.#storageKey, JSON.stringify(this.allFlags()));
     }
 }
 
