@@ -163,3 +163,6 @@ test("when the \"show-characters\" feature flag is off, do not render the charac
 To set up [Storybook](https://storybook.js.org/docs) stories with feature flags, refer to the [setup Storybook](../integrations/setup-storybook.md#setup-feature-flags) integration guide.
 
 
+## Setup with MSW development environment
+
+If you want to be able to easily toggle feature flags while developing your application with the [MSW development environment](../integrations/setup-msw-dev-environment.md), you can use the [InMemoryLaunchDarklyClient](../reference/launch-darkly/InMemoryLaunchDarklyClient.md) or the [LocalStorageLaunchDarklyClient](../reference/launch-darkly/LocalStorageLaunchDarklyClient.md) implementations of the LaunchDarkly SDK client.
