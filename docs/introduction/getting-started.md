@@ -55,7 +55,7 @@ Those cross-cutting functionalities uses most of the libraries recommended by Wo
 Feature | Library
 ---  | ---
 Modular Routing | Squide extends [React Router](https://reactrouter.com/), adding modular routing capabilities.
-Public and Protected pages | Squide bootstrapping flow facilitate the implementation of public & protected routes by providing a [Tanstack Query](https://tanstack.com/query/latest) wrapper, allowing applications to only load their protected data (session related data) if the requested route is protected. Additionally, Squide bootstrapping flow is smart enough to delay the rendering of the requested page until the initial data of an application is ready.
+Public and Protected pages | Squide bootstrapping flow facilitate the implementation of public & protected routes by providing a [TanStack Query](https://tanstack.com/query/latest) wrapper, allowing applications to only load their protected data (session related data) if the requested route is protected. Additionally, Squide bootstrapping flow is smart enough to delay the rendering of the requested page until the initial data of an application is ready.
 Localization | Squide includes built-in support for localization, powered by [i18next](https://www.i18next.com/). 
 Observability | Squide includes built-in observability powered by [Honeycomb](https://www.honeycomb.io/).
 Logging | Squide includes a built-in logger powered by [@workleap/logging](https://workleap.github.io/wl-logging).
@@ -72,6 +72,7 @@ Storybook | Squide integrates with [Storybook](https://storybook.js.org/) storie
 - :octagonal_sign: Stop reinventing the wheel
 - :chart_with_downwards_trend: Lower product operating costs
 - :chart_with_upwards_trend: Boost product development velocity
+- :rocket: Improve the performance of local tooling and CI
 - :bullettrain_front: Accelerate time to market for initial product releases
 - :sparkles: Enhance product quality and maintainability with a well designed API, tests suites and documentation
 
@@ -82,6 +83,8 @@ Every Workleap's frontend applications must **implement**, to some extent, most 
 Squide helps reduce both the initial development costs and the ongoing maintenance costs of frontend applications by offering a reusable, **well-tested**, and **documented solution** developed by experienced frontend developers. Squide streamlines the implementation of cross-cutting functionalities, allowing product teams to focus on delivering value without reinventing the wheel.
 
 Having a well-tested and well-documented shell is a significant advantage, as application shell code is often poorly understood by product teams and typically lacks proper testing and documentation, which complicates the maintenance of a custom application shell.
+
+Encouraging a modular architecture unlocks many benefits, including **improved local tooling** and **CI performance** when combined with a build system such as [Turborepo](https://turborepo.dev/). By skipping unchanged modules and leveraging cache hits, tooling execution times are reduced. Skipping unchanged modules also **lowers costs** associated with **third-party services** such as [chromatic](https://www.chromatic.com/).
 
 By providing most of the required cross-cutting functionalities out of the box, Squide enables product teams to **reduce their operating costs** by minimizing the need for dedicated staff developers to build and maintain a custom application shell.
 
