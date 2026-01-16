@@ -1,0 +1,80 @@
+import { LDFlagValue } from "launchdarkly-js-sdk-common";
+import { InMemoryLaunchDarklyClient, type InMemoryLaunchDarklyClientOptions } from "./InMemoryLaunchDarklyClient.ts";
+
+export type LocalStorageLaunchDarklyClientOptions = InMemoryLaunchDarklyClientOptions;
+
+export class LocalStorageLaunchDarklyClient extends InMemoryLaunchDarklyClient {
+    constructor(storageKey: string, defaultFeatureFlagValues: Map<string, LDFlagValue>, options: LocalStorageLaunchDarklyClientOptions = {}) {
+        super(initializeFeatureFlags(storageKey, defaultFeatureFlagValues), options);
+
+        // Save the feature flags to localStorage initially then on every change
+        this.updateLocalStorage(storageKey);
+        this.on("change", () => {
+            this.updateLocalStorage(storageKey);
+        });
+
+        // Listen for localStorage changes made in other tabs/windows
+        window.addEventListener("storage", e => {
+            if (e.key !== storageKey || !e.newValue) {
+                return;
+            }
+
+            try {
+                const incoming = JSON.parse(e.newValue);
+                this.onStorageUpdated(incoming);
+            } catch {
+                // ignore malformed updates
+            }
+        });
+    }
+
+    onStorageUpdated(incoming: Record<string, LDFlagValue>) {
+        const currentFlags = new Map(Object.entries(this.allFlags()));
+        const modifiedFeatureFlags = new Map<string, LDFlagValue>();
+
+        for (const [key, value] of Object.entries(incoming)) {
+            if (currentFlags.get(key) !== value) {
+                modifiedFeatureFlags.set(key, value);
+            }
+        }
+
+        if (modifiedFeatureFlags.size > 0) {
+            this.setFeatureFlags(Object.fromEntries(modifiedFeatureFlags));
+        }
+    }
+
+    updateLocalStorage(storageKey: string) {
+        localStorage.setItem(storageKey, JSON.stringify(this.allFlags()));
+    }
+}
+
+function initializeFeatureFlags(storageKey: string, defaultFeatureFlags: Map<string, LDFlagValue>) {
+    const storedFlags = localStorage.getItem(storageKey);
+    const mswFeatureFlags = new Map<string, LDFlagValue>();
+
+    if (storedFlags) {
+        const parsedFlags = JSON.parse(storedFlags);
+        // when we load the feature flags from localStorage, we need to make sure
+        // that the keys are valid feature flags and delete the others
+
+        for (const [key, value] of Object.entries(parsedFlags)) {
+            if (defaultFeatureFlags.has(key)) {
+                mswFeatureFlags.set(key, value);
+            }
+        }
+
+        // add all missing feature flags and initialize them to their default value
+        for (const [key, value] of defaultFeatureFlags) {
+            if (!mswFeatureFlags.has(key)) {
+                mswFeatureFlags.set(key, value);
+            }
+        }
+    } else {
+        // Initialize all feature flags to the default value
+        for (const [key, value] of defaultFeatureFlags) {
+            mswFeatureFlags.set(key, value);
+        }
+    }
+
+    return mswFeatureFlags;
+}

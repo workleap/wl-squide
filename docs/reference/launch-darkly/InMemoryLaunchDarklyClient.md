@@ -25,7 +25,7 @@ const client = new InMemoryLaunchDarklyClient(featureFlags, options?: { context?
 
 ### Create an instance
 
-```ts !#8
+```ts !#7
 import { InMemoryLaunchDarklyClient } from "@squide/firefly";
 
 const featureFlags = new Map([
@@ -37,35 +37,23 @@ const client = new InMemoryLaunchDarklyClient(featureFlags);
 
 ### Update the in-memory flags
 
-```ts !#9
+```ts !#11,14-16
 import { InMemoryLaunchDarklyClient } from "@squide/firefly";
 
 const featureFlags = new Map([
-    ["show-characters", true]
+    ["show-characters", true],
+    ["render-summary", true]
 ] as const);
 
 const client = new InMemoryLaunchDarklyClient(featureFlags);
 
-featureFlags.set("show-characters", true);
-```
+// Update a single flag
+client.setFeatureFlag("show-characters", false);
 
-### Fake a notification
-
-```ts !#7,10,13-15
-import { InMemoryLaunchDarklyClient, LaunchDarklyClientNotifier } from "@squide/firefly";
-
-const featureFlags = new Map([
-    ["show-characters", true]
-] as const);
-
-const notifier = new LaunchDarklyClientNotifier();
-
-const client = new InMemoryLaunchDarklyClient(featureFlags, {
-    notifier
-});
-
-notifier.notify("change", {
-    "show-characters": false
+// Update multiple flags
+client.setFeatureFlags({
+    "show-characters": true,
+    "render-summary": false
 });
 ```
 

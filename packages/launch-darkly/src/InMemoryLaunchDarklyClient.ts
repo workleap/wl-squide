@@ -1,5 +1,5 @@
-import { LDClient } from "launchdarkly-js-client-sdk";
 import { LDContext, LDFlagSet, LDFlagValue } from "launchdarkly-js-sdk-common";
+import type { EditableLDClient } from "./EditableLDClient.ts";
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export type LaunchDarklyClientListener = (...args: any[]) => void;
@@ -32,10 +32,10 @@ export interface InMemoryLaunchDarklyClientOptions {
     notifier?: LaunchDarklyClientNotifier;
 }
 
-export class InMemoryLaunchDarklyClient implements LDClient {
+export class InMemoryLaunchDarklyClient implements EditableLDClient {
     readonly #flags: Map<string, LDFlagValue>;
     readonly #context: LDContext;
-    readonly #notifier?: LaunchDarklyClientNotifier;
+    readonly #notifier: LaunchDarklyClientNotifier;
 
     constructor(featureFlags: Map<string, LDFlagValue>, options: InMemoryLaunchDarklyClientOptions = {}) {
         const {
@@ -54,7 +54,7 @@ export class InMemoryLaunchDarklyClient implements LDClient {
             anonymous: true
         };
 
-        this.#notifier = notifier;
+        this.#notifier = notifier ?? new LaunchDarklyClientNotifier();
     }
 
     waitUntilGoalsReady() {
@@ -101,16 +101,12 @@ export class InMemoryLaunchDarklyClient implements LDClient {
 
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     on(key: string, callback: (...args: any[]) => void) {
-        if (this.#notifier) {
-            this.#notifier.addListener(key, callback);
-        }
+        this.#notifier.addListener(key, callback);
     }
 
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     off(key: string, callback: (...args: any[]) => void) {
-        if (this.#notifier) {
-            this.#notifier.removeListener(key, callback);
-        }
+        this.#notifier.removeListener(key, callback);
     }
 
     track(): void {}
@@ -126,4 +122,20 @@ export class InMemoryLaunchDarklyClient implements LDClient {
     }
 
     addHook(): void {}
+
+    setFeatureFlag(name: string, value: LDFlagValue): void {
+        this.#flags.set(name, value);
+
+        this.#notifier.notify("change", {
+            [name]: value
+        });
+    }
+
+    setFeatureFlags(flags: Record<string, LDFlagValue>): void {
+        for (const [name, value] of Object.entries(flags)) {
+            this.#flags.set(name, value);
+        }
+
+        this.#notifier.notify("change", flags);
+    }
 }
