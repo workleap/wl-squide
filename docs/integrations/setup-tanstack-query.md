@@ -17,7 +17,7 @@ Here's the idea in simple terms:
 3. **Update the UI when fresh data arrives**: Once the refetch completes, the new data replaces the stale data, and components automatically re-render.
 ===
 
-## Setup the query client
+## Configure the query client
 
 To setup TanStack client, refer to the [create an host application](../introduction/create-host.md) guide as a starting point and update the host application bootstrapping code with a [QueryClientProvider](https://tanstack.com/query/v4/docs/framework/react/reference/QueryClientProvider):
 
@@ -45,7 +45,7 @@ root.render(
 );
 ```
 
-## Setup the development tools
+## Configure the development tools
 
 [TanStack Query Devtools](https://tanstack.com/query/v5/docs/framework/react/devtools) provide real-time visibility into how your application manages server state. They make it easier to understand, debug, and optimize data-fetching behavior by exposing the details that normally operate behind the scenes.
 
