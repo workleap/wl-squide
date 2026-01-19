@@ -25,7 +25,7 @@ const client = new InMemoryLaunchDarklyClient(featureFlags, options?: { context?
 
 ### Create an instance
 
-```ts !#8
+```ts !#7
 import { InMemoryLaunchDarklyClient } from "@squide/firefly";
 
 const featureFlags = new Map([

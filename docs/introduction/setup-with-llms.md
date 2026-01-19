@@ -1,5 +1,5 @@
 ---
-order: 300
+order: 20
 label: Setup with LLMs
 ---
 
@@ -13,7 +13,7 @@ Context7 is an MCP server that provides AI assistants with real-time, version-sp
 :link: [Lean more about Context7](https://context7.com/)
 ===
 
-## Setup with VS Code
+## Configure VS Code
 
 ### Marketplace
 
@@ -65,7 +65,7 @@ Open the Extensions view in VS Code and locate the `context7` MCP server. Click 
 ![VS Code server status](../static/vscode-context7-mcp-server.png){width=449}
 :::
 
-## Setup with Claude Code
+## Configure Claude Code
 
 To install Context7 with Claude Code, open a terminal and execute one of the following command:
 
