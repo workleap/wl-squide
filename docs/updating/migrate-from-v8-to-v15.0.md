@@ -1,5 +1,5 @@
 ---
-order: 800
+order: 880
 label: Migrate from v8.* to v15.0
 ---
 
@@ -8,7 +8,6 @@ label: Migrate from v8.* to v15.0
 This migration guide is an aggregation of all the changes that happened between Squide firefly `v9.0` and `v15.0`:
 
 ## Changes summary
-
 ### v9.0
 
 :icon-checklist: [Migrate to firefly v9.0](./migrate-to-firefly-v9.0.md)

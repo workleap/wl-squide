@@ -1,9 +1,9 @@
 ---
 order: 20
-label: Setup with LLMs
+label: Use with LLMs
 ---
 
-# Setup with LLMs
+# Use with LLMs
 
 Information about the Squide libraries can be shared with different LLMs using the Context7 MCP server. Context7 is a specialized MCP server that provides real-time, version-specific programming documentation and code examples directly to AI development tools and assistants.
 
@@ -13,7 +13,7 @@ Context7 is an MCP server that provides AI assistants with real-time, version-sp
 :link: [Lean more about Context7](https://context7.com/)
 ===
 
-## Configure VS Code
+## Setup VS Code
 
 ### Marketplace
 
@@ -65,7 +65,7 @@ Open the Extensions view in VS Code and locate the `context7` MCP server. Click 
 ![VS Code server status](../static/vscode-context7-mcp-server.png){width=449}
 :::
 
-## Configure Claude Code
+## Setup Claude Code
 
 To install Context7 with Claude Code, open a terminal and execute one of the following command:
 
