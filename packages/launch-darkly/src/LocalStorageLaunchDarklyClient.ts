@@ -9,22 +9,16 @@ export interface LocalStorageLaunchDarklyClientOptions {
 
 export class LocalStorageLaunchDarklyClient implements EditableLaunchDarklyClient {
     readonly #storageKey: string;
-    readonly #flags: Map<string, LDFlagValue>;
+    #defaultFeatureFlagValues: Map<string, LDFlagValue>;
+    #flags: Map<string, LDFlagValue> = new Map();
     readonly #context: LDContext;
     readonly #notifier: LaunchDarklyClientNotifier;
 
     constructor(storageKey: string, defaultFeatureFlagValues: Map<string, LDFlagValue>, options: LocalStorageLaunchDarklyClientOptions = {}) {
-        const featureFlags = initializeFeatureFlags(storageKey, defaultFeatureFlagValues);
         const {
             context,
             notifier
         } = options;
-
-        if (!(featureFlags instanceof Map)) {
-            throw new TypeError("[squide] The \"featureFlags\" argument must be a Map instance.");
-        }
-
-        this.#flags = featureFlags;
 
         this.#context = context ?? {
             kind: "user",
@@ -33,9 +27,12 @@ export class LocalStorageLaunchDarklyClient implements EditableLaunchDarklyClien
 
         this.#notifier = notifier ?? new LaunchDarklyClientNotifier();
         this.#storageKey = storageKey;
+        this.#defaultFeatureFlagValues = defaultFeatureFlagValues;
+    }
 
-        // Save the feature flags to localStorage initially then on every change
-        this.updateLocalStorage();
+    initialize() {
+        const featureFlags = initializeFeatureFlags(this.#storageKey, this.#defaultFeatureFlagValues);
+        this.setFeatureFlags(Object.fromEntries(featureFlags), { notify: false });
 
         // Listen for localStorage changes made in other tabs/windows
         this.onStorageUpdated = this.onStorageUpdated.bind(this);

@@ -26,7 +26,9 @@ const client = new LocalStorageLaunchDarklyClient(storageKey, defaultFeatureFlag
 
 ### Create an instance
 
-```ts !#7
+When you create an instance of `LocalStorageLaunchDarklyClient`, you need to provide a `storageKey` and a set of `defaultFeatureFlags`. After creating the instance, call the `initialize` method to load the flags from `localStorage` or use the default flags if none are found.
+
+```ts !#7-8
 import { LocalStorageLaunchDarklyClient } from "@squide/firefly";
 
 const defaultFeatureFlags = new Map([
@@ -34,11 +36,12 @@ const defaultFeatureFlags = new Map([
 ] as const);
 
 const client = new LocalStorageLaunchDarklyClient("my-storage-key", defaultFeatureFlags);
+client.initialize();
 ```
 
 ### Update the local storage flags
 
-```ts !#10-13
+```ts !#11-14
 import { LocalStorageLaunchDarklyClient } from "@squide/firefly";
 
 const defaultFeatureFlags = new Map([
@@ -47,6 +50,7 @@ const defaultFeatureFlags = new Map([
 ] as const);
 
 const client = new LocalStorageLaunchDarklyClient("my-storage-key", defaultFeatureFlags);
+client.initialize();
 
 client.setFeatureFlags({
     "show-characters": true,
@@ -58,7 +62,7 @@ client.setFeatureFlags({
 
 By default client context is `{ kind: "user", anonymous: true }`. To customize the context, provide a `context` option.
 
-```ts !#8-20
+```ts !#8-21
 import { LocalStorageLaunchDarklyClient } from "@squide/firefly";
 
 const defaultFeatureFlags = new Map([
@@ -80,5 +84,6 @@ const client = new LocalStorageLaunchDarklyClient("my-storage-key", defaultFeatu
         }
     }
 });
+client.initialize();
 ```
 

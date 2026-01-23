@@ -28,6 +28,7 @@ describe("initialization", () => {
         }));
 
         const client = new LocalStorageLaunchDarklyClient(STORAGE_KEY, defaultFlags);
+        client.initialize();
 
         expect(client.variation("flag-a")).toBe(false);
         expect(client.variation("flag-b")).toBe(true);
@@ -46,6 +47,7 @@ describe("initialization", () => {
         }));
 
         const client = new LocalStorageLaunchDarklyClient(STORAGE_KEY, defaultFlags);
+        client.initialize();
 
         expect(client.variation("flag-a")).toBe(true);
         expect(client.variation("flag-b")).toBe(false);
@@ -62,6 +64,7 @@ describe("initialization", () => {
         }));
 
         const client = new LocalStorageLaunchDarklyClient(STORAGE_KEY, defaultFlags);
+        client.initialize();
         const allFlags = client.allFlags();
 
         expect(allFlags).toEqual({
@@ -82,6 +85,7 @@ describe("initialization", () => {
         }));
 
         const client = new LocalStorageLaunchDarklyClient(STORAGE_KEY, defaultFlags);
+        client.initialize();
 
         expect(client.variation("flag-a")).toBe(true);
         expect(client.variation("flag-b")).toBe(true);
@@ -112,6 +116,7 @@ describe("setFeatureFlags", () => {
         }));
 
         const client = new LocalStorageLaunchDarklyClient(STORAGE_KEY, defaultFlags);
+        client.initialize();
 
         client.setFeatureFlags({
             "flag-a": true,
@@ -132,6 +137,7 @@ describe("setFeatureFlags", () => {
         }));
 
         const client = new LocalStorageLaunchDarklyClient(STORAGE_KEY, defaultFlags);
+        client.initialize();
         const changeHandler = vi.fn();
         client.on("change", changeHandler);
 
@@ -155,6 +161,7 @@ describe("storage event synchronization", () => {
         }));
 
         const client = new LocalStorageLaunchDarklyClient(STORAGE_KEY, defaultFlags);
+        client.initialize();
 
         // Simulate storage event from another tab
         const storageEvent = new StorageEvent("storage", {
@@ -181,6 +188,7 @@ describe("storage event synchronization", () => {
         }));
 
         const client = new LocalStorageLaunchDarklyClient(STORAGE_KEY, defaultFlags);
+        client.initialize();
         const changeHandler = vi.fn();
         client.on("change", changeHandler);
 
@@ -204,6 +212,7 @@ describe("storage event synchronization", () => {
         }));
 
         const client = new LocalStorageLaunchDarklyClient(STORAGE_KEY, defaultFlags);
+        client.initialize();
         const changeHandler = vi.fn();
         client.on("change", changeHandler);
 
@@ -225,6 +234,7 @@ describe("storage event synchronization", () => {
         }));
 
         const client = new LocalStorageLaunchDarklyClient(STORAGE_KEY, defaultFlags);
+        client.initialize();
 
         // Simulate storage event with invalid JSON
         const storageEvent = new StorageEvent("storage", {
@@ -247,6 +257,7 @@ describe("storage event synchronization", () => {
         }));
 
         const client = new LocalStorageLaunchDarklyClient(STORAGE_KEY, defaultFlags);
+        client.initialize();
         const changeHandler = vi.fn();
         client.on("change", changeHandler);
 
@@ -274,6 +285,7 @@ describe("storage event synchronization", () => {
         }));
 
         const client = new LocalStorageLaunchDarklyClient(STORAGE_KEY, defaultFlags);
+        client.initialize();
         const changeHandler = vi.fn();
 
         // Clear the initial call from constructor
@@ -301,6 +313,7 @@ describe("variation", () => {
         }));
 
         const client = new LocalStorageLaunchDarklyClient(STORAGE_KEY, defaultFlags);
+        client.initialize();
 
         const value = client.variation("flag-a", false);
 
@@ -310,6 +323,7 @@ describe("variation", () => {
     test.concurrent("when the flag is not available and a default value is provided, return the default value", ({ expect }) => {
         const defaultFlags = new Map<string, boolean>();
         const client = new LocalStorageLaunchDarklyClient(STORAGE_KEY, defaultFlags);
+        client.initialize();
 
         const value = client.variation("flag-a", false);
 
@@ -319,6 +333,7 @@ describe("variation", () => {
     test.concurrent("when the flag is not available and no default value is provided, return undefined", ({ expect }) => {
         const defaultFlags = new Map<string, boolean>();
         const client = new LocalStorageLaunchDarklyClient(STORAGE_KEY, defaultFlags);
+        client.initialize();
 
         const value = client.variation("flag-a");
 
@@ -333,6 +348,7 @@ describe("variationDetail", () => {
         }));
 
         const client = new LocalStorageLaunchDarklyClient(STORAGE_KEY, defaultFlags);
+        client.initialize();
 
         const value = client.variationDetail("flag-a", false);
 
@@ -344,6 +360,7 @@ describe("variationDetail", () => {
     test.concurrent("when the flag is not available and a default value is provided, return the default value", ({ expect }) => {
         const defaultFlags = new Map<string, boolean>();
         const client = new LocalStorageLaunchDarklyClient(STORAGE_KEY, defaultFlags);
+        client.initialize();
 
         const value = client.variationDetail("flag-a", false);
 
@@ -355,6 +372,7 @@ describe("variationDetail", () => {
     test.concurrent("when the flag is not available and no default value is provided, return undefined", ({ expect }) => {
         const defaultFlags = new Map<string, boolean>();
         const client = new LocalStorageLaunchDarklyClient(STORAGE_KEY, defaultFlags);
+        client.initialize();
 
         const value = client.variationDetail("flag-a");
 
