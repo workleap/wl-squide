@@ -51,7 +51,7 @@ describe("initialization", () => {
         expect(client.variation("flag-b")).toBe(false);
     });
 
-    test("when localStorage has extra invalid flags, ignore them", () => {
+    test("when localStorage has invalid flags, ignore them", () => {
         const defaultFlags = new Map(Object.entries({
             "flag-a": false
         }));

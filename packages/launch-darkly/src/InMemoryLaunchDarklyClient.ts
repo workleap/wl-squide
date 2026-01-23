@@ -1,5 +1,5 @@
 import { LDContext, LDFlagSet, LDFlagValue } from "launchdarkly-js-sdk-common";
-import type { EditableLDClient, SetFlagOptions } from "./EditableLDClient.ts";
+import type { EditableLaunchDarklyClient, SetFlagOptions } from "./EditableLaunchDarklyClient.ts";
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export type LaunchDarklyClientListener = (...args: any[]) => void;
@@ -32,7 +32,7 @@ export interface InMemoryLaunchDarklyClientOptions {
     notifier?: LaunchDarklyClientNotifier;
 }
 
-export class InMemoryLaunchDarklyClient implements EditableLDClient {
+export class InMemoryLaunchDarklyClient implements EditableLaunchDarklyClient {
     readonly #flags: Map<string, LDFlagValue>;
     readonly #context: LDContext;
     readonly #notifier: LaunchDarklyClientNotifier;

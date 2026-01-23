@@ -1,5 +1,5 @@
-import { LDFlagValue } from "launchdarkly-js-sdk-common";
-import type { SetFlagOptions } from "./EditableLDClient.ts";
+import type { LDFlagValue } from "launchdarkly-js-sdk-common";
+import type { SetFlagOptions } from "./EditableLaunchDarklyClient.ts";
 import { InMemoryLaunchDarklyClient, type InMemoryLaunchDarklyClientOptions } from "./InMemoryLaunchDarklyClient.ts";
 
 export type LocalStorageLaunchDarklyClientOptions = InMemoryLaunchDarklyClientOptions;
@@ -41,18 +41,18 @@ export class LocalStorageLaunchDarklyClient extends InMemoryLaunchDarklyClient {
         }
 
         try {
-            const incoming = JSON.parse(event.newValue);
+            const newFlag = JSON.parse(event.newValue);
             const currentFlags = new Map(Object.entries(this.allFlags()));
-            const modifiedFeatureFlags = new Map<string, LDFlagValue>();
+            const updatedFlags = new Map<string, LDFlagValue>();
 
-            for (const [key, value] of Object.entries(incoming)) {
+            for (const [key, value] of Object.entries(newFlag)) {
                 if (currentFlags.get(key) !== value) {
-                    modifiedFeatureFlags.set(key, value);
+                    updatedFlags.set(key, value);
                 }
             }
 
-            if (modifiedFeatureFlags.size > 0) {
-                super.setFeatureFlags(Object.fromEntries(modifiedFeatureFlags));
+            if (updatedFlags.size > 0) {
+                super.setFeatureFlags(Object.fromEntries(updatedFlags));
             }
         } catch {
             // Ignore malformed updates

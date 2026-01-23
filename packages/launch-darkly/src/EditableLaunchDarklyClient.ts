@@ -8,7 +8,7 @@ export interface SetFlagOptions {
     notify?: boolean;
 }
 
-export interface EditableLDClient extends LDClient {
+export interface EditableLaunchDarklyClient extends LDClient {
     /**
      * Sets a feature flag to the specified value.
      */
@@ -19,7 +19,7 @@ export interface EditableLDClient extends LDClient {
     setFeatureFlags(flags: Record<string, LDFlagValue>, options?: SetFlagOptions): void;
 }
 
-export function isEditableLDClient(client: LDClient): client is EditableLDClient {
-    return typeof (client as EditableLDClient).setFeatureFlag === "function"
-        && typeof (client as EditableLDClient).setFeatureFlags === "function";
+export function isEditableFakeLaunchDarklyClient(client: LDClient): client is EditableLaunchDarklyClient {
+    return typeof (client as EditableLaunchDarklyClient).setFeatureFlag === "function"
+        && typeof (client as EditableLaunchDarklyClient).setFeatureFlags === "function";
 }
