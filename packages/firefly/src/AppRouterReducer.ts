@@ -215,7 +215,7 @@ export function useModuleRegistrationStatusDispatcher(runtime: FireflyRuntime, a
             runtime.moduleManager.removeModulesRegisteredListener(dispatchModulesRegistered);
             runtime.moduleManager.removeModulesReadyListener(dispatchModulesReady);
         };
-    }, [areModulesRegisteredValue, areModulesReadyValue, dispatchModulesRegistered, dispatchModulesReady]);
+    }, [runtime, areModulesRegisteredValue, areModulesReadyValue, dispatchModulesRegistered, dispatchModulesReady]);
 }
 
 export function useMswStatusDispatcher(runtime: FireflyRuntime, isMswReadyValue: boolean, dispatch: AppRouterDispatch) {
@@ -249,14 +249,14 @@ export function useMswStatusDispatcher(runtime: FireflyRuntime, isMswReadyValue:
 export function useFeatureFlagsUpdatedDispatcher(runtime: FireflyRuntime, dispatch: AppRouterDispatch) {
     const logger = useLogger();
 
-    const dispatchFeatureFlagsUpdated = useCallback((changes => {
+    const dispatchFeatureFlagsUpdated = useCallback<FeatureFlagSetSnapshotChangedListener>(changes => {
         dispatch({ type: "feature-flags-updated" });
 
         logger
             .withText("[squide] Feature flags has been updated to:")
             .withObject(changes)
             .debug();
-    }) satisfies FeatureFlagSetSnapshotChangedListener, [dispatch, logger]);
+    }, [dispatch, logger]);
 
     useEffect(() => {
         if (runtime.isLaunchDarklyEnabled) {
@@ -266,7 +266,7 @@ export function useFeatureFlagsUpdatedDispatcher(runtime: FireflyRuntime, dispat
                 runtime.featureFlagSetSnapshot.removeSnapshotChangedListener(dispatchFeatureFlagsUpdated);
             };
         }
-    }, [runtime]);
+    }, [runtime, dispatchFeatureFlagsUpdated]);
 }
 
 function useBootstrappingCompletedDispatcher(waitState: AppRouterWaitState, state: AppRouterState) {
