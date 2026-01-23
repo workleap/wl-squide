@@ -5,6 +5,7 @@ dist
 .turbo
 .rslib
 .retype
+.claude
 *.env.local
 storybook-static
 
