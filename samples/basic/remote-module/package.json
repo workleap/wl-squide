@@ -13,7 +13,7 @@
         "serve-build": "pnpm http-server dist -p 8081 -P http://localhost:8081? -c-1",
         "deploy": "netlify deploy --dir=samples/basic/remote-module/dist --site=43234f6e-a884-410e-9b4d-f290459f841f --prod",
         "eslint": "eslint . --max-warnings=0 --cache --cache-location node_modules/.cache/eslint",
-        "typecheck": "tsc"
+        "typecheck": "tsgo"
     },
     "dependencies": {
         "@basic/shared": "workspace:*",
@@ -35,6 +35,7 @@
         "@types/react": "19.2.9",
         "@types/react-dom": "19.2.3",
         "@typescript-eslint/parser": "8.53.1",
+        "@typescript/native-preview": "7.0.0-dev.20260122.4",
         "@workleap/browserslist-config": "2.1.5",
         "@workleap/eslint-configs": "1.1.10",
         "@workleap/typescript-configs": "3.0.7",

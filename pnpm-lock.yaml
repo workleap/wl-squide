@@ -23,6 +23,9 @@ importers:
       '@typescript-eslint/parser':
         specifier: 8.53.1
         version: 8.53.1(eslint@9.39.2(jiti@2.6.1))(typescript@5.9.3)
+      '@typescript/native-preview':
+        specifier: 7.0.0-dev.20260122.4
+        version: 7.0.0-dev.20260122.4
       '@workleap/eslint-configs':
         specifier: 1.1.10
         version: 1.1.10(@eslint/js@9.39.2)(@types/estree@1.0.8)(@typescript-eslint/eslint-plugin@8.53.1(@typescript-eslint/parser@8.53.1(eslint@9.39.2(jiti@2.6.1))(typescript@5.9.3))(eslint@9.39.2(jiti@2.6.1))(typescript@5.9.3))(@typescript-eslint/parser@8.53.1(eslint@9.39.2(jiti@2.6.1))(typescript@5.9.3))(eslint@9.39.2(jiti@2.6.1))(jsonc-eslint-parser@2.4.2)(storybook@10.2.0(@testing-library/dom@10.4.1)(prettier@2.8.8)(react-dom@19.2.3(react@19.2.3))(react@19.2.3))(typescript-eslint@8.53.1(eslint@9.39.2(jiti@2.6.1))(typescript@5.9.3))(typescript@5.9.3)(vitest@4.0.17(@opentelemetry/api@1.9.0)(@types/node@25.0.10)(happy-dom@20.3.4)(jiti@2.6.1)(msw@2.12.7(@types/node@25.0.10)(typescript@5.9.3))(terser@5.46.0)(tsx@4.21.0)(yaml@2.8.2))
@@ -77,13 +80,16 @@ importers:
         version: 1.7.2
       '@rslib/core':
         specifier: 0.19.3
-        version: 0.19.3(typescript@5.9.3)
+        version: 0.19.3(@typescript/native-preview@7.0.0-dev.20260122.4)(typescript@5.9.3)
       '@types/react':
         specifier: 19.2.9
         version: 19.2.9
       '@typescript-eslint/parser':
         specifier: 8.53.1
         version: 8.53.1(eslint@9.39.2(jiti@2.6.1))(typescript@5.9.3)
+      '@typescript/native-preview':
+        specifier: 7.0.0-dev.20260122.4
+        version: 7.0.0-dev.20260122.4
       '@vitejs/plugin-react':
         specifier: 5.1.2
         version: 5.1.2(vite@7.3.1(@types/node@25.0.10)(jiti@2.6.1)(terser@5.46.0)(tsx@4.21.0)(yaml@2.8.2))
@@ -92,7 +98,7 @@ importers:
         version: 1.1.10(@eslint/js@9.39.2)(@types/estree@1.0.8)(@typescript-eslint/eslint-plugin@8.53.1(@typescript-eslint/parser@8.53.1(eslint@9.39.2(jiti@2.6.1))(typescript@5.9.3))(eslint@9.39.2(jiti@2.6.1))(typescript@5.9.3))(@typescript-eslint/parser@8.53.1(eslint@9.39.2(jiti@2.6.1))(typescript@5.9.3))(eslint@9.39.2(jiti@2.6.1))(jsonc-eslint-parser@2.4.2)(storybook@10.2.0(@testing-library/dom@10.4.1)(prettier@2.8.8)(react-dom@19.2.3(react@19.2.3))(react@19.2.3))(typescript-eslint@8.53.1(eslint@9.39.2(jiti@2.6.1))(typescript@5.9.3))(typescript@5.9.3)(vitest@4.0.17(@opentelemetry/api@1.9.0)(@types/node@25.0.10)(happy-dom@20.3.4)(jiti@2.6.1)(msw@2.12.7(@types/node@25.0.10)(typescript@5.9.3))(terser@5.46.0)(tsx@4.21.0)(yaml@2.8.2))
       '@workleap/rslib-configs':
         specifier: 1.1.5
-        version: 1.1.5(@rsbuild/core@1.7.2)(@rslib/core@0.19.3(typescript@5.9.3))(typescript@5.9.3)
+        version: 1.1.5(@rsbuild/core@1.7.2)(@rslib/core@0.19.3(@typescript/native-preview@7.0.0-dev.20260122.4)(typescript@5.9.3))(typescript@5.9.3)
       '@workleap/typescript-configs':
         specifier: 3.0.7
         version: 3.0.7(typescript@5.9.3)
@@ -132,13 +138,16 @@ importers:
         version: 1.7.2
       '@rslib/core':
         specifier: 0.19.3
-        version: 0.19.3(typescript@5.9.3)
+        version: 0.19.3(@typescript/native-preview@7.0.0-dev.20260122.4)(typescript@5.9.3)
       '@types/react':
         specifier: 19.2.9
         version: 19.2.9
       '@typescript-eslint/parser':
         specifier: 8.53.1
         version: 8.53.1(eslint@9.39.2(jiti@2.6.1))(typescript@5.9.3)
+      '@typescript/native-preview':
+        specifier: 7.0.0-dev.20260122.4
+        version: 7.0.0-dev.20260122.4
       '@vitejs/plugin-react':
         specifier: 5.1.2
         version: 5.1.2(vite@7.3.1(@types/node@25.0.10)(jiti@2.6.1)(terser@5.46.0)(tsx@4.21.0)(yaml@2.8.2))
@@ -147,7 +156,7 @@ importers:
         version: 1.1.10(@eslint/js@9.39.2)(@types/estree@1.0.8)(@typescript-eslint/eslint-plugin@8.53.1(@typescript-eslint/parser@8.53.1(eslint@9.39.2(jiti@2.6.1))(typescript@5.9.3))(eslint@9.39.2(jiti@2.6.1))(typescript@5.9.3))(@typescript-eslint/parser@8.53.1(eslint@9.39.2(jiti@2.6.1))(typescript@5.9.3))(eslint@9.39.2(jiti@2.6.1))(jsonc-eslint-parser@2.4.2)(storybook@10.2.0(@testing-library/dom@10.4.1)(prettier@2.8.8)(react-dom@19.2.3(react@19.2.3))(react@19.2.3))(typescript-eslint@8.53.1(eslint@9.39.2(jiti@2.6.1))(typescript@5.9.3))(typescript@5.9.3)(vitest@4.0.17(@opentelemetry/api@1.9.0)(@types/node@25.0.10)(happy-dom@20.3.4)(jiti@2.6.1)(msw@2.12.7(@types/node@25.0.10)(typescript@5.9.3))(terser@5.46.0)(tsx@4.21.0)(yaml@2.8.2))
       '@workleap/rslib-configs':
         specifier: 1.1.5
-        version: 1.1.5(@rsbuild/core@1.7.2)(@rslib/core@0.19.3(typescript@5.9.3))(typescript@5.9.3)
+        version: 1.1.5(@rsbuild/core@1.7.2)(@rslib/core@0.19.3(@typescript/native-preview@7.0.0-dev.20260122.4)(typescript@5.9.3))(typescript@5.9.3)
       '@workleap/typescript-configs':
         specifier: 3.0.7
         version: 3.0.7(typescript@5.9.3)
@@ -181,16 +190,19 @@ importers:
         version: 1.7.2
       '@rslib/core':
         specifier: 0.19.3
-        version: 0.19.3(typescript@5.9.3)
+        version: 0.19.3(@typescript/native-preview@7.0.0-dev.20260122.4)(typescript@5.9.3)
       '@typescript-eslint/parser':
         specifier: 8.53.1
         version: 8.53.1(eslint@9.39.2(jiti@2.6.1))(typescript@5.9.3)
+      '@typescript/native-preview':
+        specifier: 7.0.0-dev.20260122.4
+        version: 7.0.0-dev.20260122.4
       '@workleap/eslint-configs':
         specifier: 1.1.10
         version: 1.1.10(@eslint/js@9.39.2)(@types/estree@1.0.8)(@typescript-eslint/eslint-plugin@8.53.1(@typescript-eslint/parser@8.53.1(eslint@9.39.2(jiti@2.6.1))(typescript@5.9.3))(eslint@9.39.2(jiti@2.6.1))(typescript@5.9.3))(@typescript-eslint/parser@8.53.1(eslint@9.39.2(jiti@2.6.1))(typescript@5.9.3))(eslint@9.39.2(jiti@2.6.1))(jsonc-eslint-parser@2.4.2)(storybook@10.2.0(@testing-library/dom@10.4.1)(prettier@2.8.8)(react-dom@19.2.3(react@19.2.3))(react@19.2.3))(typescript-eslint@8.53.1(eslint@9.39.2(jiti@2.6.1))(typescript@5.9.3))(typescript@5.9.3)(vitest@4.0.17(@opentelemetry/api@1.9.0)(@types/node@25.0.10)(happy-dom@20.3.4)(jiti@2.6.1)(msw@2.12.7(@types/node@25.0.10)(typescript@5.9.3))(terser@5.46.0)(tsx@4.21.0)(yaml@2.8.2))
       '@workleap/rslib-configs':
         specifier: 1.1.5
-        version: 1.1.5(@rsbuild/core@1.7.2)(@rslib/core@0.19.3(typescript@5.9.3))(typescript@5.9.3)
+        version: 1.1.5(@rsbuild/core@1.7.2)(@rslib/core@0.19.3(@typescript/native-preview@7.0.0-dev.20260122.4)(typescript@5.9.3))(typescript@5.9.3)
       '@workleap/typescript-configs':
         specifier: 3.0.7
         version: 3.0.7(typescript@5.9.3)
@@ -260,7 +272,7 @@ importers:
         version: 1.7.2
       '@rslib/core':
         specifier: 0.19.3
-        version: 0.19.3(typescript@5.9.3)
+        version: 0.19.3(@typescript/native-preview@7.0.0-dev.20260122.4)(typescript@5.9.3)
       '@testing-library/react':
         specifier: 16.3.2
         version: 16.3.2(@testing-library/dom@10.4.1)(@types/react-dom@19.2.3(@types/react@19.2.9))(@types/react@19.2.9)(react-dom@19.2.3(react@19.2.3))(react@19.2.3)
@@ -273,6 +285,9 @@ importers:
       '@typescript-eslint/parser':
         specifier: 8.53.1
         version: 8.53.1(eslint@9.39.2(jiti@2.6.1))(typescript@5.9.3)
+      '@typescript/native-preview':
+        specifier: 7.0.0-dev.20260122.4
+        version: 7.0.0-dev.20260122.4
       '@vitejs/plugin-react':
         specifier: 5.1.2
         version: 5.1.2(vite@7.3.1(@types/node@25.0.10)(jiti@2.6.1)(terser@5.46.0)(tsx@4.21.0)(yaml@2.8.2))
@@ -281,7 +296,7 @@ importers:
         version: 1.1.10(@eslint/js@9.39.2)(@types/estree@1.0.8)(@typescript-eslint/eslint-plugin@8.53.1(@typescript-eslint/parser@8.53.1(eslint@9.39.2(jiti@2.6.1))(typescript@5.9.3))(eslint@9.39.2(jiti@2.6.1))(typescript@5.9.3))(@typescript-eslint/parser@8.53.1(eslint@9.39.2(jiti@2.6.1))(typescript@5.9.3))(eslint@9.39.2(jiti@2.6.1))(jsonc-eslint-parser@2.4.2)(storybook@10.2.0(@testing-library/dom@10.4.1)(prettier@2.8.8)(react-dom@19.2.3(react@19.2.3))(react@19.2.3))(typescript-eslint@8.53.1(eslint@9.39.2(jiti@2.6.1))(typescript@5.9.3))(typescript@5.9.3)(vitest@4.0.17(@opentelemetry/api@1.9.0)(@types/node@25.0.10)(happy-dom@20.3.4)(jiti@2.6.1)(msw@2.12.7(@types/node@25.0.10)(typescript@5.9.3))(terser@5.46.0)(tsx@4.21.0)(yaml@2.8.2))
       '@workleap/rslib-configs':
         specifier: 1.1.5
-        version: 1.1.5(@rsbuild/core@1.7.2)(@rslib/core@0.19.3(typescript@5.9.3))(typescript@5.9.3)
+        version: 1.1.5(@rsbuild/core@1.7.2)(@rslib/core@0.19.3(@typescript/native-preview@7.0.0-dev.20260122.4)(typescript@5.9.3))(typescript@5.9.3)
       '@workleap/typescript-configs':
         specifier: 3.0.7
         version: 3.0.7(typescript@5.9.3)
@@ -345,7 +360,7 @@ importers:
         version: 1.7.2
       '@rslib/core':
         specifier: 0.19.3
-        version: 0.19.3(typescript@5.9.3)
+        version: 0.19.3(@typescript/native-preview@7.0.0-dev.20260122.4)(typescript@5.9.3)
       '@testing-library/react':
         specifier: 16.3.2
         version: 16.3.2(@testing-library/dom@10.4.1)(@types/react-dom@19.2.3(@types/react@19.2.9))(@types/react@19.2.9)(react-dom@19.2.3(react@19.2.3))(react@19.2.3)
@@ -358,6 +373,9 @@ importers:
       '@typescript-eslint/parser':
         specifier: 8.53.1
         version: 8.53.1(eslint@9.39.2(jiti@2.6.1))(typescript@5.9.3)
+      '@typescript/native-preview':
+        specifier: 7.0.0-dev.20260122.4
+        version: 7.0.0-dev.20260122.4
       '@vitejs/plugin-react':
         specifier: 5.1.2
         version: 5.1.2(vite@7.3.1(@types/node@25.0.10)(jiti@2.6.1)(terser@5.46.0)(tsx@4.21.0)(yaml@2.8.2))
@@ -366,7 +384,7 @@ importers:
         version: 1.1.10(@eslint/js@9.39.2)(@types/estree@1.0.8)(@typescript-eslint/eslint-plugin@8.53.1(@typescript-eslint/parser@8.53.1(eslint@9.39.2(jiti@2.6.1))(typescript@5.9.3))(eslint@9.39.2(jiti@2.6.1))(typescript@5.9.3))(@typescript-eslint/parser@8.53.1(eslint@9.39.2(jiti@2.6.1))(typescript@5.9.3))(eslint@9.39.2(jiti@2.6.1))(jsonc-eslint-parser@2.4.2)(storybook@10.2.0(@testing-library/dom@10.4.1)(prettier@2.8.8)(react-dom@19.2.3(react@19.2.3))(react@19.2.3))(typescript-eslint@8.53.1(eslint@9.39.2(jiti@2.6.1))(typescript@5.9.3))(typescript@5.9.3)(vitest@4.0.17(@opentelemetry/api@1.9.0)(@types/node@25.0.10)(happy-dom@20.3.4)(jiti@2.6.1)(msw@2.12.7(@types/node@25.0.10)(typescript@5.9.3))(terser@5.46.0)(tsx@4.21.0)(yaml@2.8.2))
       '@workleap/rslib-configs':
         specifier: 1.1.5
-        version: 1.1.5(@rsbuild/core@1.7.2)(@rslib/core@0.19.3(typescript@5.9.3))(typescript@5.9.3)
+        version: 1.1.5(@rsbuild/core@1.7.2)(@rslib/core@0.19.3(@typescript/native-preview@7.0.0-dev.20260122.4)(typescript@5.9.3))(typescript@5.9.3)
       '@workleap/typescript-configs':
         specifier: 3.0.7
         version: 3.0.7(typescript@5.9.3)
@@ -412,7 +430,7 @@ importers:
         version: 1.7.2
       '@rslib/core':
         specifier: 0.19.3
-        version: 0.19.3(typescript@5.9.3)
+        version: 0.19.3(@typescript/native-preview@7.0.0-dev.20260122.4)(typescript@5.9.3)
       '@rspack/core':
         specifier: 1.7.3
         version: 1.7.3(@swc/helpers@0.5.18)
@@ -425,12 +443,15 @@ importers:
       '@typescript-eslint/parser':
         specifier: 8.53.1
         version: 8.53.1(eslint@9.39.2(jiti@2.6.1))(typescript@5.9.3)
+      '@typescript/native-preview':
+        specifier: 7.0.0-dev.20260122.4
+        version: 7.0.0-dev.20260122.4
       '@workleap/eslint-configs':
         specifier: 1.1.10
         version: 1.1.10(@eslint/js@9.39.2)(@types/estree@1.0.8)(@typescript-eslint/eslint-plugin@8.53.1(@typescript-eslint/parser@8.53.1(eslint@9.39.2(jiti@2.6.1))(typescript@5.9.3))(eslint@9.39.2(jiti@2.6.1))(typescript@5.9.3))(@typescript-eslint/parser@8.53.1(eslint@9.39.2(jiti@2.6.1))(typescript@5.9.3))(eslint@9.39.2(jiti@2.6.1))(jsonc-eslint-parser@2.4.2)(storybook@10.2.0(@testing-library/dom@10.4.1)(prettier@2.8.8)(react-dom@19.2.3(react@19.2.3))(react@19.2.3))(typescript-eslint@8.53.1(eslint@9.39.2(jiti@2.6.1))(typescript@5.9.3))(typescript@5.9.3)(vitest@4.0.17(@opentelemetry/api@1.9.0)(@types/node@25.0.10)(happy-dom@20.3.4)(jiti@2.6.1)(msw@2.12.7(@types/node@25.0.10)(typescript@5.9.3))(terser@5.46.0)(tsx@4.21.0)(yaml@2.8.2))
       '@workleap/rslib-configs':
         specifier: 1.1.5
-        version: 1.1.5(@rsbuild/core@1.7.2)(@rslib/core@0.19.3(typescript@5.9.3))(typescript@5.9.3)
+        version: 1.1.5(@rsbuild/core@1.7.2)(@rslib/core@0.19.3(@typescript/native-preview@7.0.0-dev.20260122.4)(typescript@5.9.3))(typescript@5.9.3)
       '@workleap/typescript-configs':
         specifier: 3.0.7
         version: 3.0.7(typescript@5.9.3)
@@ -503,7 +524,7 @@ importers:
         version: 1.7.2
       '@rslib/core':
         specifier: 0.19.3
-        version: 0.19.3(typescript@5.9.3)
+        version: 0.19.3(@typescript/native-preview@7.0.0-dev.20260122.4)(typescript@5.9.3)
       '@types/react':
         specifier: 19.2.9
         version: 19.2.9
@@ -513,6 +534,9 @@ importers:
       '@typescript-eslint/parser':
         specifier: 8.53.1
         version: 8.53.1(eslint@9.39.2(jiti@2.6.1))(typescript@5.9.3)
+      '@typescript/native-preview':
+        specifier: 7.0.0-dev.20260122.4
+        version: 7.0.0-dev.20260122.4
       '@vitejs/plugin-react':
         specifier: 5.1.2
         version: 5.1.2(vite@7.3.1(@types/node@25.0.10)(jiti@2.6.1)(terser@5.46.0)(tsx@4.21.0)(yaml@2.8.2))
@@ -521,7 +545,7 @@ importers:
         version: 1.1.10(@eslint/js@9.39.2)(@types/estree@1.0.8)(@typescript-eslint/eslint-plugin@8.53.1(@typescript-eslint/parser@8.53.1(eslint@9.39.2(jiti@2.6.1))(typescript@5.9.3))(eslint@9.39.2(jiti@2.6.1))(typescript@5.9.3))(@typescript-eslint/parser@8.53.1(eslint@9.39.2(jiti@2.6.1))(typescript@5.9.3))(eslint@9.39.2(jiti@2.6.1))(jsonc-eslint-parser@2.4.2)(storybook@10.2.0(@testing-library/dom@10.4.1)(prettier@2.8.8)(react-dom@19.2.3(react@19.2.3))(react@19.2.3))(typescript-eslint@8.53.1(eslint@9.39.2(jiti@2.6.1))(typescript@5.9.3))(typescript@5.9.3)(vitest@4.0.17(@opentelemetry/api@1.9.0)(@types/node@25.0.10)(happy-dom@20.3.4)(jiti@2.6.1)(msw@2.12.7(@types/node@25.0.10)(typescript@5.9.3))(terser@5.46.0)(tsx@4.21.0)(yaml@2.8.2))
       '@workleap/rslib-configs':
         specifier: 1.1.5
-        version: 1.1.5(@rsbuild/core@1.7.2)(@rslib/core@0.19.3(typescript@5.9.3))(typescript@5.9.3)
+        version: 1.1.5(@rsbuild/core@1.7.2)(@rslib/core@0.19.3(@typescript/native-preview@7.0.0-dev.20260122.4)(typescript@5.9.3))(typescript@5.9.3)
       '@workleap/typescript-configs':
         specifier: 3.0.7
         version: 3.0.7(typescript@5.9.3)
@@ -582,7 +606,7 @@ importers:
         version: 1.7.2
       '@rslib/core':
         specifier: 0.19.3
-        version: 0.19.3(typescript@5.9.3)
+        version: 0.19.3(@typescript/native-preview@7.0.0-dev.20260122.4)(typescript@5.9.3)
       '@types/node':
         specifier: 25.0.10
         version: 25.0.10
@@ -592,12 +616,15 @@ importers:
       '@typescript-eslint/parser':
         specifier: 8.53.1
         version: 8.53.1(eslint@9.39.2(jiti@2.6.1))(typescript@5.9.3)
+      '@typescript/native-preview':
+        specifier: 7.0.0-dev.20260122.4
+        version: 7.0.0-dev.20260122.4
       '@workleap/eslint-configs':
         specifier: 1.1.10
         version: 1.1.10(@eslint/js@9.39.2)(@types/estree@1.0.8)(@typescript-eslint/eslint-plugin@8.53.1(@typescript-eslint/parser@8.53.1(eslint@9.39.2(jiti@2.6.1))(typescript@5.9.3))(eslint@9.39.2(jiti@2.6.1))(typescript@5.9.3))(@typescript-eslint/parser@8.53.1(eslint@9.39.2(jiti@2.6.1))(typescript@5.9.3))(eslint@9.39.2(jiti@2.6.1))(jsonc-eslint-parser@2.4.2)(storybook@10.2.0(@testing-library/dom@10.4.1)(prettier@2.8.8)(react-dom@19.2.3(react@19.2.3))(react@19.2.3))(typescript-eslint@8.53.1(eslint@9.39.2(jiti@2.6.1))(typescript@5.9.3))(typescript@5.9.3)(vitest@4.0.17(@opentelemetry/api@1.9.0)(@types/node@25.0.10)(happy-dom@20.3.4)(jiti@2.6.1)(msw@2.12.7(@types/node@25.0.10)(typescript@5.9.3))(terser@5.46.0)(tsx@4.21.0)(yaml@2.8.2))
       '@workleap/rslib-configs':
         specifier: 1.1.5
-        version: 1.1.5(@rsbuild/core@1.7.2)(@rslib/core@0.19.3(typescript@5.9.3))(typescript@5.9.3)
+        version: 1.1.5(@rsbuild/core@1.7.2)(@rslib/core@0.19.3(@typescript/native-preview@7.0.0-dev.20260122.4)(typescript@5.9.3))(typescript@5.9.3)
       '@workleap/typescript-configs':
         specifier: 3.0.7
         version: 3.0.7(typescript@5.9.3)
@@ -649,19 +676,22 @@ importers:
         version: 1.7.2
       '@rslib/core':
         specifier: 0.19.3
-        version: 0.19.3(typescript@5.9.3)
+        version: 0.19.3(@typescript/native-preview@7.0.0-dev.20260122.4)(typescript@5.9.3)
       '@types/react':
         specifier: 19.2.9
         version: 19.2.9
       '@typescript-eslint/parser':
         specifier: 8.53.1
         version: 8.53.1(eslint@9.39.2(jiti@2.6.1))(typescript@5.9.3)
+      '@typescript/native-preview':
+        specifier: 7.0.0-dev.20260122.4
+        version: 7.0.0-dev.20260122.4
       '@workleap/eslint-configs':
         specifier: 1.1.10
         version: 1.1.10(@eslint/js@9.39.2)(@types/estree@1.0.8)(@typescript-eslint/eslint-plugin@8.53.1(@typescript-eslint/parser@8.53.1(eslint@9.39.2(jiti@2.6.1))(typescript@5.9.3))(eslint@9.39.2(jiti@2.6.1))(typescript@5.9.3))(@typescript-eslint/parser@8.53.1(eslint@9.39.2(jiti@2.6.1))(typescript@5.9.3))(eslint@9.39.2(jiti@2.6.1))(jsonc-eslint-parser@2.4.2)(storybook@10.2.0(@testing-library/dom@10.4.1)(prettier@2.8.8)(react-dom@19.2.3(react@19.2.3))(react@19.2.3))(typescript-eslint@8.53.1(eslint@9.39.2(jiti@2.6.1))(typescript@5.9.3))(typescript@5.9.3)(vitest@4.0.17(@opentelemetry/api@1.9.0)(@types/node@25.0.10)(happy-dom@20.3.4)(jiti@2.6.1)(msw@2.12.7(@types/node@25.0.10)(typescript@5.9.3))(terser@5.46.0)(tsx@4.21.0)(yaml@2.8.2))
       '@workleap/rslib-configs':
         specifier: 1.1.5
-        version: 1.1.5(@rsbuild/core@1.7.2)(@rslib/core@0.19.3(typescript@5.9.3))(typescript@5.9.3)
+        version: 1.1.5(@rsbuild/core@1.7.2)(@rslib/core@0.19.3(@typescript/native-preview@7.0.0-dev.20260122.4)(typescript@5.9.3))(typescript@5.9.3)
       '@workleap/typescript-configs':
         specifier: 3.0.7
         version: 3.0.7(typescript@5.9.3)
@@ -704,7 +734,7 @@ importers:
         version: 1.7.2
       '@rslib/core':
         specifier: 0.19.3
-        version: 0.19.3(typescript@5.9.3)
+        version: 0.19.3(@typescript/native-preview@7.0.0-dev.20260122.4)(typescript@5.9.3)
       '@testing-library/react':
         specifier: 16.3.2
         version: 16.3.2(@testing-library/dom@10.4.1)(@types/react-dom@19.2.3(@types/react@19.2.9))(@types/react@19.2.9)(react-dom@19.2.3(react@19.2.3))(react@19.2.3)
@@ -717,6 +747,9 @@ importers:
       '@typescript-eslint/parser':
         specifier: 8.53.1
         version: 8.53.1(eslint@9.39.2(jiti@2.6.1))(typescript@5.9.3)
+      '@typescript/native-preview':
+        specifier: 7.0.0-dev.20260122.4
+        version: 7.0.0-dev.20260122.4
       '@vitejs/plugin-react':
         specifier: 5.1.2
         version: 5.1.2(vite@7.3.1(@types/node@25.0.10)(jiti@2.6.1)(terser@5.46.0)(tsx@4.21.0)(yaml@2.8.2))
@@ -725,7 +758,7 @@ importers:
         version: 1.1.10(@eslint/js@9.39.2)(@types/estree@1.0.8)(@typescript-eslint/eslint-plugin@8.53.1(@typescript-eslint/parser@8.53.1(eslint@9.39.2(jiti@2.6.1))(typescript@5.9.3))(eslint@9.39.2(jiti@2.6.1))(typescript@5.9.3))(@typescript-eslint/parser@8.53.1(eslint@9.39.2(jiti@2.6.1))(typescript@5.9.3))(eslint@9.39.2(jiti@2.6.1))(jsonc-eslint-parser@2.4.2)(storybook@10.2.0(@testing-library/dom@10.4.1)(prettier@2.8.8)(react-dom@19.2.3(react@19.2.3))(react@19.2.3))(typescript-eslint@8.53.1(eslint@9.39.2(jiti@2.6.1))(typescript@5.9.3))(typescript@5.9.3)(vitest@4.0.17(@opentelemetry/api@1.9.0)(@types/node@25.0.10)(happy-dom@20.3.4)(jiti@2.6.1)(msw@2.12.7(@types/node@25.0.10)(typescript@5.9.3))(terser@5.46.0)(tsx@4.21.0)(yaml@2.8.2))
       '@workleap/rslib-configs':
         specifier: 1.1.5
-        version: 1.1.5(@rsbuild/core@1.7.2)(@rslib/core@0.19.3(typescript@5.9.3))(typescript@5.9.3)
+        version: 1.1.5(@rsbuild/core@1.7.2)(@rslib/core@0.19.3(@typescript/native-preview@7.0.0-dev.20260122.4)(typescript@5.9.3))(typescript@5.9.3)
       '@workleap/typescript-configs':
         specifier: 3.0.7
         version: 3.0.7(typescript@5.9.3)
@@ -765,10 +798,13 @@ importers:
         version: 1.7.2
       '@rslib/core':
         specifier: 0.19.3
-        version: 0.19.3(typescript@5.9.3)
+        version: 0.19.3(@typescript/native-preview@7.0.0-dev.20260122.4)(typescript@5.9.3)
       '@typescript-eslint/parser':
         specifier: 8.53.1
         version: 8.53.1(eslint@9.39.2(jiti@2.6.1))(typescript@5.9.3)
+      '@typescript/native-preview':
+        specifier: 7.0.0-dev.20260122.4
+        version: 7.0.0-dev.20260122.4
       '@vitejs/plugin-react':
         specifier: 5.1.2
         version: 5.1.2(vite@7.3.1(@types/node@25.0.10)(jiti@2.6.1)(terser@5.46.0)(tsx@4.21.0)(yaml@2.8.2))
@@ -777,7 +813,7 @@ importers:
         version: 1.1.10(@eslint/js@9.39.2)(@types/estree@1.0.8)(@typescript-eslint/eslint-plugin@8.53.1(@typescript-eslint/parser@8.53.1(eslint@9.39.2(jiti@2.6.1))(typescript@5.9.3))(eslint@9.39.2(jiti@2.6.1))(typescript@5.9.3))(@typescript-eslint/parser@8.53.1(eslint@9.39.2(jiti@2.6.1))(typescript@5.9.3))(eslint@9.39.2(jiti@2.6.1))(jsonc-eslint-parser@2.4.2)(storybook@10.2.0(@testing-library/dom@10.4.1)(prettier@2.8.8)(react-dom@19.2.3(react@19.2.3))(react@19.2.3))(typescript-eslint@8.53.1(eslint@9.39.2(jiti@2.6.1))(typescript@5.9.3))(typescript@5.9.3)(vitest@4.0.17(@opentelemetry/api@1.9.0)(@types/node@25.0.10)(happy-dom@20.3.4)(jiti@2.6.1)(msw@2.12.7(@types/node@25.0.10)(typescript@5.9.3))(terser@5.46.0)(tsx@4.21.0)(yaml@2.8.2))
       '@workleap/rslib-configs':
         specifier: 1.1.5
-        version: 1.1.5(@rsbuild/core@1.7.2)(@rslib/core@0.19.3(typescript@5.9.3))(typescript@5.9.3)
+        version: 1.1.5(@rsbuild/core@1.7.2)(@rslib/core@0.19.3(@typescript/native-preview@7.0.0-dev.20260122.4)(typescript@5.9.3))(typescript@5.9.3)
       '@workleap/typescript-configs':
         specifier: 3.0.7
         version: 3.0.7(typescript@5.9.3)
@@ -826,7 +862,7 @@ importers:
         version: 1.7.2
       '@rslib/core':
         specifier: 0.19.3
-        version: 0.19.3(typescript@5.9.3)
+        version: 0.19.3(@typescript/native-preview@7.0.0-dev.20260122.4)(typescript@5.9.3)
       '@testing-library/react':
         specifier: 16.3.2
         version: 16.3.2(@testing-library/dom@10.4.1)(@types/react-dom@19.2.3(@types/react@19.2.9))(@types/react@19.2.9)(react-dom@19.2.3(react@19.2.3))(react@19.2.3)
@@ -839,6 +875,9 @@ importers:
       '@typescript-eslint/parser':
         specifier: 8.53.1
         version: 8.53.1(eslint@9.39.2(jiti@2.6.1))(typescript@5.9.3)
+      '@typescript/native-preview':
+        specifier: 7.0.0-dev.20260122.4
+        version: 7.0.0-dev.20260122.4
       '@vitejs/plugin-react':
         specifier: 5.1.2
         version: 5.1.2(vite@7.3.1(@types/node@25.0.10)(jiti@2.6.1)(terser@5.46.0)(tsx@4.21.0)(yaml@2.8.2))
@@ -847,7 +886,7 @@ importers:
         version: 1.1.10(@eslint/js@9.39.2)(@types/estree@1.0.8)(@typescript-eslint/eslint-plugin@8.53.1(@typescript-eslint/parser@8.53.1(eslint@9.39.2(jiti@2.6.1))(typescript@5.9.3))(eslint@9.39.2(jiti@2.6.1))(typescript@5.9.3))(@typescript-eslint/parser@8.53.1(eslint@9.39.2(jiti@2.6.1))(typescript@5.9.3))(eslint@9.39.2(jiti@2.6.1))(jsonc-eslint-parser@2.4.2)(storybook@10.2.0(@testing-library/dom@10.4.1)(prettier@2.8.8)(react-dom@19.2.3(react@19.2.3))(react@19.2.3))(typescript-eslint@8.53.1(eslint@9.39.2(jiti@2.6.1))(typescript@5.9.3))(typescript@5.9.3)(vitest@4.0.17(@opentelemetry/api@1.9.0)(@types/node@25.0.10)(happy-dom@20.3.4)(jiti@2.6.1)(msw@2.12.7(@types/node@25.0.10)(typescript@5.9.3))(terser@5.46.0)(tsx@4.21.0)(yaml@2.8.2))
       '@workleap/rslib-configs':
         specifier: 1.1.5
-        version: 1.1.5(@rsbuild/core@1.7.2)(@rslib/core@0.19.3(typescript@5.9.3))(typescript@5.9.3)
+        version: 1.1.5(@rsbuild/core@1.7.2)(@rslib/core@0.19.3(@typescript/native-preview@7.0.0-dev.20260122.4)(typescript@5.9.3))(typescript@5.9.3)
       '@workleap/typescript-configs':
         specifier: 3.0.7
         version: 3.0.7(typescript@5.9.3)
@@ -924,6 +963,9 @@ importers:
       '@typescript-eslint/parser':
         specifier: 8.53.1
         version: 8.53.1(eslint@9.39.2(jiti@2.6.1))(typescript@5.9.3)
+      '@typescript/native-preview':
+        specifier: 7.0.0-dev.20260122.4
+        version: 7.0.0-dev.20260122.4
       '@workleap/browserslist-config':
         specifier: 2.1.5
         version: 2.1.5
@@ -1030,6 +1072,9 @@ importers:
       '@typescript-eslint/parser':
         specifier: 8.53.1
         version: 8.53.1(eslint@9.39.2(jiti@2.6.1))(typescript@5.9.3)
+      '@typescript/native-preview':
+        specifier: 7.0.0-dev.20260122.4
+        version: 7.0.0-dev.20260122.4
       '@workleap/browserslist-config':
         specifier: 2.1.5
         version: 2.1.5
@@ -1115,6 +1160,9 @@ importers:
       '@typescript-eslint/parser':
         specifier: 8.53.1
         version: 8.53.1(eslint@9.39.2(jiti@2.6.1))(typescript@5.9.3)
+      '@typescript/native-preview':
+        specifier: 7.0.0-dev.20260122.4
+        version: 7.0.0-dev.20260122.4
       '@workleap/browserslist-config':
         specifier: 2.1.5
         version: 2.1.5
@@ -1215,6 +1263,9 @@ importers:
       '@typescript-eslint/parser':
         specifier: 8.53.1
         version: 8.53.1(eslint@9.39.2(jiti@2.6.1))(typescript@5.9.3)
+      '@typescript/native-preview':
+        specifier: 7.0.0-dev.20260122.4
+        version: 7.0.0-dev.20260122.4
       '@workleap/browserslist-config':
         specifier: 2.1.5
         version: 2.1.5
@@ -1282,6 +1333,9 @@ importers:
       '@typescript-eslint/parser':
         specifier: 8.53.1
         version: 8.53.1(eslint@9.39.2(jiti@2.6.1))(typescript@5.9.3)
+      '@typescript/native-preview':
+        specifier: 7.0.0-dev.20260122.4
+        version: 7.0.0-dev.20260122.4
       '@workleap/eslint-configs':
         specifier: 1.1.10
         version: 1.1.10(@eslint/js@9.39.2)(@types/estree@1.0.8)(@typescript-eslint/eslint-plugin@8.53.1(@typescript-eslint/parser@8.53.1(eslint@9.39.2(jiti@2.6.1))(typescript@5.9.3))(eslint@9.39.2(jiti@2.6.1))(typescript@5.9.3))(@typescript-eslint/parser@8.53.1(eslint@9.39.2(jiti@2.6.1))(typescript@5.9.3))(eslint@9.39.2(jiti@2.6.1))(jsonc-eslint-parser@2.4.2)(storybook@10.2.0(@testing-library/dom@10.4.1)(prettier@2.8.8)(react-dom@19.2.3(react@19.2.3))(react@19.2.3))(typescript-eslint@8.53.1(eslint@9.39.2(jiti@2.6.1))(typescript@5.9.3))(typescript@5.9.3)(vitest@4.0.17(@opentelemetry/api@1.9.0)(@types/node@25.0.10)(happy-dom@20.3.4)(jiti@2.6.1)(msw@2.12.7(@types/node@25.0.10)(typescript@5.9.3))(terser@5.46.0)(tsx@4.21.0)(yaml@2.8.2))
@@ -1337,6 +1391,9 @@ importers:
       '@typescript-eslint/parser':
         specifier: 8.53.1
         version: 8.53.1(eslint@9.39.2(jiti@2.6.1))(typescript@5.9.3)
+      '@typescript/native-preview':
+        specifier: 7.0.0-dev.20260122.4
+        version: 7.0.0-dev.20260122.4
       '@workleap/eslint-configs':
         specifier: 1.1.10
         version: 1.1.10(@eslint/js@9.39.2)(@types/estree@1.0.8)(@typescript-eslint/eslint-plugin@8.53.1(@typescript-eslint/parser@8.53.1(eslint@9.39.2(jiti@2.6.1))(typescript@5.9.3))(eslint@9.39.2(jiti@2.6.1))(typescript@5.9.3))(@typescript-eslint/parser@8.53.1(eslint@9.39.2(jiti@2.6.1))(typescript@5.9.3))(eslint@9.39.2(jiti@2.6.1))(jsonc-eslint-parser@2.4.2)(storybook@10.2.0(@testing-library/dom@10.4.1)(prettier@2.8.8)(react-dom@19.2.3(react@19.2.3))(react@19.2.3))(typescript-eslint@8.53.1(eslint@9.39.2(jiti@2.6.1))(typescript@5.9.3))(typescript@5.9.3)(vitest@4.0.17(@opentelemetry/api@1.9.0)(@types/node@25.0.10)(happy-dom@20.3.4)(jiti@2.6.1)(msw@2.12.7(@types/node@25.0.10)(typescript@5.9.3))(terser@5.46.0)(tsx@4.21.0)(yaml@2.8.2))
@@ -1407,12 +1464,15 @@ importers:
       '@typescript-eslint/parser':
         specifier: 8.53.1
         version: 8.53.1(eslint@9.39.2(jiti@2.6.1))(typescript@5.9.3)
+      '@typescript/native-preview':
+        specifier: 7.0.0-dev.20260122.4
+        version: 7.0.0-dev.20260122.4
       '@workleap/browserslist-config':
         specifier: 2.1.5
         version: 2.1.5
       '@workleap/eslint-configs':
         specifier: 1.1.10
-        version: 1.1.10(@eslint/js@9.39.2)(@types/estree@1.0.8)(@typescript-eslint/eslint-plugin@8.53.1(@typescript-eslint/parser@8.53.1(eslint@9.39.2(jiti@2.6.1))(typescript@5.9.3))(eslint@9.39.2(jiti@2.6.1))(typescript@5.9.3))(@typescript-eslint/parser@8.53.1(eslint@9.39.2(jiti@2.6.1))(typescript@5.9.3))(eslint@9.39.2(jiti@2.6.1))(jsonc-eslint-parser@2.4.2)(storybook@10.2.0(@testing-library/dom@10.4.1)(prettier@2.8.8)(react-dom@19.2.3(react@19.2.3))(react@19.2.3))(typescript-eslint@8.53.1(eslint@9.39.2(jiti@2.6.1))(typescript@5.9.3))(typescript@5.9.3)(vitest@4.0.17(@opentelemetry/api@1.9.0)(@types/node@25.0.10)(happy-dom@20.3.4)(jiti@2.6.1)(msw@2.12.7(@types/node@25.0.10)(typescript@5.9.3))(terser@5.46.0)(tsx@4.21.0)(yaml@2.8.2))
+        version: 1.1.10(@eslint/js@9.39.2)(@types/estree@1.0.8)(@typescript-eslint/eslint-plugin@8.53.1(@typescript-eslint/parser@8.53.1(eslint@9.39.2(jiti@2.6.1))(typescript@5.9.3))(eslint@9.39.2(jiti@2.6.1))(typescript@5.9.3))(@typescript-eslint/parser@8.53.1(eslint@9.39.2(jiti@2.6.1))(typescript@5.9.3))(eslint@9.39.2(jiti@2.6.1))(jsonc-eslint-parser@2.4.2)(storybook@10.2.0(@testing-library/dom@10.4.1)(prettier@2.8.8)(react-dom@19.2.3(react@19.2.3))(react@19.2.3))(typescript-eslint@8.53.1(eslint@9.39.2(jiti@2.6.1))(typescript@5.9.3))(typescript@5.9.3)(vitest@4.0.17(@opentelemetry/api@1.8.0)(@types/node@25.0.10)(happy-dom@20.3.4)(jiti@2.6.1)(msw@2.12.7(@types/node@25.0.10)(typescript@5.9.3))(terser@5.46.0)(tsx@4.21.0)(yaml@2.8.2))
       '@workleap/typescript-configs':
         specifier: 3.0.7
         version: 3.0.7(typescript@5.9.3)
@@ -1501,12 +1561,15 @@ importers:
       '@typescript-eslint/parser':
         specifier: 8.53.1
         version: 8.53.1(eslint@9.39.2(jiti@2.6.1))(typescript@5.9.3)
+      '@typescript/native-preview':
+        specifier: 7.0.0-dev.20260122.4
+        version: 7.0.0-dev.20260122.4
       '@workleap/browserslist-config':
         specifier: 2.1.5
         version: 2.1.5
       '@workleap/eslint-configs':
         specifier: 1.1.10
-        version: 1.1.10(@eslint/js@9.39.2)(@types/estree@1.0.8)(@typescript-eslint/eslint-plugin@8.53.1(@typescript-eslint/parser@8.53.1(eslint@9.39.2(jiti@2.6.1))(typescript@5.9.3))(eslint@9.39.2(jiti@2.6.1))(typescript@5.9.3))(@typescript-eslint/parser@8.53.1(eslint@9.39.2(jiti@2.6.1))(typescript@5.9.3))(eslint@9.39.2(jiti@2.6.1))(jsonc-eslint-parser@2.4.2)(storybook@10.2.0(@testing-library/dom@10.4.1)(prettier@2.8.8)(react-dom@19.2.3(react@19.2.3))(react@19.2.3))(typescript-eslint@8.53.1(eslint@9.39.2(jiti@2.6.1))(typescript@5.9.3))(typescript@5.9.3)(vitest@4.0.17(@opentelemetry/api@1.8.0)(@types/node@25.0.10)(happy-dom@20.3.4)(jiti@2.6.1)(msw@2.12.7(@types/node@25.0.10)(typescript@5.9.3))(terser@5.46.0)(tsx@4.21.0)(yaml@2.8.2))
+        version: 1.1.10(@eslint/js@9.39.2)(@types/estree@1.0.8)(@typescript-eslint/eslint-plugin@8.53.1(@typescript-eslint/parser@8.53.1(eslint@9.39.2(jiti@2.6.1))(typescript@5.9.3))(eslint@9.39.2(jiti@2.6.1))(typescript@5.9.3))(@typescript-eslint/parser@8.53.1(eslint@9.39.2(jiti@2.6.1))(typescript@5.9.3))(eslint@9.39.2(jiti@2.6.1))(jsonc-eslint-parser@2.4.2)(storybook@10.2.0(@testing-library/dom@10.4.1)(prettier@2.8.8)(react-dom@19.2.3(react@19.2.3))(react@19.2.3))(typescript-eslint@8.53.1(eslint@9.39.2(jiti@2.6.1))(typescript@5.9.3))(typescript@5.9.3)(vitest@4.0.17(@opentelemetry/api@1.9.0)(@types/node@25.0.10)(happy-dom@20.3.4)(jiti@2.6.1)(msw@2.12.7(@types/node@25.0.10)(typescript@5.9.3))(terser@5.46.0)(tsx@4.21.0)(yaml@2.8.2))
       '@workleap/typescript-configs':
         specifier: 3.0.7
         version: 3.0.7(typescript@5.9.3)
@@ -1574,6 +1637,9 @@ importers:
       '@typescript-eslint/parser':
         specifier: 8.53.1
         version: 8.53.1(eslint@9.39.2(jiti@2.6.1))(typescript@5.9.3)
+      '@typescript/native-preview':
+        specifier: 7.0.0-dev.20260122.4
+        version: 7.0.0-dev.20260122.4
       '@workleap/browserslist-config':
         specifier: 2.1.5
         version: 2.1.5
@@ -1659,6 +1725,9 @@ importers:
       '@typescript-eslint/parser':
         specifier: 8.53.1
         version: 8.53.1(eslint@9.39.2(jiti@2.6.1))(typescript@5.9.3)
+      '@typescript/native-preview':
+        specifier: 7.0.0-dev.20260122.4
+        version: 7.0.0-dev.20260122.4
       '@workleap/browserslist-config':
         specifier: 2.1.5
         version: 2.1.5
@@ -1717,6 +1786,9 @@ importers:
       '@typescript-eslint/parser':
         specifier: 8.53.1
         version: 8.53.1(eslint@9.39.2(jiti@2.6.1))(typescript@5.9.3)
+      '@typescript/native-preview':
+        specifier: 7.0.0-dev.20260122.4
+        version: 7.0.0-dev.20260122.4
       '@workleap/eslint-configs':
         specifier: 1.1.10
         version: 1.1.10(@eslint/js@9.39.2)(@types/estree@1.0.8)(@typescript-eslint/eslint-plugin@8.53.1(@typescript-eslint/parser@8.53.1(eslint@9.39.2(jiti@2.6.1))(typescript@5.9.3))(eslint@9.39.2(jiti@2.6.1))(typescript@5.9.3))(@typescript-eslint/parser@8.53.1(eslint@9.39.2(jiti@2.6.1))(typescript@5.9.3))(eslint@9.39.2(jiti@2.6.1))(jsonc-eslint-parser@2.4.2)(storybook@10.2.0(@testing-library/dom@10.4.1)(prettier@2.8.8)(react-dom@19.2.3(react@19.2.3))(react@19.2.3))(typescript-eslint@8.53.1(eslint@9.39.2(jiti@2.6.1))(typescript@5.9.3))(typescript@5.9.3)(vitest@4.0.17(@opentelemetry/api@1.9.0)(@types/node@25.0.10)(happy-dom@20.3.4)(jiti@2.6.1)(msw@2.12.7(@types/node@25.0.10)(typescript@5.9.3))(terser@5.46.0)(tsx@4.21.0)(yaml@2.8.2))
@@ -1772,6 +1844,9 @@ importers:
       '@typescript-eslint/parser':
         specifier: 8.53.1
         version: 8.53.1(eslint@9.39.2(jiti@2.6.1))(typescript@5.9.3)
+      '@typescript/native-preview':
+        specifier: 7.0.0-dev.20260122.4
+        version: 7.0.0-dev.20260122.4
       '@workleap/eslint-configs':
         specifier: 1.1.10
         version: 1.1.10(@eslint/js@9.39.2)(@types/estree@1.0.8)(@typescript-eslint/eslint-plugin@8.53.1(@typescript-eslint/parser@8.53.1(eslint@9.39.2(jiti@2.6.1))(typescript@5.9.3))(eslint@9.39.2(jiti@2.6.1))(typescript@5.9.3))(@typescript-eslint/parser@8.53.1(eslint@9.39.2(jiti@2.6.1))(typescript@5.9.3))(eslint@9.39.2(jiti@2.6.1))(jsonc-eslint-parser@2.4.2)(storybook@10.2.0(@testing-library/dom@10.4.1)(prettier@2.8.8)(react-dom@19.2.3(react@19.2.3))(react@19.2.3))(typescript-eslint@8.53.1(eslint@9.39.2(jiti@2.6.1))(typescript@5.9.3))(typescript@5.9.3)(vitest@4.0.17(@opentelemetry/api@1.9.0)(@types/node@25.0.10)(happy-dom@20.3.4)(jiti@2.6.1)(msw@2.12.7(@types/node@25.0.10)(typescript@5.9.3))(terser@5.46.0)(tsx@4.21.0)(yaml@2.8.2))
@@ -1836,6 +1911,9 @@ importers:
       '@typescript-eslint/parser':
         specifier: 8.53.1
         version: 8.53.1(eslint@9.39.2(jiti@2.6.1))(typescript@5.9.3)
+      '@typescript/native-preview':
+        specifier: 7.0.0-dev.20260122.4
+        version: 7.0.0-dev.20260122.4
       '@workleap/eslint-configs':
         specifier: 1.1.10
         version: 1.1.10(@eslint/js@9.39.2)(@types/estree@1.0.8)(@typescript-eslint/eslint-plugin@8.53.1(@typescript-eslint/parser@8.53.1(eslint@9.39.2(jiti@2.6.1))(typescript@5.9.3))(eslint@9.39.2(jiti@2.6.1))(typescript@5.9.3))(@typescript-eslint/parser@8.53.1(eslint@9.39.2(jiti@2.6.1))(typescript@5.9.3))(eslint@9.39.2(jiti@2.6.1))(jsonc-eslint-parser@2.4.2)(storybook@10.2.0(@testing-library/dom@10.4.1)(prettier@2.8.8)(react-dom@19.2.3(react@19.2.3))(react@19.2.3))(typescript-eslint@8.53.1(eslint@9.39.2(jiti@2.6.1))(typescript@5.9.3))(typescript@5.9.3)(vitest@4.0.17(@opentelemetry/api@1.9.0)(@types/node@25.0.10)(happy-dom@20.3.4)(jiti@2.6.1)(msw@2.12.7(@types/node@25.0.10)(typescript@5.9.3))(terser@5.46.0)(tsx@4.21.0)(yaml@2.8.2))
@@ -1945,6 +2023,9 @@ importers:
       '@typescript-eslint/parser':
         specifier: 8.53.1
         version: 8.53.1(eslint@9.39.2(jiti@2.6.1))(typescript@5.9.3)
+      '@typescript/native-preview':
+        specifier: 7.0.0-dev.20260122.4
+        version: 7.0.0-dev.20260122.4
       '@workleap/browserslist-config':
         specifier: 2.1.5
         version: 2.1.5
@@ -2012,6 +2093,9 @@ importers:
       '@typescript-eslint/parser':
         specifier: 8.53.1
         version: 8.53.1(eslint@9.39.2(jiti@2.6.1))(typescript@5.9.3)
+      '@typescript/native-preview':
+        specifier: 7.0.0-dev.20260122.4
+        version: 7.0.0-dev.20260122.4
       '@workleap/eslint-configs':
         specifier: 1.1.10
         version: 1.1.10(@eslint/js@9.39.2)(@types/estree@1.0.8)(@typescript-eslint/eslint-plugin@8.53.1(@typescript-eslint/parser@8.53.1(eslint@9.39.2(jiti@2.6.1))(typescript@5.9.3))(eslint@9.39.2(jiti@2.6.1))(typescript@5.9.3))(@typescript-eslint/parser@8.53.1(eslint@9.39.2(jiti@2.6.1))(typescript@5.9.3))(eslint@9.39.2(jiti@2.6.1))(jsonc-eslint-parser@2.4.2)(storybook@10.2.0(@testing-library/dom@10.4.1)(prettier@2.8.8)(react-dom@19.2.3(react@19.2.3))(react@19.2.3))(typescript-eslint@8.53.1(eslint@9.39.2(jiti@2.6.1))(typescript@5.9.3))(typescript@5.9.3)(vitest@4.0.17(@opentelemetry/api@1.9.0)(@types/node@25.0.10)(happy-dom@20.3.4)(jiti@2.6.1)(msw@2.12.7(@types/node@25.0.10)(typescript@5.9.3))(terser@5.46.0)(tsx@4.21.0)(yaml@2.8.2))
@@ -2073,6 +2157,9 @@ importers:
       '@typescript-eslint/parser':
         specifier: 8.53.1
         version: 8.53.1(eslint@9.39.2(jiti@2.6.1))(typescript@5.9.3)
+      '@typescript/native-preview':
+        specifier: 7.0.0-dev.20260122.4
+        version: 7.0.0-dev.20260122.4
       '@workleap/eslint-configs':
         specifier: 1.1.10
         version: 1.1.10(@eslint/js@9.39.2)(@types/estree@1.0.8)(@typescript-eslint/eslint-plugin@8.53.1(@typescript-eslint/parser@8.53.1(eslint@9.39.2(jiti@2.6.1))(typescript@5.9.3))(eslint@9.39.2(jiti@2.6.1))(typescript@5.9.3))(@typescript-eslint/parser@8.53.1(eslint@9.39.2(jiti@2.6.1))(typescript@5.9.3))(eslint@9.39.2(jiti@2.6.1))(jsonc-eslint-parser@2.4.2)(storybook@10.2.0(@testing-library/dom@10.4.1)(prettier@2.8.8)(react-dom@19.2.3(react@19.2.3))(react@19.2.3))(typescript-eslint@8.53.1(eslint@9.39.2(jiti@2.6.1))(typescript@5.9.3))(typescript@5.9.3)(vitest@4.0.17(@opentelemetry/api@1.9.0)(@types/node@25.0.10)(happy-dom@20.3.4)(jiti@2.6.1)(msw@2.12.7(@types/node@25.0.10)(typescript@5.9.3))(terser@5.46.0)(tsx@4.21.0)(yaml@2.8.2))
@@ -2140,6 +2227,9 @@ importers:
       '@typescript-eslint/parser':
         specifier: 8.53.1
         version: 8.53.1(eslint@9.39.2(jiti@2.6.1))(typescript@5.9.3)
+      '@typescript/native-preview':
+        specifier: 7.0.0-dev.20260122.4
+        version: 7.0.0-dev.20260122.4
       '@workleap/browserslist-config':
         specifier: 2.1.5
         version: 2.1.5
@@ -2261,6 +2351,9 @@ importers:
       '@typescript-eslint/parser':
         specifier: 8.53.1
         version: 8.53.1(eslint@9.39.2(jiti@2.6.1))(typescript@5.9.3)
+      '@typescript/native-preview':
+        specifier: 7.0.0-dev.20260122.4
+        version: 7.0.0-dev.20260122.4
       '@workleap/browserslist-config':
         specifier: 2.1.5
         version: 2.1.5
@@ -2334,6 +2427,9 @@ importers:
       '@typescript-eslint/parser':
         specifier: 8.53.1
         version: 8.53.1(eslint@9.39.2(jiti@2.6.1))(typescript@5.9.3)
+      '@typescript/native-preview':
+        specifier: 7.0.0-dev.20260122.4
+        version: 7.0.0-dev.20260122.4
       '@workleap/eslint-configs':
         specifier: 1.1.10
         version: 1.1.10(@eslint/js@9.39.2)(@types/estree@1.0.8)(@typescript-eslint/eslint-plugin@8.53.1(@typescript-eslint/parser@8.53.1(eslint@9.39.2(jiti@2.6.1))(typescript@5.9.3))(eslint@9.39.2(jiti@2.6.1))(typescript@5.9.3))(@typescript-eslint/parser@8.53.1(eslint@9.39.2(jiti@2.6.1))(typescript@5.9.3))(eslint@9.39.2(jiti@2.6.1))(jsonc-eslint-parser@2.4.2)(storybook@10.2.0(@testing-library/dom@10.4.1)(prettier@2.8.8)(react-dom@19.2.3(react@19.2.3))(react@19.2.3))(typescript-eslint@8.53.1(eslint@9.39.2(jiti@2.6.1))(typescript@5.9.3))(typescript@5.9.3)(vitest@4.0.17(@opentelemetry/api@1.9.0)(@types/node@25.0.10)(happy-dom@20.3.4)(jiti@2.6.1)(msw@2.12.7(@types/node@25.0.10)(typescript@5.9.3))(terser@5.46.0)(tsx@4.21.0)(yaml@2.8.2))
@@ -2410,6 +2506,9 @@ importers:
       '@typescript-eslint/parser':
         specifier: 8.53.1
         version: 8.53.1(eslint@9.39.2(jiti@2.6.1))(typescript@5.9.3)
+      '@typescript/native-preview':
+        specifier: 7.0.0-dev.20260122.4
+        version: 7.0.0-dev.20260122.4
       '@workleap/eslint-configs':
         specifier: 1.1.10
         version: 1.1.10(@eslint/js@9.39.2)(@types/estree@1.0.8)(@typescript-eslint/eslint-plugin@8.53.1(@typescript-eslint/parser@8.53.1(eslint@9.39.2(jiti@2.6.1))(typescript@5.9.3))(eslint@9.39.2(jiti@2.6.1))(typescript@5.9.3))(@typescript-eslint/parser@8.53.1(eslint@9.39.2(jiti@2.6.1))(typescript@5.9.3))(eslint@9.39.2(jiti@2.6.1))(jsonc-eslint-parser@2.4.2)(storybook@10.2.0(@testing-library/dom@10.4.1)(prettier@2.8.8)(react-dom@19.2.3(react@19.2.3))(react@19.2.3))(typescript-eslint@8.53.1(eslint@9.39.2(jiti@2.6.1))(typescript@5.9.3))(typescript@5.9.3)(vitest@4.0.17(@opentelemetry/api@1.9.0)(@types/node@25.0.10)(happy-dom@20.3.4)(jiti@2.6.1)(msw@2.12.7(@types/node@25.0.10)(typescript@5.9.3))(terser@5.46.0)(tsx@4.21.0)(yaml@2.8.2))
@@ -2468,6 +2567,9 @@ importers:
       '@typescript-eslint/parser':
         specifier: 8.53.1
         version: 8.53.1(eslint@9.39.2(jiti@2.6.1))(typescript@5.9.3)
+      '@typescript/native-preview':
+        specifier: 7.0.0-dev.20260122.4
+        version: 7.0.0-dev.20260122.4
       '@workleap/eslint-configs':
         specifier: 1.1.10
         version: 1.1.10(@eslint/js@9.39.2)(@types/estree@1.0.8)(@typescript-eslint/eslint-plugin@8.53.1(@typescript-eslint/parser@8.53.1(eslint@9.39.2(jiti@2.6.1))(typescript@5.9.3))(eslint@9.39.2(jiti@2.6.1))(typescript@5.9.3))(@typescript-eslint/parser@8.53.1(eslint@9.39.2(jiti@2.6.1))(typescript@5.9.3))(eslint@9.39.2(jiti@2.6.1))(jsonc-eslint-parser@2.4.2)(storybook@10.2.0(@testing-library/dom@10.4.1)(prettier@2.8.8)(react-dom@19.2.3(react@19.2.3))(react@19.2.3))(typescript-eslint@8.53.1(eslint@9.39.2(jiti@2.6.1))(typescript@5.9.3))(typescript@5.9.3)(vitest@4.0.17(@opentelemetry/api@1.9.0)(@types/node@25.0.10)(happy-dom@20.3.4)(jiti@2.6.1)(msw@2.12.7(@types/node@25.0.10)(typescript@5.9.3))(terser@5.46.0)(tsx@4.21.0)(yaml@2.8.2))
@@ -2522,7 +2624,7 @@ importers:
         version: 1.7.2
       '@rslib/core':
         specifier: 0.19.3
-        version: 0.19.3(typescript@5.9.3)
+        version: 0.19.3(@typescript/native-preview@7.0.0-dev.20260122.4)(typescript@5.9.3)
       '@rspack/core':
         specifier: 1.7.3
         version: 1.7.3(@swc/helpers@0.5.18)
@@ -2538,6 +2640,9 @@ importers:
       '@typescript-eslint/parser':
         specifier: 8.53.1
         version: 8.53.1(eslint@9.39.2(jiti@2.6.1))(typescript@5.9.3)
+      '@typescript/native-preview':
+        specifier: 7.0.0-dev.20260122.4
+        version: 7.0.0-dev.20260122.4
       '@workleap/browserslist-config':
         specifier: 2.1.5
         version: 2.1.5
@@ -6571,6 +6676,45 @@ packages:
   '@typescript-eslint/visitor-keys@8.53.1':
     resolution: {integrity: sha512-oy+wV7xDKFPRyNggmXuZQSBzvoLnpmJs+GhzRhPjrxl2b/jIlyjVokzm47CZCDUdXKr2zd7ZLodPfOBpOPyPlg==}
     engines: {node: ^18.18.0 || ^20.9.0 || >=21.1.0}
+
+  '@typescript/native-preview-darwin-arm64@7.0.0-dev.20260122.4':
+    resolution: {integrity: sha512-8hIIPe6LoY+FmUBRvhX7IbsZCr4Puwps0Ok+ez+rzg7d+sJCVuJ37ZxFh1pcNJEM39eII2o5TZ9dTCIT7/aAWA==}
+    cpu: [arm64]
+    os: [darwin]
+
+  '@typescript/native-preview-darwin-x64@7.0.0-dev.20260122.4':
+    resolution: {integrity: sha512-kJNpVzPW9jcFuRco+QwSHToEFHmfovNmwLo9PY97DLMqGnrvxkSy+k5sClHscEThIdzSRQbi7uZJUVBwgohNmA==}
+    cpu: [x64]
+    os: [darwin]
+
+  '@typescript/native-preview-linux-arm64@7.0.0-dev.20260122.4':
+    resolution: {integrity: sha512-QsSNK3PbRyNviv0xru21jGV8fgzTVJ26oMnQwoK0IcyGabXtcLHJe5I5y4lwvLNjZPCbKDNThawso54Fo72FJQ==}
+    cpu: [arm64]
+    os: [linux]
+
+  '@typescript/native-preview-linux-arm@7.0.0-dev.20260122.4':
+    resolution: {integrity: sha512-ImSMhsrB9QMK/cT2s4yCWkWOBUGZ+1L6vBaMMdyw3eNrU4tQo85Z3AqTn12M8WRbefLL89OmP6zJppP2TH3PAQ==}
+    cpu: [arm]
+    os: [linux]
+
+  '@typescript/native-preview-linux-x64@7.0.0-dev.20260122.4':
+    resolution: {integrity: sha512-0OyzmbZ2Zq039RPLCyEjcrBhDkCXDfIrwbMJfoOrCyEO9XrK9Icwqzogm7H4bLyhcfuZIgugYSP2mQflaDvOVg==}
+    cpu: [x64]
+    os: [linux]
+
+  '@typescript/native-preview-win32-arm64@7.0.0-dev.20260122.4':
+    resolution: {integrity: sha512-FSRZ0iylGKbrYiimfkqKBXRlhR+PwOz5Jcb57dAU7wzr/7xSGON9bfywb0BhoF31GjYAnZ5Xv+1fuQOiB2HBYw==}
+    cpu: [arm64]
+    os: [win32]
+
+  '@typescript/native-preview-win32-x64@7.0.0-dev.20260122.4':
+    resolution: {integrity: sha512-vAzRnS4nMBAd2XduzdmrhsCAAVSbCzZxVGMIKVvRcL9ljO5+fooggiYq7sk798TIZ1ov7A0rZk5k+o0Wyx2nXA==}
+    cpu: [x64]
+    os: [win32]
+
+  '@typescript/native-preview@7.0.0-dev.20260122.4':
+    resolution: {integrity: sha512-lboRukXxL3jeIyMKc4EjNHI4QThjOrrT5jjCyaNOUFkrk3JiObrR4z7Z6Z+m+WM/gbSW2tqaRBRFBRMsZGsxKQ==}
+    hasBin: true
 
   '@vercel/nft@0.29.4':
     resolution: {integrity: sha512-6lLqMNX3TuycBPABycx7A9F1bHQR7kiQln6abjFbPrf5C/05qHM9M5E4PeTE59c7z8g6vHnx1Ioihb2AQl7BTA==}
@@ -17090,10 +17234,10 @@ snapshots:
       - tslib
       - typescript
 
-  '@rslib/core@0.19.3(typescript@5.9.3)':
+  '@rslib/core@0.19.3(@typescript/native-preview@7.0.0-dev.20260122.4)(typescript@5.9.3)':
     dependencies:
       '@rsbuild/core': 1.7.2
-      rsbuild-plugin-dts: 0.19.3(@rsbuild/core@1.7.2)(typescript@5.9.3)
+      rsbuild-plugin-dts: 0.19.3(@rsbuild/core@1.7.2)(@typescript/native-preview@7.0.0-dev.20260122.4)(typescript@5.9.3)
     optionalDependencies:
       typescript: 5.9.3
     transitivePeerDependencies:
@@ -17801,6 +17945,37 @@ snapshots:
       '@typescript-eslint/types': 8.53.1
       eslint-visitor-keys: 4.2.1
 
+  '@typescript/native-preview-darwin-arm64@7.0.0-dev.20260122.4':
+    optional: true
+
+  '@typescript/native-preview-darwin-x64@7.0.0-dev.20260122.4':
+    optional: true
+
+  '@typescript/native-preview-linux-arm64@7.0.0-dev.20260122.4':
+    optional: true
+
+  '@typescript/native-preview-linux-arm@7.0.0-dev.20260122.4':
+    optional: true
+
+  '@typescript/native-preview-linux-x64@7.0.0-dev.20260122.4':
+    optional: true
+
+  '@typescript/native-preview-win32-arm64@7.0.0-dev.20260122.4':
+    optional: true
+
+  '@typescript/native-preview-win32-x64@7.0.0-dev.20260122.4':
+    optional: true
+
+  '@typescript/native-preview@7.0.0-dev.20260122.4':
+    optionalDependencies:
+      '@typescript/native-preview-darwin-arm64': 7.0.0-dev.20260122.4
+      '@typescript/native-preview-darwin-x64': 7.0.0-dev.20260122.4
+      '@typescript/native-preview-linux-arm': 7.0.0-dev.20260122.4
+      '@typescript/native-preview-linux-arm64': 7.0.0-dev.20260122.4
+      '@typescript/native-preview-linux-x64': 7.0.0-dev.20260122.4
+      '@typescript/native-preview-win32-arm64': 7.0.0-dev.20260122.4
+      '@typescript/native-preview-win32-x64': 7.0.0-dev.20260122.4
+
   '@vercel/nft@0.29.4(rollup@4.56.0)':
     dependencies:
       '@mapbox/node-pre-gyp': 2.0.3
@@ -18227,11 +18402,11 @@ snapshots:
       - typescript
       - webpack-hot-middleware
 
-  '@workleap/rslib-configs@1.1.5(@rsbuild/core@1.7.2)(@rslib/core@0.19.3(typescript@5.9.3))(typescript@5.9.3)':
+  '@workleap/rslib-configs@1.1.5(@rsbuild/core@1.7.2)(@rslib/core@0.19.3(@typescript/native-preview@7.0.0-dev.20260122.4)(typescript@5.9.3))(typescript@5.9.3)':
     dependencies:
       '@rsbuild/plugin-react': 1.4.3(@rsbuild/core@1.7.2)
       '@rsbuild/plugin-svgr': 1.2.4(@rsbuild/core@1.7.2)(typescript@5.9.3)
-      '@rslib/core': 0.19.3(typescript@5.9.3)
+      '@rslib/core': 0.19.3(@typescript/native-preview@7.0.0-dev.20260122.4)(typescript@5.9.3)
     transitivePeerDependencies:
       - '@rsbuild/core'
       - supports-color
@@ -23436,11 +23611,12 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
-  rsbuild-plugin-dts@0.19.3(@rsbuild/core@1.7.2)(typescript@5.9.3):
+  rsbuild-plugin-dts@0.19.3(@rsbuild/core@1.7.2)(@typescript/native-preview@7.0.0-dev.20260122.4)(typescript@5.9.3):
     dependencies:
       '@ast-grep/napi': 0.37.0
       '@rsbuild/core': 1.7.2
     optionalDependencies:
+      '@typescript/native-preview': 7.0.0-dev.20260122.4
       typescript: 5.9.3
 
   rsbuild-plugin-html-minifier-terser@1.1.3(@rsbuild/core@1.7.2):

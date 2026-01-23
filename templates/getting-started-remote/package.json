@@ -23,6 +23,7 @@
     "devDependencies": {
         "@eslint/js": "9.39.1",
         "@typescript-eslint/parser": "8.49.0",
+        "@typescript/native-preview": "7.0.0-dev.20260122.4",
         "@workleap/eslint-configs": "1.1.6",
         "@workleap/typescript-configs": "3.0.7",
         "eslint": "9.39.1",

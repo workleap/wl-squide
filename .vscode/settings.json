@@ -20,7 +20,10 @@
     // Languages
     "typescript.format.enable": false, // Disables the default formatter to use ESLint instead
     "typescript.preferences.useAliasesForRenames": false,
-    "typescript.tsdk": "node_modules\\typescript\\lib",
+    // "typescript.tsdk": "node_modules\\typescript\\lib",
+
+    "typescript.experimental.useTsgo": true,
+    "typescript.tsdk": "node_modules\\@typescript\\native-preview\\lib",
 
     "javascript.format.enable": false, // Disables the default formatter to use ESLint instead
     "javascript.preferences.useAliasesForRenames": false,
