@@ -14,7 +14,7 @@
         "build:copy-public-files": "copyfiles -u 1 public/favicon.png dist",
         "serve-build": "pnpm http-server dist -p 8086 -P http://localhost:8086? -c-1",
         "eslint": "eslint . --max-warnings=0 --cache --cache-location node_modules/.cache/eslint",
-        "typecheck": "tsc"
+        "typecheck": "tsgo"
     },
     "dependencies": {
         "@basic-webpack/local-module": "workspace:*",
@@ -40,6 +40,7 @@
         "@types/react": "19.2.9",
         "@types/react-dom": "19.2.3",
         "@typescript-eslint/parser": "8.53.1",
+        "@typescript/native-preview": "7.0.0-dev.20260122.4",
         "@workleap/browserslist-config": "2.1.5",
         "@workleap/eslint-configs": "1.1.10",
         "@workleap/swc-configs": "2.3.5",

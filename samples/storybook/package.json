@@ -10,7 +10,7 @@
         "build": "storybook build --disable-telemetry",
         "serve-build": "pnpm http-server storybook-static -p 8080 -P http://localhost:8080? -c-1",
         "eslint": "eslint . --max-warnings=0 --cache --cache-location node_modules/.cache/eslint",
-        "typecheck": "tsc",
+        "typecheck": "tsgo",
         "doctor": "storybook doctor"
     },
     "dependencies": {
@@ -29,6 +29,7 @@
         "@types/react": "19.2.9",
         "@types/react-dom": "19.2.3",
         "@typescript-eslint/parser": "8.53.1",
+        "@typescript/native-preview": "7.0.0-dev.20260122.4",
         "@workleap/eslint-configs": "1.1.10",
         "@workleap/rsbuild-configs": "3.2.0",
         "@workleap/typescript-configs": "3.0.7",

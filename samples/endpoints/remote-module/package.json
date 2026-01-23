@@ -20,7 +20,7 @@
         "deploy": "netlify deploy --dir=samples/endpoints/remote-module/dist --site=a3f091c3-2bc9-4c50-83a0-72fc6d7fa158 --prod",
         "deploy-isolated": "netlify deploy --dir=samples/endpoints/remote-module/dist --site=1eacb274-6182-420e-b6e7-ada6f10cc487 --prod",
         "eslint": "eslint . --max-warnings=0 --cache --cache-location node_modules/.cache/eslint",
-        "typecheck": "tsc"
+        "typecheck": "tsgo"
     },
     "dependencies": {
         "@endpoints/i18next": "workspace:*",
@@ -50,6 +50,7 @@
         "@types/react": "19.2.9",
         "@types/react-dom": "19.2.3",
         "@typescript-eslint/parser": "8.53.1",
+        "@typescript/native-preview": "7.0.0-dev.20260122.4",
         "@workleap/browserslist-config": "2.1.5",
         "@workleap/eslint-configs": "1.1.10",
         "@workleap/telemetry": "2.1.11",

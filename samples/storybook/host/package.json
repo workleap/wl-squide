@@ -12,7 +12,7 @@
         "build": "rsbuild build --config rsbuild.build.ts",
         "serve-build": "pnpm http-server dist/app -p 8081 -P http://localhost:8081? -c-1 --cors",
         "eslint": "eslint . --max-warnings=0 --cache --cache-location node_modules/.cache/eslint",
-        "typecheck": "tsc"
+        "typecheck": "tsgo"
     },
     "dependencies": {
         "@opentelemetry/api": "1.9.0",
@@ -32,6 +32,7 @@
         "@types/react": "19.2.9",
         "@types/react-dom": "19.2.3",
         "@typescript-eslint/parser": "8.53.1",
+        "@typescript/native-preview": "7.0.0-dev.20260122.4",
         "@workleap/browserslist-config": "2.1.5",
         "@workleap/eslint-configs": "1.1.10",
         "@workleap/rsbuild-configs": "3.2.0",
