@@ -3,6 +3,9 @@
     "globalEnv": ["USE_MSW", "ISOLATED", "NETLIFY"],
     "ui": "tui",
     "tasks": {
+        "transit": {
+            "dependsOn": ["^transit"]
+        },
         "dev": {
             "dependsOn": ["@squide/firefly-rsbuild-configs#build", "@squide/firefly-webpack-configs#build"],
             "cache": false,
@@ -35,6 +38,7 @@
             "outputs": ["node_modules/.cache/eslint"]
         },
         "eslint": {
+            "dependsOn": ["transit"],
             "inputs": ["$TURBO_DEFAULT$", "!README.md"],
             "outputs": ["node_modules/.cache/eslint"]
         },
@@ -43,6 +47,7 @@
             "outputs": ["node_modules/.cache/tsbuildinfo.json"]
         },
         "typecheck": {
+            "dependsOn": ["transit"],
             "inputs": ["src/**/*.ts", "src/**/*.tsx", "test/**/*.ts", "test/**/*.tsx", "tsconfig.json", "tsconfig.build.json"],
             "outputs": ["node_modules/.cache/tsbuildinfo.json"]
         },
