@@ -104,18 +104,18 @@ jobs:
         # For a PR, only lint the projects that are diverging from the pull request original baseline.
         run: |
             if [ "${{ github.event_name }}" == "pull_request" ]; then
-                pnpm turbo run eslint --filter=...[${{ github.event.pull_request.base.sha }}]
+                pnpm turbo run eslint --continue --filter=...[${{ github.event.pull_request.base.sha }}]
             else
-                pnpm turbo run eslint
+                pnpm turbo run eslint --continue
             fi
 
       - name: Typecheck
         # For a PR, only typecheck the projects that are diverging from the pull request original baseline.
         run: |
             if [ "${{ github.event_name }}" == "pull_request" ]; then
-                pnpm turbo run typecheck --filter=...[${{ github.event.pull_request.base.sha }}]
+                pnpm turbo run typecheck --continue --filter=...[${{ github.event.pull_request.base.sha }}]
             else
-                pnpm turbo run typecheck
+                pnpm turbo run typecheck --continue
             fi
 
       - name: Syncpack

@@ -12,7 +12,7 @@
         "typecheck": "tsc"
     },
     "peerDependencies": {
-        "i18next": "^25.7.4",
+        "i18next": "^25.8.0",
         "i18next-browser-languagedetector": "^8.2.0",
         "react": "^19.2.3",
         "react-dom": "^19.2.3",
@@ -25,11 +25,11 @@
     },
     "devDependencies": {
         "@eslint/js": "9.39.2",
-        "@typescript-eslint/parser": "8.53.0",
-        "@workleap/eslint-configs": "1.1.9",
+        "@typescript-eslint/parser": "8.53.1",
+        "@workleap/eslint-configs": "1.1.10",
         "@workleap/typescript-configs": "3.0.7",
         "eslint": "9.39.2",
         "typescript": "5.9.3",
-        "typescript-eslint": "8.53.0"
+        "typescript-eslint": "8.53.1"
     }
 }

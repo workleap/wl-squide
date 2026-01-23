@@ -1,14 +1,15 @@
 packages:
-  - "packages/*"
-  - "samples/**"
+  - 'packages/*'
+  - 'samples/**'
 
-# minimumReleaseAge: 1440
-# minimumReleaseAgeExclude:
-#   - "@workleap*"
+minimumReleaseAge: 1440
+minimumReleaseAgeExclude:
+  - '@workleap*'
+  - '@typescript/native-preview*'
 
 onlyBuiltDependencies:
-  - "@parcel/watcher"
-  - "@swc/core"
+  - '@parcel/watcher'
+  - '@swc/core'
   - core-js
   - core-js-pure
   - esbuild
