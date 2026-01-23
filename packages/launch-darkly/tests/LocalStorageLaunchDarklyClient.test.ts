@@ -320,6 +320,24 @@ describe("variation", () => {
         expect(value).toBeTruthy();
     });
 
+    test("when localStorage has a flag value, it takes priority over the provided default value", () => {
+        const defaultFlags = new Map(Object.entries({
+            "flag-a": false
+        }));
+
+        localStorage.setItem(STORAGE_KEY, JSON.stringify({
+            "flag-a": true
+        }));
+
+        const client = new LocalStorageLaunchDarklyClient(STORAGE_KEY, defaultFlags);
+        client.initialize();
+
+        // Even though we provide false as the default, localStorage value (true) should be returned
+        const value = client.variation("flag-a", false);
+
+        expect(value).toBe(true);
+    });
+
     test.concurrent("when the flag is not available and a default value is provided, return the default value", ({ expect }) => {
         const defaultFlags = new Map<string, boolean>();
         const client = new LocalStorageLaunchDarklyClient(STORAGE_KEY, defaultFlags);
@@ -350,6 +368,26 @@ describe("variationDetail", () => {
         const client = new LocalStorageLaunchDarklyClient(STORAGE_KEY, defaultFlags);
         client.initialize();
 
+        const value = client.variationDetail("flag-a", false);
+
+        expect(value).toEqual({
+            value: true
+        });
+    });
+
+    test("when localStorage has a flag value, it takes priority over the provided default value", () => {
+        const defaultFlags = new Map(Object.entries({
+            "flag-a": false
+        }));
+
+        localStorage.setItem(STORAGE_KEY, JSON.stringify({
+            "flag-a": true
+        }));
+
+        const client = new LocalStorageLaunchDarklyClient(STORAGE_KEY, defaultFlags);
+        client.initialize();
+
+        // Even though we provide false as the default, localStorage value (true) should be returned
         const value = client.variationDetail("flag-a", false);
 
         expect(value).toEqual({
