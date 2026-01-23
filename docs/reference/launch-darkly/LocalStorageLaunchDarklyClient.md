@@ -38,7 +38,7 @@ const client = new LocalStorageLaunchDarklyClient("my-storage-key", defaultFeatu
 
 ### Update the local storage flags
 
-```ts !#11,14-16
+```ts !#10-13
 import { LocalStorageLaunchDarklyClient } from "@squide/firefly";
 
 const defaultFeatureFlags = new Map([
@@ -48,10 +48,6 @@ const defaultFeatureFlags = new Map([
 
 const client = new LocalStorageLaunchDarklyClient("my-storage-key", defaultFeatureFlags);
 
-// Update a single flag
-client.setFeatureFlag("show-characters", false);
-
-// Update multiple flags
 client.setFeatureFlags({
     "show-characters": true,
     "render-summary": false

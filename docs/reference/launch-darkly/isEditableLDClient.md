@@ -6,7 +6,7 @@ toc:
 
 # isEditableFakeLaunchDarklyClient
 
-Determine if a LaunchDarkly SDK [client](https://launchdarkly.com/docs/sdk/client-side/javascript) is editable, meaning that it exposes methods to modify feature flags (`setFeatureFlag`, `setFeatureFlags`).
+Determine if a LaunchDarkly SDK [client](https://launchdarkly.com/docs/sdk/client-side/javascript) is editable, meaning that it exposes methods to modify feature flags (`setFeatureFlags`).
 
 ## Reference
 
@@ -35,7 +35,9 @@ const launchDarklyClient = useLaunchDarklyClient();
 
 const handleChange = useCallback(() => {
     if (isEditableFakeLaunchDarklyClient(launchDarklyClient)) {
-        launchDarklyClient.setFeatureFlag("show-characters", !enabled);
+        launchDarklyClient.setFeatureFlags({
+            "show-characters": !enabled,
+        });
     }
 }, [enabled, launchDarklyClient]);
 ```

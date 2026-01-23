@@ -104,39 +104,6 @@ describe("initialization", () => {
     });
 });
 
-describe("setFeatureFlag", () => {
-    test("updates localStorage when a flag is changed", () => {
-        const defaultFlags = new Map(Object.entries({
-            "flag-a": false
-        }));
-
-        const client = new LocalStorageLaunchDarklyClient(STORAGE_KEY, defaultFlags);
-
-        client.setFeatureFlag("flag-a", true);
-
-        const stored = JSON.parse(localStorage.getItem(STORAGE_KEY) || "{}");
-        expect(stored).toEqual({
-            "flag-a": true
-        });
-    });
-
-    test("triggers change notification", () => {
-        const defaultFlags = new Map(Object.entries({
-            "flag-a": false
-        }));
-
-        const client = new LocalStorageLaunchDarklyClient(STORAGE_KEY, defaultFlags);
-        const changeHandler = vi.fn();
-        client.on("change", changeHandler);
-
-        client.setFeatureFlag("flag-a", true);
-
-        expect(changeHandler).toHaveBeenCalledWith({
-            "flag-a": true
-        });
-    });
-});
-
 describe("setFeatureFlags", () => {
     test("updates localStorage with multiple flags", () => {
         const defaultFlags = new Map(Object.entries({
@@ -327,3 +294,72 @@ describe("storage event synchronization", () => {
     });
 });
 
+describe("variation", () => {
+    test.concurrent("when the flag is available, return the flag", ({ expect }) => {
+        const defaultFlags = new Map(Object.entries({
+            "flag-a": true
+        }));
+
+        const client = new LocalStorageLaunchDarklyClient(STORAGE_KEY, defaultFlags);
+
+        const value = client.variation("flag-a", false);
+
+        expect(value).toBeTruthy();
+    });
+
+    test.concurrent("when the flag is not available and a default value is provided, return the default value", ({ expect }) => {
+        const defaultFlags = new Map<string, boolean>();
+        const client = new LocalStorageLaunchDarklyClient(STORAGE_KEY, defaultFlags);
+
+        const value = client.variation("flag-a", false);
+
+        expect(value).toBeFalsy();
+    });
+
+    test.concurrent("when the flag is not available and no default value is provided, return undefined", ({ expect }) => {
+        const defaultFlags = new Map<string, boolean>();
+        const client = new LocalStorageLaunchDarklyClient(STORAGE_KEY, defaultFlags);
+
+        const value = client.variation("flag-a");
+
+        expect(value).toBeUndefined();
+    });
+});
+
+describe("variationDetail", () => {
+    test.concurrent("when the flag is available, return the flag", ({ expect }) => {
+        const defaultFlags = new Map(Object.entries({
+            "flag-a": true
+        }));
+
+        const client = new LocalStorageLaunchDarklyClient(STORAGE_KEY, defaultFlags);
+
+        const value = client.variationDetail("flag-a", false);
+
+        expect(value).toEqual({
+            value: true
+        });
+    });
+
+    test.concurrent("when the flag is not available and a default value is provided, return the default value", ({ expect }) => {
+        const defaultFlags = new Map<string, boolean>();
+        const client = new LocalStorageLaunchDarklyClient(STORAGE_KEY, defaultFlags);
+
+        const value = client.variationDetail("flag-a", false);
+
+        expect(value).toEqual({
+            value: false
+        });
+    });
+
+    test.concurrent("when the flag is not available and no default value is provided, return undefined", ({ expect }) => {
+        const defaultFlags = new Map<string, boolean>();
+        const client = new LocalStorageLaunchDarklyClient(STORAGE_KEY, defaultFlags);
+
+        const value = client.variationDetail("flag-a");
+
+        expect(value).toEqual({
+            value: undefined
+        });
+    });
+});

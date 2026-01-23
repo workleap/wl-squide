@@ -1,5 +1,5 @@
 import { LDContext, LDFlagSet, LDFlagValue } from "launchdarkly-js-sdk-common";
-import type { EditableLaunchDarklyClient, SetFlagOptions } from "./EditableLaunchDarklyClient.ts";
+import type { EditableFakeLaunchDarklyClient, SetFlagOptions } from "./EditableFakeLaunchDarklyClient.ts";
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export type LaunchDarklyClientListener = (...args: any[]) => void;
@@ -32,7 +32,7 @@ export interface InMemoryLaunchDarklyClientOptions {
     notifier?: LaunchDarklyClientNotifier;
 }
 
-export class InMemoryLaunchDarklyClient implements EditableLaunchDarklyClient {
+export class InMemoryLaunchDarklyClient implements EditableFakeLaunchDarklyClient {
     readonly #flags: Map<string, LDFlagValue>;
     readonly #context: LDContext;
     readonly #notifier: LaunchDarklyClientNotifier;
@@ -122,20 +122,6 @@ export class InMemoryLaunchDarklyClient implements EditableLaunchDarklyClient {
     }
 
     addHook(): void {}
-
-    setFeatureFlag(name: string, value: LDFlagValue, options?: SetFlagOptions): void {
-        const {
-            notify = true
-        } = options ?? {};
-
-        this.#flags.set(name, value);
-
-        if (notify) {
-            this.#notifier.notify("change", {
-                [name]: value
-            });
-        }
-    }
 
     setFeatureFlags(flags: Record<string, LDFlagValue>, options?: SetFlagOptions): void {
         const {

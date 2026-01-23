@@ -37,7 +37,7 @@ const client = new InMemoryLaunchDarklyClient(featureFlags);
 
 ### Update the in-memory flags
 
-```ts !#11,14-16
+```ts !#10-13
 import { InMemoryLaunchDarklyClient } from "@squide/firefly";
 
 const featureFlags = new Map([
@@ -47,10 +47,6 @@ const featureFlags = new Map([
 
 const client = new InMemoryLaunchDarklyClient(featureFlags);
 
-// Update a single flag
-client.setFeatureFlag("show-characters", false);
-
-// Update multiple flags
 client.setFeatureFlags({
     "show-characters": true,
     "render-summary": false

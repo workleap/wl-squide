@@ -1,15 +1,37 @@
-import type { LDFlagValue } from "launchdarkly-js-sdk-common";
-import type { SetFlagOptions } from "./EditableLaunchDarklyClient.ts";
-import { InMemoryLaunchDarklyClient, type InMemoryLaunchDarklyClientOptions } from "./InMemoryLaunchDarklyClient.ts";
+import { EditableLaunchDarklyClient, LaunchDarklyClientNotifier } from "@squide/launch-darkly";
+import type { LDContext, LDFlagSet, LDFlagValue } from "launchdarkly-js-sdk-common";
+import type { SetFlagOptions } from "./EditableFakeLaunchDarklyClient.ts";
 
-export type LocalStorageLaunchDarklyClientOptions = InMemoryLaunchDarklyClientOptions;
+export interface LocalStorageLaunchDarklyClientOptions {
+    context?: LDContext;
+    notifier?: LaunchDarklyClientNotifier;
+};
 
-export class LocalStorageLaunchDarklyClient extends InMemoryLaunchDarklyClient {
-    #storageKey: string;
+export class LocalStorageLaunchDarklyClient implements EditableLaunchDarklyClient {
+    readonly #storageKey: string;
+    readonly #flags: Map<string, LDFlagValue>;
+    readonly #context: LDContext;
+    readonly #notifier: LaunchDarklyClientNotifier;
 
     constructor(storageKey: string, defaultFeatureFlagValues: Map<string, LDFlagValue>, options: LocalStorageLaunchDarklyClientOptions = {}) {
-        super(initializeFeatureFlags(storageKey, defaultFeatureFlagValues), options);
+        const featureFlags = initializeFeatureFlags(storageKey, defaultFeatureFlagValues);
+        const {
+            context,
+            notifier
+        } = options;
 
+        if (!(featureFlags instanceof Map)) {
+            throw new TypeError("[squide] The \"featureFlags\" argument must be a Map instance.");
+        }
+
+        this.#flags = featureFlags;
+
+        this.#context = context ?? {
+            kind: "user",
+            anonymous: true
+        };
+
+        this.#notifier = notifier ?? new LaunchDarklyClientNotifier();
         this.#storageKey = storageKey;
 
         // Save the feature flags to localStorage initially then on every change
@@ -20,18 +42,85 @@ export class LocalStorageLaunchDarklyClient extends InMemoryLaunchDarklyClient {
         window.addEventListener("storage", this.onStorageUpdated);
     }
 
-    close(onDone?: () => void) {
-        window.removeEventListener("storage", this.onStorageUpdated);
-        return super.close(onDone);
+    waitUntilGoalsReady() {
+        return Promise.resolve();
     }
 
-    setFeatureFlag(name: string, value: LDFlagValue, options?: SetFlagOptions): void {
-        super.setFeatureFlag(name, value, options);
-        this.updateLocalStorage();
+    waitUntilReady() {
+        return Promise.resolve();
+    }
+
+    waitForInitialization() {
+        return Promise.resolve();
+    }
+
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    on(key: string, callback: (...args: any[]) => void) {
+        this.#notifier.addListener(key, callback);
+    }
+
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    off(key: string, callback: (...args: any[]) => void) {
+        this.#notifier.removeListener(key, callback);
+    }
+
+    identify(context: LDContext, hash?: string, onDone?: (err: Error | null, flags: LDFlagSet | null) => void) {
+        onDone?.(null, this.#flags);
+
+        return Promise.resolve(this.#flags);
+    }
+
+    getContext() {
+        return this.#context;
+    }
+
+    flush() {
+        return Promise.resolve();
+    }
+
+    variation(key: string, defaultValue?: LDFlagValue) {
+        const flag = this.#flags.get(key);
+
+        return flag ?? defaultValue;
+    }
+
+    variationDetail(key: string, defaultValue?: LDFlagValue) {
+        const flag = this.#flags.get(key);
+
+        return {
+            value: flag ?? defaultValue
+        };
+    }
+
+    setStreaming(): void {}
+
+    track(): void {}
+
+    allFlags() {
+        return Object.fromEntries(this.#flags);
+    }
+
+    addHook(): void {}
+
+    close(onDone?: () => void) {
+        window.removeEventListener("storage", this.onStorageUpdated);
+        onDone?.();
+
+        return Promise.resolve();
     }
 
     setFeatureFlags(flags: Record<string, LDFlagValue>, options?: SetFlagOptions): void {
-        super.setFeatureFlags(flags, options);
+        const {
+            notify = true
+        } = options ?? {};
+
+        for (const [name, value] of Object.entries(flags)) {
+            this.#flags.set(name, value);
+        }
+        if (notify) {
+            this.#notifier.notify("change", flags);
+        }
+
         this.updateLocalStorage();
     }
 
@@ -52,7 +141,7 @@ export class LocalStorageLaunchDarklyClient extends InMemoryLaunchDarklyClient {
             }
 
             if (updatedFlags.size > 0) {
-                super.setFeatureFlags(Object.fromEntries(updatedFlags));
+                this.setFeatureFlags(Object.fromEntries(updatedFlags));
             }
         } catch {
             // Ignore malformed updates
