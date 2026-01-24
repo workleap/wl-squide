@@ -1,5 +1,5 @@
 import { afterEach, beforeEach, describe, expect, test, vi } from "vitest";
-import { LocalStorageLaunchDarklyClient, createLocalStorageLaunchDarklyClient } from "../src/LocalStorageLaunchDarklyClient.ts";
+import { createLocalStorageLaunchDarklyClient } from "../src/LocalStorageLaunchDarklyClient.ts";
 
 declare module "@squide/launch-darkly" {
     interface FeatureFlags {
@@ -94,7 +94,7 @@ describe("initialization", () => {
             "flag-b": true
         }));
 
-        new LocalStorageLaunchDarklyClient(STORAGE_KEY, defaultFlags);
+        createLocalStorageLaunchDarklyClient(STORAGE_KEY, defaultFlags);
 
         const stored = JSON.parse(localStorage.getItem(STORAGE_KEY) || "{}");
         expect(stored).toEqual({

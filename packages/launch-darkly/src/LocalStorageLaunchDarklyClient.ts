@@ -18,7 +18,7 @@ export class LocalStorageLaunchDarklyClient implements EditableFakeLaunchDarklyC
     readonly #context: LDContext;
     readonly #notifier: LaunchDarklyClientNotifier;
 
-    constructor(storageKey: string, defaultFeatureFlagValues: Map<string, LDFlagValue>, options: LocalStorageLaunchDarklyClientOptions = {}) {
+    private constructor(storageKey: string, defaultFeatureFlagValues: Map<string, LDFlagValue>, options: LocalStorageLaunchDarklyClientOptions = {}) {
         const {
             context,
             notifier
