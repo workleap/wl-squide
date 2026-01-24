@@ -7,6 +7,10 @@ export interface LocalStorageLaunchDarklyClientOptions {
     notifier?: LaunchDarklyClientNotifier;
 };
 
+export function createLocalStorageLaunchDarklyClient(storageKey: string, defaultFeatureFlagValues: Map<string, LDFlagValue>, options: LocalStorageLaunchDarklyClientOptions = {}) {
+    return LocalStorageLaunchDarklyClient.create(storageKey, defaultFeatureFlagValues, options);
+}
+
 export class LocalStorageLaunchDarklyClient implements EditableLaunchDarklyClient {
     readonly #storageKey: string;
     #defaultFeatureFlagValues: Map<string, LDFlagValue>;
@@ -30,7 +34,18 @@ export class LocalStorageLaunchDarklyClient implements EditableLaunchDarklyClien
         this.#defaultFeatureFlagValues = defaultFeatureFlagValues;
     }
 
-    initialize() {
+    static create(storageKey: string, defaultFeatureFlagValues: Map<string, LDFlagValue>, options: LocalStorageLaunchDarklyClientOptions = {}) {
+        const client = new LocalStorageLaunchDarklyClient(
+            storageKey,
+            defaultFeatureFlagValues,
+            options
+        );
+
+        client.initialize();
+        return client;
+    }
+
+    private initialize() {
         const featureFlags = initializeFeatureFlags(this.#storageKey, this.#defaultFeatureFlagValues);
         this.setFeatureFlags(Object.fromEntries(featureFlags), { notify: false });
 
