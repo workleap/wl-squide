@@ -1,4 +1,4 @@
-export { isEditableFakeLaunchDarklyClient, type EditableLaunchDarklyClient, type SetFlagOptions } from "./EditableFakeLaunchDarklyClient.ts";
+export { isEditableFakeLaunchDarklyClient, type EditableFakeLaunchDarklyClient, type SetFlagOptions } from "./EditableFakeLaunchDarklyClient.ts";
 export type { FeatureFlagKey, FeatureFlags } from "./featureFlags.ts";
 export { FeatureFlagSetSnapshot, type FeatureFlagSetSnapshotChangedListener } from "./FeatureFlagSetSnapshot.ts";
 export { getFeatureFlag } from "./getFeatureFlag.ts";

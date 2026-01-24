@@ -1,4 +1,4 @@
-import { EditableLaunchDarklyClient, LaunchDarklyClientNotifier } from "@squide/launch-darkly";
+import { EditableFakeLaunchDarklyClient, LaunchDarklyClientNotifier } from "@squide/launch-darkly";
 import type { LDContext, LDFlagSet, LDFlagValue } from "launchdarkly-js-sdk-common";
 import type { SetFlagOptions } from "./EditableFakeLaunchDarklyClient.ts";
 
@@ -11,7 +11,7 @@ export function createLocalStorageLaunchDarklyClient(storageKey: string, default
     return LocalStorageLaunchDarklyClient.create(storageKey, defaultFeatureFlagValues, options);
 }
 
-export class LocalStorageLaunchDarklyClient implements EditableLaunchDarklyClient {
+export class LocalStorageLaunchDarklyClient implements EditableFakeLaunchDarklyClient {
     readonly #storageKey: string;
     #defaultFeatureFlagValues: Map<string, LDFlagValue>;
     #flags: Map<string, LDFlagValue> = new Map();
