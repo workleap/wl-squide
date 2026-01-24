@@ -1,6 +1,6 @@
-import { EditableFakeLaunchDarklyClient, LaunchDarklyClientNotifier } from "@squide/launch-darkly";
 import type { LDContext, LDFlagSet, LDFlagValue } from "launchdarkly-js-sdk-common";
-import type { SetFlagOptions } from "./EditableFakeLaunchDarklyClient.ts";
+import type { EditableFakeLaunchDarklyClient, SetFlagOptions } from "./EditableFakeLaunchDarklyClient.ts";
+import type { LaunchDarklyClientNotifier } from "./InMemoryLaunchDarklyClient.ts";
 
 export interface LocalStorageLaunchDarklyClientOptions {
     context?: LDContext;
