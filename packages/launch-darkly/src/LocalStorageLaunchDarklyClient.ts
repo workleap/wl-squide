@@ -1,6 +1,6 @@
 import type { LDContext, LDFlagSet, LDFlagValue } from "launchdarkly-js-sdk-common";
 import type { EditableFakeLaunchDarklyClient, SetFlagOptions } from "./EditableFakeLaunchDarklyClient.ts";
-import type { LaunchDarklyClientNotifier } from "./InMemoryLaunchDarklyClient.ts";
+import { LaunchDarklyClientNotifier } from "./InMemoryLaunchDarklyClient.ts";
 
 export interface LocalStorageLaunchDarklyClientOptions {
     context?: LDContext;
