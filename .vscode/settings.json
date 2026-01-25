@@ -52,5 +52,7 @@
         {
             "file": ".github/copilot/commit-message-instructions.md"
         }
-    ]
+    ],
+
+    "chat.useAgentSkills": true
 }
