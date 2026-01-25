@@ -185,5 +185,5 @@ runtime.logger.debug("Debug message");
 runtime.logger.information("Info message");
 runtime.logger.warn("Warning message");
 runtime.logger.error("Error message");
-runtime.logger.critical("Error message");
+runtime.logger.critical("Critical message");
 ```

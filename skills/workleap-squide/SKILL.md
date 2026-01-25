@@ -232,7 +232,7 @@ useDeferredRegistrations(data);
 ### MSW Request Handlers
 
 ```tsx
-export const register: ModuleRegisterFunction<FireflyRuntime> = runtime => {
+export const register: ModuleRegisterFunction<FireflyRuntime> = async runtime => {
     if (runtime.isMswEnabled) {
         const requestHandlers = (await import("../mocks/handlers.ts")).requestHandlers;
         runtime.registerRequestHandlers(requestHandlers);

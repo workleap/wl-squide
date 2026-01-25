@@ -16,7 +16,7 @@ Before registering a handler, make sure MSW is enabled by checking with [isMswEn
 ```ts !#4,7,9
 import type { ModuleRegisterFunction, FireflyRuntime } from "@squide/firefly";
 
-export const register: ModuleRegisterFunction<FireflyRuntime> = runtime => {
+export const register: ModuleRegisterFunction<FireflyRuntime> = async runtime => {
     if (runtime.isMswEnabled) {
         // Files that includes an import to the "msw" package are included dynamically to prevent adding
         // unused MSW code in production bundles.

@@ -383,10 +383,11 @@ function Component() {
 ### Log Levels
 
 ```ts
-logger.debug("Debug message");    // Verbose debugging
-logger.info("Info message");      // General information
-logger.warn("Warning message");   // Potential issues
-logger.error("Error message");    // Errors
+logger.debug("Debug message");      // Verbose debugging
+logger.information("Info message"); // General information
+logger.warn("Warning message");     // Potential issues
+logger.error("Error message");      // Errors
+logger.error("Critical message");   // Criticals
 
 // With structured data
 logger

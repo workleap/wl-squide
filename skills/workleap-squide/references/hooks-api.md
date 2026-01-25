@@ -250,9 +250,10 @@ import { useLogger } from "@squide/firefly";
 
 const logger = useLogger();
 logger.debug("Debug message");
-logger.info("Info message");
+logger.information("Info message");
 logger.warn("Warning");
 logger.error("Error");
+logger.critical("Critical");
 ```
 
 **Warning:** Never log Personally Identifiable Information (PII).
