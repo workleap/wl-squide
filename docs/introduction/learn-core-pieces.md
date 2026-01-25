@@ -46,7 +46,7 @@ While such an architecture seems appropriate during the first weeks or months of
 import type { ModuleRegisterFunction, FireflyRuntime } from "@squide/firefly";
 import { Page } from "./Page.tsx"
 
-export const register: ModuleRegisterFunction<FireflyRuntime> = runtime => {
+export const register: ModuleRegisterFunction<FireflyRuntime> = async runtime => {
     runtime.registerRoute({
         path: "/page-1",
         element: <Page />
@@ -86,7 +86,7 @@ Modules can delay registering navigation items until global data or feature flag
 import type { ModuleRegisterFunction, FireflyRuntime } from "@squide/firefly";
 import { Page } from "./Page.tsx"
 
-export const register: ModuleRegisterFunction<FireflyRuntime> = runtime => {
+export const register: ModuleRegisterFunction<FireflyRuntime> = async runtime => {
     runtime.registerRoute({
         path: "/page-1",
         element: <Page />
