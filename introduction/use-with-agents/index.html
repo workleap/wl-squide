@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <meta name="turbo-root" content="/wl-squide">
-    <meta name="turbo-cache-control" content="no-cache" data-turbo-track="reload" data-track-token="3.12.0-preview2.822629975492">
+    <meta name="turbo-cache-control" content="no-cache" data-turbo-track="reload" data-track-token="3.12.0-preview2.822631352796">
 
     <!-- See retype.com -->
     <meta name="generator" content="Retype 3.12.0-preview2">
@@ -34,12 +34,12 @@
     <script data-cfasync="false">(function(){var cl=document.documentElement.classList,ls=localStorage.getItem("retype_scheme"),hd=cl.contains("dark"),hl=cl.contains("light"),wm=window.matchMedia&&window.matchMedia("(prefers-color-scheme: dark)").matches;if(ls==="dark"||(!ls&&wm&&!hd&&!hl)){cl.remove("light");cl.add("dark")}else if(ls==="light"||(!ls&&!wm&&!hd&&!hl)){cl.remove("dark");cl.add("light")}})();</script>
 
     <link id="retype-favicon" rel="icon" href="../../static/favicon.png" />
-    <link href="../../resources/css/retype.css?v=3.12.0-preview2.822629975492" rel="stylesheet">
+    <link href="../../resources/css/retype.css?v=3.12.0-preview2.822631352796" rel="stylesheet">
 
-    <script data-cfasync="false" src="../../resources/js/config.js?v=3.12.0-preview2.822629975492" data-turbo-eval="false" defer></script>
+    <script data-cfasync="false" src="../../resources/js/config.js?v=3.12.0-preview2.822631352796" data-turbo-eval="false" defer></script>
     <script data-cfasync="false" src="../../resources/js/retype.js?v=3.12.0-preview2" data-turbo-eval="false" defer></script>
-    <script id="lunr-js" data-cfasync="false" src="../../resources/js/lunr.js?v=3.12.0-preview2.822629975492" data-turbo-eval="false" defer></script>
-    <script id="prism-js" data-cfasync="false" src="../../resources/js/prism.js?v=3.12.0-preview2.822629975492" defer></script>
+    <script id="lunr-js" data-cfasync="false" src="../../resources/js/lunr.js?v=3.12.0-preview2.822631352796" data-turbo-eval="false" defer></script>
+    <script id="prism-js" data-cfasync="false" src="../../resources/js/prism.js?v=3.12.0-preview2.822631352796" defer></script>
 
     <link href="https://workleap.github.io/wl-idp-docs-hub/static/retype-customization.css" rel="stylesheet" />
 
@@ -291,17 +291,27 @@
 <p>Context7 is an MCP server that provides AI assistants with real-time, version-specific programming documentation and code examples. Instead of relying only on a model&#x27;s training data, it allows AI tools to fetch up-to-date information directly from authoritative sources (such as the code repository or the official documentation) at request time. This helps reduce hallucinations and errors caused by outdated APIs, especially in coding environments such as IDEs or editor integrations.</p>
 <p><span class="docs-emoji">&#x1F517;</span> <a href="https://context7.com/" class="outbound" target="_blank">Lean more about Context7</a></p>
 </doc-panel>
-<doc-anchor-target id="install-squide-agent-skill">
+<doc-anchor-target id="install-agent-skill">
     <h2>
-        <doc-anchor-trigger class="header-anchor-trigger" to="#install-squide-agent-skill">#</doc-anchor-trigger>
-        <span>Install Squide agent skill</span>
+        <doc-anchor-trigger class="header-anchor-trigger" to="#install-agent-skill">#</doc-anchor-trigger>
+        <span>Install agent skill</span>
     </h2>
 </doc-anchor-target>
 <p>Open a terminal (<strong>not</strong> integrated in VS Code) and install the <code translate="no" v-pre>workleap-squide</code> agent skill by running the following command:</p>
 <div class="codeblock-wrapper"><doc-codeblock>
 <pre translate="no" class="language-bash"><code v-pre class="language-bash">npx skills add https://github.com/workleap/wl-squide --skill workleap-squide</code></pre>
 </doc-codeblock></div>
-<p>The <code translate="no" v-pre>skills.sh</code> CLI will prompt you to choose whether to install the skill globally or within a project. We recommend installing it <strong>globally</strong> so it is available across all your workspaces and do not pollule your project.</p>
+<p>The <code translate="no" v-pre>skills.sh</code> CLI will prompt you to choose whether to install the skill globally or within a project. We recommend installing it <strong>locally</strong> so it is available for code review tools such as <a href="https://docs.github.com/en/copilot/how-tos/use-copilot-agents/request-a-code-review/use-code-review" class="outbound" target="_blank">GitHub Copilot code review</a>.</p>
+<doc-anchor-target id="try-it-rocket">
+    <h3>
+        <doc-anchor-trigger class="header-anchor-trigger" to="#try-it-rocket">#</doc-anchor-trigger>
+        <span>Try it <span class="docs-emoji">&#x1F680;</span></span>
+    </h3>
+</doc-anchor-target>
+<p>Once the skill is installed, start an agent and ask it to create a new Squide project:</p>
+<div class="codeblock-wrapper"><doc-codeblock>
+<pre translate="no" class="language-none"><code v-pre class="language-none">Generate a new Squide project with a host application and a local module.</code></pre>
+</doc-codeblock></div>
 <doc-anchor-target id="setup-context7-mcp-server">
     <h2>
         <doc-anchor-trigger class="header-anchor-trigger" to="#setup-context7-mcp-server">#</doc-anchor-trigger>
@@ -313,12 +323,6 @@
         <doc-anchor-trigger class="header-anchor-trigger" to="#vs-code">#</doc-anchor-trigger>
         <span>VS Code</span>
     </h3>
-</doc-anchor-target>
-<doc-anchor-target id="marketplace">
-    <h4>
-        <doc-anchor-trigger class="header-anchor-trigger" to="#marketplace">#</doc-anchor-trigger>
-        <span>Marketplace</span>
-    </h4>
 </doc-anchor-target>
 <p>For a quick setup, install the Context7 MCP server directly from the VS Code Marketplace:</p>
 <p><a href="https://insiders.vscode.dev/redirect?url=vscode%3Amcp%2Finstall%3F%7B%22name%22%3A%22context7%22%2C%22command%22%3A%22npx%22%2C%22args%22%3A%5B%22-y%22%2C%22%40upstash%2Fcontext7-mcp%40latest%22%5D%7D" class="outbound" target="_blank"><img alt="Install in VS Code (npx)" src="https://img.shields.io/badge/VS_Code-VS_Code?style=flat-square&label=Install%20Context7%20MCP&color=0098FF" /></a>   <a href="https://insiders.vscode.dev/redirect?url=vscode-insiders%3Amcp%2Finstall%3F%7B%22name%22%3A%22context7%22%2C%22command%22%3A%22npx%22%2C%22args%22%3A%5B%22-y%22%2C%22%40upstash%2Fcontext7-mcp%40latest%22%5D%7D" class="outbound" target="_blank"><img alt="Install in VS Code Insiders (npx)" src="https://img.shields.io/badge/VS_Code_Insiders-VS_Code_Insiders?style=flat-square&label=Install%20Context7%20MCP&color=24bfa5" /></a></p>
@@ -446,15 +450,15 @@
 </p>
 </div>
 <p>Alternatively, you can verify the connection from a terminal by executing the <code translate="no" v-pre>claude mcp list</code> command. The <code translate="no" v-pre>context7</code> MCP server should be listed as <strong>connected</strong>.</p>
-<doc-anchor-target id="try-it-rocket">
+<doc-anchor-target id="try-it-rocket-1">
     <h3>
-        <doc-anchor-trigger class="header-anchor-trigger" to="#try-it-rocket">#</doc-anchor-trigger>
+        <doc-anchor-trigger class="header-anchor-trigger" to="#try-it-rocket-1">#</doc-anchor-trigger>
         <span>Try it <span class="docs-emoji">&#x1F680;</span></span>
     </h3>
 </doc-anchor-target>
 <p>Once the MCP server is set up, ask the agent to use Context7 to perform tasks such as generating boilerplate code:</p>
 <div class="codeblock-wrapper"><doc-codeblock>
-<pre translate="no" class="language-none"><code v-pre class="language-none">use context7 &quot;/workleap/wl-squide&quot; library to generate a new local module project.</code></pre>
+<pre translate="no" class="language-none"><code v-pre class="language-none">Use context7 &quot;/workleap/wl-squide&quot; library to generate a new local module project.</code></pre>
 </doc-codeblock></div>
 
                                 
