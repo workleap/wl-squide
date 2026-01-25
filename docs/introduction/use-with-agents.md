@@ -15,7 +15,7 @@ Context7 is an MCP server that provides AI assistants with real-time, version-sp
 :link: [Lean more about Context7](https://context7.com/)
 ===
 
-## Install Squide agent skill
+## Install agent skill
 
 Open a terminal (**not** integrated in VS Code) and install the `workleap-squide` agent skill by running the following command:
 
@@ -25,11 +25,17 @@ npx skills add https://github.com/workleap/wl-squide --skill workleap-squide
 
 The `skills.sh` CLI will prompt you to choose whether to install the skill globally or within a project. We recommend installing it **globally** so it is available across all your workspaces and do not pollule your project.
 
+### Try it :rocket:
+
+Once the skill is installed, start an agent and ask it to create a new Squide project:
+
+```
+Generate a new Squide project with a host application and a local module.
+```
+
 ## Setup Context7 MCP server
 
 ### VS Code
-
-#### Marketplace
 
 For a quick setup, install the Context7 MCP server directly from the VS Code Marketplace:
 
@@ -118,5 +124,5 @@ Alternatively, you can verify the connection from a terminal by executing the `c
 Once the MCP server is set up, ask the agent to use Context7 to perform tasks such as generating boilerplate code:
 
 ```
-use context7 "/workleap/wl-squide" library to generate a new local module project.
+Use context7 "/workleap/wl-squide" library to generate a new local module project.
 ```
