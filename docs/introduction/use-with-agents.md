@@ -23,7 +23,7 @@ Open a terminal (**not** integrated in VS Code) and install the `workleap-squide
 npx skills add https://github.com/workleap/wl-squide --skill workleap-squide
 ```
 
-The `skills.sh` CLI will prompt you to choose whether to install the skill globally or within a project. We recommend installing it **globally** so it is available across all your workspaces and do not pollule your project.
+The `skills.sh` CLI will prompt you to choose whether to install the skill globally or within a project. We recommend installing it **locally** so it is available for code review tools such as [GitHub Copilot code review](https://docs.github.com/en/copilot/how-tos/use-copilot-agents/request-a-code-review/use-code-review).
 
 ### Try it :rocket:
 
