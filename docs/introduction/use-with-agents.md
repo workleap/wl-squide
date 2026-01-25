@@ -9,12 +9,6 @@ toc:
 
 Information about the Squide libraries can be shared with different agents using the [workleap-squide](https://skills.sh/workleap/wl-squide/workleap-squide) agent skill or the [Context7](https://context7.com/) MCP server.
 
-==- :icon-light-bulb: More about Context7 MCP server
-Context7 is an MCP server that provides AI assistants with real-time, version-specific programming documentation and code examples. Instead of relying only on a model's training data, it allows AI tools to fetch up-to-date information directly from authoritative sources (such as the code repository or the official documentation) at request time. This helps reduce hallucinations and errors caused by outdated APIs, especially in coding environments such as IDEs or editor integrations.
-
-:link: [Lean more about Context7](https://context7.com/)
-===
-
 ## Install agent skill
 
 Open a terminal (**not** integrated in VS Code) and install the `workleap-squide` agent skill by running the following command:
@@ -34,6 +28,8 @@ Generate a new Squide project with a host application and a local module.
 ```
 
 ## Setup Context7 MCP server
+
+Context7 is an MCP server that provides AI assistants with real-time, version-specific programming documentation and code examples. Instead of relying only on a model's training data, it allows AI tools to fetch up-to-date information directly from authoritative sources (such as the code repository or the official documentation) at request time. This helps reduce hallucinations and errors caused by outdated APIs, especially in coding environments such as IDEs or editor integrations.
 
 ### VS Code
 
