@@ -347,6 +347,8 @@ runtime.registerRoute({
 - `$canRender`: Conditional render function
 - `$additionalProps`: Custom props for renderer
 - `to`: Route path (supports dynamic segments like `/user/:id`)
+- `style`: Inline styles for the navigation item
+- `target`: Link target (e.g., `"_blank"` to open in new tab)
 
 ### Navigation Registration Options
 - `menuId`: Target a specific menu (default: `"root"`)
@@ -361,24 +363,30 @@ runtime.registerRoute({
 - `useRenderedNavigationItems(items, renderItem, renderSection)`: Render nav items
 - `useIsBootstrapping()`: Check if bootstrapping
 - `usePublicDataQueries(queries)`: Fetch public global data
+- `usePublicDataHandler(handler)`: Execute handler when modules are ready
 - `useProtectedDataQueries(queries, isUnauthorizedError)`: Fetch protected data
-- `useDeferredRegistrations(data?)`: Execute deferred registrations
+- `useProtectedDataHandler(handler)`: Execute handler when modules ready and route is protected
+- `useDeferredRegistrations(data?, options?)`: Execute deferred registrations (options: `{ onError? }`)
 - `useEventBusListener(event, handler, options?)`: Listen to events
 - `useEventBusDispatcher()`: Get dispatch function
 - `useLogger()`: Get logger instance
 - `useEnvironmentVariable(key)`: Get env variable
 - `useEnvironmentVariables()`: Get all env variables
 - `useFeatureFlag(key, defaultValue)`: Get feature flag
+- `useFeatureFlags()`: Get all feature flags
+- `useLaunchDarklyClient()`: Get LaunchDarkly client instance
 - `usePlugin(name)`: Get plugin instance
 - `useRuntime()`: Get runtime instance
 - `useRuntimeMode()`: Get runtime mode
-- `useIsRouteProtected()`: Check if current route is protected
-- `useRouteMatch(path)`: Match current route
+- `useRoutes()`: Get registered routes
+- `useIsRouteProtected(route)`: Check if a route is protected
+- `useRouteMatch(locationArg, options?)`: Match route against location
 
 ### Helper Functions
 - `isNavigationLink(item)`: Type guard for navigation links
 - `isGlobalDataQueriesError(error)`: Type guard for query errors
 - `resolveRouteSegments(path, params)`: Resolve dynamic segments
 - `getFeatureFlag(client, key, defaultValue)`: Get flag in non-React code
+- `mergeDeferredRegistrations(candidates)`: Merge multiple deferred registration functions
 
 For detailed API documentation, see the references folder.

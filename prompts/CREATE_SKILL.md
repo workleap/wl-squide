@@ -62,6 +62,8 @@ And ignore the documentation of the following folders:
 * ./docs/rsbuild
 * ./docs/webpack
 
+For the logger API, refer to the `wl-logging` package documentation available here: https://workleap.github.io/wl-logging.
+
 The skill should at least trigger when the agent encounters questions about:
 
 * Creating/modifying Squide host applications or modules
