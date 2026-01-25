@@ -1,32 +1,27 @@
-# Integrations Reference
-
-## Table of Contents
-
-- [TanStack Query](#tanstack-query)
-- [Mock Service Worker (MSW)](#mock-service-worker-msw)
-- [LaunchDarkly](#launchdarkly)
-- [i18next](#i18next)
-- [Honeycomb](#honeycomb)
-- [Logger](#logger)
-- [Storybook](#storybook)
+# Squide Integrations Reference
 
 ## TanStack Query
-
-Server state management and data fetching.
 
 ### Setup
 
 ```tsx
-// host/src/index.tsx
-import { FireflyProvider, initializeFirefly } from "@squide/firefly";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
-
-const runtime = initializeFirefly({
-    localModules: [registerHost]
-});
 
 const queryClient = new QueryClient();
+
+root.render(
+    <FireflyProvider runtime={runtime}>
+        <QueryClientProvider client={queryClient}>
+            <App />
+        </QueryClientProvider>
+    </FireflyProvider>
+);
+```
+
+### DevTools (Development Only)
+
+```tsx
+import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 
 root.render(
     <FireflyProvider runtime={runtime}>
@@ -38,44 +33,40 @@ root.render(
 );
 ```
 
-### Add Suspense Boundary
+### Page Data with Suspense
 
 ```tsx
-import { Suspense } from "react";
-import { Outlet } from "react-router";
-
+// Layout with Suspense
 export function RootLayout() {
     return (
         <>
-            <nav>{/* navigation */}</nav>
+            <nav>{navigationElements}</nav>
             <Suspense fallback={<div>Loading...</div>}>
                 <Outlet />
             </Suspense>
         </>
     );
 }
-```
 
-### Use in Pages
-
-```tsx
+// Page component
 import { useSuspenseQuery } from "@tanstack/react-query";
 
-export function Page() {
+function Page() {
     const { data } = useSuspenseQuery({
         queryKey: ["/api/data"],
-        queryFn: fetchData
+        queryFn: async () => {
+            const response = await fetch("/api/data");
+            return response.json();
+        }
     });
 
-    return <div>{data}</div>;
+    return <div>{data.content}</div>;
 }
 ```
 
-## Mock Service Worker (MSW)
+## MSW (Mock Service Worker)
 
-API mocking for development.
-
-### Initialize MSW
+### Initialize
 
 ```bash
 pnpx msw init ./public
@@ -84,26 +75,23 @@ pnpx msw init ./public
 ### Create Start Function
 
 ```ts
-// host/src/mocks/browser.ts
+// mocks/browser.ts
 import type { RequestHandler } from "msw";
 import { setupWorker } from "msw/browser";
 
-export async function startMsw(moduleRequestHandlers: RequestHandler[]) {
-    const worker = setupWorker(...moduleRequestHandlers);
-    await worker.start({
-        onUnhandledRequest: "bypass"
-    });
+export async function startMsw(handlers: RequestHandler[]) {
+    const worker = setupWorker(...handlers);
+    await worker.start({ onUnhandledRequest: "bypass" });
 }
 ```
 
 ### Configure Runtime
 
 ```tsx
-// host/src/index.tsx
 const runtime = initializeFirefly({
     useMsw: !!process.env.USE_MSW,
     localModules: [registerHost],
-    startMsw: async (x) => {
+    startMsw: async x => {
         return (await import("./mocks/browser.ts")).startMsw(x.requestHandlers);
     }
 });
@@ -112,19 +100,15 @@ const runtime = initializeFirefly({
 ### Register Handlers in Module
 
 ```tsx
-// module/src/register.tsx
-export const register: ModuleRegisterFunction<FireflyRuntime> = runtime => {
+// Always use dynamic import
+export const register: ModuleRegisterFunction<FireflyRuntime> = async runtime => {
     if (runtime.isMswEnabled) {
-        const requestHandlers = (await import("../mocks/handlers.ts")).requestHandlers;
+        const { requestHandlers } = await import("./mocks/handlers.ts");
         runtime.registerRequestHandlers(requestHandlers);
     }
 };
-```
 
-### Define Handlers
-
-```ts
-// module/src/mocks/handlers.ts
+// mocks/handlers.ts
 import { HttpResponse, http, type HttpHandler } from "msw";
 
 export const requestHandlers: HttpHandler[] = [
@@ -134,84 +118,50 @@ export const requestHandlers: HttpHandler[] = [
 ];
 ```
 
-### Environment Variable Setup
-
-```json
-// package.json
-{
-    "scripts": {
-        "dev": "cross-env USE_MSW=true rsbuild dev --config ./rsbuild.dev.ts"
-    }
-}
-```
-
 ## LaunchDarkly
 
-Feature flags integration.
+### Initialize Client
 
-### Setup
-
-```tsx
-// host/src/index.tsx
-import { FireflyProvider, initializeFirefly } from "@squide/firefly";
+```ts
 import { initialize as initializeLaunchDarkly } from "launchdarkly-js-client-sdk";
 
-const launchDarklyClient = initializeLaunchDarkly("YOUR_CLIENT_ID", {
-    kind: "user",
-    anonymous: true
-}, {
-    streaming: true  // Required for real-time updates
-});
+const ldClient = initializeLaunchDarkly(
+    "your-client-id",
+    { kind: "user", anonymous: true },
+    { streaming: true }  // Important for real-time updates
+);
 
-try {
-    await launchDarklyClient.waitForInitialization(5);
-} catch (error) {
-    console.error("Failed to initialize LaunchDarkly");
-}
+await ldClient.waitForInitialization(5);
+```
 
+### Configure Runtime
+
+```ts
 const runtime = initializeFirefly({
-    localModules: [registerHost],
-    launchDarklyClient
+    launchDarklyClient: ldClient
 });
 ```
 
 ### Use Feature Flags
 
-#### In React Components
-
 ```tsx
+// In React components
 import { useFeatureFlag } from "@squide/firefly";
+const isEnabled = useFeatureFlag("feature-key", false);
 
-export function Page() {
-    const showNewFeature = useFeatureFlag("show-new-feature", false);
-
-    return showNewFeature ? <NewFeature /> : <OldFeature />;
-}
-```
-
-#### In Non-React Code
-
-```ts
+// In non-React code
 import { getFeatureFlag } from "@squide/firefly";
+const isEnabled = getFeatureFlag(ldClient, "feature-key", false);
 
-const value = getFeatureFlag(launchDarklyClient, "feature-key", defaultValue);
-```
-
-#### In Deferred Registrations
-
-```tsx
-return (deferredRuntime, { userData }) => {
-    if (deferredRuntime.getFeatureFlag("enable-admin-panel")) {
-        deferredRuntime.registerNavigationItem({
-            $id: "admin",
-            $label: "Admin",
-            to: "/admin"
-        });
+// In deferred registrations
+return (deferredRuntime, data) => {
+    if (deferredRuntime.getFeatureFlag("show-feature")) {
+        deferredRuntime.registerNavigationItem({ ... });
     }
 };
 ```
 
-### TypeScript Setup
+### TypeScript Augmentation
 
 ```ts
 // types/feature-flags.d.ts
@@ -219,161 +169,47 @@ import "@squide/firefly";
 
 declare module "@squide/firefly" {
     interface FeatureFlags {
-        "show-new-feature": boolean;
-        "enable-admin-panel": boolean;
+        "feature-key": boolean;
+        "another-feature": string;
     }
 }
 ```
 
-```json
-// tsconfig.json
-{
-    "compilerOptions": {
-        "types": ["./types/feature-flags.d.ts"]
-    }
-}
-```
-
-## i18next
-
-Internationalization support.
-
-### Install Packages
-
-```bash
-pnpm add @squide/i18next i18next i18next-browser-languagedetector react-i18next
-```
-
-### Register Plugin
+### Testing with Feature Flags
 
 ```tsx
-// host/src/index.tsx
-import { initializeFirefly } from "@squide/firefly";
-import { i18nextPlugin } from "@squide/i18next";
+import { InMemoryLaunchDarklyClient, LaunchDarklyPlugin } from "@squide/firefly";
 
-const runtime = initializeFirefly({
-    localModules: [registerHost],
-    plugins: [x => {
-        const plugin = new i18nextPlugin(x, ["en-US", "fr-CA"], "en-US", "language");
-        plugin.detectUserLanguage();
-        return plugin;
-    }]
+const flags = new Map([["feature-key", true]]);
+const ldClient = new InMemoryLaunchDarklyClient(flags);
+
+const runtime = new FireflyRuntime({
+    plugins: [x => new LaunchDarklyPlugin(x, ldClient)]
 });
 ```
 
-### Configure Module
-
-```tsx
-// module/src/register.tsx
-import { getI18nextPlugin, I18nextNavigationItemLabel } from "@squide/i18next";
-import i18n from "i18next";
-import { initReactI18next } from "react-i18next";
-import resourcesEn from "./locales/en-US/resources.json";
-import resourcesFr from "./locales/fr-CA/resources.json";
-
-export const register: ModuleRegisterFunction<FireflyRuntime> = runtime => {
-    const i18nextPlugin = getI18nextPlugin(runtime);
-
-    const i18nextInstance = i18n.createInstance().use(initReactI18next);
-
-    i18nextInstance.init({
-        lng: i18nextPlugin.currentLanguage,
-        resources: {
-            "en-US": resourcesEn,
-            "fr-CA": resourcesFr
-        }
-    });
-
-    i18nextPlugin.registerInstance("my-module", i18nextInstance);
-
-    runtime.registerNavigationItem({
-        $id: "page",
-        $label: <I18nextNavigationItemLabel i18next={i18nextInstance} resourceKey="page" />,
-        to: "/page"
-    });
-};
-```
-
-### Use in Components
-
-```tsx
-import { useI18nextInstance } from "@squide/i18next";
-import { useTranslation } from "react-i18next";
-
-export function Page() {
-    const i18nextInstance = useI18nextInstance("my-module");
-    const { t } = useTranslation("Page", { i18n: i18nextInstance });
-
-    return <div>{t("bodyText")}</div>;
-}
-```
-
-### Change Language
-
-```tsx
-import { useChangeLanguage } from "@squide/i18next";
-
-function LanguageSwitcher() {
-    const changeLanguage = useChangeLanguage();
-
-    return (
-        <button onClick={() => changeLanguage("fr-CA")}>
-            Français
-        </button>
-    );
-}
-```
-
-### Hooks
-
-| Hook | Description |
-|------|-------------|
-| `useI18nextInstance(key)` | Get module's i18next instance |
-| `useChangeLanguage()` | Get function to change language |
-| `useCurrentLanguage()` | Get current language |
-
 ## Honeycomb
 
-Observability and performance tracing.
-
-### Install Packages
-
-```bash
-pnpm add @workleap/telemetry @opentelemetry/api
-```
-
-### Setup
+### Setup with @workleap/telemetry
 
 ```tsx
-// host/src/index.tsx
-import { FireflyProvider, initializeFirefly } from "@squide/firefly";
 import { initializeTelemetry } from "@workleap/telemetry/react";
 
 const telemetryClient = initializeTelemetry({
     honeycomb: {
         namespace: "my-app",
-        serviceName: "my-app-frontend",
-        apiServiceUrls: [/https:\/\/api\.myapp\.com\/.*/],
+        serviceName: "my-service",
+        apiServiceUrls: [/.+/g],
         options: {
-            proxy: "https://collector.myapp.com"
+            proxy: "https://my-proxy.com"
         }
     }
 });
 
 const runtime = initializeFirefly({
-    localModules: [registerHost],
     honeycombInstrumentationClient: telemetryClient.honeycomb
 });
 ```
-
-### Default Traces
-
-- Bootstrapping flow performance
-- Deferred registration updates
-- Fetch requests (end-to-end)
-- Document load
-- Unmanaged errors
-- Core Web Vitals (LCP, CLS, INP)
 
 ### Set Custom Attributes
 
@@ -381,52 +217,133 @@ const runtime = initializeFirefly({
 import { useHoneycombInstrumentationClient } from "@workleap/telemetry/react";
 
 function BootstrappingRoute() {
-    const [session] = useProtectedDataQueries([sessionQuery], isUnauthorized);
-    const honeycombClient = useHoneycombInstrumentationClient();
+    const [session] = useProtectedDataQueries([...]);
+    const honeycomb = useHoneycombInstrumentationClient();
 
     useEffect(() => {
         if (session) {
-            honeycombClient.setGlobalSpanAttributes({
-                "app.user_id": session.user.id,
-                "app.subscription_status": session.subscription.status
+            honeycomb.setGlobalSpanAttributes({
+                "app.user_id": session.userId,
+                "app.tenant_id": session.tenantId
             });
         }
     }, [session]);
-
-    // ...
 }
 ```
 
-### Custom Traces
+## i18next
+
+### Setup Plugin
+
+```ts
+import { i18nextPlugin } from "@squide/firefly";
+import i18next from "i18next";
+
+await i18next.init({ ... });
+
+const runtime = initializeFirefly({
+    plugins: [x => i18nextPlugin(x, i18next)]
+});
+```
+
+### Use in Components
 
 ```tsx
-import { trace } from "@opentelemetry/api";
+import { useI18nextInstance, useCurrentLanguage, useChangeLanguage } from "@squide/firefly";
 
-const tracer = trace.getTracer("my-tracer");
+function LanguageSwitcher() {
+    const currentLanguage = useCurrentLanguage();
+    const changeLanguage = useChangeLanguage();
 
-export function Page() {
-    useEffect(() => {
-        const span = tracer.startSpan("my-custom-span");
-        // ... do work
-        span.end();
-    }, []);
-
-    return <div>Page</div>;
+    return (
+        <select
+            value={currentLanguage}
+            onChange={e => changeLanguage(e.target.value)}
+        >
+            <option value="en">English</option>
+            <option value="fr">French</option>
+        </select>
+    );
 }
 ```
 
-## Logger
-
-Logging abstraction supporting multiple destinations.
-
-### Default Behavior
-
-In development mode, a `BrowserConsoleLogger` is automatically added if no loggers are provided.
-
-### Custom Loggers
+### Localized Navigation Labels
 
 ```tsx
-import { initializeFirefly } from "@squide/firefly";
+import { I18nextNavigationItemLabel } from "@squide/firefly";
+
+runtime.registerNavigationItem({
+    $id: "home",
+    $label: <I18nextNavigationItemLabel i18next={i18next} resourceKey="nav.home" />,
+    to: "/"
+});
+```
+
+## Storybook
+
+### Setup Decorator
+
+```tsx
+// .storybook/preview.tsx
+import { withFireflyDecorator, initializeFireflyForStorybook } from "@squide/firefly";
+import { MemoryRouter } from "react-router";
+
+const runtime = initializeFireflyForStorybook();
+
+export const decorators = [
+    withFireflyDecorator(runtime),
+    (Story) => (
+        <MemoryRouter>
+            <Story />
+        </MemoryRouter>
+    )
+];
+```
+
+### With Feature Flags
+
+```tsx
+import { withFeatureFlagsOverrideDecorator } from "@squide/firefly";
+
+export const decorators = [
+    withFeatureFlagsOverrideDecorator({
+        "feature-key": true
+    }),
+    withFireflyDecorator(runtime)
+];
+```
+
+### Per-Story Feature Flags
+
+```tsx
+export const WithFeatureEnabled = {
+    decorators: [
+        withFeatureFlagsOverrideDecorator({ "my-feature": true })
+    ]
+};
+
+export const WithFeatureDisabled = {
+    decorators: [
+        withFeatureFlagsOverrideDecorator({ "my-feature": false })
+    ]
+};
+```
+
+### With Environment Variables
+
+```tsx
+const runtime = initializeFireflyForStorybook({
+    environmentVariables: {
+        apiBaseUrl: "https://mock-api.example.com"
+    }
+});
+```
+
+## Logging with @workleap/logging
+
+### Setup
+
+```ts
 import { BrowserConsoleLogger } from "@workleap/logging";
 
 const runtime = initializeFirefly({
@@ -434,121 +351,49 @@ const runtime = initializeFirefly({
 });
 ```
 
-### LogRocket Integration
+### Multiple Loggers
 
-```tsx
-import { initializeFirefly } from "@squide/firefly";
-import { LogRocketLogger } from "@workleap/telemetry/react";
+```ts
+import { BrowserConsoleLogger, LogRocketLogger } from "@workleap/logging";
 
 const runtime = initializeFirefly({
-    mode: "production",
-    loggers: [new LogRocketLogger()]
+    loggers: [
+        new BrowserConsoleLogger(),
+        new LogRocketLogger()
+    ]
 });
 ```
 
-### Use Logger
+### Use in Components
 
 ```tsx
 import { useLogger } from "@squide/firefly";
 
-export function Page() {
+function Component() {
     const logger = useLogger();
 
-    useEffect(() => {
-        logger.debug("Page mounted");
-        logger.information("User viewed page");
-        logger.warning("Deprecated feature used");
-        logger.error("Operation failed");
-    }, [logger]);
+    const handleClick = () => {
+        logger.info("Button clicked");
+    };
 
-    return <div>Page</div>;
+    return <button onClick={handleClick}>Click</button>;
 }
 ```
 
-## Storybook
+### Log Levels
 
-Component development environment with Squide integration.
+```ts
+logger.debug("Debug message");    // Verbose debugging
+logger.info("Info message");      // General information
+logger.warn("Warning message");   // Potential issues
+logger.error("Error message");    // Errors
 
-### Install Packages
-
-```bash
-pnpm add msw msw-storybook-addon @squide/firefly-rsbuild-storybook
+// With structured data
+logger
+    .withText("Operation failed")
+    .withError(error)
+    .withObject({ userId, action })
+    .error();
 ```
 
-### Configure Preview
-
-```tsx
-// .storybook/preview.tsx
-import { initialize as initializeMsw, mswLoader } from "msw-storybook-addon";
-import { Suspense } from "react";
-
-initializeMsw({ onUnhandledRequest: "bypass" });
-
-const preview = {
-    decorators: [
-        Story => (
-            <Suspense fallback="Loading...">
-                <Story />
-            </Suspense>
-        )
-    ],
-    loaders: [mswLoader]
-};
-
-export default preview;
-```
-
-### Story File
-
-```tsx
-import { initializeFireflyForStorybook, withFireflyDecorator } from "@squide/firefly-rsbuild-storybook";
-import type { Meta, StoryObj } from "storybook-react-rsbuild";
-import { Page } from "./Page.tsx";
-import { registerModule } from "./registerModule.tsx";
-
-const runtime = await initializeFireflyForStorybook({
-    localModules: [registerModule],
-    environmentVariables: {
-        apiBaseUrl: "https://api.example.com"
-    }
-});
-
-const meta = {
-    title: "Page",
-    component: Page,
-    decorators: [withFireflyDecorator(runtime)],
-    parameters: {
-        msw: {
-            handlers: runtime.requestHandlers
-        }
-    }
-} satisfies Meta<typeof Page>;
-
-export default meta;
-
-type Story = StoryObj<typeof meta>;
-
-export const Default = {} satisfies Story;
-```
-
-### Feature Flags in Stories
-
-```tsx
-const featureFlags = new Map([
-    ["show-summary", true]
-] as const);
-
-const runtime = await initializeFireflyForStorybook({
-    localModules: [registerModule],
-    featureFlags
-});
-
-// Override for specific story
-import { withFeatureFlagsOverrideDecorator } from "@squide/firefly-rsbuild-storybook";
-
-export const WithoutSummary = {
-    decorators: [
-        withFeatureFlagsOverrideDecorator(featureFlags, { "show-summary": false })
-    ]
-} satisfies Story;
-```
+**Warning:** Never log Personally Identifiable Information (PII). API responses often contain sensitive data that will appear in session replays.

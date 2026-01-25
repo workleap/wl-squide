@@ -13,18 +13,29 @@ description: |
   (9) Questions about modular architecture patterns in React applications
 ---
 
-# Squide
+# Squide Framework
 
-Squide is a React modular application shell that enforces architectural patterns for scalable, maintainable web applications. It organizes applications as collections of independent modules, each responsible for a specific domain.
+Squide is a React modular application shell. Use only documented APIs.
 
-## Modular Design Principles
+## Core Concepts
 
-- A module should correspond to a domain or subdomain
-- Modules should be autonomous and self-contained
-- Modules should NOT directly reference other modules - use Squide's Runtime API instead
-- Data and state should NEVER be shared between modules
+### Runtime
+The `FireflyRuntime` instance is the backbone of a Squide application. Never instantiate directly - use `initializeFirefly()`.
 
-## Quick Start
+### Modular Registration
+Modules register routes, navigation items, and MSW handlers via a registration function. Each module contributes its own configuration, assembled by the host at bootstrapping.
+
+### Public vs Protected Routes
+- Routes default to `protected` (rendered under `ProtectedRoutes` placeholder)
+- Use `registerPublicRoute()` for public routes (rendered under `PublicRoutes` placeholder)
+- Public routes only fetch public global data; protected routes fetch both public and protected data
+
+### Deferred Registrations
+Navigation items dependent on remote data or feature flags use two-phase registration:
+1. First phase: Register static routes and navigation items
+2. Second phase: Return a function from registration to defer navigation items
+
+## Quick Reference
 
 ### Host Application Setup
 
@@ -32,18 +43,22 @@ Squide is a React modular application shell that enforces architectural patterns
 // host/src/index.tsx
 import { createRoot } from "react-dom/client";
 import { FireflyProvider, initializeFirefly } from "@squide/firefly";
-import { registerHost } from "./register.tsx";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { App } from "./App.tsx";
+import { registerHost } from "./register.tsx";
 
 const runtime = initializeFirefly({
     localModules: [registerHost]
 });
 
+const queryClient = new QueryClient();
 const root = createRoot(document.getElementById("root")!);
 
 root.render(
     <FireflyProvider runtime={runtime}>
-        <App />
+        <QueryClientProvider client={queryClient}>
+            <App />
+        </QueryClientProvider>
     </FireflyProvider>
 );
 ```
@@ -85,7 +100,6 @@ export function App() {
 // host/src/register.tsx
 import { PublicRoutes, ProtectedRoutes, type ModuleRegisterFunction, type FireflyRuntime } from "@squide/firefly";
 import { RootLayout } from "./RootLayout.tsx";
-import { HomePage } from "./HomePage.tsx";
 
 export const registerHost: ModuleRegisterFunction<FireflyRuntime> = runtime => {
     runtime.registerRoute({
@@ -93,15 +107,8 @@ export const registerHost: ModuleRegisterFunction<FireflyRuntime> = runtime => {
         children: [PublicRoutes, ProtectedRoutes]
     }, { hoist: true });
 
-    runtime.registerRoute({
-        index: true,
-        element: <HomePage />
-    });
-
-    runtime.registerPublicRoute({
-        path: "*",
-        element: <NotFoundPage />
-    });
+    runtime.registerRoute({ index: true, element: <HomePage /> });
+    runtime.registerPublicRoute({ path: "*", element: <NotFoundPage /> });
 };
 ```
 
@@ -123,8 +130,109 @@ export const register: ModuleRegisterFunction<FireflyRuntime> = runtime => {
         $label: "Page",
         to: "/page"
     });
+};
+```
 
-    // Optional: Register MSW handlers in development
+### Navigation Rendering
+
+```tsx
+import { Link, Outlet } from "react-router";
+import {
+    useNavigationItems, useRenderedNavigationItems, isNavigationLink,
+    type RenderItemFunction, type RenderSectionFunction
+} from "@squide/firefly";
+
+const renderItem: RenderItemFunction = (item, key) => {
+    if (!isNavigationLink(item)) return null;
+    const { label, linkProps, additionalProps } = item;
+    return (
+        <li key={key}>
+            <Link {...linkProps} {...additionalProps}>{label}</Link>
+        </li>
+    );
+};
+
+const renderSection: RenderSectionFunction = (elements, key) => (
+    <ul key={key}>{elements}</ul>
+);
+
+export function RootLayout() {
+    const navigationItems = useNavigationItems();
+    const navigationElements = useRenderedNavigationItems(navigationItems, renderItem, renderSection);
+    return (
+        <>
+            <nav>{navigationElements}</nav>
+            <Outlet />
+        </>
+    );
+}
+```
+
+### Global Data Fetching
+
+```tsx
+// Protected data
+import { useProtectedDataQueries, useIsBootstrapping, AppRouter } from "@squide/firefly";
+
+function BootstrappingRoute() {
+    const [session] = useProtectedDataQueries([{
+        queryKey: ["/api/session"],
+        queryFn: async () => {
+            const response = await fetch("/api/session");
+            if (!response.ok) throw new ApiError(response.status);
+            return response.json();
+        }
+    }], error => isApiError(error) && error.status === 401);
+
+    if (useIsBootstrapping()) return <div>Loading...</div>;
+
+    return (
+        <SessionContext.Provider value={session}>
+            <Outlet />
+        </SessionContext.Provider>
+    );
+}
+
+// In App component, set waitForProtectedData
+<AppRouter waitForProtectedData>...</AppRouter>
+```
+
+```tsx
+// Public data
+const [data] = usePublicDataQueries([{ queryKey: [...], queryFn: ... }]);
+<AppRouter waitForPublicData>...</AppRouter>
+```
+
+### Deferred Navigation Items
+
+```tsx
+export const register: ModuleRegisterFunction<FireflyRuntime, unknown, DeferredRegistrationData> = runtime => {
+    // Always register routes
+    runtime.registerRoute({ path: "/feature", element: <FeaturePage /> });
+
+    // Return function for deferred navigation items
+    return (deferredRuntime, { userData }) => {
+        if (userData.isAdmin && deferredRuntime.getFeatureFlag("enable-feature")) {
+            deferredRuntime.registerNavigationItem({
+                $id: "feature",
+                $label: "Feature",
+                to: "/feature"
+            });
+        }
+    };
+};
+```
+
+```tsx
+// Execute deferred registrations in BootstrappingRoute
+const data = useMemo(() => ({ userData }), [userData]);
+useDeferredRegistrations(data);
+```
+
+### MSW Request Handlers
+
+```tsx
+export const register: ModuleRegisterFunction<FireflyRuntime> = runtime => {
     if (runtime.isMswEnabled) {
         const requestHandlers = (await import("../mocks/handlers.ts")).requestHandlers;
         runtime.registerRequestHandlers(requestHandlers);
@@ -132,108 +240,145 @@ export const register: ModuleRegisterFunction<FireflyRuntime> = runtime => {
 };
 ```
 
-## Core Concepts
-
-### Route Registration
+### Event Bus
 
 ```tsx
-// Basic route
-runtime.registerRoute({
-    path: "/page",
-    element: <Page />
+// Listen
+import { useEventBusListener } from "@squide/firefly";
+const handleEvent = useCallback((data, context) => { /* ... */ }, []);
+useEventBusListener("event-name", handleEvent);
+
+// Dispatch
+import { useEventBusDispatcher } from "@squide/firefly";
+const dispatch = useEventBusDispatcher();
+dispatch("event-name", payload);
+```
+
+### Environment Variables
+
+```tsx
+// Register at initialization
+const runtime = initializeFirefly({
+    environmentVariables: { apiBaseUrl: "https://api.example.com" }
 });
 
-// Public route (no authentication required)
-runtime.registerPublicRoute({
-    path: "/login",
-    element: <LoginPage />
-});
+// Or register in module
+runtime.registerEnvironmentVariable("key", "value");
 
-// Hoisted route (renders outside root layout)
+// Use
+import { useEnvironmentVariable } from "@squide/firefly";
+const apiUrl = useEnvironmentVariable("apiBaseUrl");
+```
+
+### Feature Flags
+
+```tsx
+// Initialize with LaunchDarkly
+import { initialize as initializeLaunchDarkly } from "launchdarkly-js-client-sdk";
+
+const ldClient = initializeLaunchDarkly("client-id", { kind: "user", anonymous: true }, { streaming: true });
+await ldClient.waitForInitialization(5);
+
+const runtime = initializeFirefly({ launchDarklyClient: ldClient });
+
+// Use
+import { useFeatureFlag } from "@squide/firefly";
+const isEnabled = useFeatureFlag("feature-key", defaultValue);
+```
+
+### Logging
+
+```tsx
+import { useLogger } from "@squide/firefly";
+const logger = useLogger();
+logger.debug("Message");
+```
+
+### Error Boundaries
+
+```tsx
+// Root error boundary (wraps everything)
 runtime.registerRoute({
-    path: "/standalone",
-    element: <StandalonePage />
+    errorElement: <RootErrorBoundary />,
+    children: [{
+        element: <RootLayout />,
+        children: [PublicRoutes, ProtectedRoutes]
+    }]
 }, { hoist: true });
 
-// Nested route
+// Module error boundary (isolates module failures)
 runtime.registerRoute({
-    path: "/parent/child",
-    element: <ChildPage />
-}, { parentPath: "/parent" });
+    element: <RootLayout />,
+    children: [{
+        errorElement: <ModuleErrorBoundary />,
+        children: [PublicRoutes, ProtectedRoutes]
+    }]
+}, { hoist: true });
 ```
 
-### Navigation Items
+## API Quick Reference
 
-```tsx
-// Basic navigation item
-runtime.registerNavigationItem({
-    $id: "page",
-    $label: "Page",
-    to: "/page"
-});
+### initializeFirefly Options
+- `mode`: `"development"` | `"production"`
+- `localModules`: Array of registration functions
+- `context`: Object passed to registration functions
+- `useMsw`: Enable MSW support
+- `startMsw`: Function to start MSW
+- `environmentVariables`: Initial environment variables
+- `honeycombInstrumentationClient`: For tracing
+- `launchDarklyClient`: For feature flags
+- `loggers`: Array of logger instances
+- `plugins`: Array of plugin factory functions
+- `onError`: Error handler for bootstrapping errors
 
-// With priority (higher renders first)
-runtime.registerNavigationItem({
-    $id: "home",
-    $label: "Home",
-    $priority: 100,
-    to: "/"
-});
+### Route Registration Options
+- `hoist`: Register at router root (bypasses layouts/auth)
+- `parentPath`: Nest under route with matching `path`
+- `parentId`: Nest under route with matching `$id`
 
-// Nested under a section
-runtime.registerNavigationItem({
-    $id: "child",
-    $label: "Child",
-    to: "/child"
-}, { sectionId: "parent-section" });
-```
+### Route Properties
+- `$id`: Identifier for nesting
+- `$visibility`: `"public"` | `"protected"` (default)
 
-### Deferred Registrations
+### Navigation Item Properties
+- `$id`: Unique identifier (recommended for stable keys)
+- `$label`: Text or ReactNode
+- `$priority`: Sorting priority (higher = first)
+- `$canRender`: Conditional render function
+- `$additionalProps`: Custom props for renderer
+- `to`: Route path (supports dynamic segments like `/user/:id`)
 
-Register navigation items conditionally based on user data or feature flags:
+### Navigation Registration Options
+- `menuId`: Target a specific menu (default: `"root"`)
+- `sectionId`: Nest under section with matching `$id`
 
-```tsx
-export const register: ModuleRegisterFunction<FireflyRuntime, unknown, DeferredRegistrationData> = runtime => {
-    runtime.registerRoute({
-        path: "/admin",
-        element: <AdminPage />
-    });
+### AppRouter Props
+- `waitForPublicData`: Delay until public data ready
+- `waitForProtectedData`: Delay until protected data ready
 
-    // Return function for deferred registration
-    return (deferredRuntime, { userData }) => {
-        if (userData.isAdmin && deferredRuntime.getFeatureFlag("enable-admin")) {
-            deferredRuntime.registerNavigationItem({
-                $id: "admin",
-                $label: "Admin",
-                to: "/admin"
-            });
-        }
-    };
-};
-```
+### Hooks
+- `useNavigationItems(options?)`: Get navigation items
+- `useRenderedNavigationItems(items, renderItem, renderSection)`: Render nav items
+- `useIsBootstrapping()`: Check if bootstrapping
+- `usePublicDataQueries(queries)`: Fetch public global data
+- `useProtectedDataQueries(queries, isUnauthorizedError)`: Fetch protected data
+- `useDeferredRegistrations(data?)`: Execute deferred registrations
+- `useEventBusListener(event, handler, options?)`: Listen to events
+- `useEventBusDispatcher()`: Get dispatch function
+- `useLogger()`: Get logger instance
+- `useEnvironmentVariable(key)`: Get env variable
+- `useEnvironmentVariables()`: Get all env variables
+- `useFeatureFlag(key, defaultValue)`: Get feature flag
+- `usePlugin(name)`: Get plugin instance
+- `useRuntime()`: Get runtime instance
+- `useRuntimeMode()`: Get runtime mode
+- `useIsRouteProtected()`: Check if current route is protected
+- `useRouteMatch(path)`: Match current route
 
-Execute deferred registrations in the host:
+### Helper Functions
+- `isNavigationLink(item)`: Type guard for navigation links
+- `isGlobalDataQueriesError(error)`: Type guard for query errors
+- `resolveRouteSegments(path, params)`: Resolve dynamic segments
+- `getFeatureFlag(client, key, defaultValue)`: Get flag in non-React code
 
-```tsx
-function BootstrappingRoute() {
-    const [userData] = usePublicDataQueries([userQuery]);
-
-    const data = useMemo(() => ({ userData }), [userData]);
-    useDeferredRegistrations(data);
-
-    if (useIsBootstrapping()) {
-        return <div>Loading...</div>;
-    }
-    return <Outlet />;
-}
-```
-
-## Reference Documentation
-
-For detailed API references, see:
-
-- [runtime.md](references/runtime.md) - FireflyRuntime API
-- [routing.md](references/routing.md) - AppRouter, useNavigationItems, useRenderedNavigationItems
-- [data-fetching.md](references/data-fetching.md) - usePublicDataQueries, useProtectedDataQueries
-- [integrations.md](references/integrations.md) - MSW, TanStack Query, i18next, LaunchDarkly, Honeycomb, Storybook
-- [utilities.md](references/utilities.md) - useLogger, useEventBus, useEnvironmentVariable, useFeatureFlag
+For detailed API documentation, see the references folder.
