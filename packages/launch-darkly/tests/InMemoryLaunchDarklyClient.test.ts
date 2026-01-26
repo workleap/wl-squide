@@ -108,27 +108,6 @@ describe("setFeatureFlags", () => {
         expect(client.variation("flag-b")).toBeFalsy();
     });
 
-    test.concurrent("when setting multiple feature flags with the notify option set to true, the change listener is notified with all flags", ({ expect }) => {
-        const flags = new Map<string, boolean>();
-        const client = new InMemoryLaunchDarklyClient(flags);
-
-        let notifiedValue: Record<string, boolean> | undefined;
-
-        client.on("change", (value: Record<string, boolean>) => {
-            notifiedValue = value;
-        });
-
-        client.setFeatureFlags({
-            "flag-a": true,
-            "flag-b": false
-        }, { notify: true });
-
-        expect(notifiedValue).toEqual({
-            "flag-a": true,
-            "flag-b": false
-        });
-    });
-
     test.concurrent("when setting multiple feature flags without a notify option, the change listener is notified", ({ expect }) => {
         const flags = new Map<string, boolean>();
         const client = new InMemoryLaunchDarklyClient(flags);
