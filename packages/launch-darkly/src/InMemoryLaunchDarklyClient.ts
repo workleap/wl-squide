@@ -118,7 +118,7 @@ export class InMemoryLaunchDarklyClient implements EditableLaunchDarklyClient {
             this.#objectLiteralSnapshot = Object.fromEntries(this.#flags);
 
             if (notify) {
-                this.#notifier.notify("change", flags);
+                this.#notifier.notify("change");
             }
         }
     }

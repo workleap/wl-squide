@@ -1,7 +1,7 @@
-import { LDClient } from "launchdarkly-js-client-sdk";
+import { LDClient, type LDFlagChangeset } from "launchdarkly-js-client-sdk";
 import { FeatureFlags } from "./featureFlags.ts";
 
-export type FeatureFlagSetSnapshotChangedListener = (snapshot: FeatureFlags, changes: Partial<FeatureFlags>) => void;
+export type FeatureFlagSetSnapshotChangedListener = (snapshot: FeatureFlags, changes: LDFlagChangeset) => void;
 
 // Maintaining a snapshot of the feature flags because the LaunchDarkly client always return
 // a new object, which is causing infinite loops with external hooks such as "useSyncExternalStore".

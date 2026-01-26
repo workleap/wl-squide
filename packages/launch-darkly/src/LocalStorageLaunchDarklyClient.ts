@@ -209,7 +209,7 @@ export class LocalStorageLaunchDarklyClient implements EditableLaunchDarklyClien
             this.#cache = undefined;
 
             if (notify) {
-                this.#notifier.notify("change", flags);
+                this.#notifier.notify("change");
             }
         }
     }
