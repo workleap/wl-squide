@@ -7,14 +7,14 @@ export interface InMemoryLaunchDarklyClientOptions {
     notifier?: LaunchDarklyClientNotifier;
 }
 
-export class InMemoryLaunchDarklyClient implements EditableLaunchDarklyClient {
+export class InMemoryLaunchDarklyClient<T extends string = string> implements EditableLaunchDarklyClient<T> {
     readonly #flags: Map<string, LDFlagValue>;
     readonly #context: LDContext;
     readonly #notifier: LaunchDarklyClientNotifier;
 
     #objectLiteralSnapshot: Record<string, LDFlagValue>;
 
-    constructor(featureFlags: Map<string, LDFlagValue>, options: InMemoryLaunchDarklyClientOptions = {}) {
+    constructor(featureFlags: Map<T, LDFlagValue>, options: InMemoryLaunchDarklyClientOptions = {}) {
         const {
             context,
             notifier
@@ -33,6 +33,10 @@ export class InMemoryLaunchDarklyClient implements EditableLaunchDarklyClient {
         };
 
         this.#notifier = notifier ?? new LaunchDarklyClientNotifier();
+    }
+
+    static create<const T extends string>(featureFlags: Map<T, LDFlagValue>, options: InMemoryLaunchDarklyClientOptions = {}): InMemoryLaunchDarklyClient<T> {
+        return new InMemoryLaunchDarklyClient<T>(featureFlags, options);
     }
 
     waitUntilGoalsReady() {
@@ -102,7 +106,7 @@ export class InMemoryLaunchDarklyClient implements EditableLaunchDarklyClient {
 
     addHook(): void {}
 
-    setFeatureFlags(flags: Record<string, LDFlagValue>, options: SetFeatureFlagOptions = {}): void {
+    setFeatureFlags(flags: Partial<Record<T, LDFlagValue>>, options: SetFeatureFlagOptions = {}): void {
         const {
             notify = true
         } = options;
@@ -122,4 +126,8 @@ export class InMemoryLaunchDarklyClient implements EditableLaunchDarklyClient {
             }
         }
     }
+}
+
+export function createInMemoryLaunchDarklyClient<const T extends string>(featureFlags: Map<T, LDFlagValue>, options?: InMemoryLaunchDarklyClientOptions) {
+    return InMemoryLaunchDarklyClient.create(featureFlags, options);
 }
