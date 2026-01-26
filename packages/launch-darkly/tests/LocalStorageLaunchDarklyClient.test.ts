@@ -153,10 +153,20 @@ describe("storage event synchronization", () => {
 
         const client = createLocalStorageLaunchDarklyClient(STORAGE_KEY, defaultFlags);
 
-        localStorage.setItem(STORAGE_KEY, JSON.stringify([
-            ["flag-a", true],
-            ["flag-b", false]
-        ]));
+        // Simulate storage event from another tab
+        const storageEvent = new StorageEvent("storage", {
+            key: STORAGE_KEY,
+            newValue: JSON.stringify({
+                "flag-a": true,
+                "flag-b": false
+            }),
+            oldValue: JSON.stringify({
+                "flag-a": false,
+                "flag-b": false
+            })
+        });
+
+        window.dispatchEvent(storageEvent);
 
         expect(client.variation("flag-a")).toBe(true);
         expect(client.variation("flag-b")).toBe(false);
@@ -224,6 +234,60 @@ describe("storage event synchronization", () => {
         }).not.toThrow();
 
         expect(client.variation("flag-a")).toBe(false);
+    });
+
+    test("only triggers change notification for modified flags", () => {
+        const defaultFlags = new Map(Object.entries({
+            "flag-a": false,
+            "flag-b": true,
+            "flag-c": "value"
+        }));
+
+        const client = createLocalStorageLaunchDarklyClient(STORAGE_KEY, defaultFlags);
+        const changeHandler = vi.fn();
+        client.on("change", changeHandler);
+
+        // Simulate storage event where only flag-a changes
+        const storageEvent = new StorageEvent("storage", {
+            key: STORAGE_KEY,
+            newValue: JSON.stringify({
+                "flag-a": true,
+                "flag-b": true,
+                "flag-c": "value"
+            })
+        });
+
+        window.dispatchEvent(storageEvent);
+
+        expect(changeHandler).toHaveBeenCalledWith({
+            "flag-a": true
+        });
+    });
+
+    test("does not trigger change notification when no flags actually change", () => {
+        const defaultFlags = new Map(Object.entries({
+            "flag-a": false,
+            "flag-b": true
+        }));
+
+        const client = createLocalStorageLaunchDarklyClient(STORAGE_KEY, defaultFlags);
+        const changeHandler = vi.fn();
+
+        // Clear the initial call from constructor
+        client.on("change", changeHandler);
+
+        // Simulate storage event with same values
+        const storageEvent = new StorageEvent("storage", {
+            key: STORAGE_KEY,
+            newValue: JSON.stringify({
+                "flag-a": false,
+                "flag-b": true
+            })
+        });
+
+        window.dispatchEvent(storageEvent);
+
+        expect(changeHandler).not.toHaveBeenCalled();
     });
 });
 
