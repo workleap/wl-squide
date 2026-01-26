@@ -1,24 +1,40 @@
 import type { LDContext, LDFlagSet, LDFlagValue } from "launchdarkly-js-sdk-common";
-import type { EditableFakeLaunchDarklyClient, SetFlagOptions } from "./EditableFakeLaunchDarklyClient.ts";
-import { LaunchDarklyClientNotifier } from "./InMemoryLaunchDarklyClient.ts";
+import type { EditableLaunchDarklyClient, SetFeatureFlagOptions } from "./EditableLaunchDarklyClient.ts";
+import { LaunchDarklyClientNotifier } from "./LaunchDarklyNotifier.ts";
 
 export interface LocalStorageLaunchDarklyClientOptions {
     context?: LDContext;
     notifier?: LaunchDarklyClientNotifier;
 };
 
-export function createLocalStorageLaunchDarklyClient(storageKey: string, defaultFeatureFlagValues: Map<string, LDFlagValue>, options: LocalStorageLaunchDarklyClientOptions = {}) {
-    return LocalStorageLaunchDarklyClient.create(storageKey, defaultFeatureFlagValues, options);
+// To use React features such as "useSyncExternalStore" it's important that methods returning
+// object do not create new instances everytime they are executed.
+// This cache class help the client achieve this in an elegant way.
+class LocalStorageLaunchDarklyClientCache {
+    #cache: Map<string, LDFlagValue>;
+    #cacheAsObjectLiteral: Record<string, LDFlagValue>;
+
+    constructor(flags: Map<string, LDFlagValue>) {
+        this.#cache = flags;
+        this.#cacheAsObjectLiteral = Object.fromEntries(flags);
+    }
+
+    get value() {
+        return this.#cache;
+    }
+
+    get objectLiteral() {
+        return this.#cacheAsObjectLiteral;
+    }
 }
 
-export class LocalStorageLaunchDarklyClient implements EditableFakeLaunchDarklyClient {
+export class LocalStorageLaunchDarklyClient implements EditableLaunchDarklyClient {
     readonly #storageKey: string;
-    #defaultFeatureFlagValues: Map<string, LDFlagValue>;
-    #flags: Map<string, LDFlagValue> = new Map();
     readonly #context: LDContext;
     readonly #notifier: LaunchDarklyClientNotifier;
+    #cache: LocalStorageLaunchDarklyClientCache | undefined;
 
-    private constructor(storageKey: string, defaultFeatureFlagValues: Map<string, LDFlagValue>, options: LocalStorageLaunchDarklyClientOptions = {}) {
+    private constructor(storageKey: string, options: LocalStorageLaunchDarklyClientOptions = {}) {
         const {
             context,
             notifier
@@ -31,27 +47,82 @@ export class LocalStorageLaunchDarklyClient implements EditableFakeLaunchDarklyC
 
         this.#notifier = notifier ?? new LaunchDarklyClientNotifier();
         this.#storageKey = storageKey;
-        this.#defaultFeatureFlagValues = defaultFeatureFlagValues;
+
+        // // Listen for local storage changes made in other tabs/windows.
+        // this.onStorageUpdated = this.onStorageUpdated.bind(this);
+        // window.addEventListener("storage", this.onStorageUpdated);
     }
 
-    static create(storageKey: string, defaultFeatureFlagValues: Map<string, LDFlagValue>, options: LocalStorageLaunchDarklyClientOptions = {}) {
+    static create(storageKey: string, defaultFeatureFlags: Map<string, LDFlagValue>, options: LocalStorageLaunchDarklyClientOptions = {}) {
         const client = new LocalStorageLaunchDarklyClient(
             storageKey,
-            defaultFeatureFlagValues,
             options
         );
 
-        client.initialize();
+        let currentFlags: Record<string, LDFlagValue> | undefined;
+
+        try {
+            currentFlags = client.allFlags();
+        // eslint-disable-next-line @typescript-eslint/no-unused-vars
+        } catch (error: unknown) {
+            // If the stored value is not in the right format, it can cause parsing errors.
+            currentFlags = {};
+        }
+
+        const newFlags: Record<string, LDFlagValue> = {};
+
+        // When the client is initialized and there's existing flags, update the existing
+        // flags with the new values, remove deprecated flags, and add any new flags.
+        if (Object.keys(currentFlags).length > 0) {
+            // Update the existing flags with the new values and remove deprecated flags.
+            for (const [key, value] of Object.entries(currentFlags)) {
+                if (defaultFeatureFlags.has(key)) {
+                    newFlags[key] = value;
+                }
+            }
+
+            // Add new flags.
+            for (const [key, value] of defaultFeatureFlags) {
+                if (!(key in newFlags)) {
+                    newFlags[key] = value;
+                }
+            }
+        // There's no existing flags, initialize client with the new flags.
+        } else {
+            for (const [key, value] of defaultFeatureFlags) {
+                newFlags[key] = value;
+            }
+        }
+
+        client.setFeatureFlags(newFlags, {
+            notify: false
+        });
+
         return client;
     }
 
-    private initialize() {
-        const featureFlags = initializeFeatureFlags(this.#storageKey, this.#defaultFeatureFlagValues);
-        this.setFeatureFlags(Object.fromEntries(featureFlags), { notify: false });
+    #getFlags() {
+        if (!this.#cache) {
+            const rawFlags = localStorage.getItem(this.#storageKey);
 
-        // Listen for localStorage changes made in other tabs/windows
-        this.onStorageUpdated = this.onStorageUpdated.bind(this);
-        window.addEventListener("storage", this.onStorageUpdated);
+            if (rawFlags) {
+                this.#cache = new LocalStorageLaunchDarklyClientCache(new Map(JSON.parse(rawFlags)));
+            }
+
+            if (!this.#cache) {
+                this.#cache = new LocalStorageLaunchDarklyClientCache(new Map<string, LDFlagValue>());
+            }
+        }
+
+        return this.#cache;
+    }
+
+    #updateLocalStorage(newFlags: Map<string, LDFlagValue>) {
+        localStorage.setItem(this.#storageKey, JSON.stringify([...newFlags]));
+    }
+
+    #invalidateCache() {
+        this.#cache = undefined;
     }
 
     waitUntilGoalsReady() {
@@ -77,9 +148,11 @@ export class LocalStorageLaunchDarklyClient implements EditableFakeLaunchDarklyC
     }
 
     identify(context: LDContext, hash?: string, onDone?: (err: Error | null, flags: LDFlagSet | null) => void) {
-        onDone?.(null, this.#flags);
+        const flags = this.#getFlags().objectLiteral;
 
-        return Promise.resolve(this.#flags);
+        onDone?.(null, flags);
+
+        return Promise.resolve(flags);
     }
 
     getContext() {
@@ -91,13 +164,13 @@ export class LocalStorageLaunchDarklyClient implements EditableFakeLaunchDarklyC
     }
 
     variation(key: string, defaultValue?: LDFlagValue) {
-        const flag = this.#flags.get(key);
+        const flag = this.#getFlags().value.get(key);
 
         return flag ?? defaultValue;
     }
 
     variationDetail(key: string, defaultValue?: LDFlagValue) {
-        const flag = this.#flags.get(key);
+        const flag = this.#getFlags().value.get(key);
 
         return {
             value: flag ?? defaultValue
@@ -108,90 +181,71 @@ export class LocalStorageLaunchDarklyClient implements EditableFakeLaunchDarklyC
 
     track(): void {}
 
+    // IMPORTANT: Must not return a new instance everytime it's executed as it will breaks "useSyncExternalStore".
     allFlags() {
-        return Object.fromEntries(this.#flags);
+        return this.#getFlags().objectLiteral;
     }
 
     addHook(): void {}
 
     close(onDone?: () => void) {
-        window.removeEventListener("storage", this.onStorageUpdated);
+        // window.removeEventListener("storage", this.onStorageUpdated);
         onDone?.();
 
         return Promise.resolve();
     }
 
-    setFeatureFlags(flags: Record<string, LDFlagValue>, options?: SetFlagOptions): void {
+    setFeatureFlags(flags: Record<string, LDFlagValue>, options: SetFeatureFlagOptions = {}): void {
         const {
             notify = true
-        } = options ?? {};
+        } = options;
 
-        for (const [name, value] of Object.entries(flags)) {
-            this.#flags.set(name, value);
-        }
-        if (notify) {
-            this.#notifier.notify("change", flags);
-        }
+        const currentFlags = this.#getFlags().value;
+        const newFlags = new Map<string, LDFlagValue>(currentFlags);
+        const entries = Object.entries(flags);
 
-        this.updateLocalStorage();
-    }
-
-    onStorageUpdated(event: StorageEvent) {
-        if (event.key !== this.#storageKey || !event.newValue) {
-            return;
-        }
-
-        try {
-            const newFlag = JSON.parse(event.newValue);
-            const currentFlags = new Map(Object.entries(this.allFlags()));
-            const updatedFlags = new Map<string, LDFlagValue>();
-
-            for (const [key, value] of Object.entries(newFlag)) {
-                if (currentFlags.get(key) !== value) {
-                    updatedFlags.set(key, value);
-                }
+        if (entries.length > 0) {
+            for (const [key, value] of entries) {
+                newFlags.set(key, value);
             }
 
-            if (updatedFlags.size > 0) {
-                this.setFeatureFlags(Object.fromEntries(updatedFlags));
+            this.#invalidateCache();
+            this.#updateLocalStorage(newFlags);
+
+            if (notify) {
+                this.#notifier.notify("change", flags);
             }
-        } catch {
-            // Ignore malformed updates
         }
     }
 
-    updateLocalStorage() {
-        localStorage.setItem(this.#storageKey, JSON.stringify(this.allFlags()));
-    }
+    // // Is it really needed?!?!
+    // // It might only need to notify that a change happened, but it could also be redundent?!?!
+    // // Like will it also be notified of it's own changes?!?!
+    // onStorageUpdated(event: StorageEvent) {
+    //     if (event.key !== this.#storageKey || !event.newValue) {
+    //         return;
+    //     }
+
+    //     try {
+    //         const newFlag = JSON.parse(event.newValue);
+    //         const currentFlags = new Map(Object.entries(this.allFlags()));
+    //         const updatedFlags = new Map<string, LDFlagValue>();
+
+    //         for (const [key, value] of Object.entries(newFlag)) {
+    //             if (currentFlags.get(key) !== value) {
+    //                 updatedFlags.set(key, value);
+    //             }
+    //         }
+
+    //         if (updatedFlags.size > 0) {
+    //             this.setFeatureFlags(Object.fromEntries(updatedFlags));
+    //         }
+    //     } catch {
+    //         // Ignore malformed updates
+    //     }
+    // }
 }
 
-function initializeFeatureFlags(storageKey: string, defaultFeatureFlags: Map<string, LDFlagValue>) {
-    const storedFlags = localStorage.getItem(storageKey);
-    const featureFlags = new Map<string, LDFlagValue>();
-
-    if (storedFlags) {
-        const parsedFlags = JSON.parse(storedFlags);
-        // when we load the feature flags from localStorage, we need to make sure
-        // that the keys are valid feature flags and delete the others
-
-        for (const [key, value] of Object.entries(parsedFlags)) {
-            if (defaultFeatureFlags.has(key)) {
-                featureFlags.set(key, value);
-            }
-        }
-
-        // add all missing feature flags and initialize them to their default value
-        for (const [key, value] of defaultFeatureFlags) {
-            if (!featureFlags.has(key)) {
-                featureFlags.set(key, value);
-            }
-        }
-    } else {
-        // Initialize all feature flags to the default value
-        for (const [key, value] of defaultFeatureFlags) {
-            featureFlags.set(key, value);
-        }
-    }
-
-    return featureFlags;
+export function createLocalStorageLaunchDarklyClient(storageKey: string, defaultFeatureFlagValues: Map<string, LDFlagValue>, options?: LocalStorageLaunchDarklyClientOptions) {
+    return LocalStorageLaunchDarklyClient.create(storageKey, defaultFeatureFlagValues, options);
 }

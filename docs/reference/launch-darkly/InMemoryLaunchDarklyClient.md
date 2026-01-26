@@ -6,7 +6,7 @@ toc:
 
 # InMemoryLaunchDarklyClient
 
-An in-memory implementation of the LaunchDarkly SDK [client](https://launchdarkly.com/docs/sdk/client-side/javascript) for use in [Storybook](https://storybook.js.org/) and test environments.
+An in-memory implementation of the LaunchDarkly SDK [client](https://launchdarkly.com/docs/sdk/client-side/javascript).
 
 ## Reference
 
@@ -21,6 +21,11 @@ const client = new InMemoryLaunchDarklyClient(featureFlags, options?: { context?
     - `context`: A LaunchDarkly SDK [context](https://launchdarkly.com/docs/sdk/features/context-config).
     - `notifier`: A `LaunchDarklyClientNotifier` instance.
 
+### Methods
+
+- Implements all the base methods of the LaunchDarkly SDK [client](https://launchdarkly.com/docs/sdk/client-side/javascript).
+- `setFeatureFlags`: Add new feature flags or update existing feature flags values.
+
 ## Usage
 
 ### Create an instance
@@ -33,24 +38,6 @@ const featureFlags = new Map([
 ] as const);
 
 const client = new InMemoryLaunchDarklyClient(featureFlags);
-```
-
-### Update the in-memory flags
-
-```ts !#10-13
-import { InMemoryLaunchDarklyClient } from "@squide/firefly";
-
-const featureFlags = new Map([
-    ["show-characters", true],
-    ["render-summary", true]
-] as const);
-
-const client = new InMemoryLaunchDarklyClient(featureFlags);
-
-client.setFeatureFlags({
-    "show-characters": true,
-    "render-summary": false
-});
 ```
 
 ### Customize the context
@@ -78,6 +65,24 @@ const client = new InMemoryLaunchDarklyClient(featureFlags, {
             plan: "enterprise"
         }
     }
+});
+```
+
+### Update flags value
+
+```ts !#10-13
+import { InMemoryLaunchDarklyClient } from "@squide/firefly";
+
+const featureFlags = new Map([
+    ["show-characters", true],
+    ["render-summary", true]
+] as const);
+
+const client = new InMemoryLaunchDarklyClient(featureFlags);
+
+client.setFeatureFlags({
+    "show-characters": true,
+    "render-summary": false
 });
 ```
 

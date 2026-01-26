@@ -19,8 +19,8 @@ afterEach(() => {
     localStorage.clear();
 });
 
-describe("initialization", () => {
-    test("when localStorage is empty, initialize with default flags", () => {
+describe("createLocalStorageLaunchDarklyClient", () => {
+    test("when the local storage is empty, initialize with default flags", () => {
         const defaultFlags = new Map(Object.entries({
             "flag-a": false,
             "flag-b": true,
@@ -34,7 +34,7 @@ describe("initialization", () => {
         expect(client.variation("flag-c")).toBe(true);
     });
 
-    test("when localStorage has existing flags, load them", () => {
+    test("when the local storage has existing flags, load them", () => {
         const defaultFlags = new Map(Object.entries({
             "flag-a": false,
             "flag-b": true
@@ -51,7 +51,7 @@ describe("initialization", () => {
         expect(client.variation("flag-b")).toBe(false);
     });
 
-    test("when localStorage has invalid flags, ignore them", () => {
+    test("when the local storage has invalid flags, ignore them", () => {
         const defaultFlags = new Map(Object.entries({
             "flag-a": false
         }));
@@ -70,7 +70,7 @@ describe("initialization", () => {
         expect(allFlags).not.toHaveProperty("invalid-flag");
     });
 
-    test("when localStorage is missing some flags, add them with default values", () => {
+    test("when the local storage is missing some flags, add them with default values", () => {
         const defaultFlags = new Map(Object.entries({
             "flag-a": false,
             "flag-b": true,
@@ -148,7 +148,7 @@ describe("setFeatureFlags", () => {
 });
 
 describe("storage event synchronization", () => {
-    test("updates flags when localStorage changes from another tab", () => {
+    test("updates flags when the local storage changes from another tab", () => {
         const defaultFlags = new Map(Object.entries({
             "flag-a": false,
             "flag-b": false
@@ -307,7 +307,7 @@ describe("variation", () => {
         expect(value).toBeTruthy();
     });
 
-    test("when localStorage has a flag value, it takes priority over the provided default value", () => {
+    test("when the local storage has a flag value, it takes priority over the provided default value", () => {
         const defaultFlags = new Map(Object.entries({
             "flag-a": false
         }));
@@ -358,7 +358,7 @@ describe("variationDetail", () => {
         });
     });
 
-    test("when localStorage has a flag value, it takes priority over the provided default value", () => {
+    test("when the local storage has a flag value, it takes priority over the provided default value", () => {
         const defaultFlags = new Map(Object.entries({
             "flag-a": false
         }));

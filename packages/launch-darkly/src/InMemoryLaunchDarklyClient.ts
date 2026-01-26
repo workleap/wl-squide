@@ -1,41 +1,18 @@
 import { LDContext, LDFlagSet, LDFlagValue } from "launchdarkly-js-sdk-common";
-import type { EditableFakeLaunchDarklyClient, SetFlagOptions } from "./EditableFakeLaunchDarklyClient.ts";
-
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-export type LaunchDarklyClientListener = (...args: any[]) => void;
-
-export class LaunchDarklyClientNotifier {
-    readonly #listeners = new Map<string, Set<LaunchDarklyClientListener>>();
-
-    addListener(key: string, listener: LaunchDarklyClientListener) {
-        if (!this.#listeners.has(key)) {
-            this.#listeners.set(key, new Set<LaunchDarklyClientListener>());
-        }
-
-        this.#listeners.get(key)?.add(listener);
-    }
-
-    removeListener(key: string, listener: LaunchDarklyClientListener) {
-        this.#listeners.get(key)?.delete(listener);
-    }
-
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    notify(key: string, ...values: any[]) {
-        this.#listeners.get(key)?.forEach(x => {
-            x(...values);
-        });
-    }
-}
+import type { EditableLaunchDarklyClient, SetFeatureFlagOptions } from "./EditableLaunchDarklyClient.ts";
+import { LaunchDarklyClientNotifier } from "./LaunchDarklyNotifier.ts";
 
 export interface InMemoryLaunchDarklyClientOptions {
     context?: LDContext;
     notifier?: LaunchDarklyClientNotifier;
 }
 
-export class InMemoryLaunchDarklyClient implements EditableFakeLaunchDarklyClient {
+export class InMemoryLaunchDarklyClient implements EditableLaunchDarklyClient {
     readonly #flags: Map<string, LDFlagValue>;
     readonly #context: LDContext;
     readonly #notifier: LaunchDarklyClientNotifier;
+
+    #objectLiteralSnapshot: Record<string, LDFlagValue>;
 
     constructor(featureFlags: Map<string, LDFlagValue>, options: InMemoryLaunchDarklyClientOptions = {}) {
         const {
@@ -48,6 +25,7 @@ export class InMemoryLaunchDarklyClient implements EditableFakeLaunchDarklyClien
         }
 
         this.#flags = featureFlags;
+        this.#objectLiteralSnapshot = Object.fromEntries(featureFlags);
 
         this.#context = context ?? {
             kind: "user",
@@ -111,8 +89,9 @@ export class InMemoryLaunchDarklyClient implements EditableFakeLaunchDarklyClien
 
     track(): void {}
 
+    // IMPORTANT: Must not return a new instance everytime it's executed as it will breaks "useSyncExternalStore".
     allFlags() {
-        return Object.fromEntries(this.#flags);
+        return this.#objectLiteralSnapshot;
     }
 
     close(onDone?: () => void) {
@@ -123,16 +102,24 @@ export class InMemoryLaunchDarklyClient implements EditableFakeLaunchDarklyClien
 
     addHook(): void {}
 
-    setFeatureFlags(flags: Record<string, LDFlagValue>, options?: SetFlagOptions): void {
+    setFeatureFlags(flags: Record<string, LDFlagValue>, options: SetFeatureFlagOptions = {}): void {
         const {
             notify = true
-        } = options ?? {};
+        } = options;
 
-        for (const [name, value] of Object.entries(flags)) {
-            this.#flags.set(name, value);
-        }
-        if (notify) {
-            this.#notifier.notify("change", flags);
+        const entries = Object.entries(flags);
+
+        if (entries.length > 0) {
+            for (const [name, value] of entries) {
+                this.#flags.set(name, value);
+            }
+
+            // Update the snapshot since the flags changed.
+            this.#objectLiteralSnapshot = Object.fromEntries(this.#flags);
+
+            if (notify) {
+                this.#notifier.notify("change", flags);
+            }
         }
     }
 }

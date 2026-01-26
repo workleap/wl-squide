@@ -1,9 +1,10 @@
 import { Runtime, RuntimeContext } from "@squide/core";
+import { LaunchDarklyClientNotifier } from "@squide/launch-darkly";
 import { renderHook, waitFor } from "@testing-library/react";
 import { NoopLogger } from "@workleap/logging";
 import { ReactNode } from "react";
 import { test } from "vitest";
-import { InMemoryLaunchDarklyClient, LaunchDarklyClientNotifier } from "../src/InMemoryLaunchDarklyClient.ts";
+import { InMemoryLaunchDarklyClient } from "../src/InMemoryLaunchDarklyClient.ts";
 import { LaunchDarklyPlugin } from "../src/LaunchDarklyPlugin.ts";
 import { useFeatureFlags } from "../src/useFeatureFlags.ts";
 

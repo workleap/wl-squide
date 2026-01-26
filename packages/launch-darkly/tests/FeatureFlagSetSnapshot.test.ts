@@ -1,6 +1,7 @@
+import { LaunchDarklyClientNotifier } from "@squide/launch-darkly";
 import { test, vi } from "vitest";
 import { FeatureFlagSetSnapshot } from "../src/FeatureFlagSetSnapshot.ts";
-import { InMemoryLaunchDarklyClient, LaunchDarklyClientNotifier } from "../src/InMemoryLaunchDarklyClient.ts";
+import { InMemoryLaunchDarklyClient } from "../src/InMemoryLaunchDarklyClient.ts";
 
 declare module "@squide/launch-darkly" {
     interface FeatureFlags {

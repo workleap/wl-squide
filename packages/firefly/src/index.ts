@@ -10,21 +10,27 @@ export {
     type EnvironmentVariablesPluginOptions
 } from "@squide/env-vars";
 export {
+    createLocalStorageLaunchDarklyClient,
     FeatureFlagSetSnapshot,
     getFeatureFlag,
     getLaunchDarklyPlugin,
     InMemoryLaunchDarklyClient,
+    isEditableLaunchDarklyClient,
     LaunchDarklyClientNotifier,
     LaunchDarklyPlugin,
     LaunchDarklyPluginName,
+    LocalStorageLaunchDarklyClient,
     useFeatureFlag,
     useFeatureFlags,
     useLaunchDarklyClient,
+    type EditableLaunchDarklyClient,
     type FeatureFlagKey,
     type FeatureFlags,
     type FeatureFlagSetSnapshotChangedListener,
     type InMemoryLaunchDarklyClientOptions,
-    type LaunchDarklyClientListener
+    type LaunchDarklyClientListener,
+    type LocalStorageLaunchDarklyClientOptions,
+    type SetFeatureFlagOptions
 } from "@squide/launch-darkly";
 export {
     getMswPlugin,

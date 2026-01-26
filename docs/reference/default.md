@@ -80,10 +80,10 @@ toc:
 - [useFeatureFlags](./launch-darkly/useFeatureFlags.md)
 - [useLaunchDarklyClient](./launch-darkly/useLaunchDarklyClient.md)
 - [getFeatureFlag](./launch-darkly/getFeatureFlag.md)
+- [FeatureFlagSetSnapshot](./launch-darkly/FeatureFlagSetSnapshot.md)
 - [InMemoryLaunchDarklyClient](./launch-darkly/InMemoryLaunchDarklyClient.md)
 - [LocalStorageLaunchDarklyClient](./launch-darkly/LocalStorageLaunchDarklyClient.md)
-- [isEditableFakeLaunchDarklyClient](./launch-darkly/isEditableFakeLaunchDarklyClient.md)
-- [FeatureFlagSetSnapshot](./launch-darkly/FeatureFlagSetSnapshot.md)
+- [isEditableLaunchDarklyClient](./launch-darkly/isEditableLaunchDarklyClient.md)
 
 ### Logging
 
