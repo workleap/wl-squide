@@ -40,10 +40,10 @@ describe("createLocalStorageLaunchDarklyClient", () => {
             "flag-b": true
         }));
 
-        localStorage.setItem(STORAGE_KEY, JSON.stringify({
-            "flag-a": true,
-            "flag-b": false
-        }));
+        localStorage.setItem(STORAGE_KEY, JSON.stringify([
+            ["flag-a", true],
+            ["flag-b", false]
+        ]));
 
         const client = createLocalStorageLaunchDarklyClient(STORAGE_KEY, defaultFlags);
 
@@ -56,10 +56,10 @@ describe("createLocalStorageLaunchDarklyClient", () => {
             "flag-a": false
         }));
 
-        localStorage.setItem(STORAGE_KEY, JSON.stringify({
-            "flag-a": true,
-            "invalid-flag": "should-be-ignored"
-        }));
+        localStorage.setItem(STORAGE_KEY, JSON.stringify([
+            ["flag-a", true],
+            ["invalid-flag", "should-be-ignored"]
+        ]));
 
         const client = createLocalStorageLaunchDarklyClient(STORAGE_KEY, defaultFlags);
         const allFlags = client.allFlags();
@@ -77,9 +77,9 @@ describe("createLocalStorageLaunchDarklyClient", () => {
             "flag-c": true
         }));
 
-        localStorage.setItem(STORAGE_KEY, JSON.stringify({
-            "flag-a": true
-        }));
+        localStorage.setItem(STORAGE_KEY, JSON.stringify([
+            ["flag-a", true]
+        ]));
 
         const client = createLocalStorageLaunchDarklyClient(STORAGE_KEY, defaultFlags);
 
@@ -96,11 +96,11 @@ describe("createLocalStorageLaunchDarklyClient", () => {
 
         createLocalStorageLaunchDarklyClient(STORAGE_KEY, defaultFlags);
 
-        const stored = JSON.parse(localStorage.getItem(STORAGE_KEY) || "{}");
-        expect(stored).toEqual({
-            "flag-a": false,
-            "flag-b": true
-        });
+        const stored = JSON.parse(localStorage.getItem(STORAGE_KEY) || "[]");
+        expect(stored).toEqual([
+            ["flag-a", false],
+            ["flag-b", true]
+        ]);
     });
 });
 
@@ -118,11 +118,11 @@ describe("setFeatureFlags", () => {
             "flag-b": true
         });
 
-        const stored = JSON.parse(localStorage.getItem(STORAGE_KEY) || "{}");
-        expect(stored).toEqual({
-            "flag-a": true,
-            "flag-b": true
-        });
+        const stored = JSON.parse(localStorage.getItem(STORAGE_KEY) || "[]");
+        expect(stored).toEqual([
+            ["flag-a", true],
+            ["flag-b", true]
+        ]);
     });
 
     test("triggers change notification with all modified flags", () => {
@@ -312,9 +312,9 @@ describe("variation", () => {
             "flag-a": false
         }));
 
-        localStorage.setItem(STORAGE_KEY, JSON.stringify({
-            "flag-a": true
-        }));
+        localStorage.setItem(STORAGE_KEY, JSON.stringify([
+            ["flag-a", true]
+        ]));
 
         const client = createLocalStorageLaunchDarklyClient(STORAGE_KEY, defaultFlags);
 
@@ -363,9 +363,9 @@ describe("variationDetail", () => {
             "flag-a": false
         }));
 
-        localStorage.setItem(STORAGE_KEY, JSON.stringify({
-            "flag-a": true
-        }));
+        localStorage.setItem(STORAGE_KEY, JSON.stringify([
+            ["flag-a", true]
+        ]));
 
         const client = createLocalStorageLaunchDarklyClient(STORAGE_KEY, defaultFlags);
 
