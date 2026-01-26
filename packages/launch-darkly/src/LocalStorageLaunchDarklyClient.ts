@@ -78,7 +78,7 @@ class LocalStorageLaunchDarklyClientCache {
     }
 }
 
-export class LocalStorageLaunchDarklyClient<T extends string = string> implements EditableLaunchDarklyClient {
+export class LocalStorageLaunchDarklyClient<T extends string = string> implements EditableLaunchDarklyClient<T> {
     readonly #context: LDContext;
     readonly #notifier: LaunchDarklyClientNotifier;
     #store: FeatureFlagsLocalStore;

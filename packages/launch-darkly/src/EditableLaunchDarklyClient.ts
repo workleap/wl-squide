@@ -8,13 +8,13 @@ export interface SetFeatureFlagOptions {
     notify?: boolean;
 }
 
-export interface EditableLaunchDarklyClient extends LDClient {
+export interface EditableLaunchDarklyClient<T extends string = string> extends LDClient {
     /**
      * Sets multiple feature flags to the specified values.
      */
-    setFeatureFlags(flags: Record<string, LDFlagValue>, options?: SetFeatureFlagOptions): void;
+    setFeatureFlags(flags: Partial<Record<T, LDFlagValue>>, options?: SetFeatureFlagOptions): void;
 }
 
-export function isEditableLaunchDarklyClient(client: LDClient): client is EditableLaunchDarklyClient {
-    return typeof (client as EditableLaunchDarklyClient).setFeatureFlags === "function";
+export function isEditableLaunchDarklyClient<TClient extends LDClient>(client: TClient): client is TClient & EditableLaunchDarklyClient {
+    return typeof (client as unknown as EditableLaunchDarklyClient).setFeatureFlags === "function";
 }
