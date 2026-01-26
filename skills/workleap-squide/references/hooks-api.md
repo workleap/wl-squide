@@ -221,16 +221,22 @@ Get a LaunchDarkly feature flag value.
 
 ```ts
 import { useFeatureFlag } from "@squide/firefly";
+
+// Returns the flag value, or defaultValue if not available
 const isEnabled = useFeatureFlag("new-feature", false);
 ```
 
 ### useFeatureFlags()
-Get all feature flags.
+Get all feature flags. Returns a memoized object that only changes when a flag value updates.
 
 ```ts
 import { useFeatureFlags } from "@squide/firefly";
+
+// Stable reference - only changes when flags actually change
 const flags = useFeatureFlags();
 ```
+
+**Note:** Unlike the LaunchDarkly SDK client which returns a new object on every invocation, this hook returns a memoized object.
 
 ### useLaunchDarklyClient()
 Get the LaunchDarkly client instance.
@@ -238,6 +244,12 @@ Get the LaunchDarkly client instance.
 ```ts
 import { useLaunchDarklyClient } from "@squide/firefly";
 const client = useLaunchDarklyClient();
+
+// Check if client supports runtime modification
+import { isEditableLaunchDarklyClient } from "@squide/firefly";
+if (isEditableLaunchDarklyClient(client)) {
+    client.setFeatureFlags({ "my-flag": true });
+}
 ```
 
 ## Logging Hooks

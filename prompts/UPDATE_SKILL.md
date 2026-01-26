@@ -1,0 +1,1 @@
+Update the `workleap-squide` skill you created in the `./skills/workleap-squide` directory to add the new Launch Darkly utilities. You can find the reference documentation of the new Launch Darkly utilities in the `./docs/reference/launch-darkly` directory.

@@ -134,11 +134,13 @@ const ldClient = initializeLaunchDarkly(
 await ldClient.waitForInitialization(5);
 ```
 
-### Configure Runtime
+### Configure Runtime with LaunchDarklyPlugin
 
 ```ts
+import { initializeFirefly, LaunchDarklyPlugin } from "@squide/firefly";
+
 const runtime = initializeFirefly({
-    launchDarklyClient: ldClient
+    plugins: [x => new LaunchDarklyPlugin(x, ldClient)]
 });
 ```
 
@@ -148,6 +150,14 @@ const runtime = initializeFirefly({
 // In React components
 import { useFeatureFlag } from "@squide/firefly";
 const isEnabled = useFeatureFlag("feature-key", false);
+
+// Get all feature flags (memoized, stable reference until flags change)
+import { useFeatureFlags } from "@squide/firefly";
+const flags = useFeatureFlags();
+
+// Get the LaunchDarkly client instance
+import { useLaunchDarklyClient } from "@squide/firefly";
+const client = useLaunchDarklyClient();
 
 // In non-React code
 import { getFeatureFlag } from "@squide/firefly";
@@ -161,7 +171,9 @@ return (deferredRuntime, data) => {
 };
 ```
 
-### TypeScript Augmentation
+### TypeScript Augmentation (FeatureFlags Interface)
+
+Create a type declaration file to get type-safe feature flags:
 
 ```ts
 // types/feature-flags.d.ts
@@ -175,17 +187,124 @@ declare module "@squide/firefly" {
 }
 ```
 
-### Testing with Feature Flags
+Then reference it in your `tsconfig.json`:
+
+```json
+{
+    "compilerOptions": {
+        "types": ["./types/feature-flags.d.ts"]
+    }
+}
+```
+
+### FeatureFlagSetSnapshot
+
+A class that tracks and memoizes feature flags, returning a stable object reference until flags change:
+
+```ts
+import { FeatureFlagSetSnapshot } from "@squide/firefly";
+
+const snapshot = new FeatureFlagSetSnapshot(ldClient);
+
+// Get current flags
+const flags = snapshot.value;
+
+// Listen for changes
+snapshot.addSnapshotChangedListener((newSnapshot, changes) => {
+    console.log("Flags changed:", changes);
+});
+
+// Remove listener
+snapshot.removeSnapshotChangedListener(listener);
+```
+
+### Testing with InMemoryLaunchDarklyClient
+
+An in-memory client for testing without connecting to LaunchDarkly:
 
 ```tsx
-import { InMemoryLaunchDarklyClient, LaunchDarklyPlugin } from "@squide/firefly";
+import { InMemoryLaunchDarklyClient, LaunchDarklyPlugin, initializeFirefly } from "@squide/firefly";
 
-const flags = new Map([["feature-key", true]]);
-const ldClient = new InMemoryLaunchDarklyClient(flags);
+const featureFlags = new Map([
+    ["feature-key", true],
+    ["another-feature", "value"]
+] as const);
 
-const runtime = new FireflyRuntime({
+const ldClient = new InMemoryLaunchDarklyClient(featureFlags);
+
+const runtime = initializeFirefly({
     plugins: [x => new LaunchDarklyPlugin(x, ldClient)]
 });
+
+// Update flags at runtime
+ldClient.setFeatureFlags({
+    "feature-key": false,
+    "another-feature": "new-value"
+});
+```
+
+With custom context:
+
+```ts
+const ldClient = new InMemoryLaunchDarklyClient(featureFlags, {
+    context: {
+        kind: "multi",
+        user: { key: "user-123", name: "Sandy" },
+        org: { key: "org-456", name: "Acme Inc" }
+    }
+});
+```
+
+### LocalStorageLaunchDarklyClient
+
+A client that persists feature flags to localStorage:
+
+```ts
+import { createLocalStorageLaunchDarklyClient, LaunchDarklyPlugin, initializeFirefly } from "@squide/firefly";
+
+const defaultFeatureFlags = new Map([
+    ["feature-key", true],
+    ["another-feature", "default"]
+] as const);
+
+const ldClient = createLocalStorageLaunchDarklyClient("my-app-flags", defaultFeatureFlags);
+
+const runtime = initializeFirefly({
+    plugins: [x => new LaunchDarklyPlugin(x, ldClient)]
+});
+
+// Update flags (persisted to localStorage)
+ldClient.setFeatureFlags({
+    "feature-key": false
+});
+```
+
+### isEditableLaunchDarklyClient
+
+Check if a client supports runtime flag modification:
+
+```tsx
+import { isEditableLaunchDarklyClient, useFeatureFlag, useLaunchDarklyClient } from "@squide/firefly";
+import { useCallback } from "react";
+
+function FeatureFlagToggle() {
+    const enabled = useFeatureFlag("show-characters", false);
+    const ldClient = useLaunchDarklyClient();
+
+    const handleToggle = useCallback(() => {
+        if (isEditableLaunchDarklyClient(ldClient)) {
+            ldClient.setFeatureFlags({
+                "show-characters": !enabled
+            });
+        }
+    }, [enabled, ldClient]);
+
+    return (
+        <button onClick={handleToggle} disabled={!isEditableLaunchDarklyClient(ldClient)}>
+            Toggle Feature
+        </button>
+    );
+}
 ```
 
 ## Honeycomb
