@@ -69,7 +69,7 @@ export class LocalStorageLaunchDarklyClient implements EditableLaunchDarklyClien
             currentFlags = {};
         }
 
-        const newFlags: Record<string, LDFlagValue> = {};
+        const newFlags = new Map<string, LDFlagValue>();
 
         // When the client is initialized and there's existing flags, update the existing
         // flags with the new values, remove deprecated flags, and add any new flags.
@@ -77,28 +77,33 @@ export class LocalStorageLaunchDarklyClient implements EditableLaunchDarklyClien
             // Update the existing flags with the new values and remove deprecated flags.
             for (const [key, value] of Object.entries(currentFlags)) {
                 if (defaultFeatureFlags.has(key)) {
-                    newFlags[key] = value;
+                    newFlags.set(key, value);
                 }
             }
 
             // Add new flags.
             for (const [key, value] of defaultFeatureFlags) {
-                if (!(key in newFlags)) {
-                    newFlags[key] = value;
+                if (!newFlags.has(key)) {
+                    newFlags.set(key, value);
                 }
             }
         // There's no existing flags, initialize client with the new flags.
         } else {
             for (const [key, value] of defaultFeatureFlags) {
-                newFlags[key] = value;
+                newFlags.set(key, value);
             }
         }
 
-        client.setFeatureFlags(newFlags, {
-            notify: false
-        });
+        client.#initializeLocalStorage(newFlags);
 
         return client;
+    }
+
+    #initializeLocalStorage(flags: Map<string, LDFlagValue>) {
+        this.#updateLocalStorage(flags);
+
+        // Eagerly set the cache, small optimization.
+        this.#cache = new LocalStorageLaunchDarklyClientCache(flags);
     }
 
     #getFlags() {
