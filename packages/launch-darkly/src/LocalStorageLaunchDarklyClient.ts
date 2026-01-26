@@ -7,6 +7,56 @@ export interface LocalStorageLaunchDarklyClientOptions {
     notifier?: LaunchDarklyClientNotifier;
 };
 
+export type FeatureFlagsLocalStoreChangedListener = () => void;
+
+class FeatureFlagsLocalStore {
+    readonly #key: string;
+    readonly #listeners = new Set<FeatureFlagsLocalStoreChangedListener>();
+    readonly #changedListener: (event: StorageEvent) => void;
+
+    constructor(key: string) {
+        this.#key = key;
+        this.#changedListener = this.#handleChanged.bind(this);
+
+        window.addEventListener("storage", this.#changedListener);
+    }
+
+    #handleChanged(event: StorageEvent) {
+        if (event.key !== this.#key || !event.newValue) {
+            return;
+        }
+
+        this.#listeners.forEach(x => {
+            x();
+        });
+    }
+
+    getFlags() {
+        const rawFlags = localStorage.getItem(this.#key);
+
+        return rawFlags
+            ? new Map(JSON.parse(rawFlags) as Map<string, LDFlagValue>)
+            : new Map<string, LDFlagValue>();
+    }
+
+    setFlags(newFlags: Map<string, LDFlagValue>) {
+        localStorage.setItem(this.#key, JSON.stringify([...newFlags]));
+    }
+
+    addChangedListener(callback: FeatureFlagsLocalStoreChangedListener) {
+        this.#listeners.add(callback);
+    }
+
+    removeChangedListener(callback: FeatureFlagsLocalStoreChangedListener) {
+        this.#listeners.delete(callback);
+    }
+
+    dispose() {
+        window.removeEventListener("storage", this.#changedListener);
+        this.#listeners.clear();
+    }
+}
+
 // To use React features such as "useSyncExternalStore" it's important that methods returning
 // object do not create new instances everytime they are executed.
 // This cache class help the client achieve this in an elegant way.
@@ -29,9 +79,9 @@ class LocalStorageLaunchDarklyClientCache {
 }
 
 export class LocalStorageLaunchDarklyClient implements EditableLaunchDarklyClient {
-    readonly #storageKey: string;
     readonly #context: LDContext;
     readonly #notifier: LaunchDarklyClientNotifier;
+    #store: FeatureFlagsLocalStore;
     #cache: LocalStorageLaunchDarklyClientCache | undefined;
 
     private constructor(storageKey: string, options: LocalStorageLaunchDarklyClientOptions = {}) {
@@ -46,11 +96,9 @@ export class LocalStorageLaunchDarklyClient implements EditableLaunchDarklyClien
         };
 
         this.#notifier = notifier ?? new LaunchDarklyClientNotifier();
-        this.#storageKey = storageKey;
 
-        // // Listen for local storage changes made in other tabs/windows.
-        // this.onStorageUpdated = this.onStorageUpdated.bind(this);
-        // window.addEventListener("storage", this.onStorageUpdated);
+        this.#store = new FeatureFlagsLocalStore(storageKey);
+        this.#store.addChangedListener(this.#handleStoreChanged.bind(this));
     }
 
     static create(storageKey: string, defaultFeatureFlags: Map<string, LDFlagValue>, options: LocalStorageLaunchDarklyClientOptions = {}) {
@@ -62,9 +110,8 @@ export class LocalStorageLaunchDarklyClient implements EditableLaunchDarklyClien
         let currentFlags: Map<string, LDFlagValue> | undefined;
 
         try {
-            currentFlags = client.#getLocalStorageFlags();
-        // eslint-disable-next-line @typescript-eslint/no-unused-vars
-        } catch (error: unknown) {
+            currentFlags = client.#store.getFlags();
+        } catch {
             // If the stored value is not in the right format, it can cause parsing errors.
             currentFlags = new Map<string, LDFlagValue>();
         }
@@ -94,31 +141,29 @@ export class LocalStorageLaunchDarklyClient implements EditableLaunchDarklyClien
             }
         }
 
-        client.#setLocalStorageFlags(newFlags);
+        client.#store.setFlags(newFlags);
 
         return client;
     }
 
     #getFlags() {
         if (!this.#cache) {
-            const storedFlags = this.#getLocalStorageFlags();
-
-            this.#cache = new LocalStorageLaunchDarklyClientCache(storedFlags);
+            this.#cache = new LocalStorageLaunchDarklyClientCache(this.#store.getFlags());
         }
 
         return this.#cache;
     }
 
-    #getLocalStorageFlags() {
-        const rawFlags = localStorage.getItem(this.#storageKey);
+    #handleStoreChanged() {
+        // Force the client to read from the local storage the next time
+        // the flags are requested.
+        this.#invalidateCache();
 
-        return rawFlags
-            ? new Map(JSON.parse(rawFlags) as Map<string, LDFlagValue>)
-            : new Map<string, LDFlagValue>();
+        this.#notifier.notify("change");
     }
 
-    #setLocalStorageFlags(newFlags: Map<string, LDFlagValue>) {
-        localStorage.setItem(this.#storageKey, JSON.stringify([...newFlags]));
+    #invalidateCache() {
+        this.#cache = undefined;
     }
 
     waitUntilGoalsReady() {
@@ -185,7 +230,7 @@ export class LocalStorageLaunchDarklyClient implements EditableLaunchDarklyClien
     addHook(): void {}
 
     close(onDone?: () => void) {
-        // window.removeEventListener("storage", this.onStorageUpdated);
+        this.#store.dispose();
         onDone?.();
 
         return Promise.resolve();
@@ -205,41 +250,14 @@ export class LocalStorageLaunchDarklyClient implements EditableLaunchDarklyClien
                 newFlags.set(key, value);
             }
 
-            this.#setLocalStorageFlags(newFlags);
-            this.#cache = undefined;
+            this.#store.setFlags(newFlags);
+            this.#invalidateCache();
 
             if (notify) {
                 this.#notifier.notify("change");
             }
         }
     }
-
-    // // Is it really needed?!?!
-    // // It might only need to notify that a change happened, but it could also be redundent?!?!
-    // // Like will it also be notified of it's own changes?!?!
-    // onStorageUpdated(event: StorageEvent) {
-    //     if (event.key !== this.#storageKey || !event.newValue) {
-    //         return;
-    //     }
-
-    //     try {
-    //         const newFlag = JSON.parse(event.newValue);
-    //         const currentFlags = new Map(Object.entries(this.allFlags()));
-    //         const updatedFlags = new Map<string, LDFlagValue>();
-
-    //         for (const [key, value] of Object.entries(newFlag)) {
-    //             if (currentFlags.get(key) !== value) {
-    //                 updatedFlags.set(key, value);
-    //             }
-    //         }
-
-    //         if (updatedFlags.size > 0) {
-    //             this.setFeatureFlags(Object.fromEntries(updatedFlags));
-    //         }
-    //     } catch {
-    //         // Ignore malformed updates
-    //     }
-    // }
 }
 
 export function createLocalStorageLaunchDarklyClient(storageKey: string, defaultFeatureFlagValues: Map<string, LDFlagValue>, options?: LocalStorageLaunchDarklyClientOptions) {
