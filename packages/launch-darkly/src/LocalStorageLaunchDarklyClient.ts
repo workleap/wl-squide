@@ -254,7 +254,7 @@ export class LocalStorageLaunchDarklyClient<T extends string = string> implement
             this.#invalidateCache();
 
             if (notify) {
-                this.#notifier.notify("change", flags);
+                this.#notifier.notify("change");
             }
         }
     }

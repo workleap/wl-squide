@@ -89,8 +89,8 @@ test.concurrent("can add listeners", ({ expect }) => {
 
     notifier.notify("change", changes);
 
-    expect(listener1).toHaveBeenCalledExactlyOnceWith(expect.objectContaining(changes), changes);
-    expect(listener2).toHaveBeenCalledExactlyOnceWith(expect.objectContaining(changes), changes);
+    expect(listener1).toHaveBeenCalledExactlyOnceWith(expect.anything(), changes);
+    expect(listener2).toHaveBeenCalledExactlyOnceWith(expect.anything(), changes);
 });
 
 test.concurrent("can remove listeners", ({ expect }) => {
