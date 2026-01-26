@@ -78,7 +78,7 @@ class LocalStorageLaunchDarklyClientCache {
     }
 }
 
-export class LocalStorageLaunchDarklyClient implements EditableLaunchDarklyClient {
+export class LocalStorageLaunchDarklyClient<T extends string = string> implements EditableLaunchDarklyClient {
     readonly #context: LDContext;
     readonly #notifier: LaunchDarklyClientNotifier;
     #store: FeatureFlagsLocalStore;
@@ -101,8 +101,8 @@ export class LocalStorageLaunchDarklyClient implements EditableLaunchDarklyClien
         this.#store.addChangedListener(this.#handleStoreChanged.bind(this));
     }
 
-    static create(storageKey: string, defaultFeatureFlags: Map<string, LDFlagValue>, options: LocalStorageLaunchDarklyClientOptions = {}) {
-        const client = new LocalStorageLaunchDarklyClient(
+    static create<const T extends string>(storageKey: string, defaultFeatureFlags: Map<T, LDFlagValue>, options: LocalStorageLaunchDarklyClientOptions = {}) {
+        const client = new LocalStorageLaunchDarklyClient<T>(
             storageKey,
             options
         );
@@ -123,7 +123,7 @@ export class LocalStorageLaunchDarklyClient implements EditableLaunchDarklyClien
         if (currentFlags.size > 0) {
             // Update the existing flags with the new values and remove deprecated flags.
             for (const [key, value] of currentFlags) {
-                if (defaultFeatureFlags.has(key)) {
+                if (defaultFeatureFlags.has(key as T)) {
                     newFlags.set(key, value);
                 }
             }
@@ -236,7 +236,7 @@ export class LocalStorageLaunchDarklyClient implements EditableLaunchDarklyClien
         return Promise.resolve();
     }
 
-    setFeatureFlags(flags: Record<string, LDFlagValue>, options: SetFeatureFlagOptions = {}): void {
+    setFeatureFlags(flags: Partial<Record<T, LDFlagValue>>, options: SetFeatureFlagOptions = {}): void {
         const {
             notify = true
         } = options;
@@ -260,6 +260,6 @@ export class LocalStorageLaunchDarklyClient implements EditableLaunchDarklyClien
     }
 }
 
-export function createLocalStorageLaunchDarklyClient(storageKey: string, defaultFeatureFlagValues: Map<string, LDFlagValue>, options?: LocalStorageLaunchDarklyClientOptions) {
+export function createLocalStorageLaunchDarklyClient<const T extends string>(storageKey: string, defaultFeatureFlagValues: Map<T, LDFlagValue>, options?: LocalStorageLaunchDarklyClientOptions) {
     return LocalStorageLaunchDarklyClient.create(storageKey, defaultFeatureFlagValues, options);
 }
