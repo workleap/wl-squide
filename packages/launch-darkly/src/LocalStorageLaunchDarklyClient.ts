@@ -59,23 +59,23 @@ export class LocalStorageLaunchDarklyClient implements EditableLaunchDarklyClien
             options
         );
 
-        let currentFlags: Record<string, LDFlagValue> | undefined;
+        let currentFlags: Map<string, LDFlagValue> | undefined;
 
         try {
-            currentFlags = client.allFlags();
+            currentFlags = client.#getLocalStorageFlags();
         // eslint-disable-next-line @typescript-eslint/no-unused-vars
         } catch (error: unknown) {
             // If the stored value is not in the right format, it can cause parsing errors.
-            currentFlags = {};
+            currentFlags = new Map<string, LDFlagValue>();
         }
 
         const newFlags = new Map<string, LDFlagValue>();
 
         // When the client is initialized and there's existing flags, update the existing
         // flags with the new values, remove deprecated flags, and add any new flags.
-        if (Object.keys(currentFlags).length > 0) {
+        if (currentFlags.size > 0) {
             // Update the existing flags with the new values and remove deprecated flags.
-            for (const [key, value] of Object.entries(currentFlags)) {
+            for (const [key, value] of currentFlags) {
                 if (defaultFeatureFlags.has(key)) {
                     newFlags.set(key, value);
                 }
@@ -94,40 +94,31 @@ export class LocalStorageLaunchDarklyClient implements EditableLaunchDarklyClien
             }
         }
 
-        client.#initializeLocalStorage(newFlags);
+        client.#setLocalStorageFlags(newFlags);
 
         return client;
     }
 
-    #initializeLocalStorage(flags: Map<string, LDFlagValue>) {
-        this.#updateLocalStorage(flags);
-
-        // Eagerly set the cache, small optimization.
-        this.#cache = new LocalStorageLaunchDarklyClientCache(flags);
-    }
-
     #getFlags() {
         if (!this.#cache) {
-            const rawFlags = localStorage.getItem(this.#storageKey);
+            const storedFlags = this.#getLocalStorageFlags();
 
-            if (rawFlags) {
-                this.#cache = new LocalStorageLaunchDarklyClientCache(new Map(JSON.parse(rawFlags)));
-            }
-
-            if (!this.#cache) {
-                this.#cache = new LocalStorageLaunchDarklyClientCache(new Map<string, LDFlagValue>());
-            }
+            this.#cache = new LocalStorageLaunchDarklyClientCache(storedFlags);
         }
 
         return this.#cache;
     }
 
-    #updateLocalStorage(newFlags: Map<string, LDFlagValue>) {
-        localStorage.setItem(this.#storageKey, JSON.stringify([...newFlags]));
+    #getLocalStorageFlags() {
+        const rawFlags = localStorage.getItem(this.#storageKey);
+
+        return rawFlags
+            ? new Map(JSON.parse(rawFlags) as Map<string, LDFlagValue>)
+            : new Map<string, LDFlagValue>();
     }
 
-    #invalidateCache() {
-        this.#cache = undefined;
+    #setLocalStorageFlags(newFlags: Map<string, LDFlagValue>) {
+        localStorage.setItem(this.#storageKey, JSON.stringify([...newFlags]));
     }
 
     waitUntilGoalsReady() {
@@ -214,8 +205,8 @@ export class LocalStorageLaunchDarklyClient implements EditableLaunchDarklyClien
                 newFlags.set(key, value);
             }
 
-            this.#invalidateCache();
-            this.#updateLocalStorage(newFlags);
+            this.#setLocalStorageFlags(newFlags);
+            this.#cache = undefined;
 
             if (notify) {
                 this.#notifier.notify("change", flags);
