@@ -30,12 +30,12 @@
         "dev": "rslib build --watch --config ./rslib.dev.ts",
         "build": "rslib build --config ./rslib.build.ts",
         "eslint": "eslint . --max-warnings=0 --cache --cache-location node_modules/.cache/eslint",
-        "typecheck": "tsc",
+        "typecheck": "tsgo",
         "test": "vitest --config vitest.config.ts --no-watch"
     },
     "peerDependencies": {
         "@rsbuild/core": "^1.7.2",
-        "@rspack/core": "^1.7.2"
+        "@rspack/core": "^1.7.3"
     },
     "dependencies": {
         "@module-federation/enhanced": "0.11.4",
@@ -47,17 +47,18 @@
     "devDependencies": {
         "@eslint/js": "9.39.2",
         "@rsbuild/core": "1.7.2",
-        "@rslib/core": "0.19.2",
-        "@rspack/core": "1.7.2",
-        "@types/node": "25.0.9",
+        "@rslib/core": "0.19.3",
+        "@rspack/core": "1.7.3",
+        "@types/node": "25.0.10",
         "@types/semver": "7.7.1",
-        "@typescript-eslint/parser": "8.53.0",
-        "@workleap/eslint-configs": "1.1.9",
+        "@typescript-eslint/parser": "8.53.1",
+        "@typescript/native-preview": "7.0.0-dev.20260122.4",
+        "@workleap/eslint-configs": "1.1.10",
         "@workleap/rslib-configs": "1.1.5",
         "@workleap/typescript-configs": "3.0.7",
         "eslint": "9.39.2",
         "typescript": "5.9.3",
-        "typescript-eslint": "8.53.0",
+        "typescript-eslint": "8.53.1",
         "vitest": "4.0.17"
     }
 }

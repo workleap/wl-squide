@@ -1,8 +1,13 @@
 {
     "$schema": "https://turbo.build/schema.json",
-    "globalEnv": ["USE_MSW", "ISOLATED", "NETLIFY"],
+    "globalEnv": ["USE_MSW", "ISOLATED", "NETLIFY", "LOGROCKET_APP_ID", "HONEYCOMB_API_KEY", "LAUNCH_DARKLY_CLIENT_ID"],
+    "globalDependencies": [".env.local"],
     "ui": "tui",
     "tasks": {
+        "transit": {
+            "dependsOn": ["^transit"],
+            "outputs": []
+        },
         "dev": {
             "dependsOn": ["@squide/firefly-rsbuild-configs#build", "@squide/firefly-webpack-configs#build"],
             "cache": false,
@@ -22,19 +27,23 @@
             "persistent": true
         },
         "deploy": {
-            "dependsOn": ["build"]
+            "dependsOn": ["build"],
+            "cache": false
         },
         "deploy-isolated": {
-            "dependsOn": ["build-isolated"]
+            "dependsOn": ["build-isolated"],
+            "cache": false
         },
         "lint": {
-            "dependsOn": ["eslint", "//#eslint", "typecheck", "//#typecheck", "//#syncpack"]
+            "dependsOn": ["eslint", "//#eslint", "typecheck", "//#typecheck", "//#syncpack"],
+            "outputs": []
         },
         "//#eslint": {
             "inputs": ["$TURBO_DEFAULT$", "!packages", "!samples", "!docs", "!README.md", "!CONTRIBUTING.md"],
             "outputs": ["node_modules/.cache/eslint"]
         },
         "eslint": {
+            "dependsOn": ["transit"],
             "inputs": ["$TURBO_DEFAULT$", "!README.md"],
             "outputs": ["node_modules/.cache/eslint"]
         },
@@ -43,13 +52,16 @@
             "outputs": ["node_modules/.cache/tsbuildinfo.json"]
         },
         "typecheck": {
+            "dependsOn": ["transit"],
             "inputs": ["src/**/*.ts", "src/**/*.tsx", "test/**/*.ts", "test/**/*.tsx", "tsconfig.json", "tsconfig.build.json"],
             "outputs": ["node_modules/.cache/tsbuildinfo.json"]
         },
         "//#syncpack": {
-            "inputs": [".syncpackrc.js", "package.json", "packages/**/package.json", "samples/**/package.json"]
+            "inputs": [".syncpackrc.js", "package.json", "packages/**/package.json", "samples/**/package.json"],
+            "outputs": []
         },
         "test": {
+            "dependsOn": ["transit"],
             "outputs": ["node_modules/.cache/vitest/**"]
         }
     }

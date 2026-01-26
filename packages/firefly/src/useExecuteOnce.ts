@@ -16,6 +16,7 @@ export function useExecuteOnce(fct: () => boolean, inline: boolean = false) {
     }, [fct]);
 
     if (inline) {
+        // eslint-disable-next-line react-hooks/refs
         onceFct();
     }
 

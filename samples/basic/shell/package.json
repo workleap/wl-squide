@@ -9,7 +9,7 @@
     "exports": "./src/index.ts",
     "scripts": {
         "eslint": "eslint . --max-warnings=0 --cache --cache-location node_modules/.cache/eslint",
-        "typecheck": "tsc"
+        "typecheck": "tsgo"
     },
     "peerDependencies": {
         "@react-aria/toast": "^3.0.9",
@@ -25,14 +25,15 @@
     },
     "devDependencies": {
         "@eslint/js": "9.39.2",
-        "@types/react": "19.2.8",
+        "@types/react": "19.2.9",
         "@types/react-dom": "19.2.3",
-        "@typescript-eslint/parser": "8.53.0",
-        "@workleap/eslint-configs": "1.1.9",
+        "@typescript-eslint/parser": "8.53.1",
+        "@typescript/native-preview": "7.0.0-dev.20260122.4",
+        "@workleap/eslint-configs": "1.1.10",
         "@workleap/typescript-configs": "3.0.7",
         "eslint": "9.39.2",
         "nodemon": "3.1.11",
         "typescript": "5.9.3",
-        "typescript-eslint": "8.53.0"
+        "typescript-eslint": "8.53.1"
     }
 }

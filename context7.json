@@ -1,14 +1,4 @@
 {
-    "$schema": "https://context7.com/schema/context7.json",
-    "projectTitle": "Workleap Squide",
-    "description": "Modular application shell for building web applications at Workleap.",
     "url": "https://context7.com/workleap/wl-squide",
-    "public_key": "pk_8QxhgW07sKCtS7dS26DFe",
-    "folders": [
-        "docs/introduction",
-        "docs/reference"
-    ],
-    "excludeFolders": [
-        "docs/reference/module-federation"
-    ]
+    "public_key": "pk_8QxhgW07sKCtS7dS26DFe"
 }

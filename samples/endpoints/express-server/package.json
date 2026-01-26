@@ -6,20 +6,21 @@
     "private": true,
     "license": "Apache-2.0",
     "type": "module",
+    "//scripts-dev": "Adding the watch option to the dev script seems to not restart the server through refreshes.",
     "scripts": {
-        "dev": "tsx watch src/index.ts",
+        "dev": "tsx src/index.ts",
         "serve-build": "tsx src/index.ts",
         "eslint": "eslint . --max-warnings=0 --cache --cache-location node_modules/.cache/eslint",
-        "typecheck": "tsc"
+        "typecheck": "tsgo"
     },
     "dependencies": {
         "@opentelemetry/api": "1.9.0",
-        "@opentelemetry/auto-instrumentations-node": "0.68.0",
-        "@opentelemetry/exporter-trace-otlp-http": "0.210.0",
-        "@opentelemetry/instrumentation-express": "0.58.0",
-        "@opentelemetry/instrumentation-http": "0.210.0",
-        "@opentelemetry/sdk-node": "0.210.0",
-        "cors": "2.8.5",
+        "@opentelemetry/auto-instrumentations-node": "0.69.0",
+        "@opentelemetry/exporter-trace-otlp-http": "0.211.0",
+        "@opentelemetry/instrumentation-express": "0.59.0",
+        "@opentelemetry/instrumentation-http": "0.211.0",
+        "@opentelemetry/sdk-node": "0.211.0",
+        "cors": "2.8.6",
         "dotenv": "17.2.3",
         "express": "5.2.1"
     },
@@ -27,13 +28,14 @@
         "@eslint/js": "9.39.2",
         "@types/cors": "2.8.19",
         "@types/express": "5.0.6",
-        "@types/node": "25.0.9",
-        "@typescript-eslint/parser": "8.53.0",
-        "@workleap/eslint-configs": "1.1.9",
+        "@types/node": "25.0.10",
+        "@typescript-eslint/parser": "8.53.1",
+        "@typescript/native-preview": "7.0.0-dev.20260122.4",
+        "@workleap/eslint-configs": "1.1.10",
         "@workleap/typescript-configs": "3.0.7",
         "eslint": "9.39.2",
         "tsx": "4.21.0",
         "typescript": "5.9.3",
-        "typescript-eslint": "8.53.0"
+        "typescript-eslint": "8.53.1"
     }
 }

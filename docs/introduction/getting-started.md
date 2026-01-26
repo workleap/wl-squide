@@ -21,9 +21,9 @@ monorepo
 ├── apps
 ├────── host
 ├────── storybook
-├── libs
-├────── api
-├────── shell
+├── packages
+├────── components
+├────── core
 ├── modules
 ├────── user-profile
 ├────── checkout
