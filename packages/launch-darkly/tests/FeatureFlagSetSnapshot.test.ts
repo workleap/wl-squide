@@ -40,19 +40,13 @@ test.concurrent("when the client flags change, the snapshot is updated", ({ expe
         "flag-a": true
     }));
 
-    const notifier = new LaunchDarklyClientNotifier();
-
-    const client = new InMemoryLaunchDarklyClient(flags, {
-        notifier
-    });
-
+    const client = new InMemoryLaunchDarklyClient(flags);
     const snapshot = new FeatureFlagSetSnapshot(client);
 
     const value1 = snapshot.value;
 
-    flags.set("flag-b", false);
-
-    notifier.notify("change", {
+    // Must use "setFeatureFlags" rather than a custom notifier because of InMemoryLaunchDarklyClient "object literal snapshot".
+    client.setFeatureFlags({
         "flag-b": false
     });
 
@@ -67,12 +61,7 @@ test.concurrent("can add listeners", ({ expect }) => {
         "flag-a": true
     }));
 
-    const notifier = new LaunchDarklyClientNotifier();
-
-    const client = new InMemoryLaunchDarklyClient(flags, {
-        notifier
-    });
-
+    const client = new InMemoryLaunchDarklyClient(flags);
     const snapshot = new FeatureFlagSetSnapshot(client);
 
     const listener1 = vi.fn();
@@ -81,16 +70,16 @@ test.concurrent("can add listeners", ({ expect }) => {
     snapshot.addSnapshotChangedListener(listener1);
     snapshot.addSnapshotChangedListener(listener2);
 
-    flags.set("flag-b", false);
-
     const changes = {
         "flag-b": false
     };
 
-    notifier.notify("change", changes);
+    // Must use "setFeatureFlags" rather than a custom notifier because of InMemoryLaunchDarklyClient "object literal snapshot".
+    client.setFeatureFlags(changes);
 
-    expect(listener1).toHaveBeenCalledExactlyOnceWith(expect.anything(), changes);
-    expect(listener2).toHaveBeenCalledExactlyOnceWith(expect.anything(), changes);
+    // Fake clients do not compute the changes as the Launch Darkly SDK client does, so we receive undefined.
+    expect(listener1).toHaveBeenCalledExactlyOnceWith(expect.objectContaining(changes), undefined);
+    expect(listener2).toHaveBeenCalledExactlyOnceWith(expect.objectContaining(changes), undefined);
 });
 
 test.concurrent("can remove listeners", ({ expect }) => {
@@ -115,15 +104,13 @@ test.concurrent("can remove listeners", ({ expect }) => {
     snapshot.removeSnapshotChangedListener(listener1);
     snapshot.removeSnapshotChangedListener(listener2);
 
-    flags.set("flag-b", false);
-
     const changes = {
         "flag-b": false
     };
 
-    notifier.notify("change", changes);
+    // Must use "setFeatureFlags" rather than a custom notifier because of InMemoryLaunchDarklyClient "object literal snapshot".
+    client.setFeatureFlags(changes);
 
     expect(listener1).not.toHaveBeenCalled();
     expect(listener2).not.toHaveBeenCalled();
 });
-

@@ -149,12 +149,20 @@ export class LocalStorageLaunchDarklyClient<T extends string = string> implement
     #getFlags() {
         if (!this.#cache) {
             this.#cache = new LocalStorageLaunchDarklyClientCache(this.#store.getFlags());
+
+            console.log("@@@@@@@@@@@@@@@@@@@@@@");
+            console.log("@@@@@@@@@@@@@@@@@@@@@@", this.#cache.value, this.#cache.objectLiteral);
+            console.log("@@@@@@@@@@@@@@@@@@@@@@");
         }
 
         return this.#cache;
     }
 
     #handleStoreChanged() {
+        console.log("!!!!!!!!!!!!!!!!!!!!");
+        console.log("!!!!!!!!!!!!!!!!!!!!");
+        console.log("!!!!!!!!!!!!!!!!!!!!");
+
         // Force the client to read from the local storage the next time
         // the flags are requested.
         this.#invalidateCache();

@@ -1,6 +1,15 @@
 import { describe, test } from "vitest";
 import { InMemoryLaunchDarklyClient } from "../src/InMemoryLaunchDarklyClient.ts";
 
+/*
+
+allFlags
+
+- return all the flags
+- when the flags are retrieved twice, the same object reference is returned
+
+*/
+
 declare module "@squide/launch-darkly" {
     interface FeatureFlags {
         "flag-a": boolean;
