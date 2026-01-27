@@ -1,4 +1,4 @@
-import { afterEach, beforeEach, describe, expect, test, vi } from "vitest";
+import { afterEach, beforeEach, describe, test, vi } from "vitest";
 import { createLocalStorageLaunchDarklyClient } from "../src/LocalStorageLaunchDarklyClient.ts";
 
 declare module "@squide/launch-darkly" {
@@ -20,7 +20,7 @@ afterEach(() => {
 });
 
 describe("createLocalStorageLaunchDarklyClient", () => {
-    test("when the local storage is empty, the local storage is initialized with default flags", () => {
+    test("when the local storage is empty, the local storage is initialized with default flags", ({ expect }) => {
         const defaultFlags = new Map(Object.entries({
             "flag-a": false,
             "flag-b": true,
@@ -34,7 +34,7 @@ describe("createLocalStorageLaunchDarklyClient", () => {
         expect(client.variation("flag-c")).toBe(true);
     });
 
-    test("when the local storage has existing flags, the existing flag values have priority over the default flags values", () => {
+    test("when the local storage has existing flags, the existing flag values have priority over the default flags values", ({ expect }) => {
         const defaultFlags = new Map(Object.entries({
             "flag-a": false,
             "flag-b": true
@@ -51,7 +51,7 @@ describe("createLocalStorageLaunchDarklyClient", () => {
         expect(client.variation("flag-b")).toBe(false);
     });
 
-    test("when the local storage has existing flags, and the existing flags are not deprecated, do not remove them from the local storage", () => {
+    test("when the local storage has existing flags, and the existing flags are not deprecated, do not remove them from the local storage", ({ expect }) => {
         const defaultFlags = new Map(Object.entries({
             "flag-a": false,
             "flag-b": true
@@ -69,7 +69,7 @@ describe("createLocalStorageLaunchDarklyClient", () => {
         expect(JSON.parse(localStorage.getItem(LocalStorageKey)!)).toEqual(storedFlags);
     });
 
-    test("when the local storage has deprecated flags, do not load them", () => {
+    test("when the local storage has deprecated flags, do not load them", ({ expect }) => {
         const defaultFlags = new Map(Object.entries({
             "flag-a": true
         }));
@@ -87,7 +87,7 @@ describe("createLocalStorageLaunchDarklyClient", () => {
         });
     });
 
-    test("when the local storage has deprecated flags, remove them from the local storage", () => {
+    test("when the local storage has deprecated flags, remove them from the local storage", ({ expect }) => {
         const defaultFlags = new Map(Object.entries({
             "flag-a": true
         }));
@@ -104,7 +104,7 @@ describe("createLocalStorageLaunchDarklyClient", () => {
         ]);
     });
 
-    test("when the local storage is missing default flags, load them", () => {
+    test("when the local storage is missing default flags, load them", ({ expect }) => {
         const defaultFlags = new Map(Object.entries({
             "flag-a": false,
             "flag-b": true,
@@ -124,7 +124,7 @@ describe("createLocalStorageLaunchDarklyClient", () => {
         });
     });
 
-    test("when the local storage is missing default flags, add those default flags to the local storage", () => {
+    test("when the local storage is missing default flags, add those default flags to the local storage", ({ expect }) => {
         const defaultFlags = new Map(Object.entries({
             "flag-a": false,
             "flag-b": true,
@@ -146,7 +146,7 @@ describe("createLocalStorageLaunchDarklyClient", () => {
 });
 
 describe("allFlags", () => {
-    test("return all the flags", () => {
+    test("return all the flags", ({ expect }) => {
         const defaultFlags = new Map(Object.entries({
             "flag-a": false,
             "flag-b": true,
@@ -162,7 +162,7 @@ describe("allFlags", () => {
         });
     });
 
-    test("when the flags are retrieved twice, the same object reference is returned", () => {
+    test("when the flags are retrieved twice, the same object reference is returned", ({ expect }) => {
         const defaultFlags = new Map(Object.entries({
             "flag-a": false,
             "flag-b": true,
@@ -237,7 +237,7 @@ describe("variationDetail", () => {
 });
 
 describe("setFeatureFlags", () => {
-    test("can update multiple flag values", () => {
+    test("can update multiple flag values", ({ expect }) => {
         const defaultFlags = new Map(Object.entries({
             "flag-a": false,
             "flag-b": false
@@ -263,7 +263,7 @@ describe("setFeatureFlags", () => {
         });
     });
 
-    test("can update a single flag value", () => {
+    test("can update a single flag value", ({ expect }) => {
         const defaultFlags = new Map(Object.entries({
             "flag-a": false
         }));
@@ -285,7 +285,7 @@ describe("setFeatureFlags", () => {
         });
     });
 
-    test("triggers a change notification", () => {
+    test("triggers a change notification", ({ expect }) => {
         const defaultFlags = new Map(Object.entries({
             "flag-a": false,
             "flag-b": false
@@ -305,7 +305,7 @@ describe("setFeatureFlags", () => {
         expect(listener).toHaveBeenCalledOnce();
     });
 
-    test("when notify is false, do not trigger a change notification", () => {
+    test("when notify is false, do not trigger a change notification", ({ expect }) => {
         const defaultFlags = new Map(Object.entries({
             "flag-a": false,
             "flag-b": false
@@ -327,26 +327,7 @@ describe("setFeatureFlags", () => {
         expect(listener).not.toHaveBeenCalled();
     });
 
-    test("getting all flags after updating values returns the updated values", () => {
-        const defaultFlags = new Map(Object.entries({
-            "flag-a": false,
-            "flag-b": false
-        }));
-
-        const client = createLocalStorageLaunchDarklyClient(LocalStorageKey, defaultFlags);
-
-        client.setFeatureFlags({
-            "flag-a": true,
-            "flag-b": true
-        });
-
-        expect(client.allFlags()).toEqual({
-            "flag-a": true,
-            "flag-b": true
-        });
-    });
-
-    test("getting a variation after updating values returns the updated value", () => {
+    test("getting a variation after updating values returns the updated value", ({ expect }) => {
         const defaultFlags = new Map(Object.entries({
             "flag-a": false,
             "flag-b": false
@@ -361,10 +342,25 @@ describe("setFeatureFlags", () => {
 
         expect(client.variation("flag-a")).toBeTruthy();
     });
+
+    test("throws when a new flag is added", ({ expect }) => {
+        const defaultFlags = new Map(Object.entries({
+            "flag-a": false,
+            "flag-b": false
+        }));
+
+        const client = createLocalStorageLaunchDarklyClient(LocalStorageKey, defaultFlags);
+
+        expect(() => client.setFeatureFlags({
+            "flag-a": true,
+            "flag-b": true,
+            "flag-c": true
+        })).toThrow();
+    });
 });
 
 describe("storage changed event", () => {
-    test("getting flags after a storage changed event returns the updated values", () => {
+    test("getting flags after a storage changed event returns the updated values", ({ expect }) => {
         const defaultFlags = new Map(Object.entries({
             "flag-a": false,
             "flag-b": false
@@ -397,7 +393,7 @@ describe("storage changed event", () => {
         expect(client.variation("flag-b")).toBe(false);
     });
 
-    test("triggers a change notification", () => {
+    test("triggers a change notification", ({ expect }) => {
         const defaultFlags = new Map(Object.entries({
             "flag-a": false,
             "flag-b": false
@@ -433,7 +429,7 @@ describe("storage changed event", () => {
         expect(listener).toHaveBeenCalledOnce();
     });
 
-    test("do not trigger a change notification when it's a different storage key", () => {
+    test("do not trigger a change notification when it's a different storage key", ({ expect }) => {
         const defaultFlags = new Map(Object.entries({
             "flag-a": false,
             "flag-b": false

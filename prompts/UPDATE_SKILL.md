@@ -1,1 +1,1 @@
-Update the `workleap-squide` skill you created in the `./skills/workleap-squide` directory to add the new Launch Darkly utilities. You can find the reference documentation of the new Launch Darkly utilities in the `./docs/reference/launch-darkly` directory.
+Review the `workleap-squide` skill you created in the `./skills/workleap-squide` directory and make sure that all API definition and examples match the documentation available in the `./docs` folder. Ignore anything related to microfrontends, module federation, webpack or rsbuild. Do not make any mistake.

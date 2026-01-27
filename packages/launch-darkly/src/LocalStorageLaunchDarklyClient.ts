@@ -149,20 +149,12 @@ export class LocalStorageLaunchDarklyClient<T extends string = string> implement
     #getFlags() {
         if (!this.#cache) {
             this.#cache = new LocalStorageLaunchDarklyClientCache(this.#store.getFlags());
-
-            console.log("@@@@@@@@@@@@@@@@@@@@@@");
-            console.log("@@@@@@@@@@@@@@@@@@@@@@", this.#cache.value, this.#cache.objectLiteral);
-            console.log("@@@@@@@@@@@@@@@@@@@@@@");
         }
 
         return this.#cache;
     }
 
     #handleStoreChanged() {
-        console.log("!!!!!!!!!!!!!!!!!!!!");
-        console.log("!!!!!!!!!!!!!!!!!!!!");
-        console.log("!!!!!!!!!!!!!!!!!!!!");
-
         // Force the client to read from the local storage the next time
         // the flags are requested.
         this.#invalidateCache();
@@ -255,6 +247,10 @@ export class LocalStorageLaunchDarklyClient<T extends string = string> implement
 
         if (entries.length > 0) {
             for (const [key, value] of entries) {
+                if (!currentFlags.has(key)) {
+                    throw new Error(`[squide] The "${key}" flag doesn't exist in the initial flags. The setFeatureFlags method cannot add a new flag.`);
+                }
+
                 newFlags.set(key, value);
             }
 

@@ -1,14 +1,5 @@
-import { describe, test } from "vitest";
+import { describe, test, vi } from "vitest";
 import { InMemoryLaunchDarklyClient } from "../src/InMemoryLaunchDarklyClient.ts";
-
-/*
-
-allFlags
-
-- return all the flags
-- when the flags are retrieved twice, the same object reference is returned
-
-*/
 
 declare module "@squide/launch-darkly" {
     interface FeatureFlags {
@@ -17,193 +8,205 @@ declare module "@squide/launch-darkly" {
     }
 }
 
-describe("variation", () => {
-    test.concurrent("when the flag is available, return the flag", ({ expect }) => {
+describe.concurrent("allFlags", () => {
+    test.concurrent("return all the flags", ({ expect }) => {
         const flags = new Map(Object.entries({
-            "flag-a": true
+            "flag-a": true,
+            "flab-b": true
         }));
 
         const client = new InMemoryLaunchDarklyClient(flags);
 
-        const value = client.variation("flag-a", false);
-
-        expect(value).toBeTruthy();
+        expect(client.allFlags()).toEqual({
+            "flag-a": true,
+            "flab-b": true
+        });
     });
 
-    test.concurrent("when the flag is not available and a default value is provided, return the default value", ({ expect }) => {
-        const flags = new Map<string, boolean>();
+    test.concurrent("when the flags are retrieved twice, the same object reference is returned", ({ expect }) => {
+        const flags = new Map(Object.entries({
+            "flag-a": true,
+            "flab-b": true
+        }));
+
         const client = new InMemoryLaunchDarklyClient(flags);
 
-        const value = client.variation("flag-a", false);
+        const obj1 = client.allFlags();
+        const obj2 = client.allFlags();
 
-        expect(value).toBeFalsy();
-    });
-
-    test.concurrent("when the flag is not available and no default value is provided, return undefined", ({ expect }) => {
-        const flags = new Map<string, boolean>();
-        const client = new InMemoryLaunchDarklyClient(flags);
-
-        const value = client.variation("flag-a");
-
-        expect(value).toBeUndefined();
+        expect(obj1).toBe(obj2);
     });
 });
 
-describe("variationDetail", () => {
-    test.concurrent("when the flag is available, return the flag", ({ expect }) => {
+describe.concurrent("variation", () => {
+    test.concurrent("when the flag exist, return the flag value", ({ expect }) => {
         const flags = new Map(Object.entries({
             "flag-a": true
         }));
 
         const client = new InMemoryLaunchDarklyClient(flags);
 
-        const value = client.variationDetail("flag-a", false);
+        expect(client.variation("flag-a", false)).toBeTruthy();
+    });
 
-        expect(value).toEqual({
+    test.concurrent("when the flag doesn't exist and a default value is provided, return the default value", ({ expect }) => {
+        const flags = new Map<string, boolean>();
+        const client = new InMemoryLaunchDarklyClient(flags);
+
+        expect(client.variation("flag-a", false)).toBeFalsy();
+    });
+
+    test.concurrent("when the flag doesn't exist and no default value is provided, return undefined", ({ expect }) => {
+        const flags = new Map<string, boolean>();
+        const client = new InMemoryLaunchDarklyClient(flags);
+
+        expect(client.variation("flag-a")).toBeUndefined();
+    });
+});
+
+describe.concurrent("variationDetail", () => {
+    test.concurrent("when the flag exist, return the flag value", ({ expect }) => {
+        const flags = new Map(Object.entries({
+            "flag-a": true
+        }));
+
+        const client = new InMemoryLaunchDarklyClient(flags);
+
+        expect(client.variationDetail("flag-a", false)).toEqual({
             value: true
         });
     });
 
-    test.concurrent("when the flag is not available and a default value is provided, return the default value", ({ expect }) => {
+    test.concurrent("when the flag doesn't exist and a default value is provided, return the default value", ({ expect }) => {
         const flags = new Map<string, boolean>();
         const client = new InMemoryLaunchDarklyClient(flags);
 
-        const value = client.variationDetail("flag-a", false);
-
-        expect(value).toEqual({
+        expect(client.variationDetail("flag-a", false)).toEqual({
             value: false
         });
     });
 
-    test.concurrent("when the flag is not available and no default value is provided, return undefined", ({ expect }) => {
+    test.concurrent("when the flag doesn't exist and no default value is provided, return undefined", ({ expect }) => {
         const flags = new Map<string, boolean>();
         const client = new InMemoryLaunchDarklyClient(flags);
 
-        const value = client.variationDetail("flag-a");
-
-        expect(value).toEqual({
+        expect(client.variationDetail("flag-a")).toEqual({
             value: undefined
         });
     });
 });
 
-describe("setFeatureFlags", () => {
-    test.concurrent("when setting multiple feature flags, all flags are added", ({ expect }) => {
-        const flags = new Map<string, boolean>();
-        const client = new InMemoryLaunchDarklyClient(flags);
-
-        client.setFeatureFlags({
-            "flag-a": true,
-            "flag-b": false
-        });
-
-        expect(client.variation("flag-a")).toBeTruthy();
-        expect(client.variation("flag-b")).toBeFalsy();
-    });
-
-    test.concurrent("when updating existing feature flags, all flags are updated", ({ expect }) => {
+describe.concurrent("setFeatureFlags", () => {
+    test.concurrent("can update multiple flag values", ({ expect }) => {
         const flags = new Map(Object.entries({
             "flag-a": false,
-            "flag-b": true
+            "flag-b": false
         }));
+
         const client = new InMemoryLaunchDarklyClient(flags);
 
         client.setFeatureFlags({
             "flag-a": true,
+            "flag-b": true
+        });
+
+        const allFlags = client.allFlags();
+
+        expect(allFlags).toEqual({
+            "flag-a": true,
+            "flag-b": true
+        });
+    });
+
+    test.concurrent("can update a single flag value", ({ expect }) => {
+        const flags = new Map(Object.entries({
+            "flag-a": false
+        }));
+
+        const client = new InMemoryLaunchDarklyClient(flags);
+
+        client.setFeatureFlags({
+            "flag-a": true
+        });
+
+        const allFlags = client.allFlags();
+
+        expect(allFlags).toEqual({
+            "flag-a": true
+        });
+    });
+
+    test.concurrent("triggers a change notification", ({ expect }) => {
+        const flags = new Map(Object.entries({
+            "flag-a": false,
             "flag-b": false
+        }));
+
+        const client = new InMemoryLaunchDarklyClient(flags);
+
+        const listener = vi.fn();
+
+        client.on("change", listener);
+
+        client.setFeatureFlags({
+            "flag-a": true,
+            "flag-b": true
+        });
+
+        expect(listener).toHaveBeenCalledOnce();
+    });
+
+    test.concurrent("when notify is false, do not trigger a change notification", ({ expect }) => {
+        const flags = new Map(Object.entries({
+            "flag-a": false,
+            "flag-b": false
+        }));
+
+        const client = new InMemoryLaunchDarklyClient(flags);
+
+        const listener = vi.fn();
+
+        client.on("change", listener);
+
+        client.setFeatureFlags({
+            "flag-a": true,
+            "flag-b": true
+        }, {
+            notify: false
+        });
+
+        expect(listener).not.toHaveBeenCalled();
+    });
+
+    test.concurrent("getting a variation after updating values returns the updated value", ({ expect }) => {
+        const flags = new Map(Object.entries({
+            "flag-a": false,
+            "flag-b": false
+        }));
+
+        const client = new InMemoryLaunchDarklyClient(flags);
+
+        client.setFeatureFlags({
+            "flag-a": true,
+            "flag-b": true
         });
 
         expect(client.variation("flag-a")).toBeTruthy();
-        expect(client.variation("flag-b")).toBeFalsy();
     });
 
-    test.concurrent("when setting multiple feature flags with the notify option set to true, the change listener is notified with all flags", ({ expect }) => {
-        const flags = new Map<string, boolean>();
-        const client = new InMemoryLaunchDarklyClient(flags);
-
-        let notifiedValue: Record<string, boolean> | undefined;
-
-        client.on("change", (value: Record<string, boolean>) => {
-            notifiedValue = value;
-        });
-
-        client.setFeatureFlags({
-            "flag-a": true,
-            "flag-b": false
-        }, { notify: true });
-
-        expect(notifiedValue).toEqual({
-            "flag-a": true,
-            "flag-b": false
-        });
-    });
-
-    test.concurrent("when setting multiple feature flags without a notify option, the change listener is notified", ({ expect }) => {
-        const flags = new Map<string, boolean>();
-        const client = new InMemoryLaunchDarklyClient(flags);
-
-        let notified = false;
-
-        client.on("change", () => {
-            notified = true;
-        });
-
-        client.setFeatureFlags({
-            "flag-a": true,
-            "flag-b": false
-        });
-
-        expect(notified).toBeTruthy();
-    });
-
-    test.concurrent("when setting multiple feature flags with the notify option set to false, the listeners are not called", ({ expect }) => {
-        const flags = new Map<string, boolean>();
-        const client = new InMemoryLaunchDarklyClient(flags);
-
-        let notified = false;
-
-        client.on("change", () => {
-            notified = true;
-        });
-
-        client.setFeatureFlags({
-            "flag-a": true,
-            "flag-b": false
-        }, { notify: false });
-
-        expect(notified).toBeFalsy();
-    });
-
-    test.concurrent("when setting multiple feature flags with mixed values, all values are set", ({ expect }) => {
-        const flags = new Map<string, boolean | string | number>();
-        const client = new InMemoryLaunchDarklyClient(flags);
-
-        client.setFeatureFlags({
-            "flag-bool": true,
-            "flag-string": "enabled",
-            "flag-number": 42
-        });
-
-        expect(client.variation("flag-bool")).toBe(true);
-        expect(client.variation("flag-string")).toBe("enabled");
-        expect(client.variation("flag-number")).toBe(42);
-    });
-
-    test.concurrent("when setting multiple feature flags, existing flags not in the update are preserved", ({ expect }) => {
+    test.concurrent("throws when a new flag is added", ({ expect }) => {
         const flags = new Map(Object.entries({
-            "flag-a": true,
-            "flag-b": false,
-            "flag-c": true
+            "flag-a": false,
+            "flag-b": false
         }));
+
         const client = new InMemoryLaunchDarklyClient(flags);
 
-        client.setFeatureFlags({
-            "flag-a": false
-        });
-
-        expect(client.variation("flag-a")).toBeFalsy();
-        expect(client.variation("flag-b")).toBeFalsy();
-        expect(client.variation("flag-c")).toBeTruthy();
+        expect(() => client.setFeatureFlags({
+            "flag-a": true,
+            "flag-b": true,
+            "flag-c": true
+        })).toThrow();
     });
 });
 

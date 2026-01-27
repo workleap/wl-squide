@@ -37,7 +37,8 @@ test.concurrent("when the flags are retrieved twice, the same snapshot object is
 
 test.concurrent("when the client flags change, the snapshot is updated", ({ expect }) => {
     const flags = new Map(Object.entries({
-        "flag-a": true
+        "flag-a": true,
+        "flag-b": true
     }));
 
     const client = new InMemoryLaunchDarklyClient(flags);
@@ -58,7 +59,8 @@ test.concurrent("when the client flags change, the snapshot is updated", ({ expe
 
 test.concurrent("can add listeners", ({ expect }) => {
     const flags = new Map(Object.entries({
-        "flag-a": true
+        "flag-a": true,
+        "flag-b": true
     }));
 
     const client = new InMemoryLaunchDarklyClient(flags);
@@ -84,7 +86,8 @@ test.concurrent("can add listeners", ({ expect }) => {
 
 test.concurrent("can remove listeners", ({ expect }) => {
     const flags = new Map(Object.entries({
-        "flag-a": true
+        "flag-a": true,
+        "flag-b": true
     }));
 
     const notifier = new LaunchDarklyClientNotifier();

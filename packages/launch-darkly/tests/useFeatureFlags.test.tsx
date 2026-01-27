@@ -114,9 +114,7 @@ test.concurrent("when a feature flag value is updated, return the updated featur
         "flag-c": true
     });
 
-    flags.set("flag-b", false);
-
-    notifier.notify("change", {
+    client.setFeatureFlags({
         "flag-b": false
     });
 
@@ -124,92 +122,6 @@ test.concurrent("when a feature flag value is updated, return the updated featur
         expect(result.current).toEqual({
             "flag-a": true,
             "flag-b": false,
-            "flag-c": true
-        });
-    });
-});
-
-test.concurrent("when a feature flag is added, return the updated feature flags", async ({ expect }) => {
-    const flags = new Map(Object.entries({
-        "flag-a": true,
-        "flag-b": true,
-        "flag-c": true
-    }));
-
-    const notifier = new LaunchDarklyClientNotifier();
-
-    const client = new InMemoryLaunchDarklyClient(flags, {
-        notifier
-    });
-
-    const runtime = new DummyRuntime({
-        loggers: [new NoopLogger()],
-        plugins: [
-            x => new LaunchDarklyPlugin(x, client)
-        ]
-    });
-
-    const { result } = renderUseFeatureFlags(runtime);
-
-    expect(result.current).toEqual({
-        "flag-a": true,
-        "flag-b": true,
-        "flag-c": true
-    });
-
-    flags.set("flag-d", true);
-
-    notifier.notify("change", {
-        "flag-d": true
-    });
-
-    await waitFor(() => {
-        expect(result.current).toEqual({
-            "flag-a": true,
-            "flag-b": true,
-            "flag-c": true,
-            "flag-d": true
-        });
-    });
-});
-
-test.concurrent("when a feature flag is delete, return the updated feature flags", async ({ expect }) => {
-    const flags = new Map(Object.entries({
-        "flag-a": true,
-        "flag-b": true,
-        "flag-c": true
-    }));
-
-    const notifier = new LaunchDarklyClientNotifier();
-
-    const client = new InMemoryLaunchDarklyClient(flags, {
-        notifier
-    });
-
-    const runtime = new DummyRuntime({
-        loggers: [new NoopLogger()],
-        plugins: [
-            x => new LaunchDarklyPlugin(x, client)
-        ]
-    });
-
-    const { result } = renderUseFeatureFlags(runtime);
-
-    expect(result.current).toEqual({
-        "flag-a": true,
-        "flag-b": true,
-        "flag-c": true
-    });
-
-    flags.delete("flag-b");
-
-    notifier.notify("change", {
-        "flag-b": undefined
-    });
-
-    await waitFor(() => {
-        expect(result.current).toEqual({
-            "flag-a": true,
             "flag-c": true
         });
     });

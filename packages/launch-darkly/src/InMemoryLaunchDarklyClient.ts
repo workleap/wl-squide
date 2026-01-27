@@ -114,8 +114,12 @@ export class InMemoryLaunchDarklyClient<T extends string = string> implements Ed
         const entries = Object.entries(flags);
 
         if (entries.length > 0) {
-            for (const [name, value] of entries) {
-                this.#flags.set(name, value);
+            for (const [key, value] of entries) {
+                if (!this.#flags.has(key)) {
+                    throw new Error(`[squide] The "${key}" flag doesn't exist in the initial flags. The setFeatureFlags method cannot add a new flag.`);
+                }
+
+                this.#flags.set(key, value);
             }
 
             // Update the snapshot since the flags changed.
