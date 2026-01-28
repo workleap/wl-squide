@@ -9,15 +9,33 @@ const storybookConfig: StorybookConfig = {
     addons: [
         getAbsolutePath("@storybook/addon-a11y")
     ],
+    core: {
+        builder: {
+            name: "storybook-builder-rsbuild",
+            options: {
+                // The "RuntimeError: factory is undefined" error was caused by Rsbuild's lazy compilation conflicting with top-level await in story files.
+                // When lazy compilation is enabled, Rsbuild defers module compilation until requested. With top-level await, module dependencies (like react-dom) may not have their factory functions ready when needed, causing the error.
+                // Event if "lazyCompilation" is already turned off in "@workleap/rsbuild-configs" Storybook config for rsbuild, it's possible that
+                // Storybook or "storybook-react-rsbuild" turn it on.
+                lazyCompilation: false
+            }
+        }
+    },
     stories: [
         "../host/src/**/*.stories.tsx"
     ],
-    staticDirs: ["public"],
-    rsbuildFinal: config => {
-        config.plugins = config.plugins || [];
-
-        return config;
-    }
+    staticDirs: ["public"]
+    // rsbuildFinal: config => {
+    //     return mergeRsbuildConfig(config, {
+    //         dev: {
+    //             // The "RuntimeError: factory is undefined" error was caused by Rsbuild's lazy compilation conflicting with top-level await in story files.
+    //             // When lazy compilation is enabled, Rsbuild defers module compilation until requested. With top-level await, module dependencies (like react-dom) may not have their factory functions ready when needed, causing the error.
+    //             // Event if "lazyCompilation" is already turned off in "@workleap/rsbuild-configs" Storybook config for rsbuild, it's possible that
+    //             // Storybook turn it on.
+    //             lazyCompilation: false
+    //         }
+    //     });
+    // }
 };
 
 export default storybookConfig;
