@@ -111,6 +111,10 @@ type Story = StoryObj<typeof meta>;
 export const Default = {} satisfies Story;
 ```
 
+!!!warning
+If you encounter a `RuntimeError: factory is undefined` when starting Storybook, try disabling `lazyCompilation` both in your project's [Rsbuild configuration file](https://rsbuild.rs/config/dev/lazy-compilation) and in the Storybook `main.ts` file under the [builder options](https://storybook.rsbuild.rs/guide/configuration#builder-options).
+!!!
+
 ### Setup a decorator
 
 Then, set up a decorator using the [withFireflyDecorator](../reference/storybook/withFireflyDecorator.md) function:
