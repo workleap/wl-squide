@@ -111,6 +111,10 @@ type Story = StoryObj<typeof meta>;
 export const Default = {} satisfies Story;
 ```
 
+!!!tip
+If you encounter a `RuntimeError: factory is undefined` when starting Storybook, try disabling `lazyCompilation` both in your project's [Rsbuild configuration file](https://rsbuild.rs/config/dev/lazy-compilation) and in the Storybook `main.ts` file under the [builder options](https://storybook.rsbuild.rs/guide/configuration#builder-options). This happens because `lazyCompilation` does not work correctly with async functions.
+!!!
+
 ### Setup a decorator
 
 Then, set up a decorator using the [withFireflyDecorator](../reference/storybook/withFireflyDecorator.md) function:
@@ -245,19 +249,17 @@ export const Default = {} satisfies Story;
 
 Finally, if the components included in the stories rely on feature flags, mock the feature flags using the [initializeFireflyForStorybook](../reference/storybook/initializeFireflyForStorybook.md) function:
 
-```tsx !#12
+```tsx !#8-10
 import { initializeFireflyForStorybook, withFireflyDecorator } from "@squide/firefly-rsbuild-storybook";
 import type { Decorator, Meta, StoryObj } from "storybook-react-rsbuild";
 import { Page } from "./Page.tsx";
 import { registerModule } from "./registerModule.tsx";
 
-const featureFlags = new Map([
-    ["render-summary", true]
-] as const);
-
 const runtime = await initializeFireflyForStorybook({
     localModules: [registerModule],
-    featureFlags
+    featureFlags: {
+        "render-summary": true
+    }
 });
 
 const meta = {
@@ -277,21 +279,17 @@ export const Default = {} satisfies Story;
 
 To test different variations of a feature flag, use the [withFeatureFlagsOverrideDecorator](../reference/storybook/withFeatureFlagsOverrideDecorator.md) hook:
 
-```tsx !#31
+```tsx !#27
 import { initializeFireflyForStorybook, withFireflyDecorator, withFeatureFlagsOverrideDecorator } from "@squide/firefly-rsbuild-storybook";
 import type { Decorator, Meta, StoryObj } from "storybook-react-rsbuild";
 import { Page } from "./Page.tsx";
 import { registerModule } from "./registerModule.tsx";
 
-// This syntax with the nested arrays and "as const" is super important to get type safety with
-// the "withFeatureFlagsOverrideDecorator" decorator.
-const featureFlags = new Map([
-    ["render-summary", true]
-] as const);
-
 const runtime = await initializeFireflyForStorybook({
     localModules: [registerModule],
-    featureFlags
+    featureFlags: {
+        "render-summary": true
+    }
 });
 
 const meta = {
@@ -308,7 +306,7 @@ type Story = StoryObj<typeof meta>;
 
 export const Default = {
     decorators: [
-        withFeatureFlagsOverrideDecorator(featureFlags, { "render-summary": false })
+        withFeatureFlagsOverrideDecorator({ "render-summary": false })
     ]
 } satisfies Story;
 ```

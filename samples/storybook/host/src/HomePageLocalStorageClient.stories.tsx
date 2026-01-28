@@ -1,3 +1,4 @@
+import { createLocalStorageLaunchDarklyClient } from "@squide/firefly";
 import { initializeFireflyForStorybook, withFeatureFlagsOverrideDecorator, withFireflyDecorator } from "@squide/firefly-rsbuild-storybook";
 import type { Decorator, Meta, StoryObj } from "storybook-react-rsbuild";
 import { HomePage } from "./HomePage.tsx";
@@ -16,13 +17,13 @@ function withQueryDecorator(): Decorator {
 
 const fireflyRuntime = await initializeFireflyForStorybook({
     localModules: [registerHost],
-    featureFlags: {
+    launchDarklyClient: createLocalStorageLaunchDarklyClient({
         "show-characters": true
-    }
+    })
 });
 
 const meta = {
-    title: "HomePage",
+    title: "HomePageLocalStorageClient",
     component: HomePage,
     decorators: [
         withQueryDecorator(),

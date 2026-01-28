@@ -1,51 +1,30 @@
-import { LDClient } from "launchdarkly-js-client-sdk";
-import { LDContext, LDFlagSet, LDFlagValue } from "launchdarkly-js-sdk-common";
-
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-export type LaunchDarklyClientListener = (...args: any[]) => void;
-
-export class LaunchDarklyClientNotifier {
-    readonly #listeners = new Map<string, Set<LaunchDarklyClientListener>>();
-
-    addListener(key: string, listener: LaunchDarklyClientListener) {
-        if (!this.#listeners.has(key)) {
-            this.#listeners.set(key, new Set<LaunchDarklyClientListener>());
-        }
-
-        this.#listeners.get(key)?.add(listener);
-    }
-
-    removeListener(key: string, listener: LaunchDarklyClientListener) {
-        this.#listeners.get(key)?.delete(listener);
-    }
-
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    notify(key: string, ...values: any[]) {
-        this.#listeners.get(key)?.forEach(x => {
-            x(...values);
-        });
-    }
-}
+import { LDContext, LDFlagChangeset, LDFlagSet, LDFlagValue } from "launchdarkly-js-sdk-common";
+import { computeChangeset } from "./computeChangeset.ts";
+import { LaunchDarklyClientTransaction, type CommitTransactionFunction, type EditableLaunchDarklyClient, type SetFeatureFlagOptions, type UndoTransactionFunction } from "./EditableLaunchDarklyClient.ts";
+import { FeatureFlags } from "./featureFlags.ts";
+import { LaunchDarklyClientNotifier } from "./LaunchDarklyNotifier.ts";
 
 export interface InMemoryLaunchDarklyClientOptions {
     context?: LDContext;
     notifier?: LaunchDarklyClientNotifier;
 }
 
-export class InMemoryLaunchDarklyClient implements LDClient {
-    readonly #flags: Map<string, LDFlagValue>;
-    readonly #context: LDContext;
-    readonly #notifier?: LaunchDarklyClientNotifier;
+interface ActiveTransaction {
+    transaction: LaunchDarklyClientTransaction;
+    deferredNotifications: LDFlagChangeset[];
+}
 
-    constructor(featureFlags: Map<string, LDFlagValue>, options: InMemoryLaunchDarklyClientOptions = {}) {
+export class InMemoryLaunchDarklyClient implements EditableLaunchDarklyClient {
+    readonly #context: LDContext;
+    readonly #notifier: LaunchDarklyClientNotifier;
+    #flags: Record<string, LDFlagValue>;
+    #activeTransaction: ActiveTransaction | undefined;
+
+    constructor(featureFlags: Partial<FeatureFlags>, options: InMemoryLaunchDarklyClientOptions = {}) {
         const {
             context,
-            notifier
+            notifier = new LaunchDarklyClientNotifier()
         } = options;
-
-        if (!(featureFlags instanceof Map)) {
-            throw new TypeError("[squide] The \"featureFlags\" argument must be a Map instance.");
-        }
 
         this.#flags = featureFlags;
 
@@ -84,13 +63,13 @@ export class InMemoryLaunchDarklyClient implements LDClient {
     }
 
     variation(key: string, defaultValue?: LDFlagValue) {
-        const flag = this.#flags.get(key);
+        const flag = this.#flags[key];
 
         return flag ?? defaultValue;
     }
 
     variationDetail(key: string, defaultValue?: LDFlagValue) {
-        const flag = this.#flags.get(key);
+        const flag = this.#flags[key];
 
         return {
             value: flag ?? defaultValue
@@ -101,22 +80,20 @@ export class InMemoryLaunchDarklyClient implements LDClient {
 
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     on(key: string, callback: (...args: any[]) => void) {
-        if (this.#notifier) {
-            this.#notifier.addListener(key, callback);
-        }
+        this.#notifier.addListener(key, callback);
     }
 
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     off(key: string, callback: (...args: any[]) => void) {
-        if (this.#notifier) {
-            this.#notifier.removeListener(key, callback);
-        }
+        this.#notifier.removeListener(key, callback);
     }
 
     track(): void {}
 
+    // IMPORTANT: To support "useSyncExternalStore" it's important that the flags object isn't a new reference
+    // everytime this method is called.
     allFlags() {
-        return Object.fromEntries(this.#flags);
+        return this.#flags;
     }
 
     close(onDone?: () => void) {
@@ -126,4 +103,64 @@ export class InMemoryLaunchDarklyClient implements LDClient {
     }
 
     addHook(): void {}
+
+    setFeatureFlags(newValues: Partial<FeatureFlags>, options: SetFeatureFlagOptions = {}): void {
+        const {
+            notify = true
+        } = options;
+
+        const keys = Object.keys(newValues);
+
+        if (keys.length > 0) {
+            const originalFlags = this.#flags;
+            const newFlags = { ...this.#flags };
+
+            (keys as Array<keyof FeatureFlags>).forEach(x => {
+                newFlags[x] = newValues[x];
+            });
+
+            this.#flags = newFlags;
+
+            if (notify) {
+                const changeset = computeChangeset(originalFlags, this.#flags);
+
+                if (this.#activeTransaction) {
+                    // Where there's an active transaction, defer the notification until the
+                    // transaction is committed.
+                    this.#activeTransaction.deferredNotifications.push(changeset);
+                } else {
+                    this.#notifier.notify("change", changeset);
+                }
+            }
+        }
+    }
+
+    startTransaction() {
+        if (this.#activeTransaction) {
+            throw new Error("[squide] There's already an active LaunchDarkly client transaction. Only one transaction can be started at a time.");
+        }
+
+        const commit: CommitTransactionFunction = () => {
+            // Once the transaction is committed, process all the pending notifications.
+            this.#activeTransaction?.deferredNotifications.forEach(x => {
+                this.#notifier.notify("change", x);
+            });
+
+            this.#activeTransaction = undefined;
+        };
+
+        const undo: UndoTransactionFunction = (newFlags: Record<string, LDFlagValue>) => {
+            this.#flags = newFlags;
+            this.#activeTransaction = undefined;
+        };
+
+        const transaction = new LaunchDarklyClientTransaction(this.#flags, commit, undo);
+
+        this.#activeTransaction = {
+            transaction,
+            deferredNotifications: []
+        };
+
+        return transaction;
+    }
 }

@@ -1,4 +1,5 @@
 import { useRuntime } from "@squide/core";
+import type { LDFlagChangeset } from "launchdarkly-js-client-sdk";
 import { useCallback, useSyncExternalStore } from "react";
 import { FeatureFlagSetSnapshotChangedListener } from "./FeatureFlagSetSnapshot.ts";
 import { getLaunchDarklyPlugin } from "./LaunchDarklyPlugin.ts";
@@ -9,7 +10,7 @@ export function useFeatureFlag<T extends FeatureFlagKey>(key: T, defaultValue?: 
     const plugin = getLaunchDarklyPlugin(runtime);
 
     const subscribe = useCallback((callback: () => void) => {
-        const listener: FeatureFlagSetSnapshotChangedListener = (_, changes: Partial<FeatureFlags>) => {
+        const listener: FeatureFlagSetSnapshotChangedListener = (_, changes: LDFlagChangeset) => {
             if (changes) {
                 if (Object.keys(changes).includes(key)) {
                     callback();

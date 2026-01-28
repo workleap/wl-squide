@@ -33,7 +33,7 @@ const value = useFeatureFlag("show-characters", true);
 
 ## Register a conditionnal navigation item
 
-To register a navigation item based on feature flags, refer to the [register deferred navigation items](./register-deferred-nav-items.md) guide.
+To register a navigation item based on feature flags, refer to the [register deferred navigation items](./register-deferred-nav-items.md#feature-flags) guide.
 
 ## Setup the typings
 
@@ -52,7 +52,7 @@ project
 ├────── feature-flags.d.ts
 ```
 
-Then create an `feature-flags.d.ts` file:
+Then create a `feature-flags.d.ts` file:
 
 ```ts !#6 project/types/feature-flags.d.ts
 import "@squide/firefly";
@@ -130,7 +130,7 @@ export function Page() {
 
 The following unit test can be written to mock the value of `show-characters` and test the ouput of the `createTelemetryClient` function:
 
-```tsx !#15,19,21 ./tests/createTelemetryClient.test.tsx
+```tsx !#12,15,19,21 ./tests/createTelemetryClient.test.tsx
 import { FireflyProvider, FireflyRuntime, LaunchDarklyPlugin, InMemoryLaunchDarklyClient } from "@squide/firefly";
 import {render, screen} from "@testing-library/react";
 import type { ReactNode } from "react";
@@ -138,9 +138,9 @@ import { Page } from "./src/Page.tsx";
 import "@testing-library/jest-dom";
 
 test("when the \"show-characters\" feature flag is off, do not render the character list", () => {
-    const featureFlags = new Map([
-        ["show-characters", false]
-    ] as const);
+    const featureFlags = {
+        "show-characters": false
+    };
 
     const launchDarklyClient = new InMemoryLaunchDarklyClient(featureFlags);
 
@@ -162,4 +162,27 @@ test("when the \"show-characters\" feature flag is off, do not render the charac
 
 To set up [Storybook](https://storybook.js.org/docs) stories with feature flags, refer to the [setup Storybook](../integrations/setup-storybook.md#setup-feature-flags) integration guide.
 
+## Use fake clients
+
+To support a variety of development scenarios, "fake" implementations of the LaunchDarkly SDK [client](https://launchdarkly.com/docs/sdk/client-side/javascript) are available. To simulate a LaunchDarkly environment, use either [InMemoryLaunchDarklyClient](../reference/launch-darkly/InMemoryLaunchDarklyClient.md) or [LocalStorageLaunchDarklyClient](../reference/launch-darkly/LocalStorageLaunchDarklyClient.md).
+
+### Toggle feature flags
+
+Both fake implementations support toggling feature flags. To do so, first ensure that the client is an editable implementation by using the [isEditableLaunchDarklyClient](../reference/launch-darkly/isEditableLaunchDarklyClient.md) utility function. Then, call the `setFeatureFlags` method of the editable client to update the feature flag values:
+
+```ts !#10-13
+import { InMemoryLaunchDarklyClient } from "@squide/firefly";
+
+const featureFlags = {
+    "show-characters": true,
+    "render-summary": true
+};
+
+const client = new InMemoryLaunchDarklyClient(featureFlags);
+
+client.setFeatureFlags({
+    "show-characters": true,
+    "render-summary": false
+});
+```
 

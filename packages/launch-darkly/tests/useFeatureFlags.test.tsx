@@ -1,9 +1,10 @@
 import { Runtime, RuntimeContext } from "@squide/core";
+import { createLocalStorageLaunchDarklyClient } from "@squide/launch-darkly";
 import { renderHook, waitFor } from "@testing-library/react";
 import { NoopLogger } from "@workleap/logging";
 import { ReactNode } from "react";
-import { test } from "vitest";
-import { InMemoryLaunchDarklyClient, LaunchDarklyClientNotifier } from "../src/InMemoryLaunchDarklyClient.ts";
+import { afterEach, beforeEach, describe, test } from "vitest";
+import { InMemoryLaunchDarklyClient } from "../src/InMemoryLaunchDarklyClient.ts";
 import { LaunchDarklyPlugin } from "../src/LaunchDarklyPlugin.ts";
 import { useFeatureFlags } from "../src/useFeatureFlags.ts";
 
@@ -64,152 +65,130 @@ function renderUseFeatureFlags(runtime: Runtime) {
     });
 }
 
-test.concurrent("can return the feature flags", ({ expect }) => {
-    const flags = new Map(Object.entries({
-        "flag-a": true
-    }));
+describe.concurrent("InMemoryLaunchDarklyClient", () => {
+    test.concurrent("can return the feature flags", ({ expect }) => {
+        const flags = {
+            "flag-a": true
+        };
 
-    const client = new InMemoryLaunchDarklyClient(flags);
+        const client = new InMemoryLaunchDarklyClient(flags);
 
-    const runtime = new DummyRuntime({
-        loggers: [new NoopLogger()],
-        plugins: [
-            x => new LaunchDarklyPlugin(x, client)
-        ]
-    });
+        const runtime = new DummyRuntime({
+            loggers: [new NoopLogger()],
+            plugins: [
+                x => new LaunchDarklyPlugin(x, client)
+            ]
+        });
 
-    const { result } = renderUseFeatureFlags(runtime);
+        const { result } = renderUseFeatureFlags(runtime);
 
-    expect(result.current).toEqual({
-        "flag-a": true
-    });
-});
-
-test.concurrent("when a feature flag value is updated, return the updated feature flags", async ({ expect }) => {
-    const flags = new Map(Object.entries({
-        "flag-a": true,
-        "flag-b": true,
-        "flag-c": true
-    }));
-
-    const notifier = new LaunchDarklyClientNotifier();
-
-    const client = new InMemoryLaunchDarklyClient(flags, {
-        notifier
-    });
-
-    const runtime = new DummyRuntime({
-        loggers: [new NoopLogger()],
-        plugins: [
-            x => new LaunchDarklyPlugin(x, client)
-        ]
-    });
-
-    const { result } = renderUseFeatureFlags(runtime);
-
-    expect(result.current).toEqual({
-        "flag-a": true,
-        "flag-b": true,
-        "flag-c": true
-    });
-
-    flags.set("flag-b", false);
-
-    notifier.notify("change", {
-        "flag-b": false
-    });
-
-    await waitFor(() => {
         expect(result.current).toEqual({
-            "flag-a": true,
-            "flag-b": false,
-            "flag-c": true
+            "flag-a": true
         });
     });
-});
 
-test.concurrent("when a feature flag is added, return the updated feature flags", async ({ expect }) => {
-    const flags = new Map(Object.entries({
-        "flag-a": true,
-        "flag-b": true,
-        "flag-c": true
-    }));
+    test.concurrent("when a feature flag value is updated, return the updated feature flags", async ({ expect }) => {
+        const flags = {
+            "flag-a": true,
+            "flag-b": true,
+            "flag-c": true
+        };
 
-    const notifier = new LaunchDarklyClientNotifier();
+        const client = new InMemoryLaunchDarklyClient(flags);
 
-    const client = new InMemoryLaunchDarklyClient(flags, {
-        notifier
-    });
+        const runtime = new DummyRuntime({
+            loggers: [new NoopLogger()],
+            plugins: [
+                x => new LaunchDarklyPlugin(x, client)
+            ]
+        });
 
-    const runtime = new DummyRuntime({
-        loggers: [new NoopLogger()],
-        plugins: [
-            x => new LaunchDarklyPlugin(x, client)
-        ]
-    });
+        const { result } = renderUseFeatureFlags(runtime);
 
-    const { result } = renderUseFeatureFlags(runtime);
-
-    expect(result.current).toEqual({
-        "flag-a": true,
-        "flag-b": true,
-        "flag-c": true
-    });
-
-    flags.set("flag-d", true);
-
-    notifier.notify("change", {
-        "flag-d": true
-    });
-
-    await waitFor(() => {
         expect(result.current).toEqual({
             "flag-a": true,
             "flag-b": true,
-            "flag-c": true,
-            "flag-d": true
+            "flag-c": true
+        });
+
+        client.setFeatureFlags({
+            "flag-b": false
+        });
+
+        await waitFor(() => {
+            expect(result.current).toEqual({
+                "flag-a": true,
+                "flag-b": false,
+                "flag-c": true
+            });
         });
     });
 });
 
-test.concurrent("when a feature flag is delete, return the updated feature flags", async ({ expect }) => {
-    const flags = new Map(Object.entries({
-        "flag-a": true,
-        "flag-b": true,
-        "flag-c": true
-    }));
-
-    const notifier = new LaunchDarklyClientNotifier();
-
-    const client = new InMemoryLaunchDarklyClient(flags, {
-        notifier
+describe("LocalStorageLaunchDarklyClient", () => {
+    beforeEach(() => {
+        localStorage.clear();
     });
 
-    const runtime = new DummyRuntime({
-        loggers: [new NoopLogger()],
-        plugins: [
-            x => new LaunchDarklyPlugin(x, client)
-        ]
+    afterEach(() => {
+        localStorage.clear();
     });
 
-    const { result } = renderUseFeatureFlags(runtime);
+    test("can return the feature flags", ({ expect }) => {
+        const flags = {
+            "flag-a": true
+        };
 
-    expect(result.current).toEqual({
-        "flag-a": true,
-        "flag-b": true,
-        "flag-c": true
+        const client = createLocalStorageLaunchDarklyClient(flags);
+
+        const runtime = new DummyRuntime({
+            loggers: [new NoopLogger()],
+            plugins: [
+                x => new LaunchDarklyPlugin(x, client)
+            ]
+        });
+
+        const { result } = renderUseFeatureFlags(runtime);
+
+        expect(result.current).toEqual({
+            "flag-a": true
+        });
     });
 
-    flags.delete("flag-b");
+    test("when a feature flag value is updated, return the updated feature flags", async ({ expect }) => {
+        const flags = {
+            "flag-a": true,
+            "flag-b": true,
+            "flag-c": true
+        };
 
-    notifier.notify("change", {
-        "flag-b": undefined
-    });
+        const client = createLocalStorageLaunchDarklyClient(flags);
 
-    await waitFor(() => {
+        const runtime = new DummyRuntime({
+            loggers: [new NoopLogger()],
+            plugins: [
+                x => new LaunchDarklyPlugin(x, client)
+            ]
+        });
+
+        const { result } = renderUseFeatureFlags(runtime);
+
         expect(result.current).toEqual({
             "flag-a": true,
+            "flag-b": true,
             "flag-c": true
+        });
+
+        client.setFeatureFlags({
+            "flag-b": false
+        });
+
+        await waitFor(() => {
+            expect(result.current).toEqual({
+                "flag-a": true,
+                "flag-b": false,
+                "flag-c": true
+            });
         });
     });
 });

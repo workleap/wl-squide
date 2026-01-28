@@ -373,7 +373,7 @@ runtime.registerRoute({
 - `useEnvironmentVariable(key)`: Get env variable
 - `useEnvironmentVariables()`: Get all env variables
 - `useFeatureFlag(key, defaultValue)`: Get feature flag
-- `useFeatureFlags()`: Get all feature flags
+- `useFeatureFlags()`: Get all feature flags (memoized, only changes when flags update)
 - `useLaunchDarklyClient()`: Get LaunchDarkly client instance
 - `usePlugin(name)`: Get plugin instance
 - `useRuntime()`: Get runtime instance
@@ -388,5 +388,13 @@ runtime.registerRoute({
 - `resolveRouteSegments(path, params)`: Resolve dynamic segments
 - `getFeatureFlag(client, key, defaultValue)`: Get flag in non-React code
 - `mergeDeferredRegistrations(candidates)`: Merge multiple deferred registration functions
+- `isEditableLaunchDarklyClient(client)`: Check if LaunchDarkly client supports runtime flag modification
+
+### LaunchDarkly Utilities
+- `LaunchDarklyPlugin`: Plugin for LaunchDarkly integration
+- `FeatureFlags`: TypeScript interface for type-safe feature flags (augmentable)
+- `FeatureFlagSetSnapshot`: Memoized snapshot of feature flags with change listeners
+- `InMemoryLaunchDarklyClient`: In-memory client for testing
+- `createLocalStorageLaunchDarklyClient(storageKey, defaults, options?)`: Client that persists flags to localStorage
 
 For detailed API documentation, see the references folder.

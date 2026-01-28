@@ -31,6 +31,24 @@ function registerRoutes(runtime: FireflyRuntime, i18nextInstance: i18n) {
         $priority: 999,
         to: "/"
     });
+
+    runtime.registerRoute({
+        path: "/local-storage-feature-flags",
+        lazy: async () => {
+            const { LocalStorageFeatureFlagsPage } = await import("./LocalStorageFeatureFlagsPage.tsx");
+
+            return {
+                element: <Providers><LocalStorageFeatureFlagsPage /></Providers>
+            };
+        }
+    });
+
+    runtime.registerNavigationItem({
+        $id: "local-storage-feature-flags",
+        $label: <I18nextNavigationItemLabel i18next={i18nextInstance} resourceKey="localStorageFeatureFlags" />,
+        $priority: -1,
+        to: "/local-storage-feature-flags"
+    });
 }
 
 async function registerMsw(runtime: FireflyRuntime) {

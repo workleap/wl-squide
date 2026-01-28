@@ -1,6 +1,7 @@
 {
     "navigationItems": {
-        "homePage": "Accueil"
+        "homePage": "Accueil",
+        "localStorageFeatureFlags": "Local storage feature flags"
     },
     "HomePage": {
         "title": "Accueil",
@@ -8,5 +9,9 @@
         "idLabel": "Id",
         "nameLabel": "Nom",
         "speciesLabel": "Espèces"
+    },
+    "LocalStorageFeatureFlagsPage": {
+        "title": "Local storage feature flags",
+        "toggleButtonLabel": "Basculer"
     }
 }

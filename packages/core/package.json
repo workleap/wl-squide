@@ -54,16 +54,16 @@
         "@rsbuild/core": "1.7.2",
         "@rslib/core": "0.19.3",
         "@types/react": "19.2.9",
-        "@typescript-eslint/parser": "8.53.1",
-        "@typescript/native-preview": "7.0.0-dev.20260122.4",
+        "@typescript-eslint/parser": "8.54.0",
+        "@typescript/native-preview": "7.0.0-dev.20260127.1",
         "@vitejs/plugin-react": "5.1.2",
         "@workleap/eslint-configs": "1.1.10",
         "@workleap/rslib-configs": "1.1.5",
         "@workleap/typescript-configs": "3.0.7",
         "eslint": "9.39.2",
         "typescript": "5.9.3",
-        "typescript-eslint": "8.53.1",
-        "vitest": "4.0.17"
+        "typescript-eslint": "8.54.0",
+        "vitest": "4.0.18"
     },
     "sideEffects": false
 }
