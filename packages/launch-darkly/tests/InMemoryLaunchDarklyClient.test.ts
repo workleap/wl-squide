@@ -152,7 +152,16 @@ describe.concurrent("setFeatureFlags", () => {
             "flag-b": true
         });
 
-        expect(listener).toHaveBeenCalledOnce();
+        expect(listener).toHaveBeenCalledExactlyOnceWith({
+            "flag-a": {
+                current: true,
+                previous: false
+            },
+            "flag-b": {
+                current: true,
+                previous: false
+            }
+        });
     });
 
     test.concurrent("when notify is false, do not trigger a change notification", ({ expect }) => {

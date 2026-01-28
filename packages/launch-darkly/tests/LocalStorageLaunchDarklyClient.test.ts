@@ -343,7 +343,16 @@ describe("setFeatureFlags", () => {
             "flag-b": true
         });
 
-        expect(listener).toHaveBeenCalledOnce();
+        expect(listener).toHaveBeenCalledExactlyOnceWith({
+            "flag-a": {
+                current: true,
+                previous: false
+            },
+            "flag-b": {
+                current: true,
+                previous: false
+            }
+        });
     });
 
     test("when notify is false, do not trigger a change notification", ({ expect }) => {
@@ -460,7 +469,12 @@ describe("storage changed event", () => {
 
         window.dispatchEvent(storageEvent);
 
-        expect(listener).toHaveBeenCalledOnce();
+        expect(listener).toHaveBeenCalledExactlyOnceWith({
+            "flag-a": {
+                current: true,
+                previous: false
+            }
+        });
     });
 
     test("do not trigger a change notification when it's a different storage key", ({ expect }) => {

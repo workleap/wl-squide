@@ -34,7 +34,16 @@ class FeatureFlagsLocalStore {
             return;
         }
 
-        const changeset = computeChangeset(event.oldValue as Partial<FeatureFlags>, event.newValue as Partial<FeatureFlags>);
+        let changeset: LDFlagChangeset = {};
+
+        try {
+            changeset = computeChangeset(
+                event.oldValue ? JSON.parse(event.oldValue) as Partial<FeatureFlags> : {},
+                JSON.parse(event.newValue) as Partial<FeatureFlags>
+            );
+        } catch {
+            // ignore parsing error.
+        }
 
         this.#listeners.forEach(x => {
             x(changeset);
@@ -97,6 +106,10 @@ export class LocalStorageLaunchDarklyClient implements EditableLaunchDarklyClien
 
         // IMPORTANT: Update the provided flags object to support "withFeatureFlagsOverrideDecorator".
         setFlagValues(this.#flags, storedFlags);
+
+        console.log("!!!!!!!!!!!!!");
+        console.log("!!!!!!!!!!!!!", JSON.stringify(changeset));
+        console.log("!!!!!!!!!!!!!");
 
         this.#notifier.notify("change", changeset);
     }
@@ -206,7 +219,6 @@ function setFlagValues(target: Partial<FeatureFlags>, values: Partial<FeatureFla
     });
 }
 
-// TODO: move storage key as an option
 export function createLocalStorageLaunchDarklyClient(flags: Partial<FeatureFlags>, options: CreateLocalStorageLaunchDarklyClientOptions = {}) {
     const {
         localStorageKey = DefaultLocalStorageKey,
