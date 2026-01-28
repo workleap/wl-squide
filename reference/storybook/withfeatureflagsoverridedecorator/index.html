@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <meta name="turbo-root" content="/wl-squide">
-    <meta name="turbo-cache-control" content="no-cache" data-turbo-track="reload" data-track-token="3.12.0-preview2.822688454169">
+    <meta name="turbo-cache-control" content="no-cache" data-turbo-track="reload" data-track-token="3.12.0-preview2.822948260623">
 
     <!-- See retype.com -->
     <meta name="generator" content="Retype 3.12.0-preview2">
@@ -32,12 +32,12 @@
     <script data-cfasync="false">(function(){var cl=document.documentElement.classList,ls=localStorage.getItem("retype_scheme"),hd=cl.contains("dark"),hl=cl.contains("light"),wm=window.matchMedia&&window.matchMedia("(prefers-color-scheme: dark)").matches;if(ls==="dark"||(!ls&&wm&&!hd&&!hl)){cl.remove("light");cl.add("dark")}else if(ls==="light"||(!ls&&!wm&&!hd&&!hl)){cl.remove("dark");cl.add("light")}})();</script>
 
     <link id="retype-favicon" rel="icon" href="../../../static/favicon.png" />
-    <link href="../../../resources/css/retype.css?v=3.12.0-preview2.822688454169" rel="stylesheet">
+    <link href="../../../resources/css/retype.css?v=3.12.0-preview2.822948260623" rel="stylesheet">
 
-    <script data-cfasync="false" src="../../../resources/js/config.js?v=3.12.0-preview2.822688454169" data-turbo-eval="false" defer></script>
+    <script data-cfasync="false" src="../../../resources/js/config.js?v=3.12.0-preview2.822948260623" data-turbo-eval="false" defer></script>
     <script data-cfasync="false" src="../../../resources/js/retype.js?v=3.12.0-preview2" data-turbo-eval="false" defer></script>
-    <script id="lunr-js" data-cfasync="false" src="../../../resources/js/lunr.js?v=3.12.0-preview2.822688454169" data-turbo-eval="false" defer></script>
-    <script id="prism-js" data-cfasync="false" src="../../../resources/js/prism.js?v=3.12.0-preview2.822688454169" defer></script>
+    <script id="lunr-js" data-cfasync="false" src="../../../resources/js/lunr.js?v=3.12.0-preview2.822948260623" data-turbo-eval="false" defer></script>
+    <script id="prism-js" data-cfasync="false" src="../../../resources/js/prism.js?v=3.12.0-preview2.822948260623" defer></script>
 
     <link href="https://workleap.github.io/wl-idp-docs-hub/static/retype-customization.css" rel="stylesheet" />
 
@@ -299,7 +299,7 @@
     </h2>
 </doc-anchor-target>
 <div class="codeblock-wrapper"><doc-codeblock>
-<pre translate="no" class="language-typescript"><code v-pre class="language-typescript">const decorator = withFeatureFlagsOverrideDecorator(featureFlags, overrides)</code></pre>
+<pre translate="no" class="language-typescript"><code v-pre class="language-typescript">const decorator = withFeatureFlagsOverrideDecorator(overrides)</code></pre>
 </doc-codeblock></div>
 <doc-anchor-target id="parameters">
     <h3>
@@ -308,8 +308,7 @@
     </h3>
 </doc-anchor-target>
 <ul>
-<li><code translate="no" v-pre>featureFlags</code>: The Map instance of feature flags that has been provided to the <a href="../initializefireflyforstorybook/#initialize-with-feature-flags">initializeFireflyForStorybook</a> function.</li>
-<li><code translate="no" v-pre>overrides</code>: An object of feature flag overrides.</li>
+<li><code translate="no" v-pre>overrides</code>: An object containing feature flag value overrides.</li>
 </ul>
 <doc-anchor-target id="returns">
     <h3>
@@ -325,20 +324,16 @@
     </h2>
 </doc-anchor-target>
 <div class="codeblock-wrapper"><doc-codeblock>
-<pre translate="no" class="language-tsx" data-line="34"><code v-pre class="language-tsx">import { initializeFireflyForStorybook, withFireflyDecorator, withFeatureFlagsOverrideDecorator } from &quot;@squide/firefly-rsbuild-storybook&quot;;
+<pre translate="no" class="language-tsx" data-line="30"><code v-pre class="language-tsx">import { initializeFireflyForStorybook, withFireflyDecorator, withFeatureFlagsOverrideDecorator } from &quot;@squide/firefly-rsbuild-storybook&quot;;
 import type { Decorator, Meta, StoryObj } from &quot;storybook-react-rsbuild&quot;;
 import { Page } from &quot;./Page.tsx&quot;;
 import { registerModule } from &quot;./registerModule.tsx&quot;;
 
-// This syntax with the nested arrays and &quot;as const&quot; is super important to get type safety with
-// the &quot;withFeatureFlagsOverrideDecorator&quot; decorator.
-const featureFlags = new Map([
-    [&quot;render-summary&quot;, true]
-] as const);
-
 const fireflyRuntime = await initializeFireflyForStorybook({
     localModules: [registerModule],
-    featureFlags
+    featureFlags: {
+        &quot;render-summary&quot;: true
+    }
 });
 
 const meta = {
@@ -358,7 +353,7 @@ const meta = {
 
 export const Default = {
     decorators: [
-        withFeatureFlagsOverrideDecorator(featureFlags, { &quot;render-summary&quot;: false })
+        withFeatureFlagsOverrideDecorator({ &quot;render-summary&quot;: false })
     ]
 } satisfies Story;</code></pre>
 </doc-codeblock></div>

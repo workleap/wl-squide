@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <meta name="turbo-root" content="/wl-squide">
-    <meta name="turbo-cache-control" content="no-cache" data-turbo-track="reload" data-track-token="3.12.0-preview2.822688454169">
+    <meta name="turbo-cache-control" content="no-cache" data-turbo-track="reload" data-track-token="3.12.0-preview2.822948260623">
 
     <!-- See retype.com -->
     <meta name="generator" content="Retype 3.12.0-preview2">
@@ -34,12 +34,12 @@
     <script data-cfasync="false">(function(){var cl=document.documentElement.classList,ls=localStorage.getItem("retype_scheme"),hd=cl.contains("dark"),hl=cl.contains("light"),wm=window.matchMedia&&window.matchMedia("(prefers-color-scheme: dark)").matches;if(ls==="dark"||(!ls&&wm&&!hd&&!hl)){cl.remove("light");cl.add("dark")}else if(ls==="light"||(!ls&&!wm&&!hd&&!hl)){cl.remove("dark");cl.add("light")}})();</script>
 
     <link id="retype-favicon" rel="icon" href="../../static/favicon.png" />
-    <link href="../../resources/css/retype.css?v=3.12.0-preview2.822688454169" rel="stylesheet">
+    <link href="../../resources/css/retype.css?v=3.12.0-preview2.822948260623" rel="stylesheet">
 
-    <script data-cfasync="false" src="../../resources/js/config.js?v=3.12.0-preview2.822688454169" data-turbo-eval="false" defer></script>
+    <script data-cfasync="false" src="../../resources/js/config.js?v=3.12.0-preview2.822948260623" data-turbo-eval="false" defer></script>
     <script data-cfasync="false" src="../../resources/js/retype.js?v=3.12.0-preview2" data-turbo-eval="false" defer></script>
-    <script id="lunr-js" data-cfasync="false" src="../../resources/js/lunr.js?v=3.12.0-preview2.822688454169" data-turbo-eval="false" defer></script>
-    <script id="prism-js" data-cfasync="false" src="../../resources/js/prism.js?v=3.12.0-preview2.822688454169" defer></script>
+    <script id="lunr-js" data-cfasync="false" src="../../resources/js/lunr.js?v=3.12.0-preview2.822948260623" data-turbo-eval="false" defer></script>
+    <script id="prism-js" data-cfasync="false" src="../../resources/js/prism.js?v=3.12.0-preview2.822948260623" defer></script>
 
     <link href="https://workleap.github.io/wl-idp-docs-hub/static/retype-customization.css" rel="stylesheet" />
 
@@ -319,7 +319,7 @@ const value = useFeatureFlag(&quot;show-characters&quot;, true);</code></pre>
         <span>Register a conditionnal navigation item</span>
     </h2>
 </doc-anchor-target>
-<p>To register a navigation item based on feature flags, refer to the <a href="../register-deferred-nav-items/">register deferred navigation items</a> guide.</p>
+<p>To register a navigation item based on feature flags, refer to the <a href="../register-deferred-nav-items/#feature-flags">register deferred navigation items</a> guide.</p>
 <doc-anchor-target id="setup-the-typings">
     <h2>
         <doc-anchor-trigger class="header-anchor-trigger" to="#setup-the-typings">#</doc-anchor-trigger>
@@ -338,7 +338,7 @@ const value = useFeatureFlag(&quot;show-characters&quot;, true);</code></pre>
 ├── types
 ├────── feature-flags.d.ts</code></pre>
 </doc-codeblock></div>
-<p>Then create an <code translate="no" v-pre>feature-flags.d.ts</code> file:</p>
+<p>Then create a <code translate="no" v-pre>feature-flags.d.ts</code> file:</p>
 <div class="codeblock-wrapper"><doc-codeblock>
 <div class="codeblock-title">project/types/feature-flags.d.ts</div>
 <pre translate="no" class="language-typescript" data-line="6"><code v-pre class="language-typescript">import &quot;@squide/firefly&quot;;
@@ -417,16 +417,16 @@ export function Page() {
 <p>The following unit test can be written to mock the value of <code translate="no" v-pre>show-characters</code> and test the ouput of the <code translate="no" v-pre>createTelemetryClient</code> function:</p>
 <div class="codeblock-wrapper"><doc-codeblock>
 <div class="codeblock-title">./tests/createTelemetryClient.test.tsx</div>
-<pre translate="no" class="language-tsx" data-line="15,19,21"><code v-pre class="language-tsx">import { FireflyProvider, FireflyRuntime, LaunchDarklyPlugin, InMemoryLaunchDarklyClient } from &quot;@squide/firefly&quot;;
+<pre translate="no" class="language-tsx" data-line="12,15,19,21"><code v-pre class="language-tsx">import { FireflyProvider, FireflyRuntime, LaunchDarklyPlugin, InMemoryLaunchDarklyClient } from &quot;@squide/firefly&quot;;
 import {render, screen} from &quot;@testing-library/react&quot;;
 import type { ReactNode } from &quot;react&quot;;
 import { Page } from &quot;./src/Page.tsx&quot;;
 import &quot;@testing-library/jest-dom&quot;;
 
 test(&quot;when the \&quot;show-characters\&quot; feature flag is off, do not render the character list&quot;, () =&gt; {
-    const featureFlags = new Map([
-        [&quot;show-characters&quot;, false]
-    ] as const);
+    const featureFlags = {
+        &quot;show-characters&quot;: false
+    };
 
     const launchDarklyClient = new InMemoryLaunchDarklyClient(featureFlags);
 
@@ -450,6 +450,35 @@ test(&quot;when the \&quot;show-characters\&quot; feature flag is off, do not re
     </h2>
 </doc-anchor-target>
 <p>To set up <a href="https://storybook.js.org/docs" class="outbound" target="_blank">Storybook</a> stories with feature flags, refer to the <a href="../../integrations/setup-storybook/#setup-feature-flags">setup Storybook</a> integration guide.</p>
+<doc-anchor-target id="use-fake-clients">
+    <h2>
+        <doc-anchor-trigger class="header-anchor-trigger" to="#use-fake-clients">#</doc-anchor-trigger>
+        <span>Use fake clients</span>
+    </h2>
+</doc-anchor-target>
+<p>To support a variety of development scenarios, &quot;fake&quot; implementations of the LaunchDarkly SDK <a href="https://launchdarkly.com/docs/sdk/client-side/javascript" class="outbound" target="_blank">client</a> are available. To simulate a LaunchDarkly environment, use either <a href="../../reference/launch-darkly/inmemorylaunchdarklyclient/">InMemoryLaunchDarklyClient</a> or <a href="../../reference/launch-darkly/localstoragelaunchdarklyclient/">LocalStorageLaunchDarklyClient</a>.</p>
+<doc-anchor-target id="toggle-feature-flags">
+    <h3>
+        <doc-anchor-trigger class="header-anchor-trigger" to="#toggle-feature-flags">#</doc-anchor-trigger>
+        <span>Toggle feature flags</span>
+    </h3>
+</doc-anchor-target>
+<p>Both fake implementations support toggling feature flags. To do so, first ensure that the client is an editable implementation by using the <a href="../../reference/launch-darkly/iseditablelaunchdarklyclient/">isEditableLaunchDarklyClient</a> utility function. Then, call the <code translate="no" v-pre>setFeatureFlags</code> method of the editable client to update the feature flag values:</p>
+<div class="codeblock-wrapper"><doc-codeblock>
+<pre translate="no" class="language-typescript" data-line="10-13"><code v-pre class="language-typescript">import { InMemoryLaunchDarklyClient } from &quot;@squide/firefly&quot;;
+
+const featureFlags = {
+    &quot;show-characters&quot;: true,
+    &quot;render-summary&quot;: true
+};
+
+const client = new InMemoryLaunchDarklyClient(featureFlags);
+
+client.setFeatureFlags({
+    &quot;show-characters&quot;: true,
+    &quot;render-summary&quot;: false
+});</code></pre>
+</doc-codeblock></div>
 
                                 
                                 <!-- Required only on API pages -->
