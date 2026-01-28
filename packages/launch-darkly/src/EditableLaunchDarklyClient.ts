@@ -8,7 +8,7 @@ export class LaunchDarklyClientTransaction {
     readonly #originalFlags: Record<string, LDFlagValue>;
     readonly #commit: CommitTransactionFunction;
     readonly #undo: UndoTransactionFunction;
-    #isCompleted = false;
+    #isActive = true;
 
     constructor(originalFlags: Record<string, LDFlagValue>, commit: CommitTransactionFunction, undo: UndoTransactionFunction) {
         this.#originalFlags = originalFlags;
@@ -17,13 +17,17 @@ export class LaunchDarklyClientTransaction {
     }
 
     #ensureIsActive() {
-        if (this.#isCompleted) {
-            throw new Error("[squide] Cannot execute methods of a completed LaunchDarkly client transaction.");
+        if (!this.#isActive) {
+            throw new Error("[squide] Cannot execute methods on a completed LaunchDarkly client transaction.");
         }
     }
 
     #setAsCompleted() {
-        this.#isCompleted = true;
+        this.#isActive = false;
+    }
+
+    get isActive() {
+        return this.#isActive;
     }
 
     commit() {

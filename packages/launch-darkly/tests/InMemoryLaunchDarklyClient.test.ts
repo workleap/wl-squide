@@ -203,3 +203,193 @@ describe.concurrent("setFeatureFlags", () => {
     });
 });
 
+describe.concurrent("startTransaction", () => {
+    test.concurrent("can start a transaction", ({ expect }) => {
+        const flags = {
+            "flag-a": false,
+            "flag-b": false
+        };
+
+        const client = new InMemoryLaunchDarklyClient(flags);
+
+        const transaction = client.startTransaction();
+
+        expect(transaction.isActive).toBeTruthy();
+    });
+
+    test.concurrent("when a transaction is in progress, the updated flags are returned", ({ expect }) => {
+        const flags = {
+            "flag-a": false,
+            "flag-b": false
+        };
+
+        const client = new InMemoryLaunchDarklyClient(flags);
+
+        client.startTransaction();
+
+        client.setFeatureFlags({
+            "flag-b": true
+        });
+
+        expect(client.allFlags()).toEqual({
+            "flag-a": false,
+            "flag-b": true
+        });
+
+        expect(client.variation("flag-b")).toBeTruthy();
+    });
+
+    test.concurrent("when a transaction is in progress, updating the flags doesn't trigger a notification", ({ expect }) => {
+        const flags = {
+            "flag-a": false,
+            "flag-b": false
+        };
+
+        const client = new InMemoryLaunchDarklyClient(flags);
+
+        const listener = vi.fn();
+
+        client.on("change", listener);
+
+        client.startTransaction();
+
+        client.setFeatureFlags({
+            "flag-b": true
+        });
+
+        expect(listener).not.toHaveBeenCalled();
+    });
+
+    test.concurrent("when a transaction is committed, the updated flags are returned", ({ expect }) => {
+        const flags = {
+            "flag-a": false,
+            "flag-b": false
+        };
+
+        const client = new InMemoryLaunchDarklyClient(flags);
+
+        const transaction = client.startTransaction();
+
+        client.setFeatureFlags({
+            "flag-b": true
+        });
+
+        transaction.commit();
+
+        expect(client.allFlags()).toEqual({
+            "flag-a": false,
+            "flag-b": true
+        });
+    });
+
+    test.concurrent("when a transaction is committed, all pending notifications are triggered", ({ expect }) => {
+        const flags = {
+            "flag-a": false,
+            "flag-b": false
+        };
+
+        const client = new InMemoryLaunchDarklyClient(flags);
+
+        const listener1 = vi.fn();
+        const listener2 = vi.fn();
+
+        client.on("change", listener1);
+        client.on("change", listener2);
+
+        const transaction = client.startTransaction();
+
+        client.setFeatureFlags({
+            "flag-b": true
+        });
+
+        transaction.commit();
+
+        const changeset = {
+            "flag-b": {
+                current: true,
+                previous: false
+            }
+        };
+
+        expect(listener1).toHaveBeenCalledExactlyOnceWith(changeset);
+        expect(listener2).toHaveBeenCalledExactlyOnceWith(changeset);
+    });
+
+    test.concurrent("when a transaction is undo, restore the original flags", ({ expect }) => {
+        const flags = {
+            "flag-a": false,
+            "flag-b": false
+        };
+
+        const client = new InMemoryLaunchDarklyClient(flags);
+
+        const transaction = client.startTransaction();
+
+        client.setFeatureFlags({
+            "flag-b": true
+        });
+
+        transaction.undo();
+
+        expect(client.allFlags()).toEqual({
+            "flag-a": false,
+            "flag-b": false
+        });
+    });
+
+    test.concurrent("when a transaction is undo, do not trigger pending notifications", ({ expect }) => {
+        const flags = {
+            "flag-a": false,
+            "flag-b": false
+        };
+
+        const client = new InMemoryLaunchDarklyClient(flags);
+
+        const listener = vi.fn();
+
+        client.on("change", listener);
+
+        const transaction = client.startTransaction();
+
+        client.setFeatureFlags({
+            "flag-b": true
+        });
+
+        transaction.undo();
+
+        expect(listener).not.toHaveBeenCalled();
+    });
+
+    test.concurrent("cannot start more than one transaction at a time", ({ expect }) => {
+        const flags = {
+            "flag-a": false,
+            "flag-b": false
+        };
+
+        const client = new InMemoryLaunchDarklyClient(flags);
+
+        client.startTransaction();
+
+        // eslint-disable-next-line @stylistic/max-statements-per-line
+        expect(() => { client.startTransaction(); }).toThrow();
+    });
+
+    test.concurrent("can complete and start a new transaction", ({ expect }) => {
+        const flags = {
+            "flag-a": false,
+            "flag-b": false
+        };
+
+        const client = new InMemoryLaunchDarklyClient(flags);
+
+        const transaction1 = client.startTransaction();
+        transaction1.commit();
+
+        const transaction2 = client.startTransaction();
+        transaction2.undo();
+
+        // eslint-disable-next-line @stylistic/max-statements-per-line
+        expect(() => { client.startTransaction(); }).not.toThrow();
+    });
+});
+

@@ -90,13 +90,6 @@ export class InMemoryLaunchDarklyClient implements EditableLaunchDarklyClient {
 
     track(): void {}
 
-    // // IMPORTANT-1: Must return the flags object provided to the "ctor" to support "withFeatureFlagsOverrideDecorator".
-    // // IMPORTANT-2: To support "useSyncExternalStore" it's also important that the flags object isn't a new reference everytime
-    // // this method is called.
-    // allFlags() {
-    //     return this.#flags;
-    // }
-
     // IMPORTANT: To support "useSyncExternalStore" it's important that the flags object isn't a new reference
     // everytime this method is called.
     allFlags() {
@@ -110,34 +103,6 @@ export class InMemoryLaunchDarklyClient implements EditableLaunchDarklyClient {
     }
 
     addHook(): void {}
-
-    // setFeatureFlags(newFlags: Partial<FeatureFlags>, options: SetFeatureFlagOptions = {}): void {
-    //     const {
-    //         notify = true
-    //     } = options;
-
-    //     const keys = Object.keys(newFlags);
-
-    //     if (keys.length > 0) {
-    //         const originalFlags = { ...this.#flags };
-
-    //         (keys as Array<keyof FeatureFlags>).forEach(x => {
-    //             this.#flags[x] = newFlags[x];
-    //         });
-
-    //         if (notify) {
-    //             const changeset = computeChangeset(originalFlags, this.#flags);
-
-    //             if (this.#activeTransaction) {
-    //                 // Where there's an active transaction, defer the notification until the
-    //                 // transaction is committed.
-    //                 this.#activeTransaction.deferredNotifications.push(changeset);
-    //             } else {
-    //                 this.#notifier.notify("change", changeset);
-    //             }
-    //         }
-    //     }
-    // }
 
     setFeatureFlags(newValues: Partial<FeatureFlags>, options: SetFeatureFlagOptions = {}): void {
         const {
@@ -176,7 +141,7 @@ export class InMemoryLaunchDarklyClient implements EditableLaunchDarklyClient {
         }
 
         const commit: CommitTransactionFunction = () => {
-            // Once the transaction is committed, process all the deferred notifications.
+            // Once the transaction is committed, process all the pending notifications.
             this.#activeTransaction?.deferredNotifications.forEach(x => {
                 this.#notifier.notify("change", x);
             });

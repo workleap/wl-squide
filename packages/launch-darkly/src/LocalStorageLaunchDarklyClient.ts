@@ -213,7 +213,7 @@ export class LocalStorageLaunchDarklyClient implements EditableLaunchDarklyClien
 
             this.#flags = newFlags;
 
-            // Where there's an active transaction, delay the persistence of the flags into the local storage
+            // Where there's an active transaction, defer the persistence of the flags into the local storage
             // until the transaction is committed.
             if (!this.#activeTransaction) {
                 this.#store.setFlags(this.#flags);
@@ -242,7 +242,7 @@ export class LocalStorageLaunchDarklyClient implements EditableLaunchDarklyClien
             // Once the transation is committed, update the local storage.
             this.#store.setFlags(this.#flags);
 
-            // Once the transaction is committed, process all the deferred notifications.
+            // Once the transaction is committed, process all the pending notifications.
             this.#activeTransaction?.deferredNotifications.forEach(x => {
                 this.#notifier.notify("change", x);
             });
