@@ -1,5 +1,14 @@
 # @squide/i18next
 
+## 2.5.13
+
+### Patch Changes
+
+- [#373](https://github.com/workleap/wl-squide/pull/373) [`f9138cc`](https://github.com/workleap/wl-squide/commit/f9138cc4bd0a1d175ad4bd7e695d1edd7fbe4c1c) Thanks [@alexasselin008](https://github.com/alexasselin008)! - Bumped dependencies
+
+- Updated dependencies [[`f9138cc`](https://github.com/workleap/wl-squide/commit/f9138cc4bd0a1d175ad4bd7e695d1edd7fbe4c1c)]:
+  - @squide/core@6.1.11
+
 ## 2.5.12
 
 ### Patch Changes
