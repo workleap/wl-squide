@@ -1,8 +1,8 @@
-import { RuntimeContext } from "@squide/firefly";
+import { createLocalStorageLaunchDarklyClient, InMemoryLaunchDarklyClient, RuntimeContext } from "@squide/firefly";
 import { render } from "@testing-library/react";
 import { NoopLogger } from "@workleap/logging";
 import { ReactNode } from "react";
-import { test } from "vitest";
+import { afterEach, beforeEach, describe, test } from "vitest";
 import { initializeFireflyForStorybook } from "../src/initializeFireflyForStorybook.ts";
 import { withFeatureFlagsOverrideDecorator } from "../src/withFeatureFlagsOverrideDecorator.tsx";
 
@@ -29,63 +29,144 @@ function Component(props: ComponentProps) {
     );
 }
 
-test("the feature flags are overridden when the story is rendered", async ({ expect }) => {
-    const runtime = await initializeFireflyForStorybook({
-        featureFlags: {
+describe.concurrent("InMemoryLaunchDarklyClient", () => {
+    test.concurrent("the feature flags are overridden when the story is rendered", async ({ expect }) => {
+        const launchDarklyClient = new InMemoryLaunchDarklyClient({
             "flag-a": true,
             "flag-b": false
-        },
-        loggers: [new NoopLogger()]
-    });
-
-    const Decorator = withFeatureFlagsOverrideDecorator({
-        "flag-a": false
-    });
-
-    render(
-        Decorator(
-            () => <Component expect={() => expect(runtime.launchDarklyClient.variation("flag-a")).toBeFalsy()} />,
-            // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-            // @ts-ignore
-            null
-        ), {
-            wrapper: ({ children }: { children: ReactNode }) => (
-                <RuntimeContext.Provider value={runtime}>
-                    {children}
-                </RuntimeContext.Provider>
-            )
         });
+
+        const runtime = await initializeFireflyForStorybook({
+            launchDarklyClient,
+            loggers: [new NoopLogger()]
+        });
+
+        const Decorator = withFeatureFlagsOverrideDecorator({
+            "flag-a": false
+        });
+
+        render(
+            Decorator(
+                () => <Component expect={() => expect(runtime.launchDarklyClient.variation("flag-a")).toBeFalsy()} />,
+                // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+                // @ts-ignore
+                null
+            ), {
+                wrapper: ({ children }: { children: ReactNode }) => (
+                    <RuntimeContext.Provider value={runtime}>
+                        {children}
+                    </RuntimeContext.Provider>
+                )
+            });
+    });
+
+    test.concurrent("the original feature flags value are reset after the story has been rendered", async ({ expect }) => {
+        const launchDarklyClient = new InMemoryLaunchDarklyClient({
+            "flag-a": true,
+            "flag-b": false
+        });
+
+        const runtime = await initializeFireflyForStorybook({
+            launchDarklyClient,
+            loggers: [new NoopLogger()]
+        });
+
+        const Decorator = withFeatureFlagsOverrideDecorator({
+            "flag-a": false
+        });
+
+        const { unmount } = render(
+            Decorator(
+                () => <Component />,
+                // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+                // @ts-ignore
+                null
+            ), {
+                wrapper: ({ children }: { children: ReactNode }) => (
+                    <RuntimeContext.Provider value={runtime}>
+                        {children}
+                    </RuntimeContext.Provider>
+                )
+            });
+
+        unmount();
+
+        // The flag should be re-assign to his original value.
+        expect(runtime.launchDarklyClient.variation("flag-a")).toBeTruthy();
+    });
 });
 
-test.concurrent("the original feature flags value are reset after the story has been rendered", async ({ expect }) => {
-    const runtime = await initializeFireflyForStorybook({
-        featureFlags: {
+describe("LocalStorageLaunchDarklyClient", () => {
+    beforeEach(() => {
+        localStorage.clear();
+    });
+
+    afterEach(() => {
+        localStorage.clear();
+    });
+
+    test("the feature flags are overridden when the story is rendered", async ({ expect }) => {
+        const launchDarklyClient = createLocalStorageLaunchDarklyClient({
             "flag-a": true,
             "flag-b": false
-        },
-        loggers: [new NoopLogger()]
-    });
-
-    const Decorator = withFeatureFlagsOverrideDecorator({
-        "flag-a": false
-    });
-
-    const { unmount } = render(
-        Decorator(
-            () => <Component />,
-            // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-            // @ts-ignore
-            null
-        ), {
-            wrapper: ({ children }: { children: ReactNode }) => (
-                <RuntimeContext.Provider value={runtime}>
-                    {children}
-                </RuntimeContext.Provider>
-            )
         });
 
-    unmount();
+        const runtime = await initializeFireflyForStorybook({
+            launchDarklyClient,
+            loggers: [new NoopLogger()]
+        });
 
-    // The flag should be re-assign to his original value.
-    expect(runtime.launchDarklyClient.variation("flag-a")).toBeTruthy();
+        const Decorator = withFeatureFlagsOverrideDecorator({
+            "flag-a": false
+        });
+
+        render(
+            Decorator(
+                () => <Component expect={() => expect(runtime.launchDarklyClient.variation("flag-a")).toBeFalsy()} />,
+                // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+                // @ts-ignore
+                null
+            ), {
+                wrapper: ({ children }: { children: ReactNode }) => (
+                    <RuntimeContext.Provider value={runtime}>
+                        {children}
+                    </RuntimeContext.Provider>
+                )
+            });
+    });
+
+    test("the original feature flags value are reset after the story has been rendered", async ({ expect }) => {
+        const launchDarklyClient = createLocalStorageLaunchDarklyClient({
+            "flag-a": true,
+            "flag-b": false
+        });
+
+        const runtime = await initializeFireflyForStorybook({
+            launchDarklyClient,
+            loggers: [new NoopLogger()]
+        });
+
+        const Decorator = withFeatureFlagsOverrideDecorator({
+            "flag-a": false
+        });
+
+        const { unmount } = render(
+            Decorator(
+                () => <Component />,
+                // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+                // @ts-ignore
+                null
+            ), {
+                wrapper: ({ children }: { children: ReactNode }) => (
+                    <RuntimeContext.Provider value={runtime}>
+                        {children}
+                    </RuntimeContext.Provider>
+                )
+            });
+
+        unmount();
+
+        // The flag should be re-assign to his original value.
+        expect(runtime.launchDarklyClient.variation("flag-a")).toBeTruthy();
+    });
 });

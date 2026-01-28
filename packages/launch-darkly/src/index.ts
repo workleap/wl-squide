@@ -1,4 +1,4 @@
-export { isEditableLaunchDarklyClient, type EditableLaunchDarklyClient, type SetFeatureFlagOptions } from "./EditableLaunchDarklyClient.ts";
+export { isEditableLaunchDarklyClient, LaunchDarklyClientTransaction, type CommitTransactionFunction, type EditableLaunchDarklyClient, type SetFeatureFlagOptions, type UndoTransactionFunction } from "./EditableLaunchDarklyClient.ts";
 export type { FeatureFlagKey, FeatureFlags } from "./featureFlags.ts";
 export { FeatureFlagSetSnapshot, type FeatureFlagSetSnapshotChangedListener } from "./FeatureFlagSetSnapshot.ts";
 export { getFeatureFlag } from "./getFeatureFlag.ts";

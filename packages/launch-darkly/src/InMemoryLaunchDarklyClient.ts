@@ -1,18 +1,24 @@
-import { LDContext, LDFlagSet, LDFlagValue } from "launchdarkly-js-sdk-common";
-import type { EditableLaunchDarklyClient, SetFeatureFlagOptions } from "./EditableLaunchDarklyClient.ts";
-import { LaunchDarklyClientNotifier } from "./LaunchDarklyNotifier.ts";
+import { LDContext, LDFlagChangeset, LDFlagSet, LDFlagValue } from "launchdarkly-js-sdk-common";
 import { computeChangeset } from "./computeChangeset.ts";
+import { LaunchDarklyClientTransaction, type CommitTransactionFunction, type EditableLaunchDarklyClient, type SetFeatureFlagOptions, type UndoTransactionFunction } from "./EditableLaunchDarklyClient.ts";
 import { FeatureFlags } from "./featureFlags.ts";
+import { LaunchDarklyClientNotifier } from "./LaunchDarklyNotifier.ts";
 
 export interface InMemoryLaunchDarklyClientOptions {
     context?: LDContext;
     notifier?: LaunchDarklyClientNotifier;
 }
 
+interface ActiveTransaction {
+    transaction: LaunchDarklyClientTransaction;
+    deferredNotifications: LDFlagChangeset[];
+}
+
 export class InMemoryLaunchDarklyClient implements EditableLaunchDarklyClient {
-    readonly #flags: Record<string, LDFlagValue>;
     readonly #context: LDContext;
     readonly #notifier: LaunchDarklyClientNotifier;
+    #flags: Record<string, LDFlagValue>;
+    #activeTransaction: ActiveTransaction | undefined;
 
     constructor(featureFlags: Partial<FeatureFlags>, options: InMemoryLaunchDarklyClientOptions = {}) {
         const {
@@ -84,9 +90,15 @@ export class InMemoryLaunchDarklyClient implements EditableLaunchDarklyClient {
 
     track(): void {}
 
-    // IMPORTANT-1: Must return the flags object provided to the "ctor" to support "withFeatureFlagsOverrideDecorator".
-    // IMPORTANT-2: To support "useSyncExternalStore" it's also important that the flags object isn't a new reference everytime
-    // this method is called.
+    // // IMPORTANT-1: Must return the flags object provided to the "ctor" to support "withFeatureFlagsOverrideDecorator".
+    // // IMPORTANT-2: To support "useSyncExternalStore" it's also important that the flags object isn't a new reference everytime
+    // // this method is called.
+    // allFlags() {
+    //     return this.#flags;
+    // }
+
+    // IMPORTANT: To support "useSyncExternalStore" it's important that the flags object isn't a new reference
+    // everytime this method is called.
     allFlags() {
         return this.#flags;
     }
@@ -99,25 +111,91 @@ export class InMemoryLaunchDarklyClient implements EditableLaunchDarklyClient {
 
     addHook(): void {}
 
-    setFeatureFlags(newFlags: Partial<FeatureFlags>, options: SetFeatureFlagOptions = {}): void {
+    // setFeatureFlags(newFlags: Partial<FeatureFlags>, options: SetFeatureFlagOptions = {}): void {
+    //     const {
+    //         notify = true
+    //     } = options;
+
+    //     const keys = Object.keys(newFlags);
+
+    //     if (keys.length > 0) {
+    //         const originalFlags = { ...this.#flags };
+
+    //         (keys as Array<keyof FeatureFlags>).forEach(x => {
+    //             this.#flags[x] = newFlags[x];
+    //         });
+
+    //         if (notify) {
+    //             const changeset = computeChangeset(originalFlags, this.#flags);
+
+    //             if (this.#activeTransaction) {
+    //                 // Where there's an active transaction, defer the notification until the
+    //                 // transaction is committed.
+    //                 this.#activeTransaction.deferredNotifications.push(changeset);
+    //             } else {
+    //                 this.#notifier.notify("change", changeset);
+    //             }
+    //         }
+    //     }
+    // }
+
+    setFeatureFlags(newValues: Partial<FeatureFlags>, options: SetFeatureFlagOptions = {}): void {
         const {
             notify = true
         } = options;
 
-        const keys = Object.keys(newFlags);
+        const keys = Object.keys(newValues);
 
         if (keys.length > 0) {
-            const originalFlags = { ...this.#flags };
+            const originalFlags = this.#flags;
+            const newFlags = { ...this.#flags };
 
             (keys as Array<keyof FeatureFlags>).forEach(x => {
-                this.#flags[x] = newFlags[x];
+                newFlags[x] = newValues[x];
             });
+
+            this.#flags = newFlags;
 
             if (notify) {
                 const changeset = computeChangeset(originalFlags, this.#flags);
 
-                this.#notifier.notify("change", changeset);
+                if (this.#activeTransaction) {
+                    // Where there's an active transaction, defer the notification until the
+                    // transaction is committed.
+                    this.#activeTransaction.deferredNotifications.push(changeset);
+                } else {
+                    this.#notifier.notify("change", changeset);
+                }
             }
         }
+    }
+
+    startTransaction() {
+        if (this.#activeTransaction) {
+            throw new Error("[squide] There's already an active LaunchDarkly client transaction. Only one transaction can be started at a time.");
+        }
+
+        const commit: CommitTransactionFunction = () => {
+            // Once the transaction is committed, process all the deferred notifications.
+            this.#activeTransaction?.deferredNotifications.forEach(x => {
+                this.#notifier.notify("change", x);
+            });
+
+            this.#activeTransaction = undefined;
+        };
+
+        const undo: UndoTransactionFunction = (newFlags: Record<string, LDFlagValue>) => {
+            this.#flags = newFlags;
+            this.#activeTransaction = undefined;
+        };
+
+        const transaction = new LaunchDarklyClientTransaction(this.#flags, commit, undo);
+
+        this.#activeTransaction = {
+            transaction,
+            deferredNotifications: []
+        };
+
+        return transaction;
     }
 }

@@ -1,4 +1,4 @@
-import { FeatureFlags, useLaunchDarklyClient } from "@squide/launch-darkly";
+import { FeatureFlags, isEditableLaunchDarklyClient, LaunchDarklyClientTransaction, useLaunchDarklyClient } from "@squide/launch-darkly";
 import { PropsWithChildren, useEffect, useRef } from "react";
 import { Decorator } from "storybook-react-rsbuild";
 
@@ -14,28 +14,26 @@ function OverrideFeatureFlags(props: OverrideFeatureFlagsProps) {
         children
     } = props;
 
-    const featureFlags = useLaunchDarklyClient().allFlags();
-    const originalValuesRef = useRef<Partial<FeatureFlags> | null>(null);
+    const transactionRef = useRef<LaunchDarklyClientTransaction | undefined>(undefined);
+    const client = useLaunchDarklyClient();
 
     // eslint-disable-next-line react-hooks/refs
-    if (!originalValuesRef.current) {
-        originalValuesRef.current = {};
+    if (!transactionRef.current) {
+        if (!isEditableLaunchDarklyClient(client)) {
+            throw new Error("[squide] The withFeatureFlagsOverrideDecorator hook can only be used with an EditableLaunchDarklyClient instance.");
+        }
 
-        // eslint-disable-next-line react-hooks/refs
-        (Object.keys(overrides) as Array<keyof FeatureFlags>).forEach(x => {
-            originalValuesRef.current![x] = featureFlags[x];
-            featureFlags[x] = overrides[x];
-        });
+        transactionRef.current = client.startTransaction();
+        client.setFeatureFlags(overrides);
     }
 
     useEffect(() => {
         return () => {
             // Reset the feature flags to the original values.
-            (Object.keys(originalValuesRef.current!) as Array<keyof FeatureFlags>).forEach(x => {
-                featureFlags[x] = originalValuesRef.current![x];
-            });
+            transactionRef.current?.undo();
+            transactionRef.current = undefined;
         };
-    }, [originalValuesRef, featureFlags]);
+    }, [transactionRef]);
 
     return children;
 }

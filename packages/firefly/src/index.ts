@@ -17,12 +17,14 @@ export {
     InMemoryLaunchDarklyClient,
     isEditableLaunchDarklyClient,
     LaunchDarklyClientNotifier,
+    LaunchDarklyClientTransaction,
     LaunchDarklyPlugin,
     LaunchDarklyPluginName,
     LocalStorageLaunchDarklyClient,
     useFeatureFlag,
     useFeatureFlags,
     useLaunchDarklyClient,
+    type CommitTransactionFunction,
     type EditableLaunchDarklyClient,
     type FeatureFlagKey,
     type FeatureFlags,
@@ -30,7 +32,8 @@ export {
     type InMemoryLaunchDarklyClientOptions,
     type LaunchDarklyClientListener,
     type LocalStorageLaunchDarklyClientOptions,
-    type SetFeatureFlagOptions
+    type SetFeatureFlagOptions,
+    type UndoTransactionFunction
 } from "@squide/launch-darkly";
 export {
     getMswPlugin,

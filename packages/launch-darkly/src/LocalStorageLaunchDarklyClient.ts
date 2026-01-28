@@ -1,5 +1,5 @@
 import type { LDContext, LDFlagChangeset, LDFlagSet, LDFlagValue } from "launchdarkly-js-sdk-common";
-import type { EditableLaunchDarklyClient, SetFeatureFlagOptions } from "./EditableLaunchDarklyClient.ts";
+import { CommitTransactionFunction, EditableLaunchDarklyClient, LaunchDarklyClientTransaction, SetFeatureFlagOptions, UndoTransactionFunction } from "./EditableLaunchDarklyClient.ts";
 import { LaunchDarklyClientNotifier } from "./LaunchDarklyNotifier.ts";
 import { computeChangeset } from "./computeChangeset.ts";
 import { FeatureFlags } from "./featureFlags.ts";
@@ -42,7 +42,7 @@ class FeatureFlagsLocalStore {
                 JSON.parse(event.newValue) as Partial<FeatureFlags>
             );
         } catch {
-            // ignore parsing error.
+            // Ignore parsing errors.
         }
 
         this.#listeners.forEach(x => {
@@ -76,11 +76,27 @@ class FeatureFlagsLocalStore {
     }
 }
 
+function setFlagValues(target: Partial<FeatureFlags>, values: Partial<FeatureFlags>) {
+    const keys = Object.keys(values);
+
+    (keys as Array<keyof FeatureFlags>).forEach(x => {
+        if (x in target) {
+            target[x] = values[x];
+        }
+    });
+}
+
+interface ActiveTransaction {
+    transaction: LaunchDarklyClientTransaction;
+    deferredNotifications: LDFlagChangeset[];
+}
+
 export class LocalStorageLaunchDarklyClient implements EditableLaunchDarklyClient {
+    readonly #store: FeatureFlagsLocalStore;
     readonly #context: LDContext;
     readonly #notifier: LaunchDarklyClientNotifier;
     #flags: Record<string, LDFlagValue>;
-    #store: FeatureFlagsLocalStore;
+    #activeTransaction: ActiveTransaction | undefined;
 
     constructor(flags: Partial<FeatureFlags>, store: FeatureFlagsLocalStore, options: LocalStorageLaunchDarklyClientOptions = {}) {
         const {
@@ -102,15 +118,12 @@ export class LocalStorageLaunchDarklyClient implements EditableLaunchDarklyClien
     }
 
     #handleStoreChanged(changeset: LDFlagChangeset) {
+        const newFlags = { ...this.#flags };
         const storedFlags = this.#store.getFlags();
 
-        // IMPORTANT: Update the provided flags object to support "withFeatureFlagsOverrideDecorator".
-        setFlagValues(this.#flags, storedFlags);
+        setFlagValues(newFlags, storedFlags);
 
-        console.log("!!!!!!!!!!!!!");
-        console.log("!!!!!!!!!!!!!", JSON.stringify(changeset));
-        console.log("!!!!!!!!!!!!!");
-
+        this.#flags = newFlags;
         this.#notifier.notify("change", changeset);
     }
 
@@ -168,9 +181,8 @@ export class LocalStorageLaunchDarklyClient implements EditableLaunchDarklyClien
 
     track(): void {}
 
-    // IMPORTANT-1: Must return the flags object provided to the "ctor" to support "withFeatureFlagsOverrideDecorator".
-    // IMPORTANT-2: To support "useSyncExternalStore" it's also important that the flags object isn't a new reference everytime
-    // this method is called.
+    // IMPORTANT: To support "useSyncExternalStore" it's important that the flags object isn't a new reference
+    // everytime this method is called.
     allFlags() {
         return this.#flags;
     }
@@ -184,39 +196,74 @@ export class LocalStorageLaunchDarklyClient implements EditableLaunchDarklyClien
         return Promise.resolve();
     }
 
-    setFeatureFlags(newFlags: Partial<FeatureFlags>, options: SetFeatureFlagOptions = {}): void {
+    setFeatureFlags(newValues: Partial<FeatureFlags>, options: SetFeatureFlagOptions = {}): void {
         const {
             notify = true
         } = options;
 
-        const newFlagsKeys = Object.keys(newFlags);
+        const keys = Object.keys(newValues);
 
-        if (newFlagsKeys.length > 0) {
-            const originalFlags = { ...this.#flags };
+        if (keys.length > 0) {
+            const originalFlags = this.#flags;
+            const newFlags = { ...this.#flags };
 
-            (newFlagsKeys as Array<keyof FeatureFlags>).forEach(x => {
-                this.#flags[x] = newFlags[x];
+            (keys as Array<keyof FeatureFlags>).forEach(x => {
+                newFlags[x] = newValues[x];
             });
 
-            this.#store.setFlags(this.#flags);
+            this.#flags = newFlags;
+
+            // Where there's an active transaction, delay the persistence of the flags into the local storage
+            // until the transaction is committed.
+            if (!this.#activeTransaction) {
+                this.#store.setFlags(this.#flags);
+            }
 
             if (notify) {
                 const changeset = computeChangeset(originalFlags, this.#flags);
 
-                this.#notifier.notify("change", changeset);
+                if (this.#activeTransaction) {
+                    // Where there's an active transaction, defer the notification until the
+                    // transaction is committed.
+                    this.#activeTransaction.deferredNotifications.push(changeset);
+                } else {
+                    this.#notifier.notify("change", changeset);
+                }
             }
         }
     }
-}
 
-function setFlagValues(target: Partial<FeatureFlags>, values: Partial<FeatureFlags>) {
-    const keys = Object.keys(values);
-
-    (keys as Array<keyof FeatureFlags>).forEach(x => {
-        if (x in target) {
-            target[x] = values[x];
+    startTransaction(): LaunchDarklyClientTransaction {
+        if (this.#activeTransaction) {
+            throw new Error("[squide] There's already an active LaunchDarkly client transaction. Only one transaction can be started at a time.");
         }
-    });
+
+        const commit: CommitTransactionFunction = () => {
+            // Once the transation is committed, update the local storage.
+            this.#store.setFlags(this.#flags);
+
+            // Once the transaction is committed, process all the deferred notifications.
+            this.#activeTransaction?.deferredNotifications.forEach(x => {
+                this.#notifier.notify("change", x);
+            });
+
+            this.#activeTransaction = undefined;
+        };
+
+        const undo: UndoTransactionFunction = (newFlags: Record<string, LDFlagValue>) => {
+            this.#flags = newFlags;
+            this.#activeTransaction = undefined;
+        };
+
+        const transaction = new LaunchDarklyClientTransaction(this.#flags, commit, undo);
+
+        this.#activeTransaction = {
+            transaction,
+            deferredNotifications: []
+        };
+
+        return transaction;
+    }
 }
 
 export function createLocalStorageLaunchDarklyClient(flags: Partial<FeatureFlags>, options: CreateLocalStorageLaunchDarklyClientOptions = {}) {
@@ -226,6 +273,7 @@ export function createLocalStorageLaunchDarklyClient(flags: Partial<FeatureFlags
     } = options;
 
     const store = new FeatureFlagsLocalStore(localStorageKey);
+    const newFlags = { ...flags };
 
     let storedFlags: Partial<FeatureFlags> | undefined;
 
@@ -238,14 +286,13 @@ export function createLocalStorageLaunchDarklyClient(flags: Partial<FeatureFlags
 
     // When there's existing flags, update the provided flags object with the values of the local storage.
     // Only carry over the flags that are not deprecated.
-    // IMPORTANT: Update the provided flags object to support "withFeatureFlagsOverrideDecorator".
-    setFlagValues(flags, storedFlags);
+    setFlagValues(newFlags, storedFlags);
 
     // Keep the local storage up-to-date.
-    store.setFlags(flags);
+    store.setFlags(newFlags);
 
     return new LocalStorageLaunchDarklyClient(
-        flags,
+        newFlags,
         store,
         clientOptions
     );

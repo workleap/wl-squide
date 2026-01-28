@@ -19,8 +19,7 @@ export class FeatureFlagSetSnapshot {
         this.#snapshot = this.#client.allFlags() as FeatureFlags;
 
         this.#client.on("change", changes => {
-            // IMPORTANT: Create a new reference because fake clients always return the same object for compatibility with "withFeatureFlagsOverrideDecorator".
-            this.#snapshot = { ...this.#client.allFlags() } as FeatureFlags;
+            this.#snapshot = this.#client.allFlags() as FeatureFlags;
 
             this.#listeners.forEach(x => {
                 x(this.#snapshot, changes);
