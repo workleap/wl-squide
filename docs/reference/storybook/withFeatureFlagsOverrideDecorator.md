@@ -11,13 +11,12 @@ Create a `Decorator` function that overrides the initial feature flag values whi
 ## Reference
 
 ```ts
-const decorator = withFeatureFlagsOverrideDecorator(featureFlags, overrides)
+const decorator = withFeatureFlagsOverrideDecorator(overrides)
 ```
 
 ### Parameters
 
-- `featureFlags`: The Map instance of feature flags that has been provided to the [initializeFireflyForStorybook](./initializeFireflyForStorybook.md#initialize-with-feature-flags) function.
-- `overrides`: An object of feature flag overrides.
+- `overrides`: An object containing feature flag value overrides.
 
 ### Returns
 
@@ -25,21 +24,17 @@ A `Decorator` function.
 
 ## Usage
 
-```tsx !#34
+```tsx !#30
 import { initializeFireflyForStorybook, withFireflyDecorator, withFeatureFlagsOverrideDecorator } from "@squide/firefly-rsbuild-storybook";
 import type { Decorator, Meta, StoryObj } from "storybook-react-rsbuild";
 import { Page } from "./Page.tsx";
 import { registerModule } from "./registerModule.tsx";
 
-// This syntax with the nested arrays and "as const" is super important to get type safety with
-// the "withFeatureFlagsOverrideDecorator" decorator.
-const featureFlags = new Map([
-    ["render-summary", true]
-] as const);
-
 const fireflyRuntime = await initializeFireflyForStorybook({
     localModules: [registerModule],
-    featureFlags
+    featureFlags: {
+        "render-summary": true
+    }
 });
 
 const meta = {
@@ -59,7 +54,7 @@ const meta = {
 
 export const Default = {
     decorators: [
-        withFeatureFlagsOverrideDecorator(featureFlags, { "render-summary": false })
+        withFeatureFlagsOverrideDecorator({ "render-summary": false })
     ]
 } satisfies Story;
 ```

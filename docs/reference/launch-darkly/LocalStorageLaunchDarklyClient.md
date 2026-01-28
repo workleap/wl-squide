@@ -11,50 +11,66 @@ An implementation of the LaunchDarkly SDK [client](https://launchdarkly.com/docs
 ## Reference
 
 ```ts
-const client = createLocalStorageLaunchDarklyClient(storageKey, defaultFeatureFlags, options?: { context?, notifier? })
+const client = createLocalStorageLaunchDarklyClient(defaultValues, options?: { localStorageKey?, context?, notifier? })
 ```
 
 ### Parameters
 
-- `storageKey`: The key to use when storing feature flags in `localStorage`.
-- `defaultFeatureFlags`: A map instance representing the default feature flags if they are not found in `localStorage`.
+- `defaultValues`: An object literal of default values for the feature flags if they are not found in `localStorage`.
 - `options`: An optional object literal of options:
-    - `context`: A LaunchDarkly SDK [context](https://launchdarkly.com/docs/sdk/features/context-config).
-    - `notifier`: A `LaunchDarklyClientNotifier` instance.
+    - `localStorageKey`: An optional local storage key to override the default one.
+    - `context`: An optional LaunchDarkly SDK [context](https://launchdarkly.com/docs/sdk/features/context-config).
+    - `notifier`: An optional `LaunchDarklyClientNotifier` instance.
 
 ### Methods
 
 - Implements all the base methods of the LaunchDarkly SDK [client](https://launchdarkly.com/docs/sdk/client-side/javascript).
-- `setFeatureFlags`: Add new feature flags or update existing feature flags values.
+- `setFeatureFlags`: Update feature flags values.
 
 ## Usage
 
 ### Create an instance
 
-To create an instance of `LocalStorageLaunchDarklyClient`, provide a `storageKey` and a set of `defaultFeatureFlags` to the `createLocalStorageLaunchDarklyClient` function. The local storage will be immediatly initialize with the provided `defaultFeatureFlags`.
+To create an instance of `LocalStorageLaunchDarklyClient`, use the `createLocalStorageLaunchDarklyClient` function. The local storage will be immediatly initialize with the provided `defaultValues`.
 
 ```ts !#7
 import { createLocalStorageLaunchDarklyClient } from "@squide/firefly";
 
-const defaultFeatureFlags = new Map([
-    ["show-characters", true]
-] as const);
+const featureFlags = {
+    "show-characters": true
+};
 
-const client = createLocalStorageLaunchDarklyClient("my-storage-key", defaultFeatureFlags);
+const client = createLocalStorageLaunchDarklyClient(featureFlags);
 ```
 
-### Customize the context
+### Provide a local storage key
+
+To customize the local storage key, provide a `localStorageKey` option at creation.
+
+```ts !#8
+import { createLocalStorageLaunchDarklyClient } from "@squide/firefly";
+
+const featureFlags = {
+    "show-characters": true
+};
+
+const client = createLocalStorageLaunchDarklyClient(featureFlags, {
+    localStorageKey: "abc123"
+});
+```
+
+### Provide a context
 
 By default client context is `{ kind: "user", anonymous: true }`. To customize the context, provide a `context` option at creation.
 
 ```ts !#7-21
 import { createLocalStorageLaunchDarklyClient } from "@squide/firefly";
 
-const defaultFeatureFlags = new Map([
-    ["show-characters", true]
-] as const);
+const featureFlags = {
+    "show-characters": true
+};
 
-const client = createLocalStorageLaunchDarklyClient("my-storage-key", defaultFeatureFlags, {
+const client = createLocalStorageLaunchDarklyClient(featureFlags, {
     context: {
         kind: "multi",
         user: {
@@ -78,12 +94,12 @@ To update the initial feature flags, use the `setFeatureFlags` method.
 ```ts !#10-13
 import { createLocalStorageLaunchDarklyClient } from "@squide/firefly";
 
-const defaultFeatureFlags = new Map([
-    ["show-characters", true],
-    ["render-summary", true]
-] as const);
+const featureFlags = {
+    "show-characters": true,
+    "render-summary": true
+};
 
-const client = createLocalStorageLaunchDarklyClient("my-storage-key", defaultFeatureFlags);
+const client = createLocalStorageLaunchDarklyClient(featureFlags);
 
 client.setFeatureFlags({
     "show-characters": true,

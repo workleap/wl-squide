@@ -24,7 +24,7 @@ const client = new InMemoryLaunchDarklyClient(featureFlags, options?: { context?
 ### Methods
 
 - Implements all the base methods of the LaunchDarkly SDK [client](https://launchdarkly.com/docs/sdk/client-side/javascript).
-- `setFeatureFlags`: Add new feature flags or update existing feature flags values.
+- `setFeatureFlags`: Update feature flags values.
 
 ## Usage
 
@@ -33,23 +33,23 @@ const client = new InMemoryLaunchDarklyClient(featureFlags, options?: { context?
 ```ts !#7
 import { InMemoryLaunchDarklyClient } from "@squide/firefly";
 
-const featureFlags = new Map([
-    ["show-characters", true]
-] as const);
+const featureFlags = {
+    "show-characters": true
+};
 
 const client = new InMemoryLaunchDarklyClient(featureFlags);
 ```
 
-### Customize the context
+### Provide a context
 
 By default client context is `{ kind: "user", anonymous: true }`. To customize the context, provide a `context` option.
 
 ```ts !#8-20
 import { InMemoryLaunchDarklyClient } from "@squide/firefly";
 
-const featureFlags = new Map([
-    ["show-characters", true]
-] as const);
+const featureFlags = {
+    "show-characters": true
+};
 
 const client = new InMemoryLaunchDarklyClient(featureFlags, {
     context: {
@@ -73,10 +73,10 @@ const client = new InMemoryLaunchDarklyClient(featureFlags, {
 ```ts !#10-13
 import { InMemoryLaunchDarklyClient } from "@squide/firefly";
 
-const featureFlags = new Map([
-    ["show-characters", true],
-    ["render-summary", true]
-] as const);
+const featureFlags = {
+    "show-characters": true,
+    "render-summary": true
+};
 
 const client = new InMemoryLaunchDarklyClient(featureFlags);
 

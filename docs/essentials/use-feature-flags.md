@@ -52,7 +52,7 @@ project
 ├────── feature-flags.d.ts
 ```
 
-Then create an `feature-flags.d.ts` file:
+Then create a `feature-flags.d.ts` file:
 
 ```ts !#6 project/types/feature-flags.d.ts
 import "@squide/firefly";
@@ -138,9 +138,9 @@ import { Page } from "./src/Page.tsx";
 import "@testing-library/jest-dom";
 
 test("when the \"show-characters\" feature flag is off, do not render the character list", () => {
-    const featureFlags = new Map([
-        ["show-characters", false]
-    ] as const);
+    const featureFlags = {
+        "show-characters": false
+    };
 
     const launchDarklyClient = new InMemoryLaunchDarklyClient(featureFlags);
 
@@ -164,7 +164,7 @@ To set up [Storybook](https://storybook.js.org/docs) stories with feature flags,
 
 ## Use fake clients
 
-To support a variety of development scenarios, "fake" implementations of the LaunchDarkly SDK [client](https://launchdarkly.com/docs/sdk/client-side/javascript) are available. To simulate a LaunchDarkly environment, use either the [InMemoryLaunchDarklyClient](../reference/launch-darkly/InMemoryLaunchDarklyClient.md) or the [LocalStorageLaunchDarklyClient](../reference/launch-darkly/LocalStorageLaunchDarklyClient.md).
+To support a variety of development scenarios, "fake" implementations of the LaunchDarkly SDK [client](https://launchdarkly.com/docs/sdk/client-side/javascript) are available. To simulate a LaunchDarkly environment, use either [InMemoryLaunchDarklyClient](../reference/launch-darkly/InMemoryLaunchDarklyClient.md) or [LocalStorageLaunchDarklyClient](../reference/launch-darkly/LocalStorageLaunchDarklyClient.md).
 
 ### Toggle feature flags
 
@@ -173,10 +173,10 @@ Both fake implementations support toggling feature flags. To do so, first ensure
 ```ts !#10-13
 import { InMemoryLaunchDarklyClient } from "@squide/firefly";
 
-const featureFlags = new Map([
-    ["show-characters", true],
-    ["render-summary", true]
-] as const);
+const featureFlags = {
+    "show-characters": true,
+    "render-summary": true
+};
 
 const client = new InMemoryLaunchDarklyClient(featureFlags);
 
