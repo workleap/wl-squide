@@ -607,7 +607,7 @@ describe("startTransaction", () => {
         expect(listener2).toHaveBeenCalledExactlyOnceWith(changeset);
     });
 
-    test.concurrent("when a transaction is undo, restore the original flags", ({ expect }) => {
+    test("when a transaction is undo, restore the original flags", ({ expect }) => {
         const flags = {
             "flag-a": false,
             "flag-b": false
@@ -631,7 +631,7 @@ describe("startTransaction", () => {
         });
     });
 
-    test.concurrent("when a transaction is undo, do not trigger pending notifications", ({ expect }) => {
+    test("when a transaction is undo, do not trigger pending notifications", ({ expect }) => {
         const flags = {
             "flag-a": false,
             "flag-b": false
@@ -656,7 +656,7 @@ describe("startTransaction", () => {
         expect(listener).not.toHaveBeenCalled();
     });
 
-    test.concurrent("cannot start more than one transaction at a time", ({ expect }) => {
+    test("cannot start more than one transaction at a time", ({ expect }) => {
         const flags = {
             "flag-a": false,
             "flag-b": false
@@ -672,7 +672,7 @@ describe("startTransaction", () => {
         expect(() => { client.startTransaction(); }).toThrow();
     });
 
-    test.concurrent("can complete and start a new transaction", ({ expect }) => {
+    test("can complete and start a new transaction", ({ expect }) => {
         const flags = {
             "flag-a": false,
             "flag-b": false
