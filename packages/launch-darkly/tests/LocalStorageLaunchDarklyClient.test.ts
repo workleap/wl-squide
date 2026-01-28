@@ -1,5 +1,5 @@
 import { afterEach, beforeEach, describe, test, vi } from "vitest";
-import { createLocalStorageLaunchDarklyClient } from "../src/LocalStorageLaunchDarklyClient.ts";
+import { createLocalStorageLaunchDarklyClient, DefaultLocalStorageKey } from "../src/LocalStorageLaunchDarklyClient.ts";
 
 declare module "@squide/launch-darkly" {
     interface FeatureFlags {
@@ -9,7 +9,7 @@ declare module "@squide/launch-darkly" {
     }
 }
 
-const LocalStorageKey = "test-feature-flags";
+const TestLocalStorageKey = "test-feature-flags";
 
 beforeEach(() => {
     localStorage.clear();
@@ -28,7 +28,7 @@ describe("createLocalStorageLaunchDarklyClient", () => {
         };
 
         const client = createLocalStorageLaunchDarklyClient(defaultFlags, {
-            localStorageKey: LocalStorageKey
+            localStorageKey: TestLocalStorageKey
         });
 
         expect(client.variation("flag-a")).toBe(false);
@@ -42,13 +42,13 @@ describe("createLocalStorageLaunchDarklyClient", () => {
             "flag-b": true
         };
 
-        localStorage.setItem(LocalStorageKey, JSON.stringify({
+        localStorage.setItem(TestLocalStorageKey, JSON.stringify({
             "flag-a": true,
             "flag-b": false
         }));
 
         const client = createLocalStorageLaunchDarklyClient(defaultFlags, {
-            localStorageKey: LocalStorageKey
+            localStorageKey: TestLocalStorageKey
         });
 
         expect(client.variation("flag-a")).toBe(true);
@@ -66,13 +66,13 @@ describe("createLocalStorageLaunchDarklyClient", () => {
             "flag-b": false
         };
 
-        localStorage.setItem(LocalStorageKey, JSON.stringify(storedFlags));
+        localStorage.setItem(TestLocalStorageKey, JSON.stringify(storedFlags));
 
         createLocalStorageLaunchDarklyClient(defaultFlags, {
-            localStorageKey: LocalStorageKey
+            localStorageKey: TestLocalStorageKey
         });
 
-        expect(JSON.parse(localStorage.getItem(LocalStorageKey)!)).toEqual(storedFlags);
+        expect(JSON.parse(localStorage.getItem(TestLocalStorageKey)!)).toEqual(storedFlags);
     });
 
     test("when the local storage has deprecated flags, do not load them", ({ expect }) => {
@@ -80,13 +80,13 @@ describe("createLocalStorageLaunchDarklyClient", () => {
             "flag-a": true
         };
 
-        localStorage.setItem(LocalStorageKey, JSON.stringify({
+        localStorage.setItem(TestLocalStorageKey, JSON.stringify({
             "flag-a": false,
             "invalid-flag": "should-be-ignored"
         }));
 
         const client = createLocalStorageLaunchDarklyClient(defaultFlags, {
-            localStorageKey: LocalStorageKey
+            localStorageKey: TestLocalStorageKey
         });
 
         const allFlags = client.allFlags();
@@ -101,16 +101,16 @@ describe("createLocalStorageLaunchDarklyClient", () => {
             "flag-a": true
         };
 
-        localStorage.setItem(LocalStorageKey, JSON.stringify({
+        localStorage.setItem(TestLocalStorageKey, JSON.stringify({
             "flag-a": false,
             "invalid-flag": "should-be-ignored"
         }));
 
         createLocalStorageLaunchDarklyClient(defaultFlags, {
-            localStorageKey: LocalStorageKey
+            localStorageKey: TestLocalStorageKey
         });
 
-        expect(JSON.parse(localStorage.getItem(LocalStorageKey)!)).toEqual({
+        expect(JSON.parse(localStorage.getItem(TestLocalStorageKey)!)).toEqual({
             "flag-a": false
         });
     });
@@ -122,12 +122,12 @@ describe("createLocalStorageLaunchDarklyClient", () => {
             "flag-c": true
         };
 
-        localStorage.setItem(LocalStorageKey, JSON.stringify({
+        localStorage.setItem(TestLocalStorageKey, JSON.stringify({
             "flag-a": true
         }));
 
         const client = createLocalStorageLaunchDarklyClient(defaultFlags, {
-            localStorageKey: LocalStorageKey
+            localStorageKey: TestLocalStorageKey
         });
 
         expect(client.allFlags()).toEqual({
@@ -144,15 +144,51 @@ describe("createLocalStorageLaunchDarklyClient", () => {
             "flag-c": true
         };
 
-        localStorage.setItem(LocalStorageKey, JSON.stringify({
+        localStorage.setItem(TestLocalStorageKey, JSON.stringify({
             "flag-a": true
         }));
 
         createLocalStorageLaunchDarklyClient(defaultFlags, {
-            localStorageKey: LocalStorageKey
+            localStorageKey: TestLocalStorageKey
         });
 
-        expect(JSON.parse(localStorage.getItem(LocalStorageKey)!)).toEqual({
+        expect(JSON.parse(localStorage.getItem(TestLocalStorageKey)!)).toEqual({
+            "flag-a": true,
+            "flag-b": true,
+            "flag-c": true
+        });
+    });
+
+    test("when a local storage key is provided, use the provided key", ({ expect }) => {
+        const key = "abc123";
+
+        const defaultFlags = {
+            "flag-a": true,
+            "flag-b": true,
+            "flag-c": true
+        };
+
+        createLocalStorageLaunchDarklyClient(defaultFlags, {
+            localStorageKey: key
+        });
+
+        expect(JSON.parse(localStorage.getItem(key)!)).toEqual({
+            "flag-a": true,
+            "flag-b": true,
+            "flag-c": true
+        });
+    });
+
+    test("when no local storage key is provided, use the default key", ({ expect }) => {
+        const defaultFlags = {
+            "flag-a": true,
+            "flag-b": true,
+            "flag-c": true
+        };
+
+        createLocalStorageLaunchDarklyClient(defaultFlags);
+
+        expect(JSON.parse(localStorage.getItem(DefaultLocalStorageKey)!)).toEqual({
             "flag-a": true,
             "flag-b": true,
             "flag-c": true
@@ -169,7 +205,7 @@ describe("allFlags", () => {
         };
 
         const client = createLocalStorageLaunchDarklyClient(defaultFlags, {
-            localStorageKey: LocalStorageKey
+            localStorageKey: TestLocalStorageKey
         });
 
         expect(client.allFlags()).toEqual({
@@ -187,7 +223,7 @@ describe("allFlags", () => {
         };
 
         const client = createLocalStorageLaunchDarklyClient(defaultFlags, {
-            localStorageKey: LocalStorageKey
+            localStorageKey: TestLocalStorageKey
         });
 
         const obj1 = client.allFlags();
@@ -204,7 +240,7 @@ describe("variation", () => {
         };
 
         const client = createLocalStorageLaunchDarklyClient(defaultFlags, {
-            localStorageKey: LocalStorageKey
+            localStorageKey: TestLocalStorageKey
         });
 
         expect(client.variation("flag-a", false)).toBeTruthy();
@@ -214,7 +250,7 @@ describe("variation", () => {
         const defaultFlags = {};
 
         const client = createLocalStorageLaunchDarklyClient(defaultFlags, {
-            localStorageKey: LocalStorageKey
+            localStorageKey: TestLocalStorageKey
         });
 
         expect(client.variation("flag-a", false)).toBeFalsy();
@@ -224,7 +260,7 @@ describe("variation", () => {
         const defaultFlags = {};
 
         const client = createLocalStorageLaunchDarklyClient(defaultFlags, {
-            localStorageKey: LocalStorageKey
+            localStorageKey: TestLocalStorageKey
         });
 
         expect(client.variation("flag-a")).toBeUndefined();
@@ -238,7 +274,7 @@ describe("variationDetail", () => {
         };
 
         const client = createLocalStorageLaunchDarklyClient(defaultFlags, {
-            localStorageKey: LocalStorageKey
+            localStorageKey: TestLocalStorageKey
         });
 
         expect(client.variationDetail("flag-a", false)).toEqual({
@@ -250,7 +286,7 @@ describe("variationDetail", () => {
         const defaultFlags = {};
 
         const client = createLocalStorageLaunchDarklyClient(defaultFlags, {
-            localStorageKey: LocalStorageKey
+            localStorageKey: TestLocalStorageKey
         });
 
         expect(client.variationDetail("flag-a", false)).toEqual({
@@ -262,7 +298,7 @@ describe("variationDetail", () => {
         const defaultFlags = {};
 
         const client = createLocalStorageLaunchDarklyClient(defaultFlags, {
-            localStorageKey: LocalStorageKey
+            localStorageKey: TestLocalStorageKey
         });
 
         expect(client.variationDetail("flag-a")).toEqual({
@@ -279,7 +315,7 @@ describe("setFeatureFlags", () => {
         };
 
         const client = createLocalStorageLaunchDarklyClient(defaultFlags, {
-            localStorageKey: LocalStorageKey
+            localStorageKey: TestLocalStorageKey
         });
 
         client.setFeatureFlags({
@@ -287,7 +323,7 @@ describe("setFeatureFlags", () => {
             "flag-b": true
         });
 
-        expect(JSON.parse(localStorage.getItem(LocalStorageKey)!)).toEqual({
+        expect(JSON.parse(localStorage.getItem(TestLocalStorageKey)!)).toEqual({
             "flag-a": true,
             "flag-b": true
         });
@@ -306,14 +342,14 @@ describe("setFeatureFlags", () => {
         };
 
         const client = createLocalStorageLaunchDarklyClient(defaultFlags, {
-            localStorageKey: LocalStorageKey
+            localStorageKey: TestLocalStorageKey
         });
 
         client.setFeatureFlags({
             "flag-a": true
         });
 
-        expect(JSON.parse(localStorage.getItem(LocalStorageKey)!)).toEqual({
+        expect(JSON.parse(localStorage.getItem(TestLocalStorageKey)!)).toEqual({
             "flag-a": true
         });
 
@@ -331,7 +367,7 @@ describe("setFeatureFlags", () => {
         };
 
         const client = createLocalStorageLaunchDarklyClient(defaultFlags, {
-            localStorageKey: LocalStorageKey
+            localStorageKey: TestLocalStorageKey
         });
 
         const listener = vi.fn();
@@ -362,7 +398,7 @@ describe("setFeatureFlags", () => {
         };
 
         const client = createLocalStorageLaunchDarklyClient(defaultFlags, {
-            localStorageKey: LocalStorageKey
+            localStorageKey: TestLocalStorageKey
         });
 
         const listener = vi.fn();
@@ -386,7 +422,7 @@ describe("setFeatureFlags", () => {
         };
 
         const client = createLocalStorageLaunchDarklyClient(defaultFlags, {
-            localStorageKey: LocalStorageKey
+            localStorageKey: TestLocalStorageKey
         });
 
         client.setFeatureFlags({
@@ -406,18 +442,18 @@ describe("storage changed event", () => {
         };
 
         const client = createLocalStorageLaunchDarklyClient(defaultFlags, {
-            localStorageKey: LocalStorageKey
+            localStorageKey: TestLocalStorageKey
         });
 
         // Simulate a local storage change from another tab.
-        localStorage.setItem(LocalStorageKey, JSON.stringify({
+        localStorage.setItem(TestLocalStorageKey, JSON.stringify({
             "flag-a": true,
             "flag-b": false
         }));
 
         // Simulate a local storage change event.
         const storageEvent = new StorageEvent("storage", {
-            key: LocalStorageKey,
+            key: TestLocalStorageKey,
             newValue: JSON.stringify({
                 "flag-a": true,
                 "flag-b": false
@@ -441,7 +477,7 @@ describe("storage changed event", () => {
         };
 
         const client = createLocalStorageLaunchDarklyClient(defaultFlags, {
-            localStorageKey: LocalStorageKey
+            localStorageKey: TestLocalStorageKey
         });
 
         const listener = vi.fn();
@@ -449,14 +485,14 @@ describe("storage changed event", () => {
         client.on("change", listener);
 
         // Simulate a local storage change from another tab.
-        localStorage.setItem(LocalStorageKey, JSON.stringify({
+        localStorage.setItem(TestLocalStorageKey, JSON.stringify({
             "flag-a": true,
             "flag-b": false
         }));
 
         // Simulate a local storage change event.
         const storageEvent = new StorageEvent("storage", {
-            key: LocalStorageKey,
+            key: TestLocalStorageKey,
             newValue: JSON.stringify({
                 "flag-a": true,
                 "flag-b": false
@@ -484,7 +520,7 @@ describe("storage changed event", () => {
         };
 
         const client = createLocalStorageLaunchDarklyClient(defaultFlags, {
-            localStorageKey: LocalStorageKey
+            localStorageKey: TestLocalStorageKey
         });
 
         const listener = vi.fn();
@@ -492,7 +528,7 @@ describe("storage changed event", () => {
         client.on("change", listener);
 
         // Simulate a local storage change from another tab.
-        localStorage.setItem(LocalStorageKey, JSON.stringify({
+        localStorage.setItem(TestLocalStorageKey, JSON.stringify({
             "flag-a": true,
             "flag-b": false
         }));

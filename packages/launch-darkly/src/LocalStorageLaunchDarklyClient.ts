@@ -4,7 +4,7 @@ import { LaunchDarklyClientNotifier } from "./LaunchDarklyNotifier.ts";
 import { computeChangeset } from "./computeChangeset.ts";
 import { FeatureFlags } from "./featureFlags.ts";
 
-const DefaultLocalStorageKey = "squide-launch-darkly-client";
+export const DefaultLocalStorageKey = "squide-launch-darkly-client";
 
 export interface LocalStorageLaunchDarklyClientOptions {
     context?: LDContext;
