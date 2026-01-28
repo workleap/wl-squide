@@ -12,13 +12,13 @@
         "typecheck": "tsgo"
     },
     "peerDependencies": {
-        "@tanstack/react-query": "^5.90.19",
+        "@tanstack/react-query": "^5.90.20",
         "logrocket": "^11.0.0",
         "msw": "^2.12.7",
-        "react": "^19.2.3",
-        "react-dom": "^19.2.3",
+        "react": "^19.2.4",
+        "react-dom": "^19.2.4",
         "react-i18next": "^16.5.3",
-        "react-router": "^7.12.0"
+        "react-router": "^7.13.0"
     },
     "dependencies": {
         "@endpoints/i18next": "workspace:*",
@@ -34,12 +34,12 @@
         "@types/node": "25.0.10",
         "@types/react": "19.2.9",
         "@types/react-dom": "19.2.3",
-        "@typescript-eslint/parser": "8.53.1",
-        "@typescript/native-preview": "7.0.0-dev.20260122.4",
+        "@typescript-eslint/parser": "8.54.0",
+        "@typescript/native-preview": "7.0.0-dev.20260127.1",
         "@workleap/eslint-configs": "1.1.10",
         "@workleap/typescript-configs": "3.0.7",
         "eslint": "9.39.2",
         "typescript": "5.9.3",
-        "typescript-eslint": "8.53.1"
+        "typescript-eslint": "8.54.0"
     }
 }

@@ -14,15 +14,11 @@ function withQueryDecorator(): Decorator {
     };
 }
 
-// This syntax with the nested arrays and "as const" is super important to get type safety when
-// using the withFeatureFlagsOverrideDecorator decorator.
-const featureFlags = new Map([
-    ["show-characters", true]
-] as const);
-
 const fireflyRuntime = await initializeFireflyForStorybook({
     localModules: [registerHost],
-    featureFlags
+    featureFlags: {
+        "show-characters": true
+    }
 });
 
 const meta = {
@@ -49,6 +45,6 @@ export const Default = {} satisfies Story;
 
 export const WithoutCharacters = {
     decorators: [
-        withFeatureFlagsOverrideDecorator(featureFlags, { "show-characters": false })
+        withFeatureFlagsOverrideDecorator({ "show-characters": false })
     ]
 } satisfies Story;

@@ -1,5 +1,4 @@
 import { Runtime, RuntimeContext } from "@squide/core";
-import { LaunchDarklyClientNotifier } from "@squide/launch-darkly";
 import { renderHook, waitFor } from "@testing-library/react";
 import { NoopLogger } from "@workleap/logging";
 import { ReactNode } from "react";
@@ -66,9 +65,9 @@ function renderUseFeatureFlags(runtime: Runtime) {
 }
 
 test.concurrent("can return the feature flags", ({ expect }) => {
-    const flags = new Map(Object.entries({
+    const flags = {
         "flag-a": true
-    }));
+    };
 
     const client = new InMemoryLaunchDarklyClient(flags);
 
@@ -87,17 +86,13 @@ test.concurrent("can return the feature flags", ({ expect }) => {
 });
 
 test.concurrent("when a feature flag value is updated, return the updated feature flags", async ({ expect }) => {
-    const flags = new Map(Object.entries({
+    const flags = {
         "flag-a": true,
         "flag-b": true,
         "flag-c": true
-    }));
+    };
 
-    const notifier = new LaunchDarklyClientNotifier();
-
-    const client = new InMemoryLaunchDarklyClient(flags, {
-        notifier
-    });
+    const client = new InMemoryLaunchDarklyClient(flags);
 
     const runtime = new DummyRuntime({
         loggers: [new NoopLogger()],

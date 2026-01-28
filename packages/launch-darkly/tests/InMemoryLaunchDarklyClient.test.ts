@@ -5,29 +5,28 @@ declare module "@squide/launch-darkly" {
     interface FeatureFlags {
         "flag-a": boolean;
         "flag-b": boolean;
+        "flag-c": boolean;
+        "flag-d": boolean;
     }
 }
 
 describe.concurrent("allFlags", () => {
     test.concurrent("return all the flags", ({ expect }) => {
-        const flags = new Map(Object.entries({
+        const flags = {
             "flag-a": true,
             "flab-b": true
-        }));
+        };
 
         const client = new InMemoryLaunchDarklyClient(flags);
 
-        expect(client.allFlags()).toEqual({
-            "flag-a": true,
-            "flab-b": true
-        });
+        expect(client.allFlags()).toEqual(flags);
     });
 
     test.concurrent("when the flags are retrieved twice, the same object reference is returned", ({ expect }) => {
-        const flags = new Map(Object.entries({
+        const flags = {
             "flag-a": true,
             "flab-b": true
-        }));
+        };
 
         const client = new InMemoryLaunchDarklyClient(flags);
 
@@ -40,9 +39,9 @@ describe.concurrent("allFlags", () => {
 
 describe.concurrent("variation", () => {
     test.concurrent("when the flag exist, return the flag value", ({ expect }) => {
-        const flags = new Map(Object.entries({
+        const flags = {
             "flag-a": true
-        }));
+        };
 
         const client = new InMemoryLaunchDarklyClient(flags);
 
@@ -50,14 +49,14 @@ describe.concurrent("variation", () => {
     });
 
     test.concurrent("when the flag doesn't exist and a default value is provided, return the default value", ({ expect }) => {
-        const flags = new Map<string, boolean>();
+        const flags = {};
         const client = new InMemoryLaunchDarklyClient(flags);
 
         expect(client.variation("flag-a", false)).toBeFalsy();
     });
 
     test.concurrent("when the flag doesn't exist and no default value is provided, return undefined", ({ expect }) => {
-        const flags = new Map<string, boolean>();
+        const flags = {};
         const client = new InMemoryLaunchDarklyClient(flags);
 
         expect(client.variation("flag-a")).toBeUndefined();
@@ -66,9 +65,9 @@ describe.concurrent("variation", () => {
 
 describe.concurrent("variationDetail", () => {
     test.concurrent("when the flag exist, return the flag value", ({ expect }) => {
-        const flags = new Map(Object.entries({
+        const flags = {
             "flag-a": true
-        }));
+        };
 
         const client = new InMemoryLaunchDarklyClient(flags);
 
@@ -78,7 +77,7 @@ describe.concurrent("variationDetail", () => {
     });
 
     test.concurrent("when the flag doesn't exist and a default value is provided, return the default value", ({ expect }) => {
-        const flags = new Map<string, boolean>();
+        const flags = {};
         const client = new InMemoryLaunchDarklyClient(flags);
 
         expect(client.variationDetail("flag-a", false)).toEqual({
@@ -87,7 +86,7 @@ describe.concurrent("variationDetail", () => {
     });
 
     test.concurrent("when the flag doesn't exist and no default value is provided, return undefined", ({ expect }) => {
-        const flags = new Map<string, boolean>();
+        const flags = {};
         const client = new InMemoryLaunchDarklyClient(flags);
 
         expect(client.variationDetail("flag-a")).toEqual({
@@ -98,10 +97,10 @@ describe.concurrent("variationDetail", () => {
 
 describe.concurrent("setFeatureFlags", () => {
     test.concurrent("can update multiple flag values", ({ expect }) => {
-        const flags = new Map(Object.entries({
+        const flags = {
             "flag-a": false,
             "flag-b": false
-        }));
+        };
 
         const client = new InMemoryLaunchDarklyClient(flags);
 
@@ -119,9 +118,9 @@ describe.concurrent("setFeatureFlags", () => {
     });
 
     test.concurrent("can update a single flag value", ({ expect }) => {
-        const flags = new Map(Object.entries({
+        const flags = {
             "flag-a": false
-        }));
+        };
 
         const client = new InMemoryLaunchDarklyClient(flags);
 
@@ -137,10 +136,10 @@ describe.concurrent("setFeatureFlags", () => {
     });
 
     test.concurrent("triggers a change notification", ({ expect }) => {
-        const flags = new Map(Object.entries({
+        const flags = {
             "flag-a": false,
             "flag-b": false
-        }));
+        };
 
         const client = new InMemoryLaunchDarklyClient(flags);
 
@@ -157,10 +156,10 @@ describe.concurrent("setFeatureFlags", () => {
     });
 
     test.concurrent("when notify is false, do not trigger a change notification", ({ expect }) => {
-        const flags = new Map(Object.entries({
+        const flags = {
             "flag-a": false,
             "flag-b": false
-        }));
+        };
 
         const client = new InMemoryLaunchDarklyClient(flags);
 
@@ -179,10 +178,10 @@ describe.concurrent("setFeatureFlags", () => {
     });
 
     test.concurrent("getting a variation after updating values returns the updated value", ({ expect }) => {
-        const flags = new Map(Object.entries({
+        const flags = {
             "flag-a": false,
             "flag-b": false
-        }));
+        };
 
         const client = new InMemoryLaunchDarklyClient(flags);
 
@@ -192,21 +191,6 @@ describe.concurrent("setFeatureFlags", () => {
         });
 
         expect(client.variation("flag-a")).toBeTruthy();
-    });
-
-    test.concurrent("throws when a new flag is added", ({ expect }) => {
-        const flags = new Map(Object.entries({
-            "flag-a": false,
-            "flag-b": false
-        }));
-
-        const client = new InMemoryLaunchDarklyClient(flags);
-
-        expect(() => client.setFeatureFlags({
-            "flag-a": true,
-            "flag-b": true,
-            "flag-c": true
-        })).toThrow();
     });
 });
 

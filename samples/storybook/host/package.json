@@ -17,11 +17,11 @@
     "dependencies": {
         "@opentelemetry/api": "1.9.0",
         "@squide/firefly": "workspace:*",
-        "@tanstack/react-query": "5.90.19",
+        "@tanstack/react-query": "5.90.20",
         "launchdarkly-js-client-sdk": "3.9.0",
-        "react": "19.2.3",
-        "react-dom": "19.2.3",
-        "react-router": "7.12.0"
+        "react": "19.2.4",
+        "react-dom": "19.2.4",
+        "react-router": "7.13.0"
     },
     "devDependencies": {
         "@eslint/js": "9.39.2",
@@ -31,8 +31,8 @@
         "@squide/firefly-rsbuild-storybook": "workspace:*",
         "@types/react": "19.2.9",
         "@types/react-dom": "19.2.3",
-        "@typescript-eslint/parser": "8.53.1",
-        "@typescript/native-preview": "7.0.0-dev.20260122.4",
+        "@typescript-eslint/parser": "8.54.0",
+        "@typescript/native-preview": "7.0.0-dev.20260127.1",
         "@workleap/browserslist-config": "2.1.5",
         "@workleap/eslint-configs": "1.1.10",
         "@workleap/rsbuild-configs": "3.2.0",
@@ -45,7 +45,7 @@
         "storybook-react-rsbuild": "3.2.2",
         "stylelint": "17.0.0",
         "typescript": "5.9.3",
-        "typescript-eslint": "8.53.1"
+        "typescript-eslint": "8.54.0"
     },
     "msw": {
         "workerDirectory": [

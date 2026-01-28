@@ -4,14 +4,15 @@ import { useCallback, useSyncExternalStore } from "react";
 import { useTranslation } from "react-i18next";
 import { i18NextInstanceKey } from "./i18next.ts";
 
-const featureFlags = new Map([
-    ["feature-a", true],
-    ["feature-b", true],
-    ["feature-c", true],
-    ["feature-d", true]
-] as const);
+const featureFlagsClient = createLocalStorageLaunchDarklyClient({
+    "enable-log-rocket": true,
+    "enable-honeycomb": true,
+    "register-local-module": true,
+    "register-remote-module": true,
+    "show-characters": true
+});
 
-const featureFlagsClient = createLocalStorageLaunchDarklyClient("endpoints-sample-feature-flags", featureFlags);
+let featureFlags = featureFlagsClient.allFlags();
 
 interface FeatureFlagEntryProps {
     id: string;
@@ -43,11 +44,19 @@ function FeatureFlagEntry(props: FeatureFlagEntryProps) {
     );
 }
 
-const subscribeToFeatureFlags = (callback: () => void) => {
-    featureFlagsClient.on("change", callback);
+function subscribeToFeatureFlags(callback: () => void) {
+    const handleChange = () => {
+        // HACK: to support "useSyncExternalStore" a new reference must be created everytime the
+        // feature flags are updated.
+        featureFlags = { ...featureFlagsClient.allFlags() };
+
+        callback();
+    };
+
+    featureFlagsClient.on("change", handleChange);
 
     return () => {
-        featureFlagsClient.off("change", callback);
+        featureFlagsClient.off("change", handleChange);
     };
 };
 
@@ -55,7 +64,7 @@ export function LocalStorageFeatureFlagsPage() {
     const i18nextInstance = useI18nextInstance(i18NextInstanceKey);
     const { t } = useTranslation("LocalStorageFeatureFlagsPage", { i18n: i18nextInstance });
 
-    const allFlags = useSyncExternalStore(subscribeToFeatureFlags, () => featureFlagsClient.allFlags());
+    const allFlags = useSyncExternalStore(subscribeToFeatureFlags, () => featureFlags);
 
     return (
         <div>

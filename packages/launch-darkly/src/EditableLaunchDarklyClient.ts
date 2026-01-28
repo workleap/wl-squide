@@ -1,4 +1,5 @@
-import type { LDClient, LDFlagValue } from "launchdarkly-js-client-sdk";
+import type { LDClient } from "launchdarkly-js-client-sdk";
+import { FeatureFlags } from "./featureFlags.ts";
 
 export interface SetFeatureFlagOptions {
     /**
@@ -8,13 +9,13 @@ export interface SetFeatureFlagOptions {
     notify?: boolean;
 }
 
-export interface EditableLaunchDarklyClient<T extends string = string> extends LDClient {
+export interface EditableLaunchDarklyClient extends LDClient {
     /**
      * Sets multiple feature flags to the specified values.
      */
-    setFeatureFlags(flags: Partial<Record<T, LDFlagValue>>, options?: SetFeatureFlagOptions): void;
+    setFeatureFlags(flags: Partial<FeatureFlags>, options?: SetFeatureFlagOptions): void;
 }
 
-export function isEditableLaunchDarklyClient<TClient extends LDClient>(client: TClient): client is TClient & EditableLaunchDarklyClient {
+export function isEditableLaunchDarklyClient<T extends LDClient>(client: T): client is T & EditableLaunchDarklyClient {
     return typeof (client as unknown as EditableLaunchDarklyClient).setFeatureFlags === "function";
 }

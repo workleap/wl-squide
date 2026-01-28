@@ -1,42 +1,33 @@
 import { LDContext, LDFlagSet, LDFlagValue } from "launchdarkly-js-sdk-common";
 import type { EditableLaunchDarklyClient, SetFeatureFlagOptions } from "./EditableLaunchDarklyClient.ts";
 import { LaunchDarklyClientNotifier } from "./LaunchDarklyNotifier.ts";
+import { computeChangeset } from "./computeChangeset.ts";
+import { FeatureFlags } from "./featureFlags.ts";
 
 export interface InMemoryLaunchDarklyClientOptions {
     context?: LDContext;
     notifier?: LaunchDarklyClientNotifier;
 }
 
-export class InMemoryLaunchDarklyClient<T extends string = string> implements EditableLaunchDarklyClient<T> {
-    readonly #flags: Map<string, LDFlagValue>;
+export class InMemoryLaunchDarklyClient implements EditableLaunchDarklyClient {
+    readonly #flags: Record<string, LDFlagValue>;
     readonly #context: LDContext;
     readonly #notifier: LaunchDarklyClientNotifier;
 
-    #objectLiteralSnapshot: Record<string, LDFlagValue>;
-
-    constructor(featureFlags: Map<T, LDFlagValue>, options: InMemoryLaunchDarklyClientOptions = {}) {
+    constructor(featureFlags: Partial<FeatureFlags>, options: InMemoryLaunchDarklyClientOptions = {}) {
         const {
             context,
-            notifier
+            notifier = new LaunchDarklyClientNotifier()
         } = options;
 
-        if (!(featureFlags instanceof Map)) {
-            throw new TypeError("[squide] The \"featureFlags\" argument must be a Map instance.");
-        }
-
         this.#flags = featureFlags;
-        this.#objectLiteralSnapshot = Object.fromEntries(featureFlags);
 
         this.#context = context ?? {
             kind: "user",
             anonymous: true
         };
 
-        this.#notifier = notifier ?? new LaunchDarklyClientNotifier();
-    }
-
-    static create<const T extends string>(featureFlags: Map<T, LDFlagValue>, options: InMemoryLaunchDarklyClientOptions = {}): InMemoryLaunchDarklyClient<T> {
-        return new InMemoryLaunchDarklyClient<T>(featureFlags, options);
+        this.#notifier = notifier;
     }
 
     waitUntilGoalsReady() {
@@ -66,13 +57,13 @@ export class InMemoryLaunchDarklyClient<T extends string = string> implements Ed
     }
 
     variation(key: string, defaultValue?: LDFlagValue) {
-        const flag = this.#flags.get(key);
+        const flag = this.#flags[key];
 
         return flag ?? defaultValue;
     }
 
     variationDetail(key: string, defaultValue?: LDFlagValue) {
-        const flag = this.#flags.get(key);
+        const flag = this.#flags[key];
 
         return {
             value: flag ?? defaultValue
@@ -93,9 +84,11 @@ export class InMemoryLaunchDarklyClient<T extends string = string> implements Ed
 
     track(): void {}
 
-    // IMPORTANT: Must not return a new instance everytime it's executed as it will breaks "useSyncExternalStore".
+    // IMPORTANT-1: Must return the flags object provided to the "ctor" to support "withFeatureFlagsOverrideDecorator".
+    // IMPORTANT-2: To support "useSyncExternalStore" it's also important that the flags object isn't a new reference everytime
+    // this method is called.
     allFlags() {
-        return this.#objectLiteralSnapshot;
+        return this.#flags;
     }
 
     close(onDone?: () => void) {
@@ -106,32 +99,25 @@ export class InMemoryLaunchDarklyClient<T extends string = string> implements Ed
 
     addHook(): void {}
 
-    setFeatureFlags(flags: Partial<Record<T, LDFlagValue>>, options: SetFeatureFlagOptions = {}): void {
+    setFeatureFlags(newFlags: Partial<FeatureFlags>, options: SetFeatureFlagOptions = {}): void {
         const {
             notify = true
         } = options;
 
-        const entries = Object.entries(flags);
+        const keys = Object.keys(newFlags);
 
-        if (entries.length > 0) {
-            for (const [key, value] of entries) {
-                if (!this.#flags.has(key)) {
-                    throw new Error(`[squide] The "${key}" flag doesn't exist in the initial flags. The setFeatureFlags method cannot add a new flag.`);
-                }
+        if (keys.length > 0) {
+            const originalFlags = { ...this.#flags };
 
-                this.#flags.set(key, value);
-            }
-
-            // Update the snapshot since the flags changed.
-            this.#objectLiteralSnapshot = Object.fromEntries(this.#flags);
+            (keys as Array<keyof FeatureFlags>).forEach(x => {
+                this.#flags[x] = newFlags[x];
+            });
 
             if (notify) {
-                this.#notifier.notify("change");
+                const changeset = computeChangeset(originalFlags, this.#flags);
+
+                this.#notifier.notify("change", changeset);
             }
         }
     }
-}
-
-export function createInMemoryLaunchDarklyClient<const T extends string>(featureFlags: Map<T, LDFlagValue>, options?: InMemoryLaunchDarklyClientOptions) {
-    return InMemoryLaunchDarklyClient.create(featureFlags, options);
 }

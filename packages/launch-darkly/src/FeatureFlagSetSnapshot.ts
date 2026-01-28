@@ -13,13 +13,14 @@ export class FeatureFlagSetSnapshot {
     constructor(launchDarklyClient: LDClient) {
         this.#client = launchDarklyClient;
 
-        // The client is expected to already be initialized. Therefore this call shouldn't trigger a remote call.
+        // The client is expected to be already initialized. Therefore this call shouldn't trigger a remote call.
         // Furthermore, when the client is initialized, all the flags are automatically fetched, therefore this function execution
         // shouldn't attempt to fetch additional feature flags.
         this.#snapshot = this.#client.allFlags() as FeatureFlags;
 
         this.#client.on("change", changes => {
-            this.#snapshot = this.#client.allFlags() as FeatureFlags;
+            // IMPORTANT: Create a new reference because fake clients always return the same object for compatibility with "withFeatureFlagsOverrideDecorator".
+            this.#snapshot = { ...this.#client.allFlags() } as FeatureFlags;
 
             this.#listeners.forEach(x => {
                 x(this.#snapshot, changes);

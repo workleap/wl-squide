@@ -1,5 +1,5 @@
 import { Runtime, RuntimeContext } from "@squide/core";
-import { FeatureFlagKey, FeatureFlags, LaunchDarklyClientNotifier } from "@squide/launch-darkly";
+import { FeatureFlagKey, FeatureFlags } from "@squide/launch-darkly";
 import { renderHook, RenderHookResult, waitFor } from "@testing-library/react";
 import { NoopLogger } from "@workleap/logging";
 import { ReactNode } from "react";
@@ -12,6 +12,8 @@ declare module "@squide/launch-darkly" {
     interface FeatureFlags {
         "flag-a": boolean;
         "flag-b": boolean;
+        "flag-c": boolean;
+        "flag-d": boolean;
     }
 }
 
@@ -78,9 +80,9 @@ function renderUseFeatureFlagHook<T extends FeatureFlagKey>(runtime: Runtime, ke
 }
 
 test.concurrent("when the flag exist, return the flag value", ({ expect }) => {
-    const flags = new Map(Object.entries({
+    const flags = {
         "flag-a": true
-    }));
+    };
 
     const client = new InMemoryLaunchDarklyClient(flags);
 
@@ -97,7 +99,7 @@ test.concurrent("when the flag exist, return the flag value", ({ expect }) => {
 });
 
 test.concurrent("when the flag doesn't exist, and a default value is provided, return the default value", ({ expect }) => {
-    const flags = new Map<string, boolean>();
+    const flags = {};
     const client = new InMemoryLaunchDarklyClient(flags);
 
     const runtime = new DummyRuntime({
@@ -112,8 +114,8 @@ test.concurrent("when the flag doesn't exist, and a default value is provided, r
     expect(result.current).toBeFalsy();
 });
 
-test.concurrent("when the flag doesn't exist, and not default value is provided, return undefined", ({ expect }) => {
-    const flags = new Map<string, boolean>();
+test.concurrent("when the flag doesn't exist, and no default value is provided, return undefined", ({ expect }) => {
+    const flags = {};
     const client = new InMemoryLaunchDarklyClient(flags);
 
     const runtime = new DummyRuntime({
@@ -129,15 +131,11 @@ test.concurrent("when the flag doesn't exist, and not default value is provided,
 });
 
 test.concurrent("when the flag value is updated, return the updated value", async ({ expect }) => {
-    const flags = new Map(Object.entries({
+    const flags = {
         "flag-a": true
-    }));
+    };
 
-    const notifier = new LaunchDarklyClientNotifier();
-
-    const client = new InMemoryLaunchDarklyClient(flags, {
-        notifier
-    });
+    const client = new InMemoryLaunchDarklyClient(flags);
 
     const runtime = new DummyRuntime({
         loggers: [new NoopLogger()],
@@ -150,9 +148,7 @@ test.concurrent("when the flag value is updated, return the updated value", asyn
 
     expect(result.current).toBeTruthy();
 
-    flags.set("flag-a", false);
-
-    notifier.notify("change", {
+    client.setFeatureFlags({
         "flag-a": false
     });
 
@@ -164,15 +160,11 @@ test.concurrent("when the flag value is updated, return the updated value", asyn
 });
 
 test.concurrent("when another flag value is updated, do not update the value", async ({ expect }) => {
-    const flags = new Map(Object.entries({
+    const flags = {
         "flag-a": true
-    }));
+    };
 
-    const notifier = new LaunchDarklyClientNotifier();
-
-    const client = new InMemoryLaunchDarklyClient(flags, {
-        notifier
-    });
+    const client = new InMemoryLaunchDarklyClient(flags);
 
     const runtime = new DummyRuntime({
         loggers: [new NoopLogger()],
@@ -185,9 +177,7 @@ test.concurrent("when another flag value is updated, do not update the value", a
 
     expect(result.current).toBeTruthy();
 
-    flags.set("flag-b", false);
-
-    notifier.notify("change", {
+    client.setFeatureFlags({
         "flag-b": false
     });
 
@@ -196,37 +186,4 @@ test.concurrent("when another flag value is updated, do not update the value", a
     });
 
     expect(renderCountAccessor()).toBe(1);
-});
-
-test.concurrent("when a flag is deleted, return undefined", async ({ expect }) => {
-    const flags = new Map(Object.entries({
-        "flag-a": true
-    }));
-
-    const notifier = new LaunchDarklyClientNotifier();
-
-    const client = new InMemoryLaunchDarklyClient(flags, {
-        notifier
-    });
-
-    const runtime = new DummyRuntime({
-        loggers: [new NoopLogger()],
-        plugins: [
-            x => new LaunchDarklyPlugin(x, client)
-        ]
-    });
-
-    const [{ result }] = renderUseFeatureFlagHook(runtime, "flag-a");
-
-    expect(result.current).toBeTruthy();
-
-    flags.delete("flag-a");
-
-    notifier.notify("change", {
-        "flag-a": undefined
-    });
-
-    await waitFor(() => {
-        expect(result.current).toBeUndefined();
-    });
 });

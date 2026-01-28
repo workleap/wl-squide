@@ -7,24 +7,26 @@ declare module "@squide/launch-darkly" {
     interface FeatureFlags {
         "flag-a": boolean;
         "flag-b": boolean;
+        "flag-c": boolean;
+        "flag-d": boolean;
     }
 }
 
 test.concurrent("initially set the client flags as the current snapshot", ({ expect }) => {
-    const flags = new Map(Object.entries({
+    const flags = {
         "flag-a": true
-    }));
+    };
 
     const client = new InMemoryLaunchDarklyClient(flags);
     const snapshot = new FeatureFlagSetSnapshot(client);
 
-    expect(snapshot.value).toEqual(Object.fromEntries(flags));
+    expect(snapshot.value).toEqual(flags);
 });
 
 test.concurrent("when the flags are retrieved twice, the same snapshot object is returned", ({ expect }) => {
-    const flags = new Map(Object.entries({
+    const flags = {
         "flag-a": true
-    }));
+    };
 
     const client = new InMemoryLaunchDarklyClient(flags);
     const snapshot = new FeatureFlagSetSnapshot(client);
@@ -36,10 +38,10 @@ test.concurrent("when the flags are retrieved twice, the same snapshot object is
 });
 
 test.concurrent("when the client flags change, the snapshot is updated", ({ expect }) => {
-    const flags = new Map(Object.entries({
+    const flags = {
         "flag-a": true,
         "flag-b": true
-    }));
+    };
 
     const client = new InMemoryLaunchDarklyClient(flags);
     const snapshot = new FeatureFlagSetSnapshot(client);
@@ -58,10 +60,10 @@ test.concurrent("when the client flags change, the snapshot is updated", ({ expe
 });
 
 test.concurrent("can add listeners", ({ expect }) => {
-    const flags = new Map(Object.entries({
+    const flags = {
         "flag-a": true,
         "flag-b": true
-    }));
+    };
 
     const client = new InMemoryLaunchDarklyClient(flags);
     const snapshot = new FeatureFlagSetSnapshot(client);
@@ -79,16 +81,23 @@ test.concurrent("can add listeners", ({ expect }) => {
     // Must use "setFeatureFlags" rather than a custom notifier because of InMemoryLaunchDarklyClient "object literal snapshot".
     client.setFeatureFlags(changes);
 
+    const changeset = {
+        "flag-b": {
+            current: false,
+            previous: true
+        }
+    };
+
     // Fake clients do not compute the changes as the Launch Darkly SDK client does, so we receive undefined.
-    expect(listener1).toHaveBeenCalledExactlyOnceWith(expect.objectContaining(changes), undefined);
-    expect(listener2).toHaveBeenCalledExactlyOnceWith(expect.objectContaining(changes), undefined);
+    expect(listener1).toHaveBeenCalledExactlyOnceWith(expect.objectContaining(changes), changeset);
+    expect(listener2).toHaveBeenCalledExactlyOnceWith(expect.objectContaining(changes), changeset);
 });
 
 test.concurrent("can remove listeners", ({ expect }) => {
-    const flags = new Map(Object.entries({
+    const flags = {
         "flag-a": true,
         "flag-b": true
-    }));
+    };
 
     const notifier = new LaunchDarklyClientNotifier();
 

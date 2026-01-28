@@ -17,9 +17,9 @@
         "@storybook/addon-a11y": "10.2.0",
         "msw": "2.12.7",
         "msw-storybook-addon": "2.0.6",
-        "react": "19.2.3",
-        "react-dom": "19.2.3",
-        "react-router": "7.12.0",
+        "react": "19.2.4",
+        "react-dom": "19.2.4",
+        "react-router": "7.13.0",
         "storybook": "10.2.0",
         "storybook-react-rsbuild": "3.2.2"
     },
@@ -28,15 +28,15 @@
         "@rsbuild/core": "1.7.2",
         "@types/react": "19.2.9",
         "@types/react-dom": "19.2.3",
-        "@typescript-eslint/parser": "8.53.1",
-        "@typescript/native-preview": "7.0.0-dev.20260122.4",
+        "@typescript-eslint/parser": "8.54.0",
+        "@typescript/native-preview": "7.0.0-dev.20260127.1",
         "@workleap/eslint-configs": "1.1.10",
         "@workleap/rsbuild-configs": "3.2.0",
         "@workleap/typescript-configs": "3.0.7",
         "eslint": "9.39.2",
         "http-server": "14.1.1",
         "typescript": "5.9.3",
-        "typescript-eslint": "8.53.1"
+        "typescript-eslint": "8.54.0"
     },
     "msw": {
         "workerDirectory": [
