@@ -1,7 +1,7 @@
 {
     "name": "@squide/i18next",
     "author": "Workleap",
-    "version": "2.5.12",
+    "version": "2.5.13",
     "description": "Add support for i18next to @squide application shell.",
     "license": "Apache-2.0",
     "repository": {

@@ -1,5 +1,16 @@
 # @squide/launch-darkly
 
+## 1.0.5
+
+### Patch Changes
+
+- [#373](https://github.com/workleap/wl-squide/pull/373) [`f9138cc`](https://github.com/workleap/wl-squide/commit/f9138cc4bd0a1d175ad4bd7e695d1edd7fbe4c1c) Thanks [@alexasselin008](https://github.com/alexasselin008)! - - `InMemoryLaunchDarklyClient` now support updating feature flags at runtime via `setFeatureFlags` methods.
+  - `InMemoryLaunchDarklyClient` now automatically notifies subscribers of feature flag changes using `LaunchDarklyClientNotifier`.
+  - Added `LocalStorageLaunchDarklyClient`, an implementation that persist feature flags to the local storage.
+  - Bumped dependencies.
+- Updated dependencies [[`f9138cc`](https://github.com/workleap/wl-squide/commit/f9138cc4bd0a1d175ad4bd7e695d1edd7fbe4c1c)]:
+  - @squide/core@6.1.11
+
 ## 1.0.4
 
 ### Patch Changes
