@@ -72,13 +72,29 @@ import { useIsRouteProtected } from "@squide/firefly";
 const isProtected = useIsRouteProtected();
 ```
 
-### useRouteMatch(path)
-Check if current route matches a path.
+### useRouteMatch(locationArg, options?)
+Match a location against registered routes using React Router's matching algorithm.
 
 ```ts
 import { useRouteMatch } from "@squide/firefly";
-const matches = useRouteMatch("/users/*");
+import { useLocation } from "react-router/dom";
+
+// Using useLocation
+const location = useLocation();
+const activeRoute = useRouteMatch(location);
+
+// Using window.location
+const activeRoute = useRouteMatch(window.location);
+
+// With throwWhenThereIsNoMatch option
+const activeRoute = useRouteMatch(location, { throwWhenThereIsNoMatch: true });
 ```
+
+**Parameters:**
+- `locationArg`: The location to match against routes
+- `options.throwWhenThereIsNoMatch`: If true, throws an Error when no route matches (default: false)
+
+**Returns:** A `Route` object if there's a match, `undefined` otherwise (or throws if `throwWhenThereIsNoMatch` is true)
 
 ## Data Fetching Hooks
 

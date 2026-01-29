@@ -387,7 +387,7 @@ import { renderHook } from "@testing-library/react";
 
 test("hook uses environment variable", () => {
     const runtime = new FireflyRuntime({
-        plugins: [() => new EnvironmentVariablesPlugin({
+        plugins: [x => new EnvironmentVariablesPlugin(x, {
             variables: { apiUrl: "https://test.api" }
         })]
     });

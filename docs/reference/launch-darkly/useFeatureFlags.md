@@ -27,7 +27,7 @@ A set of feature flags.
 ## Usage
 
 ```ts !#3
-import { useFeatureFlags } from "@squide-firefly";
+import { useFeatureFlags } from "@squide/firefly";
 
 const flags = useFeatureFlags();
 ```
