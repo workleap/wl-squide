@@ -306,6 +306,14 @@ export class LocalModuleRegistry implements ModuleRegistry {
         this.#statusChangedListeners.delete(callback);
     }
 
+    setAsReady() {
+        if (this.#registrationStatus !== "none") {
+            throw new Error(`[squide] Cannot set a module registry as "ready" when registrations are already in progress. The registry current status is "${this.#registrationStatus}".`);
+        }
+
+        this.#setRegistrationStatus("ready");
+    }
+
     #setRegistrationStatus(status: ModuleRegistrationStatus) {
         this.#registrationStatus = status;
 

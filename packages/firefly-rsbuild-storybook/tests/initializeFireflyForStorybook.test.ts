@@ -68,3 +68,11 @@ test.concurrent("when feature flags are provided, the feature flags are availabl
 
     expect(runtime.getFeatureFlag("flag-a")).toBeTruthy();
 });
+
+test.concurrent("when no local modules are provided, modules are ready", async ({ expect }) => {
+    const runtime = await initializeFireflyForStorybook({
+        loggers: [new NoopLogger()]
+    });
+
+    await vi.waitFor(() => expect(runtime.moduleManager.getAreModulesReady()).toBeTruthy());
+});

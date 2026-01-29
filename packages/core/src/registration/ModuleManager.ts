@@ -184,4 +184,10 @@ export class ModuleManager {
     get listenersCount() {
         return this.listenerRefs.size;
     }
+
+    setAsReady() {
+        this.moduleRegistries.forEach(x => {
+            x.setAsReady();
+        });
+    }
 }

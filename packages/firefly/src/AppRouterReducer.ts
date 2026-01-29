@@ -78,6 +78,7 @@ function reducer(state: AppRouterState, action: AppRouterAction) {
         case "modules-ready": {
             newState = {
                 ...newState,
+                areModulesRegistered: true,
                 areModulesReady: true,
                 // Will be set even if the app is not using deferred registrations.
                 deferredRegistrationsUpdatedAt: Date.now()

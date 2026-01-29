@@ -12,6 +12,7 @@ export interface InitializeFireflyForStorybookOptions {
     featureFlags?: Partial<FeatureFlags>;
     launchDarklyClient?: LDClient;
     loggers?: RootLogger[];
+    useMsw?: boolean;
 }
 
 function logInitializationState(
@@ -73,20 +74,24 @@ function logInitializationState(
 
 export async function initializeFireflyForStorybook(options: InitializeFireflyForStorybookOptions = {}) {
     const {
-        localModules,
+        localModules = [],
         environmentVariables,
         featureFlags = {},
         launchDarklyClient,
-        loggers
+        loggers,
+        useMsw = true
     } = options;
 
     const plugins: PluginFactory<FireflyRuntime>[] = [
-        x => new MswPlugin(x),
         x => new EnvironmentVariablesPlugin(x, {
             variables: environmentVariables
         }),
         x => new LaunchDarklyPlugin(x, launchDarklyClient ?? new InMemoryLaunchDarklyClient(featureFlags))
     ];
+
+    if (useMsw) {
+        plugins.push(x => new MswPlugin(x));
+    }
 
     const runtime = new StorybookRuntime({
         mode: "development",
@@ -96,10 +101,16 @@ export async function initializeFireflyForStorybook(options: InitializeFireflyFo
 
     logInitializationState(runtime, options, plugins);
 
-    if (localModules && localModules.length > 0) {
+    if (localModules.length > 0) {
         await runtime.moduleManager.registerModules([
             ...toLocalModuleDefinitions(localModules)
         ]);
+    } else {
+        // There's a possibility that either no local modules are provided.
+        // This use case is hard to catch at the module manager level because it could also
+        // mean that the registration process hasn't started yet.
+        // This is safer to handle it here because we got all the modules functions.
+        runtime.moduleManager.setAsReady();
     }
 
     return runtime;
