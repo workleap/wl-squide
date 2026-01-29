@@ -382,6 +382,11 @@ runtime.registerRoute({
 - `useIsRouteProtected(route)`: Check if a route is protected
 - `useRouteMatch(locationArg, options?)`: Match route against location
 
+### i18next Hooks (from `@squide/i18next`)
+- `useI18nextInstance(key)`: Get a registered i18next instance by key
+- `useCurrentLanguage()`: Get current language
+- `useChangeLanguage()`: Get function to change language
+
 ### Helper Functions
 - `isNavigationLink(item)`: Type guard for navigation links
 - `isGlobalDataQueriesError(error)`: Type guard for query errors
@@ -395,6 +400,6 @@ runtime.registerRoute({
 - `FeatureFlags`: TypeScript interface for type-safe feature flags (augmentable)
 - `FeatureFlagSetSnapshot`: Memoized snapshot of feature flags with change listeners
 - `InMemoryLaunchDarklyClient`: In-memory client for testing
-- `createLocalStorageLaunchDarklyClient(storageKey, defaults, options?)`: Client that persists flags to localStorage
+- `createLocalStorageLaunchDarklyClient(defaultValues, options?)`: Client that persists flags to localStorage (options: `{ localStorageKey?, context?, notifier? }`)
 
 For detailed API documentation, see the references folder.

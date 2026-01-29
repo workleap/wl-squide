@@ -316,21 +316,31 @@ import { MyPlugin } from "@sample/my-plugin";
 const plugin = usePlugin(MyPlugin.name) as MyPlugin;
 ```
 
-## i18next Hooks
+## i18next Hooks (from `@squide/i18next`)
 
-### useI18nextInstance()
-Get the i18next instance.
+### useI18nextInstance(key)
+Get a registered i18next instance by key.
 
 ```ts
-import { useI18nextInstance } from "@squide/firefly";
-const i18n = useI18nextInstance();
+import { useI18nextInstance } from "@squide/i18next";
+const i18n = useI18nextInstance("an-instance-key");
+```
+
+Use with the `useTranslation` hook:
+
+```ts
+import { useI18nextInstance } from "@squide/i18next";
+import { useTranslation } from "react-i18next";
+
+const instance = useI18nextInstance("an-instance-key");
+const { t } = useTranslation("a-namespace", { i18n: instance });
 ```
 
 ### useCurrentLanguage()
 Get the current language.
 
 ```ts
-import { useCurrentLanguage } from "@squide/firefly";
+import { useCurrentLanguage } from "@squide/i18next";
 const language = useCurrentLanguage();
 ```
 
@@ -338,7 +348,7 @@ const language = useCurrentLanguage();
 Get function to change language.
 
 ```ts
-import { useChangeLanguage } from "@squide/firefly";
+import { useChangeLanguage } from "@squide/i18next";
 const changeLanguage = useChangeLanguage();
-await changeLanguage("fr");
+changeLanguage("fr-CA");
 ```

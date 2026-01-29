@@ -164,7 +164,7 @@ Placeholder component indicating where protected routes will be rendered.
 
 See `PublicRoutes` above - they are typically used together.
 
-## I18nextNavigationItemLabel
+## I18nextNavigationItemLabel (from `@squide/i18next`)
 
 Component for rendering localized navigation item labels.
 
@@ -173,38 +173,58 @@ Component for rendering localized navigation item labels.
 | Prop | Type | Description |
 |------|------|-------------|
 | `i18next` | `i18n` | i18next instance |
+| `namespace` | `string` | Optional namespace (default: `"navigationItems"`) |
 | `resourceKey` | `string` | Translation key |
 
 ### Usage
 
 ```tsx
-import { I18nextNavigationItemLabel } from "@squide/firefly";
+import { I18nextNavigationItemLabel } from "@squide/i18next";
 
 runtime.registerNavigationItem({
     $id: "home",
-    $label: <I18nextNavigationItemLabel i18next={i18n} resourceKey="nav.home" />,
+    $label: <I18nextNavigationItemLabel i18next={i18nextInstance} resourceKey="nav.home" />,
     to: "/"
 });
 ```
 
-## Storybook Components
+With a custom namespace:
+
+```tsx
+runtime.registerNavigationItem({
+    $id: "about",
+    $label: <I18nextNavigationItemLabel i18next={i18nextInstance} namespace="another-namespace" resourceKey="aboutPage" />,
+    to: "/about"
+});
+```
+
+## Storybook Components (from `@squide/firefly-rsbuild-storybook`)
 
 ### FireflyDecorator
 
-Decorator for wrapping Storybook stories with Squide context.
+Decorator for wrapping Storybook stories with Squide context, including a RouterProvider.
 
 ```tsx
-import { FireflyDecorator, initializeFireflyForStorybook } from "@squide/firefly";
+import { FireflyDecorator, initializeFireflyForStorybook } from "@squide/firefly-rsbuild-storybook";
 
-const runtime = initializeFireflyForStorybook();
+const runtime = await initializeFireflyForStorybook({
+    localModules: [registerModule]
+});
 
-export const decorators = [
-    (Story) => (
-        <FireflyDecorator runtime={runtime}>
-            <Story />
-        </FireflyDecorator>
-    )
-];
+const meta = {
+    decorators: [
+        story => (
+            <FireflyDecorator runtime={runtime}>
+                {story()}
+            </FireflyDecorator>
+        )
+    ],
+    parameters: {
+        msw: {
+            handlers: [...runtime.requestHandlers]
+        }
+    }
+};
 ```
 
 ### withFireflyDecorator
@@ -212,27 +232,45 @@ export const decorators = [
 Factory function for creating the FireflyDecorator.
 
 ```tsx
-import { withFireflyDecorator } from "@squide/firefly";
+import { withFireflyDecorator, initializeFireflyForStorybook } from "@squide/firefly-rsbuild-storybook";
 
-export const decorators = [
-    withFireflyDecorator(runtime)
-];
+const runtime = await initializeFireflyForStorybook({
+    localModules: [registerModule]
+});
+
+const meta = {
+    decorators: [
+        withFireflyDecorator(runtime)
+    ],
+    parameters: {
+        msw: {
+            handlers: [...runtime.requestHandlers]
+        }
+    }
+};
 ```
 
 ### withFeatureFlagsOverrideDecorator
 
-Decorator for overriding feature flags in stories.
+Decorator for overriding feature flags in stories. Overrides the initial flag values while the story renders and restores them after.
 
 ```tsx
-import { withFeatureFlagsOverrideDecorator } from "@squide/firefly";
+import { withFeatureFlagsOverrideDecorator, initializeFireflyForStorybook, withFireflyDecorator } from "@squide/firefly-rsbuild-storybook";
 
-// Global override
-export const decorators = [
-    withFeatureFlagsOverrideDecorator({ "feature-key": true })
-];
+const runtime = await initializeFireflyForStorybook({
+    featureFlags: {
+        "feature-key": true
+    }
+});
+
+const meta = {
+    decorators: [
+        withFireflyDecorator(runtime)
+    ]
+};
 
 // Per-story override
-export const MyStory = {
+export const WithFeatureDisabled = {
     decorators: [
         withFeatureFlagsOverrideDecorator({ "feature-key": false })
     ]
@@ -304,12 +342,15 @@ const isEnabled = getFeatureFlag(launchDarklyClient, "feature-key", false);
 
 ### initializeFireflyForStorybook
 
-Create a FireflyRuntime instance configured for Storybook.
+Create a StorybookRuntime instance configured for Storybook.
 
 ```tsx
-import { initializeFireflyForStorybook } from "@squide/firefly";
+import { initializeFireflyForStorybook } from "@squide/firefly-rsbuild-storybook";
 
-const runtime = initializeFireflyForStorybook({
-    environmentVariables: { apiUrl: "https://mock.api" }
+const runtime = await initializeFireflyForStorybook({
+    localModules: [registerModule],
+    environmentVariables: { apiUrl: "https://mock.api" },
+    featureFlags: { "my-feature": true },
+    useMsw: true  // Default is true
 });
 ```

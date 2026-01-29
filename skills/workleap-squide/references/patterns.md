@@ -407,11 +407,11 @@ test("hook uses environment variable", () => {
 ### Testing with Feature Flags
 
 ```tsx
-import { InMemoryLaunchDarklyClient, LaunchDarklyPlugin } from "@squide/firefly";
+import { InMemoryLaunchDarklyClient, LaunchDarklyPlugin, FireflyProvider, FireflyRuntime } from "@squide/firefly";
 
 test("feature is hidden when flag is off", () => {
-    const flags = new Map([["show-feature", false]]);
-    const ldClient = new InMemoryLaunchDarklyClient(flags);
+    const featureFlags = { "show-feature": false };
+    const ldClient = new InMemoryLaunchDarklyClient(featureFlags);
 
     const runtime = new FireflyRuntime({
         plugins: [x => new LaunchDarklyPlugin(x, ldClient)]
