@@ -15,14 +15,14 @@ A runtime instance give modules access to functionalities such as routing, navig
 ## Reference
 
 ```ts
-const runtime = new FireflyRuntime(options?: { mode?, honeycombInstrumentationClient?, loggers?, plugins? })
+const runtime = new FireflyRuntime(options?: { mode?, environmentVariables?, honeycombInstrumentationClient?, launchDarklyClient?, loggers?, plugins? })
 ```
 
 ### Parameters
 
 - `options`: An optional object literal of options:
     - `mode`: An optional mode to optimize Squide for production. Values are `"development"` (default) and `"production"`.
-    - `environmentVariables`: Retrieve all the environment variables.
+    - `environmentVariables`: An optional object literal of environment variables to register.
     - `honeycombInstrumentationClient`: An optional Honeycomb instrumentation client for tracing the Squide bootstrapping flow.
     - `launchDarklyClient`: An optional LaunchDarkly client.
     - `loggers`: An optional array of `Logger` instances.
@@ -53,6 +53,7 @@ const runtime = new FireflyRuntime(options?: { mode?, honeycombInstrumentationCl
 - `logger`: Retrieve the runtime logger.
 - `eventBus`: Retrieve the runtime event bus.
 - `plugins`: Retrieve the registered plugins.
+- `environmentVariables`: Retrieve all the environment variables.
 
 ## Usage
 
@@ -587,7 +588,7 @@ const flags = runtime.featureFlags;
 ### Retrieve LaunchDarkly client
 
 ```ts !#1
-const client = runtime.launchDarkClient;
+const client = runtime.launchDarklyClient;
 ```
 
 ### Register a plugin
