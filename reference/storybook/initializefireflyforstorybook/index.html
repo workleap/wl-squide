@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <meta name="turbo-root" content="/wl-squide">
-    <meta name="turbo-cache-control" content="no-cache" data-turbo-track="reload" data-track-token="3.12.0-preview2.822969817172">
+    <meta name="turbo-cache-control" content="no-cache" data-turbo-track="reload" data-track-token="3.12.0-preview2.823053685096">
 
     <!-- See retype.com -->
     <meta name="generator" content="Retype 3.12.0-preview2">
@@ -32,12 +32,12 @@
     <script data-cfasync="false">(function(){var cl=document.documentElement.classList,ls=localStorage.getItem("retype_scheme"),hd=cl.contains("dark"),hl=cl.contains("light"),wm=window.matchMedia&&window.matchMedia("(prefers-color-scheme: dark)").matches;if(ls==="dark"||(!ls&&wm&&!hd&&!hl)){cl.remove("light");cl.add("dark")}else if(ls==="light"||(!ls&&!wm&&!hd&&!hl)){cl.remove("dark");cl.add("light")}})();</script>
 
     <link id="retype-favicon" rel="icon" href="../../../static/favicon.png" />
-    <link href="../../../resources/css/retype.css?v=3.12.0-preview2.822969817172" rel="stylesheet">
+    <link href="../../../resources/css/retype.css?v=3.12.0-preview2.823053685096" rel="stylesheet">
 
-    <script data-cfasync="false" src="../../../resources/js/config.js?v=3.12.0-preview2.822969817172" data-turbo-eval="false" defer></script>
+    <script data-cfasync="false" src="../../../resources/js/config.js?v=3.12.0-preview2.823053685096" data-turbo-eval="false" defer></script>
     <script data-cfasync="false" src="../../../resources/js/retype.js?v=3.12.0-preview2" data-turbo-eval="false" defer></script>
-    <script id="lunr-js" data-cfasync="false" src="../../../resources/js/lunr.js?v=3.12.0-preview2.822969817172" data-turbo-eval="false" defer></script>
-    <script id="prism-js" data-cfasync="false" src="../../../resources/js/prism.js?v=3.12.0-preview2.822969817172" defer></script>
+    <script id="lunr-js" data-cfasync="false" src="../../../resources/js/lunr.js?v=3.12.0-preview2.823053685096" data-turbo-eval="false" defer></script>
+    <script id="prism-js" data-cfasync="false" src="../../../resources/js/prism.js?v=3.12.0-preview2.823053685096" defer></script>
 
     <link href="https://workleap.github.io/wl-idp-docs-hub/static/retype-customization.css" rel="stylesheet" />
 
@@ -299,7 +299,7 @@
     </h2>
 </doc-anchor-target>
 <div class="codeblock-wrapper"><doc-codeblock>
-<pre translate="no" class="language-typescript"><code v-pre class="language-typescript">const runtime = initializeFireflyForStorybook(options?: { localModules?, environmentVariables?, featureFlags?, launchDarklyClient?, loggers? })</code></pre>
+<pre translate="no" class="language-typescript"><code v-pre class="language-typescript">const runtime = initializeFireflyForStorybook(options?: { localModules?, environmentVariables?, featureFlags?, launchDarklyClient?, loggers?, useMsw? })</code></pre>
 </doc-codeblock></div>
 <doc-anchor-target id="parameters">
     <h3>
@@ -315,6 +315,7 @@
 <li><code translate="no" v-pre>featureFlags</code>: An optional Map instance of feature flags.</li>
 <li><code translate="no" v-pre>launchDarklyClient</code>: An optional LaunchDarkly client to override the default client.</li>
 <li><code translate="no" v-pre>loggers</code>: An optional array of logger instances.</li>
+<li><code translate="no" v-pre>useMsw</code>: An optional <code translate="no" v-pre>boolean</code> value indicating whether or not to create the runtime with <a href="https://mswjs.io/" class="outbound" target="_blank">Mock Service Work</a> (MSW) support. Default is <code translate="no" v-pre>true</code>.</li>
 </ul>
 </li>
 </ul>
@@ -366,16 +367,12 @@ const runtime = initializeFireflyForStorybook({
     </h3>
 </doc-anchor-target>
 <div class="codeblock-wrapper"><doc-codeblock>
-<pre translate="no" class="language-typescript" data-line="10"><code v-pre class="language-typescript">import { initializeFireflyForStorybook } from &quot;@squide/firefly-rsbuild-storybook&quot;;
-
-// This syntax with the nested arrays and &quot;as const&quot; is super important to get type safety when
-// using the &quot;withFeatureFlagsOverrideDecorator&quot; decorator.
-const featureFlags = new Map([
-    [&quot;show-characters&quot;, true]
-] as const);
+<pre translate="no" class="language-typescript" data-line="4-6"><code v-pre class="language-typescript">import { initializeFireflyForStorybook } from &quot;@squide/firefly-rsbuild-storybook&quot;;
 
 const runtime = initializeFireflyForStorybook({
-    featureFlags
+    featureFlags: {
+        &quot;show-characters&quot;: true
+    }
 });</code></pre>
 </doc-codeblock></div>
 <doc-anchor-target id="initialize-with-a-launchdarkly-client">
@@ -385,19 +382,29 @@ const runtime = initializeFireflyForStorybook({
     </h3>
 </doc-anchor-target>
 <div class="codeblock-wrapper"><doc-codeblock>
-<pre translate="no" class="language-typescript" data-line="13"><code v-pre class="language-typescript">import { initializeFireflyForStorybook } from &quot;@squide/firefly-rsbuild-storybook&quot;;
+<pre translate="no" class="language-typescript" data-line="10"><code v-pre class="language-typescript">import { initializeFireflyForStorybook } from &quot;@squide/firefly-rsbuild-storybook&quot;;
 import { InMemoryLaunchDarklyClient } from &quot;@squide/firefly&quot;;
-
-// This syntax with the nested arrays and &quot;as const&quot; is super important to get type safety when
-// using the &quot;withFeatureFlagsOverrideDecorator&quot; decorator.
-const featureFlags = new Map([
-    [&quot;show-characters&quot;, true]
-] as const);
 
 const launchDarklyClient = new InMemoryLaunchDarklyClient(featureFlags);
 
 const runtime = initializeFireflyForStorybook({
+    featureFlags: {
+        &quot;show-characters&quot;: true
+    },
     launchDarklyClient
+});</code></pre>
+</doc-codeblock></div>
+<doc-anchor-target id="initialize-without-msw-support">
+    <h3>
+        <doc-anchor-trigger class="header-anchor-trigger" to="#initialize-without-msw-support">#</doc-anchor-trigger>
+        <span>Initialize without MSW support</span>
+    </h3>
+</doc-anchor-target>
+<div class="codeblock-wrapper"><doc-codeblock>
+<pre translate="no" class="language-typescript" data-line="4"><code v-pre class="language-typescript">import { initializeFireflyForStorybook } from &quot;@squide/firefly-rsbuild-storybook&quot;;
+
+const runtime = initializeFireflyForStorybook({
+    useMsw: false
 });</code></pre>
 </doc-codeblock></div>
 
