@@ -22,7 +22,7 @@ const runtime = initializeFireflyForStorybook(options?: { localModules?, environ
     - `featureFlags`: An optional Map instance of feature flags.
     - `launchDarklyClient`: An optional LaunchDarkly client to override the default client.
     - `loggers`: An optional array of logger instances.
-    - `useMsw`: An optional `boolean` value indicating whether or not to create the runtime with [Mock Service Work](https://mswjs.io/) (MSW) support. Default is `true`,
+    - `useMsw`: An optional `boolean` value indicating whether or not to create the runtime with [Mock Service Work](https://mswjs.io/) (MSW) support. Default is `true`.
 ### Returns
 
 A `StorybookRuntime` instance.
@@ -81,10 +81,8 @@ const runtime = initializeFireflyForStorybook({
 
 ### Initialize without MSW support
 
-```ts !#6
+```ts !#4
 import { initializeFireflyForStorybook } from "@squide/firefly-rsbuild-storybook";
-
-const launchDarklyClient = new InMemoryLaunchDarklyClient(featureFlags);
 
 const runtime = initializeFireflyForStorybook({
     useMsw: false

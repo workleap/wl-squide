@@ -24,7 +24,8 @@ function logInitializationState(
         localModules,
         environmentVariables,
         featureFlags,
-        launchDarklyClient
+        launchDarklyClient,
+        useMsw
     } = options;
     const scope = (runtime.logger as RootLogger).startScope("[squide] Initializing the application.");
 
@@ -38,7 +39,7 @@ function logInitializationState(
                 .information();
         }
 
-        scope.information("[squide] Use MSW: Yes");
+        scope.information(`[squide] Use MSW: ${useMsw ? "Yes" : "No"}`);
 
         if (environmentVariables && Object.keys(environmentVariables).length > 0) {
             scope
