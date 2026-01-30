@@ -1,5 +1,12 @@
 # @squide/msw
 
+## 4.0.13
+
+### Patch Changes
+
+- Updated dependencies [[`4001ae7`](https://github.com/workleap/wl-squide/commit/4001ae75f7aea8ee124ce831f69a1f55a342cef5)]:
+  - @squide/core@6.1.12
+
 ## 4.0.12
 
 ### Patch Changes
