@@ -57,6 +57,10 @@ class DummyModuleRegistry implements ModuleRegistry {
         this.#statusChangedListeners.delete(callback);
     }
 
+    setAsReady(): void {
+        throw new Error("Method not implemented.");
+    }
+
     get registrationStatus(): ModuleRegistrationStatus {
         return this.#registrationStatus;
     }

@@ -78,6 +78,10 @@ describe.concurrent("registerModules", () => {
             throw new Error("Method not implemented.");
         }
 
+        setAsReady(): void {
+            throw new Error("Method not implemented.");
+        }
+
         get registrationStatus(): ModuleRegistrationStatus {
             throw new Error("Method not implemented.");
         }
@@ -238,6 +242,10 @@ describe.concurrent("registerDeferredRegistrations", () => {
             throw new Error("Method not implemented.");
         }
 
+        setAsReady(): void {
+            throw new Error("Method not implemented.");
+        }
+
         get registrationStatus(): ModuleRegistrationStatus {
             throw new Error("Method not implemented.");
         }
@@ -386,6 +394,10 @@ describe.concurrent("updateDeferredRegistrations", () => {
         }
 
         removeStatusChangedListener(): void {
+            throw new Error("Method not implemented.");
+        }
+
+        setAsReady(): void {
             throw new Error("Method not implemented.");
         }
 
@@ -548,6 +560,10 @@ describe.concurrent("getAreModulesRegistered", () => {
             throw new Error("Method not implemented.");
         }
 
+        setAsReady(): void {
+            throw new Error("Method not implemented.");
+        }
+
         get registrationStatus(): ModuleRegistrationStatus {
             return this.#registrationStatus;
         }
@@ -693,6 +709,10 @@ describe.concurrent("getAreModulesReady", () => {
         }
 
         removeStatusChangedListener(): void {
+            throw new Error("Method not implemented.");
+        }
+
+        setAsReady(): void {
             throw new Error("Method not implemented.");
         }
 
@@ -847,6 +867,10 @@ describe.concurrent("modules registered listeners", () => {
 
         get statusListenersCount() {
             return this.#statusChangedListeners.size;
+        }
+
+        setAsReady(): void {
+            throw new Error("Method not implemented.");
         }
 
         get registrationStatus(): ModuleRegistrationStatus {
@@ -1053,6 +1077,10 @@ describe.concurrent("modules ready listeners", () => {
 
         get statusListenersCount() {
             return this.#statusChangedListeners.size;
+        }
+
+        setAsReady(): void {
+            throw new Error("Method not implemented.");
         }
 
         get registrationStatus(): ModuleRegistrationStatus {

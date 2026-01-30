@@ -11,7 +11,7 @@ Create a runtime instance tailored for [Storybook](https://storybook.js.org/) an
 ## Reference
 
 ```ts
-const runtime = initializeFireflyForStorybook(options?: { localModules?, environmentVariables?, featureFlags?, launchDarklyClient?, loggers? })
+const runtime = initializeFireflyForStorybook(options?: { localModules?, environmentVariables?, featureFlags?, launchDarklyClient?, loggers?, useMsw? })
 ```
 
 ### Parameters
@@ -22,6 +22,7 @@ const runtime = initializeFireflyForStorybook(options?: { localModules?, environ
     - `featureFlags`: An optional Map instance of feature flags.
     - `launchDarklyClient`: An optional LaunchDarkly client to override the default client.
     - `loggers`: An optional array of logger instances.
+    - `useMsw`: An optional `boolean` value indicating whether or not to create the runtime with [Mock Service Work](https://mswjs.io/) (MSW) support. Default is `true`.
 ### Returns
 
 A `StorybookRuntime` instance.
@@ -52,37 +53,42 @@ const runtime = initializeFireflyForStorybook({
 
 ### Initialize with feature flags
 
-```ts !#10
+```ts !#4-6
 import { initializeFireflyForStorybook } from "@squide/firefly-rsbuild-storybook";
 
-// This syntax with the nested arrays and "as const" is super important to get type safety when
-// using the "withFeatureFlagsOverrideDecorator" decorator.
-const featureFlags = new Map([
-    ["show-characters", true]
-] as const);
-
 const runtime = initializeFireflyForStorybook({
-    featureFlags
+    featureFlags: {
+        "show-characters": true
+    }
 });
 ```
 
 ### Initialize with a LaunchDarkly client
 
-```ts !#13
+```ts !#10
 import { initializeFireflyForStorybook } from "@squide/firefly-rsbuild-storybook";
 import { InMemoryLaunchDarklyClient } from "@squide/firefly";
-
-// This syntax with the nested arrays and "as const" is super important to get type safety when
-// using the "withFeatureFlagsOverrideDecorator" decorator.
-const featureFlags = new Map([
-    ["show-characters", true]
-] as const);
 
 const launchDarklyClient = new InMemoryLaunchDarklyClient(featureFlags);
 
 const runtime = initializeFireflyForStorybook({
+    featureFlags: {
+        "show-characters": true
+    },
     launchDarklyClient
 });
 ```
+
+### Initialize without MSW support
+
+```ts !#4
+import { initializeFireflyForStorybook } from "@squide/firefly-rsbuild-storybook";
+
+const runtime = initializeFireflyForStorybook({
+    useMsw: false
+});
+```
+
+
 
 

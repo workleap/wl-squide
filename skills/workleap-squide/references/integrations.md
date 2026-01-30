@@ -223,16 +223,17 @@ snapshot.removeSnapshotChangedListener(listener);
 An in-memory client for testing without connecting to LaunchDarkly:
 
 ```tsx
-import { InMemoryLaunchDarklyClient, LaunchDarklyPlugin, initializeFirefly } from "@squide/firefly";
+import { InMemoryLaunchDarklyClient, LaunchDarklyPlugin } from "@squide/firefly";
+import { FireflyRuntime } from "@squide/firefly";
 
-const featureFlags = new Map([
-    ["feature-key", true],
-    ["another-feature", "value"]
-] as const);
+const featureFlags = {
+    "feature-key": true,
+    "another-feature": "value"
+};
 
 const ldClient = new InMemoryLaunchDarklyClient(featureFlags);
 
-const runtime = initializeFirefly({
+const runtime = new FireflyRuntime({
     plugins: [x => new LaunchDarklyPlugin(x, ldClient)]
 });
 
@@ -260,22 +261,30 @@ const ldClient = new InMemoryLaunchDarklyClient(featureFlags, {
 A client that persists feature flags to localStorage:
 
 ```ts
-import { createLocalStorageLaunchDarklyClient, LaunchDarklyPlugin, initializeFirefly } from "@squide/firefly";
+import { createLocalStorageLaunchDarklyClient, LaunchDarklyPlugin, FireflyRuntime } from "@squide/firefly";
 
-const defaultFeatureFlags = new Map([
-    ["feature-key", true],
-    ["another-feature", "default"]
-] as const);
+const defaultFeatureFlags = {
+    "feature-key": true,
+    "another-feature": "default"
+};
 
-const ldClient = createLocalStorageLaunchDarklyClient("my-app-flags", defaultFeatureFlags);
+const ldClient = createLocalStorageLaunchDarklyClient(defaultFeatureFlags);
 
-const runtime = initializeFirefly({
+const runtime = new FireflyRuntime({
     plugins: [x => new LaunchDarklyPlugin(x, ldClient)]
 });
 
 // Update flags (persisted to localStorage)
 ldClient.setFeatureFlags({
     "feature-key": false
+});
+```
+
+With custom storage key:
+
+```ts
+const ldClient = createLocalStorageLaunchDarklyClient(defaultFeatureFlags, {
+    localStorageKey: "my-app-flags"
 });
 ```
 
@@ -355,20 +364,39 @@ function BootstrappingRoute() {
 ### Setup Plugin
 
 ```ts
-import { i18nextPlugin } from "@squide/firefly";
-import i18next from "i18next";
+import { i18nextPlugin } from "@squide/i18next";
+import { FireflyRuntime } from "@squide/firefly";
 
-await i18next.init({ ... });
-
-const runtime = initializeFirefly({
-    plugins: [x => i18nextPlugin(x, i18next)]
+const runtime = new FireflyRuntime({
+    plugins: [x => {
+        const plugin = new i18nextPlugin(x, ["en-US", "fr-CA"], "en-US", "language");
+        plugin.detectUserLanguage();
+        return plugin;
+    }]
 });
+```
+
+### Register i18next Instance
+
+```ts
+import { i18nextPlugin, i18nextPluginName } from "@squide/i18next";
+import i18n from "i18next";
+
+const instance = i18n.createInstance({
+    resources: {
+        "en-US": resourcesEn,
+        "fr-CA": resourcesFr
+    }
+});
+
+const plugin = runtime.getPlugin(i18nextPluginName) as i18nextPlugin;
+plugin.registerInstance("an-instance-key", instance);
 ```
 
 ### Use in Components
 
 ```tsx
-import { useI18nextInstance, useCurrentLanguage, useChangeLanguage } from "@squide/firefly";
+import { useI18nextInstance, useCurrentLanguage, useChangeLanguage } from "@squide/i18next";
 
 function LanguageSwitcher() {
     const currentLanguage = useCurrentLanguage();
@@ -379,8 +407,8 @@ function LanguageSwitcher() {
             value={currentLanguage}
             onChange={e => changeLanguage(e.target.value)}
         >
-            <option value="en">English</option>
-            <option value="fr">French</option>
+            <option value="en-US">English</option>
+            <option value="fr-CA">French</option>
         </select>
     );
 }
@@ -389,11 +417,11 @@ function LanguageSwitcher() {
 ### Localized Navigation Labels
 
 ```tsx
-import { I18nextNavigationItemLabel } from "@squide/firefly";
+import { I18nextNavigationItemLabel } from "@squide/i18next";
 
 runtime.registerNavigationItem({
     $id: "home",
-    $label: <I18nextNavigationItemLabel i18next={i18next} resourceKey="nav.home" />,
+    $label: <I18nextNavigationItemLabel i18next={i18nextInstance} resourceKey="nav.home" />,
     to: "/"
 });
 ```
@@ -404,46 +432,47 @@ runtime.registerNavigationItem({
 
 ```tsx
 // .storybook/preview.tsx
-import { withFireflyDecorator, initializeFireflyForStorybook } from "@squide/firefly";
-import { MemoryRouter } from "react-router";
+import { withFireflyDecorator, initializeFireflyForStorybook } from "@squide/firefly-rsbuild-storybook";
 
-const runtime = initializeFireflyForStorybook();
+const runtime = await initializeFireflyForStorybook({
+    localModules: [registerModule]
+});
 
-export const decorators = [
-    withFireflyDecorator(runtime),
-    (Story) => (
-        <MemoryRouter>
-            <Story />
-        </MemoryRouter>
-    )
-];
+const meta = {
+    title: "Page",
+    component: Page,
+    decorators: [
+        withFireflyDecorator(runtime)
+    ],
+    parameters: {
+        msw: {
+            handlers: [...runtime.requestHandlers]
+        }
+    }
+};
 ```
 
 ### With Feature Flags
 
 ```tsx
-import { withFeatureFlagsOverrideDecorator } from "@squide/firefly";
+import { initializeFireflyForStorybook, withFireflyDecorator, withFeatureFlagsOverrideDecorator } from "@squide/firefly-rsbuild-storybook";
 
-export const decorators = [
-    withFeatureFlagsOverrideDecorator({
+const runtime = await initializeFireflyForStorybook({
+    featureFlags: {
         "feature-key": true
-    }),
-    withFireflyDecorator(runtime)
-];
-```
+    }
+});
 
-### Per-Story Feature Flags
-
-```tsx
-export const WithFeatureEnabled = {
+const meta = {
     decorators: [
-        withFeatureFlagsOverrideDecorator({ "my-feature": true })
+        withFireflyDecorator(runtime)
     ]
 };
 
+// Override per-story
 export const WithFeatureDisabled = {
     decorators: [
-        withFeatureFlagsOverrideDecorator({ "my-feature": false })
+        withFeatureFlagsOverrideDecorator({ "feature-key": false })
     ]
 };
 ```
@@ -451,10 +480,22 @@ export const WithFeatureDisabled = {
 ### With Environment Variables
 
 ```tsx
-const runtime = initializeFireflyForStorybook({
+import { initializeFireflyForStorybook } from "@squide/firefly-rsbuild-storybook";
+
+const runtime = await initializeFireflyForStorybook({
     environmentVariables: {
         apiBaseUrl: "https://mock-api.example.com"
     }
+});
+```
+
+### Without MSW Support
+
+```tsx
+import { initializeFireflyForStorybook } from "@squide/firefly-rsbuild-storybook";
+
+const runtime = await initializeFireflyForStorybook({
+    useMsw: false
 });
 ```
 

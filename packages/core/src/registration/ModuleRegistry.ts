@@ -23,5 +23,7 @@ export abstract class ModuleRegistry {
 
     abstract removeStatusChangedListener(callback: ModuleRegistrationStatusChangedListener): void;
 
+    abstract setAsReady(): void;
+
     abstract get registrationStatus(): ModuleRegistrationStatus;
 }
