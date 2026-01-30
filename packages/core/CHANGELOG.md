@@ -1,5 +1,11 @@
 # @squide/core
 
+## 6.1.12
+
+### Patch Changes
+
+- [#392](https://github.com/workleap/wl-squide/pull/392) [`4001ae7`](https://github.com/workleap/wl-squide/commit/4001ae75f7aea8ee124ce831f69a1f55a342cef5) Thanks [@patricklafrance](https://github.com/patricklafrance)! - `initializeFireflyForStorybook` now accept a `useMsw` option to opt-out of MSW and will now render as expected if no local modules are provided.
+
 ## 6.1.11
 
 ### Patch Changes

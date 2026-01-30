@@ -1,7 +1,7 @@
 {
     "name": "@squide/msw",
     "author": "Workleap",
-    "version": "4.0.12",
+    "version": "4.0.13",
     "description": "Add support for MSW to @squide application shell.",
     "license": "Apache-2.0",
     "repository": {
