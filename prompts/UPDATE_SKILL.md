@@ -1,4 +1,4 @@
-Review the `workleap-squide` skill you created in the `./skills/workleap-squide` directory and make sure that all API definition and examples match the current documentation available in the `./docs` folder. Ignore anything related to microfrontends, module federation, webpack or rsbuild. Do not make any mistake.
+Review the `workleap-squide` skill you created in the `./agent-skills/workleap-squide` directory and make sure that all API definition and examples match the current documentation available in the `./docs` folder. Ignore anything related to microfrontends, module federation, webpack, rsbuild or updates. Do not make any mistake.
 
 Validate that the skill can still answer the following questions:
 
