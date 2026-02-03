@@ -20,6 +20,12 @@ const customItems = useNavigationItems({ menuId: "custom-menu" });
 ### useRenderedNavigationItems(items, renderItem, renderSection)
 Transform navigation items into React elements.
 
+**Function Signatures (fixed, no custom parameters):**
+- `RenderItemFunction`: `(item: NavigationItemRenderProps, key: string, index: number, level: number) => ReactNode`
+- `RenderSectionFunction`: `(elements: ReactNode[], key: string, index: number, level: number) => ReactNode`
+
+**Note:** These functions do not accept custom context parameters. To access external values (like route params or location), use closures or React hooks within the component that calls `useRenderedNavigationItems`.
+
 ```ts
 import {
     useRenderedNavigationItems,
