@@ -145,6 +145,13 @@ export const register: ModuleRegisterFunction<FireflyRuntime, unknown, DeferredD
 
 ## Navigation Patterns
 
+- [Multi-Level Navigation](#multi-level-navigation)
+- [Nested Registration](#nested-registration-cross-module)
+- [Multiple Menus](#multiple-menus)
+- [Sorting with Priority](#sorting-with-priority)
+- [Active State Styling](#active-state-styling)
+- [Dynamic Route Segments](#dynamic-route-segments)
+
 ### Multi-Level Navigation
 
 ```tsx
@@ -220,7 +227,54 @@ runtime.registerNavigationItem({
 });
 ```
 
+### Active State Styling
+
+Use React Router's `NavLink` component for automatic active state handling:
+
+```tsx
+import { NavLink } from "react-router";
+import {
+    useNavigationItems,
+    useRenderedNavigationItems,
+    isNavigationLink,
+    type RenderItemFunction,
+    type RenderSectionFunction
+} from "@squide/firefly";
+
+const renderItem: RenderItemFunction = (item, key, index, level) => {
+    if (!isNavigationLink(item)) return null;
+    const { label, linkProps, additionalProps } = item;
+
+    return (
+        <li key={key}>
+            <NavLink
+                {...linkProps}
+                {...additionalProps}
+                className={({ isActive }) => isActive ? "nav-active" : "nav-link"}
+            >
+                {label}
+            </NavLink>
+        </li>
+    );
+};
+
+const renderSection: RenderSectionFunction = (elements, key, index, level) => (
+    <ul key={key}>{elements}</ul>
+);
+
+export function RootLayout() {
+    const navigationItems = useNavigationItems();
+    const navigationElements = useRenderedNavigationItems(navigationItems, renderItem, renderSection);
+
+    return (
+        <nav>{navigationElements}</nav>
+    );
+}
+```
+
 ### Dynamic Route Segments
+
+The `to` option can include dynamic segments (`/users/:userId/profile`). Use a closure to capture external values like route params, then resolve with `resolveRouteSegments`.
 
 ```tsx
 // Register with dynamic segment
@@ -229,19 +283,52 @@ runtime.registerNavigationItem({
     $label: "Profile",
     to: "/users/:userId/profile"
 }, { menuId: "user-menu" });
-
-// Resolve in renderer
-import { resolveRouteSegments } from "@squide/firefly";
-
-const renderItem = (item, key, userId) => {
-    const { to, ...linkProps } = item.linkProps;
-    return (
-        <Link to={resolveRouteSegments(to, { userId })} {...linkProps}>
-            {item.label}
-        </Link>
-    );
-};
 ```
+
+```tsx
+// Resolve in renderer using a closure to capture userId
+import { useParams } from "react-router";
+import {
+    useNavigationItems,
+    useRenderedNavigationItems,
+    isNavigationLink,
+    resolveRouteSegments,
+    type RenderItemFunction,
+    type RenderSectionFunction
+} from "@squide/firefly";
+
+// Higher-order function creates a RenderItemFunction with access to userId
+function createRenderItem(userId: string): RenderItemFunction {
+    return (item, key, index, level) => {
+        if (!isNavigationLink(item)) return null;
+        const { label, linkProps, additionalProps } = item;
+        const { to, ...rest } = linkProps;
+
+        return (
+            <li key={key}>
+                <Link to={resolveRouteSegments(to as string, { userId })} {...rest} {...additionalProps}>
+                    {label}
+                </Link>
+            </li>
+        );
+    };
+}
+
+const renderSection: RenderSectionFunction = (elements, key, index, level) => (
+    <ul key={key}>{elements}</ul>
+);
+
+export function UserProfileLayout() {
+    const { userId } = useParams();
+    const navigationItems = useNavigationItems({ menuId: "user-menu" });
+    // Pass the closure-generated function
+    const navigationElements = useRenderedNavigationItems(navigationItems, createRenderItem(userId!), renderSection);
+
+    return <nav>{navigationElements}</nav>;
+}
+```
+
+**Important:** The `RenderItemFunction` and `RenderSectionFunction` signatures are fixed as `(item, key, index, level)` and `(elements, key, index, level)` respectively. They do not accept custom context parameters. Use closures or React hooks to access external values.
 
 ## Data Fetching Patterns
 
