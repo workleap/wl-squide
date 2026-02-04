@@ -135,7 +135,7 @@ export const register: ModuleRegisterFunction<FireflyRuntime> = runtime => {
 
 ### Navigation Rendering
 
-**Important:** `RenderItemFunction` signature is `(item, key, index, level) => ReactNode` and `RenderSectionFunction` is `(elements, key, index, level) => ReactNode`. These signatures are fixed and do not accept custom context parameters, but there could fewer arguments. Use closures to access external values.
+**Important:** `RenderItemFunction` signature is `(item, key, index, level) => ReactNode` and `RenderSectionFunction` is `(elements, key, index, level) => ReactNode`. These signatures are fixed and do not accept custom context parameters, but there could be fewer arguments. Use closures to access external values.
 
 ```tsx
 import { Link, Outlet } from "react-router";
