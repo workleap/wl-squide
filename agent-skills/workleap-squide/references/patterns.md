@@ -287,7 +287,7 @@ runtime.registerNavigationItem({
 
 ```tsx
 // Resolve in renderer using a closure to capture userId
-import { useParams } from "react-router";
+import { useParams, Link } from "react-router";
 import {
     useNavigationItems,
     useRenderedNavigationItems,
@@ -328,7 +328,7 @@ export function UserProfileLayout() {
 }
 ```
 
-**Important:** The `RenderItemFunction` and `RenderSectionFunction` signatures are fixed as `(item, key, index, level)` and `(elements, key, index, level)` respectively. They do not accept custom context parameters. Use closures or React hooks to access external values.
+**Important:** The hook calls `RenderItemFunction` and `RenderSectionFunction` with `(item, key, index, level)` and `(elements, key, index, level)` respectively. Implementations may declare fewer parameters (for example `(item, key)`) and ignore the extra arguments, but they must not add additional custom context parameters. Use closures or React hooks to access external values instead.
 
 ## Data Fetching Patterns
 

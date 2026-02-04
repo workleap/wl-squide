@@ -135,7 +135,7 @@ export const register: ModuleRegisterFunction<FireflyRuntime> = runtime => {
 
 ### Navigation Rendering
 
-**Important:** `RenderItemFunction` signature is `(item, key, index, level) => ReactNode` and `RenderSectionFunction` is `(elements, key, index, level) => ReactNode`. These signatures are fixed and do not accept custom context parameters. Use closures to access external values.
+**Important:** `RenderItemFunction` signature is `(item, key, index, level) => ReactNode` and `RenderSectionFunction` is `(elements, key, index, level) => ReactNode`. These signatures are fixed and do not accept custom context parameters, but there could be fewer arguments. Use closures to access external values.
 
 ```tsx
 import { Link, Outlet } from "react-router";
@@ -414,6 +414,6 @@ When updating this skill from the official documentation, verify these common pi
 
 1. **`useRenderedNavigationItems` function signatures**: Must always be `(item, key, index, level)` and `(elements, key, index, level)`. These do NOT accept custom context parameters. If external values are needed (route params, location, etc.), use closures or React hooks - never suggest adding parameters to these functions.
 
-2. **Active state styling**: Use React Router's `NavLink` with its built-in `isActive` prop. Do not suggest passing location/pathname as a context parameter.
+2. **Active state styling**: Use React Router's `NavLink` and its `isActive` argument provided to the `className`/`style` render functions (for example, `className={({ isActive }) => ... }`). Do not suggest passing location/pathname as a context parameter.
 
 3. **Dynamic route segments**: Use the `resolveRouteSegments` helper with closures to capture values like `userId`. Example pattern: create a higher-order function that returns a `RenderItemFunction`.

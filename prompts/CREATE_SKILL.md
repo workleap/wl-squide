@@ -12,6 +12,7 @@ The skill must:
 * Not invent APIs, configuration options, or behaviors that are not documented.
 * Not suggest undocumented or deprecated usage patterns.
 * Ignore everything related to micro-frontends, module federation or bundlers (including Webpack and rsbuild).
+* Not have a description exceeding a maximum length of 1024 characters.
 
 The agent should assume:
 
