@@ -24,7 +24,7 @@ Transform navigation items into React elements.
 - `RenderItemFunction`: `(item: NavigationItemRenderProps, key: string, index: number, level: number) => ReactNode`
 - `RenderSectionFunction`: `(elements: ReactNode[], key: string, index: number, level: number) => ReactNode`
 
-**Note:** These functions do not accept custom context parameters. To access external values (like route params or location), use closures or React hooks within the component that calls `useRenderedNavigationItems`.
+**Note:** `useRenderedNavigationItems` invokes these callbacks with the arguments shown above, but your implementation may declare fewer parameters and ignore the rest (for example, `(item, key) => ...`). You cannot supply extra custom context parameters via `useRenderedNavigationItems`; instead, access external values (like route params or location) through closures or React hooks within the component that calls `useRenderedNavigationItems`.
 
 ```ts
 import {
