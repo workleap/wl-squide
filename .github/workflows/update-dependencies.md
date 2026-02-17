@@ -72,6 +72,10 @@ You MUST call exactly ONE safe-output tool before finishing:
 
 Do NOT call `mcp__safeoutputs__noop`. Do NOT finish without calling one of the two tools above.
 
+## No skipping steps
+
+You MUST execute every validation step (2a, 2b, 2c, 2d) in order. Do NOT skip any step for any reason (complexity, time, confidence, etc.). If a step is listed, it MUST be performed. The ONLY acceptable reason to not execute a step is if a previous step failed — in that case, go to Step 4 (Failure) after exhausting attempts.
+
 ---
 
 ## Step 1: Update dependencies
@@ -195,7 +199,16 @@ git commit -m "chore: update dependencies"
 Call the `mcp__safeoutputs__create_pull_request` tool with:
 
 - **title:** `update dependencies YYYY-MM-DD` (using today's date)
-- **body:** A summary of the dependency updates, including notable version changes.
+- **body:** The body MUST include the following sections:
+
+  1. **Summary**: A summary of the dependency updates, including notable version changes.
+  2. **Validation checklist**: An explicit checklist of every step completed with a checkmark. You MUST list every step individually:
+     - [ ] Step 2a: Linting
+     - [ ] Step 2b: Tests
+     - [ ] Step 2c: Endpoints sample app
+     - [ ] Step 2d: Storybook sample app
+
+  Mark each step with `[x]` if it passed. If a step was not executed, do NOT mark it as passed.
 
 Then STOP. You are done.
 
@@ -206,6 +219,13 @@ You have exhausted 10 validation attempts. Do NOT create a pull request. Do NOT 
 Call the `mcp__safeoutputs__create_issue` tool with:
 
 - **title:** `Cannot update dependencies`
-- **body:** Include: the date, which step(s) failed, error messages, relevant stack traces, and what fixes were attempted.
+- **body:** Include:
+  1. The date
+  2. **Validation checklist**: An explicit checklist showing which steps were attempted and their results:
+     - [ ] Step 2a: Linting
+     - [ ] Step 2b: Tests
+     - [ ] Step 2c: Endpoints sample app
+     - [ ] Step 2d: Storybook sample app
+  3. Which step(s) failed, error messages, relevant stack traces, and what fixes were attempted.
 
 Then STOP. You are done.
