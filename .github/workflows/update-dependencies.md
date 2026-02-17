@@ -15,13 +15,18 @@ engine:
   model: claude-sonnet-4-5-20250929
   max-turns: 200
 
+steps:
+  - name: Install pnpm
+    uses: pnpm/action-setup@v4
+    with:
+      run_install: false
+
 tools:
   bash:
     - "pnpm:*"
     - "git:*"
     - "node:*"
     - "pnpx:*"
-    - "corepack:*"
     - "kill:*"
     - "lsof:*"
     - "sleep:*"
@@ -46,14 +51,14 @@ safe-outputs:
 
 You are an automated agent responsible for updating the dependencies of this monorepo and validating that everything still works correctly.
 
-## Step 0: Setup pnpm
+**CRITICAL RULES:**
 
-The sandbox does not have pnpm pre-installed. Enable it via corepack (the `packageManager` field in `package.json` will determine the version):
-
-```bash
-corepack enable
-corepack install
-```
+- You MUST track the validation attempt count starting at 0.
+- After 10 failed validation attempts, you MUST immediately go to Step 4 (Failure). Do NOT keep retrying.
+- You MUST call exactly ONE of the following safe-output tools before finishing:
+  - `mcp__safeoutputs__create_pull_request` if validation passes (Step 3)
+  - `mcp__safeoutputs__create_issue` if validation fails after 10 attempts (Step 4)
+- Do NOT call `mcp__safeoutputs__noop` at any point.
 
 ## Step 1: Update dependencies
 
@@ -83,7 +88,13 @@ pnpm install
 
 ## Step 2: Validation loop
 
-Execute **all** of the validation steps below in order. If **any step fails**, attempt to fix the issue and **restart the entire validation from step 2a**. Track the number of attempts. **After 10 failed attempts, skip to Step 4 (Failure).**
+Initialize your attempt counter to 0.
+
+Execute **all** of the validation steps below in order. If **any step fails**:
+
+1. Increment the attempt counter.
+2. If the counter reaches 10, **immediately go to Step 4 (Failure)**. Do NOT retry.
+3. Otherwise, attempt to fix the issue and restart from Step 2a.
 
 ### Step 2a: Linting
 
@@ -134,7 +145,7 @@ All tests must pass.
 
 ## Step 3: Success
 
-If all validations pass:
+All validations passed. Now create the pull request.
 
 ### 3a: Create a changeset
 
@@ -161,18 +172,27 @@ The changeset file format is:
 Updated dependencies to their latest versions.
 ```
 
-### 3b: Create a pull request
+### 3b: Commit changes
 
-Create a pull request with:
+Stage and commit all changes (updated package.json files, pnpm-lock.yaml, and the changeset file):
 
-- **Title:** `update dependencies YYYY-MM-DD` (using today's date)
-- **Body:** A summary of the dependency updates, including a list of the notable version changes.
+```bash
+git add -A
+git commit -m "chore: update dependencies"
+```
 
-### Step 4: Failure
+### 3c: Create the pull request
 
-If the validation loop has failed 10 times:
+Use the `mcp__safeoutputs__create_pull_request` tool with:
 
-1. **Do NOT create a pull request.**
-2. Open a GitHub issue with:
-   - **Title:** `Cannot update dependencies`
-   - **Body:** A detailed explanation of what went wrong, which validation step(s) failed, the error messages, and any relevant stack traces. Include the date of the attempted update.
+- **title:** `update dependencies YYYY-MM-DD` (using today's date)
+- **body:** A summary of the dependency updates, including a list of the notable version changes.
+
+## Step 4: Failure
+
+The validation loop has failed 10 times. Do NOT create a pull request.
+
+Use the `mcp__safeoutputs__create_issue` tool with:
+
+- **title:** `Cannot update dependencies`
+- **body:** A detailed explanation of what went wrong, which validation step(s) failed, the error messages, and any relevant stack traces. Include the date of the attempted update.

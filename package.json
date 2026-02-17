@@ -36,9 +36,9 @@
         "reset": "pnpm clean && pnpm run --sequential \"/^reset:.*/\"",
         "reset:modules": "pnpm -r --parallel --include-workspace-root exec pnpx rimraf node_modules pnpm-lock.yaml",
         "reset:templates": "cd templates/getting-started && pnpm reset:modules",
-        "list-outdated-deps": "pnpm outdated -r --format list !useless-lib !@module-federation/enhanced !@module-federation/rsbuild-plugin",
+        "list-outdated-deps": "pnpm outdated -r --format list !eslint !@eslint/js !useless-lib !@module-federation/enhanced !@module-federation/rsbuild-plugin",
         "update-outdated-deps": "pnpm run --sequential \"/^update-outdated-deps:.*/\"",
-        "update-outdated-deps:update-versions": "pnpm update -r --latest !useless-lib !@module-federation/enhanced !@module-federation/rsbuild-plugin",
+        "update-outdated-deps:update-versions": "pnpm update -r --latest !eslint !@eslint/js !useless-lib !@module-federation/enhanced !@module-federation/rsbuild-plugin",
         "update-outdated-deps:update-peers": "syncpack fix-mismatches"
     },
     "devDependencies": {
