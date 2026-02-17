@@ -30,10 +30,9 @@ tools:
 
 safe-outputs:
   create-pull-request:
-    title-prefix: "chore: "
+    title-prefix: "[agent] chore: "
     base-branch: main
     draft: false
-    labels: [dependencies]
     fallback-as-issue: true
   create-issue:
     title-prefix: "[agent] "
