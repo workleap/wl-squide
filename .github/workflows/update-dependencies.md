@@ -21,6 +21,7 @@ tools:
     - "git:*"
     - "node:*"
     - "pnpx:*"
+    - "corepack:*"
     - "kill:*"
     - "lsof:*"
     - "sleep:*"
@@ -44,6 +45,15 @@ safe-outputs:
 # Update Dependencies
 
 You are an automated agent responsible for updating the dependencies of this monorepo and validating that everything still works correctly.
+
+## Step 0: Setup pnpm
+
+The sandbox does not have pnpm pre-installed. Enable it via corepack (the `packageManager` field in `package.json` will determine the version):
+
+```bash
+corepack enable
+corepack install
+```
 
 ## Step 1: Update dependencies
 
