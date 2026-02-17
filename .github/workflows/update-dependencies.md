@@ -8,6 +8,8 @@ on:
 
 permissions: read-all
 
+timeout-minutes: 120
+
 engine:
   id: claude
   model: claude-sonnet-4-5-20250929
@@ -30,12 +32,12 @@ tools:
 
 safe-outputs:
   create-pull-request:
-    title-prefix: "[agent] chore: "
+    title-prefix: "[agentic] chore: "
     base-branch: main
     draft: false
     fallback-as-issue: true
   create-issue:
-    title-prefix: "[agent] "
+    title-prefix: "[agentic] "
     close-older-issues: true
 ---
 
@@ -143,7 +145,7 @@ All tests must pass.
    - Check the browser console for unexpected errors (ignore warnings and known noise like network errors from fake APIs or MSW)
 6. Stop the dev server process when done -->
 
-### Step 2f: Validate the "storybook" sample app
+<!-- ### Step 2f: Validate the "storybook" sample app
 
 1. Start the dev server in the background: `pnpm dev-storybook`
 2. Wait for the server to be ready (check the output for the URL)
@@ -152,7 +154,7 @@ All tests must pass.
    - The Storybook interface loads correctly
    - Take a snapshot to verify the page rendered content
    - Check the browser console for unexpected errors
-5. Stop the dev server process when done
+5. Stop the dev server process when done -->
 
 ## Step 3: Success
 
