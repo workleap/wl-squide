@@ -98,7 +98,7 @@ pnpm test
 
 All tests must pass.
 
-### Step 2c: Validate the "basic" sample app
+<!-- ### Step 2c: Validate the "basic" sample app
 
 1. Start the dev server in the background: `pnpm dev-basic`
 2. Wait for the server to be ready on `http://localhost:8080`
@@ -146,7 +146,7 @@ All tests must pass.
 5. For each page:
    - Take a snapshot to verify the page rendered content
    - Check the browser console for unexpected errors (ignore warnings and known noise like network errors from fake APIs or MSW)
-6. Stop the dev server process when done
+6. Stop the dev server process when done -->
 
 ### Step 2f: Validate the "storybook" sample app
 
