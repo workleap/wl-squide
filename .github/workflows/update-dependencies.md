@@ -105,41 +105,7 @@ pnpm test
 
 All tests must pass.
 
-<!-- ### Step 2c: Validate the "basic" sample app
-
-1. Start the dev server in the background: `pnpm dev-basic`
-2. Wait for the server to be ready on `http://localhost:8080`
-3. Using Playwright, navigate to `http://localhost:8080`
-4. Validate the app by navigating to the following pages and checking that each renders without errors:
-   - `/` (Home page)
-   - `/message`
-   - `/hoisted`
-   - `/no-context-override`
-   - `/context-override`
-   - `/federated-tabs`
-5. For each page:
-   - Take a snapshot to verify the page rendered content
-   - Check the browser console for unexpected errors (ignore warnings and known noise like network errors from fake APIs)
-6. Stop the dev server process when done
-
-### Step 2d: Validate the "basic-webpack" sample app
-
-1. Start the dev server in the background: `pnpm dev-basic-webpack`
-2. Wait for the server to be ready on `http://localhost:8086`
-3. Using Playwright, navigate to `http://localhost:8086`
-4. Validate the app by navigating to the following pages and checking that each renders without errors:
-   - `/` (Home page)
-   - `/message`
-   - `/hoisted`
-   - `/no-context-override`
-   - `/context-override`
-   - `/federated-tabs`
-5. For each page:
-   - Take a snapshot to verify the page rendered content
-   - Check the browser console for unexpected errors (ignore warnings and known noise like network errors from fake APIs)
-6. Stop the dev server process when done
-
-### Step 2e: Validate the "endpoints" sample app
+### Step 2c: Validate the "endpoints" sample app
 
 1. Start the dev server in the background: `pnpm dev-endpoints`
 2. Wait for the server to be ready on `http://localhost:8080`
@@ -153,9 +119,9 @@ All tests must pass.
 5. For each page:
    - Take a snapshot to verify the page rendered content
    - Check the browser console for unexpected errors (ignore warnings and known noise like network errors from fake APIs or MSW)
-6. Stop the dev server process when done -->
+6. Stop the dev server process when done
 
-<!-- ### Step 2f: Validate the "storybook" sample app
+### Step 2d: Validate the "storybook" sample app
 
 1. Start the dev server in the background: `pnpm dev-storybook`
 2. Wait for the server to be ready (check the output for the URL)
@@ -164,7 +130,7 @@ All tests must pass.
    - The Storybook interface loads correctly
    - Take a snapshot to verify the page rendered content
    - Check the browser console for unexpected errors
-5. Stop the dev server process when done -->
+5. Stop the dev server process when done
 
 ## Step 3: Success
 
