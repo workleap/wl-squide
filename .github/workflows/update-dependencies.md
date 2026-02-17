@@ -6,11 +6,7 @@ on:
   schedule: weekly on tuesday around 9am
   workflow_dispatch:
 
-permissions:
-  contents: write
-  pull-requests: write
-  issues: write
-  models: read
+permissions: read-all
 
 engine:
   id: claude
