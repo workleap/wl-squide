@@ -34,28 +34,28 @@
         "test": "vitest --config vitest.config.ts --no-watch"
     },
     "peerDependencies": {
-        "i18next": "^25.8.0",
-        "i18next-browser-languagedetector": "^8.2.0",
+        "i18next": "^25.8.10",
+        "i18next-browser-languagedetector": "^8.2.1",
         "react": "^18.0.0 || ^19.0.0",
         "react-i18next": "^16.5.4"
     },
     "dependencies": {
-        "@formatjs/intl-localematcher": "^0.8.0",
+        "@formatjs/intl-localematcher": "^0.8.1",
         "@squide/core": "workspace:*"
     },
     "devDependencies": {
-        "@eslint/js": "9.39.2",
-        "@rsbuild/core": "1.7.2",
-        "@rslib/core": "0.19.3",
-        "@types/react": "19.2.10",
-        "@typescript-eslint/parser": "8.54.0",
-        "@typescript/native-preview": "7.0.0-dev.20260128.1",
-        "@workleap/eslint-configs": "1.1.11",
-        "@workleap/rslib-configs": "1.1.6",
+        "@eslint/js": "10.0.1",
+        "@rsbuild/core": "1.7.3",
+        "@rslib/core": "0.19.6",
+        "@types/react": "19.2.14",
+        "@typescript-eslint/parser": "8.56.0",
+        "@typescript/native-preview": "7.0.0-dev.20260217.1",
+        "@workleap/eslint-configs": "1.1.12",
+        "@workleap/rslib-configs": "1.1.7",
         "@workleap/typescript-configs": "3.0.7",
-        "eslint": "9.39.2",
+        "eslint": "10.0.0",
         "typescript": "5.9.3",
-        "typescript-eslint": "8.54.0",
+        "typescript-eslint": "8.56.0",
         "vitest": "4.0.18"
     },
     "sideEffects": false
