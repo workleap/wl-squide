@@ -39,7 +39,7 @@
         "list-outdated-deps": "pnpm outdated -r --format list !eslint !@eslint/js !useless-lib !@module-federation/enhanced !@module-federation/rsbuild-plugin",
         "update-outdated-deps": "pnpm run --sequential \"/^update-outdated-deps:.*/\"",
         "update-outdated-deps:update-versions": "pnpm update -r --latest !eslint !@eslint/js !useless-lib !@module-federation/enhanced !@module-federation/rsbuild-plugin",
-        "update-outdated-deps:update-peers": "syncpack fix-mismatches"
+        "update-outdated-deps:update-peers": "syncpack fix"
     },
     "devDependencies": {
         "@changesets/changelog-github": "0.5.2",
@@ -54,7 +54,7 @@
         "eslint": "9.39.2",
         "pkg-pr-new": "0.0.62",
         "retypeapp": "3.11.0",
-        "syncpack": "13.0.4",
+        "syncpack": "14.0.0",
         "turbo": "2.7.6",
         "typescript": "5.9.3",
         "typescript-eslint": "8.54.0"
