@@ -6,7 +6,8 @@ export default defineConfig([
         "packages",
         "samples",
         "templates",
-        "docs"
+        "docs",
+        ".github/aw"
     ]),
     defineMonorepoWorkspaceConfig(import.meta.dirname)
 ]);
