@@ -65,7 +65,7 @@ if (process.env.HONEYCOMB_API_KEY && isHoneycombEnabled) {
     console.warn("[host] Cannot register Honeycomb instrumentation because the HONEYCOMB_API_KEY environment variable has not been configured or the feature flag is off.");
 }
 
-const telemetryClient = initializeTelemetry(telemetryOptions);
+const telemetryClient = initializeTelemetry("wlp", telemetryOptions);
 
 const runtime = initializeFirefly({
     useMsw: !!process.env.USE_MSW,
