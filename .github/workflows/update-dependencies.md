@@ -10,6 +10,14 @@ permissions: read-all
 
 timeout-minutes: 120
 
+# Required to set "sandbox.agent: false".
+strict: false
+
+sandbox:
+  # Steps runs on the host, but the agent runs in a container that doesn't inherit the host's installed tools.
+  # So pnpm/action-setup in steps doesn't help without disabling the sandbox for the agent.
+  agent: false
+
 engine:
   id: claude
   model: claude-sonnet-4-5-20250929
@@ -51,14 +59,20 @@ safe-outputs:
 
 You are an automated agent responsible for updating the dependencies of this monorepo and validating that everything still works correctly.
 
-**CRITICAL RULES:**
+## Attempt tracking
 
-- You MUST track the validation attempt count starting at 0.
-- After 10 failed validation attempts, you MUST immediately go to Step 4 (Failure). Do NOT keep retrying.
-- You MUST call exactly ONE of the following safe-output tools before finishing:
-  - `mcp__safeoutputs__create_pull_request` if validation passes (Step 3)
-  - `mcp__safeoutputs__create_issue` if validation fails after 10 attempts (Step 4)
-- Do NOT call `mcp__safeoutputs__noop` at any point.
+You MUST maintain a variable called `attempt_count` starting at 0. Every time a validation step (2a, 2b, 2c, or 2d) fails and you restart the loop, increment `attempt_count` by 1. Before each restart, check: **if `attempt_count` >= 10, STOP immediately and go to Step 4 (Failure).** Do NOT attempt an 11th try under any circumstance.
+
+## Safe-output rules
+
+You MUST call exactly ONE safe-output tool before finishing:
+
+- On success (all validations pass): call `mcp__safeoutputs__create_pull_request`
+- On failure (10 attempts exhausted): call `mcp__safeoutputs__create_issue`
+
+Do NOT call `mcp__safeoutputs__noop`. Do NOT finish without calling one of the two tools above.
+
+---
 
 ## Step 1: Update dependencies
 
@@ -88,17 +102,16 @@ pnpm install
 
 ## Step 2: Validation loop
 
-Initialize your attempt counter to 0.
+Set `attempt_count = 0`.
 
-Execute **all** of the validation steps below in order. If **any step fails**:
+Run steps 2a through 2d in order. If ANY step fails:
 
-1. Increment the attempt counter.
-2. If the counter reaches 10, **immediately go to Step 4 (Failure)**. Do NOT retry.
-3. Otherwise, attempt to fix the issue and restart from Step 2a.
+1. Set `attempt_count = attempt_count + 1`
+2. **Check: is `attempt_count` >= 10?**
+   - **YES → Go to Step 4 (Failure) immediately. Do NOT retry.**
+   - **NO → Attempt to fix the issue, then restart from Step 2a.**
 
 ### Step 2a: Linting
-
-Run linting from the root of the workspace:
 
 ```bash
 pnpm lint
@@ -107,8 +120,6 @@ pnpm lint
 All checks must pass with zero errors.
 
 ### Step 2b: Tests
-
-Run the tests from the root of the workspace:
 
 ```bash
 pnpm test
@@ -145,13 +156,11 @@ All tests must pass.
 
 ## Step 3: Success
 
-All validations passed. Now create the pull request.
+All validations passed.
 
 ### 3a: Create a changeset
 
-Create a changeset file at `.changeset/update-dependencies.md` to release the updated packages. Updating dependencies should typically bump with a **patch** version, but use your judgment for minor or major bumps if warranted by the dependency changes.
-
-The changeset file format is:
+Create a changeset file at `.changeset/update-dependencies.md` with the following content:
 
 ```markdown
 ---
@@ -172,9 +181,9 @@ The changeset file format is:
 Updated dependencies to their latest versions.
 ```
 
-### 3b: Commit changes
+Use your judgment: bump as minor or major if warranted by the dependency changes.
 
-Stage and commit all changes (updated package.json files, pnpm-lock.yaml, and the changeset file):
+### 3b: Commit changes
 
 ```bash
 git add -A
@@ -183,16 +192,20 @@ git commit -m "chore: update dependencies"
 
 ### 3c: Create the pull request
 
-Use the `mcp__safeoutputs__create_pull_request` tool with:
+Call the `mcp__safeoutputs__create_pull_request` tool with:
 
 - **title:** `update dependencies YYYY-MM-DD` (using today's date)
-- **body:** A summary of the dependency updates, including a list of the notable version changes.
+- **body:** A summary of the dependency updates, including notable version changes.
+
+Then STOP. You are done.
 
 ## Step 4: Failure
 
-The validation loop has failed 10 times. Do NOT create a pull request.
+You have exhausted 10 validation attempts. Do NOT create a pull request. Do NOT retry.
 
-Use the `mcp__safeoutputs__create_issue` tool with:
+Call the `mcp__safeoutputs__create_issue` tool with:
 
 - **title:** `Cannot update dependencies`
-- **body:** A detailed explanation of what went wrong, which validation step(s) failed, the error messages, and any relevant stack traces. Include the date of the attempted update.
+- **body:** Include: the date, which step(s) failed, error messages, relevant stack traces, and what fixes were attempted.
+
+Then STOP. You are done.
