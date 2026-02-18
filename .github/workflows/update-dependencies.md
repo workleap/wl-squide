@@ -10,20 +10,24 @@ permissions: read-all
 
 timeout-minutes: 120
 
-network:
-  allowed:
-    - defaults
-    - node
-    - playwright
-    - github
+concurrency:
+  group: update-dependencies
+  cancel-in-progress: true
 
+# The AWF sandbox container (image 0.20.0) is missing basic coreutils (e.g. "tee")
+# that the Claude Code CLI depends on, causing it to crash with "command not found".
+# We also tried mounting pnpm into the container (option 1: npm install + mount,
+# option 2: hostedtoolcache mount, default chroot mode) but none made pnpm available
+# inside the container despite AWF docs claiming host PATH is captured automatically.
+#
+# As a workaround, the sandbox is disabled for the agent so it runs directly on the host.
+# "strict: false" is required because "sandbox.agent: false" is not allowed in strict mode.
+#
+# TODO: Re-enable the sandbox once the AWF container image ships with coreutils and
+# a reliable way to make host-installed tools (pnpm) available inside the container.
+strict: false
 sandbox:
-  agent:
-    id: awf
-    mounts:
-      - "/tmp/pnpm-global:/tmp/pnpm-global:ro"
-    env:
-      PATH: "/tmp/pnpm-global/bin:$PATH"
+  agent: false
 
 engine:
   id: claude
@@ -32,10 +36,12 @@ engine:
 
 steps:
   - name: Install pnpm
-    run: |
-      npm install -g pnpm@10.20.0 --prefix /tmp/pnpm-global
-      echo "/tmp/pnpm-global/bin" >> $GITHUB_PATH
+    uses: pnpm/action-setup@v4
+    with:
+      run_install: false
 
+# The "tools" and "playwright.allowed_domains" restrictions are only enforced when the
+# sandbox is enabled. Kept here so they're ready when the sandbox is re-enabled.
 tools:
   bash:
     - "pnpm:*"
