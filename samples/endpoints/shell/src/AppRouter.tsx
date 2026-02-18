@@ -110,7 +110,7 @@ function BootstrappingRoute() {
         }
     ], error => isApiError(error) && error.status === 401);
 
-    const honeycombClient = useHoneycombInstrumentationClient();
+    const honeycombClient = useHoneycombInstrumentationClient({ throwOnUndefined: false });
     const launchDarklyClient = useLaunchDarklyClient();
 
     const changeLanguage = useChangeLanguage();
@@ -126,10 +126,12 @@ function BootstrappingRoute() {
                 .withObject(session)
                 .debug();
 
-            honeycombClient.setGlobalSpanAttributes({
-                "app.user_id": session.user.id,
-                "app.user_prefered_language": session.user.preferredLanguage
-            });
+            if (honeycombClient) {
+                honeycombClient.setGlobalSpanAttributes({
+                    "app.user_id": session.user.id,
+                    "app.user_prefered_language": session.user.preferredLanguage
+                });
+            }
 
             launchDarklyClient.identify({
                 kind: "user",

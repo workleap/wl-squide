@@ -9,5 +9,12 @@ export default defineConfig([
         "docs",
         ".github/aw"
     ]),
-    defineMonorepoWorkspaceConfig(import.meta.dirname)
+    defineMonorepoWorkspaceConfig(import.meta.dirname),
+    {
+        rules: {
+            "react-hooks/refs": "off",
+            "testing-library/render-result-naming-convention": "off",
+            "jsonc/indent": "off"
+        }
+    }
 ]);
