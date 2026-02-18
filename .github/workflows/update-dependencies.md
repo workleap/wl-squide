@@ -10,6 +10,21 @@ permissions: read-all
 
 timeout-minutes: 120
 
+network:
+  allowed:
+    - defaults
+    - node
+    - playwright
+    - github
+
+sandbox:
+  agent:
+    id: awf
+    mounts:
+      - "/tmp/pnpm-global:/tmp/pnpm-global:ro"
+    env:
+      PATH: "/tmp/pnpm-global/bin:$PATH"
+
 engine:
   id: claude
   model: claude-sonnet-4-5-20250929
@@ -17,9 +32,9 @@ engine:
 
 steps:
   - name: Install pnpm
-    uses: pnpm/action-setup@v4
-    with:
-      run_install: false
+    run: |
+      npm install -g pnpm@10.20.0 --prefix /tmp/pnpm-global
+      echo "/tmp/pnpm-global/bin" >> $GITHUB_PATH
 
 tools:
   bash:
