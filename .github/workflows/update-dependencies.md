@@ -109,7 +109,15 @@ Update all dependencies to their latest versions:
 pnpm update-outdated-deps
 ```
 
-Then, install the updated dependencies:
+Then, check if any `package.json` files were modified (excluding `node_modules`):
+
+```bash
+git diff --name-only -- '**/package.json' ':!node_modules'
+```
+
+If no `package.json` files were modified, there are no direct dependency updates. STOP the workflow successfully — do NOT run the validation loop, do NOT create a pull request or issue. Just end.
+
+Otherwise, install the updated dependencies:
 
 ```bash
 pnpm install
@@ -179,7 +187,7 @@ All validations passed.
 
 ### 3a: Create a changeset
 
-Create a changeset file at `.changeset/update-dependencies.md`. Include every `@squide/*` package found under the `packages/` directory. Use `patch` as the default bump level, but use your judgment to bump as `minor` or `major` if warranted by the dependency changes.
+Create a changeset file at `.changeset/update-dependencies.md`. Only include `@squide/*` packages whose `package.json` files have actually changed (i.e. packages that had direct dependencies updated). Do NOT include packages that were unaffected. Use `patch` as the default bump level, but use your judgment to bump as `minor` or `major` if warranted by the dependency changes.
 
 Example format:
 
@@ -206,7 +214,7 @@ Call the `mcp__safeoutputs__create_pull_request` tool with:
 - **title:** `update dependencies YYYY-MM-DD` (using today's date)
 - **body:** The body MUST include the following sections:
 
-  1. **Summary**: A summary of the dependency updates, including notable version changes.
+  1. **Summary**: A summary of the top-level dependency updates, including notable version changes. Only mention dependencies explicitly listed in the monorepo `package.json` files — do NOT mention sub-dependencies (transitive dependencies updated in the lock file).
   2. **Validation checklist**: An explicit checklist of every step completed with a checkmark. You MUST list every step individually:
      - [ ] Step 2a: Linting
      - [ ] Step 2b: Tests
