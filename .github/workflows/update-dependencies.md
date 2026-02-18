@@ -39,9 +39,6 @@ tools:
     - "lsof:*"
     - "sleep:*"
     - "curl:*"
-    - "grep:*"
-    - "tee:*"
-    - "cat:*"
   edit: {}
   web-fetch: {}
   playwright:
@@ -116,19 +113,11 @@ All checks must pass with zero errors.
 
 ### Step 2b: Tests
 
-Run these exact commands from the workspace root:
-
 ```bash
-pnpm test 2>&1 | tee /tmp/test-output.txt
+pnpm test
 ```
 
-Then extract the per-package test results:
-
-```bash
-grep -E "Tests .* passed" /tmp/test-output.txt
-```
-
-All tests must pass. Paste the COMPLETE grep output into the PR body inside a code block. Do NOT edit, reformat, or remove any part of the output — it contains the package name prefix (e.g. `@squide/core:test:`) which MUST be preserved.
+All tests must pass.
 
 ### Step 2c: Validate the "endpoints" sample app
 
