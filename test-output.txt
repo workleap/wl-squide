@@ -1,0 +1,953 @@
+
+> workspace-root@0.0.0 test C:\Dev\workleap\wl-squide
+> turbo run test --continue --force
+
+• turbo 2.8.9
+• Packages in scope: @basic-webpack/another-remote-module, @basic-webpack/host, @basic-webpack/local-module, @basic-webpack/remote-module, @basic-webpack/shared, @basic-webpack/shell, @basic/another-remote-module, @basic/host, @basic/local-module, @basic/remote-module, @basic/shared, @basic/shell, @endpoints/express-server, @endpoints/host, @endpoints/i18next, @endpoints/layouts, @endpoints/local-module, @endpoints/remote-module, @endpoints/shared, @endpoints/shell, @squide/core, @squide/env-vars, @squide/fakes, @squide/firefly, @squide/firefly-module-federation, @squide/firefly-rsbuild-configs, @squide/firefly-rsbuild-storybook, @squide/firefly-webpack-configs, @squide/i18next, @squide/launch-darkly, @squide/msw, @squide/react-router, @storybook/app, @storybook/host
+• Running test in 34 packages
+• Remote caching disabled
+@squide/core:test: cache bypass, force executing b16dfeda268fe2e7
+@squide/firefly-rsbuild-configs:test: cache bypass, force executing 21c3a7236fda1300
+@squide/firefly-webpack-configs:test: cache bypass, force executing 04298d88e4fcb836
+@squide/react-router:test: cache bypass, force executing 110b3412d92d3a4f
+@squide/launch-darkly:test: cache bypass, force executing 79205bf4a54ff424
+@squide/msw:test: cache bypass, force executing 153693fc21de61e5
+@squide/env-vars:test: cache bypass, force executing 808d0c0712ac999a
+@squide/i18next:test: cache bypass, force executing db5494b1a1f5a686
+@squide/firefly:test: cache bypass, force executing a5975f95fa2cfcfa
+@squide/firefly-rsbuild-storybook:test: cache bypass, force executing 62af77c35ca5237b
+@squide/core:test: 
+@squide/core:test: > @squide/core@6.1.13 test C:\Dev\workleap\wl-squide\packages\core
+@squide/core:test: > vitest --config vitest.config.ts --no-watch
+@squide/core:test: 
+@squide/firefly-webpack-configs:test: 
+@squide/firefly-webpack-configs:test: > @squide/firefly-webpack-configs@5.2.3 test C:\Dev\workleap\wl-squide\packages\firefly-webpack-configs
+@squide/firefly-webpack-configs:test: > vitest --config vitest.config.ts --no-watch
+@squide/firefly-webpack-configs:test: 
+@squide/launch-darkly:test: 
+@squide/launch-darkly:test: > @squide/launch-darkly@1.0.7 test C:\Dev\workleap\wl-squide\packages\launch-darkly
+@squide/launch-darkly:test: > vitest --config vitest.config.ts --no-watch
+@squide/launch-darkly:test: 
+@squide/firefly-rsbuild-configs:test: 
+@squide/firefly-rsbuild-configs:test: > @squide/firefly-rsbuild-configs@2.2.3 test C:\Dev\workleap\wl-squide\packages\firefly-rsbuild-configs
+@squide/firefly-rsbuild-configs:test: > vitest --config vitest.config.ts --no-watch
+@squide/firefly-rsbuild-configs:test: 
+@squide/i18next:test: 
+@squide/i18next:test: > @squide/i18next@2.5.15 test C:\Dev\workleap\wl-squide\packages\i18next
+@squide/i18next:test: > vitest --config vitest.config.ts --no-watch
+@squide/i18next:test: 
+@squide/react-router:test: 
+@squide/react-router:test: > @squide/react-router@8.1.13 test C:\Dev\workleap\wl-squide\packages\react-router
+@squide/msw:test: 
+@squide/msw:test: > @squide/msw@4.0.14 test C:\Dev\workleap\wl-squide\packages\msw
+@squide/msw:test: > vitest --config vitest.config.ts --no-watch
+@squide/react-router:test: > vitest --config vitest.config.ts --no-watch
+@squide/react-router:test: 
+@squide/msw:test: 
+@squide/env-vars:test: 
+@squide/env-vars:test: > @squide/env-vars@1.4.16 test C:\Dev\workleap\wl-squide\packages\env-vars
+@squide/env-vars:test: > vitest --config vitest.config.ts --no-watch
+@squide/env-vars:test: 
+@squide/firefly:test: 
+@squide/firefly:test: > @squide/firefly@16.1.8 test C:\Dev\workleap\wl-squide\packages\firefly
+@squide/firefly:test: > vitest --config vitest.config.ts --no-watch
+@squide/firefly:test: 
+@squide/firefly-rsbuild-storybook:test: 
+@squide/firefly-rsbuild-storybook:test: > @squide/firefly-rsbuild-storybook@2.0.2 test C:\Dev\workleap\wl-squide\packages\firefly-rsbuild-storybook
+@squide/firefly-rsbuild-storybook:test: > vitest --config vitest.config.ts --no-watch
+@squide/firefly-rsbuild-storybook:test: 
+@squide/firefly-webpack-configs:test: 
+@squide/firefly-webpack-configs:test: [1m[46m RUN [49m[22m [36mv4.0.18 [39m[90mC:/Dev/workleap/wl-squide/packages/firefly-webpack-configs[39m
+@squide/firefly-webpack-configs:test: 
+@squide/firefly-rsbuild-configs:test: 
+@squide/firefly-rsbuild-configs:test: [1m[46m RUN [49m[22m [36mv4.0.18 [39m[90mC:/Dev/workleap/wl-squide/packages/firefly-rsbuild-configs[39m
+@squide/i18next:test: 
+@squide/firefly-rsbuild-configs:test: 
+@squide/i18next:test: [1m[46m RUN [49m[22m [36mv4.0.18 [39m[90mC:/Dev/workleap/wl-squide/packages/i18next[39m
+@squide/i18next:test: 
+@squide/core:test: 
+@squide/core:test: [1m[46m RUN [49m[22m [36mv4.0.18 [39m[90mC:/Dev/workleap/wl-squide/packages/core[39m
+@squide/core:test: 
+@squide/launch-darkly:test: 
+@squide/env-vars:test: 
+@squide/env-vars:test: [1m[46m RUN [49m[22m [36mv4.0.18 [39m[90mC:/Dev/workleap/wl-squide/packages/env-vars[39m
+@squide/env-vars:test: 
+@squide/launch-darkly:test: [1m[46m RUN [49m[22m [36mv4.0.18 [39m[90mC:/Dev/workleap/wl-squide/packages/launch-darkly[39m
+@squide/launch-darkly:test: 
+@squide/msw:test: 
+@squide/msw:test: [1m[46m RUN [49m[22m [36mv4.0.18 [39m[90mC:/Dev/workleap/wl-squide/packages/msw[39m
+@squide/msw:test: 
+@squide/firefly-rsbuild-storybook:test: 
+@squide/firefly-rsbuild-storybook:test: [1m[46m RUN [49m[22m [36mv4.0.18 [39m[90mC:/Dev/workleap/wl-squide/packages/firefly-rsbuild-storybook[39m
+@squide/firefly-rsbuild-storybook:test: 
+@squide/react-router:test: 
+@squide/react-router:test: [1m[46m RUN [49m[22m [36mv4.0.18 [39m[90mC:/Dev/workleap/wl-squide/packages/react-router[39m
+@squide/react-router:test: 
+@squide/firefly:test: 
+@squide/firefly:test: [1m[46m RUN [49m[22m [36mv4.0.18 [39m[90mC:/Dev/workleap/wl-squide/packages/firefly[39m
+@squide/firefly:test: 
+@squide/firefly-webpack-configs:test:  [32m✓[39m tests/sharedDependenciesResolutionPlugin.test.ts[2m > [22mwhen a remote request a version with the same major version as the host requested version, but with an higher minor version, resolve to the remote requested version[32m 19[2mms[22m[39m
+@squide/firefly-webpack-configs:test:  [32m✓[39m tests/sharedDependenciesResolutionPlugin.test.ts[2m > [22mwhen a remote request a version with the same major version as the host requested version, but with an higher patch version, resolve to the remote requested version[32m 16[2mms[22m[39m
+@squide/firefly-webpack-configs:test:  [32m✓[39m tests/sharedDependenciesResolutionPlugin.test.ts[2m > [22mwhen a remote request a version with an higher major version than the host requested version, fallback to the highest requested version sharing the same major version as the host requested version[32m 16[2mms[22m[39m
+@squide/firefly-webpack-configs:test:  [32m✓[39m tests/sharedDependenciesResolutionPlugin.test.ts[2m > [22msupports ">" range[32m 16[2mms[22m[39m
+@squide/firefly-webpack-configs:test:  [32m✓[39m tests/sharedDependenciesResolutionPlugin.test.ts[2m > [22msupports ">=" range[32m 16[2mms[22m[39m
+@squide/firefly-webpack-configs:test:  [32m✓[39m tests/sharedDependenciesResolutionPlugin.test.ts[2m > [22msupports "> <" range[32m 4[2mms[22m[39m
+@squide/firefly-webpack-configs:test:  [32m✓[39m tests/sharedDependenciesResolutionPlugin.test.ts[2m > [22msupports "> <=" range[32m 4[2mms[22m[39m
+@squide/firefly-webpack-configs:test:  [32m✓[39m tests/sharedDependenciesResolutionPlugin.test.ts[2m > [22msupports "^" range[32m 4[2mms[22m[39m
+@squide/firefly-rsbuild-configs:test:  [32m✓[39m tests/sharedDependenciesResolutionPlugin.test.ts[2m > [22mwhen a remote request a version with the same major version as the host requested version, but with an higher minor version, resolve to the remote requested version[32m 21[2mms[22m[39m
+@squide/firefly-rsbuild-configs:test:  [32m✓[39m tests/sharedDependenciesResolutionPlugin.test.ts[2m > [22mwhen a remote request a version with the same major version as the host requested version, but with an higher patch version, resolve to the remote requested version[32m 21[2mms[22m[39m
+@squide/firefly-rsbuild-configs:test:  [32m✓[39m tests/sharedDependenciesResolutionPlugin.test.ts[2m > [22mwhen a remote request a version with an higher major version than the host requested version, fallback to the highest requested version sharing the same major version as the host requested version[32m 21[2mms[22m[39m
+@squide/firefly-rsbuild-configs:test:  [32m✓[39m tests/sharedDependenciesResolutionPlugin.test.ts[2m > [22msupports ">" range[32m 21[2mms[22m[39m
+@squide/firefly-rsbuild-configs:test:  [32m✓[39m tests/sharedDependenciesResolutionPlugin.test.ts[2m > [22msupports ">=" range[32m 21[2mms[22m[39m
+@squide/firefly-rsbuild-configs:test:  [32m✓[39m tests/sharedDependenciesResolutionPlugin.test.ts[2m > [22msupports "> <" range[32m 6[2mms[22m[39m
+@squide/firefly-rsbuild-configs:test:  [32m✓[39m tests/sharedDependenciesResolutionPlugin.test.ts[2m > [22msupports "> <=" range[32m 6[2mms[22m[39m
+@squide/firefly-rsbuild-configs:test:  [32m✓[39m tests/sharedDependenciesResolutionPlugin.test.ts[2m > [22msupports "^" range[32m 5[2mms[22m[39m
+@squide/core:test:  [32m✓[39m tests/toLocalModuleDefinitions.test.ts[2m > [22mfilter undefined modules[32m 2[2mms[22m[39m
+@squide/core:test:  [32m✓[39m tests/mergeDeferredRegistrations.test.ts[2m > [22mwhen no deferred registrations are provided, return undefined[32m 20[2mms[22m[39m
+@squide/core:test:  [32m✓[39m tests/mergeDeferredRegistrations.test.ts[2m > [22mwhen a single deferred registration is provided, the deferred registration is called[32m 20[2mms[22m[39m
+@squide/core:test:  [32m✓[39m tests/mergeDeferredRegistrations.test.ts[2m > [22mwhen void results are provided, the void results are ignored[32m 20[2mms[22m[39m
+@squide/core:test:  [32m✓[39m tests/mergeDeferredRegistrations.test.ts[2m > [22mwhen deferred registrations are provided, all the deferred registrations are called[32m 20[2mms[22m[39m
+@squide/core:test:  [32m✓[39m tests/mergeDeferredRegistrations.test.ts[2m > [22mwhen deferred registrations are provided, all the deferred registrations are called with the provided data and state[32m 20[2mms[22m[39m
+@squide/core:test:  [32m✓[39m tests/mergeDeferredRegistrations.test.ts[2m > [22mwhen a single deferred registration is provided, return the deferred registration[32m 0[2mms[22m[39m
+@squide/core:test:  [32m✓[39m tests/ModuleManager.test.ts[2m > [22mregisterModules[2m > [22mcan register the modules of every registry[32m 28[2mms[22m[39m
+@squide/core:test:  [32m✓[39m tests/ModuleManager.test.ts[2m > [22mregisterModules[2m > [22mmanaged errors returned by the registries are aggregated[32m 28[2mms[22m[39m
+@squide/core:test:  [32m✓[39m tests/ModuleManager.test.ts[2m > [22mregisterDeferredRegistrations[2m > [22mregister the deferred registrations for the modules of all the registries[32m 28[2mms[22m[39m
+@squide/core:test:  [32m✓[39m tests/ModuleManager.test.ts[2m > [22mregisterDeferredRegistrations[2m > [22mcan start and complete a deferred registration scope[32m 28[2mms[22m[39m
+@squide/core:test:  [32m✓[39m tests/ModuleManager.test.ts[2m > [22mregisterModules[2m > [22mwhen an unmanaged errors is thrown, the error bubbles up[32m 29[2mms[22m[39m
+@squide/core:test:  [32m✓[39m tests/ModuleManager.test.ts[2m > [22mregisterDeferredRegistrations[2m > [22merrors returned by the registries are aggragated[32m 13[2mms[22m[39m
+@squide/core:test:  [32m✓[39m tests/ModuleManager.test.ts[2m > [22mupdateDeferredRegistrations[2m > [22mupdate the deferred registrations for the modules of all the registries[32m 13[2mms[22m[39m
+@squide/core:test:  [32m✓[39m tests/ModuleManager.test.ts[2m > [22mupdateDeferredRegistrations[2m > [22mcan start and complete a deferred registration scope[32m 13[2mms[22m[39m
+@squide/core:test:  [32m✓[39m tests/ModuleManager.test.ts[2m > [22mregisterDeferredRegistrations[2m > [22mwhen an unmanaged error is thrown, complete the deferred registration scope[32m 17[2mms[22m[39m
+@squide/core:test:  [32m✓[39m tests/ModuleManager.test.ts[2m > [22mupdateDeferredRegistrations[2m > [22mwhen an unmanaged error is thrown, complete the deferred registration scope[32m 15[2mms[22m[39m
+@squide/core:test:  [32m✓[39m tests/ModuleManager.test.ts[2m > [22mgetAreModulesRegistered[2m > [22mwhen no registries are added, return true[32m 5[2mms[22m[39m
+@squide/core:test:  [32m✓[39m tests/ModuleManager.test.ts[2m > [22mgetAreModulesRegistered[2m > [22mwhen there is a single registry and the registration status is "none", return false[32m 5[2mms[22m[39m
+@squide/core:test:  [32m✓[39m tests/ModuleManager.test.ts[2m > [22mupdateDeferredRegistrations[2m > [22mmanaged errors returned by the registries are aggregated[32m 6[2mms[22m[39m
+@squide/core:test:  [32m✓[39m tests/ModuleManager.test.ts[2m > [22mgetAreModulesRegistered[2m > [22mwhen there is a single registry and the registration status is "registering-modules", return false[32m 1[2mms[22m[39m
+@squide/core:test:  [32m✓[39m tests/ModuleManager.test.ts[2m > [22mgetAreModulesRegistered[2m > [22mwhen there is a single registry and the registration status is "modules-registered", return true[32m 1[2mms[22m[39m
+@squide/core:test:  [32m✓[39m tests/ModuleManager.test.ts[2m > [22mgetAreModulesRegistered[2m > [22mwhen there is a single registry and the registration status is "registering-deferred-registration", return true[32m 1[2mms[22m[39m
+@squide/core:test:  [32m✓[39m tests/ModuleManager.test.ts[2m > [22mgetAreModulesRegistered[2m > [22mwhen there is a single registry and the registration status is "ready", return true[32m 1[2mms[22m[39m
+@squide/core:test:  [32m✓[39m tests/ModuleManager.test.ts[2m > [22mgetAreModulesRegistered[2m > [22mwhen there are multiple registries and the modules of all the registries are not registered, return false[32m 3[2mms[22m[39m
+@squide/core:test:  [32m✓[39m tests/ModuleManager.test.ts[2m > [22mgetAreModulesRegistered[2m > [22mwhen there are multiple registries and the modules of all the registries are registered, return true[32m 8[2mms[22m[39m
+@squide/core:test:  [32m✓[39m tests/ModuleManager.test.ts[2m > [22mgetAreModulesRegistered[2m > [22mwhen there are multiple registries and no modules are registered for a registry, and the modules of the remaining registries are registered, return true[32m 9[2mms[22m[39m
+@squide/core:test:  [32m✓[39m tests/ModuleManager.test.ts[2m > [22mgetAreModulesRegistered[2m > [22mwhen there are multiple registries and all registries includes modules with deferred registrations are registered, return true[32m 6[2mms[22m[39m
+@squide/core:test:  [32m✓[39m tests/ModuleManager.test.ts[2m > [22mgetAreModulesReady[2m > [22mwhen no registries are added, return true[32m 6[2mms[22m[39m
+@squide/core:test:  [32m✓[39m tests/ModuleManager.test.ts[2m > [22mgetAreModulesReady[2m > [22mwhen there is a single registry and the registration status is "none", return false[32m 5[2mms[22m[39m
+@squide/core:test:  [32m✓[39m tests/ModuleManager.test.ts[2m > [22mgetAreModulesReady[2m > [22mwhen there is a single registry and the registration status is "modules-registered", return false[32m 5[2mms[22m[39m
+@squide/core:test:  [32m✓[39m tests/ModuleManager.test.ts[2m > [22mgetAreModulesReady[2m > [22mwhen there is a single registry and the registration status is "registering-deferred-registration", return false[32m 5[2mms[22m[39m
+@squide/core:test:  [32m✓[39m tests/ModuleManager.test.ts[2m > [22mgetAreModulesReady[2m > [22mwhen there is a single registry and the registration status is "registering-modules", return false[32m 5[2mms[22m[39m
+@squide/core:test:  [32m✓[39m tests/ModuleManager.test.ts[2m > [22mgetAreModulesReady[2m > [22mwhen there is a single registry and the registration status is "ready", return true[32m 5[2mms[22m[39m
+@squide/core:test:  [32m✓[39m tests/ModuleManager.test.ts[2m > [22mgetAreModulesReady[2m > [22mwhere there are multiple registries and the modules of all the registries are not ready, return false[32m 2[2mms[22m[39m
+@squide/core:test:  [32m✓[39m tests/ModuleManager.test.ts[2m > [22mgetAreModulesReady[2m > [22mwhen there are multiple registries and no modules are ready for a registry, and the modules of the remaining registries are ready, return true[32m 1[2mms[22m[39m
+@squide/core:test:  [32m✓[39m tests/ModuleManager.test.ts[2m > [22mgetAreModulesReady[2m > [22mwhere there are multiple registries and the modules of all the registries are ready, return true[32m 3[2mms[22m[39m
+@squide/core:test:  [32m✓[39m tests/ModuleManager.test.ts[2m > [22mmodules registered listeners[2m > [22mcan register a listener[32m 3[2mms[22m[39m
+@squide/core:test:  [32m✓[39m tests/ModuleManager.test.ts[2m > [22mmodules registered listeners[2m > [22mwhen a listener is registered, the listener is added to every registry[32m 3[2mms[22m[39m
+@squide/core:test:  [32m✓[39m tests/ModuleManager.test.ts[2m > [22mmodules registered listeners[2m > [22mcan remove a listener[32m 1[2mms[22m[39m
+@squide/core:test:  [32m✓[39m tests/ModuleManager.test.ts[2m > [22mmodules registered listeners[2m > [22mwhen a listener is removed, the listener is removed from every registry[32m 4[2mms[22m[39m
+@squide/core:test:  [32m✓[39m tests/ModuleManager.test.ts[2m > [22mmodules registered listeners[2m > [22mwhen the modules are registered, every listener is executed[32m 5[2mms[22m[39m
+@squide/core:test:  [32m✓[39m tests/ModuleManager.test.ts[2m > [22mmodules registered listeners[2m > [22mwhen some modules are not registered, do not execute the listeners[32m 4[2mms[22m[39m
+@squide/core:test:  [32m✓[39m tests/ModuleManager.test.ts[2m > [22mmodules ready listeners[2m > [22mcan register a listener[32m 2[2mms[22m[39m
+@squide/core:test:  [32m✓[39m tests/ModuleManager.test.ts[2m > [22mmodules ready listeners[2m > [22mwhen a listener is registered, the listener is added to every registry[32m 1[2mms[22m[39m
+@squide/core:test:  [32m✓[39m tests/ModuleManager.test.ts[2m > [22mmodules ready listeners[2m > [22mcan remove a listener[32m 1[2mms[22m[39m
+@squide/core:test:  [32m✓[39m tests/ModuleManager.test.ts[2m > [22mmodules ready listeners[2m > [22mwhen a listener is removed, the listener is removed from every registry[32m 4[2mms[22m[39m
+@squide/core:test:  [32m✓[39m tests/ModuleManager.test.ts[2m > [22mmodules ready listeners[2m > [22mwhen the modules are ready, every listener is executed[32m 3[2mms[22m[39m
+@squide/core:test:  [32m✓[39m tests/ModuleManager.test.ts[2m > [22mmodules ready listeners[2m > [22mwhen some modules are not ready, do not execute the listeners[32m 3[2mms[22m[39m
+@squide/core:test:  [32m✓[39m tests/LocalModuleRegistry.test.ts[2m > [22mregisterModules[2m > [22mshould register all the modules[32m 24[2mms[22m[39m
+@squide/core:test:  [32m✓[39m tests/LocalModuleRegistry.test.ts[2m > [22mregisterModules[2m > [22mshould dispatch LocalModulesRegistrationStartedEvent[32m 24[2mms[22m[39m
+@squide/core:test:  [32m✓[39m tests/LocalModuleRegistry.test.ts[2m > [22mregisterModules[2m > [22mwhen there are no deferred registrations, once all the modules are registered, set the status to "ready"[32m 24[2mms[22m[39m
+@squide/core:test:  [32m✓[39m tests/LocalModuleRegistry.test.ts[2m > [22mregisterModules[2m > [22mwhen called twice, throw an error[32m 28[2mms[22m[39m
+@squide/core:test:  [32m✓[39m tests/LocalModuleRegistry.test.ts[2m > [22mregisterModules[2m > [22mwhen there are no deferred registrations, once all the modules are registered, LocalModulesRegistrationCompletedEvent is dispatched[32m 6[2mms[22m[39m
+@squide/core:test:  [32m✓[39m tests/LocalModuleRegistry.test.ts[2m > [22mregisterModules[2m > [22mwhen there are deferred registrations, once all the modules are registered, set the status to "modules-registered"[32m 6[2mms[22m[39m
+@squide/core:test:  [32m✓[39m tests/LocalModuleRegistry.test.ts[2m > [22mregisterModules[2m > [22mwhen there are deferred registrations, once all the modules are registered, LocalModulesRegistrationCompletedEvent is dispatched[32m 6[2mms[22m[39m
+@squide/core:test:  [32m✓[39m tests/LocalModuleRegistry.test.ts[2m > [22mregisterModules[2m > [22mwhen a module registration fail, register the remaining modules[32m 4[2mms[22m[39m
+@squide/core:test:  [32m✓[39m tests/LocalModuleRegistry.test.ts[2m > [22mregisterModules[2m > [22mwhen a module registration fail, return the error[32m 4[2mms[22m[39m
+@squide/core:test:  [32m✓[39m tests/LocalModuleRegistry.test.ts[2m > [22mregisterModules[2m > [22mwhen a module registration fail, LocalModuleRegistrationFailedEvent is dispatched[32m 4[2mms[22m[39m
+@squide/core:test:  [32m✓[39m tests/LocalModuleRegistry.test.ts[2m > [22mregisterModules[2m > [22mwhen a module registration fail, LocalModulesRegistrationCompletedEvent is dispatched[32m 4[2mms[22m[39m
+@squide/core:test:  [32m✓[39m tests/LocalModuleRegistry.test.ts[2m > [22mregisterModules[2m > [22mwhen a context is provided, all the register functions receive the provided context[32m 13[2mms[22m[39m
+@squide/core:test:  [32m✓[39m tests/LocalModuleRegistry.test.ts[2m > [22mregisterModules[2m > [22mwhen no modules are provided, the status is "ready"[32m 12[2mms[22m[39m
+@squide/core:test:  [32m✓[39m tests/LocalModuleRegistry.test.ts[2m > [22mregisterModules[2m > [22mwhen no modules are provided, do not dispatch LocalModulesRegistrationStartedEvent[32m 12[2mms[22m[39m
+@squide/core:test:  [32m✓[39m tests/LocalModuleRegistry.test.ts[2m > [22mregisterModules[2m > [22mwhen no modules are provided, do not dispatch LocalModulesRegistrationCompletedEvent[32m 12[2mms[22m[39m
+@squide/core:test:  [32m✓[39m tests/LocalModuleRegistry.test.ts[2m > [22mregisterDeferredRegistrations[2m > [22mwhen called before registerLocalModules, throw an error[32m 9[2mms[22m[39m
+@squide/core:test:  [32m✓[39m tests/LocalModuleRegistry.test.ts[2m > [22mregisterDeferredRegistrations[2m > [22mwhen called for the first time but the registration status is already "ready", return a resolving promise[32m 8[2mms[22m[39m
+@squide/core:test:  [32m✓[39m tests/LocalModuleRegistry.test.ts[2m > [22mregisterDeferredRegistrations[2m > [22mshould dispatch LocalModulesDeferredRegistrationStartedEvent[32m 8[2mms[22m[39m
+@squide/core:test:  [32m✓[39m tests/LocalModuleRegistry.test.ts[2m > [22mregisterDeferredRegistrations[2m > [22mwhen called twice, throw an error[32m 10[2mms[22m[39m
+@squide/core:test:  [32m✓[39m tests/LocalModuleRegistry.test.ts[2m > [22mregisterDeferredRegistrations[2m > [22mshould register all the deferred registrations[32m 6[2mms[22m[39m
+@squide/core:test:  [32m✓[39m tests/LocalModuleRegistry.test.ts[2m > [22mregisterDeferredRegistrations[2m > [22mwhen all the deferred registrations are registered, set the status to "ready"[32m 5[2mms[22m[39m
+@squide/core:test:  [32m✓[39m tests/LocalModuleRegistry.test.ts[2m > [22mregisterDeferredRegistrations[2m > [22mwhen all the deferred registrations are registered, LocalModulesDeferredRegistrationCompletedEvent is dispatched[32m 5[2mms[22m[39m
+@squide/core:test:  [32m✓[39m tests/LocalModuleRegistry.test.ts[2m > [22mregisterDeferredRegistrations[2m > [22mwhen a deferred registration fail, register the remaining deferred registrations[32m 9[2mms[22m[39m
+@squide/core:test:  [32m✓[39m tests/LocalModuleRegistry.test.ts[2m > [22mregisterDeferredRegistrations[2m > [22mwhen a deferred registration fail, return the error[32m 5[2mms[22m[39m
+@squide/core:test:  [32m✓[39m tests/LocalModuleRegistry.test.ts[2m > [22mregisterDeferredRegistrations[2m > [22mwhen a deferred registration fail, LocalModuleDeferredRegistrationFailedEvent is dispatched[32m 4[2mms[22m[39m
+@squide/core:test:  [32m✓[39m tests/LocalModuleRegistry.test.ts[2m > [22mregisterDeferredRegistrations[2m > [22mwhen a deferred registration fail, LocalModulesDeferredRegistrationCompletedEvent is dispatched[32m 7[2mms[22m[39m
+@squide/core:test:  [32m✓[39m tests/LocalModuleRegistry.test.ts[2m > [22mregisterDeferredRegistrations[2m > [22mall the deferred module registrations receive the data object[32m 6[2mms[22m[39m
+@squide/core:test:  [32m✓[39m tests/LocalModuleRegistry.test.ts[2m > [22mregisterDeferredRegistrations[2m > [22mall the deferred module registrations receive "register" as state[32m 2[2mms[22m[39m
+@squide/core:test:  [32m✓[39m tests/LocalModuleRegistry.test.ts[2m > [22mupdateDeferredRegistrations[2m > [22mwhen called before registerLocalModules, throw an error[32m 5[2mms[22m[39m
+@squide/core:test:  [32m✓[39m tests/LocalModuleRegistry.test.ts[2m > [22mupdateDeferredRegistrations[2m > [22mwhen called before registerLocalModuleDeferredRegistrations, throw an error[32m 4[2mms[22m[39m
+@squide/core:test:  [32m✓[39m tests/LocalModuleRegistry.test.ts[2m > [22mupdateDeferredRegistrations[2m > [22mshould dispatch LocalModulesDeferredRegistrationsUpdateStartedEvent[32m 4[2mms[22m[39m
+@squide/core:test:  [32m✓[39m tests/LocalModuleRegistry.test.ts[2m > [22mupdateDeferredRegistrations[2m > [22mshould update all the deferred registrations[32m 2[2mms[22m[39m
+@squide/core:test:  [32m✓[39m tests/LocalModuleRegistry.test.ts[2m > [22mupdateDeferredRegistrations[2m > [22mwhen all deferred registrations has been updated, LocalModulesDeferredRegistrationsUpdateCompletedEvent is dispatched[32m 1[2mms[22m[39m
+@squide/core:test:  [32m✓[39m tests/LocalModuleRegistry.test.ts[2m > [22mupdateDeferredRegistrations[2m > [22mwhen a deferred registration fail, update the remaining deferred registrations[32m 5[2mms[22m[39m
+@squide/core:test:  [32m✓[39m tests/LocalModuleRegistry.test.ts[2m > [22mupdateDeferredRegistrations[2m > [22mwhen a deferred registration fail, return the error[32m 5[2mms[22m[39m
+@squide/core:test:  [32m✓[39m tests/LocalModuleRegistry.test.ts[2m > [22mupdateDeferredRegistrations[2m > [22mwhen a deferred registration fail, LocalModuleDeferredRegistrationUpdateFailedEvent is dispatched[32m 4[2mms[22m[39m
+@squide/core:test:  [32m✓[39m tests/LocalModuleRegistry.test.ts[2m > [22mupdateDeferredRegistrations[2m > [22mwhen a deferred registration fail, LocalModulesDeferredRegistrationsUpdateCompletedEvent is dispatched[32m 4[2mms[22m[39m
+@squide/core:test:  [32m✓[39m tests/LocalModuleRegistry.test.ts[2m > [22mupdateDeferredRegistrations[2m > [22mall the deferred module registrations receive the data object[32m 4[2mms[22m[39m
+@squide/core:test:  [32m✓[39m tests/LocalModuleRegistry.test.ts[2m > [22mupdateDeferredRegistrations[2m > [22mall the deferred module registrations receive "update" as state[32m 4[2mms[22m[39m
+@squide/core:test:  [32m✓[39m tests/LocalModuleRegistry.test.ts[2m > [22mregisterModules[2m > [22mwhen a module is asynchronous, the function can be awaited[32m 106[2mms[22m[39m
+@squide/core:test:  [32m✓[39m tests/LocalModuleRegistry.test.ts[2m > [22mregisterDeferredRegistrations[2m > [22mwhen a deferred registration is asynchronous, the function can be awaited[32m 41[2mms[22m[39m
+@squide/core:test:  [32m✓[39m tests/LocalModuleRegistry.test.ts[2m > [22mupdateDeferredRegistrations[2m > [22mwhen a deferred registration is asynchronous, the function can be awaited[32m 16[2mms[22m[39m
+@squide/core:test: 
+@squide/core:test: [2m Test Files [22m [1m[32m4 passed[39m[22m[90m (4)[39m
+@squide/core:test: [2m      Tests [22m [1m[32m91 passed[39m[22m[90m (91)[39m
+@squide/core:test: [2m   Start at [22m 14:17:53
+@squide/core:test: [2m   Duration [22m 2.10s[2m (transform 1.80s, setup 0ms, import 2.32s, tests 224ms, environment 1ms)[22m
+@squide/core:test: 
+@squide/firefly-module-federation:test: cache bypass, force executing 3235818cde931280
+@squide/i18next:test:  [32m✓[39m tests/findSupportedPreferredLanguage.test.ts[2m > [22mwhen no preferred language match the supported languages, return undefined[32m 13[2mms[22m[39m
+@squide/i18next:test:  [32m✓[39m tests/findSupportedPreferredLanguage.test.ts[2m > [22mwhen a preferred language exactly match a supported language, return the matching language[32m 13[2mms[22m[39m
+@squide/i18next:test:  [32m✓[39m tests/findSupportedPreferredLanguage.test.ts[2m > [22mwhen no preferred language exactly match the supported languages but a preferred language partially match a supported language, return the partially matching language[32m 13[2mms[22m[39m
+@squide/i18next:test:  [32m✓[39m tests/findSupportedPreferredLanguage.test.ts[2m > [22mwhen no preferred language exactly match the supported languages but a supported language partially match a preferred language, return the partially matching language[32m 13[2mms[22m[39m
+@squide/i18next:test:  [32m✓[39m tests/findSupportedPreferredLanguage.test.ts[2m > [22mwhen multiple preferred languages exactly match supported languages, return the left most exactly matching preferred language[32m 13[2mms[22m[39m
+@squide/i18next:test:  [32m✓[39m tests/findSupportedPreferredLanguage.test.ts[2m > [22mwhen multiple preferred languages partially match supported languages, return the left most partially matching preferred language[32m 1[2mms[22m[39m
+@squide/i18next:test:  [32m✓[39m tests/findSupportedPreferredLanguage.test.ts[2m > [22mwhen multiple preferred languages partially match supported languages but a single preferred language exactly match a supported language, return the exactly matching preferred language[32m 1[2mms[22m[39m
+@squide/i18next:test: 
+@squide/i18next:test: [2m Test Files [22m [1m[32m1 passed[39m[22m[90m (1)[39m
+@squide/i18next:test: [2m      Tests [22m [1m[32m7 passed[39m[22m[90m (7)[39m
+@squide/i18next:test: [2m   Start at [22m 14:17:53
+@squide/i18next:test: [2m   Duration [22m 2.53s[2m (transform 810ms, setup 0ms, import 1.11s, tests 16ms, environment 0ms)[22m
+@squide/i18next:test: 
+@squide/firefly-module-federation:test: 
+@squide/firefly-module-federation:test: > @squide/firefly-module-federation@1.0.12 test C:\Dev\workleap\wl-squide\packages\firefly-module-federation
+@squide/firefly-module-federation:test: > vitest --config vitest.config.ts --no-watch
+@squide/firefly-module-federation:test: 
+@squide/env-vars:test:  [32m✓[39m tests/EnvironmentVariablesRegistry.test.ts[2m > [22madd[2m > [22mshould add a new variable[32m 8[2mms[22m[39m
+@squide/env-vars:test:  [32m✓[39m tests/EnvironmentVariablesRegistry.test.ts[2m > [22madd[2m > [22mwhen a variable already exist and the value is the same, do nothing[32m 7[2mms[22m[39m
+@squide/env-vars:test:  [32m✓[39m tests/EnvironmentVariablesRegistry.test.ts[2m > [22madd[2m > [22mwhen a variable already exist and the value is different, throw an error[32m 7[2mms[22m[39m
+@squide/env-vars:test:  [32m✓[39m tests/EnvironmentVariablesRegistry.test.ts[2m > [22maddVariables[2m > [22madd all variables[32m 7[2mms[22m[39m
+@squide/env-vars:test:  [32m✓[39m tests/EnvironmentVariablesRegistry.test.ts[2m > [22maddVariables[2m > [22mwhen one of the variable already exist and the value is different, throw an error[32m 7[2mms[22m[39m
+@squide/env-vars:test:  [32m✓[39m tests/EnvironmentVariablesRegistry.test.ts[2m > [22mgetVariable[2m > [22mwhen the key doesn't match any value, throw an error[32m 4[2mms[22m[39m
+@squide/env-vars:test:  [32m✓[39m tests/EnvironmentVariablesRegistry.test.ts[2m > [22mgetVariables[2m > [22mreturn all the variables[32m 4[2mms[22m[39m
+@squide/env-vars:test:  [32m✓[39m tests/EnvironmentVariablesRegistry.test.ts[2m > [22mgetVariables[2m > [22mthe returned variables object is immutable[32m 4[2mms[22m[39m
+@squide/msw:test:  [32m✓[39m tests/MswState.test.ts[2m > [22mwhen the state is not set as ready, return false[32m 10[2mms[22m[39m
+@squide/msw:test:  [32m✓[39m tests/MswState.test.ts[2m > [22mwhen the state is set as ready, return true[32m 9[2mms[22m[39m
+@squide/msw:test:  [32m✓[39m tests/MswState.test.ts[2m > [22mcan add listeners[32m 9[2mms[22m[39m
+@squide/msw:test:  [32m✓[39m tests/MswState.test.ts[2m > [22mcan remove listeners[32m 9[2mms[22m[39m
+@squide/msw:test: 
+@squide/msw:test: [2m Test Files [22m [1m[32m1 passed[39m[22m[90m (1)[39m
+@squide/msw:test: [2m      Tests [22m [1m[32m4 passed[39m[22m[90m (4)[39m
+@squide/msw:test: [2m   Start at [22m 14:17:53
+@squide/msw:test: [2m   Duration [22m 4.02s[2m (transform 204ms, setup 0ms, import 240ms, tests 12ms, environment 2.42s)[22m
+@squide/msw:test: 
+@squide/firefly-webpack-configs:test:  [32m✓[39m tests/defineConfig.test.ts[2m > [22mdefineDevHostConfig[2m > [22mthe application name is set as the federation plugin application name[33m 816[2mms[22m[39m
+@squide/firefly-webpack-configs:test:  [32m✓[39m tests/defineConfig.test.ts[2m > [22mdefineDevHostConfig[2m > [22mthe application name is set as the output unique name[33m 815[2mms[22m[39m
+@squide/firefly-webpack-configs:test:  [32m✓[39m tests/defineConfig.test.ts[2m > [22mdefineDevHostConfig[2m > [22mthe port number is set as the dev server port[33m 815[2mms[22m[39m
+@squide/firefly-webpack-configs:test:  [32m✓[39m tests/defineConfig.test.ts[2m > [22mdefineDevHostConfig[2m > [22mwhen no public path is provided, the default public path is "auto"[33m 815[2mms[22m[39m
+@squide/firefly-webpack-configs:test:  [32m✓[39m tests/defineConfig.test.ts[2m > [22mdefineDevHostConfig[2m > [22mwhen a public path is provided, use the provided public path[33m 815[2mms[22m[39m
+@squide/firefly-webpack-configs:test:  [32m✓[39m tests/defineConfig.test.ts[2m > [22mdefineDevHostConfig[2m > [22mthe module federation plugin configuration includes the remotes[32m 28[2mms[22m[39m
+@squide/firefly-webpack-configs:test:  [32m✓[39m tests/defineConfig.test.ts[2m > [22mdefineDevHostConfig[2m > [22mthe module federation plugin configuration includes the default shared dependencies[32m 28[2mms[22m[39m
+@squide/firefly-webpack-configs:test:  [32m✓[39m tests/defineConfig.test.ts[2m > [22mdefineDevHostConfig[2m > [22mwhen additional shared dependencies are provided, add the dependencies to the module federation plugin configuration[32m 28[2mms[22m[39m
+@squide/firefly-webpack-configs:test:  [32m✓[39m tests/defineConfig.test.ts[2m > [22mdefineDevHostConfig[2m > [22mwhen additional options are provided for an existing default shared dependency, add the consumer options to the default options[32m 28[2mms[22m[39m
+@squide/firefly-webpack-configs:test:  [32m✓[39m tests/defineConfig.test.ts[2m > [22mdefineDevHostConfig[2m > [22mwhen overriding options are provided for a default shared dependency, use the consumer option[32m 28[2mms[22m[39m
+@squide/firefly-webpack-configs:test:  [32m✓[39m tests/defineConfig.test.ts[2m > [22mdefineDevHostConfig[2m > [22mwhen the router is react-router, add react-router shared dependencies[32m 32[2mms[22m[39m
+@squide/firefly-webpack-configs:test:  [32m✓[39m tests/defineConfig.test.ts[2m > [22mdefineDevHostConfig[2m > [22mwhen i18next is activated, add i18next shared dependency and requiredVersion: false to the react shared dependency definition[32m 32[2mms[22m[39m
+@squide/firefly-webpack-configs:test:  [32m✓[39m tests/defineConfig.test.ts[2m > [22mdefineDevHostConfig[2m > [22mwhen honeycomb is activated, add honeycomb shared dependency and requiredVersion: false to the react shared dependency definition[32m 32[2mms[22m[39m
+@squide/firefly-webpack-configs:test:  [32m✓[39m tests/defineConfig.test.ts[2m > [22mdefineDevHostConfig[2m > [22mwhen environmentVariables is activated, add env-vars shared dependency and requiredVersion: false to the react shared dependency definition[32m 32[2mms[22m[39m
+@squide/firefly-webpack-configs:test:  [32m✓[39m tests/defineConfig.test.ts[2m > [22mdefineDevHostConfig[2m > [22mwhen additional plugins are provided, the plugins are added to the configuration[32m 32[2mms[22m[39m
+@squide/firefly-webpack-configs:test:  [32m✓[39m tests/defineConfig.test.ts[2m > [22mdefineDevHostConfig[2m > [22mwhen configuration transformers are provided, the transformers are applied to the configuration[32m 65[2mms[22m[39m
+@squide/firefly-webpack-configs:test:  [32m✓[39m tests/defineConfig.test.ts[2m > [22mdefineDevHostConfig[2m > [22mwhen no options are provided for the html webpack plugin, add a public path option[32m 65[2mms[22m[39m
+@squide/firefly-webpack-configs:test:  [32m✓[39m tests/defineConfig.test.ts[2m > [22mdefineDevHostConfig[2m > [22mwhen options others than the public path option are provided for the html webpack plugin, add a public path option[32m 65[2mms[22m[39m
+@squide/firefly-webpack-configs:test:  [32m✓[39m tests/defineConfig.test.ts[2m > [22mdefineDevHostConfig[2m > [22mwhen a public path option is provided for the html webpack plugin, do not alter the provided public path option[32m 65[2mms[22m[39m
+@squide/firefly-webpack-configs:test:  [32m✓[39m tests/defineConfig.test.ts[2m > [22mdefineBuildHostConfig[2m > [22mthe application name is set as the federation plugin application name[32m 65[2mms[22m[39m
+@squide/firefly-webpack-configs:test:  [32m✓[39m tests/defineConfig.test.ts[2m > [22mdefineBuildHostConfig[2m > [22mwhen no public path is provided, the default public path is "auto"[32m 36[2mms[22m[39m
+@squide/firefly-webpack-configs:test:  [32m✓[39m tests/defineConfig.test.ts[2m > [22mdefineBuildHostConfig[2m > [22mwhen a public path is provided, use the provided public path[32m 36[2mms[22m[39m
+@squide/firefly-webpack-configs:test:  [32m✓[39m tests/defineConfig.test.ts[2m > [22mdefineBuildHostConfig[2m > [22mthe module federation plugin configuration includes the remotes[32m 36[2mms[22m[39m
+@squide/firefly-webpack-configs:test:  [32m✓[39m tests/defineConfig.test.ts[2m > [22mdefineBuildHostConfig[2m > [22mthe module federation plugin configuration includes the default shared dependencies[32m 36[2mms[22m[39m
+@squide/firefly-webpack-configs:test:  [32m✓[39m tests/defineConfig.test.ts[2m > [22mdefineBuildHostConfig[2m > [22mwhen additional shared dependencies are provided, add the dependencies to the module federation plugin configuration[32m 36[2mms[22m[39m
+@squide/firefly-webpack-configs:test:  [32m✓[39m tests/defineConfig.test.ts[2m > [22mdefineBuildHostConfig[2m > [22mwhen additional options are provided for an existing default shared dependency, add the consumer options to the default options[32m 25[2mms[22m[39m
+@squide/firefly-webpack-configs:test:  [32m✓[39m tests/defineConfig.test.ts[2m > [22mdefineBuildHostConfig[2m > [22mwhen overriding options are provided for a default shared dependency, use the consumer option[32m 25[2mms[22m[39m
+@squide/firefly-webpack-configs:test:  [32m✓[39m tests/defineConfig.test.ts[2m > [22mdefineBuildHostConfig[2m > [22mwhen the router is react-router, add react-router shared dependencies[32m 25[2mms[22m[39m
+@squide/firefly-webpack-configs:test:  [32m✓[39m tests/defineConfig.test.ts[2m > [22mdefineBuildHostConfig[2m > [22mwhen i18next is activated, add i18next shared dependency and requiredVersion: false to the react shared dependency definition[32m 25[2mms[22m[39m
+@squide/firefly-webpack-configs:test:  [32m✓[39m tests/defineConfig.test.ts[2m > [22mdefineBuildHostConfig[2m > [22mwhen honeycomb is activated, add honeycomb shared dependency and requiredVersion: false to the react shared dependency definition[32m 25[2mms[22m[39m
+@squide/firefly-webpack-configs:test:  [32m✓[39m tests/defineConfig.test.ts[2m > [22mdefineBuildHostConfig[2m > [22mwhen environmentVariables is env-vars, add env-vars shared dependency and requiredVersion: false to the react shared dependency definition[32m 26[2mms[22m[39m
+@squide/firefly-webpack-configs:test:  [32m✓[39m tests/defineConfig.test.ts[2m > [22mdefineBuildHostConfig[2m > [22mwhen additional plugins are provided, the plugins are added to the configuration[32m 26[2mms[22m[39m
+@squide/firefly-webpack-configs:test:  [32m✓[39m tests/defineConfig.test.ts[2m > [22mdefineBuildHostConfig[2m > [22mwhen configuration transformers are provided, the transformers are applied to the configuration[32m 26[2mms[22m[39m
+@squide/firefly-webpack-configs:test:  [32m✓[39m tests/defineConfig.test.ts[2m > [22mdefineBuildHostConfig[2m > [22mwhen no options are provided for the html webpack plugin, add a public path option[32m 26[2mms[22m[39m
+@squide/firefly-webpack-configs:test:  [32m✓[39m tests/defineConfig.test.ts[2m > [22mdefineBuildHostConfig[2m > [22mwhen options others than the public path option are provided for the html webpack plugin, add a public path option[32m 26[2mms[22m[39m
+@squide/firefly-webpack-configs:test:  [32m✓[39m tests/defineConfig.test.ts[2m > [22mdefineBuildHostConfig[2m > [22mwhen a public path option is provided for the html webpack plugin, do not alter the provided public path option[32m 25[2mms[22m[39m
+@squide/env-vars:test:  [32m✓[39m tests/EnvironmentVariablesPlugin.test.ts[2m > [22mcan provide environment variables as an option[32m 9[2mms[22m[39m
+@squide/env-vars:test: 
+@squide/env-vars:test: [2m Test Files [22m [1m[32m2 passed[39m[22m[90m (2)[39m
+@squide/env-vars:test: [2m      Tests [22m [1m[32m9 passed[39m[22m[90m (9)[39m
+@squide/env-vars:test: [2m   Start at [22m 14:17:53
+@squide/env-vars:test: [2m   Duration [22m 4.57s[2m (transform 740ms, setup 0ms, import 1.00s, tests 25ms, environment 4.72s)[22m
+@squide/env-vars:test: 
+@squide/firefly-webpack-configs:test:  [32m✓[39m tests/defineConfig.test.ts[2m > [22mdefineDevRemoteModuleConfig[2m > [22mthe application name is set as the federation plugin application name[32m 25[2mms[22m[39m
+@squide/firefly-webpack-configs:test:  [32m✓[39m tests/defineConfig.test.ts[2m > [22mdefineDevRemoteModuleConfig[2m > [22mthe application name is set as the output unique name[32m 25[2mms[22m[39m
+@squide/firefly-webpack-configs:test:  [32m✓[39m tests/defineConfig.test.ts[2m > [22mdefineDevRemoteModuleConfig[2m > [22mthe port number is set as the dev server port[32m 25[2mms[22m[39m
+@squide/firefly-webpack-configs:test:  [32m✓[39m tests/defineConfig.test.ts[2m > [22mdefineDevRemoteModuleConfig[2m > [22mwhen no public path is provided, the default public path is "auto"[32m 25[2mms[22m[39m
+@squide/firefly-webpack-configs:test:  [32m✓[39m tests/defineConfig.test.ts[2m > [22mdefineDevRemoteModuleConfig[2m > [22mwhen a public path is provided, use the provided public path[32m 29[2mms[22m[39m
+@squide/firefly-webpack-configs:test:  [32m✓[39m tests/defineConfig.test.ts[2m > [22mdefineDevRemoteModuleConfig[2m > [22mthe module federation plugin configuration includes the default shared dependencies[32m 29[2mms[22m[39m
+@squide/firefly-webpack-configs:test:  [32m✓[39m tests/defineConfig.test.ts[2m > [22mdefineDevRemoteModuleConfig[2m > [22mwhen additional shared dependencies are provided, add the dependencies to the module federation plugin configuration[32m 29[2mms[22m[39m
+@squide/firefly-webpack-configs:test:  [32m✓[39m tests/defineConfig.test.ts[2m > [22mdefineDevRemoteModuleConfig[2m > [22mwhen additional options are provided for an existing default shared dependency, add the consumer options to the default options[32m 29[2mms[22m[39m
+@squide/firefly-webpack-configs:test:  [32m✓[39m tests/defineConfig.test.ts[2m > [22mdefineDevRemoteModuleConfig[2m > [22mwhen overriding options are provided for a default shared dependency, use the consumer option[32m 29[2mms[22m[39m
+@squide/firefly-webpack-configs:test:  [32m✓[39m tests/defineConfig.test.ts[2m > [22mdefineDevRemoteModuleConfig[2m > [22mwhen the router is react-router, add react-router shared dependencies[32m 27[2mms[22m[39m
+@squide/firefly-webpack-configs:test:  [32m✓[39m tests/defineConfig.test.ts[2m > [22mdefineDevRemoteModuleConfig[2m > [22mwhen i18next is activated, add i18next shared dependency and requiredVersion: false to the react shared dependency definition[32m 27[2mms[22m[39m
+@squide/firefly-webpack-configs:test:  [32m✓[39m tests/defineConfig.test.ts[2m > [22mdefineDevRemoteModuleConfig[2m > [22mwhen honeycomb is activated, add honeycomb shared dependency and requiredVersion: false to the react shared dependency definition[32m 27[2mms[22m[39m
+@squide/firefly-webpack-configs:test:  [32m✓[39m tests/defineConfig.test.ts[2m > [22mdefineDevRemoteModuleConfig[2m > [22mwhen environmentVariables is activated, add env-vars shared dependency and requiredVersion: false to the react shared dependency definition[32m 27[2mms[22m[39m
+@squide/firefly-webpack-configs:test:  [32m✓[39m tests/defineConfig.test.ts[2m > [22mdefineDevRemoteModuleConfig[2m > [22maccess control headers are added to the dev server configuration[32m 27[2mms[22m[39m
+@squide/firefly-webpack-configs:test:  [32m✓[39m tests/defineConfig.test.ts[2m > [22mdefineDevRemoteModuleConfig[2m > [22mwhen additional plugins are provided, the plugins are added to the configuration[32m 25[2mms[22m[39m
+@squide/firefly-webpack-configs:test:  [32m✓[39m tests/defineConfig.test.ts[2m > [22mdefineDevRemoteModuleConfig[2m > [22mwhen additional configuration transformers are provided, the transformers are applied to the configuration[32m 25[2mms[22m[39m
+@squide/firefly-webpack-configs:test:  [32m✓[39m tests/defineConfig.test.ts[2m > [22mdefineBuildRemoteModuleConfig[2m > [22mthe application name is set as the federation plugin application name[32m 25[2mms[22m[39m
+@squide/firefly-webpack-configs:test:  [32m✓[39m tests/defineConfig.test.ts[2m > [22mdefineBuildRemoteModuleConfig[2m > [22mwhen no public path is provided, the default public path is "auto"[32m 25[2mms[22m[39m
+@squide/firefly-webpack-configs:test:  [32m✓[39m tests/defineConfig.test.ts[2m > [22mdefineBuildRemoteModuleConfig[2m > [22mwhen a public path is provided, use the provided public path[32m 25[2mms[22m[39m
+@squide/firefly-webpack-configs:test:  [32m✓[39m tests/defineConfig.test.ts[2m > [22mdefineBuildRemoteModuleConfig[2m > [22mthe module federation plugin configuration includes the default shared dependencies[32m 25[2mms[22m[39m
+@squide/firefly-webpack-configs:test:  [32m✓[39m tests/defineConfig.test.ts[2m > [22mdefineBuildRemoteModuleConfig[2m > [22mwhen additional shared dependencies are provided, add the dependencies to the module federation plugin configuration[32m 25[2mms[22m[39m
+@squide/firefly-webpack-configs:test:  [32m✓[39m tests/defineConfig.test.ts[2m > [22mdefineBuildRemoteModuleConfig[2m > [22mwhen additional options are provided for an existing default shared dependency, add the consumer options to the default options[32m 25[2mms[22m[39m
+@squide/firefly-webpack-configs:test:  [32m✓[39m tests/defineConfig.test.ts[2m > [22mdefineBuildRemoteModuleConfig[2m > [22mwhen overriding options are provided for a default shared dependency, use the consumer option[32m 25[2mms[22m[39m
+@squide/firefly-webpack-configs:test:  [32m✓[39m tests/defineConfig.test.ts[2m > [22mdefineBuildRemoteModuleConfig[2m > [22mwhen the router is react-router, add react-router shared dependencies[32m 25[2mms[22m[39m
+@squide/firefly-webpack-configs:test:  [32m✓[39m tests/defineConfig.test.ts[2m > [22mdefineBuildRemoteModuleConfig[2m > [22mwhen i18next is activated, add i18next shared dependency and requiredVersion: false to the react shared dependency definition[32m 23[2mms[22m[39m
+@squide/firefly-webpack-configs:test:  [32m✓[39m tests/defineConfig.test.ts[2m > [22mdefineBuildRemoteModuleConfig[2m > [22mwhen honeycomb is activated, add honeycomb shared dependency and requiredVersion: false to the react shared dependency definition[32m 23[2mms[22m[39m
+@squide/firefly-webpack-configs:test:  [32m✓[39m tests/defineConfig.test.ts[2m > [22mdefineBuildRemoteModuleConfig[2m > [22mwhen environmentVariables is activated, add env-vars shared dependency and requiredVersion: false to the react shared dependency definition[32m 23[2mms[22m[39m
+@squide/firefly-webpack-configs:test:  [32m✓[39m tests/defineConfig.test.ts[2m > [22mdefineBuildRemoteModuleConfig[2m > [22mwhen additional plugins are provided, the plugins are added to the configuration[32m 23[2mms[22m[39m
+@squide/firefly-webpack-configs:test:  [32m✓[39m tests/defineConfig.test.ts[2m > [22mdefineBuildRemoteModuleConfig[2m > [22mwhen configuration transformers are provided, the transformers are applied to the configuration[32m 23[2mms[22m[39m
+@squide/firefly-webpack-configs:test:  [32m✓[39m tests/defineConfig.test.ts[2m > [22mdefineHostModuleFederationPluginOptions[2m > [22mmerge the default options with the provided options[32m 6[2mms[22m[39m
+@squide/firefly-webpack-configs:test:  [32m✓[39m tests/defineConfig.test.ts[2m > [22mdefineHostModuleFederationPluginOptions[2m > [22mmerge the shared dependencies with the default shared dependencies[32m 6[2mms[22m[39m
+@squide/firefly-webpack-configs:test:  [32m✓[39m tests/defineConfig.test.ts[2m > [22mdefineRemoteModuleFederationPluginOptions[2m > [22mmerge the default options with the provided options[32m 6[2mms[22m[39m
+@squide/firefly-webpack-configs:test:  [32m✓[39m tests/defineConfig.test.ts[2m > [22mdefineRemoteModuleFederationPluginOptions[2m > [22mmerge the shared dependencies with the default shared dependencies[32m 6[2mms[22m[39m
+@squide/firefly-webpack-configs:test:  [32m✓[39m tests/defineConfig.test.ts[2m > [22mdefineRemoteModuleFederationPluginOptions[2m > [22mshould provide additional "exposes"[32m 6[2mms[22m[39m
+@squide/firefly-webpack-configs:test: 
+@squide/firefly-webpack-configs:test: [2m Test Files [22m [1m[32m2 passed[39m[22m[90m (2)[39m
+@squide/firefly-webpack-configs:test: [2m      Tests [22m [1m[32m78 passed[39m[22m[90m (78)[39m
+@squide/firefly-webpack-configs:test: [2m   Start at [22m 14:17:53
+@squide/firefly-webpack-configs:test: [2m   Duration [22m 4.72s[2m (transform 577ms, setup 0ms, import 2.66s, tests 1.22s, environment 0ms)[22m
+@squide/firefly-webpack-configs:test: 
+@squide/react-router:test:  [32m✓[39m tests/resolveRouteSegments.test.ts[2m > [22mwhen there's no match, return the original route[32m 7[2mms[22m[39m
+@squide/react-router:test:  [32m✓[39m tests/resolveRouteSegments.test.ts[2m > [22mwhen there's a single match, return the resolved route[32m 6[2mms[22m[39m
+@squide/react-router:test:  [32m✓[39m tests/resolveRouteSegments.test.ts[2m > [22mwhen there's multiple matches, return the resolved route[32m 6[2mms[22m[39m
+@squide/react-router:test:  [32m✓[39m tests/resolveRouteSegments.test.ts[2m > [22mwhen there's partial matches, return the partially resolved route[32m 6[2mms[22m[39m
+@squide/launch-darkly:test:  [32m✓[39m tests/InMemoryLaunchDarklyClient.test.ts[2m > [22mallFlags[2m > [22mreturn all the flags[32m 6[2mms[22m[39m
+@squide/launch-darkly:test:  [32m✓[39m tests/InMemoryLaunchDarklyClient.test.ts[2m > [22mallFlags[2m > [22mwhen the flags are retrieved twice, the same object reference is returned[32m 5[2mms[22m[39m
+@squide/launch-darkly:test:  [32m✓[39m tests/InMemoryLaunchDarklyClient.test.ts[2m > [22mvariation[2m > [22mwhen the flag exist, return the flag value[32m 5[2mms[22m[39m
+@squide/launch-darkly:test:  [32m✓[39m tests/InMemoryLaunchDarklyClient.test.ts[2m > [22mvariation[2m > [22mwhen the flag doesn't exist and a default value is provided, return the default value[32m 5[2mms[22m[39m
+@squide/launch-darkly:test:  [32m✓[39m tests/InMemoryLaunchDarklyClient.test.ts[2m > [22mvariation[2m > [22mwhen the flag doesn't exist and no default value is provided, return undefined[32m 5[2mms[22m[39m
+@squide/launch-darkly:test:  [32m✓[39m tests/InMemoryLaunchDarklyClient.test.ts[2m > [22mvariationDetail[2m > [22mwhen the flag exist, return the flag value[32m 4[2mms[22m[39m
+@squide/launch-darkly:test:  [32m✓[39m tests/InMemoryLaunchDarklyClient.test.ts[2m > [22mvariationDetail[2m > [22mwhen the flag doesn't exist and a default value is provided, return the default value[32m 4[2mms[22m[39m
+@squide/launch-darkly:test:  [32m✓[39m tests/InMemoryLaunchDarklyClient.test.ts[2m > [22mvariationDetail[2m > [22mwhen the flag doesn't exist and no default value is provided, return undefined[32m 3[2mms[22m[39m
+@squide/launch-darkly:test:  [32m✓[39m tests/InMemoryLaunchDarklyClient.test.ts[2m > [22msetFeatureFlags[2m > [22mcan update multiple flag values[32m 3[2mms[22m[39m
+@squide/launch-darkly:test:  [32m✓[39m tests/InMemoryLaunchDarklyClient.test.ts[2m > [22msetFeatureFlags[2m > [22mcan update a single flag value[32m 3[2mms[22m[39m
+@squide/launch-darkly:test:  [32m✓[39m tests/InMemoryLaunchDarklyClient.test.ts[2m > [22msetFeatureFlags[2m > [22mtriggers a change notification[32m 6[2mms[22m[39m
+@squide/launch-darkly:test:  [32m✓[39m tests/InMemoryLaunchDarklyClient.test.ts[2m > [22msetFeatureFlags[2m > [22mwhen notify is false, do not trigger a change notification[32m 6[2mms[22m[39m
+@squide/launch-darkly:test:  [32m✓[39m tests/InMemoryLaunchDarklyClient.test.ts[2m > [22msetFeatureFlags[2m > [22mgetting a variation after updating values returns the updated value[32m 6[2mms[22m[39m
+@squide/launch-darkly:test:  [32m✓[39m tests/InMemoryLaunchDarklyClient.test.ts[2m > [22mstartTransaction[2m > [22mcan start a transaction[32m 6[2mms[22m[39m
+@squide/launch-darkly:test:  [32m✓[39m tests/InMemoryLaunchDarklyClient.test.ts[2m > [22mstartTransaction[2m > [22mwhen a transaction is in progress, the updated flags are returned[32m 6[2mms[22m[39m
+@squide/launch-darkly:test:  [32m✓[39m tests/InMemoryLaunchDarklyClient.test.ts[2m > [22mstartTransaction[2m > [22mwhen a transaction is in progress, updating the flags doesn't trigger a notification[32m 4[2mms[22m[39m
+@squide/launch-darkly:test:  [32m✓[39m tests/InMemoryLaunchDarklyClient.test.ts[2m > [22mstartTransaction[2m > [22mwhen a transaction is committed, the updated flags are returned[32m 4[2mms[22m[39m
+@squide/launch-darkly:test:  [32m✓[39m tests/InMemoryLaunchDarklyClient.test.ts[2m > [22mstartTransaction[2m > [22mwhen a transaction is committed, all pending notifications are triggered[32m 4[2mms[22m[39m
+@squide/launch-darkly:test:  [32m✓[39m tests/InMemoryLaunchDarklyClient.test.ts[2m > [22mstartTransaction[2m > [22mwhen a transaction is undo, restore the original flags[32m 4[2mms[22m[39m
+@squide/launch-darkly:test:  [32m✓[39m tests/InMemoryLaunchDarklyClient.test.ts[2m > [22mstartTransaction[2m > [22mwhen a transaction is undo, do not trigger pending notifications[32m 4[2mms[22m[39m
+@squide/launch-darkly:test:  [32m✓[39m tests/InMemoryLaunchDarklyClient.test.ts[2m > [22mstartTransaction[2m > [22mcannot start more than one transaction at a time[32m 3[2mms[22m[39m
+@squide/launch-darkly:test:  [32m✓[39m tests/InMemoryLaunchDarklyClient.test.ts[2m > [22mstartTransaction[2m > [22mcan complete and start a new transaction[32m 3[2mms[22m[39m
+@squide/launch-darkly:test:  [32m✓[39m tests/LocalStorageLaunchDarklyClient.test.ts[2m > [22mcreateLocalStorageLaunchDarklyClient[2m > [22mwhen the local storage is empty, the local storage is initialized with default flags[32m 3[2mms[22m[39m
+@squide/launch-darkly:test:  [32m✓[39m tests/LocalStorageLaunchDarklyClient.test.ts[2m > [22mcreateLocalStorageLaunchDarklyClient[2m > [22mwhen the local storage has existing flags, the existing flag values have priority over the default flags values[32m 1[2mms[22m[39m
+@squide/launch-darkly:test:  [32m✓[39m tests/LocalStorageLaunchDarklyClient.test.ts[2m > [22mcreateLocalStorageLaunchDarklyClient[2m > [22mwhen the local storage has existing flags, and the existing flags are not deprecated, do not remove them from the local storage[32m 2[2mms[22m[39m
+@squide/launch-darkly:test:  [32m✓[39m tests/LocalStorageLaunchDarklyClient.test.ts[2m > [22mcreateLocalStorageLaunchDarklyClient[2m > [22mwhen the local storage has deprecated flags, do not load them[32m 1[2mms[22m[39m
+@squide/launch-darkly:test:  [32m✓[39m tests/LocalStorageLaunchDarklyClient.test.ts[2m > [22mcreateLocalStorageLaunchDarklyClient[2m > [22mwhen the local storage has deprecated flags, remove them from the local storage[32m 2[2mms[22m[39m
+@squide/launch-darkly:test:  [32m✓[39m tests/LocalStorageLaunchDarklyClient.test.ts[2m > [22mcreateLocalStorageLaunchDarklyClient[2m > [22mwhen the local storage is missing default flags, load them[32m 1[2mms[22m[39m
+@squide/launch-darkly:test:  [32m✓[39m tests/LocalStorageLaunchDarklyClient.test.ts[2m > [22mcreateLocalStorageLaunchDarklyClient[2m > [22mwhen the local storage is missing default flags, add those default flags to the local storage[32m 1[2mms[22m[39m
+@squide/launch-darkly:test:  [32m✓[39m tests/LocalStorageLaunchDarklyClient.test.ts[2m > [22mcreateLocalStorageLaunchDarklyClient[2m > [22mwhen a local storage key is provided, use the provided key[32m 2[2mms[22m[39m
+@squide/launch-darkly:test:  [32m✓[39m tests/LocalStorageLaunchDarklyClient.test.ts[2m > [22mcreateLocalStorageLaunchDarklyClient[2m > [22mwhen no local storage key is provided, use the default key[32m 1[2mms[22m[39m
+@squide/launch-darkly:test:  [32m✓[39m tests/LocalStorageLaunchDarklyClient.test.ts[2m > [22mallFlags[2m > [22mreturn all the flags[32m 1[2mms[22m[39m
+@squide/launch-darkly:test:  [32m✓[39m tests/LocalStorageLaunchDarklyClient.test.ts[2m > [22mallFlags[2m > [22mwhen the flags are retrieved twice, the same object reference is returned[32m 1[2mms[22m[39m
+@squide/launch-darkly:test:  [32m✓[39m tests/LocalStorageLaunchDarklyClient.test.ts[2m > [22mvariation[2m > [22mwhen the flag exist, return the flag value[32m 1[2mms[22m[39m
+@squide/launch-darkly:test:  [32m✓[39m tests/LocalStorageLaunchDarklyClient.test.ts[2m > [22mvariation[2m > [22mwhen the flag doesn't exist and a default value is provided, return the default value[32m 1[2mms[22m[39m
+@squide/launch-darkly:test:  [32m✓[39m tests/LocalStorageLaunchDarklyClient.test.ts[2m > [22mvariation[2m > [22mwhen the flag doesn't exist and no default value is provided, return undefined[32m 1[2mms[22m[39m
+@squide/launch-darkly:test:  [32m✓[39m tests/LocalStorageLaunchDarklyClient.test.ts[2m > [22mvariationDetail[2m > [22mwhen the flag exist, return the flag[32m 3[2mms[22m[39m
+@squide/launch-darkly:test:  [32m✓[39m tests/LocalStorageLaunchDarklyClient.test.ts[2m > [22mvariationDetail[2m > [22mwhen the flag doesn't exist and a default value is provided, return the default value[32m 3[2mms[22m[39m
+@squide/launch-darkly:test:  [32m✓[39m tests/LocalStorageLaunchDarklyClient.test.ts[2m > [22mvariationDetail[2m > [22mwhen the flag doesn't exist and no default value is provided, return undefined[32m 3[2mms[22m[39m
+@squide/launch-darkly:test:  [32m✓[39m tests/LocalStorageLaunchDarklyClient.test.ts[2m > [22msetFeatureFlags[2m > [22mcan update multiple flag values[32m 4[2mms[22m[39m
+@squide/launch-darkly:test:  [32m✓[39m tests/LocalStorageLaunchDarklyClient.test.ts[2m > [22msetFeatureFlags[2m > [22mcan update a single flag value[32m 2[2mms[22m[39m
+@squide/launch-darkly:test:  [32m✓[39m tests/LocalStorageLaunchDarklyClient.test.ts[2m > [22msetFeatureFlags[2m > [22mtriggers a change notification[32m 5[2mms[22m[39m
+@squide/launch-darkly:test:  [32m✓[39m tests/LocalStorageLaunchDarklyClient.test.ts[2m > [22msetFeatureFlags[2m > [22mwhen notify is false, do not trigger a change notification[32m 1[2mms[22m[39m
+@squide/launch-darkly:test:  [32m✓[39m tests/LocalStorageLaunchDarklyClient.test.ts[2m > [22msetFeatureFlags[2m > [22mgetting a variation after updating values returns the updated value[32m 1[2mms[22m[39m
+@squide/launch-darkly:test:  [32m✓[39m tests/LocalStorageLaunchDarklyClient.test.ts[2m > [22mstartTransaction[2m > [22mcan start a transaction[32m 1[2mms[22m[39m
+@squide/launch-darkly:test:  [32m✓[39m tests/LocalStorageLaunchDarklyClient.test.ts[2m > [22mstartTransaction[2m > [22mwhen a transaction is in progress, the updated flags are returned[32m 1[2mms[22m[39m
+@squide/launch-darkly:test:  [32m✓[39m tests/LocalStorageLaunchDarklyClient.test.ts[2m > [22mstartTransaction[2m > [22mwhen a transaction is in progress, the updated flags are not persisted to local storage[32m 1[2mms[22m[39m
+@squide/launch-darkly:test:  [32m✓[39m tests/LocalStorageLaunchDarklyClient.test.ts[2m > [22mstartTransaction[2m > [22mwhen a transaction is in progress, updating the flags doesn't trigger a notification[32m 2[2mms[22m[39m
+@squide/launch-darkly:test:  [32m✓[39m tests/LocalStorageLaunchDarklyClient.test.ts[2m > [22mstartTransaction[2m > [22mwhen a transaction is committed, the updated flags are returned[32m 1[2mms[22m[39m
+@squide/launch-darkly:test:  [32m✓[39m tests/LocalStorageLaunchDarklyClient.test.ts[2m > [22mstartTransaction[2m > [22mwhen a transaction is committed, the updated flags are persisted to local storage[32m 1[2mms[22m[39m
+@squide/launch-darkly:test:  [32m✓[39m tests/LocalStorageLaunchDarklyClient.test.ts[2m > [22mstartTransaction[2m > [22mwhen a transaction is committed, all pending notifications are triggered[32m 2[2mms[22m[39m
+@squide/launch-darkly:test:  [32m✓[39m tests/LocalStorageLaunchDarklyClient.test.ts[2m > [22mstartTransaction[2m > [22mwhen a transaction is undo, restore the original flags[32m 1[2mms[22m[39m
+@squide/launch-darkly:test:  [32m✓[39m tests/LocalStorageLaunchDarklyClient.test.ts[2m > [22mstartTransaction[2m > [22mwhen a transaction is undo, do not trigger pending notifications[32m 1[2mms[22m[39m
+@squide/launch-darkly:test:  [32m✓[39m tests/LocalStorageLaunchDarklyClient.test.ts[2m > [22mstartTransaction[2m > [22mcannot start more than one transaction at a time[32m 3[2mms[22m[39m
+@squide/launch-darkly:test:  [32m✓[39m tests/LocalStorageLaunchDarklyClient.test.ts[2m > [22mstartTransaction[2m > [22mcan complete and start a new transaction[32m 1[2mms[22m[39m
+@squide/launch-darkly:test:  [32m✓[39m tests/LocalStorageLaunchDarklyClient.test.ts[2m > [22mstorage changed event[2m > [22mgetting flags after a storage changed event returns the updated values[32m 2[2mms[22m[39m
+@squide/launch-darkly:test:  [32m✓[39m tests/LocalStorageLaunchDarklyClient.test.ts[2m > [22mstorage changed event[2m > [22mtriggers a change notification[32m 2[2mms[22m[39m
+@squide/launch-darkly:test:  [32m✓[39m tests/LocalStorageLaunchDarklyClient.test.ts[2m > [22mstorage changed event[2m > [22mdo not trigger a change notification when it's a different storage key[32m 1[2mms[22m[39m
+@squide/react-router:test:  [32m✓[39m tests/RouteRegistry.test.tsx[2m > [22mcreateIndexKey[2m > [22mwhen the route is an index route, return an empty array[32m 8[2mms[22m[39m
+@squide/react-router:test:  [32m✓[39m tests/RouteRegistry.test.tsx[2m > [22mcreateIndexKey[2m > [22mwhen the route has an $id, return the route $id[32m 8[2mms[22m[39m
+@squide/react-router:test:  [32m✓[39m tests/RouteRegistry.test.tsx[2m > [22mcreateIndexKey[2m > [22mwhen this is a pathless route, return an empty array[32m 8[2mms[22m[39m
+@squide/react-router:test:  [32m✓[39m tests/RouteRegistry.test.tsx[2m > [22mcreateIndexKey[2m > [22mwhen the route is pathless route and a parentPath is provided, return an empty array[32m 8[2mms[22m[39m
+@squide/react-router:test:  [32m✓[39m tests/RouteRegistry.test.tsx[2m > [22mcreateIndexKey[2m > [22mwhen the route has an $id and a parentPath is provided, return the $id[32m 8[2mms[22m[39m
+@squide/react-router:test:  [32m✓[39m tests/RouteRegistry.test.tsx[2m > [22madd[2m > [22mwhen a root route is added, return the "registered" registration status[32m 4[2mms[22m[39m
+@squide/react-router:test:  [32m✓[39m tests/RouteRegistry.test.tsx[2m > [22madd[2m > [22mwhen a root route is added and completes the pending registration of nested routes, add the registered routes to the returned "completedPendingRegistrations" array[32m 4[2mms[22m[39m
+@squide/react-router:test:  [32m✓[39m tests/RouteRegistry.test.tsx[2m > [22madd[2m > [22mwhen a root route is added and do not complete any pending registration, return an empty "completedPendingRegistrations" array[32m 4[2mms[22m[39m
+@squide/react-router:test:  [32m✓[39m tests/RouteRegistry.test.tsx[2m > [22madd[2m > [22mwhen a nested route is pending for registration, return the "pending" registration status[32m 4[2mms[22m[39m
+@squide/react-router:test:  [32m✓[39m tests/RouteRegistry.test.tsx[2m > [22madd[2m > [22mwhen a nested route is added, return the "registered" registration status[32m 4[2mms[22m[39m
+@squide/react-router:test:  [32m✓[39m tests/RouteRegistry.test.tsx[2m > [22madd[2m > [22mwhen a nested route is added and completes the pending registration of nested routes, add the registered routes to the returned "completedPendingRegistrations" array[32m 3[2mms[22m[39m
+@squide/react-router:test:  [32m✓[39m tests/RouteRegistry.test.tsx[2m > [22mcreateIndexKey[2m > [22mabsolute paths[2m > [22mwhen the route has a path, return the route path[32m 3[2mms[22m[39m
+@squide/react-router:test:  [32m✓[39m tests/RouteRegistry.test.tsx[2m > [22mcreateIndexKey[2m > [22mabsolute paths[2m > [22mwhen the route has a path and the path has a trailing separator, strip the separator[32m 3[2mms[22m[39m
+@squide/react-router:test:  [32m✓[39m tests/RouteRegistry.test.tsx[2m > [22mcreateIndexKey[2m > [22mabsolute paths[2m > [22mwhen the route has a path and a parentPath is provided, ignore the parentPath[32m 3[2mms[22m[39m
+@squide/react-router:test:  [32m✓[39m tests/RouteRegistry.test.tsx[2m > [22mcreateIndexKey[2m > [22mabsolute paths[2m > [22mwhen the route has a path and an $id, return an index key for both[32m 3[2mms[22m[39m
+@squide/react-router:test:  [32m✓[39m tests/RouteRegistry.test.tsx[2m > [22mcreateIndexKey[2m > [22mrelative paths[2m > [22mwhen the route has a path, return the route path[32m 6[2mms[22m[39m
+@squide/react-router:test:  [32m✓[39m tests/RouteRegistry.test.tsx[2m > [22mcreateIndexKey[2m > [22mrelative paths[2m > [22mwhen the route has a path and the path has a trailing separator, strip the separator[32m 5[2mms[22m[39m
+@squide/react-router:test:  [32m✓[39m tests/RouteRegistry.test.tsx[2m > [22mcreateIndexKey[2m > [22mrelative paths[2m > [22mwhen the route has a path and a parentPath is provided, prepend the parentPath[32m 5[2mms[22m[39m
+@squide/react-router:test:  [32m✓[39m tests/RouteRegistry.test.tsx[2m > [22mcreateIndexKey[2m > [22mrelative paths[2m > [22mwhen the route has a path and the parentPath has a trailing separator, strip the separator[32m 5[2mms[22m[39m
+@squide/react-router:test:  [32m✓[39m tests/RouteRegistry.test.tsx[2m > [22mcreateIndexKey[2m > [22mrelative paths[2m > [22mwhen the route has a path and an $id, return an index key for both[32m 5[2mms[22m[39m
+@squide/react-router:test:  [32m✓[39m tests/NavigationItemRegistry.test.ts[2m > [22madd[2m > [22mshould add a single deferred item[32m 9[2mms[22m[39m
+@squide/react-router:test:  [32m✓[39m tests/NavigationItemRegistry.test.ts[2m > [22madd[2m > [22mshould add a single static item[32m 9[2mms[22m[39m
+@squide/react-router:test:  [32m✓[39m tests/NavigationItemRegistry.test.ts[2m > [22madd[2m > [22mshould add multiple items[32m 9[2mms[22m[39m
+@squide/react-router:test:  [32m✓[39m tests/NavigationItemRegistry.test.ts[2m > [22madd[2m > [22mshould add items for different menus[32m 9[2mms[22m[39m
+@squide/react-router:test:  [32m✓[39m tests/NavigationItemRegistry.test.ts[2m > [22madd[2m > [22mwhen a root link is added, return the "registered" registration status[32m 9[2mms[22m[39m
+@squide/react-router:test:  [32m✓[39m tests/NavigationItemRegistry.test.ts[2m > [22madd[2m > [22mwhen a root identified section is added, return the "registered" registration status[32m 5[2mms[22m[39m
+@squide/react-router:test:  [32m✓[39m tests/NavigationItemRegistry.test.ts[2m > [22madd[2m > [22mwhen a root anonymous section is added, return the "registered" registration status[32m 5[2mms[22m[39m
+@squide/react-router:test:  [32m✓[39m tests/NavigationItemRegistry.test.ts[2m > [22madd[2m > [22mwhen a nested link is pending for registration, return the "pending" registration status[32m 5[2mms[22m[39m
+@squide/react-router:test:  [32m✓[39m tests/NavigationItemRegistry.test.ts[2m > [22madd[2m > [22mwhen a nested identified section is pending for registration, return the "pending" registration status[32m 5[2mms[22m[39m
+@squide/react-router:test:  [32m✓[39m tests/NavigationItemRegistry.test.ts[2m > [22madd[2m > [22mwhen a nested anonymous section is pending for registration, return the "pending" registration status[32m 5[2mms[22m[39m
+@squide/react-router:test:  [32m✓[39m tests/NavigationItemRegistry.test.ts[2m > [22madd[2m > [22mwhen a nested link is added, return the "registered" registration status[32m 5[2mms[22m[39m
+@squide/react-router:test:  [32m✓[39m tests/NavigationItemRegistry.test.ts[2m > [22madd[2m > [22mwhen a nested identified section is added, return the "registered" registration status[32m 5[2mms[22m[39m
+@squide/react-router:test:  [32m✓[39m tests/NavigationItemRegistry.test.ts[2m > [22madd[2m > [22mwhen a nested anonymous section is added, return the "registered" registration status[32m 5[2mms[22m[39m
+@squide/react-router:test:  [32m✓[39m tests/NavigationItemRegistry.test.ts[2m > [22madd[2m > [22mwhen a root identified section is added and complete the pending registration of nested items, add the registered items to the returned "completedPendingRegistrations" array[32m 5[2mms[22m[39m
+@squide/react-router:test:  [32m✓[39m tests/NavigationItemRegistry.test.ts[2m > [22madd[2m > [22mwhen a root identified section is added for another section and do not complete any pending registration, return an empty "completedPendingRegistrations" array[32m 5[2mms[22m[39m
+@squide/react-router:test:  [32m✓[39m tests/NavigationItemRegistry.test.ts[2m > [22madd[2m > [22mwhen a root identified section is added for another menu and do not complete any pending registration, return an empty "completedPendingRegistrations" array[32m 5[2mms[22m[39m
+@squide/react-router:test:  [32m✓[39m tests/NavigationItemRegistry.test.ts[2m > [22madd[2m > [22mwhen a root anonymous section is added, return an empty "completedPendingRegistrations" array[32m 5[2mms[22m[39m
+@squide/react-router:test:  [32m✓[39m tests/NavigationItemRegistry.test.ts[2m > [22madd[2m > [22mwhen a root link is added, return an empty "completedPendingRegistrations" array[32m 5[2mms[22m[39m
+@squide/react-router:test:  [32m✓[39m tests/NavigationItemRegistry.test.ts[2m > [22madd[2m > [22mwhen a deeply nested link is added, return the "registered" registration status[32m 5[2mms[22m[39m
+@squide/react-router:test:  [32m✓[39m tests/NavigationItemRegistry.test.ts[2m > [22madd[2m > [22mwhen a deeply nested section is added, return the "registered" registration status[32m 5[2mms[22m[39m
+@squide/react-router:test:  [32m✓[39m tests/NavigationItemRegistry.test.ts[2m > [22madd[2m > [22mwhen a deeply nested section registered as a single block is added and complete the pending registration of nested items, add the registered items to the returned "completedPendingRegistrations" array[32m 6[2mms[22m[39m
+@squide/react-router:test:  [32m✓[39m tests/NavigationItemRegistry.test.ts[2m > [22madd[2m > [22mwhen registering a multiple sections as a single block complete pending registrations at multiple nesting level, add all the registered items to the returned "completedPendingRegistrations" array[32m 6[2mms[22m[39m
+@squide/react-router:test:  [32m✓[39m tests/NavigationItemRegistry.test.ts[2m > [22madd[2m > [22mwhen registering a root item trigger a chain reaction of pending registrations completion, add all the registered items to the returned "completedPendingRegistrations" array[32m 6[2mms[22m[39m
+@squide/react-router:test:  [32m✓[39m tests/NavigationItemRegistry.test.ts[2m > [22madd[2m > [22mwhen a static item is nested under a deferred section, throw an error[32m 6[2mms[22m[39m
+@squide/react-router:test:  [32m✓[39m tests/NavigationItemRegistry.test.ts[2m > [22madd[2m > [22mwhen a deferred item is nested under a static section, throw an error[32m 6[2mms[22m[39m
+@squide/react-router:test:  [32m✓[39m tests/NavigationItemRegistry.test.ts[2m > [22madd[2m > [22mwhen a nested item is registered under a section without a predefined children array, register the item[32m 5[2mms[22m[39m
+@squide/react-router:test:  [32m✓[39m tests/NavigationItemRegistry.test.ts[2m > [22mgetItems[2m > [22man empty array is returned when there's no registered items for the specified menu id[32m 5[2mms[22m[39m
+@squide/react-router:test:  [32m✓[39m tests/NavigationItemRegistry.test.ts[2m > [22mgetItems[2m > [22mthe returned items are immutable[32m 5[2mms[22m[39m
+@squide/react-router:test:  [32m✓[39m tests/NavigationItemRegistry.test.ts[2m > [22mgetItems[2m > [22mwhen a nested item is registered, a new instance of the array is returned[32m 5[2mms[22m[39m
+@squide/react-router:test:  [32m✓[39m tests/NavigationItemRegistry.test.ts[2m > [22mclearDeferredItems[2m > [22mclear all deferred items[32m 5[2mms[22m[39m
+@squide/react-router:test:  [32m✓[39m tests/NavigationItemRegistry.test.ts[2m > [22mclearDeferredItems[2m > [22mdo not clear static items[32m 6[2mms[22m[39m
+@squide/react-router:test:  [32m✓[39m tests/NavigationItemRegistry.test.ts[2m > [22mclearDeferredItems[2m > [22mwhen there's no deferred items to clear, do not mutate the menu arrays[32m 6[2mms[22m[39m
+@squide/react-router:test:  [32m✓[39m tests/NavigationItemRegistry.test.ts[2m > [22mNavigationItemDeferredRegistrationScope[2m > [22mshould add a single item[32m 6[2mms[22m[39m
+@squide/react-router:test:  [32m✓[39m tests/NavigationItemRegistry.test.ts[2m > [22mNavigationItemDeferredRegistrationScope[2m > [22mshould add multiple items[32m 6[2mms[22m[39m
+@squide/react-router:test:  [32m✓[39m tests/NavigationItemRegistry.test.ts[2m > [22mNavigationItemDeferredRegistrationScope[2m > [22mshould add items for different menus[32m 6[2mms[22m[39m
+@squide/react-router:test:  [32m✓[39m tests/NavigationItemRegistry.test.ts[2m > [22mNavigationItemDeferredRegistrationScope[2m > [22madding an item also add the item to the registry[32m 3[2mms[22m[39m
+@squide/react-router:test:  [32m✓[39m tests/NavigationItemRegistry.test.ts[2m > [22mNavigationItemDeferredRegistrationScope[2m > [22mcompleting the scope doesn't alter the registry items[32m 3[2mms[22m[39m
+@squide/react-router:test:  [32m✓[39m tests/NavigationItemRegistry.test.ts[2m > [22mNavigationItemDeferredRegistrationScope[2m > [22mwhen an item is added, return the "registered" registration status[32m 3[2mms[22m[39m
+@squide/react-router:test:  [32m✓[39m tests/NavigationItemRegistry.test.ts[2m > [22mNavigationItemDeferredRegistrationScope[2m > [22mwhen a nested item is pending, return the "pending" registration status[32m 3[2mms[22m[39m
+@squide/react-router:test:  [32m✓[39m tests/NavigationItemRegistry.test.ts[2m > [22mNavigationItemDeferredRegistrationScope[2m > [22mwhen a nested item is added, return the "registered" registration status[32m 3[2mms[22m[39m
+@squide/react-router:test:  [32m✓[39m tests/NavigationItemRegistry.test.ts[2m > [22mNavigationItemDeferredRegistrationScope[2m > [22mwhen a nested section is added and complete the pending registration of nested items, add the registered items to the returned "completedPendingRegistrations" array[32m 5[2mms[22m[39m
+@squide/react-router:test:  [32m✓[39m tests/NavigationItemRegistry.test.ts[2m > [22mNavigationItemDeferredRegistrationTransactionalScope[2m > [22mshould add a single item[32m 5[2mms[22m[39m
+@squide/react-router:test:  [32m✓[39m tests/NavigationItemRegistry.test.ts[2m > [22mNavigationItemDeferredRegistrationTransactionalScope[2m > [22mshould add multiple items[32m 5[2mms[22m[39m
+@squide/react-router:test:  [32m✓[39m tests/NavigationItemRegistry.test.ts[2m > [22mNavigationItemDeferredRegistrationTransactionalScope[2m > [22mshould add items for different menus[32m 5[2mms[22m[39m
+@squide/react-router:test:  [32m✓[39m tests/NavigationItemRegistry.test.ts[2m > [22mNavigationItemDeferredRegistrationTransactionalScope[2m > [22madding an item doesn't add the item to the registry[32m 5[2mms[22m[39m
+@squide/react-router:test:  [32m✓[39m tests/NavigationItemRegistry.test.ts[2m > [22mNavigationItemDeferredRegistrationTransactionalScope[2m > [22mwhen there's no items for the provided menu id, return an empty array[32m 4[2mms[22m[39m
+@squide/react-router:test:  [32m✓[39m tests/NavigationItemRegistry.test.ts[2m > [22mNavigationItemDeferredRegistrationTransactionalScope[2m > [22mcompleting the scope add all the active items to the registry[32m 4[2mms[22m[39m
+@squide/react-router:test:  [32m✓[39m tests/NavigationItemRegistry.test.ts[2m > [22mNavigationItemDeferredRegistrationTransactionalScope[2m > [22mcompleting the scope clears the previously registered deferred items[32m 4[2mms[22m[39m
+@squide/react-router:test:  [32m✓[39m tests/NavigationItemRegistry.test.ts[2m > [22mNavigationItemDeferredRegistrationTransactionalScope[2m > [22mcompleting the scope clears the scope active items[32m 4[2mms[22m[39m
+@squide/react-router:test:  [32m✓[39m tests/NavigationItemRegistry.test.ts[2m > [22mNavigationItemDeferredRegistrationTransactionalScope[2m > [22mwhen an item is added, return the "registered" registration status[32m 4[2mms[22m[39m
+@squide/react-router:test:  [32m✓[39m tests/NavigationItemRegistry.test.ts[2m > [22mNavigationItemDeferredRegistrationTransactionalScope[2m > [22mwhen a nested item is added, return the "registered" registration status[32m 2[2mms[22m[39m
+@squide/react-router:test:  [32m✓[39m tests/NavigationItemRegistry.test.ts[2m > [22mNavigationItemDeferredRegistrationTransactionalScope[2m > [22mwhen a nested item that "should" be pending is added, return the "registered" registration status[32m 2[2mms[22m[39m
+@squide/react-router:test:  [32m✓[39m tests/NavigationItemRegistry.test.ts[2m > [22mNavigationItemDeferredRegistrationTransactionalScope[2m > [22mwhen there "should" be pending registrations, the scope can be completed[32m 1[2mms[22m[39m
+@squide/launch-darkly:test:  [32m✓[39m tests/FeatureFlagSetSnapshot.test.ts[2m > [22mInMemoryLaunchDarklyClient[2m > [22minitially set the client flags as the current snapshot[32m 17[2mms[22m[39m
+@squide/launch-darkly:test:  [32m✓[39m tests/FeatureFlagSetSnapshot.test.ts[2m > [22mInMemoryLaunchDarklyClient[2m > [22mwhen the flags are retrieved twice, the same snapshot object is returned[32m 16[2mms[22m[39m
+@squide/launch-darkly:test:  [32m✓[39m tests/FeatureFlagSetSnapshot.test.ts[2m > [22mInMemoryLaunchDarklyClient[2m > [22mwhen the client flags change, the snapshot is updated[32m 16[2mms[22m[39m
+@squide/launch-darkly:test:  [32m✓[39m tests/FeatureFlagSetSnapshot.test.ts[2m > [22mInMemoryLaunchDarklyClient[2m > [22mcan add listeners[32m 16[2mms[22m[39m
+@squide/launch-darkly:test:  [32m✓[39m tests/FeatureFlagSetSnapshot.test.ts[2m > [22mInMemoryLaunchDarklyClient[2m > [22mcan remove listeners[32m 16[2mms[22m[39m
+@squide/launch-darkly:test:  [32m✓[39m tests/FeatureFlagSetSnapshot.test.ts[2m > [22mLocalStorageLaunchDarklyClient[2m > [22minitially set the client flags as the current snapshot[32m 3[2mms[22m[39m
+@squide/launch-darkly:test:  [32m✓[39m tests/FeatureFlagSetSnapshot.test.ts[2m > [22mLocalStorageLaunchDarklyClient[2m > [22mwhen the flags are retrieved twice, the same snapshot object is returned[32m 1[2mms[22m[39m
+@squide/launch-darkly:test:  [32m✓[39m tests/FeatureFlagSetSnapshot.test.ts[2m > [22mLocalStorageLaunchDarklyClient[2m > [22mwhen the client flags change, the snapshot is updated[32m 1[2mms[22m[39m
+@squide/launch-darkly:test:  [32m✓[39m tests/FeatureFlagSetSnapshot.test.ts[2m > [22mLocalStorageLaunchDarklyClient[2m > [22mcan add listeners[32m 4[2mms[22m[39m
+@squide/launch-darkly:test:  [32m✓[39m tests/FeatureFlagSetSnapshot.test.ts[2m > [22mLocalStorageLaunchDarklyClient[2m > [22mcan remove listeners[32m 2[2mms[22m[39m
+@squide/launch-darkly:test:  [32m✓[39m tests/useFeatureFlag.test.tsx[2m > [22mInMemoryLaunchDarklyClient[2m > [22mwhen the flag exist, return the flag value[32m 65[2mms[22m[39m
+@squide/launch-darkly:test:  [32m✓[39m tests/useFeatureFlag.test.tsx[2m > [22mInMemoryLaunchDarklyClient[2m > [22mwhen the flag doesn't exist, and a default value is provided, return the default value[32m 65[2mms[22m[39m
+@squide/launch-darkly:test:  [32m✓[39m tests/useFeatureFlag.test.tsx[2m > [22mInMemoryLaunchDarklyClient[2m > [22mwhen the flag doesn't exist, and no default value is provided, return undefined[32m 65[2mms[22m[39m
+@squide/launch-darkly:test:  [32m✓[39m tests/useFeatureFlag.test.tsx[2m > [22mInMemoryLaunchDarklyClient[2m > [22mwhen another flag value is updated, do not update the value[32m 66[2mms[22m[39m
+@squide/launch-darkly:test:  [32m✓[39m tests/useFeatureFlag.test.tsx[2m > [22mInMemoryLaunchDarklyClient[2m > [22mwhen the flag value is updated, return the updated value[32m 66[2mms[22m[39m
+@squide/launch-darkly:test:  [32m✓[39m tests/useFeatureFlag.test.tsx[2m > [22mLocalStorageLaunchDarklyClient[2m > [22mwhen the flag exist, return the flag value[32m 6[2mms[22m[39m
+@squide/launch-darkly:test:  [32m✓[39m tests/useFeatureFlag.test.tsx[2m > [22mLocalStorageLaunchDarklyClient[2m > [22mwhen the flag doesn't exist, and a default value is provided, return the default value[32m 4[2mms[22m[39m
+@squide/launch-darkly:test:  [32m✓[39m tests/useFeatureFlag.test.tsx[2m > [22mLocalStorageLaunchDarklyClient[2m > [22mwhen the flag doesn't exist, and no default value is provided, return undefined[32m 4[2mms[22m[39m
+@squide/launch-darkly:test:  [32m✓[39m tests/useFeatureFlags.test.tsx[2m > [22mInMemoryLaunchDarklyClient[2m > [22mcan return the feature flags[32m 56[2mms[22m[39m
+@squide/launch-darkly:test:  [32m✓[39m tests/useFeatureFlags.test.tsx[2m > [22mInMemoryLaunchDarklyClient[2m > [22mwhen a feature flag value is updated, return the updated feature flags[32m 56[2mms[22m[39m
+@squide/launch-darkly:test:  [32m✓[39m tests/useFeatureFlags.test.tsx[2m > [22mLocalStorageLaunchDarklyClient[2m > [22mcan return the feature flags[32m 6[2mms[22m[39m
+@squide/launch-darkly:test:  [32m✓[39m tests/useFeatureFlags.test.tsx[2m > [22mLocalStorageLaunchDarklyClient[2m > [22mwhen a feature flag value is updated, return the updated feature flags[32m 84[2mms[22m[39m
+@squide/launch-darkly:test:  [32m✓[39m tests/useFeatureFlag.test.tsx[2m > [22mLocalStorageLaunchDarklyClient[2m > [22mwhen the flag value is updated, return the updated value[32m 70[2mms[22m[39m
+@squide/launch-darkly:test:  [32m✓[39m tests/useFeatureFlag.test.tsx[2m > [22mLocalStorageLaunchDarklyClient[2m > [22mwhen another flag value is updated, do not update the value[32m 13[2mms[22m[39m
+@squide/launch-darkly:test: 
+@squide/launch-darkly:test: [2m Test Files [22m [1m[32m5 passed[39m[22m[90m (5)[39m
+@squide/launch-darkly:test: [2m      Tests [22m [1m[32m82 passed[39m[22m[90m (82)[39m
+@squide/launch-darkly:test: [2m   Start at [22m 14:17:53
+@squide/launch-darkly:test: [2m   Duration [22m 5.38s[2m (transform 1.43s, setup 5.64s, import 1.75s, tests 429ms, environment 11.70s)[22m
+@squide/launch-darkly:test: 
+@squide/react-router:test:  [32m✓[39m tests/useRenderedNavigationItems.test.tsx[2m > [22mhighest priority goes first[32m 95[2mms[22m[39m
+@squide/react-router:test:  [32m✓[39m tests/useRenderedNavigationItems.test.tsx[2m > [22mnegative priority goes last[32m 95[2mms[22m[39m
+@squide/react-router:test:  [32m✓[39m tests/useRenderedNavigationItems.test.tsx[2m > [22msupport 2 section levels[32m 95[2mms[22m[39m
+@squide/react-router:test:  [32m✓[39m tests/useRenderedNavigationItems.test.tsx[2m > [22msupport 3 section levels[32m 95[2mms[22m[39m
+@squide/react-router:test:  [32m✓[39m tests/useRenderedNavigationItems.test.tsx[2m > [22mlink item additionalProps are rendered[32m 95[2mms[22m[39m
+@squide/react-router:test:  [32m✓[39m tests/useNavigationItems.test.tsx[2m > [22mwhen no menu id is specified, returns all the registered navigation items for the root menu[32m 42[2mms[22m[39m
+@squide/react-router:test:  [32m✓[39m tests/useNavigationItems.test.tsx[2m > [22mwhen a menu id is specified, returns all the registered navigation items for that specific menu[32m 41[2mms[22m[39m
+@squide/react-router:test:  [32m✓[39m tests/useNavigationItems.test.tsx[2m > [22mreturned array is immutable[32m 41[2mms[22m[39m
+@squide/react-router:test:  [32m✓[39m tests/useRoutes.test.tsx[2m > [22mreturns all the registered routes[32m 40[2mms[22m[39m
+@squide/react-router:test:  [32m✓[39m tests/useRoutes.test.tsx[2m > [22mreturned array is immutable[32m 39[2mms[22m[39m
+@squide/react-router:test:  [32m✓[39m tests/useRenderedNavigationItems.test.tsx[2m > [22msection item additionalProps are rendered[32m 24[2mms[22m[39m
+@squide/react-router:test:  [32m✓[39m tests/useRenderedNavigationItems.test.tsx[2m > [22mlink item custom keys are rendered[32m 24[2mms[22m[39m
+@squide/react-router:test:  [32m✓[39m tests/useRenderedNavigationItems.test.tsx[2m > [22msection item custom keys are rendered[32m 24[2mms[22m[39m
+@squide/react-router:test:  [32m✓[39m tests/useRenderedNavigationItems.test.tsx[2m > [22mnested item custom keys are rendered[32m 24[2mms[22m[39m
+@squide/react-router:test:  [32m✓[39m tests/useRenderedNavigationItems.test.tsx[2m > [22mwhen a link item canRender prop return false, the item is not rendered[32m 24[2mms[22m[39m
+@squide/react-router:test:  [32m✓[39m tests/useRenderedNavigationItems.test.tsx[2m > [22mwhen a section item canRender prop return false, the item is not rendered[32m 14[2mms[22m[39m
+@squide/react-router:test:  [32m✓[39m tests/useRenderedNavigationItems.test.tsx[2m > [22mwhen the canRender prop of all the root items return false, do not render the root section[32m 13[2mms[22m[39m
+@squide/react-router:test:  [32m✓[39m tests/useRenderedNavigationItems.test.tsx[2m > [22mwhen the canRender prop of all the items of a nested section return false, do not render the section[32m 13[2mms[22m[39m
+@squide/react-router:test:  [32m✓[39m tests/useRenderedNavigationItems.test.tsx[2m > [22mdoesn't rerender when the navigation items haven't changed[32m 13[2mms[22m[39m
+@squide/react-router:test:  [32m✓[39m tests/useRenderedNavigationItems.test.tsx[2m > [22mrerender when the navigation items change[32m 13[2mms[22m[39m
+@squide/react-router:test:  [32m✓[39m tests/ReactRouterRuntime.test.tsx[2m > [22mregisterRoute[2m > [22mshould register a route with a visibility hint[32m 13[2mms[22m[39m
+@squide/react-router:test:  [32m✓[39m tests/ReactRouterRuntime.test.tsx[2m > [22mregisterRoute[2m > [22mwhen a route has no visibility option, the visibility is defaulted to "protected"[32m 13[2mms[22m[39m
+@squide/react-router:test:  [32m✓[39m tests/ReactRouterRuntime.test.tsx[2m > [22mregisterRoute[2m > [22mshould register a route with a name[32m 13[2mms[22m[39m
+@squide/react-router:test:  [32m✓[39m tests/ReactRouterRuntime.test.tsx[2m > [22mregisterRoute[2m > [22mwhen a route is registered with the same value for the path and $id, throw an error[32m 13[2mms[22m[39m
+@squide/react-router:test:  [32m✓[39m tests/ReactRouterRuntime.test.tsx[2m > [22mregisterNavigationItem[2m > [22mshould register a root navigation link[32m 13[2mms[22m[39m
+@squide/react-router:test:  [32m✓[39m tests/ReactRouterRuntime.test.tsx[2m > [22mregisterNavigationItem[2m > [22mshould register a root navigation section[32m 4[2mms[22m[39m
+@squide/react-router:test:  [32m✓[39m tests/ReactRouterRuntime.test.tsx[2m > [22mregisterNavigationItem[2m > [22mshould register a navigation link for a specific menu id[32m 3[2mms[22m[39m
+@squide/react-router:test:  [32m✓[39m tests/ReactRouterRuntime.test.tsx[2m > [22mregisterNavigationItem[2m > [22mshould register a navigation section for a specific menu id[32m 3[2mms[22m[39m
+@squide/react-router:test:  [32m✓[39m tests/ReactRouterRuntime.test.tsx[2m > [22mregisterNavigationItem[2m > [22mshould register a navitation link with a key[32m 3[2mms[22m[39m
+@squide/react-router:test:  [32m✓[39m tests/ReactRouterRuntime.test.tsx[2m > [22mregisterNavigationItem[2m > [22mshould register a navitation section with a key[32m 3[2mms[22m[39m
+@squide/react-router:test:  [32m✓[39m tests/ReactRouterRuntime.test.tsx[2m > [22mgetNavigationItems[2m > [22mwhen no menu id is specified, returns all the registered navigation items for the root menu[32m 4[2mms[22m[39m
+@squide/react-router:test:  [32m✓[39m tests/ReactRouterRuntime.test.tsx[2m > [22mgetNavigationItems[2m > [22mwhen no menu id is specified, returns all the registered navigation items for that specific menu[32m 4[2mms[22m[39m
+@squide/react-router:test:  [32m✓[39m tests/ReactRouterRuntime.test.tsx[2m > [22mstartDeferredRegistrationScope & completeDeferredRegistrationScope[2m > [22mshould start and complete a scope[32m 4[2mms[22m[39m
+@squide/react-router:test:  [32m✓[39m tests/ReactRouterRuntime.test.tsx[2m > [22mstartDeferredRegistrationScope & completeDeferredRegistrationScope[2m > [22mwhen a scope is started, can register a navigation item[32m 4[2mms[22m[39m
+@squide/react-router:test:  [32m✓[39m tests/ReactRouterRuntime.test.tsx[2m > [22mstartDeferredRegistrationScope & completeDeferredRegistrationScope[2m > [22mwhen a scope is started, can register a route[32m 4[2mms[22m[39m
+@squide/react-router:test:  [32m✓[39m tests/ReactRouterRuntime.test.tsx[2m > [22mstartDeferredRegistrationScope & completeDeferredRegistrationScope[2m > [22mwhen a scope is completed, can register a navigation item[32m 5[2mms[22m[39m
+@squide/react-router:test:  [32m✓[39m tests/ReactRouterRuntime.test.tsx[2m > [22mstartDeferredRegistrationScope & completeDeferredRegistrationScope[2m > [22mwhen a scope is completed, can register a route[32m 5[2mms[22m[39m
+@squide/react-router:test:  [32m✓[39m tests/ReactRouterRuntime.test.tsx[2m > [22mregisterRoute[2m > [22mhoisted[2m > [22mshould register an index route[32m 5[2mms[22m[39m
+@squide/react-router:test:  [32m✓[39m tests/ReactRouterRuntime.test.tsx[2m > [22mregisterRoute[2m > [22mhoisted[2m > [22mshould register a pathless route[32m 5[2mms[22m[39m
+@squide/react-router:test:  [32m✓[39m tests/ReactRouterRuntime.test.tsx[2m > [22mregisterRoute[2m > [22mhoisted[2m > [22mshould register multiple pathless routes[32m 5[2mms[22m[39m
+@squide/react-router:test:  [32m✓[39m tests/ReactRouterRuntime.test.tsx[2m > [22mregisterRoute[2m > [22mhoisted[2m > [22mshould register a deeply nested route with pathless parent routes[32m 4[2mms[22m[39m
+@squide/react-router:test:  [32m✓[39m tests/ReactRouterRuntime.test.tsx[2m > [22mregisterRoute[2m > [22mhoisted[2m > [22mshould register a deeply nested index route with pathless parent routes[32m 4[2mms[22m[39m
+@squide/react-router:test:  [32m✓[39m tests/ReactRouterRuntime.test.tsx[2m > [22mregisterRoute[2m > [22mhoisted[2m > [22mshould register a root route with a "public" visibility[32m 4[2mms[22m[39m
+@squide/react-router:test:  [32m✓[39m tests/ReactRouterRuntime.test.tsx[2m > [22mregisterRoute[2m > [22mhoisted[2m > [22mshould register a root route with a "protected" visibility[32m 4[2mms[22m[39m
+@squide/react-router:test:  [32m✓[39m tests/ReactRouterRuntime.test.tsx[2m > [22mregisterRoute[2m > [22mhoisted[2m > [22mwhen a root route has no visibility option, it is considered as an "protected" route[32m 4[2mms[22m[39m
+@squide/react-router:test:  [32m✓[39m tests/ReactRouterRuntime.test.tsx[2m > [22mregisterRoute[2m > [22mhoisted[2m > [22mshould register a nested route with a "public" visibility[32m 4[2mms[22m[39m
+@squide/react-router:test:  [32m✓[39m tests/ReactRouterRuntime.test.tsx[2m > [22mregisterRoute[2m > [22mhoisted[2m > [22mshould register a nested route with a "protected" visibility[32m 4[2mms[22m[39m
+@squide/react-router:test:  [32m✓[39m tests/ReactRouterRuntime.test.tsx[2m > [22mregisterRoute[2m > [22mhoisted[2m > [22mwhen a nested route has no visibility option, it is considered as a "protected" route[32m 4[2mms[22m[39m
+@squide/react-router:test:  [32m✓[39m tests/ReactRouterRuntime.test.tsx[2m > [22mregisterRoute[2m > [22mhoisted[2m > [22mshould register a root route with a name[32m 4[2mms[22m[39m
+@squide/react-router:test:  [32m✓[39m tests/ReactRouterRuntime.test.tsx[2m > [22mregisterRoute[2m > [22mhoisted[2m > [22mshould register a nested route with a name[32m 4[2mms[22m[39m
+@squide/react-router:test:  [32m✓[39m tests/ReactRouterRuntime.test.tsx[2m > [22mregisterRoute[2m > [22mparentPath[2m > [22mwhen a route is hoisted, it cannot be nested under another route[32m 6[2mms[22m[39m
+@squide/react-router:test:  [32m✓[39m tests/ReactRouterRuntime.test.tsx[2m > [22mregisterRoute[2m > [22mparentId[2m > [22mwhen the parent route has already been registered, register the nested route[32m 6[2mms[22m[39m
+@squide/react-router:test:  [32m✓[39m tests/ReactRouterRuntime.test.tsx[2m > [22mregisterRoute[2m > [22mparentId[2m > [22mwhen the parent route has not been registered, do not register the nested route[32m 6[2mms[22m[39m
+@squide/react-router:test:  [32m✓[39m tests/ReactRouterRuntime.test.tsx[2m > [22mregisterRoute[2m > [22mparentId[2m > [22mwhen the parent route has not been registered, register the pending route once the parent route is registered[32m 6[2mms[22m[39m
+@squide/react-router:test:  [32m✓[39m tests/ReactRouterRuntime.test.tsx[2m > [22mregisterRoute[2m > [22mparentId[2m > [22mwhen the parent route has not been registered, and the parent route is nested in a pending registration single block, register the pending route once the parent route is registered[32m 6[2mms[22m[39m
+@squide/react-router:test:  [32m✓[39m tests/ReactRouterRuntime.test.tsx[2m > [22mregisterRoute[2m > [22mparentId[2m > [22mshould register a route under a deeply nested layout[32m 6[2mms[22m[39m
+@squide/react-router:test:  [32m✓[39m tests/ReactRouterRuntime.test.tsx[2m > [22mregisterRoute[2m > [22mparentId[2m > [22mshould register a route under a deeply nested layout that has been registered in a single block[32m 6[2mms[22m[39m
+@squide/react-router:test:  [32m✓[39m tests/ReactRouterRuntime.test.tsx[2m > [22mregisterRoute[2m > [22mparentId[2m > [22mwhen a route is hoisted, it cannot be nested under another route[32m 6[2mms[22m[39m
+@squide/react-router:test:  [32m✓[39m tests/ReactRouterRuntime.test.tsx[2m > [22mregisterRoute[2m > [22mparentId[2m > [22mwhen a parent route has a path and an $id, can register a nested route with the path[32m 5[2mms[22m[39m
+@squide/react-router:test:  [32m✓[39m tests/ReactRouterRuntime.test.tsx[2m > [22mregisterRoute[2m > [22mparentId[2m > [22mwhen a parent route has a path and an $id, pending registrations using the parent route path are registered[32m 5[2mms[22m[39m
+@squide/react-router:test:  [32m✓[39m tests/ReactRouterRuntime.test.tsx[2m > [22mregisterRoute[2m > [22mnested routes[2m > [22mshould register a deeply nested route with pathless parent routes[32m 4[2mms[22m[39m
+@squide/react-router:test:  [32m✓[39m tests/ReactRouterRuntime.test.tsx[2m > [22mregisterRoute[2m > [22mnested routes[2m > [22mshould register a deeply nested index route with pathless parent routes[32m 4[2mms[22m[39m
+@squide/react-router:test:  [32m✓[39m tests/ReactRouterRuntime.test.tsx[2m > [22mregisterRoute[2m > [22mnested routes[2m > [22mshould register a nested route with a visibility hint[32m 4[2mms[22m[39m
+@squide/react-router:test:  [32m✓[39m tests/ReactRouterRuntime.test.tsx[2m > [22mregisterRoute[2m > [22mnested routes[2m > [22mwhen a nested route has no visibility option, the visibility is defaulted to "protected"[32m 4[2mms[22m[39m
+@squide/react-router:test:  [32m✓[39m tests/ReactRouterRuntime.test.tsx[2m > [22mregisterRoute[2m > [22mnested routes[2m > [22mshould register a nested route with a name[32m 3[2mms[22m[39m
+@squide/react-router:test:  [32m✓[39m tests/ReactRouterRuntime.test.tsx[2m > [22mregisterNavigationItem[2m > [22msectionId[2m > [22mwhen the section has already been registered, register the nested item[32m 4[2mms[22m[39m
+@squide/react-router:test:  [32m✓[39m tests/ReactRouterRuntime.test.tsx[2m > [22mregisterNavigationItem[2m > [22msectionId[2m > [22mwhen the section has not been registered, do not register the nested item[32m 4[2mms[22m[39m
+@squide/react-router:test:  [32m✓[39m tests/ReactRouterRuntime.test.tsx[2m > [22mregisterNavigationItem[2m > [22msectionId[2m > [22mwhen the section has not been registered, register the pending item once the section is registered[32m 4[2mms[22m[39m
+@squide/react-router:test:  [32m✓[39m tests/ReactRouterRuntime.test.tsx[2m > [22mregisterNavigationItem[2m > [22msectionId[2m > [22mshould register an item under a deeply nested section[32m 4[2mms[22m[39m
+@squide/react-router:test:  [32m✓[39m tests/ReactRouterRuntime.test.tsx[2m > [22mregisterNavigationItem[2m > [22msectionId[2m > [22mshould register a nested link under a section in a specific menu[32m 4[2mms[22m[39m
+@squide/react-router:test:  [32m✓[39m tests/ReactRouterRuntime.test.tsx[2m > [22mregisterNavigationItem[2m > [22msectionId[2m > [22mwhen a section is registered with the same id but for a different menu, do not register the nested item[32m 5[2mms[22m[39m
+@squide/react-router:test:  [32m✓[39m tests/ReactRouterRuntime.test.tsx[2m > [22m_validateRegistrations[2m > [22mmanaged routes[2m > [22mwhen public routes are registered but the public routes outlet is missing, the error message mentions the PublicRoutes outlet[32m 5[2mms[22m[39m
+@squide/react-router:test:  [32m✓[39m tests/ReactRouterRuntime.test.tsx[2m > [22m_validateRegistrations[2m > [22mmanaged routes[2m > [22mwhen protected routes are registered but the protected routes outlet is missing, the error message mentions the ProtectedRoutes outlet[32m 5[2mms[22m[39m
+@squide/react-router:test:  [32m✓[39m tests/ReactRouterRuntime.test.tsx[2m > [22m_validateRegistrations[2m > [22mmanaged routes[2m > [22mwhen routes are registered and both the public and protected routes outlet are missing, the error message mentions the PublicRoutes and ProtectedRoutes outlets[32m 5[2mms[22m[39m
+@squide/react-router:test:  [32m✓[39m tests/ReactRouterRuntime.test.tsx[2m > [22m_validateRegistrations[2m > [22mparentPath[2m > [22mwhen there are no pending registrations, do nothing[32m 5[2mms[22m[39m
+@squide/react-router:test:  [32m✓[39m tests/ReactRouterRuntime.test.tsx[2m > [22m_validateRegistrations[2m > [22mparentPath[2m > [22mwhen there are pending registrations, throw an error[32m 6[2mms[22m[39m
+@squide/react-router:test:  [32m✓[39m tests/ReactRouterRuntime.test.tsx[2m > [22m_validateRegistrations[2m > [22mparentId[2m > [22mwhen there are no pending registrations, do nothing[32m 6[2mms[22m[39m
+@squide/react-router:test:  [32m✓[39m tests/ReactRouterRuntime.test.tsx[2m > [22m_validateRegistrations[2m > [22mparentId[2m > [22mwhen there are pending registrations, throw an error[32m 6[2mms[22m[39m
+@squide/react-router:test:  [32m✓[39m tests/ReactRouterRuntime.test.tsx[2m > [22m_validateRegistrations[2m > [22msectionId[2m > [22mwhen there are no pending registrations, do nothing[32m 6[2mms[22m[39m
+@squide/react-router:test:  [32m✓[39m tests/ReactRouterRuntime.test.tsx[2m > [22m_validateRegistrations[2m > [22msectionId[2m > [22mwhen there are pending registrations, throw an error[32m 6[2mms[22m[39m
+@squide/react-router:test:  [32m✓[39m tests/ReactRouterRuntime.test.tsx[2m > [22mregisterRoute[2m > [22moutlets[2m > [22mPublicRoutes[2m > [22mshould register an index route[32m 6[2mms[22m[39m
+@squide/react-router:test:  [32m✓[39m tests/ReactRouterRuntime.test.tsx[2m > [22mregisterRoute[2m > [22moutlets[2m > [22mPublicRoutes[2m > [22mshould register a pathless route[32m 6[2mms[22m[39m
+@squide/react-router:test:  [32m✓[39m tests/ReactRouterRuntime.test.tsx[2m > [22mregisterRoute[2m > [22moutlets[2m > [22mPublicRoutes[2m > [22mshould register multiple pathless routes[32m 6[2mms[22m[39m
+@squide/react-router:test:  [32m✓[39m tests/ReactRouterRuntime.test.tsx[2m > [22mregisterRoute[2m > [22moutlets[2m > [22mPublicRoutes[2m > [22mwhen the public outlet is not registered, public route registrations are pending[32m 6[2mms[22m[39m
+@squide/react-router:test:  [32m✓[39m tests/ReactRouterRuntime.test.tsx[2m > [22mregisterRoute[2m > [22moutlets[2m > [22mPublicRoutes[2m > [22mwhen the public outlet is registered, pending public route registrations are completed[32m 6[2mms[22m[39m
+@squide/react-router:test:  [32m✓[39m tests/ReactRouterRuntime.test.tsx[2m > [22mregisterRoute[2m > [22moutlets[2m > [22mPublicRoutes[2m > [22mwhen the public outlet is registered, protected route registrations are still pending[32m 5[2mms[22m[39m
+@squide/react-router:test:  [32m✓[39m tests/ReactRouterRuntime.test.tsx[2m > [22mregisterRoute[2m > [22moutlets[2m > [22mProtectedRoutes[2m > [22mshould register an index route[32m 5[2mms[22m[39m
+@squide/react-router:test:  [32m✓[39m tests/ReactRouterRuntime.test.tsx[2m > [22mregisterRoute[2m > [22moutlets[2m > [22mProtectedRoutes[2m > [22mshould register a pathless route[32m 5[2mms[22m[39m
+@squide/react-router:test:  [32m✓[39m tests/ReactRouterRuntime.test.tsx[2m > [22mregisterRoute[2m > [22moutlets[2m > [22mProtectedRoutes[2m > [22mshould register multiple pathless routes[32m 5[2mms[22m[39m
+@squide/react-router:test:  [32m✓[39m tests/ReactRouterRuntime.test.tsx[2m > [22mregisterRoute[2m > [22moutlets[2m > [22mProtectedRoutes[2m > [22mwhen the protected outlet is not registered, protected route registrations are pending[32m 5[2mms[22m[39m
+@squide/react-router:test:  [32m✓[39m tests/ReactRouterRuntime.test.tsx[2m > [22mregisterRoute[2m > [22moutlets[2m > [22mProtectedRoutes[2m > [22mwhen the protected outlet is registered, pending protected route registrations are completed[32m 7[2mms[22m[39m
+@squide/react-router:test:  [32m✓[39m tests/ReactRouterRuntime.test.tsx[2m > [22mregisterRoute[2m > [22moutlets[2m > [22mProtectedRoutes[2m > [22mwhen the protected outlet is registered, public route registrations are still pending[32m 7[2mms[22m[39m
+@squide/react-router:test:  [32m✓[39m tests/ReactRouterRuntime.test.tsx[2m > [22mregisterRoute[2m > [22mparentPath[2m > [22mabsolute paths[2m > [22mwhen the parent route has already been registered, register the nested route[32m 6[2mms[22m[39m
+@squide/react-router:test:  [32m✓[39m tests/ReactRouterRuntime.test.tsx[2m > [22mregisterRoute[2m > [22mparentPath[2m > [22mabsolute paths[2m > [22mwhen the parent route has not been registered, do not register the nested route[32m 6[2mms[22m[39m
+@squide/react-router:test:  [32m✓[39m tests/ReactRouterRuntime.test.tsx[2m > [22mregisterRoute[2m > [22mparentPath[2m > [22mabsolute paths[2m > [22mwhen the parent route has not been registered, register the pending route once the parent route is registered[32m 6[2mms[22m[39m
+@squide/react-router:test:  [32m✓[39m tests/ReactRouterRuntime.test.tsx[2m > [22mregisterRoute[2m > [22mparentPath[2m > [22mabsolute paths[2m > [22mwhen the parent route has not been registered, and the parent route is nested in a pending registration single block with multiple layers of relative paths, register the pending route once the parent route is registered[32m 5[2mms[22m[39m
+@squide/react-router:test:  [32m✓[39m tests/ReactRouterRuntime.test.tsx[2m > [22mregisterRoute[2m > [22mparentPath[2m > [22mabsolute paths[2m > [22mwhen the parent route has not been registered, and the parent route is nested in a pending registration single block, register the pending route once the parent route is registered[32m 5[2mms[22m[39m
+@squide/react-router:test:  [32m✓[39m tests/ReactRouterRuntime.test.tsx[2m > [22mregisterRoute[2m > [22mparentPath[2m > [22mabsolute paths[2m > [22mshould register a route under a deeply nested layout[32m 5[2mms[22m[39m
+@squide/react-router:test:  [32m✓[39m tests/ReactRouterRuntime.test.tsx[2m > [22mregisterRoute[2m > [22mparentPath[2m > [22mabsolute paths[2m > [22mshould register a route under a deeply nested layout that has been registered in a single block with multiple layers of relative paths[32m 5[2mms[22m[39m
+@squide/react-router:test:  [32m✓[39m tests/ReactRouterRuntime.test.tsx[2m > [22mregisterRoute[2m > [22mparentPath[2m > [22mabsolute paths[2m > [22mshould register a route under a deeply nested layout that has been registered in a single block[32m 5[2mms[22m[39m
+@squide/react-router:test:  [32m✓[39m tests/ReactRouterRuntime.test.tsx[2m > [22mregisterRoute[2m > [22mparentPath[2m > [22mabsolute paths[2m > [22mwhen the specified parent path has a trailing separator but the parent route path doesn't have a trailing separator, the nested route is registered[32m 4[2mms[22m[39m
+@squide/react-router:test:  [32m✓[39m tests/ReactRouterRuntime.test.tsx[2m > [22mregisterRoute[2m > [22mparentPath[2m > [22mabsolute paths[2m > [22mwhen the specified parent path doesn't have a trailing separator but the parent route path have a trailing separator, the nested route is registered[32m 4[2mms[22m[39m
+@squide/react-router:test:  [32m✓[39m tests/ReactRouterRuntime.test.tsx[2m > [22mregisterRoute[2m > [22mparentPath[2m > [22mabsolute paths[2m > [22mwhen a parent route has a path and an $id, can register a nested route with the path[32m 4[2mms[22m[39m
+@squide/react-router:test:  [32m✓[39m tests/ReactRouterRuntime.test.tsx[2m > [22mregisterRoute[2m > [22mparentPath[2m > [22mabsolute paths[2m > [22mwhen a parent route has a path and an $id, pending registrations using the parent route path are registered[32m 4[2mms[22m[39m
+@squide/react-router:test:  [32m✓[39m tests/ReactRouterRuntime.test.tsx[2m > [22mregisterRoute[2m > [22mparentPath[2m > [22mrelative paths[2m > [22mwhen the parent route has already been registered, register the nested route[32m 4[2mms[22m[39m
+@squide/react-router:test:  [32m✓[39m tests/ReactRouterRuntime.test.tsx[2m > [22mregisterRoute[2m > [22mparentPath[2m > [22mrelative paths[2m > [22mwhen the parent route has not been registered, do not register the nested route[32m 3[2mms[22m[39m
+@squide/react-router:test:  [32m✓[39m tests/ReactRouterRuntime.test.tsx[2m > [22mregisterRoute[2m > [22mparentPath[2m > [22mrelative paths[2m > [22mwhen the parent route has not been registered, register the pending route once the parent route is registered[32m 3[2mms[22m[39m
+@squide/react-router:test:  [32m✓[39m tests/ReactRouterRuntime.test.tsx[2m > [22mregisterRoute[2m > [22mparentPath[2m > [22mrelative paths[2m > [22mwhen the parent route has not been registered, and the parent route is nested in a pending registration single block with multiple layers of relative paths, register the pending route once the parent route is registered[32m 3[2mms[22m[39m
+@squide/react-router:test:  [32m✓[39m tests/ReactRouterRuntime.test.tsx[2m > [22mregisterRoute[2m > [22mparentPath[2m > [22mrelative paths[2m > [22mwhen the parent route has not been registered, and the parent route is nested in a pending registration single block, register the pending route once the parent route is registered[32m 3[2mms[22m[39m
+@squide/react-router:test:  [32m✓[39m tests/ReactRouterRuntime.test.tsx[2m > [22mregisterRoute[2m > [22mparentPath[2m > [22mrelative paths[2m > [22mshould register a route under a deeply nested layout[32m 3[2mms[22m[39m
+@squide/react-router:test:  [32m✓[39m tests/ReactRouterRuntime.test.tsx[2m > [22mregisterRoute[2m > [22mparentPath[2m > [22mrelative paths[2m > [22mshould register a route under a deeply nested layout that has been registered in a single block with multiple layers of relative paths[32m 7[2mms[22m[39m
+@squide/react-router:test:  [32m✓[39m tests/ReactRouterRuntime.test.tsx[2m > [22mregisterRoute[2m > [22mparentPath[2m > [22mrelative paths[2m > [22mshould register a route under a deeply nested layout that has been registered in a single block[32m 7[2mms[22m[39m
+@squide/react-router:test:  [32m✓[39m tests/ReactRouterRuntime.test.tsx[2m > [22mregisterRoute[2m > [22mparentPath[2m > [22mrelative paths[2m > [22mwhen the specified parent path has a trailing separator but the parent route path doesn't have a trailing separator, the nested route is registered[32m 7[2mms[22m[39m
+@squide/react-router:test:  [32m✓[39m tests/ReactRouterRuntime.test.tsx[2m > [22mregisterRoute[2m > [22mparentPath[2m > [22mrelative paths[2m > [22mwhen the specified parent path doesn't have a trailing separator but the parent route path have a trailing separator, the nested route is registered[32m 6[2mms[22m[39m
+@squide/react-router:test:  [32m✓[39m tests/ReactRouterRuntime.test.tsx[2m > [22mregisterRoute[2m > [22mparentPath[2m > [22mrelative paths[2m > [22mwhen a parent route has a path and an $id, can register a nested route with the path[32m 6[2mms[22m[39m
+@squide/react-router:test:  [32m✓[39m tests/ReactRouterRuntime.test.tsx[2m > [22mregisterRoute[2m > [22mparentPath[2m > [22mrelative paths[2m > [22mwhen a parent route has a path and an $id, pending registrations using the parent route path are registered[32m 4[2mms[22m[39m
+@squide/react-router:test:  [32m✓[39m tests/ReactRouterRuntime.test.tsx[2m > [22mregisterRoute[2m > [22mparentPath[2m > [22mmixed absolute and relative paths[2m > [22mwhen the parent route has an absolute path, a child route with a relative path can be nested under the parent route[32m 4[2mms[22m[39m
+@squide/react-router:test:  [32m✓[39m tests/ReactRouterRuntime.test.tsx[2m > [22mregisterRoute[2m > [22mparentPath[2m > [22mmixed absolute and relative paths[2m > [22mwhen the parent route has a relative path, a child route with an absolute path can be nested under the parent route[32m 4[2mms[22m[39m
+@squide/react-router:test:  [32m✓[39m tests/ReactRouterRuntime.test.tsx[2m > [22mregisterRoute[2m > [22mparentPath[2m > [22mmixed absolute and relative paths[2m > [22mwhen the parent route has a relative path, a child route can be nested under the parent route by providing a parentPath that doesn't start with a "/"[32m 4[2mms[22m[39m
+@squide/react-router:test:  [32m✓[39m tests/ReactRouterRuntime.test.tsx[2m > [22mregisterRoute[2m > [22mparentPath[2m > [22mmixed absolute and relative paths[2m > [22mwhen the parent route has been registered with single block with multiple layers of relative paths, register the nested routes with absolute paths[32m 4[2mms[22m[39m
+@squide/react-router:test:  [32m✓[39m tests/ReactRouterRuntime.test.tsx[2m > [22mregisterRoute[2m > [22mparentPath[2m > [22mmixed absolute and relative paths[2m > [22mwhen nested routes are registered in a single block with multiple layers of relative paths, register the nested routes under a parent route with an absolute path[32m 5[2mms[22m[39m
+@squide/react-router:test:  [32m✓[39m tests/ReactRouterRuntime.test.tsx[2m > [22mregisterRoute[2m > [22mparentPath[2m > [22mmixed absolute and relative paths[2m > [22mwhen the parent route has not been registered, and the parent route has an absolute path, and the nested routes are registered in a single block with multiple layers of relative paths, register the nested routes with relative paths[32m 5[2mms[22m[39m
+@squide/react-router:test:  [32m✓[39m tests/ReactRouterRuntime.test.tsx[2m > [22mregisterRoute[2m > [22mparentPath[2m > [22mmixed absolute and relative paths[2m > [22mwhen the parent route has not been registered, and the parent route is nested in a pending registration single block with multiple layers of relative paths, register the nested routes with absolute paths[32m 5[2mms[22m[39m
+@squide/react-router:test:  [32m✓[39m tests/ReactRouterRuntime.test.tsx[2m > [22mregisterRoute[2m > [22mparentPath[2m > [22mmixed absolute and relative paths[2m > [22mwhen the parent route has not been registered, and the parent route is nested in a pending registration single block with multiple layers of absolute paths, register the nested routes with relative paths[32m 5[2mms[22m[39m
+@squide/react-router:test: 
+@squide/react-router:test: [2m Test Files [22m [1m[32m7 passed[39m[22m[90m (7)[39m
+@squide/react-router:test: [2m      Tests [22m [1m[32m201 passed[39m[22m[90m (201)[39m
+@squide/react-router:test: [2m   Start at [22m 14:17:53
+@squide/react-router:test: [2m   Duration [22m 5.52s[2m (transform 2.55s, setup 8.02s, import 3.06s, tests 430ms, environment 16.47s)[22m
+@squide/react-router:test: 
+@squide/firefly:test:  [32m✓[39m tests/useIsBootstrapping.test.tsx[2m > [22mwhen modules are ready, and msw is ready, public data is ready, and protected data is ready, return false[32m 49[2mms[22m[39m
+@squide/firefly:test:  [32m✓[39m tests/useIsBootstrapping.test.tsx[2m > [22mwhen msw is not ready but it's not required to wait for msw, return false[32m 49[2mms[22m[39m
+@squide/firefly:test:  [32m✓[39m tests/useIsBootstrapping.test.tsx[2m > [22mwhen public data is not ready but it's not required to wait for public data, return false[32m 49[2mms[22m[39m
+@squide/firefly:test:  [32m✓[39m tests/useIsBootstrapping.test.tsx[2m > [22mwhen protected data is not ready but it's not required to wait for protected data, return false[32m 49[2mms[22m[39m
+@squide/firefly:test:  [32m✓[39m tests/useIsBootstrapping.test.tsx[2m > [22mwhen protected data is not ready but the active route is public, return false[32m 49[2mms[22m[39m
+@squide/firefly:test:  [32m✓[39m tests/useIsBootstrapping.test.tsx[2m > [22mwhen modules are not ready, return true[32m 12[2mms[22m[39m
+@squide/firefly:test:  [32m✓[39m tests/useIsBootstrapping.test.tsx[2m > [22mwhen msw is not ready, return true[32m 12[2mms[22m[39m
+@squide/firefly:test:  [32m✓[39m tests/useIsBootstrapping.test.tsx[2m > [22mwhen public data is not ready, return true[32m 12[2mms[22m[39m
+@squide/firefly:test:  [32m✓[39m tests/useIsBootstrapping.test.tsx[2m > [22mwhen protected data is not ready, return true[32m 12[2mms[22m[39m
+@squide/firefly:test:  [32m✓[39m tests/useIsBootstrapping.test.tsx[2m > [22mwhen the session is unauthorized, return false[32m 12[2mms[22m[39m
+@squide/firefly-rsbuild-storybook:test:  [32m✓[39m tests/initializeFireflyForStorybook.test.ts[2m > [22mwhen environment variables are provided, the environment variables are available from the runtime[32m 14[2mms[22m[39m
+@squide/firefly-rsbuild-storybook:test:  [32m✓[39m tests/initializeFireflyForStorybook.test.ts[2m > [22mwhen a launch darkly client is provided, the client is available from the runtime[32m 14[2mms[22m[39m
+@squide/firefly-rsbuild-storybook:test:  [32m✓[39m tests/initializeFireflyForStorybook.test.ts[2m > [22mwhen no launch darkly client is provided and no feature flags are provided, a launch darkly client is available from the runtime[32m 14[2mms[22m[39m
+@squide/firefly-rsbuild-storybook:test:  [32m✓[39m tests/initializeFireflyForStorybook.test.ts[2m > [22mwhen feature flags are provided, the feature flags are available from the runtime[32m 14[2mms[22m[39m
+@squide/firefly-rsbuild-storybook:test:  [32m✓[39m tests/initializeFireflyForStorybook.test.ts[2m > [22mwhen local modules are provided, the local modules are registered[32m 15[2mms[22m[39m
+@squide/firefly-rsbuild-storybook:test:  [32m✓[39m tests/initializeFireflyForStorybook.test.ts[2m > [22mwhen no local modules are provided, modules are ready[32m 1[2mms[22m[39m
+@squide/firefly:test:  [32m✓[39m tests/useCanRegisterDeferredRegistrations.test.tsx[2m > [22mwhen modules are registered but not ready, public data is ready, and protected data is ready, return true[32m 40[2mms[22m[39m
+@squide/firefly:test:  [32m✓[39m tests/useCanRegisterDeferredRegistrations.test.tsx[2m > [22mwhen public data is not ready but it's not required to wait for public data, return true[32m 39[2mms[22m[39m
+@squide/firefly:test:  [32m✓[39m tests/useCanRegisterDeferredRegistrations.test.tsx[2m > [22mwhen protected data is not ready but it's not required to wait for protected data, return true[32m 39[2mms[22m[39m
+@squide/firefly:test:  [32m✓[39m tests/useCanRegisterDeferredRegistrations.test.tsx[2m > [22mwhen protected data is not ready but the route is public, return true[32m 39[2mms[22m[39m
+@squide/firefly:test:  [32m✓[39m tests/useCanRegisterDeferredRegistrations.test.tsx[2m > [22mwhen modules are ready, return false[32m 39[2mms[22m[39m
+@squide/firefly:test:  [32m✓[39m tests/useCanRegisterDeferredRegistrations.test.tsx[2m > [22mwhen the session is unauthorized, return false[32m 6[2mms[22m[39m
+@squide/firefly:test:  [32m✓[39m tests/useCanRegisterDeferredRegistrations.test.tsx[2m > [22mwhen it's required to wait for public data and public data is not ready, return false[32m 6[2mms[22m[39m
+@squide/firefly:test:  [32m✓[39m tests/useCanRegisterDeferredRegistrations.test.tsx[2m > [22mwhen it's required to wait for protected data and the protected data is not ready, return false[32m 6[2mms[22m[39m
+@squide/firefly:test:  [32m✓[39m tests/useCanUpdateDeferredRegistrations.test.tsx[2m > [22mwhen modules are ready, the deferred registrations has been registered once, and the public data has been updated, return true[32m 46[2mms[22m[39m
+@squide/firefly:test:  [32m✓[39m tests/useCanUpdateDeferredRegistrations.test.tsx[2m > [22mwhen modules are ready, the deferred registrations has been registered once, and the protected data has been updated, return true[32m 45[2mms[22m[39m
+@squide/firefly:test:  [32m✓[39m tests/useCanUpdateDeferredRegistrations.test.tsx[2m > [22mwhen modules are ready, the deferred registrations has been registered once, the public data has been updated, and the protected data has been updated, return true[32m 45[2mms[22m[39m
+@squide/firefly:test:  [32m✓[39m tests/useCanUpdateDeferredRegistrations.test.tsx[2m > [22mwhen modules are ready, the deferred registrations has been registered once, and the feature flags has been updated, return true[32m 45[2mms[22m[39m
+@squide/firefly:test:  [32m✓[39m tests/useCanUpdateDeferredRegistrations.test.tsx[2m > [22mwhen modules are not ready, return false[32m 45[2mms[22m[39m
+@squide/firefly:test:  [32m✓[39m tests/useCanUpdateDeferredRegistrations.test.tsx[2m > [22mwhen there's no deferred registrations, return false[32m 15[2mms[22m[39m
+@squide/firefly:test:  [32m✓[39m tests/useCanUpdateDeferredRegistrations.test.tsx[2m > [22mwhen the public and protected data has never been updated, return false[32m 15[2mms[22m[39m
+@squide/firefly:test:  [32m✓[39m tests/useCanUpdateDeferredRegistrations.test.tsx[2m > [22mwhen the public and protected data has never not updated since the last deferred registration update, return false[32m 15[2mms[22m[39m
+@squide/firefly:test:  [32m✓[39m tests/useCanUpdateDeferredRegistrations.test.tsx[2m > [22mwhen the feature flags has never been updated, return false[32m 15[2mms[22m[39m
+@squide/firefly:test:  [32m✓[39m tests/useCanUpdateDeferredRegistrations.test.tsx[2m > [22mwhen the feature flags has never not updated since the last deferred registration update, return false[32m 15[2mms[22m[39m
+@squide/firefly:test:  [32m✓[39m tests/useCanFetchPublicData.test.tsx[2m > [22mwhen the public data has already been fetched, return true[32m 46[2mms[22m[39m
+@squide/firefly:test:  [32m✓[39m tests/useCanFetchPublicData.test.tsx[2m > [22mwhen the modules are registered and msw is ready, return true[32m 46[2mms[22m[39m
+@squide/firefly:test:  [32m✓[39m tests/useCanFetchPublicData.test.tsx[2m > [22mwhen the modules are ready and msw is ready, return true[32m 46[2mms[22m[39m
+@squide/firefly:test:  [32m✓[39m tests/useCanFetchPublicData.test.tsx[2m > [22mwhen the modules are registered or ready and msw is not ready but it's not required to wait for msw, return true[32m 46[2mms[22m[39m
+@squide/firefly:test:  [32m✓[39m tests/useCanFetchPublicData.test.tsx[2m > [22mwhen the modules are not registered, return false[32m 45[2mms[22m[39m
+@squide/firefly:test:  [32m✓[39m tests/useCanFetchPublicData.test.tsx[2m > [22mwhen the modules are not ready, return false[32m 8[2mms[22m[39m
+@squide/firefly:test:  [32m✓[39m tests/useCanFetchPublicData.test.tsx[2m > [22mwhen it's required to wait for msw and msw is not ready, return false[32m 8[2mms[22m[39m
+@squide/firefly:test:  [32m✓[39m tests/useCanFetchProtectedData.test.tsx[2m > [22mwhen the protected data has already been fetched, return true[32m 44[2mms[22m[39m
+@squide/firefly:test:  [32m✓[39m tests/useCanFetchProtectedData.test.tsx[2m > [22mwhen the modules are registered, the active route is protected, and msw is ready, return true[32m 43[2mms[22m[39m
+@squide/firefly:test:  [32m✓[39m tests/useCanFetchProtectedData.test.tsx[2m > [22mwhen the modules are ready, and the active route is protected, and msw is ready, return true[32m 43[2mms[22m[39m
+@squide/firefly:test:  [32m✓[39m tests/useCanFetchProtectedData.test.tsx[2m > [22mwhen the modules are registered or ready, the active route is protected, and msw is not ready but it's not required to wait for msw, return true[32m 43[2mms[22m[39m
+@squide/firefly:test:  [32m✓[39m tests/useCanFetchProtectedData.test.tsx[2m > [22mwhen the modules are not registered, return false[32m 43[2mms[22m[39m
+@squide/firefly:test:  [32m✓[39m tests/useCanFetchProtectedData.test.tsx[2m > [22mwhen the modules are not ready, return false[32m 10[2mms[22m[39m
+@squide/firefly:test:  [32m✓[39m tests/useCanFetchProtectedData.test.tsx[2m > [22mwhen the active route is not protected, return false[32m 10[2mms[22m[39m
+@squide/firefly:test:  [32m✓[39m tests/useCanFetchProtectedData.test.tsx[2m > [22mwhen it's required to wait for msw and msw is not ready, return false[32m 10[2mms[22m[39m
+@squide/firefly-module-federation:test: 
+@squide/firefly-module-federation:test: [1m[46m RUN [49m[22m [36mv4.0.18 [39m[90mC:/Dev/workleap/wl-squide/packages/firefly-module-federation[39m
+@squide/firefly-module-federation:test: 
+@squide/firefly:test:  [32m✓[39m tests/initializeFirefly.test.ts[2m > [22mwhen the function is called twice, throw an error[32m 10[2mms[22m[39m
+@squide/firefly:test:  [32m✓[39m tests/AppRouterReducer.test.tsx[2m > [22museAppRouterReducer[2m > [22mthe reducer is initialized with the provided values for "waitForMsw", "waitForPublicData" and "waitForProtectedData" 1[32m 71[2mms[22m[39m
+@squide/firefly:test:  [32m✓[39m tests/AppRouterReducer.test.tsx[2m > [22museAppRouterReducer[2m > [22mthe reducer is initialized with the provided values for "waitForMsw", "waitForPublicData" and "waitForProtectedData" 2[32m 70[2mms[22m[39m
+@squide/firefly:test:  [32m✓[39m tests/AppRouterReducer.test.tsx[2m > [22museAppRouterReducer[2m > [22mwhen "modules-registered" is dispatched, "areModulesRegistered" is true[32m 70[2mms[22m[39m
+@squide/firefly:test:  [32m✓[39m tests/AppRouterReducer.test.tsx[2m > [22museAppRouterReducer[2m > [22mwhen "modules-registered" is dispatched, ModulesRegisteredEvent is dispatched[32m 70[2mms[22m[39m
+@squide/firefly:test:  [32m✓[39m tests/AppRouterReducer.test.tsx[2m > [22museAppRouterReducer[2m > [22mwhen "modules-ready" is dispatched, "areModulesReady" is true[32m 70[2mms[22m[39m
+@squide/firefly:test:  [32m✓[39m tests/bootstrap.test.ts[2m > [22mdispatch ApplicationBootstrappingStartedEvent[32m 17[2mms[22m[39m
+@squide/firefly:test:  [32m✓[39m tests/bootstrap.test.ts[2m > [22mwhen MSW is disabled and a start function is provided, do not call the start function[32m 1[2mms[22m[39m
+@squide/firefly:test:  [32m✓[39m tests/bootstrap.test.ts[2m > [22mfilter out undefined definitions[32m 78[2mms[22m[39m
+@squide/firefly:test:  [32m✓[39m tests/bootstrap.test.ts[2m > [22mwhen local modules are provided, register the local modules[32m 77[2mms[22m[39m
+@squide/firefly:test:  [32m✓[39m tests/bootstrap.test.ts[2m > [22mwhen an error occurs while registering a local and an onError function is provided, call the function with the error[32m 82[2mms[22m[39m
+@squide/firefly:test:  [32m✓[39m tests/bootstrap.test.ts[2m > [22mwhen MSW is enabled and a start function is provided, call the start function[32m 82[2mms[22m[39m
+@squide/firefly:test:  [32m✓[39m tests/bootstrap.test.ts[2m > [22mwhen MSW is enabled and a start function is provided, MSW is ready once the start function is called[32m 64[2mms[22m[39m
+@squide/firefly:test:  [32m✓[39m tests/useProtectedDataQueries.test.tsx[2m > [22mwhen queries are executed, ProtectedDataFetchStartedEvent is dispatched[32m 66[2mms[22m[39m
+@squide/firefly:test:  [32m✓[39m tests/usePublicDataQueries.test.tsx[2m > [22mwhen queries are executed, PublicDataFetchStartedEvent is dispatched[32m 65[2mms[22m[39m
+@squide/firefly:test:  [32m✓[39m tests/AppRouterReducer.test.tsx[2m > [22museAppRouterReducer[2m > [22mwhen "modules-ready" is dispatched, ModulesReadyEvent is dispatched[32m 29[2mms[22m[39m
+@squide/firefly:test:  [32m✓[39m tests/AppRouterReducer.test.tsx[2m > [22museAppRouterReducer[2m > [22mwhen "modules-ready" is dispatched, "deferredRegistrationsUpdatedAt" is set to the current timestamp[32m 29[2mms[22m[39m
+@squide/firefly:test:  [32m✓[39m tests/AppRouterReducer.test.tsx[2m > [22museAppRouterReducer[2m > [22mwhen "msw-ready" is dispatched, "isMswReady" is true[32m 28[2mms[22m[39m
+@squide/firefly:test:  [32m✓[39m tests/AppRouterReducer.test.tsx[2m > [22museAppRouterReducer[2m > [22mwhen "msw-ready" is dispatched, MswReadyEvent is dispatched[32m 28[2mms[22m[39m
+@squide/firefly:test:  [32m✓[39m tests/AppRouterReducer.test.tsx[2m > [22museAppRouterReducer[2m > [22mwhen "public-data-ready" is dispatched, "isPublicDataReady" is true[32m 28[2mms[22m[39m
+@squide/firefly:test:  [32m✓[39m tests/AppRouterReducer.test.tsx[2m > [22museAppRouterReducer[2m > [22mwhen "public-data-ready" is dispatched, PublicDataReadyEvent is dispatched[32m 17[2mms[22m[39m
+@squide/firefly:test:  [32m✓[39m tests/AppRouterReducer.test.tsx[2m > [22museAppRouterReducer[2m > [22mwhen "public-data-ready" is dispatched, "publicDataUpdatedAt" is set to the current timestamp[32m 17[2mms[22m[39m
+@squide/firefly:test:  [32m✓[39m tests/AppRouterReducer.test.tsx[2m > [22museAppRouterReducer[2m > [22mwhen "protected-data-ready" is dispatched, "isProtectedDataReady" is true[32m 17[2mms[22m[39m
+@squide/firefly:test:  [32m✓[39m tests/AppRouterReducer.test.tsx[2m > [22museAppRouterReducer[2m > [22mwhen "protected-data-ready" is dispatched, ProtectedDataReadyEvent is dispatched[32m 17[2mms[22m[39m
+@squide/firefly:test:  [32m✓[39m tests/AppRouterReducer.test.tsx[2m > [22museAppRouterReducer[2m > [22mwhen "protected-data-ready" is dispatched, "protectedDataUpdatedAt" is set to the current timestamp[32m 17[2mms[22m[39m
+@squide/firefly:test:  [32m✓[39m tests/AppRouterReducer.test.tsx[2m > [22museAppRouterReducer[2m > [22mwhen "public-data-updated" is dispatched, "publicDataUpdatedAt" is set to the current timestamp[32m 21[2mms[22m[39m
+@squide/firefly:test:  [32m✓[39m tests/AppRouterReducer.test.tsx[2m > [22museAppRouterReducer[2m > [22mwhen "protected-data-updated" is dispatched, "protectedDataUpdatedAt" is set to the current timestamp[32m 21[2mms[22m[39m
+@squide/firefly:test:  [32m✓[39m tests/AppRouterReducer.test.tsx[2m > [22museAppRouterReducer[2m > [22mwhen "feature-flags-updated" is dispatched, "featureFlagsUpdatedAt" is set to the current timestamp[32m 21[2mms[22m[39m
+@squide/firefly:test:  [32m✓[39m tests/AppRouterReducer.test.tsx[2m > [22museAppRouterReducer[2m > [22mwhen "deferred-registrations-updated" is dispatched, "deferredRegistrationsUpdatedAt" is set to the current timestamp[32m 21[2mms[22m[39m
+@squide/firefly:test:  [32m✓[39m tests/AppRouterReducer.test.tsx[2m > [22museAppRouterReducer[2m > [22mwhen "active-route-is-public" is dispatched, "activeRouteVisiblity" is "public"[32m 21[2mms[22m[39m
+@squide/firefly:test:  [32m✓[39m tests/AppRouterReducer.test.tsx[2m > [22museAppRouterReducer[2m > [22mwhen "active-route-is-public" is dispatched, ActiveRouteIsPublicEvent is dispatched[32m 17[2mms[22m[39m
+@squide/firefly:test:  [32m✓[39m tests/AppRouterReducer.test.tsx[2m > [22museAppRouterReducer[2m > [22mwhen "active-route-is-protected" is dispatched, "activeRouteVisiblity" is "protected"[32m 17[2mms[22m[39m
+@squide/firefly:test:  [32m✓[39m tests/AppRouterReducer.test.tsx[2m > [22museAppRouterReducer[2m > [22mwhen "active-route-is-protected" is dispatched, ActiveRouteIsProtectedEvent is dispatched[32m 17[2mms[22m[39m
+@squide/firefly:test:  [32m✓[39m tests/AppRouterReducer.test.tsx[2m > [22museAppRouterReducer[2m > [22mwhen "is-unauthorized" is dispatched, "isUnauthorized" is true[32m 17[2mms[22m[39m
+@squide/firefly:test:  [32m✓[39m tests/AppRouterReducer.test.tsx[2m > [22museAppRouterReducer[2m > [22mwhen all registries modules are registered, "areModulesRegistered" is true at initialization[32m 17[2mms[22m[39m
+@squide/firefly:test:  [32m✓[39m tests/AppRouterReducer.test.tsx[2m > [22museAppRouterReducer[2m > [22mwhen all registries modules are registered, ModulesRegisteredEvent is dispatched at initialization[32m 15[2mms[22m[39m
+@squide/firefly:test:  [32m✓[39m tests/AppRouterReducer.test.tsx[2m > [22museAppRouterReducer[2m > [22mwhen local modules are registered and no remote modules has been provided, "areModulesRegistered" is true at initialization[32m 15[2mms[22m[39m
+@squide/firefly:test:  [32m✓[39m tests/AppRouterReducer.test.tsx[2m > [22museAppRouterReducer[2m > [22mwhen local modules are registered and no remote modules has been provided, ModulesRegisteredEvent is dispatched at initialization[32m 15[2mms[22m[39m
+@squide/firefly:test:  [32m✓[39m tests/AppRouterReducer.test.tsx[2m > [22museAppRouterReducer[2m > [22mwhen no local modules has been provided and remote modules are registered, "areModulesRegistered" is true at initialization[32m 15[2mms[22m[39m
+@squide/firefly:test:  [32m✓[39m tests/AppRouterReducer.test.tsx[2m > [22museAppRouterReducer[2m > [22mwhen no local modules are registered and remote modules are registered, ModulesRegisteredEvent is dispatched at initialization[32m 15[2mms[22m[39m
+@squide/firefly:test:  [32m✓[39m tests/AppRouterReducer.test.tsx[2m > [22museAppRouterReducer[2m > [22mwhen local modules are registered and remote modules are registering, "areModulesRegistered" is false at initialization[32m 18[2mms[22m[39m
+@squide/firefly:test:  [32m✓[39m tests/AppRouterReducer.test.tsx[2m > [22museAppRouterReducer[2m > [22mwhen local modules are registering and remote modules are registered, "areModulesRegistered" is false at initialization[32m 18[2mms[22m[39m
+@squide/firefly:test:  [32m✓[39m tests/AppRouterReducer.test.tsx[2m > [22museAppRouterReducer[2m > [22mwhen all registries modules are ready, "areModulesReady" is true at initialization[32m 18[2mms[22m[39m
+@squide/firefly:test:  [32m✓[39m tests/AppRouterReducer.test.tsx[2m > [22museAppRouterReducer[2m > [22mwhen all registries modules are ready, ModulesReadyEvent is dispatched at initialization[32m 18[2mms[22m[39m
+@squide/firefly:test:  [32m✓[39m tests/AppRouterReducer.test.tsx[2m > [22museAppRouterReducer[2m > [22mwhen local modules are ready and no remote modules has been provided, "areModulesReady" is true at initialization[32m 18[2mms[22m[39m
+@squide/firefly:test:  [32m✓[39m tests/useCanRenderRouter.test.ts[2m > [22mwhen modules are not registered and modules are not ready return false[32m 29[2mms[22m[39m
+@squide/firefly:test:  [32m✓[39m tests/useCanRenderRouter.test.ts[2m > [22mwhen modules are not registered but modules are ready, return true[32m 28[2mms[22m[39m
+@squide/firefly:test:  [32m✓[39m tests/useCanRenderRouter.test.ts[2m > [22mwhen modules are registered but modules are not ready, return true[32m 28[2mms[22m[39m
+@squide/firefly:test:  [32m✓[39m tests/AppRouterReducer.test.tsx[2m > [22museAppRouterReducer[2m > [22mwhen local modules are ready and no remote modules has been provided, ModulesReadyEvent is dispatched at initialization[32m 15[2mms[22m[39m
+@squide/firefly:test:  [32m✓[39m tests/AppRouterReducer.test.tsx[2m > [22museAppRouterReducer[2m > [22mwhen no local modules has been provided and remote modules are ready, "areModulesReady" is true at initialization[32m 15[2mms[22m[39m
+@squide/firefly:test:  [32m✓[39m tests/AppRouterReducer.test.tsx[2m > [22museAppRouterReducer[2m > [22mwhen no local modules has been provided and remote modules are ready, ModulesReadyEvent is dispatched at initialization[32m 15[2mms[22m[39m
+@squide/firefly:test:  [32m✓[39m tests/AppRouterReducer.test.tsx[2m > [22museAppRouterReducer[2m > [22mwhen local modules are ready and remote modules are not ready, "areModulesReady" is false at initialization[32m 15[2mms[22m[39m
+@squide/firefly:test:  [32m✓[39m tests/AppRouterReducer.test.tsx[2m > [22museAppRouterReducer[2m > [22mwhen local modules are not ready and remote modules are ready, "areModulesReady" is false at initialization[32m 15[2mms[22m[39m
+@squide/firefly:test:  [32m✓[39m tests/AppRouterReducer.test.tsx[2m > [22museAppRouterReducer[2m > [22mwhen msw is ready, "isMswReady" is true at initialization[32m 15[2mms[22m[39m
+@squide/firefly:test:  [32m✓[39m tests/AppRouterReducer.test.tsx[2m > [22museAppRouterReducer[2m > [22mwhen msw is ready, MswReadyEvent is dispatched at initialization[32m 15[2mms[22m[39m
+@squide/firefly:test:  [32m✓[39m tests/AppRouterReducer.test.tsx[2m > [22museAppRouterReducer[2m > [22mwhen msw is not ready, "isMswReady" is false at initialization[32m 15[2mms[22m[39m
+@squide/firefly:test:  [32m✓[39m tests/AppRouterReducer.test.tsx[2m > [22museModuleRegistrationStatusDispatcher[2m > [22mwhen registries modules are not registered, do not dispatch the "modules-registered" action[32m 15[2mms[22m[39m
+@squide/firefly:test:  [32m✓[39m tests/AppRouterReducer.test.tsx[2m > [22museModuleRegistrationStatusDispatcher[2m > [22mwhen local modules are registered but remote modules are not registered, do not dispatch the "modules-registered" action[32m 15[2mms[22m[39m
+@squide/firefly:test:  [32m✓[39m tests/AppRouterReducer.test.tsx[2m > [22museModuleRegistrationStatusDispatcher[2m > [22mwhen local modules are not registered but remote modules are registered, do not dispatch the "modules-registered" action[32m 12[2mms[22m[39m
+@squide/firefly:test:  [32m✓[39m tests/AppRouterReducer.test.tsx[2m > [22museModuleRegistrationStatusDispatcher[2m > [22mwhen registries modules are registered, dispatch the "modules-registered" action[32m 12[2mms[22m[39m
+@squide/firefly:test:  [32m✓[39m tests/AppRouterReducer.test.tsx[2m > [22museModuleRegistrationStatusDispatcher[2m > [22mwhen local modules and remote modules are registered and "areModulesRegistered" is already true, do not dispatch the "modules-registered" action[32m 11[2mms[22m[39m
+@squide/firefly:test:  [32m✓[39m tests/AppRouterReducer.test.tsx[2m > [22museModuleRegistrationStatusDispatcher[2m > [22mwhen local modules and remote modules are not ready, do not dispatch the "modules-ready" action[32m 11[2mms[22m[39m
+@squide/firefly:test:  [32m✓[39m tests/AppRouterReducer.test.tsx[2m > [22museModuleRegistrationStatusDispatcher[2m > [22mwhen local modules are ready but remote modules are not ready, do not dispatch the "modules-ready" action[32m 11[2mms[22m[39m
+@squide/firefly:test:  [32m✓[39m tests/AppRouterReducer.test.tsx[2m > [22museModuleRegistrationStatusDispatcher[2m > [22mwhen local modules are not ready but remote modules are ready, do not dispatch the "modules-ready" action[32m 13[2mms[22m[39m
+@squide/firefly:test:  [32m✓[39m tests/AppRouterReducer.test.tsx[2m > [22museModuleRegistrationStatusDispatcher[2m > [22mwhen registries modules are ready, dispatch the "modules-ready" action[32m 13[2mms[22m[39m
+@squide/firefly:test:  [32m✓[39m tests/AppRouterReducer.test.tsx[2m > [22museModuleRegistrationStatusDispatcher[2m > [22mwhen registries modules are ready and "areModulesReady" is already true, do not dispatch the "modules-ready" action[32m 13[2mms[22m[39m
+@squide/firefly:test:  [32m✓[39m tests/AppRouterReducer.test.tsx[2m > [22museMswStatusDispatcher[2m > [22mwhen msw is ready, dispatch the "msw-ready" action[32m 13[2mms[22m[39m
+@squide/firefly:test:  [32m✓[39m tests/AppRouterReducer.test.tsx[2m > [22museMswStatusDispatcher[2m > [22mwhen msw is ready and "isMswReady" is already true, do not dispatch the "msw-ready" action[32m 13[2mms[22m[39m
+@squide/firefly:test:  [32m✓[39m tests/AppRouterReducer.test.tsx[2m > [22museFeatureFlagsUpdatedDispatcher[2m > [22mwhen the feature flags is updated, dispatch the "feature-flags-updated" action[32m 5[2mms[22m[39m
+@squide/firefly:test:  [32m✓[39m tests/usePublicDataQueries.test.tsx[2m > [22mwhen data is ready, "public-data-ready" is dispatched[32m 50[2mms[22m[39m
+@squide/firefly:test:  [32m✓[39m tests/useProtectedDataQueries.test.tsx[2m > [22mwhen data is ready, "protected-data-ready" is dispatched[32m 51[2mms[22m[39m
+@squide/firefly-rsbuild-configs:test:  [32m✓[39m tests/defineConfig.test.ts[2m > [22mdefineDevHostConfig[2m > [22mthe application name is set as the federation plugin application name[32m 14[2mms[22m[39m
+@squide/firefly-rsbuild-configs:test:  [32m✓[39m tests/defineConfig.test.ts[2m > [22mdefineDevHostConfig[2m > [22mthe port number is set as the dev server port[32m 13[2mms[22m[39m
+@squide/firefly-rsbuild-configs:test:  [32m✓[39m tests/defineConfig.test.ts[2m > [22mdefineDevHostConfig[2m > [22mwhen no asset prefix is provided, the default asset prefix is "/"[32m 13[2mms[22m[39m
+@squide/firefly-rsbuild-configs:test:  [32m✓[39m tests/defineConfig.test.ts[2m > [22mdefineDevHostConfig[2m > [22mwhen an asset prefix is provided, use the provided asset prefix[32m 13[2mms[22m[39m
+@squide/firefly-rsbuild-configs:test:  [32m✓[39m tests/defineConfig.test.ts[2m > [22mdefineDevHostConfig[2m > [22mwhen no value is provided for lazy compilation, lazy compilation is disabled[32m 13[2mms[22m[39m
+@squide/firefly-rsbuild-configs:test:  [32m✓[39m tests/defineConfig.test.ts[2m > [22mdefineDevHostConfig[2m > [22mwhen a value is provided for lazy compilation, use the provided value[32m 9[2mms[22m[39m
+@squide/firefly-rsbuild-configs:test:  [32m✓[39m tests/defineConfig.test.ts[2m > [22mdefineDevHostConfig[2m > [22mwhen a function is provided to override the module federation plugin, apply the function[32m 9[2mms[22m[39m
+@squide/firefly-rsbuild-configs:test:  [32m✓[39m tests/defineConfig.test.ts[2m > [22mdefineDevHostConfig[2m > [22mthe module federation plugin configuration includes the remotes[32m 9[2mms[22m[39m
+@squide/firefly-rsbuild-configs:test:  [32m✓[39m tests/defineConfig.test.ts[2m > [22mdefineDevHostConfig[2m > [22mthe module federation plugin configuration includes the default shared dependencies[32m 9[2mms[22m[39m
+@squide/firefly-rsbuild-configs:test:  [32m✓[39m tests/defineConfig.test.ts[2m > [22mdefineDevHostConfig[2m > [22mwhen additional shared dependencies are provided, add the dependencies to the module federation plugin configuration[32m 9[2mms[22m[39m
+@squide/firefly-rsbuild-configs:test:  [32m✓[39m tests/defineConfig.test.ts[2m > [22mdefineDevHostConfig[2m > [22mwhen additional options are provided for an existing default shared dependency, add the consumer options to the default options[32m 10[2mms[22m[39m
+@squide/firefly-rsbuild-configs:test:  [32m✓[39m tests/defineConfig.test.ts[2m > [22mdefineDevHostConfig[2m > [22mwhen overriding options are provided for a default shared dependency, use the consumer option[32m 10[2mms[22m[39m
+@squide/firefly-rsbuild-configs:test:  [32m✓[39m tests/defineConfig.test.ts[2m > [22mdefineDevHostConfig[2m > [22mwhen the router is not react-router, do not add react-router shared dependencies[32m 10[2mms[22m[39m
+@squide/firefly-rsbuild-configs:test:  [32m✓[39m tests/defineConfig.test.ts[2m > [22mdefineDevHostConfig[2m > [22mwhen i18next is activated, add i18next shared dependency and requiredVersion: false to the react shared dependency definition[32m 10[2mms[22m[39m
+@squide/firefly-rsbuild-configs:test:  [32m✓[39m tests/defineConfig.test.ts[2m > [22mdefineDevHostConfig[2m > [22mwhen honeycomb is activated, add honeycomb shared dependency and requiredVersion: false to the react shared dependency definition[32m 10[2mms[22m[39m
+@squide/firefly-rsbuild-configs:test:  [32m✓[39m tests/defineConfig.test.ts[2m > [22mdefineDevHostConfig[2m > [22mwhen environmentVariables is activated, add env-var shared dependency and requiredVersion: false to the react shared dependency definition[32m 7[2mms[22m[39m
+@squide/firefly-rsbuild-configs:test:  [32m✓[39m tests/defineConfig.test.ts[2m > [22mdefineDevHostConfig[2m > [22mwhen additional plugins are provided, the plugins are added to the configuration[32m 7[2mms[22m[39m
+@squide/firefly-rsbuild-configs:test:  [32m✓[39m tests/defineConfig.test.ts[2m > [22mdefineDevHostConfig[2m > [22mwhen configuration transformers are provided, the transformers are applied to the configuration[32m 7[2mms[22m[39m
+@squide/firefly-rsbuild-configs:test:  [32m✓[39m tests/defineConfig.test.ts[2m > [22mdefineBuildHostConfig[2m > [22mthe application name is set as the federation plugin application name[32m 7[2mms[22m[39m
+@squide/firefly-rsbuild-configs:test:  [32m✓[39m tests/defineConfig.test.ts[2m > [22mdefineBuildHostConfig[2m > [22mwhen no asset prefix is provided, the default asset prefix is "/"[32m 7[2mms[22m[39m
+@squide/firefly-rsbuild-configs:test:  [32m✓[39m tests/defineConfig.test.ts[2m > [22mdefineBuildHostConfig[2m > [22mwhen an asset prefix is provided, use the provided asset prefix[32m 17[2mms[22m[39m
+@squide/firefly-rsbuild-configs:test:  [32m✓[39m tests/defineConfig.test.ts[2m > [22mdefineBuildHostConfig[2m > [22mwhen a function is provided to override the module federation plugin, apply the function[32m 17[2mms[22m[39m
+@squide/firefly-rsbuild-configs:test:  [32m✓[39m tests/defineConfig.test.ts[2m > [22mdefineBuildHostConfig[2m > [22mthe module federation plugin configuration includes the remotes[32m 17[2mms[22m[39m
+@squide/firefly-rsbuild-configs:test:  [32m✓[39m tests/defineConfig.test.ts[2m > [22mdefineBuildHostConfig[2m > [22mthe module federation plugin configuration includes the default shared dependencies[32m 17[2mms[22m[39m
+@squide/firefly-rsbuild-configs:test:  [32m✓[39m tests/defineConfig.test.ts[2m > [22mdefineBuildHostConfig[2m > [22mwhen additional shared dependencies are provided, add the dependencies to the module federation plugin configuration[32m 17[2mms[22m[39m
+@squide/firefly-rsbuild-configs:test:  [32m✓[39m tests/defineConfig.test.ts[2m > [22mdefineBuildHostConfig[2m > [22mwhen additional options are provided for an existing default shared dependency, add the consumer options to the default options[32m 5[2mms[22m[39m
+@squide/firefly-rsbuild-configs:test:  [32m✓[39m tests/defineConfig.test.ts[2m > [22mdefineBuildHostConfig[2m > [22mwhen overriding options are provided for a default shared dependency, use the consumer option[32m 5[2mms[22m[39m
+@squide/firefly-rsbuild-configs:test:  [32m✓[39m tests/defineConfig.test.ts[2m > [22mdefineBuildHostConfig[2m > [22mwhen the router is not react-router, do not add react-router shared dependencies[32m 5[2mms[22m[39m
+@squide/firefly-rsbuild-configs:test:  [32m✓[39m tests/defineConfig.test.ts[2m > [22mdefineBuildHostConfig[2m > [22mwhen i18next is activated, add i18next shared dependency and requiredVersion: false to the react shared dependency definition[32m 5[2mms[22m[39m
+@squide/firefly-rsbuild-configs:test:  [32m✓[39m tests/defineConfig.test.ts[2m > [22mdefineBuildHostConfig[2m > [22mwhen honeycomb is activated, add honeycomb shared dependency and requiredVersion: false to the react shared dependency definition[32m 5[2mms[22m[39m
+@squide/firefly-rsbuild-configs:test:  [32m✓[39m tests/defineConfig.test.ts[2m > [22mdefineBuildHostConfig[2m > [22mwhen environmentVariables is env-vars, add env-vars shared dependency and requiredVersion: false to the react shared dependency definition[32m 4[2mms[22m[39m
+@squide/firefly-rsbuild-configs:test:  [32m✓[39m tests/defineConfig.test.ts[2m > [22mdefineBuildHostConfig[2m > [22mwhen additional plugins are provided, the plugins are added to the configuration[32m 4[2mms[22m[39m
+@squide/firefly-rsbuild-configs:test:  [32m✓[39m tests/defineConfig.test.ts[2m > [22mdefineBuildHostConfig[2m > [22mwhen configuration transformers are provided, the transformers are applied to the configuration[32m 4[2mms[22m[39m
+@squide/firefly-rsbuild-configs:test:  [32m✓[39m tests/defineConfig.test.ts[2m > [22mdefineDevRemoteModuleConfig[2m > [22mthe application name is set as the federation plugin application name[32m 4[2mms[22m[39m
+@squide/firefly-rsbuild-configs:test:  [32m✓[39m tests/defineConfig.test.ts[2m > [22mdefineDevRemoteModuleConfig[2m > [22mthe port number is set as the dev server port[32m 4[2mms[22m[39m
+@squide/firefly-rsbuild-configs:test:  [32m✓[39m tests/defineConfig.test.ts[2m > [22mdefineDevRemoteModuleConfig[2m > [22mwhen no asset prefix is provided, the default asset prefix is "auto"[32m 4[2mms[22m[39m
+@squide/firefly-rsbuild-configs:test:  [32m✓[39m tests/defineConfig.test.ts[2m > [22mdefineDevRemoteModuleConfig[2m > [22mwhen an asset prefix is provided, use the provided asset prefix[32m 3[2mms[22m[39m
+@squide/firefly-rsbuild-configs:test:  [32m✓[39m tests/defineConfig.test.ts[2m > [22mdefineDevRemoteModuleConfig[2m > [22mwhen no value is provided for lazy compilation, lazy compilation is disabled[32m 3[2mms[22m[39m
+@squide/firefly-rsbuild-configs:test:  [32m✓[39m tests/defineConfig.test.ts[2m > [22mdefineDevRemoteModuleConfig[2m > [22mwhen a value is provided for lazy compilation, use the provided value[32m 3[2mms[22m[39m
+@squide/firefly-rsbuild-configs:test:  [32m✓[39m tests/defineConfig.test.ts[2m > [22mdefineDevRemoteModuleConfig[2m > [22mwhen a function is provided to override the module federation plugin, apply the function[32m 3[2mms[22m[39m
+@squide/firefly-rsbuild-configs:test:  [32m✓[39m tests/defineConfig.test.ts[2m > [22mdefineDevRemoteModuleConfig[2m > [22mthe module federation plugin configuration includes the default shared dependencies[32m 6[2mms[22m[39m
+@squide/firefly-rsbuild-configs:test:  [32m✓[39m tests/defineConfig.test.ts[2m > [22mdefineDevRemoteModuleConfig[2m > [22mwhen additional shared dependencies are provided, add the dependencies to the module federation plugin configuration[32m 6[2mms[22m[39m
+@squide/firefly-rsbuild-configs:test:  [32m✓[39m tests/defineConfig.test.ts[2m > [22mdefineDevRemoteModuleConfig[2m > [22mwhen additional options are provided for an existing default shared dependency, add the consumer options to the default options[32m 6[2mms[22m[39m
+@squide/firefly-rsbuild-configs:test:  [32m✓[39m tests/defineConfig.test.ts[2m > [22mdefineDevRemoteModuleConfig[2m > [22mwhen overriding options are provided for a default shared dependency, use the consumer option[32m 6[2mms[22m[39m
+@squide/firefly-rsbuild-configs:test:  [32m✓[39m tests/defineConfig.test.ts[2m > [22mdefineDevRemoteModuleConfig[2m > [22mwhen the router is not react-router, add react-router shared dependencies[32m 6[2mms[22m[39m
+@squide/firefly-rsbuild-configs:test:  [32m✓[39m tests/defineConfig.test.ts[2m > [22mdefineDevRemoteModuleConfig[2m > [22mwhen i18next is activated, add i18next shared dependency and requiredVersion: false to the react shared dependency definition[32m 4[2mms[22m[39m
+@squide/firefly-rsbuild-configs:test:  [32m✓[39m tests/defineConfig.test.ts[2m > [22mdefineDevRemoteModuleConfig[2m > [22mwhen honeycomb is activated, add honeycomb shared dependency and requiredVersion: false to the react shared dependency definition[32m 4[2mms[22m[39m
+@squide/firefly-rsbuild-configs:test:  [32m✓[39m tests/defineConfig.test.ts[2m > [22mdefineDevRemoteModuleConfig[2m > [22mwhen environmentVariables is activated, add env-vars shared dependency and requiredVersion: false to the react shared dependency definition[32m 4[2mms[22m[39m
+@squide/firefly-rsbuild-configs:test:  [32m✓[39m tests/defineConfig.test.ts[2m > [22mdefineDevRemoteModuleConfig[2m > [22mwhen additional plugins are provided, the plugins are added to the configuration[32m 4[2mms[22m[39m
+@squide/firefly-rsbuild-configs:test:  [32m✓[39m tests/defineConfig.test.ts[2m > [22mdefineDevRemoteModuleConfig[2m > [22mwhen additional configuration transformers are provided, the transformers are applied to the configuration[32m 4[2mms[22m[39m
+@squide/firefly-rsbuild-configs:test:  [32m✓[39m tests/defineConfig.test.ts[2m > [22mdefineBuildRemoteModuleConfig[2m > [22mthe application name is set as the federation plugin application name[32m 5[2mms[22m[39m
+@squide/firefly-rsbuild-configs:test:  [32m✓[39m tests/defineConfig.test.ts[2m > [22mdefineBuildRemoteModuleConfig[2m > [22mwhen no asset prefix is provided, the default asset prefix is "auto"[32m 5[2mms[22m[39m
+@squide/firefly-rsbuild-configs:test:  [32m✓[39m tests/defineConfig.test.ts[2m > [22mdefineBuildRemoteModuleConfig[2m > [22mwhen an asset prefix is provided, use the provided asset prefix[32m 5[2mms[22m[39m
+@squide/firefly-rsbuild-configs:test:  [32m✓[39m tests/defineConfig.test.ts[2m > [22mdefineBuildRemoteModuleConfig[2m > [22mwhen a function is provided to override the module federation plugin, apply the function[32m 5[2mms[22m[39m
+@squide/firefly-rsbuild-configs:test:  [32m✓[39m tests/defineConfig.test.ts[2m > [22mdefineBuildRemoteModuleConfig[2m > [22mthe module federation plugin configuration includes the default shared dependencies[32m 5[2mms[22m[39m
+@squide/firefly-rsbuild-configs:test:  [32m✓[39m tests/defineConfig.test.ts[2m > [22mdefineBuildRemoteModuleConfig[2m > [22mwhen additional shared dependencies are provided, add the dependencies to the module federation plugin configuration[32m 6[2mms[22m[39m
+@squide/firefly-rsbuild-configs:test:  [32m✓[39m tests/defineConfig.test.ts[2m > [22mdefineBuildRemoteModuleConfig[2m > [22mwhen additional options are provided for an existing default shared dependency, add the consumer options to the default options[32m 6[2mms[22m[39m
+@squide/firefly-rsbuild-configs:test:  [32m✓[39m tests/defineConfig.test.ts[2m > [22mdefineBuildRemoteModuleConfig[2m > [22mwhen overriding options are provided for a default shared dependency, use the consumer option[32m 6[2mms[22m[39m
+@squide/firefly-rsbuild-configs:test:  [32m✓[39m tests/defineConfig.test.ts[2m > [22mdefineBuildRemoteModuleConfig[2m > [22mwhen the router is not react-router, add react-router shared dependencies[32m 6[2mms[22m[39m
+@squide/firefly-rsbuild-configs:test:  [32m✓[39m tests/defineConfig.test.ts[2m > [22mdefineBuildRemoteModuleConfig[2m > [22mwhen i18next is activated, add i18next shared dependency and requiredVersion: false to the react shared dependency definition[32m 6[2mms[22m[39m
+@squide/firefly-rsbuild-configs:test:  [32m✓[39m tests/defineConfig.test.ts[2m > [22mdefineBuildRemoteModuleConfig[2m > [22mwhen honeycomb is activated, add honeycomb shared dependency and requiredVersion: false to the react shared dependency definition[32m 2[2mms[22m[39m
+@squide/firefly-rsbuild-configs:test:  [32m✓[39m tests/defineConfig.test.ts[2m > [22mdefineBuildRemoteModuleConfig[2m > [22mwhen environmentVariables is activated, add env-vars shared dependency and requiredVersion: false to the react shared dependency definition[32m 2[2mms[22m[39m
+@squide/firefly-rsbuild-configs:test:  [32m✓[39m tests/defineConfig.test.ts[2m > [22mdefineBuildRemoteModuleConfig[2m > [22mwhen additional plugins are provided, the plugins are added to the configuration[32m 2[2mms[22m[39m
+@squide/firefly-rsbuild-configs:test:  [32m✓[39m tests/defineConfig.test.ts[2m > [22mdefineBuildRemoteModuleConfig[2m > [22mwhen configuration transformers are provided, the transformers are applied to the configuration[32m 2[2mms[22m[39m
+@squide/firefly-rsbuild-configs:test: 
+@squide/firefly-rsbuild-configs:test: [2m Test Files [22m [1m[32m2 passed[39m[22m[90m (2)[39m
+@squide/firefly-rsbuild-configs:test: [2m      Tests [22m [1m[32m72 passed[39m[22m[90m (72)[39m
+@squide/firefly-rsbuild-configs:test: [2m   Start at [22m 14:17:53
+@squide/firefly-rsbuild-configs:test: [2m   Duration [22m 6.32s[2m (transform 784ms, setup 0ms, import 5.85s, tests 125ms, environment 0ms)[22m
+@squide/firefly-rsbuild-configs:test: 
+@squide/firefly-rsbuild-storybook:test:  [32m✓[39m tests/withFeatureFlagsOverrideDecorator.test.tsx[2m > [22mInMemoryLaunchDarklyClient[2m > [22mthe feature flags are overridden when the story is rendered[32m 33[2mms[22m[39m
+@squide/firefly-rsbuild-storybook:test:  [32m✓[39m tests/withFeatureFlagsOverrideDecorator.test.tsx[2m > [22mInMemoryLaunchDarklyClient[2m > [22mthe original feature flags value are reset after the story has been rendered[32m 32[2mms[22m[39m
+@squide/firefly-rsbuild-storybook:test:  [32m✓[39m tests/withFeatureFlagsOverrideDecorator.test.tsx[2m > [22mLocalStorageLaunchDarklyClient[2m > [22mthe feature flags are overridden when the story is rendered[32m 5[2mms[22m[39m
+@squide/firefly-rsbuild-storybook:test:  [32m✓[39m tests/withFeatureFlagsOverrideDecorator.test.tsx[2m > [22mLocalStorageLaunchDarklyClient[2m > [22mthe original feature flags value are reset after the story has been rendered[32m 5[2mms[22m[39m
+@squide/firefly-rsbuild-storybook:test: 
+@squide/firefly-rsbuild-storybook:test: [2m Test Files [22m [1m[32m2 passed[39m[22m[90m (2)[39m
+@squide/firefly-rsbuild-storybook:test: [2m      Tests [22m [1m[32m10 passed[39m[22m[90m (10)[39m
+@squide/firefly-rsbuild-storybook:test: [2m   Start at [22m 14:17:53
+@squide/firefly-rsbuild-storybook:test: [2m   Duration [22m 6.32s[2m (transform 3.76s, setup 0ms, import 5.91s, tests 64ms, environment 4.38s)[22m
+@squide/firefly-rsbuild-storybook:test: 
+@squide/firefly:test:  [32m✓[39m tests/usePublicDataQueries.test.tsx[2m > [22mwhen data is updated, "public-data-updated" is dispatched[32m 105[2mms[22m[39m
+@squide/firefly:test:  [32m✓[39m tests/usePublicDataQueries.test.tsx[2m > [22mwhen a query fail[2m > [22mshould throw an error[32m 47[2mms[22m[39m
+@squide/firefly:test:  [32m✓[39m tests/usePublicDataQueries.test.tsx[2m > [22mwhen a query fail[2m > [22mshould dispatch PublicDataFetchFailedEvent[32m 48[2mms[22m[39m
+@squide/firefly:test:  [32m✓[39m tests/useProtectedDataQueries.test.tsx[2m > [22mwhen data is updated, "protected-data-updated" is dispatched[32m 101[2mms[22m[39m
+@squide/firefly:test:  [32m✓[39m tests/useProtectedDataQueries.test.tsx[2m > [22mwhen a query fail[2m > [22mshould throw an error[32m 46[2mms[22m[39m
+@squide/firefly:test:  [32m✓[39m tests/useProtectedDataQueries.test.tsx[2m > [22mwhen a query fail[2m > [22mwhen it's a unauthorized error, "is-unauthorized" is dispatched[32m 31[2mms[22m[39m
+@squide/firefly:test:  [32m✓[39m tests/honeycomb/reduceDataFetchEvents.test.ts[2m > [22mwhen the state is "none" and PublicDataFetchStartedEvent is handled, call the onDataFetchStarted handler[32m 13[2mms[22m[39m
+@squide/firefly:test:  [32m✓[39m tests/honeycomb/reduceDataFetchEvents.test.ts[2m > [22mwhen the state is "fetching-data" and PublicDataFetchStartedEvent is handled, do not call the onDataFetchStarted handler[32m 12[2mms[22m[39m
+@squide/firefly:test:  [32m✓[39m tests/honeycomb/reduceDataFetchEvents.test.ts[2m > [22mwhen the state is "none" and ProtectedDataFetchStartedEvent is handled, call the onDataFetchStarted handler[32m 12[2mms[22m[39m
+@squide/firefly:test:  [32m✓[39m tests/honeycomb/reduceDataFetchEvents.test.ts[2m > [22mwhen the state is "fetching-data" and ProtectedDataFetchStartedEvent is handled, do not call the onDataFetchStarted handler[32m 12[2mms[22m[39m
+@squide/firefly:test:  [32m✓[39m tests/honeycomb/reduceDataFetchEvents.test.ts[2m > [22mwhen the state is "fetching-data", "waitForProtectedData" is true, and PublicDataReadyEvent is handled, do not call the onDataReadyHandler[32m 12[2mms[22m[39m
+@squide/firefly:test:  [32m✓[39m tests/honeycomb/reduceDataFetchEvents.test.ts[2m > [22mwhen the state is "fetching-data", "waitForProtectedData" is false, and PublicDataReadyEvent is handled, call the onDataReadyHandler[32m 6[2mms[22m[39m
+@squide/firefly:test:  [32m✓[39m tests/honeycomb/reduceDataFetchEvents.test.ts[2m > [22mwhen the state is "protected-data-ready" and PublicDataReadyEvent is handled, call the onDataReady handler[32m 6[2mms[22m[39m
+@squide/firefly:test:  [32m✓[39m tests/honeycomb/reduceDataFetchEvents.test.ts[2m > [22mwhen the state is "public-data-ready" and PublicDataReadyEvent is handled, do not call the onDataReady handler[32m 6[2mms[22m[39m
+@squide/firefly:test:  [32m✓[39m tests/honeycomb/reduceDataFetchEvents.test.ts[2m > [22mwhen the state is "data-ready" and PublicDataReadyEvent is handled, do not call the onDataReady handler[32m 6[2mms[22m[39m
+@squide/firefly:test:  [32m✓[39m tests/honeycomb/reduceDataFetchEvents.test.ts[2m > [22mwhen the state is "fetching-data", "waitForPublicData" is true, and ProtectedDataReadyEvent is handled, do not call the onDataReadyHandler[32m 6[2mms[22m[39m
+@squide/firefly:test:  [32m✓[39m tests/honeycomb/reduceDataFetchEvents.test.ts[2m > [22mwhen the state is "fetching-data", "waitForPublicData" is false, and ProtectedDataReadyEvent is handled, call the onDataReadyHandler[32m 5[2mms[22m[39m
+@squide/firefly:test:  [32m✓[39m tests/honeycomb/reduceDataFetchEvents.test.ts[2m > [22mwhen the state is "public-data-ready" and ProtectedDataReadyEvent is handled, call the onDataReady handler[32m 5[2mms[22m[39m
+@squide/firefly:test:  [32m✓[39m tests/honeycomb/reduceDataFetchEvents.test.ts[2m > [22mwhen the state is "protected-data-ready" and ProtectedDataReadyEvent is handled, do not call the onDataReady handler[32m 5[2mms[22m[39m
+@squide/firefly:test:  [32m✓[39m tests/honeycomb/reduceDataFetchEvents.test.ts[2m > [22mwhen the state is "data-ready" and ProtectedDataReadyEvent is handled, do not call the onDataReady handler[32m 5[2mms[22m[39m
+@squide/firefly:test:  [32m✓[39m tests/honeycomb/reduceDataFetchEvents.test.ts[2m > [22mwhen the state is not "data-fetch-failed" and PublicDataFetchFailedEvent is handled, call the onDataFetchFailed handler[32m 5[2mms[22m[39m
+@squide/firefly:test:  [32m✓[39m tests/honeycomb/reduceDataFetchEvents.test.ts[2m > [22mwhen the state is "data-fetch-failed" and PublicDataFetchFailedEvent is handled, call the onDataFetchFailed handler[32m 4[2mms[22m[39m
+@squide/firefly:test:  [32m✓[39m tests/honeycomb/reduceDataFetchEvents.test.ts[2m > [22mwhen the state is not "data-fetch-failed" and ProtectedDataFetchFailedEvent is handled, call the onDataFetchFailed handler[32m 4[2mms[22m[39m
+@squide/firefly:test:  [32m✓[39m tests/honeycomb/reduceDataFetchEvents.test.ts[2m > [22mwhen the state is "data-fetch-failed" and ProtectedDataFetchFailedEvent is handled, call the onDataFetchFailed handler[32m 4[2mms[22m[39m
+@squide/firefly:test:  [32m✓[39m tests/honeycomb/reduceDataFetchEvents.test.ts[2m > [22mevents sequencing[32m 4[2mms[22m[39m
+@squide/firefly:test:  [32m✓[39m tests/useProtectedDataQueries.test.tsx[2m > [22mwhen a query fail[2m > [22mshould dispatch ProtectedDataFetchFailedEvent[32m 33[2mms[22m[39m
+@squide/firefly:test:  [32m✓[39m tests/useProtectedDataQueries.test.tsx[2m > [22mwhen a query fail[2m > [22mwhen a query fail and it's a unauthorized error, ProtectedDataFetchFailedEvent is not dispatched[32m 46[2mms[22m[39m
+@squide/firefly:test: [90mstderr[2m | tests/useDeferredRegistrations.test.tsx[2m > [22m[2mwhen local modules are not registered, do not register the deferred registrations
+@squide/firefly:test: [22m[39mA component suspended inside an `act` scope, but the `act` call was not awaited. When testing React components that depend on asynchronous data, you must await the result:
+@squide/firefly:test: 
+@squide/firefly:test: await act(() => ...)
+@squide/firefly:test: 
+@squide/firefly:test:  [32m✓[39m tests/eventSequence.test.tsx[2m > [22mmsw + local modules + public data + protected data + local deferred[32m 173[2mms[22m[39m
+@squide/firefly:test:  [32m✓[39m tests/eventSequence.test.tsx[2m > [22mmsw + local modules + public data + protected data[32m 108[2mms[22m[39m
+@squide/firefly:test:  [32m✓[39m tests/useDeferredRegistrations.test.tsx[2m > [22mwhen local modules are registered but not ready, global data is ready and msw is ready, register the deferred registrations[32m 121[2mms[22m[39m
+@squide/firefly:test:  [32m✓[39m tests/useDeferredRegistrations.test.tsx[2m > [22mwhen local modules are not registered, do not register the deferred registrations[32m 148[2mms[22m[39m
+@squide/firefly:test:  [32m✓[39m tests/useDeferredRegistrations.test.tsx[2m > [22mwhen local modules are ready, msw is ready, and the public data change, update the deferred registrations[32m 166[2mms[22m[39m
+@squide/firefly:test:  [32m✓[39m tests/useDeferredRegistrations.test.tsx[2m > [22mwhen local modules are ready, msw is ready, and the protected data change, update the deferred registrations[32m 172[2mms[22m[39m
+@squide/firefly:test:  [32m✓[39m tests/useDeferredRegistrations.test.tsx[2m > [22mwhen local modules are ready, msw is ready, and the global data hasn't changed, and the feature flags changed, update the deferred registrations[32m 172[2mms[22m[39m
+@squide/firefly:test:  [32m✓[39m tests/useDeferredRegistrations.test.tsx[2m > [22mwhen an error occurs while registering the deferred registrations of the local modules, invoke the onError callback[32m 24[2mms[22m[39m
+@squide/firefly:test:  [32m✓[39m tests/useDeferredRegistrations.test.tsx[2m > [22mwhen local modules are ready, msw is ready, but the global data and the feature flags hasn't change, do not update the deferred registrations[32m 98[2mms[22m[39m
+@squide/firefly:test:  [32m✓[39m tests/useDeferredRegistrations.test.tsx[2m > [22mwhen an error occurs while updating the deferred registrations of the local modules, invoke the onError callback[32m 131[2mms[22m[39m
+@squide/firefly:test:  [32m✓[39m tests/eventSequence.test.tsx[2m > [22mmsw + local modules + public data + local deferred[32m 109[2mms[22m[39m
+@squide/firefly:test:  [32m✓[39m tests/eventSequence.test.tsx[2m > [22mmsw + local modules + protected data + local deferred[32m 110[2mms[22m[39m
+@squide/firefly:test:  [32m✓[39m tests/eventSequence.test.tsx[2m > [22mmsw + local modules[32m 95[2mms[22m[39m
+@squide/firefly:test:  [32m✓[39m tests/eventSequence.test.tsx[2m > [22mlocal modules + public data + protected data + local deferred[32m 93[2mms[22m[39m
+@squide/firefly:test:  [32m✓[39m tests/eventSequence.test.tsx[2m > [22mfailing local module registration[32m 112[2mms[22m[39m
+@squide/firefly:test: 
+@squide/firefly:test: [2m Test Files [22m [1m[32m14 passed[39m[22m[90m (14)[39m
+@squide/firefly:test: [2m      Tests [22m [1m[32m156 passed[39m[22m[90m (156)[39m
+@squide/firefly:test: [2m   Start at [22m 14:17:53
+@squide/firefly:test: [2m   Duration [22m 7.00s[2m (transform 9.60s, setup 15.33s, import 15.69s, tests 2.50s, environment 32.91s)[22m
+@squide/firefly:test: 
+@squide/firefly-module-federation:test:  [32m✓[39m tests/toRemoteModuleDefinitions.test.ts[2m > [22mfilter undefined modules[32m 2[2mms[22m[39m
+@squide/firefly-module-federation:test:  [32m✓[39m tests/RemoteModuleRegistry.test.ts[2m > [22mregisterModules[2m > [22mshould register all the modules[32m 13[2mms[22m[39m
+@squide/firefly-module-federation:test:  [32m✓[39m tests/RemoteModuleRegistry.test.ts[2m > [22mregisterModules[2m > [22mshould dispatch RemoteModulesRegistrationStartedEvent[32m 12[2mms[22m[39m
+@squide/firefly-module-federation:test:  [32m✓[39m tests/RemoteModuleRegistry.test.ts[2m > [22mregisterModules[2m > [22mwhen there are no deferred registrations, once all the modules are registered, set the status to "ready"[32m 12[2mms[22m[39m
+@squide/firefly-module-federation:test:  [32m✓[39m tests/RemoteModuleRegistry.test.ts[2m > [22mregisterModules[2m > [22mwhen there are no deferred registrations, once all the modules are registered, RemoteModulesRegistrationCompletedEvent is dispatched[32m 12[2mms[22m[39m
+@squide/firefly-module-federation:test:  [32m✓[39m tests/RemoteModuleRegistry.test.ts[2m > [22mregisterModules[2m > [22mwhen called twice, throw an error[32m 16[2mms[22m[39m
+@squide/firefly-module-federation:test:  [32m✓[39m tests/RemoteModuleRegistry.test.ts[2m > [22mregisterModules[2m > [22mwhen there are deferred registrations, once all the modules are registered, set the status to "modules-registered"[32m 6[2mms[22m[39m
+@squide/firefly-module-federation:test:  [32m✓[39m tests/RemoteModuleRegistry.test.ts[2m > [22mregisterModules[2m > [22mwhen there are deferred registrations, once all the modules are registered, RemoteModulesRegistrationCompletedEvent is dispatched[32m 7[2mms[22m[39m
+@squide/firefly-module-federation:test:  [32m✓[39m tests/RemoteModuleRegistry.test.ts[2m > [22mregisterModules[2m > [22mwhen a module registration fail, register the remaining modules[32m 7[2mms[22m[39m
+@squide/firefly-module-federation:test:  [32m✓[39m tests/RemoteModuleRegistry.test.ts[2m > [22mregisterModules[2m > [22mwhen a module registration fail, return the error[32m 7[2mms[22m[39m
+@squide/firefly-module-federation:test:  [32m✓[39m tests/RemoteModuleRegistry.test.ts[2m > [22mregisterModules[2m > [22mwhen a module registration fail, RemoteModuleRegistrationFailedEvent is dispatched[32m 5[2mms[22m[39m
+@squide/firefly-module-federation:test:  [32m✓[39m tests/RemoteModuleRegistry.test.ts[2m > [22mregisterModules[2m > [22mwhen no modules are provided, the status is "ready"[32m 5[2mms[22m[39m
+@squide/firefly-module-federation:test:  [32m✓[39m tests/RemoteModuleRegistry.test.ts[2m > [22mregisterModules[2m > [22mwhen no modules are provided, do not dispatch RemoteModulesRegistrationStartedEvent[32m 5[2mms[22m[39m
+@squide/firefly-module-federation:test:  [32m✓[39m tests/RemoteModuleRegistry.test.ts[2m > [22mregisterModules[2m > [22mwhen a module registration fail, RemoteModulesRegistrationCompletedEvent is dispatched[32m 5[2mms[22m[39m
+@squide/firefly-module-federation:test:  [32m✓[39m tests/RemoteModuleRegistry.test.ts[2m > [22mregisterModules[2m > [22mwhen a context is provided, all the register functions receive the provided context[32m 5[2mms[22m[39m
+@squide/firefly-module-federation:test:  [32m✓[39m tests/RemoteModuleRegistry.test.ts[2m > [22mregisterModules[2m > [22mwhen no modules are provided, do not dispatch RemoteModulesRegistrationCompletedEvent[32m 2[2mms[22m[39m
+@squide/firefly-module-federation:test:  [32m✓[39m tests/RemoteModuleRegistry.test.ts[2m > [22mregisterDeferredRegistrations[2m > [22mwhen called before registerRemoteModules, throw an error[32m 5[2mms[22m[39m
+@squide/firefly-module-federation:test:  [32m✓[39m tests/RemoteModuleRegistry.test.ts[2m > [22mregisterDeferredRegistrations[2m > [22mwhen called for the first time but the registration status is already "ready", return a resolving promise[32m 4[2mms[22m[39m
+@squide/firefly-module-federation:test:  [32m✓[39m tests/RemoteModuleRegistry.test.ts[2m > [22mregisterDeferredRegistrations[2m > [22mshould dispatch RemoteModulesDeferredRegistrationStartedEvent[32m 4[2mms[22m[39m
+@squide/firefly-module-federation:test:  [32m✓[39m tests/RemoteModuleRegistry.test.ts[2m > [22mregisterDeferredRegistrations[2m > [22mwhen called twice, throw an error[32m 6[2mms[22m[39m
+@squide/firefly-module-federation:test:  [32m✓[39m tests/RemoteModuleRegistry.test.ts[2m > [22mregisterDeferredRegistrations[2m > [22mshould complete all the deferred registrations[32m 4[2mms[22m[39m
+@squide/firefly-module-federation:test:  [32m✓[39m tests/RemoteModuleRegistry.test.ts[2m > [22mregisterDeferredRegistrations[2m > [22mwhen all the deferred registrations are completed, set the status to "ready"[32m 4[2mms[22m[39m
+@squide/firefly-module-federation:test:  [32m✓[39m tests/RemoteModuleRegistry.test.ts[2m > [22mregisterDeferredRegistrations[2m > [22mwhen all the deferred registrations are completed, RemoteModulesDeferredRegistrationCompletedEvent is dispatched[32m 4[2mms[22m[39m
+@squide/firefly-module-federation:test:  [32m✓[39m tests/RemoteModuleRegistry.test.ts[2m > [22mregisterDeferredRegistrations[2m > [22mwhen a deferred registration fail, complete the remaining deferred registrations[32m 3[2mms[22m[39m
+@squide/firefly-module-federation:test:  [32m✓[39m tests/RemoteModuleRegistry.test.ts[2m > [22mregisterDeferredRegistrations[2m > [22mwhen a deferred registration fail, return the error[32m 3[2mms[22m[39m
+@squide/firefly-module-federation:test:  [32m✓[39m tests/RemoteModuleRegistry.test.ts[2m > [22mregisterDeferredRegistrations[2m > [22mwhen a deferred registration fail, RemoteModuleDeferredRegistrationFailedEvent is dispatched[32m 5[2mms[22m[39m
+@squide/firefly-module-federation:test:  [32m✓[39m tests/RemoteModuleRegistry.test.ts[2m > [22mregisterDeferredRegistrations[2m > [22mwhen a deferred registration fail, RemoteModulesDeferredRegistrationCompletedEvent is dispatched[32m 5[2mms[22m[39m
+@squide/firefly-module-federation:test:  [32m✓[39m tests/RemoteModuleRegistry.test.ts[2m > [22mregisterDeferredRegistrations[2m > [22mall the deferred registrations receive the data object[32m 4[2mms[22m[39m
+@squide/firefly-module-federation:test:  [32m✓[39m tests/RemoteModuleRegistry.test.ts[2m > [22mregisterDeferredRegistrations[2m > [22mall the deferred registrations receive "register" as state[32m 5[2mms[22m[39m
+@squide/firefly-module-federation:test:  [32m✓[39m tests/RemoteModuleRegistry.test.ts[2m > [22mupdateDeferredRegistrations[2m > [22mwhen called before registerLocalModules, throw an error[32m 3[2mms[22m[39m
+@squide/firefly-module-federation:test:  [32m✓[39m tests/RemoteModuleRegistry.test.ts[2m > [22mupdateDeferredRegistrations[2m > [22mwhen called before registerLocalModuleDeferredRegistrations, throw an error[32m 4[2mms[22m[39m
+@squide/firefly-module-federation:test:  [32m✓[39m tests/RemoteModuleRegistry.test.ts[2m > [22mupdateDeferredRegistrations[2m > [22mshould dispatch RemoteModulesDeferredRegistrationsUpdateStartedEvent[32m 3[2mms[22m[39m
+@squide/firefly-module-federation:test:  [32m✓[39m tests/RemoteModuleRegistry.test.ts[2m > [22mupdateDeferredRegistrations[2m > [22mshould update all the deferred registrations[32m 3[2mms[22m[39m
+@squide/firefly-module-federation:test:  [32m✓[39m tests/RemoteModuleRegistry.test.ts[2m > [22mupdateDeferredRegistrations[2m > [22mwhen all deferred registrations has been updated, RemoteModulesDeferredRegistrationsUpdateCompletedEvent is dispatched[32m 3[2mms[22m[39m
+@squide/firefly-module-federation:test:  [32m✓[39m tests/RemoteModuleRegistry.test.ts[2m > [22mupdateDeferredRegistrations[2m > [22mwhen a deferred registration fail, update the remaining deferred registrations[32m 3[2mms[22m[39m
+@squide/firefly-module-federation:test:  [32m✓[39m tests/RemoteModuleRegistry.test.ts[2m > [22mupdateDeferredRegistrations[2m > [22mwhen a deferred registration fail, return the error[32m 3[2mms[22m[39m
+@squide/firefly-module-federation:test:  [32m✓[39m tests/RemoteModuleRegistry.test.ts[2m > [22mupdateDeferredRegistrations[2m > [22mwhen a deferred registration fail, RemoteModuleDeferredRegistrationUpdateFailedEvent is dispatched[32m 3[2mms[22m[39m
+@squide/firefly-module-federation:test:  [32m✓[39m tests/RemoteModuleRegistry.test.ts[2m > [22mupdateDeferredRegistrations[2m > [22mwhen a deferred registration fail, RemoteModulesDeferredRegistrationsUpdateCompletedEvent is dispatched[32m 3[2mms[22m[39m
+@squide/firefly-module-federation:test:  [32m✓[39m tests/RemoteModuleRegistry.test.ts[2m > [22mupdateDeferredRegistrations[2m > [22mall the deferred module registrations receive the data object[32m 3[2mms[22m[39m
+@squide/firefly-module-federation:test:  [32m✓[39m tests/RemoteModuleRegistry.test.ts[2m > [22mupdateDeferredRegistrations[2m > [22mall the deferred module registrations receive "update" as state[32m 1[2mms[22m[39m
+@squide/firefly-module-federation:test:  [32m✓[39m tests/RemoteModuleRegistry.test.ts[2m > [22mregisterDeferredRegistrations[2m > [22mwhen a deferred registration is asynchronous, the function can be awaited[32m 19[2mms[22m[39m
+@squide/firefly-module-federation:test:  [32m✓[39m tests/RemoteModuleRegistry.test.ts[2m > [22mupdateDeferredRegistrations[2m > [22mwhen a deferred registration is asynchronous, the function can be awaited[32m 19[2mms[22m[39m
+@squide/firefly-module-federation:test:  [32m✓[39m tests/bootstrap.test.ts[2m > [22mwhen remote modules are provided, register the remote modules[32m 67[2mms[22m[39m
+@squide/firefly-module-federation:test:  [32m✓[39m tests/bootstrap.test.ts[2m > [22mwhen local and remote modules are provided, register all the modules[32m 67[2mms[22m[39m
+@squide/firefly-module-federation:test:  [32m✓[39m tests/bootstrap.test.ts[2m > [22mwhen an error occurs while registering a remote module and an onError function is provided, call the function with the error[32m 68[2mms[22m[39m
+@squide/firefly-module-federation:test: [90mstderr[2m | tests/useDeferredRegistrations.test.tsx[2m > [22m[2mwhen local and remote modules are ready, msw is ready, but the global data hasn't change, do not update the deferred registrations
+@squide/firefly-module-federation:test: [22m[39mA component suspended inside an `act` scope, but the `act` call was not awaited. When testing React components that depend on asynchronous data, you must await the result:
+@squide/firefly-module-federation:test: 
+@squide/firefly-module-federation:test: await act(() => ...)
+@squide/firefly-module-federation:test: 
+@squide/firefly-module-federation:test:  [32m✓[39m tests/eventSequence.test.tsx[2m > [22mmsw + local modules + remote modules + public data + protected data + local deferred + remote deferred[32m 150[2mms[22m[39m
+@squide/firefly-module-federation:test:  [32m✓[39m tests/useDeferredRegistrations.test.tsx[2m > [22mwhen local and remote modules are not registered, do not register the deferred registrations[32m 104[2mms[22m[39m
+@squide/firefly-module-federation:test:  [32m✓[39m tests/useDeferredRegistrations.test.tsx[2m > [22mwhen local and remote modules are registered but not ready, global data is ready and msw is ready, register the deferred registrations[32m 110[2mms[22m[39m
+@squide/firefly-module-federation:test:  [32m✓[39m tests/useDeferredRegistrations.test.tsx[2m > [22mwhen an error occurs while registering the deferred registrations of the local modules, invoke the onError callback[32m 14[2mms[22m[39m
+@squide/firefly-module-federation:test:  [32m✓[39m tests/useDeferredRegistrations.test.tsx[2m > [22mwhen an error occurs while registering the deferred registrations of the remote modules, invoke the onError callback[32m 12[2mms[22m[39m
+@squide/firefly-module-federation:test:  [32m✓[39m tests/useDeferredRegistrations.test.tsx[2m > [22mwhen local and remote modules are ready, msw is ready, and the public data change, update the deferred registrations[32m 125[2mms[22m[39m
+@squide/firefly-module-federation:test:  [32m✓[39m tests/useDeferredRegistrations.test.tsx[2m > [22mwhen local and remote modules are ready, msw is ready, and the protected data change, update the deferred registrations[32m 128[2mms[22m[39m
+@squide/firefly-module-federation:test:  [32m✓[39m tests/useDeferredRegistrations.test.tsx[2m > [22mwhen an error occurs while registering the deferred registrations of the local & remote modules, invoke the onError callback[32m 12[2mms[22m[39m
+@squide/firefly-module-federation:test:  [32m✓[39m tests/useDeferredRegistrations.test.tsx[2m > [22mwhen local and remote modules are ready, msw is ready, but the global data hasn't change, do not update the deferred registrations[32m 177[2mms[22m[39m
+@squide/firefly-module-federation:test:  [32m✓[39m tests/useDeferredRegistrations.test.tsx[2m > [22mwhen an error occurs while updating the deferred registrations of the local modules, invoke the onError callback[32m 60[2mms[22m[39m
+@squide/firefly-module-federation:test:  [32m✓[39m tests/useDeferredRegistrations.test.tsx[2m > [22mwhen an error occurs while updating the deferred registrations of the protected modules, invoke the onError callback[32m 57[2mms[22m[39m
+@squide/firefly-module-federation:test:  [32m✓[39m tests/useDeferredRegistrations.test.tsx[2m > [22mwhen an error occurs while updating the deferred registrations of the local & protected modules, invoke the onError callback[32m 64[2mms[22m[39m
+@squide/firefly-module-federation:test:  [32m✓[39m tests/eventSequence.test.tsx[2m > [22mmsw + local modules + remote modules + public data + protected data[32m 107[2mms[22m[39m
+@squide/firefly-module-federation:test:  [32m✓[39m tests/eventSequence.test.tsx[2m > [22mmsw + local modules + remote modules + public data + local deferred + remote deferred[32m 109[2mms[22m[39m
+@squide/firefly-module-federation:test:  [32m✓[39m tests/eventSequence.test.tsx[2m > [22mmsw + local modules + remote modules + protected data + local deferred + remote deferred[32m 108[2mms[22m[39m
+@squide/firefly-module-federation:test:  [32m✓[39m tests/eventSequence.test.tsx[2m > [22mmsw + local modules + remote modules[32m 92[2mms[22m[39m
+@squide/firefly-module-federation:test:  [32m✓[39m tests/eventSequence.test.tsx[2m > [22mmsw + local modules + remote modules + public data + protected data + local deferred[32m 111[2mms[22m[39m
+@squide/firefly-module-federation:test:  [32m✓[39m tests/eventSequence.test.tsx[2m > [22mmsw + local modules + remote modules + public data + protected data + remote deferred[32m 93[2mms[22m[39m
+@squide/firefly-module-federation:test:  [32m✓[39m tests/eventSequence.test.tsx[2m > [22mlocal modules + remote modules + public data + protected data + local deferred + remote deferred[32m 109[2mms[22m[39m
+@squide/firefly-module-federation:test:  [32m✓[39m tests/eventSequence.test.tsx[2m > [22mfailing remote module registration[32m 109[2mms[22m[39m
+@squide/firefly-module-federation:test:  [32m✓[39m tests/eventSequence.test.tsx[2m > [22mfailing local module registration[32m 74[2mms[22m[39m
+@squide/firefly-module-federation:test: 
+@squide/firefly-module-federation:test: [2m Test Files [22m [1m[32m5 passed[39m[22m[90m (5)[39m
+@squide/firefly-module-federation:test: [2m      Tests [22m [1m[32m66 passed[39m[22m[90m (66)[39m
+@squide/firefly-module-federation:test: [2m   Start at [22m 14:17:59
+@squide/firefly-module-federation:test: [2m   Duration [22m 4.27s[2m (transform 3.28s, setup 2.35s, import 4.38s, tests 1.40s, environment 4.86s)[22m
+@squide/firefly-module-federation:test: 
+
+ Tasks:    11 successful, 11 total
+Cached:    0 cached, 11 total
+  Time:    15.347s 
+
