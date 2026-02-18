@@ -113,7 +113,7 @@ Run steps 2a through 2d in order. If ANY step fails:
 1. Set `attempt_count = attempt_count + 1`
 2. **Check: is `attempt_count` >= 10?**
    - **YES → Go to Step 4 (Failure) immediately. Do NOT retry.**
-   - **NO → Attempt to fix the issue, then restart from Step 2a.**
+   - **NO → Diagnose and fix the issue before retrying.** Read error messages carefully, inspect the failing source code, look up changelogs or migration guides (using web-fetch) for packages with breaking changes, then apply the fix and restart from Step 2a. Do NOT give up before exhausting all 10 attempts.
 
 ### Step 2a: Linting
 
