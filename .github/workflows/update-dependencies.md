@@ -76,6 +76,16 @@ You MUST execute every validation step (2a, 2b, 2c, 2d) in order. Do NOT skip an
 
 ---
 
+## Step 0: Preflight check
+
+Run this command first:
+
+```bash
+pnpm --version
+```
+
+If this fails or `pnpm` is not found, STOP immediately and go to Step 4 (Failure) with the message: "pnpm is not available in the sandbox container." Do NOT attempt to install pnpm yourself (no `npx pnpm`, no `npm install -g pnpm`, no `corepack`). The workflow setup is broken and must be fixed in the workflow configuration.
+
 ## Step 1: Update dependencies
 
 Update all dependencies to their latest versions:
