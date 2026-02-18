@@ -10,13 +10,11 @@ permissions: read-all
 
 timeout-minutes: 120
 
-# Required to set "sandbox.agent: false".
-strict: false
-
 sandbox:
-  # Steps runs on the host, but the agent runs in a container that doesn't inherit the host's installed tools.
-  # So pnpm/action-setup in steps doesn't help without disabling the sandbox for the agent.
-  agent: false
+  agent:
+    id: awf
+    mounts:
+      - "/opt/hostedtoolcache:/opt/hostedtoolcache:rw"
 
 engine:
   id: claude
@@ -117,9 +115,11 @@ All checks must pass with zero errors.
 pnpm test
 ```
 
-All tests must pass.
+All tests must pass. Do NOT report test counts, suite counts, or package names in the PR body. Just confirm tests passed.
 
 ### Step 2c: Validate the "endpoints" sample app
+
+You MUST use Playwright for this step. Running a build is NOT sufficient — you must start the dev server, and follow ALL of the above steps.
 
 1. Start the dev server in the background: `pnpm dev-endpoints`
 2. Wait for the server to be ready on `http://localhost:8080`
@@ -137,6 +137,8 @@ All tests must pass.
 
 ### Step 2d: Validate the "storybook" sample app
 
+You MUST use Playwright for this step. Running a build is NOT sufficient — you must start the dev server, and follow ALL of the above steps.
+
 1. Start the dev server in the background: `pnpm dev-storybook`
 2. Wait for the server to be ready (check the output for the URL)
 3. Using Playwright, navigate to the Storybook URL
@@ -152,28 +154,18 @@ All validations passed.
 
 ### 3a: Create a changeset
 
-Create a changeset file at `.changeset/update-dependencies.md` with the following content:
+Create a changeset file at `.changeset/update-dependencies.md`. Include every `@squide/*` package found under the `packages/` directory. Use `patch` as the default bump level, but use your judgment to bump as `minor` or `major` if warranted by the dependency changes.
+
+Example format:
 
 ```markdown
 ---
 "@squide/core": patch
-"@squide/env-vars": patch
-"@squide/fakes": patch
-"@squide/firefly": patch
-"@squide/firefly-module-federation": patch
-"@squide/firefly-rsbuild-configs": patch
-"@squide/firefly-rsbuild-storybook": patch
-"@squide/firefly-webpack-configs": patch
-"@squide/i18next": patch
-"@squide/launch-darkly": patch
-"@squide/msw": patch
-"@squide/react-router": patch
+"@squide/some-other-package": patch
 ---
 
 Updated dependencies to their latest versions.
 ```
-
-Use your judgment: bump as minor or major if warranted by the dependency changes.
 
 ### 3b: Commit changes
 
