@@ -80,25 +80,13 @@ You MUST execute every validation step (2a, 2b, 2c, 2d) in order. Do NOT skip an
 
 ## Step 1: Update dependencies
 
-First, install the current dependencies so that tooling (like syncpack) is available:
-
-```bash
-pnpm install
-```
-
-Then, update all dependencies to their latest versions:
+Update all dependencies to their latest versions:
 
 ```bash
 pnpm update-outdated-deps
 ```
 
-Reset the monorepo to ensure a clean state:
-
-```bash
-pnpm reset
-```
-
-Finally, do a fresh install with the updated dependencies:
+Then, install the updated dependencies:
 
 ```bash
 pnpm install
