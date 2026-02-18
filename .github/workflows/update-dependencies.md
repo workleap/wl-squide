@@ -14,7 +14,7 @@ sandbox:
   agent:
     id: awf
     mounts:
-      - "/opt/hostedtoolcache:/opt/hostedtoolcache:rw"
+      - "/tmp/pnpm-global:/tmp/pnpm-global:ro"
 
 engine:
   id: claude
@@ -23,9 +23,9 @@ engine:
 
 steps:
   - name: Install pnpm
-    uses: pnpm/action-setup@v4
-    with:
-      run_install: false
+    run: |
+      npm install -g pnpm@10.20.0 --prefix /tmp/pnpm-global
+      echo "/tmp/pnpm-global/bin" >> $GITHUB_PATH
 
 tools:
   bash:
