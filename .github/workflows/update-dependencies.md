@@ -125,11 +125,13 @@ All checks must pass with zero errors.
 
 ### Step 2b: Tests
 
+Run this exact command from the workspace root:
+
 ```bash
 pnpm test
 ```
 
-All tests must pass.
+This command runs tests for ALL packages in the monorepo via Turborepo. All tests must pass. When reporting results, list ALL packages that ran tests — not a subset. Do NOT use words like "including" that imply a partial list.
 
 ### Step 2c: Validate the "endpoints" sample app
 
