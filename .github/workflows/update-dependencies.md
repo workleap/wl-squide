@@ -39,6 +39,9 @@ tools:
     - "lsof:*"
     - "sleep:*"
     - "curl:*"
+    - "grep:*"
+    - "tee:*"
+    - "cat:*"
   edit: {}
   web-fetch: {}
   playwright:
@@ -113,13 +116,19 @@ All checks must pass with zero errors.
 
 ### Step 2b: Tests
 
-Run this exact command from the workspace root:
+Run these exact commands from the workspace root:
 
 ```bash
-pnpm test
+pnpm test 2>&1 | tee /tmp/test-output.txt
 ```
 
-This command runs tests for ALL packages in the monorepo via Turborepo. All tests must pass. When reporting results, list ALL packages that ran tests — not a subset. Do NOT use words like "including" that imply a partial list. Do NOT fabricate or estimate test counts — only report numbers you can directly read from the output.
+Then extract the per-package test results:
+
+```bash
+grep -E "Tests .* passed" /tmp/test-output.txt
+```
+
+All tests must pass. Use the output of the `grep` command as the test results in the PR body — copy each line as-is, one per package.
 
 ### Step 2c: Validate the "endpoints" sample app
 
