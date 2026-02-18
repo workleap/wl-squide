@@ -128,7 +128,7 @@ Then extract the per-package test results:
 grep -E "Tests .* passed" /tmp/test-output.txt
 ```
 
-All tests must pass. Use the output of the `grep` command as the test results in the PR body — copy each line as-is, one per package.
+All tests must pass. Paste the COMPLETE grep output into the PR body inside a code block. Do NOT edit, reformat, or remove any part of the output — it contains the package name prefix (e.g. `@squide/core:test:`) which MUST be preserved.
 
 ### Step 2c: Validate the "endpoints" sample app
 
