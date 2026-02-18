@@ -131,7 +131,7 @@ Run this exact command from the workspace root:
 pnpm test
 ```
 
-This command runs tests for ALL packages in the monorepo via Turborepo. All tests must pass. When reporting results, list ALL packages that ran tests — not a subset. Do NOT use words like "including" that imply a partial list.
+This command runs tests for ALL packages in the monorepo via Turborepo. All tests must pass. When reporting results, list ALL packages that ran tests — not a subset. Do NOT use words like "including" that imply a partial list. Do NOT fabricate or estimate test counts — only report numbers you can directly read from the output.
 
 ### Step 2c: Validate the "endpoints" sample app
 
