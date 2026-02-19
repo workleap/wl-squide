@@ -426,79 +426,6 @@ runtime.registerNavigationItem({
 });
 ```
 
-## Storybook
-
-### Setup Decorator
-
-```tsx
-// .storybook/preview.tsx
-import { withFireflyDecorator, initializeFireflyForStorybook } from "@squide/firefly-rsbuild-storybook";
-
-const runtime = await initializeFireflyForStorybook({
-    localModules: [registerModule]
-});
-
-const meta = {
-    title: "Page",
-    component: Page,
-    decorators: [
-        withFireflyDecorator(runtime)
-    ],
-    parameters: {
-        msw: {
-            handlers: [...runtime.requestHandlers]
-        }
-    }
-};
-```
-
-### With Feature Flags
-
-```tsx
-import { initializeFireflyForStorybook, withFireflyDecorator, withFeatureFlagsOverrideDecorator } from "@squide/firefly-rsbuild-storybook";
-
-const runtime = await initializeFireflyForStorybook({
-    featureFlags: {
-        "feature-key": true
-    }
-});
-
-const meta = {
-    decorators: [
-        withFireflyDecorator(runtime)
-    ]
-};
-
-// Override per-story
-export const WithFeatureDisabled = {
-    decorators: [
-        withFeatureFlagsOverrideDecorator({ "feature-key": false })
-    ]
-};
-```
-
-### With Environment Variables
-
-```tsx
-import { initializeFireflyForStorybook } from "@squide/firefly-rsbuild-storybook";
-
-const runtime = await initializeFireflyForStorybook({
-    environmentVariables: {
-        apiBaseUrl: "https://mock-api.example.com"
-    }
-});
-```
-
-### Without MSW Support
-
-```tsx
-import { initializeFireflyForStorybook } from "@squide/firefly-rsbuild-storybook";
-
-const runtime = await initializeFireflyForStorybook({
-    useMsw: false
-});
-```
-
 ## Logging with @workleap/logging
 
 ### Setup
@@ -514,7 +441,8 @@ const runtime = initializeFirefly({
 ### Multiple Loggers
 
 ```ts
-import { BrowserConsoleLogger, LogRocketLogger } from "@workleap/logging";
+import { BrowserConsoleLogger } from "@workleap/logging";
+import { LogRocketLogger } from "@workleap/telemetry/react"; // or from "@workleap/logrocket/react"
 
 const runtime = initializeFirefly({
     loggers: [
