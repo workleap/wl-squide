@@ -31,7 +31,7 @@ sandbox:
 
 engine:
   id: claude
-  model: claude-sonnet-4-5-20250929
+  version: latest
   max-turns: 200
 
 steps:
