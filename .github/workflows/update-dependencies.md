@@ -8,7 +8,7 @@ on:
 
 permissions: read-all
 
-timeout-minutes: 120
+timeout-minutes: 60
 
 concurrency:
   group: update-dependencies
@@ -32,7 +32,6 @@ sandbox:
 engine:
   id: claude
   version: latest
-  max-turns: 200
 
 steps:
   - name: Install pnpm
