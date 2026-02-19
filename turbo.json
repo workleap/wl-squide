@@ -1,7 +1,6 @@
 {
-    "$schema": "https://turbo.build/schema.json",
+    "$schema": "./node_modules/turbo/schema.json",
     "globalEnv": ["USE_MSW", "ISOLATED", "NETLIFY", "LOGROCKET_APP_ID", "HONEYCOMB_API_KEY", "LAUNCH_DARKLY_CLIENT_ID"],
-    "globalDependencies": [".env.local"],
     "ui": "tui",
     "tasks": {
         "transit": {
@@ -15,10 +14,12 @@
         },
         "build": {
             "dependsOn": ["^build"],
-            "outputs": ["dist/**", "storybook-static/**"]
+            "inputs": ["$TURBO_DEFAULT$", "$TURBO_ROOT$/.env.local"],
+            "outputs": ["dist/**"]
         },
         "build-isolated": {
             "dependsOn": ["@squide/firefly-rsbuild-configs#build", "@squide/firefly-webpack-configs#build"],
+            "inputs": ["$TURBO_DEFAULT$", "$TURBO_ROOT$/.env.local"],
             "outputs": ["dist/**"]
         },
         "serve-build": {
