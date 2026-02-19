@@ -14,34 +14,12 @@ concurrency:
   group: audit-monorepo
   cancel-in-progress: true
 
-# The AWF sandbox container (image 0.20.0) is missing basic coreutils (e.g. "tee")
-# that the Claude Code CLI depends on, causing it to crash with "command not found".
-#
-# As a workaround, the sandbox is disabled for the agent so it runs directly on the host.
-# "strict: false" is required because "sandbox.agent: false" is not allowed in strict mode.
-#
-# TODO: Re-enable the sandbox once the AWF container image ships with coreutils and
-# a reliable way to make host-installed tools (pnpm) available inside the container.
-strict: false
-sandbox:
-  agent: false
-
 engine:
   id: claude
   version: latest
-  max-turns: 100
 
-steps:
-  - name: Install pnpm
-    uses: pnpm/action-setup@v4
-    with:
-      run_install: false
-
-# The "tools" restrictions are only enforced when the sandbox is enabled.
-# Kept here so they're ready when the sandbox is re-enabled.
 tools:
   bash:
-    - "pnpm:*"
     - "git:*"
     - "node:*"
     - "cat:*"
@@ -71,10 +49,20 @@ Before including ANY finding in the report, you MUST:
 
 1. Identify the potential issue from the skill documentation.
 2. Re-read the actual source file to confirm the issue exists.
-3. Consider whether the pattern is intentional (e.g., `build-isolated` skipping `^build` for module federation, root tasks for root-level-only code, large `env` arrays being thorough).
-4. Only include the finding if you are confident it is a genuine issue at severity Low or higher.
+3. Consider whether the pattern is intentional or is an explicit choice with a valid trade-off.
+4. Ask yourself: "Does this finding describe a **real problem** the maintainers would want to fix, or am I just noting a deviation from a textbook default?" Only real problems belong in the report.
+5. Do NOT recommend replacing a working pattern with an alternative that has its own trade-offs (e.g., recommending a remote URL over a local path, or vice versa). If both options are reasonable, it's not a finding.
+6. Only include the finding if you are confident it is a genuine issue at severity Low or higher.
 
 When in doubt, do NOT report the finding.
+
+**Examples of patterns that are NOT findings:**
+
+- A task using `pkg#task` dependencies instead of `^build` (may be intentional for isolated/module-federation workflows)
+- Root tasks (`//#task`) that exist because the task genuinely applies to root-level code only
+- A `$schema` pointing to a local path or a remote URL — both are valid choices
+- A workspace glob like `samples/**` that correctly matches the actual directory structure
+- An env var that exists at runtime but isn't in `globalEnv` — only flag it if there's evidence of actual cache correctness issues, not just because it's "missing" from a list
 
 ## Safe-output rules
 
@@ -86,14 +74,6 @@ You MUST call exactly ONE safe-output tool before finishing, UNLESS the audit fi
 Do NOT call `mcp__safeoutputs__noop`.
 
 ---
-
-## Step 0: Preflight check
-
-```bash
-pnpm --version
-```
-
-If this fails or `pnpm` is not found, STOP immediately and go to Step 4 (Failure).
 
 ## Step 1: Load skill documentation
 
@@ -137,29 +117,21 @@ If there are findings, call `mcp__safeoutputs__create_issue` with:
 
 ### Summary
 
-| # | Severity | Category | Finding | File |
-|---|----------|----------|---------|------|
-| 1 | Medium | Configuration | Brief description | `turbo.json` |
+| # | Severity | Skill | Finding | File |
+|---|----------|-------|---------|------|
+| 1 | Medium | Turborepo | Brief description | `turbo.json` |
 
 ### Details
 
 #### 1. [Finding title]
 
 **Severity:** Medium
+**Skill:** Turborepo
 **File:** `turbo.json:15`
 **Issue:** Description of the problem.
 **Recommendation:** How to fix it.
 
 ---
 ```
-
-Then STOP. You are done.
-
-## Step 4: Failure
-
-If the preflight check failed, call `mcp__safeoutputs__create_issue` with:
-
-- **title:** `monorepo audit failed — YYYY-MM-DD`
-- **body:** Include the date and the failure reason.
 
 Then STOP. You are done.
