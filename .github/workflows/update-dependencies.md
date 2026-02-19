@@ -78,12 +78,13 @@ You MUST maintain a variable called `attempt_count` starting at 0. Every time a 
 
 ## Safe-output rules
 
-You MUST call exactly ONE safe-output tool before finishing:
+You MUST call exactly ONE safe-output tool before finishing, UNLESS Step 1 determines there are no direct dependency updates (in which case, just end without calling any safe-output tool):
 
 - On success (all validations pass): call `mcp__safeoutputs__create_pull_request`
-- On failure (10 attempts exhausted): call `mcp__safeoutputs__create_issue`
+- On failure (10 attempts exhausted or preflight failed): call `mcp__safeoutputs__create_issue`
+- On no updates (no `package.json` files changed): do NOT call any safe-output tool, just end.
 
-Do NOT call `mcp__safeoutputs__noop`. Do NOT finish without calling one of the two tools above.
+Do NOT call `mcp__safeoutputs__noop`.
 
 ## No skipping steps
 
@@ -115,7 +116,7 @@ Then, check if any `package.json` files were modified (excluding `node_modules`)
 git diff --name-only -- '**/package.json' ':!node_modules'
 ```
 
-If no `package.json` files were modified, there are no direct dependency updates. STOP the workflow successfully — do NOT run the validation loop, do NOT create a pull request or issue. Just end.
+If the output is empty (no `package.json` files were modified), there are no direct dependency updates. STOP immediately — do NOT run `pnpm install`, do NOT run the validation loop, do NOT create a pull request or issue, do NOT call any safe-output tool. The workflow is done.
 
 Otherwise, install the updated dependencies:
 
