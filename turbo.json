@@ -1,6 +1,5 @@
 {
     "$schema": "./node_modules/turbo/schema.json",
-    "globalEnv": ["USE_MSW", "ISOLATED", "NETLIFY", "LOGROCKET_APP_ID", "HONEYCOMB_API_KEY", "LAUNCH_DARKLY_CLIENT_ID"],
     "ui": "tui",
     "tasks": {
         "transit": {
@@ -15,11 +14,13 @@
         "build": {
             "dependsOn": ["^build"],
             "inputs": ["$TURBO_DEFAULT$", "$TURBO_ROOT$/.env.local"],
+            "env": ["USE_MSW", "ISOLATED", "NETLIFY", "LOGROCKET_APP_ID", "HONEYCOMB_API_KEY", "LAUNCH_DARKLY_CLIENT_ID"],
             "outputs": ["dist/**"]
         },
         "build-isolated": {
             "dependsOn": ["@squide/firefly-rsbuild-configs#build", "@squide/firefly-webpack-configs#build"],
             "inputs": ["$TURBO_DEFAULT$", "$TURBO_ROOT$/.env.local"],
+            "env": ["USE_MSW", "ISOLATED", "NETLIFY", "LOGROCKET_APP_ID", "HONEYCOMB_API_KEY", "LAUNCH_DARKLY_CLIENT_ID"],
             "outputs": ["dist/**"]
         },
         "serve-build": {
@@ -49,12 +50,12 @@
             "outputs": ["node_modules/.cache/eslint"]
         },
         "//#typecheck": {
-            "inputs": ["src/**/*.ts", "src/**/*.tsx", "test/**/*.ts", "test/**/*.tsx", "tsconfig.json", "!packages", "!samples", "!docs"],
+            "inputs": ["src/**/*.ts", "src/**/*.tsx", "tests/**/*.ts", "tests/**/*.tsx", "tsconfig.json", "!packages", "!samples", "!docs"],
             "outputs": ["node_modules/.cache/tsbuildinfo.json"]
         },
         "typecheck": {
             "dependsOn": ["transit"],
-            "inputs": ["src/**/*.ts", "src/**/*.tsx", "test/**/*.ts", "test/**/*.tsx", "tsconfig.json", "tsconfig.build.json"],
+            "inputs": ["src/**/*.ts", "src/**/*.tsx", "tests/**/*.ts", "tests/**/*.tsx", "tsconfig.json", "tsconfig.build.json"],
             "outputs": ["node_modules/.cache/tsbuildinfo.json"]
         },
         "//#syncpack": {
