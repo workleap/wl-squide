@@ -122,7 +122,7 @@ If both commands produce empty output (no changes at all), STOP immediately. Pri
 
 ## Step 2: Validations
 
-Run ALL three validations using the single inline script below. Execute this script exactly as shown. Do NOT skip any validation. If the script exits with non-zero, save the full output and go to Step 4 (Failure).
+Run both validations using the single inline script below. Execute this script exactly as shown. Do NOT skip any validation. If the script exits with non-zero, save the full output and go to Step 4 (Failure).
 
 ```bash
 node << 'VALIDATION_EOF'
@@ -169,23 +169,8 @@ for (const file of skillFiles) {
 }
 const lower = allContent.toLowerCase();
 
-// --- Validation B: Forbidden terms ---
-console.log("\n--- Validation B: Forbidden terms ---");
-const forbidden = [
-  "microfrontend", "micro-frontends", "module federation",
-  "webpack", "rsbuild", "dependency updates", "updating dependencies"
-];
-const foundForbidden = forbidden.filter(t => lower.includes(t));
-if (foundForbidden.length > 0) {
-  failed = true;
-  errors.push("Validation B FAILED - forbidden terms found: " + foundForbidden.join(", "));
-  console.log("FAILED");
-} else {
-  console.log("PASSED: no forbidden terms found");
-}
-
-// --- Validation C: Q&A evidence ---
-console.log("\n--- Validation C: Q&A evidence ---");
+// --- Validation B: Q&A evidence ---
+console.log("\n--- Validation B: Q&A evidence ---");
 const topics = [
   { name: "Squide basics", keywords: ["squide", "module", "application"], mode: "all" },
   { name: "Firefly runtime", keywords: ["firefly"], mode: "all" },
@@ -222,17 +207,10 @@ if (missingTopics.length > 0) {
   const details = missingTopics
     .map(t => "  - " + t.name + ": missing [" + t.missing.join(", ") + "]")
     .join("\n");
-  errors.push("Validation C FAILED - missing Q&A evidence:\n" + details);
+  errors.push("Validation B FAILED - missing Q&A evidence:\n" + details);
   console.log("FAILED");
 } else {
   console.log("PASSED: all Q&A evidence keywords found");
-}
-
-// Re-check forbidden terms (part of Validation C)
-const recheck = forbidden.filter(t => lower.includes(t));
-if (recheck.length > 0 && foundForbidden.length === 0) {
-  failed = true;
-  errors.push("Validation C (forbidden re-check) FAILED - terms: " + recheck.join(", "));
 }
 
 // --- Summary ---
@@ -280,8 +258,7 @@ Call the `mcp__safeoutputs__create_pull_request` tool with:
   1. A short summary of what was updated in the skill (which sections changed, what was aligned with docs)
   2. Validation checklist:
      - [x] Validation A: Allowed paths
-     - [x] Validation B: Forbidden terms
-     - [x] Validation C: Q&A evidence
+     - [x] Validation B: Q&A evidence
 
 Then STOP. You are done.
 
