@@ -14,7 +14,7 @@ Information about the Squide libraries can be shared with different agents using
 Open a terminal and install the `workleap-squide` agent skill by running the following command:
 
 ```bash
-npx skills add https://github.com/workleap/wl-squide --skill workleap-squide
+pnpx skills add https://github.com/workleap/wl-squide --skill workleap-squide
 ```
 
 !!!tip
