@@ -1,0 +1,35 @@
+name: Audit monorepo
+
+on:
+  schedule:
+    - cron: "0 9 1 * *"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  issues: write
+  id-token: write
+
+concurrency:
+  group: audit-monorepo
+  cancel-in-progress: true
+
+jobs:
+  audit-monorepo:
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Audit monorepo
+        uses: anthropics/claude-code-action@v1
+        with:
+          prompt: |
+            Read and follow the instructions in .github/prompts/audit-monorepo.md
+          anthropic_api_key: ${{ secrets.ANTHROPIC_API_KEY }}
+          claude_args: >-
+            --max-turns 200
+            --allowedTools Read,Glob,Grep,Bash(git:*),Bash(node:*),Bash(gh:*)
+        env:
+          GH_TOKEN: ${{ github.token }}

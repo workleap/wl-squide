@@ -1,37 +1,3 @@
----
-name: Audit Monorepo
-description: Monthly audit of the monorepo for best practice improvements using agent skills.
-
-on:
-  schedule: "0 9 1 * *"
-  workflow_dispatch:
-
-permissions: read-all
-
-timeout-minutes: 60
-
-concurrency:
-  group: audit-monorepo
-  cancel-in-progress: true
-
-engine:
-  id: claude
-  version: latest
-
-tools:
-  bash:
-    - "git:*"
-    - "node:*"
-    - "cat:*"
-  edit: {}
-  web-fetch: {}
-
-safe-outputs:
-  create-issue:
-    title-prefix: "[agentic] audit: "
-    close-older-issues: true
----
-
 # Audit Monorepo
 
 You are an automated agent responsible for auditing this monorepo against best practices defined in locally installed agent skills. You produce a report of actionable findings as a GitHub issue.
@@ -64,35 +30,11 @@ When in doubt, do NOT report the finding.
 - A workspace glob like `samples/**` that correctly matches the actual directory structure
 - An env var that exists at runtime but isn't in `globalEnv` — only flag it if there's evidence of actual cache correctness issues, not just because it's "missing" from a list
 
-## Safe-output rules
-
-You MUST call exactly ONE safe-output tool before finishing, UNLESS the audit finds zero reportable issues:
-
-- Findings exist → call `mcp__safeoutputs__create_issue`
-- No findings → end without calling any safe-output tool.
-
-Do NOT call `mcp__safeoutputs__noop`.
-
 ---
 
 ## Step 1: Load skill documentation
 
-Read the turborepo skill and its reference files so you understand the best practices to audit against:
-
-1. `.agents/skills/turborepo/SKILL.md` — main skill file with anti-patterns, decision trees, and common configurations.
-2. `.agents/skills/turborepo/references/configuration/RULE.md` — turbo.json structure and package configurations.
-3. `.agents/skills/turborepo/references/configuration/tasks.md` — dependsOn, outputs, inputs, env, cache.
-4. `.agents/skills/turborepo/references/configuration/gotchas.md` — common configuration mistakes.
-5. `.agents/skills/turborepo/references/caching/RULE.md` — how caching works.
-6. `.agents/skills/turborepo/references/caching/gotchas.md` — cache miss debugging.
-7. `.agents/skills/turborepo/references/best-practices/RULE.md` — monorepo best practices.
-8. `.agents/skills/turborepo/references/best-practices/structure.md` — repository structure.
-9. `.agents/skills/turborepo/references/best-practices/dependencies.md` — dependency management.
-10. `.agents/skills/turborepo/references/best-practices/packages.md` — internal packages.
-11. `.agents/skills/turborepo/references/environment/RULE.md` — env vars configuration.
-12. `.agents/skills/turborepo/references/environment/gotchas.md` — env var pitfalls.
-
-You MUST read all of these files before proceeding. Do not skip any.
+Read all files in `.agents/skills/turborepo/` (including all subdirectories) so you understand the best practices to audit against. Do not skip any file.
 
 ## Step 2: Audit
 
@@ -102,14 +44,14 @@ Using the best practices and anti-patterns from the skill documentation loaded i
 
 Compile all confirmed findings (severity Low, Medium, or High only) into a structured report.
 
-If there are **zero findings**, STOP without calling any safe-output tool. The audit passed cleanly.
+If there are **zero findings**, STOP. The audit passed cleanly. You are done.
 
-If there are findings, call `mcp__safeoutputs__create_issue` with:
+If there are findings, create a GitHub issue:
 
-- **title:** `monorepo audit findings — YYYY-MM-DD` (using today's date)
-- **body:** Use the following format:
-
-```markdown
+```bash
+gh issue create \
+  --title "audit: monorepo audit findings — $(date -u +%Y-%m-%d)" \
+  --body "$(cat <<'EOF'
 ## Monorepo Audit Report — YYYY-MM-DD
 
 ### Skills Audited
@@ -132,6 +74,8 @@ If there are findings, call `mcp__safeoutputs__create_issue` with:
 **Recommendation:** How to fix it.
 
 ---
+EOF
+)"
 ```
 
-Then STOP. You are done.
+Replace the placeholder content above with the actual findings. Then STOP. You are done.
