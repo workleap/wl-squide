@@ -215,11 +215,12 @@ export const register: ModuleRegisterFunction<FireflyRuntime, unknown, DeferredR
     runtime.registerRoute({ path: "/feature", element: <FeaturePage /> });
 
     // Return function for deferred navigation items
-    return (deferredRuntime, { userData }) => {
+    // The optional `operation` argument is "register" (initial call) or "update" (re-run on data/flag change)
+    return (deferredRuntime, { userData }, operation) => {
         if (userData.isAdmin && deferredRuntime.getFeatureFlag("enable-feature")) {
             deferredRuntime.registerNavigationItem({
                 $id: "feature",
-                $label: "Feature",
+                $label: operation === "register" ? "Feature" : "Feature (updated)",
                 to: "/feature"
             });
         }
@@ -266,24 +267,58 @@ const runtime = initializeFirefly({
     environmentVariables: { apiBaseUrl: "https://api.example.com" }
 });
 
-// Or register in module
+// Or register in module (both names are valid)
 runtime.registerEnvironmentVariable("key", "value");
+runtime.registerVariable("key", "value"); // shorthand alias
+runtime.registerVariables({ key1: "value1", key2: "value2" }); // multiple
 
 // Use
 import { useEnvironmentVariable } from "@squide/firefly";
 const apiUrl = useEnvironmentVariable("apiBaseUrl");
 ```
 
+**TypeScript Augmentation (type-safe env variables):**
+
+```ts
+// types/env-vars.d.ts
+import "@squide/firefly";
+
+declare module "@squide/firefly" {
+    interface EnvironmentVariables {
+        apiBaseUrl: string;
+        cdnUrl: string;
+    }
+}
+```
+
+Reference the file in `tsconfig.json`:
+```json
+{
+    "compilerOptions": {
+        "types": ["./types/env-vars.d.ts"]
+    }
+}
+```
+
 ### Feature Flags
 
 ```tsx
-// Initialize with LaunchDarkly
+// Initialize with LaunchDarkly (streaming required for real-time updates)
 import { initialize as initializeLaunchDarkly } from "launchdarkly-js-client-sdk";
 
-const ldClient = initializeLaunchDarkly("client-id", { kind: "user", anonymous: true }, { streaming: true });
-await ldClient.waitForInitialization(5);
+const launchDarklyClient = initializeLaunchDarkly("client-id", { kind: "user", anonymous: true }, { streaming: true });
 
-const runtime = initializeFirefly({ launchDarklyClient: ldClient });
+try {
+    // Always initialize before passing to initializeFirefly
+    await launchDarklyClient.waitForInitialization(5);
+} catch (error: unknown) {
+    // Failed to initialize LaunchDarkly...
+}
+
+const runtime = initializeFirefly({
+    localModules: [registerHost],
+    launchDarklyClient
+});
 
 // Use
 import { useFeatureFlag } from "@squide/firefly";
@@ -370,7 +405,7 @@ runtime.registerRoute({
 - `usePublicDataHandler(handler)`: Execute handler when modules are ready
 - `useProtectedDataQueries(queries, isUnauthorizedError)`: Fetch protected data
 - `useProtectedDataHandler(handler)`: Execute handler when modules ready and route is protected
-- `useDeferredRegistrations(data?, options?)`: Execute deferred registrations (options: `{ onError? }`)
+- `useDeferredRegistrations(data?, options?)`: Execute deferred registrations (options: `{ onError?: DeferredRegistrationsErrorCallback }`)
 - `useEventBusListener(event, handler, options?)`: Listen to events
 - `useEventBusDispatcher()`: Get dispatch function
 - `useLogger()`: Get logger instance

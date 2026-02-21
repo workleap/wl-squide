@@ -154,29 +154,35 @@ const [session] = useProtectedDataQueries([
 
 **Note:** Requires `<AppRouter waitForProtectedData>` to delay rendering.
 
-### usePublicDataHandler(queryKey)
-Access result of a public data query by key.
+### usePublicDataHandler(handler)
+Execute the specified handler once the modules are ready and, when applicable, MSW is also ready.
 
 ```ts
 import { usePublicDataHandler } from "@squide/firefly";
-const handler = usePublicDataHandler(["/api/config"]);
+
+usePublicDataHandler(() => {
+    console.log("The modules are ready!");
+});
 ```
 
-### useProtectedDataHandler(queryKey)
-Access result of a protected data query by key.
+### useProtectedDataHandler(handler)
+Execute the specified handler once the modules are ready, the active route is protected and, when applicable, MSW is also ready.
 
 ```ts
 import { useProtectedDataHandler } from "@squide/firefly";
-const handler = useProtectedDataHandler(["/api/session"]);
+
+useProtectedDataHandler(() => {
+    console.log("The modules are ready and the active route is protected!");
+});
 ```
 
 ## Registration Hooks
 
-### useDeferredRegistrations(data?)
+### useDeferredRegistrations(data?, options?)
 Execute deferred registration functions.
 
 ```ts
-import { useDeferredRegistrations } from "@squide/firefly";
+import { useDeferredRegistrations, type DeferredRegistrationsErrorCallback } from "@squide/firefly";
 
 // With data for conditional registrations
 const data = useMemo(() => ({ userData }), [userData]);
@@ -184,7 +190,17 @@ useDeferredRegistrations(data);
 
 // Without data (for feature flags only)
 useDeferredRegistrations();
+
+// With error handler
+const handleErrors: DeferredRegistrationsErrorCallback = errors => {
+    errors.forEach(x => console.error(x));
+};
+useDeferredRegistrations(undefined, { onError: handleErrors });
 ```
+
+**Parameters:**
+- `data`: An optional object literal of data passed to deferred registration functions.
+- `options.onError`: An optional function receiving an array of `ModuleRegistrationError` instances.
 
 **Important:** Use `useMemo` to prevent unnecessary re-executions.
 

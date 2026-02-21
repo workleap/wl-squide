@@ -131,7 +131,8 @@ export const register: ModuleRegisterFunction<FireflyRuntime, unknown, DeferredD
     });
 
     // Defer navigation item registration
-    return (deferredRuntime, { user }) => {
+    // `operation` is "register" on initial call, "update" on re-runs when data/flags change
+    return (deferredRuntime, { user }, operation) => {
         if (user.isAdmin && deferredRuntime.getFeatureFlag("admin-panel")) {
             deferredRuntime.registerNavigationItem({
                 $id: "admin",

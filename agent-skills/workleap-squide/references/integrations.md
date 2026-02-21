@@ -125,21 +125,39 @@ export const requestHandlers: HttpHandler[] = [
 ```ts
 import { initialize as initializeLaunchDarkly } from "launchdarkly-js-client-sdk";
 
-const ldClient = initializeLaunchDarkly(
+const launchDarklyClient = initializeLaunchDarkly(
     "your-client-id",
     { kind: "user", anonymous: true },
     { streaming: true }  // Important for real-time updates
 );
 
-await ldClient.waitForInitialization(5);
+try {
+    // Always initialize the client before passing it to initializeFirefly
+    await launchDarklyClient.waitForInitialization(5);
+} catch (error: unknown) {
+    // Failed to initialize LaunchDarkly...
+}
 ```
 
-### Configure Runtime with LaunchDarklyPlugin
+### Configure Runtime
+
+Pass the client directly to `initializeFirefly` (recommended for production):
 
 ```ts
-import { initializeFirefly, LaunchDarklyPlugin } from "@squide/firefly";
+import { initializeFirefly } from "@squide/firefly";
 
 const runtime = initializeFirefly({
+    localModules: [registerHost],
+    launchDarklyClient
+});
+```
+
+For testing, use `LaunchDarklyPlugin` with `FireflyRuntime` directly:
+
+```ts
+import { FireflyRuntime, LaunchDarklyPlugin } from "@squide/firefly";
+
+const runtime = new FireflyRuntime({
     plugins: [x => new LaunchDarklyPlugin(x, ldClient)]
 });
 ```

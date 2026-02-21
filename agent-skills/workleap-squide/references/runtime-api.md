@@ -102,18 +102,25 @@ if (runtime.isMswEnabled) {
 
 ### Environment Variables
 
-#### registerEnvironmentVariable(key, value)
+#### registerEnvironmentVariable(key, value) / registerVariable(key, value)
 Register a single environment variable.
 
 ```ts
 runtime.registerEnvironmentVariable("apiBaseUrl", "https://api.example.com");
+// Alternative shorthand:
+runtime.registerVariable("apiBaseUrl", "https://api.example.com");
 ```
 
-#### registerEnvironmentVariables(variables)
+#### registerEnvironmentVariables(variables) / registerVariables(variables)
 Register multiple environment variables.
 
 ```ts
 runtime.registerEnvironmentVariables({
+    apiBaseUrl: "https://api.example.com",
+    cdnUrl: "https://cdn.example.com"
+});
+// Alternative shorthand:
+runtime.registerVariables({
     apiBaseUrl: "https://api.example.com",
     cdnUrl: "https://cdn.example.com"
 });
