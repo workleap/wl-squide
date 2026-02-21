@@ -1,1 +1,0 @@
-Are there any documentation improvements that would help clarify this situation? It’s fine if no changes are needed. Also, please ensure this issue does not reappear in the skill files in future updates that are based on the documentation.
