@@ -18,7 +18,7 @@ pnpm turbo run test --filter=@squide/core
 
 ## Browser Validation
 
-Use **agent-browser** (`.agents/skills/agent-browser/`) to validate sample apps. A build alone is not sufficient — you must start the dev server and verify pages in a real browser.
+Use **pnpx agent-browser** (see `.agents/skills/agent-browser/`) to validate sample apps. A build alone is not sufficient — you must start the dev server and verify pages in a real browser.
 
 ### Endpoints sample (`pnpm dev-endpoints`)
 

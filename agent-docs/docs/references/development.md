@@ -4,7 +4,7 @@
 
 pnpm workspace does **not** hoist dependencies. Each package has its own `node_modules` via
 [symlinked node_modules structure](https://pnpm.io/symlinked-node-modules-structure). This means
-`devDependencies` must be installed **locally in every package's `package.json`**, not at the root.
+any package that runs a tool should list it in its own `devDependencies`; the workspace root may also list tooling used by root-level scripts.
 
 ## JIT Packages
 

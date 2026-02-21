@@ -27,8 +27,8 @@ When documenting Squide:
   - `docs/references/` — build tooling, CI/CD, infrastructure
   - `docs/quality/` — testing and quality standards
   - `decisions/` — Architecture Decision Records
-  - `runtime-prompt.md` — this file (instructions for the updater)
   - `scripts/` — supporting scripts
+- `.github/prompts/update-agent-docs.md` — this file (runtime prompt instructions for the updater)
 
 ## Philosophy
 

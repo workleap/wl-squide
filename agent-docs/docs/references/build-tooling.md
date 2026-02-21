@@ -4,7 +4,7 @@
 
 | Layer | Tool | Config |
 |-------|------|--------|
-| Library packages | Rslib | Each package has `rslib.config.ts` |
+| Library packages | Rslib | Each package has `rslib.build.ts` (and some have `rslib.dev.ts`) |
 | Monorepo orchestration | Turborepo | `turbo.json` task graph |
 | Sample apps (only) | Rsbuild or Webpack | `@squide/firefly-rsbuild-configs` / `@squide/firefly-webpack-configs` |
 

@@ -20,6 +20,6 @@ agent-docs/
 
 ## How this is maintained
 
-This documentation is automatically updated by the
-[update-agent-docs](../.github/workflows/update-agent-docs.yml) workflow on every push to `main`.
+This documentation can be updated by running the
+[update-agent-docs](../.github/workflows/update-agent-docs.yml) workflow manually.
 The workflow uses the prompt at [.github/prompts/update-agent-docs.md](../.github/prompts/update-agent-docs.md).
