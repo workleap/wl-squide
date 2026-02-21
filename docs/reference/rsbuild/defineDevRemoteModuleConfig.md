@@ -190,7 +190,7 @@ export default defineDevRemoteModuleConfig("remote1", 8080, {
         defaultOptions.exposes = {
             ...(defaultOptions.exposes ?? {}),
             "./foo": "./src/bar"
-        }
+        },
 
         return defaultOptions;
     }

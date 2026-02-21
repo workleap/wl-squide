@@ -189,7 +189,7 @@ export default defineBuildRemoteModuleConfig("remote1", {
         defaultOptions.exposes = {
             ...(defaultOptions.exposes ?? {}),
             "./foo": "./src/bar"
-        }
+        },
 
         return defaultOptions;
     }
