@@ -11,6 +11,8 @@ description: |
   (7) Using Squide hooks: useNavigationItems, useRenderedNavigationItems, useIsBootstrapping, useLogger, useEventBusListener, useEventBusDispatcher, useEnvironmentVariable, useFeatureFlag
   (8) Implementing error boundaries in modular applications
   (9) Questions about modular architecture patterns in React applications
+metadata:
+  version: 1.0
 ---
 
 # Squide Framework

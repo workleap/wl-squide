@@ -1,0 +1,20 @@
+{
+    "version": 1,
+    "skills": {
+        "agent-browser": {
+            "source": "vercel-labs/agent-browser",
+            "sourceType": "github",
+            "computedHash": "4a448025404360fb966eb707116b188b55a52dbb20deecb13d83e7f4db5087f1"
+        },
+        "git-commit": {
+            "source": "github/awesome-copilot",
+            "sourceType": "github",
+            "computedHash": "2607fc60629b82b257136dd2a7a373f0a4466c0b49df7746d845d59313c99b21"
+        },
+        "turborepo": {
+            "source": "vercel/turborepo",
+            "sourceType": "github",
+            "computedHash": "7f0b34ffb8c367c91289b2a0e5ff212780ac9801e33ab0fb1f69a1a1d3b69adb"
+        }
+    }
+}
