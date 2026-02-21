@@ -125,9 +125,9 @@ jobs:
         # For a PR, only test the projects that are diverging from the pull request original baseline.
         run: |
             if [ "${{ github.event_name }}" == "pull_request" ]; then
-                pnpm test --filter=...[${{ github.event.pull_request.base.sha }}]
+                pnpm turbo run test --continue --filter=...[${{ github.event.pull_request.base.sha }}]
             else
-                pnpm test
+                pnpm turbo run test --continue
             fi
 
       - name: Save Turborepo cache
