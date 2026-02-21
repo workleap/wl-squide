@@ -39,5 +39,3 @@ jobs:
           claude_args: >-
             --max-turns 200
             --allowedTools Edit,Read,Write,Glob,Grep,Task,Bash(git:*),Bash(node:*),Bash(gh:*)
-        env:
-          GH_TOKEN: ${{ github.token }}
