@@ -70,12 +70,17 @@ if (useIsBootstrapping()) {
 }
 ```
 
-### useIsRouteProtected()
-Check if the current route is protected.
+### useIsRouteProtected(route)
+Check if a given route is protected.
 
 ```ts
-import { useIsRouteProtected } from "@squide/firefly";
-const isProtected = useIsRouteProtected();
+import { useLocation } from "react-router/dom";
+import { useIsRouteProtected, useRouteMatch } from "@squide/firefly";
+
+const location = useLocation();
+const route = useRouteMatch(location);
+
+const isActiveRouteProtected = useIsRouteProtected(route);
 ```
 
 ### useRouteMatch(locationArg, options?)
@@ -154,20 +159,26 @@ const [session] = useProtectedDataQueries([
 
 **Note:** Requires `<AppRouter waitForProtectedData>` to delay rendering.
 
-### usePublicDataHandler(queryKey)
-Access result of a public data query by key.
+### usePublicDataHandler(handler)
+Execute the specified handler once the modules are ready and, when applicable, MSW is also ready.
 
 ```ts
 import { usePublicDataHandler } from "@squide/firefly";
-const handler = usePublicDataHandler(["/api/config"]);
+
+usePublicDataHandler(() => {
+    console.log("The modules are ready!");
+});
 ```
 
-### useProtectedDataHandler(queryKey)
-Access result of a protected data query by key.
+### useProtectedDataHandler(handler)
+Execute the specified handler once the modules are ready, the active route is protected and, when applicable, MSW is also ready.
 
 ```ts
 import { useProtectedDataHandler } from "@squide/firefly";
-const handler = useProtectedDataHandler(["/api/session"]);
+
+useProtectedDataHandler(() => {
+    console.log("The modules are ready and the active route is protected!");
+});
 ```
 
 ## Registration Hooks
