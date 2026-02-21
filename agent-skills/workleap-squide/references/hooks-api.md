@@ -154,21 +154,33 @@ const [session] = useProtectedDataQueries([
 
 **Note:** Requires `<AppRouter waitForProtectedData>` to delay rendering.
 
-### usePublicDataHandler(queryKey)
-Access result of a public data query by key.
+### usePublicDataHandler(handler)
+Execute the specified handler once the modules are ready and, when applicable, MSW is also ready.
 
 ```ts
 import { usePublicDataHandler } from "@squide/firefly";
-const handler = usePublicDataHandler(["/api/config"]);
+
+usePublicDataHandler(() => {
+    console.log("The modules are ready!");
+});
 ```
 
-### useProtectedDataHandler(queryKey)
-Access result of a protected data query by key.
+**Parameters:**
+- `handler`: A `void` function.
+
+### useProtectedDataHandler(handler)
+Execute the specified handler once the modules are ready, the active route is protected and, when applicable, MSW is also ready.
 
 ```ts
 import { useProtectedDataHandler } from "@squide/firefly";
-const handler = useProtectedDataHandler(["/api/session"]);
+
+useProtectedDataHandler(() => {
+    console.log("The modules are ready and the active route is protected!");
+});
 ```
+
+**Parameters:**
+- `handler`: A `void` function.
 
 ## Registration Hooks
 

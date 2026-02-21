@@ -514,7 +514,8 @@ const runtime = initializeFirefly({
 ### Multiple Loggers
 
 ```ts
-import { BrowserConsoleLogger, LogRocketLogger } from "@workleap/logging";
+import { BrowserConsoleLogger } from "@workleap/logging";
+import { LogRocketLogger } from "@workleap/telemetry/react"; // or from "@workleap/logrocket/react"
 
 const runtime = initializeFirefly({
     loggers: [
@@ -547,7 +548,7 @@ logger.debug("Debug message");      // Verbose debugging
 logger.information("Info message"); // General information
 logger.warn("Warning message");     // Potential issues
 logger.error("Error message");      // Errors
-logger.error("Critical message");   // Criticals
+logger.critical("Critical message"); // Criticals
 
 // With structured data
 logger
