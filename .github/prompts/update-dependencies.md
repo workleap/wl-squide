@@ -30,7 +30,7 @@ If the output is empty, there are no dependency updates. STOP immediately. You a
 Otherwise, install the updated dependencies:
 
 ```bash
-pnpm install
+pnpm install --no-frozen-lockfile
 ```
 
 ## Step 2: Validation loop
@@ -42,14 +42,35 @@ Run steps 2a through 2d in order. If ANY step fails, diagnose and fix the issue 
 - Migrate code to use the newer API or pattern introduced by the updated package.
 - Do NOT add polyfills, shims, or workarounds for features already available in the runtime (this repo runs on Node.js 24+).
 - Do NOT patch or monkey-patch libraries to suppress errors.
-- If a breaking change cannot be resolved by a clean migration, revert that specific package to its previous version, open an issue explaining which dependency failed to update and why, then continue with the remaining updates.
+- If a breaking change cannot be resolved by a clean migration, revert that specific package to its previous version, open an issue using the template below, then continue with the remaining updates.
+
+```bash
+gh issue create \
+  --title "[agent] Failed to update <package-name>" \
+  --body "## Failed dependency update
+
+**Package**: \`<package-name>\`
+**From**: \`<old-version>\` → **To**: \`<new-version>\`
+
+## Error
+
+<Error messages and which validation step failed>
+
+## What was tried
+
+<Brief description of migration attempts>
+
+## Workflow run
+
+$GITHUB_SERVER_URL/$GITHUB_REPOSITORY/actions/runs/$GITHUB_RUN_ID"
+```
 
 ### Step 2a: Linting
 
-`pnpm update` may reformat `package.json` files to 2-space indentation, but the ESLint `jsonc/indent` rule enforces 4-space indentation. If this happens, fix all `package.json` files at once:
+`pnpm update` may reformat `package.json` files to 2-space indentation, but the ESLint `jsonc/indent` rule enforces 4-space indentation. Fix all `package.json` files before linting:
 
 ```bash
-pnpm eslint --fix '**/package.json'
+node_modules/.bin/eslint --fix --no-cache '**/package.json'
 ```
 
 Then run the full lint:
@@ -70,25 +91,26 @@ All tests must pass. If a test fails, run the failing package's tests directly (
 
 ### Step 2c: Validate the "endpoints" sample app
 
-Use `agent-browser` for all browser interactions in this step. Read the locally installed agent skill at `.agents/skills/agent-browser/` to learn the available commands. Running a build is NOT sufficient — you must start the dev server and validate in a real browser.
+Use `pnpx agent-browser` (NOT `agent-browser` directly) for all browser interactions in this step. Read the locally installed agent skill at `.agents/skills/agent-browser/` to learn the available commands. Running a build is NOT sufficient — you must start the dev server and validate in a real browser.
 
 1. Start the dev server in the background: `pnpm dev-endpoints`
-2. Wait for the server to be ready by watching the background task output for a URL (e.g., `http://localhost:<port>`). Once you have the URL, confirm it responds: `curl --retry 30 --retry-delay 5 --retry-connrefused --silent --output /dev/null <URL>`
-3. Navigate to the following pages and check that each renders without errors:
+2. Wait for the server to be ready by watching the background task output for a URL (e.g., `http://localhost:<port>`). Once you have the URL, confirm it responds — do NOT use `sleep` commands, immediately run: `curl --retry 30 --retry-delay 5 --retry-connrefused --silent --output /dev/null <URL>`
+3. The app has a mock login page. Use username `temp` and password `temp` to authenticate.
+4. Navigate to the following pages and check that each renders without errors:
    - `/` (Home page)
    - `/subscription`
    - `/federated-tabs`
    - `/federated-tabs/episodes`
    - `/federated-tabs/locations`
-4. For each page, use `agent-browser` commands to verify the page rendered content and check for console errors (ignore warnings and known noise like network errors from fake APIs or MSW)
-5. Stop the dev server process when done
+5. For each page, use `pnpx agent-browser` commands to verify the page rendered content and check for console errors (ignore warnings and known noise like network errors from fake APIs or MSW)
+6. Stop the dev server process when done
 
 ### Step 2d: Validate the "storybook" sample app
 
-Use `agent-browser` for all browser interactions in this step. Read the locally installed agent skill at `.agents/skills/agent-browser/` to learn the available commands. Running a build is NOT sufficient — you must start the dev server and validate in a real browser.
+Use `pnpx agent-browser` (NOT `agent-browser` directly) for all browser interactions in this step. Read the locally installed agent skill at `.agents/skills/agent-browser/` to learn the available commands. Running a build is NOT sufficient — you must start the dev server and validate in a real browser.
 
 1. Start the dev server in the background: `pnpm dev-storybook`
-2. Wait for the server to be ready by watching the background task output for a URL (e.g., `http://localhost:<port>`). Once you have the URL, confirm it responds: `curl --retry 30 --retry-delay 5 --retry-connrefused --silent --output /dev/null <URL>`
+2. Wait for the server to be ready by watching the background task output for a URL (e.g., `http://localhost:<port>`). Once you have the URL, confirm it responds — do NOT use `sleep` commands, immediately run: `curl --retry 30 --retry-delay 5 --retry-connrefused --silent --output /dev/null <URL>`
 3. Navigate to the Storybook URL, verify it loads correctly, and check for console errors
 4. Stop the dev server process when done
 

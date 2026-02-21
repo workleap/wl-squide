@@ -8,7 +8,6 @@ The following documentation is only for the maintainers of this repository.
 - [Develop the packages](#develop-the-packages)
 - [Release the packages](#release-the-packages)
 - [Update the agent skill](#update-the-agent-skill)
-- [Update the dependency update workflow](#update-the-dependency-update-workflow)
 - [Deploy the sample applications](#deploy-the-sample-applications)
 - [Available commands](#commands)
 - [CI](#ci)
@@ -173,22 +172,15 @@ By default, packages compilation output will be in their respective *dist* direc
 
 ## Update the agent skill
 
-The simplest way to update an agent skill is to use an agent:
+By default, the [sync-agent-skill](.github/workflows/sync-agent-skill.yml) workflow updates the skill automatically. If changes are required, it opens a pull request with the appropriate modifications.
+
+If the workflow does not behave as expected, the simplest way to update an agent skill is to use an agent:
 
 1. Start your preferred agent.
 2. Copy the content of [UPDATE_SKILL.md](./prompts/UPDATE_SKILL.md) into the agent prompt.
 3. Commit the changes and merge the pull request.
 
 NOTE: Skills installed using [skills.sh](https://skills.sh/) are sourced directly from the repository files. Merging the pull request is therefore sufficient to update the installed skill.
-
-## Update the dependency update workflow
-
-1. Ensure the [GitHub CLI](https://cli.github.com/) is installed.
-2. Ensure the [GitHub Agentic Workflows extension](https://github.github.io/gh-aw/setup/quick-start/#step-1---install-the-extension) is installed.
-3. Update the [update-dependencies.md] file.
-4. Open a terminal at the root of the workspace and execute the `gh aw compile .github/workflows/update-dependencies.md` command.
-5. Commit and merge the updated workflow.
-6. Verify the workflow by executing the `gh aw run update-dependencies` command in a terminal.
 
 ## Deploy the sample applications
 

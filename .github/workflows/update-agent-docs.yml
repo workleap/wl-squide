@@ -1,0 +1,163 @@
+name: Update Agent Docs
+
+# TODO: Re-enable push trigger once agent-docs content is finalized.
+on:
+  workflow_dispatch:
+  # push:
+  #   branches: ["main"]
+  #   # Skip runs triggered by this workflow's own commits.
+  #   paths-ignore:
+  #     - "agent-docs/**"
+  #     - "AGENTS.md"
+  #     - "ARCHITECTURE.md"
+
+permissions:
+  contents: write
+
+concurrency:
+  group: update-agent-docs
+  cancel-in-progress: true
+
+jobs:
+  update-docs:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 2
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Check if triggered by bot
+        id: bot-check
+        run: |
+          AUTHOR=$(git log -1 --format='%an')
+          echo "author=$AUTHOR"
+          if [[ "$AUTHOR" == *"[bot]"* || "$AUTHOR" == "changeset-bot" ]]; then
+            echo "skip=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "skip=false" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Install Node.js
+        if: steps.bot-check.outputs.skip != 'true'
+        uses: actions/setup-node@v6
+        with:
+          node-version: ">=24.0.0"
+          check-latest: true
+
+      - name: Compute diff summary
+        if: steps.bot-check.outputs.skip != 'true'
+        id: diff
+        run: |
+          # Get the diff between the current and previous commit on main.
+          DIFF_SUMMARY=$(git diff --stat HEAD~1 HEAD -- \
+            ':!agent-docs' \
+            ':!AGENTS.md' \
+            ':!ARCHITECTURE.md' \
+            ':!node_modules' \
+            ':!.turbo' \
+            ':!pnpm-lock.yaml' \
+            | head -100)
+
+          DIFF_FILES=$(git diff --name-only HEAD~1 HEAD -- \
+            ':!agent-docs' \
+            ':!AGENTS.md' \
+            ':!ARCHITECTURE.md' \
+            ':!node_modules' \
+            ':!.turbo' \
+            ':!pnpm-lock.yaml' \
+            | head -80)
+
+          # Write to files to avoid shell escaping issues.
+          echo "$DIFF_SUMMARY" > /tmp/diff-summary.txt
+          echo "$DIFF_FILES" > /tmp/diff-files.txt
+
+          # Check if there are meaningful changes (not just agent-docs).
+          if [ -z "$DIFF_FILES" ]; then
+            echo "skip=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "skip=false" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Check if bootstrap needed
+        if: steps.bot-check.outputs.skip != 'true'
+        id: bootstrap
+        run: |
+          if [ ! -f "AGENTS.md" ]; then
+            echo "needed=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "needed=false" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Gather repository context
+        if: steps.bot-check.outputs.skip != 'true' && steps.diff.outputs.skip != 'true'
+        run: |
+          chmod +x agent-docs/scripts/gather-context.sh
+          bash agent-docs/scripts/gather-context.sh > /tmp/repo-context.txt 2>/dev/null || true
+
+      - name: Update agent documentation
+        if: steps.bot-check.outputs.skip != 'true' && steps.diff.outputs.skip != 'true'
+        uses: anthropics/claude-code-action@v1
+        with:
+          prompt: |
+            You are updating the agent documentation for this repository.
+
+            ## Instructions
+
+            Read and follow the instructions in .github/prompts/update-agent-docs.md
+
+            ## Bootstrap Needed: ${{ steps.bootstrap.outputs.needed }}
+
+            If bootstrap is "true", the documentation structure is missing. Create it
+            following the instructions in the runtime prompt.
+
+            ## Changed Files
+
+            $(cat /tmp/diff-files.txt)
+
+            ## Diff Summary
+
+            $(cat /tmp/diff-summary.txt)
+
+            ## Repository Context
+
+            $(cat /tmp/repo-context.txt)
+
+            ## Rules
+
+            - ONLY modify files under agent-docs/, plus AGENTS.md and ARCHITECTURE.md at the root.
+            - Do NOT modify CLAUDE.md.
+            - Keep AGENTS.md between 80-150 lines.
+            - Be incremental — only update what the diff affects.
+            - Do not rewrite files that are not impacted.
+            - Reference real file paths as evidence.
+
+          anthropic_api_key: ${{ secrets.ANTHROPIC_API_KEY }}
+          show_full_output: true
+          claude_args: >-
+            --max-turns 30
+            --allowedTools Edit,Read,Write,Glob,Grep
+        env:
+          GH_TOKEN: ${{ github.token }}
+
+      - name: Configure git
+        if: steps.bot-check.outputs.skip != 'true' && steps.diff.outputs.skip != 'true'
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+
+      - name: Commit changes
+        if: steps.bot-check.outputs.skip != 'true' && steps.diff.outputs.skip != 'true'
+        run: |
+          git add agent-docs/ AGENTS.md ARCHITECTURE.md
+
+          if git diff --cached --quiet; then
+            echo "No agent-docs changes to commit."
+          else
+            git commit -m "docs(agent-docs): update documentation [skip ci]"
+            git pull --rebase origin main
+            git push origin main
+          fi

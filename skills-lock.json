@@ -45,6 +45,11 @@
             "source": "workleap/wl-telemetry",
             "sourceType": "github",
             "computedHash": "48190b8b84d3b78a85273b3e519c33ad5823c089c8d0725b9ed6b54e70bb76a1"
+        },
+        "workleap-web-configs": {
+            "source": "workleap/wl-web-configs",
+            "sourceType": "github",
+            "computedHash": "9c66162f92a9e6b809ba08361e540ce545deb884219d4430542b778fa117ea69"
         }
     }
 }
