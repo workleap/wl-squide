@@ -1,0 +1,41 @@
+name: Sync Workleap Squide Skill
+
+on:
+  push:
+    branches: [main]
+    paths: ["docs/**"]
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  pull-requests: write
+  issues: write
+
+concurrency:
+  group: sync-skill
+  cancel-in-progress: true
+
+jobs:
+  sync-skill:
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Configure git
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+
+      - name: Sync skill with docs
+        uses: anthropics/claude-code-action@v1
+        with:
+          prompt: |
+            Read and follow the instructions in .github/prompts/sync-skill.md
+          anthropic_api_key: ${{ secrets.ANTHROPIC_API_KEY }}
+          claude_args: >-
+            --max-turns 200
+            --allowedTools Edit,Read,Write,Glob,Grep,Task,Bash(git:*),Bash(node:*),Bash(gh:*)
+        env:
+          GH_TOKEN: ${{ github.token }}
