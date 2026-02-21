@@ -1,6 +1,6 @@
 Review the `workleap-squide` skill you created in the `./agent-skills/workleap-squide` directory and make sure that all API definition and examples match the current documentation available in the `./docs` folder. Ignore anything related to microfrontends, module federation, webpack, rsbuild or updates. Do not make any mistake.
 
-Validate that the skill can still answer the following questions:
+After making changes to the skill, spawn a review agent to validate that the skill can still answer the following questions:
 
 * What is Squide and what problems does it solve in frontend applications?
 * How do you create a new Squide application from scratch?

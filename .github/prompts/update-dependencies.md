@@ -46,6 +46,14 @@ Run steps 2a through 2d in order. If ANY step fails, diagnose and fix the issue 
 
 ### Step 2a: Linting
 
+`pnpm update` may reformat `package.json` files to 2-space indentation, but the ESLint `jsonc/indent` rule enforces 4-space indentation. If this happens, fix all `package.json` files at once:
+
+```bash
+pnpm eslint --fix '**/package.json'
+```
+
+Then run the full lint:
+
 ```bash
 pnpm lint
 ```
@@ -65,7 +73,7 @@ All tests must pass. If a test fails, run the failing package's tests directly (
 Use `agent-browser` for all browser interactions in this step. Read the locally installed agent skill at `.agents/skills/agent-browser/` to learn the available commands. Running a build is NOT sufficient — you must start the dev server and validate in a real browser.
 
 1. Start the dev server in the background: `pnpm dev-endpoints`
-2. Wait for the server to be ready on `http://localhost:8080`
+2. Wait for the server to be ready by watching the background task output for a URL (e.g., `http://localhost:<port>`). Once you have the URL, confirm it responds: `curl --retry 30 --retry-delay 5 --retry-connrefused --silent --output /dev/null <URL>`
 3. Navigate to the following pages and check that each renders without errors:
    - `/` (Home page)
    - `/subscription`
@@ -80,7 +88,7 @@ Use `agent-browser` for all browser interactions in this step. Read the locally 
 Use `agent-browser` for all browser interactions in this step. Read the locally installed agent skill at `.agents/skills/agent-browser/` to learn the available commands. Running a build is NOT sufficient — you must start the dev server and validate in a real browser.
 
 1. Start the dev server in the background: `pnpm dev-storybook`
-2. Wait for the server to be ready (check the output for the URL)
+2. Wait for the server to be ready by watching the background task output for a URL (e.g., `http://localhost:<port>`). Once you have the URL, confirm it responds: `curl --retry 30 --retry-delay 5 --retry-connrefused --silent --output /dev/null <URL>`
 3. Navigate to the Storybook URL, verify it loads correctly, and check for console errors
 4. Stop the dev server process when done
 
