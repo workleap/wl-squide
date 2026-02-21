@@ -101,18 +101,16 @@ git commit -m "chore(skill): sync workleap-squide skill with docs"
 git push origin "$BRANCH_NAME"
 ```
 
-### 4b: Create pull request and enable auto-merge
+### 4b: Create pull request
 
 ```bash
-PR_URL=$(gh pr create \
+gh pr create \
   --base main \
   --head "$BRANCH_NAME" \
   --title "chore(skill): sync workleap-squide skill" \
   --body "## Summary
 
-<Write a short summary of what was updated in the skill>")
-
-gh pr merge "$PR_URL" --squash --admin
+<Write a short summary of what was updated in the skill>"
 ```
 
 Then STOP. You are done.
