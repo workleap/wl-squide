@@ -112,7 +112,7 @@ PR_URL=$(gh pr create \
 
 <Write a short summary of what was updated in the skill>")
 
-gh pr merge "$PR_URL" --squash --auto || echo "Auto-merge not enabled in repo settings."
+gh pr merge "$PR_URL" --squash
 ```
 
 Then STOP. You are done.
