@@ -6,6 +6,8 @@ You are an automated agent responsible for updating the dependencies of this mon
 
 - You have a maximum of **10 attempts** to pass all validation steps. If you exhaust all attempts, go to Step 4 (Failure).
 - You MUST execute every validation step (2a, 2b, 2c, 2d) in order. Do NOT skip any step.
+- Do NOT create new source files as part of a dependency update. Only modify existing files when migrating to a newer API.
+- **Avoid rabbit holes**: If you spend more than 3 attempts or 10 tool calls investigating a single issue without progress, stop. Revert the problematic package to its previous version, open an issue, and move on.
 
 ---
 
@@ -35,6 +37,13 @@ pnpm install
 
 Run steps 2a through 2d in order. If ANY step fails, diagnose and fix the issue before retrying. Read error messages carefully, inspect failing source code, look up changelogs or migration guides for packages with breaking changes, then apply the fix and restart from Step 2a.
 
+**When fixing breaking changes:**
+
+- Migrate code to use the newer API or pattern introduced by the updated package.
+- Do NOT add polyfills, shims, or workarounds for features already available in the runtime (this repo runs on Node.js 24+).
+- Do NOT patch or monkey-patch libraries to suppress errors.
+- If a breaking change cannot be resolved by a clean migration, revert that specific package to its previous version, open an issue explaining which dependency failed to update and why, then continue with the remaining updates.
+
 ### Step 2a: Linting
 
 ```bash
@@ -49,11 +58,11 @@ All checks must pass with zero errors.
 pnpm test
 ```
 
-All tests must pass.
+All tests must pass. If a test fails, run the failing package's tests directly (e.g., `pnpm --filter <package> test`) to get clearer output instead of re-running the full suite.
 
 ### Step 2c: Validate the "endpoints" sample app
 
-Use `agent-browser` for this step. Read the locally installed agent skill at `.agents/skills/agent-browser/` to learn how to use it. Running a build is NOT sufficient — you must start the dev server and validate in a real browser.
+Use `agent-browser` for all browser interactions in this step. Read the locally installed agent skill at `.agents/skills/agent-browser/` to learn the available commands. Running a build is NOT sufficient — you must start the dev server and validate in a real browser.
 
 1. Start the dev server in the background: `pnpm dev-endpoints`
 2. Wait for the server to be ready on `http://localhost:8080`
@@ -63,22 +72,17 @@ Use `agent-browser` for this step. Read the locally installed agent skill at `.a
    - `/federated-tabs`
    - `/federated-tabs/episodes`
    - `/federated-tabs/locations`
-4. For each page:
-   - Take a snapshot to verify the page rendered content
-   - Check the browser console for unexpected errors (ignore warnings and known noise like network errors from fake APIs or MSW)
+4. For each page, use `agent-browser` commands to verify the page rendered content and check for console errors (ignore warnings and known noise like network errors from fake APIs or MSW)
 5. Stop the dev server process when done
 
 ### Step 2d: Validate the "storybook" sample app
 
-Use `agent-browser` for this step. Read the locally installed agent skill at `.agents/skills/agent-browser/` to learn how to use it. Running a build is NOT sufficient — you must start the dev server and validate in a real browser.
+Use `agent-browser` for all browser interactions in this step. Read the locally installed agent skill at `.agents/skills/agent-browser/` to learn the available commands. Running a build is NOT sufficient — you must start the dev server and validate in a real browser.
 
 1. Start the dev server in the background: `pnpm dev-storybook`
 2. Wait for the server to be ready (check the output for the URL)
-3. Navigate to the Storybook URL
-4. Validate that the Storybook interface loads correctly
-5. Take a snapshot to verify the page rendered content
-6. Check the browser console for unexpected errors
-7. Stop the dev server process when done
+3. Navigate to the Storybook URL, verify it loads correctly, and check for console errors
+4. Stop the dev server process when done
 
 ## Step 3: Success
 

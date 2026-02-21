@@ -34,11 +34,11 @@ When in doubt, do NOT report the finding.
 
 ## Step 1: Load skill documentation
 
-Read all files in `.agents/skills/turborepo/` (including all subdirectories) so you understand the best practices to audit against. Do not skip any file.
+Read all files in `.agents/skills/turborepo/` and `.agents/skills/pnpm/` (including all subdirectories) so you understand the best practices to audit against. Do not skip any file.
 
 ## Step 2: Audit
 
-Using the best practices and anti-patterns from the skill documentation loaded in Step 1, audit the repository. Read whatever files you need (turbo.json, package.json files, tsconfig files, .env files, CI workflows, etc.) to check for issues. The skill documentation describes what to look for — use it to guide your investigation.
+Using the best practices and anti-patterns from the skill documentation loaded in Step 1, audit the repository. Read whatever files you need (turbo.json, package.json files, pnpm-workspace.yaml, .npmrc, pnpm-lock.yaml, tsconfig files, .env files, CI workflows, etc.) to check for issues. The skill documentation describes what to look for — use it to guide your investigation.
 
 ## Step 3: Generate report
 
@@ -56,6 +56,7 @@ gh issue create \
 
 ### Skills Audited
 - Turborepo (best practices from `.agents/skills/turborepo/`)
+- pnpm (best practices from `.agents/skills/pnpm/`)
 
 ### Summary
 

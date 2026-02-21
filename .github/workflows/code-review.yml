@@ -1,0 +1,44 @@
+name: Code review
+
+on:
+  pull_request:
+    branches: ["main"]
+    types: [opened, synchronize, ready_for_review, reopened]
+
+permissions:
+  contents: read
+  pull-requests: write
+  issues: write
+  id-token: write
+
+concurrency:
+  group: code-review-${{ github.event.pull_request.number }}
+  cancel-in-progress: true
+
+jobs:
+  code-review:
+    # Skip drafts.
+    if: ${{ !github.event.pull_request.draft }}
+
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Run code review
+        uses: anthropics/claude-code-action@v1
+        with:
+          anthropic_api_key: ${{ secrets.ANTHROPIC_API_KEY }}
+          show_full_output: true
+          prompt: |
+            Review PR #${{ github.event.pull_request.number }} in ${{ github.repository }}.
+            Get the diff: gh pr diff ${{ github.event.pull_request.number }}
+
+            Read and follow the instructions in .github/prompts/code-review.md
+          claude_args: >-
+            --allowedTools Read,Glob,Grep,Skill,Task,Bash(gh:*),mcp__github_inline_comment__*
+        env:
+          GH_TOKEN: ${{ github.token }}
