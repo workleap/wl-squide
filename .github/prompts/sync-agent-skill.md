@@ -52,10 +52,6 @@ git ls-files --others --exclude-standard -- agent-skills/workleap-squide/
 
 If both commands produce empty output (no changes at all), STOP immediately. Print "No skill changes needed — skill is already in sync." You are done.
 
-### Increment version
-
-Read the `metadata.version` field in the YAML frontmatter of `agent-skills/workleap-squide/SKILL.md`. Increment the **major** part of the version (e.g., `1.0` → `2.0`, `5.0` → `6.0`). Update the file with the new version.
-
 ## Step 3: Validate
 
 Spawn a subagent using the `Task` tool to validate the updated skill with a fresh context. The subagent must NOT have access to the `./docs` folder — it should only use the skill files.
@@ -95,7 +91,11 @@ If any question is marked FAIL, go back to Step 1 and fix the gap, then re-run t
 
 ## Step 4: Success
 
-### 4a: Create branch and commit
+### 4a: Increment version
+
+Read the `metadata.version` field in the YAML frontmatter of `agent-skills/workleap-squide/SKILL.md`. Increment the **major** part of the version (e.g., `1.0` → `2.0`, `5.0` → `6.0`). Update the file with the new version.
+
+### 4b: Create branch and commit
 
 ```bash
 BRANCH_NAME="agent/skill-sync-$(date -u +%Y%m%d-%H%M%S)-$(git rev-parse --short HEAD)"
@@ -105,7 +105,7 @@ git commit -m "chore(skill): sync workleap-squide skill with docs"
 git push origin "$BRANCH_NAME"
 ```
 
-### 4b: Create pull request
+### 4c: Create pull request
 
 ```bash
 gh pr create \

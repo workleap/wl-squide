@@ -4,7 +4,7 @@ You are an automated agent responsible for updating the dependencies of this mon
 
 ## Constraints
 
-- You have a maximum of **10 attempts** to pass all validation steps. If you exhaust all attempts, go to Step 3 (Failure).
+- You have a maximum of **10 attempts** to pass all validation steps. If you exhaust all attempts, go to Step 4 (Failure).
 - You MUST execute every validation step (2a, 2b, 2c, 2d) in order. Do NOT skip any step.
 
 ---
