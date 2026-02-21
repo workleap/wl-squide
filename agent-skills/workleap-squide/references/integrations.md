@@ -134,13 +134,26 @@ const ldClient = initializeLaunchDarkly(
 await ldClient.waitForInitialization(5);
 ```
 
-### Configure Runtime with LaunchDarklyPlugin
+### Configure Runtime with launchDarklyClient
+
+Pass the initialized client directly to `initializeFirefly`:
 
 ```ts
-import { initializeFirefly, LaunchDarklyPlugin } from "@squide/firefly";
+import { initializeFirefly } from "@squide/firefly";
 
 const runtime = initializeFirefly({
-    plugins: [x => new LaunchDarklyPlugin(x, ldClient)]
+    localModules: [registerHost],
+    launchDarklyClient
+});
+```
+
+Alternatively, when using `new FireflyRuntime` directly, use `LaunchDarklyPlugin`:
+
+```ts
+import { FireflyRuntime, LaunchDarklyPlugin } from "@squide/firefly";
+
+const runtime = new FireflyRuntime({
+    plugins: [x => new LaunchDarklyPlugin(x, launchDarklyClient)]
 });
 ```
 
@@ -514,7 +527,8 @@ const runtime = initializeFirefly({
 ### Multiple Loggers
 
 ```ts
-import { BrowserConsoleLogger, LogRocketLogger } from "@workleap/logging";
+import { BrowserConsoleLogger } from "@workleap/logging";
+import { LogRocketLogger } from "@workleap/telemetry/react"; // or from "@workleap/logrocket/react"
 
 const runtime = initializeFirefly({
     loggers: [
@@ -547,7 +561,7 @@ logger.debug("Debug message");      // Verbose debugging
 logger.information("Info message"); // General information
 logger.warn("Warning message");     // Potential issues
 logger.error("Error message");      // Errors
-logger.error("Critical message");   // Criticals
+logger.critical("Critical message"); // Criticals
 
 // With structured data
 logger
