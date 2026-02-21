@@ -12,7 +12,7 @@ permissions:
   issues: write
 
 concurrency:
-  group: sync-workleap-squide-skill
+  group: sync-skill
   cancel-in-progress: true
 
 jobs:
@@ -34,6 +34,8 @@ jobs:
           prompt: |
             Read and follow the instructions in .github/prompts/sync-skill.md
           anthropic_api_key: ${{ secrets.ANTHROPIC_API_KEY }}
-          claude_args: "--allowedTools Edit,Read,Write,Glob,Grep,Task,Bash(git:*),Bash(node:*),Bash(gh:*)"
+          claude_args: >-
+            --max-turns 200
+            --allowedTools Edit,Read,Write,Glob,Grep,Task,Bash(git:*),Bash(node:*),Bash(gh:*)
         env:
           GH_TOKEN: ${{ github.token }}
