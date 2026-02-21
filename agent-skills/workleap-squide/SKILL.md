@@ -367,9 +367,9 @@ runtime.registerRoute({
 - `useRenderedNavigationItems(items, renderItem, renderSection)`: Render nav items
 - `useIsBootstrapping()`: Check if bootstrapping
 - `usePublicDataQueries(queries)`: Fetch public global data
-- `usePublicDataHandler(handler)`: Execute handler when modules are ready
+- `usePublicDataHandler(handler)`: Execute a void handler once modules are ready (and MSW, if applicable)
 - `useProtectedDataQueries(queries, isUnauthorizedError)`: Fetch protected data
-- `useProtectedDataHandler(handler)`: Execute handler when modules ready and route is protected
+- `useProtectedDataHandler(handler)`: Execute a void handler once modules are ready and active route is protected (and MSW, if applicable)
 - `useDeferredRegistrations(data?, options?)`: Execute deferred registrations (options: `{ onError? }`)
 - `useEventBusListener(event, handler, options?)`: Listen to events
 - `useEventBusDispatcher()`: Get dispatch function

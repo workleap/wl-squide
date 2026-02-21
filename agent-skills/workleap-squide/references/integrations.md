@@ -134,12 +134,24 @@ const ldClient = initializeLaunchDarkly(
 await ldClient.waitForInitialization(5);
 ```
 
-### Configure Runtime with LaunchDarklyPlugin
+### Configure Runtime with LaunchDarkly
+
+The recommended approach is to pass the client directly to `initializeFirefly`:
 
 ```ts
-import { initializeFirefly, LaunchDarklyPlugin } from "@squide/firefly";
+import { initializeFirefly } from "@squide/firefly";
 
 const runtime = initializeFirefly({
+    launchDarklyClient: ldClient
+});
+```
+
+Alternatively, when instantiating `FireflyRuntime` directly (e.g. for testing), use `LaunchDarklyPlugin`:
+
+```ts
+import { FireflyRuntime, LaunchDarklyPlugin } from "@squide/firefly";
+
+const runtime = new FireflyRuntime({
     plugins: [x => new LaunchDarklyPlugin(x, ldClient)]
 });
 ```
@@ -533,7 +545,7 @@ function Component() {
     const logger = useLogger();
 
     const handleClick = () => {
-        logger.info("Button clicked");
+        logger.information("Button clicked");
     };
 
     return <button onClick={handleClick}>Click</button>;
