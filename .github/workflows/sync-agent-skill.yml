@@ -1,4 +1,4 @@
-name: Sync Workleap Squide Skill
+name: Sync agent skill
 
 on:
   push:
@@ -10,9 +10,10 @@ permissions:
   contents: write
   pull-requests: write
   issues: write
+  id-token: write
 
 concurrency:
-  group: sync-skill
+  group: sync-agent-skill
   cancel-in-progress: true
 
 jobs:
@@ -28,11 +29,11 @@ jobs:
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
 
-      - name: Sync skill with docs
+      - name: Sync agent skill with docs
         uses: anthropics/claude-code-action@v1
         with:
           prompt: |
-            Read and follow the instructions in .github/prompts/sync-skill.md
+            Read and follow the instructions in .github/prompts/sync-agent-skill.md
           anthropic_api_key: ${{ secrets.ANTHROPIC_API_KEY }}
           claude_args: >-
             --max-turns 200
