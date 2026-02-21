@@ -35,6 +35,7 @@ jobs:
           prompt: |
             Read and follow the instructions in .github/prompts/sync-agent-skill.md
           anthropic_api_key: ${{ secrets.ANTHROPIC_API_KEY }}
+          show_full_output: true
           claude_args: >-
             --max-turns 200
             --allowedTools Edit,Read,Write,Glob,Grep,Task,Bash(git:*),Bash(node:*),Bash(gh:*)
