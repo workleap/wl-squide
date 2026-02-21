@@ -112,7 +112,7 @@ PR_URL=$(gh pr create \
 
 <Write a short summary of what was updated in the skill>")
 
-gh pr merge "$PR_URL" --squash
+gh pr merge "$PR_URL" --squash --admin
 ```
 
 Then STOP. You are done.
