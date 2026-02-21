@@ -127,7 +127,7 @@ jobs:
             if [ "${{ github.event_name }}" == "pull_request" ]; then
                 pnpm turbo run test --continue --filter=...[${{ github.event.pull_request.base.sha }}]
             else
-                pnpm turbo run test --continue
+                pnpm test
             fi
 
       - name: Save Turborepo cache
