@@ -34,7 +34,7 @@
         "test": "vitest --config vitest.config.ts --no-watch"
     },
     "peerDependencies": {
-        "i18next": "^25.8.10",
+        "i18next": "^25.8.13",
         "i18next-browser-languagedetector": "^8.2.1",
         "react": "^18.0.0 || ^19.0.0",
         "react-i18next": "^16.5.4"
@@ -49,7 +49,7 @@
         "@rslib/core": "0.19.6",
         "@types/react": "19.2.14",
         "@typescript-eslint/parser": "8.56.0",
-        "@typescript/native-preview": "7.0.0-dev.20260218.1",
+        "@typescript/native-preview": "7.0.0-dev.20260221.1",
         "@workleap/eslint-configs": "1.1.12",
         "@workleap/rslib-configs": "1.1.7",
         "@workleap/typescript-configs": "3.0.7",

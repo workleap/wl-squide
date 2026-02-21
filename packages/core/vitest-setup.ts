@@ -1,6 +1,3 @@
-import { cleanup } from "@testing-library/react";
-import { afterEach } from "vitest";
-
 // Object.groupBy is not available in Node.js < 21, polyfill for test environments.
 if (!Object.groupBy) {
     Object.groupBy = function<T>(items: Iterable<T>, keyFn: (item: T, index: number) => PropertyKey) {
@@ -17,7 +14,3 @@ if (!Object.groupBy) {
         return result;
     };
 }
-
-afterEach(() => {
-    cleanup();
-});
