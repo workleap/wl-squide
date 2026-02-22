@@ -1,5 +1,14 @@
 # @squide/launch-darkly
 
+## 1.0.9
+
+### Patch Changes
+
+- [#493](https://github.com/workleap/wl-squide/pull/493) [`3689db0`](https://github.com/workleap/wl-squide/commit/3689db04642a919455d9f4703270c2d338c0c156) Thanks [@patricklafrance](https://github.com/patricklafrance)! - Bumped dependencies.
+
+- Updated dependencies [[`3689db0`](https://github.com/workleap/wl-squide/commit/3689db04642a919455d9f4703270c2d338c0c156)]:
+  - @squide/core@6.1.14
+
 ## 1.0.8
 
 ### Patch Changes
