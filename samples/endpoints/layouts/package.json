@@ -12,7 +12,7 @@
         "typecheck": "tsgo"
     },
     "peerDependencies": {
-        "i18next": "^25.8.10",
+        "i18next": "^25.8.13",
         "react": "^19.2.4",
         "react-dom": "^19.2.4",
         "react-error-boundary": "^6.1.1",
