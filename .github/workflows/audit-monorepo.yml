@@ -30,7 +30,8 @@ jobs:
           anthropic_api_key: ${{ secrets.ANTHROPIC_API_KEY }}
           show_full_output: true
           claude_args: >-
-            --max-turns 200
+            --max-turns 100
             --allowedTools Read,Glob,Grep,Task,Bash(git:*),Bash(node:*),Bash(gh:*)
         env:
+          # Required by gh CLI to create issues for audit findings.
           GH_TOKEN: ${{ github.token }}

@@ -27,8 +27,12 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
         with:
+          # Need 2 commits so the agent can diff against HEAD~1.
           fetch-depth: 2
 
+      # Skip bot commits (e.g., changeset version-packages, dependency updates) to avoid
+      # invoking the Claude agent unnecessarily. The paths-ignore filter catches most bot
+      # commits, but some (like dependency updates touching packages/) slip through.
       - name: Check for bot commit
         id: bot-check
         run: |
@@ -41,6 +45,7 @@ jobs:
         if: steps.bot-check.outputs.skip != 'true'
         run: gh workflow run sync-agent-skill.yml --ref main
         env:
+          # Required by gh CLI to trigger the workflow_dispatch.
           GH_TOKEN: ${{ github.token }}
 
   sync-agent-skill:
@@ -51,6 +56,7 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
+      # Set git identity so the agent can commit and push changes.
       - name: Configure git
         run: |
           git config user.name "github-actions[bot]"
@@ -64,7 +70,8 @@ jobs:
           anthropic_api_key: ${{ secrets.ANTHROPIC_API_KEY }}
           show_full_output: true
           claude_args: >-
-            --max-turns 200
+            --max-turns 100
             --allowedTools Edit,Read,Write,Glob,Grep,Task,Bash(git:*),Bash(node:*),Bash(gh:*)
         env:
+          # Required by gh CLI to create PRs and issues.
           GH_TOKEN: ${{ github.token }}

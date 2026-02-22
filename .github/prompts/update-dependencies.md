@@ -86,7 +86,7 @@ All tests must pass. If a test fails, run the failing package's tests directly (
 Use `pnpx agent-browser` (NOT `agent-browser` directly) for all browser interactions in this step. Read the locally installed agent skill at `.agents/skills/agent-browser/` to learn the available commands. Running a build is NOT sufficient — you must start the dev server and validate in a real browser.
 
 1. Start the dev server in the background using the shell `&` operator (do NOT use `run_in_background: true`): `pnpm dev-endpoints > /tmp/endpoints-dev.log 2>&1 &`
-2. Wait for the server to be ready by watching the log file for a URL (e.g., `http://localhost:<port>`). Once you have the URL, confirm it responds — do NOT use `sleep` commands, immediately run: `curl --retry 30 --retry-delay 5 --retry-connrefused --silent --output /dev/null <URL>`
+2. The endpoints app listens on port **8080**. Wait for it to be ready — do NOT use `sleep`, do NOT write polling loops, do NOT parse the log file for a URL. Instead, immediately run: `curl --retry 30 --retry-delay 5 --retry-connrefused --silent --output /dev/null http://localhost:8080`
 3. The app has a mock login page. Use username `temp` and password `temp` to authenticate.
 4. Navigate to the following pages and check that each renders without errors:
    - `/` (Home page)
@@ -95,16 +95,16 @@ Use `pnpx agent-browser` (NOT `agent-browser` directly) for all browser interact
    - `/federated-tabs/episodes`
    - `/federated-tabs/locations`
 5. For each page, use `pnpx agent-browser snapshot` to verify the page rendered content, and use `pnpx agent-browser console` to check for console errors (ignore warnings and known noise like network errors from fake APIs or MSW)
-6. Stop the dev server process when done: `kill $(lsof -t -i:<port>) 2>/dev/null || true; fuser -k <port>/tcp 2>/dev/null || true`
+6. Stop the dev server process when done: `kill $(lsof -t -i:8080) 2>/dev/null || true; fuser -k 8080/tcp 2>/dev/null || true`
 
 ### Step 2d: Validate the "storybook" sample app
 
 Use `pnpx agent-browser` (NOT `agent-browser` directly) for all browser interactions in this step. Read the locally installed agent skill at `.agents/skills/agent-browser/` to learn the available commands. Running a build is NOT sufficient — you must start the dev server and validate in a real browser.
 
 1. Start the dev server in the background using the shell `&` operator (do NOT use `run_in_background: true`): `pnpm dev-storybook > /tmp/storybook-dev.log 2>&1 &`
-2. Wait for the server to be ready by watching the log file for a URL (e.g., `http://localhost:<port>`). Once you have the URL, confirm it responds — do NOT use `sleep` commands, immediately run: `curl --retry 30 --retry-delay 5 --retry-connrefused --silent --output /dev/null <URL>`
-3. Navigate to the Storybook URL, verify it loads correctly, and use `pnpx agent-browser console` to check for console errors
-4. Stop the dev server process when done: `kill $(lsof -t -i:<port>) 2>/dev/null || true; fuser -k <port>/tcp 2>/dev/null || true`
+2. The storybook app listens on port **6006**. Wait for it to be ready — do NOT use `sleep`, do NOT write polling loops, do NOT parse the log file for a URL. Instead, immediately run: `curl --retry 30 --retry-delay 5 --retry-connrefused --silent --output /dev/null http://localhost:6006`
+3. Navigate to http://localhost:6006, verify it loads correctly, and use `pnpx agent-browser console` to check for console errors
+4. Stop the dev server process when done: `kill $(lsof -t -i:6006) 2>/dev/null || true; fuser -k 6006/tcp 2>/dev/null || true`
 
 ## Step 3: Success
 

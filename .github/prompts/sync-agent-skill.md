@@ -9,45 +9,36 @@ When updating the skill:
 - Do NOT change the skill structure or file format.
 - Do NOT embed metadata in skill files.
 - Do NOT add "Sources:" lines to skill files.
-- Do NOT create any new files outside `agent-skills/workleap-squide/`.
+- Do NOT create or modify any files outside `agent-skills/workleap-squide/`.
+- Do NOT use TodoWrite, TaskCreate, or any task tracking tools.
 - Never update a versioned skill. You can identify a versioned skill with its folder name pattern, e.g. `workleap-squide-v*`.
+- Only change content that demonstrably differs from the docs. When uncertain, leave existing content unchanged.
+
+## Docs-to-skill file mapping
+
+Use this mapping to know which docs to compare against which skill files:
+
+| Skill file | Primary docs sources |
+|---|---|
+| `SKILL.md` | `docs/introduction/*`, `docs/essentials/*` |
+| `references/runtime-api.md` | `docs/reference/runtime/*`, `docs/reference/registration/*` |
+| `references/hooks-api.md` | `docs/reference/routing/*`, `docs/reference/data-fetching/*`, `docs/reference/messaging/*` |
+| `references/integrations.md` | `docs/integrations/*` |
+| `references/patterns.md` | `docs/essentials/*`, `docs/recipes/*` |
+| `references/components.md` | `docs/reference/components/*` |
 
 ---
 
 ## Step 1: Update skill
 
-Review the `workleap-squide` skill you created in the `./agent-skills/workleap-squide` directory and make sure that all API definition and examples match the current documentation available in the `./docs` folder. Ignore anything related to microfrontends, module federation, webpack, rsbuild or updates. Do not make any mistake.
-
-Validate that the skill can still answer the following questions:
-
-* What is Squide and what problems does it solve in frontend applications?
-* How do you create a new Squide application from scratch?
-* How do I structure an application using Squide?
-* What does modular architecture mean in the context of a Squide application?
-* How do you register local modules in a Squide application?
-* What is the Firefly runtime and what role does it play in a Squide app?
-* How do you register routes in a Squide module?
-* How do you register navigation items for your modular application?
-* What are deferred navigation items and when should you use them?
-* How do you register MSW request handlers in a module?
-* What is the difference between public and protected pages in Squide?
-* How does Squide help with global protected data fetching?
-* What hooks or helpers does Squide provide for public global data fetching?
-* How do you use the event bus to communicate between modules?
-* How can you integrate logging into a Squide application?
-* What is the approach to environment variables in a Squide app?
-* How do you integrate and use feature flags (e.g., with LaunchDarkly) in Squide?
-* What is the recommended way to orchestrate page data fetching and rendering flow?
-* How do you set custom Honeycomb attributes for observability in Squide?
-* How do plugins work in Squide and when should you use them?
-* What are common pitfalls when registering modules, routes, or navigation items in Squide?
+Review the existing `workleap-squide` skill in `./agent-skills/workleap-squide/` and make sure that all API definitions and examples match the current documentation available in `./docs`. Use the file mapping above to target your comparisons — do not read docs exhaustively. Ignore anything related to microfrontends, module federation, webpack, rsbuild or updates.
 
 ## Step 2: Check for changes
 
 After updating the skill, check whether any files were actually modified:
 
 ```bash
-git diff --name-only HEAD
+git diff --name-only HEAD -- agent-skills/workleap-squide/
 git ls-files --others --exclude-standard -- agent-skills/workleap-squide/
 ```
 
@@ -55,15 +46,16 @@ If both commands produce empty output (no changes at all), STOP immediately. Pri
 
 ## Step 3: Validate
 
-Spawn a subagent with the `Task` tool using the **opus** model to validate the updated skill with a fresh context. The subagent must NOT have access to the `./docs` folder — it should only use the skill files.
+Spawn a subagent with the `Task` tool using the **opus** model to validate the updated skill with a fresh context. The subagent validates from two angles: (1) can the skill answer key questions, and (2) are the API signatures and examples factually correct compared to the actual docs.
 
 Use the following prompt for the subagent:
 
-> You are a validator. Read all files in the `./agent-skills/workleap-squide/` directory. Using ONLY the content of those files, determine whether the skill can adequately answer each of the following questions. Do NOT read any other files.
+> You are a validator for the `workleap-squide` agent skill. Your job is to verify both **coverage** and **accuracy**.
 >
-> For each question, respond with PASS or FAIL and a brief explanation.
+> ## Part A — Coverage
 >
-> Questions:
+> Read all files in `./agent-skills/workleap-squide/`. Using ONLY those files, determine whether the skill can adequately answer each question below. For each, respond PASS or FAIL with a brief explanation.
+>
 > 1. What is Squide and what problems does it solve in frontend applications?
 > 2. How do you create a new Squide application from scratch?
 > 3. How do I structure an application using Squide?
@@ -86,9 +78,17 @@ Use the following prompt for the subagent:
 > 20. How do plugins work in Squide and when should you use them?
 > 21. What are common pitfalls when registering modules, routes, or navigation items in Squide?
 >
-> At the end, output a summary line: `RESULT: X/21 PASSED`
+> ## Part B — Accuracy
+>
+> Now read the docs in `./docs/reference/` and `./docs/integrations/`. For each code example and API signature in the skill files, verify it matches the docs. Report any discrepancies: wrong parameter names, missing arguments, incorrect types, outdated patterns.
+>
+> ## Output
+>
+> End with:
+> - `COVERAGE: X/21 PASSED`
+> - `ACCURACY: list of discrepancies (or "No discrepancies found")`
 
-If any question is marked FAIL, go back to Step 1 and fix the gap, then re-run this validation. If all 21 questions pass, proceed to Step 4.
+If any coverage question is marked FAIL or accuracy discrepancies are found, go back to Step 1 and fix the gaps. Retry at most 3 times. If validation passes, proceed to Step 4. If validation still fails after 3 retries, proceed to Step 4 anyway but include the unresolved issues in the PR (see Step 4c).
 
 ## Step 4: Success
 
@@ -108,6 +108,8 @@ git push origin "$BRANCH_NAME"
 
 ### 4c: Create pull request
 
+If validation passed cleanly:
+
 ```bash
 gh pr create \
   --base main \
@@ -118,16 +120,22 @@ gh pr create \
 <Write a short summary of what was updated in the skill>"
 ```
 
-Then STOP. You are done.
-
-## Step 5: Failure
-
-If you cannot successfully update the skill or the skill cannot answer all questions, do NOT create a pull request. Do NOT commit changes.
+If validation still had failures after 3 retries, create the PR anyway but include a warnings section:
 
 ```bash
-gh issue create \
-  --title "[agent] Cannot sync workleap-squide skill" \
-  --body "<Include what went wrong and a link to: $GITHUB_SERVER_URL/$GITHUB_REPOSITORY/actions/runs/$GITHUB_RUN_ID>"
+gh pr create \
+  --base main \
+  --head "$BRANCH_NAME" \
+  --title "chore(skill): sync workleap-squide skill" \
+  --body "## Summary
+
+<Write a short summary of what was updated in the skill>
+
+## ⚠️ Validation Warnings
+
+The following issues could not be resolved after 3 retries:
+
+<List the failed coverage questions and/or accuracy discrepancies>"
 ```
 
 Then STOP. You are done.

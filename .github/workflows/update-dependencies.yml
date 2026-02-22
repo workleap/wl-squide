@@ -44,6 +44,7 @@ jobs:
           pnpx agent-browser open about:blank
           pnpx agent-browser close
 
+      # Set git identity so the agent can commit and push changes.
       - name: Configure git
         run: |
           git config user.name "github-actions[bot]"
@@ -60,4 +61,5 @@ jobs:
             --max-turns 200
             --allowedTools Edit,Read,Write,Glob,Grep,Bash(pnpm:*),Bash(git:*),Bash(node:*),Bash(gh:*),Bash(pnpx agent-browser:*),Bash(agent-browser:*),Bash(kill:*),Bash(lsof:*),Bash(curl:*),Bash(fuser:*)
         env:
+          # Required by gh CLI to create PRs and issues.
           GH_TOKEN: ${{ github.token }}

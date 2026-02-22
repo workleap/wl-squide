@@ -41,4 +41,5 @@ jobs:
           claude_args: >-
             --allowedTools Read,Glob,Grep,Skill,Task,Bash(gh:*),mcp__github_inline_comment__*
         env:
+          # Required by gh CLI to fetch PR diffs and post review comments.
           GH_TOKEN: ${{ github.token }}

@@ -61,6 +61,7 @@ jobs:
         with:
           anthropic_api_key: ${{ secrets.ANTHROPIC_API_KEY }}
         env:
+          # Required by gh CLI for interactive GitHub operations (PRs, issues, comments).
           GH_TOKEN: ${{ github.token }}
 
       - name: Save Turborepo cache
