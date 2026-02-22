@@ -8,6 +8,13 @@ on:
       - "agent-docs/**"
       - "AGENTS.md"
       - "ARCHITECTURE.md"
+      - "samples/**"
+      - "templates/**"
+      - "patches/**"
+      - ".changeset/**"
+      - "user-prompts/**"
+      - "agent-skills/**"
+      - "pnpm-lock.yaml"
 
 permissions:
   contents: write
