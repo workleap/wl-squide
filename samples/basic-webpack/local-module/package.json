@@ -36,7 +36,7 @@
         "@swc/core": "1.15.11",
         "@swc/helpers": "0.5.18",
         "@typescript-eslint/parser": "8.56.0",
-        "@typescript/native-preview": "7.0.0-dev.20260221.1",
+        "@typescript/native-preview": "7.0.0-dev.20260222.1",
         "@workleap/browserslist-config": "2.1.7",
         "@workleap/eslint-configs": "1.1.12",
         "@workleap/swc-configs": "2.3.7",
