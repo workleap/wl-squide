@@ -13,7 +13,7 @@
 | Sync Agent Skill | `.github/workflows/sync-agent-skill.yml` | Push to main (docs/) | Sync Squide skill with docs |
 | Agent Docs | `.github/workflows/update-agent-docs.yml` | Manual | Update agent documentation |
 | Retype | `.github/workflows/retype-action.yml` | Push to main, PRs | Build and deploy documentation site |
-| Audit Monorepo | `.github/workflows/audit-monorepo.yml` | Scheduled / manual | Dependency auditing |
+| Audit Monorepo | `.github/workflows/audit-monorepo.yml` | First day of month | Best practices audit |
 
 ## CI Pipeline Details
 

@@ -2,11 +2,10 @@ packages:
   - packages/*
   - samples/**
 
-minimumReleaseAge: 1440
-
-minimumReleaseAgeExclude:
-  - '@workleap*'
-  - '@typescript/native-preview*'
+# minimumReleaseAge: 1440
+# minimumReleaseAgeExclude:
+#   - '@workleap*'
+#   - '@typescript/native-preview*'
 
 onlyBuiltDependencies:
   - '@parcel/watcher'

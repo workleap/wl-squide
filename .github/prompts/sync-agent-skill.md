@@ -54,7 +54,7 @@ If both commands produce empty output (no changes at all), STOP immediately. Pri
 
 ## Step 3: Validate
 
-Spawn a subagent using the `Task` tool to validate the updated skill with a fresh context. The subagent must NOT have access to the `./docs` folder — it should only use the skill files.
+Spawn a subagent with the `Task` tool using the **opus** model to validate the updated skill with a fresh context. The subagent must NOT have access to the `./docs` folder — it should only use the skill files.
 
 Use the following prompt for the subagent:
 

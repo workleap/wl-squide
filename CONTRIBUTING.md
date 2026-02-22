@@ -9,6 +9,7 @@ The following documentation is only for the maintainers of this repository.
 - [Release the packages](#release-the-packages)
 - [Update the agent skill](#update-the-agent-skill)
 - [Deploy the sample applications](#deploy-the-sample-applications)
+- [Available workflows](#workflows)
 - [Available commands](#commands)
 - [CI](#ci)
 - [Add a new package to the monorepo](#add-a-new-package-to-the-monorepo)
@@ -223,6 +224,22 @@ pnpm deploy-endpoints-isolated
 ```
 
 Another prompt with a few questions will appear and then the sites will automatically be deployed to production.
+
+## Workflows
+
+The following workflows are available with GitHub:
+
+| Workflow | File | Trigger | Purpose |
+|----------|------|---------|---------|
+| CI | `.github/workflows/ci.yml` | Push to main, PRs | Build, lint, typecheck, test |
+| Changeset | `.github/workflows/changeset.yml` | Push to main | Version bumps and npm publish |
+| PR packages | `.github/workflows/pr-pkg.yml` | PRs | Publish preview packages |
+| Update dependencies | `.github/workflows/update-dependencies.yml` | Weekly (Tue 14:00 UTC) | Automated dependency updates |
+| Code review | `.github/workflows/code-review.yml` | PRs | Automated code review |
+| Claude | `.github/workflows/claude.yml` | @claude mentions | Interactive AI assistance |
+| Sync agent skill | `.github/workflows/sync-agent-skill.yml` | Push to main (docs/) | Sync Squide skill with docs |
+| Retype | `.github/workflows/retype-action.yml` | Push to main, PRs | Build and deploy documentation site |
+| Audit monorepo | `.github/workflows/audit-monorepo.yml` | First day of month | Best practices audit |
 
 ## Commands
 
