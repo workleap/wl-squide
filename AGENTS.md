@@ -11,7 +11,8 @@ modules, each responsible for a domain. Monorepo managed with **pnpm workspaces*
 
 ## Before You Start
 
-Load the appropriate [agent skills](./agent-docs/docs/references/agent-skills.md) before doing any work.
+1. Load the appropriate [agent skills](./agent-docs/docs/references/agent-skills.md) before doing any work.
+2. Review the [Architecture Decision Records index](./agent-docs/adr/README.md) and read any ADRs relevant to your current task before making architectural decisions. To reverse a prior decision, supersede the original ADR — do not silently ignore it.
 
 ## If You Are Working On…
 
@@ -64,9 +65,9 @@ Lists all `@squide/*` packages with their key APIs and source locations.
 |----------|---------|
 | [testing.md](./agent-docs/docs/quality/testing.md) | How to validate changes, test infrastructure |
 
-### [decisions/](./agent-docs/decisions/) — Architecture Decision Records
+### [adr/](./agent-docs/adr/) — Architecture Decision Records
 
-ADR format and index. Currently empty — populated as decisions are documented.
+Captures rationale behind significant decisions. Read before making architectural choices, write new ADRs when introducing patterns, replacing dependencies, or choosing between viable approaches. See [adr/README.md](./agent-docs/adr/README.md) for process and template.
 
 ## Maintenance
 
