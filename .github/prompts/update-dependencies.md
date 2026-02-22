@@ -40,7 +40,7 @@ Run steps 2a through 2d in order. If ANY step fails, diagnose and fix the issue 
 **When fixing breaking changes:**
 
 - Migrate code to use the newer API or pattern introduced by the updated package.
-- Do NOT add polyfills, shims, or workarounds for features already available in the runtime (this repo runs on Node.js 24+).
+- Do NOT add polyfills, shims, or workarounds for features already available in the runtime.
 - Do NOT patch or monkey-patch libraries to suppress errors.
 - If a breaking change cannot be resolved by a clean migration, revert that specific package to its previous version, open an issue using the template below, then continue with the remaining updates.
 
@@ -66,14 +66,6 @@ $GITHUB_SERVER_URL/$GITHUB_REPOSITORY/actions/runs/$GITHUB_RUN_ID"
 ```
 
 ### Step 2a: Linting
-
-`pnpm update` may reformat `package.json` files to 2-space indentation, but the ESLint `jsonc/indent` rule enforces 4-space indentation. Fix all `package.json` files before linting:
-
-```bash
-node_modules/.bin/eslint --fix --no-cache '**/package.json'
-```
-
-Then run the full lint:
 
 ```bash
 pnpm lint
