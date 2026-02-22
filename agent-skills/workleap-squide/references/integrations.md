@@ -131,7 +131,12 @@ const ldClient = initializeLaunchDarkly(
     { streaming: true }  // Important for real-time updates
 );
 
-await ldClient.waitForInitialization(5);
+try {
+    // Always initialize the client before forwarding the instance to initializeFirefly.
+    await ldClient.waitForInitialization(5);
+} catch (error: unknown) {
+    // Failed to initialize LaunchDarkly...
+}
 ```
 
 ### Configure Runtime

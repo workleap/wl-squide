@@ -12,7 +12,7 @@ description: |
   (8) Implementing error boundaries in modular applications
   (9) Questions about modular architecture patterns in React applications
 metadata:
-  version: 1.0
+  version: 2.0
 ---
 
 # Squide Framework
@@ -276,6 +276,29 @@ import { useEnvironmentVariable } from "@squide/firefly";
 const apiUrl = useEnvironmentVariable("apiBaseUrl");
 ```
 
+TypeScript augmentation for type-safe env variables:
+
+```ts
+// types/env-vars.d.ts
+import "@squide/firefly";
+
+declare module "@squide/firefly" {
+    interface EnvironmentVariables {
+        apiBaseUrl: string;
+    }
+}
+```
+
+Then reference in `tsconfig.json`:
+
+```json
+{
+    "compilerOptions": {
+        "types": ["./types/env-vars.d.ts"]
+    }
+}
+```
+
 ### Feature Flags
 
 ```tsx
@@ -283,7 +306,12 @@ const apiUrl = useEnvironmentVariable("apiBaseUrl");
 import { initialize as initializeLaunchDarkly } from "launchdarkly-js-client-sdk";
 
 const ldClient = initializeLaunchDarkly("client-id", { kind: "user", anonymous: true }, { streaming: true });
-await ldClient.waitForInitialization(5);
+
+try {
+    await ldClient.waitForInitialization(5);
+} catch (error: unknown) {
+    // Failed to initialize LaunchDarkly...
+}
 
 const runtime = initializeFirefly({ launchDarklyClient: ldClient });
 
@@ -385,7 +413,7 @@ runtime.registerRoute({
 - `useRuntime()`: Get runtime instance
 - `useRuntimeMode()`: Get runtime mode
 - `useRoutes()`: Get registered routes
-- `useIsRouteProtected(route)`: Check if a route is protected
+- `useIsRouteProtected(route)`: Check if a route is protected (use with `useRouteMatch` to get the route object)
 - `useRouteMatch(locationArg, options?)`: Match route against location
 
 ### i18next Hooks (from `@squide/i18next`)

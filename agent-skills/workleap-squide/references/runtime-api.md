@@ -102,6 +102,21 @@ if (runtime.isMswEnabled) {
 
 ### Environment Variables
 
+**TypeScript Augmentation** (for type-safe env variables):
+
+```ts
+// types/env-vars.d.ts
+import "@squide/firefly";
+
+declare module "@squide/firefly" {
+    interface EnvironmentVariables {
+        apiBaseUrl: string;
+    }
+}
+```
+
+Then reference in `tsconfig.json`: `"types": ["./types/env-vars.d.ts"]`
+
 #### registerEnvironmentVariable(key, value)
 Register a single environment variable.
 
