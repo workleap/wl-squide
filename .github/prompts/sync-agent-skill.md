@@ -10,6 +10,7 @@ When updating the skill:
 - Do NOT embed metadata in skill files.
 - Do NOT add "Sources:" lines to skill files.
 - Do NOT create any new files outside `agent-skills/workleap-squide/`.
+- Never update a versioned skill. You can identify a versioned skill with it's folder name pattern, e.g. `workleap-squide-v*`.
 
 ---
 

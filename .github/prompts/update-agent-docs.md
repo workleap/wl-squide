@@ -1,9 +1,41 @@
-# Agent Documentation Update — Runtime Prompt
+# Update Agent Documentation
 
 You are maintaining the agent documentation for the wl-squide repository.
 Your job is to keep this documentation accurate and useful for AI agents working in the codebase.
 
-## Important Context
+## Step 1 — Compute the diff
+
+Run `git diff HEAD~1 --name-only` excluding paths that are not relevant:
+
+```
+git diff HEAD~1 --name-only -- \
+  ':!agent-docs' ':!AGENTS.md' ':!ARCHITECTURE.md' \
+  ':!node_modules' ':!.turbo' ':!pnpm-lock.yaml' \
+  ':!samples' ':!templates' ':!patches' \
+  ':!.changeset' ':!user-prompts' ':!agent-skills'
+```
+
+Also run `git diff HEAD~1 --stat` with the same exclusions for a summary.
+
+### Early exit
+
+Stop immediately (no branch, no PR) if ANY of these are true:
+
+- The diff is empty (no meaningful code changes).
+- The last commit author is a bot (`git log -1 --format='%an'` contains `[bot]` or `changeset-bot`).
+
+When stopping early, output "No agent-docs update needed." and STOP.
+
+### Manual trigger (`workflow_dispatch`)
+
+When there is no recent push context, skip the diff and instead do a full freshness audit:
+compare every `agent-docs/` file against the current codebase and update anything stale.
+
+## Step 2 — Update the documentation
+
+Read the diff and determine which documentation files are affected by the changes.
+
+### Context
 
 Squide is a **React modular application shell** — an application framework for structuring frontend
 apps as collections of independent modules. It is NOT a micro-frontend tool, NOT a bundler tool.
@@ -14,23 +46,9 @@ When documenting Squide:
 - Do NOT emphasize module federation, webpack, rsbuild, or bundler configuration. These are
   internal build concerns, not the framework's purpose.
 - Refer to the user-facing docs in `docs/` (specifically `docs/introduction/`, `docs/essentials/`,
-  `docs/integrations/`, `docs/reference/`) as the source of truth for Squide concepts.
+  `docs/integrations/`, `docs/reference/`) and `CONTRIBUTING.md` as the source of truth for Squide concepts.
 
-## File Layout
-
-- `AGENTS.md` — at the **workspace root**. Table of contents / navigation map.
-- `ARCHITECTURE.md` — at the **workspace root**. High-level architecture overview.
-- `CLAUDE.md` — at the **workspace root**. Points Claude to AGENTS.md (do not modify).
-- `agent-docs/` — structured knowledge base and supporting files:
-  - `docs/design/` — design patterns: routing, data fetching, registrations, communication
-  - `docs/specs/` — package specifications and APIs
-  - `docs/references/` — build tooling, CI/CD, infrastructure
-  - `docs/quality/` — testing and quality standards
-  - `decisions/` — Architecture Decision Records
-  - `scripts/` — supporting scripts
-- `.github/prompts/update-agent-docs.md` — this file (runtime prompt instructions for the updater)
-
-## Philosophy
+### Philosophy
 
 **Map, not manual.** Documentation should route agents to the right place, not replicate the codebase.
 
@@ -38,37 +56,43 @@ When documenting Squide:
 - `ARCHITECTURE.md` is a **high-level map** — key concepts and package domains.
 - `agent-docs/docs/` is the **structured knowledge base** — categorized, detailed, but concise.
 
-## What You Must Do
+### File layout
 
-1. Read the diff summary provided to understand what changed in the repository.
-2. Determine which files are affected by the changes.
-3. Update **only** the affected files. Do not rewrite unaffected documentation.
-4. If new documentation files are needed, create them in the appropriate `agent-docs/docs/` subfolder.
-5. Ensure `AGENTS.md` links to any new documents.
+- `AGENTS.md` — workspace root. Table of contents / navigation map.
+- `ARCHITECTURE.md` — workspace root. High-level architecture overview.
+- `CLAUDE.md` — workspace root. Points Claude to AGENTS.md (do NOT modify).
+- `agent-docs/` — structured knowledge base:
+  - `docs/design/` — design patterns: routing, data fetching, registrations, communication
+  - `docs/specs/` — package specifications and APIs
+  - `docs/references/` — build tooling, CI/CD, infrastructure
+  - `docs/quality/` — testing and quality standards
+  - `decisions/` — Architecture Decision Records
 
-## What You Must Not Do
+### Rules
 
-- Do not rewrite the entire documentation tree on every run.
-- Do not invent facts about the repository. Only document what you can verify from actual files.
-- Do not duplicate content across multiple documents.
-- Do not embed detailed instructions inside `AGENTS.md` — move them to `agent-docs/docs/` and link.
-- Do not remove documentation unless the corresponding code has been deleted.
-- Do not modify files outside `AGENTS.md`, `ARCHITECTURE.md`, and `agent-docs/`.
-- Do not modify `CLAUDE.md`.
-- Do not emphasize module federation or bundler config as core Squide concepts.
+- **Be incremental.** Only update sections impacted by the diff.
+- **Prefer links over prose.** Add a link and a one-line summary rather than a paragraph.
+- **Mark uncertainty.** If you cannot verify a fact, add `<!-- TODO: verify ... -->`.
+- **Keep it stable.** Small, focused changes. No cosmetic rewrites.
+- **Initialize missing files.** If a referenced file does not exist, create it with a minimal structure.
+- **Preserve structure.** Do not reorganize folders or rename files unless the repo structure changed.
+- **Reference real paths.** Always cite actual file paths as evidence (e.g., `packages/core/src/`).
+- **No duplication.** If information exists in one document, link to it from others.
+- **No invention.** Only document what you can verify from actual files.
+- ONLY modify files under `agent-docs/`, plus `AGENTS.md` and `ARCHITECTURE.md` at the root. Modifying files outside this set will cause an infinite workflow loop.
+- Do NOT modify `CLAUDE.md`.
 
-## AGENTS.md Requirements
+### AGENTS.md requirements
 
-AGENTS.md must stay between 80–150 lines (hard max 180). It must contain:
+AGENTS.md must stay between 80–150 lines. It must contain:
 
 1. **Purpose** — 1–2 short paragraphs identifying the repository.
 2. **How to Navigate** — table linking to `ARCHITECTURE.md` and `agent-docs/docs/` categories.
 3. **"If You Are Working On…"** — routing table mapping tasks to documents.
-4. **Golden Rules** — short bullet list of critical conventions.
 
 If any section grows too large, extract it into an `agent-docs/docs/` file and replace with a link.
 
-## ARCHITECTURE.md Requirements
+### ARCHITECTURE.md requirements
 
 ARCHITECTURE.md must contain:
 
@@ -80,27 +104,49 @@ ARCHITECTURE.md must contain:
 6. **Build & Task Graph** — summary of Turborepo tasks.
 7. **Technology Stack** — table of key technologies.
 
-## Update Rules
+## Step 3 — Validate coherence
 
-1. **Be incremental.** Only update sections impacted by the diff.
-2. **Prefer links over prose.** Add a link and a one-line summary rather than a paragraph.
-3. **Mark uncertainty.** If you cannot verify a fact, add `<!-- TODO: verify ... -->`.
-4. **Keep it stable.** Small, focused changes. No cosmetic rewrites.
-5. **Initialize missing files.** If a referenced file does not exist, create it with a minimal structure.
-6. **Preserve structure.** Do not reorganize folders or rename files unless the repo structure changed.
-7. **Reference real paths.** Always cite actual file paths as evidence (e.g., `packages/core/src/`).
-8. **No duplication.** If information exists in one document, link to it from others.
+Spawn an opus subagent to validate the documentation as a whole. Pass it the following instructions:
 
-## Bootstrap Behavior
+> Read all files under `agent-docs/`, plus `AGENTS.md` and `ARCHITECTURE.md` at the workspace root. Validate:
+>
+> - **Cross-references:** All markdown links between documents point to files that actually exist.
+> - **Consistency:** Information is not contradicted across documents (e.g., a package listed in one place but missing or renamed in another).
+> - **Stale content:** Verify that document contents align with the actual codebase (check real file paths, package names, etc.).
+> - **AGENTS.md line count:** Must be between 80–150 lines.
+>
+> Return a list of issues found. If no issues, return "No issues found."
 
-If `AGENTS.md` does not exist at the workspace root when you run, create the full structure:
-- `AGENTS.md` and `ARCHITECTURE.md` at the root
-- All `agent-docs/docs/` subdirectories with initial content
+If the subagent reports issues, fix them. Do not rewrite sections that are already correct.
 
-Populate each file with content derived from the repository's actual structure.
-Use `package.json` files, `turbo.json`, workflow files, and the user docs in `docs/` as source material.
+## Step 4 — Open a pull request
 
-## Output
+Use a fixed branch name: `agent-docs/update`.
 
-After making changes, output a brief summary of what was updated and why.
-Only modify files under `agent-docs/`, plus `AGENTS.md` and `ARCHITECTURE.md` at the root.
+```bash
+git checkout -b agent-docs/update
+git add agent-docs/ AGENTS.md ARCHITECTURE.md
+git commit -m "docs(agent-docs): update documentation [skip ci]"
+git push --force origin agent-docs/update
+```
+
+Then check if a PR already exists for this branch:
+
+```bash
+gh pr list --head agent-docs/update --state open --json number --jq '.[0].number'
+```
+
+- If a PR exists, it is automatically updated by the force-push. No further action needed.
+- If no PR exists, create one:
+
+```bash
+gh pr create \
+  --title "docs(agent-docs): update documentation" \
+  --body "<summary of what changed and why>" \
+  --base main \
+  --head agent-docs/update
+```
+
+If there are no staged changes after `git add`, output "No agent-docs update needed." and STOP.
+
+Then STOP. You are done.
