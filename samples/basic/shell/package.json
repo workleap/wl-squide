@@ -32,7 +32,7 @@
         "@workleap/eslint-configs": "1.1.12",
         "@workleap/typescript-configs": "3.0.7",
         "eslint": "9.39.2",
-        "nodemon": "3.1.11",
+        "nodemon": "3.1.14",
         "typescript": "5.9.3",
         "typescript-eslint": "8.54.0"
     }

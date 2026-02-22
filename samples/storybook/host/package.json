@@ -41,7 +41,7 @@
         "eslint": "9.39.2",
         "http-server": "14.1.1",
         "msw": "2.12.10",
-        "storybook": "10.2.9",
+        "storybook": "10.2.10",
         "storybook-react-rsbuild": "3.2.3",
         "stylelint": "17.3.0",
         "typescript": "5.9.3",
