@@ -31,6 +31,6 @@ jobs:
           show_full_output: true
           claude_args: >-
             --max-turns 200
-            --allowedTools Read,Glob,Grep,Bash(git:*),Bash(node:*),Bash(gh:*)
+            --allowedTools Read,Glob,Grep,Task,Bash(git:*),Bash(node:*),Bash(gh:*)
         env:
           GH_TOKEN: ${{ github.token }}

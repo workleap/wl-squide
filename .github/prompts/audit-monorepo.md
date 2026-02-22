@@ -40,7 +40,18 @@ Read all files in `.agents/skills/turborepo/` and `.agents/skills/pnpm/` (includ
 
 Using the best practices and anti-patterns from the skill documentation loaded in Step 1, audit the repository. Read whatever files you need (turbo.json, package.json files, pnpm-workspace.yaml, .npmrc, pnpm-lock.yaml, tsconfig files, .env files, CI workflows, etc.) to check for issues. The skill documentation describes what to look for — use it to guide your investigation.
 
-## Step 3: Generate report
+## Step 3: Validate findings with a subagent
+
+Before generating the report, validate your findings using a subagent to eliminate false positives. Launch a subagent with the Task tool using the **opus** model and provide it with:
+
+1. The full list of candidate findings (severity, skill, file, description, and recommendation for each).
+2. Instructions to independently re-read each referenced file and verify whether the issue actually exists.
+3. Instructions to check whether each flagged pattern might be intentional (e.g., comments explaining the choice, consistency with the rest of the codebase, or a valid trade-off).
+4. Instructions to return a verdict for each finding: **confirmed** or **rejected** with a brief justification.
+
+Only carry forward findings that the subagent confirms. Drop any finding that the subagent rejects.
+
+## Step 4: Generate report
 
 Compile all confirmed findings (severity Low, Medium, or High only) into a structured report.
 
