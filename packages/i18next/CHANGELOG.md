@@ -1,5 +1,11 @@
 # @squide/i18next
 
+## 2.5.16
+
+### Patch Changes
+
+- [#491](https://github.com/workleap/wl-squide/pull/491) [`9d150ae`](https://github.com/workleap/wl-squide/commit/9d150aea6530e54912333da3b3985fefac7c2487) Thanks [@claude](https://github.com/apps/claude)! - Updated dependencies to their latest versions.
+
 ## 2.5.15
 
 ### Patch Changes
