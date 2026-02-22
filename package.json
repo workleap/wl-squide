@@ -39,7 +39,8 @@
         "list-outdated-deps": "pnpm outdated -r --format list !eslint !@eslint/js !typescript-eslint !useless-lib !@module-federation/enhanced !@module-federation/rsbuild-plugin",
         "update-outdated-deps": "pnpm run --sequential \"/^update-outdated-deps:.*/\"",
         "update-outdated-deps:update-versions": "pnpm update -r --latest !eslint !@eslint/js !typescript-eslint !useless-lib !@module-federation/enhanced !@module-federation/rsbuild-plugin",
-        "update-outdated-deps:update-peers": "syncpack fix"
+        "update-outdated-deps:update-peers": "syncpack fix",
+        "update-outdated-deps:fix-pkg-json": "eslint --fix --no-cache --no-ignore package.json **/package.json"
     },
     "devDependencies": {
         "@changesets/changelog-github": "0.5.2",
@@ -47,7 +48,7 @@
         "@eslint/js": "9.39.2",
         "@types/node": "25.3.0",
         "@typescript-eslint/parser": "8.56.0",
-        "@typescript/native-preview": "7.0.0-dev.20260218.1",
+        "@typescript/native-preview": "7.0.0-dev.20260221.1",
         "@workleap/eslint-configs": "1.1.12",
         "@workleap/typescript-configs": "3.0.7",
         "cross-env": "10.1.0",
@@ -63,5 +64,5 @@
         "node": ">=24.0.0",
         "pnpm": ">=10"
     },
-    "packageManager": "pnpm@10.20.0"
+    "packageManager": "pnpm@10.30.1"
 }
