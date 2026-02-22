@@ -70,12 +70,17 @@ if (useIsBootstrapping()) {
 }
 ```
 
-### useIsRouteProtected()
-Check if the current route is protected.
+### useIsRouteProtected(route)
+Check if the given route is protected.
 
 ```ts
-import { useIsRouteProtected } from "@squide/firefly";
-const isProtected = useIsRouteProtected();
+import { useLocation } from "react-router/dom";
+import { useIsRouteProtected, useRouteMatch } from "@squide/firefly";
+
+const location = useLocation();
+const route = useRouteMatch(location);
+
+const isActiveRouteProtected = useIsRouteProtected(route);
 ```
 
 ### useRouteMatch(locationArg, options?)

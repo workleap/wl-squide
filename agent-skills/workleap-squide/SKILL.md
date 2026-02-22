@@ -12,7 +12,7 @@ description: |
   (8) Implementing error boundaries in modular applications
   (9) Questions about modular architecture patterns in React applications
 metadata:
-  version: 1.0
+  version: 2.0
 ---
 
 # Squide Framework
