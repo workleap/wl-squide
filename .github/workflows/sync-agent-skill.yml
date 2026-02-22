@@ -11,13 +11,40 @@ permissions:
   pull-requests: write
   issues: write
   id-token: write
+  actions: write
 
 concurrency:
   group: sync-agent-skill
   cancel-in-progress: true
 
 jobs:
+  # claude-code-action does not support "push" events.
+  # Re-dispatch as workflow_dispatch so the action receives a supported event type.
+  dispatch-on-push:
+    if: github.event_name == 'push'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 2
+
+      - name: Check for bot commit
+        id: bot-check
+        run: |
+          AUTHOR=$(git log -1 --format='%an')
+          if [[ "$AUTHOR" == *"[bot]"* ]]; then
+            echo "skip=true" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Re-dispatch as workflow_dispatch
+        if: steps.bot-check.outputs.skip != 'true'
+        run: gh workflow run sync-agent-skill.yml --ref main
+        env:
+          GH_TOKEN: ${{ github.token }}
+
   sync-agent-skill:
+    if: github.event_name == 'workflow_dispatch'
     runs-on: ubuntu-latest
     timeout-minutes: 60
     steps:
