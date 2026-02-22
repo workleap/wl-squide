@@ -3,7 +3,11 @@
 You are maintaining the agent documentation for the wl-squide repository.
 Your job is to keep this documentation accurate and useful for AI agents working in the codebase.
 
-## Step 1 — Compute the diff
+## Step 1 — Determine update scope
+
+The trigger type is provided in the prompt that invoked you (e.g., "This run was triggered by: push" or "This run was triggered by: workflow_dispatch").
+
+### If trigger is `push`
 
 Run `git diff HEAD~1 --name-only` excluding paths that are not relevant:
 
@@ -17,25 +21,20 @@ git diff HEAD~1 --name-only -- \
 
 Also run `git diff HEAD~1 --stat` with the same exclusions for a summary.
 
-### Early exit
+If the diff is empty (no meaningful code changes), output "No agent-docs update needed." and STOP immediately (no branch, no PR).
 
-Stop immediately (no branch, no PR) if ANY of these are true:
+### If trigger is `workflow_dispatch`
 
-- The diff is empty (no meaningful code changes).
-- The last commit author is a bot (`git log -1 --format='%an'` contains `[bot]` or `changeset-bot`).
+The prompt includes a mode indicator (e.g., `mode: full-audit` or `mode: last-commit`).
 
-When stopping early, output "No agent-docs update needed." and STOP.
-
-### Manual trigger (`workflow_dispatch`)
-
-When there is no recent push context, skip the diff and instead do a full freshness audit:
-compare every `agent-docs/` file against the current codebase and update anything stale.
+- **`full-audit`** (default): Skip the diff. Do a full freshness audit: compare every `agent-docs/` file against the current codebase and update anything stale.
+- **`last-commit`**: Behave like a `push` trigger — compute the diff from the last commit and only update affected documentation.
 
 ## Step 2 — Update documentation and check for missing ADRs
 
-Read the diff and determine which documentation files are affected by the changes.
+For `push` triggers, read the diff and determine which documentation files are affected by the changes. For `workflow_dispatch` triggers, review all documentation files against the current codebase.
 
-Also check whether the diff contains architectural decisions that lack an ADR. Read existing ADRs in `agent-docs/adr/` first. If the diff introduces a new pattern, replaces a dependency, changes infrastructure, or makes a choice between viable approaches — and no existing ADR covers it — write a new ADR following the process in `agent-docs/adr/README.md`. Set its status to `proposed`.
+Also check whether recent changes contain architectural decisions that lack an ADR. Read existing ADRs in `agent-docs/adr/` first. If you find a new pattern, a replaced dependency, an infrastructure change, or a choice between viable approaches — and no existing ADR covers it — write a new ADR following the process in `agent-docs/adr/README.md`. Set its status to `proposed`.
 
 ### Context
 

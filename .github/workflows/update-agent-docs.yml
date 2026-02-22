@@ -2,6 +2,14 @@ name: Update agent docs
 
 on:
   workflow_dispatch:
+    inputs:
+      mode:
+        description: "Update mode"
+        type: choice
+        options:
+          - full-audit
+          - last-commit
+        default: full-audit
   push:
     branches: ["main"]
     paths-ignore:
@@ -41,15 +49,26 @@ jobs:
           node-version: ">=24.0.0"
           check-latest: true
 
+      - name: Check for bot commit
+        id: bot-check
+        run: |
+          AUTHOR=$(git log -1 --format='%an')
+          if [[ "$AUTHOR" == *"[bot]"* ]]; then
+            echo "skip=true" >> "$GITHUB_OUTPUT"
+          fi
+
       - name: Configure git
+        if: steps.bot-check.outputs.skip != 'true'
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
 
       - name: Update agent documentation
+        if: steps.bot-check.outputs.skip != 'true'
         uses: anthropics/claude-code-action@v1
         with:
           prompt: |
+            This run was triggered by: ${{ github.event_name }}${{ github.event.inputs.mode && format(' (mode: {0})', github.event.inputs.mode) || '' }}
             Read and follow the instructions in .github/prompts/update-agent-docs.md
           anthropic_api_key: ${{ secrets.ANTHROPIC_API_KEY }}
           show_full_output: true

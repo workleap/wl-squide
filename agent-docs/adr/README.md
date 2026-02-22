@@ -52,6 +52,7 @@ Write an ADR when you are about to:
 - [ADR-0024: Dollar-Prefix Convention for Framework-Owned Properties](./0024-dollar-prefix-convention.md)
 - [ADR-0025: Singleton Removal in Favor of Instance-Based Architecture](./0025-singleton-removal-instance-based-architecture.md)
 - [ADR-0026: Global Data Fetching with Public/Protected Segmentation](./0026-public-protected-data-segmentation.md)
+- [ADR-0028: useSyncExternalStore for State Reactivity](./0028-use-sync-external-store.md)
 
 ### Build & Tooling
 
@@ -60,7 +61,6 @@ Write an ADR when you are about to:
 - [ADR-0013: ESM-Only Output](./0013-esm-only-output.md)
 - [ADR-0014: tsgo for Type Checking](./0014-tsgo-for-type-checking.md)
 - [ADR-0027: Vitest for Unit Testing](./0027-vitest-for-unit-testing.md)
-- [ADR-0028: useSyncExternalStore for State Reactivity](./0028-use-sync-external-store.md)
 
 ### API & Integration
 
