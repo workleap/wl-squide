@@ -31,9 +31,11 @@ When stopping early, output "No agent-docs update needed." and STOP.
 When there is no recent push context, skip the diff and instead do a full freshness audit:
 compare every `agent-docs/` file against the current codebase and update anything stale.
 
-## Step 2 — Update the documentation
+## Step 2 — Update documentation and check for missing ADRs
 
 Read the diff and determine which documentation files are affected by the changes.
+
+Also check whether the diff contains architectural decisions that lack an ADR. Read existing ADRs in `agent-docs/adr/` first. If the diff introduces a new pattern, replaces a dependency, changes infrastructure, or makes a choice between viable approaches — and no existing ADR covers it — write a new ADR following the process in `agent-docs/adr/README.md`. Set its status to `proposed`.
 
 ### Context
 
@@ -66,7 +68,7 @@ When documenting Squide:
   - `docs/specs/` — package specifications and APIs
   - `docs/references/` — build tooling, CI/CD, infrastructure
   - `docs/quality/` — testing and quality standards
-  - `decisions/` — Architecture Decision Records
+  - `adr/` — Architecture Decision Records
 
 ### Rules
 
@@ -114,6 +116,7 @@ Spawn an opus subagent to validate the documentation as a whole. Pass it the fol
 > - **Consistency:** Information is not contradicted across documents (e.g., a package listed in one place but missing or renamed in another).
 > - **Stale content:** Verify that document contents align with the actual codebase (check real file paths, package names, etc.).
 > - **AGENTS.md line count:** Must be between 80–150 lines.
+> - **Architecture Decision Records:** Every ADR in `agent-docs/adr/` follows the template (has Status, Context, Options Considered, Decision, Consequences sections) and is listed in the `## Index` section of `agent-docs/adr/README.md`.
 >
 > Return a list of issues found. If no issues, return "No issues found."
 

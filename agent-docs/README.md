@@ -14,8 +14,7 @@ agent-docs/
 │   ├── specs/         # Package specifications and APIs
 │   ├── references/    # Development setup, build tooling, CI/CD, release process, agent skills
 │   └── quality/       # Testing, validation, browser checks
-├── decisions/         # Architecture Decision Records (ADRs)
-└── scripts/           # Supporting scripts for automation
+└── adr/              # Architecture Decision Records (ADRs)
 ```
 
 ## How this is maintained
