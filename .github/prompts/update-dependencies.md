@@ -83,7 +83,7 @@ All tests must pass. If a test fails, run the failing package's tests directly (
 
 ### Step 2c: Validate the "endpoints" sample app
 
-Use `pnpx agent-browser` (NOT `agent-browser` directly) for all browser interactions in this step. Read the locally installed agent skill at `.agents/skills/agent-browser/` to learn the available commands. Running a build is NOT sufficient — you must start the dev server and validate in a real browser.
+Use `pnpx agent-browser` (NOT `agent-browser` directly) for all browser interactions in this step. Read the locally installed agent skill at `.agents/skills/agent-browser/SKILL.md` to learn the available commands. Running a build is NOT sufficient — you must start the dev server and validate in a real browser.
 
 1. Start the dev server in the background: `pnpm dev-endpoints`
 2. Wait for the server to be ready by watching the background task output for a URL (e.g., `http://localhost:<port>`). Once you have the URL, confirm it responds — do NOT use `sleep` commands, immediately run: `curl --retry 30 --retry-delay 5 --retry-connrefused --silent --output /dev/null <URL>`
@@ -99,7 +99,7 @@ Use `pnpx agent-browser` (NOT `agent-browser` directly) for all browser interact
 
 ### Step 2d: Validate the "storybook" sample app
 
-Use `pnpx agent-browser` (NOT `agent-browser` directly) for all browser interactions in this step. Read the locally installed agent skill at `.agents/skills/agent-browser/` to learn the available commands. Running a build is NOT sufficient — you must start the dev server and validate in a real browser.
+Use `pnpx agent-browser` (NOT `agent-browser` directly) for all browser interactions in this step. Read the locally installed agent skill at `.agents/skills/agent-browser/SKILL.md` to learn the available commands. Running a build is NOT sufficient — you must start the dev server and validate in a real browser.
 
 1. Start the dev server in the background: `pnpm dev-storybook`
 2. Wait for the server to be ready by watching the background task output for a URL (e.g., `http://localhost:<port>`). Once you have the URL, confirm it responds — do NOT use `sleep` commands, immediately run: `curl --retry 30 --retry-delay 5 --retry-connrefused --silent --output /dev/null <URL>`
