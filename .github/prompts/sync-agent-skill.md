@@ -102,7 +102,7 @@ Read the `metadata.version` field in the YAML frontmatter of `agent-skills/workl
 BRANCH_NAME="agent/skill-sync-$(date -u +%Y%m%d-%H%M%S)-$(git rev-parse --short HEAD)"
 git checkout -b "$BRANCH_NAME"
 git add agent-skills/workleap-squide/
-git commit -m "chore(skill): sync workleap-squide skill with docs"
+git commit -m "chore(skill): sync workleap-squide skill with docs [skip ci]"
 git push origin "$BRANCH_NAME"
 ```
 

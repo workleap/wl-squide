@@ -97,6 +97,11 @@ jobs:
             This run was triggered by: ${{ github.event_name }}${{ github.event.inputs.mode && format(' (mode: {0})', github.event.inputs.mode) || '' }}
             Read and follow the instructions in .github/prompts/update-agent-docs.md
           anthropic_api_key: ${{ secrets.ANTHROPIC_API_KEY }}
+          # The dispatch-on-push job re-triggers this workflow via gh workflow run,
+          # which sets the actor to "github-actions" (type: Bot). claude-code-action's
+          # checkHumanActor rejects non-User actors unconditionally; allowed_bots is
+          # the only way to authorize this dispatch pattern.
+          allowed_bots: "github-actions"
           show_full_output: true
           claude_args: >-
             --max-turns 100
