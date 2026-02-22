@@ -58,6 +58,6 @@ jobs:
           show_full_output: true
           claude_args: >-
             --max-turns 200
-            --allowedTools Edit,Read,Write,Glob,Grep,Bash(pnpm:*),Bash(git:*),Bash(node:*),Bash(gh:*),Bash(pnpx agent-browser:*),Bash(kill:*),Bash(lsof:*),Bash(curl:*),Bash(fuser:*)
+            --allowedTools Edit,Read,Write,Glob,Grep,Bash(pnpm:*),Bash(git:*),Bash(node:*),Bash(gh:*),Bash(pnpx agent-browser:*),Bash(agent-browser:*),Bash(kill:*),Bash(lsof:*),Bash(curl:*),Bash(fuser:*)
         env:
           GH_TOKEN: ${{ github.token }}
