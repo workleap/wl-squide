@@ -44,7 +44,7 @@ with `<Suspense>` boundaries. The recommended pattern is a dedicated BFF endpoin
 ## Relevant Source
 
 - `packages/firefly/src/` — data fetching hooks
-- User docs: `docs/reference/tanstack-query/`, `docs/essentials/`
+- User docs: `docs/reference/global-data-fetching/`, `docs/essentials/`
 
 ---
 *See [ARCHITECTURE.md](../../../ARCHITECTURE.md) for full context.*
