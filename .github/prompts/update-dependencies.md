@@ -136,7 +136,35 @@ Close any existing open dependency-update PRs before creating a new one:
 gh pr list --search "chore: update dependencies" --state open --json number --jq '.[].number' | xargs -I{} gh pr close {} --comment "Superseded by a newer dependency update run."
 ```
 
-Then create the new PR:
+Then create the new PR with the body described below.
+
+#### How to write the Summary section
+
+Before writing the summary, run `git diff main -- '**/package.json'` to see the actual changes. Then apply these rules:
+
+1. In unified diff output, context lines start with a SPACE character, removed lines start with a single `-`, and added lines start with a single `+`. Only `-` and `+` lines represent actual changes — do NOT include dependencies that only appear on space-prefixed context lines.
+2. Deduplicate: list each dependency name + version change only once, even if it appears in multiple package.json files.
+3. If a dependency appears in different categories across packages (e.g., peerDependencies in a library and devDependencies in a sample), list all categories it belongs to (e.g., "peerDependencies, devDependencies").
+4. Format each as: `package-name`: `old-version` → `new-version` (category), where category is dependencies, peerDependencies, or devDependencies.
+5. Sort by category priority: peerDependencies first, then dependencies, then devDependencies. If a dependency belongs to multiple categories, sort it by its highest-priority category.
+6. Highlight any peerDependency range narrowing with "(range narrowed — may break consumers)" — these affect consumers.
+7. Do NOT mention transitive dependencies (pnpm-lock.yaml only).
+
+#### PR body template
+
+```markdown
+## Summary
+
+<list the updated dependencies here, following the rules above>
+
+## Validation checklist
+- [x] Step 2a: Linting
+- [x] Step 2b: Tests
+- [x] Step 2c: Endpoints sample app
+- [x] Step 2d: Storybook sample app
+```
+
+#### Create the PR
 
 ```bash
 BRANCH_NAME="agent/update-deps-$(date -u +%Y%m%d-%H%M%S)"
@@ -149,15 +177,7 @@ gh pr create \
   --base main \
   --head "$BRANCH_NAME" \
   --title "chore: update dependencies $(date -u +%Y-%m-%d)" \
-  --body "## Summary
-
-<Before writing this section, run: git diff main -- '**/package.json' to see the actual changes. In unified diff output, context lines start with a SPACE character, removed lines start with a single `-`, and added lines start with a single `+`. Only `-` and `+` lines represent actual changes — do NOT include dependencies that only appear on space-prefixed context lines. Deduplicate: list each dependency name + version change only once, even if it appears in multiple package.json files. If a dependency appears in different categories across packages (e.g., peerDependencies in a library and devDependencies in a sample), list all categories it belongs to (e.g., \"peerDependencies, devDependencies\"). Format each as: \`package-name\`: \`old-version\` → \`new-version\` (category), where category is dependencies, peerDependencies, or devDependencies. List peerDependencies first, then dependencies, then devDependencies. If a dependency belongs to multiple categories, sort it by its highest-priority category (peerDependencies > dependencies > devDependencies). Highlight any peerDependency range narrowing with \"(range narrowed — may break consumers)\" — these affect consumers. Do NOT mention transitive dependencies (pnpm-lock.yaml only).>
-
-## Validation checklist
-- [x] Step 2a: Linting
-- [x] Step 2b: Tests
-- [x] Step 2c: Endpoints sample app
-- [x] Step 2d: Storybook sample app"
+  --body "<use the PR body template above>"
 ```
 
 Then STOP. You are done.
