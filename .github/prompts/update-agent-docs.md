@@ -144,9 +144,21 @@ gh pr list --head agent-docs/update --state open --json number --jq '.[0].number
 ```bash
 gh pr create \
   --title "docs(agent-docs): update documentation" \
-  --body "<summary of what changed and why>" \
+  --body "<body>" \
   --base main \
   --head agent-docs/update
+```
+
+The PR body must follow this structure:
+
+```markdown
+## Summary
+
+<bullet list of what changed and why>
+
+## Test plan
+
+<bullet list using checked checkmarks: `- [x]` (not unchecked `- [ ]`)>
 ```
 
 If there are no staged changes after `git add`, output "No agent-docs update needed." and STOP.
