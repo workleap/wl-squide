@@ -391,17 +391,24 @@ const runtime = new FireflyRuntime({
 ### Register i18next Instance
 
 ```ts
-import { i18nextPlugin, i18nextPluginName } from "@squide/i18next";
+import { getI18nextPlugin } from "@squide/i18next";
 import i18n from "i18next";
+import { initReactI18next } from "react-i18next";
 
-const instance = i18n.createInstance({
+const plugin = getI18nextPlugin(runtime);
+
+const instance = i18n
+    .createInstance()
+    .use(initReactI18next);
+
+instance.init({
+    lng: plugin.currentLanguage,
     resources: {
         "en-US": resourcesEn,
         "fr-CA": resourcesFr
     }
 });
 
-const plugin = runtime.getPlugin(i18nextPluginName) as i18nextPlugin;
 plugin.registerInstance("an-instance-key", instance);
 ```
 
