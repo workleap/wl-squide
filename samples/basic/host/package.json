@@ -42,7 +42,7 @@
         "@typescript-eslint/parser": "8.56.0",
         "@typescript/native-preview": "7.0.0-dev.20260222.1",
         "@workleap/browserslist-config": "2.1.7",
-        "@workleap/eslint-configs": "1.1.12",
+        "@workleap/eslint-configs": "1.1.13",
         "@workleap/typescript-configs": "3.0.7",
         "browserslist": "4.28.1",
         "copyfiles": "2.4.1",
