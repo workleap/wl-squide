@@ -28,7 +28,7 @@
         "eslint": "eslint . --max-warnings=0 --cache --cache-location node_modules/.cache/eslint",
         "typecheck": "tsgo",
         "syncpack": "syncpack lint",
-        "test": "turbo run test --continue --force",
+        "test": "turbo run test --continue",
         "changeset": "changeset",
         "publish-pkg": "changeset publish",
         "publish-pr-pkg": "pkg-pr-new publish ./packages/* --packageManager=pnpm --pnpm",
