@@ -7,6 +7,7 @@ Agent skills are in `.agents/skills/`. Load the relevant skills **before doing a
 | File Pattern | Load Skills |
 |-------------|-------------|
 | `*.ts`, `*.tsx`, `*.js`, `*.jsx` (non-test) | `/accessibility`, `/best-practices` |
+| `*.tsx`, `*.jsx` (non-test) | `/workleap-react-best-practices` |
 | `*.test.ts`, `*.test.tsx` | `/vitest` |
 | `turbo.json` | `/turborepo` |
 | `package.json`, `pnpm-workspace.yaml` | `/pnpm` |

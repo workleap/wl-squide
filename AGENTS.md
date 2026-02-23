@@ -27,6 +27,7 @@ modules, each responsible for a domain. Monorepo managed with **pnpm workspaces*
 | Environment variables | [ARCHITECTURE.md → Environment Variables](./ARCHITECTURE.md#environment-variables) |
 | Adding or modifying a `@squide/*` package | [specs/](./agent-docs/docs/specs/) |
 | Adding a new package to the monorepo | [development.md → Adding a New Package](./agent-docs/docs/references/development.md#adding-a-new-package) |
+| React performance optimization | [agent-skills.md](./agent-docs/docs/references/agent-skills.md) |
 | Development setup, env vars, commands | [development.md](./agent-docs/docs/references/development.md) |
 | Build or bundling configuration | [build-tooling.md](./agent-docs/docs/references/build-tooling.md) |
 | CI/CD workflows | [ci-cd.md](./agent-docs/docs/references/ci-cd.md) |
@@ -73,6 +74,7 @@ Captures rationale behind significant decisions. Read before making architectura
 
 This documentation is automatically maintained by the
 [update-agent-docs](./.github/workflows/update-agent-docs.yml) workflow.
+It runs on push to main (code changes and workflow changes) and can be triggered manually.
 
 ---
 *Auto-maintained. Last structure version: 2.0*
