@@ -23,6 +23,7 @@ When performing code reviews, load and use the following agent skills available 
 ### Apply based on file name (changed lines only)
 
 - Source files (`*.ts`, `*.tsx`, `*.js`, `*.jsx`, excluding test files) -> `/accessibility`, `/best-practices`
+- React files (`*.tsx`, `*.jsx`, excluding test files) -> `/workleap-react-best-practices`
 - Test files (`*.test.ts`, `*.test.tsx`, `*.spec.ts`, `*.spec.tsx`) -> `/vitest`
 - `turbo.json` -> `/turborepo`
 - `package.json`, `pnpm-workspace.yaml`, `pnpm-lock.yaml`, `.npmrc` -> `/pnpm`
