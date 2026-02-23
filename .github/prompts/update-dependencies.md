@@ -7,6 +7,7 @@ You are an automated agent responsible for updating the dependencies of this mon
 - You have a maximum of **10 attempts** to pass all validation steps. If you exhaust all attempts, go to Step 4 (Failure).
 - You MUST execute every validation step (2a, 2b, 2c, 2d) in order. Do NOT skip any step.
 - Do NOT create new source files as part of a dependency update. Only modify existing files when migrating to a newer API.
+- Do NOT read `AGENTS.md` or `agent-docs/`.
 - **Avoid rabbit holes**: If you spend more than 3 attempts or 10 tool calls investigating a single issue without progress, stop. Revert the problematic package to its previous version, open an issue, and move on.
 
 ---
@@ -83,7 +84,7 @@ All tests must pass. If a test fails, run the failing package's tests directly (
 
 ### Step 2c: Validate the "endpoints" sample app
 
-Use `pnpx agent-browser` (NOT `agent-browser` directly) for all browser interactions in this step. Read the locally installed agent skill at `.agents/skills/agent-browser/` to learn the available commands. Running a build is NOT sufficient — you must start the dev server and validate in a real browser.
+Use `pnpx agent-browser` for all browser interactions in this step. Read the locally installed agent skill at `.agents/skills/agent-browser/` to learn the available commands. **Important**: the skill examples use bare `agent-browser` commands, but you MUST always prefix with `pnpx` (e.g., `agent-browser open <url>` becomes `pnpx agent-browser open <url>`). Running a build is NOT sufficient — you must start the dev server and validate in a real browser.
 
 1. Start the dev server in the background using the shell `&` operator (do NOT use `run_in_background: true`): `pnpm dev-endpoints > /tmp/endpoints-dev.log 2>&1 &`
 2. The endpoints app listens on port **8080**. Wait for it to be ready — do NOT use `sleep`, do NOT write polling loops, do NOT parse the log file for a URL. Instead, immediately run: `curl --retry 30 --retry-delay 5 --retry-connrefused --silent --output /dev/null http://localhost:8080`
@@ -99,12 +100,13 @@ Use `pnpx agent-browser` (NOT `agent-browser` directly) for all browser interact
 
 ### Step 2d: Validate the "storybook" sample app
 
-Use `pnpx agent-browser` (NOT `agent-browser` directly) for all browser interactions in this step. Read the locally installed agent skill at `.agents/skills/agent-browser/` to learn the available commands. Running a build is NOT sufficient — you must start the dev server and validate in a real browser.
+Use `pnpx agent-browser` for all browser interactions in this step. Read the locally installed agent skill at `.agents/skills/agent-browser/` to learn the available commands. **Important**: the skill examples use bare `agent-browser` commands, but you MUST always prefix with `pnpx` (e.g., `agent-browser open <url>` becomes `pnpx agent-browser open <url>`). Running a build is NOT sufficient — you must start the dev server and validate in a real browser.
 
 1. Start the dev server in the background using the shell `&` operator (do NOT use `run_in_background: true`): `pnpm dev-storybook > /tmp/storybook-dev.log 2>&1 &`
 2. The storybook app listens on port **6006**. Wait for it to be ready — do NOT use `sleep`, do NOT write polling loops, do NOT parse the log file for a URL. Instead, immediately run: `curl --retry 30 --retry-delay 5 --retry-connrefused --silent --output /dev/null http://localhost:6006`
-3. Navigate to http://localhost:6006, verify it loads correctly, and use `pnpx agent-browser console` to check for console errors
-4. Stop the dev server process when done: `kill $(lsof -t -i:6006) 2>/dev/null || true; fuser -k 6006/tcp 2>/dev/null || true`
+3. Navigate to http://localhost:6006 and verify it loads correctly
+4. Click on at least **2 different stories** in the sidebar and verify each renders without errors. Use `pnpx agent-browser snapshot` to verify the rendered content and `pnpx agent-browser console` to check for console errors (ignore warnings and known noise)
+5. Stop the dev server process when done: `kill $(lsof -t -i:6006) 2>/dev/null || true; fuser -k 6006/tcp 2>/dev/null || true`
 
 ## Step 3: Success
 
@@ -112,7 +114,7 @@ All validations passed.
 
 ### 3a: Create a changeset
 
-Create a changeset file at `.changeset/update-dependencies.md`. Only include `@squide/*` packages whose `package.json` files have actually changed. Use `patch` as the default bump level, but use your judgment to bump as `minor` or `major` if warranted by the dependency changes.
+Create a changeset file at `.changeset/update-deps-<YYYYMMDD-HHMMSS>.md` (use the current UTC date-time to avoid filename collisions with unreleased changesets). Only include `@squide/*` packages whose `dependencies` or `peerDependencies` have actually changed. Do NOT include packages where only `devDependencies` changed — devDependency-only changes do not affect the published package. Use `patch` as the default bump level, but use your judgment to bump as `minor` or `major` if warranted by the dependency changes.
 
 Example format:
 
@@ -125,6 +127,14 @@ Updated dependencies to their latest versions.
 ```
 
 ### 3b: Commit and create pull request
+
+Close any existing open dependency-update PRs before creating a new one:
+
+```bash
+gh pr list --search "chore: update dependencies" --state open --json number --jq '.[].number' | xargs -I{} gh pr close {} --comment "Superseded by a newer dependency update run."
+```
+
+Then create the new PR:
 
 ```bash
 BRANCH_NAME="agent/update-deps-$(date -u +%Y%m%d-%H%M%S)"
@@ -139,7 +149,7 @@ gh pr create \
   --title "chore: update dependencies $(date -u +%Y-%m-%d)" \
   --body "## Summary
 
-<Summary of top-level dependency updates and notable version changes. Only mention dependencies explicitly listed in the monorepo package.json files — do NOT mention transitive dependencies.>
+<List every dependency whose version changed in a package.json file (excluding pnpm-lock.yaml). Prioritize peerDependency and dependencies changes over devDependency changes. Highlight any peerDependency range narrowing specifically — these affect consumers. Only mention dependencies explicitly listed in the monorepo package.json files — do NOT mention transitive dependencies.>
 
 ## Validation checklist
 - [x] Step 2a: Linting
