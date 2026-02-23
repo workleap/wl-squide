@@ -44,12 +44,6 @@ jobs:
           pnpx agent-browser open about:blank
           pnpx agent-browser close
 
-      # Set git identity so the agent can commit and push changes.
-      - name: Configure git
-        run: |
-          git config user.name "github-actions[bot]"
-          git config user.email "github-actions[bot]@users.noreply.github.com"
-
       - name: Update dependencies
         uses: anthropics/claude-code-action@v1
         with:

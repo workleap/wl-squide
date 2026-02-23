@@ -56,12 +56,6 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
-      # Set git identity so the agent can commit and push changes.
-      - name: Configure git
-        run: |
-          git config user.name "github-actions[bot]"
-          git config user.email "github-actions[bot]@users.noreply.github.com"
-
       - name: Sync agent skill with docs
         uses: anthropics/claude-code-action@v1
         with:
