@@ -112,9 +112,11 @@ Use `pnpx agent-browser` for all browser interactions in this step. Read the loc
 
 All validations passed.
 
-### 3a: Create a changeset
+### 3a: Create a changeset (if needed)
 
-Create a changeset file at `.changeset/update-deps-<YYYYMMDD-HHMMSS>.md` (use the current UTC date-time to avoid filename collisions with unreleased changesets). Only include `@squide/*` packages whose `dependencies` or `peerDependencies` have actually changed. Do NOT include packages where only `devDependencies` changed — devDependency-only changes do not affect the published package. Use `patch` as the default bump level, but use your judgment to bump as `minor` or `major` if warranted by the dependency changes.
+Only include `@squide/*` packages whose `dependencies` or `peerDependencies` have actually changed. Do NOT include packages where only `devDependencies` changed — devDependency-only changes do not affect the published package. If no `@squide/*` packages qualify (i.e., every change is devDependency-only), skip this step entirely — do NOT create a changeset file.
+
+Create a changeset file at `.changeset/update-deps-<YYYYMMDD-HHMMSS>.md` (use the current UTC date-time to avoid filename collisions with unreleased changesets). Use `patch` as the default bump level, but use your judgment to bump as `minor` or `major` if warranted by the dependency changes.
 
 Example format:
 
