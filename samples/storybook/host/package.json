@@ -21,7 +21,7 @@
         "launchdarkly-js-client-sdk": "3.9.0",
         "react": "19.2.4",
         "react-dom": "19.2.4",
-        "react-router": "7.13.0"
+        "react-router": "7.13.1"
     },
     "devDependencies": {
         "@eslint/js": "9.39.2",
@@ -31,10 +31,10 @@
         "@squide/firefly-rsbuild-storybook": "workspace:*",
         "@types/react": "19.2.14",
         "@types/react-dom": "19.2.3",
-        "@typescript-eslint/parser": "8.56.0",
-        "@typescript/native-preview": "7.0.0-dev.20260222.1",
+        "@typescript-eslint/parser": "8.56.1",
+        "@typescript/native-preview": "7.0.0-dev.20260223.1",
         "@workleap/browserslist-config": "2.1.7",
-        "@workleap/eslint-configs": "1.1.12",
+        "@workleap/eslint-configs": "1.1.13",
         "@workleap/rsbuild-configs": "3.2.2",
         "@workleap/stylelint-configs": "2.1.8",
         "@workleap/typescript-configs": "3.0.7",

@@ -49,7 +49,7 @@
         "msw": "^2.12.10",
         "react": "^18.0.0 || ^19.0.0",
         "react-dom": "^18.0.0 || ^19.0.0",
-        "react-router": "^7.13.0"
+        "react-router": "^7.13.1"
     },
     "peerDependenciesMeta": {
         "@opentelemetry/api": {
@@ -73,10 +73,10 @@
         "@testing-library/react": "16.3.2",
         "@types/react": "19.2.14",
         "@types/react-dom": "19.2.3",
-        "@typescript-eslint/parser": "8.56.0",
-        "@typescript/native-preview": "7.0.0-dev.20260222.1",
+        "@typescript-eslint/parser": "8.56.1",
+        "@typescript/native-preview": "7.0.0-dev.20260223.1",
         "@vitejs/plugin-react": "5.1.4",
-        "@workleap/eslint-configs": "1.1.12",
+        "@workleap/eslint-configs": "1.1.13",
         "@workleap/rslib-configs": "1.1.7",
         "@workleap/typescript-configs": "3.0.7",
         "eslint": "9.39.2",
