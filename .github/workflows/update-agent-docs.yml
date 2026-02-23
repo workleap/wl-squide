@@ -12,17 +12,20 @@ on:
         default: full-audit
   push:
     branches: ["main"]
-    paths-ignore:
-      - "agent-docs/**"
-      - "AGENTS.md"
-      - "ARCHITECTURE.md"
-      - "samples/**"
-      - "templates/**"
-      - "patches/**"
-      - ".changeset/**"
-      - "user-prompts/**"
-      - "agent-skills/**"
-      - "pnpm-lock.yaml"
+    paths:
+      - "**"
+      - "!agent-docs/**"
+      - "!AGENTS.md"
+      - "!ARCHITECTURE.md"
+      - "!samples/**"
+      - "!templates/**"
+      - "!patches/**"
+      - "!.changeset/**"
+      - "!user-prompts/**"
+      - "!agent-skills/**"
+      - "!pnpm-lock.yaml"
+      - "!.github/**"
+      - ".github/workflows/**"
 
 permissions:
   contents: write
@@ -83,12 +86,6 @@ jobs:
         with:
           node-version: ">=24.0.0"
           check-latest: true
-
-      # Set git identity so the agent can commit and push changes.
-      - name: Configure git
-        run: |
-          git config user.name "github-actions[bot]"
-          git config user.email "github-actions[bot]@users.noreply.github.com"
 
       - name: Update agent documentation
         uses: anthropics/claude-code-action@v1
