@@ -94,7 +94,7 @@ If any coverage question is marked FAIL or accuracy discrepancies are found, go 
 
 ### 4a: Increment version
 
-Read the `metadata.version` field in the YAML frontmatter of `agent-skills/workleap-squide/SKILL.md`. Increment the **major** part of the version (e.g., `1.0` → `2.0`, `5.0` → `6.0`). Update the file with the new version.
+Read the `metadata.version` field in the YAML frontmatter of `agent-skills/workleap-squide/SKILL.md`. Increment the **minor** part of the version (e.g., `1.0` → `1.1`, `5.3` → `5.4`). Update the file with the new version.
 
 ### 4b: Create branch and commit
 
