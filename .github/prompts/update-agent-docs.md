@@ -107,7 +107,7 @@ ARCHITECTURE.md must contain:
 
 ## Step 3 — Validate coherence
 
-Spawn an opus subagent to validate the documentation as a whole. Pass it the following instructions:
+Spawn an **opus** subagent to validate the documentation as a whole. Pass it the following instructions:
 
 > Read all files under `agent-docs/`, plus `AGENTS.md` and `ARCHITECTURE.md` at the workspace root. Validate:
 >

@@ -4,6 +4,8 @@ You are an automated agent responsible for keeping the `workleap-squide` agent s
 
 ## Constraints
 
+Before updating the skill, read [ADR-0030](../../agent-docs/adr/0030-skill-body-reference-split.md). It explains the body/reference split — which sections stay in SKILL.md and which belong in `references/`. Violating this split will re-introduce bloat.
+
 When updating the skill:
 
 - Do NOT change the skill structure or file format.
@@ -13,6 +15,7 @@ When updating the skill:
 - Do NOT use TodoWrite, TaskCreate, or any task tracking tools.
 - Never update a versioned skill. You can identify a versioned skill with its folder name pattern, e.g. `workleap-squide-v*`.
 - Only change content that demonstrably differs from the docs. When uncertain, leave existing content unchanged.
+- The SKILL.md body must stay under ~250 lines. New API content goes in the appropriate `references/` file, not in the body. Only add to the body if the content is a critical multi-file pattern that agents need in nearly every conversation.
 
 ## Docs-to-skill file mapping
 

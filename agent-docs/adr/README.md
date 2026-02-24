@@ -69,6 +69,10 @@ Write an ADR when you are about to:
 - [ADR-0019: Removal of Built-in Session Management](./0019-removal-of-built-in-session-management.md)
 - [ADR-0020: `initializeFirefly` as Single Entry Point](./0020-initialize-firefly-single-entry-point.md)
 
+### Agent Skills
+
+- [ADR-0030: Skill Body / Reference Split for workleap-squide](./0030-skill-body-reference-split.md)
+
 ### Infrastructure & CI
 
 - [ADR-0015: Lean YML + Markdown Prompt Pattern](./0015-lean-yml-markdown-prompt-pattern.md)

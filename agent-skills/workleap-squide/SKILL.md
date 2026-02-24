@@ -1,18 +1,17 @@
 ---
 name: workleap-squide
 description: |
-  Squide is a React modular application shell for Workleap web applications. Use this skill when:
-  (1) Creating or modifying Squide host applications or modules
-  (2) Registering routes, navigation items, or MSW request handlers
-  (3) Working with FireflyRuntime, initializeFirefly, or AppRouter
-  (4) Setting up integrations: TanStack Query, i18next, LaunchDarkly, Honeycomb, MSW, Storybook
-  (5) Implementing deferred registrations or conditional navigation items
-  (6) Fetching global public/protected data with usePublicDataQueries/useProtectedDataQueries
-  (7) Using Squide hooks: useNavigationItems, useRenderedNavigationItems, useIsBootstrapping, useLogger, useEventBusListener, useEventBusDispatcher, useEnvironmentVariable, useFeatureFlag
-  (8) Implementing error boundaries in modular applications
-  (9) Questions about modular architecture patterns in React applications
+  Squide (@squide/firefly) — Workleap's React modular application shell. Use when:
+  (1) Working with FireflyRuntime, initializeFirefly, AppRouter, or FireflyProvider
+  (2) Creating or modifying Squide host applications or modules
+  (3) Registering routes, navigation items, or MSW request handlers
+  (4) Squide integrations with TanStack Query, i18next, LaunchDarkly, Honeycomb, MSW, or Storybook
+  (5) Deferred registrations or conditional navigation items
+  (6) Global data fetching: usePublicDataQueries, useProtectedDataQueries
+  (7) Squide hooks for event bus, environment variables, feature flags, logging, or bootstrapping state
+  (8) Error boundaries or modular architecture in Squide applications
 metadata:
-  version: 1.3
+  version: 1.5
 ---
 
 # Squide Framework
@@ -111,27 +110,6 @@ export const registerHost: ModuleRegisterFunction<FireflyRuntime> = runtime => {
 
     runtime.registerRoute({ index: true, element: <HomePage /> });
     runtime.registerPublicRoute({ path: "*", element: <NotFoundPage /> });
-};
-```
-
-### Local Module Setup
-
-```tsx
-// local-module/src/register.tsx
-import type { ModuleRegisterFunction, FireflyRuntime } from "@squide/firefly";
-import { Page } from "./Page.tsx";
-
-export const register: ModuleRegisterFunction<FireflyRuntime> = runtime => {
-    runtime.registerRoute({
-        path: "/page",
-        element: <Page />
-    });
-
-    runtime.registerNavigationItem({
-        $id: "page",
-        $label: "Page",
-        to: "/page"
-    });
 };
 ```
 
@@ -235,182 +213,19 @@ const data = useMemo(() => ({ userData }), [userData]);
 useDeferredRegistrations(data);
 ```
 
-### MSW Request Handlers
+## Reference Guide
 
-```tsx
-export const register: ModuleRegisterFunction<FireflyRuntime> = async runtime => {
-    if (runtime.isMswEnabled) {
-        const requestHandlers = (await import("../mocks/handlers.ts")).requestHandlers;
-        runtime.registerRequestHandlers(requestHandlers);
-    }
-};
-```
+For detailed API documentation beyond the patterns above, consult the reference files:
 
-### Event Bus
-
-```tsx
-// Listen
-import { useEventBusListener } from "@squide/firefly";
-const handleEvent = useCallback((data, context) => { /* ... */ }, []);
-useEventBusListener("event-name", handleEvent);
-
-// Dispatch
-import { useEventBusDispatcher } from "@squide/firefly";
-const dispatch = useEventBusDispatcher();
-dispatch("event-name", payload);
-```
-
-### Environment Variables
-
-```tsx
-// Register at initialization
-const runtime = initializeFirefly({
-    environmentVariables: { apiBaseUrl: "https://api.example.com" }
-});
-
-// Or register in module
-runtime.registerEnvironmentVariable("key", "value");
-
-// Use
-import { useEnvironmentVariable } from "@squide/firefly";
-const apiUrl = useEnvironmentVariable("apiBaseUrl");
-```
-
-### Feature Flags
-
-```tsx
-// Initialize with LaunchDarkly
-import { initialize as initializeLaunchDarkly } from "launchdarkly-js-client-sdk";
-
-const ldClient = initializeLaunchDarkly("client-id", { kind: "user", anonymous: true }, { streaming: true });
-await ldClient.waitForInitialization(5);
-
-const runtime = initializeFirefly({ launchDarklyClient: ldClient });
-
-// Use
-import { useFeatureFlag } from "@squide/firefly";
-const isEnabled = useFeatureFlag("feature-key", defaultValue);
-```
-
-### Logging
-
-```tsx
-import { useLogger } from "@squide/firefly";
-const logger = useLogger();
-logger.debug("Message");
-```
-
-### Error Boundaries
-
-```tsx
-// Root error boundary (wraps everything)
-runtime.registerRoute({
-    errorElement: <RootErrorBoundary />,
-    children: [{
-        element: <RootLayout />,
-        children: [PublicRoutes, ProtectedRoutes]
-    }]
-}, { hoist: true });
-
-// Module error boundary (isolates module failures)
-runtime.registerRoute({
-    element: <RootLayout />,
-    children: [{
-        errorElement: <ModuleErrorBoundary />,
-        children: [PublicRoutes, ProtectedRoutes]
-    }]
-}, { hoist: true });
-```
-
-## API Quick Reference
-
-### initializeFirefly Options
-- `mode`: `"development"` | `"production"`
-- `localModules`: Array of registration functions
-- `context`: Object passed to registration functions
-- `useMsw`: Enable MSW support
-- `startMsw`: Function to start MSW
-- `environmentVariables`: Initial environment variables
-- `honeycombInstrumentationClient`: For tracing
-- `launchDarklyClient`: For feature flags
-- `loggers`: Array of logger instances
-- `plugins`: Array of plugin factory functions
-- `onError`: Error handler for bootstrapping errors
-
-### Route Registration Options
-- `hoist`: Register at router root (bypasses layouts/auth)
-- `parentPath`: Nest under route with matching `path`
-- `parentId`: Nest under route with matching `$id`
-
-### Route Properties
-- `$id`: Identifier for nesting
-- `$visibility`: `"public"` | `"protected"` (default)
-
-### Navigation Item Properties
-- `$id`: Unique identifier (recommended for stable keys)
-- `$label`: Text or ReactNode
-- `$priority`: Sorting priority (higher = first)
-- `$canRender`: Conditional render function
-- `$additionalProps`: Custom props for renderer
-- `to`: Route path (supports dynamic segments like `/user/:id`)
-- `style`: Inline styles for the navigation item
-- `target`: Link target (e.g., `"_blank"` to open in new tab)
-
-### Navigation Registration Options
-- `menuId`: Target a specific menu (default: `"root"`)
-- `sectionId`: Nest under section with matching `$id`
-
-### AppRouter Props
-- `waitForPublicData`: Delay until public data ready
-- `waitForProtectedData`: Delay until protected data ready
-
-### Hooks
-- `useNavigationItems(options?)`: Get navigation items
-- `useRenderedNavigationItems(items, renderItem, renderSection)`: Render nav items
-- `useIsBootstrapping()`: Check if bootstrapping
-- `usePublicDataQueries(queries)`: Fetch public global data
-- `usePublicDataHandler(handler)`: Execute handler when modules are ready
-- `useProtectedDataQueries(queries, isUnauthorizedError)`: Fetch protected data
-- `useProtectedDataHandler(handler)`: Execute handler when modules ready and route is protected
-- `useDeferredRegistrations(data?, options?)`: Execute deferred registrations (options: `{ onError? }`)
-- `useEventBusListener(event, handler, options?)`: Listen to events
-- `useEventBusDispatcher()`: Get dispatch function
-- `useLogger()`: Get logger instance
-- `useEnvironmentVariable(key)`: Get env variable
-- `useEnvironmentVariables()`: Get all env variables
-- `useFeatureFlag(key, defaultValue)`: Get feature flag
-- `useFeatureFlags()`: Get all feature flags (memoized, only changes when flags update)
-- `useLaunchDarklyClient()`: Get LaunchDarkly client instance
-- `usePlugin(name)`: Get plugin instance
-- `useRuntime()`: Get runtime instance
-- `useRuntimeMode()`: Get runtime mode
-- `useRoutes()`: Get registered routes
-- `useIsRouteProtected(route)`: Check if a route is protected
-- `useRouteMatch(locationArg, options?)`: Match route against location
-
-### i18next Hooks (from `@squide/i18next`)
-- `useI18nextInstance(key)`: Get a registered i18next instance by key
-- `useCurrentLanguage()`: Get current language
-- `useChangeLanguage()`: Get function to change language
-
-### Helper Functions
-- `isNavigationLink(item)`: Type guard for navigation links
-- `isGlobalDataQueriesError(error)`: Type guard for query errors
-- `resolveRouteSegments(path, params)`: Resolve dynamic segments
-- `getFeatureFlag(client, key, defaultValue)`: Get flag in non-React code
-- `mergeDeferredRegistrations(candidates)`: Merge multiple deferred registration functions
-- `isEditableLaunchDarklyClient(client)`: Check if LaunchDarkly client supports runtime flag modification
-
-### LaunchDarkly Utilities
-- `LaunchDarklyPlugin`: Plugin for LaunchDarkly integration
-- `FeatureFlags`: TypeScript interface for type-safe feature flags (augmentable)
-- `FeatureFlagSetSnapshot`: Memoized snapshot of feature flags with change listeners
-- `InMemoryLaunchDarklyClient`: In-memory client for testing
-- `createLocalStorageLaunchDarklyClient(defaultValues, options?)`: Client that persists flags to localStorage (options: `{ localStorageKey?, context?, notifier? }`)
-
-For detailed API documentation, see the references folder.
+- **`references/runtime-api.md`** — `initializeFirefly` options, route registration options (`hoist`, `parentPath`, `parentId`), route properties, navigation item properties, and navigation registration options (`menuId`, `sectionId`)
+- **`references/hooks-api.md`** — All Squide hooks: data fetching (`usePublicDataQueries`, `useProtectedDataQueries`), navigation, event bus, environment variables, feature flags, logging, routing, and i18next hooks
+- **`references/components.md`** — `AppRouter` props, `FireflyProvider`, helper functions (`isNavigationLink`, `resolveRouteSegments`, `mergeDeferredRegistrations`)
+- **`references/patterns.md`** — Local module setup, error boundaries, MSW request handlers, and other common patterns
+- **`references/integrations.md`** — LaunchDarkly (plugin, utilities, testing clients), Honeycomb, i18next, and Storybook integration details
 
 ## Skill Maintenance Notes
+
+Before updating this skill, read [ADR-0030](../../agent-docs/adr/0030-skill-body-reference-split.md) which explains the body/reference split. The SKILL.md body must stay under ~250 lines. New API content goes in the appropriate `references/` file — only add to the body if it is a critical multi-file pattern needed in nearly every conversation.
 
 When updating this skill from the official documentation, verify these common pitfalls:
 
@@ -419,3 +234,5 @@ When updating this skill from the official documentation, verify these common pi
 2. **Active state styling**: Use React Router's `NavLink` and its `isActive` argument provided to the `className`/`style` render functions (for example, `className={({ isActive }) => ... }`). Do not suggest passing location/pathname as a context parameter.
 
 3. **Dynamic route segments**: Use the `resolveRouteSegments` helper with closures to capture values like `userId`. Example pattern: create a higher-order function that returns a `RenderItemFunction`.
+
+4. **Deferred registration runtime parameter**: The deferred registration callback receives `deferredRuntime` as its first argument — this is NOT the same `runtime` from the outer registration function. Always use `deferredRuntime` inside the deferred callback for `registerNavigationItem`, `getFeatureFlag`, etc.
