@@ -9,6 +9,7 @@ Infrastructure, tooling, and operational documentation.
 - [build-tooling.md](./build-tooling.md) — Build tools, task graph, and shared configs
 - [ci-cd.md](./ci-cd.md) — CI/CD workflows and pipeline details
 - [release-process.md](./release-process.md) — Changeset-based release workflow
+- [writing-agent-instructions.md](./writing-agent-instructions.md) — Principles for writing instructions agents actually follow
 
 ---
 *See [AGENTS.md](../../../AGENTS.md) for navigation.*

@@ -44,6 +44,7 @@ Before you start any task:
 | Sample applications | [ARCHITECTURE.md → Sample Applications](./agent-docs/ARCHITECTURE.md#sample-applications) |
 | Editing user-facing documentation (docs/) | [development.md → Retype](./agent-docs/docs/references/development.md#retype-documentation) |
 | Editing or optimizing agent skills | [agent-skills.md → Editing Skills](./agent-docs/docs/references/agent-skills.md#editing-skills) |
+| Writing or editing agent instructions | [writing-agent-instructions.md](./agent-docs/docs/references/writing-agent-instructions.md) |
 
 ## agent-docs/ Table of Contents
 
@@ -69,6 +70,7 @@ Lists all `@squide/*` packages with their key APIs and source locations.
 | [build-tooling.md](./agent-docs/docs/references/build-tooling.md) | Rslib, Turborepo task graph, shared configs |
 | [ci-cd.md](./agent-docs/docs/references/ci-cd.md) | All GitHub Actions workflows, concurrency, caching |
 | [release-process.md](./agent-docs/docs/references/release-process.md) | Changesets workflow, npm publishing, PR previews |
+| [writing-agent-instructions.md](./agent-docs/docs/references/writing-agent-instructions.md) | Principles for writing instructions agents actually follow |
 
 ### [docs/quality/](./agent-docs/docs/quality/) — Quality
 
