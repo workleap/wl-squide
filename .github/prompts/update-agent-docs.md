@@ -80,6 +80,7 @@ When documenting Squide:
 - **Reference real paths.** Always cite actual file paths as evidence (e.g., `packages/core/src/`).
 - **No duplication.** If information exists in one document, link to it from others.
 - **No invention.** Only document what you can verify from actual files.
+- **Never use advisory language in agent instructions.** Use prohibition framing and state consequences. See [writing-agent-instructions.md](../../agent-docs/docs/references/writing-agent-instructions.md).
 - ONLY modify files under `agent-docs/` and `AGENTS.md` at the root. Modifying files outside this set will cause an infinite workflow loop.
 - Do NOT modify `CLAUDE.md`.
 
