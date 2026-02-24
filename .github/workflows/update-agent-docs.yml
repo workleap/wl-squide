@@ -16,7 +16,6 @@ on:
       - "**"
       - "!agent-docs/**"
       - "!AGENTS.md"
-      - "!ARCHITECTURE.md"
       - "!samples/**"
       - "!templates/**"
       - "!patches/**"

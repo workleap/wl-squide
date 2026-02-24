@@ -48,4 +48,4 @@ Deferred registrations automatically re-execute when:
 - User docs: `docs/essentials/`, `docs/reference/registration/`
 
 ---
-*See [ARCHITECTURE.md](../../../ARCHITECTURE.md) for full context.*
+*See [ARCHITECTURE.md](../../ARCHITECTURE.md) for full context.*

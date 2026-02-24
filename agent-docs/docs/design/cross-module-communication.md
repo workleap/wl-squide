@@ -44,4 +44,4 @@ workspace package). They never share state, data, or runtime instances.
 - User docs: `docs/reference/messaging/`, `docs/reference/runtime/`
 
 ---
-*See [ARCHITECTURE.md](../../../ARCHITECTURE.md) for full context.*
+*See [ARCHITECTURE.md](../../ARCHITECTURE.md) for full context.*

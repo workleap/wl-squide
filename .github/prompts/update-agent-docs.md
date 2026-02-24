@@ -13,7 +13,7 @@ Run `git diff HEAD~1 --name-only` excluding paths that are not relevant:
 
 ```
 git diff HEAD~1 --name-only -- \
-  ':!agent-docs' ':!AGENTS.md' ':!ARCHITECTURE.md' \
+  ':!agent-docs' ':!AGENTS.md' \
   ':!node_modules' ':!.turbo' ':!pnpm-lock.yaml' \
   ':!samples' ':!templates' ':!patches' \
   ':!.changeset' ':!user-prompts' ':!agent-skills'
@@ -54,15 +54,15 @@ When documenting Squide:
 **Map, not manual.** Documentation should route agents to the right place, not replicate the codebase.
 
 - `AGENTS.md` is a **table of contents** — short, routing-focused, link-heavy.
-- `ARCHITECTURE.md` is a **high-level map** — key concepts and package domains.
+- `agent-docs/ARCHITECTURE.md` is a **high-level map** — key concepts and package domains.
 - `agent-docs/docs/` is the **structured knowledge base** — categorized, detailed, but concise.
 
 ### File layout
 
 - `AGENTS.md` — workspace root. Table of contents / navigation map.
-- `ARCHITECTURE.md` — workspace root. High-level architecture overview.
 - `CLAUDE.md` — workspace root. Points Claude to AGENTS.md (do NOT modify).
 - `agent-docs/` — structured knowledge base:
+  - `ARCHITECTURE.md` — high-level architecture overview
   - `docs/design/` — design patterns: routing, data fetching, registrations, communication
   - `docs/specs/` — package specifications and APIs
   - `docs/references/` — build tooling, CI/CD, infrastructure
@@ -71,16 +71,16 @@ When documenting Squide:
 
 ### Rules
 
-- **Be incremental.** Only update sections impacted by the diff.
-- **Prefer links over prose.** Add a link and a one-line summary rather than a paragraph.
-- **Mark uncertainty.** If you cannot verify a fact, add `<!-- TODO: verify ... -->`.
-- **Keep it stable.** Small, focused changes. No cosmetic rewrites.
+- **Never rewrite sections that are already correct.** Only change lines affected by actual code changes.
+- **Never add prose when a link suffices.** One line + a link. Multi-paragraph explanations belong in source-of-truth docs, not agent-docs.
+- **Never write claims you cannot verify.** If you cannot confirm a fact from an actual file, omit it entirely. Do not use TODO comments as a substitute for verification — other agents will treat unverified claims as authoritative.
+- **No cosmetic rewrites.** Small, focused changes only.
 - **Initialize missing files.** If a referenced file does not exist, create it with a minimal structure.
 - **Preserve structure.** Do not reorganize folders or rename files unless the repo structure changed.
 - **Reference real paths.** Always cite actual file paths as evidence (e.g., `packages/core/src/`).
 - **No duplication.** If information exists in one document, link to it from others.
 - **No invention.** Only document what you can verify from actual files.
-- ONLY modify files under `agent-docs/`, plus `AGENTS.md` and `ARCHITECTURE.md` at the root. Modifying files outside this set will cause an infinite workflow loop.
+- ONLY modify files under `agent-docs/` and `AGENTS.md` at the root. Modifying files outside this set will cause an infinite workflow loop.
 - Do NOT modify `CLAUDE.md`.
 
 ### AGENTS.md requirements
@@ -88,28 +88,26 @@ When documenting Squide:
 AGENTS.md must stay between 80–150 lines. It must contain:
 
 1. **Purpose** — 1–2 short paragraphs identifying the repository.
-2. **How to Navigate** — table linking to `ARCHITECTURE.md` and `agent-docs/docs/` categories.
+2. **How to Navigate** — table linking to `agent-docs/ARCHITECTURE.md` and `agent-docs/docs/` categories.
 3. **"If You Are Working On…"** — routing table mapping tasks to documents.
 
 If any section grows too large, extract it into an `agent-docs/docs/` file and replace with a link.
 
-### ARCHITECTURE.md requirements
+### agent-docs/ARCHITECTURE.md requirements
 
-ARCHITECTURE.md must contain:
+`agent-docs/ARCHITECTURE.md` must contain:
 
 1. **What is Squide** — framework identity and purpose (not a bundler/micro-frontend tool).
 2. **Repository Structure** — directory tree overview.
 3. **Key Concepts** — FireflyRuntime, modules, two-phase registration, AppRouter, data fetching, route types, environment variables.
 4. **Package Domains** — tables grouping packages by domain (core, integrations, build tooling).
 5. **Sample Applications** — table of sample apps.
-6. **Build & Task Graph** — summary of Turborepo tasks.
-7. **Technology Stack** — table of key technologies.
 
 ## Step 3 — Validate coherence
 
 Spawn an **opus** subagent to validate the documentation as a whole. Pass it the following instructions:
 
-> Read all files under `agent-docs/`, plus `AGENTS.md` and `ARCHITECTURE.md` at the workspace root. Validate:
+> Read all files under `agent-docs/`, plus `AGENTS.md` at the workspace root. Validate:
 >
 > - **Cross-references:** All markdown links between documents point to files that actually exist.
 > - **Consistency:** Information is not contradicted across documents (e.g., a package listed in one place but missing or renamed in another).
@@ -127,7 +125,7 @@ Use a fixed branch name: `agent-docs/update`.
 
 ```bash
 git checkout -b agent-docs/update
-git add agent-docs/ AGENTS.md ARCHITECTURE.md
+git add agent-docs/ AGENTS.md
 git commit -m "docs(agent-docs): update documentation [skip ci]"
 git push --force origin agent-docs/update
 ```

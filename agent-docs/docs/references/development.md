@@ -2,9 +2,7 @@
 
 ## pnpm Workspace
 
-pnpm workspace does **not** hoist dependencies. Each package has its own `node_modules` via
-[symlinked node_modules structure](https://pnpm.io/symlinked-node-modules-structure). This means
-any package that runs a tool should list it in its own `devDependencies`; the workspace root may also list tooling used by root-level scripts.
+**pnpm does NOT hoist dependencies.** Never add a package-level devDependency to the workspace root — it will not be available in the package. Each package must declare its own devDependencies in its own `package.json`. The workspace root only lists tooling used by root-level scripts.
 
 ## JIT Packages
 

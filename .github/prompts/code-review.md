@@ -18,21 +18,7 @@ You are an automated code reviewer for this repository. Analyze the PR diff for 
 
 ## Agent skills
 
-When performing code reviews, load and use the following agent skills available in the `.agents/skills/` folder.
-
-### Apply based on file name (changed lines only)
-
-- Source files (`*.ts`, `*.tsx`, `*.js`, `*.jsx`, excluding test files) -> `/accessibility`, `/best-practices`
-- React files (`*.tsx`, `*.jsx`, excluding test files) -> `/workleap-react-best-practices`
-- Test files (`*.test.ts`, `*.test.tsx`, `*.spec.ts`, `*.spec.tsx`) -> `/vitest`
-- `turbo.json` -> `/turborepo`
-- `package.json`, `pnpm-workspace.yaml`, `pnpm-lock.yaml`, `.npmrc` -> `/pnpm`
-
-### Apply based on imports (changed lines only)
-
-- Files importing `@workleap/logging` -> `/workleap-logging`
-- Files importing `@workleap/telemetry` -> `/workleap-telemetry`
-- Files importing `@workleap/browserslist-config`, `@workleap/eslint-configs`, `@workleap/stylelint-plugin`, `@workleap/typescript-configs`, `@workleap/rsbuild-configs`, `@workleap/rslib-configs` -> `/workleap-web-configs`
+When performing code reviews, load and use agent skills from `.agents/skills/`. Apply the skill mapping defined in [agent-skills.md](../../agent-docs/docs/references/agent-skills.md) (both "By file type" and "By import" tables) to the changed lines in the PR diff.
 
 ## Issues reporting
 

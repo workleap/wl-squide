@@ -55,4 +55,4 @@ a loading state until modules and data are ready.
 - User docs: `docs/reference/routing/` and `docs/essentials/`
 
 ---
-*See [ARCHITECTURE.md](../../../ARCHITECTURE.md) for full context.*
+*See [ARCHITECTURE.md](../../ARCHITECTURE.md) for full context.*
