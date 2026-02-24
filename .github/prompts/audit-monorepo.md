@@ -15,7 +15,7 @@ Before including ANY finding in the report, you MUST:
 
 1. Identify the potential issue from the skill documentation.
 2. Re-read the actual source file to confirm the issue exists.
-3. Consider whether the pattern is intentional or is an explicit choice with a valid trade-off.
+3. Check for comments, ADRs, or consistent repo-wide patterns that explain the choice. If you find evidence it is intentional, do NOT report it.
 4. Ask yourself: "Does this finding describe a **real problem** the maintainers would want to fix, or am I just noting a deviation from a textbook default?" Only real problems belong in the report.
 5. Do NOT recommend replacing a working pattern with an alternative that has its own trade-offs (e.g., recommending a remote URL over a local path, or vice versa). If both options are reasonable, it's not a finding.
 6. Only include the finding if you are confident it is a genuine issue at severity Low or higher.

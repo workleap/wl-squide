@@ -27,4 +27,4 @@ The repo uses shared configuration packages from [`@workleap/web-configs`](https
 - `packages/firefly-webpack-configs/` — Webpack config factory (sample apps only)
 
 ---
-*See [ARCHITECTURE.md](../../../ARCHITECTURE.md) for full context.*
+*See [ARCHITECTURE.md](../../ARCHITECTURE.md) for full context.*

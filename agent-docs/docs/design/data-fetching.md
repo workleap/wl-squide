@@ -47,4 +47,4 @@ with `<Suspense>` boundaries. The recommended pattern is a dedicated BFF endpoin
 - User docs: `docs/reference/global-data-fetching/`, `docs/essentials/`
 
 ---
-*See [ARCHITECTURE.md](../../../ARCHITECTURE.md) for full context.*
+*See [ARCHITECTURE.md](../../ARCHITECTURE.md) for full context.*
