@@ -16,13 +16,9 @@ jobs:
     steps:
         - uses: actions/checkout@v4
 
-        - uses: actions/setup-dotnet@v1
-          with:
-            dotnet-version: 9.0.x
-
-        - uses: retypeapp/action-build@next
-          with:
-            license: ${{ secrets.RETYPE_API_KEY }}
+        - uses: retypeapp/action-build@latest
+          env:
+              RETYPE_KEY: ${{ secrets.RETYPE_API_KEY }}
 
         - uses: retypeapp/action-github-pages@latest
           with:
