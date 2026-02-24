@@ -48,3 +48,6 @@ When writing or editing any file in `agent-docs/` or `AGENTS.md`:
 1. Phrase every instruction as a prohibition or a concrete action — never as a suggestion.
 2. Include a consequence or rationale in the same sentence.
 3. If the rule has an edge case, add a negative example immediately after.
+
+---
+*See [AGENTS.md](../../../AGENTS.md) for navigation.*
