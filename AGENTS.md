@@ -34,6 +34,7 @@ modules, each responsible for a domain. Monorepo managed with **pnpm workspaces*
 | Release process | [release-process.md](./agent-docs/docs/references/release-process.md) |
 | Testing | [testing.md](./agent-docs/docs/quality/testing.md) |
 | Sample applications | [ARCHITECTURE.md → Sample Applications](./ARCHITECTURE.md#sample-applications) |
+| Editing or optimizing agent skills | [agent-skills.md → Editing Skills](./agent-docs/docs/references/agent-skills.md#editing-skills) |
 
 ## agent-docs/ Table of Contents
 
