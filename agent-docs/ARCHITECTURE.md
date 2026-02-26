@@ -121,11 +121,11 @@ Each sample follows: **host** → **shell** (layout, bootstrapping route) → **
 
 ## Related Documentation
 
-- Routing and navigation patterns: [agent-docs/docs/design/routing-and-navigation.md](./agent-docs/docs/design/routing-and-navigation.md)
-- Data fetching patterns: [agent-docs/docs/design/data-fetching.md](./agent-docs/docs/design/data-fetching.md)
-- Deferred registrations: [agent-docs/docs/design/deferred-registrations.md](./agent-docs/docs/design/deferred-registrations.md)
-- CI/CD pipeline: [agent-docs/docs/references/ci-cd.md](./agent-docs/docs/references/ci-cd.md)
-- Testing strategy: [agent-docs/docs/quality/testing.md](./agent-docs/docs/quality/testing.md)
+- Routing and navigation patterns: [docs/design/routing-and-navigation.md](./docs/design/routing-and-navigation.md)
+- Data fetching patterns: [docs/design/data-fetching.md](./docs/design/data-fetching.md)
+- Deferred registrations: [docs/design/deferred-registrations.md](./docs/design/deferred-registrations.md)
+- CI/CD pipeline: [docs/references/ci-cd.md](./docs/references/ci-cd.md)
+- Testing strategy: [docs/quality/testing.md](./docs/quality/testing.md)
 
 ---
-*Auto-maintained. See [AGENTS.md](./AGENTS.md) for navigation.*
+*Auto-maintained. See [AGENTS.md](../AGENTS.md) for navigation.*

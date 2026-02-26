@@ -60,14 +60,9 @@ Samples are deployed to Netlify:
 Follow the [Workleap GitHub guidelines](https://github.com/workleap/github-guidelines#npm-package-name)
 for package naming, author, and license.
 
-## Claude Code Hooks
+## Pre-Commit Hook
 
-A pre-commit hook runs `pnpm lint` before every commit made through Claude Code. See `.claude/hooks/pre-commit.sh` for implementation details and caveats.
-
-| File | Purpose |
-|------|---------|
-| `.claude/settings.json` | Registers a `PreToolUse` hook on the `Bash` tool |
-| `.claude/hooks/pre-commit.sh` | Filters for `git commit` commands and runs `pnpm lint` |
+A Claude Code pre-commit hook (`.claude/hooks/pre-commit.sh`, configured in `.claude/settings.json`) runs `pnpm lint` before every `git commit`. Commits are blocked if lint fails. Fix lint errors before committing.
 
 ## Full Command Reference
 
