@@ -50,7 +50,7 @@ Use this table to decide which skill file to update for a given docs path:
 | `references/hooks-api.md` | `docs/reference/routing/*`, `docs/reference/global-data-fetching/*`, `docs/reference/messaging/*` |
 | `references/integrations.md` | `docs/integrations/*` |
 | `references/patterns.md` | `docs/essentials/*`, `docs/recipes/*` |
-| `references/components.md` | `docs/reference/components/*` |
+| `references/components.md` | `docs/reference/routing/*` |
 
 If a doc does not match any row above, use your best judgment to route it to the most relevant skill file. Always respect the "Excluded docs" section — never sync content from excluded paths.
 

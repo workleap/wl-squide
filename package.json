@@ -7,7 +7,6 @@
     "type": "module",
     "license": "Apache-2.0",
     "scripts": {
-        "post-install": "pnpx skills update",
         "dev-basic": "turbo run dev --filter=./samples/basic/*",
         "dev-basic-webpack": "turbo run dev --filter=./samples/basic-webpack/*",
         "dev-endpoints": "turbo run dev --filter=./samples/endpoints/*",
