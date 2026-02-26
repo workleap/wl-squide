@@ -18,7 +18,7 @@ The `agent-docs/` folder is your **memory** for this repository. It contains arc
 Before you start any task:
 
 1. Match your task to the routing table below and read the linked document before proceeding.
-2. Load the matching [agent skills](./agent-docs/docs/references/agent-skills.md). Never start writing code until skills are loaded — your general knowledge of these tools is wrong for this repo.
+2. Check for matching [agent skills](./agent-docs/docs/references/agent-skills.md). Never start modifying files without first checking for matching skills — if a match exists, load it before proceeding. Your general knowledge of these tools is wrong for this repo.
 3. Before modifying any package's public API, adding a dependency, or changing how modules communicate, read the [ADR index](./agent-docs/adr/README.md) and check for conflicting decisions. Ignoring an existing ADR will produce code that contradicts deliberate architectural choices. To reverse a prior decision, supersede the original ADR — do not silently ignore it.
 
 ## If You Are Working On…

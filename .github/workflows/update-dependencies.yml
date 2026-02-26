@@ -36,13 +36,16 @@ jobs:
           cache: pnpm
           cache-dependency-path: pnpm-lock.yaml
 
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
       - name: Install browser dependencies
-        run: pnpx agent-browser install --with-deps
+        run: agent-browser install --with-deps
 
       - name: Warm up browser
         run: |
-          pnpx agent-browser open about:blank
-          pnpx agent-browser close
+          agent-browser open about:blank
+          agent-browser close
 
       - name: Update dependencies
         uses: anthropics/claude-code-action@v1
@@ -53,7 +56,7 @@ jobs:
           show_full_output: true
           claude_args: >-
             --max-turns 200
-            --allowedTools Edit,Read,Write,Glob,Grep,Bash(pnpm:*),Bash(git:*),Bash(node:*),Bash(gh:*),Bash(pnpx agent-browser:*),Bash(agent-browser:*),Bash(kill:*),Bash(lsof:*),Bash(curl:*),Bash(fuser:*)
+            --allowedTools Edit,Read,Write,Glob,Grep,Bash(pnpm:*),Bash(git:*),Bash(node:*),Bash(gh:*),Bash(agent-browser:*),Bash(kill:*),Bash(lsof:*),Bash(curl:*),Bash(fuser:*)
         env:
           # Required by gh CLI to create PRs and issues.
           GH_TOKEN: ${{ github.token }}
