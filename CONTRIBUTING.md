@@ -10,6 +10,7 @@ The following documentation is only for the maintainers of this repository.
 - [Update the agent skill](#update-the-agent-skill)
 - [Deploy the sample applications](#deploy-the-sample-applications)
 - [Available workflows](#workflows)
+- [Available hooks](#hooks)
 - [Available commands](#commands)
 - [CI](#ci)
 - [Add a new package to the monorepo](#add-a-new-package-to-the-monorepo)
@@ -241,6 +242,21 @@ The following workflows are available with GitHub:
 | Retype | `.github/workflows/retype-action.yml` | Push to main, PRs | Build and deploy documentation site |
 | Audit monorepo | `.github/workflows/audit-monorepo.yml` | First day of month | Best practices audit |
 | Update agent docs | `.github/workflows/update-agent-docs.yml` | Push to main | Sync agent-docs/ with docs and code |
+
+## Hooks
+
+### Pre-commit
+
+A [Claude Code hook](https://docs.anthropic.com/en/docs/claude-code/hooks) is configured in `.claude/settings.json` to run `pnpm lint` before every commit made through Claude Code. The hook intercepts `git commit` Bash tool calls and blocks the commit if linting fails.
+
+| File | Purpose |
+|------|---------|
+| `.claude/settings.json` | Registers a `PreToolUse` hook on the `Bash` tool |
+| `.claude/hooks/pre-commit.sh` | Filters for `git commit` commands and runs `pnpm lint` |
+
+#### Testing the hook
+
+To verify the hook blocks commits with lint errors, create a temporary file with a deliberate violation — for example, `packages/core/src/__test_lint_error.ts` containing `const x = 1;` (an unused variable). Stage it with `git add`, then ask Claude to commit. The hook runs `pnpm lint`, and because ESLint reports errors, it exits with code 2. You should see a message like `PreToolUse:Bash hook error: Lint failed. Fix errors before committing.` and the commit will not be created. Delete the test file when done.
 
 ## Commands
 
