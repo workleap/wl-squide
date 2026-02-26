@@ -8,6 +8,7 @@ packages:
 #   - '@typescript/native-preview*'
 
 onlyBuiltDependencies:
+  - agent-browser
   - '@parcel/watcher'
   - '@swc/core'
   - core-js

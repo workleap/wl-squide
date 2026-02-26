@@ -17,6 +17,12 @@ This repository has two skill directories:
 | `turbo.json` | `/turborepo` |
 | `package.json`, `pnpm-workspace.yaml`, `pnpm-lock.yaml`, `.npmrc` | `/pnpm` |
 
+## By task
+
+| Task | Tool |
+|------|------|
+| Browser validation of sample apps | `agent-browser` (installed as workspace devDependency; see `.agents/skills/agent-browser/`) |
+
 ## By import
 
 | Import | Load Skill |

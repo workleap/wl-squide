@@ -47,6 +47,12 @@ Samples are deployed to Netlify:
 | endpoints | `pnpm deploy-endpoints` | [squide-endpoints-host.netlify.app](https://squide-endpoints-host.netlify.app/) |
 | endpoints (isolated) | `pnpm deploy-endpoints-isolated` | [squide-endpoints-remote-isolated.netlify.app](https://squide-endpoints-remote-isolated.netlify.app/) |
 
+## Dependency Versioning
+
+**All `devDependencies` must use exact (fixed) versions.** Do not use `^`, `~`, or any other range specifier. When adding or updating a devDependency, pin it to the exact version (e.g., `"vitest": "3.1.1"`, not `"vitest": "^3.1.1"`).
+
+Use `pnpm add -D --save-exact <package>` (or `pnpm add -DE <package>`) to ensure exact versions.
+
 ## Adding a New Package
 
 1. Create a folder under `packages/` matching the package name.
