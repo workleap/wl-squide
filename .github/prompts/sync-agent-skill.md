@@ -8,7 +8,8 @@ Before updating the skill, read [ADR-0030](../../agent-docs/adr/0030-skill-body-
 
 When updating the skill:
 
-- Do NOT change the skill structure or file format.
+- Do NOT change the format of existing skill files.
+- You MAY create new `references/*.md` files when new content does not fit any existing reference file.
 - Do NOT embed metadata in skill files.
 - Do NOT add "Sources:" lines to skill files.
 - Do NOT create or modify any files outside `agent-skills/workleap-squide/`.
@@ -17,24 +18,47 @@ When updating the skill:
 - Never change skill content unless you can point to a specific line in `./docs` that contradicts the current skill text. If you cannot identify the exact discrepancy, do not touch the content.
 - The SKILL.md body must stay under ~250 lines. New API content goes in the appropriate `references/` file, not in the body. Only add to the body if the content is a critical multi-file pattern that agents need in nearly every conversation.
 
-## Docs-to-skill file mapping
+## Excluded docs
 
-Use this mapping to know which docs to compare against which skill files:
+The following docs are **not** part of the skill and must be ignored:
+
+- `docs/updating/` — Version migration guides
+- `docs/static/` — Static image assets for the documentation site
+- `docs/_includes/` — Documentation site configuration templates
+- `docs/module-federation/` — Module Federation and microfrontend architecture
+- `docs/reference/webpack/` — Webpack build configuration for Module Federation
+- `docs/reference/rsbuild/` — Rsbuild build configuration for Module Federation (experimental)
+- `docs/reference/module-federation/` — Module Federation-specific API overloads
+- `docs/default.md` — Documentation site redirect page
+- `docs/about.md` — Repository metadata and contribution info
+- `docs/samples.md` — Links to external sample applications
+- `docs/troubleshooting.md` — Debug tips and Module Federation context issues
+- `docs/introduction/use-with-agents.md` — Meta-docs about using the agent skill itself
+- `docs/introduction/deploy.md` — Deployment and operational concerns
+- `docs/reference/packages.md` — NPM package table with no API content
+
+All other `.md` files under `docs/` are in scope.
+
+## Docs-to-skill file routing
+
+Use this table to decide which skill file to update for a given docs path:
 
 | Skill file | Primary docs sources |
 |---|---|
 | `SKILL.md` | `docs/introduction/*`, `docs/essentials/*` |
 | `references/runtime-api.md` | `docs/reference/runtime/*`, `docs/reference/registration/*` |
-| `references/hooks-api.md` | `docs/reference/routing/*`, `docs/reference/data-fetching/*`, `docs/reference/messaging/*` |
+| `references/hooks-api.md` | `docs/reference/routing/*`, `docs/reference/global-data-fetching/*`, `docs/reference/messaging/*` |
 | `references/integrations.md` | `docs/integrations/*` |
 | `references/patterns.md` | `docs/essentials/*`, `docs/recipes/*` |
-| `references/components.md` | `docs/reference/components/*` |
+| `references/components.md` | `docs/reference/routing/*` |
+
+If a doc does not match any row above, use your best judgment to route it to the most relevant skill file. Always respect the "Excluded docs" section — never sync content from excluded paths.
 
 ---
 
 ## Step 1: Update skill
 
-Review the existing `workleap-squide` skill in `./agent-skills/workleap-squide/` and make sure that all API definitions and examples match the current documentation available in `./docs`. Use the file mapping above to target your comparisons — do not read docs exhaustively. Ignore anything related to microfrontends, module federation, webpack, rsbuild or updates.
+Review the existing `workleap-squide` skill in `./agent-skills/workleap-squide/` and make sure that all API definitions and examples match the current documentation available in `./docs`. Use the routing table above to target your comparisons. Skip any paths listed in the "Excluded docs" section.
 
 ## Step 2: Check for changes
 
@@ -83,7 +107,7 @@ Use the following prompt for the subagent:
 >
 > ## Part B — Accuracy
 >
-> Now read the docs in `./docs/reference/` and `./docs/integrations/`. For each code example and API signature in the skill files, verify it matches the docs. Report any discrepancies: wrong parameter names, missing arguments, incorrect types, outdated patterns.
+> Now read all `.md` files under `./docs/`, excluding the paths listed in the "Excluded docs" section of `./.github/prompts/sync-agent-skill.md`. For each code example and API signature in the skill files, verify it matches the docs. Report any discrepancies: wrong parameter names, missing arguments, incorrect types, outdated patterns.
 >
 > ## Output
 >
