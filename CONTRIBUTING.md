@@ -226,7 +226,7 @@ pnpm deploy-endpoints-isolated
 
 Another prompt with a few questions will appear and then the sites will automatically be deployed to production.
 
-## Workflows
+## Available workflows
 
 The following workflows are available with GitHub:
 
@@ -243,7 +243,7 @@ The following workflows are available with GitHub:
 | Audit monorepo | `.github/workflows/audit-monorepo.yml` | First day of month | Best practices audit |
 | Update agent docs | `.github/workflows/update-agent-docs.yml` | Push to main | Sync agent-docs/ with docs and code |
 
-## Hooks
+## Available hooks
 
 ### Pre-commit
 
@@ -254,11 +254,7 @@ A [Claude Code hook](https://docs.anthropic.com/en/docs/claude-code/hooks) is co
 | `.claude/settings.json` | Registers a `PreToolUse` hook on the `Bash` tool |
 | `.claude/hooks/pre-commit.sh` | Filters for `git commit` commands and runs `pnpm lint` |
 
-#### Testing the hook
-
-To verify the hook blocks commits with lint errors, create a temporary file with a deliberate violation — for example, `packages/core/src/__test_lint_error.ts` containing `const x = 1;` (an unused variable). Stage it with `git add`, then ask Claude to commit. The hook runs `pnpm lint`, and because ESLint reports errors, it exits with code 2. You should see a message like `PreToolUse:Bash hook error: Lint failed. Fix errors before committing.` and the commit will not be created. Delete the test file when done.
-
-## Commands
+## Available commands
 
 From the project root, you have access to many commands. The most important ones are:
 
