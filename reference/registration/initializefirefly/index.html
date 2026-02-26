@@ -5,10 +5,10 @@
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <meta name="color-scheme" content="light dark">
     <meta name="turbo-root" content="/wl-squide">
-    <meta name="turbo-cache-control" content="no-cache" data-turbo-track="reload" data-track-token="4.0.0.825291192305">
+    <meta name="turbo-cache-control" content="no-cache" data-turbo-track="reload" data-track-token="4.0.1.825445718005">
 
     <!-- See retype.com -->
-    <meta name="generator" content="Retype 4.0.0">
+    <meta name="generator" content="Retype 4.0.1">
 
     <!-- Primary Meta Tags -->
     <title>initializeFirefly</title>
@@ -29,12 +29,12 @@
     <script data-cfasync="false">(function(){var cl=document.documentElement.classList,ls=localStorage.getItem("retype_scheme"),hd=cl.contains("dark"),hl=cl.contains("light"),wm=window.matchMedia&&window.matchMedia("(prefers-color-scheme: dark)").matches;if(ls==="dark"||(!ls&&wm&&!hd&&!hl)){cl.remove("light");cl.add("dark")}else if(ls==="light"||(!ls&&!wm&&!hd&&!hl)){cl.remove("dark");cl.add("light")}})();</script>
 
     <link id="retype-favicon" rel="icon" href="../../../static/favicon.png" />
-    <link href="../../../resources/css/retype.css?v=4.0.0.825291192305" rel="stylesheet">
+    <link href="../../../resources/css/retype.css?v=4.0.1.825445718005" rel="stylesheet">
 
-    <script data-cfasync="false" src="../../../resources/js/config.js?v=4.0.0.825291192305" data-turbo-eval="false" defer></script>
-    <script data-cfasync="false" src="../../../resources/js/retype.js?v=4.0.0" data-turbo-eval="false" defer></script>
-    <script id="lunr-js" data-cfasync="false" src="../../../resources/js/lunr.js?v=4.0.0.825291192305" data-turbo-eval="false" defer></script>
-    <script id="prism-js" data-cfasync="false" src="../../../resources/js/prism.js?v=4.0.0.825291192305" defer></script>
+    <script data-cfasync="false" src="../../../resources/js/config.js?v=4.0.1.825445718005" data-turbo-eval="false" defer></script>
+    <script data-cfasync="false" src="../../../resources/js/retype.js?v=4.0.1" data-turbo-eval="false" defer></script>
+    <script id="lunr-js" data-cfasync="false" src="../../../resources/js/lunr.js?v=4.0.1.825445718005" data-turbo-eval="false" defer></script>
+    <script id="prism-js" data-cfasync="false" src="../../../resources/js/prism.js?v=4.0.1.825445718005" defer></script>
 
     <link href="https://workleap.github.io/wl-idp-docs-hub/static/retype-customization.css" rel="stylesheet" />
 
@@ -848,14 +848,6 @@ const runtime = initializeFirefly({
                 <p>We highly recommend going through the entire getting started guide. However, if you prefer to scaffold the application we'll be building, a template</p>
             </div>
         </a>
-        <a href="/wl-squide/module-federation/create-host/" class="group no-link">
-            <div class="flex flex-col">
-                <div>
-                    <span>Create an host application</span>
-                </div>
-                <p>We highly recommend going through the entire getting started guide. However, if you prefer to scaffold the application we'll be building, a template</p>
-            </div>
-        </a>
         <a href="/wl-squide/reference/runtime/fireflyruntime/" class="group no-link">
             <div class="flex flex-col">
                 <div>
@@ -894,6 +886,14 @@ const runtime = initializeFirefly({
                     <span>Register deferred navigation items</span>
                 </div>
                 <p>Navigation items cannot always be registered before the application bootstrapping process, as some of them depend on remote data and/or feature flags.</p>
+            </div>
+        </a>
+        <a href="/wl-squide/essentials/register-local-modules/" class="group no-link">
+            <div class="flex flex-col">
+                <div>
+                    <span>Register local modules</span>
+                </div>
+                <p>A local module can be a standalone package, a sibling package in a monorepo, or a local folder within the host application. It's an architectural</p>
             </div>
         </a>
         <a href="/wl-squide/essentials/register-plugins/" class="group no-link">
