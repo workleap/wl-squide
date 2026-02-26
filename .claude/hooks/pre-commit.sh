@@ -13,7 +13,7 @@ fi
 echo "--- pnpm lint ---"
 if ! pnpm lint; then
     echo "Lint failed. Fix errors before committing." >&2
-    exit 1
+    exit 2
 fi
 
 echo "Pre-commit checks passed."
