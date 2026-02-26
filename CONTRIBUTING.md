@@ -10,6 +10,7 @@ The following documentation is only for the maintainers of this repository.
 - [Update the agent skill](#update-the-agent-skill)
 - [Deploy the sample applications](#deploy-the-sample-applications)
 - [Available workflows](#workflows)
+- [Available hooks](#hooks)
 - [Available commands](#commands)
 - [CI](#ci)
 - [Add a new package to the monorepo](#add-a-new-package-to-the-monorepo)
@@ -225,7 +226,7 @@ pnpm deploy-endpoints-isolated
 
 Another prompt with a few questions will appear and then the sites will automatically be deployed to production.
 
-## Workflows
+## Available workflows
 
 The following workflows are available with GitHub:
 
@@ -242,7 +243,18 @@ The following workflows are available with GitHub:
 | Audit monorepo | `.github/workflows/audit-monorepo.yml` | First day of month | Best practices audit |
 | Update agent docs | `.github/workflows/update-agent-docs.yml` | Push to main | Sync agent-docs/ with docs and code |
 
-## Commands
+## Available hooks
+
+### Pre-commit
+
+A [Claude Code hook](https://docs.anthropic.com/en/docs/claude-code/hooks) is configured in `.claude/settings.json` to run `pnpm lint` before every commit made through Claude Code. The hook intercepts `git commit` Bash tool calls and blocks the commit if linting fails.
+
+| File | Purpose |
+|------|---------|
+| `.claude/settings.json` | Registers a `PreToolUse` hook on the `Bash` tool |
+| `.claude/hooks/pre-commit.sh` | Filters for `git commit` commands and runs `pnpm lint` |
+
+## Available commands
 
 From the project root, you have access to many commands. The most important ones are:
 

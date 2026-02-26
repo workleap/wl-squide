@@ -7,7 +7,7 @@ export default defineConfig([
         "samples",
         "templates",
         "docs",
-        ".github/aw"
+        "skills-lock.json"
     ]),
     defineMonorepoWorkspaceConfig(import.meta.dirname)
 ]);
