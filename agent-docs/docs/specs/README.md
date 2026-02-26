@@ -23,7 +23,7 @@ Detailed specifications and API documentation for `@squide/*` packages.
 ## Source Layout
 
 Each package follows: `packages/<name>/src/` for source, `packages/<name>/tests/` for tests.
-Every package has its own `package.json`, `tsconfig.json`, and `vitest.config.ts`.
+Every package has its own `package.json` and `tsconfig.json`. All packages except `@squide/fakes` have a `vitest.config.ts` (fakes has no tests).
 
 Full API reference is in the user-facing docs: `docs/reference/`.
 
