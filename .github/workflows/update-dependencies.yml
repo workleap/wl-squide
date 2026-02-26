@@ -39,6 +39,12 @@ jobs:
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
 
+      # Expose workspace binaries (e.g. agent-browser) as bare commands.
+      # This aligns with the agent-browser skill which expects `agent-browser <cmd>`
+      # without a `pnpm exec` prefix.
+      - name: Add node_modules/.bin to PATH
+        run: echo "$PWD/node_modules/.bin" >> $GITHUB_PATH
+
       - name: Install browser dependencies
         run: agent-browser install --with-deps
 

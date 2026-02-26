@@ -21,7 +21,7 @@ This repository has two skill directories:
 
 | Task | Tool |
 |------|------|
-| Browser validation of sample apps | `agent-browser` (installed as workspace devDependency, available on PATH; see `.agents/skills/agent-browser/`) |
+| Browser validation of sample apps | `agent-browser` (installed as workspace devDependency; see `.agents/skills/agent-browser/`) |
 
 ## By import
 
