@@ -35,12 +35,12 @@
     "devDependencies": {
         "@eslint/js": "9.39.2",
         "@squide/firefly-webpack-configs": "workspace:*",
-        "@swc/core": "1.15.13",
+        "@swc/core": "1.15.17",
         "@swc/helpers": "0.5.19",
         "@types/react": "19.2.14",
         "@types/react-dom": "19.2.3",
         "@typescript-eslint/parser": "8.56.1",
-        "@typescript/native-preview": "7.0.0-dev.20260224.1",
+        "@typescript/native-preview": "7.0.0-dev.20260226.1",
         "@workleap/browserslist-config": "2.1.7",
         "@workleap/eslint-configs": "1.1.13",
         "@workleap/swc-configs": "2.3.7",
@@ -51,7 +51,7 @@
         "http-server": "14.1.1",
         "typescript": "5.9.3",
         "typescript-eslint": "8.54.0",
-        "webpack": "5.105.2",
+        "webpack": "5.105.3",
         "webpack-cli": "6.0.1",
         "webpack-dev-server": "5.2.3"
     }

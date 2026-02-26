@@ -56,7 +56,7 @@
         "@types/react": "19.2.14",
         "@types/react-dom": "19.2.3",
         "@typescript-eslint/parser": "8.56.1",
-        "@typescript/native-preview": "7.0.0-dev.20260224.1",
+        "@typescript/native-preview": "7.0.0-dev.20260226.1",
         "@vitejs/plugin-react": "5.1.4",
         "@workleap/eslint-configs": "1.1.13",
         "@workleap/rslib-configs": "1.1.7",
