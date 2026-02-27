@@ -14,6 +14,7 @@
 | Agent Docs | `.github/workflows/update-agent-docs.yml` | Manual; Push to main (code + `.github/workflows/`) | Update agent documentation |
 | Retype | `.github/workflows/retype-action.yml` | Push to main, PRs | Build and deploy documentation site |
 | Audit Monorepo | `.github/workflows/audit-monorepo.yml` | First day of month | Best practices audit |
+| Smoke Test | `.github/workflows/smoke-test.yml` | PRs to main (packages, endpoints, workflow changes) | Automated smoke test of endpoints app |
 | Dogfood | `.github/workflows/dogfood.yml` | 15th of month | Exploratory QA of endpoints app |
 
 ## CI Pipeline Details
