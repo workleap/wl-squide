@@ -16,7 +16,7 @@ The monorepo originally used Jest with SWC transforms (`swc.jest.ts`) for unit t
 
 ## Decision
 
-Option 2. Every testable package has its own `vitest.config.ts`. Packages that test React components (firefly, react-router, launch-darkly, firefly-module-federation) use `happy-dom` as the test environment with a `vitest-setup.ts` that calls `cleanup()` from `@testing-library/react` after each test. Packages that test pure logic (core, env-vars, msw) run without a DOM environment.
+Option 2. Every testable package has its own `vitest.config.ts`. Packages opt into `happy-dom` as the test environment when needed (most packages use it); packages that test pure logic with no DOM dependency omit it. Packages with React component tests add a `vitest-setup.ts` that calls `cleanup()` from `@testing-library/react` after each test.
 
 Evidence: `packages/firefly/vitest.config.ts` configures `environment: "happy-dom"` with `setupFiles: ["./vitest-setup.ts"]`. `packages/core/vitest.config.ts` runs without a DOM environment. Migration was done in commit `b4d9c9e94` ("Migrate to Vitest").
 

@@ -20,7 +20,7 @@ Option 3. Every agent workflow follows this pattern:
 - The `.yml` file does checkout, tool installation, git config, and a single `claude-code-action` step.
 - The `.md` file contains the full agent instructions: steps, rules, context, output format.
 
-Five agent workflows follow this pattern, each with a 1:1 matching prompt file:
+Seven agent workflows follow this pattern, each with a 1:1 matching prompt file:
 
 | Workflow | Prompt File | Complexity |
 |----------|-------------|------------|
@@ -29,10 +29,12 @@ Five agent workflows follow this pattern, each with a 1:1 matching prompt file:
 | `sync-agent-skill.yml` | `sync-agent-skill.md` (134 lines) | Multi-step with subagent validation and version bumping |
 | `update-agent-docs.yml` | `update-agent-docs.md` (156 lines) | Multi-step with subagent coherence validation, creates PRs |
 | `update-dependencies.yml` | `update-dependencies.md` (164 lines) | Most complex: validation loop with browser testing, changeset creation |
+| `smoke-test.yml` | `smoke-test.md` (42 lines) | PR-triggered: starts dev server, runs browser smoke test on endpoints app |
+| `dogfood.yml` | `dogfood.md` (37 lines) | Scheduled: starts dev server, runs exploratory QA via `/dogfood` skill, files issues |
 
 The remaining workflows (`ci.yml`, `pr-pkg.yml`, `changeset.yml`, `retype-action.yml`) are traditional CI pipelines without agents. `claude.yml` is a generic claude-code-action step without a dedicated prompt file (used for ad-hoc PR interactions).
 
-Evidence: All 5 agent workflow files in `.github/workflows/` use `prompt: "Read and follow the instructions in .github/prompts/<name>.md"`. All 5 prompt files in `.github/prompts/` have a matching workflow. Perfect 1:1 alignment.
+Evidence: All 7 agent workflow files in `.github/workflows/` use `prompt: "Read and follow the instructions in .github/prompts/<name>.md"`. All 7 prompt files in `.github/prompts/` have a matching workflow. Perfect 1:1 alignment.
 
 ## Consequences
 

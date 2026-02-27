@@ -78,6 +78,7 @@ Write an ADR when you are about to:
 - [ADR-0015: Lean YML + Markdown Prompt Pattern](./0015-lean-yml-markdown-prompt-pattern.md)
 - [ADR-0016: GitHub Actions Cache for Turborepo](./0016-github-actions-cache-for-turborepo.md)
 - [ADR-0029: Incremental CI via Turborepo Git Filters](./0029-incremental-ci-turborepo-git-filters.md)
+- [ADR-0031: AI-Driven Browser QA in CI (Smoke Test + Dogfood)](./0031-ai-driven-browser-qa-in-ci.md)
 
 ---
 *See [AGENTS.md](../../AGENTS.md) for navigation.*
