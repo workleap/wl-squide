@@ -33,7 +33,7 @@ permissions:
   id-token: write
 
 concurrency:
-  group: update-agent-docs
+  group: update-agent-docs-${{ github.ref }}
   cancel-in-progress: true
 
 jobs:

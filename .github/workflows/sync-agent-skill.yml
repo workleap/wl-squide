@@ -14,7 +14,7 @@ permissions:
   actions: write
 
 concurrency:
-  group: sync-agent-skill
+  group: sync-agent-skill-${{ github.ref }}
   cancel-in-progress: true
 
 jobs:

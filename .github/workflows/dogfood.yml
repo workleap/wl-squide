@@ -1,0 +1,79 @@
+name: Dogfood
+
+on:
+  schedule:
+    - cron: "0 9 15 * *"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  issues: write
+  id-token: write
+
+concurrency:
+  group: dogfood
+  cancel-in-progress: true
+
+jobs:
+  dogfood:
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Install pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          run_install: false
+
+      - name: Install Node.js
+        uses: actions/setup-node@v6
+        with:
+          node-version: ">=24.0.0"
+          check-latest: true
+          cache: pnpm
+          cache-dependency-path: pnpm-lock.yaml
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      # Expose workspace binaries (e.g. agent-browser) as bare commands.
+      - name: Add node_modules/.bin to PATH
+        run: echo "$PWD/node_modules/.bin" >> $GITHUB_PATH
+
+      - name: Install browser dependencies
+        run: agent-browser install --with-deps
+
+      - name: Warm up browser
+        run: |
+          agent-browser open about:blank
+          agent-browser close
+
+      - name: Start endpoints dev server
+        run: pnpm dev-endpoints > /tmp/endpoints-dev.log 2>&1 &
+
+      - name: Wait for dev servers
+        run: |
+          curl --retry 30 --retry-delay 5 --retry-connrefused --silent --output /dev/null http://localhost:8080
+          curl --retry 30 --retry-delay 5 --retry-connrefused --silent --output /dev/null http://localhost:8081
+
+      - name: Run dogfood
+        uses: anthropics/claude-code-action@v1
+        with:
+          prompt: |
+            Read and follow the instructions in .github/prompts/dogfood.md
+          anthropic_api_key: ${{ secrets.ANTHROPIC_API_KEY }}
+          show_full_output: true
+          claude_args: >-
+            --max-turns 200
+            --allowedTools Read,Glob,Grep,Skill,Bash(agent-browser:*),Bash(mkdir:*),Bash(cp:*),Bash(sleep:*),Bash(cat:*),Bash(gh:*),Bash(date:*)
+        env:
+          # Required by gh CLI to create issues for dogfood findings.
+          GH_TOKEN: ${{ github.token }}
+
+      - name: Cleanup
+        if: always()
+        run: |
+          kill $(lsof -t -i:8080) 2>/dev/null || true
+          kill $(lsof -t -i:8081) 2>/dev/null || true
