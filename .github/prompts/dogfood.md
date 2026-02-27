@@ -57,15 +57,16 @@ After the skill completes, read the generated report at `/tmp/dogfood-output/rep
        git remote set-url origin "https://x-access-token:${GH_TOKEN}@github.com/workleap/wl-squide.git"
        ```
      - Fetch or create the `dogfood-evidence` branch:
-       - If it exists: `git fetch origin dogfood-evidence && git checkout dogfood-evidence`
+       - If it exists: `git fetch origin dogfood-evidence && git checkout -B dogfood-evidence origin/dogfood-evidence`
        - If not: `git checkout --orphan dogfood-evidence && git rm -rf . 2>/dev/null || true`
      - **Prune old evidence** — Delete any date directories older than 60 days using `find` and `rm`, then commit the deletions (if any).
      - **Add new evidence** — Create `YYYY-MM-DD/screenshots/` and `YYYY-MM-DD/videos/`, copy only the referenced files, stage, commit, push.
 
-  3. **Rewrite evidence paths** in the report — Replace relative asset paths with absolute GitHub URLs so images render in the issue. Use today's date (`YYYY-MM-DD`) in the URLs:
+  3. **Rewrite evidence paths** in the report — Replace relative asset paths with absolute GitHub URLs so images render in the issue. First, capture today's date into a variable, then use it in the sed replacements:
      ```bash
-     sed -i 's|screenshots/|https://raw.githubusercontent.com/workleap/wl-squide/dogfood-evidence/YYYY-MM-DD/screenshots/|g' /tmp/dogfood-output/report.md
-     sed -i 's|videos/|https://raw.githubusercontent.com/workleap/wl-squide/dogfood-evidence/YYYY-MM-DD/videos/|g' /tmp/dogfood-output/report.md
+     TODAY=$(date +%Y-%m-%d)
+     sed -i "s|screenshots/|https://raw.githubusercontent.com/workleap/wl-squide/dogfood-evidence/${TODAY}/screenshots/|g" /tmp/dogfood-output/report.md
+     sed -i "s|videos/|https://raw.githubusercontent.com/workleap/wl-squide/dogfood-evidence/${TODAY}/videos/|g" /tmp/dogfood-output/report.md
      ```
 
   4. **Create the issue**:
