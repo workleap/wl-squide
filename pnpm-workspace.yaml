@@ -2,18 +2,15 @@ packages:
   - packages/*
   - samples/**
 
-# minimumReleaseAge: 1440
-# minimumReleaseAgeExclude:
-#   - '@workleap*'
-#   - '@typescript/native-preview*'
-
 onlyBuiltDependencies:
-  - agent-browser
   - '@parcel/watcher'
   - '@swc/core'
+  - agent-browser
   - core-js
   - core-js-pure
+  - edgedriver
   - esbuild
+  - geckodriver
   - msw
   - netlify-cli
   - protobufjs
