@@ -28,7 +28,13 @@ Tell the skill to ignore:
 After the skill completes, read the generated report at `/tmp/dogfood-output/report.md`.
 
 - **If the report contains zero issues**: end with "DOGFOOD PASSED — no issues found" and stop.
-- **If the report contains issues**: create a GitHub issue with the following format:
+- **If the report contains issues**:
+
+  1. **Rewrite evidence paths** — Before creating the issue, rewrite any relative asset references in the report so they resolve to the `dogfood-evidence` branch:
+     - Replace `screenshots/` with `https://raw.githubusercontent.com/workleap/wl-squide/dogfood-evidence/screenshots/`
+     - Replace `videos/` with `https://raw.githubusercontent.com/workleap/wl-squide/dogfood-evidence/videos/`
+
+  2. **Create the issue**:
 
 ```bash
 gh issue create \

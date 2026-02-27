@@ -6,7 +6,7 @@ on:
   workflow_dispatch:
 
 permissions:
-  contents: read
+  contents: write
   issues: write
   id-token: write
 
@@ -50,13 +50,17 @@ jobs:
           agent-browser open about:blank
           agent-browser close
 
-      - name: Start endpoints dev server
-        run: pnpm dev-endpoints > /tmp/endpoints-dev.log 2>&1 &
+      - name: Build and serve endpoints
+        run: pnpm serve-endpoints > /tmp/endpoints-serve.log 2>&1 &
 
-      - name: Wait for dev servers
+      - name: Wait for servers
         run: |
           curl --retry 30 --retry-delay 5 --retry-connrefused --silent --output /dev/null http://localhost:8080
           curl --retry 30 --retry-delay 5 --retry-connrefused --silent --output /dev/null http://localhost:8081
+
+      - name: Show serve logs
+        if: failure()
+        run: cat /tmp/endpoints-serve.log
 
       - name: Run dogfood
         uses: anthropics/claude-code-action@v1
@@ -71,6 +75,24 @@ jobs:
         env:
           # Required by gh CLI to create issues for dogfood findings.
           GH_TOKEN: ${{ github.token }}
+
+      - name: Upload evidence
+        if: always()
+        run: |
+          # Skip if no evidence was produced
+          if [ ! -d /tmp/dogfood-output/screenshots ] && [ ! -d /tmp/dogfood-output/videos ]; then
+            echo "No evidence to upload"
+            exit 0
+          fi
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git checkout --orphan dogfood-evidence
+          git rm -rf . 2>/dev/null || true
+          cp -r /tmp/dogfood-output/screenshots . 2>/dev/null || true
+          cp -r /tmp/dogfood-output/videos . 2>/dev/null || true
+          git add screenshots/ videos/ 2>/dev/null || true
+          git commit -m "Dogfood evidence — $(date +%Y-%m-%d)" --allow-empty
+          git push --force origin dogfood-evidence
 
       - name: Cleanup
         if: always()
