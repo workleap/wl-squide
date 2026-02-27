@@ -22,7 +22,7 @@ Variables are provided at initialization time via the `environmentVariables` opt
 
 TypeScript type safety is achieved through module augmentation: consumers declare their variable names and types by augmenting the empty `EnvironmentVariables` interface exported from `@squide/env-vars`. This gives compile-time checking on `useEnvironmentVariable("apiUrl")` — both the key name and the return type are validated.
 
-Evidence: `packages/env-vars/src/EnvironmentVariablesPlugin.ts` creates the plugin and stores variables in `EnvironmentVariablesRegistry`. `packages/env-vars/src/EnvironmentVariablesRegistry.ts` implements the duplicate-key detection logic. `packages/firefly/src/initializeFirefly.ts` (lines 167-184) always instantiates the plugin. The TypeScript module augmentation pattern is documented in `docs/reference/runtime/runtime-class.md`.
+Evidence: `packages/env-vars/src/EnvironmentVariablesPlugin.ts` creates the plugin and stores variables in `EnvironmentVariablesRegistry`. `packages/env-vars/src/EnvironmentVariablesRegistry.ts` implements the duplicate-key detection logic. `packages/firefly/src/initializeFirefly.ts` (lines 167-184) always instantiates the plugin. The TypeScript module augmentation pattern is documented in `docs/reference/runtime/FireflyRuntime.md`.
 
 ## Consequences
 
