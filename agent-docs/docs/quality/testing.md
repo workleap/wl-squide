@@ -31,6 +31,7 @@ Use **agent-browser** (see `.agents/skills/agent-browser/`) to validate sample a
    - `/federated-tabs`
    - `/federated-tabs/episodes`
    - `/federated-tabs/locations`
+   - `/federated-tabs/failing` — expect an error boundary UI (this page intentionally throws)
 5. Check console messages for errors (ignore warnings and network errors from fake APIs or MSW)
 6. Stop the dev server when done: `kill $(lsof -t -i:8080) 2>/dev/null || true`
 
