@@ -19,8 +19,8 @@ export const register: ModuleRegisterFunction<FireflyRuntime> = runtime => {
     runtime.registerRoute({ path: "/dashboard", element: <Dashboard /> });
 
     // Phase 2: deferred, re-runs when data/flags change
-    return (data, flags) => {
-        if (flags.showAdminPanel) {
+    return (runtime, data, operation) => {
+        if (data.role === "admin") {
             runtime.registerNavigationItem({
                 $id: "admin",
                 $label: "Admin",
