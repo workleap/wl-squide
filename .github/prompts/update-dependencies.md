@@ -86,8 +86,8 @@ All tests must pass. If a test fails, run the failing package's tests directly (
 
 Use `agent-browser` for all browser interactions in this step. It is installed as a workspace devDependency. Read the locally installed agent skill at `.agents/skills/agent-browser/` to learn the available commands. Do NOT use `agent-browser screenshot` — use only `snapshot` (text) and `console` (errors). Screenshots are binary and cannot be analyzed. Running a build is NOT sufficient — you must start the dev server and validate in a real browser.
 
-1. Start the dev server in the background using the shell `&` operator (do NOT use `run_in_background: true`): `pnpm dev-endpoints > /tmp/endpoints-dev.log 2>&1 &`
-2. The endpoints app listens on port **8080**. Wait for it to be ready — do NOT use `sleep`, do NOT write polling loops, do NOT parse the log file for a URL. Instead, immediately run: `curl --retry 30 --retry-delay 5 --retry-connrefused --silent --output /dev/null http://localhost:8080`
+1. Start the server in the background using the shell `&` operator (do NOT use `run_in_background: true`): `pnpm serve-endpoints > /tmp/endpoints-serve.log 2>&1 &`
+2. The endpoints app listens on port **8080** (host) and **8081** (remote module). Wait for both to be ready — do NOT use `sleep`, do NOT write polling loops, do NOT parse the log file for a URL. Instead, immediately run: `curl --retry 30 --retry-delay 5 --retry-connrefused --silent --output /dev/null http://localhost:8080 && curl --retry 30 --retry-delay 5 --retry-connrefused --silent --output /dev/null http://localhost:8081`. If the curl command fails, run `cat /tmp/endpoints-serve.log` for diagnostics.
 3. The app has a mock login page. Use username `temp` and password `temp` to authenticate.
 4. Navigate to the following pages and check that each renders without errors:
    - `/` (Home page)

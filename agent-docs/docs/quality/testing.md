@@ -20,10 +20,10 @@ pnpm turbo run test --filter=@squide/core
 
 Use **agent-browser** (see `.agents/skills/agent-browser/`) to validate sample apps. It is installed as a workspace devDependency. A build alone is not sufficient — you must start the dev server and verify pages in a real browser.
 
-### Endpoints sample (local dev: `pnpm dev-endpoints`, CI dogfood: `pnpm serve-endpoints`)
+### Endpoints sample (local dev: `pnpm dev-endpoints`, CI: `pnpm serve-endpoints`)
 
-1. Start the dev server in the background: `pnpm dev-endpoints` (for local validation) or `pnpm serve-endpoints` (for production-like validation, used by the CI dogfood workflow)
-2. The app listens on port **8080**. Wait for it to be ready: `curl --retry 30 --retry-delay 5 --retry-connrefused --silent --output /dev/null http://localhost:8080`
+1. Start the server in the background: `pnpm dev-endpoints` (for local validation) or `pnpm serve-endpoints` (for production-like validation, used by CI workflows)
+2. The app listens on port **8080** (host) and **8081** (remote module). Wait for both to be ready: `curl --retry 30 --retry-delay 5 --retry-connrefused --silent --output /dev/null http://localhost:8080 && curl --retry 30 --retry-delay 5 --retry-connrefused --silent --output /dev/null http://localhost:8081`
 3. The app has a mock login page. Use username `temp` and password `temp` to authenticate.
 4. Navigate to each page and verify it renders without errors:
    - `/` (Home page)

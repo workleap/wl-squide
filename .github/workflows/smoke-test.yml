@@ -56,26 +56,13 @@ jobs:
           agent-browser open about:blank
           agent-browser close
 
-      - name: Start endpoints dev server
-        run: pnpm dev-endpoints > /tmp/endpoints-dev.log 2>&1 &
-
-      - name: Wait for dev servers
-        run: |
-          curl --retry 30 --retry-delay 5 --retry-connrefused --silent --output /dev/null http://localhost:8080
-          curl --retry 30 --retry-delay 5 --retry-connrefused --silent --output /dev/null http://localhost:8081
-
       - name: Run smoke test
         uses: anthropics/claude-code-action@v1
         with:
           prompt: |
             Read and follow the instructions in .github/prompts/smoke-test.md
           anthropic_api_key: ${{ secrets.ANTHROPIC_API_KEY }}
+          show_full_output: true
           claude_args: >-
             --max-turns 50
-            --allowedTools Read,Glob,Grep,Bash(agent-browser:*),Bash(kill:*),Bash(lsof:*),Bash(curl:*),Bash(fuser:*)
-
-      - name: Cleanup
-        if: always()
-        run: |
-          kill $(lsof -t -i:8080) 2>/dev/null || true
-          kill $(lsof -t -i:8081) 2>/dev/null || true
+            --allowedTools Read,Glob,Grep,Bash(agent-browser:*),Bash(pnpm:*),Bash(curl:*),Bash(cat:*),Bash(sleep:*)

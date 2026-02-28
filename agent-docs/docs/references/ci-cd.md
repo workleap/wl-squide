@@ -27,7 +27,7 @@ The dogfood workflow (`dogfood.yml` + `dogfood.md`) runs monthly exploratory QA 
 1. Fetches or creates the `dogfood-evidence` orphan branch
 2. Prunes evidence directories older than 60 days
 3. Copies only report-referenced screenshots/videos into the date directory
-4. Force-pushes the branch (requires `contents: write` permission)
+4. Pushes the branch (requires `contents: write` permission)
 5. Rewrites relative asset paths in the report to `https://raw.githubusercontent.com/workleap/wl-squide/dogfood-evidence/YYYY-MM-DD/...` so images render in GitHub issues
 
 **Issue creation**: If issues are found, files a GitHub issue with the rewritten report via `gh issue create` (requires `issues: write` permission). Stops silently if no issues.
