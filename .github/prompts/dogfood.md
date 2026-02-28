@@ -6,7 +6,7 @@
 
 ## Task
 
-Run an exploratory QA session on the endpoints sample app using the `/dogfood` skill, then report findings as a GitHub issue.
+Run an exploratory QA session on the endpoints sample app using the agent-browser dogfood skill, then report findings as a GitHub issue.
 
 ### Step 1 — Start servers
 
@@ -24,7 +24,7 @@ curl --retry 30 --retry-delay 5 --retry-connrefused --silent --output /dev/null 
 
 If either curl command fails, run `cat /tmp/endpoints-serve.log` for diagnostics and stop.
 
-### Step 2 — Run the dogfood skill
+### Step 2 — Run the dogfood session
 
 Read and follow the skill instructions at `node_modules/agent-browser/skills/dogfood/SKILL.md` with these parameters:
 - **Target URL**: `http://localhost:8080`
@@ -60,7 +60,11 @@ After the skill completes, read the generated report at `/tmp/dogfood-output/rep
        - If not: `git checkout --orphan dogfood-evidence && git rm -rf . 2>/dev/null || true`
      - **Prune old evidence** — This step is mandatory even if you expect nothing to prune. Delete date directories older than 60 days, then commit the deletions if any files were removed:
        ```bash
-       find . -maxdepth 1 -type d -regex './[0-9]{4}-[0-9]{2}-[0-9]{2}' -mtime +60 -exec rm -rf {} +
+       CUTOFF=$(date -d '60 days ago' +%Y-%m-%d)
+       for d in ./[0-9][0-9][0-9][0-9]-[0-9][0-9]-[0-9][0-9]/; do
+         name=$(basename "$d")
+         [[ "$name" < "$CUTOFF" ]] && rm -rf "$d"
+       done
        git add -A && git diff --cached --quiet || git commit -m "Prune evidence older than 60 days"
        ```
      - **Add new evidence** — Create `YYYY-MM-DD/screenshots/` and `YYYY-MM-DD/videos/`, copy only the referenced files, stage, commit, push.

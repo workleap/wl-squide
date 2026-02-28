@@ -30,7 +30,7 @@ Seven agent workflows follow this pattern, each with a 1:1 matching prompt file:
 | `update-agent-docs.yml` | `update-agent-docs.md` (156 lines) | Multi-step with subagent coherence validation, creates PRs |
 | `update-dependencies.yml` | `update-dependencies.md` (164 lines) | Most complex: validation loop with browser testing, changeset creation |
 | `smoke-test.yml` | `smoke-test.md` (42 lines) | PR-triggered: starts dev server, runs browser smoke test on endpoints app |
-| `dogfood.yml` | `dogfood.md` | Scheduled: runs exploratory QA via `/dogfood` skill, uploads evidence, files issues |
+| `dogfood.yml` | `dogfood.md` | Scheduled: runs exploratory QA via agent-browser dogfood skill, uploads evidence, files issues |
 
 The remaining workflows (`ci.yml`, `pr-pkg.yml`, `changeset.yml`, `retype-action.yml`) are traditional CI pipelines without agents. `claude.yml` is a generic claude-code-action step without a dedicated prompt file (used for ad-hoc PR interactions).
 
