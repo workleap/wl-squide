@@ -33,6 +33,6 @@ Evidence: `.github/workflows/smoke-test.yml`, `.github/workflows/dogfood.yml`, `
 - No test code to maintain — the smoke test is defined as a page list in `smoke-test.md`. Adding a new page means adding one line to the prompt file.
 - The dogfood session can discover issues outside the fixed page list, providing broader coverage.
 - AI-driven tests are less deterministic than scripted tests. False positives (AI misreads the UI) are possible but expected to be rare for binary PASS/FAIL outcomes.
-- Both workflows use `agent-browser install --with-deps`. Smoke test starts the dev server (`pnpm dev-endpoints`); dogfood builds and serves a production-like build (`pnpm serve-endpoints`), adding extra build time (~5–10 min for dogfood including build and QA time).
+- Both workflows use `agent-browser install --with-deps` and `pnpm serve-endpoints` (production-like build). The dogfood session takes longer (~5–10 min including build and QA time) due to its exploratory nature vs the smoke test's fixed page list.
 - Dogfood evidence is stored on the `dogfood-evidence` orphan branch so GitHub issue links remain stable across runs. See [ci-cd.md](../docs/references/ci-cd.md#dogfood-workflow) for operational details.
 - Dogfood findings are filed as GitHub issues for human triage — the workflow does not block PRs or deployments.

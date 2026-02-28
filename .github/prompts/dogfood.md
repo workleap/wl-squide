@@ -3,6 +3,7 @@
 ## Constraints
 - Do NOT read AGENTS.md or agent-docs/
 - Do NOT read the target app's source code
+- Do NOT use the Skill tool — read skill files directly with the Read tool
 
 ## Task
 
@@ -65,9 +66,11 @@ After the skill completes, read the generated report at `/tmp/dogfood-output/rep
          name=$(basename "$d")
          [[ "$name" < "$CUTOFF" ]] && rm -rf "$d"
        done
-       git add -A && git diff --cached --quiet || git commit -m "Prune evidence older than 60 days"
+       git add -A && { git diff --cached --quiet || git commit -m "Prune evidence older than 60 days"; }
+       # Exit 0 in both cases: no changes (quiet succeeds) or changes committed (commit succeeds).
        ```
      - **Add new evidence** — Create `YYYY-MM-DD/screenshots/` and `YYYY-MM-DD/videos/`, copy only the referenced files, stage, commit, push.
+     - **Return to main branch** — `git checkout main`
 
   3. **Rewrite evidence paths** in the report — Replace relative asset paths with absolute GitHub URLs so images render in the issue. First, capture today's date into a variable, then use it in the sed replacements:
      ```bash
