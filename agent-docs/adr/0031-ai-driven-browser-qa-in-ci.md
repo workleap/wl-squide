@@ -24,7 +24,7 @@ Two separate QA needs were identified:
 Option 2, with the two use cases split into separate workflows:
 
 - **`smoke-test.yml` + `smoke-test.md`** (ADR-0015 lean YML + prompt pattern): triggered on PRs to main affecting packages or the endpoints app. The agent navigates a fixed list of pages, captures `agent-browser snapshot -i` (text) and `agent-browser console` output, and ends with `SMOKE TEST PASSED` or `SMOKE TEST FAILED`. Max 50 turns. No screenshots.
-- **`dogfood.yml` + `dogfood.md`** (same pattern): triggered on a monthly schedule (15th of each month) and on-demand. Invokes the `/dogfood` agent skill for exploratory QA. Max 200 turns. Files a GitHub issue if issues are found, stops silently if none.
+- **`dogfood.yml` + `dogfood.md`** (same pattern): triggered on a monthly schedule (15th of each month) and on-demand. Runs an `agent-browser` dogfood session following the skill instructions in `SKILL.md` against a production-like build (`pnpm serve-endpoints`). Max 200 turns. Evidence (screenshots, videos) is persisted on a Git orphan branch for linkability from GitHub issues. Files a GitHub issue if issues are found, stops silently if none.
 
 Evidence: `.github/workflows/smoke-test.yml`, `.github/workflows/dogfood.yml`, `.github/prompts/smoke-test.md`, `.github/prompts/dogfood.md`.
 
@@ -33,5 +33,6 @@ Evidence: `.github/workflows/smoke-test.yml`, `.github/workflows/dogfood.yml`, `
 - No test code to maintain — the smoke test is defined as a page list in `smoke-test.md`. Adding a new page means adding one line to the prompt file.
 - The dogfood session can discover issues outside the fixed page list, providing broader coverage.
 - AI-driven tests are less deterministic than scripted tests. False positives (AI misreads the UI) are possible but expected to be rare for binary PASS/FAIL outcomes.
-- Both workflows use `agent-browser install --with-deps` and start the dev server before the agent runs, adding setup time (~2 min for smoke test, ~5 min for dogfood including QA time).
+- Both workflows use `agent-browser install --with-deps`. Smoke test starts the dev server (`pnpm dev-endpoints`); dogfood builds and serves a production-like build (`pnpm serve-endpoints`), adding extra build time (~5–10 min for dogfood including build and QA time).
+- Dogfood evidence is stored on the `dogfood-evidence` orphan branch so GitHub issue links remain stable across runs. See [ci-cd.md](../docs/references/ci-cd.md#dogfood-workflow) for operational details.
 - Dogfood findings are filed as GitHub issues for human triage — the workflow does not block PRs or deployments.

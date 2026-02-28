@@ -34,7 +34,7 @@ The prompt includes a mode indicator (e.g., `mode: full-audit` or `mode: last-co
 
 For `push` triggers, read the diff and determine which documentation files are affected by the changes. For `workflow_dispatch` triggers, review all documentation files against the current codebase.
 
-Also check whether recent changes contain architectural decisions that lack an ADR. Read existing ADRs in `agent-docs/adr/` first. If you find a new pattern, a replaced dependency, an infrastructure change, or a choice between viable approaches — and no existing ADR covers it — write a new ADR following the process in `agent-docs/adr/README.md`. Set its status to `proposed`.
+Also check whether recent changes contain architectural decisions that lack an ADR. Read existing ADRs in `agent-docs/adr/` first. If you find a new pattern, a replaced dependency, an infrastructure change, or a choice between viable approaches — and no existing ADR covers it — write a new ADR following the process in `agent-docs/adr/README.md`. Set its status to `proposed`. When writing the ADR, follow the ADR vs docs boundary rules below — record the decision rationale, not operational details.
 
 ### Context
 
@@ -83,6 +83,20 @@ When documenting Squide:
 - **Never use advisory language in agent instructions.** Use prohibition framing and state consequences. See [writing-agent-instructions.md](../../agent-docs/docs/references/writing-agent-instructions.md).
 - ONLY modify files under `agent-docs/` and `AGENTS.md` at the root. Modifying files outside this set will cause an infinite workflow loop.
 - Do NOT modify `CLAUDE.md`.
+
+### ADR vs docs boundary
+
+ADRs record **why** a decision was made (the problem, the alternatives, the chosen option, and the trade-offs accepted). Operational details about **how** the decision is implemented belong in `agent-docs/docs/`.
+
+- **Belongs in an ADR:** the problem that motivated the decision, options evaluated, which option was chosen and why, architectural trade-offs accepted.
+- **Belongs in `agent-docs/docs/`:** file paths and storage locations, URL rewriting patterns, CLI commands and flags, permissions and access controls, step-by-step operational procedures, server start/build commands.
+
+Examples:
+
+- **Good ADR sentence:** "Evidence is stored on an orphan branch so GitHub issue links remain stable across runs. See [ci-cd.md](../docs/references/ci-cd.md) for operational details."
+- **Bad ADR sentence:** "Evidence files are pushed to the `dogfood-evidence` branch using `git push --force`, and URLs are rewritten from `./screenshots/` to `https://raw.githubusercontent.com/...`."
+
+**Never put operational details (commands, paths, configs, permissions, URL patterns) into an ADR.** State the decision and its rationale, then link to the relevant `agent-docs/docs/` file for implementation specifics. Operational content in ADRs drifts from the actual implementation and misleads agents into following stale procedures instead of reading the source of truth.
 
 ### AGENTS.md requirements
 
