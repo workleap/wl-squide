@@ -59,7 +59,7 @@ jobs:
           show_full_output: true
           claude_args: >-
             --max-turns 200
-            --allowedTools Read,Glob,Grep,Skill,Bash(agent-browser:*),Bash(mkdir:*),Bash(cp:*),Bash(sleep:*),Bash(cat:*),Bash(gh:*),Bash(date:*),Bash(pnpm:*),Bash(curl:*),Bash(git:*),Bash(sed:*),Bash(rm:*),Bash(find:*),Bash(ls:*)
+            --allowedTools Read,Glob,Grep,Bash(agent-browser:*),Bash(mkdir:*),Bash(cp:*),Bash(sleep:*),Bash(cat:*),Bash(gh:*),Bash(date:*),Bash(pnpm:*),Bash(curl:*),Bash(git:*),Bash(sed:*),Bash(rm:*),Bash(find:*),Bash(ls:*)
         env:
           # Required by gh CLI to create issues for dogfood findings.
           GH_TOKEN: ${{ github.token }}
