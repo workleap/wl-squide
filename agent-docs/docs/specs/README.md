@@ -6,9 +6,9 @@ Detailed specifications and API documentation for `@squide/*` packages.
 
 | Package | Path | Key APIs |
 |---------|------|----------|
-| `@squide/core` | `packages/core` | `FireflyRuntime`, event bus, logging, plugins |
+| `@squide/core` | `packages/core` | `Runtime` (abstract base), event bus, logging, plugins |
 | `@squide/react-router` | `packages/react-router` | Route/navigation registration, `useNavigationItems`, `useRenderedNavigationItems` |
-| `@squide/firefly` | `packages/firefly` | `initializeFirefly`, `AppRouter`, `useIsBootstrapping`, data fetching hooks |
+| `@squide/firefly` | `packages/firefly` | `FireflyRuntime`, `initializeFirefly`, `AppRouter`, `useIsBootstrapping`, data fetching hooks |
 
 ## Integrations
 
@@ -19,6 +19,10 @@ Detailed specifications and API documentation for `@squide/*` packages.
 | `@squide/launch-darkly` | `packages/launch-darkly` | `useFeatureFlag`, `useFeatureFlags`, `getFeatureFlag` |
 | `@squide/msw` | `packages/msw` | `MswPlugin`, request handler registration |
 | `@squide/fakes` | `packages/fakes` | `LocalStorageSessionManager`, `InMemoryLaunchDarklyClient` |
+
+## Build Tooling (internal)
+
+Internal packages not intended for direct consumption. See [ARCHITECTURE.md → Build Tooling](../../ARCHITECTURE.md#build-tooling-internal) for the list.
 
 ## Source Layout
 
