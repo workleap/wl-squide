@@ -27,7 +27,7 @@ If either curl command fails, run `cat /tmp/endpoints-serve.log` for diagnostics
 
 ### Step 2 — Run the dogfood session
 
-Read and follow the skill instructions at `node_modules/agent-browser/skills/dogfood/SKILL.md` with these parameters:
+Read and follow the skill instructions at `.agents/skills/dogfood/SKILL.md` with these parameters:
 - **Target URL**: `http://localhost:8080`
 - **Session name**: `endpoints`
 - **Output directory**: `/tmp/dogfood-output`
@@ -59,17 +59,23 @@ After the skill completes, read the generated report at `/tmp/dogfood-output/rep
      - Fetch or create the `dogfood-evidence` branch:
        - If it exists: `git fetch origin dogfood-evidence && git checkout -B dogfood-evidence origin/dogfood-evidence`
        - If not: `git checkout --orphan dogfood-evidence && git rm -rf . 2>/dev/null || true`
-     - **Prune old evidence** — This step is mandatory even if you expect nothing to prune. Delete date directories older than 60 days, then commit the deletions if any files were removed:
+     - **Prune old evidence** — Delete date directories older than 60 days, then commit the deletions if any were removed. **Do NOT use `git add -A`** — the working directory contains the full main-branch checkout (node_modules, packages, etc.) which must never be staged on this branch. Only add/remove the specific date directories:
        ```bash
        CUTOFF=$(date -d '60 days ago' +%Y-%m-%d)
+       PRUNED=false
        for d in ./[0-9][0-9][0-9][0-9]-[0-9][0-9]-[0-9][0-9]/; do
+         [ -d "$d" ] || continue
          name=$(basename "$d")
-         [[ "$name" < "$CUTOFF" ]] && rm -rf "$d"
+         if [[ "$name" < "$CUTOFF" ]]; then
+           git rm -rf "$d"
+           PRUNED=true
+         fi
        done
-       git add -A && { git diff --cached --quiet || git commit -m "Prune evidence older than 60 days"; }
-       # Exit 0 in both cases: no changes (quiet succeeds) or changes committed (commit succeeds).
+       if [ "$PRUNED" = true ]; then
+         git commit -m "Prune evidence older than 60 days"
+       fi
        ```
-     - **Add new evidence** — Create `YYYY-MM-DD/screenshots/` and `YYYY-MM-DD/videos/`, copy only the referenced files, stage, commit, push.
+     - **Add new evidence** — Create `YYYY-MM-DD/screenshots/` and `YYYY-MM-DD/videos/`, copy only the referenced files. Stage only the new date directory (`git add ./YYYY-MM-DD/`), commit, push. **Never use `git add -A` or `git add .`** on this branch.
      - **Return to main branch** — `git checkout main`
 
   3. **Rewrite evidence paths** in the report — Replace relative asset paths with absolute GitHub URLs so images render in the issue. First, capture today's date into a variable, then use it in the sed replacements:
