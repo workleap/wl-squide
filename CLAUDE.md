@@ -19,9 +19,12 @@ Before you start any task:
 
 ## Documentation Index
 
-### [ARCHITECTURE.md](./agent-docs/ARCHITECTURE.md)
+### Architecture — [ARCHITECTURE.md](./agent-docs/ARCHITECTURE.md)
 
-Framework overview, modules, two-phase registration, AppRouter, [integrations](./agent-docs/ARCHITECTURE.md#integrations) (i18n, MSW, LaunchDarkly), [environment variables](./agent-docs/ARCHITECTURE.md#environment-variables), [sample applications](./agent-docs/ARCHITECTURE.md#sample-applications)
+- [What is Squide?](./agent-docs/ARCHITECTURE.md#what-is-squide)
+- [Repository structure](./agent-docs/ARCHITECTURE.md#repository-structure)
+- [Key concepts](./agent-docs/ARCHITECTURE.md#key-concepts)
+- [Sample applications](./agent-docs/ARCHITECTURE.md#sample-applications)
 
 ### Design — [docs/design/](./agent-docs/docs/design/)
 
