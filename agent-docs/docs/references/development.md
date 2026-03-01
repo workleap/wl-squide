@@ -103,4 +103,4 @@ A Claude Code pre-commit hook (`.claude/hooks/pre-commit.sh`, configured in `.cl
 Dev servers serve at `http://localhost:8080/` by default.
 
 ---
-*See [AGENTS.md](../../../AGENTS.md) for navigation.*
+*See [CLAUDE.md](../../../CLAUDE.md) for navigation.*

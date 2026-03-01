@@ -23,4 +23,4 @@ wl-squide uses [Changesets](https://github.com/changesets/changesets) for versio
 The `pr-pkg.yml` workflow publishes preview packages from PRs for testing.
 
 ---
-*See [AGENTS.md](../../../AGENTS.md) for navigation.*
+*See [CLAUDE.md](../../../CLAUDE.md) for navigation.*

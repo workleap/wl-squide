@@ -27,86 +27,16 @@ wl-squide/
 
 ## Key Concepts
 
-### FireflyRuntime
+For detailed patterns and APIs, read the design docs linked below. This section provides quick definitions only.
 
-The central runtime object, instantiated via `initializeFirefly()`. It manages:
-- Module registration (local modules array)
-- Route and navigation item registration
-- Event bus (pub/sub cross-module communication)
-- Logging (structured logger abstraction)
-- Environment variables (runtime-attached, not `process.env`)
-- Feature flags (LaunchDarkly integration)
-- Plugins (extensibility)
-
-### Modules
-
-A module is a domain-specific unit that exports a **register function** (`ModuleRegisterFunction`).
-Modules are autonomous: they do not import from other modules. Coordination happens only through the
-runtime API (event bus, shared types, registered routes/navigation).
-
-### Two-Phase Registration
-
-1. **Initial registration** — runs at bootstrap, registers routes and navigation items.
-2. **Deferred registration** — the register function can return a callback that re-runs when
-   global data or feature flags change, enabling conditional routes and navigation items.
-
-### AppRouter
-
-Wraps React Router. Assembles registered routes from all modules and orchestrates the data
-fetching lifecycle (`waitForPublicData`, `waitForProtectedData`). Works with `useIsBootstrapping()`
-to show loading state until modules, MSW, and global data are ready.
-
-### Global Data Fetching
-
-Built on **TanStack Query**:
-- `usePublicDataQueries` — fetches data needed before rendering any page.
-- `useProtectedDataQueries` — fetches auth-required data (session, permissions); detects 401s.
-- AppRouter orchestrates the order: public data → protected data → page render.
-- Deferred registrations automatically re-execute when query data updates.
-
-### Route Types
-
-| Type | Description |
-|------|-------------|
-| Protected (default) | Require authentication, render under `ProtectedRoutes` placeholder |
-| Public | No auth, render under `PublicRoutes` placeholder |
-| Hoisted | Raised to root level, bypass layouts (e.g., login page) |
-| Nested | Nested under a parent by `parentPath` or `parentId` |
-
-### Environment Variables
-
-Attached to the runtime, not `process.env`. Registered via `initializeFirefly({ environmentVariables })`
-or `runtime.registerVariable()`. Retrieved with `useEnvironmentVariable()` hook or
-`runtime.getEnvironmentVariable()`. Type-safe via `EnvironmentVariables` interface augmentation.
-
-## Package Domains
-
-### Core Runtime
-
-| Package | Path | Purpose |
-|---------|------|---------|
-| `@squide/core` | `packages/core` | Runtime abstractions, event bus, logging, plugins |
-| `@squide/react-router` | `packages/react-router` | React Router integration, route/navigation registration |
-| `@squide/firefly` | `packages/firefly` | Main bundle: core + react-router + TanStack Query |
-
-### Integrations
-
-| Package | Path | Purpose |
-|---------|------|---------|
-| `@squide/env-vars` | `packages/env-vars` | Runtime environment variables |
-| `@squide/i18next` | `packages/i18next` | i18next plugin for cross-module language sync |
-| `@squide/launch-darkly` | `packages/launch-darkly` | Feature flag integration with streaming |
-| `@squide/msw` | `packages/msw` | Mock Service Worker for dev API mocking |
-| `@squide/fakes` | `packages/fakes` | Fake implementations (sessions, LaunchDarkly clients) |
-
-### Build Tooling (internal)
-
-| Package | Path | Purpose |
-|---------|------|---------|
-| `@squide/firefly-rsbuild-configs` | `packages/firefly-rsbuild-configs` | Rsbuild configuration presets |
-| `@squide/firefly-webpack-configs` | `packages/firefly-webpack-configs` | Webpack configuration presets |
-| `@squide/firefly-rsbuild-storybook` | `packages/firefly-rsbuild-storybook` | Storybook + Rsbuild integration |
-| `@squide/firefly-module-federation` | `packages/firefly-module-federation` | Module Federation runtime (legacy) |
+- **FireflyRuntime** — Central runtime object (`initializeFirefly()`). Manages module registration, routes, navigation, event bus, logging, env vars, feature flags, and plugins.
+- **Modules** — Domain-specific units exporting a register function (`ModuleRegisterFunction`). Autonomous — they never import from other modules.
+- **Two-Phase Registration** — (1) Initial registration at bootstrap, (2) deferred registration re-runs when global data or feature flags change. See [deferred-registrations.md](./docs/design/deferred-registrations.md).
+- **AppRouter** — Wraps React Router, assembles routes from all modules, orchestrates data fetching lifecycle. See [routing-and-navigation.md](./docs/design/routing-and-navigation.md).
+- **Global Data Fetching** — Built on TanStack Query (`usePublicDataQueries`, `useProtectedDataQueries`). See [data-fetching.md](./docs/design/data-fetching.md).
+- **Route Types** — Protected (default), Public, Hoisted, Nested. See [routing-and-navigation.md](./docs/design/routing-and-navigation.md).
+- **Environment Variables** — Runtime-attached (not `process.env`). Registered via `initializeFirefly()` or `runtime.registerVariable()`.
+- **Cross-Module Communication** — Event bus (pub/sub), plugins, shared types. See [cross-module-communication.md](./docs/design/cross-module-communication.md).
 
 ## Sample Applications
 
@@ -119,13 +49,7 @@ or `runtime.registerVariable()`. Retrieved with `useEnvironmentVariable()` hook 
 
 Each sample follows: **host** → **shell** (layout, bootstrapping route) → **modules** (local and/or remote) with a **shared** package for types.
 
-## Related Documentation
+## Further Reading
 
-- Routing and navigation patterns: [docs/design/routing-and-navigation.md](./docs/design/routing-and-navigation.md)
-- Data fetching patterns: [docs/design/data-fetching.md](./docs/design/data-fetching.md)
-- Deferred registrations: [docs/design/deferred-registrations.md](./docs/design/deferred-registrations.md)
-- CI/CD pipeline: [docs/references/ci-cd.md](./docs/references/ci-cd.md)
-- Testing strategy: [docs/quality/testing.md](./docs/quality/testing.md)
-
----
-*Auto-maintained. See [AGENTS.md](../AGENTS.md) for navigation.*
+- All `@squide/*` packages and APIs: [specs/](./docs/specs/)
+- See [CLAUDE.md](../CLAUDE.md) for the full documentation index.

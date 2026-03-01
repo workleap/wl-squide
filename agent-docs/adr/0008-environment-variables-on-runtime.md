@@ -16,7 +16,7 @@ In a modular architecture where modules can be built and deployed independently 
 
 ## Decision
 
-Option 3. Environment variables are registered via `EnvironmentVariablesPlugin` (one of the built-in plugins, ADR-0004) and accessed through `useEnvironmentVariable()` or `runtime.getEnvironmentVariable()`. Unlike most plugins, `EnvironmentVariablesPlugin` is always created by `initializeFirefly` (ADR-0020) — it is not optional.
+Option 3. Environment variables are registered via `EnvironmentVariablesPlugin` (one of the built-in plugins, ADR-0004) and accessed through `useEnvironmentVariable()` or `runtime.getEnvironmentVariable()`. Unlike most plugins, `EnvironmentVariablesPlugin` is always created by `initializeFirefly` (ADR-0014) — it is not optional.
 
 Variables are provided at initialization time via the `environmentVariables` option on `initializeFirefly`. The `EnvironmentVariablesRegistry` stores them in a `Map<string, unknown>`. Duplicate key handling is intentionally strict: registering the same key with the same value is a no-op (idempotent), but registering the same key with a different value throws an error, preventing silent overwrites from conflicting modules.
 

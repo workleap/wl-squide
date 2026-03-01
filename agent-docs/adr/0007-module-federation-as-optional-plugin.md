@@ -6,7 +6,7 @@ accepted
 
 ## Context
 
-Squide supports loading modules from remote origins via Webpack/Rspack Module Federation. However, the framework's primary value is the modular architecture itself, not the deployment topology (ADR-0018). Many applications use only local modules (sibling packages in a monorepo).
+Squide supports loading modules from remote origins via Webpack/Rspack Module Federation. However, the framework's primary value is the modular architecture itself, not the deployment topology. Many applications use only local modules (sibling packages in a monorepo).
 
 Module Federation support evolved through three package stages:
 1. `@squide/webpack-module-federation` — Original package, tightly coupled to Webpack.
@@ -23,7 +23,7 @@ Module Federation support evolved through three package stages:
 
 Option 3. Module Federation is encapsulated in `@squide/firefly-module-federation`. Its `ModuleFederationPlugin` constructor calls `runtime.moduleManager.addModuleRegistry(new RemoteModuleRegistry(...))` to register itself as a factory function (ADR-0004). The core framework has no knowledge of Module Federation — it only knows the `ModuleRegistry` abstraction, which defines a `registerModules()` method that any registry can implement.
 
-For applications using Module Federation, `initializeFirefly` (ADR-0020) accepts a `remoteDefinitions` option that is forwarded to the `ModuleFederationPlugin`. The plugin resolves remote entry files, fetches module metadata, and registers each remote module through the same `ModuleManager` that handles local modules. This means consumer code uses identical APIs for local and remote modules — `registerRoute()`, `registerNavigationItem()`, deferred registrations — regardless of where the module is loaded from.
+For applications using Module Federation, `initializeFirefly` (ADR-0014) accepts a `remoteDefinitions` option that is forwarded to the `ModuleFederationPlugin`. The plugin resolves remote entry files, fetches module metadata, and registers each remote module through the same `ModuleManager` that handles local modules. This means consumer code uses identical APIs for local and remote modules — `registerRoute()`, `registerNavigationItem()`, deferred registrations — regardless of where the module is loaded from.
 
 The migration to Module Federation 2.0 (Enhanced API) was also handled within this package, transparent to consumers. `docs/updating/migrate-to-firefly-v9.0.md` states: "After playing with Squide's local module feature for a while, we discovered that Squide offers significant value even for non-federated applications."
 

@@ -14,13 +14,13 @@ The Firefly v9.0 migration (`docs/updating/migrate-to-firefly-v9.0.md`) introduc
 
 1. **No automatic segmentation** — Module authors manually specify where routes go. Explicit but error-prone if forgotten.
 2. **Single route tree with auth guards** — Individual routes have guards. Common pattern but scatters auth logic across every route component.
-3. **Automatic outlet segmentation with protected default** — Routes are placed under `PublicRoutes` or `ProtectedRoutes` outlets based on a `$visibility` property. Default is "protected". Only "hoisted" routes escape segmentation (ADR-0022).
+3. **Automatic outlet segmentation with protected default** — Routes are placed under `PublicRoutes` or `ProtectedRoutes` outlets based on a `$visibility` property. Default is "protected". Only "hoisted" routes escape segmentation (ADR-0016).
 
 ## Decision
 
 Option 3. Routes without explicit visibility default to `"protected"` and are placed under the `ProtectedRoutesOutlet`. Public routes must opt-in via `$visibility: "public"`. A convenience method `registerPublicRoute()` wraps `registerRoute()` with `$visibility: "public"` pre-set, reducing boilerplate for login, error, and other unauthenticated pages.
 
-The host application provides two invisible wrapper routes — `PublicRoutes` and `ProtectedRoutes` — as sentinel objects. These are framework-owned outlet wrappers (see ADR-0024 for `$` prefix convention) that define the layout hierarchy: the auth layout wraps `ProtectedRoutes`, and the public layout wraps `PublicRoutes`. During route registration, `RouteRegistry` inspects each route's `$visibility` and assigns it to the appropriate outlet. If a required outlet is missing from the host's route tree, the framework logs a warning during strict mode validation (ADR-0006).
+The host application provides two invisible wrapper routes — `PublicRoutes` and `ProtectedRoutes` — as sentinel objects. These are framework-owned outlet wrappers (see ADR-0018 for `$` prefix convention) that define the layout hierarchy: the auth layout wraps `ProtectedRoutes`, and the public layout wraps `PublicRoutes`. During route registration, `RouteRegistry` inspects each route's `$visibility` and assigns it to the appropriate outlet. If a required outlet is missing from the host's route tree, the framework logs a warning during strict mode validation (ADR-0006).
 
 Evidence: `packages/react-router/src/RouteRegistry.ts` defaults `$visibility` to `"protected"` and performs outlet assignment during `add()`. `packages/react-router/src/outlets.ts` exports `PublicRoutes` and `ProtectedRoutes` as sentinel objects with `PublicRoutesOutletId` and `ProtectedRoutesOutletId`. `docs/updating/migrate-to-firefly-v9.0.md` section "Removed unknown route handling" documents the elimination of the wildcard route requirement.
 

@@ -1,7 +1,7 @@
 # Smoke Test: Endpoints Sample App
 
 ## Constraints
-- Do NOT read AGENTS.md or agent-docs/
+- Do NOT read CLAUDE.md or agent-docs/
 - Do NOT read the target app's source code
 - Do NOT take screenshots or record videos
 - Use ONLY `agent-browser snapshot -i` (text) and `agent-browser console` for verification
