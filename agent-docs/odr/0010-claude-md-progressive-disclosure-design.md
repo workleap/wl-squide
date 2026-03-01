@@ -1,4 +1,4 @@
-# ODR-0032: CLAUDE.md Progressive Disclosure Design
+# ODR-0010: CLAUDE.md Progressive Disclosure Design
 
 ## Status
 

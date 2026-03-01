@@ -1,4 +1,4 @@
-# ADR-0019: Removal of Built-in Session Management
+# ADR-0013: Removal of Built-in Session Management
 
 ## Status
 
@@ -18,7 +18,7 @@ Squide originally provided first-class session management APIs: `useSession`, `u
 
 Option 3. In Firefly v9.0, `useSession`, `useIsAuthenticated`, and `sessionAccessor` were all removed. Applications now define their own session management using React context.
 
-The framework provides a well-established recipe (`docs/recipes/add-authentication.md`) instead of built-in primitives. The recipe demonstrates: defining a `SessionManager` interface and `SessionManagerContext`, implementing a `TanstackQuerySessionManager` class that uses `useQueryClient` for cache invalidation on `clearSession()`, and creating a `BootstrappingRoute` component that fetches session via `useProtectedDataQueries` (ADR-0017).
+The framework provides a well-established recipe (`docs/recipes/add-authentication.md`) instead of built-in primitives. The recipe demonstrates: defining a `SessionManager` interface and `SessionManagerContext`, implementing a `TanstackQuerySessionManager` class that uses `useQueryClient` for cache invalidation on `clearSession()`, and creating a `BootstrappingRoute` component that fetches session via `useProtectedDataQueries` (ADR-0012).
 
 The 401 handling mechanism was redesigned to be framework-agnostic: `useProtectedDataQueries` accepts an `isUnauthorizedError` callback from the consumer (e.g., `error => isApiError(error) && error.status === 401`). When a 401 is detected, the state machine (ADR-0009) dispatches `"is-unauthorized"`, which bypasses bootstrapping to allow rendering a login page even though protected data was never fetched. This means the framework handles the auth *flow* (redirect to login on 401) without understanding auth *mechanics* (token format, session shape, refresh strategy).
 
@@ -32,5 +32,5 @@ Evidence: `docs/updating/migrate-to-firefly-v9.0.md` (lines 36-38) lists the rem
 - No framework-imposed constraints on authentication strategy.
 - The 401 handling is delegated to consumer code via a callback — the framework redirects to login without understanding what a "session" is.
 - Slightly more boilerplate per application (defining a context provider and consumer hooks), offset by the recipe providing copy-paste-ready code.
-- Session-related logic can leverage TanStack Query (ADR-0017) for server-state synchronization, which was not possible with the old built-in approach.
+- Session-related logic can leverage TanStack Query (ADR-0012) for server-state synchronization, which was not possible with the old built-in approach.
 - `@squide/fakes` provides development utilities without polluting the production framework API.

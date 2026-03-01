@@ -1,4 +1,4 @@
-# ADR-0020: `initializeFirefly` as Single Entry Point
+# ADR-0014: `initializeFirefly` as Single Entry Point
 
 ## Status
 

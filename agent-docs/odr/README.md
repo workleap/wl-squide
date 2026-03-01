@@ -20,7 +20,7 @@ Write an ODR when you are about to:
 
 ## How to create an ODR
 
-1. Find the next number: check both this folder and `adr/` for the highest `NNNN` and increment. The numbering sequence is shared.
+1. Find the next number: check this folder for the highest `NNNN` and increment.
 2. Copy [template.md](./template.md) to `NNNN-short-title.md`.
 3. Fill in all sections — especially **Options Considered** and **Decision** with clear rationale.
 4. Set status to `proposed`. A developer will accept it during PR review.

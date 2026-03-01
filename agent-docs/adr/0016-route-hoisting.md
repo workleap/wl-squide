@@ -1,4 +1,4 @@
-# ADR-0022: Route Hoisting for Escaping the Root Layout
+# ADR-0016: Route Hoisting for Escaping the Root Layout
 
 ## Status
 

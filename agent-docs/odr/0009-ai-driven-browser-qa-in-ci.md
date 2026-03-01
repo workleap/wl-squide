@@ -1,4 +1,4 @@
-# ODR-0031: AI-Driven Browser QA in CI (Smoke Test + Dogfood)
+# ODR-0009: AI-Driven Browser QA in CI (Smoke Test + Dogfood)
 
 ## Status
 
@@ -23,7 +23,7 @@ Two separate QA needs were identified:
 
 Option 2, with the two use cases split into separate workflows:
 
-- **`smoke-test.yml` + `smoke-test.md`** (ODR-0015 lean YML + prompt pattern): triggered on PRs to main affecting packages or the endpoints app. The agent navigates a fixed list of pages, captures `agent-browser snapshot -i` (text) and `agent-browser console` output, and ends with `SMOKE TEST PASSED` or `SMOKE TEST FAILED`. Max 50 turns. No screenshots.
+- **`smoke-test.yml` + `smoke-test.md`** (ODR-0004 lean YML + prompt pattern): triggered on PRs to main affecting packages or the endpoints app. The agent navigates a fixed list of pages, captures `agent-browser snapshot -i` (text) and `agent-browser console` output, and ends with `SMOKE TEST PASSED` or `SMOKE TEST FAILED`. Max 50 turns. No screenshots.
 - **`dogfood.yml` + `dogfood.md`** (same pattern): triggered on a monthly schedule (15th of each month) and on-demand. Runs an `agent-browser` dogfood session following the skill instructions in `SKILL.md` against a production-like build (`pnpm serve-endpoints`). Max 200 turns. Evidence (screenshots, videos) is persisted on a Git orphan branch for linkability from GitHub issues. Files a GitHub issue if issues are found, stops silently if none.
 
 Evidence: `.github/workflows/smoke-test.yml`, `.github/workflows/dogfood.yml`, `.github/prompts/smoke-test.md`, `.github/prompts/dogfood.md`.

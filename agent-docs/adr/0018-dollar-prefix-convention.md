@@ -1,4 +1,4 @@
-# ADR-0024: Dollar-Prefix Convention for Framework-Owned Properties
+# ADR-0018: Dollar-Prefix Convention for Framework-Owned Properties
 
 ## Status
 

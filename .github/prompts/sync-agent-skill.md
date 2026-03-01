@@ -4,7 +4,7 @@ You are an automated agent responsible for keeping the `workleap-squide` agent s
 
 ## Constraints
 
-Before updating the skill, read [ODR-0030](../../agent-docs/odr/0030-skill-body-reference-split.md). It explains the body/reference split — which sections stay in SKILL.md and which belong in `references/`. Violating this split will re-introduce bloat.
+Before updating the skill, read [ODR-0008](../../agent-docs/odr/0008-skill-body-reference-split.md). It explains the body/reference split — which sections stay in SKILL.md and which belong in `references/`. Violating this split will re-introduce bloat.
 
 When updating the skill:
 

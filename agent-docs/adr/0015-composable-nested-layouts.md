@@ -1,4 +1,4 @@
-# ADR-0021: Composable Nested Layouts via Cross-Module Route Nesting
+# ADR-0015: Composable Nested Layouts via Cross-Module Route Nesting
 
 ## Status
 

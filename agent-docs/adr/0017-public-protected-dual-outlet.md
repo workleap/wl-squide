@@ -1,4 +1,4 @@
-# ADR-0023: Public/Protected Dual-Outlet Architecture
+# ADR-0017: Public/Protected Dual-Outlet Architecture
 
 ## Status
 

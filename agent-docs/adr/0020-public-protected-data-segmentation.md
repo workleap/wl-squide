@@ -1,4 +1,4 @@
-# ADR-0026: Global Data Fetching with Public/Protected Segmentation
+# ADR-0020: Global Data Fetching with Public/Protected Segmentation
 
 ## Status
 

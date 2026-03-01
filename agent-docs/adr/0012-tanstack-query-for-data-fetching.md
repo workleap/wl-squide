@@ -1,4 +1,4 @@
-# ADR-0017: TanStack Query as Official Data-Fetching Library
+# ADR-0012: TanStack Query as Official Data-Fetching Library
 
 ## Status
 
@@ -37,6 +37,6 @@ Evidence: `packages/firefly/src/usePublicDataQueries.ts` wraps `useQueries` with
 
 - Applications get cache management, background refetching, and query deduplication for free via TanStack Query.
 - Navigation items can update dynamically when server state changes — deferred registrations re-execute automatically when data queries return new data.
-- The 401 handling is delegated to the consumer via the `isUnauthorizedError` callback, keeping the framework agnostic about authentication strategy (see ADR-0019).
+- The 401 handling is delegated to the consumer via the `isUnauthorizedError` callback, keeping the framework agnostic about authentication strategy (see ADR-0013).
 - TanStack Query is now a required peer dependency for all Squide applications.
 - The old `AppRouter` callback-based API (`onLoadPublicData`, etc.) was removed entirely — a clean break, not a deprecation period.

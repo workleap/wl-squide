@@ -1,4 +1,4 @@
-# ADR-0028: useSyncExternalStore for State Reactivity
+# ADR-0021: useSyncExternalStore for State Reactivity
 
 ## Status
 
