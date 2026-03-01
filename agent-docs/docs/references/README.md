@@ -12,4 +12,4 @@ Infrastructure, tooling, and operational documentation.
 - [writing-agent-instructions.md](./writing-agent-instructions.md) — Principles for writing instructions agents actually follow
 
 ---
-*See [AGENTS.md](../../../AGENTS.md) for navigation.*
+*See [CLAUDE.md](../../../CLAUDE.md) for navigation.*

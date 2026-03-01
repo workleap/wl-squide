@@ -2,7 +2,7 @@
 
 This folder contains structured documentation for AI agents working in this repository.
 
-Start with [AGENTS.md](../AGENTS.md) at the workspace root — it is the table of contents
+Start with [CLAUDE.md](../CLAUDE.md) at the workspace root — it is the table of contents
 that routes you to the right document here.
 
 ## Structure

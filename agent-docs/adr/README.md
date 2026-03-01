@@ -81,4 +81,4 @@ Write an ADR when you are about to:
 - [ADR-0031: AI-Driven Browser QA in CI (Smoke Test + Dogfood)](./0031-ai-driven-browser-qa-in-ci.md)
 
 ---
-*See [AGENTS.md](../../AGENTS.md) for navigation.*
+*See [CLAUDE.md](../../CLAUDE.md) for navigation.*

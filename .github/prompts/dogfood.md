@@ -1,7 +1,7 @@
-# Dogfood: Endpoints Sample App
+# Dogfood
 
 ## Constraints
-- Do NOT read AGENTS.md or agent-docs/
+- Do NOT read CLAUDE.md or agent-docs/
 - Do NOT read the target app's source code
 - Do NOT use the Skill tool — read skill files directly with the Read tool
 

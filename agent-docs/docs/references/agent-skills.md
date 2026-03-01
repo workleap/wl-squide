@@ -3,33 +3,9 @@
 This repository has two skill directories:
 
 - **`.agents/skills/`** — General-purpose skills (vitest, pnpm, turborepo, etc.). These are shared across repos. Read-only — do not edit them here.
-- **`agent-skills/`** — Project-specific skills authored in this repo (e.g., `workleap-squide`). The "Editing skills" section below applies only to this directory.
+- **`agent-skills/`** — Project-specific skills authored in this repo (e.g., `workleap-squide`). The editing guidelines below apply only to this directory.
 
-**Never write code without first loading the matching skills from the tables below.** Code produced without the correct skill will use wrong patterns and fail review.
-
-## By file type
-
-| File Pattern | Load Skills |
-|-------------|-------------|
-| `*.ts`, `*.tsx`, `*.js`, `*.jsx` (non-test) | `/accessibility`, `/best-practices` |
-| `*.tsx`, `*.jsx` (non-test) | `/workleap-react-best-practices` |
-| `*.test.ts`, `*.test.tsx` | `/vitest` |
-| `turbo.json` | `/turborepo` |
-| `package.json`, `pnpm-workspace.yaml`, `pnpm-lock.yaml`, `.npmrc` | `/pnpm` |
-
-## By task
-
-| Task | Tool |
-|------|------|
-| Browser validation of sample apps | `agent-browser` (installed as workspace devDependency; see `.agents/skills/agent-browser/`) |
-
-## By import
-
-| Import | Load Skill |
-|--------|-----------|
-| `@workleap/logging` | `/workleap-logging` |
-| `@workleap/telemetry` | `/workleap-telemetry` |
-| `@workleap/browserslist-config`, `@workleap/eslint-configs`, `@workleap/stylelint-configs`, `@workleap/typescript-configs`, `@workleap/rsbuild-configs`, `@workleap/rslib-configs` | `/workleap-web-configs` |
+Skills are automatically discovered and loaded by Claude Code based on their `SKILL.md` description field.
 
 ## Editing skills
 
@@ -40,4 +16,4 @@ When modifying any file in `agent-skills/`:
 - New API content goes in the appropriate `references/` file, not in the `SKILL.md` body, unless it is a critical pattern needed in nearly every conversation. See [ADR-0030](../../adr/0030-skill-body-reference-split.md) for the rationale.
 
 ---
-*See [AGENTS.md](../../../AGENTS.md) for navigation.*
+*See [CLAUDE.md](../../../CLAUDE.md) for navigation.*

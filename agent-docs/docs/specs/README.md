@@ -22,7 +22,14 @@ Detailed specifications and API documentation for `@squide/*` packages.
 
 ## Build Tooling (internal)
 
-Internal packages not intended for direct consumption. See [ARCHITECTURE.md → Build Tooling](../../ARCHITECTURE.md#build-tooling-internal) for the list.
+Internal packages not intended for direct consumption.
+
+| Package | Path | Purpose |
+|---------|------|---------|
+| `@squide/firefly-rsbuild-configs` | `packages/firefly-rsbuild-configs` | Rsbuild configuration presets |
+| `@squide/firefly-webpack-configs` | `packages/firefly-webpack-configs` | Webpack configuration presets |
+| `@squide/firefly-rsbuild-storybook` | `packages/firefly-rsbuild-storybook` | Storybook + Rsbuild integration |
+| `@squide/firefly-module-federation` | `packages/firefly-module-federation` | Module Federation runtime (legacy) |
 
 ## Source Layout
 
@@ -32,4 +39,4 @@ Every package has its own `package.json` and `tsconfig.json`. All packages excep
 Full API reference is in the user-facing docs: `docs/reference/`.
 
 ---
-*See [AGENTS.md](../../../AGENTS.md) for navigation.*
+*See [CLAUDE.md](../../../CLAUDE.md) for navigation.*

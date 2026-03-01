@@ -16,6 +16,10 @@ You are an automated code reviewer for this repository. Analyze the PR diff for 
 - **Medium** — conditional issues.
 - **Low** — minor issues or typos.
 
+## Architectural context
+
+Before reviewing, consult the directory index in `CLAUDE.md` to identify relevant architecture documentation, ADRs, and design patterns for the changed files. Verify that the PR does not violate documented architectural decisions.
+
 ## Agent skills
 
 When performing code reviews, load and use agent skills from `.agents/skills/`. Apply the skill mapping defined in [agent-skills.md](../../agent-docs/docs/references/agent-skills.md) (both "By file type" and "By import" tables) to the changed lines in the PR diff.

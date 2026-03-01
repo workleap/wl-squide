@@ -7,4 +7,4 @@ Testing, validation, and agent skills for working in this repository.
 - [testing.md](./testing.md) — How to validate changes, agent skills to load, test infrastructure
 
 ---
-*See [AGENTS.md](../../../AGENTS.md) for navigation.*
+*See [CLAUDE.md](../../../CLAUDE.md) for navigation.*

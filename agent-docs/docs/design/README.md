@@ -10,4 +10,4 @@ Design patterns and architectural choices for Squide applications.
 - [cross-module-communication.md](./cross-module-communication.md) — Event bus, plugins, and shared types
 
 ---
-*See [AGENTS.md](../../../AGENTS.md) for navigation.*
+*See [CLAUDE.md](../../../CLAUDE.md) for navigation.*

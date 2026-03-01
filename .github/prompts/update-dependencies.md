@@ -7,7 +7,7 @@ You are an automated agent responsible for updating the dependencies of this mon
 - You have a maximum of **10 attempts** to pass all validation steps. If you exhaust all attempts, go to Step 4 (Failure).
 - You MUST execute every validation step (2a, 2b, 2c, 2d) in order. Do NOT skip any step.
 - Do NOT create new source files as part of a dependency update. Only modify existing files when migrating to a newer API.
-- Do NOT read `AGENTS.md` or `agent-docs/`.
+- Do NOT read `CLAUDE.md` or `agent-docs/`.
 - **Avoid rabbit holes**: If you spend more than 3 attempts or 10 tool calls investigating a single issue without progress, stop. Revert the problematic package to its previous version, open an issue, and move on.
 
 ---

@@ -52,4 +52,4 @@ Use **agent-browser** (see `.agents/skills/agent-browser/`) to validate sample a
 - CI runs tests incrementally on PRs (only diverging packages) and fully on main
 
 ---
-*See [AGENTS.md](../../../AGENTS.md) for navigation.*
+*See [CLAUDE.md](../../../CLAUDE.md) for navigation.*

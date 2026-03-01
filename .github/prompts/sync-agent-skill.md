@@ -33,7 +33,7 @@ The following docs are **not** part of the skill and must be ignored:
 - `docs/about.md` — Repository metadata and contribution info
 - `docs/samples.md` — Links to external sample applications
 - `docs/troubleshooting.md` — Debug tips and Module Federation context issues
-- `docs/introduction/use-with-agents.md` — Meta-docs about using the agent skill itself
+- `docs/introduction/use-with-CLAUDE.md` — Meta-docs about using the agent skill itself
 - `docs/introduction/deploy.md` — Deployment and operational concerns
 - `docs/reference/packages.md` — NPM package table with no API content
 

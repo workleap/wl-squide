@@ -7,9 +7,9 @@
       "computedHash": "3f390c14d09ca45da332b6c421b3195d12da099ec24ee549f80e666ec48dc89b"
     },
     "agent-browser": {
-      "source": "vercel-labs/agent-browser",
+      "source": "workleap/wl-logging",
       "sourceType": "github",
-      "computedHash": "4a448025404360fb966eb707116b188b55a52dbb20deecb13d83e7f4db5087f1"
+      "computedHash": "39eaa7216d358c36e55b37c90a1dda916a891e6b294faa28d17e3511510b82d6"
     },
     "best-practices": {
       "source": "addyosmani/web-quality-skills",
@@ -22,34 +22,34 @@
       "computedHash": "6b29970dbf48224eaf88f66f1187c2fd61cf443336ee58e125d0bafd15fb3084"
     },
     "git-commit": {
-      "source": "github/awesome-copilot",
+      "source": "workleap/wl-logging",
       "sourceType": "github",
       "computedHash": "2607fc60629b82b257136dd2a7a373f0a4466c0b49df7746d845d59313c99b21"
     },
     "pnpm": {
-      "source": "antfu/skills",
+      "source": "workleap/wl-logging",
       "sourceType": "github",
-      "computedHash": "d473204df25defd08a7d47b55c6d124b41ebde440b774995952b65223d0d8d6f"
+      "computedHash": "318f9fca2441a3e06fedc336e195dd18be5dbe901064e4fa71b76b40b096ab3a"
     },
     "turborepo": {
-      "source": "vercel/turborepo",
+      "source": "workleap/wl-logging",
       "sourceType": "github",
-      "computedHash": "7f0b34ffb8c367c91289b2a0e5ff212780ac9801e33ab0fb1f69a1a1d3b69adb"
+      "computedHash": "1ec08a9472c4af825e5e335ccdbca82b265a986a78c04f6d56a6e26d58bb9c10"
     },
     "vitest": {
-      "source": "antfu/skills",
+      "source": "workleap/wl-logging",
       "sourceType": "github",
-      "computedHash": "0efd9cf8c56aada060d418d009cfe621a7915d0c73a958fe611985bc0c2fa4b8"
+      "computedHash": "669c7275f7e1379b06b2bcfa593603aead4c983b951c7e8edbc09640aa38d0a1"
     },
     "workleap-logging": {
       "source": "workleap/wl-logging",
       "sourceType": "github",
-      "computedHash": "5ba89e02b31ffabcebe72b45237dfaaa7e790b51dfdb7511174436841c85d161"
+      "computedHash": "6fe6c5b84ba8bbd480c924bfc58ddb3eef0d2458ae63e1a0695a9145092ed9dd"
     },
     "workleap-react-best-practices": {
-      "source": "workleap/wl-web-configs",
+      "source": "workleap/wl-logging",
       "sourceType": "github",
-      "computedHash": "f37d2a3bd4d72e3148d72938f59a995728782d5d43a19df5713e8ee5322a60f2"
+      "computedHash": "f3849c705dd508216673f24efeff9ef25add517ed6a16743675ad53c09f3aba4"
     },
     "workleap-telemetry": {
       "source": "workleap/wl-telemetry",
@@ -57,9 +57,9 @@
       "computedHash": "48190b8b84d3b78a85273b3e519c33ad5823c089c8d0725b9ed6b54e70bb76a1"
     },
     "workleap-web-configs": {
-      "source": "workleap/wl-web-configs",
+      "source": "workleap/wl-logging",
       "sourceType": "github",
-      "computedHash": "9c66162f92a9e6b809ba08361e540ce545deb884219d4430542b778fa117ea69"
+      "computedHash": "52ca9da414b4136618c6d54cdea15167959e57e59bf6758fa5712fc2b10fdbca"
     }
   }
 }
