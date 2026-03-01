@@ -15,7 +15,7 @@ The `agent-docs/` folder is your **memory** for this repository. It contains arc
 Before you start any task:
 
 1. Find the relevant document in the index below and read it before proceeding. If your task doesn't match any entry, scan the content summaries for relevant concepts or APIs.
-2. Before modifying any package's public API, adding a dependency, or changing how modules communicate, read the [ADR index](./agent-docs/adr/README.md) and check for conflicting decisions. Ignoring an existing ADR will produce code that contradicts deliberate architectural choices. To reverse a prior decision, supersede the original ADR — do not silently ignore it.
+2. Before modifying any package's public API, adding a dependency, or changing how modules communicate, read [constraints.md](./agent-docs/docs/references/constraints.md) for hard guardrails. If you need the full rationale behind a constraint, follow its ADR link. To reverse a prior decision, supersede the original ADR — do not silently ignore it.
 
 ## Documentation Index
 
@@ -41,6 +41,7 @@ Before you start any task:
 - [ci-cd.md](./agent-docs/docs/references/ci-cd.md) — GitHub Actions workflows, concurrency, caching, [dogfood workflow](./agent-docs/docs/references/ci-cd.md#dogfood-workflow)
 - [release-process.md](./agent-docs/docs/references/release-process.md) — Changesets workflow, npm publishing, PR preview packages
 - [writing-agent-instructions.md](./agent-docs/docs/references/writing-agent-instructions.md) — Principles for writing instructions agents follow
+- [constraints.md](./agent-docs/docs/references/constraints.md) — Hard architectural guardrails (compact, links to ADRs for rationale)
 
 ### Quality — [docs/quality/](./agent-docs/docs/quality/)
 
@@ -49,4 +50,3 @@ Before you start any task:
 ### Other
 
 - [specs/](./agent-docs/docs/specs/) — All `@squide/*` packages: key APIs, source locations
-- [adr/](./agent-docs/adr/) — Architecture Decision Records. Read before making architectural choices; see [README.md](./agent-docs/adr/README.md) for process and template.
