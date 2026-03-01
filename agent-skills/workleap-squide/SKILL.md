@@ -225,7 +225,7 @@ For detailed API documentation beyond the patterns above, consult the reference 
 
 ## Skill Maintenance Notes
 
-Before updating this skill, read [ADR-0030](../../agent-docs/adr/0030-skill-body-reference-split.md) which explains the body/reference split. The SKILL.md body must stay under ~250 lines. New API content goes in the appropriate `references/` file — only add to the body if it is a critical multi-file pattern needed in nearly every conversation.
+Before updating this skill, read [ODR-0030](../../agent-docs/odr/0030-skill-body-reference-split.md) which explains the body/reference split. The SKILL.md body must stay under ~250 lines. New API content goes in the appropriate `references/` file — only add to the body if it is a critical multi-file pattern needed in nearly every conversation.
 
 When updating this skill from the official documentation, verify these common pitfalls:
 

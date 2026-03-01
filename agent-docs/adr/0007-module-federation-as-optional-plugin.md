@@ -6,7 +6,7 @@ accepted
 
 ## Context
 
-Squide supports loading modules from remote origins via Webpack/Rspack Module Federation. However, the framework's primary value is the modular architecture itself, not the deployment topology (ADR-0018). Many applications use only local modules (sibling packages in a monorepo).
+Squide supports loading modules from remote origins via Webpack/Rspack Module Federation. However, the framework's primary value is the modular architecture itself, not the deployment topology. Many applications use only local modules (sibling packages in a monorepo).
 
 Module Federation support evolved through three package stages:
 1. `@squide/webpack-module-federation` — Original package, tightly coupled to Webpack.

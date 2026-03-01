@@ -27,4 +27,4 @@ Evidence: All `package.json` files have `"type": "module"` (present since the in
 - Smaller, cleaner published output — no dual-format build artifacts.
 - Consumers benefit from tree-shaking and static analysis.
 - Consumers on CommonJS-only setups cannot use these packages directly (accepted tradeoff — Squide targets modern React applications that universally use bundlers with ESM support).
-- The ESM-only constraint simplifies the build tooling — no need to configure dual output in tsup (originally) or Rslib (currently, ADR-0012).
+- The ESM-only constraint simplifies the build tooling — no need to configure dual output in tsup (originally) or Rslib (currently, ODR-0012).

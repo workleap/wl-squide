@@ -1,4 +1,4 @@
-# ADR-0012: Rslib for Library Builds
+# ODR-0012: Rslib for Library Builds
 
 ## Status
 
@@ -19,7 +19,7 @@ The 12 library packages need a build tool to produce compiled ESM output with Ty
 
 Option 4. All packages use Rslib with shared configuration from `@workleap/rslib-configs`. Each package's `rslib.build.ts` is 4-7 lines, delegating entirely to `defineBuildConfig`.
 
-The migration from tsup to Rslib was introduced in commit `4eb46d69` (2024-12-15, PR #225) — the same commit that introduced the JIT pattern (ADR-0011). Initially, Rslib configs used raw `@rslib/core` with inline configuration (~20 lines per package). A follow-up commit (`3c6bce0cd`, 2025-01-16) migrated to `@workleap/rslib-configs`, reducing each config to 4-7 lines. The two config packages (`firefly-rsbuild-configs`, `firefly-webpack-configs`) additionally have an `rslib.dev.ts` for watch mode during development.
+The migration from tsup to Rslib was introduced in commit `4eb46d69` (2024-12-15, PR #225) — the same commit that introduced the JIT pattern (ODR-0011). Initially, Rslib configs used raw `@rslib/core` with inline configuration (~20 lines per package). A follow-up commit (`3c6bce0cd`, 2025-01-16) migrated to `@workleap/rslib-configs`, reducing each config to 4-7 lines. The two config packages (`firefly-rsbuild-configs`, `firefly-webpack-configs`) additionally have an `rslib.dev.ts` for watch mode during development.
 
 Evidence: `packages/core/package.json` has `"build": "rslib build --config ./rslib.build.ts"`. `packages/core/rslib.build.ts` delegates to `defineBuildConfig` from `@workleap/rslib-configs` with `react: true` and a `tsconfigPath`. The changeset for the shared config migration reads: "Packages now includes source code and sourcemap."
 

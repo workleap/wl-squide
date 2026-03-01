@@ -1,4 +1,4 @@
-# ADR-0027: Vitest for Unit Testing
+# ODR-0027: Vitest for Unit Testing
 
 ## Status
 
@@ -6,7 +6,7 @@ proposed
 
 ## Context
 
-The monorepo originally used Jest with SWC transforms (`swc.jest.ts`) for unit testing. Jest required additional configuration for ESM support, TypeScript transforms, and React JSX — each adding complexity. As the project moved to ESM-only output (ADR-0013) and Rsbuild/Rslib for builds (ADR-0012), the Jest+SWC toolchain became increasingly misaligned with the rest of the build infrastructure.
+The monorepo originally used Jest with SWC transforms (`swc.jest.ts`) for unit testing. Jest required additional configuration for ESM support, TypeScript transforms, and React JSX — each adding complexity. As the project moved to ESM-only output (ADR-0013) and Rsbuild/Rslib for builds (ODR-0012), the Jest+SWC toolchain became increasingly misaligned with the rest of the build infrastructure.
 
 ## Options Considered
 

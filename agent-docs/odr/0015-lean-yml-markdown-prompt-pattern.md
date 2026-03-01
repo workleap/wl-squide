@@ -1,4 +1,4 @@
-# ADR-0015: Lean YML + Markdown Prompt Pattern for Agent Workflows
+# ODR-0015: Lean YML + Markdown Prompt Pattern for Agent Workflows
 
 ## Status
 

@@ -1,4 +1,4 @@
-# ADR-0011: JIT (Just-In-Time) Packages Pattern
+# ODR-0011: JIT (Just-In-Time) Packages Pattern
 
 ## Status
 
@@ -20,7 +20,7 @@ The key insight was that most packages are consumed by sample applications runni
 
 Option 3. Ten of 12 packages use JIT. The two exceptions (`firefly-rsbuild-configs` and `firefly-webpack-configs`) must be built because bundler config files run in Node.js and cannot import raw TypeScript from other packages.
 
-The JIT pattern and the migration from tsup to Rslib (ADR-0012) were introduced in the same commit (`4eb46d69`, 2024-12-15, PR #225 — 476 files changed). This was a coordinated architectural shift: the same commit that replaced tsup with Rslib also changed package.json `exports` from `"./dist/..."` to `"./src/..."`, removed `nodemon.json` files from samples, and narrowed the `turbo.json` `dev` task to depend only on the two config packages.
+The JIT pattern and the migration from tsup to Rslib (ODR-0012) were introduced in the same commit (`4eb46d69`, 2024-12-15, PR #225 — 476 files changed). This was a coordinated architectural shift: the same commit that replaced tsup with Rslib also changed package.json `exports` from `"./dist/..."` to `"./src/..."`, removed `nodemon.json` files from samples, and narrowed the `turbo.json` `dev` task to depend only on the two config packages.
 
 Evidence: `packages/core/package.json` has `"exports": { ".": "./src/index.ts" }` alongside `"publishConfig": { "exports": { ".": { "import": "./dist/index.js" } } }`. `turbo.json` `dev` task: `"dependsOn": ["@squide/firefly-rsbuild-configs#build", "@squide/firefly-webpack-configs#build"]`. Sample packages (e.g., `samples/basic/shared/package.json`) have no `build` or `dev` scripts at all — just `eslint` and `typecheck`.
 
