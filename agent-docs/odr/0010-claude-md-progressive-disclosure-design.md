@@ -2,7 +2,7 @@
 
 ## Status
 
-proposed
+accepted
 
 ## Context
 
@@ -14,11 +14,11 @@ An earlier version (~95 lines) had two navigation mechanisms: a routing table ("
 
 1. **Routing table + ToC** — Two structures, ~95 lines. Task-oriented framing and section-level anchors. High duplication; every document appears twice. Maintenance burden: new docs require updates in two places.
 2. **Routing table only** — Task-oriented framing is natural for agents, but misses "miss-handling": tasks not anticipated by the table have no fallback. Noun-based keyword summaries handle unexpected queries better than verb-based task descriptions.
-3. **Documentation Index only** — Single structure, ~50 lines. Each file listed once with keyword-rich content summaries. Inline section anchors only where they earn their token cost. No duplication.
+3. **Memory Index only** — Single structure, ~50 lines. Each file listed once with keyword-rich content summaries. Inline section anchors only where they earn their token cost. No duplication.
 
 ## Decision
 
-Option 3: Single Documentation Index with keyword-rich summaries and selective inline anchors.
+Option 3: Single Memory Index with keyword-rich summaries and selective inline anchors.
 
 ### Structure rules
 
@@ -30,7 +30,7 @@ Option 3: Single Documentation Index with keyword-rich summaries and selective i
 
 ### Content rules
 
-6. **Never add a routing table.** The Documentation Index already embeds task-routing signal in keyword summaries.
+6. **Never add a routing table.** The Memory Index already embeds task-routing signal in keyword summaries.
 7. **Keep the file under ~55 lines.** Before adding a line, identify which existing line can be shortened or removed.
 8. **Behavioral instructions stay in CLAUDE.md.** The "never guess" directive and the adr/index.md gate are prerequisites for the index to work — moving them to a separate file creates a bootstrapping paradox.
 9. **No content enumeration that duplicates the index.** Do not describe what `agent-docs/` contains in prose — the index itself shows this.

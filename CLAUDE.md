@@ -1,4 +1,4 @@
-`@squide/*` — modular React application shell framework. Monorepo: **pnpm workspaces** + **Turborepo**.
+`@squide/*` — modular React application shell framework.
 
 ## Agent Memory
 
@@ -8,7 +8,7 @@
 2. Before API, dependency, or inter-module changes, read [adr/index.md](./agent-docs/adr/index.md). To reverse a decision, supersede the record — do not silently ignore it.
 3. Before changing build tooling, CI pipelines, or agent workflows, read [odr/index.md](./agent-docs/odr/index.md).
 
-## Documentation Index
+## Memory Index
 
 ### Architecture
 

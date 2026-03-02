@@ -1,11 +1,12 @@
 # Agent Skills
 
-This repository has two skill directories:
+This repository has three skill directories:
 
 - **`.agents/skills/`** — General-purpose skills (vitest, pnpm, turborepo, etc.). These are shared across repos. Read-only — do not edit them here.
+- **`.claude/skills/`** — Claude Code's native skill directory. Contains symlinks to selected `.agents/skills/` entries so they appear in Claude Code's skill discovery. This is a supplementary layer — not a replacement for `.agents/skills/`.
 - **`agent-skills/`** — Project-specific skills authored in this repo (e.g., `workleap-squide`). The editing guidelines below apply only to this directory.
 
-Skills are automatically discovered and loaded by Claude Code based on their `SKILL.md` description field.
+Skills are automatically discovered and loaded by Claude Code from all three directories based on their `SKILL.md` description field.
 
 ## Editing skills
 

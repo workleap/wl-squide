@@ -25,4 +25,5 @@
 | Decision | ODR |
 |---|---|
 | Skill SKILL.md body keeps only critical patterns; everything else lives in reference files. Body should not grow past ~250 lines. | [0008](./0008-skill-body-reference-split.md) |
-| CLAUDE.md uses a single Documentation Index with keyword summaries — never a separate routing table. Section anchors are added only for files over ~80 lines with distinct, high-frequency sub-tasks. Never add folder links to category headings. Keep the file under ~55 lines. | [0010](./0010-claude-md-progressive-disclosure-design.md) |
+| CLAUDE.md uses a single Memory Index with keyword summaries — never a separate routing table. Section anchors are added only for files over ~80 lines with distinct, high-frequency sub-tasks. Never add foler links to category headings. Keep the file under ~55 lines. | [0010](./0010-claude-md-progressive-disclosure-design.md) |
+
