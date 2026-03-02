@@ -55,17 +55,17 @@ When documenting Squide:
 
 - `CLAUDE.md` is a **table of contents** — short, routing-focused, link-heavy.
 - `agent-docs/ARCHITECTURE.md` is a **high-level map** — key concepts and package domains.
-- `agent-docs/docs/` is the **structured knowledge base** — categorized, detailed, but concise.
+- `agent-docs/` is the **structured knowledge base** — categorized, detailed, but concise.
 
 ### File layout
 
 - `CLAUDE.md` — workspace root. Table of contents / navigation map.
 - `agent-docs/` — structured knowledge base:
   - `ARCHITECTURE.md` — high-level architecture overview
-  - `docs/design/` — design patterns: routing, data fetching, registrations, communication
-  - `docs/specs/` — package specifications and APIs
-  - `docs/references/` — build tooling, CI/CD, infrastructure
-  - `docs/quality/` — testing and quality standards
+  - `design/` — design patterns: routing, data fetching, registrations, communication
+  - `specs/` — package specifications and APIs
+  - `references/` — build tooling, CI/CD, infrastructure
+  - `quality/` — testing and quality standards
   - `adr/` — Architecture Decision Records
 
 ### Rules
@@ -79,33 +79,33 @@ When documenting Squide:
 - **Reference real paths.** Always cite actual file paths as evidence (e.g., `packages/core/src/`).
 - **No duplication.** If information exists in one document, link to it from others.
 - **No invention.** Only document what you can verify from actual files.
-- **Never use advisory language in agent instructions.** Use prohibition framing and state consequences. See [writing-agent-instructions.md](../../agent-docs/docs/references/writing-agent-instructions.md).
+- **Never use advisory language in agent instructions.** Use prohibition framing and state consequences. See [writing-agent-instructions.md](../../agent-docs/references/writing-agent-instructions.md).
 - ONLY modify files under `agent-docs/` and `CLAUDE.md` at the root. Modifying files outside this set will cause an infinite workflow loop.
 - Do NOT modify `CLAUDE.md`.
 
 ### ADR vs docs boundary
 
-ADRs record **why** a decision was made (the problem, the alternatives, the chosen option, and the trade-offs accepted). Operational details about **how** the decision is implemented belong in `agent-docs/docs/`.
+ADRs record **why** a decision was made (the problem, the alternatives, the chosen option, and the trade-offs accepted). Operational details about **how** the decision is implemented belong in `agent-docs/`.
 
 - **Belongs in an ADR:** the problem that motivated the decision, options evaluated, which option was chosen and why, architectural trade-offs accepted.
-- **Belongs in `agent-docs/docs/`:** file paths and storage locations, URL rewriting patterns, CLI commands and flags, permissions and access controls, step-by-step operational procedures, server start/build commands.
+- **Belongs in `agent-docs/`:** file paths and storage locations, URL rewriting patterns, CLI commands and flags, permissions and access controls, step-by-step operational procedures, server start/build commands.
 
 Examples:
 
-- **Good ADR sentence:** "Evidence is stored on an orphan branch so GitHub issue links remain stable across runs. See [ci-cd.md](../docs/references/ci-cd.md) for operational details."
+- **Good ADR sentence:** "Evidence is stored on an orphan branch so GitHub issue links remain stable across runs. See [ci-cd.md](../references/ci-cd.md) for operational details."
 - **Bad ADR sentence:** "Evidence files are pushed to the `dogfood-evidence` branch using `git push --force`, and URLs are rewritten from `./screenshots/` to `https://raw.githubusercontent.com/...`."
 
-**Never put operational details (commands, paths, configs, permissions, URL patterns) into an ADR.** State the decision and its rationale, then link to the relevant `agent-docs/docs/` file for implementation specifics. Operational content in ADRs drifts from the actual implementation and misleads agents into following stale procedures instead of reading the source of truth.
+**Never put operational details (commands, paths, configs, permissions, URL patterns) into an ADR.** State the decision and its rationale, then link to the relevant `agent-docs/` file for implementation specifics. Operational content in ADRs drifts from the actual implementation and misleads agents into following stale procedures instead of reading the source of truth.
 
 ### CLAUDE.md requirements
 
 CLAUDE.md must stay between 80–150 lines. It must contain:
 
 1. **Purpose** — 1–2 short paragraphs identifying the repository.
-2. **How to Navigate** — table linking to `agent-docs/ARCHITECTURE.md` and `agent-docs/docs/` categories.
+2. **How to Navigate** — table linking to `agent-docs/ARCHITECTURE.md` and `agent-docs/` categories.
 3. **"If You Are Working On…"** — routing table mapping tasks to documents.
 
-If any section grows too large, extract it into an `agent-docs/docs/` file and replace with a link.
+If any section grows too large, extract it into an `agent-docs/` file and replace with a link.
 
 ### agent-docs/ARCHITECTURE.md requirements
 

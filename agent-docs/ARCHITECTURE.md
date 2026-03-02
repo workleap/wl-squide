@@ -31,12 +31,12 @@ For detailed patterns and APIs, read the design docs linked below. This section 
 
 - **FireflyRuntime** — Central runtime object (`initializeFirefly()`). Manages module registration, routes, navigation, event bus, logging, env vars, feature flags, and plugins.
 - **Modules** — Domain-specific units exporting a register function (`ModuleRegisterFunction`). Autonomous — they never import from other modules.
-- **Two-Phase Registration** — (1) Initial registration at bootstrap, (2) deferred registration re-runs when global data or feature flags change. See [deferred-registrations.md](./docs/design/deferred-registrations.md).
-- **AppRouter** — Wraps React Router, assembles routes from all modules, orchestrates data fetching lifecycle. See [routing-and-navigation.md](./docs/design/routing-and-navigation.md).
-- **Global Data Fetching** — Built on TanStack Query (`usePublicDataQueries`, `useProtectedDataQueries`). See [data-fetching.md](./docs/design/data-fetching.md).
-- **Route Types** — Protected (default), Public, Hoisted, Nested. See [routing-and-navigation.md](./docs/design/routing-and-navigation.md).
+- **Two-Phase Registration** — (1) Initial registration at bootstrap, (2) deferred registration re-runs when global data or feature flags change. See [deferred-registrations.md](./design/deferred-registrations.md).
+- **AppRouter** — Wraps React Router, assembles routes from all modules, orchestrates data fetching lifecycle. See [routing-and-navigation.md](./design/routing-and-navigation.md).
+- **Global Data Fetching** — Built on TanStack Query (`usePublicDataQueries`, `useProtectedDataQueries`). See [data-fetching.md](./design/data-fetching.md).
+- **Route Types** — Protected (default), Public, Hoisted, Nested. See [routing-and-navigation.md](./design/routing-and-navigation.md).
 - **Environment Variables** — Runtime-attached (not `process.env`). Registered via `initializeFirefly()` or `runtime.registerVariable()`.
-- **Cross-Module Communication** — Event bus (pub/sub), plugins, shared types. See [cross-module-communication.md](./docs/design/cross-module-communication.md).
+- **Cross-Module Communication** — Event bus (pub/sub), plugins, shared types. See [cross-module-communication.md](./design/cross-module-communication.md).
 
 ## Sample Applications
 
@@ -51,5 +51,5 @@ Each sample follows: **host** → **shell** (layout, bootstrapping route) → **
 
 ## Further Reading
 
-- All `@squide/*` packages and APIs: [specs/](./docs/specs/)
+- All `@squide/*` packages and APIs: [specs/](./specs/)
 - See [CLAUDE.md](../CLAUDE.md) for the full documentation index.
