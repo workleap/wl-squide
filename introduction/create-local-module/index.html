@@ -5,10 +5,10 @@
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <meta name="color-scheme" content="light dark">
     <meta name="turbo-root" content="/wl-squide">
-    <meta name="turbo-cache-control" content="no-cache" data-turbo-track="reload" data-track-token="4.0.1.825661313070">
+    <meta name="turbo-cache-control" content="no-cache" data-turbo-track="reload" data-track-token="4.1.0.825785377228">
 
     <!-- See retype.com -->
-    <meta name="generator" content="Retype 4.0.1">
+    <meta name="generator" content="Retype 4.1.0">
 
     <!-- Primary Meta Tags -->
     <title>Create a local module</title>
@@ -29,12 +29,12 @@
     <script data-cfasync="false">(function(){var cl=document.documentElement.classList,ls=localStorage.getItem("retype_scheme"),hd=cl.contains("dark"),hl=cl.contains("light"),wm=window.matchMedia&&window.matchMedia("(prefers-color-scheme: dark)").matches;if(ls==="dark"||(!ls&&wm&&!hd&&!hl)){cl.remove("light");cl.add("dark")}else if(ls==="light"||(!ls&&!wm&&!hd&&!hl)){cl.remove("dark");cl.add("light")}})();</script>
 
     <link id="retype-favicon" rel="icon" href="../../static/favicon.png" />
-    <link href="../../resources/css/retype.css?v=4.0.1.825661313070" rel="stylesheet">
+    <link href="../../resources/css/retype.css?v=4.1.0.825785377228" rel="stylesheet">
 
-    <script data-cfasync="false" src="../../resources/js/config.js?v=4.0.1.825661313070" data-turbo-eval="false" defer></script>
-    <script data-cfasync="false" src="../../resources/js/retype.js?v=4.0.1" data-turbo-eval="false" defer></script>
-    <script id="lunr-js" data-cfasync="false" src="../../resources/js/lunr.js?v=4.0.1.825661313070" data-turbo-eval="false" defer></script>
-    <script id="prism-js" data-cfasync="false" src="../../resources/js/prism.js?v=4.0.1.825661313070" defer></script>
+    <script data-cfasync="false" src="../../resources/js/config.js?v=4.1.0.825785377228" data-turbo-eval="false" defer></script>
+    <script data-cfasync="false" src="../../resources/js/retype.js?v=4.1.0" data-turbo-eval="false" defer></script>
+    <script id="lunr-js" data-cfasync="false" src="../../resources/js/lunr.js?v=4.1.0.825785377228" data-turbo-eval="false" defer></script>
+    <script id="prism-js" data-cfasync="false" src="../../resources/js/prism.js?v=4.1.0.825785377228" defer></script>
 
     <link href="https://workleap.github.io/wl-idp-docs-hub/static/retype-customization.css" rel="stylesheet" />
 
@@ -310,7 +310,7 @@
     </h2>
 </doc-anchor-target>
 <p>Create a new application (we&#x27;ll refer to ours as <code translate="no" v-pre>local-module</code>), then open a terminal at the root of the local module and install the following packages:</p>
-<div class="codeblock-wrapper"><doc-codeblock>
+<div id="install-the-packages-code-1" class="codeblock-wrapper"><doc-codeblock>
 <pre translate="no" class="language-bash"><code v-pre class="language-bash">pnpm add -D typescript @types/react @types/react-dom</code></pre>
 </doc-codeblock></div>
 <doc-anchor-target id="setup-the-application">
@@ -320,7 +320,7 @@
     </h2>
 </doc-anchor-target>
 <p>First, create the following files:</p>
-<div class="codeblock-wrapper"><doc-codeblock>
+<div id="setup-the-application-code-1" class="codeblock-wrapper"><doc-codeblock>
 <pre translate="no" class="language-none"><code v-pre class="language-none">local-modules
 ├── src
 ├──── register.tsx
@@ -328,14 +328,14 @@
 ├── package.json</code></pre>
 </doc-codeblock></div>
 <p>Then, ensure that you are developing your module using <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Modules" class="outbound" target="_blank">ESM syntax</a> by specifying <code translate="no" v-pre>type: module</code> in your <code translate="no" v-pre>package.json</code> file:</p>
-<div class="codeblock-wrapper"><doc-codeblock>
+<div id="setup-the-application-local-modulepackagejson" class="codeblock-wrapper"><doc-codeblock>
 <div class="codeblock-title">local-module/package.json</div>
 <pre translate="no" class="language-json" data-line="2"><code v-pre class="language-json">{
     &quot;type&quot;: &quot;module&quot;
 }</code></pre>
 </doc-codeblock></div>
 <p>Then, configure the package to be shareable by adding the <code translate="no" v-pre>name</code>, <code translate="no" v-pre>version</code>, and <code translate="no" v-pre>export</code> fields to the <code translate="no" v-pre>package.json</code> file:</p>
-<div class="codeblock-wrapper"><doc-codeblock>
+<div id="setup-the-application-local-modulepackagejson-1" class="codeblock-wrapper"><doc-codeblock>
 <div class="codeblock-title">local-module/package.json</div>
 <pre translate="no" class="language-json" data-line="2-4"><code v-pre class="language-json">{
     &quot;name&quot;: &quot;@getting-started/local-module&quot;,
@@ -347,7 +347,7 @@
 <p>For more information about the <code translate="no" v-pre>exports</code> field, refer to this resource on <a href="https://www.shew.dev/monorepos/packaging/jit" class="outbound" target="_blank">Just-In-Time Packages</a>.</p>
 </blockquote>
 <p>Finally, add the following <code translate="no" v-pre>peerDependencies</code>:</p>
-<div class="codeblock-wrapper"><doc-codeblock>
+<div id="setup-the-application-local-modulepackagejson-2" class="codeblock-wrapper"><doc-codeblock>
 <div class="codeblock-title">local-module/package.json</div>
 <pre translate="no" class="language-json" data-line="5-14"><code v-pre class="language-json">{
     &quot;name&quot;: &quot;@getting-started/local-module&quot;,
@@ -372,7 +372,7 @@
     </h3>
 </doc-anchor-target>
 <p>Next, register the local module routes and navigation items with <a href="../../reference/runtime/fireflyruntime/#register-routes">registerRoute</a> and <a href="../../reference/runtime/fireflyruntime/#register-navigation-items">registerNavigationItem</a> functions:</p>
-<div class="codeblock-wrapper"><doc-codeblock>
+<div id="routes-registration-local-modulesrcregistertsx" class="codeblock-wrapper"><doc-codeblock>
 <div class="codeblock-title">local-module/src/register.tsx</div>
 <pre translate="no" class="language-tsx" data-line="5-8,10-14"><code v-pre class="language-tsx">import type { ModuleRegisterFunction, FireflyRuntime } from &quot;@squide/firefly&quot;;
 import { Page } from &quot;./Page.tsx&quot;;
@@ -391,7 +391,7 @@ export const register: ModuleRegisterFunction&lt;FireflyRuntime&gt; = runtime =&
 }</code></pre>
 </doc-codeblock></div>
 <p>Then, create the <code translate="no" v-pre>Page</code> component:</p>
-<div class="codeblock-wrapper"><doc-codeblock>
+<div id="routes-registration-local-modulesrcpagetsx" class="codeblock-wrapper"><doc-codeblock>
 <div class="codeblock-title">local-module/src/Page.tsx</div>
 <pre translate="no" class="language-tsx"><code v-pre class="language-tsx">export function Page() {
     return (
@@ -406,7 +406,7 @@ export const register: ModuleRegisterFunction&lt;FireflyRuntime&gt; = runtime =&
     </h2>
 </doc-anchor-target>
 <p>Go back to the <code translate="no" v-pre>host</code> application and add a dependency to the <code translate="no" v-pre>@getting-started/local-module</code> package in the host application <code translate="no" v-pre>package.json</code> file:</p>
-<div class="codeblock-wrapper"><doc-codeblock>
+<div id="register-the-local-module-hostpackagejson" class="codeblock-wrapper"><doc-codeblock>
 <div class="codeblock-title">host/package.json</div>
 <pre translate="no" class="language-json" data-line="3"><code v-pre class="language-json">{
     &quot;dependencies&quot;: {
@@ -430,7 +430,7 @@ export const register: ModuleRegisterFunction&lt;FireflyRuntime&gt; = runtime =&
     </div>
 </div>
 <p>Then, register the local module with the <a href="../../reference/registration/initializefirefly/">initializeFirefly</a> function:</p>
-<div class="codeblock-wrapper"><doc-codeblock>
+<div id="register-the-local-module-hostsrcindextsx" class="codeblock-wrapper"><doc-codeblock>
 <div class="codeblock-title">host/src/index.tsx</div>
 <pre translate="no" class="language-tsx" data-line="3,9"><code v-pre class="language-tsx">import { createRoot } from &quot;react-dom/client&quot;;
 import { FireflyProvider, initializeFirefly } from &quot;@squide/firefly&quot;;

@@ -5,10 +5,10 @@
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <meta name="color-scheme" content="light dark">
     <meta name="turbo-root" content="/wl-squide">
-    <meta name="turbo-cache-control" content="no-cache" data-turbo-track="reload" data-track-token="4.0.1.825661313070">
+    <meta name="turbo-cache-control" content="no-cache" data-turbo-track="reload" data-track-token="4.1.0.825785377228">
 
     <!-- See retype.com -->
-    <meta name="generator" content="Retype 4.0.1">
+    <meta name="generator" content="Retype 4.1.0">
 
     <!-- Primary Meta Tags -->
     <title>Use feature flags</title>
@@ -33,12 +33,12 @@
     <script data-cfasync="false">(function(){var cl=document.documentElement.classList,ls=localStorage.getItem("retype_scheme"),hd=cl.contains("dark"),hl=cl.contains("light"),wm=window.matchMedia&&window.matchMedia("(prefers-color-scheme: dark)").matches;if(ls==="dark"||(!ls&&wm&&!hd&&!hl)){cl.remove("light");cl.add("dark")}else if(ls==="light"||(!ls&&!wm&&!hd&&!hl)){cl.remove("dark");cl.add("light")}})();</script>
 
     <link id="retype-favicon" rel="icon" href="../../static/favicon.png" />
-    <link href="../../resources/css/retype.css?v=4.0.1.825661313070" rel="stylesheet">
+    <link href="../../resources/css/retype.css?v=4.1.0.825785377228" rel="stylesheet">
 
-    <script data-cfasync="false" src="../../resources/js/config.js?v=4.0.1.825661313070" data-turbo-eval="false" defer></script>
-    <script data-cfasync="false" src="../../resources/js/retype.js?v=4.0.1" data-turbo-eval="false" defer></script>
-    <script id="lunr-js" data-cfasync="false" src="../../resources/js/lunr.js?v=4.0.1.825661313070" data-turbo-eval="false" defer></script>
-    <script id="prism-js" data-cfasync="false" src="../../resources/js/prism.js?v=4.0.1.825661313070" defer></script>
+    <script data-cfasync="false" src="../../resources/js/config.js?v=4.1.0.825785377228" data-turbo-eval="false" defer></script>
+    <script data-cfasync="false" src="../../resources/js/retype.js?v=4.1.0" data-turbo-eval="false" defer></script>
+    <script id="lunr-js" data-cfasync="false" src="../../resources/js/lunr.js?v=4.1.0.825785377228" data-turbo-eval="false" defer></script>
+    <script id="prism-js" data-cfasync="false" src="../../resources/js/prism.js?v=4.1.0.825785377228" defer></script>
 
     <link href="https://workleap.github.io/wl-idp-docs-hub/static/retype-customization.css" rel="stylesheet" />
 
@@ -293,7 +293,7 @@
     </h2>
 </doc-anchor-target>
 <p>Once the LaunchDarkly SDK client is ready, feature flags can be evaluated in the bootstrapping code. To faciliate the evaluation of feature flags in non-React code, Squide offers a <a href="../../reference/launch-darkly/getfeatureflag/">getFeatureFlag</a> function:</p>
-<div class="codeblock-wrapper"><doc-codeblock>
+<div id="evaluate-a-feature-flag-in-bootstrapping-code-code-1" class="codeblock-wrapper"><doc-codeblock>
 <pre translate="no" class="language-typescript" data-line="4"><code v-pre class="language-typescript">import { getFeatureFlag } from &quot;@squide/firefly&quot;;
 
 // If the `enable-mixpanel` feature flag is not available, `true` will be returned.
@@ -306,7 +306,7 @@ const value = getFeatureFlag(launchDarklyClient, &quot;enable-mixpanel&quot;, tr
     </h2>
 </doc-anchor-target>
 <p>To evaluate a feature flag in React, use the <a href="../../reference/launch-darkly/usefeatureflag/">useFeatureFlag</a> hook:</p>
-<div class="codeblock-wrapper"><doc-codeblock>
+<div id="evaluate-a-feature-flag-in-react-code-code-1" class="codeblock-wrapper"><doc-codeblock>
 <pre translate="no" class="language-typescript" data-line="4"><code v-pre class="language-typescript">import { useFeatureFlag } from &quot;@squide/firefly&quot;;
 
 // If the `show-characters` feature flag is not available, `true` will be returned.
@@ -327,7 +327,7 @@ const value = useFeatureFlag(&quot;show-characters&quot;, true);</code></pre>
 </doc-anchor-target>
 <p>Before evaluating feature flags, modules must <a href="https://www.typescriptlang.org/docs/handbook/declaration-merging.html#module-augmentation" class="outbound" target="_blank">augment</a> the <a href="../../reference/launch-darkly/featureflags/">FeatureFlags</a> interface with the feature flags they intend to evaluate to ensure type safety and autocompletion.</p>
 <p>First, create a types folder in the project:</p>
-<div class="codeblock-wrapper"><doc-codeblock>
+<div id="setup-the-typings-code-1" class="codeblock-wrapper"><doc-codeblock>
 <pre translate="no" class="language-none" data-line="7-8"><code v-pre class="language-none">project
 ├── src
 ├────── register.tsx
@@ -338,7 +338,7 @@ const value = useFeatureFlag(&quot;show-characters&quot;, true);</code></pre>
 ├────── feature-flags.d.ts</code></pre>
 </doc-codeblock></div>
 <p>Then create a <code translate="no" v-pre>feature-flags.d.ts</code> file:</p>
-<div class="codeblock-wrapper"><doc-codeblock>
+<div id="setup-the-typings-projecttypesfeature-flagsdts" class="codeblock-wrapper"><doc-codeblock>
 <div class="codeblock-title">project/types/feature-flags.d.ts</div>
 <pre translate="no" class="language-typescript" data-line="6"><code v-pre class="language-typescript">import &quot;@squide/firefly&quot;;
 
@@ -350,7 +350,7 @@ declare module &quot;@squide/firefly&quot; {
 }</code></pre>
 </doc-codeblock></div>
 <p>Finally, update the project <code translate="no" v-pre>tsconfig.json</code> to include the <code translate="no" v-pre>types</code> folder:</p>
-<div class="codeblock-wrapper"><doc-codeblock>
+<div id="setup-the-typings-projecttsconfigjson" class="codeblock-wrapper"><doc-codeblock>
 <div class="codeblock-title">project/tsconfig.json</div>
 <pre translate="no" class="language-json" data-line="5-7"><code v-pre class="language-json">{
     &quot;compilerOptions&quot;: {
@@ -364,7 +364,7 @@ declare module &quot;@squide/firefly&quot; {
 }</code></pre>
 </doc-codeblock></div>
 <p>If any other project using those environment variables must also reference the project&#x27;s <code translate="no" v-pre>feature-flags.d.ts</code> file:</p>
-<div class="codeblock-wrapper"><doc-codeblock>
+<div id="setup-the-typings-projecttsconfigjson-1" class="codeblock-wrapper"><doc-codeblock>
 <div class="codeblock-title">project/tsconfig.json</div>
 <pre translate="no" class="language-json" data-line="5-7"><code v-pre class="language-json">{
     &quot;compilerOptions&quot;: {
@@ -392,7 +392,7 @@ declare module &quot;@squide/firefly&quot; {
 </doc-anchor-target>
 <p>If the code under test uses environment variables, the <code translate="no" v-pre>FireflyRuntime</code> instance can be used to mock these variables.</p>
 <p>Considering the following page:</p>
-<div class="codeblock-wrapper"><doc-codeblock>
+<div id="setup-with-tests-srcpagetsx" class="codeblock-wrapper"><doc-codeblock>
 <div class="codeblock-title">./src/Page.tsx</div>
 <pre translate="no" class="language-tsx" data-line="4"><code v-pre class="language-tsx">import { useFeatureFlag } from &quot;@squide/firefly&quot;;
 
@@ -414,7 +414,7 @@ export function Page() {
 }</code></pre>
 </doc-codeblock></div>
 <p>The following unit test can be written to mock the value of <code translate="no" v-pre>show-characters</code> and test the ouput of the <code translate="no" v-pre>createTelemetryClient</code> function:</p>
-<div class="codeblock-wrapper"><doc-codeblock>
+<div id="setup-with-tests-testscreatetelemetryclienttesttsx" class="codeblock-wrapper"><doc-codeblock>
 <div class="codeblock-title">./tests/createTelemetryClient.test.tsx</div>
 <pre translate="no" class="language-tsx" data-line="12,15,19,21"><code v-pre class="language-tsx">import { FireflyProvider, FireflyRuntime, LaunchDarklyPlugin, InMemoryLaunchDarklyClient } from &quot;@squide/firefly&quot;;
 import {render, screen} from &quot;@testing-library/react&quot;;
@@ -463,7 +463,7 @@ test(&quot;when the \&quot;show-characters\&quot; feature flag is off, do not re
     </h3>
 </doc-anchor-target>
 <p>Both fake implementations support toggling feature flags. To do so, first ensure that the client is an editable implementation by using the <a href="../../reference/launch-darkly/iseditablelaunchdarklyclient/">isEditableLaunchDarklyClient</a> utility function. Then, call the <code translate="no" v-pre>setFeatureFlags</code> method of the editable client to update the feature flag values:</p>
-<div class="codeblock-wrapper"><doc-codeblock>
+<div id="toggle-feature-flags-code-1" class="codeblock-wrapper"><doc-codeblock>
 <pre translate="no" class="language-typescript" data-line="10-13"><code v-pre class="language-typescript">import { InMemoryLaunchDarklyClient } from &quot;@squide/firefly&quot;;
 
 const featureFlags = {

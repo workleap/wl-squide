@@ -5,10 +5,10 @@
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <meta name="color-scheme" content="light dark">
     <meta name="turbo-root" content="/wl-squide">
-    <meta name="turbo-cache-control" content="no-cache" data-turbo-track="reload" data-track-token="4.0.1.825661313070">
+    <meta name="turbo-cache-control" content="no-cache" data-turbo-track="reload" data-track-token="4.1.0.825785377228">
 
     <!-- See retype.com -->
-    <meta name="generator" content="Retype 4.0.1">
+    <meta name="generator" content="Retype 4.1.0">
 
     <!-- Primary Meta Tags -->
     <title>Deploy</title>
@@ -29,12 +29,12 @@
     <script data-cfasync="false">(function(){var cl=document.documentElement.classList,ls=localStorage.getItem("retype_scheme"),hd=cl.contains("dark"),hl=cl.contains("light"),wm=window.matchMedia&&window.matchMedia("(prefers-color-scheme: dark)").matches;if(ls==="dark"||(!ls&&wm&&!hd&&!hl)){cl.remove("light");cl.add("dark")}else if(ls==="light"||(!ls&&!wm&&!hd&&!hl)){cl.remove("dark");cl.add("light")}})();</script>
 
     <link id="retype-favicon" rel="icon" href="../../static/favicon.png" />
-    <link href="../../resources/css/retype.css?v=4.0.1.825661313070" rel="stylesheet">
+    <link href="../../resources/css/retype.css?v=4.1.0.825785377228" rel="stylesheet">
 
-    <script data-cfasync="false" src="../../resources/js/config.js?v=4.0.1.825661313070" data-turbo-eval="false" defer></script>
-    <script data-cfasync="false" src="../../resources/js/retype.js?v=4.0.1" data-turbo-eval="false" defer></script>
-    <script id="lunr-js" data-cfasync="false" src="../../resources/js/lunr.js?v=4.0.1.825661313070" data-turbo-eval="false" defer></script>
-    <script id="prism-js" data-cfasync="false" src="../../resources/js/prism.js?v=4.0.1.825661313070" defer></script>
+    <script data-cfasync="false" src="../../resources/js/config.js?v=4.1.0.825785377228" data-turbo-eval="false" defer></script>
+    <script data-cfasync="false" src="../../resources/js/retype.js?v=4.1.0" data-turbo-eval="false" defer></script>
+    <script id="lunr-js" data-cfasync="false" src="../../resources/js/lunr.js?v=4.1.0.825785377228" data-turbo-eval="false" defer></script>
+    <script id="prism-js" data-cfasync="false" src="../../resources/js/prism.js?v=4.1.0.825785377228" defer></script>
 
     <link href="https://workleap.github.io/wl-idp-docs-hub/static/retype-customization.css" rel="stylesheet" />
 
@@ -289,11 +289,11 @@
     </h2>
 </doc-anchor-target>
 <p>To enable support for direct page hits, add the following redirect rule to your host application&#x27;s hosting provider:</p>
-<div class="codeblock-wrapper"><doc-codeblock>
+<div id="add-a-default-redirect-code-1" class="codeblock-wrapper"><doc-codeblock>
 <pre translate="no" class="language-none" data-line="1"><code v-pre class="language-none">/* /index.html 200</code></pre>
 </doc-codeblock></div>
 <p>For <a href="https://www.netlify.com/" class="outbound" target="_blank">Netlify</a>, it can either be with a <code translate="no" v-pre>netlify.toml</code> file at the root of project:</p>
-<div class="codeblock-wrapper"><doc-codeblock>
+<div id="add-a-default-redirect-netlifytoml" class="codeblock-wrapper"><doc-codeblock>
 <div class="codeblock-title">netlify.toml</div>
 <pre translate="no" class="language-none" data-line="1-4"><code v-pre class="language-none">[[redirects]]
     from = &quot;/*&quot;
@@ -301,7 +301,7 @@
     status = 200</code></pre>
 </doc-codeblock></div>
 <p>Or by adding a <code translate="no" v-pre>_redirects</code> file into the Netlify publish directory:</p>
-<div class="codeblock-wrapper"><doc-codeblock>
+<div id="add-a-default-redirect-_redirects" class="codeblock-wrapper"><doc-codeblock>
 <div class="codeblock-title">_redirects</div>
 <pre translate="no" class="language-none" data-line="1"><code v-pre class="language-none">/* /index.html 200</code></pre>
 </doc-codeblock></div>
@@ -312,7 +312,7 @@
     </h2>
 </doc-anchor-target>
 <p>If your modular applications includes <a href="../../module-federation/create-remote-module/">remote modules</a>, configure the remote modules production URL:</p>
-<div class="codeblock-wrapper"><doc-codeblock>
+<div id="set-the-remote-url-code-1" class="codeblock-wrapper"><doc-codeblock>
 <pre translate="no" class="language-javascript" data-line="4"><code v-pre class="language-javascript">const Remotes = [
     {
         name: &quot;remote1&quot;,
@@ -327,7 +327,7 @@
     </h2>
 </doc-anchor-target>
 <p>Don&#x27;t forget to change the <a href="../../reference/runtime/fireflyruntime/#change-the-runtime-mode">runtime mode</a> to <code translate="no" v-pre>production</code>:</p>
-<div class="codeblock-wrapper"><doc-codeblock>
+<div id="update-the-runtime-mode-code-1" class="codeblock-wrapper"><doc-codeblock>
 <pre translate="no" class="language-typescript" data-line="4"><code v-pre class="language-typescript">import { initializeFirefly } from &quot;@squide/firefly&quot;;
 
 const runtime = initializeFirefly({
@@ -341,7 +341,7 @@ const runtime = initializeFirefly({
     </h2>
 </doc-anchor-target>
 <p>If your application uses <a href="https://logrocket.com/" class="outbound" target="_blank">LogRocket</a>, register a <a href="https://workleap.github.io/wl-telemetry/reference/logrocketlogger/" class="outbound" target="_blank">LogRocketLogger</a> instance to capture log entries in LogRocket session replays:</p>
-<div class="codeblock-wrapper"><doc-codeblock>
+<div id="register-a-logrocket-logger-code-1" class="codeblock-wrapper"><doc-codeblock>
 <pre translate="no" class="language-typescript" data-line="6"><code v-pre class="language-typescript">import { initializeFirefly } from &quot;@squide/firefly&quot;;
 import { BrowserConsoleLogger, LogLevel } from &quot;@workleap/logging&quot;;
 import { LogRocketLogger } from &quot;@workleap/telemetry/react&quot;; // or from &quot;@workleap/logrocket/react&quot;;

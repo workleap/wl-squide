@@ -5,10 +5,10 @@
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <meta name="color-scheme" content="light dark">
     <meta name="turbo-root" content="/wl-squide">
-    <meta name="turbo-cache-control" content="no-cache" data-turbo-track="reload" data-track-token="4.0.1.825661313070">
+    <meta name="turbo-cache-control" content="no-cache" data-turbo-track="reload" data-track-token="4.1.0.825785377228">
 
     <!-- See retype.com -->
-    <meta name="generator" content="Retype 4.0.1">
+    <meta name="generator" content="Retype 4.1.0">
 
     <!-- Primary Meta Tags -->
     <title>Register local modules</title>
@@ -29,12 +29,12 @@
     <script data-cfasync="false">(function(){var cl=document.documentElement.classList,ls=localStorage.getItem("retype_scheme"),hd=cl.contains("dark"),hl=cl.contains("light"),wm=window.matchMedia&&window.matchMedia("(prefers-color-scheme: dark)").matches;if(ls==="dark"||(!ls&&wm&&!hd&&!hl)){cl.remove("light");cl.add("dark")}else if(ls==="light"||(!ls&&!wm&&!hd&&!hl)){cl.remove("dark");cl.add("light")}})();</script>
 
     <link id="retype-favicon" rel="icon" href="../../static/favicon.png" />
-    <link href="../../resources/css/retype.css?v=4.0.1.825661313070" rel="stylesheet">
+    <link href="../../resources/css/retype.css?v=4.1.0.825785377228" rel="stylesheet">
 
-    <script data-cfasync="false" src="../../resources/js/config.js?v=4.0.1.825661313070" data-turbo-eval="false" defer></script>
-    <script data-cfasync="false" src="../../resources/js/retype.js?v=4.0.1" data-turbo-eval="false" defer></script>
-    <script id="lunr-js" data-cfasync="false" src="../../resources/js/lunr.js?v=4.0.1.825661313070" data-turbo-eval="false" defer></script>
-    <script id="prism-js" data-cfasync="false" src="../../resources/js/prism.js?v=4.0.1.825661313070" defer></script>
+    <script data-cfasync="false" src="../../resources/js/config.js?v=4.1.0.825785377228" data-turbo-eval="false" defer></script>
+    <script data-cfasync="false" src="../../resources/js/retype.js?v=4.1.0" data-turbo-eval="false" defer></script>
+    <script id="lunr-js" data-cfasync="false" src="../../resources/js/lunr.js?v=4.1.0.825785377228" data-turbo-eval="false" defer></script>
+    <script id="prism-js" data-cfasync="false" src="../../resources/js/prism.js?v=4.1.0.825785377228" defer></script>
 
     <link href="https://workleap.github.io/wl-idp-docs-hub/static/retype-customization.css" rel="stylesheet" />
 
@@ -289,7 +289,7 @@
     </h2>
 </doc-anchor-target>
 <p>Typically, a local module is imported from a sibling package in a monorepo. To register a local module from a sibling package, add the local module package as a dependency of the host application:</p>
-<div class="codeblock-wrapper"><doc-codeblock>
+<div id="register-a-module-from-a-sibling-package-hostpackagejson" class="codeblock-wrapper"><doc-codeblock>
 <div class="codeblock-title">host/package.json</div>
 <pre translate="no" class="language-json" data-line="3"><code v-pre class="language-json">{
     &quot;dependencies&quot;: {
@@ -298,7 +298,7 @@
 }</code></pre>
 </doc-codeblock></div>
 <p>And, update the host application&#x27;s bootstrapping code to register the module using the <a href="../../reference/registration/initializefirefly/">initializeFirefly</a> function:</p>
-<div class="codeblock-wrapper"><doc-codeblock>
+<div id="register-a-module-from-a-sibling-package-hostindextsx" class="codeblock-wrapper"><doc-codeblock>
 <div class="codeblock-title">host/index.tsx</div>
 <pre translate="no" class="language-tsx" data-line="7"><code v-pre class="language-tsx">import { createRoot } from &quot;react-dom/client&quot;;
 import { FireflyProvider, initializeFirefly } from &quot;@squide/firefly&quot;;
@@ -324,7 +324,7 @@ root.render(
     </h2>
 </doc-anchor-target>
 <p>Contextual data can be passed to local modules by providing a <a href="../../reference/registration/initializefirefly/#provide-a-registration-context">context object</a> to the <a href="../../reference/registration/initializefirefly/">initializeFirefly</a> function:</p>
-<div class="codeblock-wrapper"><doc-codeblock>
+<div id="register-modules-with-a-context-object-hostindextsx" class="codeblock-wrapper"><doc-codeblock>
 <div class="codeblock-title">host/index.tsx</div>
 <pre translate="no" class="language-tsx" data-line="8-10"><code v-pre class="language-tsx">import { createRoot } from &quot;react-dom/client&quot;;
 import { FireflyProvider, initializeFirefly } from &quot;@squide/firefly&quot;;
@@ -353,7 +353,7 @@ root.render(
     </h2>
 </doc-anchor-target>
 <p>Some local modules require specific configuration. A common pattern to provide this configuration is to expose a higher-order registration function that accepts options and returns a &quot;scoped&quot; registration function:</p>
-<div class="codeblock-wrapper"><doc-codeblock>
+<div id="register-a-module-with-a-higher-order-registration-function-local-moduleregisterts" class="codeblock-wrapper"><doc-codeblock>
 <div class="codeblock-title">local-module/register.ts</div>
 <pre translate="no" class="language-typescript" data-line="8-16,18"><code v-pre class="language-typescript">import type { ModuleRegisterFunction, FireflyRuntime } from &quot;@squide/firefly&quot;;
 import { Page } from &quot;./Page.tsx&quot;;

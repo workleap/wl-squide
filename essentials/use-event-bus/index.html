@@ -5,10 +5,10 @@
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <meta name="color-scheme" content="light dark">
     <meta name="turbo-root" content="/wl-squide">
-    <meta name="turbo-cache-control" content="no-cache" data-turbo-track="reload" data-track-token="4.0.1.825661313070">
+    <meta name="turbo-cache-control" content="no-cache" data-turbo-track="reload" data-track-token="4.1.0.825785377228">
 
     <!-- See retype.com -->
-    <meta name="generator" content="Retype 4.0.1">
+    <meta name="generator" content="Retype 4.1.0">
 
     <!-- Primary Meta Tags -->
     <title>Use the event bus</title>
@@ -29,12 +29,12 @@
     <script data-cfasync="false">(function(){var cl=document.documentElement.classList,ls=localStorage.getItem("retype_scheme"),hd=cl.contains("dark"),hl=cl.contains("light"),wm=window.matchMedia&&window.matchMedia("(prefers-color-scheme: dark)").matches;if(ls==="dark"||(!ls&&wm&&!hd&&!hl)){cl.remove("light");cl.add("dark")}else if(ls==="light"||(!ls&&!wm&&!hd&&!hl)){cl.remove("dark");cl.add("light")}})();</script>
 
     <link id="retype-favicon" rel="icon" href="../../static/favicon.png" />
-    <link href="../../resources/css/retype.css?v=4.0.1.825661313070" rel="stylesheet">
+    <link href="../../resources/css/retype.css?v=4.1.0.825785377228" rel="stylesheet">
 
-    <script data-cfasync="false" src="../../resources/js/config.js?v=4.0.1.825661313070" data-turbo-eval="false" defer></script>
-    <script data-cfasync="false" src="../../resources/js/retype.js?v=4.0.1" data-turbo-eval="false" defer></script>
-    <script id="lunr-js" data-cfasync="false" src="../../resources/js/lunr.js?v=4.0.1.825661313070" data-turbo-eval="false" defer></script>
-    <script id="prism-js" data-cfasync="false" src="../../resources/js/prism.js?v=4.0.1.825661313070" defer></script>
+    <script data-cfasync="false" src="../../resources/js/config.js?v=4.1.0.825785377228" data-turbo-eval="false" defer></script>
+    <script data-cfasync="false" src="../../resources/js/retype.js?v=4.1.0" data-turbo-eval="false" defer></script>
+    <script id="lunr-js" data-cfasync="false" src="../../resources/js/lunr.js?v=4.1.0.825785377228" data-turbo-eval="false" defer></script>
+    <script id="prism-js" data-cfasync="false" src="../../resources/js/prism.js?v=4.1.0.825785377228" defer></script>
 
     <link href="https://workleap.github.io/wl-idp-docs-hub/static/retype-customization.css" rel="stylesheet" />
 
@@ -289,7 +289,7 @@
     </h2>
 </doc-anchor-target>
 <p>Register a function that will be invoked each time the specified event is dispatched:</p>
-<div class="codeblock-wrapper"><doc-codeblock>
+<div id="add-an-event-listener-code-1" class="codeblock-wrapper"><doc-codeblock>
 <pre translate="no" class="language-typescript" data-line="9"><code v-pre class="language-typescript">import { useCallback } from &quot;react&quot;;
 import { useEventBusListener } from &quot;@squide/firefly&quot;;
 
@@ -307,7 +307,7 @@ useEventBusListener(&quot;foo&quot;, handleFoo);</code></pre>
     </h2>
 </doc-anchor-target>
 <p>Register a function that will be invoked once, and then automatically unregisters itself:</p>
-<div class="codeblock-wrapper"><doc-codeblock>
+<div id="add-an-event-listener-that-will-be-invoked-once-code-1" class="codeblock-wrapper"><doc-codeblock>
 <pre translate="no" class="language-typescript" data-line="9"><code v-pre class="language-typescript">import { useCallback } from &quot;react&quot;;
 import { useEventBusListener } from &quot;@squide/firefly&quot;;
 
@@ -324,7 +324,7 @@ useEventBusListener(&quot;foo&quot;, handleFoo, { once: true };</code></pre>
         <span>Dispatch an event</span>
     </h2>
 </doc-anchor-target>
-<div class="codeblock-wrapper"><doc-codeblock>
+<div id="dispatch-an-event-code-1" class="codeblock-wrapper"><doc-codeblock>
 <pre translate="no" class="language-typescript" data-line="3,6"><code v-pre class="language-typescript">import { useEventBusDispatcher } from &quot;@squide/firefly&quot;;
 
 const dispatch = useEventBusDispatcher();

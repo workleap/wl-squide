@@ -5,10 +5,10 @@
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <meta name="color-scheme" content="light dark">
     <meta name="turbo-root" content="/wl-squide">
-    <meta name="turbo-cache-control" content="no-cache" data-turbo-track="reload" data-track-token="4.0.1.825661313070">
+    <meta name="turbo-cache-control" content="no-cache" data-turbo-track="reload" data-track-token="4.1.0.825785377228">
 
     <!-- See retype.com -->
-    <meta name="generator" content="Retype 4.0.1">
+    <meta name="generator" content="Retype 4.1.0">
 
     <!-- Primary Meta Tags -->
     <title>Register navigation items</title>
@@ -29,12 +29,12 @@
     <script data-cfasync="false">(function(){var cl=document.documentElement.classList,ls=localStorage.getItem("retype_scheme"),hd=cl.contains("dark"),hl=cl.contains("light"),wm=window.matchMedia&&window.matchMedia("(prefers-color-scheme: dark)").matches;if(ls==="dark"||(!ls&&wm&&!hd&&!hl)){cl.remove("light");cl.add("dark")}else if(ls==="light"||(!ls&&!wm&&!hd&&!hl)){cl.remove("dark");cl.add("light")}})();</script>
 
     <link id="retype-favicon" rel="icon" href="../../static/favicon.png" />
-    <link href="../../resources/css/retype.css?v=4.0.1.825661313070" rel="stylesheet">
+    <link href="../../resources/css/retype.css?v=4.1.0.825785377228" rel="stylesheet">
 
-    <script data-cfasync="false" src="../../resources/js/config.js?v=4.0.1.825661313070" data-turbo-eval="false" defer></script>
-    <script data-cfasync="false" src="../../resources/js/retype.js?v=4.0.1" data-turbo-eval="false" defer></script>
-    <script id="lunr-js" data-cfasync="false" src="../../resources/js/lunr.js?v=4.0.1.825661313070" data-turbo-eval="false" defer></script>
-    <script id="prism-js" data-cfasync="false" src="../../resources/js/prism.js?v=4.0.1.825661313070" defer></script>
+    <script data-cfasync="false" src="../../resources/js/config.js?v=4.1.0.825785377228" data-turbo-eval="false" defer></script>
+    <script data-cfasync="false" src="../../resources/js/retype.js?v=4.1.0" data-turbo-eval="false" defer></script>
+    <script id="lunr-js" data-cfasync="false" src="../../resources/js/lunr.js?v=4.1.0.825785377228" data-turbo-eval="false" defer></script>
+    <script id="prism-js" data-cfasync="false" src="../../resources/js/prism.js?v=4.1.0.825785377228" defer></script>
 
     <link href="https://workleap.github.io/wl-idp-docs-hub/static/retype-customization.css" rel="stylesheet" />
 
@@ -289,7 +289,7 @@
     </h2>
 </doc-anchor-target>
 <p>Typically, simple navigation items using only the <code translate="no" v-pre>$id</code>, <code translate="no" v-pre>$label</code> and <code translate="no" v-pre>to</code> options will be defined:</p>
-<div class="codeblock-wrapper"><doc-codeblock>
+<div id="register-a-basic-item-code-1" class="codeblock-wrapper"><doc-codeblock>
 <pre translate="no" class="language-typescript" data-line="4-8"><code v-pre class="language-typescript">import type { ModuleRegisterFunction, FireflyRuntime } from &quot;@squide/firefly&quot;;
 
 export const register: ModuleRegisterFunction&lt;FireflyRuntime&gt; = runtime =&gt; {
@@ -337,7 +337,7 @@ export const register: ModuleRegisterFunction&lt;FireflyRuntime&gt; = runtime =&
     </h2>
 </doc-anchor-target>
 <p>Similarly to <a href="../register-routes/#register-a-nested-route">nested routes</a>, a navigation item can be nested under an existing section be specifying a <code translate="no" v-pre>sectionId</code> option that matches the section&#x27;s <code translate="no" v-pre>$id</code> option:</p>
-<div class="codeblock-wrapper"><doc-codeblock>
+<div id="register-a-nested-item-code-1" class="codeblock-wrapper"><doc-codeblock>
 <pre translate="no" class="language-typescript" data-line="10"><code v-pre class="language-typescript">import type { ModuleRegisterFunction, FireflyRuntime } from &quot;@squide/firefly&quot;;
 
 export const register: ModuleRegisterFunction&lt;FireflyRuntime&gt; = runtime =&gt; {
@@ -352,7 +352,7 @@ export const register: ModuleRegisterFunction&lt;FireflyRuntime&gt; = runtime =&
 };</code></pre>
 </doc-codeblock></div>
 <p>Navigation items can also be nested by registering multipe items in a single registration block:</p>
-<div class="codeblock-wrapper"><doc-codeblock>
+<div id="register-a-nested-item-code-2" class="codeblock-wrapper"><doc-codeblock>
 <pre translate="no" class="language-typescript" data-line="10-31"><code v-pre class="language-typescript">import type { ModuleRegisterFunction, FireflyRuntime } from &quot;@squide/firefly&quot;;
 
 export const register: ModuleRegisterFunction&lt;FireflyRuntime&gt; = runtime =&gt; {
@@ -399,7 +399,7 @@ export const register: ModuleRegisterFunction&lt;FireflyRuntime&gt; = runtime =&
 <li>If an item have a priority <code translate="no" v-pre>&gt; 0</code>, the item will be positioned before any other items with a lower priority (or without an explicit priority value).</li>
 <li>If an item have a priority <code translate="no" v-pre>&lt; 0</code>, the item will be positioned after any other items with a higher priority (or without an explicit priority value).</li>
 </ul>
-<div class="codeblock-wrapper"><doc-codeblock>
+<div id="register-an-item-with-a-sorting-priority-code-1" class="codeblock-wrapper"><doc-codeblock>
 <pre translate="no" class="language-typescript" data-line="7,16"><code v-pre class="language-typescript">import type { ModuleRegisterFunction, FireflyRuntime } from &quot;@squide/firefly&quot;;
 
 export const register: ModuleRegisterFunction&lt;FireflyRuntime&gt; = runtime =&gt; {
@@ -427,7 +427,7 @@ export const register: ModuleRegisterFunction&lt;FireflyRuntime&gt; = runtime =&
     </h2>
 </doc-anchor-target>
 <p>Sometimes a route&#x27;s path depends on dynamic contextual values. To support those routes, navigation items can be defined with <a href="../../reference/routing/userenderednavigationitems/#render-dynamic-segments">dynamic segments</a>:</p>
-<div class="codeblock-wrapper"><doc-codeblock>
+<div id="use-dynamic-segments-for-an-item-link-code-1" class="codeblock-wrapper"><doc-codeblock>
 <pre translate="no" class="language-typescript" data-line="7"><code v-pre class="language-typescript">import type { ModuleRegisterFunction, FireflyRuntime } from &quot;@squide/firefly&quot;;
 
 export const register: ModuleRegisterFunction&lt;FireflyRuntime&gt; = runtime =&gt; {
@@ -445,7 +445,7 @@ export const register: ModuleRegisterFunction&lt;FireflyRuntime&gt; = runtime =&
     </h2>
 </doc-anchor-target>
 <p>Navigation item labels are not limited to plain text. For greater flexibility, a label can contain any React component:</p>
-<div class="codeblock-wrapper"><doc-codeblock>
+<div id="use-a-react-element-in-an-item-label-code-1" class="codeblock-wrapper"><doc-codeblock>
 <pre translate="no" class="language-tsx" data-line="7-10"><code v-pre class="language-tsx">import type { ModuleRegisterFunction, FireflyRuntime } from &quot;@squide/firefly&quot;;
 import { QuestionMarkIcon } from &quot;@sample/icons&quot;;
 
@@ -467,7 +467,7 @@ export const register: ModuleRegisterFunction&lt;FireflyRuntime&gt; = runtime =&
     </h2>
 </doc-anchor-target>
 <p>Sometimes a module knows best how its navigation items should be styled. To enforce a specific style on a navigation item, define the <code translate="no" v-pre>style</code> option:</p>
-<div class="codeblock-wrapper"><doc-codeblock>
+<div id="style-an-item-code-1" class="codeblock-wrapper"><doc-codeblock>
 <pre translate="no" class="language-typescript" data-line="7-9"><code v-pre class="language-typescript">import type { ModuleRegisterFunction, FireflyRuntime } from &quot;@squide/firefly&quot;;
 
 export const register: ModuleRegisterFunction&lt;FireflyRuntime&gt; = runtime =&gt; {
@@ -488,7 +488,7 @@ export const register: ModuleRegisterFunction&lt;FireflyRuntime&gt; = runtime =&
     </h2>
 </doc-anchor-target>
 <p>To open a navigation item in a new tab, set the <code translate="no" v-pre>target</code> option to <code translate="no" v-pre>_blank</code>:</p>
-<div class="codeblock-wrapper"><doc-codeblock>
+<div id="open-an-item-link-in-a-new-tab-code-1" class="codeblock-wrapper"><doc-codeblock>
 <pre translate="no" class="language-typescript" data-line="7"><code v-pre class="language-typescript">import type { ModuleRegisterFunction, FireflyRuntime } from &quot;@squide/firefly&quot;;
 
 export const register: ModuleRegisterFunction&lt;FireflyRuntime&gt; = runtime =&gt; {
@@ -507,7 +507,7 @@ export const register: ModuleRegisterFunction&lt;FireflyRuntime&gt; = runtime =&
     </h2>
 </doc-anchor-target>
 <p>The <code translate="no" v-pre>$canRender</code> native property can be used to indicate whether a navigation item should be rendered by the layout:</p>
-<div class="codeblock-wrapper"><doc-codeblock>
+<div id="conditionally-render-an-item-code-1" class="codeblock-wrapper"><doc-codeblock>
 <pre translate="no" class="language-typescript" data-line="7-9"><code v-pre class="language-typescript">import type { ModuleRegisterFunction, FireflyRuntime } from &quot;@squide/firefly&quot;;
 
 export const register: ModuleRegisterFunction&lt;FireflyRuntime&gt; = runtime =&gt; {
@@ -602,7 +602,7 @@ export function RootLayout() {
     </h2>
 </doc-anchor-target>
 <p>Any properties defined in the <code translate="no" v-pre>$additionalProps</code> option will be forwarded to the layout:</p>
-<div class="codeblock-wrapper"><doc-codeblock>
+<div id="render-additional-props-on-an-item-code-1" class="codeblock-wrapper"><doc-codeblock>
 <pre translate="no" class="language-typescript" data-line="7-9"><code v-pre class="language-typescript">import type { ModuleRegisterFunction, FireflyRuntime } from &quot;@squide/firefly&quot;;
 
 export const register: ModuleRegisterFunction&lt;FireflyRuntime&gt; = runtime =&gt; {
@@ -690,13 +690,13 @@ export function RootLayout() {
     </h3>
 </doc-anchor-target>
 <p>To define an additional menu in a layout or page, retrieve the navigation items associated with that menu by passing the menu&#x27;s identifier to the <a href="../../reference/routing/usenavigationitems/">useNavigationItems</a> hook using the <code translate="no" v-pre>menuId</code> option:</p>
-<div class="codeblock-wrapper"><doc-codeblock>
+<div id="define-a-menu-code-1" class="codeblock-wrapper"><doc-codeblock>
 <pre translate="no" class="language-tsx" data-line="3"><code v-pre class="language-tsx">import { useNavigationItems } from &quot;@squide/firefly&quot;;
 
 const items = useNavigationItems({ menuId: &quot;page-menu&quot; });</code></pre>
 </doc-codeblock></div>
 <p>Then, render the additional menu items using the <a href="../../reference/routing/userenderednavigationitems/">useRenderedNavigationItems</a> hook:</p>
-<div class="codeblock-wrapper"><doc-codeblock>
+<div id="define-a-menu-code-2" class="codeblock-wrapper"><doc-codeblock>
 <pre translate="no" class="language-tsx" data-line="36,39"><code v-pre class="language-tsx">import { Link, Outlet } from &quot;react-router&quot;;
 import { 
     useNavigationItems,
@@ -750,7 +750,7 @@ export function Page() {
     </h3>
 </doc-anchor-target>
 <p>Finally, register navigation items specifically for this additional menu using the <code translate="no" v-pre>menuId</code> option when registering the items:</p>
-<div class="codeblock-wrapper"><doc-codeblock>
+<div id="register-an-item-in-a-menu-code-1" class="codeblock-wrapper"><doc-codeblock>
 <pre translate="no" class="language-tsx" data-line="9"><code v-pre class="language-tsx">import type { ModuleRegisterFunction, FireflyRuntime } from &quot;@squide/firefly&quot;;
 
 export const register: ModuleRegisterFunction&lt;FireflyRuntime&gt; = runtime =&gt; {

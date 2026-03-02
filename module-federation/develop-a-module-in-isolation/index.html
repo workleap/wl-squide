@@ -5,10 +5,10 @@
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <meta name="color-scheme" content="light dark">
     <meta name="turbo-root" content="/wl-squide">
-    <meta name="turbo-cache-control" content="no-cache" data-turbo-track="reload" data-track-token="4.0.1.825661313070">
+    <meta name="turbo-cache-control" content="no-cache" data-turbo-track="reload" data-track-token="4.1.0.825785377228">
 
     <!-- See retype.com -->
-    <meta name="generator" content="Retype 4.0.1">
+    <meta name="generator" content="Retype 4.1.0">
 
     <!-- Primary Meta Tags -->
     <title>Develop a module in isolation</title>
@@ -29,12 +29,12 @@
     <script data-cfasync="false">(function(){var cl=document.documentElement.classList,ls=localStorage.getItem("retype_scheme"),hd=cl.contains("dark"),hl=cl.contains("light"),wm=window.matchMedia&&window.matchMedia("(prefers-color-scheme: dark)").matches;if(ls==="dark"||(!ls&&wm&&!hd&&!hl)){cl.remove("light");cl.add("dark")}else if(ls==="light"||(!ls&&!wm&&!hd&&!hl)){cl.remove("dark");cl.add("light")}})();</script>
 
     <link id="retype-favicon" rel="icon" href="../../static/favicon.png" />
-    <link href="../../resources/css/retype.css?v=4.0.1.825661313070" rel="stylesheet">
+    <link href="../../resources/css/retype.css?v=4.1.0.825785377228" rel="stylesheet">
 
-    <script data-cfasync="false" src="../../resources/js/config.js?v=4.0.1.825661313070" data-turbo-eval="false" defer></script>
-    <script data-cfasync="false" src="../../resources/js/retype.js?v=4.0.1" data-turbo-eval="false" defer></script>
-    <script id="lunr-js" data-cfasync="false" src="../../resources/js/lunr.js?v=4.0.1.825661313070" data-turbo-eval="false" defer></script>
-    <script id="prism-js" data-cfasync="false" src="../../resources/js/prism.js?v=4.0.1.825661313070" defer></script>
+    <script data-cfasync="false" src="../../resources/js/config.js?v=4.1.0.825785377228" data-turbo-eval="false" defer></script>
+    <script data-cfasync="false" src="../../resources/js/retype.js?v=4.1.0" data-turbo-eval="false" defer></script>
+    <script id="lunr-js" data-cfasync="false" src="../../resources/js/lunr.js?v=4.1.0.825785377228" data-turbo-eval="false" defer></script>
+    <script id="prism-js" data-cfasync="false" src="../../resources/js/prism.js?v=4.1.0.825785377228" defer></script>
 
     <link href="https://workleap.github.io/wl-idp-docs-hub/static/retype-customization.css" rel="stylesheet" />
 
@@ -282,7 +282,7 @@
 </doc-anchor-target>
 <p>To develop their own independent module, a team should not need to install the host application or any other modules of the application they do not own. However, they should have a way to integrate their module with the application shell (e.g., <code translate="no" v-pre>RootLayout</code>, <code translate="no" v-pre>RootErrorBoundary</code>, etc..) while working in isolation.</p>
 <p>To achieve this, the first step is to extract the application shell from the host application. There are various ways to accomplish this, but in this guide, we&#x27;ll transform the host application into a monorepo and introduce a new local package named <code translate="no" v-pre>@sample/shell</code> specifically for this purpose:</p>
-<div class="codeblock-wrapper"><doc-codeblock>
+<div id="develop-a-module-in-isolation-code-1" class="codeblock-wrapper"><doc-codeblock>
 <pre translate="no" class="language-none" data-line="4-11"><code v-pre class="language-none">monorepo
 ├── apps
 ├── libs
@@ -322,7 +322,7 @@
     </div>
 </div>
 <p>First, create a new package (we&#x27;ll refer to ours as <code translate="no" v-pre>shell</code>) and add the following fields to the <code translate="no" v-pre>package.json</code> file:</p>
-<div class="codeblock-wrapper"><doc-codeblock>
+<div id="create-a-shell-package-shellpackagejson" class="codeblock-wrapper"><doc-codeblock>
 <div class="codeblock-title">shell/package.json</div>
 <pre translate="no" class="language-json"><code v-pre class="language-json">{
     &quot;name&quot;: &quot;@sample/shell&quot;,
@@ -332,7 +332,7 @@
 }</code></pre>
 </doc-codeblock></div>
 <p>Then, install the package dependencies and create an <code translate="no" v-pre>AppRouter</code> component in the shell package to provide a <strong>reusable router configuration</strong> that can be shared between the host application and the isolated modules. This new <code translate="no" v-pre>AppRouter</code> component should wrap the <code translate="no" v-pre>@squide/firefly</code> <a href="../../reference/routing/approuter/">AppRouter</a> component:</p>
-<div class="codeblock-wrapper"><doc-codeblock>
+<div id="create-a-shell-package-shellsrcapproutertsx" class="codeblock-wrapper"><doc-codeblock>
 <div class="codeblock-title">shell/src/AppRouter.tsx</div>
 <pre translate="no" class="language-tsx" data-line="6-25"><code v-pre class="language-tsx">import { AppRouter as FireflyAppRouter } from &quot;@squide/firefly&quot;;
 import { createBrowserRouter } from &quot;react-router&quot;;
@@ -361,7 +361,7 @@ export function AppRouter() {
 }</code></pre>
 </doc-codeblock></div>
 <p>Finally, create a local module to register the <strong>application shell</strong>. This module will be used by both the host application and the isolated modules:</p>
-<div class="codeblock-wrapper"><doc-codeblock>
+<div id="create-a-shell-package-shellsrcregistertsx" class="codeblock-wrapper"><doc-codeblock>
 <div class="codeblock-title">shell/src/register.tsx</div>
 <pre translate="no" class="language-tsx" data-line="5-20"><code v-pre class="language-tsx">import { PublicRoutes, ProtectedRoutes, type ModuleRegisterFunction, type FireflyRuntime } from &quot;@squide/firefly&quot;;
 import { RootLayout } from &quot;./RootLayout.tsx&quot;;
@@ -408,7 +408,7 @@ export const registerShell: ModuleRegisterFunction&lt;FireflyRuntime&gt; = runti
     </h2>
 </doc-anchor-target>
 <p>Now, let&#x27;s revisit the host application by adding the new <code translate="no" v-pre>@sample/shell</code> package as a dependency:</p>
-<div class="codeblock-wrapper"><doc-codeblock>
+<div id="update-the-host-application-hostpackagejson" class="codeblock-wrapper"><doc-codeblock>
 <div class="codeblock-title">host/package.json</div>
 <pre translate="no" class="language-json" data-line="3"><code v-pre class="language-json">{
     &quot;dependencies&quot;: {
@@ -417,7 +417,7 @@ export const registerShell: ModuleRegisterFunction&lt;FireflyRuntime&gt; = runti
 }</code></pre>
 </doc-codeblock></div>
 <p>Then, integrate the <code translate="no" v-pre>AppRouter</code> component from the <code translate="no" v-pre>@sample/shell</code> package into the application:</p>
-<div class="codeblock-wrapper"><doc-codeblock>
+<div id="update-the-host-application-hostsrcapptsx" class="codeblock-wrapper"><doc-codeblock>
 <div class="codeblock-title">host/src/App.tsx</div>
 <pre translate="no" class="language-tsx" data-line="5"><code v-pre class="language-tsx">import { AppRouter } from &quot;@sample/shell&quot;;
 
@@ -428,7 +428,7 @@ export function App() {
 }</code></pre>
 </doc-codeblock></div>
 <p>And finally include the <code translate="no" v-pre>registerShell</code> function to setup the <code translate="no" v-pre>RootLayout</code> and <code translate="no" v-pre>RootErrorBoundary</code> components as well as any other shell assets:</p>
-<div class="codeblock-wrapper"><doc-codeblock>
+<div id="update-the-host-application-hostsrcbootstraptsx" class="codeblock-wrapper"><doc-codeblock>
 <div class="codeblock-title">host/src/bootstrap.tsx</div>
 <pre translate="no" class="language-tsx" data-line="9"><code v-pre class="language-tsx">import { createRoot } from &quot;react-dom/client&quot;;
 import { FireflyProvider, initializeFirefly } from &quot;@squide/firefly&quot;;
@@ -457,7 +457,7 @@ root.render(
 </doc-anchor-target>
 <p>With the new <code translate="no" v-pre>shell</code> package in place, we can now configure the remote module to be developed in isolation. The goal is to start the module development server and render the module pages with the <strong>same layout and shared functionalities</strong> as if it was rendered by the host application.</p>
 <p>To begin, let&#x27;s start by adding a dependency to the <code translate="no" v-pre>@sample/shell</code> package:</p>
-<div class="codeblock-wrapper"><doc-codeblock>
+<div id="setup-a-remote-module-remote-modulepackagejson" class="codeblock-wrapper"><doc-codeblock>
 <div class="codeblock-title">remote-module/package.json</div>
 <pre translate="no" class="language-json" data-line="3"><code v-pre class="language-json">{
     &quot;dependencies&quot;: {
@@ -466,7 +466,7 @@ root.render(
 }</code></pre>
 </doc-codeblock></div>
 <p>Then, create the following files in the remote module application:</p>
-<div class="codeblock-wrapper"><doc-codeblock>
+<div id="setup-a-remote-module-code-1" class="codeblock-wrapper"><doc-codeblock>
 <pre translate="no" class="language-none" data-line="2-3,5-9"><code v-pre class="language-none">remote-module
 ├── public
 ├──── index.html
@@ -488,7 +488,7 @@ root.render(
     </h3>
 </doc-anchor-target>
 <p>The <code translate="no" v-pre>index.tsx</code> file is similar to the <code translate="no" v-pre>bootstrap.tsx</code> file of an host application but, tailored for an isolated module. The key distinctions are that all the modules are registered as local modules, and a new <code translate="no" v-pre>registerDev</code> function is introduced to register the development homepage (which will be covered in an upcoming section):</p>
-<div class="codeblock-wrapper"><doc-codeblock>
+<div id="indextsx-remote-modulesrcdevindextsx" class="codeblock-wrapper"><doc-codeblock>
 <div class="codeblock-title">remote-module/src/dev/index.tsx</div>
 <pre translate="no" class="language-tsx" data-line="9-13"><code v-pre class="language-tsx">import { createRoot } from &quot;react-dom/client&quot;;
 import { FireflyProvider } from &quot;@squide/firefly&quot;;
@@ -519,7 +519,7 @@ root.render(
     </h3>
 </doc-anchor-target>
 <p>The <code translate="no" v-pre>App.tsx</code> file uses the newly created <code translate="no" v-pre>AppRouter</code> component to setup Squide&#x27;s primitives with a <a href="https://reactrouter.com/" class="outbound" target="_blank">React Router</a> instance:</p>
-<div class="codeblock-wrapper"><doc-codeblock>
+<div id="apptsx-remote-modulesrcdevapptsx" class="codeblock-wrapper"><doc-codeblock>
 <div class="codeblock-title">remote-module/src/dev/App.tsx</div>
 <pre translate="no" class="language-tsx" data-line="5"><code v-pre class="language-tsx">import { AppRouter } from &quot;@sample/shell&quot;;
 
@@ -536,7 +536,7 @@ export function App() {
     </h3>
 </doc-anchor-target>
 <p>The <code translate="no" v-pre>DevHome</code> component is the homepage when the remote module is developed in isolation:</p>
-<div class="codeblock-wrapper"><doc-codeblock>
+<div id="devhometsx-remote-modulesrcdevdevhometsx" class="codeblock-wrapper"><doc-codeblock>
 <div class="codeblock-title">remote-module/src/dev/DevHome.tsx</div>
 <pre translate="no" class="language-tsx"><code v-pre class="language-tsx">function DevHome() {
     return (
@@ -548,7 +548,7 @@ export function App() {
 }</code></pre>
 </doc-codeblock></div>
 <p>To register the development homepage, create a new local module specifically for configuring the remote during isolated development:</p>
-<div class="codeblock-wrapper"><doc-codeblock>
+<div id="devhometsx-remote-modulesrcdevregistertsx" class="codeblock-wrapper"><doc-codeblock>
 <div class="codeblock-title">remote-module/src/dev/register.tsx</div>
 <pre translate="no" class="language-tsx" data-line="4-9"><code v-pre class="language-tsx">import type { ModuleRegisterFunction, FireflyRuntime } from &quot;@squide/firefly&quot;;
 import { DevHome } from &quot;./DevHome.tsx&quot;;
@@ -567,7 +567,7 @@ export const registerDev: ModuleRegisterFunction&lt;FireflyRuntime&gt; = runtime
     </h3>
 </doc-anchor-target>
 <p>Next, add a new <code translate="no" v-pre>dev-isolated</code> script to the <code translate="no" v-pre>package.json</code> file to start the local development server in <strong>isolation</strong>:</p>
-<div class="codeblock-wrapper"><doc-codeblock>
+<div id="add-a-new-cli-script-remote-modulepackagejson" class="codeblock-wrapper"><doc-codeblock>
 <div class="codeblock-title">remote-module/package.json</div>
 <pre translate="no" class="language-json" data-line="3"><code v-pre class="language-json">{
     &quot;dev&quot;: &quot;webpack serve --config webpack.dev.js&quot;,
@@ -597,7 +597,7 @@ export const registerDev: ModuleRegisterFunction&lt;FireflyRuntime&gt; = runtime
     </h3>
 </doc-anchor-target>
 <p>First, open the <code translate="no" v-pre>public/index.html</code> file created at the beginning of this guide and copy/paste the following <a href="https://webpack.js.org/plugins/html-webpack-plugin/" class="outbound" target="_blank">HtmlWebpackPlugin</a> template:</p>
-<div class="codeblock-wrapper"><doc-codeblock>
+<div id="configure-webpack-hostpublicindexhtml" class="codeblock-wrapper"><doc-codeblock>
 <div class="codeblock-title">host/public/index.html</div>
 <pre translate="no" class="language-markup"><code v-pre class="language-markup">&lt;!DOCTYPE html&gt;
 &lt;html&gt;
@@ -609,7 +609,7 @@ export const registerDev: ModuleRegisterFunction&lt;FireflyRuntime&gt; = runtime
 &lt;/html&gt;</code></pre>
 </doc-codeblock></div>
 <p>Then, open the <code translate="no" v-pre>.browserslist</code> file and copy/paste the following content:</p>
-<div class="codeblock-wrapper"><doc-codeblock>
+<div id="configure-webpack-hostbrowserslistrc" class="codeblock-wrapper"><doc-codeblock>
 <div class="codeblock-title">host/.browserslistrc</div>
 <pre translate="no" class="language-none" data-line="1"><code v-pre class="language-none">extends @workleap/browserslist-config</code></pre>
 </doc-codeblock></div>
@@ -620,7 +620,7 @@ export const registerDev: ModuleRegisterFunction&lt;FireflyRuntime&gt; = runtime
     </h4>
 </doc-anchor-target>
 <p>To configure webpack, open the <code translate="no" v-pre>webpack.dev.js</code> file and update the configuration to incorporate the <code translate="no" v-pre>ISOLATED</code> environment variable and the <a href="../../reference/webpack/definedevhostconfig/">defineDevHostConfig</a> function:</p>
-<div class="codeblock-wrapper"><doc-codeblock>
+<div id="isolated-environment-configuration-remote-modulewebpackdevjs" class="codeblock-wrapper"><doc-codeblock>
 <div class="codeblock-title">remote-module/webpack.dev.js</div>
 <pre translate="no" class="language-javascript" data-line="8,11"><code v-pre class="language-javascript">// @ts-check
 

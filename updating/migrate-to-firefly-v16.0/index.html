@@ -5,10 +5,10 @@
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <meta name="color-scheme" content="light dark">
     <meta name="turbo-root" content="/wl-squide">
-    <meta name="turbo-cache-control" content="no-cache" data-turbo-track="reload" data-track-token="4.0.1.825661313070">
+    <meta name="turbo-cache-control" content="no-cache" data-turbo-track="reload" data-track-token="4.1.0.825785377228">
 
     <!-- See retype.com -->
-    <meta name="generator" content="Retype 4.0.1">
+    <meta name="generator" content="Retype 4.1.0">
 
     <!-- Primary Meta Tags -->
     <title>Migrate to firefly v16.0</title>
@@ -29,12 +29,12 @@
     <script data-cfasync="false">(function(){var cl=document.documentElement.classList,ls=localStorage.getItem("retype_scheme"),hd=cl.contains("dark"),hl=cl.contains("light"),wm=window.matchMedia&&window.matchMedia("(prefers-color-scheme: dark)").matches;if(ls==="dark"||(!ls&&wm&&!hd&&!hl)){cl.remove("light");cl.add("dark")}else if(ls==="light"||(!ls&&!wm&&!hd&&!hl)){cl.remove("dark");cl.add("light")}})();</script>
 
     <link id="retype-favicon" rel="icon" href="../../static/favicon.png" />
-    <link href="../../resources/css/retype.css?v=4.0.1.825661313070" rel="stylesheet">
+    <link href="../../resources/css/retype.css?v=4.1.0.825785377228" rel="stylesheet">
 
-    <script data-cfasync="false" src="../../resources/js/config.js?v=4.0.1.825661313070" data-turbo-eval="false" defer></script>
-    <script data-cfasync="false" src="../../resources/js/retype.js?v=4.0.1" data-turbo-eval="false" defer></script>
-    <script id="lunr-js" data-cfasync="false" src="../../resources/js/lunr.js?v=4.0.1.825661313070" data-turbo-eval="false" defer></script>
-    <script id="prism-js" data-cfasync="false" src="../../resources/js/prism.js?v=4.0.1.825661313070" defer></script>
+    <script data-cfasync="false" src="../../resources/js/config.js?v=4.1.0.825785377228" data-turbo-eval="false" defer></script>
+    <script data-cfasync="false" src="../../resources/js/retype.js?v=4.1.0" data-turbo-eval="false" defer></script>
+    <script id="lunr-js" data-cfasync="false" src="../../resources/js/lunr.js?v=4.1.0.825785377228" data-turbo-eval="false" defer></script>
+    <script id="prism-js" data-cfasync="false" src="../../resources/js/prism.js?v=4.1.0.825785377228" defer></script>
 
     <link href="https://workleap.github.io/wl-idp-docs-hub/static/retype-customization.css" rel="stylesheet" />
 
@@ -282,12 +282,12 @@
 </doc-anchor-target>
 <p>This major version removes <a href="https://module-federation.io/" class="outbound" target="_blank">Module Federation</a> from <code translate="no" v-pre>@squide/firefly</code>. Module Federation is now optional and can be enabled by installing the <code translate="no" v-pre>@squide/firefly-module-federation</code> package. To register <a href="../../module-federation/create-remote-module/">remote modules</a>, import the <a href="../../reference/registration/initializefirefly/">initializeFirefly</a> function from <code translate="no" v-pre>@squide/firefly-module-federation</code> instead of <code translate="no" v-pre>@squide/firefly</code>.</p>
 <p>First, install the <code translate="no" v-pre>@squide/firefly-module-federation</code> package:</p>
-<div class="codeblock-wrapper"><doc-codeblock>
+<div id="migrate-to-firefly-v160-code-1" class="codeblock-wrapper"><doc-codeblock>
 <pre translate="no" class="language-bash"><code v-pre class="language-bash">pnpm add @squide/firefly-module-federation</code></pre>
 </doc-codeblock></div>
 <p>Then, follow this example to register remote modules using the new <code translate="no" v-pre>@squide/firefly-module-federation</code> package.</p>
 <p>Before:</p>
-<div class="codeblock-wrapper"><doc-codeblock>
+<div id="migrate-to-firefly-v160-hostsrcbootstraptsx" class="codeblock-wrapper"><doc-codeblock>
 <div class="codeblock-title">host/src/bootstrap.tsx</div>
 <pre translate="no" class="language-tsx"><code v-pre class="language-tsx">import { createRoot } from &quot;react-dom/client&quot;;
 import { FireflyProvider, initializeFirefly, type RemoteDefinition } from &quot;@squide/firefly&quot;;
@@ -312,7 +312,7 @@ root.render(
 );</code></pre>
 </doc-codeblock></div>
 <p>After:</p>
-<div class="codeblock-wrapper"><doc-codeblock>
+<div id="migrate-to-firefly-v160-hostsrcbootstraptsx-1" class="codeblock-wrapper"><doc-codeblock>
 <div class="codeblock-title">host/src/bootstrap.tsx</div>
 <pre translate="no" class="language-tsx" data-line="3"><code v-pre class="language-tsx">import { createRoot } from &quot;react-dom/client&quot;;
 import { FireflyProvider } from &quot;@squide/firefly&quot;;

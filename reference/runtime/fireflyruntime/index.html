@@ -5,10 +5,10 @@
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <meta name="color-scheme" content="light dark">
     <meta name="turbo-root" content="/wl-squide">
-    <meta name="turbo-cache-control" content="no-cache" data-turbo-track="reload" data-track-token="4.0.1.825661313070">
+    <meta name="turbo-cache-control" content="no-cache" data-turbo-track="reload" data-track-token="4.1.0.825785377228">
 
     <!-- See retype.com -->
-    <meta name="generator" content="Retype 4.0.1">
+    <meta name="generator" content="Retype 4.1.0">
 
     <!-- Primary Meta Tags -->
     <title>FireflyRuntime</title>
@@ -29,12 +29,12 @@
     <script data-cfasync="false">(function(){var cl=document.documentElement.classList,ls=localStorage.getItem("retype_scheme"),hd=cl.contains("dark"),hl=cl.contains("light"),wm=window.matchMedia&&window.matchMedia("(prefers-color-scheme: dark)").matches;if(ls==="dark"||(!ls&&wm&&!hd&&!hl)){cl.remove("light");cl.add("dark")}else if(ls==="light"||(!ls&&!wm&&!hd&&!hl)){cl.remove("dark");cl.add("light")}})();</script>
 
     <link id="retype-favicon" rel="icon" href="../../../static/favicon.png" />
-    <link href="../../../resources/css/retype.css?v=4.0.1.825661313070" rel="stylesheet">
+    <link href="../../../resources/css/retype.css?v=4.1.0.825785377228" rel="stylesheet">
 
-    <script data-cfasync="false" src="../../../resources/js/config.js?v=4.0.1.825661313070" data-turbo-eval="false" defer></script>
-    <script data-cfasync="false" src="../../../resources/js/retype.js?v=4.0.1" data-turbo-eval="false" defer></script>
-    <script id="lunr-js" data-cfasync="false" src="../../../resources/js/lunr.js?v=4.0.1.825661313070" data-turbo-eval="false" defer></script>
-    <script id="prism-js" data-cfasync="false" src="../../../resources/js/prism.js?v=4.0.1.825661313070" defer></script>
+    <script data-cfasync="false" src="../../../resources/js/config.js?v=4.1.0.825785377228" data-turbo-eval="false" defer></script>
+    <script data-cfasync="false" src="../../../resources/js/retype.js?v=4.1.0" data-turbo-eval="false" defer></script>
+    <script id="lunr-js" data-cfasync="false" src="../../../resources/js/lunr.js?v=4.1.0.825785377228" data-turbo-eval="false" defer></script>
+    <script id="prism-js" data-cfasync="false" src="../../../resources/js/prism.js?v=4.1.0.825785377228" defer></script>
 
     <link href="https://workleap.github.io/wl-idp-docs-hub/static/retype-customization.css" rel="stylesheet" />
 
@@ -311,7 +311,7 @@
         <span>Reference</span>
     </h2>
 </doc-anchor-target>
-<div class="codeblock-wrapper"><doc-codeblock>
+<div id="reference-code-1" class="codeblock-wrapper"><doc-codeblock>
 <pre translate="no" class="language-typescript"><code v-pre class="language-typescript">const runtime = new FireflyRuntime(options?: { mode?, environmentVariables?, honeycombInstrumentationClient?, launchDarklyClient?, loggers?, plugins? })</code></pre>
 </doc-codeblock></div>
 <doc-anchor-target id="parameters">
@@ -381,7 +381,7 @@
         <span>Create a runtime instance</span>
     </h3>
 </doc-anchor-target>
-<div class="codeblock-wrapper"><doc-codeblock>
+<div id="create-a-runtime-instance-code-1" class="codeblock-wrapper"><doc-codeblock>
 <pre translate="no" class="language-typescript" data-line="3"><code v-pre class="language-typescript">import { FireflyRuntime } from &quot;@squide/firefly&quot;;
 
 const runtime = new FireflyRuntime();</code></pre>
@@ -392,7 +392,7 @@ const runtime = new FireflyRuntime();</code></pre>
         <span>Change the runtime mode</span>
     </h3>
 </doc-anchor-target>
-<div class="codeblock-wrapper"><doc-codeblock>
+<div id="change-the-runtime-mode-code-1" class="codeblock-wrapper"><doc-codeblock>
 <pre translate="no" class="language-typescript" data-line="4"><code v-pre class="language-typescript">import { FireflyRuntime } from &quot;@squide/firefly&quot;;
 
 const runtime = new FireflyRuntime({
@@ -405,7 +405,7 @@ const runtime = new FireflyRuntime({
         <span>Register routes</span>
     </h3>
 </doc-anchor-target>
-<div class="codeblock-wrapper"><doc-codeblock>
+<div id="register-routes-code-1" class="codeblock-wrapper"><doc-codeblock>
 <pre translate="no" class="language-typescript"><code v-pre class="language-typescript">runtime.registerRoute(route, options?: { hoist?, parentPath?, parentId? })</code></pre>
 </doc-codeblock></div>
 <ul>
@@ -423,7 +423,7 @@ const runtime = new FireflyRuntime({
 </ul>
 </li>
 </ul>
-<div class="codeblock-wrapper"><doc-codeblock>
+<div id="register-routes-code-2" class="codeblock-wrapper"><doc-codeblock>
 <pre translate="no" class="language-tsx" data-line="4-7"><code v-pre class="language-tsx">import { Page } from &quot;./Page.tsx&quot;
 
 // Register a new route from a module.
@@ -439,7 +439,7 @@ runtime.registerRoute({
     </h3>
 </doc-anchor-target>
 <p>Unlike a regular route, a hoisted route is added at the root of the router, outside of the host application&#x27;s root layout, root error boundary and even root authentication boundary. This means that a hoisted route has full control over its rendering. To mark a route as hoisted, provide an <code translate="no" v-pre>hoist</code> option to the route options.</p>
-<div class="codeblock-wrapper"><doc-codeblock>
+<div id="register-an-hoisted-route-code-1" class="codeblock-wrapper"><doc-codeblock>
 <pre translate="no" class="language-tsx" data-line="7"><code v-pre class="language-tsx">import { Page } from &quot;./Page.tsx&quot;;
 
 runtime.registerRoute({
@@ -476,7 +476,7 @@ runtime.registerRoute({
     </h3>
 </doc-anchor-target>
 <p>When registering a route, a value can be provided indicating whether the route is <code translate="no" v-pre>&quot;public&quot;</code> or <code translate="no" v-pre>&quot;protected&quot;</code>. This is especially useful when dealing with code that <strong>fetches global data for protected routes</strong> (e.g. a session). Although a route definition accepts a <code translate="no" v-pre>$visibility</code> value, we recommended using the runtime <code translate="no" v-pre>registerPublicRoute</code> function to register a <strong>root</strong> public route instead.</p>
-<div class="codeblock-wrapper"><doc-codeblock>
+<div id="register-a-public-route-code-1" class="codeblock-wrapper"><doc-codeblock>
 <pre translate="no" class="language-tsx" data-line="3-6"><code v-pre class="language-tsx">import { Page } from &quot;./Page.tsx&quot;;
 
 runtime.registerPublicRoute({
@@ -485,7 +485,7 @@ runtime.registerPublicRoute({
 });</code></pre>
 </doc-codeblock></div>
 <p>To define a nested route as public, use the <code translate="no" v-pre>$visibility</code> option:</p>
-<div class="codeblock-wrapper"><doc-codeblock>
+<div id="register-a-public-route-code-2" class="codeblock-wrapper"><doc-codeblock>
 <pre translate="no" class="language-tsx" data-line="9"><code v-pre class="language-tsx">import { Layout } from &quot;./Layout.tsx&quot;;
 import { Page } from &quot;./Page.tsx&quot;;
 
@@ -526,7 +526,7 @@ runtime.registerPublicRoute({
 <blockquote>
 <p>A <code translate="no" v-pre>$id</code> option should only be defined for routes that doesn&#x27;t have a path like an error boundary or an authentication boundary.</p>
 </blockquote>
-<div class="codeblock-wrapper"><doc-codeblock>
+<div id="register-a-route-with-an-id-code-1" class="codeblock-wrapper"><doc-codeblock>
 <pre translate="no" class="language-tsx" data-line="4"><code v-pre class="language-tsx">import { RootErrorBoundary } from &quot;./RootErrorBoundary.tsx&quot;;
 
 runtime.registerRoute({
@@ -543,7 +543,7 @@ runtime.registerRoute({
 <p>React router <a href="https://reactrouter.com/en/main/start/tutorial#nested-routes" class="outbound" target="_blank">nested routes</a> enable applications to render nested layouts at various points within the router tree. This is quite helpful for modular applications as it enables composable and decoupled UI.</p>
 <p>To fully harness the power of nested routes, the <code translate="no" v-pre>registerRoute</code> function allows a route to be registered <strong>under any</strong> previously <strong>registered route</strong>, even if that route was registered by another module. The only requirement is that the <strong>parent route</strong> must have been registered with the <code translate="no" v-pre>registerRoute</code> function.</p>
 <p>When registering a new route with the <code translate="no" v-pre>registerRoute</code> function, to render the route under a parent route, specify a <code translate="no" v-pre>parentPath</code> option that matches the parent route&#x27;s <code translate="no" v-pre>path</code> option:</p>
-<div class="codeblock-wrapper"><doc-codeblock>
+<div id="register-nested-routes-code-1" class="codeblock-wrapper"><doc-codeblock>
 <pre translate="no" class="language-tsx" data-line="7"><code v-pre class="language-tsx">import { Page } from &quot;./Page.tsx&quot;;
 
 runtime.registerRoute({
@@ -554,7 +554,7 @@ runtime.registerRoute({
 });</code></pre>
 </doc-codeblock></div>
 <p>Or a <code translate="no" v-pre>parentId</code> option that matches the parent route&#x27;s <code translate="no" v-pre>$id</code> option:</p>
-<div class="codeblock-wrapper"><doc-codeblock>
+<div id="register-nested-routes-code-2" class="codeblock-wrapper"><doc-codeblock>
 <pre translate="no" class="language-tsx" data-line="7"><code v-pre class="language-tsx">import { Page } from &quot;./Page.tsx&quot;;
 
 runtime.registerRoute({
@@ -594,7 +594,7 @@ runtime.registerRoute({
     </div>
 </div>
 <p>Routes can also be nested by registering multiple routes in a <strong>single registration block</strong>:</p>
-<div class="codeblock-wrapper"><doc-codeblock>
+<div id="register-nested-routes-code-3" class="codeblock-wrapper"><doc-codeblock>
 <pre translate="no" class="language-tsx" data-line="7-10"><code v-pre class="language-tsx">import { Layout } from &quot;./Layout.tsx&quot;;
 import { Page } from &quot;./Page.tsx&quot;;
 
@@ -608,7 +608,7 @@ runtime.registerRoute({
 });</code></pre>
 </doc-codeblock></div>
 <p>A single registration block routes can also be define routes with <strong>relative paths</strong> (rather than starting with a <code translate="no" v-pre>/</code>):</p>
-<div class="codeblock-wrapper"><doc-codeblock>
+<div id="register-nested-routes-code-4" class="codeblock-wrapper"><doc-codeblock>
 <pre translate="no" class="language-tsx" data-line="5,8"><code v-pre class="language-tsx">import { Layout } from &quot;./Layout.tsx&quot;;
 import { Page } from &quot;./Page.tsx&quot;;
 
@@ -628,7 +628,7 @@ runtime.registerRoute({
     </h3>
 </doc-anchor-target>
 <p>The registered routes are accessible from a <code translate="no" v-pre>FireflyRuntime</code> instance, but keep in mind that the preferred way to retrieve the routes is with the <a href="../../routing/useroutes/">useRoutes</a> hook.</p>
-<div class="codeblock-wrapper"><doc-codeblock>
+<div id="retrieve-routes-code-1" class="codeblock-wrapper"><doc-codeblock>
 <pre translate="no" class="language-tsx" data-line="1"><code v-pre class="language-tsx">const routes = runtime.routes;</code></pre>
 </doc-codeblock></div>
 <doc-anchor-target id="register-navigation-items">
@@ -637,7 +637,7 @@ runtime.registerRoute({
         <span>Register navigation items</span>
     </h3>
 </doc-anchor-target>
-<div class="codeblock-wrapper"><doc-codeblock>
+<div id="register-navigation-items-code-1" class="codeblock-wrapper"><doc-codeblock>
 <pre translate="no" class="language-typescript" data-line="1"><code v-pre class="language-typescript">runtime.registerNavigationItem(item, options?: { menuId?, sectionId? })</code></pre>
 </doc-codeblock></div>
 <ul>
@@ -693,7 +693,7 @@ runtime.registerRoute({
         </div>
     </div>
 </div>
-<div class="codeblock-wrapper"><doc-codeblock>
+<div id="navigationsection-code-1" class="codeblock-wrapper"><doc-codeblock>
 <pre translate="no" class="language-typescript" data-line="2-6"><code v-pre class="language-typescript">// Register a new navigation item from a module.
 runtime.registerNavigationItem({
     $id: &quot;page-1&quot;,
@@ -722,7 +722,7 @@ runtime.registerNavigationItem({
     </h3>
 </doc-anchor-target>
 <p>The <code translate="no" v-pre>registerNavigationItem</code> function accepts a <code translate="no" v-pre>sectionId</code> option, allowing a navigation item to be nested under an existing navigation section. When searching the parent navigation section matching the <code translate="no" v-pre>sectionId</code> option, the <code translate="no" v-pre>sectionId</code> will be match against the <code translate="no" v-pre>$id</code> option of every navigation item.</p>
-<div class="codeblock-wrapper"><doc-codeblock>
+<div id="register-a-navigation-item-with-an-id-code-1" class="codeblock-wrapper"><doc-codeblock>
 <pre translate="no" class="language-typescript" data-line="1-5"><code v-pre class="language-typescript">runtime.registerNavigationItem({
     $id: &quot;page-1&quot;,
     $label: &quot;Page 1&quot;,
@@ -737,7 +737,7 @@ runtime.registerNavigationItem({
     </h3>
 </doc-anchor-target>
 <p>Similarly to <doc-anchor-trigger to="#register-nested-navigation-items">nested routes</doc-anchor-trigger>, a navigation item can be nested under an existing section be specifying a <code translate="no" v-pre>sectionId</code> option that matches the section&#x27;s <code translate="no" v-pre>$id</code> option:</p>
-<div class="codeblock-wrapper"><doc-codeblock>
+<div id="register-nested-navigation-items-code-1" class="codeblock-wrapper"><doc-codeblock>
 <pre translate="no" class="language-typescript" data-line="7"><code v-pre class="language-typescript">runtime.registerNavigationItem({
     $id: &quot;link&quot;,
     $label: &quot;Link&quot;,
@@ -748,7 +748,7 @@ runtime.registerNavigationItem({
 });</code></pre>
 </doc-codeblock></div>
 <p>Navigation items can also be nested by registering multipe items in a single registration block:</p>
-<div class="codeblock-wrapper"><doc-codeblock>
+<div id="register-nested-navigation-items-code-2" class="codeblock-wrapper"><doc-codeblock>
 <pre translate="no" class="language-typescript" data-line="7-28"><code v-pre class="language-typescript">// Register the following menu hierarchy:
 //
 //  Section
@@ -785,7 +785,7 @@ runtime.registerNavigationItem({
     </h3>
 </doc-anchor-target>
 <p>By default, every navigation item registered with the <code translate="no" v-pre>registerNavigationItem</code> function is registered as part of the <code translate="no" v-pre>root</code> navigation menu. To register a navigation item for a different navigation menu, specify a <code translate="no" v-pre>menuId</code> option when registering the items.</p>
-<div class="codeblock-wrapper"><doc-codeblock>
+<div id="register-navigation-items-for-a-specific-menu-code-1" class="codeblock-wrapper"><doc-codeblock>
 <pre translate="no" class="language-tsx" data-line="6"><code v-pre class="language-tsx">runtime.registerNavigationItem({
     $id: &quot;page-1&quot;,
     $label: &quot;Page 1&quot;,
@@ -807,7 +807,7 @@ runtime.registerNavigationItem({
 <li>If an item have a priority <code translate="no" v-pre>&gt; 0</code>, the item will be positioned before any other items with a lower priority (or without an explicit priority value).</li>
 <li>If an item have a priority <code translate="no" v-pre>&lt; 0</code>, the item will be positioned after any other items with a higher priority (or without an explicit priority value).</li>
 </ul>
-<div class="codeblock-wrapper"><doc-codeblock>
+<div id="sort-navigation-items-code-1" class="codeblock-wrapper"><doc-codeblock>
 <pre translate="no" class="language-typescript" data-line="4,13"><code v-pre class="language-typescript">runtime.registerNavigationItem({
     $id: &quot;about&quot;,
     $label: &quot;About&quot;,
@@ -830,7 +830,7 @@ runtime.registerNavigationItem({
         <span>Use dynamic segments for navigation items</span>
     </h3>
 </doc-anchor-target>
-<div class="codeblock-wrapper"><doc-codeblock>
+<div id="use-dynamic-segments-for-navigation-items-code-1" class="codeblock-wrapper"><doc-codeblock>
 <pre translate="no" class="language-typescript" data-line="4"><code v-pre class="language-typescript">runtime.registerNavigationItem({
     $id: &quot;user-profile&quot;,
     $label: &quot;User profile&quot;,
@@ -857,7 +857,7 @@ runtime.registerNavigationItem({
         <span>Use a React element as navigation item label</span>
     </h3>
 </doc-anchor-target>
-<div class="codeblock-wrapper"><doc-codeblock>
+<div id="use-a-react-element-as-navigation-item-label-code-1" class="codeblock-wrapper"><doc-codeblock>
 <pre translate="no" class="language-tsx" data-line="5-8"><code v-pre class="language-tsx">import { QuestionMarkIcon } from &quot;@sample/icons&quot;;
 
 runtime.registerNavigationItem({
@@ -875,7 +875,7 @@ runtime.registerNavigationItem({
         <span>Style a navigation item</span>
     </h3>
 </doc-anchor-target>
-<div class="codeblock-wrapper"><doc-codeblock>
+<div id="style-a-navigation-item-code-1" class="codeblock-wrapper"><doc-codeblock>
 <pre translate="no" class="language-typescript" data-line="4-6"><code v-pre class="language-typescript">runtime.registerNavigationItem({
     $id: &quot;about&quot;,
     $label: &quot;About&quot;,
@@ -891,7 +891,7 @@ runtime.registerNavigationItem({
         <span>Open a navigation link in a new tab</span>
     </h3>
 </doc-anchor-target>
-<div class="codeblock-wrapper"><doc-codeblock>
+<div id="open-a-navigation-link-in-a-new-tab-code-1" class="codeblock-wrapper"><doc-codeblock>
 <pre translate="no" class="language-typescript" data-line="4"><code v-pre class="language-typescript">runtime.registerNavigationItem({
     $id: &quot;about&quot;,
     $label: &quot;About&quot;,
@@ -905,7 +905,7 @@ runtime.registerNavigationItem({
         <span>Conditionally render a navigation item</span>
     </h3>
 </doc-anchor-target>
-<div class="codeblock-wrapper"><doc-codeblock>
+<div id="conditionally-render-a-navigation-item-code-1" class="codeblock-wrapper"><doc-codeblock>
 <pre translate="no" class="language-typescript" data-line="4-6"><code v-pre class="language-typescript">runtime.registerNavigationItem({
     $id: &quot;about&quot;,
     $label: &quot;About&quot;,
@@ -924,7 +924,7 @@ runtime.registerNavigationItem({
         <span>Render additional props on a navigation item</span>
     </h3>
 </doc-anchor-target>
-<div class="codeblock-wrapper"><doc-codeblock>
+<div id="render-additional-props-on-a-navigation-item-code-1" class="codeblock-wrapper"><doc-codeblock>
 <pre translate="no" class="language-typescript" data-line="4-6"><code v-pre class="language-typescript">runtime.registerNavigationItem({
     $id: &quot;about&quot;,
     $label: &quot;About&quot;,
@@ -945,11 +945,11 @@ runtime.registerNavigationItem({
 </doc-anchor-target>
 <p>The registered navigation items are accessible from a <code translate="no" v-pre>FireflyRuntime</code> instance, but keep in mind that the preferred way to retrieve the navigation items is with the <a href="../../routing/usenavigationitems/">useNavigationItems</a> hook.</p>
 <p>By default, the <code translate="no" v-pre>getNavigationItems</code> will return the navigation items for the <code translate="no" v-pre>root</code> menu:</p>
-<div class="codeblock-wrapper"><doc-codeblock>
+<div id="retrieve-navigation-items-code-1" class="codeblock-wrapper"><doc-codeblock>
 <pre translate="no" class="language-tsx" data-line="1"><code v-pre class="language-tsx">const navigationItems = runtime.getNavigationItems();</code></pre>
 </doc-codeblock></div>
 <p>To retrieve the navigation items for a <strong>specific</strong> navigation menu, provide a <code translate="no" v-pre>menuId</code>:</p>
-<div class="codeblock-wrapper"><doc-codeblock>
+<div id="retrieve-navigation-items-code-2" class="codeblock-wrapper"><doc-codeblock>
 <pre translate="no" class="language-tsx" data-line="1"><code v-pre class="language-tsx">const navigationItems = runtime.getNavigationItems(&quot;my-custom-layout&quot;);</code></pre>
 </doc-codeblock></div>
 <doc-anchor-target id="register-request-handlers">
@@ -959,7 +959,7 @@ runtime.registerNavigationItem({
     </h3>
 </doc-anchor-target>
 <p>The registered handlers must be valid MSW <a href="https://mswjs.io/docs/concepts/request-handler" class="outbound" target="_blank">request handlers</a>:</p>
-<div class="codeblock-wrapper"><doc-codeblock>
+<div id="register-request-handlers-code-1" class="codeblock-wrapper"><doc-codeblock>
 <pre translate="no" class="language-typescript" data-line="3"><code v-pre class="language-typescript">import { requestHandlers } from &quot;../mocks/handlers.ts&quot;;
 
 runtime.registerRequestHandlers(requestHandlers);</code></pre>
@@ -984,7 +984,7 @@ runtime.registerRequestHandlers(requestHandlers);</code></pre>
         <span>Retrieve request handlers</span>
     </h3>
 </doc-anchor-target>
-<div class="codeblock-wrapper"><doc-codeblock>
+<div id="retrieve-request-handlers-code-1" class="codeblock-wrapper"><doc-codeblock>
 <pre translate="no" class="language-typescript" data-line="1"><code v-pre class="language-typescript">const requestHandlers = runtime.requestHandlers;</code></pre>
 </doc-codeblock></div>
 <doc-anchor-target id="validate-if-msw-is-enabled">
@@ -993,7 +993,7 @@ runtime.registerRequestHandlers(requestHandlers);</code></pre>
         <span>Validate if MSW is enabled</span>
     </h3>
 </doc-anchor-target>
-<div class="codeblock-wrapper"><doc-codeblock>
+<div id="validate-if-msw-is-enabled-code-1" class="codeblock-wrapper"><doc-codeblock>
 <pre translate="no" class="language-typescript" data-line="1"><code v-pre class="language-typescript">const isMswEnabled = runtime.isMswEnabled;</code></pre>
 </doc-codeblock></div>
 <doc-anchor-target id="log-a-message">
@@ -1002,7 +1002,7 @@ runtime.registerRequestHandlers(requestHandlers);</code></pre>
         <span>Log a message</span>
     </h3>
 </doc-anchor-target>
-<div class="codeblock-wrapper"><doc-codeblock>
+<div id="log-a-message-code-1" class="codeblock-wrapper"><doc-codeblock>
 <pre translate="no" class="language-typescript" data-line="3"><code v-pre class="language-typescript">// Write a debug log entry.
 // If the runtime has been instanciated with multiple logger instances, every logger instance will be invoked.
 runtime.logger.debug(&quot;Hello!&quot;);</code></pre>
@@ -1013,7 +1013,7 @@ runtime.logger.debug(&quot;Hello!&quot;);</code></pre>
         <span>Use the event bus</span>
     </h3>
 </doc-anchor-target>
-<div class="codeblock-wrapper"><doc-codeblock>
+<div id="use-the-event-bus-code-1" class="codeblock-wrapper"><doc-codeblock>
 <pre translate="no" class="language-typescript" data-line="2,5"><code v-pre class="language-typescript">// Listen to an event dispatch by the host application or a module.
 runtime.eventBus.addListener(&quot;write-to-host&quot;, () =&gt; {});
 
@@ -1026,7 +1026,7 @@ runtime.eventBus.dispatch(&quot;write-to-host&quot;, &quot;Hello host!&quot;);</
         <span>Retrieve Honeycomb instrumentation client</span>
     </h3>
 </doc-anchor-target>
-<div class="codeblock-wrapper"><doc-codeblock>
+<div id="retrieve-honeycomb-instrumentation-client-code-1" class="codeblock-wrapper"><doc-codeblock>
 <pre translate="no" class="language-typescript" data-line="1"><code v-pre class="language-typescript">const client = runtime.honeycombInstrumentationClient;</code></pre>
 </doc-codeblock></div>
 <doc-anchor-target id="register-an-environment-variable">
@@ -1035,7 +1035,7 @@ runtime.eventBus.dispatch(&quot;write-to-host&quot;, &quot;Hello host!&quot;);</
         <span>Register an environment variable</span>
     </h3>
 </doc-anchor-target>
-<div class="codeblock-wrapper"><doc-codeblock>
+<div id="register-an-environment-variable-code-1" class="codeblock-wrapper"><doc-codeblock>
 <pre translate="no" class="language-typescript" data-line="1"><code v-pre class="language-typescript">runtime.registerEnvironmentVariable(&quot;apiBaseUrl&quot;, &quot;https://my-api.com&quot;);</code></pre>
 </doc-codeblock></div>
 <doc-anchor-target id="register-multiple-environment-variables-at-once">
@@ -1044,7 +1044,7 @@ runtime.eventBus.dispatch(&quot;write-to-host&quot;, &quot;Hello host!&quot;);</
         <span>Register multiple environment variables at once</span>
     </h3>
 </doc-anchor-target>
-<div class="codeblock-wrapper"><doc-codeblock>
+<div id="register-multiple-environment-variables-at-once-code-1" class="codeblock-wrapper"><doc-codeblock>
 <pre translate="no" class="language-typescript" data-line="1-4"><code v-pre class="language-typescript">runtime.registerEnvironmentVariables({
     apiBaseUrl: &quot;https://my-api.com&quot;,
     telemetryBaseUrl: &quot;https://my-telemetry.com&quot;
@@ -1056,7 +1056,7 @@ runtime.eventBus.dispatch(&quot;write-to-host&quot;, &quot;Hello host!&quot;);</
         <span>Retrieve an environment variable</span>
     </h3>
 </doc-anchor-target>
-<div class="codeblock-wrapper"><doc-codeblock>
+<div id="retrieve-an-environment-variable-code-1" class="codeblock-wrapper"><doc-codeblock>
 <pre translate="no" class="language-typescript" data-line="1"><code v-pre class="language-typescript">const environmentVariable = runtime.getEnvironmentVariable(&quot;apiBaseUrl&quot;);</code></pre>
 </doc-codeblock></div>
 <doc-anchor-target id="retrieve-all-environment-variables">
@@ -1065,7 +1065,7 @@ runtime.eventBus.dispatch(&quot;write-to-host&quot;, &quot;Hello host!&quot;);</
         <span>Retrieve all environment variables</span>
     </h3>
 </doc-anchor-target>
-<div class="codeblock-wrapper"><doc-codeblock>
+<div id="retrieve-all-environment-variables-code-1" class="codeblock-wrapper"><doc-codeblock>
 <pre translate="no" class="language-typescript" data-line="1"><code v-pre class="language-typescript">const environmentVariables = runtime.environmentVariables;</code></pre>
 </doc-codeblock></div>
 <doc-anchor-target id="retrieve-a-feature-flag-value">
@@ -1075,7 +1075,7 @@ runtime.eventBus.dispatch(&quot;write-to-host&quot;, &quot;Hello host!&quot;);</
     </h3>
 </doc-anchor-target>
 <p>If the <code translate="no" v-pre>foo</code> feature flag is not available, <code translate="no" v-pre>true</code> will be returned.</p>
-<div class="codeblock-wrapper"><doc-codeblock>
+<div id="retrieve-a-feature-flag-value-code-1" class="codeblock-wrapper"><doc-codeblock>
 <pre translate="no" class="language-typescript" data-line="1"><code v-pre class="language-typescript">const flag = runtime.getFeatureFlag(&quot;foo&quot;, true);</code></pre>
 </doc-codeblock></div>
 <doc-anchor-target id="retrieve-all-the-feature-flags">
@@ -1084,7 +1084,7 @@ runtime.eventBus.dispatch(&quot;write-to-host&quot;, &quot;Hello host!&quot;);</
         <span>Retrieve all the feature flags</span>
     </h3>
 </doc-anchor-target>
-<div class="codeblock-wrapper"><doc-codeblock>
+<div id="retrieve-all-the-feature-flags-code-1" class="codeblock-wrapper"><doc-codeblock>
 <pre translate="no" class="language-typescript" data-line="1"><code v-pre class="language-typescript">const flags = runtime.featureFlags;</code></pre>
 </doc-codeblock></div>
 <doc-anchor-target id="retrieve-launchdarkly-client">
@@ -1093,7 +1093,7 @@ runtime.eventBus.dispatch(&quot;write-to-host&quot;, &quot;Hello host!&quot;);</
         <span>Retrieve LaunchDarkly client</span>
     </h3>
 </doc-anchor-target>
-<div class="codeblock-wrapper"><doc-codeblock>
+<div id="retrieve-launchdarkly-client-code-1" class="codeblock-wrapper"><doc-codeblock>
 <pre translate="no" class="language-typescript" data-line="1"><code v-pre class="language-typescript">const client = runtime.launchDarklyClient;</code></pre>
 </doc-codeblock></div>
 <doc-anchor-target id="register-a-plugin">
@@ -1103,7 +1103,7 @@ runtime.eventBus.dispatch(&quot;write-to-host&quot;, &quot;Hello host!&quot;);</
     </h3>
 </doc-anchor-target>
 <p>The plugin factory function receives the <code translate="no" v-pre>Runtime</code> instance as parameter.</p>
-<div class="codeblock-wrapper"><doc-codeblock>
+<div id="register-a-plugin-code-1" class="codeblock-wrapper"><doc-codeblock>
 <pre translate="no" class="language-typescript" data-line="5"><code v-pre class="language-typescript">import { FireflyRuntime } from &quot;@squide/firefly&quot;;
 import { MyPlugin } from &quot;@sample/my-plugin&quot;;
 
@@ -1131,7 +1131,7 @@ const runtime = new FireflyRuntime({
         <span>Retrieve a plugin</span>
     </h3>
 </doc-anchor-target>
-<div class="codeblock-wrapper"><doc-codeblock>
+<div id="retrieve-a-plugin-code-1" class="codeblock-wrapper"><doc-codeblock>
 <pre translate="no" class="language-typescript" data-line="4"><code v-pre class="language-typescript">import { MyPlugin } from &quot;@sample/my-plugin&quot;;
 
 // If the plugin isn't registered, an error is thrown.
@@ -1157,7 +1157,7 @@ const plugin = runtime.getPlugin(MyPlugin.name) as MyPlugin;</code></pre>
         <span>Retrieve a plugin without throwing if it isn&#x27;t registered</span>
     </h3>
 </doc-anchor-target>
-<div class="codeblock-wrapper"><doc-codeblock>
+<div id="retrieve-a-plugin-without-throwing-if-it-isnt-registered-code-1" class="codeblock-wrapper"><doc-codeblock>
 <pre translate="no" class="language-typescript" data-line="4"><code v-pre class="language-typescript">import { MyPlugin } from &quot;@sample/my-plugin&quot;;
 
 const plugin = runtime.getPlugin(MyPlugin.name, {

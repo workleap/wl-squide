@@ -5,10 +5,10 @@
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <meta name="color-scheme" content="light dark">
     <meta name="turbo-root" content="/wl-squide">
-    <meta name="turbo-cache-control" content="no-cache" data-turbo-track="reload" data-track-token="4.0.1.825661313070">
+    <meta name="turbo-cache-control" content="no-cache" data-turbo-track="reload" data-track-token="4.1.0.825785377228">
 
     <!-- See retype.com -->
-    <meta name="generator" content="Retype 4.0.1">
+    <meta name="generator" content="Retype 4.1.0">
 
     <!-- Primary Meta Tags -->
     <title>Migrate to firefly v9.3</title>
@@ -29,12 +29,12 @@
     <script data-cfasync="false">(function(){var cl=document.documentElement.classList,ls=localStorage.getItem("retype_scheme"),hd=cl.contains("dark"),hl=cl.contains("light"),wm=window.matchMedia&&window.matchMedia("(prefers-color-scheme: dark)").matches;if(ls==="dark"||(!ls&&wm&&!hd&&!hl)){cl.remove("light");cl.add("dark")}else if(ls==="light"||(!ls&&!wm&&!hd&&!hl)){cl.remove("dark");cl.add("light")}})();</script>
 
     <link id="retype-favicon" rel="icon" href="../../static/favicon.png" />
-    <link href="../../resources/css/retype.css?v=4.0.1.825661313070" rel="stylesheet">
+    <link href="../../resources/css/retype.css?v=4.1.0.825785377228" rel="stylesheet">
 
-    <script data-cfasync="false" src="../../resources/js/config.js?v=4.0.1.825661313070" data-turbo-eval="false" defer></script>
-    <script data-cfasync="false" src="../../resources/js/retype.js?v=4.0.1" data-turbo-eval="false" defer></script>
-    <script id="lunr-js" data-cfasync="false" src="../../resources/js/lunr.js?v=4.0.1.825661313070" data-turbo-eval="false" defer></script>
-    <script id="prism-js" data-cfasync="false" src="../../resources/js/prism.js?v=4.0.1.825661313070" defer></script>
+    <script data-cfasync="false" src="../../resources/js/config.js?v=4.1.0.825785377228" data-turbo-eval="false" defer></script>
+    <script data-cfasync="false" src="../../resources/js/retype.js?v=4.1.0" data-turbo-eval="false" defer></script>
+    <script id="lunr-js" data-cfasync="false" src="../../resources/js/lunr.js?v=4.1.0.825785377228" data-turbo-eval="false" defer></script>
+    <script id="prism-js" data-cfasync="false" src="../../resources/js/prism.js?v=4.1.0.825785377228" defer></script>
 
     <link href="https://workleap.github.io/wl-idp-docs-hub/static/retype-customization.css" rel="stylesheet" />
 
@@ -322,14 +322,14 @@
     </h3>
 </doc-anchor-target>
 <p>To update an application&#x27;s module registration code, replace the <code translate="no" v-pre>registerLocalModules</code> and <code translate="no" v-pre>registerRemoteModules</code> functions with a call to the <code translate="no" v-pre>bootstrap</code> function:</p>
-<div class="codeblock-wrapper"><doc-codeblock>
+<div id="modules-registration-code-1" class="codeblock-wrapper"><doc-codeblock>
 <pre translate="no" class="language-typescript"><code v-pre class="language-typescript">await bootstrap({
     localModules: [...],
     remotes: [...]
 })</code></pre>
 </doc-codeblock></div>
 <p>Before:</p>
-<div class="codeblock-wrapper"><doc-codeblock>
+<div id="modules-registration-bootstraptsx" class="codeblock-wrapper"><doc-codeblock>
 <div class="codeblock-title">bootstrap.tsx</div>
 <pre translate="no" class="language-tsx" data-line="16,19"><code v-pre class="language-tsx">import { RuntimeContext, FireflyRuntime, registerRemoteModules, registerLocalModules, type RemoteDefinition } from &quot;@squide/firefly&quot;;
 import { register as registerMyLocalModule } from &quot;@getting-started/local-module&quot;;
@@ -360,7 +360,7 @@ root.render(
 );</code></pre>
 </doc-codeblock></div>
 <p>Now:</p>
-<div class="codeblock-wrapper"><doc-codeblock>
+<div id="modules-registration-bootstraptsx-1" class="codeblock-wrapper"><doc-codeblock>
 <div class="codeblock-title">bootstrap.tsx</div>
 <pre translate="no" class="language-tsx" data-line="16-19"><code v-pre class="language-tsx">import { RuntimeContext, FireflyRuntime, bootstrap, type RemoteDefinition } from &quot;@squide/firefly&quot;;
 import { register as registerMyLocalModule } from &quot;@getting-started/local-module&quot;;
@@ -398,7 +398,7 @@ root.render(
 </doc-anchor-target>
 <p>The MSW bootstrapping logic has been moved from user code to the <code translate="no" v-pre>bootstrap</code> function. To update an application, replace the user code with the <code translate="no" v-pre>startMsw</code> option of the bootstrap function.</p>
 <p>Before:</p>
-<div class="codeblock-wrapper"><doc-codeblock>
+<div id="mock-service-worker-bootstraptsx" class="codeblock-wrapper"><doc-codeblock>
 <div class="codeblock-title">bootstrap.tsx</div>
 <pre translate="no" class="language-tsx" data-line="18,26-40"><code v-pre class="language-tsx">import { 
     RuntimeContext,
@@ -450,7 +450,7 @@ root.render(
 );</code></pre>
 </doc-codeblock></div>
 <p>Now:</p>
-<div class="codeblock-wrapper"><doc-codeblock>
+<div id="mock-service-worker-bootstraptsx-1" class="codeblock-wrapper"><doc-codeblock>
 <div class="codeblock-title">bootstrap.tsx</div>
 <pre translate="no" class="language-tsx" data-line="11,17-21"><code v-pre class="language-tsx">import { RuntimeContext, FireflyRuntime, bootstrap, type RemoteDefinition } from &quot;@squide/firefly&quot;;
 import { createRoot } from &quot;react-dom/client&quot;;

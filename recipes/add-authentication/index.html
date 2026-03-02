@@ -5,10 +5,10 @@
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <meta name="color-scheme" content="light dark">
     <meta name="turbo-root" content="/wl-squide">
-    <meta name="turbo-cache-control" content="no-cache" data-turbo-track="reload" data-track-token="4.0.1.825661313070">
+    <meta name="turbo-cache-control" content="no-cache" data-turbo-track="reload" data-track-token="4.1.0.825785377228">
 
     <!-- See retype.com -->
-    <meta name="generator" content="Retype 4.0.1">
+    <meta name="generator" content="Retype 4.1.0">
 
     <!-- Primary Meta Tags -->
     <title>Add authentication</title>
@@ -29,12 +29,12 @@
     <script data-cfasync="false">(function(){var cl=document.documentElement.classList,ls=localStorage.getItem("retype_scheme"),hd=cl.contains("dark"),hl=cl.contains("light"),wm=window.matchMedia&&window.matchMedia("(prefers-color-scheme: dark)").matches;if(ls==="dark"||(!ls&&wm&&!hd&&!hl)){cl.remove("light");cl.add("dark")}else if(ls==="light"||(!ls&&!wm&&!hd&&!hl)){cl.remove("dark");cl.add("light")}})();</script>
 
     <link id="retype-favicon" rel="icon" href="../../static/favicon.png" />
-    <link href="../../resources/css/retype.css?v=4.0.1.825661313070" rel="stylesheet">
+    <link href="../../resources/css/retype.css?v=4.1.0.825785377228" rel="stylesheet">
 
-    <script data-cfasync="false" src="../../resources/js/config.js?v=4.0.1.825661313070" data-turbo-eval="false" defer></script>
-    <script data-cfasync="false" src="../../resources/js/retype.js?v=4.0.1" data-turbo-eval="false" defer></script>
-    <script id="lunr-js" data-cfasync="false" src="../../resources/js/lunr.js?v=4.0.1.825661313070" data-turbo-eval="false" defer></script>
-    <script id="prism-js" data-cfasync="false" src="../../resources/js/prism.js?v=4.0.1.825661313070" defer></script>
+    <script data-cfasync="false" src="../../resources/js/config.js?v=4.1.0.825785377228" data-turbo-eval="false" defer></script>
+    <script data-cfasync="false" src="../../resources/js/retype.js?v=4.1.0" data-turbo-eval="false" defer></script>
+    <script id="lunr-js" data-cfasync="false" src="../../resources/js/lunr.js?v=4.1.0.825785377228" data-turbo-eval="false" defer></script>
+    <script id="prism-js" data-cfasync="false" src="../../resources/js/prism.js?v=4.1.0.825785377228" defer></script>
 
     <link href="https://workleap.github.io/wl-idp-docs-hub/static/retype-customization.css" rel="stylesheet" />
 
@@ -304,11 +304,11 @@
     </h2>
 </doc-anchor-target>
 <p>First, open a terminal at the root of the host application and install the <a href="https://www.npmjs.com/package/@squide/fakes" class="outbound" target="_blank">@squide/fakes</a> package:</p>
-<div class="codeblock-wrapper"><doc-codeblock>
+<div id="add-a-login-page-code-1" class="codeblock-wrapper"><doc-codeblock>
 <pre translate="no" class="language-bash"><code v-pre class="language-bash">pnpm add @squide/fakes</code></pre>
 </doc-codeblock></div>
 <p>Then, add a <a href="https://mswjs.io/" class="outbound" target="_blank">Mock Service Worker</a> (MSW) request handler to authenticate a user:</p>
-<div class="codeblock-wrapper"><doc-codeblock>
+<div id="add-a-login-page-hostmockshandlersts" class="codeblock-wrapper"><doc-codeblock>
 <div class="codeblock-title">host/mocks/handlers.ts</div>
 <pre translate="no" class="language-typescript" data-line="29-31,41-44"><code v-pre class="language-typescript">import { HttpResponse, http, type HttpHandler } from &quot;msw&quot;;
 import { LocalStorageSessionManager } from &quot;@squide/fakes&quot;;
@@ -379,7 +379,7 @@ export const requestHandlers: HttpHandler[] = [
     </div>
 </div>
 <p>Next, register the request handler using the host application module registration function:</p>
-<div class="codeblock-wrapper"><doc-codeblock>
+<div id="add-a-login-page-hostsrcregistertsx" class="codeblock-wrapper"><doc-codeblock>
 <div class="codeblock-title">host/src/register.tsx</div>
 <pre translate="no" class="language-tsx" data-line="3-11"><code v-pre class="language-tsx">import type { ModuleRegisterFunction, FireflyRuntime } from &quot;@squide/firefly&quot;;
 
@@ -394,7 +394,7 @@ export const registerHost: ModuleRegisterFunction&lt;FireflyRuntime&gt; = async 
 };</code></pre>
 </doc-codeblock></div>
 <p>Then, create a login page:</p>
-<div class="codeblock-wrapper"><doc-codeblock>
+<div id="add-a-login-page-hostsrclogintsx" class="codeblock-wrapper"><doc-codeblock>
 <div class="codeblock-title">host/src/Login.tsx</div>
 <pre translate="no" class="language-tsx" data-line="13-22,26"><code v-pre class="language-tsx">import { useCallback, useState, type ChangeEvent, type MouseEvent } from &quot;react&quot;;
 import { Navigate, useNavigate } from &quot;react-router/dom&quot;;
@@ -463,7 +463,7 @@ export function Login() {
     </h2>
 </doc-anchor-target>
 <p>Next, create a shared type for the session and the session manager:</p>
-<div class="codeblock-wrapper"><doc-codeblock>
+<div id="create-a-session-manager-sharedsrcsessionts" class="codeblock-wrapper"><doc-codeblock>
 <div class="codeblock-title">shared/src/session.ts</div>
 <pre translate="no" class="language-typescript" data-line="7-10"><code v-pre class="language-typescript">export interface Session {
     user: {
@@ -477,7 +477,7 @@ export interface SessionManager {
 }</code></pre>
 </doc-codeblock></div>
 <p>Then, create a shared <code translate="no" v-pre>SessionManagerContext</code> along with some utility hooks. This React context will be used to share the <code translate="no" v-pre>SessionManager</code> instance down the components tree:</p>
-<div class="codeblock-wrapper"><doc-codeblock>
+<div id="create-a-session-manager-sharedsrcsessionts-1" class="codeblock-wrapper"><doc-codeblock>
 <div class="codeblock-title">shared/src/session.ts</div>
 <pre translate="no" class="language-typescript" data-line="1"><code v-pre class="language-typescript">export const SessionManagerContext = createContext&lt;SessionManager | undefined&gt;(undefined);
 
@@ -498,7 +498,7 @@ export function useIsAuthenticated() {
 }</code></pre>
 </doc-codeblock></div>
 <p>Finally, let&#x27;s go back to the host application and create a <a href="https://tanstack.com/query/latest" class="outbound" target="_blank">TanStack Query</a> implementation of the shared <code translate="no" v-pre>SessionManager</code> interface created previously:</p>
-<div class="codeblock-wrapper"><doc-codeblock>
+<div id="create-a-session-manager-hostsrcsessionmanagerts" class="codeblock-wrapper"><doc-codeblock>
 <div class="codeblock-title">host/src/sessionManager.ts</div>
 <pre translate="no" class="language-typescript" data-line="4-22"><code v-pre class="language-typescript">import type { SessionManager, Session } from &quot;@sample/shared&quot;;
 import { useQueryClient, type QueryClient } from &quot;@tanstack/react-query&quot;;
@@ -536,7 +536,7 @@ export function useSessionManagerInstance(session: Session) {
     </h2>
 </doc-anchor-target>
 <p>Next, create an MSW request handler that returns a session object if a user is authenticated:</p>
-<div class="codeblock-wrapper"><doc-codeblock>
+<div id="fetch-the-session-hostmockshandlersts" class="codeblock-wrapper"><doc-codeblock>
 <div class="codeblock-title">host/mocks/handlers.ts</div>
 <pre translate="no" class="language-typescript" data-line="50-61"><code v-pre class="language-typescript">import { HttpResponse, http, type HttpHandler } from &quot;msw&quot;;
 import { LocalStorageSessionManager } from &quot;@squide/fakes&quot;;
@@ -602,7 +602,7 @@ export const requestHandlers: HttpHandler[] = [
 ];</code></pre>
 </doc-codeblock></div>
 <p>Then, update the host application <code translate="no" v-pre>App</code> component to load the session with the <a href="../../reference/global-data-fetching/useprotecteddataqueries/">useProtectedDataQueries</a> hook and create an instance of <code translate="no" v-pre>TanstackQuerySessionManager</code> with the retrieved session to share the sessuib via the <code translate="no" v-pre>SessionManagerContext</code>:</p>
-<div class="codeblock-wrapper"><doc-codeblock>
+<div id="fetch-the-session-hostsrcapptsx" class="codeblock-wrapper"><doc-codeblock>
 <div class="codeblock-title">host/src/App.tsx</div>
 <pre translate="no" class="language-tsx" data-line="8-29,31,38,46,56"><code v-pre class="language-tsx">import { AppRouter, useProtectedDataQueries, useIsBootstrapping } from &quot;@squide/firefly&quot;;
 import { createBrowserRouter, Outlet } from &quot;react-router&quot;;
@@ -673,7 +673,7 @@ export function App() {
 }</code></pre>
 </doc-codeblock></div>
 <p>The previous example uses the following implementation of the <code translate="no" v-pre>ApiError</code> class:</p>
-<div class="codeblock-wrapper"><doc-codeblock>
+<div id="fetch-the-session-sharedsrcapierrorts" class="codeblock-wrapper"><doc-codeblock>
 <div class="codeblock-title">shared/src/apiError.ts</div>
 <pre translate="no" class="language-typescript"><code v-pre class="language-typescript">export class ApiError extends Error {
     readonly #status: number;
@@ -712,7 +712,7 @@ export function isApiError(error?: unknown): error is ApiError {
     </h2>
 </doc-anchor-target>
 <p>Next, create an authentication boundary component using the shared <code translate="no" v-pre>useIsAuthenticated</code> hook created earlier to redirect unauthenticated user to the login page:</p>
-<div class="codeblock-wrapper"><doc-codeblock>
+<div id="add-an-authentication-boundary-hostsrcauthenticationboundarytsx" class="codeblock-wrapper"><doc-codeblock>
 <div class="codeblock-title">host/src/AuthenticationBoundary.tsx</div>
 <pre translate="no" class="language-tsx" data-line="4-12"><code v-pre class="language-tsx">import { Navigate, Outlet } from &quot;react-router&quot;;
 import { useIsAuthenticated } from &quot;@sample/shared&quot;;
@@ -735,7 +735,7 @@ export function AuthenticationBoundary() {
 </doc-anchor-target>
 <p>Now, let&#x27;s add a specific layout for authenticated users that passes through the <code translate="no" v-pre>AuthenticationBoundary</code> component.</p>
 <p>First, add a MSW request handler to log out a user:</p>
-<div class="codeblock-wrapper"><doc-codeblock>
+<div id="define-an-authenticated-layout-hostmockshandlersts" class="codeblock-wrapper"><doc-codeblock>
 <div class="codeblock-title">host/mocks/handlers.ts</div>
 <pre translate="no" class="language-typescript" data-line="48-55"><code v-pre class="language-typescript">import { HttpResponse, http, type HttpHandler } from &quot;msw&quot;;
 import { LocalStorageSessionManager } from &quot;@squide/fakes&quot;;
@@ -808,7 +808,7 @@ export const requestHandlers: HttpHandler[] = [
 ];</code></pre>
 </doc-codeblock></div>
 <p>Then, introduce a new <code translate="no" v-pre>AuthenticatedLayout</code> component displaying the name of the logged-in user along with a logout button. This layout will retrieve the active user session from the shared <code translate="no" v-pre>useSessionManager</code> hook introduced earlier:</p>
-<div class="codeblock-wrapper"><doc-codeblock>
+<div id="define-an-authenticated-layout-hostsrcauthenticatedlayouttsx" class="codeblock-wrapper"><doc-codeblock>
 <div class="codeblock-title">host/src/AuthenticatedLayout.tsx</div>
 <pre translate="no" class="language-tsx" data-line="40-41,43-60,72,75"><code v-pre class="language-tsx">import { Suspense, useCallback, type ReactNode, type MouseEvent, type HTMLButtonElement } from &quot;react&quot;;
 import { Link, Outlet, navigate } from &quot;react-router/dom&quot;;
@@ -895,7 +895,7 @@ export function AuthenticatedLayout() {
 }</code></pre>
 </doc-codeblock></div>
 <p>By creating a new <code translate="no" v-pre>AuthenticatedLayout</code> component, much of the layout code has been transferred from the <code translate="no" v-pre>RootLayout</code> to the <code translate="no" v-pre>AuthenticatedLayout</code>, leaving the root layout responsible only for styling the outer wrapper of the application for now:</p>
-<div class="codeblock-wrapper"><doc-codeblock>
+<div id="define-an-authenticated-layout-hostsrcrootlayouttsx" class="codeblock-wrapper"><doc-codeblock>
 <div class="codeblock-title">host/src/RootLayout.tsx</div>
 <pre translate="no" class="language-tsx" data-line="7-9"><code v-pre class="language-tsx">import { Suspense } from &quot;react&quot;;
 import { Outlet } from &quot;react-router&quot;;
@@ -917,7 +917,7 @@ export function RootLayout() {
     </h2>
 </doc-anchor-target>
 <p>Finally, assemble everything:</p>
-<div class="codeblock-wrapper"><doc-codeblock>
+<div id="setup-the-routes-hostsrcregistertsx" class="codeblock-wrapper"><doc-codeblock>
 <div class="codeblock-title">host/src/register.tsx</div>
 <pre translate="no" class="language-tsx" data-line="13,16,20,22,30-33"><code v-pre class="language-tsx">import { PublicRoutes, ProtectedRoutes, type ModuleRegisterFunction, type FireflyRuntime } from &quot;@squide/firefly&quot;;
 import { RootLayout } from &quot;./Rootlayout.tsx&quot;;

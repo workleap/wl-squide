@@ -5,10 +5,10 @@
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <meta name="color-scheme" content="light dark">
     <meta name="turbo-root" content="/wl-squide">
-    <meta name="turbo-cache-control" content="no-cache" data-turbo-track="reload" data-track-token="4.0.1.825661313070">
+    <meta name="turbo-cache-control" content="no-cache" data-turbo-track="reload" data-track-token="4.1.0.825785377228">
 
     <!-- See retype.com -->
-    <meta name="generator" content="Retype 4.0.1">
+    <meta name="generator" content="Retype 4.1.0">
 
     <!-- Primary Meta Tags -->
     <title>Setup i18next</title>
@@ -29,12 +29,12 @@
     <script data-cfasync="false">(function(){var cl=document.documentElement.classList,ls=localStorage.getItem("retype_scheme"),hd=cl.contains("dark"),hl=cl.contains("light"),wm=window.matchMedia&&window.matchMedia("(prefers-color-scheme: dark)").matches;if(ls==="dark"||(!ls&&wm&&!hd&&!hl)){cl.remove("light");cl.add("dark")}else if(ls==="light"||(!ls&&!wm&&!hd&&!hl)){cl.remove("dark");cl.add("light")}})();</script>
 
     <link id="retype-favicon" rel="icon" href="../../static/favicon.png" />
-    <link href="../../resources/css/retype.css?v=4.0.1.825661313070" rel="stylesheet">
+    <link href="../../resources/css/retype.css?v=4.1.0.825785377228" rel="stylesheet">
 
-    <script data-cfasync="false" src="../../resources/js/config.js?v=4.0.1.825661313070" data-turbo-eval="false" defer></script>
-    <script data-cfasync="false" src="../../resources/js/retype.js?v=4.0.1" data-turbo-eval="false" defer></script>
-    <script id="lunr-js" data-cfasync="false" src="../../resources/js/lunr.js?v=4.0.1.825661313070" data-turbo-eval="false" defer></script>
-    <script id="prism-js" data-cfasync="false" src="../../resources/js/prism.js?v=4.0.1.825661313070" defer></script>
+    <script data-cfasync="false" src="../../resources/js/config.js?v=4.1.0.825785377228" data-turbo-eval="false" defer></script>
+    <script data-cfasync="false" src="../../resources/js/retype.js?v=4.1.0" data-turbo-eval="false" defer></script>
+    <script id="lunr-js" data-cfasync="false" src="../../resources/js/lunr.js?v=4.1.0.825785377228" data-turbo-eval="false" defer></script>
+    <script id="prism-js" data-cfasync="false" src="../../resources/js/prism.js?v=4.1.0.825785377228" defer></script>
 
     <link href="https://workleap.github.io/wl-idp-docs-hub/static/retype-customization.css" rel="stylesheet" />
 
@@ -288,7 +288,7 @@
     </h2>
 </doc-anchor-target>
 <p>To set up <code translate="no" v-pre>i18next</code>, first, open a terminal at the root of the host application and install the following packages:</p>
-<div class="codeblock-wrapper"><doc-codeblock>
+<div id="install-the-packages-code-1" class="codeblock-wrapper"><doc-codeblock>
 <pre translate="no" class="language-bash"><code v-pre class="language-bash">pnpm add @squide/i18next i18next i18next-browser-languagedetector react-i18next</code></pre>
 </doc-codeblock></div>
 <doc-anchor-target id="register-the-plugin">
@@ -298,7 +298,7 @@
     </h2>
 </doc-anchor-target>
 <p>Then, refer to the <a href="../../introduction/create-host/">create host application</a> guide as a starting point and update the host application boostrapping code to register an instance of the <a href="../../reference/i18next/i18nextplugin/">i18nextplugin</a> with the <a href="../../reference/runtime/fireflyruntime/">FireflyRuntime</a> instance:</p>
-<div class="codeblock-wrapper"><doc-codeblock>
+<div id="register-the-plugin-code-1" class="codeblock-wrapper"><doc-codeblock>
 <pre translate="no" class="language-tsx" data-line="9-20"><code v-pre class="language-tsx">import { createRoot } from &quot;react-dom/client&quot;;
 import { FireflyProvider, initializeFirefly } from &quot;@squide/firefly&quot;;
 import { i18nextPlugin } from &quot;@squide/i18next&quot;;
@@ -352,7 +352,7 @@ root.render(
 <li>Upon user authentication and session loading, if a &quot;preferred language&quot; setting is available from the session data, update the displayed language to reflect this preference.</li>
 </ol>
 <p>This strategy can be implemented with the help of the <a href="../../reference/i18next/usechangelanguage/">useChangeLanguage</a> and <a href="../../reference/global-data-fetching/useprotecteddataqueries/">useProtectedDataQueries</a> hooks:</p>
-<div class="codeblock-wrapper"><doc-codeblock>
+<div id="integrate-a-backend-language-setting-code-1" class="codeblock-wrapper"><doc-codeblock>
 <pre translate="no" class="language-tsx" data-line="7-28,30,36"><code v-pre class="language-tsx">import { AppRouter, useProtectedDataQueries, useIsBootstrapping, useChangeLanguage } from &quot;@squide/firefly&quot;;
 import { createBrowserRouter, Outlet } from &quot;react-router&quot;;
 import { RouterProvider } from &quot;react-router/dom&quot;;
@@ -480,7 +480,7 @@ export function isApiError(error?: unknown): error is ApiError {
     </h3>
 </doc-anchor-target>
 <p>First, create localized resource files for the <code translate="no" v-pre>en-US</code> and <code translate="no" v-pre>fr-CA</code> locales:</p>
-<div class="codeblock-wrapper"><doc-codeblock>
+<div id="define-a-localized-resource-file-localesen-usjson" class="codeblock-wrapper"><doc-codeblock>
 <div class="codeblock-title">./locales/en-US.json</div>
 <pre translate="no" class="language-json" data-line="1-8"><code v-pre class="language-json">{
     &quot;navigationItems&quot;: {
@@ -491,7 +491,7 @@ export function isApiError(error?: unknown): error is ApiError {
     }
 }</code></pre>
 </doc-codeblock></div>
-<div class="codeblock-wrapper"><doc-codeblock>
+<div id="define-a-localized-resource-file-localesfr-cajson" class="codeblock-wrapper"><doc-codeblock>
 <div class="codeblock-title">./locales/fr-CA.json</div>
 <pre translate="no" class="language-json" data-line="1-8"><code v-pre class="language-json">{
     &quot;navigationItems&quot;: {
@@ -509,7 +509,7 @@ export function isApiError(error?: unknown): error is ApiError {
     </h3>
 </doc-anchor-target>
 <p>Then, update the host application local module&#x27;s register function to create and register an i18next instance with the <code translate="no" v-pre>i18nextPlugin</code> instance. Due to how the internals of <code translate="no" v-pre>i18next</code> works, each module (including the host application) must create its own instance of the third-party library. The <code translate="no" v-pre>i18nextPlugin</code> instance will handle synchronizing the language changes across all <code translate="no" v-pre>i18next</code> instances:</p>
-<div class="codeblock-wrapper"><doc-codeblock>
+<div id="register-an-i18next-instance-code-1" class="codeblock-wrapper"><doc-codeblock>
 <pre translate="no" class="language-tsx" data-line="12-14,16-23,26"><code v-pre class="language-tsx">import type { ModuleRegisterFunction, FireflyRuntime } from &quot;@squide/firefly&quot;;
 import { getI18nextPlugin } from &quot;@squide/i18next&quot;;
 import { Page } from &quot;./Page.tsx&quot;;

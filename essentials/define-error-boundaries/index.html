@@ -5,10 +5,10 @@
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <meta name="color-scheme" content="light dark">
     <meta name="turbo-root" content="/wl-squide">
-    <meta name="turbo-cache-control" content="no-cache" data-turbo-track="reload" data-track-token="4.0.1.825661313070">
+    <meta name="turbo-cache-control" content="no-cache" data-turbo-track="reload" data-track-token="4.1.0.825785377228">
 
     <!-- See retype.com -->
-    <meta name="generator" content="Retype 4.0.1">
+    <meta name="generator" content="Retype 4.1.0">
 
     <!-- Primary Meta Tags -->
     <title>Define error boundaries</title>
@@ -29,12 +29,12 @@
     <script data-cfasync="false">(function(){var cl=document.documentElement.classList,ls=localStorage.getItem("retype_scheme"),hd=cl.contains("dark"),hl=cl.contains("light"),wm=window.matchMedia&&window.matchMedia("(prefers-color-scheme: dark)").matches;if(ls==="dark"||(!ls&&wm&&!hd&&!hl)){cl.remove("light");cl.add("dark")}else if(ls==="light"||(!ls&&!wm&&!hd&&!hl)){cl.remove("dark");cl.add("light")}})();</script>
 
     <link id="retype-favicon" rel="icon" href="../../static/favicon.png" />
-    <link href="../../resources/css/retype.css?v=4.0.1.825661313070" rel="stylesheet">
+    <link href="../../resources/css/retype.css?v=4.1.0.825785377228" rel="stylesheet">
 
-    <script data-cfasync="false" src="../../resources/js/config.js?v=4.0.1.825661313070" data-turbo-eval="false" defer></script>
-    <script data-cfasync="false" src="../../resources/js/retype.js?v=4.0.1" data-turbo-eval="false" defer></script>
-    <script id="lunr-js" data-cfasync="false" src="../../resources/js/lunr.js?v=4.0.1.825661313070" data-turbo-eval="false" defer></script>
-    <script id="prism-js" data-cfasync="false" src="../../resources/js/prism.js?v=4.0.1.825661313070" defer></script>
+    <script data-cfasync="false" src="../../resources/js/config.js?v=4.1.0.825785377228" data-turbo-eval="false" defer></script>
+    <script data-cfasync="false" src="../../resources/js/retype.js?v=4.1.0" data-turbo-eval="false" defer></script>
+    <script id="lunr-js" data-cfasync="false" src="../../resources/js/lunr.js?v=4.1.0.825785377228" data-turbo-eval="false" defer></script>
+    <script id="prism-js" data-cfasync="false" src="../../resources/js/prism.js?v=4.1.0.825785377228" defer></script>
 
     <link href="https://workleap.github.io/wl-idp-docs-hub/static/retype-customization.css" rel="stylesheet" />
 
@@ -289,7 +289,7 @@
 </doc-anchor-target>
 <p>Every application should at least define a root error boundary. It acts as the final safety net, catching any unhandled errors that escape the rest of the application.</p>
 <p>To create a root error boundary, refer to the <a href="../../introduction/create-host/#register-the-root-layout">register the root layout</a> section of the <a href="../../introduction/create-host/">create an host application</a> guide and wrap the <code translate="no" v-pre>RootLayout</code> in a pathless route that defines an <a href="https://reactrouter.com/api/components/Route#errorelement" class="outbound" target="_blank">errorElement</a> property:</p>
-<div class="codeblock-wrapper"><doc-codeblock>
+<div id="handle-unmanaged-errors-code-1" class="codeblock-wrapper"><doc-codeblock>
 <pre translate="no" class="language-tsx" data-line="8"><code v-pre class="language-tsx">import { PublicRoutes, ProtectedRoutes, type ModuleRegisterFunction, type FireflyRuntime } from &quot;@squide/firefly&quot;;
 import { RootLayout } from &quot;./RootLayout.tsx&quot;;
 import { RootErrorBoundary } from &quot;./RootErrorBoundary.tsx&quot;;
@@ -349,7 +349,7 @@ export function RootErrorBoundary() {
     </h2>
 </doc-anchor-target>
 <p>A failure in a single module can potentially break the entire application. To isolate module-level errors, refer to the <a href="../../introduction/create-host/#register-the-root-layout">register the root layout</a> section of the <a href="../../introduction/create-host/">create an host application</a> guide as a starting point and wrap the <a href="../../reference/routing/publicroutes/">PublicRoutes</a> and <a href="../../reference/routing/protectedroutes/">ProtectedRouter</a> placeholders in a pathless route that provides an <a href="https://reactrouter.com/api/components/Route#errorelement" class="outbound" target="_blank">errorElement</a> property:</p>
-<div class="codeblock-wrapper"><doc-codeblock>
+<div id="handle-module-errors-code-1" class="codeblock-wrapper"><doc-codeblock>
 <pre translate="no" class="language-tsx" data-line="11"><code v-pre class="language-tsx">import { PublicRoutes, ProtectedRoutes, type ModuleRegisterFunction, type FireflyRuntime } from &quot;@squide/firefly&quot;;
 import { RootLayout } from &quot;./RootLayout.tsx&quot;;
 import { ModuleErrorBoundary } from &quot;./ModuleErrorBoundary.tsx&quot;;
@@ -413,7 +413,7 @@ export function ModuleErrorBoundary() {
 </doc-anchor-target>
 <p>While we don&#x27;t recommend defining an error boundary for <strong>every</strong> route, there are cases where it makes sense to catch errors within a specific route or any of its descendants, rather than letting a failure crash an entire module, or even the whole application.</p>
 <p>To define an error boundary for a specific route and its descendants, add an <a href="https://reactrouter.com/api/components/Route#errorelement" class="outbound" target="_blank">errorElement</a> property to the route definition:</p>
-<div class="codeblock-wrapper"><doc-codeblock>
+<div id="handle-route-errors-code-1" class="codeblock-wrapper"><doc-codeblock>
 <pre translate="no" class="language-tsx" data-line="9"><code v-pre class="language-tsx">import type { ModuleRegisterFunction, FireflyRuntime } from &quot;@squide/firefly&quot;;
 import { Page } from &quot;./Page.tsx&quot;;
 import { RouteErrorBoundary } from &quot;./RouteErrorBoundary.tsx&quot;;
@@ -460,7 +460,7 @@ export function RouteErrorBoundary() {
     </h2>
 </doc-anchor-target>
 <p>A no-match route can be defined to catch invalid or unknown URLs. To do this, register a route with <code translate="no" v-pre>*</code> as the <code translate="no" v-pre>path</code>:</p>
-<div class="codeblock-wrapper"><doc-codeblock>
+<div id="not-found-page-code-1" class="codeblock-wrapper"><doc-codeblock>
 <pre translate="no" class="language-tsx" data-line="6"><code v-pre class="language-tsx">import { type ModuleRegisterFunction, type FireflyRuntime } from &quot;@squide/firefly&quot;;
 import { NotFoundPage } from &quot;./NotFoundPage.tsx&quot;;
 
@@ -471,7 +471,7 @@ export const registerHost: ModuleRegisterFunction&lt;FireflyRuntime&gt; = runtim
     });
 };</code></pre>
 </doc-codeblock></div>
-<div class="codeblock-wrapper"><doc-codeblock>
+<div id="not-found-page-notfoundpagetsx" class="codeblock-wrapper"><doc-codeblock>
 <div class="codeblock-title">./NotFoundPage.tsx</div>
 <pre translate="no" class="language-tsx"><code v-pre class="language-tsx">export function NotFoundPage() {
     return (

@@ -5,10 +5,10 @@
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <meta name="color-scheme" content="light dark">
     <meta name="turbo-root" content="/wl-squide">
-    <meta name="turbo-cache-control" content="no-cache" data-turbo-track="reload" data-track-token="4.0.1.825661313070">
+    <meta name="turbo-cache-control" content="no-cache" data-turbo-track="reload" data-track-token="4.1.0.825785377228">
 
     <!-- See retype.com -->
-    <meta name="generator" content="Retype 4.0.1">
+    <meta name="generator" content="Retype 4.1.0">
 
     <!-- Primary Meta Tags -->
     <title>Setup Storybook</title>
@@ -29,12 +29,12 @@
     <script data-cfasync="false">(function(){var cl=document.documentElement.classList,ls=localStorage.getItem("retype_scheme"),hd=cl.contains("dark"),hl=cl.contains("light"),wm=window.matchMedia&&window.matchMedia("(prefers-color-scheme: dark)").matches;if(ls==="dark"||(!ls&&wm&&!hd&&!hl)){cl.remove("light");cl.add("dark")}else if(ls==="light"||(!ls&&!wm&&!hd&&!hl)){cl.remove("dark");cl.add("light")}})();</script>
 
     <link id="retype-favicon" rel="icon" href="../../static/favicon.png" />
-    <link href="../../resources/css/retype.css?v=4.0.1.825661313070" rel="stylesheet">
+    <link href="../../resources/css/retype.css?v=4.1.0.825785377228" rel="stylesheet">
 
-    <script data-cfasync="false" src="../../resources/js/config.js?v=4.0.1.825661313070" data-turbo-eval="false" defer></script>
-    <script data-cfasync="false" src="../../resources/js/retype.js?v=4.0.1" data-turbo-eval="false" defer></script>
-    <script id="lunr-js" data-cfasync="false" src="../../resources/js/lunr.js?v=4.0.1.825661313070" data-turbo-eval="false" defer></script>
-    <script id="prism-js" data-cfasync="false" src="../../resources/js/prism.js?v=4.0.1.825661313070" defer></script>
+    <script data-cfasync="false" src="../../resources/js/config.js?v=4.1.0.825785377228" data-turbo-eval="false" defer></script>
+    <script data-cfasync="false" src="../../resources/js/retype.js?v=4.1.0" data-turbo-eval="false" defer></script>
+    <script id="lunr-js" data-cfasync="false" src="../../resources/js/lunr.js?v=4.1.0.825785377228" data-turbo-eval="false" defer></script>
+    <script id="prism-js" data-cfasync="false" src="../../resources/js/prism.js?v=4.1.0.825785377228" defer></script>
 
     <link href="https://workleap.github.io/wl-idp-docs-hub/static/retype-customization.css" rel="stylesheet" />
 
@@ -288,7 +288,7 @@
     </h2>
 </doc-anchor-target>
 <p>To set up Storybook, first, open a terminal at the root of the Storybook application and install the following packages:</p>
-<div class="codeblock-wrapper"><doc-codeblock>
+<div id="install-the-packages-code-1" class="codeblock-wrapper"><doc-codeblock>
 <pre translate="no" class="language-bash"><code v-pre class="language-bash">pnpm add msw msw-storybook-addon</code></pre>
 </doc-codeblock></div>
 <doc-anchor-target id="register-the-msw-addon">
@@ -298,7 +298,7 @@
     </h2>
 </doc-anchor-target>
 <p>Then, update the standard <code translate="no" v-pre>.storybook/preview.tsx</code> file and register the <a href="https://mswjs.io/" class="outbound" target="_blank">Mock Service Worker</a> (MSW) addon:</p>
-<div class="codeblock-wrapper"><doc-codeblock>
+<div id="register-the-msw-addon-code-1" class="codeblock-wrapper"><doc-codeblock>
 <pre translate="no" class="language-tsx" data-line="5-7,19"><code v-pre class="language-tsx">import { initialize as initializeMsw, mswLoader } from &quot;msw-storybook-addon&quot;;
 import { Suspense } from &quot;react&quot;;
 import type { Preview } from &quot;storybook-react-rsbuild&quot;;
@@ -323,7 +323,7 @@ const preview: Preview = {
 export default preview;</code></pre>
 </doc-codeblock></div>
 <p>Then, update the standard <code translate="no" v-pre>.storybook/main.ts</code> file and set the <code translate="no" v-pre>staticDirs</code> option to <code translate="no" v-pre>[&quot;public&quot;]</code>:</p>
-<div class="codeblock-wrapper"><doc-codeblock>
+<div id="register-the-msw-addon-code-2" class="codeblock-wrapper"><doc-codeblock>
 <pre translate="no" class="language-tsx" data-line="9"><code v-pre class="language-tsx">import { createRequire } from &quot;node:module&quot;;
 import { dirname, join } from &quot;node:path&quot;;
 import type { StorybookConfig } from &quot;storybook-react-rsbuild&quot;;
@@ -350,7 +350,7 @@ function getAbsolutePath(value: string): any {
     </h2>
 </doc-anchor-target>
 <p>Finally, ensure that MSW is correctly initialized. Confirm that a <code translate="no" v-pre>mockServiceWorker.js</code> file exists in the <code translate="no" v-pre>/public</code> folder. If it&#x27;s missing, open a terminal at the root of the Storybook application and execute the following command:</p>
-<div class="codeblock-wrapper"><doc-codeblock>
+<div id="initialize-msw-code-1" class="codeblock-wrapper"><doc-codeblock>
 <pre translate="no" class="language-bash"><code v-pre class="language-bash">pnpm dlx msw init</code></pre>
 </doc-codeblock></div>
 <doc-anchor-target id="configure-a-project">
@@ -366,7 +366,7 @@ function getAbsolutePath(value: string): any {
     </h3>
 </doc-anchor-target>
 <p>To set up a project, first, open a terminal at the project root and install the following packages:</p>
-<div class="codeblock-wrapper"><doc-codeblock>
+<div id="install-the-packages-1-code-1" class="codeblock-wrapper"><doc-codeblock>
 <pre translate="no" class="language-bash"><code v-pre class="language-bash">pnpm add @squide/firefly-rsbuild-storybook</code></pre>
 </doc-codeblock></div>
 <doc-anchor-target id="create-a-runtime-instance">
@@ -376,7 +376,7 @@ function getAbsolutePath(value: string): any {
     </h3>
 </doc-anchor-target>
 <p>Then, update the story files to create a runtime instance using the <a href="../../reference/storybook/initializefireflyforstorybook/">initializeFireflyForStorybook</a> function:</p>
-<div class="codeblock-wrapper"><doc-codeblock>
+<div id="create-a-runtime-instance-code-1" class="codeblock-wrapper"><doc-codeblock>
 <pre translate="no" class="language-tsx" data-line="6-8"><code v-pre class="language-tsx">import { initializeFireflyForStorybook } from &quot;@squide/firefly-rsbuild-storybook&quot;;
 import type { Decorator, Meta, StoryObj } from &quot;storybook-react-rsbuild&quot;;
 import { Page } from &quot;./Page.tsx&quot;;
@@ -419,7 +419,7 @@ export const Default = {} satisfies Story;</code></pre>
     </h3>
 </doc-anchor-target>
 <p>Then, set up a decorator using the <a href="../../reference/storybook/withfireflydecorator/">withFireflyDecorator</a> function:</p>
-<div class="codeblock-wrapper"><doc-codeblock>
+<div id="setup-a-decorator-code-1" class="codeblock-wrapper"><doc-codeblock>
 <pre translate="no" class="language-tsx" data-line="13-15"><code v-pre class="language-tsx">import { initializeFireflyForStorybook, withFireflyDecorator } from &quot;@squide/firefly-rsbuild-storybook&quot;;
 import type { Decorator, Meta, StoryObj } from &quot;storybook-react-rsbuild&quot;;
 import { Page } from &quot;./Page.tsx&quot;;
@@ -444,7 +444,7 @@ type Story = StoryObj&lt;typeof meta&gt;;
 export const Default = {} satisfies Story;</code></pre>
 </doc-codeblock></div>
 <p>Or embed the <a href="../../reference/storybook/fireflydecorator/">FireflyDecorator</a> component in an existing decorator:</p>
-<div class="codeblock-wrapper"><doc-codeblock>
+<div id="setup-a-decorator-code-2" class="codeblock-wrapper"><doc-codeblock>
 <pre translate="no" class="language-tsx" data-line="13-19"><code v-pre class="language-tsx">import { initializeFireflyForStorybook, FireflyDecorator } from &quot;@squide/firefly-rsbuild-storybook&quot;;
 import type { Decorator, Meta, StoryObj } from &quot;storybook-react-rsbuild&quot;;
 import { Page } from &quot;./Page.tsx&quot;;
@@ -479,7 +479,7 @@ export const Default = {} satisfies Story;</code></pre>
     </h3>
 </doc-anchor-target>
 <p>Next, forward the MSW request handlers registered by the modules to the Storybook addon:</p>
-<div class="codeblock-wrapper"><doc-codeblock>
+<div id="setup-msw-code-1" class="codeblock-wrapper"><doc-codeblock>
 <pre translate="no" class="language-tsx" data-line="20-24"><code v-pre class="language-tsx">import { initializeFireflyForStorybook, FireflyDecorator } from &quot;@squide/firefly-rsbuild-storybook&quot;;
 import type { Decorator, Meta, StoryObj } from &quot;storybook-react-rsbuild&quot;;
 import { Page } from &quot;./Page.tsx&quot;;
@@ -519,7 +519,7 @@ export const Default = {} satisfies Story;</code></pre>
     </h3>
 </doc-anchor-target>
 <p>Then, if the components included in the stories rely on environment variables, mock the environment variables using the <a href="../../reference/storybook/initializefireflyforstorybook/">initializeFireflyForStorybook</a> function:</p>
-<div class="codeblock-wrapper"><doc-codeblock>
+<div id="setup-environment-variables-code-1" class="codeblock-wrapper"><doc-codeblock>
 <pre translate="no" class="language-tsx" data-line="8-10"><code v-pre class="language-tsx">import { initializeFireflyForStorybook, withFireflyDecorator } from &quot;@squide/firefly-rsbuild-storybook&quot;;
 import type { Decorator, Meta, StoryObj } from &quot;storybook-react-rsbuild&quot;;
 import { Page } from &quot;./Page.tsx&quot;;
@@ -553,7 +553,7 @@ export const Default = {} satisfies Story;</code></pre>
     </h3>
 </doc-anchor-target>
 <p>Finally, if the components included in the stories rely on feature flags, mock the feature flags using the <a href="../../reference/storybook/initializefireflyforstorybook/">initializeFireflyForStorybook</a> function:</p>
-<div class="codeblock-wrapper"><doc-codeblock>
+<div id="setup-feature-flags-code-1" class="codeblock-wrapper"><doc-codeblock>
 <pre translate="no" class="language-tsx" data-line="8-10"><code v-pre class="language-tsx">import { initializeFireflyForStorybook, withFireflyDecorator } from &quot;@squide/firefly-rsbuild-storybook&quot;;
 import type { Decorator, Meta, StoryObj } from &quot;storybook-react-rsbuild&quot;;
 import { Page } from &quot;./Page.tsx&quot;;
@@ -581,7 +581,7 @@ type Story = StoryObj&lt;typeof meta&gt;;
 export const Default = {} satisfies Story;</code></pre>
 </doc-codeblock></div>
 <p>To test different variations of a feature flag, use the <a href="../../reference/storybook/withfeatureflagsoverridedecorator/">withFeatureFlagsOverrideDecorator</a> hook:</p>
-<div class="codeblock-wrapper"><doc-codeblock>
+<div id="setup-feature-flags-code-2" class="codeblock-wrapper"><doc-codeblock>
 <pre translate="no" class="language-tsx" data-line="27"><code v-pre class="language-tsx">import { initializeFireflyForStorybook, withFireflyDecorator, withFeatureFlagsOverrideDecorator } from &quot;@squide/firefly-rsbuild-storybook&quot;;
 import type { Decorator, Meta, StoryObj } from &quot;storybook-react-rsbuild&quot;;
 import { Page } from &quot;./Page.tsx&quot;;

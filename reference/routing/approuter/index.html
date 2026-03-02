@@ -5,10 +5,10 @@
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <meta name="color-scheme" content="light dark">
     <meta name="turbo-root" content="/wl-squide">
-    <meta name="turbo-cache-control" content="no-cache" data-turbo-track="reload" data-track-token="4.0.1.825661313070">
+    <meta name="turbo-cache-control" content="no-cache" data-turbo-track="reload" data-track-token="4.1.0.825785377228">
 
     <!-- See retype.com -->
-    <meta name="generator" content="Retype 4.0.1">
+    <meta name="generator" content="Retype 4.1.0">
 
     <!-- Primary Meta Tags -->
     <title>AppRouter</title>
@@ -29,12 +29,12 @@
     <script data-cfasync="false">(function(){var cl=document.documentElement.classList,ls=localStorage.getItem("retype_scheme"),hd=cl.contains("dark"),hl=cl.contains("light"),wm=window.matchMedia&&window.matchMedia("(prefers-color-scheme: dark)").matches;if(ls==="dark"||(!ls&&wm&&!hd&&!hl)){cl.remove("light");cl.add("dark")}else if(ls==="light"||(!ls&&!wm&&!hd&&!hl)){cl.remove("dark");cl.add("light")}})();</script>
 
     <link id="retype-favicon" rel="icon" href="../../../static/favicon.png" />
-    <link href="../../../resources/css/retype.css?v=4.0.1.825661313070" rel="stylesheet">
+    <link href="../../../resources/css/retype.css?v=4.1.0.825785377228" rel="stylesheet">
 
-    <script data-cfasync="false" src="../../../resources/js/config.js?v=4.0.1.825661313070" data-turbo-eval="false" defer></script>
-    <script data-cfasync="false" src="../../../resources/js/retype.js?v=4.0.1" data-turbo-eval="false" defer></script>
-    <script id="lunr-js" data-cfasync="false" src="../../../resources/js/lunr.js?v=4.0.1.825661313070" data-turbo-eval="false" defer></script>
-    <script id="prism-js" data-cfasync="false" src="../../../resources/js/prism.js?v=4.0.1.825661313070" defer></script>
+    <script data-cfasync="false" src="../../../resources/js/config.js?v=4.1.0.825785377228" data-turbo-eval="false" defer></script>
+    <script data-cfasync="false" src="../../../resources/js/retype.js?v=4.1.0" data-turbo-eval="false" defer></script>
+    <script id="lunr-js" data-cfasync="false" src="../../../resources/js/lunr.js?v=4.1.0.825785377228" data-turbo-eval="false" defer></script>
+    <script id="prism-js" data-cfasync="false" src="../../../resources/js/prism.js?v=4.1.0.825785377228" defer></script>
 
     <link href="https://workleap.github.io/wl-idp-docs-hub/static/retype-customization.css" rel="stylesheet" />
 
@@ -295,7 +295,7 @@
         <span>Reference</span>
     </h2>
 </doc-anchor-target>
-<div class="codeblock-wrapper"><doc-codeblock>
+<div id="reference-code-1" class="codeblock-wrapper"><doc-codeblock>
 <pre translate="no" class="language-tsx"><code v-pre class="language-tsx">&lt;AppRouter waitForPublicData={boolean} waitForProtectedData={boolean}&gt;
     {({ rootRoute, registeredRoutes, routerProviderProps }) =&gt; ( ... )}
 &lt;/AppRouter&gt;</code></pre>
@@ -324,7 +324,7 @@
     </h3>
 </doc-anchor-target>
 <p>The <code translate="no" v-pre>rootRoute</code> component provided as an argument to the <code translate="no" v-pre>AppRouter</code> rendering function must always be rendered as a parent of the <code translate="no" v-pre>registeredRoutes</code>.</p>
-<div class="codeblock-wrapper"><doc-codeblock>
+<div id="define-a-router-provider-hostsrcapptsx" class="codeblock-wrapper"><doc-codeblock>
 <div class="codeblock-title">host/src/App.tsx</div>
 <pre translate="no" class="language-tsx" data-line="9-17"><code v-pre class="language-tsx">import { AppRouter } from &quot;@squide/firefly&quot;;
 import { createBrowserRouter } from &quot;react-router&quot;;
@@ -355,7 +355,7 @@ export function App() {
     </h3>
 </doc-anchor-target>
 <p>A <code translate="no" v-pre>BootstrappingRoute</code> component is introduced in the following example because the <a href="../useisbootstrapping/">useIsBootstrapping</a> hook must be rendered as a child of <code translate="no" v-pre>rootRoute</code>.</p>
-<div class="codeblock-wrapper"><doc-codeblock>
+<div id="define-a-loading-component-hostsrcapptsx" class="codeblock-wrapper"><doc-codeblock>
 <div class="codeblock-title">host/src/App.tsx</div>
 <pre translate="no" class="language-tsx" data-line="6-8,24"><code v-pre class="language-tsx">import { useIsBootstrapping, AppRouter } from &quot;@squide/firefly&quot;;
 import { createBrowserRouter, Outlet } from &quot;react-router&quot;;
@@ -401,7 +401,7 @@ export function App() {
     </h3>
 </doc-anchor-target>
 <p>A React Router <a href="https://reactrouter.com/en/main/route/error-element" class="outbound" target="_blank">errorElement</a> retrieves the current error using the <a href="https://reactrouter.com/en/main/hooks/use-route-error" class="outbound" target="_blank">useRouteError</a> hook. The root error boundary should always wrap the <code translate="no" v-pre>registeredRoutes</code> and, when application, the <code translate="no" v-pre>BootstrapingRoute</code> component.</p>
-<div class="codeblock-wrapper"><doc-codeblock>
+<div id="define-a-root-error-boundary-hostsrcrooterrorboundarytsx" class="codeblock-wrapper"><doc-codeblock>
 <div class="codeblock-title">host/src/RootErrorBoundary.tsx</div>
 <pre translate="no" class="language-tsx" data-line="5-33"><code v-pre class="language-tsx">import { isGlobalDataQueriesError, useLogger } from &quot;@squide/firefly&quot;;
 import { useRouteError, isRouteErrorResponse } from &quot;react-router&quot;;
@@ -437,7 +437,7 @@ export function RootErrorBoundary() {
     );
 }</code></pre>
 </doc-codeblock></div>
-<div class="codeblock-wrapper"><doc-codeblock>
+<div id="define-a-root-error-boundary-hostsrcapptsx" class="codeblock-wrapper"><doc-codeblock>
 <div class="codeblock-title">host/src/App.tsx</div>
 <pre translate="no" class="language-tsx" data-line="15"><code v-pre class="language-tsx">import { AppRouter } from &quot;@squide/firefly&quot;;
 import { createBrowserRouter } from &quot;react-router&quot;;
@@ -472,7 +472,7 @@ export function App() {
     </h3>
 </doc-anchor-target>
 <p>A <code translate="no" v-pre>BootstrappingRoute</code> component is introduced in the following example because the <a href="../../global-data-fetching/usepublicdataqueries/">usePublicDataQueries</a> hook must be rendered as a child of <code translate="no" v-pre>rootRoute</code>.</p>
-<div class="codeblock-wrapper"><doc-codeblock>
+<div id="delay-rendering-until-the-public-data-is-ready-hostsrcapptsx" class="codeblock-wrapper"><doc-codeblock>
 <div class="codeblock-title">host/src/App.tsx</div>
 <pre translate="no" class="language-tsx" data-line="8,23"><code v-pre class="language-tsx">import { useIsBootstrapping, usePublicDataQueries, AppRouter } from &quot;@squide/firefly&quot;;
 import { createBrowserRouter, Outlet } from &quot;react-router&quot;;
@@ -526,7 +526,7 @@ export function App() {
     </h3>
 </doc-anchor-target>
 <p>A <code translate="no" v-pre>BootstrappingRoute</code> component is introduced in the following example because the <a href="../../global-data-fetching/useprotecteddataqueries/">useProtectedDataQueries</a> hook must be rendered as a child of <code translate="no" v-pre>rootRoute</code>.</p>
-<div class="codeblock-wrapper"><doc-codeblock>
+<div id="delay-rendering-until-the-protected-data-is-ready-hostsrcapptsx" class="codeblock-wrapper"><doc-codeblock>
 <div class="codeblock-title">host/src/App.tsx</div>
 <pre translate="no" class="language-tsx" data-line="8-11,26"><code v-pre class="language-tsx">import { useIsBootstrapping, useProtectedDataQueries, AppRouter } from &quot;@squide/firefly&quot;;
 import { createBrowserRouter, Outlet } from &quot;react-router&quot;;

@@ -5,10 +5,10 @@
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <meta name="color-scheme" content="light dark">
     <meta name="turbo-root" content="/wl-squide">
-    <meta name="turbo-cache-control" content="no-cache" data-turbo-track="reload" data-track-token="4.0.1.825661313070">
+    <meta name="turbo-cache-control" content="no-cache" data-turbo-track="reload" data-track-token="4.1.0.825785377228">
 
     <!-- See retype.com -->
-    <meta name="generator" content="Retype 4.0.1">
+    <meta name="generator" content="Retype 4.1.0">
 
     <!-- Primary Meta Tags -->
     <title>useProtectedDataQueries</title>
@@ -29,12 +29,12 @@
     <script data-cfasync="false">(function(){var cl=document.documentElement.classList,ls=localStorage.getItem("retype_scheme"),hd=cl.contains("dark"),hl=cl.contains("light"),wm=window.matchMedia&&window.matchMedia("(prefers-color-scheme: dark)").matches;if(ls==="dark"||(!ls&&wm&&!hd&&!hl)){cl.remove("light");cl.add("dark")}else if(ls==="light"||(!ls&&!wm&&!hd&&!hl)){cl.remove("dark");cl.add("light")}})();</script>
 
     <link id="retype-favicon" rel="icon" href="../../../static/favicon.png" />
-    <link href="../../../resources/css/retype.css?v=4.0.1.825661313070" rel="stylesheet">
+    <link href="../../../resources/css/retype.css?v=4.1.0.825785377228" rel="stylesheet">
 
-    <script data-cfasync="false" src="../../../resources/js/config.js?v=4.0.1.825661313070" data-turbo-eval="false" defer></script>
-    <script data-cfasync="false" src="../../../resources/js/retype.js?v=4.0.1" data-turbo-eval="false" defer></script>
-    <script id="lunr-js" data-cfasync="false" src="../../../resources/js/lunr.js?v=4.0.1.825661313070" data-turbo-eval="false" defer></script>
-    <script id="prism-js" data-cfasync="false" src="../../../resources/js/prism.js?v=4.0.1.825661313070" defer></script>
+    <script data-cfasync="false" src="../../../resources/js/config.js?v=4.1.0.825785377228" data-turbo-eval="false" defer></script>
+    <script data-cfasync="false" src="../../../resources/js/retype.js?v=4.1.0" data-turbo-eval="false" defer></script>
+    <script id="lunr-js" data-cfasync="false" src="../../../resources/js/lunr.js?v=4.1.0.825785377228" data-turbo-eval="false" defer></script>
+    <script id="prism-js" data-cfasync="false" src="../../../resources/js/prism.js?v=4.1.0.825785377228" defer></script>
 
     <link href="https://workleap.github.io/wl-idp-docs-hub/static/retype-customization.css" rel="stylesheet" />
 
@@ -311,7 +311,7 @@
         <span>Reference</span>
     </h2>
 </doc-anchor-target>
-<div class="codeblock-wrapper"><doc-codeblock>
+<div id="reference-code-1" class="codeblock-wrapper"><doc-codeblock>
 <pre translate="no" class="language-typescript"><code v-pre class="language-typescript">const results = useProtectedDataQueries(queries: [], isUnauthorizedError: (error) =&gt; boolean)</code></pre>
 </doc-codeblock></div>
 <doc-anchor-target id="parameters">
@@ -351,7 +351,7 @@
     </h3>
 </doc-anchor-target>
 <p>A <code translate="no" v-pre>BootstrappingRoute</code> component is introduced in the following example because this hook must be rendered as a child of <code translate="no" v-pre>rootRoute</code>.</p>
-<div class="codeblock-wrapper"><doc-codeblock>
+<div id="define-queries-code-1" class="codeblock-wrapper"><doc-codeblock>
 <pre translate="no" class="language-tsx" data-line="7-42,44-46,59,68"><code v-pre class="language-tsx">import { useProtectedDataQueries, useIsBootstrapping, AppRouter } from &quot;@squide/firefly&quot;;
 import { createBrowserRouter } from &quot;react-router&quot;;
 import { RouterProvider } from &quot;react-router/dom&quot;;
@@ -433,7 +433,7 @@ export function App() {
     );
 }</code></pre>
 </doc-codeblock></div>
-<div class="codeblock-wrapper"><doc-codeblock>
+<div id="define-queries-sampleshared" class="codeblock-wrapper"><doc-codeblock>
 <div class="codeblock-title">@sample/shared</div>
 <pre translate="no" class="language-typescript"><code v-pre class="language-typescript">export class ApiError extends Error {
     readonly #status: number;
@@ -480,7 +480,7 @@ export function isApiError(error?: unknown): error is ApiError {
     </h3>
 </doc-anchor-target>
 <p>The <code translate="no" v-pre>useProtectedDataQueries</code> hook can throw <a href="../isglobaldataquerieserror/#globaldataquerieserror">GlobalDataQueriesError</a> instances, which are typically <strong>unmanaged</strong> and should be handled by an error boundary. To assert in an error boundary that an error is an instance of <code translate="no" v-pre>GlobalDataQueriesError</code>, use the <a href="../isglobaldataquerieserror/">isGlobalDataQueriesError</a> function.</p>
-<div class="codeblock-wrapper"><doc-codeblock>
+<div id="handle-fetch-errors-rooterrorboundarytsx" class="codeblock-wrapper"><doc-codeblock>
 <div class="codeblock-title">./RootErrorBoundary.tsx</div>
 <pre translate="no" class="language-tsx" data-line="10"><code v-pre class="language-tsx">import { useLogger, isGlobalDataQueriesError } from &quot;@squide/firefly&quot;;
 import { useLocation, useRouteError } from &quot;react-router/dom&quot;;
@@ -506,7 +506,7 @@ export function RootErrorBoundary() {
     );
 }</code></pre>
 </doc-codeblock></div>
-<div class="codeblock-wrapper"><doc-codeblock>
+<div id="handle-fetch-errors-code-1" class="codeblock-wrapper"><doc-codeblock>
 <pre translate="no" class="language-tsx" data-line="53"><code v-pre class="language-tsx">import { useProtectedDataQueries, useIsBootstrapping, AppRouter } from &quot;@squide/firefly&quot;;
 import { createBrowserRouter } from &quot;react-router&quot;;
 import { RouterProvider } from &quot;react-router/dom&quot;;
@@ -585,7 +585,7 @@ export function App() {
 <p>Unauthorized requests are a special case that shouldn&#x27;t be handled by an error boundary, as this would cause an <strong>infinite loop</strong> with the application&#x27;s authentication boundary.</p>
 <p>To handle this, when the server returns a <code translate="no" v-pre>401</code> status code, the <code translate="no" v-pre>useProtectedDataQueries</code> hook instructs Squide to immediately render the page, triggering the authentication boundary, that will eventually redirect the user to a login page.</p>
 <p>Since Squide manages this process behind the scenes, you only need to register an <code translate="no" v-pre>AuthenticationBoundary</code> component and provide an <code translate="no" v-pre>isUnauthorizedError</code> handler to the <code translate="no" v-pre>useProtectedDataQueries</code> hook.</p>
-<div class="codeblock-wrapper"><doc-codeblock>
+<div id="handle-401-response-authenticationboundarytsx" class="codeblock-wrapper"><doc-codeblock>
 <div class="codeblock-title">./AuthenticationBoundary.tsx</div>
 <pre translate="no" class="language-tsx"><code v-pre class="language-tsx">import { useContext } from &quot;react&quot;;
 import { Outlet, Navigate } from &quot;react-router/dom&quot;;
@@ -601,7 +601,7 @@ export function AuthenticationBoundary() {
     return &lt;Navigate to=&quot;/login&quot; /&gt;;
 }</code></pre>
 </doc-codeblock></div>
-<div class="codeblock-wrapper"><doc-codeblock>
+<div id="handle-401-response-code-1" class="codeblock-wrapper"><doc-codeblock>
 <pre translate="no" class="language-tsx" data-line="8"><code v-pre class="language-tsx">import { PublicRoutes, ProtectedRoutes, type ModuleRegisterFunction, type FireflyRuntime } from &quot;@squide/firefly&quot;;
 import { AuthenticationBoundary } from &quot;./AuthenticationBoundary.tsx&quot;;
 
@@ -622,7 +622,7 @@ export function registerHost() {
     return register;
 }</code></pre>
 </doc-codeblock></div>
-<div class="codeblock-wrapper"><doc-codeblock>
+<div id="handle-401-response-code-2" class="codeblock-wrapper"><doc-codeblock>
 <pre translate="no" class="language-tsx" data-line="30"><code v-pre class="language-tsx">import { useProtectedDataQueries, useIsBootstrapping, AppRouter } from &quot;@squide/firefly&quot;;
 import { createBrowserRouter } from &quot;react-router&quot;;
 import { RouterProvider } from &quot;react-router/dom&quot;;

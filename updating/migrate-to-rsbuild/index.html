@@ -5,10 +5,10 @@
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <meta name="color-scheme" content="light dark">
     <meta name="turbo-root" content="/wl-squide">
-    <meta name="turbo-cache-control" content="no-cache" data-turbo-track="reload" data-track-token="4.0.1.825661313070">
+    <meta name="turbo-cache-control" content="no-cache" data-turbo-track="reload" data-track-token="4.1.0.825785377228">
 
     <!-- See retype.com -->
-    <meta name="generator" content="Retype 4.0.1">
+    <meta name="generator" content="Retype 4.1.0">
 
     <!-- Primary Meta Tags -->
     <title>Migrate to Rsbuild</title>
@@ -29,12 +29,12 @@
     <script data-cfasync="false">(function(){var cl=document.documentElement.classList,ls=localStorage.getItem("retype_scheme"),hd=cl.contains("dark"),hl=cl.contains("light"),wm=window.matchMedia&&window.matchMedia("(prefers-color-scheme: dark)").matches;if(ls==="dark"||(!ls&&wm&&!hd&&!hl)){cl.remove("light");cl.add("dark")}else if(ls==="light"||(!ls&&!wm&&!hd&&!hl)){cl.remove("dark");cl.add("light")}})();</script>
 
     <link id="retype-favicon" rel="icon" href="../../static/favicon.png" />
-    <link href="../../resources/css/retype.css?v=4.0.1.825661313070" rel="stylesheet">
+    <link href="../../resources/css/retype.css?v=4.1.0.825785377228" rel="stylesheet">
 
-    <script data-cfasync="false" src="../../resources/js/config.js?v=4.0.1.825661313070" data-turbo-eval="false" defer></script>
-    <script data-cfasync="false" src="../../resources/js/retype.js?v=4.0.1" data-turbo-eval="false" defer></script>
-    <script id="lunr-js" data-cfasync="false" src="../../resources/js/lunr.js?v=4.0.1.825661313070" data-turbo-eval="false" defer></script>
-    <script id="prism-js" data-cfasync="false" src="../../resources/js/prism.js?v=4.0.1.825661313070" defer></script>
+    <script data-cfasync="false" src="../../resources/js/config.js?v=4.1.0.825785377228" data-turbo-eval="false" defer></script>
+    <script data-cfasync="false" src="../../resources/js/retype.js?v=4.1.0" data-turbo-eval="false" defer></script>
+    <script id="lunr-js" data-cfasync="false" src="../../resources/js/lunr.js?v=4.1.0.825785377228" data-turbo-eval="false" defer></script>
+    <script id="prism-js" data-cfasync="false" src="../../resources/js/prism.js?v=4.1.0.825785377228" defer></script>
 
     <link href="https://workleap.github.io/wl-idp-docs-hub/static/retype-customization.css" rel="stylesheet" />
 
@@ -311,11 +311,11 @@
     </h3>
 </doc-anchor-target>
 <p>Open a terminal at the root of the host application project and install the following packages:</p>
-<div class="codeblock-wrapper"><doc-codeblock>
+<div id="update-packages-code-1" class="codeblock-wrapper"><doc-codeblock>
 <pre translate="no" class="language-bash"><code v-pre class="language-bash">pnpm add -D @squide/firefly-rsbuild-configs @rsbuild/core @rspack/core</code></pre>
 </doc-codeblock></div>
 <p>Then, in the same terminal, remove the following packages:</p>
-<div class="codeblock-wrapper"><doc-codeblock>
+<div id="update-packages-code-2" class="codeblock-wrapper"><doc-codeblock>
 <pre translate="no" class="language-bash"><code v-pre class="language-bash">pnpm remove @squide/firefly-webpack-configs @swc/core @swc/helpers @workleap/swc-configs webpack webpack-cli webpack-dev-server</code></pre>
 </doc-codeblock></div>
 <div class="flex mb-6">
@@ -340,7 +340,7 @@
         <span>Update files</span>
     </h3>
 </doc-anchor-target>
-<div class="codeblock-wrapper"><doc-codeblock>
+<div id="update-files-code-1" class="codeblock-wrapper"><doc-codeblock>
 <pre translate="no" class="language-none"><code v-pre class="language-none">host
 ├── public
 ├── src
@@ -368,7 +368,7 @@
 <li>Remove <code translate="no" v-pre>// @ts-check</code>.</li>
 </ul>
 <p>Before:</p>
-<div class="codeblock-wrapper"><doc-codeblock>
+<div id="webpackbuildjs-webpackbuildjs" class="codeblock-wrapper"><doc-codeblock>
 <div class="codeblock-title">webpack.build.js</div>
 <pre translate="no" class="language-javascript"><code v-pre class="language-javascript">// @ts-check
 
@@ -378,7 +378,7 @@ import { swcConfig } from &quot;./swc.build.js&quot;;
 export default defineBuildHostConfig(swcConfig, []);</code></pre>
 </doc-codeblock></div>
 <p>After:</p>
-<div class="codeblock-wrapper"><doc-codeblock>
+<div id="webpackbuildjs-rsbuildbuildts" class="codeblock-wrapper"><doc-codeblock>
 <div class="codeblock-title">rsbuild.build.ts</div>
 <pre translate="no" class="language-typescript"><code v-pre class="language-typescript">import { defineBuildHostConfig } from &quot;@squide/firefly-rsbuild-configs&quot;;
 
@@ -399,7 +399,7 @@ export default defineBuildHostConfig([]);</code></pre>
 <li>Remove <code translate="no" v-pre>// @ts-check</code>.</li>
 </ul>
 <p>Before:</p>
-<div class="codeblock-wrapper"><doc-codeblock>
+<div id="webpackdevjs-webpackdevjs" class="codeblock-wrapper"><doc-codeblock>
 <div class="codeblock-title">webpack.dev.js</div>
 <pre translate="no" class="language-javascript"><code v-pre class="language-javascript">// @ts-check
 
@@ -409,7 +409,7 @@ import { swcConfig } from &quot;./swc.dev.js&quot;;
 export default defineDevHostConfig(swcConfig, 8080, Remotes);</code></pre>
 </doc-codeblock></div>
 <p>After:</p>
-<div class="codeblock-wrapper"><doc-codeblock>
+<div id="webpackdevjs-rsbuilddevts" class="codeblock-wrapper"><doc-codeblock>
 <div class="codeblock-title">rsbuild.dev.ts</div>
 <pre translate="no" class="language-typescript"><code v-pre class="language-typescript">import { defineDevHostConfig } from &quot;@squide/firefly-rsbuild-configs&quot;;
 
@@ -429,7 +429,7 @@ export default defineDevHostConfig(8080, Remotes);</code></pre>
 <li>Remove <code translate="no" v-pre>// @ts-check</code>.</li>
 </ul>
 <p>Before:</p>
-<div class="codeblock-wrapper"><doc-codeblock>
+<div id="webpackcommonjs-optional-webpackcommonjs" class="codeblock-wrapper"><doc-codeblock>
 <div class="codeblock-title">webpack.common.js</div>
 <pre translate="no" class="language-javascript"><code v-pre class="language-javascript">// @ts-check
 
@@ -452,7 +452,7 @@ export const features = {
 };</code></pre>
 </doc-codeblock></div>
 <p>After:</p>
-<div class="codeblock-wrapper"><doc-codeblock>
+<div id="webpackcommonjs-optional-rsbuildcommonts" class="codeblock-wrapper"><doc-codeblock>
 <div class="codeblock-title">rsbuild.common.ts</div>
 <pre translate="no" class="language-typescript"><code v-pre class="language-typescript">import type { Features, ModuleFederationShared } from &quot;@squide/firefly-rsbuild-configs&quot;;
 
@@ -517,14 +517,14 @@ export const features: Features = {
 </doc-anchor-target>
 <p>Update the <code translate="no" v-pre>build</code> script to run Rsbuild instead of webpack.</p>
 <p>Before:</p>
-<div class="codeblock-wrapper"><doc-codeblock>
+<div id="build-packagejson" class="codeblock-wrapper"><doc-codeblock>
 <div class="codeblock-title">package.json</div>
 <pre translate="no" class="language-json"><code v-pre class="language-json">&quot;scripts&quot;: {
     &quot;build&quot;: &quot;webpack --config webpack.build.js&quot;
 }</code></pre>
 </doc-codeblock></div>
 <p>After:</p>
-<div class="codeblock-wrapper"><doc-codeblock>
+<div id="build-packagejson-1" class="codeblock-wrapper"><doc-codeblock>
 <div class="codeblock-title">package.json</div>
 <pre translate="no" class="language-json"><code v-pre class="language-json">&quot;scripts&quot;: {
     &quot;build&quot;: &quot;rsbuild build --config rsbuild.build.ts&quot;
@@ -538,14 +538,14 @@ export const features: Features = {
 </doc-anchor-target>
 <p>Update the <code translate="no" v-pre>dev</code> script to run Rsbuild instead of webpack.</p>
 <p>Before:</p>
-<div class="codeblock-wrapper"><doc-codeblock>
+<div id="dev-packagejson" class="codeblock-wrapper"><doc-codeblock>
 <div class="codeblock-title">package.json</div>
 <pre translate="no" class="language-json"><code v-pre class="language-json">&quot;scripts&quot;: {
     &quot;dev&quot;: &quot;webpack serve --config webpack.dev.js&quot;
 }</code></pre>
 </doc-codeblock></div>
 <p>After:</p>
-<div class="codeblock-wrapper"><doc-codeblock>
+<div id="dev-packagejson-1" class="codeblock-wrapper"><doc-codeblock>
 <div class="codeblock-title">package.json</div>
 <pre translate="no" class="language-json"><code v-pre class="language-json">&quot;scripts&quot;: {
     &quot;dev&quot;: &quot;rsbuild dev --config rsbuild.dev.ts&quot;
@@ -571,11 +571,11 @@ export const features: Features = {
     </h3>
 </doc-anchor-target>
 <p>Open a terminal at the root of the remote module project and install the following packages:</p>
-<div class="codeblock-wrapper"><doc-codeblock>
+<div id="update-packages-1-code-1" class="codeblock-wrapper"><doc-codeblock>
 <pre translate="no" class="language-bash"><code v-pre class="language-bash">pnpm add -D @squide/firefly-rsbuild-configs @rsbuild/core</code></pre>
 </doc-codeblock></div>
 <p>Then, in the same terminal, remove the following packages:</p>
-<div class="codeblock-wrapper"><doc-codeblock>
+<div id="update-packages-1-code-2" class="codeblock-wrapper"><doc-codeblock>
 <pre translate="no" class="language-bash"><code v-pre class="language-bash">pnpm remove @squide/firefly-webpack-configs @swc/core @swc/helpers @workleap/swc-configs webpack webpack-cli webpack-dev-server</code></pre>
 </doc-codeblock></div>
 <div class="flex mb-6">
@@ -600,7 +600,7 @@ export const features: Features = {
         <span>Update files</span>
     </h3>
 </doc-anchor-target>
-<div class="codeblock-wrapper"><doc-codeblock>
+<div id="update-files-1-code-1" class="codeblock-wrapper"><doc-codeblock>
 <pre translate="no" class="language-none"><code v-pre class="language-none">remote-module
 ├── public
 ├── src
@@ -626,7 +626,7 @@ export const features: Features = {
 <li>Remove <code translate="no" v-pre>// @ts-check</code>.</li>
 </ul>
 <p>Before:</p>
-<div class="codeblock-wrapper"><doc-codeblock>
+<div id="webpackbuildjs-1-webpackbuildjs" class="codeblock-wrapper"><doc-codeblock>
 <div class="codeblock-title">webpack.build.js</div>
 <pre translate="no" class="language-javascript"><code v-pre class="language-javascript">// @ts-check
 
@@ -636,7 +636,7 @@ import { swcConfig } from &quot;./swc.build.js&quot;;
 export default defineBuildRemoteModuleConfig(swcConfig, &quot;remote1&quot;);</code></pre>
 </doc-codeblock></div>
 <p>After:</p>
-<div class="codeblock-wrapper"><doc-codeblock>
+<div id="webpackbuildjs-1-rsbuildbuildts" class="codeblock-wrapper"><doc-codeblock>
 <div class="codeblock-title">rsbuild.build.ts</div>
 <pre translate="no" class="language-typescript"><code v-pre class="language-typescript">import { defineBuildRemoteModuleConfig } from &quot;@squide/firefly-rsbuild-configs&quot;;
 
@@ -657,7 +657,7 @@ export default defineBuildRemoteModuleConfig(&quot;remote1&quot;);</code></pre>
 <li>Remove <code translate="no" v-pre>// @ts-check</code>.</li>
 </ul>
 <p>Before:</p>
-<div class="codeblock-wrapper"><doc-codeblock>
+<div id="webpackdevjs-1-webpackdevjs" class="codeblock-wrapper"><doc-codeblock>
 <div class="codeblock-title">webpack.dev.js</div>
 <pre translate="no" class="language-javascript"><code v-pre class="language-javascript">// @ts-check
 
@@ -667,7 +667,7 @@ import { swcConfig } from &quot;./swc.dev.js&quot;;
 export default defineDevRemoteModuleConfig(swcConfig, &quot;remote1&quot;, 8081);</code></pre>
 </doc-codeblock></div>
 <p>After:</p>
-<div class="codeblock-wrapper"><doc-codeblock>
+<div id="webpackdevjs-1-rsbuilddevts" class="codeblock-wrapper"><doc-codeblock>
 <div class="codeblock-title">rsbuild.dev.ts</div>
 <pre translate="no" class="language-typescript"><code v-pre class="language-typescript">import { defineDevRemoteModuleConfig } from &quot;@squide/firefly-webpack-configs&quot;;
 
@@ -687,7 +687,7 @@ export default defineDevRemoteModuleConfig(&quot;remote1&quot;, 8081);</code></p
 <li>Remove <code translate="no" v-pre>// @ts-check</code>.</li>
 </ul>
 <p>Before:</p>
-<div class="codeblock-wrapper"><doc-codeblock>
+<div id="webpackcommonjs-optional-1-webpackcommonjs" class="codeblock-wrapper"><doc-codeblock>
 <div class="codeblock-title">webpack.common.js</div>
 <pre translate="no" class="language-javascript"><code v-pre class="language-javascript">// @ts-check
 
@@ -710,7 +710,7 @@ export const features = {
 };</code></pre>
 </doc-codeblock></div>
 <p>After:</p>
-<div class="codeblock-wrapper"><doc-codeblock>
+<div id="webpackcommonjs-optional-1-rsbuildcommonts" class="codeblock-wrapper"><doc-codeblock>
 <div class="codeblock-title">rsbuild.common.ts</div>
 <pre translate="no" class="language-typescript"><code v-pre class="language-typescript">import type { Features, ModuleFederationShared } from &quot;@squide/firefly-rsbuild-configs&quot;;
 
@@ -761,14 +761,14 @@ export const features: Features = {
 </doc-anchor-target>
 <p>Update the <code translate="no" v-pre>build</code> script to run Rsbuild instead of webpack.</p>
 <p>Before:</p>
-<div class="codeblock-wrapper"><doc-codeblock>
+<div id="build-1-packagejson" class="codeblock-wrapper"><doc-codeblock>
 <div class="codeblock-title">package.json</div>
 <pre translate="no" class="language-json"><code v-pre class="language-json">&quot;scripts&quot;: {
     &quot;build&quot;: &quot;webpack --config webpack.build.js&quot;
 }</code></pre>
 </doc-codeblock></div>
 <p>After:</p>
-<div class="codeblock-wrapper"><doc-codeblock>
+<div id="build-1-packagejson-1" class="codeblock-wrapper"><doc-codeblock>
 <div class="codeblock-title">package.json</div>
 <pre translate="no" class="language-json"><code v-pre class="language-json">&quot;scripts&quot;: {
     &quot;build&quot;: &quot;rsbuild build --config rsbuild.build.ts&quot;
@@ -782,14 +782,14 @@ export const features: Features = {
 </doc-anchor-target>
 <p>Update the <code translate="no" v-pre>dev</code> script to run Rsbuild instead of webpack.</p>
 <p>Before:</p>
-<div class="codeblock-wrapper"><doc-codeblock>
+<div id="dev-1-packagejson" class="codeblock-wrapper"><doc-codeblock>
 <div class="codeblock-title">package.json</div>
 <pre translate="no" class="language-json"><code v-pre class="language-json">&quot;scripts&quot;: {
     &quot;dev&quot;: &quot;webpack serve --config webpack.dev.js&quot;
 }</code></pre>
 </doc-codeblock></div>
 <p>After:</p>
-<div class="codeblock-wrapper"><doc-codeblock>
+<div id="dev-1-packagejson-1" class="codeblock-wrapper"><doc-codeblock>
 <div class="codeblock-title">package.json</div>
 <pre translate="no" class="language-json"><code v-pre class="language-json">&quot;scripts&quot;: {
     &quot;dev&quot;: &quot;rsbuild dev --config rsbuild.dev.ts&quot;
@@ -815,11 +815,11 @@ export const features: Features = {
     </h3>
 </doc-anchor-target>
 <p>Open a terminal at the root of the local module project and install the following packages:</p>
-<div class="codeblock-wrapper"><doc-codeblock>
+<div id="update-packages-2-code-1" class="codeblock-wrapper"><doc-codeblock>
 <pre translate="no" class="language-bash"><code v-pre class="language-bash">pnpm add -D @squide/firefly-rsbuild-configs @rsbuild/core</code></pre>
 </doc-codeblock></div>
 <p>Then, in the same terminal, remove the following packages:</p>
-<div class="codeblock-wrapper"><doc-codeblock>
+<div id="update-packages-2-code-2" class="codeblock-wrapper"><doc-codeblock>
 <pre translate="no" class="language-bash"><code v-pre class="language-bash">pnpm remove @squide/firefly-webpack-configs @swc/core @swc/helpers @workleap/swc-configs webpack webpack-cli webpack-dev-server</code></pre>
 </doc-codeblock></div>
 <div class="flex mb-6">
@@ -843,7 +843,7 @@ export const features: Features = {
         <span>Update files</span>
     </h3>
 </doc-anchor-target>
-<div class="codeblock-wrapper"><doc-codeblock>
+<div id="update-files-2-code-1" class="codeblock-wrapper"><doc-codeblock>
 <pre translate="no" class="language-none"><code v-pre class="language-none">local-module
 ├── public
 ├── src
@@ -866,7 +866,7 @@ export const features: Features = {
 <li>Remove <code translate="no" v-pre>// @ts-check</code>.</li>
 </ul>
 <p>Before:</p>
-<div class="codeblock-wrapper"><doc-codeblock>
+<div id="webpackconfigjs-webpackconfigjs" class="codeblock-wrapper"><doc-codeblock>
 <div class="codeblock-title">webpack.config.js</div>
 <pre translate="no" class="language-javascript"><code v-pre class="language-javascript">// @ts-check
 
@@ -879,7 +879,7 @@ export default defineDevHostConfig(swcConfig, 8080, [], {
 });</code></pre>
 </doc-codeblock></div>
 <p>After:</p>
-<div class="codeblock-wrapper"><doc-codeblock>
+<div id="webpackconfigjs-rsbuildconfigts" class="codeblock-wrapper"><doc-codeblock>
 <div class="codeblock-title">rsbuild.config.ts</div>
 <pre translate="no" class="language-typescript"><code v-pre class="language-typescript">import { defineDevHostConfig } from &quot;@squide/firefly-rsbuild-configs&quot;;
 import path from &quot;node:path&quot;;
@@ -911,14 +911,14 @@ export default defineDevHostConfig(8080, [], {
 </doc-anchor-target>
 <p>Update the <code translate="no" v-pre>dev-isolated</code> script to run Rsbuild instead of webpack.</p>
 <p>Before:</p>
-<div class="codeblock-wrapper"><doc-codeblock>
+<div id="dev-isolated-packagejson" class="codeblock-wrapper"><doc-codeblock>
 <div class="codeblock-title">package.json</div>
 <pre translate="no" class="language-json"><code v-pre class="language-json">&quot;scripts&quot;: {
     &quot;dev-isolated&quot;: &quot;webpack serve --config webpack.config.js&quot;
 }</code></pre>
 </doc-codeblock></div>
 <p>After:</p>
-<div class="codeblock-wrapper"><doc-codeblock>
+<div id="dev-isolated-packagejson-1" class="codeblock-wrapper"><doc-codeblock>
 <div class="codeblock-title">package.json</div>
 <pre translate="no" class="language-json"><code v-pre class="language-json">&quot;scripts&quot;: {
     &quot;dev-isolated&quot;: &quot;rsbuild dev --config rsbuild.config.ts&quot;

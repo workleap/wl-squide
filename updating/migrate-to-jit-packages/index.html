@@ -5,10 +5,10 @@
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <meta name="color-scheme" content="light dark">
     <meta name="turbo-root" content="/wl-squide">
-    <meta name="turbo-cache-control" content="no-cache" data-turbo-track="reload" data-track-token="4.0.1.825661313070">
+    <meta name="turbo-cache-control" content="no-cache" data-turbo-track="reload" data-track-token="4.1.0.825785377228">
 
     <!-- See retype.com -->
-    <meta name="generator" content="Retype 4.0.1">
+    <meta name="generator" content="Retype 4.1.0">
 
     <!-- Primary Meta Tags -->
     <title>Migrate to Just-In-Time packages</title>
@@ -29,12 +29,12 @@
     <script data-cfasync="false">(function(){var cl=document.documentElement.classList,ls=localStorage.getItem("retype_scheme"),hd=cl.contains("dark"),hl=cl.contains("light"),wm=window.matchMedia&&window.matchMedia("(prefers-color-scheme: dark)").matches;if(ls==="dark"||(!ls&&wm&&!hd&&!hl)){cl.remove("light");cl.add("dark")}else if(ls==="light"||(!ls&&!wm&&!hd&&!hl)){cl.remove("dark");cl.add("light")}})();</script>
 
     <link id="retype-favicon" rel="icon" href="../../static/favicon.png" />
-    <link href="../../resources/css/retype.css?v=4.0.1.825661313070" rel="stylesheet">
+    <link href="../../resources/css/retype.css?v=4.1.0.825785377228" rel="stylesheet">
 
-    <script data-cfasync="false" src="../../resources/js/config.js?v=4.0.1.825661313070" data-turbo-eval="false" defer></script>
-    <script data-cfasync="false" src="../../resources/js/retype.js?v=4.0.1" data-turbo-eval="false" defer></script>
-    <script id="lunr-js" data-cfasync="false" src="../../resources/js/lunr.js?v=4.0.1.825661313070" data-turbo-eval="false" defer></script>
-    <script id="prism-js" data-cfasync="false" src="../../resources/js/prism.js?v=4.0.1.825661313070" defer></script>
+    <script data-cfasync="false" src="../../resources/js/config.js?v=4.1.0.825785377228" data-turbo-eval="false" defer></script>
+    <script data-cfasync="false" src="../../resources/js/retype.js?v=4.1.0" data-turbo-eval="false" defer></script>
+    <script id="lunr-js" data-cfasync="false" src="../../resources/js/lunr.js?v=4.1.0.825785377228" data-turbo-eval="false" defer></script>
+    <script id="prism-js" data-cfasync="false" src="../../resources/js/prism.js?v=4.1.0.825785377228" defer></script>
 
     <link href="https://workleap.github.io/wl-idp-docs-hub/static/retype-customization.css" rel="stylesheet" />
 
@@ -298,7 +298,7 @@
     </h3>
 </doc-anchor-target>
 <p>Open a terminal at the root of the host application project and remove the following packages:</p>
-<div class="codeblock-wrapper"><doc-codeblock>
+<div id="remove-packages-code-1" class="codeblock-wrapper"><doc-codeblock>
 <pre translate="no" class="language-bash"><code v-pre class="language-bash">pnpm remove -D @workleap/tsup-configs tsup nodemon</code></pre>
 </doc-codeblock></div>
 <doc-anchor-target id="update-files">
@@ -307,7 +307,7 @@
         <span>Update files</span>
     </h3>
 </doc-anchor-target>
-<div class="codeblock-wrapper"><doc-codeblock>
+<div id="update-files-code-1" class="codeblock-wrapper"><doc-codeblock>
 <pre translate="no" class="language-none"><code v-pre class="language-none">library
 ├── src
 ├──── index.ts
@@ -324,7 +324,7 @@
 </doc-anchor-target>
 <p>Open the <code translate="no" v-pre>package.json</code> file and update the <code translate="no" v-pre>exports</code> field to point to the library project&#x27;s entry file. In this example, the entry file is <code translate="no" v-pre>index.ts</code>.</p>
 <p>Before:</p>
-<div class="codeblock-wrapper"><doc-codeblock>
+<div id="packagejson-packagejson" class="codeblock-wrapper"><doc-codeblock>
 <div class="codeblock-title">package.json</div>
 <pre translate="no" class="language-json"><code v-pre class="language-json">&quot;exports&quot;: {
     &quot;.&quot;: {
@@ -335,7 +335,7 @@
 }</code></pre>
 </doc-codeblock></div>
 <p>After:</p>
-<div class="codeblock-wrapper"><doc-codeblock>
+<div id="packagejson-packagejson-1" class="codeblock-wrapper"><doc-codeblock>
 <div class="codeblock-title">package.json</div>
 <pre translate="no" class="language-json"><code v-pre class="language-json">&quot;exports&quot;: &quot;./src/index.ts&quot;</code></pre>
 </doc-codeblock></div>
@@ -347,7 +347,7 @@
 </doc-anchor-target>
 <p>Open the <code translate="no" v-pre>tsconfig.json</code> file and remove the <code translate="no" v-pre>compilerOptions.paths</code> entries for library projects that enabled are Just-In-Time.</p>
 <p>Before:</p>
-<div class="codeblock-wrapper"><doc-codeblock>
+<div id="tsconfigjson-tsconfigjson" class="codeblock-wrapper"><doc-codeblock>
 <div class="codeblock-title">tsconfig.json</div>
 <pre translate="no" class="language-json" data-line="4-9"><code v-pre class="language-json">{
     &quot;extends&quot;: &quot;@workleap/typescript-configs/library.json&quot;,
@@ -363,7 +363,7 @@
 }</code></pre>
 </doc-codeblock></div>
 <p>After:</p>
-<div class="codeblock-wrapper"><doc-codeblock>
+<div id="tsconfigjson-tsconfigjson-1" class="codeblock-wrapper"><doc-codeblock>
 <div class="codeblock-title">tsconfig.json</div>
 <pre translate="no" class="language-json"><code v-pre class="language-json">{
     &quot;extends&quot;: &quot;@workleap/typescript-configs/library.json&quot;,
@@ -411,7 +411,7 @@
     </h3>
 </doc-anchor-target>
 <p>Open a terminal at the root of the host application project and remove the following packages:</p>
-<div class="codeblock-wrapper"><doc-codeblock>
+<div id="remove-packages-optional-code-1" class="codeblock-wrapper"><doc-codeblock>
 <pre translate="no" class="language-bash"><code v-pre class="language-bash">pnpm remove -D nodemon</code></pre>
 </doc-codeblock></div>
 <doc-anchor-target id="update-files-1">
@@ -420,7 +420,7 @@
         <span>Update files</span>
     </h3>
 </doc-anchor-target>
-<div class="codeblock-wrapper"><doc-codeblock>
+<div id="update-files-1-code-1" class="codeblock-wrapper"><doc-codeblock>
 <pre translate="no" class="language-none"><code v-pre class="language-none">library
 ├── src
 ├──── index.ts
@@ -437,7 +437,7 @@
 </doc-anchor-target>
 <p>Open the <code translate="no" v-pre>package.json</code> file and move the <code translate="no" v-pre>export</code> field value to the <a href="https://pnpm.io/package_json#publishconfig" class="outbound" target="_blank">publishConfig</a> field.</p>
 <p>Before:</p>
-<div class="codeblock-wrapper"><doc-codeblock>
+<div id="packagejson-1-packagejson" class="codeblock-wrapper"><doc-codeblock>
 <div class="codeblock-title">package.json</div>
 <pre translate="no" class="language-json"><code v-pre class="language-json">&quot;publishConfig&quot;: {
     &quot;access&quot;: &quot;public&quot;,
@@ -445,7 +445,7 @@
 }</code></pre>
 </doc-codeblock></div>
 <p>After:</p>
-<div class="codeblock-wrapper"><doc-codeblock>
+<div id="packagejson-1-packagejson-1" class="codeblock-wrapper"><doc-codeblock>
 <div class="codeblock-title">package.json</div>
 <pre translate="no" class="language-json"><code v-pre class="language-json">&quot;publishConfig&quot;: {
     &quot;access&quot;: &quot;public&quot;,
@@ -461,7 +461,7 @@
 </doc-codeblock></div>
 <p>Then, update the <code translate="no" v-pre>exports</code> field to point to the library project&#x27;s entry file. In this example, the entry file is <code translate="no" v-pre>index.ts</code>.</p>
 <p>Before:</p>
-<div class="codeblock-wrapper"><doc-codeblock>
+<div id="packagejson-1-packagejson-2" class="codeblock-wrapper"><doc-codeblock>
 <div class="codeblock-title">package.json</div>
 <pre translate="no" class="language-json"><code v-pre class="language-json">&quot;exports&quot;: {
     &quot;.&quot;: {
@@ -472,7 +472,7 @@
 }</code></pre>
 </doc-codeblock></div>
 <p>After:</p>
-<div class="codeblock-wrapper"><doc-codeblock>
+<div id="packagejson-1-packagejson-3" class="codeblock-wrapper"><doc-codeblock>
 <div class="codeblock-title">package.json</div>
 <pre translate="no" class="language-json"><code v-pre class="language-json">&quot;exports&quot;: &quot;./src/index.ts&quot;</code></pre>
 </doc-codeblock></div>
@@ -484,7 +484,7 @@
 </doc-anchor-target>
 <p>Open the <code translate="no" v-pre>tsconfig.json</code> file and remove the <code translate="no" v-pre>compilerOptions.paths</code> entries for library projects that enabled are Just-In-Time.</p>
 <p>Before:</p>
-<div class="codeblock-wrapper"><doc-codeblock>
+<div id="tsconfigjson-1-tsconfigjson" class="codeblock-wrapper"><doc-codeblock>
 <div class="codeblock-title">tsconfig.json</div>
 <pre translate="no" class="language-json" data-line="4-9"><code v-pre class="language-json">{
     &quot;extends&quot;: &quot;@workleap/typescript-configs/library.json&quot;,
@@ -500,7 +500,7 @@
 }</code></pre>
 </doc-codeblock></div>
 <p>After:</p>
-<div class="codeblock-wrapper"><doc-codeblock>
+<div id="tsconfigjson-1-tsconfigjson-1" class="codeblock-wrapper"><doc-codeblock>
 <div class="codeblock-title">tsconfig.json</div>
 <pre translate="no" class="language-json"><code v-pre class="language-json">{
     &quot;extends&quot;: &quot;@workleap/typescript-configs/library.json&quot;,

@@ -5,10 +5,10 @@
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <meta name="color-scheme" content="light dark">
     <meta name="turbo-root" content="/wl-squide">
-    <meta name="turbo-cache-control" content="no-cache" data-turbo-track="reload" data-track-token="4.0.1.825661313070">
+    <meta name="turbo-cache-control" content="no-cache" data-turbo-track="reload" data-track-token="4.1.0.825785377228">
 
     <!-- See retype.com -->
-    <meta name="generator" content="Retype 4.0.1">
+    <meta name="generator" content="Retype 4.1.0">
 
     <!-- Primary Meta Tags -->
     <title>Register routes</title>
@@ -29,12 +29,12 @@
     <script data-cfasync="false">(function(){var cl=document.documentElement.classList,ls=localStorage.getItem("retype_scheme"),hd=cl.contains("dark"),hl=cl.contains("light"),wm=window.matchMedia&&window.matchMedia("(prefers-color-scheme: dark)").matches;if(ls==="dark"||(!ls&&wm&&!hd&&!hl)){cl.remove("light");cl.add("dark")}else if(ls==="light"||(!ls&&!wm&&!hd&&!hl)){cl.remove("dark");cl.add("light")}})();</script>
 
     <link id="retype-favicon" rel="icon" href="../../static/favicon.png" />
-    <link href="../../resources/css/retype.css?v=4.0.1.825661313070" rel="stylesheet">
+    <link href="../../resources/css/retype.css?v=4.1.0.825785377228" rel="stylesheet">
 
-    <script data-cfasync="false" src="../../resources/js/config.js?v=4.0.1.825661313070" data-turbo-eval="false" defer></script>
-    <script data-cfasync="false" src="../../resources/js/retype.js?v=4.0.1" data-turbo-eval="false" defer></script>
-    <script id="lunr-js" data-cfasync="false" src="../../resources/js/lunr.js?v=4.0.1.825661313070" data-turbo-eval="false" defer></script>
-    <script id="prism-js" data-cfasync="false" src="../../resources/js/prism.js?v=4.0.1.825661313070" defer></script>
+    <script data-cfasync="false" src="../../resources/js/config.js?v=4.1.0.825785377228" data-turbo-eval="false" defer></script>
+    <script data-cfasync="false" src="../../resources/js/retype.js?v=4.1.0" data-turbo-eval="false" defer></script>
+    <script id="lunr-js" data-cfasync="false" src="../../resources/js/lunr.js?v=4.1.0.825785377228" data-turbo-eval="false" defer></script>
+    <script id="prism-js" data-cfasync="false" src="../../resources/js/prism.js?v=4.1.0.825785377228" defer></script>
 
     <link href="https://workleap.github.io/wl-idp-docs-hub/static/retype-customization.css" rel="stylesheet" />
 
@@ -289,7 +289,7 @@
     </h2>
 </doc-anchor-target>
 <p>Typically, simple routes using only the <code translate="no" v-pre>path</code> and <code translate="no" v-pre>element</code> options will be defined:</p>
-<div class="codeblock-wrapper"><doc-codeblock>
+<div id="register-a-basic-route-code-1" class="codeblock-wrapper"><doc-codeblock>
 <pre translate="no" class="language-tsx" data-line="5-8"><code v-pre class="language-tsx">import type { ModuleRegisterFunction, FireflyRuntime } from &quot;@squide/firefly&quot;;
 import { Page } from &quot;./Page.tsx&quot;
 
@@ -329,7 +329,7 @@ export const register: ModuleRegisterFunction&lt;FireflyRuntime&gt; = runtime =&
 </doc-anchor-target>
 <p>The <code translate="no" v-pre>registerRoute</code> function accepts a <code translate="no" v-pre>parentId</code> option, allowing a route to be <doc-anchor-trigger to="#register-a-nested-route">nested under an existing parent route</doc-anchor-trigger>. When searching for the parent route matching the <code translate="no" v-pre>parentId</code> option, the <code translate="no" v-pre>parentId</code> will be matched against the <code translate="no" v-pre>$id</code> option of every route.</p>
 <p>Here&#x27;s an example of a &quot;pathless&quot; route with an id:</p>
-<div class="codeblock-wrapper"><doc-codeblock>
+<div id="register-a-route-with-an-id-code-1" class="codeblock-wrapper"><doc-codeblock>
 <pre translate="no" class="language-tsx" data-line="6"><code v-pre class="language-tsx">import type { ModuleRegisterFunction, FireflyRuntime } from &quot;@squide/firefly&quot;;
 import { RootErrorBoundary } from &quot;./RootErrorBoundary.tsx&quot;;
 
@@ -349,7 +349,7 @@ export const register: ModuleRegisterFunction&lt;FireflyRuntime&gt; = runtime =&
 <p>React router <a href="https://reactrouter.com/en/main/start/tutorial#nested-routes" class="outbound" target="_blank">nested routes</a> enable applications to render nested layouts at various points within the router tree. This is quite helpful for modular applications as it enables composable and decoupled UI.</p>
 <p>To fully harness the power of nested routes, the <code translate="no" v-pre>registerRoute</code> function allows a route to be registered <strong>under any</strong> previously <strong>registered route</strong>, even if that route was registered by another module. The only requirement is that the <strong>parent route</strong> must have been registered with the <code translate="no" v-pre>registerRoute</code> function.</p>
 <p>When registering a new route with the <code translate="no" v-pre>registerRoute</code> function, to render the route under a parent route, specify a <code translate="no" v-pre>parentPath</code> option that matches the parent route&#x27;s <code translate="no" v-pre>path</code> option:</p>
-<div class="codeblock-wrapper"><doc-codeblock>
+<div id="register-a-nested-route-code-1" class="codeblock-wrapper"><doc-codeblock>
 <pre translate="no" class="language-tsx" data-line="9"><code v-pre class="language-tsx">import type { ModuleRegisterFunction, FireflyRuntime } from &quot;@squide/firefly&quot;;
 import { Page } from &quot;./Page.tsx&quot;;
 
@@ -363,7 +363,7 @@ export const register: ModuleRegisterFunction&lt;FireflyRuntime&gt; = runtime =&
 };</code></pre>
 </doc-codeblock></div>
 <p>Or a <code translate="no" v-pre>parentId</code> option that matches the parent route&#x27;s <code translate="no" v-pre>$id</code> option:</p>
-<div class="codeblock-wrapper"><doc-codeblock>
+<div id="register-a-nested-route-code-2" class="codeblock-wrapper"><doc-codeblock>
 <pre translate="no" class="language-tsx" data-line="9"><code v-pre class="language-tsx">import type { ModuleRegisterFunction, FireflyRuntime } from &quot;@squide/firefly&quot;;
 import { Page } from &quot;./Page.tsx&quot;;
 
@@ -392,7 +392,7 @@ export const register: ModuleRegisterFunction&lt;FireflyRuntime&gt; = runtime =&
     </div>
 </div>
 <p>Routes can also be nested by registering multiple routes in a <strong>single registration block</strong>:</p>
-<div class="codeblock-wrapper"><doc-codeblock>
+<div id="register-a-nested-route-code-3" class="codeblock-wrapper"><doc-codeblock>
 <pre translate="no" class="language-tsx" data-line="8-12"><code v-pre class="language-tsx">import type { ModuleRegisterFunction, FireflyRuntime } from &quot;@squide/firefly&quot;;
 import { Layout } from &quot;./Layout.tsx&quot;;
 import { Page } from &quot;./Page.tsx&quot;;
@@ -409,7 +409,7 @@ export const register: ModuleRegisterFunction&lt;FireflyRuntime&gt; = runtime =&
 };</code></pre>
 </doc-codeblock></div>
 <p>A single registration block routes can also be define routes with <strong>relative paths</strong> (rather than starting with a <code translate="no" v-pre>/</code>):</p>
-<div class="codeblock-wrapper"><doc-codeblock>
+<div id="register-a-nested-route-code-4" class="codeblock-wrapper"><doc-codeblock>
 <pre translate="no" class="language-tsx" data-line="7,10"><code v-pre class="language-tsx">import type { ModuleRegisterFunction, FireflyRuntime } from &quot;@squide/firefly&quot;;
 import { Layout } from &quot;./Layout.tsx&quot;;
 import { Page } from &quot;./Page.tsx&quot;;
@@ -432,7 +432,7 @@ export const register: ModuleRegisterFunction&lt;FireflyRuntime&gt; = runtime =&
     </h2>
 </doc-anchor-target>
 <p>Unlike a regular route, a hoisted route is added directly at the root of the router. This gives it full control over its rendering, as it is not nested under any root layouts. To mark a route as hoisted, include the <code translate="no" v-pre>hoist</code> option in the route configuration:</p>
-<div class="codeblock-wrapper"><doc-codeblock>
+<div id="register-an-hoisted-route-code-1" class="codeblock-wrapper"><doc-codeblock>
 <pre translate="no" class="language-tsx" data-line="9"><code v-pre class="language-tsx">import type { ModuleRegisterFunction, FireflyRuntime } from &quot;@squide/firefly&quot;;
 import { Page } from &quot;./Page.tsx&quot;;
 
@@ -494,7 +494,7 @@ export const register: ModuleRegisterFunction&lt;FireflyRuntime&gt; = runtime =&
     </h2>
 </doc-anchor-target>
 <p>When registering a route, a value can be provided indicating whether the route is <code translate="no" v-pre>&quot;public&quot;</code> or <code translate="no" v-pre>&quot;protected&quot;</code>. This is especially useful when dealing with code that <strong>fetches global data for protected routes</strong> (e.g. a session). Although a route definition accepts a <code translate="no" v-pre>$visibility</code> value, we recommended using the runtime <code translate="no" v-pre>registerPublicRoute</code> function to register a <strong>root</strong> public route instead.</p>
-<div class="codeblock-wrapper"><doc-codeblock>
+<div id="register-a-public-route-code-1" class="codeblock-wrapper"><doc-codeblock>
 <pre translate="no" class="language-tsx" data-line="5-8"><code v-pre class="language-tsx">import type { ModuleRegisterFunction, FireflyRuntime } from &quot;@squide/firefly&quot;;
 import { Page } from &quot;./Page.tsx&quot;;
 
@@ -506,7 +506,7 @@ export const register: ModuleRegisterFunction&lt;FireflyRuntime&gt; = runtime =&
 };</code></pre>
 </doc-codeblock></div>
 <p>To define a nested route as public, use the <code translate="no" v-pre>$visibility</code> option:</p>
-<div class="codeblock-wrapper"><doc-codeblock>
+<div id="register-a-public-route-code-2" class="codeblock-wrapper"><doc-codeblock>
 <pre translate="no" class="language-tsx" data-line="11"><code v-pre class="language-tsx">import type { ModuleRegisterFunction, FireflyRuntime } from &quot;@squide/firefly&quot;;
 import { Layout } from &quot;./Layout.tsx&quot;;
 import { Page } from &quot;./Page.tsx&quot;;
@@ -568,7 +568,7 @@ export const register: ModuleRegisterFunction&lt;FireflyRuntime&gt; = runtime =&
     </h2>
 </doc-anchor-target>
 <p>A no-match route can be defined to catch invalid or unknown URLs. To do this, register a route with <code translate="no" v-pre>*</code> as the <code translate="no" v-pre>path</code>:</p>
-<div class="codeblock-wrapper"><doc-codeblock>
+<div id="register-a-not-found-route-code-1" class="codeblock-wrapper"><doc-codeblock>
 <pre translate="no" class="language-tsx" data-line="6"><code v-pre class="language-tsx">import { type ModuleRegisterFunction, type FireflyRuntime } from &quot;@squide/firefly&quot;;
 import { NotFoundPage } from &quot;./NotFoundPage.tsx&quot;;
 

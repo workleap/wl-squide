@@ -5,10 +5,10 @@
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <meta name="color-scheme" content="light dark">
     <meta name="turbo-root" content="/wl-squide">
-    <meta name="turbo-cache-control" content="no-cache" data-turbo-track="reload" data-track-token="4.0.1.825661313070">
+    <meta name="turbo-cache-control" content="no-cache" data-turbo-track="reload" data-track-token="4.1.0.825785377228">
 
     <!-- See retype.com -->
-    <meta name="generator" content="Retype 4.0.1">
+    <meta name="generator" content="Retype 4.1.0">
 
     <!-- Primary Meta Tags -->
     <title>defineBuildHostConfig</title>
@@ -29,12 +29,12 @@
     <script data-cfasync="false">(function(){var cl=document.documentElement.classList,ls=localStorage.getItem("retype_scheme"),hd=cl.contains("dark"),hl=cl.contains("light"),wm=window.matchMedia&&window.matchMedia("(prefers-color-scheme: dark)").matches;if(ls==="dark"||(!ls&&wm&&!hd&&!hl)){cl.remove("light");cl.add("dark")}else if(ls==="light"||(!ls&&!wm&&!hd&&!hl)){cl.remove("dark");cl.add("light")}})();</script>
 
     <link id="retype-favicon" rel="icon" href="../../../static/favicon.png" />
-    <link href="../../../resources/css/retype.css?v=4.0.1.825661313070" rel="stylesheet">
+    <link href="../../../resources/css/retype.css?v=4.1.0.825785377228" rel="stylesheet">
 
-    <script data-cfasync="false" src="../../../resources/js/config.js?v=4.0.1.825661313070" data-turbo-eval="false" defer></script>
-    <script data-cfasync="false" src="../../../resources/js/retype.js?v=4.0.1" data-turbo-eval="false" defer></script>
-    <script id="lunr-js" data-cfasync="false" src="../../../resources/js/lunr.js?v=4.0.1.825661313070" data-turbo-eval="false" defer></script>
-    <script id="prism-js" data-cfasync="false" src="../../../resources/js/prism.js?v=4.0.1.825661313070" defer></script>
+    <script data-cfasync="false" src="../../../resources/js/config.js?v=4.1.0.825785377228" data-turbo-eval="false" defer></script>
+    <script data-cfasync="false" src="../../../resources/js/retype.js?v=4.1.0" data-turbo-eval="false" defer></script>
+    <script id="lunr-js" data-cfasync="false" src="../../../resources/js/lunr.js?v=4.1.0.825785377228" data-turbo-eval="false" defer></script>
+    <script id="prism-js" data-cfasync="false" src="../../../resources/js/prism.js?v=4.1.0.825785377228" defer></script>
 
     <link href="https://workleap.github.io/wl-idp-docs-hub/static/retype-customization.css" rel="stylesheet" />
 
@@ -327,7 +327,7 @@
         <span>Reference</span>
     </h2>
 </doc-anchor-target>
-<div class="codeblock-wrapper"><doc-codeblock>
+<div id="reference-code-1" class="codeblock-wrapper"><doc-codeblock>
 <pre translate="no" class="language-typescript"><code v-pre class="language-typescript">const rsbuildConfig = defineBuildHostConfig(remotes: [], options?: {})</code></pre>
 </doc-codeblock></div>
 <doc-anchor-target id="parameters">
@@ -396,7 +396,7 @@
         <span>Define an Rsbuild config</span>
     </h3>
 </doc-anchor-target>
-<div class="codeblock-wrapper"><doc-codeblock>
+<div id="define-an-rsbuild-config-hostrsbuildbuildts" class="codeblock-wrapper"><doc-codeblock>
 <div class="codeblock-title">host/rsbuild.build.ts</div>
 <pre translate="no" class="language-typescript" data-line="7"><code v-pre class="language-typescript">import { defineBuildHostConfig, type RemoteDefinition } from &quot;@squide/firefly-rsbuild-configs&quot;;
 
@@ -412,7 +412,7 @@ export default defineBuildHostConfig(Remotes);</code></pre>
         <span>Activate additional features</span>
     </h3>
 </doc-anchor-target>
-<div class="codeblock-wrapper"><doc-codeblock>
+<div id="activate-additional-features-hostrsbuildbuildts" class="codeblock-wrapper"><doc-codeblock>
 <div class="codeblock-title">host/rsbuild.build.ts</div>
 <pre translate="no" class="language-typescript" data-line="8-10"><code v-pre class="language-typescript">import { defineBuildHostConfig, type RemoteDefinition } from &quot;@squide/firefly-rsbuild-configs&quot;;
 
@@ -448,7 +448,7 @@ export default defineBuildHostConfig(Remotes, {
         <span>Specify additional shared dependencies</span>
     </h3>
 </doc-anchor-target>
-<div class="codeblock-wrapper"><doc-codeblock>
+<div id="specify-additional-shared-dependencies-hostrsbuildbuildts" class="codeblock-wrapper"><doc-codeblock>
 <div class="codeblock-title">host/rsbuild.build.ts</div>
 <pre translate="no" class="language-typescript" data-line="8-12"><code v-pre class="language-typescript">import { defineBuildHostConfig, type RemoteDefinition } from &quot;@squide/firefly-rsbuild-configs&quot;;
 
@@ -486,7 +486,7 @@ export default defineBuildHostConfig(Remotes, {
         <span>Extend a default shared dependency</span>
     </h3>
 </doc-anchor-target>
-<div class="codeblock-wrapper"><doc-codeblock>
+<div id="extend-a-default-shared-dependency-hostrsbuildbuildts" class="codeblock-wrapper"><doc-codeblock>
 <div class="codeblock-title">host/rsbuild.build.ts</div>
 <pre translate="no" class="language-typescript" data-line="8-12"><code v-pre class="language-typescript">import { defineBuildHostConfig, type RemoteDefinition } from &quot;@squide/firefly-rsbuild-configs&quot;;
 
@@ -503,7 +503,7 @@ export default defineBuildHostConfig(Remotes, {
 });</code></pre>
 </doc-codeblock></div>
 <p>In the previous code sample, the <code translate="no" v-pre>react</code> shared dependency will be <strong>augmented</strong> with the <code translate="no" v-pre>strictVersion</code> option. The resulting shared dependency will be:</p>
-<div class="codeblock-wrapper"><doc-codeblock>
+<div id="extend-a-default-shared-dependency-code-1" class="codeblock-wrapper"><doc-codeblock>
 <pre translate="no" class="language-typescript" data-line="5"><code v-pre class="language-typescript">{
     &quot;react&quot;: {
         eager: true,
@@ -518,7 +518,7 @@ export default defineBuildHostConfig(Remotes, {
         <span>Override a default shared dependency</span>
     </h3>
 </doc-anchor-target>
-<div class="codeblock-wrapper"><doc-codeblock>
+<div id="override-a-default-shared-dependency-hostrsbuildbuildts" class="codeblock-wrapper"><doc-codeblock>
 <div class="codeblock-title">host/rsbuild.build.ts</div>
 <pre translate="no" class="language-typescript" data-line="8-12"><code v-pre class="language-typescript">import { defineBuildHostConfig, type RemoteDefinition } from &quot;@squide/firefly-rsbuild-configs&quot;;
 
@@ -535,7 +535,7 @@ export default defineBuildHostConfig(Remotes, {
 });</code></pre>
 </doc-codeblock></div>
 <p>In the previous code sample, the <code translate="no" v-pre>react</code> shared dependency <code translate="no" v-pre>singleton</code> option will be <strong>overrided</strong> by the newly provided value. The resulting shared dependency will be:</p>
-<div class="codeblock-wrapper"><doc-codeblock>
+<div id="override-a-default-shared-dependency-code-1" class="codeblock-wrapper"><doc-codeblock>
 <pre translate="no" class="language-typescript" data-line="4"><code v-pre class="language-typescript">{
     &quot;react&quot;: {
         eager: true,
@@ -549,7 +549,7 @@ export default defineBuildHostConfig(Remotes, {
         <span>Customize module federation configuration</span>
     </h3>
 </doc-anchor-target>
-<div class="codeblock-wrapper"><doc-codeblock>
+<div id="customize-module-federation-configuration-hostrsbuildbuildts" class="codeblock-wrapper"><doc-codeblock>
 <div class="codeblock-title">host/rsbuild.build.ts</div>
 <pre translate="no" class="language-typescript" data-line="8-12"><code v-pre class="language-typescript">import { defineBuildHostConfig, type RemoteDefinition } from &quot;@squide/firefly-rsbuild-configs&quot;;
 
@@ -580,7 +580,7 @@ export default defineBuildHostConfig(Remotes, {
 <p>The <code translate="no" v-pre>name</code> option of a remote definition <strong>must match</strong> the <code translate="no" v-pre>name</code> option defined in the remote module <a href="https://module-federation.io/configure/index.html" class="outbound" target="_blank">ModuleFederationPlugin</a> configuration.</p>
 <p>If you are relying on the Squide <a href="../definebuildremotemoduleconfig/">defineBuildRemoteModuleConfig</a> function to add the <code translate="no" v-pre>ModuleFederationPlugin</code> to the remote module Rsbuild <a href="https://rsbuild.dev/config/index" class="outbound" target="_blank">configuration object</a>, then the remote module <code translate="no" v-pre>name</code> is the first argument of the function.</p>
 <p>In the following exemple, the remote module <code translate="no" v-pre>name</code> is <code translate="no" v-pre>remote1</code>.</p>
-<div class="codeblock-wrapper"><doc-codeblock>
+<div id="name-hostrsbuildbuildts" class="codeblock-wrapper"><doc-codeblock>
 <div class="codeblock-title">host/rsbuild.build.ts</div>
 <pre translate="no" class="language-typescript" data-line="4"><code v-pre class="language-typescript">import type { RemoteDefinition } from &quot;@squide/firefly-rsbuild-configs&quot;;
 
@@ -588,7 +588,7 @@ const Remotes: RemoteDefinition[] = [
     { name: &quot;remote1&quot;, url: `http://localhost:8081` }
 ];</code></pre>
 </doc-codeblock></div>
-<div class="codeblock-wrapper"><doc-codeblock>
+<div id="name-remote-modulersbuildbuildts" class="codeblock-wrapper"><doc-codeblock>
 <div class="codeblock-title">remote-module/rsbuild.build.ts</div>
 <pre translate="no" class="language-typescript" data-line="3"><code v-pre class="language-typescript">import { defineBuildRemoteModuleConfig } from &quot;@squide/firefly-rsbuild-configs&quot;;
 
@@ -602,7 +602,7 @@ export default defineBuildRemoteModuleConfig(&quot;remote1&quot;);</code></pre>
 </doc-anchor-target>
 <p>The <code translate="no" v-pre>url</code> option of a remote definition <strong>must match</strong> the <a href="https://rsbuild.dev/config/output/asset-prefix" class="outbound" target="_blank">assetPrefix</a> of the remote module Rsbuild <a href="https://rsbuild.dev/config/index" class="outbound" target="_blank">configuration object</a>.</p>
 <p>In the following exemple, the remote module <code translate="no" v-pre>assetPrefix</code> is <code translate="no" v-pre>http://localhost:8081</code>.</p>
-<div class="codeblock-wrapper"><doc-codeblock>
+<div id="url-hostrsbuildbuildts" class="codeblock-wrapper"><doc-codeblock>
 <div class="codeblock-title">host/rsbuild.build.ts</div>
 <pre translate="no" class="language-typescript" data-line="4"><code v-pre class="language-typescript">import type { RemoteDefinition } from &quot;@squide/firefly-rsbuild-configs&quot;;
 

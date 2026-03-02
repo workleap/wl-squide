@@ -5,10 +5,10 @@
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <meta name="color-scheme" content="light dark">
     <meta name="turbo-root" content="/wl-squide">
-    <meta name="turbo-cache-control" content="no-cache" data-turbo-track="reload" data-track-token="4.0.1.825661313070">
+    <meta name="turbo-cache-control" content="no-cache" data-turbo-track="reload" data-track-token="4.1.0.825785377228">
 
     <!-- See retype.com -->
-    <meta name="generator" content="Retype 4.0.1">
+    <meta name="generator" content="Retype 4.1.0">
 
     <!-- Primary Meta Tags -->
     <title>Create an host application</title>
@@ -29,12 +29,12 @@
     <script data-cfasync="false">(function(){var cl=document.documentElement.classList,ls=localStorage.getItem("retype_scheme"),hd=cl.contains("dark"),hl=cl.contains("light"),wm=window.matchMedia&&window.matchMedia("(prefers-color-scheme: dark)").matches;if(ls==="dark"||(!ls&&wm&&!hd&&!hl)){cl.remove("light");cl.add("dark")}else if(ls==="light"||(!ls&&!wm&&!hd&&!hl)){cl.remove("dark");cl.add("light")}})();</script>
 
     <link id="retype-favicon" rel="icon" href="../../static/favicon.png" />
-    <link href="../../resources/css/retype.css?v=4.0.1.825661313070" rel="stylesheet">
+    <link href="../../resources/css/retype.css?v=4.1.0.825785377228" rel="stylesheet">
 
-    <script data-cfasync="false" src="../../resources/js/config.js?v=4.0.1.825661313070" data-turbo-eval="false" defer></script>
-    <script data-cfasync="false" src="../../resources/js/retype.js?v=4.0.1" data-turbo-eval="false" defer></script>
-    <script id="lunr-js" data-cfasync="false" src="../../resources/js/lunr.js?v=4.0.1.825661313070" data-turbo-eval="false" defer></script>
-    <script id="prism-js" data-cfasync="false" src="../../resources/js/prism.js?v=4.0.1.825661313070" defer></script>
+    <script data-cfasync="false" src="../../resources/js/config.js?v=4.1.0.825785377228" data-turbo-eval="false" defer></script>
+    <script data-cfasync="false" src="../../resources/js/retype.js?v=4.1.0" data-turbo-eval="false" defer></script>
+    <script id="lunr-js" data-cfasync="false" src="../../resources/js/lunr.js?v=4.1.0.825785377228" data-turbo-eval="false" defer></script>
+    <script id="prism-js" data-cfasync="false" src="../../resources/js/prism.js?v=4.1.0.825785377228" defer></script>
 
     <link href="https://workleap.github.io/wl-idp-docs-hub/static/retype-customization.css" rel="stylesheet" />
 
@@ -309,7 +309,7 @@
     </h2>
 </doc-anchor-target>
 <p>Create a new application (we&#x27;ll refer to ours as <code translate="no" v-pre>host</code>), then open a terminal at the root of the new solution and install the following packages:</p>
-<div class="codeblock-wrapper"><doc-codeblock>
+<div id="install-the-packages-code-1" class="codeblock-wrapper"><doc-codeblock>
 <pre translate="no" class="language-bash"><code v-pre class="language-bash">pnpm add -D @workleap/rsbuild-configs @workleap/browserslist-config @rsbuild/core @rspack/core browserslist typescript @types/react @types/react-dom
 pnpm add @squide/firefly @tanstack/react-query react react-dom react-router msw launchdarkly-js-client-sdk</code></pre>
 </doc-codeblock></div>
@@ -320,7 +320,7 @@ pnpm add @squide/firefly @tanstack/react-query react react-dom react-router msw 
     </h2>
 </doc-anchor-target>
 <p>First, create the following files:</p>
-<div class="codeblock-wrapper"><doc-codeblock>
+<div id="setup-the-application-code-1" class="codeblock-wrapper"><doc-codeblock>
 <pre translate="no" class="language-none"><code v-pre class="language-none">host
 ├── public
 ├──── index.html
@@ -336,7 +336,7 @@ pnpm add @squide/firefly @tanstack/react-query react react-dom react-router msw 
 ├── package.json</code></pre>
 </doc-codeblock></div>
 <p>Then, ensure that you are developing your application using <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Modules" class="outbound" target="_blank">ESM syntax</a> by specifying <code translate="no" v-pre>type: module</code> in your <code translate="no" v-pre>package.json</code> file:</p>
-<div class="codeblock-wrapper"><doc-codeblock>
+<div id="setup-the-application-hostpackagejson" class="codeblock-wrapper"><doc-codeblock>
 <div class="codeblock-title">host/package.json</div>
 <pre translate="no" class="language-json" data-line="2"><code v-pre class="language-json">{
     &quot;type&quot;: &quot;module&quot;
@@ -349,7 +349,7 @@ pnpm add @squide/firefly @tanstack/react-query react react-dom react-router msw 
     </h3>
 </doc-anchor-target>
 <p>Next, to register the modules, instanciate a shell <a href="../../reference/runtime/fireflyruntime/">FireflyRuntime</a> instance. A local module will be registered in the <a href="../create-local-module/">next section</a> of this quick start guide:</p>
-<div class="codeblock-wrapper"><doc-codeblock>
+<div id="module-registration-hostsrcindextsx" class="codeblock-wrapper"><doc-codeblock>
 <div class="codeblock-title">host/src/index.tsx</div>
 <pre translate="no" class="language-tsx" data-line="5"><code v-pre class="language-tsx">import { createRoot } from &quot;react-dom/client&quot;;
 import { FireflyProvider, initializeFirefly } from &quot;@squide/firefly&quot;;
@@ -366,7 +366,7 @@ root.render(
 );</code></pre>
 </doc-codeblock></div>
 <p>Then, render the <a href="../../reference/routing/approuter/">AppRouter</a> component to define a React Router <a href="https://reactrouter.com/en/main/routers/create-browser-router" class="outbound" target="_blank">browser instance</a> configured with the registered routes:</p>
-<div class="codeblock-wrapper"><doc-codeblock>
+<div id="module-registration-hostsrcapptsx" class="codeblock-wrapper"><doc-codeblock>
 <div class="codeblock-title">host/src/App.tsx</div>
 <pre translate="no" class="language-tsx" data-line="5-11,15-34"><code v-pre class="language-tsx">import { AppRouter, useIsBootstrapping } from &quot;@squide/firefly&quot;;
 import { createBrowserRouter, Outlet } from &quot;react-router&quot;;
@@ -412,7 +412,7 @@ export function App() {
     </h3>
 </doc-anchor-target>
 <p>Next, create a layout component to <a href="../../reference/routing/userenderednavigationitems/">render the navigation items</a>. In many applications, multiple pages often share a <strong>common layout</strong> that includes elements such as a navigation bar, a user profile menu, and a main content section. In a <a href="https://reactrouter.com/en/main" class="outbound" target="_blank">React Router</a> application, this shared layout is commonly referred to as a <code translate="no" v-pre>RootLayout</code>:</p>
-<div class="codeblock-wrapper"><doc-codeblock>
+<div id="navigation-items-hostsrcrootlayouttsx" class="codeblock-wrapper"><doc-codeblock>
 <div class="codeblock-title">host/src/RootLayout.tsx</div>
 <pre translate="no" class="language-tsx" data-line="39,42"><code v-pre class="language-tsx">import { Link, Outlet } from &quot;react-router&quot;;
 import { 
@@ -473,7 +473,7 @@ export function RootLayout() {
     </h3>
 </doc-anchor-target>
 <p>Next, create the <code translate="no" v-pre>HomePage</code> component that will serve as the homepage:</p>
-<div class="codeblock-wrapper"><doc-codeblock>
+<div id="homepage-hostsrchomepagetsx" class="codeblock-wrapper"><doc-codeblock>
 <div class="codeblock-title">host/src/HomePage.tsx</div>
 <pre translate="no" class="language-tsx"><code v-pre class="language-tsx">export function HomePage() {
     return (
@@ -482,7 +482,7 @@ export function RootLayout() {
 }</code></pre>
 </doc-codeblock></div>
 <p>Then, add a local module at the root of the host application to register the homepage:</p>
-<div class="codeblock-wrapper"><doc-codeblock>
+<div id="homepage-hostsrcregistertsx" class="codeblock-wrapper"><doc-codeblock>
 <div class="codeblock-title">host/src/register.tsx</div>
 <pre translate="no" class="language-tsx" data-line="4-9"><code v-pre class="language-tsx">import type { ModuleRegisterFunction, FireflyRuntime } from &quot;@squide/firefly&quot;;
 import { HomePage } from &quot;./HomePage.tsx&quot;;
@@ -495,7 +495,7 @@ export const registerHost: ModuleRegisterFunction&lt;FireflyRuntime&gt; = runtim
 };</code></pre>
 </doc-codeblock></div>
 <p>And, update the bootstrapping code to register the newly created local module:</p>
-<div class="codeblock-wrapper"><doc-codeblock>
+<div id="homepage-hostsrcindextsx" class="codeblock-wrapper"><doc-codeblock>
 <div class="codeblock-title">host/src/index.tsx</div>
 <pre translate="no" class="language-tsx" data-line="6-8"><code v-pre class="language-tsx">import { createRoot } from &quot;react-dom/client&quot;;
 import { FireflyProvider, initializeFirefly } from &quot;@squide/firefly&quot;;
@@ -521,7 +521,7 @@ root.render(
     </h3>
 </doc-anchor-target>
 <p>Finally, add an <a href="../../reference/runtime/fireflyruntime/#register-an-hoisted-route">hoisted route</a> to render the <code translate="no" v-pre>RootLayout</code> with the <a href="../../reference/routing/publicroutes/">PublicRoutes</a> and <a href="../../reference/routing/protectedroutes/">ProtectedRoutes</a> placeholders:</p>
-<div class="codeblock-wrapper"><doc-codeblock>
+<div id="register-the-root-layout-hostsrcregistertsx" class="codeblock-wrapper"><doc-codeblock>
 <div class="codeblock-title">host/src/register.tsx</div>
 <pre translate="no" class="language-tsx" data-line="8,11,12,15"><code v-pre class="language-tsx">import { PublicRoutes, ProtectedRoutes, type ModuleRegisterFunction, type FireflyRuntime } from &quot;@squide/firefly&quot;;
 import { HomePage } from &quot;./HomePage.tsx&quot;;
@@ -568,7 +568,7 @@ export const registerHost: ModuleRegisterFunction&lt;FireflyRuntime&gt; = runtim
     </h3>
 </doc-anchor-target>
 <p>Now, let&#x27;s ensure that users who enter a wrong URL end up somewhere by registering a custom no-match route. First, create the <code translate="no" v-pre>NotFoundPage</code> component, which will serve as the page for handling not found routes:</p>
-<div class="codeblock-wrapper"><doc-codeblock>
+<div id="not-found-page-404-hostsrcnotfoundpagetsx" class="codeblock-wrapper"><doc-codeblock>
 <div class="codeblock-title">host/src/NotFoundPage.tsx</div>
 <pre translate="no" class="language-tsx"><code v-pre class="language-tsx">export function NotFoundPage() {
     return (
@@ -577,7 +577,7 @@ export const registerHost: ModuleRegisterFunction&lt;FireflyRuntime&gt; = runtim
 }</code></pre>
 </doc-codeblock></div>
 <p>Then, register the newly created component as the <code translate="no" v-pre>*</code> route:</p>
-<div class="codeblock-wrapper"><doc-codeblock>
+<div id="not-found-page-404-hostsrcregistertsx" class="codeblock-wrapper"><doc-codeblock>
 <div class="codeblock-title">host/src/register.tsx</div>
 <pre translate="no" class="language-tsx" data-line="18-21"><code v-pre class="language-tsx">import { PublicRoutes, ProtectedRoutes, type ModuleRegisterFunction, type FireflyRuntime } from &quot;@squide/firefly&quot;;
 import { HomePage } from &quot;./HomePage.tsx&quot;;
@@ -629,7 +629,7 @@ export const registerHost: ModuleRegisterFunction&lt;FireflyRuntime&gt; = runtim
     </div>
 </div>
 <p>First, open the <code translate="no" v-pre>public/index.html</code> file created at the beginning of this guide and copy/paste the following template:</p>
-<div class="codeblock-wrapper"><doc-codeblock>
+<div id="configure-rsbuild-hostpublicindexhtml" class="codeblock-wrapper"><doc-codeblock>
 <div class="codeblock-title">host/public/index.html</div>
 <pre translate="no" class="language-markup"><code v-pre class="language-markup">&lt;!DOCTYPE html&gt;
 &lt;html&gt;
@@ -641,7 +641,7 @@ export const registerHost: ModuleRegisterFunction&lt;FireflyRuntime&gt; = runtim
 &lt;/html&gt;</code></pre>
 </doc-codeblock></div>
 <p>Then, open the <code translate="no" v-pre>.browserslist</code> file and copy/paste the following content:</p>
-<div class="codeblock-wrapper"><doc-codeblock>
+<div id="configure-rsbuild-hostbrowserslistrc" class="codeblock-wrapper"><doc-codeblock>
 <div class="codeblock-title">host/.browserslistrc</div>
 <pre translate="no" class="language-none" data-line="1"><code v-pre class="language-none">extends @workleap/browserslist-config</code></pre>
 </doc-codeblock></div>
@@ -652,7 +652,7 @@ export const registerHost: ModuleRegisterFunction&lt;FireflyRuntime&gt; = runtim
     </h3>
 </doc-anchor-target>
 <p>To configure Rsbuild for a <strong>development</strong> environment, open the <code translate="no" v-pre>rsbuild.dev.ts</code> file and use the <a href="https://workleap.github.io/wl-web-configs/rsbuild/configure-dev/#rsbuilddevts" class="outbound" target="_blank">defineDevConfig</a> function to configure Rsbuild:</p>
-<div class="codeblock-wrapper"><doc-codeblock>
+<div id="development-configuration-hostrsbuilddevts" class="codeblock-wrapper"><doc-codeblock>
 <div class="codeblock-title">host/rsbuild.dev.ts</div>
 <pre translate="no" class="language-typescript" data-line="3"><code v-pre class="language-typescript">import { defineDevConfig } from &quot;@workleap/rsbuild-configs&quot;;
 
@@ -665,7 +665,7 @@ export default defineDevConfig();</code></pre>
     </h3>
 </doc-anchor-target>
 <p>To configure Rsbuild for a <strong>build</strong> environment, open the <code translate="no" v-pre>rsbuild.build.ts</code> file and use the <a href="https://workleap.github.io/wl-web-configs/rsbuild/configure-build/#rsbuildbuildts" class="outbound" target="_blank">defineBuildConfig</a> function to configure Rsbuild:</p>
-<div class="codeblock-wrapper"><doc-codeblock>
+<div id="build-configuration-hostrsbuildbuildts" class="codeblock-wrapper"><doc-codeblock>
 <div class="codeblock-title">host/rsbuild.build.ts</div>
 <pre translate="no" class="language-typescript" data-line="3"><code v-pre class="language-typescript">import { defineBuildConfig } from &quot;@workleap/rsbuild-configs&quot;;
 
@@ -678,14 +678,14 @@ export default defineBuildConfig();</code></pre>
     </h2>
 </doc-anchor-target>
 <p>To initiate the development server, add the following script to the application <code translate="no" v-pre>package.json</code> file:</p>
-<div class="codeblock-wrapper"><doc-codeblock>
+<div id="add-cli-scripts-hostpackagejson" class="codeblock-wrapper"><doc-codeblock>
 <div class="codeblock-title">host/package.json</div>
 <pre translate="no" class="language-json" data-line="2"><code v-pre class="language-json">{
     &quot;dev&quot;: &quot;rsbuild dev --config ./rsbuild.dev.ts&quot;
 }</code></pre>
 </doc-codeblock></div>
 <p>To build the application, add the following script to the application <code translate="no" v-pre>package.json</code> file:</p>
-<div class="codeblock-wrapper"><doc-codeblock>
+<div id="add-cli-scripts-hostpackagejson-1" class="codeblock-wrapper"><doc-codeblock>
 <div class="codeblock-title">host/package.json</div>
 <pre translate="no" class="language-json" data-line="2"><code v-pre class="language-json">{
     &quot;build&quot;: &quot;rsbuild build --config rsbuild.build.ts&quot;

@@ -5,10 +5,10 @@
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <meta name="color-scheme" content="light dark">
     <meta name="turbo-root" content="/wl-squide">
-    <meta name="turbo-cache-control" content="no-cache" data-turbo-track="reload" data-track-token="4.0.1.825661313070">
+    <meta name="turbo-cache-control" content="no-cache" data-turbo-track="reload" data-track-token="4.1.0.825785377228">
 
     <!-- See retype.com -->
-    <meta name="generator" content="Retype 4.0.1">
+    <meta name="generator" content="Retype 4.1.0">
 
     <!-- Primary Meta Tags -->
     <title>Localize resources</title>
@@ -29,12 +29,12 @@
     <script data-cfasync="false">(function(){var cl=document.documentElement.classList,ls=localStorage.getItem("retype_scheme"),hd=cl.contains("dark"),hl=cl.contains("light"),wm=window.matchMedia&&window.matchMedia("(prefers-color-scheme: dark)").matches;if(ls==="dark"||(!ls&&wm&&!hd&&!hl)){cl.remove("light");cl.add("dark")}else if(ls==="light"||(!ls&&!wm&&!hd&&!hl)){cl.remove("dark");cl.add("light")}})();</script>
 
     <link id="retype-favicon" rel="icon" href="../../static/favicon.png" />
-    <link href="../../resources/css/retype.css?v=4.0.1.825661313070" rel="stylesheet">
+    <link href="../../resources/css/retype.css?v=4.1.0.825785377228" rel="stylesheet">
 
-    <script data-cfasync="false" src="../../resources/js/config.js?v=4.0.1.825661313070" data-turbo-eval="false" defer></script>
-    <script data-cfasync="false" src="../../resources/js/retype.js?v=4.0.1" data-turbo-eval="false" defer></script>
-    <script id="lunr-js" data-cfasync="false" src="../../resources/js/lunr.js?v=4.0.1.825661313070" data-turbo-eval="false" defer></script>
-    <script id="prism-js" data-cfasync="false" src="../../resources/js/prism.js?v=4.0.1.825661313070" defer></script>
+    <script data-cfasync="false" src="../../resources/js/config.js?v=4.1.0.825785377228" data-turbo-eval="false" defer></script>
+    <script data-cfasync="false" src="../../resources/js/retype.js?v=4.1.0" data-turbo-eval="false" defer></script>
+    <script id="lunr-js" data-cfasync="false" src="../../resources/js/lunr.js?v=4.1.0.825785377228" data-turbo-eval="false" defer></script>
+    <script id="prism-js" data-cfasync="false" src="../../resources/js/prism.js?v=4.1.0.825785377228" defer></script>
 
     <link href="https://workleap.github.io/wl-idp-docs-hub/static/retype-customization.css" rel="stylesheet" />
 
@@ -289,7 +289,7 @@
     </h2>
 </doc-anchor-target>
 <p>To localize a resource within a page, first retrieve the module&#x27;s <code translate="no" v-pre>i18next</code> instance using the <a href="../../reference/i18next/usei18nextinstance/">useI18nextInstance</a> hook. Then, use that instance with <code translate="no" v-pre>i18next</code> native <a href="https://react.i18next.com/latest/usetranslation-hook" class="outbound" target="_blank">useTranslation</a> hook to access the translated resources:</p>
-<div class="codeblock-wrapper"><doc-codeblock>
+<div id="localize-a-page-resource-code-1" class="codeblock-wrapper"><doc-codeblock>
 <pre translate="no" class="language-tsx" data-line="5-6,9"><code v-pre class="language-tsx">import { useI18nextInstance } from &quot;@squide/i18next&quot;;
 import { useTranslation } from &quot;react-i18next&quot;;
 
@@ -328,7 +328,7 @@ export function Page() {
     </h2>
 </doc-anchor-target>
 <p>A navigation item can be localized by combining the <code translate="no" v-pre>$label</code> option with the <a href="../../reference/i18next/i18nextnavigationitemlabel/">I18nextNavigationItemLabel</a> component:</p>
-<div class="codeblock-wrapper"><doc-codeblock>
+<div id="localize-a-navigation-item-label-local-modulesrcregistertsx" class="codeblock-wrapper"><doc-codeblock>
 <div class="codeblock-title">local-module/src/register.tsx</div>
 <pre translate="no" class="language-tsx" data-line="35"><code v-pre class="language-tsx">import type { ModuleRegisterFunction, FireflyRuntime } from &quot;@squide/firefly&quot;;
 import { getI18nextPlugin, I18nextNavigationItemLabel } from &quot;@squide/i18next&quot;;
@@ -395,7 +395,7 @@ export const register: ModuleRegisterFunction&lt;FireflyRuntime&gt; = runtime =&
     </h2>
 </doc-anchor-target>
 <p>The <a href="https://react.i18next.com/latest/trans-component" class="outbound" target="_blank">Trans</a> component is useful for scenarios involving interpolation to render a localized resources. To use the <code translate="no" v-pre>Trans</code> component with Squide, pair it with an <code translate="no" v-pre>i18next</code> instance retrieved from <a href="../../reference/i18next/usei18nextinstance/">useI18nextInstance</a> hook:</p>
-<div class="codeblock-wrapper"><doc-codeblock>
+<div id="use-the-trans-component-code-1" class="codeblock-wrapper"><doc-codeblock>
 <pre translate="no" class="language-tsx" data-line="5,9,11"><code v-pre class="language-tsx">import { useI18nextInstance } from &quot;@squide/i18next&quot;;
 import { Trans, useTranslation } from &quot;react-i18next&quot;;
 
@@ -411,7 +411,7 @@ return (
 );</code></pre>
 </doc-codeblock></div>
 <p>The <code translate="no" v-pre>Trans</code> component can also be used without the <code translate="no" v-pre>t</code> function by including a namespace to the <code translate="no" v-pre>i18nKey</code> property value:</p>
-<div class="codeblock-wrapper"><doc-codeblock>
+<div id="use-the-trans-component-code-2" class="codeblock-wrapper"><doc-codeblock>
 <pre translate="no" class="language-tsx" data-line="4,8,9"><code v-pre class="language-tsx">import { useI18nextInstance } from &quot;@squide/i18next&quot;;
 import { Trans, useTranslation } from &quot;react-i18next&quot;;
 

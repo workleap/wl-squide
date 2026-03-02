@@ -5,10 +5,10 @@
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <meta name="color-scheme" content="light dark">
     <meta name="turbo-root" content="/wl-squide">
-    <meta name="turbo-cache-control" content="no-cache" data-turbo-track="reload" data-track-token="4.0.1.825661313070">
+    <meta name="turbo-cache-control" content="no-cache" data-turbo-track="reload" data-track-token="4.1.0.825785377228">
 
     <!-- See retype.com -->
-    <meta name="generator" content="Retype 4.0.1">
+    <meta name="generator" content="Retype 4.1.0">
 
     <!-- Primary Meta Tags -->
     <title>Override a React context</title>
@@ -29,12 +29,12 @@
     <script data-cfasync="false">(function(){var cl=document.documentElement.classList,ls=localStorage.getItem("retype_scheme"),hd=cl.contains("dark"),hl=cl.contains("light"),wm=window.matchMedia&&window.matchMedia("(prefers-color-scheme: dark)").matches;if(ls==="dark"||(!ls&&wm&&!hd&&!hl)){cl.remove("light");cl.add("dark")}else if(ls==="light"||(!ls&&!wm&&!hd&&!hl)){cl.remove("dark");cl.add("light")}})();</script>
 
     <link id="retype-favicon" rel="icon" href="../../static/favicon.png" />
-    <link href="../../resources/css/retype.css?v=4.0.1.825661313070" rel="stylesheet">
+    <link href="../../resources/css/retype.css?v=4.1.0.825785377228" rel="stylesheet">
 
-    <script data-cfasync="false" src="../../resources/js/config.js?v=4.0.1.825661313070" data-turbo-eval="false" defer></script>
-    <script data-cfasync="false" src="../../resources/js/retype.js?v=4.0.1" data-turbo-eval="false" defer></script>
-    <script id="lunr-js" data-cfasync="false" src="../../resources/js/lunr.js?v=4.0.1.825661313070" data-turbo-eval="false" defer></script>
-    <script id="prism-js" data-cfasync="false" src="../../resources/js/prism.js?v=4.0.1.825661313070" defer></script>
+    <script data-cfasync="false" src="../../resources/js/config.js?v=4.1.0.825785377228" data-turbo-eval="false" defer></script>
+    <script data-cfasync="false" src="../../resources/js/retype.js?v=4.1.0" data-turbo-eval="false" defer></script>
+    <script id="lunr-js" data-cfasync="false" src="../../resources/js/lunr.js?v=4.1.0.825785377228" data-turbo-eval="false" defer></script>
+    <script id="prism-js" data-cfasync="false" src="../../resources/js/prism.js?v=4.1.0.825785377228" defer></script>
 
     <link href="https://workleap.github.io/wl-idp-docs-hub/static/retype-customization.css" rel="stylesheet" />
 
@@ -282,7 +282,7 @@
 </doc-anchor-target>
 <p>In a modular application, it&#x27;s typical to configure various global <a href="https://legacy.reactjs.org/docs/context.html" class="outbound" target="_blank">React context</a> at the root of the host application. These contexts are then used by the layouts and pages of the modules.</p>
 <p>Let&#x27;s explore a simple example using a <code translate="no" v-pre>BackgroundColorContext</code>:</p>
-<div class="codeblock-wrapper"><doc-codeblock>
+<div id="override-a-react-context-hostsrcapptsx" class="codeblock-wrapper"><doc-codeblock>
 <div class="codeblock-title">host/src/App.tsx</div>
 <pre translate="no" class="language-tsx" data-line="8"><code v-pre class="language-tsx">import { AppRouter } from &quot;@squide/firefly&quot;;
 import { createBrowserRouter } from &quot;react-router&quot;;
@@ -311,7 +311,7 @@ export function App() {
     );
 }</code></pre>
 </doc-codeblock></div>
-<div class="codeblock-wrapper"><doc-codeblock>
+<div id="override-a-react-context-remote-modulesrcregistertsx" class="codeblock-wrapper"><doc-codeblock>
 <div class="codeblock-title">remote-module/src/register.tsx</div>
 <pre translate="no" class="language-tsx" data-line="7"><code v-pre class="language-tsx">import type { ModuleRegisterFunction, FireflyRuntime } from &quot;@squide/firefly&quot;;
 import { ColoredPage } from &quot;./ColoredPage.tsx&quot;;
@@ -323,7 +323,7 @@ export const register: ModuleRegisterFunction&lt;FireflyRuntime&gt; = runtime =&
     });
 }</code></pre>
 </doc-codeblock></div>
-<div class="codeblock-wrapper"><doc-codeblock>
+<div id="override-a-react-context-remote-modulesrccoloredpagetsx" class="codeblock-wrapper"><doc-codeblock>
 <div class="codeblock-title">remote-module/src/ColoredPage.tsx</div>
 <pre translate="no" class="language-tsx" data-line="4"><code v-pre class="language-tsx">import { useBackgroundColor } from &quot;@sample/shared&quot;;
 
@@ -345,7 +345,7 @@ export function ColoredPage() {
     </h2>
 </doc-anchor-target>
 <p>Now, suppose the requirements change, and a page of the remote module must have a <code translate="no" v-pre>red</code> background. The context can be overriden for that page by declaring a new provider directly in the routes registration:</p>
-<div class="codeblock-wrapper"><doc-codeblock>
+<div id="override-the-context-for-the-module-remote-modulesrcregistertsx" class="codeblock-wrapper"><doc-codeblock>
 <div class="codeblock-title">remote-module/src/register.tsx</div>
 <pre translate="no" class="language-tsx" data-line="9"><code v-pre class="language-tsx">import type { ModuleRegisterFunction, FireflyRuntime } from &quot;@squide/firefly&quot;;
 import { BackgroundColorContext } from &quot;@sample/shared&quot;;
@@ -369,7 +369,7 @@ export const register: ModuleRegisterFunction&lt;FireflyRuntime&gt; = runtime =&
     </h3>
 </doc-anchor-target>
 <p>Since there are multiple routes to setup with the new provider, an utility component can be extracted:</p>
-<div class="codeblock-wrapper"><doc-codeblock>
+<div id="extract-an-utility-component-remote-modulesrcregistertsx" class="codeblock-wrapper"><doc-codeblock>
 <div class="codeblock-title">remote-module/src/register.tsx</div>
 <pre translate="no" class="language-tsx" data-line="6-12,17"><code v-pre class="language-tsx">import type { ModuleRegisterFunction, FireflyRuntime } from &quot;@squide/firefly&quot;;
 import { BackgroundColorContext } from &quot;@sample/shared&quot;;
@@ -414,7 +414,7 @@ export const register: ModuleRegisterFunction&lt;FireflyRuntime&gt; = runtime =&
     </div>
 </div>
 <p>Let&#x27;s consider a more specific use case where the host application declares a <code translate="no" v-pre>ThemeContext</code> from Workleap&#x27;s new design system, <a href="https://hopper.workleap.design/" class="outbound" target="_blank">Hopper</a>:</p>
-<div class="codeblock-wrapper"><doc-codeblock>
+<div id="update-a-singleton-dependency-version-hostsrcapptsx" class="codeblock-wrapper"><doc-codeblock>
 <div class="codeblock-title">host/src/App.tsx</div>
 <pre translate="no" class="language-tsx" data-line="8"><code v-pre class="language-tsx">import { AppRouter } from &quot;@squide/firefly&quot;;
 import { createBrowserRouter } from &quot;react-router&quot;;
@@ -444,7 +444,7 @@ export function App() {
 }</code></pre>
 </doc-codeblock></div>
 <p>In this scenario, Hopper&#x27;s components are used throughout the entire application, including the modules. Moreover, <code translate="no" v-pre>@hopper/components</code> is defined as a <a href="https://module-federation.io/configure/shared.html#singleton" class="outbound" target="_blank">singleton</a> shared dependency:</p>
-<div class="codeblock-wrapper"><doc-codeblock>
+<div id="update-a-singleton-dependency-version-hostwebpackdevjs" class="codeblock-wrapper"><doc-codeblock>
 <div class="codeblock-title">host/webpack.dev.js</div>
 <pre translate="no" class="language-javascript" data-line="8-10"><code v-pre class="language-javascript">// @ts-check
 
@@ -459,7 +459,7 @@ export default defineDevHostConfig(swcConfig, 8080, [...], {
     }
 });</code></pre>
 </doc-codeblock></div>
-<div class="codeblock-wrapper"><doc-codeblock>
+<div id="update-a-singleton-dependency-version-remote-modulewebpackdevjs" class="codeblock-wrapper"><doc-codeblock>
 <div class="codeblock-title">remote-module/webpack.dev.js</div>
 <pre translate="no" class="language-javascript" data-line="8-10"><code v-pre class="language-javascript">// @ts-check
 
@@ -476,7 +476,7 @@ export default defineDevRemoteModuleConfig(swcConfig, &quot;remote-module&quot;,
 </doc-codeblock></div>
 <p>Now, consider a situation where Hopper releases a new version of the package that includes breaking changes, without a &quot;compatibility&quot; package to ensure backward compatility with the previous version.</p>
 <p>To update the host application without breaking the modules, we recommend to temporary &quot;break&quot; the singleton shared dependency by loading two versions of the <code translate="no" v-pre>@hopper/components</code> dependency in parallel (one for the host application and one for the modules that have not been updated yet):</p>
-<div class="codeblock-wrapper"><doc-codeblock>
+<div id="update-a-singleton-dependency-version-remote-modulewebpackdevjs-1" class="codeblock-wrapper"><doc-codeblock>
 <div class="codeblock-title">remote-module/webpack.dev.js</div>
 <pre translate="no" class="language-javascript" data-line="8-10"><code v-pre class="language-javascript">// @ts-check
 
@@ -492,7 +492,7 @@ export default defineDevRemoteModuleConfig(swcConfig, &quot;remote-module&quot;,
 });</code></pre>
 </doc-codeblock></div>
 <p>As <code translate="no" v-pre>@hopper/components</code> expose the <code translate="no" v-pre>ThemeContext</code>, the context must be re-declared in each module until every part of the federated application has been updated to the latest version of <code translate="no" v-pre>@hopper/components</code>:</p>
-<div class="codeblock-wrapper"><doc-codeblock>
+<div id="update-a-singleton-dependency-version-remote-modulesrcregistertsx" class="codeblock-wrapper"><doc-codeblock>
 <div class="codeblock-title">remote-module/src/register.tsx</div>
 <pre translate="no" class="language-tsx" data-line="6-12,17"><code v-pre class="language-tsx">import type { ModuleRegisterFunction, FireflyRuntime } from &quot;@squide/firefly&quot;;
 import { ThemeContext } from &quot;@hopper/components&quot;;
