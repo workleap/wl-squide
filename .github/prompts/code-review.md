@@ -22,7 +22,7 @@ Before reviewing, consult the directory index in `CLAUDE.md` to identify relevan
 
 ## Agent skills
 
-When performing code reviews, load and use agent skills from `.agents/skills/`. Apply the skill mapping defined in [agent-skills.md](../../agent-docs/docs/references/agent-skills.md) (both "By file type" and "By import" tables) to the changed lines in the PR diff.
+When performing code reviews, load and use agent skills from `.agents/skills/`. Apply the skill mapping defined in [agent-skills.md](../../agent-docs/references/agent-skills.md) (both "By file type" and "By import" tables) to the changed lines in the PR diff.
 
 ## Issues reporting
 
