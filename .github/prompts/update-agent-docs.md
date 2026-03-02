@@ -34,7 +34,7 @@ The prompt includes a mode indicator (e.g., `mode: full-audit` or `mode: last-co
 
 For `push` triggers, read the diff and determine which documentation files are affected by the changes. For `workflow_dispatch` triggers, review all documentation files against the current codebase.
 
-Also check whether recent changes contain architectural decisions that lack an ADR. Read existing ADRs in `agent-docs/adr/` first. If you find a new pattern, a replaced dependency, an infrastructure change, or a choice between viable approaches — and no existing ADR covers it — write a new ADR following the process in `agent-docs/adr/README.md`. Set its status to `proposed`. When writing the ADR, follow the ADR vs docs boundary rules below — record the decision rationale, not operational details.
+Also check whether recent changes contain architectural decisions that lack an ADR. Read existing ADRs in `agent-docs/adr/` first. If you find a new pattern, a replaced dependency, an infrastructure change, or a choice between viable approaches — and no existing ADR covers it — write a new ADR following the process in `agent-docs/adr/README.md`. Set its status to `proposed`. When writing the ADR, follow the ADR/ODR vs topic docs boundary rules below — record the decision rationale, not operational details.
 
 ### Context
 
@@ -83,39 +83,23 @@ When documenting Squide:
 - ONLY modify files under `agent-docs/` and `CLAUDE.md` at the root. Modifying files outside this set will cause an infinite workflow loop.
 - Do NOT modify `CLAUDE.md`.
 
-### ADR vs docs boundary
+### ADR/ODR vs topic docs boundary
 
-ADRs record **why** a decision was made (the problem, the alternatives, the chosen option, and the trade-offs accepted). Operational details about **how** the decision is implemented belong in `agent-docs/`.
+Decision records (`adr/`, `odr/`) record **why** a decision was made. Topic docs (`design/`, `references/`, `quality/`, `specs/`) describe **how** it is implemented.
 
-- **Belongs in an ADR:** the problem that motivated the decision, options evaluated, which option was chosen and why, architectural trade-offs accepted.
-- **Belongs in `agent-docs/`:** file paths and storage locations, URL rewriting patterns, CLI commands and flags, permissions and access controls, step-by-step operational procedures, server start/build commands.
+- **Belongs in a decision record:** the problem that motivated the decision, options evaluated, which option was chosen and why, trade-offs accepted.
+- **Belongs in a topic doc:** file paths and storage locations, URL rewriting patterns, CLI commands and flags, permissions and access controls, step-by-step operational procedures, server start/build commands.
 
 Examples:
 
 - **Good ADR sentence:** "Evidence is stored on an orphan branch so GitHub issue links remain stable across runs. See [ci-cd.md](../references/ci-cd.md) for operational details."
 - **Bad ADR sentence:** "Evidence files are pushed to the `dogfood-evidence` branch using `git push --force`, and URLs are rewritten from `./screenshots/` to `https://raw.githubusercontent.com/...`."
 
-**Never put operational details (commands, paths, configs, permissions, URL patterns) into an ADR.** State the decision and its rationale, then link to the relevant `agent-docs/` file for implementation specifics. Operational content in ADRs drifts from the actual implementation and misleads agents into following stale procedures instead of reading the source of truth.
+**Never put operational details (commands, paths, configs, permissions, URL patterns) into a decision record.** State the decision and its rationale, then link to the relevant topic doc for implementation specifics. Operational content in decision records drifts from the actual implementation and misleads agents into following stale procedures instead of reading the source of truth.
 
 ### CLAUDE.md requirements
 
-CLAUDE.md must stay between 80–150 lines. It must contain:
-
-1. **Purpose** — 1–2 short paragraphs identifying the repository.
-2. **How to Navigate** — table linking to `agent-docs/ARCHITECTURE.md` and `agent-docs/` categories.
-3. **"If You Are Working On…"** — routing table mapping tasks to documents.
-
-If any section grows too large, extract it into an `agent-docs/` file and replace with a link.
-
-### agent-docs/ARCHITECTURE.md requirements
-
-`agent-docs/ARCHITECTURE.md` must contain:
-
-1. **What is Squide** — framework identity and purpose (not a bundler/micro-frontend tool).
-2. **Repository Structure** — directory tree overview.
-3. **Key Concepts** — FireflyRuntime, modules, two-phase registration, AppRouter, data fetching, route types, environment variables.
-4. **Package Domains** — tables grouping packages by domain (core, integrations, build tooling).
-5. **Sample Applications** — table of sample apps.
+Follow [ODR-0010](../../agent-docs/odr/0010-claude-md-progressive-disclosure-design.md) for CLAUDE.md structure and line-count constraints.
 
 ## Step 3 — Validate coherence
 
@@ -126,7 +110,7 @@ Spawn an **opus** subagent to validate the documentation as a whole. Pass it the
 > - **Cross-references:** All markdown links between documents point to files that actually exist.
 > - **Consistency:** Information is not contradicted across documents (e.g., a package listed in one place but missing or renamed in another).
 > - **Stale content:** Verify that document contents align with the actual codebase (check real file paths, package names, etc.).
-> - **CLAUDE.md line count:** Must be between 80–150 lines.
+> - **CLAUDE.md:** Must conform to [ODR-0010](../../agent-docs/odr/0010-claude-md-progressive-disclosure-design.md) (structure and line count).
 > - **Architecture Decision Records:** Every ADR in `agent-docs/adr/` follows the template (has Status, Context, Options Considered, Decision, Consequences sections) and is listed in the `## Index` section of `agent-docs/adr/README.md`.
 >
 > Return a list of issues found. If no issues, return "No issues found."
