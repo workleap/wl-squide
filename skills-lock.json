@@ -34,7 +34,7 @@
     "turborepo": {
       "source": "vercel/turborepo",
       "sourceType": "github",
-      "computedHash": "a343d8e0d9d7786fc6e123e8900dafbd746c96fbfffa4bd3e8b34f8a75fc77cc"
+      "computedHash": "5277d4e4fcd73245ae8a5bbd958589defc12c2e5d397bdd48b788c53430edcbc"
     },
     "vitest": {
       "source": "antfu/skills",
