@@ -41,7 +41,7 @@
     },
     "dependencies": {
         "@formatjs/intl-localematcher": "^0.8.1",
-        "@squide/core": "workspace:*"
+        "@squide/core": "workspace:^"
     },
     "devDependencies": {
         "@eslint/js": "9.39.2",
