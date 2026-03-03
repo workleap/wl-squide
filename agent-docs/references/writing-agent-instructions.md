@@ -50,4 +50,4 @@ When writing or editing any file in `agent-docs/` or `CLAUDE.md`:
 3. If the rule has an edge case, add a negative example immediately after.
 
 ---
-*See [CLAUDE.md](../../../CLAUDE.md) for navigation.*
+*See [CLAUDE.md](../../CLAUDE.md) for navigation.*

@@ -39,4 +39,4 @@ Every package has its own `package.json` and `tsconfig.json`. All packages excep
 Full API reference is in the user-facing docs: `docs/reference/`.
 
 ---
-*See [CLAUDE.md](../../../CLAUDE.md) for navigation.*
+*See [CLAUDE.md](../../CLAUDE.md) for navigation.*

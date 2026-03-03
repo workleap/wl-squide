@@ -54,4 +54,4 @@ The main CI workflow (`ci.yml`) runs on `ubuntu-latest` with:
 - `.changeset/` — changeset configuration
 
 ---
-*See [ARCHITECTURE.md](../../ARCHITECTURE.md) for full context.*
+*See [ARCHITECTURE.md](../ARCHITECTURE.md) for full context.*
