@@ -72,6 +72,12 @@ export default {
             "isIgnored": true
         },
         {
+            "packages": ["@basic/*", "@basic-webpack/*", "@endpoints/*", "@storybook/*", "@getting-started/*", "@getting-started-remote/*"],
+            "dependencies": ["@squide/*"],
+            "dependencyTypes": ["prod"],
+            "isIgnored": true
+        },
+        {
             "packages": ["**"],
             "dependencyTypes": ["prod", "dev", "peer"],
             "preferVersion": "highestSemver",

@@ -126,7 +126,7 @@ importers:
   packages/env-vars:
     dependencies:
       '@squide/core':
-        specifier: workspace:*
+        specifier: workspace:^
         version: link:../core
       '@workleap/logging':
         specifier: ^1.3.6
@@ -187,7 +187,7 @@ importers:
   packages/fakes:
     dependencies:
       '@squide/core':
-        specifier: workspace:*
+        specifier: workspace:^
         version: link:../core
     devDependencies:
       '@eslint/js':
@@ -230,19 +230,19 @@ importers:
         specifier: ^1.9.0
         version: 1.9.0
       '@squide/core':
-        specifier: workspace:*
+        specifier: workspace:^
         version: link:../core
       '@squide/env-vars':
-        specifier: workspace:*
+        specifier: workspace:^
         version: link:../env-vars
       '@squide/launch-darkly':
-        specifier: workspace:*
+        specifier: workspace:^
         version: link:../launch-darkly
       '@squide/msw':
-        specifier: workspace:*
+        specifier: workspace:^
         version: link:../msw
       '@squide/react-router':
-        specifier: workspace:*
+        specifier: workspace:^
         version: link:../react-router
       '@tanstack/react-query':
         specifier: ^5.90.21
@@ -336,10 +336,10 @@ importers:
         specifier: ^1.7.6
         version: 1.7.6(@swc/helpers@0.5.19)
       '@squide/core':
-        specifier: workspace:*
+        specifier: workspace:^
         version: link:../core
       '@squide/firefly':
-        specifier: workspace:*
+        specifier: workspace:^
         version: link:../firefly
       '@tanstack/react-query':
         specifier: ^5.90.21
@@ -482,16 +482,16 @@ importers:
         specifier: ^1.9.0
         version: 1.9.0
       '@squide/env-vars':
-        specifier: workspace:*
+        specifier: workspace:^
         version: link:../env-vars
       '@squide/firefly':
-        specifier: workspace:*
+        specifier: workspace:^
         version: link:../firefly
       '@squide/launch-darkly':
-        specifier: workspace:*
+        specifier: workspace:^
         version: link:../launch-darkly
       '@squide/msw':
-        specifier: workspace:*
+        specifier: workspace:^
         version: link:../msw
       '@tanstack/react-query':
         specifier: ^5.90.21
@@ -664,7 +664,7 @@ importers:
         specifier: ^0.8.1
         version: 0.8.1
       '@squide/core':
-        specifier: workspace:*
+        specifier: workspace:^
         version: link:../core
       i18next:
         specifier: ^25.8.13
@@ -722,7 +722,7 @@ importers:
   packages/launch-darkly:
     dependencies:
       '@squide/core':
-        specifier: workspace:*
+        specifier: workspace:^
         version: link:../core
       '@workleap/logging':
         specifier: ^1.3.6
@@ -792,7 +792,7 @@ importers:
   packages/msw:
     dependencies:
       '@squide/core':
-        specifier: workspace:*
+        specifier: workspace:^
         version: link:../core
       '@workleap/logging':
         specifier: ^1.3.6
@@ -847,7 +847,7 @@ importers:
   packages/react-router:
     dependencies:
       '@squide/core':
-        specifier: workspace:*
+        specifier: workspace:^
         version: link:../core
       '@workleap/logging':
         specifier: ^1.3.6

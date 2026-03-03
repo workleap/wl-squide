@@ -44,8 +44,8 @@
     "dependencies": {
         "@module-federation/enhanced": "0.11.4",
         "@rspack/core": "^1.7.6",
-        "@squide/core": "workspace:*",
-        "@squide/firefly": "workspace:*",
+        "@squide/core": "workspace:^",
+        "@squide/firefly": "workspace:^",
         "@workleap/logging": "^1.3.6"
     },
     "devDependencies": {

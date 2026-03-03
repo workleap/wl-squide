@@ -51,10 +51,10 @@
         }
     },
     "dependencies": {
-        "@squide/env-vars": "workspace:*",
-        "@squide/firefly": "workspace:*",
-        "@squide/launch-darkly": "workspace:*",
-        "@squide/msw": "workspace:*",
+        "@squide/env-vars": "workspace:^",
+        "@squide/firefly": "workspace:^",
+        "@squide/launch-darkly": "workspace:^",
+        "@squide/msw": "workspace:^",
         "@workleap-telemetry/core": "^2.0.0",
         "@workleap/logging": "^1.3.6"
     },

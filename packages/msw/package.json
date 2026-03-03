@@ -45,7 +45,7 @@
         "msw": "^2.12.10"
     },
     "dependencies": {
-        "@squide/core": "workspace:*",
+        "@squide/core": "workspace:^",
         "@workleap/logging": "^1.3.6"
     },
     "devDependencies": {

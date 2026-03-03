@@ -33,7 +33,7 @@
         "typecheck": "tsgo"
     },
     "dependencies": {
-        "@squide/core": "workspace:*"
+        "@squide/core": "workspace:^"
     },
     "devDependencies": {
         "@eslint/js": "9.39.2",
