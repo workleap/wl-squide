@@ -1,5 +1,11 @@
 # @squide/firefly-webpack-configs
 
+## 5.2.8
+
+### Patch Changes
+
+- [#553](https://github.com/workleap/wl-squide/pull/553) [`7b4b742`](https://github.com/workleap/wl-squide/commit/7b4b742c9dbc9bb138e7ba4147c09d506b0bcb47) Thanks [@claude](https://github.com/apps/claude)! - Updated dependencies to their latest versions.
+
 ## 5.2.7
 
 ### Patch Changes
