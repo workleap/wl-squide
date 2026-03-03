@@ -1,5 +1,17 @@
 # @squide/firefly-rsbuild-storybook
 
+## 2.0.6
+
+### Patch Changes
+
+- [#551](https://github.com/workleap/wl-squide/pull/551) [`0a1bbdd`](https://github.com/workleap/wl-squide/commit/0a1bbddc758dc805e980b224f2f7c73fbd69f84b) Thanks [@patricklafrance](https://github.com/patricklafrance)! - Updated workspace dependency specifiers to use ranged workspace versions in package.json files.
+
+- Updated dependencies [[`0a1bbdd`](https://github.com/workleap/wl-squide/commit/0a1bbddc758dc805e980b224f2f7c73fbd69f84b)]:
+  - @squide/launch-darkly@1.0.10
+  - @squide/env-vars@1.4.19
+  - @squide/firefly@16.1.12
+  - @squide/msw@4.0.17
+
 ## 2.0.5
 
 ### Patch Changes

@@ -1,5 +1,11 @@
 # @squide/react-router
 
+## 8.1.17
+
+### Patch Changes
+
+- [#551](https://github.com/workleap/wl-squide/pull/551) [`0a1bbdd`](https://github.com/workleap/wl-squide/commit/0a1bbddc758dc805e980b224f2f7c73fbd69f84b) Thanks [@patricklafrance](https://github.com/patricklafrance)! - Updated workspace dependency specifiers to use ranged workspace versions in package.json files.
+
 ## 8.1.16
 
 ### Patch Changes
