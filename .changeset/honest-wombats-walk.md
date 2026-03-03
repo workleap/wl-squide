@@ -10,4 +10,4 @@
 "@squide/msw": patch
 ---
 
-Updated fix workspace versions for ranged workspace versions in package.json files.
+Updated workspace dependency specifiers to use ranged workspace versions in package.json files.
