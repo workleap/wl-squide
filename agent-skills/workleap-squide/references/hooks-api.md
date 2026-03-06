@@ -1,5 +1,16 @@
 # Squide Hooks API Reference
 
+## Table of Contents
+- [Routing Hooks](#routing-hooks) — useNavigationItems, useRenderedNavigationItems, useRoutes, useIsBootstrapping, useIsRouteProtected, useRouteMatch
+- [Data Fetching Hooks](#data-fetching-hooks) — usePublicDataQueries, useProtectedDataQueries, usePublicDataHandler, useProtectedDataHandler
+- [Registration Hooks](#registration-hooks) — useDeferredRegistrations
+- [Messaging Hooks](#messaging-hooks) — useEventBusListener, useEventBusDispatcher
+- [Environment & Configuration Hooks](#environment--configuration-hooks) — useEnvironmentVariable, useEnvironmentVariables, useFeatureFlag, useFeatureFlags, useLaunchDarklyClient
+- [Logging Hooks](#logging-hooks) — useLogger
+- [Runtime Hooks](#runtime-hooks) — useRuntime, useRuntimeMode
+- [Plugin Hooks](#plugin-hooks) — usePlugin
+- [i18next Hooks](#i18next-hooks-from-squidei18next) — useI18nextInstance, useCurrentLanguage, useChangeLanguage
+
 ## Routing Hooks
 
 ### useNavigationItems(options?)

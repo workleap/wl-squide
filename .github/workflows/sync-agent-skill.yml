@@ -56,7 +56,21 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
+      - name: Install pnpm
+        uses: pnpm/action-setup@v4
+
+      - name: Install Node.js
+        uses: actions/setup-node@v6
+        with:
+          node-version: ">=24.0.0"
+          check-latest: true
+          cache: 'pnpm'
+
+      - name: Install dependencies
+        run: pnpm install
+
       - name: Sync agent skill with docs
+        id: claude
         uses: anthropics/claude-code-action@v1
         with:
           prompt: |

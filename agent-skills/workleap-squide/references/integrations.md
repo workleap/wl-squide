@@ -118,6 +118,8 @@ export const requestHandlers: HttpHandler[] = [
 ];
 ```
 
+> For more module registration patterns including higher-order registration and deferred registration with MSW, see `references/patterns.md`.
+
 ## LaunchDarkly
 
 ### Initialize Client
@@ -446,6 +448,8 @@ runtime.registerNavigationItem({
 ```
 
 ## Storybook
+
+> For component API signatures (`FireflyDecorator`, `withFireflyDecorator`, `withFeatureFlagsOverrideDecorator`, `initializeFireflyForStorybook`), see `references/components.md`.
 
 ### Setup Decorator
 

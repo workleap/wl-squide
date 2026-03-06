@@ -1,5 +1,14 @@
 # Squide Components Reference
 
+## Table of Contents
+- [AppRouter](#approuter)
+- [FireflyProvider](#fireflyprovider)
+- [PublicRoutes](#publicroutes)
+- [ProtectedRoutes](#protectedroutes)
+- [I18nextNavigationItemLabel](#i18nextnavigationitemlabel-from-squidei18next)
+- [Storybook Components](#storybook-components-from-squidefirefly-rsbuild-storybook)
+- [Helper Functions](#helper-functions)
+
 ## AppRouter
 
 The main router component that sets up Squide's primitives with React Router.
@@ -16,9 +25,10 @@ The main router component that sets up Squide's primitives with React Router.
 
 ```ts
 {
-    rootRoute: ReactElement;      // Root route element (must wrap registeredRoutes)
-    registeredRoutes: Route[];    // All registered routes
-    routerProviderProps: object;  // Props for RouterProvider
+    rootRoute: ReactElement;           // Root route element (must wrap registeredRoutes)
+    registeredRoutes: Route[];         // All registered routes
+    routerProps: DOMRouterOpts;        // Options for createBrowserRouter (e.g., dataStrategy for MSW)
+    routerProviderProps: object;       // Props for RouterProvider
 }
 ```
 
@@ -32,12 +42,12 @@ import { RouterProvider } from "react-router/dom";
 export function App() {
     return (
         <AppRouter>
-            {({ rootRoute, registeredRoutes, routerProviderProps }) => (
+            {({ rootRoute, registeredRoutes, routerProps, routerProviderProps }) => (
                 <RouterProvider
                     router={createBrowserRouter([{
                         element: rootRoute,
                         children: registeredRoutes
-                    }])}
+                    }], routerProps)}
                     {...routerProviderProps}
                 />
             )}
@@ -59,7 +69,7 @@ function BootstrappingRoute() {
 export function App() {
     return (
         <AppRouter>
-            {({ rootRoute, registeredRoutes, routerProviderProps }) => (
+            {({ rootRoute, registeredRoutes, routerProps, routerProviderProps }) => (
                 <RouterProvider
                     router={createBrowserRouter([{
                         element: rootRoute,
@@ -67,7 +77,7 @@ export function App() {
                             element: <BootstrappingRoute />,
                             children: registeredRoutes
                         }]
-                    }])}
+                    }], routerProps)}
                     {...routerProviderProps}
                 />
             )}
@@ -96,7 +106,7 @@ function BootstrappingRoute() {
 export function App() {
     return (
         <AppRouter waitForProtectedData>
-            {({ rootRoute, registeredRoutes, routerProviderProps }) => (
+            {({ rootRoute, registeredRoutes, routerProps, routerProviderProps }) => (
                 <RouterProvider
                     router={createBrowserRouter([{
                         element: rootRoute,
@@ -104,7 +114,7 @@ export function App() {
                             element: <BootstrappingRoute />,
                             children: registeredRoutes
                         }]
-                    }])}
+                    }], routerProps)}
                     {...routerProviderProps}
                 />
             )}
@@ -354,3 +364,27 @@ const runtime = await initializeFireflyForStorybook({
     useMsw: true  // Default is true
 });
 ```
+
+### mergeDeferredRegistrations
+
+Merge multiple deferred registration functions into a single function. Useful when a module's registration function is split across multiple files or needs to combine results from several setup steps.
+
+```tsx
+import { mergeDeferredRegistrations } from "@squide/firefly";
+
+export const register: ModuleRegisterFunction<FireflyRuntime> = runtime => {
+    runtime.registerRoute({ path: "/page-a", element: <PageA /> });
+    runtime.registerRoute({ path: "/page-b", element: <PageB /> });
+
+    // Merge multiple deferred registration functions into one
+    return mergeDeferredRegistrations([
+        registerPageANavigation(runtime),
+        registerPageBNavigation(runtime)
+    ]);
+};
+```
+
+**Parameters:**
+- `candidates`: Array of deferred registration functions (or `void`). Non-function entries are filtered out.
+
+**Returns:** A single merged `DeferredRegistrationFunction`, or `undefined` if no valid functions were provided.

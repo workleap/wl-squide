@@ -11,7 +11,7 @@ description: |
   (7) Squide hooks for event bus, environment variables, feature flags, logging, or bootstrapping state
   (8) Error boundaries or modular architecture in Squide applications
 metadata:
-  version: 1.5
+  version: 1.6
 ---
 
 # Squide Framework
@@ -20,23 +20,12 @@ Squide is a React modular application shell. Use only documented APIs.
 
 ## Core Concepts
 
-### Runtime
-The `FireflyRuntime` instance is the backbone of a Squide application. Never instantiate directly - use `initializeFirefly()`.
+- **Runtime**: The `FireflyRuntime` instance is the backbone of a Squide application. Never instantiate directly — use `initializeFirefly()`, which wires up plugins, logging, and the module lifecycle.
+- **Modular Registration**: Modules register routes, navigation items, and MSW handlers via a registration function, assembled by the host at bootstrapping.
+- **Public vs Protected Routes**: Routes default to `protected` (rendered under `ProtectedRoutes`). Use `registerPublicRoute()` for public routes. Protected routes fetch both public and protected global data.
+- **Deferred Registrations**: Navigation items dependent on remote data or feature flags use two-phase registration — return a function from the registration to defer items to a second phase.
 
-### Modular Registration
-Modules register routes, navigation items, and MSW handlers via a registration function. Each module contributes its own configuration, assembled by the host at bootstrapping.
-
-### Public vs Protected Routes
-- Routes default to `protected` (rendered under `ProtectedRoutes` placeholder)
-- Use `registerPublicRoute()` for public routes (rendered under `PublicRoutes` placeholder)
-- Public routes only fetch public global data; protected routes fetch both public and protected data
-
-### Deferred Registrations
-Navigation items dependent on remote data or feature flags use two-phase registration:
-1. First phase: Register static routes and navigation items
-2. Second phase: Return a function from registration to defer navigation items
-
-## Quick Reference
+## Key Patterns
 
 ### Host Application Setup
 
@@ -80,7 +69,7 @@ function BootstrappingRoute() {
 export function App() {
     return (
         <AppRouter>
-            {({ rootRoute, registeredRoutes, routerProviderProps }) => (
+            {({ rootRoute, registeredRoutes, routerProps, routerProviderProps }) => (
                 <RouterProvider
                     router={createBrowserRouter([{
                         element: rootRoute,
@@ -88,7 +77,7 @@ export function App() {
                             element: <BootstrappingRoute />,
                             children: registeredRoutes
                         }]
-                    }])}
+                    }], routerProps)}
                     {...routerProviderProps}
                 />
             )}
@@ -108,6 +97,7 @@ export const registerHost: ModuleRegisterFunction<FireflyRuntime> = runtime => {
         children: [PublicRoutes, ProtectedRoutes]
     }, { hoist: true });
 
+    // HomePage and NotFoundPage are local page components
     runtime.registerRoute({ index: true, element: <HomePage /> });
     runtime.registerPublicRoute({ path: "*", element: <NotFoundPage /> });
 };
@@ -158,6 +148,7 @@ export function RootLayout() {
 // Protected data
 import { useProtectedDataQueries, useIsBootstrapping, AppRouter } from "@squide/firefly";
 
+// ApiError and isApiError are app-specific; define them to match your API's error shape
 function BootstrappingRoute() {
     const [session] = useProtectedDataQueries([{
         queryKey: ["/api/session"],
@@ -208,10 +199,13 @@ export const register: ModuleRegisterFunction<FireflyRuntime, unknown, DeferredR
 ```
 
 ```tsx
-// Execute deferred registrations in BootstrappingRoute
+// Execute deferred registrations in BootstrappingRoute.
+// Wrap in useMemo — without it, a new object reference each render re-triggers all deferred registrations.
 const data = useMemo(() => ({ userData }), [userData]);
 useDeferredRegistrations(data);
 ```
+
+**See also:** For error boundaries, testing patterns, and advanced navigation (multi-level, dynamic segments, active state), see `references/patterns.md`. For MSW setup, LaunchDarkly, Honeycomb, i18next, and Storybook integrations, see `references/integrations.md`. For plugin authoring and the full runtime API, see `references/runtime-api.md`.
 
 ## Reference Guide
 
@@ -223,11 +217,11 @@ For detailed API documentation beyond the patterns above, consult the reference 
 - **`references/patterns.md`** — Local module setup, error boundaries, MSW request handlers, and other common patterns
 - **`references/integrations.md`** — LaunchDarkly (plugin, utilities, testing clients), Honeycomb, i18next, and Storybook integration details
 
-## Skill Maintenance Notes
+## Common Pitfalls
 
-Before updating this skill, read [ODR-0008](../../agent-docs/odr/0008-skill-body-reference-split.md) which explains the body/reference split. The SKILL.md body must stay under ~250 lines. New API content goes in the appropriate `references/` file — only add to the body if it is a critical multi-file pattern needed in nearly every conversation.
+> **Skill maintainers:** Before updating this skill, read [ODR-0008](../../agent-docs/odr/0008-skill-body-reference-split.md). The body must stay under ~250 lines; new API content goes in the appropriate `references/` file.
 
-When updating this skill from the official documentation, verify these common pitfalls:
+When working with Squide APIs, watch for these common mistakes:
 
 1. **`useRenderedNavigationItems` function signatures**: Must always be `(item, key, index, level)` and `(elements, key, index, level)`. These do NOT accept custom context parameters. If external values are needed (route params, location, etc.), use closures or React hooks - never suggest adding parameters to these functions.
 

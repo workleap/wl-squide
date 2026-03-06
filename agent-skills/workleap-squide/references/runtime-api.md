@@ -146,7 +146,7 @@ import { MyPlugin } from "@sample/my-plugin";
 const plugin = runtime.getPlugin(MyPlugin.name) as MyPlugin;
 
 // Without throwing if not found
-const plugin = runtime.getPlugin(MyPlugin.name, { throwWhenNotFound: false });
+const plugin = runtime.getPlugin(MyPlugin.name, { throwOnNotFound: false });
 ```
 
 ## Getters
