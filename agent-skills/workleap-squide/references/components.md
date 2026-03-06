@@ -5,7 +5,7 @@
 - [FireflyProvider](#fireflyprovider)
 - [PublicRoutes](#publicroutes)
 - [ProtectedRoutes](#protectedroutes)
-- [I18nextNavigationItemLabel](#i18nextnavigationitemlabel)
+- [I18nextNavigationItemLabel](#i18nextnavigationitemlabel-from-squidei18next)
 - [Storybook Components](#storybook-components-from-squidefirefly-rsbuild-storybook)
 - [Helper Functions](#helper-functions)
 
@@ -287,30 +287,6 @@ export const WithFeatureDisabled = {
 };
 ```
 
-### mergeDeferredRegistrations
-
-Merge multiple deferred registration functions into a single function. Useful when a module's registration function is split across multiple files or needs to combine results from several setup steps.
-
-```tsx
-import { mergeDeferredRegistrations } from "@squide/firefly";
-
-export const register: ModuleRegisterFunction<FireflyRuntime> = runtime => {
-    runtime.registerRoute({ path: "/page-a", element: <PageA /> });
-    runtime.registerRoute({ path: "/page-b", element: <PageB /> });
-
-    // Merge multiple deferred registration functions into one
-    return mergeDeferredRegistrations([
-        registerPageANavigation(runtime),
-        registerPageBNavigation(runtime)
-    ]);
-};
-```
-
-**Parameters:**
-- `candidates`: Array of deferred registration functions (or `void`). Non-function entries are filtered out.
-
-**Returns:** A single merged `DeferredRegistrationFunction`, or `undefined` if no valid functions were provided.
-
 ## Helper Functions
 
 ### isNavigationLink
@@ -388,3 +364,27 @@ const runtime = await initializeFireflyForStorybook({
     useMsw: true  // Default is true
 });
 ```
+
+### mergeDeferredRegistrations
+
+Merge multiple deferred registration functions into a single function. Useful when a module's registration function is split across multiple files or needs to combine results from several setup steps.
+
+```tsx
+import { mergeDeferredRegistrations } from "@squide/firefly";
+
+export const register: ModuleRegisterFunction<FireflyRuntime> = runtime => {
+    runtime.registerRoute({ path: "/page-a", element: <PageA /> });
+    runtime.registerRoute({ path: "/page-b", element: <PageB /> });
+
+    // Merge multiple deferred registration functions into one
+    return mergeDeferredRegistrations([
+        registerPageANavigation(runtime),
+        registerPageBNavigation(runtime)
+    ]);
+};
+```
+
+**Parameters:**
+- `candidates`: Array of deferred registration functions (or `void`). Non-function entries are filtered out.
+
+**Returns:** A single merged `DeferredRegistrationFunction`, or `undefined` if no valid functions were provided.
