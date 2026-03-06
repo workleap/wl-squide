@@ -12,6 +12,10 @@ function registerRoutes(runtime: FireflyRuntime, host?: string) {
     runtime.registerPublicRoute({
         // Pathless route to declare a root layout and a root error boundary.
         $id: "root-layout",
+        loader: async () => {
+            const response = await fetch(runtime.getEnvironmentVariable("dummyHandlerUrl"));
+            return response.json();
+        },
         element: <RootLayout />,
         children: [
             PublicRoutes
@@ -105,7 +109,8 @@ function registerEnvironmentVariables(runtime: FireflyRuntime) {
         userInfoApiBaseUrl: "http://localhost:1234/api/user-info/",
         userRoleApiBaseUrl: "/api/user-role/",
         sessionApiBaseUrl: "/api/session/",
-        subscriptionApiBaseUrl: "/api/subscription/"
+        subscriptionApiBaseUrl: "/api/subscription/",
+        dummyHandlerUrl: "/api/dummy"
     });
 }
 

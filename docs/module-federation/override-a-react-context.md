@@ -18,7 +18,7 @@ export function App() {
     return (
         <BackgroundColorContext.Provider value="blue">
             <AppRouter>
-                {({ rootRoute, registeredRoutes, routerProviderProps }) => {
+                {({ rootRoute, registeredRoutes, routerProps, routerProviderProps }) => {
                     return (
                         <RouterProvider
                             router={createBrowserRouter([
@@ -26,7 +26,7 @@ export function App() {
                                     element: rootRoute,
                                     children: registeredRoutes
                                 }
-                            ])}
+                            ], routerProps)}
                             {...routerProviderProps}
                         />
                     );
@@ -130,7 +130,7 @@ export function App() {
     return (
         <ThemeContext.Provider value="dark">
             <AppRouter>
-                {({ rootRoute, registeredRoutes, routerProviderProps }) => {
+                {({ rootRoute, registeredRoutes, routerProps, routerProviderProps }) => {
                     return (
                         <RouterProvider
                             router={createBrowserRouter([
@@ -138,7 +138,7 @@ export function App() {
                                     element: rootRoute,
                                     children: registeredRoutes
                                 }
-                            ])}
+                            ], routerProps)}
                             {...routerProviderProps}
                         />
                     );

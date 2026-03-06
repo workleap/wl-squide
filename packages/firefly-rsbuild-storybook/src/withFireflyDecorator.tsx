@@ -27,7 +27,7 @@ export function FireflyDecorator(props: FireflyDecoratorProps) {
     return (
         <FireflyProvider runtime={runtime}>
             <AppRouter strictMode={false}>
-                {({ rootRoute, routerProviderProps }) => {
+                {({ rootRoute, routerProps, routerProviderProps }) => {
                     return (
                         <RouterProvider
                             router={createMemoryRouter([
@@ -41,6 +41,7 @@ export function FireflyDecorator(props: FireflyDecoratorProps) {
                                     ]
                                 }
                             ], {
+                                ...routerProps,
                                 initialEntries: ["/story"]
                             })}
                             {...routerProviderProps}

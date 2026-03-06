@@ -122,7 +122,7 @@ function BootstrappingRoute() {
 export function App() {
     return (
         <AppRouter waitForProtectedData>
-            {({ rootRoute, registeredRoutes, routerProviderProps }) => {
+            {({ rootRoute, registeredRoutes, routerProps, routerProviderProps }) => {
                 return (
                     <RouterProvider
                         router={createBrowserRouter([
@@ -135,7 +135,7 @@ export function App() {
                                     }
                                 ]
                             }
-                        ])}
+                        ], routerProps)}
                         {...routerProviderProps}
                     />
                 );

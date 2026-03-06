@@ -224,7 +224,7 @@ function BootstrappingRoute() {
 export function App() {
     return (
         <AppRouter waitForMsw waitForPublicData>
-            {({ rootRoute, registeredRoutes, routerProviderProps }) => {
+            {({ rootRoute, registeredRoutes, routerProps, routerProviderProps }) => {
                 return (
                     <RouterProvider
                         router={createBrowserRouter([
@@ -238,7 +238,7 @@ export function App() {
                                     }
                                 ]
                             }
-                        ])}
+                        ], routerProps)}
                         {...routerProviderProps}
                     />
                 );
@@ -390,7 +390,7 @@ Now:
 export function App() {
     return (
         <AppRouter waitForMsw>
-            {({ rootRoute, registeredRoutes, routerProviderProps }) => {
+            {({ rootRoute, registeredRoutes, routerProps, routerProviderProps }) => {
                 return (
                     <RouterProvider
                         router={createBrowserRouter([
@@ -399,7 +399,7 @@ export function App() {
                                 errorElement: <RootErrorBoundary />,
                                 children: registeredRoutes
                             }
-                        ])}
+                        ], routerProps)}
                         {...routerProviderProps}
                     />
                 );

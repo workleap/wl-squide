@@ -1,6 +1,7 @@
 import { EnvironmentVariables } from "@squide/firefly";
 import type { HttpHandler } from "msw";
 import { getAuthenticationHandlers } from "./authenticationHandlers.ts";
+import { getDummyHandler } from "./dummyHandler.ts";
 import { getSessionHandlers } from "./sessionHandlers.ts";
 import { getSubscriptionHandlers } from "./subscriptionHandlers.ts";
 import { getUserRoleHandlers } from "./userRoleHandler.ts";
@@ -12,6 +13,7 @@ export function getRequestHandlers(environmentVariables: EnvironmentVariables): 
         ...getAuthenticationHandlers(environmentVariables),
         ...getSessionHandlers(environmentVariables),
         ...getUserRoleHandlers(environmentVariables),
-        ...getSubscriptionHandlers(environmentVariables)
+        ...getSubscriptionHandlers(environmentVariables),
+        getDummyHandler(environmentVariables)
     ];
 }

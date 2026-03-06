@@ -7,5 +7,6 @@ declare module "@squide/firefly" {
         userRoleApiBaseUrl: string;
         sessionApiBaseUrl: string;
         subscriptionApiBaseUrl: string;
+        dummyHandlerUrl: string;
     }
 }
