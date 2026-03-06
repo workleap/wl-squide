@@ -22,7 +22,25 @@ Before reviewing, consult the directory index in `CLAUDE.md` to identify relevan
 
 ## Agent skills
 
-When performing code reviews, load and use agent skills from `.agents/skills/`. Apply the skill mapping defined in [agent-skills.md](../../agent-docs/references/agent-skills.md) (both "By file type" and "By import" tables) to the changed lines in the PR diff.
+For each changed file in the PR diff, load applicable skills from `.agents/skills/` using the Skill tool:
+
+**By file type:**
+
+| File pattern | Skills |
+|---|---|
+| `*.ts`, `*.tsx`, `*.js`, `*.jsx` (non-test) | `/accessibility`, `/best-practices` |
+| `*.tsx`, `*.jsx` (non-test) | `/workleap-react-best-practices` |
+| `*.test.ts`, `*.test.tsx` | `/vitest` |
+| `turbo.json` | `/turborepo` |
+| `package.json`, `pnpm-workspace.yaml`, `pnpm-lock.yaml`, `.npmrc` | `/pnpm` |
+
+**By import:**
+
+| Import | Skill |
+|---|---|
+| `@workleap/logging` | `/workleap-logging` |
+| `@workleap/telemetry` | `/workleap-telemetry` |
+| `@workleap/browserslist-config`, `@workleap/eslint-configs`, `@workleap/stylelint-configs`, `@workleap/typescript-configs`, `@workleap/rsbuild-configs`, `@workleap/rslib-configs` | `/workleap-web-configs` |
 
 ## Issues reporting
 
