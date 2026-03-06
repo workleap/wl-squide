@@ -33,7 +33,7 @@ export function useCanRenderRouter({ areModulesRegistered, areModulesReady: areM
 // This is a custom React Router data strategy (https://reactrouter.com/api/data-routers/createMemoryRouter#optsdatastrategy)
 // to delay the execution of React Router data browser loaders until MSW is ready.
 // The data strategy implemention is copied from React Router default data strategy: https://github.com/remix-run/react-router/blob/main/packages/react-router/lib/router/router.ts#L5710.
-function createWaitForMswDataStrategy(runtime: FireflyRuntime) {
+export function createWaitForMswDataStrategy(runtime: FireflyRuntime) {
     const strategy: (args: DataStrategyFunctionArgs<unknown>) => ReturnType<DataStrategyFunction<unknown>> = async args => {
         await new Promise(resolve => {
             if (runtime.mswState.isReady) {

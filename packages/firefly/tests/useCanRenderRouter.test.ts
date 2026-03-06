@@ -32,3 +32,13 @@ test.concurrent("when modules are registered but modules are not ready, return t
 
     expect(result.current).toBeTruthy();
 });
+
+test.concurrent("when modules are registered and modules are ready, return true", ({ expect }) => {
+    const state = createDefaultAppRouterState();
+    state.areModulesRegistered = true;
+    state.areModulesReady = true;
+
+    const { result } = renderHook(() => useCanRenderRouter(state));
+
+    expect(result.current).toBeTruthy();
+});
