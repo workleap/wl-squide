@@ -59,7 +59,7 @@ runtime.registerNavigationItem({
     $id: "page-id",           // Recommended for stable keys
     $label: "Page Label",     // String or ReactNode
     $priority: 10,            // Higher = earlier in menu
-    $canRender: () => true,   // Conditional rendering
+    $canRender: (index: number) => true,   // Conditional rendering
     $additionalProps: {},     // Custom props for renderer
     to: "/page",
     target: "_blank",         // Optional

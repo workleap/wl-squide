@@ -49,9 +49,13 @@ module-name/
     "type": "module",
     "exports": "./src/register.tsx",
     "peerDependencies": {
+        "@opentelemetry/api": "^x.x.x",
         "@squide/firefly": "^x.x.x",
         "@tanstack/react-query": "^x.x.x",
+        "launchdarkly-js-client-sdk": "^x.x.x",
+        "msw": "^x.x.x",
         "react": "^x.x.x",
+        "react-dom": "^x.x.x",
         "react-router": "^x.x.x"
     }
 }
