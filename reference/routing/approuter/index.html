@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <meta name="color-scheme" content="light dark">
     <meta name="turbo-root" content="/wl-squide">
-    <meta name="turbo-cache-control" content="no-cache" data-turbo-track="reload" data-track-token="4.1.0.826073371308">
+    <meta name="turbo-cache-control" content="no-cache" data-turbo-track="reload" data-track-token="4.1.0.826135396987">
 
     <!-- See retype.com -->
     <meta name="generator" content="Retype 4.1.0">
@@ -29,12 +29,12 @@
     <script data-cfasync="false">(function(){var cl=document.documentElement.classList,ls=localStorage.getItem("retype_scheme"),hd=cl.contains("dark"),hl=cl.contains("light"),wm=window.matchMedia&&window.matchMedia("(prefers-color-scheme: dark)").matches;if(ls==="dark"||(!ls&&wm&&!hd&&!hl)){cl.remove("light");cl.add("dark")}else if(ls==="light"||(!ls&&!wm&&!hd&&!hl)){cl.remove("dark");cl.add("light")}})();</script>
 
     <link id="retype-favicon" rel="icon" href="../../../static/favicon.png" />
-    <link href="../../../resources/css/retype.css?v=4.1.0.826073371308" rel="stylesheet">
+    <link href="../../../resources/css/retype.css?v=4.1.0.826135396987" rel="stylesheet">
 
-    <script data-cfasync="false" src="../../../resources/js/config.js?v=4.1.0.826073371308" data-turbo-eval="false" defer></script>
+    <script data-cfasync="false" src="../../../resources/js/config.js?v=4.1.0.826135396987" data-turbo-eval="false" defer></script>
     <script data-cfasync="false" src="../../../resources/js/retype.js?v=4.1.0" data-turbo-eval="false" defer></script>
-    <script id="lunr-js" data-cfasync="false" src="../../../resources/js/lunr.js?v=4.1.0.826073371308" data-turbo-eval="false" defer></script>
-    <script id="prism-js" data-cfasync="false" src="../../../resources/js/prism.js?v=4.1.0.826073371308" defer></script>
+    <script id="lunr-js" data-cfasync="false" src="../../../resources/js/lunr.js?v=4.1.0.826135396987" data-turbo-eval="false" defer></script>
+    <script id="prism-js" data-cfasync="false" src="../../../resources/js/prism.js?v=4.1.0.826135396987" defer></script>
 
     <link href="https://workleap.github.io/wl-idp-docs-hub/static/retype-customization.css" rel="stylesheet" />
 
@@ -297,7 +297,7 @@
 </doc-anchor-target>
 <div id="reference-code-1" class="codeblock-wrapper"><doc-codeblock>
 <pre translate="no" class="language-tsx"><code v-pre class="language-tsx">&lt;AppRouter waitForPublicData={boolean} waitForProtectedData={boolean}&gt;
-    {({ rootRoute, registeredRoutes, routerProviderProps }) =&gt; ( ... )}
+    {({ rootRoute, registeredRoutes, routerProps, routerProviderProps }) =&gt; ( ... )}
 &lt;/AppRouter&gt;</code></pre>
 </doc-codeblock></div>
 <doc-anchor-target id="properties">
@@ -309,7 +309,7 @@
 <ul>
 <li><code translate="no" v-pre>waitForPublicData</code>: An optional <code translate="no" v-pre>boolean</code> value indicating whether or not Squide should delay the rendering of the requested page until the <strong>public</strong> data is ready. The default value is <code translate="no" v-pre>false</code>.</li>
 <li><code translate="no" v-pre>waitForProtectedData</code>: An optional <code translate="no" v-pre>boolean</code> value indicating whether or not Squide should delay the rendering of the requested page until the <strong>protected</strong> data is ready. The default value is <code translate="no" v-pre>false</code>.</li>
-<li><code translate="no" v-pre>children</code>: A render function defining a <a href="https://reactrouter.com/en/main/routers/router-provider" class="outbound" target="_blank">RouterProvider</a> component with <code translate="no" v-pre>rootRoute</code>, <code translate="no" v-pre>registeredRoutes</code> and <code translate="no" v-pre>routerProviderProps</code>.</li>
+<li><code translate="no" v-pre>children</code>: A render function defining a <a href="https://reactrouter.com/en/main/routers/router-provider" class="outbound" target="_blank">RouterProvider</a> component with <code translate="no" v-pre>rootRoute</code>, <code translate="no" v-pre>registeredRoutes</code>, <code translate="no" v-pre>routerProps</code> and <code translate="no" v-pre>routerProviderProps</code>.</li>
 </ul>
 <doc-anchor-target id="usage">
     <h2>
@@ -332,7 +332,7 @@ import { RouterProvider } from &quot;react-router/dom&quot;;
 
 export function App() {
     &lt;AppRouter &gt;
-        {({ rootRoute, registeredRoutes, routerProviderProps }) =&gt; {
+        {({ rootRoute, registeredRoutes, routerProps, routerProviderProps }) =&gt; {
             return (
                 &lt;RouterProvider
                     router={createBrowserRouter([
@@ -340,7 +340,7 @@ export function App() {
                             element: rootRoute,
                             children: registeredRoutes
                         }
-                    ])}
+                    ], routerProps)}
                     {...routerProviderProps}
                 /&gt;
             );
@@ -372,7 +372,7 @@ function BootstrappingRoute() {
 export function App() {
     return (
         &lt;AppRouter&gt;
-            {({ rootRoute, registeredRoutes, routerProviderProps }) =&gt; {
+            {({ rootRoute, registeredRoutes, routerProps, routerProviderProps }) =&gt; {
                 return (
                     &lt;RouterProvider
                         router={createBrowserRouter([
@@ -385,7 +385,7 @@ export function App() {
                                     }
                                 ]
                             }
-                        ])}
+                        ], routerProps)}
                         {...routerProviderProps}
                     /&gt;
                 );
@@ -447,7 +447,7 @@ import { RootErrorBoundary } from &quot;./RootErrorBoundary.tsx&quot;;
 export function App() {
     return (
         &lt;AppRouter&gt;
-            {({ rootRoute, registeredRoutes, routerProviderProps }) =&gt; {
+            {({ rootRoute, registeredRoutes, routerProps, routerProviderProps }) =&gt; {
                 return (
                     &lt;RouterProvider
                         router={createBrowserRouter([
@@ -456,7 +456,7 @@ export function App() {
                                 errorElement: &lt;RootErrorBoundary /&gt;,
                                 children: registeredRoutes
                             }
-                        ])}
+                        ], routerProps)}
                         {...routerProviderProps}
                     /&gt;
                 );
@@ -497,7 +497,7 @@ function BootstrappingRoute() {
 export function App() {
     return (
         &lt;AppRouter waitForPublicData&gt;
-            {({ rootRoute, registeredRoutes, routerProviderProps }) =&gt; {
+            {({ rootRoute, registeredRoutes, routerProps, routerProviderProps }) =&gt; {
                 return (
                     &lt;RouterProvider
                         router={createBrowserRouter([
@@ -510,7 +510,7 @@ export function App() {
                                     }
                                 ]
                             }
-                        ])}
+                        ], routerProps)}
                         {...routerProviderProps}
                     /&gt;
                 );
@@ -554,7 +554,7 @@ function BootstrappingRoute() {
 export function App() {
     return (
         &lt;AppRouter waitForProtectedData&gt;
-            {({ rootRoute, registeredRoutes, routerProviderProps }) =&gt; {
+            {({ rootRoute, registeredRoutes, routerProps, routerProviderProps }) =&gt; {
                 return (
                     &lt;RouterProvider
                         router={createBrowserRouter([
@@ -567,7 +567,7 @@ export function App() {
                                     }
                                 ]
                             }
-                        ])}
+                        ], routerProps)}
                         {...routerProviderProps}
                     /&gt;
                 );
@@ -603,14 +603,6 @@ export function App() {
                 <p>We highly recommend going through the entire getting started guide. However, if you prefer to scaffold the application we'll be building, a template</p>
             </div>
         </a>
-        <a href="/wl-squide/module-federation/develop-a-module-in-isolation/" class="group no-link">
-            <div class="flex flex-col">
-                <div>
-                    <span>Develop a module in isolation</span>
-                </div>
-                <p>To develop their own independent module, a team should not need to install the host application or any other modules of the application they do not</p>
-            </div>
-        </a>
         <a href="/wl-squide/essentials/fetch-protected-global-data/" class="group no-link">
             <div class="flex flex-col">
                 <div>
@@ -641,6 +633,14 @@ export function App() {
                     <span>Migrate to firefly v12.0</span>
                 </div>
                 <p>If you are migrating from v8.*, follow the Migrate from v8.* to v15.0 guide.</p>
+            </div>
+        </a>
+        <a href="/wl-squide/updating/migrate-to-firefly-v16.2/" class="group no-link">
+            <div class="flex flex-col">
+                <div>
+                    <span>Migrate to firefly v16.2</span>
+                </div>
+                <p>This minor version adds support for deferring React Router loaders until MSW is ready (when enabled). To enable this feature, update the application's</p>
             </div>
         </a>
         <a href="/wl-squide/updating/migrate-to-firefly-v9.0/" class="group no-link">
