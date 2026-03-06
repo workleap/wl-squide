@@ -54,5 +54,12 @@
         }
     ],
 
-    "chat.useAgentSkills": true
+    "chat.useAgentSkills": true,
+
+    "json.schemas": [
+        {
+            "fileMatch": ["chromatic.config.json"],
+            "url": "https://www.chromatic.com/config-file.schema.json"
+        }
+    ]
 }
