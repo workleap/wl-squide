@@ -100,6 +100,32 @@ describe("createWaitForMswDataStrategy", () => {
         expect(match3.resolve).toHaveBeenCalledOnce();
     });
 
+    test("when MSW is not ready, the ready listener is removed after MSW becomes ready", async ({ expect }) => {
+        const mswState = new MswState({ isReady: false });
+
+        const runtime = new FireflyRuntime({
+            plugins: [x => new MswPlugin(x, { state: mswState })],
+            loggers: [new NoopLogger()]
+        });
+
+        const strategy = createWaitForMswDataStrategy(runtime);
+
+        const match = createMatch("route-1", true, { type: "data", result: "data-1" });
+
+        const resultPromise = strategy({
+            matches: [match]
+        } as unknown as DataStrategyFunctionArgs);
+
+        expect(mswState.listenersCount).toBe(1);
+
+        // Simulate MSW becoming ready.
+        mswState.setAsReady();
+
+        await resultPromise;
+
+        expect(mswState.listenersCount).toBe(0);
+    });
+
     test("when there are no matches to load, returns an empty object", async ({ expect }) => {
         const mswState = new MswState({ isReady: true });
 
