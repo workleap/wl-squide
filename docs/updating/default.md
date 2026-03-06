@@ -14,5 +14,6 @@ order: 50
 - [Migrate to firefly v15.0](./migrate-to-firefly-v15.0.md)
 - [Migrate from v8 to v15.0](./migrate-from-v8-to-v15.0.md)
 - [Migrate to firefly v16.0](./migrate-to-firefly-v16.0.md)
+- [Migrate to firefly v16.2](./migrate-to-firefly-v16.2.md)
 - [Migrate to Rsbuild](./migrate-to-rsbuild.md) [!badge variant="danger" size="xs" text="experimental"]
 - [Migrate to Just-In-Time (JIT) packages](./migrate-to-jit-packages.md)
