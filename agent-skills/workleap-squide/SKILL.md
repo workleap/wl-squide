@@ -80,7 +80,7 @@ function BootstrappingRoute() {
 export function App() {
     return (
         <AppRouter>
-            {({ rootRoute, registeredRoutes, routerProps, routerProviderProps }) => (
+            {({ rootRoute, registeredRoutes, routerProviderProps }) => (
                 <RouterProvider
                     router={createBrowserRouter([{
                         element: rootRoute,
@@ -88,7 +88,7 @@ export function App() {
                             element: <BootstrappingRoute />,
                             children: registeredRoutes
                         }]
-                    }], routerProps)}
+                    }])}
                     {...routerProviderProps}
                 />
             )}
