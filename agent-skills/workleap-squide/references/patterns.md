@@ -96,6 +96,8 @@ export const register: ModuleRegisterFunction<FireflyRuntime> = async runtime =>
 };
 ```
 
+> For MSW initialization, browser setup, and handler file structure, see `references/integrations.md`.
+
 ### Higher-Order Registration (with options)
 
 ```tsx
@@ -416,6 +418,8 @@ function BootstrappingRoute() {
 
 ## Error Boundary Patterns
 
+> Error boundaries are critical in modular applications where one module's failure shouldn't break the entire app. See also `references/components.md` for the `isGlobalDataQueriesError` helper.
+
 ### Layered Error Boundaries
 
 ```tsx
@@ -465,6 +469,8 @@ export function ModuleErrorBoundary() {
 ```
 
 ## Testing Patterns
+
+> For Storybook-based testing with `initializeFireflyForStorybook`, see `references/integrations.md` and `references/components.md`.
 
 ### Unit Testing with FireflyRuntime
 
