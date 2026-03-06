@@ -12,7 +12,7 @@ A component that sets up Squide's primitives with a [React Router](https://react
 
 ```tsx
 <AppRouter waitForPublicData={boolean} waitForProtectedData={boolean}>
-    {({ rootRoute, registeredRoutes, routerProviderProps }) => ( ... )}
+    {({ rootRoute, registeredRoutes, routerProps, routerProviderProps }) => ( ... )}
 </AppRouter>
 ```
 
@@ -20,7 +20,7 @@ A component that sets up Squide's primitives with a [React Router](https://react
 
 - `waitForPublicData`: An optional `boolean` value indicating whether or not Squide should delay the rendering of the requested page until the **public** data is ready. The default value is `false`.
 - `waitForProtectedData`: An optional `boolean` value indicating whether or not Squide should delay the rendering of the requested page until the **protected** data is ready. The default value is `false`.
-- `children`: A render function defining a [RouterProvider](https://reactrouter.com/en/main/routers/router-provider) component with `rootRoute`, `registeredRoutes` and `routerProviderProps`.
+- `children`: A render function defining a [RouterProvider](https://reactrouter.com/en/main/routers/router-provider) component with `rootRoute`, `registeredRoutes`, `routerProps` and `routerProviderProps`.
 
 ## Usage
 
@@ -35,7 +35,7 @@ import { RouterProvider } from "react-router/dom";
 
 export function App() {
     <AppRouter >
-        {({ rootRoute, registeredRoutes, routerProviderProps }) => {
+        {({ rootRoute, registeredRoutes, routerProps, routerProviderProps }) => {
             return (
                 <RouterProvider
                     router={createBrowserRouter([
@@ -43,7 +43,7 @@ export function App() {
                             element: rootRoute,
                             children: registeredRoutes
                         }
-                    ])}
+                    ], routerProps)}
                     {...routerProviderProps}
                 />
             );
@@ -72,7 +72,7 @@ function BootstrappingRoute() {
 export function App() {
     return (
         <AppRouter>
-            {({ rootRoute, registeredRoutes, routerProviderProps }) => {
+            {({ rootRoute, registeredRoutes, routerProps, routerProviderProps }) => {
                 return (
                     <RouterProvider
                         router={createBrowserRouter([
@@ -85,7 +85,7 @@ export function App() {
                                     }
                                 ]
                             }
-                        ])}
+                        ], routerProps)}
                         {...routerProviderProps}
                     />
                 );
@@ -145,7 +145,7 @@ import { RootErrorBoundary } from "./RootErrorBoundary.tsx";
 export function App() {
     return (
         <AppRouter>
-            {({ rootRoute, registeredRoutes, routerProviderProps }) => {
+            {({ rootRoute, registeredRoutes, routerProps, routerProviderProps }) => {
                 return (
                     <RouterProvider
                         router={createBrowserRouter([
@@ -154,7 +154,7 @@ export function App() {
                                 errorElement: <RootErrorBoundary />,
                                 children: registeredRoutes
                             }
-                        ])}
+                        ], routerProps)}
                         {...routerProviderProps}
                     />
                 );
@@ -192,7 +192,7 @@ function BootstrappingRoute() {
 export function App() {
     return (
         <AppRouter waitForPublicData>
-            {({ rootRoute, registeredRoutes, routerProviderProps }) => {
+            {({ rootRoute, registeredRoutes, routerProps, routerProviderProps }) => {
                 return (
                     <RouterProvider
                         router={createBrowserRouter([
@@ -205,7 +205,7 @@ export function App() {
                                     }
                                 ]
                             }
-                        ])}
+                        ], routerProps)}
                         {...routerProviderProps}
                     />
                 );
@@ -246,7 +246,7 @@ function BootstrappingRoute() {
 export function App() {
     return (
         <AppRouter waitForProtectedData>
-            {({ rootRoute, registeredRoutes, routerProviderProps }) => {
+            {({ rootRoute, registeredRoutes, routerProps, routerProviderProps }) => {
                 return (
                     <RouterProvider
                         router={createBrowserRouter([
@@ -259,7 +259,7 @@ export function App() {
                                     }
                                 ]
                             }
-                        ])}
+                        ], routerProps)}
                         {...routerProviderProps}
                     />
                 );

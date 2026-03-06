@@ -34,6 +34,10 @@ export class MswState {
         }
     }
 
+    get listenersCount() {
+        return this.#mswReadyListeners.size;
+    }
+
     get isReady() {
         return this.#isReady;
     }

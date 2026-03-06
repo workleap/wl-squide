@@ -193,7 +193,7 @@ export function AppRouter() {
 
     return (
         <FireflyAppRouter waitForPublicData waitForProtectedData>
-            {({ rootRoute, registeredRoutes, routerProviderProps }) => {
+            {({ rootRoute, registeredRoutes, routerProps, routerProviderProps }) => {
                 logger
                     .withText("[shell] React Router will be rendered with the following route definitions:")
                     .withObject(registeredRoutes)
@@ -212,7 +212,7 @@ export function AppRouter() {
                                     }
                                 ]
                             }
-                        ])}
+                        ], routerProps)}
                         {...routerProviderProps}
                     />
                 );

@@ -50,7 +50,7 @@ function AppRouter(props: AppRouterProps) {
 
     return (
         <FireflyAppRouter waitForPublicData={waitForPublicData} waitForProtectedData={waitForProtectedData}>
-            {({ rootRoute, registeredRoutes, routerProviderProps }) => {
+            {({ rootRoute, registeredRoutes, routerProps, routerProviderProps }) => {
                 return (
                     <RouterProvider
                         router={createMemoryRouter([
@@ -64,6 +64,7 @@ function AppRouter(props: AppRouterProps) {
                                 ]
                             }
                         ], {
+                            ...routerProps,
                             initialEntries,
                             initialIndex
                         })}

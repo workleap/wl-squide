@@ -5,7 +5,7 @@ import { RouterProvider } from "react-router/dom";
 export function App() {
     return (
         <AppRouter>
-            {({ rootRoute, registeredRoutes, routerProviderProps }) => {
+            {({ rootRoute, registeredRoutes, routerProps, routerProviderProps }) => {
                 return (
                     <RouterProvider
                         router={createBrowserRouter([
@@ -13,7 +13,7 @@ export function App() {
                                 element: rootRoute,
                                 children: registeredRoutes
                             }
-                        ])}
+                        ], routerProps)}
                         {...routerProviderProps}
                     />
                 );
