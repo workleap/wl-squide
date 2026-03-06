@@ -15,7 +15,7 @@ When updating the skill:
 - Do NOT create or modify any files outside `agent-skills/workleap-squide/`.
 - Do NOT use TodoWrite, TaskCreate, or any task tracking tools.
 - Never update a versioned skill. You can identify a versioned skill with its folder name pattern, e.g. `workleap-squide-v*`.
-- Never change skill content unless you can point to a specific line in `./docs` that contradicts the current skill text. If you cannot identify the exact discrepancy, do not touch the content.
+- Never change skill content unless you can point to a specific line in `./docs` that either contradicts the current skill text or documents an API/pattern the skill is missing. If you cannot identify the exact discrepancy or omission, do not touch the content.
 - The SKILL.md body must stay under ~250 lines. New API content goes in the appropriate `references/` file, not in the body. Only add to the body if the content is a critical multi-file pattern that agents need in nearly every conversation.
 
 ## Excluded docs
@@ -165,4 +165,30 @@ The following issues could not be resolved after 3 retries:
 <List the failed coverage questions and/or accuracy discrepancies>"
 ```
 
-Then STOP. You are done.
+## If you cannot complete the workflow
+
+If anything prevents you from completing the steps above — hook failures, permission errors, tool errors, validation loops that exhaust retries, or any other unrecoverable problem — do NOT stop silently. Create a GitHub issue so the team knows the sync failed and what was lost:
+
+```bash
+gh issue create \
+  --title "Sync agent skill: workflow failed to complete" \
+  --label "bug" \
+  --body "## Problem
+
+The sync-agent-skill workflow could not complete successfully.
+
+## What failed
+
+<Describe the step that failed and the exact error message>
+
+## Work completed before failure
+
+<List any skill files you modified and a brief summary of each change, or 'None' if failure occurred before any changes>
+
+## Next steps
+
+1. Check the workflow run logs for details
+2. Fix the blocker and re-run the workflow, or apply the changes manually"
+```
+
+Then STOP.

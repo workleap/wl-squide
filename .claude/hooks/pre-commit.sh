@@ -12,6 +12,12 @@ if ! echo "$INPUT" | grep -q 'git commit'; then
     exit 0
 fi
 
+# Skip lint in CI environments where pnpm may not be installed (e.g., claude-code-action).
+if ! command -v pnpm &>/dev/null; then
+    echo "pnpm not found — skipping lint (CI environment)"
+    exit 0
+fi
+
 echo "--- pnpm lint ---"
 if ! pnpm lint; then
     echo "Lint failed. Fix errors before committing." >&2

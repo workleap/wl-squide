@@ -159,4 +159,30 @@ The PR body must follow this structure:
 
 If there are no staged changes after `git add`, output "No agent-docs update needed." and STOP.
 
-Then STOP. You are done.
+## If you cannot complete the workflow
+
+If anything prevents you from completing the steps above — hook failures, permission errors, tool errors, validation loops, or any other unrecoverable problem — do NOT stop silently. Create a GitHub issue so the team knows the update failed and what was lost:
+
+```bash
+gh issue create \
+  --title "Update agent docs: workflow failed to complete" \
+  --label "bug" \
+  --body "## Problem
+
+The update-agent-docs workflow could not complete successfully.
+
+## What failed
+
+<Describe the step that failed and the exact error message>
+
+## Work completed before failure
+
+<List any files you modified and a brief summary of each change, or 'None' if failure occurred before any changes>
+
+## Next steps
+
+1. Check the workflow run logs for details
+2. Fix the blocker and re-run the workflow, or apply the changes manually"
+```
+
+Then STOP.

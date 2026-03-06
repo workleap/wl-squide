@@ -623,6 +623,6 @@ const plugin = runtime.getPlugin(MyPlugin.name) as MyPlugin;
 import { MyPlugin } from "@sample/my-plugin";
 
 const plugin = runtime.getPlugin(MyPlugin.name, {
-    throwWhenNotFound: false
+    throwOnNotFound: false
 }) as MyPlugin;
 ```
