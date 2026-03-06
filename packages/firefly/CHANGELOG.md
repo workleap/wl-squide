@@ -1,5 +1,11 @@
 # @squide/firefly
 
+## 16.2.0
+
+### Minor Changes
+
+- [#559](https://github.com/workleap/wl-squide/pull/559) [`33b1cd6`](https://github.com/workleap/wl-squide/commit/33b1cd639ef97e9d9fc892918ab6cbd08e6b91e9) Thanks [@patricklafrance](https://github.com/patricklafrance)! - React Router loaders execution is now delayed until MSW is ready.
+
 ## 16.1.12
 
 ### Patch Changes
