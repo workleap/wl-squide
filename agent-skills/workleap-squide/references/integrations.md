@@ -1,5 +1,14 @@
 # Squide Integrations Reference
 
+## Table of Contents
+- [TanStack Query](#tanstack-query)
+- [MSW](#msw-mock-service-worker)
+- [LaunchDarkly](#launchdarkly)
+- [Honeycomb](#honeycomb)
+- [i18next](#i18next)
+- [Storybook](#storybook)
+- [Logging](#logging-with-workleaplogging)
+
 ## TanStack Query
 
 ### Setup

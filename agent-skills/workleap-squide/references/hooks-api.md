@@ -114,7 +114,7 @@ const activeRoute = useRouteMatch(location, { throwWhenThereIsNoMatch: true });
 
 **Parameters:**
 - `locationArg`: The location to match against routes
-- `options.throwWhenThereIsNoMatch`: If true, throws an Error when no route matches (default: false)
+- `options.throwWhenThereIsNoMatch`: If true, throws an Error when no route matches (default: true)
 
 **Returns:** A `Route` object if there's a match, `undefined` otherwise (or throws if `throwWhenThereIsNoMatch` is true)
 
