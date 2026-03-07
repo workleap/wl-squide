@@ -3,18 +3,30 @@
 ## Overview
 The `FireflyRuntime` instance gives modules access to routing, navigation, request handlers, logging, and other cross-cutting concerns. Never instantiate directly - use `initializeFirefly()`.
 
+## Table of Contents
+- [Constructor Parameters](#constructor-parameters)
+- [Route Registration](#route-registration)
+- [Navigation Registration](#navigation-registration)
+- [MSW Request Handlers](#msw-request-handlers)
+- [Environment Variables](#environment-variables)
+- [Feature Flags](#feature-flags)
+- [Plugins](#plugins)
+- [Getters](#getters)
+- [Event Bus](#event-bus)
+- [Logging](#logging)
+
 ## Constructor Parameters
 
 ```ts
 new FireflyRuntime(options?: {
     mode?: "development" | "production";
-    environmentVariables?: Record<string, string>;
     honeycombInstrumentationClient?: HoneycombInstrumentationClient;
-    launchDarklyClient?: LDClient;
-    loggers?: Logger[];
+    loggers?: RootLogger[];  // e.g., BrowserConsoleLogger from @workleap/logging
     plugins?: Array<(runtime: FireflyRuntime) => Plugin>;
 })
 ```
+
+> For `environmentVariables`, `launchDarklyClient`, `useMsw`, and `startMsw`, use `initializeFirefly()` which creates the runtime with the appropriate plugins.
 
 ## Methods
 
