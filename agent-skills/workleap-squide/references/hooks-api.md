@@ -108,15 +108,16 @@ const activeRoute = useRouteMatch(location);
 // Using window.location
 const activeRoute = useRouteMatch(window.location);
 
-// With throwWhenThereIsNoMatch option
-const activeRoute = useRouteMatch(location, { throwWhenThereIsNoMatch: true });
+// Opting out of the default throw behavior
+const activeRoute = useRouteMatch(location, { throwWhenThereIsNoMatch: false });
+// activeRoute is Route | undefined
 ```
 
 **Parameters:**
 - `locationArg`: The location to match against routes
 - `options.throwWhenThereIsNoMatch`: If true, throws an Error when no route matches (default: true)
 
-**Returns:** A `Route` object if there's a match, `undefined` otherwise (or throws if `throwWhenThereIsNoMatch` is true)
+**Returns:** A `Route` object if there's a match. Throws by default when no route matches; returns `undefined` instead if `throwWhenThereIsNoMatch` is set to `false`.
 
 ## Data Fetching Hooks
 
