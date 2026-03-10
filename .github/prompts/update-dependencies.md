@@ -20,7 +20,27 @@ Update all dependencies to their latest versions:
 pnpm update-outdated-deps
 ```
 
-Then, check if any `package.json` files were modified:
+**Check the exit code.** If the command failed (non-zero exit code), create an issue reporting the failure and stop:
+
+```bash
+gh issue create \
+  --title "[agent] pnpm update-outdated-deps failed" \
+  --body "## Dependency update command failed
+
+The \`pnpm update-outdated-deps\` command failed before any validation could begin.
+
+## Error
+
+<Paste the full stderr/stdout from the failed command>
+
+## Workflow run
+
+$GITHUB_SERVER_URL/$GITHUB_REPOSITORY/actions/runs/$GITHUB_RUN_ID"
+```
+
+Then STOP. You are done.
+
+If the command succeeded, check if any `package.json` files were modified:
 
 ```bash
 git diff --name-only -- '**/package.json' ':!node_modules'
