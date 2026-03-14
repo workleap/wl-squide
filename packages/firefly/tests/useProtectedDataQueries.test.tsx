@@ -46,7 +46,6 @@ test("when queries are executed, ProtectedDataFetchStartedEvent is dispatched", 
     const state = createDefaultAppRouterState();
     state.areModulesRegistered = true;
     state.activeRouteVisibility = "protected";
-    state.activeRouteVisibility = "protected";
     state.isMswReady = true;
 
     function AppRouter() {
