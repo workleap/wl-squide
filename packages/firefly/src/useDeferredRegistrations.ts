@@ -1,5 +1,5 @@
 import { useRuntime, type ModuleRegistrationError } from "@squide/core";
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
 import { FireflyRuntime } from "./FireflyRuntime.tsx";
 import { useCanRegisterDeferredRegistrations } from "./useCanRegisterDeferredRegistrations.ts";
 import { useCanUpdateDeferredRegistrations } from "./useCanUpdateDeferredRegistrations.ts";
@@ -14,6 +14,7 @@ export interface UseDeferredRegistrationsOptions {
 
 export function useDeferredRegistrations(data?: unknown, { onError }: UseDeferredRegistrationsOptions = {}) {
     const runtime = useRuntime() as FireflyRuntime;
+    const isInitialRef = useRef(true);
 
     const canRegisterDeferredRegistrations = useCanRegisterDeferredRegistrations();
     const canUpdateDeferredRegistrations = useCanUpdateDeferredRegistrations();
@@ -36,7 +37,21 @@ export function useDeferredRegistrations(data?: unknown, { onError }: UseDeferre
     }, [canRegisterDeferredRegistrations, registerDeferredRegistrations, data, onError]);
 
     useEffect(() => {
+        console.log("************************** 1");
+        console.log("**************************");
+
         if (canUpdateDeferredRegistrations) {
+            console.log("************************** 2");
+            console.log("**************************");
+
+            if (isInitialRef.current) {
+                isInitialRef.current = false;
+                return;
+            }
+
+            console.log("************************** 3");
+            console.log("**************************");
+
             const update = async () => {
                 const errors = await updateDeferredRegistrations(data);
 

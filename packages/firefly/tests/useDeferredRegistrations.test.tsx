@@ -36,19 +36,39 @@ function renderUseAppReducerHook<TProps>(runtime: FireflyRuntime, additionalProp
     });
 }
 
-function renderUseDeferredRegistrationsHook<TProps>(runtime: FireflyRuntime, state: AppRouterState, dispatch: AppRouterDispatch, data: unknown, onError?: DeferredRegistrationsErrorCallback, additionalProps: RenderHookOptions<TProps> = {}) {
-    return renderHook(() => useDeferredRegistrations(data, { onError }), {
+interface RenderUseDeferredRegistrationsHookProps {
+    data: unknown;
+    state: AppRouterState;
+    dispatch: AppRouterDispatch;
+}
+
+// Uses closure variables for state/dispatch and exposes a custom rerender that updates them before
+// triggering a re-render. This allows tests to update both the hook's data and the context providers in a single rerender call.
+function renderUseDeferredRegistrationsHook(runtime: FireflyRuntime, initialProps: RenderUseDeferredRegistrationsHookProps, onError?: DeferredRegistrationsErrorCallback) {
+    let currentState = initialProps.state;
+    let currentDispatch = initialProps.dispatch;
+
+    const { rerender, ...rest } = renderHook(({ data }: { data: unknown }) => useDeferredRegistrations(data, { onError }), {
+        initialProps: { data: initialProps.data },
         wrapper: ({ children }: { children?: ReactNode }) => (
             <FireflyProvider runtime={runtime}>
-                <AppRouterDispatcherContext.Provider value={dispatch}>
-                    <AppRouterStateContext.Provider value={state}>
+                <AppRouterDispatcherContext.Provider value={currentDispatch}>
+                    <AppRouterStateContext.Provider value={currentState}>
                         {children}
                     </AppRouterStateContext.Provider>
                 </AppRouterDispatcherContext.Provider>
             </FireflyProvider>
-        ),
-        ...additionalProps
+        )
     });
+
+    return {
+        ...rest,
+        rerender: (props: RenderUseDeferredRegistrationsHookProps) => {
+            currentState = props.state;
+            currentDispatch = props.dispatch;
+            rerender({ data: props.data });
+        }
+    };
 }
 
 afterEach(() => {
@@ -102,12 +122,12 @@ test.concurrent("when local modules are registered but not ready, global data is
     // Ignoring "dispatch is used before being assigned" because it will always being assigned through the dispatchProxyFactory function.
     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
     // @ts-ignore
-    renderUseDeferredRegistrationsHook(runtime, state, dispatch, initialData);
+    renderUseDeferredRegistrationsHook(runtime, { state, dispatch, data: initialData });
 
     await waitFor(() => expect(dispatch).toHaveBeenLastCalledWith({ type: "modules-ready" }));
 });
 
-test.concurrent("when local modules are ready, msw is ready, and the public data change, update the deferred registrations", async ({ expect }) => {
+test.concurrent("when local modules are ready, msw is ready, and the data change, update the deferred registrations", async ({ expect }) => {
     const localModuleRegistry = new LocalModuleRegistry();
 
     const runtime = new FireflyRuntime({
@@ -140,6 +160,11 @@ test.concurrent("when local modules are ready, msw is ready, and the public data
         ])
     ]);
 
+    const initialData = {
+        foo: "bar"
+    };
+
+    // Step 1: Registration — modules registered but not ready.
     const state1 = createDefaultAppRouterState();
     state1.areModulesRegistered = true;
     state1.areModulesReady = false;
@@ -147,41 +172,41 @@ test.concurrent("when local modules are ready, msw is ready, and the public data
     state1.isProtectedDataReady = true;
     state1.isMswReady = true;
 
-    const initialData = {
-        foo: "bar"
-    };
-
     // Ignoring "dispatch is used before being assigned" because it will always being assigned through the dispatchProxyFactory function.
     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
     // @ts-ignore
-    renderUseDeferredRegistrationsHook(runtime, state1, dispatch, initialData);
+    const { rerender } = renderUseDeferredRegistrationsHook(runtime, { state: state1, dispatch, data: initialData });
 
     await waitFor(() => expect(dispatch).toHaveBeenLastCalledWith({ type: "modules-ready" }));
 
+    // Step 2: Modules are now ready — the update effect activates for the first time but is
+    // skipped by the initial ref guard (spurious update prevention).
     const state2 = createDefaultAppRouterState();
     state2.areModulesRegistered = true;
     state2.areModulesReady = true;
     state2.isPublicDataReady = true;
     state2.isProtectedDataReady = true;
     state2.isMswReady = true;
-    state2.deferredRegistrationsUpdatedAt = Date.parse("2020-02-14");
-    state2.publicDataUpdatedAt = Date.parse("2020-03-14");
 
+    // Ignoring "dispatch is used before being assigned" because it will always being assigned through the dispatchProxyFactory function.
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // @ts-ignore
+    rerender({ state: state2, dispatch, data: initialData });
+
+    // Step 3: Data changes, the update effect fires and updates the deferred registrations.
     const updatedData = {
         foo: "toto"
     };
 
     // Ignoring "dispatch is used before being assigned" because it will always being assigned through the dispatchProxyFactory function.
-    // Not using the "rerender" function from renderHook because the AppRouterStateProvider value must be updated. I can't find how to update the wrapper
-    // props through a re-render.
     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
     // @ts-ignore
-    renderUseDeferredRegistrationsHook(runtime, state2, dispatch, updatedData);
+    rerender({ state: state2, dispatch, data: updatedData });
 
     await waitFor(() => expect(dispatch).toHaveBeenLastCalledWith({ type: "deferred-registrations-updated" }));
 });
 
-test.concurrent("when local modules are ready, msw is ready, and the protected data change, update the deferred registrations", async ({ expect }) => {
+test.concurrent("when local modules are ready, msw is ready, and the feature flags changed, update the deferred registrations", async ({ expect }) => {
     const localModuleRegistry = new LocalModuleRegistry();
 
     const runtime = new FireflyRuntime({
@@ -214,6 +239,11 @@ test.concurrent("when local modules are ready, msw is ready, and the protected d
         ])
     ]);
 
+    const initialData = {
+        foo: "bar"
+    };
+
+    // Step 1: Registration — modules registered but not ready.
     const state1 = createDefaultAppRouterState();
     state1.areModulesRegistered = true;
     state1.areModulesReady = false;
@@ -221,106 +251,35 @@ test.concurrent("when local modules are ready, msw is ready, and the protected d
     state1.isProtectedDataReady = true;
     state1.isMswReady = true;
 
-    const initialData = {
-        foo: "bar"
-    };
-
     // Ignoring "dispatch is used before being assigned" because it will always being assigned through the dispatchProxyFactory function.
     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
     // @ts-ignore
-    renderUseDeferredRegistrationsHook(runtime, state1, dispatch, initialData);
+    const { rerender } = renderUseDeferredRegistrationsHook(runtime, { state: state1, dispatch, data: initialData });
 
     await waitFor(() => expect(dispatch).toHaveBeenLastCalledWith({ type: "modules-ready" }));
 
+    // Step 2: Modules are now ready — the update effect activates for the first time but is
+    // skipped by the initial ref guard (spurious update prevention).
     const state2 = createDefaultAppRouterState();
     state2.areModulesRegistered = true;
     state2.areModulesReady = true;
     state2.isPublicDataReady = true;
     state2.isProtectedDataReady = true;
     state2.isMswReady = true;
-    state2.deferredRegistrationsUpdatedAt = Date.parse("2020-02-14");
-    state2.protectedDataUpdatedAt = Date.parse("2020-03-14");
-
-    const updatedData = {
-        foo: "toto"
-    };
-
-    // Ignoring "dispatch is used before being assigned" because it will always being assigned through the dispatchProxyFactory function.
-    // Not using the "rerender" function from renderHook because the AppRouterStateProvider value must be updated. I can't find how to update the wrapper
-    // props through a re-render.
-    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-    // @ts-ignore
-    renderUseDeferredRegistrationsHook(runtime, state2, dispatch, updatedData);
-
-    await waitFor(() => expect(dispatch).toHaveBeenLastCalledWith({ type: "deferred-registrations-updated" }));
-});
-
-test.concurrent("when local modules are ready, msw is ready, and the global data hasn't changed, and the feature flags changed, update the deferred registrations", async ({ expect }) => {
-    const localModuleRegistry = new LocalModuleRegistry();
-
-    const runtime = new FireflyRuntime({
-        moduleManager: x => new ModuleManager(x, [
-            localModuleRegistry
-        ]),
-        plugins: [
-            x => new MswPlugin(x)
-        ],
-        loggers: [new NoopLogger()]
-    });
-
-    let dispatch: Mock;
-
-    const dispatchProxyFactory = (reactDispatch: AppRouterDispatch) => {
-        act(() => {
-            dispatch = vi.fn(value => reactDispatch(value));
-        });
-
-        return dispatch;
-    };
-
-    __setAppReducerDispatchProxyFactory(dispatchProxyFactory);
-
-    renderUseAppReducerHook(runtime);
-
-    await runtime.moduleManager.registerModules([
-        ...toLocalModuleDefinitions([
-            () => () => {}
-        ])
-    ]);
-
-    const state1 = createDefaultAppRouterState();
-    state1.areModulesRegistered = true;
-    state1.areModulesReady = false;
-    state1.isPublicDataReady = true;
-    state1.isProtectedDataReady = true;
-    state1.isMswReady = true;
-
-    const initialData = {
-        foo: "bar"
-    };
 
     // Ignoring "dispatch is used before being assigned" because it will always being assigned through the dispatchProxyFactory function.
     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
     // @ts-ignore
-    renderUseDeferredRegistrationsHook(runtime, state1, dispatch, initialData);
+    rerender({ state: state2, dispatch, data: initialData });
 
-    await waitFor(() => expect(dispatch).toHaveBeenLastCalledWith({ type: "modules-ready" }));
-
-    const state2 = createDefaultAppRouterState();
-    state2.areModulesRegistered = true;
-    state2.areModulesReady = true;
-    state2.isPublicDataReady = true;
-    state2.isProtectedDataReady = true;
-    state2.isMswReady = true;
-    state2.deferredRegistrationsUpdatedAt = Date.parse("2020-02-14");
-    state2.featureFlagsUpdatedAt = Date.parse("2020-03-14");
+    // Step 3: Feature flags change — dispatch to the runtime store to update featureFlagsUpdatedAt,
+    // which is a direct dependency of the update effect.
+    runtime.appRouterStore.dispatch({ type: "feature-flags-updated" });
 
     // Ignoring "dispatch is used before being assigned" because it will always being assigned through the dispatchProxyFactory function.
-    // Not using the "rerender" function from renderHook because the AppRouterStateProvider value must be updated. I can't find how to update the wrapper
-    // props through a re-render.
     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
     // @ts-ignore
-    renderUseDeferredRegistrationsHook(runtime, state2, dispatch, initialData);
+    rerender({ state: state2, dispatch, data: initialData });
 
     await waitFor(() => expect(dispatch).toHaveBeenLastCalledWith({ type: "deferred-registrations-updated" }));
 });
@@ -372,7 +331,7 @@ test.concurrent("when local modules are not registered, do not register the defe
     // Ignoring "dispatch is used before being assigned" because it will always being assigned through the dispatchProxyFactory function.
     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
     // @ts-ignore
-    renderUseDeferredRegistrationsHook(runtime, state, dispatch, initialData);
+    renderUseDeferredRegistrationsHook(runtime, { state, dispatch, data: initialData });
 
     // Since the hooks cannot be awaited and there's a delay between the hook are rendered and the actions are dispatched, it's safer
     // to wait for a little while before asserting.
@@ -385,7 +344,7 @@ test.concurrent("when local modules are not registered, do not register the defe
     expect(dispatch).not.toHaveBeenCalledWith({ type: "modules-ready" });
 });
 
-test.concurrent("when local modules are ready, msw is ready, but the global data and the feature flags hasn't change, do not update the deferred registrations", async ({ expect }) => {
+test.concurrent("when local modules are ready, msw is ready, but the data reference hasn't changed, do not update the deferred registrations", async ({ expect }) => {
     const localModuleRegistry = new LocalModuleRegistry();
 
     const runtime = new FireflyRuntime({
@@ -422,6 +381,7 @@ test.concurrent("when local modules are ready, msw is ready, but the global data
         foo: "bar"
     };
 
+    // Step 1: Registration — modules registered but not ready.
     const state1 = createDefaultAppRouterState();
     state1.areModulesRegistered = true;
     state1.areModulesReady = false;
@@ -432,27 +392,29 @@ test.concurrent("when local modules are ready, msw is ready, but the global data
     // Ignoring "dispatch is used before being assigned" because it will always being assigned through the dispatchProxyFactory function.
     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
     // @ts-ignore
-    renderUseDeferredRegistrationsHook(runtime, state1, dispatch, data);
+    const { rerender } = renderUseDeferredRegistrationsHook(runtime, { state: state1, dispatch, data });
 
     await waitFor(() => expect(dispatch).toHaveBeenLastCalledWith({ type: "modules-ready" }));
 
+    // Step 2: Modules are now ready — the update effect activates for the first time but is
+    // skipped by the initial ref guard (spurious update prevention).
     const state2 = createDefaultAppRouterState();
     state2.areModulesRegistered = true;
     state2.areModulesReady = true;
     state2.isPublicDataReady = true;
     state2.isProtectedDataReady = true;
     state2.isMswReady = true;
-    state2.deferredRegistrationsUpdatedAt = Date.parse("2020-03-14");
-    state2.publicDataUpdatedAt = Date.parse("2020-02-14");
-    state2.protectedDataUpdatedAt = Date.parse("2020-02-14");
-    state2.featureFlagsUpdatedAt = Date.parse("2020-02-14");
 
     // Ignoring "dispatch is used before being assigned" because it will always being assigned through the dispatchProxyFactory function.
-    // Not using the "rerender" function from renderHook because the AppRouterStateProvider value must be updated. I can't find how to update the wrapper
-    // props through a re-render.
     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
     // @ts-ignore
-    renderUseDeferredRegistrationsHook(runtime, state2, dispatch, data);
+    rerender({ state: state2, dispatch, data });
+
+    // Step 3: Rerender with the same data reference — the effect should not re-fire.
+    // Ignoring "dispatch is used before being assigned" because it will always being assigned through the dispatchProxyFactory function.
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // @ts-ignore
+    rerender({ state: state2, dispatch, data });
 
     // Since the hooks cannot be awaited and there's a delay between the hook are rendered and the actions are dispatched, it's safer
     // to wait for a little while before asserting.
@@ -510,7 +472,7 @@ test.concurrent("when an error occurs while registering the deferred registratio
     const dispatch = vi.fn();
     const onError = vi.fn();
 
-    renderUseDeferredRegistrationsHook(runtime, state, dispatch, initialData, onError);
+    renderUseDeferredRegistrationsHook(runtime, { state, dispatch, data: initialData }, onError);
 
     await waitFor(() => expect(onError).toHaveBeenCalledWith(
         expect.arrayContaining([localModuleRegistrationError])
@@ -553,6 +515,7 @@ test.concurrent("when an error occurs while updating the deferred registrations 
         foo: "bar"
     };
 
+    // Step 1: Registration — modules registered but not ready.
     const state1 = createDefaultAppRouterState();
     state1.areModulesRegistered = true;
     state1.areModulesReady = false;
@@ -560,7 +523,7 @@ test.concurrent("when an error occurs while updating the deferred registrations 
     state1.isProtectedDataReady = true;
     state1.isMswReady = true;
 
-    renderUseDeferredRegistrationsHook(runtime, state1, dispatch, initialData);
+    const { rerender } = renderUseDeferredRegistrationsHook(runtime, { state: state1, dispatch, data: initialData }, onError);
 
     // Since the hooks cannot be awaited and there's a delay between the hook are rendered and the actions are dispatched, it's safer
     // to wait for a little while before asserting.
@@ -569,22 +532,23 @@ test.concurrent("when an error occurs while updating the deferred registrations 
 
     expect(onError).not.toHaveBeenCalled();
 
+    // Step 2: Modules are now ready — the update effect activates for the first time but is
+    // skipped by the initial ref guard (spurious update prevention).
     const state2 = createDefaultAppRouterState();
     state2.areModulesRegistered = true;
     state2.areModulesReady = true;
     state2.isPublicDataReady = true;
     state2.isProtectedDataReady = true;
     state2.isMswReady = true;
-    state2.deferredRegistrationsUpdatedAt = Date.parse("2020-02-14");
-    state2.protectedDataUpdatedAt = Date.parse("2020-03-14");
 
+    rerender({ state: state2, dispatch, data: initialData });
+
+    // Step 3: Data changes, the update effect fires and the error callback is invoked.
     const updatedData = {
         foo: "toto"
     };
 
-    // Not using the "rerender" function from renderHook because the AppRouterStateProvider value must be updated. I can't find how to update the wrapper
-    // props through a re-render.
-    renderUseDeferredRegistrationsHook(runtime, state2, dispatch, updatedData, onError);
+    rerender({ state: state2, dispatch, data: updatedData });
 
     await waitFor(() => expect(onError).toHaveBeenCalledWith(
         expect.arrayContaining([localModuleRegistrationError])
