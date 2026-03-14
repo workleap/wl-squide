@@ -1,3 +1,10 @@
+// Tests are NOT concurrent for two reasons:
+// 1. __setAppReducerDispatchProxyFactory / __clearAppReducerDispatchProxy use shared module-level mutable state.
+//    Concurrent tests would interfere with each other's dispatch proxy.
+// 2. renderUseDeferredRegistrationsHook uses renderHook's rerender to update context providers via closures.
+//    The global afterEach cleanup in vitest-setup.ts calls @testing-library/react's cleanup(), which unmounts
+//    ALL roots. With concurrent tests, a fast test's cleanup would unmount roots from slower tests mid-rerender.
+
 import { LocalModuleRegistry } from "@squide/core/internal";
 import {
     FireflyProvider,
@@ -45,15 +52,17 @@ interface RenderUseDeferredRegistrationsHookProps {
 // Uses closure variables for state/dispatch and exposes a custom rerender that updates them before
 // triggering a re-render. This allows tests to update both the hook's data and the context providers in a single rerender call.
 function renderUseDeferredRegistrationsHook(runtime: FireflyRuntime, initialProps: RenderUseDeferredRegistrationsHookProps, onError?: DeferredRegistrationsErrorCallback) {
-    let currentState = initialProps.state;
-    let currentDispatch = initialProps.dispatch;
+    let {
+        state,
+        dispatch
+    } = initialProps;
 
     const { rerender, ...rest } = renderHook(({ data }: { data: unknown }) => useDeferredRegistrations(data, { onError }), {
         initialProps: { data: initialProps.data },
         wrapper: ({ children }: { children?: ReactNode }) => (
             <FireflyProvider runtime={runtime}>
-                <AppRouterDispatcherContext.Provider value={currentDispatch}>
-                    <AppRouterStateContext.Provider value={currentState}>
+                <AppRouterDispatcherContext.Provider value={dispatch}>
+                    <AppRouterStateContext.Provider value={state}>
                         {children}
                     </AppRouterStateContext.Provider>
                 </AppRouterDispatcherContext.Provider>
@@ -63,10 +72,11 @@ function renderUseDeferredRegistrationsHook(runtime: FireflyRuntime, initialProp
 
     return {
         ...rest,
-        rerender: (props: RenderUseDeferredRegistrationsHookProps) => {
-            currentState = props.state;
-            currentDispatch = props.dispatch;
-            rerender({ data: props.data });
+        rerender: ({ data, state: _state, dispatch: _dispatch }: RenderUseDeferredRegistrationsHookProps) => {
+            state = _state;
+            dispatch = _dispatch;
+
+            rerender({ data });
         }
     };
 }
@@ -75,7 +85,7 @@ afterEach(() => {
     __clearAppReducerDispatchProxy();
 });
 
-test.concurrent("when local modules are registered but not ready, global data is ready and msw is ready, register the deferred registrations", async ({ expect }) => {
+test("when local modules are registered but not ready, global data is ready and msw is ready, register the deferred registrations", async ({ expect }) => {
     const localModuleRegistry = new LocalModuleRegistry();
 
     const runtime = new FireflyRuntime({
@@ -113,7 +123,6 @@ test.concurrent("when local modules are registered but not ready, global data is
     state.areModulesReady = false;
     state.isPublicDataReady = true;
     state.isProtectedDataReady = true;
-    state.isMswReady = true;
 
     const initialData = {
         foo: "bar"
@@ -127,7 +136,7 @@ test.concurrent("when local modules are registered but not ready, global data is
     await waitFor(() => expect(dispatch).toHaveBeenLastCalledWith({ type: "modules-ready" }));
 });
 
-test.concurrent("when local modules are ready, msw is ready, and the data change, update the deferred registrations", async ({ expect }) => {
+test("when local modules are ready, msw is ready, and the data change, update the deferred registrations", async ({ expect }) => {
     const localModuleRegistry = new LocalModuleRegistry();
 
     const runtime = new FireflyRuntime({
@@ -170,7 +179,6 @@ test.concurrent("when local modules are ready, msw is ready, and the data change
     state1.areModulesReady = false;
     state1.isPublicDataReady = true;
     state1.isProtectedDataReady = true;
-    state1.isMswReady = true;
 
     // Ignoring "dispatch is used before being assigned" because it will always being assigned through the dispatchProxyFactory function.
     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
@@ -182,11 +190,7 @@ test.concurrent("when local modules are ready, msw is ready, and the data change
     // Step 2: Modules are now ready — the update effect activates for the first time but is
     // skipped by the initial ref guard (spurious update prevention).
     const state2 = createDefaultAppRouterState();
-    state2.areModulesRegistered = true;
     state2.areModulesReady = true;
-    state2.isPublicDataReady = true;
-    state2.isProtectedDataReady = true;
-    state2.isMswReady = true;
 
     // Ignoring "dispatch is used before being assigned" because it will always being assigned through the dispatchProxyFactory function.
     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
@@ -206,7 +210,7 @@ test.concurrent("when local modules are ready, msw is ready, and the data change
     await waitFor(() => expect(dispatch).toHaveBeenLastCalledWith({ type: "deferred-registrations-updated" }));
 });
 
-test.concurrent("when local modules are ready, msw is ready, and the feature flags changed, update the deferred registrations", async ({ expect }) => {
+test("when local modules are ready, msw is ready, and the feature flags changed, update the deferred registrations", async ({ expect }) => {
     const localModuleRegistry = new LocalModuleRegistry();
 
     const runtime = new FireflyRuntime({
@@ -249,7 +253,6 @@ test.concurrent("when local modules are ready, msw is ready, and the feature fla
     state1.areModulesReady = false;
     state1.isPublicDataReady = true;
     state1.isProtectedDataReady = true;
-    state1.isMswReady = true;
 
     // Ignoring "dispatch is used before being assigned" because it will always being assigned through the dispatchProxyFactory function.
     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
@@ -261,11 +264,7 @@ test.concurrent("when local modules are ready, msw is ready, and the feature fla
     // Step 2: Modules are now ready — the update effect activates for the first time but is
     // skipped by the initial ref guard (spurious update prevention).
     const state2 = createDefaultAppRouterState();
-    state2.areModulesRegistered = true;
     state2.areModulesReady = true;
-    state2.isPublicDataReady = true;
-    state2.isProtectedDataReady = true;
-    state2.isMswReady = true;
 
     // Ignoring "dispatch is used before being assigned" because it will always being assigned through the dispatchProxyFactory function.
     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
@@ -284,7 +283,7 @@ test.concurrent("when local modules are ready, msw is ready, and the feature fla
     await waitFor(() => expect(dispatch).toHaveBeenLastCalledWith({ type: "deferred-registrations-updated" }));
 });
 
-test.concurrent("when local modules are not registered, do not register the deferred registrations", async ({ expect }) => {
+test("when local modules are not registered, do not register the deferred registrations", async ({ expect }) => {
     const localModuleRegistry = new LocalModuleRegistry();
 
     const runtime = new FireflyRuntime({
@@ -322,7 +321,6 @@ test.concurrent("when local modules are not registered, do not register the defe
     state.areModulesReady = false;
     state.isPublicDataReady = true;
     state.isProtectedDataReady = true;
-    state.isMswReady = true;
 
     const initialData = {
         foo: "bar"
@@ -344,7 +342,7 @@ test.concurrent("when local modules are not registered, do not register the defe
     expect(dispatch).not.toHaveBeenCalledWith({ type: "modules-ready" });
 });
 
-test.concurrent("when local modules are ready, msw is ready, but the data reference hasn't changed, do not update the deferred registrations", async ({ expect }) => {
+test("when local modules are ready, msw is ready, but the data reference hasn't changed, do not update the deferred registrations", async ({ expect }) => {
     const localModuleRegistry = new LocalModuleRegistry();
 
     const runtime = new FireflyRuntime({
@@ -387,7 +385,6 @@ test.concurrent("when local modules are ready, msw is ready, but the data refere
     state1.areModulesReady = false;
     state1.isPublicDataReady = true;
     state1.isProtectedDataReady = true;
-    state1.isMswReady = true;
 
     // Ignoring "dispatch is used before being assigned" because it will always being assigned through the dispatchProxyFactory function.
     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
@@ -399,11 +396,7 @@ test.concurrent("when local modules are ready, msw is ready, but the data refere
     // Step 2: Modules are now ready — the update effect activates for the first time but is
     // skipped by the initial ref guard (spurious update prevention).
     const state2 = createDefaultAppRouterState();
-    state2.areModulesRegistered = true;
     state2.areModulesReady = true;
-    state2.isPublicDataReady = true;
-    state2.isProtectedDataReady = true;
-    state2.isMswReady = true;
 
     // Ignoring "dispatch is used before being assigned" because it will always being assigned through the dispatchProxyFactory function.
     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
@@ -427,7 +420,7 @@ test.concurrent("when local modules are ready, msw is ready, but the data refere
     expect(dispatch).not.toHaveBeenCalledWith({ type: "deferred-registrations-updated" });
 });
 
-test.concurrent("when an error occurs while registering the deferred registrations of the local modules, invoke the onError callback", async ({ expect }) => {
+test("when an error occurs while registering the deferred registrations of the local modules, invoke the onError callback", async ({ expect }) => {
     const localModuleRegistrationError = new ModuleRegistrationError("toto");
     const localModuleRegistry = new LocalModuleRegistry();
 
@@ -463,7 +456,6 @@ test.concurrent("when an error occurs while registering the deferred registratio
     state.areModulesReady = false;
     state.isPublicDataReady = true;
     state.isProtectedDataReady = true;
-    state.isMswReady = true;
 
     const initialData = {
         foo: "bar"
@@ -479,7 +471,7 @@ test.concurrent("when an error occurs while registering the deferred registratio
     ));
 });
 
-test.concurrent("when an error occurs while updating the deferred registrations of the local modules, invoke the onError callback", async ({ expect }) => {
+test("when an error occurs while updating the deferred registrations of the local modules, invoke the onError callback", async ({ expect }) => {
     const localModuleRegistrationError = new ModuleRegistrationError("toto");
     const localModuleRegistry = new LocalModuleRegistry();
 
@@ -521,7 +513,6 @@ test.concurrent("when an error occurs while updating the deferred registrations 
     state1.areModulesReady = false;
     state1.isPublicDataReady = true;
     state1.isProtectedDataReady = true;
-    state1.isMswReady = true;
 
     const { rerender } = renderUseDeferredRegistrationsHook(runtime, { state: state1, dispatch, data: initialData }, onError);
 
@@ -535,11 +526,7 @@ test.concurrent("when an error occurs while updating the deferred registrations 
     // Step 2: Modules are now ready — the update effect activates for the first time but is
     // skipped by the initial ref guard (spurious update prevention).
     const state2 = createDefaultAppRouterState();
-    state2.areModulesRegistered = true;
     state2.areModulesReady = true;
-    state2.isPublicDataReady = true;
-    state2.isProtectedDataReady = true;
-    state2.isMswReady = true;
 
     rerender({ state: state2, dispatch, data: initialData });
 

@@ -14,7 +14,7 @@ export interface UseDeferredRegistrationsOptions {
 
 export function useDeferredRegistrations(data?: unknown, { onError }: UseDeferredRegistrationsOptions = {}) {
     const runtime = useRuntime() as FireflyRuntime;
-    const isInitialRef = useRef(true);
+    // const isExecutedBecauseModulesAreNowReadyRef = useRef(true);
 
     const canRegisterDeferredRegistrations = useCanRegisterDeferredRegistrations();
     const canUpdateDeferredRegistrations = useCanUpdateDeferredRegistrations();
@@ -36,21 +36,19 @@ export function useDeferredRegistrations(data?: unknown, { onError }: UseDeferre
         }
     }, [canRegisterDeferredRegistrations, registerDeferredRegistrations, data, onError]);
 
+    const isInitialUpdateDeferredRegistrationsExecution = useRef(true);
+
     useEffect(() => {
-        console.log("************************** 1");
-        console.log("**************************");
-
         if (canUpdateDeferredRegistrations) {
-            console.log("************************** 2");
-            console.log("**************************");
-
-            if (isInitialRef.current) {
-                isInitialRef.current = false;
+            // HACK: Skipping the first execution successfully passing the gate because this is due to
+            // the modules being ready, and it's most certainly the same data that has been forwarded earlier to the deferred registration.
+            // Ideally, instead of this hacky ref, it would be a ref tracking the previous data object, and the deferred registration would
+            // only be updated if the current data object != than the previous data object. Sadly, it is not possible because
+            // of the feature flags.
+            if (isInitialUpdateDeferredRegistrationsExecution.current) {
+                isInitialUpdateDeferredRegistrationsExecution.current = false;
                 return;
             }
-
-            console.log("************************** 3");
-            console.log("**************************");
 
             const update = async () => {
                 const errors = await updateDeferredRegistrations(data);

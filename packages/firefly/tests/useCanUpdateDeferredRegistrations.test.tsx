@@ -17,45 +17,9 @@ function renderUseCanUpdateDeferredRegistrationsHook<TProps>(state: AppRouterSta
     });
 }
 
-test.concurrent("when modules are ready, the deferred registrations has been registered once, and the public data has been updated, return true", ({ expect }) => {
+test.concurrent("when modules are ready, return true", ({ expect }) => {
     const state = createDefaultAppRouterState();
     state.areModulesReady = true;
-    state.deferredRegistrationsUpdatedAt = Date.parse("2020-02-14");
-    state.publicDataUpdatedAt = Date.parse("2020-03-14");
-
-    const { result } = renderUseCanUpdateDeferredRegistrationsHook(state);
-
-    expect(result.current).toBeTruthy();
-});
-
-test.concurrent("when modules are ready, the deferred registrations has been registered once, and the protected data has been updated, return true", ({ expect }) => {
-    const state = createDefaultAppRouterState();
-    state.areModulesReady = true;
-    state.deferredRegistrationsUpdatedAt = Date.parse("2020-02-14");
-    state.protectedDataUpdatedAt = Date.parse("2020-03-14");
-
-    const { result } = renderUseCanUpdateDeferredRegistrationsHook(state);
-
-    expect(result.current).toBeTruthy();
-});
-
-test.concurrent("when modules are ready, the deferred registrations has been registered once, the public data has been updated, and the protected data has been updated, return true", ({ expect }) => {
-    const state = createDefaultAppRouterState();
-    state.areModulesReady = true;
-    state.deferredRegistrationsUpdatedAt = Date.parse("2020-02-14");
-    state.publicDataUpdatedAt = Date.parse("2020-03-14");
-    state.protectedDataUpdatedAt = Date.parse("2020-03-14");
-
-    const { result } = renderUseCanUpdateDeferredRegistrationsHook(state);
-
-    expect(result.current).toBeTruthy();
-});
-
-test.concurrent("when modules are ready, the deferred registrations has been registered once, and the feature flags has been updated, return true", ({ expect }) => {
-    const state = createDefaultAppRouterState();
-    state.areModulesReady = true;
-    state.deferredRegistrationsUpdatedAt = Date.parse("2020-02-14");
-    state.featureFlagsUpdatedAt = Date.parse("2020-03-14");
 
     const { result } = renderUseCanUpdateDeferredRegistrationsHook(state);
 
@@ -65,69 +29,6 @@ test.concurrent("when modules are ready, the deferred registrations has been reg
 test.concurrent("when modules are not ready, return false", ({ expect }) => {
     const state = createDefaultAppRouterState();
     state.areModulesReady = false;
-    state.deferredRegistrationsUpdatedAt = Date.parse("2020-02-14");
-    state.publicDataUpdatedAt = Date.parse("2020-03-14");
-    state.protectedDataUpdatedAt = Date.parse("2020-04-14");
-    state.featureFlagsUpdatedAt = Date.parse("2020-05-14");
-
-    const { result } = renderUseCanUpdateDeferredRegistrationsHook(state);
-
-    expect(result.current).toBeFalsy();
-});
-
-test.concurrent("when there's no deferred registrations, return false", ({ expect }) => {
-    const state = createDefaultAppRouterState();
-    state.areModulesReady = true;
-    state.deferredRegistrationsUpdatedAt = undefined;
-    state.publicDataUpdatedAt = Date.parse("2020-02-14");
-    state.protectedDataUpdatedAt = Date.parse("2020-03-14");
-    state.featureFlagsUpdatedAt = Date.parse("2020-04-14");
-
-    const { result } = renderUseCanUpdateDeferredRegistrationsHook(state);
-
-    expect(result.current).toBeFalsy();
-});
-
-test.concurrent("when the public and protected data has never been updated, return false", ({ expect }) => {
-    const state = createDefaultAppRouterState();
-    state.areModulesReady = true;
-    state.deferredRegistrationsUpdatedAt = Date.parse("2020-02-14");
-    state.publicDataUpdatedAt = undefined;
-    state.protectedDataUpdatedAt = undefined;
-
-    const { result } = renderUseCanUpdateDeferredRegistrationsHook(state);
-
-    expect(result.current).toBeFalsy();
-});
-
-test.concurrent("when the public and protected data has never not updated since the last deferred registration update, return false", ({ expect }) => {
-    const state = createDefaultAppRouterState();
-    state.areModulesReady = true;
-    state.deferredRegistrationsUpdatedAt = Date.parse("2020-02-14");
-    state.publicDataUpdatedAt = Date.parse("2020-01-16");
-    state.protectedDataUpdatedAt = Date.parse("2020-01-18");
-
-    const { result } = renderUseCanUpdateDeferredRegistrationsHook(state);
-
-    expect(result.current).toBeFalsy();
-});
-
-test.concurrent("when the feature flags has never been updated, return false", ({ expect }) => {
-    const state = createDefaultAppRouterState();
-    state.areModulesReady = true;
-    state.deferredRegistrationsUpdatedAt = Date.parse("2020-02-14");
-    state.featureFlagsUpdatedAt = undefined;
-
-    const { result } = renderUseCanUpdateDeferredRegistrationsHook(state);
-
-    expect(result.current).toBeFalsy();
-});
-
-test.concurrent("when the feature flags has never not updated since the last deferred registration update, return false", ({ expect }) => {
-    const state = createDefaultAppRouterState();
-    state.areModulesReady = true;
-    state.deferredRegistrationsUpdatedAt = Date.parse("2020-02-14");
-    state.featureFlagsUpdatedAt = Date.parse("2020-01-16");
 
     const { result } = renderUseCanUpdateDeferredRegistrationsHook(state);
 
