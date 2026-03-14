@@ -1,5 +1,11 @@
 # @squide/firefly
 
+## 16.2.1
+
+### Patch Changes
+
+- [#567](https://github.com/workleap/wl-squide/pull/567) [`5f16979`](https://github.com/workleap/wl-squide/commit/5f16979d9e922590fdca39be76e79dde54211efa) Thanks [@patricklafrance](https://github.com/patricklafrance)! - useDeferredRegistrations will now trigger a deferred registration update whenever the data object reference changes, even if no global data has been fetch or no feature flags changed.
+
 ## 16.2.0
 
 ### Minor Changes
