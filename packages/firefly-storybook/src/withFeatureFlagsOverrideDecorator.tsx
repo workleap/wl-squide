@@ -1,6 +1,6 @@
 import { FeatureFlags, isEditableLaunchDarklyClient, LaunchDarklyClientTransaction, useLaunchDarklyClient } from "@squide/launch-darkly";
-import { PropsWithChildren, useEffect, useRef } from "react";
-import { Decorator } from "storybook-react-rsbuild";
+import { PropsWithChildren, useLayoutEffect, useRef } from "react";
+import type { DecoratorFunction } from "storybook/internal/types";
 
 interface OverrideFeatureFlagsProps extends PropsWithChildren {
     overrides: Partial<FeatureFlags>;
@@ -27,7 +27,7 @@ function OverrideFeatureFlags(props: OverrideFeatureFlagsProps) {
         client.setFeatureFlags(overrides);
     }
 
-    useEffect(() => {
+    useLayoutEffect(() => {
         return () => {
             // Reset the feature flags to the original values.
             transactionRef.current?.undo();
@@ -38,7 +38,7 @@ function OverrideFeatureFlags(props: OverrideFeatureFlagsProps) {
     return children;
 }
 
-export function withFeatureFlagsOverrideDecorator(overrides: Partial<FeatureFlags>): Decorator {
+export function withFeatureFlagsOverrideDecorator(overrides: Partial<FeatureFlags>): DecoratorFunction {
     return story => {
         return (
             <OverrideFeatureFlags overrides={overrides}>

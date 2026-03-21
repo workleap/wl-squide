@@ -28,7 +28,7 @@ Internal packages not intended for direct consumption.
 |---------|------|---------|
 | `@squide/firefly-rsbuild-configs` | `packages/firefly-rsbuild-configs` | Rsbuild configuration presets |
 | `@squide/firefly-webpack-configs` | `packages/firefly-webpack-configs` | Webpack configuration presets |
-| `@squide/firefly-rsbuild-storybook` | `packages/firefly-rsbuild-storybook` | Storybook + Rsbuild integration |
+| `@squide/firefly-storybook` | `packages/firefly-storybook` | Storybook integration |
 | `@squide/firefly-module-federation` | `packages/firefly-module-federation` | Module Federation runtime (legacy) |
 
 ## Source Layout

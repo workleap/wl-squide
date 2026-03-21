@@ -1,4 +1,4 @@
-# @squide/firefly-rsbuild-storybook
+# @squide/firefly-storybook
 
 ## 2.1.0
 

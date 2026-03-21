@@ -6,7 +6,7 @@ toc:
 
 # initializeFireflyForStorybook
 
-Create a runtime instance tailored for [Storybook](https://storybook.js.org/) and optionally register local modules. 
+Create a runtime instance tailored for [Storybook](https://storybook.js.org/) and optionally register local modules.
 
 ## Reference
 
@@ -32,7 +32,7 @@ A `StorybookRuntime` instance.
 ### Initialize with local modules
 
 ```ts !#3-5
-import { initializeFireflyForStorybook } from "@squide/firefly-rsbuild-storybook";
+import { initializeFireflyForStorybook } from "@squide/firefly-storybook";
 
 const runtime = initializeFireflyForStorybook({
     localModules: [...]
@@ -42,7 +42,7 @@ const runtime = initializeFireflyForStorybook({
 ### Initialize with environment variables
 
 ```ts !#3-7
-import { initializeFireflyForStorybook } from "@squide/firefly-rsbuild-storybook";
+import { initializeFireflyForStorybook } from "@squide/firefly-storybook";
 
 const runtime = initializeFireflyForStorybook({
     environmentVariables: {
@@ -54,7 +54,7 @@ const runtime = initializeFireflyForStorybook({
 ### Initialize with feature flags
 
 ```ts !#4-6
-import { initializeFireflyForStorybook } from "@squide/firefly-rsbuild-storybook";
+import { initializeFireflyForStorybook } from "@squide/firefly-storybook";
 
 const runtime = initializeFireflyForStorybook({
     featureFlags: {
@@ -66,7 +66,7 @@ const runtime = initializeFireflyForStorybook({
 ### Initialize with a LaunchDarkly client
 
 ```ts !#10
-import { initializeFireflyForStorybook } from "@squide/firefly-rsbuild-storybook";
+import { initializeFireflyForStorybook } from "@squide/firefly-storybook";
 import { InMemoryLaunchDarklyClient } from "@squide/firefly";
 
 const launchDarklyClient = new InMemoryLaunchDarklyClient(featureFlags);
@@ -82,7 +82,7 @@ const runtime = initializeFireflyForStorybook({
 ### Initialize without MSW support
 
 ```ts !#4
-import { initializeFireflyForStorybook } from "@squide/firefly-rsbuild-storybook";
+import { initializeFireflyForStorybook } from "@squide/firefly-storybook";
 
 const runtime = initializeFireflyForStorybook({
     useMsw: false
