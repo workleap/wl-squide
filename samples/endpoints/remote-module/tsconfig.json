@@ -4,6 +4,7 @@
         "incremental": true,
         "tsBuildInfoFile": "node_modules/.cache/tsbuildinfo.json",
         "types": [
+            "node",
             /**
             * Since we are using module augmentation in the packages, and we use tsconfig paths to resolve the packages
             * from this repo, we need to include the types folder in the packages to make sure the types are included
