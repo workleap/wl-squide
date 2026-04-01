@@ -1,5 +1,17 @@
 # @squide/firefly-rsbuild-storybook
 
+## 2.1.1
+
+### Patch Changes
+
+- [#575](https://github.com/workleap/wl-squide/pull/575) [`9c91bd4`](https://github.com/workleap/wl-squide/commit/9c91bd47c5357a2b15b1fb0e984f81687a3b8b53) Thanks [@patricklafrance](https://github.com/patricklafrance)! - Bump dependencies
+
+- Updated dependencies [[`9c91bd4`](https://github.com/workleap/wl-squide/commit/9c91bd47c5357a2b15b1fb0e984f81687a3b8b53)]:
+  - @squide/launch-darkly@1.0.11
+  - @squide/env-vars@1.4.20
+  - @squide/firefly@16.2.2
+  - @squide/msw@4.0.18
+
 ## 2.1.0
 
 ### Minor Changes
