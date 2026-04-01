@@ -4,6 +4,7 @@
         "incremental": true,
         "tsBuildInfoFile": "node_modules/.cache/tsbuildinfo.json",
         "types": [
+            "node",
             "../parameters.d.ts",
             "./types/env-vars.d.ts",
             "./types/feature-flags.d.ts"

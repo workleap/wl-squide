@@ -14,28 +14,29 @@
         "doctor": "storybook doctor"
     },
     "dependencies": {
-        "@storybook/addon-a11y": "10.2.14",
-        "msw": "2.12.10",
+        "@storybook/addon-a11y": "10.3.3",
+        "msw": "2.12.14",
         "msw-storybook-addon": "2.0.6",
         "react": "19.2.4",
         "react-dom": "19.2.4",
-        "react-router": "7.13.1",
-        "storybook": "10.2.14",
-        "storybook-react-rsbuild": "3.3.0"
+        "react-router": "7.13.2",
+        "storybook": "10.3.3",
+        "storybook-react-rsbuild": "3.3.2"
     },
     "devDependencies": {
         "@eslint/js": "9.39.2",
-        "@rsbuild/core": "1.7.3",
+        "@rsbuild/core": "1.7.5",
+        "@types/node": "25.5.0",
         "@types/react": "19.2.14",
         "@types/react-dom": "19.2.3",
-        "@typescript-eslint/parser": "8.56.1",
-        "@typescript/native-preview": "7.0.0-dev.20260303.1",
-        "@workleap/eslint-configs": "1.1.13",
-        "@workleap/rsbuild-configs": "3.2.2",
-        "@workleap/typescript-configs": "3.0.7",
+        "@typescript-eslint/parser": "8.58.0",
+        "@typescript/native-preview": "7.0.0-dev.20260331.1",
+        "@workleap/eslint-configs": "2.0.1",
+        "@workleap/rsbuild-configs": "3.2.6",
+        "@workleap/typescript-configs": "4.0.0",
         "eslint": "9.39.2",
         "http-server": "14.1.1",
-        "typescript": "5.9.3",
+        "typescript": "6.0.2",
         "typescript-eslint": "8.54.0"
     },
     "msw": {

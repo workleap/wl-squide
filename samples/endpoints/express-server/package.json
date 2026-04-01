@@ -14,12 +14,12 @@
         "typecheck": "tsgo"
     },
     "dependencies": {
-        "@opentelemetry/api": "1.9.0",
-        "@opentelemetry/auto-instrumentations-node": "0.70.1",
-        "@opentelemetry/exporter-trace-otlp-http": "0.212.0",
-        "@opentelemetry/instrumentation-express": "0.60.0",
-        "@opentelemetry/instrumentation-http": "0.212.0",
-        "@opentelemetry/sdk-node": "0.212.0",
+        "@opentelemetry/api": "1.9.1",
+        "@opentelemetry/auto-instrumentations-node": "0.72.0",
+        "@opentelemetry/exporter-trace-otlp-http": "0.214.0",
+        "@opentelemetry/instrumentation-express": "0.62.0",
+        "@opentelemetry/instrumentation-http": "0.214.0",
+        "@opentelemetry/sdk-node": "0.214.0",
         "cors": "2.8.6",
         "dotenv": "17.3.1",
         "express": "5.2.1"
@@ -28,14 +28,14 @@
         "@eslint/js": "9.39.2",
         "@types/cors": "2.8.19",
         "@types/express": "5.0.6",
-        "@types/node": "25.3.3",
-        "@typescript-eslint/parser": "8.56.1",
-        "@typescript/native-preview": "7.0.0-dev.20260303.1",
-        "@workleap/eslint-configs": "1.1.13",
-        "@workleap/typescript-configs": "3.0.7",
+        "@types/node": "25.5.0",
+        "@typescript-eslint/parser": "8.58.0",
+        "@typescript/native-preview": "7.0.0-dev.20260331.1",
+        "@workleap/eslint-configs": "2.0.1",
+        "@workleap/typescript-configs": "4.0.0",
         "eslint": "9.39.2",
         "tsx": "4.21.0",
-        "typescript": "5.9.3",
+        "typescript": "6.0.2",
         "typescript-eslint": "8.54.0"
     }
 }
