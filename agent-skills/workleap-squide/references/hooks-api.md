@@ -195,7 +195,7 @@ useProtectedDataHandler(() => {
 
 ## Registration Hooks
 
-### useDeferredRegistrations(data?)
+### useDeferredRegistrations(data?, options?)
 Execute deferred registration functions.
 
 ```ts
@@ -207,7 +207,16 @@ useDeferredRegistrations(data);
 
 // Without data (for feature flags only)
 useDeferredRegistrations();
+
+// With error handling
+useDeferredRegistrations(undefined, {
+    onError: errors => errors.forEach(x => console.error(x))
+});
 ```
+
+**Parameters:**
+- `data`: An optional object that will be passed to deferred registration functions.
+- `options.onError`: An optional callback receiving an array of `ModuleRegistrationError` instances.
 
 **Important:** Use `useMemo` to prevent unnecessary re-executions.
 

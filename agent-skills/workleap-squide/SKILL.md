@@ -11,7 +11,7 @@ description: |
   (7) Squide hooks for event bus, environment variables, feature flags, logging, or bootstrapping state
   (8) Error boundaries or modular architecture in Squide applications
 metadata:
-  version: 1.8
+  version: 1.9
 ---
 
 # Squide Framework
