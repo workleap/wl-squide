@@ -1,5 +1,11 @@
 # @squide/firefly-storybook
 
+## 1.0.1
+
+### Patch Changes
+
+- [#582](https://github.com/workleap/wl-squide/pull/582) [`0d1f05f`](https://github.com/workleap/wl-squide/commit/0d1f05f6ffd2f1e1eeabcb25352698d69fa841aa) Thanks [@patricklafrance](https://github.com/patricklafrance)! - Remove workspace:^ dependencies.
+
 ## 1.0.0
 
 ### Major Changes
