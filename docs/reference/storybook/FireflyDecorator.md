@@ -24,7 +24,7 @@ Wrap a story with all the required plumbing to render a component using Squide, 
 ## Usage
 
 ```tsx !#14-18
-import { initializeFireflyForStorybook, FireflyDecorator } from "@squide/firefly-rsbuild-storybook";
+import { initializeFireflyForStorybook, FireflyDecorator } from "@squide/firefly-storybook";
 import type { Decorator, Meta, StoryObj } from "storybook-react-rsbuild";
 import { Page } from "./Page.tsx";
 import { registerModule } from "./registerModule.tsx";

@@ -6,7 +6,7 @@
 - [PublicRoutes](#publicroutes)
 - [ProtectedRoutes](#protectedroutes)
 - [I18nextNavigationItemLabel](#i18nextnavigationitemlabel-from-squidei18next)
-- [Storybook Components](#storybook-components-from-squidefirefly-rsbuild-storybook)
+- [Storybook Components](#storybook-components-from-squidefirefly-storybook)
 - [Helper Functions](#helper-functions)
 
 ## AppRouter
@@ -208,14 +208,14 @@ runtime.registerNavigationItem({
 });
 ```
 
-## Storybook Components (from `@squide/firefly-rsbuild-storybook`)
+## Storybook Components (from `@squide/firefly-storybook`)
 
 ### FireflyDecorator
 
 Decorator for wrapping Storybook stories with Squide context, including a RouterProvider.
 
 ```tsx
-import { FireflyDecorator, initializeFireflyForStorybook } from "@squide/firefly-rsbuild-storybook";
+import { FireflyDecorator, initializeFireflyForStorybook } from "@squide/firefly-storybook";
 
 const runtime = await initializeFireflyForStorybook({
     localModules: [registerModule]
@@ -242,7 +242,7 @@ const meta = {
 Factory function for creating the FireflyDecorator.
 
 ```tsx
-import { withFireflyDecorator, initializeFireflyForStorybook } from "@squide/firefly-rsbuild-storybook";
+import { withFireflyDecorator, initializeFireflyForStorybook } from "@squide/firefly-storybook";
 
 const runtime = await initializeFireflyForStorybook({
     localModules: [registerModule]
@@ -265,7 +265,7 @@ const meta = {
 Decorator for overriding feature flags in stories. Overrides the initial flag values while the story renders and restores them after.
 
 ```tsx
-import { withFeatureFlagsOverrideDecorator, initializeFireflyForStorybook, withFireflyDecorator } from "@squide/firefly-rsbuild-storybook";
+import { withFeatureFlagsOverrideDecorator, initializeFireflyForStorybook, withFireflyDecorator } from "@squide/firefly-storybook";
 
 const runtime = await initializeFireflyForStorybook({
     featureFlags: {
@@ -355,7 +355,7 @@ const isEnabled = getFeatureFlag(launchDarklyClient, "feature-key", false);
 Create a StorybookRuntime instance configured for Storybook.
 
 ```tsx
-import { initializeFireflyForStorybook } from "@squide/firefly-rsbuild-storybook";
+import { initializeFireflyForStorybook } from "@squide/firefly-storybook";
 
 const runtime = await initializeFireflyForStorybook({
     localModules: [registerModule],

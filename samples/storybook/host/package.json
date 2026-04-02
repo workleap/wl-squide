@@ -28,7 +28,7 @@
         "@rsbuild/core": "1.7.5",
         "@rslib/core": "0.20.2",
         "@rspack/core": "1.7.11",
-        "@squide/firefly-rsbuild-storybook": "workspace:*",
+        "@squide/firefly-storybook": "workspace:*",
         "@types/react": "19.2.14",
         "@types/react-dom": "19.2.3",
         "@typescript-eslint/parser": "8.58.0",

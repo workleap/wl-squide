@@ -25,7 +25,7 @@ A `Decorator` function.
 ## Usage
 
 ```tsx !#14
-import { initializeFireflyForStorybook, withFireflyDecorator } from "@squide/firefly-rsbuild-storybook";
+import { initializeFireflyForStorybook, withFireflyDecorator } from "@squide/firefly-storybook";
 import type { Decorator, Meta, StoryObj } from "storybook-react-rsbuild";
 import { Page } from "./Page.tsx";
 import { registerModule } from "./registerModule.tsx";

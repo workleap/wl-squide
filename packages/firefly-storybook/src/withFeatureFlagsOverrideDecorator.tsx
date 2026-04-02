@@ -1,6 +1,6 @@
 import { FeatureFlags, isEditableLaunchDarklyClient, LaunchDarklyClientTransaction, useLaunchDarklyClient } from "@squide/launch-darkly";
 import { PropsWithChildren, useEffect, useRef } from "react";
-import { Decorator } from "storybook-react-rsbuild";
+import type { Decorator } from "@storybook/react";
 
 interface OverrideFeatureFlagsProps extends PropsWithChildren {
     overrides: Partial<FeatureFlags>;

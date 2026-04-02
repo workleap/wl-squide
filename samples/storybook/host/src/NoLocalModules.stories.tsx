@@ -1,4 +1,4 @@
-import { initializeFireflyForStorybook, withFireflyDecorator } from "@squide/firefly-rsbuild-storybook";
+import { initializeFireflyForStorybook, withFireflyDecorator } from "@squide/firefly-storybook";
 import type { Meta, StoryObj } from "storybook-react-rsbuild";
 import { HelloWorld } from "./HelloWorld.tsx";
 

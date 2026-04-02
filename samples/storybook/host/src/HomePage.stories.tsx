@@ -1,4 +1,4 @@
-import { initializeFireflyForStorybook, withFeatureFlagsOverrideDecorator, withFireflyDecorator } from "@squide/firefly-rsbuild-storybook";
+import { initializeFireflyForStorybook, withFeatureFlagsOverrideDecorator, withFireflyDecorator } from "@squide/firefly-storybook";
 import type { Decorator, Meta, StoryObj } from "storybook-react-rsbuild";
 import { HomePage } from "./HomePage.tsx";
 import { QueryProvider } from "./QueryProvider.tsx";
