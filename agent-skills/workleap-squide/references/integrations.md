@@ -464,7 +464,7 @@ runtime.registerNavigationItem({
 
 ```tsx
 // .storybook/preview.tsx
-import { withFireflyDecorator, initializeFireflyForStorybook } from "@squide/firefly-rsbuild-storybook";
+import { withFireflyDecorator, initializeFireflyForStorybook } from "@squide/firefly-storybook";
 
 const runtime = await initializeFireflyForStorybook({
     localModules: [registerModule]
@@ -487,7 +487,7 @@ const meta = {
 ### With Feature Flags
 
 ```tsx
-import { initializeFireflyForStorybook, withFireflyDecorator, withFeatureFlagsOverrideDecorator } from "@squide/firefly-rsbuild-storybook";
+import { initializeFireflyForStorybook, withFireflyDecorator, withFeatureFlagsOverrideDecorator } from "@squide/firefly-storybook";
 
 const runtime = await initializeFireflyForStorybook({
     featureFlags: {
@@ -512,7 +512,7 @@ export const WithFeatureDisabled = {
 ### With Environment Variables
 
 ```tsx
-import { initializeFireflyForStorybook } from "@squide/firefly-rsbuild-storybook";
+import { initializeFireflyForStorybook } from "@squide/firefly-storybook";
 
 const runtime = await initializeFireflyForStorybook({
     environmentVariables: {
@@ -524,7 +524,7 @@ const runtime = await initializeFireflyForStorybook({
 ### Without MSW Support
 
 ```tsx
-import { initializeFireflyForStorybook } from "@squide/firefly-rsbuild-storybook";
+import { initializeFireflyForStorybook } from "@squide/firefly-storybook";
 
 const runtime = await initializeFireflyForStorybook({
     useMsw: false

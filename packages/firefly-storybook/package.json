@@ -1,13 +1,13 @@
 {
-    "name": "@squide/firefly-rsbuild-storybook",
+    "name": "@squide/firefly-storybook",
     "author": "Workleap",
-    "version": "2.1.1",
-    "description": "Squide firefly helpers for Storybook and Rsbuild.",
+    "version": "0.0.0",
+    "description": "Squide firefly helpers for Storybook.",
     "license": "Apache-2.0",
     "repository": {
         "type": "git",
         "url": "git+https://github.com/workleap/wl-squide.git",
-        "directory": "packages/firefly-rsbuild-storybook"
+        "directory": "packages/firefly-storybook"
     },
     "type": "module",
     "publishConfig": {
@@ -35,15 +35,14 @@
     },
     "peerDependencies": {
         "@opentelemetry/api": "^1.9.1",
-        "@rsbuild/core": "^1.7.5",
+        "@storybook/react": "^10.3.3",
         "@tanstack/react-query": "^5.96.0",
         "launchdarkly-js-client-sdk": "^3.9.0",
         "msw": "^2.12.14",
         "react": "^18.0.0 || ^19.0.0",
         "react-dom": "^18.0.0 || ^19.0.0",
         "react-router": "^7.13.2",
-        "storybook": "^10.3.3",
-        "storybook-react-rsbuild": "^3.3.2"
+        "storybook": "^10.3.3"
     },
     "peerDependenciesMeta": {
         "@opentelemetry/api": {
@@ -60,7 +59,6 @@
     },
     "devDependencies": {
         "@eslint/js": "9.39.2",
-        "@rsbuild/core": "1.7.5",
         "@rslib/core": "0.20.2",
         "@testing-library/react": "16.3.2",
         "@types/node": "25.5.0",

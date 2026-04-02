@@ -82,7 +82,7 @@ pnpm dlx msw init
 To set up a project, first, open a terminal at the project root and install the following packages:
 
 ```bash
-pnpm add @squide/firefly-rsbuild-storybook
+pnpm add @squide/firefly-storybook
 ```
 
 ### Create a runtime instance
@@ -90,7 +90,7 @@ pnpm add @squide/firefly-rsbuild-storybook
 Then, update the story files to create a runtime instance using the [initializeFireflyForStorybook](../reference/storybook/initializeFireflyForStorybook.md) function:
 
 ```tsx !#6-8
-import { initializeFireflyForStorybook } from "@squide/firefly-rsbuild-storybook";
+import { initializeFireflyForStorybook } from "@squide/firefly-storybook";
 import type { Decorator, Meta, StoryObj } from "storybook-react-rsbuild";
 import { Page } from "./Page.tsx";
 import { registerModule } from "./registerModule.tsx";
@@ -120,7 +120,7 @@ If you encounter a `RuntimeError: factory is undefined` when starting Storybook,
 Then, set up a decorator using the [withFireflyDecorator](../reference/storybook/withFireflyDecorator.md) function:
 
 ```tsx !#13-15
-import { initializeFireflyForStorybook, withFireflyDecorator } from "@squide/firefly-rsbuild-storybook";
+import { initializeFireflyForStorybook, withFireflyDecorator } from "@squide/firefly-storybook";
 import type { Decorator, Meta, StoryObj } from "storybook-react-rsbuild";
 import { Page } from "./Page.tsx";
 import { registerModule } from "./registerModule.tsx";
@@ -147,7 +147,7 @@ export const Default = {} satisfies Story;
 Or embed the [FireflyDecorator](../reference/storybook/FireflyDecorator.md) component in an existing decorator:
 
 ```tsx !#13-19
-import { initializeFireflyForStorybook, FireflyDecorator } from "@squide/firefly-rsbuild-storybook";
+import { initializeFireflyForStorybook, FireflyDecorator } from "@squide/firefly-storybook";
 import type { Decorator, Meta, StoryObj } from "storybook-react-rsbuild";
 import { Page } from "./Page.tsx";
 import { registerModule } from "./registerModule.tsx";
@@ -180,7 +180,7 @@ export const Default = {} satisfies Story;
 Next, forward the MSW request handlers registered by the modules to the Storybook addon:
 
 ```tsx !#20-24
-import { initializeFireflyForStorybook, FireflyDecorator } from "@squide/firefly-rsbuild-storybook";
+import { initializeFireflyForStorybook, FireflyDecorator } from "@squide/firefly-storybook";
 import type { Decorator, Meta, StoryObj } from "storybook-react-rsbuild";
 import { Page } from "./Page.tsx";
 import { registerModule } from "./registerModule.tsx";
@@ -218,7 +218,7 @@ export const Default = {} satisfies Story;
 Then, if the components included in the stories rely on environment variables, mock the environment variables using the [initializeFireflyForStorybook](../reference/storybook/initializeFireflyForStorybook.md) function:
 
 ```tsx !#8-10
-import { initializeFireflyForStorybook, withFireflyDecorator } from "@squide/firefly-rsbuild-storybook";
+import { initializeFireflyForStorybook, withFireflyDecorator } from "@squide/firefly-storybook";
 import type { Decorator, Meta, StoryObj } from "storybook-react-rsbuild";
 import { Page } from "./Page.tsx";
 import { registerModule } from "./registerModule.tsx";
@@ -250,7 +250,7 @@ export const Default = {} satisfies Story;
 Finally, if the components included in the stories rely on feature flags, mock the feature flags using the [initializeFireflyForStorybook](../reference/storybook/initializeFireflyForStorybook.md) function:
 
 ```tsx !#8-10
-import { initializeFireflyForStorybook, withFireflyDecorator } from "@squide/firefly-rsbuild-storybook";
+import { initializeFireflyForStorybook, withFireflyDecorator } from "@squide/firefly-storybook";
 import type { Decorator, Meta, StoryObj } from "storybook-react-rsbuild";
 import { Page } from "./Page.tsx";
 import { registerModule } from "./registerModule.tsx";
@@ -280,7 +280,7 @@ export const Default = {} satisfies Story;
 To test different variations of a feature flag, use the [withFeatureFlagsOverrideDecorator](../reference/storybook/withFeatureFlagsOverrideDecorator.md) hook:
 
 ```tsx !#27
-import { initializeFireflyForStorybook, withFireflyDecorator, withFeatureFlagsOverrideDecorator } from "@squide/firefly-rsbuild-storybook";
+import { initializeFireflyForStorybook, withFireflyDecorator, withFeatureFlagsOverrideDecorator } from "@squide/firefly-storybook";
 import type { Decorator, Meta, StoryObj } from "storybook-react-rsbuild";
 import { Page } from "./Page.tsx";
 import { registerModule } from "./registerModule.tsx";

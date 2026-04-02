@@ -2,7 +2,7 @@ import { AppRouter, FireflyProvider, FireflyRuntime } from "@squide/firefly";
 import type { PropsWithChildren } from "react";
 import { createMemoryRouter } from "react-router";
 import { RouterProvider } from "react-router/dom";
-import { Decorator } from "storybook-react-rsbuild";
+import type { Decorator } from "@storybook/react";
 
 export function withFireflyDecorator(runtime: FireflyRuntime): Decorator {
     return story => {
