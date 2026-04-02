@@ -1,5 +1,11 @@
 # @squide/firefly-storybook
 
+## 1.0.0
+
+### Major Changes
+
+- [#579](https://github.com/workleap/wl-squide/pull/579) [`9ab481f`](https://github.com/workleap/wl-squide/commit/9ab481fa77844402689c1d2cce7dc31277103dba) Thanks [@patricklafrance](https://github.com/patricklafrance)! - Initial version of the package... Clone of @squide/firefly-rsbuild-storybook version 2.1.1
+
 ## 2.1.1
 
 ### Patch Changes
