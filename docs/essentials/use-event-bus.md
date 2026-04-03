@@ -17,7 +17,7 @@ Register a function that will be invoked each time the specified event is dispat
 import { useCallback } from "react";
 import { useEventBusListener } from "@squide/firefly";
 
-const handleFoo = useCallback((data, context) => {
+const handleFoo = useCallback(data => {
     // Do something...
 }, []);
 
@@ -33,12 +33,12 @@ Register a function that will be invoked once, and then automatically unregister
 import { useCallback } from "react";
 import { useEventBusListener } from "@squide/firefly";
 
-const handleFoo = useCallback((data, context) => {
+const handleFoo = useCallback(data => {
     // Do something...
 }, []);
 
 // Listen to the first "foo" event.
-useEventBusListener("foo", handleFoo, { once: true };
+useEventBusListener("foo", handleFoo, { once: true });
 ```
 
 ## Dispatch an event
@@ -52,4 +52,86 @@ const dispatch = useEventBusDispatcher();
 dispatch("foo", "bar");
 ```
 
+## Setup the typings
 
+Before dispatching or listening to events, modules should [augment](https://www.typescriptlang.org/docs/handbook/declaration-merging.html#module-augmentation) the [EventMap](../reference/messaging/EventMap.md) interface with the events they intend to use to ensure type safety and autocompletion.
+
+First, create a types folder in the project:
+
+``` !#7-8
+project
+├── src
+├────── register.tsx
+├────── Page.tsx
+├────── index.tsx
+├────── App.tsx
+├── types
+├────── event-map.d.ts
+```
+
+Then create an `event-map.d.ts` file:
+
+```ts !#6-7 project/types/event-map.d.ts
+import "@squide/firefly";
+
+declare module "@squide/firefly" {
+    interface EventMap {
+        // Each entry maps an event name to its payload type.
+        "write-to-host": string;
+        "show-toast": string;
+    }
+}
+```
+
+Finally, update the project `tsconfig.json` to include the `types` folder:
+
+```json !#5-7 project/tsconfig.json
+{
+    "compilerOptions": {
+        "incremental": true,
+        "tsBuildInfoFile": "node_modules/.cache/tsbuildinfo.json",
+        "types": [
+            "./types/event-map.d.ts"
+        ]
+    },
+    "exclude": ["dist", "node_modules"]
+}
+```
+
+If any other project using those events must also reference the project's `event-map.d.ts` file:
+
+```json !#5-7 project/tsconfig.json
+{
+    "compilerOptions": {
+        "incremental": true,
+        "tsBuildInfoFile": "node_modules/.cache/tsbuildinfo.json",
+        "types": [
+            "../another-project/types/event-map.d.ts"
+        ]
+    },
+    "exclude": ["dist", "node_modules"]
+}
+```
+
+!!!tip
+All Squide native events (bootstrapping lifecycle, data fetching, AppRouter state transitions) are pre-augmented and already type-safe. You only need to augment `EventMap` for your own application events.
+!!!
+
+Once configured, the event bus hooks are fully typed:
+
+```ts
+import { useEventBusDispatcher, useEventBusListener } from "@squide/firefly";
+import { useCallback } from "react";
+
+const dispatch = useEventBusDispatcher();
+
+// Typed — payload must be a string.
+dispatch("write-to-host", "Hello!");
+
+// Typed — payload is inferred as string.
+const handleToast = useCallback((message) => {
+    console.log("Toast:", message);
+}, []);
+
+useEventBusListener("show-toast", handleToast);
+```

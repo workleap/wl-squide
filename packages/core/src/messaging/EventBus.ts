@@ -12,10 +12,7 @@ export interface EventMap {}
 
 export type EventMapKey = keyof EventMap;
 
-export type EventBusDispatchFunction = {
-    <K extends EventMapKey>(eventName: K, payload?: EventMap[K]): void;
-    (eventName: EventName, payload?: unknown): void;
-};
+export type EventBusDispatchFunction = <K extends EventMapKey>(eventName: K, payload?: EventMap[K]) => void;
 
 export interface AddListenerOptions {
     once?: boolean;
@@ -34,9 +31,7 @@ export class EventBus {
         this.#logger = logger;
     }
 
-    addListener<K extends EventMapKey>(eventName: K, callback: EventCallbackFunction<EventMap[K]>, options?: AddListenerOptions): void;
-    addListener(eventName: EventName, callback: EventCallbackFunction, options?: AddListenerOptions): void;
-    addListener(eventName: EventName, callback: EventCallbackFunction, options: AddListenerOptions = {}) {
+    addListener<K extends EventMapKey>(eventName: K, callback: EventCallbackFunction<EventMap[K]>, options: AddListenerOptions = {}) {
         const {
             once
         } = options;
@@ -48,9 +43,7 @@ export class EventBus {
         }
     }
 
-    removeListener<K extends EventMapKey>(eventName: K, callback: EventCallbackFunction<EventMap[K]>, options?: RemoveListenerOptions): void;
-    removeListener(eventName: EventName, callback: EventCallbackFunction, options?: RemoveListenerOptions): void;
-    removeListener(eventName: EventName, callback: EventCallbackFunction, options: RemoveListenerOptions = {}) {
+    removeListener<K extends EventMapKey>(eventName: K, callback: EventCallbackFunction<EventMap[K]>, options: RemoveListenerOptions = {}) {
         const {
             once
         } = options;
@@ -58,9 +51,7 @@ export class EventBus {
         this.#eventEmitter.removeListener(eventName, callback, undefined, once);
     }
 
-    dispatch<K extends EventMapKey>(eventName: K, payload?: EventMap[K]): void;
-    dispatch(eventName: EventName, payload?: unknown): void;
-    dispatch(eventName: EventName, payload?: unknown) {
+    dispatch<K extends EventMapKey>(eventName: K, payload?: EventMap[K]) {
         this.#logger
             .withText(`[squide] Dispatching event "${String(eventName)}"`)
             .withObject(payload)
