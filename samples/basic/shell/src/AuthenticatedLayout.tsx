@@ -1,4 +1,5 @@
-import { useApplicationEventBusListener, useSessionManager } from "@basic/shared";
+import { useSessionManager } from "@basic/shared";
+import { useEventBusListener } from "@squide/firefly";
 import { isNavigationLink, useNavigationItems, useRenderedNavigationItems, type NavigationLinkRenderProps, type NavigationSectionRenderProps, type RenderItemFunction, type RenderSectionFunction } from "@squide/firefly";
 import { Suspense, useCallback, type MouseEvent, type ReactNode } from "react";
 import { Link, Outlet, useNavigate } from "react-router";
@@ -51,7 +52,7 @@ export function AuthenticatedLayout() {
         console.log("[sample] Message received from a module: ", data);
     }, []);
 
-    useApplicationEventBusListener("write-to-host", handleModulesMessage);
+    useEventBusListener("write-to-host", handleModulesMessage);
 
     const handleDisconnect = useCallback((event: MouseEvent<HTMLButtonElement>) => {
         event.preventDefault();

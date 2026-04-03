@@ -1,4 +1,5 @@
-import { useApplicationEventBusDispatcher, useToast } from "@basic/shared";
+import { useToast } from "@basic/shared";
+import { useEventBusDispatcher } from "@squide/firefly";
 import { useCallback, useState, type ChangeEvent } from "react";
 import { Link } from "react-router";
 
@@ -9,7 +10,7 @@ export function MessagePage() {
         setMessage(event.target.value);
     }, []);
 
-    const dispatch = useApplicationEventBusDispatcher();
+    const dispatch = useEventBusDispatcher();
     const showToast = useToast();
 
     const handleSendMessage = useCallback(() => {

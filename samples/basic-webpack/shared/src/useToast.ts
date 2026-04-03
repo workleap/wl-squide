@@ -1,8 +1,8 @@
+import { useEventBusDispatcher, useEventBusListener } from "@squide/firefly";
 import { useCallback } from "react";
-import { useApplicationEventBusDispatcher, useApplicationEventBusListener } from "./eventBus.ts";
 
 export function useToast() {
-    const dispatch = useApplicationEventBusDispatcher();
+    const dispatch = useEventBusDispatcher();
 
     return useCallback((message: string) => {
         dispatch("show-toast", message);
@@ -10,5 +10,5 @@ export function useToast() {
 }
 
 export function useToastListener(callback: (message?: string) => void) {
-    useApplicationEventBusListener("show-toast", callback);
+    useEventBusListener("show-toast", callback);
 }

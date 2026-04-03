@@ -115,5 +115,5 @@ If any other project using those events must also reference the project's `event
 Once configured, the event bus hooks are fully typed:
 
 :::align-image-left
-![Auto-completion example](../static/event-bus-typings.png){width=837}
+![Auto-completion example](../static/event-bus-typings.png){width=735}
 :::
