@@ -71,13 +71,12 @@ project
 
 Then create an `event-map.d.ts` file:
 
-```ts !#6-7 project/types/event-map.d.ts
+```ts !#6 project/types/event-map.d.ts
 import "@squide/firefly";
 
 declare module "@squide/firefly" {
     interface EventMap {
         // Each entry maps an event name to its payload type.
-        "write-to-host": string;
         "show-toast": string;
     }
 }
