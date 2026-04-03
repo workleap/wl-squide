@@ -22,7 +22,7 @@ export { useLogger } from "./runtime/useLogger.ts";
 export { usePlugin } from "./runtime/usePlugin.ts";
 export { useRuntimeMode } from "./runtime/useRuntimeMode.ts";
 
-export { type AddListenerOptions, type EventBus, type EventCallbackFunction, type EventName, type RemoveListenerOptions } from "./messaging/EventBus.ts";
+export { type AddListenerOptions, type EventBus, type EventBusDispatchFunction, type EventCallbackFunction, type EventMap, type EventMapKey, type EventName, type RemoveListenerOptions } from "./messaging/EventBus.ts";
 export { useEventBusDispatcher } from "./messaging/useEventBusDispatcher.ts";
 export { useEventBusListener } from "./messaging/useEventBusListener.ts";
 

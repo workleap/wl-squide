@@ -222,34 +222,57 @@ useDeferredRegistrations(undefined, {
 
 ## Messaging Hooks
 
+The event bus supports type-safe events via module augmentation of the `EventMap` interface (same pattern as `EnvironmentVariables` and `FeatureFlags`). Augmented events get payload type inference and autocomplete; unmapped events fall back to `unknown`.
+
+### TypeScript Augmentation (EventMap Interface)
+
+```ts
+// types/event-map.d.ts
+import "@squide/firefly";
+
+declare module "@squide/firefly" {
+    interface EventMap {
+        "tenant-changed": { tenantId: string };
+        "theme-updated": { mode: "light" | "dark" };
+    }
+}
+```
+
+All Squide native events (bootstrapping lifecycle, data fetching, AppRouter state) are pre-augmented and already type-safe.
+
 ### useEventBusListener(eventName, handler, options?)
-Listen to events from the event bus.
+Listen to events from the event bus. For augmented events, the handler payload type is inferred.
 
 ```ts
 import { useEventBusListener } from "@squide/firefly";
 import { useCallback } from "react";
 
-const handleEvent = useCallback((data, context) => {
-    console.log("Event received:", data);
+// Typed — payload inferred as { tenantId: string }
+const handleTenantChanged = useCallback((data?: { tenantId: string }) => {
+    console.log("Tenant:", data?.tenantId);
 }, []);
-
-// Listen to all events
-useEventBusListener("user-updated", handleEvent);
+useEventBusListener("tenant-changed", handleTenantChanged);
 
 // Listen once
-useEventBusListener("init-complete", handleEvent, { once: true });
+useEventBusListener("tenant-changed", handleTenantChanged, { once: true });
+
+// Unmapped events still work (payload is unknown)
+useEventBusListener("ad-hoc-event", handleEvent);
 ```
 
 ### useEventBusDispatcher()
-Get a function to dispatch events.
+Get a function to dispatch events. For augmented events, the payload type is enforced.
 
 ```ts
 import { useEventBusDispatcher } from "@squide/firefly";
 
 const dispatch = useEventBusDispatcher();
 
-// Dispatch event with payload
-dispatch("user-updated", { id: 123, name: "John" });
+// Typed — payload must match EventMap["tenant-changed"]
+dispatch("tenant-changed", { tenantId: "abc" });
+
+// Unmapped events accept unknown payload
+dispatch("ad-hoc-event", { anything: true });
 ```
 
 ## Environment & Configuration Hooks

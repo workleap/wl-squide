@@ -5,6 +5,18 @@ export type EventName = string | symbol;
 
 export type EventCallbackFunction<TPayload = unknown> = (data?: TPayload) => void;
 
+// The "EventMap" interface is expected to be extended by the consumer application.
+// This magic is called module augmentation: https://www.typescriptlang.org/docs/handbook/declaration-merging.html#module-augmentation.
+// eslint-disable-next-line @typescript-eslint/no-empty-object-type
+export interface EventMap {}
+
+export type EventMapKey = keyof EventMap;
+
+export type EventBusDispatchFunction = {
+    <K extends EventMapKey>(eventName: K, payload?: EventMap[K]): void;
+    (eventName: EventName, payload?: unknown): void;
+};
+
 export interface AddListenerOptions {
     once?: boolean;
 }
@@ -13,7 +25,7 @@ export interface RemoveListenerOptions {
     once?: boolean;
 }
 
-export class EventBus<TEventNames extends EventName = EventName, TPayload = unknown> {
+export class EventBus {
     readonly #eventEmitter: EventEmitter;
     readonly #logger: Logger;
 
@@ -22,7 +34,9 @@ export class EventBus<TEventNames extends EventName = EventName, TPayload = unkn
         this.#logger = logger;
     }
 
-    addListener(eventName: TEventNames, callback: EventCallbackFunction<TPayload>, options: AddListenerOptions = {}) {
+    addListener<K extends EventMapKey>(eventName: K, callback: EventCallbackFunction<EventMap[K]>, options?: AddListenerOptions): void;
+    addListener(eventName: EventName, callback: EventCallbackFunction, options?: AddListenerOptions): void;
+    addListener(eventName: EventName, callback: EventCallbackFunction, options: AddListenerOptions = {}) {
         const {
             once
         } = options;
@@ -34,7 +48,9 @@ export class EventBus<TEventNames extends EventName = EventName, TPayload = unkn
         }
     }
 
-    removeListener(eventName: TEventNames, callback: EventCallbackFunction<TPayload>, options: RemoveListenerOptions = {}) {
+    removeListener<K extends EventMapKey>(eventName: K, callback: EventCallbackFunction<EventMap[K]>, options?: RemoveListenerOptions): void;
+    removeListener(eventName: EventName, callback: EventCallbackFunction, options?: RemoveListenerOptions): void;
+    removeListener(eventName: EventName, callback: EventCallbackFunction, options: RemoveListenerOptions = {}) {
         const {
             once
         } = options;
@@ -42,7 +58,9 @@ export class EventBus<TEventNames extends EventName = EventName, TPayload = unkn
         this.#eventEmitter.removeListener(eventName, callback, undefined, once);
     }
 
-    dispatch(eventName: TEventNames, payload?: TPayload) {
+    dispatch<K extends EventMapKey>(eventName: K, payload?: EventMap[K]): void;
+    dispatch(eventName: EventName, payload?: unknown): void;
+    dispatch(eventName: EventName, payload?: unknown) {
         this.#logger
             .withText(`[squide] Dispatching event "${String(eventName)}"`)
             .withObject(payload)

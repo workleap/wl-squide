@@ -11,8 +11,10 @@ import { useSessionManagerInstance } from "./useSessionManagerInstance.ts";
 function BootstrappingRoute() {
     const { toastState, addToast } = useToastContainer();
 
-    const handleShowToast = useCallback((message: string) => {
-        addToast(message);
+    const handleShowToast = useCallback((message?: string) => {
+        if (message) {
+            addToast(message);
+        }
     }, [addToast]);
 
     useToastListener(handleShowToast);

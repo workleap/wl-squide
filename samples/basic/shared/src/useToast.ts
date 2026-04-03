@@ -9,6 +9,6 @@ export function useToast() {
     }, [dispatch]);
 }
 
-export function useToastListener(callback: (message: string) => void) {
-    useApplicationEventBusListener("show-toast", callback as (message: unknown) => void);
+export function useToastListener(callback: (message?: string) => void) {
+    useApplicationEventBusListener("show-toast", callback);
 }

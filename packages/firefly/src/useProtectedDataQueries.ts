@@ -9,6 +9,13 @@ import { useExecuteOnce } from "./useExecuteOnce.ts";
 export const ProtectedDataFetchStartedEvent = "squide-protected-data-fetch-started";
 export const ProtectedDataFetchFailedEvent = "squide-protected-data-fetch-failed";
 
+declare module "@squide/core" {
+    interface EventMap {
+        "squide-protected-data-fetch-started": void;
+        "squide-protected-data-fetch-failed": Error[];
+    }
+}
+
 export type IsUnauthorizedErrorCallback = (error: unknown) => boolean;
 
 // This converts an array of UseQueryResult to an array of the data type of each query result.
