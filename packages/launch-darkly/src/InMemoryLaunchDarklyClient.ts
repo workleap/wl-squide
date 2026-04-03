@@ -163,4 +163,11 @@ export class InMemoryLaunchDarklyClient implements EditableLaunchDarklyClient {
 
         return transaction;
     }
+
+    // See EditableLaunchDarklyClient.resetTransaction for rationale.
+    resetTransaction() {
+        if (this.#activeTransaction) {
+            this.#activeTransaction.transaction.undo();
+        }
+    }
 }

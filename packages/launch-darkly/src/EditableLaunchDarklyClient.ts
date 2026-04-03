@@ -62,6 +62,19 @@ export interface EditableLaunchDarklyClient extends LDClient {
      * Start a transaction to edit the feature flags.
      */
     startTransaction(): LaunchDarklyClientTransaction;
+
+    /**
+     * If there is an active transaction, silently undo it and restore the original flags.
+     * No-op if no transaction is active.
+     *
+     * This exists to handle React unmount/remount race conditions where a new component
+     * instance needs to start a transaction before the old instance's useEffect cleanup
+     * has run. Unlike modifying startTransaction() to be tolerant, this preserves the
+     * strict "already active" throw in startTransaction() for detecting real bugs.
+     *
+     * @see https://github.com/workleap/wl-squide/issues/571
+     */
+    resetTransaction(): void;
 }
 
 export function isEditableLaunchDarklyClient<T extends LDClient>(client: T): client is T & EditableLaunchDarklyClient {
