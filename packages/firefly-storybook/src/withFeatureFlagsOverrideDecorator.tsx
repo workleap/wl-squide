@@ -1,6 +1,6 @@
 import { FeatureFlags, isEditableLaunchDarklyClient, LaunchDarklyClientTransaction, useLaunchDarklyClient } from "@squide/launch-darkly";
-import { PropsWithChildren, useEffect, useRef } from "react";
 import type { Decorator } from "@storybook/react";
+import { PropsWithChildren, useEffect, useRef } from "react";
 
 interface OverrideFeatureFlagsProps extends PropsWithChildren {
     overrides: Partial<FeatureFlags>;
@@ -42,6 +42,7 @@ function OverrideFeatureFlags(props: OverrideFeatureFlagsProps) {
         // condition where React's render phase (synchronous) runs before the commit
         // phase (where useEffect cleanup is deferred). No-op if no transaction is active.
         client.resetTransaction();
+
         transactionRef.current = client.startTransaction();
         client.setFeatureFlags(overrides);
     }
