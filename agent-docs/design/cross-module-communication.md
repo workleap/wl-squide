@@ -7,16 +7,28 @@ coordination happens through the FireflyRuntime API.
 
 ## Event Bus
 
-Pub/sub messaging for decoupled communication between modules:
+Pub/sub messaging for decoupled communication between modules. Events are type-safe via module augmentation of the `EventMap` interface (same pattern as `EnvironmentVariables` and `FeatureFlags`). All Squide native events are pre-augmented; consumer apps add their own events:
+
+```ts
+// types/event-map.d.ts — consumer augmentation
+declare module "@squide/firefly" {
+    interface EventMap {
+        "tenant-changed": { tenantId: string };
+    }
+}
+```
 
 ```tsx
-// Dispatch an event
+// Dispatch — payload type inferred from EventMap
 const dispatch = useEventBusDispatcher();
-dispatch("event-name", payload);
+dispatch("tenant-changed", { tenantId: "abc" });
 
-// Listen for an event
-const handler = useCallback((data, context) => { /* ... */ }, []);
-useEventBusListener("event-name", handler, { once: true });
+// Listen — handler payload type inferred from EventMap
+const handler = useCallback((data?: { tenantId: string }) => { /* ... */ }, []);
+useEventBusListener("tenant-changed", handler, { once: true });
+
+// Unmapped events still work (fall back to unknown payload)
+dispatch("ad-hoc-event", payload);
 ```
 
 ## Plugins

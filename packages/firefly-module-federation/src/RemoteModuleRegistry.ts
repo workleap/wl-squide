@@ -41,6 +41,20 @@ export interface RemoteModulesDeferredRegistrationsUpdateCompletedEventPayload {
     registrationCount: number;
 }
 
+declare module "@squide/core" {
+    interface EventMap {
+        "squide-remote-modules-registration-started": RemoteModulesRegistrationStartedEventPayload;
+        "squide-remote-modules-registration-completed": RemoteModulesRegistrationCompletedEventPayload;
+        "squide-remote-module-registration-failed": ModuleRegistrationError;
+        "squide-remote-modules-deferred-registration-started": RemoteModulesDeferredRegistrationStartedEventPayload;
+        "squide-remote-modules-deferred-registration-completed": RemoteModulesDeferredRegistrationCompletedEventPayload;
+        "squide-some-remote-module-deferred-registration-failed": ModuleRegistrationError;
+        "squide-remote-modules-deferred-registrations-update-started": RemoteModulesDeferredRegistrationsUpdateStartedEventPayload;
+        "squide-remote-modules-deferred-registrations-update-completed-started": RemoteModulesDeferredRegistrationsUpdateCompletedEventPayload;
+        "squide-remote-module-deferred-registration-update-failed": ModuleRegistrationError;
+    }
+}
+
 const RemoteRegisterModuleName = "register";
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any

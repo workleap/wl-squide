@@ -43,6 +43,20 @@ export interface LocalModulesDeferredRegistrationsUpdateCompletedEventPayload {
     registrationCount: number;
 }
 
+declare module "../messaging/EventBus.ts" {
+    interface EventMap {
+        "squide-local-modules-registration-started": LocalModulesRegistrationStartedEventPayload;
+        "squide-local-modules-registration-completed": LocalModulesRegistrationCompletedEventPayload;
+        "squide-local-module-registration-failed": ModuleRegistrationError;
+        "squide-local-modules-deferred-registration-started": LocalModulesDeferredRegistrationStartedEventPayload;
+        "squide-local-modules-deferred-registration-completed": LocalModulesDeferredRegistrationCompletedEventPayload;
+        "squide-local-module-deferred-registration-failed": ModuleRegistrationError;
+        "squide-local-modules-deferred-registrations-update-started": LocalModulesDeferredRegistrationsUpdateStartedEventPayload;
+        "squide-local-modules-deferred-registrations-update-completed-started": LocalModulesDeferredRegistrationsUpdateCompletedEventPayload;
+        "squide-local-module-deferred-registration-update-failed": ModuleRegistrationError;
+    }
+}
+
 interface DeferredRegistration<TRuntime extends Runtime = Runtime, TData = unknown> {
     index: string;
     fct: DeferredRegistrationFunction<TRuntime, TData>;

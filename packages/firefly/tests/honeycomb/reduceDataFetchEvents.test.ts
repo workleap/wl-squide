@@ -174,6 +174,8 @@ test.concurrent("when the state is \"fetching-data\", \"waitForProtectedData\" i
 
     // Should call onDataReady.
     runtime.eventBus.dispatch(PublicDataReadyEvent, {
+        waitForMsw: false,
+        waitForPublicData: true,
         waitForProtectedData: true
     });
 
@@ -216,6 +218,8 @@ test.concurrent("when the state is \"fetching-data\", \"waitForProtectedData\" i
 
     // Should call onDataReady.
     runtime.eventBus.dispatch(PublicDataReadyEvent, {
+        waitForMsw: false,
+        waitForPublicData: true,
         waitForProtectedData: false
     });
 
@@ -389,7 +393,7 @@ test.concurrent("when the state is \"fetching-data\", \"waitForPublicData\" is t
     runtime.eventBus.dispatch(ProtectedDataFetchStartedEvent);
 
     // Should call onDataReady.
-    runtime.eventBus.dispatch(ProtectedDataReadyEvent, { waitForPublicData: true });
+    runtime.eventBus.dispatch(ProtectedDataReadyEvent, { waitForMsw: false, waitForPublicData: true, waitForProtectedData: true });
 
     expect(onDataFetchStarted).toHaveBeenCalledOnce();
     expect(onDataReady).not.toHaveBeenCalled();
@@ -429,7 +433,7 @@ test.concurrent("when the state is \"fetching-data\", \"waitForPublicData\" is f
     runtime.eventBus.dispatch(ProtectedDataFetchStartedEvent);
 
     // Should call onDataReady.
-    runtime.eventBus.dispatch(ProtectedDataReadyEvent, { waitForPublicData: false });
+    runtime.eventBus.dispatch(ProtectedDataReadyEvent, { waitForMsw: false, waitForPublicData: false, waitForProtectedData: true });
 
     expect(onDataFetchStarted).toHaveBeenCalledOnce();
     expect(onDataReady).toHaveBeenCalledOnce();

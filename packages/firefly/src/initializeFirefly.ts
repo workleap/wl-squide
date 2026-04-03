@@ -11,6 +11,12 @@ import { initializeHoneycomb } from "./honeycomb/initializeHoneycomb.ts";
 
 export const ApplicationBootstrappingStartedEvent = "squide-app-bootstrapping-started";
 
+declare module "@squide/core" {
+    interface EventMap {
+        "squide-app-bootstrapping-started": void;
+    }
+}
+
 export type OnInitializationErrorFunction = (error: unknown) => void;
 
 export type StartMswFunction<TRuntime = FireflyRuntime> = (runtime: TRuntime) => Promise<void>;

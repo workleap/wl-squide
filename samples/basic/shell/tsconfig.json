@@ -3,7 +3,10 @@
     "compilerOptions": {
         "incremental": true,
         "tsBuildInfoFile": "node_modules/.cache/tsbuildinfo.json",
-        "types": ["node"]
+        "types": [
+            "node",
+            "../shared/types/event-map.d.ts"
+        ]
     },
     "exclude": ["dist", "node_modules"]
 }

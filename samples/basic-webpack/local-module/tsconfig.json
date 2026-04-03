@@ -3,7 +3,10 @@
     "compilerOptions": {
         "incremental": true,
         "tsBuildInfoFile": "node_modules/.cache/tsbuildinfo.json",
-        "types": ["node"],
+        "types": [
+            "node",
+            "../shared/types/event-map.d.ts"
+        ],
         "paths": {
             "@squide/firefly-webpack-configs": ["../../../packages/firefly-webpack-configs/src/index.ts"]
         }
