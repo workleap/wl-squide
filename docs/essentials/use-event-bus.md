@@ -113,25 +113,8 @@ If any other project using those events must also reference the project's `event
 }
 ```
 
-!!!tip
-All Squide native events (bootstrapping lifecycle, data fetching, AppRouter state transitions) are pre-augmented and already type-safe. You only need to augment `EventMap` for your own application events.
-!!!
-
 Once configured, the event bus hooks are fully typed:
 
-```ts
-import { useEventBusDispatcher, useEventBusListener } from "@squide/firefly";
-import { useCallback } from "react";
-
-const dispatch = useEventBusDispatcher();
-
-// Typed — payload must be a string.
-dispatch("write-to-host", "Hello!");
-
-// Typed — payload is inferred as string.
-const handleToast = useCallback((message) => {
-    console.log("Toast:", message);
-}, []);
-
-useEventBusListener("show-toast", handleToast);
-```
+:::align-image-left
+![Auto-completion example](../static/event-bus-typings.png){width=837}
+:::
