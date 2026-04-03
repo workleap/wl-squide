@@ -264,6 +264,13 @@ export class LocalStorageLaunchDarklyClient implements EditableLaunchDarklyClien
 
         return transaction;
     }
+
+    // See EditableLaunchDarklyClient.resetTransaction for rationale.
+    resetTransaction() {
+        if (this.#activeTransaction) {
+            this.#activeTransaction.transaction.undo();
+        }
+    }
 }
 
 export function createLocalStorageLaunchDarklyClient(flags: Partial<FeatureFlags>, options: CreateLocalStorageLaunchDarklyClientOptions = {}) {
