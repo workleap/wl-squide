@@ -34,7 +34,7 @@ function OverrideFeatureFlags(props: OverrideFeatureFlagsProps) {
     // eslint-disable-next-line react-hooks/refs
     if (!transactionRef.current) {
         if (!isEditableLaunchDarklyClient(client)) {
-            throw new Error("[squide] The withFeatureFlagsOverrideDecorator hook can only be used with an EditableLaunchDarklyClient instance.");
+            throw new Error("[squide] The withFeatureFlagsOverrideDecorator decorator can only be used with an EditableLaunchDarklyClient instance.");
         }
 
         // Undo any lingering transaction from a previous component instance whose
