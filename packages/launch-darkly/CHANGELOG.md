@@ -1,5 +1,11 @@
 # @squide/launch-darkly
 
+## 1.0.12
+
+### Patch Changes
+
+- [#584](https://github.com/workleap/wl-squide/pull/584) [`d2a0d22`](https://github.com/workleap/wl-squide/commit/d2a0d22ddbe437767e909f75b94a591b5bfdf547) Thanks [@patricklafrance](https://github.com/patricklafrance)! - Fix a race condition when using withFeatureFlagsOverrideDecorator.
+
 ## 1.0.11
 
 ### Patch Changes
