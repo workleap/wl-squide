@@ -1,5 +1,11 @@
 # @squide/core
 
+## 7.0.0
+
+### Major Changes
+
+- [#586](https://github.com/workleap/wl-squide/pull/586) [`f26a67f`](https://github.com/workleap/wl-squide/commit/f26a67f80984c50aaf9b3b550a8e1f25edcbb43e) Thanks [@patricklafrance](https://github.com/patricklafrance)! - Added typed EventBus through module augmentation of EventMap.
+
 ## 6.1.15
 
 ### Patch Changes
