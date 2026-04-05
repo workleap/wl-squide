@@ -24,11 +24,8 @@ const dispatch = useEventBusDispatcher();
 dispatch("tenant-changed", { tenantId: "abc" });
 
 // Listen — handler payload type inferred from EventMap
-const handler = useCallback((data?: { tenantId: string }) => { /* ... */ }, []);
+const handler = useCallback(data => { /* ... */ }, []);
 useEventBusListener("tenant-changed", handler, { once: true });
-
-// Unmapped events still work (fall back to unknown payload)
-dispatch("ad-hoc-event", payload);
 ```
 
 ## Plugins

@@ -17,12 +17,12 @@ Register a function that will be invoked each time the specified event is dispat
 import { useCallback } from "react";
 import { useEventBusListener } from "@squide/firefly";
 
-const handleFoo = useCallback(data => {
+const handleShowToast = useCallback(data => {
     // Do something...
 }, []);
 
-// Listen to every "foo" events.
-useEventBusListener("foo", handleFoo);
+// Listen to every "show-toast" events.
+useEventBusListener("show-toast", handleShowToast);
 ```
 
 ## Add an event listener that will be invoked once
@@ -33,12 +33,12 @@ Register a function that will be invoked once, and then automatically unregister
 import { useCallback } from "react";
 import { useEventBusListener } from "@squide/firefly";
 
-const handleFoo = useCallback(data => {
+const handleShowToast = useCallback(data => {
     // Do something...
 }, []);
 
-// Listen to the first "foo" event.
-useEventBusListener("foo", handleFoo, { once: true });
+// Listen to the first "show-toast" event.
+useEventBusListener("show-toast", handleShowToast, { once: true });
 ```
 
 ## Dispatch an event
@@ -48,8 +48,8 @@ import { useEventBusDispatcher } from "@squide/firefly";
 
 const dispatch = useEventBusDispatcher();
 
-// Dispatch a "foo" event with a "bar" payload.
-dispatch("foo", "bar");
+// Dispatch a "show-toast" event with a string payload.
+dispatch("show-toast", "Hello!");
 ```
 
 ## Setup the typings
