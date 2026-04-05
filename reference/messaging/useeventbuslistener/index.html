@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <meta name="color-scheme" content="light dark">
     <meta name="turbo-root" content="/wl-squide">
-    <meta name="turbo-cache-control" content="no-cache" data-turbo-track="reload" data-track-token="4.4.0.828500865420">
+    <meta name="turbo-cache-control" content="no-cache" data-turbo-track="reload" data-track-token="4.4.0.828669188680">
 
     <!-- See retype.com -->
     <meta name="generator" content="Retype 4.4.0">
@@ -35,12 +35,12 @@
     <script data-cfasync="false">(function(){var cl=document.documentElement.classList,ls=localStorage.getItem("retype_scheme"),hd=cl.contains("dark"),hl=cl.contains("light"),wm=window.matchMedia&&window.matchMedia("(prefers-color-scheme: dark)").matches;if(ls==="dark"||(!ls&&wm&&!hd&&!hl)){cl.remove("light");cl.add("dark")}else if(ls==="light"||(!ls&&!wm&&!hd&&!hl)){cl.remove("dark");cl.add("light")}})();</script>
 
     <link id="retype-favicon" rel="icon" href="../../../static/favicon.png" />
-    <link href="../../../resources/css/retype.css?v=4.4.0.828500865420" rel="stylesheet">
+    <link href="../../../resources/css/retype.css?v=4.4.0.828669188680" rel="stylesheet">
 
-    <script data-cfasync="false" src="../../../resources/js/config.js?v=4.4.0.828500865420" data-turbo-eval="false" defer></script>
+    <script data-cfasync="false" src="../../../resources/js/config.js?v=4.4.0.828669188680" data-turbo-eval="false" defer></script>
     <script data-cfasync="false" src="../../../resources/js/retype.js?v=4.4.0" data-turbo-eval="false" defer></script>
-    <script id="lunr-js" data-cfasync="false" src="../../../resources/js/lunr.js?v=4.4.0.828500865420" data-turbo-eval="false" defer></script>
-    <script id="prism-js" data-cfasync="false" src="../../../resources/js/prism.js?v=4.4.0.828500865420" defer></script>
+    <script id="lunr-js" data-cfasync="false" src="../../../resources/js/lunr.js?v=4.4.0.828669188680" data-turbo-eval="false" defer></script>
+    <script id="prism-js" data-cfasync="false" src="../../../resources/js/prism.js?v=4.4.0.828669188680" defer></script>
 
     <link href="https://workleap.github.io/wl-idp-docs-hub/static/retype-customization.css" rel="stylesheet" />
 
@@ -271,11 +271,11 @@
 </doc-codeblock></div>
 <h3 id="parameters">Parameters</h3>
 <ul>
-<li><code translate="no" v-pre>eventName</code>: The name of the event to listen for.</li>
-<li><code translate="no" v-pre>callback</code>: A function to be executed when a event matching the provided name is dispatched.</li>
+<li><code translate="no" v-pre>eventName</code>: The name of the event to listen for. Must be a key augmented in <a href="../eventmap/">EventMap</a>.</li>
+<li><code translate="no" v-pre>callback</code>: A function to be executed when an event matching the provided name is dispatched.</li>
 <li><code translate="no" v-pre>options</code>: An optional object literal of options:
 <ul>
-<li><code translate="no" v-pre>once</code>: Whether or not the event listener should be automatically removed once an event as been handled.</li>
+<li><code translate="no" v-pre>once</code>: Whether or not the event listener should be automatically removed once an event has been handled.</li>
 </ul>
 </li>
 </ul>
@@ -283,18 +283,25 @@
 <p>Nothing</p>
 <h2 id="usage">Usage</h2>
 <div id="usage-code-1" class="codeblock-wrapper"><doc-codeblock>
-<pre translate="no" class="language-typescript" data-line="9,12"><code v-pre class="language-typescript">import { useCallback } from &quot;react&quot;;
+<pre translate="no" class="language-typescript" data-line="8"><code v-pre class="language-typescript">import { useCallback } from &quot;react&quot;;
 import { useEventBusListener } from &quot;@squide/firefly&quot;;
 
-const handleFoo = useCallback((data, context) =&gt; {
-    // Do something...
+const handleToast = useCallback(data =&gt; {
+    console.log(&quot;Toast:&quot;, data);
 }, []);
 
-// Listen to every &quot;foo&quot; events.
-useEventBusListener(&quot;foo&quot;, handleFoo);
+useEventBusListener(&quot;show-toast&quot;, handleToast);</code></pre>
+</doc-codeblock></div>
+<h3 id="listen-once">Listen once</h3>
+<div id="listen-once-code-1" class="codeblock-wrapper"><doc-codeblock>
+<pre translate="no" class="language-typescript" data-line="8"><code v-pre class="language-typescript">import { useCallback } from &quot;react&quot;;
+import { useEventBusListener } from &quot;@squide/firefly&quot;;
 
-// Listen to the first &quot;foo&quot; event, then automatically remove the listener.
-useEventBusListener(&quot;foo&quot;, handleFoo, { once: true };</code></pre>
+const handleToast = useCallback(data =&gt; {
+    console.log(&quot;Toast:&quot;, data);
+}, []);
+
+useEventBusListener(&quot;show-toast&quot;, handleToast, { once: true });</code></pre>
 </doc-codeblock></div>
 <div id="retype-backlinks">
     <h2>See also</h2>

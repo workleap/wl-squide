@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <meta name="color-scheme" content="light dark">
     <meta name="turbo-root" content="/wl-squide">
-    <meta name="turbo-cache-control" content="no-cache" data-turbo-track="reload" data-track-token="4.4.0.828500865420">
+    <meta name="turbo-cache-control" content="no-cache" data-turbo-track="reload" data-track-token="4.4.0.828669188680">
 
     <!-- See retype.com -->
     <meta name="generator" content="Retype 4.4.0">
@@ -23,6 +23,10 @@
     <meta property="og:url" content="https://workleap.github.io/wl-squide/essentials/use-event-bus/">
     <meta property="og:title" content="Use the event bus">
     <meta property="og:description" content="Squide provides a built-in event bus so that modules and other parts of a modular application can communicate in a loosely coupled way.">
+    <meta property="og:image" content="https://workleap.github.io/wl-squide/static/event-bus-typings.png">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    <meta property="og:image:alt" content="Use the event bus">
     <meta property="og:site_name" content="Squide">
     <meta property="og:locale" content="en_US">
 
@@ -31,16 +35,18 @@
     <meta name="twitter:url" content="https://workleap.github.io/wl-squide/essentials/use-event-bus/">
     <meta name="twitter:title" content="Use the event bus">
     <meta name="twitter:description" content="Squide provides a built-in event bus so that modules and other parts of a modular application can communicate in a loosely coupled way.">
+    <meta name="twitter:image" content="https://workleap.github.io/wl-squide/static/event-bus-typings.png">
+    <meta name="twitter:image:alt" content="Use the event bus">
 
     <script data-cfasync="false">(function(){var cl=document.documentElement.classList,ls=localStorage.getItem("retype_scheme"),hd=cl.contains("dark"),hl=cl.contains("light"),wm=window.matchMedia&&window.matchMedia("(prefers-color-scheme: dark)").matches;if(ls==="dark"||(!ls&&wm&&!hd&&!hl)){cl.remove("light");cl.add("dark")}else if(ls==="light"||(!ls&&!wm&&!hd&&!hl)){cl.remove("dark");cl.add("light")}})();</script>
 
     <link id="retype-favicon" rel="icon" href="../../static/favicon.png" />
-    <link href="../../resources/css/retype.css?v=4.4.0.828500865420" rel="stylesheet">
+    <link href="../../resources/css/retype.css?v=4.4.0.828669188680" rel="stylesheet">
 
-    <script data-cfasync="false" src="../../resources/js/config.js?v=4.4.0.828500865420" data-turbo-eval="false" defer></script>
+    <script data-cfasync="false" src="../../resources/js/config.js?v=4.4.0.828669188680" data-turbo-eval="false" defer></script>
     <script data-cfasync="false" src="../../resources/js/retype.js?v=4.4.0" data-turbo-eval="false" defer></script>
-    <script id="lunr-js" data-cfasync="false" src="../../resources/js/lunr.js?v=4.4.0.828500865420" data-turbo-eval="false" defer></script>
-    <script id="prism-js" data-cfasync="false" src="../../resources/js/prism.js?v=4.4.0.828500865420" defer></script>
+    <script id="lunr-js" data-cfasync="false" src="../../resources/js/lunr.js?v=4.4.0.828669188680" data-turbo-eval="false" defer></script>
+    <script id="prism-js" data-cfasync="false" src="../../resources/js/prism.js?v=4.4.0.828669188680" defer></script>
 
     <link href="https://workleap.github.io/wl-idp-docs-hub/static/retype-customization.css" rel="stylesheet" />
 
@@ -264,12 +270,12 @@
 <pre translate="no" class="language-typescript" data-line="9"><code v-pre class="language-typescript">import { useCallback } from &quot;react&quot;;
 import { useEventBusListener } from &quot;@squide/firefly&quot;;
 
-const handleFoo = useCallback((data, context) =&gt; {
+const handleShowToast = useCallback(data =&gt; {
     // Do something...
 }, []);
 
-// Listen to every &quot;foo&quot; events.
-useEventBusListener(&quot;foo&quot;, handleFoo);</code></pre>
+// Listen to every &quot;show-toast&quot; events.
+useEventBusListener(&quot;show-toast&quot;, handleShowToast);</code></pre>
 </doc-codeblock></div>
 <h2 id="add-an-event-listener-that-will-be-invoked-once">Add an event listener that will be invoked once</h2>
 <p>Register a function that will be invoked once, and then automatically unregisters itself:</p>
@@ -277,12 +283,12 @@ useEventBusListener(&quot;foo&quot;, handleFoo);</code></pre>
 <pre translate="no" class="language-typescript" data-line="9"><code v-pre class="language-typescript">import { useCallback } from &quot;react&quot;;
 import { useEventBusListener } from &quot;@squide/firefly&quot;;
 
-const handleFoo = useCallback((data, context) =&gt; {
+const handleShowToast = useCallback(data =&gt; {
     // Do something...
 }, []);
 
-// Listen to the first &quot;foo&quot; event.
-useEventBusListener(&quot;foo&quot;, handleFoo, { once: true };</code></pre>
+// Listen to the first &quot;show-toast&quot; event.
+useEventBusListener(&quot;show-toast&quot;, handleShowToast, { once: true });</code></pre>
 </doc-codeblock></div>
 <h2 id="dispatch-an-event">Dispatch an event</h2>
 <div id="dispatch-an-event-code-1" class="codeblock-wrapper"><doc-codeblock>
@@ -290,9 +296,69 @@ useEventBusListener(&quot;foo&quot;, handleFoo, { once: true };</code></pre>
 
 const dispatch = useEventBusDispatcher();
 
-// Dispatch a &quot;foo&quot; event with a &quot;bar&quot; payload.
-dispatch(&quot;foo&quot;, &quot;bar&quot;);</code></pre>
+// Dispatch a &quot;show-toast&quot; event with a string payload.
+dispatch(&quot;show-toast&quot;, &quot;Hello!&quot;);</code></pre>
 </doc-codeblock></div>
+<h2 id="setup-the-typings">Setup the typings</h2>
+<p>Before dispatching or listening to events, modules should <a href="https://www.typescriptlang.org/docs/handbook/declaration-merging.html#module-augmentation" class="outbound" target="_blank">augment</a> the <a href="../../reference/messaging/eventmap/">EventMap</a> interface with the events they intend to use to ensure type safety and autocompletion.</p>
+<p>First, create a types folder in the project:</p>
+<div id="setup-the-typings-code-1" class="codeblock-wrapper"><doc-codeblock>
+<pre translate="no" class="language-none" data-line="7-8"><code v-pre class="language-none">project
+├── src
+├────── register.tsx
+├────── Page.tsx
+├────── index.tsx
+├────── App.tsx
+├── types
+├────── event-map.d.ts</code></pre>
+</doc-codeblock></div>
+<p>Then create an <code translate="no" v-pre>event-map.d.ts</code> file:</p>
+<div id="setup-the-typings-projecttypesevent-mapdts" class="codeblock-wrapper"><doc-codeblock>
+<div class="codeblock-title">project/types/event-map.d.ts</div>
+<pre translate="no" class="language-typescript" data-line="6"><code v-pre class="language-typescript">import &quot;@squide/firefly&quot;;
+
+declare module &quot;@squide/firefly&quot; {
+    interface EventMap {
+        // Each entry maps an event name to its payload type.
+        &quot;show-toast&quot;: string;
+    }
+}</code></pre>
+</doc-codeblock></div>
+<p>Finally, update the project <code translate="no" v-pre>tsconfig.json</code> to include the <code translate="no" v-pre>types</code> folder:</p>
+<div id="setup-the-typings-projecttsconfigjson" class="codeblock-wrapper"><doc-codeblock>
+<div class="codeblock-title">project/tsconfig.json</div>
+<pre translate="no" class="language-json" data-line="5-7"><code v-pre class="language-json">{
+    &quot;compilerOptions&quot;: {
+        &quot;incremental&quot;: true,
+        &quot;tsBuildInfoFile&quot;: &quot;node_modules/.cache/tsbuildinfo.json&quot;,
+        &quot;types&quot;: [
+            &quot;./types/event-map.d.ts&quot;
+        ]
+    },
+    &quot;exclude&quot;: [&quot;dist&quot;, &quot;node_modules&quot;]
+}</code></pre>
+</doc-codeblock></div>
+<p>If any other project using those events must also reference the project&#x27;s <code translate="no" v-pre>event-map.d.ts</code> file:</p>
+<div id="setup-the-typings-projecttsconfigjson-1" class="codeblock-wrapper"><doc-codeblock>
+<div class="codeblock-title">project/tsconfig.json</div>
+<pre translate="no" class="language-json" data-line="5-7"><code v-pre class="language-json">{
+    &quot;compilerOptions&quot;: {
+        &quot;incremental&quot;: true,
+        &quot;tsBuildInfoFile&quot;: &quot;node_modules/.cache/tsbuildinfo.json&quot;,
+        &quot;types&quot;: [
+            &quot;../another-project/types/event-map.d.ts&quot;
+        ]
+    },
+    &quot;exclude&quot;: [&quot;dist&quot;, &quot;node_modules&quot;]
+}</code></pre>
+</doc-codeblock></div>
+<p>Once configured, the event bus hooks are fully typed:</p>
+<div class="align-image-left">
+<figure class="content-center">
+    <img src="../../static/event-bus-typings.png" alt="Auto-completion example" class="max-w-full h-auto rounded-image-rounded border-image-border border-image-border-width rounded-image-rounded border-image-border border-image-border-width" width="735" />
+    <figcaption class="caption">Auto-completion example</figcaption>
+</figure>
+</div>
 <div id="retype-backlinks">
     <h2>See also</h2>
 <div class="card-compact-group">
@@ -313,6 +379,16 @@ dispatch(&quot;foo&quot;, &quot;bar&quot;);</code></pre>
                 <span class="card-compact-title">Learn the core pieces</span>
             </div>
             <p class="card-compact-description">Now that we've created a host application, loaded a few modules, registered routes and navigation items, and learn the modular design principles, let's</p>
+        </div>
+    </a>
+</div>
+<div class="card-compact-container">
+    <a href="/wl-squide/updating/migrate-to-firefly-v17.0/" class="group card-compact no-link">
+        <div class="card-compact-body">
+            <div class="card-compact-header">
+                <span class="card-compact-title">Migrate to firefly v17.0</span>
+            </div>
+            <p class="card-compact-description">This major version introduces type-safe event bus hooks through module augmentation of the EventMap interface. This follows the same pattern used by</p>
         </div>
     </a>
 </div>
