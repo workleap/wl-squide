@@ -220,6 +220,28 @@ useDeferredRegistrations(undefined, {
 
 **Important:** Use `useMemo` to prevent unnecessary re-executions.
 
+#### DeferredRegistrationFunction signature
+
+Module registration functions return a `DeferredRegistrationFunction` with signature:
+`(deferredRuntime, data, operation: "register" | "update") => Promise<void> | void`
+
+- `operation === "register"`: Initial execution after modules are ready.
+- `operation === "update"`: Re-execution when data or feature flags change.
+
+```ts
+export const register: ModuleRegisterFunction<FireflyRuntime, unknown, DeferredData> = runtime => {
+    return (deferredRuntime, { userData }, operation) => {
+        if (userData.isAdmin) {
+            deferredRuntime.registerNavigationItem({
+                $id: "admin",
+                $label: operation === "register" ? "Admin" : "Admin (updated)",
+                to: "/admin"
+            });
+        }
+    };
+};
+```
+
 ## Messaging Hooks
 
 The event bus is type-safe via module augmentation of the `EventMap` interface (same pattern as `EnvironmentVariables` and `FeatureFlags`). Events must be declared in `EventMap` before they can be dispatched or listened to.
@@ -270,6 +292,32 @@ dispatch("tenant-changed", { tenantId: "abc" });
 ```
 
 ## Environment & Configuration Hooks
+
+### TypeScript Augmentation (EnvironmentVariables Interface)
+
+Before registering or accessing environment variables, modules must augment the `EnvironmentVariables` interface to get type safety and autocompletion:
+
+```ts
+// types/env-vars.d.ts
+import "@squide/firefly";
+
+declare module "@squide/firefly" {
+    interface EnvironmentVariables {
+        apiBaseUrl: string;
+        cdnUrl: string;
+    }
+}
+```
+
+Reference the file in `tsconfig.json`:
+
+```json
+{
+    "compilerOptions": {
+        "types": ["./types/env-vars.d.ts"]
+    }
+}
+```
 
 ### useEnvironmentVariable(key)
 Get a single environment variable.
