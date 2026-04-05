@@ -15,6 +15,39 @@ The `FireflyRuntime` instance gives modules access to routing, navigation, reque
 - [Event Bus](#event-bus)
 - [Logging](#logging)
 
+## initializeFirefly Options
+
+The preferred way to create a runtime instance. Accepts all `FireflyRuntime` constructor options plus:
+
+```ts
+const runtime = initializeFirefly(options?: {
+    mode?: "development" | "production";
+    localModules?: ModuleRegisterFunction[];   // Local module registration functions
+    context?: object;                          // Passed to each module registration function
+    useMsw?: boolean;                          // Enable MSW support
+    startMsw?: (x: { requestHandlers: RequestHandler[] }) => Promise<void>;  // Start MSW
+    environmentVariables?: Record<string, string>;
+    honeycombInstrumentationClient?: HoneycombInstrumentationClient;
+    launchDarklyClient?: LDClient;
+    loggers?: RootLogger[];
+    plugins?: Array<(runtime: FireflyRuntime) => Plugin>;
+    onError?: (error: Error) => void;          // Called on bootstrapping errors
+})
+```
+
+**`context`**: Passed to every module registration function as the second argument:
+```tsx
+const runtime = initializeFirefly({
+    localModules: [register],
+    context: { env: "staging" }
+});
+
+// In module:
+export const register: ModuleRegisterFunction<FireflyRuntime, { env: string }> = (runtime, context) => {
+    if (context.env !== "production") { /* ... */ }
+};
+```
+
 ## Constructor Parameters
 
 ```ts
@@ -28,7 +61,7 @@ new FireflyRuntime(options?: {
 })
 ```
 
-> For `useMsw` and `startMsw`, use `initializeFirefly()` — these options are not available on `FireflyRuntime` directly.
+> For `localModules`, `useMsw`, `startMsw`, `context`, and `onError`, use `initializeFirefly()` — these options are not available on `FireflyRuntime` directly.
 
 ## Methods
 
