@@ -9,6 +9,13 @@ import { useExecuteOnce } from "./useExecuteOnce.ts";
 export const PublicDataFetchStartedEvent = "squide-public-data-fetch-started";
 export const PublicDataFetchFailedEvent = "squide-public-data-fetch-failed";
 
+declare module "@squide/core" {
+    interface EventMap {
+        "squide-public-data-fetch-started": void;
+        "squide-public-data-fetch-failed": Error[];
+    }
+}
+
 // This converts an array of UseQueryResult to an array of the data type of each query result.
 // For more information, view: https://www.typescriptlang.org/docs/handbook/release-notes/typescript-3-1.html#mapped-types-on-tuples-and-arrays.
 type MapUseQueryResultToData<T> = { [K in keyof T]: T[K] extends UseQueryResult<infer U> ? U : never };

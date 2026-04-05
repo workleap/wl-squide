@@ -222,34 +222,51 @@ useDeferredRegistrations(undefined, {
 
 ## Messaging Hooks
 
+The event bus is type-safe via module augmentation of the `EventMap` interface (same pattern as `EnvironmentVariables` and `FeatureFlags`). Events must be declared in `EventMap` before they can be dispatched or listened to.
+
+### TypeScript Augmentation (EventMap Interface)
+
+```ts
+// types/event-map.d.ts
+import "@squide/firefly";
+
+declare module "@squide/firefly" {
+    interface EventMap {
+        "tenant-changed": { tenantId: string };
+        "theme-updated": { mode: "light" | "dark" };
+    }
+}
+```
+
+All Squide native events (bootstrapping lifecycle, data fetching, AppRouter state) are pre-augmented and already type-safe.
+
 ### useEventBusListener(eventName, handler, options?)
-Listen to events from the event bus.
+Listen to events from the event bus. The handler payload type is inferred from `EventMap`.
 
 ```ts
 import { useEventBusListener } from "@squide/firefly";
 import { useCallback } from "react";
 
-const handleEvent = useCallback((data, context) => {
-    console.log("Event received:", data);
+// Payload inferred as { tenantId: string }
+const handleTenantChanged = useCallback(data => {
+    console.log("Tenant:", data?.tenantId);
 }, []);
-
-// Listen to all events
-useEventBusListener("user-updated", handleEvent);
+useEventBusListener("tenant-changed", handleTenantChanged);
 
 // Listen once
-useEventBusListener("init-complete", handleEvent, { once: true });
+useEventBusListener("tenant-changed", handleTenantChanged, { once: true });
 ```
 
 ### useEventBusDispatcher()
-Get a function to dispatch events.
+Get a function to dispatch events. The payload type is enforced by `EventMap`.
 
 ```ts
 import { useEventBusDispatcher } from "@squide/firefly";
 
 const dispatch = useEventBusDispatcher();
 
-// Dispatch event with payload
-dispatch("user-updated", { id: 123, name: "John" });
+// Payload must match EventMap["tenant-changed"]
+dispatch("tenant-changed", { tenantId: "abc" });
 ```
 
 ## Environment & Configuration Hooks

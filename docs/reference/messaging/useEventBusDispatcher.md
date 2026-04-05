@@ -19,7 +19,7 @@ None
 
 ### Returns
 
-A dispatch function: `(eventName: string, payload?: {}) => void`.
+A dispatch function. The event name must be a key augmented in [EventMap](./EventMap.md). The payload type is inferred from the event name.
 
 ## Usage
 
@@ -28,5 +28,5 @@ import { useEventBusDispatcher } from "@squide/firefly";
 
 const dispatch = useEventBusDispatcher();
 
-dispatch("foo", "bar");
+dispatch("show-toast", "Hello!");
 ```

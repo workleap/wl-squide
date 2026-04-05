@@ -4,7 +4,7 @@ import { Plugin, RegisterModulesOptions, type Runtime } from "@squide/core";
 import { FireflyPlugin, FireflyRuntime } from "@squide/firefly";
 import { ActiveSpan, addProtectedListener, endActiveSpan, getTracer, HoneycombTrackingUnmanagedErrorHandler, startActiveChildSpan, startChildSpan, traceError, type GetSpanFunction } from "@squide/firefly/internal";
 import { RemoteDefinition } from "./RemoteDefinition.ts";
-import { RemoteModuleDeferredRegistrationFailedEvent, RemoteModuleDeferredRegistrationUpdateFailedEvent, RemoteModuleRegistrationError, RemoteModuleRegistrationFailedEvent, RemoteModuleRegistry, RemoteModuleRegistryId, RemoteModulesDeferredRegistrationCompletedEvent, RemoteModulesDeferredRegistrationCompletedEventPayload, RemoteModulesDeferredRegistrationStartedEvent, RemoteModulesDeferredRegistrationStartedEventPayload, RemoteModulesDeferredRegistrationsUpdateCompletedEvent, RemoteModulesDeferredRegistrationsUpdateCompletedEventPayload, RemoteModulesDeferredRegistrationsUpdateStartedEvent, RemoteModulesDeferredRegistrationsUpdateStartedEventPayload, RemoteModulesRegistrationCompletedEvent, RemoteModulesRegistrationCompletedEventPayload, RemoteModulesRegistrationStartedEvent, RemoteModulesRegistrationStartedEventPayload } from "./RemoteModuleRegistry.ts";
+import { RemoteModuleDeferredRegistrationFailedEvent, RemoteModuleDeferredRegistrationUpdateFailedEvent, RemoteModuleRegistrationFailedEvent, RemoteModuleRegistry, RemoteModuleRegistryId, RemoteModulesDeferredRegistrationCompletedEvent, RemoteModulesDeferredRegistrationStartedEvent, RemoteModulesDeferredRegistrationsUpdateCompletedEvent, RemoteModulesDeferredRegistrationsUpdateStartedEvent, RemoteModulesRegistrationCompletedEvent, RemoteModulesRegistrationStartedEvent } from "./RemoteModuleRegistry.ts";
 
 export const ModuleFederationPluginName = "module-federation-plugin";
 
@@ -47,11 +47,11 @@ export class ModuleFederationPlugin extends Plugin<FireflyRuntime> implements Fi
             onUnmanagedError(error);
         };
 
-        addProtectedListener(this._runtime, RemoteModulesRegistrationStartedEvent, (payload: unknown) => {
+        addProtectedListener(this._runtime, RemoteModulesRegistrationStartedEvent, payload => {
             const bootstrappingSpan = getBootstrappingSpan();
 
             const attributes = {
-                "app.squide.remote_count": (payload as RemoteModulesRegistrationStartedEventPayload).remoteCount
+                "app.squide.remote_count": payload?.remoteCount
             };
 
             if (bootstrappingSpan) {
@@ -66,12 +66,12 @@ export class ModuleFederationPlugin extends Plugin<FireflyRuntime> implements Fi
             onError: handleUnmanagedError
         });
 
-        addProtectedListener(this._runtime, RemoteModulesRegistrationCompletedEvent, (payload: unknown) => {
+        addProtectedListener(this._runtime, RemoteModulesRegistrationCompletedEvent, payload => {
             const bootstrappingSpan = getBootstrappingSpan();
 
             if (bootstrappingSpan) {
                 bootstrappingSpan.addEvent("remote-module-registration-completed", {
-                    "app.squide.remote_count": (payload as RemoteModulesRegistrationCompletedEventPayload).remoteCount
+                    "app.squide.remote_count": payload?.remoteCount
                 });
             }
 
@@ -84,21 +84,19 @@ export class ModuleFederationPlugin extends Plugin<FireflyRuntime> implements Fi
         });
 
         // Can occur multiple times.
-        addProtectedListener(this._runtime, RemoteModuleRegistrationFailedEvent, (payload: unknown) => {
-            const registrationError = payload as RemoteModuleRegistrationError;
-
+        addProtectedListener(this._runtime, RemoteModuleRegistrationFailedEvent, payload => {
             if (remoteModuleRegistrationSpan) {
-                traceError(remoteModuleRegistrationSpan, registrationError);
+                traceError(remoteModuleRegistrationSpan, payload as Error);
             }
         }, {
             onError: handleUnmanagedError
         });
 
-        addProtectedListener(this._runtime, RemoteModulesDeferredRegistrationStartedEvent, (payload: unknown) => {
+        addProtectedListener(this._runtime, RemoteModulesDeferredRegistrationStartedEvent, payload => {
             const bootstrappingSpan = getBootstrappingSpan();
 
             const attributes = {
-                "app.squide.registration_count": (payload as RemoteModulesDeferredRegistrationStartedEventPayload).registrationCount
+                "app.squide.registration_count": payload?.registrationCount
             };
 
             if (bootstrappingSpan) {
@@ -113,12 +111,12 @@ export class ModuleFederationPlugin extends Plugin<FireflyRuntime> implements Fi
             onError: handleUnmanagedError
         });
 
-        addProtectedListener(this._runtime, RemoteModulesDeferredRegistrationCompletedEvent, (payload: unknown) => {
+        addProtectedListener(this._runtime, RemoteModulesDeferredRegistrationCompletedEvent, payload => {
             const bootstrappingSpan = getBootstrappingSpan();
 
             if (bootstrappingSpan) {
                 bootstrappingSpan.addEvent("remote-module-deferred-registration-completed", {
-                    "app.squide.registration_count": (payload as RemoteModulesDeferredRegistrationCompletedEventPayload).registrationCount
+                    "app.squide.registration_count": payload?.registrationCount
                 });
             }
 
@@ -131,22 +129,20 @@ export class ModuleFederationPlugin extends Plugin<FireflyRuntime> implements Fi
         });
 
         // Can occur multiple times.
-        addProtectedListener(this._runtime, RemoteModuleDeferredRegistrationFailedEvent, (payload: unknown) => {
-            const registrationError = payload as RemoteModuleRegistrationError;
-
+        addProtectedListener(this._runtime, RemoteModuleDeferredRegistrationFailedEvent, payload => {
             if (remoteModuleDeferredRegistrationSpan) {
-                traceError(remoteModuleDeferredRegistrationSpan, registrationError);
+                traceError(remoteModuleDeferredRegistrationSpan, payload as Error);
             }
         }, {
             onError: handleUnmanagedError
         });
 
         // Can occur multiple times.
-        addProtectedListener(this._runtime, RemoteModulesDeferredRegistrationsUpdateStartedEvent, (payload: unknown) => {
+        addProtectedListener(this._runtime, RemoteModulesDeferredRegistrationsUpdateStartedEvent, payload => {
             const deferredRegistrationsUpdateSpan = getDeferredRegistrationsUpdateSpan();
 
             const attributes = {
-                "app.squide.registration_count": (payload as RemoteModulesDeferredRegistrationsUpdateStartedEventPayload).registrationCount
+                "app.squide.registration_count": payload?.registrationCount
             };
 
             if (deferredRegistrationsUpdateSpan) {
@@ -171,12 +167,12 @@ export class ModuleFederationPlugin extends Plugin<FireflyRuntime> implements Fi
         });
 
         // Can occur multiple times.
-        addProtectedListener(this._runtime, RemoteModulesDeferredRegistrationsUpdateCompletedEvent, (payload: unknown) => {
+        addProtectedListener(this._runtime, RemoteModulesDeferredRegistrationsUpdateCompletedEvent, payload => {
             const deferredRegistrationsUpdateSpan = getDeferredRegistrationsUpdateSpan();
 
             if (deferredRegistrationsUpdateSpan) {
                 deferredRegistrationsUpdateSpan.addEvent("remote-module-deferred-registrations-update-completed", {
-                    "app.squide.registration_count": (payload as RemoteModulesDeferredRegistrationsUpdateCompletedEventPayload).registrationCount
+                    "app.squide.registration_count": payload?.registrationCount
                 });
             }
 
@@ -188,11 +184,9 @@ export class ModuleFederationPlugin extends Plugin<FireflyRuntime> implements Fi
         });
 
         // Can occur multiple times.
-        addProtectedListener(this._runtime, RemoteModuleDeferredRegistrationUpdateFailedEvent, (payload: unknown) => {
-            const registrationError = payload as RemoteModuleRegistrationError;
-
+        addProtectedListener(this._runtime, RemoteModuleDeferredRegistrationUpdateFailedEvent, payload => {
             if (remoteModuleDeferredRegistrationsUpdateSpan) {
-                traceError(remoteModuleDeferredRegistrationsUpdateSpan.instance, registrationError);
+                traceError(remoteModuleDeferredRegistrationsUpdateSpan.instance, payload as Error);
             }
         }, {
             onError: handleUnmanagedError

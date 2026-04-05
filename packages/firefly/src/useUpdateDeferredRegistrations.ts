@@ -5,6 +5,13 @@ import { useAppRouterDispatcher } from "./AppRouterContext.ts";
 export const DeferredRegistrationsUpdateStartedEvent = "squide-deferred-registrations-update-started";
 export const DeferredRegistrationsUpdateCompletedEvent = "squide-deferred-registrations-update-completed-started";
 
+declare module "@squide/core" {
+    interface EventMap {
+        "squide-deferred-registrations-update-started": void;
+        "squide-deferred-registrations-update-completed-started": void;
+    }
+}
+
 export function useUpdateDeferredRegistrations() {
     const runtime = useRuntime();
     const dispatch = useAppRouterDispatcher();

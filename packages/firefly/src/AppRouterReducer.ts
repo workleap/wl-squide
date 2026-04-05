@@ -56,6 +56,24 @@ export const ProtectedDataUpdatedEvent = "squide-protected-data-updated";
 export const DeferredRegistrationsUpdatedEvent = "squide-deferred-registrations-updated";
 export const ApplicationBoostrappedEvent = "squide-app-boostrapped";
 
+declare module "@squide/core" {
+    interface EventMap {
+        "squide-modules-registered": AppRouterWaitState;
+        "squide-modules-ready": AppRouterWaitState;
+        "squide-msw-ready": AppRouterWaitState;
+        "squide-active-route-is-public": AppRouterWaitState;
+        "squide-active-route-is-protected": AppRouterWaitState;
+        "squide-public-data-ready": AppRouterWaitState;
+        "squide-protected-data-ready": AppRouterWaitState;
+        "squide-public-data-updated": AppRouterWaitState;
+        "squide-protected-data-updated": AppRouterWaitState;
+        "squide-deferred-registrations-updated": AppRouterWaitState;
+        "squide-feature-flags-updated": AppRouterWaitState;
+        "squide-is-unauthorized": AppRouterWaitState;
+        "squide-app-boostrapped": AppRouterWaitState;
+    }
+}
+
 export interface AppRouterAction {
     type: AppRouterActionType;
     payload?: unknown;

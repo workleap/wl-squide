@@ -2,25 +2,19 @@ import type { Span } from "@opentelemetry/api";
 import {
     type AddListenerOptions,
     type EventCallbackFunction,
-    type EventName,
+    type EventMap,
+    type EventMapKey,
     LocalModuleDeferredRegistrationFailedEvent,
     LocalModuleDeferredRegistrationUpdateFailedEvent,
     LocalModuleRegistrationFailedEvent,
     LocalModulesDeferredRegistrationCompletedEvent,
-    type LocalModulesDeferredRegistrationCompletedEventPayload,
     LocalModulesDeferredRegistrationStartedEvent,
-    type LocalModulesDeferredRegistrationStartedEventPayload,
     LocalModulesDeferredRegistrationsUpdateCompletedEvent,
-    type LocalModulesDeferredRegistrationsUpdateCompletedEventPayload,
     LocalModulesDeferredRegistrationsUpdateStartedEvent,
-    type LocalModulesDeferredRegistrationsUpdateStartedEventPayload,
     LocalModulesRegistrationCompletedEvent,
-    type LocalModulesRegistrationCompletedEventPayload,
-    LocalModulesRegistrationStartedEvent,
-    type LocalModulesRegistrationStartedEventPayload,
-    type ModuleRegistrationError
+    LocalModulesRegistrationStartedEvent
 } from "@squide/core";
-import { ApplicationBoostrappedEvent, type AppRouterWaitState, ModulesReadyEvent, ModulesRegisteredEvent, MswReadyEvent, ProtectedDataReadyEvent, PublicDataReadyEvent } from "../AppRouterReducer.ts";
+import { ApplicationBoostrappedEvent, ModulesReadyEvent, ModulesRegisteredEvent, MswReadyEvent, ProtectedDataReadyEvent, PublicDataReadyEvent } from "../AppRouterReducer.ts";
 import { FireflyPlugin } from "../FireflyPlugin.ts";
 import type { FireflyRuntime } from "../FireflyRuntime.tsx";
 import { ApplicationBootstrappingStartedEvent } from "../initializeFirefly.ts";
@@ -40,13 +34,13 @@ export interface AddProtectedListenerOptions extends AddListenerOptions {
     onError?: (error: unknown) => void;
 }
 
-export function addProtectedListener(runtime: FireflyRuntime, eventName: EventName, callback: EventCallbackFunction, options?: AddProtectedListenerOptions) {
-    const protectedCallback = (...args: unknown[]) => {
+export function addProtectedListener<K extends EventMapKey>(runtime: FireflyRuntime, eventName: K, callback: EventCallbackFunction<EventMap[K]>, options?: AddProtectedListenerOptions) {
+    const protectedCallback: EventCallbackFunction<EventMap[K]> = data => {
         try {
-            callback(...args);
+            callback(data);
         } catch (error: unknown) {
             runtime.logger
-                .withText(`[squide] An unmanaged error occurred while handling event "${eventName.toString()}" for Honeycomb instrumentation:`)
+                .withText(`[squide] An unmanaged error occurred while handling event "${String(eventName)}" for Honeycomb instrumentation:`)
                 .withError(error as Error)
                 .error();
         }
@@ -89,7 +83,7 @@ export function reduceDataFetchEvents(
         onPublicDataReady();
 
         if (dataFetchState === "fetching-data") {
-            if (payload && !(payload as AppRouterWaitState).waitForProtectedData) {
+            if (payload && !payload.waitForProtectedData) {
                 dataFetchState = "data-ready";
                 onDataReady();
             } else {
@@ -120,7 +114,7 @@ export function reduceDataFetchEvents(
         onProtectedDataReady();
 
         if (dataFetchState === "fetching-data") {
-            if (payload && !(payload as AppRouterWaitState).waitForPublicData) {
+            if (payload && !payload.waitForPublicData) {
                 dataFetchState = "data-ready";
                 onDataReady();
             } else {
@@ -135,11 +129,11 @@ export function reduceDataFetchEvents(
         onError: onUnmanagedError
     });
 
-    const handleDataFetchFailed = (payload: unknown) => {
+    const handleDataFetchFailed: EventCallbackFunction<Error[]> = payload => {
         if (dataFetchState !== "data-fetch-failed") {
             dataFetchState = "data-fetch-failed";
 
-            onDataFetchFailed(payload as Error[]);
+            onDataFetchFailed(payload ?? []);
         }
     };
 
@@ -224,9 +218,9 @@ function registerTrackingListeners(runtime: FireflyRuntime) {
         onError: handleUnmanagedError
     });
 
-    addProtectedListener(runtime, LocalModulesRegistrationStartedEvent, (payload: unknown) => {
+    addProtectedListener(runtime, LocalModulesRegistrationStartedEvent, payload => {
         const attributes = {
-            "app.squide.module_count": (payload as LocalModulesRegistrationStartedEventPayload).moduleCount
+            "app.squide.module_count": payload?.moduleCount
         };
 
         if (bootstrappingSpan) {
@@ -241,10 +235,10 @@ function registerTrackingListeners(runtime: FireflyRuntime) {
         onError: handleUnmanagedError
     });
 
-    addProtectedListener(runtime, LocalModulesRegistrationCompletedEvent, (payload: unknown) => {
+    addProtectedListener(runtime, LocalModulesRegistrationCompletedEvent, payload => {
         if (bootstrappingSpan) {
             bootstrappingSpan.addEvent("local-module-registration-completed", {
-                "app.squide.module_count": (payload as LocalModulesRegistrationCompletedEventPayload).moduleCount
+                "app.squide.module_count": payload?.moduleCount
             });
         }
 
@@ -257,19 +251,17 @@ function registerTrackingListeners(runtime: FireflyRuntime) {
     });
 
     // Can occur multiple times.
-    addProtectedListener(runtime, LocalModuleRegistrationFailedEvent, (payload: unknown) => {
-        const registrationError = payload as ModuleRegistrationError;
-
+    addProtectedListener(runtime, LocalModuleRegistrationFailedEvent, payload => {
         if (localModuleRegistrationSpan) {
-            traceError(localModuleRegistrationSpan, registrationError);
+            traceError(localModuleRegistrationSpan, payload as Error);
         }
     }, {
         onError: handleUnmanagedError
     });
 
-    addProtectedListener(runtime, LocalModulesDeferredRegistrationStartedEvent, (payload: unknown) => {
+    addProtectedListener(runtime, LocalModulesDeferredRegistrationStartedEvent, payload => {
         const attributes = {
-            "app.squide.registration_count": (payload as LocalModulesDeferredRegistrationStartedEventPayload).registrationCount
+            "app.squide.registration_count": payload?.registrationCount
         };
 
         if (bootstrappingSpan) {
@@ -284,10 +276,10 @@ function registerTrackingListeners(runtime: FireflyRuntime) {
         onError: handleUnmanagedError
     });
 
-    addProtectedListener(runtime, LocalModulesDeferredRegistrationCompletedEvent, (payload: unknown) => {
+    addProtectedListener(runtime, LocalModulesDeferredRegistrationCompletedEvent, payload => {
         if (bootstrappingSpan) {
             bootstrappingSpan.addEvent("local-module-deferred-registration-completed", {
-                "app.squide.registration_count": (payload as LocalModulesDeferredRegistrationCompletedEventPayload).registrationCount
+                "app.squide.registration_count": payload?.registrationCount
             });
         }
 
@@ -300,11 +292,9 @@ function registerTrackingListeners(runtime: FireflyRuntime) {
     });
 
     // Can occur multiple times.
-    addProtectedListener(runtime, LocalModuleDeferredRegistrationFailedEvent, (payload: unknown) => {
-        const registrationError = payload as ModuleRegistrationError;
-
+    addProtectedListener(runtime, LocalModuleDeferredRegistrationFailedEvent, payload => {
         if (localModuleDeferredRegistrationSpan) {
-            traceError(localModuleRegistrationSpan, registrationError);
+            traceError(localModuleRegistrationSpan, payload as Error);
         }
     }, {
         onError: handleUnmanagedError
@@ -416,9 +406,9 @@ function registerTrackingListeners(runtime: FireflyRuntime) {
     });
 
     // Can occur multiple times.
-    addProtectedListener(runtime, LocalModulesDeferredRegistrationsUpdateStartedEvent, (payload: unknown) => {
+    addProtectedListener(runtime, LocalModulesDeferredRegistrationsUpdateStartedEvent, payload => {
         const attributes = {
-            "app.squide.registration_count": (payload as LocalModulesDeferredRegistrationsUpdateStartedEventPayload).registrationCount
+            "app.squide.registration_count": payload?.registrationCount
         };
 
         if (deferredRegistrationsUpdateSpan) {
@@ -443,10 +433,10 @@ function registerTrackingListeners(runtime: FireflyRuntime) {
     });
 
     // Can occur multiple times.
-    addProtectedListener(runtime, LocalModulesDeferredRegistrationsUpdateCompletedEvent, (payload: unknown) => {
+    addProtectedListener(runtime, LocalModulesDeferredRegistrationsUpdateCompletedEvent, payload => {
         if (deferredRegistrationsUpdateSpan) {
             deferredRegistrationsUpdateSpan.addEvent("local-module-deferred-registrations-update-completed", {
-                "app.squide.registration_count": (payload as LocalModulesDeferredRegistrationsUpdateCompletedEventPayload).registrationCount
+                "app.squide.registration_count": payload?.registrationCount
             });
         }
 
@@ -458,11 +448,9 @@ function registerTrackingListeners(runtime: FireflyRuntime) {
     });
 
     // Can occur multiple times.
-    addProtectedListener(runtime, LocalModuleDeferredRegistrationUpdateFailedEvent, (payload: unknown) => {
-        const registrationError = payload as ModuleRegistrationError;
-
+    addProtectedListener(runtime, LocalModuleDeferredRegistrationUpdateFailedEvent, payload => {
         if (localModuleDeferredRegistrationsUpdateSpan) {
-            traceError(localModuleDeferredRegistrationsUpdateSpan.instance, registrationError);
+            traceError(localModuleDeferredRegistrationsUpdateSpan.instance, payload as Error);
         }
     }, {
         onError: handleUnmanagedError
