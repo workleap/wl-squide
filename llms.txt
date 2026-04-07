@@ -1,0 +1,197 @@
+﻿
+- [Integrations](https://workleap.github.io/wl-squide/integrations/index.md): Setup MSW
+- [Essentials](https://workleap.github.io/wl-squide/essentials/index.md): Register local modules
+- [Recipes](https://workleap.github.io/wl-squide/recipes/default.md): Add authentication
+- [Reference](https://workleap.github.io/wl-squide/reference/default.md): Packages
+- [Updating](https://workleap.github.io/wl-squide/updating/default.md): Migrate to firefly v9.0
+- [Troubleshooting](https://workleap.github.io/wl-squide/troubleshooting.md): In an effort to optimize the development experience, Squide can be bootstrapped in development or production mode. To troubleshoot a persistent issue, make
+- [Samples](https://workleap.github.io/wl-squide/samples.md): Host application
+- [About](https://workleap.github.io/wl-squide/about.md): To ask a question or propose an idea, feel free to start a new discussion on Github. If you found a bug, please open an issue on Github.
+
+## Introduction
+
+- [Getting started](https://workleap.github.io/wl-squide/introduction/getting-started.md): The documentation for Squide firefly v8 is available here.
+- [Create an host application](https://workleap.github.io/wl-squide/introduction/create-host.md): We highly recommend going through the entire getting started guide. However, if you prefer to scaffold the application we'll be building, a template is
+- [Create a local module](https://workleap.github.io/wl-squide/introduction/create-local-module.md): We highly recommend going through the entire getting started guide. However, if you prefer to scaffold the application we'll be building, a template is
+- [Learn the modular design principles](https://workleap.github.io/wl-squide/introduction/learn-modular-principles.md): While developing the API of Squide, we kept a few modular design principles in mind. Those principles are not settled stones, you might want to diverge
+- [Learn the core pieces](https://workleap.github.io/wl-squide/introduction/learn-core-pieces.md): Now that we've created a host application, loaded a few modules, registered routes and navigation items, and learn the modular design principles, let's delve into the core pieces provided by Squide.
+- [Use with agents](https://workleap.github.io/wl-squide/introduction/use-with-agents.md): Information about the Squide libraries can be shared with different agents using the workleap-squide agent skill.
+- [Deploy](https://workleap.github.io/wl-squide/introduction/deploy.md): The deployment process for a modular application can vary depending on various factors, including the chosen hosting provider. Therefore, we do not recommend any specific deployment setup.
+
+## Integrations
+
+- [Setup MSW](https://workleap.github.io/wl-squide/integrations/setup-msw.md): Squide includes built-in support for Mock Service Worker (MSW) to speed up frontend development and promote an API first approach. Modules can dynamically register their own mock request handlers, and Squide composes them into a unified set.
+- [Setup Honeycomb](https://workleap.github.io/wl-squide/integrations/setup-honeycomb.md): Squide integrates with @workleap/telemetry v2 or later (or @workleap/honeycomb v7 or later) to automatically send performance traces for the bootstrapping flow of an application.
+- [Setup LaunchDarkly](https://workleap.github.io/wl-squide/integrations/setup-launch-darkly.md): Squide integrates with LaunchDarkly to attach feature flags to the FireflyRuntime instance and automatically update deferred registrations whenever a flag value changes.
+- [Setup TanStack Query](https://workleap.github.io/wl-squide/integrations/setup-tanstack-query.md): TanStack Query simplifies server state management in frontend applications by keeping backend data synchronized with the UI without requiring manual state handling.
+- [Setup i18next](https://workleap.github.io/wl-squide/integrations/setup-i18next.md): react-i18next is an internationalization library that helps applications manage translations, language detection, and localization logic. It provides a flexible API for loading translation files, formatting text, handling plurals, and switching languages at runtime.
+- [Setup the logger](https://workleap.github.io/wl-squide/integrations/setup-logger.md): Squide logger provides visibility into the application's bootstrapping flow and how modules behave and interact. It also offers an abstraction that allows applications to emit custom logs to multiple destinations defined by the host application.
+- [Setup Storybook](https://workleap.github.io/wl-squide/integrations/setup-storybook.md): Squide provides helpers to set up a Storybook story file for rendering components using Squide. This guide assumes that you already have a working Storybook environment.
+
+## Essentials
+
+- [Register local modules](https://workleap.github.io/wl-squide/essentials/register-local-modules.md): A local module can be a standalone package, a sibling package in a monorepo, or a local folder within the host application. It's an architectural pattern that enforces modularity and improves an application's scalability and maintainability.
+- [Register routes](https://workleap.github.io/wl-squide/essentials/register-routes.md): By allowing consumers to register dynamic routes, Squide enables developers to build scalable modular applications with well-defined boundaries. Each module contributes its own routing configuration, which the host assembles into a unified routing structure at bootstrapping.
+- [Register navigation items](https://workleap.github.io/wl-squide/essentials/register-nav-items.md): By allowing consumers to register dynamic navigation items, Squide enables developers to build scalable modular applications with well-defined boundaries. Each module contributes its own navigation items, which the host assembles into a unified application.
+- [Register deferred navigation items](https://workleap.github.io/wl-squide/essentials/register-deferred-nav-items.md): Navigation items cannot always be registered before the application bootstrapping process, as some of them depend on remote data and/or feature flags.
+- [Register MSW request handlers](https://workleap.github.io/wl-squide/essentials/register-msw-handlers.md): By allowing consumers to register dynamic request handlers, Squide enables developers to build scalable modular applications with well-defined boundaries. Each module contributes its own Mock Service Workers, which the host assembles into a unified set.
+- [Fetch public global data](https://workleap.github.io/wl-squide/essentials/fetch-public-global-data.md): To make global public data fetching easier, Squide provides primitives build on top of TanStack Query to orchestrate both the data-loading states and the associated UI.
+- [Fetch protected global data](https://workleap.github.io/wl-squide/essentials/fetch-protected-global-data.md): To make global protected data fetching easier, Squide provides primitives build on top of TanStack Query to orchestrate both the data-loading states and the associated UI.
+- [Fetch page data](https://workleap.github.io/wl-squide/essentials/fetch-page-data.md): There are several approaches to fetching data for pages. We prefer using a backend-for-frontend (BFF) with a dedicated endpoint for each page, returning a data structure tailored to that page.
+- [Use the logger](https://workleap.github.io/wl-squide/essentials/use-logger.md): Squide integrates with the @workleap/logging library by accepting a loggers array during initialization. If no loggers are provided and the application is running in development mode, Squide automatically attaches a BrowserConsoleLogger instance to the runtime.
+- [Use the event bus](https://workleap.github.io/wl-squide/essentials/use-event-bus.md): Squide provides a built-in event bus so that modules and other parts of a modular application can communicate in a loosely coupled way.
+- [Use environment variables](https://workleap.github.io/wl-squide/essentials/use-env-variables.md): Environment variables are incredibly useful when working with multiple environments, such as dev, staging, and production because they decouple configuration from code.
+- [Use feature flags](https://workleap.github.io/wl-squide/essentials/use-feature-flags.md): To use feature flags, start by following the setup LaunchDarkly integration guide to create and initialize a LaunchDarkly SDK client instance. Once the setup is complete, the examples below cover the most common use cases.
+- [Set Honeycomb custom attributes](https://workleap.github.io/wl-squide/essentials/set-honeycomb-custom-attributes.md): For Honeycomb traces to be useful, most application needs to set information about the current user environment on monitoring and performance traces. To help with that, Squide can integrate with the setGlobalSpanAttributes method of the HoneycombInstrumentationClient.
+- [Localize resources](https://workleap.github.io/wl-squide/essentials/localize-resources.md): To localize resources for a Squide application, start by following the setup i18next integration guide to configure the i118nextPlugin and create and register an i18next instance for your module.
+- [Register plugins](https://workleap.github.io/wl-squide/essentials/register-plugins.md): To keep Squide lightweight, not all functionalities should be integrated as a core functionality. However, to accommodate a broad range of technologies, a plugin system has been implemented to fill the gap.
+- [Define error boundaries](https://workleap.github.io/wl-squide/essentials/define-error-boundaries.md): Squide uses React Router's error boundary system to isolate failures when possible and to catch unhandled errors. This page explains how Squide integrates with React Router's error boundaries and how to define them at different levels of your application.
+
+## Module federation
+
+- [Create an host application](https://workleap.github.io/wl-squide/module-federation/create-host.md): We highly recommend going through the entire getting started guide. However, if you prefer to scaffold the application we'll be building, a template is
+- [Create a remote module](https://workleap.github.io/wl-squide/module-federation/create-remote-module.md): We highly recommend going through the entire getting started guide. However, if you prefer to scaffold the application we'll be building, a template is
+- [Add a shared dependency](https://workleap.github.io/wl-squide/module-federation/add-a-shared-dependency.md): Shared dependencies is one of the most powerful concepts of Module Federation. However, mastering its configuration can be quite challenging. Failure to
+- [Develop a module in isolation](https://workleap.github.io/wl-squide/module-federation/develop-a-module-in-isolation.md): To develop their own independent module, a team should not need to install the host application or any other modules of the application they do not own.
+- [Setup i18next](https://workleap.github.io/wl-squide/module-federation/setup-i18next.md): Most Workleap's application are either already bilingual or will be in the future. To help feature teams deal with localized resources, Squide provides a native plugin designed to adapt the i18next library for modular applications.
+- [Override a React context](https://workleap.github.io/wl-squide/module-federation/override-a-react-context.md): In a modular application, it's typical to configure various global React context at the root of the host application. These contexts are then used by the layouts and pages of the modules.
+
+## Recipes
+
+- [Add authentication](https://workleap.github.io/wl-squide/recipes/add-authentication.md): Before going forward with this recipe, make sure that you complete the Setup MSW and Fetch global protected data guides.
+- [Override the host layout](https://workleap.github.io/wl-squide/recipes/override-the-host-layout.md): The RootLayout component defined in the create an host app starting guide serves as the default layout for the homepage and all the managed routes.
+- [Use modular tabs](https://workleap.github.io/wl-squide/recipes/use-modular-tabs.md): While it's typically recommended for a Squide application to maintain the boundary of a page within a single domain, there are situations where enhancing
+
+## Reference
+
+- [Packages](https://workleap.github.io/wl-squide/reference/packages.md): Name
+
+### Runtime
+
+- [FireflyRuntime](https://workleap.github.io/wl-squide/reference/runtime/fireflyruntime.md): Don't instanciate your own instance of FireflyRuntime, use the initializeFirefly function instead.
+- [FireflyProvider](https://workleap.github.io/wl-squide/reference/runtime/fireflyprovider.md): React provider to share a FireflyRuntime instance between an host application and the modules.
+- [useRuntime](https://workleap.github.io/wl-squide/reference/runtime/useruntime.md): Retrieve a FireflyRuntime instance.
+- [useRuntimeMode](https://workleap.github.io/wl-squide/reference/runtime/useruntimemode.md): Retrieve the runtime mode.
+
+### Registration
+
+- [initializeFirefly](https://workleap.github.io/wl-squide/reference/registration/initializefirefly.md): Create a Runtime instance, register local modules and optionally start MSW. During the registration process, the modules' registration function will be invoked with a FireflyRuntime instance and an optional context object.
+- [useDeferredRegistrations](https://workleap.github.io/wl-squide/reference/registration/usedeferredregistrations.md): Register the modules deferred registration functions when the global data is initially fetched and update the deferred registration functions whenever the global data or the feature flags changes.
+- [mergeDeferredRegistrations](https://workleap.github.io/wl-squide/reference/registration/mergedeferredregistrations.md): Utility function that takes an array of deferred registration functions and returns a single function wrapping and merging all the provided deferred registration functions.
+
+### Routing
+
+- [AppRouter](https://workleap.github.io/wl-squide/reference/routing/approuter.md): A component that sets up Squide's primitives with a React Router instance.
+- [PublicRoutes](https://workleap.github.io/wl-squide/reference/routing/publicroutes.md): A placeholder indicating where in the routing tree should the public routes be rendered. The PublicRoutes placeholder concept is similar to React Router's outlet, it's a pipeline to inject routes at a predetermined location.
+- [ProtectedRoutes](https://workleap.github.io/wl-squide/reference/routing/protectedroutes.md): A placeholder indicating where in the routing tree should the protected routes be rendered. The ProtectedRoutes placeholder concept is similar to React Router's outlet, it's a pipeline to inject routes at a predetermined location.
+- [useIsBootstrapping](https://workleap.github.io/wl-squide/reference/routing/useisbootstrapping.md): Indicate whether the application is currently being bootstrapped, such as registering modules, handling deferred registrations, preparing Mock Service Worker, fetching global data, etc.
+- [useRoutes](https://workleap.github.io/wl-squide/reference/routing/useroutes.md): Retrieve the registered routes from the FireflyRuntime instance.
+- [useRouteMatch](https://workleap.github.io/wl-squide/reference/routing/useroutematch.md): Execute React Router's matching algorithm against Squide's routes registry and a given location to determine if any route match the location.
+- [useIsRouteProtected](https://workleap.github.io/wl-squide/reference/routing/useisrouteprotected.md): Determine whether or not a route is considered as protected.
+- [resolveRouteSegments](https://workleap.github.io/wl-squide/reference/routing/resolveroutesegments.md): Replace a route segments (paths starting with :) with the provided values. For a value to be applied to a segment, the value key must match the segment
+- [useRenderedNavigationItems](https://workleap.github.io/wl-squide/reference/routing/userenderednavigationitems.md): Recursively parse a navigation items structure to transform the items into React Elements.
+- [useNavigationItems](https://workleap.github.io/wl-squide/reference/routing/usenavigationitems.md): Retrieve the registered navigation items from the FireflyRuntime instance.
+- [isNavigationLink](https://workleap.github.io/wl-squide/reference/routing/isnavigationlink.md): Indicate whether or not a navigation item is a NavigationLink. This utility is particularly handy when rendering a menu with nested items.
+
+### Messaging
+
+- [EventMap](https://workleap.github.io/wl-squide/reference/messaging/eventmap.md): The EventMap interface defines the shape and types of the event names and payload values that modules dispatch and listen to through the FireflyRuntime instance event bus.
+- [useEventBusDispatcher](https://workleap.github.io/wl-squide/reference/messaging/useeventbusdispatcher.md): Use the FireflyRuntime instance event bus to dispatch an event.
+- [useEventBusListener](https://workleap.github.io/wl-squide/reference/messaging/useeventbuslistener.md): Attach a listener to the FireflyRuntime instance event bus.
+
+### Global data fetching
+
+- [usePublicDataQueries](https://workleap.github.io/wl-squide/reference/global-data-fetching/usepublicdataqueries.md): Execute the specified Tanstack queries once the modules are ready and, when applicable, Mock Service Worker is also ready.
+- [useProtectedDataQueries](https://workleap.github.io/wl-squide/reference/global-data-fetching/useprotecteddataqueries.md): Execute the specified Tanstack queries when the modules are ready, the active route is protected and, when applicable, Mock Service Worker is ready.
+- [usePublicDataHandler](https://workleap.github.io/wl-squide/reference/global-data-fetching/usepublicdatahandler.md): Execute the specified handler once the modules are ready and, when applicable, Mock Service Worker is also ready.
+- [useProtectedDataHandler](https://workleap.github.io/wl-squide/reference/global-data-fetching/useprotecteddatahandler.md): Execute the specified handler once the modules are ready, the active route is protected and, when applicable, Mock Service Worker is also ready.
+- [isGlobalDataQueriesError](https://workleap.github.io/wl-squide/reference/global-data-fetching/isglobaldataquerieserror.md): Indicates whether or not an error is an instance of GlobalDataQueriesError.
+
+### Mock Service Worker
+
+- [MswPlugin](https://workleap.github.io/wl-squide/reference/msw/mswplugin.md): A plugin to faciliate the integration of Mock Service Worker (MSW) in a modular application.
+
+### i18next
+
+- [i18nextPlugin](https://workleap.github.io/wl-squide/reference/i18next/i18nextplugin.md): A plugin to faciliate the integration of i18next in a modular application.
+- [getI18nextPlugin](https://workleap.github.io/wl-squide/reference/i18next/geti18nextplugin.md): Return an instance of i18nextPlugin from the list of plugins registered with a Runtime instance.
+- [useChangeLanguage](https://workleap.github.io/wl-squide/reference/i18next/usechangelanguage.md): Provide a function to change the current language of every i18next instance registered with the i18nextPlugin instance.
+- [useCurrentLanguage](https://workleap.github.io/wl-squide/reference/i18next/usecurrentlanguage.md): Retrieve the current language of the i18nextPlugin instance.
+- [useI18nextInstance](https://workleap.github.io/wl-squide/reference/i18next/usei18nextinstance.md): Retrieve a registered i18next instance from the i18nextPlugin instance.
+- [I18nextNavigationItemLabel](https://workleap.github.io/wl-squide/reference/i18next/i18nextnavigationitemlabel.md): A React component to localize the label of Squide navigation items.
+
+### Environment variables
+
+- [EnvironmentVariablesPlugin](https://workleap.github.io/wl-squide/reference/env-vars/environmentvariablesplugin.md): A plugin to faciliate the usage of environment variables in a modular application.
+- [EnvironmentVariables](https://workleap.github.io/wl-squide/reference/env-vars/environmentvariables.md): The EnvironmentVariables interface defines the shape and types of the environment-variable keys and values that modules register and access through the FireflyRuntime instance.
+- [useEnvironmentVariable](https://workleap.github.io/wl-squide/reference/env-vars/useenvironmentvariable.md): Retrieve a specific environment variable registered with the FireflyRuntime instance.
+- [useEnvironmentVariables](https://workleap.github.io/wl-squide/reference/env-vars/useenvironmentvariables.md): Retrieve all the environment variables registered with the FireflyRuntime instance.
+
+### LaunchDarkly
+
+- [LaunchDarklyPlugin](https://workleap.github.io/wl-squide/reference/launch-darkly/launchdarklyplugin.md): A plugin to faciliate the usage of LaunchDarkly feature flags in a modular application.
+- [FeatureFlags](https://workleap.github.io/wl-squide/reference/launch-darkly/featureflags.md): The FeatureFlags interface defines the shape and types of the feature flags keys and values that modules evaluates through the FireflyRuntime instance and other utility hooks and functions.
+- [useFeatureFlag](https://workleap.github.io/wl-squide/reference/launch-darkly/usefeatureflag.md): Retrieve the value of a LaunchDarkly feature flag.
+- [useFeatureFlags](https://workleap.github.io/wl-squide/reference/launch-darkly/usefeatureflags.md): Retrieve all the LaunchDarkly feature flags.
+- [useLaunchDarklyClient](https://workleap.github.io/wl-squide/reference/launch-darkly/uselaunchdarklyclient.md): Retrieve the LaunchDarkly SDK client instance provided at initialization.
+- [getFeatureFlag](https://workleap.github.io/wl-squide/reference/launch-darkly/getfeatureflag.md): Retrieve the value of a LaunchDarkly feature flag.
+- [FeatureFlagSetSnapshot](https://workleap.github.io/wl-squide/reference/launch-darkly/featureflagsetsnapshot.md): A class tracking and memoizing the latest version of the LaunchDarkly feature flags.
+- [InMemoryLaunchDarklyClient](https://workleap.github.io/wl-squide/reference/launch-darkly/inmemorylaunchdarklyclient.md): An in-memory implementation of the LaunchDarkly SDK client.
+- [LocalStorageLaunchDarklyClient](https://workleap.github.io/wl-squide/reference/launch-darkly/localstoragelaunchdarklyclient.md): An implementation of the LaunchDarkly SDK client that persist the feature flags in local storage.
+- [isEditableLaunchDarklyClient](https://workleap.github.io/wl-squide/reference/launch-darkly/iseditablelaunchdarklyclient.md): Determine whether a LaunchDarkly SDK client is editable, meaning that it exposes methods to modify feature flags such as setFeatureFlags.
+
+### Logging
+
+- [useLogger](https://workleap.github.io/wl-squide/reference/logging/uselogger.md): Retrieve a logger instance from the FireflyRuntime instance. The returned logger will log messages to all registered logger instances.
+
+### Plugins
+
+- [Plugin](https://workleap.github.io/wl-squide/reference/plugins/plugin.md): An abstract base class to define a plugin.
+- [usePlugin](https://workleap.github.io/wl-squide/reference/plugins/useplugin.md): Retrieve a plugin from the FireflyRuntime instance.
+
+### Fakes
+
+- [LocalStorageSessionManager](https://workleap.github.io/wl-squide/reference/fakes/localstoragesessionmanager.md): A local storage session manager (strictly for development purpose).
+- [ReadonlySessionLocalStorage](https://workleap.github.io/wl-squide/reference/fakes/readonlysessionlocalstorage.md): Read a session object from the local storage (strictly for development purpose).
+
+### Storybook
+
+- [initializeFireflyForStorybook](https://workleap.github.io/wl-squide/reference/storybook/initializefireflyforstorybook.md): Create a runtime instance tailored for Storybook and optionally register local modules.
+- [withFireflyDecorator](https://workleap.github.io/wl-squide/reference/storybook/withfireflydecorator.md): Create a Decorator function that returns a FireflyDecorator component wrapping the story with all the required plumbing to render a component using Squide, including a RouterProvider.
+- [FireflyDecorator](https://workleap.github.io/wl-squide/reference/storybook/fireflydecorator.md): Wrap a story with all the required plumbing to render a component using Squide, including a RouterProvider.
+- [withFeatureFlagsOverrideDecorator](https://workleap.github.io/wl-squide/reference/storybook/withfeatureflagsoverridedecorator.md): Create a Decorator function that overrides the initial feature flag values while the story renders. Once rendering is complete, the original flag values are automatically restored.
+
+### Module Federation
+
+- [initializeFirefly](https://workleap.github.io/wl-squide/reference/module-federation/initializefirefly.md): This function is a wrapper around the original initializeFirefly function, adapted for use with Module Federation. This page documents only the differences between the original function and this adapted version.
+
+### Rsbuild
+
+- [defineDevHostConfig](https://workleap.github.io/wl-squide/reference/rsbuild/definedevhostconfig.md): This is an experimental feature.
+- [defineDevRemoteModuleConfig](https://workleap.github.io/wl-squide/reference/rsbuild/definedevremotemoduleconfig.md): This is an experimental feature.
+- [defineBuildHostConfig](https://workleap.github.io/wl-squide/reference/rsbuild/definebuildhostconfig.md): This is an experimental feature.
+- [defineBuildRemoteModuleConfig](https://workleap.github.io/wl-squide/reference/rsbuild/definebuildremotemoduleconfig.md): This is an experimental feature.
+
+### webpack
+
+- [defineDevHostConfig](https://workleap.github.io/wl-squide/reference/webpack/definedevhostconfig.md): If the application does not include any remote modules, use the defineDevConfig function from @workleap/webpack-configs instead of the defineDevHostConfig function.
+- [defineDevRemoteModuleConfig](https://workleap.github.io/wl-squide/reference/webpack/definedevremotemoduleconfig.md): Creates a webpack configuration object that is adapted for a Squide remote module application in development mode. This function is a wrapper built on top of @workleap/webpack-configs.
+- [defineBuildHostConfig](https://workleap.github.io/wl-squide/reference/webpack/definebuildhostconfig.md): If the application does not include any remote modules, use the defineBuildConfig function from @workleap/webpack-configs instead of the defineBuildHostConfig function.
+- [defineBuildRemoteModuleConfig](https://workleap.github.io/wl-squide/reference/webpack/definebuildremotemoduleconfig.md): Creates a webpack configuration object that is adapted for a Squide remote module application in build mode. This function is a wrapper built on top of @workleap/webpack-configs.
+
+## Updating
+
+- [Migrate to firefly v9.0](https://workleap.github.io/wl-squide/updating/migrate-to-firefly-v9.0.md): If you are migrating from v8.*, follow the Migrate from v8.* to v15.0 guide.
+- [Migrate to firefly v9.3](https://workleap.github.io/wl-squide/updating/migrate-to-firefly-v9.3.md): If you are migrating from v8.*, follow the Migrate from v8.* to v15.0 guide.
+- [Migrate to firefly v10.0](https://workleap.github.io/wl-squide/updating/migrate-to-firefly-v10.0.md): If you are migrating from v8.*, follow the Migrate from v8.* to v15.0 guide.
+- [Migrate to firefly v11.0](https://workleap.github.io/wl-squide/updating/migrate-to-firefly-v11.0.md): If you are migrating from v8.*, follow the Migrate from v8.* to v15.0 guide.
+- [Migrate to firefly v12.0](https://workleap.github.io/wl-squide/updating/migrate-to-firefly-v12.0.md): If you are migrating from v8.*, follow the Migrate from v8.* to v15.0 guide.
+- [Migrate to firefly v13.0](https://workleap.github.io/wl-squide/updating/migrate-to-firefly-v13.0.md): If you are migrating from v8.*, follow the Migrate from v8.* to v15.0 guide.
+- [Migrate to firefly v14.0](https://workleap.github.io/wl-squide/updating/migrate-to-firefly-v14.0.md): If you are migrating from v8.*, follow the Migrate from v8.* to v15.0 guide.
+- [Migrate to firefly v15.0](https://workleap.github.io/wl-squide/updating/migrate-to-firefly-v15.0.md): If you are migrating from v8.*, follow the Migrate from v8.* to v15.0 guide.
+- [Migrate from v8.* to v15.0](https://workleap.github.io/wl-squide/updating/migrate-from-v8-to-v15.0.md): This migration guide is an aggregation of all the changes that happened between Squide firefly v9.0 and v15.0:
+- [Migrate to firefly v16.0](https://workleap.github.io/wl-squide/updating/migrate-to-firefly-v16.0.md): This major version removes Module Federation from @squide/firefly. Module Federation is now optional and can be enabled by installing the @squide/firefly-module-federation package.
+- [Migrate to firefly v16.2](https://workleap.github.io/wl-squide/updating/migrate-to-firefly-v16.2.md): This minor version adds support for deferring React Router loaders until MSW is ready (when enabled). To enable this feature, update the application's AppRouter implementation to forward the new routerProps object to createBrowserRouter.
+- [Migrate to firefly v17.0](https://workleap.github.io/wl-squide/updating/migrate-to-firefly-v17.0.md): This major version introduces type-safe event bus hooks through module augmentation of the EventMap interface. This follows the same pattern used by EnvironmentVariables and FeatureFlags.
+- [Migrate to Rsbuild](https://workleap.github.io/wl-squide/updating/migrate-to-rsbuild.md): This is an experimental feature.
+- [Migrate to Just-In-Time packages](https://workleap.github.io/wl-squide/updating/migrate-to-jit-packages.md): Using Just-in-Time packages is a great way to reduce the configuration complexity of your monorepo. Using a Just-In-Time package strategy allows you to directly consume TypeScript files from library projects into applications without having to pre-compile them.
