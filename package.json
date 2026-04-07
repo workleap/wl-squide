@@ -55,9 +55,9 @@
         "cross-env": "10.1.0",
         "eslint": "9.39.2",
         "pkg-pr-new": "0.0.66",
-        "retypeapp": "4.5.0",
+        "retypeapp": "4.5.2",
         "syncpack": "14.3.0",
-        "turbo": "2.9.4",
+        "turbo": "2.9.5",
         "typescript": "6.0.2",
         "typescript-eslint": "8.54.0"
     },

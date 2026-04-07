@@ -42,7 +42,7 @@
         "react": "^18.0.0 || ^19.0.0",
         "react-dom": "^18.0.0 || ^19.0.0",
         "react-router": "^7.14.0",
-        "storybook": "^10.3.4"
+        "storybook": "^10.3.5"
     },
     "peerDependenciesMeta": {
         "@opentelemetry/api": {
