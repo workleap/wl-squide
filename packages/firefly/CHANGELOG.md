@@ -1,5 +1,15 @@
 # @squide/firefly
 
+## 17.0.1
+
+### Patch Changes
+
+- [#590](https://github.com/workleap/wl-squide/pull/590) [`3803da9`](https://github.com/workleap/wl-squide/commit/3803da93cd8195f61df11de8ff3a062f4fff6b1a) Thanks [@claude](https://github.com/apps/claude)! - Updated dependencies to their latest versions.
+
+- Updated dependencies [[`3803da9`](https://github.com/workleap/wl-squide/commit/3803da93cd8195f61df11de8ff3a062f4fff6b1a)]:
+  - @squide/launch-darkly@1.0.14
+  - @squide/react-router@8.1.20
+
 ## 17.0.0
 
 ### Major Changes
