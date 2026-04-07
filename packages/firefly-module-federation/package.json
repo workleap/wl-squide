@@ -1,7 +1,7 @@
 {
     "name": "@squide/firefly-module-federation",
     "author": "Workleap",
-    "version": "2.0.0",
+    "version": "2.0.1",
     "description": "Add support for Module Federation to Squide firefly.",
     "license": "Apache-2.0",
     "repository": {
