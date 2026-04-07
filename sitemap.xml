@@ -2,510 +2,510 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
     <loc>https://workleap.github.io/wl-squide/reference/</loc>
-    <lastmod>2026-04-07T14:33:33Z</lastmod>
+    <lastmod>2026-04-07T14:41:14Z</lastmod>
   </url>
   <url>
     <loc>https://workleap.github.io/wl-squide/essentials/</loc>
-    <lastmod>2026-04-07T14:33:33Z</lastmod>
+    <lastmod>2026-04-07T14:41:14Z</lastmod>
   </url>
   <url>
     <loc>https://workleap.github.io/wl-squide/integrations/</loc>
-    <lastmod>2026-04-07T14:33:33Z</lastmod>
+    <lastmod>2026-04-07T14:41:14Z</lastmod>
   </url>
   <url>
     <loc>https://workleap.github.io/wl-squide/introduction/learn-core-pieces/</loc>
-    <lastmod>2026-04-07T14:33:33Z</lastmod>
+    <lastmod>2026-04-07T14:41:14Z</lastmod>
   </url>
   <url>
     <loc>https://workleap.github.io/wl-squide/introduction/create-host/</loc>
-    <lastmod>2026-04-07T14:33:33Z</lastmod>
+    <lastmod>2026-04-07T14:41:14Z</lastmod>
   </url>
   <url>
     <loc>https://workleap.github.io/wl-squide/recipes/</loc>
-    <lastmod>2026-04-07T14:33:33Z</lastmod>
+    <lastmod>2026-04-07T14:41:14Z</lastmod>
   </url>
   <url>
     <loc>https://workleap.github.io/wl-squide/integrations/setup-msw/</loc>
-    <lastmod>2026-04-07T14:33:33Z</lastmod>
+    <lastmod>2026-04-07T14:41:14Z</lastmod>
   </url>
   <url>
     <loc>https://workleap.github.io/wl-squide/integrations/setup-launch-darkly/</loc>
-    <lastmod>2026-04-07T14:33:33Z</lastmod>
+    <lastmod>2026-04-07T14:41:14Z</lastmod>
   </url>
   <url>
     <loc>https://workleap.github.io/wl-squide/integrations/setup-tanstack-query/</loc>
-    <lastmod>2026-04-07T14:33:33Z</lastmod>
+    <lastmod>2026-04-07T14:41:14Z</lastmod>
   </url>
   <url>
     <loc>https://workleap.github.io/wl-squide/integrations/setup-i18next/</loc>
-    <lastmod>2026-04-07T14:33:33Z</lastmod>
+    <lastmod>2026-04-07T14:41:14Z</lastmod>
   </url>
   <url>
     <loc>https://workleap.github.io/wl-squide/integrations/setup-storybook/</loc>
-    <lastmod>2026-04-07T14:33:33Z</lastmod>
+    <lastmod>2026-04-07T14:41:14Z</lastmod>
   </url>
   <url>
     <loc>https://workleap.github.io/wl-squide/introduction/getting-started/</loc>
-    <lastmod>2026-04-07T14:33:33Z</lastmod>
+    <lastmod>2026-04-07T14:41:14Z</lastmod>
   </url>
   <url>
     <loc>https://workleap.github.io/wl-squide/introduction/create-local-module/</loc>
-    <lastmod>2026-04-07T14:33:33Z</lastmod>
+    <lastmod>2026-04-07T14:41:14Z</lastmod>
   </url>
   <url>
     <loc>https://workleap.github.io/wl-squide/introduction/learn-modular-principles/</loc>
-    <lastmod>2026-04-07T14:33:33Z</lastmod>
+    <lastmod>2026-04-07T14:41:14Z</lastmod>
   </url>
   <url>
     <loc>https://workleap.github.io/wl-squide/integrations/setup-honeycomb/</loc>
-    <lastmod>2026-04-07T14:33:33Z</lastmod>
+    <lastmod>2026-04-07T14:41:14Z</lastmod>
   </url>
   <url>
     <loc>https://workleap.github.io/wl-squide/integrations/setup-logger/</loc>
-    <lastmod>2026-04-07T14:33:33Z</lastmod>
+    <lastmod>2026-04-07T14:41:14Z</lastmod>
   </url>
   <url>
     <loc>https://workleap.github.io/wl-squide/essentials/register-deferred-nav-items/</loc>
-    <lastmod>2026-04-07T14:33:33Z</lastmod>
+    <lastmod>2026-04-07T14:41:14Z</lastmod>
   </url>
   <url>
     <loc>https://workleap.github.io/wl-squide/essentials/fetch-public-global-data/</loc>
-    <lastmod>2026-04-07T14:33:33Z</lastmod>
+    <lastmod>2026-04-07T14:41:14Z</lastmod>
   </url>
   <url>
     <loc>https://workleap.github.io/wl-squide/essentials/fetch-protected-global-data/</loc>
-    <lastmod>2026-04-07T14:33:33Z</lastmod>
+    <lastmod>2026-04-07T14:41:14Z</lastmod>
   </url>
   <url>
     <loc>https://workleap.github.io/wl-squide/essentials/use-feature-flags/</loc>
-    <lastmod>2026-04-07T14:33:33Z</lastmod>
+    <lastmod>2026-04-07T14:41:14Z</lastmod>
   </url>
   <url>
     <loc>https://workleap.github.io/wl-squide/reference/runtime/fireflyruntime/</loc>
-    <lastmod>2026-04-07T14:33:33Z</lastmod>
+    <lastmod>2026-04-07T14:41:14Z</lastmod>
   </url>
   <url>
     <loc>https://workleap.github.io/wl-squide/introduction/deploy/</loc>
-    <lastmod>2026-04-07T14:33:33Z</lastmod>
+    <lastmod>2026-04-07T14:41:14Z</lastmod>
   </url>
   <url>
     <loc>https://workleap.github.io/wl-squide/essentials/register-routes/</loc>
-    <lastmod>2026-04-07T14:33:33Z</lastmod>
+    <lastmod>2026-04-07T14:41:14Z</lastmod>
   </url>
   <url>
     <loc>https://workleap.github.io/wl-squide/essentials/register-nav-items/</loc>
-    <lastmod>2026-04-07T14:33:33Z</lastmod>
+    <lastmod>2026-04-07T14:41:14Z</lastmod>
   </url>
   <url>
     <loc>https://workleap.github.io/wl-squide/essentials/use-env-variables/</loc>
-    <lastmod>2026-04-07T14:33:33Z</lastmod>
+    <lastmod>2026-04-07T14:41:14Z</lastmod>
   </url>
   <url>
     <loc>https://workleap.github.io/wl-squide/module-federation/create-host/</loc>
-    <lastmod>2026-04-07T14:33:33Z</lastmod>
+    <lastmod>2026-04-07T14:41:14Z</lastmod>
   </url>
   <url>
     <loc>https://workleap.github.io/wl-squide/about/</loc>
-    <lastmod>2026-04-07T14:33:33Z</lastmod>
+    <lastmod>2026-04-07T14:41:14Z</lastmod>
   </url>
   <url>
     <loc>https://workleap.github.io/wl-squide/introduction/use-with-agents/</loc>
-    <lastmod>2026-04-07T14:33:33Z</lastmod>
+    <lastmod>2026-04-07T14:41:14Z</lastmod>
   </url>
   <url>
     <loc>https://workleap.github.io/wl-squide/essentials/register-msw-handlers/</loc>
-    <lastmod>2026-04-07T14:33:33Z</lastmod>
+    <lastmod>2026-04-07T14:41:14Z</lastmod>
   </url>
   <url>
     <loc>https://workleap.github.io/wl-squide/essentials/fetch-page-data/</loc>
-    <lastmod>2026-04-07T14:33:33Z</lastmod>
+    <lastmod>2026-04-07T14:41:14Z</lastmod>
   </url>
   <url>
     <loc>https://workleap.github.io/wl-squide/essentials/use-logger/</loc>
-    <lastmod>2026-04-07T14:33:33Z</lastmod>
+    <lastmod>2026-04-07T14:41:14Z</lastmod>
   </url>
   <url>
     <loc>https://workleap.github.io/wl-squide/essentials/use-event-bus/</loc>
-    <lastmod>2026-04-07T14:33:33Z</lastmod>
+    <lastmod>2026-04-07T14:41:14Z</lastmod>
   </url>
   <url>
     <loc>https://workleap.github.io/wl-squide/essentials/localize-resources/</loc>
-    <lastmod>2026-04-07T14:33:33Z</lastmod>
+    <lastmod>2026-04-07T14:41:14Z</lastmod>
   </url>
   <url>
     <loc>https://workleap.github.io/wl-squide/essentials/register-local-modules/</loc>
-    <lastmod>2026-04-07T14:33:33Z</lastmod>
+    <lastmod>2026-04-07T14:41:14Z</lastmod>
   </url>
   <url>
     <loc>https://workleap.github.io/wl-squide/essentials/set-honeycomb-custom-attributes/</loc>
-    <lastmod>2026-04-07T14:33:33Z</lastmod>
+    <lastmod>2026-04-07T14:41:14Z</lastmod>
   </url>
   <url>
     <loc>https://workleap.github.io/wl-squide/essentials/register-plugins/</loc>
-    <lastmod>2026-04-07T14:33:33Z</lastmod>
+    <lastmod>2026-04-07T14:41:14Z</lastmod>
   </url>
   <url>
     <loc>https://workleap.github.io/wl-squide/essentials/define-error-boundaries/</loc>
-    <lastmod>2026-04-07T14:33:33Z</lastmod>
+    <lastmod>2026-04-07T14:41:14Z</lastmod>
   </url>
   <url>
     <loc>https://workleap.github.io/wl-squide/module-federation/create-remote-module/</loc>
-    <lastmod>2026-04-07T14:33:33Z</lastmod>
+    <lastmod>2026-04-07T14:41:14Z</lastmod>
   </url>
   <url>
     <loc>https://workleap.github.io/wl-squide/module-federation/setup-i18next/</loc>
-    <lastmod>2026-04-07T14:33:33Z</lastmod>
+    <lastmod>2026-04-07T14:41:14Z</lastmod>
   </url>
   <url>
     <loc>https://workleap.github.io/wl-squide/recipes/add-authentication/</loc>
-    <lastmod>2026-04-07T14:33:33Z</lastmod>
+    <lastmod>2026-04-07T14:41:14Z</lastmod>
   </url>
   <url>
     <loc>https://workleap.github.io/wl-squide/updating/</loc>
-    <lastmod>2026-04-07T14:33:33Z</lastmod>
+    <lastmod>2026-04-07T14:41:14Z</lastmod>
   </url>
   <url>
     <loc>https://workleap.github.io/wl-squide/module-federation/add-a-shared-dependency/</loc>
-    <lastmod>2026-04-07T14:33:33Z</lastmod>
+    <lastmod>2026-04-07T14:41:14Z</lastmod>
   </url>
   <url>
     <loc>https://workleap.github.io/wl-squide/module-federation/develop-a-module-in-isolation/</loc>
-    <lastmod>2026-04-07T14:33:33Z</lastmod>
+    <lastmod>2026-04-07T14:41:14Z</lastmod>
   </url>
   <url>
     <loc>https://workleap.github.io/wl-squide/troubleshooting/</loc>
-    <lastmod>2026-04-07T14:33:33Z</lastmod>
+    <lastmod>2026-04-07T14:41:14Z</lastmod>
   </url>
   <url>
     <loc>https://workleap.github.io/wl-squide/recipes/override-the-host-layout/</loc>
-    <lastmod>2026-04-07T14:33:33Z</lastmod>
+    <lastmod>2026-04-07T14:41:14Z</lastmod>
   </url>
   <url>
     <loc>https://workleap.github.io/wl-squide/recipes/use-modular-tabs/</loc>
-    <lastmod>2026-04-07T14:33:33Z</lastmod>
+    <lastmod>2026-04-07T14:41:14Z</lastmod>
   </url>
   <url>
     <loc>https://workleap.github.io/wl-squide/module-federation/override-a-react-context/</loc>
-    <lastmod>2026-04-07T14:33:33Z</lastmod>
+    <lastmod>2026-04-07T14:41:14Z</lastmod>
   </url>
   <url>
     <loc>https://workleap.github.io/wl-squide/reference/packages/</loc>
-    <lastmod>2026-04-07T14:33:33Z</lastmod>
+    <lastmod>2026-04-07T14:41:14Z</lastmod>
   </url>
   <url>
     <loc>https://workleap.github.io/wl-squide/updating/migrate-from-v8-to-v15.0/</loc>
-    <lastmod>2026-04-07T14:33:33Z</lastmod>
+    <lastmod>2026-04-07T14:41:14Z</lastmod>
   </url>
   <url>
     <loc>https://workleap.github.io/wl-squide/reference/registration/initializefirefly/</loc>
-    <lastmod>2026-04-07T14:33:33Z</lastmod>
+    <lastmod>2026-04-07T14:41:14Z</lastmod>
   </url>
   <url>
     <loc>https://workleap.github.io/wl-squide/samples/</loc>
-    <lastmod>2026-04-07T14:33:33Z</lastmod>
+    <lastmod>2026-04-07T14:41:14Z</lastmod>
   </url>
   <url>
     <loc>https://workleap.github.io/wl-squide/reference/routing/approuter/</loc>
-    <lastmod>2026-04-07T14:33:33Z</lastmod>
+    <lastmod>2026-04-07T14:41:14Z</lastmod>
   </url>
   <url>
     <loc>https://workleap.github.io/wl-squide/updating/migrate-to-firefly-v9.0/</loc>
-    <lastmod>2026-04-07T14:33:33Z</lastmod>
+    <lastmod>2026-04-07T14:41:14Z</lastmod>
   </url>
   <url>
     <loc>https://workleap.github.io/wl-squide/reference/routing/publicroutes/</loc>
-    <lastmod>2026-04-07T14:33:33Z</lastmod>
+    <lastmod>2026-04-07T14:41:14Z</lastmod>
   </url>
   <url>
     <loc>https://workleap.github.io/wl-squide/reference/routing/protectedroutes/</loc>
-    <lastmod>2026-04-07T14:33:33Z</lastmod>
+    <lastmod>2026-04-07T14:41:14Z</lastmod>
   </url>
   <url>
     <loc>https://workleap.github.io/wl-squide/reference/runtime/fireflyprovider/</loc>
-    <lastmod>2026-04-07T14:33:33Z</lastmod>
+    <lastmod>2026-04-07T14:41:14Z</lastmod>
   </url>
   <url>
     <loc>https://workleap.github.io/wl-squide/reference/registration/usedeferredregistrations/</loc>
-    <lastmod>2026-04-07T14:33:33Z</lastmod>
+    <lastmod>2026-04-07T14:41:14Z</lastmod>
   </url>
   <url>
     <loc>https://workleap.github.io/wl-squide/reference/routing/useisbootstrapping/</loc>
-    <lastmod>2026-04-07T14:33:33Z</lastmod>
+    <lastmod>2026-04-07T14:41:14Z</lastmod>
   </url>
   <url>
     <loc>https://workleap.github.io/wl-squide/reference/runtime/useruntime/</loc>
-    <lastmod>2026-04-07T14:33:33Z</lastmod>
+    <lastmod>2026-04-07T14:41:14Z</lastmod>
   </url>
   <url>
     <loc>https://workleap.github.io/wl-squide/reference/runtime/useruntimemode/</loc>
-    <lastmod>2026-04-07T14:33:33Z</lastmod>
+    <lastmod>2026-04-07T14:41:14Z</lastmod>
   </url>
   <url>
     <loc>https://workleap.github.io/wl-squide/reference/registration/mergedeferredregistrations/</loc>
-    <lastmod>2026-04-07T14:33:33Z</lastmod>
+    <lastmod>2026-04-07T14:41:14Z</lastmod>
   </url>
   <url>
     <loc>https://workleap.github.io/wl-squide/reference/routing/userenderednavigationitems/</loc>
-    <lastmod>2026-04-07T14:33:33Z</lastmod>
+    <lastmod>2026-04-07T14:41:14Z</lastmod>
   </url>
   <url>
     <loc>https://workleap.github.io/wl-squide/reference/global-data-fetching/useprotecteddataqueries/</loc>
-    <lastmod>2026-04-07T14:33:33Z</lastmod>
+    <lastmod>2026-04-07T14:41:14Z</lastmod>
   </url>
   <url>
     <loc>https://workleap.github.io/wl-squide/updating/migrate-to-firefly-v12.0/</loc>
-    <lastmod>2026-04-07T14:33:33Z</lastmod>
+    <lastmod>2026-04-07T14:41:14Z</lastmod>
   </url>
   <url>
     <loc>https://workleap.github.io/wl-squide/reference/routing/useroutes/</loc>
-    <lastmod>2026-04-07T14:33:33Z</lastmod>
+    <lastmod>2026-04-07T14:41:14Z</lastmod>
   </url>
   <url>
     <loc>https://workleap.github.io/wl-squide/reference/routing/useisrouteprotected/</loc>
-    <lastmod>2026-04-07T14:33:33Z</lastmod>
+    <lastmod>2026-04-07T14:41:14Z</lastmod>
   </url>
   <url>
     <loc>https://workleap.github.io/wl-squide/reference/routing/usenavigationitems/</loc>
-    <lastmod>2026-04-07T14:33:33Z</lastmod>
+    <lastmod>2026-04-07T14:41:14Z</lastmod>
   </url>
   <url>
     <loc>https://workleap.github.io/wl-squide/reference/messaging/eventmap/</loc>
-    <lastmod>2026-04-07T14:33:33Z</lastmod>
+    <lastmod>2026-04-07T14:41:14Z</lastmod>
   </url>
   <url>
     <loc>https://workleap.github.io/wl-squide/reference/global-data-fetching/usepublicdataqueries/</loc>
-    <lastmod>2026-04-07T14:33:33Z</lastmod>
+    <lastmod>2026-04-07T14:41:14Z</lastmod>
   </url>
   <url>
     <loc>https://workleap.github.io/wl-squide/reference/global-data-fetching/isglobaldataquerieserror/</loc>
-    <lastmod>2026-04-07T14:33:33Z</lastmod>
+    <lastmod>2026-04-07T14:41:14Z</lastmod>
   </url>
   <url>
     <loc>https://workleap.github.io/wl-squide/updating/migrate-to-firefly-v9.3/</loc>
-    <lastmod>2026-04-07T14:33:33Z</lastmod>
+    <lastmod>2026-04-07T14:41:14Z</lastmod>
   </url>
   <url>
     <loc>https://workleap.github.io/wl-squide/updating/migrate-to-firefly-v10.0/</loc>
-    <lastmod>2026-04-07T14:33:33Z</lastmod>
+    <lastmod>2026-04-07T14:41:14Z</lastmod>
   </url>
   <url>
     <loc>https://workleap.github.io/wl-squide/updating/migrate-to-firefly-v11.0/</loc>
-    <lastmod>2026-04-07T14:33:33Z</lastmod>
+    <lastmod>2026-04-07T14:41:14Z</lastmod>
   </url>
   <url>
     <loc>https://workleap.github.io/wl-squide/updating/migrate-to-firefly-v13.0/</loc>
-    <lastmod>2026-04-07T14:33:33Z</lastmod>
+    <lastmod>2026-04-07T14:41:14Z</lastmod>
   </url>
   <url>
     <loc>https://workleap.github.io/wl-squide/updating/migrate-to-firefly-v14.0/</loc>
-    <lastmod>2026-04-07T14:33:33Z</lastmod>
+    <lastmod>2026-04-07T14:41:14Z</lastmod>
   </url>
   <url>
     <loc>https://workleap.github.io/wl-squide/updating/migrate-to-firefly-v16.0/</loc>
-    <lastmod>2026-04-07T14:33:33Z</lastmod>
+    <lastmod>2026-04-07T14:41:14Z</lastmod>
   </url>
   <url>
     <loc>https://workleap.github.io/wl-squide/updating/migrate-to-firefly-v17.0/</loc>
-    <lastmod>2026-04-07T14:33:33Z</lastmod>
+    <lastmod>2026-04-07T14:41:14Z</lastmod>
   </url>
   <url>
     <loc>https://workleap.github.io/wl-squide/reference/routing/useroutematch/</loc>
-    <lastmod>2026-04-07T14:33:33Z</lastmod>
+    <lastmod>2026-04-07T14:41:14Z</lastmod>
   </url>
   <url>
     <loc>https://workleap.github.io/wl-squide/reference/routing/resolveroutesegments/</loc>
-    <lastmod>2026-04-07T14:33:33Z</lastmod>
+    <lastmod>2026-04-07T14:41:14Z</lastmod>
   </url>
   <url>
     <loc>https://workleap.github.io/wl-squide/reference/routing/isnavigationlink/</loc>
-    <lastmod>2026-04-07T14:33:33Z</lastmod>
+    <lastmod>2026-04-07T14:41:14Z</lastmod>
   </url>
   <url>
     <loc>https://workleap.github.io/wl-squide/reference/messaging/useeventbusdispatcher/</loc>
-    <lastmod>2026-04-07T14:33:33Z</lastmod>
+    <lastmod>2026-04-07T14:41:14Z</lastmod>
   </url>
   <url>
     <loc>https://workleap.github.io/wl-squide/reference/messaging/useeventbuslistener/</loc>
-    <lastmod>2026-04-07T14:33:33Z</lastmod>
+    <lastmod>2026-04-07T14:41:14Z</lastmod>
   </url>
   <url>
     <loc>https://workleap.github.io/wl-squide/reference/i18next/i18nextplugin/</loc>
-    <lastmod>2026-04-07T14:33:33Z</lastmod>
+    <lastmod>2026-04-07T14:41:14Z</lastmod>
   </url>
   <url>
     <loc>https://workleap.github.io/wl-squide/updating/migrate-to-firefly-v15.0/</loc>
-    <lastmod>2026-04-07T14:33:33Z</lastmod>
+    <lastmod>2026-04-07T14:41:14Z</lastmod>
   </url>
   <url>
     <loc>https://workleap.github.io/wl-squide/updating/migrate-to-firefly-v16.2/</loc>
-    <lastmod>2026-04-07T14:33:33Z</lastmod>
+    <lastmod>2026-04-07T14:41:14Z</lastmod>
   </url>
   <url>
     <loc>https://workleap.github.io/wl-squide/updating/migrate-to-rsbuild/</loc>
-    <lastmod>2026-04-07T14:33:33Z</lastmod>
+    <lastmod>2026-04-07T14:41:14Z</lastmod>
   </url>
   <url>
     <loc>https://workleap.github.io/wl-squide/updating/migrate-to-jit-packages/</loc>
-    <lastmod>2026-04-07T14:33:33Z</lastmod>
+    <lastmod>2026-04-07T14:41:14Z</lastmod>
   </url>
   <url>
     <loc>https://workleap.github.io/wl-squide/reference/global-data-fetching/usepublicdatahandler/</loc>
-    <lastmod>2026-04-07T14:33:33Z</lastmod>
+    <lastmod>2026-04-07T14:41:14Z</lastmod>
   </url>
   <url>
     <loc>https://workleap.github.io/wl-squide/reference/global-data-fetching/useprotecteddatahandler/</loc>
-    <lastmod>2026-04-07T14:33:33Z</lastmod>
+    <lastmod>2026-04-07T14:41:14Z</lastmod>
   </url>
   <url>
     <loc>https://workleap.github.io/wl-squide/reference/msw/mswplugin/</loc>
-    <lastmod>2026-04-07T14:33:33Z</lastmod>
+    <lastmod>2026-04-07T14:41:14Z</lastmod>
   </url>
   <url>
     <loc>https://workleap.github.io/wl-squide/reference/i18next/geti18nextplugin/</loc>
-    <lastmod>2026-04-07T14:33:33Z</lastmod>
+    <lastmod>2026-04-07T14:41:14Z</lastmod>
   </url>
   <url>
     <loc>https://workleap.github.io/wl-squide/reference/i18next/usechangelanguage/</loc>
-    <lastmod>2026-04-07T14:33:33Z</lastmod>
+    <lastmod>2026-04-07T14:41:14Z</lastmod>
   </url>
   <url>
     <loc>https://workleap.github.io/wl-squide/reference/i18next/usecurrentlanguage/</loc>
-    <lastmod>2026-04-07T14:33:33Z</lastmod>
+    <lastmod>2026-04-07T14:41:14Z</lastmod>
   </url>
   <url>
     <loc>https://workleap.github.io/wl-squide/reference/i18next/usei18nextinstance/</loc>
-    <lastmod>2026-04-07T14:33:33Z</lastmod>
+    <lastmod>2026-04-07T14:41:14Z</lastmod>
   </url>
   <url>
     <loc>https://workleap.github.io/wl-squide/reference/i18next/i18nextnavigationitemlabel/</loc>
-    <lastmod>2026-04-07T14:33:33Z</lastmod>
+    <lastmod>2026-04-07T14:41:14Z</lastmod>
   </url>
   <url>
     <loc>https://workleap.github.io/wl-squide/reference/env-vars/environmentvariables/</loc>
-    <lastmod>2026-04-07T14:33:33Z</lastmod>
+    <lastmod>2026-04-07T14:41:14Z</lastmod>
   </url>
   <url>
     <loc>https://workleap.github.io/wl-squide/reference/env-vars/environmentvariablesplugin/</loc>
-    <lastmod>2026-04-07T14:33:33Z</lastmod>
+    <lastmod>2026-04-07T14:41:14Z</lastmod>
   </url>
   <url>
     <loc>https://workleap.github.io/wl-squide/reference/env-vars/useenvironmentvariable/</loc>
-    <lastmod>2026-04-07T14:33:33Z</lastmod>
+    <lastmod>2026-04-07T14:41:14Z</lastmod>
   </url>
   <url>
     <loc>https://workleap.github.io/wl-squide/reference/env-vars/useenvironmentvariables/</loc>
-    <lastmod>2026-04-07T14:33:33Z</lastmod>
+    <lastmod>2026-04-07T14:41:14Z</lastmod>
   </url>
   <url>
     <loc>https://workleap.github.io/wl-squide/reference/launch-darkly/launchdarklyplugin/</loc>
-    <lastmod>2026-04-07T14:33:33Z</lastmod>
+    <lastmod>2026-04-07T14:41:14Z</lastmod>
   </url>
   <url>
     <loc>https://workleap.github.io/wl-squide/reference/launch-darkly/featureflags/</loc>
-    <lastmod>2026-04-07T14:33:33Z</lastmod>
+    <lastmod>2026-04-07T14:41:14Z</lastmod>
   </url>
   <url>
     <loc>https://workleap.github.io/wl-squide/reference/launch-darkly/usefeatureflag/</loc>
-    <lastmod>2026-04-07T14:33:33Z</lastmod>
+    <lastmod>2026-04-07T14:41:14Z</lastmod>
   </url>
   <url>
     <loc>https://workleap.github.io/wl-squide/reference/launch-darkly/usefeatureflags/</loc>
-    <lastmod>2026-04-07T14:33:33Z</lastmod>
+    <lastmod>2026-04-07T14:41:14Z</lastmod>
   </url>
   <url>
     <loc>https://workleap.github.io/wl-squide/reference/launch-darkly/uselaunchdarklyclient/</loc>
-    <lastmod>2026-04-07T14:33:33Z</lastmod>
+    <lastmod>2026-04-07T14:41:14Z</lastmod>
   </url>
   <url>
     <loc>https://workleap.github.io/wl-squide/reference/launch-darkly/getfeatureflag/</loc>
-    <lastmod>2026-04-07T14:33:33Z</lastmod>
+    <lastmod>2026-04-07T14:41:14Z</lastmod>
   </url>
   <url>
     <loc>https://workleap.github.io/wl-squide/reference/launch-darkly/featureflagsetsnapshot/</loc>
-    <lastmod>2026-04-07T14:33:33Z</lastmod>
+    <lastmod>2026-04-07T14:41:14Z</lastmod>
   </url>
   <url>
     <loc>https://workleap.github.io/wl-squide/reference/launch-darkly/inmemorylaunchdarklyclient/</loc>
-    <lastmod>2026-04-07T14:33:33Z</lastmod>
+    <lastmod>2026-04-07T14:41:14Z</lastmod>
   </url>
   <url>
     <loc>https://workleap.github.io/wl-squide/reference/launch-darkly/iseditablelaunchdarklyclient/</loc>
-    <lastmod>2026-04-07T14:33:33Z</lastmod>
+    <lastmod>2026-04-07T14:41:14Z</lastmod>
   </url>
   <url>
     <loc>https://workleap.github.io/wl-squide/reference/launch-darkly/localstoragelaunchdarklyclient/</loc>
-    <lastmod>2026-04-07T14:33:33Z</lastmod>
+    <lastmod>2026-04-07T14:41:14Z</lastmod>
   </url>
   <url>
     <loc>https://workleap.github.io/wl-squide/reference/logging/uselogger/</loc>
-    <lastmod>2026-04-07T14:33:33Z</lastmod>
+    <lastmod>2026-04-07T14:41:14Z</lastmod>
   </url>
   <url>
     <loc>https://workleap.github.io/wl-squide/reference/plugins/plugin/</loc>
-    <lastmod>2026-04-07T14:33:33Z</lastmod>
+    <lastmod>2026-04-07T14:41:14Z</lastmod>
   </url>
   <url>
     <loc>https://workleap.github.io/wl-squide/reference/plugins/useplugin/</loc>
-    <lastmod>2026-04-07T14:33:33Z</lastmod>
+    <lastmod>2026-04-07T14:41:14Z</lastmod>
   </url>
   <url>
     <loc>https://workleap.github.io/wl-squide/reference/fakes/localstoragesessionmanager/</loc>
-    <lastmod>2026-04-07T14:33:33Z</lastmod>
+    <lastmod>2026-04-07T14:41:14Z</lastmod>
   </url>
   <url>
     <loc>https://workleap.github.io/wl-squide/reference/fakes/readonlysessionlocalstorage/</loc>
-    <lastmod>2026-04-07T14:33:33Z</lastmod>
+    <lastmod>2026-04-07T14:41:14Z</lastmod>
   </url>
   <url>
     <loc>https://workleap.github.io/wl-squide/reference/storybook/initializefireflyforstorybook/</loc>
-    <lastmod>2026-04-07T14:33:33Z</lastmod>
+    <lastmod>2026-04-07T14:41:14Z</lastmod>
   </url>
   <url>
     <loc>https://workleap.github.io/wl-squide/reference/storybook/withfireflydecorator/</loc>
-    <lastmod>2026-04-07T14:33:33Z</lastmod>
+    <lastmod>2026-04-07T14:41:14Z</lastmod>
   </url>
   <url>
     <loc>https://workleap.github.io/wl-squide/reference/module-federation/initializefirefly/</loc>
-    <lastmod>2026-04-07T14:33:33Z</lastmod>
+    <lastmod>2026-04-07T14:41:14Z</lastmod>
   </url>
   <url>
     <loc>https://workleap.github.io/wl-squide/reference/storybook/fireflydecorator/</loc>
-    <lastmod>2026-04-07T14:33:33Z</lastmod>
+    <lastmod>2026-04-07T14:41:14Z</lastmod>
   </url>
   <url>
     <loc>https://workleap.github.io/wl-squide/reference/storybook/withfeatureflagsoverridedecorator/</loc>
-    <lastmod>2026-04-07T14:33:33Z</lastmod>
+    <lastmod>2026-04-07T14:41:14Z</lastmod>
   </url>
   <url>
     <loc>https://workleap.github.io/wl-squide/reference/webpack/definedevhostconfig/</loc>
-    <lastmod>2026-04-07T14:33:33Z</lastmod>
+    <lastmod>2026-04-07T14:41:14Z</lastmod>
   </url>
   <url>
     <loc>https://workleap.github.io/wl-squide/reference/rsbuild/definedevhostconfig/</loc>
-    <lastmod>2026-04-07T14:33:33Z</lastmod>
+    <lastmod>2026-04-07T14:41:14Z</lastmod>
   </url>
   <url>
     <loc>https://workleap.github.io/wl-squide/reference/rsbuild/definedevremotemoduleconfig/</loc>
-    <lastmod>2026-04-07T14:33:33Z</lastmod>
+    <lastmod>2026-04-07T14:41:14Z</lastmod>
   </url>
   <url>
     <loc>https://workleap.github.io/wl-squide/reference/rsbuild/definebuildhostconfig/</loc>
-    <lastmod>2026-04-07T14:33:33Z</lastmod>
+    <lastmod>2026-04-07T14:41:14Z</lastmod>
   </url>
   <url>
     <loc>https://workleap.github.io/wl-squide/reference/rsbuild/definebuildremotemoduleconfig/</loc>
-    <lastmod>2026-04-07T14:33:33Z</lastmod>
+    <lastmod>2026-04-07T14:41:14Z</lastmod>
   </url>
   <url>
     <loc>https://workleap.github.io/wl-squide/reference/webpack/definedevremotemoduleconfig/</loc>
-    <lastmod>2026-04-07T14:33:33Z</lastmod>
+    <lastmod>2026-04-07T14:41:14Z</lastmod>
   </url>
   <url>
     <loc>https://workleap.github.io/wl-squide/reference/webpack/definebuildhostconfig/</loc>
-    <lastmod>2026-04-07T14:33:33Z</lastmod>
+    <lastmod>2026-04-07T14:41:14Z</lastmod>
   </url>
   <url>
     <loc>https://workleap.github.io/wl-squide/reference/webpack/definebuildremotemoduleconfig/</loc>
-    <lastmod>2026-04-07T14:33:33Z</lastmod>
+    <lastmod>2026-04-07T14:41:14Z</lastmod>
   </url>
 </urlset>
