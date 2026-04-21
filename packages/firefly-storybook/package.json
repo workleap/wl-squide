@@ -36,12 +36,12 @@
     "peerDependencies": {
         "@opentelemetry/api": "^1.9.1",
         "@storybook/react": "^10.3.3",
-        "@tanstack/react-query": "^5.96.2",
+        "@tanstack/react-query": "^5.99.2",
         "launchdarkly-js-client-sdk": "^3.9.1",
-        "msw": "^2.12.14",
+        "msw": "^2.13.4",
         "react": "^18.0.0 || ^19.0.0",
         "react-dom": "^18.0.0 || ^19.0.0",
-        "react-router": "^7.14.0",
+        "react-router": "^7.14.2",
         "storybook": "^10.3.5"
     },
     "peerDependenciesMeta": {
@@ -59,22 +59,22 @@
     },
     "devDependencies": {
         "@eslint/js": "9.39.2",
-        "@rslib/core": "0.20.3",
+        "@rslib/core": "0.21.2",
         "@testing-library/react": "16.3.2",
-        "@types/node": "25.5.2",
+        "@types/node": "25.6.0",
         "@types/react": "19.2.14",
         "@types/react-dom": "19.2.3",
-        "@typescript-eslint/parser": "8.58.0",
-        "@typescript/native-preview": "7.0.0-dev.20260407.1",
+        "@typescript-eslint/parser": "8.59.0",
+        "@typescript/native-preview": "7.0.0-dev.20260421.1",
         "@vitejs/plugin-react": "6.0.1",
-        "@workleap/eslint-configs": "2.0.1",
-        "@workleap/rslib-configs": "1.1.11",
+        "@workleap/eslint-configs": "2.0.2",
+        "@workleap/rslib-configs": "1.1.12",
         "@workleap/typescript-configs": "4.0.0",
         "eslint": "9.39.2",
-        "happy-dom": "20.8.9",
-        "typescript": "6.0.2",
+        "happy-dom": "20.9.0",
+        "typescript": "6.0.3",
         "typescript-eslint": "8.54.0",
-        "vitest": "4.1.3"
+        "vitest": "4.1.5"
     },
     "sideEffects": false
 }
