@@ -14,6 +14,7 @@ function registerRoutes(runtime: FireflyRuntime, host?: string) {
         $id: "root-layout",
         loader: async () => {
             const response = await fetch(runtime.getEnvironmentVariable("dummyHandlerUrl"));
+
             return response.json();
         },
         element: <RootLayout />,

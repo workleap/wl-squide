@@ -13,6 +13,7 @@ export interface InitializeFireflyForStorybookOptions {
     launchDarklyClient?: LDClient;
     loggers?: RootLogger[];
     useMsw?: boolean;
+    additionalPlugins?: PluginFactory<FireflyRuntime>[];
 }
 
 function logInitializationState(
@@ -80,7 +81,8 @@ export async function initializeFireflyForStorybook(options: InitializeFireflyFo
         featureFlags = {},
         launchDarklyClient,
         loggers,
-        useMsw = true
+        useMsw = true,
+        additionalPlugins = []
     } = options;
 
     const plugins: PluginFactory<FireflyRuntime>[] = [
@@ -92,6 +94,10 @@ export async function initializeFireflyForStorybook(options: InitializeFireflyFo
 
     if (useMsw) {
         plugins.push(x => new MswPlugin(x));
+    }
+
+    if (additionalPlugins) {
+        additionalPlugins.forEach(x => plugins.push(x));
     }
 
     const runtime = new StorybookRuntime({
