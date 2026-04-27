@@ -1,7 +1,7 @@
 import { Plugin } from "@squide/firefly";
 import { InMemoryLaunchDarklyClient } from "@squide/launch-darkly";
 import { NoopLogger } from "@workleap/logging";
-import { run, test, vi } from "vitest";
+import { test, vi } from "vitest";
 import { initializeFireflyForStorybook } from "../src/initializeFireflyForStorybook.ts";
 
 declare module "@squide/firefly" {
