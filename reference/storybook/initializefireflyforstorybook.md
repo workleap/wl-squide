@@ -17,6 +17,7 @@ const runtime = initializeFireflyForStorybook(options?: { localModules?, environ
     - `launchDarklyClient`: An optional LaunchDarkly client to override the default client.
     - `loggers`: An optional array of logger instances.
     - `useMsw`: An optional `boolean` value indicating whether or not to create the runtime with [Mock Service Work](https://mswjs.io/) (MSW) support. Default is `true`.
+    - `additionalPlugins`: An optional array with additional plugins to be registered with the runtime.
 ### Returns
 
 A `StorybookRuntime` instance.
@@ -80,5 +81,16 @@ import { initializeFireflyForStorybook } from "@squide/firefly-storybook";
 
 const runtime = initializeFireflyForStorybook({
     useMsw: false
+});
+```
+
+### Initialize with i18next
+
+```ts !#5
+import { initializeFireflyForStorybook } from "@squide/firefly-storybook";
+import { i18nextPlugin } from "@squide/i18next";
+
+const runtime = initializeFireflyForStorybook({
+    additionalPlugins: [x => new i18nextPlugin(x, ["en-US", "fr-CA"], "en-US", "language")]
 });
 ```
