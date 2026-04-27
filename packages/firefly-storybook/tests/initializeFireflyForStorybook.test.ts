@@ -1,6 +1,7 @@
+import { Plugin } from "@squide/firefly";
 import { InMemoryLaunchDarklyClient } from "@squide/launch-darkly";
 import { NoopLogger } from "@workleap/logging";
-import { test, vi } from "vitest";
+import { run, test, vi } from "vitest";
 import { initializeFireflyForStorybook } from "../src/initializeFireflyForStorybook.ts";
 
 declare module "@squide/firefly" {
@@ -12,6 +13,8 @@ declare module "@squide/firefly" {
         "flag-a": boolean;
     }
 }
+
+class DummyPlugin extends Plugin {}
 
 test.concurrent("when local modules are provided, the local modules are registered", async ({ expect }) => {
     const runtime = await initializeFireflyForStorybook({
@@ -76,3 +79,13 @@ test.concurrent("when no local modules are provided, modules are ready", async (
 
     await vi.waitFor(() => expect(runtime.moduleManager.getAreModulesReady()).toBeTruthy());
 });
+
+test.concurrent("when additional plugins are provided, plugins are added to the runtime", async ({ expect }) => {
+    const runtime = await initializeFireflyForStorybook({
+        additionalPlugins: [x => new DummyPlugin("plugin-1", x), x => new DummyPlugin("plugin-2", x)]
+    });
+
+    await vi.waitFor(() => expect(runtime.getPlugin("plugin-1")).toBeDefined());
+    await vi.waitFor(() => expect(runtime.getPlugin("plugin-2")).toBeDefined());
+});
+

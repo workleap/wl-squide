@@ -96,9 +96,7 @@ export async function initializeFireflyForStorybook(options: InitializeFireflyFo
         plugins.push(x => new MswPlugin(x));
     }
 
-    if (additionalPlugins) {
-        additionalPlugins.forEach(x => plugins.push(x));
-    }
+    plugins.push(...additionalPlugins);
 
     const runtime = new StorybookRuntime({
         mode: "development",
