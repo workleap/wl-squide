@@ -1,5 +1,11 @@
 # @squide/firefly-storybook
 
+## 1.0.5
+
+### Patch Changes
+
+- [`d9b3ffb`](https://github.com/workleap/wl-squide/commit/d9b3ffba43590b9dcd90395066f2d8a25821c2ba) Thanks [@patricklafrance](https://github.com/patricklafrance)! - Additional an "additionalPlugins" argument to initializeFireflyForStorybook.
+
 ## 1.0.4
 
 ### Patch Changes
