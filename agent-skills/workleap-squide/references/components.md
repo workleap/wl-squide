@@ -361,7 +361,10 @@ const runtime = await initializeFireflyForStorybook({
     localModules: [registerModule],
     environmentVariables: { apiUrl: "https://mock.api" },
     featureFlags: { "my-feature": true },
-    useMsw: true  // Default is true
+    launchDarklyClient: ldClient,       // Optional: override default LD client
+    loggers: [],                        // Optional: logger instances
+    useMsw: true,                       // Default is true
+    additionalPlugins: []               // Optional: extra plugin factory functions
 });
 ```
 
