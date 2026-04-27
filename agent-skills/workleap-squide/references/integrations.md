@@ -531,6 +531,19 @@ const runtime = await initializeFireflyForStorybook({
 });
 ```
 
+### With Additional Plugins
+
+Use `additionalPlugins` to register extra plugins (e.g., i18next) without a full `FireflyRuntime`:
+
+```tsx
+import { initializeFireflyForStorybook } from "@squide/firefly-storybook";
+import { i18nextPlugin } from "@squide/i18next";
+
+const runtime = await initializeFireflyForStorybook({
+    additionalPlugins: [x => new i18nextPlugin(x, ["en-US", "fr-CA"], "en-US", "language")]
+});
+```
+
 ## Logging with @workleap/logging
 
 ### Setup
