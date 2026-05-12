@@ -38,7 +38,7 @@ jobs:
       - name: Install Node.js
         uses: actions/setup-node@v6
         with:
-          node-version: ">=24.0.0"
+          node-version: "24"
           check-latest: true
           cache: pnpm
           cache-dependency-path: pnpm-lock.yaml
@@ -50,10 +50,10 @@ jobs:
         id: cache-turborepo-restore
         uses: actions/cache/restore@v5
         with:
-          key: ${{ runner.os }}-turbo-claude-${{ github.sha }}
+          key: ${{ runner.os }}-turbo-claude-v11-${{ github.sha }}
           restore-keys: |
-            ${{ runner.os }}-turbo-claude-
-            ${{ runner.os }}-turbo-
+            ${{ runner.os }}-turbo-claude-v11-
+            ${{ runner.os }}-turbo-v11-
           path: .turbo
 
       - name: Run Claude

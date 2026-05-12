@@ -2,17 +2,26 @@ packages:
   - packages/*
   - samples/**
 
-onlyBuiltDependencies:
-  - '@parcel/watcher'
-  - '@swc/core'
-  - agent-browser
-  - core-js
-  - core-js-pure
-  - edgedriver
-  - esbuild
-  - geckodriver
-  - msw
-  - netlify-cli
-  - protobufjs
-  - sharp
-  - unix-dgram
+minimumReleaseAgeExclude:
+  - '@workleap/*'
+  - '@typescript/native-preview*'
+
+overrides:
+  # Pin to 5.4.0 — 5.6.0 leaks `extractComments` into swc-minify options, which swc rejects.
+  # @workleap/webpack-configs uses TerserPlugin.swcMinify, so transitive consumers break.
+  terser-webpack-plugin: 5.4.0
+
+allowBuilds:
+  '@parcel/watcher': true
+  '@swc/core': true
+  agent-browser: true
+  core-js: true
+  core-js-pure: true
+  edgedriver: true
+  esbuild: true
+  geckodriver: true
+  msw: true
+  netlify-cli: true
+  protobufjs: true
+  sharp: true
+  unix-dgram: true

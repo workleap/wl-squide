@@ -7,9 +7,17 @@ label: Setup LaunchDarkly
 
 Squide integrates with [LaunchDarkly](https://launchdarkly.com/) to attach feature flags to the [FireflyRuntime](../reference/runtime/FireflyRuntime.md) instance and automatically update [deferred registrations](../essentials/register-deferred-nav-items.md) whenever a flag value changes.
 
+## Install the packages
+
+To set up LaunchDarkly, first, open a terminal at the root of the host application and install the client:
+
+```bash
+pnpm add launchdarkly-js-client-sdk
+```
+
 ## Initialize the client
 
-To setup LaunchDarkly, first refer to the [create an host application](../introduction/create-host.md) guide as a starting point and update the host application bootstrapping code to create and initialize a LaunchDarkly SDK [client](https://launchdarkly.com/docs/sdk/client-side/javascript) instance:
+Then, to setup LaunchDarkly, first refer to the [create an host application](../introduction/create-host.md) guide as a starting point and update the host application bootstrapping code to create and initialize a LaunchDarkly SDK [client](https://launchdarkly.com/docs/sdk/client-side/javascript) instance:
 
 ```tsx !#7-14,18,25
 import { FireflyProvider, initializeFirefly } from "@squide/firefly";

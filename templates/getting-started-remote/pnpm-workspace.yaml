@@ -1,9 +1,9 @@
 packages:
   - "apps/*"
 
-onlyBuiltDependencies:
-  - '@swc/core'
-  - core-js
-  - core-js-pure
-  - esbuild
-  - msw
+allowBuilds:
+  '@swc/core': true
+  core-js: true
+  core-js-pure: true
+  esbuild: true
+  msw: true

@@ -42,6 +42,10 @@ The main CI workflow (`ci.yml`) runs on `ubuntu-latest` with:
 - Incremental builds on PRs (only diverging packages)
 - Full builds on main branch pushes
 
+## Node version pin
+
+All workflows pin `node-version: "24"` (not `">=24.0.0"`). Reason: Node 26 exposes a native global `localStorage` that returns `undefined` unless `--localstorage-file` is provided. happy-dom 20.x does not override Node's native getter, so vitest tests touching `localStorage` (e.g. `localStorage.clear()` in `beforeEach`) crash with `Cannot read properties of undefined (reading 'clear')` when CI's `setup-node` picks the latest. Revisit once happy-dom handles Node's native `localStorage` (see PR #602 / commit 51037089b for the discovery).
+
 ## Concurrency
 
 - CI uses `ci-${{ github.ref }}` group with cancel-in-progress

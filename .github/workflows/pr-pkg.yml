@@ -31,7 +31,7 @@ jobs:
       - name: Install Node.js
         uses: actions/setup-node@v6
         with:
-            node-version: ">=24.0.0"
+            node-version: "24"
             check-latest: true
             cache: pnpm
             cache-dependency-path: pnpm-lock.yaml
@@ -46,10 +46,10 @@ jobs:
           # Using SHA will usually provide cache hit on subsequent commits in a PR
           # but will not provide cache hits between PRs, meaning the first run of a PR
           # will usually only be cache misses.
-          key: ${{ runner.os }}-turbo-pr-pkg-${{ github.sha }}
+          key: ${{ runner.os }}-turbo-pr-pkg-v11-${{ github.sha }}
           restore-keys: |
-            ${{ runner.os }}-turbo-pr-pkg-
-            ${{ runner.os }}-turbo-
+            ${{ runner.os }}-turbo-pr-pkg-v11-
+            ${{ runner.os }}-turbo-v11-
           path: .turbo
 
       - name: Build packages
