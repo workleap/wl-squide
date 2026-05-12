@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <meta name="color-scheme" content="light dark">
     <meta name="turbo-root" content="/wl-squide">
-    <meta name="turbo-cache-control" content="no-cache" data-turbo-track="reload" data-track-token="4.5.3.830635810994">
+    <meta name="turbo-cache-control" content="no-cache" data-turbo-track="reload" data-track-token="4.5.3.831937485783">
 
     <!-- See retype.com -->
     <meta name="generator" content="Retype 4.5.3">
@@ -39,12 +39,12 @@
     <script data-cfasync="false">(function(){var cl=document.documentElement.classList,ls=localStorage.getItem("retype_scheme"),hd=cl.contains("dark"),hl=cl.contains("light"),wm=window.matchMedia&&window.matchMedia("(prefers-color-scheme: dark)").matches;if(ls==="dark"||(!ls&&wm&&!hd&&!hl)){cl.remove("light");cl.add("dark")}else if(ls==="light"||(!ls&&!wm&&!hd&&!hl)){cl.remove("dark");cl.add("light")}})();</script>
 
     <link id="retype-favicon" rel="icon" href="../../static/favicon.png" />
-    <link href="../../resources/css/retype.css?v=4.5.3.830635810994" rel="stylesheet">
+    <link href="../../resources/css/retype.css?v=4.5.3.831937485783" rel="stylesheet">
 
-    <script data-cfasync="false" src="../../resources/js/config.js?v=4.5.3.830635810994" data-turbo-eval="false" defer></script>
+    <script data-cfasync="false" src="../../resources/js/config.js?v=4.5.3.831937485783" data-turbo-eval="false" defer></script>
     <script data-cfasync="false" src="../../resources/js/retype.js?v=4.5.3" data-turbo-eval="false" defer></script>
-    <script id="lunr-js" data-cfasync="false" src="../../resources/js/lunr.js?v=4.5.3.830635810994" data-turbo-eval="false" defer></script>
-    <script id="prism-js" data-cfasync="false" src="../../resources/js/prism.js?v=4.5.3.830635810994" defer></script>
+    <script id="lunr-js" data-cfasync="false" src="../../resources/js/lunr.js?v=4.5.3.831937485783" data-turbo-eval="false" defer></script>
+    <script id="prism-js" data-cfasync="false" src="../../resources/js/prism.js?v=4.5.3.831937485783" defer></script>
 
     <link href="https://workleap.github.io/wl-idp-docs-hub/static/retype-customization.css" rel="stylesheet" />
 
@@ -263,8 +263,13 @@
                 <!-- Page content  -->
 <h1 id="setup-launchdarkly">Setup LaunchDarkly</h1>
 <p>Squide integrates with <a href="https://launchdarkly.com/" class="outbound" target="_blank">LaunchDarkly</a> to attach feature flags to the <a href="../../reference/runtime/fireflyruntime/">FireflyRuntime</a> instance and automatically update <a href="../../essentials/register-deferred-nav-items/">deferred registrations</a> whenever a flag value changes.</p>
+<h2 id="install-the-packages">Install the packages</h2>
+<p>To set up LaunchDarkly, first, open a terminal at the root of the host application and install the client:</p>
+<div id="install-the-packages-code-1" class="codeblock-wrapper"><doc-codeblock>
+<pre translate="no" class="language-bash"><code v-pre class="language-bash">pnpm add launchdarkly-js-client-sdk</code></pre>
+</doc-codeblock></div>
 <h2 id="initialize-the-client">Initialize the client</h2>
-<p>To setup LaunchDarkly, first refer to the <a href="../../introduction/create-host/">create an host application</a> guide as a starting point and update the host application bootstrapping code to create and initialize a LaunchDarkly SDK <a href="https://launchdarkly.com/docs/sdk/client-side/javascript" class="outbound" target="_blank">client</a> instance:</p>
+<p>Then, to setup LaunchDarkly, first refer to the <a href="../../introduction/create-host/">create an host application</a> guide as a starting point and update the host application bootstrapping code to create and initialize a LaunchDarkly SDK <a href="https://launchdarkly.com/docs/sdk/client-side/javascript" class="outbound" target="_blank">client</a> instance:</p>
 <div id="initialize-the-client-code-1" class="codeblock-wrapper"><doc-codeblock>
 <pre translate="no" class="language-tsx" data-line="7-14,18,25"><code v-pre class="language-tsx">import { FireflyProvider, initializeFirefly } from &quot;@squide/firefly&quot;;
 import { initialize as initializeLaunchDarkly } from &quot;launchdarkly-js-client-sdk&quot;;
