@@ -21,11 +21,11 @@ remote-1:    3.1
 remote-2:    2.1   <-----
 */
 
-import type { FederationHost, FederationRuntimePlugin } from "@module-federation/enhanced/runtime";
+import type { ModuleFederation, ModuleFederationRuntimePlugin } from "@module-federation/enhanced/runtime";
 import { minVersion, parse, rcompare } from "semver";
 import { HostApplicationName } from "./shared.ts";
 
-type Shared = FederationHost["shareScopeMap"][string][string][string];
+type Shared = ModuleFederation["shareScopeMap"][string][string][string];
 
 // Toggle to "true" to facilitate the debugging of this plugin.
 const isDebug = false;
@@ -118,7 +118,7 @@ export function resolveSharedDependency(pkgName: string, entries: Shared[], logF
     };
 }
 
-const plugin: () => FederationRuntimePlugin = () => {
+const plugin: () => ModuleFederationRuntimePlugin = () => {
     return {
         name: "shared-dependencies-resolution-plugin",
         resolveShare: function(args) {
@@ -152,6 +152,8 @@ const plugin: () => FederationRuntimePlugin = () => {
                 return args;
             }
 
+            const defaultResolver = args.resolver;
+
             args.resolver = () => {
                 log(`[squide] There's %cmore than one requested version%c for ${pkgName}:`, "color: black; background-color: pink;", "", entries.length, shareScopeMap[scope][pkgName]);
 
@@ -161,7 +163,10 @@ const plugin: () => FederationRuntimePlugin = () => {
                     console.log(`%c[squide] "${highestVersionEntry.from}" requested version "${highestVersionEntry.version}" of "${pkgName}". This version is higher than the major number of the version requested by the host for this dependency (${resolvedEntry.version}). The version for "${pkgName}" has been forced to "${resolvedEntry.version}".`, "color: white; background-color: red;");
                 }
 
-                return resolvedEntry;
+                return {
+                    shared: resolvedEntry,
+                    useTreesShaking: defaultResolver()?.useTreesShaking ?? false
+                };
             };
 
             return args;

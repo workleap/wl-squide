@@ -1,6 +1,6 @@
-import type { FederationRuntimePlugin } from "@module-federation/enhanced/runtime";
+import type { ModuleFederationRuntimePlugin } from "@module-federation/enhanced/runtime";
 
-const plugin: () => FederationRuntimePlugin = () => {
+const plugin: () => ModuleFederationRuntimePlugin = () => {
     return {
         name: "non-cacheable-remote-entry-plugin",
         createScript: function({ url }) {

@@ -1,8 +1,8 @@
-import type { FederationHost } from "@module-federation/enhanced/runtime";
+import type { ModuleFederation } from "@module-federation/enhanced/runtime";
 import { test } from "vitest";
 import { resolveSharedDependency } from "../src/sharedDependenciesResolutionPlugin.ts";
 
-type Shared = FederationHost["shareScopeMap"][string][string][string];
+type Shared = ModuleFederation["shareScopeMap"][string][string][string];
 
 function createSharedEntry(from: string, version: string, singleton?: boolean): Shared {
     return {
