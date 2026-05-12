@@ -58,7 +58,6 @@ Use `pnpm add -D --save-exact <package>` (or `pnpm add -DE <package>`) to ensure
 `pnpm-workspace.yaml` has an `overrides:` block that pins transitive deps to specific versions. Each entry exists for a concrete reason — do NOT remove or relax them without verifying the underlying issue is gone (test builds AND tests, not just `pnpm install`):
 
 - **`terser-webpack-plugin: 5.4.0`** — 5.6.0 leaks `extractComments` into swc-minify options, which swc rejects. `@workleap/webpack-configs` uses `TerserPlugin.swcMinify`, so without this pin the `basic-webpack` sample's webpack build fails with `unknown field 'extractComments'`.
-- **`@rsbuild/plugin-react: 1.4.6`** and **`@rsbuild/plugin-svgr: 1.3.1`** — the v2 series of both plugins require `@rsbuild/core >= 2.0`. The workspace is still on `@rsbuild/core@1.7.5`; without these pins, `@workleap/{rsbuild,rslib}-configs` pull in the v2 plugins transitively and dev servers fail at startup with `"@rsbuild/plugin-react" v2 requires "@rsbuild/core" >= 2.0`. Remove when migrating to `@rsbuild/core` v2.
 
 **Important pnpm v11 quirk:** changing an `overrides` entry does NOT trigger re-resolution on `pnpm install` (even with `--force` or `--no-frozen-lockfile`) — pnpm reports "Already up to date" and leaves the old versions in the lockfile. To apply override changes, delete `pnpm-lock.yaml` and run `pnpm install --lockfile-only`.
 
