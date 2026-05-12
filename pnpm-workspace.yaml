@@ -2,17 +2,21 @@ packages:
   - packages/*
   - samples/**
 
-onlyBuiltDependencies:
-  - '@parcel/watcher'
-  - '@swc/core'
-  - agent-browser
-  - core-js
-  - core-js-pure
-  - edgedriver
-  - esbuild
-  - geckodriver
-  - msw
-  - netlify-cli
-  - protobufjs
-  - sharp
-  - unix-dgram
+minimumReleaseAgeExclude:
+  - '@workleap/*'
+  - '@typescript/native-preview*'
+
+allowBuilds:
+  '@parcel/watcher': true
+  '@swc/core': true
+  agent-browser: true
+  core-js: true
+  core-js-pure: true
+  edgedriver: true
+  esbuild: true
+  geckodriver: true
+  msw: true
+  netlify-cli: true
+  protobufjs: true
+  sharp: true
+  unix-dgram: true
