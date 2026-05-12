@@ -21,6 +21,8 @@ class DummyPlugin {
 // The following options are relative to the environment running the test and breaks on CI.
 function prepareModuleFederationPluginForSnapshot(plugin: WebpackPluginInstance) {
     delete (plugin._options as ModuleFederationPluginOptions)["runtimePlugins"];
+    delete (plugin as { coreModulePath?: string }).coreModulePath;
+    delete (plugin as { pluginName?: string }).pluginName;
 
     return plugin;
 }

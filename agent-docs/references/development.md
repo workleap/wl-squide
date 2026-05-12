@@ -53,6 +53,14 @@ Samples are deployed to Netlify:
 
 Use `pnpm add -D --save-exact <package>` (or `pnpm add -DE <package>`) to ensure exact versions.
 
+### Pinned transitive dependencies (pnpm overrides)
+
+`pnpm-workspace.yaml` has an `overrides:` block that pins transitive deps to specific versions. Each entry exists for a concrete reason — do NOT remove or relax them without verifying the underlying issue is gone (test builds AND tests, not just `pnpm install`):
+
+- **`terser-webpack-plugin: 5.4.0`** — 5.6.0 leaks `extractComments` into swc-minify options, which swc rejects. `@workleap/webpack-configs` uses `TerserPlugin.swcMinify`, so without this pin the `basic-webpack` sample's webpack build fails with `unknown field 'extractComments'`.
+
+**Important pnpm v11 quirk:** changing an `overrides` entry does NOT trigger re-resolution on `pnpm install` (even with `--force` or `--no-frozen-lockfile`) — pnpm reports "Already up to date" and leaves the old versions in the lockfile. To apply override changes, delete `pnpm-lock.yaml` and run `pnpm install --lockfile-only`.
+
 ## Adding a New Package
 
 1. Create a folder under `packages/` matching the package name.

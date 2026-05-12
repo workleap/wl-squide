@@ -12,26 +12,26 @@
         "typecheck": "tsgo"
     },
     "peerDependencies": {
-        "react": "^19.2.4",
-        "react-dom": "^19.2.4"
+        "react": "^19.2.6",
+        "react-dom": "^19.2.6"
     },
     "dependencies": {
         "@squide/fakes": "workspace:*",
         "@squide/firefly": "workspace:*",
-        "uuid": "^13.0.0"
+        "uuid": "^14.0.0"
     },
     "devDependencies": {
         "@eslint/js": "9.39.2",
-        "@types/node": "25.5.2",
+        "@types/node": "25.7.0",
         "@types/react": "19.2.14",
         "@types/react-dom": "19.2.3",
         "@types/uuid": "11.0.0",
-        "@typescript-eslint/parser": "8.58.0",
-        "@typescript/native-preview": "7.0.0-dev.20260407.1",
-        "@workleap/eslint-configs": "2.0.1",
-        "@workleap/typescript-configs": "4.0.0",
+        "@typescript-eslint/parser": "8.59.3",
+        "@typescript/native-preview": "7.0.0-dev.20260512.1",
+        "@workleap/eslint-configs": "2.0.3",
+        "@workleap/typescript-configs": "4.0.2",
         "eslint": "9.39.2",
-        "typescript": "6.0.2",
+        "typescript": "6.0.3",
         "typescript-eslint": "8.54.0"
     }
 }
