@@ -1,5 +1,14 @@
 # @squide/firefly
 
+## 17.0.4
+
+### Patch Changes
+
+- [#608](https://github.com/workleap/wl-squide/pull/608) [`9161c5d`](https://github.com/workleap/wl-squide/commit/9161c5d9bbcaacd5a5b07aa676e2d0febb4b0520) Thanks [@alexasselin008](https://github.com/alexasselin008)! - Fixed `registerPublicRoute` to propagate the public visibility to nested children. Children with an explicit visibility option are preserved.
+
+- Updated dependencies [[`9161c5d`](https://github.com/workleap/wl-squide/commit/9161c5d9bbcaacd5a5b07aa676e2d0febb4b0520)]:
+  - @squide/react-router@8.1.22
+
 ## 17.0.3
 
 ### Patch Changes

@@ -1,5 +1,11 @@
 # @squide/react-router
 
+## 8.1.22
+
+### Patch Changes
+
+- [#608](https://github.com/workleap/wl-squide/pull/608) [`9161c5d`](https://github.com/workleap/wl-squide/commit/9161c5d9bbcaacd5a5b07aa676e2d0febb4b0520) Thanks [@alexasselin008](https://github.com/alexasselin008)! - Fixed `registerPublicRoute` to propagate the public visibility to nested children. Children with an explicit visibility option are preserved.
+
 ## 8.1.21
 
 ### Patch Changes
