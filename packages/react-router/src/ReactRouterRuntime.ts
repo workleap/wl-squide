@@ -34,7 +34,7 @@ function logRoutesTree(routes: Route[], depth: number = 0) {
     return log;
 }
 
-function applyPublicVisibility(routes: Route[]) {
+function applyPublicVisibilityToChildren(routes: Route[]) {
     return routes.map(x => {
         const route: Route = {
             $visibility: "public",
@@ -43,7 +43,7 @@ function applyPublicVisibility(routes: Route[]) {
 
         if (route.children) {
             // Recursively go through the children.
-            route.children = applyPublicVisibility(route.children);
+            route.children = applyPublicVisibilityToChildren(route.children);
         }
 
         return route;
@@ -180,7 +180,7 @@ export class ReactRouterRuntime<TRuntime extends ReactRouterRuntime = any> exten
         this.registerRoute({
             $visibility: "public",
             ...route,
-            ...(route.children ? { children: applyPublicVisibility(route.children) } : {})
+            ...(route.children ? { children: applyPublicVisibilityToChildren(route.children) } : {})
         } as Route, options);
     }
 
