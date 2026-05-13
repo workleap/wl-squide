@@ -35,11 +35,11 @@ function logRoutesTree(routes: Route[], depth: number = 0) {
 }
 
 function applyPublicVisibility(routes: Route[]) {
-    return routes.map((x: Route) => {
-        const route = {
-            ...x,
-            $visibility: x.$visibility ?? "public"
-        } satisfies Route;
+    return routes.map(x => {
+        const route: Route = {
+            $visibility: "public",
+            ...x
+        };
 
         if (route.children) {
             // Recursively go through the children.
