@@ -40,7 +40,7 @@
         "react-i18next": "^17.0.7"
     },
     "dependencies": {
-        "@formatjs/intl-localematcher": "^0.8.6",
+        "@formatjs/intl-localematcher": "^0.8.7",
         "@squide/core": "workspace:^"
     },
     "devDependencies": {
