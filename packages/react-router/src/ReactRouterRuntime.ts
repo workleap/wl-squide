@@ -34,6 +34,22 @@ function logRoutesTree(routes: Route[], depth: number = 0) {
     return log;
 }
 
+function applyPublicVisibilityToChildren(routes: Route[]) {
+    return routes.map(x => {
+        const route: Route = {
+            $visibility: "public",
+            ...x
+        };
+
+        if (route.children) {
+            // Recursively go through the children.
+            route.children = applyPublicVisibilityToChildren(route.children);
+        }
+
+        return route;
+    });
+}
+
 export interface IReactRouterRuntime extends IRuntime<Route, RootNavigationItem> {}
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -163,7 +179,8 @@ export class ReactRouterRuntime<TRuntime extends ReactRouterRuntime = any> exten
     registerPublicRoute(route: Omit<Route, "$visibility">, options?: RegisterRouteOptions) {
         this.registerRoute({
             $visibility: "public",
-            ...route
+            ...route,
+            ...(route.children ? { children: applyPublicVisibilityToChildren(route.children) } : {})
         } as Route, options);
     }
 

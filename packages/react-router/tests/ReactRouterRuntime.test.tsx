@@ -2517,6 +2517,143 @@ describe.concurrent("startDeferredRegistrationScope & completeDeferredRegistrati
     });
 });
 
+describe.concurrent("registerPublicRoute", () => {
+    function registerPublicRoutesOutlet(runtime: ReactRouterRuntime) {
+        runtime.registerRoute(PublicRoutes);
+    }
+
+    function getPublicRoutes(routes: Route[]): Route[] | undefined {
+        for (const route of routes) {
+            if (isPublicRoutesOutletRoute(route)) {
+                return route.children!;
+            }
+
+            if (route.children) {
+                const publicRoutes = getPublicRoutes(route.children);
+
+                if (publicRoutes) {
+                    return publicRoutes;
+                }
+            }
+        }
+    }
+
+    test.concurrent("should register a flat public route", ({ expect }) => {
+        const runtime = new ReactRouterRuntime({
+            loggers: [new NoopLogger()]
+        });
+
+        registerPublicRoutesOutlet(runtime);
+
+        runtime.registerPublicRoute({
+            path: "/foo",
+            element: <div>Hello!</div>
+        });
+
+        const routes = getPublicRoutes(runtime.routes)!;
+
+        expect(routes.length).toBe(1);
+        expect(routes[0].path).toBe("/foo");
+        expect(routes[0].$visibility).toBe("public");
+    });
+
+    test.concurrent("when a child route has no visibility option, the child route is considered as a \"public\" route", ({ expect }) => {
+        const runtime = new ReactRouterRuntime({
+            loggers: [new NoopLogger()]
+        });
+
+        registerPublicRoutesOutlet(runtime);
+
+        runtime.registerPublicRoute({
+            element: <div>Layout</div>,
+            children: [
+                {
+                    path: "/foo",
+                    element: <div>Foo</div>
+                },
+                {
+                    path: "/bar",
+                    element: <div>Bar</div>
+                }
+            ]
+        });
+
+        const routes = getPublicRoutes(runtime.routes)!;
+
+        expect(routes[0].$visibility).toBe("public");
+        expect(routes[0].children![0].$visibility).toBe("public");
+        expect(routes[0].children![1].$visibility).toBe("public");
+    });
+
+    test.concurrent("should register a child route with an explicit visibility", ({ expect }) => {
+        const runtime = new ReactRouterRuntime({
+            loggers: [new NoopLogger()]
+        });
+
+        registerPublicRoutesOutlet(runtime);
+
+        runtime.registerPublicRoute({
+            element: <div>Layout</div>,
+            children: [
+                {
+                    $visibility: "protected",
+                    path: "/protected-child",
+                    element: <div>Protected</div>
+                },
+                {
+                    path: "/public-child",
+                    element: <div>Public</div>
+                }
+            ]
+        });
+
+        const routes = getPublicRoutes(runtime.routes)!;
+
+        expect(routes[0].children![0].$visibility).toBe("protected");
+        expect(routes[0].children![1].$visibility).toBe("public");
+    });
+
+    test.concurrent("when a deeply nested route has no visibility option, the deeply nested route is considered as a \"public\" route", ({ expect }) => {
+        const runtime = new ReactRouterRuntime({
+            loggers: [new NoopLogger()]
+        });
+
+        registerPublicRoutesOutlet(runtime);
+
+        runtime.registerPublicRoute({
+            element: <div>Root</div>,
+            children: [
+                {
+                    element: <div>Layout</div>,
+                    children: [
+                        {
+                            path: "/reviews",
+                            children: [
+                                {
+                                    index: true,
+                                    element: <div>Index</div>
+                                }
+                            ]
+                        },
+                        {
+                            path: "/reviews/auth-redirect",
+                            element: <div>Auth</div>
+                        }
+                    ]
+                }
+            ]
+        });
+
+        const routes = getPublicRoutes(runtime.routes)!;
+
+        expect(routes[0].$visibility).toBe("public");
+        expect(routes[0].children![0].$visibility).toBe("public");
+        expect(routes[0].children![0].children![0].$visibility).toBe("public");
+        expect(routes[0].children![0].children![0].children![0].$visibility).toBe("public");
+        expect(routes[0].children![0].children![1].$visibility).toBe("public");
+    });
+});
+
 describe.concurrent("_validateRegistrations", () => {
     describe.concurrent("managed routes", () => {
         test.concurrent("when public routes are registered but the public routes outlet is missing, the error message mentions the PublicRoutes outlet", ({ expect }) => {
