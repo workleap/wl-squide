@@ -1,5 +1,11 @@
 # @squide/firefly
 
+## 17.0.3
+
+### Patch Changes
+
+- [#605](https://github.com/workleap/wl-squide/pull/605) [`096bbbf`](https://github.com/workleap/wl-squide/commit/096bbbfb2235c4e60349caa82efe740209989106) Thanks [@patricklafrance](https://github.com/patricklafrance)! - Updated dependencies
+
 ## 17.0.2
 
 ### Patch Changes
