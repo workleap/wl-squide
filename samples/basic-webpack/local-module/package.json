@@ -17,7 +17,7 @@
         "@react-stately/toast": "^3.2.0",
         "react": "^19.2.6",
         "react-dom": "^19.2.6",
-        "react-router": "^7.15.0"
+        "react-router": "^7.15.1"
     },
     "dependencies": {
         "@basic-webpack/shared": "workspace:*",
@@ -35,9 +35,9 @@
         "@squide/firefly-webpack-configs": "workspace:*",
         "@swc/core": "1.15.33",
         "@swc/helpers": "0.5.21",
-        "@types/node": "25.7.0",
-        "@typescript-eslint/parser": "8.59.3",
-        "@typescript/native-preview": "7.0.0-dev.20260512.1",
+        "@types/node": "25.9.0",
+        "@typescript-eslint/parser": "8.59.4",
+        "@typescript/native-preview": "7.0.0-dev.20260519.1",
         "@workleap/browserslist-config": "2.1.8",
         "@workleap/eslint-configs": "2.0.3",
         "@workleap/swc-configs": "2.3.12",
@@ -46,7 +46,7 @@
         "eslint": "9.39.2",
         "react": "19.2.6",
         "react-dom": "19.2.6",
-        "react-router": "7.15.0",
+        "react-router": "7.15.1",
         "typescript": "6.0.3",
         "typescript-eslint": "8.54.0",
         "webpack": "5.106.2",
