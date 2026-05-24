@@ -30,7 +30,7 @@ const runtime = initializeFireflyForStorybook<TData = unknown>(options?: { local
     - `additionalPlugins`: An optional array with additional plugins to be registered with the runtime.
 ### Returns
 
-A `StorybookRuntime` instance.
+A `Promise` resolving to a `StorybookRuntime` instance.
 
 ## Usage
 
@@ -118,7 +118,7 @@ interface DeferredData {
 }
 
 const registerModule: ModuleRegisterFunction<FireflyRuntime, unknown, DeferredData> = runtime => {
-    return ({ data }) => {
+    return (runtime, data, operation) => {
         if (data.subscription.tier === "enterprise") {
             // Register routes/navigation only available to enterprise tenants.
         }
