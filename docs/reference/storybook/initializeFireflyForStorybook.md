@@ -11,13 +11,17 @@ Create a runtime instance tailored for [Storybook](https://storybook.js.org/) an
 ## Reference
 
 ```ts
-const runtime = initializeFireflyForStorybook(options?: { localModules?, environmentVariables?, featureFlags?, launchDarklyClient?, loggers?, useMsw? })
+const runtime = initializeFireflyForStorybook<TData = unknown>(options?: { localModules?, environmentVariables?, featureFlags?, launchDarklyClient?, loggers?, useMsw? })
 ```
+
+### Type parameters
+
+- `TData`: An optional type describing the data passed to deferred registration functions returned by `localModules`. Defaults to `unknown`.
 
 ### Parameters
 
 - `options`: An optional object literal of options:
-    - `localModules`: An optional array of `ModuleRegisterFunction`.
+    - `localModules`: An optional array of `ModuleRegisterFunction<FireflyRuntime, unknown, TData>`.
     - `environmentVariables`: An optional object of environment variables.
     - `featureFlags`: An optional Map instance of feature flags.
     - `launchDarklyClient`: An optional LaunchDarkly client to override the default client.
@@ -98,6 +102,31 @@ import { i18nextPlugin } from "@squide/i18next";
 
 const runtime = initializeFireflyForStorybook({
     additionalPlugins: [x => new i18nextPlugin(x, ["en-US", "fr-CA"], "en-US", "language")]
+});
+```
+
+### Initialize with typed deferred registration data
+
+Pass a `TData` type argument so that the data forwarded to deferred registration functions is strongly typed.
+
+```ts !#4-6,8,16
+import { initializeFireflyForStorybook } from "@squide/firefly-storybook";
+import type { ModuleRegisterFunction, FireflyRuntime } from "@squide/firefly";
+
+interface DeferredData {
+    subscription: { tier: "free" | "pro" | "enterprise" };
+}
+
+const registerModule: ModuleRegisterFunction<FireflyRuntime, unknown, DeferredData> = runtime => {
+    return ({ data }) => {
+        if (data.subscription.tier === "enterprise") {
+            // Register routes/navigation only available to enterprise tenants.
+        }
+    };
+};
+
+const runtime = initializeFireflyForStorybook<DeferredData>({
+    localModules: [registerModule]
 });
 ```
 

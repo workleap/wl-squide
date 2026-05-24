@@ -6,8 +6,8 @@ import { RootLogger } from "@workleap/logging";
 import { LDClient } from "launchdarkly-js-client-sdk";
 import { StorybookRuntime } from "./StorybookRuntime.ts";
 
-export interface InitializeFireflyForStorybookOptions {
-    localModules?: ModuleRegisterFunction<FireflyRuntime>[];
+export interface InitializeFireflyForStorybookOptions<TData = unknown> {
+    localModules?: ModuleRegisterFunction<FireflyRuntime, unknown, TData>[];
     environmentVariables?: EnvironmentVariables;
     featureFlags?: Partial<FeatureFlags>;
     launchDarklyClient?: LDClient;
@@ -16,9 +16,9 @@ export interface InitializeFireflyForStorybookOptions {
     additionalPlugins?: PluginFactory<FireflyRuntime>[];
 }
 
-function logInitializationState(
+function logInitializationState<TData = unknown>(
     runtime: FireflyRuntime,
-    options: InitializeFireflyForStorybookOptions,
+    options: InitializeFireflyForStorybookOptions<TData>,
     plugins: PluginFactory<FireflyRuntime>[]
 ) {
     const {
@@ -74,7 +74,7 @@ function logInitializationState(
     }
 }
 
-export async function initializeFireflyForStorybook(options: InitializeFireflyForStorybookOptions = {}) {
+export async function initializeFireflyForStorybook<TData = unknown>(options: InitializeFireflyForStorybookOptions<TData> = {}) {
     const {
         localModules = [],
         environmentVariables,
