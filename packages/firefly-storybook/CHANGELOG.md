@@ -1,5 +1,11 @@
 # @squide/firefly-storybook
 
+## 1.0.8
+
+### Patch Changes
+
+- [#612](https://github.com/workleap/wl-squide/pull/612) [`5c0c2db`](https://github.com/workleap/wl-squide/commit/5c0c2dbaa8a69d2f8e611e108c179ac90530858f) Thanks [@patricklafrance](https://github.com/patricklafrance)! - Added a `TData` generic type parameter to `initializeFireflyForStorybook` and `InitializeFireflyForStorybookOptions` so callers can type the data passed to deferred registration functions. Defaults to `unknown`, so existing call sites are unaffected.
+
 ## 1.0.7
 
 ### Patch Changes
