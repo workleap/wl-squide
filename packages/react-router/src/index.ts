@@ -9,4 +9,5 @@ export * from "./useRenderedNavigationItems.tsx";
 export * from "./useRouteMatch.ts";
 export * from "./useRoutes.ts";
 export * from "./useRuntimeNavigationItems.ts";
+export * from "./useRuntimeNavigationItemsByMenu.ts";
 

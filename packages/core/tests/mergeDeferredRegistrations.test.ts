@@ -25,6 +25,10 @@ class DummyRuntime extends Runtime {
         return [];
     }
 
+    getNavigationItemsByMenu() {
+        return new Map();
+    }
+
     startDeferredRegistrationScope(): void {
         throw new Error("Method not implemented.");
     }

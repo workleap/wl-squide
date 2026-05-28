@@ -76,6 +76,7 @@ export * from "./useDeferredRegistrations.ts";
 export * from "./useIsActiveRouteProtected.ts";
 export * from "./useIsBootstrapping.ts";
 export * from "./useNavigationItems.ts";
+export * from "./useNavigationItemsByMenu.ts";
 export * from "./useProtectedDataHandler.ts";
 export * from "./useProtectedDataQueries.ts";
 export * from "./usePublicDataHandler.ts";

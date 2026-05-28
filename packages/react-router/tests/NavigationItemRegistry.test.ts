@@ -1107,3 +1107,178 @@ describe.concurrent("NavigationItemDeferredRegistrationTransactionalScope", () =
         expect(registry.getPendingRegistrations().getPendingSectionIds().length).toBe(0);
     });
 });
+
+describe.concurrent("getAllItemsByMenu", () => {
+    test.concurrent("should return an empty Map when no items have been registered", ({ expect }) => {
+        const registry = new NavigationItemRegistry();
+
+        const result = registry.getAllItemsByMenu();
+
+        expect(result).toBeInstanceOf(Map);
+        expect(result.size).toBe(0);
+    });
+
+    test.concurrent("should return items grouped by menu id", ({ expect }) => {
+        const registry = new NavigationItemRegistry();
+
+        registry.add("foo", "static", {
+            $label: "1",
+            to: "/1"
+        });
+
+        registry.add("foo", "static", {
+            $label: "2",
+            to: "/2"
+        });
+
+        registry.add("bar", "deferred", {
+            $label: "3",
+            to: "/3"
+        });
+
+        const result = registry.getAllItemsByMenu();
+
+        expect(result.size).toBe(2);
+        expect(result.get("foo")!.map(x => x.to)).toEqual(["/1", "/2"]);
+        expect(result.get("bar")!.map(x => x.to)).toEqual(["/3"]);
+    });
+
+    test.concurrent("should reflect both static and deferred items", ({ expect }) => {
+        const registry = new NavigationItemRegistry();
+
+        registry.add("foo", "static", {
+            $label: "static",
+            to: "/static"
+        });
+
+        registry.add("foo", "deferred", {
+            $label: "deferred",
+            to: "/deferred"
+        });
+
+        const result = registry.getAllItemsByMenu();
+
+        expect(result.get("foo")!.length).toBe(2);
+        expect(result.get("foo")!.map(x => x.to)).toEqual(["/static", "/deferred"]);
+    });
+
+    test.concurrent("should reflect items added under a section via sectionId", ({ expect }) => {
+        const registry = new NavigationItemRegistry();
+
+        registry.add("foo", "static", {
+            $id: "section",
+            $label: "Section",
+            children: []
+        });
+
+        registry.add("foo", "static", {
+            $label: "Nested",
+            to: "/nested"
+        }, {
+            sectionId: "section"
+        });
+
+        const result = registry.getAllItemsByMenu();
+
+        expect(result.get("foo")!.length).toBe(1);
+        expect(result.get("foo")![0].children![0].to).toBe("/nested");
+    });
+
+    test.concurrent("should return the same Map reference across successive calls", ({ expect }) => {
+        const registry = new NavigationItemRegistry();
+
+        registry.add("foo", "static", {
+            $label: "1",
+            to: "/1"
+        });
+
+        const first = registry.getAllItemsByMenu();
+        const second = registry.getAllItemsByMenu();
+
+        expect(first).toBe(second);
+    });
+
+    test.concurrent("should return a new Map reference after a new item is added", ({ expect }) => {
+        const registry = new NavigationItemRegistry();
+
+        registry.add("foo", "static", {
+            $label: "1",
+            to: "/1"
+        });
+
+        const first = registry.getAllItemsByMenu();
+
+        registry.add("bar", "static", {
+            $label: "2",
+            to: "/2"
+        });
+
+        const second = registry.getAllItemsByMenu();
+
+        expect(first).not.toBe(second);
+        expect(second.size).toBe(2);
+    });
+
+    test.concurrent("should return a new Map reference after a nested item is added under an existing section", ({ expect }) => {
+        const registry = new NavigationItemRegistry();
+
+        registry.add("foo", "static", {
+            $id: "section",
+            $label: "Section",
+            children: []
+        });
+
+        const first = registry.getAllItemsByMenu();
+
+        registry.add("foo", "static", {
+            $label: "Nested",
+            to: "/nested"
+        }, {
+            sectionId: "section"
+        });
+
+        const second = registry.getAllItemsByMenu();
+
+        expect(first).not.toBe(second);
+        expect(second.get("foo")![0].children![0].to).toBe("/nested");
+    });
+
+    test.concurrent("should return a new Map reference after deferred items are cleared", ({ expect }) => {
+        const registry = new NavigationItemRegistry();
+
+        registry.add("foo", "static", {
+            $label: "static",
+            to: "/static"
+        });
+
+        registry.add("foo", "deferred", {
+            $label: "deferred",
+            to: "/deferred"
+        });
+
+        const first = registry.getAllItemsByMenu();
+
+        expect(first.get("foo")!.length).toBe(2);
+
+        registry.clearDeferredItems();
+
+        const second = registry.getAllItemsByMenu();
+
+        expect(first).not.toBe(second);
+        expect(second.get("foo")!.length).toBe(1);
+        expect(second.get("foo")![0].to).toBe("/static");
+    });
+
+    test.concurrent("inner arrays share the same reference as getItems(menuId)", ({ expect }) => {
+        const registry = new NavigationItemRegistry();
+
+        registry.add("foo", "static", {
+            $label: "1",
+            to: "/1"
+        });
+
+        const byMenu = registry.getAllItemsByMenu();
+
+        expect(byMenu.get("foo")).toBe(registry.getItems("foo"));
+    });
+});
