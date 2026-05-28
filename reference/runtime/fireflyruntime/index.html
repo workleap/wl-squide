@@ -5,10 +5,10 @@
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <meta name="color-scheme" content="light dark">
     <meta name="turbo-root" content="/wl-squide">
-    <meta name="turbo-cache-control" content="no-cache" data-turbo-track="reload" data-track-token="4.5.3.832921374381">
+    <meta name="turbo-cache-control" content="no-cache" data-turbo-track="reload" data-track-token="4.6.0.833312187953">
 
     <!-- See retype.com -->
-    <meta name="generator" content="Retype 4.5.3">
+    <meta name="generator" content="Retype 4.6.0">
 
     <!-- Primary Meta Tags -->
     <title>FireflyRuntime</title>
@@ -39,12 +39,12 @@
     <script data-cfasync="false">(function(){var cl=document.documentElement.classList,ls=localStorage.getItem("retype_scheme"),hd=cl.contains("dark"),hl=cl.contains("light"),wm=window.matchMedia&&window.matchMedia("(prefers-color-scheme: dark)").matches;if(ls==="dark"||(!ls&&wm&&!hd&&!hl)){cl.remove("light");cl.add("dark")}else if(ls==="light"||(!ls&&!wm&&!hd&&!hl)){cl.remove("dark");cl.add("light")}})();</script>
 
     <link id="retype-favicon" rel="icon" href="../../../static/favicon.png" />
-    <link href="../../../resources/css/retype.css?v=4.5.3.832921374381" rel="stylesheet">
+    <link href="../../../resources/css/retype.css?v=4.6.0.833312187953" rel="stylesheet">
 
-    <script data-cfasync="false" src="../../../resources/js/config.js?v=4.5.3.832921374381" data-turbo-eval="false" defer></script>
-    <script data-cfasync="false" src="../../../resources/js/retype.js?v=4.5.3" data-turbo-eval="false" defer></script>
-    <script id="lunr-js" data-cfasync="false" src="../../../resources/js/lunr.js?v=4.5.3.832921374381" data-turbo-eval="false" defer></script>
-    <script id="prism-js" data-cfasync="false" src="../../../resources/js/prism.js?v=4.5.3.832921374381" defer></script>
+    <script data-cfasync="false" src="../../../resources/js/config.js?v=4.6.0.833312187953" data-turbo-eval="false" defer></script>
+    <script data-cfasync="false" src="../../../resources/js/retype.js?v=4.6.0" data-turbo-eval="false" defer></script>
+    <script id="lunr-js" data-cfasync="false" src="../../../resources/js/lunr.js?v=4.6.0.833312187953" data-turbo-eval="false" defer></script>
+    <script id="prism-js" data-cfasync="false" src="../../../resources/js/prism.js?v=4.6.0.833312187953" defer></script>
 
     <link href="https://workleap.github.io/wl-idp-docs-hub/static/retype-customization.css" rel="stylesheet" />
 
@@ -309,6 +309,7 @@
 <li><code translate="no" v-pre>registerRoute(route, options?)</code>: Register a route.</li>
 <li><code translate="no" v-pre>registerNavigationItem(navigationItem, options?)</code>: Register a navigation item.</li>
 <li><code translate="no" v-pre>getNavigationItems(menuId?)</code>: Retrieve the registered navigation items.</li>
+<li><code translate="no" v-pre>getNavigationItemsByMenu()</code>: Retrieve the full navigation registry grouped by menu id.</li>
 <li><code translate="no" v-pre>registerRequestHandlers(handlers)</code>: Register the MSW request handlers.</li>
 <li><code translate="no" v-pre>getEnvironmentVariable(key)</code>: Retrieve an environment variable.</li>
 <li><code translate="no" v-pre>registerEnvironmentVariable(key, value)</code>: Register a single environment variable.</li>
@@ -797,8 +798,14 @@ runtime.registerNavigationItem({
 </doc-codeblock></div>
 <p>To retrieve the navigation items for a <strong>specific</strong> navigation menu, provide a <code translate="no" v-pre>menuId</code>:</p>
 <div id="retrieve-navigation-items-code-2" class="codeblock-wrapper"><doc-codeblock>
-<pre translate="no" class="language-tsx" data-line="1"><code v-pre class="language-tsx">const navigationItems = runtime.getNavigationItems(&quot;my-custom-layout&quot;);</code></pre>
+<pre translate="no" class="language-tsx" data-line="1"><code v-pre class="language-tsx">const navigationItems = runtime.getNavigationItems({ menuId: &quot;my-custom-layout&quot; });</code></pre>
 </doc-codeblock></div>
+<h3 id="retrieve-the-full-navigation-registry-grouped-by-menu-id">Retrieve the full navigation registry grouped by menu id</h3>
+<p>Use <code translate="no" v-pre>getNavigationItemsByMenu</code> to read every registered navigation item across every menu in a single call. The method returns a fresh <code translate="no" v-pre>Map&lt;string, NavigationItem[]&gt;</code> keyed by <code translate="no" v-pre>menuId</code> and never exposes the internal registry. The returned <code translate="no" v-pre>Map</code> is reference-stable across calls until the registry changes (registration, deferred completion, or clear), so it can safely be used as a React hook dependency.</p>
+<div id="retrieve-the-full-navigation-registry-grouped-by-menu-id-code-1" class="codeblock-wrapper"><doc-codeblock>
+<pre translate="no" class="language-tsx" data-line="1"><code v-pre class="language-tsx">const itemsByMenu = runtime.getNavigationItemsByMenu();</code></pre>
+</doc-codeblock></div>
+<p>Typical use cases include command palettes, devtools panels, or sitemaps that need to enumerate every link across every menu without knowing the menu ids ahead of time.</p>
 <h3 id="register-request-handlers">Register request handlers</h3>
 <p>The registered handlers must be valid MSW <a href="https://mswjs.io/docs/concepts/request-handler" class="outbound" target="_blank">request handlers</a>:</p>
 <div id="register-request-handlers-code-1" class="codeblock-wrapper"><doc-codeblock>

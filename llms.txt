@@ -91,6 +91,7 @@
 - [resolveRouteSegments](https://workleap.github.io/wl-squide/reference/routing/resolveroutesegments.md): Replace a route segments (paths starting with :) with the provided values. For a value to be applied to a segment, the value key must match the segment
 - [useRenderedNavigationItems](https://workleap.github.io/wl-squide/reference/routing/userenderednavigationitems.md): Recursively parse a navigation items structure to transform the items into React Elements.
 - [useNavigationItems](https://workleap.github.io/wl-squide/reference/routing/usenavigationitems.md): Retrieve the registered navigation items from the FireflyRuntime instance.
+- [useNavigationItemsByMenu](https://workleap.github.io/wl-squide/reference/routing/usenavigationitemsbymenu.md): Retrieve the full navigation registry grouped by menu id from the FireflyRuntime instance.
 - [isNavigationLink](https://workleap.github.io/wl-squide/reference/routing/isnavigationlink.md): Indicate whether or not a navigation item is a NavigationLink. This utility is particularly handy when rendering a menu with nested items.
 
 ### Messaging

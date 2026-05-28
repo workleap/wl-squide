@@ -27,6 +27,7 @@ const runtime = new FireflyRuntime(options?: { mode?, environmentVariables?, hon
 - `registerRoute(route, options?)`: Register a route.
 - `registerNavigationItem(navigationItem, options?)`: Register a navigation item.
 - `getNavigationItems(menuId?)`: Retrieve the registered navigation items.
+- `getNavigationItemsByMenu()`: Retrieve the full navigation registry grouped by menu id.
 - `registerRequestHandlers(handlers)`: Register the MSW request handlers.
 - `getEnvironmentVariable(key)`: Retrieve an environment variable.
 - `registerEnvironmentVariable(key, value)`: Register a single environment variable.
@@ -487,8 +488,18 @@ const navigationItems = runtime.getNavigationItems();
 To retrieve the navigation items for a **specific** navigation menu, provide a `menuId`:
 
 ```tsx !#1
-const navigationItems = runtime.getNavigationItems("my-custom-layout");
+const navigationItems = runtime.getNavigationItems({ menuId: "my-custom-layout" });
 ```
+
+### Retrieve the full navigation registry grouped by menu id
+
+Use `getNavigationItemsByMenu` to read every registered navigation item across every menu in a single call. The method returns a fresh `Map<string, NavigationItem[]>` keyed by `menuId` and never exposes the internal registry. The returned `Map` is reference-stable across calls until the registry changes (registration, deferred completion, or clear), so it can safely be used as a React hook dependency.
+
+```tsx !#1
+const itemsByMenu = runtime.getNavigationItemsByMenu();
+```
+
+Typical use cases include command palettes, devtools panels, or sitemaps that need to enumerate every link across every menu without knowing the menu ids ahead of time.
 
 ### Register request handlers
 

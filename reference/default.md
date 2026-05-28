@@ -31,6 +31,7 @@
 - [resolveRouteSegments](./routing/resolveRouteSegments.md)
 - [useRenderedNavigationItems](./routing/useRenderedNavigationItems.md)
 - [useNavigationItems](./routing/useNavigationItems.md)
+- [useNavigationItemsByMenu](./routing/useNavigationItemsByMenu.md)
 - [isNavigationLink](./routing/isNavigationLink.md)
 
 ### Messaging
