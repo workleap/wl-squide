@@ -1,7 +1,7 @@
 # Squide Hooks API Reference
 
 ## Table of Contents
-- [Routing Hooks](#routing-hooks) — useNavigationItems, useRenderedNavigationItems, useRoutes, useIsBootstrapping, useIsRouteProtected, useRouteMatch
+- [Routing Hooks](#routing-hooks) — useNavigationItems, useNavigationItemsByMenu, useRenderedNavigationItems, useRoutes, useIsBootstrapping, useIsRouteProtected, useRouteMatch
 - [Data Fetching Hooks](#data-fetching-hooks) — usePublicDataQueries, useProtectedDataQueries, usePublicDataHandler, useProtectedDataHandler
 - [Registration Hooks](#registration-hooks) — useDeferredRegistrations
 - [Messaging Hooks](#messaging-hooks) — useEventBusListener, useEventBusDispatcher
@@ -27,6 +27,25 @@ const customItems = useNavigationItems({ menuId: "custom-menu" });
 ```
 
 **Returns:** `Array<NavigationLink | NavigationSection>`
+
+### useNavigationItemsByMenu()
+Retrieve the full navigation registry grouped by menu id. Useful for command palettes, devtools panels, or sitemaps that enumerate every link across every menu without knowing the menu ids ahead of time.
+
+```ts
+import { useNavigationItemsByMenu } from "@squide/firefly";
+
+const itemsByMenu = useNavigationItemsByMenu();
+
+// Iterate every registered menu
+for (const [menuId, items] of itemsByMenu) {
+    // ...
+}
+
+// Discover the registered menu ids
+const menuIds = Array.from(itemsByMenu.keys());
+```
+
+**Returns:** `Map<string, Array<NavigationLink | NavigationSection>>` keyed by `menuId`. The map is reference-stable across renders until the registry changes (registration, deferred completion, or clear).
 
 ### useRenderedNavigationItems(items, renderItem, renderSection)
 Transform navigation items into React elements.
