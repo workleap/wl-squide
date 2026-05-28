@@ -126,12 +126,23 @@ runtime.registerNavigationItem({
 });
 ```
 
-#### getNavigationItems(menuId?)
-Retrieve registered navigation items.
+#### getNavigationItems(options?)
+Retrieve registered navigation items for a single menu.
 
 ```ts
 const items = runtime.getNavigationItems(); // Root menu
-const customItems = runtime.getNavigationItems("custom-menu");
+const customItems = runtime.getNavigationItems({ menuId: "custom-menu" });
+```
+
+#### getNavigationItemsByMenu()
+Retrieve the full navigation registry grouped by menu id. Returns a fresh `Map<string, NavigationItem[]>` that is reference-stable across calls until the registry changes (registration, deferred completion, or clear).
+
+```ts
+const itemsByMenu = runtime.getNavigationItemsByMenu();
+
+for (const [menuId, items] of itemsByMenu) {
+    // ...
+}
 ```
 
 ### MSW Request Handlers

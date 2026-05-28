@@ -2858,3 +2858,186 @@ describe.concurrent("_validateRegistrations", () => {
         });
     });
 });
+
+describe.concurrent("getNavigationItemsByMenu", () => {
+    test.concurrent("should return an empty Map when no items have been registered", ({ expect }) => {
+        const runtime = new ReactRouterRuntime({
+            loggers: [new NoopLogger()]
+        });
+
+        const result = runtime.getNavigationItemsByMenu();
+
+        expect(result).toBeInstanceOf(Map);
+        expect(result.size).toBe(0);
+    });
+
+    test.concurrent("should return items grouped by menu id across multiple menus", ({ expect }) => {
+        const runtime = new ReactRouterRuntime({
+            loggers: [new NoopLogger()]
+        });
+
+        runtime.registerNavigationItem({
+            $label: "Root",
+            to: "/root"
+        });
+
+        runtime.registerNavigationItem({
+            $label: "Link A",
+            to: "/link-a"
+        }, {
+            menuId: "menu-a"
+        });
+
+        runtime.registerNavigationItem({
+            $label: "Link B",
+            to: "/link-b"
+        }, {
+            menuId: "menu-b"
+        });
+
+        runtime.registerNavigationItem({
+            $label: "Link A2",
+            to: "/link-a2"
+        }, {
+            menuId: "menu-a"
+        });
+
+        const result = runtime.getNavigationItemsByMenu();
+
+        expect(result.size).toBe(3);
+        expect(result.get("root")!.length).toBe(1);
+        expect(result.get("menu-a")!.length).toBe(2);
+        expect(result.get("menu-b")!.length).toBe(1);
+        expect(result.get("menu-a")![0].to).toBe("/link-a");
+        expect(result.get("menu-a")![1].to).toBe("/link-a2");
+    });
+
+    test.concurrent("should return the same Map reference across successive calls", ({ expect }) => {
+        const runtime = new ReactRouterRuntime({
+            loggers: [new NoopLogger()]
+        });
+
+        runtime.registerNavigationItem({
+            $label: "Root",
+            to: "/root"
+        });
+
+        const first = runtime.getNavigationItemsByMenu();
+        const second = runtime.getNavigationItemsByMenu();
+
+        expect(first).toBe(second);
+    });
+
+    test.concurrent("should invalidate the cached Map after a new registration", ({ expect }) => {
+        const runtime = new ReactRouterRuntime({
+            loggers: [new NoopLogger()]
+        });
+
+        runtime.registerNavigationItem({
+            $label: "Root",
+            to: "/root"
+        });
+
+        const first = runtime.getNavigationItemsByMenu();
+
+        runtime.registerNavigationItem({
+            $label: "Other",
+            to: "/other"
+        }, {
+            menuId: "other"
+        });
+
+        const second = runtime.getNavigationItemsByMenu();
+
+        expect(first).not.toBe(second);
+        expect(second.size).toBe(2);
+    });
+
+    test.concurrent("should invalidate the cached Map after a nested registration", ({ expect }) => {
+        const runtime = new ReactRouterRuntime({
+            loggers: [new NoopLogger()]
+        });
+
+        runtime.registerNavigationItem({
+            $id: "section",
+            $label: "Section",
+            children: []
+        });
+
+        const first = runtime.getNavigationItemsByMenu();
+
+        runtime.registerNavigationItem({
+            $label: "Nested",
+            to: "/nested"
+        }, {
+            sectionId: "section"
+        });
+
+        const second = runtime.getNavigationItemsByMenu();
+
+        expect(first).not.toBe(second);
+        expect(second.get("root")![0].children![0].to).toBe("/nested");
+    });
+
+    test.concurrent("should invalidate the cached Map after deferred items are cleared", ({ expect }) => {
+        const runtime = new ReactRouterRuntime({
+            loggers: [new NoopLogger()]
+        });
+
+        runtime.registerNavigationItem({
+            $label: "Static",
+            to: "/static"
+        });
+
+        runtime.startDeferredRegistrationScope({ transactional: true });
+
+        runtime.registerNavigationItem({
+            $label: "Deferred",
+            to: "/deferred"
+        });
+
+        runtime.completeDeferredRegistrationScope();
+
+        const first = runtime.getNavigationItemsByMenu();
+
+        expect(first.get("root")!.length).toBe(2);
+
+        runtime.startDeferredRegistrationScope({ transactional: true });
+        runtime.completeDeferredRegistrationScope();
+
+        const second = runtime.getNavigationItemsByMenu();
+
+        expect(first).not.toBe(second);
+        expect(second.get("root")!.length).toBe(1);
+        expect(second.get("root")![0].to).toBe("/static");
+    });
+
+    test.concurrent("should not let consumers mutate the internal registry through the returned Map", ({ expect }) => {
+        const runtime = new ReactRouterRuntime({
+            loggers: [new NoopLogger()]
+        });
+
+        runtime.registerNavigationItem({
+            $label: "Root",
+            to: "/root"
+        });
+
+        const result = runtime.getNavigationItemsByMenu();
+
+        result.delete("root");
+        result.set("forged", [{ $label: "Forged", to: "/forged" }]);
+
+        // Trigger cache invalidation so a fresh Map is built from the internal state.
+        runtime.registerNavigationItem({
+            $label: "Second",
+            to: "/second"
+        });
+
+        const fresh = runtime.getNavigationItemsByMenu();
+
+        expect(fresh.has("forged")).toBe(false);
+        expect(fresh.get("root")!.length).toBe(2);
+        expect(fresh.get("root")![0].to).toBe("/root");
+        expect(fresh.get("root")![1].to).toBe("/second");
+    });
+});

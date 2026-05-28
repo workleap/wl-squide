@@ -59,6 +59,7 @@ export interface IRuntime<TRoute = unknown, TNavigationItem = unknown, TRuntime 
     get routes(): TRoute[];
     registerNavigationItem: (navigationItem: TNavigationItem, options?: RegisterNavigationItemOptions) => void;
     getNavigationItems: (options?: GetNavigationItemsOptions) => TNavigationItem[];
+    getNavigationItemsByMenu: () => Map<string, TNavigationItem[]>;
     startDeferredRegistrationScope: (options?: StartDeferredRegistrationScopeOptions) => void;
     completeDeferredRegistrationScope: (options?: CompleteDeferredRegistrationScopeOptions) => void;
     get mode(): RuntimeMode;
@@ -109,6 +110,8 @@ export abstract class Runtime<TRoute = unknown, TNavigationItem = unknown, TRunt
     abstract registerNavigationItem(navigationItem: TNavigationItem, options?: RegisterNavigationItemOptions): void;
 
     abstract getNavigationItems(options?: GetNavigationItemsOptions): TNavigationItem[];
+
+    abstract getNavigationItemsByMenu(): Map<string, TNavigationItem[]>;
 
     abstract startDeferredRegistrationScope(options?: StartDeferredRegistrationScopeOptions): void;
 
@@ -197,6 +200,10 @@ export abstract class RuntimeScope<TRoute = unknown, TNavigationItem = unknown, 
 
     getNavigationItems(options?: GetNavigationItemsOptions) {
         return this._runtime.getNavigationItems(options);
+    }
+
+    getNavigationItemsByMenu() {
+        return this._runtime.getNavigationItemsByMenu();
     }
 
     startDeferredRegistrationScope() {

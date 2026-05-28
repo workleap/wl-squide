@@ -156,6 +156,17 @@ export class NavigationItemRegistry {
     // the transformation is memoized to ensure the returned array is immutable and can be use in React closures.
     readonly #memoizedGetItems = memoize((menuId: string) => this.#menusIndex.get(menuId)?.map(x => x.item) ?? []);
 
+    // Memoized grouped view of the full registry, reusing the per-menu memoized arrays so inner array references stay stable.
+    readonly #memoizedGetAllItemsByMenu = memoize(() => {
+        const result = new Map<string, RootNavigationItem[]>();
+
+        for (const menuId of this.#menusIndex.keys()) {
+            result.set(menuId, this.#memoizedGetItems(menuId));
+        }
+
+        return result;
+    });
+
     #addSectionIndex(menuId: string, registrationType: NavigationItemRegistrationType, sectionItem: NavigationSection) {
         // Only add sections with an identifier.
         if (sectionItem.$id) {
@@ -225,6 +236,7 @@ export class NavigationItemRegistry {
         this.#menusIndex.set(menuId, items);
 
         memoizeClear(this.#memoizedGetItems);
+        memoizeClear(this.#memoizedGetAllItemsByMenu);
     }
 
     add(menuId: string, registrationType: NavigationItemRegistrationType, navigationItem: RootNavigationItem, { sectionId }: AddNavigationItemOptions = {}): NavigationItemRegistrationResult {
@@ -342,6 +354,7 @@ export class NavigationItemRegistry {
 
         // Clear the "getItems" memoize cache since a nested object has been updated.
         memoizeClear(this.#memoizedGetItems);
+        memoizeClear(this.#memoizedGetAllItemsByMenu);
 
         return {
             registrationStatus: "registered",
@@ -355,6 +368,10 @@ export class NavigationItemRegistry {
 
     getItems(menuId: string) {
         return this.#memoizedGetItems(menuId);
+    }
+
+    getAllItemsByMenu() {
+        return this.#memoizedGetAllItemsByMenu();
     }
 
     clearDeferredItems() {

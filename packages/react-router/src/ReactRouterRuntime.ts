@@ -296,6 +296,10 @@ export class ReactRouterRuntime<TRuntime extends ReactRouterRuntime = any> exten
         return this._navigationItemRegistry.getItems(menuId);
     }
 
+    getNavigationItemsByMenu() {
+        return this._navigationItemRegistry.getAllItemsByMenu();
+    }
+
     startScope(logger: Logger): TRuntime {
         return (new ReactRouterRuntimeScope(this, logger) as unknown) as TRuntime;
     }
