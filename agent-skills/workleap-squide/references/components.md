@@ -260,6 +260,14 @@ const meta = {
 };
 ```
 
+Optional second argument (also `FireflyDecorator` props): `route` customizes the route(s) mounted under `RootRoute` — a `RouteObject`, an array, or a function `({ story }) => ...`, defaulting to `{ path: "/story", element: story }`. Use it to attach a `handle` (read via `useMatches()`) or declare children for an `<Outlet />`. `initialEntries` overrides the in-memory router entries (default `["/story"]`). Note: `registeredRoutes` is not exposed because `StorybookRuntime.registerRoute()` is a no-op, so route registration is always empty.
+
+```tsx
+withFireflyDecorator(runtime, {
+    route: ({ story }) => ({ path: "/story", element: story, handle: { layout: "sidebar" } })
+})
+```
+
 ### withFeatureFlagsOverrideDecorator
 
 Decorator for overriding feature flags in stories. Overrides the initial flag values while the story renders and restores them after.
