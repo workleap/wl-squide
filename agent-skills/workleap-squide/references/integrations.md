@@ -127,6 +127,30 @@ export const requestHandlers: HttpHandler[] = [
 ];
 ```
 
+### MswPlugin (lower-level API)
+
+For advanced cases where the higher-level `useMsw`/`startMsw` options on `initializeFirefly` are not enough, `MswPlugin` can be registered directly. Prefer the `initializeFirefly` options for standard setups.
+
+```ts
+import { FireflyRuntime, MswPlugin } from "@squide/firefly";
+
+const runtime = new FireflyRuntime({
+    plugins: [x => new MswPlugin(x)]
+});
+```
+
+With an initial state:
+
+```ts
+import { FireflyRuntime, MswPlugin, MswState } from "@squide/firefly";
+
+const runtime = new FireflyRuntime({
+    plugins: [x => new MswPlugin(x, {
+        state: new MswState({ isReady: true })
+    })]
+});
+```
+
 > For more module registration patterns including higher-order registration and deferred registration with MSW, see `references/patterns.md`.
 
 ## LaunchDarkly
