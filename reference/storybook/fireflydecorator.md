@@ -13,6 +13,8 @@ Wrap a story with all the required plumbing to render a component using Squide, 
 ### Properties
 
 - `runtime`: A `StorybookRuntime` instance.
+- `route`: The route(s) mounted under Squide's `RootRoute`. A [RouteObject](https://reactrouter.com/start/data/route-object), an array of them, or a function receiving `{ story }`. Defaults to `{ path: "/story", element: story }`. Use it to attach a `handle` or declare children for an [Outlet](https://reactrouter.com/api/components/Outlet).
+- `initialEntries`: The in-memory router initial entries. Defaults to `["/story"]`; match it to a custom `route` `path`.
 
 ## Usage
 

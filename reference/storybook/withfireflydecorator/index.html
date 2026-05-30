@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <meta name="color-scheme" content="light dark">
     <meta name="turbo-root" content="/wl-squide">
-    <meta name="turbo-cache-control" content="no-cache" data-turbo-track="reload" data-track-token="4.6.0.833312327443">
+    <meta name="turbo-cache-control" content="no-cache" data-turbo-track="reload" data-track-token="4.6.0.833428849247">
 
     <!-- See retype.com -->
     <meta name="generator" content="Retype 4.6.0">
@@ -39,12 +39,12 @@
     <script data-cfasync="false">(function(){var cl=document.documentElement.classList,ls=localStorage.getItem("retype_scheme"),hd=cl.contains("dark"),hl=cl.contains("light"),wm=window.matchMedia&&window.matchMedia("(prefers-color-scheme: dark)").matches;if(ls==="dark"||(!ls&&wm&&!hd&&!hl)){cl.remove("light");cl.add("dark")}else if(ls==="light"||(!ls&&!wm&&!hd&&!hl)){cl.remove("dark");cl.add("light")}})();</script>
 
     <link id="retype-favicon" rel="icon" href="../../../static/favicon.png" />
-    <link href="../../../resources/css/retype.css?v=4.6.0.833312327443" rel="stylesheet">
+    <link href="../../../resources/css/retype.css?v=4.6.0.833428849247" rel="stylesheet">
 
-    <script data-cfasync="false" src="../../../resources/js/config.js?v=4.6.0.833312327443" data-turbo-eval="false" defer></script>
+    <script data-cfasync="false" src="../../../resources/js/config.js?v=4.6.0.833428849247" data-turbo-eval="false" defer></script>
     <script data-cfasync="false" src="../../../resources/js/retype.js?v=4.6.0" data-turbo-eval="false" defer></script>
-    <script id="lunr-js" data-cfasync="false" src="../../../resources/js/lunr.js?v=4.6.0.833312327443" data-turbo-eval="false" defer></script>
-    <script id="prism-js" data-cfasync="false" src="../../../resources/js/prism.js?v=4.6.0.833312327443" defer></script>
+    <script id="lunr-js" data-cfasync="false" src="../../../resources/js/lunr.js?v=4.6.0.833428849247" data-turbo-eval="false" defer></script>
+    <script id="prism-js" data-cfasync="false" src="../../../resources/js/prism.js?v=4.6.0.833428849247" defer></script>
 
     <link href="https://workleap.github.io/wl-idp-docs-hub/static/retype-customization.css" rel="stylesheet" />
 
@@ -273,11 +273,17 @@
 <p>Create a <code translate="no" v-pre>Decorator</code> function that returns a <a href="../fireflydecorator/">FireflyDecorator</a> component wrapping the story with all the required plumbing to render a component using Squide, including a <a href="https://reactrouter.com/api/data-routers/RouterProvider" class="outbound" target="_blank">RouterProvider</a>.</p>
 <h2 id="reference">Reference</h2>
 <div id="reference-code-1" class="codeblock-wrapper"><doc-codeblock>
-<pre translate="no" class="language-typescript"><code v-pre class="language-typescript">const decorator = withFireflyDecorator(runtime)</code></pre>
+<pre translate="no" class="language-typescript"><code v-pre class="language-typescript">const decorator = withFireflyDecorator(runtime, options?)</code></pre>
 </doc-codeblock></div>
 <h3 id="parameters">Parameters</h3>
 <ul>
 <li><code translate="no" v-pre>runtime</code>: A <code translate="no" v-pre>StorybookRuntime</code> instance.</li>
+<li><code translate="no" v-pre>options</code>: An optional object literal of options:
+<ul>
+<li><code translate="no" v-pre>route</code>: The route(s) mounted under Squide&#x27;s <code translate="no" v-pre>RootRoute</code>. A <a href="https://reactrouter.com/start/data/route-object" class="outbound" target="_blank">RouteObject</a>, an array of them, or a function receiving <code translate="no" v-pre>{ story }</code>. Defaults to <code translate="no" v-pre>{ path: &quot;/story&quot;, element: story }</code>.</li>
+<li><code translate="no" v-pre>initialEntries</code>: The in-memory router initial entries. Defaults to <code translate="no" v-pre>[&quot;/story&quot;]</code>; match it to a custom <code translate="no" v-pre>route</code> <code translate="no" v-pre>path</code>.</li>
+</ul>
+</li>
 </ul>
 <h3 id="returns">Returns</h3>
 <p>A <code translate="no" v-pre>Decorator</code> function.</p>
@@ -306,6 +312,19 @@ const meta = {
         }
     }
 } satisfies Meta&lt;typeof Page&gt;;</code></pre>
+</doc-codeblock></div>
+<h3 id="customize-the-mounted-route">Customize the mounted route</h3>
+<p>Use the <code translate="no" v-pre>route</code> option to attach a <code translate="no" v-pre>handle</code> (read via <a href="https://reactrouter.com/api/hooks/useMatches" class="outbound" target="_blank">useMatches</a>) or declare children for an <a href="https://reactrouter.com/api/components/Outlet" class="outbound" target="_blank">Outlet</a>:</p>
+<div id="customize-the-mounted-route-code-1" class="codeblock-wrapper"><doc-codeblock>
+<pre translate="no" class="language-tsx" data-line="5-7"><code v-pre class="language-tsx">const meta = {
+    title: &quot;Layout&quot;,
+    component: Layout,
+    decorators: [
+        withFireflyDecorator(fireflyRuntime, {
+            route: ({ story }) =&gt; ({ path: &quot;/story&quot;, element: story, handle: { layout: &quot;sidebar&quot; } })
+        })
+    ]
+};</code></pre>
 </doc-codeblock></div>
 <div id="retype-backlinks">
     <h2>See also</h2>
