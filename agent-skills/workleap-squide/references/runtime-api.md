@@ -207,6 +207,33 @@ const plugin = runtime.getPlugin(MyPlugin.name) as MyPlugin;
 const plugin = runtime.getPlugin(MyPlugin.name, { throwOnNotFound: false });
 ```
 
+#### Authoring a plugin (Plugin base class)
+
+Plugins extend the abstract `Plugin` base class. The subclass constructor must call `super(name, runtime)`. Access the runtime via the protected `_runtime` member.
+
+```ts
+// my-plugin/src/myPlugin.ts
+import { Plugin, type Runtime } from "@squide/firefly";
+
+export class MyPlugin extends Plugin {
+    constructor(runtime: Runtime) {
+        super(MyPlugin.name, runtime);
+    }
+
+    sayHello() {
+        this._runtime.logger.debug("Hello!");
+    }
+}
+```
+
+Pair the plugin with a typed getter to avoid `as MyPlugin` casts at call sites:
+
+```ts
+export function getMyPlugin(runtime: FireflyRuntime) {
+    return runtime.getPlugin(MyPlugin.name) as MyPlugin;
+}
+```
+
 ## Getters
 
 | Getter | Type | Description |

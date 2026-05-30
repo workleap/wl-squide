@@ -214,6 +214,11 @@ runtime.registerNavigationItem({
 
 Decorator for wrapping Storybook stories with Squide context, including a RouterProvider.
 
+**Props:**
+- `runtime`: A `StorybookRuntime` instance.
+- `route` (optional): The route(s) mounted under Squide's `RootRoute`. A `RouteObject`, an array of them, or a function `({ story }) => ...`. Defaults to `{ path: "/story", element: story }`. Use it to attach a `handle` (read via `useMatches()`) or declare children for an `<Outlet />`.
+- `initialEntries` (optional): The in-memory router initial entries. Defaults to `["/story"]`; match it to a custom `route` `path`.
+
 ```tsx
 import { FireflyDecorator, initializeFireflyForStorybook } from "@squide/firefly-storybook";
 
