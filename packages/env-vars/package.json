@@ -43,13 +43,13 @@
     },
     "devDependencies": {
         "@eslint/js": "9.39.2",
-        "@rsbuild/core": "2.0.5",
-        "@rslib/core": "0.21.4",
-        "@types/node": "25.7.0",
-        "@types/react": "19.2.14",
-        "@typescript-eslint/parser": "8.59.3",
-        "@typescript/native-preview": "7.0.0-dev.20260512.1",
-        "@vitejs/plugin-react": "6.0.1",
+        "@rsbuild/core": "2.0.10",
+        "@rslib/core": "0.22.0",
+        "@types/node": "25.9.1",
+        "@types/react": "19.2.16",
+        "@typescript-eslint/parser": "8.60.1",
+        "@typescript/native-preview": "7.0.0-dev.20260602.1",
+        "@vitejs/plugin-react": "6.0.2",
         "@workleap/eslint-configs": "2.0.3",
         "@workleap/rslib-configs": "1.2.0",
         "@workleap/typescript-configs": "4.0.2",
@@ -57,7 +57,7 @@
         "happy-dom": "20.9.0",
         "typescript": "6.0.3",
         "typescript-eslint": "8.54.0",
-        "vitest": "4.1.6"
+        "vitest": "4.1.8"
     },
     "sideEffects": false
 }
