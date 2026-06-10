@@ -13,12 +13,14 @@ export interface FireflyRuntimeOptions<TRuntime extends FireflyRuntime = Firefly
     honeycombInstrumentationClient?: HoneycombInstrumentationPartialClient;
 }
 
-export interface RegisterRequestHandlersOptions extends RuntimeMethodOptions {}
+export interface RegisterRequestHandlersOptions extends RuntimeMethodOptions {
+    prepend?: true;
+}
 
 export interface IFireflyRuntime extends IReactRouterRuntime {
     get isMswEnabled(): boolean;
     get mswState(): MswState;
-    registerRequestHandlers: (handlers: RequestHandler[]) => void;
+    registerRequestHandlers: (handlers: RequestHandler[], options?: RegisterRequestHandlersOptions) => void;
     get requestHandlers(): RequestHandler[];
     registerEnvironmentVariable<T extends EnvironmentVariableKey>(key: T, value: EnvironmentVariables[T]): void;
     registerEnvironmentVariables(variables: Partial<EnvironmentVariables>): void;
@@ -70,15 +72,20 @@ export class FireflyRuntime<TRuntime extends FireflyRuntime = any> extends React
     }
 
     registerRequestHandlers(handlers: RequestHandler[], options: RegisterRequestHandlersOptions = {}) {
+        const {
+            prepend
+        } = options;
+
         const logger = this._getLogger(options);
         const plugin = getMswPlugin(this);
 
         if (this.moduleManager.getAreModulesRegistered()) {
-            throw new Error("[squide] Cannot register an MSW request handlers once the modules are registered. Are you trying to register an MSW request handler in a deferred registration function? Only navigation items can be registered in a deferred registration function.");
+            throw new Error("[squide] Cannot register MSW request handlers once the modules are registered. Are you trying to register an MSW request handler in a deferred registration function? Only navigation items can be registered in a deferred registration function.");
         }
 
         plugin.registerRequestHandlers(handlers, {
-            logger
+            logger,
+            prepend
         });
     }
 
