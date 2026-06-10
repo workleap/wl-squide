@@ -33,6 +33,8 @@ export function findSupportedPreferredLanguage<T extends string>(userPreferredLa
     return result;
 }
 
+export type LanguageChangedListener = () => void;
+
 export class i18nextPlugin<T extends string = string> extends Plugin {
     #currentLanguage?: T;
 
@@ -40,6 +42,7 @@ export class i18nextPlugin<T extends string = string> extends Plugin {
     readonly #fallbackLanguage: T;
     readonly #languageDetector: LanguageDetector;
     readonly #registry = new i18nextInstanceRegistry();
+    readonly #languageChangedListeners = new Set<LanguageChangedListener>();
 
     constructor(runtime: Runtime, supportedLanguages: T[], fallbackLanguage: T, queryStringKey: string, { detection }: i18nextPluginOptions = {}) {
         super(i18nextPluginName, runtime);
@@ -122,7 +125,19 @@ export class i18nextPlugin<T extends string = string> extends Plugin {
             this.#currentLanguage = language;
 
             this._runtime.logger.information(`[squide] The language has been changed to "${this.#currentLanguage}".`);
+
+            this.#languageChangedListeners.forEach(x => {
+                x();
+            });
         }
+    }
+
+    registerLanguageChangedListener(callback: LanguageChangedListener) {
+        this.#languageChangedListeners.add(callback);
+    }
+
+    removeLanguageChangedListener(callback: LanguageChangedListener) {
+        this.#languageChangedListeners.delete(callback);
     }
 }
 
