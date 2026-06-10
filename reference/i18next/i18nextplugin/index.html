@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <meta name="color-scheme" content="light dark">
     <meta name="turbo-root" content="/wl-squide">
-    <meta name="turbo-cache-control" content="no-cache" data-turbo-track="reload" data-track-token="4.6.0.834380712365">
+    <meta name="turbo-cache-control" content="no-cache" data-turbo-track="reload" data-track-token="4.6.0.834382060313">
 
     <!-- See retype.com -->
     <meta name="generator" content="Retype 4.6.0">
@@ -39,12 +39,12 @@
     <script data-cfasync="false">(function(){var cl=document.documentElement.classList,ls=localStorage.getItem("retype_scheme"),hd=cl.contains("dark"),hl=cl.contains("light"),wm=window.matchMedia&&window.matchMedia("(prefers-color-scheme: dark)").matches;if(ls==="dark"||(!ls&&wm&&!hd&&!hl)){cl.remove("light");cl.add("dark")}else if(ls==="light"||(!ls&&!wm&&!hd&&!hl)){cl.remove("dark");cl.add("light")}})();</script>
 
     <link id="retype-favicon" rel="icon" href="../../../static/favicon.png" />
-    <link href="../../../resources/css/retype.css?v=4.6.0.834380712365" rel="stylesheet">
+    <link href="../../../resources/css/retype.css?v=4.6.0.834382060313" rel="stylesheet">
 
-    <script data-cfasync="false" src="../../../resources/js/config.js?v=4.6.0.834380712365" data-turbo-eval="false" defer></script>
+    <script data-cfasync="false" src="../../../resources/js/config.js?v=4.6.0.834382060313" data-turbo-eval="false" defer></script>
     <script data-cfasync="false" src="../../../resources/js/retype.js?v=4.6.0" data-turbo-eval="false" defer></script>
-    <script id="lunr-js" data-cfasync="false" src="../../../resources/js/lunr.js?v=4.6.0.834380712365" data-turbo-eval="false" defer></script>
-    <script id="prism-js" data-cfasync="false" src="../../../resources/js/prism.js?v=4.6.0.834380712365" defer></script>
+    <script id="lunr-js" data-cfasync="false" src="../../../resources/js/lunr.js?v=4.6.0.834382060313" data-turbo-eval="false" defer></script>
+    <script id="prism-js" data-cfasync="false" src="../../../resources/js/prism.js?v=4.6.0.834382060313" defer></script>
 
     <link href="https://workleap.github.io/wl-idp-docs-hub/static/retype-customization.css" rel="stylesheet" />
 
@@ -377,7 +377,7 @@ const language = plugin.currentLanguage;</code></pre>
 </doc-codeblock></div>
 <h3 id="change-the-current-language">Change the current language</h3>
 <div id="change-the-current-language-code-1" class="codeblock-wrapper"><doc-codeblock>
-<pre translate="no" class="language-typescript" data-line="6"><code v-pre class="language-typescript">import { i18nextPlugin } from &quot;@squide/i18next&quot;;
+<pre translate="no" class="language-typescript" data-line="6"><code v-pre class="language-typescript">import { i18nextPlugin, i18nextPluginName } from &quot;@squide/i18next&quot;;
 
 const plugin = runtime.getPlugin(i18nextPluginName) as i18nextPlugin;
 
@@ -386,7 +386,7 @@ plugin.changeLanguage(&quot;fr-CA&quot;);</code></pre>
 </doc-codeblock></div>
 <h3 id="listen-for-language-changes">Listen for language changes</h3>
 <div id="listen-for-language-changes-code-1" class="codeblock-wrapper"><doc-codeblock>
-<pre translate="no" class="language-typescript" data-line="9,12"><code v-pre class="language-typescript">import { i18nextPlugin } from &quot;@squide/i18next&quot;;
+<pre translate="no" class="language-typescript" data-line="9,12"><code v-pre class="language-typescript">import { i18nextPlugin, i18nextPluginName } from &quot;@squide/i18next&quot;;
 
 const plugin = runtime.getPlugin(i18nextPluginName) as i18nextPlugin;
 

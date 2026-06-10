@@ -110,7 +110,7 @@ const language = plugin.currentLanguage;
 ### Change the current language
 
 ```ts !#6
-import { i18nextPlugin } from "@squide/i18next";
+import { i18nextPlugin, i18nextPluginName } from "@squide/i18next";
 
 const plugin = runtime.getPlugin(i18nextPluginName) as i18nextPlugin;
 
@@ -121,7 +121,7 @@ plugin.changeLanguage("fr-CA");
 ### Listen for language changes
 
 ```ts !#9,12
-import { i18nextPlugin } from "@squide/i18next";
+import { i18nextPlugin, i18nextPluginName } from "@squide/i18next";
 
 const plugin = runtime.getPlugin(i18nextPluginName) as i18nextPlugin;
 
