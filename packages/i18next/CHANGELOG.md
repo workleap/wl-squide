@@ -1,5 +1,13 @@
 # @squide/i18next
 
+## 2.6.0
+
+### Minor Changes
+
+- [#626](https://github.com/workleap/wl-squide/pull/626) [`ab25461`](https://github.com/workleap/wl-squide/commit/ab2546107a7ae5131722905bc20e821da581d560) Thanks [@patricklafrance](https://github.com/patricklafrance)! - The `useCurrentLanguage` hook is now reactive: components re-render when the language is changed with `useChangeLanguage` or the plugin's `changeLanguage` method. Previously the hook was a one-time read, so consumers that don't render through `useTranslation` (e.g. React Aria's `I18nProvider`, `document.documentElement.lang`) went stale after a runtime language switch.
+
+  The `i18nextPlugin` class also exposes new `registerLanguageChangedListener` and `removeLanguageChangedListener` methods.
+
 ## 2.5.22
 
 ### Patch Changes
