@@ -1,16 +1,14 @@
 import type { RequestHandler } from "msw";
 import { MswState } from "./MswState.ts";
 
-export type RequestHandlersPosition = "start" | "end";
-
 export interface RequestHandlerRegistryAddOptions {
-    position?: RequestHandlersPosition;
+    prepend?: true;
 }
 
 export class RequestHandlerRegistry {
     readonly #mswState: MswState;
-    readonly #startHandlers: RequestHandler[] = [];
-    readonly #endHandlers: RequestHandler[] = [];
+    readonly #prependedHandlers: RequestHandler[] = [];
+    readonly #appendedHandlers: RequestHandler[] = [];
 
     constructor(mswState: MswState) {
         this.#mswState = mswState;
@@ -18,27 +16,27 @@ export class RequestHandlerRegistry {
 
     add(handlers: RequestHandler[], options: RequestHandlerRegistryAddOptions = {}) {
         const {
-            position = "end"
+            prepend = false
         } = options;
 
         if (this.#mswState.isReady) {
             throw new Error("[squide] MSW request handlers cannot be registered once MSW is started. Did you defer the registration of a MSW request handler?");
         }
 
-        if (position === "start") {
-            this.#startHandlers.push(...handlers);
+        if (prepend) {
+            this.#prependedHandlers.push(...handlers);
         } else {
-            this.#endHandlers.push(...handlers);
+            this.#appendedHandlers.push(...handlers);
         }
     }
 
-    // Handlers registered with the "start" position are returned before those registered with the "end"
-    // position; within each group, the registration order is preserved. MSW evaluates handlers in order,
-    // which allows fall-through middleware handlers to be registered ahead of the regular handlers.
+    // Prepended handlers are returned before the appended ones; within each group, the registration
+    // order is preserved. MSW evaluates handlers in order, which allows fall-through middleware
+    // handlers to be registered ahead of the regular handlers.
     // Must specify the return type, otherwise we get a TS2742: The inferred type cannot be named without a reference to X. This is likely not portable.
     // A type annotation is necessary.
     get handlers(): RequestHandler[] {
-        return [...this.#startHandlers, ...this.#endHandlers];
+        return [...this.#prependedHandlers, ...this.#appendedHandlers];
     }
 }
 

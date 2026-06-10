@@ -20,51 +20,51 @@ test.concurrent("by default, handlers are appended in registration order", ({ ex
     expect(registry.handlers).toEqual([handler1, handler2, handler3]);
 });
 
-test.concurrent("when the position is \"start\", the handlers are placed before the handlers registered with the \"end\" position", ({ expect }) => {
+test.concurrent("when the prepend option is set, the handlers are placed before the appended handlers", ({ expect }) => {
     const registry = new RequestHandlerRegistry(new MswState());
 
-    const endHandler = createHandler("/api/end");
-    const startHandler = createHandler("/api/start");
+    const appendedHandler = createHandler("/api/appended");
+    const prependedHandler = createHandler("/api/prepended");
 
-    registry.add([endHandler]);
-    registry.add([startHandler], { position: "start" });
+    registry.add([appendedHandler]);
+    registry.add([prependedHandler], { prepend: true });
 
-    expect(registry.handlers).toEqual([startHandler, endHandler]);
+    expect(registry.handlers).toEqual([prependedHandler, appendedHandler]);
 });
 
-test.concurrent("when multiple registrations use the \"start\" position, their registration order is preserved", ({ expect }) => {
+test.concurrent("when multiple registrations use the prepend option, their registration order is preserved", ({ expect }) => {
     const registry = new RequestHandlerRegistry(new MswState());
 
-    const startHandler1 = createHandler("/api/start-1");
-    const startHandler2 = createHandler("/api/start-2");
-    const endHandler = createHandler("/api/end");
+    const prependedHandler1 = createHandler("/api/prepended-1");
+    const prependedHandler2 = createHandler("/api/prepended-2");
+    const appendedHandler = createHandler("/api/appended");
 
-    registry.add([startHandler1], { position: "start" });
-    registry.add([endHandler]);
-    registry.add([startHandler2], { position: "start" });
+    registry.add([prependedHandler1], { prepend: true });
+    registry.add([appendedHandler]);
+    registry.add([prependedHandler2], { prepend: true });
 
-    expect(registry.handlers).toEqual([startHandler1, startHandler2, endHandler]);
+    expect(registry.handlers).toEqual([prependedHandler1, prependedHandler2, appendedHandler]);
 });
 
-test.concurrent("when the position is \"end\", the handlers are placed after the handlers registered with the \"start\" position", ({ expect }) => {
+test.concurrent("when handlers are appended after a prepended registration, they are placed after the prepended handlers", ({ expect }) => {
     const registry = new RequestHandlerRegistry(new MswState());
 
-    const startHandler = createHandler("/api/start");
-    const endHandler = createHandler("/api/end");
+    const prependedHandler = createHandler("/api/prepended");
+    const appendedHandler = createHandler("/api/appended");
 
-    registry.add([startHandler], { position: "start" });
-    registry.add([endHandler], { position: "end" });
+    registry.add([prependedHandler], { prepend: true });
+    registry.add([appendedHandler]);
 
-    expect(registry.handlers).toEqual([startHandler, endHandler]);
+    expect(registry.handlers).toEqual([prependedHandler, appendedHandler]);
 });
 
-test.concurrent("when msw is started, adding handlers with the \"start\" position throws", ({ expect }) => {
+test.concurrent("when msw is started, adding prepended handlers throws", ({ expect }) => {
     const state = new MswState();
     const registry = new RequestHandlerRegistry(state);
 
     state.setAsReady();
 
-    expect(() => registry.add([createHandler("/api/1")], { position: "start" })).toThrow(/cannot be registered once MSW is started/);
+    expect(() => registry.add([createHandler("/api/1")], { prepend: true })).toThrow(/cannot be registered once MSW is started/);
 });
 
 test.concurrent("when msw is started, adding handlers throws", ({ expect }) => {

@@ -1,7 +1,7 @@
 import type { RegisterRouteOptions, RuntimeMethodOptions, RuntimeOptions } from "@squide/core";
 import { EnvironmentVariableKey, EnvironmentVariables, getEnvironmentVariablesPlugin } from "@squide/env-vars";
 import { FeatureFlagKey, FeatureFlags, FeatureFlagSetSnapshot, getLaunchDarklyPlugin, LaunchDarklyPluginName } from "@squide/launch-darkly";
-import { getMswPlugin, MswPluginName, MswState, type RequestHandlersPosition } from "@squide/msw";
+import { getMswPlugin, MswPluginName, MswState } from "@squide/msw";
 import { type IReactRouterRuntime, ReactRouterRuntime, ReactRouterRuntimeScope, type Route } from "@squide/react-router";
 import type { HoneycombInstrumentationPartialClient } from "@workleap-telemetry/core";
 import type { Logger } from "@workleap/logging";
@@ -14,7 +14,7 @@ export interface FireflyRuntimeOptions<TRuntime extends FireflyRuntime = Firefly
 }
 
 export interface RegisterRequestHandlersOptions extends RuntimeMethodOptions {
-    position?: RequestHandlersPosition;
+    prepend?: true;
 }
 
 export interface IFireflyRuntime extends IReactRouterRuntime {
@@ -73,7 +73,7 @@ export class FireflyRuntime<TRuntime extends FireflyRuntime = any> extends React
 
     registerRequestHandlers(handlers: RequestHandler[], options: RegisterRequestHandlersOptions = {}) {
         const {
-            position
+            prepend
         } = options;
 
         const logger = this._getLogger(options);
@@ -85,7 +85,7 @@ export class FireflyRuntime<TRuntime extends FireflyRuntime = any> extends React
 
         plugin.registerRequestHandlers(handlers, {
             logger,
-            position
+            prepend
         });
     }
 

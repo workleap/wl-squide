@@ -43,8 +43,7 @@ export {
     type MswPluginOptions,
     type MswPluginRegisterRequestHandlersOptions,
     type MswReadyListener,
-    type MswStateOptions,
-    type RequestHandlersPosition
+    type MswStateOptions
 } from "@squide/msw";
 export * from "@squide/react-router";
 
