@@ -1,4 +1,5 @@
 import { Runtime } from "@squide/core";
+import { NoopLogger } from "@workleap/logging";
 import { test, vi } from "vitest";
 import { i18nextPlugin } from "../src/i18nextPlugin.ts";
 
@@ -31,6 +32,10 @@ class DummyRuntime extends Runtime {
     }
 
     completeDeferredRegistrationScope(): void {
+    }
+
+    get logger() {
+        return new NoopLogger();
     }
 
     startScope(): Runtime {
