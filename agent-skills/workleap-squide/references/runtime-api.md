@@ -147,7 +147,7 @@ for (const [menuId, items] of itemsByMenu) {
 
 ### MSW Request Handlers
 
-#### registerRequestHandlers(handlers)
+#### registerRequestHandlers(handlers, options?)
 Register MSW request handlers.
 
 ```ts
@@ -157,6 +157,16 @@ if (runtime.isMswEnabled) {
     runtime.registerRequestHandlers(requestHandlers);
 }
 ```
+
+**`options.prepend`** (`boolean`, default `false`): MSW evaluates handlers in registration order, and a handler returning nothing falls through to the next matching handler. To register a middleware-like fall-through handler (artificial latency, request logging, chaos testing) that must run *before* the regular handlers, register it with `prepend: true`.
+
+```ts
+import { latencyRequestHandler } from "../mocks/latency.ts";
+
+runtime.registerRequestHandlers([latencyRequestHandler], { prepend: true });
+```
+
+Prepended handlers are placed before the appended ones; within each group, registration order is preserved. Since modules register concurrently, do not rely on the relative order of multiple prepended registrations from different modules.
 
 ### Environment Variables
 
