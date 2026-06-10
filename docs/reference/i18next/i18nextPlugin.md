@@ -124,6 +124,23 @@ const plugin = runtime.getPlugin(i18nextPluginName) as i18nextPlugin;
 plugin.changeLanguage("fr-CA");
 ```
 
+### Listen for language changes
+
+```ts !#9,12
+import { i18nextPlugin } from "@squide/i18next";
+
+const plugin = runtime.getPlugin(i18nextPluginName) as i18nextPlugin;
+
+const listener = () => {
+    console.log("The language changed to", plugin.currentLanguage);
+};
+
+plugin.registerLanguageChangedListener(listener);
+
+// When the listener is not needed anymore.
+plugin.removeLanguageChangedListener(listener);
+```
+
 ### Change the language detection order
 
 By default, the detection of the user's language is done first from the specified URL querystring parameter (`?language` in this example), then from the user's [navigator language settings](https://developer.mozilla.org/en-US/docs/Web/API/Navigator/language). The detection order can be changed by specifying a new value for the [order](https://github.com/i18next/i18next-browser-languageDetector#detector-options) detection option:
