@@ -1,6 +1,6 @@
 # useCurrentLanguage
 
-Retrieve the current language of the [i18nextPlugin](./i18nextPlugin.md) instance.
+Retrieve the current language of the [i18nextPlugin](./i18nextPlugin.md) instance. This hook is reactive: the component re-renders whenever the language is changed with [useChangeLanguage](./useChangeLanguage.md) or the plugin's `changeLanguage` method.
 
 ## Reference
 

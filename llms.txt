@@ -117,7 +117,7 @@
 - [i18nextPlugin](https://workleap.github.io/wl-squide/reference/i18next/i18nextplugin.md): A plugin to faciliate the integration of i18next in a modular application.
 - [getI18nextPlugin](https://workleap.github.io/wl-squide/reference/i18next/geti18nextplugin.md): Return an instance of i18nextPlugin from the list of plugins registered with a Runtime instance.
 - [useChangeLanguage](https://workleap.github.io/wl-squide/reference/i18next/usechangelanguage.md): Provide a function to change the current language of every i18next instance registered with the i18nextPlugin instance.
-- [useCurrentLanguage](https://workleap.github.io/wl-squide/reference/i18next/usecurrentlanguage.md): Retrieve the current language of the i18nextPlugin instance.
+- [useCurrentLanguage](https://workleap.github.io/wl-squide/reference/i18next/usecurrentlanguage.md): Retrieve the current language of the i18nextPlugin instance. This hook is reactive: the component re-renders whenever the language is changed with useChangeLanguage or the plugin's changeLanguage method.
 - [useI18nextInstance](https://workleap.github.io/wl-squide/reference/i18next/usei18nextinstance.md): Retrieve a registered i18next instance from the i18nextPlugin instance.
 - [I18nextNavigationItemLabel](https://workleap.github.io/wl-squide/reference/i18next/i18nextnavigationitemlabel.md): A React component to localize the label of Squide navigation items.
 

@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <meta name="color-scheme" content="light dark">
     <meta name="turbo-root" content="/wl-squide">
-    <meta name="turbo-cache-control" content="no-cache" data-turbo-track="reload" data-track-token="4.6.0.833428918999">
+    <meta name="turbo-cache-control" content="no-cache" data-turbo-track="reload" data-track-token="4.6.0.834380631515">
 
     <!-- See retype.com -->
     <meta name="generator" content="Retype 4.6.0">
@@ -39,12 +39,12 @@
     <script data-cfasync="false">(function(){var cl=document.documentElement.classList,ls=localStorage.getItem("retype_scheme"),hd=cl.contains("dark"),hl=cl.contains("light"),wm=window.matchMedia&&window.matchMedia("(prefers-color-scheme: dark)").matches;if(ls==="dark"||(!ls&&wm&&!hd&&!hl)){cl.remove("light");cl.add("dark")}else if(ls==="light"||(!ls&&!wm&&!hd&&!hl)){cl.remove("dark");cl.add("light")}})();</script>
 
     <link id="retype-favicon" rel="icon" href="../../../static/favicon.png" />
-    <link href="../../../resources/css/retype.css?v=4.6.0.833428918999" rel="stylesheet">
+    <link href="../../../resources/css/retype.css?v=4.6.0.834380631515" rel="stylesheet">
 
-    <script data-cfasync="false" src="../../../resources/js/config.js?v=4.6.0.833428918999" data-turbo-eval="false" defer></script>
+    <script data-cfasync="false" src="../../../resources/js/config.js?v=4.6.0.834380631515" data-turbo-eval="false" defer></script>
     <script data-cfasync="false" src="../../../resources/js/retype.js?v=4.6.0" data-turbo-eval="false" defer></script>
-    <script id="lunr-js" data-cfasync="false" src="../../../resources/js/lunr.js?v=4.6.0.833428918999" data-turbo-eval="false" defer></script>
-    <script id="prism-js" data-cfasync="false" src="../../../resources/js/prism.js?v=4.6.0.833428918999" defer></script>
+    <script id="lunr-js" data-cfasync="false" src="../../../resources/js/lunr.js?v=4.6.0.834380631515" data-turbo-eval="false" defer></script>
+    <script id="prism-js" data-cfasync="false" src="../../../resources/js/prism.js?v=4.6.0.834380631515" defer></script>
 
     <link href="https://workleap.github.io/wl-idp-docs-hub/static/retype-customization.css" rel="stylesheet" />
 
@@ -384,6 +384,21 @@ const plugin = runtime.getPlugin(i18nextPluginName) as i18nextPlugin;
 // If the language isn't included in the &quot;supportedLanguages&quot; array, an error will be thrown.
 plugin.changeLanguage(&quot;fr-CA&quot;);</code></pre>
 </doc-codeblock></div>
+<h3 id="listen-for-language-changes">Listen for language changes</h3>
+<div id="listen-for-language-changes-code-1" class="codeblock-wrapper"><doc-codeblock>
+<pre translate="no" class="language-typescript" data-line="9,12"><code v-pre class="language-typescript">import { i18nextPlugin } from &quot;@squide/i18next&quot;;
+
+const plugin = runtime.getPlugin(i18nextPluginName) as i18nextPlugin;
+
+const listener = () =&gt; {
+    console.log(&quot;The language changed to&quot;, plugin.currentLanguage);
+};
+
+plugin.registerLanguageChangedListener(listener);
+
+// When the listener is not needed anymore.
+plugin.removeLanguageChangedListener(listener);</code></pre>
+</doc-codeblock></div>
 <h3 id="change-the-language-detection-order">Change the language detection order</h3>
 <p>By default, the detection of the user&#x27;s language is done first from the specified URL querystring parameter (<code translate="no" v-pre>?language</code> in this example), then from the user&#x27;s <a href="https://developer.mozilla.org/en-US/docs/Web/API/Navigator/language" class="outbound" target="_blank">navigator language settings</a>. The detection order can be changed by specifying a new value for the <a href="https://github.com/i18next/i18next-browser-languageDetector#detector-options" class="outbound" target="_blank">order</a> detection option:</p>
 <div id="change-the-language-detection-order-code-1" class="codeblock-wrapper"><doc-codeblock>
@@ -477,7 +492,7 @@ plugin.changeLanguage(&quot;fr-CA&quot;);</code></pre>
             <div class="card-compact-header">
                 <span class="card-compact-title">useCurrentLanguage</span>
             </div>
-            <p class="card-compact-description">Retrieve the current language of the i18nextPlugin instance.</p>
+            <p class="card-compact-description">Retrieve the current language of the i18nextPlugin instance. This hook is reactive: the component re-renders whenever the language is changed with useChangeLanguage or the plugin's changeLanguage method.</p>
         </div>
     </a>
 </div>
