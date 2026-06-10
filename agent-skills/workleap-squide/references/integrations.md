@@ -423,6 +423,17 @@ const runtime = new FireflyRuntime({
 });
 ```
 
+The constructor signature is `new i18nextPlugin(runtime, supportedLanguages, fallbackLanguage, queryStringKey, options?)`. The optional `options.detection` object accepts any [LanguageDetector](https://github.com/i18next/i18next-browser-languageDetector#detector-options) options to customize language detection — for example, change the `order` or add a `localStorage` source:
+
+```ts
+const plugin = new i18nextPlugin(x, ["en-US", "fr-CA"], "en-US", "language", {
+    detection: {
+        order: ["querystring", "localStorage", "navigator"],
+        lookupLocalStorage: "my-local-storage-key"
+    }
+});
+```
+
 ### Register i18next Instance
 
 ```ts

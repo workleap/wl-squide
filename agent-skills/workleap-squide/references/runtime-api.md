@@ -25,7 +25,7 @@ const runtime = initializeFirefly(options?: {
     localModules?: ModuleRegisterFunction[];   // Local module registration functions
     context?: object;                          // Passed to each module registration function
     useMsw?: boolean;                          // Enable MSW support
-    startMsw?: (x: { requestHandlers: RequestHandler[] }) => Promise<void>;  // Start MSW
+    startMsw?: (runtime: FireflyRuntime) => Promise<void>;  // Start MSW (receives the runtime; read handlers from runtime.requestHandlers)
     environmentVariables?: Record<string, string>;
     honeycombInstrumentationClient?: HoneycombInstrumentationClient;
     launchDarklyClient?: LDClient;

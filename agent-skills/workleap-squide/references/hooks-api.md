@@ -345,8 +345,8 @@ import { useEnvironmentVariables } from "@squide/firefly";
 const variables = useEnvironmentVariables();
 ```
 
-### useFeatureFlag(key, defaultValue)
-Get a LaunchDarkly feature flag value.
+### useFeatureFlag(key, defaultValue?)
+Get a LaunchDarkly feature flag value. `defaultValue` is optional and is returned when the flag is not available.
 
 ```ts
 import { useFeatureFlag } from "@squide/firefly";
@@ -450,7 +450,7 @@ const { t } = useTranslation("a-namespace", { i18n: instance });
 ```
 
 ### useCurrentLanguage()
-Get the current language.
+Get the current language. This hook is reactive: the component re-renders whenever the language changes via `useChangeLanguage` or the plugin's `changeLanguage` method.
 
 ```ts
 import { useCurrentLanguage } from "@squide/i18next";
