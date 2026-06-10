@@ -2,7 +2,7 @@ import { Plugin, type Runtime } from "@squide/core";
 import type { Logger } from "@workleap/logging";
 import type { RequestHandler } from "msw";
 import { MswState } from "./MswState.ts";
-import { RequestHandlerRegistry } from "./RequestHandlerRegistry.ts";
+import { RequestHandlerRegistry, type RequestHandlersPosition } from "./RequestHandlerRegistry.ts";
 
 export const MswPluginName = "msw-plugin";
 
@@ -12,6 +12,7 @@ export interface MswPluginOptions {
 
 export interface MswPluginRegisterRequestHandlersOptions {
     logger?: Logger;
+    position?: RequestHandlersPosition;
 }
 
 export class MswPlugin extends Plugin {
@@ -35,10 +36,11 @@ export class MswPlugin extends Plugin {
 
     registerRequestHandlers(handlers: RequestHandler[], options: MswPluginRegisterRequestHandlersOptions = {}) {
         const {
-            logger
+            logger,
+            position
         } = options;
 
-        this.#requestHandlerRegistry.add(handlers);
+        this.#requestHandlerRegistry.add(handlers, { position });
 
         (logger ? logger : this._runtime.logger)
             .withText("[squide] The following MSW request handlers has been registered:")

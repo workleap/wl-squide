@@ -1,7 +1,7 @@
 import type { RegisterRouteOptions, RuntimeMethodOptions, RuntimeOptions } from "@squide/core";
 import { EnvironmentVariableKey, EnvironmentVariables, getEnvironmentVariablesPlugin } from "@squide/env-vars";
 import { FeatureFlagKey, FeatureFlags, FeatureFlagSetSnapshot, getLaunchDarklyPlugin, LaunchDarklyPluginName } from "@squide/launch-darkly";
-import { getMswPlugin, MswPluginName, MswState } from "@squide/msw";
+import { getMswPlugin, MswPluginName, MswState, type RequestHandlersPosition } from "@squide/msw";
 import { type IReactRouterRuntime, ReactRouterRuntime, ReactRouterRuntimeScope, type Route } from "@squide/react-router";
 import type { HoneycombInstrumentationPartialClient } from "@workleap-telemetry/core";
 import type { Logger } from "@workleap/logging";
@@ -13,12 +13,14 @@ export interface FireflyRuntimeOptions<TRuntime extends FireflyRuntime = Firefly
     honeycombInstrumentationClient?: HoneycombInstrumentationPartialClient;
 }
 
-export interface RegisterRequestHandlersOptions extends RuntimeMethodOptions {}
+export interface RegisterRequestHandlersOptions extends RuntimeMethodOptions {
+    position?: RequestHandlersPosition;
+}
 
 export interface IFireflyRuntime extends IReactRouterRuntime {
     get isMswEnabled(): boolean;
     get mswState(): MswState;
-    registerRequestHandlers: (handlers: RequestHandler[]) => void;
+    registerRequestHandlers: (handlers: RequestHandler[], options?: RegisterRequestHandlersOptions) => void;
     get requestHandlers(): RequestHandler[];
     registerEnvironmentVariable<T extends EnvironmentVariableKey>(key: T, value: EnvironmentVariables[T]): void;
     registerEnvironmentVariables(variables: Partial<EnvironmentVariables>): void;
@@ -70,6 +72,10 @@ export class FireflyRuntime<TRuntime extends FireflyRuntime = any> extends React
     }
 
     registerRequestHandlers(handlers: RequestHandler[], options: RegisterRequestHandlersOptions = {}) {
+        const {
+            position
+        } = options;
+
         const logger = this._getLogger(options);
         const plugin = getMswPlugin(this);
 
@@ -78,7 +84,8 @@ export class FireflyRuntime<TRuntime extends FireflyRuntime = any> extends React
         }
 
         plugin.registerRequestHandlers(handlers, {
-            logger
+            logger,
+            position
         });
     }
 

@@ -34,7 +34,7 @@ const runtime = new FireflyRuntime(options?: { mode?, environmentVariables?, hon
 - `registerNavigationItem(navigationItem, options?)`: Register a navigation item.
 - `getNavigationItems(menuId?)`: Retrieve the registered navigation items.
 - `getNavigationItemsByMenu()`: Retrieve the full navigation registry grouped by menu id.
-- `registerRequestHandlers(handlers)`: Register the MSW request handlers.
+- `registerRequestHandlers(handlers, options?)`: Register the MSW request handlers.
 - `getEnvironmentVariable(key)`: Retrieve an environment variable.
 - `registerEnvironmentVariable(key, value)`: Register a single environment variable.
 - `registerEnvironmentVariables(variables)`: Register multiple environment variables.
@@ -518,6 +518,18 @@ runtime.registerRequestHandlers(requestHandlers);
 ```
 
 [!ref text="Learn more about setuping MSW"](../../integrations/setup-msw.md)
+
+### Register middleware request handlers
+
+MSW evaluates handlers in registration order, and a handler [returning nothing falls through](https://mswjs.io/docs/http/intercepting-requests/#fallthrough) to the next matching handler. To register a middleware-like fall-through handler (artificial latency, request logging, chaos testing) that must run before the regular handlers, register it with the `"start"` position:
+
+```ts !#3
+import { latencyRequestHandler } from "../mocks/latency.ts";
+
+runtime.registerRequestHandlers([latencyRequestHandler], { position: "start" });
+```
+
+Handlers registered with the `"start"` position are placed before those registered with the `"end"` position (the default); within each group, the registration order is preserved. Since modules register concurrently, do not rely on the relative order of multiple `"start"` registrations from different modules.
 
 ### Retrieve request handlers
 
