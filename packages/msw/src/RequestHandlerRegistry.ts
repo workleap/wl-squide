@@ -20,7 +20,7 @@ export class RequestHandlerRegistry {
         } = options;
 
         if (this.#mswState.isReady) {
-            throw new Error("[squide] MSW request handlers cannot be registered once MSW is started. Did you defer the registration of a MSW request handler?");
+            throw new Error("[squide] MSW request handlers cannot be registered once MSW is started. Did you defer the registration of an MSW request handler?");
         }
 
         if (prepend) {

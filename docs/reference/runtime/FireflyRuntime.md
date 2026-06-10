@@ -517,7 +517,7 @@ import { requestHandlers } from "../mocks/handlers.ts";
 runtime.registerRequestHandlers(requestHandlers);
 ```
 
-[!ref text="Learn more about setuping MSW"](../../integrations/setup-msw.md)
+[!ref text="Learn more about setting up MSW"](../../integrations/setup-msw.md)
 
 ### Register middleware request handlers
 

@@ -80,7 +80,7 @@ export class FireflyRuntime<TRuntime extends FireflyRuntime = any> extends React
         const plugin = getMswPlugin(this);
 
         if (this.moduleManager.getAreModulesRegistered()) {
-            throw new Error("[squide] Cannot register an MSW request handlers once the modules are registered. Are you trying to register an MSW request handler in a deferred registration function? Only navigation items can be registered in a deferred registration function.");
+            throw new Error("[squide] Cannot register MSW request handlers once the modules are registered. Are you trying to register an MSW request handler in a deferred registration function? Only navigation items can be registered in a deferred registration function.");
         }
 
         plugin.registerRequestHandlers(handlers, {
