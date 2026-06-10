@@ -1,5 +1,17 @@
 # @squide/msw
 
+## 4.1.0
+
+### Minor Changes
+
+- [#631](https://github.com/workleap/wl-squide/pull/631) [`9bbcd7e`](https://github.com/workleap/wl-squide/commit/9bbcd7e1597d0c473a1477f608e3596390553bb4) Thanks [@patricklafrance](https://github.com/patricklafrance)! - `registerRequestHandlers` now accepts a `prepend` option (mirroring `registerRoute`'s `hoist` flag). Prepended handlers are placed before the appended ones, with registration order preserved within each group.
+
+  MSW evaluates handlers in registration order and a handler returning nothing falls through to the next matching handler, so `prepend` enables middleware-like fall-through handlers (artificial latency, request logging, chaos testing) that must run before the regular handlers — regardless of module registration timing:
+
+  ```ts
+  runtime.registerRequestHandlers([latencyRequestHandler], { prepend: true });
+  ```
+
 ## 4.0.20
 
 ### Patch Changes
