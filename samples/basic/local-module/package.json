@@ -13,11 +13,11 @@
         "typecheck": "tsgo"
     },
     "peerDependencies": {
-        "@react-aria/toast": "^3.1.0",
-        "@react-stately/toast": "^3.2.0",
-        "react": "^19.2.6",
-        "react-dom": "^19.2.6",
-        "react-router": "^7.15.0"
+        "@react-aria/toast": "^3.1.1",
+        "@react-stately/toast": "^3.2.1",
+        "react": "^19.2.7",
+        "react-dom": "^19.2.7",
+        "react-router": "^7.18.0"
     },
     "dependencies": {
         "@basic/shared": "workspace:*",
@@ -28,23 +28,23 @@
     },
     "devDependencies": {
         "@eslint/js": "9.39.2",
-        "@react-aria/toast": "3.1.0",
-        "@react-stately/toast": "3.2.0",
-        "@rsbuild/core": "2.0.5",
+        "@react-aria/toast": "3.1.1",
+        "@react-stately/toast": "3.2.1",
+        "@rsbuild/core": "2.0.15",
         "@squide/firefly-rsbuild-configs": "workspace:*",
-        "@types/node": "25.7.0",
-        "@types/react": "19.2.14",
+        "@types/node": "25.9.3",
+        "@types/react": "19.2.17",
         "@types/react-dom": "19.2.3",
-        "@typescript-eslint/parser": "8.59.3",
-        "@typescript/native-preview": "7.0.0-dev.20260512.1",
+        "@typescript-eslint/parser": "8.61.1",
+        "@typescript/native-preview": "7.0.0-dev.20260616.1",
         "@workleap/browserslist-config": "2.1.8",
         "@workleap/eslint-configs": "2.0.3",
-        "@workleap/typescript-configs": "4.0.2",
+        "@workleap/typescript-configs": "5.0.0",
         "browserslist": "4.28.2",
         "eslint": "9.39.2",
-        "react": "19.2.6",
-        "react-dom": "19.2.6",
-        "react-router": "7.15.0",
+        "react": "19.2.7",
+        "react-dom": "19.2.7",
+        "react-router": "7.18.0",
         "typescript": "6.0.3",
         "typescript-eslint": "8.54.0"
     }
