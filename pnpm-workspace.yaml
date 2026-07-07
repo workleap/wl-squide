@@ -10,6 +10,10 @@ overrides:
   # Pin to 5.4.0 — 5.6.0 leaks `extractComments` into swc-minify options, which swc rejects.
   # @workleap/webpack-configs uses TerserPlugin.swcMinify, so transitive consumers break.
   terser-webpack-plugin: 5.4.0
+  # Pin to 1.6.17 — 1.6.21 added "any" to chai flag chain properties, which makes the
+  # vitest/valid-expect rule misclassify the `expect.any()` asymmetric matcher as an unknown
+  # modifier. See https://github.com/workleap/wl-squide/issues/637 for the tracking issue.
+  "@vitest/eslint-plugin": 1.6.17
 
 allowBuilds:
   '@parcel/watcher': true

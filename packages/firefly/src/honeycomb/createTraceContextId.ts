@@ -2,10 +2,10 @@
 
 const VERSION = "00";
 
-enum TraceFlags {
-    NONE = 0x0,
-    SAMPLED = 0x1 << 0
-}
+const TraceFlags = {
+    NONE: 0x0,
+    SAMPLED: 0x1 << 0
+} as const;
 
 export function createTraceContextId(traceId: string, spanId: string, traceFlags: number) {
     return `${VERSION}-${traceId}-${spanId}-0${Number(traceFlags || TraceFlags.NONE).toString(16)}`;
