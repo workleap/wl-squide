@@ -5,6 +5,7 @@ packages:
 minimumReleaseAgeExclude:
   - '@workleap/*'
   - '@typescript/native-preview*'
+  - '@workleap-telemetry/*'
 
 overrides:
   # Pin to 5.4.0 — 5.6.0 leaks `extractComments` into swc-minify options, which swc rejects.

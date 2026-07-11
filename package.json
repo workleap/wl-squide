@@ -46,18 +46,18 @@
         "@changesets/changelog-github": "0.7.0",
         "@changesets/cli": "2.31.0",
         "@eslint/js": "9.39.2",
-        "@types/node": "25.7.0",
-        "@typescript-eslint/parser": "8.59.3",
-        "@typescript/native-preview": "7.0.0-dev.20260512.1",
-        "@workleap/eslint-configs": "2.0.3",
-        "@workleap/typescript-configs": "4.0.2",
-        "agent-browser": "0.27.0",
+        "@types/node": "26.1.1",
+        "@typescript-eslint/parser": "8.63.0",
+        "@typescript/native-preview": "7.0.0-dev.20260707.2",
+        "@workleap/eslint-configs": "2.0.4",
+        "@workleap/typescript-configs": "5.0.0",
+        "agent-browser": "0.31.1",
         "cross-env": "10.1.0",
         "eslint": "9.39.2",
-        "pkg-pr-new": "0.0.71",
-        "retypeapp": "4.5.3",
-        "syncpack": "15.1.2",
-        "turbo": "2.9.12",
+        "pkg-pr-new": "0.0.75",
+        "retypeapp": "4.6.0",
+        "syncpack": "15.3.2",
+        "turbo": "2.10.4",
         "typescript": "6.0.3",
         "typescript-eslint": "8.54.0"
     },
@@ -65,5 +65,5 @@
         "node": ">=24.0.0",
         "pnpm": ">=11"
     },
-    "packageManager": "pnpm@11.0.8"
+    "packageManager": "pnpm@11.5.0+sha512.dbfcc4f81cf48597afd4bc391ffdf12c11f1a9fb83a395bfa6b0a2d9cc2fd8ffebafdb1ccbd529632153f793904c2615b7f09fe1a345473fd1c35845172a8eb1"
 }
