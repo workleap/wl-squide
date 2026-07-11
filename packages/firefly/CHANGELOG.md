@@ -1,5 +1,20 @@
 # @squide/firefly
 
+## 18.0.0
+
+### Major Changes
+
+- [#639](https://github.com/workleap/wl-squide/pull/639) [`9ad83bb`](https://github.com/workleap/wl-squide/commit/9ad83bb34e71d64e76b7f2a390f4da3ef2ebcf87) Thanks [@patricklafrance](https://github.com/patricklafrance)! - Bumped the `react-router` peer dependency to `^8.2.0` (from `^7.15.0`). This is a breaking change — consuming applications must upgrade to React Router v8.
+
+### Patch Changes
+
+- Updated dependencies [[`9ad83bb`](https://github.com/workleap/wl-squide/commit/9ad83bb34e71d64e76b7f2a390f4da3ef2ebcf87), [`9ad83bb`](https://github.com/workleap/wl-squide/commit/9ad83bb34e71d64e76b7f2a390f4da3ef2ebcf87)]:
+  - @squide/react-router@9.0.0
+  - @squide/core@7.1.1
+  - @squide/env-vars@1.4.23
+  - @squide/launch-darkly@1.0.16
+  - @squide/msw@4.1.1
+
 ## 17.2.0
 
 ### Minor Changes
