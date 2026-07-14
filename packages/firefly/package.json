@@ -62,7 +62,7 @@
         "@squide/launch-darkly": "workspace:^",
         "@squide/msw": "workspace:^",
         "@squide/react-router": "workspace:^",
-        "@workleap-telemetry/core": "^2.0.2",
+        "@workleap-telemetry/core": "^2.0.3",
         "@workleap/logging": "^2.0.0",
         "uuid": "^14.0.1"
     },

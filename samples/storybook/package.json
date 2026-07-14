@@ -14,13 +14,13 @@
         "doctor": "storybook doctor"
     },
     "dependencies": {
-        "@storybook/addon-a11y": "10.4.6",
+        "@storybook/addon-a11y": "10.5.0",
         "msw": "2.15.0",
         "msw-storybook-addon": "2.0.7",
         "react": "19.2.7",
         "react-dom": "19.2.7",
         "react-router": "8.2.0",
-        "storybook": "10.4.6",
+        "storybook": "10.5.0",
         "storybook-react-rsbuild": "3.3.4"
     },
     "devDependencies": {

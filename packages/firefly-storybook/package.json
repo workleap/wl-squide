@@ -42,7 +42,7 @@
         "react": "^18.0.0 || ^19.0.0",
         "react-dom": "^18.0.0 || ^19.0.0",
         "react-router": "^8.2.0",
-        "storybook": "^10.4.6"
+        "storybook": "^10.5.0"
     },
     "peerDependenciesMeta": {
         "@opentelemetry/api": {
@@ -54,7 +54,7 @@
         "@squide/firefly": "workspace:^",
         "@squide/launch-darkly": "workspace:^",
         "@squide/msw": "workspace:^",
-        "@workleap-telemetry/core": "^2.0.2",
+        "@workleap-telemetry/core": "^2.0.3",
         "@workleap/logging": "^2.0.0"
     },
     "devDependencies": {

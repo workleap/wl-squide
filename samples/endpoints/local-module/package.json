@@ -46,7 +46,7 @@
         "@workleap/browserslist-config": "2.1.8",
         "@workleap/eslint-configs": "2.0.4",
         "@workleap/typescript-configs": "5.0.0",
-        "browserslist": "4.28.5",
+        "browserslist": "4.28.6",
         "cross-env": "10.1.0",
         "eslint": "9.39.2",
         "http-server": "14.1.1",

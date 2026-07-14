@@ -37,10 +37,10 @@
         "@swc/core": "^1.15.43",
         "@swc/helpers": "^0.5.23",
         "@workleap/swc-configs": "^2.3.13",
-        "browserslist": "^4.28.5",
+        "browserslist": "^4.28.6",
         "postcss": "^8.5.3",
         "webpack": "^5.108.4",
-        "webpack-dev-server": "^5.2.4"
+        "webpack-dev-server": "^6.0.0"
     },
     "dependencies": {
         "@module-federation/enhanced": "2.7.0",
@@ -65,7 +65,7 @@
         "typescript-eslint": "8.54.0",
         "vitest": "4.1.10",
         "webpack": "5.108.4",
-        "webpack-dev-server": "5.2.4"
+        "webpack-dev-server": "6.0.0"
     },
     "sideEffects": false
 }
