@@ -16,7 +16,7 @@
         "i18next-browser-languagedetector": "^8.2.1",
         "react": "^19.2.7",
         "react-dom": "^19.2.7",
-        "react-i18next": "^17.0.9"
+        "react-i18next": "^17.0.10"
     },
     "dependencies": {
         "@endpoints/shared": "workspace:*",
@@ -26,7 +26,7 @@
     "devDependencies": {
         "@eslint/js": "9.39.2",
         "@types/node": "26.1.1",
-        "@typescript-eslint/parser": "8.63.0",
+        "@typescript-eslint/parser": "8.64.0",
         "@typescript/native-preview": "7.0.0-dev.20260707.2",
         "@workleap/eslint-configs": "2.0.4",
         "@workleap/typescript-configs": "5.0.0",
