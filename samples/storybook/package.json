@@ -14,22 +14,22 @@
         "doctor": "storybook doctor"
     },
     "dependencies": {
-        "@storybook/addon-a11y": "10.4.6",
+        "@storybook/addon-a11y": "10.5.2",
         "msw": "2.15.0",
         "msw-storybook-addon": "2.0.7",
         "react": "19.2.7",
         "react-dom": "19.2.7",
         "react-router": "8.2.0",
-        "storybook": "10.4.6",
+        "storybook": "10.5.2",
         "storybook-react-rsbuild": "3.3.4"
     },
     "devDependencies": {
         "@eslint/js": "9.39.2",
-        "@rsbuild/core": "2.1.5",
+        "@rsbuild/core": "2.1.6",
         "@types/node": "26.1.1",
         "@types/react": "19.2.17",
         "@types/react-dom": "19.2.3",
-        "@typescript-eslint/parser": "8.63.0",
+        "@typescript-eslint/parser": "8.64.0",
         "@typescript/native-preview": "7.0.0-dev.20260707.2",
         "@workleap/eslint-configs": "2.0.4",
         "@workleap/rsbuild-configs": "4.1.1",

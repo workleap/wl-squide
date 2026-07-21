@@ -34,16 +34,16 @@
         "test": "vitest --config vitest.config.ts --no-watch"
     },
     "peerDependencies": {
-        "@swc/core": "^1.15.43",
+        "@swc/core": "^1.15.46",
         "@swc/helpers": "^0.5.23",
         "@workleap/swc-configs": "^2.3.13",
-        "browserslist": "^4.28.5",
+        "browserslist": "^4.28.6",
         "postcss": "^8.5.3",
         "webpack": "^5.108.4",
-        "webpack-dev-server": "^5.2.4"
+        "webpack-dev-server": "^6.0.0"
     },
     "dependencies": {
-        "@module-federation/enhanced": "2.7.0",
+        "@module-federation/enhanced": "2.8.0",
         "@workleap/webpack-configs": "^1.6.15",
         "deepmerge": "^4.3.1",
         "html-webpack-plugin": "^5.6.7",
@@ -51,11 +51,11 @@
     },
     "devDependencies": {
         "@eslint/js": "9.39.2",
-        "@rsbuild/core": "2.1.5",
+        "@rsbuild/core": "2.1.6",
         "@rslib/core": "0.23.2",
         "@types/node": "26.1.1",
         "@types/semver": "7.7.1",
-        "@typescript-eslint/parser": "8.63.0",
+        "@typescript-eslint/parser": "8.64.0",
         "@typescript/native-preview": "7.0.0-dev.20260707.2",
         "@workleap/eslint-configs": "2.0.4",
         "@workleap/rslib-configs": "1.2.1",
@@ -65,7 +65,7 @@
         "typescript-eslint": "8.54.0",
         "vitest": "4.1.10",
         "webpack": "5.108.4",
-        "webpack-dev-server": "5.2.4"
+        "webpack-dev-server": "6.0.0"
     },
     "sideEffects": false
 }
