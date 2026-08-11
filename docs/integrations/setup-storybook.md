@@ -19,14 +19,11 @@ pnpm add msw msw-storybook-addon
 
 Then, update the standard `.storybook/preview.tsx` file and register the [Mock Service Worker](https://mswjs.io/) (MSW) addon:
 
-```tsx !#5-7,19
-import { initialize as initializeMsw, mswLoader } from "msw-storybook-addon";
+```tsx !#1-2,16-26
+import { setupWorker } from "msw/browser";
+import { mswLoader } from "msw-storybook-addon/csf3";
 import { Suspense } from "react";
 import type { Preview } from "storybook-react-rsbuild";
-
-initializeMsw({
-    onUnhandledRequest: "bypass"
-});
 
 const preview: Preview = {
     decorators: [
@@ -38,7 +35,17 @@ const preview: Preview = {
             );
         }
     ],
-    loaders: [mswLoader]
+    loaders: [
+        mswLoader(async () => {
+            const worker = setupWorker();
+
+            await worker.start({
+                onUnhandledRequest: "bypass"
+            });
+
+            return worker;
+        })
+    ]
 };
 
 export default preview;
