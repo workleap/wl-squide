@@ -1,5 +1,27 @@
 # @squide/firefly
 
+## 18.1.0
+
+### Minor Changes
+
+- [#662](https://github.com/workleap/wl-squide/pull/662) [`10166dc`](https://github.com/workleap/wl-squide/commit/10166dc2d065cfbc807f1b22d8ef4e334d81811d) Thanks [@patricklafrance](https://github.com/patricklafrance)! - Added a new `@squide/firefly/testing` entry point exposing `createDeferredRegistrationsRunner`, a test-only utility executing deferred registration functions through the same sequence as a real application.
+
+  A runner registers the provided modules, then replays their deferred registration functions for as many runs as a test requires:
+
+  ```ts
+  import { createDeferredRegistrationsRunner } from "@squide/firefly/testing";
+
+  const runner = createDeferredRegistrationsRunner(runtime, [
+    registerSection,
+    registerNestedItem,
+  ]);
+
+  await runner.register({ isBillingEnabled: true });
+  await runner.update({ isBillingEnabled: false });
+  ```
+
+  An update run is transactional and dispatches the `DeferredRegistrationsUpdateStartedEvent` and `DeferredRegistrationsUpdateCompletedEvent` events, matching what the `useDeferredRegistrations` hook does at runtime. This replaces the hand written harnesses that applications had to maintain to test a deferred registration update run.
+
 ## 18.0.0
 
 ### Major Changes
