@@ -1,6 +1,7 @@
 import type { ModuleRegisterFunction } from "@squide/core";
 import { NoopLogger } from "@workleap/logging";
 import { describe, expect, test, vi } from "vitest";
+import { DeferredRegistrationsUpdatedEvent } from "../src/AppRouterReducer.ts";
 import { FireflyRuntime } from "../src/FireflyRuntime.tsx";
 import { createDeferredRegistrationsRunner } from "../src/testing/index.ts";
 import { DeferredRegistrationsUpdateCompletedEvent, DeferredRegistrationsUpdateStartedEvent } from "../src/useUpdateDeferredRegistrations.ts";
@@ -124,11 +125,43 @@ describe("update", () => {
         expect(completedListener).toHaveBeenCalledTimes(1);
     });
 
-    test("when the runner is updated, the update started event is dispatched before the deferred registration functions are executed", async () => {
+    test("when the runner is updated, the app router store is notified that the deferred registrations has been updated", async () => {
+        const runtime = createRuntime();
+        const runner = createDeferredRegistrationsRunner(runtime, []);
+
+        await runner.register();
+
+        expect(runtime.appRouterStore.state.deferredRegistrationsUpdatedAt).toBeUndefined();
+
+        await runner.update();
+
+        expect(runtime.appRouterStore.state.deferredRegistrationsUpdatedAt).toBeDefined();
+    });
+
+    test("when the runner is updated, the deferred registrations updated event is dispatched", async () => {
+        const runtime = createRuntime();
+        const listener = vi.fn();
+
+        runtime.eventBus.addListener(DeferredRegistrationsUpdatedEvent, listener);
+
+        const runner = createDeferredRegistrationsRunner(runtime, []);
+
+        await runner.register();
+
+        expect(listener).not.toHaveBeenCalled();
+
+        await runner.update();
+
+        expect(listener).toHaveBeenCalledTimes(1);
+    });
+
+    test("when the runner is updated, the events are dispatched in the same order as the useUpdateDeferredRegistrations hook", async () => {
         const runtime = createRuntime();
         const calls: string[] = [];
 
         runtime.eventBus.addListener(DeferredRegistrationsUpdateStartedEvent, () => calls.push("started"));
+        runtime.eventBus.addListener(DeferredRegistrationsUpdatedEvent, () => calls.push("updated"));
+        runtime.eventBus.addListener(DeferredRegistrationsUpdateCompletedEvent, () => calls.push("completed"));
 
         const runner = createDeferredRegistrationsRunner(runtime, [
             () => (_runtime, _data, operation) => {
@@ -139,7 +172,7 @@ describe("update", () => {
         await runner.register();
         await runner.update();
 
-        expect(calls).toEqual(["register", "started", "update"]);
+        expect(calls).toEqual(["register", "started", "update", "updated", "completed"]);
     });
 
     test("when a deferred registration function throws during an update, the error is returned", async () => {

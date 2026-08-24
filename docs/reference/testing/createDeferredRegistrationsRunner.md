@@ -32,7 +32,12 @@ An object literal with the following functions:
 - `register(data?)`: Register the modules, then execute their deferred registration functions with the `"register"` operation. Can only be called once. Returns a `Promise` object resolving to an array of `ModuleRegistrationError`.
 - `update(data?)`: Execute the deferred registration functions again with the `"update"` operation, as a transactional run. Must be called after `register`. Returns a `Promise` object resolving to an array of `ModuleRegistrationError`.
 
-An update run drops the deferred navigation items of the previous run and replays only what the current run registers. It also dispatches the `DeferredRegistrationsUpdateStartedEvent` and `DeferredRegistrationsUpdateCompletedEvent` events, because modules do listen to those events to reset their per run state.
+An update run drops the deferred navigation items of the previous run and replays only what the current run registers. It also reproduces everything the [useDeferredRegistrations](../registration/useDeferredRegistrations.md) hook does around that run, because modules, plugins and third-party libraries rely on it to reset their per run state:
+
+1. `DeferredRegistrationsUpdateStartedEvent` is dispatched.
+2. The deferred registration functions are executed.
+3. The app router store `deferredRegistrationsUpdatedAt` value is updated and `DeferredRegistrationsUpdatedEvent` is dispatched.
+4. `DeferredRegistrationsUpdateCompletedEvent` is dispatched.
 
 ## Usage
 
@@ -143,7 +148,9 @@ A runner dispatches the update events itself, standing in for the [useDeferredRe
 
 Errors are collected rather than thrown, matching what a real registration run does:
 
-```ts !#1
+```ts !#3
+await runner.register({ isBillingEnabled: true });
+
 const errors = await runner.update({ isBillingEnabled: true });
 
 expect(errors.length).toBe(0);
@@ -173,7 +180,9 @@ const runner = createDeferredRegistrationsRunner(runtime, [register], {
 
 Navigation items registered under a section that no longer exists are parked as pending rather than rejected. Use `_validateRegistrations` to assert that a run didn't leave any pending registration behind:
 
-```ts !#3
+```ts !#5
+await runner.register({ isBillingEnabled: true });
+
 await runner.update({ isBillingEnabled: true });
 
 expect(() => runtime._validateRegistrations()).not.toThrow();

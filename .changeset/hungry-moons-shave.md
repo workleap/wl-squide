@@ -2,7 +2,7 @@
 "@squide/firefly": minor
 ---
 
-Added a new `@squide/firefly/testing` entry point exposing `createDeferredRegistrationsRunner`, a test only utility executing deferred registration functions through the same sequence as a real application.
+Added a new `@squide/firefly/testing` entry point exposing `createDeferredRegistrationsRunner`, a test-only utility executing deferred registration functions through the same sequence as a real application.
 
 A runner registers the provided modules, then replays their deferred registration functions for as many runs as a test requires:
 
