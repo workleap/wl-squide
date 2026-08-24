@@ -107,7 +107,8 @@ runtime.registerNavigationItem({
     $label: "Page Label",     // String or ReactNode
     $priority: 10,            // Higher = earlier in menu
     $canRender: (index: number) => true,   // Conditional rendering
-    $additionalProps: {},     // Custom props for renderer
+    $additionalProps: {},     // Spread onto the component the layout renders
+    $meta: {},                // Read by the layout, never spread
     to: "/page",
     target: "_blank",         // Optional
     style: {}                 // Optional

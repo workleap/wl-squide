@@ -51,8 +51,8 @@ Transform navigation items into React elements.
 
 | Type | Properties |
 |------|------------|
-| `NavigationLinkRenderProps` | `label`, `linkProps` (the React Router `Link` props, including `to`), `additionalProps` (from `$additionalProps`), `canRender()` |
-| `NavigationSectionRenderProps` | `label`, `section` (the rendered children elements), `additionalProps`, `canRender()` |
+| `NavigationLinkRenderProps` | `label`, `linkProps` (the React Router `Link` props, including `to`), `additionalProps` (from `$additionalProps`, spread onto the component), `meta` (from `$meta`, only read), `canRender()` |
+| `NavigationSectionRenderProps` | `label`, `section` (the rendered children elements), `additionalProps`, `meta`, `canRender()` |
 
 **`canRender()`:** when an item was registered with a `$canRender` option, it is exposed on the render props as a `canRender()` function. It is the responsibility of the code rendering the menu to call it and skip the item when it returns `false` — Squide does not filter the items itself.
 
@@ -89,9 +89,10 @@ import {
 
 const renderItem: RenderItemFunction = (item, key, index, level) => {
     if (!isNavigationLink(item)) return null;
-    const { label, linkProps, additionalProps } = item;
+    // "additionalProps" is spread onto the Link, "meta" is only read. Both default to {}.
+    const { label, linkProps, additionalProps, meta } = item;
     return (
-        <li key={key}>
+        <li key={key} style={{ fontWeight: meta.highlight ? "bold" : "normal" }}>
             <Link {...linkProps} {...additionalProps}>{label}</Link>
         </li>
     );

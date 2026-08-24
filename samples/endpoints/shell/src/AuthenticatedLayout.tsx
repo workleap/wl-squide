@@ -12,9 +12,9 @@ type RenderLinkItemFunction = (item: NavigationLinkRenderProps, key: string) => 
 
 type RenderSectionItemFunction = (item: NavigationSectionRenderProps, key: string) => ReactNode;
 
-const renderLinkItem: RenderLinkItemFunction = ({ label, linkProps, additionalProps: { highlight, ...additionalProps } }, key) => {
+const renderLinkItem: RenderLinkItemFunction = ({ label, linkProps, additionalProps, meta }, key) => {
     return (
-        <li key={key} style={{ fontWeight: highlight ? "bold" : "normal" }}>
+        <li key={key} style={{ fontWeight: meta.highlight ? "bold" : "normal" }}>
             <Link {...linkProps} {...additionalProps}>
                 {label}
             </Link>

@@ -278,7 +278,7 @@ export function RootLayout() {
 
 ## Render additional props on an item
 
-Any properties defined in the `$additionalProps` option will be forwarded to the layout:
+Any properties defined in the `$additionalProps` option are spread onto the component rendering the item:
 
 ```ts !#7-9
 import type { ModuleRegisterFunction, FireflyRuntime } from "@squide/firefly";
@@ -288,17 +288,21 @@ export const register: ModuleRegisterFunction<FireflyRuntime> = runtime => {
         $id: "about",
         $label: "About",
         $additionalProps: {
-            highlight: true
+            "data-tracking-id": "about-link"
         },
         to: "/about"
     });
 };
 ```
 
-It's the responsibility of the code rendering the menu to handle the additional properties.
+!!!warning
+Because `$additionalProps` is spread, every key must be a valid prop for the component that the layout renders. A key that isn't a valid prop ends up on the DOM element as an invalid attribute, which React only warns about in development.
+
+For values that the layout should *read* rather than forward, use [$meta](#attach-metadata-to-an-item) instead.
+!!!
 
 ==- :icon-file-code: Layout code example
-```tsx !#20,23
+```tsx !#20,24
 import { Suspense } from "react";
 import { Link, Outlet } from "react-router";
 import { 
@@ -318,10 +322,10 @@ const renderItem: RenderItemFunction = (item, key) => {
         return null;
     }
 
-    const { label, linkProps, additionalProps: { highlight, ...additionalProps } } = item;
+    const { label, linkProps, additionalProps } = item;
 
     return (
-        <li key={key} style={{ fontWeight: highlight ? "bold" : "normal" }}>
+        <li key={key}>
             <Link {...linkProps} {...additionalProps}>
                 {label}
             </Link>
@@ -355,6 +359,50 @@ export function RootLayout() {
 }
 ```
 ===
+
+## Attach metadata to an item
+
+Use the `$meta` option for values that tell the layout *how* to render an item. Unlike `$additionalProps`, metadata is never spread onto the component:
+
+```ts !#7-9
+import type { ModuleRegisterFunction, FireflyRuntime } from "@squide/firefly";
+
+export const register: ModuleRegisterFunction<FireflyRuntime> = runtime => {
+    runtime.registerNavigationItem({
+        $id: "about",
+        $label: "About",
+        $meta: {
+            highlight: true
+        },
+        to: "/about"
+    });
+};
+```
+
+It's the responsibility of the code rendering the menu to handle the metadata:
+
+```tsx !#9,12
+import { Link } from "react-router";
+import { isNavigationLink, type RenderItemFunction } from "@squide/firefly";
+
+const renderItem: RenderItemFunction = (item, key) => {
+    if (!isNavigationLink(item)) {
+        return null;
+    }
+
+    const { label, linkProps, additionalProps, meta } = item;
+
+    return (
+        <li key={key} style={{ fontWeight: meta.highlight ? "bold" : "normal" }}>
+            <Link {...linkProps} {...additionalProps}>
+                {label}
+            </Link>
+        </li>
+    );
+};
+```
+
+`meta` defaults to an empty object, therefore it can be destructured without a guard.
 
 ## Navigation menu
 

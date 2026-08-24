@@ -12,17 +12,17 @@ Squide extends React Router's route and navigation item types (`IndexRouteObject
 
 1. **No prefix** — Use plain names like `id`, `visibility`, `label`. Risk of collision with current or future React Router properties (React Router already uses `id` for its own route matching).
 2. **Nested namespace object** — Group Squide properties under a `squide: { ... }` sub-object. Verbose to access and breaks the flat property ergonomics consumers expect.
-3. **Dollar-prefix (`$`) convention** — Prefix all Squide-owned properties with `$`: `$id`, `$visibility`, `$label`, `$additionalProps`, `$canRender`, `$priority`, `$parentIndexPath`. The `$` is a legal JavaScript identifier character that clearly signals "framework metadata" and is unlikely to be adopted by React Router.
+3. **Dollar-prefix (`$`) convention** — Prefix all Squide-owned properties with `$`: `$id`, `$visibility`, `$label`, `$additionalProps`, `$meta`, `$canRender`, `$priority`, `$parentIndexPath`. The `$` is a legal JavaScript identifier character that clearly signals "framework metadata" and is unlikely to be adopted by React Router.
 
 ## Decision
 
-Option 3. All Squide-specific properties on route and navigation item objects use the `$` prefix. When rendering, `$`-prefixed properties are explicitly stripped before passing props to React Router components.
+Option 3. All Squide-specific properties on route and navigation item objects use the `$` prefix. When rendering, `$`-prefixed properties are stripped before passing props to React Router components.
 
-Evidence: `packages/react-router/src/RouteRegistry.ts` (lines 16-27) defines `$id`, `$visibility`, `$parentIndexPath` on route types. `packages/react-router/src/NavigationItemRegistry.ts` (lines 6-21) defines `$id`, `$label`, `$additionalProps`, `$canRender` on navigation item types. The `useRenderedNavigationItems` hook destructures and strips all `$`-prefixed properties before passing `linkProps` to React Router's `Link` component.
+Evidence: `packages/react-router/src/RouteRegistry.ts` (lines 16-27) defines `$id`, `$visibility`, `$parentIndexPath` on route types. `packages/react-router/src/NavigationItemRegistry.ts` defines `$id`, `$label`, `$additionalProps`, `$meta`, `$canRender` on navigation item types. The `useRenderedNavigationItems` hook strips all `$`-prefixed properties before passing `linkProps` to React Router's `Link` component.
 
 ## Consequences
 
 - Zero risk of naming collision with current or future React Router properties.
 - The `$` prefix provides a clear visual signal distinguishing framework metadata from router-native properties.
 - Consumers must remember to use the `$` prefix when registering routes and navigation items.
-- The stripping logic in `useRenderedNavigationItems` must be kept in sync with any new `$`-prefixed properties added.
+- The stripping logic in `useRenderedNavigationItems` filters `$`-prefixed keys generically, so adding a new `$`-prefixed property doesn't require updating it.

@@ -55,6 +55,28 @@ exports[`highest priority goes first 1`] = `
 </DocumentFragment>
 `;
 
+exports[`link item $meta is not rendered on the link component 1`] = `
+<DocumentFragment>
+  <ul
+    data-index="0"
+    data-key="root"
+    data-level="0"
+  >
+    <li
+      data-index="0"
+      data-key="0-0"
+      data-level="0"
+    >
+      <div
+        to="/foo"
+      >
+        Foo
+      </div>
+    </li>
+  </ul>
+</DocumentFragment>
+`;
+
 exports[`link item additionalProps are rendered 1`] = `
 <DocumentFragment>
   <ul
