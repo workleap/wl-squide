@@ -45,11 +45,16 @@ function cloneNavigationItem<T extends NavigationItem>(item: T): T {
         return item;
     }
 
-    const clone = Object.create(Object.getPrototypeOf(item), Object.getOwnPropertyDescriptors(item)) as T;
+    const descriptors = Object.getOwnPropertyDescriptors(item);
 
-    clone.children = item.children?.map(x => cloneNavigationItem(x)) ?? [];
+    descriptors.children = {
+        value: item.children?.map(x => cloneNavigationItem(x)) ?? [],
+        writable: true,
+        enumerable: true,
+        configurable: true
+    };
 
-    return clone;
+    return Object.create(Object.getPrototypeOf(item), descriptors) as T;
 }
 ```
 
@@ -61,11 +66,13 @@ Three properties of that snippet are load-bearing and are easy to undo by accide
 
 **It copies property descriptors rather than spreading.** `{ ...item }` flattens the prototype chain and evaluates getters eagerly. `Object.create` with `getOwnPropertyDescriptors` keeps `instanceof` true and keeps a `$label` getter lazy, which matters because `$label` is a `ReactNode` and applications do compute it on access.
 
-**It clones at the `add()` entry point, not inside `#addRootSection`.** Moving it deeper breaks the identity assertions that pin `getItems()[0]` to the registered object.
+**It replaces the `children` descriptor rather than assigning to the finished clone.** Copying descriptors faithfully copies `writable: false` and accessor descriptors too, so assigning `clone.children` afterwards throws on a frozen section, and on a class exposing `children` through a getter. Building the new array into the descriptor bag sidesteps both. Getting this wrong would have been a regression rather than a limitation: before this change such a section only threw when something was actually nested under it, whereas an assignment on the clone throws for every deferred section, including leaves.
+
+**It clones at the `add()` entry point, not deeper.** `add()` is the single funnel through which a caller-supplied item enters the registry. The two internal paths that attach items — `#tryRegisterPendingItems` and `#recursivelyRegisterSections` — bypass `add()` entirely and operate on objects that have already been through it, so a clone placed further in would leave those paths handling caller-owned objects. Cloning at the entry point also keeps the identity assertions that pin `getItems()[0]` to the registered object on the static path.
 
 Links are returned as-is. A link has no `children`, so nothing mutates it, and cloning it would break identity for no gain.
 
-`structuredClone` was considered and rejected: it throws on a `$label` holding a `ReactNode` and on the `$canRender` function. The helper above recurses through `children` on its own, which covers nested sections — verified with an outer section containing an inner one, where both caller-owned objects stayed untouched while the rendered tree was correct.
+`structuredClone` was considered and rejected: it throws on a `$label` holding a `ReactNode` and on the `$canRender` function. The helper above recurses through `children` on its own, which covers nested sections. That recursion, the prototype preservation and the frozen-section case each have a regression test, since all three are invisible in the flat case that the accumulation test covers.
 
 Evidence: `packages/react-router/src/NavigationItemRegistry.ts` (`cloneNavigationItem` and its call site in `add`).
 

@@ -20,7 +20,7 @@ A component that sets up Squide's primitives with a [React Router](https://react
 
 - `waitForPublicData`: An optional `boolean` value indicating whether or not Squide should delay the rendering of the requested page until the **public** data is ready. The default value is `false`.
 - `waitForProtectedData`: An optional `boolean` value indicating whether or not Squide should delay the rendering of the requested page until the **protected** data is ready. The default value is `false`.
-- `strictMode`: An optional `boolean` value indicating whether or not Squide should validate the registrations once the modules are ready, and again after every deferred registration update. The default value is `true`.
+- `strictMode`: An optional `boolean` value indicating whether or not Squide should validate the registrations once the modules are ready, validate the navigation item registrations again after every deferred registration update, and throw when the active location matches no registered route. The default value is `true`.
 - `children`: A render function defining a [RouterProvider](https://reactrouter.com/en/main/routers/router-provider) component with `rootRoute`, `registeredRoutes`, `routerProps` and `routerProviderProps`.
 
 ## Usage
@@ -276,9 +276,11 @@ By default, Squide validates the registrations once the modules are ready, and v
 
 Routes are only validated once, as they are frozen after the initial registration phase and cannot become pending during an update.
 
-Set `strictMode` to `false` to turn the validation off:
+Strict mode additionally throws when the active location matches no registered route.
 
-```tsx !#6 host/src/App.tsx
+Set `strictMode` to `false` to turn all of it off:
+
+```tsx !#5 host/src/App.tsx
 import { AppRouter } from "@squide/firefly";
 
 export function App() {

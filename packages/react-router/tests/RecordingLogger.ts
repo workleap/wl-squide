@@ -9,10 +9,19 @@ export class RecordingLogger implements RootLogger, LoggerScope {
 
     #segments: string[] = [];
 
-    #flush() {
-        if (this.#segments.length > 0) {
-            this.logs.push(this.#segments.join(" "));
-            this.#segments = [];
+    // Captures both shapes the runtime logs with: the chained "withText(...).debug()" form, and the direct
+    // "error(message)" form used by the validation reports.
+    #write(log?: string) {
+        const segments = this.#segments;
+
+        this.#segments = [];
+
+        if (log) {
+            segments.push(log);
+        }
+
+        if (segments.length > 0) {
+            this.logs.push(segments.join(" "));
         }
     }
 
@@ -40,24 +49,24 @@ export class RecordingLogger implements RootLogger, LoggerScope {
         return this;
     }
 
-    debug() {
-        this.#flush();
+    debug(log?: string) {
+        this.#write(log);
     }
 
-    information() {
-        this.#flush();
+    information(log?: string) {
+        this.#write(log);
     }
 
-    warning() {
-        this.#flush();
+    warning(log?: string) {
+        this.#write(log);
     }
 
-    error() {
-        this.#flush();
+    error(log?: string) {
+        this.#write(log);
     }
 
-    critical() {
-        this.#flush();
+    critical(log?: string) {
+        this.#write(log);
     }
 
     // The runtime starts a logger scope per module. Recording through the same instance keeps every log in a
@@ -67,6 +76,6 @@ export class RecordingLogger implements RootLogger, LoggerScope {
     }
 
     end() {
-        this.#flush();
+        this.#write();
     }
 }

@@ -181,11 +181,18 @@ function cloneNavigationItem<T extends NavigationItem>(item: T): T {
 
     // Copying the property descriptors rather than spreading preserves the prototype chain and keeps accessor
     // properties lazy, so a section backed by a class instance or by a "$label" getter still behaves.
-    const clone = Object.create(Object.getPrototypeOf(item), Object.getOwnPropertyDescriptors(item)) as T;
+    const descriptors = Object.getOwnPropertyDescriptors(item);
 
-    clone.children = item.children?.map(x => cloneNavigationItem(x)) ?? [];
+    // Replacing the "children" descriptor rather than assigning to the clone afterwards. A frozen section, or
+    // one exposing "children" through a getter, would throw on assignment.
+    descriptors.children = {
+        value: item.children?.map(x => cloneNavigationItem(x)) ?? [],
+        writable: true,
+        enumerable: true,
+        configurable: true
+    };
 
-    return clone;
+    return Object.create(Object.getPrototypeOf(item), descriptors) as T;
 }
 
 export class NavigationItemRegistry {
