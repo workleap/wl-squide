@@ -155,6 +155,10 @@
 - [LocalStorageSessionManager](https://workleap.github.io/wl-squide/reference/fakes/localstoragesessionmanager.md): A local storage session manager (strictly for development purpose).
 - [ReadonlySessionLocalStorage](https://workleap.github.io/wl-squide/reference/fakes/readonlysessionlocalstorage.md): Read a session object from the local storage (strictly for development purpose).
 
+### Testing
+
+- [createDeferredRegistrationsRunner](https://workleap.github.io/wl-squide/reference/testing/createdeferredregistrationsrunner.md): Create a runner executing deferred registration functions through the same sequence as a real application (strictly for testing purpose).
+
 ### Storybook
 
 - [initializeFireflyForStorybook](https://workleap.github.io/wl-squide/reference/storybook/initializefireflyforstorybook.md): Create a runtime instance tailored for Storybook and optionally register local modules.

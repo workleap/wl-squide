@@ -94,6 +94,10 @@
 - [LocalStorageSessionManager](./fakes/localStorageSessionManager.md)
 - [ReadonlySessionLocalStorage](./fakes/readonlySessionLocalStorage.md)
 
+### Testing
+
+- [createDeferredRegistrationsRunner](./testing/createDeferredRegistrationsRunner.md)
+
 ### Storybook
 
 - [initializeFireflyForStorybook](./storybook/initializeFireflyForStorybook.md)
