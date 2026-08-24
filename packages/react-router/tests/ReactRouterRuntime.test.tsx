@@ -2515,6 +2515,33 @@ describe.concurrent("startDeferredRegistrationScope & completeDeferredRegistrati
 
         expect(runtime.routes.length).toBe(2);
     });
+
+    test.concurrent("when the completion of a scope throws an error, a new scope can be started", ({ expect }) => {
+        const runtime = new ReactRouterRuntime({
+            loggers: [new NoopLogger()]
+        });
+
+        runtime.registerNavigationItem({
+            $id: "section",
+            $label: "Section",
+            children: []
+        });
+
+        runtime.startDeferredRegistrationScope({ transactional: true });
+
+        // A deferred nested item cannot be registered under a static section, therefore the replay
+        // performed by the completion of the scope throws an error.
+        runtime.registerNavigationItem({
+            $label: "Link",
+            to: "/link"
+        }, {
+            sectionId: "section"
+        });
+
+        expect(() => runtime.completeDeferredRegistrationScope()).toThrow();
+
+        expect(() => runtime.startDeferredRegistrationScope({ transactional: true })).not.toThrow();
+    });
 });
 
 describe.concurrent("registerPublicRoute", () => {
@@ -2855,6 +2882,22 @@ describe.concurrent("_validateRegistrations", () => {
             });
 
             expect(() => runtime._validateRegistrations()).toThrow();
+        });
+
+        test.concurrent("when the menu id and the section id contains dashes, the error message includes the actual ids", ({ expect }) => {
+            const runtime = new ReactRouterRuntime({
+                loggers: [new NoopLogger()]
+            });
+
+            runtime.registerNavigationItem({
+                $label: "Link",
+                to: "/link"
+            }, {
+                menuId: "analytics-sidebar",
+                sectionId: "analytics-performance"
+            });
+
+            expect(() => runtime._validateRegistrations()).toThrow(/Missing navigation section "analytics-performance" of the "analytics-sidebar" menu/);
         });
     });
 });
