@@ -371,7 +371,7 @@ describe("navigation items", () => {
         expect((items[0] as { children: unknown[] }).children.length).toBe(1);
     });
 
-    test("when the section is not registered by an update run, the nested item registration is not left pending", async () => {
+    test("when the section is not registered by an update run, the nested item registrations do not accumulate", async () => {
         const runtime = createRuntime();
 
         const runner = createDeferredRegistrationsRunner(runtime, [registerSectionModule, registerNestedItemModule]);
