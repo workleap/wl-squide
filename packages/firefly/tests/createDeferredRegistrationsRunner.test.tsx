@@ -250,6 +250,28 @@ describe("update", () => {
         await registerPromise;
     });
 
+    test("when a previous update run has not been awaited, the next update run waits for it", async () => {
+        const runtime = createRuntime();
+        const calls: string[] = [];
+
+        const runner = createDeferredRegistrationsRunner<FireflyRuntime, unknown, FeatureFlags>(runtime, [
+            () => (_runtime, data) => {
+                calls.push(String(data.isFlagOn));
+            }
+        ]);
+
+        await runner.register({ isFlagOn: false });
+
+        // Deliberately not awaited.
+        const firstUpdate = runner.update({ isFlagOn: true });
+
+        await runner.update({ isFlagOn: false });
+
+        expect(calls).toEqual(["false", "true", "false"]);
+
+        await firstUpdate;
+    });
+
     test("when the runner has not been registered, throw an error", async () => {
         const runtime = createRuntime();
         const runner = createDeferredRegistrationsRunner(runtime, []);

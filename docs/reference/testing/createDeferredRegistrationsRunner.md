@@ -43,7 +43,7 @@ An update run drops the deferred navigation items of the previous run and replay
 
 ### Create a runner
 
-```ts !#14-16
+```ts !#16
 import { createDeferredRegistrationsRunner } from "@squide/firefly/testing";
 import { EnvironmentVariablesPlugin, FireflyRuntime, type ModuleRegisterFunction } from "@squide/firefly";
 
