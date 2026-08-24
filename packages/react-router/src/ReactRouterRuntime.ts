@@ -1,4 +1,4 @@
-import { RootMenuId, Runtime, RuntimeScope, type GetNavigationItemsOptions, type IRuntime, type RegisterNavigationItemOptions, type RegisterRouteOptions, type StartDeferredRegistrationScopeOptions, type ValidateRegistrationsOptions } from "@squide/core";
+import { RootMenuId, Runtime, RuntimeScope, type CompleteDeferredRegistrationScopeOptions, type GetNavigationItemsOptions, type IRuntime, type RegisterNavigationItemOptions, type RegisterRouteOptions, type StartDeferredRegistrationScopeOptions, type ValidateRegistrationsOptions } from "@squide/core";
 import type { Logger } from "@workleap/logging";
 import { NavigationItemDeferredRegistrationScope, NavigationItemDeferredRegistrationTransactionalScope, NavigationItemRegistry, type NavigationItemRegistrationResult, type RootNavigationItem } from "./NavigationItemRegistry.ts";
 import { ProtectedRoutesOutletId, PublicRoutesOutletId } from "./outlets.ts";
@@ -74,13 +74,22 @@ export class ReactRouterRuntime<TRuntime extends ReactRouterRuntime = any> exten
         }
     }
 
-    completeDeferredRegistrationScope() {
+    completeDeferredRegistrationScope(options: CompleteDeferredRegistrationScopeOptions = {}) {
         if (!this._navigationItemScope) {
             throw new Error("[squide] A deferred registration scope must be started before calling the complete function. Did you forget to start the scope?");
         }
 
+        const logger = this._getLogger(options);
+
         try {
-            this._navigationItemScope.complete();
+            // The replay adds the buffered items straight to the registry, bypassing "registerNavigationItem",
+            // so this is the only place where their real outcome can be reported. The per module logger scopes
+            // have already ended by now, which is why the messages carry the menu and section identity.
+            const results = this._navigationItemScope.complete();
+
+            results.forEach(x => {
+                this.#logNavigationItemRegistrationResult(x, this._navigationItemRegistry.getItems(x.menuId), logger);
+            });
         } finally {
             // The scope must always be released, otherwise a failed completion would prevent every subsequent
             // deferred registration update for the lifetime of the runtime.
@@ -266,6 +275,28 @@ export class ReactRouterRuntime<TRuntime extends ReactRouterRuntime = any> exten
                     .withObject(registeredItems)
                     .debug();
             }
+        } else if (registrationStatus === "buffered") {
+            if (newItem.$id) {
+                logger.withText(`[squide] A ${registrationType} navigation item with path "${newItem.to}" and id "${newItem.$id}" registration is`);
+            } else {
+                logger.withText(`[squide] A ${registrationType} navigation item with path "${newItem.to}" registration is`);
+            }
+
+            logger
+                .withText("buffered", {
+                    style: {
+                        color: "white",
+                        backgroundColor: "blue"
+                    }
+                })
+                .withText(`until the deferred registration update of the "${menuId}" menu completes, its outcome is reported at that point.`)
+                .withLineChange()
+                .withText("Buffered registration:")
+                .withObject(newItem)
+                .withLineChange()
+                .withText("All buffered items:")
+                .withObject(registeredItems)
+                .debug();
         } else {
             if (newItem.$id) {
                 logger.withText(`[squide] A ${registrationType} navigation item with path "${newItem.to}" and id "${newItem.$id}" registration is`);
@@ -307,10 +338,17 @@ export class ReactRouterRuntime<TRuntime extends ReactRouterRuntime = any> exten
         return (new ReactRouterRuntimeScope(this, logger) as unknown) as TRuntime;
     }
 
-    _validateRegistrations(options?: ValidateRegistrationsOptions) {
+    _validateRegistrations(options: ValidateRegistrationsOptions = {}) {
+        const {
+            includeRoutes = true
+        } = options;
+
         const logger = this._getLogger(options);
 
-        this.#validateRouteRegistrations(logger);
+        if (includeRoutes) {
+            this.#validateRouteRegistrations(logger);
+        }
+
         this.#validateNavigationItemRegistrations(logger);
     }
 

@@ -40,7 +40,9 @@ export interface AddNavigationItemOptions {
     sectionId?: string;
 }
 
-export type NavigationItemRegistrationStatus = "pending" | "registered";
+// "buffered" is only returned by the transactional scope used by deferred registration update runs. The item is
+// held until the scope completes, and the replay performed at that point reports the real outcome. See ADR-0022.
+export type NavigationItemRegistrationStatus = "pending" | "registered" | "buffered";
 export type NavigationItemRegistrationType = "static" | "deferred";
 
 export interface NavigationItemRegistrationResult {
@@ -91,7 +93,11 @@ export class NavigationItemDeferredRegistrationScope {
         return this._registry.getItems(menuId);
     }
 
-    complete() {}
+    complete(): NavigationItemRegistrationResult[] {
+        // This scope writes straight through to the registry, every item has already been reported by
+        // "registerNavigationItem" and there is nothing left to replay.
+        return [];
+    }
 }
 
 export class NavigationItemDeferredRegistrationTransactionalScope extends NavigationItemDeferredRegistrationScope {
@@ -108,11 +114,11 @@ export class NavigationItemDeferredRegistrationTransactionalScope extends Naviga
             }
         ]);
 
-        // The item is only buffered at this point, and the replay performed by the "complete" function can
-        // still leave it pending when its section is not re-registered by the run. Reporting "registered"
-        // here is therefore not always accurate, see https://github.com/workleap/wl-squide/issues/658.
+        // The item is only buffered at this point. The replay performed by the "complete" function is what
+        // actually registers it, and that replay can still leave it pending when its section is not
+        // re-registered by the run, so the real outcome is reported from there rather than guessed here.
         return {
-            registrationStatus: "registered",
+            registrationStatus: "buffered",
             completedPendingRegistrations: [],
             registrationType: "deferred",
             item: navigationItem,
@@ -128,13 +134,20 @@ export class NavigationItemDeferredRegistrationTransactionalScope extends Naviga
     complete() {
         this._registry.clearDeferredItems();
 
+        // The replay is the only place where the real outcome of a buffered registration is known. The results
+        // are returned so that the runtime can report them, since adding to the registry directly bypasses the
+        // logging done by "registerNavigationItem".
+        const results: NavigationItemRegistrationResult[] = [];
+
         this.#ItemsIndex.forEach(items => {
             items.forEach(x => {
-                this._registry.add(x.menuId, x.registrationType, x.item, x.options);
+                results.push(this._registry.add(x.menuId, x.registrationType, x.item, x.options));
             });
         });
 
         this.#ItemsIndex.clear();
+
+        return results;
     }
 }
 
@@ -156,6 +169,23 @@ function createSectionIndexKey(menuId: string, sectionId: string) {
  */
 export function parseSectionIndexKey(indexKey: string) {
     return indexKey.split(SectionIndexKeySeparator);
+}
+
+// The registry attaches a nested item by mutating the "children" array of the section it indexes. Cloning the
+// items on ingestion keeps that mutation away from the objects owned by the registering module, which would
+// otherwise accumulate children across deferred registration update runs. See ADR-0023.
+function cloneNavigationItem<T extends NavigationItem>(item: T): T {
+    if (isLinkItem(item)) {
+        return item;
+    }
+
+    // Copying the property descriptors rather than spreading preserves the prototype chain and keeps accessor
+    // properties lazy, so a section backed by a class instance or by a "$label" getter still behaves.
+    const clone = Object.create(Object.getPrototypeOf(item), Object.getOwnPropertyDescriptors(item)) as T;
+
+    clone.children = item.children?.map(x => cloneNavigationItem(x)) ?? [];
+
+    return clone;
 }
 
 export class NavigationItemRegistry {
@@ -257,15 +287,20 @@ export class NavigationItemRegistry {
     }
 
     add(menuId: string, registrationType: NavigationItemRegistrationType, navigationItem: RootNavigationItem, { sectionId }: AddNavigationItemOptions = {}): NavigationItemRegistrationResult {
+        // Only the deferred path is cloned. "#addNestedItem" enforces that a nested item has the same
+        // registration type as its section, and the static phase runs exactly once per runtime, so a static
+        // section cannot accumulate children across runs. Cloning it would be pure risk, see ADR-0023.
+        const item = registrationType === "deferred" ? cloneNavigationItem(navigationItem) : navigationItem;
+
         if (sectionId) {
-            return this.#addNestedItem(menuId, sectionId, registrationType, navigationItem);
+            return this.#addNestedItem(menuId, sectionId, registrationType, item);
         }
 
-        if (isLinkItem(navigationItem)) {
-            return this.#addRootLink(menuId, registrationType, navigationItem);
+        if (isLinkItem(item)) {
+            return this.#addRootLink(menuId, registrationType, item);
         }
 
-        return this.#addRootSection(menuId, registrationType, navigationItem);
+        return this.#addRootSection(menuId, registrationType, item);
     }
 
     #addRootLink(menuId: string, registrationType: NavigationItemRegistrationType, item: RootNavigationItem): NavigationItemRegistrationResult {

@@ -1274,7 +1274,7 @@ describe.concurrent("NavigationItemDeferredRegistrationTransactionalScope", () =
         expect(scope.getItems("bar").length).toBe(0);
     });
 
-    test.concurrent("when an item is added, return the \"registered\" registration status", ({ expect }) => {
+    test.concurrent("when an item is added, return the \"buffered\" registration status", ({ expect }) => {
         const registry = new NavigationItemRegistry();
         const scope = new NavigationItemDeferredRegistrationTransactionalScope(registry);
 
@@ -1283,10 +1283,10 @@ describe.concurrent("NavigationItemDeferredRegistrationTransactionalScope", () =
             to: "/1"
         });
 
-        expect(result.registrationStatus).toBe("registered");
+        expect(result.registrationStatus).toBe("buffered");
     });
 
-    test.concurrent("when a nested item is added, return the \"registered\" registration status", ({ expect }) => {
+    test.concurrent("when a nested item is added, return the \"buffered\" registration status", ({ expect }) => {
         const registry = new NavigationItemRegistry();
         const scope = new NavigationItemDeferredRegistrationTransactionalScope(registry);
 
@@ -1303,13 +1303,15 @@ describe.concurrent("NavigationItemDeferredRegistrationTransactionalScope", () =
             sectionId: "bar"
         });
 
-        expect(result.registrationStatus).toBe("registered");
+        expect(result.registrationStatus).toBe("buffered");
     });
 
-    test.concurrent("when a nested item that \"should\" be pending is added, return the \"registered\" registration status", ({ expect }) => {
+    test.concurrent("when a nested item whose section is missing is added, return the \"buffered\" registration status", ({ expect }) => {
         const registry = new NavigationItemRegistry();
         const scope = new NavigationItemDeferredRegistrationTransactionalScope(registry);
 
+        // This one used to report "registered" even though the replay leaves it pending, which is the
+        // inaccuracy ADR-0022 is about.
         const result = scope.addItem("foo", {
             $label: "1",
             to: "/1"
@@ -1317,7 +1319,64 @@ describe.concurrent("NavigationItemDeferredRegistrationTransactionalScope", () =
             sectionId: "bar"
         });
 
-        expect(result.registrationStatus).toBe("registered");
+        expect(result.registrationStatus).toBe("buffered");
+    });
+
+    test.concurrent("when the scope is completed, return the registration result of every replayed item", ({ expect }) => {
+        const registry = new NavigationItemRegistry();
+        const scope = new NavigationItemDeferredRegistrationTransactionalScope(registry);
+
+        scope.addItem("foo", {
+            $id: "bar",
+            $label: "bar",
+            children: []
+        });
+
+        scope.addItem("foo", {
+            $label: "1",
+            to: "/1"
+        }, {
+            sectionId: "bar"
+        });
+
+        const results = scope.complete();
+
+        expect(results.length).toBe(2);
+        expect(results[0].registrationStatus).toBe("registered");
+        expect(results[1].registrationStatus).toBe("registered");
+    });
+
+    test.concurrent("when the scope is completed and a section is not re-registered, the replay reports the nested item as pending", ({ expect }) => {
+        const registry = new NavigationItemRegistry();
+        const scope = new NavigationItemDeferredRegistrationTransactionalScope(registry);
+
+        // The section is never registered by this run, so the replay cannot resolve the nested item. The
+        // buffered status returned by "addItem" is not the outcome, this is.
+        scope.addItem("foo", {
+            $label: "1",
+            to: "/1"
+        }, {
+            sectionId: "bar"
+        });
+
+        const results = scope.complete();
+
+        expect(results.length).toBe(1);
+        expect(results[0].registrationStatus).toBe("pending");
+        expect(results[0].menuId).toBe("foo");
+        expect(results[0].sectionId).toBe("bar");
+    });
+
+    test.concurrent("when a non transactional scope is completed, no registration result is returned", ({ expect }) => {
+        const registry = new NavigationItemRegistry();
+        const scope = new NavigationItemDeferredRegistrationScope(registry);
+
+        scope.addItem("foo", {
+            $label: "1",
+            to: "/1"
+        });
+
+        expect(scope.complete().length).toBe(0);
     });
 
     test.concurrent("when there \"should\" be pending registrations, the scope can be completed", ({ expect }) => {
