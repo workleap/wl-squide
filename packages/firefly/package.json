@@ -23,12 +23,18 @@
                 "types": "./dist/internal.d.ts",
                 "import": "./dist/internal.js",
                 "default": "./dist/internal.js"
+            },
+            "./testing": {
+                "types": "./dist/testing/index.d.ts",
+                "import": "./dist/testing/index.js",
+                "default": "./dist/testing/index.js"
             }
         }
     },
     "exports": {
         ".": "./src/index.ts",
         "./internal": "./src/internal.ts",
+        "./testing": "./src/testing/index.ts",
         "./tests": "./tests/utils.ts"
     },
     "files": [

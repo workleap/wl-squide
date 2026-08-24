@@ -8,7 +8,7 @@ Detailed specifications and API documentation for `@squide/*` packages.
 |---------|------|----------|
 | `@squide/core` | `packages/core` | `Runtime` (abstract base), event bus, logging, plugins |
 | `@squide/react-router` | `packages/react-router` | Route/navigation registration, `useNavigationItems`, `useRenderedNavigationItems` |
-| `@squide/firefly` | `packages/firefly` | `FireflyRuntime`, `initializeFirefly`, `AppRouter`, `useIsBootstrapping`, data fetching hooks |
+| `@squide/firefly` | `packages/firefly` | `FireflyRuntime`, `initializeFirefly`, `AppRouter`, `useIsBootstrapping`, data fetching hooks. The `@squide/firefly/testing` entry point exposes `createDeferredRegistrationsRunner` |
 
 ## Integrations
 
