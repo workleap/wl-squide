@@ -410,6 +410,8 @@ function BootstrappingRoute() {
 
 ### Setup Plugin
 
+Signature: `new i18nextPlugin(runtime, supportedLanguages, fallbackLanguage, queryStringKey, options?: { detection? })`. Always call `detectUserLanguage()` immediately after creating the instance.
+
 ```ts
 import { i18nextPlugin } from "@squide/i18next";
 import { FireflyRuntime } from "@squide/firefly";
@@ -422,6 +424,30 @@ const runtime = new FireflyRuntime({
     }]
 });
 ```
+
+Detection order defaults to querystring, then the navigator language settings, then the fallback language. Override it with the `detection` option (any [i18next-browser-languagedetector](https://github.com/i18next/i18next-browser-languageDetector#detector-options) option):
+
+```ts
+const plugin = new i18nextPlugin(x, ["en-US", "fr-CA"], "en-US", "language", {
+    detection: {
+        order: ["querystring", "localStorage", "navigator"],
+        lookupLocalStorage: "my-local-storage-key"
+    }
+});
+```
+
+### Plugin Members
+
+| Member | Description |
+|--------|-------------|
+| `registerInstance(key, instance)` | Associate an i18next instance with a key |
+| `getInstance(key)` | Retrieve an instance; throws if no instance matches the key |
+| `currentLanguage` | The current language; throws if the language was never detected nor changed |
+| `detectUserLanguage()` | Detect the user language, falling back to `fallbackLanguage` |
+| `changeLanguage(language)` | Change the language on every registered instance; throws if not in `supportedLanguages` |
+| `registerLanguageChangedListener(listener)` / `removeLanguageChangedListener(listener)` | Subscribe to language changes |
+
+Prefer `getI18nextPlugin(runtime)` over `runtime.getPlugin(i18nextPluginName) as i18nextPlugin`.
 
 ### Register i18next Instance
 
@@ -478,6 +504,26 @@ runtime.registerNavigationItem({
     $label: <I18nextNavigationItemLabel i18next={i18nextInstance} resourceKey="nav.home" />,
     to: "/"
 });
+```
+
+### Use the Trans Component
+
+For interpolation scenarios, pair `Trans` with the instance returned by `useI18nextInstance`:
+
+```tsx
+import { useI18nextInstance } from "@squide/i18next";
+import { Trans, useTranslation } from "react-i18next";
+
+const instance = useI18nextInstance("an-instance-key");
+const { t } = useTranslation("a-namespace", { i18n: instance });
+
+return <Trans i18n={instance} i18nKey="a-key" t={t} />;
+```
+
+The `t` function can be omitted by including the namespace in `i18nKey`:
+
+```tsx
+return <Trans i18n={instance} i18nKey="a-namespace:a-key" />;
 ```
 
 ## Storybook
@@ -572,10 +618,21 @@ const runtime = await initializeFireflyForStorybook({
 
 ### Setup
 
+In **development mode**, a `BrowserConsoleLogger` is added automatically when no `loggers` option is provided — no setup is needed to see the bootstrapping logs. Providing `loggers` replaces that default, so include a `BrowserConsoleLogger` explicitly to keep console logging alongside your own loggers.
+
 ```ts
 import { BrowserConsoleLogger } from "@workleap/logging";
 
 const runtime = initializeFirefly({
+    loggers: [new BrowserConsoleLogger()]
+});
+```
+
+In **production mode**, no logger is added automatically. To log to the console in production, pass a `BrowserConsoleLogger` explicitly:
+
+```ts
+const runtime = initializeFirefly({
+    mode: "production",
     loggers: [new BrowserConsoleLogger()]
 });
 ```

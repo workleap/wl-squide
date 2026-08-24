@@ -11,7 +11,7 @@ description: |
   (7) Squide hooks for event bus, environment variables, feature flags, logging, or bootstrapping state
   (8) Error boundaries or modular architecture in Squide applications
 metadata:
-  version: 1.14
+  version: 1.15
 ---
 
 # Squide Framework
@@ -207,16 +207,17 @@ const data = useMemo(() => ({ userData }), [userData]);
 useDeferredRegistrations(data);
 ```
 
-**See also:** For error boundaries, testing patterns, and advanced navigation (multi-level, dynamic segments, active state), see `references/patterns.md`. For MSW setup, LaunchDarkly, Honeycomb, i18next, and Storybook integrations, see `references/integrations.md`. For plugin authoring and the full runtime API, see `references/runtime-api.md`.
+**See also:** For error boundaries, authentication, testing patterns, and advanced navigation (multi-level, modular tabs, dynamic segments, active state), see `references/patterns.md`. For MSW setup, LaunchDarkly, Honeycomb, i18next, and Storybook integrations, see `references/integrations.md`. For plugin authoring and the full runtime API, see `references/runtime-api.md`.
 
 ## Reference Guide
 
 For detailed API documentation beyond the patterns above, consult the reference files:
 
-- **`references/runtime-api.md`** — `initializeFirefly` options, route registration options (`hoist`, `parentPath`, `parentId`), route properties, navigation item properties, and navigation registration options (`menuId`, `sectionId`)
-- **`references/hooks-api.md`** — All Squide hooks: data fetching (`usePublicDataQueries`, `useProtectedDataQueries`), navigation, event bus, environment variables, feature flags, logging, routing, and i18next hooks
+- **`references/getting-started.md`** — What Squide is and the problems it solves, modular design principles, scaffolding a host application and a local module from scratch (packages, files, Rsbuild config, template)
+- **`references/runtime-api.md`** — `initializeFirefly` options, route registration options (`hoist`, `parentPath`, `parentId`), route properties, navigation item properties, navigation registration options (`menuId`, `sectionId`), and request handler registration
+- **`references/hooks-api.md`** — All Squide hooks: data fetching (`usePublicDataQueries`, `useProtectedDataQueries`), navigation (including the render props types and `canRender()`), event bus, environment variables, feature flags, logging, routing, and i18next hooks
 - **`references/components.md`** — `AppRouter` props, `FireflyProvider`, helper functions (`isNavigationLink`, `resolveRouteSegments`, `mergeDeferredRegistrations`)
-- **`references/patterns.md`** — Local module setup, error boundaries, MSW request handlers, and other common patterns
+- **`references/patterns.md`** — Local module setup, error boundaries, authentication, modular tabs, MSW request handlers, testing (including `createDeferredRegistrationsRunner`), and other common patterns
 - **`references/integrations.md`** — LaunchDarkly (plugin, utilities, testing clients), Honeycomb, i18next, and Storybook integration details
 
 ## Common Pitfalls

@@ -148,7 +148,7 @@ for (const [menuId, items] of itemsByMenu) {
 
 ### MSW Request Handlers
 
-#### registerRequestHandlers(handlers)
+#### registerRequestHandlers(handlers, options?)
 Register MSW request handlers.
 
 ```ts
@@ -158,6 +158,16 @@ if (runtime.isMswEnabled) {
     runtime.registerRequestHandlers(requestHandlers);
 }
 ```
+
+**Middleware (fall-through) handlers:** MSW evaluates handlers in registration order, and a handler returning nothing falls through to the next matching handler. To register a middleware-like handler (artificial latency, request logging, chaos testing) that must run before the regular handlers, use the `prepend` option:
+
+```ts
+import { latencyRequestHandler } from "../mocks/latency.ts";
+
+runtime.registerRequestHandlers([latencyRequestHandler], { prepend: true });
+```
+
+Prepended handlers are placed before the appended ones; within each group, the registration order is preserved. Since modules register concurrently, do not rely on the relative order of multiple prepended registrations from different modules.
 
 ### Environment Variables
 
@@ -195,6 +205,8 @@ const isEnabled = runtime.getFeatureFlag("feature-key", false);
 ```
 
 ### Plugins
+
+To keep Squide lightweight, not every functionality belongs in the core. The plugin system fills that gap: reach for a plugin to integrate a technology that isn't a core Squide concern (i18next, MSW, LaunchDarkly and environment variables are themselves implemented as plugins).
 
 #### getPlugin(name, options?)
 Retrieve a registered plugin.
