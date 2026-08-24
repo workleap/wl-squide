@@ -372,9 +372,16 @@ export class ReactRouterRuntime<TRuntime extends ReactRouterRuntime = any> exten
 
                 // The items carry the "menuId" and the "sectionId" they are waiting for, which is more
                 // reliable than parsing them back out of the index key since either value can contain a "-".
-                const { menuId, sectionId } = pendingItems[0];
+                // An index key always holds at least one item. The fallback below only ensures that a failure
+                // to name the section can never mask the pending registrations this message is reporting.
+                const firstPendingItem = pendingItems.at(0);
 
-                message += `${index + 1}/${pendingSectionIds.length} Missing navigation section "${sectionId}" of the "${menuId}" menu.\r\n`;
+                if (firstPendingItem) {
+                    message += `${index + 1}/${pendingSectionIds.length} Missing navigation section "${firstPendingItem.sectionId}" of the "${firstPendingItem.menuId}" menu.\r\n`;
+                } else {
+                    message += `${index + 1}/${pendingSectionIds.length} Missing navigation section for the index key "${x}".\r\n`;
+                }
+
                 message += indent("Pending registrations:\r\n", 1);
 
                 pendingItems.forEach(y => {

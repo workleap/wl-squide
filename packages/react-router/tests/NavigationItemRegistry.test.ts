@@ -826,6 +826,30 @@ describe.concurrent("clearDeferredItems", () => {
         expect(registry.getPendingRegistrations().getPendingSectionIds().length).toBe(0);
     });
 
+    test.concurrent("a static section cannot accumulate deferred children across a clear", ({ expect }) => {
+        const registry = new NavigationItemRegistry();
+
+        registry.add("foo", "static", {
+            $id: "bar",
+            $label: "Bar",
+            children: []
+        });
+
+        // The section index entry of a static section survives a clear, therefore the registration type guard is
+        // what keeps a deferred nested item from accumulating under it run after run. Purging only the deferred
+        // pending registrations relies on it.
+        registry.clearDeferredItems();
+
+        expect(() => {
+            registry.add("foo", "deferred", {
+                $label: "1",
+                to: "1"
+            }, { sectionId: "bar" });
+        }).toThrow(/must have the same registration type/);
+
+        expect((registry.getItems("foo")[0] as NavigationSection).children.length).toBe(0);
+    });
+
     test.concurrent("when a section index entry has been orphaned by a failed registration, it is cleared", ({ expect }) => {
         const registry = new NavigationItemRegistry();
 
