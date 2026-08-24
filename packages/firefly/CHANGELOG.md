@@ -1,5 +1,29 @@
 # @squide/firefly
 
+## 18.3.0
+
+### Minor Changes
+
+- [#667](https://github.com/workleap/wl-squide/pull/667) [`aab452c`](https://github.com/workleap/wl-squide/commit/aab452c1fdf40799cfedcb72956a32cdf60c45cd) Thanks [@patricklafrance](https://github.com/patricklafrance)! - Navigation item registration validation messages now report the actual menu id and section id of a pending registration. They were previously parsed back out of an internal index key by splitting on `-`, which produced incorrect names whenever a `menuId` or a section `$id` contained a dash.
+
+  - `PendingRegistrationItem` is now exported. `PendingNavigationItemRegistrations` was typed as holding `RegistryItem` values while it actually holds `PendingRegistrationItem` values, which carry the `menuId` and `sectionId` a registration is waiting for.
+  - `parseSectionIndexKey` is deprecated. A key cannot be parsed reliably, since a `-` in a `menuId` or in a section `$id` makes it ambiguous. Read the `menuId` and the `sectionId` off the `PendingRegistrationItem` values returned by `PendingNavigationItemRegistrations.getPendingRegistrationsForSection` rather than parsing a key returned by `getPendingSectionIds`. It is kept until the next major to avoid a breaking removal.
+
+### Patch Changes
+
+- [#667](https://github.com/workleap/wl-squide/pull/667) [`aab452c`](https://github.com/workleap/wl-squide/commit/aab452c1fdf40799cfedcb72956a32cdf60c45cd) Thanks [@patricklafrance](https://github.com/patricklafrance)! - Fixed a failed deferred registration scope completion leaving the runtime unable to update its deferred registrations. The active scope is now always released, so a subsequent feature flag or global data change is no longer rejected with `Cannot start a new deferred registration scope when there's already an active scope`. The error raised by the completion is still propagated.
+
+- [#667](https://github.com/workleap/wl-squide/pull/667) [`aab452c`](https://github.com/workleap/wl-squide/commit/aab452c1fdf40799cfedcb72956a32cdf60c45cd) Thanks [@patricklafrance](https://github.com/patricklafrance)! - Fixed navigation item corruption on the deferred registrations update path.
+
+  - A deferred nested navigation item registered while its section was missing stayed in the pending registrations index forever, and was replayed **in addition to** the item registered by the current run once the section came back. A navigation section gated by a feature flag therefore accumulated a duplicate of every nested item each time the flag was toggled off and on again. The same happened when a module's deferred registration function threw and then recovered on a later run.
+  - Clearing the deferred navigation items deleted the section index entries of **every** menu rather than only those of the deferred items being cleared. A menu registering a static section with the same `$id` as another menu's deferred section lost its section index entry on the first update run, after which nested items registered under it silently went pending and the duplicated `$id` guard stopped throwing.
+  - A deferred navigation section index entry orphaned by a failed registration is now cleared as well, instead of poisoning that menu and `$id` pair for the lifetime of the runtime.
+
+  You were affected if your application registers nested navigation items under a navigation section that is registered by a deferred registration function, especially one gated by a feature flag.
+
+- Updated dependencies [[`aab452c`](https://github.com/workleap/wl-squide/commit/aab452c1fdf40799cfedcb72956a32cdf60c45cd), [`aab452c`](https://github.com/workleap/wl-squide/commit/aab452c1fdf40799cfedcb72956a32cdf60c45cd), [`aab452c`](https://github.com/workleap/wl-squide/commit/aab452c1fdf40799cfedcb72956a32cdf60c45cd)]:
+  - @squide/react-router@9.2.0
+
 ## 18.2.0
 
 ### Minor Changes
