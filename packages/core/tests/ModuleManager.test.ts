@@ -130,7 +130,7 @@ describe.concurrent("registerModules", () => {
         expect(spy3).toHaveBeenCalledExactlyOnceWith(runtime, [fct4], undefined);
     });
 
-    test.concurrent("when a registry has no module definitions, the registry still register an empty array of modules", async ({ expect }) => {
+    test.concurrent("when a registry has no module definitions, the registry still registers an empty array of modules", async ({ expect }) => {
         const moduleRegistry1 = new DummyModuleRegistry("registry-1");
         const moduleRegistry2 = new DummyModuleRegistry("registry-2");
 
@@ -150,7 +150,7 @@ describe.concurrent("registerModules", () => {
         expect(spy2).toHaveBeenCalledExactlyOnceWith(runtime, [], undefined);
     });
 
-    test.concurrent("when a registry id matches an Object.prototype key, the registry register an empty array of modules", async ({ expect }) => {
+    test.concurrent("when a registry id matches an Object.prototype key, the registry registers an empty array of modules", async ({ expect }) => {
         const moduleRegistry1 = new DummyModuleRegistry("constructor");
 
         const spy1 = vi.spyOn(moduleRegistry1, "registerModules");
