@@ -1,5 +1,5 @@
 import { describe, test } from "vitest";
-import { NavigationItemDeferredRegistrationScope, NavigationItemDeferredRegistrationTransactionalScope, NavigationItemRegistry, type NavigationSection } from "../src/NavigationItemRegistry.ts";
+import { NavigationItemDeferredRegistrationScope, NavigationItemDeferredRegistrationTransactionalScope, NavigationItemRegistry, parseSectionIndexKey, type NavigationSection } from "../src/NavigationItemRegistry.ts";
 
 describe.concurrent("add", () => {
     test.concurrent("should add a single deferred item", ({ expect }) => {
@@ -574,6 +574,30 @@ describe.concurrent("add", () => {
         expect(result1.registrationStatus).toBe("registered");
         expect(result2.registrationStatus).toBe("registered");
     });
+
+    test.concurrent("when a menu id and a section id would collide once concatenated, both sections can be registered", ({ expect }) => {
+        const registry = new NavigationItemRegistry();
+
+        // The "analytics" menu with the "sidebar-performance" section and the "analytics-sidebar" menu with the
+        // "performance" section used to produce the same section index key, which rejected the second one as a
+        // duplicate registration.
+        registry.add("analytics", "static", {
+            $id: "sidebar-performance",
+            $label: "Performance",
+            children: []
+        });
+
+        expect(() => {
+            registry.add("analytics-sidebar", "static", {
+                $id: "performance",
+                $label: "Performance",
+                children: []
+            });
+        }).not.toThrow();
+
+        expect(registry.getItems("analytics").length).toBe(1);
+        expect(registry.getItems("analytics-sidebar").length).toBe(1);
+    });
 });
 
 describe.concurrent("getItems", () => {
@@ -894,6 +918,45 @@ describe.concurrent("clearDeferredItems", () => {
         }).not.toThrow();
 
         expect(registry.getItems("foo").length).toBe(1);
+    });
+
+    test.concurrent("when a static and a deferred pending registration would collide once concatenated, the deferred section does not pick up the static item", ({ expect }) => {
+        const registry = new NavigationItemRegistry();
+
+        // Both pending registrations used to share a single index key, so the static one survived the clear
+        // under the key the deferred section is registered with, and the replay pushed it through the
+        // registration type guard.
+        registry.add("analytics-sidebar", "static", {
+            $label: "Static",
+            to: "/static"
+        }, { sectionId: "performance" });
+
+        registry.add("analytics", "deferred", {
+            $label: "Deferred",
+            to: "/deferred"
+        }, { sectionId: "sidebar-performance" });
+
+        registry.clearDeferredItems();
+
+        expect(() => {
+            registry.add("analytics", "deferred", {
+                $id: "sidebar-performance",
+                $label: "Performance",
+                children: []
+            });
+        }).not.toThrow();
+
+        expect((registry.getItems("analytics")[0] as NavigationSection).children.length).toBe(0);
+
+        const pendingRegistrations = registry.getPendingRegistrations();
+        const pendingSectionIds = pendingRegistrations.getPendingSectionIds();
+
+        expect(pendingSectionIds.length).toBe(1);
+
+        const pendingItems = pendingRegistrations.getPendingRegistrationsForSection(pendingSectionIds[0]);
+
+        expect(pendingItems.length).toBe(1);
+        expect(pendingItems[0].menuId).toBe("analytics-sidebar");
     });
 });
 
@@ -1467,5 +1530,22 @@ describe.concurrent("getAllItemsByMenu", () => {
         const byMenu = registry.getAllItemsByMenu();
 
         expect(byMenu.get("foo")).toBe(registry.getItems("foo"));
+    });
+});
+
+describe.concurrent("parseSectionIndexKey", () => {
+    test.concurrent("a key returned by getPendingSectionIds round-trips back to its menu id and section id", ({ expect }) => {
+        const registry = new NavigationItemRegistry();
+
+        registry.add("analytics-sidebar", "static", {
+            $label: "1",
+            to: "1"
+        }, { sectionId: "performance" });
+
+        const [indexKey] = registry.getPendingRegistrations().getPendingSectionIds();
+
+        // Nothing in the framework calls this function anymore, so only a round-trip through a real key keeps
+        // it from drifting away from the key format.
+        expect(parseSectionIndexKey(indexKey)).toEqual(["analytics-sidebar", "performance"]);
     });
 });

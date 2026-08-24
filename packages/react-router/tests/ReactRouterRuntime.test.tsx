@@ -2332,7 +2332,7 @@ describe.concurrent("registerNavigationItem", () => {
             expect(runtime.getNavigationItems({ menuId: "bar" })[0].children!.length).toBe(0);
         });
 
-        test.concurrent("when a menu id and a section id would collide once concatenated, register the nested item under the right section", ({ expect }) => {
+        test.concurrent("when a menu id and a section id would collide once concatenated, do not attach the nested item to the other menu's section", ({ expect }) => {
             const runtime = new ReactRouterRuntime({
                 loggers: [new NoopLogger()]
             });
@@ -2360,11 +2360,22 @@ describe.concurrent("registerNavigationItem", () => {
             expect(runtime.getNavigationItems({ menuId: "analytics-sidebar" }).length).toBe(0);
         });
 
-        test.concurrent("when a menu id and a section id would collide once concatenated, both sections can be registered", ({ expect }) => {
+        test.concurrent("when a menu id and a section id would collide once concatenated, a pending nested item is not completed by the other menu's section", ({ expect }) => {
             const runtime = new ReactRouterRuntime({
                 loggers: [new NoopLogger()]
             });
 
+            runtime.registerNavigationItem({
+                $label: "Link",
+                to: "/link"
+            }, {
+                menuId: "analytics-sidebar",
+                sectionId: "performance"
+            });
+
+            // Registering the colliding section used to complete the pending registration above into the
+            // "analytics" menu. That also emptied the pending index, so the validation below stopped
+            // reporting the section that is genuinely missing.
             runtime.registerNavigationItem({
                 $id: "sidebar-performance",
                 $label: "Performance",
@@ -2373,16 +2384,9 @@ describe.concurrent("registerNavigationItem", () => {
                 menuId: "analytics"
             });
 
-            expect(() => runtime.registerNavigationItem({
-                $id: "performance",
-                $label: "Performance",
-                children: []
-            }, {
-                menuId: "analytics-sidebar"
-            })).not.toThrow();
-
-            expect(runtime.getNavigationItems({ menuId: "analytics" }).length).toBe(1);
-            expect(runtime.getNavigationItems({ menuId: "analytics-sidebar" }).length).toBe(1);
+            expect(runtime.getNavigationItems({ menuId: "analytics" })[0].children!.length).toBe(0);
+            expect(runtime.getNavigationItems({ menuId: "analytics-sidebar" }).length).toBe(0);
+            expect(() => runtime._validateRegistrations()).toThrow(/Missing navigation section "performance" of the "analytics-sidebar" menu/);
         });
     });
 });
@@ -2976,7 +2980,9 @@ describe.concurrent("_validateRegistrations", () => {
                 sectionId: "performance"
             });
 
-            expect(() => runtime._validateRegistrations()).toThrow(/2 navigation items were expected to be registered but are missing/);
+            expect(() => runtime._validateRegistrations()).toThrow(/2 navigation sections were expected to be registered but are missing/);
+            expect(() => runtime._validateRegistrations()).toThrow(/Missing navigation section "sidebar-performance" of the "analytics" menu/);
+            expect(() => runtime._validateRegistrations()).toThrow(/Missing navigation section "performance" of the "analytics-sidebar" menu/);
         });
     });
 });

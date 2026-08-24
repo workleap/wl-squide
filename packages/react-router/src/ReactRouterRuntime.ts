@@ -365,7 +365,9 @@ export class ReactRouterRuntime<TRuntime extends ReactRouterRuntime = any> exten
         const pendingSectionIds = pendingRegistrations.getPendingSectionIds();
 
         if (pendingSectionIds.length > 0) {
-            let message = `[squide] ${pendingSectionIds.length} navigation item${pendingSectionIds.length !== 1 ? "s were" : " is"} expected to be registered but ${pendingSectionIds.length !== 1 ? "are" : "is"} missing:\r\n\r\n`;
+            // The count is a number of sections, not of items. A single missing section can hold several
+            // pending registrations, which are listed under it.
+            let message = `[squide] ${pendingSectionIds.length} navigation section${pendingSectionIds.length !== 1 ? "s were" : " is"} expected to be registered but ${pendingSectionIds.length !== 1 ? "are" : "is"} missing:\r\n\r\n`;
 
             pendingSectionIds.forEach((x, index) => {
                 const pendingItems = pendingRegistrations.getPendingRegistrationsForSection(x);

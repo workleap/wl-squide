@@ -138,9 +138,9 @@ export class NavigationItemDeferredRegistrationTransactionalScope extends Naviga
     }
 }
 
-// A separator that cannot appear in a "menuId" or in a section "$id". Joining with a "-" made a key ambiguous:
-// ("main-menu", "settings") and ("main", "menu-settings") both produced "main-menu-settings", which resolved
-// two distinct sections of two distinct menus to the same index entry.
+// A separator that is not expected to appear in a "menuId" or in a section "$id". Joining with a "-" made a key
+// ambiguous: ("main-menu", "settings") and ("main", "menu-settings") both produced "main-menu-settings", which
+// resolved two distinct sections of two distinct menus to the same index entry.
 const SectionIndexKeySeparator = "\u0000";
 
 function createSectionIndexKey(menuId: string, sectionId: string) {
@@ -411,8 +411,8 @@ export class NavigationItemRegistry {
         }
 
         // Keep the section index and the pending registrations in sync with the menu index. Both indexes are
-        // keyed by "menuId-sectionId" rather than by menu, so they are cleaned in a single pass rather than
-        // once per menu.
+        // keyed by a composite of the menu id and the section id rather than by menu, so they are cleaned in a
+        // single pass rather than once per menu.
         this.#deleteDeferredSectionIndexEntries();
         this.#deleteDeferredPendingRegistrations();
     }
