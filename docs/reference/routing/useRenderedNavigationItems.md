@@ -129,6 +129,41 @@ export function RootLayout() {
 }
 ```
 
+### Render additional props
+
+Any properties defined in the `$additionalProps` option are spread onto the component rendering the item:
+
+```tsx !#7-9
+import type { ModuleRegisterFunction, FireflyRuntime } from "@squide/firefly";
+
+export const register: ModuleRegisterFunction<FireflyRuntime> = runtime => {
+    runtime.registerNavigationItem({
+        $id: "about",
+        $label: "About",
+        $additionalProps: {
+            "data-tracking-id": "about-link"
+        },
+        to: "/about"
+    });
+};
+```
+
+```tsx !#2,6
+const renderLinkItem: RenderLinkItemFunction = (item, key) => {
+    const { label, linkProps, additionalProps } = item;
+
+    return (
+        <li key={key}>
+            <Link {...linkProps} {...additionalProps}>
+                {label}
+            </Link>
+        </li>
+    );
+};
+```
+
+Every key is spread, therefore every key must be a valid prop for the component being rendered. For values that the rendering code should read rather than forward, use [$meta](#read-item-metadata) instead.
+
 ### Read item metadata
 
 Any value defined in the `$meta` option is handed to the rendering code as `meta`, and is never spread onto the rendered component:
