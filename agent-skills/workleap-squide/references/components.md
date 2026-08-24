@@ -365,7 +365,7 @@ const isEnabled = getFeatureFlag(launchDarklyClient, "feature-key", false);
 
 ### initializeFireflyForStorybook
 
-Create a StorybookRuntime instance configured for Storybook.
+Create a StorybookRuntime instance configured for Storybook. Returns a `Promise` resolving to a `StorybookRuntime`.
 
 ```tsx
 import { initializeFireflyForStorybook } from "@squide/firefly-storybook";
@@ -378,6 +378,26 @@ const runtime = await initializeFireflyForStorybook({
     loggers: [],                        // Optional: logger instances
     useMsw: true,                       // Default is true
     additionalPlugins: []               // Optional: extra plugin factory functions
+});
+```
+
+**Type parameter `TData`** (defaults to `unknown`): describes the data passed to the deferred registration functions returned by `localModules`, typing them as `ModuleRegisterFunction<FireflyRuntime, unknown, TData>`.
+
+```tsx
+interface DeferredData {
+    subscription: { tier: "free" | "pro" | "enterprise" };
+}
+
+const registerModule: ModuleRegisterFunction<FireflyRuntime, unknown, DeferredData> = runtime => {
+    return (deferredRuntime, data, operation) => {
+        if (data.subscription.tier === "enterprise") {
+            // Register navigation items only available to enterprise tenants.
+        }
+    };
+};
+
+const runtime = await initializeFireflyForStorybook<DeferredData>({
+    localModules: [registerModule]
 });
 ```
 
