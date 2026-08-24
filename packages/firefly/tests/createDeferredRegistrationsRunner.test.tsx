@@ -320,4 +320,75 @@ describe("navigation items", () => {
 
         expect(runtime.getNavigationItems().length).toBe(0);
     });
+
+    test("when the flag is turned off then on again, the nested items are not duplicated", async () => {
+        const runtime = createRuntime();
+
+        const runner = createDeferredRegistrationsRunner(runtime, [registerSectionModule, registerNestedItemModule]);
+
+        await runner.register({ isFlagOn: true });
+        await runner.update({ isFlagOn: false });
+        await runner.update({ isFlagOn: true });
+
+        const items = runtime.getNavigationItems();
+
+        expect(items.length).toBe(1);
+        expect((items[0] as { children: unknown[] }).children.length).toBe(1);
+    });
+
+    test("when a module throws during an update run then recovers, the nested items are not duplicated", async () => {
+        const runtime = createRuntime();
+
+        let shouldThrow = false;
+
+        const registerThrowingSectionModule: ModuleRegisterFunction<FireflyRuntime, unknown, FeatureFlags> = () => {
+            return runtime2 => {
+                if (shouldThrow) {
+                    throw new Error("section boom");
+                }
+
+                runtime2.registerNavigationItem({ $id: "section", $label: "Section", children: [] });
+            };
+        };
+
+        const runner = createDeferredRegistrationsRunner(runtime, [registerThrowingSectionModule, registerNestedItemModule]);
+
+        await runner.register({ isFlagOn: true });
+
+        shouldThrow = true;
+
+        const errors = await runner.update({ isFlagOn: true });
+
+        expect(errors.length).toBe(1);
+
+        shouldThrow = false;
+
+        await runner.update({ isFlagOn: true });
+
+        const items = runtime.getNavigationItems();
+
+        expect(items.length).toBe(1);
+        expect((items[0] as { children: unknown[] }).children.length).toBe(1);
+    });
+
+    test("when the section is not registered by an update run, the nested item registration is not left pending", async () => {
+        const runtime = createRuntime();
+
+        const runner = createDeferredRegistrationsRunner(runtime, [registerSectionModule, registerNestedItemModule]);
+
+        await runner.register({ isFlagOn: true });
+        await runner.update({ isFlagOn: false });
+        await runner.update({ isFlagOn: false });
+
+        expect(runtime.getNavigationItems().length).toBe(0);
+
+        // The orphaned registrations of the update runs must not accumulate, otherwise they are all replayed
+        // at once when the section is registered again.
+        await runner.update({ isFlagOn: true });
+
+        const items = runtime.getNavigationItems();
+
+        expect(items.length).toBe(1);
+        expect((items[0] as { children: unknown[] }).children.length).toBe(1);
+    });
 });

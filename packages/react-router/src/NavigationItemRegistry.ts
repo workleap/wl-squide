@@ -61,7 +61,7 @@ interface SectionIndexItem {
     item: NavigationSection;
 }
 
-interface PendingRegistrationItem {
+export interface PendingRegistrationItem {
     menuId: string;
     sectionId: string;
     registrationType: NavigationItemRegistrationType;
@@ -104,8 +104,9 @@ export class NavigationItemDeferredRegistrationTransactionalScope extends Naviga
             }
         ]);
 
-        // This scope is only for updates, meaning that we know there will not be any pending registrations
-        // so we can safely return that an item is registered even if it's only buffered.
+        // The item is only buffered at this point, and the replay performed by the "complete" function can
+        // still leave it pending when its section is not re-registered by the run. Reporting "registered"
+        // here is therefore not always accurate, see https://github.com/workleap/wl-squide/issues/658.
         return {
             registrationStatus: "registered",
             completedPendingRegistrations: [],
@@ -137,6 +138,11 @@ function createSectionIndexKey(menuId: string, sectionId: string) {
     return `${menuId}-${sectionId}`;
 }
 
+/**
+ * @deprecated The index key format is an implementation detail and this function cannot round-trip a "menuId"
+ * or a section "$id" containing a "-". Read the "menuId" and "sectionId" properties of the items returned by
+ * {@link PendingNavigationItemRegistrations.getPendingRegistrationsForSection} instead.
+ */
 export function parseSectionIndexKey(indexKey: string) {
     return indexKey.split("-");
 }
@@ -391,22 +397,43 @@ export class NavigationItemRegistry {
             if (registryItems.some(x => x.registrationType === "deferred")) {
                 this.#setItems(key, registryItems.filter(x => x.registrationType !== "deferred"));
             }
-
-            // Keep the section index in sync with the menu index.
-            this.#deleteDeferredSectionIndexEntries(key);
         }
+
+        // Keep the section index and the pending registrations in sync with the menu index. Both indexes are
+        // keyed by "menuId-sectionId" rather than by menu, so they are cleaned in a single pass rather than
+        // once per menu.
+        this.#deleteDeferredSectionIndexEntries();
+        this.#deleteDeferredPendingRegistrations();
     }
 
-    #deleteDeferredSectionIndexEntries(menuId: string) {
-        const idsToDelete: string[] = [];
+    #deleteDeferredSectionIndexEntries() {
+        const keysToDelete: string[] = [];
 
-        this.#sectionsIndex.forEach(y => {
-            if (y.registrationType === "deferred") {
-                idsToDelete.push(y.sectionId);
+        this.#sectionsIndex.forEach((x, key) => {
+            if (x.registrationType === "deferred") {
+                keysToDelete.push(key);
             }
         });
 
-        idsToDelete.forEach(y => this.#sectionsIndex.delete(createSectionIndexKey(menuId, y)));
+        keysToDelete.forEach(x => this.#sectionsIndex.delete(x));
+    }
+
+    #deleteDeferredPendingRegistrations() {
+        const keysToDelete: string[] = [];
+
+        this.#pendingRegistrationsIndex.forEach((items, key) => {
+            // Static pending registrations belong to the initial registration rather than to the run being
+            // replayed. Deleting them would silently swallow a misconfiguration that strict mode reports.
+            const remainingItems = items.filter(x => x.registrationType !== "deferred");
+
+            if (remainingItems.length === 0) {
+                keysToDelete.push(key);
+            } else if (remainingItems.length !== items.length) {
+                this.#pendingRegistrationsIndex.set(key, remainingItems);
+            }
+        });
+
+        keysToDelete.forEach(x => this.#pendingRegistrationsIndex.delete(x));
     }
 
     getPendingRegistrations() {
@@ -415,9 +442,9 @@ export class NavigationItemRegistry {
 }
 
 export class PendingNavigationItemRegistrations {
-    readonly #pendingRegistrationsIndex: Map<string, RegistryItem[]> = new Map();
+    readonly #pendingRegistrationsIndex: Map<string, PendingRegistrationItem[]> = new Map();
 
-    constructor(pendingRegistrationsIndex: Map<string, RegistryItem[]> = new Map()) {
+    constructor(pendingRegistrationsIndex: Map<string, PendingRegistrationItem[]> = new Map()) {
         this.#pendingRegistrationsIndex = pendingRegistrationsIndex;
     }
 

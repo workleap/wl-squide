@@ -1,6 +1,6 @@
 import { RootMenuId, Runtime, RuntimeScope, type GetNavigationItemsOptions, type IRuntime, type RegisterNavigationItemOptions, type RegisterRouteOptions, type StartDeferredRegistrationScopeOptions, type ValidateRegistrationsOptions } from "@squide/core";
 import type { Logger } from "@workleap/logging";
-import { NavigationItemDeferredRegistrationScope, NavigationItemDeferredRegistrationTransactionalScope, NavigationItemRegistry, parseSectionIndexKey, type NavigationItemRegistrationResult, type RootNavigationItem } from "./NavigationItemRegistry.ts";
+import { NavigationItemDeferredRegistrationScope, NavigationItemDeferredRegistrationTransactionalScope, NavigationItemRegistry, type NavigationItemRegistrationResult, type RootNavigationItem } from "./NavigationItemRegistry.ts";
 import { ProtectedRoutesOutletId, PublicRoutesOutletId } from "./outlets.ts";
 import { RouteRegistry, type Route } from "./RouteRegistry.ts";
 
@@ -79,8 +79,11 @@ export class ReactRouterRuntime<TRuntime extends ReactRouterRuntime = any> exten
             throw new Error("[squide] A deferred registration scope must be started before calling the complete function. Did you forget to start the scope?");
         }
 
-        if (this._navigationItemScope) {
+        try {
             this._navigationItemScope.complete();
+        } finally {
+            // The scope must always be released, otherwise a failed completion would prevent every subsequent
+            // deferred registration update for the lifetime of the runtime.
             this._navigationItemScope = undefined;
         }
     }
@@ -365,12 +368,14 @@ export class ReactRouterRuntime<TRuntime extends ReactRouterRuntime = any> exten
             let message = `[squide] ${pendingSectionIds.length} navigation item${pendingSectionIds.length !== 1 ? "s were" : " is"} expected to be registered but ${pendingSectionIds.length !== 1 ? "are" : "is"} missing:\r\n\r\n`;
 
             pendingSectionIds.forEach((x, index) => {
-                const [menuId, sectionId] = parseSectionIndexKey(x);
+                const pendingItems = pendingRegistrations.getPendingRegistrationsForSection(x);
+
+                // The items carry the "menuId" and the "sectionId" they are waiting for, which is more
+                // reliable than parsing them back out of the index key since either value can contain a "-".
+                const { menuId, sectionId } = pendingItems[0];
 
                 message += `${index + 1}/${pendingSectionIds.length} Missing navigation section "${sectionId}" of the "${menuId}" menu.\r\n`;
                 message += indent("Pending registrations:\r\n", 1);
-
-                const pendingItems = pendingRegistrations.getPendingRegistrationsForSection(x);
 
                 pendingItems.forEach(y => {
                     message += indent(`- "${y.item.$id ?? y.item.$label ?? y.item.to ?? "(no identifier)"}"\r\n`, 2);

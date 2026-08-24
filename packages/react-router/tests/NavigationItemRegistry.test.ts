@@ -1,5 +1,5 @@
 import { describe, test } from "vitest";
-import { NavigationItemDeferredRegistrationScope, NavigationItemDeferredRegistrationTransactionalScope, NavigationItemRegistry } from "../src/NavigationItemRegistry.ts";
+import { NavigationItemDeferredRegistrationScope, NavigationItemDeferredRegistrationTransactionalScope, NavigationItemRegistry, type NavigationSection } from "../src/NavigationItemRegistry.ts";
 
 describe.concurrent("add", () => {
     test.concurrent("should add a single deferred item", ({ expect }) => {
@@ -707,6 +707,154 @@ describe.concurrent("clearDeferredItems", () => {
         const array2 = registry.getItems("foo");
 
         expect(array1).toBe(array2);
+    });
+
+    test.concurrent("clear the deferred pending registrations", ({ expect }) => {
+        const registry = new NavigationItemRegistry();
+
+        // The section is missing, therefore the nested item registration is pending.
+        registry.add("foo", "deferred", {
+            $label: "1",
+            to: "1"
+        }, { sectionId: "bar" });
+
+        expect(registry.getPendingRegistrations().getPendingSectionIds().length).toBe(1);
+
+        registry.clearDeferredItems();
+
+        expect(registry.getPendingRegistrations().getPendingSectionIds().length).toBe(0);
+    });
+
+    test.concurrent("do not clear the static pending registrations", ({ expect }) => {
+        const registry = new NavigationItemRegistry();
+
+        registry.add("foo", "static", {
+            $label: "1",
+            to: "1"
+        }, { sectionId: "bar" });
+
+        registry.clearDeferredItems();
+
+        expect(registry.getPendingRegistrations().getPendingSectionIds()).toEqual(["foo-bar"]);
+    });
+
+    test.concurrent("when a section has both static and deferred pending registrations, only clear the deferred ones", ({ expect }) => {
+        const registry = new NavigationItemRegistry();
+
+        registry.add("foo", "static", {
+            $label: "1",
+            to: "1"
+        }, { sectionId: "bar" });
+
+        registry.add("foo", "deferred", {
+            $label: "2",
+            to: "2"
+        }, { sectionId: "bar" });
+
+        registry.clearDeferredItems();
+
+        const pendingRegistrations = registry.getPendingRegistrations();
+
+        expect(pendingRegistrations.getPendingSectionIds()).toEqual(["foo-bar"]);
+        expect(pendingRegistrations.getPendingRegistrationsForSection("foo-bar").length).toBe(1);
+        expect(pendingRegistrations.getPendingRegistrationsForSection("foo-bar")[0].item.$label).toBe("1");
+    });
+
+    test.concurrent("when a deferred section is registered again after a clear, the nested item is not duplicated", ({ expect }) => {
+        const registry = new NavigationItemRegistry();
+
+        const registerSection = () => {
+            registry.add("foo", "deferred", {
+                $id: "bar",
+                $label: "Bar",
+                children: []
+            });
+        };
+
+        const registerNestedItem = () => {
+            registry.add("foo", "deferred", {
+                $label: "1",
+                to: "1"
+            }, { sectionId: "bar" });
+        };
+
+        registerSection();
+        registerNestedItem();
+
+        // The section is not registered by this run, leaving the nested item registration pending.
+        registry.clearDeferredItems();
+        registerNestedItem();
+
+        // The section is registered again by this run.
+        registry.clearDeferredItems();
+        registerSection();
+        registerNestedItem();
+
+        const items = registry.getItems("foo");
+
+        expect(items.length).toBe(1);
+        expect((items[0] as NavigationSection).children.length).toBe(1);
+    });
+
+    test.concurrent("when a section id is registered as deferred for a menu and as static for another menu, do not clear the static section index entry", ({ expect }) => {
+        const registry = new NavigationItemRegistry();
+
+        registry.add("foo", "static", {
+            $id: "shared",
+            $label: "Shared",
+            children: []
+        });
+
+        registry.add("bar", "deferred", {
+            $id: "shared",
+            $label: "Shared",
+            children: []
+        });
+
+        registry.clearDeferredItems();
+
+        // The static section index entry must still resolve nested item registrations.
+        registry.add("foo", "static", {
+            $label: "1",
+            to: "1"
+        }, { sectionId: "shared" });
+
+        const items = registry.getItems("foo");
+
+        expect(items.length).toBe(1);
+        expect((items[0] as NavigationSection).children.length).toBe(1);
+        expect(registry.getPendingRegistrations().getPendingSectionIds().length).toBe(0);
+    });
+
+    test.concurrent("when a section index entry has been orphaned by a failed registration, it is cleared", ({ expect }) => {
+        const registry = new NavigationItemRegistry();
+
+        // The section index entries are added before the menu index entry, therefore a section registered with
+        // duplicated "$id" options leaves the outer section indexed for a menu that doesn't exist yet.
+        expect(() => {
+            registry.add("foo", "deferred", {
+                $id: "bar",
+                $label: "Bar",
+                children: [{
+                    $id: "bar",
+                    $label: "Bar",
+                    children: []
+                }]
+            });
+        }).toThrow();
+
+        registry.clearDeferredItems();
+
+        // Without the orphaned entry, the section can be registered again.
+        expect(() => {
+            registry.add("foo", "deferred", {
+                $id: "bar",
+                $label: "Bar",
+                children: []
+            });
+        }).not.toThrow();
+
+        expect(registry.getItems("foo").length).toBe(1);
     });
 });
 
