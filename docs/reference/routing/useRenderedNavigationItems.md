@@ -34,15 +34,23 @@ Accept any properties of a React Router [Link](https://reactrouter.com/en/main/c
 - `$id`: An optional identifier for the link. Usually used as the React element [key](https://legacy.reactjs.org/docs/lists-and-keys.html#keys) property.
 - `$label`: The link label. Could either by a `string` or a `ReactNode`.
 - `$canRender`: An optional function accepting an object and returning a `boolean` indicating whether or not the link should be rendered.
-- `$additionalProps`: An optional object literal of additional props to apply to the link component.
+- `$additionalProps`: An optional object literal of additional props to spread onto the link component.
+- `$meta`: An optional object literal of metadata for the code rendering the menu to read. Never spread onto the link component.
 
 #### `NavigationSection`
 
 - `$id`: An optional identifier the section. Usually used to nest navigation items undern a specific section and as the React element [key](https://legacy.reactjs.org/docs/lists-and-keys.html#keys) property.
 - `$label`: The section label. Could either by a `string` or a `ReactNode`.
 - `$canRender`: An optional function accepting an object and returning a `boolean` indicating whether or not the section should be rendered.
-- `$additionalProps`: An optional object literal of additional props to apply to the section component.
+- `$additionalProps`: An optional object literal of additional props to spread onto the section component.
+- `$meta`: An optional object literal of metadata for the code rendering the menu to read. Never spread onto the section component.
 - `children`: The section items.
+
+!!!info
+`$additionalProps` and `$meta` serve different purposes. `$additionalProps` is spread onto the rendered component, so every key must be a valid prop for that component. `$meta` is only handed to the code rendering the menu, which decides what to do with it.
+
+Reach for `$meta` when a value drives *how* an item renders, like a `highlight` flag, and for `$additionalProps` when the component itself understands the prop. Putting a value that isn't a valid prop in `$additionalProps` leaks it onto the DOM element as an invalid attribute.
+!!!
 
 ### Returns
 
@@ -120,6 +128,41 @@ export function RootLayout() {
     );
 }
 ```
+
+### Read item metadata
+
+Any value defined in the `$meta` option is handed to the rendering code as `meta`, and is never spread onto the rendered component:
+
+```tsx !#7-9
+import type { ModuleRegisterFunction, FireflyRuntime } from "@squide/firefly";
+
+export const register: ModuleRegisterFunction<FireflyRuntime> = runtime => {
+    runtime.registerNavigationItem({
+        $id: "about",
+        $label: "About",
+        $meta: {
+            highlight: true
+        },
+        to: "/about"
+    });
+};
+```
+
+```tsx !#2,5
+const renderLinkItem: RenderLinkItemFunction = (item, key) => {
+    const { label, linkProps, additionalProps, meta } = item;
+
+    return (
+        <li key={key} style={{ fontWeight: meta.highlight ? "bold" : "normal" }}>
+            <Link {...linkProps} {...additionalProps}>
+                {label}
+            </Link>
+        </li>
+    );
+};
+```
+
+`meta` defaults to an empty object, so it can be destructured without a guard.
 
 ### Render dynamic segments
 

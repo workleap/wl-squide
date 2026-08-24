@@ -107,6 +107,8 @@ export const registerHost: ModuleRegisterFunction<FireflyRuntime> = runtime => {
 
 **Important:** `RenderItemFunction` signature is `(item, key, index, level) => ReactNode` and `RenderSectionFunction` is `(elements, key, index, level) => ReactNode`. These signatures are fixed and do not accept custom context parameters, but there could be fewer arguments. Use closures to access external values.
 
+**Important:** spread `additionalProps` whole, never key by key. A value the renderer must read instead of forward belongs in `$meta`, surfaced as `meta`. Never destructure a key out of `additionalProps` to keep it off the element — that is what `$meta` is for.
+
 ```tsx
 import { Link, Outlet } from "react-router";
 import {

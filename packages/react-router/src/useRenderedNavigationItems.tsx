@@ -7,6 +7,7 @@ export interface NavigationLinkRenderProps {
     label: ReactNode;
     linkProps: Omit<LinkProps, "children">;
     additionalProps: Record<string, unknown>;
+    meta: Record<string, unknown>;
     canRender?: (obj?: unknown) => boolean;
 }
 
@@ -14,6 +15,7 @@ export interface NavigationSectionRenderProps {
     label: ReactNode;
     section: ReactNode;
     additionalProps: Record<string, unknown>;
+    meta: Record<string, unknown>;
     canRender?: (obj?: unknown) => boolean;
 }
 
@@ -27,29 +29,32 @@ export type RenderItemFunction = (item: NavigationItemRenderProps, key: string, 
 
 export type RenderSectionFunction = (elements: ReactNode[], key: string, index: number, level: number) => ReactNode;
 
-function toLinkProps({
-    // Explicitly omitted because the "$od" prop shouldn't be used by the consumer.
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    $id,
-    $label,
-    $additionalProps,
-    $canRender,
-    // All the remaining props that belongs to the react-router Link component.
-    ...linkProps
-}: NavigationLink): NavigationLinkRenderProps {
+// Every "$" prefixed prop is Squide metadata that must never reach the react-router Link component,
+// otherwise it ends up as an invalid attribute on the rendered DOM element.
+function toReactRouterLinkProps(item: NavigationLink) {
+    return Object.fromEntries(
+        Object.entries(item).filter(([key]) => !key.startsWith("$"))
+    ) as Omit<LinkProps, "children">;
+}
+
+function toLinkProps(item: NavigationLink): NavigationLinkRenderProps {
+    const { $label, $additionalProps, $meta, $canRender } = item;
+
     return {
         label: $label,
-        linkProps,
+        linkProps: toReactRouterLinkProps(item),
         additionalProps: $additionalProps ?? {},
+        meta: $meta ?? {},
         canRender: $canRender
     };
 }
 
-function toMenuProps({ $label, $additionalProps, $canRender }: NavigationSection, sectionElement: ReactNode): NavigationSectionRenderProps {
+function toMenuProps({ $label, $additionalProps, $meta, $canRender }: NavigationSection, sectionElement: ReactNode): NavigationSectionRenderProps {
     return {
         label: $label,
         section: sectionElement,
         additionalProps: $additionalProps ?? {},
+        meta: $meta ?? {},
         canRender: $canRender
     };
 }
@@ -97,11 +102,9 @@ export function useRenderedNavigationItems(
                 }
 
                 return xp > yp ? -1 : 1;
-            })
-            // priority is intentionally omitted.
-            // eslint-disable-next-line @typescript-eslint/no-unused-vars
-            .map(({ $priority, ...itemProps }) => itemProps);
+            });
 
+        // "$priority" doesn't have to be omitted here, "toLinkProps" strips every "$" prefixed prop.
         return renderItems(sortedItems, renderItem, renderSection, "root", 0, 0);
     }, [navigationItems, renderItem, renderSection]);
 }

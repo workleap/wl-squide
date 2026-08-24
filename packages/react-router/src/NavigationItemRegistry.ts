@@ -6,7 +6,9 @@ import type { LinkProps } from "react-router";
 export interface NavigationLink extends Omit<LinkProps, "children"> {
     $id?: string;
     $label: ReactNode;
+    // Spread onto the rendered component, unlike "$meta" which is only read by the renderer.
     $additionalProps?: Record<string, unknown>;
+    $meta?: Record<string, unknown>;
     $canRender?: (obj?: unknown) => boolean;
     children?: never;
 }
@@ -14,7 +16,9 @@ export interface NavigationLink extends Omit<LinkProps, "children"> {
 export interface NavigationSection {
     $id?: string;
     $label: ReactNode;
+    // Spread onto the rendered component, unlike "$meta" which is only read by the renderer.
     $additionalProps?: Record<string, unknown>;
+    $meta?: Record<string, unknown>;
     $canRender?: (obj?: unknown) => boolean;
     children: NavigationItem[];
     to?: never;

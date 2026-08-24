@@ -57,9 +57,10 @@ import {
 
 const renderItem: RenderItemFunction = (item, key, index, level) => {
     if (!isNavigationLink(item)) return null;
-    const { label, linkProps, additionalProps } = item;
+    // "additionalProps" is spread onto the Link, "meta" is only read. Both default to {}.
+    const { label, linkProps, additionalProps, meta } = item;
     return (
-        <li key={key}>
+        <li key={key} style={{ fontWeight: meta.highlight ? "bold" : "normal" }}>
             <Link {...linkProps} {...additionalProps}>{label}</Link>
         </li>
     );

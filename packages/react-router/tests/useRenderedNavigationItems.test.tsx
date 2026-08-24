@@ -213,6 +213,126 @@ test.concurrent("section item additionalProps are rendered", ({ expect }) => {
     expect(tree).toMatchSnapshot();
 });
 
+test.concurrent("link item $meta is forwarded to the renderer and is stripped from linkProps", ({ expect }) => {
+    const navigationItems: RootNavigationItem[] = [
+        {
+            $label: "Foo",
+            $meta: {
+                highlight: true
+            },
+            to: "/foo"
+        }
+    ];
+
+    const renderItem = vi.fn<RenderItemFunction>(() => <div>Item</div>);
+    const renderSection = vi.fn<RenderSectionFunction>(() => <div>Section</div>);
+
+    renderHook(() => useRenderedNavigationItems(navigationItems, renderItem, renderSection));
+
+    const item = renderItem.mock.calls[0][0] as NavigationLinkRenderProps;
+
+    expect(item.meta).toEqual({ highlight: true });
+    expect(item.linkProps).toEqual({ to: "/foo" });
+});
+
+test.concurrent("section item $meta is forwarded to the renderer", ({ expect }) => {
+    const navigationItems: RootNavigationItem[] = [
+        {
+            $label: "Foo",
+            $meta: {
+                highlight: true
+            },
+            children: [
+                {
+                    $label: "Bar",
+                    to: "/bar"
+                }
+            ]
+        }
+    ];
+
+    const renderItem = vi.fn<RenderItemFunction>(() => <div>Item</div>);
+    const renderSection = vi.fn<RenderSectionFunction>(() => <div>Section</div>);
+
+    renderHook(() => useRenderedNavigationItems(navigationItems, renderItem, renderSection));
+
+    // The nested link is rendered first, the section is the last call.
+    const item = renderItem.mock.calls.at(-1)![0] as NavigationSectionRenderProps;
+
+    expect(item.meta).toEqual({ highlight: true });
+});
+
+test.concurrent("when no $meta prop is provided, meta is an empty object", ({ expect }) => {
+    const navigationItems: RootNavigationItem[] = [
+        {
+            $label: "Foo",
+            children: [
+                {
+                    $label: "Bar",
+                    to: "/bar"
+                }
+            ]
+        }
+    ];
+
+    const renderItem = vi.fn<RenderItemFunction>(() => <div>Item</div>);
+    const renderSection = vi.fn<RenderSectionFunction>(() => <div>Section</div>);
+
+    renderHook(() => useRenderedNavigationItems(navigationItems, renderItem, renderSection));
+
+    const link = renderItem.mock.calls[0][0] as NavigationLinkRenderProps;
+    const section = renderItem.mock.calls.at(-1)![0] as NavigationSectionRenderProps;
+
+    expect(link.meta).toEqual({});
+    expect(section.meta).toEqual({});
+});
+
+test.concurrent("every $ prefixed prop is stripped from linkProps", ({ expect }) => {
+    const navigationItems = [
+        {
+            $id: "foo",
+            $label: "Foo",
+            $priority: 10,
+            $additionalProps: {
+                style: { color: "red" }
+            },
+            $meta: {
+                highlight: true
+            },
+            $canRender: () => true,
+            // An unknown "$" prefixed prop is an excess property error on a fresh object literal,
+            // but not when the item is built through a variable or a helper.
+            $unknown: "should-not-leak",
+            to: "/foo"
+        }
+    ] as unknown as RootNavigationItem[];
+
+    const renderItem = vi.fn<RenderItemFunction>(() => <div>Item</div>);
+    const renderSection = vi.fn<RenderSectionFunction>(() => <div>Section</div>);
+
+    renderHook(() => useRenderedNavigationItems(navigationItems, renderItem, renderSection));
+
+    const item = renderItem.mock.calls[0][0] as NavigationLinkRenderProps;
+
+    expect(item.linkProps).toEqual({ to: "/foo" });
+});
+
+test.concurrent("link item $meta is not rendered on the link component", ({ expect }) => {
+    const navigationItems: RootNavigationItem[] = [
+        {
+            $label: "Foo",
+            $meta: {
+                highlight: true
+            },
+            to: "/foo"
+        }
+    ];
+
+    const tree = render(<TestComponent navigationItems={navigationItems} />).asFragment();
+
+    expect(tree).toMatchSnapshot();
+});
+
 test.concurrent("link item custom keys are rendered", ({ expect }) => {
     const navigationItems: RootNavigationItem[] = [
         {
