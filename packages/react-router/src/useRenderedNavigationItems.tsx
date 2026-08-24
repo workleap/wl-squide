@@ -29,20 +29,25 @@ export type RenderItemFunction = (item: NavigationItemRenderProps, key: string, 
 
 export type RenderSectionFunction = (elements: ReactNode[], key: string, index: number, level: number) => ReactNode;
 
-// Every "$" prefixed prop is Squide metadata that must never reach the react-router Link component,
+// A "$" prefixed prop is Squide metadata and must never reach the react-router Link component,
 // otherwise it ends up as an invalid attribute on the rendered DOM element.
-function toReactRouterLinkProps(item: NavigationLink) {
+function stripMetadataProps<T>(props: T): T {
     return Object.fromEntries(
-        Object.entries(item).filter(([key]) => !key.startsWith("$"))
-    ) as Omit<LinkProps, "children">;
+        Object.entries(props as Record<string, unknown>).filter(([key]) => !key.startsWith("$"))
+    ) as T;
 }
 
-function toLinkProps(item: NavigationLink): NavigationLinkRenderProps {
-    const { $label, $additionalProps, $meta, $canRender } = item;
-
+function toLinkProps({
+    $label,
+    $additionalProps,
+    $meta,
+    $canRender,
+    // All the remaining props that belongs to the react-router Link component.
+    ...linkProps
+}: NavigationLink): NavigationLinkRenderProps {
     return {
         label: $label,
-        linkProps: toReactRouterLinkProps(item),
+        linkProps: stripMetadataProps(linkProps),
         additionalProps: $additionalProps ?? {},
         meta: $meta ?? {},
         canRender: $canRender

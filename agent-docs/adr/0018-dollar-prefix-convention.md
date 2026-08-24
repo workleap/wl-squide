@@ -25,4 +25,4 @@ Evidence: `packages/react-router/src/RouteRegistry.ts` (lines 16-27) defines `$i
 - Zero risk of naming collision with current or future React Router properties.
 - The `$` prefix provides a clear visual signal distinguishing framework metadata from router-native properties.
 - Consumers must remember to use the `$` prefix when registering routes and navigation items.
-- The stripping logic in `useRenderedNavigationItems` filters `$`-prefixed keys generically, so adding a new `$`-prefixed property doesn't require updating it. See [ADR-0022](./0022-navigation-item-metadata-channel.md).
+- The stripping logic in `useRenderedNavigationItems` filters `$`-prefixed keys generically, so adding a new `$`-prefixed property doesn't require updating it.

@@ -35,7 +35,7 @@ runtime.registerNavigationItem({
 ```
 
 Properties: `$id`, `$label`, `to`, `$priority`, `$canRender`, `$additionalProps`, `$meta`.
-`$additionalProps` is spread onto the component the layout renders; `$meta` is read by the layout and never spread. Put a `highlight` style flag in `$meta`, not `$additionalProps` (see [ADR-0022](../adr/0022-navigation-item-metadata-channel.md)).
+`$additionalProps` is spread onto the component the layout renders; `$meta` is read by the layout and never spread. Put a `highlight` style flag in `$meta`, not `$additionalProps`.
 Supports nested sections, dynamic segments, and multiple menus (root + custom page menus).
 
 ## Rendering Navigation
