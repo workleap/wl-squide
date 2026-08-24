@@ -265,7 +265,8 @@ Accept any properties of a React Router [Link](https://reactrouter.com/en/main/c
 - `$label`: The link text.
 - `$canRender`: An optional function accepting an object and returning a `boolean` indicating whether or not the link should be rendered.
 - `$priority`: An order priority affecting the position of the item in the menu (higher first)
-- `$additionalProps`: Additional properties to be forwarded to the link renderer.
+- `$additionalProps`: Additional properties to be spread onto the link component.
+- `$meta`: Metadata for the code rendering the menu to read. Never spread onto the link component.
 
 #### `NavigationSection`
 
@@ -273,7 +274,8 @@ Accept any properties of a React Router [Link](https://reactrouter.com/en/main/c
 - `$label`: The section text.
 - `$canRender`: An optional function accepting an object and returning a `boolean` indicating whether or not the section should be rendered.
 - `$priority`: An order priority affecting the position of the item in the menu (higher first)
-- `$additionalProps`: Additional properties to be forwarded to the section renderer.
+- `$additionalProps`: Additional properties to be spread onto the section component.
+- `$meta`: Metadata for the code rendering the menu to read. Never spread onto the section component.
 - `children`: The section content.
 
 !!!tip
@@ -467,13 +469,28 @@ runtime.registerNavigationItem({
     $id: "about",
     $label: "About",
     $additionalProps: {
+        "data-tracking-id": "about-link"
+    },
+    to: "/about"
+});
+```
+
+> Every key of `$additionalProps` is spread onto the component that the layout renders, therefore every key must be a valid prop for that component.
+
+### Attach metadata to a navigation item
+
+```ts !#4-6
+runtime.registerNavigationItem({
+    $id: "about",
+    $label: "About",
+    $meta: {
         highlight: true
     },
     to: "/about"
 });
 ```
 
-> It's the responsibility of the code rendering the menu to handle the additional properties.
+> It's the responsibility of the code rendering the menu to handle the metadata. Unlike `$additionalProps`, metadata is never spread onto the rendered component.
 
 ### Retrieve navigation items
 

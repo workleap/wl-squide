@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <meta name="color-scheme" content="light dark">
     <meta name="turbo-root" content="/wl-squide">
-    <meta name="turbo-cache-control" content="no-cache" data-turbo-track="reload" data-track-token="4.6.0.840908786186">
+    <meta name="turbo-cache-control" content="no-cache" data-turbo-track="reload" data-track-token="4.6.0.840913400549">
 
     <!-- See retype.com -->
     <meta name="generator" content="Retype 4.6.0">
@@ -39,12 +39,12 @@
     <script data-cfasync="false">(function(){var cl=document.documentElement.classList,ls=localStorage.getItem("retype_scheme"),hd=cl.contains("dark"),hl=cl.contains("light"),wm=window.matchMedia&&window.matchMedia("(prefers-color-scheme: dark)").matches;if(ls==="dark"||(!ls&&wm&&!hd&&!hl)){cl.remove("light");cl.add("dark")}else if(ls==="light"||(!ls&&!wm&&!hd&&!hl)){cl.remove("dark");cl.add("light")}})();</script>
 
     <link id="retype-favicon" rel="icon" href="../../../static/favicon.png" />
-    <link href="../../../resources/css/retype.css?v=4.6.0.840908786186" rel="stylesheet">
+    <link href="../../../resources/css/retype.css?v=4.6.0.840913400549" rel="stylesheet">
 
-    <script data-cfasync="false" src="../../../resources/js/config.js?v=4.6.0.840908786186" data-turbo-eval="false" defer></script>
+    <script data-cfasync="false" src="../../../resources/js/config.js?v=4.6.0.840913400549" data-turbo-eval="false" defer></script>
     <script data-cfasync="false" src="../../../resources/js/retype.js?v=4.6.0" data-turbo-eval="false" defer></script>
-    <script id="lunr-js" data-cfasync="false" src="../../../resources/js/lunr.js?v=4.6.0.840908786186" data-turbo-eval="false" defer></script>
-    <script id="prism-js" data-cfasync="false" src="../../../resources/js/prism.js?v=4.6.0.840908786186" defer></script>
+    <script id="lunr-js" data-cfasync="false" src="../../../resources/js/lunr.js?v=4.6.0.840913400549" data-turbo-eval="false" defer></script>
+    <script id="prism-js" data-cfasync="false" src="../../../resources/js/prism.js?v=4.6.0.840913400549" defer></script>
 
     <link href="https://workleap.github.io/wl-idp-docs-hub/static/retype-customization.css" rel="stylesheet" />
 
@@ -291,14 +291,16 @@
 <li><code translate="no" v-pre>$id</code>: An optional identifier for the link. Usually used as the React element <a href="https://legacy.reactjs.org/docs/lists-and-keys.html#keys" class="outbound" target="_blank">key</a> property.</li>
 <li><code translate="no" v-pre>$label</code>: The link label. Could either by a <code translate="no" v-pre>string</code> or a <code translate="no" v-pre>ReactNode</code>.</li>
 <li><code translate="no" v-pre>$canRender</code>: An optional function accepting an object and returning a <code translate="no" v-pre>boolean</code> indicating whether or not the link should be rendered.</li>
-<li><code translate="no" v-pre>$additionalProps</code>: An optional object literal of additional props to apply to the link component.</li>
+<li><code translate="no" v-pre>$additionalProps</code>: An optional object literal of additional props to spread onto the link component.</li>
+<li><code translate="no" v-pre>$meta</code>: An optional object literal of metadata for the code rendering the menu to read. Never spread onto the link component.</li>
 </ul>
 <h4 id="navigationsection"><code translate="no" v-pre>NavigationSection</code></h4>
 <ul>
 <li><code translate="no" v-pre>$id</code>: An optional identifier for the section. Usually used to nest navigation items under a specific section and as the React element <a href="https://legacy.reactjs.org/docs/lists-and-keys.html#keys" class="outbound" target="_blank">key</a> property.</li>
 <li><code translate="no" v-pre>$label</code>: The section label. Could either by a <code translate="no" v-pre>string</code> or a <code translate="no" v-pre>ReactNode</code>.</li>
 <li><code translate="no" v-pre>$canRender</code>: An optional function accepting an object and returning a <code translate="no" v-pre>boolean</code> indicating whether or not the section should be rendered.</li>
-<li><code translate="no" v-pre>$additionalProps</code>: An optional object literal of additional props to apply to the section component.</li>
+<li><code translate="no" v-pre>$additionalProps</code>: An optional object literal of additional props to spread onto the section component.</li>
+<li><code translate="no" v-pre>$meta</code>: An optional object literal of metadata for the code rendering the menu to read. Never spread onto the section component.</li>
 <li><code translate="no" v-pre>children</code>: The section items.</li>
 </ul>
 <h2 id="usage">Usage</h2>
@@ -318,6 +320,16 @@ const items = useNavigationItems({ menuId: &quot;my-custom-menu&quot; });</code>
     <h2>See also</h2>
 <div class="card-compact-group">
 <div class="card-compact-container">
+    <a href="/wl-squide/reference/runtime/fireflyruntime/" class="group card-compact no-link">
+        <div class="card-compact-body">
+            <div class="card-compact-header">
+                <span class="card-compact-title">FireflyRuntime</span>
+            </div>
+            <p class="card-compact-description">Don't instanciate your own instance of FireflyRuntime, use the initializeFirefly function instead.</p>
+        </div>
+    </a>
+</div>
+<div class="card-compact-container">
     <a href="/wl-squide/reference/" class="group card-compact no-link">
         <div class="card-compact-body">
             <div class="card-compact-header">
@@ -334,6 +346,16 @@ const items = useNavigationItems({ menuId: &quot;my-custom-menu&quot; });</code>
                 <span class="card-compact-title">Register navigation items</span>
             </div>
             <p class="card-compact-description">By allowing consumers to register dynamic navigation items, Squide enables developers to build scalable modular applications with well-defined boundaries. Each module contributes its own navigation items, which the host assembles into a unified application.</p>
+        </div>
+    </a>
+</div>
+<div class="card-compact-container">
+    <a href="/wl-squide/reference/routing/userenderednavigationitems/" class="group card-compact no-link">
+        <div class="card-compact-body">
+            <div class="card-compact-header">
+                <span class="card-compact-title">useRenderedNavigationItems</span>
+            </div>
+            <p class="card-compact-description">Recursively parse a navigation items structure to transform the items into React Elements.</p>
         </div>
     </a>
 </div>
