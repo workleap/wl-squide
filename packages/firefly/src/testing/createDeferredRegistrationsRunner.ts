@@ -32,7 +32,9 @@ export function createDeferredRegistrationsRunner<TRuntime extends FireflyRuntim
         context
     } = options;
 
-    let hasRegistered = false;
+    // Keeping the promise rather than a boolean so that an update cannot race a registration run that hasn't
+    // been awaited, which would otherwise fail deep inside the module registries with an unrelated message.
+    let registerPromise: Promise<ModuleRegistrationError[]> | undefined;
 
     // Matching useEnhancedReducerDispatch, which updates the app router store and dispatches an event for every
     // action dispatched to the app router reducer. Modules, plugins and third-party libraries such as the Platform
@@ -43,31 +45,38 @@ export function createDeferredRegistrationsRunner<TRuntime extends FireflyRuntim
         runtime.eventBus.dispatch(eventName, createHeadlessWaitState(runtime));
     };
 
+    const executeRegistrationRun = async (data?: TData) => {
+        const registrationErrors = await runtime.moduleManager.registerModules<TRuntime, TContext, TData>(
+            toLocalModuleDefinitions<TRuntime, TContext, TData>(localModules),
+            { context }
+        );
+
+        dispatchAppRouterAction("modules-registered", ModulesRegisteredEvent);
+
+        const deferredRegistrationErrors = await runtime.moduleManager.registerDeferredRegistrations(data);
+
+        dispatchAppRouterAction("modules-ready", ModulesReadyEvent);
+
+        return [...registrationErrors, ...deferredRegistrationErrors];
+    };
+
     return {
         async register(data?: TData) {
-            if (hasRegistered) {
+            if (registerPromise) {
                 throw new Error("[squide] The \"register\" function of a deferred registrations runner can only be called once. Did you mean to call the \"update\" function?");
             }
 
-            hasRegistered = true;
+            // The assignment is synchronous, an async function body executes up to its first await when it's called.
+            registerPromise = executeRegistrationRun(data);
 
-            const registrationErrors = await runtime.moduleManager.registerModules<TRuntime, TContext, TData>(
-                toLocalModuleDefinitions<TRuntime, TContext, TData>(localModules),
-                { context }
-            );
-
-            dispatchAppRouterAction("modules-registered", ModulesRegisteredEvent);
-
-            const deferredRegistrationErrors = await runtime.moduleManager.registerDeferredRegistrations(data);
-
-            dispatchAppRouterAction("modules-ready", ModulesReadyEvent);
-
-            return [...registrationErrors, ...deferredRegistrationErrors];
+            return registerPromise;
         },
         async update(data?: TData) {
-            if (!hasRegistered) {
+            if (!registerPromise) {
                 throw new Error("[squide] The \"register\" function of a deferred registrations runner must be called before the \"update\" function because an update run always follows a registration run.");
             }
+
+            await registerPromise;
 
             // An update run is driven by the useUpdateDeferredRegistrations hook rather than by the module manager.
             runtime.eventBus.dispatch(DeferredRegistrationsUpdateStartedEvent);
