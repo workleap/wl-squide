@@ -230,6 +230,26 @@ describe("update", () => {
         expect((errors[0].cause as Error).message).toBe("update boom");
     });
 
+    test("when the registration run has not been awaited, the update run waits for it", async () => {
+        const runtime = createRuntime();
+        const calls: string[] = [];
+
+        const runner = createDeferredRegistrationsRunner(runtime, [
+            () => (_runtime, _data, operation) => {
+                calls.push(operation);
+            }
+        ]);
+
+        // Deliberately not awaited.
+        const registerPromise = runner.register();
+
+        await runner.update();
+
+        expect(calls).toEqual(["register", "update"]);
+
+        await registerPromise;
+    });
+
     test("when the runner has not been registered, throw an error", async () => {
         const runtime = createRuntime();
         const runner = createDeferredRegistrationsRunner(runtime, []);

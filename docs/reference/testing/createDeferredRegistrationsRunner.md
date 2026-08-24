@@ -181,14 +181,18 @@ const runner = createDeferredRegistrationsRunner(runtime, [register], {
 });
 ```
 
-### Validate the registrations
+### Assert that no registration is pending
 
-Navigation items registered under a section that no longer exists are parked as pending rather than rejected. Use `_validateRegistrations` to assert that a run didn't leave any pending registration behind:
+Navigation items registered under a section that no longer exists are parked as pending rather than rejected, so a run that lost a section still resolves without errors. Assert on the resulting navigation items to catch it:
 
 ```ts !#5
 await runner.register({ isBillingEnabled: true });
 
 await runner.update({ isBillingEnabled: true });
 
-expect(() => runtime._validateRegistrations()).not.toThrow();
+expect(runtime.getNavigationItems()).toMatchObject([{ $id: "billing", children: [{ $id: "invoices" }] }]);
 ```
+
+!!!warning
+Prefer asserting on the navigation items over `runtime._validateRegistrations()`. That function validates routes before navigation items, and routes registered without an explicit parent default to the `PublicRoutes` and `ProtectedRoutes` outlets, which are registered by the application's router rather than by a runner. Against a headless runtime it therefore throws `The ProtectedRoutes outlet is missing from the router configuration` for any module registering a route, whatever the state of the navigation items.
+!!!
