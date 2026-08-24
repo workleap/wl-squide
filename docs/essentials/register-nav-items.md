@@ -296,7 +296,7 @@ export const register: ModuleRegisterFunction<FireflyRuntime> = runtime => {
 ```
 
 !!!warning
-Because `$additionalProps` is spread, every key must be a valid prop for the component that the layout renders. A key that isn't ends up on the DOM element as an invalid attribute, which React only warns about in development.
+Because `$additionalProps` is spread, every key must be a valid prop for the component that the layout renders. A key that isn't a valid prop ends up on the DOM element as an invalid attribute, which React only warns about in development.
 
 For values that the layout should *read* rather than forward, use [$meta](#attach-metadata-to-an-item) instead.
 !!!

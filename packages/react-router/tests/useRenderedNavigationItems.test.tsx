@@ -317,6 +317,36 @@ test.concurrent("every $ prefixed prop is stripped from linkProps", ({ expect })
     expect(item.linkProps).toEqual({ to: "/foo" });
 });
 
+test.concurrent("every $ prefixed prop is stripped from linkProps of a nested item", ({ expect }) => {
+    const navigationItems = [
+        {
+            $label: "Foo",
+            children: [
+                {
+                    $label: "Bar",
+                    // "$priority" is only honored for root items, but it used to be forwarded
+                    // to the rendered element when it was set on a nested one.
+                    $priority: 10,
+                    $meta: {
+                        highlight: true
+                    },
+                    to: "/bar"
+                }
+            ]
+        }
+    ] as unknown as RootNavigationItem[];
+
+    const renderItem = vi.fn<RenderItemFunction>(() => <div>Item</div>);
+    const renderSection = vi.fn<RenderSectionFunction>(() => <div>Section</div>);
+
+    renderHook(() => useRenderedNavigationItems(navigationItems, renderItem, renderSection));
+
+    const item = renderItem.mock.calls[0][0] as NavigationLinkRenderProps;
+
+    expect(item.linkProps).toEqual({ to: "/bar" });
+    expect(item.meta).toEqual({ highlight: true });
+});
+
 test.concurrent("link item $meta is not rendered on the link component", ({ expect }) => {
     const navigationItems: RootNavigationItem[] = [
         {
