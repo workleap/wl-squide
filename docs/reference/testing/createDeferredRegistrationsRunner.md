@@ -43,9 +43,9 @@ An update run drops the deferred navigation items of the previous run and replay
 
 ### Create a runner
 
-```ts !#13
+```ts !#14-16
 import { createDeferredRegistrationsRunner } from "@squide/firefly/testing";
-import { FireflyRuntime, type ModuleRegisterFunction } from "@squide/firefly";
+import { EnvironmentVariablesPlugin, FireflyRuntime, type ModuleRegisterFunction } from "@squide/firefly";
 
 const register: ModuleRegisterFunction<FireflyRuntime, unknown, FeatureFlags> = runtime => {
     return (deferredRuntime, data) => {
@@ -55,9 +55,16 @@ const register: ModuleRegisterFunction<FireflyRuntime, unknown, FeatureFlags> = 
     };
 };
 
-const runtime = new FireflyRuntime();
+const runtime = new FireflyRuntime({
+    plugins: [x => new EnvironmentVariablesPlugin(x)]
+});
+
 const runner = createDeferredRegistrationsRunner(runtime, [register]);
 ```
+
+!!!warning
+A runner takes a runtime rather than creating one, and [initializeFirefly](../registration/initializeFirefly.md) cannot be used in tests because it can only be executed once per process. Construct the runtime with the plugins the modules under test depend on: `initializeFirefly` always registers an `EnvironmentVariablesPlugin`, so a module calling `registerEnvironmentVariable` or `getEnvironmentVariable` fails against a plugin less runtime.
+!!!
 
 ### Execute a registration run
 
@@ -105,7 +112,7 @@ const runner = createDeferredRegistrationsRunner(runtime, [registerSection, regi
 
 A module keeping state across its registrations usually resets that state when an update run starts. Since a runner dispatches the update events, the module reacts exactly as it would at runtime:
 
-```ts !#5
+```ts !#6
 import { DeferredRegistrationsUpdateStartedEvent } from "@squide/firefly";
 
 const register: ModuleRegisterFunction<FireflyRuntime, unknown, FeatureFlags> = runtime => {
@@ -148,10 +155,8 @@ A runner dispatches the update events itself, standing in for the [useDeferredRe
 
 Errors are collected rather than thrown, matching what a real registration run does:
 
-```ts !#3
-await runner.register({ isBillingEnabled: true });
-
-const errors = await runner.update({ isBillingEnabled: true });
+```ts !#1
+const errors = await runner.register({ isBillingEnabled: true });
 
 expect(errors.length).toBe(0);
 ```

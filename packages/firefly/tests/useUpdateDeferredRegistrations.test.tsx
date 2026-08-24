@@ -108,7 +108,7 @@ test("when an error occurs while updating the deferred registrations, the errors
     expect(errors).toEqual([error]);
 });
 
-test("when an error occurs while updating the deferred registrations, the completed event is still dispatched", async () => {
+test("when the update returns registration errors, the completed event is still dispatched", async () => {
     const runtime = new FireflyRuntime({ loggers: [new NoopLogger()] });
     const completedListener = vi.fn();
 
@@ -125,4 +125,31 @@ test("when an error occurs while updating the deferred registrations, the comple
     });
 
     expect(completedListener).toHaveBeenCalledTimes(1);
+});
+
+// The update path has two distinct failure modes. The one above resolves with errors, which is what a module
+// throwing inside its deferred registration function produces. This one rejects, which is what the module
+// registries throw for a lifecycle violation, and the hook has no try/finally around the run.
+test("when the update rejects, the completed event is not dispatched", async () => {
+    const runtime = new FireflyRuntime({ loggers: [new NoopLogger()] });
+
+    const startedListener = vi.fn();
+    const completedListener = vi.fn();
+
+    runtime.eventBus.addListener(DeferredRegistrationsUpdateStartedEvent, startedListener);
+    runtime.eventBus.addListener(DeferredRegistrationsUpdateCompletedEvent, completedListener);
+
+    vi.spyOn(runtime.moduleManager, "updateDeferredRegistrations").mockImplementation(() => {
+        return Promise.reject(new Error("[squide] The updateDeferredRegistrations function can only be called once the local modules are ready."));
+    });
+
+    const { result } = renderUseUpdateDeferredRegistrationsHook(runtime, vi.fn());
+
+    await act(async () => {
+        await expect(result.current()).rejects.toThrow();
+    });
+
+    // A module resetting its per run state on the started event is therefore left without a completion signal.
+    expect(startedListener).toHaveBeenCalledTimes(1);
+    expect(completedListener).not.toHaveBeenCalled();
 });

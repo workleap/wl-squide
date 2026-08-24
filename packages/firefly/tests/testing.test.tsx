@@ -1,7 +1,7 @@
 import type { ModuleRegisterFunction } from "@squide/core";
 import { NoopLogger } from "@workleap/logging";
 import { describe, expect, test, vi } from "vitest";
-import { DeferredRegistrationsUpdatedEvent } from "../src/AppRouterReducer.ts";
+import { DeferredRegistrationsUpdatedEvent, ModulesReadyEvent, ModulesRegisteredEvent } from "../src/AppRouterReducer.ts";
 import { FireflyRuntime } from "../src/FireflyRuntime.tsx";
 import { createDeferredRegistrationsRunner } from "../src/testing/index.ts";
 import { DeferredRegistrationsUpdateCompletedEvent, DeferredRegistrationsUpdateStartedEvent } from "../src/useUpdateDeferredRegistrations.ts";
@@ -78,6 +78,37 @@ describe("register", () => {
         expect((errors[0].cause as Error).message).toBe("deferred boom");
     });
 
+    test("when the runner is registered, the app router store is notified that the modules are registered and ready", async () => {
+        const runtime = createRuntime();
+        const runner = createDeferredRegistrationsRunner(runtime, [() => () => {}]);
+
+        expect(runtime.appRouterStore.state.areModulesRegistered).toBeFalsy();
+        expect(runtime.appRouterStore.state.areModulesReady).toBeFalsy();
+
+        await runner.register();
+
+        expect(runtime.appRouterStore.state.areModulesRegistered).toBe(true);
+        expect(runtime.appRouterStore.state.areModulesReady).toBe(true);
+    });
+
+    test("when the runner is registered, the modules registered and ready events are dispatched", async () => {
+        const runtime = createRuntime();
+        const calls: string[] = [];
+
+        runtime.eventBus.addListener(ModulesRegisteredEvent, () => calls.push("modules-registered"));
+        runtime.eventBus.addListener(ModulesReadyEvent, () => calls.push("modules-ready"));
+
+        const runner = createDeferredRegistrationsRunner(runtime, [
+            () => (_runtime, _data, operation) => {
+                calls.push(operation);
+            }
+        ]);
+
+        await runner.register();
+
+        expect(calls).toEqual(["modules-registered", "register", "modules-ready"]);
+    });
+
     test("when the runner is already registered, throw an error", async () => {
         const runtime = createRuntime();
         const runner = createDeferredRegistrationsRunner(runtime, []);
@@ -131,10 +162,12 @@ describe("update", () => {
 
         await runner.register();
 
-        expect(runtime.appRouterStore.state.deferredRegistrationsUpdatedAt).toBeUndefined();
+        const listener = vi.fn();
+        runtime.appRouterStore.subscribe(listener);
 
         await runner.update();
 
+        expect(listener).toHaveBeenCalledTimes(1);
         expect(runtime.appRouterStore.state.deferredRegistrationsUpdatedAt).toBeDefined();
     });
 
