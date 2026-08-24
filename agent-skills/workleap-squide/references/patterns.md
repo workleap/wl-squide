@@ -5,6 +5,7 @@
 - [Module Registration Patterns](#module-registration-patterns)
 - [Navigation Patterns](#navigation-patterns)
 - [Data Fetching Patterns](#data-fetching-patterns)
+- [Authentication Patterns](#authentication-patterns)
 - [Error Boundary Patterns](#error-boundary-patterns)
 - [Testing Patterns](#testing-patterns)
 - [Common Pitfalls](#common-pitfalls)
@@ -154,6 +155,7 @@ export const register: ModuleRegisterFunction<FireflyRuntime, unknown, DeferredD
 - [Multi-Level Navigation](#multi-level-navigation)
 - [Nested Registration](#nested-registration-cross-module)
 - [Multiple Menus](#multiple-menus)
+- [Modular Tabs](#modular-tabs)
 - [Sorting with Priority](#sorting-with-priority)
 - [Active State Styling](#active-state-styling)
 - [Dynamic Route Segments](#dynamic-route-segments)
@@ -213,6 +215,64 @@ runtime.registerNavigationItem({
     menuId: "sidebar"
 });
 ```
+
+### Modular Tabs
+
+To render a page whose tabs are owned by different modules, combine a nested layout with a dedicated menu. The host registers the layout at a path (`/tabs`) and renders the menu scoped to a `menuId`; each module registers its tab route under `parentPath` and its tab header in that menu. No module holds a hard reference to another, and every tab gets its own URL.
+
+```tsx
+// host: the nested layout renders the tab headers and the active tab
+import { useNavigationItems, useRenderedNavigationItems } from "@squide/firefly";
+import { Suspense } from "react";
+import { Outlet } from "react-router";
+
+export function TabsLayout() {
+    const navigationItems = useNavigationItems({ menuId: "/tabs" });
+    const renderedTabs = useRenderedNavigationItems(navigationItems, renderItem, renderSection);
+
+    return (
+        <div>
+            {renderedTabs}
+            <Suspense fallback={<div>Loading...</div>}>
+                <Outlet />
+            </Suspense>
+        </div>
+    );
+}
+
+// host/src/register.tsx
+runtime.registerRoute({ path: "/tabs", element: <TabsLayout /> });
+```
+
+```tsx
+// module 1: the default tab uses "index: true" instead of a path
+runtime.registerRoute({
+    index: true,
+    element: <Tab1 />
+}, { parentPath: "/tabs" });
+
+runtime.registerNavigationItem({
+    $id: "tab-1",
+    $label: "Tab 1",
+    to: "/tabs"
+}, { menuId: "/tabs" });
+```
+
+```tsx
+// module 2: nested route paths must start with the parent layout path
+runtime.registerRoute({
+    path: "/tabs/tab-2",
+    element: <Tab2 />
+}, { parentPath: "/tabs" });
+
+runtime.registerNavigationItem({
+    $id: "tab-2",
+    $label: "Tab 2",
+    to: "/tabs/tab-2"
+}, { menuId: "/tabs" });
+```
+
+Use `$priority` to control the tab order (highest first).
 
 ### Sorting with Priority
 
@@ -420,6 +480,104 @@ function BootstrappingRoute() {
 <AppRouter waitForPublicData waitForProtectedData>
 ```
 
+## Authentication Patterns
+
+Squide has no built-in authentication primitives; it provides a recipe. The pieces fit together as follows:
+
+1. Fetch the session with `useProtectedDataQueries` and an `isUnauthorizedError` handler so a `401` renders the page immediately instead of throwing to an error boundary.
+2. Share the session through a context, and expose a `SessionManager` so components can clear it on logout.
+3. Register a pathless `AuthenticationBoundary` route that redirects unauthenticated users to the login page.
+4. Register the login page and the not-found page as **public** routes so they render outside the boundary.
+
+### Authentication Boundary
+
+```tsx
+import { Navigate, Outlet } from "react-router";
+import { useIsAuthenticated } from "@sample/shared";
+
+export function AuthenticationBoundary() {
+    const isAuthenticated = useIsAuthenticated();
+
+    if (isAuthenticated) {
+        return <Outlet />;
+    }
+
+    return <Navigate to="/login" />;
+}
+```
+
+### Route Assembly
+
+Public routes render before the boundary; protected routes render inside it, under an authenticated layout.
+
+```tsx
+runtime.registerRoute({
+    element: <RootLayout />,
+    children: [
+        // All the public routes render before the authenticated layout.
+        PublicRoutes,
+        {
+            // Everything beyond the boundary is protected.
+            element: <AuthenticationBoundary />,
+            children: [{
+                element: <AuthenticatedLayout />,
+                children: [ProtectedRoutes]
+            }]
+        }
+    ]
+});
+
+runtime.registerPublicRoute({ path: "/login", element: <LoginPage /> });
+runtime.registerPublicRoute({ path: "*", element: <NotFoundPage /> });
+```
+
+### Session Manager
+
+Expose a shared `SessionManager` interface (`getSession()` / `clearSession()`) so a logout can invalidate the session query, then share the instance through a context created in the `BootstrappingRoute`.
+
+```tsx
+class TanstackQuerySessionManager implements SessionManager {
+    #session: Session | undefined;
+    readonly #queryClient: QueryClient;
+
+    constructor(session: Session, queryClient: QueryClient) {
+        this.#session = session;
+        this.#queryClient = queryClient;
+    }
+
+    getSession() {
+        return this.#session;
+    }
+
+    clearSession() {
+        this.#session = undefined;
+        this.#queryClient.invalidateQueries({ queryKey: ["/api/session"], refetchType: "inactive" });
+    }
+}
+```
+
+**Important:** after a login, reload the application (`window.location.href = "/"`) rather than navigating — `AppRouter` requires a full refresh to re-run the bootstrapping flow.
+
+### Fake Session Managers (`@squide/fakes`)
+
+For development and MSW handlers only — never in production code.
+
+```ts
+import { LocalStorageSessionManager, ReadonlySessionLocalStorage } from "@squide/fakes";
+
+// Read/write: use it in MSW login, logout and session handlers.
+const sessionManager = new LocalStorageSessionManager<Session>();
+sessionManager.setSession({ username: "temp" });
+sessionManager.getSession();
+sessionManager.clearSession();
+
+// Read-only accessor over the same local storage session.
+const sessionAccessor = new ReadonlySessionLocalStorage<Session>();
+sessionAccessor.getSession();
+```
+
+Both constructors accept an optional `{ key }` option to override the `localStorage` key.
+
 ## Error Boundary Patterns
 
 > Error boundaries are critical in modular applications where one module's failure shouldn't break the entire app. See also `references/components.md` for the `isGlobalDataQueriesError` helper.
@@ -523,6 +681,87 @@ test("feature is hidden when flag is off", () => {
     expect(screen.queryByTestId("feature")).not.toBeInTheDocument();
 });
 ```
+
+### Testing Deferred Registrations
+
+`createDeferredRegistrationsRunner` (from `@squide/firefly/testing`) executes deferred registration functions through the same sequence as a real application. Use it instead of hand-rolling a harness around the module registry.
+
+```ts
+import { createDeferredRegistrationsRunner } from "@squide/firefly/testing";
+import { EnvironmentVariablesPlugin, FireflyRuntime, type ModuleRegisterFunction } from "@squide/firefly";
+
+const register: ModuleRegisterFunction<FireflyRuntime, unknown, DeferredData> = () => {
+    return (deferredRuntime, data) => {
+        if (data.isBillingEnabled) {
+            deferredRuntime.registerNavigationItem({ $id: "billing", $label: "Billing", to: "/billing" });
+        }
+    };
+};
+
+const runtime = new FireflyRuntime({
+    plugins: [x => new EnvironmentVariablesPlugin(x)]
+});
+
+const runner = createDeferredRegistrationsRunner(runtime, [register], {
+    context: { host: "sample" }   // Optional, forwarded to the module registration functions
+});
+
+// Registration run: can only be called once. Resolves to an array of ModuleRegistrationError.
+await runner.register({ isBillingEnabled: true });
+expect(runtime.getNavigationItems().length).toBe(1);
+
+// Update run: must follow "register". Drops the previous run's deferred items and replays the current run.
+await runner.update({ isBillingEnabled: false });
+expect(runtime.getNavigationItems().length).toBe(0);
+```
+
+**Signature:** `createDeferredRegistrationsRunner(runtime, localModules, options?: { context? })`, returning `{ register(data?), update(data?) }`. Both resolve to an array of `ModuleRegistrationError` — errors are collected, not thrown.
+
+**A runner takes a runtime rather than creating one.** `initializeFirefly` cannot be used in tests because it can only run once per process. Construct the runtime with the plugins the modules under test depend on: `initializeFirefly` always registers an `EnvironmentVariablesPlugin`, so a module calling `registerEnvironmentVariable` or `getEnvironmentVariable` fails against a plugin-less runtime.
+
+An update run reproduces everything `useDeferredRegistrations` does around it, because modules and plugins rely on those events to reset their per-run state:
+
+1. `DeferredRegistrationsUpdateStartedEvent` is dispatched.
+2. The deferred registration functions are executed.
+3. The app router store `deferredRegistrationsUpdatedAt` value is updated and `DeferredRegistrationsUpdatedEvent` is dispatched.
+4. `DeferredRegistrationsUpdateCompletedEvent` is dispatched.
+
+A module keeping state across runs typically resets it on the started event, so it behaves in a test exactly as it does at runtime:
+
+```ts
+import { DeferredRegistrationsUpdateStartedEvent } from "@squide/firefly";
+
+const register: ModuleRegisterFunction<FireflyRuntime, unknown, DeferredData> = runtime => {
+    const registeredSections = new Set<string>();
+
+    runtime.eventBus.addListener(DeferredRegistrationsUpdateStartedEvent, () => registeredSections.clear());
+
+    return (deferredRuntime, data) => {
+        if (!registeredSections.has("billing")) {
+            registeredSections.add("billing");
+            deferredRuntime.registerNavigationItem({ $id: "billing", $label: "Billing", children: [] });
+        }
+
+        deferredRuntime.registerNavigationItem({ $id: "invoices", $label: "Invoices", to: "/invoices" }, { sectionId: "billing" });
+    };
+};
+```
+
+Provide every module participating in a scenario — they all execute within the same run. To test a standalone deferred registration function, wrap it in a module registration function: `createDeferredRegistrationsRunner(runtime, [() => registerBillingNavigationItems])`.
+
+**Caveats:**
+- A runner is for tests only. It does not notify React that the registrations changed, so an application driven by a runner renders stale navigation items — use `useDeferredRegistrations` at runtime.
+- A runner dispatches the update events itself, standing in for `useDeferredRegistrations`. Such a test asserts that a module *reacts* to those events, not that they are dispatched at runtime (Squide covers that half).
+- Assert on the navigation items rather than calling `runtime._validateRegistrations()`. Items registered under a section that no longer exists are parked as pending rather than rejected, so a run that lost a section still resolves without errors:
+
+```ts
+await runner.register({ isBillingEnabled: true });
+await runner.update({ isBillingEnabled: true });
+
+expect(runtime.getNavigationItems()).toMatchObject([{ $id: "billing", children: [{ $id: "invoices" }] }]);
+```
+
+  `_validateRegistrations()` validates routes first, and routes registered without an explicit parent default to the `PublicRoutes`/`ProtectedRoutes` outlets, which a runner never registers. Against a headless runtime it therefore throws `The ProtectedRoutes outlet is missing from the router configuration` for any module registering a route, whatever the state of the navigation items.
 
 ## Common Pitfalls
 

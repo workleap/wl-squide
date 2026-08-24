@@ -47,6 +47,38 @@ Transform navigation items into React elements.
 
 **Note:** `useRenderedNavigationItems` invokes these callbacks with the arguments shown above, but your implementation may declare fewer parameters and ignore the rest (for example, `(item, key) => ...`). You cannot supply extra custom context parameters via `useRenderedNavigationItems`; instead, access external values (like route params or location) through closures or React hooks within the component that calls `useRenderedNavigationItems`.
 
+**Render props:** the `item` argument is either a `NavigationLinkRenderProps` or a `NavigationSectionRenderProps` (both exported from `@squide/firefly`). Use `isNavigationLink` to discriminate them.
+
+| Type | Properties |
+|------|------------|
+| `NavigationLinkRenderProps` | `label`, `linkProps` (the React Router `Link` props, including `to`), `additionalProps` (from `$additionalProps`), `canRender()` |
+| `NavigationSectionRenderProps` | `label`, `section` (the rendered children elements), `additionalProps`, `canRender()` |
+
+**`canRender()`:** when an item was registered with a `$canRender` option, it is exposed on the render props as a `canRender()` function. It is the responsibility of the code rendering the menu to call it and skip the item when it returns `false` — Squide does not filter the items itself.
+
+```tsx
+const renderItem: RenderItemFunction = (item, key) => {
+    if (!item.canRender()) {
+        return null;
+    }
+
+    if (!isNavigationLink(item)) {
+        // Render a section: the "section" prop holds the rendered children.
+        const { label, section } = item;
+
+        return <li key={key}>{label}<div>{section}</div></li>;
+    }
+
+    const { label, linkProps, additionalProps } = item;
+
+    return (
+        <li key={key}>
+            <Link {...linkProps} {...additionalProps}>{label}</Link>
+        </li>
+    );
+};
+```
+
 ```ts
 import {
     useRenderedNavigationItems,
@@ -302,6 +334,8 @@ dispatch("tenant-changed", { tenantId: "abc" });
 ```
 
 ## Environment & Configuration Hooks
+
+Squide attaches environment variables to the `FireflyRuntime` instance rather than reading `process.env` throughout the codebase. `process.env` is a global, which makes it cumbersome to mock in tests and stories, harder to load a module independently or in a different host, and couples the code to Node.js. Registering variables on the runtime keeps configuration isolated from global state.
 
 ### TypeScript Augmentation (EnvironmentVariables Interface)
 
