@@ -138,32 +138,35 @@ export class NavigationItemDeferredRegistrationTransactionalScope extends Naviga
     }
 }
 
+// A separator that cannot appear in a "menuId" or in a section "$id". Joining with a "-" made a key ambiguous:
+// ("main-menu", "settings") and ("main", "menu-settings") both produced "main-menu-settings", which resolved
+// two distinct sections of two distinct menus to the same index entry.
+const SectionIndexKeySeparator = "\u0000";
+
 function createSectionIndexKey(menuId: string, sectionId: string) {
-    return `${menuId}-${sectionId}`;
+    return `${menuId}${SectionIndexKeySeparator}${sectionId}`;
 }
 
 /**
- * @deprecated The index key format is an implementation detail, and a "-" in a "menuId" or in a section "$id"
- * makes a key ambiguous: ("main-menu", "settings") and ("main", "menu-settings") both produce
- * "main-menu-settings", so the pair a key was built from cannot be recovered. Read the "menuId" and the
- * "sectionId" off the {@link PendingRegistrationItem} values returned by
- * {@link PendingNavigationItemRegistrations.getPendingRegistrationsForSection} rather than parsing a key
- * returned by {@link PendingNavigationItemRegistrations.getPendingSectionIds}. Nothing in the framework calls
- * this function anymore, it is kept until the next major to avoid a breaking removal.
+ * @deprecated The index key format is an implementation detail that is not part of the public contract, and the
+ * separator a key is built with is deliberately undocumented. Read the "menuId" and the "sectionId" off the
+ * {@link PendingRegistrationItem} values returned by
+ * {@link PendingNavigationItemRegistrations.getPendingRegistrationsForSection} instead. Nothing in the framework
+ * calls this function anymore, it is kept until the next major to avoid a breaking removal.
  */
 export function parseSectionIndexKey(indexKey: string) {
-    return indexKey.split("-");
+    return indexKey.split(SectionIndexKeySeparator);
 }
 
 export class NavigationItemRegistry {
     // <menuId, RegistryItem[]>
     readonly #menusIndex: Map<string, RegistryItem[]> = new Map();
 
-    // <menuId-sectionId, SectionIndexItem>
+    // <section index key, SectionIndexItem>
     readonly #sectionsIndex: Map<string, SectionIndexItem> = new Map();
 
     // An index of pending navigation items to registered once their section is registered.
-    // <menuId-sectionId, PendingRegistrationItem[]>
+    // <section index key, PendingRegistrationItem[]>
     readonly #pendingRegistrationsIndex: Map<string, PendingRegistrationItem[]> = new Map();
 
     // Since the "getItems" function is transforming the menus items from registry items to navigation items, the result of
@@ -456,6 +459,11 @@ export class PendingNavigationItemRegistrations {
         this.#pendingRegistrationsIndex = pendingRegistrationsIndex;
     }
 
+    /**
+     * Returns the index key of every section that has pending registrations. The keys are opaque, only use them
+     * to look a section up with {@link getPendingRegistrationsForSection}. To identify a section, read the
+     * "menuId" and the "sectionId" off the returned {@link PendingRegistrationItem} values.
+     */
     getPendingSectionIds() {
         return Array.from(this.#pendingRegistrationsIndex.keys());
     }

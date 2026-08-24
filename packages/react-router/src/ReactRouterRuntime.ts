@@ -370,10 +370,10 @@ export class ReactRouterRuntime<TRuntime extends ReactRouterRuntime = any> exten
             pendingSectionIds.forEach((x, index) => {
                 const pendingItems = pendingRegistrations.getPendingRegistrationsForSection(x);
 
-                // The items carry the "menuId" and the "sectionId" they are waiting for, which is more
-                // reliable than parsing them back out of the index key since either value can contain a "-".
-                // An index key always holds at least one item. The fallback below only ensures that a failure
-                // to name the section can never mask the pending registrations this message is reporting.
+                // The items carry the "menuId" and the "sectionId" they are waiting for, which avoids
+                // depending on the index key format. An index key always holds at least one item. The fallback
+                // below only ensures that a failure to name the section can never mask the pending
+                // registrations this message is reporting.
                 const firstPendingItem = pendingItems.at(0);
 
                 if (firstPendingItem) {

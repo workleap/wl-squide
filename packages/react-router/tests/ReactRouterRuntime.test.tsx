@@ -2331,6 +2331,59 @@ describe.concurrent("registerNavigationItem", () => {
             expect(runtime.getNavigationItems({ menuId: "bar" })[0].$id).toBe("section");
             expect(runtime.getNavigationItems({ menuId: "bar" })[0].children!.length).toBe(0);
         });
+
+        test.concurrent("when a menu id and a section id would collide once concatenated, register the nested item under the right section", ({ expect }) => {
+            const runtime = new ReactRouterRuntime({
+                loggers: [new NoopLogger()]
+            });
+
+            // The "analytics" menu with the "sidebar-performance" section and the "analytics-sidebar" menu with
+            // the "performance" section used to produce the same section index key, which attached the nested
+            // item to whichever of the two sections had been registered first.
+            runtime.registerNavigationItem({
+                $id: "sidebar-performance",
+                $label: "Performance",
+                children: []
+            }, {
+                menuId: "analytics"
+            });
+
+            runtime.registerNavigationItem({
+                $label: "Link",
+                to: "/link"
+            }, {
+                menuId: "analytics-sidebar",
+                sectionId: "performance"
+            });
+
+            expect(runtime.getNavigationItems({ menuId: "analytics" })[0].children!.length).toBe(0);
+            expect(runtime.getNavigationItems({ menuId: "analytics-sidebar" }).length).toBe(0);
+        });
+
+        test.concurrent("when a menu id and a section id would collide once concatenated, both sections can be registered", ({ expect }) => {
+            const runtime = new ReactRouterRuntime({
+                loggers: [new NoopLogger()]
+            });
+
+            runtime.registerNavigationItem({
+                $id: "sidebar-performance",
+                $label: "Performance",
+                children: []
+            }, {
+                menuId: "analytics"
+            });
+
+            expect(() => runtime.registerNavigationItem({
+                $id: "performance",
+                $label: "Performance",
+                children: []
+            }, {
+                menuId: "analytics-sidebar"
+            })).not.toThrow();
+
+            expect(runtime.getNavigationItems({ menuId: "analytics" }).length).toBe(1);
+            expect(runtime.getNavigationItems({ menuId: "analytics-sidebar" }).length).toBe(1);
+        });
     });
 });
 
@@ -2898,6 +2951,32 @@ describe.concurrent("_validateRegistrations", () => {
             });
 
             expect(() => runtime._validateRegistrations()).toThrow(/Missing navigation section "analytics-performance" of the "analytics-sidebar" menu/);
+        });
+
+        test.concurrent("when two missing sections would collide once concatenated, the error message reports both", ({ expect }) => {
+            const runtime = new ReactRouterRuntime({
+                loggers: [new NoopLogger()]
+            });
+
+            // Both pending registrations used to share a single index key, which reported a single missing
+            // section instead of the two distinct ones that are actually missing.
+            runtime.registerNavigationItem({
+                $label: "Link 1",
+                to: "/link-1"
+            }, {
+                menuId: "analytics",
+                sectionId: "sidebar-performance"
+            });
+
+            runtime.registerNavigationItem({
+                $label: "Link 2",
+                to: "/link-2"
+            }, {
+                menuId: "analytics-sidebar",
+                sectionId: "performance"
+            });
+
+            expect(() => runtime._validateRegistrations()).toThrow(/2 navigation items were expected to be registered but are missing/);
         });
     });
 });

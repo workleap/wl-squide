@@ -735,7 +735,18 @@ describe.concurrent("clearDeferredItems", () => {
 
         registry.clearDeferredItems();
 
-        expect(registry.getPendingRegistrations().getPendingSectionIds()).toEqual(["foo-bar"]);
+        const pendingRegistrations = registry.getPendingRegistrations();
+        const pendingSectionIds = pendingRegistrations.getPendingSectionIds();
+
+        expect(pendingSectionIds.length).toBe(1);
+
+        // Asserting on the registration values rather than on the index key itself, the key format is an
+        // implementation detail.
+        const pendingItems = pendingRegistrations.getPendingRegistrationsForSection(pendingSectionIds[0]);
+
+        expect(pendingItems.length).toBe(1);
+        expect(pendingItems[0].menuId).toBe("foo");
+        expect(pendingItems[0].sectionId).toBe("bar");
     });
 
     test.concurrent("when a section has both static and deferred pending registrations, only clear the deferred ones", ({ expect }) => {
@@ -754,10 +765,14 @@ describe.concurrent("clearDeferredItems", () => {
         registry.clearDeferredItems();
 
         const pendingRegistrations = registry.getPendingRegistrations();
+        const pendingSectionIds = pendingRegistrations.getPendingSectionIds();
 
-        expect(pendingRegistrations.getPendingSectionIds()).toEqual(["foo-bar"]);
-        expect(pendingRegistrations.getPendingRegistrationsForSection("foo-bar").length).toBe(1);
-        expect(pendingRegistrations.getPendingRegistrationsForSection("foo-bar")[0].item.$label).toBe("1");
+        expect(pendingSectionIds.length).toBe(1);
+
+        const pendingItems = pendingRegistrations.getPendingRegistrationsForSection(pendingSectionIds[0]);
+
+        expect(pendingItems.length).toBe(1);
+        expect(pendingItems[0].item.$label).toBe("1");
     });
 
     test.concurrent("when a deferred section is registered again after a clear, the nested item is not duplicated", ({ expect }) => {
