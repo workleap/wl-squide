@@ -96,6 +96,49 @@ const registerNestedItem: ModuleRegisterFunction<FireflyRuntime, unknown, Featur
 const runner = createDeferredRegistrationsRunner(runtime, [registerSection, registerNestedItem]);
 ```
 
+### Test a module reacting to an update run
+
+A module keeping state across its registrations usually resets that state when an update run starts. Since a runner dispatches the update events, the module reacts exactly as it would at runtime:
+
+```ts !#5
+import { DeferredRegistrationsUpdateStartedEvent } from "@squide/firefly";
+
+const register: ModuleRegisterFunction<FireflyRuntime, unknown, FeatureFlags> = runtime => {
+    const registeredSections = new Set<string>();
+
+    runtime.eventBus.addListener(DeferredRegistrationsUpdateStartedEvent, () => registeredSections.clear());
+
+    return (deferredRuntime, data) => {
+        if (!data.isBillingEnabled) {
+            return;
+        }
+
+        // Register the section on the first item of the run.
+        if (!registeredSections.has("billing")) {
+            registeredSections.add("billing");
+            deferredRuntime.registerNavigationItem({ $id: "billing", $label: "Billing", children: [] });
+        }
+
+        deferredRuntime.registerNavigationItem({ $id: "invoices", $label: "Invoices", to: "/invoices" }, { sectionId: "billing" });
+    };
+};
+```
+
+```ts !#4
+const runner = createDeferredRegistrationsRunner(runtime, [register]);
+
+await runner.register({ isBillingEnabled: true });
+await runner.update({ isBillingEnabled: true });
+
+expect(runtime.getNavigationItems().length).toBe(1);
+```
+
+Without the listener, the section is registered on the first run only, and the update run leaves the items pending under a section that no longer exists.
+
+!!!warning
+A runner dispatches the update events itself, standing in for the [useDeferredRegistrations](../registration/useDeferredRegistrations.md) hook. Such a test asserts that a module reacts correctly to those events, not that they are dispatched at runtime. Squide covers that half.
+!!!
+
 ### Handle registration errors
 
 Errors are collected rather than thrown, matching what a real registration run does:
