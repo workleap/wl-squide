@@ -64,8 +64,6 @@ jobs:
           allowed_bots: "claude[bot]"
           anthropic_api_key: ${{ secrets.ANTHROPIC_API_KEY }}
           show_full_output: true
-          # The turn budget needs real headroom: the run is ~15 turns when the
-          # prompt's recipes are followed, but a single retry cascades.
           claude_args: >-
-            --max-turns 80
-            --allowedTools Read,Glob,Grep,Bash(agent-browser:*),Bash(pnpm:*),Bash(curl:*),Bash(cat:*),Bash(sleep:*),Bash(grep:*),Bash(head:*),Bash(tail:*),Bash(echo:*)
+            --max-turns 50
+            --allowedTools Read,Glob,Grep,Bash(agent-browser:*),Bash(pnpm:*),Bash(curl:*),Bash(cat:*),Bash(sleep:*)

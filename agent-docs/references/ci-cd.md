@@ -46,6 +46,23 @@ The main CI workflow (`ci.yml`) runs on `ubuntu-latest` with:
 
 All workflows pin `node-version: "24"` (not `">=24.0.0"`). Reason: Node 26 exposes a native global `localStorage` that returns `undefined` unless `--localstorage-file` is provided. happy-dom 20.x does not override Node's native getter, so vitest tests touching `localStorage` (e.g. `localStorage.clear()` in `beforeEach`) crash with `Cannot read properties of undefined (reading 'clear')` when CI's `setup-node` picks the latest. Revisit once happy-dom handles Node's native `localStorage` (see PR #602 / commit 51037089b for the discovery).
 
+## Editing `claude-code-action` workflows (smoke-test, code-review, claude)
+
+`anthropics/claude-code-action@v1` only runs when the calling workflow file is **byte-identical to the copy on `main`**. Change `smoke-test.yml` on a branch and the action logs:
+
+```
+Skipping action due to workflow validation: Workflow validation failed.
+The workflow file must exist and have identical content to the version on
+the repository's default branch.
+```
+
+It then exits early and **the step still reports success** — a green check that never ran the agent. The give-away is duration: a real smoke test takes minutes, a skipped one about 4 seconds.
+
+Consequences:
+
+- Never validate a change to these workflows on its own PR. The check that reports on it is a no-op. Tune behaviour through `.github/prompts/*.md` instead — prompt files are read from the branch and are not subject to this validation.
+- A change to `claude_args` (`--max-turns`, `--allowedTools`) only takes effect after it lands on `main`, and is first exercised by the *next* PR.
+
 ## Concurrency
 
 - CI uses `ci-${{ github.ref }}` group with cancel-in-progress
