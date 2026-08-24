@@ -26,22 +26,33 @@ export class ModuleManager {
     async registerModules<TRuntime extends Runtime = Runtime, TContext = unknown, TData = unknown>(definitions: ModuleDefinition<TRuntime, TContext, TData>[], options?: RegisterModulesOptions<TContext>) {
         const errors: ModuleRegistrationError[] = [];
 
-        // {
-        //     local: [
+        // Map {
+        //     "local" => [
         //         { registryId: "local", definition: () => ... },
         //         { registryId: "local", definition: () => ... }
         //     ],
-        //     remote: [
+        //     "remote" => [
         //         { registryId: "remote", definition: {...} },
         //         { registryId: "remote", definition: {...} }
         //     ]
         // }
-        const definitionsByRegistryId = Object.groupBy(definitions, x => x.registryId);
+        // Not using "Object.groupBy" because it requires Chrome 117+, Safari 17.4+ and Firefox 119+, which is newer
+        // than the browsers supported by "@workleap/browserslist-config". Library builds are not polyfilled, and
+        // consumer bundlers do not polyfill "node_modules" by default.
+        const definitionsByRegistryId = new Map<string, ModuleDefinition<TRuntime, TContext, TData>[]>();
+
+        for (const x of definitions) {
+            const registryDefinitions = definitionsByRegistryId.get(x.registryId) ?? [];
+
+            registryDefinitions.push(x);
+
+            definitionsByRegistryId.set(x.registryId, registryDefinitions);
+        }
 
         // It's important to always to though all the registered registries even if there's no module definitions.
         // Using Promise.all rather than Promise.allSettled to throw any errors that occurs.
         await Promise.all(this.moduleRegistries.map(async x => {
-            const registryDefinitions = definitionsByRegistryId[x.id];
+            const registryDefinitions = definitionsByRegistryId.get(x.id);
             const modules = registryDefinitions ? registryDefinitions.map(y => y.definition) : [];
 
             const registrationErrors = await x.registerModules(this.runtime, modules, options);
