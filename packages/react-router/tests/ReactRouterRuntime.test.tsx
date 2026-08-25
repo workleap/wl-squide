@@ -2702,15 +2702,15 @@ describe.concurrent("startDeferredRegistrationScope & completeDeferredRegistrati
         expect(runtime.getNavigationItems()[0].children!.length).toBe(1);
     });
 
-    test.concurrent("when a deferred section is cloned, its accessor properties stay lazy", ({ expect }) => {
+    test.concurrent("when a deferred section is registered, its accessor properties stay lazy", ({ expect }) => {
         const runtime = new ReactRouterRuntime({
             loggers: [new NoopLogger()]
         });
 
         let labelReadCount = 0;
 
-        // Cloning with a spread would evaluate this getter at registration time and freeze its result, which
-        // is why the clone copies the property descriptors instead.
+        // Building the section with a spread would evaluate this getter at registration time and freeze its
+        // result, which is why the property descriptors are copied instead.
         const section: NavigationSection = {
             $id: "section",
             get $label() {
@@ -2768,8 +2768,9 @@ describe.concurrent("startDeferredRegistrationScope & completeDeferredRegistrati
         runUpdate();
         runUpdate();
 
-        // The clone recurses through "children". A shallow copy would leave this nested section shared with
-        // the registry, so it would accumulate exactly like the outer one used to.
+        // Every section is built from its own registration, including the ones declared inline. Reusing the
+        // caller's nested object would leave it shared with the registry, so it would accumulate exactly like
+        // the outer one used to.
         expect(inner.children.length).toBe(0);
         expect(outer.children.length).toBe(1);
         expect(outer.children[0]).toBe(inner);
@@ -2785,8 +2786,8 @@ describe.concurrent("startDeferredRegistrationScope & completeDeferredRegistrati
             loggers: [new NoopLogger()]
         });
 
-        // The clone replaces the "children" descriptor rather than assigning to it, otherwise a frozen section
-        // would throw on every registration, including one that nothing nests under.
+        // The "children" descriptor is replaced rather than assigned to, otherwise a frozen section would
+        // throw on every registration, including one that nothing nests under.
         const section = Object.freeze({
             $id: "section",
             $label: "Section",
@@ -2810,7 +2811,7 @@ describe.concurrent("startDeferredRegistrationScope & completeDeferredRegistrati
         expect(runtime.getNavigationItems()[0].children!.length).toBe(1);
     });
 
-    test.concurrent("when a deferred section is backed by a class instance, the clone keeps its prototype", ({ expect }) => {
+    test.concurrent("when a deferred section is backed by a class instance, it keeps its prototype", ({ expect }) => {
         const runtime = new ReactRouterRuntime({
             loggers: [new NoopLogger()]
         });
@@ -2831,6 +2832,54 @@ describe.concurrent("startDeferredRegistrationScope & completeDeferredRegistrati
         runtime.registerNavigationItem(section as unknown as NavigationSection);
 
         runtime.completeDeferredRegistrationScope();
+
+        expect(runtime.getNavigationItems()[0]).toBeInstanceOf(Section);
+        expect(runtime.getNavigationItems()[0].$label).toBe("Section");
+    });
+
+    test.concurrent("when a static section is frozen, it can still be registered", ({ expect }) => {
+        const runtime = new ReactRouterRuntime({
+            loggers: [new NoopLogger()]
+        });
+
+        // Every section is built from its registration, on the static path as well, therefore the frozen
+        // section case is not specific to a deferred registration anymore.
+        const section = Object.freeze({
+            $id: "section",
+            $label: "Section",
+            children: Object.freeze([]) as unknown as NavigationSection[]
+        }) as NavigationSection;
+
+        expect(() => runtime.registerNavigationItem(section)).not.toThrow();
+
+        runtime.registerNavigationItem({
+            $label: "Link",
+            to: "/link"
+        }, {
+            sectionId: "section"
+        });
+
+        expect(section.children.length).toBe(0);
+        expect(runtime.getNavigationItems()[0].children!.length).toBe(1);
+    });
+
+    test.concurrent("when a static section is backed by a class instance, it keeps its prototype", ({ expect }) => {
+        const runtime = new ReactRouterRuntime({
+            loggers: [new NoopLogger()]
+        });
+
+        class Section {
+            $id = "section";
+            children: NavigationSection[] = [];
+
+            get $label() {
+                return "Section";
+            }
+        }
+
+        const section = new Section();
+
+        runtime.registerNavigationItem(section as unknown as NavigationSection);
 
         expect(runtime.getNavigationItems()[0]).toBeInstanceOf(Section);
         expect(runtime.getNavigationItems()[0].$label).toBe("Section");
@@ -3268,6 +3317,264 @@ describe.concurrent("_validateRegistrations", () => {
 
             // Not throwing is only half of the contract, production has to still say what is missing.
             expect(logger.logs.some(x => x.includes("Missing navigation section \"section\""))).toBeTruthy();
+        });
+    });
+
+    describe.concurrent("duplicate section declarations", () => {
+        test.concurrent("when a section is declared twice identically, nothing is reported", ({ expect }) => {
+            const runtime = new ReactRouterRuntime({
+                loggers: [new NoopLogger()]
+            });
+
+            // Declaring a section that no module owns from every module contributing to it is the supported
+            // pattern, reporting it would make strict mode noisy for correct code.
+            runtime.registerNavigationItem({
+                $id: "section",
+                $label: "Section",
+                children: []
+            });
+
+            runtime.registerNavigationItem({
+                $id: "section",
+                $label: "Section",
+                children: []
+            });
+
+            expect(() => runtime._validateRegistrations()).not.toThrow();
+        });
+
+        test.concurrent("when an ignored declaration carries children, the report says how many", ({ expect }) => {
+            const runtime = new ReactRouterRuntime({
+                loggers: [new NoopLogger()]
+            });
+
+            runtime.registerNavigationItem({
+                $id: "section",
+                $label: "Section",
+                children: []
+            });
+
+            runtime.registerNavigationItem({
+                $id: "section",
+                $label: "Section",
+                children: [{
+                    $id: "link",
+                    $label: "Link",
+                    to: "/link"
+                }]
+            });
+
+            expect(() => runtime._validateRegistrations()).toThrow(/Navigation section "section" of the "root" menu/);
+            expect(() => runtime._validateRegistrations()).toThrow(/A static declaration with 1 child/);
+        });
+
+        test.concurrent("when an ignored declaration carries a $priority, the report says which", ({ expect }) => {
+            const runtime = new ReactRouterRuntime({
+                loggers: [new NoopLogger()]
+            });
+
+            runtime.registerNavigationItem({
+                $id: "section",
+                $label: "Section",
+                children: []
+            });
+
+            runtime.registerNavigationItem({
+                $id: "section",
+                $label: "Section",
+                $priority: 10,
+                children: []
+            });
+
+            expect(() => runtime._validateRegistrations()).toThrow(/a "\$priority" option of 10/);
+        });
+
+        test.concurrent("when an ignored declaration carries a sectionId, the report says which", ({ expect }) => {
+            const runtime = new ReactRouterRuntime({
+                loggers: [new NoopLogger()]
+            });
+
+            runtime.registerNavigationItem({
+                $id: "holder",
+                $label: "Holder",
+                children: []
+            });
+
+            runtime.registerNavigationItem({
+                $id: "section",
+                $label: "Section",
+                children: []
+            });
+
+            // The section is already registered at the root of the menu, therefore this declaration is
+            // deduplicated rather than nested under the "holder" section as it asked to be.
+            runtime.registerNavigationItem({
+                $id: "section",
+                $label: "Section",
+                children: []
+            }, {
+                sectionId: "holder"
+            });
+
+            expect(() => runtime._validateRegistrations()).toThrow(/a "sectionId" option of "holder"/);
+        });
+
+        test.concurrent("when a declaration is registered but did not get the identifier, it is reported as such", ({ expect }) => {
+            const runtime = new ReactRouterRuntime({
+                loggers: [new NoopLogger()]
+            });
+
+            runtime.registerNavigationItem({
+                $id: "section",
+                $label: "Section",
+                children: []
+            });
+
+            // Waiting for a section that is registered below, therefore this one only competes for the
+            // "section" identifier once it takes its place in the menu, and it loses. It is still rendered
+            // where it was registered, which is why it is not reported as an ignored declaration.
+            runtime.registerNavigationItem({
+                $id: "section",
+                $label: "Another section",
+                children: []
+            }, {
+                sectionId: "holder"
+            });
+
+            runtime.registerNavigationItem({
+                $id: "holder",
+                $label: "Holder",
+                children: []
+            });
+
+            expect(() => runtime._validateRegistrations()).toThrow(/Declarations that are registered but do not own the identifier/);
+            expect(() => runtime._validateRegistrations()).toThrow(/A static declaration nested under the "holder" section/);
+            expect(runtime.getNavigationItems().length).toBe(2);
+        });
+
+        test.concurrent("when a declaration is registered but did not get the identifier, it is reported even without conflicting options", ({ expect }) => {
+            const runtime = new ReactRouterRuntime({
+                loggers: [new NoopLogger()]
+            });
+
+            runtime.registerNavigationItem({
+                $id: "section",
+                $label: "Section",
+                children: []
+            });
+
+            runtime.registerNavigationItem({
+                $id: "section",
+                $label: "Section",
+                children: []
+            }, {
+                sectionId: "holder"
+            });
+
+            runtime.registerNavigationItem({
+                $id: "holder",
+                $label: "Holder",
+                children: []
+            });
+
+            // Two sections of the same menu answering to the same identifier is never intended, unlike a
+            // declaration that merely lost, therefore it is reported whatever it carries.
+            expect(() => runtime._validateRegistrations()).toThrow(/Declarations that are registered but do not own the identifier/);
+        });
+
+        test.concurrent("the report counts sections rather than declarations", ({ expect }) => {
+            const runtime = new ReactRouterRuntime({
+                loggers: [new NoopLogger()]
+            });
+
+            ["first", "second"].forEach(x => {
+                runtime.registerNavigationItem({
+                    $id: x,
+                    $label: x,
+                    children: []
+                });
+
+                runtime.registerNavigationItem({
+                    $id: x,
+                    $label: x,
+                    $priority: 10,
+                    children: []
+                });
+
+                runtime.registerNavigationItem({
+                    $id: x,
+                    $label: x,
+                    $priority: 20,
+                    children: []
+                });
+            });
+
+            expect(() => runtime._validateRegistrations()).toThrow(/2 navigation sections have been declared more than once/);
+        });
+
+        test.concurrent("when the runtime is in production mode, the report is logged rather than thrown", ({ expect }) => {
+            const logger = new RecordingLogger();
+
+            const runtime = new ReactRouterRuntime({
+                mode: "production",
+                loggers: [logger]
+            });
+
+            runtime.registerNavigationItem({
+                $id: "section",
+                $label: "Section",
+                children: []
+            });
+
+            runtime.registerNavigationItem({
+                $id: "section",
+                $label: "Section",
+                $priority: 10,
+                children: []
+            });
+
+            expect(() => runtime._validateRegistrations()).not.toThrow();
+
+            // Not throwing is only half of the contract, production has to still say what has been ignored.
+            expect(logger.logs.some(x => x.includes("Navigation section \"section\" of the \"root\" menu"))).toBeTruthy();
+        });
+
+        test.concurrent("when a deferred declaration is ignored, it is not reported again after the run is cleared", ({ expect }) => {
+            const runtime = new ReactRouterRuntime({
+                loggers: [new NoopLogger()]
+            });
+
+            runtime.registerNavigationItem({
+                $id: "section",
+                $label: "Section",
+                children: []
+            });
+
+            // A deferred declaration belongs to the run that made it. Keeping it would report the declarations
+            // of every run that ever happened, growing by one on every feature flag flip.
+            for (let i = 0; i < 3; i++) {
+                runtime.startDeferredRegistrationScope({ transactional: true });
+
+                runtime.registerNavigationItem({
+                    $id: "section",
+                    $label: "Section",
+                    $priority: 10,
+                    children: []
+                });
+
+                runtime.completeDeferredRegistrationScope();
+            }
+
+            let errorMessage = "";
+
+            try {
+                runtime._validateRegistrations();
+            } catch (error: unknown) {
+                errorMessage = (error as Error).message;
+            }
+
+            expect(errorMessage).toContain("a \"$priority\" option of 10");
+            expect(errorMessage.match(/a "\$priority" option of 10/g)?.length).toBe(1);
         });
     });
 

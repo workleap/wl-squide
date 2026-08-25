@@ -466,42 +466,63 @@ export class ReactRouterRuntime<TRuntime extends ReactRouterRuntime = any> exten
     #validateNavigationSectionDeclarations(logger: Logger) {
         const duplicateDeclarations = this._navigationItemRegistry.getDuplicateSectionDeclarations();
 
-        // A shared section that several modules declare identically is the supported way to contribute to a
-        // menu that no module owns, and is not worth reporting. Only a declaration that would have contributed
-        // something the registry then discarded is: the registry cannot tell the two apart from the "$label"
-        // alone, since it's a "ReactNode" that is rebuilt on every registration.
+        // A section is worth reporting for two different reasons, and a declaration falls in exactly one of
+        // them. A declaration that found the section already registered contributes nothing, but a shared
+        // section that several modules declare identically is the supported way to contribute to a menu that no
+        // module owns, so only a declaration that would have contributed something is reported. The registry
+        // cannot tell those two apart from the "$label" alone, since it's a "ReactNode" that is rebuilt on
+        // every registration. A declaration that is registered and only lost the identifier is always reported,
+        // since two sections of the same menu answering to the same "$id" is never intended.
         const conflictingSections = duplicateDeclarations.getDuplicatedSectionIds()
-            .map(x => duplicateDeclarations.getDeclarationsForSection(x).filter(y => {
-                return (y.item.children?.length ?? 0) > 0 || !isNil(y.item.$priority) || !isNil(y.parentSectionId);
-            }))
-            .filter(x => x.length > 0);
+            .map(x => {
+                const declarations = duplicateDeclarations.getDeclarationsForSection(x);
+
+                return {
+                    ignoredDeclarations: declarations.filter(y => {
+                        return !y.isRegistered && ((y.item.children?.length ?? 0) > 0 || !isNil(y.item.$priority) || !isNil(y.parentSectionId));
+                    }),
+                    conflictingIdentifierDeclarations: declarations.filter(y => y.isRegistered)
+                };
+            })
+            .filter(x => x.ignoredDeclarations.length > 0 || x.conflictingIdentifierDeclarations.length > 0);
 
         if (conflictingSections.length > 0) {
-            let message = `[squide] ${conflictingSections.length} navigation section${conflictingSections.length !== 1 ? "s have" : " has"} been declared more than once for a menu with conflicting options. The first declaration is the one that has been registered, the following ones have been ignored:\r\n\r\n`;
+            let message = `[squide] ${conflictingSections.length} navigation section${conflictingSections.length !== 1 ? "s have" : " has"} been declared more than once for a menu. The first declaration is the one that has been registered and that owns the section identifier:\r\n\r\n`;
 
-            conflictingSections.forEach((declarations, index) => {
-                const firstDeclaration = declarations[0];
+            conflictingSections.forEach(({ ignoredDeclarations, conflictingIdentifierDeclarations }, index) => {
+                const firstDeclaration = ignoredDeclarations[0] ?? conflictingIdentifierDeclarations[0];
 
                 message += `${index + 1}/${conflictingSections.length} Navigation section "${firstDeclaration.sectionId}" of the "${firstDeclaration.menuId}" menu.\r\n`;
-                message += indent("Ignored declarations:\r\n", 1);
 
-                declarations.forEach(x => {
-                    const conflicts: string[] = [];
+                if (ignoredDeclarations.length > 0) {
+                    message += indent("Ignored declarations:\r\n", 1);
 
-                    if (x.item.children?.length) {
-                        conflicts.push(`${x.item.children.length} child${x.item.children.length !== 1 ? "ren" : ""}`);
-                    }
+                    ignoredDeclarations.forEach(x => {
+                        const conflicts: string[] = [];
 
-                    if (!isNil(x.item.$priority)) {
-                        conflicts.push(`a "$priority" option of ${x.item.$priority}`);
-                    }
+                        if (x.item.children?.length) {
+                            conflicts.push(`${x.item.children.length} child${x.item.children.length !== 1 ? "ren" : ""}`);
+                        }
 
-                    if (!isNil(x.parentSectionId)) {
-                        conflicts.push(`a "sectionId" option of "${x.parentSectionId}"`);
-                    }
+                        if (!isNil(x.item.$priority)) {
+                            conflicts.push(`a "$priority" option of ${x.item.$priority}`);
+                        }
 
-                    message += indent(`- A ${x.registrationType} declaration with ${conflicts.join(", ")}.\r\n`, 2);
-                });
+                        if (!isNil(x.parentSectionId)) {
+                            conflicts.push(`a "sectionId" option of "${x.parentSectionId}"`);
+                        }
+
+                        message += indent(`- A ${x.registrationType} declaration with ${conflicts.join(", ")}.\r\n`, 2);
+                    });
+                }
+
+                if (conflictingIdentifierDeclarations.length > 0) {
+                    message += indent("Declarations that are registered but do not own the identifier:\r\n", 1);
+
+                    conflictingIdentifierDeclarations.forEach(x => {
+                        message += indent(`- A ${x.registrationType} declaration nested under the "${x.parentSectionId}" section.\r\n`, 2);
+                    });
+                }
 
                 message += "\r\n";
             });

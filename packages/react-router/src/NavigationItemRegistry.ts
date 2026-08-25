@@ -95,6 +95,10 @@ export interface DuplicateSectionDeclaration {
     // The section this declaration asked to be nested under, which is how a section declared in two different
     // places is told apart from one declared twice in the same place.
     parentSectionId?: string;
+    // Whether the declaration is itself registered. A declaration that found the section already registered
+    // contributes nothing and is not, but a section that was waiting for its own section only competes for
+    // the identifier once it becomes reachable, and by then it holds a place in the menu that it keeps.
+    isRegistered: boolean;
 }
 
 interface DeferredRegistrationTransactionalScopeItem extends RegistryItem {
@@ -345,7 +349,14 @@ export class NavigationItemRegistry {
                 // registered section would attach them to a container owned by another registration, which a
                 // clear could not undo. A module contributing to a shared section nests its items under it with
                 // the "sectionId" option.
-                this.#addDuplicateDeclaration(indexKey, menuId, registrationType, item.$id, item, sectionId);
+                this.#addDuplicateDeclaration(indexKey, {
+                    menuId,
+                    sectionId: item.$id,
+                    registrationType,
+                    item,
+                    parentSectionId: sectionId,
+                    isRegistered: false
+                });
 
                 return { registration: registeredSection, isDuplicate: true };
             }
@@ -416,7 +427,14 @@ export class NavigationItemRegistry {
         if (this.#sectionsIndex.has(indexKey)) {
             // Another section took the identifier while this one was waiting for its own section. It keeps the
             // place it was registered in, but it does not take the identifier from the section that owns it.
-            this.#addDuplicateDeclaration(indexKey, registration.menuId, registration.registrationType, sectionId, registration.item, registration.sectionId);
+            this.#addDuplicateDeclaration(indexKey, {
+                menuId: registration.menuId,
+                sectionId,
+                registrationType: registration.registrationType,
+                item: registration.item,
+                parentSectionId: registration.sectionId,
+                isRegistered: true
+            });
 
             return;
         }
@@ -508,16 +526,8 @@ export class NavigationItemRegistry {
         }
     }
 
-    #addDuplicateDeclaration(indexKey: string, menuId: string, registrationType: NavigationItemRegistrationType, sectionId: string, item: NavigationSection, parentSectionId?: string) {
+    #addDuplicateDeclaration(indexKey: string, declaration: DuplicateSectionDeclaration) {
         const declarations = this.#duplicateDeclarationsIndex.get(indexKey);
-
-        const declaration: DuplicateSectionDeclaration = {
-            menuId,
-            sectionId,
-            registrationType,
-            item,
-            parentSectionId
-        };
 
         if (declarations) {
             declarations.push(declaration);

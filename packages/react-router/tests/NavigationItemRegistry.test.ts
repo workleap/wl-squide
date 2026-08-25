@@ -692,6 +692,34 @@ describe.concurrent("add", () => {
         expect(registry.getPendingRegistrations().getPendingSectionIds().length).toBe(2);
     });
 
+    test.concurrent("when a section holds inline children, they come before the pending items it takes", ({ expect }) => {
+        const registry = new NavigationItemRegistry();
+
+        registry.add("foo", "static", {
+            $id: "pending",
+            $label: "Pending",
+            to: "/pending"
+        }, {
+            sectionId: "bar"
+        });
+
+        // The children declared in a section are registered before the section takes the items that were
+        // waiting for it, which is the order the previous implementation appended them in.
+        registry.add("foo", "static", {
+            $id: "bar",
+            $label: "Bar",
+            children: [{
+                $id: "inline",
+                $label: "Inline",
+                to: "/inline"
+            }]
+        });
+
+        const section = registry.getItems("foo")[0] as NavigationSection;
+
+        expect(section.children.map(x => x.$id)).toEqual(["inline", "pending"]);
+    });
+
     test.concurrent("when a section is declared twice for a menu, the second declaration is deduplicated", ({ expect }) => {
         const registry = new NavigationItemRegistry();
 
@@ -1123,6 +1151,32 @@ describe.concurrent("clearDeferredItems", () => {
 
         expect(pendingItems.length).toBe(1);
         expect(pendingItems[0].menuId).toBe("analytics-sidebar");
+    });
+
+    test.concurrent("a statically duplicated declaration survives a clear", ({ expect }) => {
+        const registry = new NavigationItemRegistry();
+
+        registry.add("foo", "static", {
+            $id: "bar",
+            $label: "Bar",
+            children: []
+        });
+
+        // A static declaration belongs to the initial registration rather than to the run being cleared.
+        // Deleting it would silently swallow a misconfiguration that strict mode reports.
+        registry.add("foo", "static", {
+            $id: "bar",
+            $label: "Bar",
+            $priority: 10,
+            children: []
+        });
+
+        registry.clearDeferredItems();
+
+        const declarations = registry.getDuplicateSectionDeclarations();
+
+        expect(declarations.getDuplicatedSectionIds().length).toBe(1);
+        expect(declarations.getDeclarationsForSection(declarations.getDuplicatedSectionIds()[0]).length).toBe(1);
     });
 
     test.concurrent("when a run only declared a duplicated section, the declaration is still deleted", ({ expect }) => {
