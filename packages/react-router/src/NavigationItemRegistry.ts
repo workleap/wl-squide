@@ -183,6 +183,9 @@ interface NavigationItemRecord {
     // The record this one is nested under, once resolved. "undefined" together with a "sectionId" means the
     // parent section has not been registered yet, which is what "pending" reports.
     parentId?: number;
+    // The section this item was declared inside of, when it was declared inline rather than with the
+    // "sectionId" option. Unlike "parentId" this never changes: it is what lets a clear rebuild the tree.
+    inlineParentId?: number;
     menuId: string;
     registrationType: NavigationItemRegistrationType;
     // The section "$id" this item asked to be nested under, when it was registered with the "sectionId" option.
@@ -225,22 +228,41 @@ function projectSection(item: NavigationSection, children: NavigationItem[]): Na
 }
 
 export class NavigationItemRegistry {
+    // The registration records, in registration order. Every other structure below is derived from this one
+    // and is rebuilt from it by "clearDeferredItems".
     #records: NavigationItemRecord[] = [];
     #recordsById: Map<number, NavigationItemRecord> = new Map();
     #nextRecordId = 0;
 
+    // <menuId, records> of the items that sit at the root of a menu, in registration order.
+    #rootsByMenu: Map<string, NavigationItemRecord[]> = new Map();
+
+    // <record id, records> of the items nested under a record. Inline children first, then the ones adopted
+    // when their section was registered, which is the order the previous implementation appended them in.
+    #childrenByParent: Map<number, NavigationItemRecord[]> = new Map();
+
     // <section index key, record id> of every identified section that has been declared, attached or not.
-    // This is what makes a second declaration of the same container an ensure. An anonymous section can only
-    // be nested by being declared inline.
+    // This is what makes a second declaration of the same container an ensure.
     #declaredSectionIndex: Map<string, number> = new Map();
 
-    // <section index key, record id> of the identified sections that are actually reachable from a menu root.
-    // A section that is itself waiting for its own parent cannot adopt anything, otherwise an item would
-    // report "registered" while sitting in a subtree that no menu shows.
+    // <section index key, record id> of the identified sections that are reachable from a menu root. A section
+    // that is itself waiting for its own parent cannot adopt anything, otherwise an item would report
+    // "registered" while sitting in a subtree that no menu shows.
     #attachedSectionIndex: Map<string, number> = new Map();
+
+    // <section index key, records> of the items waiting for a section that is not attached yet, keyed by what
+    // they are waiting for. Attaching a section is then a direct lookup rather than a scan of every record.
+    #waitersByKey: Map<string, NavigationItemRecord[]> = new Map();
 
     // <section index key, DuplicateSectionDeclaration[]>
     #duplicateDeclarations: Map<string, DuplicateSectionDeclaration[]> = new Map();
+
+    // <record id, projected item>. Projecting a whole menu on every registration would be quadratic over a
+    // bootstrap, and the runtime reads the items back after each one to log them. A record's projection only
+    // changes when its own subtree does, so a change invalidates the record and its ancestors and leaves every
+    // untouched branch alone. Unchanged branches also keep their identity across a mutation, which is what a
+    // React reconciliation wants.
+    #projectionCache: Map<number, NavigationItem> = new Map();
 
     // Menus are remembered even when every record for them has been cleared, matching the previous behaviour
     // of "#menusIndex", whose keys survived "clearDeferredItems".
@@ -268,19 +290,24 @@ export class NavigationItemRegistry {
         memoizeClear(this.#memoizedGetAllItemsByMenu);
     }
 
+    #invalidateBranch(recordId: number | undefined) {
+        let current = recordId;
+
+        while (current !== undefined) {
+            if (!this.#projectionCache.delete(current)) {
+                // The ancestors of an already invalidated record are invalidated too.
+                break;
+            }
+
+            current = this.#recordsById.get(current)?.parentId;
+        }
+    }
+
     add(menuId: string, registrationType: NavigationItemRegistrationType, navigationItem: RootNavigationItem, { sectionId }: AddNavigationItemOptions = {}): NavigationItemRegistrationResult {
         this.#menuIds.add(menuId);
 
-        let parentId: number | undefined;
-
-        if (sectionId) {
-            parentId = this.#attachedSectionIndex.get(createSectionIndexKey(menuId, sectionId));
-        }
-
-        const { record, isDuplicate } = this.#createRecords(menuId, registrationType, navigationItem, parentId, sectionId);
-
-        // Registering a section can complete registrations that were waiting for it.
-        const completedPendingRegistrations = this.#resolvePendingRecords();
+        const completedPendingRegistrations: RootNavigationItem[] = [];
+        const { record, isDuplicate } = this.#createRecords(menuId, registrationType, navigationItem, undefined, sectionId, completedPendingRegistrations);
 
         this.#invalidate();
 
@@ -307,7 +334,7 @@ export class NavigationItemRegistry {
     // Decomposes a registered item into records, recursively. An inline child becomes a record parented by its
     // enclosing section, so nesting declared inline and nesting declared with the "sectionId" option produce
     // the same shape and are undone by the same filter.
-    #createRecords(menuId: string, registrationType: NavigationItemRegistrationType, item: NavigationItem, parentId: number | undefined, sectionId: string | undefined): { record: NavigationItemRecord; isDuplicate: boolean } {
+    #createRecords(menuId: string, registrationType: NavigationItemRegistrationType, item: NavigationItem, inlineParentId: number | undefined, sectionId: string | undefined, completed: RootNavigationItem[]): { record: NavigationItemRecord; isDuplicate: boolean } {
         if (!isLinkItem(item) && item.$id) {
             const indexKey = createSectionIndexKey(menuId, item.$id);
             const existingRecordId = this.#declaredSectionIndex.get(indexKey);
@@ -333,9 +360,16 @@ export class NavigationItemRegistry {
             }
         }
 
+        let parentId = inlineParentId;
+
+        if (parentId === undefined && sectionId) {
+            parentId = this.#attachedSectionIndex.get(createSectionIndexKey(menuId, sectionId));
+        }
+
         const record: NavigationItemRecord = {
             id: this.#nextRecordId++,
             parentId,
+            inlineParentId,
             menuId,
             registrationType,
             sectionId,
@@ -345,123 +379,140 @@ export class NavigationItemRegistry {
         this.#records.push(record);
         this.#recordsById.set(record.id, record);
 
+        if (parentId !== undefined) {
+            this.#addChild(parentId, record);
+        } else if (sectionId) {
+            this.#addWaiter(createSectionIndexKey(menuId, sectionId), record);
+        } else {
+            this.#addRoot(menuId, record);
+        }
+
         if (!isLinkItem(item)) {
             if (item.$id) {
                 this.#declaredSectionIndex.set(createSectionIndexKey(menuId, item.$id), record.id);
             }
 
             // The inline children are decomposed rather than kept on the item, so a section's children are
-            // always the records parented by it and never a mix of the two.
+            // always the records parented by it and never a mix of the two. They are created before this
+            // section adopts, so that they come first in the children array.
+            const childCompleted: RootNavigationItem[] = [];
+
             item.children?.forEach(x => {
-                this.#createRecords(menuId, registrationType, x, record.id, undefined);
+                this.#createRecords(menuId, registrationType, x, record.id, undefined, childCompleted);
             });
+
+            const ownCompleted: RootNavigationItem[] = [];
+
+            if (item.$id && (parentId !== undefined || !sectionId)) {
+                this.#adopt(record, ownCompleted);
+            }
+
+            // A section reports its own completions before the ones its descendants unblocked, which is what
+            // the previous recursive implementation produced by unshifting them in front.
+            completed.push(...ownCompleted, ...childCompleted);
         }
 
         return { record, isDuplicate: false };
     }
 
-    // Attaches every record whose section has since been registered. Unlike the previous pending index, a
-    // record is never consumed: resolving it sets its parent, so a later clear can unresolve it again instead
-    // of losing it.
-    #isAttached(record: NavigationItemRecord): boolean {
-        if (record.parentId === undefined) {
-            // No parent and nothing to wait for means it is a root of its menu.
-            return !record.sectionId;
+    // Marks an identified, reachable section as attached and adopts everything waiting for it. An adopted item
+    // that is itself an identified section becomes reachable in turn, so the adoption cascades.
+    #adopt(record: NavigationItemRecord, completed: RootNavigationItem[]) {
+        const indexKey = createSectionIndexKey(record.menuId, (record.item as NavigationSection).$id!);
+
+        this.#attachedSectionIndex.set(indexKey, record.id);
+
+        const waiters = this.#waitersByKey.get(indexKey);
+
+        if (!waiters) {
+            return;
         }
 
-        return this.#isAttached(this.#recordsById.get(record.parentId)!);
-    }
+        this.#waitersByKey.delete(indexKey);
 
-    #rebuildAttachedSectionIndex() {
-        this.#attachedSectionIndex = new Map();
+        waiters.forEach(x => {
+            x.parentId = record.id;
+            this.#addChild(record.id, x);
+            completed.push(x.item);
+        });
 
-        this.#records.forEach(x => {
-            if (!isLinkItem(x.item) && x.item.$id && this.#isAttached(x)) {
-                this.#attachedSectionIndex.set(createSectionIndexKey(x.menuId, x.item.$id), x.id);
-            }
+        waiters.forEach(x => {
+            this.#cascadeAdoption(x, completed);
         });
     }
 
-    // Attaches every record whose section has since been registered. Unlike the previous pending index, a
-    // record is never consumed: resolving it sets its parent, so a later clear can unresolve it again instead
-    // of losing it.
-    //
-    // Resolving a record can make another one resolvable, since a pending section becomes able to adopt only
-    // once it is itself attached. Each wave re-reads the attached index and resolves what it can, and the
-    // waves run to a fixed point. The completions are reported wave by wave, which is the order the previous
-    // recursive implementation produced.
-    #resolvePendingRecords() {
-        const completed: RootNavigationItem[] = [];
-
-        let hasResolved = true;
-
-        while (hasResolved) {
-            hasResolved = false;
-
-            this.#rebuildAttachedSectionIndex();
-
-            // Walking the attached sections in record order rather than walking the waiting records: a
-            // section is always recorded before the children declared inside it, so this visits a newly
-            // attached block from its shallowest section down. That is the order the previous recursive
-            // implementation reported, where a section unshifted its own completions in front of the ones its
-            // children had already produced.
-            this.#records.forEach(section => {
-                if (isLinkItem(section.item) || !section.item.$id || !this.#isAttached(section)) {
-                    return;
-                }
-
-                const indexKey = createSectionIndexKey(section.menuId, section.item.$id);
-
-                this.#records.forEach(x => {
-                    if (x.parentId === undefined && x.sectionId && x.menuId === section.menuId) {
-                        if (createSectionIndexKey(x.menuId, x.sectionId) === indexKey) {
-                            x.parentId = section.id;
-                            completed.push(x.item);
-                            hasResolved = true;
-                        }
-                    }
-                });
-            });
+    #cascadeAdoption(record: NavigationItemRecord, completed: RootNavigationItem[]) {
+        if (isLinkItem(record.item)) {
+            return;
         }
 
-        return completed;
+        const children = this.#childrenByParent.get(record.id);
+        // Snapshot the length before adopting: "#adopt" appends the newly adopted records and cascades them
+        // itself, so walking past this point would visit them twice.
+        const inlineCount = children?.length ?? 0;
+
+        if (record.item.$id) {
+            this.#adopt(record, completed);
+        }
+
+        for (let i = 0; i < inlineCount; i++) {
+            this.#cascadeAdoption(children![i], completed);
+        }
+    }
+
+    #addChild(parentId: number, record: NavigationItemRecord) {
+        this.#invalidateBranch(parentId);
+
+        const children = this.#childrenByParent.get(parentId);
+
+        if (children) {
+            children.push(record);
+        } else {
+            this.#childrenByParent.set(parentId, [record]);
+        }
+    }
+
+    #addRoot(menuId: string, record: NavigationItemRecord) {
+        const roots = this.#rootsByMenu.get(menuId);
+
+        if (roots) {
+            roots.push(record);
+        } else {
+            this.#rootsByMenu.set(menuId, [record]);
+        }
+    }
+
+    #addWaiter(indexKey: string, record: NavigationItemRecord) {
+        const waiters = this.#waitersByKey.get(indexKey);
+
+        if (waiters) {
+            waiters.push(record);
+        } else {
+            this.#waitersByKey.set(indexKey, [record]);
+        }
     }
 
     #projectMenu(menuId: string): RootNavigationItem[] {
-        const childrenByParent = new Map<number, NavigationItemRecord[]>();
-        const roots: NavigationItemRecord[] = [];
-
-        this.#records.forEach(x => {
-            if (x.menuId !== menuId) {
-                return;
-            }
-
-            if (x.parentId !== undefined) {
-                const siblings = childrenByParent.get(x.parentId);
-
-                if (siblings) {
-                    siblings.push(x);
-                } else {
-                    childrenByParent.set(x.parentId, [x]);
-                }
-            } else if (!x.sectionId) {
-                // A record with a "sectionId" but no parent is still waiting for its section and is left out
-                // of the projection until it resolves.
-                roots.push(x);
-            }
-        });
-
-        return roots.map(x => this.#projectRecord(x, childrenByParent));
+        return (this.#rootsByMenu.get(menuId) ?? []).map(x => this.#projectRecord(x));
     }
 
-    #projectRecord(record: NavigationItemRecord, childrenByParent: Map<number, NavigationItemRecord[]>): NavigationItem {
+    #projectRecord(record: NavigationItemRecord): NavigationItem {
         if (isLinkItem(record.item)) {
             return record.item;
         }
 
-        const children = (childrenByParent.get(record.id) ?? []).map(x => this.#projectRecord(x, childrenByParent));
+        const cached = this.#projectionCache.get(record.id);
 
-        return projectSection(record.item, children);
+        if (cached) {
+            return cached;
+        }
+
+        const children = (this.#childrenByParent.get(record.id) ?? []).map(x => this.#projectRecord(x));
+        const projection = projectSection(record.item, children);
+
+        this.#projectionCache.set(record.id, projection);
+
+        return projection;
     }
 
     getItems(menuId: string) {
@@ -478,24 +529,49 @@ export class NavigationItemRegistry {
             return;
         }
 
-        this.#records = this.#records.filter(x => x.registrationType !== "deferred");
+        // An inline child carries the registration type of the item it was declared in, so a subtree is always
+        // removed or kept whole.
+        const survivors = this.#records.filter(x => x.registrationType !== "deferred");
 
-        this.#recordsById = new Map(this.#records.map(x => [x.id, x]));
+        this.#records = survivors;
+        this.#recordsById = new Map();
+        this.#projectionCache = new Map();
+        this.#rootsByMenu = new Map();
+        this.#childrenByParent = new Map();
         this.#declaredSectionIndex = new Map();
+        this.#attachedSectionIndex = new Map();
+        this.#waitersByKey = new Map();
 
-        this.#records.forEach(x => {
+        survivors.forEach(x => {
+            this.#recordsById.set(x.id, x);
+
+            // Only the inline linkage is intrinsic. A record attached through the "sectionId" option goes back
+            // to waiting, which is the case the previous implementation could not express: a static item
+            // nested under a deferred section was consumed once and then lost, with nothing left to report.
+            x.parentId = x.inlineParentId;
+
             if (!isLinkItem(x.item) && x.item.$id) {
                 this.#declaredSectionIndex.set(createSectionIndexKey(x.menuId, x.item.$id), x.id);
             }
         });
 
-        // A surviving record whose section was registered by the run being cleared goes back to waiting for
-        // it. This is the case the previous implementation could not express: a static item nested under a
-        // deferred section was consumed once and then lost, with nothing left to report.
-        this.#records.forEach(x => {
-            if (x.parentId !== undefined && !this.#recordsById.has(x.parentId)) {
-                x.parentId = undefined;
+        survivors.forEach(x => {
+            if (x.inlineParentId !== undefined) {
+                this.#addChild(x.inlineParentId, x);
+            } else if (x.sectionId) {
+                this.#addWaiter(createSectionIndexKey(x.menuId, x.sectionId), x);
+            } else {
+                this.#addRoot(x.menuId, x);
             }
+        });
+
+        // Everything reachable from a root is attached, and attaching adopts whatever survived waiting for it.
+        const completed: RootNavigationItem[] = [];
+
+        this.#rootsByMenu.forEach(roots => {
+            roots.forEach(x => {
+                this.#cascadeAdoption(x, completed);
+            });
         });
 
         this.#deleteDeferredDuplicateDeclarations();
@@ -524,24 +600,13 @@ export class NavigationItemRegistry {
     getPendingRegistrations() {
         const index = new Map<string, PendingRegistrationItem[]>();
 
-        this.#records.forEach(x => {
-            if (x.parentId === undefined && x.sectionId) {
-                const indexKey = createSectionIndexKey(x.menuId, x.sectionId);
-                const items = index.get(indexKey);
-
-                const pendingItem: PendingRegistrationItem = {
-                    menuId: x.menuId,
-                    sectionId: x.sectionId,
-                    registrationType: x.registrationType,
-                    item: x.item
-                };
-
-                if (items) {
-                    items.push(pendingItem);
-                } else {
-                    index.set(indexKey, [pendingItem]);
-                }
-            }
+        this.#waitersByKey.forEach((waiters, indexKey) => {
+            index.set(indexKey, waiters.map(x => ({
+                menuId: x.menuId,
+                sectionId: x.sectionId!,
+                registrationType: x.registrationType,
+                item: x.item
+            })));
         });
 
         return new PendingNavigationItemRegistrations(index);
