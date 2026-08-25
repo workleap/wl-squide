@@ -3476,6 +3476,54 @@ describe.concurrent("_validateRegistrations", () => {
             expect(() => runtime._validateRegistrations()).not.toThrow();
         });
 
+        test.concurrent("when an ignored declaration carries a $canRender the registered section doesn't have, the report says so", ({ expect }) => {
+            const runtime = new ReactRouterRuntime({
+                loggers: [new NoopLogger()]
+            });
+
+            runtime.registerNavigationItem({
+                $id: "section",
+                $label: "Section",
+                children: []
+            });
+
+            // The guard is discarded and the section renders unconditionally, which is the kind of silent loss
+            // the removed duplicate identifier throw used to prevent.
+            runtime.registerNavigationItem({
+                $id: "section",
+                $label: "Section",
+                $canRender: () => false,
+                children: []
+            });
+
+            expect(() => runtime._validateRegistrations()).toThrow(/a "\$canRender" option/);
+        });
+
+        test.concurrent("when the registered section already has a $canRender, nothing is reported", ({ expect }) => {
+            const runtime = new ReactRouterRuntime({
+                loggers: [new NoopLogger()]
+            });
+
+            // Two "$canRender" functions are never equal across modules, so only the absence of one from the
+            // registered section is unambiguous. Reporting the presence would make the supported pattern
+            // unusable for a section that is guarded.
+            runtime.registerNavigationItem({
+                $id: "section",
+                $label: "Section",
+                $canRender: () => true,
+                children: []
+            });
+
+            runtime.registerNavigationItem({
+                $id: "section",
+                $label: "Section",
+                $canRender: () => true,
+                children: []
+            });
+
+            expect(() => runtime._validateRegistrations()).not.toThrow();
+        });
+
         test.concurrent("when a declaration is registered but did not get the identifier, it is reported as such", ({ expect }) => {
             const runtime = new ReactRouterRuntime({
                 loggers: [new NoopLogger()]

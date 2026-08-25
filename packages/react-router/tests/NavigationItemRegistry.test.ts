@@ -1253,6 +1253,74 @@ describe.concurrent("clearDeferredItems", () => {
         expect(countDeclarations()).toBe(1);
     });
 
+    test.concurrent("when a section is declared twice, the registered section's accessor properties are not read", ({ expect }) => {
+        const registry = new NavigationItemRegistry();
+
+        let readCount = 0;
+
+        registry.add("foo", "static", {
+            $id: "bar",
+            children: [],
+            get $label() {
+                readCount += 1;
+
+                return "Bar";
+            }
+        });
+
+        // The registry never reads a "$label", which is what keeps a lazy getter lazy. Comparing the two
+        // labels to tell a conflict apart from a shared section would read both, on every declaration after
+        // the first and again on every update run, so the comparison is deferred to the report.
+        registry.add("foo", "static", {
+            $id: "bar",
+            $label: "Bar",
+            children: []
+        });
+
+        expect(readCount).toBe(0);
+    });
+
+    test.concurrent("when a registration is pending, the memoized items keep their identity", ({ expect }) => {
+        const registry = new NavigationItemRegistry();
+
+        registry.add("foo", "static", {
+            $label: "Bar",
+            to: "/bar"
+        });
+
+        const items = registry.getItems("foo");
+
+        // The pending registration sits in a subtree no menu holds, so nothing a menu renders changed.
+        registry.add("foo", "static", {
+            $label: "Nested",
+            to: "/nested"
+        }, {
+            sectionId: "missing"
+        });
+
+        expect(registry.getItems("foo")).toBe(items);
+    });
+
+    test.concurrent("when a declaration is deduplicated, the memoized items keep their identity", ({ expect }) => {
+        const registry = new NavigationItemRegistry();
+
+        registry.add("foo", "static", {
+            $id: "bar",
+            $label: "Bar",
+            children: []
+        });
+
+        const items = registry.getItems("foo");
+
+        registry.add("foo", "static", {
+            $id: "bar",
+            $label: "Bar",
+            children: []
+        });
+
+        expect(registry.getItems("foo")).toBe(items);
+    });
+
     test.concurrent("should not let consumers mutate the internal registry through the returned declarations", ({ expect }) => {
         const registry = new NavigationItemRegistry();
 
@@ -1278,9 +1346,6 @@ describe.concurrent("clearDeferredItems", () => {
             registrationType: "static",
             item: { $id: "bar", $label: "Bar", children: [] },
             isInlineDeclaration: false,
-            hasConflictingLabel: false,
-            hasDiscardedPriority: false,
-            hasDiscardedParentSectionId: false,
             isRegistered: false
         });
 

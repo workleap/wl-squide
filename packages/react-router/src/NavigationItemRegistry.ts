@@ -102,15 +102,11 @@ export interface DuplicateSectionDeclaration {
     // The "$id" of the section this declaration was written in. A section declared inline doesn't have to be
     // identified, therefore the section holding it cannot always be named.
     inlineParentSectionId?: string;
-    // Whether this declaration's label differs from the one of the section that owns the identifier.
-    hasConflictingLabel: boolean;
-    // Whether this declaration asked for a "$priority" that the section owning the identifier doesn't have.
-    // Carrying the same one as the registered section discards nothing, which is what the supported pattern of
-    // declaring a shared section identically in every module does.
-    hasDiscardedPriority: boolean;
-    // Whether this declaration asked to be nested under a section that isn't the one the registered section
-    // asked for. Same reasoning as the "$priority" above.
-    hasDiscardedParentSectionId: boolean;
+    // The section that owns the identifier, and the section that one asked to be nested under. They are kept
+    // rather than compared here so that reading a "$label" getter, which the registry otherwise never does,
+    // only happens if a report is actually built.
+    registeredItem?: NavigationItem & { $priority?: number };
+    registeredParentSectionId?: string;
     // Whether the declaration is itself registered. A declaration that found the section already registered
     // contributes nothing and is not, but a section that was waiting for its own section only competes for
     // the identifier once it becomes reachable, and by then it holds a place in the menu that it keeps.
@@ -242,28 +238,6 @@ function resolveNavigationSection(item: NavigationSection, children: NavigationI
     return Object.create(Object.getPrototypeOf(item), descriptors) as NavigationSection;
 }
 
-// Two modules declaring a shared section render its label through their own element, therefore comparing
-// "$label" values is only meaningful when both are strings. Comparing the others would report every correctly
-// shared section, since a "ReactNode" is rebuilt on every registration and never equals the previous one.
-function hasConflictingLabel(registeredItem: NavigationItem, item: NavigationItem) {
-    return typeof registeredItem.$label === "string"
-        && typeof item.$label === "string"
-        && registeredItem.$label !== item.$label;
-}
-
-// A declaration only discards an option when it carries one the registered section doesn't have. Reporting the
-// mere presence of a "$priority" would make the supported pattern unusable for a prioritized section, since
-// every module declaring it identically would be reported for the option they agree on.
-function hasDiscardedPriority(registeredItem: NavigationItem, item: NavigationItem) {
-    const priority = (item as RootNavigationItem).$priority;
-
-    return !isNil(priority) && priority !== (registeredItem as RootNavigationItem).$priority;
-}
-
-function hasDiscardedParentSectionId(registeredSectionId?: string, sectionId?: string) {
-    return !isNil(sectionId) && sectionId !== registeredSectionId;
-}
-
 export class NavigationItemRegistry {
     // The registrations, in registration order. Every index below is derived from this array, which is what
     // allows "clearDeferredItems" to rebuild the whole registry from it.
@@ -327,9 +301,6 @@ export class NavigationItemRegistry {
 
         const { registration, isDuplicate } = this.#recursivelyAddRegistrations(menuId, registrationType, navigationItem, completedPendingRegistrations, { sectionId });
 
-        memoizeClear(this.#memoizedGetItems);
-        memoizeClear(this.#memoizedGetAllItemsByMenu);
-
         let registrationStatus: NavigationItemRegistrationStatus;
 
         if (isDuplicate) {
@@ -338,6 +309,14 @@ export class NavigationItemRegistry {
             registrationStatus = "pending";
         } else {
             registrationStatus = "registered";
+        }
+
+        // A pending registration sits in a subtree no menu holds and a duplicated declaration adds nothing but
+        // a report record, so neither changes what a menu renders. Discarding the memoized items for them
+        // would replace the arrays consumers hold for a registration they cannot see.
+        if (registrationStatus === "registered") {
+            memoizeClear(this.#memoizedGetItems);
+            memoizeClear(this.#memoizedGetAllItemsByMenu);
         }
 
         const result: NavigationItemRegistrationResult = {
@@ -395,9 +374,8 @@ export class NavigationItemRegistry {
                     parentSectionId: sectionId,
                     isInlineDeclaration: inlineParentId !== undefined,
                     inlineParentSectionId: this.#getInlineParentSectionId(inlineParentId),
-                    hasConflictingLabel: hasConflictingLabel(registeredSection.item, item),
-                    hasDiscardedPriority: hasDiscardedPriority(registeredSection.item, item),
-                    hasDiscardedParentSectionId: hasDiscardedParentSectionId(registeredSection.sectionId, sectionId),
+                    registeredItem: registeredSection.item,
+                    registeredParentSectionId: registeredSection.sectionId,
                     isRegistered: false
                 });
 
@@ -482,11 +460,8 @@ export class NavigationItemRegistry {
                 parentSectionId: registration.sectionId,
                 isInlineDeclaration: registration.inlineParentId !== undefined,
                 inlineParentSectionId: this.#getInlineParentSectionId(registration.inlineParentId),
-                hasConflictingLabel: !isNil(registeredSection) && hasConflictingLabel(registeredSection.item, registration.item),
-                // A declaration that keeps its place discards nothing: it holds its own priority and its own
-                // position, and loses only the identifier.
-                hasDiscardedPriority: false,
-                hasDiscardedParentSectionId: false,
+                registeredItem: registeredSection?.item,
+                registeredParentSectionId: registeredSection?.sectionId,
                 isRegistered: true
             });
 

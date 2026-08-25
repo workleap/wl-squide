@@ -9,6 +9,49 @@ function indent(text: string, depth: number) {
     return `${" ".repeat(depth * 4)}${text}`;
 }
 
+// Two modules declaring a shared section render its label through their own element, therefore comparing
+// "$label" values is only meaningful when both are strings. Comparing the others would report every correctly
+// shared section, since a "ReactNode" is rebuilt on every registration and never equals the previous one.
+function hasConflictingLabel({ item, registeredItem }: DuplicateSectionDeclaration) {
+    return !isNil(registeredItem)
+        && typeof registeredItem.$label === "string"
+        && typeof item.$label === "string"
+        && registeredItem.$label !== item.$label;
+}
+
+// What a declaration that lost outright would have contributed. An option is only discarded when the section
+// that owns the identifier doesn't already carry it: reporting its mere presence would make the supported
+// pattern unusable for a section that has one, since every module declaring it identically would be reported
+// for the option they agree on.
+function getDiscardedOptions(declaration: DuplicateSectionDeclaration) {
+    const { item, registeredItem, parentSectionId, registeredParentSectionId } = declaration;
+    const options: string[] = [];
+
+    if (item.children?.length) {
+        options.push(`${item.children.length} child${item.children.length !== 1 ? "ren" : ""}`);
+    }
+
+    if (!isNil(item.$priority) && item.$priority !== registeredItem?.$priority) {
+        options.push(`a "$priority" option of ${item.$priority}`);
+    }
+
+    if (!isNil(parentSectionId) && parentSectionId !== registeredParentSectionId) {
+        options.push(`a "sectionId" option of "${parentSectionId}"`);
+    }
+
+    // A "$canRender" is a function, so two of them are never equal across modules and only its absence from the
+    // registered section is unambiguous. Losing one makes a section render where it was meant to be hidden.
+    if (!isNil(item.$canRender) && isNil(registeredItem?.$canRender)) {
+        options.push("a \"$canRender\" option");
+    }
+
+    if (hasConflictingLabel(declaration)) {
+        options.push(`a "$label" of "${item.$label}"`);
+    }
+
+    return options;
+}
+
 // An inline declaration is dropped from the position it was written in, therefore where it was written is what
 // tells the author which module to look at.
 function formatInlineDeclarationPosition(declaration: DuplicateSectionDeclaration) {
@@ -491,13 +534,7 @@ export class ReactRouterRuntime<TRuntime extends ReactRouterRuntime = any> exten
 
                 return {
                     ignoredDeclarations: declarations.filter(y => {
-                        return !y.isRegistered && (
-                            (y.item.children?.length ?? 0) > 0
-                            || y.hasDiscardedPriority
-                            || y.hasDiscardedParentSectionId
-                            || y.isInlineDeclaration
-                            || y.hasConflictingLabel
-                        );
+                        return !y.isRegistered && (y.isInlineDeclaration || getDiscardedOptions(y).length > 0);
                     }),
                     conflictingIdentifierDeclarations: declarations.filter(y => y.isRegistered)
                 };
@@ -516,25 +553,8 @@ export class ReactRouterRuntime<TRuntime extends ReactRouterRuntime = any> exten
                     message += indent("Ignored declarations:\r\n", 1);
 
                     ignoredDeclarations.forEach(x => {
-                        const conflicts: string[] = [];
-
-                        if (x.item.children?.length) {
-                            conflicts.push(`${x.item.children.length} child${x.item.children.length !== 1 ? "ren" : ""}`);
-                        }
-
-                        if (x.hasDiscardedPriority) {
-                            conflicts.push(`a "$priority" option of ${x.item.$priority}`);
-                        }
-
-                        if (x.hasDiscardedParentSectionId) {
-                            conflicts.push(`a "sectionId" option of "${x.parentSectionId}"`);
-                        }
-
-                        if (x.hasConflictingLabel) {
-                            conflicts.push(`a "$label" of "${x.item.$label}"`);
-                        }
-
-                        const options = conflicts.length > 0 ? ` with ${conflicts.join(", ")}` : "";
+                        const discardedOptions = getDiscardedOptions(x);
+                        const options = discardedOptions.length > 0 ? ` with ${discardedOptions.join(", ")}` : "";
 
                         message += indent(`- A ${x.registrationType} declaration${options}${formatInlineDeclarationPosition(x)}.\r\n`, 2);
                     });
@@ -548,7 +568,7 @@ export class ReactRouterRuntime<TRuntime extends ReactRouterRuntime = any> exten
                             ? ` nested under the "${x.parentSectionId}" section`
                             : formatInlineDeclarationPosition(x);
 
-                        const label = x.hasConflictingLabel ? `, with a "$label" of "${x.item.$label}"` : "";
+                        const label = hasConflictingLabel(x) ? `, with a "$label" of "${x.item.$label}"` : "";
 
                         message += indent(`- A ${x.registrationType} declaration${position}${label}.\r\n`, 2);
                     });
