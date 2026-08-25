@@ -1607,4 +1607,28 @@ describe.concurrent("parseSectionIndexKey", () => {
         // it from drifting away from the key format.
         expect(parseSectionIndexKey(indexKey)).toEqual(["analytics-sidebar", "performance"]);
     });
+
+    test.concurrent("a key round-trips even when a menu id contains the separator", ({ expect }) => {
+        const registry = new NavigationItemRegistry();
+
+        // Nothing forbids the separator inside an id, so the key format has to stay unambiguous for one that
+        // contains it. Without the length prefix this pair collided with ("a", "b\u0000c").
+        registry.add("a\u0000b", "static", {
+            $label: "1",
+            to: "1"
+        }, { sectionId: "c" });
+
+        registry.add("a", "static", {
+            $label: "2",
+            to: "2"
+        }, { sectionId: "b\u0000c" });
+
+        const keys = registry.getPendingRegistrations().getPendingSectionIds();
+
+        expect(keys).toHaveLength(2);
+        expect(keys.map(x => parseSectionIndexKey(x))).toEqual([
+            ["a\u0000b", "c"],
+            ["a", "b\u0000c"]
+        ]);
+    });
 });

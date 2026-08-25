@@ -151,13 +151,16 @@ export class NavigationItemDeferredRegistrationTransactionalScope extends Naviga
     }
 }
 
-// A separator that is not expected to appear in a "menuId" or in a section "$id". Joining with a "-" made a key
+// The separator between the two halves of a section index key. Joining with a "-" made a key
 // ambiguous: ("main-menu", "settings") and ("main", "menu-settings") both produced "main-menu-settings", which
 // resolved two distinct sections of two distinct menus to the same index entry.
 const SectionIndexKeySeparator = "\u0000";
 
 function createSectionIndexKey(menuId: string, sectionId: string) {
-    return `${menuId}${SectionIndexKeySeparator}${sectionId}`;
+    // The menu id is length-prefixed rather than merely separated from the section id. Nothing constrains a
+    // "menuId" or a section "$id" to exclude the separator, so a separator on its own would only move the
+    // collision instead of removing it. Prefixing the length keeps the split unambiguous whatever the ids hold.
+    return `${menuId.length}${SectionIndexKeySeparator}${menuId}${sectionId}`;
 }
 
 /**
@@ -168,7 +171,11 @@ function createSectionIndexKey(menuId: string, sectionId: string) {
  * calls this function anymore, it is kept until the next major to avoid a breaking removal.
  */
 export function parseSectionIndexKey(indexKey: string) {
-    return indexKey.split(SectionIndexKeySeparator);
+    const separatorIndex = indexKey.indexOf(SectionIndexKeySeparator);
+    const menuIdStart = separatorIndex + SectionIndexKeySeparator.length;
+    const menuIdEnd = menuIdStart + Number(indexKey.slice(0, separatorIndex));
+
+    return [indexKey.slice(menuIdStart, menuIdEnd), indexKey.slice(menuIdEnd)];
 }
 
 // The registry attaches a nested item by mutating the "children" array of the section it indexes. Cloning the
@@ -181,6 +188,9 @@ function cloneNavigationItem<T extends NavigationItem>(item: T): T {
 
     // Copying the property descriptors rather than spreading preserves the prototype chain and keeps accessor
     // properties lazy, so a section backed by a class instance or by a "$label" getter still behaves.
+    // ECMAScript private fields are the exception: they are slots rather than properties, so they cannot be
+    // copied, and an accessor reading one throws on the clone. TypeScript's "private" compiles to an ordinary
+    // property and is unaffected. See ADR-0023.
     const descriptors = Object.getOwnPropertyDescriptors(item);
 
     // Replacing the "children" descriptor rather than assigning to the clone afterwards. A frozen section, or

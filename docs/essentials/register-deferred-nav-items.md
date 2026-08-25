@@ -276,12 +276,12 @@ Squide discards everything the previous run registered before replaying the new 
 import type { ModuleRegisterFunction, FireflyRuntime } from "@squide/firefly";
 
 export const register: ModuleRegisterFunction<FireflyRuntime> = () => {
-    return (deferredRuntime, { featureFlags }) => {
-        if (featureFlags.isFeatureAEnabled) {
+    return (deferredRuntime) => {
+        if (deferredRuntime.getFeatureFlag("enable-feature-a")) {
             deferredRuntime.registerNavigationItem({
                 $id: "feature-a",
                 $label: "Feature A",
-                children: []
+                to: "/feature-a"
             });
         }
     };
