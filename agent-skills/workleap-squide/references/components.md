@@ -19,6 +19,7 @@ The main router component that sets up Squide's primitives with React Router.
 |------|------|---------|-------------|
 | `waitForPublicData` | `boolean` | `false` | Delay rendering until public data queries complete |
 | `waitForProtectedData` | `boolean` | `false` | Delay rendering until protected data queries complete |
+| `strictMode` | `boolean` | `true` | Validate the registrations and throw when the active location matches no route |
 | `children` | `function` | required | Render function for router setup |
 
 ### Render Function Arguments
@@ -122,6 +123,20 @@ export function App() {
     );
 }
 ```
+
+### Strict Mode
+
+With `strictMode` enabled (the default), Squide validates the registrations once the modules are ready, validates the navigation item registrations again after every deferred registration update, and throws when the active location matches no registered route. A navigation item registered under a section that no module registered, or a route registered under a parent that does not exist, throws in development and is logged in production.
+
+Routes are only validated once — they are frozen after the initial registration phase and cannot become pending during an update.
+
+```tsx
+<AppRouter strictMode={false}>
+    {({ rootRoute, registeredRoutes, routerProps, routerProviderProps }) => ( ... )}
+</AppRouter>
+```
+
+**Important:** strict mode is what surfaces a misconfigured `sectionId`, `parentPath` or `parentId`. The registration is dropped either way — turning the validation off only removes the report.
 
 ## FireflyProvider
 
@@ -423,4 +438,4 @@ export const register: ModuleRegisterFunction<FireflyRuntime> = runtime => {
 **Parameters:**
 - `candidates`: Array of deferred registration functions (or `void`). Non-function entries are filtered out.
 
-**Returns:** A single merged `DeferredRegistrationFunction`, or `undefined` if no valid functions were provided.
+**Returns:** A single merged `DeferredRegistrationFunction` when several are provided, the provided function itself when only one is, or `undefined` when none are.
