@@ -510,7 +510,7 @@ describe.concurrent("add", () => {
         expect(result3.completedPendingRegistrations[1]).toBe(result1.item);
     });
 
-    test.concurrent("when a static item is nested under a deferred section, throw an error", ({ expect }) => {
+    test.concurrent("when a static item is nested under a deferred section, the item goes back to pending once the section is cleared", ({ expect }) => {
         const registry = new NavigationItemRegistry();
 
         const result = registry.add("foo", "deferred", {
@@ -521,17 +521,32 @@ describe.concurrent("add", () => {
 
         expect(result.registrationStatus).toBe("registered");
 
-        expect(() => {
-            registry.add("foo", "static", {
-                $label: "1",
-                to: "/1"
-            }, {
-                sectionId: "bar"
-            });
-        }).toThrow();
+        registry.add("foo", "static", {
+            $label: "1",
+            to: "/1"
+        }, {
+            sectionId: "bar"
+        });
+
+        expect((registry.getItems("foo")[0] as NavigationSection).children.length).toBe(1);
+
+        // The section belonged to the run being cleared. The static item is not deleted with it, it waits for
+        // the section to be registered again and is reported as pending until then.
+        registry.clearDeferredItems();
+
+        expect(registry.getItems("foo").length).toBe(0);
+        expect(registry.getPendingRegistrations().getPendingSectionIds().length).toBe(1);
+
+        registry.add("foo", "deferred", {
+            $id: "bar",
+            $label: "bar",
+            children: []
+        });
+
+        expect((registry.getItems("foo")[0] as NavigationSection).children.length).toBe(1);
     });
 
-    test.concurrent("when a deferred item is nested under a static section, throw an error", ({ expect }) => {
+    test.concurrent("when a deferred item is nested under a static section, the item is deleted by a clear", ({ expect }) => {
         const registry = new NavigationItemRegistry();
 
         const result = registry.add("foo", "static", {
@@ -542,14 +557,19 @@ describe.concurrent("add", () => {
 
         expect(result.registrationStatus).toBe("registered");
 
-        expect(() => {
-            registry.add("foo", "deferred", {
-                $label: "1",
-                to: "/1"
-            }, {
-                sectionId: "bar"
-            });
-        }).toThrow();
+        registry.add("foo", "deferred", {
+            $label: "1",
+            to: "/1"
+        }, {
+            sectionId: "bar"
+        });
+
+        expect((registry.getItems("foo")[0] as NavigationSection).children.length).toBe(1);
+
+        // The static section is kept, the deferred item it holds is not.
+        registry.clearDeferredItems();
+
+        expect((registry.getItems("foo")[0] as NavigationSection).children.length).toBe(0);
     });
 
     test.concurrent("when a nested item is registered under a section without a predefined children array, register the item", ({ expect }) => {
@@ -597,6 +617,126 @@ describe.concurrent("add", () => {
 
         expect(registry.getItems("analytics").length).toBe(1);
         expect(registry.getItems("analytics-sidebar").length).toBe(1);
+    });
+
+    test.concurrent("when a section is waiting for its own section, it doesn't take the identifier from a section registered afterward", ({ expect }) => {
+        const registry = new NavigationItemRegistry();
+
+        // The section is waiting for a section that is never registered, therefore it holds nothing and must
+        // not take the "bar" identifier from the section registered below.
+        registry.add("foo", "static", {
+            $id: "bar",
+            $label: "Bar",
+            children: []
+        }, {
+            sectionId: "missing"
+        });
+
+        const result = registry.add("foo", "deferred", {
+            $id: "bar",
+            $label: "Bar",
+            children: []
+        });
+
+        expect(result.registrationStatus).toBe("registered");
+        expect(registry.getItems("foo").length).toBe(1);
+    });
+
+    test.concurrent("when a section is waiting for its own section, the sections declared in it don't take pending items", ({ expect }) => {
+        const registry = new NavigationItemRegistry();
+
+        // The outer section is waiting for the section declared inside of it, which is reachable from nowhere.
+        // Registering the inner section as if it was would nest the outer section under its own child.
+        const result = registry.add("foo", "static", {
+            $id: "outer",
+            $label: "Outer",
+            children: [{
+                $id: "inner",
+                $label: "Inner",
+                children: []
+            }]
+        }, {
+            sectionId: "inner"
+        });
+
+        expect(result.registrationStatus).toBe("pending");
+        expect(registry.getItems("foo").length).toBe(0);
+    });
+
+    test.concurrent("when a section is waiting for its own section, the items nested under it stay pending", ({ expect }) => {
+        const registry = new NavigationItemRegistry();
+
+        registry.add("foo", "static", {
+            $label: "1",
+            to: "/1"
+        }, {
+            sectionId: "inner"
+        });
+
+        const result = registry.add("foo", "static", {
+            $id: "outer",
+            $label: "Outer",
+            children: [{
+                $id: "inner",
+                $label: "Inner",
+                children: []
+            }]
+        }, {
+            sectionId: "missing"
+        });
+
+        // Nothing is reachable from the menu, therefore nothing has been completed and both registrations are
+        // still reported as pending.
+        expect(result.completedPendingRegistrations.length).toBe(0);
+        expect(registry.getItems("foo").length).toBe(0);
+        expect(registry.getPendingRegistrations().getPendingSectionIds().length).toBe(2);
+    });
+
+    test.concurrent("when a section is declared twice for a menu, the second declaration is deduplicated", ({ expect }) => {
+        const registry = new NavigationItemRegistry();
+
+        const first = registry.add("foo", "deferred", {
+            $id: "bar",
+            $label: "From the first module",
+            children: []
+        });
+
+        const second = registry.add("foo", "deferred", {
+            $id: "bar",
+            $label: "From the second module",
+            children: []
+        });
+
+        registry.add("foo", "deferred", { $label: "1", to: "/1" }, { sectionId: "bar" });
+        registry.add("foo", "deferred", { $label: "2", to: "/2" }, { sectionId: "bar" });
+
+        expect(first.registrationStatus).toBe("registered");
+        expect(second.registrationStatus).toBe("deduplicated");
+        expect(registry.getItems("foo").length).toBe(1);
+        expect((registry.getItems("foo")[0] as NavigationSection).children.length).toBe(2);
+    });
+
+    test.concurrent("when a section is declared twice and the second declaration is waiting for a missing section, the declaration is pending", ({ expect }) => {
+        const registry = new NavigationItemRegistry();
+
+        registry.add("foo", "static", {
+            $id: "bar",
+            $label: "Bar",
+            children: []
+        });
+
+        // The declaration only competes for the identifier once it would take its place in the menu, otherwise
+        // the section it is waiting for would stop being reported as missing.
+        const result = registry.add("foo", "static", {
+            $id: "bar",
+            $label: "Bar",
+            children: []
+        }, {
+            sectionId: "missing"
+        });
+
+        expect(result.registrationStatus).toBe("pending");
+        expect(registry.getPendingRegistrations().getPendingSectionIds().length).toBe(1);
     });
 });
 
@@ -668,6 +808,26 @@ describe.concurrent("getItems", () => {
         const result2 = registry.getItems("foo");
 
         expect(result1).not.toBe(result2);
+    });
+
+    test.concurrent("a section that didn't change keeps its identity when another section is updated", ({ expect }) => {
+        const registry = new NavigationItemRegistry();
+
+        registry.add("foo", "static", { $id: "left", $label: "Left", children: [] });
+        registry.add("foo", "static", { $id: "right", $label: "Right", children: [] });
+
+        const before = registry.getItems("foo");
+
+        expect(registry.getItems("foo")).toBe(before);
+
+        registry.add("foo", "static", { $label: "1", to: "/1" }, { sectionId: "left" });
+
+        const after = registry.getItems("foo");
+
+        // Only the section the item landed in is rebuilt.
+        expect(after).not.toBe(before);
+        expect(after[0]).not.toBe(before[0]);
+        expect(after[1]).toBe(before[1]);
     });
 });
 
@@ -874,48 +1034,54 @@ describe.concurrent("clearDeferredItems", () => {
             children: []
         });
 
-        // The section index entry of a static section survives a clear, therefore the registration type guard is
-        // what keeps a deferred nested item from accumulating under it run after run. Purging only the deferred
-        // pending registrations relies on it.
-        registry.clearDeferredItems();
+        // The deferred items are deleted at every depth, therefore replaying the same registration run after
+        // run cannot make the children of a static section grow.
+        const counts: number[] = [];
 
-        expect(() => {
+        for (let i = 0; i < 3; i++) {
+            registry.clearDeferredItems();
+
             registry.add("foo", "deferred", {
                 $label: "1",
                 to: "1"
             }, { sectionId: "bar" });
-        }).toThrow(/must have the same registration type/);
 
-        expect((registry.getItems("foo")[0] as NavigationSection).children.length).toBe(0);
+            counts.push((registry.getItems("foo")[0] as NavigationSection).children.length);
+        }
+
+        expect(counts).toEqual([1, 1, 1]);
     });
 
-    test.concurrent("when a section index entry has been orphaned by a failed registration, it is cleared", ({ expect }) => {
+    test.concurrent("a section index entry cannot be orphaned, a section is only indexed once it is registered", ({ expect }) => {
         const registry = new NavigationItemRegistry();
 
-        // The section index entries are added before the menu index entry, therefore a section registered with
-        // duplicated "$id" options leaves the outer section indexed for a menu that doesn't exist yet.
-        expect(() => {
-            registry.add("foo", "deferred", {
-                $id: "bar",
-                $label: "Bar",
-                children: [{
-                    $id: "bar",
-                    $label: "Bar",
-                    children: []
-                }]
-            });
-        }).toThrow();
-
-        registry.clearDeferredItems();
-
-        // Without the orphaned entry, the section can be registered again.
-        expect(() => {
-            registry.add("foo", "deferred", {
+        // The inner section duplicates the "$id" of the outer one. The outer section is registered and the
+        // inner declaration is deduplicated, rather than leaving the outer section indexed for a menu that
+        // doesn't hold it.
+        const result = registry.add("foo", "deferred", {
+            $id: "bar",
+            $label: "Bar",
+            children: [{
                 $id: "bar",
                 $label: "Bar",
                 children: []
-            });
-        }).not.toThrow();
+            }]
+        });
+
+        expect(result.registrationStatus).toBe("registered");
+        expect(registry.getItems("foo").length).toBe(1);
+        expect((registry.getItems("foo")[0] as NavigationSection).children.length).toBe(0);
+
+        registry.clearDeferredItems();
+
+        expect(registry.getItems("foo").length).toBe(0);
+
+        // Without the entry, the section can be registered again.
+        registry.add("foo", "deferred", {
+            $id: "bar",
+            $label: "Bar",
+            children: []
+        });
 
         expect(registry.getItems("foo").length).toBe(1);
     });
@@ -957,6 +1123,35 @@ describe.concurrent("clearDeferredItems", () => {
 
         expect(pendingItems.length).toBe(1);
         expect(pendingItems[0].menuId).toBe("analytics-sidebar");
+    });
+
+    test.concurrent("when a run only declared a duplicated section, the declaration is still deleted", ({ expect }) => {
+        const registry = new NavigationItemRegistry();
+
+        registry.add("foo", "static", {
+            $id: "bar",
+            $label: "Bar",
+            children: []
+        });
+
+        // Declaring a duplicated section doesn't add a registration, therefore a run that only declared one
+        // has nothing deferred to delete and would keep the declaration of every run otherwise.
+        for (let i = 0; i < 5; i++) {
+            registry.clearDeferredItems();
+
+            registry.add("foo", "deferred", {
+                $id: "bar",
+                $label: "Bar",
+                $priority: 10,
+                children: []
+            });
+        }
+
+        const declarations = registry.getDuplicateSectionDeclarations();
+        const total = declarations.getDuplicatedSectionIds()
+            .reduce((acc, x) => acc + declarations.getDeclarationsForSection(x).length, 0);
+
+        expect(total).toBe(1);
     });
 });
 
@@ -1589,6 +1784,29 @@ describe.concurrent("getAllItemsByMenu", () => {
         const byMenu = registry.getAllItemsByMenu();
 
         expect(byMenu.get("foo")).toBe(registry.getItems("foo"));
+    });
+
+    test.concurrent("a menu that only received pending registrations is not included", ({ expect }) => {
+        const registry = new NavigationItemRegistry();
+
+        registry.add("foo", "static", {
+            $label: "1",
+            to: "/1"
+        }, {
+            sectionId: "missing"
+        });
+
+        // A menu is known once it holds an item, otherwise a menu that never rendered anything would be
+        // returned as an empty one.
+        expect(registry.getAllItemsByMenu().size).toBe(0);
+
+        registry.add("foo", "static", {
+            $id: "missing",
+            $label: "Missing",
+            children: []
+        });
+
+        expect(registry.getAllItemsByMenu().size).toBe(1);
     });
 });
 

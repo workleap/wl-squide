@@ -2580,22 +2580,24 @@ describe.concurrent("startDeferredRegistrationScope & completeDeferredRegistrati
             loggers: [new NoopLogger()]
         });
 
-        runtime.registerNavigationItem({
-            $id: "section",
-            $label: "Section",
-            children: []
-        });
-
         runtime.startDeferredRegistrationScope({ transactional: true });
 
-        // A deferred nested item cannot be registered under a static section, therefore the replay
-        // performed by the completion of the scope throws an error.
-        runtime.registerNavigationItem({
-            $label: "Link",
-            to: "/link"
-        }, {
-            sectionId: "section"
+        // Reading the children of the section throws, and the replay performed by the completion of the scope
+        // is what reads them.
+        const section = {
+            $id: "section",
+            $label: "Section"
+        } as Record<string, unknown>;
+
+        Object.defineProperty(section, "children", {
+            get() {
+                throw new Error("Cannot read the children of this section.");
+            },
+            enumerable: true,
+            configurable: true
         });
+
+        runtime.registerNavigationItem(section as never);
 
         expect(() => runtime.completeDeferredRegistrationScope()).toThrow();
 
@@ -2834,13 +2836,13 @@ describe.concurrent("startDeferredRegistrationScope & completeDeferredRegistrati
         expect(runtime.getNavigationItems()[0].$label).toBe("Section");
     });
 
-    test.concurrent("when a static section is registered, the registered item is the caller's object", ({ expect }) => {
+    test.concurrent("when a section is registered, the registry never mutates the caller's object", ({ expect }) => {
         const runtime = new ReactRouterRuntime({
             loggers: [new NoopLogger()]
         });
 
-        // Only the deferred path is cloned. The static phase runs once and cannot accumulate, so cloning it
-        // would break identity for no benefit.
+        // The items are built from the registrations rather than stored, therefore nesting an item under a
+        // section never writes to the "children" array the module owns.
         const section: NavigationSection = {
             $id: "section",
             $label: "Section",
@@ -2849,7 +2851,17 @@ describe.concurrent("startDeferredRegistrationScope & completeDeferredRegistrati
 
         runtime.registerNavigationItem(section);
 
-        expect(runtime.getNavigationItems()[0]).toBe(section);
+        runtime.registerNavigationItem({
+            $label: "Link",
+            to: "/link"
+        }, {
+            sectionId: "section"
+        });
+
+        expect(section.children.length).toBe(0);
+        expect((runtime.getNavigationItems()[0] as NavigationSection).children.length).toBe(1);
+        expect(runtime.getNavigationItems()[0]).not.toBe(section);
+        expect(runtime.getNavigationItems()[0].$id).toBe(section.$id);
     });
 });
 
