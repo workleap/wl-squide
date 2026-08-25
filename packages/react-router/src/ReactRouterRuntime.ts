@@ -493,8 +493,8 @@ export class ReactRouterRuntime<TRuntime extends ReactRouterRuntime = any> exten
                     ignoredDeclarations: declarations.filter(y => {
                         return !y.isRegistered && (
                             (y.item.children?.length ?? 0) > 0
-                            || !isNil(y.item.$priority)
-                            || !isNil(y.parentSectionId)
+                            || y.hasDiscardedPriority
+                            || y.hasDiscardedParentSectionId
                             || y.isInlineDeclaration
                             || y.hasConflictingLabel
                         );
@@ -522,11 +522,11 @@ export class ReactRouterRuntime<TRuntime extends ReactRouterRuntime = any> exten
                             conflicts.push(`${x.item.children.length} child${x.item.children.length !== 1 ? "ren" : ""}`);
                         }
 
-                        if (!isNil(x.item.$priority)) {
+                        if (x.hasDiscardedPriority) {
                             conflicts.push(`a "$priority" option of ${x.item.$priority}`);
                         }
 
-                        if (!isNil(x.parentSectionId)) {
+                        if (x.hasDiscardedParentSectionId) {
                             conflicts.push(`a "sectionId" option of "${x.parentSectionId}"`);
                         }
 

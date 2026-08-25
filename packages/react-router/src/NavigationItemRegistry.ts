@@ -104,6 +104,13 @@ export interface DuplicateSectionDeclaration {
     inlineParentSectionId?: string;
     // Whether this declaration's label differs from the one of the section that owns the identifier.
     hasConflictingLabel: boolean;
+    // Whether this declaration asked for a "$priority" that the section owning the identifier doesn't have.
+    // Carrying the same one as the registered section discards nothing, which is what the supported pattern of
+    // declaring a shared section identically in every module does.
+    hasDiscardedPriority: boolean;
+    // Whether this declaration asked to be nested under a section that isn't the one the registered section
+    // asked for. Same reasoning as the "$priority" above.
+    hasDiscardedParentSectionId: boolean;
     // Whether the declaration is itself registered. A declaration that found the section already registered
     // contributes nothing and is not, but a section that was waiting for its own section only competes for
     // the identifier once it becomes reachable, and by then it holds a place in the menu that it keeps.
@@ -244,6 +251,19 @@ function hasConflictingLabel(registeredItem: NavigationItem, item: NavigationIte
         && registeredItem.$label !== item.$label;
 }
 
+// A declaration only discards an option when it carries one the registered section doesn't have. Reporting the
+// mere presence of a "$priority" would make the supported pattern unusable for a prioritized section, since
+// every module declaring it identically would be reported for the option they agree on.
+function hasDiscardedPriority(registeredItem: NavigationItem, item: NavigationItem) {
+    const priority = (item as RootNavigationItem).$priority;
+
+    return !isNil(priority) && priority !== (registeredItem as RootNavigationItem).$priority;
+}
+
+function hasDiscardedParentSectionId(registeredSectionId?: string, sectionId?: string) {
+    return !isNil(sectionId) && sectionId !== registeredSectionId;
+}
+
 export class NavigationItemRegistry {
     // The registrations, in registration order. Every index below is derived from this array, which is what
     // allows "clearDeferredItems" to rebuild the whole registry from it.
@@ -376,6 +396,8 @@ export class NavigationItemRegistry {
                     isInlineDeclaration: inlineParentId !== undefined,
                     inlineParentSectionId: this.#getInlineParentSectionId(inlineParentId),
                     hasConflictingLabel: hasConflictingLabel(registeredSection.item, item),
+                    hasDiscardedPriority: hasDiscardedPriority(registeredSection.item, item),
+                    hasDiscardedParentSectionId: hasDiscardedParentSectionId(registeredSection.sectionId, sectionId),
                     isRegistered: false
                 });
 
@@ -461,6 +483,10 @@ export class NavigationItemRegistry {
                 isInlineDeclaration: registration.inlineParentId !== undefined,
                 inlineParentSectionId: this.#getInlineParentSectionId(registration.inlineParentId),
                 hasConflictingLabel: !isNil(registeredSection) && hasConflictingLabel(registeredSection.item, registration.item),
+                // A declaration that keeps its place discards nothing: it holds its own priority and its own
+                // position, and loses only the identifier.
+                hasDiscardedPriority: false,
+                hasDiscardedParentSectionId: false,
                 isRegistered: true
             });
 

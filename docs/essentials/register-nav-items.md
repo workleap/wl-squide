@@ -144,7 +144,7 @@ A single `Settings` section is rendered, holding both links, whichever order the
 !!!warning
 Declare a shared section **identically** in every module, and always attach the items with the `sectionId` option rather than with `children`.
 
-Only the first declaration is registered, and it is the one that provides the section's `$label`, `$priority` and every other option. Which module gets there first is not defined, because deferred registration functions run concurrently. A declaration that would have contributed something the first one didn't — inline `children`, a `$priority`, its own `sectionId`, or a `$label` that is a string and is not the registered one — is [reported by strict mode](./register-deferred-nav-items.md#conflicting-section-declarations-are-reported).
+Only the first declaration is registered, and it is the one that provides the section's `$label`, `$priority` and every other option. Which module gets there first is not defined, because deferred registration functions run concurrently. A declaration that would have contributed something the first one didn't — inline `children`, or a `$priority`, a `sectionId` or a string `$label` that differs from the registered section's — is [reported by strict mode](./register-deferred-nav-items.md#conflicting-section-declarations-are-reported). Passing the same `$priority` and the same `sectionId` in every module discards nothing and is never reported.
 
 Declare a shared section at the root of the menu rather than inside another section's `children`. An inline declaration that finds the section already registered is dropped from where it was written, along with everything declared under it, and is reported.
 !!!

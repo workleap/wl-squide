@@ -125,7 +125,7 @@ export const register: ModuleRegisterFunction<FireflyRuntime> = runtime => {
 !!!warning
 Declare a shared section **identically** in every module, and attach the items with the `sectionId` option rather than with `children`.
 
-The section's `$label`, `$priority` and every other option come from whichever declaration ran first, and deferred registration functions run concurrently, so which module gets there first is not defined. A declaration carrying inline `children`, a `$priority`, or its own `sectionId` has those discarded, and is reported by [strict mode](../reference/routing/AppRouter.md#disable-strict-mode). Declare the section at the root of the menu rather than inside another section's `children`, and give every declaration the same `$label`.
+The section's `$label`, `$priority` and every other option come from whichever declaration ran first, and deferred registration functions run concurrently, so which module gets there first is not defined. A declaration carrying inline `children`, or a `$priority`, a `sectionId` or a string `$label` that differs from the registered section's, has those discarded and is reported by [strict mode](../reference/routing/AppRouter.md#disable-strict-mode). Declare the section at the root of the menu rather than inside another section's `children`, and pass the same options in every module.
 !!!
 
 ### Remove the section guard
@@ -177,7 +177,7 @@ A navigation **link** is never deduplicated. Registering two links with the same
 
 Strict mode reports two new situations. Both throw in development and are logged in production, and `strictMode={false}` on `AppRouter` turns them off with the rest of the validation.
 
-**An ignored declaration.** A re-declaration of an already-registered section that carried inline `children`, a `$priority`, its own `sectionId`, or a `$label` that is a string and is not the registered one. Those are discarded, so the report names the menu, the section, and what each one would have contributed. A section declared inside another section's `children` is reported too, since it is dropped from where it was written together with everything declared under it.
+**An ignored declaration.** A re-declaration of an already-registered section that carried inline `children`, or a `$priority`, a `sectionId` or a string `$label` that differs from the registered section's. Those are discarded, so the report names the menu, the section, and what each one would have contributed. A section declared inside another section's `children` is reported too, since it is dropped from where it was written together with everything declared under it.
 
 **A declaration that does not own the identifier.** A section that was waiting for its own section, and found its `$id` already taken by the time it became reachable. It is rendered where it was registered, but items nested with that `$id` reach the other section. This is a genuine `$id` collision and is always reported.
 

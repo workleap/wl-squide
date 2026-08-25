@@ -1279,6 +1279,8 @@ describe.concurrent("clearDeferredItems", () => {
             item: { $id: "bar", $label: "Bar", children: [] },
             isInlineDeclaration: false,
             hasConflictingLabel: false,
+            hasDiscardedPriority: false,
+            hasDiscardedParentSectionId: false,
             isRegistered: false
         });
 

@@ -225,7 +225,7 @@ runtime.registerNavigationItem({
 Rules:
 
 - **Declare a shared section identically in every module.** `$label`, `$priority` and every other option come from whichever declaration ran first, and deferred registration functions run concurrently, so "first" is not defined across modules. Two declarations whose `$label` is a string and differs are reported.
-- **Declare it with an empty `children` array**, and never give it inline children, a `$priority` or its own `sectionId`. Those are discarded, and `_validateRegistrations` reports them — throwing in development, logging in production.
+- **Declare it with an empty `children` array**, and never give it inline children. A `$priority` and a `sectionId` are fine as long as every module passes the same ones — a shared subsection is declared with `sectionId`. What is reported is an option that *differs* from the registered section's, since that one is discarded: `_validateRegistrations` throws in development and logs in production.
 - **Declare it at the root of the menu**, not inside another section's `children`. An inline declaration that finds the section already registered is dropped along with everything under it, and is reported.
 - **Do not keep a `Set` of declared section ids.** It is redundant now, and it never covered the case that matters, which is two different modules declaring the same section.
 - A **link** is not deduplicated. Registering two links with the same `$id` renders two links.
