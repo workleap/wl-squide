@@ -1,4 +1,5 @@
 import { RootMenuId, Runtime, RuntimeScope, type CompleteDeferredRegistrationScopeOptions, type GetNavigationItemsOptions, type IRuntime, type RegisterNavigationItemOptions, type RegisterRouteOptions, type StartDeferredRegistrationScopeOptions, type ValidateRegistrationsOptions } from "@squide/core";
+import { isNil } from "@squide/core/internal";
 import type { Logger } from "@workleap/logging";
 import { NavigationItemDeferredRegistrationScope, NavigationItemDeferredRegistrationTransactionalScope, NavigationItemRegistry, type NavigationItemRegistrationResult, type RootNavigationItem } from "./NavigationItemRegistry.ts";
 import { ProtectedRoutesOutletId, PublicRoutesOutletId } from "./outlets.ts";
@@ -297,6 +298,24 @@ export class ReactRouterRuntime<TRuntime extends ReactRouterRuntime = any> exten
                 .withText("All buffered items:")
                 .withObject(registeredItems)
                 .debug();
+        } else if (registrationStatus === "deduplicated") {
+            logger.withText(`[squide] A ${registrationType} navigation section with id "${newItem.$id}" declaration has been`);
+
+            logger
+                .withText("deduplicated", {
+                    style: {
+                        color: "white",
+                        backgroundColor: "grey"
+                    }
+                })
+                .withText(`because the section is already registered for the "${menuId}" menu. Nest items under it with the "sectionId" option, the children of this declaration are ignored.`)
+                .withLineChange()
+                .withText("Deduplicated declaration:")
+                .withObject(newItem)
+                .withLineChange()
+                .withText("All registered items:")
+                .withObject(registeredItems)
+                .debug();
         } else {
             if (newItem.$id) {
                 logger.withText(`[squide] A ${registrationType} navigation item with path "${newItem.to}" and id "${newItem.$id}" registration is`);
@@ -350,6 +369,7 @@ export class ReactRouterRuntime<TRuntime extends ReactRouterRuntime = any> exten
         }
 
         this.#validateNavigationItemRegistrations(logger);
+        this.#validateNavigationSectionDeclarations(logger);
     }
 
     #validateRouteRegistrations(logger: Logger) {
@@ -434,6 +454,59 @@ export class ReactRouterRuntime<TRuntime extends ReactRouterRuntime = any> exten
             message += `If you are certain that the navigation section${pendingSectionIds.length !== 1 ? "s" : ""} has been registered, make sure that the following conditions are met:\r\n`;
             message += "- The missing navigation section \"$id\" and \"menuId\" properties perfectly match the provided \"sectionId\" and \"menuId\".\r\n\r\n";
             message += "For more information about nested navigation items, refers to: https://workleap.github.io/wl-squide/reference/runtime/runtime-class/#register-nested-navigation-items.\r\n";
+
+            if (this._mode === "development") {
+                throw new Error(message);
+            } else {
+                logger.error(message);
+            }
+        }
+    }
+
+    #validateNavigationSectionDeclarations(logger: Logger) {
+        const duplicateDeclarations = this._navigationItemRegistry.getDuplicateSectionDeclarations();
+
+        // A shared section that several modules declare identically is the supported way to contribute to a
+        // menu that no module owns, and is not worth reporting. Only a declaration that would have contributed
+        // something the registry then discarded is: the registry cannot tell the two apart from the "$label"
+        // alone, since it's a "ReactNode" that is rebuilt on every registration.
+        const conflictingSections = duplicateDeclarations.getDuplicatedSectionIds()
+            .map(x => duplicateDeclarations.getDeclarationsForSection(x).filter(y => {
+                return (y.item.children?.length ?? 0) > 0 || !isNil(y.item.$priority) || !isNil(y.parentSectionId);
+            }))
+            .filter(x => x.length > 0);
+
+        if (conflictingSections.length > 0) {
+            let message = `[squide] ${conflictingSections.length} navigation section${conflictingSections.length !== 1 ? "s have" : " has"} been declared more than once for a menu with conflicting options. The first declaration is the one that has been registered, the following ones have been ignored:\r\n\r\n`;
+
+            conflictingSections.forEach((declarations, index) => {
+                const firstDeclaration = declarations[0];
+
+                message += `${index + 1}/${conflictingSections.length} Navigation section "${firstDeclaration.sectionId}" of the "${firstDeclaration.menuId}" menu.\r\n`;
+                message += indent("Ignored declarations:\r\n", 1);
+
+                declarations.forEach(x => {
+                    const conflicts: string[] = [];
+
+                    if (x.item.children?.length) {
+                        conflicts.push(`${x.item.children.length} child${x.item.children.length !== 1 ? "ren" : ""}`);
+                    }
+
+                    if (!isNil(x.item.$priority)) {
+                        conflicts.push(`a "$priority" option of ${x.item.$priority}`);
+                    }
+
+                    if (!isNil(x.parentSectionId)) {
+                        conflicts.push(`a "sectionId" option of "${x.parentSectionId}"`);
+                    }
+
+                    message += indent(`- A ${x.registrationType} declaration with ${conflicts.join(", ")}.\r\n`, 2);
+                });
+
+                message += "\r\n";
+            });
+
+            message += "If you are contributing navigation items to a section that no module owns, declare the section without children and register the items under it with the \"sectionId\" option.\r\n";
 
             if (this._mode === "development") {
                 throw new Error(message);
