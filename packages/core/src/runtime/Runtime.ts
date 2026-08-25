@@ -47,7 +47,11 @@ export interface StartDeferredRegistrationScopeOptions extends RuntimeMethodOpti
 
 export interface CompleteDeferredRegistrationScopeOptions extends RuntimeMethodOptions {}
 
-export interface ValidateRegistrationsOptions extends RuntimeMethodOptions {}
+export interface ValidateRegistrationsOptions extends RuntimeMethodOptions {
+    // Routes are frozen after the first registration phase (ADR-0001), so they cannot become pending during a
+    // deferred registration update run. Set to false to validate the navigation items only.
+    includeRoutes?: boolean;
+}
 
 export const RootMenuId = "root";
 

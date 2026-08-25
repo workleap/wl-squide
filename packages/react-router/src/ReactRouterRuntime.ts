@@ -1,4 +1,4 @@
-import { RootMenuId, Runtime, RuntimeScope, type GetNavigationItemsOptions, type IRuntime, type RegisterNavigationItemOptions, type RegisterRouteOptions, type StartDeferredRegistrationScopeOptions, type ValidateRegistrationsOptions } from "@squide/core";
+import { RootMenuId, Runtime, RuntimeScope, type CompleteDeferredRegistrationScopeOptions, type GetNavigationItemsOptions, type IRuntime, type RegisterNavigationItemOptions, type RegisterRouteOptions, type StartDeferredRegistrationScopeOptions, type ValidateRegistrationsOptions } from "@squide/core";
 import type { Logger } from "@workleap/logging";
 import { NavigationItemDeferredRegistrationScope, NavigationItemDeferredRegistrationTransactionalScope, NavigationItemRegistry, type NavigationItemRegistrationResult, type RootNavigationItem } from "./NavigationItemRegistry.ts";
 import { ProtectedRoutesOutletId, PublicRoutesOutletId } from "./outlets.ts";
@@ -74,13 +74,22 @@ export class ReactRouterRuntime<TRuntime extends ReactRouterRuntime = any> exten
         }
     }
 
-    completeDeferredRegistrationScope() {
+    completeDeferredRegistrationScope(options: CompleteDeferredRegistrationScopeOptions = {}) {
         if (!this._navigationItemScope) {
             throw new Error("[squide] A deferred registration scope must be started before calling the complete function. Did you forget to start the scope?");
         }
 
+        const logger = this._getLogger(options);
+
         try {
-            this._navigationItemScope.complete();
+            // The replay adds the buffered items straight to the registry, bypassing "registerNavigationItem",
+            // so this is the only place where their real outcome can be reported. The per module logger scopes
+            // have already ended by now, which is why the messages carry the menu and section identity.
+            const results = this._navigationItemScope.complete();
+
+            results.forEach(x => {
+                this.#logNavigationItemRegistrationResult(x, this._navigationItemRegistry.getItems(x.menuId), logger);
+            });
         } finally {
             // The scope must always be released, otherwise a failed completion would prevent every subsequent
             // deferred registration update for the lifetime of the runtime.
@@ -266,6 +275,28 @@ export class ReactRouterRuntime<TRuntime extends ReactRouterRuntime = any> exten
                     .withObject(registeredItems)
                     .debug();
             }
+        } else if (registrationStatus === "buffered") {
+            if (newItem.$id) {
+                logger.withText(`[squide] A ${registrationType} navigation item with path "${newItem.to}" and id "${newItem.$id}" registration is`);
+            } else {
+                logger.withText(`[squide] A ${registrationType} navigation item with path "${newItem.to}" registration is`);
+            }
+
+            logger
+                .withText("buffered", {
+                    style: {
+                        color: "white",
+                        backgroundColor: "blue"
+                    }
+                })
+                .withText(`until the deferred registration update of the "${menuId}" menu completes, its outcome is reported at that point.`)
+                .withLineChange()
+                .withText("Buffered registration:")
+                .withObject(newItem)
+                .withLineChange()
+                .withText("All buffered items:")
+                .withObject(registeredItems)
+                .debug();
         } else {
             if (newItem.$id) {
                 logger.withText(`[squide] A ${registrationType} navigation item with path "${newItem.to}" and id "${newItem.$id}" registration is`);
@@ -307,10 +338,17 @@ export class ReactRouterRuntime<TRuntime extends ReactRouterRuntime = any> exten
         return (new ReactRouterRuntimeScope(this, logger) as unknown) as TRuntime;
     }
 
-    _validateRegistrations(options?: ValidateRegistrationsOptions) {
+    _validateRegistrations(options: ValidateRegistrationsOptions = {}) {
+        const {
+            includeRoutes = true
+        } = options;
+
         const logger = this._getLogger(options);
 
-        this.#validateRouteRegistrations(logger);
+        if (includeRoutes) {
+            this.#validateRouteRegistrations(logger);
+        }
+
         this.#validateNavigationItemRegistrations(logger);
     }
 
@@ -365,15 +403,17 @@ export class ReactRouterRuntime<TRuntime extends ReactRouterRuntime = any> exten
         const pendingSectionIds = pendingRegistrations.getPendingSectionIds();
 
         if (pendingSectionIds.length > 0) {
-            let message = `[squide] ${pendingSectionIds.length} navigation item${pendingSectionIds.length !== 1 ? "s were" : " is"} expected to be registered but ${pendingSectionIds.length !== 1 ? "are" : "is"} missing:\r\n\r\n`;
+            // The count is a number of sections, not of items. A single missing section can hold several
+            // pending registrations, which are listed under it.
+            let message = `[squide] ${pendingSectionIds.length} navigation section${pendingSectionIds.length !== 1 ? "s were" : " is"} expected to be registered but ${pendingSectionIds.length !== 1 ? "are" : "is"} missing:\r\n\r\n`;
 
             pendingSectionIds.forEach((x, index) => {
                 const pendingItems = pendingRegistrations.getPendingRegistrationsForSection(x);
 
-                // The items carry the "menuId" and the "sectionId" they are waiting for, which is more
-                // reliable than parsing them back out of the index key since either value can contain a "-".
-                // An index key always holds at least one item. The fallback below only ensures that a failure
-                // to name the section can never mask the pending registrations this message is reporting.
+                // The items carry the "menuId" and the "sectionId" they are waiting for, which avoids
+                // depending on the index key format. An index key always holds at least one item. The fallback
+                // below only ensures that a failure to name the section can never mask the pending
+                // registrations this message is reporting.
                 const firstPendingItem = pendingItems.at(0);
 
                 if (firstPendingItem) {

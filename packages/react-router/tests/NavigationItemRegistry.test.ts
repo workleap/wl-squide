@@ -1,5 +1,5 @@
 import { describe, test } from "vitest";
-import { NavigationItemDeferredRegistrationScope, NavigationItemDeferredRegistrationTransactionalScope, NavigationItemRegistry, type NavigationSection } from "../src/NavigationItemRegistry.ts";
+import { NavigationItemDeferredRegistrationScope, NavigationItemDeferredRegistrationTransactionalScope, NavigationItemRegistry, parseSectionIndexKey, type NavigationSection } from "../src/NavigationItemRegistry.ts";
 
 describe.concurrent("add", () => {
     test.concurrent("should add a single deferred item", ({ expect }) => {
@@ -574,6 +574,30 @@ describe.concurrent("add", () => {
         expect(result1.registrationStatus).toBe("registered");
         expect(result2.registrationStatus).toBe("registered");
     });
+
+    test.concurrent("when a menu id and a section id would collide once concatenated, both sections can be registered", ({ expect }) => {
+        const registry = new NavigationItemRegistry();
+
+        // The "analytics" menu with the "sidebar-performance" section and the "analytics-sidebar" menu with the
+        // "performance" section used to produce the same section index key, which rejected the second one as a
+        // duplicate registration.
+        registry.add("analytics", "static", {
+            $id: "sidebar-performance",
+            $label: "Performance",
+            children: []
+        });
+
+        expect(() => {
+            registry.add("analytics-sidebar", "static", {
+                $id: "performance",
+                $label: "Performance",
+                children: []
+            });
+        }).not.toThrow();
+
+        expect(registry.getItems("analytics").length).toBe(1);
+        expect(registry.getItems("analytics-sidebar").length).toBe(1);
+    });
 });
 
 describe.concurrent("getItems", () => {
@@ -735,7 +759,18 @@ describe.concurrent("clearDeferredItems", () => {
 
         registry.clearDeferredItems();
 
-        expect(registry.getPendingRegistrations().getPendingSectionIds()).toEqual(["foo-bar"]);
+        const pendingRegistrations = registry.getPendingRegistrations();
+        const pendingSectionIds = pendingRegistrations.getPendingSectionIds();
+
+        expect(pendingSectionIds.length).toBe(1);
+
+        // Asserting on the registration values rather than on the index key itself, the key format is an
+        // implementation detail.
+        const pendingItems = pendingRegistrations.getPendingRegistrationsForSection(pendingSectionIds[0]);
+
+        expect(pendingItems.length).toBe(1);
+        expect(pendingItems[0].menuId).toBe("foo");
+        expect(pendingItems[0].sectionId).toBe("bar");
     });
 
     test.concurrent("when a section has both static and deferred pending registrations, only clear the deferred ones", ({ expect }) => {
@@ -754,10 +789,14 @@ describe.concurrent("clearDeferredItems", () => {
         registry.clearDeferredItems();
 
         const pendingRegistrations = registry.getPendingRegistrations();
+        const pendingSectionIds = pendingRegistrations.getPendingSectionIds();
 
-        expect(pendingRegistrations.getPendingSectionIds()).toEqual(["foo-bar"]);
-        expect(pendingRegistrations.getPendingRegistrationsForSection("foo-bar").length).toBe(1);
-        expect(pendingRegistrations.getPendingRegistrationsForSection("foo-bar")[0].item.$label).toBe("1");
+        expect(pendingSectionIds.length).toBe(1);
+
+        const pendingItems = pendingRegistrations.getPendingRegistrationsForSection(pendingSectionIds[0]);
+
+        expect(pendingItems.length).toBe(1);
+        expect(pendingItems[0].item.$label).toBe("1");
     });
 
     test.concurrent("when a deferred section is registered again after a clear, the nested item is not duplicated", ({ expect }) => {
@@ -879,6 +918,45 @@ describe.concurrent("clearDeferredItems", () => {
         }).not.toThrow();
 
         expect(registry.getItems("foo").length).toBe(1);
+    });
+
+    test.concurrent("when a static and a deferred pending registration would collide once concatenated, the deferred section does not pick up the static item", ({ expect }) => {
+        const registry = new NavigationItemRegistry();
+
+        // Both pending registrations used to share a single index key, so the static one survived the clear
+        // under the key the deferred section is registered with, and the replay pushed it through the
+        // registration type guard.
+        registry.add("analytics-sidebar", "static", {
+            $label: "Static",
+            to: "/static"
+        }, { sectionId: "performance" });
+
+        registry.add("analytics", "deferred", {
+            $label: "Deferred",
+            to: "/deferred"
+        }, { sectionId: "sidebar-performance" });
+
+        registry.clearDeferredItems();
+
+        expect(() => {
+            registry.add("analytics", "deferred", {
+                $id: "sidebar-performance",
+                $label: "Performance",
+                children: []
+            });
+        }).not.toThrow();
+
+        expect((registry.getItems("analytics")[0] as NavigationSection).children.length).toBe(0);
+
+        const pendingRegistrations = registry.getPendingRegistrations();
+        const pendingSectionIds = pendingRegistrations.getPendingSectionIds();
+
+        expect(pendingSectionIds.length).toBe(1);
+
+        const pendingItems = pendingRegistrations.getPendingRegistrationsForSection(pendingSectionIds[0]);
+
+        expect(pendingItems.length).toBe(1);
+        expect(pendingItems[0].menuId).toBe("analytics-sidebar");
     });
 });
 
@@ -1196,7 +1274,7 @@ describe.concurrent("NavigationItemDeferredRegistrationTransactionalScope", () =
         expect(scope.getItems("bar").length).toBe(0);
     });
 
-    test.concurrent("when an item is added, return the \"registered\" registration status", ({ expect }) => {
+    test.concurrent("when an item is added, return the \"buffered\" registration status", ({ expect }) => {
         const registry = new NavigationItemRegistry();
         const scope = new NavigationItemDeferredRegistrationTransactionalScope(registry);
 
@@ -1205,10 +1283,10 @@ describe.concurrent("NavigationItemDeferredRegistrationTransactionalScope", () =
             to: "/1"
         });
 
-        expect(result.registrationStatus).toBe("registered");
+        expect(result.registrationStatus).toBe("buffered");
     });
 
-    test.concurrent("when a nested item is added, return the \"registered\" registration status", ({ expect }) => {
+    test.concurrent("when a nested item is added, return the \"buffered\" registration status", ({ expect }) => {
         const registry = new NavigationItemRegistry();
         const scope = new NavigationItemDeferredRegistrationTransactionalScope(registry);
 
@@ -1225,13 +1303,15 @@ describe.concurrent("NavigationItemDeferredRegistrationTransactionalScope", () =
             sectionId: "bar"
         });
 
-        expect(result.registrationStatus).toBe("registered");
+        expect(result.registrationStatus).toBe("buffered");
     });
 
-    test.concurrent("when a nested item that \"should\" be pending is added, return the \"registered\" registration status", ({ expect }) => {
+    test.concurrent("when a nested item whose section is missing is added, return the \"buffered\" registration status", ({ expect }) => {
         const registry = new NavigationItemRegistry();
         const scope = new NavigationItemDeferredRegistrationTransactionalScope(registry);
 
+        // This one used to report "registered" even though the replay leaves it pending, which is the
+        // inaccuracy ADR-0022 is about.
         const result = scope.addItem("foo", {
             $label: "1",
             to: "/1"
@@ -1239,7 +1319,64 @@ describe.concurrent("NavigationItemDeferredRegistrationTransactionalScope", () =
             sectionId: "bar"
         });
 
-        expect(result.registrationStatus).toBe("registered");
+        expect(result.registrationStatus).toBe("buffered");
+    });
+
+    test.concurrent("when the scope is completed, return the registration result of every replayed item", ({ expect }) => {
+        const registry = new NavigationItemRegistry();
+        const scope = new NavigationItemDeferredRegistrationTransactionalScope(registry);
+
+        scope.addItem("foo", {
+            $id: "bar",
+            $label: "bar",
+            children: []
+        });
+
+        scope.addItem("foo", {
+            $label: "1",
+            to: "/1"
+        }, {
+            sectionId: "bar"
+        });
+
+        const results = scope.complete();
+
+        expect(results.length).toBe(2);
+        expect(results[0].registrationStatus).toBe("registered");
+        expect(results[1].registrationStatus).toBe("registered");
+    });
+
+    test.concurrent("when the scope is completed and a section is not re-registered, the replay reports the nested item as pending", ({ expect }) => {
+        const registry = new NavigationItemRegistry();
+        const scope = new NavigationItemDeferredRegistrationTransactionalScope(registry);
+
+        // The section is never registered by this run, so the replay cannot resolve the nested item. The
+        // buffered status returned by "addItem" is not the outcome, this is.
+        scope.addItem("foo", {
+            $label: "1",
+            to: "/1"
+        }, {
+            sectionId: "bar"
+        });
+
+        const results = scope.complete();
+
+        expect(results.length).toBe(1);
+        expect(results[0].registrationStatus).toBe("pending");
+        expect(results[0].menuId).toBe("foo");
+        expect(results[0].sectionId).toBe("bar");
+    });
+
+    test.concurrent("when a non transactional scope is completed, no registration result is returned", ({ expect }) => {
+        const registry = new NavigationItemRegistry();
+        const scope = new NavigationItemDeferredRegistrationScope(registry);
+
+        scope.addItem("foo", {
+            $label: "1",
+            to: "/1"
+        });
+
+        expect(scope.complete().length).toBe(0);
     });
 
     test.concurrent("when there \"should\" be pending registrations, the scope can be completed", ({ expect }) => {
@@ -1452,5 +1589,46 @@ describe.concurrent("getAllItemsByMenu", () => {
         const byMenu = registry.getAllItemsByMenu();
 
         expect(byMenu.get("foo")).toBe(registry.getItems("foo"));
+    });
+});
+
+describe.concurrent("parseSectionIndexKey", () => {
+    test.concurrent("a key returned by getPendingSectionIds round-trips back to its menu id and section id", ({ expect }) => {
+        const registry = new NavigationItemRegistry();
+
+        registry.add("analytics-sidebar", "static", {
+            $label: "1",
+            to: "1"
+        }, { sectionId: "performance" });
+
+        const [indexKey] = registry.getPendingRegistrations().getPendingSectionIds();
+
+        // Nothing in the framework calls this function anymore, so only a round-trip through a real key keeps
+        // it from drifting away from the key format.
+        expect(parseSectionIndexKey(indexKey)).toEqual(["analytics-sidebar", "performance"]);
+    });
+
+    test.concurrent("a key round-trips even when a menu id contains the separator", ({ expect }) => {
+        const registry = new NavigationItemRegistry();
+
+        // Nothing forbids the separator inside an id, so the key format has to stay unambiguous for one that
+        // contains it. Without the length prefix this pair collided with ("a", "b\u0000c").
+        registry.add("a\u0000b", "static", {
+            $label: "1",
+            to: "1"
+        }, { sectionId: "c" });
+
+        registry.add("a", "static", {
+            $label: "2",
+            to: "2"
+        }, { sectionId: "b\u0000c" });
+
+        const keys = registry.getPendingRegistrations().getPendingSectionIds();
+
+        expect(keys).toHaveLength(2);
+        expect(keys.map(x => parseSectionIndexKey(x))).toEqual([
+            ["a\u0000b", "c"],
+            ["a", "b\u0000c"]
+        ]);
     });
 });

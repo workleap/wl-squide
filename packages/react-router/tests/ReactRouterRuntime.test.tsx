@@ -1,8 +1,10 @@
 import { NoopLogger } from "@workleap/logging";
 import { describe, test } from "vitest";
+import type { NavigationSection } from "../src/NavigationItemRegistry.ts";
 import { isProtectedRoutesOutletRoute, isPublicRoutesOutletRoute, ProtectedRoutes, ProtectedRoutesOutletId, PublicRoutes, PublicRoutesOutletId } from "../src/outlets.ts";
 import { ReactRouterRuntime } from "../src/ReactRouterRuntime.ts";
 import type { Route } from "../src/RouteRegistry.ts";
+import { RecordingLogger } from "./RecordingLogger.ts";
 
 describe.concurrent("registerRoute", () => {
     describe.concurrent("outlets", () => {
@@ -2331,6 +2333,63 @@ describe.concurrent("registerNavigationItem", () => {
             expect(runtime.getNavigationItems({ menuId: "bar" })[0].$id).toBe("section");
             expect(runtime.getNavigationItems({ menuId: "bar" })[0].children!.length).toBe(0);
         });
+
+        test.concurrent("when a menu id and a section id would collide once concatenated, do not attach the nested item to the other menu's section", ({ expect }) => {
+            const runtime = new ReactRouterRuntime({
+                loggers: [new NoopLogger()]
+            });
+
+            // The "analytics" menu with the "sidebar-performance" section and the "analytics-sidebar" menu with
+            // the "performance" section used to produce the same section index key, which attached the nested
+            // item to whichever of the two sections had been registered first.
+            runtime.registerNavigationItem({
+                $id: "sidebar-performance",
+                $label: "Performance",
+                children: []
+            }, {
+                menuId: "analytics"
+            });
+
+            runtime.registerNavigationItem({
+                $label: "Link",
+                to: "/link"
+            }, {
+                menuId: "analytics-sidebar",
+                sectionId: "performance"
+            });
+
+            expect(runtime.getNavigationItems({ menuId: "analytics" })[0].children!.length).toBe(0);
+            expect(runtime.getNavigationItems({ menuId: "analytics-sidebar" }).length).toBe(0);
+        });
+
+        test.concurrent("when a menu id and a section id would collide once concatenated, a pending nested item is not completed by the other menu's section", ({ expect }) => {
+            const runtime = new ReactRouterRuntime({
+                loggers: [new NoopLogger()]
+            });
+
+            runtime.registerNavigationItem({
+                $label: "Link",
+                to: "/link"
+            }, {
+                menuId: "analytics-sidebar",
+                sectionId: "performance"
+            });
+
+            // Registering the colliding section used to complete the pending registration above into the
+            // "analytics" menu. That also emptied the pending index, so the validation below stopped
+            // reporting the section that is genuinely missing.
+            runtime.registerNavigationItem({
+                $id: "sidebar-performance",
+                $label: "Performance",
+                children: []
+            }, {
+                menuId: "analytics"
+            });
+
+            expect(runtime.getNavigationItems({ menuId: "analytics" })[0].children!.length).toBe(0);
+            expect(runtime.getNavigationItems({ menuId: "analytics-sidebar" }).length).toBe(0);
+            expect(() => runtime._validateRegistrations()).toThrow(/Missing navigation section "performance" of the "analytics-sidebar" menu/);
+        });
     });
 });
 
@@ -2541,6 +2600,256 @@ describe.concurrent("startDeferredRegistrationScope & completeDeferredRegistrati
         expect(() => runtime.completeDeferredRegistrationScope()).toThrow();
 
         expect(() => runtime.startDeferredRegistrationScope({ transactional: true })).not.toThrow();
+    });
+
+    test.concurrent("when a transactional scope buffers an item, the registration is reported as buffered", ({ expect }) => {
+        const logger = new RecordingLogger();
+
+        const runtime = new ReactRouterRuntime({
+            loggers: [logger]
+        });
+
+        runtime.startDeferredRegistrationScope({ transactional: true });
+
+        runtime.registerNavigationItem({
+            $label: "Link",
+            to: "/link"
+        });
+
+        expect(logger.logs.some(x => x.includes("buffered"))).toBeTruthy();
+        expect(logger.logs.some(x => x.includes("registered"))).toBeFalsy();
+    });
+
+    test.concurrent("when a transactional scope is completed and a section is missing, the nested item is reported as pending", ({ expect }) => {
+        const logger = new RecordingLogger();
+
+        const runtime = new ReactRouterRuntime({
+            loggers: [logger]
+        });
+
+        runtime.startDeferredRegistrationScope({ transactional: true });
+
+        runtime.registerNavigationItem({
+            $label: "Link",
+            to: "/link"
+        }, {
+            sectionId: "section"
+        });
+
+        runtime.completeDeferredRegistrationScope();
+
+        // The replay adds the item straight to the registry. It used to log nothing at all, so an update run
+        // that lost a nested item reported success and then said nothing.
+        expect(logger.logs.some(x => x.includes("pending") && x.includes("section"))).toBeTruthy();
+    });
+
+    test.concurrent("when a transactional scope is completed, the replayed registrations are reported", ({ expect }) => {
+        const logger = new RecordingLogger();
+
+        const runtime = new ReactRouterRuntime({
+            loggers: [logger]
+        });
+
+        runtime.startDeferredRegistrationScope({ transactional: true });
+
+        runtime.registerNavigationItem({
+            $id: "section",
+            $label: "Section",
+            children: []
+        });
+
+        runtime.completeDeferredRegistrationScope();
+
+        expect(logger.logs.some(x => x.includes("registered"))).toBeTruthy();
+    });
+
+    test.concurrent("when a section is registered again by a deferred update run, the caller's object does not accumulate children", ({ expect }) => {
+        const runtime = new ReactRouterRuntime({
+            loggers: [new NoopLogger()]
+        });
+
+        // Hoisting a section to module scope and registering the same object on every run is a natural
+        // pattern. The registry used to attach the nested items to this very object, so its children grew by
+        // one on every update run and the menu rendered the accumulated copies.
+        const section: NavigationSection = {
+            $id: "section",
+            $label: "Section",
+            children: []
+        };
+
+        const runUpdate = () => {
+            runtime.startDeferredRegistrationScope({ transactional: true });
+
+            runtime.registerNavigationItem(section);
+
+            runtime.registerNavigationItem({
+                $label: "Link",
+                to: "/link"
+            }, {
+                sectionId: "section"
+            });
+
+            runtime.completeDeferredRegistrationScope();
+        };
+
+        runUpdate();
+        runUpdate();
+        runUpdate();
+
+        expect(section.children.length).toBe(0);
+        expect(runtime.getNavigationItems()[0].children!.length).toBe(1);
+    });
+
+    test.concurrent("when a deferred section is cloned, its accessor properties stay lazy", ({ expect }) => {
+        const runtime = new ReactRouterRuntime({
+            loggers: [new NoopLogger()]
+        });
+
+        let labelReadCount = 0;
+
+        // Cloning with a spread would evaluate this getter at registration time and freeze its result, which
+        // is why the clone copies the property descriptors instead.
+        const section: NavigationSection = {
+            $id: "section",
+            get $label() {
+                labelReadCount += 1;
+
+                return "Section";
+            },
+            children: []
+        };
+
+        runtime.startDeferredRegistrationScope({ transactional: true });
+
+        runtime.registerNavigationItem(section);
+
+        runtime.completeDeferredRegistrationScope();
+
+        expect(labelReadCount).toBe(0);
+        expect(runtime.getNavigationItems()[0].$label).toBe("Section");
+        expect(labelReadCount).toBe(1);
+    });
+
+    test.concurrent("when a deferred section holds nested sections, the caller's nested objects are not mutated either", ({ expect }) => {
+        const runtime = new ReactRouterRuntime({
+            loggers: [new NoopLogger()]
+        });
+
+        const inner: NavigationSection = {
+            $id: "inner",
+            $label: "Inner",
+            children: []
+        };
+
+        const outer: NavigationSection = {
+            $id: "outer",
+            $label: "Outer",
+            children: [inner]
+        };
+
+        const runUpdate = () => {
+            runtime.startDeferredRegistrationScope({ transactional: true });
+
+            runtime.registerNavigationItem(outer);
+
+            runtime.registerNavigationItem({
+                $label: "Link",
+                to: "/link"
+            }, {
+                sectionId: "inner"
+            });
+
+            runtime.completeDeferredRegistrationScope();
+        };
+
+        runUpdate();
+        runUpdate();
+        runUpdate();
+
+        // The clone recurses through "children". A shallow copy would leave this nested section shared with
+        // the registry, so it would accumulate exactly like the outer one used to.
+        expect(inner.children.length).toBe(0);
+        expect(outer.children.length).toBe(1);
+        expect(outer.children[0]).toBe(inner);
+
+        const registeredOuter = runtime.getNavigationItems()[0];
+
+        expect(registeredOuter.children!.length).toBe(1);
+        expect(registeredOuter.children![0].children!.length).toBe(1);
+    });
+
+    test.concurrent("when a deferred section is frozen, it can still be registered", ({ expect }) => {
+        const runtime = new ReactRouterRuntime({
+            loggers: [new NoopLogger()]
+        });
+
+        // The clone replaces the "children" descriptor rather than assigning to it, otherwise a frozen section
+        // would throw on every registration, including one that nothing nests under.
+        const section = Object.freeze({
+            $id: "section",
+            $label: "Section",
+            children: Object.freeze([]) as unknown as NavigationSection[]
+        }) as NavigationSection;
+
+        runtime.startDeferredRegistrationScope({ transactional: true });
+
+        expect(() => runtime.registerNavigationItem(section)).not.toThrow();
+
+        runtime.registerNavigationItem({
+            $label: "Link",
+            to: "/link"
+        }, {
+            sectionId: "section"
+        });
+
+        expect(() => runtime.completeDeferredRegistrationScope()).not.toThrow();
+
+        expect(section.children.length).toBe(0);
+        expect(runtime.getNavigationItems()[0].children!.length).toBe(1);
+    });
+
+    test.concurrent("when a deferred section is backed by a class instance, the clone keeps its prototype", ({ expect }) => {
+        const runtime = new ReactRouterRuntime({
+            loggers: [new NoopLogger()]
+        });
+
+        class Section {
+            $id = "section";
+            children: NavigationSection[] = [];
+
+            get $label() {
+                return "Section";
+            }
+        }
+
+        const section = new Section();
+
+        runtime.startDeferredRegistrationScope({ transactional: true });
+
+        runtime.registerNavigationItem(section as unknown as NavigationSection);
+
+        runtime.completeDeferredRegistrationScope();
+
+        expect(runtime.getNavigationItems()[0]).toBeInstanceOf(Section);
+        expect(runtime.getNavigationItems()[0].$label).toBe("Section");
+    });
+
+    test.concurrent("when a static section is registered, the registered item is the caller's object", ({ expect }) => {
+        const runtime = new ReactRouterRuntime({
+            loggers: [new NoopLogger()]
+        });
+
+        // Only the deferred path is cloned. The static phase runs once and cannot accumulate, so cloning it
+        // would break identity for no benefit.
+        const section: NavigationSection = {
+            $id: "section",
+            $label: "Section",
+            children: []
+        };
+
+        runtime.registerNavigationItem(section);
+
+        expect(runtime.getNavigationItems()[0]).toBe(section);
     });
 });
 
@@ -2898,6 +3207,91 @@ describe.concurrent("_validateRegistrations", () => {
             });
 
             expect(() => runtime._validateRegistrations()).toThrow(/Missing navigation section "analytics-performance" of the "analytics-sidebar" menu/);
+        });
+
+        test.concurrent("when two missing sections would collide once concatenated, the error message reports both", ({ expect }) => {
+            const runtime = new ReactRouterRuntime({
+                loggers: [new NoopLogger()]
+            });
+
+            // Both pending registrations used to share a single index key, which reported a single missing
+            // section instead of the two distinct ones that are actually missing.
+            runtime.registerNavigationItem({
+                $label: "Link 1",
+                to: "/link-1"
+            }, {
+                menuId: "analytics",
+                sectionId: "sidebar-performance"
+            });
+
+            runtime.registerNavigationItem({
+                $label: "Link 2",
+                to: "/link-2"
+            }, {
+                menuId: "analytics-sidebar",
+                sectionId: "performance"
+            });
+
+            expect(() => runtime._validateRegistrations()).toThrow(/2 navigation sections were expected to be registered but are missing/);
+            expect(() => runtime._validateRegistrations()).toThrow(/Missing navigation section "sidebar-performance" of the "analytics" menu/);
+            expect(() => runtime._validateRegistrations()).toThrow(/Missing navigation section "performance" of the "analytics-sidebar" menu/);
+        });
+
+        test.concurrent("when the runtime is in production mode, the report is logged rather than thrown", ({ expect }) => {
+            const logger = new RecordingLogger();
+
+            const runtime = new ReactRouterRuntime({
+                mode: "production",
+                loggers: [logger]
+            });
+
+            runtime.registerNavigationItem({
+                $label: "Link",
+                to: "/link"
+            }, {
+                sectionId: "section"
+            });
+
+            expect(() => runtime._validateRegistrations()).not.toThrow();
+
+            // Not throwing is only half of the contract, production has to still say what is missing.
+            expect(logger.logs.some(x => x.includes("Missing navigation section \"section\""))).toBeTruthy();
+        });
+    });
+
+    describe.concurrent("includeRoutes", () => {
+        test.concurrent("when includeRoutes is false, the route registrations are not validated", ({ expect }) => {
+            const runtime = new ReactRouterRuntime({
+                loggers: [new NoopLogger()]
+            });
+
+            // A route nested under a parent that is never registered. Routes are frozen after the first
+            // registration phase, so re-validating them on a deferred registration update run could only
+            // re-throw a bootstrap misconfiguration on every flag flip.
+            runtime.registerRoute({
+                path: "/nested",
+                element: <div>Hello!</div>
+            }, {
+                parentPath: "/missing"
+            });
+
+            expect(() => runtime._validateRegistrations()).toThrow();
+            expect(() => runtime._validateRegistrations({ includeRoutes: false })).not.toThrow();
+        });
+
+        test.concurrent("when includeRoutes is false, the navigation item registrations are still validated", ({ expect }) => {
+            const runtime = new ReactRouterRuntime({
+                loggers: [new NoopLogger()]
+            });
+
+            runtime.registerNavigationItem({
+                $label: "Link",
+                to: "/link"
+            }, {
+                sectionId: "section"
+            });
+
+            expect(() => runtime._validateRegistrations({ includeRoutes: false })).toThrow(/Missing navigation section "section"/);
         });
     });
 });

@@ -40,7 +40,9 @@ export interface AddNavigationItemOptions {
     sectionId?: string;
 }
 
-export type NavigationItemRegistrationStatus = "pending" | "registered";
+// "buffered" is only returned by the transactional scope used by deferred registration update runs. The item is
+// held until the scope completes, and the replay performed at that point reports the real outcome. See ADR-0022.
+export type NavigationItemRegistrationStatus = "pending" | "registered" | "buffered";
 export type NavigationItemRegistrationType = "static" | "deferred";
 
 export interface NavigationItemRegistrationResult {
@@ -91,7 +93,11 @@ export class NavigationItemDeferredRegistrationScope {
         return this._registry.getItems(menuId);
     }
 
-    complete() {}
+    complete(): NavigationItemRegistrationResult[] {
+        // This scope writes straight through to the registry, every item has already been reported by
+        // "registerNavigationItem" and there is nothing left to replay.
+        return [];
+    }
 }
 
 export class NavigationItemDeferredRegistrationTransactionalScope extends NavigationItemDeferredRegistrationScope {
@@ -108,11 +114,11 @@ export class NavigationItemDeferredRegistrationTransactionalScope extends Naviga
             }
         ]);
 
-        // The item is only buffered at this point, and the replay performed by the "complete" function can
-        // still leave it pending when its section is not re-registered by the run. Reporting "registered"
-        // here is therefore not always accurate, see https://github.com/workleap/wl-squide/issues/658.
+        // The item is only buffered at this point. The replay performed by the "complete" function is what
+        // actually registers it, and that replay can still leave it pending when its section is not
+        // re-registered by the run, so the real outcome is reported from there rather than guessed here.
         return {
-            registrationStatus: "registered",
+            registrationStatus: "buffered",
             completedPendingRegistrations: [],
             registrationType: "deferred",
             item: navigationItem,
@@ -128,42 +134,86 @@ export class NavigationItemDeferredRegistrationTransactionalScope extends Naviga
     complete() {
         this._registry.clearDeferredItems();
 
+        // The replay is the only place where the real outcome of a buffered registration is known. The results
+        // are returned so that the runtime can report them, since adding to the registry directly bypasses the
+        // logging done by "registerNavigationItem".
+        const results: NavigationItemRegistrationResult[] = [];
+
         this.#ItemsIndex.forEach(items => {
             items.forEach(x => {
-                this._registry.add(x.menuId, x.registrationType, x.item, x.options);
+                results.push(this._registry.add(x.menuId, x.registrationType, x.item, x.options));
             });
         });
 
         this.#ItemsIndex.clear();
+
+        return results;
     }
 }
 
+// The separator between the two halves of a section index key. Joining with a "-" made a key
+// ambiguous: ("main-menu", "settings") and ("main", "menu-settings") both produced "main-menu-settings", which
+// resolved two distinct sections of two distinct menus to the same index entry.
+const SectionIndexKeySeparator = "\u0000";
+
 function createSectionIndexKey(menuId: string, sectionId: string) {
-    return `${menuId}-${sectionId}`;
+    // The menu id is length-prefixed rather than merely separated from the section id. Nothing constrains a
+    // "menuId" or a section "$id" to exclude the separator, so a separator on its own would only move the
+    // collision instead of removing it. Prefixing the length keeps the split unambiguous whatever the ids hold.
+    return `${menuId.length}${SectionIndexKeySeparator}${menuId}${sectionId}`;
 }
 
 /**
- * @deprecated The index key format is an implementation detail, and a "-" in a "menuId" or in a section "$id"
- * makes a key ambiguous: ("main-menu", "settings") and ("main", "menu-settings") both produce
- * "main-menu-settings", so the pair a key was built from cannot be recovered. Read the "menuId" and the
- * "sectionId" off the {@link PendingRegistrationItem} values returned by
- * {@link PendingNavigationItemRegistrations.getPendingRegistrationsForSection} rather than parsing a key
- * returned by {@link PendingNavigationItemRegistrations.getPendingSectionIds}. Nothing in the framework calls
- * this function anymore, it is kept until the next major to avoid a breaking removal.
+ * @deprecated The index key format is an implementation detail that is not part of the public contract, and the
+ * separator a key is built with is deliberately undocumented. Read the "menuId" and the "sectionId" off the
+ * {@link PendingRegistrationItem} values returned by
+ * {@link PendingNavigationItemRegistrations.getPendingRegistrationsForSection} instead. Nothing in the framework
+ * calls this function anymore, it is kept until the next major to avoid a breaking removal.
  */
 export function parseSectionIndexKey(indexKey: string) {
-    return indexKey.split("-");
+    const separatorIndex = indexKey.indexOf(SectionIndexKeySeparator);
+    const menuIdStart = separatorIndex + SectionIndexKeySeparator.length;
+    const menuIdEnd = menuIdStart + Number(indexKey.slice(0, separatorIndex));
+
+    return [indexKey.slice(menuIdStart, menuIdEnd), indexKey.slice(menuIdEnd)];
+}
+
+// The registry attaches a nested item by mutating the "children" array of the section it indexes. Cloning the
+// items on ingestion keeps that mutation away from the objects owned by the registering module, which would
+// otherwise accumulate children across deferred registration update runs. See ADR-0023.
+function cloneNavigationItem<T extends NavigationItem>(item: T): T {
+    if (isLinkItem(item)) {
+        return item;
+    }
+
+    // Copying the property descriptors rather than spreading preserves the prototype chain and keeps accessor
+    // properties lazy, so a section backed by a class instance or by a "$label" getter still behaves.
+    // ECMAScript private fields are the exception: they are slots rather than properties, so they cannot be
+    // copied, and an accessor reading one throws on the clone. TypeScript's "private" compiles to an ordinary
+    // property and is unaffected. See ADR-0023.
+    const descriptors = Object.getOwnPropertyDescriptors(item);
+
+    // Replacing the "children" descriptor rather than assigning to the clone afterwards. A frozen section, or
+    // one exposing "children" through a getter, would throw on assignment.
+    descriptors.children = {
+        value: item.children?.map(x => cloneNavigationItem(x)) ?? [],
+        writable: true,
+        enumerable: true,
+        configurable: true
+    };
+
+    return Object.create(Object.getPrototypeOf(item), descriptors) as T;
 }
 
 export class NavigationItemRegistry {
     // <menuId, RegistryItem[]>
     readonly #menusIndex: Map<string, RegistryItem[]> = new Map();
 
-    // <menuId-sectionId, SectionIndexItem>
+    // <section index key, SectionIndexItem>
     readonly #sectionsIndex: Map<string, SectionIndexItem> = new Map();
 
     // An index of pending navigation items to registered once their section is registered.
-    // <menuId-sectionId, PendingRegistrationItem[]>
+    // <section index key, PendingRegistrationItem[]>
     readonly #pendingRegistrationsIndex: Map<string, PendingRegistrationItem[]> = new Map();
 
     // Since the "getItems" function is transforming the menus items from registry items to navigation items, the result of
@@ -254,15 +304,20 @@ export class NavigationItemRegistry {
     }
 
     add(menuId: string, registrationType: NavigationItemRegistrationType, navigationItem: RootNavigationItem, { sectionId }: AddNavigationItemOptions = {}): NavigationItemRegistrationResult {
+        // Only the deferred path is cloned. "#addNestedItem" enforces that a nested item has the same
+        // registration type as its section, and the static phase runs exactly once per runtime, so a static
+        // section cannot accumulate children across runs. Cloning it would be pure risk, see ADR-0023.
+        const item = registrationType === "deferred" ? cloneNavigationItem(navigationItem) : navigationItem;
+
         if (sectionId) {
-            return this.#addNestedItem(menuId, sectionId, registrationType, navigationItem);
+            return this.#addNestedItem(menuId, sectionId, registrationType, item);
         }
 
-        if (isLinkItem(navigationItem)) {
-            return this.#addRootLink(menuId, registrationType, navigationItem);
+        if (isLinkItem(item)) {
+            return this.#addRootLink(menuId, registrationType, item);
         }
 
-        return this.#addRootSection(menuId, registrationType, navigationItem);
+        return this.#addRootSection(menuId, registrationType, item);
     }
 
     #addRootLink(menuId: string, registrationType: NavigationItemRegistrationType, item: RootNavigationItem): NavigationItemRegistrationResult {
@@ -408,8 +463,8 @@ export class NavigationItemRegistry {
         }
 
         // Keep the section index and the pending registrations in sync with the menu index. Both indexes are
-        // keyed by "menuId-sectionId" rather than by menu, so they are cleaned in a single pass rather than
-        // once per menu.
+        // keyed by a composite of the menu id and the section id rather than by menu, so they are cleaned in a
+        // single pass rather than once per menu.
         this.#deleteDeferredSectionIndexEntries();
         this.#deleteDeferredPendingRegistrations();
     }
@@ -456,6 +511,11 @@ export class PendingNavigationItemRegistrations {
         this.#pendingRegistrationsIndex = pendingRegistrationsIndex;
     }
 
+    /**
+     * Returns the index key of every section that has pending registrations. The keys are opaque, only use them
+     * to look a section up with {@link getPendingRegistrationsForSection}. To identify a section, read the
+     * "menuId" and the "sectionId" off the returned {@link PendingRegistrationItem} values.
+     */
     getPendingSectionIds() {
         return Array.from(this.#pendingRegistrationsIndex.keys());
     }
