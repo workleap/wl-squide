@@ -48,7 +48,7 @@ Mutating a section after registering it does not change what the menu renders. T
 
 The prototype chain and the accessor properties of a section are preserved, so a section backed by a class instance keeps its prototype and a lazy `$label` getter stays lazy. The exception is an ECMAScript `#private` field: it is a slot rather than a property, so no copy can carry it, and an accessor reading one throws. If you have such a section, register a plain object built from the instance:
 
-```ts !#12-16
+```ts !#14-18
 class SettingsSection {
     #label = "Settings";
 
@@ -75,7 +75,7 @@ TypeScript's `private` keyword compiles to an ordinary property and is not affec
 
 Registering a nested item whose section was registered in a different phase used to throw. It now works, and each deferred registration update removes and re-adds the deferred items correctly:
 
-```ts !#3,10
+```ts !#3,11
 // Registered once, during the static registration phase.
 export const register: ModuleRegisterFunction<FireflyRuntime, unknown, FeatureFlags> = runtime => {
     runtime.registerNavigationItem({ $id: "reports", $label: "Reports", children: [] });

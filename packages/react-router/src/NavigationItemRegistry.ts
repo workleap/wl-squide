@@ -732,7 +732,16 @@ export class NavigationItemRegistry {
     }
 
     getDuplicateSectionDeclarations() {
-        return new DuplicateNavigationSectionDeclarations(this.#duplicateDeclarationsIndex);
+        const index = new Map<string, DuplicateSectionDeclaration[]>();
+
+        // Copying rather than handing out the index, matching "getPendingRegistrations". The arrays are pushed
+        // into by "#addDuplicateDeclaration" and replaced by "#deleteDuplicateDeclarations", so a wrapper held
+        // across an update run would otherwise change underneath the code holding it.
+        this.#duplicateDeclarationsIndex.forEach((declarations, indexKey) => {
+            index.set(indexKey, [...declarations]);
+        });
+
+        return new DuplicateNavigationSectionDeclarations(index);
     }
 }
 

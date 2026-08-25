@@ -97,7 +97,7 @@ export const register: ModuleRegisterFunction<FireflyRuntime> = runtime => {
 
 A section's `$id` identifies a container within a menu rather than a specific registration. When several modules contribute items to a section that none of them owns, every one of them declares the section: the first declaration registers it, and the following ones find it already there.
 
-```ts !#4-8
+```ts !#5-9
 import type { ModuleRegisterFunction, FireflyRuntime } from "@squide/firefly";
 
 // In the billing module.
@@ -118,7 +118,7 @@ export const register: ModuleRegisterFunction<FireflyRuntime> = runtime => {
 };
 ```
 
-```ts !#4-8
+```ts !#5-9
 import type { ModuleRegisterFunction, FireflyRuntime } from "@squide/firefly";
 
 // In the notifications module. The same section is declared again, identically.

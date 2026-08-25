@@ -1253,6 +1253,38 @@ describe.concurrent("clearDeferredItems", () => {
         expect(countDeclarations()).toBe(1);
     });
 
+    test.concurrent("should not let consumers mutate the internal registry through the returned declarations", ({ expect }) => {
+        const registry = new NavigationItemRegistry();
+
+        registry.add("foo", "static", {
+            $id: "bar",
+            $label: "Bar",
+            children: []
+        });
+
+        registry.add("foo", "static", {
+            $id: "bar",
+            $label: "Bar",
+            $priority: 10,
+            children: []
+        });
+
+        const declarations = registry.getDuplicateSectionDeclarations();
+        const indexKey = declarations.getDuplicatedSectionIds()[0];
+
+        declarations.getDeclarationsForSection(indexKey).push({
+            menuId: "foo",
+            sectionId: "bar",
+            registrationType: "static",
+            item: { $id: "bar", $label: "Bar", children: [] },
+            isInlineDeclaration: false,
+            hasConflictingLabel: false,
+            isRegistered: false
+        });
+
+        expect(registry.getDuplicateSectionDeclarations().getDeclarationsForSection(indexKey).length).toBe(1);
+    });
+
     test.concurrent("when there is nothing to clear, a registered duplicated declaration is kept", ({ expect }) => {
         const registry = new NavigationItemRegistry();
 
