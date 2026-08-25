@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <meta name="color-scheme" content="light dark">
     <meta name="turbo-root" content="/wl-squide">
-    <meta name="turbo-cache-control" content="no-cache" data-turbo-track="reload" data-track-token="4.6.0.840921411428">
+    <meta name="turbo-cache-control" content="no-cache" data-turbo-track="reload" data-track-token="4.6.0.840981279135">
 
     <!-- See retype.com -->
     <meta name="generator" content="Retype 4.6.0">
@@ -39,12 +39,12 @@
     <script data-cfasync="false">(function(){var cl=document.documentElement.classList,ls=localStorage.getItem("retype_scheme"),hd=cl.contains("dark"),hl=cl.contains("light"),wm=window.matchMedia&&window.matchMedia("(prefers-color-scheme: dark)").matches;if(ls==="dark"||(!ls&&wm&&!hd&&!hl)){cl.remove("light");cl.add("dark")}else if(ls==="light"||(!ls&&!wm&&!hd&&!hl)){cl.remove("dark");cl.add("light")}})();</script>
 
     <link id="retype-favicon" rel="icon" href="../../../static/favicon.png" />
-    <link href="../../../resources/css/retype.css?v=4.6.0.840921411428" rel="stylesheet">
+    <link href="../../../resources/css/retype.css?v=4.6.0.840981279135" rel="stylesheet">
 
-    <script data-cfasync="false" src="../../../resources/js/config.js?v=4.6.0.840921411428" data-turbo-eval="false" defer></script>
+    <script data-cfasync="false" src="../../../resources/js/config.js?v=4.6.0.840981279135" data-turbo-eval="false" defer></script>
     <script data-cfasync="false" src="../../../resources/js/retype.js?v=4.6.0" data-turbo-eval="false" defer></script>
-    <script id="lunr-js" data-cfasync="false" src="../../../resources/js/lunr.js?v=4.6.0.840921411428" data-turbo-eval="false" defer></script>
-    <script id="prism-js" data-cfasync="false" src="../../../resources/js/prism.js?v=4.6.0.840921411428" defer></script>
+    <script id="lunr-js" data-cfasync="false" src="../../../resources/js/lunr.js?v=4.6.0.840981279135" data-turbo-eval="false" defer></script>
+    <script id="prism-js" data-cfasync="false" src="../../../resources/js/prism.js?v=4.6.0.840981279135" defer></script>
 
     <link href="https://workleap.github.io/wl-idp-docs-hub/static/retype-customization.css" rel="stylesheet" />
 
@@ -273,7 +273,7 @@
 <p>A component that sets up Squide&#x27;s primitives with a <a href="https://reactrouter.com/en/main" class="outbound" target="_blank">React Router</a> instance.</p>
 <h2 id="reference">Reference</h2>
 <div id="reference-code-1" class="codeblock-wrapper"><doc-codeblock>
-<pre translate="no" class="language-tsx"><code v-pre class="language-tsx">&lt;AppRouter waitForPublicData={boolean} waitForProtectedData={boolean}&gt;
+<pre translate="no" class="language-tsx"><code v-pre class="language-tsx">&lt;AppRouter waitForPublicData={boolean} waitForProtectedData={boolean} strictMode={boolean}&gt;
     {({ rootRoute, registeredRoutes, routerProps, routerProviderProps }) =&gt; ( ... )}
 &lt;/AppRouter&gt;</code></pre>
 </doc-codeblock></div>
@@ -281,6 +281,7 @@
 <ul>
 <li><code translate="no" v-pre>waitForPublicData</code>: An optional <code translate="no" v-pre>boolean</code> value indicating whether or not Squide should delay the rendering of the requested page until the <strong>public</strong> data is ready. The default value is <code translate="no" v-pre>false</code>.</li>
 <li><code translate="no" v-pre>waitForProtectedData</code>: An optional <code translate="no" v-pre>boolean</code> value indicating whether or not Squide should delay the rendering of the requested page until the <strong>protected</strong> data is ready. The default value is <code translate="no" v-pre>false</code>.</li>
+<li><code translate="no" v-pre>strictMode</code>: An optional <code translate="no" v-pre>boolean</code> value indicating whether or not Squide should validate the registrations once the modules are ready, validate the navigation item registrations again after every deferred registration update, and throw when the active location matches no registered route. The default value is <code translate="no" v-pre>true</code>.</li>
 <li><code translate="no" v-pre>children</code>: A render function defining a <a href="https://reactrouter.com/en/main/routers/router-provider" class="outbound" target="_blank">RouterProvider</a> component with <code translate="no" v-pre>rootRoute</code>, <code translate="no" v-pre>registeredRoutes</code>, <code translate="no" v-pre>routerProps</code> and <code translate="no" v-pre>routerProviderProps</code>.</li>
 </ul>
 <h2 id="usage">Usage</h2>
@@ -518,6 +519,39 @@ export function App() {
     );
 }</code></pre>
 </doc-codeblock></div>
+<h3 id="disable-strict-mode">Disable strict mode</h3>
+<p>By default, Squide validates the registrations once the modules are ready, and validates the navigation item registrations again after every deferred registration update. A navigation item registered under a section that no module registered, or a route registered under a parent that does not exist, throws in development and is logged in production.</p>
+<p>Routes are only validated once, as they are frozen after the initial registration phase and cannot become pending during an update.</p>
+<p>Strict mode additionally throws when the active location matches no registered route.</p>
+<p>Set <code translate="no" v-pre>strictMode</code> to <code translate="no" v-pre>false</code> to turn all of it off:</p>
+<div id="disable-strict-mode-hostsrcapptsx" class="codeblock-wrapper"><doc-codeblock>
+<div class="codeblock-title">host/src/App.tsx</div>
+<pre translate="no" class="language-tsx" data-line="5"><code v-pre class="language-tsx">import { AppRouter } from &quot;@squide/firefly&quot;;
+
+export function App() {
+    return (
+        &lt;AppRouter strictMode={false}&gt;
+            {({ rootRoute, registeredRoutes, routerProps, routerProviderProps }) =&gt; ( ... )}
+        &lt;/AppRouter&gt;
+    );
+}</code></pre>
+</doc-codeblock></div>
+<div class="flex mb-6">
+    <div class="shrink-0 w-1.5 rounded-tl-lg rounded-bl-lg bg-callout-warning"></div>
+    <div class="flex w-full py-4 border border-l-0 rounded-tr-lg rounded-br-lg doc-callout bg-callout-base-bg border-callout-base-border" role="alert">
+        <div class="flex items-center ml-4 h-7">
+            <svg xmlns="http://www.w3.org/2000/svg" class="block text-callout-warning" width="22" height="22" viewBox="0 0 24 24" role="presentation">
+                <g fill="currentColor"><g>
+                    <path d="M22.48 15.59L14.01 1.45A2.968 2.968 0 0012.16.09c-.78-.19-1.58-.07-2.27.35-.41.25-.76.6-1.01 1.01v.01L.4 15.6c-.83 1.43-.33 3.27 1.1 4.1.45.26.95.4 1.48.4h16.95c.8-.01 1.55-.33 2.11-.9.56-.57.87-1.33.86-2.13a3.04 3.04 0 00-.42-1.48zm-1.87 2.21c-.19.19-.44.3-.69.3H2.99c-.17 0-.34-.05-.49-.13a.992.992 0 01-.37-1.35L10.6 2.48c.08-.14.2-.25.34-.33a.992.992 0 011.37.33l8.46 14.13c.09.15.13.32.13.49 0 .26-.1.51-.29.7z"></path>
+                    <path d="M11.45 12.1c.55 0 1-.45 1-1v-4c0-.55-.45-1-1-1s-1 .45-1 1v4c0 .56.45 1 1 1zM11.46 14.1c-.56 0-1 .45-1 1s.45 1 1 1 1-.45 1-1-.45-1-1-1z"></path>
+                </g></g>
+            </svg>
+        </div>
+        <div class="pr-5 ml-3 w-full">
+<p>Strict mode is what surfaces a misconfigured <code translate="no" v-pre>sectionId</code>, <code translate="no" v-pre>parentPath</code> or <code translate="no" v-pre>parentId</code>. The registration is dropped either way, turning the validation off only removes the report.</p>
+        </div>
+    </div>
+</div>
 <div id="retype-backlinks">
     <h2>See also</h2>
 <div class="card-compact-group">
@@ -592,16 +626,6 @@ export function App() {
     </a>
 </div>
 <div class="card-compact-container">
-    <a href="/wl-squide/updating/migrate-to-firefly-v16.2/" class="group card-compact no-link">
-        <div class="card-compact-body">
-            <div class="card-compact-header">
-                <span class="card-compact-title">Migrate to firefly v16.2</span>
-            </div>
-            <p class="card-compact-description">This minor version adds support for deferring React Router loaders until MSW is ready (when enabled). To enable this feature, update the application's AppRouter implementation to forward the new routerProps object to createBrowserRouter.</p>
-        </div>
-    </a>
-</div>
-<div class="card-compact-container">
     <a href="/wl-squide/updating/migrate-to-firefly-v9.0/" class="group card-compact no-link">
         <div class="card-compact-body">
             <div class="card-compact-header">
@@ -618,6 +642,16 @@ export function App() {
                 <span class="card-compact-title">Reference</span>
             </div>
             <p class="card-compact-description">Packages</p>
+        </div>
+    </a>
+</div>
+<div class="card-compact-container">
+    <a href="/wl-squide/essentials/register-deferred-nav-items/" class="group card-compact no-link">
+        <div class="card-compact-body">
+            <div class="card-compact-header">
+                <span class="card-compact-title">Register deferred navigation items</span>
+            </div>
+            <p class="card-compact-description">Navigation items cannot always be registered before the application bootstrapping process, as some of them depend on remote data and/or feature flags.</p>
         </div>
     </a>
 </div>

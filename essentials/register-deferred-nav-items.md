@@ -260,3 +260,35 @@ function BootstrappingRoute() {
 }
 ```
 ===
+
+## Deferred registrations run again on every update
+
+A deferred registration function is not executed once. It runs again every time the deferred registrations are updated, whenever a feature flag value changes or the data passed to [useDeferredRegistrations](../reference/registration/useDeferredRegistrations.md) changes.
+
+Squide discards everything the previous run registered before replaying the new one. Every run must therefore register the **full set** of navigation items it wants rendered, not the difference since the last run:
+
+```ts !#4-10
+import type { ModuleRegisterFunction, FireflyRuntime } from "@squide/firefly";
+
+export const register: ModuleRegisterFunction<FireflyRuntime> = () => {
+    return (deferredRuntime) => {
+        if (deferredRuntime.getFeatureFlag("enable-feature-a")) {
+            deferredRuntime.registerNavigationItem({
+                $id: "feature-a",
+                $label: "Feature A",
+                to: "/feature-a"
+            });
+        }
+    };
+};
+```
+
+!!!warning
+Squide copies the navigation **sections** registered by a deferred registration function, so a nested item is never attached to an object owned by a module. One consequence is that mutating a section after registering it does not change what the menu renders. Links are not copied, as nothing is ever attached to them.
+!!!
+
+## Missing sections are reported
+
+When a nested navigation item is registered with a `sectionId` that no registered section matches, the item is held as a pending registration and is not rendered. Squide reports the sections that are still missing once the modules are ready, and again after every deferred registration update. In development the report throws, in production it is logged.
+
+This is what surfaces a deferred registration function that stops registering a section while another module keeps registering items under it. Set [strictMode](../reference/routing/AppRouter.md#disable-strict-mode) to `false` on `AppRouter` to turn the validation off.
