@@ -30,6 +30,8 @@ Write an ODR when you are about to:
 - **proposed** — written by agent, awaiting human review.
 - **accepted** — approved by a developer.
 - **superseded** — replaced by a newer ODR (link to the replacement).
+
+When an ODR becomes `superseded` or `deprecated`, remove its row from [index.md](./index.md) and note the supersession on the superseding ODR's row. The index lists current decisions only. The ODR file itself is never deleted or rewritten.
 - **deprecated** — no longer relevant.
 
 ## Index

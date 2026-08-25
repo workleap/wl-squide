@@ -28,7 +28,9 @@ export const register: ModuleRegisterFunction<FireflyRuntime> = runtime => {
 ```
 
 !!!tip
-We recommend always providing an `$id` option for a navigation item, as it ensures the menus doesn't flicker when [deferred registrations](./register-deferred-nav-items.md) are updated. Be sure to use a unique identifier.
+We recommend always providing an `$id` option for a navigation item, as it ensures the menus doesn't flicker when [deferred registrations](./register-deferred-nav-items.md) are updated.
+
+A section's `$id` names a container within its menu, in a namespace that every module shares. Two modules declaring the same `$id` for the same menu get [a single section](#declare-a-section-from-multiple-modules), which is deliberate, so pick an identifier specific enough not to collide by accident. The same `$id` in two different menus is unrelated.
 !!!
 
 !!!tip
@@ -90,6 +92,60 @@ export const register: ModuleRegisterFunction<FireflyRuntime> = runtime => {
     });
 };
 ```
+
+## Declare a section from multiple modules
+
+A section's `$id` identifies a container within a menu rather than a specific registration. When several modules contribute items to a section that none of them owns, every one of them declares the section: the first declaration registers it, and the following ones find it already there.
+
+```ts !#4-8
+import type { ModuleRegisterFunction, FireflyRuntime } from "@squide/firefly";
+
+// In the billing module.
+export const register: ModuleRegisterFunction<FireflyRuntime> = runtime => {
+    runtime.registerNavigationItem({
+        $id: "settings",
+        $label: "Settings",
+        children: []
+    });
+
+    runtime.registerNavigationItem({
+        $id: "billing-settings",
+        $label: "Billing",
+        to: "/settings/billing"
+    }, {
+        sectionId: "settings"
+    });
+};
+```
+
+```ts !#4-8
+import type { ModuleRegisterFunction, FireflyRuntime } from "@squide/firefly";
+
+// In the notifications module. The same section is declared again, identically.
+export const register: ModuleRegisterFunction<FireflyRuntime> = runtime => {
+    runtime.registerNavigationItem({
+        $id: "settings",
+        $label: "Settings",
+        children: []
+    });
+
+    runtime.registerNavigationItem({
+        $id: "notification-settings",
+        $label: "Notifications",
+        to: "/settings/notifications"
+    }, {
+        sectionId: "settings"
+    });
+};
+```
+
+A single `Settings` section is rendered, holding both links, whichever order the modules register in.
+
+!!!warning
+Declare a shared section **identically** in every module, and always attach the items with the `sectionId` option rather than with `children`.
+
+Only the first declaration is registered, and it is the one that provides the section's `$label`, `$priority` and every other option. Which module gets there first is not defined, because deferred registration functions run concurrently. A declaration that would have contributed something the first one didn't — inline `children`, a `$priority`, or its own `sectionId` — is [reported by strict mode](./register-deferred-nav-items.md#conflicting-section-declarations-are-reported).
+!!!
 
 ## Register an item with a sorting priority
 

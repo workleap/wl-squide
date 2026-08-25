@@ -33,6 +33,8 @@ For build tooling, CI, or agent workflow decisions, write an [ODR](../odr/) inst
 - **superseded** — replaced by a newer ADR (link to the replacement).
 - **deprecated** — no longer relevant.
 
+When an ADR becomes `superseded` or `deprecated`, remove its row from [index.md](./index.md) and note the supersession on the superseding ADR's row. The index lists current decisions only — a struck-through or annotated row costs a reader a line to learn there is nothing to read. The ADR file itself is never deleted or rewritten; the record stays, and its Status section says what replaced it and why.
+
 ## Index
 
 See [index.md](./index.md) for the full list of decisions.

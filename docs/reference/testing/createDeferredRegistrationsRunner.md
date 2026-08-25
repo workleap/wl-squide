@@ -115,23 +115,24 @@ A module keeping state across its registrations usually resets that state when a
 ```ts !#6
 import { DeferredRegistrationsUpdateStartedEvent } from "@squide/firefly";
 
-const register: ModuleRegisterFunction<FireflyRuntime, unknown, FeatureFlags> = runtime => {
-    const registeredSections = new Set<string>();
+const register: ModuleRegisterFunction<FireflyRuntime, unknown, Reports> = runtime => {
+    const registeredReports = new Set<string>();
 
-    runtime.eventBus.addListener(DeferredRegistrationsUpdateStartedEvent, () => registeredSections.clear());
+    runtime.eventBus.addListener(DeferredRegistrationsUpdateStartedEvent, () => registeredReports.clear());
 
     return (deferredRuntime, data) => {
-        if (!data.isBillingEnabled) {
-            return;
-        }
+        data.categories.forEach(category => {
+            category.reports.forEach(report => {
+                // The same report can appear in several categories, and a link is never deduplicated.
+                if (registeredReports.has(report.id)) {
+                    return;
+                }
 
-        // Register the section on the first item of the run.
-        if (!registeredSections.has("billing")) {
-            registeredSections.add("billing");
-            deferredRuntime.registerNavigationItem({ $id: "billing", $label: "Billing", children: [] });
-        }
+                registeredReports.add(report.id);
 
-        deferredRuntime.registerNavigationItem({ $id: "invoices", $label: "Invoices", to: "/invoices" }, { sectionId: "billing" });
+                deferredRuntime.registerNavigationItem({ $id: report.id, $label: report.label, to: `/reports/${report.id}` });
+            });
+        });
     };
 };
 ```
@@ -139,13 +140,17 @@ const register: ModuleRegisterFunction<FireflyRuntime, unknown, FeatureFlags> = 
 ```ts !#4
 const runner = createDeferredRegistrationsRunner(runtime, [register]);
 
-await runner.register({ isBillingEnabled: true });
-await runner.update({ isBillingEnabled: true });
+await runner.register(reports);
+await runner.update(reports);
 
-expect(runtime.getNavigationItems().length).toBe(1);
+expect(runtime.getNavigationItems().length).toBe(2);
 ```
 
-Without the listener, the section is registered on the first run only, and the update run leaves the items pending under a section that no longer exists.
+Without the listener, the set still holds every identifier from the first run, so the update run registers nothing and the menu empties.
+
+!!!tip
+A navigation **section** needs no such guard. Declaring one that is already registered for the menu is [supported](../../essentials/register-nav-items.md#declare-a-section-from-multiple-modules) and contributes nothing, so a module can declare its section on every run and on every item.
+!!!
 
 !!!warning
 A runner dispatches the update events itself, standing in for the [useDeferredRegistrations](../registration/useDeferredRegistrations.md) hook. Such a test asserts that a module reacts correctly to those events, not that they are dispatched at runtime. Squide covers that half.

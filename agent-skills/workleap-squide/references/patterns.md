@@ -187,7 +187,8 @@ runtime.registerNavigationItem({
 // Module A registers section
 runtime.registerNavigationItem({
     $id: "admin-section",
-    $label: "Administration"
+    $label: "Administration",
+    children: []
 });
 
 // Module B nests under section
@@ -199,6 +200,34 @@ runtime.registerNavigationItem({
     sectionId: "admin-section"
 });
 ```
+
+### Shared Sections (no owning module)
+
+A section `$id` identifies a container within a menu, not a registration. Declaring a section that is already registered for the menu is an **ensure**: the first declaration wins, the later ones contribute nothing and are reported as `deduplicated`. So a section that several modules contribute to needs no owner — each of them declares it.
+
+```tsx
+// In every contributing module. Declare the section identically, then attach with "sectionId".
+runtime.registerNavigationItem({
+    $id: "settings",
+    $label: "Settings",
+    children: []
+});
+
+runtime.registerNavigationItem({
+    $id: "billing-settings",
+    $label: "Billing",
+    to: "/settings/billing"
+}, {
+    sectionId: "settings"
+});
+```
+
+Rules:
+
+- **Declare a shared section identically in every module.** `$label`, `$priority` and every other option come from whichever declaration ran first, and deferred registration functions run concurrently, so "first" is not defined across modules.
+- **Never put `children` in a shared section's declaration**, and never give it a `$priority` or its own `sectionId`. Those are discarded, and `_validateRegistrations` reports them — throwing in development, logging in production.
+- **Do not keep a `Set` of declared section ids.** It is redundant now, and it never covered the case that matters, which is two different modules declaring the same section.
+- A **link** is not deduplicated. Registering two links with the same `$id` renders two links.
 
 ### Multiple Menus
 
@@ -732,20 +761,28 @@ A module keeping state across runs typically resets it on the started event, so 
 import { DeferredRegistrationsUpdateStartedEvent } from "@squide/firefly";
 
 const register: ModuleRegisterFunction<FireflyRuntime, unknown, DeferredData> = runtime => {
-    const registeredSections = new Set<string>();
+    const registeredReports = new Set<string>();
 
-    runtime.eventBus.addListener(DeferredRegistrationsUpdateStartedEvent, () => registeredSections.clear());
+    runtime.eventBus.addListener(DeferredRegistrationsUpdateStartedEvent, () => registeredReports.clear());
 
     return (deferredRuntime, data) => {
-        if (!registeredSections.has("billing")) {
-            registeredSections.add("billing");
-            deferredRuntime.registerNavigationItem({ $id: "billing", $label: "Billing", children: [] });
-        }
+        data.categories.forEach(category => {
+            category.reports.forEach(report => {
+                // The same report can appear in several categories, and a link is never deduplicated.
+                if (registeredReports.has(report.id)) {
+                    return;
+                }
 
-        deferredRuntime.registerNavigationItem({ $id: "invoices", $label: "Invoices", to: "/invoices" }, { sectionId: "billing" });
+                registeredReports.add(report.id);
+
+                deferredRuntime.registerNavigationItem({ $id: report.id, $label: report.label, to: `/reports/${report.id}` });
+            });
+        });
     };
 };
 ```
+
+A navigation **section** needs no such guard. Declaring a section that is already registered for the menu is supported, the first declaration wins and the later ones contribute nothing, so a module can declare its section on every run and on every item. Do not keep a `Set` of declared section ids — it is redundant, and it does not cover the case that matters, which is two *different* modules declaring the same shared section.
 
 Provide every module participating in a scenario — they all execute within the same run. To test a standalone deferred registration function, wrap it in a module registration function: `createDeferredRegistrationsRunner(runtime, [() => registerBillingNavigationItems])`.
 
@@ -761,7 +798,7 @@ await runner.update({ isBillingEnabled: true });
 expect(runtime.getNavigationItems()).toMatchObject([{ $id: "billing", children: [{ $id: "invoices" }] }]);
 ```
 
-  `_validateRegistrations()` validates routes first, and routes registered without an explicit parent default to the `PublicRoutes`/`ProtectedRoutes` outlets, which a runner never registers. Against a headless runtime it therefore throws `The ProtectedRoutes outlet is missing from the router configuration` for any module registering a route, whatever the state of the navigation items.
+  `_validateRegistrations()` defaults `includeRoutes` to `true`, and routes registered without an explicit parent default to the `PublicRoutes`/`ProtectedRoutes` outlets, which a runner never registers. Against a headless runtime the bare call therefore throws `The ProtectedRoutes outlet is missing from the router configuration` for any module registering a route, whatever the state of the navigation items. Pass `runtime._validateRegistrations({ includeRoutes: false })` to validate the navigation items only — that is the same call the framework makes after a deferred registration update.
 
 ## Common Pitfalls
 

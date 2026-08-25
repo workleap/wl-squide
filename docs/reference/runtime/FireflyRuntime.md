@@ -285,7 +285,9 @@ Accept any properties of a React Router [Link](https://reactrouter.com/en/main/c
 - `children`: The section content.
 
 !!!tip
-We recommend always providing an `$id` option for a navigation item, as it ensures the menus doesn't flicker when [deferred registrations](../registration/initializeFirefly.md#defer-the-registration-of-navigation-items) are updated. Be sure to use a unique identifier.
+We recommend always providing an `$id` option for a navigation item, as it ensures the menus doesn't flicker when [deferred registrations](../registration/initializeFirefly.md#defer-the-registration-of-navigation-items) are updated.
+
+A section's `$id` names a container within its menu, in a namespace that every module shares. Two modules declaring the same `$id` for the same menu get [a single section](../../essentials/register-nav-items.md#declare-a-section-from-multiple-modules), which is deliberate, so pick an identifier specific enough not to collide by accident. The same `$id` in two different menus is unrelated.
 !!!
 
 ```ts !#2-6
@@ -513,6 +515,10 @@ To retrieve the navigation items for a **specific** navigation menu, provide a `
 ```tsx !#1
 const navigationItems = runtime.getNavigationItems({ menuId: "my-custom-layout" });
 ```
+
+!!!warning
+A returned **section** is built from the registrations rather than being the object that was registered, so it is never reference-equal to it, and mutating it changes nothing. Compare sections by `$id`. Links are returned as they were registered.
+!!!
 
 ### Retrieve the full navigation registry grouped by menu id
 

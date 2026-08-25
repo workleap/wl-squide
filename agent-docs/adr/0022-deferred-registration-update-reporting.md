@@ -4,6 +4,8 @@
 
 proposed
 
+Amended by [ADR-0025](./0025-declaring-a-navigation-section-twice-is-an-ensure.md), which added a fourth registration status. The amendment is marked inline below.
+
 ## Context
 
 Deferred registrations execute twice in an application's life. Once during bootstrap, as phase 2 of the two-phase registration described in [ADR-0001](./0001-two-phase-registration.md), and again every time `updateDeferredRegistrations` is called — a feature flag flip, a LaunchDarkly change, a refetched query.
@@ -32,7 +34,7 @@ The result is that the update path is strictly weaker than the register path, wh
 
 Three changes follow from it.
 
-**The registration status gained a third value.** `NavigationItemRegistrationStatus` is now `"pending" | "registered" | "buffered"`. The transactional scope returns `"buffered"`, which is what actually happened, and `#logNavigationItemRegistrationResult` gained a third arm that says so.
+**The registration status gained a third value.** `NavigationItemRegistrationStatus` is now `"pending" | "registered" | "buffered"`. [ADR-0025](./0025-declaring-a-navigation-section-twice-is-an-ensure.md) later added a fourth, `"deduplicated"`, for a navigation section declaration that found the section already registered for the menu. The reachability analysis below applies to it unchanged. The semver conclusion does not — `"deduplicated"` ships inside a major, so it needs no justification of its own. The transactional scope returns `"buffered"`, which is what actually happened, and `#logNavigationItemRegistrationResult` gained a third arm that says so.
 
 Widening a union in return position is breaking for anyone who narrows on it, so the classification deserves care. `registerNavigationItem` returns `void` and `_navigationItemRegistry` is `protected`, but that is **not** enough to call the type unreachable: `packages/react-router/src/index.ts` re-exports the whole of `NavigationItemRegistry.ts` and `packages/firefly/src/index.ts` re-exports that in turn, so `NavigationItemRegistry`, both scope classes, `NavigationItemRegistrationResult` and the status union are all importable from `@squide/firefly`. `NavigationItemRegistry.add` and `NavigationItemDeferredRegistrationTransactionalScope.addItem` are public and both return the result, and the scope's `_registry` field is public rather than protected. `ReactRouterRuntime` is also designed for subclassing, which reaches the protected registry.
 

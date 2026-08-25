@@ -2,7 +2,13 @@
 
 ## Status
 
-proposed
+superseded by [ADR-0024](./0024-navigation-item-registry-stores-registrations.md)
+
+This record was never accepted. The decision it describes shipped in `@squide/react-router` 9.3.0 and was superseded before review, so it is kept as the record of behaviour consumers are upgrading *from* rather than deleted or folded into ADR-0024.
+
+ADR-0024 stopped the registry from storing a mutated navigation item tree, which removed the mutation this record was written to contain. The invariant it established — the registry never mutates an object a registering module owns — still holds, and the descriptor-copy technique carries over unchanged. What is reversed is the narrowing to the deferred path, and with it the guarantee that `getItems()[0]` is reference-equal to the object registered for a static section.
+
+The ECMAScript private field caveat below carries over and widens. ADR-0024 builds every section from its registration, on both paths, so a section written as a class whose accessor reads a `#private` field now throws on the static path too, where this record confined the hazard to deferred registrations.
 
 ## Context
 

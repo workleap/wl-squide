@@ -289,7 +289,7 @@ export const register: ModuleRegisterFunction<FireflyRuntime> = () => {
 ```
 
 !!!warning
-Squide copies the navigation **sections** registered by a deferred registration function, so a nested item is never attached to an object owned by a module. One consequence is that mutating a section after registering it does not change what the menu renders. Links are not copied, as nothing is ever attached to them.
+Squide builds the navigation **sections** it renders from the registrations rather than storing the objects it received, so a nested item is never attached to an object owned by a module. Two consequences: mutating a section after registering it does not change what the menu renders, and the section returned by [getNavigationItems](../reference/runtime/FireflyRuntime.md#retrieve-navigation-items) is not the object that was registered. Compare sections by `$id`. Links are returned as they were registered, as nothing is ever attached to them.
 !!!
 
 ## Missing sections are reported
@@ -297,3 +297,11 @@ Squide copies the navigation **sections** registered by a deferred registration 
 When a nested navigation item is registered with a `sectionId` that no registered section matches, the item is held as a pending registration and is not rendered. Squide reports the sections that are still missing once the modules are ready, and again after every deferred registration update. In development the report throws, in production it is logged.
 
 This is what surfaces a deferred registration function that stops registering a section while another module keeps registering items under it. Set [strictMode](../reference/routing/AppRouter.md#disable-strict-mode) to `false` on `AppRouter` to turn the validation off.
+
+## Conflicting section declarations are reported
+
+Declaring a section that is already registered for a menu is [supported](./register-nav-items.md#declare-a-section-from-multiple-modules): the first declaration wins and the following ones contribute nothing. Squide reports two situations where that silently loses something. In development the report throws, in production it is logged, and `strictMode={false}` turns it off with the rest.
+
+**An ignored declaration** carried inline `children`, a `$priority`, or its own `sectionId`. Those options are discarded, so the report names the menu, the section, and what each declaration would have contributed. A re-declaration carrying none of them is the supported shape and is never reported.
+
+**A declaration that does not own the identifier** is a section that was waiting for its own section, and found its `$id` already taken by the time that section was registered. It is rendered where it was registered, but items nested with that `$id` reach the other section. Two sections of one menu answering to the same `$id` is never intended, so this one is always reported.
