@@ -7,7 +7,9 @@ const require = createRequire(import.meta.url);
 const storybookConfig: StorybookConfig = {
     framework: getAbsolutePath("storybook-react-rsbuild"),
     addons: [
-        getAbsolutePath("@storybook/addon-a11y")
+        getAbsolutePath("@storybook/addon-a11y"),
+        // "getAbsolutePath" cannot be used here because "msw-storybook-addon" doesn't expose "./package.json" in its "exports" field.
+        "msw-storybook-addon"
     ],
     core: {
         builder: {

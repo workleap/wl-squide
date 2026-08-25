@@ -28,12 +28,8 @@ const meta = {
         withQueryDecorator(),
         withFireflyDecorator(fireflyRuntime)
     ],
-    parameters: {
-        msw: {
-            handlers: [
-                ...fireflyRuntime.requestHandlers
-            ]
-        }
+    beforeEach({ msw }) {
+        msw.use(...fireflyRuntime.requestHandlers);
     }
 } satisfies Meta<typeof HomePage>;
 
