@@ -79,7 +79,7 @@ Five invariants are load-bearing, and breaking any of them is silent. Each has a
 
 **Inline children are registered before a section takes its pending items**, so an inline child comes first in `children`, and a section reports its own completions before its children's in `completedPendingRegistrations`.
 
-**`#deleteDeferredDuplicateDeclarations` runs before the early return in `clearDeferredItems`.** A duplicated declaration usually creates no record, so a run that declared nothing but duplicates never reaches the rebuild, and its declarations would be reported again after every subsequent run.
+**The duplicated declarations are deleted on both sides of the early return in `clearDeferredItems`.** A declaration that lost outright creates no record, so a run that declared nothing but duplicates never reaches the rebuild, and the deferred ones are deleted before the early return. A declaration that kept its place is recorded while its section is being indexed, and the rebuild indexes every section it reaches again, so those are deleted after it. Deleting them earlier would lose them on the path where nothing is rebuilt.
 
 Registration is roughly 2.5–3.5× slower than the previous implementation and reads are at parity, measured locally against a synthetic registration workload; the harness is not committed. In absolute terms that is single-digit milliseconds once at bootstrap for an application registering a thousand navigation items, and about a millisecond per deferred registration update.
 
