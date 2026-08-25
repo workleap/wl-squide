@@ -1,12 +1,24 @@
 import { RootMenuId, Runtime, RuntimeScope, type CompleteDeferredRegistrationScopeOptions, type GetNavigationItemsOptions, type IRuntime, type RegisterNavigationItemOptions, type RegisterRouteOptions, type StartDeferredRegistrationScopeOptions, type ValidateRegistrationsOptions } from "@squide/core";
 import { isNil } from "@squide/core/internal";
 import type { Logger } from "@workleap/logging";
-import { NavigationItemDeferredRegistrationScope, NavigationItemDeferredRegistrationTransactionalScope, NavigationItemRegistry, type NavigationItemRegistrationResult, type RootNavigationItem } from "./NavigationItemRegistry.ts";
+import { NavigationItemDeferredRegistrationScope, NavigationItemDeferredRegistrationTransactionalScope, NavigationItemRegistry, type DuplicateSectionDeclaration, type NavigationItemRegistrationResult, type RootNavigationItem } from "./NavigationItemRegistry.ts";
 import { ProtectedRoutesOutletId, PublicRoutesOutletId } from "./outlets.ts";
 import { RouteRegistry, type Route } from "./RouteRegistry.ts";
 
 function indent(text: string, depth: number) {
     return `${" ".repeat(depth * 4)}${text}`;
+}
+
+// An inline declaration is dropped from the position it was written in, therefore where it was written is what
+// tells the author which module to look at.
+function formatInlineDeclarationPosition(declaration: DuplicateSectionDeclaration) {
+    if (!declaration.isInlineDeclaration) {
+        return "";
+    }
+
+    return declaration.inlineParentSectionId
+        ? `, declared inline in the "${declaration.inlineParentSectionId}" section`
+        : ", declared inline in another section";
 }
 
 function translateOutletsParentId(parentId?: string) {
@@ -469,17 +481,23 @@ export class ReactRouterRuntime<TRuntime extends ReactRouterRuntime = any> exten
         // A section is worth reporting for two different reasons, and a declaration falls in exactly one of
         // them. A declaration that found the section already registered contributes nothing, but a shared
         // section that several modules declare identically is the supported way to contribute to a menu that no
-        // module owns, so only a declaration that would have contributed something is reported. The registry
-        // cannot tell those two apart from the "$label" alone, since it's a "ReactNode" that is rebuilt on
-        // every registration. A declaration that is registered and only lost the identifier is always reported,
-        // since two sections of the same menu answering to the same "$id" is never intended.
+        // module owns, so only a declaration that lost something is reported: inline children, a "$priority", a
+        // "sectionId", the position it was written in, or a string label that isn't the registered one. A
+        // declaration that is registered and only lost the identifier is always reported, since two sections of
+        // the same menu answering to the same "$id" is never intended.
         const conflictingSections = duplicateDeclarations.getDuplicatedSectionIds()
             .map(x => {
                 const declarations = duplicateDeclarations.getDeclarationsForSection(x);
 
                 return {
                     ignoredDeclarations: declarations.filter(y => {
-                        return !y.isRegistered && ((y.item.children?.length ?? 0) > 0 || !isNil(y.item.$priority) || !isNil(y.parentSectionId));
+                        return !y.isRegistered && (
+                            (y.item.children?.length ?? 0) > 0
+                            || !isNil(y.item.$priority)
+                            || !isNil(y.parentSectionId)
+                            || y.isInlineDeclaration
+                            || y.hasConflictingLabel
+                        );
                     }),
                     conflictingIdentifierDeclarations: declarations.filter(y => y.isRegistered)
                 };
@@ -512,7 +530,13 @@ export class ReactRouterRuntime<TRuntime extends ReactRouterRuntime = any> exten
                             conflicts.push(`a "sectionId" option of "${x.parentSectionId}"`);
                         }
 
-                        message += indent(`- A ${x.registrationType} declaration with ${conflicts.join(", ")}.\r\n`, 2);
+                        if (x.hasConflictingLabel) {
+                            conflicts.push(`a "$label" of "${x.item.$label}"`);
+                        }
+
+                        const options = conflicts.length > 0 ? ` with ${conflicts.join(", ")}` : "";
+
+                        message += indent(`- A ${x.registrationType} declaration${options}${formatInlineDeclarationPosition(x)}.\r\n`, 2);
                     });
                 }
 
@@ -520,7 +544,13 @@ export class ReactRouterRuntime<TRuntime extends ReactRouterRuntime = any> exten
                     message += indent("Declarations that are registered but do not own the identifier:\r\n", 1);
 
                     conflictingIdentifierDeclarations.forEach(x => {
-                        message += indent(`- A ${x.registrationType} declaration nested under the "${x.parentSectionId}" section.\r\n`, 2);
+                        const position = !isNil(x.parentSectionId)
+                            ? ` nested under the "${x.parentSectionId}" section`
+                            : formatInlineDeclarationPosition(x);
+
+                        const label = x.hasConflictingLabel ? `, with a "$label" of "${x.item.$label}"` : "";
+
+                        message += indent(`- A ${x.registrationType} declaration${position}${label}.\r\n`, 2);
                     });
                 }
 

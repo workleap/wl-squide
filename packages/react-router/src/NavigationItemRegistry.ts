@@ -95,6 +95,15 @@ export interface DuplicateSectionDeclaration {
     // The section this declaration asked to be nested under, which is how a section declared in two different
     // places is told apart from one declared twice in the same place.
     parentSectionId?: string;
+    // Whether the declaration was written in the "children" of another item rather than registered on its own.
+    // An inline declaration always loses something: it is dropped from the position it was written in, together
+    // with everything declared under it, which a declaration registered on its own doesn't lose.
+    isInlineDeclaration: boolean;
+    // The "$id" of the section this declaration was written in. A section declared inline doesn't have to be
+    // identified, therefore the section holding it cannot always be named.
+    inlineParentSectionId?: string;
+    // Whether this declaration's label differs from the one of the section that owns the identifier.
+    hasConflictingLabel: boolean;
     // Whether the declaration is itself registered. A declaration that found the section already registered
     // contributes nothing and is not, but a section that was waiting for its own section only competes for
     // the identifier once it becomes reachable, and by then it holds a place in the menu that it keeps.
@@ -226,6 +235,15 @@ function resolveNavigationSection(item: NavigationSection, children: NavigationI
     return Object.create(Object.getPrototypeOf(item), descriptors) as NavigationSection;
 }
 
+// Two modules declaring a shared section render its label through their own element, therefore comparing
+// "$label" values is only meaningful when both are strings. Comparing the others would report every correctly
+// shared section, since a "ReactNode" is rebuilt on every registration and never equals the previous one.
+function hasConflictingLabel(registeredItem: NavigationItem, item: NavigationItem) {
+    return typeof registeredItem.$label === "string"
+        && typeof item.$label === "string"
+        && registeredItem.$label !== item.$label;
+}
+
 export class NavigationItemRegistry {
     // The registrations, in registration order. Every index below is derived from this array, which is what
     // allows "clearDeferredItems" to rebuild the whole registry from it.
@@ -269,7 +287,7 @@ export class NavigationItemRegistry {
     #nextRegistrationId = 0;
 
     // Since the "getItems" function is building the menu items from the registrations, the result is memoized
-    // to ensure the returned array is immutable and can be use in React closures.
+    // to ensure the returned array is immutable and can be used in React closures.
     readonly #memoizedGetItems = memoize((menuId: string) => this.#getMenuItems(menuId));
 
     // Memoized grouped view of the full registry, reusing the per-menu memoized arrays so inner array
@@ -355,6 +373,9 @@ export class NavigationItemRegistry {
                     registrationType,
                     item,
                     parentSectionId: sectionId,
+                    isInlineDeclaration: inlineParentId !== undefined,
+                    inlineParentSectionId: this.#getInlineParentSectionId(inlineParentId),
+                    hasConflictingLabel: hasConflictingLabel(registeredSection.item, item),
                     isRegistered: false
                 });
 
@@ -424,7 +445,11 @@ export class NavigationItemRegistry {
 
         const indexKey = createSectionIndexKey(registration.menuId, sectionId);
 
-        if (this.#sectionsIndex.has(indexKey)) {
+        const registeredSectionId = this.#sectionsIndex.get(indexKey);
+
+        if (registeredSectionId !== undefined) {
+            const registeredSection = this.#registrationsIndex.get(registeredSectionId);
+
             // Another section took the identifier while this one was waiting for its own section. It keeps the
             // place it was registered in, but it does not take the identifier from the section that owns it.
             this.#addDuplicateDeclaration(indexKey, {
@@ -433,6 +458,9 @@ export class NavigationItemRegistry {
                 registrationType: registration.registrationType,
                 item: registration.item,
                 parentSectionId: registration.sectionId,
+                isInlineDeclaration: registration.inlineParentId !== undefined,
+                inlineParentSectionId: this.#getInlineParentSectionId(registration.inlineParentId),
+                hasConflictingLabel: !isNil(registeredSection) && hasConflictingLabel(registeredSection.item, registration.item),
                 isRegistered: true
             });
 
@@ -526,6 +554,25 @@ export class NavigationItemRegistry {
         }
     }
 
+    // The section a declaration was written in is only named when the identifier it answers to resolves back
+    // to it. A section declared inline doesn't have to be identified, and one that lost its own identifier
+    // carries an "$id" that reaches another section, so naming it would point the report at the wrong place.
+    #getInlineParentSectionId(inlineParentId?: number) {
+        if (inlineParentId === undefined) {
+            return undefined;
+        }
+
+        const inlineParent = this.#registrationsIndex.get(inlineParentId);
+
+        if (!inlineParent || isLinkItem(inlineParent.item) || !inlineParent.item.$id) {
+            return undefined;
+        }
+
+        const indexKey = createSectionIndexKey(inlineParent.menuId, inlineParent.item.$id);
+
+        return this.#sectionsIndex.get(indexKey) === inlineParentId ? inlineParent.item.$id : undefined;
+    }
+
     #addDuplicateDeclaration(indexKey: string, declaration: DuplicateSectionDeclaration) {
         const declarations = this.#duplicateDeclarationsIndex.get(indexKey);
 
@@ -584,15 +631,24 @@ export class NavigationItemRegistry {
     }
 
     clearDeferredItems() {
-        // Declaring a duplicated section doesn't add a registration, therefore the duplicated declarations are
-        // deleted before the registrations are looked at. Leaving them to the rebuild below would keep the ones
-        // of a run that only declared duplicates forever, and report them again after every run.
-        this.#deleteDeferredDuplicateDeclarations();
+        // A declaration that isn't registered doesn't add a registration, therefore nothing below would delete
+        // it and a run that only declared duplicates would keep them forever, reporting them again after every
+        // run. The static ones belong to the initial registration rather than to the run being replayed, and
+        // deleting them would swallow a misconfiguration that strict mode reports.
+        this.#deleteDuplicateDeclarations(x => !x.isRegistered && x.registrationType === "deferred");
 
         if (!this.#registrations.some(x => x.registrationType === "deferred")) {
             // Keep the "getItems" function immutable by only rebuilding if the registrations actually changed.
             return;
         }
+
+        // A declaration that is registered is recorded by "#addSectionIndex" rather than by the registration
+        // that declared it, and the rebuild below goes through that function again for every section it
+        // reaches, whatever its registration type. Keeping these would append the same declaration once per
+        // update run for the life of the session. The ones whose registration doesn't survive the clear, or
+        // stops being reachable from a menu root, are simply not recorded again. This deletion has to stay
+        // after the early return: nothing is rebuilt on that path, therefore nothing would record them again.
+        this.#deleteDuplicateDeclarations(x => x.isRegistered);
 
         // An inline child is registered with the registration type of the item it was declared in, therefore a
         // section and the children declared in it are always kept or deleted together.
@@ -642,13 +698,11 @@ export class NavigationItemRegistry {
         memoizeClear(this.#memoizedGetAllItemsByMenu);
     }
 
-    #deleteDeferredDuplicateDeclarations() {
+    #deleteDuplicateDeclarations(shouldDelete: (declaration: DuplicateSectionDeclaration) => boolean) {
         const keysToDelete: string[] = [];
 
         this.#duplicateDeclarationsIndex.forEach((declarations, key) => {
-            // Static duplicated declarations belong to the initial registration rather than to the run being
-            // replayed. Deleting them would silently swallow a misconfiguration that strict mode reports.
-            const remainingDeclarations = declarations.filter(x => x.registrationType !== "deferred");
+            const remainingDeclarations = declarations.filter(x => !shouldDelete(x));
 
             if (remainingDeclarations.length === 0) {
                 keysToDelete.push(key);

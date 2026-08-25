@@ -3576,6 +3576,231 @@ describe.concurrent("_validateRegistrations", () => {
             expect(errorMessage).toContain("a \"$priority\" option of 10");
             expect(errorMessage.match(/a "\$priority" option of 10/g)?.length).toBe(1);
         });
+
+        test.concurrent("when a registered declaration did not get the identifier, it is not reported again after a run is cleared", ({ expect }) => {
+            const runtime = new ReactRouterRuntime({
+                loggers: [new NoopLogger()]
+            });
+
+            runtime.registerNavigationItem({
+                $id: "section",
+                $label: "Section",
+                children: []
+            });
+
+            runtime.registerNavigationItem({
+                $id: "section",
+                $label: "Section",
+                children: []
+            }, {
+                sectionId: "holder"
+            });
+
+            runtime.registerNavigationItem({
+                $id: "holder",
+                $label: "Holder",
+                children: []
+            });
+
+            // This declaration is recorded while the section is being indexed rather than by the registration
+            // that declared it, and every update run indexes it again. Keeping it would add a bullet to the
+            // report on every feature flag flip, for the life of the session.
+            for (let i = 0; i < 3; i++) {
+                runtime.startDeferredRegistrationScope({ transactional: true });
+
+                runtime.registerNavigationItem({
+                    $label: "Deferred",
+                    to: "/deferred"
+                });
+
+                runtime.completeDeferredRegistrationScope();
+            }
+
+            let errorMessage = "";
+
+            try {
+                runtime._validateRegistrations();
+            } catch (error: unknown) {
+                errorMessage = (error as Error).message;
+            }
+
+            expect(errorMessage).toContain("A static declaration nested under the \"holder\" section");
+            expect(errorMessage.match(/A static declaration nested under the "holder" section/g)?.length).toBe(1);
+        });
+
+        test.concurrent("when an ignored declaration was written inline in another section, the report says where", ({ expect }) => {
+            const runtime = new ReactRouterRuntime({
+                loggers: [new NoopLogger()]
+            });
+
+            runtime.registerNavigationItem({
+                $id: "section",
+                $label: "Section",
+                children: []
+            });
+
+            // The inline declaration is dropped from the position it was written in, together with everything
+            // declared under it, which the identical declaration of a shared section doesn't lose. The label is
+            // the same one on purpose, otherwise the report would be triggered by the label instead.
+            runtime.registerNavigationItem({
+                $id: "reports",
+                $label: "Reports",
+                children: [{
+                    $id: "section",
+                    $label: "Section",
+                    children: []
+                }]
+            });
+
+            expect(() => runtime._validateRegistrations()).toThrow(/declared inline in the "reports" section/);
+        });
+
+        test.concurrent("when an ignored declaration was written inline in a section without an identifier, the report does not name it", ({ expect }) => {
+            const runtime = new ReactRouterRuntime({
+                loggers: [new NoopLogger()]
+            });
+
+            runtime.registerNavigationItem({
+                $id: "section",
+                $label: "Section",
+                children: []
+            });
+
+            runtime.registerNavigationItem({
+                $label: "Reports",
+                children: [{
+                    $id: "section",
+                    $label: "Section",
+                    children: []
+                }]
+            });
+
+            expect(() => runtime._validateRegistrations()).toThrow(/declared inline in another section/);
+        });
+
+        test.concurrent("when the section an ignored declaration was written in does not own its identifier, the report does not name it", ({ expect }) => {
+            const runtime = new ReactRouterRuntime({
+                loggers: [new NoopLogger()]
+            });
+
+            runtime.registerNavigationItem({
+                $id: "reports",
+                $label: "Reports",
+                children: []
+            });
+
+            runtime.registerNavigationItem({
+                $id: "section",
+                $label: "Section",
+                children: []
+            });
+
+            // This one keeps its place under "holder" but loses the "reports" identifier, so naming it as the
+            // section the inline declaration was written in would address a section the reader cannot find:
+            // "reports" resolves to the one registered above.
+            runtime.registerNavigationItem({
+                $id: "reports",
+                $label: "Reports",
+                children: [{
+                    $id: "section",
+                    $label: "Section",
+                    children: []
+                }]
+            }, {
+                sectionId: "holder"
+            });
+
+            runtime.registerNavigationItem({
+                $id: "holder",
+                $label: "Holder",
+                children: []
+            });
+
+            let errorMessage = "";
+
+            try {
+                runtime._validateRegistrations();
+            } catch (error: unknown) {
+                errorMessage = (error as Error).message;
+            }
+
+            expect(errorMessage).toContain("declared inline in another section");
+            expect(errorMessage).not.toContain("declared inline in the \"reports\" section");
+        });
+
+        test.concurrent("when a declaration that did not get the identifier has a different label, the report says which", ({ expect }) => {
+            const runtime = new ReactRouterRuntime({
+                loggers: [new NoopLogger()]
+            });
+
+            runtime.registerNavigationItem({
+                $id: "section",
+                $label: "Alpha",
+                children: []
+            });
+
+            runtime.registerNavigationItem({
+                $id: "section",
+                $label: "Beta",
+                children: []
+            }, {
+                sectionId: "holder"
+            });
+
+            runtime.registerNavigationItem({
+                $id: "holder",
+                $label: "Holder",
+                children: []
+            });
+
+            expect(() => runtime._validateRegistrations()).toThrow(/a "\$label" of "Beta"/);
+        });
+
+        test.concurrent("when an ignored declaration has a different label, the report says which", ({ expect }) => {
+            const runtime = new ReactRouterRuntime({
+                loggers: [new NoopLogger()]
+            });
+
+            runtime.registerNavigationItem({
+                $id: "section",
+                $label: "Settings",
+                children: []
+            });
+
+            // Two modules that disagree on the label are naming two different sections with the same
+            // identifier, which is the cheapest way to collide by accident and the one the removed throw used
+            // to catch.
+            runtime.registerNavigationItem({
+                $id: "section",
+                $label: "Preferences",
+                children: []
+            });
+
+            expect(() => runtime._validateRegistrations()).toThrow(/a "\$label" of "Preferences"/);
+        });
+
+        test.concurrent("when the labels of a shared section are not strings, nothing is reported", ({ expect }) => {
+            const runtime = new ReactRouterRuntime({
+                loggers: [new NoopLogger()]
+            });
+
+            // A "$label" is a "ReactNode". Two modules rendering the same label through their own element hold
+            // different objects, therefore comparing anything but two strings would report every correctly
+            // shared section.
+            runtime.registerNavigationItem({
+                $id: "section",
+                $label: <span>Section</span>,
+                children: []
+            });
+
+            runtime.registerNavigationItem({
+                $id: "section",
+                $label: <span>Section</span>,
+                children: []
+            });
+
+            expect(() => runtime._validateRegistrations()).not.toThrow();
+        });
     });
 
     describe.concurrent("includeRoutes", () => {

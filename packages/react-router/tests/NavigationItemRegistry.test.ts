@@ -1207,6 +1207,83 @@ describe.concurrent("clearDeferredItems", () => {
 
         expect(total).toBe(1);
     });
+
+    test.concurrent("a registered duplicated declaration is not recorded again by every clear", ({ expect }) => {
+        const registry = new NavigationItemRegistry();
+
+        registry.add("foo", "static", {
+            $id: "bar",
+            $label: "Bar",
+            children: []
+        });
+
+        // Waiting for the "holder" section, therefore it only finds the "bar" identifier taken once that
+        // section is registered below. That declaration is recorded while the section is being indexed rather
+        // than by the registration that declared it, and the rebuild indexes it again on every clear.
+        registry.add("foo", "static", {
+            $id: "bar",
+            $label: "Bar",
+            children: []
+        }, {
+            sectionId: "holder"
+        });
+
+        registry.add("foo", "static", {
+            $id: "holder",
+            $label: "Holder",
+            children: []
+        });
+
+        const countDeclarations = () => {
+            const declarations = registry.getDuplicateSectionDeclarations();
+
+            return declarations.getDuplicatedSectionIds()
+                .reduce((acc, x) => acc + declarations.getDeclarationsForSection(x).length, 0);
+        };
+
+        for (let i = 0; i < 5; i++) {
+            registry.add("foo", "deferred", {
+                $label: "Deferred",
+                to: "/deferred"
+            });
+
+            registry.clearDeferredItems();
+        }
+
+        expect(countDeclarations()).toBe(1);
+    });
+
+    test.concurrent("when there is nothing to clear, a registered duplicated declaration is kept", ({ expect }) => {
+        const registry = new NavigationItemRegistry();
+
+        registry.add("foo", "static", {
+            $id: "bar",
+            $label: "Bar",
+            children: []
+        });
+
+        registry.add("foo", "static", {
+            $id: "bar",
+            $label: "Bar",
+            children: []
+        }, {
+            sectionId: "holder"
+        });
+
+        registry.add("foo", "static", {
+            $id: "holder",
+            $label: "Holder",
+            children: []
+        });
+
+        // Nothing is rebuilt when there is no deferred registration to delete, therefore nothing would record
+        // the declaration again and deleting it here would lose it.
+        registry.clearDeferredItems();
+
+        const declarations = registry.getDuplicateSectionDeclarations();
+
+        expect(declarations.getDuplicatedSectionIds().length).toBe(1);
+    });
 });
 
 describe.concurrent("NavigationItemDeferredRegistrationScope", () => {
