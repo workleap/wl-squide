@@ -1,5 +1,46 @@
 # @squide/react-router
 
+## 9.3.0
+
+### Minor Changes
+
+- [#671](https://github.com/workleap/wl-squide/pull/671) [`fb2669e`](https://github.com/workleap/wl-squide/commit/fb2669e985e20d71363d50d6d703033afaf1c7a9) Thanks [@patricklafrance](https://github.com/patricklafrance)! - Navigation sections registered by a deferred registration function are now copied by the registry, so registering the same object on more than one run no longer accumulates children.
+
+  The registry attaches a nested item by pushing onto the `children` array of the section it indexes, and that section was the object the module passed in. A module holding its section at module scope and registering it again on every deferred registration update therefore grew that array by one item per run. A section holding a single link rendered three copies of it after two feature flag flips.
+
+  You were affected if a module registers a navigation section from a deferred registration function and reuses the same object across runs. The fix is in the framework, no application change is required.
+
+  Only sections on the deferred path are copied. Links are left alone, since nothing is ever attached to them, and the static registration phase runs once and cannot accumulate. The copy preserves property descriptors, so a section backed by a class instance keeps its prototype and a `$label` getter stays lazy. What changes observably is that mutating a section after registering it no longer updates the live menu on the deferred path.
+
+- [#671](https://github.com/workleap/wl-squide/pull/671) [`fb2669e`](https://github.com/workleap/wl-squide/commit/fb2669e985e20d71363d50d6d703033afaf1c7a9) Thanks [@patricklafrance](https://github.com/patricklafrance)! - Fixed an ambiguity in the section index key that could attach a nested navigation item to the wrong section.
+
+  A navigation section is indexed by its `menuId` and its `$id` joined together. They were joined with a `-`, so `("analytics", "sidebar-performance")` and `("analytics-sidebar", "performance")` produced the same key, and two distinct sections of two distinct menus shared a single index entry.
+
+  You were affected if a `menuId` or a section `$id` contains a `-` and two such pairs concatenate to the same string. The symptoms were:
+
+  - A nested navigation item registered with a `sectionId` was attached to the other menu's section.
+  - Registering both sections threw `A navigation section index has already been registered for the menu` for two genuinely distinct sections.
+  - Strict mode reported one missing section instead of two, and named only one of the two pairs.
+
+  Keys are now joined with a separator that is not expected to appear in an id. `getPendingSectionIds` still returns these keys, but their content changed. Treat them as opaque, and read the `menuId` and the `sectionId` off the `PendingRegistrationItem` values returned by `getPendingRegistrationsForSection` to identify a section. `parseSectionIndexKey` round-trips correctly again but remains deprecated, the key format is not part of the public contract.
+
+  The strict mode message that lists missing sections now says `navigation section` rather than `navigation item`. The number it reports has always been a count of missing sections, each of which can hold several pending registrations.
+
+- [#671](https://github.com/workleap/wl-squide/pull/671) [`fb2669e`](https://github.com/workleap/wl-squide/commit/fb2669e985e20d71363d50d6d703033afaf1c7a9) Thanks [@patricklafrance](https://github.com/patricklafrance)! - A deferred registration update run now reports the real outcome of its registrations, and the navigation items are validated again once it completes.
+
+  An update run buffers every registration and replays it when the run completes, but a buffered registration was reported as `registered` before the replay had happened. A nested item whose section was not re-registered by that run stayed pending, and the replay logged nothing at all, so a menu could silently lose a link while the console showed a green success.
+
+  - `registerNavigationItem` now reports a buffered registration as `buffered`, and the replay reports whether each item ended up registered or pending. `NavigationItemRegistrationStatus` gained a `"buffered"` value.
+  - `useStrictRegistrationMode` re-runs the navigation item validation after every completed deferred registration update, throwing in development and logging in production, exactly as it does once the modules are ready. Validation previously ran only once, so a section lost by an update run surfaced only after a page reload. `strictMode={false}` on `AppRouter` remains the opt-out.
+  - `_validateRegistrations` accepts a new `includeRoutes` option. Routes are frozen after the initial registration phase and cannot become pending during an update run, so they are not re-validated.
+
+  Applications that were silently losing navigation items on a feature flag flip will start throwing in development. That is the intended outcome, it surfaces misconfigurations that were previously invisible.
+
+### Patch Changes
+
+- Updated dependencies [[`fb2669e`](https://github.com/workleap/wl-squide/commit/fb2669e985e20d71363d50d6d703033afaf1c7a9)]:
+  - @squide/core@7.2.0
+
 ## 9.2.0
 
 ### Minor Changes
