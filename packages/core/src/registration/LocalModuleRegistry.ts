@@ -105,6 +105,18 @@ export class LocalModuleRegistry implements ModuleRegistry {
                     }
 
                     completedCount += 1;
+
+                    loggerScope.information("[squide] Successfully registered local module.", {
+                        style: {
+                            color: "green"
+                        }
+                    });
+
+                    loggerScope.end({
+                        labelStyle: {
+                            color: "green"
+                        }
+                    });
                 } catch (error: unknown) {
                     loggerScope
                         .withText("[squide] An error occured while registering the local module.")
@@ -121,18 +133,6 @@ export class LocalModuleRegistry implements ModuleRegistry {
                         new ModuleRegistrationError("An error occured while registering a local module.", { cause: error })
                     );
                 }
-
-                loggerScope.information("[squide] Successfully registered local module.", {
-                    style: {
-                        color: "green"
-                    }
-                });
-
-                loggerScope.end({
-                    labelStyle: {
-                        color: "green"
-                    }
-                });
             }));
 
             if (errors.length > 0) {
@@ -192,6 +192,18 @@ export class LocalModuleRegistry implements ModuleRegistry {
                 await deferredRegister(runtimeScope, data, "register");
 
                 completedCount += 1;
+
+                loggerScope.information("[squide] Successfully registered deferred registrations.", {
+                    style: {
+                        color: "green"
+                    }
+                });
+
+                loggerScope.end({
+                    labelStyle: {
+                        color: "green"
+                    }
+                });
             } catch (error: unknown) {
                 loggerScope
                     .withText("[squide] An error occured while registering the deferred registrations.")
@@ -208,18 +220,6 @@ export class LocalModuleRegistry implements ModuleRegistry {
                     new ModuleRegistrationError("An error occured while registering the deferred registrations of a local module.", { cause: error })
                 );
             }
-
-            loggerScope.information("[squide] Successfully registered deferred registrations.", {
-                style: {
-                    color: "green"
-                }
-            });
-
-            loggerScope.end({
-                labelStyle: {
-                    color: "green"
-                }
-            });
         }));
 
         if (errors.length > 0) {
@@ -264,6 +264,18 @@ export class LocalModuleRegistry implements ModuleRegistry {
                 await deferredRegister(runtimeScope, data, "update");
 
                 completedCount += 1;
+
+                loggerScope.information("[squide] Successfully updated deferred registrations.", {
+                    style: {
+                        color: "green"
+                    }
+                });
+
+                loggerScope.end({
+                    labelStyle: {
+                        color: "green"
+                    }
+                });
             } catch (error: unknown) {
                 loggerScope
                     .withText(`[squide] ${index} An error occured while updating the deferred registrations.`)
@@ -280,18 +292,6 @@ export class LocalModuleRegistry implements ModuleRegistry {
                     new ModuleRegistrationError("An error occured while updating the deferred registrations a local module.", { cause: error })
                 );
             }
-
-            loggerScope.information("[squide] Successfully updated deferred registrations.", {
-                style: {
-                    color: "green"
-                }
-            });
-
-            loggerScope.end({
-                labelStyle: {
-                    color: "green"
-                }
-            });
         }));
 
         if (errors.length > 0) {

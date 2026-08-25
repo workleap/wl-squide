@@ -257,6 +257,18 @@ export class RemoteModuleRegistry implements ModuleRegistry {
                 await deferredRegister(runtimeScope, data, "register");
 
                 completedCount += 1;
+
+                loggerScope.information("[squide] Successfully registered deferred registrations.", {
+                    style: {
+                        color: "green"
+                    }
+                });
+
+                loggerScope.end({
+                    labelStyle: {
+                        color: "green"
+                    }
+                });
             } catch (error: unknown) {
                 loggerScope
                     .withText("[squide] An error occured while registering the deferred registrations.")
@@ -278,18 +290,6 @@ export class RemoteModuleRegistry implements ModuleRegistry {
                     )
                 );
             }
-
-            loggerScope.information("[squide] Successfully registered deferred registrations.", {
-                style: {
-                    color: "green"
-                }
-            });
-
-            loggerScope.end({
-                labelStyle: {
-                    color: "green"
-                }
-            });
         }));
 
         if (errors.length > 0) {
@@ -335,6 +335,18 @@ export class RemoteModuleRegistry implements ModuleRegistry {
                 await deferredRegister(runtimeScope, data, "update");
 
                 completedCount += 1;
+
+                loggerScope.information("[squide] Successfully updated the deferred registrations.", {
+                    style: {
+                        color: "green"
+                    }
+                });
+
+                loggerScope.end({
+                    labelStyle: {
+                        color: "green"
+                    }
+                });
             } catch (error: unknown) {
                 loggerScope
                     .withText("[squide] An error occured while updating the deferred registrations.")
@@ -356,18 +368,6 @@ export class RemoteModuleRegistry implements ModuleRegistry {
                     )
                 );
             }
-
-            loggerScope.information("[squide] Successfully updated the deferred registrations.", {
-                style: {
-                    color: "green"
-                }
-            });
-
-            loggerScope.end({
-                labelStyle: {
-                    color: "green"
-                }
-            });
         }));
 
         if (errors.length > 0) {

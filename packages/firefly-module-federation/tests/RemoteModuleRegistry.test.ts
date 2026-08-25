@@ -14,6 +14,7 @@ import {
     RemoteModulesRegistrationCompletedEvent,
     RemoteModulesRegistrationStartedEvent
 } from "../src/RemoteModuleRegistry.ts";
+import { RecordingLogger } from "./RecordingLogger.ts";
 import { sleep } from "./utils.ts";
 
 class DummyRuntime extends Runtime {
@@ -393,6 +394,29 @@ describe.concurrent("registerModules", () => {
         await registry.registerModules(runtime, []);
 
         expect(listener).not.toHaveBeenCalled();
+    });
+
+    test.concurrent("when a module registration fail, the failing module is not reported as successfully registered", async ({ expect }) => {
+        const logger = new RecordingLogger();
+        const runtime = new DummyRuntime({ loggers: [logger] });
+
+        const loadRemote = vi.fn()
+            .mockRejectedValueOnce(new Error("Module 1 registration failed"))
+            .mockResolvedValueOnce({
+                register: () => {}
+            });
+
+        const registry = new RemoteModuleRegistry(loadRemote);
+
+        await registry.registerModules(runtime, [
+            { name: "Dummy-1" },
+            { name: "Dummy-2" }
+        ]);
+
+        expect(logger.logs).toContain("[squide] An error occured while registering the remote module.");
+        expect(logger.logs.filter(x => x === "[squide] Successfully registered remote module.")).toHaveLength(1);
+        expect(logger.logs.filter(x => x === "end:red")).toHaveLength(1);
+        expect(logger.logs.filter(x => x === "end:green")).toHaveLength(1);
     });
 });
 
@@ -783,6 +807,41 @@ describe.concurrent("registerDeferredRegistrations", () => {
         expect(register1).toHaveBeenCalledExactlyOnceWith(runtime, data, "register");
         expect(register2).toHaveBeenCalledExactlyOnceWith(runtime, data, "register");
         expect(register3).toHaveBeenCalledExactlyOnceWith(runtime, data, "register");
+    });
+
+    test.concurrent("when a deferred registration fail, the failing registration is not reported as successfully registered", async ({ expect }) => {
+        const logger = new RecordingLogger();
+        const runtime = new DummyRuntime({ loggers: [logger] });
+
+        const register1 = vi.fn(() => {
+            throw new Error("Module 1 registration failed");
+        });
+
+        const register2 = vi.fn();
+
+        const loadRemote = vi.fn()
+            .mockResolvedValueOnce({
+                register: () => register1
+            })
+            .mockResolvedValueOnce({
+                register: () => register2
+            });
+
+        const registry = new RemoteModuleRegistry(loadRemote);
+
+        await registry.registerModules(runtime, [
+            { name: "Dummy-1" },
+            { name: "Dummy-2" }
+        ]);
+
+        logger.clear();
+
+        await registry.registerDeferredRegistrations(runtime, {});
+
+        expect(logger.logs).toContain("[squide] An error occured while registering the deferred registrations.");
+        expect(logger.logs.filter(x => x === "[squide] Successfully registered deferred registrations.")).toHaveLength(1);
+        expect(logger.logs.filter(x => x === "end:red")).toHaveLength(1);
+        expect(logger.logs.filter(x => x === "end:green")).toHaveLength(1);
     });
 });
 
@@ -1209,5 +1268,45 @@ describe.concurrent("updateDeferredRegistrations", () => {
         expect(register1).toHaveBeenCalledExactlyOnceWith(runtime, data, "update");
         expect(register2).toHaveBeenCalledExactlyOnceWith(runtime, data, "update");
         expect(register3).toHaveBeenCalledExactlyOnceWith(runtime, data, "update");
+    });
+
+    test.concurrent("when a deferred registration fail, the failing registration is not reported as successfully updated", async ({ expect }) => {
+        const logger = new RecordingLogger();
+        const runtime = new DummyRuntime({ loggers: [logger] });
+
+        const register1 = vi.fn()
+        // Do not throw on the "registerDeferredRegistrations" call but throw on the "updateDeferredRegistrations" call.
+            .mockImplementationOnce(() => {})
+            .mockImplementationOnce(() => {
+                throw new Error("Module 1 registration failed");
+            });
+
+        const register2 = vi.fn();
+
+        const loadRemote = vi.fn()
+            .mockResolvedValueOnce({
+                register: () => register1
+            })
+            .mockResolvedValueOnce({
+                register: () => register2
+            });
+
+        const registry = new RemoteModuleRegistry(loadRemote);
+
+        await registry.registerModules(runtime, [
+            { name: "Dummy-1" },
+            { name: "Dummy-2" }
+        ]);
+
+        await registry.registerDeferredRegistrations(runtime, {});
+
+        logger.clear();
+
+        await registry.updateDeferredRegistrations(runtime, {});
+
+        expect(logger.logs).toContain("[squide] An error occured while updating the deferred registrations.");
+        expect(logger.logs.filter(x => x === "[squide] Successfully updated the deferred registrations.")).toHaveLength(1);
+        expect(logger.logs.filter(x => x === "end:red")).toHaveLength(1);
+        expect(logger.logs.filter(x => x === "end:green")).toHaveLength(1);
     });
 });
