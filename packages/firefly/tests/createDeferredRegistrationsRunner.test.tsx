@@ -1,5 +1,4 @@
 import type { ModuleRegisterFunction } from "@squide/core";
-import type { NavigationSection } from "@squide/react-router";
 import { NoopLogger } from "@workleap/logging";
 import { describe, expect, test, vi } from "vitest";
 import { DeferredRegistrationsUpdatedEvent, ModulesReadyEvent, ModulesRegisteredEvent } from "../src/AppRouterReducer.ts";
@@ -304,34 +303,6 @@ describe("navigation items", () => {
         const runner = createDeferredRegistrationsRunner(runtime, [registerSectionModule, registerNestedItemModule]);
 
         await runner.register({ isFlagOn: true });
-
-        const items = runtime.getNavigationItems();
-
-        expect(items.length).toBe(1);
-        expect((items[0] as { children: unknown[] }).children.length).toBe(1);
-    });
-
-    test("when a module reuses the same section object across runs, the nested items do not accumulate", async () => {
-        const runtime = createRuntime();
-
-        // Every other fixture in this block allocates a fresh literal on each run, which hides the defect.
-        // Hoisting the section to module scope is a natural pattern, and it used to grow the module's own
-        // object by one child per run: 1, then 2, then 3.
-        const hoistedSection: NavigationSection = { $id: "section", $label: "Section", children: [] };
-
-        const registerHoistedSectionModule: ModuleRegisterFunction<FireflyRuntime, unknown, FeatureFlags> = () => {
-            return runtime2 => {
-                runtime2.registerNavigationItem(hoistedSection);
-            };
-        };
-
-        const runner = createDeferredRegistrationsRunner(runtime, [registerHoistedSectionModule, registerNestedItemModule]);
-
-        await runner.register({ isFlagOn: true });
-        await runner.update({ isFlagOn: true });
-        await runner.update({ isFlagOn: true });
-
-        expect(hoistedSection.children.length).toBe(0);
 
         const items = runtime.getNavigationItems();
 

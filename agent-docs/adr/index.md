@@ -24,5 +24,3 @@
 | All framework-owned properties on routes and navigation items use the `$` prefix (`$id`, `$visibility`, `$label`, `$name`). This prevents collision with future React Router properties. | [0018](./0018-dollar-prefix-convention.md) |
 | No module-level singletons. All state lives on class instances owned by `FireflyRuntime`. Components subscribe via `useSyncExternalStore`. This enables multiple runtime instances (Storybook, testing). | [0019](./0019-singleton-removal-instance-based-architecture.md), [0021](./0021-use-sync-external-store.md) |
 | Global data fetching is segmented into public and protected queries, fetched at different lifecycle stages. | [0020](./0020-public-protected-data-segmentation.md) |
-| Deferred registration update runs report the real replay outcome, and navigation validation re-runs after each one. Development throws, production logs, same as bootstrap. | [0022](./0022-deferred-registration-update-reporting.md) |
-| The navigation item registry clones deferred items as it stores them. Objects owned by a registering module are never mutated. | [0023](./0023-navigation-item-registry-owns-its-items.md) |

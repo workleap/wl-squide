@@ -169,13 +169,11 @@ export const register: ModuleRegisterFunction<FireflyRuntime> = () => {
 };
 ```
 
-Squide **copies** the navigation *sections* registered by a deferred registration function, so a nested item is never attached to an object owned by a module. One consequence: mutating a section after registering it does not change what the menu renders. Links are not copied, as nothing is ever attached to them.
-
 ### Missing Sections Are Reported
 
-When a nested navigation item is registered with a `sectionId` that no registered section matches, the item is held as a **pending registration** and is not rendered. Squide reports the sections that are still missing once the modules are ready, and again after every deferred registration update — throwing in development and logging in production.
+When a nested navigation item is registered with a `sectionId` that no registered section matches, the item is held as a **pending registration** and is not rendered. Squide reports the sections that are still missing once the modules are ready — throwing in development and logging in production.
 
-This is what surfaces a deferred registration function that stops registering a section while another module keeps registering items under it. A module that registers a section conditionally, and expects to keep it across update runs, typically resets its per-run state on `DeferredRegistrationsUpdateStartedEvent` (see [Testing Deferred Registrations](#testing-deferred-registrations)). Set `strictMode` to `false` on `AppRouter` to turn the validation off — see `references/components.md`.
+This surfaces a `sectionId` that no module registers at bootstrap. It does **not** cover deferred registration update runs — the validation runs only once, when the modules become ready, so a section dropped by a later update run goes unreported until a page reload. A module that registers a section conditionally, and expects to keep it across update runs, typically resets its per-run state on `DeferredRegistrationsUpdateStartedEvent` (see [Testing Deferred Registrations](#testing-deferred-registrations)). Set `strictMode` to `false` on `AppRouter` to turn the validation off — see `references/components.md`.
 
 ## Navigation Patterns
 

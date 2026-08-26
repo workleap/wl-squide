@@ -288,12 +288,8 @@ export const register: ModuleRegisterFunction<FireflyRuntime> = () => {
 };
 ```
 
-!!!warning
-Squide copies the navigation **sections** registered by a deferred registration function, so a nested item is never attached to an object owned by a module. One consequence is that mutating a section after registering it does not change what the menu renders. Links are not copied, as nothing is ever attached to them.
-!!!
-
 ## Missing sections are reported
 
-When a nested navigation item is registered with a `sectionId` that no registered section matches, the item is held as a pending registration and is not rendered. Squide reports the sections that are still missing once the modules are ready, and again after every deferred registration update. In development the report throws, in production it is logged.
+When a nested navigation item is registered with a `sectionId` that no registered section matches, the item is held as a pending registration and is not rendered. Squide reports the sections that are still missing once the modules are ready. In development the report throws, in production it is logged.
 
-This is what surfaces a deferred registration function that stops registering a section while another module keeps registering items under it. Set [strictMode](../reference/routing/AppRouter.md#disable-strict-mode) to `false` on `AppRouter` to turn the validation off.
+This surfaces a `sectionId` that no module registers at bootstrap. It does **not** cover deferred registration update runs — the validation runs only once, when the modules become ready, so a section dropped by a later update run goes unreported until a page reload. Set [strictMode](../reference/routing/AppRouter.md#disable-strict-mode) to `false` on `AppRouter` to turn the validation off.

@@ -20,12 +20,12 @@ Option 3. Both `RouteRegistry` and `NavigationItemRegistry` maintain a `#pending
 
 After all modules are ready, strict mode validation (`_validateRegistrations` on the runtime, surfaced by `useStrictRegistrationMode`) checks for unresolved pending registrations. In development mode, unresolved items throw an error with a diagnostic message identifying the orphaned route/nav item and the missing parent. In production, the warning is logged but does not throw, to avoid crashing the application over a configuration issue.
 
-Evidence: `packages/react-router/src/RouteRegistry.ts` (lines 119-121 for the pending index, lines 179-198 for `#tryRegisterPendingRoutes`). `packages/react-router/src/NavigationItemRegistry.ts` (`#pendingRegistrationsIndex` for the parallel pending index, keyed by an opaque composite of the `menuId` and the section `$id`). `packages/firefly/src/useStrictRegistrationMode.ts` drives validation after the `modules-registered` lifecycle event, and after every completed deferred registration update run (see [ADR-0022](./0022-deferred-registration-update-reporting.md)).
+Evidence: `packages/react-router/src/RouteRegistry.ts` (lines 119-121 for the pending index, lines 179-198 for `#tryRegisterPendingRoutes`). `packages/react-router/src/NavigationItemRegistry.ts` (`#pendingRegistrationsIndex` for the parallel pending index). `packages/firefly/src/useStrictRegistrationMode.ts` drives validation after the `modules-registered` lifecycle event.
 
 ## Consequences
 
 - True module autonomy — modules register in any order without coordination.
 - Both routes and navigation items benefit from the same queue/resolve pattern, providing consistent behavior across the two registries.
-- Misconfigured parent references are caught by strict mode validation in development (throws) and logged in production (no crash). **Amended:** until [ADR-0022](./0022-deferred-registration-update-reporting.md) this held on the bootstrap path only. Validation ran once, driven by a one-shot modules-ready listener that the deferred registration update path never re-notified, so a navigation item left pending by an update run surfaced only on a page reload. It now re-runs after every completed update run, for navigation items only — routes are frozen after phase 1 ([ADR-0001](./0001-two-phase-registration.md)) and cannot become pending during an update.
+- Misconfigured parent references are caught by strict mode validation in development (throws) and logged in production (no crash).
 - Recursive resolution handles multi-level nesting: grandchild routes queued before their parent and grandparent both resolve correctly once the chain completes.
 - Slightly more complex registry implementation, but the complexity is isolated to the two registry classes.

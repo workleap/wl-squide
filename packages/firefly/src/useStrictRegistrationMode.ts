@@ -1,6 +1,5 @@
-import { useEventBusListener, useRuntime } from "@squide/core";
-import { useCallback, useEffect, useState, useSyncExternalStore } from "react";
-import { DeferredRegistrationsUpdateCompletedEvent } from "./useUpdateDeferredRegistrations.ts";
+import { useRuntime } from "@squide/core";
+import { useCallback, useEffect, useSyncExternalStore } from "react";
 
 export interface UseStrictRegistrationModeOptions {
     isEnabled?: boolean;
@@ -29,22 +28,4 @@ export function useStrictRegistrationMode(options: UseStrictRegistrationModeOpti
             runtime._validateRegistrations();
         }
     }, [runtime, areModulesReady, isEnabled]);
-
-    const [completedUpdateCount, setCompletedUpdateCount] = useState(0);
-
-    const handleDeferredRegistrationsUpdateCompleted = useCallback(() => {
-        setCompletedUpdateCount(x => x + 1);
-    }, []);
-
-    useEventBusListener(DeferredRegistrationsUpdateCompletedEvent, handleDeferredRegistrationsUpdateCompleted);
-
-    useEffect(() => {
-        // Validating from an effect rather than from the event bus listener above. The completed event is
-        // dispatched from within the async update callback, so throwing from the listener would surface as an
-        // unhandled rejection rather than as a React error. Routes are frozen after the first registration
-        // phase (ADR-0001), only the navigation items can become pending during an update run.
-        if (completedUpdateCount > 0 && isEnabled) {
-            runtime._validateRegistrations({ includeRoutes: false });
-        }
-    }, [runtime, completedUpdateCount, isEnabled]);
 }
