@@ -152,6 +152,21 @@ export class ScopeRecordingLogger implements RootLogger {
         this.#write(log);
     }
 
+    // A flat, order-approximate view of everything recorded, kept so the example-based registry tests can
+    // assert on counts without a second recorder implementation. Root logs come first, then each scope's logs
+    // and its ends as "end:<color>".
+    //
+    // "Order-approximate" is the caveat: the real logger shares one list between the root and its scopes, so
+    // root and scope logs interleave there and do not here. Every assertion against this view is a "toContain"
+    // or a count, which is order-independent. Do not write an order-sensitive assertion against it — assert on
+    // "scopes" instead, which is the stronger view and attributes each log to its module.
+    get logs() {
+        return [
+            ...this.rootLogs,
+            ...this.scopes.flatMap(x => [...x.logs, ...x.ends.map(c => `end:${c}`)])
+        ];
+    }
+
     startScope(label?: string) {
         const scope: RecordedScope = {
             label,

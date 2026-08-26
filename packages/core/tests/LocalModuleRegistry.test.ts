@@ -3,7 +3,7 @@ import { describe, test, vi } from "vitest";
 import { LocalModuleDeferredRegistrationFailedEvent, LocalModuleDeferredRegistrationUpdateFailedEvent, LocalModuleRegistrationFailedEvent, LocalModuleRegistry, LocalModulesDeferredRegistrationCompletedEvent, LocalModulesDeferredRegistrationStartedEvent, LocalModulesDeferredRegistrationsUpdateCompletedEvent, LocalModulesDeferredRegistrationsUpdateStartedEvent, LocalModulesRegistrationCompletedEvent, LocalModulesRegistrationStartedEvent } from "../src/registration/LocalModuleRegistry.ts";
 import { ModuleRegistrationError } from "../src/registration/ModuleRegistry.ts";
 import { DummyRuntime } from "./DummyRuntime.ts";
-import { RecordingLogger } from "./RecordingLogger.ts";
+import { ScopeRecordingLogger } from "./ScopeRecordingLogger.ts";
 
 function simulateDelay(delay: number) {
     return new Promise(resolve => {
@@ -275,7 +275,7 @@ describe.concurrent("registerModules", () => {
     });
 
     test.concurrent("when a module registration fail, the failing module is not reported as successfully registered", async ({ expect }) => {
-        const logger = new RecordingLogger();
+        const logger = new ScopeRecordingLogger();
         const runtime = new DummyRuntime({ loggers: [logger] });
         const registry = new LocalModuleRegistry();
 
@@ -563,7 +563,7 @@ describe.concurrent("registerDeferredRegistrations", () => {
     });
 
     test.concurrent("when a deferred registration fail, the failing registration is not reported as successfully registered", async ({ expect }) => {
-        const logger = new RecordingLogger();
+        const logger = new ScopeRecordingLogger();
         const runtime = new DummyRuntime({ loggers: [logger] });
         const registry = new LocalModuleRegistry();
 
@@ -874,7 +874,7 @@ describe.concurrent("updateDeferredRegistrations", () => {
     });
 
     test.concurrent("when a deferred registration fail, the failing registration is not reported as successfully updated", async ({ expect }) => {
-        const logger = new RecordingLogger();
+        const logger = new ScopeRecordingLogger();
         const runtime = new DummyRuntime({ loggers: [logger] });
         const registry = new LocalModuleRegistry();
 

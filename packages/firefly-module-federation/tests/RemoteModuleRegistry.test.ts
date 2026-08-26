@@ -13,7 +13,7 @@ import {
     RemoteModulesRegistrationCompletedEvent,
     RemoteModulesRegistrationStartedEvent
 } from "../src/RemoteModuleRegistry.ts";
-import { RecordingLogger } from "./RecordingLogger.ts";
+import { ScopeRecordingLogger } from "./ScopeRecordingLogger.ts";
 import { DummyRuntime, sleep } from "./utils.ts";
 
 describe.concurrent("registerModules", () => {
@@ -354,7 +354,7 @@ describe.concurrent("registerModules", () => {
     });
 
     test.concurrent("when a module registration fail, the failing module is not reported as successfully registered", async ({ expect }) => {
-        const logger = new RecordingLogger();
+        const logger = new ScopeRecordingLogger();
         const runtime = new DummyRuntime({ loggers: [logger] });
 
         const loadRemote = vi.fn()
@@ -767,7 +767,7 @@ describe.concurrent("registerDeferredRegistrations", () => {
     });
 
     test.concurrent("when a deferred registration fail, the failing registration is not reported as successfully registered", async ({ expect }) => {
-        const logger = new RecordingLogger();
+        const logger = new ScopeRecordingLogger();
         const runtime = new DummyRuntime({ loggers: [logger] });
 
         const register1 = vi.fn(() => {
@@ -1228,7 +1228,7 @@ describe.concurrent("updateDeferredRegistrations", () => {
     });
 
     test.concurrent("when a deferred registration fail, the failing registration is not reported as successfully updated", async ({ expect }) => {
-        const logger = new RecordingLogger();
+        const logger = new ScopeRecordingLogger();
         const runtime = new DummyRuntime({ loggers: [logger] });
 
         const register1 = vi.fn()
