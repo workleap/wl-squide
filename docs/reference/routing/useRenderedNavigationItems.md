@@ -23,7 +23,7 @@ const elements = useRenderedNavigationItems(
 
 ### Parameters
 
-- `navigationItems`: An array of `NavigationLink | NavigationSection` to render. The hook sorts the **top-level** items of the array by `$priority` (higher first) before rendering. A section's `children` are rendered in the order they were declared, with every item's `$priority` forwarded to `renderItem` as [priority](#read-an-item-priority).
+- `navigationItems`: An array of `RootNavigationItem` to render, an alias of `NavigationLink | NavigationSection`. The hook sorts the **top-level** items of the array by `$priority` (higher first) before rendering. A section's `children` are rendered in the order they were declared, with every item's `$priority` forwarded to `renderItem` as [priority](#read-an-item-priority).
 - `renderItem`: A function to render a link from a navigation item
 - `renderSection`: A function to render a section from a collection of items.
 
@@ -234,17 +234,33 @@ const renderLinkItem: RenderLinkItemFunction = (item, key) => {
 };
 ```
 
-!!!info
-`priority` is forwarded exactly as it was declared, `undefined` included, so an unset priority can be told apart from an explicit `0`. This hook's own top-level sort treats a missing priority as `0`.
+!!!warning
+`priority` is forwarded exactly as it was declared, `undefined` included, so an unset priority can be told apart from an explicit `0`. Always default it when comparing, the way this hook's own top-level sort does — `y.priority - x.priority` yields `NaN` against an unprioritized item, and a comparator returning `NaN` leaves the order untouched instead of failing:
+
+```ts
+// Wrong, silently does nothing when any item has no priority.
+items.sort((x, y) => y.priority - x.priority);
+
+// Right, matching this hook's own default.
+items.sort((x, y) => (y.priority ?? 0) - (x.priority ?? 0));
+```
 !!!
 
-To have a section's items rendered in priority order, sort them before handing them to this hook, since `renderSection` receives elements that have already been rendered:
+To have a section's items rendered in priority order, sort them **before** handing them to this hook. `renderItem` renders a single item and cannot move its siblings, and `renderSection` receives elements that have already been rendered, so neither is a place to reorder:
 
-```tsx !#4-8,12
+```tsx !#7-11,17
 import { useMemo } from "react";
-import { useNavigationItems } from "@squide/firefly";
+import {
+    useNavigationItems,
+    useRenderedNavigationItems,
+    type NavigationLink,
+    type NavigationSection
+} from "@squide/firefly";
+import { renderItem, renderSection } from "./renderNavigationItem.tsx";
 
-function sortByPriority(items: (NavigationLink | NavigationSection)[]) {
+type Item = NavigationLink | NavigationSection;
+
+function sortByPriority(items: Item[]): Item[] {
     return [...items]
         .sort((x, y) => (y.$priority ?? 0) - (x.$priority ?? 0))
         .map(x => "children" in x && x.children ? { ...x, children: sortByPriority(x.children) } : x);
@@ -260,6 +276,8 @@ export function Navigation() {
     );
 }
 ```
+
+The recursive helper needs its return type annotated, otherwise TypeScript reports `TS7023` rather than inferring it.
 
 ### Render dynamic segments
 

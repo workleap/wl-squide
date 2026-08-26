@@ -157,8 +157,13 @@ levers are:
 
 - **Array order** — a section's `children` render in declaration order, which for items added through
   `sectionId` is the order those registrations run in.
-- **Sorting before rendering** — read `priority` in the layout, or sort the tree returned by
-  `useNavigationItems` before handing it to `useRenderedNavigationItems`.
+- **Sorting before rendering** — sort the tree returned by `useNavigationItems`, then hand the result to
+  `useRenderedNavigationItems`. This is the only way to reorder. Do not suggest sorting inside
+  `renderItem`, which receives one item at a time, or inside `renderSection`, which receives elements
+  that are already rendered.
+
+When comparing, default a missing priority: `(y.priority ?? 0) - (x.priority ?? 0)`. A bare
+`y.priority - x.priority` yields `NaN` against an unprioritized item, and the sort silently no-ops.
 
 #### getNavigationItems(options?)
 Retrieve registered navigation items for a single menu.

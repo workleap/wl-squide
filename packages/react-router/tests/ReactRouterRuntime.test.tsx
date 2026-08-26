@@ -2221,6 +2221,52 @@ describe.concurrent("registerNavigationItem", () => {
             expect(runtime.getNavigationItems().length).toBe(0);
         });
 
+        test.concurrent("a nested item keeps its $priority", ({ expect }) => {
+            const runtime = new ReactRouterRuntime({
+                loggers: [new NoopLogger()]
+            });
+
+            runtime.registerNavigationItem({
+                $id: "section",
+                $label: "Section",
+                $priority: 5,
+                children: []
+            });
+
+            runtime.registerNavigationItem({
+                $label: "Link",
+                $priority: 42,
+                to: "/link"
+            }, {
+                sectionId: "section"
+            });
+
+            expect(runtime.getNavigationItems()[0].$priority).toBe(5);
+            expect(runtime.getNavigationItems()[0].children![0].$priority).toBe(42);
+        });
+
+        test.concurrent("a nested item registered before its section keeps its $priority", ({ expect }) => {
+            const runtime = new ReactRouterRuntime({
+                loggers: [new NoopLogger()]
+            });
+
+            runtime.registerNavigationItem({
+                $label: "Link",
+                $priority: 42,
+                to: "/link"
+            }, {
+                sectionId: "section"
+            });
+
+            runtime.registerNavigationItem({
+                $id: "section",
+                $label: "Section",
+                children: []
+            });
+
+            expect(runtime.getNavigationItems()[0].children![0].$priority).toBe(42);
+        });
+
         test.concurrent("when the section has not been registered, register the pending item once the section is registered", ({ expect }) => {
             const runtime = new ReactRouterRuntime({
                 loggers: [new NoopLogger()]

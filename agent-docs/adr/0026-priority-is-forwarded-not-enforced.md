@@ -36,7 +36,7 @@ The division of labour: **Squide sorts a menu's top-level items. Everything else
 
 ## Consequences
 
-- A consumer can order a section's items again, by reading `priority` in `renderItem` or by sorting the tree from `useNavigationItems` before handing it to `useRenderedNavigationItems`. `renderSection` cannot do it, since it receives elements that are already rendered.
+- A consumer can order a section's items again, by sorting the tree from `useNavigationItems` before handing it to `useRenderedNavigationItems`. Neither render callback can do it: `renderItem` is `(item, key, index, level)` and sees one item at a time, and `renderSection` receives elements that are already rendered. What `priority` on the render props buys is everything short of reordering — grouping, badging, a `data-` attribute driving a CSS `order` — plus the ability to write the pre-sort against the same value the renderer sees.
 - `$priority` inside a `children` literal now compiles. It used to be a `TS2353` excess-property error, even though the registry has always carried a nested item's `$priority` through verbatim, so the error was protecting nothing.
 - The documentation claim that a nested `$priority` "is ignored" is withdrawn. It described the regression.
 - No rendered order changes. The hook sorts the array it receives and recurses in declaration order, exactly as before.

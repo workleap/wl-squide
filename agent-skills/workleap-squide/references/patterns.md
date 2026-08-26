@@ -320,8 +320,8 @@ runtime.registerNavigationItem({
 
 Squide sorts the **top-level** items of a menu with `$priority`. An item nested under a section renders
 in the order it appears in that section's `children` array; its `$priority` is forwarded to the layout
-as the `priority` render prop rather than acted on. See `references/runtime-api.md` for how to order a
-section's items.
+as the `priority` render prop rather than acted on. To order a section's items, sort the tree before
+handing it to `useRenderedNavigationItems`. See `references/runtime-api.md`.
 
 ### Active State Styling
 
