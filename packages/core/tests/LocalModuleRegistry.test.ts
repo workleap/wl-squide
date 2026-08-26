@@ -2,7 +2,8 @@ import { NoopLogger } from "@workleap/logging";
 import { describe, test, vi } from "vitest";
 import { LocalModuleDeferredRegistrationFailedEvent, LocalModuleDeferredRegistrationUpdateFailedEvent, LocalModuleRegistrationFailedEvent, LocalModuleRegistry, LocalModulesDeferredRegistrationCompletedEvent, LocalModulesDeferredRegistrationStartedEvent, LocalModulesDeferredRegistrationsUpdateCompletedEvent, LocalModulesDeferredRegistrationsUpdateStartedEvent, LocalModulesRegistrationCompletedEvent, LocalModulesRegistrationStartedEvent } from "../src/registration/LocalModuleRegistry.ts";
 import { ModuleRegistrationError } from "../src/registration/ModuleRegistry.ts";
-import { Runtime } from "../src/runtime/Runtime.ts";
+import { DummyRuntime } from "./DummyRuntime.ts";
+import { ScopeRecordingLogger } from "./ScopeRecordingLogger.ts";
 
 function simulateDelay(delay: number) {
     return new Promise(resolve => {
@@ -10,48 +11,6 @@ function simulateDelay(delay: number) {
             resolve(undefined);
         }, delay);
     });
-}
-
-class DummyRuntime extends Runtime {
-    registerRoute() {
-        throw new Error("Method not implemented.");
-    }
-
-    registerPublicRoute() {
-        throw new Error("Method not implemented.");
-    }
-
-    get routes() {
-        return [];
-    }
-
-    registerNavigationItem() {
-        throw new Error("Method not implemented.");
-    }
-
-    getNavigationItems() {
-        return [];
-    }
-
-    getNavigationItemsByMenu() {
-        return new Map();
-    }
-
-    startDeferredRegistrationScope(): void {
-        throw new Error("Method not implemented.");
-    }
-
-    completeDeferredRegistrationScope(): void {
-        throw new Error("Method not implemented.");
-    }
-
-    startScope(): Runtime {
-        return new DummyRuntime({ loggers: [new NoopLogger()] });
-    }
-
-    _validateRegistrations(): void {
-        throw new Error("Method not implemented.");
-    }
 }
 
 describe.concurrent("registerModules", () => {
@@ -313,6 +272,25 @@ describe.concurrent("registerModules", () => {
         await registry.registerModules(runtime, []);
 
         expect(listener).not.toHaveBeenCalled();
+    });
+
+    test.concurrent("when a module registration fail, the failing module is not reported as successfully registered", async ({ expect }) => {
+        const logger = new ScopeRecordingLogger();
+        const runtime = new DummyRuntime({ loggers: [logger] });
+        const registry = new LocalModuleRegistry();
+
+        await registry.registerModules(runtime, [
+            () => { throw new Error("Module 1 registration failed"); },
+            () => {}
+        ]);
+
+        expect(logger.logs).toContain("[squide] An error occured while registering the local module.");
+        expect(logger.logs.filter(x => x === "[squide] Successfully registered local module.")).toHaveLength(1);
+
+        // The failing module ends its scope in red and the succeeding one in green, once each. Ending the
+        // failing scope a second time is what used to swallow the success log rather than prevent it.
+        expect(logger.logs.filter(x => x === "end:red")).toHaveLength(1);
+        expect(logger.logs.filter(x => x === "end:green")).toHaveLength(1);
     });
 });
 
@@ -582,6 +560,26 @@ describe.concurrent("registerDeferredRegistrations", () => {
         expect(register1).toHaveBeenCalledExactlyOnceWith(runtime, data, "register");
         expect(register2).toHaveBeenCalledExactlyOnceWith(runtime, data, "register");
         expect(register3).toHaveBeenCalledExactlyOnceWith(runtime, data, "register");
+    });
+
+    test.concurrent("when a deferred registration fail, the failing registration is not reported as successfully registered", async ({ expect }) => {
+        const logger = new ScopeRecordingLogger();
+        const runtime = new DummyRuntime({ loggers: [logger] });
+        const registry = new LocalModuleRegistry();
+
+        await registry.registerModules(runtime, [
+            () => () => { throw new Error("Module 1 registration failed"); },
+            () => () => {}
+        ]);
+
+        logger.clear();
+
+        await registry.registerDeferredRegistrations(runtime, {});
+
+        expect(logger.logs).toContain("[squide] An error occured while registering the deferred registrations.");
+        expect(logger.logs.filter(x => x === "[squide] Successfully registered deferred registrations.")).toHaveLength(1);
+        expect(logger.logs.filter(x => x === "end:red")).toHaveLength(1);
+        expect(logger.logs.filter(x => x === "end:green")).toHaveLength(1);
     });
 });
 
@@ -873,5 +871,34 @@ describe.concurrent("updateDeferredRegistrations", () => {
         expect(register1).toHaveBeenCalledExactlyOnceWith(runtime, data, "update");
         expect(register2).toHaveBeenCalledExactlyOnceWith(runtime, data, "update");
         expect(register3).toHaveBeenCalledExactlyOnceWith(runtime, data, "update");
+    });
+
+    test.concurrent("when a deferred registration fail, the failing registration is not reported as successfully updated", async ({ expect }) => {
+        const logger = new ScopeRecordingLogger();
+        const runtime = new DummyRuntime({ loggers: [logger] });
+        const registry = new LocalModuleRegistry();
+
+        await registry.registerModules(runtime, [
+            // Do not throw on the "registerDeferredRegistrations" call but throw on the "updateDeferredRegistrations" call.
+            () => vi.fn()
+                .mockImplementationOnce(() => {})
+                .mockImplementationOnce(() => {
+                    throw new Error("Module 1 registration failed");
+                }),
+            () => () => {}
+        ]);
+
+        await registry.registerDeferredRegistrations(runtime, {});
+
+        logger.clear();
+
+        await registry.updateDeferredRegistrations(runtime, {});
+
+        // Matched loosely: this message uniquely interpolates the registration index, and the assertion is
+        // about the success log not following the failure, not about the index format.
+        expect(logger.logs.filter(x => x.includes("An error occured while updating the deferred registrations."))).toHaveLength(1);
+        expect(logger.logs.filter(x => x === "[squide] Successfully updated deferred registrations.")).toHaveLength(1);
+        expect(logger.logs.filter(x => x === "end:red")).toHaveLength(1);
+        expect(logger.logs.filter(x => x === "end:green")).toHaveLength(1);
     });
 });
