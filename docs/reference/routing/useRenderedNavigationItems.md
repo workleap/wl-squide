@@ -24,7 +24,7 @@ const elements = useRenderedNavigationItems(
 ### Parameters
 
 - `navigationItems`: An array of `RootNavigationItem` to render — a `NavigationLink | NavigationSection` plus an optional `$priority`. The hook sorts the **top-level** items of the array by `$priority` (higher first) before rendering. Nested items render in the order they appear in their section's `children` array, their `$priority` is ignored.
-    - `$priority`: An optional order priority affecting the position of the item in the menu (higher first). Declared on `RootNavigationItem` only, so it cannot be set on a nested item.
+    - `$priority`: An optional order priority affecting the position of the item in the menu (higher first). Declared on `RootNavigationItem` only. It is honored for the menu's top-level items. A nested item may still carry a `$priority` at runtime, when it was registered with the `sectionId` option, but it is ignored.
 - `renderItem`: A function to render a link from a navigation item
 - `renderSection`: A function to render a section from a collection of items.
 

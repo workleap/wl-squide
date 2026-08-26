@@ -26,10 +26,10 @@ const items = useNavigationItems();
 const customItems = useNavigationItems({ menuId: "custom-menu" });
 ```
 
-**Returns:** `Array<NavigationLink | NavigationSection>`
+**Returns:** `RootNavigationItem[]` — `NavigationLink | NavigationSection` plus an optional `$priority`. Returned in registry insertion order, unsorted.
 
 ### useNavigationItemsByMenu()
-Retrieve the full navigation registry grouped by menu id. Returns a `Map<string, Array<NavigationLink | NavigationSection>>` keyed by `menuId`. The returned `Map` is reference-stable across calls until the registry changes.
+Retrieve the full navigation registry grouped by menu id. Returns a `Map<string, RootNavigationItem[]>` keyed by `menuId`. The returned `Map` is reference-stable across calls until the registry changes.
 
 ```ts
 import { useNavigationItemsByMenu } from "@squide/firefly";

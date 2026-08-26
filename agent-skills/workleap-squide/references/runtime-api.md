@@ -159,7 +159,7 @@ const customItems = runtime.getNavigationItems({ menuId: "custom-menu" });
 ```
 
 #### getNavigationItemsByMenu()
-Retrieve the full navigation registry grouped by menu id. Returns a fresh `Map<string, NavigationItem[]>` that is reference-stable across calls until the registry changes (registration, deferred completion, or clear).
+Retrieve the full navigation registry grouped by menu id. Returns a fresh `Map<string, RootNavigationItem[]>` that is reference-stable across calls until the registry changes (registration, deferred completion, or clear).
 
 ```ts
 const itemsByMenu = runtime.getNavigationItemsByMenu();

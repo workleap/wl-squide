@@ -37,7 +37,7 @@ The `registerNavigationItem` function accepts a `sectionId` option, allowing a n
 
 ## Register a nested item
 
-Similarly to [nested routes](./register-routes.md#register-a-nested-route), a navigation item can be nested under an existing section be specifying a `sectionId` option that matches the section's `$id` option:
+Similarly to [nested routes](./register-routes.md#register-a-nested-route), a navigation item can be nested under an existing section by specifying a `sectionId` option that matches the section's `$id` option:
 
 ```ts !#10
 import type { ModuleRegisterFunction, FireflyRuntime } from "@squide/firefly";

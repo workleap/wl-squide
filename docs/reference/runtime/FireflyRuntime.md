@@ -314,7 +314,7 @@ Additionally, when combined with the [useRenderedNavigationItems](../routing/use
 
 ### Register nested navigation items
 
-Similarly to [nested routes](#register-nested-routes), a navigation item can be nested under an existing section be specifying a `sectionId` option that matches the section's `$id` option:
+Similarly to [nested routes](#register-nested-routes), a navigation item can be nested under an existing section by specifying a `sectionId` option that matches the section's `$id` option:
 
 ```ts !#7
 runtime.registerNavigationItem({
