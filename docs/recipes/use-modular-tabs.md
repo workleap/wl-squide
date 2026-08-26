@@ -285,7 +285,7 @@ export function TabsLayout() {
 
 ## Change the display order of the tabs
 
-Similarly to how the display order of regular navigation items can be configured, a modular tab position can be affected with the [priority](http://localhost:5000/wl-squide/reference/runtime/runtime-class/#sort-registered-navigation-items) option.
+Similarly to how the display order of regular navigation items can be configured, a modular tab position can be affected with the [priority](../reference/runtime/FireflyRuntime.md#sort-navigation-items) option.
 
 To force `Tab 3` to be positioned first, we'll give him a priority of `999`: 
 

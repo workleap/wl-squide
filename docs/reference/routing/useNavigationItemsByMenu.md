@@ -20,7 +20,7 @@ None.
 
 ### Returns
 
-A `Map<string, Array<NavigationLink | NavigationSection>>` keyed by `menuId`.
+A `Map<string, RootNavigationItem[]>` keyed by `menuId`. Like [useNavigationItems](./useNavigationItems.md), the arrays are returned as is, in registry insertion order — this hook does not sort by `$priority`.
 
 ## Usage
 

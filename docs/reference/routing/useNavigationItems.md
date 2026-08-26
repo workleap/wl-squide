@@ -21,7 +21,7 @@ const navigationItems = useNavigationItems(options?: { menuId? })
 
 ### Returns
 
-An array of `NavigationLink | NavigationSection`.
+An array of `RootNavigationItem` — a `NavigationLink | NavigationSection` plus an optional `$priority`, which is declared on the root item type only and so cannot be set on a nested item. The items are returned as is, in registry insertion order: this hook does not sort. Use [useRenderedNavigationItems](./useRenderedNavigationItems.md) to get the top-level items sorted by `$priority`.
 
 #### `NavigationLink`
 

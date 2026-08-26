@@ -36,12 +36,13 @@ runtime.registerNavigationItem({
 
 Properties: `$id`, `$label`, `to`, `$priority`, `$canRender`, `$additionalProps`, `$meta`.
 `$additionalProps` is spread onto the component the layout renders; `$meta` is read by the layout and never spread. Put a `highlight` style flag in `$meta`, not `$additionalProps`.
+`$priority` is declared on `RootNavigationItem` only, so it is honored for a menu's top-level items and ignored for anything nested under a section (`children`, or the `sectionId` option). Do not tell a consumer that `$priority` orders a nested item.
 Supports nested sections, dynamic segments, and multiple menus (root + custom page menus).
 
 ## Rendering Navigation
 
 - `useNavigationItems()` — retrieves raw registered items.
-- `useRenderedNavigationItems()` — returns items processed for rendering (applies `$canRender`, sorting by `$priority`).
+- `useRenderedNavigationItems()` — returns items processed for rendering. Sorts the top-level items by `$priority` (the recursion into `children` is unsorted) and forwards `$canRender` to the layout as `canRender` at every level. It never calls `$canRender` itself, executing it is the layout's job.
 
 ## AppRouter
 

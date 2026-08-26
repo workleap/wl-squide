@@ -41,6 +41,10 @@ const menuIds = Array.from(itemsByMenu.keys());
 ### useRenderedNavigationItems(items, renderItem, renderSection)
 Transform navigation items into React elements.
 
+**Sorting:** sorts only the top-level items of the array it receives, by `$priority`, highest first. The
+recursion into a section's `children` is unsorted, so `$priority` never orders a nested item. See
+`references/runtime-api.md` for the nesting paths this affects.
+
 **Function Signatures (fixed, no custom parameters):**
 - `RenderItemFunction`: `(item: NavigationItemRenderProps, key: string, index: number, level: number) => ReactNode`
 - `RenderSectionFunction`: `(elements: ReactNode[], key: string, index: number, level: number) => ReactNode`
