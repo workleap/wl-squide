@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <meta name="color-scheme" content="light dark">
     <meta name="turbo-root" content="/wl-squide">
-    <meta name="turbo-cache-control" content="no-cache" data-turbo-track="reload" data-track-token="4.6.0.840981780938">
+    <meta name="turbo-cache-control" content="no-cache" data-turbo-track="reload" data-track-token="4.6.0.841070321894">
 
     <!-- See retype.com -->
     <meta name="generator" content="Retype 4.6.0">
@@ -39,12 +39,12 @@
     <script data-cfasync="false">(function(){var cl=document.documentElement.classList,ls=localStorage.getItem("retype_scheme"),hd=cl.contains("dark"),hl=cl.contains("light"),wm=window.matchMedia&&window.matchMedia("(prefers-color-scheme: dark)").matches;if(ls==="dark"||(!ls&&wm&&!hd&&!hl)){cl.remove("light");cl.add("dark")}else if(ls==="light"||(!ls&&!wm&&!hd&&!hl)){cl.remove("dark");cl.add("light")}})();</script>
 
     <link id="retype-favicon" rel="icon" href="../../../static/favicon.png" />
-    <link href="../../../resources/css/retype.css?v=4.6.0.840981780938" rel="stylesheet">
+    <link href="../../../resources/css/retype.css?v=4.6.0.841070321894" rel="stylesheet">
 
-    <script data-cfasync="false" src="../../../resources/js/config.js?v=4.6.0.840981780938" data-turbo-eval="false" defer></script>
+    <script data-cfasync="false" src="../../../resources/js/config.js?v=4.6.0.841070321894" data-turbo-eval="false" defer></script>
     <script data-cfasync="false" src="../../../resources/js/retype.js?v=4.6.0" data-turbo-eval="false" defer></script>
-    <script id="lunr-js" data-cfasync="false" src="../../../resources/js/lunr.js?v=4.6.0.840981780938" data-turbo-eval="false" defer></script>
-    <script id="prism-js" data-cfasync="false" src="../../../resources/js/prism.js?v=4.6.0.840981780938" defer></script>
+    <script id="lunr-js" data-cfasync="false" src="../../../resources/js/lunr.js?v=4.6.0.841070321894" data-turbo-eval="false" defer></script>
+    <script id="prism-js" data-cfasync="false" src="../../../resources/js/prism.js?v=4.6.0.841070321894" defer></script>
 
     <link href="https://workleap.github.io/wl-idp-docs-hub/static/retype-customization.css" rel="stylesheet" />
 
@@ -281,7 +281,7 @@
 <ul>
 <li><code translate="no" v-pre>waitForPublicData</code>: An optional <code translate="no" v-pre>boolean</code> value indicating whether or not Squide should delay the rendering of the requested page until the <strong>public</strong> data is ready. The default value is <code translate="no" v-pre>false</code>.</li>
 <li><code translate="no" v-pre>waitForProtectedData</code>: An optional <code translate="no" v-pre>boolean</code> value indicating whether or not Squide should delay the rendering of the requested page until the <strong>protected</strong> data is ready. The default value is <code translate="no" v-pre>false</code>.</li>
-<li><code translate="no" v-pre>strictMode</code>: An optional <code translate="no" v-pre>boolean</code> value indicating whether or not Squide should validate the registrations once the modules are ready, validate the navigation item registrations again after every deferred registration update, and throw when the active location matches no registered route. The default value is <code translate="no" v-pre>true</code>.</li>
+<li><code translate="no" v-pre>strictMode</code>: An optional <code translate="no" v-pre>boolean</code> value indicating whether or not Squide should validate the registrations once the modules are ready and throw when the active location matches no registered route. The default value is <code translate="no" v-pre>true</code>.</li>
 <li><code translate="no" v-pre>children</code>: A render function defining a <a href="https://reactrouter.com/en/main/routers/router-provider" class="outbound" target="_blank">RouterProvider</a> component with <code translate="no" v-pre>rootRoute</code>, <code translate="no" v-pre>registeredRoutes</code>, <code translate="no" v-pre>routerProps</code> and <code translate="no" v-pre>routerProviderProps</code>.</li>
 </ul>
 <h2 id="usage">Usage</h2>
@@ -520,8 +520,7 @@ export function App() {
 }</code></pre>
 </doc-codeblock></div>
 <h3 id="disable-strict-mode">Disable strict mode</h3>
-<p>By default, Squide validates the registrations once the modules are ready, and validates the navigation item registrations again after every deferred registration update. A navigation item registered under a section that no module registered, or a route registered under a parent that does not exist, throws in development and is logged in production.</p>
-<p>Routes are only validated once, as they are frozen after the initial registration phase and cannot become pending during an update.</p>
+<p>By default, Squide validates the registrations once the modules are ready. A navigation item registered under a section that no module registered, or a route registered under a parent that does not exist, throws in development and is logged in production.</p>
 <p>Strict mode additionally throws when the active location matches no registered route.</p>
 <p>Set <code translate="no" v-pre>strictMode</code> to <code translate="no" v-pre>false</code> to turn all of it off:</p>
 <div id="disable-strict-mode-hostsrcapptsx" class="codeblock-wrapper"><doc-codeblock>
