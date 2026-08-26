@@ -148,7 +148,9 @@ system catches only one of them:
 - Through the option, `registerNavigationItem({ ..., $priority: 10 }, { sectionId })` — **compiles, and
   the priority is silently dropped.**
 
-Never suggest any of them to order items inside a section. There is no supported way to do that today.
+Never suggest any of them to order items inside a section. `$priority` cannot order a nested item, but
+ordering itself is possible: the lever is the order of the section's `children` array, which for items
+added through `sectionId` is the order in which those registrations run.
 
 #### getNavigationItems(options?)
 Retrieve registered navigation items for a single menu.
