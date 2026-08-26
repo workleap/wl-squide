@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <meta name="color-scheme" content="light dark">
     <meta name="turbo-root" content="/wl-squide">
-    <meta name="turbo-cache-control" content="no-cache" data-turbo-track="reload" data-track-token="4.6.0.841089384886">
+    <meta name="turbo-cache-control" content="no-cache" data-turbo-track="reload" data-track-token="4.6.0.841089629913">
 
     <!-- See retype.com -->
     <meta name="generator" content="Retype 4.6.0">
@@ -39,12 +39,12 @@
     <script data-cfasync="false">(function(){var cl=document.documentElement.classList,ls=localStorage.getItem("retype_scheme"),hd=cl.contains("dark"),hl=cl.contains("light"),wm=window.matchMedia&&window.matchMedia("(prefers-color-scheme: dark)").matches;if(ls==="dark"||(!ls&&wm&&!hd&&!hl)){cl.remove("light");cl.add("dark")}else if(ls==="light"||(!ls&&!wm&&!hd&&!hl)){cl.remove("dark");cl.add("light")}})();</script>
 
     <link id="retype-favicon" rel="icon" href="../../static/favicon.png" />
-    <link href="../../resources/css/retype.css?v=4.6.0.841089384886" rel="stylesheet">
+    <link href="../../resources/css/retype.css?v=4.6.0.841089629913" rel="stylesheet">
 
-    <script data-cfasync="false" src="../../resources/js/config.js?v=4.6.0.841089384886" data-turbo-eval="false" defer></script>
+    <script data-cfasync="false" src="../../resources/js/config.js?v=4.6.0.841089629913" data-turbo-eval="false" defer></script>
     <script data-cfasync="false" src="../../resources/js/retype.js?v=4.6.0" data-turbo-eval="false" defer></script>
-    <script id="lunr-js" data-cfasync="false" src="../../resources/js/lunr.js?v=4.6.0.841089384886" data-turbo-eval="false" defer></script>
-    <script id="prism-js" data-cfasync="false" src="../../resources/js/prism.js?v=4.6.0.841089384886" defer></script>
+    <script id="lunr-js" data-cfasync="false" src="../../resources/js/lunr.js?v=4.6.0.841089629913" data-turbo-eval="false" defer></script>
+    <script id="prism-js" data-cfasync="false" src="../../resources/js/prism.js?v=4.6.0.841089629913" defer></script>
 
     <link href="https://workleap.github.io/wl-idp-docs-hub/static/retype-customization.css" rel="stylesheet" />
 
@@ -637,12 +637,32 @@ export default defineBuildConfig();</code></pre>
     <h2>See also</h2>
 <div class="card-compact-group">
 <div class="card-compact-container">
+    <a href="/wl-squide/essentials/define-error-boundaries/" class="group card-compact no-link">
+        <div class="card-compact-body">
+            <div class="card-compact-header">
+                <span class="card-compact-title">Define error boundaries</span>
+            </div>
+            <p class="card-compact-description">Squide uses React Router's error boundary system to isolate failures when possible and to catch unhandled errors. This page explains how Squide integrates with React Router's error boundaries and how to define them at different levels of your application.</p>
+        </div>
+    </a>
+</div>
+<div class="card-compact-container">
     <a href="/wl-squide/module-federation/develop-a-module-in-isolation/" class="group card-compact no-link">
         <div class="card-compact-body">
             <div class="card-compact-header">
                 <span class="card-compact-title">Develop a module in isolation</span>
             </div>
             <p class="card-compact-description">To develop their own independent module, a team should not need to install the host application or any other modules of the application they do not own.</p>
+        </div>
+    </a>
+</div>
+<div class="card-compact-container">
+    <a href="/wl-squide/introduction/getting-started/" class="group card-compact no-link">
+        <div class="card-compact-body">
+            <div class="card-compact-header">
+                <span class="card-compact-title">Getting started</span>
+            </div>
+            <p class="card-compact-description">The documentation for Squide firefly v8 is available here.</p>
         </div>
     </a>
 </div>
@@ -673,6 +693,56 @@ export default defineBuildConfig();</code></pre>
                 <span class="card-compact-title">Override the host layout</span>
             </div>
             <p class="card-compact-description">The RootLayout component defined in the create an host app starting guide serves as the default layout for the homepage and all the managed routes.</p>
+        </div>
+    </a>
+</div>
+<div class="card-compact-container">
+    <a href="/wl-squide/integrations/setup-honeycomb/" class="group card-compact no-link">
+        <div class="card-compact-body">
+            <div class="card-compact-header">
+                <span class="card-compact-title">Setup Honeycomb</span>
+            </div>
+            <p class="card-compact-description">Squide integrates with @workleap/telemetry v2 or later (or @workleap/honeycomb v7 or later) to automatically send performance traces for the bootstrapping flow of an application.</p>
+        </div>
+    </a>
+</div>
+<div class="card-compact-container">
+    <a href="/wl-squide/integrations/setup-i18next/" class="group card-compact no-link">
+        <div class="card-compact-body">
+            <div class="card-compact-header">
+                <span class="card-compact-title">Setup i18next</span>
+            </div>
+            <p class="card-compact-description">react-i18next is an internationalization library that helps applications manage translations, language detection, and localization logic. It provides a flexible API for loading translation files, formatting text, handling plurals, and switching languages at runtime.</p>
+        </div>
+    </a>
+</div>
+<div class="card-compact-container">
+    <a href="/wl-squide/integrations/setup-launch-darkly/" class="group card-compact no-link">
+        <div class="card-compact-body">
+            <div class="card-compact-header">
+                <span class="card-compact-title">Setup LaunchDarkly</span>
+            </div>
+            <p class="card-compact-description">Squide integrates with LaunchDarkly to attach feature flags to the FireflyRuntime instance and automatically update deferred registrations whenever a flag value changes.</p>
+        </div>
+    </a>
+</div>
+<div class="card-compact-container">
+    <a href="/wl-squide/integrations/setup-msw/" class="group card-compact no-link">
+        <div class="card-compact-body">
+            <div class="card-compact-header">
+                <span class="card-compact-title">Setup MSW</span>
+            </div>
+            <p class="card-compact-description">Squide includes built-in support for Mock Service Worker (MSW) to speed up frontend development and promote an API first approach. Modules can dynamically register their own mock request handlers, and Squide composes them into a unified set.</p>
+        </div>
+    </a>
+</div>
+<div class="card-compact-container">
+    <a href="/wl-squide/integrations/setup-tanstack-query/" class="group card-compact no-link">
+        <div class="card-compact-body">
+            <div class="card-compact-header">
+                <span class="card-compact-title">Setup TanStack Query</span>
+            </div>
+            <p class="card-compact-description">TanStack Query simplifies server state management in frontend applications by keeping backend data synchronized with the UI without requiring manual state handling.</p>
         </div>
     </a>
 </div>
