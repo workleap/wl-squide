@@ -289,7 +289,9 @@ export const register: ModuleRegisterFunction<FireflyRuntime> = () => {
 ```
 
 !!!warning
-Squide builds the navigation **sections** it renders from the registrations rather than storing the objects it received, so a nested item is never attached to an object owned by a module. Two consequences: mutating a section after registering it does not change what the menu renders, and the section returned by [getNavigationItems](../reference/runtime/FireflyRuntime.md#retrieve-navigation-items) is not the object that was registered. Compare sections by `$id`. Links are returned as they were registered, as nothing is ever attached to them.
+Squide builds the navigation **sections** it renders from the registrations rather than storing the objects it received, so a nested item is never attached to an object owned by a module. The section returned by [getNavigationItems](../reference/runtime/FireflyRuntime.md#retrieve-navigation-items) is therefore not the object that was registered. Compare sections by `$id`. Links are returned as they were registered, as nothing is ever attached to them.
+
+Treat a returned section as read-only, as it is the object the menu renders. Do not mutate a section after registering it either: whether the change reaches the menu depends on whether the section has been projected yet.
 !!!
 
 ## Missing sections are reported
@@ -302,6 +304,16 @@ This is what surfaces a deferred registration function that stops registering a 
 
 Declaring a section that is already registered for a menu is [supported](./register-nav-items.md#declare-a-section-from-multiple-modules): the first declaration wins and the following ones contribute nothing. Squide reports the declarations that silently lose something. In development the report throws, in production it is logged, and `strictMode={false}` turns it off with the rest.
 
-An ignored declaration carried inline `children`, a `$canRender` the registered section doesn't have, or a `$priority`, a `sectionId` or a string `$label` that differs from the registered section's. Those are discarded, so the report names the menu, the section, and what each declaration would have contributed. An option the registered section already has is discarded by nobody and is never reported, which is what lets every module declare a shared section identically. A declaration written inside another section's `children` is reported too, because it is dropped from where it was written together with everything declared under it. The report names the section it was written in when that section has an `$id`. A re-declaration registered at the root of the menu and carrying none of those is the supported shape and is never reported.
+A declaration is ignored when it carries something the registered section doesn't have:
 
-A section that was waiting for its own section is decided by the same rule once the section holding it registers. It is dropped rather than rendered beside the section that owns the identifier, and it is reported only if it lost something, so a shared section nested under another one stays silent.
+- Inline `children`.
+- A `$canRender` the registered section doesn't have.
+- A `$priority`, a `sectionId` or a string `$label` that differs from the registered section's.
+
+Those are discarded, so the report names the menu, the section, and what each declaration would have contributed.
+
+An option the registered section already has is discarded by nobody and is never reported, which is what lets every module declare a shared section identically. A re-declaration at the root of the menu carrying none of the above is the supported shape.
+
+A declaration written inside another section's `children` is reported too, because it is dropped from where it was written together with everything declared under it. The report names the section it was written in when that section has an `$id`.
+
+A section that was waiting for its own section is decided by the same rule once the section holding it registers. It is dropped rather than rendered beside the section that owns the identifier, and it is reported only if it lost something.

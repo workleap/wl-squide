@@ -199,5 +199,9 @@ expect(runtime.getNavigationItems()).toMatchObject([{ $id: "billing", children: 
 ```
 
 !!!warning
-Prefer asserting on the navigation items over `runtime._validateRegistrations()`. That function validates routes before navigation items, and routes registered without an explicit parent default to the `PublicRoutes` and `ProtectedRoutes` outlets, which are registered by the application's router rather than by a runner. Against a headless runtime it therefore throws `The ProtectedRoutes outlet is missing from the router configuration` for any module registering a route, whatever the state of the navigation items. Pass `runtime._validateRegistrations({ includeRoutes: false })` to validate the navigation items only, which is the same call the framework makes after a deferred registration update.
+Prefer asserting on the navigation items over `runtime._validateRegistrations()`.
+
+That function validates routes first, and a route registered without an explicit parent defaults to the `PublicRoutes` and `ProtectedRoutes` outlets, which a runner never registers. Against a headless runtime it therefore throws `The ProtectedRoutes outlet is missing from the router configuration` for any module registering a route, whatever the state of the navigation items.
+
+Pass `runtime._validateRegistrations({ includeRoutes: false })` to validate the navigation items only, which is the same call the framework makes after a deferred registration update.
 !!!

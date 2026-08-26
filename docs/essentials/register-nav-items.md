@@ -30,7 +30,9 @@ export const register: ModuleRegisterFunction<FireflyRuntime> = runtime => {
 !!!tip
 We recommend always providing an `$id` option for a navigation item, as it ensures the menus doesn't flicker when [deferred registrations](./register-deferred-nav-items.md) are updated.
 
-A section's `$id` names a container within its menu, in a namespace that every module shares. Two modules declaring the same `$id` for the same menu get [a single section](#declare-a-section-from-multiple-modules), which is deliberate, so pick an identifier specific enough not to collide by accident. The same `$id` in two different menus is unrelated.
+A section's `$id` names a container within its menu, in a namespace every module shares. Two modules declaring the same `$id` for the same menu get [a single section](#declare-a-section-from-multiple-modules), so pick an identifier specific enough not to collide by accident.
+
+The same `$id` in two different menus is unrelated.
 !!!
 
 !!!tip
@@ -142,11 +144,17 @@ export const register: ModuleRegisterFunction<FireflyRuntime> = runtime => {
 A single `Settings` section is rendered, holding both links, whichever order the modules register in.
 
 !!!warning
-Declare a shared section **identically** in every module, and always attach the items with the `sectionId` option rather than with `children`.
+Declare a shared section **identically** in every module, at the root of the menu, and always attach the items with the `sectionId` option rather than with `children`.
 
-Only the first declaration is registered, and it is the one that provides the section's `$label`, `$priority` and every other option. Which module gets there first is not defined, because deferred registration functions run concurrently. A declaration that would have contributed something the first one didn't — inline `children`, a `$canRender` the registered section doesn't have, or a `$priority`, a `sectionId` or a string `$label` that differs from the registered section's — is [reported by strict mode](./register-deferred-nav-items.md#conflicting-section-declarations-are-reported). Passing the same `$priority` and the same `sectionId` in every module discards nothing and is never reported.
+Only the first declaration is registered, and it provides the section's `$label`, `$priority` and every other option. Which module gets there first is not defined, because deferred registration functions run concurrently.
 
-Declare a shared section at the root of the menu rather than inside another section's `children`. An inline declaration that finds the section already registered is dropped from where it was written, along with everything declared under it, and is reported.
+A declaration carrying any of the following is [reported by strict mode](./register-deferred-nav-items.md#conflicting-section-declarations-are-reported):
+
+- Inline `children`.
+- A `$canRender` the registered section doesn't have.
+- A `$priority`, a `sectionId` or a string `$label` that differs from the registered section's.
+
+Passing the same options in every module discards nothing and is never reported. `$meta` and `$additionalProps` are not compared, so a declaration differing only in those is discarded without a report. A declaration written inside another section's `children` is dropped from where it was written, along with everything declared under it.
 !!!
 
 ## Register an item with a sorting priority

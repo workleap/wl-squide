@@ -169,7 +169,9 @@ export const register: ModuleRegisterFunction<FireflyRuntime> = () => {
 };
 ```
 
-Squide **builds** the navigation *sections* it hands back from the registrations rather than storing the objects it was given, so a nested item is never attached to an object owned by a module. Two consequences: mutating a section after registering it does not change what the menu renders, and a section read back from `getNavigationItems` is not the object that was registered. Compare sections by `$id`. Links are returned exactly as they were registered, since nothing is ever attached to them.
+Squide **builds** the navigation *sections* it hands back from the registrations rather than storing the objects it was given, so a nested item is never attached to an object owned by a module. A section read back from `getNavigationItems` is therefore not the object that was registered. Compare sections by `$id`. Links are returned exactly as they were registered, since nothing is ever attached to them.
+
+Treat a returned section as read-only, as it is the object the menu renders. Do not mutate a section after registering it either: whether the change reaches the menu depends on whether the section has been projected yet.
 
 ### Missing Sections Are Reported
 
