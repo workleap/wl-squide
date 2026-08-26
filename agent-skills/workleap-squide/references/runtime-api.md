@@ -112,7 +112,7 @@ Register a navigation item.
 runtime.registerNavigationItem({
     $id: "page-id",           // Recommended for stable keys
     $label: "Page Label",     // String or ReactNode
-    $priority: 10,            // Higher = earlier in menu. Sorted by Squide at the top level, see below
+    $priority: 10,            // Higher = earlier among its siblings, at any depth
     $canRender: (index: number) => true,   // Conditional rendering
     $additionalProps: {},     // Spread onto the component the layout renders
     $meta: {},                // Read by the layout, never spread
@@ -143,29 +143,30 @@ runtime.registerNavigationItem({
 });
 ```
 
-**`$priority` is legal at any depth, but Squide only sorts with it at the top level.** It is declared
-on `NavigationLink` and `NavigationSection`, so writing one inside a `children` literal or passing one
-alongside a `sectionId` option are both valid. `useRenderedNavigationItems` sorts the array it
-receives and recurses into `children` unsorted.
+**`$priority` orders an item among its siblings, at any depth.** It is declared on `NavigationLink`
+and `NavigationSection`, so writing one inside a `children` literal or passing one alongside a
+`sectionId` option are both valid, and `useRenderedNavigationItems` sorts by it at every level.
 
-A nested item's `$priority` is not ignored, it is *forwarded*: the hook hands it to `renderItem` as the
-`priority` render prop, at every depth, exactly as declared (`undefined` included). Acting on it is the
-layout's decision.
+Items with no `$priority`, or with the same one, keep the order they were declared in.
 
-So when asked to order items inside a section, do not say `$priority` does not apply there. The two
-levers are:
+This is the answer when asked how to order items inside a section — especially a section several
+modules contribute to through `sectionId`, where the items are added in whatever order their
+registrations complete and array order is nobody's to control.
 
-- **Array order** — a section's `children` render in declaration order, which for items added through
-  `sectionId` is the order those registrations run in.
-- **Sorting before rendering** — sort the tree returned by `useNavigationItems`, then hand the result to
-  `useRenderedNavigationItems`. This is the only way to reorder. Do not suggest sorting inside
-  `renderItem`, which receives one item at a time, or inside `renderSection`, which receives elements
-  that are already rendered.
+`$priority` is *also* forwarded to `renderItem` as the `priority` render prop, exactly as declared
+(`undefined` included), for what ordering does not cover: grouping, badging, or a comparator of the
+layout's own. If the layout writes one, default a missing priority —
+`(y.priority ?? 0) - (x.priority ?? 0)`. A bare `y.priority - x.priority` does not compile, since
+`priority` is optional (`TS18048`), and casting the error away makes it worse rather than louder: `NaN`
+is read as "these two are equal", the comparator becomes inconsistent, and the items come back
+partially reordered.
 
-When comparing, default a missing priority: `(y.priority ?? 0) - (x.priority ?? 0)`. A bare
-`y.priority - x.priority` does not compile — `priority` is optional, so the subtraction is `TS18048`.
-Cast the error away and it gets worse rather than louder: `NaN` is read as "these two are equal", the
-comparator becomes inconsistent, and the items come back partially reordered.
+Neither render callback can reorder anything — `renderItem` sees one item at a time and
+`renderSection` receives elements that are already rendered. To impose a different order, sort the tree
+from `useNavigationItems` before handing it to `useRenderedNavigationItems`.
+
+**Before ADR-0026 this was top-level only.** Do not repeat the older claim that a nested `$priority`
+is ignored.
 
 #### getNavigationItems(options?)
 Retrieve registered navigation items for a single menu.

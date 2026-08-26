@@ -23,7 +23,7 @@ const elements = useRenderedNavigationItems(
 
 ### Parameters
 
-- `navigationItems`: An array of `RootNavigationItem` to render, an alias of `NavigationLink | NavigationSection`. The hook sorts the **top-level** items of the array by `$priority` (higher first) before rendering. A section's `children` are rendered in the order they were declared, with every item's `$priority` forwarded to `renderItem` as [priority](#read-an-item-priority).
+- `navigationItems`: An array of `RootNavigationItem` to render, an alias of `NavigationLink | NavigationSection`. The hook sorts by `$priority` (higher first) at every depth, and forwards every item's `$priority` to `renderItem` as [priority](#read-an-item-priority).
 - `renderItem`: A function to render a link from a navigation item
 - `renderSection`: A function to render a section from a collection of items.
 
@@ -34,7 +34,7 @@ Accept any properties of a React Router [Link](https://reactrouter.com/en/main/c
 - `$id`: An optional identifier for the link. Usually used as the React element [key](https://legacy.reactjs.org/docs/lists-and-keys.html#keys) property.
 - `$label`: The link label. Could either by a `string` or a `ReactNode`.
 - `$canRender`: An optional function accepting an object and returning a `boolean` indicating whether or not the link should be rendered.
-- `$priority`: An optional order priority affecting the position of the item in the menu (higher first). Honored by this hook for a menu's top-level items, and forwarded to `renderItem` as `priority` at every depth, see [Read an item priority](#read-an-item-priority).
+- `$priority`: An optional order priority affecting the position of the item among its siblings (higher first), at any depth. Also forwarded to `renderItem` as `priority`, see [Read an item priority](#read-an-item-priority).
 - `$additionalProps`: An optional object literal of additional props to spread onto the link component.
 - `$meta`: An optional object literal of metadata for the code rendering the menu to read. Never spread onto the link component.
 
@@ -43,7 +43,7 @@ Accept any properties of a React Router [Link](https://reactrouter.com/en/main/c
 - `$id`: An optional identifier the section. Usually used to nest navigation items undern a specific section and as the React element [key](https://legacy.reactjs.org/docs/lists-and-keys.html#keys) property.
 - `$label`: The section label. Could either by a `string` or a `ReactNode`.
 - `$canRender`: An optional function accepting an object and returning a `boolean` indicating whether or not the section should be rendered.
-- `$priority`: An optional order priority affecting the position of the item in the menu (higher first). Honored by this hook for a menu's top-level items, and forwarded to `renderItem` as `priority` at every depth, see [Read an item priority](#read-an-item-priority).
+- `$priority`: An optional order priority affecting the position of the section among its siblings (higher first), at any depth. Also forwarded to `renderItem` as `priority`, see [Read an item priority](#read-an-item-priority).
 - `$additionalProps`: An optional object literal of additional props to spread onto the section component.
 - `$meta`: An optional object literal of metadata for the code rendering the menu to read. Never spread onto the section component.
 - `children`: The section items.
@@ -203,7 +203,7 @@ const renderLinkItem: RenderLinkItemFunction = (item, key) => {
 
 ### Read an item priority
 
-This hook sorts the array it receives, which is a menu's top-level items, and renders a section's `children` in the order they were declared. Every item's `$priority` is handed to the rendering code as `priority`, at every depth:
+This hook orders items by `$priority` at every depth, so nothing is required of the rendering code to get a sorted menu. The value is handed to it as `priority` anyway, for the things ordering does not cover — grouping, badging, or a comparator of its own:
 
 ```tsx !#8-9
 import type { ModuleRegisterFunction, FireflyRuntime } from "@squide/firefly";
@@ -235,7 +235,7 @@ const renderLinkItem: RenderLinkItemFunction = (item, key) => {
 ```
 
 !!!warning
-`priority` is forwarded exactly as it was declared, `undefined` included, so an unset priority can be told apart from an explicit `0`. Always default it when comparing, the way this hook's own top-level sort does:
+`priority` is forwarded exactly as it was declared, `undefined` included, so an unset priority can be told apart from an explicit `0`. If you write a comparator of your own, default it the way this hook does:
 
 ```ts
 // Wrong. TypeScript rejects the subtraction, since "priority" is optional (TS18048).
@@ -248,38 +248,7 @@ items.sort((x, y) => (y.priority ?? 0) - (x.priority ?? 0));
 Bypass the type error and the failure is worse than an exception: a comparator returning `NaN` is read as "these two are equal", so it becomes inconsistent and the items come back in an arbitrary order — partially sorted, not left alone.
 !!!
 
-To have a section's items rendered in priority order, sort them **before** handing them to this hook. `renderItem` renders a single item and cannot move its siblings, and `renderSection` receives elements that have already been rendered, so neither is a place to reorder:
-
-```tsx !#12-16,20
-import { useMemo } from "react";
-import {
-    useNavigationItems,
-    useRenderedNavigationItems,
-    type NavigationLink,
-    type NavigationSection
-} from "@squide/firefly";
-import { renderItem, renderSection } from "./renderNavigationItem.tsx";
-
-type Item = NavigationLink | NavigationSection;
-
-function sortByPriority(items: Item[]): Item[] {
-    return [...items]
-        .sort((x, y) => (y.$priority ?? 0) - (x.$priority ?? 0))
-        .map(x => "children" in x && x.children ? { ...x, children: sortByPriority(x.children) } : x);
-}
-
-export function Navigation() {
-    const navigationItems = useNavigationItems();
-    const sortedItems = useMemo(() => sortByPriority(navigationItems), [navigationItems]);
-    const navigationElements = useRenderedNavigationItems(sortedItems, renderItem, renderSection);
-
-    return (
-        <nav>{navigationElements}</nav>
-    );
-}
-```
-
-The recursive helper needs its return type annotated, otherwise TypeScript reports `TS7023` rather than inferring it.
+Neither render callback is a place to reorder items: `renderItem` renders a single item and cannot see its siblings, and `renderSection` receives elements that have already been rendered. To impose an order this hook does not produce, sort the tree from [useNavigationItems](./useNavigationItems.md) and hand the result to this hook instead.
 
 ### Render dynamic segments
 
