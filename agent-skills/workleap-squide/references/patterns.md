@@ -169,8 +169,6 @@ export const register: ModuleRegisterFunction<FireflyRuntime> = () => {
 };
 ```
 
-Squide **copies** the navigation *sections* registered by a deferred registration function, so a nested item is never attached to an object owned by a module. One consequence: mutating a section after registering it does not change what the menu renders. Links are not copied, as nothing is ever attached to them.
-
 ### Missing Sections Are Reported
 
 When a nested navigation item is registered with a `sectionId` that no registered section matches, the item is held as a **pending registration** and is not rendered. Squide reports the sections that are still missing once the modules are ready — throwing in development and logging in production.
