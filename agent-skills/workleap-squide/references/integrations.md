@@ -183,6 +183,8 @@ const runtime = initializeFirefly({
 
 Alternatively, using the `LaunchDarklyPlugin` directly (lower-level approach, use with `FireflyRuntime`):
 
+Signature: `new LaunchDarklyPlugin(runtime, launchDarklyClient, options?: { featureFlagSetSnapshot? })`. The client must already be initialized and ready.
+
 ```ts
 import { FireflyRuntime, LaunchDarklyPlugin } from "@squide/firefly";
 
@@ -267,7 +269,7 @@ snapshot.removeSnapshotChangedListener(listener);
 
 ### Testing with InMemoryLaunchDarklyClient
 
-An in-memory client for testing without connecting to LaunchDarkly:
+An in-memory client for testing without connecting to LaunchDarkly. Signature: `new InMemoryLaunchDarklyClient(featureFlags, options?: { context?, notifier? })`. It implements every base method of the LaunchDarkly SDK client, plus `setFeatureFlags`.
 
 ```tsx
 import { InMemoryLaunchDarklyClient, LaunchDarklyPlugin } from "@squide/firefly";
@@ -291,7 +293,7 @@ ldClient.setFeatureFlags({
 });
 ```
 
-With custom context:
+With custom context (the default context is `{ kind: "user", anonymous: true }`):
 
 ```ts
 const ldClient = new InMemoryLaunchDarklyClient(featureFlags, {
@@ -305,7 +307,7 @@ const ldClient = new InMemoryLaunchDarklyClient(featureFlags, {
 
 ### LocalStorageLaunchDarklyClient
 
-A client that persists feature flags to localStorage:
+A client that persists feature flags to localStorage. Create it with the `createLocalStorageLaunchDarklyClient` factory — signature: `createLocalStorageLaunchDarklyClient(defaultValues, options?: { localStorageKey?, context?, notifier? })`. The local storage is immediately initialized with `defaultValues`.
 
 ```ts
 import { createLocalStorageLaunchDarklyClient, LaunchDarklyPlugin, FireflyRuntime } from "@squide/firefly";

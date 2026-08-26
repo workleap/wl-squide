@@ -51,14 +51,14 @@ Transform navigation items into React elements.
 
 | Type | Properties |
 |------|------------|
-| `NavigationLinkRenderProps` | `label`, `linkProps` (the React Router `Link` props, including `to`), `additionalProps` (from `$additionalProps`, spread onto the component), `meta` (from `$meta`, only read), `canRender()` |
-| `NavigationSectionRenderProps` | `label`, `section` (the rendered children elements), `additionalProps`, `meta`, `canRender()` |
+| `NavigationLinkRenderProps` | `label`, `linkProps` (the React Router `Link` props, including `to`), `additionalProps` (from `$additionalProps`, spread onto the component), `meta` (from `$meta`, only read), `canRender?()` |
+| `NavigationSectionRenderProps` | `label`, `section` (the rendered children elements), `additionalProps`, `meta`, `canRender?()` |
 
-**`canRender()`:** when an item was registered with a `$canRender` option, it is exposed on the render props as a `canRender()` function. It is the responsibility of the code rendering the menu to call it and skip the item when it returns `false` — Squide does not filter the items itself.
+**`canRender()`:** when an item was registered with a `$canRender` option, it is exposed on the render props as a `canRender()` function. It is the responsibility of the code rendering the menu to call it and skip the item when it returns `false` — Squide does not filter the items itself. Since `$canRender` is optional, `canRender` is `undefined` for items registered without it — call it optionally (`item.canRender?.()`) unless every item is known to declare one.
 
 ```tsx
 const renderItem: RenderItemFunction = (item, key) => {
-    if (!item.canRender()) {
+    if (item.canRender?.() === false) {
         return null;
     }
 
@@ -380,8 +380,8 @@ import { useEnvironmentVariables } from "@squide/firefly";
 const variables = useEnvironmentVariables();
 ```
 
-### useFeatureFlag(key, defaultValue)
-Get a LaunchDarkly feature flag value.
+### useFeatureFlag(key, defaultValue?)
+Get a LaunchDarkly feature flag value. `defaultValue` is optional and returned when the flag is not available.
 
 ```ts
 import { useFeatureFlag } from "@squide/firefly";
@@ -485,7 +485,7 @@ const { t } = useTranslation("a-namespace", { i18n: instance });
 ```
 
 ### useCurrentLanguage()
-Get the current language.
+Get the current language. Reactive: the component re-renders whenever the language is changed with `useChangeLanguage` or the plugin's `changeLanguage` method.
 
 ```ts
 import { useCurrentLanguage } from "@squide/i18next";

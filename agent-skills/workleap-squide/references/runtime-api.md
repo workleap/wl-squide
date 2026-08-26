@@ -178,6 +178,8 @@ Register a single environment variable.
 runtime.registerEnvironmentVariable("apiBaseUrl", "https://api.example.com");
 ```
 
+The same key can be registered multiple times (e.g. by multiple modules) as long as the value remains identical. If the value differs, an `Error` is thrown.
+
 #### registerEnvironmentVariables(variables)
 Register multiple environment variables.
 

@@ -150,6 +150,33 @@ export const register: ModuleRegisterFunction<FireflyRuntime, unknown, DeferredD
 };
 ```
 
+### Every Deferred Run Registers the Full Set
+
+A deferred registration function is not executed once. It runs again every time the deferred registrations are updated — whenever a feature flag value changes or the data passed to `useDeferredRegistrations` changes. Squide discards everything the previous run registered before replaying the new one, so **every run must register the full set of navigation items it wants rendered, not the difference since the last run.**
+
+```ts
+export const register: ModuleRegisterFunction<FireflyRuntime> = () => {
+    return deferredRuntime => {
+        // Re-evaluated and re-registered on every run.
+        if (deferredRuntime.getFeatureFlag("enable-feature-a")) {
+            deferredRuntime.registerNavigationItem({
+                $id: "feature-a",
+                $label: "Feature A",
+                to: "/feature-a"
+            });
+        }
+    };
+};
+```
+
+Squide **builds** the navigation *sections* it hands back from the registrations rather than storing the objects it was given, so a nested item is never attached to an object owned by a module. Two consequences: mutating a section after registering it does not change what the menu renders, and a section read back from `getNavigationItems` is not the object that was registered. Compare sections by `$id`. Links are returned exactly as they were registered, since nothing is ever attached to them.
+
+### Missing Sections Are Reported
+
+When a nested navigation item is registered with a `sectionId` that no registered section matches, the item is held as a **pending registration** and is not rendered. Squide reports the sections that are still missing once the modules are ready, and again after every deferred registration update — throwing in development and logging in production.
+
+This is what surfaces a deferred registration function that stops registering a section while another module keeps registering items under it. A module contributing to a section it doesn't own declares that section on every run, in every module — declaring one that is already registered for the menu is an ensure rather than an error. Set `strictMode` to `false` on `AppRouter` to turn the validation off — see `references/components.md`.
+
 ## Navigation Patterns
 
 - [Multi-Level Navigation](#multi-level-navigation)
@@ -538,7 +565,7 @@ export function AuthenticationBoundary() {
 
 ### Route Assembly
 
-Public routes render before the boundary; protected routes render inside it, under an authenticated layout.
+Public routes render before the boundary; protected routes render inside it, under an authenticated layout. The route holding the `PublicRoutes` and `ProtectedRoutes` placeholders must be hoisted, otherwise the placeholders render within themselves and loop forever.
 
 ```tsx
 runtime.registerRoute({
@@ -555,6 +582,8 @@ runtime.registerRoute({
             }]
         }
     ]
+}, {
+    hoist: true
 });
 
 runtime.registerPublicRoute({ path: "/login", element: <LoginPage /> });
