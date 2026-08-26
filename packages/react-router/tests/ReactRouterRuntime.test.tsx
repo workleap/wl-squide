@@ -3524,6 +3524,67 @@ describe.concurrent("_validateRegistrations", () => {
             expect(() => runtime._validateRegistrations()).not.toThrow();
         });
 
+        test.concurrent("when a shared section is declared inline in one module and with a sectionId in another, nothing is reported", ({ expect }) => {
+            const runtime = new ReactRouterRuntime({
+                loggers: [new NoopLogger()]
+            });
+
+            // The section is nested under "admin" without ever carrying a "sectionId" option, since it was
+            // declared in that section's children. The declaration below asks for the position it already
+            // holds, so nothing is discarded.
+            runtime.registerNavigationItem({
+                $id: "admin",
+                $label: "Admin",
+                children: [{
+                    $id: "section",
+                    $label: "Section",
+                    children: []
+                }]
+            });
+
+            runtime.registerNavigationItem({
+                $id: "section",
+                $label: "Section",
+                children: []
+            }, {
+                sectionId: "admin"
+            });
+
+            expect(() => runtime._validateRegistrations()).not.toThrow();
+        });
+
+        test.concurrent("when a declaration asks for a section that is not the one the registered section is under, the report says which", ({ expect }) => {
+            const runtime = new ReactRouterRuntime({
+                loggers: [new NoopLogger()]
+            });
+
+            runtime.registerNavigationItem({
+                $id: "admin",
+                $label: "Admin",
+                children: [{
+                    $id: "section",
+                    $label: "Section",
+                    children: []
+                }]
+            });
+
+            runtime.registerNavigationItem({
+                $id: "reports",
+                $label: "Reports",
+                children: []
+            });
+
+            runtime.registerNavigationItem({
+                $id: "section",
+                $label: "Section",
+                children: []
+            }, {
+                sectionId: "reports"
+            });
+
+            expect(() => runtime._validateRegistrations()).toThrow(/a "sectionId" option of "reports"/);
+        });
+
         test.concurrent("when a declaration is registered but did not get the identifier, it is reported as such", ({ expect }) => {
             const runtime = new ReactRouterRuntime({
                 loggers: [new NoopLogger()]

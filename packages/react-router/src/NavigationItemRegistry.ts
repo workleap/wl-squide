@@ -373,9 +373,9 @@ export class NavigationItemRegistry {
                     item,
                     parentSectionId: sectionId,
                     isInlineDeclaration: inlineParentId !== undefined,
-                    inlineParentSectionId: this.#getInlineParentSectionId(inlineParentId),
+                    inlineParentSectionId: this.#getOwnedSectionId(inlineParentId),
                     registeredItem: registeredSection.item,
-                    registeredParentSectionId: registeredSection.sectionId,
+                    registeredParentSectionId: this.#getEffectiveParentSectionId(registeredSection),
                     isRegistered: false
                 });
 
@@ -459,9 +459,9 @@ export class NavigationItemRegistry {
                 item: registration.item,
                 parentSectionId: registration.sectionId,
                 isInlineDeclaration: registration.inlineParentId !== undefined,
-                inlineParentSectionId: this.#getInlineParentSectionId(registration.inlineParentId),
+                inlineParentSectionId: this.#getOwnedSectionId(registration.inlineParentId),
                 registeredItem: registeredSection?.item,
-                registeredParentSectionId: registeredSection?.sectionId,
+                registeredParentSectionId: registeredSection && this.#getEffectiveParentSectionId(registeredSection),
                 isRegistered: true
             });
 
@@ -555,23 +555,30 @@ export class NavigationItemRegistry {
         }
     }
 
-    // The section a declaration was written in is only named when the identifier it answers to resolves back
-    // to it. A section declared inline doesn't have to be identified, and one that lost its own identifier
-    // carries an "$id" that reaches another section, so naming it would point the report at the wrong place.
-    #getInlineParentSectionId(inlineParentId?: number) {
-        if (inlineParentId === undefined) {
+    // A registration is only named by its identifier when that identifier resolves back to it. A section
+    // doesn't have to be identified, and one that lost its own identifier carries an "$id" that reaches
+    // another section, so naming it would point the report at the wrong place.
+    #getOwnedSectionId(registrationId?: number) {
+        if (registrationId === undefined) {
             return undefined;
         }
 
-        const inlineParent = this.#registrationsIndex.get(inlineParentId);
+        const registration = this.#registrationsIndex.get(registrationId);
 
-        if (!inlineParent || isLinkItem(inlineParent.item) || !inlineParent.item.$id) {
+        if (!registration || isLinkItem(registration.item) || !registration.item.$id) {
             return undefined;
         }
 
-        const indexKey = createSectionIndexKey(inlineParent.menuId, inlineParent.item.$id);
+        const indexKey = createSectionIndexKey(registration.menuId, registration.item.$id);
 
-        return this.#sectionsIndex.get(indexKey) === inlineParentId ? inlineParent.item.$id : undefined;
+        return this.#sectionsIndex.get(indexKey) === registrationId ? registration.item.$id : undefined;
+    }
+
+    // The section a registration ended up under, which is not the same as the "sectionId" option it was made
+    // with: a section declared in another section's children is nested without ever carrying that option.
+    // Comparing the option alone would report a declaration asking for the position the section already holds.
+    #getEffectiveParentSectionId(registration: RegistrationItem) {
+        return registration.sectionId ?? this.#getOwnedSectionId(registration.parentId);
     }
 
     #addDuplicateDeclaration(indexKey: string, declaration: DuplicateSectionDeclaration) {
