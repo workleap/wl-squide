@@ -118,9 +118,9 @@ runtime.registerNavigationItem({
 
 // Navigation link, nested under an existing section.
 runtime.registerNavigationItem({
-    $id: "page-id",
-    $label: "Page Label",
-    to: "/page"
+    $id: "nested-page-id",
+    $label: "Nested Page Label",
+    to: "/parent-section/nested-page"
 }, {
     menuId: "root",
     sectionId: "parent-section" // Nest under the section whose "$id" is "parent-section"
