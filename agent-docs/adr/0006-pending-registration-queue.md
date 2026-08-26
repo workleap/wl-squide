@@ -20,7 +20,7 @@ Option 3. Both `RouteRegistry` and `NavigationItemRegistry` maintain a `#pending
 
 After all modules are ready, strict mode validation (`_validateRegistrations` on the runtime, surfaced by `useStrictRegistrationMode`) checks for unresolved pending registrations. In development mode, unresolved items throw an error with a diagnostic message identifying the orphaned route/nav item and the missing parent. In production, the warning is logged but does not throw, to avoid crashing the application over a configuration issue.
 
-Evidence: `packages/react-router/src/RouteRegistry.ts` (lines 119-121 for the pending index, lines 179-198 for `#tryRegisterPendingRoutes`). `packages/react-router/src/NavigationItemRegistry.ts` (lines 151-153 for the parallel pending index). `packages/firefly/src/useStrictRegistrationMode.ts` drives validation after the `modules-registered` lifecycle event.
+Evidence: `packages/react-router/src/RouteRegistry.ts` (lines 119-121 for the pending index, lines 179-198 for `#tryRegisterPendingRoutes`). `packages/react-router/src/NavigationItemRegistry.ts` (`#pendingRegistrationsIndex` for the parallel pending index). `packages/firefly/src/useStrictRegistrationMode.ts` drives validation after the `modules-registered` lifecycle event.
 
 ## Consequences
 
