@@ -101,11 +101,11 @@ runtime.registerPublicRoute({
 Register a navigation item.
 
 ```ts
-// Navigation link
+// Navigation link, registered at the top level of a menu.
 runtime.registerNavigationItem({
     $id: "page-id",           // Recommended for stable keys
     $label: "Page Label",     // String or ReactNode
-    $priority: 10,            // Higher = earlier in menu
+    $priority: 10,            // Higher = earlier in menu. Top-level items only, see below
     $canRender: (index: number) => true,   // Conditional rendering
     $additionalProps: {},     // Spread onto the component the layout renders
     $meta: {},                // Read by the layout, never spread
@@ -113,8 +113,17 @@ runtime.registerNavigationItem({
     target: "_blank",         // Optional
     style: {}                 // Optional
 }, {
-    menuId: "root",           // Target menu (default: "root")
-    sectionId: "parent-section" // Nest under this section
+    menuId: "root"            // Target menu (default: "root")
+});
+
+// Navigation link, nested under an existing section.
+runtime.registerNavigationItem({
+    $id: "nested-page-id",
+    $label: "Nested Page Label",
+    to: "/parent-section/nested-page"
+}, {
+    menuId: "root",
+    sectionId: "parent-section" // Nest under the section whose "$id" is "parent-section"
 });
 
 // Navigation section (for nested menus)
@@ -127,6 +136,22 @@ runtime.registerNavigationItem({
 });
 ```
 
+**`$priority` only orders top-level items.** It is declared on `RootNavigationItem`, not on
+`NavigationLink` or `NavigationSection`, so `useRenderedNavigationItems` sorts only the array it
+receives and recurses into `children` unsorted. There are three ways to nest an item and the type
+system catches only one of them:
+
+- Inline, `children: [{ ..., $priority: 10 }]` — a TypeScript excess-property error (`TS2353`). Do not
+  write it.
+- Through a variable, `const child: RootNavigationItem = { ..., $priority: 10 }` then
+  `children: [child]` — **compiles, and the priority is silently dropped.**
+- Through the option, `registerNavigationItem({ ..., $priority: 10 }, { sectionId })` — **compiles, and
+  the priority is silently dropped.**
+
+Never suggest any of them to order items inside a section. `$priority` cannot order a nested item, but
+ordering itself is possible: the lever is the order of the section's `children` array, which for items
+added through `sectionId` is the order in which those registrations run.
+
 #### getNavigationItems(options?)
 Retrieve registered navigation items for a single menu.
 
@@ -136,7 +161,7 @@ const customItems = runtime.getNavigationItems({ menuId: "custom-menu" });
 ```
 
 #### getNavigationItemsByMenu()
-Retrieve the full navigation registry grouped by menu id. Returns a fresh `Map<string, NavigationItem[]>` that is reference-stable across calls until the registry changes (registration, deferred completion, or clear).
+Retrieve the full navigation registry grouped by menu id. Returns a fresh `Map<string, RootNavigationItem[]>` that is reference-stable across calls until the registry changes (registration, deferred completion, or clear).
 
 ```ts
 const itemsByMenu = runtime.getNavigationItemsByMenu();

@@ -318,6 +318,10 @@ runtime.registerNavigationItem({
 });
 ```
 
+`$priority` only orders the **top-level** items of a menu. An item nested under a section renders in the
+order it appears in that section's `children` array, and its `$priority` is ignored. See
+`references/runtime-api.md` for the three nesting paths and which of them the type system catches.
+
 ### Active State Styling
 
 Use React Router's `NavLink` component for automatic active state handling:
