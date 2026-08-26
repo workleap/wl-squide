@@ -112,7 +112,7 @@ Register a navigation item.
 runtime.registerNavigationItem({
     $id: "page-id",           // Recommended for stable keys
     $label: "Page Label",     // String or ReactNode
-    $priority: 10,            // Higher = earlier in menu. Top-level items only, see below
+    $priority: 10,            // Higher = earlier in menu. Sorted by Squide at the top level, see below
     $canRender: (index: number) => true,   // Conditional rendering
     $additionalProps: {},     // Spread onto the component the layout renders
     $meta: {},                // Read by the layout, never spread
@@ -143,21 +143,22 @@ runtime.registerNavigationItem({
 });
 ```
 
-**`$priority` only orders top-level items.** It is declared on `RootNavigationItem`, not on
-`NavigationLink` or `NavigationSection`, so `useRenderedNavigationItems` sorts only the array it
-receives and recurses into `children` unsorted. There are three ways to nest an item and the type
-system catches only one of them:
+**`$priority` is legal at any depth, but Squide only sorts with it at the top level.** It is declared
+on `NavigationLink` and `NavigationSection`, so writing one inside a `children` literal or passing one
+alongside a `sectionId` option are both valid. `useRenderedNavigationItems` sorts the array it
+receives and recurses into `children` unsorted.
 
-- Inline, `children: [{ ..., $priority: 10 }]` — a TypeScript excess-property error (`TS2353`). Do not
-  write it.
-- Through a variable, `const child: RootNavigationItem = { ..., $priority: 10 }` then
-  `children: [child]` — **compiles, and the priority is silently dropped.**
-- Through the option, `registerNavigationItem({ ..., $priority: 10 }, { sectionId })` — **compiles, and
-  the priority is silently dropped.**
+A nested item's `$priority` is not ignored, it is *forwarded*: the hook hands it to `renderItem` as the
+`priority` render prop, at every depth, exactly as declared (`undefined` included). Acting on it is the
+layout's decision.
 
-Never suggest any of them to order items inside a section. `$priority` cannot order a nested item, but
-ordering itself is possible: the lever is the order of the section's `children` array, which for items
-added through `sectionId` is the order in which those registrations run.
+So when asked to order items inside a section, do not say `$priority` does not apply there. The two
+levers are:
+
+- **Array order** — a section's `children` render in declaration order, which for items added through
+  `sectionId` is the order those registrations run in.
+- **Sorting before rendering** — read `priority` in the layout, or sort the tree returned by
+  `useNavigationItems` before handing it to `useRenderedNavigationItems`.
 
 #### getNavigationItems(options?)
 Retrieve registered navigation items for a single menu.

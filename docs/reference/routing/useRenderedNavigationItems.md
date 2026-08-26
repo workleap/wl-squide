@@ -23,8 +23,7 @@ const elements = useRenderedNavigationItems(
 
 ### Parameters
 
-- `navigationItems`: An array of `RootNavigationItem` to render — a `NavigationLink | NavigationSection` plus an optional `$priority`. The hook sorts the **top-level** items of the array by `$priority` (higher first) before rendering. Nested items render in the order they appear in their section's `children` array, their `$priority` is ignored.
-    - `$priority`: An optional order priority affecting the position of the item in the menu (higher first). Declared on `RootNavigationItem` only. It is honored for the menu's top-level items. A nested item may still carry a `$priority` at runtime, when it was registered with the `sectionId` option, but it is ignored.
+- `navigationItems`: An array of `NavigationLink | NavigationSection` to render. The hook sorts the **top-level** items of the array by `$priority` (higher first) before rendering. A section's `children` are rendered in the order they were declared, with every item's `$priority` forwarded to `renderItem` as [priority](#read-an-item-priority).
 - `renderItem`: A function to render a link from a navigation item
 - `renderSection`: A function to render a section from a collection of items.
 
@@ -35,6 +34,7 @@ Accept any properties of a React Router [Link](https://reactrouter.com/en/main/c
 - `$id`: An optional identifier for the link. Usually used as the React element [key](https://legacy.reactjs.org/docs/lists-and-keys.html#keys) property.
 - `$label`: The link label. Could either by a `string` or a `ReactNode`.
 - `$canRender`: An optional function accepting an object and returning a `boolean` indicating whether or not the link should be rendered.
+- `$priority`: An optional order priority affecting the position of the item in the menu (higher first). Honored by this hook for a menu's top-level items, and forwarded to `renderItem` as `priority` at every depth, see [Read an item priority](#read-an-item-priority).
 - `$additionalProps`: An optional object literal of additional props to spread onto the link component.
 - `$meta`: An optional object literal of metadata for the code rendering the menu to read. Never spread onto the link component.
 
@@ -43,6 +43,7 @@ Accept any properties of a React Router [Link](https://reactrouter.com/en/main/c
 - `$id`: An optional identifier the section. Usually used to nest navigation items undern a specific section and as the React element [key](https://legacy.reactjs.org/docs/lists-and-keys.html#keys) property.
 - `$label`: The section label. Could either by a `string` or a `ReactNode`.
 - `$canRender`: An optional function accepting an object and returning a `boolean` indicating whether or not the section should be rendered.
+- `$priority`: An optional order priority affecting the position of the item in the menu (higher first). Honored by this hook for a menu's top-level items, and forwarded to `renderItem` as `priority` at every depth, see [Read an item priority](#read-an-item-priority).
 - `$additionalProps`: An optional object literal of additional props to spread onto the section component.
 - `$meta`: An optional object literal of metadata for the code rendering the menu to read. Never spread onto the section component.
 - `children`: The section items.
@@ -199,6 +200,66 @@ const renderLinkItem: RenderLinkItemFunction = (item, key) => {
 ```
 
 `meta` defaults to an empty object, so it can be destructured without a guard.
+
+### Read an item priority
+
+This hook sorts the array it receives, which is a menu's top-level items, and renders a section's `children` in the order they were declared. Every item's `$priority` is handed to the rendering code as `priority`, at every depth:
+
+```tsx !#8-9
+import type { ModuleRegisterFunction, FireflyRuntime } from "@squide/firefly";
+
+export const register: ModuleRegisterFunction<FireflyRuntime> = runtime => {
+    runtime.registerNavigationItem({
+        $id: "management",
+        $label: "Management",
+        children: [
+            { $id: "users", $label: "Users", $priority: 10, to: "/users" },
+            { $id: "teams", $label: "Teams", $priority: 5, to: "/teams" }
+        ]
+    });
+};
+```
+
+```tsx !#2,5
+const renderLinkItem: RenderLinkItemFunction = (item, key) => {
+    const { label, linkProps, additionalProps, priority } = item;
+
+    return (
+        <li key={key} data-priority={priority}>
+            <Link {...linkProps} {...additionalProps}>
+                {label}
+            </Link>
+        </li>
+    );
+};
+```
+
+!!!info
+`priority` is forwarded exactly as it was declared, `undefined` included, so an unset priority can be told apart from an explicit `0`. This hook's own top-level sort treats a missing priority as `0`.
+!!!
+
+To have a section's items rendered in priority order, sort them before handing them to this hook, since `renderSection` receives elements that have already been rendered:
+
+```tsx !#4-8,12
+import { useMemo } from "react";
+import { useNavigationItems } from "@squide/firefly";
+
+function sortByPriority(items: (NavigationLink | NavigationSection)[]) {
+    return [...items]
+        .sort((x, y) => (y.$priority ?? 0) - (x.$priority ?? 0))
+        .map(x => "children" in x && x.children ? { ...x, children: sortByPriority(x.children) } : x);
+}
+
+export function Navigation() {
+    const navigationItems = useNavigationItems();
+    const sortedItems = useMemo(() => sortByPriority(navigationItems), [navigationItems]);
+    const navigationElements = useRenderedNavigationItems(sortedItems, renderItem, renderSection);
+
+    return (
+        <nav>{navigationElements}</nav>
+    );
+}
+```
 
 ### Render dynamic segments
 

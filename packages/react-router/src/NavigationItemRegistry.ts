@@ -6,6 +6,9 @@ import type { LinkProps } from "react-router";
 export interface NavigationLink extends Omit<LinkProps, "children"> {
     $id?: string;
     $label: ReactNode;
+    // Highest priority is rendered first. Only a menu's top-level items are sorted by Squide; at any other
+    // depth the value is forwarded to the code rendering the menu, which sorts if it wants to.
+    $priority?: number;
     // Spread onto the rendered component, unlike "$meta" which is only read by the renderer.
     $additionalProps?: Record<string, unknown>;
     $meta?: Record<string, unknown>;
@@ -16,6 +19,8 @@ export interface NavigationLink extends Omit<LinkProps, "children"> {
 export interface NavigationSection {
     $id?: string;
     $label: ReactNode;
+    // Highest priority is rendered first. See NavigationLink's "$priority".
+    $priority?: number;
     // Spread onto the rendered component, unlike "$meta" which is only read by the renderer.
     $additionalProps?: Record<string, unknown>;
     $meta?: Record<string, unknown>;
@@ -31,10 +36,15 @@ export function isLinkItem(item: NavigationItem): item is NavigationLink {
     return !isNil((item as NavigationLink).to);
 }
 
-export type RootNavigationItem = NavigationItem & {
-    // Highest priority is rendered first.
-    $priority?: number;
-};
+/**
+ * A menu's top-level item.
+ *
+ * "$priority" used to be declared here rather than on {@link NavigationItem}, which made it impossible to
+ * write one inside a "children" literal even though the registry has always carried a nested item's
+ * "$priority" through verbatim. It now lives on the item types themselves, and this stays as an alias so the
+ * many signatures and consumers naming it keep expressing "the root of a menu".
+ */
+export type RootNavigationItem = NavigationItem;
 
 export interface AddNavigationItemOptions {
     sectionId?: string;

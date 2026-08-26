@@ -26,7 +26,7 @@ const items = useNavigationItems();
 const customItems = useNavigationItems({ menuId: "custom-menu" });
 ```
 
-**Returns:** `RootNavigationItem[]` — `NavigationLink | NavigationSection` plus an optional `$priority`. Returned in registry insertion order, unsorted.
+**Returns:** `RootNavigationItem[]`, an alias of `NavigationLink | NavigationSection`. Returned in registry insertion order, unsorted.
 
 ### useNavigationItemsByMenu()
 Retrieve the full navigation registry grouped by menu id. Returns a `Map<string, RootNavigationItem[]>` keyed by `menuId`. The returned `Map` is reference-stable across calls until the registry changes.
@@ -41,9 +41,13 @@ const menuIds = Array.from(itemsByMenu.keys());
 ### useRenderedNavigationItems(items, renderItem, renderSection)
 Transform navigation items into React elements.
 
-**Sorting:** sorts only the top-level items of the array it receives, by `$priority`, highest first. The
-recursion into a section's `children` is unsorted, so `$priority` never orders a nested item. See
-`references/runtime-api.md` for the nesting paths this affects.
+**Sorting:** sorts only the top-level items of the array it receives, by `$priority`, highest first,
+treating a missing priority as `0`. The recursion into a section's `children` is unsorted. A nested
+item's `$priority` is still forwarded to `renderItem` as the `priority` render prop, as declared, so the
+layout can act on it. See `references/runtime-api.md`.
+
+**Render props** given to `renderItem`: `label`, `priority`, `additionalProps`, `meta`, `canRender`, plus
+`linkProps` on a link and `section` on a section. Every `$` prefixed prop is stripped from `linkProps`.
 
 **Function Signatures (fixed, no custom parameters):**
 - `RenderItemFunction`: `(item: NavigationItemRenderProps, key: string, index: number, level: number) => ReactNode`

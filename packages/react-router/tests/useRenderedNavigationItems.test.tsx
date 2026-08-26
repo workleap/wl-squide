@@ -318,14 +318,12 @@ test.concurrent("every $ prefixed prop is stripped from linkProps", ({ expect })
 });
 
 test.concurrent("every $ prefixed prop is stripped from linkProps of a nested item", ({ expect }) => {
-    const navigationItems = [
+    const navigationItems: RootNavigationItem[] = [
         {
             $label: "Foo",
             children: [
                 {
                     $label: "Bar",
-                    // "$priority" is only honored for root items, but it used to be forwarded
-                    // to the rendered element when it was set on a nested one.
                     $priority: 10,
                     $meta: {
                         highlight: true
@@ -334,7 +332,7 @@ test.concurrent("every $ prefixed prop is stripped from linkProps of a nested it
                 }
             ]
         }
-    ] as unknown as RootNavigationItem[];
+    ];
 
     const renderItem = vi.fn<RenderItemFunction>(() => <div>Item</div>);
     const renderSection = vi.fn<RenderSectionFunction>(() => <div>Section</div>);
@@ -345,6 +343,165 @@ test.concurrent("every $ prefixed prop is stripped from linkProps of a nested it
 
     expect(item.linkProps).toEqual({ to: "/bar" });
     expect(item.meta).toEqual({ highlight: true });
+});
+
+test.concurrent("link item $priority is forwarded to the renderer and is stripped from linkProps", ({ expect }) => {
+    const navigationItems: RootNavigationItem[] = [
+        {
+            $label: "Foo",
+            $priority: 10,
+            to: "/foo"
+        }
+    ];
+
+    const renderItem = vi.fn<RenderItemFunction>(() => <div>Item</div>);
+    const renderSection = vi.fn<RenderSectionFunction>(() => <div>Section</div>);
+
+    renderHook(() => useRenderedNavigationItems(navigationItems, renderItem, renderSection));
+
+    const item = renderItem.mock.calls[0][0] as NavigationLinkRenderProps;
+
+    expect(item.priority).toBe(10);
+    expect(item.linkProps).toEqual({ to: "/foo" });
+});
+
+test.concurrent("section item $priority is forwarded to the renderer", ({ expect }) => {
+    const navigationItems: RootNavigationItem[] = [
+        {
+            $label: "Foo",
+            $priority: 10,
+            children: [
+                {
+                    $label: "Bar",
+                    to: "/bar"
+                }
+            ]
+        }
+    ];
+
+    const renderItem = vi.fn<RenderItemFunction>(() => <div>Item</div>);
+    const renderSection = vi.fn<RenderSectionFunction>(() => <div>Section</div>);
+
+    renderHook(() => useRenderedNavigationItems(navigationItems, renderItem, renderSection));
+
+    // The nested link is rendered first, the section is the last call.
+    const item = renderItem.mock.calls.at(-1)![0] as NavigationSectionRenderProps;
+
+    expect(item.priority).toBe(10);
+});
+
+// The regression this pins. Squide sorts a menu's top-level items itself, but a nested item's "$priority" is
+// the renderer's to act on, and the renderer cannot act on a value it never receives. It used to arrive by
+// accident, as an unfiltered "$priority" key inside "linkProps", until "stripMetadataProps" was introduced to
+// keep "$" prefixed props off the DOM element and took this one with it.
+test.concurrent("nested $priority is forwarded to the renderer at every depth", ({ expect }) => {
+    const navigationItems: RootNavigationItem[] = [
+        {
+            $label: "Level 1",
+            $priority: 1,
+            children: [
+                {
+                    $label: "Level 2",
+                    $priority: 2,
+                    children: [
+                        {
+                            $label: "Level 3",
+                            $priority: 3,
+                            to: "/level-3"
+                        }
+                    ]
+                }
+            ]
+        }
+    ];
+
+    const renderItem = vi.fn<RenderItemFunction>(() => <div>Item</div>);
+    const renderSection = vi.fn<RenderSectionFunction>(() => <div>Section</div>);
+
+    renderHook(() => useRenderedNavigationItems(navigationItems, renderItem, renderSection));
+
+    // Depth first, so the innermost link is rendered first and its ancestors follow outwards.
+    const byLevel = renderItem.mock.calls.map(([item, , , level]) => ({ level, priority: item.priority }));
+
+    expect(byLevel).toEqual([
+        { level: 2, priority: 3 },
+        { level: 1, priority: 2 },
+        { level: 0, priority: 1 }
+    ]);
+});
+
+// "undefined" rather than 0, so a renderer can tell "nobody set a priority" from "somebody set 0". Squide's own
+// top-level sort applies the 0 default, it doesn't bake it into what the renderer sees.
+test.concurrent("when no $priority prop is provided, priority is undefined", ({ expect }) => {
+    const navigationItems: RootNavigationItem[] = [
+        {
+            $label: "Foo",
+            children: [
+                {
+                    $label: "Bar",
+                    to: "/bar"
+                }
+            ]
+        }
+    ];
+
+    const renderItem = vi.fn<RenderItemFunction>(() => <div>Item</div>);
+    const renderSection = vi.fn<RenderSectionFunction>(() => <div>Section</div>);
+
+    renderHook(() => useRenderedNavigationItems(navigationItems, renderItem, renderSection));
+
+    const link = renderItem.mock.calls[0][0] as NavigationLinkRenderProps;
+    const section = renderItem.mock.calls.at(-1)![0] as NavigationSectionRenderProps;
+
+    expect(link.priority).toBeUndefined();
+    expect(section.priority).toBeUndefined();
+});
+
+test.concurrent("an explicit $priority of 0 is forwarded as 0", ({ expect }) => {
+    const navigationItems: RootNavigationItem[] = [
+        {
+            $label: "Foo",
+            $priority: 0,
+            to: "/foo"
+        }
+    ];
+
+    const renderItem = vi.fn<RenderItemFunction>(() => <div>Item</div>);
+    const renderSection = vi.fn<RenderSectionFunction>(() => <div>Section</div>);
+
+    renderHook(() => useRenderedNavigationItems(navigationItems, renderItem, renderSection));
+
+    const item = renderItem.mock.calls[0][0] as NavigationLinkRenderProps;
+
+    expect(item.priority).toBe(0);
+});
+
+// Squide sorts the array it is handed and leaves a section's "children" in declaration order. A renderer that
+// wants a section sorted has to do it itself, which is only possible because "priority" reaches it.
+test.concurrent("a section's items keep their declaration order, with their priority available to the renderer", ({ expect }) => {
+    const navigationItems: RootNavigationItem[] = [
+        {
+            $label: "Section",
+            children: [
+                { $label: "Low", $priority: 1, to: "/low" },
+                { $label: "High", $priority: 999, to: "/high" },
+                { $label: "None", to: "/none" }
+            ]
+        }
+    ];
+
+    const renderItem = vi.fn<RenderItemFunction>(() => <div>Item</div>);
+    const renderSection = vi.fn<RenderSectionFunction>(() => <div>Section</div>);
+
+    renderHook(() => useRenderedNavigationItems(navigationItems, renderItem, renderSection));
+
+    const nestedItems = renderItem.mock.calls.filter(([, , , level]) => level === 1).map(([item]) => item);
+
+    // Squide leaves the children in the order they were declared.
+    expect(nestedItems.map(x => x.label)).toEqual(["Low", "High", "None"]);
+
+    // And the renderer has what it needs to reorder them.
+    expect(nestedItems.map(x => x.priority)).toEqual([1, 999, undefined]);
 });
 
 test.concurrent("link item $meta is not rendered on the link component", ({ expect }) => {
