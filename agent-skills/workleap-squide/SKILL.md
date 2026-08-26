@@ -207,7 +207,7 @@ const data = useMemo(() => ({ userData }), [userData]);
 useDeferredRegistrations(data);
 ```
 
-**Important:** a deferred registration function runs again on every update (feature flag change or new data). Squide discards everything the previous run registered before replaying, so each run must register the **full set** of items it wants rendered — never the difference since the last run. Squide clones registered sections, so mutating a section after registering it does not change what the menu renders.
+**Important:** a deferred registration function runs again on every update (feature flag change or new data). Squide discards everything the previous run registered before replaying, so each run must register the **full set** of items it wants rendered — never the difference since the last run.
 
 **See also:** For error boundaries, authentication, testing patterns, and advanced navigation (multi-level, modular tabs, dynamic segments, active state), see `references/patterns.md`. For MSW setup, LaunchDarkly, Honeycomb, i18next, and Storybook integrations, see `references/integrations.md`. For plugin authoring and the full runtime API, see `references/runtime-api.md`.
 

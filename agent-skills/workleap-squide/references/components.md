@@ -126,7 +126,7 @@ export function App() {
 
 ### Strict Mode
 
-With `strictMode` enabled (the default), Squide validates the registrations once the modules are ready, validates the navigation item registrations again after every deferred registration update, and throws when the active location matches no registered route. A navigation item registered under a section that no module registered, or a route registered under a parent that does not exist, throws in development and is logged in production.
+With `strictMode` enabled (the default), Squide validates the registrations once the modules are ready, and throws when the active location matches no registered route. A navigation item registered under a section that no module registered, or a route registered under a parent that does not exist, throws in development and is logged in production.
 
 Routes are only validated once — they are frozen after the initial registration phase and cannot become pending during an update.
 
