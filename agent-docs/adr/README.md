@@ -21,7 +21,11 @@ For build tooling, CI, or agent workflow decisions, write an [ODR](../odr/) inst
 
 ## How to create an ADR
 
-1. Find the next number: check this folder for the highest `NNNN` and increment.
+1. Find the next number: take the highest `NNNN` in this folder and increment — then check that no open PR
+   or unmerged branch already claims it (`git log --all --diff-filter=A --name-only -- agent-docs/adr/`).
+   Numbers are claimed when an ADR is written, not when it merges, so this folder alone gives the wrong
+   answer while records are in flight. Skipping over a claimed number leaves a gap; that is expected and
+   preferable to two PRs adding the same one.
 2. Copy [template.md](./template.md) to `NNNN-short-title.md`.
 3. Fill in all sections — especially **Options Considered** and **Decision** with clear rationale.
 4. Set status to `proposed`. A developer will accept it during PR review.
