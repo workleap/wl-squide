@@ -163,7 +163,9 @@ levers are:
   that are already rendered.
 
 When comparing, default a missing priority: `(y.priority ?? 0) - (x.priority ?? 0)`. A bare
-`y.priority - x.priority` yields `NaN` against an unprioritized item, and the sort silently no-ops.
+`y.priority - x.priority` does not compile — `priority` is optional, so the subtraction is `TS18048`.
+Cast the error away and it gets worse rather than louder: `NaN` is read as "these two are equal", the
+comparator becomes inconsistent, and the items come back partially reordered.
 
 #### getNavigationItems(options?)
 Retrieve registered navigation items for a single menu.

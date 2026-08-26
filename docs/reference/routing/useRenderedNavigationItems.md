@@ -235,15 +235,17 @@ const renderLinkItem: RenderLinkItemFunction = (item, key) => {
 ```
 
 !!!warning
-`priority` is forwarded exactly as it was declared, `undefined` included, so an unset priority can be told apart from an explicit `0`. Always default it when comparing, the way this hook's own top-level sort does — `y.priority - x.priority` yields `NaN` against an unprioritized item, and a comparator returning `NaN` leaves the order untouched instead of failing:
+`priority` is forwarded exactly as it was declared, `undefined` included, so an unset priority can be told apart from an explicit `0`. Always default it when comparing, the way this hook's own top-level sort does:
 
 ```ts
-// Wrong, silently does nothing when any item has no priority.
+// Wrong. TypeScript rejects the subtraction, since "priority" is optional (TS18048).
 items.sort((x, y) => y.priority - x.priority);
 
 // Right, matching this hook's own default.
 items.sort((x, y) => (y.priority ?? 0) - (x.priority ?? 0));
 ```
+
+Bypass the type error and the failure is worse than an exception: a comparator returning `NaN` is read as "these two are equal", so it becomes inconsistent and the items come back in an arbitrary order — partially sorted, not left alone.
 !!!
 
 To have a section's items rendered in priority order, sort them **before** handing them to this hook. `renderItem` renders a single item and cannot move its siblings, and `renderSection` receives elements that have already been rendered, so neither is a place to reorder:
