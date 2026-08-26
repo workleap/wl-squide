@@ -266,5 +266,30 @@ function BootstrappingRoute() {
 ```
 ===
 
+## Deferred registrations run again on every update
 
+A deferred registration function is not executed once. It runs again every time the deferred registrations are updated, whenever a feature flag value changes or the data passed to [useDeferredRegistrations](../reference/registration/useDeferredRegistrations.md) changes.
 
+Squide discards everything the previous run registered before replaying the new one. Every run must therefore register the **full set** of navigation items it wants rendered, not the difference since the last run:
+
+```ts !#4-10
+import type { ModuleRegisterFunction, FireflyRuntime } from "@squide/firefly";
+
+export const register: ModuleRegisterFunction<FireflyRuntime> = () => {
+    return (deferredRuntime) => {
+        if (deferredRuntime.getFeatureFlag("enable-feature-a")) {
+            deferredRuntime.registerNavigationItem({
+                $id: "feature-a",
+                $label: "Feature A",
+                to: "/feature-a"
+            });
+        }
+    };
+};
+```
+
+## Missing sections are reported
+
+When a nested navigation item is registered with a `sectionId` that no registered section matches, the item is held as a pending registration and is not rendered. Squide reports the sections that are still missing once the modules are ready. In development the report throws, in production it is logged.
+
+This surfaces a `sectionId` that no module registers at bootstrap. It does **not** cover deferred registration update runs — the validation runs only once, when the modules become ready, so a section dropped by a later update run goes unreported until a page reload. Set [strictMode](../reference/routing/AppRouter.md#disable-strict-mode) to `false` on `AppRouter` to turn the validation off.
