@@ -1,8 +1,7 @@
-import { Runtime } from "@squide/core";
-import { NoopLogger } from "@workleap/logging";
 import { describe, test, vi } from "vitest";
 import { RemoteModuleRegistry, RemoteModulesDeferredRegistrationCompletedEvent, RemoteModulesDeferredRegistrationsUpdateCompletedEvent, RemoteModulesRegistrationCompletedEvent } from "../src/RemoteModuleRegistry.ts";
 import { type RecordedScope, ScopeRecordingLogger } from "./ScopeRecordingLogger.ts";
+import { DummyRuntime } from "./utils.ts";
 
 // The remote counterpart of "LocalModuleRegistryLogging.test.ts". Same three invariants, same failure masks.
 //
@@ -36,48 +35,6 @@ function countFailures(mask: number) {
 }
 
 const REMOTES = Array.from({ length: MODULE_COUNT }, (_, index) => ({ name: `Dummy-${index + 1}` }));
-
-class DummyRuntime extends Runtime {
-    registerRoute() {
-        throw new Error("Method not implemented.");
-    }
-
-    registerPublicRoute() {
-        throw new Error("Method not implemented.");
-    }
-
-    get routes() {
-        return [];
-    }
-
-    registerNavigationItem() {
-        throw new Error("Method not implemented.");
-    }
-
-    getNavigationItems() {
-        return [];
-    }
-
-    getNavigationItemsByMenu() {
-        return new Map();
-    }
-
-    startDeferredRegistrationScope(): void {
-        throw new Error("Method not implemented.");
-    }
-
-    completeDeferredRegistrationScope(): void {
-        throw new Error("Method not implemented.");
-    }
-
-    startScope(): Runtime {
-        return new DummyRuntime({ loggers: [new NoopLogger()] });
-    }
-
-    _validateRegistrations(): void {
-        throw new Error("Method not implemented.");
-    }
-}
 
 // Reduces the recorded scopes to the handful of numbers the invariants are about, so a test can assert the whole
 // shape in one comparison and read the difference straight off a failure.

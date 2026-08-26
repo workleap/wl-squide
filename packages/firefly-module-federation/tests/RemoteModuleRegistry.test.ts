@@ -1,4 +1,3 @@
-import { Runtime } from "@squide/core";
 import { NoopLogger } from "@workleap/logging";
 import { describe, test, vi } from "vitest";
 import {
@@ -15,49 +14,7 @@ import {
     RemoteModulesRegistrationStartedEvent
 } from "../src/RemoteModuleRegistry.ts";
 import { RecordingLogger } from "./RecordingLogger.ts";
-import { sleep } from "./utils.ts";
-
-class DummyRuntime extends Runtime {
-    registerRoute() {
-        throw new Error("Method not implemented.");
-    }
-
-    registerPublicRoute() {
-        throw new Error("Method not implemented.");
-    }
-
-    get routes() {
-        return [];
-    }
-
-    registerNavigationItem() {
-        throw new Error("Method not implemented.");
-    }
-
-    getNavigationItems() {
-        return [];
-    }
-
-    getNavigationItemsByMenu() {
-        return new Map();
-    }
-
-    startDeferredRegistrationScope(): void {
-        throw new Error("Method not implemented.");
-    }
-
-    completeDeferredRegistrationScope(): void {
-        throw new Error("Method not implemented.");
-    }
-
-    startScope(): Runtime {
-        return new DummyRuntime({ loggers: [new NoopLogger()] });
-    }
-
-    _validateRegistrations(): void {
-        throw new Error("Method not implemented.");
-    }
-}
+import { DummyRuntime, sleep } from "./utils.ts";
 
 describe.concurrent("registerModules", () => {
     test.concurrent("should register all the modules", async ({ expect }) => {

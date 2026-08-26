@@ -1,8 +1,8 @@
-import { NoopLogger } from "@workleap/logging";
 import { describe, test } from "vitest";
 import { LocalModuleRegistry, LocalModulesDeferredRegistrationCompletedEvent, LocalModulesDeferredRegistrationsUpdateCompletedEvent, LocalModulesRegistrationCompletedEvent } from "../src/registration/LocalModuleRegistry.ts";
 import type { DeferredRegistrationFunction, DeferredRegistrationOperation, ModuleRegisterFunction } from "../src/registration/registerModule.ts";
 import { Runtime } from "../src/runtime/Runtime.ts";
+import { DummyRuntime } from "./DummyRuntime.ts";
 import { type RecordedScope, ScopeRecordingLogger } from "./ScopeRecordingLogger.ts";
 
 // The success log of a registration loop used to sit after the "try/catch" instead of inside the "try", so a
@@ -34,48 +34,6 @@ function describeMask(mask: number) {
     }
 
     return `module${failing.length !== 1 ? "s" : ""} ${failing.map(i => i + 1).join(", ")} fail${failing.length !== 1 ? "" : "s"}`;
-}
-
-class DummyRuntime extends Runtime {
-    registerRoute() {
-        throw new Error("Method not implemented.");
-    }
-
-    registerPublicRoute() {
-        throw new Error("Method not implemented.");
-    }
-
-    get routes() {
-        return [];
-    }
-
-    registerNavigationItem() {
-        throw new Error("Method not implemented.");
-    }
-
-    getNavigationItems() {
-        return [];
-    }
-
-    getNavigationItemsByMenu() {
-        return new Map();
-    }
-
-    startDeferredRegistrationScope(): void {
-        throw new Error("Method not implemented.");
-    }
-
-    completeDeferredRegistrationScope(): void {
-        throw new Error("Method not implemented.");
-    }
-
-    startScope(): Runtime {
-        return new DummyRuntime({ loggers: [new NoopLogger()] });
-    }
-
-    _validateRegistrations(): void {
-        throw new Error("Method not implemented.");
-    }
 }
 
 // Reduces the recorded scopes to the handful of numbers the invariants are about, so a test can assert the whole

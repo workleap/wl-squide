@@ -2,7 +2,7 @@ import { NoopLogger } from "@workleap/logging";
 import { describe, test, vi } from "vitest";
 import { LocalModuleDeferredRegistrationFailedEvent, LocalModuleDeferredRegistrationUpdateFailedEvent, LocalModuleRegistrationFailedEvent, LocalModuleRegistry, LocalModulesDeferredRegistrationCompletedEvent, LocalModulesDeferredRegistrationStartedEvent, LocalModulesDeferredRegistrationsUpdateCompletedEvent, LocalModulesDeferredRegistrationsUpdateStartedEvent, LocalModulesRegistrationCompletedEvent, LocalModulesRegistrationStartedEvent } from "../src/registration/LocalModuleRegistry.ts";
 import { ModuleRegistrationError } from "../src/registration/ModuleRegistry.ts";
-import { Runtime } from "../src/runtime/Runtime.ts";
+import { DummyRuntime } from "./DummyRuntime.ts";
 import { RecordingLogger } from "./RecordingLogger.ts";
 
 function simulateDelay(delay: number) {
@@ -11,48 +11,6 @@ function simulateDelay(delay: number) {
             resolve(undefined);
         }, delay);
     });
-}
-
-class DummyRuntime extends Runtime {
-    registerRoute() {
-        throw new Error("Method not implemented.");
-    }
-
-    registerPublicRoute() {
-        throw new Error("Method not implemented.");
-    }
-
-    get routes() {
-        return [];
-    }
-
-    registerNavigationItem() {
-        throw new Error("Method not implemented.");
-    }
-
-    getNavigationItems() {
-        return [];
-    }
-
-    getNavigationItemsByMenu() {
-        return new Map();
-    }
-
-    startDeferredRegistrationScope(): void {
-        throw new Error("Method not implemented.");
-    }
-
-    completeDeferredRegistrationScope(): void {
-        throw new Error("Method not implemented.");
-    }
-
-    startScope(): Runtime {
-        return new DummyRuntime({ loggers: [new NoopLogger()] });
-    }
-
-    _validateRegistrations(): void {
-        throw new Error("Method not implemented.");
-    }
 }
 
 describe.concurrent("registerModules", () => {

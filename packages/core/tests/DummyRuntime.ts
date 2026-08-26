@@ -1,9 +1,5 @@
-import { Runtime } from "@squide/core";
 import { NoopLogger } from "@workleap/logging";
-
-export function sleep(delay: number) {
-    return new Promise(resolve => setTimeout(resolve, delay));
-}
+import { Runtime } from "../src/runtime/Runtime.ts";
 
 // A "Runtime" that implements only what the module registries touch, so a registry test does not have to
 // stand up routing or navigation. Shared by this package's registry tests: two copies drift the moment
