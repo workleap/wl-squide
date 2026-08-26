@@ -175,13 +175,11 @@ A navigation **link** is never deduplicated. Registering two links with the same
 
 ## New strict mode reports
 
-Strict mode reports two new situations. Both throw in development and are logged in production, and `strictMode={false}` on `AppRouter` turns them off with the rest of the validation.
+Strict mode reports a new situation: **an ignored declaration**. It throws in development and is logged in production, and `strictMode={false}` on `AppRouter` turns it off with the rest of the validation.
 
-**An ignored declaration.** A re-declaration of an already-registered section that carried inline `children`, a `$canRender` the registered section doesn't have, or a `$priority`, a `sectionId` or a string `$label` that differs from the registered section's. Those are discarded, so the report names the menu, the section, and what each one would have contributed. A section declared inside another section's `children` is reported too, since it is dropped from where it was written together with everything declared under it.
+A re-declaration of an already-registered section that carried inline `children`, a `$canRender` the registered section doesn't have, or a `$priority`, a `sectionId` or a string `$label` that differs from the registered section's is an ignored declaration. Those are discarded, so the report names the menu, the section, and what each one would have contributed. A section declared inside another section's `children` is reported too, since it is dropped from where it was written together with everything declared under it.
 
-**A declaration that does not own the identifier.** A section that was waiting for its own section, and found its `$id` already taken by the time it became reachable. It is rendered where it was registered, but items nested with that `$id` reach the other section. This is a genuine `$id` collision and is always reported.
-
-If either fires when you upgrade, it is surfacing a misconfiguration that was previously silent or that the removed throws were masking.
+If it fires when you upgrade, it is surfacing a misconfiguration that was previously silent or that the removed throws were masking.
 
 ## `NavigationItemRegistrationStatus`
 

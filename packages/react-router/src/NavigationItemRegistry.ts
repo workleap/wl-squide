@@ -107,10 +107,11 @@ export interface DuplicateSectionDeclaration {
     // only happens if a report is actually built.
     registeredItem?: NavigationItem & { $priority?: number };
     registeredParentSectionId?: string;
-    // Whether the declaration is itself registered. A declaration that found the section already registered
-    // contributes nothing and is not, but a section that was waiting for its own section only competes for
-    // the identifier once it becomes reachable, and by then it holds a place in the menu that it keeps.
-    isRegistered: boolean;
+    // Where the record comes from, which is what tells a clear whether the rebuild produces it again. A
+    // declaration that lost at registration time is recorded by the registration itself, a path the rebuild
+    // never goes through. One that lost while its section was being indexed is recorded again for every
+    // section the rebuild reaches, so keeping it would append the same declaration once per update run.
+    isRecordedByIndexing: boolean;
 }
 
 interface DeferredRegistrationTransactionalScopeItem extends RegistryItem {
@@ -376,7 +377,7 @@ export class NavigationItemRegistry {
                     inlineParentSectionId: this.#getOwnedSectionId(inlineParentId),
                     registeredItem: registeredSection.item,
                     registeredParentSectionId: this.#getEffectiveParentSectionId(registeredSection),
-                    isRegistered: false
+                    isRecordedByIndexing: false
                 });
 
                 return { registration: registeredSection, isDuplicate: true };
@@ -435,10 +436,12 @@ export class NavigationItemRegistry {
         return { registration, isDuplicate: false };
     }
 
+    // Whether the registration owns its identifier. It doesn't when another section took it while this one was
+    // waiting for its own section, which is the only way a declaration reaches this function as a duplicate.
     #addSectionIndex(registration: RegistrationItem) {
-        // Only sections with an identifier are indexed.
+        // Only sections with an identifier are indexed. Everything else owns nothing and competes for nothing.
         if (isLinkItem(registration.item) || !registration.item.$id) {
-            return;
+            return true;
         }
 
         const sectionId = registration.item.$id;
@@ -447,11 +450,18 @@ export class NavigationItemRegistry {
 
         const registeredSectionId = this.#sectionsIndex.get(indexKey);
 
+        // The identifier is claimed before the section is attached, therefore a section the walk reaches again
+        // already owns the entry it wrote and is not competing with anything.
+        if (registeredSectionId === registration.id) {
+            return true;
+        }
+
         if (registeredSectionId !== undefined) {
             const registeredSection = this.#registrationsIndex.get(registeredSectionId);
 
-            // Another section took the identifier while this one was waiting for its own section. It keeps the
-            // place it was registered in, but it does not take the identifier from the section that owns it.
+            // Another section took the identifier while this one was waiting for its own section. Declaring a
+            // section that is already registered is an ensure wherever the declaration comes from, so this one
+            // contributes nothing, exactly as one that found the identifier taken at registration time.
             this.#addDuplicateDeclaration(indexKey, {
                 menuId: registration.menuId,
                 sectionId,
@@ -462,13 +472,15 @@ export class NavigationItemRegistry {
                 inlineParentSectionId: this.#getOwnedSectionId(registration.inlineParentId),
                 registeredItem: registeredSection?.item,
                 registeredParentSectionId: registeredSection && this.#getEffectiveParentSectionId(registeredSection),
-                isRegistered: true
+                isRecordedByIndexing: true
             });
 
-            return;
+            return false;
         }
 
         this.#sectionsIndex.set(indexKey, registration.id);
+
+        return true;
     }
 
     #tryRegisterPendingItems(registration: RegistrationItem, completedPendingRegistrations: RootNavigationItem[]) {
@@ -492,14 +504,23 @@ export class NavigationItemRegistry {
         // Delete the pending registrations for the section.
         this.#pendingRegistrationsIndex.delete(indexKey);
 
+        const ownedPendingRegistrations: RegistrationItem[] = [];
+
+        // The identifier is claimed before the item is attached so that a section finding it already taken is
+        // left out of the completed registrations, which would otherwise name an item that contributed nothing.
         pendingRegistrations.forEach(x => {
+            if (!this.#addSectionIndex(x)) {
+                return;
+            }
+
             x.parentId = registration.id;
 
             this.#addChild(registration.id, x);
             completedPendingRegistrations.push(x.item);
+            ownedPendingRegistrations.push(x);
         });
 
-        pendingRegistrations.forEach(x => {
+        ownedPendingRegistrations.forEach(x => {
             this.#recursivelyRegisterPendingItems(x, completedPendingRegistrations);
         });
     }
@@ -515,7 +536,16 @@ export class NavigationItemRegistry {
         // array and are already gone through by "#tryRegisterPendingItems".
         const children = this.#childrenIndex.get(registration.id)?.slice() ?? [];
 
-        this.#addSectionIndex(registration);
+        // A section that lost the identifier contributes nothing, so it is dropped from where it was attached
+        // and nothing declared under it is examined, exactly as for a declaration that lost at registration
+        // time. The children were taken above, therefore the walk has to stop here rather than rely on the
+        // subtree being gone.
+        if (!this.#addSectionIndex(registration)) {
+            this.#detachRegistration(registration);
+
+            return;
+        }
+
         this.#tryRegisterPendingItems(registration, completedPendingRegistrations);
 
         children.forEach(x => {
@@ -533,6 +563,37 @@ export class NavigationItemRegistry {
         } else {
             this.#childrenIndex.set(parentId, [registration]);
         }
+    }
+
+    // Removes a registration from the section holding it without deleting the registration itself. The record
+    // is kept because the section that took the identifier doesn't have to survive the next clear, and the
+    // declaration that lost is then the one that owns it. It is not put back among the pending registrations
+    // either: it is waiting for nothing, and reporting it as pending would name a section that is registered.
+    #detachRegistration(registration: RegistrationItem) {
+        const parentId = registration.parentId;
+
+        if (parentId === undefined) {
+            return;
+        }
+
+        // Nothing is cached above a section detached today: the parent is always attached during the same walk,
+        // either by "#addChild", which discarded the cached items already, or as a section that was waiting and
+        // therefore never rendered. This mirrors "#addChild" rather than relying on that, since it is the other
+        // function changing what a section holds and a stale projection would be silent. Discarding the cached
+        // items comes before the link to the parent is cut, the walk goes up through it.
+        this.#deleteCachedItems(parentId);
+
+        const children = this.#childrenIndex.get(parentId);
+
+        if (children) {
+            const index = children.indexOf(registration);
+
+            if (index !== -1) {
+                children.splice(index, 1);
+            }
+        }
+
+        registration.parentId = undefined;
     }
 
     #addRootItem(menuId: string, registration: RegistrationItem) {
@@ -639,24 +700,24 @@ export class NavigationItemRegistry {
     }
 
     clearDeferredItems() {
-        // A declaration that isn't registered doesn't add a registration, therefore nothing below would delete
-        // it and a run that only declared duplicates would keep them forever, reporting them again after every
-        // run. The static ones belong to the initial registration rather than to the run being replayed, and
-        // deleting them would swallow a misconfiguration that strict mode reports.
-        this.#deleteDuplicateDeclarations(x => !x.isRegistered && x.registrationType === "deferred");
+        // A declaration recorded by the registration that lost adds no registration, therefore nothing below
+        // would delete it and a run that only declared duplicates would keep them forever, reporting them again
+        // after every run. The static ones belong to the initial registration rather than to the run being
+        // replayed, and deleting them would swallow a misconfiguration that strict mode reports.
+        this.#deleteDuplicateDeclarations(x => !x.isRecordedByIndexing && x.registrationType === "deferred");
 
         if (!this.#registrations.some(x => x.registrationType === "deferred")) {
             // Keep the "getItems" function immutable by only rebuilding if the registrations actually changed.
             return;
         }
 
-        // A declaration that is registered is recorded by "#addSectionIndex" rather than by the registration
-        // that declared it, and the rebuild below goes through that function again for every section it
-        // reaches, whatever its registration type. Keeping these would append the same declaration once per
-        // update run for the life of the session. The ones whose registration doesn't survive the clear, or
-        // stops being reachable from a menu root, are simply not recorded again. This deletion has to stay
-        // after the early return: nothing is rebuilt on that path, therefore nothing would record them again.
-        this.#deleteDuplicateDeclarations(x => x.isRegistered);
+        // A declaration recorded while indexing is produced by "#addSectionIndex" rather than by the
+        // registration that declared it, and the rebuild below goes through that function again for every
+        // section it reaches, whatever its registration type. Keeping these would append the same declaration
+        // once per update run for the life of the session. The ones whose registration doesn't survive the
+        // clear, or stops being reachable from a menu root, are simply not recorded again. This deletion has to
+        // stay after the early return: nothing is rebuilt on that path, so nothing would record them again.
+        this.#deleteDuplicateDeclarations(x => x.isRecordedByIndexing);
 
         // An inline child is registered with the registration type of the item it was declared in, therefore a
         // section and the children declared in it are always kept or deleted together.

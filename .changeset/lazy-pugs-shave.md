@@ -25,9 +25,9 @@ A single `Settings` section is rendered, holding both links, whichever order the
 
 **A declaration that would have contributed something is reported.** Inline `children`, a `$canRender` the registered section doesn't have, or a `$priority`, a `sectionId` or a string `$label` that differs from the registered section's, are discarded on a re-declaration, so `_validateRegistrations` now names the menu, the section and what each ignored declaration carried. A section declared inside another section's `children` is reported too, since it is dropped from where it was written together with everything declared under it. A re-declaration registered at the root of the menu and carrying none of those is the supported shape and is never reported.
 
-A second situation is reported alongside it: a section that was waiting for its own section, and found its `$id` already taken by the time that section was registered. It is rendered where it was registered, but items nested with that `$id` reach the other section, so it is always reported whatever it carries.
+A section that was waiting for its own section is decided by the same rule once the section holding it registers. It is dropped rather than rendered beside the section that owns the identifier, and it is reported only if it lost something, so a shared section nested under another one is registered once whichever order the modules run in.
 
-Both throw in development and are logged in production, like the rest of the validation, and `strictMode={false}` on `AppRouter` turns them off.
+The report throws in development and is logged in production, like the rest of the validation, and `strictMode={false}` on `AppRouter` turns it off.
 
 **The `Set` workaround is obsolete.** Keeping it is harmless — the guard is simply redundant — so removing it is a cleanup rather than a migration.
 

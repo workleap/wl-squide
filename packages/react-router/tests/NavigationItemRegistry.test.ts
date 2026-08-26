@@ -1346,13 +1346,13 @@ describe.concurrent("clearDeferredItems", () => {
             registrationType: "static",
             item: { $id: "bar", $label: "Bar", children: [] },
             isInlineDeclaration: false,
-            isRegistered: false
+            isRecordedByIndexing: false
         });
 
         expect(registry.getDuplicateSectionDeclarations().getDeclarationsForSection(indexKey).length).toBe(1);
     });
 
-    test.concurrent("when there is nothing to clear, a registered duplicated declaration is kept", ({ expect }) => {
+    test.concurrent("when there is nothing to clear, a duplicated declaration recorded while indexing is kept", ({ expect }) => {
         const registry = new NavigationItemRegistry();
 
         registry.add("foo", "static", {
@@ -1382,6 +1382,229 @@ describe.concurrent("clearDeferredItems", () => {
         const declarations = registry.getDuplicateSectionDeclarations();
 
         expect(declarations.getDuplicatedSectionIds().length).toBe(1);
+    });
+
+    test.concurrent("when two modules declare the same section under a section that is not registered yet, a single section is registered", ({ expect }) => {
+        const registry = new NavigationItemRegistry();
+
+        // Neither declaration is registered while "holder" is missing, therefore neither competes for the
+        // identifier at registration time and the duplicate is only settled once "holder" arrives.
+        registry.add("foo", "static", {
+            $id: "bar",
+            $label: "Bar",
+            children: []
+        }, {
+            sectionId: "holder"
+        });
+
+        registry.add("foo", "static", {
+            $id: "bar",
+            $label: "Bar",
+            children: []
+        }, {
+            sectionId: "holder"
+        });
+
+        registry.add("foo", "static", {
+            $id: "holder",
+            $label: "Holder",
+            children: []
+        });
+
+        expect(registry.getItems("foo")).toMatchObject([{
+            $id: "holder",
+            children: [{ $id: "bar" }]
+        }]);
+
+        // The declaration that lost is waiting for nothing, reporting it as pending would name a section that
+        // is registered.
+        expect(registry.getPendingRegistrations().getPendingSectionIds().length).toBe(0);
+    });
+
+    test.concurrent("when a section waiting for another section loses the identifier, it is not a completed pending registration", ({ expect }) => {
+        const registry = new NavigationItemRegistry();
+
+        registry.add("foo", "static", {
+            $id: "bar",
+            $label: "Bar",
+            children: []
+        }, {
+            sectionId: "holder"
+        });
+
+        registry.add("foo", "static", {
+            $id: "bar",
+            $label: "Bar",
+            children: []
+        }, {
+            sectionId: "holder"
+        });
+
+        // Naming a declaration that contributed nothing would report an item that no menu holds.
+        const result = registry.add("foo", "static", {
+            $id: "holder",
+            $label: "Holder",
+            children: []
+        });
+
+        expect(result.completedPendingRegistrations.length).toBe(1);
+    });
+
+    test.concurrent("when many modules declare the same section under a section that is not registered yet, they all contribute to a single section", ({ expect }) => {
+        const registry = new NavigationItemRegistry();
+
+        ["1", "2", "3", "4"].forEach(x => {
+            registry.add("foo", "static", {
+                $id: "bar",
+                $label: "Bar",
+                children: []
+            }, {
+                sectionId: "holder"
+            });
+
+            registry.add("foo", "static", {
+                $label: x,
+                to: `/${x}`
+            }, {
+                sectionId: "bar"
+            });
+        });
+
+        registry.add("foo", "static", {
+            $id: "holder",
+            $label: "Holder",
+            children: []
+        });
+
+        expect(registry.getItems("foo")).toMatchObject([{
+            $id: "holder",
+            children: [{
+                $id: "bar",
+                children: [{ $label: "1" }, { $label: "2" }, { $label: "3" }, { $label: "4" }]
+            }]
+        }]);
+    });
+
+    test.concurrent("when a chain of sections is registered from the deepest one, a section declared twice is registered once", ({ expect }) => {
+        const registry = new NavigationItemRegistry();
+
+        registry.add("foo", "static", {
+            $id: "a",
+            $label: "A",
+            children: []
+        }, {
+            sectionId: "b"
+        });
+
+        registry.add("foo", "static", {
+            $id: "a",
+            $label: "A",
+            children: []
+        }, {
+            sectionId: "b"
+        });
+
+        registry.add("foo", "static", {
+            $id: "b",
+            $label: "B",
+            children: []
+        }, {
+            sectionId: "c"
+        });
+
+        registry.add("foo", "static", {
+            $id: "c",
+            $label: "C",
+            children: []
+        });
+
+        expect(registry.getItems("foo")).toMatchObject([{
+            $id: "c",
+            children: [{ $id: "b", children: [{ $id: "a" }] }]
+        }]);
+    });
+
+    test.concurrent("when a section declared inline in a section waiting for another section loses the identifier, it is dropped with everything under it", ({ expect }) => {
+        const registry = new NavigationItemRegistry();
+
+        // Both holders are waiting for "parent", therefore the sections declared inside them are not reachable
+        // from a menu and only compete for the "settings" identifier once "parent" registers.
+        registry.add("foo", "static", {
+            $id: "holder-a",
+            $label: "A",
+            children: [{
+                $id: "settings",
+                $label: "Settings",
+                children: [{
+                    $label: "From A",
+                    to: "/a"
+                }]
+            }]
+        }, {
+            sectionId: "parent"
+        });
+
+        registry.add("foo", "static", {
+            $id: "holder-b",
+            $label: "B",
+            children: [{
+                $id: "settings",
+                $label: "Settings",
+                children: [{
+                    $label: "From B",
+                    to: "/b"
+                }]
+            }]
+        }, {
+            sectionId: "parent"
+        });
+
+        registry.add("foo", "static", {
+            $id: "parent",
+            $label: "Parent",
+            children: []
+        });
+
+        expect(registry.getItems("foo")).toMatchObject([{
+            $id: "parent",
+            children: [
+                { $id: "holder-a", children: [{ $id: "settings", children: [{ $label: "From A" }] }] },
+                { $id: "holder-b", children: [] }
+            ]
+        }]);
+    });
+
+    test.concurrent("when the section that took the identifier does not survive a clear, the declaration that lost takes it", ({ expect }) => {
+        const registry = new NavigationItemRegistry();
+
+        registry.add("foo", "static", {
+            $id: "bar",
+            $label: "Static bar",
+            children: []
+        }, {
+            sectionId: "holder"
+        });
+
+        registry.add("foo", "deferred", {
+            $id: "bar",
+            $label: "Deferred bar",
+            children: []
+        });
+
+        registry.add("foo", "static", {
+            $id: "holder",
+            $label: "Holder",
+            children: []
+        });
+
+        // The declaration that lost keeps its registration record rather than being deleted, which is what lets
+        // it come back when the section that took the identifier is cleared.
+        registry.clearDeferredItems();
+
+        expect(registry.getItems("foo")).toMatchObject([{
+            $id: "holder",
+            children: [{ $id: "bar", $label: "Static bar" }]
+        }]);
     });
 });
 
