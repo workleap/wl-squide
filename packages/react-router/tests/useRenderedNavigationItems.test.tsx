@@ -390,10 +390,11 @@ test.concurrent("section item $priority is forwarded to the renderer", ({ expect
     expect(item.priority).toBe(10);
 });
 
-// The regression this pins. Squide sorts a menu's top-level items itself, but a nested item's "$priority" is
-// the renderer's to act on, and the renderer cannot act on a value it never receives. It used to arrive by
-// accident, as an unfiltered "$priority" key inside "linkProps", until "stripMetadataProps" was introduced to
-// keep "$" prefixed props off the DOM element and took this one with it.
+// A nested item's "$priority" was never handed to the renderer on purpose. The hook consumed it for the
+// top-level sort and stripped it before recursing, from the first version of this package until
+// "stripMetadataProps" replaced that strip. The only way it ever reached a renderer was as an unfiltered
+// "$priority" key inside "linkProps", which then landed on the DOM element as an invalid attribute — the leak
+// "stripMetadataProps" exists to close, not a channel it broke. This pins the real one.
 test.concurrent("nested $priority is forwarded to the renderer at every depth", ({ expect }) => {
     const navigationItems: RootNavigationItem[] = [
         {
