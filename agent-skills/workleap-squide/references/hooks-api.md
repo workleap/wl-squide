@@ -46,9 +46,6 @@ treating a missing priority as `0`. The recursion into a section's `children` is
 item's `$priority` is still forwarded to `renderItem` as the `priority` render prop, as declared, so the
 layout can act on it. See `references/runtime-api.md`.
 
-**Render props** given to `renderItem`: `label`, `priority`, `additionalProps`, `meta`, `canRender`, plus
-`linkProps` on a link and `section` on a section. Every `$` prefixed prop is stripped from `linkProps`.
-
 **Function Signatures (fixed, no custom parameters):**
 - `RenderItemFunction`: `(item: NavigationItemRenderProps, key: string, index: number, level: number) => ReactNode`
 - `RenderSectionFunction`: `(elements: ReactNode[], key: string, index: number, level: number) => ReactNode`
@@ -59,8 +56,10 @@ layout can act on it. See `references/runtime-api.md`.
 
 | Type | Properties |
 |------|------------|
-| `NavigationLinkRenderProps` | `label`, `linkProps` (the React Router `Link` props, including `to`), `additionalProps` (from `$additionalProps`, spread onto the component), `meta` (from `$meta`, only read), `canRender?()` |
-| `NavigationSectionRenderProps` | `label`, `section` (the rendered children elements), `additionalProps`, `meta`, `canRender?()` |
+| `NavigationLinkRenderProps` | `label`, `linkProps` (the React Router `Link` props, including `to`), `priority?` (from `$priority`, as declared), `additionalProps` (from `$additionalProps`, spread onto the component), `meta` (from `$meta`, only read), `canRender?()` |
+| `NavigationSectionRenderProps` | `label`, `section` (the rendered children elements), `priority?`, `additionalProps`, `meta`, `canRender?()` |
+
+Every `$` prefixed prop is stripped from `linkProps`, so a metadata prop never reaches the DOM element.
 
 **`canRender()`:** when an item was registered with a `$canRender` option, it is exposed on the render props as a `canRender()` function. It is the responsibility of the code rendering the menu to call it and skip the item when it returns `false` — Squide does not filter the items itself. Since `$canRender` is optional, `canRender` is `undefined` for items registered without it — call it optionally (`item.canRender?.()`) unless every item is known to declare one.
 

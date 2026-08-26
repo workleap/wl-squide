@@ -248,7 +248,7 @@ items.sort((x, y) => (y.priority ?? 0) - (x.priority ?? 0));
 
 To have a section's items rendered in priority order, sort them **before** handing them to this hook. `renderItem` renders a single item and cannot move its siblings, and `renderSection` receives elements that have already been rendered, so neither is a place to reorder:
 
-```tsx !#7-11,17
+```tsx !#12-16,20
 import { useMemo } from "react";
 import {
     useNavigationItems,
