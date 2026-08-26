@@ -386,7 +386,7 @@ A `$priority` option can be added to a navigation item to affect it's position i
 !!!warning
 Sorting only applies to the **top-level** items of a menu. An item nested inside a section renders in the order it appears in that section's `children` array, and its `$priority` is ignored.
 
-`$priority` is declared on the root item type only, so writing it directly inside a `children` literal is a TypeScript error. The two paths that do compile, assigning a variable that carries a `$priority` into `children`, and passing the [sectionId](#register-nested-navigation-items) option, both drop the priority silently.
+`$priority` is declared on the root item type only, so `registerNavigationItem` **refuses** it when a [sectionId](#register-nested-navigation-items) is provided, and writing it directly inside a `children` literal is a TypeScript error too. The one path left that compiles is assigning a variable that carries a `$priority` into a `children` array, and there the priority is ignored.
 !!!
 
 ```ts !#4,13

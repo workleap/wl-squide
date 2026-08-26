@@ -36,6 +36,21 @@ export type RootNavigationItem = NavigationItem & {
     $priority?: number;
 };
 
+/**
+ * A navigation item being registered under an existing section, through the "sectionId" option.
+ *
+ * "$priority" is refused rather than merely ignored. Only the top-level items of a menu are sorted:
+ * "useRenderedNavigationItems" sorts the array it receives and recurses into a section's "children"
+ * unsorted, so a "$priority" on a nested item never affects the rendered order. Accepting it would type
+ * check and silently do nothing, which is the shape of a bug rather than of an API.
+ *
+ * Ordering items inside a section is still possible, through the order of the section's "children" array,
+ * which for items added with "sectionId" is the order those registrations run in.
+ */
+export type NestedNavigationItem = NavigationItem & {
+    $priority?: never;
+};
+
 export interface AddNavigationItemOptions {
     sectionId?: string;
 }

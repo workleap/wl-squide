@@ -24,3 +24,4 @@
 | All framework-owned properties on routes and navigation items use the `$` prefix (`$id`, `$visibility`, `$label`, `$name`). This prevents collision with future React Router properties. | [0018](./0018-dollar-prefix-convention.md) |
 | No module-level singletons. All state lives on class instances owned by `FireflyRuntime`. Components subscribe via `useSyncExternalStore`. This enables multiple runtime instances (Storybook, testing). | [0019](./0019-singleton-removal-instance-based-architecture.md), [0021](./0021-use-sync-external-store.md) |
 | Global data fetching is segmented into public and protected queries, fetched at different lifecycle stages. | [0020](./0020-public-protected-data-segmentation.md) |
+| `$priority` is refused by the type system when a `sectionId` is provided, rather than accepted and ignored. Only a menu's top-level items are sorted. | [0023](./0023-priority-refused-on-nested-items.md) |

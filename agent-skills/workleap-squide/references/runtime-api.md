@@ -146,14 +146,16 @@ runtime.registerNavigationItem({
 **`$priority` only orders top-level items.** It is declared on `RootNavigationItem`, not on
 `NavigationLink` or `NavigationSection`, so `useRenderedNavigationItems` sorts only the array it
 receives and recurses into `children` unsorted. There are three ways to nest an item and the type
-system catches only one of them:
+system now catches two of them:
 
-- Inline, `children: [{ ..., $priority: 10 }]` — a TypeScript excess-property error (`TS2353`). Do not
-  write it.
-- Through a variable, `const child: RootNavigationItem = { ..., $priority: 10 }` then
-  `children: [child]` — **compiles, and the priority is silently dropped.**
-- Through the option, `registerNavigationItem({ ..., $priority: 10 }, { sectionId })` — **compiles, and
-  the priority is silently dropped.**
+- Inline, `children: [{ ..., $priority: 10 }]` — a TypeScript excess-property error (`TS2353`).
+- Through the option, `registerNavigationItem({ ..., $priority: 10 }, { sectionId })` — a TypeScript
+  error (`TS2769`, no overload matches). The `sectionId` overload takes a `NestedNavigationItem`, whose
+  `$priority` is typed `never`, so both an object literal and a variable typed `RootNavigationItem` are
+  rejected.
+- Through a variable placed directly in a `children` array — **compiles, and the priority is ignored.**
+  `useRenderedNavigationItems` accepts whatever array it is handed, so this is the one case the types
+  cannot reach.
 
 Never suggest any of them to order items inside a section. `$priority` cannot order a nested item, but
 ordering itself is possible: the lever is the order of the section's `children` array, which for items
