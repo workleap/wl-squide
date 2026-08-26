@@ -132,7 +132,7 @@ if (useIsBootstrapping()) {
 Check if the given route is protected.
 
 ```ts
-import { useLocation } from "react-router/dom";
+import { useLocation } from "react-router";
 import { useIsRouteProtected, useRouteMatch } from "@squide/firefly";
 
 const location = useLocation();
@@ -146,7 +146,7 @@ Match a location against registered routes using React Router's matching algorit
 
 ```ts
 import { useRouteMatch } from "@squide/firefly";
-import { useLocation } from "react-router/dom";
+import { useLocation } from "react-router";
 
 // Using useLocation
 const location = useLocation();

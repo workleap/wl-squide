@@ -532,10 +532,48 @@ return <Trans i18n={instance} i18nKey="a-namespace:a-key" />;
 
 > For component API signatures (`FireflyDecorator`, `withFireflyDecorator`, `withFeatureFlagsOverrideDecorator`, `initializeFireflyForStorybook`), see `references/components.md`.
 
-### Setup Decorator
+### Register the MSW addon
+
+Squide runtimes created for Storybook enable MSW by default, so the Storybook application must register the MSW addon once, globally. Install the packages in the Storybook application (`pnpm add msw msw-storybook-addon`) and in each project holding stories (`pnpm add @squide/firefly-storybook`).
 
 ```tsx
 // .storybook/preview.tsx
+import { initialize as initializeMsw, mswLoader } from "msw-storybook-addon";
+import { Suspense } from "react";
+import type { Preview } from "storybook-react-rsbuild";
+
+initializeMsw({ onUnhandledRequest: "bypass" });
+
+const preview: Preview = {
+    decorators: [
+        Story => (
+            <Suspense fallback="UNHANDLED SUSPENSE BOUNDARY, should be handled in your components...">
+                <Story />
+            </Suspense>
+        )
+    ],
+    loaders: [mswLoader]
+};
+
+export default preview;
+```
+
+```ts
+// .storybook/main.ts — serve the MSW service worker from /public
+const storybookConfig: StorybookConfig = {
+    framework: getAbsolutePath("storybook-react-rsbuild"),
+    staticDirs: ["public"]
+};
+```
+
+If `public/mockServiceWorker.js` is missing, generate it from the Storybook application root with `pnpm dlx msw init`.
+
+### Setup Decorator
+
+The runtime and the `meta` object live in the **story file**, not in `.storybook/preview.tsx`.
+
+```tsx
+// Page.stories.tsx
 import { withFireflyDecorator, initializeFireflyForStorybook } from "@squide/firefly-storybook";
 
 const runtime = await initializeFireflyForStorybook({
@@ -686,4 +724,4 @@ logger
     .error();
 ```
 
-**Warning:** Never log Personally Identifiable Information (PII). API responses often contain sensitive data that will appear in session replays.
+**Warning:** Never log Personally Identifiable Information (PII). API responses often contain sensitive data that will appear in session replays — remove every log outputting an API response before deploying to production. For debugging, use `console.log` instead: its output is not captured in LogRocket session replays.

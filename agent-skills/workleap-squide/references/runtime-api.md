@@ -85,6 +85,13 @@ runtime.registerRoute({
 });
 ```
 
+**`hoist`:** a hoisted route is added at the root of the router, *outside* the host application's root layout, root error boundary and root authentication boundary, so it has full control over its rendering. Two consequences:
+
+- The rest of the application is no longer isolated from the route's failures — declare an `errorElement` on every hoisted route.
+- The route is no longer covered by the application's authentication boundary — wrap it with its own boundary, or handle authentication inside the route.
+
+Hoisting is also how a page gets a layout other than the host's (a login page, for example): register the alternate layout as the hoisted route and nest the page under it.
+
 #### registerPublicRoute(route, options?)
 Register a public route (shorthand for `$visibility: "public"`).
 
