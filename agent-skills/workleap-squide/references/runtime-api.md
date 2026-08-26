@@ -146,16 +146,16 @@ runtime.registerNavigationItem({
 **`$priority` only orders top-level items.** It is declared on `RootNavigationItem`, not on
 `NavigationLink` or `NavigationSection`, so `useRenderedNavigationItems` sorts only the array it
 receives and recurses into `children` unsorted. There are three ways to nest an item and the type
-system now catches two of them:
+system catches the two written inline:
 
-- Inline, `children: [{ ..., $priority: 10 }]` — a TypeScript excess-property error (`TS2353`).
-- Through the option, `registerNavigationItem({ ..., $priority: 10 }, { sectionId })` — a TypeScript
-  error (`TS2769`, no overload matches). The `sectionId` overload takes a `NestedNavigationItem`, whose
-  `$priority` is typed `never`, so both an object literal and a variable typed `RootNavigationItem` are
-  rejected.
-- Through a variable placed directly in a `children` array — **compiles, and the priority is ignored.**
-  `useRenderedNavigationItems` accepts whatever array it is handed, so this is the one case the types
-  cannot reach.
+- Inline in `children`, `children: [{ ..., $priority: 10 }]` — a TypeScript excess-property error
+  (`TS2353`).
+- Inline with the option, `registerNavigationItem({ ..., $priority: 10 }, { sectionId })` — a TypeScript
+  error (`TS2769`, no overload matches).
+- Through a variable, either passed with a `sectionId` or placed in a `children` array — **compiles, and
+  the priority is ignored.** A variable typed `RootNavigationItem` carries an optional `$priority`
+  whether or not one was set, so refusing it would refuse every such variable, including the common case
+  of one that has none. This limit is deliberate.
 
 Never suggest any of them to order items inside a section. `$priority` cannot order a nested item, but
 ordering itself is possible: the lever is the order of the section's `children` array, which for items

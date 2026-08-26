@@ -2,7 +2,7 @@
 
 ## Status
 
-accepted
+proposed
 
 ## Context
 
@@ -31,16 +31,25 @@ The documentation compounded it by promising `$priority` worked at any depth, in
 
 Option 4.
 
-`NestedNavigationItem = NavigationItem & { $priority?: never }`, and `IReactRouterRuntime` declares two overloads:
+The refusal conditions on `$priority` being **required** in the item's type, not on its being present:
 
 ```ts
-registerNavigationItem(navigationItem: RootNavigationItem, options?: RegisterRootNavigationItemOptions): void;
-registerNavigationItem(navigationItem: NestedNavigationItem, options: RegisterNestedNavigationItemOptions): void;
+export type RefuseNestedPriority<T> = T extends { $priority: number } ? never : T;
 ```
 
-`RegisterRootNavigationItemOptions` narrows `sectionId` to `never`, so the two overloads are disjoint on the presence of `sectionId`.
+An object literal written with `$priority: 10` infers the property as required and resolves to `never`. A variable declared as `RootNavigationItem` has it optional and passes through.
 
-Typing `$priority` as `never` rather than omitting it is what makes this reach the variable path. Omitting it, or typing the parameter as plain `NavigationItem`, only catches an object literal via the excess-property check: `RootNavigationItem` is an intersection and stays assignable to `NavigationItem`, so a variable slips through. With `$priority?: never` the property's type is `undefined`, and `number` is not assignable to it, so a variable typed `RootNavigationItem` is rejected as well. Verified by compiling both shapes.
+`IReactRouterRuntime` declares three overloads, most specific first:
+
+```ts
+registerNavigationItem<T extends NavigationItem>(navigationItem: RefuseNestedPriority<T>, options: RegisterNestedNavigationItemOptions): void;
+registerNavigationItem(navigationItem: RootNavigationItem, options?: RegisterRootNavigationItemOptions): void;
+registerNavigationItem<T extends NavigationItem>(navigationItem: RefuseNestedPriority<T>, options: RegisterNavigationItemOptions): void;
+```
+
+**The first attempt at this was wrong, and the way it was wrong shaped the final design.** It typed the nested parameter as `NavigationItem & { $priority?: never }`, reasoning that `never` would catch a variable as well as a literal. It does — but it catches *every* variable declared as `RootNavigationItem`, because that type carries an optional `$priority` whether or not one was ever assigned: the property's type is `number | undefined`, which is not assignable to `undefined`. Four ordinary patterns stopped compiling: a nested registration from a variable, the same in a `forEach`, a conditional `sectionId`, and a wrapper forwarding an options bag. The repository's samples only pass object literals, so the whole suite and the typecheck stayed green.
+
+That is also why the third overload exists. A `sectionId` is frequently neither definitely present nor definitely absent — `string | undefined` from a conditional or a forwarded options bag matches neither of the first two overloads, so without it that code stops compiling. It accepts the widened options and still refuses a definitely-present `$priority`, which is the strongest check available when the target is unknown.
 
 Option 3 remains available and is not foreclosed. If ordering inside a section is ever wanted it is a feature with its own ADR, and it should be opt-in.
 
@@ -48,7 +57,8 @@ Option 3 remains available and is not foreclosed. If ordering inside a section i
 
 - The combination is a compile error (`TS2769`) instead of a silent no-op. **No runtime behaviour changes and no menu reorders.**
 - Released as a **minor**: a consumer whose code passes both today gets a new compile error. The fix is deleting the `$priority`, which was having no effect.
-- One path stays out of reach: a variable carrying a `$priority` placed directly into a `children` array. `useRenderedNavigationItems` takes whatever array it is given, so the types cannot cover it. It is documented rather than defended, and the docs and skill now say two of the three nesting paths are caught rather than one.
-- `NestedNavigationItem`, `RegisterRootNavigationItemOptions` and `RegisterNestedNavigationItemOptions` are exported, since a consumer wrapping `registerNavigationItem` needs them to mirror the overloads.
+- **Two paths stay out of reach, by design.** A variable carrying a `$priority` passed with a `sectionId` is accepted, because the type cannot distinguish it from a variable that has none, and rejecting it would reject every `RootNavigationItem` variable. So is a variable placed directly into a `children` array, since `useRenderedNavigationItems` takes whatever array it is handed. Both are documented rather than defended, and both are asserted in the type tests so they read as known limits rather than as surprises.
+- `RefuseNestedPriority`, `RegisterRootNavigationItemOptions` and `RegisterNestedNavigationItemOptions` are exported, since a consumer wrapping `registerNavigationItem` needs them to mirror the overloads.
+- The contract is pinned by `tests/registerNavigationItem.types.test.ts`, which asserts both halves: what must be refused, via `@ts-expect-error`, and what must keep compiling. The second half is what the first attempt lacked. Neutralizing `RefuseNestedPriority` to a pass-through makes four of those directives unused, so the file fails the build rather than going quietly green.
 - `ReactRouterRuntimeScope` needed no change: the deferred registration path types its runtime as `FireflyRuntime`, which extends `ReactRouterRuntime`, so the overloads already apply where a module actually calls the method.
 - The documented `$priority` rules are now tests, at depths 0 through 3, including the depths that deliberately do **not** sort. Sorting `children` in future therefore requires editing an assertion that says it must not — the decision cannot be made by accident.

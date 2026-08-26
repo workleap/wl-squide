@@ -21,16 +21,20 @@ runtime.registerNavigationItem({
 });
 ```
 
-`registerNavigationItem` is split into two overloads. The `sectionId` one takes a `NestedNavigationItem`, whose `$priority` is typed `never`, so both an object literal and a variable typed `RootNavigationItem` are rejected. Writing `$priority` directly inside a `children` literal was already an excess-property error and still is.
+`registerNavigationItem` is overloaded, and the refusal conditions on `$priority` being **required** in the item's type. An object literal written with `$priority: 10` is rejected. Writing `$priority` directly inside a `children` literal was already an excess-property error and still is.
+
+A variable declared as `RootNavigationItem` is still accepted for a nested registration, deliberately: that type carries an optional `$priority` whether or not one was ever set, so refusing it would refuse every such variable — including a conditional `sectionId`, a `forEach` over a computed array, and a wrapper forwarding an options bag. Those all keep compiling.
 
 **There is no runtime change.** Nothing about how items register or render is different, and no menu will reorder. The only thing that changes is that code which was quietly doing nothing now fails to build.
 
 This is released as a **minor** rather than a patch because a consumer whose code passes both today will see a new compile error. The fix is to remove the `$priority` — it was having no effect. There is no supported way to order items *inside* a section by priority; ordering there follows the section's `children` array, which for `sectionId` registrations is the order those registrations run in.
 
-## New type
+## New types
 
-- **`NestedNavigationItem`** — a `NavigationItem` with `$priority` typed `never`. Exported for consumers writing their own wrappers around `registerNavigationItem`.
-- **`RegisterRootNavigationItemOptions`** and **`RegisterNestedNavigationItemOptions`** — the two option shapes the overloads take.
+- **`RefuseNestedPriority<T>`** — resolves to `never` when `T` has a required `$priority`, and to `T` otherwise.
+- **`RegisterRootNavigationItemOptions`** and **`RegisterNestedNavigationItemOptions`** — the option shapes the overloads take.
+
+All three are exported for consumers writing their own wrappers around `registerNavigationItem`.
 
 ## Also
 

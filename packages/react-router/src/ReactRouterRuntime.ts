@@ -1,6 +1,6 @@
 import { RootMenuId, Runtime, RuntimeScope, type GetNavigationItemsOptions, type IRuntime, type RegisterNavigationItemOptions, type RegisterRouteOptions, type StartDeferredRegistrationScopeOptions, type ValidateRegistrationsOptions } from "@squide/core";
 import type { Logger } from "@workleap/logging";
-import { NavigationItemDeferredRegistrationScope, NavigationItemDeferredRegistrationTransactionalScope, NavigationItemRegistry, type NavigationItemRegistrationResult, type NestedNavigationItem, type RootNavigationItem } from "./NavigationItemRegistry.ts";
+import { NavigationItemDeferredRegistrationScope, NavigationItemDeferredRegistrationTransactionalScope, NavigationItemRegistry, type NavigationItem, type NavigationItemRegistrationResult, type RefuseNestedPriority, type RootNavigationItem } from "./NavigationItemRegistry.ts";
 import { ProtectedRoutesOutletId, PublicRoutesOutletId } from "./outlets.ts";
 import { RouteRegistry, type Route } from "./RouteRegistry.ts";
 
@@ -58,18 +58,25 @@ export interface RegisterRootNavigationItemOptions extends RegisterNavigationIte
 }
 
 /**
- * Registering under an existing section. "$priority" is refused, see {@link NestedNavigationItem}.
+ * Registering under an existing section, with a "sectionId" known to be present.
  */
 export interface RegisterNestedNavigationItemOptions extends RegisterNavigationItemOptions {
     sectionId: string;
 }
 
-// "registerNavigationItem" is split into two overloads so the type system can say what the runtime cannot:
-// a "$priority" is only meaningful on a menu's top-level items. Passing one together with a "sectionId" used
-// to type check with no casts and then silently drop the priority.
+// "registerNavigationItem" is overloaded so the type system can say what the runtime cannot: a "$priority" is
+// only meaningful on a menu's top-level items, and passing one together with a "sectionId" used to type check
+// with no casts and then silently drop it.
+//
+// The overloads are ordered most specific first, and the third one matters as much as the other two. A
+// "sectionId" is often neither definitely present nor definitely absent — a conditional registration, or a
+// wrapper forwarding a caller's options bag, produces "string | undefined", which matches neither of the first
+// two. Without the third overload all of that stops compiling, so it accepts the widened options and still
+// refuses a definitely-present "$priority", which is the strongest check available when the target is unknown.
 export interface IReactRouterRuntime extends Omit<IRuntime<Route, RootNavigationItem>, "registerNavigationItem"> {
+    registerNavigationItem<T extends NavigationItem>(navigationItem: RefuseNestedPriority<T>, options: RegisterNestedNavigationItemOptions): void;
     registerNavigationItem(navigationItem: RootNavigationItem, options?: RegisterRootNavigationItemOptions): void;
-    registerNavigationItem(navigationItem: NestedNavigationItem, options: RegisterNestedNavigationItemOptions): void;
+    registerNavigationItem<T extends NavigationItem>(navigationItem: RefuseNestedPriority<T>, options: RegisterNavigationItemOptions): void;
 }
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -211,8 +218,9 @@ export class ReactRouterRuntime<TRuntime extends ReactRouterRuntime = any> exten
         return this._routeRegistry.routes;
     }
 
+    registerNavigationItem<T extends NavigationItem>(navigationItem: RefuseNestedPriority<T>, options: RegisterNestedNavigationItemOptions): void;
     registerNavigationItem(navigationItem: RootNavigationItem, options?: RegisterRootNavigationItemOptions): void;
-    registerNavigationItem(navigationItem: NestedNavigationItem, options: RegisterNestedNavigationItemOptions): void;
+    registerNavigationItem<T extends NavigationItem>(navigationItem: RefuseNestedPriority<T>, options: RegisterNavigationItemOptions): void;
     registerNavigationItem(navigationItem: RootNavigationItem, options: RegisterNavigationItemOptions = {}) {
         const {
             menuId = RootMenuId

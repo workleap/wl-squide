@@ -23,9 +23,9 @@ interface RenderedNode {
 }
 
 function useRenderedTree(navigationItems: RootNavigationItem[]) {
-    const renderItem: RenderItemFunction = (item, key, _index, level) => {
+    const renderItem: RenderItemFunction = (item, _key, _index, level) => {
         const node: RenderedNode = {
-            label: String(isNavigationLink(item) ? item.label : item.label),
+            label: String(item.label),
             level
         };
 

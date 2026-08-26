@@ -37,19 +37,19 @@ export type RootNavigationItem = NavigationItem & {
 };
 
 /**
- * A navigation item being registered under an existing section, through the "sectionId" option.
+ * Refuses an item whose "$priority" is *definitely* present, leaving one whose "$priority" is merely
+ * *possible* alone.
  *
- * "$priority" is refused rather than merely ignored. Only the top-level items of a menu are sorted:
- * "useRenderedNavigationItems" sorts the array it receives and recurses into a section's "children"
- * unsorted, so a "$priority" on a nested item never affects the rendered order. Accepting it would type
- * check and silently do nothing, which is the shape of a bug rather than of an API.
+ * Only the top-level items of a menu are sorted, so a "$priority" on a nested item does nothing. Refusing it
+ * outright is not possible though: a variable declared as {@link RootNavigationItem} carries an optional
+ * "$priority" in its type whether or not one was ever set, so a parameter that rejects the property rejects
+ * every such variable, including the overwhelmingly common case of one that has no priority at all.
  *
- * Ordering items inside a section is still possible, through the order of the section's "children" array,
- * which for items added with "sectionId" is the order those registrations run in.
+ * Conditioning on the property being *required* separates the two. An object literal written with
+ * "$priority: 10" infers it as required and resolves to "never"; a variable typed {@link RootNavigationItem}
+ * has it optional and passes through untouched.
  */
-export type NestedNavigationItem = NavigationItem & {
-    $priority?: never;
-};
+export type RefuseNestedPriority<T> = T extends { $priority: number } ? never : T;
 
 export interface AddNavigationItemOptions {
     sectionId?: string;
