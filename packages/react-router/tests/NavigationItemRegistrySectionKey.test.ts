@@ -255,7 +255,14 @@ describe.concurrent("the collision that started this", () => {
 // collision over the fragment alphabet, NUL included, and that keying by the pair does not. It is what rules
 // out "pick a rarer separator" as a fix rather than leaving it a matter of taste.
 describe.concurrent("no single-separator key scheme is collision free", () => {
-    const SEPARATORS = ["-", "|", "::", " ", "", "~"] as const;
+    // Control characters are named rather than written literally. A raw NUL makes this file binary to
+    // grep, invisible in a diff, and silently strippable by tooling. If it were stripped, the element
+    // would become "", which also admits a collision, so the suite would stay green while no longer
+    // covering the one separator the reverted attempt actually shipped.
+    const NUL = String.fromCharCode(0);
+    const UNIT_SEPARATOR = String.fromCharCode(31);
+
+    const SEPARATORS = ["-", "|", "::", " ", "", "~", NUL, UNIT_SEPARATOR] as const;
 
     for (const separator of SEPARATORS) {
         test.concurrent(`separator ${JSON.stringify(separator)} admits a collision`, ({ expect }) => {

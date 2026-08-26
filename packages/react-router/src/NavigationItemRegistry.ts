@@ -164,11 +164,10 @@ function getOrCreateInner<T>(index: Map<string, Map<string, T>>, menuId: string)
 /**
  * @deprecated The index key format is an implementation detail, and a "-" in a "menuId" or in a section "$id"
  * makes a key ambiguous: ("main-menu", "settings") and ("main", "menu-settings") both produce
- * "main-menu-settings", so the pair a key was built from cannot be recovered. Read the "menuId" and the
- * "sectionId" off the {@link PendingRegistrationItem} values returned by
- * {@link PendingNavigationItemRegistrations.getPendingRegistrationsForSection} rather than parsing a key
- * returned by {@link PendingNavigationItemRegistrations.getPendingSectionIds}. Nothing in the framework calls
- * this function anymore, it is kept until the next major to avoid a breaking removal.
+ * "main-menu-settings", so the pair a key was built from cannot be recovered. The registry no longer builds
+ * a key at all. Read the "menuId" and the "sectionId" off the {@link PendingSection} values returned by
+ * {@link PendingNavigationItemRegistrations.getPendingSections} rather than parsing a key. Nothing in the
+ * framework calls this function anymore, it is kept until the next major to avoid a breaking removal.
  */
 export function parseSectionIndexKey(indexKey: string) {
     return indexKey.split("-");

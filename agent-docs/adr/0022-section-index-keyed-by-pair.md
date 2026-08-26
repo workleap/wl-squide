@@ -34,7 +34,7 @@ This is the third time the key format has been revisited. A previous attempt swa
 
 Option 4. Both indexes are now `Map<string, Map<string, T>>`, keyed by `menuId` then `sectionId`.
 
-Option 1 was rejected because B2's own lesson is that a separator inside a value breaks the key, and a fix whose correctness rests on a separator never appearing inside a value repeats the mistake at lower probability. A test in `NavigationItemRegistrySectionKey.test.ts` measures this rather than asserting it: every single-separator scheme over the fragment alphabet, NUL included, is shown to admit a collision, and keying by the pair is shown to admit none.
+Option 1 was rejected because the lesson of this very defect is that a separator inside a value breaks the key, and a fix whose correctness rests on a separator never appearing inside a value repeats the mistake at lower probability. A test in `NavigationItemRegistrySectionKey.test.ts` measures this rather than asserting it: every single-separator scheme over the fragment alphabet, NUL included, is shown to admit a collision, and keying by the pair is shown to admit none.
 
 Option 3 is genuinely correct and was the runner-up. It lost because it keeps a visible key format, and the key leaking into the public API is the second half of this problem.
 

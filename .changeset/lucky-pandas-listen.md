@@ -25,7 +25,7 @@ The index key is no longer part of the public surface, so nothing hands you one 
 
 - `getPendingSectionIds()` — returns keys that cannot identify a section on their own. Use `getPendingSections()`.
 - `getPendingRegistrationsForSection(indexKey)` — takes a key as a parameter, so a key you build yourself is not guaranteed to match the registry's. Use `getPendingSections()`.
-- `parseSectionIndexKey` — already deprecated, unchanged.
+- `parseSectionIndexKey` — already deprecated. Its notice used to point at the two accessors above; it now points at `getPendingSections()`, since those are on the same removal schedule as itself.
 
 For compatibility the two accessors still work and still speak the historical `` `${menuId}-${sectionId}` `` format, synthesized on demand. Where two pairs synthesize the same key that view returns the union of their items rather than dropping one, so it remains ambiguous by construction — which is why it is deprecated. Registration itself is exact.
 
