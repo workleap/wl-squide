@@ -2899,6 +2899,36 @@ describe.concurrent("_validateRegistrations", () => {
 
             expect(() => runtime._validateRegistrations()).toThrow(/Missing navigation section "analytics-performance" of the "analytics-sidebar" menu/);
         });
+
+        // Two pairs that used to produce one index key. The count and both names have to come through, since
+        // the whole point of the message is telling someone how many sections are missing. See ADR-0022.
+        test.concurrent("when two pending sections would collide on an index key, both are counted and named", ({ expect }) => {
+            const runtime = new ReactRouterRuntime({
+                loggers: [new NoopLogger()]
+            });
+
+            runtime.registerNavigationItem({ $label: "A", to: "/a" }, {
+                menuId: "analytics",
+                sectionId: "sidebar-performance"
+            });
+
+            runtime.registerNavigationItem({ $label: "B", to: "/b" }, {
+                menuId: "analytics-sidebar",
+                sectionId: "performance"
+            });
+
+            let message = "";
+
+            try {
+                runtime._validateRegistrations();
+            } catch (error: unknown) {
+                message = (error as Error).message;
+            }
+
+            expect(message).toMatch(/2 navigation items were expected to be registered but are missing/);
+            expect(message).toMatch(/Missing navigation section "sidebar-performance" of the "analytics" menu/);
+            expect(message).toMatch(/Missing navigation section "performance" of the "analytics-sidebar" menu/);
+        });
     });
 });
 

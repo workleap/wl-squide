@@ -362,36 +362,28 @@ export class ReactRouterRuntime<TRuntime extends ReactRouterRuntime = any> exten
 
     #validateNavigationItemRegistrations(logger: Logger) {
         const pendingRegistrations = this._navigationItemRegistry.getPendingRegistrations();
-        const pendingSectionIds = pendingRegistrations.getPendingSectionIds();
 
-        if (pendingSectionIds.length > 0) {
-            let message = `[squide] ${pendingSectionIds.length} navigation item${pendingSectionIds.length !== 1 ? "s were" : " is"} expected to be registered but ${pendingSectionIds.length !== 1 ? "are" : "is"} missing:\r\n\r\n`;
+        // Each entry is one ("menuId", "sectionId") pair, so the count is the number of sections
+        // actually missing. This used to iterate index keys, which merged two distinct pairs whenever
+        // their keys collided, and made this message under-report. See ADR-0022.
+        const pendingSections = pendingRegistrations.getPendingSections();
 
-            pendingSectionIds.forEach((x, index) => {
-                const pendingItems = pendingRegistrations.getPendingRegistrationsForSection(x);
+        if (pendingSections.length > 0) {
+            let message = `[squide] ${pendingSections.length} navigation item${pendingSections.length !== 1 ? "s were" : " is"} expected to be registered but ${pendingSections.length !== 1 ? "are" : "is"} missing:\r\n\r\n`;
 
-                // The items carry the "menuId" and the "sectionId" they are waiting for, which is more
-                // reliable than parsing them back out of the index key since either value can contain a "-".
-                // An index key always holds at least one item. The fallback below only ensures that a failure
-                // to name the section can never mask the pending registrations this message is reporting.
-                const firstPendingItem = pendingItems.at(0);
-
-                if (firstPendingItem) {
-                    message += `${index + 1}/${pendingSectionIds.length} Missing navigation section "${firstPendingItem.sectionId}" of the "${firstPendingItem.menuId}" menu.\r\n`;
-                } else {
-                    message += `${index + 1}/${pendingSectionIds.length} Missing navigation section for the index key "${x}".\r\n`;
-                }
+            pendingSections.forEach((x, index) => {
+                message += `${index + 1}/${pendingSections.length} Missing navigation section "${x.sectionId}" of the "${x.menuId}" menu.\r\n`;
 
                 message += indent("Pending registrations:\r\n", 1);
 
-                pendingItems.forEach(y => {
-                    message += indent(`- "${y.item.$id ?? y.item.$label ?? y.item.to ?? "(no identifier)"}"\r\n`, 2);
+                x.items.forEach(y => {
+                    message += indent(`- "${y.$id ?? y.$label ?? y.to ?? "(no identifier)"}"\r\n`, 2);
                 });
 
                 message += "\r\n";
             });
 
-            message += `If you are certain that the navigation section${pendingSectionIds.length !== 1 ? "s" : ""} has been registered, make sure that the following conditions are met:\r\n`;
+            message += `If you are certain that the navigation section${pendingSections.length !== 1 ? "s" : ""} has been registered, make sure that the following conditions are met:\r\n`;
             message += "- The missing navigation section \"$id\" and \"menuId\" properties perfectly match the provided \"sectionId\" and \"menuId\".\r\n\r\n";
             message += "For more information about nested navigation items, refers to: https://workleap.github.io/wl-squide/reference/runtime/runtime-class/#register-nested-navigation-items.\r\n";
 

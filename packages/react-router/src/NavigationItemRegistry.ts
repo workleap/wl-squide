@@ -72,6 +72,12 @@ export interface PendingRegistrationItem {
     item: RootNavigationItem;
 }
 
+export interface PendingSection {
+    menuId: string;
+    sectionId: string;
+    items: RootNavigationItem[];
+}
+
 interface DeferredRegistrationTransactionalScopeItem extends RegistryItem {
     options?: AddNavigationItemOptions;
 }
@@ -138,8 +144,21 @@ export class NavigationItemDeferredRegistrationTransactionalScope extends Naviga
     }
 }
 
-function createSectionIndexKey(menuId: string, sectionId: string) {
-    return `${menuId}-${sectionId}`;
+// The section index and the pending index are keyed by the ("menuId", "sectionId") pair itself, as a Map of
+// Maps, rather than by a string built from the two. Any string scheme has to pick a separator, and a separator
+// that can appear inside either value makes two different pairs produce one key: ("analytics",
+// "sidebar-performance") and ("analytics-sidebar", "performance") both joined to "analytics-sidebar-performance"
+// under the "-" this used to use. Picking a rarer separator relocates that assumption instead of removing it.
+// See ADR-0022.
+function getOrCreateInner<T>(index: Map<string, Map<string, T>>, menuId: string) {
+    let inner = index.get(menuId);
+
+    if (!inner) {
+        inner = new Map<string, T>();
+        index.set(menuId, inner);
+    }
+
+    return inner;
 }
 
 /**
@@ -159,12 +178,12 @@ export class NavigationItemRegistry {
     // <menuId, RegistryItem[]>
     readonly #menusIndex: Map<string, RegistryItem[]> = new Map();
 
-    // <menuId-sectionId, SectionIndexItem>
-    readonly #sectionsIndex: Map<string, SectionIndexItem> = new Map();
+    // <menuId, <sectionId, SectionIndexItem>>
+    readonly #sectionsIndex: Map<string, Map<string, SectionIndexItem>> = new Map();
 
-    // An index of pending navigation items to registered once their section is registered.
-    // <menuId-sectionId, PendingRegistrationItem[]>
-    readonly #pendingRegistrationsIndex: Map<string, PendingRegistrationItem[]> = new Map();
+    // An index of pending navigation items to register once their section is registered.
+    // <menuId, <sectionId, PendingRegistrationItem[]>>
+    readonly #pendingRegistrationsIndex: Map<string, Map<string, PendingRegistrationItem[]>> = new Map();
 
     // Since the "getItems" function is transforming the menus items from registry items to navigation items, the result of
     // the transformation is memoized to ensure the returned array is immutable and can be use in React closures.
@@ -184,20 +203,20 @@ export class NavigationItemRegistry {
     #addSectionIndex(menuId: string, registrationType: NavigationItemRegistrationType, sectionItem: NavigationSection) {
         // Only add sections with an identifier.
         if (sectionItem.$id) {
-            const indexKey = createSectionIndexKey(menuId, sectionItem.$id);
+            const sections = getOrCreateInner(this.#sectionsIndex, menuId);
 
-            if (this.#sectionsIndex.has(indexKey)) {
+            if (sections.has(sectionItem.$id)) {
                 throw new Error(`[squide] A navigation section index has already been registered for the menu: "${menuId}" and section: "${sectionItem.$id}". Did you register two navigation sections with similar "$id" option for the same menu?`);
             }
 
-            this.#sectionsIndex.set(indexKey, {
+            sections.set(sectionItem.$id, {
                 menuId,
                 sectionId: sectionItem.$id,
                 registrationType,
                 item: sectionItem
             });
 
-            return indexKey;
+            return sectionItem.$id;
         }
     }
 
@@ -207,7 +226,7 @@ export class NavigationItemRegistry {
         items.forEach(x => {
             if (!isLinkItem(x)) {
                 // Add index entries to speed up the registration of future nested navigation items.
-                const indexKey = this.#addSectionIndex(menuId, registrationType, x);
+                const sectionId = this.#addSectionIndex(menuId, registrationType, x);
 
                 if (x.children) {
                     // Recursively go through the children.
@@ -215,9 +234,10 @@ export class NavigationItemRegistry {
                     completedPendingRegistrations.push(...result);
                 }
 
-                // If there's an index key, it means it's an identified section so there could be pending registrations.
-                if (indexKey) {
-                    const result = this.#tryRegisterPendingItems(indexKey);
+                // A section is only indexed when it has an "$id", and only an indexed section can have items
+                // waiting on it.
+                if (sectionId !== undefined) {
+                    const result = this.#tryRegisterPendingItems(menuId, sectionId);
                     completedPendingRegistrations.unshift(...result);
                 }
             }
@@ -226,9 +246,10 @@ export class NavigationItemRegistry {
         return completedPendingRegistrations;
     }
 
-    #tryRegisterPendingItems(indexKey: string) {
+    #tryRegisterPendingItems(menuId: string, sectionId: string) {
         const completedPendingRegistrations: RootNavigationItem[] = [];
-        const pendingRegistrations = this.#pendingRegistrationsIndex.get(indexKey);
+        const pendingRegistrationsForMenu = this.#pendingRegistrationsIndex.get(menuId);
+        const pendingRegistrations = pendingRegistrationsForMenu?.get(sectionId);
 
         if (pendingRegistrations) {
             completedPendingRegistrations.push(...(pendingRegistrations.map(x => x.item)));
@@ -240,7 +261,11 @@ export class NavigationItemRegistry {
             });
 
             // Delete the pending registrations for the section.
-            this.#pendingRegistrationsIndex.delete(indexKey);
+            pendingRegistrationsForMenu!.delete(sectionId);
+
+            if (pendingRegistrationsForMenu!.size === 0) {
+                this.#pendingRegistrationsIndex.delete(menuId);
+            }
         }
 
         return completedPendingRegistrations;
@@ -313,8 +338,7 @@ export class NavigationItemRegistry {
     }
 
     #addNestedItem(menuId: string, sectionId: string, registrationType: NavigationItemRegistrationType, item: RootNavigationItem): NavigationItemRegistrationResult {
-        const indexKey = createSectionIndexKey(menuId, sectionId);
-        const parentSection = this.#sectionsIndex.get(indexKey);
+        const parentSection = this.#sectionsIndex.get(menuId)?.get(sectionId);
 
         if (!parentSection) {
             const registryItem = {
@@ -324,12 +348,13 @@ export class NavigationItemRegistry {
                 item: item
             };
 
-            const pendingRegistration = this.#pendingRegistrationsIndex.get(indexKey);
+            const pendingRegistrationsForMenu = getOrCreateInner(this.#pendingRegistrationsIndex, menuId);
+            const pendingRegistration = pendingRegistrationsForMenu.get(sectionId);
 
             if (pendingRegistration) {
                 pendingRegistration.push(registryItem);
             } else {
-                this.#pendingRegistrationsIndex.set(indexKey, [registryItem]);
+                pendingRegistrationsForMenu.set(sectionId, [registryItem]);
             }
 
             return {
@@ -407,41 +432,59 @@ export class NavigationItemRegistry {
             }
         }
 
-        // Keep the section index and the pending registrations in sync with the menu index. Both indexes are
-        // keyed by "menuId-sectionId" rather than by menu, so they are cleaned in a single pass rather than
-        // once per menu.
+        // Keep the section index and the pending registrations in sync with the menu index.
         this.#deleteDeferredSectionIndexEntries();
         this.#deleteDeferredPendingRegistrations();
     }
 
     #deleteDeferredSectionIndexEntries() {
-        const keysToDelete: string[] = [];
+        const emptyMenuIds: string[] = [];
 
-        this.#sectionsIndex.forEach((x, key) => {
-            if (x.registrationType === "deferred") {
-                keysToDelete.push(key);
+        this.#sectionsIndex.forEach((sections, menuId) => {
+            const sectionIdsToDelete: string[] = [];
+
+            sections.forEach((x, sectionId) => {
+                if (x.registrationType === "deferred") {
+                    sectionIdsToDelete.push(sectionId);
+                }
+            });
+
+            sectionIdsToDelete.forEach(x => sections.delete(x));
+
+            if (sections.size === 0) {
+                emptyMenuIds.push(menuId);
             }
         });
 
-        keysToDelete.forEach(x => this.#sectionsIndex.delete(x));
+        emptyMenuIds.forEach(x => this.#sectionsIndex.delete(x));
     }
 
     #deleteDeferredPendingRegistrations() {
-        const keysToDelete: string[] = [];
+        const emptyMenuIds: string[] = [];
 
-        this.#pendingRegistrationsIndex.forEach((items, key) => {
-            // Static pending registrations belong to the initial registration rather than to the run being
-            // replayed. Deleting them would silently swallow a misconfiguration that strict mode reports.
-            const remainingItems = items.filter(x => x.registrationType !== "deferred");
+        this.#pendingRegistrationsIndex.forEach((pendingRegistrations, menuId) => {
+            const sectionIdsToDelete: string[] = [];
 
-            if (remainingItems.length === 0) {
-                keysToDelete.push(key);
-            } else if (remainingItems.length !== items.length) {
-                this.#pendingRegistrationsIndex.set(key, remainingItems);
+            pendingRegistrations.forEach((items, sectionId) => {
+                // Static pending registrations belong to the initial registration rather than to the run being
+                // replayed. Deleting them would silently swallow a misconfiguration that strict mode reports.
+                const remainingItems = items.filter(x => x.registrationType !== "deferred");
+
+                if (remainingItems.length === 0) {
+                    sectionIdsToDelete.push(sectionId);
+                } else if (remainingItems.length !== items.length) {
+                    pendingRegistrations.set(sectionId, remainingItems);
+                }
+            });
+
+            sectionIdsToDelete.forEach(x => pendingRegistrations.delete(x));
+
+            if (pendingRegistrations.size === 0) {
+                emptyMenuIds.push(menuId);
             }
         });
 
-        keysToDelete.forEach(x => this.#pendingRegistrationsIndex.delete(x));
+        emptyMenuIds.forEach(x => this.#pendingRegistrationsIndex.delete(x));
     }
 
     getPendingRegistrations() {
@@ -450,17 +493,68 @@ export class NavigationItemRegistry {
 }
 
 export class PendingNavigationItemRegistrations {
-    readonly #pendingRegistrationsIndex: Map<string, PendingRegistrationItem[]> = new Map();
+    // <menuId, <sectionId, PendingRegistrationItem[]>>
+    readonly #pendingRegistrationsIndex: Map<string, Map<string, PendingRegistrationItem[]>> = new Map();
 
-    constructor(pendingRegistrationsIndex: Map<string, PendingRegistrationItem[]> = new Map()) {
+    constructor(pendingRegistrationsIndex: Map<string, Map<string, PendingRegistrationItem[]>> = new Map()) {
         this.#pendingRegistrationsIndex = pendingRegistrationsIndex;
     }
 
-    getPendingSectionIds() {
-        return Array.from(this.#pendingRegistrationsIndex.keys());
+    /**
+     * The sections that have navigation items waiting on them, each identified by the "menuId" and "sectionId"
+     * pair the items were registered for.
+     */
+    getPendingSections(): PendingSection[] {
+        const result: PendingSection[] = [];
+
+        this.#pendingRegistrationsIndex.forEach((pendingRegistrations, menuId) => {
+            pendingRegistrations.forEach((items, sectionId) => {
+                result.push({
+                    menuId,
+                    sectionId,
+                    items: items.map(x => x.item)
+                });
+            });
+        });
+
+        return result;
     }
 
+    // The legacy accessors below speak in index keys. The registry no longer builds one, so they synthesize the
+    // historical `${menuId}-${sectionId}` format on demand. That format is ambiguous, which is the reason it was
+    // replaced: two distinct pairs can synthesize the same key, and this view merges their items rather than
+    // losing one. Registration itself is unaffected, only these two deprecated readers.
+    #legacyIndex() {
+        const result = new Map<string, PendingRegistrationItem[]>();
+
+        this.#pendingRegistrationsIndex.forEach((pendingRegistrations, menuId) => {
+            pendingRegistrations.forEach((items, sectionId) => {
+                const indexKey = `${menuId}-${sectionId}`;
+
+                result.set(indexKey, [...(result.get(indexKey) ?? []), ...items]);
+            });
+        });
+
+        return result;
+    }
+
+    /**
+     * @deprecated An index key cannot identify a section on its own, since a "-" in a "menuId" or in a section
+     * "$id" makes two distinct pairs produce the same key. Use {@link getPendingSections} instead, which
+     * returns the "menuId" and "sectionId" pair directly. Kept until the next major to avoid a breaking
+     * removal.
+     */
+    getPendingSectionIds() {
+        return Array.from(this.#legacyIndex().keys());
+    }
+
+    /**
+     * @deprecated Takes an index key, whose format is an implementation detail rather than part of the public
+     * contract, so a key built by a consumer is not guaranteed to match. Use {@link getPendingSections}
+     * instead, which returns each pending section together with its items. Kept until the next major to avoid
+     * a breaking removal.
+     */
     getPendingRegistrationsForSection(indexKey: string) {
-        return this.#pendingRegistrationsIndex.get(indexKey) ?? [];
+        return this.#legacyIndex().get(indexKey) ?? [];
     }
 }
