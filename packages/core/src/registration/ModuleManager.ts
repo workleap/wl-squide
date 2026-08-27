@@ -92,8 +92,11 @@ export class ModuleManager {
                 try {
                     completionFunction();
                 } catch (error: unknown) {
+                    // Deliberately not saying "plugin": this array holds the completion functions of both the
+                    // plugins and the runtime listeners, and naming one would send a reader hunting through the
+                    // plugin list for a plugin that may not be there.
                     this.runtime.logger
-                        .withText("[squide] An error occured while completing a plugin deferred registration scope.")
+                        .withText("[squide] An error occured while completing a deferred registration scope.")
                         .withError(error as Error)
                         .error();
                 }

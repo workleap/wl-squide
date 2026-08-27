@@ -220,12 +220,23 @@ Be notified whenever a deferred registration run starts — both the initial run
 
 Use it to reset an application-owned registry that is filled from deferred registration functions (command palette, sitemap, search index), which the framework does not clear on its own.
 
-```ts
-const dispose = runtime.registerDeferredRegistrationScopeStartedListener(({ operation }) => {
-    commandPaletteRegistry.clear();
+Branch on `transactional`. These are two mutually exclusive strategies, not two steps: the initial run (`transactional: false`) **must write through**, because the modules become ready while its scope is still open; only an update run may buffer and commit from the completion function.
 
-    // Optional: return a function to commit a buffered registry once the run settles.
-    return () => { buffer.commit(); };
+```ts
+const dispose = runtime.registerDeferredRegistrationScopeStartedListener(({ transactional }) => {
+    // The initial run writes through: the modules become ready while its scope is still open.
+    if (!transactional) {
+        commandPaletteRegistry.clear();
+
+        return;
+    }
+
+    // An update run buffers, so the previous entries stay readable until the run has settled.
+    const buffer = commandPaletteRegistry.beginTransaction();
+
+    return () => {
+        buffer.commit();
+    };
 });
 
 // When the listener is not needed anymore.

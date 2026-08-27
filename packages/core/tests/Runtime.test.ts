@@ -1,47 +1,8 @@
 import { NoopLogger } from "@workleap/logging";
 import { describe, test, vi } from "vitest";
 import type { DeferredRegistrationScopeOptions } from "../src/plugins/Plugin.ts";
-import { Runtime, RuntimeScope } from "../src/runtime/Runtime.ts";
-
-class DummyRuntime extends Runtime {
-    registerRoute() {
-        throw new Error("Method not implemented.");
-    }
-
-    registerPublicRoute() {
-        throw new Error("Method not implemented.");
-    }
-
-    get routes() {
-        return [];
-    }
-
-    registerNavigationItem() {
-        throw new Error("Method not implemented.");
-    }
-
-    getNavigationItems() {
-        return [];
-    }
-
-    getNavigationItemsByMenu() {
-        return new Map();
-    }
-
-    startDeferredRegistrationScope(): void {
-    }
-
-    completeDeferredRegistrationScope(): void {
-    }
-
-    startScope(): Runtime {
-        return new DummyRuntime({ loggers: [new NoopLogger()] });
-    }
-
-    _validateRegistrations(): void {
-        throw new Error("Method not implemented.");
-    }
-}
+import { RuntimeScope } from "../src/runtime/Runtime.ts";
+import { DummyRuntime } from "./DummyRuntime.ts";
 
 class DummyRuntimeScope extends RuntimeScope {}
 
@@ -174,6 +135,23 @@ describe.concurrent("deferred registration scope started listeners", () => {
         const runtime = createRuntime();
 
         expect(() => runtime.removeDeferredRegistrationScopeStartedListener(vi.fn())).not.toThrow();
+    });
+
+    // This is the case that pins the "new Set(...)" copy in "_notifyDeferredRegistrationScopeStarted".
+    // Iterating the live set would skip listener 2, since it is removed before the iteration reaches it.
+    test.concurrent("when a listener disposes of another listener while being notified, that listener is still notified", ({ expect }) => {
+        const runtime = createRuntime();
+        const listener2 = vi.fn();
+
+        runtime.registerDeferredRegistrationScopeStartedListener(() => {
+            runtime.removeDeferredRegistrationScopeStartedListener(listener2);
+        });
+
+        runtime.registerDeferredRegistrationScopeStartedListener(listener2);
+
+        runtime._notifyDeferredRegistrationScopeStarted(registerOptions);
+
+        expect(listener2).toHaveBeenCalledOnce();
     });
 
     test.concurrent("when a listener disposes of itself while being notified, the remaining listeners are still notified", ({ expect }) => {

@@ -566,10 +566,18 @@ dispose();
 
 A listener receives the same `options` as the plugin hook — `operation` (`"register"` for the initial run, `"update"` for every subsequent one) and `transactional`.
 
-Return a function to commit a buffered registry once the run has settled:
+Branch on `transactional` to decide how to apply the run. The **initial** run must write through, because the modules become ready while its scope is still open and whatever renders at that point has to already see the entries. Only an **update** run may buffer, so that the previous entries stay readable until the new run has settled — return a function to commit that buffer:
 
-```ts !#4-6
-runtime.registerDeferredRegistrationScopeStartedListener(() => {
+```ts !#2-7,10-14
+runtime.registerDeferredRegistrationScopeStartedListener(({ transactional }) => {
+    if (!transactional) {
+        // The initial run writes through.
+        commandPaletteRegistry.clear();
+
+        return;
+    }
+
+    // An update run buffers instead.
     const buffer = commandPaletteRegistry.beginTransaction();
 
     return () => {
