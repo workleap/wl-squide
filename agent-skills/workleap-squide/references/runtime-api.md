@@ -165,8 +165,8 @@ Neither render callback can reorder anything — `renderItem` sees one item at a
 `renderSection` receives elements that are already rendered. To impose a different order, sort the tree
 from `useNavigationItems` before handing it to `useRenderedNavigationItems`.
 
-**Before ADR-0026 this was top-level only.** Do not repeat the older claim that a nested `$priority`
-is ignored.
+**This used to be top-level only.** Do not repeat the older claim that a nested `$priority` is
+ignored.
 
 #### getNavigationItems(options?)
 Retrieve registered navigation items for a single menu.

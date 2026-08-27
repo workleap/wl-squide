@@ -23,4 +23,3 @@ If you need a section rendered in declaration order regardless of priorities, so
 
 The sort moved into the `renderItems` recursion, and each array is copied before sorting — a section's `children` is the registry's own array, handed over by reference, so sorting in place would have reordered the registry itself.
 
-See ADR-0026 for the full rationale.

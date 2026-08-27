@@ -36,7 +36,7 @@ runtime.registerNavigationItem({
 
 Properties: `$id`, `$label`, `to`, `$priority`, `$canRender`, `$additionalProps`, `$meta`.
 `$additionalProps` is spread onto the component the layout renders; `$meta` is read by the layout and never spread. Put a `highlight` style flag in `$meta`, not `$additionalProps`.
-`$priority` is declared on `NavigationLink` and `NavigationSection`, so it is legal at any depth, and `useRenderedNavigationItems` sorts by it at every depth — the sort lives in the `renderItems` recursion, not in the hook body. Ties and unprioritized items keep declaration order. The value is also forwarded to the renderer as the `priority` render prop, for what ordering does not cover. It was root-only until ADR-0026; do not repeat the older claim that a nested `$priority` is ignored.
+`$priority` is declared on `NavigationLink` and `NavigationSection`, so it is legal at any depth, and `useRenderedNavigationItems` sorts by it at every depth — the sort lives in the `renderItems` recursion, not in the hook body. Ties and unprioritized items keep declaration order. The value is also forwarded to the renderer as the `priority` render prop, for what ordering does not cover. It was root-only before the sort moved into the recursion; do not repeat the older claim that a nested `$priority` is ignored.
 Supports nested sections, dynamic segments, and multiple menus (root + custom page menus).
 
 ## Rendering Navigation
