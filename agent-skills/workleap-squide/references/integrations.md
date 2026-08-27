@@ -246,6 +246,16 @@ Then reference it in your `tsconfig.json`:
 }
 ```
 
+Every **other** project evaluating those flags must reference the declaring project's file as well, otherwise the augmentation is invisible to it:
+
+```json
+{
+    "compilerOptions": {
+        "types": ["../another-project/types/feature-flags.d.ts"]
+    }
+}
+```
+
 ### FeatureFlagSetSnapshot
 
 A class that tracks and memoizes feature flags, returning a stable object reference until flags change:
@@ -462,6 +472,8 @@ Prefer `getI18nextPlugin(runtime)` over `runtime.getPlugin(i18nextPluginName) as
 
 ### Register i18next Instance
 
+Because of how i18next works internally, **each module — including the host application — must create its own i18next instance**. The `i18nextPlugin` instance synchronizes the language changes across every registered instance.
+
 ```ts
 import { getI18nextPlugin } from "@squide/i18next";
 import i18n from "i18next";
@@ -502,6 +514,40 @@ function LanguageSwitcher() {
             <option value="fr-CA">French</option>
         </select>
     );
+}
+```
+
+### Apply a Backend "Preferred Language" Setting
+
+The displayed language is usually derived from a per-user setting stored remotely, which the frontend only learns about once the session is loaded. The strategy is:
+
+1. Use the language detected at bootstrapping (`detectUserLanguage()`) for anonymous users.
+2. Once the session is loaded, switch to the preferred language it carries.
+
+```tsx
+import { AppRouter, useChangeLanguage, useIsBootstrapping, useProtectedDataQueries } from "@squide/firefly";
+import { useEffect } from "react";
+import { Outlet } from "react-router";
+
+function BootstrappingRoute() {
+    const [session] = useProtectedDataQueries(
+        [getSessionQuery],
+        error => isApiError(error) && error.status === 401
+    );
+
+    const changeLanguage = useChangeLanguage();
+
+    useEffect(() => {
+        if (session) {
+            changeLanguage(session.user.preferredLanguage);
+        }
+    }, [session, changeLanguage]);
+
+    if (useIsBootstrapping()) {
+        return <div>Loading...</div>;
+    }
+
+    return <Outlet />;
 }
 ```
 
