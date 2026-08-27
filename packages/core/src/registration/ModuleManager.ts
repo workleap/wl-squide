@@ -53,9 +53,6 @@ export class ModuleManager {
         return errors;
     }
 
-    // Brackets a deferred registration run with the runtime's scope and the plugins "onDeferredRegistrationScopeStarted"
-    // hook. Plugins are notified before any module runs and their completion functions are executed once the run has
-    // settled, while the runtime's scope is still open.
     async #withDeferredRegistrationScope<T>(options: DeferredRegistrationScopeOptions, run: () => Promise<T>) {
         this.runtime.startDeferredRegistrationScope({
             transactional: options.transactional
@@ -68,15 +65,10 @@ export class ModuleManager {
         let completionError: unknown;
 
         try {
-            // Notifying the plugins is the first statement of the "try" block so that a throwing hook fails fast, before
-            // any module has registered anything, while the "finally" block still releases the runtime's scope.
-            // The plugins are retrieved lazily because the runtime creates its module manager before its plugins.
+            // Notifying the plugins first makes a throwing hook fail before any module has registered anything.
             for (const plugin of this.runtime.plugins) {
-                // A copy per plugin, otherwise a plugin mutating the options would change what the next plugins observe.
                 const completionFunction = plugin.onDeferredRegistrationScopeStarted?.({ ...options });
 
-                // A hook must be synchronous. Type checking rejects an async hook, but a plugin authored in JavaScript
-                // would otherwise have its promise stored as a completion function and fail with an unrelated error.
                 if (typeof completionFunction === "function") {
                     completionFunctions.push(completionFunction);
                 }
@@ -84,8 +76,6 @@ export class ModuleManager {
 
             result = await run();
         } finally {
-            // Every completion function is executed, even if a previous one threw, otherwise a single faulty plugin
-            // would prevent the other plugins from committing their registry.
             for (const completionFunction of completionFunctions) {
                 try {
                     completionFunction();
@@ -95,8 +85,6 @@ export class ModuleManager {
                         .withError(error as Error)
                         .error();
 
-                    // A dedicated boolean rather than a truthiness check on the error: a plugin throwing a falsy value
-                    // must not be swallowed, and the first error must remain the one that is rethrown.
                     if (!hasCompletionError) {
                         hasCompletionError = true;
                         completionError = error;
@@ -104,13 +92,11 @@ export class ModuleManager {
                 }
             }
 
-            // The runtime's scope must always be completed, even when a completion function threw, otherwise every
-            // subsequent deferred registration run would throw for the lifetime of the runtime.
+            // Must always be completed, otherwise every subsequent run throws for the lifetime of the runtime.
             this.runtime.completeDeferredRegistrationScope();
         }
 
-        // Only reachable when the run succeeded, the "finally" block above lets the run error bubble up on its own.
-        // A completion error must never be thrown over a run error, it would hide the root cause of the failure.
+        // Only reachable when the run succeeded, the "finally" block lets a run error bubble up on its own.
         if (hasCompletionError) {
             throw completionError;
         }

@@ -569,7 +569,6 @@ describe.concurrent("plugins deferred registration scope lifecycle", () => {
         }
     }
 
-    // A plugin that doesn't declare the optional lifecycle hook.
     class DummyPlugin extends Plugin {}
 
     type OnDeferredRegistrationScopeStartedHandler = (options: DeferredRegistrationScopeOptions) => DeferredRegistrationScopeCompletionFunction | void;
