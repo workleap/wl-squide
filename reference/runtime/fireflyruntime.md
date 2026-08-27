@@ -28,6 +28,8 @@ const runtime = new FireflyRuntime(options?: { mode?, environmentVariables?, hon
 - `registerNavigationItem(navigationItem, options?)`: Register a navigation item.
 - `getNavigationItems(menuId?)`: Retrieve the registered navigation items.
 - `getNavigationItemsByMenu()`: Retrieve the full navigation registry grouped by menu id.
+- `registerDeferredRegistrationScopeStartedListener(callback)`: Register a listener that is notified whenever a deferred registration run starts. Returns a disposer.
+- `removeDeferredRegistrationScopeStartedListener(callback)`: Remove a previously registered listener.
 - `registerRequestHandlers(handlers, options?)`: Register the MSW request handlers.
 - `getEnvironmentVariable(key)`: Retrieve an environment variable.
 - `registerEnvironmentVariable(key, value)`: Register a single environment variable.
@@ -523,6 +525,68 @@ const itemsByMenu = runtime.getNavigationItemsByMenu();
 ```
 
 Typical use cases include command palettes, devtools panels, or sitemaps that need to enumerate every link across every menu without knowing the menu ids ahead of time.
+
+### Listen for the start of a deferred registration run
+
+Only navigation items participate in a [deferred registration](../registration/useDeferredRegistrations.md) run. An application maintaining its own registry — a command palette, a sitemap, a search index — filled from the same deferred registration functions, must reset that registry whenever a run starts, otherwise entries for a feature that has been flipped off survive for the rest of the session.
+
+!!!warning
+When the registry lives in a **plugin**, implement [onDeferredRegistrationScopeStarted](../plugins/Plugin.md) instead. It's the same contract with nothing to subscribe and nothing to dispose. These listeners exist for state that isn't owned by a plugin.
+!!!
+
+Use `registerDeferredRegistrationScopeStartedListener` to be notified when a run starts:
+
+```ts !#6,9
+const listener = ({ operation }) => {
+    // "register" for the initial run, "update" for every subsequent one.
+    commandPaletteRegistry.clear();
+};
+
+runtime.registerDeferredRegistrationScopeStartedListener(listener);
+
+// When the listener is not needed anymore.
+runtime.removeDeferredRegistrationScopeStartedListener(listener);
+```
+
+Registering a listener also returns a disposer, which is convenient in a `useEffect`:
+
+```ts !#5
+const dispose = runtime.registerDeferredRegistrationScopeStartedListener(() => {
+    commandPaletteRegistry.clear();
+});
+
+dispose();
+```
+
+A listener receives the same `options` as the plugin hook — `operation` (`"register"` for the initial run, `"update"` for every subsequent one) and `transactional`.
+
+Branch on `transactional` to decide how to apply the run. The **initial** run must write through, because the modules become ready while its scope is still open and whatever renders at that point has to already see the entries. Only an **update** run may buffer, so that the previous entries stay readable until the new run has settled — return a function to commit that buffer:
+
+```ts !#2-7,10-14
+runtime.registerDeferredRegistrationScopeStartedListener(({ transactional }) => {
+    if (!transactional) {
+        // The initial run writes through.
+        commandPaletteRegistry.clear();
+
+        return;
+    }
+
+    // An update run buffers instead.
+    const buffer = commandPaletteRegistry.beginTransaction();
+
+    return () => {
+        buffer.commit();
+    };
+});
+```
+
+!!!info
+A listener is notified for **both** the initial deferred registration run and every subsequent update, always **before** any deferred registration function executes, and after the plugins have been notified.
+
+The listener and the function it returns must be **synchronous** — nothing awaits them. An error thrown by either is logged through the runtime logger and never propagated, so one faulty listener never fails a run.
+
+A completion function must not read the navigation items: on an update run, the items of that run are not committed yet. Commit your own registry, nothing else.
+!!!
 
 ### Register request handlers
 
