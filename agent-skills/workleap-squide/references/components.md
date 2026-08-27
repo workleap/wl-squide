@@ -324,10 +324,13 @@ Type guard to check if a navigation item is a link (not a section).
 ```tsx
 import { isNavigationLink } from "@squide/firefly";
 
+// "renderSectionItem" is a helper of your own, taking a NavigationSectionRenderProps.
+// It is not the "renderSection" passed to useRenderedNavigationItems, whose signature
+// is (elements, key, index, level).
 const renderItem: RenderItemFunction = (item, key) => {
     if (!isNavigationLink(item)) {
         // It's a section
-        return renderSection(item, key);
+        return renderSectionItem(item, key);
     }
     // It's a link
     const { label, linkProps, additionalProps } = item;

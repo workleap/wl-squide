@@ -414,18 +414,27 @@ function BootstrappingRoute() {
 
 Signature: `new i18nextPlugin(runtime, supportedLanguages, fallbackLanguage, queryStringKey, options?: { detection? })`. Always call `detectUserLanguage()` immediately after creating the instance.
 
-```ts
-import { i18nextPlugin } from "@squide/i18next";
-import { FireflyRuntime } from "@squide/firefly";
+Register the plugin through `initializeFirefly` — an application should never instantiate `FireflyRuntime` itself:
 
-const runtime = new FireflyRuntime({
+```ts
+import { initializeFirefly } from "@squide/firefly";
+import { i18nextPlugin } from "@squide/i18next";
+
+const runtime = initializeFirefly({
+    localModules: [registerHost],
     plugins: [x => {
+        // Supported languages, fallback language, then the querystring parameter to detect the language from.
         const plugin = new i18nextPlugin(x, ["en-US", "fr-CA"], "en-US", "language");
+
+        // Always detect the user language early on.
         plugin.detectUserLanguage();
+
         return plugin;
     }]
 });
 ```
+
+`new FireflyRuntime({ plugins: [...] })` accepts the same factory, but reserve it for tests and other headless scenarios.
 
 Detection order defaults to querystring, then the navigator language settings, then the fallback language. Override it with the `detection` option (any [i18next-browser-languagedetector](https://github.com/i18next/i18next-browser-languageDetector#detector-options) option):
 
@@ -712,7 +721,7 @@ function Component() {
 ```ts
 logger.debug("Debug message");      // Verbose debugging
 logger.information("Info message"); // General information
-logger.warn("Warning message");     // Potential issues
+logger.warning("Warning message");  // Potential issues
 logger.error("Error message");      // Errors
 logger.critical("Critical message"); // Criticals
 
