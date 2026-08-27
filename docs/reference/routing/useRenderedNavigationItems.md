@@ -239,15 +239,20 @@ const renderLinkItem: RenderLinkItemFunction = (item, key) => {
 !!!warning
 `priority` is forwarded exactly as it was declared, `undefined` included, so an unset priority can be told apart from an explicit `0`. It is a value to read, not a lever to sort with — neither render callback can reorder anything, as the rest of this section explains.
 
-A comparator runs over the items *before* they reach this hook, where the property is `$priority`. Always default it, the way this hook's own top-level sort does:
+A comparator runs over the items *before* they reach this hook, where the property is `$priority`. Copy the array first and default a missing priority, the way this hook's own top-level sort does:
 
 ```ts
 // Wrong. TypeScript rejects the subtraction, since "$priority" is optional (TS18048).
-navigationItems.sort((x, y) => y.$priority - x.$priority);
+[...navigationItems].sort((x, y) => y.$priority - x.$priority);
 
-// Right, matching this hook's own default.
+// Wrong. "sort" mutates, and this array is the registry's own memoized instance.
 navigationItems.sort((x, y) => (y.$priority ?? 0) - (x.$priority ?? 0));
+
+// Right. Copy first, then sort.
+[...navigationItems].sort((x, y) => (y.$priority ?? 0) - (x.$priority ?? 0));
 ```
+
+[useNavigationItems](./useNavigationItems.md) hands back the registry's memoized array, the same instance on every call, so sorting it in place reorders the menu for every other consumer. It also does not do what you want: the reference never changes, so this hook's `useMemo` does not re-run and the new order only appears on some later, unrelated render.
 
 Bypass the type error and the failure is worse than an exception: a comparator returning `NaN` is read as "these two are equal", so it becomes inconsistent and the items come back in an arbitrary order — partially sorted, not left alone.
 !!!

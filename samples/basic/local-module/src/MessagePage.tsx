@@ -27,7 +27,7 @@ export function MessagePage() {
                 <p>There are a few distinctive features that are showcased with this pages:</p>
                 <ul>
                     <li>The navigation item for this page has a priority of <code>999</code>, which renders it as the first item of the navbar.</li>
-                    <li>The navigation item for this page use custom metadata (<code>$context</code>) to <code>highlight</code> the item in the navbar.</li>
+                    <li>The navigation item for this page uses <code>$context</code> to <code>highlight</code> the item in the navbar. The layout reads it and never spreads it onto the link.</li>
                     <li>The "Send a message" feature showcase how Squide's event bus works.</li>
                 </ul>
             </div>

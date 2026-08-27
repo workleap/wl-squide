@@ -1,5 +1,6 @@
 ---
 "@squide/react-router": minor
+"@squide/firefly": minor
 ---
 
 Renamed the navigation item `$meta` option to `$context`, and the `meta` render prop to `context`.

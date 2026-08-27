@@ -487,7 +487,7 @@ runtime.registerNavigationItem({
 
 > Every key of `$additionalProps` is spread onto the component that the layout renders, therefore every key must be a valid prop for that component.
 
-### Attach metadata to a navigation item
+### Attach context to a navigation item
 
 ```ts !#4-6
 runtime.registerNavigationItem({
@@ -500,7 +500,7 @@ runtime.registerNavigationItem({
 });
 ```
 
-> It's the responsibility of the code rendering the menu to handle the metadata. Unlike `$additionalProps`, metadata is never spread onto the rendered component.
+> It's the responsibility of the code rendering the menu to handle the context. Unlike `$additionalProps`, it is never spread onto the rendered component. This is per-item data for the layout, unrelated to the module registration context and to React context.
 
 ### Retrieve navigation items
 
