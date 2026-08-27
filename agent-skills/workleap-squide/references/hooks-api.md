@@ -26,7 +26,7 @@ const items = useNavigationItems();
 const customItems = useNavigationItems({ menuId: "custom-menu" });
 ```
 
-**Returns:** `RootNavigationItem[]` — `NavigationLink | NavigationSection` plus an optional `$priority`. Returned in registry insertion order, unsorted.
+**Returns:** `RootNavigationItem[]`, an alias of `NavigationLink | NavigationSection`. Returned in registry insertion order, unsorted.
 
 ### useNavigationItemsByMenu()
 Retrieve the full navigation registry grouped by menu id. Returns a `Map<string, RootNavigationItem[]>` keyed by `menuId`. The returned `Map` is reference-stable across calls until the registry changes.
@@ -41,9 +41,10 @@ const menuIds = Array.from(itemsByMenu.keys());
 ### useRenderedNavigationItems(items, renderItem, renderSection)
 Transform navigation items into React elements.
 
-**Sorting:** sorts only the top-level items of the array it receives, by `$priority`, highest first. The
-recursion into a section's `children` is unsorted, so `$priority` never orders a nested item. See
-`references/runtime-api.md` for the nesting paths this affects.
+**Sorting:** sorts only the top-level items of the array it receives, by `$priority`, highest first,
+treating a missing priority as `0`. The recursion into a section's `children` is unsorted. A nested
+item's `$priority` is still forwarded to `renderItem` as the `priority` render prop, as declared, so the
+layout can act on it. See `references/runtime-api.md`.
 
 **Function Signatures (fixed, no custom parameters):**
 - `RenderItemFunction`: `(item: NavigationItemRenderProps, key: string, index: number, level: number) => ReactNode`
@@ -55,8 +56,10 @@ recursion into a section's `children` is unsorted, so `$priority` never orders a
 
 | Type | Properties |
 |------|------------|
-| `NavigationLinkRenderProps` | `label`, `linkProps` (the React Router `Link` props, including `to`), `additionalProps` (from `$additionalProps`, spread onto the component), `meta` (from `$meta`, only read), `canRender?()` |
-| `NavigationSectionRenderProps` | `label`, `section` (the rendered children elements), `additionalProps`, `meta`, `canRender?()` |
+| `NavigationLinkRenderProps` | `label`, `linkProps` (the React Router `Link` props, including `to`), `priority?` (from `$priority`, as declared), `additionalProps` (from `$additionalProps`, spread onto the component), `meta` (from `$meta`, only read), `canRender?()` |
+| `NavigationSectionRenderProps` | `label`, `section` (the rendered children elements), `priority?`, `additionalProps`, `meta`, `canRender?()` |
+
+Every `$` prefixed prop is stripped from `linkProps`, so a metadata prop never reaches the DOM element.
 
 **`canRender()`:** when an item was registered with a `$canRender` option, it is exposed on the render props as a `canRender()` function. It is the responsibility of the code rendering the menu to call it and skip the item when it returns `false` — Squide does not filter the items itself. Since `$canRender` is optional, `canRender` is `undefined` for items registered without it — call it optionally (`item.canRender?.()`) unless every item is known to declare one.
 

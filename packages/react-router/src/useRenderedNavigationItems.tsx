@@ -6,6 +6,10 @@ import { isLinkItem, type NavigationItem, type NavigationLink, type NavigationSe
 export interface NavigationLinkRenderProps {
     label: ReactNode;
     linkProps: Omit<LinkProps, "children">;
+    // Forwarded as declared, "undefined" included, so the renderer can tell an unset priority from an explicit
+    // 0. Squide sorts a menu's top-level items itself and treats a missing priority as 0; a renderer sorting a
+    // section's items should do the same.
+    priority?: number;
     additionalProps: Record<string, unknown>;
     meta: Record<string, unknown>;
     canRender?: (obj?: unknown) => boolean;
@@ -14,6 +18,8 @@ export interface NavigationLinkRenderProps {
 export interface NavigationSectionRenderProps {
     label: ReactNode;
     section: ReactNode;
+    // See NavigationLinkRenderProps' "priority".
+    priority?: number;
     additionalProps: Record<string, unknown>;
     meta: Record<string, unknown>;
     canRender?: (obj?: unknown) => boolean;
@@ -39,6 +45,7 @@ function stripMetadataProps<T>(props: T): T {
 
 function toLinkProps({
     $label,
+    $priority,
     $additionalProps,
     $meta,
     $canRender,
@@ -48,16 +55,18 @@ function toLinkProps({
     return {
         label: $label,
         linkProps: stripMetadataProps(linkProps),
+        priority: $priority,
         additionalProps: $additionalProps ?? {},
         meta: $meta ?? {},
         canRender: $canRender
     };
 }
 
-function toMenuProps({ $label, $additionalProps, $meta, $canRender }: NavigationSection, sectionElement: ReactNode): NavigationSectionRenderProps {
+function toMenuProps({ $label, $priority, $additionalProps, $meta, $canRender }: NavigationSection, sectionElement: ReactNode): NavigationSectionRenderProps {
     return {
         label: $label,
         section: sectionElement,
+        priority: $priority,
         additionalProps: $additionalProps ?? {},
         meta: $meta ?? {},
         canRender: $canRender
@@ -109,7 +118,8 @@ export function useRenderedNavigationItems(
                 return xp > yp ? -1 : 1;
             });
 
-        // "$priority" doesn't have to be omitted here, "toLinkProps" strips every "$" prefixed prop.
+        // "$priority" is forwarded to the renderer as "priority" rather than reaching the Link component:
+        // "toLinkProps" destructures it out, and "stripMetadataProps" would drop it regardless.
         return renderItems(sortedItems, renderItem, renderSection, "root", 0, 0);
     }, [navigationItems, renderItem, renderSection]);
 }
