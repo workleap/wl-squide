@@ -415,7 +415,7 @@ Rules:
 - Completion functions run even when the run fails, with whatever was registered before the failure. There is no rollback.
 - A plugin that doesn't declare the method is skipped.
 - A faulty plugin is isolated, not fatal: a throwing hook or completion function is logged, the remaining plugins are still notified, the modules still register, and the run still resolves. The error reaches the runtime logger only, never the `onError` callback of `useDeferredRegistrations`.
-- Module registration errors do **not** count as a failed run: they are collected and returned as `ModuleRegistrationError[]` rather than thrown. A module that throws silently drops its own entries for that run.
+- Module registration errors do **not** count as a failed run: they are collected and returned as `ModuleRegistrationError[]` rather than thrown. There is no per-module rollback either — a module that throws part way through keeps whatever it already registered and only loses what it hadn't registered yet, so a plugin registry can hold a half-registered module's entries.
 
 ## Getters
 

@@ -197,4 +197,4 @@ A faulty plugin is isolated rather than allowed to fail the run, the same way a 
 A completion function error is reported **only** to the runtime logger. It doesn't reach the [onError](../registration/useDeferredRegistrations.md#handle-registration-errors) callback of `useDeferredRegistrations`, which receives module registration errors. Don't rely on a completion function's failure surfacing anywhere else.
 !!!
 
-A module that throws doesn't fail the run either. Module errors are collected and reported through `onError` rather than thrown, so a failing module silently drops its own entries for that run, plugin registry and navigation items alike.
+A module that throws doesn't fail the run either. Module errors are collected and reported through `onError` rather than thrown. There's no per-module rollback: a module that throws part way through keeps whatever it already registered, plugin registry and navigation items alike, and only loses what it hadn't registered yet.
