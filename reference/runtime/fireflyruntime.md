@@ -251,7 +251,8 @@ const routes = runtime.routes;
 runtime.registerNavigationItem(item, options?: { menuId?, sectionId? })
 ```
 
-- `item`: `NavigationSection | NavigationLink`.
+- `item`: `RootNavigationItem` — a `NavigationSection | NavigationLink` plus an optional `$priority`:
+    - `$priority`: An order priority affecting the position of the item in the menu (higher first). Only honored for a top-level item, see [Sort navigation items](#sort-navigation-items).
 - `options`: An optional object literal of options:
     - `menuId`: An optional menu id to associate the item with.
     - `sectionId`: An optional section id of a parent navigation section to register this new item under.
@@ -264,7 +265,6 @@ Accept any properties of a React Router [Link](https://reactrouter.com/en/main/c
 - `$id`: An optional identifier for the link. Usually used as the React element [key](https://legacy.reactjs.org/docs/lists-and-keys.html#keys) property.
 - `$label`: The link text.
 - `$canRender`: An optional function accepting an object and returning a `boolean` indicating whether or not the link should be rendered.
-- `$priority`: An order priority affecting the position of the item in the menu (higher first)
 - `$additionalProps`: Additional properties to be spread onto the link component.
 - `$meta`: Metadata for the code rendering the menu to read. Never spread onto the link component.
 
@@ -273,7 +273,6 @@ Accept any properties of a React Router [Link](https://reactrouter.com/en/main/c
 - `$id`: An optional identifier for the section. Usually used to nest navigation items under a specific section and as the React element [key](https://legacy.reactjs.org/docs/lists-and-keys.html#keys) property.
 - `$label`: The section text.
 - `$canRender`: An optional function accepting an object and returning a `boolean` indicating whether or not the section should be rendered.
-- `$priority`: An order priority affecting the position of the item in the menu (higher first)
 - `$additionalProps`: Additional properties to be spread onto the section component.
 - `$meta`: Metadata for the code rendering the menu to read. Never spread onto the section component.
 - `children`: The section content.
@@ -305,11 +304,11 @@ runtime.registerNavigationItem({
 });
 ```
 
-Additionally, when combined with the [useRenderedNavigationItems]() function, the `$id` option will be used as the React element `key` property.
+Additionally, when combined with the [useRenderedNavigationItems](../routing/useRenderedNavigationItems.md) function, the `$id` option will be used as the React element `key` property.
 
 ### Register nested navigation items
 
-Similarly to [nested routes](#register-nested-navigation-items), a navigation item can be nested under an existing section be specifying a `sectionId` option that matches the section's `$id` option:
+Similarly to [nested routes](#register-nested-routes), a navigation item can be nested under an existing section by specifying a `sectionId` option that matches the section's `$id` option:
 
 ```ts !#7
 runtime.registerNavigationItem({
@@ -377,6 +376,12 @@ A `$priority` option can be added to a navigation item to affect it's position i
 - If no navigation item have a priority, the items are positioned according to their registration order.
 - If an item have a priority `> 0`, the item will be positioned before any other items with a lower priority (or without an explicit priority value).
 - If an item have a priority `< 0`, the item will be positioned after any other items with a higher priority (or without an explicit priority value).
+
+!!!warning
+Sorting only applies to the **top-level** items of a menu. An item nested inside a section renders in the order it appears in that section's `children` array, and its `$priority` is ignored.
+
+`$priority` is declared on the root item type only, so writing it directly inside a `children` literal is a TypeScript error. The two paths that do compile, assigning a variable that carries a `$priority` into `children`, and passing the [sectionId](#register-nested-navigation-items) option, both drop the priority silently.
+!!!
 
 ```ts !#4,13
 runtime.registerNavigationItem({

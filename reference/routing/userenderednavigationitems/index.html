@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <meta name="color-scheme" content="light dark">
     <meta name="turbo-root" content="/wl-squide">
-    <meta name="turbo-cache-control" content="no-cache" data-turbo-track="reload" data-track-token="4.6.0.841089629913">
+    <meta name="turbo-cache-control" content="no-cache" data-turbo-track="reload" data-track-token="4.6.0.841110451419">
 
     <!-- See retype.com -->
     <meta name="generator" content="Retype 4.6.0">
@@ -39,12 +39,12 @@
     <script data-cfasync="false">(function(){var cl=document.documentElement.classList,ls=localStorage.getItem("retype_scheme"),hd=cl.contains("dark"),hl=cl.contains("light"),wm=window.matchMedia&&window.matchMedia("(prefers-color-scheme: dark)").matches;if(ls==="dark"||(!ls&&wm&&!hd&&!hl)){cl.remove("light");cl.add("dark")}else if(ls==="light"||(!ls&&!wm&&!hd&&!hl)){cl.remove("dark");cl.add("light")}})();</script>
 
     <link id="retype-favicon" rel="icon" href="../../../static/favicon.png" />
-    <link href="../../../resources/css/retype.css?v=4.6.0.841089629913" rel="stylesheet">
+    <link href="../../../resources/css/retype.css?v=4.6.0.841110451419" rel="stylesheet">
 
-    <script data-cfasync="false" src="../../../resources/js/config.js?v=4.6.0.841089629913" data-turbo-eval="false" defer></script>
+    <script data-cfasync="false" src="../../../resources/js/config.js?v=4.6.0.841110451419" data-turbo-eval="false" defer></script>
     <script data-cfasync="false" src="../../../resources/js/retype.js?v=4.6.0" data-turbo-eval="false" defer></script>
-    <script id="lunr-js" data-cfasync="false" src="../../../resources/js/lunr.js?v=4.6.0.841089629913" data-turbo-eval="false" defer></script>
-    <script id="prism-js" data-cfasync="false" src="../../../resources/js/prism.js?v=4.6.0.841089629913" defer></script>
+    <script id="lunr-js" data-cfasync="false" src="../../../resources/js/lunr.js?v=4.6.0.841110451419" data-turbo-eval="false" defer></script>
+    <script id="prism-js" data-cfasync="false" src="../../../resources/js/prism.js?v=4.6.0.841110451419" defer></script>
 
     <link href="https://workleap.github.io/wl-idp-docs-hub/static/retype-customization.css" rel="stylesheet" />
 
@@ -284,7 +284,11 @@
 </doc-codeblock></div>
 <h3 id="parameters">Parameters</h3>
 <ul>
-<li><code translate="no" v-pre>navigationItems</code>: An array of <code translate="no" v-pre>NavigationLink | NavigationSection</code> to render.</li>
+<li><code translate="no" v-pre>navigationItems</code>: An array of <code translate="no" v-pre>RootNavigationItem</code> to render — a <code translate="no" v-pre>NavigationLink | NavigationSection</code> plus an optional <code translate="no" v-pre>$priority</code>. The hook sorts the <strong>top-level</strong> items of the array by <code translate="no" v-pre>$priority</code> (higher first) before rendering. Nested items render in the order they appear in their section&#x27;s <code translate="no" v-pre>children</code> array, their <code translate="no" v-pre>$priority</code> is ignored.
+<ul>
+<li><code translate="no" v-pre>$priority</code>: An optional order priority affecting the position of the item in the menu (higher first). Declared on <code translate="no" v-pre>RootNavigationItem</code> only. It is honored for the menu&#x27;s top-level items. A nested item may still carry a <code translate="no" v-pre>$priority</code> at runtime, when it was registered with the <code translate="no" v-pre>sectionId</code> option, but it is ignored.</li>
+</ul>
+</li>
 <li><code translate="no" v-pre>renderItem</code>: A function to render a link from a navigation item</li>
 <li><code translate="no" v-pre>renderSection</code>: A function to render a section from a collection of items.</li>
 </ul>
@@ -620,6 +624,16 @@ export const register: ModuleRegisterFunction&lt;FireflyRuntime&gt; = runtime =&
                 <span class="card-compact-title">Register navigation items</span>
             </div>
             <p class="card-compact-description">By allowing consumers to register dynamic navigation items, Squide enables developers to build scalable modular applications with well-defined boundaries. Each module contributes its own navigation items, which the host assembles into a unified application.</p>
+        </div>
+    </a>
+</div>
+<div class="card-compact-container">
+    <a href="/wl-squide/reference/routing/usenavigationitems/" class="group card-compact no-link">
+        <div class="card-compact-body">
+            <div class="card-compact-header">
+                <span class="card-compact-title">useNavigationItems</span>
+            </div>
+            <p class="card-compact-description">Retrieve the registered navigation items from the FireflyRuntime instance.</p>
         </div>
     </a>
 </div>

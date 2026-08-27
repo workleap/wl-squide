@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <meta name="color-scheme" content="light dark">
     <meta name="turbo-root" content="/wl-squide">
-    <meta name="turbo-cache-control" content="no-cache" data-turbo-track="reload" data-track-token="4.6.0.841089629913">
+    <meta name="turbo-cache-control" content="no-cache" data-turbo-track="reload" data-track-token="4.6.0.841110451419">
 
     <!-- See retype.com -->
     <meta name="generator" content="Retype 4.6.0">
@@ -45,12 +45,12 @@
     <script data-cfasync="false">(function(){var cl=document.documentElement.classList,ls=localStorage.getItem("retype_scheme"),hd=cl.contains("dark"),hl=cl.contains("light"),wm=window.matchMedia&&window.matchMedia("(prefers-color-scheme: dark)").matches;if(ls==="dark"||(!ls&&wm&&!hd&&!hl)){cl.remove("light");cl.add("dark")}else if(ls==="light"||(!ls&&!wm&&!hd&&!hl)){cl.remove("dark");cl.add("light")}})();</script>
 
     <link id="retype-favicon" rel="icon" href="../../static/favicon.png" />
-    <link href="../../resources/css/retype.css?v=4.6.0.841089629913" rel="stylesheet">
+    <link href="../../resources/css/retype.css?v=4.6.0.841110451419" rel="stylesheet">
 
-    <script data-cfasync="false" src="../../resources/js/config.js?v=4.6.0.841089629913" data-turbo-eval="false" defer></script>
+    <script data-cfasync="false" src="../../resources/js/config.js?v=4.6.0.841110451419" data-turbo-eval="false" defer></script>
     <script data-cfasync="false" src="../../resources/js/retype.js?v=4.6.0" data-turbo-eval="false" defer></script>
-    <script id="lunr-js" data-cfasync="false" src="../../resources/js/lunr.js?v=4.6.0.841089629913" data-turbo-eval="false" defer></script>
-    <script id="prism-js" data-cfasync="false" src="../../resources/js/prism.js?v=4.6.0.841089629913" defer></script>
+    <script id="lunr-js" data-cfasync="false" src="../../resources/js/lunr.js?v=4.6.0.841110451419" data-turbo-eval="false" defer></script>
+    <script id="prism-js" data-cfasync="false" src="../../resources/js/prism.js?v=4.6.0.841110451419" defer></script>
 
     <link href="https://workleap.github.io/wl-idp-docs-hub/static/retype-customization.css" rel="stylesheet" />
 
@@ -535,8 +535,8 @@ export function TabsLayout() {
 }</code></pre>
 </doc-codeblock></div>
 <h2 id="change-the-display-order-of-the-tabs">Change the display order of the tabs</h2>
-<p>Similarly to how the display order of regular navigation items can be configured, a modular tab position can be affected with the <a href="http://localhost:5000/wl-squide/reference/runtime/runtime-class/#sort-registered-navigation-items" class="outbound" target="_blank">priority</a> option.</p>
-<p>To force <code translate="no" v-pre>Tab 3</code> to be positioned first, we&#x27;ll give him a priority of <code translate="no" v-pre>999</code>:</p>
+<p>Similarly to how the display order of regular navigation items can be configured, a modular tab position can be affected with the <a href="../../reference/runtime/fireflyruntime/#sort-navigation-items">$priority</a> option.</p>
+<p>To force <code translate="no" v-pre>Tab 3</code> to be positioned first, we&#x27;ll give it a priority of <code translate="no" v-pre>999</code>:</p>
 <div id="change-the-display-order-of-the-tabs-local-module-3srcregistertsx" class="codeblock-wrapper"><doc-codeblock>
 <div class="codeblock-title">local-module-3/src/register.tsx</div>
 <pre translate="no" class="language-tsx" data-line="16"><code v-pre class="language-tsx">import type { ModuleRegisterFunction, FireflyRuntime } from &quot;@squide/firefly&quot;;

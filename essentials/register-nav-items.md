@@ -30,7 +30,7 @@ The `registerNavigationItem` function accepts a `sectionId` option, allowing a n
 
 ## Register a nested item
 
-Similarly to [nested routes](./register-routes.md#register-a-nested-route), a navigation item can be nested under an existing section be specifying a `sectionId` option that matches the section's `$id` option:
+Similarly to [nested routes](./register-routes.md#register-a-nested-route), a navigation item can be nested under an existing section by specifying a `sectionId` option that matches the section's `$id` option:
 
 ```ts !#10
 import type { ModuleRegisterFunction, FireflyRuntime } from "@squide/firefly";
@@ -92,6 +92,12 @@ A `$priority` option can be defined for a navigation item to affect it's positio
 - If no navigation item have a priority, the items are positioned according to their registration order.
 - If an item have a priority `> 0`, the item will be positioned before any other items with a lower priority (or without an explicit priority value).
 - If an item have a priority `< 0`, the item will be positioned after any other items with a higher priority (or without an explicit priority value).
+
+!!!warning
+Sorting only applies to the **top-level** items of a menu. An item nested inside a section renders in the order it appears in that section's `children` array, and its `$priority` is ignored.
+
+`$priority` is declared on the root item type only, so writing it directly inside a `children` literal is a TypeScript error. The two paths that do compile, assigning a variable that carries a `$priority` into `children`, and passing the [sectionId](#register-a-nested-item) option, both drop the priority silently.
+!!!
 
 ```ts !#7,16
 import type { ModuleRegisterFunction, FireflyRuntime } from "@squide/firefly";
