@@ -29,7 +29,7 @@ const customItems = useNavigationItems({ menuId: "custom-menu" });
 **Returns:** `RootNavigationItem[]`, an alias of `NavigationLink | NavigationSection`. Returned in registry insertion order, unsorted.
 
 ### useNavigationItemsByMenu()
-Retrieve the full navigation registry grouped by menu id. Returns a `Map<string, RootNavigationItem[]>` keyed by `menuId`. The returned `Map` is reference-stable across calls until the registry changes.
+Retrieve the full navigation registry grouped by menu id. Returns a `Map<string, RootNavigationItem[]>` keyed by `menuId`. The returned `Map` is reference-stable across calls until the registry changes. Like `useNavigationItems`, the arrays come back in registry insertion order — this hook does not sort by `$priority`.
 
 ```ts
 import { useNavigationItemsByMenu } from "@squide/firefly";
@@ -371,8 +371,18 @@ Reference the file in `tsconfig.json`:
 }
 ```
 
+Every **other** project reading those variables must reference the declaring project's file as well, otherwise the augmentation is invisible to it. The same rule applies to the `EventMap` and `FeatureFlags` augmentations:
+
+```json
+{
+    "compilerOptions": {
+        "types": ["../another-project/types/env-vars.d.ts"]
+    }
+}
+```
+
 ### useEnvironmentVariable(key)
-Get a single environment variable.
+Get a single environment variable. Throws an `Error` when no variable matches the key.
 
 ```ts
 import { useEnvironmentVariable } from "@squide/firefly";
@@ -462,7 +472,7 @@ const mode = useRuntimeMode(); // "development" | "production"
 ## Plugin Hooks
 
 ### usePlugin(name)
-Get a registered plugin by name.
+Get a registered plugin by name. Throws an `Error` when the plugin was never registered — unlike `runtime.getPlugin(name, { throwOnNotFound: false })`, there is no non-throwing variant.
 
 ```ts
 import { usePlugin } from "@squide/firefly";
