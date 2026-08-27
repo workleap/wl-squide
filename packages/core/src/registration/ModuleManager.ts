@@ -1,3 +1,4 @@
+import type { DeferredRegistrationScopeCompletionFunction, DeferredRegistrationScopeOptions } from "../plugins/Plugin.ts";
 import { Runtime } from "../runtime/Runtime.ts";
 import { ModuleRegistrationError, ModuleRegistry, RegisterModulesOptions } from "./ModuleRegistry.ts";
 import { ModuleRegisterFunction } from "./registerModule.ts";
@@ -52,12 +53,59 @@ export class ModuleManager {
         return errors;
     }
 
-    async registerDeferredRegistrations<TData = unknown>(data?: TData) {
+    async #withDeferredRegistrationScope<T>(options: DeferredRegistrationScopeOptions, run: () => Promise<T>) {
         this.runtime.startDeferredRegistrationScope({
-            operation: "register"
+            transactional: options.transactional
         });
 
+        const completionFunctions: DeferredRegistrationScopeCompletionFunction[] = [];
+
         try {
+            // The plugins are notified before the modules so they can reset their registry first. A faulty plugin is
+            // isolated rather than failing the run: aborting would leave the modules unregistered, and therefore never
+            // ready, which keeps the application on its bootstrapping fallback forever.
+            for (const plugin of this.runtime.plugins) {
+                try {
+                    const completionFunction = plugin.onDeferredRegistrationScopeStarted?.({ ...options });
+
+                    if (typeof completionFunction === "function") {
+                        completionFunctions.push(completionFunction);
+                    }
+                } catch (error: unknown) {
+                    this.runtime.logger
+                        .withText(`[squide] An error occured while starting the deferred registration scope of the "${plugin.name}" plugin.`)
+                        .withError(error as Error)
+                        .error();
+                }
+            }
+
+            // The runtime listeners are the non plugin surface of the very same hook, so they are notified in
+            // the same place, under the same guarantees. Plugins first: a plugin registry is framework adjacent
+            // and an application listener may want to read what a plugin just reset.
+            completionFunctions.push(...this.runtime._notifyDeferredRegistrationScopeStarted(options));
+
+            return await run();
+        } finally {
+            // A completion error is logged rather than rethrown. Rethrowing would abort the caller before it notifies
+            // the app router store, and the navigation items committed just below would never be rendered.
+            for (const completionFunction of completionFunctions) {
+                try {
+                    completionFunction();
+                } catch (error: unknown) {
+                    this.runtime.logger
+                        .withText("[squide] An error occured while completing a plugin deferred registration scope.")
+                        .withError(error as Error)
+                        .error();
+                }
+            }
+
+            // Must always be completed, otherwise every subsequent run throws for the lifetime of the runtime.
+            this.runtime.completeDeferredRegistrationScope();
+        }
+    }
+
+    async registerDeferredRegistrations<TData = unknown>(data?: TData) {
+        return this.#withDeferredRegistrationScope({ operation: "register", transactional: false }, async () => {
             const errors: ModuleRegistrationError[] = [];
 
             // Using Promise.all rather than Promise.allSettled to throw any errors that occurs.
@@ -68,18 +116,11 @@ export class ModuleManager {
             }));
 
             return errors;
-        } finally {
-            this.runtime.completeDeferredRegistrationScope();
-        }
+        });
     }
 
     async updateDeferredRegistrations<TData = unknown>(data?: TData) {
-        this.runtime.startDeferredRegistrationScope({
-            transactional: true,
-            operation: "update"
-        });
-
-        try {
+        return this.#withDeferredRegistrationScope({ operation: "update", transactional: true }, async () => {
             const errors: ModuleRegistrationError[] = [];
 
             // IMPORTANT: Currently cannot make this a concurrent operation because it cause errors
@@ -91,9 +132,7 @@ export class ModuleManager {
             };
 
             return errors;
-        } finally {
-            this.runtime.completeDeferredRegistrationScope();
-        }
+        });
     }
 
     getAreModulesRegistered() {

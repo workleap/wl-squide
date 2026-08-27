@@ -4,10 +4,10 @@
 "@squide/firefly": minor
 ---
 
-Added `runtime.registerDeferredRegistrationScopeStartedListener(callback)` and `runtime.removeDeferredRegistrationScopeStartedListener(callback)`, which notify a consumer whenever a deferred registration run starts.
+Added `runtime.registerDeferredRegistrationScopeStartedListener(callback)` and `runtime.removeDeferredRegistrationScopeStartedListener(callback)`, the non plugin counterpart of `Plugin.onDeferredRegistrationScopeStarted`.
 
 ```ts
-const dispose = runtime.registerDeferredRegistrationScopeStartedListener(operation => {
+const dispose = runtime.registerDeferredRegistrationScopeStartedListener(({ operation }) => {
     // "register" for the initial run, "update" for every subsequent one.
     commandPaletteRegistry.clear();
 });
@@ -16,30 +16,28 @@ const dispose = runtime.registerDeferredRegistrationScopeStartedListener(operati
 dispose();
 ```
 
-The callback receives a `DeferredRegistrationOperation` — `"register"` or `"update"` — the same value already handed to every deferred registration function as its third argument. Registration returns a disposer, and `removeDeferredRegistrationScopeStartedListener` remains available for consumers that prefer to hold onto the callback reference.
+Registration returns a disposer. `removeDeferredRegistrationScopeStartedListener` is there for consumers that prefer to hold onto the callback reference.
 
 ## Why
 
-Only routes and navigation items participate in a deferred registration run. An application that maintains its own registry, filled from the same deferred registration functions, had no way to join the run.
+A registry that modules fill from their deferred registration functions needs the same clear-and-replay treatment Squide already gives its navigation items, otherwise an entry registered behind a feature flag survives that flag being turned off for the rest of the session.
 
-Concretely: an application keeps a command palette registry — a flat, searchable list of navigation destinations — populated from the same deferred registration functions that register the navigation items. When a feature flag flips off, `updateDeferredRegistrations` clears and replays the navigation items, so the sidebar is correct. Nothing cleared the palette, so its entries for that feature survived for the rest of the session. There was no correct place for that registry to reset itself.
+`Plugin.onDeferredRegistrationScopeStarted` covers that when the registry lives in a plugin. It often doesn't — an application-side registration helper holds the same kind of per-run state and needs the same signal, without inventing a plugin to hold it.
 
-The `DeferredRegistrationsUpdateStartedEvent` event could not fill the gap:
+## One mechanism, two entry points
 
-- It is dispatched only on the **update** path. The initial run dispatches no equivalent, so a registry that must reset before the first run had nothing to listen to.
-- It is dispatched by the `useUpdateDeferredRegistrations` hook, around the call to `moduleManager.updateDeferredRegistrations` rather than inside it. Its ordering relative to the navigation item replay was a property of the hook's statement order, not of the run.
+This is deliberately **not** a second way to do the same thing. The listener takes the same options, returns the same optional completion function, and is driven from the same `ModuleManager` scope bracket as the plugin hook, in the same place, under the same guarantees:
 
-The new listener fires from the scope itself, which brackets **both** paths, so the same callback covers the initial run and every update, and its position relative to the navigation item replay is guaranteed.
-
-## Behavior
-
-- The listener is notified **after** the scope is in place and **before** any deferred registration function runs, so it always observes the state as it was before the run replayed anything.
+- Notified on **both** the initial run and every update run, before any module's deferred registration function. Plugins are notified first, so a listener can read what a plugin just reset.
+- A returned completion function runs once the run has settled, before the runtime's scope is completed, and runs even when the run failed — partial commit, no rollback, the same semantics as the navigation items.
+- The listener and its completion function must be synchronous. Nothing awaits them.
+- An error thrown by either is logged and swallowed; one faulty listener never fails a run.
 - Listeners are notified in registration order.
-- A throwing listener is logged through the runtime logger and never propagated. Letting it escape would leave the scope open and break every subsequent deferred registration run for the lifetime of the runtime.
-- The listeners are also reachable from the `RuntimeScope` instance that modules receive — observing the boundary is allowed, even though starting or completing a scope is not.
+
+**Prefer the plugin hook when the registry lives in a plugin** — there is nothing to subscribe and nothing to dispose. Reach for a listener only when the state isn't owned by a plugin.
+
+The listeners are also reachable from the `RuntimeScope` instance that modules receive: observing the boundary is allowed, even though starting or completing a scope is not.
 
 ## Are you affected
 
 No. This release is purely additive; existing code is unaffected.
-
-`StartDeferredRegistrationScopeOptions` gained an optional `operation` field. If you call `runtime.startDeferredRegistrationScope()` directly — which is uncommon, as the framework drives it through `ModuleManager` — the operation defaults to `"update"` when `transactional` is `true` and `"register"` otherwise, so no call site needs to change.

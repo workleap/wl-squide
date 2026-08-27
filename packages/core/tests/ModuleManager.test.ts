@@ -1,10 +1,14 @@
 import { NoopLogger } from "@workleap/logging";
 import { describe, test, vi } from "vitest";
+import { Plugin, type DeferredRegistrationScopeCompletionFunction, type DeferredRegistrationScopeOptions } from "../src/plugins/Plugin.ts";
 import { ModuleManager } from "../src/registration/ModuleManager.ts";
 import { ModuleRegistrationError, ModuleRegistrationStatus, ModuleRegistrationStatusChangedListener, ModuleRegistry } from "../src/registration/ModuleRegistry.ts";
 import { Runtime } from "../src/runtime/Runtime.ts";
 
 class DummyRuntime extends Runtime {
+    // A single instance rather than a new one per access, otherwise the logger cannot be spied on.
+    readonly #logger = new NoopLogger();
+
     registerRoute() {
         throw new Error("Method not implemented.");
     }
@@ -36,7 +40,7 @@ class DummyRuntime extends Runtime {
     }
 
     get logger() {
-        return new NoopLogger();
+        return this.#logger;
     }
 
     startScope(): Runtime {
@@ -311,23 +315,6 @@ describe.concurrent("registerDeferredRegistrations", () => {
         expect(completeScopeSpy).toHaveBeenCalledOnce();
     });
 
-    test.concurrent("the deferred registration scope is started with the \"register\" operation", async ({ expect }) => {
-        const moduleRegistry = new DummyModuleRegistry();
-
-        const runtime = new DummyRuntime({
-            moduleManager: x => new ModuleManager(x, [moduleRegistry]),
-            loggers: [new NoopLogger()]
-        });
-
-        const startScopeSpy = vi.spyOn(runtime, "startDeferredRegistrationScope");
-
-        await runtime.moduleManager.registerDeferredRegistrations({ foo: "bar" });
-
-        expect(startScopeSpy).toHaveBeenCalledExactlyOnceWith(expect.objectContaining({
-            operation: "register"
-        }));
-    });
-
     test("when an unmanaged error is thrown, complete the deferred registration scope", async ({ expect }) => {
         const moduleRegistry1 = new DummyModuleRegistry();
         const moduleRegistry2 = new DummyModuleRegistry();
@@ -483,24 +470,6 @@ describe.concurrent("updateDeferredRegistrations", () => {
         expect(completeScopeSpy).toHaveBeenCalledOnce();
     });
 
-    test.concurrent("the deferred registration scope is started with the \"update\" operation", async ({ expect }) => {
-        const moduleRegistry = new DummyModuleRegistry();
-
-        const runtime = new DummyRuntime({
-            moduleManager: x => new ModuleManager(x, [moduleRegistry]),
-            loggers: [new NoopLogger()]
-        });
-
-        const startScopeSpy = vi.spyOn(runtime, "startDeferredRegistrationScope");
-
-        await runtime.moduleManager.updateDeferredRegistrations({ foo: "bar" });
-
-        expect(startScopeSpy).toHaveBeenCalledExactlyOnceWith(expect.objectContaining({
-            transactional: true,
-            operation: "update"
-        }));
-    });
-
     test.concurrent("when an unmanaged error is thrown, complete the deferred registration scope", async ({ expect }) => {
         const moduleRegistry1 = new DummyModuleRegistry();
         const moduleRegistry2 = new DummyModuleRegistry();
@@ -562,6 +531,692 @@ describe.concurrent("updateDeferredRegistrations", () => {
         expect(errors[0]).toBe(error1);
         expect(errors[1]).toBe(error2);
         expect(errors[2]).toBe(error3);
+    });
+});
+
+describe.concurrent("plugins deferred registration scope lifecycle", () => {
+    class DummyModuleRegistry extends ModuleRegistry {
+        get id(): string {
+            throw new Error("Method not implemented.");
+        }
+
+        registerModules(): Promise<ModuleRegistrationError[]> {
+            throw new Error("Method not implemented.");
+        }
+
+        registerDeferredRegistrations(): Promise<ModuleRegistrationError[]> {
+            return Promise.resolve([]);
+        }
+
+        updateDeferredRegistrations(): Promise<ModuleRegistrationError[]> {
+            return Promise.resolve([]);
+        }
+
+        registerStatusChangedListener(): void {
+            throw new Error("Method not implemented.");
+        }
+
+        removeStatusChangedListener(): void {
+            throw new Error("Method not implemented.");
+        }
+
+        setAsReady(): void {
+            throw new Error("Method not implemented.");
+        }
+
+        get registrationStatus(): ModuleRegistrationStatus {
+            throw new Error("Method not implemented.");
+        }
+    }
+
+    class DummyPlugin extends Plugin {}
+
+    type OnDeferredRegistrationScopeStartedHandler = (options: DeferredRegistrationScopeOptions) => DeferredRegistrationScopeCompletionFunction | void;
+
+    class DummyScopeAwarePlugin extends Plugin {
+        readonly #handler: OnDeferredRegistrationScopeStartedHandler;
+
+        constructor(name: string, runtime: Runtime, handler: OnDeferredRegistrationScopeStartedHandler) {
+            super(name, runtime);
+
+            this.#handler = handler;
+        }
+
+        onDeferredRegistrationScopeStarted(options: DeferredRegistrationScopeOptions) {
+            return this.#handler(options);
+        }
+    }
+
+    test.concurrent("when the deferred registrations are registered, the plugins are notified with the \"register\" operation and a non transactional scope", async ({ expect }) => {
+        const handler = vi.fn();
+
+        const runtime = new DummyRuntime({
+            moduleManager: x => new ModuleManager(x, [new DummyModuleRegistry()]),
+            plugins: [x => new DummyScopeAwarePlugin("dummy", x, handler)],
+            loggers: [new NoopLogger()]
+        });
+
+        await runtime.moduleManager.registerDeferredRegistrations({ foo: "bar" });
+
+        expect(handler).toHaveBeenCalledExactlyOnceWith({
+            operation: "register",
+            transactional: false
+        });
+    });
+
+    test.concurrent("when the deferred registrations are updated, the plugins are notified with the \"update\" operation and a transactional scope", async ({ expect }) => {
+        const handler = vi.fn();
+
+        const runtime = new DummyRuntime({
+            moduleManager: x => new ModuleManager(x, [new DummyModuleRegistry()]),
+            plugins: [x => new DummyScopeAwarePlugin("dummy", x, handler)],
+            loggers: [new NoopLogger()]
+        });
+
+        await runtime.moduleManager.updateDeferredRegistrations({ foo: "bar" });
+
+        expect(handler).toHaveBeenCalledExactlyOnceWith({
+            operation: "update",
+            transactional: true
+        });
+    });
+
+    test.concurrent("every plugin declaring the hook is notified", async ({ expect }) => {
+        const handler1 = vi.fn();
+        const handler2 = vi.fn();
+
+        const runtime = new DummyRuntime({
+            moduleManager: x => new ModuleManager(x, [new DummyModuleRegistry()]),
+            plugins: [
+                x => new DummyScopeAwarePlugin("dummy-1", x, handler1),
+                x => new DummyScopeAwarePlugin("dummy-2", x, handler2)
+            ],
+            loggers: [new NoopLogger()]
+        });
+
+        await runtime.moduleManager.updateDeferredRegistrations({ foo: "bar" });
+
+        expect(handler1).toHaveBeenCalledOnce();
+        expect(handler2).toHaveBeenCalledOnce();
+    });
+
+    test.concurrent("when a plugin doesn't declare the hook, the plugin is skipped", async ({ expect }) => {
+        const handler = vi.fn();
+
+        const runtime = new DummyRuntime({
+            moduleManager: x => new ModuleManager(x, [new DummyModuleRegistry()]),
+            plugins: [
+                x => new DummyPlugin("dummy-without-hook", x),
+                x => new DummyScopeAwarePlugin("dummy-with-hook", x, handler)
+            ],
+            loggers: [new NoopLogger()]
+        });
+
+        await expect(runtime.moduleManager.updateDeferredRegistrations({ foo: "bar" })).resolves.toStrictEqual([]);
+
+        expect(handler).toHaveBeenCalledOnce();
+    });
+
+    test.concurrent("the plugins are notified before the modules deferred registrations are updated, and the completion functions are executed after, while the runtime scope is still open", async ({ expect }) => {
+        const calls: string[] = [];
+
+        const moduleRegistry = new DummyModuleRegistry();
+
+        vi.spyOn(moduleRegistry, "updateDeferredRegistrations").mockImplementation(() => {
+            calls.push("update-modules");
+
+            return Promise.resolve([]);
+        });
+
+        const runtime = new DummyRuntime({
+            moduleManager: x => new ModuleManager(x, [moduleRegistry]),
+            plugins: [x => new DummyScopeAwarePlugin("dummy", x, () => {
+                calls.push("scope-started");
+
+                return () => {
+                    calls.push("scope-completed");
+                };
+            })],
+            loggers: [new NoopLogger()]
+        });
+
+        vi.spyOn(runtime, "startDeferredRegistrationScope").mockImplementation(() => {
+            calls.push("start-runtime-scope");
+        });
+
+        vi.spyOn(runtime, "completeDeferredRegistrationScope").mockImplementation(() => {
+            calls.push("complete-runtime-scope");
+        });
+
+        await runtime.moduleManager.updateDeferredRegistrations({ foo: "bar" });
+
+        expect(calls).toStrictEqual([
+            "start-runtime-scope",
+            "scope-started",
+            "update-modules",
+            "scope-completed",
+            "complete-runtime-scope"
+        ]);
+    });
+
+    test.concurrent("when the hook doesn't return a completion function, the run completes", async ({ expect }) => {
+        const runtime = new DummyRuntime({
+            moduleManager: x => new ModuleManager(x, [new DummyModuleRegistry()]),
+            plugins: [x => new DummyScopeAwarePlugin("dummy", x, () => {})],
+            loggers: [new NoopLogger()]
+        });
+
+        const completeScopeSpy = vi.spyOn(runtime, "completeDeferredRegistrationScope");
+
+        await expect(runtime.moduleManager.updateDeferredRegistrations({ foo: "bar" })).resolves.toStrictEqual([]);
+
+        expect(completeScopeSpy).toHaveBeenCalledOnce();
+    });
+
+    test.concurrent("when the hook throws, the modules deferred registrations are still updated and the runtime scope is completed", async ({ expect }) => {
+        const moduleRegistry = new DummyModuleRegistry();
+
+        const updateSpy = vi.spyOn(moduleRegistry, "updateDeferredRegistrations");
+
+        const runtime = new DummyRuntime({
+            moduleManager: x => new ModuleManager(x, [moduleRegistry]),
+            plugins: [x => new DummyScopeAwarePlugin("dummy", x, () => {
+                throw new Error("Something went wrong!");
+            })],
+            loggers: [new NoopLogger()]
+        });
+
+        const completeScopeSpy = vi.spyOn(runtime, "completeDeferredRegistrationScope");
+
+        await expect(runtime.moduleManager.updateDeferredRegistrations({ foo: "bar" })).resolves.toStrictEqual([]);
+
+        expect(updateSpy).toHaveBeenCalledOnce();
+        expect(completeScopeSpy).toHaveBeenCalledOnce();
+    });
+
+    test.concurrent("when the hook throws on the initial run, the modules still become ready", async ({ expect }) => {
+        const moduleRegistry = new DummyModuleRegistry();
+
+        const registerSpy = vi.spyOn(moduleRegistry, "registerDeferredRegistrations");
+
+        const runtime = new DummyRuntime({
+            moduleManager: x => new ModuleManager(x, [moduleRegistry]),
+            plugins: [x => new DummyScopeAwarePlugin("dummy", x, () => {
+                throw new Error("Something went wrong!");
+            })],
+            loggers: [new NoopLogger()]
+        });
+
+        // A rejection here would leave the application on its bootstrapping fallback forever, because the modules
+        // only become ready at the end of the registries "registerDeferredRegistrations".
+        await expect(runtime.moduleManager.registerDeferredRegistrations({ foo: "bar" })).resolves.toStrictEqual([]);
+
+        expect(registerSpy).toHaveBeenCalledOnce();
+    });
+
+    test.concurrent("when the hook throws, the error is logged with the plugin name", async ({ expect }) => {
+        const runtime = new DummyRuntime({
+            moduleManager: x => new ModuleManager(x, [new DummyModuleRegistry()]),
+            plugins: [x => new DummyScopeAwarePlugin("dummy", x, () => {
+                throw new Error("Something went wrong!");
+            })],
+            loggers: [new NoopLogger()]
+        });
+
+        const withTextSpy = vi.spyOn(runtime.logger, "withText");
+
+        await runtime.moduleManager.updateDeferredRegistrations({ foo: "bar" });
+
+        // NoopLogger declares "withText" without parameters, hence the cast to read the logged message.
+        const messages = withTextSpy.mock.calls.map(x => (x as unknown as [string])[0]);
+
+        expect(withTextSpy).toHaveBeenCalledOnce();
+        expect(messages[0]).toContain("\"dummy\"");
+    });
+
+    test.concurrent("when a plugin hook throws, the remaining plugins are still notified and their completion functions are executed", async ({ expect }) => {
+        const completionFunction = vi.fn();
+        const handler = vi.fn();
+
+        const runtime = new DummyRuntime({
+            moduleManager: x => new ModuleManager(x, [new DummyModuleRegistry()]),
+            plugins: [
+                x => new DummyScopeAwarePlugin("dummy-1", x, () => completionFunction),
+                x => new DummyScopeAwarePlugin("dummy-2", x, () => {
+                    throw new Error("Something went wrong!");
+                }),
+                x => new DummyScopeAwarePlugin("dummy-3", x, handler)
+            ],
+            loggers: [new NoopLogger()]
+        });
+
+        await expect(runtime.moduleManager.updateDeferredRegistrations({ foo: "bar" })).resolves.toStrictEqual([]);
+
+        expect(completionFunction).toHaveBeenCalledOnce();
+        expect(handler).toHaveBeenCalledOnce();
+    });
+
+    test.concurrent("when the modules deferred registrations throw, the completion functions are executed", async ({ expect }) => {
+        const completionFunction = vi.fn();
+
+        const moduleRegistry = new DummyModuleRegistry();
+
+        vi.spyOn(moduleRegistry, "updateDeferredRegistrations").mockImplementation(() => {
+            throw new Error("Something went wrong!");
+        });
+
+        const runtime = new DummyRuntime({
+            moduleManager: x => new ModuleManager(x, [moduleRegistry]),
+            plugins: [x => new DummyScopeAwarePlugin("dummy", x, () => completionFunction)],
+            loggers: [new NoopLogger()]
+        });
+
+        await expect(() => runtime.moduleManager.updateDeferredRegistrations({ foo: "bar" })).rejects.toThrow("Something went wrong!");
+
+        expect(completionFunction).toHaveBeenCalledOnce();
+    });
+
+    test.concurrent("when a completion function throws, the remaining completion functions are executed, the runtime scope is completed and the run still resolves", async ({ expect }) => {
+        const completionFunction = vi.fn();
+
+        const runtime = new DummyRuntime({
+            moduleManager: x => new ModuleManager(x, [new DummyModuleRegistry()]),
+            plugins: [
+                x => new DummyScopeAwarePlugin("dummy-1", x, () => () => {
+                    throw new Error("Something went wrong!");
+                }),
+                x => new DummyScopeAwarePlugin("dummy-2", x, () => completionFunction)
+            ],
+            loggers: [new NoopLogger()]
+        });
+
+        const completeScopeSpy = vi.spyOn(runtime, "completeDeferredRegistrationScope");
+
+        // Rethrowing would abort the caller before it notifies the app router store, leaving the navigation items
+        // that were just committed unrendered.
+        await expect(runtime.moduleManager.updateDeferredRegistrations({ foo: "bar" })).resolves.toStrictEqual([]);
+
+        expect(completionFunction).toHaveBeenCalledOnce();
+        expect(completeScopeSpy).toHaveBeenCalledOnce();
+    });
+
+    test.concurrent("when a completion function throws and the run failed, the run error is not masked", async ({ expect }) => {
+        const moduleRegistry = new DummyModuleRegistry();
+
+        vi.spyOn(moduleRegistry, "updateDeferredRegistrations").mockImplementation(() => {
+            throw new Error("The modules failed!");
+        });
+
+        const runtime = new DummyRuntime({
+            moduleManager: x => new ModuleManager(x, [moduleRegistry]),
+            plugins: [x => new DummyScopeAwarePlugin("dummy", x, () => () => {
+                throw new Error("The completion function failed!");
+            })],
+            loggers: [new NoopLogger()]
+        });
+
+        await expect(() => runtime.moduleManager.updateDeferredRegistrations({ foo: "bar" })).rejects.toThrow("The modules failed!");
+    });
+
+    test.concurrent("on the initial run, the plugins are notified before the modules deferred registrations are registered, and the completion functions are executed after, while the runtime scope is still open", async ({ expect }) => {
+        const calls: string[] = [];
+
+        const moduleRegistry = new DummyModuleRegistry();
+
+        vi.spyOn(moduleRegistry, "registerDeferredRegistrations").mockImplementation(() => {
+            calls.push("register-modules");
+
+            return Promise.resolve([]);
+        });
+
+        const runtime = new DummyRuntime({
+            moduleManager: x => new ModuleManager(x, [moduleRegistry]),
+            plugins: [x => new DummyScopeAwarePlugin("dummy", x, () => {
+                calls.push("scope-started");
+
+                return () => {
+                    calls.push("scope-completed");
+                };
+            })],
+            loggers: [new NoopLogger()]
+        });
+
+        vi.spyOn(runtime, "startDeferredRegistrationScope").mockImplementation(() => {
+            calls.push("start-runtime-scope");
+        });
+
+        vi.spyOn(runtime, "completeDeferredRegistrationScope").mockImplementation(() => {
+            calls.push("complete-runtime-scope");
+        });
+
+        await runtime.moduleManager.registerDeferredRegistrations({ foo: "bar" });
+
+        expect(calls).toStrictEqual([
+            "start-runtime-scope",
+            "scope-started",
+            "register-modules",
+            "scope-completed",
+            "complete-runtime-scope"
+        ]);
+    });
+
+    test.concurrent("the completion functions are executed in the order the plugins are registered", async ({ expect }) => {
+        const calls: string[] = [];
+
+        const runtime = new DummyRuntime({
+            moduleManager: x => new ModuleManager(x, [new DummyModuleRegistry()]),
+            plugins: [
+                x => new DummyScopeAwarePlugin("dummy-1", x, () => () => { calls.push("dummy-1"); }),
+                x => new DummyScopeAwarePlugin("dummy-2", x, () => () => { calls.push("dummy-2"); }),
+                x => new DummyScopeAwarePlugin("dummy-3", x, () => () => { calls.push("dummy-3"); })
+            ],
+            loggers: [new NoopLogger()]
+        });
+
+        await runtime.moduleManager.updateDeferredRegistrations({ foo: "bar" });
+
+        expect(calls).toStrictEqual(["dummy-1", "dummy-2", "dummy-3"]);
+    });
+
+    test.concurrent("when multiple completion functions throw, every error is logged", async ({ expect }) => {
+        const runtime = new DummyRuntime({
+            moduleManager: x => new ModuleManager(x, [new DummyModuleRegistry()]),
+            plugins: [
+                x => new DummyScopeAwarePlugin("dummy-1", x, () => () => {
+                    throw new Error("The first completion function failed!");
+                }),
+                x => new DummyScopeAwarePlugin("dummy-2", x, () => () => {
+                    throw new Error("The second completion function failed!");
+                })
+            ],
+            loggers: [new NoopLogger()]
+        });
+
+        const withTextSpy = vi.spyOn(runtime.logger, "withText");
+
+        await expect(runtime.moduleManager.updateDeferredRegistrations({ foo: "bar" })).resolves.toStrictEqual([]);
+
+        expect(withTextSpy).toHaveBeenCalledTimes(2);
+    });
+
+    test.concurrent("when a completion function throws, the error is logged", async ({ expect }) => {
+        const runtime = new DummyRuntime({
+            moduleManager: x => new ModuleManager(x, [new DummyModuleRegistry()]),
+            plugins: [x => new DummyScopeAwarePlugin("dummy", x, () => () => {
+                throw new Error("Something went wrong!");
+            })],
+            loggers: [new NoopLogger()]
+        });
+
+        const withTextSpy = vi.spyOn(runtime.logger, "withText");
+
+        await expect(runtime.moduleManager.updateDeferredRegistrations({ foo: "bar" })).resolves.toStrictEqual([]);
+
+        expect(withTextSpy).toHaveBeenCalledOnce();
+    });
+
+    test.concurrent("when the hook returns a value that is not a function, the value is ignored", async ({ expect }) => {
+        const runtime = new DummyRuntime({
+            moduleManager: x => new ModuleManager(x, [new DummyModuleRegistry()]),
+            // An async hook is rejected by type checking, but a plugin authored in JavaScript could return a promise.
+            plugins: [x => new DummyScopeAwarePlugin("dummy", x, () => Promise.resolve() as unknown as DeferredRegistrationScopeCompletionFunction)],
+            loggers: [new NoopLogger()]
+        });
+
+        await expect(runtime.moduleManager.updateDeferredRegistrations({ foo: "bar" })).resolves.toStrictEqual([]);
+    });
+
+    test.concurrent("when a plugin mutates the options it receives, the remaining plugins are not affected", async ({ expect }) => {
+        const handler = vi.fn();
+
+        const runtime = new DummyRuntime({
+            moduleManager: x => new ModuleManager(x, [new DummyModuleRegistry()]),
+            plugins: [
+                x => new DummyScopeAwarePlugin("dummy-1", x, options => {
+                    options.transactional = false;
+                    options.operation = "register";
+                }),
+                x => new DummyScopeAwarePlugin("dummy-2", x, handler)
+            ],
+            loggers: [new NoopLogger()]
+        });
+
+        await runtime.moduleManager.updateDeferredRegistrations({ foo: "bar" });
+
+        expect(handler).toHaveBeenCalledExactlyOnceWith({
+            operation: "update",
+            transactional: true
+        });
+    });
+
+    test.concurrent("when the runtime fails to complete its scope, the error bubbles up", async ({ expect }) => {
+        const completionFunction = vi.fn();
+
+        const runtime = new DummyRuntime({
+            moduleManager: x => new ModuleManager(x, [new DummyModuleRegistry()]),
+            plugins: [x => new DummyScopeAwarePlugin("dummy", x, () => completionFunction)],
+            loggers: [new NoopLogger()]
+        });
+
+        vi.spyOn(runtime, "completeDeferredRegistrationScope").mockImplementation(() => {
+            throw new Error("The runtime scope failed to complete!");
+        });
+
+        await expect(() => runtime.moduleManager.updateDeferredRegistrations({ foo: "bar" })).rejects.toThrow("The runtime scope failed to complete!");
+
+        // The completion functions are executed before the runtime completes its scope, so they still ran.
+        expect(completionFunction).toHaveBeenCalledOnce();
+    });
+
+    test.concurrent("the plugins are notified for both the initial run and the update run", async ({ expect }) => {
+        const handler = vi.fn();
+
+        const runtime = new DummyRuntime({
+            moduleManager: x => new ModuleManager(x, [new DummyModuleRegistry()]),
+            plugins: [x => new DummyScopeAwarePlugin("dummy", x, handler)],
+            loggers: [new NoopLogger()]
+        });
+
+        await runtime.moduleManager.registerDeferredRegistrations({ foo: "bar" });
+        await runtime.moduleManager.updateDeferredRegistrations({ foo: "bar" });
+
+        expect(handler).toHaveBeenCalledTimes(2);
+        expect(handler).toHaveBeenNthCalledWith(1, { operation: "register", transactional: false });
+        expect(handler).toHaveBeenNthCalledWith(2, { operation: "update", transactional: true });
+    });
+
+    // The runtime listeners are the non plugin surface of the same hook. Their own mechanics (disposer,
+    // ordering, error isolation) live in Runtime.test.ts, these pin that both surfaces share one driver.
+    describe.concurrent("runtime listeners", () => {
+        test.concurrent("when the deferred registrations are registered, the listeners are notified with the \"register\" operation and a non transactional scope", async ({ expect }) => {
+            const listener = vi.fn();
+
+            const runtime = new DummyRuntime({
+                moduleManager: x => new ModuleManager(x, [new DummyModuleRegistry()]),
+                loggers: [new NoopLogger()]
+            });
+
+            runtime.registerDeferredRegistrationScopeStartedListener(listener);
+
+            await runtime.moduleManager.registerDeferredRegistrations({ foo: "bar" });
+
+            expect(listener).toHaveBeenCalledExactlyOnceWith({
+                operation: "register",
+                transactional: false
+            });
+        });
+
+        test.concurrent("when the deferred registrations are updated, the listeners are notified with the \"update\" operation and a transactional scope", async ({ expect }) => {
+            const listener = vi.fn();
+
+            const runtime = new DummyRuntime({
+                moduleManager: x => new ModuleManager(x, [new DummyModuleRegistry()]),
+                loggers: [new NoopLogger()]
+            });
+
+            runtime.registerDeferredRegistrationScopeStartedListener(listener);
+
+            await runtime.moduleManager.updateDeferredRegistrations({ foo: "bar" });
+
+            expect(listener).toHaveBeenCalledExactlyOnceWith({
+                operation: "update",
+                transactional: true
+            });
+        });
+
+        test.concurrent("the listeners are notified before the modules", async ({ expect }) => {
+            const calls: string[] = [];
+
+            const moduleRegistry = new DummyModuleRegistry();
+
+            vi.spyOn(moduleRegistry, "updateDeferredRegistrations").mockImplementation(() => {
+                calls.push("module");
+
+                return Promise.resolve([]);
+            });
+
+            const runtime = new DummyRuntime({
+                moduleManager: x => new ModuleManager(x, [moduleRegistry]),
+                loggers: [new NoopLogger()]
+            });
+
+            runtime.registerDeferredRegistrationScopeStartedListener(() => {
+                calls.push("listener");
+            });
+
+            await runtime.moduleManager.updateDeferredRegistrations({ foo: "bar" });
+
+            expect(calls).toEqual(["listener", "module"]);
+        });
+
+        test.concurrent("the plugins are notified before the listeners", async ({ expect }) => {
+            const calls: string[] = [];
+
+            const runtime = new DummyRuntime({
+                moduleManager: x => new ModuleManager(x, [new DummyModuleRegistry()]),
+                plugins: [x => new DummyScopeAwarePlugin("dummy", x, () => {
+                    calls.push("plugin");
+                })],
+                loggers: [new NoopLogger()]
+            });
+
+            runtime.registerDeferredRegistrationScopeStartedListener(() => {
+                calls.push("listener");
+            });
+
+            await runtime.moduleManager.updateDeferredRegistrations({ foo: "bar" });
+
+            expect(calls).toEqual(["plugin", "listener"]);
+        });
+
+        test.concurrent("a completion function returned by a listener runs after the modules, before the runtime scope is completed", async ({ expect }) => {
+            const calls: string[] = [];
+
+            const moduleRegistry = new DummyModuleRegistry();
+
+            vi.spyOn(moduleRegistry, "updateDeferredRegistrations").mockImplementation(() => {
+                calls.push("module");
+
+                return Promise.resolve([]);
+            });
+
+            const runtime = new DummyRuntime({
+                moduleManager: x => new ModuleManager(x, [moduleRegistry]),
+                loggers: [new NoopLogger()]
+            });
+
+            vi.spyOn(runtime, "completeDeferredRegistrationScope").mockImplementation(() => {
+                calls.push("complete-scope");
+            });
+
+            runtime.registerDeferredRegistrationScopeStartedListener(() => () => {
+                calls.push("completion");
+            });
+
+            await runtime.moduleManager.updateDeferredRegistrations({ foo: "bar" });
+
+            expect(calls).toEqual(["module", "completion", "complete-scope"]);
+        });
+
+        test.concurrent("when the modules deferred registrations throw, the completion functions are executed", async ({ expect }) => {
+            const completionFunction = vi.fn();
+
+            const moduleRegistry = new DummyModuleRegistry();
+
+            vi.spyOn(moduleRegistry, "updateDeferredRegistrations").mockImplementation(() => {
+                throw new Error("Something went wrong!");
+            });
+
+            const runtime = new DummyRuntime({
+                moduleManager: x => new ModuleManager(x, [moduleRegistry]),
+                loggers: [new NoopLogger()]
+            });
+
+            runtime.registerDeferredRegistrationScopeStartedListener(() => completionFunction);
+
+            await expect(() => runtime.moduleManager.updateDeferredRegistrations({ foo: "bar" })).rejects.toThrow();
+
+            expect(completionFunction).toHaveBeenCalledOnce();
+        });
+
+        test.concurrent("when a listener throws, the modules deferred registrations are still updated and the runtime scope is completed", async ({ expect }) => {
+            const completeScopeSpy = vi.fn();
+
+            const moduleRegistry = new DummyModuleRegistry();
+            const updateSpy = vi.spyOn(moduleRegistry, "updateDeferredRegistrations");
+
+            const runtime = new DummyRuntime({
+                moduleManager: x => new ModuleManager(x, [moduleRegistry]),
+                loggers: [new NoopLogger()]
+            });
+
+            vi.spyOn(runtime, "completeDeferredRegistrationScope").mockImplementation(completeScopeSpy);
+
+            runtime.registerDeferredRegistrationScopeStartedListener(() => {
+                throw new Error("Something went wrong!");
+            });
+
+            await runtime.moduleManager.updateDeferredRegistrations({ foo: "bar" });
+
+            expect(updateSpy).toHaveBeenCalledOnce();
+            expect(completeScopeSpy).toHaveBeenCalledOnce();
+        });
+
+        test.concurrent("when a completion function returned by a listener throws, the runtime scope is completed and the run still resolves", async ({ expect }) => {
+            const completeScopeSpy = vi.fn();
+
+            const runtime = new DummyRuntime({
+                moduleManager: x => new ModuleManager(x, [new DummyModuleRegistry()]),
+                loggers: [new NoopLogger()]
+            });
+
+            vi.spyOn(runtime, "completeDeferredRegistrationScope").mockImplementation(completeScopeSpy);
+
+            runtime.registerDeferredRegistrationScopeStartedListener(() => () => {
+                throw new Error("Something went wrong!");
+            });
+
+            await expect(runtime.moduleManager.updateDeferredRegistrations({ foo: "bar" })).resolves.toBeDefined();
+
+            expect(completeScopeSpy).toHaveBeenCalledOnce();
+        });
+
+        test.concurrent("a removed listener is not notified by a run", async ({ expect }) => {
+            const listener = vi.fn();
+
+            const runtime = new DummyRuntime({
+                moduleManager: x => new ModuleManager(x, [new DummyModuleRegistry()]),
+                loggers: [new NoopLogger()]
+            });
+
+            const dispose = runtime.registerDeferredRegistrationScopeStartedListener(listener);
+
+            dispose();
+
+            await runtime.moduleManager.updateDeferredRegistrations({ foo: "bar" });
+
+            expect(listener).not.toHaveBeenCalled();
+        });
     });
 });
 

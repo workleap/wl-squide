@@ -173,7 +173,7 @@ export const register: ModuleRegisterFunction<FireflyRuntime> = () => {
 
 When a nested navigation item is registered with a `sectionId` that no registered section matches, the item is held as a **pending registration** and is not rendered. Squide reports the sections that are still missing once the modules are ready — throwing in development and logging in production.
 
-This surfaces a `sectionId` that no module registers at bootstrap. It does **not** cover deferred registration update runs — the validation runs only once, when the modules become ready, so a section dropped by a later update run goes unreported until a page reload. A module that registers a section conditionally, and expects to keep it across update runs, typically resets its per-run state on `DeferredRegistrationsUpdateStartedEvent` (see [Testing Deferred Registrations](#testing-deferred-registrations)). Set `strictMode` to `false` on `AppRouter` to turn the validation off — see `references/components.md`.
+This surfaces a `sectionId` that no module registers at bootstrap. It does **not** cover deferred registration update runs — the validation runs only once, when the modules become ready, so a section dropped by a later update run goes unreported until a page reload. A module that registers a section conditionally, and expects to keep it across update runs, typically resets its per-run state on `DeferredRegistrationsUpdateStartedEvent` (see [Testing Deferred Registrations](#testing-deferred-registrations)). A **plugin** resetting a registry should use the `onDeferredRegistrationScopeStarted` hook instead of that event — see `references/runtime-api.md`. Set `strictMode` to `false` on `AppRouter` to turn the validation off — see `references/components.md`.
 
 ## Navigation Patterns
 
@@ -768,7 +768,9 @@ expect(runtime.getNavigationItems().length).toBe(0);
 
 **A runner takes a runtime rather than creating one.** `initializeFirefly` cannot be used in tests because it can only run once per process. Construct the runtime with the plugins the modules under test depend on: `initializeFirefly` always registers an `EnvironmentVariablesPlugin`, so a module calling `registerEnvironmentVariable` or `getEnvironmentVariable` fails against a plugin-less runtime.
 
-An update run reproduces everything `useDeferredRegistrations` does around it, because modules and plugins rely on those events to reset their per-run state:
+A plugin implementing `onDeferredRegistrationScopeStarted` needs nothing extra: a runner drives both runs through the module manager, which is what executes the hook, so the plugin behaves in a test exactly as it does at runtime.
+
+An update run reproduces everything `useDeferredRegistrations` does around it, because modules and third-party libraries rely on those events to reset their per-run state:
 
 1. `DeferredRegistrationsUpdateStartedEvent` is dispatched.
 2. The deferred registration functions are executed.

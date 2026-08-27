@@ -1,10 +1,8 @@
 import { NoopLogger } from "@workleap/logging";
 import { describe, test, vi } from "vitest";
-import type { DeferredRegistrationOperation } from "../src/registration/registerModule.ts";
-import { Runtime, RuntimeScope, type StartDeferredRegistrationScopeOptions } from "../src/runtime/Runtime.ts";
+import type { DeferredRegistrationScopeOptions } from "../src/plugins/Plugin.ts";
+import { Runtime, RuntimeScope } from "../src/runtime/Runtime.ts";
 
-// Notifying the started listeners is the responsibility of the concrete runtimes, therefore the dummy
-// runtime mirrors what "ReactRouterRuntime" does.
 class DummyRuntime extends Runtime {
     registerRoute() {
         throw new Error("Method not implemented.");
@@ -30,13 +28,7 @@ class DummyRuntime extends Runtime {
         return new Map();
     }
 
-    startDeferredRegistrationScope(options: StartDeferredRegistrationScopeOptions = {}) {
-        const {
-            transactional = false,
-            operation = transactional ? "update" : "register"
-        } = options;
-
-        this._notifyDeferredRegistrationScopeStarted(operation);
+    startDeferredRegistrationScope(): void {
     }
 
     completeDeferredRegistrationScope(): void {
@@ -57,76 +49,84 @@ function createRuntime() {
     return new DummyRuntime({ loggers: [new NoopLogger()] });
 }
 
+const registerOptions: DeferredRegistrationScopeOptions = { operation: "register", transactional: false };
+const updateOptions: DeferredRegistrationScopeOptions = { operation: "update", transactional: true };
+
+// "_notifyDeferredRegistrationScopeStarted" is what "ModuleManager.#withDeferredRegistrationScope" drives.
+// The ordering of the notification relative to the plugins and the modules is covered in ModuleManager.test.ts.
 describe.concurrent("deferred registration scope started listeners", () => {
-    test.concurrent("a registered listener is notified when a scope starts", ({ expect }) => {
+    test.concurrent("a registered listener is notified with the scope options", ({ expect }) => {
         const runtime = createRuntime();
         const listener = vi.fn();
 
         runtime.registerDeferredRegistrationScopeStartedListener(listener);
-        runtime.startDeferredRegistrationScope();
+        runtime._notifyDeferredRegistrationScopeStarted(registerOptions);
 
-        expect(listener).toHaveBeenCalledExactlyOnceWith("register");
+        expect(listener).toHaveBeenCalledExactlyOnceWith({ operation: "register", transactional: false });
     });
 
-    test.concurrent("the operation is forwarded to the listener", ({ expect }) => {
+    test.concurrent("an update run forwards the update options", ({ expect }) => {
         const runtime = createRuntime();
         const listener = vi.fn();
 
         runtime.registerDeferredRegistrationScopeStartedListener(listener);
-        runtime.startDeferredRegistrationScope({ operation: "update" });
+        runtime._notifyDeferredRegistrationScopeStarted(updateOptions);
 
-        expect(listener).toHaveBeenCalledExactlyOnceWith("update");
+        expect(listener).toHaveBeenCalledExactlyOnceWith({ operation: "update", transactional: true });
     });
 
-    test.concurrent("when no operation is provided, the operation is derived from the transactional option", ({ expect }) => {
+    test.concurrent("each listener receives its own copy of the options", ({ expect }) => {
         const runtime = createRuntime();
-        const listener = vi.fn();
 
-        runtime.registerDeferredRegistrationScopeStartedListener(listener);
-        runtime.startDeferredRegistrationScope({ transactional: true });
+        let received: DeferredRegistrationScopeOptions | undefined;
 
-        expect(listener).toHaveBeenCalledExactlyOnceWith("update");
+        runtime.registerDeferredRegistrationScopeStartedListener(x => {
+            // A faulty listener mutating the options must not affect the next one.
+            x.operation = "update";
+        });
+
+        runtime.registerDeferredRegistrationScopeStartedListener(x => {
+            received = x;
+        });
+
+        runtime._notifyDeferredRegistrationScopeStarted(registerOptions);
+
+        expect(received?.operation).toBe("register");
+        expect(registerOptions.operation).toBe("register");
     });
 
-    test.concurrent("every registered listener is notified", ({ expect }) => {
-        const runtime = createRuntime();
-        const listener1 = vi.fn();
-        const listener2 = vi.fn();
-        const listener3 = vi.fn();
-
-        runtime.registerDeferredRegistrationScopeStartedListener(listener1);
-        runtime.registerDeferredRegistrationScopeStartedListener(listener2);
-        runtime.registerDeferredRegistrationScopeStartedListener(listener3);
-
-        runtime.startDeferredRegistrationScope();
-
-        expect(listener1).toHaveBeenCalledOnce();
-        expect(listener2).toHaveBeenCalledOnce();
-        expect(listener3).toHaveBeenCalledOnce();
-    });
-
-    test.concurrent("the listeners are notified in registration order", ({ expect }) => {
+    test.concurrent("every registered listener is notified, in registration order", ({ expect }) => {
         const runtime = createRuntime();
         const calls: string[] = [];
 
-        runtime.registerDeferredRegistrationScopeStartedListener(() => calls.push("first"));
-        runtime.registerDeferredRegistrationScopeStartedListener(() => calls.push("second"));
-        runtime.registerDeferredRegistrationScopeStartedListener(() => calls.push("third"));
+        runtime.registerDeferredRegistrationScopeStartedListener(() => {
+            calls.push("first");
+        });
 
-        runtime.startDeferredRegistrationScope();
+        runtime.registerDeferredRegistrationScopeStartedListener(() => {
+            calls.push("second");
+        });
+
+        runtime.registerDeferredRegistrationScopeStartedListener(() => {
+            calls.push("third");
+        });
+
+        runtime._notifyDeferredRegistrationScopeStarted(registerOptions);
 
         expect(calls).toEqual(["first", "second", "third"]);
     });
 
-    test.concurrent("a listener is notified for every scope that starts", ({ expect }) => {
+    test.concurrent("a listener is notified for every run", ({ expect }) => {
         const runtime = createRuntime();
-        const operations: DeferredRegistrationOperation[] = [];
+        const operations: string[] = [];
 
-        runtime.registerDeferredRegistrationScopeStartedListener(x => operations.push(x));
+        runtime.registerDeferredRegistrationScopeStartedListener(x => {
+            operations.push(x.operation);
+        });
 
-        runtime.startDeferredRegistrationScope({ operation: "register" });
-        runtime.startDeferredRegistrationScope({ operation: "update" });
-        runtime.startDeferredRegistrationScope({ operation: "update" });
+        runtime._notifyDeferredRegistrationScopeStarted(registerOptions);
+        runtime._notifyDeferredRegistrationScopeStarted(updateOptions);
+        runtime._notifyDeferredRegistrationScopeStarted(updateOptions);
 
         expect(operations).toEqual(["register", "update", "update"]);
     });
@@ -138,7 +138,7 @@ describe.concurrent("deferred registration scope started listeners", () => {
         runtime.registerDeferredRegistrationScopeStartedListener(listener);
         runtime.registerDeferredRegistrationScopeStartedListener(listener);
 
-        runtime.startDeferredRegistrationScope();
+        runtime._notifyDeferredRegistrationScopeStarted(registerOptions);
 
         expect(listener).toHaveBeenCalledOnce();
     });
@@ -150,7 +150,7 @@ describe.concurrent("deferred registration scope started listeners", () => {
         runtime.registerDeferredRegistrationScopeStartedListener(listener);
         runtime.removeDeferredRegistrationScopeStartedListener(listener);
 
-        runtime.startDeferredRegistrationScope();
+        runtime._notifyDeferredRegistrationScopeStarted(registerOptions);
 
         expect(listener).not.toHaveBeenCalled();
     });
@@ -161,11 +161,11 @@ describe.concurrent("deferred registration scope started listeners", () => {
 
         const dispose = runtime.registerDeferredRegistrationScopeStartedListener(listener);
 
-        runtime.startDeferredRegistrationScope();
+        runtime._notifyDeferredRegistrationScopeStarted(registerOptions);
 
         dispose();
 
-        runtime.startDeferredRegistrationScope();
+        runtime._notifyDeferredRegistrationScopeStarted(updateOptions);
 
         expect(listener).toHaveBeenCalledOnce();
     });
@@ -188,63 +188,131 @@ describe.concurrent("deferred registration scope started listeners", () => {
         runtime.registerDeferredRegistrationScopeStartedListener(listener2);
         runtime.registerDeferredRegistrationScopeStartedListener(listener3);
 
-        runtime.startDeferredRegistrationScope();
+        runtime._notifyDeferredRegistrationScopeStarted(registerOptions);
 
         expect(listener2).toHaveBeenCalledOnce();
         expect(listener3).toHaveBeenCalledOnce();
     });
 
-    test.concurrent("when a listener throws, the error doesn't escape the scope start", ({ expect }) => {
-        const runtime = createRuntime();
+    describe.concurrent("completion functions", () => {
+        test.concurrent("a returned completion function is collected", ({ expect }) => {
+            const runtime = createRuntime();
+            const completionFunction = vi.fn();
 
-        runtime.registerDeferredRegistrationScopeStartedListener(() => {
-            throw new Error("Something went wrong!");
+            runtime.registerDeferredRegistrationScopeStartedListener(() => completionFunction);
+
+            const completionFunctions = runtime._notifyDeferredRegistrationScopeStarted(registerOptions);
+
+            expect(completionFunctions).toEqual([completionFunction]);
+            // Collecting is not executing, the caller decides when the run has settled.
+            expect(completionFunction).not.toHaveBeenCalled();
         });
 
-        expect(() => runtime.startDeferredRegistrationScope()).not.toThrow();
-    });
+        test.concurrent("a listener returning nothing contributes no completion function", ({ expect }) => {
+            const runtime = createRuntime();
 
-    test.concurrent("when a listener throws, the remaining listeners are still notified", ({ expect }) => {
-        const runtime = createRuntime();
-        const listener1 = vi.fn();
-        const listener3 = vi.fn();
+            runtime.registerDeferredRegistrationScopeStartedListener(() => {});
 
-        runtime.registerDeferredRegistrationScopeStartedListener(listener1);
-
-        runtime.registerDeferredRegistrationScopeStartedListener(() => {
-            throw new Error("Something went wrong!");
+            expect(runtime._notifyDeferredRegistrationScopeStarted(registerOptions)).toEqual([]);
         });
 
-        runtime.registerDeferredRegistrationScopeStartedListener(listener3);
+        test.concurrent("a listener returning a non function contributes no completion function", ({ expect }) => {
+            const runtime = createRuntime();
 
-        runtime.startDeferredRegistrationScope();
+            // Guards against a listener written as an arrow function with an implicit non function return.
+            runtime.registerDeferredRegistrationScopeStartedListener(() => "nope" as unknown as () => void);
 
-        expect(listener1).toHaveBeenCalledOnce();
-        expect(listener3).toHaveBeenCalledOnce();
+            expect(runtime._notifyDeferredRegistrationScopeStarted(registerOptions)).toEqual([]);
+        });
+
+        test.concurrent("the completion functions are collected in registration order", ({ expect }) => {
+            const runtime = createRuntime();
+            const first = vi.fn();
+            const second = vi.fn();
+
+            runtime.registerDeferredRegistrationScopeStartedListener(() => first);
+            runtime.registerDeferredRegistrationScopeStartedListener(() => {});
+            runtime.registerDeferredRegistrationScopeStartedListener(() => second);
+
+            expect(runtime._notifyDeferredRegistrationScopeStarted(registerOptions)).toEqual([first, second]);
+        });
     });
 
-    test.concurrent("a listener registered from a runtime scope is notified by the runtime", ({ expect }) => {
-        const runtime = createRuntime();
-        const scope = new DummyRuntimeScope(runtime, new NoopLogger());
-        const listener = vi.fn();
+    describe.concurrent("error isolation", () => {
+        test.concurrent("when a listener throws, the error doesn't escape the notification", ({ expect }) => {
+            const runtime = createRuntime();
 
-        scope.registerDeferredRegistrationScopeStartedListener(listener);
+            runtime.registerDeferredRegistrationScopeStartedListener(() => {
+                throw new Error("Something went wrong!");
+            });
 
-        runtime.startDeferredRegistrationScope();
+            expect(() => runtime._notifyDeferredRegistrationScopeStarted(registerOptions)).not.toThrow();
+        });
 
-        expect(listener).toHaveBeenCalledExactlyOnceWith("register");
+        test.concurrent("when a listener throws, the remaining listeners are still notified and their completion functions collected", ({ expect }) => {
+            const runtime = createRuntime();
+            const listener1 = vi.fn();
+            const completionFunction = vi.fn();
+
+            runtime.registerDeferredRegistrationScopeStartedListener(listener1);
+
+            runtime.registerDeferredRegistrationScopeStartedListener(() => {
+                throw new Error("Something went wrong!");
+            });
+
+            runtime.registerDeferredRegistrationScopeStartedListener(() => completionFunction);
+
+            const completionFunctions = runtime._notifyDeferredRegistrationScopeStarted(registerOptions);
+
+            expect(listener1).toHaveBeenCalledOnce();
+            expect(completionFunctions).toEqual([completionFunction]);
+        });
+
+        test.concurrent("when a listener throws, the error is logged", ({ expect }) => {
+            const runtime = createRuntime();
+            const errorSpy = vi.spyOn(runtime.logger, "error");
+
+            runtime.registerDeferredRegistrationScopeStartedListener(() => {
+                throw new Error("Something went wrong!");
+            });
+
+            runtime._notifyDeferredRegistrationScopeStarted(registerOptions);
+
+            expect(errorSpy).toHaveBeenCalledOnce();
+        });
     });
 
-    test.concurrent("a listener removed from a runtime scope is not notified by the runtime", ({ expect }) => {
-        const runtime = createRuntime();
-        const scope = new DummyRuntimeScope(runtime, new NoopLogger());
-        const listener = vi.fn();
+    describe.concurrent("runtime scope", () => {
+        test.concurrent("a listener registered from a runtime scope is notified by the runtime", ({ expect }) => {
+            const runtime = createRuntime();
+            const scope = new DummyRuntimeScope(runtime, new NoopLogger());
+            const listener = vi.fn();
 
-        runtime.registerDeferredRegistrationScopeStartedListener(listener);
-        scope.removeDeferredRegistrationScopeStartedListener(listener);
+            scope.registerDeferredRegistrationScopeStartedListener(listener);
 
-        runtime.startDeferredRegistrationScope();
+            runtime._notifyDeferredRegistrationScopeStarted(registerOptions);
 
-        expect(listener).not.toHaveBeenCalled();
+            expect(listener).toHaveBeenCalledOnce();
+        });
+
+        test.concurrent("a listener removed from a runtime scope is not notified by the runtime", ({ expect }) => {
+            const runtime = createRuntime();
+            const scope = new DummyRuntimeScope(runtime, new NoopLogger());
+            const listener = vi.fn();
+
+            runtime.registerDeferredRegistrationScopeStartedListener(listener);
+            scope.removeDeferredRegistrationScopeStartedListener(listener);
+
+            runtime._notifyDeferredRegistrationScopeStarted(registerOptions);
+
+            expect(listener).not.toHaveBeenCalled();
+        });
+
+        test.concurrent("notifying from a runtime scope throws, it drives the run", ({ expect }) => {
+            const runtime = createRuntime();
+            const scope = new DummyRuntimeScope(runtime, new NoopLogger());
+
+            expect(() => scope._notifyDeferredRegistrationScopeStarted()).toThrow();
+        });
     });
 });

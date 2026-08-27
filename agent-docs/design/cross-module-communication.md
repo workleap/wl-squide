@@ -42,6 +42,15 @@ const runtime = initializeFirefly({
 const plugin = usePlugin(MyPlugin);
 ```
 
+`Plugin` (`packages/core/src/plugins/Plugin.ts`) carries one optional lifecycle method,
+`onDeferredRegistrationScopeStarted`, which a plugin implements to clear and replay its own
+registry along with each deferred registration run. See
+[deferred-registrations.md](./deferred-registrations.md#plugin-hook).
+
+A plugin hook whose types live outside `@squide/core` cannot go on the class — it goes on an
+interface extending `Plugin` and is duck-typed at the call site, as `FireflyPlugin` does for
+`registerHoneycombTrackingListeners`.
+
 ## Shared Types
 
 Modules share **types and interfaces only** through dedicated shared packages (e.g., a `shared/`

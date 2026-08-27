@@ -1,10 +1,9 @@
 import { createCompositeLogger, type Logger, type RootLogger } from "@workleap/logging";
 import memoize from "memoize";
 import { EventBus } from "../messaging/EventBus.ts";
-import type { Plugin } from "../plugins/Plugin.ts";
+import type { DeferredRegistrationScopeCompletionFunction, DeferredRegistrationScopeOptions, Plugin } from "../plugins/Plugin.ts";
 import { LocalModuleRegistry } from "../registration/LocalModuleRegistry.ts";
 import { ModuleManager } from "../registration/ModuleManager.ts";
-import type { DeferredRegistrationOperation } from "../registration/registerModule.ts";
 
 export type RuntimeMode = "development" | "production";
 
@@ -44,16 +43,20 @@ export interface GetPluginOptions {
 
 export interface StartDeferredRegistrationScopeOptions extends RuntimeMethodOptions {
     transactional?: boolean;
-    // Identifies the run that the scope brackets. When omitted, it's derived from the "transactional"
-    // option, which is how the two runs have always been told apart internally.
-    operation?: DeferredRegistrationOperation;
 }
 
 export interface CompleteDeferredRegistrationScopeOptions extends RuntimeMethodOptions {}
 
 export interface ValidateRegistrationsOptions extends RuntimeMethodOptions {}
 
-export type DeferredRegistrationScopeStartedListener = (operation: DeferredRegistrationOperation) => void;
+/**
+ * The non plugin counterpart of {@link Plugin.onDeferredRegistrationScopeStarted}. Same options, same
+ * return value, same guarantees — use it to clear and replay a registry that modules fill from their
+ * deferred registration functions when that registry isn't owned by a plugin.
+ *
+ * Prefer the plugin hook when the registry lives in a plugin: it needs no subscription and no disposal.
+ */
+export type DeferredRegistrationScopeStartedListener = (options: DeferredRegistrationScopeOptions) => DeferredRegistrationScopeCompletionFunction | void;
 
 export const RootMenuId = "root";
 
@@ -70,6 +73,7 @@ export interface IRuntime<TRoute = unknown, TNavigationItem = unknown, TRuntime 
     completeDeferredRegistrationScope: (options?: CompleteDeferredRegistrationScopeOptions) => void;
     registerDeferredRegistrationScopeStartedListener: (callback: DeferredRegistrationScopeStartedListener) => () => void;
     removeDeferredRegistrationScopeStartedListener: (callback: DeferredRegistrationScopeStartedListener) => void;
+    _notifyDeferredRegistrationScopeStarted: (options: DeferredRegistrationScopeOptions) => DeferredRegistrationScopeCompletionFunction[];
     get mode(): RuntimeMode;
     get plugins(): Plugin[];
     getPlugin: (pluginName: string, options?: GetPluginOptions) => Plugin | undefined;
@@ -127,6 +131,23 @@ export abstract class Runtime<TRoute = unknown, TNavigationItem = unknown, TRunt
 
     abstract completeDeferredRegistrationScope(options?: CompleteDeferredRegistrationScopeOptions): void;
 
+    /**
+     * Registers a listener executed when a deferred registration run starts, before any module's deferred
+     * registration function. Implement it to clear and replay a registry that modules fill from their
+     * deferred registration functions, otherwise its entries outlive the condition that registered them.
+     *
+     * The listener may return a function to be executed once the run has settled, while the runtime's scope
+     * is still open. It's the place to commit a buffered registry, and it must not read the runtime's
+     * navigation items: on an update run, the items of that run are not committed yet.
+     *
+     * Both the listener and the function it returns must be synchronous, nothing awaits them. An error
+     * thrown by either is logged and swallowed, it never fails the run.
+     *
+     * When the registry lives in a plugin, implement {@link Plugin.onDeferredRegistrationScopeStarted}
+     * instead — it's the same contract with nothing to subscribe or dispose.
+     *
+     * @returns A function removing the listener.
+     */
     registerDeferredRegistrationScopeStartedListener(callback: DeferredRegistrationScopeStartedListener) {
         this.#deferredRegistrationScopeStartedListeners.add(callback);
 
@@ -135,28 +156,42 @@ export abstract class Runtime<TRoute = unknown, TNavigationItem = unknown, TRunt
         };
     }
 
+    /**
+     * Removes a listener registered with {@link Runtime.registerDeferredRegistrationScopeStartedListener}.
+     */
     removeDeferredRegistrationScopeStartedListener(callback: DeferredRegistrationScopeStartedListener) {
         this.#deferredRegistrationScopeStartedListeners.delete(callback);
     }
 
-    // Concrete runtimes must call this from their "startDeferredRegistrationScope" implementation, once the
-    // scope is in place. The base class cannot do it itself because starting a scope is abstract.
-    protected _notifyDeferredRegistrationScopeStarted(operation: DeferredRegistrationOperation) {
-        // Listeners are notified in registration order. The set is copied first so that a listener disposing
-        // of itself, or of another listener, doesn't alter the notification that is currently in progress.
-        new Set(this.#deferredRegistrationScopeStartedListeners).forEach(x => {
+    /**
+     * Framework internal. Driven by "ModuleManager.#withDeferredRegistrationScope", alongside the plugin
+     * hooks, so that both surfaces share one set of ordering and error guarantees.
+     *
+     * @returns The completion functions returned by the notified listeners, in registration order.
+     */
+    _notifyDeferredRegistrationScopeStarted(options: DeferredRegistrationScopeOptions) {
+        const completionFunctions: DeferredRegistrationScopeCompletionFunction[] = [];
+
+        // The set is copied first so that a listener disposing of itself, or of another listener, doesn't
+        // alter the notification that is currently in progress.
+        for (const listener of new Set(this.#deferredRegistrationScopeStartedListeners)) {
             try {
-                x(operation);
+                const completionFunction = listener({ ...options });
+
+                if (typeof completionFunction === "function") {
+                    completionFunctions.push(completionFunction);
+                }
             } catch (error: unknown) {
-                // A throwing listener must never corrupt the run. "startDeferredRegistrationScope" is called
-                // before the try/finally that completes the scope, therefore letting the error escape would
-                // leave the scope open for the remaining lifetime of the runtime.
+                // A faulty listener is isolated rather than failing the run, for the same reasons a faulty
+                // plugin is. See "ModuleManager.#withDeferredRegistrationScope".
                 this._logger
-                    .withText("[squide] An unmanaged error occurred while notifying a deferred registration scope started listener:")
+                    .withText("[squide] An error occured while starting a deferred registration scope listener.")
                     .withError(error as Error)
                     .error();
             }
-        });
+        }
+
+        return completionFunctions;
     }
 
     get mode() {
@@ -264,6 +299,10 @@ export abstract class RuntimeScope<TRoute = unknown, TNavigationItem = unknown, 
 
     removeDeferredRegistrationScopeStartedListener(callback: DeferredRegistrationScopeStartedListener) {
         this._runtime.removeDeferredRegistrationScopeStartedListener(callback);
+    }
+
+    _notifyDeferredRegistrationScopeStarted(): DeferredRegistrationScopeCompletionFunction[] {
+        throw new Error("[squide] Cannot notify the deferred registration scope started listeners from a runtime scope instance.");
     }
 
     get mode(): RuntimeMode {

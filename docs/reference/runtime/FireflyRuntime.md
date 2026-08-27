@@ -536,13 +536,15 @@ Typical use cases include command palettes, devtools panels, or sitemaps that ne
 
 Only routes and navigation items participate in a [deferred registration](../registration/useDeferredRegistrations.md) run. An application maintaining its own registry — a command palette, a sitemap, a search index — filled from the same deferred registration functions, must reset that registry whenever a run starts, otherwise entries for a feature that has been flipped off survive for the rest of the session.
 
+!!!warning
+When the registry lives in a **plugin**, implement [onDeferredRegistrationScopeStarted](../plugins/Plugin.md) instead. It's the same contract with nothing to subscribe and nothing to dispose. These listeners exist for state that isn't owned by a plugin.
+!!!
+
 Use `registerDeferredRegistrationScopeStartedListener` to be notified when a run starts:
 
-```ts !#8,11
-const listener = (operation: DeferredRegistrationOperation) => {
+```ts !#6,9
+const listener = ({ operation }) => {
     // "register" for the initial run, "update" for every subsequent one.
-    console.log("A deferred registration run started:", operation);
-
     commandPaletteRegistry.clear();
 };
 
@@ -552,7 +554,7 @@ runtime.registerDeferredRegistrationScopeStartedListener(listener);
 runtime.removeDeferredRegistrationScopeStartedListener(listener);
 ```
 
-Registering a listener also returns a disposer, which is convenient in a `useEffect` or a plugin constructor:
+Registering a listener also returns a disposer, which is convenient in a `useEffect`:
 
 ```ts !#5
 const dispose = runtime.registerDeferredRegistrationScopeStartedListener(() => {
@@ -562,12 +564,26 @@ const dispose = runtime.registerDeferredRegistrationScopeStartedListener(() => {
 dispose();
 ```
 
-The `operation` argument is the same value that every [deferred registration function](../../essentials/register-deferred-nav-items.md) receives as its third argument.
+A listener receives the same `options` as the plugin hook — `operation` (`"register"` for the initial run, `"update"` for every subsequent one) and `transactional`.
+
+Return a function to commit a buffered registry once the run has settled:
+
+```ts !#4-6
+runtime.registerDeferredRegistrationScopeStartedListener(() => {
+    const buffer = commandPaletteRegistry.beginTransaction();
+
+    return () => {
+        buffer.commit();
+    };
+});
+```
 
 !!!info
-The listener is notified for **both** the initial deferred registration run and every subsequent update, and always **before** any deferred registration function executes. It therefore observes the registries as they were before the run replayed anything.
+A listener is notified for **both** the initial deferred registration run and every subsequent update, always **before** any deferred registration function executes, and after the plugins have been notified.
 
-Listeners are notified in registration order. An error thrown by a listener is logged through the runtime logger and never propagated, because letting it escape would leave the deferred registration scope open and break every subsequent run.
+The listener and the function it returns must be **synchronous** — nothing awaits them. An error thrown by either is logged through the runtime logger and never propagated, so one faulty listener never fails a run.
+
+A completion function must not read the navigation items: on an update run, the items of that run are not committed yet. Commit your own registry, nothing else.
 !!!
 
 ### Register request handlers

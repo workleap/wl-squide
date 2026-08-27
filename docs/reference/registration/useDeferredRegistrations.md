@@ -11,6 +11,10 @@ Register the modules [deferred registration](./initializeFirefly.md#defer-the-re
 This hook should always be used in combination with [deferred registrations](./initializeFirefly.md#defer-the-registration-of-navigation-items).
 !!!
 
+!!!tip
+Every run of this hook is bracketed by a scope that [plugins](../plugins/Plugin.md#react-to-deferred-registrations) can hook into to clear and replay their own registry.
+!!!
+
 ## Reference
 
 ```ts

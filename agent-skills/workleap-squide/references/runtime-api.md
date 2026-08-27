@@ -213,21 +213,26 @@ for (const [menuId, items] of itemsByMenu) {
 
 ### Deferred Registration Scope
 
+**When the registry lives in a plugin, implement `Plugin.onDeferredRegistrationScopeStarted` instead** — same contract, nothing to subscribe or dispose. These listeners are the non-plugin surface of that same hook, for state a plugin doesn't own.
+
 #### registerDeferredRegistrationScopeStartedListener(callback)
-Be notified whenever a deferred registration run starts — both the initial run and every update. Returns a disposer. The callback receives a `DeferredRegistrationOperation` (`"register" | "update"`), the same value deferred registration functions receive as their third argument.
+Be notified whenever a deferred registration run starts — both the initial run and every update. Returns a disposer. The callback receives the same `DeferredRegistrationScopeOptions` as the plugin hook (`operation`: `"register" | "update"`, and `transactional`).
 
 Use it to reset an application-owned registry that is filled from deferred registration functions (command palette, sitemap, search index), which the framework does not clear on its own.
 
 ```ts
-const dispose = runtime.registerDeferredRegistrationScopeStartedListener(operation => {
+const dispose = runtime.registerDeferredRegistrationScopeStartedListener(({ operation }) => {
     commandPaletteRegistry.clear();
+
+    // Optional: return a function to commit a buffered registry once the run settles.
+    return () => { buffer.commit(); };
 });
 
 // When the listener is not needed anymore.
 dispose();
 ```
 
-Fired after the scope is in place and before any deferred registration function runs, in registration order. A throwing listener is logged, never propagated. Also reachable from the `RuntimeScope` that modules receive.
+Driven by `ModuleManager.#withDeferredRegistrationScope`, the same bracket as the plugin hook: fired before any deferred registration function runs and after the plugins, in registration order. The callback and its completion function must be **synchronous**; an error thrown by either is logged and never propagated. Also reachable from the `RuntimeScope` that modules receive.
 
 #### removeDeferredRegistrationScopeStartedListener(callback)
 Remove a previously registered listener, for consumers holding the callback reference rather than the disposer.
@@ -338,6 +343,79 @@ export function getMyPlugin(runtime: FireflyRuntime) {
     return runtime.getPlugin(MyPlugin.name) as MyPlugin;
 }
 ```
+
+#### onDeferredRegistrationScopeStarted(options) — optional
+
+A plugin that exposes its own registry to modules must clear and replay it on every deferred registration run, the way Squide does for navigation items. Otherwise entries registered from a deferred registration function outlive the condition that registered them (a feature flag turned back off, a role revoked).
+
+Declare the optional `onDeferredRegistrationScopeStarted` method on the plugin. It is executed when a run starts, before any module's deferred registration function, and can return a completion function executed once every deferred registration function has settled.
+
+`options`: `{ operation: "register" | "update"; transactional: boolean }`. `operation` is `"register"` on the initial run and `"update"` on every update run — branch on it to skip work that only makes sense once a previous run exists. `transactional` is `false` on the initial run and `true` on every update run — branch on it to choose write-through vs buffering.
+
+```ts
+import { Plugin, type DeferredRegistrationScopeOptions, type Runtime } from "@squide/firefly";
+
+export interface MyEntry {
+    id: string;
+}
+
+export class MyPlugin extends Plugin {
+    // Registered outside of a deferred registration run, kept across runs.
+    readonly #staticEntries: MyEntry[] = [];
+
+    // Registered by a deferred registration run, replaced on every run.
+    #deferredEntries: MyEntry[] = [];
+
+    // Where the active run writes, undefined when no run is active.
+    #scopeEntries: MyEntry[] | undefined;
+
+    constructor(runtime: Runtime) {
+        super(MyPlugin.name, runtime);
+    }
+
+    onDeferredRegistrationScopeStarted({ transactional }: DeferredRegistrationScopeOptions) {
+        const scopeEntries: MyEntry[] = [];
+
+        if (!transactional) {
+            // The initial run writes through: assigning now makes every push visible immediately.
+            this.#deferredEntries = scopeEntries;
+        }
+
+        this.#scopeEntries = scopeEntries;
+
+        return () => {
+            // An update run commits here, which is what keeps the previous entries readable until
+            // the run has settled.
+            this.#deferredEntries = scopeEntries;
+            this.#scopeEntries = undefined;
+        };
+    }
+
+    registerEntry(entry: MyEntry) {
+        // An active scope means the call comes from a deferred registration function, so the
+        // entry is clearable by a later run. Otherwise it came from a static registration.
+        if (this.#scopeEntries) {
+            this.#scopeEntries.push(entry);
+        } else {
+            this.#staticEntries.push(entry);
+        }
+    }
+
+    get entries() {
+        return [...this.#staticEntries, ...this.#deferredEntries];
+    }
+}
+```
+
+Rules:
+
+- **Both the hook and the completion function must be synchronous.** Squide does not await them.
+- The initial run (`transactional: false`) must **write through**, not buffer — the modules become ready while that scope is still open, so anything rendering at that point must already see the entries.
+- Never read `getNavigationItems()` from a completion function. On an update run, the items of that run are not committed yet, so it returns the previous run's items. Commit the plugin's own state only.
+- Completion functions run even when the run fails, with whatever was registered before the failure. There is no rollback.
+- A plugin that doesn't declare the method is skipped.
+- A faulty plugin is isolated, not fatal: a throwing hook or completion function is logged, the remaining plugins are still notified, the modules still register, and the run still resolves. The error reaches the runtime logger only, never the `onError` callback of `useDeferredRegistrations`.
+- Module registration errors do **not** count as a failed run: they are collected and returned as `ModuleRegistrationError[]` rather than thrown. A module that throws silently drops its own entries for that run.
 
 ## Getters
 
