@@ -60,22 +60,29 @@ export class ModuleManager {
 
         const completionFunctions: DeferredRegistrationScopeCompletionFunction[] = [];
 
-        let result: T;
-        let hasCompletionError = false;
-        let completionError: unknown;
-
         try {
-            // Notifying the plugins first makes a throwing hook fail before any module has registered anything.
+            // The plugins are notified before the modules so they can reset their registry first. A faulty plugin is
+            // isolated rather than failing the run: aborting would leave the modules unregistered, and therefore never
+            // ready, which keeps the application on its bootstrapping fallback forever.
             for (const plugin of this.runtime.plugins) {
-                const completionFunction = plugin.onDeferredRegistrationScopeStarted?.({ ...options });
+                try {
+                    const completionFunction = plugin.onDeferredRegistrationScopeStarted?.({ ...options });
 
-                if (typeof completionFunction === "function") {
-                    completionFunctions.push(completionFunction);
+                    if (typeof completionFunction === "function") {
+                        completionFunctions.push(completionFunction);
+                    }
+                } catch (error: unknown) {
+                    this.runtime.logger
+                        .withText(`[squide] An error occured while starting the deferred registration scope of the "${plugin.name}" plugin.`)
+                        .withError(error as Error)
+                        .error();
                 }
             }
 
-            result = await run();
+            return await run();
         } finally {
+            // A completion error is logged rather than rethrown. Rethrowing would abort the caller before it notifies
+            // the app router store, and the navigation items committed just below would never be rendered.
             for (const completionFunction of completionFunctions) {
                 try {
                     completionFunction();
@@ -84,24 +91,12 @@ export class ModuleManager {
                         .withText("[squide] An error occured while completing a plugin deferred registration scope.")
                         .withError(error as Error)
                         .error();
-
-                    if (!hasCompletionError) {
-                        hasCompletionError = true;
-                        completionError = error;
-                    }
                 }
             }
 
             // Must always be completed, otherwise every subsequent run throws for the lifetime of the runtime.
             this.runtime.completeDeferredRegistrationScope();
         }
-
-        // Only reachable when the run succeeded, the "finally" block lets a run error bubble up on its own.
-        if (hasCompletionError) {
-            throw completionError;
-        }
-
-        return result;
     }
 
     async registerDeferredRegistrations<TData = unknown>(data?: TData) {

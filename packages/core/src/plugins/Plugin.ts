@@ -43,7 +43,8 @@ export abstract class Plugin<TRuntime extends Runtime = Runtime> {
      * It's the place to commit a buffered registry, and it must not read the runtime's navigation items:
      * on an update run, the items of that run are not committed yet.
      *
-     * Both this method and the function it returns must be synchronous, nothing awaits them.
+     * Both this method and the function it returns must be synchronous, nothing awaits them. An error
+     * thrown by either is logged and swallowed, it never fails the run.
      *
      * @remarks
      * This must stay an optional *method* signature. Declared as an optional property, it emits a class

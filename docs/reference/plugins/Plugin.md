@@ -189,7 +189,12 @@ Both the hook and the completion function must be **synchronous**. Squide doesn'
 Don't read the runtime's navigation items from a completion function. On an update run, the completion functions execute before Squide commits the navigation items of that run, so [getNavigationItems](../runtime/FireflyRuntime.md#retrieve-navigation-items) still returns the items of the previous run. A completion function should only commit the plugin's own state.
 !!!
 
-The completion function is also executed when the run fails, with whatever the modules managed to register before the failure. Squide doesn't roll a failed run back, the navigation items behave the same way. Two consequences worth knowing:
+The completion function is also executed when the run fails, with whatever the modules managed to register before the failure. Squide doesn't roll a failed run back, the navigation items behave the same way.
 
-- A module that throws doesn't fail the run. Module errors are collected and reported through the [onError](../registration/useDeferredRegistrations.md#handle-registration-errors) callback of `useDeferredRegistrations` rather than thrown, so a failing module silently drops its own entries for that run, plugin registry and navigation items alike.
-- A throwing hook aborts the run before any module executes, but it doesn't leave the application untouched. The completion functions of the plugins already notified still run, and since no module ran, a buffered registry commits empty and the run's deferred navigation items are cleared with nothing to replay. Treat a throwing hook as a bug to fix, not as a way to skip a run.
+A faulty plugin is isolated rather than allowed to fail the run, the same way a faulty module is. If the hook throws, or its completion function throws, Squide logs the error and carries on: the remaining plugins are notified, the modules still register, and the run still resolves. That plugin's registry is left in whatever state it reached, so a throwing hook usually means the entries of the previous run are still there — the bug this hook exists to prevent, for that one plugin.
+
+!!!warning
+A completion function error is reported **only** to the runtime logger. It doesn't reach the [onError](../registration/useDeferredRegistrations.md#handle-registration-errors) callback of `useDeferredRegistrations`, which receives module registration errors. Don't rely on a completion function's failure surfacing anywhere else.
+!!!
+
+A module that throws doesn't fail the run either. Module errors are collected and reported through `onError` rather than thrown, so a failing module silently drops its own entries for that run, plugin registry and navigation items alike.

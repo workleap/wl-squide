@@ -381,8 +381,9 @@ Rules:
 - **Both the hook and the completion function must be synchronous.** Squide does not await them.
 - The initial run (`transactional: false`) must **write through**, not buffer — the modules become ready while that scope is still open, so anything rendering at that point must already see the entries.
 - Never read `getNavigationItems()` from a completion function. On an update run, the items of that run are not committed yet, so it returns the previous run's items. Commit the plugin's own state only.
-- Completion functions run even when the run fails, with whatever was registered before the failure. There is no rollback. This includes a run aborted by *another* plugin's throwing hook, in which case nothing was registered and a buffered registry commits empty.
+- Completion functions run even when the run fails, with whatever was registered before the failure. There is no rollback.
 - A plugin that doesn't declare the method is skipped.
+- A faulty plugin is isolated, not fatal: a throwing hook or completion function is logged, the remaining plugins are still notified, the modules still register, and the run still resolves. The error reaches the runtime logger only, never the `onError` callback of `useDeferredRegistrations`.
 - Module registration errors do **not** count as a failed run: they are collected and returned as `ModuleRegistrationError[]` rather than thrown. A module that throws silently drops its own entries for that run.
 
 ## Getters

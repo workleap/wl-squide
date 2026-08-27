@@ -713,7 +713,7 @@ describe.concurrent("plugins deferred registration scope lifecycle", () => {
         expect(completeScopeSpy).toHaveBeenCalledOnce();
     });
 
-    test.concurrent("when the hook throws, the modules deferred registrations are not updated and the runtime scope is completed", async ({ expect }) => {
+    test.concurrent("when the hook throws, the modules deferred registrations are still updated and the runtime scope is completed", async ({ expect }) => {
         const moduleRegistry = new DummyModuleRegistry();
 
         const updateSpy = vi.spyOn(moduleRegistry, "updateDeferredRegistrations");
@@ -728,14 +728,55 @@ describe.concurrent("plugins deferred registration scope lifecycle", () => {
 
         const completeScopeSpy = vi.spyOn(runtime, "completeDeferredRegistrationScope");
 
-        await expect(() => runtime.moduleManager.updateDeferredRegistrations({ foo: "bar" })).rejects.toThrow("Something went wrong!");
+        await expect(runtime.moduleManager.updateDeferredRegistrations({ foo: "bar" })).resolves.toStrictEqual([]);
 
-        expect(updateSpy).not.toHaveBeenCalled();
+        expect(updateSpy).toHaveBeenCalledOnce();
         expect(completeScopeSpy).toHaveBeenCalledOnce();
     });
 
-    test.concurrent("when a plugin hook throws, the completion functions of the plugins that were already notified are executed", async ({ expect }) => {
+    test.concurrent("when the hook throws on the initial run, the modules still become ready", async ({ expect }) => {
+        const moduleRegistry = new DummyModuleRegistry();
+
+        const registerSpy = vi.spyOn(moduleRegistry, "registerDeferredRegistrations");
+
+        const runtime = new DummyRuntime({
+            moduleManager: x => new ModuleManager(x, [moduleRegistry]),
+            plugins: [x => new DummyScopeAwarePlugin("dummy", x, () => {
+                throw new Error("Something went wrong!");
+            })],
+            loggers: [new NoopLogger()]
+        });
+
+        // A rejection here would leave the application on its bootstrapping fallback forever, because the modules
+        // only become ready at the end of the registries "registerDeferredRegistrations".
+        await expect(runtime.moduleManager.registerDeferredRegistrations({ foo: "bar" })).resolves.toStrictEqual([]);
+
+        expect(registerSpy).toHaveBeenCalledOnce();
+    });
+
+    test.concurrent("when the hook throws, the error is logged with the plugin name", async ({ expect }) => {
+        const runtime = new DummyRuntime({
+            moduleManager: x => new ModuleManager(x, [new DummyModuleRegistry()]),
+            plugins: [x => new DummyScopeAwarePlugin("dummy", x, () => {
+                throw new Error("Something went wrong!");
+            })],
+            loggers: [new NoopLogger()]
+        });
+
+        const withTextSpy = vi.spyOn(runtime.logger, "withText");
+
+        await runtime.moduleManager.updateDeferredRegistrations({ foo: "bar" });
+
+        // NoopLogger declares "withText" without parameters, hence the cast to read the logged message.
+        const messages = withTextSpy.mock.calls.map(x => (x as unknown as [string])[0]);
+
+        expect(withTextSpy).toHaveBeenCalledOnce();
+        expect(messages[0]).toContain("\"dummy\"");
+    });
+
+    test.concurrent("when a plugin hook throws, the remaining plugins are still notified and their completion functions are executed", async ({ expect }) => {
         const completionFunction = vi.fn();
+        const handler = vi.fn();
 
         const runtime = new DummyRuntime({
             moduleManager: x => new ModuleManager(x, [new DummyModuleRegistry()]),
@@ -743,14 +784,16 @@ describe.concurrent("plugins deferred registration scope lifecycle", () => {
                 x => new DummyScopeAwarePlugin("dummy-1", x, () => completionFunction),
                 x => new DummyScopeAwarePlugin("dummy-2", x, () => {
                     throw new Error("Something went wrong!");
-                })
+                }),
+                x => new DummyScopeAwarePlugin("dummy-3", x, handler)
             ],
             loggers: [new NoopLogger()]
         });
 
-        await expect(() => runtime.moduleManager.updateDeferredRegistrations({ foo: "bar" })).rejects.toThrow("Something went wrong!");
+        await expect(runtime.moduleManager.updateDeferredRegistrations({ foo: "bar" })).resolves.toStrictEqual([]);
 
         expect(completionFunction).toHaveBeenCalledOnce();
+        expect(handler).toHaveBeenCalledOnce();
     });
 
     test.concurrent("when the modules deferred registrations throw, the completion functions are executed", async ({ expect }) => {
@@ -773,7 +816,7 @@ describe.concurrent("plugins deferred registration scope lifecycle", () => {
         expect(completionFunction).toHaveBeenCalledOnce();
     });
 
-    test.concurrent("when a completion function throws, the remaining completion functions are executed and the runtime scope is completed", async ({ expect }) => {
+    test.concurrent("when a completion function throws, the remaining completion functions are executed, the runtime scope is completed and the run still resolves", async ({ expect }) => {
         const completionFunction = vi.fn();
 
         const runtime = new DummyRuntime({
@@ -789,7 +832,9 @@ describe.concurrent("plugins deferred registration scope lifecycle", () => {
 
         const completeScopeSpy = vi.spyOn(runtime, "completeDeferredRegistrationScope");
 
-        await expect(() => runtime.moduleManager.updateDeferredRegistrations({ foo: "bar" })).rejects.toThrow("Something went wrong!");
+        // Rethrowing would abort the caller before it notifies the app router store, leaving the navigation items
+        // that were just committed unrendered.
+        await expect(runtime.moduleManager.updateDeferredRegistrations({ foo: "bar" })).resolves.toStrictEqual([]);
 
         expect(completionFunction).toHaveBeenCalledOnce();
         expect(completeScopeSpy).toHaveBeenCalledOnce();
@@ -873,7 +918,7 @@ describe.concurrent("plugins deferred registration scope lifecycle", () => {
         expect(calls).toStrictEqual(["dummy-1", "dummy-2", "dummy-3"]);
     });
 
-    test.concurrent("when multiple completion functions throw, the first error is the one that bubbles up", async ({ expect }) => {
+    test.concurrent("when multiple completion functions throw, every error is logged", async ({ expect }) => {
         const runtime = new DummyRuntime({
             moduleManager: x => new ModuleManager(x, [new DummyModuleRegistry()]),
             plugins: [
@@ -887,19 +932,11 @@ describe.concurrent("plugins deferred registration scope lifecycle", () => {
             loggers: [new NoopLogger()]
         });
 
-        await expect(() => runtime.moduleManager.updateDeferredRegistrations({ foo: "bar" })).rejects.toThrow("The first completion function failed!");
-    });
+        const withTextSpy = vi.spyOn(runtime.logger, "withText");
 
-    test.concurrent("when a completion function throws a falsy value, the value is not swallowed", async ({ expect }) => {
-        const runtime = new DummyRuntime({
-            moduleManager: x => new ModuleManager(x, [new DummyModuleRegistry()]),
-            plugins: [x => new DummyScopeAwarePlugin("dummy", x, () => () => {
-                throw undefined;
-            })],
-            loggers: [new NoopLogger()]
-        });
+        await expect(runtime.moduleManager.updateDeferredRegistrations({ foo: "bar" })).resolves.toStrictEqual([]);
 
-        await expect(runtime.moduleManager.updateDeferredRegistrations({ foo: "bar" })).rejects.toBeUndefined();
+        expect(withTextSpy).toHaveBeenCalledTimes(2);
     });
 
     test.concurrent("when a completion function throws, the error is logged", async ({ expect }) => {
@@ -913,7 +950,7 @@ describe.concurrent("plugins deferred registration scope lifecycle", () => {
 
         const withTextSpy = vi.spyOn(runtime.logger, "withText");
 
-        await expect(() => runtime.moduleManager.updateDeferredRegistrations({ foo: "bar" })).rejects.toThrow();
+        await expect(runtime.moduleManager.updateDeferredRegistrations({ foo: "bar" })).resolves.toStrictEqual([]);
 
         expect(withTextSpy).toHaveBeenCalledOnce();
     });

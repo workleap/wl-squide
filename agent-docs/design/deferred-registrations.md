@@ -71,8 +71,23 @@ onDeferredRegistrationScopeStarted?(options: DeferredRegistrationScopeOptions):
 ```
 
 `ModuleManager.#withDeferredRegistrationScope` drives it: the hooks run as the first statement
-inside the scope (so a throwing hook aborts before any module registers anything), and the
-returned completion functions run in the `finally`, **before** `completeDeferredRegistrationScope()`.
+inside the scope, and the returned completion functions run in the `finally`, **before**
+`completeDeferredRegistrationScope()`.
+
+Each hook and each completion function is individually try/caught and logged, and a failure never
+propagates. Two reasons, both load-bearing — do not "simplify" this into a rethrow:
+
+- Aborting the run would skip the module registries entirely, so `LocalModuleRegistry` would never
+  reach `#setRegistrationStatus("ready")`. `isBootstrapping` requires `areModulesReady`, and
+  `useDeferredRegistrations` doesn't catch the `register()` promise, so a single faulty plugin would
+  pin the application on its bootstrapping fallback for the session with only an unhandled rejection
+  to show for it.
+- Throwing *after* a successful run would abort `useUpdateDeferredRegistrations` before it dispatches
+  `deferred-registrations-updated`. `useNavigationItems` re-renders only off that dispatch, so the
+  navigation items committed moments earlier would never appear.
+
+This also matches how a faulty module is already treated: `Promise.allSettled` collects its error and
+the registry still goes `"ready"`.
 
 Ordering is load-bearing. The completion functions land before `useUpdateDeferredRegistrations`
 resumes, therefore before `appRouterStore` subscribers are notified and before React re-renders.
@@ -91,9 +106,8 @@ completion function and error precedence are covered by tests in
   non-transactional scope writes through, but the contract is uniform — "commit your own registry,
   nothing else".)
 - Completion functions run even when the run fails, with whatever was buffered. Partial commit,
-  no rollback — same semantics as Squide's own navigation scope. This includes a run aborted by
-  another plugin's throwing hook, where no module ran at all.
-- A completion error is never thrown over a run error.
+  no rollback — same semantics as Squide's own navigation scope.
+- A plugin error is logged and never propagates, for the two reasons above.
 
 The hook lives on the `Plugin` class rather than on a separate interface: everything it needs
 is in `@squide/core`, so the call site needs no cast, unlike `FireflyPlugin`, which must be an

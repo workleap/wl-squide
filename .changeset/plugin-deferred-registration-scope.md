@@ -34,11 +34,10 @@ Both the hook and the completion function must be synchronous. Squide doesn't aw
 - The hook is executed on **both** the initial run and every update run.
 - The completion function is executed even when the run fails, with whatever the modules managed to register. A failed run isn't rolled back, matching how the navigation items already behave. Note that a module throwing doesn't fail the run: module errors are collected and returned rather than thrown.
 - A plugin that doesn't declare the method is skipped.
-- A throwing hook aborts the run before any module executes, and a throwing completion function neither prevents the other plugins from committing nor leaves the runtime's scope open.
-- A completion function error is never thrown over an error coming from the run itself.
+- A faulty plugin is isolated, the same way a faulty module is. A throwing hook or a throwing completion function is logged, the remaining plugins are still notified, the modules still register, the runtime's scope is still completed, and the run still resolves.
 
 ## Caveats
 
 On an update run, completion functions execute before Squide commits the navigation items of that run, so a completion function must not read `getNavigationItems()` — it would still return the items of the previous run. A completion function should only commit the plugin's own state.
 
-When a plugin's hook throws, the run aborts before any module executes, but that doesn't leave the application untouched. The completion functions of the plugins already notified still run, and since no module ran, a buffered registry commits empty and the run's deferred navigation items are cleared with nothing to replay. A throwing hook is a bug to fix, not a way to skip a run.
+A plugin error reaches the runtime logger only. It doesn't surface through the `onError` callback of `useDeferredRegistrations`, which reports module registration errors. And because a throwing hook leaves that plugin's registry in whatever state it reached, it usually means the previous run's entries are still there — the very thing this hook exists to prevent, for that one plugin. Treat it as a bug to fix, not as a way to skip a run.
