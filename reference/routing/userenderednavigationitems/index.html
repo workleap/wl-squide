@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <meta name="color-scheme" content="light dark">
     <meta name="turbo-root" content="/wl-squide">
-    <meta name="turbo-cache-control" content="no-cache" data-turbo-track="reload" data-track-token="4.6.0.841117384719">
+    <meta name="turbo-cache-control" content="no-cache" data-turbo-track="reload" data-track-token="4.6.0.841120738945">
 
     <!-- See retype.com -->
     <meta name="generator" content="Retype 4.6.0">
@@ -39,12 +39,12 @@
     <script data-cfasync="false">(function(){var cl=document.documentElement.classList,ls=localStorage.getItem("retype_scheme"),hd=cl.contains("dark"),hl=cl.contains("light"),wm=window.matchMedia&&window.matchMedia("(prefers-color-scheme: dark)").matches;if(ls==="dark"||(!ls&&wm&&!hd&&!hl)){cl.remove("light");cl.add("dark")}else if(ls==="light"||(!ls&&!wm&&!hd&&!hl)){cl.remove("dark");cl.add("light")}})();</script>
 
     <link id="retype-favicon" rel="icon" href="../../../static/favicon.png" />
-    <link href="../../../resources/css/retype.css?v=4.6.0.841117384719" rel="stylesheet">
+    <link href="../../../resources/css/retype.css?v=4.6.0.841120738945" rel="stylesheet">
 
-    <script data-cfasync="false" src="../../../resources/js/config.js?v=4.6.0.841117384719" data-turbo-eval="false" defer></script>
+    <script data-cfasync="false" src="../../../resources/js/config.js?v=4.6.0.841120738945" data-turbo-eval="false" defer></script>
     <script data-cfasync="false" src="../../../resources/js/retype.js?v=4.6.0" data-turbo-eval="false" defer></script>
-    <script id="lunr-js" data-cfasync="false" src="../../../resources/js/lunr.js?v=4.6.0.841117384719" data-turbo-eval="false" defer></script>
-    <script id="prism-js" data-cfasync="false" src="../../../resources/js/prism.js?v=4.6.0.841117384719" defer></script>
+    <script id="lunr-js" data-cfasync="false" src="../../../resources/js/lunr.js?v=4.6.0.841120738945" data-turbo-eval="false" defer></script>
+    <script id="prism-js" data-cfasync="false" src="../../../resources/js/prism.js?v=4.6.0.841120738945" defer></script>
 
     <link href="https://workleap.github.io/wl-idp-docs-hub/static/retype-customization.css" rel="stylesheet" />
 
@@ -296,7 +296,7 @@
 <li><code translate="no" v-pre>$canRender</code>: An optional function accepting an object and returning a <code translate="no" v-pre>boolean</code> indicating whether or not the link should be rendered.</li>
 <li><code translate="no" v-pre>$priority</code>: An optional order priority affecting the position of the item among its siblings (higher first), at any depth. Also forwarded to <code translate="no" v-pre>renderItem</code> as <code translate="no" v-pre>priority</code>, see <doc-anchor-trigger to="#read-an-item-priority">Read an item priority</doc-anchor-trigger>.</li>
 <li><code translate="no" v-pre>$additionalProps</code>: An optional object literal of additional props to spread onto the link component.</li>
-<li><code translate="no" v-pre>$meta</code>: An optional object literal of metadata for the code rendering the menu to read. Never spread onto the link component.</li>
+<li><code translate="no" v-pre>$context</code>: An optional object literal of data for the code rendering the menu to read. Never spread onto the link component.</li>
 </ul>
 <h4 id="navigationsection"><code translate="no" v-pre>NavigationSection</code></h4>
 <ul>
@@ -305,7 +305,7 @@
 <li><code translate="no" v-pre>$canRender</code>: An optional function accepting an object and returning a <code translate="no" v-pre>boolean</code> indicating whether or not the section should be rendered.</li>
 <li><code translate="no" v-pre>$priority</code>: An optional order priority affecting the position of the section among its siblings (higher first), at any depth. Also forwarded to <code translate="no" v-pre>renderItem</code> as <code translate="no" v-pre>priority</code>, see <doc-anchor-trigger to="#read-an-item-priority">Read an item priority</doc-anchor-trigger>.</li>
 <li><code translate="no" v-pre>$additionalProps</code>: An optional object literal of additional props to spread onto the section component.</li>
-<li><code translate="no" v-pre>$meta</code>: An optional object literal of metadata for the code rendering the menu to read. Never spread onto the section component.</li>
+<li><code translate="no" v-pre>$context</code>: An optional object literal of data for the code rendering the menu to read. Never spread onto the section component.</li>
 <li><code translate="no" v-pre>children</code>: The section items.</li>
 </ul>
 <div class="flex mb-6">
@@ -321,8 +321,9 @@
             </svg>
         </div>
         <div class="pr-5 ml-3 w-full">
-<p><code translate="no" v-pre>$additionalProps</code> and <code translate="no" v-pre>$meta</code> serve different purposes. <code translate="no" v-pre>$additionalProps</code> is spread onto the rendered component, so every key must be a valid prop for that component. <code translate="no" v-pre>$meta</code> is only handed to the code rendering the menu, which decides what to do with it.</p>
-<p>Reach for <code translate="no" v-pre>$meta</code> when a value drives <em>how</em> an item renders, like a <code translate="no" v-pre>highlight</code> flag, and for <code translate="no" v-pre>$additionalProps</code> when the component itself understands the prop. Putting a value that isn&#x27;t a valid prop in <code translate="no" v-pre>$additionalProps</code> leaks it onto the DOM element as an invalid attribute.</p>
+<p><code translate="no" v-pre>$additionalProps</code> and <code translate="no" v-pre>$context</code> serve different purposes. <code translate="no" v-pre>$additionalProps</code> is spread onto the rendered component, so every key must be a valid prop for that component. <code translate="no" v-pre>$context</code> is only handed to the code rendering the menu, which decides what to do with it.</p>
+<p><code translate="no" v-pre>$context</code> is per-item data for the layout. It is unrelated to the module registration context a module&#x27;s <code translate="no" v-pre>register</code> function receives, and unrelated to React context.</p>
+<p>Reach for <code translate="no" v-pre>$context</code> when a value drives <em>how</em> an item renders, like a <code translate="no" v-pre>highlight</code> flag, and for <code translate="no" v-pre>$additionalProps</code> when the component itself understands the prop. Putting a value that isn&#x27;t a valid prop in <code translate="no" v-pre>$additionalProps</code> leaks it onto the DOM element as an invalid attribute.</p>
         </div>
     </div>
 </div>
@@ -437,29 +438,29 @@ export const register: ModuleRegisterFunction&lt;FireflyRuntime&gt; = runtime =&
     );
 };</code></pre>
 </doc-codeblock></div>
-<p>Every key is spread, therefore every key must be a valid prop for the component being rendered. For values that the rendering code should read rather than forward, use <doc-anchor-trigger to="#read-item-metadata">$meta</doc-anchor-trigger> instead.</p>
-<h3 id="read-item-metadata">Read item metadata</h3>
-<p>Any value defined in the <code translate="no" v-pre>$meta</code> option is handed to the rendering code as <code translate="no" v-pre>meta</code>, and is never spread onto the rendered component:</p>
-<div id="read-item-metadata-code-1" class="codeblock-wrapper"><doc-codeblock>
+<p>Every key is spread, therefore every key must be a valid prop for the component being rendered. For values that the rendering code should read rather than forward, use <doc-anchor-trigger to="#read-an-item-context">$context</doc-anchor-trigger> instead.</p>
+<h3 id="read-an-item-context">Read an item context</h3>
+<p>Any value defined in the <code translate="no" v-pre>$context</code> option is handed to the rendering code as <code translate="no" v-pre>context</code>, and is never spread onto the rendered component:</p>
+<div id="read-an-item-context-code-1" class="codeblock-wrapper"><doc-codeblock>
 <pre translate="no" class="language-tsx" data-line="7-9"><code v-pre class="language-tsx">import type { ModuleRegisterFunction, FireflyRuntime } from &quot;@squide/firefly&quot;;
 
 export const register: ModuleRegisterFunction&lt;FireflyRuntime&gt; = runtime =&gt; {
     runtime.registerNavigationItem({
         $id: &quot;about&quot;,
         $label: &quot;About&quot;,
-        $meta: {
+        $context: {
             highlight: true
         },
         to: &quot;/about&quot;
     });
 };</code></pre>
 </doc-codeblock></div>
-<div id="read-item-metadata-code-2" class="codeblock-wrapper"><doc-codeblock>
+<div id="read-an-item-context-code-2" class="codeblock-wrapper"><doc-codeblock>
 <pre translate="no" class="language-tsx" data-line="2,5"><code v-pre class="language-tsx">const renderLinkItem: RenderLinkItemFunction = (item, key) =&gt; {
-    const { label, linkProps, additionalProps, meta } = item;
+    const { label, linkProps, additionalProps, context } = item;
 
     return (
-        &lt;li key={key} style={{ fontWeight: meta.highlight ? &quot;bold&quot; : &quot;normal&quot; }}&gt;
+        &lt;li key={key} style={{ fontWeight: context.highlight ? &quot;bold&quot; : &quot;normal&quot; }}&gt;
             &lt;Link {...linkProps} {...additionalProps}&gt;
                 {label}
             &lt;/Link&gt;
@@ -467,7 +468,7 @@ export const register: ModuleRegisterFunction&lt;FireflyRuntime&gt; = runtime =&
     );
 };</code></pre>
 </doc-codeblock></div>
-<p><code translate="no" v-pre>meta</code> defaults to an empty object, so it can be destructured without a guard.</p>
+<p><code translate="no" v-pre>context</code> defaults to an empty object, so it can be destructured without a guard.</p>
 <h3 id="read-an-item-priority">Read an item priority</h3>
 <p>This hook orders items by <code translate="no" v-pre>$priority</code> at every depth, so nothing is required of the rendering code to get a sorted menu. The value is handed to it as <code translate="no" v-pre>priority</code> anyway, for the things ordering does not cover — grouping, badging, or a comparator of its own:</p>
 <div id="read-an-item-priority-code-1" class="codeblock-wrapper"><doc-codeblock>
@@ -509,13 +510,14 @@ export const register: ModuleRegisterFunction&lt;FireflyRuntime&gt; = runtime =&
             </svg>
         </div>
         <div class="pr-5 ml-3 w-full">
-<p><code translate="no" v-pre>priority</code> is forwarded exactly as it was declared, <code translate="no" v-pre>undefined</code> included, so an unset priority can be told apart from an explicit <code translate="no" v-pre>0</code>. If you write a comparator of your own, default it the way this hook does:</p>
+<p><code translate="no" v-pre>priority</code> is forwarded exactly as it was declared, <code translate="no" v-pre>undefined</code> included, so an unset priority can be told apart from an explicit <code translate="no" v-pre>0</code>. A comparator here cannot reorder the menu — this hook has already ordered it, and neither callback is handed an array of items to sort. It is for the layout&#x27;s own grouping or badging, over an array the layout built itself.</p>
+<p>Default a missing priority the way this hook does:</p>
 <div class="codeblock-wrapper"><doc-codeblock>
 <pre translate="no" class="language-typescript"><code v-pre class="language-typescript">// Wrong. TypeScript rejects the subtraction, since &quot;priority&quot; is optional (TS18048).
-items.sort((x, y) =&gt; y.priority - x.priority);
+(x: NavigationLinkRenderProps, y: NavigationLinkRenderProps) =&gt; y.priority - x.priority;
 
 // Right, matching this hook's own default.
-items.sort((x, y) =&gt; (y.priority ?? 0) - (x.priority ?? 0));</code></pre>
+(x: NavigationLinkRenderProps, y: NavigationLinkRenderProps) =&gt; (y.priority ?? 0) - (x.priority ?? 0);</code></pre>
 </doc-codeblock></div>
 <p>Bypass the type error and the failure is worse than an exception: a comparator returning <code translate="no" v-pre>NaN</code> is read as &quot;these two are equal&quot;, so it becomes inconsistent and the items come back in an arbitrary order — partially sorted, not left alone.</p>
         </div>

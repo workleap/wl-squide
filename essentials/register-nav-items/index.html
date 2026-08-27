@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <meta name="color-scheme" content="light dark">
     <meta name="turbo-root" content="/wl-squide">
-    <meta name="turbo-cache-control" content="no-cache" data-turbo-track="reload" data-track-token="4.6.0.841117384719">
+    <meta name="turbo-cache-control" content="no-cache" data-turbo-track="reload" data-track-token="4.6.0.841120738945">
 
     <!-- See retype.com -->
     <meta name="generator" content="Retype 4.6.0">
@@ -39,12 +39,12 @@
     <script data-cfasync="false">(function(){var cl=document.documentElement.classList,ls=localStorage.getItem("retype_scheme"),hd=cl.contains("dark"),hl=cl.contains("light"),wm=window.matchMedia&&window.matchMedia("(prefers-color-scheme: dark)").matches;if(ls==="dark"||(!ls&&wm&&!hd&&!hl)){cl.remove("light");cl.add("dark")}else if(ls==="light"||(!ls&&!wm&&!hd&&!hl)){cl.remove("dark");cl.add("light")}})();</script>
 
     <link id="retype-favicon" rel="icon" href="../../static/favicon.png" />
-    <link href="../../resources/css/retype.css?v=4.6.0.841117384719" rel="stylesheet">
+    <link href="../../resources/css/retype.css?v=4.6.0.841120738945" rel="stylesheet">
 
-    <script data-cfasync="false" src="../../resources/js/config.js?v=4.6.0.841117384719" data-turbo-eval="false" defer></script>
+    <script data-cfasync="false" src="../../resources/js/config.js?v=4.6.0.841120738945" data-turbo-eval="false" defer></script>
     <script data-cfasync="false" src="../../resources/js/retype.js?v=4.6.0" data-turbo-eval="false" defer></script>
-    <script id="lunr-js" data-cfasync="false" src="../../resources/js/lunr.js?v=4.6.0.841117384719" data-turbo-eval="false" defer></script>
-    <script id="prism-js" data-cfasync="false" src="../../resources/js/prism.js?v=4.6.0.841117384719" defer></script>
+    <script id="lunr-js" data-cfasync="false" src="../../resources/js/lunr.js?v=4.6.0.841120738945" data-turbo-eval="false" defer></script>
+    <script id="prism-js" data-cfasync="false" src="../../resources/js/prism.js?v=4.6.0.841120738945" defer></script>
 
     <link href="https://workleap.github.io/wl-idp-docs-hub/static/retype-customization.css" rel="stylesheet" />
 
@@ -584,7 +584,7 @@ export const register: ModuleRegisterFunction&lt;FireflyRuntime&gt; = runtime =&
         </div>
         <div class="pr-5 ml-3 w-full">
 <p>Because <code translate="no" v-pre>$additionalProps</code> is spread, every key must be a valid prop for the component that the layout renders. A key that isn&#x27;t a valid prop ends up on the DOM element as an invalid attribute, which React only warns about in development.</p>
-<p>For values that the layout should <em>read</em> rather than forward, use <doc-anchor-trigger to="#attach-metadata-to-an-item">$meta</doc-anchor-trigger> instead.</p>
+<p>For values that the layout should <em>read</em> rather than forward, use <doc-anchor-trigger to="#attach-context-to-an-item">$context</doc-anchor-trigger> instead.</p>
         </div>
     </div>
 </div>
@@ -647,24 +647,24 @@ export function RootLayout() {
 }</code></pre>
 </doc-codeblock></div>
 </doc-panel>
-<h2 id="attach-metadata-to-an-item">Attach metadata to an item</h2>
-<p>Use the <code translate="no" v-pre>$meta</code> option for values that tell the layout <em>how</em> to render an item. Unlike <code translate="no" v-pre>$additionalProps</code>, metadata is never spread onto the component:</p>
-<div id="attach-metadata-to-an-item-code-1" class="codeblock-wrapper"><doc-codeblock>
+<h2 id="attach-context-to-an-item">Attach context to an item</h2>
+<p>Use the <code translate="no" v-pre>$context</code> option for values that tell the layout <em>how</em> to render an item. Unlike <code translate="no" v-pre>$additionalProps</code>, it is never spread onto the component:</p>
+<div id="attach-context-to-an-item-code-1" class="codeblock-wrapper"><doc-codeblock>
 <pre translate="no" class="language-typescript" data-line="7-9"><code v-pre class="language-typescript">import type { ModuleRegisterFunction, FireflyRuntime } from &quot;@squide/firefly&quot;;
 
 export const register: ModuleRegisterFunction&lt;FireflyRuntime&gt; = runtime =&gt; {
     runtime.registerNavigationItem({
         $id: &quot;about&quot;,
         $label: &quot;About&quot;,
-        $meta: {
+        $context: {
             highlight: true
         },
         to: &quot;/about&quot;
     });
 };</code></pre>
 </doc-codeblock></div>
-<p>It&#x27;s the responsibility of the code rendering the menu to handle the metadata:</p>
-<div id="attach-metadata-to-an-item-code-2" class="codeblock-wrapper"><doc-codeblock>
+<p>It&#x27;s the responsibility of the code rendering the menu to handle the context:</p>
+<div id="attach-context-to-an-item-code-2" class="codeblock-wrapper"><doc-codeblock>
 <pre translate="no" class="language-tsx" data-line="9,12"><code v-pre class="language-tsx">import { Link } from &quot;react-router&quot;;
 import { isNavigationLink, type RenderItemFunction } from &quot;@squide/firefly&quot;;
 
@@ -673,10 +673,10 @@ const renderItem: RenderItemFunction = (item, key) =&gt; {
         return null;
     }
 
-    const { label, linkProps, additionalProps, meta } = item;
+    const { label, linkProps, additionalProps, context } = item;
 
     return (
-        &lt;li key={key} style={{ fontWeight: meta.highlight ? &quot;bold&quot; : &quot;normal&quot; }}&gt;
+        &lt;li key={key} style={{ fontWeight: context.highlight ? &quot;bold&quot; : &quot;normal&quot; }}&gt;
             &lt;Link {...linkProps} {...additionalProps}&gt;
                 {label}
             &lt;/Link&gt;
@@ -684,7 +684,7 @@ const renderItem: RenderItemFunction = (item, key) =&gt; {
     );
 };</code></pre>
 </doc-codeblock></div>
-<p><code translate="no" v-pre>meta</code> defaults to an empty object, therefore it can be destructured without a guard.</p>
+<p><code translate="no" v-pre>context</code> defaults to an empty object, therefore it can be destructured without a guard. It is unrelated to the module registration context passed to a module&#x27;s <code translate="no" v-pre>register</code> function, and to React context.</p>
 <h2 id="navigation-menu">Navigation menu</h2>
 <p>By default, every navigation item registered through <code translate="no" v-pre>registerNavigationItem</code> is added to the <code translate="no" v-pre>root</code> navigation menu. The navigation items API also supports defining additional menus.</p>
 <h3 id="define-a-menu">Define a menu</h3>

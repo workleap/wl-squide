@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <meta name="color-scheme" content="light dark">
     <meta name="turbo-root" content="/wl-squide">
-    <meta name="turbo-cache-control" content="no-cache" data-turbo-track="reload" data-track-token="4.6.0.841117384719">
+    <meta name="turbo-cache-control" content="no-cache" data-turbo-track="reload" data-track-token="4.6.0.841120738945">
 
     <!-- See retype.com -->
     <meta name="generator" content="Retype 4.6.0">
@@ -39,12 +39,12 @@
     <script data-cfasync="false">(function(){var cl=document.documentElement.classList,ls=localStorage.getItem("retype_scheme"),hd=cl.contains("dark"),hl=cl.contains("light"),wm=window.matchMedia&&window.matchMedia("(prefers-color-scheme: dark)").matches;if(ls==="dark"||(!ls&&wm&&!hd&&!hl)){cl.remove("light");cl.add("dark")}else if(ls==="light"||(!ls&&!wm&&!hd&&!hl)){cl.remove("dark");cl.add("light")}})();</script>
 
     <link id="retype-favicon" rel="icon" href="../../../static/favicon.png" />
-    <link href="../../../resources/css/retype.css?v=4.6.0.841117384719" rel="stylesheet">
+    <link href="../../../resources/css/retype.css?v=4.6.0.841120738945" rel="stylesheet">
 
-    <script data-cfasync="false" src="../../../resources/js/config.js?v=4.6.0.841117384719" data-turbo-eval="false" defer></script>
+    <script data-cfasync="false" src="../../../resources/js/config.js?v=4.6.0.841120738945" data-turbo-eval="false" defer></script>
     <script data-cfasync="false" src="../../../resources/js/retype.js?v=4.6.0" data-turbo-eval="false" defer></script>
-    <script id="lunr-js" data-cfasync="false" src="../../../resources/js/lunr.js?v=4.6.0.841117384719" data-turbo-eval="false" defer></script>
-    <script id="prism-js" data-cfasync="false" src="../../../resources/js/prism.js?v=4.6.0.841117384719" defer></script>
+    <script id="lunr-js" data-cfasync="false" src="../../../resources/js/lunr.js?v=4.6.0.841120738945" data-turbo-eval="false" defer></script>
+    <script id="prism-js" data-cfasync="false" src="../../../resources/js/prism.js?v=4.6.0.841120738945" defer></script>
 
     <link href="https://workleap.github.io/wl-idp-docs-hub/static/retype-customization.css" rel="stylesheet" />
 
@@ -571,7 +571,7 @@ runtime.registerRoute({
 <li><code translate="no" v-pre>$canRender</code>: An optional function accepting an object and returning a <code translate="no" v-pre>boolean</code> indicating whether or not the link should be rendered.</li>
 <li><code translate="no" v-pre>$priority</code>: An order priority affecting the position of the item among its siblings (higher first), at any depth. See <doc-anchor-trigger to="#sort-navigation-items">Sort navigation items</doc-anchor-trigger>.</li>
 <li><code translate="no" v-pre>$additionalProps</code>: Additional properties to be spread onto the link component.</li>
-<li><code translate="no" v-pre>$meta</code>: Metadata for the code rendering the menu to read. Never spread onto the link component.</li>
+<li><code translate="no" v-pre>$context</code>: Data for the code rendering the menu to read. Never spread onto the link component.</li>
 </ul>
 <h4 id="navigationsection"><code translate="no" v-pre>NavigationSection</code></h4>
 <ul>
@@ -580,7 +580,7 @@ runtime.registerRoute({
 <li><code translate="no" v-pre>$canRender</code>: An optional function accepting an object and returning a <code translate="no" v-pre>boolean</code> indicating whether or not the section should be rendered.</li>
 <li><code translate="no" v-pre>$priority</code>: An order priority affecting the position of the section among its siblings (higher first), at any depth. See <doc-anchor-trigger to="#sort-navigation-items">Sort navigation items</doc-anchor-trigger>.</li>
 <li><code translate="no" v-pre>$additionalProps</code>: Additional properties to be spread onto the section component.</li>
-<li><code translate="no" v-pre>$meta</code>: Metadata for the code rendering the menu to read. Never spread onto the section component.</li>
+<li><code translate="no" v-pre>$context</code>: Data for the code rendering the menu to read. Never spread onto the section component.</li>
 <li><code translate="no" v-pre>children</code>: The section content.</li>
 </ul>
 <div class="flex mb-6">
@@ -810,19 +810,19 @@ runtime.registerNavigationItem({
 <blockquote>
 <p>Every key of <code translate="no" v-pre>$additionalProps</code> is spread onto the component that the layout renders, therefore every key must be a valid prop for that component.</p>
 </blockquote>
-<h3 id="attach-metadata-to-a-navigation-item">Attach metadata to a navigation item</h3>
-<div id="attach-metadata-to-a-navigation-item-code-1" class="codeblock-wrapper"><doc-codeblock>
+<h3 id="attach-context-to-a-navigation-item">Attach context to a navigation item</h3>
+<div id="attach-context-to-a-navigation-item-code-1" class="codeblock-wrapper"><doc-codeblock>
 <pre translate="no" class="language-typescript" data-line="4-6"><code v-pre class="language-typescript">runtime.registerNavigationItem({
     $id: &quot;about&quot;,
     $label: &quot;About&quot;,
-    $meta: {
+    $context: {
         highlight: true
     },
     to: &quot;/about&quot;
 });</code></pre>
 </doc-codeblock></div>
 <blockquote>
-<p>It&#x27;s the responsibility of the code rendering the menu to handle the metadata. Unlike <code translate="no" v-pre>$additionalProps</code>, metadata is never spread onto the rendered component.</p>
+<p>It&#x27;s the responsibility of the code rendering the menu to handle the context. Unlike <code translate="no" v-pre>$additionalProps</code>, it is never spread onto the rendered component. This is per-item data for the layout, unrelated to the module registration context and to React context.</p>
 </blockquote>
 <h3 id="retrieve-navigation-items">Retrieve navigation items</h3>
 <p>The registered navigation items are accessible from a <code translate="no" v-pre>FireflyRuntime</code> instance, but keep in mind that the preferred way to retrieve the navigation items is with the <a href="../../routing/usenavigationitems/">useNavigationItems</a> hook.</p>
