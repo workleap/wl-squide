@@ -283,6 +283,8 @@ export const register: ModuleRegisterFunction<FireflyRuntime> = () => {
 };
 ```
 
+Squide only discards what it owns. A [plugin](./register-plugins.md#react-to-deferred-registrations) exposing its own registry to modules must clear the entries of the previous run itself, by implementing the [onDeferredRegistrationScopeStarted](../reference/plugins/Plugin.md#react-to-deferred-registrations) hook.
+
 ## Missing sections are reported
 
 When a nested navigation item is registered with a `sectionId` that no registered section matches, the item is held as a pending registration and is not rendered. Squide reports the sections that are still missing once the modules are ready. In development the report throws, in production it is logged.

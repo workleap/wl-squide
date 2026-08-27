@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <meta name="color-scheme" content="light dark">
     <meta name="turbo-root" content="/wl-squide">
-    <meta name="turbo-cache-control" content="no-cache" data-turbo-track="reload" data-track-token="4.6.0.841120870944">
+    <meta name="turbo-cache-control" content="no-cache" data-turbo-track="reload" data-track-token="4.6.0.841160562792">
 
     <!-- See retype.com -->
     <meta name="generator" content="Retype 4.6.0">
@@ -39,12 +39,12 @@
     <script data-cfasync="false">(function(){var cl=document.documentElement.classList,ls=localStorage.getItem("retype_scheme"),hd=cl.contains("dark"),hl=cl.contains("light"),wm=window.matchMedia&&window.matchMedia("(prefers-color-scheme: dark)").matches;if(ls==="dark"||(!ls&&wm&&!hd&&!hl)){cl.remove("light");cl.add("dark")}else if(ls==="light"||(!ls&&!wm&&!hd&&!hl)){cl.remove("dark");cl.add("light")}})();</script>
 
     <link id="retype-favicon" rel="icon" href="../../static/favicon.png" />
-    <link href="../../resources/css/retype.css?v=4.6.0.841120870944" rel="stylesheet">
+    <link href="../../resources/css/retype.css?v=4.6.0.841160562792" rel="stylesheet">
 
-    <script data-cfasync="false" src="../../resources/js/config.js?v=4.6.0.841120870944" data-turbo-eval="false" defer></script>
+    <script data-cfasync="false" src="../../resources/js/config.js?v=4.6.0.841160562792" data-turbo-eval="false" defer></script>
     <script data-cfasync="false" src="../../resources/js/retype.js?v=4.6.0" data-turbo-eval="false" defer></script>
-    <script id="lunr-js" data-cfasync="false" src="../../resources/js/lunr.js?v=4.6.0.841120870944" data-turbo-eval="false" defer></script>
-    <script id="prism-js" data-cfasync="false" src="../../resources/js/prism.js?v=4.6.0.841120870944" defer></script>
+    <script id="lunr-js" data-cfasync="false" src="../../resources/js/lunr.js?v=4.6.0.841160562792" data-turbo-eval="false" defer></script>
+    <script id="prism-js" data-cfasync="false" src="../../resources/js/prism.js?v=4.6.0.841160562792" defer></script>
 
     <link href="https://workleap.github.io/wl-idp-docs-hub/static/retype-customization.css" rel="stylesheet" />
 
@@ -533,6 +533,7 @@ export const register: ModuleRegisterFunction&lt;FireflyRuntime&gt; = () =&gt; {
     };
 };</code></pre>
 </doc-codeblock></div>
+<p>Squide only discards what it owns. A <a href="../register-plugins/#react-to-deferred-registrations">plugin</a> exposing its own registry to modules must clear the entries of the previous run itself, by implementing the <a href="../../reference/plugins/plugin/#react-to-deferred-registrations">onDeferredRegistrationScopeStarted</a> hook.</p>
 <h2 id="missing-sections-are-reported">Missing sections are reported</h2>
 <p>When a nested navigation item is registered with a <code translate="no" v-pre>sectionId</code> that no registered section matches, the item is held as a pending registration and is not rendered. Squide reports the sections that are still missing once the modules are ready. In development the report throws, in production it is logged.</p>
 <p>This surfaces a <code translate="no" v-pre>sectionId</code> that no module registers at bootstrap. It does <strong>not</strong> cover deferred registration update runs — the validation runs only once, when the modules become ready, so a section dropped by a later update run goes unreported until a page reload. Set <a href="../../reference/routing/approuter/#disable-strict-mode">strictMode</a> to <code translate="no" v-pre>false</code> on <code translate="no" v-pre>AppRouter</code> to turn the validation off.</p>
@@ -580,12 +581,32 @@ export const register: ModuleRegisterFunction&lt;FireflyRuntime&gt; = () =&gt; {
     </a>
 </div>
 <div class="card-compact-container">
+    <a href="/wl-squide/reference/plugins/plugin/" class="group card-compact no-link">
+        <div class="card-compact-body">
+            <div class="card-compact-header">
+                <span class="card-compact-title">Plugin</span>
+            </div>
+            <p class="card-compact-description">An abstract base class to define a plugin.</p>
+        </div>
+    </a>
+</div>
+<div class="card-compact-container">
     <a href="/wl-squide/essentials/register-nav-items/" class="group card-compact no-link">
         <div class="card-compact-body">
             <div class="card-compact-header">
                 <span class="card-compact-title">Register navigation items</span>
             </div>
             <p class="card-compact-description">By allowing consumers to register dynamic navigation items, Squide enables developers to build scalable modular applications with well-defined boundaries. Each module contributes its own navigation items, which the host assembles into a unified application.</p>
+        </div>
+    </a>
+</div>
+<div class="card-compact-container">
+    <a href="/wl-squide/essentials/register-plugins/" class="group card-compact no-link">
+        <div class="card-compact-body">
+            <div class="card-compact-header">
+                <span class="card-compact-title">Register plugins</span>
+            </div>
+            <p class="card-compact-description">To keep Squide lightweight, not all functionalities should be integrated as a core functionality. However, to accommodate a broad range of technologies, a plugin system has been implemented to fill the gap.</p>
         </div>
     </a>
 </div>

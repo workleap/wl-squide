@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <meta name="color-scheme" content="light dark">
     <meta name="turbo-root" content="/wl-squide">
-    <meta name="turbo-cache-control" content="no-cache" data-turbo-track="reload" data-track-token="4.6.0.841120870944">
+    <meta name="turbo-cache-control" content="no-cache" data-turbo-track="reload" data-track-token="4.6.0.841160562792">
 
     <!-- See retype.com -->
     <meta name="generator" content="Retype 4.6.0">
@@ -39,12 +39,12 @@
     <script data-cfasync="false">(function(){var cl=document.documentElement.classList,ls=localStorage.getItem("retype_scheme"),hd=cl.contains("dark"),hl=cl.contains("light"),wm=window.matchMedia&&window.matchMedia("(prefers-color-scheme: dark)").matches;if(ls==="dark"||(!ls&&wm&&!hd&&!hl)){cl.remove("light");cl.add("dark")}else if(ls==="light"||(!ls&&!wm&&!hd&&!hl)){cl.remove("dark");cl.add("light")}})();</script>
 
     <link id="retype-favicon" rel="icon" href="../../static/favicon.png" />
-    <link href="../../resources/css/retype.css?v=4.6.0.841120870944" rel="stylesheet">
+    <link href="../../resources/css/retype.css?v=4.6.0.841160562792" rel="stylesheet">
 
-    <script data-cfasync="false" src="../../resources/js/config.js?v=4.6.0.841120870944" data-turbo-eval="false" defer></script>
+    <script data-cfasync="false" src="../../resources/js/config.js?v=4.6.0.841160562792" data-turbo-eval="false" defer></script>
     <script data-cfasync="false" src="../../resources/js/retype.js?v=4.6.0" data-turbo-eval="false" defer></script>
-    <script id="lunr-js" data-cfasync="false" src="../../resources/js/lunr.js?v=4.6.0.841120870944" data-turbo-eval="false" defer></script>
-    <script id="prism-js" data-cfasync="false" src="../../resources/js/prism.js?v=4.6.0.841120870944" defer></script>
+    <script id="lunr-js" data-cfasync="false" src="../../resources/js/lunr.js?v=4.6.0.841160562792" data-turbo-eval="false" defer></script>
+    <script id="prism-js" data-cfasync="false" src="../../resources/js/prism.js?v=4.6.0.841160562792" defer></script>
 
     <link href="https://workleap.github.io/wl-idp-docs-hub/static/retype-customization.css" rel="stylesheet" />
 
@@ -288,6 +288,55 @@ const myPlugin = usePlugin(MyPlugin.name) as MyPlugin;</code></pre>
 // If the plugin isn't registered, an error is thrown.
 const plugin = runtime.getPlugin(MyPlugin.name) as MyPlugin;</code></pre>
 </doc-codeblock></div>
+<h2 id="react-to-deferred-registrations">React to deferred registrations</h2>
+<p>A plugin exposing its own registry to modules must handle the fact that <a href="../register-deferred-nav-items/#deferred-registrations-run-again-on-every-update">deferred registrations</a> run again on every update. Squide discards the navigation items registered by the previous run before replaying the new one, but it can&#x27;t do the same for a plugin registry it knows nothing about, so the entries registered by a previous run would outlive the condition that registered them.</p>
+<p>Implement the optional <a href="../../reference/plugins/plugin/#react-to-deferred-registrations">onDeferredRegistrationScopeStarted</a> hook to clear and replay a plugin registry along with the run:</p>
+<div id="react-to-deferred-registrations-my-pluginsrcmyplugints" class="codeblock-wrapper"><doc-codeblock>
+<div class="codeblock-title">my-plugin/src/myPlugin.ts</div>
+<pre translate="no" class="language-typescript" data-line="18-35,37-40"><code v-pre class="language-typescript">import { Plugin, type DeferredRegistrationScopeOptions, type Runtime } from &quot;@squide/firefly&quot;;
+
+export interface MyEntry {
+    id: string;
+}
+
+export class MyPlugin extends Plugin {
+    // The entries registered by a deferred registration run, replaced on every run.
+    #deferredEntries: MyEntry[] = [];
+
+    // Where the active run writes, &quot;undefined&quot; when no run is active.
+    #scopeEntries: MyEntry[] | undefined;
+
+    constructor(runtime: Runtime) {
+        super(MyPlugin.name, runtime);
+    }
+
+    onDeferredRegistrationScopeStarted({ transactional }: DeferredRegistrationScopeOptions) {
+        // Executed before any module's deferred registration function.
+        const scopeEntries: MyEntry[] = [];
+
+        if (!transactional) {
+            // The initial run writes through, it must not buffer.
+            this.#deferredEntries = scopeEntries;
+        }
+
+        this.#scopeEntries = scopeEntries;
+
+        return () =&gt; {
+            // Executed once every deferred registration function has settled. An update run
+            // commits here, which is what keeps the previous entries readable until then.
+            this.#deferredEntries = scopeEntries;
+            this.#scopeEntries = undefined;
+        };
+    }
+
+    registerEntry(entry: MyEntry) {
+        // An active scope means the call comes from a module's deferred registration function.
+        this.#scopeEntries?.push(entry);
+    }
+}</code></pre>
+</doc-codeblock></div>
+<p>The <code translate="no" v-pre>transactional</code> branch matters: the initial run must write through because the modules become ready while that scope is still open, so anything rendering at that point must already see the entries.</p>
+<p>This example only accepts entries registered from a deferred registration function. For a complete implementation, including how to keep the entries registered outside of a run, refer to the <a href="../../reference/plugins/plugin/#react-to-deferred-registrations">Plugin</a> reference documentation.</p>
 <div id="retype-backlinks">
     <h2>See also</h2>
 <div class="card-compact-group">
@@ -308,6 +357,16 @@ const plugin = runtime.getPlugin(MyPlugin.name) as MyPlugin;</code></pre>
                 <span class="card-compact-title">Learn the core pieces</span>
             </div>
             <p class="card-compact-description">Now that we've created a host application, loaded a few modules, registered routes and navigation items, and learn the modular design principles, let's delve into the core pieces provided by Squide.</p>
+        </div>
+    </a>
+</div>
+<div class="card-compact-container">
+    <a href="/wl-squide/essentials/register-deferred-nav-items/" class="group card-compact no-link">
+        <div class="card-compact-body">
+            <div class="card-compact-header">
+                <span class="card-compact-title">Register deferred navigation items</span>
+            </div>
+            <p class="card-compact-description">Navigation items cannot always be registered before the application bootstrapping process, as some of them depend on remote data and/or feature flags.</p>
         </div>
     </a>
 </div>

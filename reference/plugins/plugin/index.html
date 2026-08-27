@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <meta name="color-scheme" content="light dark">
     <meta name="turbo-root" content="/wl-squide">
-    <meta name="turbo-cache-control" content="no-cache" data-turbo-track="reload" data-track-token="4.6.0.841120870944">
+    <meta name="turbo-cache-control" content="no-cache" data-turbo-track="reload" data-track-token="4.6.0.841160562792">
 
     <!-- See retype.com -->
     <meta name="generator" content="Retype 4.6.0">
@@ -39,12 +39,12 @@
     <script data-cfasync="false">(function(){var cl=document.documentElement.classList,ls=localStorage.getItem("retype_scheme"),hd=cl.contains("dark"),hl=cl.contains("light"),wm=window.matchMedia&&window.matchMedia("(prefers-color-scheme: dark)").matches;if(ls==="dark"||(!ls&&wm&&!hd&&!hl)){cl.remove("light");cl.add("dark")}else if(ls==="light"||(!ls&&!wm&&!hd&&!hl)){cl.remove("dark");cl.add("light")}})();</script>
 
     <link id="retype-favicon" rel="icon" href="../../../static/favicon.png" />
-    <link href="../../../resources/css/retype.css?v=4.6.0.841120870944" rel="stylesheet">
+    <link href="../../../resources/css/retype.css?v=4.6.0.841160562792" rel="stylesheet">
 
-    <script data-cfasync="false" src="../../../resources/js/config.js?v=4.6.0.841120870944" data-turbo-eval="false" defer></script>
+    <script data-cfasync="false" src="../../../resources/js/config.js?v=4.6.0.841160562792" data-turbo-eval="false" defer></script>
     <script data-cfasync="false" src="../../../resources/js/retype.js?v=4.6.0" data-turbo-eval="false" defer></script>
-    <script id="lunr-js" data-cfasync="false" src="../../../resources/js/lunr.js?v=4.6.0.841120870944" data-turbo-eval="false" defer></script>
-    <script id="prism-js" data-cfasync="false" src="../../../resources/js/prism.js?v=4.6.0.841120870944" defer></script>
+    <script id="lunr-js" data-cfasync="false" src="../../../resources/js/lunr.js?v=4.6.0.841160562792" data-turbo-eval="false" defer></script>
+    <script id="prism-js" data-cfasync="false" src="../../../resources/js/prism.js?v=4.6.0.841160562792" defer></script>
 
     <link href="https://workleap.github.io/wl-idp-docs-hub/static/retype-customization.css" rel="stylesheet" />
 
@@ -283,6 +283,16 @@
 <ul>
 <li><code translate="no" v-pre>name</code>: Return the name of the plugin.</li>
 </ul>
+<h2 id="optional-members">Optional members</h2>
+<ul>
+<li><code translate="no" v-pre>onDeferredRegistrationScopeStarted(options)</code>: Executed when a <a href="../../../essentials/register-deferred-nav-items/">deferred registration</a> run starts, before any module&#x27;s deferred registration function executes. Can return a completion function that is executed once the run has settled. See <doc-anchor-trigger to="#react-to-deferred-registrations">React to deferred registrations</doc-anchor-trigger>.</li>
+</ul>
+<div id="optional-members-code-1" class="codeblock-wrapper"><doc-codeblock>
+<pre translate="no" class="language-typescript"><code v-pre class="language-typescript">onDeferredRegistrationScopeStarted?(options: {
+    operation: &quot;register&quot; | &quot;update&quot;;
+    transactional: boolean;
+}): (() =&gt; void) | void;</code></pre>
+</doc-codeblock></div>
 <h2 id="usage">Usage</h2>
 <h3 id="define-a-plugin">Define a plugin</h3>
 <div id="define-a-plugin-my-pluginsrcmyplugints" class="codeblock-wrapper"><doc-codeblock>
@@ -347,6 +357,127 @@ export function getMyPlugin(runtime: FireflyRuntime) {
 const myPlugin = getMyPlugin(runtime);</code></pre>
 </doc-codeblock></div>
 <p>Retrieving a plugin with a custom function doesn&#x27;t require the consumer to remember the plugin name, and has the upside of inferring the typings.</p>
+<h3 id="react-to-deferred-registrations">React to deferred registrations</h3>
+<p>A <a href="../../../essentials/register-deferred-nav-items/">deferred registration function</a> doesn&#x27;t run once. It runs again every time the deferred registrations are updated, whenever a feature flag value changes or the data passed to <a href="../../registration/usedeferredregistrations/">useDeferredRegistrations</a> changes.</p>
+<p>Squide discards the navigation items registered by the previous run before replaying the new one. A plugin that exposes its own registry to modules must do the same, otherwise the entries registered by a previous run outlive the condition that registered them. For example, a plugin registry filled from a deferred registration function guarded by a feature flag keeps its entries after that flag has been turned off.</p>
+<p>To make this possible, Squide brackets every deferred registration run with a <strong>scope</strong> and notifies the plugins when that scope starts, by executing their optional <code translate="no" v-pre>onDeferredRegistrationScopeStarted</code> hook.</p>
+<p>The hook receives an object literal of options:</p>
+<ul>
+<li><code translate="no" v-pre>operation</code>: <code translate="no" v-pre>&quot;register&quot;</code> for the initial run, <code translate="no" v-pre>&quot;update&quot;</code> for every subsequent update run. Branch on it to skip work that only makes sense once a previous run exists, such as clearing entries.</li>
+<li><code translate="no" v-pre>transactional</code>: <code translate="no" v-pre>false</code> for the initial run, <code translate="no" v-pre>true</code> for every update run. Branch on it to choose between writing through and buffering, as the example below does.</li>
+</ul>
+<p>The hook can return a <strong>completion function</strong>, executed once every module&#x27;s deferred registration function has settled. Paired with <code translate="no" v-pre>transactional</code>, this is what allows a registry to be replaced atomically: buffer the incoming entries as the modules register them, then clear the previous entries and replay the buffer from the completion function.</p>
+<div id="react-to-deferred-registrations-my-pluginsrcmyplugints" class="codeblock-wrapper"><doc-codeblock>
+<div class="codeblock-title">my-plugin/src/myPlugin.ts</div>
+<pre translate="no" class="language-typescript" data-line="21-43,45-52"><code v-pre class="language-typescript">import { Plugin, type DeferredRegistrationScopeOptions, type Runtime } from &quot;@squide/firefly&quot;;
+
+export interface MyEntry {
+    id: string;
+}
+
+export class MyPlugin extends Plugin {
+    // The entries registered outside of a deferred registration run, kept across runs.
+    readonly #staticEntries: MyEntry[] = [];
+
+    // The entries registered by a deferred registration run, replaced on every run.
+    #deferredEntries: MyEntry[] = [];
+
+    // Where the active run writes, &quot;undefined&quot; when no run is active.
+    #scopeEntries: MyEntry[] | undefined;
+
+    constructor(runtime: Runtime) {
+        super(MyPlugin.name, runtime);
+    }
+
+    onDeferredRegistrationScopeStarted({ transactional }: DeferredRegistrationScopeOptions) {
+        if (!transactional) {
+            // The initial run writes through: the modules become &quot;ready&quot; while the scope is still open,
+            // and whoever renders at that point must see the entries of the initial run.
+            this.#deferredEntries = [];
+            this.#scopeEntries = this.#deferredEntries;
+
+            return () =&gt; {
+                this.#scopeEntries = undefined;
+            };
+        }
+
+        // An update run buffers instead, so that the previous entries remain readable until the new run
+        // has settled.
+        const buffer: MyEntry[] = [];
+
+        this.#scopeEntries = buffer;
+
+        return () =&gt; {
+            this.#deferredEntries = buffer;
+            this.#scopeEntries = undefined;
+        };
+    }
+
+    registerEntry(entry: MyEntry) {
+        // An active scope means the call comes from a module's deferred registration function.
+        if (this.#scopeEntries) {
+            this.#scopeEntries.push(entry);
+        } else {
+            this.#staticEntries.push(entry);
+        }
+    }
+
+    get entries() {
+        return [...this.#staticEntries, ...this.#deferredEntries];
+    }
+}</code></pre>
+</doc-codeblock></div>
+<div class="flex mb-6">
+    <div class="shrink-0 w-1.5 rounded-tl-lg rounded-bl-lg bg-callout-warning"></div>
+    <div class="flex w-full py-4 border border-l-0 rounded-tr-lg rounded-br-lg doc-callout bg-callout-base-bg border-callout-base-border" role="alert">
+        <div class="flex items-center ml-4 h-7">
+            <svg xmlns="http://www.w3.org/2000/svg" class="block text-callout-warning" width="22" height="22" viewBox="0 0 24 24" role="presentation">
+                <g fill="currentColor"><g>
+                    <path d="M22.48 15.59L14.01 1.45A2.968 2.968 0 0012.16.09c-.78-.19-1.58-.07-2.27.35-.41.25-.76.6-1.01 1.01v.01L.4 15.6c-.83 1.43-.33 3.27 1.1 4.1.45.26.95.4 1.48.4h16.95c.8-.01 1.55-.33 2.11-.9.56-.57.87-1.33.86-2.13a3.04 3.04 0 00-.42-1.48zm-1.87 2.21c-.19.19-.44.3-.69.3H2.99c-.17 0-.34-.05-.49-.13a.992.992 0 01-.37-1.35L10.6 2.48c.08-.14.2-.25.34-.33a.992.992 0 011.37.33l8.46 14.13c.09.15.13.32.13.49 0 .26-.1.51-.29.7z"></path>
+                    <path d="M11.45 12.1c.55 0 1-.45 1-1v-4c0-.55-.45-1-1-1s-1 .45-1 1v4c0 .56.45 1 1 1zM11.46 14.1c-.56 0-1 .45-1 1s.45 1 1 1 1-.45 1-1-.45-1-1-1z"></path>
+                </g></g>
+            </svg>
+        </div>
+        <div class="pr-5 ml-3 w-full">
+<p>Both the hook and the completion function must be <strong>synchronous</strong>. Squide doesn&#x27;t await them.</p>
+        </div>
+    </div>
+</div>
+<div class="flex mb-6">
+    <div class="shrink-0 w-1.5 rounded-tl-lg rounded-bl-lg bg-callout-warning"></div>
+    <div class="flex w-full py-4 border border-l-0 rounded-tr-lg rounded-br-lg doc-callout bg-callout-base-bg border-callout-base-border" role="alert">
+        <div class="flex items-center ml-4 h-7">
+            <svg xmlns="http://www.w3.org/2000/svg" class="block text-callout-warning" width="22" height="22" viewBox="0 0 24 24" role="presentation">
+                <g fill="currentColor"><g>
+                    <path d="M22.48 15.59L14.01 1.45A2.968 2.968 0 0012.16.09c-.78-.19-1.58-.07-2.27.35-.41.25-.76.6-1.01 1.01v.01L.4 15.6c-.83 1.43-.33 3.27 1.1 4.1.45.26.95.4 1.48.4h16.95c.8-.01 1.55-.33 2.11-.9.56-.57.87-1.33.86-2.13a3.04 3.04 0 00-.42-1.48zm-1.87 2.21c-.19.19-.44.3-.69.3H2.99c-.17 0-.34-.05-.49-.13a.992.992 0 01-.37-1.35L10.6 2.48c.08-.14.2-.25.34-.33a.992.992 0 011.37.33l8.46 14.13c.09.15.13.32.13.49 0 .26-.1.51-.29.7z"></path>
+                    <path d="M11.45 12.1c.55 0 1-.45 1-1v-4c0-.55-.45-1-1-1s-1 .45-1 1v4c0 .56.45 1 1 1zM11.46 14.1c-.56 0-1 .45-1 1s.45 1 1 1 1-.45 1-1-.45-1-1-1z"></path>
+                </g></g>
+            </svg>
+        </div>
+        <div class="pr-5 ml-3 w-full">
+<p>Don&#x27;t read the runtime&#x27;s navigation items from a completion function. On an update run, the completion functions execute before Squide commits the navigation items of that run, so <a href="../../runtime/fireflyruntime/#retrieve-navigation-items">getNavigationItems</a> still returns the items of the previous run. A completion function should only commit the plugin&#x27;s own state.</p>
+        </div>
+    </div>
+</div>
+<p>The completion function is also executed when the run fails, with whatever the modules managed to register before the failure. Squide doesn&#x27;t roll a failed run back, the navigation items behave the same way.</p>
+<p>A faulty plugin is isolated rather than allowed to fail the run, the same way a faulty module is. If the hook throws, or its completion function throws, Squide logs the error and carries on: the remaining plugins are notified, the modules still register, and the run still resolves. That plugin&#x27;s registry is left in whatever state it reached, so a throwing hook usually means the entries of the previous run are still there — the bug this hook exists to prevent, for that one plugin.</p>
+<div class="flex mb-6">
+    <div class="shrink-0 w-1.5 rounded-tl-lg rounded-bl-lg bg-callout-warning"></div>
+    <div class="flex w-full py-4 border border-l-0 rounded-tr-lg rounded-br-lg doc-callout bg-callout-base-bg border-callout-base-border" role="alert">
+        <div class="flex items-center ml-4 h-7">
+            <svg xmlns="http://www.w3.org/2000/svg" class="block text-callout-warning" width="22" height="22" viewBox="0 0 24 24" role="presentation">
+                <g fill="currentColor"><g>
+                    <path d="M22.48 15.59L14.01 1.45A2.968 2.968 0 0012.16.09c-.78-.19-1.58-.07-2.27.35-.41.25-.76.6-1.01 1.01v.01L.4 15.6c-.83 1.43-.33 3.27 1.1 4.1.45.26.95.4 1.48.4h16.95c.8-.01 1.55-.33 2.11-.9.56-.57.87-1.33.86-2.13a3.04 3.04 0 00-.42-1.48zm-1.87 2.21c-.19.19-.44.3-.69.3H2.99c-.17 0-.34-.05-.49-.13a.992.992 0 01-.37-1.35L10.6 2.48c.08-.14.2-.25.34-.33a.992.992 0 011.37.33l8.46 14.13c.09.15.13.32.13.49 0 .26-.1.51-.29.7z"></path>
+                    <path d="M11.45 12.1c.55 0 1-.45 1-1v-4c0-.55-.45-1-1-1s-1 .45-1 1v4c0 .56.45 1 1 1zM11.46 14.1c-.56 0-1 .45-1 1s.45 1 1 1 1-.45 1-1-.45-1-1-1z"></path>
+                </g></g>
+            </svg>
+        </div>
+        <div class="pr-5 ml-3 w-full">
+<p>A completion function error is reported <strong>only</strong> to the runtime logger. It doesn&#x27;t reach the <a href="../../registration/usedeferredregistrations/#handle-registration-errors">onError</a> callback of <code translate="no" v-pre>useDeferredRegistrations</code>, which receives module registration errors. Don&#x27;t rely on a completion function&#x27;s failure surfacing anywhere else.</p>
+        </div>
+    </div>
+</div>
+<p>A module that throws doesn&#x27;t fail the run either. Module errors are collected and reported through <code translate="no" v-pre>onError</code> rather than thrown. There&#x27;s no per-module rollback: a module that throws part way through keeps whatever it already registered, plugin registry and navigation items alike, and only loses what it hadn&#x27;t registered yet.</p>
 <div id="retype-backlinks">
     <h2>See also</h2>
 <div class="card-compact-group">
@@ -387,6 +518,36 @@ const myPlugin = getMyPlugin(runtime);</code></pre>
                 <span class="card-compact-title">Reference</span>
             </div>
             <p class="card-compact-description">Packages</p>
+        </div>
+    </a>
+</div>
+<div class="card-compact-container">
+    <a href="/wl-squide/essentials/register-deferred-nav-items/" class="group card-compact no-link">
+        <div class="card-compact-body">
+            <div class="card-compact-header">
+                <span class="card-compact-title">Register deferred navigation items</span>
+            </div>
+            <p class="card-compact-description">Navigation items cannot always be registered before the application bootstrapping process, as some of them depend on remote data and/or feature flags.</p>
+        </div>
+    </a>
+</div>
+<div class="card-compact-container">
+    <a href="/wl-squide/essentials/register-plugins/" class="group card-compact no-link">
+        <div class="card-compact-body">
+            <div class="card-compact-header">
+                <span class="card-compact-title">Register plugins</span>
+            </div>
+            <p class="card-compact-description">To keep Squide lightweight, not all functionalities should be integrated as a core functionality. However, to accommodate a broad range of technologies, a plugin system has been implemented to fill the gap.</p>
+        </div>
+    </a>
+</div>
+<div class="card-compact-container">
+    <a href="/wl-squide/reference/registration/usedeferredregistrations/" class="group card-compact no-link">
+        <div class="card-compact-body">
+            <div class="card-compact-header">
+                <span class="card-compact-title">useDeferredRegistrations</span>
+            </div>
+            <p class="card-compact-description">Register the modules deferred registration functions when the global data is initially fetched and update the deferred registration functions whenever the global data or the feature flags changes.</p>
         </div>
     </a>
 </div>
