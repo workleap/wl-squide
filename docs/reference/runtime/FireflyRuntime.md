@@ -534,7 +534,7 @@ Typical use cases include command palettes, devtools panels, or sitemaps that ne
 
 ### Listen for the start of a deferred registration run
 
-Only routes and navigation items participate in a [deferred registration](../registration/useDeferredRegistrations.md) run. An application maintaining its own registry — a command palette, a sitemap, a search index — filled from the same deferred registration functions, must reset that registry whenever a run starts, otherwise entries for a feature that has been flipped off survive for the rest of the session.
+Only navigation items participate in a [deferred registration](../registration/useDeferredRegistrations.md) run. An application maintaining its own registry — a command palette, a sitemap, a search index — filled from the same deferred registration functions, must reset that registry whenever a run starts, otherwise entries for a feature that has been flipped off survive for the rest of the session.
 
 !!!warning
 When the registry lives in a **plugin**, implement [onDeferredRegistrationScopeStarted](../plugins/Plugin.md) instead. It's the same contract with nothing to subscribe and nothing to dispose. These listeners exist for state that isn't owned by a plugin.
