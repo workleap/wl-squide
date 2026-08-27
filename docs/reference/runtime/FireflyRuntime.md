@@ -272,7 +272,7 @@ Accept any properties of a React Router [Link](https://reactrouter.com/en/main/c
 - `$canRender`: An optional function accepting an object and returning a `boolean` indicating whether or not the link should be rendered.
 - `$priority`: An order priority affecting the position of the item among its siblings (higher first), at any depth. See [Sort navigation items](#sort-navigation-items).
 - `$additionalProps`: Additional properties to be spread onto the link component.
-- `$meta`: Metadata for the code rendering the menu to read. Never spread onto the link component.
+- `$context`: Data for the code rendering the menu to read. Never spread onto the link component.
 
 #### `NavigationSection`
 
@@ -281,7 +281,7 @@ Accept any properties of a React Router [Link](https://reactrouter.com/en/main/c
 - `$canRender`: An optional function accepting an object and returning a `boolean` indicating whether or not the section should be rendered.
 - `$priority`: An order priority affecting the position of the section among its siblings (higher first), at any depth. See [Sort navigation items](#sort-navigation-items).
 - `$additionalProps`: Additional properties to be spread onto the section component.
-- `$meta`: Metadata for the code rendering the menu to read. Never spread onto the section component.
+- `$context`: Data for the code rendering the menu to read. Never spread onto the section component.
 - `children`: The section content.
 
 !!!tip
@@ -489,20 +489,20 @@ runtime.registerNavigationItem({
 
 > Every key of `$additionalProps` is spread onto the component that the layout renders, therefore every key must be a valid prop for that component.
 
-### Attach metadata to a navigation item
+### Attach context to a navigation item
 
 ```ts !#4-6
 runtime.registerNavigationItem({
     $id: "about",
     $label: "About",
-    $meta: {
+    $context: {
         highlight: true
     },
     to: "/about"
 });
 ```
 
-> It's the responsibility of the code rendering the menu to handle the metadata. Unlike `$additionalProps`, metadata is never spread onto the rendered component.
+> It's the responsibility of the code rendering the menu to handle the context. Unlike `$additionalProps`, it is never spread onto the rendered component. This is per-item data for the layout, unrelated to the module registration context and to React context.
 
 ### Retrieve navigation items
 

@@ -55,7 +55,7 @@ exports[`highest priority goes first 1`] = `
 </DocumentFragment>
 `;
 
-exports[`link item $meta is not rendered on the link component 1`] = `
+exports[`link item $context is not rendered on the link component 1`] = `
 <DocumentFragment>
   <ul
     data-index="0"

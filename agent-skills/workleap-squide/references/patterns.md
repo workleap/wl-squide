@@ -209,10 +209,13 @@ runtime.registerNavigationItem({
 ### Nested Registration (cross-module)
 
 ```tsx
-// Module A registers section
+// Module A registers section.
+// "children" is required on a NavigationSection - declare it, empty if the
+// items all come from other modules through "sectionId".
 runtime.registerNavigationItem({
     $id: "admin-section",
-    $label: "Administration"
+    $label: "Administration",
+    children: []
 });
 
 // Module B nests under section
@@ -655,12 +658,14 @@ export function ModuleErrorBoundary() {
     const logger = useLogger();
 
     useEffect(() => {
+        // The second argument of logger.error() is LogOptions, not a payload.
+        // Attach errors and objects with the chained segments instead.
         if (isRouteErrorResponse(error)) {
             logger.error(`Route error: ${error.status}`);
         } else if (isGlobalDataQueriesError(error)) {
-            logger.error("Data fetch error", error.errors);
+            logger.withText("Data fetch error").withObject(error.errors).error();
         } else {
-            logger.error("Unknown error", error);
+            logger.withText("Unknown error").withError(error).error();
         }
     }, [error]);
 
@@ -887,7 +892,7 @@ const [session] = useProtectedDataQueries(
 );
 ```
 
-### 6. Relative paths in nested routes
+### 6. Relative paths with `parentPath` / `parentId`
 
 ```tsx
 // WRONG - relative path with parentPath
@@ -902,6 +907,8 @@ runtime.registerRoute({
     element: <Page />
 }, { parentPath: "/layout" });
 ```
+
+This applies to routes nested through the `parentPath` or `parentId` **options**. Routes nested inside a single registration block, through `children`, may use relative paths — see `references/runtime-api.md`.
 
 ### 7. Hoisted routes without error boundaries
 

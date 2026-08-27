@@ -56,8 +56,8 @@ as declared. See `references/runtime-api.md`.
 
 | Type | Properties |
 |------|------------|
-| `NavigationLinkRenderProps` | `label`, `linkProps` (the React Router `Link` props, including `to`), `priority?` (from `$priority`, as declared), `additionalProps` (from `$additionalProps`, spread onto the component), `meta` (from `$meta`, only read), `canRender?()` |
-| `NavigationSectionRenderProps` | `label`, `section` (the rendered children elements), `priority?`, `additionalProps`, `meta`, `canRender?()` |
+| `NavigationLinkRenderProps` | `label`, `linkProps` (the React Router `Link` props, including `to`), `priority?` (from `$priority`, as declared), `additionalProps` (from `$additionalProps`, spread onto the component), `context` (from `$context`, only read), `canRender?()` |
+| `NavigationSectionRenderProps` | `label`, `section` (the rendered children elements), `priority?`, `additionalProps`, `context`, `canRender?()` |
 
 Every `$` prefixed prop is stripped from `linkProps`, so a metadata prop never reaches the DOM element.
 
@@ -96,10 +96,10 @@ import {
 
 const renderItem: RenderItemFunction = (item, key, index, level) => {
     if (!isNavigationLink(item)) return null;
-    // "additionalProps" is spread onto the Link, "meta" is only read. Both default to {}.
-    const { label, linkProps, additionalProps, meta } = item;
+    // "additionalProps" is spread onto the Link, "context" is only read. Both default to {}.
+    const { label, linkProps, additionalProps, context } = item;
     return (
-        <li key={key} style={{ fontWeight: meta.highlight ? "bold" : "normal" }}>
+        <li key={key} style={{ fontWeight: context.highlight ? "bold" : "normal" }}>
             <Link {...linkProps} {...additionalProps}>{label}</Link>
         </li>
     );
@@ -266,7 +266,7 @@ useDeferredRegistrations(undefined, {
 
 **Parameters:**
 - `data`: An optional object that will be passed to deferred registration functions.
-- `options.onError`: An optional callback receiving an array of `ModuleRegistrationError` instances.
+- `options.onError`: An optional callback receiving an array of `ModuleRegistrationError` instances. Its exported type is `DeferredRegistrationsErrorCallback`, from `@squide/firefly`.
 
 **Important:** Use `useMemo` to prevent unnecessary re-executions.
 
@@ -434,7 +434,7 @@ import { useLogger } from "@squide/firefly";
 const logger = useLogger();
 logger.debug("Debug message");
 logger.information("Info message");
-logger.warn("Warning");
+logger.warning("Warning");
 logger.error("Error");
 logger.critical("Critical");
 ```
