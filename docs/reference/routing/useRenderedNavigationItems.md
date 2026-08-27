@@ -250,7 +250,24 @@ Bypass the type error and the failure is worse than an exception: a comparator r
 
 Neither render callback is a place to reorder items: `renderItem` renders a single item and cannot see its siblings, and `renderSection` receives elements that have already been rendered.
 
-Pre-sorting the array before handing it over does not work either, since this hook sorts every array it receives and only ties keep the order they arrived in. An order that contradicts `$priority` can only be had by removing `$priority` from the tree that is passed in, or by not using this hook.
+Pre-sorting the array before handing it over does not work either, since this hook sorts every array it receives and only ties keep the order they arrived in. An order that contradicts `$priority` can only be had by passing in a tree that carries no `$priority`, or by not using this hook.
+
+!!!warning
+Build a new tree for that. [useNavigationItems](./useNavigationItems.md) returns the registry's own objects, and a section's `children` is the registry's own array, so deleting `$priority` from what it hands you strips it for every other consumer of the registry and every other menu rendering those items. A shallow `{ ...item }` copy is not enough either, since `children` is still shared by reference and only the top level ends up stripped.
+!!!
+
+```tsx
+import type { NavigationItem } from "@squide/firefly";
+
+// The return type annotation is required: without it, this recursive helper reports TS7023.
+function withoutPriority(items: NavigationItem[]): NavigationItem[] {
+    return items.map(({ $priority, ...rest }) => (
+        "children" in rest && rest.children
+            ? { ...rest, children: withoutPriority(rest.children) }
+            : rest
+    ) as NavigationItem);
+}
+```
 
 ### Render dynamic segments
 

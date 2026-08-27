@@ -164,8 +164,14 @@ partially reordered.
 Neither render callback can reorder anything — `renderItem` sees one item at a time and
 `renderSection` receives elements that are already rendered. Pre-sorting the tree does not work either:
 the hook sorts every array it receives, so the caller's order is discarded and only ties survive. An
-order that contradicts `$priority` requires removing `$priority` from the tree that is handed over, or
-not using this hook.
+order that contradicts `$priority` requires handing the hook a tree that carries none, or not using the
+hook.
+
+**That tree has to be rebuilt, not edited.** `useNavigationItems` returns the registry's own objects and a
+section's `children` is the registry's own array, so deleting `$priority` in place strips it for every
+other consumer. A shallow copy leaves `children` shared by reference and only strips the top level. Map
+recursively: `items.map(({ $priority, ...rest }) => "children" in rest && rest.children ? { ...rest,
+children: recurse(rest.children) } : rest)`, and annotate the return type or it reports `TS7023`.
 
 **This used to be top-level only.** Do not repeat the older claim that a nested `$priority` is
 ignored.

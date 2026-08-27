@@ -31,7 +31,7 @@ Nothing to do unless you have a nested `$priority` and want the old order.
 
 Set the priorities you want, at any depth. A missing priority defaults to `0`, so `$priority: -10` places an item behind its unprioritized siblings, and equal priorities keep declaration order.
 
-To keep a section in declaration order regardless, remove `$priority` from the items in it. Pre-sorting the tree and handing it to `useRenderedNavigationItems` does **not** work — the hook sorts every array it receives, including the one you pass in, so your order is discarded and only ties survive:
+To keep a section in declaration order regardless, hand the hook a tree that carries no `$priority`. Pre-sorting the tree does **not** work — the hook sorts every array it receives, including the one you pass in, so your order is discarded and only ties survive:
 
 ```tsx
 // Does nothing. The hook re-sorts by $priority.
@@ -39,7 +39,20 @@ const sorted = sortHowever(useNavigationItems());
 useRenderedNavigationItems(sorted, renderItem, renderSection);
 ```
 
-If you need an order that contradicts `$priority`, strip the property from the tree you pass in, or render the menu without this hook.
+If you need an order that contradicts `$priority`, pass in a tree that carries none, or render the menu without this hook.
+
+Build that tree, do not edit the one you were given. `useNavigationItems` returns the registry's own objects and a section's `children` is the registry's own array, so deleting `$priority` in place strips it for every other consumer. A shallow copy leaves `children` shared by reference, so only the top level is actually stripped:
+
+```tsx
+// The return type annotation is required: without it, this recursive helper reports TS7023.
+function withoutPriority(items: NavigationItem[]): NavigationItem[] {
+    return items.map(({ $priority, ...rest }) => (
+        "children" in rest && rest.children
+            ? { ...rest, children: withoutPriority(rest.children) }
+            : rest
+    ) as NavigationItem);
+}
+```
 
 ## Also in this release
 
