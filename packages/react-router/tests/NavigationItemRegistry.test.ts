@@ -1598,6 +1598,17 @@ describe.concurrent("parseSectionIndexKey", () => {
         ]);
     });
 
+    test.concurrent("a string this function did not produce yields no menu id", ({ expect }) => {
+        // Includes a key in the format used before the length prefix. There is no pair to recover from one, and
+        // the whole input coming back as the section id is meant to look wrong rather than plausible.
+        expect(parseSectionIndexKey("analytics-sidebar-performance")).toEqual(["", "analytics-sidebar-performance"]);
+        expect(parseSectionIndexKey("nonsense")).toEqual(["", "nonsense"]);
+        expect(parseSectionIndexKey("")).toEqual(["", ""]);
+
+        // Without an explicit guard this one parsed as ["1", "2"], because "slice(0, -1)" left a valid number.
+        expect(parseSectionIndexKey("12")).toEqual(["", "12"]);
+    });
+
     test.concurrent("an empty menu id round-trips", ({ expect }) => {
         const registry = new NavigationItemRegistry();
 

@@ -163,6 +163,15 @@ export function parseSectionIndexKey(indexKey: string) {
     // The separator delimits the length prefix, so the first occurrence is always the right one even when an
     // id contains one too.
     const separatorIndex = indexKey.indexOf(SectionIndexKeySeparator);
+
+    if (separatorIndex < 0) {
+        // Not a key this function produced, an old-format one included, so there is no pair to recover. Worth
+        // stating outright: without this branch the arithmetic below reads "slice(0, -1)" as the length prefix
+        // and leans on NaN propagating through both slices, which happens to yield ["", indexKey] for most
+        // inputs but returns a plausible-looking ["1", "2"] for "12".
+        return ["", indexKey];
+    }
+
     const menuIdStart = separatorIndex + SectionIndexKeySeparator.length;
     const menuIdEnd = menuIdStart + Number(indexKey.slice(0, separatorIndex));
 
