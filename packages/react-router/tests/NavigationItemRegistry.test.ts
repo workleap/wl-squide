@@ -1,5 +1,5 @@
 import { describe, test } from "vitest";
-import { NavigationItemDeferredRegistrationScope, NavigationItemDeferredRegistrationTransactionalScope, NavigationItemRegistry, type NavigationSection } from "../src/NavigationItemRegistry.ts";
+import { NavigationItemDeferredRegistrationScope, NavigationItemDeferredRegistrationTransactionalScope, NavigationItemRegistry, parseSectionIndexKey, type NavigationSection } from "../src/NavigationItemRegistry.ts";
 
 describe.concurrent("add", () => {
     test.concurrent("should add a single deferred item", ({ expect }) => {
@@ -735,10 +735,15 @@ describe.concurrent("clearDeferredItems", () => {
 
         registry.clearDeferredItems();
 
-        const pendingSectionIds = registry.getPendingRegistrations().getPendingSectionIds();
+        const pendingRegistrations = registry.getPendingRegistrations();
+        const pendingSectionIds = pendingRegistrations.getPendingSectionIds();
 
         expect(pendingSectionIds.length).toBe(1);
-        expect(registry.getPendingRegistrations().getPendingRegistrationsForSection(pendingSectionIds[0])[0].sectionId).toBe("bar");
+
+        const pendingItems = pendingRegistrations.getPendingRegistrationsForSection(pendingSectionIds[0]);
+
+        expect(pendingItems.length).toBe(1);
+        expect(pendingItems[0].sectionId).toBe("bar");
     });
 
     test.concurrent("when a section has both static and deferred pending registrations, only clear the deferred ones", ({ expect }) => {
@@ -761,8 +766,11 @@ describe.concurrent("clearDeferredItems", () => {
         const pendingSectionIds = pendingRegistrations.getPendingSectionIds();
 
         expect(pendingSectionIds.length).toBe(1);
-        expect(pendingRegistrations.getPendingRegistrationsForSection(pendingSectionIds[0]).length).toBe(1);
-        expect(pendingRegistrations.getPendingRegistrationsForSection(pendingSectionIds[0])[0].item.$label).toBe("1");
+
+        const pendingItems = pendingRegistrations.getPendingRegistrationsForSection(pendingSectionIds[0]);
+
+        expect(pendingItems.length).toBe(1);
+        expect(pendingItems[0].item.$label).toBe("1");
     });
 
     test.concurrent("when a deferred section is registered again after a clear, the nested item is not duplicated", ({ expect }) => {
@@ -1461,7 +1469,7 @@ describe.concurrent("getAllItemsByMenu", () => {
 });
 
 // The section index is keyed by a "menuId" and a section "$id" joined into one string. Both halves are
-// consumer-provided, so a separator either half can contain makes the key ambiguous — ("analytics",
+// consumer-provided, so a separator either half can contain makes the key ambiguous: ("analytics",
 // "sidebar-performance") and ("analytics-sidebar", "performance") both produced "analytics-sidebar-performance"
 // under the previous "-" separator, and the two sections collided in the index.
 //
@@ -1548,5 +1556,58 @@ describe.concurrent("section index key", () => {
             expect(section.children.length).toBe(1);
             expect(section.children[0].$label).toBe(`Link ${index}`);
         });
+    });
+});
+
+describe.concurrent("parseSectionIndexKey", () => {
+    test.concurrent("a key returned by getPendingSectionIds round-trips back to its menu id and section id", ({ expect }) => {
+        const registry = new NavigationItemRegistry();
+
+        registry.add("analytics-sidebar", "static", {
+            $label: "1",
+            to: "1"
+        }, { sectionId: "performance" });
+
+        const [indexKey] = registry.getPendingRegistrations().getPendingSectionIds();
+
+        // The "-" in the menu id is what the previous key format could not recover.
+        expect(parseSectionIndexKey(indexKey)).toEqual(["analytics-sidebar", "performance"]);
+    });
+
+    test.concurrent("a key round-trips even when a menu id contains the separator", ({ expect }) => {
+        const registry = new NavigationItemRegistry();
+
+        // Nothing forbids the separator inside an id, so the key format has to stay unambiguous for one that
+        // holds it. Without the length prefix this pair collides with ("a", "b\u0000c").
+        registry.add("a\u0000b", "static", {
+            $label: "1",
+            to: "1"
+        }, { sectionId: "c" });
+
+        registry.add("a", "static", {
+            $label: "2",
+            to: "2"
+        }, { sectionId: "b\u0000c" });
+
+        const keys = registry.getPendingRegistrations().getPendingSectionIds();
+
+        expect(keys.length).toBe(2);
+        expect(keys.map(x => parseSectionIndexKey(x))).toEqual([
+            ["a\u0000b", "c"],
+            ["a", "b\u0000c"]
+        ]);
+    });
+
+    test.concurrent("an empty menu id round-trips", ({ expect }) => {
+        const registry = new NavigationItemRegistry();
+
+        registry.add("", "static", {
+            $label: "1",
+            to: "1"
+        }, { sectionId: "section" });
+
+        const [indexKey] = registry.getPendingRegistrations().getPendingSectionIds();
+
+        expect(parseSectionIndexKey(indexKey)).toEqual(["", "section"]);
     });
 });
