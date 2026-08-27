@@ -138,21 +138,25 @@ export class NavigationItemDeferredRegistrationTransactionalScope extends Naviga
     }
 }
 
+// A "-" separator makes the key ambiguous, since both halves are consumer-provided and either can contain
+// one: ("main-menu", "settings") and ("main", "menu-settings") both produce "main-menu-settings". Two distinct
+// sections then share an index entry, which is how a nested item ends up in the wrong menu. NUL cannot appear
+// in a "menuId" or a section "$id" that anyone would write, so it separates the two halves unambiguously.
+const SectionIndexKeySeparator = "\u0000";
+
 function createSectionIndexKey(menuId: string, sectionId: string) {
-    return `${menuId}-${sectionId}`;
+    return `${menuId}${SectionIndexKeySeparator}${sectionId}`;
 }
 
 /**
- * @deprecated The index key format is an implementation detail, and a "-" in a "menuId" or in a section "$id"
- * makes a key ambiguous: ("main-menu", "settings") and ("main", "menu-settings") both produce
- * "main-menu-settings", so the pair a key was built from cannot be recovered. Read the "menuId" and the
- * "sectionId" off the {@link PendingRegistrationItem} values returned by
+ * @deprecated The index key format is an implementation detail and is not part of the public contract. Read
+ * the "menuId" and the "sectionId" off the {@link PendingRegistrationItem} values returned by
  * {@link PendingNavigationItemRegistrations.getPendingRegistrationsForSection} rather than parsing a key
  * returned by {@link PendingNavigationItemRegistrations.getPendingSectionIds}. Nothing in the framework calls
  * this function anymore, it is kept until the next major to avoid a breaking removal.
  */
 export function parseSectionIndexKey(indexKey: string) {
-    return indexKey.split("-");
+    return indexKey.split(SectionIndexKeySeparator);
 }
 
 export class NavigationItemRegistry {

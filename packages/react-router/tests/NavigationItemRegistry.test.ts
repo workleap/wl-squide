@@ -735,7 +735,10 @@ describe.concurrent("clearDeferredItems", () => {
 
         registry.clearDeferredItems();
 
-        expect(registry.getPendingRegistrations().getPendingSectionIds()).toEqual(["foo-bar"]);
+        const pendingSectionIds = registry.getPendingRegistrations().getPendingSectionIds();
+
+        expect(pendingSectionIds.length).toBe(1);
+        expect(registry.getPendingRegistrations().getPendingRegistrationsForSection(pendingSectionIds[0])[0].sectionId).toBe("bar");
     });
 
     test.concurrent("when a section has both static and deferred pending registrations, only clear the deferred ones", ({ expect }) => {
@@ -755,9 +758,11 @@ describe.concurrent("clearDeferredItems", () => {
 
         const pendingRegistrations = registry.getPendingRegistrations();
 
-        expect(pendingRegistrations.getPendingSectionIds()).toEqual(["foo-bar"]);
-        expect(pendingRegistrations.getPendingRegistrationsForSection("foo-bar").length).toBe(1);
-        expect(pendingRegistrations.getPendingRegistrationsForSection("foo-bar")[0].item.$label).toBe("1");
+        const pendingSectionIds = pendingRegistrations.getPendingSectionIds();
+
+        expect(pendingSectionIds.length).toBe(1);
+        expect(pendingRegistrations.getPendingRegistrationsForSection(pendingSectionIds[0]).length).toBe(1);
+        expect(pendingRegistrations.getPendingRegistrationsForSection(pendingSectionIds[0])[0].item.$label).toBe("1");
     });
 
     test.concurrent("when a deferred section is registered again after a clear, the nested item is not duplicated", ({ expect }) => {
@@ -1452,5 +1457,96 @@ describe.concurrent("getAllItemsByMenu", () => {
         const byMenu = registry.getAllItemsByMenu();
 
         expect(byMenu.get("foo")).toBe(registry.getItems("foo"));
+    });
+});
+
+// The section index is keyed by a "menuId" and a section "$id" joined into one string. Both halves are
+// consumer-provided, so a separator either half can contain makes the key ambiguous — ("analytics",
+// "sidebar-performance") and ("analytics-sidebar", "performance") both produced "analytics-sidebar-performance"
+// under the previous "-" separator, and the two sections collided in the index.
+//
+// The pair below is the canonical collision. Randomly generated ids essentially never construct one, so this is
+// written out deliberately rather than fuzzed.
+describe.concurrent("section index key", () => {
+    const collidingPairs = [
+        { menuId: "analytics", sectionId: "sidebar-performance" },
+        { menuId: "analytics-sidebar", sectionId: "performance" }
+    ] as const;
+
+    test.concurrent("two sections whose menuId and $id concatenate to the same string are distinct", ({ expect }) => {
+        const registry = new NavigationItemRegistry();
+
+        collidingPairs.forEach(({ menuId, sectionId }) => {
+            registry.add(menuId, "static", {
+                $id: sectionId,
+                $label: sectionId,
+                children: []
+            } satisfies NavigationSection);
+        });
+
+        // Registering the second section threw under the previous key, since the index already held the first.
+        collidingPairs.forEach(({ menuId, sectionId }) => {
+            const items = registry.getItems(menuId);
+
+            expect(items.length).toBe(1);
+            expect(items[0].$id).toBe(sectionId);
+        });
+    });
+
+    test.concurrent("a nested item goes to its own section rather than the colliding one", ({ expect }) => {
+        const registry = new NavigationItemRegistry();
+
+        collidingPairs.forEach(({ menuId, sectionId }) => {
+            registry.add(menuId, "static", {
+                $id: sectionId,
+                $label: sectionId,
+                children: []
+            } satisfies NavigationSection);
+        });
+
+        collidingPairs.forEach(({ menuId, sectionId }, index) => {
+            registry.add(menuId, "static", {
+                $label: `Link ${index}`,
+                to: `/link-${index}`
+            }, { sectionId });
+        });
+
+        collidingPairs.forEach(({ menuId }, index) => {
+            const section = registry.getItems(menuId)[0] as NavigationSection;
+
+            expect(section.children.length).toBe(1);
+            expect(section.children[0].$label).toBe(`Link ${index}`);
+        });
+    });
+
+    test.concurrent("a pending registration waits on its own section, not the colliding one", ({ expect }) => {
+        const registry = new NavigationItemRegistry();
+
+        // Nested first, so both registrations are pending before either section exists.
+        collidingPairs.forEach(({ menuId, sectionId }, index) => {
+            registry.add(menuId, "static", {
+                $label: `Link ${index}`,
+                to: `/link-${index}`
+            }, { sectionId });
+        });
+
+        expect(registry.getPendingRegistrations().getPendingSectionIds().length).toBe(2);
+
+        collidingPairs.forEach(({ menuId, sectionId }) => {
+            registry.add(menuId, "static", {
+                $id: sectionId,
+                $label: sectionId,
+                children: []
+            } satisfies NavigationSection);
+        });
+
+        expect(registry.getPendingRegistrations().getPendingSectionIds().length).toBe(0);
+
+        collidingPairs.forEach(({ menuId }, index) => {
+            const section = registry.getItems(menuId)[0] as NavigationSection;
+
+            expect(section.children.length).toBe(1);
+            expect(section.children[0].$label).toBe(`Link ${index}`);
+        });
     });
 });
