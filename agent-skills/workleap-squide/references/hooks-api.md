@@ -266,7 +266,7 @@ useDeferredRegistrations(undefined, {
 
 **Parameters:**
 - `data`: An optional object that will be passed to deferred registration functions.
-- `options.onError`: An optional callback receiving an array of `ModuleRegistrationError` instances.
+- `options.onError`: An optional callback receiving an array of `ModuleRegistrationError` instances. Its exported type is `DeferredRegistrationsErrorCallback`, from `@squide/firefly`.
 
 **Important:** Use `useMemo` to prevent unnecessary re-executions.
 
@@ -434,7 +434,7 @@ import { useLogger } from "@squide/firefly";
 const logger = useLogger();
 logger.debug("Debug message");
 logger.information("Info message");
-logger.warn("Warning");
+logger.warning("Warning");
 logger.error("Error");
 logger.critical("Critical");
 ```
