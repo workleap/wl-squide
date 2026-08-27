@@ -113,17 +113,46 @@ The hook lives on the `Plugin` class rather than on a separate interface: everyt
 is in `@squide/core`, so the call site needs no cast, unlike `FireflyPlugin`, which must be an
 interface because its types live in `@squide/firefly`.
 
+### Runtime Listeners
+
+Not every registry that modules fill from their deferred registration functions is owned by a
+plugin — an application-side registration helper needs the same signal. `Runtime` carries the
+non-plugin surface of the *same* hook:
+
+```ts
+runtime.registerDeferredRegistrationScopeStartedListener(callback): () => void
+runtime.removeDeferredRegistrationScopeStartedListener(callback): void
+```
+
+**These are one mechanism, not two.** The listener takes the same `DeferredRegistrationScopeOptions`,
+returns the same optional `DeferredRegistrationScopeCompletionFunction`, and is driven from the same
+`ModuleManager.#withDeferredRegistrationScope` under the same guarantees. Everything stated above
+about ordering, synchronicity, the no-rollback semantics, and errors being logged rather than
+propagated applies to listeners verbatim. Never add a second driver, a second payload shape, or a
+second error policy for them — the whole point is that a reader learns the contract once.
+
+Plugins are notified before listeners, so an application listener can read what a plugin just reset.
+`Runtime._notifyDeferredRegistrationScopeStarted` performs the fan-out and returns the collected
+completion functions, which `ModuleManager` appends to the plugins'. It is framework internal
+(`_` prefix) and throws from a `RuntimeScope`: observing the boundary is allowed from a scope,
+driving it is not.
+
+**Prefer the plugin hook when the registry lives in a plugin** — nothing to subscribe, nothing to
+dispose. Reach for a listener only when the state is not in a plugin.
+
 ## Key APIs
 
 - `useDeferredRegistrations()` — hook to trigger deferred phase
 - `mergeDeferredRegistrations()` — utility to combine deferred data
 - `Plugin.onDeferredRegistrationScopeStarted()` — optional plugin lifecycle hook
+- `runtime.registerDeferredRegistrationScopeStartedListener()` — the same hook, for non plugin consumers
 
 ## Relevant Source
 
 - `packages/firefly/src/` — deferred registration logic
-- `packages/core/src/registration/ModuleManager.ts` — scope bracket and plugin hook driver
+- `packages/core/src/registration/ModuleManager.ts` — scope bracket, plugin hook and listener driver
 - `packages/core/src/plugins/Plugin.ts` — the hook and its option types
+- `packages/core/src/runtime/Runtime.ts` — the listener surface and its fan-out
 - `packages/react-router/src/NavigationItemRegistry.ts` — static/deferred tagging, clear and replay
 - User docs: `docs/essentials/`, `docs/reference/registration/`, `docs/reference/plugins/Plugin.md`
 

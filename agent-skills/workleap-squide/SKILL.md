@@ -207,7 +207,7 @@ const data = useMemo(() => ({ userData }), [userData]);
 useDeferredRegistrations(data);
 ```
 
-**Important:** a deferred registration function runs again on every update (feature flag change or new data). Squide discards everything the previous run registered before replaying, so each run must register the **full set** of items it wants rendered — never the difference since the last run. Squide only discards what it owns: a plugin exposing its own registry to modules must clear it via the optional `Plugin.onDeferredRegistrationScopeStarted` hook (see `references/runtime-api.md`).
+**Important:** a deferred registration function runs again on every update (feature flag change or new data). Squide discards everything the previous run registered before replaying, so each run must register the **full set** of items it wants rendered — never the difference since the last run. Squide only discards what it owns: a plugin exposing its own registry to modules must clear it via the optional `Plugin.onDeferredRegistrationScopeStarted` hook, and a registry that isn't owned by a plugin via `runtime.registerDeferredRegistrationScopeStartedListener` — the same hook, same options, same guarantees (see `references/runtime-api.md`).
 
 **See also:** For error boundaries, authentication, testing patterns, and advanced navigation (multi-level, modular tabs, dynamic segments, active state), see `references/patterns.md`. For MSW setup, LaunchDarkly, Honeycomb, i18next, and Storybook integrations, see `references/integrations.md`. For plugin authoring and the full runtime API, see `references/runtime-api.md`.
 
@@ -216,7 +216,7 @@ useDeferredRegistrations(data);
 For detailed API documentation beyond the patterns above, consult the reference files:
 
 - **`references/getting-started.md`** — What Squide is and the problems it solves, modular design principles, scaffolding a host application and a local module from scratch (packages, files, Rsbuild config, template)
-- **`references/runtime-api.md`** — `initializeFirefly` options, route registration options (`hoist`, `parentPath`, `parentId`), route properties, navigation item properties, navigation registration options (`menuId`, `sectionId`), and request handler registration
+- **`references/runtime-api.md`** — `initializeFirefly` options, route registration options (`hoist`, `parentPath`, `parentId`), route properties, navigation item properties, navigation registration options (`menuId`, `sectionId`), deferred registration scope started listeners, and request handler registration
 - **`references/hooks-api.md`** — All Squide hooks: data fetching (`usePublicDataQueries`, `useProtectedDataQueries`), navigation (including the render props types and `canRender()`), event bus, environment variables, feature flags, logging, routing, and i18next hooks
 - **`references/components.md`** — `AppRouter` props (including `strictMode` and registration validation), `FireflyProvider`, helper functions (`isNavigationLink`, `resolveRouteSegments`, `mergeDeferredRegistrations`)
 - **`references/patterns.md`** — Local module setup, deferred registration update runs and pending sections, error boundaries, authentication, modular tabs, MSW request handlers, testing (including `createDeferredRegistrationsRunner`), and other common patterns

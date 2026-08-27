@@ -1024,6 +1024,200 @@ describe.concurrent("plugins deferred registration scope lifecycle", () => {
         expect(handler).toHaveBeenNthCalledWith(1, { operation: "register", transactional: false });
         expect(handler).toHaveBeenNthCalledWith(2, { operation: "update", transactional: true });
     });
+
+    // The runtime listeners are the non plugin surface of the same hook. Their own mechanics (disposer,
+    // ordering, error isolation) live in Runtime.test.ts, these pin that both surfaces share one driver.
+    describe.concurrent("runtime listeners", () => {
+        test.concurrent("when the deferred registrations are registered, the listeners are notified with the \"register\" operation and a non transactional scope", async ({ expect }) => {
+            const listener = vi.fn();
+
+            const runtime = new DummyRuntime({
+                moduleManager: x => new ModuleManager(x, [new DummyModuleRegistry()]),
+                loggers: [new NoopLogger()]
+            });
+
+            runtime.registerDeferredRegistrationScopeStartedListener(listener);
+
+            await runtime.moduleManager.registerDeferredRegistrations({ foo: "bar" });
+
+            expect(listener).toHaveBeenCalledExactlyOnceWith({
+                operation: "register",
+                transactional: false
+            });
+        });
+
+        test.concurrent("when the deferred registrations are updated, the listeners are notified with the \"update\" operation and a transactional scope", async ({ expect }) => {
+            const listener = vi.fn();
+
+            const runtime = new DummyRuntime({
+                moduleManager: x => new ModuleManager(x, [new DummyModuleRegistry()]),
+                loggers: [new NoopLogger()]
+            });
+
+            runtime.registerDeferredRegistrationScopeStartedListener(listener);
+
+            await runtime.moduleManager.updateDeferredRegistrations({ foo: "bar" });
+
+            expect(listener).toHaveBeenCalledExactlyOnceWith({
+                operation: "update",
+                transactional: true
+            });
+        });
+
+        test.concurrent("the listeners are notified before the modules", async ({ expect }) => {
+            const calls: string[] = [];
+
+            const moduleRegistry = new DummyModuleRegistry();
+
+            vi.spyOn(moduleRegistry, "updateDeferredRegistrations").mockImplementation(() => {
+                calls.push("module");
+
+                return Promise.resolve([]);
+            });
+
+            const runtime = new DummyRuntime({
+                moduleManager: x => new ModuleManager(x, [moduleRegistry]),
+                loggers: [new NoopLogger()]
+            });
+
+            runtime.registerDeferredRegistrationScopeStartedListener(() => {
+                calls.push("listener");
+            });
+
+            await runtime.moduleManager.updateDeferredRegistrations({ foo: "bar" });
+
+            expect(calls).toEqual(["listener", "module"]);
+        });
+
+        test.concurrent("the plugins are notified before the listeners", async ({ expect }) => {
+            const calls: string[] = [];
+
+            const runtime = new DummyRuntime({
+                moduleManager: x => new ModuleManager(x, [new DummyModuleRegistry()]),
+                plugins: [x => new DummyScopeAwarePlugin("dummy", x, () => {
+                    calls.push("plugin");
+                })],
+                loggers: [new NoopLogger()]
+            });
+
+            runtime.registerDeferredRegistrationScopeStartedListener(() => {
+                calls.push("listener");
+            });
+
+            await runtime.moduleManager.updateDeferredRegistrations({ foo: "bar" });
+
+            expect(calls).toEqual(["plugin", "listener"]);
+        });
+
+        test.concurrent("a completion function returned by a listener runs after the modules, before the runtime scope is completed", async ({ expect }) => {
+            const calls: string[] = [];
+
+            const moduleRegistry = new DummyModuleRegistry();
+
+            vi.spyOn(moduleRegistry, "updateDeferredRegistrations").mockImplementation(() => {
+                calls.push("module");
+
+                return Promise.resolve([]);
+            });
+
+            const runtime = new DummyRuntime({
+                moduleManager: x => new ModuleManager(x, [moduleRegistry]),
+                loggers: [new NoopLogger()]
+            });
+
+            vi.spyOn(runtime, "completeDeferredRegistrationScope").mockImplementation(() => {
+                calls.push("complete-scope");
+            });
+
+            runtime.registerDeferredRegistrationScopeStartedListener(() => () => {
+                calls.push("completion");
+            });
+
+            await runtime.moduleManager.updateDeferredRegistrations({ foo: "bar" });
+
+            expect(calls).toEqual(["module", "completion", "complete-scope"]);
+        });
+
+        test.concurrent("when the modules deferred registrations throw, the completion functions are executed", async ({ expect }) => {
+            const completionFunction = vi.fn();
+
+            const moduleRegistry = new DummyModuleRegistry();
+
+            vi.spyOn(moduleRegistry, "updateDeferredRegistrations").mockImplementation(() => {
+                throw new Error("Something went wrong!");
+            });
+
+            const runtime = new DummyRuntime({
+                moduleManager: x => new ModuleManager(x, [moduleRegistry]),
+                loggers: [new NoopLogger()]
+            });
+
+            runtime.registerDeferredRegistrationScopeStartedListener(() => completionFunction);
+
+            await expect(() => runtime.moduleManager.updateDeferredRegistrations({ foo: "bar" })).rejects.toThrow();
+
+            expect(completionFunction).toHaveBeenCalledOnce();
+        });
+
+        test.concurrent("when a listener throws, the modules deferred registrations are still updated and the runtime scope is completed", async ({ expect }) => {
+            const completeScopeSpy = vi.fn();
+
+            const moduleRegistry = new DummyModuleRegistry();
+            const updateSpy = vi.spyOn(moduleRegistry, "updateDeferredRegistrations");
+
+            const runtime = new DummyRuntime({
+                moduleManager: x => new ModuleManager(x, [moduleRegistry]),
+                loggers: [new NoopLogger()]
+            });
+
+            vi.spyOn(runtime, "completeDeferredRegistrationScope").mockImplementation(completeScopeSpy);
+
+            runtime.registerDeferredRegistrationScopeStartedListener(() => {
+                throw new Error("Something went wrong!");
+            });
+
+            await runtime.moduleManager.updateDeferredRegistrations({ foo: "bar" });
+
+            expect(updateSpy).toHaveBeenCalledOnce();
+            expect(completeScopeSpy).toHaveBeenCalledOnce();
+        });
+
+        test.concurrent("when a completion function returned by a listener throws, the runtime scope is completed and the run still resolves", async ({ expect }) => {
+            const completeScopeSpy = vi.fn();
+
+            const runtime = new DummyRuntime({
+                moduleManager: x => new ModuleManager(x, [new DummyModuleRegistry()]),
+                loggers: [new NoopLogger()]
+            });
+
+            vi.spyOn(runtime, "completeDeferredRegistrationScope").mockImplementation(completeScopeSpy);
+
+            runtime.registerDeferredRegistrationScopeStartedListener(() => () => {
+                throw new Error("Something went wrong!");
+            });
+
+            await expect(runtime.moduleManager.updateDeferredRegistrations({ foo: "bar" })).resolves.toBeDefined();
+
+            expect(completeScopeSpy).toHaveBeenCalledOnce();
+        });
+
+        test.concurrent("a removed listener is not notified by a run", async ({ expect }) => {
+            const listener = vi.fn();
+
+            const runtime = new DummyRuntime({
+                moduleManager: x => new ModuleManager(x, [new DummyModuleRegistry()]),
+                loggers: [new NoopLogger()]
+            });
+
+            const dispose = runtime.registerDeferredRegistrationScopeStartedListener(listener);
+
+            dispose();
+
+            await runtime.moduleManager.updateDeferredRegistrations({ foo: "bar" });
+
+            expect(listener).not.toHaveBeenCalled();
+        });
+    });
 });
 
 describe.concurrent("getAreModulesRegistered", () => {

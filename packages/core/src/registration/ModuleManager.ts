@@ -79,6 +79,11 @@ export class ModuleManager {
                 }
             }
 
+            // The runtime listeners are the non plugin surface of the very same hook, so they are notified in
+            // the same place, under the same guarantees. Plugins first: a plugin registry is framework adjacent
+            // and an application listener may want to read what a plugin just reset.
+            completionFunctions.push(...this.runtime._notifyDeferredRegistrationScopeStarted(options));
+
             return await run();
         } finally {
             // A completion error is logged rather than rethrown. Rethrowing would abort the caller before it notifies
@@ -87,8 +92,11 @@ export class ModuleManager {
                 try {
                     completionFunction();
                 } catch (error: unknown) {
+                    // Deliberately not saying "plugin": this array holds the completion functions of both the
+                    // plugins and the runtime listeners, and naming one would send a reader hunting through the
+                    // plugin list for a plugin that may not be there.
                     this.runtime.logger
-                        .withText("[squide] An error occured while completing a plugin deferred registration scope.")
+                        .withText("[squide] An error occured while completing a deferred registration scope.")
                         .withError(error as Error)
                         .error();
                 }

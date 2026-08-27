@@ -3,6 +3,7 @@ export {
     Runtime,
     RuntimeScope,
     type CompleteDeferredRegistrationScopeOptions,
+    type DeferredRegistrationScopeStartedListener,
     type GetNavigationItemsOptions,
     type IRuntime,
     type ModuleManagerFactory,

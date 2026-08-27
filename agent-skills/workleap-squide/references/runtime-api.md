@@ -7,6 +7,7 @@ The `FireflyRuntime` instance gives modules access to routing, navigation, reque
 - [Constructor Parameters](#constructor-parameters)
 - [Route Registration](#route-registration)
 - [Navigation Registration](#navigation-registration)
+- [Deferred Registration Scope](#deferred-registration-scope)
 - [MSW Request Handlers](#msw-request-handlers)
 - [Environment Variables](#environment-variables)
 - [Feature Flags](#feature-flags)
@@ -208,6 +209,47 @@ const itemsByMenu = runtime.getNavigationItemsByMenu();
 for (const [menuId, items] of itemsByMenu) {
     // ...
 }
+```
+
+### Deferred Registration Scope
+
+**When the registry lives in a plugin, implement `Plugin.onDeferredRegistrationScopeStarted` instead** — same contract, nothing to subscribe or dispose. These listeners are the non-plugin surface of that same hook, for state a plugin doesn't own.
+
+#### registerDeferredRegistrationScopeStartedListener(callback)
+Be notified whenever a deferred registration run starts — both the initial run and every update. Returns a disposer. The callback receives the same `DeferredRegistrationScopeOptions` as the plugin hook (`operation`: `"register" | "update"`, and `transactional`).
+
+Use it to reset an application-owned registry that is filled from deferred registration functions (command palette, sitemap, search index), which the framework does not clear on its own.
+
+Branch on `transactional`. These are two mutually exclusive strategies, not two steps: the initial run (`transactional: false`) **must write through**, because the modules become ready while its scope is still open; only an update run may buffer and commit from the completion function.
+
+```ts
+const dispose = runtime.registerDeferredRegistrationScopeStartedListener(({ transactional }) => {
+    // The initial run writes through: the modules become ready while its scope is still open.
+    if (!transactional) {
+        commandPaletteRegistry.clear();
+
+        return;
+    }
+
+    // An update run buffers, so the previous entries stay readable until the run has settled.
+    const buffer = commandPaletteRegistry.beginTransaction();
+
+    return () => {
+        buffer.commit();
+    };
+});
+
+// When the listener is not needed anymore.
+dispose();
+```
+
+Driven by `ModuleManager.#withDeferredRegistrationScope`, the same bracket as the plugin hook: fired before any deferred registration function runs and after the plugins, in registration order. The callback and its completion function must be **synchronous**; an error thrown by either is logged and never propagated. Also reachable from the `RuntimeScope` that modules receive.
+
+#### removeDeferredRegistrationScopeStartedListener(callback)
+Remove a previously registered listener, for consumers holding the callback reference rather than the disposer.
+
+```ts
+runtime.removeDeferredRegistrationScopeStartedListener(listener);
 ```
 
 ### MSW Request Handlers
