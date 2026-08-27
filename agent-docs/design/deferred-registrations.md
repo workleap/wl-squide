@@ -37,15 +37,81 @@ Deferred registrations automatically re-execute when:
 - `usePublicDataQueries` or `useProtectedDataQueries` return new data
 - LaunchDarkly feature flag values change (streaming mode)
 
+## Registration Scopes
+
+Every deferred registration run is bracketed by a **scope**, opened and closed by
+`ModuleManager` around the modules:
+
+- `runtime.startDeferredRegistrationScope({ transactional })` before the modules run
+- `runtime.completeDeferredRegistrationScope()` after they settle, in a `finally`
+
+`ReactRouterRuntime` uses the open scope to decide how to tag an incoming navigation item.
+`registerNavigationItem` tags it `"deferred"` when a scope is active and `"static"` otherwise,
+which is what lets a transactional scope clear only the deferred items of the previous run and
+replay the new ones (`NavigationItemRegistry.clearDeferredItems`).
+
+The initial run is **non-transactional** (write-through) and update runs are **transactional**
+(buffer, then clear and replay on complete). The initial run cannot buffer:
+`LocalModuleRegistry` flips its status to `"ready"` while the scope is still open, which
+synchronously drives `modules-ready` / `ModulesReadyEvent`.
+
+These runtime methods are framework-internal. They are exported from `@squide/core` but
+deliberately absent from `docs/reference/runtime/FireflyRuntime.md` — consumers must not call
+them.
+
+### Plugin Hook
+
+Consumer plugins own registries that modules fill from their deferred registration functions,
+and those registries need the same clear-and-replay treatment. `Plugin` carries one optional
+method for this:
+
+```ts
+onDeferredRegistrationScopeStarted?(options: DeferredRegistrationScopeOptions):
+    DeferredRegistrationScopeCompletionFunction | void;
+```
+
+`ModuleManager.#withDeferredRegistrationScope` drives it: the hooks run as the first statement
+inside the scope (so a throwing hook aborts before any module registers anything), and the
+returned completion functions run in the `finally`, **before** `completeDeferredRegistrationScope()`.
+
+Ordering is load-bearing. The completion functions land before `useUpdateDeferredRegistrations`
+resumes, therefore before `appRouterStore` subscribers are notified and before React re-renders.
+The event bus cannot provide this: `useEnhancedReducerDispatch` notifies subscribers *before*
+`DeferredRegistrationsUpdateCompletedEvent`, and the initial run has no event bracket at all.
+
+Deliberate constraints. Ordering, both operations, plugin skipping, a throwing hook, a throwing
+completion function and error precedence are covered by tests in
+`packages/core/tests/ModuleManager.test.ts`; the first two below are contract, not enforced:
+
+- The hook and the completion function are synchronous. Nothing awaits them — required by the
+  Honeycomb active-span constraint documented in `ModuleManager.updateDeferredRegistrations`.
+  **Do not make these async.**
+- On an update run, a completion function must not read the navigation registry: that run's items
+  are not committed yet. (On the initial run it would read that run's items, because the
+  non-transactional scope writes through, but the contract is uniform — "commit your own registry,
+  nothing else".)
+- Completion functions run even when the run fails, with whatever was buffered. Partial commit,
+  no rollback — same semantics as Squide's own navigation scope. This includes a run aborted by
+  another plugin's throwing hook, where no module ran at all.
+- A completion error is never thrown over a run error.
+
+The hook lives on the `Plugin` class rather than on a separate interface: everything it needs
+is in `@squide/core`, so the call site needs no cast, unlike `FireflyPlugin`, which must be an
+interface because its types live in `@squide/firefly`.
+
 ## Key APIs
 
 - `useDeferredRegistrations()` — hook to trigger deferred phase
 - `mergeDeferredRegistrations()` — utility to combine deferred data
+- `Plugin.onDeferredRegistrationScopeStarted()` — optional plugin lifecycle hook
 
 ## Relevant Source
 
 - `packages/firefly/src/` — deferred registration logic
-- User docs: `docs/essentials/`, `docs/reference/registration/`
+- `packages/core/src/registration/ModuleManager.ts` — scope bracket and plugin hook driver
+- `packages/core/src/plugins/Plugin.ts` — the hook and its option types
+- `packages/react-router/src/NavigationItemRegistry.ts` — static/deferred tagging, clear and replay
+- User docs: `docs/essentials/`, `docs/reference/registration/`, `docs/reference/plugins/Plugin.md`
 
 ---
 *See [ARCHITECTURE.md](../ARCHITECTURE.md) for full context.*

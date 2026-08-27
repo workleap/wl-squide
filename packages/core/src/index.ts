@@ -50,5 +50,5 @@ export { ModuleManager, type ModuleDefinition, type ModuleRegistrationStatusList
 export { ModuleRegistrationError, ModuleRegistry, type ModuleRegistrationStatus, type ModuleRegistrationStatusChangedListener, type RegisterModulesOptions } from "./registration/ModuleRegistry.ts";
 export { registerModule, type DeferredRegistrationFunction, type DeferredRegistrationOperation, type ModuleRegisterFunction } from "./registration/registerModule.ts";
 
-export { Plugin } from "./plugins/Plugin.ts";
+export { Plugin, type DeferredRegistrationScopeCompletionFunction, type DeferredRegistrationScopeOptions } from "./plugins/Plugin.ts";
 
