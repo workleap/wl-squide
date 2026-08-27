@@ -243,10 +243,10 @@ Default a missing priority the way this hook does:
 
 ```ts
 // Wrong. TypeScript rejects the subtraction, since "priority" is optional (TS18048).
-(x, y) => y.priority - x.priority;
+(x: NavigationLinkRenderProps, y: NavigationLinkRenderProps) => y.priority - x.priority;
 
 // Right, matching this hook's own default.
-(x, y) => (y.priority ?? 0) - (x.priority ?? 0);
+(x: NavigationLinkRenderProps, y: NavigationLinkRenderProps) => (y.priority ?? 0) - (x.priority ?? 0);
 ```
 
 Bypass the type error and the failure is worse than an exception: a comparator returning `NaN` is read as "these two are equal", so it becomes inconsistent and the items come back in an arbitrary order — partially sorted, not left alone.
