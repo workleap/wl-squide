@@ -235,14 +235,16 @@ const renderLinkItem: RenderLinkItemFunction = (item, key) => {
 ```
 
 !!!warning
-`priority` is forwarded exactly as it was declared, `undefined` included, so an unset priority can be told apart from an explicit `0`. Always default it when comparing, the way this hook's own top-level sort does:
+`priority` is forwarded exactly as it was declared, `undefined` included, so an unset priority can be told apart from an explicit `0`. It is a value to read, not a lever to sort with — neither render callback can reorder anything, as the rest of this section explains.
+
+A comparator runs over the items *before* they reach this hook, where the property is `$priority`. Always default it, the way this hook's own top-level sort does:
 
 ```ts
-// Wrong. TypeScript rejects the subtraction, since "priority" is optional (TS18048).
-items.sort((x, y) => y.priority - x.priority);
+// Wrong. TypeScript rejects the subtraction, since "$priority" is optional (TS18048).
+navigationItems.sort((x, y) => y.$priority - x.$priority);
 
 // Right, matching this hook's own default.
-items.sort((x, y) => (y.priority ?? 0) - (x.priority ?? 0));
+navigationItems.sort((x, y) => (y.$priority ?? 0) - (x.$priority ?? 0));
 ```
 
 Bypass the type error and the failure is worse than an exception: a comparator returning `NaN` is read as "these two are equal", so it becomes inconsistent and the items come back in an arbitrary order — partially sorted, not left alone.

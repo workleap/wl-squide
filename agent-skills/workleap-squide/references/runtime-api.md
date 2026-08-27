@@ -162,10 +162,12 @@ levers are:
   `renderItem`, which receives one item at a time, or inside `renderSection`, which receives elements
   that are already rendered.
 
-When comparing, default a missing priority: `(y.priority ?? 0) - (x.priority ?? 0)`. A bare
-`y.priority - x.priority` does not compile — `priority` is optional, so the subtraction is `TS18048`.
-Cast the error away and it gets worse rather than louder: `NaN` is read as "these two are equal", the
-comparator becomes inconsistent, and the items come back partially reordered.
+That comparator runs over the items from `useNavigationItems`, where the property is `$priority` —
+`priority` exists only on the render props, so reaching for it here is a `TS2551`. Default a missing
+one: `(y.$priority ?? 0) - (x.$priority ?? 0)`. A bare `y.$priority - x.$priority` does not compile
+either — `$priority` is optional, so the subtraction is `TS18048`. Cast that error away and it gets
+worse rather than louder: `NaN` is read as "these two are equal", the comparator becomes inconsistent,
+and the items come back partially reordered.
 
 #### getNavigationItems(options?)
 Retrieve registered navigation items for a single menu.
