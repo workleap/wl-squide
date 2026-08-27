@@ -264,7 +264,7 @@ Accept any properties of a React Router [Link](https://reactrouter.com/en/main/c
 - `$id`: An optional identifier for the link. Usually used as the React element [key](https://legacy.reactjs.org/docs/lists-and-keys.html#keys) property.
 - `$label`: The link text.
 - `$canRender`: An optional function accepting an object and returning a `boolean` indicating whether or not the link should be rendered.
-- `$priority`: An order priority affecting the position of the item in the menu (higher first). Squide sorts a menu's top-level items with it, see [Sort navigation items](#sort-navigation-items). On a nested item it is forwarded to the code rendering the menu, which decides whether to sort.
+- `$priority`: An order priority affecting the position of the item among its siblings (higher first), at any depth. See [Sort navigation items](#sort-navigation-items).
 - `$additionalProps`: Additional properties to be spread onto the link component.
 - `$meta`: Metadata for the code rendering the menu to read. Never spread onto the link component.
 
@@ -273,7 +273,7 @@ Accept any properties of a React Router [Link](https://reactrouter.com/en/main/c
 - `$id`: An optional identifier for the section. Usually used to nest navigation items under a specific section and as the React element [key](https://legacy.reactjs.org/docs/lists-and-keys.html#keys) property.
 - `$label`: The section text.
 - `$canRender`: An optional function accepting an object and returning a `boolean` indicating whether or not the section should be rendered.
-- `$priority`: An order priority affecting the position of the item in the menu (higher first). Squide sorts a menu's top-level items with it, see [Sort navigation items](#sort-navigation-items). On a nested section it is forwarded to the code rendering the menu, which decides whether to sort.
+- `$priority`: An order priority affecting the position of the section among its siblings (higher first), at any depth. See [Sort navigation items](#sort-navigation-items).
 - `$additionalProps`: Additional properties to be spread onto the section component.
 - `$meta`: Metadata for the code rendering the menu to read. Never spread onto the section component.
 - `children`: The section content.
@@ -379,7 +379,9 @@ A `$priority` option can be added to a navigation item to affect it's position i
 - If an item have a priority `< 0`, the item will be positioned after any other items with a higher priority (or without an explicit priority value).
 
 !!!info
-Squide sorts the **top-level** items of a menu. A section's `children` are left in the order they were declared, and a nested item's `$priority` is forwarded to the code rendering the menu as the [priority](../routing/useRenderedNavigationItems.md#read-an-item-priority) render prop, at every depth. Sorting a section is that code's call, not Squide's.
+Sorting applies at **every** depth, not only to a menu's top-level items. A section's items are ordered by `$priority` the same way, which matters most when several modules nest items into the same section through the [sectionId](#register-nested-navigation-items) option — those items are added in whatever order their registrations complete, so `$priority` is the only way to get a predictable order.
+
+Items with no `$priority`, or with the same one, keep the order they were declared in. Each item's `$priority` is also handed to the code rendering the menu as the [priority](../routing/useRenderedNavigationItems.md#read-an-item-priority) render prop.
 !!!
 
 ```ts !#4,13

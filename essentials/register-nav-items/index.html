@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <meta name="color-scheme" content="light dark">
     <meta name="turbo-root" content="/wl-squide">
-    <meta name="turbo-cache-control" content="no-cache" data-turbo-track="reload" data-track-token="4.6.0.841111767349">
+    <meta name="turbo-cache-control" content="no-cache" data-turbo-track="reload" data-track-token="4.6.0.841117003646">
 
     <!-- See retype.com -->
     <meta name="generator" content="Retype 4.6.0">
@@ -39,12 +39,12 @@
     <script data-cfasync="false">(function(){var cl=document.documentElement.classList,ls=localStorage.getItem("retype_scheme"),hd=cl.contains("dark"),hl=cl.contains("light"),wm=window.matchMedia&&window.matchMedia("(prefers-color-scheme: dark)").matches;if(ls==="dark"||(!ls&&wm&&!hd&&!hl)){cl.remove("light");cl.add("dark")}else if(ls==="light"||(!ls&&!wm&&!hd&&!hl)){cl.remove("dark");cl.add("light")}})();</script>
 
     <link id="retype-favicon" rel="icon" href="../../static/favicon.png" />
-    <link href="../../resources/css/retype.css?v=4.6.0.841111767349" rel="stylesheet">
+    <link href="../../resources/css/retype.css?v=4.6.0.841117003646" rel="stylesheet">
 
-    <script data-cfasync="false" src="../../resources/js/config.js?v=4.6.0.841111767349" data-turbo-eval="false" defer></script>
+    <script data-cfasync="false" src="../../resources/js/config.js?v=4.6.0.841117003646" data-turbo-eval="false" defer></script>
     <script data-cfasync="false" src="../../resources/js/retype.js?v=4.6.0" data-turbo-eval="false" defer></script>
-    <script id="lunr-js" data-cfasync="false" src="../../resources/js/lunr.js?v=4.6.0.841111767349" data-turbo-eval="false" defer></script>
-    <script id="prism-js" data-cfasync="false" src="../../resources/js/prism.js?v=4.6.0.841111767349" defer></script>
+    <script id="lunr-js" data-cfasync="false" src="../../resources/js/lunr.js?v=4.6.0.841117003646" data-turbo-eval="false" defer></script>
+    <script id="prism-js" data-cfasync="false" src="../../resources/js/prism.js?v=4.6.0.841117003646" defer></script>
 
     <link href="https://workleap.github.io/wl-idp-docs-hub/static/retype-customization.css" rel="stylesheet" />
 
@@ -379,7 +379,8 @@ export const register: ModuleRegisterFunction&lt;FireflyRuntime&gt; = runtime =&
             </svg>
         </div>
         <div class="pr-5 ml-3 w-full">
-<p>Squide sorts the <strong>top-level</strong> items of a menu. A section&#x27;s <code translate="no" v-pre>children</code> are left in the order they were declared, and a nested item&#x27;s <code translate="no" v-pre>$priority</code> is forwarded to the code rendering the menu as the <a href="../../reference/routing/userenderednavigationitems/#read-an-item-priority">priority</a> render prop, at every depth. Sorting a section is that code&#x27;s call, not Squide&#x27;s.</p>
+<p>Sorting applies at <strong>every</strong> depth, not only to a menu&#x27;s top-level items. A section&#x27;s items are ordered by <code translate="no" v-pre>$priority</code> the same way, which matters most when several modules nest items into the same section through the <doc-anchor-trigger to="#register-a-nested-item">sectionId</doc-anchor-trigger> option — those items are added in whatever order their registrations complete, so <code translate="no" v-pre>$priority</code> is the only way to get a predictable order.</p>
+<p>Items with no <code translate="no" v-pre>$priority</code>, or with the same one, keep the order they were declared in. Each item&#x27;s <code translate="no" v-pre>$priority</code> is also handed to the code rendering the menu as the <a href="../../reference/routing/userenderednavigationitems/#read-an-item-priority">priority</a> render prop.</p>
         </div>
     </div>
 </div>

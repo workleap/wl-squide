@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <meta name="color-scheme" content="light dark">
     <meta name="turbo-root" content="/wl-squide">
-    <meta name="turbo-cache-control" content="no-cache" data-turbo-track="reload" data-track-token="4.6.0.841111767349">
+    <meta name="turbo-cache-control" content="no-cache" data-turbo-track="reload" data-track-token="4.6.0.841117003646">
 
     <!-- See retype.com -->
     <meta name="generator" content="Retype 4.6.0">
@@ -39,12 +39,12 @@
     <script data-cfasync="false">(function(){var cl=document.documentElement.classList,ls=localStorage.getItem("retype_scheme"),hd=cl.contains("dark"),hl=cl.contains("light"),wm=window.matchMedia&&window.matchMedia("(prefers-color-scheme: dark)").matches;if(ls==="dark"||(!ls&&wm&&!hd&&!hl)){cl.remove("light");cl.add("dark")}else if(ls==="light"||(!ls&&!wm&&!hd&&!hl)){cl.remove("dark");cl.add("light")}})();</script>
 
     <link id="retype-favicon" rel="icon" href="../../../static/favicon.png" />
-    <link href="../../../resources/css/retype.css?v=4.6.0.841111767349" rel="stylesheet">
+    <link href="../../../resources/css/retype.css?v=4.6.0.841117003646" rel="stylesheet">
 
-    <script data-cfasync="false" src="../../../resources/js/config.js?v=4.6.0.841111767349" data-turbo-eval="false" defer></script>
+    <script data-cfasync="false" src="../../../resources/js/config.js?v=4.6.0.841117003646" data-turbo-eval="false" defer></script>
     <script data-cfasync="false" src="../../../resources/js/retype.js?v=4.6.0" data-turbo-eval="false" defer></script>
-    <script id="lunr-js" data-cfasync="false" src="../../../resources/js/lunr.js?v=4.6.0.841111767349" data-turbo-eval="false" defer></script>
-    <script id="prism-js" data-cfasync="false" src="../../../resources/js/prism.js?v=4.6.0.841111767349" defer></script>
+    <script id="lunr-js" data-cfasync="false" src="../../../resources/js/lunr.js?v=4.6.0.841117003646" data-turbo-eval="false" defer></script>
+    <script id="prism-js" data-cfasync="false" src="../../../resources/js/prism.js?v=4.6.0.841117003646" defer></script>
 
     <link href="https://workleap.github.io/wl-idp-docs-hub/static/retype-customization.css" rel="stylesheet" />
 
@@ -284,7 +284,7 @@
 </li>
 </ul>
 <h3 id="returns">Returns</h3>
-<p>An array of <code translate="no" v-pre>RootNavigationItem</code>, an alias of <code translate="no" v-pre>NavigationLink | NavigationSection</code>. The items are returned as is, in registry insertion order: this hook does not sort. Use <a href="../userenderednavigationitems/">useRenderedNavigationItems</a> to get the top-level items sorted by <code translate="no" v-pre>$priority</code>.</p>
+<p>An array of <code translate="no" v-pre>RootNavigationItem</code>, an alias of <code translate="no" v-pre>NavigationLink | NavigationSection</code>. The items are returned as is, in registry insertion order: this hook does not sort. Use <a href="../userenderednavigationitems/">useRenderedNavigationItems</a> to get the items sorted by <code translate="no" v-pre>$priority</code> at every depth.</p>
 <h4 id="navigationlink"><code translate="no" v-pre>NavigationLink</code></h4>
 <p>Accept any properties of a React Router <a href="https://reactrouter.com/en/main/components/link" class="outbound" target="_blank">Link</a> component with the addition of:</p>
 <ul>
