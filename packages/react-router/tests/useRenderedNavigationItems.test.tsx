@@ -213,11 +213,11 @@ test.concurrent("section item additionalProps are rendered", ({ expect }) => {
     expect(tree).toMatchSnapshot();
 });
 
-test.concurrent("link item $meta is forwarded to the renderer and is stripped from linkProps", ({ expect }) => {
+test.concurrent("link item $context is forwarded to the renderer and is stripped from linkProps", ({ expect }) => {
     const navigationItems: RootNavigationItem[] = [
         {
             $label: "Foo",
-            $meta: {
+            $context: {
                 highlight: true
             },
             to: "/foo"
@@ -231,15 +231,15 @@ test.concurrent("link item $meta is forwarded to the renderer and is stripped fr
 
     const item = renderItem.mock.calls[0][0] as NavigationLinkRenderProps;
 
-    expect(item.meta).toEqual({ highlight: true });
+    expect(item.context).toEqual({ highlight: true });
     expect(item.linkProps).toEqual({ to: "/foo" });
 });
 
-test.concurrent("section item $meta is forwarded to the renderer", ({ expect }) => {
+test.concurrent("section item $context is forwarded to the renderer", ({ expect }) => {
     const navigationItems: RootNavigationItem[] = [
         {
             $label: "Foo",
-            $meta: {
+            $context: {
                 highlight: true
             },
             children: [
@@ -259,10 +259,10 @@ test.concurrent("section item $meta is forwarded to the renderer", ({ expect }) 
     // The nested link is rendered first, the section is the last call.
     const item = renderItem.mock.calls.at(-1)![0] as NavigationSectionRenderProps;
 
-    expect(item.meta).toEqual({ highlight: true });
+    expect(item.context).toEqual({ highlight: true });
 });
 
-test.concurrent("when no $meta prop is provided, meta is an empty object", ({ expect }) => {
+test.concurrent("when no $context prop is provided, context is an empty object", ({ expect }) => {
     const navigationItems: RootNavigationItem[] = [
         {
             $label: "Foo",
@@ -283,8 +283,8 @@ test.concurrent("when no $meta prop is provided, meta is an empty object", ({ ex
     const link = renderItem.mock.calls[0][0] as NavigationLinkRenderProps;
     const section = renderItem.mock.calls.at(-1)![0] as NavigationSectionRenderProps;
 
-    expect(link.meta).toEqual({});
-    expect(section.meta).toEqual({});
+    expect(link.context).toEqual({});
+    expect(section.context).toEqual({});
 });
 
 test.concurrent("every $ prefixed prop is stripped from linkProps", ({ expect }) => {
@@ -296,7 +296,7 @@ test.concurrent("every $ prefixed prop is stripped from linkProps", ({ expect })
             $additionalProps: {
                 style: { color: "red" }
             },
-            $meta: {
+            $context: {
                 highlight: true
             },
             $canRender: () => true,
@@ -325,7 +325,7 @@ test.concurrent("every $ prefixed prop is stripped from linkProps of a nested it
                 {
                     $label: "Bar",
                     $priority: 10,
-                    $meta: {
+                    $context: {
                         highlight: true
                     },
                     to: "/bar"
@@ -342,7 +342,7 @@ test.concurrent("every $ prefixed prop is stripped from linkProps of a nested it
     const item = renderItem.mock.calls[0][0] as NavigationLinkRenderProps;
 
     expect(item.linkProps).toEqual({ to: "/bar" });
-    expect(item.meta).toEqual({ highlight: true });
+    expect(item.context).toEqual({ highlight: true });
 });
 
 test.concurrent("link item $priority is forwarded to the renderer and is stripped from linkProps", ({ expect }) => {
@@ -647,11 +647,11 @@ test.concurrent("sorting does not mutate the items it was given", ({ expect }) =
     expect(navigationItems.map(x => x.$label)).toEqual(["Section", "Root high"]);
 });
 
-test.concurrent("link item $meta is not rendered on the link component", ({ expect }) => {
+test.concurrent("link item $context is not rendered on the link component", ({ expect }) => {
     const navigationItems: RootNavigationItem[] = [
         {
             $label: "Foo",
-            $meta: {
+            $context: {
                 highlight: true
             },
             to: "/foo"
