@@ -41,16 +41,16 @@ Deferred registrations automatically re-execute when:
 
 `ModuleManager` brackets **both** run paths with `runtime.startDeferredRegistrationScope()` / `completeDeferredRegistrationScope()` — `registerDeferredRegistrations` passes `{ operation: "register" }`, `updateDeferredRegistrations` passes `{ transactional: true, operation: "update" }`.
 
-The start of that scope is exposed as a runtime listener, so an application registry filled from the same deferred registration functions (a command palette, a sitemap, a search index) can reset itself on every run. See [ADR-0032](../adr/0032-deferred-registration-scope-started-listener.md).
+The start of that scope is exposed as a runtime listener, so an application registry filled from the same deferred registration functions (a command palette, a sitemap, a search index) can reset itself on every run. The event bus is not the channel for this: `DeferredRegistrationsUpdateStartedEvent` fires only on the update path and is dispatched by the React hook rather than by the run.
 
 - `runtime.registerDeferredRegistrationScopeStartedListener(callback)` — returns a disposer
 - `runtime.removeDeferredRegistrationScopeStartedListener(callback)`
 
 The callback receives a `DeferredRegistrationOperation` (`"register" | "update"`). Fired after the scope is in place and before any deferred registration function runs, in registration order. A throwing listener is logged, never propagated — an escaping error would leave the scope open and break every subsequent run. Reachable from `RuntimeScope` too: observing the boundary is allowed even though starting or completing a scope is not.
 
-The listener set and the public API live on `Runtime` (`packages/core`); the fan-out is triggered by `ReactRouterRuntime.startDeferredRegistrationScope` calling the protected `_notifyDeferredRegistrationScopeStarted`. **A new concrete runtime implementing scopes must call that helper**, or the API is silently inert for it.
+The listener set and the public API live on `Runtime` (`packages/core`); the fan-out is triggered by `ReactRouterRuntime.startDeferredRegistrationScope` calling the protected `_notifyDeferredRegistrationScopeStarted`. **A new concrete runtime implementing scopes must call that helper**, or the API is silently inert for it. Do not "fix" this by making `Runtime.startDeferredRegistrationScope` concrete and wrapping the abstract one: that renames the abstract member, which is a major, and `noImplicitOverride` is off, so every subclass left on the old name would silently shadow the wrapper and kill the fan-out with no compile error.
 
-There is no *completed* listener yet — deliberately deferred, see ADR-0032.
+There is no *completed* listener yet — deliberately deferred, because a consumer holding a store read through `useSyncExternalStore` must buffer internally and that contract needs its own design pass.
 
 ## Key APIs
 

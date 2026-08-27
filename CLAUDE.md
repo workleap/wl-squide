@@ -8,6 +8,13 @@
 2. Before API, dependency, or inter-module changes, read [adr/index.md](./agent-docs/adr/index.md). To reverse a decision, supersede the record — do not silently ignore it.
 3. Before changing build tooling, CI pipelines, or agent workflows, read [odr/index.md](./agent-docs/odr/index.md).
 
+**Reading the ADR index is mandatory. Writing a new ADR is not.** Most changes — including new APIs, new options, and new tests — need no record at all. Never add an ADR unless the change makes an architectural choice that a future reader would otherwise reverse by accident, and never add one merely to document what a change did: that is what the changeset, the code, and `agent-docs/design/` are for. An unnecessary ADR is worse than none, because it dilutes the index every future agent has to read.
+
+- **Don't:** "Added `runtime.registerFooListener()` — records the naming and where the fan-out lives." That is a changeset and a line in the design doc.
+- **Do:** "Routes are frozen after Phase 1 bootstrap." A future agent would otherwise register routes in Phase 2 and break the router.
+
+When in doubt, skip the ADR and put the rationale in the changeset. The same applies to ODRs.
+
 ## Index
 
 ### Architecture
