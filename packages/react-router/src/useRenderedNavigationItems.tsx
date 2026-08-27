@@ -7,8 +7,8 @@ export interface NavigationLinkRenderProps {
     label: ReactNode;
     linkProps: Omit<LinkProps, "children">;
     // Forwarded as declared, "undefined" included, so the renderer can tell an unset priority from an explicit
-    // 0. Squide sorts a menu's top-level items itself and treats a missing priority as 0; a renderer sorting a
-    // section's items should do the same.
+    // 0. The menu arrives sorted at every depth without the renderer doing anything, so this is here for what
+    // ordering does not cover: grouping, badging, or a comparator of the renderer's own.
     priority?: number;
     additionalProps: Record<string, unknown>;
     meta: Record<string, unknown>;
