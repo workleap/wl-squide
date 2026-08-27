@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <meta name="color-scheme" content="light dark">
     <meta name="turbo-root" content="/wl-squide">
-    <meta name="turbo-cache-control" content="no-cache" data-turbo-track="reload" data-track-token="4.6.0.841110681685">
+    <meta name="turbo-cache-control" content="no-cache" data-turbo-track="reload" data-track-token="4.6.0.841111384432">
 
     <!-- See retype.com -->
     <meta name="generator" content="Retype 4.6.0">
@@ -39,12 +39,12 @@
     <script data-cfasync="false">(function(){var cl=document.documentElement.classList,ls=localStorage.getItem("retype_scheme"),hd=cl.contains("dark"),hl=cl.contains("light"),wm=window.matchMedia&&window.matchMedia("(prefers-color-scheme: dark)").matches;if(ls==="dark"||(!ls&&wm&&!hd&&!hl)){cl.remove("light");cl.add("dark")}else if(ls==="light"||(!ls&&!wm&&!hd&&!hl)){cl.remove("dark");cl.add("light")}})();</script>
 
     <link id="retype-favicon" rel="icon" href="../../../static/favicon.png" />
-    <link href="../../../resources/css/retype.css?v=4.6.0.841110681685" rel="stylesheet">
+    <link href="../../../resources/css/retype.css?v=4.6.0.841111384432" rel="stylesheet">
 
-    <script data-cfasync="false" src="../../../resources/js/config.js?v=4.6.0.841110681685" data-turbo-eval="false" defer></script>
+    <script data-cfasync="false" src="../../../resources/js/config.js?v=4.6.0.841111384432" data-turbo-eval="false" defer></script>
     <script data-cfasync="false" src="../../../resources/js/retype.js?v=4.6.0" data-turbo-eval="false" defer></script>
-    <script id="lunr-js" data-cfasync="false" src="../../../resources/js/lunr.js?v=4.6.0.841110681685" data-turbo-eval="false" defer></script>
-    <script id="prism-js" data-cfasync="false" src="../../../resources/js/prism.js?v=4.6.0.841110681685" defer></script>
+    <script id="lunr-js" data-cfasync="false" src="../../../resources/js/lunr.js?v=4.6.0.841111384432" data-turbo-eval="false" defer></script>
+    <script id="prism-js" data-cfasync="false" src="../../../resources/js/prism.js?v=4.6.0.841111384432" defer></script>
 
     <link href="https://workleap.github.io/wl-idp-docs-hub/static/retype-customization.css" rel="stylesheet" />
 
@@ -284,11 +284,7 @@
 </doc-codeblock></div>
 <h3 id="parameters">Parameters</h3>
 <ul>
-<li><code translate="no" v-pre>navigationItems</code>: An array of <code translate="no" v-pre>RootNavigationItem</code> to render — a <code translate="no" v-pre>NavigationLink | NavigationSection</code> plus an optional <code translate="no" v-pre>$priority</code>. The hook sorts the <strong>top-level</strong> items of the array by <code translate="no" v-pre>$priority</code> (higher first) before rendering. Nested items render in the order they appear in their section&#x27;s <code translate="no" v-pre>children</code> array, their <code translate="no" v-pre>$priority</code> is ignored.
-<ul>
-<li><code translate="no" v-pre>$priority</code>: An optional order priority affecting the position of the item in the menu (higher first). Declared on <code translate="no" v-pre>RootNavigationItem</code> only. It is honored for the menu&#x27;s top-level items. A nested item may still carry a <code translate="no" v-pre>$priority</code> at runtime, when it was registered with the <code translate="no" v-pre>sectionId</code> option, but it is ignored.</li>
-</ul>
-</li>
+<li><code translate="no" v-pre>navigationItems</code>: An array of <code translate="no" v-pre>RootNavigationItem</code> to render, an alias of <code translate="no" v-pre>NavigationLink | NavigationSection</code>. The hook sorts the <strong>top-level</strong> items of the array by <code translate="no" v-pre>$priority</code> (higher first) before rendering. A section&#x27;s <code translate="no" v-pre>children</code> are rendered in the order they were declared, with every item&#x27;s <code translate="no" v-pre>$priority</code> forwarded to <code translate="no" v-pre>renderItem</code> as <doc-anchor-trigger to="#read-an-item-priority">priority</doc-anchor-trigger>.</li>
 <li><code translate="no" v-pre>renderItem</code>: A function to render a link from a navigation item</li>
 <li><code translate="no" v-pre>renderSection</code>: A function to render a section from a collection of items.</li>
 </ul>
@@ -298,6 +294,7 @@
 <li><code translate="no" v-pre>$id</code>: An optional identifier for the link. Usually used as the React element <a href="https://legacy.reactjs.org/docs/lists-and-keys.html#keys" class="outbound" target="_blank">key</a> property.</li>
 <li><code translate="no" v-pre>$label</code>: The link label. Could either by a <code translate="no" v-pre>string</code> or a <code translate="no" v-pre>ReactNode</code>.</li>
 <li><code translate="no" v-pre>$canRender</code>: An optional function accepting an object and returning a <code translate="no" v-pre>boolean</code> indicating whether or not the link should be rendered.</li>
+<li><code translate="no" v-pre>$priority</code>: An optional order priority affecting the position of the item in the menu (higher first). Honored by this hook for a menu&#x27;s top-level items, and forwarded to <code translate="no" v-pre>renderItem</code> as <code translate="no" v-pre>priority</code> at every depth, see <doc-anchor-trigger to="#read-an-item-priority">Read an item priority</doc-anchor-trigger>.</li>
 <li><code translate="no" v-pre>$additionalProps</code>: An optional object literal of additional props to spread onto the link component.</li>
 <li><code translate="no" v-pre>$meta</code>: An optional object literal of metadata for the code rendering the menu to read. Never spread onto the link component.</li>
 </ul>
@@ -306,6 +303,7 @@
 <li><code translate="no" v-pre>$id</code>: An optional identifier the section. Usually used to nest navigation items undern a specific section and as the React element <a href="https://legacy.reactjs.org/docs/lists-and-keys.html#keys" class="outbound" target="_blank">key</a> property.</li>
 <li><code translate="no" v-pre>$label</code>: The section label. Could either by a <code translate="no" v-pre>string</code> or a <code translate="no" v-pre>ReactNode</code>.</li>
 <li><code translate="no" v-pre>$canRender</code>: An optional function accepting an object and returning a <code translate="no" v-pre>boolean</code> indicating whether or not the section should be rendered.</li>
+<li><code translate="no" v-pre>$priority</code>: An optional order priority affecting the position of the item in the menu (higher first). Honored by this hook for a menu&#x27;s top-level items, and forwarded to <code translate="no" v-pre>renderItem</code> as <code translate="no" v-pre>priority</code> at every depth, see <doc-anchor-trigger to="#read-an-item-priority">Read an item priority</doc-anchor-trigger>.</li>
 <li><code translate="no" v-pre>$additionalProps</code>: An optional object literal of additional props to spread onto the section component.</li>
 <li><code translate="no" v-pre>$meta</code>: An optional object literal of metadata for the code rendering the menu to read. Never spread onto the section component.</li>
 <li><code translate="no" v-pre>children</code>: The section items.</li>
@@ -470,6 +468,89 @@ export const register: ModuleRegisterFunction&lt;FireflyRuntime&gt; = runtime =&
 };</code></pre>
 </doc-codeblock></div>
 <p><code translate="no" v-pre>meta</code> defaults to an empty object, so it can be destructured without a guard.</p>
+<h3 id="read-an-item-priority">Read an item priority</h3>
+<p>This hook sorts the array it receives, which is a menu&#x27;s top-level items, and renders a section&#x27;s <code translate="no" v-pre>children</code> in the order they were declared. Every item&#x27;s <code translate="no" v-pre>$priority</code> is handed to the rendering code as <code translate="no" v-pre>priority</code>, at every depth:</p>
+<div id="read-an-item-priority-code-1" class="codeblock-wrapper"><doc-codeblock>
+<pre translate="no" class="language-tsx" data-line="8-9"><code v-pre class="language-tsx">import type { ModuleRegisterFunction, FireflyRuntime } from &quot;@squide/firefly&quot;;
+
+export const register: ModuleRegisterFunction&lt;FireflyRuntime&gt; = runtime =&gt; {
+    runtime.registerNavigationItem({
+        $id: &quot;management&quot;,
+        $label: &quot;Management&quot;,
+        children: [
+            { $id: &quot;users&quot;, $label: &quot;Users&quot;, $priority: 10, to: &quot;/users&quot; },
+            { $id: &quot;teams&quot;, $label: &quot;Teams&quot;, $priority: 5, to: &quot;/teams&quot; }
+        ]
+    });
+};</code></pre>
+</doc-codeblock></div>
+<div id="read-an-item-priority-code-2" class="codeblock-wrapper"><doc-codeblock>
+<pre translate="no" class="language-tsx" data-line="2,5"><code v-pre class="language-tsx">const renderLinkItem: RenderLinkItemFunction = (item, key) =&gt; {
+    const { label, linkProps, additionalProps, priority } = item;
+
+    return (
+        &lt;li key={key} data-priority={priority}&gt;
+            &lt;Link {...linkProps} {...additionalProps}&gt;
+                {label}
+            &lt;/Link&gt;
+        &lt;/li&gt;
+    );
+};</code></pre>
+</doc-codeblock></div>
+<div class="flex mb-6">
+    <div class="shrink-0 w-1.5 rounded-tl-lg rounded-bl-lg bg-callout-warning"></div>
+    <div class="flex w-full py-4 border border-l-0 rounded-tr-lg rounded-br-lg doc-callout bg-callout-base-bg border-callout-base-border" role="alert">
+        <div class="flex items-center ml-4 h-7">
+            <svg xmlns="http://www.w3.org/2000/svg" class="block text-callout-warning" width="22" height="22" viewBox="0 0 24 24" role="presentation">
+                <g fill="currentColor"><g>
+                    <path d="M22.48 15.59L14.01 1.45A2.968 2.968 0 0012.16.09c-.78-.19-1.58-.07-2.27.35-.41.25-.76.6-1.01 1.01v.01L.4 15.6c-.83 1.43-.33 3.27 1.1 4.1.45.26.95.4 1.48.4h16.95c.8-.01 1.55-.33 2.11-.9.56-.57.87-1.33.86-2.13a3.04 3.04 0 00-.42-1.48zm-1.87 2.21c-.19.19-.44.3-.69.3H2.99c-.17 0-.34-.05-.49-.13a.992.992 0 01-.37-1.35L10.6 2.48c.08-.14.2-.25.34-.33a.992.992 0 011.37.33l8.46 14.13c.09.15.13.32.13.49 0 .26-.1.51-.29.7z"></path>
+                    <path d="M11.45 12.1c.55 0 1-.45 1-1v-4c0-.55-.45-1-1-1s-1 .45-1 1v4c0 .56.45 1 1 1zM11.46 14.1c-.56 0-1 .45-1 1s.45 1 1 1 1-.45 1-1-.45-1-1-1z"></path>
+                </g></g>
+            </svg>
+        </div>
+        <div class="pr-5 ml-3 w-full">
+<p><code translate="no" v-pre>priority</code> is forwarded exactly as it was declared, <code translate="no" v-pre>undefined</code> included, so an unset priority can be told apart from an explicit <code translate="no" v-pre>0</code>. Always default it when comparing, the way this hook&#x27;s own top-level sort does:</p>
+<div class="codeblock-wrapper"><doc-codeblock>
+<pre translate="no" class="language-typescript"><code v-pre class="language-typescript">// Wrong. TypeScript rejects the subtraction, since &quot;priority&quot; is optional (TS18048).
+items.sort((x, y) =&gt; y.priority - x.priority);
+
+// Right, matching this hook's own default.
+items.sort((x, y) =&gt; (y.priority ?? 0) - (x.priority ?? 0));</code></pre>
+</doc-codeblock></div>
+<p>Bypass the type error and the failure is worse than an exception: a comparator returning <code translate="no" v-pre>NaN</code> is read as &quot;these two are equal&quot;, so it becomes inconsistent and the items come back in an arbitrary order — partially sorted, not left alone.</p>
+        </div>
+    </div>
+</div>
+<p>To have a section&#x27;s items rendered in priority order, sort them <strong>before</strong> handing them to this hook. <code translate="no" v-pre>renderItem</code> renders a single item and cannot move its siblings, and <code translate="no" v-pre>renderSection</code> receives elements that have already been rendered, so neither is a place to reorder:</p>
+<div id="read-an-item-priority-code-3" class="codeblock-wrapper"><doc-codeblock>
+<pre translate="no" class="language-tsx" data-line="12-16,20"><code v-pre class="language-tsx">import { useMemo } from &quot;react&quot;;
+import {
+    useNavigationItems,
+    useRenderedNavigationItems,
+    type NavigationLink,
+    type NavigationSection
+} from &quot;@squide/firefly&quot;;
+import { renderItem, renderSection } from &quot;./renderNavigationItem.tsx&quot;;
+
+type Item = NavigationLink | NavigationSection;
+
+function sortByPriority(items: Item[]): Item[] {
+    return [...items]
+        .sort((x, y) =&gt; (y.$priority ?? 0) - (x.$priority ?? 0))
+        .map(x =&gt; &quot;children&quot; in x &amp;&amp; x.children ? { ...x, children: sortByPriority(x.children) } : x);
+}
+
+export function Navigation() {
+    const navigationItems = useNavigationItems();
+    const sortedItems = useMemo(() =&gt; sortByPriority(navigationItems), [navigationItems]);
+    const navigationElements = useRenderedNavigationItems(sortedItems, renderItem, renderSection);
+
+    return (
+        &lt;nav&gt;{navigationElements}&lt;/nav&gt;
+    );
+}</code></pre>
+</doc-codeblock></div>
+<p>The recursive helper needs its return type annotated, otherwise TypeScript reports <code translate="no" v-pre>TS7023</code> rather than inferring it.</p>
 <h3 id="render-dynamic-segments">Render dynamic segments</h3>
 <p>The <code translate="no" v-pre>to</code> option of a navigation item can include dynamic segments (<code translate="no" v-pre>/user-profile/:userId</code>), enabling the rendering of dynamic routes based on contextual values. To resolve a route dynamic segments, use the <a href="../resolveroutesegments/">resolveRouteSegments</a> function.</p>
 <div id="render-dynamic-segments-code-1" class="codeblock-wrapper"><doc-codeblock>

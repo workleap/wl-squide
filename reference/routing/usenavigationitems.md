@@ -15,7 +15,7 @@ const navigationItems = useNavigationItems(options?: { menuId? })
 
 ### Returns
 
-An array of `RootNavigationItem` — a `NavigationLink | NavigationSection` plus an optional `$priority`, which is declared on the root item type only. It is honored for the menu's top-level items. A nested item may still carry a `$priority` at runtime, when it was registered with the `sectionId` option, but it is ignored. The items are returned as is, in registry insertion order: this hook does not sort. Use [useRenderedNavigationItems](./useRenderedNavigationItems.md) to get the top-level items sorted by `$priority`.
+An array of `RootNavigationItem`, an alias of `NavigationLink | NavigationSection`. The items are returned as is, in registry insertion order: this hook does not sort. Use [useRenderedNavigationItems](./useRenderedNavigationItems.md) to get the top-level items sorted by `$priority`.
 
 #### `NavigationLink`
 
@@ -23,6 +23,7 @@ Accept any properties of a React Router [Link](https://reactrouter.com/en/main/c
 - `$id`: An optional identifier for the link. Usually used as the React element [key](https://legacy.reactjs.org/docs/lists-and-keys.html#keys) property.
 - `$label`: The link label. Could either by a `string` or a `ReactNode`.
 - `$canRender`: An optional function accepting an object and returning a `boolean` indicating whether or not the link should be rendered.
+- `$priority`: An optional order priority affecting the position of the item in the menu (higher first). See [useRenderedNavigationItems](./useRenderedNavigationItems.md#read-an-item-priority).
 - `$additionalProps`: An optional object literal of additional props to spread onto the link component.
 - `$meta`: An optional object literal of metadata for the code rendering the menu to read. Never spread onto the link component.
 
@@ -31,6 +32,7 @@ Accept any properties of a React Router [Link](https://reactrouter.com/en/main/c
 - `$id`: An optional identifier for the section. Usually used to nest navigation items under a specific section and as the React element [key](https://legacy.reactjs.org/docs/lists-and-keys.html#keys) property.
 - `$label`: The section label. Could either by a `string` or a `ReactNode`.
 - `$canRender`: An optional function accepting an object and returning a `boolean` indicating whether or not the section should be rendered.
+- `$priority`: An optional order priority affecting the position of the item in the menu (higher first). See [useRenderedNavigationItems](./useRenderedNavigationItems.md#read-an-item-priority).
 - `$additionalProps`: An optional object literal of additional props to spread onto the section component.
 - `$meta`: An optional object literal of metadata for the code rendering the menu to read. Never spread onto the section component.
 - `children`: The section items.
