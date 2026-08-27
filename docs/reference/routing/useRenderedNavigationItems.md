@@ -248,7 +248,9 @@ items.sort((x, y) => (y.priority ?? 0) - (x.priority ?? 0));
 Bypass the type error and the failure is worse than an exception: a comparator returning `NaN` is read as "these two are equal", so it becomes inconsistent and the items come back in an arbitrary order — partially sorted, not left alone.
 !!!
 
-Neither render callback is a place to reorder items: `renderItem` renders a single item and cannot see its siblings, and `renderSection` receives elements that have already been rendered. To impose an order this hook does not produce, sort the tree from [useNavigationItems](./useNavigationItems.md) and hand the result to this hook instead.
+Neither render callback is a place to reorder items: `renderItem` renders a single item and cannot see its siblings, and `renderSection` receives elements that have already been rendered.
+
+Pre-sorting the array before handing it over does not work either, since this hook sorts every array it receives and only ties keep the order they arrived in. An order that contradicts `$priority` can only be had by removing `$priority` from the tree that is passed in, or by not using this hook.
 
 ### Render dynamic segments
 

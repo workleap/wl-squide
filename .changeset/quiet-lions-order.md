@@ -19,7 +19,7 @@ The `sectionId` option changed that: a module can nest an item into another modu
 - An item **with** an explicit `$priority` below the root now moves. Reaching that state previously required either the `sectionId` option or widening a variable into `children`, both of which mean a priority was written down and silently ignored — so this should be the order that was being asked for.
 - Negative priorities work at depth as they do at the root: a missing priority defaults to `0`, so `$priority: -10` places an item behind its unprioritized siblings.
 
-If you need a section rendered in declaration order regardless of priorities, sort the tree from `useNavigationItems` yourself and pass the result to `useRenderedNavigationItems` instead of the registry's items.
+If you need an order that contradicts `$priority`, note that pre-sorting the items before handing them to `useRenderedNavigationItems` does not achieve it: the hook sorts every array it receives, so a caller's order is discarded and only ties survive. Strip `$priority` from the tree you pass in, or render the menu without this hook.
 
 The sort moved into the `renderItems` recursion, and each array is copied before sorting — a section's `children` is the registry's own array, handed over by reference, so sorting in place would have reordered the registry itself.
 

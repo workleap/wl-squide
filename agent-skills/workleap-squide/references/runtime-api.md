@@ -162,8 +162,10 @@ is read as "these two are equal", the comparator becomes inconsistent, and the i
 partially reordered.
 
 Neither render callback can reorder anything — `renderItem` sees one item at a time and
-`renderSection` receives elements that are already rendered. To impose a different order, sort the tree
-from `useNavigationItems` before handing it to `useRenderedNavigationItems`.
+`renderSection` receives elements that are already rendered. Pre-sorting the tree does not work either:
+the hook sorts every array it receives, so the caller's order is discarded and only ties survive. An
+order that contradicts `$priority` requires removing `$priority` from the tree that is handed over, or
+not using this hook.
 
 **This used to be top-level only.** Do not repeat the older claim that a nested `$priority` is
 ignored.
