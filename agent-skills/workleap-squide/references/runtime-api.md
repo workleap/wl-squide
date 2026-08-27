@@ -7,6 +7,7 @@ The `FireflyRuntime` instance gives modules access to routing, navigation, reque
 - [Constructor Parameters](#constructor-parameters)
 - [Route Registration](#route-registration)
 - [Navigation Registration](#navigation-registration)
+- [Deferred Registration Scope](#deferred-registration-scope)
 - [MSW Request Handlers](#msw-request-handlers)
 - [Environment Variables](#environment-variables)
 - [Feature Flags](#feature-flags)

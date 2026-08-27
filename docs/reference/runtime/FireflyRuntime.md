@@ -538,7 +538,7 @@ Only routes and navigation items participate in a [deferred registration](../reg
 
 Use `registerDeferredRegistrationScopeStartedListener` to be notified when a run starts:
 
-```ts !#7,10
+```ts !#8,11
 const listener = (operation: DeferredRegistrationOperation) => {
     // "register" for the initial run, "update" for every subsequent one.
     console.log("A deferred registration run started:", operation);

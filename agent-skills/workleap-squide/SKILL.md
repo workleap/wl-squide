@@ -11,7 +11,7 @@ description: |
   (7) Squide hooks for event bus, environment variables, feature flags, logging, or bootstrapping state
   (8) Error boundaries or modular architecture in Squide applications
 metadata:
-  version: 1.22
+  version: 1.23
 ---
 
 # Squide Framework
@@ -216,7 +216,7 @@ useDeferredRegistrations(data);
 For detailed API documentation beyond the patterns above, consult the reference files:
 
 - **`references/getting-started.md`** — What Squide is and the problems it solves, modular design principles, scaffolding a host application and a local module from scratch (packages, files, Rsbuild config, template)
-- **`references/runtime-api.md`** — `initializeFirefly` options, route registration options (`hoist`, `parentPath`, `parentId`), route properties, navigation item properties, navigation registration options (`menuId`, `sectionId`), and request handler registration
+- **`references/runtime-api.md`** — `initializeFirefly` options, route registration options (`hoist`, `parentPath`, `parentId`), route properties, navigation item properties, navigation registration options (`menuId`, `sectionId`), deferred registration scope started listeners, and request handler registration
 - **`references/hooks-api.md`** — All Squide hooks: data fetching (`usePublicDataQueries`, `useProtectedDataQueries`), navigation (including the render props types and `canRender()`), event bus, environment variables, feature flags, logging, routing, and i18next hooks
 - **`references/components.md`** — `AppRouter` props (including `strictMode` and registration validation), `FireflyProvider`, helper functions (`isNavigationLink`, `resolveRouteSegments`, `mergeDeferredRegistrations`)
 - **`references/patterns.md`** — Local module setup, deferred registration update runs and pending sections, error boundaries, authentication, modular tabs, MSW request handlers, testing (including `createDeferredRegistrationsRunner`), and other common patterns
