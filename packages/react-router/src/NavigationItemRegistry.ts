@@ -10,9 +10,11 @@ export interface NavigationLink extends Omit<LinkProps, "children"> {
     // defaults to 0, so a negative one sits behind the unprioritized siblings, and ties keep declaration
     // order. Also forwarded to the code rendering the menu, for what ordering does not cover.
     $priority?: number;
-    // Spread onto the rendered component, unlike "$meta" which is only read by the renderer.
+    // Spread onto the rendered component, unlike "$context" which is only read by the renderer.
     $additionalProps?: Record<string, unknown>;
-    $meta?: Record<string, unknown>;
+    // Unrelated to the module registration context and to React context: this is per-item data for the
+    // code rendering the menu.
+    $context?: Record<string, unknown>;
     $canRender?: (obj?: unknown) => boolean;
     children?: never;
 }
@@ -22,9 +24,10 @@ export interface NavigationSection {
     $label: ReactNode;
     // Highest priority is rendered first. See NavigationLink's "$priority".
     $priority?: number;
-    // Spread onto the rendered component, unlike "$meta" which is only read by the renderer.
+    // Spread onto the rendered component, unlike "$context" which is only read by the renderer.
     $additionalProps?: Record<string, unknown>;
-    $meta?: Record<string, unknown>;
+    // See NavigationLink's "$context".
+    $context?: Record<string, unknown>;
     $canRender?: (obj?: unknown) => boolean;
     children: NavigationItem[];
     to?: never;

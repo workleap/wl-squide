@@ -93,6 +93,21 @@ runtime.registerRoute({
 
 Hoisting is also how a page gets a layout other than the host's (a login page, for example): register the alternate layout as the hoisted route and nest the page under it.
 
+**`parentPath` / `parentId` require absolute child paths.** A route nested under a previously registered parent must declare a full React Router absolute path — under a parent at `/layout`, the child responding to `/page-1` is registered as `/layout/page-1`, not `page-1`.
+
+Nesting routes inside a **single registration block** is the exception: there, `children` may use relative paths.
+
+```tsx
+runtime.registerRoute({
+    path: "layout",
+    element: <Layout />,
+    children: [{
+        path: "page-1",
+        element: <Page />
+    }]
+});
+```
+
 #### registerPublicRoute(route, options?)
 Register a public route (shorthand for `$visibility: "public"`).
 
@@ -116,7 +131,7 @@ runtime.registerNavigationItem({
     $priority: 10,            // Higher = earlier among its siblings, at any depth
     $canRender: (index: number) => true,   // Conditional rendering
     $additionalProps: {},     // Spread onto the component the layout renders
-    $meta: {},                // Read by the layout, never spread
+    $context: {},             // Read by the layout, never spread
     to: "/page",
     target: "_blank",         // Optional
     style: {}                 // Optional
@@ -344,8 +359,8 @@ export function getMyPlugin(runtime: FireflyRuntime) {
 ## Event Bus
 
 ```ts
-// Add listener
-runtime.eventBus.addListener("event-name", (data, context) => {
+// Add listener. The callback receives the payload only: (data?) => void.
+runtime.eventBus.addListener("event-name", data => {
     // Handle event
 });
 
@@ -358,7 +373,7 @@ runtime.eventBus.dispatch("event-name", payload);
 ```ts
 runtime.logger.debug("Debug message");
 runtime.logger.information("Info message");
-runtime.logger.warn("Warning message");
+runtime.logger.warning("Warning message");
 runtime.logger.error("Error message");
 runtime.logger.critical("Critical message");
 ```

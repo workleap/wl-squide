@@ -36,7 +36,7 @@ Accept any properties of a React Router [Link](https://reactrouter.com/en/main/c
 - `$canRender`: An optional function accepting an object and returning a `boolean` indicating whether or not the link should be rendered.
 - `$priority`: An optional order priority affecting the position of the item among its siblings (higher first), at any depth. Also forwarded to `renderItem` as `priority`, see [Read an item priority](#read-an-item-priority).
 - `$additionalProps`: An optional object literal of additional props to spread onto the link component.
-- `$meta`: An optional object literal of metadata for the code rendering the menu to read. Never spread onto the link component.
+- `$context`: An optional object literal of data for the code rendering the menu to read. Never spread onto the link component.
 
 #### `NavigationSection`
 
@@ -45,13 +45,15 @@ Accept any properties of a React Router [Link](https://reactrouter.com/en/main/c
 - `$canRender`: An optional function accepting an object and returning a `boolean` indicating whether or not the section should be rendered.
 - `$priority`: An optional order priority affecting the position of the section among its siblings (higher first), at any depth. Also forwarded to `renderItem` as `priority`, see [Read an item priority](#read-an-item-priority).
 - `$additionalProps`: An optional object literal of additional props to spread onto the section component.
-- `$meta`: An optional object literal of metadata for the code rendering the menu to read. Never spread onto the section component.
+- `$context`: An optional object literal of data for the code rendering the menu to read. Never spread onto the section component.
 - `children`: The section items.
 
 !!!info
-`$additionalProps` and `$meta` serve different purposes. `$additionalProps` is spread onto the rendered component, so every key must be a valid prop for that component. `$meta` is only handed to the code rendering the menu, which decides what to do with it.
+`$additionalProps` and `$context` serve different purposes. `$additionalProps` is spread onto the rendered component, so every key must be a valid prop for that component. `$context` is only handed to the code rendering the menu, which decides what to do with it.
 
-Reach for `$meta` when a value drives *how* an item renders, like a `highlight` flag, and for `$additionalProps` when the component itself understands the prop. Putting a value that isn't a valid prop in `$additionalProps` leaks it onto the DOM element as an invalid attribute.
+`$context` is per-item data for the layout. It is unrelated to the module registration context a module's `register` function receives, and unrelated to React context.
+
+Reach for `$context` when a value drives *how* an item renders, like a `highlight` flag, and for `$additionalProps` when the component itself understands the prop. Putting a value that isn't a valid prop in `$additionalProps` leaks it onto the DOM element as an invalid attribute.
 !!!
 
 ### Returns
@@ -164,11 +166,11 @@ const renderLinkItem: RenderLinkItemFunction = (item, key) => {
 };
 ```
 
-Every key is spread, therefore every key must be a valid prop for the component being rendered. For values that the rendering code should read rather than forward, use [$meta](#read-item-metadata) instead.
+Every key is spread, therefore every key must be a valid prop for the component being rendered. For values that the rendering code should read rather than forward, use [$context](#read-an-item-context) instead.
 
-### Read item metadata
+### Read an item context
 
-Any value defined in the `$meta` option is handed to the rendering code as `meta`, and is never spread onto the rendered component:
+Any value defined in the `$context` option is handed to the rendering code as `context`, and is never spread onto the rendered component:
 
 ```tsx !#7-9
 import type { ModuleRegisterFunction, FireflyRuntime } from "@squide/firefly";
@@ -177,7 +179,7 @@ export const register: ModuleRegisterFunction<FireflyRuntime> = runtime => {
     runtime.registerNavigationItem({
         $id: "about",
         $label: "About",
-        $meta: {
+        $context: {
             highlight: true
         },
         to: "/about"
@@ -187,10 +189,10 @@ export const register: ModuleRegisterFunction<FireflyRuntime> = runtime => {
 
 ```tsx !#2,5
 const renderLinkItem: RenderLinkItemFunction = (item, key) => {
-    const { label, linkProps, additionalProps, meta } = item;
+    const { label, linkProps, additionalProps, context } = item;
 
     return (
-        <li key={key} style={{ fontWeight: meta.highlight ? "bold" : "normal" }}>
+        <li key={key} style={{ fontWeight: context.highlight ? "bold" : "normal" }}>
             <Link {...linkProps} {...additionalProps}>
                 {label}
             </Link>
@@ -199,7 +201,7 @@ const renderLinkItem: RenderLinkItemFunction = (item, key) => {
 };
 ```
 
-`meta` defaults to an empty object, so it can be destructured without a guard.
+`context` defaults to an empty object, so it can be destructured without a guard.
 
 ### Read an item priority
 
@@ -235,14 +237,16 @@ const renderLinkItem: RenderLinkItemFunction = (item, key) => {
 ```
 
 !!!warning
-`priority` is forwarded exactly as it was declared, `undefined` included, so an unset priority can be told apart from an explicit `0`. If you write a comparator of your own, default it the way this hook does:
+`priority` is forwarded exactly as it was declared, `undefined` included, so an unset priority can be told apart from an explicit `0`. A comparator here cannot reorder the menu — this hook has already ordered it, and neither callback is handed an array of items to sort. It is for the layout's own grouping or badging, over an array the layout built itself.
+
+Default a missing priority the way this hook does:
 
 ```ts
 // Wrong. TypeScript rejects the subtraction, since "priority" is optional (TS18048).
-items.sort((x, y) => y.priority - x.priority);
+(x: NavigationLinkRenderProps, y: NavigationLinkRenderProps) => y.priority - x.priority;
 
 // Right, matching this hook's own default.
-items.sort((x, y) => (y.priority ?? 0) - (x.priority ?? 0));
+(x: NavigationLinkRenderProps, y: NavigationLinkRenderProps) => (y.priority ?? 0) - (x.priority ?? 0);
 ```
 
 Bypass the type error and the failure is worse than an exception: a comparator returning `NaN` is read as "these two are equal", so it becomes inconsistent and the items come back in an arbitrary order — partially sorted, not left alone.

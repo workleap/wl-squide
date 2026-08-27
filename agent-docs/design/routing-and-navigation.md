@@ -34,8 +34,8 @@ runtime.registerNavigationItem({
 });
 ```
 
-Properties: `$id`, `$label`, `to`, `$priority`, `$canRender`, `$additionalProps`, `$meta`.
-`$additionalProps` is spread onto the component the layout renders; `$meta` is read by the layout and never spread. Put a `highlight` style flag in `$meta`, not `$additionalProps`.
+Properties: `$id`, `$label`, `to`, `$priority`, `$canRender`, `$additionalProps`, `$context`.
+`$additionalProps` is spread onto the component the layout renders; `$context` is read by the layout and never spread. Put a `highlight` style flag in `$context`, not `$additionalProps`. `$context` is per-item data for the layout and has nothing to do with the module registration context or React context; it was named `$meta` in `@squide/firefly` 18.2.0-19.0.0 (`@squide/react-router` 9.1.0-10.0.0).
 `$priority` is declared on `NavigationLink` and `NavigationSection`, so it is legal at any depth, and `useRenderedNavigationItems` sorts by it at every depth — the sort lives in the `renderItems` recursion, not in the hook body. Ties and unprioritized items keep declaration order. The value is also forwarded to the renderer as the `priority` render prop, for what ordering does not cover. It was root-only before the sort moved into the recursion; do not repeat the older claim that a nested `$priority` is ignored.
 Supports nested sections, dynamic segments, and multiple menus (root + custom page menus).
 
