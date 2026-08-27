@@ -53,7 +53,9 @@ export class ModuleManager {
     }
 
     async registerDeferredRegistrations<TData = unknown>(data?: TData) {
-        this.runtime.startDeferredRegistrationScope();
+        this.runtime.startDeferredRegistrationScope({
+            operation: "register"
+        });
 
         try {
             const errors: ModuleRegistrationError[] = [];
@@ -73,7 +75,8 @@ export class ModuleManager {
 
     async updateDeferredRegistrations<TData = unknown>(data?: TData) {
         this.runtime.startDeferredRegistrationScope({
-            transactional: true
+            transactional: true,
+            operation: "update"
         });
 
         try {

@@ -4,6 +4,7 @@ import { EventBus } from "../messaging/EventBus.ts";
 import type { Plugin } from "../plugins/Plugin.ts";
 import { LocalModuleRegistry } from "../registration/LocalModuleRegistry.ts";
 import { ModuleManager } from "../registration/ModuleManager.ts";
+import type { DeferredRegistrationOperation } from "../registration/registerModule.ts";
 
 export type RuntimeMode = "development" | "production";
 
@@ -43,11 +44,16 @@ export interface GetPluginOptions {
 
 export interface StartDeferredRegistrationScopeOptions extends RuntimeMethodOptions {
     transactional?: boolean;
+    // Identifies the run that the scope brackets. When omitted, it's derived from the "transactional"
+    // option, which is how the two runs have always been told apart internally.
+    operation?: DeferredRegistrationOperation;
 }
 
 export interface CompleteDeferredRegistrationScopeOptions extends RuntimeMethodOptions {}
 
 export interface ValidateRegistrationsOptions extends RuntimeMethodOptions {}
+
+export type DeferredRegistrationScopeStartedListener = (operation: DeferredRegistrationOperation) => void;
 
 export const RootMenuId = "root";
 
@@ -62,6 +68,8 @@ export interface IRuntime<TRoute = unknown, TNavigationItem = unknown, TRuntime 
     getNavigationItemsByMenu: () => Map<string, TNavigationItem[]>;
     startDeferredRegistrationScope: (options?: StartDeferredRegistrationScopeOptions) => void;
     completeDeferredRegistrationScope: (options?: CompleteDeferredRegistrationScopeOptions) => void;
+    registerDeferredRegistrationScopeStartedListener: (callback: DeferredRegistrationScopeStartedListener) => () => void;
+    removeDeferredRegistrationScopeStartedListener: (callback: DeferredRegistrationScopeStartedListener) => void;
     get mode(): RuntimeMode;
     get plugins(): Plugin[];
     getPlugin: (pluginName: string, options?: GetPluginOptions) => Plugin | undefined;
@@ -79,6 +87,8 @@ export abstract class Runtime<TRoute = unknown, TNavigationItem = unknown, TRunt
     protected readonly _logger: Logger;
     protected readonly _eventBus: EventBus;
     protected readonly _plugins: Plugin[];
+
+    readonly #deferredRegistrationScopeStartedListeners = new Set<DeferredRegistrationScopeStartedListener>();
 
     readonly #memoizeGetPlugin = memoize((pluginName: string) => this._plugins.find(x => x.name === pluginName));
 
@@ -116,6 +126,38 @@ export abstract class Runtime<TRoute = unknown, TNavigationItem = unknown, TRunt
     abstract startDeferredRegistrationScope(options?: StartDeferredRegistrationScopeOptions): void;
 
     abstract completeDeferredRegistrationScope(options?: CompleteDeferredRegistrationScopeOptions): void;
+
+    registerDeferredRegistrationScopeStartedListener(callback: DeferredRegistrationScopeStartedListener) {
+        this.#deferredRegistrationScopeStartedListeners.add(callback);
+
+        return () => {
+            this.removeDeferredRegistrationScopeStartedListener(callback);
+        };
+    }
+
+    removeDeferredRegistrationScopeStartedListener(callback: DeferredRegistrationScopeStartedListener) {
+        this.#deferredRegistrationScopeStartedListeners.delete(callback);
+    }
+
+    // Concrete runtimes must call this from their "startDeferredRegistrationScope" implementation, once the
+    // scope is in place. The base class cannot do it itself because starting a scope is abstract.
+    protected _notifyDeferredRegistrationScopeStarted(operation: DeferredRegistrationOperation) {
+        // Listeners are notified in registration order. The set is copied first so that a listener disposing
+        // of itself, or of another listener, doesn't alter the notification that is currently in progress.
+        new Set(this.#deferredRegistrationScopeStartedListeners).forEach(x => {
+            try {
+                x(operation);
+            } catch (error: unknown) {
+                // A throwing listener must never corrupt the run. "startDeferredRegistrationScope" is called
+                // before the try/finally that completes the scope, therefore letting the error escape would
+                // leave the scope open for the remaining lifetime of the runtime.
+                this._logger
+                    .withText("[squide] An unmanaged error occurred while notifying a deferred registration scope started listener:")
+                    .withError(error as Error)
+                    .error();
+            }
+        });
+    }
 
     get mode() {
         return this._mode;
@@ -212,6 +254,16 @@ export abstract class RuntimeScope<TRoute = unknown, TNavigationItem = unknown, 
 
     completeDeferredRegistrationScope() {
         throw new Error("[squide] Cannot complete a deferred registration scope from a runtime scope instance.");
+    }
+
+    // Starting and completing a scope is restricted because it drives the run, but merely observing the
+    // boundary is not, in the same way that the event bus is fully reachable from a runtime scope instance.
+    registerDeferredRegistrationScopeStartedListener(callback: DeferredRegistrationScopeStartedListener) {
+        return this._runtime.registerDeferredRegistrationScopeStartedListener(callback);
+    }
+
+    removeDeferredRegistrationScopeStartedListener(callback: DeferredRegistrationScopeStartedListener) {
+        this._runtime.removeDeferredRegistrationScopeStartedListener(callback);
     }
 
     get mode(): RuntimeMode {

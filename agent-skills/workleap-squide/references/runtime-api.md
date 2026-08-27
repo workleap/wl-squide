@@ -195,6 +195,31 @@ for (const [menuId, items] of itemsByMenu) {
 }
 ```
 
+### Deferred Registration Scope
+
+#### registerDeferredRegistrationScopeStartedListener(callback)
+Be notified whenever a deferred registration run starts — both the initial run and every update. Returns a disposer. The callback receives a `DeferredRegistrationOperation` (`"register" | "update"`), the same value deferred registration functions receive as their third argument.
+
+Use it to reset an application-owned registry that is filled from deferred registration functions (command palette, sitemap, search index), which the framework does not clear on its own.
+
+```ts
+const dispose = runtime.registerDeferredRegistrationScopeStartedListener(operation => {
+    commandPaletteRegistry.clear();
+});
+
+// When the listener is not needed anymore.
+dispose();
+```
+
+Fired after the scope is in place and before any deferred registration function runs, in registration order. A throwing listener is logged, never propagated. Also reachable from the `RuntimeScope` that modules receive.
+
+#### removeDeferredRegistrationScopeStartedListener(callback)
+Remove a previously registered listener, for consumers holding the callback reference rather than the disposer.
+
+```ts
+runtime.removeDeferredRegistrationScopeStartedListener(listener);
+```
+
 ### MSW Request Handlers
 
 #### registerRequestHandlers(handlers, options?)

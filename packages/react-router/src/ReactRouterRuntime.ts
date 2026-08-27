@@ -60,7 +60,8 @@ export class ReactRouterRuntime<TRuntime extends ReactRouterRuntime = any> exten
 
     startDeferredRegistrationScope(options: StartDeferredRegistrationScopeOptions = {}) {
         const {
-            transactional = false
+            transactional = false,
+            operation = transactional ? "update" : "register"
         } = options;
 
         if (this._navigationItemScope) {
@@ -72,6 +73,10 @@ export class ReactRouterRuntime<TRuntime extends ReactRouterRuntime = any> exten
         } else {
             this._navigationItemScope = new NavigationItemDeferredRegistrationScope(this._navigationItemRegistry);
         }
+
+        // Notifying once the scope is in place, and before any deferred registration function runs, so that a
+        // listener resetting its own state does it against a scope that is guaranteed to have been started.
+        this._notifyDeferredRegistrationScopeStarted(operation);
     }
 
     completeDeferredRegistrationScope() {

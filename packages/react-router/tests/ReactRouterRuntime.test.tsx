@@ -1,3 +1,4 @@
+import type { DeferredRegistrationOperation } from "@squide/core";
 import { NoopLogger } from "@workleap/logging";
 import { describe, test } from "vitest";
 import { isProtectedRoutesOutletRoute, isPublicRoutesOutletRoute, ProtectedRoutes, ProtectedRoutesOutletId, PublicRoutes, PublicRoutesOutletId } from "../src/outlets.ts";
@@ -2468,6 +2469,69 @@ describe.concurrent("startDeferredRegistrationScope & completeDeferredRegistrati
             runtime.startDeferredRegistrationScope();
             runtime.completeDeferredRegistrationScope();
         }).not.toThrow();
+    });
+
+    test.concurrent("when a scope is started, the deferred registration scope started listeners are notified", ({ expect }) => {
+        const runtime = new ReactRouterRuntime({
+            loggers: [new NoopLogger()]
+        });
+
+        const operations: DeferredRegistrationOperation[] = [];
+
+        runtime.registerDeferredRegistrationScopeStartedListener(x => operations.push(x));
+
+        runtime.startDeferredRegistrationScope();
+        runtime.completeDeferredRegistrationScope();
+
+        runtime.startDeferredRegistrationScope({ transactional: true });
+        runtime.completeDeferredRegistrationScope();
+
+        expect(operations).toEqual(["register", "update"]);
+    });
+
+    test.concurrent("when a scope is started, the listeners are notified before any navigation item is registered", ({ expect }) => {
+        const runtime = new ReactRouterRuntime({
+            loggers: [new NoopLogger()]
+        });
+
+        runtime.registerNavigationItem({
+            $label: "Foo",
+            to: "foo"
+        });
+
+        let itemCountWhenNotified = -1;
+
+        runtime.registerDeferredRegistrationScopeStartedListener(() => {
+            itemCountWhenNotified = runtime.getNavigationItems().length;
+        });
+
+        runtime.startDeferredRegistrationScope({ transactional: true });
+
+        runtime.registerNavigationItem({
+            $label: "Bar",
+            to: "bar"
+        });
+
+        runtime.completeDeferredRegistrationScope();
+
+        // The listener sees the state as it was before the run replayed the navigation items.
+        expect(itemCountWhenNotified).toBe(1);
+    });
+
+    test.concurrent("when a listener throws, the scope is still started", ({ expect }) => {
+        const runtime = new ReactRouterRuntime({
+            loggers: [new NoopLogger()]
+        });
+
+        runtime.registerDeferredRegistrationScopeStartedListener(() => {
+            throw new Error("Something went wrong!");
+        });
+
+        expect(() => runtime.startDeferredRegistrationScope()).not.toThrow();
+
+        // The scope must be usable, and completing it must release it so that subsequent runs can start.
+        expect(() => runtime.completeDeferredRegistrationScope()).not.toThrow();
+        expect(() => runtime.startDeferredRegistrationScope()).not.toThrow();
     });
 
     test.concurrent("when a scope is started, can register a navigation item", ({ expect }) => {

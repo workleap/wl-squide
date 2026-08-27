@@ -34,6 +34,8 @@ const runtime = new FireflyRuntime(options?: { mode?, environmentVariables?, hon
 - `registerNavigationItem(navigationItem, options?)`: Register a navigation item.
 - `getNavigationItems(menuId?)`: Retrieve the registered navigation items.
 - `getNavigationItemsByMenu()`: Retrieve the full navigation registry grouped by menu id.
+- `registerDeferredRegistrationScopeStartedListener(callback)`: Register a listener that is notified whenever a deferred registration run starts. Returns a disposer.
+- `removeDeferredRegistrationScopeStartedListener(callback)`: Remove a previously registered listener.
 - `registerRequestHandlers(handlers, options?)`: Register the MSW request handlers.
 - `getEnvironmentVariable(key)`: Retrieve an environment variable.
 - `registerEnvironmentVariable(key, value)`: Register a single environment variable.
@@ -529,6 +531,44 @@ const itemsByMenu = runtime.getNavigationItemsByMenu();
 ```
 
 Typical use cases include command palettes, devtools panels, or sitemaps that need to enumerate every link across every menu without knowing the menu ids ahead of time.
+
+### Listen for the start of a deferred registration run
+
+Only routes and navigation items participate in a [deferred registration](../registration/useDeferredRegistrations.md) run. An application maintaining its own registry — a command palette, a sitemap, a search index — filled from the same deferred registration functions, must reset that registry whenever a run starts, otherwise entries for a feature that has been flipped off survive for the rest of the session.
+
+Use `registerDeferredRegistrationScopeStartedListener` to be notified when a run starts:
+
+```ts !#7,10
+const listener = (operation: DeferredRegistrationOperation) => {
+    // "register" for the initial run, "update" for every subsequent one.
+    console.log("A deferred registration run started:", operation);
+
+    commandPaletteRegistry.clear();
+};
+
+runtime.registerDeferredRegistrationScopeStartedListener(listener);
+
+// When the listener is not needed anymore.
+runtime.removeDeferredRegistrationScopeStartedListener(listener);
+```
+
+Registering a listener also returns a disposer, which is convenient in a `useEffect` or a plugin constructor:
+
+```ts !#5
+const dispose = runtime.registerDeferredRegistrationScopeStartedListener(() => {
+    commandPaletteRegistry.clear();
+});
+
+dispose();
+```
+
+The `operation` argument is the same value that every [deferred registration function](../../essentials/register-deferred-nav-items.md) receives as its third argument.
+
+!!!info
+The listener is notified for **both** the initial deferred registration run and every subsequent update, and always **before** any deferred registration function executes. It therefore observes the registries as they were before the run replayed anything.
+
+Listeners are notified in registration order. An error thrown by a listener is logged through the runtime logger and never propagated, because letting it escape would leave the deferred registration scope open and break every subsequent run.
+!!!
 
 ### Register request handlers
 

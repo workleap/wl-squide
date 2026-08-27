@@ -37,10 +37,26 @@ Deferred registrations automatically re-execute when:
 - `usePublicDataQueries` or `useProtectedDataQueries` return new data
 - LaunchDarkly feature flag values change (streaming mode)
 
+## Scope Boundaries
+
+`ModuleManager` brackets **both** run paths with `runtime.startDeferredRegistrationScope()` / `completeDeferredRegistrationScope()` — `registerDeferredRegistrations` passes `{ operation: "register" }`, `updateDeferredRegistrations` passes `{ transactional: true, operation: "update" }`.
+
+The start of that scope is exposed as a runtime listener, so an application registry filled from the same deferred registration functions (a command palette, a sitemap, a search index) can reset itself on every run. See [ADR-0032](../adr/0032-deferred-registration-scope-started-listener.md).
+
+- `runtime.registerDeferredRegistrationScopeStartedListener(callback)` — returns a disposer
+- `runtime.removeDeferredRegistrationScopeStartedListener(callback)`
+
+The callback receives a `DeferredRegistrationOperation` (`"register" | "update"`). Fired after the scope is in place and before any deferred registration function runs, in registration order. A throwing listener is logged, never propagated — an escaping error would leave the scope open and break every subsequent run. Reachable from `RuntimeScope` too: observing the boundary is allowed even though starting or completing a scope is not.
+
+The listener set and the public API live on `Runtime` (`packages/core`); the fan-out is triggered by `ReactRouterRuntime.startDeferredRegistrationScope` calling the protected `_notifyDeferredRegistrationScopeStarted`. **A new concrete runtime implementing scopes must call that helper**, or the API is silently inert for it.
+
+There is no *completed* listener yet — deliberately deferred, see ADR-0032.
+
 ## Key APIs
 
 - `useDeferredRegistrations()` — hook to trigger deferred phase
 - `mergeDeferredRegistrations()` — utility to combine deferred data
+- `runtime.registerDeferredRegistrationScopeStartedListener()` — observe the start of a run
 
 ## Relevant Source
 

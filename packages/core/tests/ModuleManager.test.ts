@@ -311,6 +311,23 @@ describe.concurrent("registerDeferredRegistrations", () => {
         expect(completeScopeSpy).toHaveBeenCalledOnce();
     });
 
+    test.concurrent("the deferred registration scope is started with the \"register\" operation", async ({ expect }) => {
+        const moduleRegistry = new DummyModuleRegistry();
+
+        const runtime = new DummyRuntime({
+            moduleManager: x => new ModuleManager(x, [moduleRegistry]),
+            loggers: [new NoopLogger()]
+        });
+
+        const startScopeSpy = vi.spyOn(runtime, "startDeferredRegistrationScope");
+
+        await runtime.moduleManager.registerDeferredRegistrations({ foo: "bar" });
+
+        expect(startScopeSpy).toHaveBeenCalledExactlyOnceWith(expect.objectContaining({
+            operation: "register"
+        }));
+    });
+
     test("when an unmanaged error is thrown, complete the deferred registration scope", async ({ expect }) => {
         const moduleRegistry1 = new DummyModuleRegistry();
         const moduleRegistry2 = new DummyModuleRegistry();
@@ -464,6 +481,24 @@ describe.concurrent("updateDeferredRegistrations", () => {
 
         expect(startScopeSpy).toHaveBeenCalledOnce();
         expect(completeScopeSpy).toHaveBeenCalledOnce();
+    });
+
+    test.concurrent("the deferred registration scope is started with the \"update\" operation", async ({ expect }) => {
+        const moduleRegistry = new DummyModuleRegistry();
+
+        const runtime = new DummyRuntime({
+            moduleManager: x => new ModuleManager(x, [moduleRegistry]),
+            loggers: [new NoopLogger()]
+        });
+
+        const startScopeSpy = vi.spyOn(runtime, "startDeferredRegistrationScope");
+
+        await runtime.moduleManager.updateDeferredRegistrations({ foo: "bar" });
+
+        expect(startScopeSpy).toHaveBeenCalledExactlyOnceWith(expect.objectContaining({
+            transactional: true,
+            operation: "update"
+        }));
     });
 
     test.concurrent("when an unmanaged error is thrown, complete the deferred registration scope", async ({ expect }) => {
