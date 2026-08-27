@@ -11,7 +11,7 @@ description: |
   (7) Squide hooks for event bus, environment variables, feature flags, logging, or bootstrapping state
   (8) Error boundaries or modular architecture in Squide applications
 metadata:
-  version: 1.21
+  version: 1.23
 ---
 
 # Squide Framework
@@ -107,7 +107,7 @@ export const registerHost: ModuleRegisterFunction<FireflyRuntime> = runtime => {
 
 **Important:** `RenderItemFunction` signature is `(item, key, index, level) => ReactNode` and `RenderSectionFunction` is `(elements, key, index, level) => ReactNode`. These signatures are fixed and do not accept custom context parameters, but there could be fewer arguments. Use closures to access external values.
 
-**Important:** spread `additionalProps` whole, never key by key. A value the renderer must read instead of forward belongs in `$context`, surfaced as `context`. Never destructure a key out of `additionalProps` to keep it off the element — that is what `$context` is for. This `$context` is per-item data for the layout: it is not the module registration context and not React context. It was named `$meta` in `@squide/firefly` 18.2.0-18.7.0 (`@squide/react-router` 9.1.0-9.6.0).
+**Important:** spread `additionalProps` whole, never key by key. A value the renderer must read instead of forward belongs in `$context`, surfaced as `context`. Never destructure a key out of `additionalProps` to keep it off the element — that is what `$context` is for. This `$context` is per-item data for the layout: it is not the module registration context and not React context. It was named `$meta` in `@squide/firefly` 18.2.0-19.0.0 (`@squide/react-router` 9.1.0-10.0.0).
 
 ```tsx
 import { Link, Outlet } from "react-router";

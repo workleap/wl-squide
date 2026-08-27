@@ -21,7 +21,7 @@ const navigationItems = useNavigationItems(options?: { menuId? })
 
 ### Returns
 
-An array of `RootNavigationItem`, an alias of `NavigationLink | NavigationSection`. The items are returned as is, in registry insertion order: this hook does not sort. Use [useRenderedNavigationItems](./useRenderedNavigationItems.md) to get the top-level items sorted by `$priority`.
+An array of `RootNavigationItem`, an alias of `NavigationLink | NavigationSection`. The items are returned as is, in registry insertion order: this hook does not sort. Use [useRenderedNavigationItems](./useRenderedNavigationItems.md) to get the items sorted by `$priority` at every depth.
 
 #### `NavigationLink`
 

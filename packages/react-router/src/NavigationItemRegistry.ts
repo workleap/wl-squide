@@ -6,8 +6,9 @@ import type { LinkProps } from "react-router";
 export interface NavigationLink extends Omit<LinkProps, "children"> {
     $id?: string;
     $label: ReactNode;
-    // Highest priority is rendered first. Only a menu's top-level items are sorted by Squide; at any other
-    // depth the value is forwarded to the code rendering the menu, which sorts if it wants to.
+    // Highest priority is rendered first, among an item's siblings and at every depth. A missing priority
+    // defaults to 0, so a negative one sits behind the unprioritized siblings, and ties keep declaration
+    // order. Also forwarded to the code rendering the menu, for what ordering does not cover.
     $priority?: number;
     // Spread onto the rendered component, unlike "$context" which is only read by the renderer.
     $additionalProps?: Record<string, unknown>;
