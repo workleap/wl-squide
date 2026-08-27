@@ -138,32 +138,55 @@ export class NavigationItemDeferredRegistrationTransactionalScope extends Naviga
     }
 }
 
+// A "-" separator makes the key ambiguous, since both halves are consumer-provided and either can contain
+// one: ("main-menu", "settings") and ("main", "menu-settings") both produce "main-menu-settings". Two distinct
+// sections then share an index entry, which is how a nested item ends up in the wrong menu.
+const SectionIndexKeySeparator = "\u0000";
+
 function createSectionIndexKey(menuId: string, sectionId: string) {
-    return `${menuId}-${sectionId}`;
+    // The menu id is length-prefixed rather than merely separated from the section id. Nothing constrains a
+    // "menuId" or a section "$id" to exclude whichever separator is chosen, so a separator on its own would
+    // only move the collision instead of removing it. The length prefix keeps the split unambiguous whatever
+    // the ids hold, which is why the separator only has to delimit the digits.
+    return `${menuId.length}${SectionIndexKeySeparator}${menuId}${sectionId}`;
 }
 
 /**
- * @deprecated The index key format is an implementation detail, and a "-" in a "menuId" or in a section "$id"
- * makes a key ambiguous: ("main-menu", "settings") and ("main", "menu-settings") both produce
- * "main-menu-settings", so the pair a key was built from cannot be recovered. Read the "menuId" and the
- * "sectionId" off the {@link PendingRegistrationItem} values returned by
+ * @deprecated The index key format is an implementation detail that is not part of the public contract, and the
+ * separator a key is built with is deliberately undocumented. Read the "menuId" and the "sectionId" off the
+ * {@link PendingRegistrationItem} values returned by
  * {@link PendingNavigationItemRegistrations.getPendingRegistrationsForSection} rather than parsing a key
  * returned by {@link PendingNavigationItemRegistrations.getPendingSectionIds}. Nothing in the framework calls
  * this function anymore, it is kept until the next major to avoid a breaking removal.
  */
 export function parseSectionIndexKey(indexKey: string) {
-    return indexKey.split("-");
+    // The separator delimits the length prefix, so the first occurrence is always the right one even when an
+    // id contains one too.
+    const separatorIndex = indexKey.indexOf(SectionIndexKeySeparator);
+
+    if (separatorIndex < 0) {
+        // Not a key this function produced, an old-format one included, so there is no pair to recover. Worth
+        // stating outright: without this branch the arithmetic below reads "slice(0, -1)" as the length prefix
+        // and leans on NaN propagating through both slices, which happens to yield ["", indexKey] for most
+        // inputs but returns a plausible-looking ["1", "2"] for "12".
+        return ["", indexKey];
+    }
+
+    const menuIdStart = separatorIndex + SectionIndexKeySeparator.length;
+    const menuIdEnd = menuIdStart + Number(indexKey.slice(0, separatorIndex));
+
+    return [indexKey.slice(menuIdStart, menuIdEnd), indexKey.slice(menuIdEnd)];
 }
 
 export class NavigationItemRegistry {
     // <menuId, RegistryItem[]>
     readonly #menusIndex: Map<string, RegistryItem[]> = new Map();
 
-    // <menuId-sectionId, SectionIndexItem>
+    // <createSectionIndexKey(menuId, sectionId), SectionIndexItem>
     readonly #sectionsIndex: Map<string, SectionIndexItem> = new Map();
 
     // An index of pending navigation items to registered once their section is registered.
-    // <menuId-sectionId, PendingRegistrationItem[]>
+    // <createSectionIndexKey(menuId, sectionId), PendingRegistrationItem[]>
     readonly #pendingRegistrationsIndex: Map<string, PendingRegistrationItem[]> = new Map();
 
     // Since the "getItems" function is transforming the menus items from registry items to navigation items, the result of
@@ -408,7 +431,7 @@ export class NavigationItemRegistry {
         }
 
         // Keep the section index and the pending registrations in sync with the menu index. Both indexes are
-        // keyed by "menuId-sectionId" rather than by menu, so they are cleaned in a single pass rather than
+        // keyed by a section index key rather than by menu, so they are cleaned in a single pass rather than
         // once per menu.
         this.#deleteDeferredSectionIndexEntries();
         this.#deleteDeferredPendingRegistrations();
