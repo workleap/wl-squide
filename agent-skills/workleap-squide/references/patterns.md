@@ -318,46 +318,22 @@ runtime.registerNavigationItem({
 });
 ```
 
-Squide sorts the **top-level** items of a menu with `$priority`. An item nested under a section renders
-in the order it appears in that section's `children` array; its `$priority` is forwarded to the layout
-as the `priority` render prop rather than acted on. To order a section's items, sort the tree before
-handing it to `useRenderedNavigationItems`. See `references/runtime-api.md`.
+`$priority` orders an item among its siblings at **any** depth, not only at the top level of a menu.
+Items without one, or with equal ones, keep their declaration order. The value is also forwarded to the
+layout as the `priority` render prop. See `references/runtime-api.md`.
 
-To sort a section's items, sort the tree **before** handing it to `useRenderedNavigationItems`. Neither
-render function is a place to reorder: `renderItem` gets one item at a time and cannot move its siblings,
-and `renderSection` gets elements that have already been rendered.
+Nothing is required of the layout to get a sorted menu, and pre-sorting the items before handing them to
+`useRenderedNavigationItems` accomplishes nothing: the hook sorts every array it receives, so a caller's
+order is discarded and only ties survive. Do not suggest a recursive sort helper for this.
 
-```tsx
-import { useMemo } from "react";
-import {
-    useNavigationItems,
-    useRenderedNavigationItems,
-    type NavigationLink,
-    type NavigationSection
-} from "@squide/firefly";
-import { renderItem, renderSection } from "./renderNavigationItem.tsx";
+An order that contradicts `$priority` can only be had by handing the hook a tree that carries none, or by
+not using this hook. That is a deliberate escape hatch, not a normal pattern, and the tree has to be
+rebuilt rather than edited: `useNavigationItems` returns the registry's own objects, so deleting
+`$priority` in place strips it for every other consumer, and a shallow copy leaves `children` shared by
+reference. See `references/runtime-api.md`.
 
-type Item = NavigationLink | NavigationSection;
-
-// The return type annotation is required: without it, this recursive helper reports TS7023
-// instead of being inferred.
-function sortByPriority(items: Item[]): Item[] {
-    return [...items]
-        .sort((x, y) => (y.$priority ?? 0) - (x.$priority ?? 0))
-        .map(x => "children" in x && x.children ? { ...x, children: sortByPriority(x.children) } : x);
-}
-
-export function Navigation() {
-    const navigationItems = useNavigationItems();
-    const sortedItems = useMemo(() => sortByPriority(navigationItems), [navigationItems]);
-    const navigationElements = useRenderedNavigationItems(sortedItems, renderItem, renderSection);
-
-    return <nav>{navigationElements}</nav>;
-}
-```
-
-`$priority` is optional, so always default it when comparing (`(y.$priority ?? 0) - (x.$priority ?? 0)`).
-The same applies to the `priority` render prop inside a renderer.
+`$priority` is optional, so default it when comparing the `priority` render prop inside a renderer:
+`(y.priority ?? 0) - (x.priority ?? 0)`.
 
 ### Active State Styling
 

@@ -432,7 +432,7 @@ test.concurrent("nested $priority is forwarded to the renderer at every depth", 
 });
 
 // "undefined" rather than 0, so a renderer can tell "nobody set a priority" from "somebody set 0". Squide's own
-// top-level sort applies the 0 default, it doesn't bake it into what the renderer sees.
+// sort applies the 0 default, it doesn't bake it into what the renderer sees.
 test.concurrent("when no $priority prop is provided, priority is undefined", ({ expect }) => {
     const navigationItems: RootNavigationItem[] = [
         {
@@ -477,9 +477,9 @@ test.concurrent("an explicit $priority of 0 is forwarded as 0", ({ expect }) => 
     expect(item.priority).toBe(0);
 });
 
-// Squide sorts the array it is handed and leaves a section's "children" in declaration order. A renderer that
-// wants a section sorted has to do it itself, which is only possible because "priority" reaches it.
-test.concurrent("a section's items keep their declaration order, with their priority available to the renderer", ({ expect }) => {
+// A section's items are sorted the same way a menu's top-level items are, and the priority is still forwarded
+// for everything sorting does not cover.
+test.concurrent("a section's items are sorted by priority, which is also forwarded", ({ expect }) => {
     const navigationItems: RootNavigationItem[] = [
         {
             $label: "Section",
@@ -498,11 +498,153 @@ test.concurrent("a section's items keep their declaration order, with their prio
 
     const nestedItems = renderItem.mock.calls.filter(([, , , level]) => level === 1).map(([item]) => item);
 
-    // Squide leaves the children in the order they were declared.
-    expect(nestedItems.map(x => x.label)).toEqual(["Low", "High", "None"]);
+    expect(nestedItems.map(x => x.label)).toEqual(["High", "Low", "None"]);
+    expect(nestedItems.map(x => x.priority)).toEqual([999, 1, undefined]);
+});
 
-    // And the renderer has what it needs to reorder them.
-    expect(nestedItems.map(x => x.priority)).toEqual([1, 999, undefined]);
+// The case this exists for. Two modules nesting into a shared section through the "sectionId" option land in
+// "children" in whatever order their registrations completed, which is a function of network and data timing
+// since modules register concurrently. Before sorting applied here there was no lever at all: array order was
+// not the author's to control and "$priority" was not consulted.
+test.concurrent("a section's items are ordered by priority rather than by the order they were added", ({ expect }) => {
+    const navigationItems: RootNavigationItem[] = [
+        {
+            $label: "Section",
+            children: [
+                // As if the slowest module had registered first.
+                { $label: "Third", $priority: 1, to: "/third" },
+                { $label: "First", $priority: 100, to: "/first" },
+                { $label: "Second", $priority: 10, to: "/second" }
+            ]
+        }
+    ];
+
+    const renderItem = vi.fn<RenderItemFunction>(() => <div>Item</div>);
+    const renderSection = vi.fn<RenderSectionFunction>(() => <div>Section</div>);
+
+    renderHook(() => useRenderedNavigationItems(navigationItems, renderItem, renderSection));
+
+    const labels = renderItem.mock.calls.filter(([, , , level]) => level === 1).map(([item]) => item.label);
+
+    expect(labels).toEqual(["First", "Second", "Third"]);
+});
+
+test.concurrent("sorting applies at every depth", ({ expect }) => {
+    const navigationItems: RootNavigationItem[] = [
+        {
+            $label: "Section",
+            children: [
+                {
+                    $label: "Subsection",
+                    children: [
+                        { $label: "Deep low", $priority: 1, to: "/deep-low" },
+                        { $label: "Deep high", $priority: 999, to: "/deep-high" }
+                    ]
+                }
+            ]
+        }
+    ];
+
+    const renderItem = vi.fn<RenderItemFunction>(() => <div>Item</div>);
+    const renderSection = vi.fn<RenderSectionFunction>(() => <div>Section</div>);
+
+    renderHook(() => useRenderedNavigationItems(navigationItems, renderItem, renderSection));
+
+    const labels = renderItem.mock.calls.filter(([, , , level]) => level === 2).map(([item]) => item.label);
+
+    expect(labels).toEqual(["Deep high", "Deep low"]);
+});
+
+test.concurrent("a negative priority pushes a nested item behind the unprioritized ones", ({ expect }) => {
+    const navigationItems: RootNavigationItem[] = [
+        {
+            $label: "Section",
+            children: [
+                { $label: "Negative", $priority: -10, to: "/negative" },
+                { $label: "None", to: "/none" },
+                { $label: "Positive", $priority: 10, to: "/positive" }
+            ]
+        }
+    ];
+
+    const renderItem = vi.fn<RenderItemFunction>(() => <div>Item</div>);
+    const renderSection = vi.fn<RenderSectionFunction>(() => <div>Section</div>);
+
+    renderHook(() => useRenderedNavigationItems(navigationItems, renderItem, renderSection));
+
+    const labels = renderItem.mock.calls.filter(([, , , level]) => level === 1).map(([item]) => item.label);
+
+    expect(labels).toEqual(["Positive", "None", "Negative"]);
+});
+
+test.concurrent("nested items with equal priorities keep their declaration order", ({ expect }) => {
+    const navigationItems: RootNavigationItem[] = [
+        {
+            $label: "Section",
+            children: [
+                { $label: "First", $priority: 10, to: "/first" },
+                { $label: "Second", $priority: 10, to: "/second" },
+                { $label: "Third", $priority: 10, to: "/third" },
+                { $label: "Fourth", $priority: 10, to: "/fourth" }
+            ]
+        }
+    ];
+
+    const renderItem = vi.fn<RenderItemFunction>(() => <div>Item</div>);
+    const renderSection = vi.fn<RenderSectionFunction>(() => <div>Section</div>);
+
+    renderHook(() => useRenderedNavigationItems(navigationItems, renderItem, renderSection));
+
+    const labels = renderItem.mock.calls.filter(([, , , level]) => level === 1).map(([item]) => item.label);
+
+    expect(labels).toEqual(["First", "Second", "Third", "Fourth"]);
+});
+
+test.concurrent("a section with no priorities anywhere keeps its declaration order", ({ expect }) => {
+    const navigationItems: RootNavigationItem[] = [
+        {
+            $label: "Section",
+            children: [
+                { $label: "A", to: "/a" },
+                { $label: "B", to: "/b" },
+                { $label: "C", to: "/c" }
+            ]
+        }
+    ];
+
+    const renderItem = vi.fn<RenderItemFunction>(() => <div>Item</div>);
+    const renderSection = vi.fn<RenderSectionFunction>(() => <div>Section</div>);
+
+    renderHook(() => useRenderedNavigationItems(navigationItems, renderItem, renderSection));
+
+    const labels = renderItem.mock.calls.filter(([, , , level]) => level === 1).map(([item]) => item.label);
+
+    expect(labels).toEqual(["A", "B", "C"]);
+});
+
+// The registry hands "children" to the hook by reference, so sorting a copy rather than the array itself is
+// load-bearing. Sorting in place would reorder the registry and leak the render order into every other
+// consumer of "getNavigationItems".
+test.concurrent("sorting does not mutate the items it was given", ({ expect }) => {
+    const children: RootNavigationItem[] = [
+        { $label: "Low", $priority: 1, to: "/low" },
+        { $label: "High", $priority: 999, to: "/high" }
+    ];
+
+    // Two elements whose priorities would swap them. A one-element array cannot be reordered by any sort, so
+    // asserting on one would pass against an in-place sort too and pin nothing.
+    const navigationItems: RootNavigationItem[] = [
+        { $label: "Section", children },
+        { $label: "Root high", $priority: 999, to: "/root-high" }
+    ];
+
+    const renderItem = vi.fn<RenderItemFunction>(() => <div>Item</div>);
+    const renderSection = vi.fn<RenderSectionFunction>(() => <div>Section</div>);
+
+    renderHook(() => useRenderedNavigationItems(navigationItems, renderItem, renderSection));
+
+    expect(children.map(x => x.$label)).toEqual(["Low", "High"]);
+    expect(navigationItems.map(x => x.$label)).toEqual(["Section", "Root high"]);
 });
 
 test.concurrent("link item $meta is not rendered on the link component", ({ expect }) => {

@@ -7,8 +7,8 @@ export interface NavigationLinkRenderProps {
     label: ReactNode;
     linkProps: Omit<LinkProps, "children">;
     // Forwarded as declared, "undefined" included, so the renderer can tell an unset priority from an explicit
-    // 0. Squide sorts a menu's top-level items itself and treats a missing priority as 0; a renderer sorting a
-    // section's items should do the same.
+    // 0. The menu arrives sorted at every depth without the renderer doing anything, so this is here for what
+    // ordering does not cover: grouping, badging, or a comparator of the renderer's own.
     priority?: number;
     additionalProps: Record<string, unknown>;
     meta: Record<string, unknown>;
@@ -73,8 +73,24 @@ function toMenuProps({ $label, $priority, $additionalProps, $meta, $canRender }:
     };
 }
 
+// Highest priority is rendered first. A missing priority defaults to 0 so a negative priority can push an
+// item behind the unprioritized ones. Equal priorities return 0 and rely on the sort being stable, which keeps
+// declaration order among ties.
+function byPriority(x: NavigationItem, y: NavigationItem) {
+    const xp = x.$priority ?? 0;
+    const yp = y.$priority ?? 0;
+
+    if (xp === yp) {
+        return 0;
+    }
+
+    return xp > yp ? -1 : 1;
+}
+
 function renderItems(items: NavigationItem[], renderItem: RenderItemFunction, renderSection: RenderSectionFunction, key: string, index: number, level: number) {
-    const itemElements = items.map((x, itemIndex) => {
+    // Copied before sorting. For a nested section this array is the registry's own "children", handed over by
+    // reference, so sorting in place would reorder the registry itself.
+    const itemElements = [...items].sort(byPriority).map((x, itemIndex) => {
         let itemElement: ReactNode;
 
         if (isLinkItem(x)) {
@@ -104,22 +120,10 @@ export function useRenderedNavigationItems(
     renderSection: RenderSectionFunction
 ) {
     return useMemo(() => {
-        // Highest priority is rendered first.
-        const sortedItems = [...navigationItems]
-            .sort((x, y) => {
-                // Default an item priority to 0 to support negative priority.
-                const xp = x.$priority ?? 0;
-                const yp = y.$priority ?? 0;
-
-                if (xp === yp) {
-                    return 0;
-                }
-
-                return xp > yp ? -1 : 1;
-            });
-
+        // Sorting lives in "renderItems" so that it applies at every level rather than only to this array.
+        //
         // "$priority" is forwarded to the renderer as "priority" rather than reaching the Link component:
         // "toLinkProps" destructures it out, and "stripMetadataProps" would drop it regardless.
-        return renderItems(sortedItems, renderItem, renderSection, "root", 0, 0);
+        return renderItems(navigationItems, renderItem, renderSection, "root", 0, 0);
     }, [navigationItems, renderItem, renderSection]);
 }
