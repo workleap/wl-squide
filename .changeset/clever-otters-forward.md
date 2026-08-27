@@ -29,6 +29,6 @@ const renderLinkItem: RenderLinkItemFunction = ({ label, linkProps, priority }, 
 };
 ```
 
-**Sorting is unchanged in this version.** `useRenderedNavigationItems` sorts the array it receives and renders a section's `children` in declaration order, as it always has. Having Squide sort at every depth is the other half of the decision recorded in ADR-0026 and ships separately, so that a behavior change is not bundled with an additive one.
+**Sorting is unchanged in this version.** `useRenderedNavigationItems` sorts the array it receives and renders a section's `children` in declaration order, as it always has. Having Squide sort at every depth ships separately, so that a behavior change is not bundled with an additive one.
 
 The documentation described `$priority` as scoped to top-level items and ignored elsewhere. That was accurate about the implementation and wrong about where the prop is heading, and has been corrected.
