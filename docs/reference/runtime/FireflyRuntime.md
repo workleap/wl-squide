@@ -272,7 +272,7 @@ Accept any properties of a React Router [Link](https://reactrouter.com/en/main/c
 - `$canRender`: An optional function accepting an object and returning a `boolean` indicating whether or not the link should be rendered.
 - `$priority`: An order priority affecting the position of the item in the menu (higher first). Squide sorts a menu's top-level items with it, see [Sort navigation items](#sort-navigation-items). On a nested item it is forwarded to the code rendering the menu, which decides whether to sort.
 - `$additionalProps`: Additional properties to be spread onto the link component.
-- `$meta`: Metadata for the code rendering the menu to read. Never spread onto the link component.
+- `$context`: Data for the code rendering the menu to read. Never spread onto the link component.
 
 #### `NavigationSection`
 
@@ -281,7 +281,7 @@ Accept any properties of a React Router [Link](https://reactrouter.com/en/main/c
 - `$canRender`: An optional function accepting an object and returning a `boolean` indicating whether or not the section should be rendered.
 - `$priority`: An order priority affecting the position of the item in the menu (higher first). Squide sorts a menu's top-level items with it, see [Sort navigation items](#sort-navigation-items). On a nested section it is forwarded to the code rendering the menu, which decides whether to sort.
 - `$additionalProps`: Additional properties to be spread onto the section component.
-- `$meta`: Metadata for the code rendering the menu to read. Never spread onto the section component.
+- `$context`: Data for the code rendering the menu to read. Never spread onto the section component.
 - `children`: The section content.
 
 !!!tip
@@ -493,7 +493,7 @@ runtime.registerNavigationItem({
 runtime.registerNavigationItem({
     $id: "about",
     $label: "About",
-    $meta: {
+    $context: {
         highlight: true
     },
     to: "/about"

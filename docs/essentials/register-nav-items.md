@@ -302,7 +302,7 @@ export const register: ModuleRegisterFunction<FireflyRuntime> = runtime => {
 !!!warning
 Because `$additionalProps` is spread, every key must be a valid prop for the component that the layout renders. A key that isn't a valid prop ends up on the DOM element as an invalid attribute, which React only warns about in development.
 
-For values that the layout should *read* rather than forward, use [$meta](#attach-metadata-to-an-item) instead.
+For values that the layout should *read* rather than forward, use [$context](#attach-context-to-an-item) instead.
 !!!
 
 ==- :icon-file-code: Layout code example
@@ -364,9 +364,9 @@ export function RootLayout() {
 ```
 ===
 
-## Attach metadata to an item
+## Attach context to an item
 
-Use the `$meta` option for values that tell the layout *how* to render an item. Unlike `$additionalProps`, metadata is never spread onto the component:
+Use the `$context` option for values that tell the layout *how* to render an item. Unlike `$additionalProps`, it is never spread onto the component:
 
 ```ts !#7-9
 import type { ModuleRegisterFunction, FireflyRuntime } from "@squide/firefly";
@@ -375,7 +375,7 @@ export const register: ModuleRegisterFunction<FireflyRuntime> = runtime => {
     runtime.registerNavigationItem({
         $id: "about",
         $label: "About",
-        $meta: {
+        $context: {
             highlight: true
         },
         to: "/about"
@@ -383,7 +383,7 @@ export const register: ModuleRegisterFunction<FireflyRuntime> = runtime => {
 };
 ```
 
-It's the responsibility of the code rendering the menu to handle the metadata:
+It's the responsibility of the code rendering the menu to handle the context:
 
 ```tsx !#9,12
 import { Link } from "react-router";
@@ -394,10 +394,10 @@ const renderItem: RenderItemFunction = (item, key) => {
         return null;
     }
 
-    const { label, linkProps, additionalProps, meta } = item;
+    const { label, linkProps, additionalProps, context } = item;
 
     return (
-        <li key={key} style={{ fontWeight: meta.highlight ? "bold" : "normal" }}>
+        <li key={key} style={{ fontWeight: context.highlight ? "bold" : "normal" }}>
             <Link {...linkProps} {...additionalProps}>
                 {label}
             </Link>
@@ -406,7 +406,7 @@ const renderItem: RenderItemFunction = (item, key) => {
 };
 ```
 
-`meta` defaults to an empty object, therefore it can be destructured without a guard.
+`context` defaults to an empty object, therefore it can be destructured without a guard. It is unrelated to the module registration context passed to a module's `register` function, and to React context.
 
 ## Navigation menu
 

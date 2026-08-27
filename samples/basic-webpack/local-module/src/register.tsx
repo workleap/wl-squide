@@ -12,7 +12,7 @@ function registerRoutes(runtime: FireflyRuntime) {
         // Higher numbers gets rendered first.
         $priority: 999,
         // Read by the host application render function, never forwarded to the link component.
-        $meta: {
+        $context: {
             highlight: true
         },
         to: "/message"

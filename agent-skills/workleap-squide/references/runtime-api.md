@@ -115,7 +115,7 @@ runtime.registerNavigationItem({
     $priority: 10,            // Higher = earlier in menu. Sorted by Squide at the top level, see below
     $canRender: (index: number) => true,   // Conditional rendering
     $additionalProps: {},     // Spread onto the component the layout renders
-    $meta: {},                // Read by the layout, never spread
+    $context: {},             // Read by the layout, never spread
     to: "/page",
     target: "_blank",         // Optional
     style: {}                 // Optional

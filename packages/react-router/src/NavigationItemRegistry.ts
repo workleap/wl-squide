@@ -9,9 +9,11 @@ export interface NavigationLink extends Omit<LinkProps, "children"> {
     // Highest priority is rendered first. Only a menu's top-level items are sorted by Squide; at any other
     // depth the value is forwarded to the code rendering the menu, which sorts if it wants to.
     $priority?: number;
-    // Spread onto the rendered component, unlike "$meta" which is only read by the renderer.
+    // Spread onto the rendered component, unlike "$context" which is only read by the renderer.
     $additionalProps?: Record<string, unknown>;
-    $meta?: Record<string, unknown>;
+    // Unrelated to the module registration context and to React context: this is per-item data for the
+    // code rendering the menu.
+    $context?: Record<string, unknown>;
     $canRender?: (obj?: unknown) => boolean;
     children?: never;
 }
@@ -21,9 +23,10 @@ export interface NavigationSection {
     $label: ReactNode;
     // Highest priority is rendered first. See NavigationLink's "$priority".
     $priority?: number;
-    // Spread onto the rendered component, unlike "$meta" which is only read by the renderer.
+    // Spread onto the rendered component, unlike "$context" which is only read by the renderer.
     $additionalProps?: Record<string, unknown>;
-    $meta?: Record<string, unknown>;
+    // See NavigationLink's "$context".
+    $context?: Record<string, unknown>;
     $canRender?: (obj?: unknown) => boolean;
     children: NavigationItem[];
     to?: never;

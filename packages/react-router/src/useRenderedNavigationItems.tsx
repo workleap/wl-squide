@@ -11,7 +11,7 @@ export interface NavigationLinkRenderProps {
     // section's items should do the same.
     priority?: number;
     additionalProps: Record<string, unknown>;
-    meta: Record<string, unknown>;
+    context: Record<string, unknown>;
     canRender?: (obj?: unknown) => boolean;
 }
 
@@ -21,7 +21,7 @@ export interface NavigationSectionRenderProps {
     // See NavigationLinkRenderProps' "priority".
     priority?: number;
     additionalProps: Record<string, unknown>;
-    meta: Record<string, unknown>;
+    context: Record<string, unknown>;
     canRender?: (obj?: unknown) => boolean;
 }
 
@@ -47,7 +47,7 @@ function toLinkProps({
     $label,
     $priority,
     $additionalProps,
-    $meta,
+    $context,
     $canRender,
     // All the remaining props that belongs to the react-router Link component.
     ...linkProps
@@ -57,18 +57,18 @@ function toLinkProps({
         linkProps: stripMetadataProps(linkProps),
         priority: $priority,
         additionalProps: $additionalProps ?? {},
-        meta: $meta ?? {},
+        context: $context ?? {},
         canRender: $canRender
     };
 }
 
-function toMenuProps({ $label, $priority, $additionalProps, $meta, $canRender }: NavigationSection, sectionElement: ReactNode): NavigationSectionRenderProps {
+function toMenuProps({ $label, $priority, $additionalProps, $context, $canRender }: NavigationSection, sectionElement: ReactNode): NavigationSectionRenderProps {
     return {
         label: $label,
         section: sectionElement,
         priority: $priority,
         additionalProps: $additionalProps ?? {},
-        meta: $meta ?? {},
+        context: $context ?? {},
         canRender: $canRender
     };
 }

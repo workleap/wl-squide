@@ -34,8 +34,8 @@ runtime.registerNavigationItem({
 });
 ```
 
-Properties: `$id`, `$label`, `to`, `$priority`, `$canRender`, `$additionalProps`, `$meta`.
-`$additionalProps` is spread onto the component the layout renders; `$meta` is read by the layout and never spread. Put a `highlight` style flag in `$meta`, not `$additionalProps`.
+Properties: `$id`, `$label`, `to`, `$priority`, `$canRender`, `$additionalProps`, `$context`.
+`$additionalProps` is spread onto the component the layout renders; `$context` is read by the layout and never spread. Put a `highlight` style flag in `$context`, not `$additionalProps`. `$context` is per-item data for the layout and has nothing to do with the module registration context or React context; it was named `$meta` in 9.1.0-9.6.0.
 `$priority` is declared on `NavigationLink` and `NavigationSection`, so it is legal at any depth. Squide acts on it for a menu's top-level items only: `useRenderedNavigationItems` sorts the array it receives and recurses into `children` unsorted. At every depth the value is forwarded to the renderer as the `priority` render prop, which is the point of the prop on a nested item — the code rendering the menu sorts a section if it wants to. Do not tell a consumer that Squide orders a nested item, and do not tell them `$priority` is ignored there either.
 Supports nested sections, dynamic segments, and multiple menus (root + custom page menus).
 
