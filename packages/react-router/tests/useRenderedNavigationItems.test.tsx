@@ -432,7 +432,7 @@ test.concurrent("nested $priority is forwarded to the renderer at every depth", 
 });
 
 // "undefined" rather than 0, so a renderer can tell "nobody set a priority" from "somebody set 0". Squide's own
-// top-level sort applies the 0 default, it doesn't bake it into what the renderer sees.
+// sort applies the 0 default, it doesn't bake it into what the renderer sees.
 test.concurrent("when no $priority prop is provided, priority is undefined", ({ expect }) => {
     const navigationItems: RootNavigationItem[] = [
         {
@@ -631,8 +631,11 @@ test.concurrent("sorting does not mutate the items it was given", ({ expect }) =
         { $label: "High", $priority: 999, to: "/high" }
     ];
 
+    // Two elements whose priorities would swap them. A one-element array cannot be reordered by any sort, so
+    // asserting on one would pass against an in-place sort too and pin nothing.
     const navigationItems: RootNavigationItem[] = [
-        { $label: "Section", children }
+        { $label: "Section", children },
+        { $label: "Root high", $priority: 999, to: "/root-high" }
     ];
 
     const renderItem = vi.fn<RenderItemFunction>(() => <div>Item</div>);
@@ -641,7 +644,7 @@ test.concurrent("sorting does not mutate the items it was given", ({ expect }) =
     renderHook(() => useRenderedNavigationItems(navigationItems, renderItem, renderSection));
 
     expect(children.map(x => x.$label)).toEqual(["Low", "High"]);
-    expect(navigationItems.map(x => x.$label)).toEqual(["Section"]);
+    expect(navigationItems.map(x => x.$label)).toEqual(["Section", "Root high"]);
 });
 
 test.concurrent("link item $meta is not rendered on the link component", ({ expect }) => {
