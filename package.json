@@ -36,28 +36,28 @@
         "reset": "pnpm clean && pnpm run --sequential \"/^reset:.*/\"",
         "reset:modules": "pnpm -r --parallel --include-workspace-root exec pnpx rimraf node_modules pnpm-lock.yaml",
         "reset:templates": "cd templates/getting-started && pnpm reset:modules",
-        "list-outdated-deps": "pnpm outdated -r --format list !eslint !@eslint/js !typescript-eslint !useless-lib",
+        "list-outdated-deps": "pnpm outdated -r --format list !eslint !@eslint/js !typescript-eslint !typescript !useless-lib",
         "update-outdated-deps": "pnpm run --sequential \"/^update-outdated-deps:.*/\"",
-        "update-outdated-deps:update-versions": "pnpm update -r --latest !eslint !@eslint/js !typescript-eslint !useless-lib",
+        "update-outdated-deps:update-versions": "pnpm update -r --latest !eslint !@eslint/js !typescript-eslint !typescript !useless-lib",
         "update-outdated-deps:update-peers": "syncpack fix",
         "update-outdated-deps:fix-pkg-json": "eslint --fix --no-cache --no-ignore package.json **/package.json"
     },
     "devDependencies": {
-        "@changesets/changelog-github": "0.7.0",
-        "@changesets/cli": "2.31.0",
+        "@changesets/changelog-github": "1.0.0",
+        "@changesets/cli": "3.0.1",
         "@eslint/js": "9.39.2",
-        "@types/node": "26.1.1",
-        "@typescript-eslint/parser": "8.63.0",
+        "@types/node": "26.4.1",
+        "@typescript-eslint/parser": "8.69.0",
         "@typescript/native-preview": "7.0.0-dev.20260707.2",
-        "@workleap/eslint-configs": "2.0.4",
+        "@workleap/eslint-configs": "2.0.5",
         "@workleap/typescript-configs": "5.0.0",
-        "agent-browser": "0.31.1",
+        "agent-browser": "0.36.0",
         "cross-env": "10.1.0",
         "eslint": "9.39.2",
-        "pkg-pr-new": "0.0.75",
+        "pkg-pr-new": "0.0.88",
         "retypeapp": "4.6.0",
-        "syncpack": "15.3.2",
-        "turbo": "2.10.4",
+        "syncpack": "15.3.3",
+        "turbo": "2.10.12",
         "typescript": "6.0.3",
         "typescript-eslint": "8.54.0"
     },
@@ -65,5 +65,5 @@
         "node": ">=24.0.0",
         "pnpm": ">=11"
     },
-    "packageManager": "pnpm@11.5.0+sha512.dbfcc4f81cf48597afd4bc391ffdf12c11f1a9fb83a395bfa6b0a2d9cc2fd8ffebafdb1ccbd529632153f793904c2615b7f09fe1a345473fd1c35845172a8eb1"
+    "packageManager": "pnpm@12.2.1"
 }
