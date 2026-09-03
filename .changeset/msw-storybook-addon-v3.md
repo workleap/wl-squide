@@ -2,7 +2,9 @@
 "@squide/firefly-storybook": major
 ---
 
-Added `msw-storybook-addon` as a peer dependency, requiring `^3.0.0`. This requirement already existed in practice — a runtime created by `initializeFireflyForStorybook` enables MSW by default, and `runtime.requestHandlers` is meant to be fed to the addon through `parameters.msw` — but it was only stated in the documentation. It is now declared, so applications still on v2 get a warning at install time instead of discovering the problem as a blank Storybook.
+Added `msw-storybook-addon` as an optional peer dependency, requiring `^3.0.0`. This requirement already existed in practice — a runtime created by `initializeFireflyForStorybook` enables MSW by default, and `runtime.requestHandlers` is meant to be fed to the addon through `parameters.msw` — but it was only stated in the documentation.
+
+It is declared as optional because the addon belongs to the Storybook application, which is not necessarily the package that depends on `@squide/firefly-storybook`. Optional keeps the half that matters: applications that install both in the same package get a version-mismatch warning while still on v2, instead of discovering the problem as a blank Storybook, and applications that keep them in separate packages are not warned about an addon they correctly installed elsewhere.
 
 This is a breaking change for consuming applications, which must upgrade the addon to v3 and update their `.storybook/preview.tsx`.
 

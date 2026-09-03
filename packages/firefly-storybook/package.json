@@ -48,6 +48,9 @@
     "peerDependenciesMeta": {
         "@opentelemetry/api": {
             "optional": true
+        },
+        "msw-storybook-addon": {
+            "optional": true
         }
     },
     "dependencies": {
