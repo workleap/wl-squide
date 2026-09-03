@@ -118,6 +118,22 @@ runtime.registerPublicRoute({
 });
 ```
 
+**`$visibility`.** A route that declares no `$visibility` is `protected`. `registerPublicRoute` is the
+recommended way to register a **root** public route; a nested route declares its visibility through the
+option itself:
+
+```tsx
+runtime.registerPublicRoute({
+    path: "/layout",
+    element: <Layout />,
+    children: [{
+        $visibility: "public",
+        path: "/page-1",
+        element: <Page />
+    }]
+});
+```
+
 ### Navigation Registration
 
 #### registerNavigationItem(item, options?)

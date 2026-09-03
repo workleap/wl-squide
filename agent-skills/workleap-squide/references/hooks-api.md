@@ -52,6 +52,10 @@ as declared. See `references/runtime-api.md`.
 
 **Note:** `useRenderedNavigationItems` invokes these callbacks with the arguments shown above, but your implementation may declare fewer parameters and ignore the rest (for example, `(item, key) => ...`). You cannot supply extra custom context parameters via `useRenderedNavigationItems`; instead, access external values (like route params or location) through closures or React hooks within the component that calls `useRenderedNavigationItems`.
 
+**`key`:** the item's `$id` when it declares one, otherwise a default computed from the item's `index` and
+`level`. That default works in most cases, but being positional it cannot guarantee the menu won't flicker
+when a deferred registration update changes the items — always declare an `$id`.
+
 **Render props:** the `item` argument is either a `NavigationLinkRenderProps` or a `NavigationSectionRenderProps` (both exported from `@squide/firefly`). Use `isNavigationLink` to discriminate them.
 
 | Type | Properties |
