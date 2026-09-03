@@ -38,7 +38,7 @@
         "@swc/helpers": "^0.5.23",
         "@workleap/swc-configs": "^2.3.14",
         "browserslist": "^4.28.8",
-        "postcss": "^8.5.3",
+        "postcss": "^8.5.26",
         "webpack": "^5.110.3",
         "webpack-dev-server": "^5.2.4"
     },
