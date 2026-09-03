@@ -72,6 +72,14 @@ export default {
             "isIgnored": true
         },
         {
+            // "msw-storybook-addon" declares a range to support the addon v2 and v3.
+            // It's messing up with syncpack.
+            "packages": ["@squide/*"],
+            "dependencies": ["msw-storybook-addon"],
+            "dependencyTypes": ["peer"],
+            "isIgnored": true
+        },
+        {
             "packages": ["@basic/*", "@basic-webpack/*", "@endpoints/*", "@storybook/*", "@getting-started/*", "@getting-started-remote/*"],
             "dependencies": ["@squide/*"],
             "dependencyTypes": ["prod"],

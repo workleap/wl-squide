@@ -594,11 +594,18 @@ Squide runtimes created for Storybook enable MSW by default, so the Storybook ap
 
 ```tsx
 // .storybook/preview.tsx
-import { initialize as initializeMsw, mswLoader } from "msw-storybook-addon";
+import { setupWorker } from "msw/browser";
+import { mswLoader } from "msw-storybook-addon/csf3";
 import { Suspense } from "react";
 import type { Preview } from "storybook-react-rsbuild";
 
-initializeMsw({ onUnhandledRequest: "bypass" });
+async function startMswWorker() {
+    const worker = setupWorker();
+
+    await worker.start({ onUnhandledRequest: "bypass" });
+
+    return worker;
+}
 
 const preview: Preview = {
     decorators: [
@@ -608,11 +615,13 @@ const preview: Preview = {
             </Suspense>
         )
     ],
-    loaders: [mswLoader]
+    loaders: [mswLoader(startMswWorker)]
 };
 
 export default preview;
 ```
+
+> `mswLoader` is a factory in `msw-storybook-addon` v3 — it must be called. Passing the function itself (`loaders: [mswLoader]`, the v2 shape) type-checks but silently disables mocking. The setup function is optional; pass one only to customize the `worker.start` options.
 
 ```ts
 // .storybook/main.ts — serve the MSW service worker from /public

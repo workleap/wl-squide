@@ -6,6 +6,7 @@ dist
 .rslib
 .retype
 .claude/settings.local.json
+.claude/worktrees
 .local
 *.env.local
 storybook-static
