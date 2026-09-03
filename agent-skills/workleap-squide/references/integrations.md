@@ -525,7 +525,8 @@ The displayed language is usually derived from a per-user setting stored remotel
 2. Once the session is loaded, switch to the preferred language it carries.
 
 ```tsx
-import { AppRouter, useChangeLanguage, useIsBootstrapping, useProtectedDataQueries } from "@squide/firefly";
+import { AppRouter, useIsBootstrapping, useProtectedDataQueries } from "@squide/firefly";
+import { useChangeLanguage } from "@squide/i18next";
 import { useEffect } from "react";
 import { Outlet } from "react-router";
 
