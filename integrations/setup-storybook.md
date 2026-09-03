@@ -14,14 +14,21 @@ pnpm add msw msw-storybook-addon
 
 Then, update the standard `.storybook/preview.tsx` file and register the [Mock Service Worker](https://mswjs.io/) (MSW) addon:
 
-```tsx !#5-7,19
-import { initialize as initializeMsw, mswLoader } from "msw-storybook-addon";
+```tsx !#1-2,6-14,26
+import { setupWorker } from "msw/browser";
+import { mswLoader } from "msw-storybook-addon/csf3";
 import { Suspense } from "react";
 import type { Preview } from "storybook-react-rsbuild";
 
-initializeMsw({
-    onUnhandledRequest: "bypass"
-});
+async function startMswWorker() {
+    const worker = setupWorker();
+
+    await worker.start({
+        onUnhandledRequest: "bypass"
+    });
+
+    return worker;
+}
 
 const preview: Preview = {
     decorators: [
@@ -33,11 +40,23 @@ const preview: Preview = {
             );
         }
     ],
-    loaders: [mswLoader]
+    loaders: [mswLoader(startMswWorker)]
 };
 
 export default preview;
 ```
+
+!!!info
+`msw-storybook-addon` starts the worker for you if no setup function is provided. Pass one, as shown above, when you need to customize the [worker.start](https://mswjs.io/docs/api/setup-worker/start) options.
+!!!
+
+!!!warning
+`mswLoader` is a factory, it must be called. Registering the function itself (`loaders: [mswLoader]`) type checks but silently disables mocking.
+!!!
+
+!!!warning
+The worker starts when the first loader runs, which is *after* the story modules have been evaluated. Requests issued from the top level of a story file, before the first story renders, will not be mocked.
+!!!
 
 Then, update the standard `.storybook/main.ts` file and set the `staticDirs` option to `["public"]`:
 
