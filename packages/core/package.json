@@ -51,9 +51,9 @@
     },
     "devDependencies": {
         "@eslint/js": "9.39.2",
-        "@rsbuild/core": "2.2.2",
-        "@rslib/core": "0.23.2",
-        "@types/node": "26.4.1",
+        "@rsbuild/core": "2.2.3",
+        "@rslib/core": "1.0.0",
+        "@types/node": "26.5.0",
         "@types/react": "19.2.18",
         "@typescript-eslint/parser": "8.69.0",
         "@typescript/native-preview": "7.0.0-dev.20260707.2",
@@ -64,7 +64,7 @@
         "eslint": "9.39.2",
         "typescript": "6.0.3",
         "typescript-eslint": "8.54.0",
-        "vitest": "4.1.11"
+        "vitest": "5.0.0"
     },
     "sideEffects": false
 }

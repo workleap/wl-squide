@@ -11,8 +11,10 @@ import { HostApplicationName } from "./shared.ts";
 
 // Using import.meta.url instead of import.meta.dirname because Jest is throwing the following error:
 // SyntaxError: Cannot use 'import.meta' outside a module
+// Deriving the directory with "path.dirname" rather than "new URL(\".\", import.meta.url)" because Rslib treats
+// "new URL(..., import.meta.url)" as an asset reference and rewrites the specifier to the emitted asset path.
 const applicationDirectory = dirname(fileURLToPath(import.meta.url));
-const packageDirectory = url.fileURLToPath(new URL(".", import.meta.url));
+const packageDirectory = path.dirname(url.fileURLToPath(import.meta.url));
 
 // Must be similar to the module name defined in @workleap/module-federation.
 const RemoteRegisterModuleName = "./register";

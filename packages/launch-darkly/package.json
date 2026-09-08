@@ -44,12 +44,12 @@
     },
     "devDependencies": {
         "@eslint/js": "9.39.2",
-        "@rsbuild/core": "2.2.2",
-        "@rslib/core": "0.23.2",
+        "@rsbuild/core": "2.2.3",
+        "@rslib/core": "1.0.0",
         "@testing-library/react": "16.3.3",
-        "@types/node": "26.4.1",
+        "@types/node": "26.5.0",
         "@types/react": "19.2.18",
-        "@types/react-dom": "19.2.5",
+        "@types/react-dom": "19.2.7",
         "@typescript-eslint/parser": "8.69.0",
         "@typescript/native-preview": "7.0.0-dev.20260707.2",
         "@vitejs/plugin-react": "6.1.1",
@@ -57,10 +57,10 @@
         "@workleap/rslib-configs": "1.2.1",
         "@workleap/typescript-configs": "5.0.0",
         "eslint": "9.39.2",
-        "happy-dom": "20.12.2",
+        "happy-dom": "20.14.0",
         "typescript": "6.0.3",
         "typescript-eslint": "8.54.0",
-        "vitest": "4.1.11"
+        "vitest": "5.0.0"
     },
     "sideEffects": false
 }
