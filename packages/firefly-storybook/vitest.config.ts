@@ -7,7 +7,10 @@ export default defineConfig({
         include: ["tests/**/*.test.{ts,tsx}"],
         exclude: ["node_modules", "dist"],
         setupFiles: ["./vitest-setup.ts"],
-        reporters: "verbose"
+        reporters: "verbose",
+        // Vitest 5 clears mocks after every test by default. The tests of this package are concurrent,
+        // so a test that completes would wipe the mocks of the sibling tests still running.
+        clearMocks: false
     },
     resolve: {
         dedupe: ["react", "react-dom", "react-router"],
