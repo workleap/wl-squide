@@ -444,6 +444,54 @@ Rules:
 - A faulty plugin is isolated, not fatal: a throwing hook or completion function is logged, the remaining plugins are still notified, the modules still register, and the run still resolves. The error reaches the runtime logger only, never the `onError` callback of `useDeferredRegistrations`.
 - Module registration errors do **not** count as a failed run: they are collected and returned as `ModuleRegistrationError[]` rather than thrown. There is no per-module rollback either — a module that throws part way through keeps whatever it already registered and only loses what it hadn't registered yet, so a plugin registry can hold a half-registered module's entries.
 
+#### isReady() / registerReadyListener(callback) / removeReadyListener(callback) — optional
+
+A plugin performing asynchronous work the application must wait for before rendering (the `i18nextPlugin` loading the resources of the current language) implements the readiness surface. `useIsBootstrapping()` stays `true` until every plugin implementing `isReady` returns `true`, on the normal path and on the 401 path alike. A plugin without the surface is always ready.
+
+```ts
+import { Plugin, type PluginReadyListener, type Runtime } from "@squide/firefly";
+
+export class MyPlugin extends Plugin {
+    #isReady = false;
+    readonly #readyListeners = new Set<PluginReadyListener>();
+
+    constructor(runtime: Runtime) {
+        super(MyPlugin.name, runtime);
+        this.#loadSettings();
+    }
+
+    isReady() {
+        return this.#isReady;
+    }
+
+    registerReadyListener(callback: PluginReadyListener) {
+        this.#readyListeners.add(callback);
+    }
+
+    removeReadyListener(callback: PluginReadyListener) {
+        this.#readyListeners.delete(callback);
+    }
+
+    async #loadSettings() {
+        try {
+            await fetch("/api/settings");
+        } finally {
+            // Flip the latch even on failure, otherwise the application never renders.
+            this.#isReady = true;
+            this.#readyListeners.forEach(x => x());
+        }
+    }
+}
+```
+
+Rules:
+
+- **One-way latch.** Once `isReady()` returns `true`, it never returns `false` again. Work started later is the plugin's own to await (return a promise to the caller). A latch flipping back would show the bootstrapping fallback over a rendered page.
+- **Listeners fire once, when the latch flips.** A plugin that is already ready may never call a listener registered afterwards: always read `isReady()` first, subscribe only when it returns `false`.
+- **Flip the latch on failure too**, and report the failure through the logger or the event bus. A plugin that never flips pins the application on its bootstrapping fallback.
+- Declare the members as optional **methods** on the subclass (never optional properties), matching the `Plugin` base class.
+- Firefly dispatches a single `plugins-ready` action / `squide-plugins-ready` event once every readiness-aware plugin is ready. Neither is dispatched when no plugin implements the surface. Deferred registrations and global data fetching do not wait on it, only rendering does.
+
 ## Getters
 
 | Getter | Type | Description |

@@ -125,7 +125,7 @@ const routes = useRoutes();
 ```
 
 ### useIsBootstrapping()
-Check if application is still bootstrapping.
+Check if application is still bootstrapping. Returns `true` until the modules and their deferred registrations are registered, MSW is ready (when enabled), every plugin implementing the readiness surface is ready (for example the `i18nextPlugin` has loaded the resources of the current language, see `references/runtime-api.md`), and the public/protected global data the `AppRouter` waits for is ready. Every input is a one-way latch. On a 401, the protected data and deferred registrations are bypassed so the login page renders, but MSW, plugins and public data still apply.
 
 ```ts
 import { useIsBootstrapping } from "@squide/firefly";
@@ -514,10 +514,13 @@ const language = useCurrentLanguage();
 ```
 
 ### useChangeLanguage()
-Get function to change language.
+Get a function to change the language: `(language) => Promise<void>`. It loads the language into every lazy instance lacking it, then switches every instance. **Await it.** Rejects with `I18nextResourcesLoadError` when a load fails (language unchanged), and with a plain `Error` when the language isn't supported. In a React effect or event handler, use a block body so the promise isn't returned to React.
 
 ```ts
 import { useChangeLanguage } from "@squide/i18next";
 const changeLanguage = useChangeLanguage();
-changeLanguage("fr-CA");
+await changeLanguage("fr-CA");
+
+// In an effect
+useEffect(() => { changeLanguage("fr-CA"); }, [changeLanguage]);
 ```

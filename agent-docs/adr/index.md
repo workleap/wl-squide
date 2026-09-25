@@ -12,7 +12,7 @@
 | Late-arriving module registrations are queued until bootstrap completes, then flushed in order. | [0006](./0006-pending-registration-queue.md) |
 | Module Federation is encapsulated in `@squide/firefly-module-federation`. Core packages have zero federation knowledge. Local and remote modules use identical APIs. | [0007](./0007-module-federation-as-optional-plugin.md) |
 | Environment variables are registered via `EnvironmentVariablesPlugin` on `FireflyRuntime` — never read from `process.env`. This keeps Module Federation scenarios working. | [0008](./0008-environment-variables-on-runtime.md) |
-| Bootstrapping progresses through a deterministic state machine: `idle → registering → registered → ready`. | [0009](./0009-bootstrapping-state-machine.md) |
+| Bootstrapping progresses through a deterministic state machine: `idle → registering → registered → ready`. Every readiness input is a one-way latch; nothing dispatches un-readiness. Plugins hold rendering through the generic `Plugin` readiness surface, and firefly never imports `@squide/i18next`. | [0009](./0009-bootstrapping-state-machine.md) |
 | i18n instances are registered on the runtime via a centralized registry. Modules do not create their own i18next instances. | [0010](./0010-i18n-centralized-instance-registry.md) |
 | ESM only. All packages use `"type": "module"` with only an `"import"` export condition. No `"require"` condition — CJS was never supported. | [0011](./0011-esm-only-output.md) |
 | TanStack Query is the official data-fetching library. Global data queries use `usePublicDataQueries` and `useProtectedDataQueries`. | [0012](./0012-tanstack-query-for-data-fetching.md) |

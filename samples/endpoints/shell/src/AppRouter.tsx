@@ -8,11 +8,11 @@ import {
     type Session,
     type Subscription
 } from "@endpoints/shared";
-import { AppRouter as FireflyAppRouter, useDeferredRegistrations, useEnvironmentVariables, useIsBootstrapping, useLaunchDarklyClient, useLogger, useProtectedDataQueries, usePublicDataQueries } from "@squide/firefly";
-import { useChangeLanguage } from "@squide/i18next";
+import { AppRouter as FireflyAppRouter, useDeferredRegistrations, useEnvironmentVariables, useIsBootstrapping, useLaunchDarklyClient, useLogger, useProtectedDataQueries, usePublicDataQueries, type DeferredRegistrationsErrorCallback } from "@squide/firefly";
+import { isI18nextResourcesLoadError } from "@squide/i18next";
 import { useHoneycombInstrumentationClient } from "@workleap/telemetry/react";
 import LogRocket from "logrocket";
-import { useEffect, useMemo } from "react";
+import { useCallback, useEffect, useMemo } from "react";
 import { createBrowserRouter, Outlet } from "react-router";
 import { RouterProvider } from "react-router/dom";
 import { Loading } from "./Loading.tsx";
@@ -113,8 +113,6 @@ function BootstrappingRoute() {
     const honeycombClient = useHoneycombInstrumentationClient({ throwOnUndefined: false });
     const launchDarklyClient = useLaunchDarklyClient();
 
-    const changeLanguage = useChangeLanguage();
-
     useEffect(() => {
         if (session) {
             logger
@@ -147,12 +145,8 @@ function BootstrappingRoute() {
             LogRocket.identify(session.user.id, {
                 "Name": session.user.name
             });
-
-            // When the session has been retrieved, update the language to match the user
-            // preferred language.
-            changeLanguage(session.user.preferredLanguage);
         }
-    }, [session, honeycombClient, launchDarklyClient, changeLanguage, logger]);
+    }, [session, honeycombClient, launchDarklyClient, logger]);
 
     useEffect(() => {
         if (subscription) {
@@ -167,11 +161,31 @@ function BootstrappingRoute() {
         }
     }, [subscription, logger]);
 
+    // The shell's deferred registration awaits the switch to the user preferred language. A failed resources load
+    // rejects that switch, which is reported here. The application still renders with the previous language.
+    const handleDeferredRegistrationErrors = useCallback<DeferredRegistrationsErrorCallback>(errors => {
+        errors.forEach(x => {
+            if (isI18nextResourcesLoadError(x.cause)) {
+                logger
+                    .withText(`[shell] The "${x.cause.language}" resources of the "${x.cause.key}" i18next instance failed to load, the language is unchanged:`)
+                    .withError(x.cause)
+                    .error();
+            } else {
+                logger
+                    .withText("[shell] A deferred registration failed:")
+                    .withError(x)
+                    .error();
+            }
+        });
+    }, [logger]);
+
     useDeferredRegistrations(useMemo(() => ({
         session,
         userInfo,
         role: userRole
-    }), [session, userInfo, userRole]));
+    }), [session, userInfo, userRole]), {
+        onError: handleDeferredRegistrationErrors
+    });
 
     const sessionManager = useSessionManagerInstance(session);
 

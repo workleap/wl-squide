@@ -14,6 +14,8 @@ export function createDefaultAppRouterState(): AppRouterState {
         areModulesRegistered: false,
         activeRouteVisibility: "unknown",
         isMswReady: false,
+        // Defaults to true because most tests don't exercise the plugins readiness and every "not bootstrapping" case requires it.
+        arePluginsReady: true,
         isProtectedDataReady: false,
         isPublicDataReady: false,
         isUnauthorized: false

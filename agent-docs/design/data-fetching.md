@@ -28,8 +28,13 @@ Lower-level hooks for advanced scenarios where the default query-based approach 
 3. Page requested → AppRouter determines if public or protected
 4. `waitForPublicData` → public queries execute
 5. `waitForProtectedData` → protected queries execute (if protected page)
-6. `useIsBootstrapping()` returns false → page renders
-7. Deferred registrations re-run with fresh data
+6. Deferred registrations run with the data (a module may await a bootstrap side effect here, such as
+   the i18next plugin switching to the session's preferred language)
+7. Plugins implementing the readiness surface are ready (for example the i18next resources of the
+   current language are loaded). Data fetching and deferred registrations do **not** wait on this
+   input, only rendering does — see [cross-module-communication.md](./cross-module-communication.md#plugins)
+8. `useIsBootstrapping()` returns false → page renders
+9. Deferred registrations re-run with fresh data
 
 ## Error Handling
 

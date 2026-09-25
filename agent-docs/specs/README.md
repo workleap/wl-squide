@@ -6,7 +6,7 @@ Detailed specifications and API documentation for `@squide/*` packages.
 
 | Package | Path | Key APIs |
 |---------|------|----------|
-| `@squide/core` | `packages/core` | `Runtime` (abstract base), event bus, logging, plugins, deferred registration scope started listeners |
+| `@squide/core` | `packages/core` | `Runtime` (abstract base), event bus, logging, plugins (deferred registration scope hook, optional readiness surface `isReady` / `registerReadyListener` / `removeReadyListener`), deferred registration scope started listeners |
 | `@squide/react-router` | `packages/react-router` | Route/navigation registration, `useNavigationItems`, `useRenderedNavigationItems` |
 | `@squide/firefly` | `packages/firefly` | `FireflyRuntime`, `initializeFirefly`, `AppRouter`, `useIsBootstrapping`, data fetching hooks. The `@squide/firefly/testing` entry point exposes `createDeferredRegistrationsRunner` |
 
@@ -15,7 +15,7 @@ Detailed specifications and API documentation for `@squide/*` packages.
 | Package | Path | Key APIs |
 |---------|------|----------|
 | `@squide/env-vars` | `packages/env-vars` | `useEnvironmentVariable`, `useEnvironmentVariables` |
-| `@squide/i18next` | `packages/i18next` | `i18nextPlugin`, `useChangeLanguage`, `useCurrentLanguage` |
+| `@squide/i18next` | `packages/i18next` | `i18nextPlugin` (`registerInstance(key, instance, { loadResources? })` for per-language lazy loading, async `changeLanguage`, readiness surface), `I18nextResourcesLoadError` / `isI18nextResourcesLoadError`, `I18nextResourcesLoadFailedEvent`, `useChangeLanguage`, `useCurrentLanguage`, `useI18nextInstance` |
 | `@squide/launch-darkly` | `packages/launch-darkly` | `useFeatureFlag`, `useFeatureFlags`, `getFeatureFlag` |
 | `@squide/msw` | `packages/msw` | `MswPlugin`, request handler registration |
 | `@squide/fakes` | `packages/fakes` | `LocalStorageSessionManager`, `InMemoryLaunchDarklyClient` |

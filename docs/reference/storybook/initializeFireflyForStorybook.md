@@ -96,14 +96,56 @@ const runtime = initializeFireflyForStorybook({
 
 ### Initialize with i18next
 
-```ts !#5
+```ts !#5-10
 import { initializeFireflyForStorybook } from "@squide/firefly-storybook";
 import { i18nextPlugin } from "@squide/i18next";
 
 const runtime = initializeFireflyForStorybook({
-    additionalPlugins: [x => new i18nextPlugin(x, ["en-US", "fr-CA"], "en-US", "language")]
+    additionalPlugins: [x => {
+        const plugin = new i18nextPlugin(x, ["en-US", "fr-CA"], "en-US", "language");
+        plugin.detectUserLanguage();
+
+        return plugin;
+    }]
 });
 ```
+
+The `i18next` instances must be registered from the `localModules` register functions: `initializeFireflyForStorybook` marks the modules as registered before it returns, and [registerInstance](../i18next/i18nextPlugin.md#register-a-i18next-instance) throws afterwards. A [lazy](../i18next/i18nextPlugin.md#lazy-load-resources-per-language) instance also requires the user language to be detected, hence the `detectUserLanguage` call in the plugin factory.
+
+The [FireflyDecorator](./FireflyDecorator.md) renders a story as soon as the modules are registered, it doesn't wait for the plugins to be ready. When the modules register lazy `i18next` instances, or when a story renders in a language other than the detected one, await the [changeLanguage](../i18next/i18nextPlugin.md#change-the-current-language) method of the plugin from a Storybook [loader](https://storybook.js.org/docs/writing-stories/loaders). Called with the current language, `changeLanguage` waits for the pending resources loads without notifying anyone:
+
+```ts !#21-25
+import { initializeFireflyForStorybook, withFireflyDecorator } from "@squide/firefly-storybook";
+import { getI18nextPlugin, i18nextPlugin } from "@squide/i18next";
+
+const runtime = await initializeFireflyForStorybook({
+    // The module creates and registers the i18next instance.
+    localModules: [registerModule],
+    additionalPlugins: [x => {
+        const plugin = new i18nextPlugin(x, ["en-US", "fr-CA"], "en-US", "language");
+        plugin.detectUserLanguage();
+
+        return plugin;
+    }]
+});
+
+const meta = {
+    decorators: [
+        withFireflyDecorator(runtime)
+    ],
+    // The resources of the language are loaded before the story renders. Loaders run before decorators,
+    // so a snapshot is never taken while the resources are still loading.
+    loaders: [
+        async () => {
+            await getI18nextPlugin(runtime).changeLanguage("fr-CA");
+        }
+    ]
+};
+```
+
+!!!warning
+A decorator calling `changeLanguage` from a React effect is racy: `changeLanguage` returns a promise, and a story can be snapshotted before the resources arrive. Use a loader instead.
+!!!
 
 ### Initialize with typed deferred registration data
 

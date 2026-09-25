@@ -51,6 +51,21 @@ A plugin hook whose types live outside `@squide/core` cannot go on the class —
 interface extending `Plugin` and is duck-typed at the call site, as `FireflyPlugin` does for
 `registerHoneycombTrackingListeners`.
 
+`Plugin` also carries an optional **readiness surface**: `isReady()`, `registerReadyListener()` and
+`removeReadyListener()`. A plugin implements it when it performs asynchronous work the application
+must wait for before rendering (the i18next plugin loading the resources of the current language).
+`@squide/firefly` consumes it generically: `useAppRouterReducer` reads every plugin's `isReady()` at
+initialization and subscribes to the not-ready ones, dispatches a single `plugins-ready` action once
+all of them are ready, and `useIsBootstrapping` waits on that flag. Firefly never imports
+`@squide/i18next`: doing so would push its three peer dependencies onto every firefly consumer. A
+plugin without the surface is always ready, and `squide-plugins-ready` is only dispatched when at
+least one plugin implements the surface, so existing applications observe no new event.
+
+Readiness is a one-way latch and its listeners fire once: a consumer must read `isReady()` before
+subscribing, a plugin that is already ready may never call a listener registered afterwards. A
+plugin must flip the latch when its work fails as well, otherwise the application stays on its
+bootstrapping fallback forever. See ADR-0009 for the bootstrapping state machine.
+
 ## Shared Types
 
 Modules share **types and interfaces only** through dedicated shared packages (e.g., a `shared/`

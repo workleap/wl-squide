@@ -81,6 +81,14 @@ export class AppRouterStore {
 
                 break;
             }
+            case "plugins-ready": {
+                newState = {
+                    ...newState,
+                    arePluginsReady: true
+                };
+
+                break;
+            }
             case "public-data-ready": {
                 newState = {
                     ...newState,
@@ -173,6 +181,7 @@ export function createAppRouterStore(logger: Logger) {
         areModulesRegistered: false,
         areModulesReady: false,
         isMswReady: false,
+        arePluginsReady: false,
         isPublicDataReady: false,
         isProtectedDataReady: false,
         activeRouteVisibility: "unknown",

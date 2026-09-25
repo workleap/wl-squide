@@ -11,7 +11,7 @@ description: |
   (7) Squide hooks for event bus, environment variables, feature flags, logging, or bootstrapping state
   (8) Error boundaries or modular architecture in Squide applications
 metadata:
-  version: 1.28
+  version: 1.29
 ---
 
 # Squide Framework
@@ -235,3 +235,5 @@ When working with Squide APIs, watch for these common mistakes:
 3. **Dynamic route segments**: Use the `resolveRouteSegments` helper with closures to capture values like `userId`. Example pattern: create a higher-order function that returns a `RenderItemFunction`.
 
 4. **Deferred registration runtime parameter**: The deferred registration callback receives `deferredRuntime` as its first argument — this is NOT the same `runtime` from the outer registration function. Always use `deferredRuntime` inside the deferred callback for `registerNavigationItem`, `getFeatureFlag`, etc.
+
+5. **i18next instances and `changeLanguage`**: Register i18next instances only from a module's `register()` function (`registerInstance` throws once the modules are registered). `changeLanguage` returns a promise: `await` it, use a block body in effects, and apply a session's preferred language by awaiting it from a deferred registration rather than a React effect (see `references/integrations.md`).

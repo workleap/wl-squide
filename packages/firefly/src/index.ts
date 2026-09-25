@@ -60,6 +60,7 @@ export {
     ModulesReadyEvent,
     ModulesRegisteredEvent,
     MswReadyEvent,
+    PluginsReadyEvent,
     ProtectedDataReadyEvent,
     ProtectedDataUpdatedEvent,
     PublicDataReadyEvent,

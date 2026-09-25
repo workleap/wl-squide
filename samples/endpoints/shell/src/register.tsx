@@ -1,5 +1,7 @@
 import { registerLayouts } from "@endpoints/layouts";
-import { mergeDeferredRegistrations, ProtectedRoutes, PublicRoutes, type FireflyRuntime, type ModuleRegisterFunction } from "@squide/firefly";
+import type { DeferredRegistrationData, LanguageKey } from "@endpoints/shared";
+import { mergeDeferredRegistrations, ProtectedRoutes, PublicRoutes, type DeferredRegistrationFunction, type FireflyRuntime, type ModuleRegisterFunction } from "@squide/firefly";
+import { getI18nextPlugin, type i18nextPlugin } from "@squide/i18next";
 import { RootLayout } from "./RootLayout.tsx";
 import { initI18next } from "./i18next.ts";
 
@@ -115,8 +117,20 @@ function registerEnvironmentVariables(runtime: FireflyRuntime) {
     });
 }
 
+// Once the session is loaded, switch to the user preferred language. Awaiting the switch in a deferred registration
+// applies it before the modules become ready, therefore before the first protected page is rendered. The rejection of
+// a failed load reaches the "onError" callback of "useDeferredRegistrations", and the language is left unchanged.
+function registerPreferredLanguage(runtime: FireflyRuntime): DeferredRegistrationFunction<FireflyRuntime, DeferredRegistrationData> {
+    const i18nextPlugin = getI18nextPlugin(runtime) as i18nextPlugin<LanguageKey>;
+
+    return async (_, data) => {
+        // On an update run with an unchanged language, this resolves without notifying anyone.
+        await i18nextPlugin.changeLanguage(data.session?.user.preferredLanguage ?? i18nextPlugin.currentLanguage);
+    };
+}
+
 export function registerShell({ host }: RegisterShellOptions = {}) {
-    const register: ModuleRegisterFunction<FireflyRuntime> = async runtime => {
+    const register: ModuleRegisterFunction<FireflyRuntime, unknown, DeferredRegistrationData> = async runtime => {
         registerEnvironmentVariables(runtime);
         initI18next(runtime);
 
@@ -124,7 +138,8 @@ export function registerShell({ host }: RegisterShellOptions = {}) {
 
         return mergeDeferredRegistrations([
             registerLayouts(runtime, { host }),
-            registerRoutes(runtime, host)
+            registerRoutes(runtime, host),
+            registerPreferredLanguage(runtime)
         ]);
     };
 

@@ -163,3 +163,21 @@ function BootstrappingRoute() {
     return <Outlet />;
 }
 ```
+
+### Await a bootstrap side effect
+
+A deferred registration function can be asynchronous. Squide awaits every deferred registration function before the modules become ready, therefore before [useIsBootstrapping](../routing/useIsBootstrapping.md) returns `false`. A module can rely on this to complete a side effect that depends on the global data before the first page renders, such as switching every `i18next` instance to the session's preferred language with the [i18nextPlugin](../i18next/i18nextPlugin.md#change-the-current-language):
+
+```tsx !#6-8 host/src/register.tsx
+import { getI18nextPlugin } from "@squide/i18next";
+
+export const registerHost: ModuleRegisterFunction<FireflyRuntime, unknown, DeferredRegistrationData> = runtime => {
+    const i18nextPlugin = getI18nextPlugin(runtime);
+
+    return async (deferredRuntime, data) => {
+        await i18nextPlugin.changeLanguage(data.session?.user.preferredLanguage ?? i18nextPlugin.currentLanguage);
+    };
+};
+```
+
+The rejection of an awaited side effect is reported like any other deferred registration error: it reaches the `onError` callback as the `cause` of a `ModuleRegistrationError`, and the run still completes for the other modules. An awaited network request lengthens the deferred registration phase, keep such side effects to what must happen before the first render.

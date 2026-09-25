@@ -461,14 +461,17 @@ const plugin = new i18nextPlugin(x, ["en-US", "fr-CA"], "en-US", "language", {
 
 | Member | Description |
 |--------|-------------|
-| `registerInstance(key, instance)` | Associate an i18next instance with a key |
+| `registerInstance(key, instance, options?)` | Associate an i18next instance with a key. **Must be called from a module's `register()` function**: throws once the modules are registered (so never from a deferred registration function). `options.loadResources` enables per-language lazy loading (see below) |
 | `getInstance(key)` | Retrieve an instance; throws if no instance matches the key |
 | `currentLanguage` | The current language; throws if the language was never detected nor changed |
 | `detectUserLanguage()` | Detect the user language, falling back to `fallbackLanguage` |
-| `changeLanguage(language)` | Change the language on every registered instance; throws if not in `supportedLanguages` |
+| `changeLanguage(language): Promise<void>` | Load the language into every lazy instance lacking it, then switch every instance. **Await it.** Rejects with `I18nextResourcesLoadError` on a failed load (language unchanged), and with a plain `Error` when not in `supportedLanguages`. Latest call wins under concurrency. Called with the current language, waits for pending loads without notifying |
 | `registerLanguageChangedListener(listener)` / `removeLanguageChangedListener(listener)` | Subscribe to language changes |
+| `isReady()` / `registerReadyListener(listener)` / `removeReadyListener(listener)` | Readiness surface consumed by `useIsBootstrapping`: ready once the modules are registered and every instance settled the load of the current language (a failed load counts as settled). One-way latch, listeners fire once; read `isReady()` first |
 
 Prefer `getI18nextPlugin(runtime)` over `runtime.getPlugin(i18nextPluginName) as i18nextPlugin`.
+
+Failure reporting: every failed load is logged, dispatched on the event bus as `I18nextResourcesLoadFailedEvent` (`{ key, language, error }`) and, when triggered by `changeLanguage`, rejected as an `I18nextResourcesLoadError` (`key`, `language`, `cause`; test with `isI18nextResourcesLoadError(error)`). A failed load never blocks rendering: the instance shows the key or the `fallbackLng` value. No retry, no automatic fallback language — the host decides.
 
 ### Register i18next Instance
 
@@ -496,6 +499,32 @@ instance.init({
 plugin.registerInstance("an-instance-key", instance);
 ```
 
+### Lazy-Load Resources per Language
+
+Static resources put every language in the initial chunk. To ship only the active language, initialize the instance with `resources: {}` (required: i18next then initializes synchronously and creates the store) and pass a `loadResources` function. It receives a language and resolves to a namespace → bundle map (one language entry of the i18next `resources` option). The plugin loads the current language at registration (holding `useIsBootstrapping` until it settles) and any other language before switching to it. A hybrid instance (static resources for one language, loader for the others) is supported: the plugin only loads a language the instance doesn't hold.
+
+```ts
+import { getI18nextPlugin, type LoadResourcesFunction } from "@squide/i18next";
+
+// Each dynamic import becomes a chunk. For a remote module, the chunk is served by the remote.
+const loadResources: LoadResourcesFunction = async language => {
+    const module = await import(`./locales/${language}.json`, { with: { type: "json" } });
+
+    return module.default;
+};
+
+const instance = i18n.createInstance().use(initReactI18next);
+
+instance.init({
+    lng: plugin.currentLanguage,
+    resources: {}
+});
+
+plugin.registerInstance("an-instance-key", instance, { loadResources });
+```
+
+No i18next backend plugin and no `partialBundledLanguages`: `react-i18next` never suspends, the semantics are those of static resources.
+
 ### Use in Components
 
 ```tsx
@@ -508,7 +537,8 @@ function LanguageSwitcher() {
     return (
         <select
             value={currentLanguage}
-            onChange={e => changeLanguage(e.target.value)}
+            // changeLanguage returns a promise; a block body keeps it away from React.
+            onChange={e => { changeLanguage(e.target.value); }}
         >
             <option value="en-US">English</option>
             <option value="fr-CA">French</option>
@@ -522,12 +552,30 @@ function LanguageSwitcher() {
 The displayed language is usually derived from a per-user setting stored remotely, which the frontend only learns about once the session is loaded. The strategy is:
 
 1. Use the language detected at bootstrapping (`detectUserLanguage()`) for anonymous users.
-2. Once the session is loaded, switch to the preferred language it carries.
+2. Once the session is loaded, switch to the preferred language it carries — **from a deferred registration**, not from a React effect. Squide awaits deferred registration functions before the modules become ready, so the switch (including the lazy resources load) completes before the first protected paint. An effect would run after render and flash the detected language first.
 
 ```tsx
-import { AppRouter, useIsBootstrapping, useProtectedDataQueries } from "@squide/firefly";
-import { useChangeLanguage } from "@squide/i18next";
-import { useEffect } from "react";
+// host/src/register.tsx
+import type { FireflyRuntime, ModuleRegisterFunction } from "@squide/firefly";
+import { getI18nextPlugin } from "@squide/i18next";
+
+export const registerHost: ModuleRegisterFunction<FireflyRuntime, unknown, DeferredRegistrationData> = runtime => {
+    const i18nextPlugin = getI18nextPlugin(runtime);
+
+    // Routes, navigation items and i18next instance registration...
+
+    return async (deferredRuntime, data) => {
+        // On an update run with an unchanged language, resolves without switching nor notifying.
+        await i18nextPlugin.changeLanguage(data.session?.user.preferredLanguage ?? i18nextPlugin.currentLanguage);
+    };
+};
+```
+
+```tsx
+// host/src/App.tsx — forward the session and handle a failed load
+import { useDeferredRegistrations, useIsBootstrapping, useProtectedDataQueries, type DeferredRegistrationsErrorCallback } from "@squide/firefly";
+import { isI18nextResourcesLoadError } from "@squide/i18next";
+import { useCallback, useMemo } from "react";
 import { Outlet } from "react-router";
 
 function BootstrappingRoute() {
@@ -536,13 +584,19 @@ function BootstrappingRoute() {
         error => isApiError(error) && error.status === 401
     );
 
-    const changeLanguage = useChangeLanguage();
+    // The rejection of changeLanguage reaches onError as the "cause" of a ModuleRegistrationError.
+    // The application still renders with the previous language.
+    const handleErrors = useCallback<DeferredRegistrationsErrorCallback>(errors => {
+        errors.forEach(x => {
+            if (isI18nextResourcesLoadError(x.cause)) {
+                console.error(`The "${x.cause.language}" resources of "${x.cause.key}" failed to load.`, x.cause);
+            }
+        });
+    }, []);
 
-    useEffect(() => {
-        if (session) {
-            changeLanguage(session.user.preferredLanguage);
-        }
-    }, [session, changeLanguage]);
+    const data = useMemo(() => ({ session }), [session]);
+
+    useDeferredRegistrations(data, { onError: handleErrors });
 
     if (useIsBootstrapping()) {
         return <div>Loading...</div>;
@@ -551,6 +605,8 @@ function BootstrappingRoute() {
     return <Outlet />;
 }
 ```
+
+Combining `mergeDeferredRegistrations([...])` with an `async` function is fine: the merged function awaits each candidate sequentially.
 
 ### Localized Navigation Labels
 
@@ -717,6 +773,37 @@ import { i18nextPlugin } from "@squide/i18next";
 const runtime = await initializeFireflyForStorybook({
     additionalPlugins: [x => new i18nextPlugin(x, ["en-US", "fr-CA"], "en-US", "language")]
 });
+```
+
+### With i18next Resources (Loaders)
+
+`FireflyDecorator` renders as soon as the modules are registered, without a bootstrapping gate. With lazy i18next instances, or to render a story in another language, await `changeLanguage` from a Storybook **loader** (loaders run before decorators). Called with the current language it just waits for the pending loads. A decorator calling `changeLanguage` from an effect is racy for snapshots — don't.
+
+Two timing rules apply in Storybook: `detectUserLanguage()` must run in the plugin factory (a lazy instance cannot be registered without a detected language), and instances must be registered from `localModules`, because `initializeFireflyForStorybook` marks the modules as registered before it returns and `registerInstance` throws afterwards.
+
+```tsx
+import { initializeFireflyForStorybook, withFireflyDecorator } from "@squide/firefly-storybook";
+import { getI18nextPlugin, i18nextPlugin } from "@squide/i18next";
+
+const runtime = await initializeFireflyForStorybook({
+    // registerModule creates and registers the lazy i18next instance.
+    localModules: [registerModule],
+    additionalPlugins: [x => {
+        const plugin = new i18nextPlugin(x, ["en-US", "fr-CA"], "en-US", "language");
+        plugin.detectUserLanguage();
+
+        return plugin;
+    }]
+});
+
+const meta = {
+    decorators: [withFireflyDecorator(runtime)],
+    loaders: [
+        async () => {
+            await getI18nextPlugin(runtime).changeLanguage("fr-CA");
+        }
+    ]
+};
 ```
 
 ## Logging with @workleap/logging
