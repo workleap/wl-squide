@@ -125,7 +125,7 @@ const routes = useRoutes();
 ```
 
 ### useIsBootstrapping()
-Check if application is still bootstrapping. Also stays `true` until every plugin implementing the readiness surface is ready, for example until the `i18nextPlugin` has loaded the resources of the current language (see `references/runtime-api.md`).
+Check if application is still bootstrapping.
 
 ```ts
 import { useIsBootstrapping } from "@squide/firefly";

@@ -23,7 +23,7 @@ Option 4. The `AppRouterReducer` manages the following lifecycle ordering:
 
 1. `modules-registered` — All module `register()` functions have completed.
 2. `msw-ready` — MSW service worker is active (or skipped if `useMsw: false`).
-3. `plugins-ready` — Every plugin implementing the optional readiness surface of `Plugin` (`isReady()`, `registerReadyListener()`, `removeReadyListener()`) is ready. A plugin without the surface counts as ready, and the action is only replayed at initialization when at least one plugin implements it, so existing applications observe no new event. The i18next plugin uses it to hold rendering until the resources of the current language are loaded (ADR-0010).
+3. `plugins-ready` — Every plugin implementing the optional readiness surface of `Plugin` is ready (a plugin without the surface counts as ready).
 4. `modules-ready` — The combined gate: modules registered + MSW ready.
 5. `route-visibility-detected` — The framework knows whether the user is authenticated (public vs. protected layout).
 6. `public-data-ready` — Global public data queries have resolved.
@@ -31,7 +31,7 @@ Option 4. The `AppRouterReducer` manages the following lifecycle ordering:
 8. `deferred-registrations-updated` — Deferred registration functions have re-executed with fresh data.
 9. `feature-flags-updated` — LaunchDarkly flags have been fetched (if enabled).
 
-The `useIsBootstrapping` hook computes readiness from this compound state — it returns `true` until all required phases for the current context (public vs. protected) have completed, plugin readiness included on the 401 path.
+The `useIsBootstrapping` hook computes readiness from this compound state — it returns `true` until all required phases for the current context (public vs. protected) have completed.
 
 **Every readiness input is a one-way latch.** Later changes are reported through `*-updated` timestamps, never by dispatching un-readiness: a flag flipping back would show the bootstrapping fallback over an already rendered page. A plugin implementing the readiness surface must honor the same rule.
 
@@ -39,7 +39,7 @@ The `useIsBootstrapping` hook computes readiness from this compound state — it
 
 A parallel `AppRouterStore` (plain class, not a React hook) provides identical state to non-React consumers via the event bus (ADR-0003). Every reducer action is mirrored to the event bus as `"squide-${action.type}"`, so Honeycomb instrumentation can build OpenTelemetry traces of the bootstrapping sequence without coupling to React. The `useExecuteOnce` utility ensures initial state synchronization between the React reducer and the store — actions dispatched before the React tree mounts are replayed to the reducer on first render.
 
-Evidence: `packages/firefly/src/AppRouterReducer.ts` (13 action types, `useEnhancedReducerDispatch` dispatches to the event bus, `usePluginsStatusDispatcher` subscribes to the not-ready plugins). `packages/firefly/src/useIsBootstrapping.ts` combines multiple boolean conditions. `packages/firefly/src/AppRouterStore.ts` provides the non-React parallel. `packages/firefly/src/useExecuteOnce.ts` handles initial state sync. `packages/core/src/plugins/Plugin.ts` declares the readiness surface.
+Evidence: `packages/firefly/src/AppRouterReducer.ts` (13 action types, `useEnhancedReducerDispatch` dispatches to the event bus). `packages/firefly/src/useIsBootstrapping.ts` combines multiple boolean conditions. `packages/firefly/src/AppRouterStore.ts` provides the non-React parallel. `packages/firefly/src/useExecuteOnce.ts` handles initial state sync.
 
 ## Consequences
 

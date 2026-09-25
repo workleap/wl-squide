@@ -120,10 +120,6 @@ export const registerHost: ModuleRegisterFunction<FireflyRuntime> = runtime => {
 
 In the previous code sample, notice that the `i18next` instance has been initialized with the current language of the `i18nextPlugin` instance by providing the `lng` option. If the user language has been detected during bootstrapping, the `i18next` instance will then be initialized with the user language which has been deduced from either a `?language` querystring parameter or the user navigator language settings. Otherwise, the application instance will be initialized with the fallback language, which is `en-US` for this guide.
 
-!!!warning
-An `i18next` instance must be registered from a module's register function. Once the modules are registered, `registerInstance` throws.
-!!!
-
 ### Localize the home page resources
 
 Then, update the `HomePage` component to use the newly created localized resource:
@@ -322,8 +318,6 @@ export const register: ModuleRegisterFunction<FireflyRuntime> = runtime => {
 }
 ```
 
-While the resources of the current language are loading, the plugin reports itself as [not ready](../reference/i18next/i18nextPlugin.md#wait-for-the-resources-to-be-ready) and [useIsBootstrapping](../reference/routing/useIsBootstrapping.md) stays `true`. When a load fails, the application still renders and the failure is [reported](../reference/i18next/i18nextPlugin.md#handle-a-failed-resources-load) through the logger, the event bus and the `changeLanguage` promise.
-
 ### Localize the page resources
 
 Then, update the `Page` component to use the newly created localized resource:
@@ -403,6 +397,5 @@ If you are experiencing issues with this guide:
     - `[squide] Registered a new i18next instance with key "remote-module".`
     - `[squide] Loaded the "fr-CA" resources of the i18next instance with key "remote-module".`
     - `[squide] The language has been changed to "fr-CA".`
-    - `[squide] Plugins are ready.`
 - Refer to a working example on [GitHub](https://github.com/workleap/wl-squide/tree/main/samples/endpoints).
 - Refer to the [troubleshooting](../troubleshooting.md) page.

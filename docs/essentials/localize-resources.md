@@ -110,7 +110,7 @@ export const register: ModuleRegisterFunction<FireflyRuntime> = runtime => {
 
 ## Lazy-load the resources
 
-With static resources, every supported language lands in the module's initial chunk. To ship only the active language, initialize the instance with an empty `resources` object and provide a [loadResources](../reference/i18next/i18nextPlugin.md#lazy-load-resources-per-language) function when registering it. The plugin loads the resources of the current language right away and holds the rendering until they arrive, then loads any other language before [switching](../reference/i18next/i18nextPlugin.md#change-the-current-language) to it:
+With static resources, every supported language lands in the module's initial chunk. To ship only the active language, initialize the instance with an empty `resources` object and provide a [loadResources](../reference/i18next/i18nextPlugin.md#lazy-load-resources-per-language) function when registering it. The plugin loads the resources of the current language right away, then the resources of any other language before [switching](../reference/i18next/i18nextPlugin.md#change-the-current-language) to it:
 
 ```tsx !#6-11,22-23,26-28 local-module/src/register.tsx
 import type { ModuleRegisterFunction, FireflyRuntime } from "@squide/firefly";
