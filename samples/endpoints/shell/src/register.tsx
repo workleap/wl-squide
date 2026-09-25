@@ -1,3 +1,4 @@
+import { persistPreferredLanguage } from "@endpoints/i18next";
 import { registerLayouts } from "@endpoints/layouts";
 import type { DeferredRegistrationData, LanguageKey } from "@endpoints/shared";
 import { mergeDeferredRegistrations, ProtectedRoutes, PublicRoutes, type DeferredRegistrationFunction, type FireflyRuntime, type ModuleRegisterFunction } from "@squide/firefly";
@@ -124,8 +125,16 @@ function registerPreferredLanguage(runtime: FireflyRuntime): DeferredRegistratio
     const i18nextPlugin = getI18nextPlugin(runtime) as i18nextPlugin<LanguageKey>;
 
     return async (_, data) => {
+        const preferredLanguage = data.session?.user.preferredLanguage;
+
+        if (preferredLanguage) {
+            // Persisted for the next visit, so the detection loads the preferred language at registration
+            // rather than the navigator language, which would download two languages.
+            persistPreferredLanguage(preferredLanguage);
+        }
+
         // On an update run with an unchanged language, this resolves without notifying anyone.
-        await i18nextPlugin.changeLanguage(data.session?.user.preferredLanguage ?? i18nextPlugin.currentLanguage);
+        await i18nextPlugin.changeLanguage(preferredLanguage ?? i18nextPlugin.currentLanguage);
     };
 }
 

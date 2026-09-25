@@ -1,3 +1,4 @@
+import { clearPreferredLanguage } from "@endpoints/i18next";
 import { fetchJson, postJson, toSubscriptionStatusLabel, useSessionManager, useSubscription } from "@endpoints/shared";
 import { isNavigationLink, useEnvironmentVariable, useEnvironmentVariables, useFeatureFlag, useLogger, useNavigationItems, useRenderedNavigationItems, type NavigationLinkRenderProps, type NavigationSectionRenderProps, type RenderItemFunction, type RenderSectionFunction } from "@squide/firefly";
 import { useI18nextInstance } from "@squide/i18next";
@@ -79,6 +80,9 @@ export function AuthenticatedLayout() {
         postJson(`${authenticationApiBaseUrl}logout`)
             .then(() => {
                 sessionManager?.clearSession();
+
+                // Otherwise the next user of this browser starts with the previous user's language until their session is loaded.
+                clearPreferredLanguage();
 
                 logger.debug("[shell] The user session has been cleared.");
 
