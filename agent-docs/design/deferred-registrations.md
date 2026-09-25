@@ -37,19 +37,6 @@ Deferred registrations automatically re-execute when:
 - `usePublicDataQueries` or `useProtectedDataQueries` return new data
 - LaunchDarkly feature flag values change (streaming mode)
 
-## Awaiting a Bootstrap Side Effect
-
-A deferred registration function may be `async`: `LocalModuleRegistry.registerDeferredRegistrations`
-awaits every function before flipping to `"ready"`, which drives `modules-ready` and therefore
-`useIsBootstrapping`. A module can rely on this to complete a side effect that depends on the global
-data before the first page renders, where a React effect would run after render and flash. The
-supported case is the host awaiting `getI18nextPlugin(runtime).changeLanguage(preferredLanguage)`
-so the session's preferred language, lazy resources included, is applied before the first protected
-paint (`samples/endpoints/shell/src/register.tsx`). A rejection is a `ModuleRegistrationError` whose
-`cause` is the original error, delivered to `useDeferredRegistrations({ onError })`; the registry
-still becomes ready. A network load lengthens the sequential deferred registration phase and its
-Honeycomb span, so keep awaited side effects to what must happen before the first render.
-
 ## Registration Scopes
 
 Every deferred registration run is bracketed by a **scope**, opened and closed by

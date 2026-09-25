@@ -17,7 +17,7 @@ import { ProtectedRoutes } from "@squide/react-router";
 import { QueryClientProvider } from "@tanstack/react-query";
 import { act, render, screen, waitFor } from "@testing-library/react";
 import { NoopLogger } from "@workleap/logging";
-import type { ReactNode } from "react";
+import { useEffect, type ReactNode } from "react";
 import { createMemoryRouter, Outlet, RouterProvider } from "react-router";
 import { test, vi } from "vitest";
 import { AppRouter as FireflyAppRouter } from "../src/AppRouter.tsx";
@@ -107,6 +107,11 @@ class DummyReadyPlugin extends Plugin {
                 x();
             });
         }
+    }
+
+    // New work started, the status goes back to not ready without notifying anyone.
+    setAsNotReady() {
+        this.#isReady = false;
     }
 }
 
@@ -904,6 +909,111 @@ test("msw + local modules + readiness-aware plugin", async ({ expect }) => {
 
     expect(onMswReady.mock.invocationCallOrder[0]).toBeLessThan(onPluginsReady.mock.invocationCallOrder[0]);
 
+    expect(onPluginsReady.mock.invocationCallOrder[0]).toBeLessThan(onApplicationBoostrapped.mock.invocationCallOrder[0]);
+});
+
+test("msw + local modules + public data + readiness-aware plugin starting work once the data is fetched", async ({ expect }) => {
+    const localModuleRegistry = new LocalModuleRegistry();
+
+    const runtime = new FireflyRuntime({
+        plugins: [
+            x => new MswPlugin(x),
+            x => new DummyReadyPlugin(x)
+        ],
+        moduleManager: x => new ModuleManager(x, [
+            localModuleRegistry
+        ]),
+        loggers: [new NoopLogger()]
+    });
+
+    const plugin = runtime.getPlugin("dummy-ready-plugin") as DummyReadyPlugin;
+
+    // Ready before the data is fetched, like the i18next plugin once the resources of the detected language are loaded.
+    plugin.setAsReady();
+
+    const onPublicDataReady = vi.fn();
+    const onPluginsReady = vi.fn();
+    const onApplicationBoostrapped = vi.fn();
+
+    runtime.eventBus.addListener(PublicDataReadyEvent, onPublicDataReady);
+    runtime.eventBus.addListener(PluginsReadyEvent, onPluginsReady);
+    runtime.eventBus.addListener(ApplicationBoostrappedEvent, onApplicationBoostrapped);
+
+    const localModules = toLocalModuleDefinitions([
+        x => {
+            x.registerRoute({
+                children: [
+                    ProtectedRoutes
+                ]
+            }, {
+                hoist: true
+            });
+
+            x.registerRoute({
+                path: "/foo",
+                element: "bar"
+            });
+        }
+    ]);
+
+    bootstrap(runtime, [
+        ...localModules
+    ], {
+        startMsw: vi.fn(() => Promise.resolve())
+    });
+
+    await vi.waitUntil(() => localModuleRegistry.registrationStatus === "ready");
+
+    function BootstrappingRoute() {
+        const [data] = usePublicDataQueries([{
+            queryKey: ["foo"],
+            queryFn: () => "bar"
+        }]);
+
+        // Mimics a bootstrapping route switching to the preferred language carried by the data: the plugin starts
+        // new work from an effect of the bootstrapping route, once the data is fetched.
+        useEffect(() => {
+            if (data) {
+                plugin.setAsNotReady();
+            }
+        }, [data]);
+
+        if (useIsBootstrapping()) {
+            return "loading";
+        }
+
+        return <Outlet />;
+    }
+
+    const props: AppRouterProps = {
+        waitForPublicData: true,
+        waitForProtectedData: false,
+        initialEntries: ["/foo"],
+        initialIndex: 0,
+        bootstrappingRoute: <BootstrappingRoute />
+    };
+
+    renderAppRouter(props, runtime);
+
+    await waitFor(() => expect(onPublicDataReady).toHaveBeenCalledOnce());
+
+    // The work started by the bootstrapping route holds the render, even though the plugin was ready before the data
+    // was fetched: the plugins are consulted once every other input is ready, after the bootstrapping route effects.
+    await screen.findByText("loading");
+
+    expect(onPluginsReady).not.toHaveBeenCalled();
+    expect(screen.queryByText("bar")).toBeNull();
+
+    act(() => {
+        plugin.setAsReady();
+    });
+
+    await waitFor(() => screen.findByText("bar"));
+
+    expect(onPluginsReady).toHaveBeenCalledOnce();
+    expect(onApplicationBoostrapped).toHaveBeenCalledOnce();
+
+    expect(onPublicDataReady.mock.invocationCallOrder[0]).toBeLessThan(onPluginsReady.mock.invocationCallOrder[0]);
     expect(onPluginsReady.mock.invocationCallOrder[0]).toBeLessThan(onApplicationBoostrapped.mock.invocationCallOrder[0]);
 });
 

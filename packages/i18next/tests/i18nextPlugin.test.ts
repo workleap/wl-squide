@@ -582,7 +582,7 @@ describe.concurrent("readiness", () => {
         expect(plugin.isReady()).toBeTruthy();
     });
 
-    test.concurrent("when the language is changed after the plugin is ready, the plugin stays ready while loading", async ({ expect }) => {
+    test.concurrent("when the language is changed to a language that must be loaded, the plugin is not ready until the switch completes", async ({ expect }) => {
         const runtime = new DummyRuntime();
         const plugin = createPlugin(runtime);
 
@@ -598,12 +598,79 @@ describe.concurrent("readiness", () => {
 
         const promise = plugin.changeLanguage("fr-CA");
 
-        expect(plugin.isReady()).toBeTruthy();
+        expect(plugin.isReady()).toBeFalsy();
 
         frDeferred.resolve({ ns: { key: "valeur" } });
 
         await promise;
 
+        expect(plugin.currentLanguage).toBe("fr-CA");
+        expect(plugin.isReady()).toBeTruthy();
+    });
+
+    test.concurrent("when the language is changed to a language that every instance holds, the plugin stays ready", async ({ expect }) => {
+        const runtime = new DummyRuntime();
+        const plugin = createPlugin(runtime);
+
+        plugin.registerInstance("an-instance", createInstance("en-US", {
+            "en-US": { ns: { key: "value" } },
+            "fr-CA": { ns: { key: "valeur" } }
+        }));
+
+        await registerModules(runtime);
+
+        plugin.changeLanguage("fr-CA");
+
+        expect(plugin.isReady()).toBeTruthy();
+    });
+
+    test.concurrent("when a pending switch fails, the plugin is ready", async ({ expect }) => {
+        const runtime = new DummyRuntime();
+        const plugin = createPlugin(runtime);
+
+        plugin.registerInstance("an-instance", createInstance("en-US", { "en-US": { ns: { key: "value" } } }), {
+            loadResources: () => Promise.reject(new Error("Network error"))
+        });
+
+        await registerModules(runtime);
+
+        const promise = plugin.changeLanguage("fr-CA");
+
+        expect(plugin.isReady()).toBeFalsy();
+
+        await expect(promise).rejects.toThrow();
+
+        // The language is unchanged and its resources are held, the application can render.
+        expect(plugin.currentLanguage).toBe("en-US");
+        expect(plugin.isReady()).toBeTruthy();
+    });
+
+    test.concurrent("when a pending switch is superseded by a synchronous switch, the plugin is ready right away", async ({ expect }) => {
+        const runtime = new DummyRuntime();
+        const plugin = createPlugin(runtime);
+
+        const frDeferred = createDeferred();
+
+        plugin.registerInstance("an-instance", createInstance("en-US", { "en-US": { ns: { key: "value" } } }), {
+            loadResources: () => frDeferred.promise
+        });
+
+        await registerModules(runtime);
+
+        const frPromise = plugin.changeLanguage("fr-CA");
+
+        expect(plugin.isReady()).toBeFalsy();
+
+        // The instance already holds "en-US", this call is synchronous and supersedes the pending one.
+        await plugin.changeLanguage("en-US");
+
+        expect(plugin.isReady()).toBeTruthy();
+
+        frDeferred.resolve({ ns: { key: "valeur" } });
+
+        await frPromise;
+
+        expect(plugin.currentLanguage).toBe("en-US");
         expect(plugin.isReady()).toBeTruthy();
     });
 
@@ -634,13 +701,16 @@ describe.concurrent("readiness", () => {
         expect(plugin.isReady()).toBeTruthy();
     });
 
-    test.concurrent("when the plugin becomes ready, the ready listeners are called once", async ({ expect }) => {
+    test.concurrent("when the plugin becomes ready, the ready listeners are called on each transition to ready", async ({ expect }) => {
         const runtime = new DummyRuntime();
         const plugin = createPlugin(runtime);
 
-        const deferred = createDeferred();
+        const enDeferred = createDeferred();
+        const frDeferred = createDeferred();
 
-        plugin.registerInstance("an-instance", createInstance("en-US"), { loadResources: () => deferred.promise });
+        plugin.registerInstance("an-instance", createInstance("en-US"), {
+            loadResources: language => language === "fr-CA" ? frDeferred.promise : enDeferred.promise
+        });
 
         const listener = vi.fn();
 
@@ -650,16 +720,22 @@ describe.concurrent("readiness", () => {
 
         expect(listener).not.toHaveBeenCalled();
 
-        deferred.resolve({ ns: { key: "value" } });
+        enDeferred.resolve({ ns: { key: "value" } });
 
         await flushPromises();
 
         expect(listener).toHaveBeenCalledOnce();
 
-        // A later language change doesn't fire the listeners again.
-        await plugin.changeLanguage("fr-CA").catch(() => {});
+        // A switch loading resources makes the plugin not ready, then ready again once the switch completes.
+        const promise = plugin.changeLanguage("fr-CA");
 
         expect(listener).toHaveBeenCalledOnce();
+
+        frDeferred.resolve({ ns: { key: "valeur" } });
+
+        await promise;
+
+        expect(listener).toHaveBeenCalledTimes(2);
     });
 
     test.concurrent("when a ready listener is removed, it is not called", async ({ expect }) => {

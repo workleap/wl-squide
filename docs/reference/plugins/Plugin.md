@@ -31,8 +31,8 @@ onDeferredRegistrationScopeStarted?(options: {
 }): (() => void) | void;
 ```
 
-- `isReady()`: Indicate whether the plugin has finished the asynchronous work the application must wait for before rendering. A plugin that doesn't implement it is always considered ready. See [Report readiness](#report-readiness).
-- `registerReadyListener(callback)`: Register a listener executed once, when the plugin becomes ready.
+- `isReady()`: Indicate whether the asynchronous work the application must wait for before rendering has settled. A plugin that doesn't implement it is always considered ready. See [Report readiness](#report-readiness).
+- `registerReadyListener(callback)`: Register a listener executed every time the plugin becomes ready.
 - `removeReadyListener(callback)`: Remove a previously registered ready listener.
 
 ```ts
@@ -211,9 +211,9 @@ A module that throws doesn't fail the run either. Module errors are collected an
 
 ### Report readiness
 
-A plugin performing asynchronous work that the application must wait for before rendering, such as the [i18nextPlugin](../i18next/i18nextPlugin.md) loading the resources of the current language, reports it through the optional `isReady`, `registerReadyListener` and `removeReadyListener` members. [useIsBootstrapping](../routing/useIsBootstrapping.md) stays `true` until every plugin implementing `isReady` returns `true`.
+A plugin performing asynchronous work that the application must wait for before rendering, such as the [i18nextPlugin](../i18next/i18nextPlugin.md) loading the resources of a language, reports it through the optional `isReady`, `registerReadyListener` and `removeReadyListener` members. Squide consults the plugins once every other bootstrapping input is ready, and [useIsBootstrapping](../routing/useIsBootstrapping.md) stays `true` until every plugin implementing `isReady` returns `true`. Once the application is bootstrapped, the plugins are never consulted again: work started afterwards doesn't hold anything.
 
-Readiness is a **one-way latch**: once `isReady` returns `true`, it never returns `false` again, and the ready listeners are executed **once**, when the latch flips. A plugin that is already ready may never execute a listener registered afterwards, therefore always read `isReady()` first and only subscribe when it returns `false`. Flip the latch when the work fails as well and report the failure through another channel, otherwise the application stays on its bootstrapping fallback.
+`isReady` is a **status**: it returns `false` again when new work starts, and `true` once that work has settled. The ready listeners are executed every time the plugin becomes ready. A plugin that is already ready doesn't execute a listener registered afterwards until its next transition, therefore always read `isReady()` for the current status. Report readiness when the work fails as well, and report the failure through another channel, otherwise the application stays on its bootstrapping fallback.
 
 ```ts !#15-17,19-21,23-25,27-38 my-plugin/src/myPlugin.ts
 import { Plugin, type PluginReadyListener, type Runtime } from "@squide/firefly";

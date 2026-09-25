@@ -23,7 +23,7 @@ Option 4. The `AppRouterReducer` manages the following lifecycle ordering:
 
 1. `modules-registered` — All module `register()` functions have completed.
 2. `msw-ready` — MSW service worker is active (or skipped if `useMsw: false`).
-3. `plugins-ready` — Every plugin implementing the optional readiness surface of `Plugin` is ready (a plugin without the surface counts as ready).
+3. `plugins-ready` — Every plugin implementing the optional readiness surface of `Plugin` is ready (a plugin without the surface counts as ready). The plugins are consulted once every other input is ready, not as soon as they become ready: work a plugin starts from the bootstrapping route once the data is fetched (the i18next plugin switching to the session's preferred language) must hold the render too. All readiness-aware plugins are subscribed at that point and the action is dispatched once when the whole set is ready.
 4. `modules-ready` — The combined gate: modules registered + MSW ready.
 5. `route-visibility-detected` — The framework knows whether the user is authenticated (public vs. protected layout).
 6. `public-data-ready` — Global public data queries have resolved.
@@ -33,7 +33,7 @@ Option 4. The `AppRouterReducer` manages the following lifecycle ordering:
 
 The `useIsBootstrapping` hook computes readiness from this compound state — it returns `true` until all required phases for the current context (public vs. protected) have completed.
 
-**Every readiness input is a one-way latch.** Later changes are reported through `*-updated` timestamps, never by dispatching un-readiness: a flag flipping back would show the bootstrapping fallback over an already rendered page. A plugin implementing the readiness surface must honor the same rule.
+**Every readiness input of the reducer is a one-way latch.** Later changes are reported through `*-updated` timestamps, never by dispatching un-readiness: a flag flipping back would show the bootstrapping fallback over an already rendered page. A plugin's `isReady()` is a status that can go back to `false` when new work starts, but the reducer only reads it until `plugins-ready` is dispatched, which keeps the latch on the reducer side.
 
 **Firefly consumes plugin readiness through the generic surface on `Plugin`; `@squide/core` and `@squide/firefly` never import `@squide/i18next`**, which would push its three peer dependencies onto every firefly consumer.
 

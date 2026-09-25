@@ -207,9 +207,9 @@ plugin.removeLanguageChangedListener(listener);
 
 ### Wait for the resources to be ready
 
-The plugin implements the [readiness surface](../plugins/Plugin.md#report-readiness) of `Plugin`: `isReady`, `registerReadyListener` and `removeReadyListener`. It becomes ready once the modules are registered and every registered instance has settled the load of the current language resources, either by holding them or by failing to load them. [useIsBootstrapping](../routing/useIsBootstrapping.md) waits for it, so the application never renders raw resource keys while the initial resources are loading.
+The plugin implements the [readiness surface](../plugins/Plugin.md#report-readiness) of `Plugin`: `isReady`, `registerReadyListener` and `removeReadyListener`. It is ready once the modules are registered, every registered instance has settled the load of the current language resources, either by holding them or by failing to load them, and no language switch requested with [changeLanguage](#change-the-current-language) is still loading resources.
 
-Readiness is a one-way latch: a later language change never resets it, the pending loads of that change are awaited through the promise returned by [changeLanguage](#change-the-current-language) instead.
+Squide consults the plugin once every other bootstrapping input is ready and holds the render until it is ready, so the application never renders raw resource keys while the initial resources are loading, nor the detected language when the switch to the user preferred language requested by the bootstrapping route is still downloading. Once the application is bootstrapped, a language switch is awaited through the promise returned by `changeLanguage` instead.
 
 ```ts !#5,7-9
 import { i18nextPlugin, i18nextPluginName } from "@squide/i18next";
@@ -217,7 +217,7 @@ import { i18nextPlugin, i18nextPluginName } from "@squide/i18next";
 const plugin = runtime.getPlugin(i18nextPluginName) as i18nextPlugin;
 
 if (!plugin.isReady()) {
-    // A listener registered once the plugin is ready is never executed, always read "isReady" first.
+    // A listener is executed every time the plugin becomes ready, always read "isReady" for the current status.
     plugin.registerReadyListener(() => {
         console.log("The resources of the current language are loaded.");
     });
@@ -226,7 +226,7 @@ if (!plugin.isReady()) {
 
 ### Handle a failed resources load
 
-A failed load never blocks the rendering of the application: the readiness latch treats a failed load as settled, and the affected instance renders what i18next renders for a missing language, which is the resource key or the `fallbackLng` value when one is configured. Every failure is:
+A failed load never blocks the rendering of the application: the readiness status treats a failed load as settled, and the affected instance renders what i18next renders for a missing language, which is the resource key or the `fallbackLng` value when one is configured. Every failure is:
 
 - Logged with the runtime [logger](../logging/useLogger.md).
 - Dispatched on the [event bus](../messaging/useEventBusListener.md) as an `I18nextResourcesLoadFailedEvent`, with a `{ key, language, error }` payload.
@@ -249,7 +249,7 @@ try {
 }
 ```
 
-When `changeLanguage` is awaited from a [deferred registration function](../registration/useDeferredRegistrations.md#await-a-bootstrap-side-effect), the rejection reaches the `onError` callback of `useDeferredRegistrations` as the `cause` of a `ModuleRegistrationError`. Turning a failed load into an error page is left to the application.
+When `changeLanguage` is called from a React effect, handle the rejection to avoid an unhandled promise. Turning a failed load into an error page is left to the application.
 
 ### Change the language detection order
 

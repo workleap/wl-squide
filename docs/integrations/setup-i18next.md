@@ -323,80 +323,26 @@ An instance can be hybrid: initialize it with the static resources of one langua
 
 ### Apply the preferred language
 
-The effect shown in the [backend language setting](#integrate-a-backend-language-setting) section runs after the first render. With lazy resources, the page would render in the detected language while the resources of the preferred language download, then switch. Return a [deferred registration](../essentials/register-deferred-nav-items.md) function instead: Squide awaits the deferred registration functions before the modules become ready, therefore the switch, including the download, completes before the first protected page renders:
+The effect shown in the [backend language setting](#integrate-a-backend-language-setting) section needs no change. Squide consults the plugin once the global data is fetched, and the plugin reports itself as not ready while the resources of the preferred language download, therefore [useIsBootstrapping](../reference/routing/useIsBootstrapping.md) stays `true` and the first protected page renders in the preferred language.
 
-```tsx !#8,10-14 host/src/register.tsx
-import type { ModuleRegisterFunction, FireflyRuntime } from "@squide/firefly";
-import { getI18nextPlugin } from "@squide/i18next";
-import type { DeferredRegistrationData } from "@sample/shared";
+A failed download never blocks the rendering of the application: `changeLanguage` rejects with an [I18nextResourcesLoadError](../reference/i18next/i18nextPlugin.md#handle-a-failed-resources-load), the language is left unchanged and the page renders with the resources of the detected language. Handle the rejection to avoid an unhandled promise:
 
-export const registerHost: ModuleRegisterFunction<FireflyRuntime, unknown, DeferredRegistrationData> = runtime => {
-    // Register the routes, the navigation items and the i18next instance of the host application...
-
-    const i18nextPlugin = getI18nextPlugin(runtime);
-
-    // On an update run with an unchanged language, the call resolves without notifying anyone.
-    return async (deferredRuntime, data) => {
-        await i18nextPlugin.changeLanguage(data.session?.user.preferredLanguage ?? i18nextPlugin.currentLanguage);
-    };
-};
-```
-
-Then, forward the session to the deferred registrations with the [useDeferredRegistrations](../reference/registration/useDeferredRegistrations.md) hook. When the resources of the preferred language fail to download, `changeLanguage` rejects with an [I18nextResourcesLoadError](../reference/i18next/i18nextPlugin.md#handle-a-failed-resources-load) and the language is left unchanged. The rejection reaches the `onError` callback of the hook as the `cause` of a `ModuleRegistrationError`:
-
-```tsx !#13-20,22-28 host/src/App.tsx
-import { AppRouter, useProtectedDataQueries, useIsBootstrapping, useDeferredRegistrations, type DeferredRegistrationsErrorCallback } from "@squide/firefly";
-import { isI18nextResourcesLoadError } from "@squide/i18next";
-import { useCallback, useMemo } from "react";
-import { Outlet } from "react-router";
-import { isApiError, type DeferredRegistrationData } from "@sample/shared";
-
-function BootstrappingRoute() {
-    const [session] = useProtectedDataQueries(
-        [getSessionQuery],
-        error => isApiError(error) && error.status === 401
-    );
-
-    const handleDeferredRegistrationErrors = useCallback<DeferredRegistrationsErrorCallback>(errors => {
-        errors.forEach(x => {
-            if (isI18nextResourcesLoadError(x.cause)) {
-                // The application still renders with the previous language, an error page is optional.
-                console.error(`The "${x.cause.language}" resources of the "${x.cause.key}" instance failed to load.`, x.cause);
-            }
-        });
-    }, []);
-
-    const data: DeferredRegistrationData = useMemo(() => ({
-        session
-    }), [session]);
-
-    useDeferredRegistrations(data, {
-        onError: handleDeferredRegistrationErrors
-    });
-
-    if (useIsBootstrapping()) {
-        return <div>Loading...</div>;
+```tsx !#4-7
+useEffect(() => {
+    if (session) {
+        changeLanguage(session.user.preferredLanguage)
+            .catch(() => {
+                // The plugin already logged the failure and dispatched an event, the application renders with the current language.
+            });
     }
-
-    return <Outlet />;
-}
+}, [session, changeLanguage]);
 ```
-
-==- :icon-file-code: @sample/shared
-```ts
-export interface DeferredRegistrationData {
-    session?: Session;
-}
-```
-===
-
-A failed download never blocks the rendering of the application: the affected instance renders what `i18next` renders for a missing language, which is the resource key or the `fallbackLng` value when one is configured. Every failure is also logged and dispatched on the event bus as an `I18nextResourcesLoadFailedEvent`, refer to the [reference](../reference/i18next/i18nextPlugin.md#handle-a-failed-resources-load) for the details.
 
 ### Align the detected language with the preferred language
 
-The modules register before any global data is fetched, therefore the plugin loads the resources of the language [detected at bootstrapping](#register-the-plugin) when an instance is registered: the querystring parameter, the navigator language or the fallback language. The login page and every public page render from these resources. The user preferred language is only known once the session is loaded, and the deferred registration then downloads its resources before the first protected page renders.
+The modules register before any global data is fetched, therefore the plugin loads the resources of the language [detected at bootstrapping](#register-the-plugin) when an instance is registered: the querystring parameter, the navigator language or the fallback language. The login page and every public page render from these resources. The user preferred language is only known once the session is loaded, and the switch then downloads its resources before the first protected page renders.
 
-When the detected language differs from the preferred language, **both languages are downloaded**: the detected one at registration, the preferred one during the deferred registration. That is what bundling every language downloads today, so lazy loading is never worse than static resources, but the saving only materializes when both languages match. They match when the browser language is the preferred language, or when the URL carries the `?language` querystring parameter.
+When the detected language differs from the preferred language, **both languages are downloaded**: the detected one at registration, the preferred one when the session is loaded. That is what bundling every language downloads today, so lazy loading is never worse than static resources, but the saving only materializes when both languages match. They match when the browser language is the preferred language, or when the URL carries the `?language` querystring parameter.
 
 To make them match for every returning user, persist the preferred language in the local storage once the session is loaded, and detect it before the navigator language by adding the `localStorage` source to the plugin [detection order](../reference/i18next/i18nextPlugin.md#add-an-additional-detection-source):
 
@@ -419,19 +365,15 @@ const runtime = initializeFirefly({
 });
 ```
 
-```tsx !#7-8 host/src/register.tsx
-export const registerHost: ModuleRegisterFunction<FireflyRuntime, unknown, DeferredRegistrationData> = runtime => {
-    const i18nextPlugin = getI18nextPlugin(runtime);
-
-    return async (deferredRuntime, data) => {
-        const preferredLanguage = data.session?.user.preferredLanguage ?? i18nextPlugin.currentLanguage;
-
+```tsx !#3-4
+useEffect(() => {
+    if (session) {
         // Persisted for the next visit, so the detection loads the preferred language right away.
-        localStorage.setItem("preferred-language", preferredLanguage);
+        localStorage.setItem("preferred-language", session.user.preferredLanguage);
 
-        await i18nextPlugin.changeLanguage(preferredLanguage);
-    };
-};
+        changeLanguage(session.user.preferredLanguage);
+    }
+}, [session, changeLanguage]);
 ```
 
 Keep the persisted value after a logout: the next session on the same browser is most likely the same user, and the login page then renders in their language. A different user of the same browser sees the previous user's language until their own session is loaded, at which point the switch above applies and updates the persisted value.

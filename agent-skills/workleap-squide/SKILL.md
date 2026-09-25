@@ -236,4 +236,4 @@ When working with Squide APIs, watch for these common mistakes:
 
 4. **Deferred registration runtime parameter**: The deferred registration callback receives `deferredRuntime` as its first argument — this is NOT the same `runtime` from the outer registration function. Always use `deferredRuntime` inside the deferred callback for `registerNavigationItem`, `getFeatureFlag`, etc.
 
-5. **i18next instances and `changeLanguage`**: Register i18next instances only from a module's `register()` function (`registerInstance` throws once the modules are registered). `changeLanguage` returns a promise: `await` it, use a block body in effects, and apply a session's preferred language by awaiting it from a deferred registration rather than a React effect (see `references/integrations.md`).
+5. **i18next instances and `changeLanguage`**: Register i18next instances only from a module's `register()` function (`registerInstance` throws once the modules are registered). `changeLanguage` returns a promise: `await` it or handle its rejection, and use a block body in effects (see `references/integrations.md`).

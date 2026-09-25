@@ -22,7 +22,7 @@ export interface DeferredRegistrationScopeOptions {
 }
 
 /**
- * Executed once, when a plugin becomes ready.
+ * Executed when a plugin becomes ready.
  */
 export type PluginReadyListener = () => void;
 
@@ -58,12 +58,14 @@ export abstract class Plugin<TRuntime extends Runtime = Runtime> {
     onDeferredRegistrationScopeStarted?(options: DeferredRegistrationScopeOptions): DeferredRegistrationScopeCompletionFunction | void;
 
     /**
-     * Optional. Indicates whether the plugin has finished the asynchronous work the application must wait for before
-     * rendering, such as loading the resources of the current language. A plugin that doesn't implement it is
-     * always considered ready.
+     * Optional. Indicates whether the asynchronous work the application must wait for before rendering has settled,
+     * such as loading the resources of the requested language. A plugin that doesn't implement it is always
+     * considered ready.
      *
-     * Readiness is a one-way latch: once it returns "true", it never returns "false" again, whatever the plugin does
-     * afterwards. Work started after the latch flipped is the plugin's own to await.
+     * It's a status rather than a latch: it returns "false" again when new work starts, and "true" once that work
+     * has settled. The application consults it once every other bootstrapping input is ready and holds the render
+     * until it returns "true", then never consults it again: work started once the application is bootstrapped
+     * doesn't hold anything.
      *
      * @remarks
      * This must stay an optional *method* signature. Declared as an optional property, it emits a class
@@ -72,9 +74,9 @@ export abstract class Plugin<TRuntime extends Runtime = Runtime> {
     isReady?(): boolean;
 
     /**
-     * Optional. Registers a listener executed once, when the readiness latch flips. A plugin that is already ready
-     * may never execute a listener registered afterwards, therefore a consumer must read {@link isReady} first and
-     * only subscribe when it returns "false".
+     * Optional. Registers a listener executed every time the plugin becomes ready. A plugin that is already ready
+     * doesn't execute a listener registered afterwards until its next transition, therefore a consumer must read
+     * {@link isReady} first.
      *
      * @remarks
      * This must stay an optional *method* signature, for the same reason as {@link isReady}.

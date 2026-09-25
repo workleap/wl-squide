@@ -63,6 +63,8 @@ export class i18nextPlugin<T extends string = string> extends Plugin {
     #currentLanguage?: T;
     #isReady = false;
     #changeLanguageToken = 0;
+    // Whether the latest "changeLanguage" call is still loading resources.
+    #isSwitchPending = false;
 
     readonly #supportedLanguages: T[];
     readonly #fallbackLanguage: T;
@@ -83,8 +85,8 @@ export class i18nextPlugin<T extends string = string> extends Plugin {
             ...(detection ?? {})
         });
 
-        // Readiness is only evaluated once the modules are registered, otherwise an empty registry would latch the
-        // plugin before any module registers an instance with resources to load.
+        // Readiness is only reported once the modules are registered, otherwise an empty registry would report the
+        // plugin as ready before any module registers an instance with resources to load.
         this._runtime.moduleManager.registerModulesRegisteredListener(() => {
             this.#evaluateReadiness();
         });
@@ -205,8 +207,13 @@ export class i18nextPlugin<T extends string = string> extends Plugin {
             .filter(x => !this.#holdsLanguage(x, language))
             .map(x => this.#ensureLanguage(x, language));
 
+        // The readiness status reports the latest requested switch: the plugin isn't ready while its resources load.
+        this.#isSwitchPending = pendingLoads.length > 0;
+
         // Only awaiting when a load is needed keeps a switch between static instances synchronous.
         if (pendingLoads.length > 0) {
+            this.#evaluateReadiness();
+
             try {
                 await Promise.all(pendingLoads);
             } catch (error: unknown) {
@@ -214,29 +221,33 @@ export class i18nextPlugin<T extends string = string> extends Plugin {
                     return;
                 }
 
+                // The language is left unchanged and its resources are settled, the application can render.
+                this.#isSwitchPending = false;
+                this.#evaluateReadiness();
+
                 throw error;
             }
 
             if (token !== this.#changeLanguageToken) {
                 return;
             }
+
+            this.#isSwitchPending = false;
         }
 
-        if (language === this.#currentLanguage) {
-            return;
+        if (language !== this.#currentLanguage) {
+            this.#registry.getInstances().forEach(x => {
+                x.changeLanguage(language);
+            });
+
+            this.#currentLanguage = language;
+
+            this._runtime.logger.information(`[squide] The language has been changed to "${this.#currentLanguage}".`);
+
+            this.#languageChangedListeners.forEach(x => {
+                x();
+            });
         }
-
-        this.#registry.getInstances().forEach(x => {
-            x.changeLanguage(language);
-        });
-
-        this.#currentLanguage = language;
-
-        this._runtime.logger.information(`[squide] The language has been changed to "${this.#currentLanguage}".`);
-
-        this.#languageChangedListeners.forEach(x => {
-            x();
-        });
 
         this.#evaluateReadiness();
     }
@@ -250,9 +261,11 @@ export class i18nextPlugin<T extends string = string> extends Plugin {
     }
 
     /**
-     * Whether every registered instance has settled the load of the current language resources, which is a one-way
-     * latch evaluated once the modules are registered. A failed load counts as settled so the application still
-     * renders. A later language change never resets it.
+     * Whether the modules are registered, every registered instance has settled the load of the current language
+     * resources and no language switch requested with {@link changeLanguage} is still loading. A failed load counts
+     * as settled so the application still renders. The application consults it once every other bootstrapping input
+     * is ready, therefore a switch to the user preferred language requested from the bootstrapping route holds the
+     * render until its resources are loaded.
      */
     isReady() {
         return this.#isReady;
@@ -334,13 +347,13 @@ export class i18nextPlugin<T extends string = string> extends Plugin {
         }
     }
 
-    #evaluateReadiness() {
-        if (this.#isReady) {
-            return;
+    #computeReadiness() {
+        if (!this._runtime.moduleManager.getAreModulesRegistered()) {
+            return false;
         }
 
-        if (!this._runtime.moduleManager.getAreModulesRegistered()) {
-            return;
+        if (this.#isSwitchPending) {
+            return false;
         }
 
         // Reading the field rather than the getter: this executes from the module registries status listeners, which
@@ -348,21 +361,24 @@ export class i18nextPlugin<T extends string = string> extends Plugin {
         const language = this.#currentLanguage;
 
         // A loader can only be registered once a language has been detected, therefore without a language every entry is static.
-        const isSettled = isNil(language) || this.#registry.getEntries().every(x => {
+        return isNil(language) || this.#registry.getEntries().every(x => {
             return this.#holdsLanguage(x, language) || x.failedLanguages.has(language);
         });
+    }
 
-        if (isSettled) {
-            this.#isReady = true;
+    #evaluateReadiness() {
+        const wasReady = this.#isReady;
 
+        this.#isReady = this.#computeReadiness();
+
+        // The listeners are only notified of a transition to ready, a consumer reads "isReady" for the current status.
+        if (this.#isReady && !wasReady) {
             this._runtime.logger.debug("[squide] The i18next plugin is ready.");
 
-            this.#readyListeners.forEach(x => {
+            // Copying the listeners in case one is removed while notifying.
+            new Set(this.#readyListeners).forEach(x => {
                 x();
             });
-
-            // The latch never flips back, the listeners would never be executed again.
-            this.#readyListeners.clear();
         }
     }
 }

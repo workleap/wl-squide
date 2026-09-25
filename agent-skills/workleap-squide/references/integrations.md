@@ -467,7 +467,7 @@ const plugin = new i18nextPlugin(x, ["en-US", "fr-CA"], "en-US", "language", {
 | `detectUserLanguage()` | Detect the user language, falling back to `fallbackLanguage` |
 | `changeLanguage(language): Promise<void>` | Load the language into every lazy instance lacking it, then switch every instance. **Await it.** Rejects with `I18nextResourcesLoadError` on a failed load (language unchanged), and with a plain `Error` when not in `supportedLanguages`. Latest call wins under concurrency. Called with the current language, waits for pending loads without notifying |
 | `registerLanguageChangedListener(listener)` / `removeLanguageChangedListener(listener)` | Subscribe to language changes |
-| `isReady()` / `registerReadyListener(listener)` / `removeReadyListener(listener)` | Readiness surface consumed by `useIsBootstrapping`: ready once the modules are registered and every instance settled the load of the current language (a failed load counts as settled). One-way latch, listeners fire once; read `isReady()` first |
+| `isReady()` / `registerReadyListener(listener)` / `removeReadyListener(listener)` | Readiness surface consumed by `useIsBootstrapping`: ready once the modules are registered, every instance settled the load of the current language (a failed load counts as settled) and no `changeLanguage` call is still loading. A status, not a latch; listeners fire on each transition to ready |
 
 Prefer `getI18nextPlugin(runtime)` over `runtime.getPlugin(i18nextPluginName) as i18nextPlugin`.
 
@@ -525,35 +525,19 @@ plugin.registerInstance("an-instance-key", instance, { loadResources });
 
 No i18next backend plugin and no `partialBundledLanguages`: `react-i18next` never suspends, the semantics are those of static resources.
 
-**Apply the preferred language from a deferred registration**, not from the `useEffect` shown in "Apply a Backend Preferred Language Setting". Squide awaits deferred registration functions before the modules become ready, so the switch, including the download of the preferred language, completes before the first protected paint. A failed download rejects `changeLanguage` with an `I18nextResourcesLoadError` (language unchanged) and reaches `useDeferredRegistrations({ onError })` as the `cause` of a `ModuleRegistrationError`:
+**The preferred language switch stays in `BootstrappingRoute`** (the `useEffect` shown in "Apply a Backend Preferred Language Setting"). Firefly consults the plugins once the data is fetched, after the bootstrapping route's effects, and the plugin reports not ready while the preferred language downloads, so `useIsBootstrapping()` holds the render. A failed download rejects `changeLanguage` with an `I18nextResourcesLoadError`, the language is unchanged and the app renders anyway; handle the rejection to avoid an unhandled promise:
 
 ```tsx
-// host/src/register.tsx
-export const registerHost: ModuleRegisterFunction<FireflyRuntime, unknown, DeferredRegistrationData> = runtime => {
-    const i18nextPlugin = getI18nextPlugin(runtime);
-
-    return async (deferredRuntime, data) => {
-        // On an update run with an unchanged language, resolves without switching nor notifying.
-        await i18nextPlugin.changeLanguage(data.session?.user.preferredLanguage ?? i18nextPlugin.currentLanguage);
-    };
-};
-
-// host/src/App.tsx
-const handleErrors = useCallback<DeferredRegistrationsErrorCallback>(errors => {
-    errors.forEach(x => {
-        if (isI18nextResourcesLoadError(x.cause)) {
-            // The application still renders with the previous language.
-            console.error(`The "${x.cause.language}" resources of "${x.cause.key}" failed to load.`, x.cause);
-        }
-    });
-}, []);
-
-useDeferredRegistrations(useMemo(() => ({ session }), [session]), { onError: handleErrors });
+useEffect(() => {
+    if (session) {
+        changeLanguage(session.user.preferredLanguage).catch(() => {
+            // Already logged and dispatched (I18nextResourcesLoadFailedEvent) by the plugin.
+        });
+    }
+}, [session, changeLanguage]);
 ```
 
-Combining `mergeDeferredRegistrations([...])` with an `async` function is fine: the merged function awaits each candidate sequentially.
-
-**Limitation — detected vs preferred language.** Modules register before any global data, so the language loaded at registration is the one **detected at bootstrapping** (`?language` querystring, navigator language, fallback), never the user's stored preference. The preferred language is only known once the session is loaded; the deferred registration then loads it before the first protected paint. When detected ≠ preferred, **both languages are downloaded**: never worse than bundling every language, but no saving either. Always pair lazy loading with the workaround below, otherwise a user whose browser language differs from the stored preference gains nothing:
+**Limitation — detected vs preferred language.** Modules register before any global data, so the language loaded at registration is the one **detected at bootstrapping** (`?language` querystring, navigator language, fallback), never the user's stored preference. The preferred language is only known once the session is loaded; the switch requested by `BootstrappingRoute` then loads it before the first protected paint. When detected ≠ preferred, **both languages are downloaded**: never worse than bundling every language, but no saving either. Always pair lazy loading with the workaround below, otherwise a user whose browser language differs from the stored preference gains nothing:
 
 ```ts
 // Plugin factory: detect the persisted preference before the navigator language. The querystring still wins.
@@ -564,14 +548,14 @@ const plugin = new i18nextPlugin(x, ["en-US", "fr-CA"], "en-US", "language", {
     }
 });
 
-// Host deferred registration: persist the preference for the next visit, then switch.
-return async (deferredRuntime, data) => {
-    const preferredLanguage = data.session?.user.preferredLanguage ?? plugin.currentLanguage;
+// BootstrappingRoute effect: persist the preference for the next visit, then switch.
+useEffect(() => {
+    if (session) {
+        localStorage.setItem("preferred-language", session.user.preferredLanguage);
 
-    localStorage.setItem("preferred-language", preferredLanguage);
-
-    await plugin.changeLanguage(preferredLanguage);
-};
+        changeLanguage(session.user.preferredLanguage);
+    }
+}, [session, changeLanguage]);
 ```
 
 Keep the persisted value after a logout: the next session on the same browser is most likely the same user, so the login page renders in their language and returning users download a single language. A different user sees the previous language until their session loads, then the switch updates the persisted value.
@@ -632,7 +616,7 @@ function BootstrappingRoute() {
 }
 ```
 
-With lazy-loaded resources, switch from a deferred registration instead of the effect (see "Lazy-Load Resources per Language" below): the effect runs after the first render, so the page would show the detected language while the preferred language downloads.
+The same effect works with lazy-loaded resources: firefly consults the plugin once the data is fetched, and the plugin reports not ready while the preferred language downloads, so the first protected paint is already in the preferred language. With lazy resources `changeLanguage` can reject (failed download), add a `.catch` (see "Lazy-Load Resources per Language" below).
 
 ### Localized Navigation Labels
 

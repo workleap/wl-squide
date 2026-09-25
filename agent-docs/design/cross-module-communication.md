@@ -52,8 +52,9 @@ interface extending `Plugin` and is duck-typed at the call site, as `FireflyPlug
 `registerHoneycombTrackingListeners`.
 
 `Plugin` also carries an optional readiness surface, `isReady()`, `registerReadyListener()` and
-`removeReadyListener()`, for a plugin whose asynchronous work must complete before the application
-renders. `@squide/firefly` consumes it generically and never imports `@squide/i18next`. See ADR-0009.
+`removeReadyListener()`, for a plugin whose asynchronous work must settle before the application
+renders. `isReady()` is a status, not a latch. `@squide/firefly` consults it once every other
+bootstrapping input is ready and never imports `@squide/i18next`. See ADR-0009.
 
 ## Shared Types
 
