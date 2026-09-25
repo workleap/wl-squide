@@ -525,6 +525,29 @@ plugin.registerInstance("an-instance-key", instance, { loadResources });
 
 No i18next backend plugin and no `partialBundledLanguages`: `react-i18next` never suspends, the semantics are those of static resources.
 
+**Limitation — detected vs preferred language.** Modules register before any global data, so the language loaded at registration is the one **detected at bootstrapping** (`?language` querystring, navigator language, fallback), never the user's stored preference. The preferred language is only known once the session is loaded; the deferred registration then loads it before the first protected paint. When detected ≠ preferred, **both languages are downloaded**: never worse than bundling every language, but no saving either. Always pair lazy loading with the workaround below, otherwise a user whose browser language differs from the stored preference gains nothing:
+
+```ts
+// Plugin factory: detect the persisted preference before the navigator language. The querystring still wins.
+const plugin = new i18nextPlugin(x, ["en-US", "fr-CA"], "en-US", "language", {
+    detection: {
+        order: ["querystring", "localStorage", "navigator"],
+        lookupLocalStorage: "preferred-language"
+    }
+});
+
+// Host deferred registration: persist the preference for the next visit, then switch.
+return async (deferredRuntime, data) => {
+    const preferredLanguage = data.session?.user.preferredLanguage ?? plugin.currentLanguage;
+
+    localStorage.setItem("preferred-language", preferredLanguage);
+
+    await plugin.changeLanguage(preferredLanguage);
+};
+```
+
+Clear the persisted value on logout, otherwise the next user of the browser starts with the previous user's language until their session loads. Returning users then detect their preferred language at bootstrapping and download a single language.
+
 ### Use in Components
 
 ```tsx

@@ -113,7 +113,7 @@ export const register: ModuleRegisterFunction<FireflyRuntime> = runtime => {
 
 When an instance is registered with a `loadResources` function, the plugin:
 
-- Loads the resources of the [current language](#retrieve-the-current-language) right away, unless the instance already holds them. The plugin reports itself as [not ready](#wait-for-the-resources-to-be-ready) until that load settles, which keeps [useIsBootstrapping](../routing/useIsBootstrapping.md) `true`.
+- Loads the resources of the [current language](#retrieve-the-current-language) right away, unless the instance already holds them. The plugin reports itself as [not ready](#wait-for-the-resources-to-be-ready) until that load settles, which keeps [useIsBootstrapping](../routing/useIsBootstrapping.md) `true`. At registration, the current language is the one [detected](#detect-the-user-language) at bootstrapping, not the user preferred language, which is only known once the session is loaded: when they differ, both languages are downloaded. See [align the detected language with the preferred language](../../integrations/setup-i18next.md#align-the-detected-language-with-the-preferred-language) for the way around it.
 - Adds the loaded bundles to the instance with [addResourceBundle](https://www.i18next.com/overview/api#addresourcebundle) and re-applies the language so the mounted components render the new resources.
 - Loads the resources of any language the instance doesn't hold yet [when the language changes](#change-the-current-language), before switching.
 

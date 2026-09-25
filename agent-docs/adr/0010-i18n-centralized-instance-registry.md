@@ -36,3 +36,4 @@ Evidence: `packages/i18next/src/i18nextPlugin.ts` (`changeLanguage` loads then i
 - Modules must register their instance with the plugin during their `register()` function, which the plugin enforces.
 - The plugin is opt-in — applications without i18n support pay no cost.
 - A failed resources load is fail-open: the application renders and the failure is reported through the logger, the event bus and the `changeLanguage` rejection. An error page, a retry or a fallback language is left to the host.
+- The initial load targets the language detected at bootstrapping, because modules register before any global data. A session's preferred language, when different, costs a second download during the deferred registration. The documented mitigation is host-side: persist the preferred language and detect it through the `localStorage` detection source.

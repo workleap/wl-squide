@@ -291,7 +291,11 @@ Next, follow the [localize resources](../essentials/localize-resources.md) essen
 
 ## Lazy-load the resources
 
-With the setup described so far, the resources of every supported language are bundled with the module and land in its initial chunk. The `i18nextPlugin` can instead load the resources of a language on demand: the current language when the instance is registered, then any other language before switching to it. The application only downloads the active language, and [useIsBootstrapping](../reference/routing/useIsBootstrapping.md) stays `true` until the resources of the current language are loaded, so a page never renders raw resource keys.
+With the setup described so far, the resources of every supported language are bundled with the module and land in its initial chunk. The `i18nextPlugin` can instead load the resources of a language on demand: the language [detected at bootstrapping](#register-the-plugin) when the instance is registered, then any other language before switching to it. The application only downloads the active language, and [useIsBootstrapping](../reference/routing/useIsBootstrapping.md) stays `true` until the resources of the current language are loaded, so a page never renders raw resource keys.
+
+!!!warning
+The user [preferred language](#integrate-a-backend-language-setting) is not known at registration. When it differs from the detected language, both languages are downloaded. Read [align the detected language with the preferred language](#align-the-detected-language-with-the-preferred-language) before adopting lazy loading.
+!!!
 
 ### Register a lazy instance
 
@@ -341,6 +345,50 @@ The empty `resources` object is required. Without a `resources` option, `i18next
 !!!
 
 An instance can be hybrid: initialize it with the static resources of one language and provide a `loadResources` function for the others. The plugin only loads a language the instance doesn't hold. Modules with static resources and modules with lazy resources can coexist. For a [remote module](../module-federation/setup-i18next.md), each dynamic import becomes a chunk of the remote, served through Module Federation like any other chunk of that module.
+
+### Align the detected language with the preferred language
+
+The modules register before any global data is fetched, therefore the plugin loads the resources of the language [detected at bootstrapping](#register-the-plugin) when an instance is registered: the querystring parameter, the navigator language or the fallback language. The login page and every public page render from these resources. The user [preferred language](#integrate-a-backend-language-setting) is only known once the session is loaded, and the deferred registration then loads its resources before the first protected page renders.
+
+When the detected language differs from the preferred language, **both languages are downloaded**: the detected one at registration, the preferred one during the deferred registration. That is what bundling every language downloads today, so lazy loading is never worse than static resources, but the saving only materializes when both languages match. They match when the browser language is the preferred language, or when the URL carries the `?language` querystring parameter.
+
+To make them match for every returning user, persist the preferred language in the local storage once the session is loaded, and detect it before the navigator language by adding the `localStorage` source to the plugin [detection order](../reference/i18next/i18nextPlugin.md#add-an-additional-detection-source):
+
+```ts !#5-9 host/src/index.tsx
+const runtime = initializeFirefly({
+    localModules: [registerHost],
+    plugins: [x => {
+        const i18nextPlugin = new i18nextPlugin(x, ["en-US", "fr-CA"], "en-US", "language", {
+            detection: {
+                // The querystring still wins, then the persisted preferred language, then the navigator language.
+                order: ["querystring", "localStorage", "navigator"],
+                lookupLocalStorage: "preferred-language"
+            }
+        });
+
+        i18nextPlugin.detectUserLanguage();
+
+        return i18nextPlugin;
+    }]
+});
+```
+
+```tsx !#7-8 host/src/register.tsx
+export const registerHost: ModuleRegisterFunction<FireflyRuntime, unknown, DeferredRegistrationData> = runtime => {
+    const i18nextPlugin = getI18nextPlugin(runtime);
+
+    return async (deferredRuntime, data) => {
+        const preferredLanguage = data.session?.user.preferredLanguage ?? i18nextPlugin.currentLanguage;
+
+        // Persisted for the next visit, so the detection loads the preferred language right away.
+        localStorage.setItem("preferred-language", preferredLanguage);
+
+        await i18nextPlugin.changeLanguage(preferredLanguage);
+    };
+};
+```
+
+Clear the persisted value when the user logs out, otherwise the next user of the same browser starts with the previous user's language until their own session is loaded.
 
 ### Handle a failed load
 
