@@ -53,30 +53,25 @@ const plugin = runtime.getPlugin(i18nextPluginName) as i18nextPlugin;
 
 ### Register a i18next instance
 
-An instance must be registered from a module's [register function](../registration/initializeFirefly.md). Once the modules are registered, `registerInstance` throws, which means an instance cannot be registered from a [deferred registration function](../registration/useDeferredRegistrations.md).
-
-```ts !#19
-import { getI18nextPlugin } from "@squide/i18next";
-import i18n from "i18next";
+```ts !#15
+import { i18nextPlugin, i18nextPluginName } from "@squide/i18next";
+import i18n from "./i18next";
 import resourcesEn from "./locales/en.json";
 import resourcesFr from "./locales/fr.json";
 
-export const register: ModuleRegisterFunction<FireflyRuntime> = runtime => {
-    const plugin = getI18nextPlugin(runtime);
+const instance = i18n.createInstance({
+    resources: {
+        "en-US": resourcesEn,
+        "fr-CA": resourcesFr
+    }
+});
 
-    const instance = i18n.createInstance();
+const plugin = runtime.getPlugin(i18nextPluginName) as i18nextPlugin;
 
-    instance.init({
-        lng: plugin.currentLanguage,
-        resources: {
-            "en-US": resourcesEn,
-            "fr-CA": resourcesFr
-        }
-    });
-
-    plugin.registerInstance("an-instance-key", instance);
-};
+plugin.registerInstance("an-instance-key", instance);
 ```
+
+An instance must be registered from a module's [register function](../registration/initializeFirefly.md). Once the modules are registered, `registerInstance` throws.
 
 ### Lazy-load resources per language
 

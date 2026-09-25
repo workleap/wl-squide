@@ -525,6 +525,34 @@ plugin.registerInstance("an-instance-key", instance, { loadResources });
 
 No i18next backend plugin and no `partialBundledLanguages`: `react-i18next` never suspends, the semantics are those of static resources.
 
+**Apply the preferred language from a deferred registration**, not from the `useEffect` shown in "Apply a Backend Preferred Language Setting". Squide awaits deferred registration functions before the modules become ready, so the switch, including the download of the preferred language, completes before the first protected paint. A failed download rejects `changeLanguage` with an `I18nextResourcesLoadError` (language unchanged) and reaches `useDeferredRegistrations({ onError })` as the `cause` of a `ModuleRegistrationError`:
+
+```tsx
+// host/src/register.tsx
+export const registerHost: ModuleRegisterFunction<FireflyRuntime, unknown, DeferredRegistrationData> = runtime => {
+    const i18nextPlugin = getI18nextPlugin(runtime);
+
+    return async (deferredRuntime, data) => {
+        // On an update run with an unchanged language, resolves without switching nor notifying.
+        await i18nextPlugin.changeLanguage(data.session?.user.preferredLanguage ?? i18nextPlugin.currentLanguage);
+    };
+};
+
+// host/src/App.tsx
+const handleErrors = useCallback<DeferredRegistrationsErrorCallback>(errors => {
+    errors.forEach(x => {
+        if (isI18nextResourcesLoadError(x.cause)) {
+            // The application still renders with the previous language.
+            console.error(`The "${x.cause.language}" resources of "${x.cause.key}" failed to load.`, x.cause);
+        }
+    });
+}, []);
+
+useDeferredRegistrations(useMemo(() => ({ session }), [session]), { onError: handleErrors });
+```
+
+Combining `mergeDeferredRegistrations([...])` with an `async` function is fine: the merged function awaits each candidate sequentially.
+
 **Limitation — detected vs preferred language.** Modules register before any global data, so the language loaded at registration is the one **detected at bootstrapping** (`?language` querystring, navigator language, fallback), never the user's stored preference. The preferred language is only known once the session is loaded; the deferred registration then loads it before the first protected paint. When detected ≠ preferred, **both languages are downloaded**: never worse than bundling every language, but no saving either. Always pair lazy loading with the workaround below, otherwise a user whose browser language differs from the stored preference gains nothing:
 
 ```ts
@@ -560,8 +588,7 @@ function LanguageSwitcher() {
     return (
         <select
             value={currentLanguage}
-            // changeLanguage returns a promise; a block body keeps it away from React.
-            onChange={e => { changeLanguage(e.target.value); }}
+            onChange={e => changeLanguage(e.target.value)}
         >
             <option value="en-US">English</option>
             <option value="fr-CA">French</option>
@@ -575,30 +602,12 @@ function LanguageSwitcher() {
 The displayed language is usually derived from a per-user setting stored remotely, which the frontend only learns about once the session is loaded. The strategy is:
 
 1. Use the language detected at bootstrapping (`detectUserLanguage()`) for anonymous users.
-2. Once the session is loaded, switch to the preferred language it carries — **from a deferred registration**, not from a React effect. Squide awaits deferred registration functions before the modules become ready, so the switch (including the lazy resources load) completes before the first protected paint. An effect would run after render and flash the detected language first.
+2. Once the session is loaded, switch to the preferred language it carries.
 
 ```tsx
-// host/src/register.tsx
-import type { FireflyRuntime, ModuleRegisterFunction } from "@squide/firefly";
-import { getI18nextPlugin } from "@squide/i18next";
-
-export const registerHost: ModuleRegisterFunction<FireflyRuntime, unknown, DeferredRegistrationData> = runtime => {
-    const i18nextPlugin = getI18nextPlugin(runtime);
-
-    // Routes, navigation items and i18next instance registration...
-
-    return async (deferredRuntime, data) => {
-        // On an update run with an unchanged language, resolves without switching nor notifying.
-        await i18nextPlugin.changeLanguage(data.session?.user.preferredLanguage ?? i18nextPlugin.currentLanguage);
-    };
-};
-```
-
-```tsx
-// host/src/App.tsx — forward the session and handle a failed load
-import { useDeferredRegistrations, useIsBootstrapping, useProtectedDataQueries, type DeferredRegistrationsErrorCallback } from "@squide/firefly";
-import { isI18nextResourcesLoadError } from "@squide/i18next";
-import { useCallback, useMemo } from "react";
+import { AppRouter, useIsBootstrapping, useProtectedDataQueries } from "@squide/firefly";
+import { useChangeLanguage } from "@squide/i18next";
+import { useEffect } from "react";
 import { Outlet } from "react-router";
 
 function BootstrappingRoute() {
@@ -607,19 +616,13 @@ function BootstrappingRoute() {
         error => isApiError(error) && error.status === 401
     );
 
-    // The rejection of changeLanguage reaches onError as the "cause" of a ModuleRegistrationError.
-    // The application still renders with the previous language.
-    const handleErrors = useCallback<DeferredRegistrationsErrorCallback>(errors => {
-        errors.forEach(x => {
-            if (isI18nextResourcesLoadError(x.cause)) {
-                console.error(`The "${x.cause.language}" resources of "${x.cause.key}" failed to load.`, x.cause);
-            }
-        });
-    }, []);
+    const changeLanguage = useChangeLanguage();
 
-    const data = useMemo(() => ({ session }), [session]);
-
-    useDeferredRegistrations(data, { onError: handleErrors });
+    useEffect(() => {
+        if (session) {
+            changeLanguage(session.user.preferredLanguage);
+        }
+    }, [session, changeLanguage]);
 
     if (useIsBootstrapping()) {
         return <div>Loading...</div>;
@@ -629,7 +632,7 @@ function BootstrappingRoute() {
 }
 ```
 
-Combining `mergeDeferredRegistrations([...])` with an `async` function is fine: the merged function awaits each candidate sequentially.
+With lazy-loaded resources, switch from a deferred registration instead of the effect (see "Lazy-Load Resources per Language" below): the effect runs after the first render, so the page would show the detected language while the preferred language downloads.
 
 ### Localized Navigation Labels
 

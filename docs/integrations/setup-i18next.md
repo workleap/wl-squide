@@ -70,34 +70,13 @@ Hence, the strategy to select the displayed language should be as follow:
 1. Use the language detected at bootstrapping for anonymous users (with the [detectUserLanguage](../reference/i18next/i18nextPlugin.md#detect-the-user-language) method previously called).
 2. Upon user authentication and session loading, if a "preferred language" setting is available from the session data, update the displayed language to reflect this preference.
 
-This strategy is implemented with a [deferred registration](../essentials/register-deferred-nav-items.md): the host module returns a deferred registration function that awaits the [changeLanguage](../reference/i18next/i18nextPlugin.md#change-the-current-language) method of the plugin with the preferred language carried by the session. Squide awaits the deferred registration functions before the modules become ready, therefore the switch completes before the first protected page renders:
+This strategy can be implemented with the help of the [useChangeLanguage](../reference/i18next/useChangeLanguage.md) and [useProtectedDataQueries](../reference/global-data-fetching/useProtectedDataQueries.md) hooks:
 
-```tsx !#8,10-15 host/src/register.tsx
-import type { ModuleRegisterFunction, FireflyRuntime } from "@squide/firefly";
-import { getI18nextPlugin } from "@squide/i18next";
-import type { DeferredRegistrationData } from "@sample/shared";
-
-export const registerHost: ModuleRegisterFunction<FireflyRuntime, unknown, DeferredRegistrationData> = runtime => {
-    // Register the routes, the navigation items and the i18next instance of the host application...
-
-    const i18nextPlugin = getI18nextPlugin(runtime);
-
-    // When the session has been retrieved, update the language to match the user preferred language.
-    // On an update run with an unchanged language, the call resolves without notifying anyone.
-    return async (deferredRuntime, data) => {
-        await i18nextPlugin.changeLanguage(data.session?.user.preferredLanguage ?? i18nextPlugin.currentLanguage);
-    };
-};
-```
-
-Then, forward the session to the deferred registrations with the [useDeferredRegistrations](../reference/registration/useDeferredRegistrations.md) hook:
-
-```tsx !#8-30,32-34,36
-import { AppRouter, useProtectedDataQueries, useIsBootstrapping, useDeferredRegistrations } from "@squide/firefly";
-import { useMemo } from "react";
+```tsx !#7-28,30,36
+import { AppRouter, useProtectedDataQueries, useIsBootstrapping, useChangeLanguage } from "@squide/firefly";
 import { createBrowserRouter, Outlet } from "react-router";
 import { RouterProvider } from "react-router/dom";
-import { ApiError, isApiError, type DeferredRegistrationData, type Session } from "@sample/shared";
+import { ApiError, isApiError, type Session } from "@sample/shared";
 
 function BootstrappingRoute() {
     const [session] = useProtectedDataQueries([
@@ -115,7 +94,6 @@ function BootstrappingRoute() {
                 const result: Session = {
                     user: {
                         name: data.username,
-                        preferredLanguage: data.preferredLanguage
                     }
                 };
 
@@ -124,11 +102,15 @@ function BootstrappingRoute() {
         }
     ], error => isApiError(error) && error.status === 401);
 
-    const data: DeferredRegistrationData = useMemo(() => ({
-        session
-    }), [session]);
+    const changeLanguage = useChangeLanguage();
 
-    useDeferredRegistrations(data);
+    useEffect(() => {
+        if (session) {
+            // When the session has been retrieved, update the language to match the user
+            // preferred language.
+            changeLanguage(session.user.preferredLanguage);
+        }
+    }, [session, changeLanguage]);
 
     if (useIsBootstrapping()) {
         return <div>Loading...</div>;
@@ -165,19 +147,12 @@ export function App() {
 
 ==- :icon-file-code: @sample/shared
 ```ts
-export type LanguageKey = "en-US" | "fr-CA";
-
 export interface User {
     name: string;
-    preferredLanguage: LanguageKey;
 }
 
 export interface Session {
     user: User;
-}
-
-export interface DeferredRegistrationData {
-    session?: Session;
 }
 ```
 
@@ -282,7 +257,7 @@ export const registerHost: ModuleRegisterFunction<FireflyRuntime> = runtime => {
 ```
 
 !!!info
-The examples in this guide bundle the resources of every supported language with the module. To download only the resources of the active language, refer to the [lazy-load the resources](#lazy-load-the-resources) section.
+The examples in this guide load all the resources from single localized resources files. For a real Workleap application, you probably want to spread the resources into multiple files and load the files with a i18next [backend plugin](https://www.i18next.com/overview/plugins-and-utils#backends). To download only the resources of the active language, refer to the [lazy-load the resources](#lazy-load-the-resources) section.
 !!!
 
 ### Localize a page resource
@@ -346,9 +321,80 @@ The empty `resources` object is required. Without a `resources` option, `i18next
 
 An instance can be hybrid: initialize it with the static resources of one language and provide a `loadResources` function for the others. The plugin only loads a language the instance doesn't hold. Modules with static resources and modules with lazy resources can coexist. For a [remote module](../module-federation/setup-i18next.md), each dynamic import becomes a chunk of the remote, served through Module Federation like any other chunk of that module.
 
+### Apply the preferred language
+
+The effect shown in the [backend language setting](#integrate-a-backend-language-setting) section runs after the first render. With lazy resources, the page would render in the detected language while the resources of the preferred language download, then switch. Return a [deferred registration](../essentials/register-deferred-nav-items.md) function instead: Squide awaits the deferred registration functions before the modules become ready, therefore the switch, including the download, completes before the first protected page renders:
+
+```tsx !#8,10-14 host/src/register.tsx
+import type { ModuleRegisterFunction, FireflyRuntime } from "@squide/firefly";
+import { getI18nextPlugin } from "@squide/i18next";
+import type { DeferredRegistrationData } from "@sample/shared";
+
+export const registerHost: ModuleRegisterFunction<FireflyRuntime, unknown, DeferredRegistrationData> = runtime => {
+    // Register the routes, the navigation items and the i18next instance of the host application...
+
+    const i18nextPlugin = getI18nextPlugin(runtime);
+
+    // On an update run with an unchanged language, the call resolves without notifying anyone.
+    return async (deferredRuntime, data) => {
+        await i18nextPlugin.changeLanguage(data.session?.user.preferredLanguage ?? i18nextPlugin.currentLanguage);
+    };
+};
+```
+
+Then, forward the session to the deferred registrations with the [useDeferredRegistrations](../reference/registration/useDeferredRegistrations.md) hook. When the resources of the preferred language fail to download, `changeLanguage` rejects with an [I18nextResourcesLoadError](../reference/i18next/i18nextPlugin.md#handle-a-failed-resources-load) and the language is left unchanged. The rejection reaches the `onError` callback of the hook as the `cause` of a `ModuleRegistrationError`:
+
+```tsx !#13-20,22-28 host/src/App.tsx
+import { AppRouter, useProtectedDataQueries, useIsBootstrapping, useDeferredRegistrations, type DeferredRegistrationsErrorCallback } from "@squide/firefly";
+import { isI18nextResourcesLoadError } from "@squide/i18next";
+import { useCallback, useMemo } from "react";
+import { Outlet } from "react-router";
+import { isApiError, type DeferredRegistrationData } from "@sample/shared";
+
+function BootstrappingRoute() {
+    const [session] = useProtectedDataQueries(
+        [getSessionQuery],
+        error => isApiError(error) && error.status === 401
+    );
+
+    const handleDeferredRegistrationErrors = useCallback<DeferredRegistrationsErrorCallback>(errors => {
+        errors.forEach(x => {
+            if (isI18nextResourcesLoadError(x.cause)) {
+                // The application still renders with the previous language, an error page is optional.
+                console.error(`The "${x.cause.language}" resources of the "${x.cause.key}" instance failed to load.`, x.cause);
+            }
+        });
+    }, []);
+
+    const data: DeferredRegistrationData = useMemo(() => ({
+        session
+    }), [session]);
+
+    useDeferredRegistrations(data, {
+        onError: handleDeferredRegistrationErrors
+    });
+
+    if (useIsBootstrapping()) {
+        return <div>Loading...</div>;
+    }
+
+    return <Outlet />;
+}
+```
+
+==- :icon-file-code: @sample/shared
+```ts
+export interface DeferredRegistrationData {
+    session?: Session;
+}
+```
+===
+
+A failed download never blocks the rendering of the application: the affected instance renders what `i18next` renders for a missing language, which is the resource key or the `fallbackLng` value when one is configured. Every failure is also logged and dispatched on the event bus as an `I18nextResourcesLoadFailedEvent`, refer to the [reference](../reference/i18next/i18nextPlugin.md#handle-a-failed-resources-load) for the details.
+
 ### Align the detected language with the preferred language
 
-The modules register before any global data is fetched, therefore the plugin loads the resources of the language [detected at bootstrapping](#register-the-plugin) when an instance is registered: the querystring parameter, the navigator language or the fallback language. The login page and every public page render from these resources. The user [preferred language](#integrate-a-backend-language-setting) is only known once the session is loaded, and the deferred registration then loads its resources before the first protected page renders.
+The modules register before any global data is fetched, therefore the plugin loads the resources of the language [detected at bootstrapping](#register-the-plugin) when an instance is registered: the querystring parameter, the navigator language or the fallback language. The login page and every public page render from these resources. The user preferred language is only known once the session is loaded, and the deferred registration then downloads its resources before the first protected page renders.
 
 When the detected language differs from the preferred language, **both languages are downloaded**: the detected one at registration, the preferred one during the deferred registration. That is what bundling every language downloads today, so lazy loading is never worse than static resources, but the saving only materializes when both languages match. They match when the browser language is the preferred language, or when the URL carries the `?language` querystring parameter.
 
@@ -390,57 +436,13 @@ export const registerHost: ModuleRegisterFunction<FireflyRuntime, unknown, Defer
 
 Keep the persisted value after a logout: the next session on the same browser is most likely the same user, and the login page then renders in their language. A different user of the same browser sees the previous user's language until their own session is loaded, at which point the switch above applies and updates the persisted value.
 
-### Handle a failed load
-
-The [preferred language switch](#integrate-a-backend-language-setting) downloads the resources of the preferred language, and the download can fail. `changeLanguage` then rejects with an [I18nextResourcesLoadError](../reference/i18next/i18nextPlugin.md#handle-a-failed-resources-load) and the language is left unchanged. The rejection reaches the `onError` callback of [useDeferredRegistrations](../reference/registration/useDeferredRegistrations.md) as the `cause` of a `ModuleRegistrationError`:
-
-```tsx !#13-20,26-28
-import { AppRouter, useProtectedDataQueries, useIsBootstrapping, useDeferredRegistrations, type DeferredRegistrationsErrorCallback } from "@squide/firefly";
-import { isI18nextResourcesLoadError } from "@squide/i18next";
-import { useCallback, useMemo } from "react";
-import { Outlet } from "react-router";
-import { isApiError, type DeferredRegistrationData } from "@sample/shared";
-
-function BootstrappingRoute() {
-    const [session] = useProtectedDataQueries(
-        [getSessionQuery],
-        error => isApiError(error) && error.status === 401
-    );
-
-    const handleDeferredRegistrationErrors = useCallback<DeferredRegistrationsErrorCallback>(errors => {
-        errors.forEach(x => {
-            if (isI18nextResourcesLoadError(x.cause)) {
-                // The application still renders with the previous language, an error page is optional.
-                console.error(`The "${x.cause.language}" resources of the "${x.cause.key}" instance failed to load.`, x.cause);
-            }
-        });
-    }, []);
-
-    const data: DeferredRegistrationData = useMemo(() => ({
-        session
-    }), [session]);
-
-    useDeferredRegistrations(data, {
-        onError: handleDeferredRegistrationErrors
-    });
-
-    if (useIsBootstrapping()) {
-        return <div>Loading...</div>;
-    }
-
-    return <Outlet />;
-}
-```
-
-A failed load never blocks the rendering of the application: the affected instance renders what `i18next` renders for a missing language, which is the resource key or the `fallbackLng` value when one is configured. Every failure is also logged and dispatched on the event bus as an `I18nextResourcesLoadFailedEvent`, refer to the [reference](../reference/i18next/i18nextPlugin.md#handle-a-failed-resources-load) for the details.
-
 ### Storybook
 
 The Storybook decorator renders a story as soon as the modules are registered, it doesn't wait for the resources to be loaded. Await the `changeLanguage` method of the plugin from a Storybook loader, as described in the [initializeFireflyForStorybook](../reference/storybook/initializeFireflyForStorybook.md#initialize-with-i18next) reference.
 
 ## Try it :rocket:
 
-Start the application in a development environment using the `dev` script. Navigate to `/page`, the page content and the navigation item should render the english (`en-US`) resources. Then append `?language=fr-CA` to the URL. The page content and the navigation item should now render the french (`fr-CA`) resources. When the resources are [lazy-loaded](#lazy-load-the-resources), the network tab of the DevTools shows a single resources chunk per module, for the active language.
+Start the application in a development environment using the `dev` script. Navigate to `/page`, the page content and the navigation item should render the english (`en-US`) resources. Then append `?language=fr-CA` to the URL. The page content and the navigation item should now render the french (`fr-CA`) resources.
 
 ### Troubleshoot issues
 
