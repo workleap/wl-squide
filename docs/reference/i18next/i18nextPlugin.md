@@ -163,13 +163,6 @@ const plugin = runtime.getPlugin(i18nextPluginName) as i18nextPlugin;
 await plugin.changeLanguage("fr-CA");
 ```
 
-A few rules apply:
-
-- When no instance needs to load resources, the switch happens synchronously, before the promise resolves.
-- **Latest call wins.** When a more recent call is made while a previous one is still loading, the previous call resolves without switching once its loads settle.
-- Called with the **current language**, it waits for the pending loads of that language and resolves without switching nor notifying the listeners.
-- When a load **fails**, the promise rejects with an [I18nextResourcesLoadError](#handle-a-failed-resources-load) and the language is left unchanged on every instance. The failed load isn't cached: a later call invokes `loadResources` again.
-
 ### Listen for language changes
 
 ```ts !#9,12
@@ -193,7 +186,7 @@ A failed load never blocks the rendering of the application: the affected instan
 
 - Logged with the runtime [logger](../logging/useLogger.md).
 - Dispatched on the [event bus](../messaging/useEventBusListener.md) as an `I18nextResourcesLoadFailedEvent`, with a `{ key, language, error }` payload.
-- Rejected from the [changeLanguage](#change-the-current-language) promise as an `I18nextResourcesLoadError`, exposing the `key` of the instance, the `language` and the `cause`.
+- Rejected from the [changeLanguage](#change-the-current-language) promise as an `I18nextResourcesLoadError`, exposing the `key` of the instance, the `language` and the `cause`. The language is left unchanged.
 
 ```ts !#4-6,11-13
 import { I18nextResourcesLoadFailedEvent, isI18nextResourcesLoadError } from "@squide/i18next";
