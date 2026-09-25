@@ -269,7 +269,7 @@ const snapshot = new FeatureFlagSetSnapshot(ldClient);
 const flags = snapshot.value;
 
 // Listen for changes
-snapshot.addSnapshotChangedListener((newSnapshot, changes) => {
+snapshot.registerSnapshotChangedListener((newSnapshot, changes) => {
     console.log("Flags changed:", changes);
 });
 
@@ -461,14 +461,17 @@ const plugin = new i18nextPlugin(x, ["en-US", "fr-CA"], "en-US", "language", {
 
 | Member | Description |
 |--------|-------------|
-| `registerInstance(key, instance)` | Associate an i18next instance with a key |
+| `registerInstance(key, instance, options?)` | Associate an i18next instance with a key. **Must be called from a module's `register()` function**: throws once the modules are registered (so never from a deferred registration function). `options.loadResources` enables per-language lazy loading (see below) |
 | `getInstance(key)` | Retrieve an instance; throws if no instance matches the key |
 | `currentLanguage` | The current language; throws if the language was never detected nor changed |
 | `detectUserLanguage()` | Detect the user language, falling back to `fallbackLanguage` |
-| `changeLanguage(language)` | Change the language on every registered instance; throws if not in `supportedLanguages` |
+| `changeLanguage(language): Promise<void>` | Load the language into every lazy instance lacking it, then switch every instance. **Await it.** Rejects with `I18nextResourcesLoadError` on a failed load (language unchanged), and with a plain `Error` when not in `supportedLanguages`. Latest call wins under concurrency. Called with the current language, waits for pending loads without notifying |
 | `registerLanguageChangedListener(listener)` / `removeLanguageChangedListener(listener)` | Subscribe to language changes |
+| `isReady()` / `registerReadyListener(listener)` / `removeReadyListener(listener)` | Readiness surface consumed by `useIsBootstrapping`: ready once the modules are registered, every instance settled the load of the current language (a failed load counts as settled) and no `changeLanguage` call is still loading. A status, not a latch; listeners fire on each transition to ready |
 
 Prefer `getI18nextPlugin(runtime)` over `runtime.getPlugin(i18nextPluginName) as i18nextPlugin`.
+
+Failure reporting: every failed load is logged, dispatched on the event bus as `I18nextResourcesLoadFailedEvent` (`{ key, language, error }`) and, when triggered by `changeLanguage`, rejected as an `I18nextResourcesLoadError` (`key`, `language`, `cause`; test with `isI18nextResourcesLoadError(error)`). A failed load never blocks rendering: the instance shows the key or the `fallbackLng` value. No retry, no automatic fallback language — the host decides.
 
 ### Register i18next Instance
 
@@ -495,6 +498,67 @@ instance.init({
 
 plugin.registerInstance("an-instance-key", instance);
 ```
+
+### Lazy-Load Resources per Language
+
+Static resources put every language in the initial chunk. To ship only the active language, initialize the instance with `resources: {}` and pass a `loadResources` function. The empty object is required: without a `resources` option i18next defers its initialization to a timer and react-i18next suspends the components meanwhile, so `registerInstance` throws (`initAsync: false` is the accepted alternative). It receives a language and resolves to a namespace → bundle map (one language entry of the i18next `resources` option). The plugin loads the current language at registration and any other language before switching to it. A hybrid instance (static resources for one language, loader for the others) is supported: the plugin only loads a language the instance doesn't hold.
+
+```ts
+import { getI18nextPlugin, type LoadResourcesFunction } from "@squide/i18next";
+
+// Each dynamic import becomes a chunk. For a remote module, the chunk is served by the remote.
+const loadResources: LoadResourcesFunction = async language => {
+    const module = await import(`./locales/${language}.json`, { with: { type: "json" } });
+
+    return module.default;
+};
+
+const instance = i18n.createInstance().use(initReactI18next);
+
+instance.init({
+    lng: plugin.currentLanguage,
+    resources: {}
+});
+
+plugin.registerInstance("an-instance-key", instance, { loadResources });
+```
+
+No i18next backend plugin and no `partialBundledLanguages`: `react-i18next` never suspends, the semantics are those of static resources.
+
+**The preferred language switch stays in `BootstrappingRoute`** (the `useEffect` shown in "Apply a Backend Preferred Language Setting"). Firefly consults the plugins once the data is fetched, after the bootstrapping route's effects, and the plugin reports not ready while the preferred language downloads, so `useIsBootstrapping()` holds the render. A failed download rejects `changeLanguage` with an `I18nextResourcesLoadError`, the language is unchanged and the app renders anyway; handle the rejection to avoid an unhandled promise:
+
+```tsx
+useEffect(() => {
+    if (session) {
+        changeLanguage(session.user.preferredLanguage).catch(() => {
+            // Already logged and dispatched (I18nextResourcesLoadFailedEvent) by the plugin.
+        });
+    }
+}, [session, changeLanguage]);
+```
+
+**Limitation — detected vs preferred language.** Modules register before any global data, so the language loaded at registration is the one **detected at bootstrapping** (`?language` querystring, navigator language, fallback), never the user's stored preference. The preferred language is only known once the session is loaded; the switch requested by `BootstrappingRoute` then loads it before the first protected paint. When detected ≠ preferred, **both languages are downloaded**: never worse than bundling every language, but no saving either. Always pair lazy loading with the workaround below, otherwise a user whose browser language differs from the stored preference gains nothing:
+
+```ts
+// Plugin factory: detect the persisted preference before the navigator language. The querystring still wins.
+const plugin = new i18nextPlugin(x, ["en-US", "fr-CA"], "en-US", "language", {
+    detection: {
+        order: ["querystring", "localStorage", "navigator"],
+        lookupLocalStorage: "preferred-language"
+    }
+});
+
+// BootstrappingRoute effect: persist the preference for the next visit, then switch.
+useEffect(() => {
+    if (session) {
+        localStorage.setItem("preferred-language", session.user.preferredLanguage);
+
+        changeLanguage(session.user.preferredLanguage);
+    }
+}, [session, changeLanguage]);
+```
+
+Keep the persisted value after a logout: the next session on the same browser is most likely the same user, so the login page renders in their language and returning users download a single language. A different user sees the previous language until their session loads, then the switch updates the persisted value.
 
 ### Use in Components
 
@@ -551,6 +615,8 @@ function BootstrappingRoute() {
     return <Outlet />;
 }
 ```
+
+The same effect works with lazy-loaded resources: firefly consults the plugin once the data is fetched, and the plugin reports not ready while the preferred language downloads, so the first protected paint is already in the preferred language. With lazy resources `changeLanguage` can reject (failed download), add a `.catch` (see "Lazy-Load Resources per Language" below).
 
 ### Localized Navigation Labels
 

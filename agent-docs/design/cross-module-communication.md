@@ -51,6 +51,11 @@ A plugin hook whose types live outside `@squide/core` cannot go on the class —
 interface extending `Plugin` and is duck-typed at the call site, as `FireflyPlugin` does for
 `registerHoneycombTrackingListeners`.
 
+`Plugin` also carries an optional readiness surface, `isReady()`, `registerReadyListener()` and
+`removeReadyListener()`, for a plugin whose asynchronous work must settle before the application
+renders. `isReady()` is a status, not a latch. `@squide/firefly` consults it once every other
+bootstrapping input is ready and never imports `@squide/i18next`. See ADR-0009.
+
 ## Shared Types
 
 Modules share **types and interfaces only** through dedicated shared packages (e.g., a `shared/`

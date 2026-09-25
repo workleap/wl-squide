@@ -20,8 +20,8 @@ test.concurrent("can add listeners", ({ expect }) => {
     const listener1 = vi.fn();
     const listener2 = vi.fn();
 
-    state.addMswReadyListener(listener1);
-    state.addMswReadyListener(listener2);
+    state.registerMswReadyListener(listener1);
+    state.registerMswReadyListener(listener2);
 
     state.setAsReady();
 
@@ -35,8 +35,8 @@ test.concurrent("can remove listeners", ({ expect }) => {
     const listener1 = vi.fn();
     const listener2 = vi.fn();
 
-    state.addMswReadyListener(listener1);
-    state.addMswReadyListener(listener2);
+    state.registerMswReadyListener(listener1);
+    state.registerMswReadyListener(listener2);
 
     state.removeMswReadyListener(listener1);
     state.removeMswReadyListener(listener2);

@@ -8,6 +8,7 @@ import {
     type Session,
     type Subscription
 } from "@endpoints/shared";
+import { persistPreferredLanguage } from "@endpoints/i18next";
 import { AppRouter as FireflyAppRouter, useDeferredRegistrations, useEnvironmentVariables, useIsBootstrapping, useLaunchDarklyClient, useLogger, useProtectedDataQueries, usePublicDataQueries } from "@squide/firefly";
 import { useChangeLanguage } from "@squide/i18next";
 import { useHoneycombInstrumentationClient } from "@workleap/telemetry/react";
@@ -148,9 +149,19 @@ function BootstrappingRoute() {
                 "Name": session.user.name
             });
 
-            // When the session has been retrieved, update the language to match the user
-            // preferred language.
-            changeLanguage(session.user.preferredLanguage);
+            // Persisted for the next visit, so the language detection loads the preferred language at registration
+            // rather than the navigator language, which would download two languages.
+            persistPreferredLanguage(session.user.preferredLanguage);
+
+            // When the session has been retrieved, update the language to match the user preferred language.
+            // The resources of that language are lazy-loaded, the i18next plugin holds the rendering until they arrive.
+            changeLanguage(session.user.preferredLanguage).catch((error: unknown) => {
+                // The plugin already logged the failure and dispatched an event, the application renders with the current language.
+                logger
+                    .withText("[shell] The preferred language couldn't be applied:")
+                    .withError(error as Error)
+                    .error();
+            });
         }
     }, [session, honeycombClient, launchDarklyClient, changeLanguage, logger]);
 

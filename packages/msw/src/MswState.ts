@@ -16,7 +16,7 @@ export class MswState {
         this.#isReady = isReady;
     }
 
-    addMswReadyListener(callback: MswReadyListener) {
+    registerMswReadyListener(callback: MswReadyListener) {
         this.#mswReadyListeners.add(callback);
     }
 

@@ -22,6 +22,13 @@ export class ModuleManager {
 
     addModuleRegistry(moduleRegistry: ModuleRegistry) {
         this.moduleRegistries.push(moduleRegistry);
+
+        // A listener registered before this registry was added would otherwise never be notified of its status
+        // changes, and "getAreModulesRegistered" requires every registry, therefore that listener would never fire.
+        // Plugins subscribe from their constructor, which can execute before another plugin adds its own registry.
+        this.listenerRefs.forEach(onChange => {
+            moduleRegistry.registerStatusChangedListener(onChange);
+        });
     }
 
     async registerModules<TRuntime extends Runtime = Runtime, TContext = unknown, TData = unknown>(definitions: ModuleDefinition<TRuntime, TContext, TData>[], options?: RegisterModulesOptions<TContext>) {

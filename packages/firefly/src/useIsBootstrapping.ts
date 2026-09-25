@@ -14,6 +14,7 @@ export function isBootstrapping(state: AppRouterState) {
         waitForProtectedData,
         areModulesReady,
         isMswReady,
+        arePluginsReady,
         isPublicDataReady,
         isProtectedDataReady,
         activeRouteVisibility,
@@ -26,6 +27,8 @@ export function isBootstrapping(state: AppRouterState) {
         && areModulesReady
         // Not required but can sometimes prevent a re-render when the state value is somehow updated after the initial data is ready.
         && (!waitForMsw || isMswReady)
+        // Wait for the plugins implementing the readiness surface, such as the i18next plugin loading the resources of the current language.
+        && arePluginsReady
         // Wait for the initial data to be ready.
         && (!waitForPublicData || isPublicDataReady)
         && (!waitForProtectedData || activeRouteVisibility === "public" || isProtectedDataReady)
@@ -37,6 +40,8 @@ export function isBootstrapping(state: AppRouterState) {
         isUnauthorized
         // Not required but can sometimes prevent a re-render when the state value is somehow updated after the public data is ready.
         && (!waitForMsw || isMswReady)
+        // The login page is rendered by a module, which can depend on a plugin readiness (e.g. its localized resources).
+        && arePluginsReady
         // If the application is loading public data, we want to wait for this data to be ready to prevent a re-render.
         && (!waitForPublicData || isPublicDataReady)
     );

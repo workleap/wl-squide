@@ -28,8 +28,9 @@ Lower-level hooks for advanced scenarios where the default query-based approach 
 3. Page requested → AppRouter determines if public or protected
 4. `waitForPublicData` → public queries execute
 5. `waitForProtectedData` → protected queries execute (if protected page)
-6. `useIsBootstrapping()` returns false → page renders
-7. Deferred registrations re-run with fresh data
+6. Plugins implementing the readiness surface are ready (for example the i18next resources of the current language)
+7. `useIsBootstrapping()` returns false → page renders
+8. Deferred registrations re-run with fresh data
 
 ## Error Handling
 

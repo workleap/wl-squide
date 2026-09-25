@@ -444,6 +444,52 @@ Rules:
 - A faulty plugin is isolated, not fatal: a throwing hook or completion function is logged, the remaining plugins are still notified, the modules still register, and the run still resolves. The error reaches the runtime logger only, never the `onError` callback of `useDeferredRegistrations`.
 - Module registration errors do **not** count as a failed run: they are collected and returned as `ModuleRegistrationError[]` rather than thrown. There is no per-module rollback either — a module that throws part way through keeps whatever it already registered and only loses what it hadn't registered yet, so a plugin registry can hold a half-registered module's entries.
 
+#### isReady() / registerReadyListener(callback) / removeReadyListener(callback) — optional
+
+A plugin performing asynchronous work the application must wait for before rendering (the `i18nextPlugin` loading the resources of a language) implements the readiness surface. Firefly consults every readiness-aware plugin once the other bootstrapping inputs are ready (modules, MSW, data), and `useIsBootstrapping()` stays `true` until all of them return `true`. Once bootstrapped, the plugins are never consulted again. A plugin without the surface is always ready.
+
+```ts
+import { Plugin, type PluginReadyListener, type Runtime } from "@squide/firefly";
+
+export class MyPlugin extends Plugin {
+    #isReady = false;
+    readonly #readyListeners = new Set<PluginReadyListener>();
+
+    constructor(runtime: Runtime) {
+        super(MyPlugin.name, runtime);
+        this.#loadSettings();
+    }
+
+    isReady() {
+        return this.#isReady;
+    }
+
+    registerReadyListener(callback: PluginReadyListener) {
+        this.#readyListeners.add(callback);
+    }
+
+    removeReadyListener(callback: PluginReadyListener) {
+        this.#readyListeners.delete(callback);
+    }
+
+    async #loadSettings() {
+        try {
+            await fetch("/api/settings");
+        } finally {
+            // Report ready even on failure, otherwise the application never renders.
+            this.#isReady = true;
+            this.#readyListeners.forEach(x => x());
+        }
+    }
+}
+```
+
+Rules:
+
+- **`isReady()` is a status, not a latch.** It returns `false` again when new work starts (a language switch requested by the bootstrapping route once the session is fetched) and `true` once it settles. The one-way latch lives in firefly's reducer, which stops consulting the plugins after `plugins-ready`.
+- **Listeners fire on every transition to ready.** Always read `isReady()` for the current status; a plugin already ready doesn't call a listener registered afterwards until its next transition.
+- **Report ready on failure too** and report the failure through the logger or the event bus, otherwise the application stays on its bootstrapping fallback.
+
 ## Getters
 
 | Getter | Type | Description |

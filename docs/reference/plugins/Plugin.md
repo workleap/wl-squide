@@ -31,6 +31,16 @@ onDeferredRegistrationScopeStarted?(options: {
 }): (() => void) | void;
 ```
 
+- `isReady()`: Indicate whether the asynchronous work the application must wait for before rendering has settled. A plugin that doesn't implement it is always considered ready. See [Report readiness](#report-readiness).
+- `registerReadyListener(callback)`: Register a listener executed every time the plugin becomes ready.
+- `removeReadyListener(callback)`: Remove a previously registered ready listener.
+
+```ts
+isReady?(): boolean;
+registerReadyListener?(callback: () => void): void;
+removeReadyListener?(callback: () => void): void;
+```
+
 ## Usage
 
 ### Define a plugin
@@ -198,3 +208,51 @@ A completion function error is reported **only** to the runtime logger. It doesn
 !!!
 
 A module that throws doesn't fail the run either. Module errors are collected and reported through `onError` rather than thrown. There's no per-module rollback: a module that throws part way through keeps whatever it already registered, plugin registry and navigation items alike, and only loses what it hadn't registered yet.
+
+### Report readiness
+
+A plugin performing asynchronous work that the application must wait for before rendering, such as the [i18nextPlugin](../i18next/i18nextPlugin.md) loading the resources of a language, reports it through the optional `isReady`, `registerReadyListener` and `removeReadyListener` members. Squide consults the plugins once every other bootstrapping input is ready, and [useIsBootstrapping](../routing/useIsBootstrapping.md) stays `true` until every plugin implementing `isReady` returns `true`. Once the application is bootstrapped, the plugins are never consulted again: work started afterwards doesn't hold anything.
+
+`isReady` is a **status**: it returns `false` again when new work starts, and `true` once that work has settled. The ready listeners are executed every time the plugin becomes ready. A plugin that is already ready doesn't execute a listener registered afterwards until its next transition, therefore always read `isReady()` for the current status. Report readiness when the work fails as well, and report the failure through another channel, otherwise the application stays on its bootstrapping fallback.
+
+```ts !#15-17,19-21,23-25,27-38 my-plugin/src/myPlugin.ts
+import { Plugin, type PluginReadyListener, type Runtime } from "@squide/firefly";
+
+export class MyPlugin extends Plugin {
+    #isReady = false;
+
+    readonly #readyListeners = new Set<PluginReadyListener>();
+
+    constructor(runtime: Runtime) {
+        super(MyPlugin.name, runtime);
+
+        // Some asynchronous work the application must wait for.
+        this.#loadSettings();
+    }
+
+    isReady() {
+        return this.#isReady;
+    }
+
+    registerReadyListener(callback: PluginReadyListener) {
+        this.#readyListeners.add(callback);
+    }
+
+    removeReadyListener(callback: PluginReadyListener) {
+        this.#readyListeners.delete(callback);
+    }
+
+    async #loadSettings() {
+        try {
+            await fetch("/api/settings");
+        } finally {
+            // Whether the work succeeded or failed, the application must render.
+            this.#isReady = true;
+
+            this.#readyListeners.forEach(x => {
+                x();
+            });
+        }
+    }
+}
+```

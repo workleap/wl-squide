@@ -257,12 +257,100 @@ export const registerHost: ModuleRegisterFunction<FireflyRuntime> = runtime => {
 ```
 
 !!!info
-The examples in this guide load all the resources from single localized resources files. For a real Workleap application, you probably want to spread the resources into multiple files and load the files with a i18next [backend plugin](https://www.i18next.com/overview/plugins-and-utils#backends).
+The examples in this guide load all the resources from single localized resources files. For a real Workleap application, you probably want to spread the resources into multiple files and load the files with a i18next [backend plugin](https://www.i18next.com/overview/plugins-and-utils#backends). To download only the resources of the active language, refer to the [lazy-load the resources](#lazy-load-the-resources) section.
 !!!
 
 ### Localize a page resource
 
 Next, follow the [localize resources](../essentials/localize-resources.md) essential page to use the newly created localized resource.
+
+## Lazy-load the resources
+
+With the setup described so far, the resources of every supported language are bundled with the module and land in its initial chunk. The `i18nextPlugin` can instead load the resources of a language on demand: the language [detected at bootstrapping](#register-the-plugin) when the instance is registered, then any other language before switching to it. The application only downloads the active language, and [useIsBootstrapping](../reference/routing/useIsBootstrapping.md) stays `true` until the resources of the current language are loaded, so a page never renders raw resource keys.
+
+!!!warning
+The user [preferred language](#integrate-a-backend-language-setting) is not known at registration. When it differs from the detected language, both languages are downloaded. Read [align the detected language with the preferred language](#align-the-detected-language-with-the-preferred-language) before adopting lazy loading.
+!!!
+
+### Register a lazy instance
+
+Initialize the instance with an empty `resources` object and provide a [loadResources](../reference/i18next/i18nextPlugin.md#lazy-load-resources-per-language) function when registering the instance. The function receives a language and resolves to a map of namespace to resource bundle, the same shape as a single language entry of the i18next `resources` option:
+
+```tsx !#7-12,23-25,28-30
+import type { ModuleRegisterFunction, FireflyRuntime } from "@squide/firefly";
+import { getI18nextPlugin, type LoadResourcesFunction } from "@squide/i18next";
+import { Page } from "./Page.tsx";
+import i18n from "i18next";
+import { initReactI18next } from "react-i18next";
+
+// Each dynamic import becomes a chunk, only the active language is downloaded.
+const loadResources: LoadResourcesFunction = async language => {
+    const module = await import(`./locales/${language}/resources.json`, { with: { type: "json" } });
+
+    return module.default;
+};
+
+export const registerHost: ModuleRegisterFunction<FireflyRuntime> = runtime => {
+    const i18nextPlugin = getI18nextPlugin(runtime);
+
+    const i18nextInstance = i18n
+        .createInstance()
+        .use(initReactI18next);
+
+    i18nextInstance.init({
+        lng: i18nextPlugin.currentLanguage,
+        // A lazy instance must be initialized with an empty "resources" object so that i18next initializes
+        // synchronously and creates the store filled by the plugin.
+        resources: {}
+    });
+
+    i18nextPlugin.registerInstance("local-module", i18nextInstance, {
+        loadResources
+    });
+
+    runtime.registerRoute({
+        path: "/page",
+        element: <Page />
+    });
+};
+```
+
+### Align the detected language with the preferred language
+
+The modules register before any global data is fetched, therefore the plugin loads the resources of the language [detected at bootstrapping](#register-the-plugin) when an instance is registered: the querystring parameter, the navigator language or the fallback language. The user preferred language is only known once the session is loaded, and the switch then downloads its resources before the first protected page renders.
+
+When the detected language differs from the preferred language, **both languages are downloaded**: the detected one at registration, the preferred one when the session is loaded.
+
+To make them match for every returning user, persist the preferred language in the local storage once the session is loaded, and detect it before the navigator language by adding the `localStorage` source to the plugin [detection order](../reference/i18next/i18nextPlugin.md#add-an-additional-detection-source):
+
+```ts !#5-8 host/src/index.tsx
+const runtime = initializeFirefly({
+    localModules: [registerHost],
+    plugins: [x => {
+        const i18nextPlugin = new i18nextPlugin(x, ["en-US", "fr-CA"], "en-US", "language", {
+            detection: {
+                order: ["querystring", "localStorage", "navigator"],
+                lookupLocalStorage: "preferred-language"
+            }
+        });
+
+        i18nextPlugin.detectUserLanguage();
+
+        return i18nextPlugin;
+    }]
+});
+```
+
+```tsx !#3-4
+useEffect(() => {
+    if (session) {
+        // Persisted for the next visit, so the detection loads the preferred language right away.
+        localStorage.setItem("preferred-language", session.user.preferredLanguage);
+
+        changeLanguage(session.user.preferredLanguage);
+    }
+}, [session, changeLanguage]);
+```
 
 ## Try it :rocket:
 
@@ -275,5 +363,8 @@ If you are experiencing issues with this guide:
 - Open the [DevTools](https://developer.chrome.com/docs/devtools/) console. You'll find a log entry for each `i18next` instance that is being registered and another log everytime the language is changed:
     - `[squide] Registered a new i18next instance with key "local-module".`
     - `[squide] The language has been changed to "fr-CA".`
+- When the resources are [lazy-loaded](#lazy-load-the-resources), you'll also find a log entry for each language loaded into an instance, and an error entry for a failed load:
+    - `[squide] Loaded the "fr-CA" resources of the i18next instance with key "local-module".`
+    - `[squide] An error occurred while loading the "fr-CA" resources of the i18next instance with key "local-module":`
 - Refer to a working example on [GitHub](https://github.com/workleap/wl-squide/tree/main/samples/endpoints).
 - Refer to the [troubleshooting](../troubleshooting.md) page.

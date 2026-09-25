@@ -21,6 +21,11 @@ export interface DeferredRegistrationScopeOptions {
     transactional: boolean;
 }
 
+/**
+ * Executed when a plugin becomes ready.
+ */
+export type PluginReadyListener = () => void;
+
 export abstract class Plugin<TRuntime extends Runtime = Runtime> {
     protected readonly _name: string;
     protected readonly _runtime: TRuntime;
@@ -51,4 +56,38 @@ export abstract class Plugin<TRuntime extends Runtime = Runtime> {
      * field that shadows the prototype method of every subclass and silently disables the hook.
      */
     onDeferredRegistrationScopeStarted?(options: DeferredRegistrationScopeOptions): DeferredRegistrationScopeCompletionFunction | void;
+
+    /**
+     * Optional. Indicates whether the asynchronous work the application must wait for before rendering has settled,
+     * such as loading the resources of the requested language. A plugin that doesn't implement it is always
+     * considered ready.
+     *
+     * It's a status rather than a latch: it returns "false" again when new work starts, and "true" once that work
+     * has settled. The application consults it once every other bootstrapping input is ready and holds the render
+     * until it returns "true", then never consults it again: work started once the application is bootstrapped
+     * doesn't hold anything.
+     *
+     * @remarks
+     * This must stay an optional *method* signature. Declared as an optional property, it emits a class
+     * field that shadows the prototype method of every subclass and silently disables the surface.
+     */
+    isReady?(): boolean;
+
+    /**
+     * Optional. Registers a listener executed every time the plugin becomes ready. A plugin that is already ready
+     * doesn't execute a listener registered afterwards until its next transition, therefore a consumer must read
+     * {@link isReady} first.
+     *
+     * @remarks
+     * This must stay an optional *method* signature, for the same reason as {@link isReady}.
+     */
+    registerReadyListener?(callback: PluginReadyListener): void;
+
+    /**
+     * Optional. Removes a listener registered with {@link registerReadyListener}.
+     *
+     * @remarks
+     * This must stay an optional *method* signature, for the same reason as {@link isReady}.
+     */
+    removeReadyListener?(callback: PluginReadyListener): void;
 }

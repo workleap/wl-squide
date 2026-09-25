@@ -1722,6 +1722,45 @@ describe.concurrent("modules registered listeners", () => {
         expect(listener2).not.toHaveBeenCalled();
         expect(listener3).not.toHaveBeenCalled();
     });
+
+    test.concurrent("when a registry is added after a listener has been registered, the listener is notified of the new registry status changes", ({ expect }) => {
+        const registry1 = new DummyModuleRegistry("modules-registered");
+        const registry2 = new DummyModuleRegistry("modules-registered");
+
+        const manager = new ModuleManager(new DummyRuntime(), [
+            registry1
+        ]);
+
+        const listener = vi.fn();
+
+        manager.registerModulesRegisteredListener(listener);
+        manager.addModuleRegistry(registry2);
+
+        expect(registry2.statusListenersCount).toBe(1);
+
+        // Only the registry added after the listener notifies, the listener must still be called.
+        registry2.notifyStatusListeners();
+
+        expect(listener).toHaveBeenCalledOnce();
+    });
+
+    test.concurrent("when a registry is added after a listener has been registered, removing the listener also removes it from the new registry", ({ expect }) => {
+        const registry1 = new DummyModuleRegistry("registering-modules");
+        const registry2 = new DummyModuleRegistry("registering-modules");
+
+        const manager = new ModuleManager(new DummyRuntime(), [
+            registry1
+        ]);
+
+        const listener = vi.fn();
+
+        manager.registerModulesRegisteredListener(listener);
+        manager.addModuleRegistry(registry2);
+        manager.removeModulesRegisteredListener(listener);
+
+        expect(registry1.statusListenersCount).toBe(0);
+        expect(registry2.statusListenersCount).toBe(0);
+    });
 });
 
 describe.concurrent("modules ready listeners", () => {
@@ -1931,5 +1970,26 @@ describe.concurrent("modules ready listeners", () => {
         expect(listener1).not.toHaveBeenCalled();
         expect(listener2).not.toHaveBeenCalled();
         expect(listener3).not.toHaveBeenCalled();
+    });
+
+    test.concurrent("when a registry is added after a listener has been registered, the listener is notified of the new registry status changes", ({ expect }) => {
+        const registry1 = new DummyModuleRegistry("ready");
+        const registry2 = new DummyModuleRegistry("ready");
+
+        const manager = new ModuleManager(new DummyRuntime(), [
+            registry1
+        ]);
+
+        const listener = vi.fn();
+
+        manager.registerModulesReadyListener(listener);
+        manager.addModuleRegistry(registry2);
+
+        expect(registry2.statusListenersCount).toBe(1);
+
+        // Only the registry added after the listener notifies, the listener must still be called.
+        registry2.notifyStatusListeners();
+
+        expect(listener).toHaveBeenCalledOnce();
     });
 });
