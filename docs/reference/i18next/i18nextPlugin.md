@@ -125,6 +125,8 @@ Registering a lazy instance requires the user language to be [detected](#detect-
 No i18next [backend plugin](https://www.i18next.com/overview/plugins-and-utils#backends) is involved. Because the instance has no backend, `react-i18next` never suspends: the runtime semantics are the same as with static resources, the plugin simply fills the store before the language is applied.
 !!!
 
+[!ref Lazy-load the i18next resources recipe](../../recipes/lazy-load-i18next-resources.md)
+
 ### Retrieve a i18next instance
 
 ```ts !#6

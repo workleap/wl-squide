@@ -7,7 +7,7 @@ order: 140
 Most Workleap's application are either already bilingual or will be in the future. To help feature teams deal with localized resources, Squide provides a native [plugin](../reference/i18next/i18nextPlugin.md) designed to adapt the [i18next](https://www.i18next.com/) library for modular applications.
 
 !!!info
-The examples in this guide load all the resources of a language from a single file, bundled with the module. For a real Workleap application, group the resources of a language in a single chunk per module and [lazy-load them](#lazy-load-the-resources) with the plugin rather than with an i18next [backend plugin](https://www.i18next.com/overview/plugins-and-utils#backends): the plugin fills the instance store before the language is applied, which keeps the runtime semantics of static resources and never suspends the components.
+The examples in this guide bundle the resources of every supported language with the module. To download only the resources of the active language, refer to the [lazy-load the i18next resources](../recipes/lazy-load-i18next-resources.md) recipe.
 !!!
 
 ## Setup the host application
@@ -119,10 +119,6 @@ export const registerHost: ModuleRegisterFunction<FireflyRuntime> = runtime => {
 ```
 
 In the previous code sample, notice that the `i18next` instance has been initialized with the current language of the `i18nextPlugin` instance by providing the `lng` option. If the user language has been detected during bootstrapping, the `i18next` instance will then be initialized with the user language which has been deduced from either a `?language` querystring parameter or the user navigator language settings. Otherwise, the application instance will be initialized with the fallback language, which is `en-US` for this guide.
-
-!!!warning
-An `i18next` instance must be registered from a module's register function. Once the modules are registered, `registerInstance` throws.
-!!!
 
 ### Localize the home page resources
 
@@ -272,58 +268,6 @@ export const register: ModuleRegisterFunction<FireflyRuntime> = runtime => {
 }
 ```
 
-### Lazy-load the resources
-
-With the previous code sample, the resources of every supported language land in the remote module's initial chunk. To ship only the active language, initialize the instance with an empty `resources` object and provide a [loadResources](../reference/i18next/i18nextPlugin.md#lazy-load-resources-per-language) function when registering the instance. Each dynamic import becomes a chunk of the **remote module**, served by the remote through Module Federation like any other chunk of that module:
-
-```tsx !#8-12,23-25,28-30 remote-module/src/register.tsx
-import type { ModuleRegisterFunction, FireflyRuntime } from "@squide/firefly";
-import { getI18nextPlugin, I18nextNavigationItemLabel, type LoadResourcesFunction } from "@squide/i18next";
-import { Page } from "./Page.tsx";
-import i18n from "i18next";
-import { initReactI18next } from "react-i18next";
-
-// One chunk per language, only the active language is downloaded.
-const loadResources: LoadResourcesFunction = async language => {
-    const module = await import(`./locales/${language}.json`, { with: { type: "json" } });
-
-    return module.default;
-};
-
-export const register: ModuleRegisterFunction<FireflyRuntime> = runtime => {
-    const i18nextPlugin = getI18nextPlugin(runtime);
-
-    const i18nextInstance = i18n
-        .createInstance()
-        .use(initReactI18next);
-
-    i18nextInstance.init({
-        lng: i18nextPlugin.currentLanguage,
-        // A lazy instance must be initialized with an empty "resources" object so that i18next initializes
-        // synchronously and creates the store filled by the plugin.
-        resources: {}
-    });
-
-    i18nextPlugin.registerInstance("remote-module", i18nextInstance, {
-        loadResources
-    });
-
-    // --------
-
-    runtime.registerRoute({
-        path: "/remote/page",
-        element: <Page />
-    });
-
-    runtime.registerNavigationItem({
-        $label: <I18nextNavigationItemLabel i18next={i18nextInstance} resourceKey="page" />,
-        to: "/remote/page"
-    });
-}
-```
-
-While the resources of the current language are loading, the plugin reports itself as [not ready](../reference/i18next/i18nextPlugin.md#wait-for-the-resources-to-be-ready) and [useIsBootstrapping](../reference/routing/useIsBootstrapping.md) stays `true`. When a load fails, the application still renders and the failure is [reported](../reference/i18next/i18nextPlugin.md#handle-a-failed-resources-load) through the logger, the event bus and the `changeLanguage` promise.
-
 ### Localize the page resources
 
 Then, update the `Page` component to use the newly created localized resource:
@@ -399,10 +343,8 @@ Start the application in a development environment using the `dev` script. The h
 
 If you are experiencing issues with this guide:
 
-- Open the [DevTools](https://developer.chrome.com/docs/devtools/) console. You'll find a log entry for each `i18next` instance that is being registered, one for each lazy-loaded language and another log everytime the language is changed:
+- Open the [DevTools](https://developer.chrome.com/docs/devtools/) console. You'll find a log entry for each `i18next` instance that is being registered and another log everytime the language is changed:
     - `[squide] Registered a new i18next instance with key "remote-module".`
-    - `[squide] Loaded the "fr-CA" resources of the i18next instance with key "remote-module".`
     - `[squide] The language has been changed to "fr-CA".`
-    - `[squide] Plugins are ready.`
 - Refer to a working example on [GitHub](https://github.com/workleap/wl-squide/tree/main/samples/endpoints).
 - Refer to the [troubleshooting](../troubleshooting.md) page.

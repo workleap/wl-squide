@@ -108,42 +108,6 @@ export const register: ModuleRegisterFunction<FireflyRuntime> = runtime => {
 ```
 ===
 
-## Lazy-load the resources
-
-With static resources, every supported language lands in the module's initial chunk. To ship only the active language, initialize the instance with an empty `resources` object and provide a [loadResources](../reference/i18next/i18nextPlugin.md#lazy-load-resources-per-language) function when registering it. The plugin loads the resources of the current language right away and holds the rendering until they arrive, then loads any other language before [switching](../reference/i18next/i18nextPlugin.md#change-the-current-language) to it:
-
-```tsx !#6-11,22-23,26-28 local-module/src/register.tsx
-import type { ModuleRegisterFunction, FireflyRuntime } from "@squide/firefly";
-import { getI18nextPlugin, type LoadResourcesFunction } from "@squide/i18next";
-import i18n from "i18next";
-import { initReactI18next } from "react-i18next";
-
-// Each dynamic import becomes a chunk, only the active language is downloaded.
-const loadResources: LoadResourcesFunction = async language => {
-    const module = await import(`./locales/${language}.json`, { with: { type: "json" } });
-
-    return module.default;
-};
-
-export const register: ModuleRegisterFunction<FireflyRuntime> = runtime => {
-    const i18nextPlugin = getI18nextPlugin(runtime);
-
-    const i18nextInstance = i18n
-        .createInstance()
-        .use(initReactI18next);
-
-    i18nextInstance.init({
-        lng: i18nextPlugin.currentLanguage,
-        // Required for a lazy instance, the plugin fills the store with the loaded bundles.
-        resources: {}
-    });
-
-    i18nextPlugin.registerInstance("an-instance-key", i18nextInstance, {
-        loadResources
-    });
-}
-```
-
 ## Use the Trans component
 
 The [Trans](https://react.i18next.com/latest/trans-component) component is useful for scenarios involving interpolation to render a localized resources. To use the `Trans` component with Squide, pair it with an `i18next` instance retrieved from [useI18nextInstance](../reference/i18next/useI18nextInstance.md) hook:

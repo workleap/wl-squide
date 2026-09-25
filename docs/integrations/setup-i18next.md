@@ -70,7 +70,7 @@ Hence, the strategy to select the displayed language should be as follow:
 1. Use the language detected at bootstrapping for anonymous users (with the [detectUserLanguage](../reference/i18next/i18nextPlugin.md#detect-the-user-language) method previously called).
 2. Upon user authentication and session loading, if a "preferred language" setting is available from the session data, update the displayed language to reflect this preference.
 
-This strategy is implemented with a [deferred registration](../essentials/register-deferred-nav-items.md): the host module returns a deferred registration function that awaits the [changeLanguage](../reference/i18next/i18nextPlugin.md#change-the-current-language) method of the plugin with the preferred language carried by the session. Squide awaits the deferred registration functions before the modules become ready, therefore the switch, including the load of the [lazy](#lazy-load-the-resources) resources, completes before the first protected page renders:
+This strategy is implemented with a [deferred registration](../essentials/register-deferred-nav-items.md): the host module returns a deferred registration function that awaits the [changeLanguage](../reference/i18next/i18nextPlugin.md#change-the-current-language) method of the plugin with the preferred language carried by the session. Squide awaits the deferred registration functions before the modules become ready, therefore the switch completes before the first protected page renders:
 
 ```tsx !#8,10-15 host/src/register.tsx
 import type { ModuleRegisterFunction, FireflyRuntime } from "@squide/firefly";
@@ -90,12 +90,11 @@ export const registerHost: ModuleRegisterFunction<FireflyRuntime, unknown, Defer
 };
 ```
 
-Then, forward the session to the deferred registrations with the [useDeferredRegistrations](../reference/registration/useDeferredRegistrations.md) hook. When the resources of the preferred language fail to load, `changeLanguage` rejects with an [I18nextResourcesLoadError](../reference/i18next/i18nextPlugin.md#handle-a-failed-resources-load) and the language is left unchanged. The rejection reaches the `onError` callback of the hook as the `cause` of a `ModuleRegistrationError`:
+Then, forward the session to the deferred registrations with the [useDeferredRegistrations](../reference/registration/useDeferredRegistrations.md) hook:
 
-```tsx !#9-31,33-40,42-44,46-48
-import { AppRouter, useProtectedDataQueries, useIsBootstrapping, useDeferredRegistrations, type DeferredRegistrationsErrorCallback } from "@squide/firefly";
-import { isI18nextResourcesLoadError } from "@squide/i18next";
-import { useCallback, useMemo } from "react";
+```tsx !#8-30,32-34,36
+import { AppRouter, useProtectedDataQueries, useIsBootstrapping, useDeferredRegistrations } from "@squide/firefly";
+import { useMemo } from "react";
 import { createBrowserRouter, Outlet } from "react-router";
 import { RouterProvider } from "react-router/dom";
 import { ApiError, isApiError, type DeferredRegistrationData, type Session } from "@sample/shared";
@@ -125,22 +124,11 @@ function BootstrappingRoute() {
         }
     ], error => isApiError(error) && error.status === 401);
 
-    const handleDeferredRegistrationErrors = useCallback<DeferredRegistrationsErrorCallback>(errors => {
-        errors.forEach(x => {
-            if (isI18nextResourcesLoadError(x.cause)) {
-                // The application still renders with the previous language, an error page is optional.
-                console.error(`The "${x.cause.language}" resources of the "${x.cause.key}" instance failed to load.`, x.cause);
-            }
-        });
-    }, []);
-
     const data: DeferredRegistrationData = useMemo(() => ({
         session
     }), [session]);
 
-    useDeferredRegistrations(data, {
-        onError: handleDeferredRegistrationErrors
-    });
+    useDeferredRegistrations(data);
 
     if (useIsBootstrapping()) {
         return <div>Loading...</div>;
@@ -293,57 +281,8 @@ export const registerHost: ModuleRegisterFunction<FireflyRuntime> = runtime => {
 };
 ```
 
-!!!warning
-An `i18next` instance must be registered from a module's register function. Once the modules are registered, `registerInstance` throws.
-!!!
-
-### Lazy-load the resources
-
-With the previous code sample, the resources of every supported language land in the initial chunk. To ship only the active language, initialize the instance with an empty `resources` object and provide a [loadResources](../reference/i18next/i18nextPlugin.md#lazy-load-resources-per-language) function when registering the instance. The plugin loads the resources of the current language right away, and the resources of any other language before switching to it:
-
-```tsx !#7-12,23-25,28-30
-import type { ModuleRegisterFunction, FireflyRuntime } from "@squide/firefly";
-import { getI18nextPlugin, type LoadResourcesFunction } from "@squide/i18next";
-import { Page } from "./Page.tsx";
-import i18n from "i18next";
-import { initReactI18next } from "react-i18next";
-
-// Each dynamic import becomes a chunk, only the active language is downloaded.
-const loadResources: LoadResourcesFunction = async language => {
-    const module = await import(`./locales/${language}/resources.json`, { with: { type: "json" } });
-
-    return module.default;
-};
-
-export const registerHost: ModuleRegisterFunction<FireflyRuntime> = runtime => {
-    const i18nextPlugin = getI18nextPlugin(runtime);
-
-    const i18nextInstance = i18n
-        .createInstance()
-        .use(initReactI18next);
-
-    i18nextInstance.init({
-        lng: i18nextPlugin.currentLanguage,
-        // A lazy instance must be initialized with an empty "resources" object so that i18next initializes
-        // synchronously and creates the store filled by the plugin.
-        resources: {}
-    });
-
-    i18nextPlugin.registerInstance("local-module", i18nextInstance, {
-        loadResources
-    });
-
-    runtime.registerRoute({
-        path: "/page",
-        element: <Page />
-    });
-};
-```
-
-While the resources of the current language are loading, the plugin reports itself as [not ready](../reference/i18next/i18nextPlugin.md#wait-for-the-resources-to-be-ready) and [useIsBootstrapping](../reference/routing/useIsBootstrapping.md) stays `true`, so the page never renders raw resource keys. When a load fails, the application still renders and the failure is [reported](../reference/i18next/i18nextPlugin.md#handle-a-failed-resources-load) through the logger, the event bus and the `changeLanguage` promise.
-
 !!!info
-The examples in this guide load all the resources of a language from a single file. For a real Workleap application, group the resources of a language in a single chunk per module and lazy-load them with `loadResources` rather than with an i18next [backend plugin](https://www.i18next.com/overview/plugins-and-utils#backends): the plugin fills the instance store before the language is applied, which keeps the runtime semantics of static resources and never suspends the components.
+The examples in this guide bundle the resources of every supported language with the module. To download only the resources of the active language, refer to the [lazy-load the i18next resources](../recipes/lazy-load-i18next-resources.md) recipe.
 !!!
 
 ### Localize a page resource
@@ -358,10 +297,8 @@ Start the application in a development environment using the `dev` script. Navig
 
 If you are experiencing issues with this guide:
 
-- Open the [DevTools](https://developer.chrome.com/docs/devtools/) console. You'll find a log entry for each `i18next` instance that is being registered, one for each lazy-loaded language and another log everytime the language is changed:
+- Open the [DevTools](https://developer.chrome.com/docs/devtools/) console. You'll find a log entry for each `i18next` instance that is being registered and another log everytime the language is changed:
     - `[squide] Registered a new i18next instance with key "local-module".`
-    - `[squide] Loaded the "fr-CA" resources of the i18next instance with key "local-module".`
     - `[squide] The language has been changed to "fr-CA".`
-    - `[squide] Plugins are ready.`
 - Refer to a working example on [GitHub](https://github.com/workleap/wl-squide/tree/main/samples/endpoints).
 - Refer to the [troubleshooting](../troubleshooting.md) page.
