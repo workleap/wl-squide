@@ -85,7 +85,7 @@ export class i18nextPlugin<T extends string = string> extends Plugin {
 
         // Readiness is only evaluated once the modules are registered, otherwise an empty registry would latch the
         // plugin before any module registers an instance with resources to load.
-        this._runtime.moduleManager.addModulesRegisteredListener(() => {
+        this._runtime.moduleManager.registerModulesRegisteredListener(() => {
             this.#evaluateReadiness();
         });
     }
@@ -252,7 +252,7 @@ export class i18nextPlugin<T extends string = string> extends Plugin {
         return this.#isReady;
     }
 
-    addReadyListener(callback: PluginReadyListener) {
+    registerReadyListener(callback: PluginReadyListener) {
         this.#readyListeners.add(callback);
     }
 

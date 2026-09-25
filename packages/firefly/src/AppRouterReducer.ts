@@ -235,11 +235,11 @@ export function useModuleRegistrationStatusDispatcher(runtime: FireflyRuntime, a
 
     return useEffect(() => {
         if (!areModulesRegisteredValue) {
-            runtime.moduleManager.addModulesRegisteredListener(dispatchModulesRegistered);
+            runtime.moduleManager.registerModulesRegisteredListener(dispatchModulesRegistered);
         }
 
         if (!areModulesReadyValue) {
-            runtime.moduleManager.addModulesReadyListener(dispatchModulesReady);
+            runtime.moduleManager.registerModulesReadyListener(dispatchModulesReady);
         }
 
         return () => {
@@ -267,7 +267,7 @@ export function useMswStatusDispatcher(runtime: FireflyRuntime, isMswReadyValue:
     useEffect(() => {
         if (runtime.isMswEnabled) {
             if (!isMswReadyValue) {
-                runtime.mswState.addMswReadyListener(dispatchMswReady);
+                runtime.mswState.registerMswReadyListener(dispatchMswReady);
             }
 
             return () => {
@@ -320,7 +320,7 @@ export function usePluginsStatusDispatcher(runtime: FireflyRuntime, arePluginsRe
         const pendingPlugins = runtime.plugins.filter(x => typeof x.isReady === "function" && !x.isReady());
 
         pendingPlugins.forEach(x => {
-            x.addReadyListener?.(onPluginReady);
+            x.registerReadyListener?.(onPluginReady);
         });
 
         // The latch of a plugin may have flipped between the reducer initialization and this effect, in which case
@@ -349,7 +349,7 @@ export function useFeatureFlagsUpdatedDispatcher(runtime: FireflyRuntime, dispat
 
     useEffect(() => {
         if (runtime.isLaunchDarklyEnabled) {
-            runtime.featureFlagSetSnapshot.addSnapshotChangedListener(dispatchFeatureFlagsUpdated);
+            runtime.featureFlagSetSnapshot.registerSnapshotChangedListener(dispatchFeatureFlagsUpdated);
 
             return () => {
                 runtime.featureFlagSetSnapshot.removeSnapshotChangedListener(dispatchFeatureFlagsUpdated);

@@ -269,7 +269,7 @@ const snapshot = new FeatureFlagSetSnapshot(ldClient);
 const flags = snapshot.value;
 
 // Listen for changes
-snapshot.addSnapshotChangedListener((newSnapshot, changes) => {
+snapshot.registerSnapshotChangedListener((newSnapshot, changes) => {
     console.log("Flags changed:", changes);
 });
 
@@ -467,7 +467,7 @@ const plugin = new i18nextPlugin(x, ["en-US", "fr-CA"], "en-US", "language", {
 | `detectUserLanguage()` | Detect the user language, falling back to `fallbackLanguage` |
 | `changeLanguage(language): Promise<void>` | Load the language into every lazy instance lacking it, then switch every instance. **Await it.** Rejects with `I18nextResourcesLoadError` on a failed load (language unchanged), and with a plain `Error` when not in `supportedLanguages`. Latest call wins under concurrency. Called with the current language, waits for pending loads without notifying |
 | `registerLanguageChangedListener(listener)` / `removeLanguageChangedListener(listener)` | Subscribe to language changes |
-| `isReady()` / `addReadyListener(listener)` / `removeReadyListener(listener)` | Readiness surface consumed by `useIsBootstrapping`: ready once the modules are registered and every instance settled the load of the current language (a failed load counts as settled). One-way latch, listeners fire once; read `isReady()` first |
+| `isReady()` / `registerReadyListener(listener)` / `removeReadyListener(listener)` | Readiness surface consumed by `useIsBootstrapping`: ready once the modules are registered and every instance settled the load of the current language (a failed load counts as settled). One-way latch, listeners fire once; read `isReady()` first |
 
 Prefer `getI18nextPlugin(runtime)` over `runtime.getPlugin(i18nextPluginName) as i18nextPlugin`.
 

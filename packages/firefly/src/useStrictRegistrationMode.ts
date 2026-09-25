@@ -13,7 +13,7 @@ export function useStrictRegistrationMode(options: UseStrictRegistrationModeOpti
     const runtime = useRuntime();
 
     const subscribe = useCallback((callback: () => void) => {
-        runtime.moduleManager.addModulesReadyListener(callback);
+        runtime.moduleManager.registerModulesReadyListener(callback);
 
         return () => {
             runtime.moduleManager.removeModulesReadyListener(callback);

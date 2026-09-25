@@ -32,12 +32,12 @@ onDeferredRegistrationScopeStarted?(options: {
 ```
 
 - `isReady()`: Indicate whether the plugin has finished the asynchronous work the application must wait for before rendering. A plugin that doesn't implement it is always considered ready. See [Report readiness](#report-readiness).
-- `addReadyListener(callback)`: Register a listener executed once, when the plugin becomes ready.
+- `registerReadyListener(callback)`: Register a listener executed once, when the plugin becomes ready.
 - `removeReadyListener(callback)`: Remove a previously registered ready listener.
 
 ```ts
 isReady?(): boolean;
-addReadyListener?(callback: () => void): void;
+registerReadyListener?(callback: () => void): void;
 removeReadyListener?(callback: () => void): void;
 ```
 
@@ -211,7 +211,7 @@ A module that throws doesn't fail the run either. Module errors are collected an
 
 ### Report readiness
 
-Some plugins perform asynchronous work that the application must wait for before rendering a page, such as the [i18nextPlugin](../i18next/i18nextPlugin.md) loading the resources of the current language. A plugin reports that work through the optional readiness surface: `isReady`, `addReadyListener` and `removeReadyListener`. [useIsBootstrapping](../routing/useIsBootstrapping.md) stays `true` until every plugin implementing `isReady` returns `true`.
+Some plugins perform asynchronous work that the application must wait for before rendering a page, such as the [i18nextPlugin](../i18next/i18nextPlugin.md) loading the resources of the current language. A plugin reports that work through the optional readiness surface: `isReady`, `registerReadyListener` and `removeReadyListener`. [useIsBootstrapping](../routing/useIsBootstrapping.md) stays `true` until every plugin implementing `isReady` returns `true`.
 
 Readiness is a **one-way latch**: once `isReady` returns `true`, it never returns `false` again, whatever the plugin does afterwards. A latch that would flip back would show the bootstrapping fallback over an already rendered page. Work started after the latch flipped is the plugin's own to await, typically by returning a promise to its caller.
 
@@ -236,7 +236,7 @@ export class MyPlugin extends Plugin {
         return this.#isReady;
     }
 
-    addReadyListener(callback: PluginReadyListener) {
+    registerReadyListener(callback: PluginReadyListener) {
         this.#readyListeners.add(callback);
     }
 

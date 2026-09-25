@@ -72,8 +72,8 @@ describe.concurrent("InMemoryLaunchDarklyClient", () => {
         const listener1 = vi.fn();
         const listener2 = vi.fn();
 
-        snapshot.addSnapshotChangedListener(listener1);
-        snapshot.addSnapshotChangedListener(listener2);
+        snapshot.registerSnapshotChangedListener(listener1);
+        snapshot.registerSnapshotChangedListener(listener2);
 
         const changes = {
             "flag-b": false
@@ -111,8 +111,8 @@ describe.concurrent("InMemoryLaunchDarklyClient", () => {
         const listener1 = vi.fn();
         const listener2 = vi.fn();
 
-        snapshot.addSnapshotChangedListener(listener1);
-        snapshot.addSnapshotChangedListener(listener2);
+        snapshot.registerSnapshotChangedListener(listener1);
+        snapshot.registerSnapshotChangedListener(listener2);
 
         snapshot.removeSnapshotChangedListener(listener1);
         snapshot.removeSnapshotChangedListener(listener2);
@@ -197,8 +197,8 @@ describe("LocalStorageLaunchDarklyClient", () => {
         const listener1 = vi.fn();
         const listener2 = vi.fn();
 
-        snapshot.addSnapshotChangedListener(listener1);
-        snapshot.addSnapshotChangedListener(listener2);
+        snapshot.registerSnapshotChangedListener(listener1);
+        snapshot.registerSnapshotChangedListener(listener2);
 
         const changes = {
             "flag-b": false
@@ -236,8 +236,8 @@ describe("LocalStorageLaunchDarklyClient", () => {
         const listener1 = vi.fn();
         const listener2 = vi.fn();
 
-        snapshot.addSnapshotChangedListener(listener1);
-        snapshot.addSnapshotChangedListener(listener2);
+        snapshot.registerSnapshotChangedListener(listener1);
+        snapshot.registerSnapshotChangedListener(listener2);
 
         snapshot.removeSnapshotChangedListener(listener1);
         snapshot.removeSnapshotChangedListener(listener2);

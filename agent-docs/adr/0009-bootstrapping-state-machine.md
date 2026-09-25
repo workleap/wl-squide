@@ -23,7 +23,7 @@ Option 4. The `AppRouterReducer` manages the following lifecycle ordering:
 
 1. `modules-registered` — All module `register()` functions have completed.
 2. `msw-ready` — MSW service worker is active (or skipped if `useMsw: false`).
-3. `plugins-ready` — Every plugin implementing the optional readiness surface of `Plugin` (`isReady()`, `addReadyListener()`, `removeReadyListener()`) reports ready. Plugins without the surface always count as ready, and the action is only replayed at initialization when at least one plugin implements the surface, so an application without such plugins observes the same events as before. The i18next plugin uses it to hold rendering until the resources of the current language are loaded (ADR-0010).
+3. `plugins-ready` — Every plugin implementing the optional readiness surface of `Plugin` (`isReady()`, `registerReadyListener()`, `removeReadyListener()`) reports ready. Plugins without the surface always count as ready, and the action is only replayed at initialization when at least one plugin implements the surface, so an application without such plugins observes the same events as before. The i18next plugin uses it to hold rendering until the resources of the current language are loaded (ADR-0010).
 4. `modules-ready` — The combined gate: modules registered + deferred registrations registered.
 5. `active-route-is-public` / `active-route-is-protected` — The framework knows whether the active route is public or protected.
 6. `public-data-ready` — Global public data queries have resolved.

@@ -7,7 +7,7 @@ export function useFeatureFlags() {
     const plugin = getLaunchDarklyPlugin(runtime);
 
     const subscribe = useCallback((callback: () => void) => {
-        plugin.featureFlagSetSnapshot.addSnapshotChangedListener(callback);
+        plugin.featureFlagSetSnapshot.registerSnapshotChangedListener(callback);
 
         return () => {
             plugin.featureFlagSetSnapshot.removeSnapshotChangedListener(callback);

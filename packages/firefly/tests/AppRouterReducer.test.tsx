@@ -85,7 +85,7 @@ class DummyMswState extends MswState {
         this.#isReady = isReady;
     }
 
-    addMswReadyListener(callback: MswReadyListener) {
+    registerMswReadyListener(callback: MswReadyListener) {
         this.#stateChangedListeners.add(callback);
     }
 
@@ -120,7 +120,7 @@ class DummyReadyPlugin extends Plugin {
         return this.#isReady;
     }
 
-    addReadyListener(callback: PluginReadyListener) {
+    registerReadyListener(callback: PluginReadyListener) {
         this.#readyListeners.add(callback);
     }
 

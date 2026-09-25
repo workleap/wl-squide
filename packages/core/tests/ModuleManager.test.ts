@@ -1575,9 +1575,9 @@ describe.concurrent("modules registered listeners", () => {
     test.concurrent("can register a listener", ({ expect }) => {
         const manager = new ModuleManager(new DummyRuntime(), []);
 
-        manager.addModulesRegisteredListener(() => {});
-        manager.addModulesRegisteredListener(() => {});
-        manager.addModulesRegisteredListener(() => {});
+        manager.registerModulesRegisteredListener(() => {});
+        manager.registerModulesRegisteredListener(() => {});
+        manager.registerModulesRegisteredListener(() => {});
 
         expect(manager.listenersCount).toBe(3);
     });
@@ -1593,7 +1593,7 @@ describe.concurrent("modules registered listeners", () => {
             registry3
         ]);
 
-        manager.addModulesRegisteredListener(() => {});
+        manager.registerModulesRegisteredListener(() => {});
 
         expect(registry1.statusListenersCount).toBe(1);
         expect(registry2.statusListenersCount).toBe(1);
@@ -1607,9 +1607,9 @@ describe.concurrent("modules registered listeners", () => {
         const listener2 = () => {};
         const listener3 = () => {};
 
-        manager.addModulesRegisteredListener(listener1);
-        manager.addModulesRegisteredListener(listener2);
-        manager.addModulesRegisteredListener(listener3);
+        manager.registerModulesRegisteredListener(listener1);
+        manager.registerModulesRegisteredListener(listener2);
+        manager.registerModulesRegisteredListener(listener3);
 
         manager.removeModulesRegisteredListener(listener2);
 
@@ -1639,9 +1639,9 @@ describe.concurrent("modules registered listeners", () => {
         const listener2 = () => {};
         const listener3 = () => {};
 
-        manager.addModulesRegisteredListener(listener1);
-        manager.addModulesRegisteredListener(listener2);
-        manager.addModulesRegisteredListener(listener3);
+        manager.registerModulesRegisteredListener(listener1);
+        manager.registerModulesRegisteredListener(listener2);
+        manager.registerModulesRegisteredListener(listener3);
 
         expect(registry1.statusListenersCount).toBe(3);
         expect(registry1.statusListenersCount).toBe(3);
@@ -1681,9 +1681,9 @@ describe.concurrent("modules registered listeners", () => {
         const listener2 = vi.fn();
         const listener3 = vi.fn();
 
-        manager.addModulesRegisteredListener(listener1);
-        manager.addModulesRegisteredListener(listener2);
-        manager.addModulesRegisteredListener(listener3);
+        manager.registerModulesRegisteredListener(listener1);
+        manager.registerModulesRegisteredListener(listener2);
+        manager.registerModulesRegisteredListener(listener3);
 
         registry1.notifyStatusListeners();
         registry2.notifyStatusListeners();
@@ -1710,9 +1710,9 @@ describe.concurrent("modules registered listeners", () => {
         const listener2 = vi.fn();
         const listener3 = vi.fn();
 
-        manager.addModulesRegisteredListener(listener1);
-        manager.addModulesRegisteredListener(listener2);
-        manager.addModulesRegisteredListener(listener3);
+        manager.registerModulesRegisteredListener(listener1);
+        manager.registerModulesRegisteredListener(listener2);
+        manager.registerModulesRegisteredListener(listener3);
 
         registry1.notifyStatusListeners();
         registry2.notifyStatusListeners();
@@ -1733,7 +1733,7 @@ describe.concurrent("modules registered listeners", () => {
 
         const listener = vi.fn();
 
-        manager.addModulesRegisteredListener(listener);
+        manager.registerModulesRegisteredListener(listener);
         manager.addModuleRegistry(registry2);
 
         expect(registry2.statusListenersCount).toBe(1);
@@ -1754,7 +1754,7 @@ describe.concurrent("modules registered listeners", () => {
 
         const listener = vi.fn();
 
-        manager.addModulesRegisteredListener(listener);
+        manager.registerModulesRegisteredListener(listener);
         manager.addModuleRegistry(registry2);
         manager.removeModulesRegisteredListener(listener);
 
@@ -1824,9 +1824,9 @@ describe.concurrent("modules ready listeners", () => {
     test.concurrent("can register a listener", ({ expect }) => {
         const manager = new ModuleManager(new DummyRuntime(), []);
 
-        manager.addModulesReadyListener(() => {});
-        manager.addModulesReadyListener(() => {});
-        manager.addModulesReadyListener(() => {});
+        manager.registerModulesReadyListener(() => {});
+        manager.registerModulesReadyListener(() => {});
+        manager.registerModulesReadyListener(() => {});
 
         expect(manager.listenersCount).toBe(3);
     });
@@ -1842,7 +1842,7 @@ describe.concurrent("modules ready listeners", () => {
             registry3
         ]);
 
-        manager.addModulesReadyListener(() => {});
+        manager.registerModulesReadyListener(() => {});
 
         expect(registry1.statusListenersCount).toBe(1);
         expect(registry2.statusListenersCount).toBe(1);
@@ -1856,9 +1856,9 @@ describe.concurrent("modules ready listeners", () => {
         const listener2 = () => {};
         const listener3 = () => {};
 
-        manager.addModulesReadyListener(listener1);
-        manager.addModulesReadyListener(listener2);
-        manager.addModulesReadyListener(listener3);
+        manager.registerModulesReadyListener(listener1);
+        manager.registerModulesReadyListener(listener2);
+        manager.registerModulesReadyListener(listener3);
 
         manager.removeModulesReadyListener(listener2);
 
@@ -1888,9 +1888,9 @@ describe.concurrent("modules ready listeners", () => {
         const listener2 = () => {};
         const listener3 = () => {};
 
-        manager.addModulesReadyListener(listener1);
-        manager.addModulesReadyListener(listener2);
-        manager.addModulesReadyListener(listener3);
+        manager.registerModulesReadyListener(listener1);
+        manager.registerModulesReadyListener(listener2);
+        manager.registerModulesReadyListener(listener3);
 
         expect(registry1.statusListenersCount).toBe(3);
         expect(registry1.statusListenersCount).toBe(3);
@@ -1930,9 +1930,9 @@ describe.concurrent("modules ready listeners", () => {
         const listener2 = vi.fn();
         const listener3 = vi.fn();
 
-        manager.addModulesReadyListener(listener1);
-        manager.addModulesReadyListener(listener2);
-        manager.addModulesReadyListener(listener3);
+        manager.registerModulesReadyListener(listener1);
+        manager.registerModulesReadyListener(listener2);
+        manager.registerModulesReadyListener(listener3);
 
         registry1.notifyStatusListeners();
         registry2.notifyStatusListeners();
@@ -1959,9 +1959,9 @@ describe.concurrent("modules ready listeners", () => {
         const listener2 = vi.fn();
         const listener3 = vi.fn();
 
-        manager.addModulesReadyListener(listener1);
-        manager.addModulesReadyListener(listener2);
-        manager.addModulesReadyListener(listener3);
+        manager.registerModulesReadyListener(listener1);
+        manager.registerModulesReadyListener(listener2);
+        manager.registerModulesReadyListener(listener3);
 
         registry1.notifyStatusListeners();
         registry2.notifyStatusListeners();
@@ -1982,7 +1982,7 @@ describe.concurrent("modules ready listeners", () => {
 
         const listener = vi.fn();
 
-        manager.addModulesReadyListener(listener);
+        manager.registerModulesReadyListener(listener);
         manager.addModuleRegistry(registry2);
 
         expect(registry2.statusListenersCount).toBe(1);

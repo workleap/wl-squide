@@ -18,7 +18,7 @@ export function useFeatureFlag<T extends FeatureFlagKey>(key: T, defaultValue?: 
             }
         };
 
-        plugin.featureFlagSetSnapshot.addSnapshotChangedListener(listener);
+        plugin.featureFlagSetSnapshot.registerSnapshotChangedListener(listener);
 
         return () => {
             plugin.featureFlagSetSnapshot.removeSnapshotChangedListener(listener);
