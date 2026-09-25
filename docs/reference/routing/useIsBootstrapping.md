@@ -8,6 +8,8 @@ toc:
 
 Indicate whether the application is currently being bootstrapped, such as registering modules, handling deferred registrations, preparing [Mock Service Worker](https://mswjs.io/), fetching global data, waiting for [plugins](../plugins/Plugin.md#report-readiness) to be ready, etc.
 
+The hook stays `true` until every plugin implementing the [readiness surface](../plugins/Plugin.md#report-readiness) is ready, for example until the [i18nextPlugin](../i18next/i18nextPlugin.md) has loaded the resources of the current language. This also applies when a `401` response bypasses the protected data wait to render the login page.
+
 ## Reference
 
 ```ts

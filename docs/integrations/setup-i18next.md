@@ -293,6 +293,10 @@ export const registerHost: ModuleRegisterFunction<FireflyRuntime> = runtime => {
 };
 ```
 
+!!!warning
+An `i18next` instance must be registered from a module's register function. Once the modules are registered, `registerInstance` throws.
+!!!
+
 ### Lazy-load the resources
 
 With the previous code sample, the resources of every supported language land in the initial chunk. To ship only the active language, initialize the instance with an empty `resources` object and provide a [loadResources](../reference/i18next/i18nextPlugin.md#lazy-load-resources-per-language) function when registering the instance. The plugin loads the resources of the current language right away, and the resources of any other language before switching to it:
@@ -336,6 +340,8 @@ export const registerHost: ModuleRegisterFunction<FireflyRuntime> = runtime => {
 };
 ```
 
+While the resources of the current language are loading, the plugin reports itself as [not ready](../reference/i18next/i18nextPlugin.md#wait-for-the-resources-to-be-ready) and [useIsBootstrapping](../reference/routing/useIsBootstrapping.md) stays `true`, so the page never renders raw resource keys. When a load fails, the application still renders and the failure is [reported](../reference/i18next/i18nextPlugin.md#handle-a-failed-resources-load) through the logger, the event bus and the `changeLanguage` promise.
+
 !!!info
 The examples in this guide load all the resources of a language from a single file. For a real Workleap application, group the resources of a language in a single chunk per module and lazy-load them with `loadResources` rather than with an i18next [backend plugin](https://www.i18next.com/overview/plugins-and-utils#backends): the plugin fills the instance store before the language is applied, which keeps the runtime semantics of static resources and never suspends the components.
 !!!
@@ -356,5 +362,6 @@ If you are experiencing issues with this guide:
     - `[squide] Registered a new i18next instance with key "local-module".`
     - `[squide] Loaded the "fr-CA" resources of the i18next instance with key "local-module".`
     - `[squide] The language has been changed to "fr-CA".`
+    - `[squide] Plugins are ready.`
 - Refer to a working example on [GitHub](https://github.com/workleap/wl-squide/tree/main/samples/endpoints).
 - Refer to the [troubleshooting](../troubleshooting.md) page.
