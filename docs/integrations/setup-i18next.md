@@ -321,23 +321,6 @@ The empty `resources` object is required. Without a `resources` option, `i18next
 
 An instance can be hybrid: initialize it with the static resources of one language and provide a `loadResources` function for the others. The plugin only loads a language the instance doesn't hold. Modules with static resources and modules with lazy resources can coexist. For a [remote module](../module-federation/setup-i18next.md), each dynamic import becomes a chunk of the remote, served through Module Federation like any other chunk of that module.
 
-### Apply the preferred language
-
-The effect shown in the [backend language setting](#integrate-a-backend-language-setting) section needs no change. Squide consults the plugin once the global data is fetched, and the plugin reports itself as not ready while the resources of the preferred language download, therefore [useIsBootstrapping](../reference/routing/useIsBootstrapping.md) stays `true` and the first protected page renders in the preferred language.
-
-A failed download never blocks the rendering of the application: `changeLanguage` rejects with an [I18nextResourcesLoadError](../reference/i18next/i18nextPlugin.md#handle-a-failed-resources-load), the language is left unchanged and the page renders with the resources of the detected language. Handle the rejection to avoid an unhandled promise:
-
-```tsx !#4-7
-useEffect(() => {
-    if (session) {
-        changeLanguage(session.user.preferredLanguage)
-            .catch(() => {
-                // The plugin already logged the failure and dispatched an event, the application renders with the current language.
-            });
-    }
-}, [session, changeLanguage]);
-```
-
 ### Align the detected language with the preferred language
 
 The modules register before any global data is fetched, therefore the plugin loads the resources of the language [detected at bootstrapping](#register-the-plugin) when an instance is registered: the querystring parameter, the navigator language or the fallback language. The login page and every public page render from these resources. The user preferred language is only known once the session is loaded, and the switch then downloads its resources before the first protected page renders.
