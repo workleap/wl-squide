@@ -546,7 +546,7 @@ return async (deferredRuntime, data) => {
 };
 ```
 
-Clear the persisted value on logout, otherwise the next user of the browser starts with the previous user's language until their session loads. Returning users then detect their preferred language at bootstrapping and download a single language.
+Keep the persisted value after a logout: the next session on the same browser is most likely the same user, so the login page renders in their language and returning users download a single language. A different user sees the previous language until their session loads, then the switch updates the persisted value.
 
 ### Use in Components
 

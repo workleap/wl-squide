@@ -388,7 +388,7 @@ export const registerHost: ModuleRegisterFunction<FireflyRuntime, unknown, Defer
 };
 ```
 
-Clear the persisted value when the user logs out, otherwise the next user of the same browser starts with the previous user's language until their own session is loaded.
+Keep the persisted value after a logout: the next session on the same browser is most likely the same user, and the login page then renders in their language. A different user of the same browser sees the previous user's language until their own session is loaded, at which point the switch above applies and updates the persisted value.
 
 ### Handle a failed load
 
