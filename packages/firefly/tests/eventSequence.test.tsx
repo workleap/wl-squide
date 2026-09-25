@@ -91,7 +91,7 @@ class DummyReadyPlugin extends Plugin {
         return this.#isReady;
     }
 
-    registerReadyListener(callback: PluginReadyListener) {
+    addReadyListener(callback: PluginReadyListener) {
         this.#readyListeners.add(callback);
     }
 

@@ -51,7 +51,7 @@ A plugin hook whose types live outside `@squide/core` cannot go on the class —
 interface extending `Plugin` and is duck-typed at the call site, as `FireflyPlugin` does for
 `registerHoneycombTrackingListeners`.
 
-`Plugin` also carries an optional **readiness surface**: `isReady()`, `registerReadyListener()` and
+`Plugin` also carries an optional **readiness surface**: `isReady()`, `addReadyListener()` and
 `removeReadyListener()`. A plugin implements it when it performs asynchronous work the application
 must wait for before rendering (the i18next plugin loading the resources of the current language).
 `@squide/firefly` consumes it generically: `useAppRouterReducer` reads every plugin's `isReady()` at

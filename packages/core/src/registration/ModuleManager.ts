@@ -181,7 +181,7 @@ export class ModuleManager {
         });
     }
 
-    registerModulesRegisteredListener(callback: ModuleRegistrationStatusListener) {
+    addModulesRegisteredListener(callback: ModuleRegistrationStatusListener) {
         const onChange: ModuleRegistrationStatusListener = () => {
             if (this.getAreModulesRegistered()) {
                 this.removeModulesRegisteredListener(callback);
@@ -197,7 +197,7 @@ export class ModuleManager {
         this.listenerRefs.set(callback, onChange);
     }
 
-    registerModulesReadyListener(callback: ModuleRegistrationStatusListener) {
+    addModulesReadyListener(callback: ModuleRegistrationStatusListener) {
         const onChange: ModuleRegistrationStatusListener = () => {
             if (this.getAreModulesReady()) {
                 this.removeModulesRegisteredListener(callback);

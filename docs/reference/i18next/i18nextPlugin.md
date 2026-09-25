@@ -210,7 +210,7 @@ plugin.removeLanguageChangedListener(listener);
 
 ### Wait for the resources to be ready
 
-The plugin implements the [readiness surface](../plugins/Plugin.md#report-readiness) of `Plugin`: `isReady`, `registerReadyListener` and `removeReadyListener`. It becomes ready once the modules are registered and every registered instance has settled the load of the current language resources, either by holding them or by failing to load them. [useIsBootstrapping](../routing/useIsBootstrapping.md) waits for it, so the application never renders raw resource keys while the initial resources are loading.
+The plugin implements the [readiness surface](../plugins/Plugin.md#report-readiness) of `Plugin`: `isReady`, `addReadyListener` and `removeReadyListener`. It becomes ready once the modules are registered and every registered instance has settled the load of the current language resources, either by holding them or by failing to load them. [useIsBootstrapping](../routing/useIsBootstrapping.md) waits for it, so the application never renders raw resource keys while the initial resources are loading.
 
 Readiness is a one-way latch: a later language change never resets it, the pending loads of that change are awaited through the promise returned by [changeLanguage](#change-the-current-language) instead.
 
@@ -221,7 +221,7 @@ const plugin = runtime.getPlugin(i18nextPluginName) as i18nextPlugin;
 
 if (!plugin.isReady()) {
     // A listener registered once the plugin is ready is never executed, always read "isReady" first.
-    plugin.registerReadyListener(() => {
+    plugin.addReadyListener(() => {
         console.log("The resources of the current language are loaded.");
     });
 }

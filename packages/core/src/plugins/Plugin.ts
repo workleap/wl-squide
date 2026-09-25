@@ -79,10 +79,10 @@ export abstract class Plugin<TRuntime extends Runtime = Runtime> {
      * @remarks
      * This must stay an optional *method* signature, for the same reason as {@link isReady}.
      */
-    registerReadyListener?(callback: PluginReadyListener): void;
+    addReadyListener?(callback: PluginReadyListener): void;
 
     /**
-     * Optional. Removes a listener registered with {@link registerReadyListener}.
+     * Optional. Removes a listener registered with {@link addReadyListener}.
      *
      * @remarks
      * This must stay an optional *method* signature, for the same reason as {@link isReady}.

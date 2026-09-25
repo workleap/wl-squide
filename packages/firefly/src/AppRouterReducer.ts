@@ -235,11 +235,11 @@ export function useModuleRegistrationStatusDispatcher(runtime: FireflyRuntime, a
 
     return useEffect(() => {
         if (!areModulesRegisteredValue) {
-            runtime.moduleManager.registerModulesRegisteredListener(dispatchModulesRegistered);
+            runtime.moduleManager.addModulesRegisteredListener(dispatchModulesRegistered);
         }
 
         if (!areModulesReadyValue) {
-            runtime.moduleManager.registerModulesReadyListener(dispatchModulesReady);
+            runtime.moduleManager.addModulesReadyListener(dispatchModulesReady);
         }
 
         return () => {
@@ -286,7 +286,7 @@ export function hasReadinessAwarePlugins(runtime: FireflyRuntime) {
     return runtime.plugins.some(x => typeof x.isReady === "function");
 }
 
-export function usePluginsReadinessDispatcher(runtime: FireflyRuntime, arePluginsReadyValue: boolean, dispatch: AppRouterDispatch) {
+export function usePluginsStatusDispatcher(runtime: FireflyRuntime, arePluginsReadyValue: boolean, dispatch: AppRouterDispatch) {
     const logger = useLogger();
 
     const dispatchPluginsReady = useCallback(() => {
@@ -320,7 +320,7 @@ export function usePluginsReadinessDispatcher(runtime: FireflyRuntime, arePlugin
         const pendingPlugins = runtime.plugins.filter(x => typeof x.isReady === "function" && !x.isReady());
 
         pendingPlugins.forEach(x => {
-            x.registerReadyListener?.(onPluginReady);
+            x.addReadyListener?.(onPluginReady);
         });
 
         // The latch of a plugin may have flipped between the reducer initialization and this effect, in which case
@@ -504,7 +504,7 @@ export function useAppRouterReducer(waitForPublicData: boolean, waitForProtected
 
     useModuleRegistrationStatusDispatcher(runtime, areModulesRegisteredValue, areModulesReadyValue, dispatch);
     useMswStatusDispatcher(runtime, isMswReadyValue, dispatch);
-    usePluginsReadinessDispatcher(runtime, arePluginsReadyValue, dispatch);
+    usePluginsStatusDispatcher(runtime, arePluginsReadyValue, dispatch);
     useFeatureFlagsUpdatedDispatcher(runtime, dispatch);
     useBootstrappingCompletedDispatcher(waitState, state);
 

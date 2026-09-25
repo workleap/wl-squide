@@ -19,7 +19,7 @@ import {
     useFeatureFlagsUpdatedDispatcher,
     useModuleRegistrationStatusDispatcher,
     useMswStatusDispatcher,
-    usePluginsReadinessDispatcher,
+    usePluginsStatusDispatcher,
     type AppRouterDispatch
 } from "../src/AppRouterReducer.ts";
 import { FireflyProvider } from "../src/FireflyProvider.tsx";
@@ -120,7 +120,7 @@ class DummyReadyPlugin extends Plugin {
         return this.#isReady;
     }
 
-    registerReadyListener(callback: PluginReadyListener) {
+    addReadyListener(callback: PluginReadyListener) {
         this.#readyListeners.add(callback);
     }
 
@@ -1467,9 +1467,9 @@ describe.concurrent("useMswStatusDispatcher", () => {
     });
 });
 
-describe.concurrent("usePluginsReadinessDispatcher", () => {
+describe.concurrent("usePluginsStatusDispatcher", () => {
     function renderUsePluginsReadinessDispatcherHook<TProps>(runtime: FireflyRuntime, arePluginsReady: boolean, dispatch: AppRouterDispatch, additionalProps: RenderHookOptions<TProps> = {}) {
-        return renderHook(() => usePluginsReadinessDispatcher(runtime, arePluginsReady, dispatch), {
+        return renderHook(() => usePluginsStatusDispatcher(runtime, arePluginsReady, dispatch), {
             wrapper: ({ children }: { children?: ReactNode }) => (
                 <FireflyProvider runtime={runtime}>
                     {children}

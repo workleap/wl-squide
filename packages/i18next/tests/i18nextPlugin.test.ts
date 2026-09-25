@@ -621,7 +621,7 @@ describe.concurrent("readiness", () => {
 
         const listener = vi.fn();
 
-        plugin.registerReadyListener(listener);
+        plugin.addReadyListener(listener);
 
         await registerModules(runtime);
 
@@ -645,7 +645,7 @@ describe.concurrent("readiness", () => {
 
         const listener = vi.fn();
 
-        plugin.registerReadyListener(listener);
+        plugin.addReadyListener(listener);
         plugin.removeReadyListener(listener);
 
         await registerModules(runtime);

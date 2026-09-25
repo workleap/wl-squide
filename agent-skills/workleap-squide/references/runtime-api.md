@@ -444,7 +444,7 @@ Rules:
 - A faulty plugin is isolated, not fatal: a throwing hook or completion function is logged, the remaining plugins are still notified, the modules still register, and the run still resolves. The error reaches the runtime logger only, never the `onError` callback of `useDeferredRegistrations`.
 - Module registration errors do **not** count as a failed run: they are collected and returned as `ModuleRegistrationError[]` rather than thrown. There is no per-module rollback either — a module that throws part way through keeps whatever it already registered and only loses what it hadn't registered yet, so a plugin registry can hold a half-registered module's entries.
 
-#### isReady() / registerReadyListener(callback) / removeReadyListener(callback) — optional
+#### isReady() / addReadyListener(callback) / removeReadyListener(callback) — optional
 
 A plugin performing asynchronous work the application must wait for before rendering (the `i18nextPlugin` loading the resources of the current language) implements the readiness surface. `useIsBootstrapping()` stays `true` until every plugin implementing `isReady` returns `true`, on the normal path and on the 401 path alike. A plugin without the surface is always ready.
 
@@ -464,7 +464,7 @@ export class MyPlugin extends Plugin {
         return this.#isReady;
     }
 
-    registerReadyListener(callback: PluginReadyListener) {
+    addReadyListener(callback: PluginReadyListener) {
         this.#readyListeners.add(callback);
     }
 
