@@ -193,13 +193,17 @@ export class i18nextPlugin<T extends string = string> extends Plugin {
      * The returned promise resolves once the switch is done. It rejects with an {@link I18nextResourcesLoadError}
      * when a load fails, in which case the language is left unchanged. When the call is superseded by a more recent
      * call, it resolves without switching. Called with the current language, it waits for the pending loads of that
-     * language without notifying the listeners.
+     * language without notifying the listeners. Throws synchronously when the language isn't supported.
      */
-    async changeLanguage(language: T) {
+    changeLanguage(language: T): Promise<void> {
         if (!this.#supportedLanguages.includes(language)) {
             throw new Error(`[squide] Cannot change language for "${language}" because it's not part of the supported languages array. Supported languages are ${this.#supportedLanguages.map(x => `"${x}"`).join(",")}.`);
         }
 
+        return this.#changeLanguage(language);
+    }
+
+    async #changeLanguage(language: T) {
         // Latest call wins.
         const token = ++this.#changeLanguageToken;
 

@@ -152,16 +152,16 @@ const language = plugin.currentLanguage;
 
 ### Change the current language
 
-`changeLanguage` returns a promise. It first loads the resources of the requested language into every [lazy](#lazy-load-resources-per-language) instance that doesn't hold them, then switches every registered instance, updates the [current language](#retrieve-the-current-language) and notifies the [language changed listeners](#listen-for-language-changes). Always `await` it, or handle the returned promise.
-
 ```ts !#6
 import { i18nextPlugin, i18nextPluginName } from "@squide/i18next";
 
 const plugin = runtime.getPlugin(i18nextPluginName) as i18nextPlugin;
 
-// If the language isn't included in the "supportedLanguages" array, the promise rejects.
-await plugin.changeLanguage("fr-CA");
+// If the language isn't included in the "supportedLanguages" array, an error will be thrown.
+plugin.changeLanguage("fr-CA");
 ```
+
+With [lazy](#lazy-load-resources-per-language) instances, the returned promise resolves once the resources of the new language are loaded and the language is switched. It rejects with an [I18nextResourcesLoadError](#handle-a-failed-resources-load) when a load fails.
 
 ### Listen for language changes
 

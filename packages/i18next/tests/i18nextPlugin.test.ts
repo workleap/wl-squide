@@ -390,11 +390,11 @@ describe.concurrent("changeLanguage", () => {
         expect(plugin.currentLanguage).toBe("fr-CA");
     });
 
-    test.concurrent("when the language is not supported, reject", async ({ expect }) => {
+    test.concurrent("when the language is not supported, throw", ({ expect }) => {
         const plugin = createPlugin();
 
         // @ts-expect-error Testing an unsupported language.
-        await expect(plugin.changeLanguage("es-ES")).rejects.toThrow(/not part of the supported languages/);
+        expect(() => plugin.changeLanguage("es-ES")).toThrow(/not part of the supported languages/);
     });
 
     test.concurrent("when called with the current language, wait for the pending loads without notifying the listeners", async ({ expect }) => {

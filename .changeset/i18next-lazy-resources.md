@@ -13,12 +13,12 @@ Resources can now be lazy-loaded per language, and the plugin reports its readin
 
 **Breaking**
 
-- `changeLanguage(language)` now returns a `Promise<void>`. Await it. It resolves once the resources of the language are loaded into every lazy instance and the switch is done. When nothing needs loading, the switch still happens synchronously. Latest call wins: a call superseded by a more recent one resolves without switching. Called with the current language, it waits for the pending loads of that language and resolves without notifying the listeners.
-- An unsupported language now rejects the returned promise instead of throwing synchronously, and a failed resources load rejects with an `I18nextResourcesLoadError` while leaving the language unchanged.
+- `changeLanguage(language)` now returns a `Promise<void>`. It resolves once the resources of the language are loaded into every lazy instance and the switch is done. With static resources, the switch still happens synchronously and the call doesn't need to be awaited.
+- A failed resources load rejects the promise with an `I18nextResourcesLoadError` and leaves the language unchanged. An unsupported language still throws synchronously.
 - `useChangeLanguage()` returns `(language) => Promise<void>`. A React effect written as a concise arrow function now returns the promise to React, which is not allowed: use a block body, `useEffect(() => { changeLanguage(language); }, [language]);`.
 - `registerInstance` throws once the modules are registered. Instances must be registered from a module's register function, never from a deferred registration function.
 
 **Migration**
 
-- Search for `changeLanguage(` and `useChangeLanguage()` usages and await the promise, or wrap the call in a block body when used in an effect or an event handler. The effect switching to the session's preferred language from the bootstrapping route keeps working as is, with lazy resources included: `useIsBootstrapping` holds the render while the preferred language downloads. Add a `.catch` to it when the resources are lazy-loaded, a failed download rejects the promise.
+- With static resources, nothing changes except effects written as concise arrow functions, which must use a block body. With lazy resources, the effect switching to the session's preferred language from the bootstrapping route keeps working as is: `useIsBootstrapping` holds the render while the preferred language downloads. Elsewhere, await the promise when the switch must be complete before continuing.
 - Requires `@squide/core` 7.6.0 or later and `@squide/firefly` 19.3.0 or later for `useIsBootstrapping` to wait for the resources.

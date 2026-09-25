@@ -514,7 +514,7 @@ const language = useCurrentLanguage();
 ```
 
 ### useChangeLanguage()
-Get a function to change the language: `(language) => Promise<void>`. It loads the language into every lazy instance lacking it, then switches every instance. **Await it.** Rejects with `I18nextResourcesLoadError` when a load fails (language unchanged), and with a plain `Error` when the language isn't supported. In a React effect or event handler, use a block body so the promise isn't returned to React.
+Get a function to change the language: `(language) => Promise<void>`. With static resources the switch is synchronous and the call doesn't need to be awaited. With lazy instances, the promise resolves once the resources of the language are loaded and the switch is done; it rejects with `I18nextResourcesLoadError` when a load fails (language unchanged). An unsupported language throws synchronously. In a React effect, use a block body so the promise isn't returned to React.
 
 ```ts
 import { useChangeLanguage } from "@squide/i18next";

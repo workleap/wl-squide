@@ -20,7 +20,7 @@ None
 
 ### Returns
 
-A function to change the current language of an `i18nextPlugin` instance: `(newLanguage) => Promise<void>`. The promise resolves once the resources of the new language are loaded into every [lazy](./i18nextPlugin.md#lazy-load-resources-per-language) instance and the language is switched. It rejects with an [I18nextResourcesLoadError](./i18nextPlugin.md#handle-a-failed-resources-load) when a load fails, and with a plain `Error` when the language isn't part of the supported languages. See [change the current language](./i18nextPlugin.md#change-the-current-language) for the details.
+A function to change the current language of an `i18nextPlugin` instance: `(newLanguage) => Promise<void>`.
 
 ## Usage
 
@@ -29,9 +29,17 @@ import { useChangeLanguage } from "@squide/i18next";
 
 const changeLanguage = useChangeLanguage();
 
-await changeLanguage("fr-CA");
+changeLanguage("fr-CA");
 ```
 
-!!!warning
-When the function is executed from a React effect, use a block body. A concise arrow function would return the promise to React, which is not allowed: `useEffect(() => { changeLanguage("fr-CA"); }, [changeLanguage]);`.
-!!!
+### Lazy-loaded resources
+
+When the modules register [lazy](./i18nextPlugin.md#lazy-load-resources-per-language) i18next instances, the promise resolves once the resources of the new language are loaded and the language is switched. It rejects with an [I18nextResourcesLoadError](./i18nextPlugin.md#handle-a-failed-resources-load) when a load fails.
+
+```ts !#5
+import { useChangeLanguage } from "@squide/i18next";
+
+const changeLanguage = useChangeLanguage();
+
+await changeLanguage("fr-CA");
+```
