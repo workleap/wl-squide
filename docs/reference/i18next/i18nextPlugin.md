@@ -106,15 +106,6 @@ export const register: ModuleRegisterFunction<FireflyRuntime> = runtime => {
 };
 ```
 
-When an instance is registered with a `loadResources` function, the plugin:
-
-- Loads the resources of the [current language](#retrieve-the-current-language) right away, unless the instance already holds them. The plugin reports itself as [not ready](#wait-for-the-resources-to-be-ready) until that load settles, which keeps [useIsBootstrapping](../routing/useIsBootstrapping.md) `true`. At registration, the current language is the one [detected](#detect-the-user-language) at bootstrapping, not the user preferred language, which is only known once the session is loaded: when they differ, both languages are downloaded. See [align the detected language with the preferred language](../../integrations/setup-i18next.md#align-the-detected-language-with-the-preferred-language) for the way around it.
-- Loads the resources of any language the instance doesn't hold yet [when the language changes](#change-the-current-language), before switching.
-
-An instance can be hybrid: initialize it with the static resources of one language and provide a `loadResources` function for the others. The plugin only loads a language the instance doesn't hold, so the static language is never requested.
-
-Registering a lazy instance requires the user language to be [detected](#detect-the-user-language) and the instance to be initialized with a `resources` option (an empty object when the instance holds no static resources) or with `initAsync: false`. Without either, i18next defers its initialization to a timer and the components rendering the instance could suspend meanwhile. `registerInstance` throws when one of these conditions isn't met.
-
 [!ref Lazy-load the resources](../../integrations/setup-i18next.md#lazy-load-the-resources)
 
 ### Retrieve a i18next instance
@@ -196,15 +187,9 @@ plugin.registerLanguageChangedListener(listener);
 plugin.removeLanguageChangedListener(listener);
 ```
 
-### Wait for the resources to be ready
-
-The plugin implements the [readiness surface](../plugins/Plugin.md#report-readiness) of `Plugin`: `isReady`, `registerReadyListener` and `removeReadyListener`. It is ready once the modules are registered, every registered instance has settled the load of the current language resources, either by holding them or by failing to load them, and no language switch requested with [changeLanguage](#change-the-current-language) is still loading resources.
-
-Squide consults the plugin once every other bootstrapping input is ready and holds the render until it is ready, so the application never renders raw resource keys while the initial resources are loading, nor the detected language when the switch to the user preferred language requested by the bootstrapping route is still downloading.
-
 ### Handle a failed resources load
 
-A failed load never blocks the rendering of the application: the readiness status treats a failed load as settled, and the affected instance renders what i18next renders for a missing language, which is the resource key or the `fallbackLng` value when one is configured. Every failure is:
+A failed load never blocks the rendering of the application: the affected instance renders what i18next renders for a missing language, which is the resource key or the `fallbackLng` value when one is configured. Every failure is:
 
 - Logged with the runtime [logger](../logging/useLogger.md).
 - Dispatched on the [event bus](../messaging/useEventBusListener.md) as an `I18nextResourcesLoadFailedEvent`, with a `{ key, language, error }` payload.
