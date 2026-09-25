@@ -105,9 +105,9 @@ const runtime = initializeFireflyForStorybook({
 });
 ```
 
-When the modules register [lazy](../i18next/i18nextPlugin.md#lazy-load-resources-per-language) `i18next` instances, or when a story renders in a language other than the detected one, await the [changeLanguage](../i18next/i18nextPlugin.md#change-the-current-language) method of the plugin from a Storybook [loader](https://storybook.js.org/docs/writing-stories/loaders): the [FireflyDecorator](./FireflyDecorator.md) renders a story as soon as the modules are registered, without waiting for the resources. Called with the current language, `changeLanguage` waits for the pending resources loads without notifying anyone. A lazy instance requires the user language to be detected, and must be registered from the `localModules` register functions because `initializeFireflyForStorybook` marks the modules as registered before it returns:
+When the modules register [lazy](../i18next/i18nextPlugin.md#lazy-load-resources-per-language) `i18next` instances, or when a story renders in a language other than the detected one, await the [changeLanguage](../i18next/i18nextPlugin.md#change-the-current-language) method of the plugin from a Storybook [loader](https://storybook.js.org/docs/writing-stories/loaders): the [FireflyDecorator](./FireflyDecorator.md) renders a story as soon as the modules are registered, without waiting for the resources. A lazy instance requires the user language to be detected, and must be registered from the `localModules` register functions because `initializeFireflyForStorybook` marks the modules as registered before it returns:
 
-```ts !#21-25
+```ts !#20-24
 import { initializeFireflyForStorybook, withFireflyDecorator } from "@squide/firefly-storybook";
 import { getI18nextPlugin, i18nextPlugin } from "@squide/i18next";
 
@@ -126,9 +126,7 @@ const meta = {
     decorators: [
         withFireflyDecorator(runtime)
     ],
-    // The resources of the language are loaded before the story renders. Loaders run before decorators,
-    // so a snapshot is never taken while the resources are still loading, which a decorator effect
-    // couldn't guarantee.
+    // The resources of the language are loaded before the story renders.
     loaders: [
         async () => {
             await getI18nextPlugin(runtime).changeLanguage("fr-CA");
