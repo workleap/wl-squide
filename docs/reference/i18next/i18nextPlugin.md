@@ -176,7 +176,7 @@ A few rules apply:
 
 - When no instance needs to load resources, the switch happens synchronously, before the promise resolves.
 - **Latest call wins.** When a more recent call is made while a previous one is still loading, the previous call resolves without switching once its loads settle.
-- Called with the **current language**, it waits for the pending loads of that language and resolves without switching nor notifying the listeners. It's the way to wait until the initial resources are loaded, for example from a [Storybook loader](../storybook/initializeFireflyForStorybook.md#initialize-with-i18next).
+- Called with the **current language**, it waits for the pending loads of that language and resolves without switching nor notifying the listeners.
 - When a load **fails**, the promise rejects with an [I18nextResourcesLoadError](#handle-a-failed-resources-load) and the language is left unchanged on every instance. The failed load isn't cached: a later call invokes `loadResources` again.
 
 ### Listen for language changes

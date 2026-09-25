@@ -105,36 +105,6 @@ const runtime = initializeFireflyForStorybook({
 });
 ```
 
-When the modules register [lazy](../i18next/i18nextPlugin.md#lazy-load-resources-per-language) `i18next` instances, or when a story renders in a language other than the detected one, await the [changeLanguage](../i18next/i18nextPlugin.md#change-the-current-language) method of the plugin from a Storybook [loader](https://storybook.js.org/docs/writing-stories/loaders): the [FireflyDecorator](./FireflyDecorator.md) renders a story as soon as the modules are registered, without waiting for the resources. A lazy instance requires the user language to be detected, and must be registered from the `localModules` register functions because `initializeFireflyForStorybook` marks the modules as registered before it returns:
-
-```ts !#20-24
-import { initializeFireflyForStorybook, withFireflyDecorator } from "@squide/firefly-storybook";
-import { getI18nextPlugin, i18nextPlugin } from "@squide/i18next";
-
-const runtime = await initializeFireflyForStorybook({
-    // The module creates and registers the i18next instance.
-    localModules: [registerModule],
-    additionalPlugins: [x => {
-        const plugin = new i18nextPlugin(x, ["en-US", "fr-CA"], "en-US", "language");
-        plugin.detectUserLanguage();
-
-        return plugin;
-    }]
-});
-
-const meta = {
-    decorators: [
-        withFireflyDecorator(runtime)
-    ],
-    // The resources of the language are loaded before the story renders.
-    loaders: [
-        async () => {
-            await getI18nextPlugin(runtime).changeLanguage("fr-CA");
-        }
-    ]
-};
-```
-
 ### Initialize with typed deferred registration data
 
 Pass a `TData` type argument so that the data forwarded to deferred registration functions is strongly typed.

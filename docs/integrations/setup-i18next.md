@@ -352,10 +352,6 @@ useEffect(() => {
 }, [session, changeLanguage]);
 ```
 
-### Storybook
-
-The Storybook decorator renders a story as soon as the modules are registered, it doesn't wait for the resources to be loaded. Await the `changeLanguage` method of the plugin from a Storybook loader, as described in the [initializeFireflyForStorybook](../reference/storybook/initializeFireflyForStorybook.md#initialize-with-i18next) reference.
-
 ## Try it :rocket:
 
 Start the application in a development environment using the `dev` script. Navigate to `/page`, the page content and the navigation item should render the english (`en-US`) resources. Then append `?language=fr-CA` to the URL. The page content and the navigation item should now render the french (`fr-CA`) resources.

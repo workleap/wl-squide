@@ -785,37 +785,6 @@ const runtime = await initializeFireflyForStorybook({
 });
 ```
 
-### With i18next Resources (Loaders)
-
-`FireflyDecorator` renders as soon as the modules are registered, without a bootstrapping gate. With lazy i18next instances, or to render a story in another language, await `changeLanguage` from a Storybook **loader** (loaders run before decorators). Called with the current language it just waits for the pending loads. A decorator calling `changeLanguage` from an effect is racy for snapshots — don't.
-
-Two timing rules apply in Storybook: `detectUserLanguage()` must run in the plugin factory (a lazy instance cannot be registered without a detected language), and instances must be registered from `localModules`, because `initializeFireflyForStorybook` marks the modules as registered before it returns and `registerInstance` throws afterwards.
-
-```tsx
-import { initializeFireflyForStorybook, withFireflyDecorator } from "@squide/firefly-storybook";
-import { getI18nextPlugin, i18nextPlugin } from "@squide/i18next";
-
-const runtime = await initializeFireflyForStorybook({
-    // registerModule creates and registers the lazy i18next instance.
-    localModules: [registerModule],
-    additionalPlugins: [x => {
-        const plugin = new i18nextPlugin(x, ["en-US", "fr-CA"], "en-US", "language");
-        plugin.detectUserLanguage();
-
-        return plugin;
-    }]
-});
-
-const meta = {
-    decorators: [withFireflyDecorator(runtime)],
-    loaders: [
-        async () => {
-            await getI18nextPlugin(runtime).changeLanguage("fr-CA");
-        }
-    ]
-};
-```
-
 ## Logging with @workleap/logging
 
 ### Setup
