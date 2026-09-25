@@ -119,7 +119,7 @@ When an instance is registered with a `loadResources` function, the plugin:
 
 An instance can be hybrid: initialize it with the static resources of one language and provide a `loadResources` function for the others. The plugin only loads a language the instance doesn't hold, so the static language is never requested. An empty bundle counts as a loaded language.
 
-Registering a lazy instance requires the user language to be [detected](#detect-the-user-language) and the instance to be initialized. Otherwise, `registerInstance` throws.
+Registering a lazy instance requires the user language to be [detected](#detect-the-user-language) and the instance to be initialized with a `resources` option (an empty object when the instance holds no static resources) or with `initAsync: false`. Without either, i18next defers its initialization to a timer and the components rendering the instance could suspend meanwhile. `registerInstance` throws when one of these conditions isn't met.
 
 !!!info
 No i18next [backend plugin](https://www.i18next.com/overview/plugins-and-utils#backends) is involved. Because the instance has no backend, `react-i18next` never suspends: the runtime semantics are the same as with static resources, the plugin simply fills the store before the language is applied.

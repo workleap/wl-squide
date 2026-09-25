@@ -113,6 +113,12 @@ export class i18nextPlugin<T extends string = string> extends Plugin {
             if (isNil(instance.store)) {
                 throw new Error(`[squide] Cannot register the i18next instance with key "${key}" with a "loadResources" function because the instance hasn't been initialized. Did you forget to call the "init" function of the instance?`);
             }
+
+            // Without a "resources" option, i18next defers its initialization to a timer. Until it fires, the instance
+            // isn't initialized and react-i18next suspends the components rendering it.
+            if (isNil(instance.options.resources) && instance.options.initAsync !== false) {
+                throw new Error(`[squide] Cannot register the i18next instance with key "${key}" with a "loadResources" function because the instance has been initialized without a "resources" option. Initialize the instance with "resources: {}" so that i18next initializes synchronously, otherwise the components could suspend while the resources are loading.`);
+            }
         }
 
         const entry = this.#registry.add(key, instance, { loadResources });

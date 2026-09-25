@@ -501,7 +501,7 @@ plugin.registerInstance("an-instance-key", instance);
 
 ### Lazy-Load Resources per Language
 
-Static resources put every language in the initial chunk. To ship only the active language, initialize the instance with `resources: {}` (required: i18next then initializes synchronously and creates the store) and pass a `loadResources` function. It receives a language and resolves to a namespace → bundle map (one language entry of the i18next `resources` option). The plugin loads the current language at registration and any other language before switching to it. A hybrid instance (static resources for one language, loader for the others) is supported: the plugin only loads a language the instance doesn't hold.
+Static resources put every language in the initial chunk. To ship only the active language, initialize the instance with `resources: {}` and pass a `loadResources` function. The empty object is required: without a `resources` option i18next defers its initialization to a timer and react-i18next suspends the components meanwhile, so `registerInstance` throws (`initAsync: false` is the accepted alternative). It receives a language and resolves to a namespace → bundle map (one language entry of the i18next `resources` option). The plugin loads the current language at registration and any other language before switching to it. A hybrid instance (static resources for one language, loader for the others) is supported: the plugin only loads a language the instance doesn't hold.
 
 ```ts
 import { getI18nextPlugin, type LoadResourcesFunction } from "@squide/i18next";

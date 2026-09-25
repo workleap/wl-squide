@@ -244,6 +244,29 @@ describe.concurrent("registerInstance", () => {
         })).toThrow(/hasn't been initialized/);
     });
 
+    test.concurrent("when a loader is provided but the instance is initialized without a \"resources\" option, throw an error", ({ expect }) => {
+        const plugin = createPlugin();
+
+        // Without "resources", i18next initializes asynchronously.
+        const instance = i18n.createInstance();
+        instance.init({ lng: "en-US" });
+
+        expect(() => plugin.registerInstance("an-instance", instance, {
+            loadResources: () => Promise.resolve({})
+        })).toThrow(/without a "resources" option/);
+    });
+
+    test.concurrent("when a loader is provided and the instance is initialized without a \"resources\" option but with \"initAsync: false\", do not throw", ({ expect }) => {
+        const plugin = createPlugin();
+
+        const instance = i18n.createInstance();
+        instance.init({ lng: "en-US", initAsync: false });
+
+        expect(() => plugin.registerInstance("an-instance", instance, {
+            loadResources: () => Promise.resolve({})
+        })).not.toThrow();
+    });
+
     test.concurrent("when a static instance is registered without a language detected, do not throw", ({ expect }) => {
         const plugin = createPlugin(new DummyRuntime(), { detect: false });
 
