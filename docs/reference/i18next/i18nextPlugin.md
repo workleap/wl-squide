@@ -205,8 +205,6 @@ try {
 }
 ```
 
-When `changeLanguage` is called from a React effect, handle the rejection to avoid an unhandled promise.
-
 ### Change the language detection order
 
 By default, the detection of the user's language is done first from the specified URL querystring parameter (`?language` in this example), then from the user's [navigator language settings](https://developer.mozilla.org/en-US/docs/Web/API/Navigator/language). The detection order can be changed by specifying a new value for the [order](https://github.com/i18next/i18next-browser-languageDetector#detector-options) detection option:
