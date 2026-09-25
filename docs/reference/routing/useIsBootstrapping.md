@@ -8,15 +8,7 @@ toc:
 
 Indicate whether the application is currently being bootstrapped, such as registering modules, handling deferred registrations, preparing [Mock Service Worker](https://mswjs.io/), fetching global data, waiting for [plugins](../plugins/Plugin.md#report-readiness) to be ready, etc.
 
-The hook returns `true` until every one of the following inputs is ready. Each input is a one-way latch: once ready, it never becomes unready again.
-
-- The modules are registered and their deferred registrations are registered.
-- MSW is ready, when enabled.
-- Every plugin implementing the [readiness surface](../plugins/Plugin.md#report-readiness) is ready, for example the [i18nextPlugin](../i18next/i18nextPlugin.md) has loaded the resources of the current language.
-- The public global data is ready, when `waitForPublicData` is set on [AppRouter](./AppRouter.md).
-- The protected global data is ready, when `waitForProtectedData` is set on [AppRouter](./AppRouter.md) and the active route is protected.
-
-When a global data request returns a `401` status code, the protected data and deferred registration inputs are bypassed so the login page can render. The MSW, plugins and public data inputs still apply, because the login page usually lives in a module that depends on them.
+The hook stays `true` until every plugin implementing the [readiness surface](../plugins/Plugin.md#report-readiness) is ready, for example until the [i18nextPlugin](../i18next/i18nextPlugin.md) has loaded the resources of the current language. This also applies when a `401` response bypasses the protected data wait to render the login page.
 
 ## Reference
 

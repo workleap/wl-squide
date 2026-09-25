@@ -211,13 +211,11 @@ A module that throws doesn't fail the run either. Module errors are collected an
 
 ### Report readiness
 
-Some plugins perform asynchronous work that the application must wait for before rendering a page, such as the [i18nextPlugin](../i18next/i18nextPlugin.md) loading the resources of the current language. A plugin reports that work through the optional readiness surface: `isReady`, `registerReadyListener` and `removeReadyListener`. [useIsBootstrapping](../routing/useIsBootstrapping.md) stays `true` until every plugin implementing `isReady` returns `true`.
+A plugin performing asynchronous work that the application must wait for before rendering, such as the [i18nextPlugin](../i18next/i18nextPlugin.md) loading the resources of the current language, reports it through the optional `isReady`, `registerReadyListener` and `removeReadyListener` members. [useIsBootstrapping](../routing/useIsBootstrapping.md) stays `true` until every plugin implementing `isReady` returns `true`.
 
-Readiness is a **one-way latch**: once `isReady` returns `true`, it never returns `false` again, whatever the plugin does afterwards. A latch that would flip back would show the bootstrapping fallback over an already rendered page. Work started after the latch flipped is the plugin's own to await, typically by returning a promise to its caller.
+Readiness is a **one-way latch**: once `isReady` returns `true`, it never returns `false` again, and the ready listeners are executed **once**, when the latch flips. A plugin that is already ready may never execute a listener registered afterwards, therefore always read `isReady()` first and only subscribe when it returns `false`. Flip the latch when the work fails as well and report the failure through another channel, otherwise the application stays on its bootstrapping fallback.
 
-The ready listeners are executed **once**, when the latch flips. A plugin that is already ready may never execute a listener registered afterwards, therefore a consumer must always read `isReady()` first and only subscribe when it returns `false`.
-
-```ts !#15-17,19-21,23-25,27-40 my-plugin/src/myPlugin.ts
+```ts !#15-17,19-21,23-25,27-38 my-plugin/src/myPlugin.ts
 import { Plugin, type PluginReadyListener, type Runtime } from "@squide/firefly";
 
 export class MyPlugin extends Plugin {
@@ -248,8 +246,7 @@ export class MyPlugin extends Plugin {
         try {
             await fetch("/api/settings");
         } finally {
-            // Whether the work succeeded or failed, the application must render: a failure is reported
-            // through the logger or the event bus rather than by keeping the latch closed.
+            // Whether the work succeeded or failed, the application must render.
             this.#isReady = true;
 
             this.#readyListeners.forEach(x => {
@@ -259,11 +256,3 @@ export class MyPlugin extends Plugin {
     }
 }
 ```
-
-!!!warning
-A plugin that never flips its latch keeps the application on its bootstrapping fallback forever. Flip it when the work fails as well, and report the failure through another channel.
-!!!
-
-!!!warning
-The readiness members must be declared as optional **methods**, never as optional properties. The `Plugin` base class declares them that way, and a subclass should simply implement them.
-!!!

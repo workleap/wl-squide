@@ -446,7 +446,7 @@ Rules:
 
 #### isReady() / registerReadyListener(callback) / removeReadyListener(callback) — optional
 
-A plugin performing asynchronous work the application must wait for before rendering (the `i18nextPlugin` loading the resources of the current language) implements the readiness surface. `useIsBootstrapping()` stays `true` until every plugin implementing `isReady` returns `true`, on the normal path and on the 401 path alike. A plugin without the surface is always ready.
+A plugin performing asynchronous work the application must wait for before rendering (the `i18nextPlugin` loading the resources of the current language) implements the readiness surface. `useIsBootstrapping()` stays `true` until every plugin implementing `isReady` returns `true`. A plugin without the surface is always ready.
 
 ```ts
 import { Plugin, type PluginReadyListener, type Runtime } from "@squide/firefly";
@@ -486,11 +486,9 @@ export class MyPlugin extends Plugin {
 
 Rules:
 
-- **One-way latch.** Once `isReady()` returns `true`, it never returns `false` again. Work started later is the plugin's own to await (return a promise to the caller). A latch flipping back would show the bootstrapping fallback over a rendered page.
-- **Listeners fire once, when the latch flips.** A plugin that is already ready may never call a listener registered afterwards: always read `isReady()` first, subscribe only when it returns `false`.
-- **Flip the latch on failure too**, and report the failure through the logger or the event bus. A plugin that never flips pins the application on its bootstrapping fallback.
-- Declare the members as optional **methods** on the subclass (never optional properties), matching the `Plugin` base class.
-- Firefly dispatches a single `plugins-ready` action / `squide-plugins-ready` event once every readiness-aware plugin is ready. Neither is dispatched when no plugin implements the surface. Deferred registrations and global data fetching do not wait on it, only rendering does.
+- **One-way latch.** Once `isReady()` returns `true`, it never returns `false` again; work started later is the plugin's own to await.
+- **Listeners fire once, when the latch flips.** Always read `isReady()` first and subscribe only when it returns `false`.
+- **Flip the latch on failure too** and report the failure through the logger or the event bus, otherwise the application stays on its bootstrapping fallback.
 
 ## Getters
 

@@ -125,7 +125,7 @@ const routes = useRoutes();
 ```
 
 ### useIsBootstrapping()
-Check if application is still bootstrapping. Returns `true` until the modules and their deferred registrations are registered, MSW is ready (when enabled), every plugin implementing the readiness surface is ready (for example the `i18nextPlugin` has loaded the resources of the current language, see `references/runtime-api.md`), and the public/protected global data the `AppRouter` waits for is ready. Every input is a one-way latch. On a 401, the protected data and deferred registrations are bypassed so the login page renders, but MSW, plugins and public data still apply.
+Check if application is still bootstrapping. Also stays `true` until every plugin implementing the readiness surface is ready, for example until the `i18nextPlugin` has loaded the resources of the current language (see `references/runtime-api.md`).
 
 ```ts
 import { useIsBootstrapping } from "@squide/firefly";

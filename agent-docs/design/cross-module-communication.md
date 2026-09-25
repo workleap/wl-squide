@@ -52,19 +52,11 @@ interface extending `Plugin` and is duck-typed at the call site, as `FireflyPlug
 `registerHoneycombTrackingListeners`.
 
 `Plugin` also carries an optional **readiness surface**: `isReady()`, `registerReadyListener()` and
-`removeReadyListener()`. A plugin implements it when it performs asynchronous work the application
-must wait for before rendering (the i18next plugin loading the resources of the current language).
-`@squide/firefly` consumes it generically: `useAppRouterReducer` reads every plugin's `isReady()` at
-initialization and subscribes to the not-ready ones, dispatches a single `plugins-ready` action once
-all of them are ready, and `useIsBootstrapping` waits on that flag. Firefly never imports
-`@squide/i18next`: doing so would push its three peer dependencies onto every firefly consumer. A
-plugin without the surface is always ready, and `squide-plugins-ready` is only dispatched when at
-least one plugin implements the surface, so existing applications observe no new event.
-
-Readiness is a one-way latch and its listeners fire once: a consumer must read `isReady()` before
-subscribing, a plugin that is already ready may never call a listener registered afterwards. A
-plugin must flip the latch when its work fails as well, otherwise the application stays on its
-bootstrapping fallback forever. See ADR-0009 for the bootstrapping state machine.
+`removeReadyListener()`, for a plugin whose asynchronous work must complete before the application
+renders (the i18next plugin loading the resources of the current language). `@squide/firefly`
+consumes it generically through `usePluginsStatusDispatcher` and `useIsBootstrapping`, and never
+imports `@squide/i18next`. Readiness is a one-way latch whose listeners fire once, so read
+`isReady()` before subscribing. See ADR-0009.
 
 ## Shared Types
 

@@ -39,31 +39,16 @@ Deferred registrations automatically re-execute when:
 
 ## Awaiting a Bootstrap Side Effect
 
-A deferred registration function may be `async`. `LocalModuleRegistry.registerDeferredRegistrations`
-awaits every function (`Promise.allSettled`) and only then flips to `"ready"`, which drives
-`modules-ready` and therefore `useIsBootstrapping`. A module can rely on this to complete a side
-effect that depends on the global data **before the first page renders**. The supported case is the
-host awaiting `getI18nextPlugin(runtime).changeLanguage(data.session?.user.preferredLanguage ?? ...)`
-so the session's preferred language, including the lazy load of its resources, is applied before the
-first protected paint (`samples/endpoints/shell/src/register.tsx`, `registerPreferredLanguage`).
-
-Why this is the right place rather than a React effect: an effect runs after render, so the first
-protected paint would show the detected language and then flash to the preferred one. Deferred
-registrations already sit between "protected data ready" and "modules ready", which is exactly
-where a data-dependent bootstrap step belongs. On an update run with an unchanged language,
-`changeLanguage` resolves without switching or notifying, so the effect is idempotent across runs.
-
-Consequences to keep in mind:
-
-- A rejected side effect is a `ModuleRegistrationError` whose `cause` is the original error
-  (`I18nextResourcesLoadError` for a failed resources load). It reaches
-  `useDeferredRegistrations({ onError })` and `LocalModuleDeferredRegistrationFailedEvent`, and the
-  registry still becomes `"ready"`: the application renders with the previous language.
-- A network load lengthens the sequential deferred registration phase, hence the Honeycomb
-  `local-module-deferred-registration` span. Keep awaited side effects to what must happen before
-  the first render.
-- Plugin readiness (`plugins-ready`) does **not** gate deferred registrations, only rendering.
-  Gating would serialize the initial resources load and the preferred-language load.
+A deferred registration function may be `async`: `LocalModuleRegistry.registerDeferredRegistrations`
+awaits every function before flipping to `"ready"`, which drives `modules-ready` and therefore
+`useIsBootstrapping`. A module can rely on this to complete a side effect that depends on the global
+data before the first page renders, where a React effect would run after render and flash. The
+supported case is the host awaiting `getI18nextPlugin(runtime).changeLanguage(preferredLanguage)`
+so the session's preferred language, lazy resources included, is applied before the first protected
+paint (`samples/endpoints/shell/src/register.tsx`). A rejection is a `ModuleRegistrationError` whose
+`cause` is the original error, delivered to `useDeferredRegistrations({ onError })`; the registry
+still becomes ready. A network load lengthens the sequential deferred registration phase and its
+Honeycomb span, so keep awaited side effects to what must happen before the first render.
 
 ## Registration Scopes
 
