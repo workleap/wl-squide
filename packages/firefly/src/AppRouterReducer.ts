@@ -277,12 +277,12 @@ export function useMswStatusDispatcher(runtime: FireflyRuntime, isMswReadyValue:
     }, [runtime, isMswReadyValue, dispatchMswReady]);
 }
 
-// A plugin without the readiness surface is always ready.
+// A plugin without "isReady" is always ready.
 export function arePluginsReady(runtime: FireflyRuntime) {
     return runtime.plugins.every(x => x.isReady?.() ?? true);
 }
 
-export function hasReadinessAwarePlugins(runtime: FireflyRuntime) {
+export function hasPluginsImplementingIsReady(runtime: FireflyRuntime) {
     return runtime.plugins.some(x => typeof x.isReady === "function");
 }
 
@@ -427,8 +427,8 @@ export function useAppRouterReducer(waitForPublicData: boolean, waitForProtected
     const areModulesInitiallyReady = runtime.moduleManager.getAreModulesReady();
     const isMswInitiallyReady = runtime.isMswEnabled ? runtime.mswState.isReady : false;
     // The plugins are consulted by the dispatcher once every other input is ready. Without a plugin implementing the
-    // readiness surface there is nothing to consult, and neither the action nor the event is ever dispatched.
-    const hasReadinessAwarePluginsValue = hasReadinessAwarePlugins(runtime);
+    // "isReady" there is nothing to consult, and neither the action nor the event is ever dispatched.
+    const hasPluginsImplementingIsReadyValue = hasPluginsImplementingIsReady(runtime);
 
     const waitState = useMemo(() => ({
         waitForMsw: isMswEnabled,
@@ -444,12 +444,12 @@ export function useAppRouterReducer(waitForPublicData: boolean, waitForProtected
         areModulesRegistered: areModulesInitiallyRegistered,
         areModulesReady: areModulesInitiallyReady,
         isMswReady: isMswInitiallyReady,
-        arePluginsReady: !hasReadinessAwarePluginsValue,
+        arePluginsReady: !hasPluginsImplementingIsReadyValue,
         isPublicDataReady: false,
         isProtectedDataReady: false,
         activeRouteVisibility: "unknown",
         isUnauthorized: false
-    } satisfies AppRouterState), [waitState, areModulesInitiallyRegistered, areModulesInitiallyReady, isMswInitiallyReady, hasReadinessAwarePluginsValue]);
+    } satisfies AppRouterState), [waitState, areModulesInitiallyRegistered, areModulesInitiallyReady, isMswInitiallyReady, hasPluginsImplementingIsReadyValue]);
 
     // When modules are initially registered, the reducer action will never be dispatched, therefore the event would not be dispatched as well.
     // To ensure the bootstrapping events sequencing, the event is manually dispatched when the modules are initially registered.

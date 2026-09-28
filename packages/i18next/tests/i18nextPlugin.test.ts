@@ -503,7 +503,7 @@ describe.concurrent("changeLanguage", () => {
     });
 });
 
-describe.concurrent("readiness", () => {
+describe.concurrent("isReady", () => {
     test.concurrent("when the modules are not registered, the plugin is not ready even without instances", ({ expect }) => {
         const plugin = createPlugin();
 

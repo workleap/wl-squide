@@ -104,7 +104,7 @@ class DummyMswState extends MswState {
     }
 }
 
-// A plugin implementing the readiness surface with a latch that tests can flip.
+// A plugin implementing "isReady" with a latch that tests can flip.
 class DummyReadyPlugin extends Plugin {
     #isReady: boolean;
 
@@ -148,7 +148,7 @@ class DummyReadyPlugin extends Plugin {
     }
 }
 
-// A plugin without the readiness surface, always considered ready.
+// A plugin without "isReady", always considered ready.
 class DummyPlugin extends Plugin {
     constructor(runtime: Runtime) {
         super("dummy-plugin", runtime);
@@ -1112,7 +1112,7 @@ describe.concurrent("useAppRouterReducer", () => {
         expect(runtime.appRouterStore.state.isMswReady).toBeFalsy();
     });
 
-    test.concurrent("when no plugin implements the readiness surface, \"arePluginsReady\" is true at initialization", ({ expect }) => {
+    test.concurrent("when no plugin implements \"isReady\", \"arePluginsReady\" is true at initialization", ({ expect }) => {
         const runtime = new FireflyRuntime({
             plugins: [x => new DummyPlugin(x)],
             loggers: [new NoopLogger()]
@@ -1123,7 +1123,7 @@ describe.concurrent("useAppRouterReducer", () => {
         expect(result.current[0].arePluginsReady).toBeTruthy();
     });
 
-    test.concurrent("when no plugin implements the readiness surface and the other inputs are ready, PluginsReadyEvent is not dispatched", ({ expect }) => {
+    test.concurrent("when no plugin implements \"isReady\" and the other inputs are ready, PluginsReadyEvent is not dispatched", ({ expect }) => {
         const runtime = new FireflyRuntime({
             plugins: [x => new DummyPlugin(x)],
             moduleManager: x => new ModuleManager(x, [
@@ -1142,7 +1142,7 @@ describe.concurrent("useAppRouterReducer", () => {
         expect(runtime.appRouterStore.state.arePluginsReady).toBeFalsy();
     });
 
-    test.concurrent("when a plugin implements the readiness surface, \"arePluginsReady\" is false at initialization even if the plugin is ready", ({ expect }) => {
+    test.concurrent("when a plugin implements \"isReady\", \"arePluginsReady\" is false at initialization even if the plugin is ready", ({ expect }) => {
         // The plugins are only consulted once the other inputs are ready, which isn't the case here (modules not ready).
         const runtime = new FireflyRuntime({
             plugins: [x => new DummyReadyPlugin(x, true)],
@@ -1160,7 +1160,7 @@ describe.concurrent("useAppRouterReducer", () => {
         expect(listener).not.toHaveBeenCalled();
     });
 
-    test.concurrent("when the other inputs are ready and every readiness-aware plugin is ready, \"plugins-ready\" is dispatched at initialization", ({ expect }) => {
+    test.concurrent("when the other inputs are ready and every plugin implementing \"isReady\" is ready, \"plugins-ready\" is dispatched at initialization", ({ expect }) => {
         const runtime = new FireflyRuntime({
             plugins: [
                 x => new DummyPlugin(x),
@@ -1184,7 +1184,7 @@ describe.concurrent("useAppRouterReducer", () => {
         expect(listener).toHaveBeenCalledExactlyOnceWith({ waitForMsw: false, waitForPublicData: false, waitForProtectedData: false });
     });
 
-    test.concurrent("when the other inputs are ready and a readiness-aware plugin is not ready, \"arePluginsReady\" is false", ({ expect }) => {
+    test.concurrent("when the other inputs are ready and a plugin implementing \"isReady\" is not ready, \"arePluginsReady\" is false", ({ expect }) => {
         const runtime = new FireflyRuntime({
             plugins: [
                 x => new DummyReadyPlugin(x, true, "plugin-1"),
@@ -1626,7 +1626,7 @@ describe.concurrent("usePluginsStatusDispatcher", () => {
 
         renderUsePluginsStatusDispatcherHook(runtime, false, true, dispatch);
 
-        // Every readiness-aware plugin is subscribed, including the one that is already ready.
+        // Every plugin implementing "isReady" is subscribed, including the one that is already ready.
         expect(readyPlugin.readyListenersCount).toBe(1);
         expect(notReadyPlugin.readyListenersCount).toBe(1);
 
@@ -1640,7 +1640,7 @@ describe.concurrent("usePluginsStatusDispatcher", () => {
         expect(dispatch).toHaveBeenCalledExactlyOnceWith({ type: "plugins-ready" });
     });
 
-    test.concurrent("when the hook is unmounted, the ready listeners are removed from every readiness-aware plugin", ({ expect }) => {
+    test.concurrent("when the hook is unmounted, the ready listeners are removed from every plugin implementing \"isReady\"", ({ expect }) => {
         const runtime = new FireflyRuntime({
             plugins: [
                 x => new DummyReadyPlugin(x, true, "plugin-1"),

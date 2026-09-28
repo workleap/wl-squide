@@ -446,7 +446,7 @@ Rules:
 
 #### isReady() / registerReadyListener(callback) / removeReadyListener(callback) — optional
 
-A plugin performing asynchronous work the application must wait for before rendering (the `i18nextPlugin` loading the resources of a language) implements the readiness surface. Firefly consults every readiness-aware plugin once the other bootstrapping inputs are ready (modules, MSW, data), and `useIsBootstrapping()` stays `true` until all of them return `true`. Once bootstrapped, the plugins are never consulted again. A plugin without the surface is always ready.
+A plugin performing asynchronous work the application must wait for before rendering (the `i18nextPlugin` loading the resources of a language) implements the optional `isReady`, `registerReadyListener` and `removeReadyListener` members. Firefly consults every plugin implementing `isReady` once the other bootstrapping inputs are ready (modules, MSW, data), and `useIsBootstrapping()` stays `true` until all of them return `true`. Once bootstrapped, the plugins are never consulted again. A plugin without `isReady` is always ready.
 
 ```ts
 import { Plugin, type PluginReadyListener, type Runtime } from "@squide/firefly";

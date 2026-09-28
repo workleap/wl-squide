@@ -77,7 +77,7 @@ function AppRouter(props: AppRouterProps) {
     );
 }
 
-// A plugin implementing the readiness surface, with a latch that the test flips once the router is rendered.
+// A plugin implementing "isReady", with a latch that the test flips once the router is rendered.
 class DummyReadyPlugin extends Plugin {
     #isReady = false;
 
@@ -767,7 +767,7 @@ test("msw + local modules", async ({ expect }) => {
     expect(onModulesReady).toHaveBeenCalledOnce();
     expect(onApplicationBoostrapped).toHaveBeenCalledOnce();
 
-    // Without a plugin implementing the readiness surface, the event sequence is the same as before the surface existed.
+    // Without a plugin implementing "isReady", the event sequence is the same as before.
     expect(onPluginsReady).not.toHaveBeenCalled();
 
     // Expected order is:
@@ -788,7 +788,7 @@ test("msw + local modules", async ({ expect }) => {
     expect(onMswReady.mock.invocationCallOrder[0]).toBeLessThan(onApplicationBoostrapped.mock.invocationCallOrder[0]);
 });
 
-test("msw + local modules + readiness-aware plugin", async ({ expect }) => {
+test("msw + local modules + plugin implementing isReady", async ({ expect }) => {
     const localModuleRegistry = new LocalModuleRegistry();
 
     const runtime = new FireflyRuntime({
@@ -912,7 +912,7 @@ test("msw + local modules + readiness-aware plugin", async ({ expect }) => {
     expect(onPluginsReady.mock.invocationCallOrder[0]).toBeLessThan(onApplicationBoostrapped.mock.invocationCallOrder[0]);
 });
 
-test("msw + local modules + public data + readiness-aware plugin starting work once the data is fetched", async ({ expect }) => {
+test("msw + local modules + public data + plugin implementing isReady starting work once the data is fetched", async ({ expect }) => {
     const localModuleRegistry = new LocalModuleRegistry();
 
     const runtime = new FireflyRuntime({

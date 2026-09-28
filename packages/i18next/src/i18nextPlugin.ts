@@ -85,10 +85,10 @@ export class i18nextPlugin<T extends string = string> extends Plugin {
             ...(detection ?? {})
         });
 
-        // Readiness is only reported once the modules are registered, otherwise an empty registry would report the
+        // Ready is only reported once the modules are registered, otherwise an empty registry would report the
         // plugin as ready before any module registers an instance with resources to load.
         this._runtime.moduleManager.registerModulesRegisteredListener(() => {
-            this.#evaluateReadiness();
+            this.#updateIsReady();
         });
     }
 
@@ -131,13 +131,13 @@ export class i18nextPlugin<T extends string = string> extends Plugin {
             .debug();
 
         if (!isNil(this.#currentLanguage) && !this.#holdsLanguage(entry, this.#currentLanguage)) {
-            // The failure is reported by the load itself, and a failed load settles the readiness latch.
+            // The failure is reported by the load itself, and a failed load counts as settled for the ready status.
             this.#ensureLanguage(entry, this.#currentLanguage).catch(() => {
                 // Nothing left to do, see above.
             });
         }
 
-        this.#evaluateReadiness();
+        this.#updateIsReady();
     }
 
     getInstance(key: string) {
@@ -211,12 +211,12 @@ export class i18nextPlugin<T extends string = string> extends Plugin {
             .filter(x => !this.#holdsLanguage(x, language))
             .map(x => this.#ensureLanguage(x, language));
 
-        // The readiness status reports the latest requested switch: the plugin isn't ready while its resources load.
+        // The ready status reports the latest requested switch: the plugin isn't ready while its resources load.
         this.#isSwitchPending = pendingLoads.length > 0;
 
         // Only awaiting when a load is needed keeps a switch between static instances synchronous.
         if (pendingLoads.length > 0) {
-            this.#evaluateReadiness();
+            this.#updateIsReady();
 
             try {
                 await Promise.all(pendingLoads);
@@ -227,7 +227,7 @@ export class i18nextPlugin<T extends string = string> extends Plugin {
 
                 // The language is left unchanged and its resources are settled, the application can render.
                 this.#isSwitchPending = false;
-                this.#evaluateReadiness();
+                this.#updateIsReady();
 
                 throw error;
             }
@@ -253,7 +253,7 @@ export class i18nextPlugin<T extends string = string> extends Plugin {
             });
         }
 
-        this.#evaluateReadiness();
+        this.#updateIsReady();
     }
 
     registerLanguageChangedListener(callback: LanguageChangedListener) {
@@ -347,11 +347,11 @@ export class i18nextPlugin<T extends string = string> extends Plugin {
             throw new I18nextResourcesLoadError(key, language, { cause: error });
         } finally {
             // A failed load is settled too.
-            this.#evaluateReadiness();
+            this.#updateIsReady();
         }
     }
 
-    #computeReadiness() {
+    #computeIsReady() {
         if (!this._runtime.moduleManager.getAreModulesRegistered()) {
             return false;
         }
@@ -370,10 +370,10 @@ export class i18nextPlugin<T extends string = string> extends Plugin {
         });
     }
 
-    #evaluateReadiness() {
+    #updateIsReady() {
         const wasReady = this.#isReady;
 
-        this.#isReady = this.#computeReadiness();
+        this.#isReady = this.#computeIsReady();
 
         // The listeners are only notified of a transition to ready, a consumer reads "isReady" for the current status.
         if (this.#isReady && !wasReady) {
