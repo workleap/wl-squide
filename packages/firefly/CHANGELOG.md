@@ -1,5 +1,27 @@
 # @squide/firefly
 
+## 19.3.0
+
+### Minor Changes
+
+- [#713](https://github.com/workleap/wl-squide/pull/713) [`469672b`](https://github.com/workleap/wl-squide/commit/469672b9cbaa0b7d8892ae30f4642986b70f6ca7) Thanks [@patricklafrance](https://github.com/patricklafrance)! - `useIsBootstrapping` now waits for the plugins implementing the new optional `Plugin` members (`isReady()`, `registerReadyListener()`, `removeReadyListener()`) to be ready, on the normal path and on the 401 path alike. The plugins are consulted once every other bootstrapping input is ready, so work a plugin starts from the bootstrapping route once the global data is fetched, such as the `i18nextPlugin` switching to the session's preferred language, holds the render as well. The `AppRouter` state gained an `arePluginsReady` flag set by a new `plugins-ready` action, mirrored to the `AppRouterStore` and dispatched on the event bus as `PluginsReadyEvent` (`"squide-plugins-ready"`). The Honeycomb bootstrapping span gained a matching `plugins-ready` event. A plugin implementing `isReady()` without `registerReadyListener()` and `removeReadyListener()` throws at bootstrapping, it could otherwise hold the render forever.
+  
+  There is no behavior change for an application whose plugins don't implement the surface: `arePluginsReady` is initially `true` and neither the action nor the event is dispatched.
+
+- [#713](https://github.com/workleap/wl-squide/pull/713) [`469672b`](https://github.com/workleap/wl-squide/commit/469672b9cbaa0b7d8892ae30f4642986b70f6ca7) Thanks [@patricklafrance](https://github.com/patricklafrance)! - Aligned the listener registration methods on the `register…Listener` / `remove…Listener` naming used by `ModuleManager`, `Runtime` and `i18nextPlugin`. The previous names are kept as deprecated aliases, the behavior is identical:
+  
+  - `MswState.addMswReadyListener` is deprecated in favor of `registerMswReadyListener`.
+  - `FeatureFlagSetSnapshot.addSnapshotChangedListener` is deprecated in favor of `registerSnapshotChangedListener`.
+  
+  The event bus `addListener` / `removeListener` methods are unchanged.
+
+### Patch Changes
+
+- Updated dependencies [[`469672b`](https://github.com/workleap/wl-squide/commit/469672b9cbaa0b7d8892ae30f4642986b70f6ca7), [`469672b`](https://github.com/workleap/wl-squide/commit/469672b9cbaa0b7d8892ae30f4642986b70f6ca7)]:
+  - @squide/core@7.6.0
+  - @squide/msw@4.2.0
+  - @squide/launch-darkly@1.1.0
+
 ## 19.2.1
 
 ### Patch Changes
