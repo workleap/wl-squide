@@ -23,11 +23,11 @@ Option 4. The `AppRouterReducer` manages the following lifecycle ordering:
 
 1. `modules-registered` — All module `register()` functions have completed.
 2. `msw-ready` — MSW service worker is active (or skipped if `useMsw: false`).
-3. `plugins-ready` — Every plugin implementing the optional `isReady` members of `Plugin` is ready (a plugin without them counts as ready). The plugins are consulted once every other input is ready, not as soon as they become ready: work a plugin starts from the bootstrapping route once the data is fetched (the i18next plugin switching to the session's preferred language) must hold the render too. All the plugins implementing `isReady` are subscribed at that point and the action is dispatched once when the whole set is ready.
-4. `modules-ready` — The combined gate: modules registered + MSW ready.
-5. `route-visibility-detected` — The framework knows whether the user is authenticated (public vs. protected layout).
-6. `public-data-ready` — Global public data queries have resolved.
-7. `protected-data-ready` — Global protected data queries have resolved (only for authenticated users).
+3. `modules-ready` — The combined gate: modules registered + MSW ready.
+4. `route-visibility-detected` — The framework knows whether the user is authenticated (public vs. protected layout).
+5. `public-data-ready` — Global public data queries have resolved.
+6. `protected-data-ready` — Global protected data queries have resolved (only for authenticated users).
+7. `plugins-ready` — Every plugin implementing the optional `isReady` members of `Plugin` is ready (a plugin without them counts as ready). Always the last input before the bootstrapping completes: the plugins are consulted once every other ready flag is set, not as soon as they become ready, so that work a plugin starts from the bootstrapping route once the data is fetched (the i18next plugin switching to the session's preferred language) holds the render too. All the plugins implementing `isReady` are subscribed at that point and the action is dispatched once when the whole set is ready.
 8. `deferred-registrations-updated` — Deferred registration functions have re-executed with fresh data.
 9. `feature-flags-updated` — LaunchDarkly flags have been fetched (if enabled).
 
