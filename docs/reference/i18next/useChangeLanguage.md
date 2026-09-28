@@ -20,7 +20,7 @@ None
 
 ### Returns
 
-A function to change the current language of an `i18nextPlugin` instance: `(newLanguage) => void`.
+A function to change the current language of an `i18nextPlugin` instance: `(newLanguage) => Promise<void>`.
 
 ## Usage
 
@@ -30,4 +30,16 @@ import { useChangeLanguage } from "@squide/i18next";
 const changeLanguage = useChangeLanguage();
 
 changeLanguage("fr-CA");
+```
+
+### Lazy-loaded resources
+
+When the modules register [lazy](./i18nextPlugin.md#lazy-load-resources-per-language) i18next instances, the promise resolves once the resources of the new language are loaded and the language is switched. It rejects with an [I18nextResourcesLoadError](./i18nextPlugin.md#handle-a-failed-resources-load) when a load fails.
+
+```ts !#5
+import { useChangeLanguage } from "@squide/i18next";
+
+const changeLanguage = useChangeLanguage();
+
+await changeLanguage("fr-CA");
 ```

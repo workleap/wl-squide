@@ -269,7 +269,7 @@ const snapshot = new FeatureFlagSetSnapshot(ldClient);
 const flags = snapshot.value;
 
 // Listen for changes
-snapshot.addSnapshotChangedListener((newSnapshot, changes) => {
+snapshot.registerSnapshotChangedListener((newSnapshot, changes) => {
     console.log("Flags changed:", changes);
 });
 
@@ -461,14 +461,17 @@ const plugin = new i18nextPlugin(x, ["en-US", "fr-CA"], "en-US", "language", {
 
 | Member | Description |
 |--------|-------------|
-| `registerInstance(key, instance)` | Associate an i18next instance with a key |
+| `registerInstance(key, instance, options?)` | Associate an i18next instance with a key. A lazy instance (`options.loadResources`) **must be registered from a module's `register()` function**: it throws once the modules are registered (so never from a deferred registration function). A static instance can be registered at any time. `options.loadResources` enables per-language lazy loading (see below) |
 | `getInstance(key)` | Retrieve an instance; throws if no instance matches the key |
 | `currentLanguage` | The current language; throws if the language was never detected nor changed |
 | `detectUserLanguage()` | Detect the user language, falling back to `fallbackLanguage` |
-| `changeLanguage(language)` | Change the language on every registered instance; throws if not in `supportedLanguages` |
+| `changeLanguage(language): Promise<void>` | Change the language of every registered instance; throws when the language is not in `supportedLanguages`. With static resources the switch is synchronous and the call doesn't need to be awaited. With lazy instances, the promise resolves once the resources of the language are loaded and the switch is done, and rejects with `I18nextResourcesLoadError` on a failed load (language unchanged) |
 | `registerLanguageChangedListener(listener)` / `removeLanguageChangedListener(listener)` | Subscribe to language changes |
+| `isReady()` / `registerReadyListener(listener)` / `removeReadyListener(listener)` | The optional `Plugin` ready members: `useIsBootstrapping()` stays `true` until the resources of the current language are loaded into every lazy instance |
 
 Prefer `getI18nextPlugin(runtime)` over `runtime.getPlugin(i18nextPluginName) as i18nextPlugin`.
+
+Failure reporting: every failed load is logged, dispatched on the event bus as `I18nextResourcesLoadFailedEvent` (`{ key, language, error }`) and, when triggered by `changeLanguage`, rejected as an `I18nextResourcesLoadError` (`key`, `language`, `cause`; test with `isI18nextResourcesLoadError(error)`). A failed load never blocks rendering: the instance shows the resource keys, the plugin doesn't load the `fallbackLng` resources.
 
 ### Register i18next Instance
 
@@ -494,6 +497,53 @@ instance.init({
 });
 
 plugin.registerInstance("an-instance-key", instance);
+```
+
+### Lazy-Load Resources per Language
+
+Static resources land in the initial chunk for every supported language. To ship only the active language, initialize the instance with an empty `resources` object and provide a `loadResources` function when registering it. The function receives a language and resolves to a map of namespace to resource bundle, the same shape as a single language entry of the i18next `resources` option. The plugin loads the detected language when the instance is registered, then any other language before switching to it, and `useIsBootstrapping()` stays `true` until the resources of the current language are loaded. A lazy instance must be registered from a module's `register()` function: once the modules are registered, `registerInstance` throws.
+
+```ts
+import { getI18nextPlugin, type LoadResourcesFunction } from "@squide/i18next";
+
+// Each dynamic import becomes a chunk. For a remote module, the chunk is served by the remote.
+const loadResources: LoadResourcesFunction = async language => {
+    const module = await import(`./locales/${language}.json`, { with: { type: "json" } });
+
+    return module.default;
+};
+
+const instance = i18n.createInstance().use(initReactI18next);
+
+instance.init({
+    lng: plugin.currentLanguage,
+    // A lazy instance must be initialized with an empty "resources" object: i18next then initializes
+    // synchronously and creates the store that the plugin fills with the loaded bundles.
+    resources: {}
+});
+
+plugin.registerInstance("an-instance-key", instance, { loadResources });
+```
+
+**Align the detected language with the preferred language.** The modules register before any global data is fetched, so the plugin loads the resources of the language detected at bootstrapping (querystring, navigator language or fallback) when an instance is registered. The user preferred language is only known once the session is loaded, and the switch then downloads its resources before the first protected page renders. When the detected language differs from the preferred language, **both languages are downloaded**. To make them match for every returning user, persist the preferred language in the local storage once the session is loaded, and detect it before the navigator language by adding the `localStorage` source to the detection order:
+
+```ts
+// Plugin factory: detect the persisted preference before the navigator language. The querystring still wins.
+const plugin = new i18nextPlugin(x, ["en-US", "fr-CA"], "en-US", "language", {
+    detection: {
+        order: ["querystring", "localStorage", "navigator"],
+        lookupLocalStorage: "preferred-language"
+    }
+});
+
+// BootstrappingRoute effect: persist the preference for the next visit, then switch.
+useEffect(() => {
+    if (session) {
+        localStorage.setItem("preferred-language", session.user.preferredLanguage);
+
+        changeLanguage(session.user.preferredLanguage);
+    }
+}, [session, changeLanguage]);
 ```
 
 ### Use in Components
@@ -551,6 +601,8 @@ function BootstrappingRoute() {
     return <Outlet />;
 }
 ```
+
+The same effect works with lazy-loaded resources: `useIsBootstrapping()` stays `true` while the preferred language downloads, so the first protected page renders in the preferred language. Read the detected-versus-preferred language limitation in "Lazy-Load Resources per Language" above before adopting lazy loading.
 
 ### Localized Navigation Labels
 

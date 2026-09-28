@@ -14,7 +14,7 @@ import {
     LocalModulesRegistrationCompletedEvent,
     LocalModulesRegistrationStartedEvent
 } from "@squide/core";
-import { ApplicationBoostrappedEvent, ModulesReadyEvent, ModulesRegisteredEvent, MswReadyEvent, ProtectedDataReadyEvent, PublicDataReadyEvent } from "../AppRouterReducer.ts";
+import { ApplicationBoostrappedEvent, ModulesReadyEvent, ModulesRegisteredEvent, MswReadyEvent, PluginsReadyEvent, ProtectedDataReadyEvent, PublicDataReadyEvent } from "../AppRouterReducer.ts";
 import { FireflyPlugin } from "../FireflyPlugin.ts";
 import type { FireflyRuntime } from "../FireflyRuntime.tsx";
 import { ApplicationBootstrappingStartedEvent } from "../initializeFirefly.ts";
@@ -212,6 +212,15 @@ function registerTrackingListeners(runtime: FireflyRuntime) {
     addProtectedListener(runtime, MswReadyEvent, () => {
         if (bootstrappingSpan) {
             bootstrappingSpan.addEvent("msw-ready");
+        }
+    }, {
+        once: true,
+        onError: handleUnmanagedError
+    });
+
+    addProtectedListener(runtime, PluginsReadyEvent, () => {
+        if (bootstrappingSpan) {
+            bootstrappingSpan.addEvent("plugins-ready");
         }
     }, {
         once: true,

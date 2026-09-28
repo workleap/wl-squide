@@ -133,10 +133,58 @@ test.concurrent("when protected data is not ready, return true", ({ expect }) =>
     expect(result.current).toBeTruthy();
 });
 
+test.concurrent("when the plugins are not ready, return true", ({ expect }) => {
+    const state = createDefaultAppRouterState();
+    state.areModulesReady = true;
+    state.isMswReady = true;
+    state.isPublicDataReady = true;
+    state.isProtectedDataReady = true;
+    state.arePluginsReady = false;
+
+    const { result } = renderUseIsBootstrappingHook(state);
+
+    expect(result.current).toBeTruthy();
+});
+
+test.concurrent("when the plugins are ready, return false", ({ expect }) => {
+    const state = createDefaultAppRouterState();
+    state.areModulesReady = true;
+    state.isMswReady = true;
+    state.isPublicDataReady = true;
+    state.isProtectedDataReady = true;
+    state.arePluginsReady = true;
+
+    const { result } = renderUseIsBootstrappingHook(state);
+
+    expect(result.current).toBeFalsy();
+});
+
 test.concurrent("when the session is unauthorized, return false", ({ expect }) => {
     const state = createDefaultAppRouterState();
     state.areModulesReady = false;
     state.isUnauthorized = true;
+
+    const { result } = renderUseIsBootstrappingHook(state);
+
+    expect(result.current).toBeFalsy();
+});
+
+test.concurrent("when the session is unauthorized but the plugins are not ready, return true", ({ expect }) => {
+    const state = createDefaultAppRouterState();
+    state.areModulesReady = false;
+    state.isUnauthorized = true;
+    state.arePluginsReady = false;
+
+    const { result } = renderUseIsBootstrappingHook(state);
+
+    expect(result.current).toBeTruthy();
+});
+
+test.concurrent("when the session is unauthorized and the plugins are ready, return false", ({ expect }) => {
+    const state = createDefaultAppRouterState();
+    state.areModulesReady = false;
+    state.isUnauthorized = true;
+    state.arePluginsReady = true;
 
     const { result } = renderUseIsBootstrappingHook(state);
 

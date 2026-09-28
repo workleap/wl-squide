@@ -62,7 +62,7 @@ class FeatureFlagsLocalStore {
         localStorage.setItem(this.#key, JSON.stringify(newFlags));
     }
 
-    addChangedListener(callback: FeatureFlagsLocalStoreChangedListener) {
+    registerChangedListener(callback: FeatureFlagsLocalStoreChangedListener) {
         this.#listeners.add(callback);
     }
 
@@ -114,7 +114,7 @@ export class LocalStorageLaunchDarklyClient implements EditableLaunchDarklyClien
         this.#notifier = notifier;
 
         // Update this client when the feature flags are changed in other tabs/windows.
-        this.#store.addChangedListener(this.#handleStoreChanged.bind(this));
+        this.#store.registerChangedListener(this.#handleStoreChanged.bind(this));
     }
 
     #handleStoreChanged(changeset: LDFlagChangeset) {

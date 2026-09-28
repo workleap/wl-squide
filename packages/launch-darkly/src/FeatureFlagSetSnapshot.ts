@@ -31,8 +31,13 @@ export class FeatureFlagSetSnapshot {
         return this.#snapshot;
     }
 
-    addSnapshotChangedListener(callback: FeatureFlagSetSnapshotChangedListener) {
+    registerSnapshotChangedListener(callback: FeatureFlagSetSnapshotChangedListener) {
         this.#listeners.add(callback);
+    }
+
+    /** @deprecated Use `registerSnapshotChangedListener` instead. */
+    addSnapshotChangedListener(callback: FeatureFlagSetSnapshotChangedListener) {
+        this.registerSnapshotChangedListener(callback);
     }
 
     removeSnapshotChangedListener(callback: FeatureFlagSetSnapshotChangedListener) {

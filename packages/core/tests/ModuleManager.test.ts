@@ -1722,6 +1722,45 @@ describe.concurrent("modules registered listeners", () => {
         expect(listener2).not.toHaveBeenCalled();
         expect(listener3).not.toHaveBeenCalled();
     });
+
+    test.concurrent("when a registry is added after a listener has been registered, the listener is notified of the new registry status changes", ({ expect }) => {
+        const registry1 = new DummyModuleRegistry("modules-registered");
+        const registry2 = new DummyModuleRegistry("modules-registered");
+
+        const manager = new ModuleManager(new DummyRuntime(), [
+            registry1
+        ]);
+
+        const listener = vi.fn();
+
+        manager.registerModulesRegisteredListener(listener);
+        manager.addModuleRegistry(registry2);
+
+        expect(registry2.statusListenersCount).toBe(1);
+
+        // Only the registry added after the listener notifies, the listener must still be called.
+        registry2.notifyStatusListeners();
+
+        expect(listener).toHaveBeenCalledOnce();
+    });
+
+    test.concurrent("when a registry is added after a listener has been registered, removing the listener also removes it from the new registry", ({ expect }) => {
+        const registry1 = new DummyModuleRegistry("registering-modules");
+        const registry2 = new DummyModuleRegistry("registering-modules");
+
+        const manager = new ModuleManager(new DummyRuntime(), [
+            registry1
+        ]);
+
+        const listener = vi.fn();
+
+        manager.registerModulesRegisteredListener(listener);
+        manager.addModuleRegistry(registry2);
+        manager.removeModulesRegisteredListener(listener);
+
+        expect(registry1.statusListenersCount).toBe(0);
+        expect(registry2.statusListenersCount).toBe(0);
+    });
 });
 
 describe.concurrent("modules ready listeners", () => {
@@ -1931,5 +1970,158 @@ describe.concurrent("modules ready listeners", () => {
         expect(listener1).not.toHaveBeenCalled();
         expect(listener2).not.toHaveBeenCalled();
         expect(listener3).not.toHaveBeenCalled();
+    });
+
+    test.concurrent("when a registry is added after a listener has been registered, the listener is notified of the new registry status changes", ({ expect }) => {
+        const registry1 = new DummyModuleRegistry("ready");
+        const registry2 = new DummyModuleRegistry("ready");
+
+        const manager = new ModuleManager(new DummyRuntime(), [
+            registry1
+        ]);
+
+        const listener = vi.fn();
+
+        manager.registerModulesReadyListener(listener);
+        manager.addModuleRegistry(registry2);
+
+        expect(registry2.statusListenersCount).toBe(1);
+
+        // Only the registry added after the listener notifies, the listener must still be called.
+        registry2.notifyStatusListeners();
+
+        expect(listener).toHaveBeenCalledOnce();
+    });
+});
+
+describe.concurrent("registerModules with a registry settling before the next one starts", () => {
+    // Without modules, a registry settles synchronously (like LocalModuleRegistry). With modules, a registry starts
+    // synchronously and completes later (like RemoteModuleRegistry).
+    class DummyModuleRegistry extends ModuleRegistry {
+        readonly #id: string;
+        readonly #completion?: Promise<void>;
+        readonly #statusChangedListeners = new Set<ModuleRegistrationStatusChangedListener>();
+        #registrationStatus: ModuleRegistrationStatus = "none";
+
+        constructor(id: string, completion?: Promise<void>) {
+            super();
+
+            this.#id = id;
+            this.#completion = completion;
+        }
+
+        get id(): string {
+            return this.#id;
+        }
+
+        async registerModules(): Promise<ModuleRegistrationError[]> {
+            if (this.#completion) {
+                this.#setRegistrationStatus("registering-modules");
+
+                await this.#completion;
+            }
+
+            this.#setRegistrationStatus("ready");
+
+            return [];
+        }
+
+        registerDeferredRegistrations(): Promise<ModuleRegistrationError[]> {
+            throw new Error("Method not implemented.");
+        }
+
+        updateDeferredRegistrations(): Promise<ModuleRegistrationError[]> {
+            throw new Error("Method not implemented.");
+        }
+
+        registerStatusChangedListener(callback: ModuleRegistrationStatusChangedListener) {
+            this.#statusChangedListeners.add(callback);
+
+            return () => {
+                this.removeStatusChangedListener(callback);
+            };
+        }
+
+        removeStatusChangedListener(callback: ModuleRegistrationStatusChangedListener) {
+            this.#statusChangedListeners.delete(callback);
+        }
+
+        setAsReady(): void {
+            throw new Error("Method not implemented.");
+        }
+
+        get registrationStatus(): ModuleRegistrationStatus {
+            return this.#registrationStatus;
+        }
+
+        #setRegistrationStatus(status: ModuleRegistrationStatus) {
+            this.#registrationStatus = status;
+
+            this.#statusChangedListeners.forEach(x => {
+                x();
+            });
+        }
+    }
+
+    test.concurrent("when a registry without modules settles before the next registry starts, the modules are not registered nor ready until every registry is", async ({ expect }) => {
+        let complete!: () => void;
+
+        const completion = new Promise<void>(resolve => {
+            complete = resolve;
+        });
+
+        const localRegistry = new DummyModuleRegistry("local");
+        const remoteRegistry = new DummyModuleRegistry("remote", completion);
+
+        const manager = new ModuleManager(new DummyRuntime(), [
+            localRegistry,
+            remoteRegistry
+        ]);
+
+        const registeredListener = vi.fn();
+        const readyListener = vi.fn();
+
+        manager.registerModulesRegisteredListener(registeredListener);
+        manager.registerModulesReadyListener(readyListener);
+
+        const promise = manager.registerModules([]);
+
+        // The local registry settled synchronously, the remote registry has started but is still registering.
+        expect(localRegistry.registrationStatus).toBe("ready");
+        expect(remoteRegistry.registrationStatus).toBe("registering-modules");
+
+        expect(manager.getAreModulesRegistered()).toBeFalsy();
+        expect(manager.getAreModulesReady()).toBeFalsy();
+        expect(registeredListener).not.toHaveBeenCalled();
+        expect(readyListener).not.toHaveBeenCalled();
+
+        complete();
+
+        await promise;
+
+        expect(manager.getAreModulesRegistered()).toBeTruthy();
+        expect(manager.getAreModulesReady()).toBeTruthy();
+        expect(registeredListener).toHaveBeenCalledOnce();
+        expect(readyListener).toHaveBeenCalledOnce();
+    });
+
+    test.concurrent("when the modules registration has started, adding a registry throws", async ({ expect }) => {
+        let complete!: () => void;
+
+        const completion = new Promise<void>(resolve => {
+            complete = resolve;
+        });
+
+        const manager = new ModuleManager(new DummyRuntime(), [
+            new DummyModuleRegistry("remote", completion)
+        ]);
+
+        const promise = manager.registerModules([]);
+
+        expect(() => manager.addModuleRegistry(new DummyModuleRegistry("late"))).toThrow(/once the modules registration has started/);
+
+        complete();
+
+        await promise;
     });
 });

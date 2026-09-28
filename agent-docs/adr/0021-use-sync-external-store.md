@@ -16,7 +16,7 @@ Squide's runtime manages external state (module registration status, MSW readine
 
 ## Decision
 
-Option 3. All external state subscriptions use React's `useSyncExternalStore`. State classes expose a listener-based API (e.g., `addMswReadyListener`/`removeMswReadyListener` on `MswState`, `addSnapshotChangedListener`/`removeSnapshotChangedListener` on `FeatureFlagSetSnapshot`). Components subscribe via `useSyncExternalStore(subscribe, getSnapshot)` where `subscribe` wires up the listener and `getSnapshot` returns the current value.
+Option 3. All external state subscriptions use React's `useSyncExternalStore`. State classes expose a listener-based API (e.g., `registerMswReadyListener`/`removeMswReadyListener` on `MswState`, `registerSnapshotChangedListener`/`removeSnapshotChangedListener` on `FeatureFlagSetSnapshot`). Components subscribe via `useSyncExternalStore(subscribe, getSnapshot)` where `subscribe` wires up the listener and `getSnapshot` returns the current value.
 
 Evidence: `packages/firefly/src/useStrictRegistrationMode.ts` uses `useSyncExternalStore` to subscribe to `runtime.moduleManager.getAreModulesReady()`. `packages/launch-darkly/src/useFeatureFlag.ts` uses `useSyncExternalStore` to subscribe to individual flag changes. `packages/launch-darkly/src/FeatureFlagSetSnapshot.ts` maintains a stable snapshot object specifically because the LaunchDarkly client's `allFlags()` always returns a new object reference, which would cause infinite loops with `useSyncExternalStore`.
 

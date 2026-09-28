@@ -44,7 +44,7 @@ export function createWaitForMswDataStrategy(runtime: FireflyRuntime) {
                     resolve(null);
                 };
 
-                runtime.mswState.addMswReadyListener(handler);
+                runtime.mswState.registerMswReadyListener(handler);
             }
         });
 

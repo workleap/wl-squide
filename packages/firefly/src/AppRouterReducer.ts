@@ -1,6 +1,6 @@
 import { useEventBus, useLogger, useRuntime } from "@squide/core";
 import type { FeatureFlagSetSnapshotChangedListener } from "@squide/launch-darkly";
-import { useCallback, useEffect, useMemo, useReducer, type Dispatch } from "react";
+import { useCallback, useEffect, useMemo, useReducer, useRef, type Dispatch } from "react";
 import type { FireflyRuntime } from "./FireflyRuntime.tsx";
 import { useAppRouterStore } from "./useAppRouterStore.ts";
 import { useExecuteOnce } from "./useExecuteOnce.ts";
@@ -18,6 +18,7 @@ export interface AppRouterState extends AppRouterWaitState {
     areModulesRegistered: boolean;
     areModulesReady: boolean;
     isMswReady: boolean;
+    arePluginsReady: boolean;
     isPublicDataReady: boolean;
     isProtectedDataReady: boolean;
     publicDataUpdatedAt?: number;
@@ -32,6 +33,7 @@ export type AppRouterActionType =
     | "modules-registered"
     | "modules-ready"
     | "msw-ready"
+    | "plugins-ready"
     | "public-data-ready"
     | "protected-data-ready"
     | "public-data-updated"
@@ -47,6 +49,7 @@ export type AppRouterActionType =
 export const ModulesRegisteredEvent = "squide-modules-registered";
 export const ModulesReadyEvent = "squide-modules-ready";
 export const MswReadyEvent = "squide-msw-ready";
+export const PluginsReadyEvent = "squide-plugins-ready";
 export const ActiveRouteIsPublicEvent = "squide-active-route-is-public";
 export const ActiveRouteIsProtectedEvent = "squide-active-route-is-protected";
 export const PublicDataReadyEvent = "squide-public-data-ready";
@@ -61,6 +64,7 @@ declare module "@squide/core" {
         "squide-modules-registered": AppRouterWaitState;
         "squide-modules-ready": AppRouterWaitState;
         "squide-msw-ready": AppRouterWaitState;
+        "squide-plugins-ready": AppRouterWaitState;
         "squide-active-route-is-public": AppRouterWaitState;
         "squide-active-route-is-protected": AppRouterWaitState;
         "squide-public-data-ready": AppRouterWaitState;
@@ -108,6 +112,14 @@ function reducer(state: AppRouterState, action: AppRouterAction) {
             newState = {
                 ...newState,
                 isMswReady: true
+            };
+
+            break;
+        }
+        case "plugins-ready": {
+            newState = {
+                ...newState,
+                arePluginsReady: true
             };
 
             break;
@@ -255,7 +267,7 @@ export function useMswStatusDispatcher(runtime: FireflyRuntime, isMswReadyValue:
     useEffect(() => {
         if (runtime.isMswEnabled) {
             if (!isMswReadyValue) {
-                runtime.mswState.addMswReadyListener(dispatchMswReady);
+                runtime.mswState.registerMswReadyListener(dispatchMswReady);
             }
 
             return () => {
@@ -263,6 +275,85 @@ export function useMswStatusDispatcher(runtime: FireflyRuntime, isMswReadyValue:
             };
         }
     }, [runtime, isMswReadyValue, dispatchMswReady]);
+}
+
+// A plugin without "isReady" is always ready.
+export function arePluginsReady(runtime: FireflyRuntime) {
+    return runtime.plugins.every(x => x.isReady?.() ?? true);
+}
+
+// A plugin implementing "isReady" without the listeners would be consulted once and never again: not ready at that
+// point, it would keep the application on its bootstrapping fallback forever.
+export function getPluginsImplementingIsReady(runtime: FireflyRuntime) {
+    const plugins = runtime.plugins.filter(x => typeof x.isReady === "function");
+
+    plugins.forEach(x => {
+        if (typeof x.registerReadyListener !== "function" || typeof x.removeReadyListener !== "function") {
+            throw new Error(`[squide] The "${x.name}" plugin implements "isReady" without "registerReadyListener" and "removeReadyListener". A plugin implementing "isReady" must implement the three members.`);
+        }
+    });
+
+    return plugins;
+}
+
+export function hasPluginsImplementingIsReady(runtime: FireflyRuntime) {
+    return getPluginsImplementingIsReady(runtime).length > 0;
+}
+
+export function usePluginsStatusDispatcher(runtime: FireflyRuntime, arePluginsReadyValue: boolean, areOtherInputsReady: boolean, dispatch: AppRouterDispatch) {
+    const logger = useLogger();
+
+    const dispatchPluginsReady = useCallback(() => {
+        dispatch({ type: "plugins-ready" });
+
+        logger
+            .withText("[squide] Plugins are ready.", {
+                style: {
+                    color: "green"
+                }
+            })
+            .information();
+    }, [dispatch, logger]);
+
+    // Several plugins can become ready in the same tick, and StrictMode executes the effect twice before the state
+    // updates: the action must still be dispatched once.
+    const hasDispatchedRef = useRef(false);
+
+    useEffect(() => {
+        // The plugins are consulted once every other input is ready rather than as soon as they become ready: work
+        // requested meanwhile by the bootstrapping route, such as switching to the session preferred language once
+        // the protected data is fetched, must hold the render as well. The bootstrapping route's effects execute
+        // before this one (a child's effects run before its parent's), so that work is pending when the plugins
+        // are consulted.
+        if (arePluginsReadyValue || !areOtherInputsReady) {
+            return;
+        }
+
+        const onPluginReady = () => {
+            if (!hasDispatchedRef.current && arePluginsReady(runtime)) {
+                hasDispatchedRef.current = true;
+
+                dispatchPluginsReady();
+            }
+        };
+
+        // Every plugin implementing the surface is subscribed, not only the ones that aren't ready yet: a plugin
+        // ready at this point can become not ready again before the others are, and its own transition back to
+        // ready must re-evaluate the whole set.
+        const plugins = getPluginsImplementingIsReady(runtime);
+
+        plugins.forEach(x => {
+            x.registerReadyListener?.(onPluginReady);
+        });
+
+        onPluginReady();
+
+        return () => {
+            plugins.forEach(x => {
+                x.removeReadyListener?.(onPluginReady);
+            });
+        };
+    }, [runtime, arePluginsReadyValue, areOtherInputsReady, dispatchPluginsReady]);
 }
 
 export function useFeatureFlagsUpdatedDispatcher(runtime: FireflyRuntime, dispatch: AppRouterDispatch) {
@@ -279,7 +370,7 @@ export function useFeatureFlagsUpdatedDispatcher(runtime: FireflyRuntime, dispat
 
     useEffect(() => {
         if (runtime.isLaunchDarklyEnabled) {
-            runtime.featureFlagSetSnapshot.addSnapshotChangedListener(dispatchFeatureFlagsUpdated);
+            runtime.featureFlagSetSnapshot.registerSnapshotChangedListener(dispatchFeatureFlagsUpdated);
 
             return () => {
                 runtime.featureFlagSetSnapshot.removeSnapshotChangedListener(dispatchFeatureFlagsUpdated);
@@ -350,6 +441,9 @@ export function useAppRouterReducer(waitForPublicData: boolean, waitForProtected
     const areModulesInitiallyRegistered = runtime.moduleManager.getAreModulesRegistered();
     const areModulesInitiallyReady = runtime.moduleManager.getAreModulesReady();
     const isMswInitiallyReady = runtime.isMswEnabled ? runtime.mswState.isReady : false;
+    // The plugins are consulted by the dispatcher once every other input is ready. Without a plugin implementing the
+    // "isReady" there is nothing to consult, and neither the action nor the event is ever dispatched.
+    const hasPluginsImplementingIsReadyValue = hasPluginsImplementingIsReady(runtime);
 
     const waitState = useMemo(() => ({
         waitForMsw: isMswEnabled,
@@ -365,11 +459,12 @@ export function useAppRouterReducer(waitForPublicData: boolean, waitForProtected
         areModulesRegistered: areModulesInitiallyRegistered,
         areModulesReady: areModulesInitiallyReady,
         isMswReady: isMswInitiallyReady,
+        arePluginsReady: !hasPluginsImplementingIsReadyValue,
         isPublicDataReady: false,
         isProtectedDataReady: false,
         activeRouteVisibility: "unknown",
         isUnauthorized: false
-    } satisfies AppRouterState), [waitState, areModulesInitiallyRegistered, areModulesInitiallyReady, isMswInitiallyReady]);
+    } satisfies AppRouterState), [waitState, areModulesInitiallyRegistered, areModulesInitiallyReady, isMswInitiallyReady, hasPluginsImplementingIsReadyValue]);
 
     // When modules are initially registered, the reducer action will never be dispatched, therefore the event would not be dispatched as well.
     // To ensure the bootstrapping events sequencing, the event is manually dispatched when the modules are initially registered.
@@ -404,12 +499,24 @@ export function useAppRouterReducer(waitForPublicData: boolean, waitForProtected
         return true;
     }, [isMswInitiallyReady, appRouterStore, eventBus, waitState]), true);
 
+    // Without a plugin implementing "isReady", the reducer starts ready and the action is never dispatched. The store is
+    // synchronized so that a non React consumer reads the same value. No event is dispatched: the event sequence of an
+    // application without such plugins is unchanged.
+    useExecuteOnce(useCallback(() => {
+        if (!hasPluginsImplementingIsReadyValue) {
+            appRouterStore.dispatch({ type: "plugins-ready", payload: waitState });
+        }
+
+        return true;
+    }, [hasPluginsImplementingIsReadyValue, appRouterStore, waitState]), true);
+
     const [state, reactDispatch] = useReducer(reducer, initialState);
 
     const {
         areModulesRegistered: areModulesRegisteredValue,
         areModulesReady: areModulesReadyValue,
-        isMswReady: isMswReadyValue
+        isMswReady: isMswReadyValue,
+        arePluginsReady: arePluginsReadyValue
     } = state;
 
     // The dispatch proxy is strictly an utility allowing tests to mock the useReducer dispatch function. It's easier
@@ -417,8 +524,12 @@ export function useAppRouterReducer(waitForPublicData: boolean, waitForProtected
     const dispatchProxy = useReducerDispatchProxy(reactDispatch);
     const dispatch = useEnhancedReducerDispatch(waitState, dispatchProxy);
 
+    // Whether the application would be considered bootstrapped if the plugins were ready.
+    const areOtherInputsReady = useMemo(() => !isBootstrapping({ ...state, arePluginsReady: true }), [state]);
+
     useModuleRegistrationStatusDispatcher(runtime, areModulesRegisteredValue, areModulesReadyValue, dispatch);
     useMswStatusDispatcher(runtime, isMswReadyValue, dispatch);
+    usePluginsStatusDispatcher(runtime, arePluginsReadyValue, areOtherInputsReady, dispatch);
     useFeatureFlagsUpdatedDispatcher(runtime, dispatch);
     useBootstrappingCompletedDispatcher(waitState, state);
 

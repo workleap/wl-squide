@@ -7,7 +7,7 @@ order: 140
 Most Workleap's application are either already bilingual or will be in the future. To help feature teams deal with localized resources, Squide provides a native [plugin](../reference/i18next/i18nextPlugin.md) designed to adapt the [i18next](https://www.i18next.com/) library for modular applications.
 
 !!!info
-The examples in this guide load all the resources from single localized resources files. For a real Workleap application, you probably want to spread the resources into multiple files and load the files with a i18next [backend plugin](https://www.i18next.com/overview/plugins-and-utils#backends).
+The examples in this guide load all the resources from single localized resources files. For a real Workleap application, you probably want to spread the resources into multiple files and load the files with a i18next [backend plugin](https://www.i18next.com/overview/plugins-and-utils#backends). To download only the resources of the active language, refer to the [lazy-load the resources](../integrations/setup-i18next.md#lazy-load-the-resources) section of the [setup i18next](../integrations/setup-i18next.md) integration guide.
 !!!
 
 ## Setup the host application
