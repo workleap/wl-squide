@@ -461,7 +461,7 @@ const plugin = new i18nextPlugin(x, ["en-US", "fr-CA"], "en-US", "language", {
 
 | Member | Description |
 |--------|-------------|
-| `registerInstance(key, instance, options?)` | Associate an i18next instance with a key. **Must be called from a module's `register()` function**: throws once the modules are registered (so never from a deferred registration function). `options.loadResources` enables per-language lazy loading (see below) |
+| `registerInstance(key, instance, options?)` | Associate an i18next instance with a key. A lazy instance (`options.loadResources`) **must be registered from a module's `register()` function**: it throws once the modules are registered (so never from a deferred registration function). A static instance can be registered at any time. `options.loadResources` enables per-language lazy loading (see below) |
 | `getInstance(key)` | Retrieve an instance; throws if no instance matches the key |
 | `currentLanguage` | The current language; throws if the language was never detected nor changed |
 | `detectUserLanguage()` | Detect the user language, falling back to `fallbackLanguage` |

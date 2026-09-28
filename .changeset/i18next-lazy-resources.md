@@ -16,7 +16,7 @@ Resources can now be lazy-loaded per language, and the plugin reports when it is
 - `changeLanguage(language)` now returns a `Promise<void>`. It resolves once the resources of the language are loaded into every lazy instance and the switch is done. With static resources, the switch still happens synchronously and the call doesn't need to be awaited.
 - A failed resources load rejects the promise with an `I18nextResourcesLoadError` and leaves the language unchanged. An unsupported language still throws synchronously.
 - `useChangeLanguage()` returns `(language) => Promise<void>`. A React effect written as a concise arrow function now returns the promise to React, which is not allowed: use a block body, `useEffect(() => { changeLanguage(language); }, [language]);`.
-- `registerInstance` throws once the modules are registered. Instances must be registered from a module's register function, never from a deferred registration function.
+- `registerInstance` throws when a lazy instance is registered once the modules are registered: a lazy instance must be registered from a module's register function, never from a deferred registration function. A static instance can still be registered at any time.
 
 **Migration**
 

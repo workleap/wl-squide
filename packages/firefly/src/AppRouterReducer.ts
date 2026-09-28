@@ -1,6 +1,6 @@
 import { useEventBus, useLogger, useRuntime } from "@squide/core";
 import type { FeatureFlagSetSnapshotChangedListener } from "@squide/launch-darkly";
-import { useCallback, useEffect, useMemo, useReducer, type Dispatch } from "react";
+import { useCallback, useEffect, useMemo, useReducer, useRef, type Dispatch } from "react";
 import type { FireflyRuntime } from "./FireflyRuntime.tsx";
 import { useAppRouterStore } from "./useAppRouterStore.ts";
 import { useExecuteOnce } from "./useExecuteOnce.ts";
@@ -282,8 +282,22 @@ export function arePluginsReady(runtime: FireflyRuntime) {
     return runtime.plugins.every(x => x.isReady?.() ?? true);
 }
 
+// A plugin implementing "isReady" without the listeners would be consulted once and never again: not ready at that
+// point, it would keep the application on its bootstrapping fallback forever.
+export function getPluginsImplementingIsReady(runtime: FireflyRuntime) {
+    const plugins = runtime.plugins.filter(x => typeof x.isReady === "function");
+
+    plugins.forEach(x => {
+        if (typeof x.registerReadyListener !== "function" || typeof x.removeReadyListener !== "function") {
+            throw new Error(`[squide] The "${x.name}" plugin implements "isReady" without "registerReadyListener" and "removeReadyListener". A plugin implementing "isReady" must implement the three members.`);
+        }
+    });
+
+    return plugins;
+}
+
 export function hasPluginsImplementingIsReady(runtime: FireflyRuntime) {
-    return runtime.plugins.some(x => typeof x.isReady === "function");
+    return getPluginsImplementingIsReady(runtime).length > 0;
 }
 
 export function usePluginsStatusDispatcher(runtime: FireflyRuntime, arePluginsReadyValue: boolean, areOtherInputsReady: boolean, dispatch: AppRouterDispatch) {
@@ -301,6 +315,10 @@ export function usePluginsStatusDispatcher(runtime: FireflyRuntime, arePluginsRe
             .information();
     }, [dispatch, logger]);
 
+    // Several plugins can become ready in the same tick, and StrictMode executes the effect twice before the state
+    // updates: the action must still be dispatched once.
+    const hasDispatchedRef = useRef(false);
+
     useEffect(() => {
         // The plugins are consulted once every other input is ready rather than as soon as they become ready: work
         // requested meanwhile by the bootstrapping route, such as switching to the session preferred language once
@@ -311,12 +329,9 @@ export function usePluginsStatusDispatcher(runtime: FireflyRuntime, arePluginsRe
             return;
         }
 
-        // Several plugins can become ready in the same tick, the action must still be dispatched once.
-        let hasDispatched = false;
-
         const onPluginReady = () => {
-            if (!hasDispatched && arePluginsReady(runtime)) {
-                hasDispatched = true;
+            if (!hasDispatchedRef.current && arePluginsReady(runtime)) {
+                hasDispatchedRef.current = true;
 
                 dispatchPluginsReady();
             }
@@ -325,7 +340,7 @@ export function usePluginsStatusDispatcher(runtime: FireflyRuntime, arePluginsRe
         // Every plugin implementing the surface is subscribed, not only the ones that aren't ready yet: a plugin
         // ready at this point can become not ready again before the others are, and its own transition back to
         // ready must re-evaluate the whole set.
-        const plugins = runtime.plugins.filter(x => typeof x.isReady === "function");
+        const plugins = getPluginsImplementingIsReady(runtime);
 
         plugins.forEach(x => {
             x.registerReadyListener?.(onPluginReady);
@@ -483,6 +498,17 @@ export function useAppRouterReducer(waitForPublicData: boolean, waitForProtected
 
         return true;
     }, [isMswInitiallyReady, appRouterStore, eventBus, waitState]), true);
+
+    // Without a plugin implementing "isReady", the reducer starts ready and the action is never dispatched. The store is
+    // synchronized so that a non React consumer reads the same value. No event is dispatched: the event sequence of an
+    // application without such plugins is unchanged.
+    useExecuteOnce(useCallback(() => {
+        if (!hasPluginsImplementingIsReadyValue) {
+            appRouterStore.dispatch({ type: "plugins-ready", payload: waitState });
+        }
+
+        return true;
+    }, [hasPluginsImplementingIsReadyValue, appRouterStore, waitState]), true);
 
     const [state, reactDispatch] = useReducer(reducer, initialState);
 

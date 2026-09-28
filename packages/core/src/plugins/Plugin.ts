@@ -60,7 +60,8 @@ export abstract class Plugin<TRuntime extends Runtime = Runtime> {
     /**
      * Optional. Indicates whether the asynchronous work the application must wait for before rendering has settled,
      * such as loading the resources of the requested language. A plugin that doesn't implement it is always
-     * considered ready.
+     * considered ready. It must be implemented together with "registerReadyListener" and "removeReadyListener":
+     * the application relies on them to consult it again.
      *
      * It's a status rather than a latch: it returns "false" again when new work starts, and "true" once that work
      * has settled. The application consults it once every other bootstrapping input is ready and holds the render

@@ -14,6 +14,7 @@ export class ModuleManager {
     private readonly runtime: Runtime;
     private readonly moduleRegistries: ModuleRegistry[];
     private readonly listenerRefs = new Map<ModuleRegistrationStatusListener, ModuleRegistrationStatusListener>();
+    #hasRegistrationStarted = false;
 
     constructor(runtime: Runtime, moduleRegistries: ModuleRegistry[]) {
         this.runtime = runtime;
@@ -21,6 +22,11 @@ export class ModuleManager {
     }
 
     addModuleRegistry(moduleRegistry: ModuleRegistry) {
+        // A registry added afterwards is never started by "registerModules", the modules would never be registered.
+        if (this.#hasRegistrationStarted) {
+            throw new Error("[squide] Cannot add a module registry once the modules registration has started. Are you adding a registry from a deferred registration function or after the application bootstrapped? Add the registry from a plugin constructor.");
+        }
+
         this.moduleRegistries.push(moduleRegistry);
 
         // A listener registered before this registry was added would otherwise never be notified of its status
@@ -45,6 +51,11 @@ export class ModuleManager {
         //     ]
         // }
         const definitionsByRegistryId = Object.groupBy(definitions, x => x.registryId);
+
+        // A registry without modules settles synchronously, before the next registry leaves "none". Without this flag,
+        // "getAreModulesRegistered" would report true in between, and a listener subscribed before the bootstrapping,
+        // from a plugin constructor for example, would be notified before the other registries have started.
+        this.#hasRegistrationStarted = true;
 
         // It's important to always to though all the registered registries even if there's no module definitions.
         // Using Promise.all rather than Promise.allSettled to throw any errors that occurs.
@@ -154,13 +165,17 @@ export class ModuleManager {
             return false;
         }
 
-        // The registration status could be "none" if an application doesn't register modules for a given registry.
         // The registration status could be "registering-deferred-registration" if all the modules of an application are registered and it's registering the deferred registrations (which is considered as being already registered).
         // The registration status could be at "ready" if there's no deferred registrations.
         return this.moduleRegistries.every(x => {
             const status = x.registrationStatus;
 
-            return status === "none" || status === "modules-registered" || status === "registering-deferred-registration" || status === "ready";
+            // Once the registration has started, a registry still at "none" hasn't been started yet.
+            if (status === "none") {
+                return !this.#hasRegistrationStarted;
+            }
+
+            return status === "modules-registered" || status === "registering-deferred-registration" || status === "ready";
         });
     }
 
@@ -173,11 +188,15 @@ export class ModuleManager {
             return false;
         }
 
-        // The registration status could be "none" if an application doesn't register modules for a given registry.
         return this.moduleRegistries.every(x => {
             const status = x.registrationStatus;
 
-            return status === "none" || status === "ready";
+            // Once the registration has started, a registry still at "none" hasn't been started yet.
+            if (status === "none") {
+                return !this.#hasRegistrationStarted;
+            }
+
+            return status === "ready";
         });
     }
 

@@ -93,8 +93,8 @@ export class i18nextPlugin<T extends string = string> extends Plugin {
     }
 
     /**
-     * Registers an i18next instance. Must be executed from a module's register function: once the modules are
-     * registered, the call throws.
+     * Registers an i18next instance. A lazy instance must be registered from a module's register function: once the
+     * modules are registered, the call throws. A static instance can be registered at any time.
      *
      * When a `loadResources` function is provided, the instance must have been initialized (with `resources: {}` when
      * it holds no static resources) and the user language must have been detected. The plugin then loads the
@@ -102,11 +102,13 @@ export class i18nextPlugin<T extends string = string> extends Plugin {
      * when the language changes.
      */
     registerInstance(key: string, instance: i18n, { loadResources }: RegisterInstanceOptions<T> = {}) {
-        if (this._runtime.moduleManager.getAreModulesRegistered()) {
-            throw new Error("[squide] Cannot register an i18next instance once the modules are registered. Are you trying to register an instance in a deferred registration function? Instances must be registered in a module's register function.");
-        }
-
         if (loadResources) {
+            // A lazy instance registered afterwards couldn't hold the rendering while its resources load. A static instance
+            // holds its resources, it can be registered at any time.
+            if (this._runtime.moduleManager.getAreModulesRegistered()) {
+                throw new Error(`[squide] Cannot register the i18next instance with key "${key}" with a "loadResources" function once the modules are registered. Register the instance from a module's register function.`);
+            }
+
             if (isNil(this.#currentLanguage)) {
                 throw new Error(`[squide] Cannot register the i18next instance with key "${key}" with a "loadResources" function because no user language has been detected yet. Did you forget to call the detectUserLanguage function?`);
             }
@@ -207,15 +209,18 @@ export class i18nextPlugin<T extends string = string> extends Plugin {
         // Latest call wins.
         const token = ++this.#changeLanguageToken;
 
-        const pendingLoads = this.#registry.getEntries()
+        const collectPendingLoads = () => this.#registry.getEntries()
             .filter(x => !this.#holdsLanguage(x, language))
             .map(x => this.#ensureLanguage(x, language));
+
+        let pendingLoads = collectPendingLoads();
 
         // The ready status reports the latest requested switch: the plugin isn't ready while its resources load.
         this.#isSwitchPending = pendingLoads.length > 0;
 
-        // Only awaiting when a load is needed keeps a switch between static instances synchronous.
-        if (pendingLoads.length > 0) {
+        // Only awaiting when a load is needed keeps a switch between static instances synchronous. An instance registered
+        // while the loads are pending has loaded the previous language, the loop picks it up before switching.
+        while (pendingLoads.length > 0) {
             this.#updateIsReady();
 
             try {
@@ -236,8 +241,10 @@ export class i18nextPlugin<T extends string = string> extends Plugin {
                 return;
             }
 
-            this.#isSwitchPending = false;
+            pendingLoads = collectPendingLoads();
         }
+
+        this.#isSwitchPending = false;
 
         if (language !== this.#currentLanguage) {
             this.#registry.getInstances().forEach(x => {

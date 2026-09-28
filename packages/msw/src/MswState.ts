@@ -20,6 +20,11 @@ export class MswState {
         this.#mswReadyListeners.add(callback);
     }
 
+    /** @deprecated Use `registerMswReadyListener` instead. */
+    addMswReadyListener(callback: MswReadyListener) {
+        this.registerMswReadyListener(callback);
+    }
+
     removeMswReadyListener(callback: MswReadyListener) {
         this.#mswReadyListeners.delete(callback);
     }

@@ -1,4 +1,4 @@
-import { Runtime, toLocalModuleDefinitions, type ModuleRegisterFunction } from "@squide/core";
+import { ModuleRegistry, Runtime, toLocalModuleDefinitions, type ModuleRegisterFunction, type ModuleRegistrationError, type ModuleRegistrationStatus, type ModuleRegistrationStatusChangedListener } from "@squide/core";
 import { NoopLogger } from "@workleap/logging";
 import i18n, { type Resource, type ResourceLanguage } from "i18next";
 import { describe, test, vi } from "vitest";
@@ -219,13 +219,22 @@ describe.concurrent("registerInstance", () => {
         expect(changeLanguageSpy).toHaveBeenCalledExactlyOnceWith("fr-CA");
     });
 
-    test.concurrent("when the modules are registered, throw an error", async ({ expect }) => {
+    test.concurrent("when the modules are registered, throw an error for a lazy instance", async ({ expect }) => {
         const runtime = new DummyRuntime();
         const plugin = createPlugin(runtime);
 
         await registerModules(runtime);
 
-        expect(() => plugin.registerInstance("an-instance", createInstance("en-US"))).toThrow(/once the modules are registered/);
+        expect(() => plugin.registerInstance("an-instance", createInstance("en-US"), { loadResources: () => Promise.resolve({}) })).toThrow(/once the modules are registered/);
+    });
+
+    test.concurrent("when the modules are registered, a static instance can still be registered", async ({ expect }) => {
+        const runtime = new DummyRuntime();
+        const plugin = createPlugin(runtime);
+
+        await registerModules(runtime);
+
+        expect(() => plugin.registerInstance("an-instance", createInstance("en-US", { "en-US": { ns: { key: "value" } } }))).not.toThrow();
     });
 
     test.concurrent("when a loader is provided but no language has been detected, throw an error", ({ expect }) => {
@@ -823,5 +832,136 @@ describe.concurrent("failure reporting", () => {
         // The registry still becomes ready, so does the plugin.
         expect(runtime.moduleManager.getAreModulesReady()).toBeTruthy();
         expect(plugin.isReady()).toBeTruthy();
+    });
+});
+
+describe.concurrent("registerInstance while a switch is loading", () => {
+    test.concurrent("when a lazy instance is registered while a switch is loading, its resources for the requested language are loaded before switching", async ({ expect }) => {
+        const runtime = new DummyRuntime();
+        const plugin = createPlugin(runtime);
+
+        const deferred = createDeferred();
+
+        const loaderA = vi.fn().mockImplementation(() => deferred.promise);
+        const instanceA = createInstance("en-US", { "en-US": { ns: { key: "value" } } });
+
+        plugin.registerInstance("a", instanceA, { loadResources: loaderA });
+
+        const promise = plugin.changeLanguage("fr-CA");
+
+        expect(loaderA).toHaveBeenCalledExactlyOnceWith("fr-CA");
+
+        // Registered while the "fr-CA" resources of "a" are loading: it loads the current language, "en-US".
+        const loaderB = vi.fn().mockImplementation((language: LanguageKey) => Promise.resolve({ ns: { key: language === "fr-CA" ? "valeur" : "value" } }));
+        const instanceB = createInstance("en-US");
+
+        plugin.registerInstance("b", instanceB, { loadResources: loaderB });
+
+        expect(loaderB).toHaveBeenCalledExactlyOnceWith("en-US");
+
+        deferred.resolve({ ns: { key: "valeur" } });
+
+        await promise;
+
+        expect(loaderB).toHaveBeenCalledWith("fr-CA");
+        expect(instanceB.hasResourceBundle("fr-CA", "ns")).toBeTruthy();
+        expect(instanceB.language).toBe("fr-CA");
+        expect(plugin.currentLanguage).toBe("fr-CA");
+
+        await registerModules(runtime);
+
+        expect(plugin.isReady()).toBeTruthy();
+    });
+});
+
+describe.concurrent("isReady with a registry starting after another one settled", () => {
+    // Starts synchronously and registers a lazy instance later, like a remote module registry loading its remotes.
+    class DummyRemoteModuleRegistry extends ModuleRegistry {
+        readonly #register: () => Promise<void>;
+        readonly #statusChangedListeners = new Set<ModuleRegistrationStatusChangedListener>();
+        #registrationStatus: ModuleRegistrationStatus = "none";
+
+        constructor(register: () => Promise<void>) {
+            super();
+
+            this.#register = register;
+        }
+
+        get id(): string {
+            return "remote";
+        }
+
+        async registerModules(): Promise<ModuleRegistrationError[]> {
+            this.#setRegistrationStatus("registering-modules");
+
+            await this.#register();
+
+            this.#setRegistrationStatus("ready");
+
+            return [];
+        }
+
+        registerDeferredRegistrations(): Promise<ModuleRegistrationError[]> {
+            throw new Error("Method not implemented.");
+        }
+
+        updateDeferredRegistrations(): Promise<ModuleRegistrationError[]> {
+            throw new Error("Method not implemented.");
+        }
+
+        registerStatusChangedListener(callback: ModuleRegistrationStatusChangedListener) {
+            this.#statusChangedListeners.add(callback);
+
+            return () => {
+                this.removeStatusChangedListener(callback);
+            };
+        }
+
+        removeStatusChangedListener(callback: ModuleRegistrationStatusChangedListener) {
+            this.#statusChangedListeners.delete(callback);
+        }
+
+        setAsReady(): void {
+            throw new Error("Method not implemented.");
+        }
+
+        get registrationStatus(): ModuleRegistrationStatus {
+            return this.#registrationStatus;
+        }
+
+        #setRegistrationStatus(status: ModuleRegistrationStatus) {
+            this.#registrationStatus = status;
+
+            this.#statusChangedListeners.forEach(x => {
+                x();
+            });
+        }
+    }
+
+    test.concurrent("when a lazy instance is registered by a registry starting after the local registry settled, the plugin is not ready until the instance holds the current language", async ({ expect }) => {
+        const runtime = new DummyRuntime();
+        const plugin = createPlugin(runtime);
+
+        const listener = vi.fn();
+
+        plugin.registerReadyListener(listener);
+
+        const instance = createInstance("en-US");
+
+        // The default local registry has no modules and settles synchronously, before this registry starts.
+        runtime.moduleManager.addModuleRegistry(new DummyRemoteModuleRegistry(async () => {
+            plugin.registerInstance("remote", instance, { loadResources: () => Promise.resolve({ ns: { key: "value" } }) });
+
+            // The load settles while the registry is still registering.
+            await flushPromises();
+
+            expect(instance.hasResourceBundle("en-US", "ns")).toBeTruthy();
+            expect(plugin.isReady()).toBeFalsy();
+        }));
+
+        await runtime.moduleManager.registerModules([]);
+
+        expect(plugin.isReady()).toBeTruthy();
+        expect(listener).toHaveBeenCalledOnce();
     });
 });

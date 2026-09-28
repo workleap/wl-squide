@@ -71,8 +71,6 @@ const plugin = runtime.getPlugin(i18nextPluginName) as i18nextPlugin;
 plugin.registerInstance("an-instance-key", instance);
 ```
 
-An instance must be registered from a module's [register function](../registration/initializeFirefly.md). Once the modules are registered, `registerInstance` throws.
-
 ### Lazy-load resources per language
 
 Static resources land in the initial chunk for every supported language. To ship only the active language, provide a `loadResources` function when registering the instance. The plugin calls it with a language and expects a promise resolving to a map of namespace to resource bundle, the same shape as a single language entry of the i18next `resources` option:
@@ -105,6 +103,8 @@ export const register: ModuleRegisterFunction<FireflyRuntime> = runtime => {
     });
 };
 ```
+
+A lazy instance must be registered from a module's [register function](../registration/initializeFirefly.md): once the modules are registered, `registerInstance` throws.
 
 [!ref Lazy-load the resources](../../integrations/setup-i18next.md#lazy-load-the-resources)
 

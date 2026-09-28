@@ -31,7 +31,7 @@ onDeferredRegistrationScopeStarted?(options: {
 }): (() => void) | void;
 ```
 
-- `isReady()`: Indicate whether the asynchronous work the application must wait for before rendering has settled. A plugin that doesn't implement it is always considered ready. See [Report when the plugin is ready](#report-when-the-plugin-is-ready).
+- `isReady()`: Indicate whether the asynchronous work the application must wait for before rendering has settled. A plugin that doesn't implement it is always considered ready. It is implemented together with `registerReadyListener` and `removeReadyListener`. See [Report when the plugin is ready](#report-when-the-plugin-is-ready).
 - `registerReadyListener(callback)`: Register a listener executed every time the plugin becomes ready.
 - `removeReadyListener(callback)`: Remove a previously registered ready listener.
 

@@ -35,6 +35,11 @@ export class FeatureFlagSetSnapshot {
         this.#listeners.add(callback);
     }
 
+    /** @deprecated Use `registerSnapshotChangedListener` instead. */
+    addSnapshotChangedListener(callback: FeatureFlagSetSnapshotChangedListener) {
+        this.registerSnapshotChangedListener(callback);
+    }
+
     removeSnapshotChangedListener(callback: FeatureFlagSetSnapshotChangedListener) {
         this.#listeners.delete(callback);
     }

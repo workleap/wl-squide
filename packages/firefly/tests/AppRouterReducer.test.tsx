@@ -4,7 +4,7 @@ import { MswPlugin, type MswReadyListener } from "@squide/msw";
 import { MswState } from "@squide/msw/internal";
 import { act, renderHook, type RenderHookOptions } from "@testing-library/react";
 import { NoopLogger } from "@workleap/logging";
-import type { ReactNode } from "react";
+import { StrictMode, type ReactNode } from "react";
 import { describe, test, vi } from "vitest";
 import {
     ActiveRouteIsProtectedEvent,
@@ -15,6 +15,7 @@ import {
     PluginsReadyEvent,
     ProtectedDataReadyEvent,
     PublicDataReadyEvent,
+    hasPluginsImplementingIsReady,
     useAppRouterReducer,
     useFeatureFlagsUpdatedDispatcher,
     useModuleRegistrationStatusDispatcher,
@@ -1121,6 +1122,7 @@ describe.concurrent("useAppRouterReducer", () => {
         const { result } = renderUseAppRouterReducerHook(runtime, false, false);
 
         expect(result.current[0].arePluginsReady).toBeTruthy();
+        expect(runtime.appRouterStore.state.arePluginsReady).toBeTruthy();
     });
 
     test.concurrent("when no plugin implements \"isReady\" and the other inputs are ready, PluginsReadyEvent is not dispatched", ({ expect }) => {
@@ -1139,7 +1141,7 @@ describe.concurrent("useAppRouterReducer", () => {
         renderUseAppRouterReducerHook(runtime, false, false);
 
         expect(listener).not.toHaveBeenCalled();
-        expect(runtime.appRouterStore.state.arePluginsReady).toBeFalsy();
+        expect(runtime.appRouterStore.state.arePluginsReady).toBeTruthy();
     });
 
     test.concurrent("when a plugin implements \"isReady\", \"arePluginsReady\" is false at initialization even if the plugin is ready", ({ expect }) => {
@@ -1709,5 +1711,48 @@ describe.concurrent("useFeatureFlagsUpdatedDispatcher", () => {
         });
 
         expect(dispatch).toHaveBeenCalledOnce();
+    });
+});
+
+// A plugin implementing "isReady" without the listener members.
+class DummyIsReadyOnlyPlugin extends Plugin {
+    constructor(runtime: Runtime) {
+        super("dummy-is-ready-only-plugin", runtime);
+    }
+
+    isReady() {
+        return false;
+    }
+}
+
+describe.concurrent("plugins implementing \"isReady\"", () => {
+    test.concurrent("when a plugin implements \"isReady\" without \"registerReadyListener\" and \"removeReadyListener\", throw", ({ expect }) => {
+        const runtime = new FireflyRuntime({
+            plugins: [x => new DummyIsReadyOnlyPlugin(x)],
+            loggers: [new NoopLogger()]
+        });
+
+        expect(() => hasPluginsImplementingIsReady(runtime)).toThrow(/must implement the three members/);
+    });
+
+    test.concurrent("when every plugin is already ready and StrictMode executes the effect twice, dispatch the \"plugins-ready\" action once", ({ expect }) => {
+        const runtime = new FireflyRuntime({
+            plugins: [x => new DummyReadyPlugin(x, true)],
+            loggers: [new NoopLogger()]
+        });
+
+        const dispatch = vi.fn();
+
+        renderHook(() => usePluginsStatusDispatcher(runtime, false, true, dispatch), {
+            wrapper: ({ children }: { children?: ReactNode }) => (
+                <StrictMode>
+                    <FireflyProvider runtime={runtime}>
+                        {children}
+                    </FireflyProvider>
+                </StrictMode>
+            )
+        });
+
+        expect(dispatch).toHaveBeenCalledExactlyOnceWith({ type: "plugins-ready" });
     });
 });
