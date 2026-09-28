@@ -519,8 +519,11 @@ Get a function to change the language: `(language) => Promise<void>`. With stati
 ```ts
 import { useChangeLanguage } from "@squide/i18next";
 const changeLanguage = useChangeLanguage();
-await changeLanguage("fr-CA");
+changeLanguage("fr-CA");
 
 // In an effect
 useEffect(() => { changeLanguage("fr-CA"); }, [changeLanguage]);
+
+// With lazy resources, await the promise where the switch must be complete before continuing
+await changeLanguage("fr-CA");
 ```
