@@ -182,7 +182,7 @@ plugin.removeLanguageChangedListener(listener);
 
 ### Handle a failed resources load
 
-A failed load never blocks the rendering of the application: the affected instance renders what i18next renders for a missing language, which is the resource key or the `fallbackLng` value when one is configured. Every failure is:
+A failed load never blocks the rendering of the application: the affected instance renders the resource keys, as the plugin doesn't load the `fallbackLng` resources. Every failure is:
 
 - Logged with the runtime [logger](../logging/useLogger.md).
 - Dispatched on the [event bus](../messaging/useEventBusListener.md) as an `I18nextResourcesLoadFailedEvent`, with a `{ key, language, error }` payload.

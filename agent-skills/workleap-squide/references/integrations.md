@@ -471,7 +471,7 @@ const plugin = new i18nextPlugin(x, ["en-US", "fr-CA"], "en-US", "language", {
 
 Prefer `getI18nextPlugin(runtime)` over `runtime.getPlugin(i18nextPluginName) as i18nextPlugin`.
 
-Failure reporting: every failed load is logged, dispatched on the event bus as `I18nextResourcesLoadFailedEvent` (`{ key, language, error }`) and, when triggered by `changeLanguage`, rejected as an `I18nextResourcesLoadError` (`key`, `language`, `cause`; test with `isI18nextResourcesLoadError(error)`). A failed load never blocks rendering: the instance shows the key or the `fallbackLng` value.
+Failure reporting: every failed load is logged, dispatched on the event bus as `I18nextResourcesLoadFailedEvent` (`{ key, language, error }`) and, when triggered by `changeLanguage`, rejected as an `I18nextResourcesLoadError` (`key`, `language`, `cause`; test with `isI18nextResourcesLoadError(error)`). A failed load never blocks rendering: the instance shows the resource keys, the plugin doesn't load the `fallbackLng` resources.
 
 ### Register i18next Instance
 
