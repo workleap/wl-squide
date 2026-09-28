@@ -40,7 +40,7 @@ import { FeatureFlagSetSnapshot } from "@squide/firefly";
 
 const snapshot = new FeatureFlagSetSnapshot(launchDarklyClient);
 
-snapshot.addSnapshotChangedListener((snapshot, changes) => {
+snapshot.registerSnapshotChangedListener((snapshot, changes) => {
     console.log(snapshot, changes);
 });
 ```
@@ -56,6 +56,6 @@ const listener = (snapshot, changes) => {
     console.log(snapshot, changes);
 };
 
-snapshot.addSnapshotChangedListener(listener);
+snapshot.registerSnapshotChangedListener(listener);
 snapshot.removeSnapshotChangedListener(listener);
 ```

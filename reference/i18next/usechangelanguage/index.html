@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <meta name="color-scheme" content="light dark">
     <meta name="turbo-root" content="/wl-squide">
-    <meta name="turbo-cache-control" content="no-cache" data-turbo-track="reload" data-track-token="4.6.0.841767540433">
+    <meta name="turbo-cache-control" content="no-cache" data-turbo-track="reload" data-track-token="4.6.0.843887652096">
 
     <!-- See retype.com -->
     <meta name="generator" content="Retype 4.6.0">
@@ -39,12 +39,12 @@
     <script data-cfasync="false">(function(){var cl=document.documentElement.classList,ls=localStorage.getItem("retype_scheme"),hd=cl.contains("dark"),hl=cl.contains("light"),wm=window.matchMedia&&window.matchMedia("(prefers-color-scheme: dark)").matches;if(ls==="dark"||(!ls&&wm&&!hd&&!hl)){cl.remove("light");cl.add("dark")}else if(ls==="light"||(!ls&&!wm&&!hd&&!hl)){cl.remove("dark");cl.add("light")}})();</script>
 
     <link id="retype-favicon" rel="icon" href="../../../static/favicon.png" />
-    <link href="../../../resources/css/retype.css?v=4.6.0.841767540433" rel="stylesheet">
+    <link href="../../../resources/css/retype.css?v=4.6.0.843887652096" rel="stylesheet">
 
-    <script data-cfasync="false" src="../../../resources/js/config.js?v=4.6.0.841767540433" data-turbo-eval="false" defer></script>
+    <script data-cfasync="false" src="../../../resources/js/config.js?v=4.6.0.843887652096" data-turbo-eval="false" defer></script>
     <script data-cfasync="false" src="../../../resources/js/retype.js?v=4.6.0" data-turbo-eval="false" defer></script>
-    <script id="lunr-js" data-cfasync="false" src="../../../resources/js/lunr.js?v=4.6.0.841767540433" data-turbo-eval="false" defer></script>
-    <script id="prism-js" data-cfasync="false" src="../../../resources/js/prism.js?v=4.6.0.841767540433" defer></script>
+    <script id="lunr-js" data-cfasync="false" src="../../../resources/js/lunr.js?v=4.6.0.843887652096" data-turbo-eval="false" defer></script>
+    <script id="prism-js" data-cfasync="false" src="../../../resources/js/prism.js?v=4.6.0.843887652096" defer></script>
 
     <link href="https://workleap.github.io/wl-idp-docs-hub/static/retype-customization.css" rel="stylesheet" />
 
@@ -278,7 +278,7 @@
 <h3 id="parameters">Parameters</h3>
 <p>None</p>
 <h3 id="returns">Returns</h3>
-<p>A function to change the current language of an <code translate="no" v-pre>i18nextPlugin</code> instance: <code translate="no" v-pre>(newLanguage) =&gt; void</code>.</p>
+<p>A function to change the current language of an <code translate="no" v-pre>i18nextPlugin</code> instance: <code translate="no" v-pre>(newLanguage) =&gt; Promise&lt;void&gt;</code>.</p>
 <h2 id="usage">Usage</h2>
 <div id="usage-code-1" class="codeblock-wrapper"><doc-codeblock>
 <pre translate="no" class="language-typescript" data-line="3,5"><code v-pre class="language-typescript">import { useChangeLanguage } from &quot;@squide/i18next&quot;;
@@ -286,6 +286,15 @@
 const changeLanguage = useChangeLanguage();
 
 changeLanguage(&quot;fr-CA&quot;);</code></pre>
+</doc-codeblock></div>
+<h3 id="lazy-loaded-resources">Lazy-loaded resources</h3>
+<p>When the modules register <a href="../i18nextplugin/#lazy-load-resources-per-language">lazy</a> i18next instances, the promise resolves once the resources of the new language are loaded and the language is switched. It rejects with an <a href="../i18nextplugin/#handle-a-failed-resources-load">I18nextResourcesLoadError</a> when a load fails.</p>
+<div id="lazy-loaded-resources-code-1" class="codeblock-wrapper"><doc-codeblock>
+<pre translate="no" class="language-typescript" data-line="5"><code v-pre class="language-typescript">import { useChangeLanguage } from &quot;@squide/i18next&quot;;
+
+const changeLanguage = useChangeLanguage();
+
+await changeLanguage(&quot;fr-CA&quot;);</code></pre>
 </doc-codeblock></div>
 <div id="retype-backlinks">
     <h2>See also</h2>

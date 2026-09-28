@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <meta name="color-scheme" content="light dark">
     <meta name="turbo-root" content="/wl-squide">
-    <meta name="turbo-cache-control" content="no-cache" data-turbo-track="reload" data-track-token="4.6.0.841767540433">
+    <meta name="turbo-cache-control" content="no-cache" data-turbo-track="reload" data-track-token="4.6.0.843887652096">
 
     <!-- See retype.com -->
     <meta name="generator" content="Retype 4.6.0">
@@ -13,7 +13,7 @@
     <!-- Primary Meta Tags -->
     <title>useIsBootstrapping</title>
     <meta name="title" content="useIsBootstrapping">
-    <meta name="description" content="Indicate whether the application is currently being bootstrapped, such as registering modules, handling deferred registrations, preparing Mock Service Worker, fetching global data, etc.">
+    <meta name="description" content="Indicate whether the application is currently being bootstrapped, such as registering modules, handling deferred registrations, preparing Mock Service Worker, fetching global data, waiting for plugins to be ready, etc.">
 
     <!-- Canonical -->
     <link rel="canonical" href="https://workleap.github.io/wl-squide/reference/routing/useisbootstrapping/">
@@ -23,7 +23,7 @@
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://workleap.github.io/wl-squide/reference/routing/useisbootstrapping/">
     <meta property="og:title" content="useIsBootstrapping">
-    <meta property="og:description" content="Indicate whether the application is currently being bootstrapped, such as registering modules, handling deferred registrations, preparing Mock Service Worker, fetching global data, etc.">
+    <meta property="og:description" content="Indicate whether the application is currently being bootstrapped, such as registering modules, handling deferred registrations, preparing Mock Service Worker, fetching global data, waiting for plugins to be ready, etc.">
     <meta property="og:site_name" content="Squide">
     <meta property="og:locale" content="en_US">
 
@@ -31,7 +31,7 @@
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:url" content="https://workleap.github.io/wl-squide/reference/routing/useisbootstrapping/">
     <meta name="twitter:title" content="useIsBootstrapping">
-    <meta name="twitter:description" content="Indicate whether the application is currently being bootstrapped, such as registering modules, handling deferred registrations, preparing Mock Service Worker, fetching global data, etc.">
+    <meta name="twitter:description" content="Indicate whether the application is currently being bootstrapped, such as registering modules, handling deferred registrations, preparing Mock Service Worker, fetching global data, waiting for plugins to be ready, etc.">
 
     <!-- Alternate Markdown -->
     <link rel="alternate" type="text/markdown" href="https://workleap.github.io/wl-squide/reference/routing/useisbootstrapping.md">
@@ -39,12 +39,12 @@
     <script data-cfasync="false">(function(){var cl=document.documentElement.classList,ls=localStorage.getItem("retype_scheme"),hd=cl.contains("dark"),hl=cl.contains("light"),wm=window.matchMedia&&window.matchMedia("(prefers-color-scheme: dark)").matches;if(ls==="dark"||(!ls&&wm&&!hd&&!hl)){cl.remove("light");cl.add("dark")}else if(ls==="light"||(!ls&&!wm&&!hd&&!hl)){cl.remove("dark");cl.add("light")}})();</script>
 
     <link id="retype-favicon" rel="icon" href="../../../static/favicon.png" />
-    <link href="../../../resources/css/retype.css?v=4.6.0.841767540433" rel="stylesheet">
+    <link href="../../../resources/css/retype.css?v=4.6.0.843887652096" rel="stylesheet">
 
-    <script data-cfasync="false" src="../../../resources/js/config.js?v=4.6.0.841767540433" data-turbo-eval="false" defer></script>
+    <script data-cfasync="false" src="../../../resources/js/config.js?v=4.6.0.843887652096" data-turbo-eval="false" defer></script>
     <script data-cfasync="false" src="../../../resources/js/retype.js?v=4.6.0" data-turbo-eval="false" defer></script>
-    <script id="lunr-js" data-cfasync="false" src="../../../resources/js/lunr.js?v=4.6.0.841767540433" data-turbo-eval="false" defer></script>
-    <script id="prism-js" data-cfasync="false" src="../../../resources/js/prism.js?v=4.6.0.841767540433" defer></script>
+    <script id="lunr-js" data-cfasync="false" src="../../../resources/js/lunr.js?v=4.6.0.843887652096" data-turbo-eval="false" defer></script>
+    <script id="prism-js" data-cfasync="false" src="../../../resources/js/prism.js?v=4.6.0.843887652096" defer></script>
 
     <link href="https://workleap.github.io/wl-idp-docs-hub/static/retype-customization.css" rel="stylesheet" />
 
@@ -270,7 +270,7 @@
 
                 <!-- Page content  -->
 <h1 id="useisbootstrapping">useIsBootstrapping</h1>
-<p>Indicate whether the application is currently being bootstrapped, such as registering modules, handling deferred registrations, preparing <a href="https://mswjs.io/" class="outbound" target="_blank">Mock Service Worker</a>, fetching global data, etc.</p>
+<p>Indicate whether the application is currently being bootstrapped, such as registering modules, handling deferred registrations, preparing <a href="https://mswjs.io/" class="outbound" target="_blank">Mock Service Worker</a>, fetching global data, waiting for <a href="../../plugins/plugin/#report-when-the-plugin-is-ready">plugins</a> to be ready, etc.</p>
 <h2 id="reference">Reference</h2>
 <div id="reference-code-1" class="codeblock-wrapper"><doc-codeblock>
 <pre translate="no" class="language-typescript"><code v-pre class="language-typescript">const isBootstrapping = useIsBootstrapping();</code></pre>
@@ -373,12 +373,32 @@ export function App() {
     </a>
 </div>
 <div class="card-compact-container">
+    <a href="/wl-squide/reference/plugins/plugin/" class="group card-compact no-link">
+        <div class="card-compact-body">
+            <div class="card-compact-header">
+                <span class="card-compact-title">Plugin</span>
+            </div>
+            <p class="card-compact-description">An abstract base class to define a plugin.</p>
+        </div>
+    </a>
+</div>
+<div class="card-compact-container">
     <a href="/wl-squide/reference/" class="group card-compact no-link">
         <div class="card-compact-body">
             <div class="card-compact-header">
                 <span class="card-compact-title">Reference</span>
             </div>
             <p class="card-compact-description">Packages</p>
+        </div>
+    </a>
+</div>
+<div class="card-compact-container">
+    <a href="/wl-squide/integrations/setup-i18next/" class="group card-compact no-link">
+        <div class="card-compact-body">
+            <div class="card-compact-header">
+                <span class="card-compact-title">Setup i18next</span>
+            </div>
+            <p class="card-compact-description">react-i18next is an internationalization library that helps applications manage translations, language detection, and localization logic. It provides a flexible API for loading translation files, formatting text, handling plurals, and switching languages at runtime.</p>
         </div>
     </a>
 </div>

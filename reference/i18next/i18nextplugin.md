@@ -65,6 +65,43 @@ const plugin = runtime.getPlugin(i18nextPluginName) as i18nextPlugin;
 plugin.registerInstance("an-instance-key", instance);
 ```
 
+### Lazy-load resources per language
+
+Static resources land in the initial chunk for every supported language. To ship only the active language, provide a `loadResources` function when registering the instance. The plugin calls it with a language and expects a promise resolving to a map of namespace to resource bundle, the same shape as a single language entry of the i18next `resources` option:
+
+```ts !#8-12,18-20,23-25
+import { getI18nextPlugin, type LoadResourcesFunction } from "@squide/i18next";
+import i18n from "i18next";
+
+export const register: ModuleRegisterFunction<FireflyRuntime> = runtime => {
+    const plugin = getI18nextPlugin(runtime);
+
+    // Each dynamic import becomes a chunk, only the active language is downloaded.
+    const loadResources: LoadResourcesFunction = async language => {
+        const module = await import(`./locales/${language}.json`, { with: { type: "json" } });
+
+        return module.default;
+    };
+
+    const instance = i18n.createInstance();
+
+    instance.init({
+        lng: plugin.currentLanguage,
+        // A lazy instance must be initialized with an empty "resources" object: i18next then initializes
+        // synchronously and creates the store that the plugin fills with the loaded bundles.
+        resources: {}
+    });
+
+    plugin.registerInstance("an-instance-key", instance, {
+        loadResources
+    });
+};
+```
+
+A lazy instance must be registered from a module's [register function](../registration/initializeFirefly.md): once the modules are registered, `registerInstance` throws.
+
+[!ref Lazy-load the resources](../../integrations/setup-i18next.md#lazy-load-the-resources)
+
 ### Retrieve a i18next instance
 
 ```ts !#6
@@ -118,6 +155,8 @@ const plugin = runtime.getPlugin(i18nextPluginName) as i18nextPlugin;
 plugin.changeLanguage("fr-CA");
 ```
 
+With [lazy](#lazy-load-resources-per-language) instances, the returned promise resolves once the resources of the new language are loaded and the language is switched. It rejects with an [I18nextResourcesLoadError](#handle-a-failed-resources-load) when a load fails.
+
 ### Listen for language changes
 
 ```ts !#9,12
@@ -133,6 +172,31 @@ plugin.registerLanguageChangedListener(listener);
 
 // When the listener is not needed anymore.
 plugin.removeLanguageChangedListener(listener);
+```
+
+### Handle a failed resources load
+
+A failed load never blocks the rendering of the application: the affected instance renders the resource keys, as the plugin doesn't load the `fallbackLng` resources. Every failure is:
+
+- Logged with the runtime [logger](../logging/useLogger.md).
+- Dispatched on the [event bus](../messaging/useEventBusListener.md) as an `I18nextResourcesLoadFailedEvent`, with a `{ key, language, error }` payload.
+- Rejected from the [changeLanguage](#change-the-current-language) promise as an `I18nextResourcesLoadError`, exposing the `key` of the instance, the `language` and the `cause`. The language is left unchanged.
+
+```ts !#4-6,11-13
+import { I18nextResourcesLoadFailedEvent, isI18nextResourcesLoadError } from "@squide/i18next";
+import { useEventBusListener } from "@squide/firefly";
+
+useEventBusListener(I18nextResourcesLoadFailedEvent, ({ key, language, error }) => {
+    console.error(`The "${language}" resources of the "${key}" instance failed to load.`, error);
+});
+
+try {
+    await plugin.changeLanguage("fr-CA");
+} catch (error: unknown) {
+    if (isI18nextResourcesLoadError(error)) {
+        console.error(`The "${error.language}" resources of the "${error.key}" instance failed to load.`, error.cause);
+    }
+}
 ```
 
 ### Change the language detection order

@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <meta name="color-scheme" content="light dark">
     <meta name="turbo-root" content="/wl-squide">
-    <meta name="turbo-cache-control" content="no-cache" data-turbo-track="reload" data-track-token="4.6.0.841767540433">
+    <meta name="turbo-cache-control" content="no-cache" data-turbo-track="reload" data-track-token="4.6.0.843887652096">
 
     <!-- See retype.com -->
     <meta name="generator" content="Retype 4.6.0">
@@ -39,12 +39,12 @@
     <script data-cfasync="false">(function(){var cl=document.documentElement.classList,ls=localStorage.getItem("retype_scheme"),hd=cl.contains("dark"),hl=cl.contains("light"),wm=window.matchMedia&&window.matchMedia("(prefers-color-scheme: dark)").matches;if(ls==="dark"||(!ls&&wm&&!hd&&!hl)){cl.remove("light");cl.add("dark")}else if(ls==="light"||(!ls&&!wm&&!hd&&!hl)){cl.remove("dark");cl.add("light")}})();</script>
 
     <link id="retype-favicon" rel="icon" href="../../../static/favicon.png" />
-    <link href="../../../resources/css/retype.css?v=4.6.0.841767540433" rel="stylesheet">
+    <link href="../../../resources/css/retype.css?v=4.6.0.843887652096" rel="stylesheet">
 
-    <script data-cfasync="false" src="../../../resources/js/config.js?v=4.6.0.841767540433" data-turbo-eval="false" defer></script>
+    <script data-cfasync="false" src="../../../resources/js/config.js?v=4.6.0.843887652096" data-turbo-eval="false" defer></script>
     <script data-cfasync="false" src="../../../resources/js/retype.js?v=4.6.0" data-turbo-eval="false" defer></script>
-    <script id="lunr-js" data-cfasync="false" src="../../../resources/js/lunr.js?v=4.6.0.841767540433" data-turbo-eval="false" defer></script>
-    <script id="prism-js" data-cfasync="false" src="../../../resources/js/prism.js?v=4.6.0.841767540433" defer></script>
+    <script id="lunr-js" data-cfasync="false" src="../../../resources/js/lunr.js?v=4.6.0.843887652096" data-turbo-eval="false" defer></script>
+    <script id="prism-js" data-cfasync="false" src="../../../resources/js/prism.js?v=4.6.0.843887652096" defer></script>
 
     <link href="https://workleap.github.io/wl-idp-docs-hub/static/retype-customization.css" rel="stylesheet" />
 
@@ -293,6 +293,16 @@
     transactional: boolean;
 }): (() =&gt; void) | void;</code></pre>
 </doc-codeblock></div>
+<ul>
+<li><code translate="no" v-pre>isReady()</code>: Indicate whether the asynchronous work the application must wait for before rendering has settled. A plugin that doesn&#x27;t implement it is always considered ready. It is implemented together with <code translate="no" v-pre>registerReadyListener</code> and <code translate="no" v-pre>removeReadyListener</code>. See <doc-anchor-trigger to="#report-when-the-plugin-is-ready">Report when the plugin is ready</doc-anchor-trigger>.</li>
+<li><code translate="no" v-pre>registerReadyListener(callback)</code>: Register a listener executed every time the plugin becomes ready.</li>
+<li><code translate="no" v-pre>removeReadyListener(callback)</code>: Remove a previously registered ready listener.</li>
+</ul>
+<div id="optional-members-code-2" class="codeblock-wrapper"><doc-codeblock>
+<pre translate="no" class="language-typescript"><code v-pre class="language-typescript">isReady?(): boolean;
+registerReadyListener?(callback: () =&gt; void): void;
+removeReadyListener?(callback: () =&gt; void): void;</code></pre>
+</doc-codeblock></div>
 <h2 id="usage">Usage</h2>
 <h3 id="define-a-plugin">Define a plugin</h3>
 <div id="define-a-plugin-my-pluginsrcmyplugints" class="codeblock-wrapper"><doc-codeblock>
@@ -478,6 +488,51 @@ export class MyPlugin extends Plugin {
     </div>
 </div>
 <p>A module that throws doesn&#x27;t fail the run either. Module errors are collected and reported through <code translate="no" v-pre>onError</code> rather than thrown. There&#x27;s no per-module rollback: a module that throws part way through keeps whatever it already registered, plugin registry and navigation items alike, and only loses what it hadn&#x27;t registered yet.</p>
+<h3 id="report-when-the-plugin-is-ready">Report when the plugin is ready</h3>
+<p>A plugin performing asynchronous work that the application must wait for before rendering, such as the <a href="../../i18next/i18nextplugin/">i18nextPlugin</a> loading the resources of a language, reports it through the optional <code translate="no" v-pre>isReady</code>, <code translate="no" v-pre>registerReadyListener</code> and <code translate="no" v-pre>removeReadyListener</code> members. Squide consults the plugins once every other bootstrapping input is ready, and <a href="../../routing/useisbootstrapping/">useIsBootstrapping</a> stays <code translate="no" v-pre>true</code> until every plugin implementing <code translate="no" v-pre>isReady</code> returns <code translate="no" v-pre>true</code>. Once the application is bootstrapped, the plugins are never consulted again: work started afterwards doesn&#x27;t hold anything.</p>
+<p><code translate="no" v-pre>isReady</code> is a <strong>status</strong>: it returns <code translate="no" v-pre>false</code> again when new work starts, and <code translate="no" v-pre>true</code> once that work has settled. The ready listeners are executed every time the plugin becomes ready. A plugin that is already ready doesn&#x27;t execute a listener registered afterwards until its next transition, therefore always read <code translate="no" v-pre>isReady()</code> for the current status. Report ready when the work fails as well, and report the failure through another channel, otherwise the application stays on its bootstrapping fallback.</p>
+<div id="report-when-the-plugin-is-ready-my-pluginsrcmyplugints" class="codeblock-wrapper"><doc-codeblock>
+<div class="codeblock-title">my-plugin/src/myPlugin.ts</div>
+<pre translate="no" class="language-typescript" data-line="15-17,19-21,23-25,27-38"><code v-pre class="language-typescript">import { Plugin, type PluginReadyListener, type Runtime } from &quot;@squide/firefly&quot;;
+
+export class MyPlugin extends Plugin {
+    #isReady = false;
+
+    readonly #readyListeners = new Set&lt;PluginReadyListener&gt;();
+
+    constructor(runtime: Runtime) {
+        super(MyPlugin.name, runtime);
+
+        // Some asynchronous work the application must wait for.
+        this.#loadSettings();
+    }
+
+    isReady() {
+        return this.#isReady;
+    }
+
+    registerReadyListener(callback: PluginReadyListener) {
+        this.#readyListeners.add(callback);
+    }
+
+    removeReadyListener(callback: PluginReadyListener) {
+        this.#readyListeners.delete(callback);
+    }
+
+    async #loadSettings() {
+        try {
+            await fetch(&quot;/api/settings&quot;);
+        } finally {
+            // Whether the work succeeded or failed, the application must render.
+            this.#isReady = true;
+
+            this.#readyListeners.forEach(x =&gt; {
+                x();
+            });
+        }
+    }
+}</code></pre>
+</doc-codeblock></div>
 <div id="retype-backlinks">
     <h2>See also</h2>
 <div class="card-compact-group">
@@ -548,6 +603,16 @@ export class MyPlugin extends Plugin {
                 <span class="card-compact-title">useDeferredRegistrations</span>
             </div>
             <p class="card-compact-description">Register the modules deferred registration functions when the global data is initially fetched and update the deferred registration functions whenever the global data or the feature flags changes.</p>
+        </div>
+    </a>
+</div>
+<div class="card-compact-container">
+    <a href="/wl-squide/reference/routing/useisbootstrapping/" class="group card-compact no-link">
+        <div class="card-compact-body">
+            <div class="card-compact-header">
+                <span class="card-compact-title">useIsBootstrapping</span>
+            </div>
+            <p class="card-compact-description">Indicate whether the application is currently being bootstrapped, such as registering modules, handling deferred registrations, preparing Mock Service Worker, fetching global data, waiting for plugins to be ready, etc.</p>
         </div>
     </a>
 </div>
