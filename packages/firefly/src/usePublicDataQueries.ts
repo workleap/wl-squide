@@ -28,7 +28,8 @@ export function usePublicDataQueries<T extends Array<any>>(queries: QueriesOptio
     const dispatch = useAppRouterDispatcher();
 
     const combineResults = useCallback((results: UseQueryResult<unknown, unknown>[]) => {
-        const errors = results.filter(x => x.error).map(x => x.error) as Error[];
+        // Only queries that failed without data are errors. A failed background refetch keeps the previous data.
+        const errors = results.filter(x => x.isLoadingError).map(x => x.error) as Error[];
         const hasErrors = errors.length > 0;
 
         return {

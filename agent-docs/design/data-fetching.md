@@ -34,7 +34,7 @@ Lower-level hooks for advanced scenarios where the default query-based approach 
 
 ## Error Handling
 
-- `GlobalDataQueriesError` — thrown when data queries fail
+- `GlobalDataQueriesError` — thrown when a global data query fails without data (initial fetch, or a new query key). A failed background refetch doesn't throw and doesn't dispatch `*DataFetchFailedEvent` (the Honeycomb bootstrapping spans listen to it once); the hook keeps returning the last successful data
 - `isGlobalDataQueriesError()` — utility to check error type in error boundaries
 
 ## Page-Level Data

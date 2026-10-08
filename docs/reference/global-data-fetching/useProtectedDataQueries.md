@@ -29,7 +29,7 @@ An array of query response data. The order returned is the same as the input ord
 
 ### Throws
 
-If an unmanaged error occur while performing any of the fetch requests, a [GlobalDataQueriesError](./isGlobalDataQueriesError.md#globaldataquerieserror) is thrown.
+If an unmanaged error occur while performing any of the fetch requests, a [GlobalDataQueriesError](./isGlobalDataQueriesError.md#globaldataquerieserror) is thrown. The error is only thrown when a query fails without data: a failed background refetch keeps returning the previous data.
 
 ## Usage
 

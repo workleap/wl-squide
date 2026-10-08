@@ -3,7 +3,7 @@
 // When tests run concurrently, they all share the same DOM, causing queries like "screen.findByText()"" to find elements from other concurrent
 // tests. This is different from "renderHook" which can run concurrently because it doesn't render into the DOM.
 
-import { QueryClientProvider, type QueryClient } from "@tanstack/react-query";
+import { QueryClientProvider, useQuery, type QueryClient } from "@tanstack/react-query";
 import { render, screen, waitFor } from "@testing-library/react";
 import { NoopLogger } from "@workleap/logging";
 import { Component, type PropsWithChildren, type ReactNode } from "react";
@@ -261,5 +261,141 @@ describe("when a query fail", () => {
         await waitFor(() => screen.findByText("[squide] Global public data queries failed."));
 
         expect(listener).toHaveBeenCalledExactlyOnceWith(expect.arrayContaining([queryError]));
+    });
+});
+
+describe("when a refetch fails after the data is ready", () => {
+    let consoleMock: MockInstance;
+
+    beforeEach(() => {
+        consoleMock = vi.spyOn(console, "error").mockImplementation(() => {});
+    });
+
+    afterEach(() => {
+        consoleMock.mockRestore();
+    });
+
+    class ErrorBoundary extends Component<PropsWithChildren, { error?: Error }> {
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        constructor(props: any) {
+            super(props);
+
+            this.state = { error: undefined };
+        }
+
+        static getDerivedStateFromError(error: unknown) {
+            return { error };
+        }
+
+        render() {
+            const { children } = this.props;
+            const { error } = this.state;
+
+            if (error) {
+                return error.message;
+            }
+
+            return children;
+        }
+    }
+
+    function RefetchStatus() {
+        const { isRefetchError } = useQuery({
+            queryKey: ["foo"],
+            enabled: false
+        });
+
+        return isRefetchError ? <span>refetch-error</span> : null;
+    }
+
+    test("should not throw an error and keep the data", async ({ expect }) => {
+        const runtime = new FireflyRuntime({
+            loggers: [new NoopLogger()]
+        });
+
+        const dispatch = vi.fn();
+
+        const state = createDefaultAppRouterState();
+        state.areModulesRegistered = true;
+        state.isMswReady = true;
+
+        const queryClient = createQueryClient();
+
+        const queryFn = vi.fn()
+            .mockResolvedValueOnce("bar")
+            .mockRejectedValueOnce(new Error("Refetch failed."))
+            .mockResolvedValueOnce("toto");
+
+        function AppRouter() {
+            const [data] = usePublicDataQueries([{
+                queryKey: ["foo"],
+                queryFn
+            }]);
+
+            return data;
+        }
+
+        renderAppRouter(<ErrorBoundary><span><AppRouter /></span><RefetchStatus /></ErrorBoundary>, runtime, state, dispatch, queryClient);
+
+        await waitFor(() => screen.findByText("bar"));
+
+        queryClient.refetchQueries({
+            queryKey: ["foo"]
+        });
+
+        await waitFor(() => screen.findByText("refetch-error"));
+
+        queryClient.refetchQueries({
+            queryKey: ["foo"]
+        });
+
+        await waitFor(() => screen.findByText("toto"));
+
+        expect(queryFn).toHaveBeenCalledTimes(3);
+        expect(screen.queryByText("[squide] Global public data queries failed.")).toBeNull();
+    });
+
+    test("should not dispatch PublicDataFetchFailedEvent", async ({ expect }) => {
+        const runtime = new FireflyRuntime({
+            loggers: [new NoopLogger()]
+        });
+
+        const dispatch = vi.fn();
+        const listener = vi.fn();
+
+        runtime.eventBus.addListener(PublicDataFetchFailedEvent, listener);
+
+        const state = createDefaultAppRouterState();
+        state.areModulesRegistered = true;
+        state.isMswReady = true;
+
+        const queryClient = createQueryClient();
+
+        const queryFn = vi.fn()
+            .mockResolvedValueOnce("bar")
+            .mockRejectedValueOnce(new Error("Refetch failed."));
+
+        function AppRouter() {
+            const [data] = usePublicDataQueries([{
+                queryKey: ["foo"],
+                queryFn
+            }]);
+
+            return data;
+        }
+
+        renderAppRouter(<ErrorBoundary><span><AppRouter /></span><RefetchStatus /></ErrorBoundary>, runtime, state, dispatch, queryClient);
+
+        await waitFor(() => screen.findByText("bar"));
+
+        queryClient.refetchQueries({
+            queryKey: ["foo"]
+        });
+
+        await waitFor(() => screen.findByText("refetch-error"));
+
+        expect(queryFn).toHaveBeenCalledTimes(2);
+        expect(screen.getByText("bar")).not.toBeNull();
+        expect(listener).not.toHaveBeenCalled();
     });
 });
