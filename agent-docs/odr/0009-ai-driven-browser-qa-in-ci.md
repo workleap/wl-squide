@@ -11,7 +11,7 @@ The endpoints sample app (`samples/endpoints/`) is the primary validation surfac
 Two separate QA needs were identified:
 
 1. **PR smoke test** — fast, deterministic check on PRs that affect packages or the endpoints app. Verifies all known pages render without JS errors. Needs to run in a few minutes and produce a clear PASS/FAIL signal.
-2. **Periodic exploratory QA (dogfood)** — deeper, exploratory session that exercises user flows, detects regressions not covered by the smoke test, and captures issues for human review. Runs monthly, not on every PR.
+2. **Periodic exploratory QA (dogfood)** — no longer pursued; the dogfood workflow was removed. Was: deeper, exploratory session that exercises user flows, detects regressions not covered by the smoke test, and captures issues for human review. Runs monthly, not on every PR.
 
 ## Options Considered
 
@@ -21,7 +21,7 @@ Two separate QA needs were identified:
 
 ## Decision
 
-Option 2, with the two use cases split into separate workflows:
+Option 2, applied as a PR smoke test:
 
 - **`smoke-test.yml` + `smoke-test.md`** (ODR-0004 lean YML + prompt pattern): triggered on PRs to main affecting packages or the endpoints app. The agent navigates a fixed list of pages, captures `agent-browser snapshot -i` (text) and `agent-browser console` output, and ends with `SMOKE TEST PASSED` or `SMOKE TEST FAILED`. Max 50 turns. No screenshots.
 - **Dogfood (removed)**: a monthly `dogfood.yml` + `dogfood.md` workflow ran an exploratory `agent-browser` session and filed GitHub issues. It has since been removed; only the PR smoke test remains.
