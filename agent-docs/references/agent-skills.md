@@ -6,6 +6,8 @@ This repository has three skill directories:
 - **`.claude/skills/`** — Claude Code's native skill directory. Contains copies of selected `.agents/skills/` entries so they appear in Claude Code's skill discovery, plus `_`-prefixed project-local maintenance skills (`_update-third-parties`, `_update-dependencies`, `_update-skills`). This is a supplementary layer — not a replacement for `.agents/skills/`.
 - **`agent-skills/`** — Project-specific skills authored in this repo (e.g., `workleap-squide`). The editing guidelines below apply only to this directory.
 
+`agent-skills/workleap-squide/` is the only source of the skill. Consumers install it from GitHub with `skills.sh`, and `@squide/firefly` also ships it for pnpm agent skills: the package's `prepack` script (`packages/firefly/scripts/agent-skill.mjs`) copies it to `packages/firefly/skills/`, which is gitignored and removed by `postpack`. Never commit a copy, since `skills.sh` could then discover two `workleap-squide` skills.
+
 Skills are automatically discovered and loaded by Claude Code from all three directories based on their `SKILL.md` description field.
 
 ## Updating installed skills

@@ -40,9 +40,12 @@
     "files": [
         "src",
         "dist",
+        "skills",
         "CHANGELOG.md"
     ],
     "scripts": {
+        "prepack": "node ./scripts/agent-skill.mjs copy",
+        "postpack": "node ./scripts/agent-skill.mjs clean",
         "build": "rslib build --config ./rslib.build.ts",
         "eslint": "eslint . --max-warnings=0 --cache --cache-location node_modules/.cache/eslint",
         "typecheck": "tsgo",
