@@ -1,5 +1,29 @@
 # @squide/firefly-storybook
 
+## 4.0.0
+
+### Major Changes
+
+- [#725](https://github.com/workleap/wl-squide/pull/725) [`910ba4e`](https://github.com/workleap/wl-squide/commit/910ba4eae6a0375c29e5a8b89a8c74ba74fe0eee) Thanks [@patricklafrance](https://github.com/patricklafrance)! - Updated dependencies to their latest versions.
+  
+  - `@squide/firefly`, `@squide/msw`, `@squide/firefly-storybook` and `@squide/firefly-module-federation` now require `msw` `^3.0.3` as a peer dependency. With MSW 3, the `worker.start()` option `onUnhandledRequest` is renamed to `onUnhandledFrame`. Since `msw-storybook-addon` 2.x only supports MSW 2, `@squide/firefly-storybook` now requires `msw-storybook-addon` `^3.0.3`:
+  
+  ```ts
+  await worker.start({
+      onUnhandledFrame: "bypass"
+  });
+  ```
+  
+  - `@squide/firefly-rsbuild-configs` now uses `@workleap/rsbuild-configs` 5.x. When customizing HTTPS with `https: (defaults) => ({ ... })`, the `selfsignedOptions.days` option has been removed; use `selfsignedOptions.notAfterDate` instead. Self-signed certificates are now cached in `node_modules/.cache/basic-ssl`, so a new certificate is generated (and must be trusted again) on first run after upgrading.
+
+### Patch Changes
+
+- Updated dependencies [[`910ba4e`](https://github.com/workleap/wl-squide/commit/910ba4eae6a0375c29e5a8b89a8c74ba74fe0eee)]:
+  - @squide/firefly@20.0.0
+  - @squide/msw@5.0.0
+  - @squide/env-vars@1.4.25
+  - @squide/launch-darkly@1.1.1
+
 ## 3.0.0
 
 ### Major Changes
