@@ -19,6 +19,7 @@ Multiple GitHub Actions workflows use Claude Code agents for automated tasks (co
 Option 3. Every agent workflow follows this pattern:
 - The `.yml` file does checkout, tool installation, git config, and a single `claude-code-action` step.
 - The `.md` file contains the full agent instructions: steps, rules, context, output format.
+- When a step is also run locally, the `.md` file may delegate it to a repo skill in `.claude/skills/` instead of duplicating it (e.g. `update-dependencies.md` uses `_update-dependencies` and `_update-skills`). The skill is then the source of truth for that step.
 
 Five agent workflows follow this pattern, each with a 1:1 matching prompt file:
 
