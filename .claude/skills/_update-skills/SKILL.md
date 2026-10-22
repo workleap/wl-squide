@@ -1,5 +1,4 @@
 ---
-name: update-skills
 description: Refresh the agent skills installed in `.agents/skills/`, but only when the matching workspace package is on the latest minor (patch ignored). Skills with no package gate are always updated.
 model: sonnet
 effort: medium

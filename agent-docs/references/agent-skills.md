@@ -10,7 +10,7 @@ Skills are automatically discovered and loaded by Claude Code from all three dir
 
 ## Updating installed skills
 
-Run `/update-third-parties` (dependencies and skills) or `/update-skills` (skills only). The weekly `update-dependencies.yml` workflow runs the same skills in CI.
+Run `/_update-third-parties` (dependencies and skills) or `/_update-skills` (skills only). The weekly `update-dependencies.yml` workflow runs the same skills in CI.
 
 When you install or remove a skill in `.agents/skills/`, add or remove its row in `.claude/skills/_update-skills/SKILL.md`. The skill stops on any mismatch between that table and the installed folders.
 

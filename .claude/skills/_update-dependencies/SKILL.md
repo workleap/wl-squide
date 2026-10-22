@@ -1,6 +1,5 @@
 ---
-name: update-dependencies
-description: Update the repo's outdated npm dependencies — every workspace package to latest, peer ranges fixed, lockfile synced, tree left dirty for review. Can reset + reinstall and run lint + tests afterward, opt-in up front. Scoped to npm packages only — agent skills are updated by `_update-skills` (or both together via `_update-third-parties`). Use as "/update-dependencies" or when asked to update, bump, or refresh the project's npm dependencies.
+description: Update the repo's outdated npm dependencies — every workspace package to latest, peer ranges fixed, lockfile synced, tree left dirty for review. Can reset + reinstall and run lint + tests afterward, opt-in up front. Scoped to npm packages only — agent skills are updated by `_update-skills` (or both together via `_update-third-parties`). Use as "/_update-dependencies" or when asked to update, bump, or refresh the project's npm dependencies.
 model: sonnet
 effort: medium
 ---

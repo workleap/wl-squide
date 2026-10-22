@@ -1,6 +1,5 @@
 ---
-name: update-third-parties
-description: Update the repo's third-party sources — npm dependencies and agent skills — together or either one. Use as "/update-third-parties". Prompts up front for which targets to update, then delegates to the `_update-dependencies` and `_update-skills` skills.
+description: Update the repo's third-party sources — npm dependencies and agent skills — together or either one. Use as "/_update-third-parties". Prompts up front for which targets to update, then delegates to the `_update-dependencies` and `_update-skills` skills.
 disable-model-invocation: true
 model: sonnet
 effort: medium
@@ -33,7 +32,7 @@ Every decision the leaves would ask is settled here. Leaves never prompt.
 
 One leaf per selected target — the first two table rows only; the follow-ups row runs in step 3. Sequential, in table order — deps before skills so the skill gate sees the bumped packages. Brief each leaf (the bullets are the leaf's instructions, not yours):
 
-- Invoke your target's skill — its `Leaf runs` name from the table — via the `Skill` tool; never read-and-inline its SKILL.md. End your final message with the skill's report.
+- Invoke your target's skill — its `Leaf runs` name from the table — via the `Skill` tool. Only if the Skill tool can't resolve it, read `.claude/skills/<Leaf runs>/SKILL.md` and follow it. End your final message with the skill's report.
 - Never prompt; a stop per the skill's own rules -> report it.
 - Deps leaf: skip the skill's step-1 prompt entirely and proceed as if neither follow-up was selected — the orchestrator runs follow-ups in its step 3.
 
