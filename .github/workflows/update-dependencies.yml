@@ -53,7 +53,7 @@ jobs:
           agent-browser open about:blank
           agent-browser close
 
-      - name: Update dependencies
+      - name: Update dependencies and agent skills
         uses: anthropics/claude-code-action@v1
         with:
           prompt: |
@@ -62,7 +62,7 @@ jobs:
           show_full_output: true
           claude_args: >-
             --max-turns 200
-            --allowedTools Edit,Read,Write,Glob,Grep,Bash(pnpm:*),Bash(git:*),Bash(node:*),Bash(gh:*),Bash(agent-browser:*),Bash(kill:*),Bash(lsof:*),Bash(curl:*),Bash(fuser:*)
+            --allowedTools Edit,Read,Write,Glob,Grep,Agent,Skill,Bash(pnpm:*),Bash(pnpx:*),Bash(git:*),Bash(node:*),Bash(gh:*),Bash(agent-browser:*),Bash(kill:*),Bash(lsof:*),Bash(curl:*),Bash(fuser:*)
         env:
           # Required by gh CLI to create PRs and issues.
           GH_TOKEN: ${{ github.token }}

@@ -18,7 +18,7 @@
 | Agent workflows use the lean YML + markdown prompt pattern. The `.yml` file handles infrastructure only; the `.md` prompt file is the source of truth for logic. | [0004](./0004-lean-yml-markdown-prompt-pattern.md) |
 | Turborepo caching uses `actions/cache/restore` + `actions/cache/save` with SHA-based keys and 2-level cascade fallback. No Vercel remote cache. | [0005](./0005-github-actions-cache-for-turborepo.md) |
 | PR builds use `--filter=...[$base_sha]` for incremental CI. Main-branch pushes run the full suite. `fetch-depth: 0` is required. | [0007](./0007-incremental-ci-turborepo-git-filters.md) |
-| AI-driven browser QA: smoke tests on PRs (fixed page list, PASS/FAIL) and monthly dogfood sessions (exploratory, files issues). Both use `agent-browser`. | [0009](./0009-ai-driven-browser-qa-in-ci.md) |
+| AI-driven browser QA: smoke tests on PRs (fixed page list, PASS/FAIL) using `agent-browser`. | [0009](./0009-ai-driven-browser-qa-in-ci.md) |
 
 ## Agent Documentation
 

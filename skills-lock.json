@@ -41,11 +41,6 @@
       "sourceType": "github",
       "computedHash": "0efd9cf8c56aada060d418d009cfe621a7915d0c73a958fe611985bc0c2fa4b8"
     },
-    "workleap-chromatic-best-practices": {
-      "source": "workleap/wl-web-configs",
-      "sourceType": "github",
-      "computedHash": "b6e08d6a76975002abfb9447a7382204bdf1306c59db510324aa7f76f050236a"
-    },
     "workleap-logging": {
       "source": "workleap/wl-logging",
       "sourceType": "github",

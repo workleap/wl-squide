@@ -235,14 +235,12 @@ The following workflows are available with GitHub:
 | CI | `.github/workflows/ci.yml` | Push to main, PRs | Build, lint, typecheck, test |
 | Changeset | `.github/workflows/changeset.yml` | Push to main | Version bumps and npm publish |
 | PR packages | `.github/workflows/pr-pkg.yml` | PRs | Publish preview packages |
-| Update dependencies | `.github/workflows/update-dependencies.yml` | Weekly (Tue 14:00 UTC) | Automated dependency updates |
+| Update dependencies | `.github/workflows/update-dependencies.yml` | Weekly (Tue 14:00 UTC) | Automated dependency and agent skill updates |
 | Code review | `.github/workflows/code-review.yml` | PRs | Automated code review |
 | Claude | `.github/workflows/claude.yml` | @claude mentions | Interactive AI assistance |
 | Sync agent skill | `.github/workflows/sync-agent-skill.yml` | Push to main (docs/) | Sync Squide skill with docs |
 | Retype | `.github/workflows/retype-action.yml` | Push to main, PRs | Build and deploy documentation site |
-| Audit monorepo | `.github/workflows/audit-monorepo.yml` | First day of month | Best practices audit |
 | Smoke test | `.github/workflows/smoke-test.yml` | PRs to main (packages, endpoints, workflow changes) | Automated smoke test of endpoints app |
-| Dogfood | `.github/workflows/dogfood.yml` | 15th of month | Exploratory QA of endpoints app |
 | Update agent docs | `.github/workflows/update-agent-docs.yml` | Push to main | Sync agent-docs/ with docs and code |
 
 ## Available hooks

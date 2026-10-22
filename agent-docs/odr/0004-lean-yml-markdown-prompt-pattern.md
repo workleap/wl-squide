@@ -6,7 +6,7 @@ accepted
 
 ## Context
 
-Multiple GitHub Actions workflows use Claude Code agents for automated tasks (code review, dependency updates, documentation updates, monorepo audits, skill synchronization). The agent logic (what to analyze, how to decide, what to output) needs to live somewhere.
+Multiple GitHub Actions workflows use Claude Code agents for automated tasks (code review, dependency updates, documentation updates, skill synchronization). The agent logic (what to analyze, how to decide, what to output) needs to live somewhere.
 
 ## Options Considered
 
@@ -19,22 +19,21 @@ Multiple GitHub Actions workflows use Claude Code agents for automated tasks (co
 Option 3. Every agent workflow follows this pattern:
 - The `.yml` file does checkout, tool installation, git config, and a single `claude-code-action` step.
 - The `.md` file contains the full agent instructions: steps, rules, context, output format.
+- When a step is also run locally, the `.md` file may delegate it to a repo skill in `.claude/skills/` instead of duplicating it (e.g. `update-dependencies.md` uses `_update-dependencies` and `_update-skills`). The skill is then the source of truth for that step.
 
-Seven agent workflows follow this pattern, each with a 1:1 matching prompt file:
+Five agent workflows follow this pattern, each with a 1:1 matching prompt file:
 
 | Workflow | Prompt File | Complexity |
 |----------|-------------|------------|
 | `code-review.yml` | `code-review.md` (43 lines) | Concise: severity levels, inline PR comments |
-| `audit-monorepo.yml` | `audit-monorepo.md` (94 lines) | Multi-step with subagent validation, creates GitHub issues |
 | `sync-agent-skill.yml` | `sync-agent-skill.md` (134 lines) | Multi-step with subagent validation and version bumping |
 | `update-agent-docs.yml` | `update-agent-docs.md` (156 lines) | Multi-step with subagent coherence validation, creates PRs |
 | `update-dependencies.yml` | `update-dependencies.md` (164 lines) | Most complex: validation loop with browser testing, changeset creation |
 | `smoke-test.yml` | `smoke-test.md` | PR-triggered: builds and serves endpoints, runs browser smoke test |
-| `dogfood.yml` | `dogfood.md` | Scheduled: runs exploratory QA via agent-browser dogfood skill, uploads evidence, files issues |
 
 The remaining workflows (`ci.yml`, `pr-pkg.yml`, `changeset.yml`, `retype-action.yml`) are traditional CI pipelines without agents. `claude.yml` is a generic claude-code-action step without a dedicated prompt file (used for ad-hoc PR interactions).
 
-Evidence: All 7 agent workflow files in `.github/workflows/` use `prompt: "Read and follow the instructions in .github/prompts/<name>.md"`. All 7 prompt files in `.github/prompts/` have a matching workflow. Perfect 1:1 alignment.
+Evidence: All 5 agent workflow files in `.github/workflows/` use `prompt: "Read and follow the instructions in .github/prompts/<name>.md"`. All 5 prompt files in `.github/prompts/` have a matching workflow. Perfect 1:1 alignment.
 
 ## Consequences
 
