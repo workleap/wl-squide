@@ -7,6 +7,8 @@ export default defineConfig({
         include: ["tests/**/*.test.{ts,tsx}"],
         exclude: ["node_modules", "dist"],
         setupFiles: ["./vitest-setup.ts"],
+        // Vitest 5 clears all mocks between tests by default, which races with "test.concurrent".
+        clearMocks: false,
         reporters: "verbose"
     },
     define: {

@@ -4,15 +4,13 @@ import { defineBuildConfig, defineBuildHtmlWebpackPluginConfig, defineDevConfig,
 import merge from "deepmerge";
 import type HtmlWebpackPlugin from "html-webpack-plugin";
 import fs from "node:fs";
-import path, { dirname } from "node:path";
-import url, { fileURLToPath } from "node:url";
+import path from "node:path";
 import type webpack from "webpack";
 import { HostApplicationName } from "./shared.ts";
 
-// Using import.meta.url instead of import.meta.dirname because Jest is throwing the following error:
-// SyntaxError: Cannot use 'import.meta' outside a module
-const applicationDirectory = dirname(fileURLToPath(import.meta.url));
-const packageDirectory = url.fileURLToPath(new URL(".", import.meta.url));
+// Using import.meta.dirname instead of new URL(".", import.meta.url) because Rslib rewrites the latter into an emitted asset path.
+const applicationDirectory = import.meta.dirname;
+const packageDirectory = import.meta.dirname;
 
 // Must be similar to the module name defined in @workleap/module-federation.
 const RemoteRegisterModuleName = "./register";

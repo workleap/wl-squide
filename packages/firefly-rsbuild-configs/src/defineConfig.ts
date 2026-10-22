@@ -3,12 +3,10 @@ import type { RsbuildConfig, RsbuildPlugin } from "@rsbuild/core";
 import { defineBuildConfig, defineDevConfig, type DefineBuildConfigOptions, type DefineDevConfigOptions, type RsbuildConfigTransformer } from "@workleap/rsbuild-configs";
 import merge from "deepmerge";
 import path from "node:path";
-import url from "node:url";
 import { HostApplicationName } from "./shared.ts";
 
-// Using import.meta.url instead of import.meta.dirname because Jest is throwing the following error:
-// SyntaxError: Cannot use 'import.meta' outside a module
-const packageDirectory = url.fileURLToPath(new URL(".", import.meta.url));
+// Using import.meta.dirname instead of new URL(".", import.meta.url) because Rslib rewrites the latter into an emitted asset path.
+const packageDirectory = import.meta.dirname;
 
 // Must be similar to the module name defined in @workleap/module-federation.
 const RemoteRegisterModuleName = "./register";
