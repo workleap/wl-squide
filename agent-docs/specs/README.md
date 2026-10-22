@@ -16,9 +16,9 @@ Detailed specifications and API documentation for `@squide/*` packages.
 |---------|------|----------|
 | `@squide/env-vars` | `packages/env-vars` | `useEnvironmentVariable`, `useEnvironmentVariables` |
 | `@squide/i18next` | `packages/i18next` | `i18nextPlugin` (`registerInstance(key, instance, { loadResources? })` for per-language lazy loading, async `changeLanguage`, `isReady`), `I18nextResourcesLoadError` / `isI18nextResourcesLoadError`, `I18nextResourcesLoadFailedEvent`, `useChangeLanguage`, `useCurrentLanguage`, `useI18nextInstance` |
-| `@squide/launch-darkly` | `packages/launch-darkly` | `useFeatureFlag`, `useFeatureFlags`, `getFeatureFlag` |
+| `@squide/launch-darkly` | `packages/launch-darkly` | `useFeatureFlag`, `useFeatureFlags`, `getFeatureFlag`, `InMemoryLaunchDarklyClient` |
 | `@squide/msw` | `packages/msw` | `MswPlugin`, request handler registration |
-| `@squide/fakes` | `packages/fakes` | `LocalStorageSessionManager`, `InMemoryLaunchDarklyClient` |
+| `@squide/fakes` | `packages/fakes` | `LocalStorageSessionManager` |
 
 ## Build Tooling (internal)
 
