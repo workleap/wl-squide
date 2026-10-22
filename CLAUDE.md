@@ -33,7 +33,7 @@ When in doubt, skip the ADR and put the rationale in the changeset. The same app
 - [development.md](./agent-docs/references/development.md) — pnpm workspace rules, env vars, JIT packages, dependency versioning, Retype docs, pre-commit hook, full command reference, adding packages
 - [agent-skills.md](./agent-docs/references/agent-skills.md) — Skill directories, editing skills
 - [build-tooling.md](./agent-docs/references/build-tooling.md) — Rslib, Rsbuild, Turborepo task graph, shared configs
-- [ci-cd.md](./agent-docs/references/ci-cd.md) — GitHub Actions workflows, concurrency, caching, dogfood workflow, smoke tests
+- [ci-cd.md](./agent-docs/references/ci-cd.md) — GitHub Actions workflows, concurrency, caching, smoke tests
 - [release-process.md](./agent-docs/references/release-process.md) — Changesets workflow, changelogs, npm publishing, PR preview packages
 - [writing-agent-instructions.md](./agent-docs/references/writing-agent-instructions.md) — Principles for writing instructions agents follow, CLAUDE.md design rules
 
