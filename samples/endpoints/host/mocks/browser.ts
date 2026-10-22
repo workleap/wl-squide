@@ -5,6 +5,6 @@ export async function startMsw(moduleRequestHandlers: RequestHandler[]) {
     const worker = setupWorker(...moduleRequestHandlers);
 
     await worker.start({
-        onUnhandledRequest: "bypass"
+        onUnhandledFrame: "bypass"
     });
 }

@@ -10,7 +10,7 @@ async function startMswWorker() {
     const worker = setupWorker();
 
     await worker.start({
-        onUnhandledRequest: "bypass"
+        onUnhandledFrame: "bypass"
     });
 
     return worker;

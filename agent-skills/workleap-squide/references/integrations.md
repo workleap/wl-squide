@@ -90,7 +90,7 @@ import { setupWorker } from "msw/browser";
 
 export async function startMsw(handlers: RequestHandler[]) {
     const worker = setupWorker(...handlers);
-    await worker.start({ onUnhandledRequest: "bypass" });
+    await worker.start({ onUnhandledFrame: "bypass" });
 }
 ```
 
@@ -654,7 +654,7 @@ import type { Preview } from "storybook-react-rsbuild";
 async function startMswWorker() {
     const worker = setupWorker();
 
-    await worker.start({ onUnhandledRequest: "bypass" });
+    await worker.start({ onUnhandledFrame: "bypass" });
 
     return worker;
 }
