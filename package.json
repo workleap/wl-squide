@@ -65,5 +65,5 @@
         "node": ">=24.0.0",
         "pnpm": ">=12"
     },
-    "packageManager": "pnpm@12.2.1+sha512.f55ca68aacb9eb5ab69c66f828a98af89a32286703aef1f8da131ca7eab4d677f34bfa85e186467a919c0799df8b6f4aa240f7dc2919b33b3273190104162616"
+    "packageManager": "pnpm@12.15.0+sha512.b3951d6d6ff4a9f13dc7cf56cd28d2b8eb37dbcc9c68e52e1e1191873ea9f82a017287ab50baadc5ccc494f036c67c0e47eb13608c2fa36f47711b61ea128e61"
 }
