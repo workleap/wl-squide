@@ -1,5 +1,11 @@
 # @squide/firefly
 
+## 20.1.0
+
+### Minor Changes
+
+- [#729](https://github.com/workleap/wl-squide/pull/729) [`e7ccb09`](https://github.com/workleap/wl-squide/commit/e7ccb09667cff5c1a87524bc68b681f7feaa2edd) Thanks [@patricklafrance](https://github.com/patricklafrance)! - The `workleap-squide` agent skill is now shipped with the package. With pnpm `12.11` or later, run `pnpm approve` to link the skill into the project agent skill directories, such as `.claude/skills`. Install the skill either with pnpm or with `skills.sh`, not both.
+
 ## 20.0.0
 
 ### Major Changes
