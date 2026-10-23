@@ -10,9 +10,9 @@
 | Update Dependencies | `.github/workflows/update-dependencies.yml` | Weekly (Tue 14:00 UTC) | Automated dependency and agent skill updates, via the `_update-dependencies` and `_update-skills` skills |
 | Code Review | `.github/workflows/code-review.yml` | PRs | Automated code review |
 | Claude | `.github/workflows/claude.yml` | @claude mentions | Interactive AI assistance |
-| Sync Agent Skill | `.github/workflows/sync-agent-skill.yml` | Push to main (docs/) | Sync Squide skill with docs |
+| Sync Agent Skill | `.github/workflows/sync-agent-skill.yml` | Manual; Push to main (docs/) | Sync Squide skill with docs |
 | Agent Docs | `.github/workflows/update-agent-docs.yml` | Manual; Push to main (code + `.github/workflows/`) | Update agent documentation |
-| Retype | `.github/workflows/retype-action.yml` | Push to main, PRs | Build and deploy documentation site |
+| Retype | `.github/workflows/retype-action.yml` | Manual; Push to main | Build and deploy documentation site |
 | Smoke Test | `.github/workflows/smoke-test.yml` | PRs to main (packages, endpoints, workflow changes) | Automated smoke test of endpoints app |
 
 ## CI Pipeline Details
@@ -27,7 +27,7 @@ The main CI workflow (`ci.yml`) runs on `ubuntu-latest` with:
 
 All workflows pin `node-version: "24"` (not `">=24.0.0"`). Reason: Node 26 exposes a native global `localStorage` that returns `undefined` unless `--localstorage-file` is provided. happy-dom 20.x does not override Node's native getter, so vitest tests touching `localStorage` (e.g. `localStorage.clear()` in `beforeEach`) crash with `Cannot read properties of undefined (reading 'clear')` when CI's `setup-node` picks the latest. Revisit once happy-dom handles Node's native `localStorage` (see PR #602 / commit 51037089b for the discovery).
 
-## Editing `claude-code-action` workflows (smoke-test, code-review, claude)
+## Editing `claude-code-action` workflows (smoke-test, code-review, claude, sync-agent-skill, update-agent-docs, update-dependencies)
 
 `anthropics/claude-code-action@v1` only runs when the calling workflow file is **byte-identical to the copy on `main`**. Change `smoke-test.yml` on a branch and the action logs:
 
