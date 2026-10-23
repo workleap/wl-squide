@@ -22,6 +22,7 @@ The main CI workflow (`ci.yml`) runs on `ubuntu-latest` with:
 - Turborepo caching (SHA-keyed with restore keys)
 - Incremental builds on PRs (only diverging packages)
 - Full builds on main branch pushes
+- An agent skill discovery check: `skills.sh` must discover only `workleap-squide` (see [agent-skills.md](./agent-skills.md))
 
 ## Node version pin
 

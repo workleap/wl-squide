@@ -1,0 +1,15 @@
+{
+    "name": "wl-squide",
+    "owner": {
+        "name": "Workleap"
+    },
+    "plugins": [
+        {
+            "name": "workleap-squide",
+            "description": "Agent skill for Squide.",
+            "source": "./agent-skills",
+            "strict": false,
+            "skills": ["./workleap-squide"]
+        }
+    ]
+}
