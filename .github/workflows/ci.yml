@@ -21,18 +21,18 @@ jobs:
 
     steps:
       - name: Checkout
-        uses: actions/checkout@v6
+        uses: actions/checkout@v7
         with:
           # Required for the Turborepo Git filters.
           fetch-depth: 0
 
       - name: Install pnpm
-        uses: pnpm/action-setup@v4
+        uses: pnpm/action-setup@v6
         with:
           run_install: false
 
       - name: Install Node.js
-        uses: actions/setup-node@v6
+        uses: actions/setup-node@v7
         with:
             node-version: "26"
             check-latest: true
@@ -57,7 +57,7 @@ jobs:
 
       - name: Restore Turborepo cache
         id: cache-turborepo-restore
-        uses: actions/cache/restore@v5
+        uses: actions/cache/restore@v6
         with:
           # Using SHA will usually provide cache hit on subsequent commits in a PR
           # but will not provide cache hits between PRs, meaning the first run of a PR
@@ -146,7 +146,7 @@ jobs:
       - name: Save Turborepo cache
         id: cache-turborepo-save
         if: always() && steps.cache-turborepo-restore.outputs.cache-hit != 'true'
-        uses: actions/cache/save@v5
+        uses: actions/cache/save@v6
         with:
           key: ${{ steps.cache-turborepo-restore.outputs.cache-primary-key }}
           path: .turbo
