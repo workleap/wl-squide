@@ -26,7 +26,7 @@ The main CI workflow (`ci.yml`) runs on `ubuntu-latest` with:
 
 ## Node version pin
 
-All workflows pin `node-version: "24"` (not `">=24.0.0"`). Reason: Node 26 exposes a native global `localStorage` that returns `undefined` unless `--localstorage-file` is provided. happy-dom 20.x does not override Node's native getter, so vitest tests touching `localStorage` (e.g. `localStorage.clear()` in `beforeEach`) crash with `Cannot read properties of undefined (reading 'clear')` when CI's `setup-node` picks the latest. Revisit once happy-dom handles Node's native `localStorage` (see PR #602 / commit 51037089b for the discovery).
+All workflows pin `node-version: "26"` (not `">=26.0.0"`) so a new Node major is adopted deliberately rather than whenever `setup-node` picks the latest. Node 26 was blocked until happy-dom 21: Node 26 exposes a native global `localStorage` that returns `undefined` unless `--localstorage-file` is provided, and happy-dom 20.x did not override that getter, so vitest tests touching `localStorage` (e.g. `localStorage.clear()` in `beforeEach`) crashed with `Cannot read properties of undefined (reading 'clear')` (see PR #602 / commit 51037089b). Re-run the `localStorage` tests before the next Node major bump.
 
 ## Editing `claude-code-action` workflows (smoke-test, code-review, claude, sync-agent-skill, update-agent-docs, update-dependencies)
 
