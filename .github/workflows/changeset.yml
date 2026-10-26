@@ -18,17 +18,17 @@ jobs:
 
     steps:
       - name: Checkout
-        uses: actions/checkout@v6
+        uses: actions/checkout@v7
         with:
           fetch-depth: 0
 
       - name: Install pnpm
-        uses: pnpm/action-setup@v4
+        uses: pnpm/action-setup@v6
         with:
           run_install: false
 
       - name: Install Node.js
-        uses: actions/setup-node@v6
+        uses: actions/setup-node@v7
         with:
           node-version: "26"
           check-latest: true
@@ -40,7 +40,7 @@ jobs:
 
       - name: Restore Turborepo cache
         id: cache-turborepo-restore
-        uses: actions/cache/restore@v5
+        uses: actions/cache/restore@v6
         with:
           # Using SHA will usually provide cache hit on subsequent commits in a PR
           # but will not provide cache hits between PRs, meaning the first run of a PR
@@ -57,7 +57,7 @@ jobs:
       - name: Save Turborepo cache
         id: cache-turborepo-save
         if: always() && steps.cache-turborepo-restore.outputs.cache-hit != 'true'
-        uses: actions/cache/save@v5
+        uses: actions/cache/save@v6
         with:
           key: ${{ steps.cache-turborepo-restore.outputs.cache-primary-key }}
           path: .turbo
@@ -67,7 +67,7 @@ jobs:
         # a CHANGESETS_OUTPUT file instead of the stdout format v1 used to parse.
         # Pinned to a commit hash because this step holds contents: write and the npm
         # trusted publishing token; changesets/action@v2 is a branch, not a tag.
-        uses: changesets/action@8488615a623b1b9c987934bb89eae8af6a946ac1 # v2.1.1
+        uses: changesets/action@ae32849d5ba541f9ae29e40e22a623bc13562f51 # v2.1.2
         with:
           commit-message: "ci(changesets): version packages"
           pr-title: "Changeset: New Version"
