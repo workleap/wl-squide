@@ -25,25 +25,26 @@ const telemetryClient = initializeTelemetry(productFamily, {
   logRocket?: {
     appId: string;                    // Required: LogRocket app ID
     options?: {
-      rootHostname?: string;          // Cookie domain
-      privateFieldNames?: string[];   // Additional private form fields
-      privateQueryParameterNames?: string[];  // Additional private URL params
+      rootHostname?: string;          // Root hostname to track sessions across subdomains, defaults to "workleap.com"
+      privateFieldNames?: string[];   // Additional fields removed from network requests/responses via fuzzy matching
+      privateQueryParameterNames?: string[];  // Additional query parameters removed from URLs via fuzzy matching
       transformers?: LogRocketSdkOptionsTransformer[];
     }
   },
   honeycomb?: {
-    namespace: string;                // Required: Trace namespace
+    namespace: string;                // Required: Service namespace, added to traces as a `service.namespace` attribute
     serviceName: string;              // Required: Service name in traces
     apiServiceUrls: string | RegExp | (string | RegExp)[];  // Required: URLs to instrument
     options?: {
-      proxy?: string;                 // Required if no apiKey: OTEL collector URL
+      proxy?: string;                 // Required if no apiKey: OTEL collector URL. Trace requests are sent with the session credentials, the default metric/log exporters are disabled
+      credentials?: RequestCredentials;  // Credentials mode of the proxy trace requests, defaults to "include"
       apiKey?: string;                // Required if no proxy: Honeycomb API key
-      instrumentations?: OpenTelemetryInstrumentation[];
+      instrumentations?: (Instrumentation | Instrumentation[])[];  // HoneycombSdkInstrumentations
       spanProcessors?: SpanProcessor[];
-      fetchInstrumentation?: false | ((defaults) => FetchInstrumentationOptions);
-      documentLoadInstrumentation?: false | ((defaults) => DocumentLoadInstrumentationOptions);
-      xmlHttpRequestInstrumentation?: true | ((defaults) => XHRInstrumentationOptions);       // Disabled by default
-      userInteractionInstrumentation?: true | ((defaults) => UserInteractionOptions);          // Disabled by default
+      fetchInstrumentation?: false | ((defaults: FetchInstrumentationConfig) => FetchInstrumentationConfig);
+      documentLoadInstrumentation?: false | ((defaults: DocumentLoadInstrumentationConfig) => DocumentLoadInstrumentationConfig);
+      xmlHttpRequestInstrumentation?: false | ((defaults: XMLHttpRequestInstrumentationConfig) => XMLHttpRequestInstrumentationConfig);  // Disabled by default; provide a function to enable
+      userInteractionInstrumentation?: false | ((defaults: UserInteractionInstrumentationConfig) => UserInteractionInstrumentationConfig);  // Disabled by default; provide a function to enable
       transformers?: HoneycombSdkOptionsTransformer[];
     }
   },
@@ -51,10 +52,10 @@ const telemetryClient = initializeTelemetry(productFamily, {
     envOrTrackingApiBaseUrl: string;  // Required: 'production' | 'staging' | 'development' | 'local' | 'msw' | base URL
     options?: {
       productId?: string;             // Product identifier (e.g., "wlp")
-      trackingEndpoint?: string;      // Custom tracking endpoint path
+      trackingEndpoint?: string;      // Custom tracking endpoint path, defaults to "tracking/track"
     }
   },
-  verbose?: boolean;                  // Enable debug logging
+  verbose?: boolean;                  // Enable debug logging. If no `loggers` are configured, logs are automatically sent to the console
   loggers?: RootLogger[];             // Logger instances for diagnostics
 });
 ```
@@ -110,8 +111,10 @@ import { TelemetryProvider } from "@workleap/telemetry/react";
 |---|---|
 | `setGlobalSpanAttribute(key: string, value: any)` | Set single span attribute |
 | `setGlobalSpanAttributes(attributes: Record<string, any>)` | Set multiple span attributes |
-| `registerFetchRequestHook(hook: FetchRequestHook)` | Add hook at end of pipeline |
-| `registerFetchRequestHookAtStart(hook: FetchRequestHook)` | Add hook at start of pipeline |
+| `registerFetchRequestHook(hook: FetchRequestHookFunction)` | Add hook at end of pipeline |
+| `registerFetchRequestHookAtStart(hook: FetchRequestHookFunction)` | Add hook at start of pipeline |
+
+A `FetchRequestHookFunction` has the signature `(span: Span, request: Request | RequestInit) => void | true`.
 
 A fetch request hook can return `true` to prevent the execution of subsequent hooks in the pipeline.
 
@@ -157,7 +160,7 @@ span.end();
 |---|---|
 | `createWorkleapPlatformDefaultUserTraits(identification)` | Create standard Workleap Platform user traits object |
 | `createShareGateDefaultUserTraits(identification)` | Create standard ShareGate user traits object |
-| `registerGetSessionUrlListener(listener: (url: string) => void)` | Register callback for session URL |
+| `registerGetSessionUrlListener(listener: (url: string) => void)` | Register callback for session URL. Host applications should use `LogRocket.getSessionURL` instead of this method |
 
 ### `createWorkleapPlatformDefaultUserTraits` Parameters
 
@@ -183,10 +186,10 @@ span.end();
 ```typescript
 {
   shareGateAccountId: string;
-  microsoftUserId: string;
-  microsoftTenantId: string;
-  workspaceId: string;
-  isInPartnerProgram?: boolean;
+  // Optional fields, defaulting to "N/A"
+  microsoftUserId?: string;
+  microsoftTenantId?: string;
+  workspaceId?: string;
 }
 ```
 
@@ -217,7 +220,7 @@ const traits = client.createWorkleapPlatformDefaultUserTraits({
   isAdmin: false
 });
 
-LogRocket.identify(traits.userId, traits);
+LogRocket.identify(traits["User Id"], traits);
 ```
 
 ### Privacy Controls
@@ -249,6 +252,8 @@ By default, all user-provided text inputs and content are sanitized.
   targetProductId?: string;  // For cross-product events
 }
 ```
+
+When a `productId` is provided both to `initializeTelemetry` and as an option to `createTrackingFunction`, the value passed to `createTrackingFunction` takes precedence.
 
 ### Tracking Function Signature
 

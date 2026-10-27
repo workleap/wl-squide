@@ -3,6 +3,21 @@
 **Impact:** LOW-MEDIUM
 **Description:** Micro-optimizations for hot paths can add up to meaningful improvements.
 
+## Table of Contents
+
+- [Avoid Layout Thrashing](#avoid-layout-thrashing)
+- [Build Index Maps for Repeated Lookups](#build-index-maps-for-repeated-lookups)
+- [Cache Property Access in Loops](#cache-property-access-in-loops)
+- [Cache Repeated Function Calls](#cache-repeated-function-calls)
+- [Cache Storage API Calls](#cache-storage-api-calls)
+- [Combine Multiple Array Iterations](#combine-multiple-array-iterations)
+- [Early Length Check for Array Comparisons](#early-length-check-for-array-comparisons)
+- [Early Return from Functions](#early-return-from-functions)
+- [Hoist RegExp Creation](#hoist-regexp-creation)
+- [Use Loop for Min/Max Instead of Sort](#use-loop-for-minmax-instead-of-sort)
+- [Use Set/Map for O(1) Lookups](#use-setmap-for-o1-lookups)
+- [Use toSorted() Instead of sort() for Immutability](#use-tosorted-instead-of-sort-for-immutability)
+
 ---
 
 ## Avoid Layout Thrashing

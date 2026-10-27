@@ -48,6 +48,19 @@ vitest --changed abc123
 vitest --changed origin/main
 ```
 
+## Since Last Run / Last Failed (5.1)
+
+```bash
+# Tests whose loaded files have a newer mtime than the test's last run (no Git needed)
+vitest run --since-last-run
+
+# Only tests that failed last time (read from the results cache; needs `cache` enabled)
+vitest run --last-failed
+vitest run --last-failed -t login   # combinable with other filters
+```
+
+`--since-last-run` enables `changed`, `experimental.recordDependencies` and the `mtime` VCS provider (`experimental.vcsProvider: 'mtime'`); the first run runs everything and records the loaded files (imports, mocks, setup files, snapshots) in `dependencies.json` in `cacheDir`. It cannot see files a test never loaded (new `.env`/`__mocks__` files) or mtimes set in the past by checkouts/archives. Good fit for agents: run `vitest run --since-last-run` after each edit and a full `vitest run` before finishing. Use `--changed <ref>` when the baseline must be shared (PR vs `origin/main`, CI).
+
 ## Related Files
 
 Run tests that import specific files:
@@ -102,31 +115,27 @@ test('dynamic', ({ skip }) => {
 
 ## Tags
 
-Filter by custom tags:
+Tags must be declared in config, then applied to tests/suites and filtered with a tag expression:
 
 ```ts
-test('database test', { tags: ['db'] }, () => {})
-test('slow test', { tags: ['slow', 'integration'] }, () => {})
-```
-
-Run tagged tests:
-
-```bash
-vitest --tags db
-vitest --tags "db,slow"      # OR
-vitest --tags db --tags slow # OR
-```
-
-Configure allowed tags:
-
-```ts
+// vitest.config.ts
 defineConfig({
   test: {
-    tags: ['db', 'slow', 'integration'],
-    strictTags: true, // Fail on unknown tags
+    tags: [{ name: 'db' }, { name: 'slow' }, { name: 'flaky' }],
   },
 })
+
+// test file
+test('database test', { tags: ['db'] }, () => {})
 ```
+
+```bash
+vitest --tagsFilter "db && !flaky"
+vitest --tagsFilter "unit || e2e"
+vitest --list-tags            # show defined tags
+```
+
+Full syntax, priority, and per-tag options: see [features-test-tags](features-test-tags.md).
 
 ## Include/Exclude Patterns
 
@@ -145,9 +154,14 @@ defineConfig({
     
     // Include source for in-source testing
     includeSource: ['src/**/*.ts'],
+
+    // Scope discovery to a directory (faster than broad excludes)
+    dir: './src',
   },
 })
 ```
+
+> v4 simplified default `exclude` to only `node_modules`/`.git`. Prefer `test.dir` to limit where tests are found; spread `configDefaults.exclude` to restore the old excludes.
 
 ## Watch Mode Filtering
 
@@ -200,6 +214,7 @@ vitest list --json          # JSON output
 - Use `-t` for test name pattern filtering
 - `--changed` runs only tests affected by changes
 - `--related` runs tests importing specific files
+- `--since-last-run` (5.1, experimental) / `--last-failed` (5.1) select by previous run state
 - Tags provide semantic test grouping
 - Use `.only` for debugging, but configure CI to reject it
 - Watch mode has interactive filtering
