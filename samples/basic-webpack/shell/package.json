@@ -30,8 +30,8 @@
         "@types/react-dom": "19.3.0",
         "@typescript-eslint/parser": "8.72.0",
         "@typescript/native-preview": "7.0.0-dev.20260707.2",
-        "@workleap/eslint-configs": "2.0.6",
-        "@workleap/typescript-configs": "5.0.0",
+        "@workleap/eslint-configs": "2.1.1",
+        "@workleap/typescript-configs": "5.1.0",
         "eslint": "9.39.2",
         "typescript": "6.0.3",
         "typescript-eslint": "8.54.0"

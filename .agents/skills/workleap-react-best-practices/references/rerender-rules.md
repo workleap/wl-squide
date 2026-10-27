@@ -3,6 +3,21 @@
 **Impact:** MEDIUM
 **Description:** Reducing unnecessary re-renders minimizes wasted computation and improves UI responsiveness.
 
+## Table of Contents
+
+- [Defer State Reads to Usage Point](#defer-state-reads-to-usage-point)
+- [Extract to Memoized Components](#extract-to-memoized-components)
+- [Extract Default Non-primitive Props to Constants](#extract-default-non-primitive-props-to-constants)
+- [Narrow Effect Dependencies](#narrow-effect-dependencies)
+- [Subscribe to Derived State](#subscribe-to-derived-state)
+- [Calculate Derived State During Rendering](#calculate-derived-state-during-rendering)
+- [Use Functional setState Updates](#use-functional-setstate-updates)
+- [Use Lazy State Initialization](#use-lazy-state-initialization)
+- [Do Not Wrap Simple Expressions in useMemo](#do-not-wrap-simple-expressions-in-usememo)
+- [Put Interaction Logic in Event Handlers](#put-interaction-logic-in-event-handlers)
+- [Use Transitions for Non-Urgent Updates](#use-transitions-for-non-urgent-updates)
+- [Use useRef for Transient Values](#use-useref-for-transient-values)
+
 ---
 
 ## Defer State Reads to Usage Point

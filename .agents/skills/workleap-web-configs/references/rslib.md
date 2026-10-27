@@ -1,5 +1,22 @@
 # Rslib Configuration
 
+## Table of Contents
+
+- [Overview](#overview)
+- [Available Functions](#available-functions)
+- [Installation](#installation)
+- [Setup Requirements](#setup-requirements)
+- [Build Configuration](#build-configuration)
+- [Development Configuration](#development-configuration)
+- [Storybook Configuration](#storybook-configuration)
+- [Configuration Transformers](#configuration-transformers)
+- [CLI Scripts](#cli-scripts)
+- [Type Declarations](#type-declarations)
+- [Bundleless vs Bundle](#bundleless-vs-bundle)
+- [Turborepo Setup](#turborepo-setup)
+- [Migrate from tsup](#migrate-from-tsup)
+- [Version Requirements (v2.0)](#version-requirements-v20)
+
 ## Overview
 
 `@workleap/rslib-configs` provides Rslib configurations for library projects. Rslib is powered by Rsbuild and Rspack.
@@ -79,7 +96,7 @@ export default defineBuildConfig({
 | `tsconfigPath` | string | undefined | Path to tsconfig (required for bundleless) |
 | `dts` | object/false | `true` | Generate .d.ts files |
 | `target` | string | `web` | Output target |
-| `distPath` | string | `dist` | Output directory |
+| `distPath` | object | `{ root: "./dist" }` | Output directory (Rsbuild `output.distPath`) |
 | `plugins` | array | `[]` | Rsbuild plugins |
 | `sourceMap` | false/object | `{ js: "source-map", css: true }` | Source maps |
 | `react` | true/function | disabled | React transformation |
@@ -191,6 +208,7 @@ import type { StorybookConfig } from "storybook-react-rsbuild";
 const storybookConfig: StorybookConfig = {
     framework: "storybook-react-rsbuild",
     addons: ["storybook-addon-rslib"],
+    // Relative to the ".storybook" folder, adjust to where the stories are located.
     stories: ["../../src/**/*.stories.(tsx|mdx)"]
 };
 
@@ -211,6 +229,7 @@ export default storybookConfig;
 ```ts
 import { defineBuildConfig, type RslibConfigTransformer } from "@workleap/rslib-configs";
 import type { RslibConfig } from "@rslib/core";
+import path from "node:path";
 
 const customTransformer: RslibConfigTransformer = (config: RslibConfig, context) => {
     if (context.environment === "build") {
@@ -220,6 +239,7 @@ const customTransformer: RslibConfigTransformer = (config: RslibConfig, context)
 };
 
 export default defineBuildConfig({
+    tsconfigPath: path.resolve("./tsconfig.build.json"),
     transformers: [customTransformer]
 });
 ```
@@ -322,3 +342,53 @@ export default defineBuildConfig({
     "build-lib": "turbo run build --filter=./packages/lib"
 }
 ```
+
+## Migrate from tsup
+
+To move a library from `@workleap/tsup-configs` to `@workleap/rslib-configs`:
+
+### 1. Update the packages
+
+```bash
+pnpm add -D @workleap/rslib-configs @rslib/core @rsbuild/core
+pnpm remove @workleap/tsup-configs tsup
+```
+
+### 2. Create `tsconfig.build.json`
+
+See [Setup Requirements](#setup-requirements) — bundleless output needs it.
+
+### 3. Rename the config files
+
+`tsup.dev.ts` → `rslib.dev.ts` and `tsup.build.ts` → `rslib.build.ts`. In both files, swap the import to `@workleap/rslib-configs` and add a `tsconfigPath` option pointing at the new `tsconfig.build.json`:
+
+```ts
+// rslib.build.ts
+import { defineBuildConfig } from "@workleap/rslib-configs";
+import path from "node:path";
+
+export default defineBuildConfig({
+    tsconfigPath: path.resolve("./tsconfig.build.json")
+});
+```
+
+### 4. Update the CLI scripts
+
+```json
+{
+    "dev": "rslib build -w -c ./rslib.dev.ts",
+    "build": "rslib build -c ./rslib.build.ts"
+}
+```
+
+Then add the [type declarations](#type-declarations) for SVG and CSS Modules if typing errors appear, and move Storybook to `defineStorybookConfig`.
+
+## Version Requirements (v2.0)
+
+`@workleap/rslib-configs` v2.0 tracks Rslib `1.0+` (Rsbuild 2.0 / Rspack 2.0). No public API of `defineBuildConfig`, `defineDevConfig`, or `defineStorybookConfig` changed in this release — most changes are upstream.
+
+- **Node.js `20.19+` or `22.12+`** required (Node.js 18 is no longer supported). Pin the version in `.nvmrc` so CI runners and local environments match.
+- Upgrade command: `pnpm add -D @workleap/rslib-configs@^2.0.0 @rslib/core@^1.0.3`
+- `@rsbuild/core` is now pure ESM — import it from ESM files.
+- `experiments.advancedEsm` is now the default (the option is ignored); remove it if previously set via a transformer.
+- Type rename: `StartServerResult` → `StartDevServerResult` in `@rslib/core`.

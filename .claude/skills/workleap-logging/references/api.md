@@ -8,21 +8,38 @@ import { BrowserConsoleLogger, LogLevel } from "@workleap/logging";
 // Basic usage
 const logger = new BrowserConsoleLogger();
 
-// With minimum log level
+// With minimum log level (messages below this severity are suppressed)
 const logger = new BrowserConsoleLogger({ logLevel: LogLevel.information });
 ```
 
 ## CompositeLogger
 
+Forwards logs to multiple underlying loggers. Each logger can have its own minimum log level, so you can filter differently per destination.
+
 ```ts
-import { BrowserConsoleLogger, CompositeLogger } from "@workleap/logging";
+import { BrowserConsoleLogger, CompositeLogger, LogLevel } from "@workleap/logging";
 import { LogRocketLogger } from "@workleap/telemetry"; // or from "@workleap/logrocket"
 
 const logger = new CompositeLogger([
-    new BrowserConsoleLogger(),
-    new LogRocketLogger()
+    new BrowserConsoleLogger({ logLevel: LogLevel.error }),
+    new LogRocketLogger({ logLevel: LogLevel.debug })
 ]);
 ```
+
+## createCompositeLogger
+
+Factory function that creates a `CompositeLogger`. When `verbose` is `true` and no loggers are provided, a default `BrowserConsoleLogger` is added. Otherwise, only the loggers you pass are used, an empty list results in no output.
+
+```ts
+import { createCompositeLogger, BrowserConsoleLogger } from "@workleap/logging";
+import { LogRocketLogger } from "@workleap/telemetry"; // or from "@workleap/logrocket"
+
+const logger = createCompositeLogger(false, [new BrowserConsoleLogger(), new LogRocketLogger()]);
+```
+
+**Parameters:**
+- `verbose`: When `true` and no loggers are provided, a default `BrowserConsoleLogger` is added. Does not affect behavior when loggers are explicitly passed.
+- `loggers`: Array of loggers to create the `CompositeLogger` with. If empty and `verbose` is `false`, the resulting logger produces no output.
 
 ## Logger Methods
 
@@ -35,24 +52,14 @@ logger.error("message");
 logger.critical("message");
 ```
 
-**Chained segments (complete chain with log method):**
+**Chained segments** (see SKILL.md for the core pattern):
 ```ts
-logger
-    .withText("Processing order")
-    .withObject({ orderId: 123 })
-    .withError(new Error("Failed"))
-    .error();
-```
-
-**Styled text:**
-```ts
+// Styled text
 logger.withText("Success", {
     style: { color: "green", fontWeight: "bold" }
 }).information();
-```
 
-**Line breaks:**
-```ts
+// Line breaks
 logger
     .withText("Line 1")
     .withLineChange()
@@ -83,26 +90,11 @@ const scope = logger.startScope("Label", {
     labelStyle: { backgroundColor: "purple", color: "white" }
 });
 
-// At end (useful for status-based styling)
+// At end (useful for status-based styling, e.g., green for success, red for failure)
 scope.end({
     labelStyle: { backgroundColor: "green", color: "white" }
 });
 ```
-
-## createCompositeLogger
-
-Factory function to create a `CompositeLogger` instance from Workleap libraries standard logging API.
-
-```ts
-import { createCompositeLogger, BrowserConsoleLogger } from "@workleap/logging";
-import { LogRocketLogger } from "@workleap/telemetry"; // or from "@workleap/logrocket"
-
-const logger = createCompositeLogger(false, [new BrowserConsoleLogger(), new LogRocketLogger()]);
-```
-
-**Parameters:**
-- `verbose`: Whether debug information should be logged. If no loggers are provided, creates with a `BrowserConsoleLogger` by default.
-- `loggers`: Array of loggers to create the `CompositeLogger` with.
 
 ## Log Level Guidelines
 
