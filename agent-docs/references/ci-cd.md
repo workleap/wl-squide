@@ -6,7 +6,7 @@
 |----------|------|---------|---------|
 | CI | `.github/workflows/ci.yml` | Push to main, PRs | Build, lint, typecheck, test |
 | Changeset | `.github/workflows/changeset.yml` | Push to main | Version bumps and npm publish |
-| PR Packages | `.github/workflows/pr-pkg.yml` | PRs | Publish preview packages |
+| PR Packages | `.github/workflows/pr-pkg.yml` | Push to main, PRs | Publish preview packages |
 | Update Dependencies | `.github/workflows/update-dependencies.yml` | Weekly (Tue 14:00 UTC) | Automated dependency and agent skill updates, via the `_update-dependencies` and `_update-skills` skills |
 | Code Review | `.github/workflows/code-review.yml` | PRs | Automated code review |
 | Claude | `.github/workflows/claude.yml` | @claude mentions | Interactive AI assistance |
