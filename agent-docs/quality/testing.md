@@ -46,7 +46,7 @@ Use **agent-browser** (see `.agents/skills/agent-browser/`) to validate sample a
 
 ## Test Infrastructure
 
-- **Vitest** — each package has its own `vitest.config.ts`
+- **Vitest** — each package (except `@squide/fakes`, which has no tests) has its own `vitest.config.ts`
 - Tests live in `packages/<name>/tests/` following `**/*.test.{ts,tsx}`
 - `@vitejs/plugin-react` for React support in tests
 - CI runs tests incrementally on PRs (only diverging packages) and fully on main
