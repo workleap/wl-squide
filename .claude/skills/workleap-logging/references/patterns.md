@@ -12,7 +12,11 @@ const logger = new BrowserConsoleLogger({
 });
 ```
 
+> **Note:** If your app uses Rsbuild or Vite, you may need `import.meta.env.DEV` instead of `process.env.NODE_ENV`.
+
 ## Error Logging
+
+Include both contextual data (`withObject`) and the exception (`withError`) so production logs have enough information to reproduce the issue.
 
 ```ts
 try {
@@ -27,6 +31,8 @@ try {
 ```
 
 ## Feature/Operation Scoping
+
+Scopes buffer entries and output them as a grouped block, making multi-step operations easy to follow in noisy console output. Style the label at `.end()` to visually indicate success or failure.
 
 ```ts
 async function registerModule(moduleName: string) {
@@ -50,34 +56,9 @@ async function registerModule(moduleName: string) {
 }
 ```
 
-## Multi-Destination Logging
-
-```ts
-import { BrowserConsoleLogger, CompositeLogger, LogLevel } from "@workleap/logging";
-import { LogRocketLogger } from "@workleap/telemetry"; // or from "@workleap/logrocket"
-
-const logger = new CompositeLogger([
-    new BrowserConsoleLogger({
-        logLevel: LogLevel.error
-    }),
-    new LogRocketLogger({
-        logLevel: LogLevel.debug
-    })
-]);
-```
-
 ## LogRocket Integration
 
-By default, LogRocket session replays exclude console output. To send log entries to LogRocket, use `LogRocketLogger` from `@workleap/telemetry` or `@workleap/logrocket`:
-
-```ts
-import { LogRocketLogger } from "@workleap/telemetry"; // or from "@workleap/logrocket"
-
-const logger = new LogRocketLogger();
-logger.debug("Application started!");
-```
-
-Use `CompositeLogger` to send logs to both browser console and LogRocket:
+By default, LogRocket session replays exclude console output. To send log entries to LogRocket, use `LogRocketLogger` from `@workleap/telemetry` or `@workleap/logrocket`. Combine it with `CompositeLogger` to log to both browser console and LogRocket simultaneously:
 
 ```ts
 import { BrowserConsoleLogger, CompositeLogger } from "@workleap/logging";
@@ -93,9 +74,9 @@ logger.debug("Application started!"); // Processed by both loggers
 
 ## PR Review Checklist
 
-When reviewing logging changes:
-- Verify appropriate log levels (debug for diagnostics, error for failures)
-- Check that errors include context (withObject) and stack traces (withError)
-- Ensure scopes are properly ended (end() or end({ dismiss: true }))
-- Confirm no sensitive data in log messages
-- Verify CompositeLogger filters are set per environment
+When reviewing logging changes, verify:
+- **Log levels are accurate**: `debug` for diagnostics, `error` for failures. Misclassified levels break production alerting and filtering.
+- **Errors include context**: `withObject()` for relevant data and `withError()` for stack traces. Without these, production logs lack the data needed to investigate.
+- **Scopes are ended**: Every `startScope()` needs a matching `.end()` — otherwise entries are buffered but never flushed.
+- **No sensitive data**: Log entries may surface in LogRocket replays and dev tools. Avoid credentials, tokens, and PII.
+- **CompositeLogger filters match the environment**: e.g., `debug` for LogRocket in dev, `error` for browser console in prod.

@@ -4,150 +4,35 @@ description: Apply modern web development best practices for security, compatibi
 license: MIT
 metadata:
   author: web-quality-skills
-  version: "1.0"
+  version: "2.0"
 ---
 
 # Best practices
 
 Modern web development standards based on Lighthouse best practices audits. Covers security, browser compatibility, and code quality patterns.
 
+## Evidence-led audit workflow
+
+When a rendered page is available:
+
+1. Run a live Lighthouse Best Practices audit when that capability is available; with Chrome DevTools MCP, use `lighthouse_audit`. Use navigation mode for a normal page load or snapshot mode when the current state must be preserved.
+2. Inspect the listed console and network failures and fetch individual details only when they support a finding.
+3. Supplement runtime evidence with dependency, header, configuration, and source inspection; Lighthouse is not a complete security assessment.
+4. Fix the implicated code, re-run the same audit, and keep security findings separate from style preferences.
+
+If live tools are unavailable, use the Lighthouse CLI plus focused dependency and header checks. Never report a high Lighthouse score as proof that the application is secure.
+
 ## Security
 
-### HTTPS everywhere
+Read [the security reference](references/SECURITY.md) when security is in scope or a live audit surfaces a related failure. It covers HTTPS/HSTS, CSP and Trusted Types, Subresource Integrity, headers, dependencies, sanitization, and cookies.
 
-**Enforce HTTPS:**
-```html
-<!-- ❌ Mixed content -->
-<img src="http://example.com/image.jpg">
-<script src="http://cdn.example.com/script.js"></script>
+At minimum:
 
-<!-- ✅ HTTPS only -->
-<img src="https://example.com/image.jpg">
-<script src="https://cdn.example.com/script.js"></script>
-
-<!-- ✅ Protocol-relative (will use page's protocol) -->
-<img src="//example.com/image.jpg">
-```
-
-**HSTS Header:**
-```
-Strict-Transport-Security: max-age=31536000; includeSubDomains; preload
-```
-
-### Content Security Policy (CSP)
-
-```html
-<!-- Basic CSP via meta tag -->
-<meta http-equiv="Content-Security-Policy" 
-      content="default-src 'self'; 
-               script-src 'self' https://trusted-cdn.com; 
-               style-src 'self' 'unsafe-inline';
-               img-src 'self' data: https:;
-               connect-src 'self' https://api.example.com;">
-
-<!-- Better: HTTP header -->
-```
-
-**CSP Header (recommended):**
-```
-Content-Security-Policy: 
-  default-src 'self';
-  script-src 'self' 'nonce-abc123' https://trusted.com;
-  style-src 'self' 'nonce-abc123';
-  img-src 'self' data: https:;
-  connect-src 'self' https://api.example.com;
-  frame-ancestors 'self';
-  base-uri 'self';
-  form-action 'self';
-```
-
-**Using nonces for inline scripts:**
-```html
-<script nonce="abc123">
-  // This inline script is allowed
-</script>
-```
-
-### Security headers
-
-```
-# Prevent clickjacking
-X-Frame-Options: DENY
-
-# Prevent MIME type sniffing
-X-Content-Type-Options: nosniff
-
-# Enable XSS filter (legacy browsers)
-X-XSS-Protection: 1; mode=block
-
-# Control referrer information
-Referrer-Policy: strict-origin-when-cross-origin
-
-# Permissions policy (formerly Feature-Policy)
-Permissions-Policy: geolocation=(), microphone=(), camera=()
-```
-
-### No vulnerable libraries
-
-```bash
-# Check for vulnerabilities
-npm audit
-yarn audit
-
-# Auto-fix when possible
-npm audit fix
-
-# Check specific package
-npm ls lodash
-```
-
-**Keep dependencies updated:**
-```json
-// package.json
-{
-  "scripts": {
-    "audit": "npm audit --audit-level=moderate",
-    "update": "npm update && npm audit fix"
-  }
-}
-```
-
-**Known vulnerable patterns to avoid:**
-```javascript
-// ❌ Prototype pollution vulnerable patterns
-Object.assign(target, userInput);
-_.merge(target, userInput);
-
-// ✅ Safer alternatives
-const safeData = JSON.parse(JSON.stringify(userInput));
-```
-
-### Input sanitization
-
-```javascript
-// ❌ XSS vulnerable
-element.innerHTML = userInput;
-document.write(userInput);
-
-// ✅ Safe text content
-element.textContent = userInput;
-
-// ✅ If HTML needed, sanitize
-import DOMPurify from 'dompurify';
-element.innerHTML = DOMPurify.sanitize(userInput);
-```
-
-### Secure cookies
-
-```javascript
-// ❌ Insecure cookie
-document.cookie = "session=abc123";
-
-// ✅ Secure cookie (server-side)
-Set-Cookie: session=abc123; Secure; HttpOnly; SameSite=Strict; Path=/
-```
-
----
+* **Use HTTPS without mixed content.** Add HSTS only after confirming every relevant subdomain supports HTTPS.
+* **Treat a strict CSP as defense in depth.** Prefer nonces or hashes and test with report-only before enforcement.
+* **Sanitize untrusted HTML and protect DOM XSS sinks.** Prefer text APIs when markup is not required.
+* **Pin and review third-party code.** Use SRI where the delivery model supports it and keep dependencies patched.
+* **Verify response headers at runtime.** Source configuration alone does not prove what the deployed page sends.
 
 ## Browser compatibility
 
@@ -228,17 +113,22 @@ if ('IntersectionObserver' in window) {
 
 ### Polyfills (when needed)
 
+Prefer **bundling polyfills at build time** (Babel/SWC + `core-js`, or `@vitejs/plugin-legacy`) targeted by your supported-browsers list. This eliminates the runtime check entirely and avoids shipping polyfill bytes to modern browsers.
+
+If you must load a polyfill at runtime, append a script element — never use `document.write` (it blocks the parser and is broken in async/deferred contexts):
+
 ```html
-<!-- Load polyfills conditionally -->
 <script>
   if (!('fetch' in window)) {
-    document.write('<script src="/polyfills/fetch.js"><\/script>');
+    const s = document.createElement('script');
+    s.src = '/polyfills/fetch.js';
+    s.defer = true;
+    document.head.appendChild(s);
   }
 </script>
-
-<!-- Or use polyfill.io -->
-<script src="https://polyfill.io/v3/polyfill.min.js?features=fetch,IntersectionObserver"></script>
 ```
+
+**Never load polyfills from a third-party CDN you don't control.** The `polyfill.io` service was [compromised in mid-2024](https://sansec.io/research/polyfill-supply-chain-attack) in a supply-chain attack and used to serve malware to ~100k sites. Self-host, or use a vetted mirror (e.g. [Cloudflare's `cdnjs` polyfill build](https://blog.cloudflare.com/polyfill-io-now-available-on-cdnjs-reduce-your-supply-chain-risk/)) — and pin the version with [Subresource Integrity](#subresource-integrity-sri-for-third-party-scripts).
 
 ---
 
@@ -373,6 +263,10 @@ module.exports = {
   devtool: process.env.NODE_ENV === 'production' ? false : 'source-map',
 };
 ```
+
+**Strip `sourcesContent` from production maps** when uploading to your error tracker. By default, bundlers embed the full original source inside the `.map` file — anyone who obtains the map (including via a misconfigured upload step) gets your unminified code. Configure your bundler to omit `sourcesContent`, or use a Sentry/Bugsnag CLI flag that does so when uploading.
+
+For Vite, prefer `sourcemap: 'hidden'` over `'true'` so the `//# sourceMappingURL=` comment isn't emitted into the bundle.
 
 ---
 
@@ -542,9 +436,11 @@ findNearbyButton.addEventListener('click', async () => {
 ### Security (critical)
 - [ ] HTTPS enabled, no mixed content
 - [ ] No vulnerable dependencies (`npm audit`)
-- [ ] CSP headers configured
-- [ ] Security headers present
-- [ ] No exposed source maps
+- [ ] CSP headers configured (with `frame-ancestors`, `base-uri`, `form-action`)
+- [ ] `require-trusted-types-for 'script'` enforced (or report-only during rollout)
+- [ ] Third-party `<script>`/`<link rel="stylesheet">` pinned with SRI hashes
+- [ ] Security headers present (HSTS, X-Content-Type-Options, Referrer-Policy)
+- [ ] No exposed source maps (and `sourcesContent` stripped from uploaded ones)
 
 ### Compatibility
 - [ ] Valid HTML5 doctype
@@ -573,7 +469,8 @@ findNearbyButton.addEventListener('click', async () => {
 | `npm audit` | Dependency vulnerabilities |
 | [SecurityHeaders.com](https://securityheaders.com) | Header analysis |
 | [W3C Validator](https://validator.w3.org) | HTML validation |
-| Lighthouse | Best practices audit |
+| Live Lighthouse audit (Chrome DevTools MCP: `lighthouse_audit`) | Rendered Best Practices checks for agents |
+| Lighthouse CLI | Best Practices audit fallback |
 | [Observatory](https://observatory.mozilla.org) | Security scan |
 
 ## References
