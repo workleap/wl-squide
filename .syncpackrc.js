@@ -64,10 +64,10 @@ export default {
             "isIgnored": true
         },
         {
-            // "react" and "react-dom" declares ranges to support React 18 and 19.
+            // "@types/react", "react" and "react-dom" declares ranges to support React 18 and 19.
             // It's messing up with syncpack.
             "packages": ["@squide/*"],
-            "dependencies": ["react", "react-dom"],
+            "dependencies": ["@types/react", "react", "react-dom"],
             "dependencyTypes": ["peer"],
             "isIgnored": true
         },
