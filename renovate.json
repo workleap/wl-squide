@@ -3,7 +3,7 @@
     "extends": [
         "local>workleap/renovate-config"
     ],
-    "description": "Renovate only updates GitHub Actions. npm dependencies and agent skills are updated by the update-dependencies workflow.",
+    "description": "Renovate only updates GitHub Actions, on a schedule (the _update-github-actions Claude skill is the on-demand equivalent). npm dependencies and agent skills are updated by the update-dependencies workflow.",
     "enabledManagers": [
         "github-actions"
     ]
