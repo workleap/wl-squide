@@ -1,11 +1,20 @@
 {
     "name": "@getting-started-remote/local-module",
-    "author": "Workleap",
     "version": "0.0.1",
-    "description": "Local module of the getting-started template.",
     "private": true,
+    "description": "Local module of the getting-started template.",
+    "author": "Workleap",
     "type": "module",
     "exports": "./src/register.tsx",
+    "devDependencies": {
+        "@squide/firefly": "16.1.1",
+        "@types/react": "19.2.7",
+        "@types/react-dom": "19.2.3",
+        "react": "19.2.1",
+        "react-dom": "19.2.1",
+        "react-router": "7.10.1",
+        "typescript": "5.9.3"
+    },
     "peerDependencies": {
         "@opentelemetry/api": "^1.9.0",
         "@squide/firefly": "^16.1.1",
@@ -15,14 +24,5 @@
         "react": "^19.2.1",
         "react-dom": "^19.2.1",
         "react-router": "^7.10.1"
-    },
-    "devDependencies": {
-        "@squide/firefly": "16.1.1",
-        "@types/react": "19.2.7",
-        "@types/react-dom": "19.2.3",
-        "react": "19.2.1",
-        "react-dom": "19.2.1",
-        "react-router": "7.10.1",
-        "typescript": "5.9.3"
     }
 }

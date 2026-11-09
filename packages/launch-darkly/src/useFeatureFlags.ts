@@ -6,13 +6,16 @@ export function useFeatureFlags() {
     const runtime = useRuntime();
     const plugin = getLaunchDarklyPlugin(runtime);
 
-    const subscribe = useCallback((callback: () => void) => {
-        plugin.featureFlagSetSnapshot.registerSnapshotChangedListener(callback);
+    const subscribe = useCallback(
+        (callback: () => void) => {
+            plugin.featureFlagSetSnapshot.registerSnapshotChangedListener(callback);
 
-        return () => {
-            plugin.featureFlagSetSnapshot.removeSnapshotChangedListener(callback);
-        };
-    }, [plugin]);
+            return () => {
+                plugin.featureFlagSetSnapshot.removeSnapshotChangedListener(callback);
+            };
+        },
+        [plugin]
+    );
 
     return useSyncExternalStore(subscribe, () => plugin.featureFlagSetSnapshot.value);
 }

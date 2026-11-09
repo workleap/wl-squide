@@ -10,8 +10,8 @@ if (!process.env.ISOLATED) {
         features,
         sharedDependencies: getSharedDependencies(false),
         environmentVariables: {
-            "NETLIFY": process.env.NETLIFY === "true",
-            "USE_MSW": process.env.USE_MSW === "true"
+            NETLIFY: process.env.NETLIFY === "true",
+            USE_MSW: process.env.USE_MSW === "true"
         }
     });
 } else {
@@ -26,8 +26,8 @@ if (!process.env.ISOLATED) {
         features,
         sharedDependencies: getSharedDependencies(true),
         environmentVariables: {
-            "NETLIFY": process.env.NETLIFY === "true",
-            "USE_MSW": process.env.USE_MSW === "true",
+            NETLIFY: process.env.NETLIFY === "true",
+            USE_MSW: process.env.USE_MSW === "true",
             ...parsed
         }
     });

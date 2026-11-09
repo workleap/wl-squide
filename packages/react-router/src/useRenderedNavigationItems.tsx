@@ -38,9 +38,7 @@ export type RenderSectionFunction = (elements: ReactNode[], key: string, index: 
 // A "$" prefixed prop is Squide metadata and must never reach the react-router Link component,
 // otherwise it ends up as an invalid attribute on the rendered DOM element.
 function stripMetadataProps<T>(props: T): T {
-    return Object.fromEntries(
-        Object.entries(props as Record<string, unknown>).filter(([key]) => !key.startsWith("$"))
-    ) as T;
+    return Object.fromEntries(Object.entries(props as Record<string, unknown>).filter(([key]) => !key.startsWith("$"))) as T;
 }
 
 function toLinkProps({
@@ -114,11 +112,7 @@ function renderItems(items: NavigationItem[], renderItem: RenderItemFunction, re
     }
 }
 
-export function useRenderedNavigationItems(
-    navigationItems: RootNavigationItem[],
-    renderItem: RenderItemFunction,
-    renderSection: RenderSectionFunction
-) {
+export function useRenderedNavigationItems(navigationItems: RootNavigationItem[], renderItem: RenderItemFunction, renderSection: RenderSectionFunction) {
     return useMemo(() => {
         // Sorting lives in "renderItems" so that it applies at every level rather than only to this array.
         //

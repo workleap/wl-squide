@@ -1,41 +1,37 @@
 {
     "name": "@squide/launch-darkly",
-    "author": "Workleap",
     "version": "1.1.1",
     "description": "Add support for LaunchDarkly feature flags to Squide applications.",
     "license": "Apache-2.0",
+    "author": "Workleap",
     "repository": {
         "type": "git",
         "url": "git+https://github.com/workleap/wl-squide.git",
         "directory": "packages/launch-darkly"
     },
+    "files": [
+        "src",
+        "dist",
+        "CHANGELOG.md"
+    ],
     "type": "module",
+    "sideEffects": false,
+    "exports": "./src/index.ts",
     "publishConfig": {
-        "access": "public",
-        "provenance": true,
         "exports": {
             ".": {
                 "types": "./dist/index.d.ts",
                 "import": "./dist/index.js",
                 "default": "./dist/index.js"
             }
-        }
+        },
+        "access": "public",
+        "provenance": true
     },
-    "exports": "./src/index.ts",
-    "files": [
-        "src",
-        "dist",
-        "CHANGELOG.md"
-    ],
     "scripts": {
         "build": "rslib build --config ./rslib.build.ts",
         "typecheck": "tsgo",
         "test": "vitest --config vitest.config.ts --no-watch"
-    },
-    "peerDependencies": {
-        "launchdarkly-js-client-sdk": "^3.9.6",
-        "react": "^18.0.0 || ^19.0.0",
-        "react-dom": "^18.0.0 || ^19.0.0"
     },
     "dependencies": {
         "@squide/core": "workspace:^",
@@ -56,5 +52,9 @@
         "typescript": "6.0.3",
         "vitest": "5.0.5"
     },
-    "sideEffects": false
+    "peerDependencies": {
+        "launchdarkly-js-client-sdk": "^3.9.6",
+        "react": "^18.0.0 || ^19.0.0",
+        "react-dom": "^18.0.0 || ^19.0.0"
+    }
 }

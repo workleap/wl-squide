@@ -1,32 +1,33 @@
 {
     "name": "@squide/fakes",
-    "author": "Workleap",
     "version": "2.2.23",
     "description": "Fake implementations to facilitate the development of modules in isolation with @squide.",
     "license": "Apache-2.0",
+    "author": "Workleap",
     "repository": {
         "type": "git",
         "url": "git+https://github.com/workleap/wl-squide.git",
         "directory": "packages/fakes"
     },
+    "files": [
+        "src",
+        "dist",
+        "CHANGELOG.md"
+    ],
     "type": "module",
+    "sideEffects": false,
+    "exports": "./src/index.ts",
     "publishConfig": {
-        "access": "public",
-        "provenance": true,
         "exports": {
             ".": {
                 "types": "./dist/index.d.ts",
                 "import": "./dist/index.js",
                 "default": "./dist/index.js"
             }
-        }
+        },
+        "access": "public",
+        "provenance": true
     },
-    "exports": "./src/index.ts",
-    "files": [
-        "src",
-        "dist",
-        "CHANGELOG.md"
-    ],
     "scripts": {
         "build": "rslib build --config ./rslib.build.ts",
         "typecheck": "tsgo"
@@ -42,6 +43,5 @@
         "@workleap/rslib-configs": "2.0.0",
         "@workleap/typescript-configs": "5.0.0",
         "typescript": "6.0.3"
-    },
-    "sideEffects": false
+    }
 }

@@ -33,11 +33,9 @@ class DummyRuntime extends Runtime {
         return new Map();
     }
 
-    startDeferredRegistrationScope(): void {
-    }
+    startDeferredRegistrationScope(): void {}
 
-    completeDeferredRegistrationScope(): void {
-    }
+    completeDeferredRegistrationScope(): void {}
 
     get logger() {
         return this.#logger;
@@ -106,11 +104,7 @@ describe.concurrent("registerModules", () => {
 
         const runtime = new DummyRuntime();
 
-        const manager = new ModuleManager(runtime, [
-            moduleRegistry1,
-            moduleRegistry2,
-            moduleRegistry3
-        ]);
+        const manager = new ModuleManager(runtime, [moduleRegistry1, moduleRegistry2, moduleRegistry3]);
 
         const fct1 = () => {};
         const fct2 = () => {};
@@ -122,12 +116,7 @@ describe.concurrent("registerModules", () => {
         const definition3 = { registryId: "registry-2", definition: fct3 };
         const definition4 = { registryId: "registry-3", definition: fct4 };
 
-        await manager.registerModules([
-            definition1,
-            definition2,
-            definition3,
-            definition4
-        ]);
+        await manager.registerModules([definition1, definition2, definition3, definition4]);
 
         expect(spy1).toHaveBeenCalledExactlyOnceWith(runtime, [fct1], undefined);
         expect(spy2).toHaveBeenCalledExactlyOnceWith(runtime, [fct2, fct3], undefined);
@@ -145,21 +134,13 @@ describe.concurrent("registerModules", () => {
 
         const runtime = new DummyRuntime();
 
-        const manager = new ModuleManager(runtime, [
-            moduleRegistry1,
-            moduleRegistry2,
-            moduleRegistry3
-        ]);
+        const manager = new ModuleManager(runtime, [moduleRegistry1, moduleRegistry2, moduleRegistry3]);
 
         const definition1 = { registryId: "registry-1", definition: () => {} };
         const definition2 = { registryId: "registry-2", definition: () => {} };
         const definition3 = { registryId: "registry-3", definition: () => {} };
 
-        await expect(() => manager.registerModules([
-            definition1,
-            definition2,
-            definition3
-        ])).rejects.toThrow("Can me if you can!");
+        await expect(() => manager.registerModules([definition1, definition2, definition3])).rejects.toThrow("Can me if you can!");
     });
 
     // test.concurrent("when a module is registered for a registry that has not been added, an error is thrown", async ({ expect }) => {
@@ -201,21 +182,13 @@ describe.concurrent("registerModules", () => {
 
         const runtime = new DummyRuntime();
 
-        const manager = new ModuleManager(runtime, [
-            moduleRegistry1,
-            moduleRegistry2,
-            moduleRegistry3
-        ]);
+        const manager = new ModuleManager(runtime, [moduleRegistry1, moduleRegistry2, moduleRegistry3]);
 
         const definition1 = { registryId: "registry-1", definition: () => {} };
         const definition2 = { registryId: "registry-2", definition: () => {} };
         const definition3 = { registryId: "registry-3", definition: () => {} };
 
-        const errors = await manager.registerModules([
-            definition1,
-            definition2,
-            definition3
-        ]);
+        const errors = await manager.registerModules([definition1, definition2, definition3]);
 
         expect(errors.length).toBe(3);
         expect(errors[0]).toBe(error1);
@@ -269,11 +242,7 @@ describe.concurrent("registerDeferredRegistrations", () => {
         const spy3 = vi.spyOn(moduleRegistry3, "registerDeferredRegistrations");
 
         const runtime = new DummyRuntime({
-            moduleManager: x => new ModuleManager(x, [
-                moduleRegistry1,
-                moduleRegistry2,
-                moduleRegistry3
-            ]),
+            moduleManager: x => new ModuleManager(x, [moduleRegistry1, moduleRegistry2, moduleRegistry3]),
             loggers: [new NoopLogger()]
         });
 
@@ -294,11 +263,7 @@ describe.concurrent("registerDeferredRegistrations", () => {
         const moduleRegistry3 = new DummyModuleRegistry();
 
         const runtime = new DummyRuntime({
-            moduleManager: x => new ModuleManager(x, [
-                moduleRegistry1,
-                moduleRegistry2,
-                moduleRegistry3
-            ]),
+            moduleManager: x => new ModuleManager(x, [moduleRegistry1, moduleRegistry2, moduleRegistry3]),
             loggers: [new NoopLogger()]
         });
 
@@ -325,11 +290,7 @@ describe.concurrent("registerDeferredRegistrations", () => {
         });
 
         const runtime = new DummyRuntime({
-            moduleManager: x => new ModuleManager(x, [
-                moduleRegistry1,
-                moduleRegistry2,
-                moduleRegistry3
-            ]),
+            moduleManager: x => new ModuleManager(x, [moduleRegistry1, moduleRegistry2, moduleRegistry3]),
             loggers: [new NoopLogger()]
         });
 
@@ -358,11 +319,7 @@ describe.concurrent("registerDeferredRegistrations", () => {
         vi.spyOn(moduleRegistry3, "registerDeferredRegistrations").mockReturnValueOnce(Promise.resolve([error3]));
 
         const runtime = new DummyRuntime({
-            moduleManager: x => new ModuleManager(x, [
-                moduleRegistry1,
-                moduleRegistry2,
-                moduleRegistry3
-            ]),
+            moduleManager: x => new ModuleManager(x, [moduleRegistry1, moduleRegistry2, moduleRegistry3]),
             loggers: [new NoopLogger()]
         });
 
@@ -424,11 +381,7 @@ describe.concurrent("updateDeferredRegistrations", () => {
         const spy3 = vi.spyOn(moduleRegistry3, "updateDeferredRegistrations");
 
         const runtime = new DummyRuntime({
-            moduleManager: x => new ModuleManager(x, [
-                moduleRegistry1,
-                moduleRegistry2,
-                moduleRegistry3
-            ]),
+            moduleManager: x => new ModuleManager(x, [moduleRegistry1, moduleRegistry2, moduleRegistry3]),
             loggers: [new NoopLogger()]
         });
 
@@ -449,11 +402,7 @@ describe.concurrent("updateDeferredRegistrations", () => {
         const moduleRegistry3 = new DummyModuleRegistry();
 
         const runtime = new DummyRuntime({
-            moduleManager: x => new ModuleManager(x, [
-                moduleRegistry1,
-                moduleRegistry2,
-                moduleRegistry3
-            ]),
+            moduleManager: x => new ModuleManager(x, [moduleRegistry1, moduleRegistry2, moduleRegistry3]),
             loggers: [new NoopLogger()]
         });
 
@@ -480,11 +429,7 @@ describe.concurrent("updateDeferredRegistrations", () => {
         });
 
         const runtime = new DummyRuntime({
-            moduleManager: x => new ModuleManager(x, [
-                moduleRegistry1,
-                moduleRegistry2,
-                moduleRegistry3
-            ]),
+            moduleManager: x => new ModuleManager(x, [moduleRegistry1, moduleRegistry2, moduleRegistry3]),
             loggers: [new NoopLogger()]
         });
 
@@ -513,11 +458,7 @@ describe.concurrent("updateDeferredRegistrations", () => {
         vi.spyOn(moduleRegistry3, "updateDeferredRegistrations").mockReturnValueOnce(Promise.resolve([error3]));
 
         const runtime = new DummyRuntime({
-            moduleManager: x => new ModuleManager(x, [
-                moduleRegistry1,
-                moduleRegistry2,
-                moduleRegistry3
-            ]),
+            moduleManager: x => new ModuleManager(x, [moduleRegistry1, moduleRegistry2, moduleRegistry3]),
             loggers: [new NoopLogger()]
         });
 
@@ -587,7 +528,7 @@ describe.concurrent("plugins deferred registration scope lifecycle", () => {
         }
     }
 
-    test.concurrent("when the deferred registrations are registered, the plugins are notified with the \"register\" operation and a non transactional scope", async ({ expect }) => {
+    test.concurrent('when the deferred registrations are registered, the plugins are notified with the "register" operation and a non transactional scope', async ({ expect }) => {
         const handler = vi.fn();
 
         const runtime = new DummyRuntime({
@@ -604,7 +545,7 @@ describe.concurrent("plugins deferred registration scope lifecycle", () => {
         });
     });
 
-    test.concurrent("when the deferred registrations are updated, the plugins are notified with the \"update\" operation and a transactional scope", async ({ expect }) => {
+    test.concurrent('when the deferred registrations are updated, the plugins are notified with the "update" operation and a transactional scope', async ({ expect }) => {
         const handler = vi.fn();
 
         const runtime = new DummyRuntime({
@@ -627,10 +568,7 @@ describe.concurrent("plugins deferred registration scope lifecycle", () => {
 
         const runtime = new DummyRuntime({
             moduleManager: x => new ModuleManager(x, [new DummyModuleRegistry()]),
-            plugins: [
-                x => new DummyScopeAwarePlugin("dummy-1", x, handler1),
-                x => new DummyScopeAwarePlugin("dummy-2", x, handler2)
-            ],
+            plugins: [x => new DummyScopeAwarePlugin("dummy-1", x, handler1), x => new DummyScopeAwarePlugin("dummy-2", x, handler2)],
             loggers: [new NoopLogger()]
         });
 
@@ -645,10 +583,7 @@ describe.concurrent("plugins deferred registration scope lifecycle", () => {
 
         const runtime = new DummyRuntime({
             moduleManager: x => new ModuleManager(x, [new DummyModuleRegistry()]),
-            plugins: [
-                x => new DummyPlugin("dummy-without-hook", x),
-                x => new DummyScopeAwarePlugin("dummy-with-hook", x, handler)
-            ],
+            plugins: [x => new DummyPlugin("dummy-without-hook", x), x => new DummyScopeAwarePlugin("dummy-with-hook", x, handler)],
             loggers: [new NoopLogger()]
         });
 
@@ -670,13 +605,16 @@ describe.concurrent("plugins deferred registration scope lifecycle", () => {
 
         const runtime = new DummyRuntime({
             moduleManager: x => new ModuleManager(x, [moduleRegistry]),
-            plugins: [x => new DummyScopeAwarePlugin("dummy", x, () => {
-                calls.push("scope-started");
+            plugins: [
+                x =>
+                    new DummyScopeAwarePlugin("dummy", x, () => {
+                        calls.push("scope-started");
 
-                return () => {
-                    calls.push("scope-completed");
-                };
-            })],
+                        return () => {
+                            calls.push("scope-completed");
+                        };
+                    })
+            ],
             loggers: [new NoopLogger()]
         });
 
@@ -690,13 +628,7 @@ describe.concurrent("plugins deferred registration scope lifecycle", () => {
 
         await runtime.moduleManager.updateDeferredRegistrations({ foo: "bar" });
 
-        expect(calls).toStrictEqual([
-            "start-runtime-scope",
-            "scope-started",
-            "update-modules",
-            "scope-completed",
-            "complete-runtime-scope"
-        ]);
+        expect(calls).toStrictEqual(["start-runtime-scope", "scope-started", "update-modules", "scope-completed", "complete-runtime-scope"]);
     });
 
     test.concurrent("when the hook doesn't return a completion function, the run completes", async ({ expect }) => {
@@ -720,9 +652,12 @@ describe.concurrent("plugins deferred registration scope lifecycle", () => {
 
         const runtime = new DummyRuntime({
             moduleManager: x => new ModuleManager(x, [moduleRegistry]),
-            plugins: [x => new DummyScopeAwarePlugin("dummy", x, () => {
-                throw new Error("Something went wrong!");
-            })],
+            plugins: [
+                x =>
+                    new DummyScopeAwarePlugin("dummy", x, () => {
+                        throw new Error("Something went wrong!");
+                    })
+            ],
             loggers: [new NoopLogger()]
         });
 
@@ -741,9 +676,12 @@ describe.concurrent("plugins deferred registration scope lifecycle", () => {
 
         const runtime = new DummyRuntime({
             moduleManager: x => new ModuleManager(x, [moduleRegistry]),
-            plugins: [x => new DummyScopeAwarePlugin("dummy", x, () => {
-                throw new Error("Something went wrong!");
-            })],
+            plugins: [
+                x =>
+                    new DummyScopeAwarePlugin("dummy", x, () => {
+                        throw new Error("Something went wrong!");
+                    })
+            ],
             loggers: [new NoopLogger()]
         });
 
@@ -757,9 +695,12 @@ describe.concurrent("plugins deferred registration scope lifecycle", () => {
     test.concurrent("when the hook throws, the error is logged with the plugin name", async ({ expect }) => {
         const runtime = new DummyRuntime({
             moduleManager: x => new ModuleManager(x, [new DummyModuleRegistry()]),
-            plugins: [x => new DummyScopeAwarePlugin("dummy", x, () => {
-                throw new Error("Something went wrong!");
-            })],
+            plugins: [
+                x =>
+                    new DummyScopeAwarePlugin("dummy", x, () => {
+                        throw new Error("Something went wrong!");
+                    })
+            ],
             loggers: [new NoopLogger()]
         });
 
@@ -771,7 +712,7 @@ describe.concurrent("plugins deferred registration scope lifecycle", () => {
         const messages = withTextSpy.mock.calls.map(x => (x as unknown as [string])[0]);
 
         expect(withTextSpy).toHaveBeenCalledOnce();
-        expect(messages[0]).toContain("\"dummy\"");
+        expect(messages[0]).toContain('"dummy"');
     });
 
     test.concurrent("when a plugin hook throws, the remaining plugins are still notified and their completion functions are executed", async ({ expect }) => {
@@ -782,9 +723,10 @@ describe.concurrent("plugins deferred registration scope lifecycle", () => {
             moduleManager: x => new ModuleManager(x, [new DummyModuleRegistry()]),
             plugins: [
                 x => new DummyScopeAwarePlugin("dummy-1", x, () => completionFunction),
-                x => new DummyScopeAwarePlugin("dummy-2", x, () => {
-                    throw new Error("Something went wrong!");
-                }),
+                x =>
+                    new DummyScopeAwarePlugin("dummy-2", x, () => {
+                        throw new Error("Something went wrong!");
+                    }),
                 x => new DummyScopeAwarePlugin("dummy-3", x, handler)
             ],
             loggers: [new NoopLogger()]
@@ -822,9 +764,10 @@ describe.concurrent("plugins deferred registration scope lifecycle", () => {
         const runtime = new DummyRuntime({
             moduleManager: x => new ModuleManager(x, [new DummyModuleRegistry()]),
             plugins: [
-                x => new DummyScopeAwarePlugin("dummy-1", x, () => () => {
-                    throw new Error("Something went wrong!");
-                }),
+                x =>
+                    new DummyScopeAwarePlugin("dummy-1", x, () => () => {
+                        throw new Error("Something went wrong!");
+                    }),
                 x => new DummyScopeAwarePlugin("dummy-2", x, () => completionFunction)
             ],
             loggers: [new NoopLogger()]
@@ -849,9 +792,12 @@ describe.concurrent("plugins deferred registration scope lifecycle", () => {
 
         const runtime = new DummyRuntime({
             moduleManager: x => new ModuleManager(x, [moduleRegistry]),
-            plugins: [x => new DummyScopeAwarePlugin("dummy", x, () => () => {
-                throw new Error("The completion function failed!");
-            })],
+            plugins: [
+                x =>
+                    new DummyScopeAwarePlugin("dummy", x, () => () => {
+                        throw new Error("The completion function failed!");
+                    })
+            ],
             loggers: [new NoopLogger()]
         });
 
@@ -871,13 +817,16 @@ describe.concurrent("plugins deferred registration scope lifecycle", () => {
 
         const runtime = new DummyRuntime({
             moduleManager: x => new ModuleManager(x, [moduleRegistry]),
-            plugins: [x => new DummyScopeAwarePlugin("dummy", x, () => {
-                calls.push("scope-started");
+            plugins: [
+                x =>
+                    new DummyScopeAwarePlugin("dummy", x, () => {
+                        calls.push("scope-started");
 
-                return () => {
-                    calls.push("scope-completed");
-                };
-            })],
+                        return () => {
+                            calls.push("scope-completed");
+                        };
+                    })
+            ],
             loggers: [new NoopLogger()]
         });
 
@@ -891,13 +840,7 @@ describe.concurrent("plugins deferred registration scope lifecycle", () => {
 
         await runtime.moduleManager.registerDeferredRegistrations({ foo: "bar" });
 
-        expect(calls).toStrictEqual([
-            "start-runtime-scope",
-            "scope-started",
-            "register-modules",
-            "scope-completed",
-            "complete-runtime-scope"
-        ]);
+        expect(calls).toStrictEqual(["start-runtime-scope", "scope-started", "register-modules", "scope-completed", "complete-runtime-scope"]);
     });
 
     test.concurrent("the completion functions are executed in the order the plugins are registered", async ({ expect }) => {
@@ -906,9 +849,18 @@ describe.concurrent("plugins deferred registration scope lifecycle", () => {
         const runtime = new DummyRuntime({
             moduleManager: x => new ModuleManager(x, [new DummyModuleRegistry()]),
             plugins: [
-                x => new DummyScopeAwarePlugin("dummy-1", x, () => () => { calls.push("dummy-1"); }),
-                x => new DummyScopeAwarePlugin("dummy-2", x, () => () => { calls.push("dummy-2"); }),
-                x => new DummyScopeAwarePlugin("dummy-3", x, () => () => { calls.push("dummy-3"); })
+                x =>
+                    new DummyScopeAwarePlugin("dummy-1", x, () => () => {
+                        calls.push("dummy-1");
+                    }),
+                x =>
+                    new DummyScopeAwarePlugin("dummy-2", x, () => () => {
+                        calls.push("dummy-2");
+                    }),
+                x =>
+                    new DummyScopeAwarePlugin("dummy-3", x, () => () => {
+                        calls.push("dummy-3");
+                    })
             ],
             loggers: [new NoopLogger()]
         });
@@ -922,12 +874,14 @@ describe.concurrent("plugins deferred registration scope lifecycle", () => {
         const runtime = new DummyRuntime({
             moduleManager: x => new ModuleManager(x, [new DummyModuleRegistry()]),
             plugins: [
-                x => new DummyScopeAwarePlugin("dummy-1", x, () => () => {
-                    throw new Error("The first completion function failed!");
-                }),
-                x => new DummyScopeAwarePlugin("dummy-2", x, () => () => {
-                    throw new Error("The second completion function failed!");
-                })
+                x =>
+                    new DummyScopeAwarePlugin("dummy-1", x, () => () => {
+                        throw new Error("The first completion function failed!");
+                    }),
+                x =>
+                    new DummyScopeAwarePlugin("dummy-2", x, () => () => {
+                        throw new Error("The second completion function failed!");
+                    })
             ],
             loggers: [new NoopLogger()]
         });
@@ -942,9 +896,12 @@ describe.concurrent("plugins deferred registration scope lifecycle", () => {
     test.concurrent("when a completion function throws, the error is logged", async ({ expect }) => {
         const runtime = new DummyRuntime({
             moduleManager: x => new ModuleManager(x, [new DummyModuleRegistry()]),
-            plugins: [x => new DummyScopeAwarePlugin("dummy", x, () => () => {
-                throw new Error("Something went wrong!");
-            })],
+            plugins: [
+                x =>
+                    new DummyScopeAwarePlugin("dummy", x, () => () => {
+                        throw new Error("Something went wrong!");
+                    })
+            ],
             loggers: [new NoopLogger()]
         });
 
@@ -972,10 +929,11 @@ describe.concurrent("plugins deferred registration scope lifecycle", () => {
         const runtime = new DummyRuntime({
             moduleManager: x => new ModuleManager(x, [new DummyModuleRegistry()]),
             plugins: [
-                x => new DummyScopeAwarePlugin("dummy-1", x, options => {
-                    options.transactional = false;
-                    options.operation = "register";
-                }),
+                x =>
+                    new DummyScopeAwarePlugin("dummy-1", x, options => {
+                        options.transactional = false;
+                        options.operation = "register";
+                    }),
                 x => new DummyScopeAwarePlugin("dummy-2", x, handler)
             ],
             loggers: [new NoopLogger()]
@@ -1028,7 +986,7 @@ describe.concurrent("plugins deferred registration scope lifecycle", () => {
     // The runtime listeners are the non plugin surface of the same hook. Their own mechanics (disposer,
     // ordering, error isolation) live in Runtime.test.ts, these pin that both surfaces share one driver.
     describe.concurrent("runtime listeners", () => {
-        test.concurrent("when the deferred registrations are registered, the listeners are notified with the \"register\" operation and a non transactional scope", async ({ expect }) => {
+        test.concurrent('when the deferred registrations are registered, the listeners are notified with the "register" operation and a non transactional scope', async ({ expect }) => {
             const listener = vi.fn();
 
             const runtime = new DummyRuntime({
@@ -1046,7 +1004,7 @@ describe.concurrent("plugins deferred registration scope lifecycle", () => {
             });
         });
 
-        test.concurrent("when the deferred registrations are updated, the listeners are notified with the \"update\" operation and a transactional scope", async ({ expect }) => {
+        test.concurrent('when the deferred registrations are updated, the listeners are notified with the "update" operation and a transactional scope', async ({ expect }) => {
             const listener = vi.fn();
 
             const runtime = new DummyRuntime({
@@ -1094,9 +1052,12 @@ describe.concurrent("plugins deferred registration scope lifecycle", () => {
 
             const runtime = new DummyRuntime({
                 moduleManager: x => new ModuleManager(x, [new DummyModuleRegistry()]),
-                plugins: [x => new DummyScopeAwarePlugin("dummy", x, () => {
-                    calls.push("plugin");
-                })],
+                plugins: [
+                    x =>
+                        new DummyScopeAwarePlugin("dummy", x, () => {
+                            calls.push("plugin");
+                        })
+                ],
                 loggers: [new NoopLogger()]
             });
 
@@ -1269,52 +1230,42 @@ describe.concurrent("getAreModulesRegistered", () => {
         expect(manager.getAreModulesRegistered()).toBeTruthy();
     });
 
-    test.concurrent("when there is a single registry and the registration status is \"none\", return false", ({ expect }) => {
+    test.concurrent('when there is a single registry and the registration status is "none", return false', ({ expect }) => {
         const moduleRegistry = new DummyModuleRegistry("none");
 
-        const manager = new ModuleManager(new DummyRuntime(), [
-            moduleRegistry
-        ]);
+        const manager = new ModuleManager(new DummyRuntime(), [moduleRegistry]);
 
         expect(manager.getAreModulesRegistered()).toBeFalsy();
     });
 
-    test.concurrent("when there is a single registry and the registration status is \"registering-modules\", return false", ({ expect }) => {
+    test.concurrent('when there is a single registry and the registration status is "registering-modules", return false', ({ expect }) => {
         const moduleRegistry = new DummyModuleRegistry("registering-modules");
 
-        const manager = new ModuleManager(new DummyRuntime(), [
-            moduleRegistry
-        ]);
+        const manager = new ModuleManager(new DummyRuntime(), [moduleRegistry]);
 
         expect(manager.getAreModulesRegistered()).toBeFalsy();
     });
 
-    test.concurrent("when there is a single registry and the registration status is \"modules-registered\", return true", ({ expect }) => {
+    test.concurrent('when there is a single registry and the registration status is "modules-registered", return true', ({ expect }) => {
         const moduleRegistry = new DummyModuleRegistry("modules-registered");
 
-        const manager = new ModuleManager(new DummyRuntime(), [
-            moduleRegistry
-        ]);
+        const manager = new ModuleManager(new DummyRuntime(), [moduleRegistry]);
 
         expect(manager.getAreModulesRegistered()).toBeTruthy();
     });
 
-    test.concurrent("when there is a single registry and the registration status is \"registering-deferred-registration\", return true", ({ expect }) => {
+    test.concurrent('when there is a single registry and the registration status is "registering-deferred-registration", return true', ({ expect }) => {
         const moduleRegistry = new DummyModuleRegistry("registering-deferred-registration");
 
-        const manager = new ModuleManager(new DummyRuntime(), [
-            moduleRegistry
-        ]);
+        const manager = new ModuleManager(new DummyRuntime(), [moduleRegistry]);
 
         expect(manager.getAreModulesRegistered()).toBeTruthy();
     });
 
-    test.concurrent("when there is a single registry and the registration status is \"ready\", return true", ({ expect }) => {
+    test.concurrent('when there is a single registry and the registration status is "ready", return true', ({ expect }) => {
         const moduleRegistry = new DummyModuleRegistry("ready");
 
-        const manager = new ModuleManager(new DummyRuntime(), [
-            moduleRegistry
-        ]);
+        const manager = new ModuleManager(new DummyRuntime(), [moduleRegistry]);
 
         expect(manager.getAreModulesRegistered()).toBeTruthy();
     });
@@ -1323,10 +1274,7 @@ describe.concurrent("getAreModulesRegistered", () => {
         const moduleRegistry1 = new DummyModuleRegistry("none");
         const moduleRegistry2 = new DummyModuleRegistry("registering-modules");
 
-        const manager = new ModuleManager(new DummyRuntime(), [
-            moduleRegistry1,
-            moduleRegistry2
-        ]);
+        const manager = new ModuleManager(new DummyRuntime(), [moduleRegistry1, moduleRegistry2]);
 
         expect(manager.getAreModulesRegistered()).toBeFalsy();
     });
@@ -1336,11 +1284,7 @@ describe.concurrent("getAreModulesRegistered", () => {
         const moduleRegistry2 = new DummyModuleRegistry("registering-deferred-registration");
         const moduleRegistry3 = new DummyModuleRegistry("ready");
 
-        const manager = new ModuleManager(new DummyRuntime(), [
-            moduleRegistry1,
-            moduleRegistry2,
-            moduleRegistry3
-        ]);
+        const manager = new ModuleManager(new DummyRuntime(), [moduleRegistry1, moduleRegistry2, moduleRegistry3]);
 
         expect(manager.getAreModulesRegistered()).toBeTruthy();
     });
@@ -1349,10 +1293,7 @@ describe.concurrent("getAreModulesRegistered", () => {
         const moduleRegistry1 = new DummyModuleRegistry("none");
         const moduleRegistry2 = new DummyModuleRegistry("modules-registered");
 
-        const manager = new ModuleManager(new DummyRuntime(), [
-            moduleRegistry1,
-            moduleRegistry2
-        ]);
+        const manager = new ModuleManager(new DummyRuntime(), [moduleRegistry1, moduleRegistry2]);
 
         expect(manager.getAreModulesRegistered()).toBeTruthy();
     });
@@ -1362,11 +1303,7 @@ describe.concurrent("getAreModulesRegistered", () => {
         const moduleRegistry2 = new DummyModuleRegistry("registering-deferred-registration");
         const moduleRegistry3 = new DummyModuleRegistry("registering-deferred-registration");
 
-        const manager = new ModuleManager(new DummyRuntime(), [
-            moduleRegistry1,
-            moduleRegistry2,
-            moduleRegistry3
-        ]);
+        const manager = new ModuleManager(new DummyRuntime(), [moduleRegistry1, moduleRegistry2, moduleRegistry3]);
 
         expect(manager.getAreModulesRegistered()).toBeTruthy();
     });
@@ -1421,52 +1358,42 @@ describe.concurrent("getAreModulesReady", () => {
         expect(manager.getAreModulesReady()).toBeTruthy();
     });
 
-    test.concurrent("when there is a single registry and the registration status is \"none\", return false", ({ expect }) => {
+    test.concurrent('when there is a single registry and the registration status is "none", return false', ({ expect }) => {
         const moduleRegistry = new DummyModuleRegistry("none");
 
-        const manager = new ModuleManager(new DummyRuntime(), [
-            moduleRegistry
-        ]);
+        const manager = new ModuleManager(new DummyRuntime(), [moduleRegistry]);
 
         expect(manager.getAreModulesReady()).toBeFalsy();
     });
 
-    test.concurrent("when there is a single registry and the registration status is \"modules-registered\", return false", ({ expect }) => {
+    test.concurrent('when there is a single registry and the registration status is "modules-registered", return false', ({ expect }) => {
         const moduleRegistry = new DummyModuleRegistry("modules-registered");
 
-        const manager = new ModuleManager(new DummyRuntime(), [
-            moduleRegistry
-        ]);
+        const manager = new ModuleManager(new DummyRuntime(), [moduleRegistry]);
 
         expect(manager.getAreModulesReady()).toBeFalsy();
     });
 
-    test.concurrent("when there is a single registry and the registration status is \"registering-deferred-registration\", return false", ({ expect }) => {
+    test.concurrent('when there is a single registry and the registration status is "registering-deferred-registration", return false', ({ expect }) => {
         const moduleRegistry = new DummyModuleRegistry("registering-deferred-registration");
 
-        const manager = new ModuleManager(new DummyRuntime(), [
-            moduleRegistry
-        ]);
+        const manager = new ModuleManager(new DummyRuntime(), [moduleRegistry]);
 
         expect(manager.getAreModulesReady()).toBeFalsy();
     });
 
-    test.concurrent("when there is a single registry and the registration status is \"registering-modules\", return false", ({ expect }) => {
+    test.concurrent('when there is a single registry and the registration status is "registering-modules", return false', ({ expect }) => {
         const moduleRegistry = new DummyModuleRegistry("registering-modules");
 
-        const manager = new ModuleManager(new DummyRuntime(), [
-            moduleRegistry
-        ]);
+        const manager = new ModuleManager(new DummyRuntime(), [moduleRegistry]);
 
         expect(manager.getAreModulesReady()).toBeFalsy();
     });
 
-    test.concurrent("when there is a single registry and the registration status is \"ready\", return true", ({ expect }) => {
+    test.concurrent('when there is a single registry and the registration status is "ready", return true', ({ expect }) => {
         const moduleRegistry = new DummyModuleRegistry("ready");
 
-        const manager = new ModuleManager(new DummyRuntime(), [
-            moduleRegistry
-        ]);
+        const manager = new ModuleManager(new DummyRuntime(), [moduleRegistry]);
 
         expect(manager.getAreModulesReady()).toBeTruthy();
     });
@@ -1476,11 +1403,7 @@ describe.concurrent("getAreModulesReady", () => {
         const moduleRegistry2 = new DummyModuleRegistry("modules-registered");
         const moduleRegistry3 = new DummyModuleRegistry("registering-deferred-registration");
 
-        const manager = new ModuleManager(new DummyRuntime(), [
-            moduleRegistry1,
-            moduleRegistry2,
-            moduleRegistry3
-        ]);
+        const manager = new ModuleManager(new DummyRuntime(), [moduleRegistry1, moduleRegistry2, moduleRegistry3]);
 
         expect(manager.getAreModulesReady()).toBeFalsy();
     });
@@ -1490,11 +1413,7 @@ describe.concurrent("getAreModulesReady", () => {
         const moduleRegistry2 = new DummyModuleRegistry("none");
         const moduleRegistry3 = new DummyModuleRegistry("ready");
 
-        const manager = new ModuleManager(new DummyRuntime(), [
-            moduleRegistry1,
-            moduleRegistry2,
-            moduleRegistry3
-        ]);
+        const manager = new ModuleManager(new DummyRuntime(), [moduleRegistry1, moduleRegistry2, moduleRegistry3]);
 
         expect(manager.getAreModulesReady()).toBeTruthy();
     });
@@ -1504,11 +1423,7 @@ describe.concurrent("getAreModulesReady", () => {
         const moduleRegistry2 = new DummyModuleRegistry("ready");
         const moduleRegistry3 = new DummyModuleRegistry("ready");
 
-        const manager = new ModuleManager(new DummyRuntime(), [
-            moduleRegistry1,
-            moduleRegistry2,
-            moduleRegistry3
-        ]);
+        const manager = new ModuleManager(new DummyRuntime(), [moduleRegistry1, moduleRegistry2, moduleRegistry3]);
 
         expect(manager.getAreModulesReady()).toBeTruthy();
     });
@@ -1587,11 +1502,7 @@ describe.concurrent("modules registered listeners", () => {
         const registry2 = new DummyModuleRegistry("none");
         const registry3 = new DummyModuleRegistry("none");
 
-        const manager = new ModuleManager(new DummyRuntime(), [
-            registry1,
-            registry2,
-            registry3
-        ]);
+        const manager = new ModuleManager(new DummyRuntime(), [registry1, registry2, registry3]);
 
         manager.registerModulesRegisteredListener(() => {});
 
@@ -1629,11 +1540,7 @@ describe.concurrent("modules registered listeners", () => {
         const registry2 = new DummyModuleRegistry("none");
         const registry3 = new DummyModuleRegistry("none");
 
-        const manager = new ModuleManager(new DummyRuntime(), [
-            registry1,
-            registry2,
-            registry3
-        ]);
+        const manager = new ModuleManager(new DummyRuntime(), [registry1, registry2, registry3]);
 
         const listener1 = () => {};
         const listener2 = () => {};
@@ -1671,11 +1578,7 @@ describe.concurrent("modules registered listeners", () => {
         const registry2 = new DummyModuleRegistry("ready");
         const registry3 = new DummyModuleRegistry("registering-deferred-registration");
 
-        const manager = new ModuleManager(new DummyRuntime(), [
-            registry1,
-            registry2,
-            registry3
-        ]);
+        const manager = new ModuleManager(new DummyRuntime(), [registry1, registry2, registry3]);
 
         const listener1 = vi.fn();
         const listener2 = vi.fn();
@@ -1700,11 +1603,7 @@ describe.concurrent("modules registered listeners", () => {
         const registry2 = new DummyModuleRegistry("registering-modules");
         const registry3 = new DummyModuleRegistry("registering-deferred-registration");
 
-        const manager = new ModuleManager(new DummyRuntime(), [
-            registry1,
-            registry2,
-            registry3
-        ]);
+        const manager = new ModuleManager(new DummyRuntime(), [registry1, registry2, registry3]);
 
         const listener1 = vi.fn();
         const listener2 = vi.fn();
@@ -1727,9 +1626,7 @@ describe.concurrent("modules registered listeners", () => {
         const registry1 = new DummyModuleRegistry("modules-registered");
         const registry2 = new DummyModuleRegistry("modules-registered");
 
-        const manager = new ModuleManager(new DummyRuntime(), [
-            registry1
-        ]);
+        const manager = new ModuleManager(new DummyRuntime(), [registry1]);
 
         const listener = vi.fn();
 
@@ -1748,9 +1645,7 @@ describe.concurrent("modules registered listeners", () => {
         const registry1 = new DummyModuleRegistry("registering-modules");
         const registry2 = new DummyModuleRegistry("registering-modules");
 
-        const manager = new ModuleManager(new DummyRuntime(), [
-            registry1
-        ]);
+        const manager = new ModuleManager(new DummyRuntime(), [registry1]);
 
         const listener = vi.fn();
 
@@ -1836,11 +1731,7 @@ describe.concurrent("modules ready listeners", () => {
         const registry2 = new DummyModuleRegistry("none");
         const registry3 = new DummyModuleRegistry("none");
 
-        const manager = new ModuleManager(new DummyRuntime(), [
-            registry1,
-            registry2,
-            registry3
-        ]);
+        const manager = new ModuleManager(new DummyRuntime(), [registry1, registry2, registry3]);
 
         manager.registerModulesReadyListener(() => {});
 
@@ -1878,11 +1769,7 @@ describe.concurrent("modules ready listeners", () => {
         const registry2 = new DummyModuleRegistry("none");
         const registry3 = new DummyModuleRegistry("none");
 
-        const manager = new ModuleManager(new DummyRuntime(), [
-            registry1,
-            registry2,
-            registry3
-        ]);
+        const manager = new ModuleManager(new DummyRuntime(), [registry1, registry2, registry3]);
 
         const listener1 = () => {};
         const listener2 = () => {};
@@ -1920,11 +1807,7 @@ describe.concurrent("modules ready listeners", () => {
         const registry2 = new DummyModuleRegistry("ready");
         const registry3 = new DummyModuleRegistry("ready");
 
-        const manager = new ModuleManager(new DummyRuntime(), [
-            registry1,
-            registry2,
-            registry3
-        ]);
+        const manager = new ModuleManager(new DummyRuntime(), [registry1, registry2, registry3]);
 
         const listener1 = vi.fn();
         const listener2 = vi.fn();
@@ -1949,11 +1832,7 @@ describe.concurrent("modules ready listeners", () => {
         const registry2 = new DummyModuleRegistry("registering-modules");
         const registry3 = new DummyModuleRegistry("ready");
 
-        const manager = new ModuleManager(new DummyRuntime(), [
-            registry1,
-            registry2,
-            registry3
-        ]);
+        const manager = new ModuleManager(new DummyRuntime(), [registry1, registry2, registry3]);
 
         const listener1 = vi.fn();
         const listener2 = vi.fn();
@@ -1976,9 +1855,7 @@ describe.concurrent("modules ready listeners", () => {
         const registry1 = new DummyModuleRegistry("ready");
         const registry2 = new DummyModuleRegistry("ready");
 
-        const manager = new ModuleManager(new DummyRuntime(), [
-            registry1
-        ]);
+        const manager = new ModuleManager(new DummyRuntime(), [registry1]);
 
         const listener = vi.fn();
 
@@ -2073,10 +1950,7 @@ describe.concurrent("registerModules with a registry settling before the next on
         const localRegistry = new DummyModuleRegistry("local");
         const remoteRegistry = new DummyModuleRegistry("remote", completion);
 
-        const manager = new ModuleManager(new DummyRuntime(), [
-            localRegistry,
-            remoteRegistry
-        ]);
+        const manager = new ModuleManager(new DummyRuntime(), [localRegistry, remoteRegistry]);
 
         const registeredListener = vi.fn();
         const readyListener = vi.fn();
@@ -2112,9 +1986,7 @@ describe.concurrent("registerModules with a registry settling before the next on
             complete = resolve;
         });
 
-        const manager = new ModuleManager(new DummyRuntime(), [
-            new DummyModuleRegistry("remote", completion)
-        ]);
+        const manager = new ModuleManager(new DummyRuntime(), [new DummyModuleRegistry("remote", completion)]);
 
         const promise = manager.registerModules([]);
 

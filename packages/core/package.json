@@ -1,18 +1,26 @@
 {
     "name": "@squide/core",
-    "author": "Workleap",
     "version": "7.6.2",
     "description": "The core package of @squide application shell.",
     "license": "Apache-2.0",
+    "author": "Workleap",
     "repository": {
         "type": "git",
         "url": "git+https://github.com/workleap/wl-squide.git",
         "directory": "packages/core"
     },
+    "files": [
+        "src",
+        "dist",
+        "CHANGELOG.md"
+    ],
     "type": "module",
+    "sideEffects": false,
+    "exports": {
+        ".": "./src/index.ts",
+        "./internal": "./src/internal.ts"
+    },
     "publishConfig": {
-        "access": "public",
-        "provenance": true,
         "exports": {
             ".": {
                 "types": "./dist/index.d.ts",
@@ -24,30 +32,14 @@
                 "import": "./dist/internal.js",
                 "default": "./dist/internal.js"
             }
-        }
+        },
+        "access": "public",
+        "provenance": true
     },
-    "exports": {
-        ".": "./src/index.ts",
-        "./internal": "./src/internal.ts"
-    },
-    "files": [
-        "src",
-        "dist",
-        "CHANGELOG.md"
-    ],
     "scripts": {
         "build": "rslib build --config ./rslib.build.ts",
         "typecheck": "tsgo",
         "test": "vitest --config vitest.config.ts --no-watch"
-    },
-    "peerDependencies": {
-        "@types/react": "^18.0.0 || ^19.0.0",
-        "react": "^18.0.0 || ^19.0.0"
-    },
-    "peerDependenciesMeta": {
-        "@types/react": {
-            "optional": true
-        }
     },
     "dependencies": {
         "@workleap/logging": "^2.0.1",
@@ -66,5 +58,13 @@
         "typescript": "6.0.3",
         "vitest": "5.0.5"
     },
-    "sideEffects": false
+    "peerDependencies": {
+        "@types/react": "^18.0.0 || ^19.0.0",
+        "react": "^18.0.0 || ^19.0.0"
+    },
+    "peerDependenciesMeta": {
+        "@types/react": {
+            "optional": true
+        }
+    }
 }

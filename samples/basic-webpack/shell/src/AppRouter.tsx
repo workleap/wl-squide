@@ -11,11 +11,14 @@ import { useSessionManagerInstance } from "./useSessionManagerInstance.ts";
 function BootstrappingRoute() {
     const { toastState, addToast } = useToastContainer();
 
-    const handleShowToast = useCallback((message?: string) => {
-        if (message) {
-            addToast(message);
-        }
-    }, [addToast]);
+    const handleShowToast = useCallback(
+        (message?: string) => {
+            if (message) {
+                addToast(message);
+            }
+        },
+        [addToast]
+    );
 
     useToastListener(handleShowToast);
 
@@ -40,25 +43,25 @@ export function AppRouter() {
     return (
         <FireflyAppRouter>
             {({ rootRoute, registeredRoutes, routerProps, routerProviderProps }) => {
-                logger
-                    .withText("[shell] React Router will be rendered with the following route definitions:")
-                    .withObject(registeredRoutes)
-                    .debug();
+                logger.withText("[shell] React Router will be rendered with the following route definitions:").withObject(registeredRoutes).debug();
 
                 return (
                     <RouterProvider
-                        router={createBrowserRouter([
-                            {
-                                element: rootRoute,
-                                errorElement: <RootErrorBoundary />,
-                                children: [
-                                    {
-                                        element: <BootstrappingRoute />,
-                                        children: registeredRoutes
-                                    }
-                                ]
-                            }
-                        ], routerProps)}
+                        router={createBrowserRouter(
+                            [
+                                {
+                                    element: rootRoute,
+                                    errorElement: <RootErrorBoundary />,
+                                    children: [
+                                        {
+                                            element: <BootstrappingRoute />,
+                                            children: registeredRoutes
+                                        }
+                                    ]
+                                }
+                            ],
+                            routerProps
+                        )}
                         {...routerProviderProps}
                     />
                 );

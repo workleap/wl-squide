@@ -11,15 +11,18 @@ export function HomePage() {
     const canShowCharacters = useFeatureFlag("show-characters", true);
     const environmentVariables = useEnvironmentVariables();
 
-    const { data: characters } = useSuspenseQuery({ queryKey: [`${environmentVariables.hostApiBaseUrl}/character/1,2`], queryFn: async () => {
-        const response = await fetch(`${environmentVariables.hostApiBaseUrl}/character/1,2`);
+    const { data: characters } = useSuspenseQuery({
+        queryKey: [`${environmentVariables.hostApiBaseUrl}/character/1,2`],
+        queryFn: async () => {
+            const response = await fetch(`${environmentVariables.hostApiBaseUrl}/character/1,2`);
 
-        if (!response.ok) {
-            throw new Error("Cannot fetch the characters!");
+            if (!response.ok) {
+                throw new Error("Cannot fetch the characters!");
+            }
+
+            return response.json() as unknown as Character[];
         }
-
-        return response.json() as unknown as Character[];
-    } });
+    });
 
     return (
         <div>
@@ -39,7 +42,9 @@ export function HomePage() {
                     })}
                 </div>
             ) : (
-                <p>The <code>show-characters</code> feature flag is off.</p>
+                <p>
+                    The <code>show-characters</code> feature flag is off.
+                </p>
             )}
         </div>
     );

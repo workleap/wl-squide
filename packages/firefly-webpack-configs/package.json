@@ -1,19 +1,21 @@
 {
     "name": "@squide/firefly-webpack-configs",
-    "author": "Workleap",
     "version": "5.2.14",
     "description": "Webpack configuration helpers for the Squide firefly technology stack.",
     "license": "Apache-2.0",
+    "author": "Workleap",
     "repository": {
         "type": "git",
         "url": "git+https://github.com/workleap/wl-squide.git",
         "directory": "packages/firefly-webpack-configs"
     },
+    "files": [
+        "src",
+        "dist",
+        "CHANGELOG.md"
+    ],
     "type": "module",
-    "publishConfig": {
-        "access": "public",
-        "provenance": true
-    },
+    "sideEffects": false,
     "exports": {
         ".": {
             "types": "./dist/index.d.ts",
@@ -21,25 +23,15 @@
             "default": "./dist/index.js"
         }
     },
-    "files": [
-        "src",
-        "dist",
-        "CHANGELOG.md"
-    ],
+    "publishConfig": {
+        "access": "public",
+        "provenance": true
+    },
     "scripts": {
         "dev": "rslib build --watch --config ./rslib.dev.ts",
         "build": "rslib build --config ./rslib.build.ts",
         "typecheck": "tsgo",
         "test": "vitest --config vitest.config.ts --no-watch"
-    },
-    "peerDependencies": {
-        "@swc/core": "^1.16.18",
-        "@swc/helpers": "^0.5.23",
-        "@workleap/swc-configs": "^2.3.15",
-        "browserslist": "^4.29.4",
-        "postcss": "^8.5.26",
-        "webpack": "^5.110.3",
-        "webpack-dev-server": "^5.2.4"
     },
     "dependencies": {
         "@module-federation/enhanced": "2.9.2",
@@ -61,5 +53,13 @@
         "webpack": "5.110.3",
         "webpack-dev-server": "5.2.4"
     },
-    "sideEffects": false
+    "peerDependencies": {
+        "@swc/core": "^1.16.18",
+        "@swc/helpers": "^0.5.23",
+        "@workleap/swc-configs": "^2.3.15",
+        "browserslist": "^4.29.4",
+        "postcss": "^8.5.26",
+        "webpack": "^5.110.3",
+        "webpack-dev-server": "^5.2.4"
+    }
 }

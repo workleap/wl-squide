@@ -6,9 +6,7 @@ import { initializeFireflyForStorybook } from "../src/initializeFireflyForStoryb
 import { withFireflyDecorator } from "../src/withFireflyDecorator.tsx";
 
 function StoryComponent() {
-    return (
-        <div>story-content</div>
-    );
+    return <div>story-content</div>;
 }
 
 // Reads the "handle" of the deepest matched route, the scenario from
@@ -17,9 +15,7 @@ function HandleProbe() {
     const matches = useMatches();
     const handle = matches[matches.length - 1]?.handle as { layout?: string } | undefined;
 
-    return (
-        <div>layout:{handle?.layout ?? "none"}</div>
-    );
+    return <div>layout:{handle?.layout ?? "none"}</div>;
 }
 
 function LayoutWithOutlet() {
@@ -32,7 +28,7 @@ function LayoutWithOutlet() {
 }
 
 describe("withFireflyDecorator", () => {
-    test("renders the story at the default \"/story\" route", async ({ expect }) => {
+    test('renders the story at the default "/story" route', async ({ expect }) => {
         const runtime = await initializeFireflyForStorybook({
             useMsw: false,
             loggers: [new NoopLogger()]
@@ -52,7 +48,7 @@ describe("withFireflyDecorator", () => {
         expect(await screen.findByText("story-content")).toBeDefined();
     });
 
-    test("exposes a custom \"handle\" to the story through useMatches", async ({ expect }) => {
+    test('exposes a custom "handle" to the story through useMatches', async ({ expect }) => {
         const runtime = await initializeFireflyForStorybook({
             useMsw: false,
             loggers: [new NoopLogger()]
@@ -110,14 +106,14 @@ describe("withFireflyDecorator", () => {
         expect(await screen.findByText("child-page")).toBeDefined();
     });
 
-    test("uses a custom \"initialEntries\" to select the mounted route", async ({ expect }) => {
+    test('uses a custom "initialEntries" to select the mounted route', async ({ expect }) => {
         const runtime = await initializeFireflyForStorybook({
             useMsw: false,
             loggers: [new NoopLogger()]
         });
 
         const Decorator = withFireflyDecorator(runtime, {
-            route: ({ story }) => ([
+            route: ({ story }) => [
                 {
                     path: "/foo",
                     element: <div>foo-page</div>
@@ -126,7 +122,7 @@ describe("withFireflyDecorator", () => {
                     path: "/bar",
                     element: story
                 }
-            ]),
+            ],
             initialEntries: ["/bar"]
         });
 

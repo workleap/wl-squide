@@ -59,9 +59,7 @@ export class ReactRouterRuntime<TRuntime extends ReactRouterRuntime = any> exten
     protected _navigationItemScope?: NavigationItemDeferredRegistrationScope;
 
     startDeferredRegistrationScope(options: StartDeferredRegistrationScopeOptions = {}) {
-        const {
-            transactional = false
-        } = options;
+        const { transactional = false } = options;
 
         if (this._navigationItemScope) {
             throw new Error("[squide] Cannot start a new deferred registration scope when there's already an active scope. Did you forget to complete the previous scope?");
@@ -180,11 +178,14 @@ export class ReactRouterRuntime<TRuntime extends ReactRouterRuntime = any> exten
     }
 
     registerPublicRoute(route: Omit<Route, "$visibility">, options?: RegisterRouteOptions) {
-        this.registerRoute({
-            $visibility: "public",
-            ...route,
-            ...(route.children ? { children: applyPublicVisibilityToChildren(route.children) } : {})
-        } as Route, options);
+        this.registerRoute(
+            {
+                $visibility: "public",
+                ...route,
+                ...(route.children ? { children: applyPublicVisibilityToChildren(route.children) } : {})
+            } as Route,
+            options
+        );
     }
 
     get routes() {
@@ -192,9 +193,7 @@ export class ReactRouterRuntime<TRuntime extends ReactRouterRuntime = any> exten
     }
 
     registerNavigationItem(navigationItem: RootNavigationItem, options: RegisterNavigationItemOptions = {}) {
-        const {
-            menuId = RootMenuId
-        } = options;
+        const { menuId = RootMenuId } = options;
 
         const logger = this._getLogger(options);
 
@@ -212,14 +211,7 @@ export class ReactRouterRuntime<TRuntime extends ReactRouterRuntime = any> exten
     }
 
     #logNavigationItemRegistrationResult(result: NavigationItemRegistrationResult, registeredItems: RootNavigationItem[], logger: Logger) {
-        const {
-            registrationStatus,
-            completedPendingRegistrations,
-            registrationType,
-            item: newItem,
-            menuId,
-            sectionId
-        } = result;
+        const { registrationStatus, completedPendingRegistrations, registrationType, item: newItem, menuId, sectionId } = result;
 
         if (registrationStatus === "registered") {
             const sectionLog = sectionId ? `under the section with id "${sectionId}" of` : "to";
@@ -292,9 +284,7 @@ export class ReactRouterRuntime<TRuntime extends ReactRouterRuntime = any> exten
     }
 
     getNavigationItems(options: GetNavigationItemsOptions = {}) {
-        const {
-            menuId = RootMenuId
-        } = options;
+        const { menuId = RootMenuId } = options;
 
         return this._navigationItemRegistry.getItems(menuId);
     }
@@ -304,7 +294,7 @@ export class ReactRouterRuntime<TRuntime extends ReactRouterRuntime = any> exten
     }
 
     startScope(logger: Logger): TRuntime {
-        return (new ReactRouterRuntimeScope(this, logger) as unknown) as TRuntime;
+        return new ReactRouterRuntimeScope(this, logger) as unknown as TRuntime;
     }
 
     _validateRegistrations(options?: ValidateRegistrationsOptions) {
@@ -320,7 +310,9 @@ export class ReactRouterRuntime<TRuntime extends ReactRouterRuntime = any> exten
 
         if (pendingRoutes.length > 0) {
             if (pendingRegistrations.isPublicRoutesOutletPending() && pendingRegistrations.isProtectedRoutesOutletPending()) {
-                throw new Error("[squide] The PublicRoutes and ProtectedRoutes outlets are missing from the router configuration. The PublicRoutes and ProtectedRoutes outlets must be defined as a children of an hoisted route. Did you include the PublicRoutes and ProtectedRoutes outlets and hoist the outlets' parent routes?");
+                throw new Error(
+                    "[squide] The PublicRoutes and ProtectedRoutes outlets are missing from the router configuration. The PublicRoutes and ProtectedRoutes outlets must be defined as a children of an hoisted route. Did you include the PublicRoutes and ProtectedRoutes outlets and hoist the outlets' parent routes?"
+                );
             } else if (pendingRegistrations.isPublicRoutesOutletPending()) {
                 throw new Error("[squide] The PublicRoutes outlet is missing from the router configuration. The PublicRoutes outlet must be defined as a children of an hoisted route. Did you include the PublicRoutes outlet and hoist the outlet's parent routes");
             } else if (pendingRegistrations.isProtectedRoutesOutletPending()) {
@@ -347,7 +339,7 @@ export class ReactRouterRuntime<TRuntime extends ReactRouterRuntime = any> exten
             message += "\r\n";
 
             message += `If you are certain that the route${pendingRoutes.length !== 1 ? "s" : ""} has been registered, make sure that the following conditions are met:\r\n`;
-            message += "- The missing routes \"path\" or \"$id\" option perfectly match the provided \"parentPath\" or \"parentId\" (make sure that there's no leading or trailing \"/\" that differs).\r\n";
+            message += '- The missing routes "path" or "$id" option perfectly match the provided "parentPath" or "parentId" (make sure that there\'s no leading or trailing "/" that differs).\r\n';
             message += "- The missing routes has been registered with the runtime.registerRoute function. A route cannot be registered under a parent route that has not be registered with the runtime.registerRoute function.\r\n\r\n";
             message += "For more information about nested routes, refers to https://workleap.github.io/wl-squide/reference/runtime/runtime-class/#register-nested-routes-under-an-existing-route.\r\n\r\n";
             message += "For more information about the PublicRoutes and ProtectedRoutes outlets, refers to https://workleap.github.io/wl-squide/reference/#routing.";
@@ -392,7 +384,7 @@ export class ReactRouterRuntime<TRuntime extends ReactRouterRuntime = any> exten
             });
 
             message += `If you are certain that the navigation section${pendingSectionIds.length !== 1 ? "s" : ""} has been registered, make sure that the following conditions are met:\r\n`;
-            message += "- The missing navigation section \"$id\" and \"menuId\" properties perfectly match the provided \"sectionId\" and \"menuId\".\r\n\r\n";
+            message += '- The missing navigation section "$id" and "menuId" properties perfectly match the provided "sectionId" and "menuId".\r\n\r\n';
             message += "For more information about nested navigation items, refers to: https://workleap.github.io/wl-squide/reference/runtime/runtime-class/#register-nested-navigation-items.\r\n";
 
             if (this._mode === "development") {

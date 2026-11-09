@@ -26,7 +26,7 @@ describe("register", () => {
         expect(fct).toHaveBeenCalledTimes(1);
     });
 
-    test("when the runner is registered, the deferred registration functions are executed with the \"register\" operation", async () => {
+    test('when the runner is registered, the deferred registration functions are executed with the "register" operation', async () => {
         const runtime = createRuntime();
         const deferred = vi.fn();
 
@@ -56,7 +56,9 @@ describe("register", () => {
         const runtime = createRuntime();
 
         const runner = createDeferredRegistrationsRunner(runtime, [
-            () => { throw new Error("module boom"); }
+            () => {
+                throw new Error("module boom");
+            }
         ]);
 
         const errors = await runner.register();
@@ -69,7 +71,9 @@ describe("register", () => {
         const runtime = createRuntime();
 
         const runner = createDeferredRegistrationsRunner(runtime, [
-            () => () => { throw new Error("deferred boom"); }
+            () => () => {
+                throw new Error("deferred boom");
+            }
         ]);
 
         const errors = await runner.register();
@@ -120,7 +124,7 @@ describe("register", () => {
 });
 
 describe("update", () => {
-    test("when the runner is updated, the deferred registration functions are executed with the \"update\" operation", async () => {
+    test('when the runner is updated, the deferred registration functions are executed with the "update" operation', async () => {
         const runtime = createRuntime();
         const deferred = vi.fn();
 

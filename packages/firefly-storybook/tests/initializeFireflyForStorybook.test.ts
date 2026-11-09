@@ -18,9 +18,7 @@ class DummyPlugin extends Plugin {}
 
 test.concurrent("when local modules are provided, the local modules are registered", async ({ expect }) => {
     const runtime = await initializeFireflyForStorybook({
-        localModules: [
-            () => {}
-        ],
+        localModules: [() => {}],
         loggers: [new NoopLogger()]
     });
 
@@ -88,4 +86,3 @@ test.concurrent("when additional plugins are provided, plugins are added to the 
     await vi.waitFor(() => expect(runtime.getPlugin("plugin-1")).toBeDefined());
     await vi.waitFor(() => expect(runtime.getPlugin("plugin-2")).toBeDefined());
 });
-

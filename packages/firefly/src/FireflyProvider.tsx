@@ -7,14 +7,7 @@ export interface FireflyProviderProps extends PropsWithChildren {
 }
 
 export function FireflyProvider(props: FireflyProviderProps) {
-    const {
-        runtime,
-        children
-    } = props;
+    const { runtime, children } = props;
 
-    return (
-        <RuntimeContext.Provider value={runtime}>
-            {children}
-        </RuntimeContext.Provider>
-    );
+    return <RuntimeContext.Provider value={runtime}>{children}</RuntimeContext.Provider>;
 }

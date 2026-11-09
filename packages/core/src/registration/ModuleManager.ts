@@ -59,14 +59,16 @@ export class ModuleManager {
 
         // It's important to always to though all the registered registries even if there's no module definitions.
         // Using Promise.all rather than Promise.allSettled to throw any errors that occurs.
-        await Promise.all(this.moduleRegistries.map(async x => {
-            const registryDefinitions = definitionsByRegistryId[x.id];
-            const modules = registryDefinitions ? registryDefinitions.map(y => y.definition) : [];
+        await Promise.all(
+            this.moduleRegistries.map(async x => {
+                const registryDefinitions = definitionsByRegistryId[x.id];
+                const modules = registryDefinitions ? registryDefinitions.map(y => y.definition) : [];
 
-            const registrationErrors = await x.registerModules(this.runtime, modules, options);
+                const registrationErrors = await x.registerModules(this.runtime, modules, options);
 
-            errors.push(...registrationErrors);
-        }));
+                errors.push(...registrationErrors);
+            })
+        );
 
         return errors;
     }
@@ -130,11 +132,13 @@ export class ModuleManager {
             const errors: ModuleRegistrationError[] = [];
 
             // Using Promise.all rather than Promise.allSettled to throw any errors that occurs.
-            await Promise.all(this.moduleRegistries.map(async x => {
-                const registrationErrors = await x.registerDeferredRegistrations(this.runtime, data);
+            await Promise.all(
+                this.moduleRegistries.map(async x => {
+                    const registrationErrors = await x.registerDeferredRegistrations(this.runtime, data);
 
-                errors.push(...registrationErrors);
-            }));
+                    errors.push(...registrationErrors);
+                })
+            );
 
             return errors;
         });
@@ -150,7 +154,7 @@ export class ModuleManager {
                 const registrationErrors = await x.updateDeferredRegistrations(this.runtime, data);
 
                 errors.push(...registrationErrors);
-            };
+            }
 
             return errors;
         });

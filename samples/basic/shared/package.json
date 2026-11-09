@@ -1,19 +1,14 @@
 {
     "name": "@basic/shared",
-    "author": "Workleap",
     "version": "0.0.0",
-    "description": "Shared package to showcase Squide.",
     "private": true,
+    "description": "Shared package to showcase Squide.",
     "license": "Apache-2.0",
+    "author": "Workleap",
     "type": "module",
     "exports": "./src/index.ts",
     "scripts": {
         "typecheck": "tsgo"
-    },
-    "peerDependencies": {
-        "react": "^19.3.1",
-        "react-dom": "^19.3.1",
-        "react-router": "^8.5.0"
     },
     "dependencies": {
         "@squide/firefly": "workspace:*"
@@ -25,5 +20,10 @@
         "@typescript/native-preview": "7.0.0-dev.20260707.2",
         "@workleap/typescript-configs": "5.0.0",
         "typescript": "6.0.3"
+    },
+    "peerDependencies": {
+        "react": "^19.3.1",
+        "react-dom": "^19.3.1",
+        "react-router": "^8.5.0"
     }
 }

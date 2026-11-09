@@ -5,8 +5,7 @@
         "failingTab": "Va échouer",
         "featureBPage": "Fonctionnalité B",
         "featureCPage": "Fonctionnalité C"
-    }
-    ,
+    },
     "AnonymousPage": {
         "title": "Page anonyme",
         "servedBy": "Cette page est servi par <code>@endpoints/remote-module</code>",

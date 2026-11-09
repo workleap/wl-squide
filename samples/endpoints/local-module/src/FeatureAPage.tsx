@@ -11,20 +11,18 @@ export function FeatureAPage() {
 
     const featureApiBaseUrl = useEnvironmentVariable("featureApiBaseUrl");
 
-    const { data } = useSuspenseQuery({ queryKey: [`${featureApiBaseUrl}getFeatureA`], queryFn: () => {
-        return fetchJson(`${featureApiBaseUrl}getFeatureA`);
-    } });
+    const { data } = useSuspenseQuery({
+        queryKey: [`${featureApiBaseUrl}getFeatureA`],
+        queryFn: () => {
+            return fetchJson(`${featureApiBaseUrl}getFeatureA`);
+        }
+    });
 
     return (
         <>
             <h1>{t("title")}</h1>
             <p style={{ backgroundColor: "blue", color: "white", width: "fit-content" }}>
-                <Trans
-                    i18n={i18nextInstance}
-                    i18nKey="servedBy"
-                    t={t}
-                    components={{ code: <code /> }}
-                />
+                <Trans i18n={i18nextInstance} i18nKey="servedBy" t={t} components={{ code: <code /> }} />
             </p>
             <p dangerouslySetInnerHTML={{ __html: data.message }}></p>
         </>

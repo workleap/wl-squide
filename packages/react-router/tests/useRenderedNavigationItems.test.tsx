@@ -15,18 +15,14 @@ interface TestComponentProps {
 // Not the prettiest mock but it's simpler than using createMemoryRouter and
 // it provides an adequate testing experience when combined with snapshot tests.
 function Link(props: Record<string, unknown>) {
-    return (
-        <div {...props} />
-    );
+    return <div {...props} />;
 }
 
 function TestComponent({ navigationItems }: TestComponentProps) {
     const renderLinkItem: RenderLinkItemFunction = useCallback(({ label, linkProps, additionalProps }, key, index, level) => {
         return (
             <li key={key} {...additionalProps} data-key={key} data-index={index.toString()} data-level={level.toString()}>
-                <Link {...linkProps}>
-                    {label}
-                </Link>
+                <Link {...linkProps}>{label}</Link>
             </li>
         );
     }, []);
@@ -40,11 +36,14 @@ function TestComponent({ navigationItems }: TestComponentProps) {
         );
     }, []);
 
-    const renderItem: RenderItemFunction = useCallback((item, key, index, level) => {
-        if (!item.canRender || (item.canRender?.())) {
-            return isNavigationLink(item) ? renderLinkItem(item, key, index, level) : renderLinkSection(item, key, index, level);
-        }
-    }, [renderLinkItem, renderLinkSection]);
+    const renderItem: RenderItemFunction = useCallback(
+        (item, key, index, level) => {
+            if (!item.canRender || item.canRender?.()) {
+                return isNavigationLink(item) ? renderLinkItem(item, key, index, level) : renderLinkSection(item, key, index, level);
+            }
+        },
+        [renderLinkItem, renderLinkSection]
+    );
 
     const renderSection: RenderSectionFunction = useCallback((elements, key, index, level) => {
         return (
@@ -56,9 +55,7 @@ function TestComponent({ navigationItems }: TestComponentProps) {
 
     const renderedNavigationItems = useRenderedNavigationItems(navigationItems, renderItem, renderSection);
 
-    return (
-        <>{renderedNavigationItems}</>
-    );
+    return <>{renderedNavigationItems}</>;
 }
 
 test.concurrent("highest priority goes first", ({ expect }) => {

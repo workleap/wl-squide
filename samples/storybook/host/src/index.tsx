@@ -6,12 +6,16 @@ import { App } from "./App.tsx";
 import { QueryProvider } from "./QueryProvider.tsx";
 import { registerHost } from "./registerHost.tsx";
 
-const launchDarklyClient = initializeLaunchDarkly(process.env.LAUNCH_DARKLY_CLIENT_ID!, {
-    kind: "user",
-    anonymous: true
-}, {
-    streaming: true
-});
+const launchDarklyClient = initializeLaunchDarkly(
+    process.env.LAUNCH_DARKLY_CLIENT_ID!,
+    {
+        kind: "user",
+        anonymous: true
+    },
+    {
+        streaming: true
+    }
+);
 
 launchDarklyClient.on("ready", () => {
     console.log("[host] Launch darkly is ready:", launchDarklyClient.allFlags());
@@ -46,7 +50,7 @@ launchDarklyClient.on("ready", () => {
 
 try {
     await launchDarklyClient.waitForInitialization(5);
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
 } catch (error: unknown) {
     // Do nothing.
 }

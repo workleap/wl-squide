@@ -7,11 +7,7 @@ import { useRoutes } from "../src/useRoutes.ts";
 
 function renderUseRoutesHook<TProps>(runtime: ReactRouterRuntime, additionalProps: RenderHookOptions<TProps> = {}) {
     return renderHook(() => useRoutes(), {
-        wrapper: ({ children }) => (
-            <RuntimeContext.Provider value={runtime}>
-                {children}
-            </RuntimeContext.Provider>
-        ),
+        wrapper: ({ children }) => <RuntimeContext.Provider value={runtime}>{children}</RuntimeContext.Provider>,
         ...additionalProps
     });
 }
@@ -21,19 +17,25 @@ test.concurrent("returns all the registered routes", ({ expect }) => {
         loggers: [new NoopLogger()]
     });
 
-    runtime.registerRoute({
-        path: "/foo",
-        element: <div>Foo</div>
-    }, {
-        hoist: true
-    });
+    runtime.registerRoute(
+        {
+            path: "/foo",
+            element: <div>Foo</div>
+        },
+        {
+            hoist: true
+        }
+    );
 
-    runtime.registerRoute({
-        path: "/bar",
-        element: <div>Bar</div>
-    }, {
-        hoist: true
-    });
+    runtime.registerRoute(
+        {
+            path: "/bar",
+            element: <div>Bar</div>
+        },
+        {
+            hoist: true
+        }
+    );
 
     const { result } = renderUseRoutesHook(runtime);
 
@@ -45,12 +47,15 @@ test.concurrent("returned array is immutable", ({ expect }) => {
         loggers: [new NoopLogger()]
     });
 
-    runtime.registerRoute({
-        path: "/foo",
-        element: <div>Foo</div>
-    }, {
-        hoist: true
-    });
+    runtime.registerRoute(
+        {
+            path: "/foo",
+            element: <div>Foo</div>
+        },
+        {
+            hoist: true
+        }
+    );
 
     const { result, rerender } = renderUseRoutesHook(runtime);
 
@@ -61,12 +66,15 @@ test.concurrent("returned array is immutable", ({ expect }) => {
 
     const array2 = result.current;
 
-    runtime.registerRoute({
-        path: "/bar",
-        element: <div>Bar</div>
-    }, {
-        hoist: true
-    });
+    runtime.registerRoute(
+        {
+            path: "/bar",
+            element: <div>Bar</div>
+        },
+        {
+            hoist: true
+        }
+    );
 
     // Added a new route, the returned array should be a new instance.
     rerender();

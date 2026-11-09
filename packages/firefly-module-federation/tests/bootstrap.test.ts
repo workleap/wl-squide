@@ -12,17 +12,11 @@ test.concurrent("when remote modules are provided, register the remote modules",
     const remoteModuleRegistry = new RemoteModuleRegistry(loadRemote);
 
     const runtime = new FireflyRuntime({
-        moduleManager: x => new ModuleManager(x, [
-            remoteModuleRegistry
-        ]),
+        moduleManager: x => new ModuleManager(x, [remoteModuleRegistry]),
         loggers: [new NoopLogger()]
     });
 
-    bootstrap(runtime, [
-        ...toRemoteModuleDefinitions([
-            { name: "Dummy-1" }
-        ])
-    ]);
+    bootstrap(runtime, [...toRemoteModuleDefinitions([{ name: "Dummy-1" }])]);
 
     await vi.waitFor(() => expect(remoteModuleRegistry.registrationStatus).toBe("ready"));
 });
@@ -37,25 +31,15 @@ test.concurrent("when local and remote modules are provided, register all the mo
     const remoteModuleRegistry = new RemoteModuleRegistry(loadRemote);
 
     const runtime = new FireflyRuntime({
-        moduleManager: x => new ModuleManager(x, [
-            localModuleRegistry,
-            remoteModuleRegistry
-        ]),
+        moduleManager: x => new ModuleManager(x, [localModuleRegistry, remoteModuleRegistry]),
         loggers: [new NoopLogger()]
     });
 
-    const localModules = toLocalModuleDefinitions([
-        () => {}
-    ]);
+    const localModules = toLocalModuleDefinitions([() => {}]);
 
-    const remoteModules = toRemoteModuleDefinitions([
-        { name: "Dummy-1" }
-    ]);
+    const remoteModules = toRemoteModuleDefinitions([{ name: "Dummy-1" }]);
 
-    bootstrap(runtime, [
-        ...localModules,
-        ...remoteModules
-    ]);
+    bootstrap(runtime, [...localModules, ...remoteModules]);
 
     await vi.waitFor(() => expect(localModuleRegistry.registrationStatus).toBe("ready"));
     await vi.waitFor(() => expect(remoteModuleRegistry.registrationStatus).toBe("ready"));
@@ -71,19 +55,13 @@ test.concurrent("when an error occurs while registering a remote module and an o
     const remoteModuleRegistry = new RemoteModuleRegistry(loadRemote);
 
     const runtime = new FireflyRuntime({
-        moduleManager: x => new ModuleManager(x, [
-            remoteModuleRegistry
-        ]),
+        moduleManager: x => new ModuleManager(x, [remoteModuleRegistry]),
         loggers: [new NoopLogger()]
     });
 
     const onError = vi.fn();
 
-    bootstrap(runtime, [
-        ...toRemoteModuleDefinitions([
-            { name: "Dummy-1" }
-        ])
-    ], {
+    bootstrap(runtime, [...toRemoteModuleDefinitions([{ name: "Dummy-1" }])], {
         onError
     });
 

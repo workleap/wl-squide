@@ -24,7 +24,8 @@ describe.concurrent("registerModules", () => {
         const register2 = vi.fn();
         const register3 = vi.fn();
 
-        const loadRemote = vi.fn()
+        const loadRemote = vi
+            .fn()
             .mockResolvedValueOnce({
                 register: register1
             })
@@ -37,11 +38,7 @@ describe.concurrent("registerModules", () => {
 
         const registry = new RemoteModuleRegistry(loadRemote);
 
-        await registry.registerModules(runtime, [
-            { name: "Dummy-1" },
-            { name: "Dummy-2" },
-            { name: "Dummy-3" }
-        ]);
+        await registry.registerModules(runtime, [{ name: "Dummy-1" }, { name: "Dummy-2" }, { name: "Dummy-3" }]);
 
         expect(register1).toHaveBeenCalledOnce();
         expect(register2).toHaveBeenCalledOnce();
@@ -77,12 +74,14 @@ describe.concurrent("registerModules", () => {
 
         await registry.registerModules(runtime, [{ name: "Dummy-1" }]);
 
-        expect(listener).toHaveBeenCalledExactlyOnceWith(expect.objectContaining({
-            remoteCount: 1
-        }));
+        expect(listener).toHaveBeenCalledExactlyOnceWith(
+            expect.objectContaining({
+                remoteCount: 1
+            })
+        );
     });
 
-    test.concurrent("when there are no deferred registrations, once all the modules are registered, set the status to \"ready\"", async ({ expect }) => {
+    test.concurrent('when there are no deferred registrations, once all the modules are registered, set the status to "ready"', async ({ expect }) => {
         const runtime = new DummyRuntime({ loggers: [new NoopLogger()] });
 
         const loadRemote = vi.fn().mockResolvedValue({
@@ -91,10 +90,7 @@ describe.concurrent("registerModules", () => {
 
         const registry = new RemoteModuleRegistry(loadRemote);
 
-        await registry.registerModules(runtime, [
-            { name: "Dummy-1" },
-            { name: "Dummy-2" }
-        ]);
+        await registry.registerModules(runtime, [{ name: "Dummy-1" }, { name: "Dummy-2" }]);
 
         expect(registry.registrationStatus).toBe("ready");
     });
@@ -112,17 +108,16 @@ describe.concurrent("registerModules", () => {
 
         const registry = new RemoteModuleRegistry(loadRemote);
 
-        await registry.registerModules(runtime, [
-            { name: "Dummy-1" },
-            { name: "Dummy-2" }
-        ]);
+        await registry.registerModules(runtime, [{ name: "Dummy-1" }, { name: "Dummy-2" }]);
 
-        expect(listener).toHaveBeenCalledExactlyOnceWith(expect.objectContaining({
-            remoteCount: 2
-        }));
+        expect(listener).toHaveBeenCalledExactlyOnceWith(
+            expect.objectContaining({
+                remoteCount: 2
+            })
+        );
     });
 
-    test.concurrent("when there are deferred registrations, once all the modules are registered, set the status to \"modules-registered\"", async ({ expect }) => {
+    test.concurrent('when there are deferred registrations, once all the modules are registered, set the status to "modules-registered"', async ({ expect }) => {
         const runtime = new DummyRuntime({ loggers: [new NoopLogger()] });
 
         const loadRemote = vi.fn().mockResolvedValue({
@@ -131,10 +126,7 @@ describe.concurrent("registerModules", () => {
 
         const registry = new RemoteModuleRegistry(loadRemote);
 
-        await registry.registerModules(runtime, [
-            { name: "Dummy-1" },
-            { name: "Dummy-2" }
-        ]);
+        await registry.registerModules(runtime, [{ name: "Dummy-1" }, { name: "Dummy-2" }]);
 
         expect(registry.registrationStatus).toBe("modules-registered");
     });
@@ -152,14 +144,13 @@ describe.concurrent("registerModules", () => {
 
         const registry = new RemoteModuleRegistry(loadRemote);
 
-        await registry.registerModules(runtime, [
-            { name: "Dummy-1" },
-            { name: "Dummy-2" }
-        ]);
+        await registry.registerModules(runtime, [{ name: "Dummy-1" }, { name: "Dummy-2" }]);
 
-        expect(listener).toHaveBeenCalledExactlyOnceWith(expect.objectContaining({
-            remoteCount: 2
-        }));
+        expect(listener).toHaveBeenCalledExactlyOnceWith(
+            expect.objectContaining({
+                remoteCount: 2
+            })
+        );
     });
 
     test.concurrent("when a module registration fail, register the remaining modules", async ({ expect }) => {
@@ -168,12 +159,15 @@ describe.concurrent("registerModules", () => {
         const register1 = vi.fn();
         const register3 = vi.fn();
 
-        const loadRemote = vi.fn()
+        const loadRemote = vi
+            .fn()
             .mockResolvedValueOnce({
                 register: register1
             })
             .mockResolvedValueOnce({
-                register: () => { throw new Error("Module 2 registration failed"); }
+                register: () => {
+                    throw new Error("Module 2 registration failed");
+                }
             })
             .mockResolvedValueOnce({
                 register: register3
@@ -181,11 +175,7 @@ describe.concurrent("registerModules", () => {
 
         const registry = new RemoteModuleRegistry(loadRemote);
 
-        await registry.registerModules(runtime, [
-            { name: "Dummy-1" },
-            { name: "Dummy-2" },
-            { name: "Dummy-3" }
-        ]);
+        await registry.registerModules(runtime, [{ name: "Dummy-1" }, { name: "Dummy-2" }, { name: "Dummy-3" }]);
 
         expect(register1).toHaveBeenCalledOnce();
         expect(register3).toHaveBeenCalledOnce();
@@ -194,12 +184,15 @@ describe.concurrent("registerModules", () => {
     test.concurrent("when a module registration fail, return the error", async ({ expect }) => {
         const runtime = new DummyRuntime({ loggers: [new NoopLogger()] });
 
-        const loadRemote = vi.fn()
+        const loadRemote = vi
+            .fn()
             .mockResolvedValueOnce({
                 register: () => {}
             })
             .mockResolvedValueOnce({
-                register: () => { throw new Error("Module 2 registration failed"); }
+                register: () => {
+                    throw new Error("Module 2 registration failed");
+                }
             })
             .mockResolvedValueOnce({
                 register: () => {}
@@ -207,11 +200,7 @@ describe.concurrent("registerModules", () => {
 
         const registry = new RemoteModuleRegistry(loadRemote);
 
-        const errors = await registry.registerModules(runtime, [
-            { name: "Dummy-1" },
-            { name: "Dummy-2" },
-            { name: "Dummy-3" }
-        ]);
+        const errors = await registry.registerModules(runtime, [{ name: "Dummy-1" }, { name: "Dummy-2" }, { name: "Dummy-3" }]);
 
         expect(errors.length).toBe(1);
         expect(errors[0].cause!.toString()).toContain("Module 2 registration failed");
@@ -226,12 +215,15 @@ describe.concurrent("registerModules", () => {
 
         const registrationError = new Error("Module 2 registration failed");
 
-        const loadRemote = vi.fn()
+        const loadRemote = vi
+            .fn()
             .mockResolvedValueOnce({
                 register: () => {}
             })
             .mockResolvedValueOnce({
-                register: () => { throw registrationError; }
+                register: () => {
+                    throw registrationError;
+                }
             })
             .mockResolvedValueOnce({
                 register: () => {}
@@ -239,11 +231,7 @@ describe.concurrent("registerModules", () => {
 
         const registry = new RemoteModuleRegistry(loadRemote);
 
-        await registry.registerModules(runtime, [
-            { name: "Dummy-1" },
-            { name: "Dummy-2" },
-            { name: "Dummy-3" }
-        ]);
+        await registry.registerModules(runtime, [{ name: "Dummy-1" }, { name: "Dummy-2" }, { name: "Dummy-3" }]);
 
         expect(listener).toHaveBeenCalledExactlyOnceWith(expect.any(RemoteModuleRegistrationError));
     });
@@ -257,12 +245,15 @@ describe.concurrent("registerModules", () => {
 
         const registrationError = new Error("Module 2 registration failed");
 
-        const loadRemote = vi.fn()
+        const loadRemote = vi
+            .fn()
             .mockResolvedValueOnce({
                 register: () => {}
             })
             .mockResolvedValueOnce({
-                register: () => { throw registrationError; }
+                register: () => {
+                    throw registrationError;
+                }
             })
             .mockResolvedValueOnce({
                 register: () => {}
@@ -270,15 +261,13 @@ describe.concurrent("registerModules", () => {
 
         const registry = new RemoteModuleRegistry(loadRemote);
 
-        await registry.registerModules(runtime, [
-            { name: "Dummy-1" },
-            { name: "Dummy-2" },
-            { name: "Dummy-3" }
-        ]);
+        await registry.registerModules(runtime, [{ name: "Dummy-1" }, { name: "Dummy-2" }, { name: "Dummy-3" }]);
 
-        expect(listener).toHaveBeenCalledExactlyOnceWith(expect.objectContaining({
-            remoteCount: 2
-        }));
+        expect(listener).toHaveBeenCalledExactlyOnceWith(
+            expect.objectContaining({
+                remoteCount: 2
+            })
+        );
     });
 
     test.concurrent("when a context is provided, all the register functions receive the provided context", async ({ expect }) => {
@@ -288,7 +277,8 @@ describe.concurrent("registerModules", () => {
         const register2 = vi.fn();
         const register3 = vi.fn();
 
-        const loadRemote = vi.fn()
+        const loadRemote = vi
+            .fn()
             .mockResolvedValueOnce({
                 register: register1
             })
@@ -305,18 +295,14 @@ describe.concurrent("registerModules", () => {
             foo: "bar"
         };
 
-        await registry.registerModules(runtime, [
-            { name: "Dummy-1" },
-            { name: "Dummy-2" },
-            { name: "Dummy-3" }
-        ], { context });
+        await registry.registerModules(runtime, [{ name: "Dummy-1" }, { name: "Dummy-2" }, { name: "Dummy-3" }], { context });
 
         expect(register1).toHaveBeenCalledExactlyOnceWith(runtime, context);
         expect(register2).toHaveBeenCalledExactlyOnceWith(runtime, context);
         expect(register3).toHaveBeenCalledExactlyOnceWith(runtime, context);
     });
 
-    test.concurrent("when no modules are provided, the status is \"ready\"", async ({ expect }) => {
+    test.concurrent('when no modules are provided, the status is "ready"', async ({ expect }) => {
         const runtime = new DummyRuntime({ loggers: [new NoopLogger()] });
         const registry = new RemoteModuleRegistry(vi.fn());
 
@@ -357,7 +343,8 @@ describe.concurrent("registerModules", () => {
         const logger = new ScopeRecordingLogger();
         const runtime = new DummyRuntime({ loggers: [logger] });
 
-        const loadRemote = vi.fn()
+        const loadRemote = vi
+            .fn()
             .mockRejectedValueOnce(new Error("Module 1 registration failed"))
             .mockResolvedValueOnce({
                 register: () => {}
@@ -365,10 +352,7 @@ describe.concurrent("registerModules", () => {
 
         const registry = new RemoteModuleRegistry(loadRemote);
 
-        await registry.registerModules(runtime, [
-            { name: "Dummy-1" },
-            { name: "Dummy-2" }
-        ]);
+        await registry.registerModules(runtime, [{ name: "Dummy-1" }, { name: "Dummy-2" }]);
 
         expect(logger.logs).toContain("[squide] An error occured while registering the remote module.");
         expect(logger.logs.filter(x => x === "[squide] Successfully registered remote module.")).toHaveLength(1);
@@ -394,17 +378,14 @@ describe.concurrent("registerDeferredRegistrations", () => {
 
         const registry = new RemoteModuleRegistry(loadRemote);
 
-        await registry.registerModules(runtime, [
-            { name: "Dummy-1" },
-            { name: "Dummy-2" }
-        ]);
+        await registry.registerModules(runtime, [{ name: "Dummy-1" }, { name: "Dummy-2" }]);
 
         await registry.registerDeferredRegistrations(runtime, {});
 
         await expect(() => registry.registerDeferredRegistrations(runtime, {})).rejects.toThrow(/The registerDeferredRegistrations function can only be called once/);
     });
 
-    test.concurrent("when called for the first time but the registration status is already \"ready\", return a resolving promise", async ({ expect }) => {
+    test.concurrent('when called for the first time but the registration status is already "ready", return a resolving promise', async ({ expect }) => {
         const runtime = new DummyRuntime({ loggers: [new NoopLogger()] });
 
         // When there's no deferred modules, the status should be "ready".
@@ -414,10 +395,7 @@ describe.concurrent("registerDeferredRegistrations", () => {
 
         const registry = new RemoteModuleRegistry(loadRemote);
 
-        await registry.registerModules(runtime, [
-            { name: "Dummy-1" },
-            { name: "Dummy-2" }
-        ]);
+        await registry.registerModules(runtime, [{ name: "Dummy-1" }, { name: "Dummy-2" }]);
 
         expect(registry.registrationStatus).toBe("ready");
 
@@ -439,16 +417,15 @@ describe.concurrent("registerDeferredRegistrations", () => {
 
         const registry = new RemoteModuleRegistry(loadRemote);
 
-        await registry.registerModules(runtime, [
-            { name: "Dummy-1" },
-            { name: "Dummy-2" }
-        ]);
+        await registry.registerModules(runtime, [{ name: "Dummy-1" }, { name: "Dummy-2" }]);
 
         await registry.registerDeferredRegistrations(runtime, {});
 
-        expect(listener).toHaveBeenCalledExactlyOnceWith(expect.objectContaining({
-            registrationCount: 2
-        }));
+        expect(listener).toHaveBeenCalledExactlyOnceWith(
+            expect.objectContaining({
+                registrationCount: 2
+            })
+        );
     });
 
     test.concurrent("should complete all the deferred registrations", async ({ expect }) => {
@@ -458,7 +435,8 @@ describe.concurrent("registerDeferredRegistrations", () => {
         const register2 = vi.fn();
         const register3 = vi.fn();
 
-        const loadRemote = vi.fn()
+        const loadRemote = vi
+            .fn()
             .mockResolvedValueOnce({
                 register: () => register1
             })
@@ -471,11 +449,7 @@ describe.concurrent("registerDeferredRegistrations", () => {
 
         const registry = new RemoteModuleRegistry(loadRemote);
 
-        await registry.registerModules(runtime, [
-            { name: "Dummy-1" },
-            { name: "Dummy-2" },
-            { name: "Dummy-3" }
-        ]);
+        await registry.registerModules(runtime, [{ name: "Dummy-1" }, { name: "Dummy-2" }, { name: "Dummy-3" }]);
 
         await registry.registerDeferredRegistrations(runtime, {});
 
@@ -484,7 +458,7 @@ describe.concurrent("registerDeferredRegistrations", () => {
         expect(register3).toHaveBeenCalledOnce();
     });
 
-    test.concurrent("when all the deferred registrations are completed, set the status to \"ready\"", async ({ expect }) => {
+    test.concurrent('when all the deferred registrations are completed, set the status to "ready"', async ({ expect }) => {
         const runtime = new DummyRuntime({ loggers: [new NoopLogger()] });
 
         const loadRemote = vi.fn().mockResolvedValue({
@@ -493,11 +467,7 @@ describe.concurrent("registerDeferredRegistrations", () => {
 
         const registry = new RemoteModuleRegistry(loadRemote);
 
-        await registry.registerModules(runtime, [
-            { name: "Dummy-1" },
-            { name: "Dummy-2" },
-            { name: "Dummy-3" }
-        ]);
+        await registry.registerModules(runtime, [{ name: "Dummy-1" }, { name: "Dummy-2" }, { name: "Dummy-3" }]);
 
         expect(registry.registrationStatus).toBe("modules-registered");
 
@@ -519,17 +489,15 @@ describe.concurrent("registerDeferredRegistrations", () => {
 
         const registry = new RemoteModuleRegistry(loadRemote);
 
-        await registry.registerModules(runtime, [
-            { name: "Dummy-1" },
-            { name: "Dummy-2" },
-            { name: "Dummy-3" }
-        ]);
+        await registry.registerModules(runtime, [{ name: "Dummy-1" }, { name: "Dummy-2" }, { name: "Dummy-3" }]);
 
         await registry.registerDeferredRegistrations(runtime, {});
 
-        expect(listener).toHaveBeenCalledExactlyOnceWith(expect.objectContaining({
-            registrationCount: 3
-        }));
+        expect(listener).toHaveBeenCalledExactlyOnceWith(
+            expect.objectContaining({
+                registrationCount: 3
+            })
+        );
     });
 
     test.concurrent("when a deferred registration is asynchronous, the function can be awaited", async ({ expect }) => {
@@ -537,7 +505,8 @@ describe.concurrent("registerDeferredRegistrations", () => {
 
         let hasBeenCompleted = false;
 
-        const loadRemote = vi.fn()
+        const loadRemote = vi
+            .fn()
             .mockResolvedValueOnce({
                 register: () => () => {}
             })
@@ -554,11 +523,7 @@ describe.concurrent("registerDeferredRegistrations", () => {
 
         const registry = new RemoteModuleRegistry(loadRemote);
 
-        await registry.registerModules(runtime, [
-            { name: "Dummy-1" },
-            { name: "Dummy-2" },
-            { name: "Dummy-3" }
-        ]);
+        await registry.registerModules(runtime, [{ name: "Dummy-1" }, { name: "Dummy-2" }, { name: "Dummy-3" }]);
 
         await registry.registerDeferredRegistrations(runtime, {});
 
@@ -571,12 +536,15 @@ describe.concurrent("registerDeferredRegistrations", () => {
         const register1 = vi.fn();
         const register3 = vi.fn();
 
-        const loadRemote = vi.fn()
+        const loadRemote = vi
+            .fn()
             .mockResolvedValueOnce({
                 register: () => register1
             })
             .mockResolvedValueOnce({
-                register: () => () => { throw new Error("Module 2 registration failed"); }
+                register: () => () => {
+                    throw new Error("Module 2 registration failed");
+                }
             })
             .mockResolvedValueOnce({
                 register: () => register3
@@ -584,11 +552,7 @@ describe.concurrent("registerDeferredRegistrations", () => {
 
         const registry = new RemoteModuleRegistry(loadRemote);
 
-        await registry.registerModules(runtime, [
-            { name: "Dummy-1" },
-            { name: "Dummy-2" },
-            { name: "Dummy-3" }
-        ]);
+        await registry.registerModules(runtime, [{ name: "Dummy-1" }, { name: "Dummy-2" }, { name: "Dummy-3" }]);
 
         await registry.registerDeferredRegistrations(runtime, {});
 
@@ -599,12 +563,15 @@ describe.concurrent("registerDeferredRegistrations", () => {
     test.concurrent("when a deferred registration fail, return the error", async ({ expect }) => {
         const runtime = new DummyRuntime({ loggers: [new NoopLogger()] });
 
-        const loadRemote = vi.fn()
+        const loadRemote = vi
+            .fn()
             .mockResolvedValueOnce({
                 register: () => () => {}
             })
             .mockResolvedValueOnce({
-                register: () => () => { throw new Error("Module 2 deferred registration failed"); }
+                register: () => () => {
+                    throw new Error("Module 2 deferred registration failed");
+                }
             })
             .mockResolvedValueOnce({
                 register: () => () => {}
@@ -612,11 +579,7 @@ describe.concurrent("registerDeferredRegistrations", () => {
 
         const registry = new RemoteModuleRegistry(loadRemote);
 
-        await registry.registerModules(runtime, [
-            { name: "Dummy-1" },
-            { name: "Dummy-2" },
-            { name: "Dummy-3" }
-        ]);
+        await registry.registerModules(runtime, [{ name: "Dummy-1" }, { name: "Dummy-2" }, { name: "Dummy-3" }]);
 
         const errors = await registry.registerDeferredRegistrations(runtime, {});
 
@@ -633,12 +596,15 @@ describe.concurrent("registerDeferredRegistrations", () => {
 
         const registrationError = new Error("Module 2 deferred registration failed");
 
-        const loadRemote = vi.fn()
+        const loadRemote = vi
+            .fn()
             .mockResolvedValueOnce({
                 register: () => () => {}
             })
             .mockResolvedValueOnce({
-                register: () => () => { throw registrationError; }
+                register: () => () => {
+                    throw registrationError;
+                }
             })
             .mockResolvedValueOnce({
                 register: () => () => {}
@@ -646,11 +612,7 @@ describe.concurrent("registerDeferredRegistrations", () => {
 
         const registry = new RemoteModuleRegistry(loadRemote);
 
-        await registry.registerModules(runtime, [
-            { name: "Dummy-1" },
-            { name: "Dummy-2" },
-            { name: "Dummy-3" }
-        ]);
+        await registry.registerModules(runtime, [{ name: "Dummy-1" }, { name: "Dummy-2" }, { name: "Dummy-3" }]);
 
         await registry.registerDeferredRegistrations(runtime, {});
 
@@ -666,12 +628,15 @@ describe.concurrent("registerDeferredRegistrations", () => {
 
         const registrationError = new Error("Module 2 deferred registration failed");
 
-        const loadRemote = vi.fn()
+        const loadRemote = vi
+            .fn()
             .mockResolvedValueOnce({
                 register: () => () => {}
             })
             .mockResolvedValueOnce({
-                register: () => () => { throw registrationError; }
+                register: () => () => {
+                    throw registrationError;
+                }
             })
             .mockResolvedValueOnce({
                 register: () => () => {}
@@ -679,17 +644,15 @@ describe.concurrent("registerDeferredRegistrations", () => {
 
         const registry = new RemoteModuleRegistry(loadRemote);
 
-        await registry.registerModules(runtime, [
-            { name: "Dummy-1" },
-            { name: "Dummy-2" },
-            { name: "Dummy-3" }
-        ]);
+        await registry.registerModules(runtime, [{ name: "Dummy-1" }, { name: "Dummy-2" }, { name: "Dummy-3" }]);
 
         await registry.registerDeferredRegistrations(runtime, {});
 
-        expect(listener).toHaveBeenCalledExactlyOnceWith(expect.objectContaining({
-            registrationCount: 2
-        }));
+        expect(listener).toHaveBeenCalledExactlyOnceWith(
+            expect.objectContaining({
+                registrationCount: 2
+            })
+        );
     });
 
     test.concurrent("all the deferred registrations receive the data object", async ({ expect }) => {
@@ -699,7 +662,8 @@ describe.concurrent("registerDeferredRegistrations", () => {
         const register2 = vi.fn();
         const register3 = vi.fn();
 
-        const loadRemote = vi.fn()
+        const loadRemote = vi
+            .fn()
             .mockResolvedValueOnce({
                 register: () => register1
             })
@@ -712,11 +676,7 @@ describe.concurrent("registerDeferredRegistrations", () => {
 
         const registry = new RemoteModuleRegistry(loadRemote);
 
-        await registry.registerModules(runtime, [
-            { name: "Dummy-1" },
-            { name: "Dummy-2" },
-            { name: "Dummy-3" }
-        ]);
+        await registry.registerModules(runtime, [{ name: "Dummy-1" }, { name: "Dummy-2" }, { name: "Dummy-3" }]);
 
         const data = {
             foo: "bar"
@@ -729,14 +689,15 @@ describe.concurrent("registerDeferredRegistrations", () => {
         expect(register3).toHaveBeenCalledExactlyOnceWith(runtime, data, "register");
     });
 
-    test.concurrent("all the deferred registrations receive \"register\" as state", async ({ expect }) => {
+    test.concurrent('all the deferred registrations receive "register" as state', async ({ expect }) => {
         const runtime = new DummyRuntime({ loggers: [new NoopLogger()] });
 
         const register1 = vi.fn();
         const register2 = vi.fn();
         const register3 = vi.fn();
 
-        const loadRemote = vi.fn()
+        const loadRemote = vi
+            .fn()
             .mockResolvedValueOnce({
                 register: () => register1
             })
@@ -749,11 +710,7 @@ describe.concurrent("registerDeferredRegistrations", () => {
 
         const registry = new RemoteModuleRegistry(loadRemote);
 
-        await registry.registerModules(runtime, [
-            { name: "Dummy-1" },
-            { name: "Dummy-2" },
-            { name: "Dummy-3" }
-        ]);
+        await registry.registerModules(runtime, [{ name: "Dummy-1" }, { name: "Dummy-2" }, { name: "Dummy-3" }]);
 
         const data = {
             foo: "bar"
@@ -776,7 +733,8 @@ describe.concurrent("registerDeferredRegistrations", () => {
 
         const register2 = vi.fn();
 
-        const loadRemote = vi.fn()
+        const loadRemote = vi
+            .fn()
             .mockResolvedValueOnce({
                 register: () => register1
             })
@@ -786,10 +744,7 @@ describe.concurrent("registerDeferredRegistrations", () => {
 
         const registry = new RemoteModuleRegistry(loadRemote);
 
-        await registry.registerModules(runtime, [
-            { name: "Dummy-1" },
-            { name: "Dummy-2" }
-        ]);
+        await registry.registerModules(runtime, [{ name: "Dummy-1" }, { name: "Dummy-2" }]);
 
         logger.clear();
 
@@ -821,10 +776,7 @@ describe.concurrent("updateDeferredRegistrations", () => {
 
         const registry = new RemoteModuleRegistry(loadRemote);
 
-        await registry.registerModules(runtime, [
-            { name: "Dummy-1" },
-            { name: "Dummy-2" }
-        ]);
+        await registry.registerModules(runtime, [{ name: "Dummy-1" }, { name: "Dummy-2" }]);
 
         await expect(() => registry.updateDeferredRegistrations(runtime, {})).rejects.toThrow(/The updateDeferredRegistrations function can only be called once the remote modules are ready/);
     });
@@ -842,17 +794,16 @@ describe.concurrent("updateDeferredRegistrations", () => {
 
         const registry = new RemoteModuleRegistry(loadRemote);
 
-        await registry.registerModules(runtime, [
-            { name: "Dummy-1" },
-            { name: "Dummy-2" }
-        ]);
+        await registry.registerModules(runtime, [{ name: "Dummy-1" }, { name: "Dummy-2" }]);
 
         await registry.registerDeferredRegistrations(runtime, {});
         await registry.updateDeferredRegistrations(runtime, {});
 
-        expect(listener).toHaveBeenCalledExactlyOnceWith(expect.objectContaining({
-            registrationCount: 2
-        }));
+        expect(listener).toHaveBeenCalledExactlyOnceWith(
+            expect.objectContaining({
+                registrationCount: 2
+            })
+        );
     });
 
     test.concurrent("should update all the deferred registrations", async ({ expect }) => {
@@ -862,7 +813,8 @@ describe.concurrent("updateDeferredRegistrations", () => {
         const register2 = vi.fn();
         const register3 = vi.fn();
 
-        const loadRemote = vi.fn()
+        const loadRemote = vi
+            .fn()
             .mockResolvedValueOnce({
                 register: () => register1
             })
@@ -875,11 +827,7 @@ describe.concurrent("updateDeferredRegistrations", () => {
 
         const registry = new RemoteModuleRegistry(loadRemote);
 
-        await registry.registerModules(runtime, [
-            { name: "Dummy-1" },
-            { name: "Dummy-2" },
-            { name: "Dummy-3" }
-        ]);
+        await registry.registerModules(runtime, [{ name: "Dummy-1" }, { name: "Dummy-2" }, { name: "Dummy-3" }]);
 
         await registry.registerDeferredRegistrations(runtime, {});
 
@@ -907,17 +855,16 @@ describe.concurrent("updateDeferredRegistrations", () => {
 
         const registry = new RemoteModuleRegistry(loadRemote);
 
-        await registry.registerModules(runtime, [
-            { name: "Dummy-1" },
-            { name: "Dummy-2" }
-        ]);
+        await registry.registerModules(runtime, [{ name: "Dummy-1" }, { name: "Dummy-2" }]);
 
         await registry.registerDeferredRegistrations(runtime, {});
         await registry.updateDeferredRegistrations(runtime, {});
 
-        expect(listener).toHaveBeenCalledExactlyOnceWith(expect.objectContaining({
-            registrationCount: 2
-        }));
+        expect(listener).toHaveBeenCalledExactlyOnceWith(
+            expect.objectContaining({
+                registrationCount: 2
+            })
+        );
     });
 
     test.concurrent("when a deferred registration is asynchronous, the function can be awaited", async ({ expect }) => {
@@ -927,8 +874,9 @@ describe.concurrent("updateDeferredRegistrations", () => {
 
         const register1 = vi.fn();
 
-        const register2 = vi.fn()
-        // Do not wait on the "registerDeferredRegistrations" call but wait on the "updateDeferredRegistrations" call.
+        const register2 = vi
+            .fn()
+            // Do not wait on the "registerDeferredRegistrations" call but wait on the "updateDeferredRegistrations" call.
             .mockImplementationOnce(() => {})
             .mockImplementationOnce(async () => {
                 await sleep(10);
@@ -938,7 +886,8 @@ describe.concurrent("updateDeferredRegistrations", () => {
 
         const register3 = vi.fn();
 
-        const loadRemote = vi.fn()
+        const loadRemote = vi
+            .fn()
             .mockResolvedValueOnce({
                 register: () => register1
             })
@@ -951,11 +900,7 @@ describe.concurrent("updateDeferredRegistrations", () => {
 
         const registry = new RemoteModuleRegistry(loadRemote);
 
-        await registry.registerModules(runtime, [
-            { name: "Dummy-1" },
-            { name: "Dummy-2" },
-            { name: "Dummy-3" }
-        ]);
+        await registry.registerModules(runtime, [{ name: "Dummy-1" }, { name: "Dummy-2" }, { name: "Dummy-3" }]);
 
         await registry.registerDeferredRegistrations(runtime, {});
 
@@ -969,8 +914,9 @@ describe.concurrent("updateDeferredRegistrations", () => {
 
         const register1 = vi.fn();
 
-        const register2 = vi.fn()
-        // Do not wait on the "registerDeferredRegistrations" call but wait on the "updateDeferredRegistrations" call.
+        const register2 = vi
+            .fn()
+            // Do not wait on the "registerDeferredRegistrations" call but wait on the "updateDeferredRegistrations" call.
             .mockImplementationOnce(() => {})
             .mockImplementationOnce(() => {
                 throw new Error("Module 2 registration failed");
@@ -978,7 +924,8 @@ describe.concurrent("updateDeferredRegistrations", () => {
 
         const register3 = vi.fn();
 
-        const loadRemote = vi.fn()
+        const loadRemote = vi
+            .fn()
             .mockResolvedValueOnce({
                 register: () => register1
             })
@@ -991,11 +938,7 @@ describe.concurrent("updateDeferredRegistrations", () => {
 
         const registry = new RemoteModuleRegistry(loadRemote);
 
-        await registry.registerModules(runtime, [
-            { name: "Dummy-1" },
-            { name: "Dummy-2" },
-            { name: "Dummy-3" }
-        ]);
+        await registry.registerModules(runtime, [{ name: "Dummy-1" }, { name: "Dummy-2" }, { name: "Dummy-3" }]);
 
         await registry.registerDeferredRegistrations(runtime, {});
 
@@ -1013,8 +956,9 @@ describe.concurrent("updateDeferredRegistrations", () => {
 
         const register1 = vi.fn();
 
-        const register2 = vi.fn()
-        // Do not wait on the "registerDeferredRegistrations" call but wait on the "updateDeferredRegistrations" call.
+        const register2 = vi
+            .fn()
+            // Do not wait on the "registerDeferredRegistrations" call but wait on the "updateDeferredRegistrations" call.
             .mockImplementationOnce(() => {})
             .mockImplementationOnce(() => {
                 throw new Error("Module 2 registration failed");
@@ -1022,7 +966,8 @@ describe.concurrent("updateDeferredRegistrations", () => {
 
         const register3 = vi.fn();
 
-        const loadRemote = vi.fn()
+        const loadRemote = vi
+            .fn()
             .mockResolvedValueOnce({
                 register: () => register1
             })
@@ -1035,11 +980,7 @@ describe.concurrent("updateDeferredRegistrations", () => {
 
         const registry = new RemoteModuleRegistry(loadRemote);
 
-        await registry.registerModules(runtime, [
-            { name: "Dummy-1" },
-            { name: "Dummy-2" },
-            { name: "Dummy-3" }
-        ]);
+        await registry.registerModules(runtime, [{ name: "Dummy-1" }, { name: "Dummy-2" }, { name: "Dummy-3" }]);
 
         await registry.registerDeferredRegistrations(runtime, {});
 
@@ -1060,8 +1001,9 @@ describe.concurrent("updateDeferredRegistrations", () => {
 
         const register1 = vi.fn();
 
-        const register2 = vi.fn()
-        // Do not wait on the "registerDeferredRegistrations" call but wait on the "updateDeferredRegistrations" call.
+        const register2 = vi
+            .fn()
+            // Do not wait on the "registerDeferredRegistrations" call but wait on the "updateDeferredRegistrations" call.
             .mockImplementationOnce(() => {})
             .mockImplementationOnce(() => {
                 throw registrationError;
@@ -1069,7 +1011,8 @@ describe.concurrent("updateDeferredRegistrations", () => {
 
         const register3 = vi.fn();
 
-        const loadRemote = vi.fn()
+        const loadRemote = vi
+            .fn()
             .mockResolvedValueOnce({
                 register: () => register1
             })
@@ -1082,11 +1025,7 @@ describe.concurrent("updateDeferredRegistrations", () => {
 
         const registry = new RemoteModuleRegistry(loadRemote);
 
-        await registry.registerModules(runtime, [
-            { name: "Dummy-1" },
-            { name: "Dummy-2" },
-            { name: "Dummy-3" }
-        ]);
+        await registry.registerModules(runtime, [{ name: "Dummy-1" }, { name: "Dummy-2" }, { name: "Dummy-3" }]);
 
         await registry.registerDeferredRegistrations(runtime, {});
         await registry.updateDeferredRegistrations(runtime, {});
@@ -1105,8 +1044,9 @@ describe.concurrent("updateDeferredRegistrations", () => {
 
         const register1 = vi.fn();
 
-        const register2 = vi.fn()
-        // Do not wait on the "registerDeferredRegistrations" call but wait on the "updateDeferredRegistrations" call.
+        const register2 = vi
+            .fn()
+            // Do not wait on the "registerDeferredRegistrations" call but wait on the "updateDeferredRegistrations" call.
             .mockImplementationOnce(() => {})
             .mockImplementationOnce(() => {
                 throw registrationError;
@@ -1114,7 +1054,8 @@ describe.concurrent("updateDeferredRegistrations", () => {
 
         const register3 = vi.fn();
 
-        const loadRemote = vi.fn()
+        const loadRemote = vi
+            .fn()
             .mockResolvedValueOnce({
                 register: () => register1
             })
@@ -1127,18 +1068,16 @@ describe.concurrent("updateDeferredRegistrations", () => {
 
         const registry = new RemoteModuleRegistry(loadRemote);
 
-        await registry.registerModules(runtime, [
-            { name: "Dummy-1" },
-            { name: "Dummy-2" },
-            { name: "Dummy-3" }
-        ]);
+        await registry.registerModules(runtime, [{ name: "Dummy-1" }, { name: "Dummy-2" }, { name: "Dummy-3" }]);
 
         await registry.registerDeferredRegistrations(runtime, {});
         await registry.updateDeferredRegistrations(runtime, {});
 
-        expect(listener).toHaveBeenCalledExactlyOnceWith(expect.objectContaining({
-            registrationCount: 2
-        }));
+        expect(listener).toHaveBeenCalledExactlyOnceWith(
+            expect.objectContaining({
+                registrationCount: 2
+            })
+        );
     });
 
     test.concurrent("all the deferred module registrations receive the data object", async ({ expect }) => {
@@ -1148,7 +1087,8 @@ describe.concurrent("updateDeferredRegistrations", () => {
         const register2 = vi.fn();
         const register3 = vi.fn();
 
-        const loadRemote = vi.fn()
+        const loadRemote = vi
+            .fn()
             .mockResolvedValueOnce({
                 register: () => register1
             })
@@ -1161,11 +1101,7 @@ describe.concurrent("updateDeferredRegistrations", () => {
 
         const registry = new RemoteModuleRegistry(loadRemote);
 
-        await registry.registerModules(runtime, [
-            { name: "Dummy-1" },
-            { name: "Dummy-2" },
-            { name: "Dummy-3" }
-        ]);
+        await registry.registerModules(runtime, [{ name: "Dummy-1" }, { name: "Dummy-2" }, { name: "Dummy-3" }]);
 
         await registry.registerDeferredRegistrations(runtime, {});
 
@@ -1184,14 +1120,15 @@ describe.concurrent("updateDeferredRegistrations", () => {
         expect(register3).toHaveBeenCalledExactlyOnceWith(runtime, data, "update");
     });
 
-    test.concurrent("all the deferred module registrations receive \"update\" as state", async ({ expect }) => {
+    test.concurrent('all the deferred module registrations receive "update" as state', async ({ expect }) => {
         const runtime = new DummyRuntime({ loggers: [new NoopLogger()] });
 
         const register1 = vi.fn();
         const register2 = vi.fn();
         const register3 = vi.fn();
 
-        const loadRemote = vi.fn()
+        const loadRemote = vi
+            .fn()
             .mockResolvedValueOnce({
                 register: () => register1
             })
@@ -1204,11 +1141,7 @@ describe.concurrent("updateDeferredRegistrations", () => {
 
         const registry = new RemoteModuleRegistry(loadRemote);
 
-        await registry.registerModules(runtime, [
-            { name: "Dummy-1" },
-            { name: "Dummy-2" },
-            { name: "Dummy-3" }
-        ]);
+        await registry.registerModules(runtime, [{ name: "Dummy-1" }, { name: "Dummy-2" }, { name: "Dummy-3" }]);
 
         await registry.registerDeferredRegistrations(runtime, {});
 
@@ -1231,8 +1164,9 @@ describe.concurrent("updateDeferredRegistrations", () => {
         const logger = new ScopeRecordingLogger();
         const runtime = new DummyRuntime({ loggers: [logger] });
 
-        const register1 = vi.fn()
-        // Do not throw on the "registerDeferredRegistrations" call but throw on the "updateDeferredRegistrations" call.
+        const register1 = vi
+            .fn()
+            // Do not throw on the "registerDeferredRegistrations" call but throw on the "updateDeferredRegistrations" call.
             .mockImplementationOnce(() => {})
             .mockImplementationOnce(() => {
                 throw new Error("Module 1 registration failed");
@@ -1240,7 +1174,8 @@ describe.concurrent("updateDeferredRegistrations", () => {
 
         const register2 = vi.fn();
 
-        const loadRemote = vi.fn()
+        const loadRemote = vi
+            .fn()
             .mockResolvedValueOnce({
                 register: () => register1
             })
@@ -1250,10 +1185,7 @@ describe.concurrent("updateDeferredRegistrations", () => {
 
         const registry = new RemoteModuleRegistry(loadRemote);
 
-        await registry.registerModules(runtime, [
-            { name: "Dummy-1" },
-            { name: "Dummy-2" }
-        ]);
+        await registry.registerModules(runtime, [{ name: "Dummy-1" }, { name: "Dummy-2" }]);
 
         await registry.registerDeferredRegistrations(runtime, {});
 

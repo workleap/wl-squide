@@ -1,22 +1,15 @@
 {
     "name": "@basic-webpack/local-module",
-    "author": "Workleap",
     "version": "0.0.0",
-    "description": "Local module to showcase Squide.",
     "private": true,
+    "description": "Local module to showcase Squide.",
     "license": "Apache-2.0",
+    "author": "Workleap",
     "type": "module",
     "exports": "./src/register.tsx",
     "scripts": {
         "dev-isolated": "webpack serve --config webpack.config.js",
         "typecheck": "tsgo"
-    },
-    "peerDependencies": {
-        "@react-aria/toast": "^3.1.1",
-        "@react-stately/toast": "^3.2.1",
-        "react": "^19.3.1",
-        "react-dom": "^19.3.1",
-        "react-router": "^8.5.0"
     },
     "dependencies": {
         "@basic-webpack/shared": "workspace:*",
@@ -46,5 +39,12 @@
         "webpack": "5.110.3",
         "webpack-cli": "7.2.3",
         "webpack-dev-server": "5.2.4"
+    },
+    "peerDependencies": {
+        "@react-aria/toast": "^3.1.1",
+        "@react-stately/toast": "^3.2.1",
+        "react": "^19.3.1",
+        "react-dom": "^19.3.1",
+        "react-router": "^8.5.0"
     }
 }

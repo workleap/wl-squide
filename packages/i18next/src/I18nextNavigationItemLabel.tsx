@@ -8,11 +8,7 @@ export interface I18nextNavigationItemLabelProps {
 }
 
 export function I18nextNavigationItemLabel(props: I18nextNavigationItemLabelProps) {
-    const {
-        i18next,
-        namespace = "navigationItems",
-        resourceKey
-    } = props;
+    const { i18next, namespace = "navigationItems", resourceKey } = props;
 
     const { t } = useTranslation(namespace, { i18n: i18next });
 

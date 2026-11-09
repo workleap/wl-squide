@@ -7,9 +7,7 @@ function BootstrappingRoute() {
         return <div>Loading...</div>;
     }
 
-    return (
-        <Outlet />
-    );
+    return <Outlet />;
 }
 
 export function App() {

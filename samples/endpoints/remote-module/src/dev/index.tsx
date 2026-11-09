@@ -17,12 +17,16 @@ declare module "@squide/firefly" {
     }
 }
 
-const launchDarklyClient = initializeLaunchDarkly(process.env.LAUNCH_DARKLY_CLIENT_ID!, {
-    kind: "user",
-    anonymous: true
-}, {
-    streaming: true
-});
+const launchDarklyClient = initializeLaunchDarkly(
+    process.env.LAUNCH_DARKLY_CLIENT_ID!,
+    {
+        kind: "user",
+        anonymous: true
+    },
+    {
+        streaming: true
+    }
+);
 
 try {
     await launchDarklyClient.waitForInitialization(5);

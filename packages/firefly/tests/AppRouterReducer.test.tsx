@@ -159,16 +159,12 @@ class DummyPlugin extends Plugin {
 describe.concurrent("useAppRouterReducer", () => {
     function renderUseAppRouterReducerHook<TProps>(runtime: FireflyRuntime, waitForPublicData: boolean, waitForProtectedData: boolean, additionalProps: RenderHookOptions<TProps> = {}) {
         return renderHook(() => useAppRouterReducer(waitForPublicData, waitForProtectedData), {
-            wrapper: ({ children }: { children?: ReactNode }) => (
-                <FireflyProvider runtime={runtime}>
-                    {children}
-                </FireflyProvider>
-            ),
+            wrapper: ({ children }: { children?: ReactNode }) => <FireflyProvider runtime={runtime}>{children}</FireflyProvider>,
             ...additionalProps
         });
     }
 
-    test.concurrent("the reducer is initialized with the provided values for \"waitForMsw\", \"waitForPublicData\" and \"waitForProtectedData\" 1", ({ expect }) => {
+    test.concurrent('the reducer is initialized with the provided values for "waitForMsw", "waitForPublicData" and "waitForProtectedData" 1', ({ expect }) => {
         const runtime = new FireflyRuntime({
             plugins: [x => new MswPlugin(x)],
             loggers: [new NoopLogger()]
@@ -183,7 +179,7 @@ describe.concurrent("useAppRouterReducer", () => {
         expect(state.waitForProtectedData).toBeTruthy();
     });
 
-    test.concurrent("the reducer is initialized with the provided values for \"waitForMsw\", \"waitForPublicData\" and \"waitForProtectedData\" 2", ({ expect }) => {
+    test.concurrent('the reducer is initialized with the provided values for "waitForMsw", "waitForPublicData" and "waitForProtectedData" 2', ({ expect }) => {
         const runtime = new FireflyRuntime({
             loggers: [new NoopLogger()]
         });
@@ -197,7 +193,7 @@ describe.concurrent("useAppRouterReducer", () => {
         expect(state.waitForProtectedData).toBeFalsy();
     });
 
-    test.concurrent("when \"modules-registered\" is dispatched, \"areModulesRegistered\" is true", ({ expect }) => {
+    test.concurrent('when "modules-registered" is dispatched, "areModulesRegistered" is true', ({ expect }) => {
         const runtime = new FireflyRuntime({
             loggers: [new NoopLogger()]
         });
@@ -216,7 +212,7 @@ describe.concurrent("useAppRouterReducer", () => {
         expect(runtime.appRouterStore.state.areModulesRegistered).toBeTruthy();
     });
 
-    test.concurrent("when \"modules-registered\" is dispatched, ModulesRegisteredEvent is dispatched", ({ expect }) => {
+    test.concurrent('when "modules-registered" is dispatched, ModulesRegisteredEvent is dispatched', ({ expect }) => {
         const runtime = new FireflyRuntime({
             loggers: [new NoopLogger()]
         });
@@ -237,7 +233,7 @@ describe.concurrent("useAppRouterReducer", () => {
         expect(listener).toHaveBeenCalledExactlyOnceWith({ waitForMsw: false, waitForPublicData: false, waitForProtectedData: false });
     });
 
-    test.concurrent("when \"modules-ready\" is dispatched, \"areModulesReady\" is true", ({ expect }) => {
+    test.concurrent('when "modules-ready" is dispatched, "areModulesReady" is true', ({ expect }) => {
         const runtime = new FireflyRuntime({
             loggers: [new NoopLogger()]
         });
@@ -256,7 +252,7 @@ describe.concurrent("useAppRouterReducer", () => {
         expect(runtime.appRouterStore.state.areModulesReady).toBeTruthy();
     });
 
-    test.concurrent("when \"modules-ready\" is dispatched, ModulesReadyEvent is dispatched", ({ expect }) => {
+    test.concurrent('when "modules-ready" is dispatched, ModulesReadyEvent is dispatched', ({ expect }) => {
         const runtime = new FireflyRuntime({
             loggers: [new NoopLogger()]
         });
@@ -277,7 +273,7 @@ describe.concurrent("useAppRouterReducer", () => {
         expect(listener).toHaveBeenCalledExactlyOnceWith({ waitForMsw: false, waitForPublicData: false, waitForProtectedData: false });
     });
 
-    test.concurrent("when \"modules-ready\" is dispatched, \"deferredRegistrationsUpdatedAt\" is set to the current timestamp", ({ expect }) => {
+    test.concurrent('when "modules-ready" is dispatched, "deferredRegistrationsUpdatedAt" is set to the current timestamp', ({ expect }) => {
         vi.spyOn(global.Date, "now")
             .mockImplementationOnce(() => Date.parse("2020-02-14"))
             .mockImplementationOnce(() => Date.parse("2020-02-14"));
@@ -300,7 +296,7 @@ describe.concurrent("useAppRouterReducer", () => {
         expect(runtime.appRouterStore.state.deferredRegistrationsUpdatedAt).toEqual(Date.parse("2020-02-14"));
     });
 
-    test.concurrent("when \"msw-ready\" is dispatched, \"isMswReady\" is true", ({ expect }) => {
+    test.concurrent('when "msw-ready" is dispatched, "isMswReady" is true', ({ expect }) => {
         const runtime = new FireflyRuntime({
             plugins: [x => new MswPlugin(x)],
             loggers: [new NoopLogger()]
@@ -320,7 +316,7 @@ describe.concurrent("useAppRouterReducer", () => {
         expect(runtime.appRouterStore.state.isMswReady).toBeTruthy();
     });
 
-    test.concurrent("when \"msw-ready\" is dispatched, MswReadyEvent is dispatched", ({ expect }) => {
+    test.concurrent('when "msw-ready" is dispatched, MswReadyEvent is dispatched', ({ expect }) => {
         const runtime = new FireflyRuntime({
             plugins: [x => new MswPlugin(x)],
             loggers: [new NoopLogger()]
@@ -342,7 +338,7 @@ describe.concurrent("useAppRouterReducer", () => {
         expect(listener).toHaveBeenCalledExactlyOnceWith({ waitForMsw: true, waitForPublicData: false, waitForProtectedData: false });
     });
 
-    test.concurrent("when \"plugins-ready\" is dispatched, \"arePluginsReady\" is true", ({ expect }) => {
+    test.concurrent('when "plugins-ready" is dispatched, "arePluginsReady" is true', ({ expect }) => {
         const runtime = new FireflyRuntime({
             plugins: [x => new DummyReadyPlugin(x)],
             loggers: [new NoopLogger()]
@@ -362,7 +358,7 @@ describe.concurrent("useAppRouterReducer", () => {
         expect(runtime.appRouterStore.state.arePluginsReady).toBeTruthy();
     });
 
-    test.concurrent("when \"plugins-ready\" is dispatched, PluginsReadyEvent is dispatched", ({ expect }) => {
+    test.concurrent('when "plugins-ready" is dispatched, PluginsReadyEvent is dispatched', ({ expect }) => {
         const runtime = new FireflyRuntime({
             plugins: [x => new DummyReadyPlugin(x)],
             loggers: [new NoopLogger()]
@@ -384,15 +380,10 @@ describe.concurrent("useAppRouterReducer", () => {
         expect(listener).toHaveBeenCalledExactlyOnceWith({ waitForMsw: false, waitForPublicData: false, waitForProtectedData: false });
     });
 
-    test.concurrent("when the other inputs are ready and the last plugin becomes ready, \"arePluginsReady\" is true", ({ expect }) => {
+    test.concurrent('when the other inputs are ready and the last plugin becomes ready, "arePluginsReady" is true', ({ expect }) => {
         const runtime = new FireflyRuntime({
-            plugins: [
-                x => new DummyReadyPlugin(x, false, "plugin-1"),
-                x => new DummyReadyPlugin(x, false, "plugin-2")
-            ],
-            moduleManager: x => new ModuleManager(x, [
-                new DummyModuleRegistry("local", "ready")
-            ]),
+            plugins: [x => new DummyReadyPlugin(x, false, "plugin-1"), x => new DummyReadyPlugin(x, false, "plugin-2")],
+            moduleManager: x => new ModuleManager(x, [new DummyModuleRegistry("local", "ready")]),
             loggers: [new NoopLogger()]
         });
 
@@ -418,7 +409,7 @@ describe.concurrent("useAppRouterReducer", () => {
         expect(runtime.appRouterStore.state.arePluginsReady).toBeTruthy();
     });
 
-    test.concurrent("when \"public-data-ready\" is dispatched, \"isPublicDataReady\" is true", ({ expect }) => {
+    test.concurrent('when "public-data-ready" is dispatched, "isPublicDataReady" is true', ({ expect }) => {
         const runtime = new FireflyRuntime({
             loggers: [new NoopLogger()]
         });
@@ -437,7 +428,7 @@ describe.concurrent("useAppRouterReducer", () => {
         expect(runtime.appRouterStore.state.isPublicDataReady).toBeTruthy();
     });
 
-    test.concurrent("when \"public-data-ready\" is dispatched, PublicDataReadyEvent is dispatched", ({ expect }) => {
+    test.concurrent('when "public-data-ready" is dispatched, PublicDataReadyEvent is dispatched', ({ expect }) => {
         const runtime = new FireflyRuntime({
             loggers: [new NoopLogger()]
         });
@@ -458,7 +449,7 @@ describe.concurrent("useAppRouterReducer", () => {
         expect(listener).toHaveBeenCalledExactlyOnceWith({ waitForMsw: false, waitForPublicData: true, waitForProtectedData: false });
     });
 
-    test.concurrent("when \"public-data-ready\" is dispatched, \"publicDataUpdatedAt\" is set to the current timestamp", ({ expect }) => {
+    test.concurrent('when "public-data-ready" is dispatched, "publicDataUpdatedAt" is set to the current timestamp', ({ expect }) => {
         vi.spyOn(global.Date, "now")
             .mockImplementationOnce(() => Date.parse("2020-02-14"))
             .mockImplementationOnce(() => Date.parse("2020-02-14"));
@@ -481,7 +472,7 @@ describe.concurrent("useAppRouterReducer", () => {
         expect(runtime.appRouterStore.state.publicDataUpdatedAt).toEqual(Date.parse("2020-02-14"));
     });
 
-    test.concurrent("when \"protected-data-ready\" is dispatched, \"isProtectedDataReady\" is true", ({ expect }) => {
+    test.concurrent('when "protected-data-ready" is dispatched, "isProtectedDataReady" is true', ({ expect }) => {
         const runtime = new FireflyRuntime({
             loggers: [new NoopLogger()]
         });
@@ -500,7 +491,7 @@ describe.concurrent("useAppRouterReducer", () => {
         expect(runtime.appRouterStore.state.isProtectedDataReady).toBeTruthy();
     });
 
-    test.concurrent("when \"protected-data-ready\" is dispatched, ProtectedDataReadyEvent is dispatched", ({ expect }) => {
+    test.concurrent('when "protected-data-ready" is dispatched, ProtectedDataReadyEvent is dispatched', ({ expect }) => {
         const runtime = new FireflyRuntime({
             loggers: [new NoopLogger()]
         });
@@ -521,7 +512,7 @@ describe.concurrent("useAppRouterReducer", () => {
         expect(listener).toHaveBeenCalledExactlyOnceWith({ waitForMsw: false, waitForPublicData: false, waitForProtectedData: true });
     });
 
-    test.concurrent("when \"protected-data-ready\" is dispatched, \"protectedDataUpdatedAt\" is set to the current timestamp", ({ expect }) => {
+    test.concurrent('when "protected-data-ready" is dispatched, "protectedDataUpdatedAt" is set to the current timestamp', ({ expect }) => {
         vi.spyOn(global.Date, "now")
             .mockImplementationOnce(() => Date.parse("2020-02-14"))
             .mockImplementationOnce(() => Date.parse("2020-02-14"));
@@ -544,7 +535,7 @@ describe.concurrent("useAppRouterReducer", () => {
         expect(runtime.appRouterStore.state.protectedDataUpdatedAt).toEqual(Date.parse("2020-02-14"));
     });
 
-    test.concurrent("when \"public-data-updated\" is dispatched, \"publicDataUpdatedAt\" is set to the current timestamp", ({ expect }) => {
+    test.concurrent('when "public-data-updated" is dispatched, "publicDataUpdatedAt" is set to the current timestamp', ({ expect }) => {
         vi.spyOn(global.Date, "now")
             .mockImplementationOnce(() => Date.parse("2020-02-14"))
             .mockImplementationOnce(() => Date.parse("2020-02-14"))
@@ -574,7 +565,7 @@ describe.concurrent("useAppRouterReducer", () => {
         expect(runtime.appRouterStore.state.publicDataUpdatedAt).toEqual(Date.parse("2021-02-14"));
     });
 
-    test.concurrent("when \"protected-data-updated\" is dispatched, \"protectedDataUpdatedAt\" is set to the current timestamp", ({ expect }) => {
+    test.concurrent('when "protected-data-updated" is dispatched, "protectedDataUpdatedAt" is set to the current timestamp', ({ expect }) => {
         vi.spyOn(global.Date, "now")
             .mockImplementationOnce(() => Date.parse("2020-02-14"))
             .mockImplementationOnce(() => Date.parse("2020-02-14"))
@@ -604,7 +595,7 @@ describe.concurrent("useAppRouterReducer", () => {
         expect(runtime.appRouterStore.state.protectedDataUpdatedAt).toEqual(Date.parse("2021-02-14"));
     });
 
-    test.concurrent("when \"feature-flags-updated\" is dispatched, \"featureFlagsUpdatedAt\" is set to the current timestamp", ({ expect }) => {
+    test.concurrent('when "feature-flags-updated" is dispatched, "featureFlagsUpdatedAt" is set to the current timestamp', ({ expect }) => {
         vi.spyOn(global.Date, "now")
             .mockImplementationOnce(() => Date.parse("2020-02-14"))
             .mockImplementationOnce(() => Date.parse("2020-02-14"))
@@ -634,7 +625,7 @@ describe.concurrent("useAppRouterReducer", () => {
         expect(runtime.appRouterStore.state.featureFlagsUpdatedAt).toEqual(Date.parse("2021-02-14"));
     });
 
-    test.concurrent("when \"deferred-registrations-updated\" is dispatched, \"deferredRegistrationsUpdatedAt\" is set to the current timestamp", ({ expect }) => {
+    test.concurrent('when "deferred-registrations-updated" is dispatched, "deferredRegistrationsUpdatedAt" is set to the current timestamp', ({ expect }) => {
         vi.spyOn(global.Date, "now")
             .mockImplementationOnce(() => Date.parse("2020-02-14"))
             .mockImplementationOnce(() => Date.parse("2020-02-14"));
@@ -657,7 +648,7 @@ describe.concurrent("useAppRouterReducer", () => {
         expect(runtime.appRouterStore.state.deferredRegistrationsUpdatedAt).toEqual(Date.parse("2020-02-14"));
     });
 
-    test.concurrent("when \"active-route-is-public\" is dispatched, \"activeRouteVisiblity\" is \"public\"", ({ expect }) => {
+    test.concurrent('when "active-route-is-public" is dispatched, "activeRouteVisiblity" is "public"', ({ expect }) => {
         const runtime = new FireflyRuntime({
             loggers: [new NoopLogger()]
         });
@@ -676,7 +667,7 @@ describe.concurrent("useAppRouterReducer", () => {
         expect(runtime.appRouterStore.state.activeRouteVisibility).toBe("public");
     });
 
-    test.concurrent("when \"active-route-is-public\" is dispatched, ActiveRouteIsPublicEvent is dispatched", ({ expect }) => {
+    test.concurrent('when "active-route-is-public" is dispatched, ActiveRouteIsPublicEvent is dispatched', ({ expect }) => {
         const runtime = new FireflyRuntime({
             loggers: [new NoopLogger()]
         });
@@ -697,7 +688,7 @@ describe.concurrent("useAppRouterReducer", () => {
         expect(listener).toHaveBeenCalledExactlyOnceWith({ waitForMsw: false, waitForPublicData: false, waitForProtectedData: false });
     });
 
-    test.concurrent("when \"active-route-is-protected\" is dispatched, \"activeRouteVisiblity\" is \"protected\"", ({ expect }) => {
+    test.concurrent('when "active-route-is-protected" is dispatched, "activeRouteVisiblity" is "protected"', ({ expect }) => {
         const runtime = new FireflyRuntime({
             loggers: [new NoopLogger()]
         });
@@ -716,7 +707,7 @@ describe.concurrent("useAppRouterReducer", () => {
         expect(runtime.appRouterStore.state.activeRouteVisibility).toBe("protected");
     });
 
-    test.concurrent("when \"active-route-is-protected\" is dispatched, ActiveRouteIsProtectedEvent is dispatched", ({ expect }) => {
+    test.concurrent('when "active-route-is-protected" is dispatched, ActiveRouteIsProtectedEvent is dispatched', ({ expect }) => {
         const runtime = new FireflyRuntime({
             loggers: [new NoopLogger()]
         });
@@ -737,7 +728,7 @@ describe.concurrent("useAppRouterReducer", () => {
         expect(listener).toHaveBeenCalledExactlyOnceWith({ waitForMsw: false, waitForPublicData: false, waitForProtectedData: false });
     });
 
-    test.concurrent("when \"is-unauthorized\" is dispatched, \"isUnauthorized\" is true", ({ expect }) => {
+    test.concurrent('when "is-unauthorized" is dispatched, "isUnauthorized" is true', ({ expect }) => {
         const runtime = new FireflyRuntime({
             loggers: [new NoopLogger()]
         });
@@ -756,15 +747,12 @@ describe.concurrent("useAppRouterReducer", () => {
         expect(runtime.appRouterStore.state.isUnauthorized).toBeTruthy();
     });
 
-    test.concurrent("when all registries modules are registered, \"areModulesRegistered\" is true at initialization", ({ expect }) => {
+    test.concurrent('when all registries modules are registered, "areModulesRegistered" is true at initialization', ({ expect }) => {
         const localModuleRegistry = new DummyModuleRegistry("local", "modules-registered");
         const remoteModuleRegistry = new DummyModuleRegistry("remote", "modules-registered");
 
         const runtime = new FireflyRuntime({
-            moduleManager: x => new ModuleManager(x, [
-                localModuleRegistry,
-                remoteModuleRegistry
-            ]),
+            moduleManager: x => new ModuleManager(x, [localModuleRegistry, remoteModuleRegistry]),
             loggers: [new NoopLogger()]
         });
 
@@ -779,10 +767,7 @@ describe.concurrent("useAppRouterReducer", () => {
         const remoteModuleRegistry = new DummyModuleRegistry("remote", "modules-registered");
 
         const runtime = new FireflyRuntime({
-            moduleManager: x => new ModuleManager(x, [
-                localModuleRegistry,
-                remoteModuleRegistry
-            ]),
+            moduleManager: x => new ModuleManager(x, [localModuleRegistry, remoteModuleRegistry]),
             loggers: [new NoopLogger()]
         });
 
@@ -795,15 +780,12 @@ describe.concurrent("useAppRouterReducer", () => {
         expect(listener).toHaveBeenCalledExactlyOnceWith({ waitForMsw: false, waitForPublicData: false, waitForProtectedData: false });
     });
 
-    test.concurrent("when local modules are registered and no remote modules has been provided, \"areModulesRegistered\" is true at initialization", ({ expect }) => {
+    test.concurrent('when local modules are registered and no remote modules has been provided, "areModulesRegistered" is true at initialization', ({ expect }) => {
         const localModuleRegistry = new DummyModuleRegistry("local", "modules-registered");
         const remoteModuleRegistry = new DummyModuleRegistry("remote", "none");
 
         const runtime = new FireflyRuntime({
-            moduleManager: x => new ModuleManager(x, [
-                localModuleRegistry,
-                remoteModuleRegistry
-            ]),
+            moduleManager: x => new ModuleManager(x, [localModuleRegistry, remoteModuleRegistry]),
             loggers: [new NoopLogger()]
         });
 
@@ -818,10 +800,7 @@ describe.concurrent("useAppRouterReducer", () => {
         const remoteModuleRegistry = new DummyModuleRegistry("remote", "none");
 
         const runtime = new FireflyRuntime({
-            moduleManager: x => new ModuleManager(x, [
-                localModuleRegistry,
-                remoteModuleRegistry
-            ]),
+            moduleManager: x => new ModuleManager(x, [localModuleRegistry, remoteModuleRegistry]),
             loggers: [new NoopLogger()]
         });
 
@@ -834,15 +813,12 @@ describe.concurrent("useAppRouterReducer", () => {
         expect(listener).toHaveBeenCalledExactlyOnceWith({ waitForMsw: false, waitForPublicData: false, waitForProtectedData: false });
     });
 
-    test.concurrent("when no local modules has been provided and remote modules are registered, \"areModulesRegistered\" is true at initialization", ({ expect }) => {
+    test.concurrent('when no local modules has been provided and remote modules are registered, "areModulesRegistered" is true at initialization', ({ expect }) => {
         const localModuleRegistry = new DummyModuleRegistry("local", "none");
         const remoteModuleRegistry = new DummyModuleRegistry("remote", "modules-registered");
 
         const runtime = new FireflyRuntime({
-            moduleManager: x => new ModuleManager(x, [
-                localModuleRegistry,
-                remoteModuleRegistry
-            ]),
+            moduleManager: x => new ModuleManager(x, [localModuleRegistry, remoteModuleRegistry]),
             loggers: [new NoopLogger()]
         });
 
@@ -857,10 +833,7 @@ describe.concurrent("useAppRouterReducer", () => {
         const remoteModuleRegistry = new DummyModuleRegistry("remote", "modules-registered");
 
         const runtime = new FireflyRuntime({
-            moduleManager: x => new ModuleManager(x, [
-                localModuleRegistry,
-                remoteModuleRegistry
-            ]),
+            moduleManager: x => new ModuleManager(x, [localModuleRegistry, remoteModuleRegistry]),
             loggers: [new NoopLogger()]
         });
 
@@ -873,15 +846,12 @@ describe.concurrent("useAppRouterReducer", () => {
         expect(listener).toHaveBeenCalledExactlyOnceWith({ waitForMsw: false, waitForPublicData: false, waitForProtectedData: false });
     });
 
-    test.concurrent("when local modules are registered and remote modules are registering, \"areModulesRegistered\" is false at initialization", ({ expect }) => {
+    test.concurrent('when local modules are registered and remote modules are registering, "areModulesRegistered" is false at initialization', ({ expect }) => {
         const localModuleRegistry = new DummyModuleRegistry("local", "modules-registered");
         const remoteModuleRegistry = new DummyModuleRegistry("remote", "registering-modules");
 
         const runtime = new FireflyRuntime({
-            moduleManager: x => new ModuleManager(x, [
-                localModuleRegistry,
-                remoteModuleRegistry
-            ]),
+            moduleManager: x => new ModuleManager(x, [localModuleRegistry, remoteModuleRegistry]),
             loggers: [new NoopLogger()]
         });
 
@@ -891,15 +861,12 @@ describe.concurrent("useAppRouterReducer", () => {
         expect(runtime.appRouterStore.state.areModulesRegistered).toBeFalsy();
     });
 
-    test.concurrent("when local modules are registering and remote modules are registered, \"areModulesRegistered\" is false at initialization", ({ expect }) => {
+    test.concurrent('when local modules are registering and remote modules are registered, "areModulesRegistered" is false at initialization', ({ expect }) => {
         const localModuleRegistry = new DummyModuleRegistry("local", "registering-modules");
         const remoteModuleRegistry = new DummyModuleRegistry("remote", "modules-registered");
 
         const runtime = new FireflyRuntime({
-            moduleManager: x => new ModuleManager(x, [
-                localModuleRegistry,
-                remoteModuleRegistry
-            ]),
+            moduleManager: x => new ModuleManager(x, [localModuleRegistry, remoteModuleRegistry]),
             loggers: [new NoopLogger()]
         });
 
@@ -909,15 +876,12 @@ describe.concurrent("useAppRouterReducer", () => {
         expect(runtime.appRouterStore.state.areModulesRegistered).toBeFalsy();
     });
 
-    test.concurrent("when all registries modules are ready, \"areModulesReady\" is true at initialization", ({ expect }) => {
+    test.concurrent('when all registries modules are ready, "areModulesReady" is true at initialization', ({ expect }) => {
         const localModuleRegistry = new DummyModuleRegistry("local", "ready");
         const remoteModuleRegistry = new DummyModuleRegistry("remote", "ready");
 
         const runtime = new FireflyRuntime({
-            moduleManager: x => new ModuleManager(x, [
-                localModuleRegistry,
-                remoteModuleRegistry
-            ]),
+            moduleManager: x => new ModuleManager(x, [localModuleRegistry, remoteModuleRegistry]),
             loggers: [new NoopLogger()]
         });
 
@@ -932,10 +896,7 @@ describe.concurrent("useAppRouterReducer", () => {
         const remoteModuleRegistry = new DummyModuleRegistry("remote", "ready");
 
         const runtime = new FireflyRuntime({
-            moduleManager: x => new ModuleManager(x, [
-                localModuleRegistry,
-                remoteModuleRegistry
-            ]),
+            moduleManager: x => new ModuleManager(x, [localModuleRegistry, remoteModuleRegistry]),
             loggers: [new NoopLogger()]
         });
 
@@ -948,15 +909,12 @@ describe.concurrent("useAppRouterReducer", () => {
         expect(listener).toHaveBeenCalledExactlyOnceWith({ waitForMsw: false, waitForPublicData: false, waitForProtectedData: false });
     });
 
-    test.concurrent("when local modules are ready and no remote modules has been provided, \"areModulesReady\" is true at initialization", ({ expect }) => {
+    test.concurrent('when local modules are ready and no remote modules has been provided, "areModulesReady" is true at initialization', ({ expect }) => {
         const localModuleRegistry = new DummyModuleRegistry("local", "ready");
         const remoteModuleRegistry = new DummyModuleRegistry("remote", "none");
 
         const runtime = new FireflyRuntime({
-            moduleManager: x => new ModuleManager(x, [
-                localModuleRegistry,
-                remoteModuleRegistry
-            ]),
+            moduleManager: x => new ModuleManager(x, [localModuleRegistry, remoteModuleRegistry]),
             loggers: [new NoopLogger()]
         });
 
@@ -971,10 +929,7 @@ describe.concurrent("useAppRouterReducer", () => {
         const remoteModuleRegistry = new DummyModuleRegistry("remote", "none");
 
         const runtime = new FireflyRuntime({
-            moduleManager: x => new ModuleManager(x, [
-                localModuleRegistry,
-                remoteModuleRegistry
-            ]),
+            moduleManager: x => new ModuleManager(x, [localModuleRegistry, remoteModuleRegistry]),
             loggers: [new NoopLogger()]
         });
 
@@ -987,15 +942,12 @@ describe.concurrent("useAppRouterReducer", () => {
         expect(listener).toHaveBeenCalledExactlyOnceWith({ waitForMsw: false, waitForPublicData: false, waitForProtectedData: false });
     });
 
-    test.concurrent("when no local modules has been provided and remote modules are ready, \"areModulesReady\" is true at initialization", ({ expect }) => {
+    test.concurrent('when no local modules has been provided and remote modules are ready, "areModulesReady" is true at initialization', ({ expect }) => {
         const localModuleRegistry = new DummyModuleRegistry("local", "none");
         const remoteModuleRegistry = new DummyModuleRegistry("remote", "ready");
 
         const runtime = new FireflyRuntime({
-            moduleManager: x => new ModuleManager(x, [
-                localModuleRegistry,
-                remoteModuleRegistry
-            ]),
+            moduleManager: x => new ModuleManager(x, [localModuleRegistry, remoteModuleRegistry]),
             loggers: [new NoopLogger()]
         });
 
@@ -1010,10 +962,7 @@ describe.concurrent("useAppRouterReducer", () => {
         const remoteModuleRegistry = new DummyModuleRegistry("remote", "ready");
 
         const runtime = new FireflyRuntime({
-            moduleManager: x => new ModuleManager(x, [
-                localModuleRegistry,
-                remoteModuleRegistry
-            ]),
+            moduleManager: x => new ModuleManager(x, [localModuleRegistry, remoteModuleRegistry]),
             loggers: [new NoopLogger()]
         });
 
@@ -1026,15 +975,12 @@ describe.concurrent("useAppRouterReducer", () => {
         expect(listener).toHaveBeenCalledExactlyOnceWith({ waitForMsw: false, waitForPublicData: false, waitForProtectedData: false });
     });
 
-    test.concurrent("when local modules are ready and remote modules are not ready, \"areModulesReady\" is false at initialization", ({ expect }) => {
+    test.concurrent('when local modules are ready and remote modules are not ready, "areModulesReady" is false at initialization', ({ expect }) => {
         const localModuleRegistry = new DummyModuleRegistry("local", "ready");
         const remoteModuleRegistry = new DummyModuleRegistry("remote", "modules-registered");
 
         const runtime = new FireflyRuntime({
-            moduleManager: x => new ModuleManager(x, [
-                localModuleRegistry,
-                remoteModuleRegistry
-            ]),
+            moduleManager: x => new ModuleManager(x, [localModuleRegistry, remoteModuleRegistry]),
             loggers: [new NoopLogger()]
         });
 
@@ -1044,15 +990,12 @@ describe.concurrent("useAppRouterReducer", () => {
         expect(runtime.appRouterStore.state.areModulesReady).toBeFalsy();
     });
 
-    test.concurrent("when local modules are not ready and remote modules are ready, \"areModulesReady\" is false at initialization", ({ expect }) => {
+    test.concurrent('when local modules are not ready and remote modules are ready, "areModulesReady" is false at initialization', ({ expect }) => {
         const localModuleRegistry = new DummyModuleRegistry("local", "modules-registered");
         const remoteModuleRegistry = new DummyModuleRegistry("remote", "ready");
 
         const runtime = new FireflyRuntime({
-            moduleManager: x => new ModuleManager(x, [
-                localModuleRegistry,
-                remoteModuleRegistry
-            ]),
+            moduleManager: x => new ModuleManager(x, [localModuleRegistry, remoteModuleRegistry]),
             loggers: [new NoopLogger()]
         });
 
@@ -1062,13 +1005,16 @@ describe.concurrent("useAppRouterReducer", () => {
         expect(runtime.appRouterStore.state.areModulesReady).toBeFalsy();
     });
 
-    test.concurrent("when msw is ready, \"isMswReady\" is true at initialization", ({ expect }) => {
+    test.concurrent('when msw is ready, "isMswReady" is true at initialization', ({ expect }) => {
         const mswState = new DummyMswState(true);
 
         const runtime = new FireflyRuntime({
-            plugins: [x => new MswPlugin(x, {
-                state: mswState
-            })],
+            plugins: [
+                x =>
+                    new MswPlugin(x, {
+                        state: mswState
+                    })
+            ],
             loggers: [new NoopLogger()]
         });
 
@@ -1082,9 +1028,12 @@ describe.concurrent("useAppRouterReducer", () => {
         const mswState = new DummyMswState(true);
 
         const runtime = new FireflyRuntime({
-            plugins: [x => new MswPlugin(x, {
-                state: mswState
-            })],
+            plugins: [
+                x =>
+                    new MswPlugin(x, {
+                        state: mswState
+                    })
+            ],
             loggers: [new NoopLogger()]
         });
 
@@ -1097,13 +1046,16 @@ describe.concurrent("useAppRouterReducer", () => {
         expect(listener).toHaveBeenCalledExactlyOnceWith({ waitForMsw: true, waitForPublicData: false, waitForProtectedData: false });
     });
 
-    test.concurrent("when msw is not ready, \"isMswReady\" is false at initialization", ({ expect }) => {
+    test.concurrent('when msw is not ready, "isMswReady" is false at initialization', ({ expect }) => {
         const mswState = new DummyMswState(false);
 
         const runtime = new FireflyRuntime({
-            plugins: [x => new MswPlugin(x, {
-                state: mswState
-            })],
+            plugins: [
+                x =>
+                    new MswPlugin(x, {
+                        state: mswState
+                    })
+            ],
             loggers: [new NoopLogger()]
         });
 
@@ -1113,7 +1065,7 @@ describe.concurrent("useAppRouterReducer", () => {
         expect(runtime.appRouterStore.state.isMswReady).toBeFalsy();
     });
 
-    test.concurrent("when no plugin implements \"isReady\", \"arePluginsReady\" is true at initialization", ({ expect }) => {
+    test.concurrent('when no plugin implements "isReady", "arePluginsReady" is true at initialization', ({ expect }) => {
         const runtime = new FireflyRuntime({
             plugins: [x => new DummyPlugin(x)],
             loggers: [new NoopLogger()]
@@ -1125,12 +1077,10 @@ describe.concurrent("useAppRouterReducer", () => {
         expect(runtime.appRouterStore.state.arePluginsReady).toBeTruthy();
     });
 
-    test.concurrent("when no plugin implements \"isReady\" and the other inputs are ready, PluginsReadyEvent is not dispatched", ({ expect }) => {
+    test.concurrent('when no plugin implements "isReady" and the other inputs are ready, PluginsReadyEvent is not dispatched', ({ expect }) => {
         const runtime = new FireflyRuntime({
             plugins: [x => new DummyPlugin(x)],
-            moduleManager: x => new ModuleManager(x, [
-                new DummyModuleRegistry("local", "ready")
-            ]),
+            moduleManager: x => new ModuleManager(x, [new DummyModuleRegistry("local", "ready")]),
             loggers: [new NoopLogger()]
         });
 
@@ -1144,7 +1094,7 @@ describe.concurrent("useAppRouterReducer", () => {
         expect(runtime.appRouterStore.state.arePluginsReady).toBeTruthy();
     });
 
-    test.concurrent("when a plugin implements \"isReady\", \"arePluginsReady\" is false at initialization even if the plugin is ready", ({ expect }) => {
+    test.concurrent('when a plugin implements "isReady", "arePluginsReady" is false at initialization even if the plugin is ready', ({ expect }) => {
         // The plugins are only consulted once the other inputs are ready, which isn't the case here (modules not ready).
         const runtime = new FireflyRuntime({
             plugins: [x => new DummyReadyPlugin(x, true)],
@@ -1162,16 +1112,10 @@ describe.concurrent("useAppRouterReducer", () => {
         expect(listener).not.toHaveBeenCalled();
     });
 
-    test.concurrent("when the other inputs are ready and every plugin implementing \"isReady\" is ready, \"plugins-ready\" is dispatched at initialization", ({ expect }) => {
+    test.concurrent('when the other inputs are ready and every plugin implementing "isReady" is ready, "plugins-ready" is dispatched at initialization', ({ expect }) => {
         const runtime = new FireflyRuntime({
-            plugins: [
-                x => new DummyPlugin(x),
-                x => new DummyReadyPlugin(x, true, "plugin-1"),
-                x => new DummyReadyPlugin(x, true, "plugin-2")
-            ],
-            moduleManager: x => new ModuleManager(x, [
-                new DummyModuleRegistry("local", "ready")
-            ]),
+            plugins: [x => new DummyPlugin(x), x => new DummyReadyPlugin(x, true, "plugin-1"), x => new DummyReadyPlugin(x, true, "plugin-2")],
+            moduleManager: x => new ModuleManager(x, [new DummyModuleRegistry("local", "ready")]),
             loggers: [new NoopLogger()]
         });
 
@@ -1186,15 +1130,10 @@ describe.concurrent("useAppRouterReducer", () => {
         expect(listener).toHaveBeenCalledExactlyOnceWith({ waitForMsw: false, waitForPublicData: false, waitForProtectedData: false });
     });
 
-    test.concurrent("when the other inputs are ready and a plugin implementing \"isReady\" is not ready, \"arePluginsReady\" is false", ({ expect }) => {
+    test.concurrent('when the other inputs are ready and a plugin implementing "isReady" is not ready, "arePluginsReady" is false', ({ expect }) => {
         const runtime = new FireflyRuntime({
-            plugins: [
-                x => new DummyReadyPlugin(x, true, "plugin-1"),
-                x => new DummyReadyPlugin(x, false, "plugin-2")
-            ],
-            moduleManager: x => new ModuleManager(x, [
-                new DummyModuleRegistry("local", "ready")
-            ]),
+            plugins: [x => new DummyReadyPlugin(x, true, "plugin-1"), x => new DummyReadyPlugin(x, false, "plugin-2")],
+            moduleManager: x => new ModuleManager(x, [new DummyModuleRegistry("local", "ready")]),
             loggers: [new NoopLogger()]
         });
 
@@ -1212,9 +1151,7 @@ describe.concurrent("useAppRouterReducer", () => {
     test.concurrent("when the plugins are ready but the other inputs are not, the plugins are consulted once the other inputs are ready", ({ expect }) => {
         const runtime = new FireflyRuntime({
             plugins: [x => new DummyReadyPlugin(x, true)],
-            moduleManager: x => new ModuleManager(x, [
-                new DummyModuleRegistry("local", "ready")
-            ]),
+            moduleManager: x => new ModuleManager(x, [new DummyModuleRegistry("local", "ready")]),
             loggers: [new NoopLogger()]
         });
 
@@ -1242,24 +1179,17 @@ describe.concurrent("useAppRouterReducer", () => {
 describe.concurrent("useModuleRegistrationStatusDispatcher", () => {
     function renderUseModuleRegistrationStatusDispatcherHook<TProps>(runtime: FireflyRuntime, areModulesRegistered: boolean, areModulesReady: boolean, dispatch: AppRouterDispatch, additionalProps: RenderHookOptions<TProps> = {}) {
         return renderHook(() => useModuleRegistrationStatusDispatcher(runtime, areModulesRegistered, areModulesReady, dispatch), {
-            wrapper: ({ children }: { children?: ReactNode }) => (
-                <FireflyProvider runtime={runtime}>
-                    {children}
-                </FireflyProvider>
-            ),
+            wrapper: ({ children }: { children?: ReactNode }) => <FireflyProvider runtime={runtime}>{children}</FireflyProvider>,
             ...additionalProps
         });
     }
 
-    test.concurrent("when registries modules are not registered, do not dispatch the \"modules-registered\" action", ({ expect }) => {
+    test.concurrent('when registries modules are not registered, do not dispatch the "modules-registered" action', ({ expect }) => {
         const localModuleRegistry = new DummyModuleRegistry("local", "registering-modules");
         const remoteModuleRegistry = new DummyModuleRegistry("remote", "registering-modules");
 
         const runtime = new FireflyRuntime({
-            moduleManager: x => new ModuleManager(x, [
-                localModuleRegistry,
-                remoteModuleRegistry
-            ]),
+            moduleManager: x => new ModuleManager(x, [localModuleRegistry, remoteModuleRegistry]),
             loggers: [new NoopLogger()]
         });
 
@@ -1273,15 +1203,12 @@ describe.concurrent("useModuleRegistrationStatusDispatcher", () => {
         expect(dispatch).not.toHaveBeenCalled();
     });
 
-    test.concurrent("when local modules are registered but remote modules are not registered, do not dispatch the \"modules-registered\" action", ({ expect }) => {
+    test.concurrent('when local modules are registered but remote modules are not registered, do not dispatch the "modules-registered" action', ({ expect }) => {
         const localModuleRegistry = new DummyModuleRegistry("local", "modules-registered");
         const remoteModuleRegistry = new DummyModuleRegistry("remote", "registering-modules");
 
         const runtime = new FireflyRuntime({
-            moduleManager: x => new ModuleManager(x, [
-                localModuleRegistry,
-                remoteModuleRegistry
-            ]),
+            moduleManager: x => new ModuleManager(x, [localModuleRegistry, remoteModuleRegistry]),
             loggers: [new NoopLogger()]
         });
 
@@ -1295,15 +1222,12 @@ describe.concurrent("useModuleRegistrationStatusDispatcher", () => {
         expect(dispatch).not.toHaveBeenCalled();
     });
 
-    test.concurrent("when local modules are not registered but remote modules are registered, do not dispatch the \"modules-registered\" action", ({ expect }) => {
+    test.concurrent('when local modules are not registered but remote modules are registered, do not dispatch the "modules-registered" action', ({ expect }) => {
         const localModuleRegistry = new DummyModuleRegistry("local", "registering-modules");
         const remoteModuleRegistry = new DummyModuleRegistry("remote", "modules-registered");
 
         const runtime = new FireflyRuntime({
-            moduleManager: x => new ModuleManager(x, [
-                localModuleRegistry,
-                remoteModuleRegistry
-            ]),
+            moduleManager: x => new ModuleManager(x, [localModuleRegistry, remoteModuleRegistry]),
             loggers: [new NoopLogger()]
         });
 
@@ -1317,15 +1241,12 @@ describe.concurrent("useModuleRegistrationStatusDispatcher", () => {
         expect(dispatch).not.toHaveBeenCalled();
     });
 
-    test.concurrent("when registries modules are registered, dispatch the \"modules-registered\" action", ({ expect }) => {
+    test.concurrent('when registries modules are registered, dispatch the "modules-registered" action', ({ expect }) => {
         const localModuleRegistry = new DummyModuleRegistry("local", "modules-registered");
         const remoteModuleRegistry = new DummyModuleRegistry("remote", "modules-registered");
 
         const runtime = new FireflyRuntime({
-            moduleManager: x => new ModuleManager(x, [
-                localModuleRegistry,
-                remoteModuleRegistry
-            ]),
+            moduleManager: x => new ModuleManager(x, [localModuleRegistry, remoteModuleRegistry]),
             loggers: [new NoopLogger()]
         });
 
@@ -1339,15 +1260,12 @@ describe.concurrent("useModuleRegistrationStatusDispatcher", () => {
         expect(dispatch).toHaveBeenCalledExactlyOnceWith({ type: "modules-registered" });
     });
 
-    test.concurrent("when local modules and remote modules are registered and \"areModulesRegistered\" is already true, do not dispatch the \"modules-registered\" action", ({ expect }) => {
+    test.concurrent('when local modules and remote modules are registered and "areModulesRegistered" is already true, do not dispatch the "modules-registered" action', ({ expect }) => {
         const localModuleRegistry = new DummyModuleRegistry("local", "modules-registered");
         const remoteModuleRegistry = new DummyModuleRegistry("remote", "modules-registered");
 
         const runtime = new FireflyRuntime({
-            moduleManager: x => new ModuleManager(x, [
-                localModuleRegistry,
-                remoteModuleRegistry
-            ]),
+            moduleManager: x => new ModuleManager(x, [localModuleRegistry, remoteModuleRegistry]),
             loggers: [new NoopLogger()]
         });
 
@@ -1361,15 +1279,12 @@ describe.concurrent("useModuleRegistrationStatusDispatcher", () => {
         expect(dispatch).not.toHaveBeenCalled();
     });
 
-    test.concurrent("when local modules and remote modules are not ready, do not dispatch the \"modules-ready\" action", ({ expect }) => {
+    test.concurrent('when local modules and remote modules are not ready, do not dispatch the "modules-ready" action', ({ expect }) => {
         const localModuleRegistry = new DummyModuleRegistry("local", "modules-registered");
         const remoteModuleRegistry = new DummyModuleRegistry("remote", "modules-registered");
 
         const runtime = new FireflyRuntime({
-            moduleManager: x => new ModuleManager(x, [
-                localModuleRegistry,
-                remoteModuleRegistry
-            ]),
+            moduleManager: x => new ModuleManager(x, [localModuleRegistry, remoteModuleRegistry]),
             loggers: [new NoopLogger()]
         });
 
@@ -1383,15 +1298,12 @@ describe.concurrent("useModuleRegistrationStatusDispatcher", () => {
         expect(dispatch).not.toHaveBeenCalled();
     });
 
-    test.concurrent("when local modules are ready but remote modules are not ready, do not dispatch the \"modules-ready\" action", ({ expect }) => {
+    test.concurrent('when local modules are ready but remote modules are not ready, do not dispatch the "modules-ready" action', ({ expect }) => {
         const localModuleRegistry = new DummyModuleRegistry("local", "ready");
         const remoteModuleRegistry = new DummyModuleRegistry("remote", "modules-registered");
 
         const runtime = new FireflyRuntime({
-            moduleManager: x => new ModuleManager(x, [
-                localModuleRegistry,
-                remoteModuleRegistry
-            ]),
+            moduleManager: x => new ModuleManager(x, [localModuleRegistry, remoteModuleRegistry]),
             loggers: [new NoopLogger()]
         });
 
@@ -1405,15 +1317,12 @@ describe.concurrent("useModuleRegistrationStatusDispatcher", () => {
         expect(dispatch).not.toHaveBeenCalled();
     });
 
-    test.concurrent("when local modules are not ready but remote modules are ready, do not dispatch the \"modules-ready\" action", ({ expect }) => {
+    test.concurrent('when local modules are not ready but remote modules are ready, do not dispatch the "modules-ready" action', ({ expect }) => {
         const localModuleRegistry = new DummyModuleRegistry("local", "modules-registered");
         const remoteModuleRegistry = new DummyModuleRegistry("remote", "ready");
 
         const runtime = new FireflyRuntime({
-            moduleManager: x => new ModuleManager(x, [
-                localModuleRegistry,
-                remoteModuleRegistry
-            ]),
+            moduleManager: x => new ModuleManager(x, [localModuleRegistry, remoteModuleRegistry]),
             loggers: [new NoopLogger()]
         });
 
@@ -1427,15 +1336,12 @@ describe.concurrent("useModuleRegistrationStatusDispatcher", () => {
         expect(dispatch).not.toHaveBeenCalled();
     });
 
-    test.concurrent("when registries modules are ready, dispatch the \"modules-ready\" action", ({ expect }) => {
+    test.concurrent('when registries modules are ready, dispatch the "modules-ready" action', ({ expect }) => {
         const localModuleRegistry = new DummyModuleRegistry("local", "ready");
         const remoteModuleRegistry = new DummyModuleRegistry("remote", "ready");
 
         const runtime = new FireflyRuntime({
-            moduleManager: x => new ModuleManager(x, [
-                localModuleRegistry,
-                remoteModuleRegistry
-            ]),
+            moduleManager: x => new ModuleManager(x, [localModuleRegistry, remoteModuleRegistry]),
             loggers: [new NoopLogger()]
         });
 
@@ -1449,15 +1355,12 @@ describe.concurrent("useModuleRegistrationStatusDispatcher", () => {
         expect(dispatch).toHaveBeenCalledExactlyOnceWith({ type: "modules-ready" });
     });
 
-    test.concurrent("when registries modules are ready and \"areModulesReady\" is already true, do not dispatch the \"modules-ready\" action", ({ expect }) => {
+    test.concurrent('when registries modules are ready and "areModulesReady" is already true, do not dispatch the "modules-ready" action', ({ expect }) => {
         const localModuleRegistry = new DummyModuleRegistry("local", "ready");
         const remoteModuleRegistry = new DummyModuleRegistry("remote", "ready");
 
         const runtime = new FireflyRuntime({
-            moduleManager: x => new ModuleManager(x, [
-                localModuleRegistry,
-                remoteModuleRegistry
-            ]),
+            moduleManager: x => new ModuleManager(x, [localModuleRegistry, remoteModuleRegistry]),
             loggers: [new NoopLogger()]
         });
 
@@ -1475,22 +1378,21 @@ describe.concurrent("useModuleRegistrationStatusDispatcher", () => {
 describe.concurrent("useMswStatusDispatcher", () => {
     function renderUseMswStatusDispatcherHook<TProps>(runtime: FireflyRuntime, isMswReady: boolean, dispatch: AppRouterDispatch, additionalProps: RenderHookOptions<TProps> = {}) {
         return renderHook(() => useMswStatusDispatcher(runtime, isMswReady, dispatch), {
-            wrapper: ({ children }: { children?: ReactNode }) => (
-                <FireflyProvider runtime={runtime}>
-                    {children}
-                </FireflyProvider>
-            ),
+            wrapper: ({ children }: { children?: ReactNode }) => <FireflyProvider runtime={runtime}>{children}</FireflyProvider>,
             ...additionalProps
         });
     }
 
-    test.concurrent("when msw is ready, dispatch the \"msw-ready\" action", ({ expect }) => {
+    test.concurrent('when msw is ready, dispatch the "msw-ready" action', ({ expect }) => {
         const mswState = new DummyMswState(true);
 
         const runtime = new FireflyRuntime({
-            plugins: [x => new MswPlugin(x, {
-                state: mswState
-            })],
+            plugins: [
+                x =>
+                    new MswPlugin(x, {
+                        state: mswState
+                    })
+            ],
             loggers: [new NoopLogger()]
         });
 
@@ -1503,13 +1405,16 @@ describe.concurrent("useMswStatusDispatcher", () => {
         expect(dispatch).toHaveBeenCalledExactlyOnceWith({ type: "msw-ready" });
     });
 
-    test.concurrent("when msw is ready and \"isMswReady\" is already true, do not dispatch the \"msw-ready\" action", ({ expect }) => {
+    test.concurrent('when msw is ready and "isMswReady" is already true, do not dispatch the "msw-ready" action', ({ expect }) => {
         const mswState = new DummyMswState(true);
 
         const runtime = new FireflyRuntime({
-            plugins: [x => new MswPlugin(x, {
-                state: mswState
-            })],
+            plugins: [
+                x =>
+                    new MswPlugin(x, {
+                        state: mswState
+                    })
+            ],
             loggers: [new NoopLogger()]
         });
 
@@ -1526,22 +1431,14 @@ describe.concurrent("useMswStatusDispatcher", () => {
 describe.concurrent("usePluginsStatusDispatcher", () => {
     function renderUsePluginsStatusDispatcherHook<TProps>(runtime: FireflyRuntime, arePluginsReady: boolean, areOtherInputsReady: boolean, dispatch: AppRouterDispatch, additionalProps: RenderHookOptions<TProps> = {}) {
         return renderHook(() => usePluginsStatusDispatcher(runtime, arePluginsReady, areOtherInputsReady, dispatch), {
-            wrapper: ({ children }: { children?: ReactNode }) => (
-                <FireflyProvider runtime={runtime}>
-                    {children}
-                </FireflyProvider>
-            ),
+            wrapper: ({ children }: { children?: ReactNode }) => <FireflyProvider runtime={runtime}>{children}</FireflyProvider>,
             ...additionalProps
         });
     }
 
-    test.concurrent("when the other inputs are ready and the last not ready plugin becomes ready, dispatch the \"plugins-ready\" action once", ({ expect }) => {
+    test.concurrent('when the other inputs are ready and the last not ready plugin becomes ready, dispatch the "plugins-ready" action once', ({ expect }) => {
         const runtime = new FireflyRuntime({
-            plugins: [
-                x => new DummyPlugin(x),
-                x => new DummyReadyPlugin(x, false, "plugin-1"),
-                x => new DummyReadyPlugin(x, false, "plugin-2")
-            ],
+            plugins: [x => new DummyPlugin(x), x => new DummyReadyPlugin(x, false, "plugin-1"), x => new DummyReadyPlugin(x, false, "plugin-2")],
             loggers: [new NoopLogger()]
         });
 
@@ -1561,7 +1458,7 @@ describe.concurrent("usePluginsStatusDispatcher", () => {
         expect(dispatch).toHaveBeenCalledExactlyOnceWith({ type: "plugins-ready" });
     });
 
-    test.concurrent("when the other inputs are ready and every plugin is already ready, dispatch the \"plugins-ready\" action right away", ({ expect }) => {
+    test.concurrent('when the other inputs are ready and every plugin is already ready, dispatch the "plugins-ready" action right away', ({ expect }) => {
         const runtime = new FireflyRuntime({
             plugins: [x => new DummyReadyPlugin(x, true)],
             loggers: [new NoopLogger()]
@@ -1574,7 +1471,7 @@ describe.concurrent("usePluginsStatusDispatcher", () => {
         expect(dispatch).toHaveBeenCalledExactlyOnceWith({ type: "plugins-ready" });
     });
 
-    test.concurrent("when the other inputs are not ready, do not subscribe nor dispatch the \"plugins-ready\" action", ({ expect }) => {
+    test.concurrent('when the other inputs are not ready, do not subscribe nor dispatch the "plugins-ready" action', ({ expect }) => {
         const runtime = new FireflyRuntime({
             plugins: [x => new DummyReadyPlugin(x, false)],
             loggers: [new NoopLogger()]
@@ -1593,7 +1490,7 @@ describe.concurrent("usePluginsStatusDispatcher", () => {
         expect(dispatch).not.toHaveBeenCalled();
     });
 
-    test.concurrent("when \"arePluginsReady\" is already true, do not subscribe nor dispatch the \"plugins-ready\" action", ({ expect }) => {
+    test.concurrent('when "arePluginsReady" is already true, do not subscribe nor dispatch the "plugins-ready" action', ({ expect }) => {
         const runtime = new FireflyRuntime({
             plugins: [x => new DummyReadyPlugin(x, false)],
             loggers: [new NoopLogger()]
@@ -1614,10 +1511,7 @@ describe.concurrent("usePluginsStatusDispatcher", () => {
 
     test.concurrent("when a ready plugin becomes not ready before the other plugins are ready, wait for it", ({ expect }) => {
         const runtime = new FireflyRuntime({
-            plugins: [
-                x => new DummyReadyPlugin(x, true, "plugin-1"),
-                x => new DummyReadyPlugin(x, false, "plugin-2")
-            ],
+            plugins: [x => new DummyReadyPlugin(x, true, "plugin-1"), x => new DummyReadyPlugin(x, false, "plugin-2")],
             loggers: [new NoopLogger()]
         });
 
@@ -1642,12 +1536,9 @@ describe.concurrent("usePluginsStatusDispatcher", () => {
         expect(dispatch).toHaveBeenCalledExactlyOnceWith({ type: "plugins-ready" });
     });
 
-    test.concurrent("when the hook is unmounted, the ready listeners are removed from every plugin implementing \"isReady\"", ({ expect }) => {
+    test.concurrent('when the hook is unmounted, the ready listeners are removed from every plugin implementing "isReady"', ({ expect }) => {
         const runtime = new FireflyRuntime({
-            plugins: [
-                x => new DummyReadyPlugin(x, true, "plugin-1"),
-                x => new DummyReadyPlugin(x, false, "plugin-2")
-            ],
+            plugins: [x => new DummyReadyPlugin(x, true, "plugin-1"), x => new DummyReadyPlugin(x, false, "plugin-2")],
             loggers: [new NoopLogger()]
         });
 
@@ -1675,19 +1566,17 @@ describe.concurrent("usePluginsStatusDispatcher", () => {
 describe.concurrent("useFeatureFlagsUpdatedDispatcher", () => {
     function renderUseFeatureFlagsUpdatedDispatcherHook<TProps>(runtime: FireflyRuntime, dispatch: AppRouterDispatch, additionalProps: RenderHookOptions<TProps> = {}) {
         return renderHook(() => useFeatureFlagsUpdatedDispatcher(runtime, dispatch), {
-            wrapper: ({ children }: { children?: ReactNode }) => (
-                <FireflyProvider runtime={runtime}>
-                    {children}
-                </FireflyProvider>
-            ),
+            wrapper: ({ children }: { children?: ReactNode }) => <FireflyProvider runtime={runtime}>{children}</FireflyProvider>,
             ...additionalProps
         });
     }
 
-    test.concurrent("when the feature flags is updated, dispatch the \"feature-flags-updated\" action", ({ expect }) => {
-        const featureFlags = new Map(Object.entries({
-            "flag-a": true
-        }));
+    test.concurrent('when the feature flags is updated, dispatch the "feature-flags-updated" action', ({ expect }) => {
+        const featureFlags = new Map(
+            Object.entries({
+                "flag-a": true
+            })
+        );
 
         const notifier = new LaunchDarklyClientNotifier();
 
@@ -1725,8 +1614,8 @@ class DummyIsReadyOnlyPlugin extends Plugin {
     }
 }
 
-describe.concurrent("plugins implementing \"isReady\"", () => {
-    test.concurrent("when a plugin implements \"isReady\" without \"registerReadyListener\" and \"removeReadyListener\", throw", ({ expect }) => {
+describe.concurrent('plugins implementing "isReady"', () => {
+    test.concurrent('when a plugin implements "isReady" without "registerReadyListener" and "removeReadyListener", throw', ({ expect }) => {
         const runtime = new FireflyRuntime({
             plugins: [x => new DummyIsReadyOnlyPlugin(x)],
             loggers: [new NoopLogger()]
@@ -1735,7 +1624,7 @@ describe.concurrent("plugins implementing \"isReady\"", () => {
         expect(() => hasPluginsImplementingIsReady(runtime)).toThrow(/must implement the three members/);
     });
 
-    test.concurrent("when every plugin is already ready and StrictMode executes the effect twice, dispatch the \"plugins-ready\" action once", ({ expect }) => {
+    test.concurrent('when every plugin is already ready and StrictMode executes the effect twice, dispatch the "plugins-ready" action once', ({ expect }) => {
         const runtime = new FireflyRuntime({
             plugins: [x => new DummyReadyPlugin(x, true)],
             loggers: [new NoopLogger()]
@@ -1746,9 +1635,7 @@ describe.concurrent("plugins implementing \"isReady\"", () => {
         renderHook(() => usePluginsStatusDispatcher(runtime, false, true, dispatch), {
             wrapper: ({ children }: { children?: ReactNode }) => (
                 <StrictMode>
-                    <FireflyProvider runtime={runtime}>
-                        {children}
-                    </FireflyProvider>
+                    <FireflyProvider runtime={runtime}>{children}</FireflyProvider>
                 </StrictMode>
             )
         });

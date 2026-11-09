@@ -29,7 +29,7 @@ const Users = [
 export function getAuthenticationHandlers(environmentVariables: EnvironmentVariables): HttpHandler[] {
     return [
         http.post(`${environmentVariables.authenticationApiBaseUrl}login`, async ({ request }) => {
-            const { username, password } = await request.json() as LoginCredentials;
+            const { username, password } = (await request.json()) as LoginCredentials;
 
             const user = Users.find(x => {
                 return x.username === username && x.password === password;

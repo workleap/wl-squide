@@ -8,7 +8,6 @@ import { getSharedDependencies } from "./webpack.common.js";
 export default defineBuildHostConfig(swcConfig, Remotes, {
     sharedDependencies: getSharedDependencies(),
     environmentVariables: {
-        "NETLIFY": process.env.NETLIFY === "true"
+        NETLIFY: process.env.NETLIFY === "true"
     }
 });
-

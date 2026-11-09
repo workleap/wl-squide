@@ -7,45 +7,47 @@ export interface RegisterShellOptions {
 }
 
 function registerRoutes(runtime: FireflyRuntime, host?: string) {
-    runtime.registerPublicRoute({
-        // Pathless route to declare a root layout and a root error boundary.
-        $id: "root-layout",
-        element: <RootLayout />,
-        children: [
-            PublicRoutes
-        ]
-    }, {
-        hoist: true
-    });
+    runtime.registerPublicRoute(
+        {
+            // Pathless route to declare a root layout and a root error boundary.
+            $id: "root-layout",
+            element: <RootLayout />,
+            children: [PublicRoutes]
+        },
+        {
+            hoist: true
+        }
+    );
 
-    runtime.registerRoute({
-        // Pathless route to declare an authenticated boundary.
-        lazy: () => import("./AuthenticationBoundary.tsx"),
-        children: [
-            {
-                // Pathless route to declare an authenticated layout.
-                lazy: async () => {
-                    const { AuthenticatedLayout } = await import("./AuthenticatedLayout.tsx");
+    runtime.registerRoute(
+        {
+            // Pathless route to declare an authenticated boundary.
+            lazy: () => import("./AuthenticationBoundary.tsx"),
+            children: [
+                {
+                    // Pathless route to declare an authenticated layout.
+                    lazy: async () => {
+                        const { AuthenticatedLayout } = await import("./AuthenticatedLayout.tsx");
 
-                    return {
-                        element: <AuthenticatedLayout />
-                    };
-                },
-                children: [
-                    {
-                        // Pathless route to declare an error boundary inside the layout instead of outside.
-                        // It's quite useful to prevent losing the layout when an unmanaged error occurs.
-                        lazy: () => import("./ModuleErrorBoundary.tsx"),
-                        children: [
-                            ProtectedRoutes
-                        ]
-                    }
-                ]
-            }
-        ]
-    }, {
-        parentId: "root-layout"
-    });
+                        return {
+                            element: <AuthenticatedLayout />
+                        };
+                    },
+                    children: [
+                        {
+                            // Pathless route to declare an error boundary inside the layout instead of outside.
+                            // It's quite useful to prevent losing the layout when an unmanaged error occurs.
+                            lazy: () => import("./ModuleErrorBoundary.tsx"),
+                            children: [ProtectedRoutes]
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            parentId: "root-layout"
+        }
+    );
 
     runtime.registerPublicRoute({
         path: "/login",

@@ -21,10 +21,7 @@ export class InMemoryLaunchDarklyClient implements EditableLaunchDarklyClient {
     #activeTransaction: ActiveTransaction | undefined;
 
     constructor(featureFlags: Partial<FeatureFlags>, options: InMemoryLaunchDarklyClientOptions = {}) {
-        const {
-            context,
-            notifier = new LaunchDarklyClientNotifier()
-        } = options;
+        const { context, notifier = new LaunchDarklyClientNotifier() } = options;
 
         this.#flags = featureFlags;
 
@@ -105,9 +102,7 @@ export class InMemoryLaunchDarklyClient implements EditableLaunchDarklyClient {
     addHook(): void {}
 
     setFeatureFlags(newValues: Partial<FeatureFlags>, options: SetFeatureFlagOptions = {}): void {
-        const {
-            notify = true
-        } = options;
+        const { notify = true } = options;
 
         const keys = Object.keys(newValues);
 

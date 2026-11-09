@@ -1,10 +1,10 @@
 {
     "name": "@basic-webpack/another-remote-module",
-    "author": "Workleap",
     "version": "0.0.0",
-    "description": "Another remote module to showcase Squide.",
     "private": true,
+    "description": "Another remote module to showcase Squide.",
     "license": "Apache-2.0",
+    "author": "Workleap",
     "type": "module",
     "scripts": {
         "dev": "webpack serve --config webpack.dev.js",

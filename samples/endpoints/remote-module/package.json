@@ -1,10 +1,10 @@
 {
     "name": "@endpoints/remote-module",
-    "author": "Workleap",
     "version": "0.0.0",
-    "description": "Remote module to showcase Squide.",
     "private": true,
+    "description": "Remote module to showcase Squide.",
     "license": "Apache-2.0",
+    "author": "Workleap",
     "type": "module",
     "scripts": {
         "postinstall": "pnpm msw init",

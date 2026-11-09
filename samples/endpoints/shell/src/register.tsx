@@ -9,56 +9,58 @@ export interface RegisterShellOptions {
 }
 
 function registerRoutes(runtime: FireflyRuntime, host?: string) {
-    runtime.registerPublicRoute({
-        // Pathless route to declare a root layout and a root error boundary.
-        $id: "root-layout",
-        loader: async () => {
-            const response = await fetch(runtime.getEnvironmentVariable("dummyHandlerUrl"));
+    runtime.registerPublicRoute(
+        {
+            // Pathless route to declare a root layout and a root error boundary.
+            $id: "root-layout",
+            loader: async () => {
+                const response = await fetch(runtime.getEnvironmentVariable("dummyHandlerUrl"));
 
-            return response.json();
+                return response.json();
+            },
+            element: <RootLayout />,
+            children: [PublicRoutes]
         },
-        element: <RootLayout />,
-        children: [
-            PublicRoutes
-        ]
-    }, {
-        hoist: true
-    });
+        {
+            hoist: true
+        }
+    );
 
-    runtime.registerRoute({
-        // Pathless route to declare an authenticated boundary.
-        lazy: () => import("./AuthenticationBoundary.tsx"),
-        children: [
-            {
-                // Pathless route to declare an authenticated layout.
-                lazy: async () => {
-                    const { AuthenticatedLayout } = await import("./AuthenticatedLayout.tsx");
+    runtime.registerRoute(
+        {
+            // Pathless route to declare an authenticated boundary.
+            lazy: () => import("./AuthenticationBoundary.tsx"),
+            children: [
+                {
+                    // Pathless route to declare an authenticated layout.
+                    lazy: async () => {
+                        const { AuthenticatedLayout } = await import("./AuthenticatedLayout.tsx");
 
-                    return {
-                        element: <AuthenticatedLayout />
-                    };
-                },
-                children: [
-                    {
-                        // Pathless route to declare an error boundary inside the layout instead of outside.
-                        // It's quite useful to prevent losing the layout when an unmanaged error occurs.
-                        lazy: async () => {
-                            const { ModuleErrorBoundary } = await import("./ModuleErrorBoundary.tsx");
+                        return {
+                            element: <AuthenticatedLayout />
+                        };
+                    },
+                    children: [
+                        {
+                            // Pathless route to declare an error boundary inside the layout instead of outside.
+                            // It's quite useful to prevent losing the layout when an unmanaged error occurs.
+                            lazy: async () => {
+                                const { ModuleErrorBoundary } = await import("./ModuleErrorBoundary.tsx");
 
-                            return {
-                                errorElement: <ModuleErrorBoundary />
-                            };
-                        },
-                        children: [
-                            ProtectedRoutes
-                        ]
-                    }
-                ]
-            }
-        ]
-    }, {
-        parentId: "root-layout"
-    });
+                                return {
+                                    errorElement: <ModuleErrorBoundary />
+                                };
+                            },
+                            children: [ProtectedRoutes]
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            parentId: "root-layout"
+        }
+    );
 
     runtime.registerPublicRoute({
         path: "/login",
@@ -122,10 +124,7 @@ export function registerShell({ host }: RegisterShellOptions = {}) {
 
         await registerMsw(runtime);
 
-        return mergeDeferredRegistrations([
-            registerLayouts(runtime, { host }),
-            registerRoutes(runtime, host)
-        ]);
+        return mergeDeferredRegistrations([registerLayouts(runtime, { host }), registerRoutes(runtime, host)]);
     };
 
     return register;

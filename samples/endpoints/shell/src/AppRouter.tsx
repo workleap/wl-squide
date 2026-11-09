@@ -1,13 +1,4 @@
-import {
-    fetchJson,
-    isApiError,
-    SessionManagerContext,
-    SubscriptionContext,
-    type UserInfo,
-    type UserRole,
-    type Session,
-    type Subscription
-} from "@endpoints/shared";
+import { fetchJson, isApiError, SessionManagerContext, SubscriptionContext, type UserInfo, type UserRole, type Session, type Subscription } from "@endpoints/shared";
 import { persistPreferredLanguage } from "@endpoints/i18next";
 import { AppRouter as FireflyAppRouter, useDeferredRegistrations, useEnvironmentVariables, useIsBootstrapping, useLaunchDarklyClient, useLogger, useProtectedDataQueries, usePublicDataQueries } from "@squide/firefly";
 import { useChangeLanguage } from "@squide/i18next";
@@ -84,32 +75,35 @@ function BootstrappingRoute() {
         }
     }, [userInfo, logger]);
 
-    const [session, subscription] = useProtectedDataQueries([
-        {
-            queryKey: [`${environmentVariables.sessionApiBaseUrl}getSession`],
-            queryFn: async () => {
-                const data = await fetchJson(`${environmentVariables.sessionApiBaseUrl}getSession`);
+    const [session, subscription] = useProtectedDataQueries(
+        [
+            {
+                queryKey: [`${environmentVariables.sessionApiBaseUrl}getSession`],
+                queryFn: async () => {
+                    const data = await fetchJson(`${environmentVariables.sessionApiBaseUrl}getSession`);
 
-                const result: Session = {
-                    user: {
-                        id: data.userId,
-                        name: data.username,
-                        preferredLanguage: data.preferredLanguage
-                    }
-                };
+                    const result: Session = {
+                        user: {
+                            id: data.userId,
+                            name: data.username,
+                            preferredLanguage: data.preferredLanguage
+                        }
+                    };
 
-                return result;
+                    return result;
+                }
+            },
+            {
+                queryKey: [`${environmentVariables.subscriptionApiBaseUrl}getSubscription`],
+                queryFn: async () => {
+                    const data = await fetchJson(`${environmentVariables.subscriptionApiBaseUrl}getSubscription`);
+
+                    return data as Subscription;
+                }
             }
-        },
-        {
-            queryKey: [`${environmentVariables.subscriptionApiBaseUrl}getSubscription`],
-            queryFn: async () => {
-                const data = await fetchJson(`${environmentVariables.subscriptionApiBaseUrl}getSubscription`);
-
-                return data as Subscription;
-            }
-        }
-    ], error => isApiError(error) && error.status === 401);
+        ],
+        error => isApiError(error) && error.status === 401
+    );
 
     const honeycombClient = useHoneycombInstrumentationClient({ throwOnUndefined: false });
     const launchDarklyClient = useLaunchDarklyClient();
@@ -132,21 +126,21 @@ function BootstrappingRoute() {
                 "app.user_prefered_language": session.user.preferredLanguage
             });
 
-            launchDarklyClient.identify({
-                kind: "user",
-                key: session.user.id,
-                name: session.user.name
-            }).then(() => {
-                logger
-                    .withText("[shell] LaunchDarkly session identified:")
-                    .withObject(launchDarklyClient.getContext?.())
-                    .debug();
-            }).catch(() => {
-                logger.error("[shell] Failed to identify LaunchDarkly session.");
-            });
+            launchDarklyClient
+                .identify({
+                    kind: "user",
+                    key: session.user.id,
+                    name: session.user.name
+                })
+                .then(() => {
+                    logger.withText("[shell] LaunchDarkly session identified:").withObject(launchDarklyClient.getContext?.()).debug();
+                })
+                .catch(() => {
+                    logger.error("[shell] Failed to identify LaunchDarkly session.");
+                });
 
             LogRocket.identify(session.user.id, {
-                "Name": session.user.name
+                Name: session.user.name
             });
 
             // Persisted for the next visit, so the language detection loads the preferred language at registration
@@ -178,11 +172,16 @@ function BootstrappingRoute() {
         }
     }, [subscription, logger]);
 
-    useDeferredRegistrations(useMemo(() => ({
-        session,
-        userInfo,
-        role: userRole
-    }), [session, userInfo, userRole]));
+    useDeferredRegistrations(
+        useMemo(
+            () => ({
+                session,
+                userInfo,
+                role: userRole
+            }),
+            [session, userInfo, userRole]
+        )
+    );
 
     const sessionManager = useSessionManagerInstance(session);
 
@@ -205,25 +204,25 @@ export function AppRouter() {
     return (
         <FireflyAppRouter waitForPublicData waitForProtectedData>
             {({ rootRoute, registeredRoutes, routerProps, routerProviderProps }) => {
-                logger
-                    .withText("[shell] React Router will be rendered with the following route definitions:")
-                    .withObject(registeredRoutes)
-                    .debug();
+                logger.withText("[shell] React Router will be rendered with the following route definitions:").withObject(registeredRoutes).debug();
 
                 return (
                     <RouterProvider
-                        router={createBrowserRouter([
-                            {
-                                element: rootRoute,
-                                errorElement: <RootErrorBoundary />,
-                                children: [
-                                    {
-                                        element: <BootstrappingRoute />,
-                                        children: registeredRoutes
-                                    }
-                                ]
-                            }
-                        ], routerProps)}
+                        router={createBrowserRouter(
+                            [
+                                {
+                                    element: rootRoute,
+                                    errorElement: <RootErrorBoundary />,
+                                    children: [
+                                        {
+                                            element: <BootstrappingRoute />,
+                                            children: registeredRoutes
+                                        }
+                                    ]
+                                }
+                            ],
+                            routerProps
+                        )}
                         {...routerProviderProps}
                     />
                 );

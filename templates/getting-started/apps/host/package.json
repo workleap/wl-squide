@@ -1,9 +1,9 @@
 {
     "name": "@getting-started/host",
-    "author": "Workleap",
     "version": "0.0.0",
-    "description": "Host application of the getting-started template.",
     "private": true,
+    "description": "Host application of the getting-started template.",
+    "author": "Workleap",
     "type": "module",
     "scripts": {
         "dev": "rsbuild dev --config ./rsbuild.dev.ts",

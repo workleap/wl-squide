@@ -22,11 +22,7 @@ const renderItem: RenderItemFunction = (item, key) => {
 };
 
 const renderSection: RenderSectionFunction = (elements, key) => {
-    return (
-        <ul key={key}>
-            {elements}
-        </ul>
-    );
+    return <ul key={key}>{elements}</ul>;
 };
 
 export function RootLayout() {

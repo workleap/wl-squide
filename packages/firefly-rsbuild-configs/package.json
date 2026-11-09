@@ -1,19 +1,21 @@
 {
     "name": "@squide/firefly-rsbuild-configs",
-    "author": "Workleap",
     "version": "3.0.0",
     "description": "Rsbuild configuration helpers for the Squide firefly technology stack.",
     "license": "Apache-2.0",
+    "author": "Workleap",
     "repository": {
         "type": "git",
         "url": "git+https://github.com/workleap/wl-squide.git",
         "directory": "packages/firefly-rsbuild-configs"
     },
+    "files": [
+        "src",
+        "dist",
+        "CHANGELOG.md"
+    ],
     "type": "module",
-    "publishConfig": {
-        "access": "public",
-        "provenance": true
-    },
+    "sideEffects": false,
     "exports": {
         ".": {
             "types": "./dist/index.d.ts",
@@ -21,20 +23,15 @@
             "default": "./dist/index.js"
         }
     },
-    "files": [
-        "src",
-        "dist",
-        "CHANGELOG.md"
-    ],
+    "publishConfig": {
+        "access": "public",
+        "provenance": true
+    },
     "scripts": {
         "dev": "rslib build --watch --config ./rslib.dev.ts",
         "build": "rslib build --config ./rslib.build.ts",
         "typecheck": "tsgo",
         "test": "vitest --config vitest.config.ts --no-watch"
-    },
-    "peerDependencies": {
-        "@rsbuild/core": "^2.2.14",
-        "@rspack/core": "^2.2.9"
     },
     "dependencies": {
         "@module-federation/enhanced": "2.9.2",
@@ -55,5 +52,8 @@
         "typescript": "6.0.3",
         "vitest": "5.0.5"
     },
-    "sideEffects": false
+    "peerDependencies": {
+        "@rsbuild/core": "^2.2.14",
+        "@rspack/core": "^2.2.9"
+    }
 }

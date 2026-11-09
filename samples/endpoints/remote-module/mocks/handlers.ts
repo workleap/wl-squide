@@ -8,4 +8,3 @@ import { getRickAndMortyHandlers } from "./rickAndMortyHandlers.ts";
 export function getRequestHandlers(environmentVariables: EnvironmentVariables): HttpHandler[] {
     return [...getRickAndMortyHandlers(environmentVariables), ...getFeatureHandlers(environmentVariables)];
 }
-

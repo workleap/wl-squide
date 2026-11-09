@@ -8,18 +8,21 @@ import { version } from "useless-lib";
 console.log("[basic-sample] remote-module:", version);
 
 function registerRoutes(runtime: FireflyRuntime) {
-    runtime.registerRoute({
-        path: "/hoisted",
-        lazy: () => import("./CustomLayout.tsx"),
-        children: [
-            {
-                index: true,
-                lazy: () => import("./HoistedPage.tsx")
-            }
-        ]
-    }, {
-        hoist: true
-    });
+    runtime.registerRoute(
+        {
+            path: "/hoisted",
+            lazy: () => import("./CustomLayout.tsx"),
+            children: [
+                {
+                    index: true,
+                    lazy: () => import("./HoistedPage.tsx")
+                }
+            ]
+        },
+        {
+            hoist: true
+        }
+    );
 
     runtime.registerRoute({
         path: "/no-context-override",
@@ -76,20 +79,26 @@ function registerRoutes(runtime: FireflyRuntime) {
 
     // Register federated tab.
 
-    runtime.registerRoute({
-        path: "/federated-tabs/skills",
-        lazy: () => import("./SkillsTab.tsx")
-    }, {
-        parentPath: "/federated-tabs"
-    });
+    runtime.registerRoute(
+        {
+            path: "/federated-tabs/skills",
+            lazy: () => import("./SkillsTab.tsx")
+        },
+        {
+            parentPath: "/federated-tabs"
+        }
+    );
 
-    runtime.registerNavigationItem({
-        $label: "Skills",
-        $priority: 999,
-        to: "/federated-tabs/skills"
-    }, {
-        menuId: "/federated-tabs"
-    });
+    runtime.registerNavigationItem(
+        {
+            $label: "Skills",
+            $priority: 999,
+            to: "/federated-tabs/skills"
+        },
+        {
+            menuId: "/federated-tabs"
+        }
+    );
 }
 
 export const register: ModuleRegisterFunction<FireflyRuntime> = runtime => {

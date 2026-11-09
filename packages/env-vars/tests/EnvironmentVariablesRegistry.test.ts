@@ -54,10 +54,12 @@ describe.concurrent("addVariables", () => {
 
         registry.add("foo", "1");
 
-        expect(() => registry.addVariables({
-            foo: "2",
-            bar: 2
-        })).toThrow();
+        expect(() =>
+            registry.addVariables({
+                foo: "2",
+                bar: 2
+            })
+        ).toThrow();
     });
 });
 
@@ -74,7 +76,7 @@ describe.concurrent("getVariables", () => {
         const registry = new EnvironmentVariablesRegistry();
 
         registry.addVariables({
-            "foo": "1",
+            foo: "1",
             bar: 2
         });
 

@@ -42,10 +42,13 @@ describe("createLocalStorageLaunchDarklyClient", () => {
             "flag-b": true
         };
 
-        localStorage.setItem(TestLocalStorageKey, JSON.stringify({
-            "flag-a": true,
-            "flag-b": false
-        }));
+        localStorage.setItem(
+            TestLocalStorageKey,
+            JSON.stringify({
+                "flag-a": true,
+                "flag-b": false
+            })
+        );
 
         const client = createLocalStorageLaunchDarklyClient(defaultFlags, {
             localStorageKey: TestLocalStorageKey
@@ -80,10 +83,13 @@ describe("createLocalStorageLaunchDarklyClient", () => {
             "flag-a": true
         };
 
-        localStorage.setItem(TestLocalStorageKey, JSON.stringify({
-            "flag-a": false,
-            "invalid-flag": "should-be-ignored"
-        }));
+        localStorage.setItem(
+            TestLocalStorageKey,
+            JSON.stringify({
+                "flag-a": false,
+                "invalid-flag": "should-be-ignored"
+            })
+        );
 
         const client = createLocalStorageLaunchDarklyClient(defaultFlags, {
             localStorageKey: TestLocalStorageKey
@@ -101,10 +107,13 @@ describe("createLocalStorageLaunchDarklyClient", () => {
             "flag-a": true
         };
 
-        localStorage.setItem(TestLocalStorageKey, JSON.stringify({
-            "flag-a": false,
-            "invalid-flag": "should-be-ignored"
-        }));
+        localStorage.setItem(
+            TestLocalStorageKey,
+            JSON.stringify({
+                "flag-a": false,
+                "invalid-flag": "should-be-ignored"
+            })
+        );
 
         createLocalStorageLaunchDarklyClient(defaultFlags, {
             localStorageKey: TestLocalStorageKey
@@ -122,9 +131,12 @@ describe("createLocalStorageLaunchDarklyClient", () => {
             "flag-c": true
         };
 
-        localStorage.setItem(TestLocalStorageKey, JSON.stringify({
-            "flag-a": true
-        }));
+        localStorage.setItem(
+            TestLocalStorageKey,
+            JSON.stringify({
+                "flag-a": true
+            })
+        );
 
         const client = createLocalStorageLaunchDarklyClient(defaultFlags, {
             localStorageKey: TestLocalStorageKey
@@ -144,9 +156,12 @@ describe("createLocalStorageLaunchDarklyClient", () => {
             "flag-c": true
         };
 
-        localStorage.setItem(TestLocalStorageKey, JSON.stringify({
-            "flag-a": true
-        }));
+        localStorage.setItem(
+            TestLocalStorageKey,
+            JSON.stringify({
+                "flag-a": true
+            })
+        );
 
         createLocalStorageLaunchDarklyClient(defaultFlags, {
             localStorageKey: TestLocalStorageKey
@@ -405,12 +420,15 @@ describe("setFeatureFlags", () => {
 
         client.on("change", listener);
 
-        client.setFeatureFlags({
-            "flag-a": true,
-            "flag-b": true
-        }, {
-            notify: false
-        });
+        client.setFeatureFlags(
+            {
+                "flag-a": true,
+                "flag-b": true
+            },
+            {
+                notify: false
+            }
+        );
 
         expect(listener).not.toHaveBeenCalled();
     });
@@ -668,7 +686,9 @@ describe("startTransaction", () => {
 
         client.startTransaction();
 
-        expect(() => { client.startTransaction(); }).toThrow();
+        expect(() => {
+            client.startTransaction();
+        }).toThrow();
     });
 
     test("can complete and start a new transaction", ({ expect }) => {
@@ -687,7 +707,9 @@ describe("startTransaction", () => {
         const transaction2 = client.startTransaction();
         transaction2.undo();
 
-        expect(() => { client.startTransaction(); }).not.toThrow();
+        expect(() => {
+            client.startTransaction();
+        }).not.toThrow();
     });
 });
 
@@ -703,10 +725,13 @@ describe("storage changed event", () => {
         });
 
         // Simulate a local storage change from another tab.
-        localStorage.setItem(TestLocalStorageKey, JSON.stringify({
-            "flag-a": true,
-            "flag-b": false
-        }));
+        localStorage.setItem(
+            TestLocalStorageKey,
+            JSON.stringify({
+                "flag-a": true,
+                "flag-b": false
+            })
+        );
 
         // Simulate a local storage change event.
         const storageEvent = new StorageEvent("storage", {
@@ -742,10 +767,13 @@ describe("storage changed event", () => {
         client.on("change", listener);
 
         // Simulate a local storage change from another tab.
-        localStorage.setItem(TestLocalStorageKey, JSON.stringify({
-            "flag-a": true,
-            "flag-b": false
-        }));
+        localStorage.setItem(
+            TestLocalStorageKey,
+            JSON.stringify({
+                "flag-a": true,
+                "flag-b": false
+            })
+        );
 
         // Simulate a local storage change event.
         const storageEvent = new StorageEvent("storage", {
@@ -785,10 +813,13 @@ describe("storage changed event", () => {
         client.on("change", listener);
 
         // Simulate a local storage change from another tab.
-        localStorage.setItem(TestLocalStorageKey, JSON.stringify({
-            "flag-a": true,
-            "flag-b": false
-        }));
+        localStorage.setItem(
+            TestLocalStorageKey,
+            JSON.stringify({
+                "flag-a": true,
+                "flag-b": false
+            })
+        );
 
         // Simulate a local storage change event.
         const storageEvent = new StorageEvent("storage", {

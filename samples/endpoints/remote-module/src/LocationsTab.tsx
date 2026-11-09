@@ -17,30 +17,34 @@ export function LocationsTab() {
 
     const rickAndMortyApiBaseUrl = useEnvironmentVariable("rickAndMortyApiBaseUrl");
 
-    const { data: locations } = useSuspenseQuery({ queryKey: [`${rickAndMortyApiBaseUrl}location/1,2,3`], queryFn: () => {
-        return fetchJson(`${rickAndMortyApiBaseUrl}location/1,2,3`);
-    } });
+    const { data: locations } = useSuspenseQuery({
+        queryKey: [`${rickAndMortyApiBaseUrl}location/1,2,3`],
+        queryFn: () => {
+            return fetchJson(`${rickAndMortyApiBaseUrl}location/1,2,3`);
+        }
+    });
 
     return (
         <div>
             <h2>{t("title")}</h2>
             <p style={{ backgroundColor: "purple", color: "white", width: "fit-content" }}>
-                <Trans
-                    i18n={i18nextInstance}
-                    i18nKey="servedBy"
-                    t={t}
-                    components={{ code: <code /> }}
-                />
+                <Trans i18n={i18nextInstance} i18nKey="servedBy" t={t} components={{ code: <code /> }} />
             </p>
             <div>
                 {locations.map((x: Location) => {
                     return (
                         <div key={x.id}>
-                            <span>{t("idLabel")}: {x.id}</span>
+                            <span>
+                                {t("idLabel")}: {x.id}
+                            </span>
                             <span> - </span>
-                            <span>{t("nameLabel")}: {x.name}</span>
+                            <span>
+                                {t("nameLabel")}: {x.name}
+                            </span>
                             <span> - </span>
-                            <span>{t("typeLabel")}: {x.type}</span>
+                            <span>
+                                {t("typeLabel")}: {x.type}
+                            </span>
                         </div>
                     );
                 })}

@@ -1,11 +1,11 @@
 {
     "name": "workspace-root",
-    "author": "Workleap",
     "version": "0.0.0",
-    "description": "A modular web application shell.",
     "private": true,
-    "type": "module",
+    "description": "A modular web application shell.",
     "license": "Apache-2.0",
+    "author": "Workleap",
+    "type": "module",
     "scripts": {
         "dev-basic": "turbo run dev --filter=./samples/basic/*",
         "dev-basic-webpack": "turbo run dev --filter=./samples/basic-webpack/*",

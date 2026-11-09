@@ -66,17 +66,16 @@ function renderUseFeatureFlagHook<T extends FeatureFlagKey>(runtime: Runtime, ke
         return renderCount;
     };
 
-    const result = renderHook(() => {
-        renderCount += 1;
+    const result = renderHook(
+        () => {
+            renderCount += 1;
 
-        return useFeatureFlag(key, defaultValue);
-    }, {
-        wrapper: ({ children }: { children?: ReactNode }) => (
-            <RuntimeContext.Provider value={runtime}>
-                {children}
-            </RuntimeContext.Provider>
-        )
-    });
+            return useFeatureFlag(key, defaultValue);
+        },
+        {
+            wrapper: ({ children }: { children?: ReactNode }) => <RuntimeContext.Provider value={runtime}>{children}</RuntimeContext.Provider>
+        }
+    );
 
     return [result, renderCountAccessor];
 }
@@ -91,9 +90,7 @@ describe.concurrent("InMemoryLaunchDarklyClient", () => {
 
         const runtime = new DummyRuntime({
             loggers: [new NoopLogger()],
-            plugins: [
-                x => new LaunchDarklyPlugin(x, client)
-            ]
+            plugins: [x => new LaunchDarklyPlugin(x, client)]
         });
 
         const [{ result }] = renderUseFeatureFlagHook(runtime, "flag-a", false);
@@ -107,9 +104,7 @@ describe.concurrent("InMemoryLaunchDarklyClient", () => {
 
         const runtime = new DummyRuntime({
             loggers: [new NoopLogger()],
-            plugins: [
-                x => new LaunchDarklyPlugin(x, client)
-            ]
+            plugins: [x => new LaunchDarklyPlugin(x, client)]
         });
 
         const [{ result }] = renderUseFeatureFlagHook(runtime, "flag-a", false);
@@ -123,9 +118,7 @@ describe.concurrent("InMemoryLaunchDarklyClient", () => {
 
         const runtime = new DummyRuntime({
             loggers: [new NoopLogger()],
-            plugins: [
-                x => new LaunchDarklyPlugin(x, client)
-            ]
+            plugins: [x => new LaunchDarklyPlugin(x, client)]
         });
 
         const [{ result }] = renderUseFeatureFlagHook(runtime, "flag-a");
@@ -142,9 +135,7 @@ describe.concurrent("InMemoryLaunchDarklyClient", () => {
 
         const runtime = new DummyRuntime({
             loggers: [new NoopLogger()],
-            plugins: [
-                x => new LaunchDarklyPlugin(x, client)
-            ]
+            plugins: [x => new LaunchDarklyPlugin(x, client)]
         });
 
         const [{ result }, renderCountAccessor] = renderUseFeatureFlagHook(runtime, "flag-a");
@@ -171,9 +162,7 @@ describe.concurrent("InMemoryLaunchDarklyClient", () => {
 
         const runtime = new DummyRuntime({
             loggers: [new NoopLogger()],
-            plugins: [
-                x => new LaunchDarklyPlugin(x, client)
-            ]
+            plugins: [x => new LaunchDarklyPlugin(x, client)]
         });
 
         const [{ result }, renderCountAccessor] = renderUseFeatureFlagHook(runtime, "flag-a");
@@ -210,9 +199,7 @@ describe("LocalStorageLaunchDarklyClient", () => {
 
         const runtime = new DummyRuntime({
             loggers: [new NoopLogger()],
-            plugins: [
-                x => new LaunchDarklyPlugin(x, client)
-            ]
+            plugins: [x => new LaunchDarklyPlugin(x, client)]
         });
 
         const [{ result }] = renderUseFeatureFlagHook(runtime, "flag-a", false);
@@ -226,9 +213,7 @@ describe("LocalStorageLaunchDarklyClient", () => {
 
         const runtime = new DummyRuntime({
             loggers: [new NoopLogger()],
-            plugins: [
-                x => new LaunchDarklyPlugin(x, client)
-            ]
+            plugins: [x => new LaunchDarklyPlugin(x, client)]
         });
 
         const [{ result }] = renderUseFeatureFlagHook(runtime, "flag-a", false);
@@ -242,9 +227,7 @@ describe("LocalStorageLaunchDarklyClient", () => {
 
         const runtime = new DummyRuntime({
             loggers: [new NoopLogger()],
-            plugins: [
-                x => new LaunchDarklyPlugin(x, client)
-            ]
+            plugins: [x => new LaunchDarklyPlugin(x, client)]
         });
 
         const [{ result }] = renderUseFeatureFlagHook(runtime, "flag-a");
@@ -261,9 +244,7 @@ describe("LocalStorageLaunchDarklyClient", () => {
 
         const runtime = new DummyRuntime({
             loggers: [new NoopLogger()],
-            plugins: [
-                x => new LaunchDarklyPlugin(x, client)
-            ]
+            plugins: [x => new LaunchDarklyPlugin(x, client)]
         });
 
         const [{ result }, renderCountAccessor] = renderUseFeatureFlagHook(runtime, "flag-a");
@@ -290,9 +271,7 @@ describe("LocalStorageLaunchDarklyClient", () => {
 
         const runtime = new DummyRuntime({
             loggers: [new NoopLogger()],
-            plugins: [
-                x => new LaunchDarklyPlugin(x, client)
-            ]
+            plugins: [x => new LaunchDarklyPlugin(x, client)]
         });
 
         const [{ result }, renderCountAccessor] = renderUseFeatureFlagHook(runtime, "flag-a");

@@ -26,9 +26,7 @@ const renderSectionItem: RenderSectionItemFunction = ({ label, section }, key) =
     return (
         <li key={key} style={{ display: "flex", gap: "5px" }}>
             {label}
-            <div style={{ display: "flex", alignItems: "center", fontSize: "12px" }}>
-                ({section})
-            </div>
+            <div style={{ display: "flex", alignItems: "center", fontSize: "12px" }}>({section})</div>
         </li>
     );
 };
@@ -73,49 +71,59 @@ export function AuthenticatedLayout() {
 
     const navigate = useNavigate();
 
-    const handleDisconnect = useCallback((event: MouseEvent<HTMLButtonElement>) => {
-        event.preventDefault();
+    const handleDisconnect = useCallback(
+        (event: MouseEvent<HTMLButtonElement>) => {
+            event.preventDefault();
 
-        postJson(`${authenticationApiBaseUrl}logout`)
-            .then(() => {
-                sessionManager?.clearSession();
+            postJson(`${authenticationApiBaseUrl}logout`)
+                .then(() => {
+                    sessionManager?.clearSession();
 
-                logger.debug("[shell] The user session has been cleared.");
+                    logger.debug("[shell] The user session has been cleared.");
 
-                navigate("/logout");
-            })
-            .catch(() => {
-                throw new Error("An unknown error happened while disconnecting the user.");
-            });
-    }, [logger, navigate, sessionManager, authenticationApiBaseUrl]);
+                    navigate("/logout");
+                })
+                .catch(() => {
+                    throw new Error("An unknown error happened while disconnecting the user.");
+                });
+        },
+        [logger, navigate, sessionManager, authenticationApiBaseUrl]
+    );
 
-    const handleUpdateSession = useCallback(async (event: MouseEvent<HTMLButtonElement>) => {
-        event.preventDefault();
+    const handleUpdateSession = useCallback(
+        async (event: MouseEvent<HTMLButtonElement>) => {
+            event.preventDefault();
 
-        await postJson(`${sessionApiBaseUrl}updateSession`)
-            .then(() => {
+            await postJson(`${sessionApiBaseUrl}updateSession`).then(() => {
                 logger.debug("[shell] Updated the user session.");
             });
 
-        queryClient.refetchQueries({ queryKey: [`${environmentVariables.sessionApiBaseUrl}getSession`] });
-    }, [logger, sessionApiBaseUrl, queryClient, environmentVariables]);
+            queryClient.refetchQueries({ queryKey: [`${environmentVariables.sessionApiBaseUrl}getSession`] });
+        },
+        [logger, sessionApiBaseUrl, queryClient, environmentVariables]
+    );
 
-    const handleSwitchUserRole = useCallback(async (event: MouseEvent<HTMLButtonElement>) => {
-        event.preventDefault();
+    const handleSwitchUserRole = useCallback(
+        async (event: MouseEvent<HTMLButtonElement>) => {
+            event.preventDefault();
 
-        await postJson(`${userRoleApiBaseUrl}switch`)
-            .then(() => {
+            await postJson(`${userRoleApiBaseUrl}switch`).then(() => {
                 logger.debug("[shell] Switch the user role.");
             });
 
-        queryClient.refetchQueries({ queryKey: [`${environmentVariables.userRoleApiBaseUrl}getRole`] });
-    }, [logger, userRoleApiBaseUrl, queryClient, environmentVariables]);
+            queryClient.refetchQueries({ queryKey: [`${environmentVariables.userRoleApiBaseUrl}getRole`] });
+        },
+        [logger, userRoleApiBaseUrl, queryClient, environmentVariables]
+    );
 
-    const handleFailing = useCallback(async (event: MouseEvent<HTMLButtonElement>) => {
-        event.preventDefault();
+    const handleFailing = useCallback(
+        async (event: MouseEvent<HTMLButtonElement>) => {
+            event.preventDefault();
 
-        await fetchJson(`${subscriptionApiBaseUrl}failing`);
-    }, [subscriptionApiBaseUrl]);
+            await fetchJson(`${subscriptionApiBaseUrl}failing`);
+        },
+        [subscriptionApiBaseUrl]
+    );
 
     const navigationItems = useNavigationItems();
     const renderedNavigationItems = useRenderedNavigationItems(navigationItems, renderItem, renderSection);
@@ -123,12 +131,15 @@ export function AuthenticatedLayout() {
     return (
         <>
             <div style={{ display: "flex", alignItems: "center" }}>
-                <nav style={{ width: "100%" }}>
-                    {renderedNavigationItems}
-                </nav>
+                <nav style={{ width: "100%" }}>{renderedNavigationItems}</nav>
                 <div style={{ whiteSpace: "nowrap", marginRight: "20px" }}>
-                    {/* Must check for a null session because when the disconnect button is clicked, it will clear the session and rerender this layout. */}
-                    ({t("subscriptionLabel")}: <span style={{ fontWeight: "bold" }}>{subscriptionStatusLabel}</span><span style={{ marginLeft: "10px", marginRight: "10px" }}>-</span>{t("userLabel")}: <span style={{ fontWeight: "bold" }}>{session?.user?.name}/{session?.user?.preferredLanguage}</span>)
+                    {/* Must check for a null session because when the disconnect button is clicked, it will clear the session and rerender this layout. */}({t("subscriptionLabel")}: <span style={{ fontWeight: "bold" }}>{subscriptionStatusLabel}</span>
+                    <span style={{ marginLeft: "10px", marginRight: "10px" }}>-</span>
+                    {t("userLabel")}:{" "}
+                    <span style={{ fontWeight: "bold" }}>
+                        {session?.user?.name}/{session?.user?.preferredLanguage}
+                    </span>
+                    )
                 </div>
                 {showUpdateSessionButton && (
                     <div>

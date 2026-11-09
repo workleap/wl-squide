@@ -35,10 +35,7 @@ export class AppRouterStore {
     dispatch(action: AppRouterAction) {
         const newState = this.#reducer({ ...this.#state }, action);
 
-        this.#logger
-            .withText("[squide] The AppRouterStore state has been updated to:")
-            .withObject(newState)
-            .debug();
+        this.#logger.withText("[squide] The AppRouterStore state has been updated to:").withObject(newState).debug();
 
         this.#state = newState;
 

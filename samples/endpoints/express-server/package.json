@@ -1,12 +1,11 @@
 {
     "name": "@endpoints/express-server",
-    "author": "Workleap",
     "version": "0.0.0",
-    "description": "Express server to test Honeycomb distributed tracing.",
     "private": true,
+    "description": "Express server to test Honeycomb distributed tracing.",
     "license": "Apache-2.0",
+    "author": "Workleap",
     "type": "module",
-    "//scripts-dev": "Adding the watch option to the dev script seems to not restart the server through refreshes.",
     "scripts": {
         "dev": "tsx src/index.ts",
         "serve-build": "tsx src/index.ts",
@@ -31,5 +30,6 @@
         "@workleap/typescript-configs": "5.0.0",
         "tsx": "4.23.15",
         "typescript": "6.0.3"
-    }
+    },
+    "//scripts-dev": "Adding the watch option to the dev script seems to not restart the server through refreshes."
 }

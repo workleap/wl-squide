@@ -1,9 +1,9 @@
 {
     "name": "@getting-started-remote/root",
-    "author": "Workleap",
     "version": "0.0.0",
-    "description": "A template for the getting-started guide of Squide.",
     "private": true,
+    "description": "A template for the getting-started guide of Squide.",
+    "author": "Workleap",
     "type": "module",
     "scripts": {
         "dev": "pnpm -r --parallel dev",

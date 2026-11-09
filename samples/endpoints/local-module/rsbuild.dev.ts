@@ -10,8 +10,7 @@ export default defineDevHostConfig(8080, [], {
     features,
     sharedDependencies: getSharedDependencies(true),
     environmentVariables: {
-        "ISOLATED": process.env.ISOLATED === "true",
-        "USE_MSW": process.env.USE_MSW === "true"
+        ISOLATED: process.env.ISOLATED === "true",
+        USE_MSW: process.env.USE_MSW === "true"
     }
 });
-

@@ -6,7 +6,7 @@ import { reduceDataFetchEvents } from "../../src/honeycomb/registerHoneycombInst
 import { ProtectedDataFetchFailedEvent, ProtectedDataFetchStartedEvent } from "../../src/useProtectedDataQueries.ts";
 import { PublicDataFetchFailedEvent, PublicDataFetchStartedEvent } from "../../src/usePublicDataQueries.ts";
 
-test.concurrent("when the state is \"none\" and PublicDataFetchStartedEvent is handled, call the onDataFetchStarted handler", ({ expect }) => {
+test.concurrent('when the state is "none" and PublicDataFetchStartedEvent is handled, call the onDataFetchStarted handler', ({ expect }) => {
     const runtime = new FireflyRuntime({
         loggers: [new NoopLogger()]
     });
@@ -20,17 +20,7 @@ test.concurrent("when the state is \"none\" and PublicDataFetchStartedEvent is h
     const onDataFetchFailed = vi.fn();
     const onUnmanagedError = vi.fn();
 
-    reduceDataFetchEvents(
-        runtime,
-        onDataFetchStarted,
-        onDataReady,
-        onPublicDataFetchStarted,
-        onPublicDataReady,
-        onProtectedDataFetchStarted,
-        onProtectedDataReady,
-        onDataFetchFailed,
-        onUnmanagedError
-    );
+    reduceDataFetchEvents(runtime, onDataFetchStarted, onDataReady, onPublicDataFetchStarted, onPublicDataReady, onProtectedDataFetchStarted, onProtectedDataReady, onDataFetchFailed, onUnmanagedError);
 
     runtime.eventBus.dispatch(PublicDataFetchStartedEvent);
 
@@ -38,7 +28,7 @@ test.concurrent("when the state is \"none\" and PublicDataFetchStartedEvent is h
     expect(onPublicDataFetchStarted).toHaveBeenCalledOnce();
 });
 
-test.concurrent("when the state is \"fetching-data\" and PublicDataFetchStartedEvent is handled, do not call the onDataFetchStarted handler", ({ expect }) => {
+test.concurrent('when the state is "fetching-data" and PublicDataFetchStartedEvent is handled, do not call the onDataFetchStarted handler', ({ expect }) => {
     const runtime = new FireflyRuntime({
         loggers: [new NoopLogger()]
     });
@@ -52,17 +42,7 @@ test.concurrent("when the state is \"fetching-data\" and PublicDataFetchStartedE
     const onDataFetchFailed = vi.fn();
     const onUnmanagedError = vi.fn();
 
-    reduceDataFetchEvents(
-        runtime,
-        onDataFetchStarted,
-        onDataReady,
-        onPublicDataFetchStarted,
-        onPublicDataReady,
-        onProtectedDataFetchStarted,
-        onProtectedDataReady,
-        onDataFetchFailed,
-        onUnmanagedError
-    );
+    reduceDataFetchEvents(runtime, onDataFetchStarted, onDataReady, onPublicDataFetchStarted, onPublicDataReady, onProtectedDataFetchStarted, onProtectedDataReady, onDataFetchFailed, onUnmanagedError);
 
     // Will update the state to "fetching-data".
     runtime.eventBus.dispatch(ProtectedDataFetchStartedEvent);
@@ -74,7 +54,7 @@ test.concurrent("when the state is \"fetching-data\" and PublicDataFetchStartedE
     expect(onPublicDataFetchStarted).toHaveBeenCalledOnce();
 });
 
-test.concurrent("when the state is \"none\" and ProtectedDataFetchStartedEvent is handled, call the onDataFetchStarted handler", ({ expect }) => {
+test.concurrent('when the state is "none" and ProtectedDataFetchStartedEvent is handled, call the onDataFetchStarted handler', ({ expect }) => {
     const runtime = new FireflyRuntime({
         loggers: [new NoopLogger()]
     });
@@ -88,17 +68,7 @@ test.concurrent("when the state is \"none\" and ProtectedDataFetchStartedEvent i
     const onDataFetchFailed = vi.fn();
     const onUnmanagedError = vi.fn();
 
-    reduceDataFetchEvents(
-        runtime,
-        onDataFetchStarted,
-        onDataReady,
-        onPublicDataFetchStarted,
-        onPublicDataReady,
-        onProtectedDataFetchStarted,
-        onProtectedDataReady,
-        onDataFetchFailed,
-        onUnmanagedError
-    );
+    reduceDataFetchEvents(runtime, onDataFetchStarted, onDataReady, onPublicDataFetchStarted, onPublicDataReady, onProtectedDataFetchStarted, onProtectedDataReady, onDataFetchFailed, onUnmanagedError);
 
     runtime.eventBus.dispatch(ProtectedDataFetchStartedEvent);
 
@@ -106,7 +76,7 @@ test.concurrent("when the state is \"none\" and ProtectedDataFetchStartedEvent i
     expect(onProtectedDataFetchStarted).toHaveBeenCalledOnce();
 });
 
-test.concurrent("when the state is \"fetching-data\" and ProtectedDataFetchStartedEvent is handled, do not call the onDataFetchStarted handler", ({ expect }) => {
+test.concurrent('when the state is "fetching-data" and ProtectedDataFetchStartedEvent is handled, do not call the onDataFetchStarted handler', ({ expect }) => {
     const runtime = new FireflyRuntime({
         loggers: [new NoopLogger()]
     });
@@ -120,17 +90,7 @@ test.concurrent("when the state is \"fetching-data\" and ProtectedDataFetchStart
     const onDataFetchFailed = vi.fn();
     const onUnmanagedError = vi.fn();
 
-    reduceDataFetchEvents(
-        runtime,
-        onDataFetchStarted,
-        onDataReady,
-        onPublicDataFetchStarted,
-        onPublicDataReady,
-        onProtectedDataFetchStarted,
-        onProtectedDataReady,
-        onDataFetchFailed,
-        onUnmanagedError
-    );
+    reduceDataFetchEvents(runtime, onDataFetchStarted, onDataReady, onPublicDataFetchStarted, onPublicDataReady, onProtectedDataFetchStarted, onProtectedDataReady, onDataFetchFailed, onUnmanagedError);
 
     // Will update the state to "fetching-data".
     runtime.eventBus.dispatch(PublicDataFetchStartedEvent);
@@ -142,7 +102,7 @@ test.concurrent("when the state is \"fetching-data\" and ProtectedDataFetchStart
     expect(onProtectedDataFetchStarted).toHaveBeenCalledOnce();
 });
 
-test.concurrent("when the state is \"fetching-data\", \"waitForProtectedData\" is true, and PublicDataReadyEvent is handled, do not call the onDataReadyHandler", ({ expect }) => {
+test.concurrent('when the state is "fetching-data", "waitForProtectedData" is true, and PublicDataReadyEvent is handled, do not call the onDataReadyHandler', ({ expect }) => {
     const runtime = new FireflyRuntime({
         loggers: [new NoopLogger()]
     });
@@ -156,17 +116,7 @@ test.concurrent("when the state is \"fetching-data\", \"waitForProtectedData\" i
     const onDataFetchFailed = vi.fn();
     const onUnmanagedError = vi.fn();
 
-    reduceDataFetchEvents(
-        runtime,
-        onDataFetchStarted,
-        onDataReady,
-        onPublicDataFetchStarted,
-        onPublicDataReady,
-        onProtectedDataFetchStarted,
-        onProtectedDataReady,
-        onDataFetchFailed,
-        onUnmanagedError
-    );
+    reduceDataFetchEvents(runtime, onDataFetchStarted, onDataReady, onPublicDataFetchStarted, onPublicDataReady, onProtectedDataFetchStarted, onProtectedDataReady, onDataFetchFailed, onUnmanagedError);
 
     // Will update the state to "fetching-data".
     runtime.eventBus.dispatch(PublicDataFetchStartedEvent);
@@ -186,7 +136,7 @@ test.concurrent("when the state is \"fetching-data\", \"waitForProtectedData\" i
     expect(onPublicDataReady).toHaveBeenCalledOnce();
 });
 
-test.concurrent("when the state is \"fetching-data\", \"waitForProtectedData\" is false, and PublicDataReadyEvent is handled, call the onDataReadyHandler", ({ expect }) => {
+test.concurrent('when the state is "fetching-data", "waitForProtectedData" is false, and PublicDataReadyEvent is handled, call the onDataReadyHandler', ({ expect }) => {
     const runtime = new FireflyRuntime({
         loggers: [new NoopLogger()]
     });
@@ -200,17 +150,7 @@ test.concurrent("when the state is \"fetching-data\", \"waitForProtectedData\" i
     const onDataFetchFailed = vi.fn();
     const onUnmanagedError = vi.fn();
 
-    reduceDataFetchEvents(
-        runtime,
-        onDataFetchStarted,
-        onDataReady,
-        onPublicDataFetchStarted,
-        onPublicDataReady,
-        onProtectedDataFetchStarted,
-        onProtectedDataReady,
-        onDataFetchFailed,
-        onUnmanagedError
-    );
+    reduceDataFetchEvents(runtime, onDataFetchStarted, onDataReady, onPublicDataFetchStarted, onPublicDataReady, onProtectedDataFetchStarted, onProtectedDataReady, onDataFetchFailed, onUnmanagedError);
 
     // Will update the state to "fetching-data".
     runtime.eventBus.dispatch(PublicDataFetchStartedEvent);
@@ -230,7 +170,7 @@ test.concurrent("when the state is \"fetching-data\", \"waitForProtectedData\" i
     expect(onPublicDataReady).toHaveBeenCalledOnce();
 });
 
-test.concurrent("when the state is \"protected-data-ready\" and PublicDataReadyEvent is handled, call the onDataReady handler", ({ expect }) => {
+test.concurrent('when the state is "protected-data-ready" and PublicDataReadyEvent is handled, call the onDataReady handler', ({ expect }) => {
     const runtime = new FireflyRuntime({
         loggers: [new NoopLogger()]
     });
@@ -244,17 +184,7 @@ test.concurrent("when the state is \"protected-data-ready\" and PublicDataReadyE
     const onDataFetchFailed = vi.fn();
     const onUnmanagedError = vi.fn();
 
-    reduceDataFetchEvents(
-        runtime,
-        onDataFetchStarted,
-        onDataReady,
-        onPublicDataFetchStarted,
-        onPublicDataReady,
-        onProtectedDataFetchStarted,
-        onProtectedDataReady,
-        onDataFetchFailed,
-        onUnmanagedError
-    );
+    reduceDataFetchEvents(runtime, onDataFetchStarted, onDataReady, onPublicDataFetchStarted, onPublicDataReady, onProtectedDataFetchStarted, onProtectedDataReady, onDataFetchFailed, onUnmanagedError);
 
     // Will update the state to "fetching-data".
     runtime.eventBus.dispatch(PublicDataFetchStartedEvent);
@@ -274,7 +204,7 @@ test.concurrent("when the state is \"protected-data-ready\" and PublicDataReadyE
     expect(onProtectedDataReady).toHaveBeenCalledOnce();
 });
 
-test.concurrent("when the state is \"public-data-ready\" and PublicDataReadyEvent is handled, do not call the onDataReady handler", ({ expect }) => {
+test.concurrent('when the state is "public-data-ready" and PublicDataReadyEvent is handled, do not call the onDataReady handler', ({ expect }) => {
     const runtime = new FireflyRuntime({
         loggers: [new NoopLogger()]
     });
@@ -288,17 +218,7 @@ test.concurrent("when the state is \"public-data-ready\" and PublicDataReadyEven
     const onDataFetchFailed = vi.fn();
     const onUnmanagedError = vi.fn();
 
-    reduceDataFetchEvents(
-        runtime,
-        onDataFetchStarted,
-        onDataReady,
-        onPublicDataFetchStarted,
-        onPublicDataReady,
-        onProtectedDataFetchStarted,
-        onProtectedDataReady,
-        onDataFetchFailed,
-        onUnmanagedError
-    );
+    reduceDataFetchEvents(runtime, onDataFetchStarted, onDataReady, onPublicDataFetchStarted, onPublicDataReady, onProtectedDataFetchStarted, onProtectedDataReady, onDataFetchFailed, onUnmanagedError);
 
     // Will update the state to "fetching-data".
     runtime.eventBus.dispatch(PublicDataFetchStartedEvent);
@@ -317,7 +237,7 @@ test.concurrent("when the state is \"public-data-ready\" and PublicDataReadyEven
     expect(onPublicDataReady).toHaveBeenCalledOnce();
 });
 
-test.concurrent("when the state is \"data-ready\" and PublicDataReadyEvent is handled, do not call the onDataReady handler", ({ expect }) => {
+test.concurrent('when the state is "data-ready" and PublicDataReadyEvent is handled, do not call the onDataReady handler', ({ expect }) => {
     const runtime = new FireflyRuntime({
         loggers: [new NoopLogger()]
     });
@@ -331,17 +251,7 @@ test.concurrent("when the state is \"data-ready\" and PublicDataReadyEvent is ha
     const onDataFetchFailed = vi.fn();
     const onUnmanagedError = vi.fn();
 
-    reduceDataFetchEvents(
-        runtime,
-        onDataFetchStarted,
-        onDataReady,
-        onPublicDataFetchStarted,
-        onPublicDataReady,
-        onProtectedDataFetchStarted,
-        onProtectedDataReady,
-        onDataFetchFailed,
-        onUnmanagedError
-    );
+    reduceDataFetchEvents(runtime, onDataFetchStarted, onDataReady, onPublicDataFetchStarted, onPublicDataReady, onProtectedDataFetchStarted, onProtectedDataReady, onDataFetchFailed, onUnmanagedError);
 
     // Will update the state to "fetching-data".
     runtime.eventBus.dispatch(PublicDataFetchStartedEvent);
@@ -362,7 +272,7 @@ test.concurrent("when the state is \"data-ready\" and PublicDataReadyEvent is ha
     expect(onProtectedDataReady).toHaveBeenCalledOnce();
 });
 
-test.concurrent("when the state is \"fetching-data\", \"waitForPublicData\" is true, and ProtectedDataReadyEvent is handled, do not call the onDataReadyHandler", ({ expect }) => {
+test.concurrent('when the state is "fetching-data", "waitForPublicData" is true, and ProtectedDataReadyEvent is handled, do not call the onDataReadyHandler', ({ expect }) => {
     const runtime = new FireflyRuntime({
         loggers: [new NoopLogger()]
     });
@@ -376,17 +286,7 @@ test.concurrent("when the state is \"fetching-data\", \"waitForPublicData\" is t
     const onDataFetchFailed = vi.fn();
     const onUnmanagedError = vi.fn();
 
-    reduceDataFetchEvents(
-        runtime,
-        onDataFetchStarted,
-        onDataReady,
-        onPublicDataFetchStarted,
-        onPublicDataReady,
-        onProtectedDataFetchStarted,
-        onProtectedDataReady,
-        onDataFetchFailed,
-        onUnmanagedError
-    );
+    reduceDataFetchEvents(runtime, onDataFetchStarted, onDataReady, onPublicDataFetchStarted, onPublicDataReady, onProtectedDataFetchStarted, onProtectedDataReady, onDataFetchFailed, onUnmanagedError);
 
     // Will update the state to "fetching-data".
     runtime.eventBus.dispatch(PublicDataFetchStartedEvent);
@@ -402,7 +302,7 @@ test.concurrent("when the state is \"fetching-data\", \"waitForPublicData\" is t
     expect(onProtectedDataReady).toHaveBeenCalledOnce();
 });
 
-test.concurrent("when the state is \"fetching-data\", \"waitForPublicData\" is false, and ProtectedDataReadyEvent is handled, call the onDataReadyHandler", ({ expect }) => {
+test.concurrent('when the state is "fetching-data", "waitForPublicData" is false, and ProtectedDataReadyEvent is handled, call the onDataReadyHandler', ({ expect }) => {
     const runtime = new FireflyRuntime({
         loggers: [new NoopLogger()]
     });
@@ -416,17 +316,7 @@ test.concurrent("when the state is \"fetching-data\", \"waitForPublicData\" is f
     const onDataFetchFailed = vi.fn();
     const onUnmanagedError = vi.fn();
 
-    reduceDataFetchEvents(
-        runtime,
-        onDataFetchStarted,
-        onDataReady,
-        onPublicDataFetchStarted,
-        onPublicDataReady,
-        onProtectedDataFetchStarted,
-        onProtectedDataReady,
-        onDataFetchFailed,
-        onUnmanagedError
-    );
+    reduceDataFetchEvents(runtime, onDataFetchStarted, onDataReady, onPublicDataFetchStarted, onPublicDataReady, onProtectedDataFetchStarted, onProtectedDataReady, onDataFetchFailed, onUnmanagedError);
 
     // Will update the state to "fetching-data".
     runtime.eventBus.dispatch(PublicDataFetchStartedEvent);
@@ -442,7 +332,7 @@ test.concurrent("when the state is \"fetching-data\", \"waitForPublicData\" is f
     expect(onProtectedDataReady).toHaveBeenCalledOnce();
 });
 
-test.concurrent("when the state is \"public-data-ready\" and ProtectedDataReadyEvent is handled, call the onDataReady handler", ({ expect }) => {
+test.concurrent('when the state is "public-data-ready" and ProtectedDataReadyEvent is handled, call the onDataReady handler', ({ expect }) => {
     const runtime = new FireflyRuntime({
         loggers: [new NoopLogger()]
     });
@@ -456,17 +346,7 @@ test.concurrent("when the state is \"public-data-ready\" and ProtectedDataReadyE
     const onDataFetchFailed = vi.fn();
     const onUnmanagedError = vi.fn();
 
-    reduceDataFetchEvents(
-        runtime,
-        onDataFetchStarted,
-        onDataReady,
-        onPublicDataFetchStarted,
-        onPublicDataReady,
-        onProtectedDataFetchStarted,
-        onProtectedDataReady,
-        onDataFetchFailed,
-        onUnmanagedError
-    );
+    reduceDataFetchEvents(runtime, onDataFetchStarted, onDataReady, onPublicDataFetchStarted, onPublicDataReady, onProtectedDataFetchStarted, onProtectedDataReady, onDataFetchFailed, onUnmanagedError);
 
     // Will update the state to "fetching-data".
     runtime.eventBus.dispatch(PublicDataFetchStartedEvent);
@@ -486,7 +366,7 @@ test.concurrent("when the state is \"public-data-ready\" and ProtectedDataReadyE
     expect(onProtectedDataReady).toHaveBeenCalledOnce();
 });
 
-test.concurrent("when the state is \"protected-data-ready\" and ProtectedDataReadyEvent is handled, do not call the onDataReady handler", ({ expect }) => {
+test.concurrent('when the state is "protected-data-ready" and ProtectedDataReadyEvent is handled, do not call the onDataReady handler', ({ expect }) => {
     const runtime = new FireflyRuntime({
         loggers: [new NoopLogger()]
     });
@@ -500,17 +380,7 @@ test.concurrent("when the state is \"protected-data-ready\" and ProtectedDataRea
     const onDataFetchFailed = vi.fn();
     const onUnmanagedError = vi.fn();
 
-    reduceDataFetchEvents(
-        runtime,
-        onDataFetchStarted,
-        onDataReady,
-        onPublicDataFetchStarted,
-        onPublicDataReady,
-        onProtectedDataFetchStarted,
-        onProtectedDataReady,
-        onDataFetchFailed,
-        onUnmanagedError
-    );
+    reduceDataFetchEvents(runtime, onDataFetchStarted, onDataReady, onPublicDataFetchStarted, onPublicDataReady, onProtectedDataFetchStarted, onProtectedDataReady, onDataFetchFailed, onUnmanagedError);
 
     // Will update the state to "fetching-data".
     runtime.eventBus.dispatch(PublicDataFetchStartedEvent);
@@ -529,7 +399,7 @@ test.concurrent("when the state is \"protected-data-ready\" and ProtectedDataRea
     expect(onProtectedDataReady).toHaveBeenCalledOnce();
 });
 
-test.concurrent("when the state is \"data-ready\" and ProtectedDataReadyEvent is handled, do not call the onDataReady handler", ({ expect }) => {
+test.concurrent('when the state is "data-ready" and ProtectedDataReadyEvent is handled, do not call the onDataReady handler', ({ expect }) => {
     const runtime = new FireflyRuntime({
         loggers: [new NoopLogger()]
     });
@@ -543,17 +413,7 @@ test.concurrent("when the state is \"data-ready\" and ProtectedDataReadyEvent is
     const onDataFetchFailed = vi.fn();
     const onUnmanagedError = vi.fn();
 
-    reduceDataFetchEvents(
-        runtime,
-        onDataFetchStarted,
-        onDataReady,
-        onPublicDataFetchStarted,
-        onPublicDataReady,
-        onProtectedDataFetchStarted,
-        onProtectedDataReady,
-        onDataFetchFailed,
-        onUnmanagedError
-    );
+    reduceDataFetchEvents(runtime, onDataFetchStarted, onDataReady, onPublicDataFetchStarted, onPublicDataReady, onProtectedDataFetchStarted, onProtectedDataReady, onDataFetchFailed, onUnmanagedError);
 
     // Will update the state to "fetching-data".
     runtime.eventBus.dispatch(PublicDataFetchStartedEvent);
@@ -574,7 +434,7 @@ test.concurrent("when the state is \"data-ready\" and ProtectedDataReadyEvent is
     expect(onProtectedDataReady).toHaveBeenCalledOnce();
 });
 
-test.concurrent("when the state is not \"data-fetch-failed\" and PublicDataFetchFailedEvent is handled, call the onDataFetchFailed handler", ({ expect }) => {
+test.concurrent('when the state is not "data-fetch-failed" and PublicDataFetchFailedEvent is handled, call the onDataFetchFailed handler', ({ expect }) => {
     const runtime = new FireflyRuntime({
         loggers: [new NoopLogger()]
     });
@@ -588,24 +448,14 @@ test.concurrent("when the state is not \"data-fetch-failed\" and PublicDataFetch
     const onDataFetchFailed = vi.fn();
     const onUnmanagedError = vi.fn();
 
-    reduceDataFetchEvents(
-        runtime,
-        onDataFetchStarted,
-        onDataReady,
-        onPublicDataFetchStarted,
-        onPublicDataReady,
-        onProtectedDataFetchStarted,
-        onProtectedDataReady,
-        onDataFetchFailed,
-        onUnmanagedError
-    );
+    reduceDataFetchEvents(runtime, onDataFetchStarted, onDataReady, onPublicDataFetchStarted, onPublicDataReady, onProtectedDataFetchStarted, onProtectedDataReady, onDataFetchFailed, onUnmanagedError);
 
     runtime.eventBus.dispatch(PublicDataFetchFailedEvent);
 
     expect(onDataFetchFailed).toHaveBeenCalledOnce();
 });
 
-test.concurrent("when the state is \"data-fetch-failed\" and PublicDataFetchFailedEvent is handled, call the onDataFetchFailed handler", ({ expect }) => {
+test.concurrent('when the state is "data-fetch-failed" and PublicDataFetchFailedEvent is handled, call the onDataFetchFailed handler', ({ expect }) => {
     const runtime = new FireflyRuntime({
         loggers: [new NoopLogger()]
     });
@@ -619,17 +469,7 @@ test.concurrent("when the state is \"data-fetch-failed\" and PublicDataFetchFail
     const onDataFetchFailed = vi.fn();
     const onUnmanagedError = vi.fn();
 
-    reduceDataFetchEvents(
-        runtime,
-        onDataFetchStarted,
-        onDataReady,
-        onPublicDataFetchStarted,
-        onPublicDataReady,
-        onProtectedDataFetchStarted,
-        onProtectedDataReady,
-        onDataFetchFailed,
-        onUnmanagedError
-    );
+    reduceDataFetchEvents(runtime, onDataFetchStarted, onDataReady, onPublicDataFetchStarted, onPublicDataReady, onProtectedDataFetchStarted, onProtectedDataReady, onDataFetchFailed, onUnmanagedError);
 
     // The first dispatch will update the state to "fetching-data".
     runtime.eventBus.dispatch(PublicDataFetchFailedEvent);
@@ -638,7 +478,7 @@ test.concurrent("when the state is \"data-fetch-failed\" and PublicDataFetchFail
     expect(onDataFetchFailed).toHaveBeenCalledOnce();
 });
 
-test.concurrent("when the state is not \"data-fetch-failed\" and ProtectedDataFetchFailedEvent is handled, call the onDataFetchFailed handler", ({ expect }) => {
+test.concurrent('when the state is not "data-fetch-failed" and ProtectedDataFetchFailedEvent is handled, call the onDataFetchFailed handler', ({ expect }) => {
     const runtime = new FireflyRuntime({
         loggers: [new NoopLogger()]
     });
@@ -652,17 +492,7 @@ test.concurrent("when the state is not \"data-fetch-failed\" and ProtectedDataFe
     const onDataFetchFailed = vi.fn();
     const onUnmanagedError = vi.fn();
 
-    reduceDataFetchEvents(
-        runtime,
-        onDataFetchStarted,
-        onDataReady,
-        onPublicDataFetchStarted,
-        onPublicDataReady,
-        onProtectedDataFetchStarted,
-        onProtectedDataReady,
-        onDataFetchFailed,
-        onUnmanagedError
-    );
+    reduceDataFetchEvents(runtime, onDataFetchStarted, onDataReady, onPublicDataFetchStarted, onPublicDataReady, onProtectedDataFetchStarted, onProtectedDataReady, onDataFetchFailed, onUnmanagedError);
 
     // The first dispatch will update the state to "fetching-data".
     runtime.eventBus.dispatch(ProtectedDataFetchFailedEvent);
@@ -671,7 +501,7 @@ test.concurrent("when the state is not \"data-fetch-failed\" and ProtectedDataFe
     expect(onDataFetchFailed).toHaveBeenCalledOnce();
 });
 
-test.concurrent("when the state is \"data-fetch-failed\" and ProtectedDataFetchFailedEvent is handled, call the onDataFetchFailed handler", ({ expect }) => {
+test.concurrent('when the state is "data-fetch-failed" and ProtectedDataFetchFailedEvent is handled, call the onDataFetchFailed handler', ({ expect }) => {
     const runtime = new FireflyRuntime({
         loggers: [new NoopLogger()]
     });
@@ -685,17 +515,7 @@ test.concurrent("when the state is \"data-fetch-failed\" and ProtectedDataFetchF
     const onDataFetchFailed = vi.fn();
     const onUnmanagedError = vi.fn();
 
-    reduceDataFetchEvents(
-        runtime,
-        onDataFetchStarted,
-        onDataReady,
-        onPublicDataFetchStarted,
-        onPublicDataReady,
-        onProtectedDataFetchStarted,
-        onProtectedDataReady,
-        onDataFetchFailed,
-        onUnmanagedError
-    );
+    reduceDataFetchEvents(runtime, onDataFetchStarted, onDataReady, onPublicDataFetchStarted, onPublicDataReady, onProtectedDataFetchStarted, onProtectedDataReady, onDataFetchFailed, onUnmanagedError);
 
     runtime.eventBus.dispatch(ProtectedDataFetchFailedEvent);
 
@@ -716,17 +536,7 @@ test.concurrent("events sequencing", ({ expect }) => {
     const onDataFetchFailed = vi.fn();
     const onUnmanagedError = vi.fn();
 
-    reduceDataFetchEvents(
-        runtime,
-        onDataFetchStarted,
-        onDataReady,
-        onPublicDataFetchStarted,
-        onPublicDataReady,
-        onProtectedDataFetchStarted,
-        onProtectedDataReady,
-        onDataFetchFailed,
-        onUnmanagedError
-    );
+    reduceDataFetchEvents(runtime, onDataFetchStarted, onDataReady, onPublicDataFetchStarted, onPublicDataReady, onProtectedDataFetchStarted, onProtectedDataReady, onDataFetchFailed, onUnmanagedError);
 
     // Expected order is:
     //    onDataFetchStarted

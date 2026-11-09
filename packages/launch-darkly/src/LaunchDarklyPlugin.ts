@@ -35,10 +35,7 @@ export class LaunchDarklyPlugin extends Plugin {
     #registerClientListeners() {
         // TODO: Should it really go here?
         this.#client.on("error", error => {
-            this._runtime.logger
-                .withText("[squide] An error occured with the launch darkly client:")
-                .withError(error)
-                .error();
+            this._runtime.logger.withText("[squide] An error occured with the launch darkly client:").withError(error).error();
         });
     }
 }
@@ -49,7 +46,9 @@ export function getLaunchDarklyPlugin(runtime: Runtime) {
     }) as LaunchDarklyPlugin;
 
     if (!plugin) {
-        throw new Error("[squide] The getLaunchDarklyPlugin function is called but no LaunchDarklyPlugin instance has been registered with the runtime. Did you provide a LaunchDarkly client instance to either the runtime instance, the initializeFirefly function, or the initializeFireflyForStorybook function?");
+        throw new Error(
+            "[squide] The getLaunchDarklyPlugin function is called but no LaunchDarklyPlugin instance has been registered with the runtime. Did you provide a LaunchDarkly client instance to either the runtime instance, the initializeFirefly function, or the initializeFireflyForStorybook function?"
+        );
     }
 
     return plugin;

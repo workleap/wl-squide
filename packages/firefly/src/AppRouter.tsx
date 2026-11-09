@@ -26,7 +26,7 @@ export function useCanRenderRouter({ areModulesRegistered, areModulesReady: areM
     return (
         // Wait until the modules has been registered, but do not wait for the deferred registrations to be registered has they will probably
         // depends on the protected data.
-        (areModulesRegistered || areModulesReadyValue)
+        areModulesRegistered || areModulesReadyValue
     );
 }
 
@@ -96,12 +96,7 @@ export interface AppRouterProps {
 }
 
 export function AppRouter(props: AppRouterProps) {
-    const {
-        waitForPublicData = false,
-        waitForProtectedData = false,
-        strictMode = true,
-        children: renderRouterProvider
-    } = props;
+    const { waitForPublicData = false, waitForProtectedData = false, strictMode = true, children: renderRouterProvider } = props;
     const [state, dispatch] = useAppRouterReducer(waitForPublicData, waitForProtectedData);
 
     const logger = useLogger();
@@ -111,19 +106,14 @@ export function AppRouter(props: AppRouterProps) {
     });
 
     useEffect(() => {
-        logger
-            .withText("[squide] AppRouter state has been updated to:")
-            .withObject(state)
-            .debug();
+        logger.withText("[squide] AppRouter state has been updated to:").withObject(state).debug();
     }, [state, logger]);
 
     const routerProvider = useRenderRouterProvider(state, renderRouterProvider, strictMode);
 
     return (
         <AppRouterDispatcherContext.Provider value={dispatch}>
-            <AppRouterStateContext.Provider value={state}>
-                {routerProvider}
-            </AppRouterStateContext.Provider>
+            <AppRouterStateContext.Provider value={state}>{routerProvider}</AppRouterStateContext.Provider>
         </AppRouterDispatcherContext.Provider>
     );
 }

@@ -64,7 +64,7 @@ jobs:
         with:
           node-version: "26"
           check-latest: true
-          cache: 'pnpm'
+          cache: "pnpm"
 
       - name: Install dependencies
         run: pnpm install

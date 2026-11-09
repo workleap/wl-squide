@@ -12,14 +12,14 @@ async function registerMsw(runtime: FireflyRuntime) {
 }
 
 function registerRoutes(runtime: FireflyRuntime) {
-    runtime.registerRoute({
-        children: [
-            PublicRoutes,
-            ProtectedRoutes
-        ]
-    }, {
-        hoist: true
-    });
+    runtime.registerRoute(
+        {
+            children: [PublicRoutes, ProtectedRoutes]
+        },
+        {
+            hoist: true
+        }
+    );
 
     runtime.registerRoute({
         index: true,

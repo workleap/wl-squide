@@ -18,15 +18,11 @@ interface ComponentProps {
 }
 
 function Component(props: ComponentProps) {
-    const {
-        expect
-    } = props;
+    const { expect } = props;
 
     expect?.();
 
-    return (
-        <div>Hey!</div>
-    );
+    return <div>Hey!</div>;
 }
 
 describe.concurrent("InMemoryLaunchDarklyClient", () => {
@@ -58,13 +54,11 @@ describe.concurrent("InMemoryLaunchDarklyClient", () => {
                 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
                 // @ts-ignore
                 null
-            ), {
-                wrapper: ({ children }: { children: ReactNode }) => (
-                    <RuntimeContext.Provider value={runtime}>
-                        {children}
-                    </RuntimeContext.Provider>
-                )
-            });
+            ),
+            {
+                wrapper: ({ children }: { children: ReactNode }) => <RuntimeContext.Provider value={runtime}>{children}</RuntimeContext.Provider>
+            }
+        );
     });
 
     // Regression test for https://github.com/workleap/wl-squide/issues/571
@@ -92,13 +86,11 @@ describe.concurrent("InMemoryLaunchDarklyClient", () => {
                 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
                 // @ts-ignore
                 null
-            ), {
-                wrapper: ({ children }: { children: ReactNode }) => (
-                    <RuntimeContext.Provider value={runtime}>
-                        {children}
-                    </RuntimeContext.Provider>
-                )
-            });
+            ),
+            {
+                wrapper: ({ children }: { children: ReactNode }) => <RuntimeContext.Provider value={runtime}>{children}</RuntimeContext.Provider>
+            }
+        );
 
         // Simulate what resetTransaction() does: undo the active transaction
         // before the first instance's cleanup runs.
@@ -133,13 +125,11 @@ describe.concurrent("InMemoryLaunchDarklyClient", () => {
                 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
                 // @ts-ignore
                 null
-            ), {
-                wrapper: ({ children }: { children: ReactNode }) => (
-                    <RuntimeContext.Provider value={runtime}>
-                        {children}
-                    </RuntimeContext.Provider>
-                )
-            });
+            ),
+            {
+                wrapper: ({ children }: { children: ReactNode }) => <RuntimeContext.Provider value={runtime}>{children}</RuntimeContext.Provider>
+            }
+        );
     });
 
     test.concurrent("the original feature flags value are reset after the story has been rendered", async ({ expect }) => {
@@ -163,13 +153,11 @@ describe.concurrent("InMemoryLaunchDarklyClient", () => {
                 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
                 // @ts-ignore
                 null
-            ), {
-                wrapper: ({ children }: { children: ReactNode }) => (
-                    <RuntimeContext.Provider value={runtime}>
-                        {children}
-                    </RuntimeContext.Provider>
-                )
-            });
+            ),
+            {
+                wrapper: ({ children }: { children: ReactNode }) => <RuntimeContext.Provider value={runtime}>{children}</RuntimeContext.Provider>
+            }
+        );
 
         unmount();
 
@@ -213,13 +201,11 @@ describe("LocalStorageLaunchDarklyClient", () => {
                 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
                 // @ts-ignore
                 null
-            ), {
-                wrapper: ({ children }: { children: ReactNode }) => (
-                    <RuntimeContext.Provider value={runtime}>
-                        {children}
-                    </RuntimeContext.Provider>
-                )
-            });
+            ),
+            {
+                wrapper: ({ children }: { children: ReactNode }) => <RuntimeContext.Provider value={runtime}>{children}</RuntimeContext.Provider>
+            }
+        );
     });
 
     // Regression test for https://github.com/workleap/wl-squide/issues/571
@@ -244,13 +230,11 @@ describe("LocalStorageLaunchDarklyClient", () => {
                 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
                 // @ts-ignore
                 null
-            ), {
-                wrapper: ({ children }: { children: ReactNode }) => (
-                    <RuntimeContext.Provider value={runtime}>
-                        {children}
-                    </RuntimeContext.Provider>
-                )
-            });
+            ),
+            {
+                wrapper: ({ children }: { children: ReactNode }) => <RuntimeContext.Provider value={runtime}>{children}</RuntimeContext.Provider>
+            }
+        );
 
         (launchDarklyClient as unknown as { resetTransaction(): void }).resetTransaction();
 
@@ -279,13 +263,11 @@ describe("LocalStorageLaunchDarklyClient", () => {
                 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
                 // @ts-ignore
                 null
-            ), {
-                wrapper: ({ children }: { children: ReactNode }) => (
-                    <RuntimeContext.Provider value={runtime}>
-                        {children}
-                    </RuntimeContext.Provider>
-                )
-            });
+            ),
+            {
+                wrapper: ({ children }: { children: ReactNode }) => <RuntimeContext.Provider value={runtime}>{children}</RuntimeContext.Provider>
+            }
+        );
     });
 
     test("the original feature flags value are reset after the story has been rendered", async ({ expect }) => {
@@ -309,13 +291,11 @@ describe("LocalStorageLaunchDarklyClient", () => {
                 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
                 // @ts-ignore
                 null
-            ), {
-                wrapper: ({ children }: { children: ReactNode }) => (
-                    <RuntimeContext.Provider value={runtime}>
-                        {children}
-                    </RuntimeContext.Provider>
-                )
-            });
+            ),
+            {
+                wrapper: ({ children }: { children: ReactNode }) => <RuntimeContext.Provider value={runtime}>{children}</RuntimeContext.Provider>
+            }
+        );
 
         unmount();
 

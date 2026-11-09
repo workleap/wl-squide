@@ -7,9 +7,7 @@ import { App } from "./App.tsx";
 import { registerHost } from "./register.tsx";
 
 // Define the remote modules.
-const Remotes: RemoteDefinition[] = [
-    { name: "remote1" }
-];
+const Remotes: RemoteDefinition[] = [{ name: "remote1" }];
 
 // Register the modules.
 const runtime = initializeFirefly({

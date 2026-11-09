@@ -11,11 +11,7 @@ interface ProvidersProps {
 }
 
 function Providers({ children }: ProvidersProps) {
-    return (
-        <QueryProvider>
-            {children}
-        </QueryProvider>
-    );
+    return <QueryProvider>{children}</QueryProvider>;
 }
 
 function registerRoutes(runtime: FireflyRuntime, i18nextInstance: i18n): DeferredRegistrationFunction<FireflyRuntime, DeferredRegistrationData> {
@@ -25,49 +21,74 @@ function registerRoutes(runtime: FireflyRuntime, i18nextInstance: i18n): Deferre
             const { AnonymousPage } = await import("./AnonymousPage.tsx");
 
             return {
-                element: <Providers><AnonymousPage /></Providers>
+                element: (
+                    <Providers>
+                        <AnonymousPage />
+                    </Providers>
+                )
             };
         }
     });
 
-    runtime.registerRoute({
-        path: "episodes",
-        lazy: async () => {
-            const { EpisodesTab } = await import("./EpisodesTab.tsx");
+    runtime.registerRoute(
+        {
+            path: "episodes",
+            lazy: async () => {
+                const { EpisodesTab } = await import("./EpisodesTab.tsx");
 
-            return {
-                element: <Providers><EpisodesTab /></Providers>
-            };
+                return {
+                    element: (
+                        <Providers>
+                            <EpisodesTab />
+                        </Providers>
+                    )
+                };
+            }
+        },
+        {
+            parentPath: "/federated-tabs"
         }
-    }, {
-        parentPath: "/federated-tabs"
-    });
+    );
 
-    runtime.registerRoute({
-        path: "locations",
-        lazy: async () => {
-            const { LocationsTab } = await import("./LocationsTab.tsx");
+    runtime.registerRoute(
+        {
+            path: "locations",
+            lazy: async () => {
+                const { LocationsTab } = await import("./LocationsTab.tsx");
 
-            return {
-                element: <Providers><LocationsTab /></Providers>
-            };
+                return {
+                    element: (
+                        <Providers>
+                            <LocationsTab />
+                        </Providers>
+                    )
+                };
+            }
+        },
+        {
+            parentPath: "/federated-tabs"
         }
-    }, {
-        parentPath: "/federated-tabs"
-    });
+    );
 
-    runtime.registerRoute({
-        path: "failing",
-        lazy: async () => {
-            const { FailingTab } = await import("./FailingTab.tsx");
+    runtime.registerRoute(
+        {
+            path: "failing",
+            lazy: async () => {
+                const { FailingTab } = await import("./FailingTab.tsx");
 
-            return {
-                element: <Providers><FailingTab /></Providers>
-            };
+                return {
+                    element: (
+                        <Providers>
+                            <FailingTab />
+                        </Providers>
+                    )
+                };
+            }
+        },
+        {
+            parentPath: "/federated-tabs"
         }
-    }, {
-        parentPath: "/federated-tabs"
-    });
+    );
 
     runtime.registerRoute({
         path: "/feature-b",
@@ -75,34 +96,47 @@ function registerRoutes(runtime: FireflyRuntime, i18nextInstance: i18n): Deferre
             const { FeatureBPage } = await import("./FeatureBPage.tsx");
 
             return {
-                element: <Providers><FeatureBPage /></Providers>
+                element: (
+                    <Providers>
+                        <FeatureBPage />
+                    </Providers>
+                )
             };
         }
     });
 
-    runtime.registerNavigationItem({
-        $id: "episodes-tab",
-        $label: <I18nextNavigationItemLabel i18next={i18nextInstance} resourceKey="episodesTab" />,
-        to: "/federated-tabs/episodes"
-    }, {
-        menuId: "/federated-tabs"
-    });
+    runtime.registerNavigationItem(
+        {
+            $id: "episodes-tab",
+            $label: <I18nextNavigationItemLabel i18next={i18nextInstance} resourceKey="episodesTab" />,
+            to: "/federated-tabs/episodes"
+        },
+        {
+            menuId: "/federated-tabs"
+        }
+    );
 
-    runtime.registerNavigationItem({
-        $id: "locations-tab",
-        $label: <I18nextNavigationItemLabel i18next={i18nextInstance} resourceKey="locationsTab" />,
-        to: "/federated-tabs/locations"
-    }, {
-        menuId: "/federated-tabs"
-    });
+    runtime.registerNavigationItem(
+        {
+            $id: "locations-tab",
+            $label: <I18nextNavigationItemLabel i18next={i18nextInstance} resourceKey="locationsTab" />,
+            to: "/federated-tabs/locations"
+        },
+        {
+            menuId: "/federated-tabs"
+        }
+    );
 
-    runtime.registerNavigationItem({
-        $id: "failing-tab",
-        $label: <I18nextNavigationItemLabel i18next={i18nextInstance} resourceKey="failingTab" />,
-        to: "/federated-tabs/failing"
-    }, {
-        menuId: "/federated-tabs"
-    });
+    runtime.registerNavigationItem(
+        {
+            $id: "failing-tab",
+            $label: <I18nextNavigationItemLabel i18next={i18nextInstance} resourceKey="failingTab" />,
+            to: "/federated-tabs/failing"
+        },
+        {
+            menuId: "/federated-tabs"
+        }
+    );
 
     return (deferredRuntime, { role }) => {
         if (role === "admin") {

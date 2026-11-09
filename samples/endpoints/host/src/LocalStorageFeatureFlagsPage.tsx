@@ -20,10 +20,7 @@ interface FeatureFlagEntryProps {
 }
 
 function FeatureFlagEntry(props: FeatureFlagEntryProps) {
-    const {
-        id,
-        value
-    } = props;
+    const { id, value } = props;
 
     const i18nextInstance = useI18nextInstance(i18NextInstanceKey);
     const { t } = useTranslation("LocalStorageFeatureFlagsPage", { i18n: i18nextInstance });
@@ -39,7 +36,9 @@ function FeatureFlagEntry(props: FeatureFlagEntryProps) {
             <span>{id}</span>
             <span style={{ marginLeft: "10px", marginRight: "10px" }}>|</span>
             <span>{value ? "true" : "false"}</span>
-            <button type="button" onClick={handleToggle} style={{ marginLeft: "10px" }}>{t("toggleButtonLabel")}</button>
+            <button type="button" onClick={handleToggle} style={{ marginLeft: "10px" }}>
+                {t("toggleButtonLabel")}
+            </button>
         </div>
     );
 }
@@ -58,7 +57,7 @@ function subscribeToFeatureFlags(callback: () => void) {
     return () => {
         featureFlagsClient.off("change", handleChange);
     };
-};
+}
 
 export function LocalStorageFeatureFlagsPage() {
     const i18nextInstance = useI18nextInstance(i18NextInstanceKey);

@@ -6,6 +6,6 @@ export default defineDevHostConfig(8080, Remotes, {
     overlay: false,
     sharedDependencies: getSharedDependencies(),
     environmentVariables: {
-        "NETLIFY": process.env.NETLIFY === "true"
+        NETLIFY: process.env.NETLIFY === "true"
     }
 });

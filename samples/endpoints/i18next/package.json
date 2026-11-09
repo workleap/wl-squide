@@ -1,21 +1,14 @@
 {
     "name": "@endpoints/i18next",
-    "author": "Workleap",
     "version": "0.0.0",
-    "description": "i18next package to showcase Squide localization.",
     "private": true,
+    "description": "i18next package to showcase Squide localization.",
     "license": "Apache-2.0",
+    "author": "Workleap",
     "type": "module",
     "exports": "./src/index.ts",
     "scripts": {
         "typecheck": "tsgo"
-    },
-    "peerDependencies": {
-        "i18next": "^26.5.3",
-        "i18next-browser-languagedetector": "^8.2.1",
-        "react": "^19.3.1",
-        "react-dom": "^19.3.1",
-        "react-i18next": "^17.1.0"
     },
     "dependencies": {
         "@endpoints/shared": "workspace:*",
@@ -27,5 +20,12 @@
         "@typescript/native-preview": "7.0.0-dev.20260707.2",
         "@workleap/typescript-configs": "5.0.0",
         "typescript": "6.0.3"
+    },
+    "peerDependencies": {
+        "i18next": "^26.5.3",
+        "i18next-browser-languagedetector": "^8.2.1",
+        "react": "^19.3.1",
+        "react-dom": "^19.3.1",
+        "react-i18next": "^17.1.0"
     }
 }

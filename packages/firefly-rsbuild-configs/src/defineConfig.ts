@@ -44,7 +44,7 @@ export function __clearModuleFederationPluginFactory() {
 // For more informations about shared dependencies refer to: https://github.com/patricklafrance/wmf-versioning
 function getDefaultSharedDependencies(features: Features, isHost: boolean): ModuleFederationShared {
     return {
-        "react": {
+        react: {
             singleton: true,
             eager: isHost ? true : undefined,
             // Fixed the warning when `react-i18next` is imported in any remote modules.
@@ -103,7 +103,7 @@ function getMswSharedDependency(isHost: boolean): ModuleFederationShared {
 
 function getI18nextSharedDependency(isHost: boolean): ModuleFederationShared {
     return {
-        "i18next": {
+        i18next: {
             singleton: true,
             eager: isHost ? true : undefined
         },
@@ -156,14 +156,7 @@ function getHoneycombSharedDependencies(isHost: boolean): ModuleFederationShared
 }
 
 function getFeaturesDependencies(features: Features, isHost: boolean) {
-    const {
-        router = "react-router",
-        msw = true,
-        i18next,
-        environmentVariables = true,
-        honeycomb = true,
-        launchDarkly = true
-    } = features;
+    const { router = "react-router", msw = true, i18next, environmentVariables = true, honeycomb = true, launchDarkly = true } = features;
 
     return {
         ...(router === "react-router" ? getReactRouterSharedDependencies(isHost) : {}),
@@ -233,12 +226,7 @@ interface GetDefaultHostModuleFederationPluginOptions extends ModuleFederationPl
 }
 
 function getDefaultHostModuleFederationPluginOptions(remotes: RemoteDefinition[], options: GetDefaultHostModuleFederationPluginOptions) {
-    const {
-        features = {},
-        shared = {},
-        runtimePlugins = [],
-        ...rest
-    } = options;
+    const { features = {}, shared = {}, runtimePlugins = [], ...rest } = options;
 
     const defaultSharedDependencies = resolveDefaultSharedDependencies(features, true);
 
@@ -261,15 +249,8 @@ function getDefaultHostModuleFederationPluginOptions(remotes: RemoteDefinition[]
         // Deep merging the default shared dependencies with the provided shared dependencies
         // to allow the consumer to easily override a default option of a shared dependency
         // without extending the whole default shared dependencies object.
-        shared: merge.all([
-            defaultSharedDependencies,
-            shared
-        ]) as ModuleFederationShared,
-        runtimePlugins: [
-            path.resolve(packageDirectory, "./sharedDependenciesResolutionPlugin.js"),
-            path.resolve(packageDirectory, "./nonCacheableRemoteEntryPlugin.js"),
-            ...runtimePlugins
-        ],
+        shared: merge.all([defaultSharedDependencies, shared]) as ModuleFederationShared,
+        runtimePlugins: [path.resolve(packageDirectory, "./sharedDependenciesResolutionPlugin.js"), path.resolve(packageDirectory, "./nonCacheableRemoteEntryPlugin.js"), ...runtimePlugins],
         // Commented because it doesn't seems to work, the runtime is still embedded into remotes.
         // experiments: {
         //     // The runtime is 100kb minified.
@@ -308,17 +289,9 @@ export function defineDevHostConfig(port: number, remotes: RemoteDefinition[], o
         entry,
         port,
         assetPrefix,
-        plugins: [
-            ...plugins,
-            createModuleFederationPlugin(
-                moduleFederationPluginOptions(
-                    getDefaultHostModuleFederationPluginOptions(remotes, { features, shared: sharedDependencies, runtimePlugins })))
-        ],
+        plugins: [...plugins, createModuleFederationPlugin(moduleFederationPluginOptions(getDefaultHostModuleFederationPluginOptions(remotes, { features, shared: sharedDependencies, runtimePlugins })))],
         lazyCompilation,
-        transformers: [
-            ...transformers,
-            disableCacheTransformer
-        ],
+        transformers: [...transformers, disableCacheTransformer],
         ...rsbuildOptions
     });
 }
@@ -349,17 +322,8 @@ export function defineBuildHostConfig(remotes: RemoteDefinition[], options: Defi
     return defineBuildConfig({
         entry,
         assetPrefix,
-        plugins: [
-            ...plugins,
-            createModuleFederationPlugin(
-                moduleFederationPluginOptions(
-                    getDefaultHostModuleFederationPluginOptions(remotes, { features, shared: sharedDependencies, runtimePlugins })))
-        ],
-        transformers: [
-            forceNamedChunkIdsTransformer,
-            disableCacheTransformer,
-            ...transformers
-        ],
+        plugins: [...plugins, createModuleFederationPlugin(moduleFederationPluginOptions(getDefaultHostModuleFederationPluginOptions(remotes, { features, shared: sharedDependencies, runtimePlugins })))],
+        transformers: [forceNamedChunkIdsTransformer, disableCacheTransformer, ...transformers],
         ...webpackOptions
     });
 }
@@ -371,13 +335,7 @@ interface GetDefaultRemoteModuleFederationPluginOptions extends ModuleFederation
 }
 
 function getDefaultRemoteModuleFederationPluginOptions(applicationName: string, options: GetDefaultRemoteModuleFederationPluginOptions) {
-    const {
-        features = {},
-        exposes = {},
-        shared = {},
-        runtimePlugins = [],
-        ...rest
-    } = options;
+    const { features = {}, exposes = {}, shared = {}, runtimePlugins = [], ...rest } = options;
 
     const defaultSharedDependencies = resolveDefaultSharedDependencies(features, false);
 
@@ -397,15 +355,8 @@ function getDefaultRemoteModuleFederationPluginOptions(applicationName: string, 
         // Deep merging the default shared dependencies with the provided shared dependencies
         // to allow the consumer to easily override a default option of a shared dependency
         // without extending the whole default shared dependencies object.
-        shared: merge.all([
-            defaultSharedDependencies,
-            shared
-        ]) as ModuleFederationShared,
-        runtimePlugins: [
-            path.resolve(packageDirectory, "./sharedDependenciesResolutionPlugin.js"),
-            path.resolve(packageDirectory, "./nonCacheableRemoteEntryPlugin.js"),
-            ...runtimePlugins
-        ],
+        shared: merge.all([defaultSharedDependencies, shared]) as ModuleFederationShared,
+        runtimePlugins: [path.resolve(packageDirectory, "./sharedDependenciesResolutionPlugin.js"), path.resolve(packageDirectory, "./nonCacheableRemoteEntryPlugin.js"), ...runtimePlugins],
         // Commented because it doesn't seems to work, the runtime is still embedded into remotes.
         // experiments: {
         //     // The runtime is 100kb minified.
@@ -448,18 +399,10 @@ export function defineDevRemoteModuleConfig(applicationName: string, port: numbe
         // Disable the error overlay by default for remotes as otherwise every remote module's error overlay will be
         // stack on top of the host application's error overlay.
         overlay: false,
-        plugins: [
-            ...plugins,
-            createModuleFederationPlugin(
-                moduleFederationPluginOptions(
-                    getDefaultRemoteModuleFederationPluginOptions(applicationName, { features, shared: sharedDependencies, runtimePlugins })))
-        ],
+        plugins: [...plugins, createModuleFederationPlugin(moduleFederationPluginOptions(getDefaultRemoteModuleFederationPluginOptions(applicationName, { features, shared: sharedDependencies, runtimePlugins })))],
         lazyCompilation,
         html,
-        transformers: [
-            ...transformers,
-            disableCacheTransformer
-        ],
+        transformers: [...transformers, disableCacheTransformer],
         ...rsbuildOptions
     });
 }
@@ -491,18 +434,9 @@ export function defineBuildRemoteModuleConfig(applicationName: string, options: 
     return defineBuildConfig({
         entry,
         assetPrefix,
-        plugins: [
-            ...plugins,
-            createModuleFederationPlugin(
-                moduleFederationPluginOptions(
-                    getDefaultRemoteModuleFederationPluginOptions(applicationName, { features, shared: sharedDependencies, runtimePlugins })))
-        ],
+        plugins: [...plugins, createModuleFederationPlugin(moduleFederationPluginOptions(getDefaultRemoteModuleFederationPluginOptions(applicationName, { features, shared: sharedDependencies, runtimePlugins })))],
         html,
-        transformers: [
-            forceNamedChunkIdsTransformer,
-            disableCacheTransformer,
-            ...transformers
-        ],
+        transformers: [forceNamedChunkIdsTransformer, disableCacheTransformer, ...transformers],
         ...rsbuildOptions
     });
 }

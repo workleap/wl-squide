@@ -8,22 +8,11 @@ export interface InitializeFireflyOptions<TRuntime extends FireflyRuntime, TCont
 }
 
 export function initializeFirefly<TContext = unknown, TData = unknown>(options: InitializeFireflyOptions<FireflyRuntime, TContext, TData> = {}) {
-    const {
-        remotes = [],
-        moduleDefinitions = [],
-        plugins = [],
-        ...rest
-    } = options;
+    const { remotes = [], moduleDefinitions = [], plugins = [], ...rest } = options;
 
     return baseInitializeFirefly({
-        moduleDefinitions: [
-            ...moduleDefinitions,
-            ...toRemoteModuleDefinitions(remotes)
-        ],
-        plugins: [
-            x => new ModuleFederationPlugin(x),
-            ...plugins
-        ],
+        moduleDefinitions: [...moduleDefinitions, ...toRemoteModuleDefinitions(remotes)],
+        plugins: [x => new ModuleFederationPlugin(x), ...plugins],
         ...rest
     });
 }

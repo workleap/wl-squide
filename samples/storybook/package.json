@@ -1,8 +1,8 @@
 {
     "name": "@storybook/app",
-    "description": "Sample to showcase how Squide integrates with Storybook",
-    "private": true,
     "version": "0.0.0",
+    "private": true,
+    "description": "Sample to showcase how Squide integrates with Storybook",
     "type": "module",
     "scripts": {
         "postinstall": "pnpm msw init",

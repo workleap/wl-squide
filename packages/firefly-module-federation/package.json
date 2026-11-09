@@ -1,44 +1,37 @@
 {
     "name": "@squide/firefly-module-federation",
-    "author": "Workleap",
     "version": "4.0.0",
     "description": "Add support for Module Federation to Squide firefly.",
     "license": "Apache-2.0",
+    "author": "Workleap",
     "repository": {
         "type": "git",
         "url": "git+https://github.com/workleap/wl-squide.git",
         "directory": "packages/firefly-module-federation"
     },
+    "files": [
+        "src",
+        "dist",
+        "CHANGELOG.md"
+    ],
     "type": "module",
+    "sideEffects": false,
+    "exports": "./src/index.ts",
     "publishConfig": {
-        "access": "public",
-        "provenance": true,
         "exports": {
             ".": {
                 "types": "./dist/index.d.ts",
                 "import": "./dist/index.js",
                 "default": "./dist/index.js"
             }
-        }
+        },
+        "access": "public",
+        "provenance": true
     },
-    "exports": "./src/index.ts",
-    "files": [
-        "src",
-        "dist",
-        "CHANGELOG.md"
-    ],
     "scripts": {
         "build": "rslib build --config ./rslib.build.ts",
         "typecheck": "tsgo",
         "test": "vitest --config vitest.config.ts --no-watch"
-    },
-    "peerDependencies": {
-        "@opentelemetry/api": "^1.9.1",
-        "@tanstack/react-query": "^5.104.5",
-        "msw": "^3.0.3",
-        "react": "^18.0.0 || ^19.0.0",
-        "react-dom": "^18.0.0 || ^19.0.0",
-        "react-router": "^8.5.0"
     },
     "dependencies": {
         "@module-federation/enhanced": "2.9.2",
@@ -62,5 +55,12 @@
         "typescript": "6.0.3",
         "vitest": "5.0.5"
     },
-    "sideEffects": false
+    "peerDependencies": {
+        "@opentelemetry/api": "^1.9.1",
+        "@tanstack/react-query": "^5.104.5",
+        "msw": "^3.0.3",
+        "react": "^18.0.0 || ^19.0.0",
+        "react-dom": "^18.0.0 || ^19.0.0",
+        "react-router": "^8.5.0"
+    }
 }

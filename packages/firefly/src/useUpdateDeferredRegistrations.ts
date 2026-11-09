@@ -16,15 +16,18 @@ export function useUpdateDeferredRegistrations() {
     const runtime = useRuntime();
     const dispatch = useAppRouterDispatcher();
 
-    return useCallback(async <TData = unknown>(data?: TData) => {
-        runtime.eventBus.dispatch(DeferredRegistrationsUpdateStartedEvent);
+    return useCallback(
+        async <TData = unknown>(data?: TData) => {
+            runtime.eventBus.dispatch(DeferredRegistrationsUpdateStartedEvent);
 
-        const errors = await runtime.moduleManager.updateDeferredRegistrations(data);
+            const errors = await runtime.moduleManager.updateDeferredRegistrations(data);
 
-        dispatch({ type: "deferred-registrations-updated" });
+            dispatch({ type: "deferred-registrations-updated" });
 
-        runtime.eventBus.dispatch(DeferredRegistrationsUpdateCompletedEvent);
+            runtime.eventBus.dispatch(DeferredRegistrationsUpdateCompletedEvent);
 
-        return errors;
-    }, [runtime, dispatch]);
+            return errors;
+        },
+        [runtime, dispatch]
+    );
 }

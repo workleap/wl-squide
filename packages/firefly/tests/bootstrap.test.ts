@@ -15,12 +15,7 @@ test.concurrent("filter out undefined definitions", async ({ expect }) => {
 
     runtime.eventBus.addListener(ApplicationBootstrappingStartedEvent, listener);
 
-    bootstrap(runtime, [
-        undefined,
-        ...toLocalModuleDefinitions([
-            () => {}
-        ])
-    ]);
+    bootstrap(runtime, [undefined, ...toLocalModuleDefinitions([() => {}])]);
 
     await vi.waitFor(() => expect(runtime.moduleManager.getAreModulesReady()).toBeTruthy());
 });
@@ -44,9 +39,7 @@ test.concurrent("when local modules are provided, register the local modules", a
         loggers: [new NoopLogger()]
     });
 
-    bootstrap(runtime, toLocalModuleDefinitions([
-        () => {}
-    ]));
+    bootstrap(runtime, toLocalModuleDefinitions([() => {}]));
 
     await vi.waitFor(() => expect(runtime.moduleManager.getAreModulesReady()).toBeTruthy());
 });
@@ -58,13 +51,17 @@ test.concurrent("when an error occurs while registering a local and an onError f
 
     const onError = vi.fn();
 
-    bootstrap(runtime, toLocalModuleDefinitions([
-        () => {
-            throw new Error("Dummy");
+    bootstrap(
+        runtime,
+        toLocalModuleDefinitions([
+            () => {
+                throw new Error("Dummy");
+            }
+        ]),
+        {
+            onError
         }
-    ]), {
-        onError
-    });
+    );
 
     await vi.waitFor(() => expect(onError).toHaveBeenCalledOnce());
     expect(onError).toHaveBeenCalledWith(expect.any(ModuleRegistrationError));
@@ -111,9 +108,12 @@ test.concurrent("when MSW is enabled and a start function is provided, MSW is re
     const mswState = new MswState();
 
     const runtime = new FireflyRuntime({
-        plugins: [x => new MswPlugin(x, {
-            state: mswState
-        })],
+        plugins: [
+            x =>
+                new MswPlugin(x, {
+                    state: mswState
+                })
+        ],
         loggers: [new NoopLogger()]
     });
 

@@ -9,7 +9,7 @@ export const DefaultLocalStorageKey = "squide-launch-darkly-client";
 export interface LocalStorageLaunchDarklyClientOptions {
     context?: LDContext;
     notifier?: LaunchDarklyClientNotifier;
-};
+}
 
 export interface CreateLocalStorageLaunchDarklyClientOptions extends LocalStorageLaunchDarklyClientOptions {
     localStorageKey?: string;
@@ -37,10 +37,7 @@ class FeatureFlagsLocalStore {
         let changeset: LDFlagChangeset = {};
 
         try {
-            changeset = computeChangeset(
-                event.oldValue ? JSON.parse(event.oldValue) as Partial<FeatureFlags> : {},
-                JSON.parse(event.newValue) as Partial<FeatureFlags>
-            );
+            changeset = computeChangeset(event.oldValue ? (JSON.parse(event.oldValue) as Partial<FeatureFlags>) : {}, JSON.parse(event.newValue) as Partial<FeatureFlags>);
         } catch {
             // Ignore parsing errors.
         }
@@ -53,9 +50,7 @@ class FeatureFlagsLocalStore {
     getFlags(): Partial<FeatureFlags> {
         const rawFlags = localStorage.getItem(this.#key);
 
-        return rawFlags
-            ? JSON.parse(rawFlags)
-            : {};
+        return rawFlags ? JSON.parse(rawFlags) : {};
     }
 
     setFlags(newFlags: Partial<FeatureFlags>) {
@@ -99,10 +94,7 @@ export class LocalStorageLaunchDarklyClient implements EditableLaunchDarklyClien
     #activeTransaction: ActiveTransaction | undefined;
 
     constructor(flags: Partial<FeatureFlags>, store: FeatureFlagsLocalStore, options: LocalStorageLaunchDarklyClientOptions = {}) {
-        const {
-            context,
-            notifier = new LaunchDarklyClientNotifier()
-        } = options;
+        const { context, notifier = new LaunchDarklyClientNotifier() } = options;
 
         this.#context = context ?? {
             kind: "user",
@@ -197,9 +189,7 @@ export class LocalStorageLaunchDarklyClient implements EditableLaunchDarklyClien
     }
 
     setFeatureFlags(newValues: Partial<FeatureFlags>, options: SetFeatureFlagOptions = {}): void {
-        const {
-            notify = true
-        } = options;
+        const { notify = true } = options;
 
         const keys = Object.keys(newValues);
 
@@ -274,10 +264,7 @@ export class LocalStorageLaunchDarklyClient implements EditableLaunchDarklyClien
 }
 
 export function createLocalStorageLaunchDarklyClient(flags: Partial<FeatureFlags>, options: CreateLocalStorageLaunchDarklyClientOptions = {}) {
-    const {
-        localStorageKey = DefaultLocalStorageKey,
-        ...clientOptions
-    } = options;
+    const { localStorageKey = DefaultLocalStorageKey, ...clientOptions } = options;
 
     const store = new FeatureFlagsLocalStore(localStorageKey);
     const newFlags = { ...flags };
@@ -298,9 +285,5 @@ export function createLocalStorageLaunchDarklyClient(flags: Partial<FeatureFlags
     // Keep the local storage up-to-date.
     store.setFlags(newFlags);
 
-    return new LocalStorageLaunchDarklyClient(
-        newFlags,
-        store,
-        clientOptions
-    );
+    return new LocalStorageLaunchDarklyClient(newFlags, store, clientOptions);
 }

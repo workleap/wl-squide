@@ -12,9 +12,8 @@ export default defineBuildHostConfig(AllRemotes, {
     features,
     sharedDependencies: getSharedDependencies(),
     environmentVariables: {
-        "NETLIFY": process.env.NETLIFY === "true",
-        "USE_MSW": process.env.USE_MSW === "true",
+        NETLIFY: process.env.NETLIFY === "true",
+        USE_MSW: process.env.USE_MSW === "true",
         ...parsed
     }
 });
-

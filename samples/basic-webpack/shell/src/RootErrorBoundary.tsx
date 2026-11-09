@@ -7,9 +7,7 @@ function getErrorMessage(error: unknown) {
         return `${error.status} ${error.statusText}`;
     }
 
-    return error instanceof Error
-        ? error.message
-        : JSON.stringify(error);
+    return error instanceof Error ? error.message : JSON.stringify(error);
 }
 
 export function RootErrorBoundary() {
@@ -30,9 +28,15 @@ export function RootErrorBoundary() {
         <div style={{ color: "red" }}>
             <h2>Unmanaged error</h2>
             <p>An unmanaged error occurred and the application is broken, try refreshing your browser.</p>
-            <span role="img" aria-label="pointer">👉</span> {getErrorMessage(error)}
-            <br /><br />
-            <button type="button" onClick={handleReloadButtonClick}>Reload</button>
+            <span role="img" aria-label="pointer">
+                👉
+            </span>{" "}
+            {getErrorMessage(error)}
+            <br />
+            <br />
+            <button type="button" onClick={handleReloadButtonClick}>
+                Reload
+            </button>
         </div>
     );
 }

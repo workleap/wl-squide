@@ -8,7 +8,10 @@ import {
     LocalModulesRegistrationCompletedEvent,
     LocalModulesRegistrationStartedEvent,
     ModuleManager,
-    toLocalModuleDefinitions,Plugin,type PluginReadyListener,type Runtime
+    toLocalModuleDefinitions,
+    Plugin,
+    type PluginReadyListener,
+    type Runtime
 } from "@squide/core";
 import { LocalModuleRegistry } from "@squide/core/internal";
 import { MswPlugin } from "@squide/msw";
@@ -39,34 +42,31 @@ interface AppRouterProps {
 }
 
 function AppRouter(props: AppRouterProps) {
-    const {
-        waitForPublicData,
-        waitForProtectedData,
-        initialEntries,
-        initialIndex,
-        bootstrappingRoute
-    } = props;
+    const { waitForPublicData, waitForProtectedData, initialEntries, initialIndex, bootstrappingRoute } = props;
 
     return (
         <FireflyAppRouter waitForPublicData={waitForPublicData} waitForProtectedData={waitForProtectedData}>
             {({ rootRoute, registeredRoutes, routerProps, routerProviderProps }) => {
                 return (
                     <RouterProvider
-                        router={createMemoryRouter([
+                        router={createMemoryRouter(
+                            [
+                                {
+                                    element: rootRoute,
+                                    children: [
+                                        {
+                                            element: bootstrappingRoute,
+                                            children: registeredRoutes
+                                        }
+                                    ]
+                                }
+                            ],
                             {
-                                element: rootRoute,
-                                children: [
-                                    {
-                                        element: bootstrappingRoute,
-                                        children: registeredRoutes
-                                    }
-                                ]
+                                ...routerProps,
+                                initialEntries,
+                                initialIndex
                             }
-                        ], {
-                            ...routerProps,
-                            initialEntries,
-                            initialIndex
-                        })}
+                        )}
                         {...routerProviderProps}
                     />
                 );
@@ -119,9 +119,7 @@ function renderAppRouter(props: AppRouterProps, runtime: FireflyRuntime) {
     return render(<AppRouter {...props} />, {
         wrapper: ({ children }: { children?: ReactNode }) => (
             <QueryClientProvider client={queryClient}>
-                <FireflyProvider runtime={runtime}>
-                    {children}
-                </FireflyProvider>
+                <FireflyProvider runtime={runtime}>{children}</FireflyProvider>
             </QueryClientProvider>
         )
     });
@@ -131,12 +129,8 @@ test("msw + local modules + public data + protected data + local deferred", asyn
     const localModuleRegistry = new LocalModuleRegistry();
 
     const runtime = new FireflyRuntime({
-        plugins: [
-            x => new MswPlugin(x)
-        ],
-        moduleManager: x => new ModuleManager(x, [
-            localModuleRegistry
-        ]),
+        plugins: [x => new MswPlugin(x)],
+        moduleManager: x => new ModuleManager(x, [localModuleRegistry]),
         loggers: [new NoopLogger()]
     });
 
@@ -170,11 +164,14 @@ test("msw + local modules + public data + protected data + local deferred", asyn
 
     const localModules = toLocalModuleDefinitions([
         x => {
-            x.registerRoute({
-                children: [ProtectedRoutes]
-            }, {
-                hoist: true
-            });
+            x.registerRoute(
+                {
+                    children: [ProtectedRoutes]
+                },
+                {
+                    hoist: true
+                }
+            );
 
             x.registerRoute({
                 path: "/foo",
@@ -186,24 +183,29 @@ test("msw + local modules + public data + protected data + local deferred", asyn
         }
     ]);
 
-    bootstrap(runtime, [
-        ...localModules
-    ], {
+    bootstrap(runtime, [...localModules], {
         startMsw: vi.fn(() => Promise.resolve())
     });
 
     await vi.waitUntil(() => localModuleRegistry.registrationStatus === "modules-registered");
 
     function BootstrappingRoute() {
-        usePublicDataQueries([{
-            queryKey: ["foo"],
-            queryFn: () => "bar"
-        }]);
+        usePublicDataQueries([
+            {
+                queryKey: ["foo"],
+                queryFn: () => "bar"
+            }
+        ]);
 
-        useProtectedDataQueries([{
-            queryKey: ["john"],
-            queryFn: () => "doe"
-        }], () => false);
+        useProtectedDataQueries(
+            [
+                {
+                    queryKey: ["john"],
+                    queryFn: () => "doe"
+                }
+            ],
+            () => false
+        );
 
         useDeferredRegistrations({});
 
@@ -283,12 +285,8 @@ test("msw + local modules + public data + protected data", async ({ expect }) =>
     const localModuleRegistry = new LocalModuleRegistry();
 
     const runtime = new FireflyRuntime({
-        plugins: [
-            x => new MswPlugin(x)
-        ],
-        moduleManager: x => new ModuleManager(x, [
-            localModuleRegistry
-        ]),
+        plugins: [x => new MswPlugin(x)],
+        moduleManager: x => new ModuleManager(x, [localModuleRegistry]),
         loggers: [new NoopLogger()]
     });
 
@@ -316,13 +314,14 @@ test("msw + local modules + public data + protected data", async ({ expect }) =>
 
     const localModules = toLocalModuleDefinitions([
         x => {
-            x.registerRoute({
-                children: [
-                    ProtectedRoutes
-                ]
-            }, {
-                hoist: true
-            });
+            x.registerRoute(
+                {
+                    children: [ProtectedRoutes]
+                },
+                {
+                    hoist: true
+                }
+            );
 
             x.registerRoute({
                 path: "/foo",
@@ -331,24 +330,29 @@ test("msw + local modules + public data + protected data", async ({ expect }) =>
         }
     ]);
 
-    bootstrap(runtime, [
-        ...localModules
-    ], {
+    bootstrap(runtime, [...localModules], {
         startMsw: vi.fn(() => Promise.resolve())
     });
 
     await vi.waitUntil(() => localModuleRegistry.registrationStatus === "ready");
 
     function BootstrappingRoute() {
-        usePublicDataQueries([{
-            queryKey: ["foo"],
-            queryFn: () => "bar"
-        }]);
+        usePublicDataQueries([
+            {
+                queryKey: ["foo"],
+                queryFn: () => "bar"
+            }
+        ]);
 
-        useProtectedDataQueries([{
-            queryKey: ["john"],
-            queryFn: () => "doe"
-        }], () => false);
+        useProtectedDataQueries(
+            [
+                {
+                    queryKey: ["john"],
+                    queryFn: () => "doe"
+                }
+            ],
+            () => false
+        );
 
         if (useIsBootstrapping()) {
             return "loading";
@@ -414,12 +418,8 @@ test("msw + local modules + public data + local deferred", async ({ expect }) =>
     const localModuleRegistry = new LocalModuleRegistry();
 
     const runtime = new FireflyRuntime({
-        plugins: [
-            x => new MswPlugin(x)
-        ],
-        moduleManager: x => new ModuleManager(x, [
-            localModuleRegistry
-        ]),
+        plugins: [x => new MswPlugin(x)],
+        moduleManager: x => new ModuleManager(x, [localModuleRegistry]),
         loggers: [new NoopLogger()]
     });
 
@@ -449,13 +449,14 @@ test("msw + local modules + public data + local deferred", async ({ expect }) =>
 
     const localModules = toLocalModuleDefinitions([
         x => {
-            x.registerRoute({
-                children: [
-                    ProtectedRoutes
-                ]
-            }, {
-                hoist: true
-            });
+            x.registerRoute(
+                {
+                    children: [ProtectedRoutes]
+                },
+                {
+                    hoist: true
+                }
+            );
 
             x.registerRoute({
                 path: "/foo",
@@ -467,19 +468,19 @@ test("msw + local modules + public data + local deferred", async ({ expect }) =>
         }
     ]);
 
-    bootstrap(runtime, [
-        ...localModules
-    ], {
+    bootstrap(runtime, [...localModules], {
         startMsw: vi.fn(() => Promise.resolve())
     });
 
     await vi.waitUntil(() => localModuleRegistry.registrationStatus === "modules-registered");
 
     function BootstrappingRoute() {
-        usePublicDataQueries([{
-            queryKey: ["foo"],
-            queryFn: () => "bar"
-        }]);
+        usePublicDataQueries([
+            {
+                queryKey: ["foo"],
+                queryFn: () => "bar"
+            }
+        ]);
 
         useDeferredRegistrations({});
 
@@ -553,12 +554,8 @@ test("msw + local modules + protected data + local deferred", async ({ expect })
     const localModuleRegistry = new LocalModuleRegistry();
 
     const runtime = new FireflyRuntime({
-        plugins: [
-            x => new MswPlugin(x)
-        ],
-        moduleManager: x => new ModuleManager(x, [
-            localModuleRegistry
-        ]),
+        plugins: [x => new MswPlugin(x)],
+        moduleManager: x => new ModuleManager(x, [localModuleRegistry]),
         loggers: [new NoopLogger()]
     });
 
@@ -588,13 +585,14 @@ test("msw + local modules + protected data + local deferred", async ({ expect })
 
     const localModules = toLocalModuleDefinitions([
         x => {
-            x.registerRoute({
-                children: [
-                    ProtectedRoutes
-                ]
-            }, {
-                hoist: true
-            });
+            x.registerRoute(
+                {
+                    children: [ProtectedRoutes]
+                },
+                {
+                    hoist: true
+                }
+            );
 
             x.registerRoute({
                 path: "/foo",
@@ -606,19 +604,22 @@ test("msw + local modules + protected data + local deferred", async ({ expect })
         }
     ]);
 
-    bootstrap(runtime, [
-        ...localModules
-    ], {
+    bootstrap(runtime, [...localModules], {
         startMsw: vi.fn(() => Promise.resolve())
     });
 
     await vi.waitUntil(() => localModuleRegistry.registrationStatus === "modules-registered");
 
     function BootstrappingRoute() {
-        useProtectedDataQueries([{
-            queryKey: ["john"],
-            queryFn: () => "doe"
-        }], () => false);
+        useProtectedDataQueries(
+            [
+                {
+                    queryKey: ["john"],
+                    queryFn: () => "doe"
+                }
+            ],
+            () => false
+        );
 
         useDeferredRegistrations({});
 
@@ -692,12 +693,8 @@ test("msw + local modules", async ({ expect }) => {
     const localModuleRegistry = new LocalModuleRegistry();
 
     const runtime = new FireflyRuntime({
-        plugins: [
-            x => new MswPlugin(x)
-        ],
-        moduleManager: x => new ModuleManager(x, [
-            localModuleRegistry
-        ]),
+        plugins: [x => new MswPlugin(x)],
+        moduleManager: x => new ModuleManager(x, [localModuleRegistry]),
         loggers: [new NoopLogger()]
     });
 
@@ -719,13 +716,14 @@ test("msw + local modules", async ({ expect }) => {
 
     const localModules = toLocalModuleDefinitions([
         x => {
-            x.registerRoute({
-                children: [
-                    ProtectedRoutes
-                ]
-            }, {
-                hoist: true
-            });
+            x.registerRoute(
+                {
+                    children: [ProtectedRoutes]
+                },
+                {
+                    hoist: true
+                }
+            );
 
             x.registerRoute({
                 path: "/foo",
@@ -734,9 +732,7 @@ test("msw + local modules", async ({ expect }) => {
         }
     ]);
 
-    bootstrap(runtime, [
-        ...localModules
-    ], {
+    bootstrap(runtime, [...localModules], {
         startMsw: vi.fn(() => Promise.resolve())
     });
 
@@ -790,13 +786,8 @@ test("msw + local modules + plugin implementing isReady", async ({ expect }) => 
     const localModuleRegistry = new LocalModuleRegistry();
 
     const runtime = new FireflyRuntime({
-        plugins: [
-            x => new MswPlugin(x),
-            x => new DummyReadyPlugin(x)
-        ],
-        moduleManager: x => new ModuleManager(x, [
-            localModuleRegistry
-        ]),
+        plugins: [x => new MswPlugin(x), x => new DummyReadyPlugin(x)],
+        moduleManager: x => new ModuleManager(x, [localModuleRegistry]),
         loggers: [new NoopLogger()]
     });
 
@@ -820,13 +811,14 @@ test("msw + local modules + plugin implementing isReady", async ({ expect }) => 
 
     const localModules = toLocalModuleDefinitions([
         x => {
-            x.registerRoute({
-                children: [
-                    ProtectedRoutes
-                ]
-            }, {
-                hoist: true
-            });
+            x.registerRoute(
+                {
+                    children: [ProtectedRoutes]
+                },
+                {
+                    hoist: true
+                }
+            );
 
             x.registerRoute({
                 path: "/foo",
@@ -835,9 +827,7 @@ test("msw + local modules + plugin implementing isReady", async ({ expect }) => 
         }
     ]);
 
-    bootstrap(runtime, [
-        ...localModules
-    ], {
+    bootstrap(runtime, [...localModules], {
         startMsw: vi.fn(() => Promise.resolve())
     });
 
@@ -914,13 +904,8 @@ test("msw + local modules + public data + plugin implementing isReady starting w
     const localModuleRegistry = new LocalModuleRegistry();
 
     const runtime = new FireflyRuntime({
-        plugins: [
-            x => new MswPlugin(x),
-            x => new DummyReadyPlugin(x)
-        ],
-        moduleManager: x => new ModuleManager(x, [
-            localModuleRegistry
-        ]),
+        plugins: [x => new MswPlugin(x), x => new DummyReadyPlugin(x)],
+        moduleManager: x => new ModuleManager(x, [localModuleRegistry]),
         loggers: [new NoopLogger()]
     });
 
@@ -939,13 +924,14 @@ test("msw + local modules + public data + plugin implementing isReady starting w
 
     const localModules = toLocalModuleDefinitions([
         x => {
-            x.registerRoute({
-                children: [
-                    ProtectedRoutes
-                ]
-            }, {
-                hoist: true
-            });
+            x.registerRoute(
+                {
+                    children: [ProtectedRoutes]
+                },
+                {
+                    hoist: true
+                }
+            );
 
             x.registerRoute({
                 path: "/foo",
@@ -954,19 +940,19 @@ test("msw + local modules + public data + plugin implementing isReady starting w
         }
     ]);
 
-    bootstrap(runtime, [
-        ...localModules
-    ], {
+    bootstrap(runtime, [...localModules], {
         startMsw: vi.fn(() => Promise.resolve())
     });
 
     await vi.waitUntil(() => localModuleRegistry.registrationStatus === "ready");
 
     function BootstrappingRoute() {
-        const [data] = usePublicDataQueries([{
-            queryKey: ["foo"],
-            queryFn: () => "bar"
-        }]);
+        const [data] = usePublicDataQueries([
+            {
+                queryKey: ["foo"],
+                queryFn: () => "bar"
+            }
+        ]);
 
         // Mimics a bootstrapping route switching to the preferred language carried by the data: the plugin starts
         // new work from an effect of the bootstrapping route, once the data is fetched.
@@ -1019,12 +1005,8 @@ test("local modules + public data + protected data + local deferred", async ({ e
     const localModuleRegistry = new LocalModuleRegistry();
 
     const runtime = new FireflyRuntime({
-        plugins: [
-            x => new MswPlugin(x)
-        ],
-        moduleManager: x => new ModuleManager(x, [
-            localModuleRegistry
-        ]),
+        plugins: [x => new MswPlugin(x)],
+        moduleManager: x => new ModuleManager(x, [localModuleRegistry]),
         loggers: [new NoopLogger()]
     });
 
@@ -1056,13 +1038,14 @@ test("local modules + public data + protected data + local deferred", async ({ e
 
     const localModules = toLocalModuleDefinitions([
         x => {
-            x.registerRoute({
-                children: [
-                    ProtectedRoutes
-                ]
-            }, {
-                hoist: true
-            });
+            x.registerRoute(
+                {
+                    children: [ProtectedRoutes]
+                },
+                {
+                    hoist: true
+                }
+            );
 
             x.registerRoute({
                 path: "/foo",
@@ -1074,24 +1057,29 @@ test("local modules + public data + protected data + local deferred", async ({ e
         }
     ]);
 
-    bootstrap(runtime, [
-        ...localModules
-    ], {
+    bootstrap(runtime, [...localModules], {
         startMsw: vi.fn(() => Promise.resolve())
     });
 
     await vi.waitUntil(() => localModuleRegistry.registrationStatus === "modules-registered");
 
     function BootstrappingRoute() {
-        usePublicDataQueries([{
-            queryKey: ["foo"],
-            queryFn: () => "bar"
-        }]);
+        usePublicDataQueries([
+            {
+                queryKey: ["foo"],
+                queryFn: () => "bar"
+            }
+        ]);
 
-        useProtectedDataQueries([{
-            queryKey: ["john"],
-            queryFn: () => "doe"
-        }], () => false);
+        useProtectedDataQueries(
+            [
+                {
+                    queryKey: ["john"],
+                    queryFn: () => "doe"
+                }
+            ],
+            () => false
+        );
 
         useDeferredRegistrations({});
 
@@ -1165,12 +1153,8 @@ test("failing local module registration", async ({ expect }) => {
     const localModuleRegistry = new LocalModuleRegistry();
 
     const runtime = new FireflyRuntime({
-        plugins: [
-            x => new MswPlugin(x)
-        ],
-        moduleManager: x => new ModuleManager(x, [
-            localModuleRegistry
-        ]),
+        plugins: [x => new MswPlugin(x)],
+        moduleManager: x => new ModuleManager(x, [localModuleRegistry]),
         loggers: [new NoopLogger()]
     });
 
@@ -1206,13 +1190,14 @@ test("failing local module registration", async ({ expect }) => {
 
     const localModules = toLocalModuleDefinitions([
         x => {
-            x.registerRoute({
-                children: [
-                    ProtectedRoutes
-                ]
-            }, {
-                hoist: true
-            });
+            x.registerRoute(
+                {
+                    children: [ProtectedRoutes]
+                },
+                {
+                    hoist: true
+                }
+            );
 
             x.registerRoute({
                 path: "/foo",
@@ -1227,24 +1212,29 @@ test("failing local module registration", async ({ expect }) => {
         }
     ]);
 
-    bootstrap(runtime, [
-        ...localModules
-    ], {
+    bootstrap(runtime, [...localModules], {
         startMsw: vi.fn(() => Promise.resolve())
     });
 
     await vi.waitUntil(() => localModuleRegistry.registrationStatus === "modules-registered");
 
     function BootstrappingRoute() {
-        usePublicDataQueries([{
-            queryKey: ["foo"],
-            queryFn: () => "bar"
-        }]);
+        usePublicDataQueries([
+            {
+                queryKey: ["foo"],
+                queryFn: () => "bar"
+            }
+        ]);
 
-        useProtectedDataQueries([{
-            queryKey: ["john"],
-            queryFn: () => "doe"
-        }], () => false);
+        useProtectedDataQueries(
+            [
+                {
+                    queryKey: ["john"],
+                    queryFn: () => "doe"
+                }
+            ],
+            () => false
+        );
 
         useDeferredRegistrations({});
 

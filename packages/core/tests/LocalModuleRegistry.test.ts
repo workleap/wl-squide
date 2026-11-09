@@ -1,6 +1,17 @@
 import { NoopLogger } from "@workleap/logging";
 import { describe, test, vi } from "vitest";
-import { LocalModuleDeferredRegistrationFailedEvent, LocalModuleDeferredRegistrationUpdateFailedEvent, LocalModuleRegistrationFailedEvent, LocalModuleRegistry, LocalModulesDeferredRegistrationCompletedEvent, LocalModulesDeferredRegistrationStartedEvent, LocalModulesDeferredRegistrationsUpdateCompletedEvent, LocalModulesDeferredRegistrationsUpdateStartedEvent, LocalModulesRegistrationCompletedEvent, LocalModulesRegistrationStartedEvent } from "../src/registration/LocalModuleRegistry.ts";
+import {
+    LocalModuleDeferredRegistrationFailedEvent,
+    LocalModuleDeferredRegistrationUpdateFailedEvent,
+    LocalModuleRegistrationFailedEvent,
+    LocalModuleRegistry,
+    LocalModulesDeferredRegistrationCompletedEvent,
+    LocalModulesDeferredRegistrationStartedEvent,
+    LocalModulesDeferredRegistrationsUpdateCompletedEvent,
+    LocalModulesDeferredRegistrationsUpdateStartedEvent,
+    LocalModulesRegistrationCompletedEvent,
+    LocalModulesRegistrationStartedEvent
+} from "../src/registration/LocalModuleRegistry.ts";
 import { ModuleRegistrationError } from "../src/registration/ModuleRegistry.ts";
 import { DummyRuntime } from "./DummyRuntime.ts";
 import { ScopeRecordingLogger } from "./ScopeRecordingLogger.ts";
@@ -22,11 +33,7 @@ describe.concurrent("registerModules", () => {
         const register2 = vi.fn();
         const register3 = vi.fn();
 
-        await registry.registerModules(runtime, [
-            register1,
-            register2,
-            register3
-        ]);
+        await registry.registerModules(runtime, [register1, register2, register3]);
 
         expect(register1).toHaveBeenCalledOnce();
         expect(register2).toHaveBeenCalledOnce();
@@ -70,24 +77,20 @@ describe.concurrent("registerModules", () => {
 
         const registry = new LocalModuleRegistry();
 
-        await registry.registerModules(runtime, [
-            () => {},
-            () => {}
-        ]);
+        await registry.registerModules(runtime, [() => {}, () => {}]);
 
-        expect(listener).toHaveBeenCalledExactlyOnceWith(expect.objectContaining({
-            moduleCount: 2
-        }));
+        expect(listener).toHaveBeenCalledExactlyOnceWith(
+            expect.objectContaining({
+                moduleCount: 2
+            })
+        );
     });
 
-    test.concurrent("when there are no deferred registrations, once all the modules are registered, set the status to \"ready\"", async ({ expect }) => {
+    test.concurrent('when there are no deferred registrations, once all the modules are registered, set the status to "ready"', async ({ expect }) => {
         const runtime = new DummyRuntime({ loggers: [new NoopLogger()] });
         const registry = new LocalModuleRegistry();
 
-        await registry.registerModules(runtime, [
-            () => {},
-            () => {}
-        ]);
+        await registry.registerModules(runtime, [() => {}, () => {}]);
 
         expect(registry.registrationStatus).toBe("ready");
     });
@@ -101,24 +104,20 @@ describe.concurrent("registerModules", () => {
 
         const registry = new LocalModuleRegistry();
 
-        await registry.registerModules(runtime, [
-            () => {},
-            () => {}
-        ]);
+        await registry.registerModules(runtime, [() => {}, () => {}]);
 
-        expect(listener).toHaveBeenCalledExactlyOnceWith(expect.objectContaining({
-            moduleCount: 2
-        }));
+        expect(listener).toHaveBeenCalledExactlyOnceWith(
+            expect.objectContaining({
+                moduleCount: 2
+            })
+        );
     });
 
-    test.concurrent("when there are deferred registrations, once all the modules are registered, set the status to \"modules-registered\"", async ({ expect }) => {
+    test.concurrent('when there are deferred registrations, once all the modules are registered, set the status to "modules-registered"', async ({ expect }) => {
         const runtime = new DummyRuntime({ loggers: [new NoopLogger()] });
         const registry = new LocalModuleRegistry();
 
-        await registry.registerModules(runtime, [
-            () => {},
-            () => () => {}
-        ]);
+        await registry.registerModules(runtime, [() => {}, () => () => {}]);
 
         expect(registry.registrationStatus).toBe("modules-registered");
     });
@@ -132,14 +131,13 @@ describe.concurrent("registerModules", () => {
 
         const registry = new LocalModuleRegistry();
 
-        await registry.registerModules(runtime, [
-            () => {},
-            () => () => {}
-        ]);
+        await registry.registerModules(runtime, [() => {}, () => () => {}]);
 
-        expect(listener).toHaveBeenCalledExactlyOnceWith(expect.objectContaining({
-            moduleCount: 2
-        }));
+        expect(listener).toHaveBeenCalledExactlyOnceWith(
+            expect.objectContaining({
+                moduleCount: 2
+            })
+        );
     });
 
     test.concurrent("when a module registration fail, register the remaining modules", async ({ expect }) => {
@@ -151,7 +149,9 @@ describe.concurrent("registerModules", () => {
 
         await registry.registerModules(runtime, [
             register1,
-            () => { throw new Error("Module 2 registration failed"); },
+            () => {
+                throw new Error("Module 2 registration failed");
+            },
             register3
         ]);
 
@@ -165,7 +165,9 @@ describe.concurrent("registerModules", () => {
 
         const errors = await registry.registerModules(runtime, [
             () => {},
-            () => { throw new Error("Module 2 registration failed"); },
+            () => {
+                throw new Error("Module 2 registration failed");
+            },
             () => {}
         ]);
 
@@ -185,7 +187,9 @@ describe.concurrent("registerModules", () => {
 
         await registry.registerModules(runtime, [
             () => {},
-            () => { throw registrationError; },
+            () => {
+                throw registrationError;
+            },
             () => {}
         ]);
 
@@ -204,13 +208,17 @@ describe.concurrent("registerModules", () => {
 
         await registry.registerModules(runtime, [
             () => {},
-            () => { throw registrationError; },
+            () => {
+                throw registrationError;
+            },
             () => {}
         ]);
 
-        expect(listener).toHaveBeenCalledExactlyOnceWith(expect.objectContaining({
-            moduleCount: 2
-        }));
+        expect(listener).toHaveBeenCalledExactlyOnceWith(
+            expect.objectContaining({
+                moduleCount: 2
+            })
+        );
     });
 
     test.concurrent("when a context is provided, all the register functions receive the provided context", async ({ expect }) => {
@@ -226,18 +234,14 @@ describe.concurrent("registerModules", () => {
             foo: "bar"
         };
 
-        await registry.registerModules(runtime, [
-            register1,
-            register2,
-            register3
-        ], { context });
+        await registry.registerModules(runtime, [register1, register2, register3], { context });
 
         expect(register1).toHaveBeenCalledExactlyOnceWith(runtime, context);
         expect(register2).toHaveBeenCalledExactlyOnceWith(runtime, context);
         expect(register3).toHaveBeenCalledExactlyOnceWith(runtime, context);
     });
 
-    test.concurrent("when no modules are provided, the status is \"ready\"", async ({ expect }) => {
+    test.concurrent('when no modules are provided, the status is "ready"', async ({ expect }) => {
         const runtime = new DummyRuntime({ loggers: [new NoopLogger()] });
         const registry = new LocalModuleRegistry();
 
@@ -280,7 +284,9 @@ describe.concurrent("registerModules", () => {
         const registry = new LocalModuleRegistry();
 
         await registry.registerModules(runtime, [
-            () => { throw new Error("Module 1 registration failed"); },
+            () => {
+                throw new Error("Module 1 registration failed");
+            },
             () => {}
         ]);
 
@@ -306,25 +312,19 @@ describe.concurrent("registerDeferredRegistrations", () => {
         const runtime = new DummyRuntime({ loggers: [new NoopLogger()] });
         const registry = new LocalModuleRegistry();
 
-        await registry.registerModules(runtime, [
-            () => () => {},
-            () => () => {}
-        ]);
+        await registry.registerModules(runtime, [() => () => {}, () => () => {}]);
 
         await registry.registerDeferredRegistrations(runtime, {});
 
         await expect(() => registry.registerDeferredRegistrations(runtime, {})).rejects.toThrow(/The registerDeferredRegistrations function can only be called once/);
     }, 50000);
 
-    test.concurrent("when called for the first time but the registration status is already \"ready\", return a resolving promise", async ({ expect }) => {
+    test.concurrent('when called for the first time but the registration status is already "ready", return a resolving promise', async ({ expect }) => {
         const runtime = new DummyRuntime({ loggers: [new NoopLogger()] });
         const registry = new LocalModuleRegistry();
 
         // When there's no deferred modules, the status should be "ready".
-        await registry.registerModules(runtime, [
-            () => {},
-            () => {}
-        ]);
+        await registry.registerModules(runtime, [() => {}, () => {}]);
 
         expect(registry.registrationStatus).toBe("ready");
 
@@ -342,16 +342,15 @@ describe.concurrent("registerDeferredRegistrations", () => {
 
         const registry = new LocalModuleRegistry();
 
-        await registry.registerModules(runtime, [
-            () => () => {},
-            () => () => {}
-        ]);
+        await registry.registerModules(runtime, [() => () => {}, () => () => {}]);
 
         await registry.registerDeferredRegistrations(runtime, {});
 
-        expect(listener).toHaveBeenCalledExactlyOnceWith(expect.objectContaining({
-            registrationCount: 2
-        }));
+        expect(listener).toHaveBeenCalledExactlyOnceWith(
+            expect.objectContaining({
+                registrationCount: 2
+            })
+        );
     });
 
     test.concurrent("should register all the deferred registrations", async ({ expect }) => {
@@ -362,11 +361,7 @@ describe.concurrent("registerDeferredRegistrations", () => {
         const register2 = vi.fn();
         const register3 = vi.fn();
 
-        await registry.registerModules(runtime, [
-            () => register1,
-            () => register2,
-            () => register3
-        ]);
+        await registry.registerModules(runtime, [() => register1, () => register2, () => register3]);
 
         await registry.registerDeferredRegistrations(runtime, {});
 
@@ -375,14 +370,11 @@ describe.concurrent("registerDeferredRegistrations", () => {
         expect(register3).toHaveBeenCalled();
     });
 
-    test.concurrent("when all the deferred registrations are registered, set the status to \"ready\"", async ({ expect }) => {
+    test.concurrent('when all the deferred registrations are registered, set the status to "ready"', async ({ expect }) => {
         const runtime = new DummyRuntime({ loggers: [new NoopLogger()] });
         const registry = new LocalModuleRegistry();
 
-        await registry.registerModules(runtime, [
-            () => () => {},
-            () => () => {}
-        ]);
+        await registry.registerModules(runtime, [() => () => {}, () => () => {}]);
 
         expect(registry.registrationStatus).toBe("modules-registered");
 
@@ -400,16 +392,15 @@ describe.concurrent("registerDeferredRegistrations", () => {
 
         const registry = new LocalModuleRegistry();
 
-        await registry.registerModules(runtime, [
-            () => () => {},
-            () => () => {}
-        ]);
+        await registry.registerModules(runtime, [() => () => {}, () => () => {}]);
 
         await registry.registerDeferredRegistrations(runtime, {});
 
-        expect(listener).toHaveBeenCalledExactlyOnceWith(expect.objectContaining({
-            registrationCount: 2
-        }));
+        expect(listener).toHaveBeenCalledExactlyOnceWith(
+            expect.objectContaining({
+                registrationCount: 2
+            })
+        );
     });
 
     test.concurrent("when a deferred registration is asynchronous, the function can be awaited", async ({ expect }) => {
@@ -442,7 +433,9 @@ describe.concurrent("registerDeferredRegistrations", () => {
 
         await registry.registerModules(runtime, [
             () => register1,
-            () => () => { throw new Error("Module 2 registration failed"); },
+            () => () => {
+                throw new Error("Module 2 registration failed");
+            },
             () => register3
         ]);
 
@@ -458,7 +451,9 @@ describe.concurrent("registerDeferredRegistrations", () => {
 
         await registry.registerModules(runtime, [
             () => () => {},
-            () => () => { throw new Error("Module 2 deferred registration failed"); },
+            () => () => {
+                throw new Error("Module 2 deferred registration failed");
+            },
             () => () => {}
         ]);
 
@@ -480,7 +475,9 @@ describe.concurrent("registerDeferredRegistrations", () => {
 
         await registry.registerModules(runtime, [
             () => () => {},
-            () => () => { throw registrationError; },
+            () => () => {
+                throw registrationError;
+            },
             () => () => {}
         ]);
 
@@ -501,15 +498,19 @@ describe.concurrent("registerDeferredRegistrations", () => {
 
         await registry.registerModules(runtime, [
             () => () => {},
-            () => () => { throw registrationError; },
+            () => () => {
+                throw registrationError;
+            },
             () => () => {}
         ]);
 
         await registry.registerDeferredRegistrations(runtime, {});
 
-        expect(listener).toHaveBeenCalledExactlyOnceWith(expect.objectContaining({
-            registrationCount: 2
-        }));
+        expect(listener).toHaveBeenCalledExactlyOnceWith(
+            expect.objectContaining({
+                registrationCount: 2
+            })
+        );
     });
 
     test.concurrent("all the deferred module registrations receive the data object", async ({ expect }) => {
@@ -520,11 +521,7 @@ describe.concurrent("registerDeferredRegistrations", () => {
         const register2 = vi.fn();
         const register3 = vi.fn();
 
-        await registry.registerModules(runtime, [
-            () => register1,
-            () => register2,
-            () => register3
-        ]);
+        await registry.registerModules(runtime, [() => register1, () => register2, () => register3]);
 
         const data = {
             foo: "bar"
@@ -537,7 +534,7 @@ describe.concurrent("registerDeferredRegistrations", () => {
         expect(register3).toHaveBeenCalledWith(runtime, data, "register");
     });
 
-    test.concurrent("all the deferred module registrations receive \"register\" as state", async ({ expect }) => {
+    test.concurrent('all the deferred module registrations receive "register" as state', async ({ expect }) => {
         const runtime = new DummyRuntime({ loggers: [new NoopLogger()] });
         const registry = new LocalModuleRegistry();
 
@@ -545,11 +542,7 @@ describe.concurrent("registerDeferredRegistrations", () => {
         const register2 = vi.fn();
         const register3 = vi.fn();
 
-        await registry.registerModules(runtime, [
-            () => register1,
-            () => register2,
-            () => register3
-        ]);
+        await registry.registerModules(runtime, [() => register1, () => register2, () => register3]);
 
         const data = {
             foo: "bar"
@@ -568,7 +561,9 @@ describe.concurrent("registerDeferredRegistrations", () => {
         const registry = new LocalModuleRegistry();
 
         await registry.registerModules(runtime, [
-            () => () => { throw new Error("Module 1 registration failed"); },
+            () => () => {
+                throw new Error("Module 1 registration failed");
+            },
             () => () => {}
         ]);
 
@@ -595,11 +590,7 @@ describe.concurrent("updateDeferredRegistrations", () => {
         const runtime = new DummyRuntime({ loggers: [new NoopLogger()] });
         const registry = new LocalModuleRegistry();
 
-        await registry.registerModules(runtime, [
-            () => () => {},
-            () => () => {},
-            () => () => {}
-        ]);
+        await registry.registerModules(runtime, [() => () => {}, () => () => {}, () => () => {}]);
 
         await expect(() => registry.updateDeferredRegistrations(runtime, {})).rejects.toThrow(/The updateDeferredRegistrations function can only be called once the local modules are ready/);
     });
@@ -613,18 +604,16 @@ describe.concurrent("updateDeferredRegistrations", () => {
 
         const registry = new LocalModuleRegistry();
 
-        await registry.registerModules(runtime, [
-            () => () => {},
-            () => () => {},
-            () => () => {}
-        ]);
+        await registry.registerModules(runtime, [() => () => {}, () => () => {}, () => () => {}]);
 
         await registry.registerDeferredRegistrations(runtime, {});
         await registry.updateDeferredRegistrations(runtime, {});
 
-        expect(listener).toHaveBeenCalledExactlyOnceWith(expect.objectContaining({
-            registrationCount: 3
-        }));
+        expect(listener).toHaveBeenCalledExactlyOnceWith(
+            expect.objectContaining({
+                registrationCount: 3
+            })
+        );
     });
 
     test.concurrent("should update all the deferred registrations", async ({ expect }) => {
@@ -635,11 +624,7 @@ describe.concurrent("updateDeferredRegistrations", () => {
         const register2 = vi.fn();
         const register3 = vi.fn();
 
-        await registry.registerModules(runtime, [
-            () => register1,
-            () => register2,
-            () => register3
-        ]);
+        await registry.registerModules(runtime, [() => register1, () => register2, () => register3]);
 
         await registry.registerDeferredRegistrations(runtime, {});
 
@@ -663,18 +648,16 @@ describe.concurrent("updateDeferredRegistrations", () => {
 
         const registry = new LocalModuleRegistry();
 
-        await registry.registerModules(runtime, [
-            () => () => {},
-            () => () => {},
-            () => () => {}
-        ]);
+        await registry.registerModules(runtime, [() => () => {}, () => () => {}, () => () => {}]);
 
         await registry.registerDeferredRegistrations(runtime, {});
         await registry.updateDeferredRegistrations(runtime, {});
 
-        expect(listener).toHaveBeenCalledExactlyOnceWith(expect.objectContaining({
-            registrationCount: 3
-        }));
+        expect(listener).toHaveBeenCalledExactlyOnceWith(
+            expect.objectContaining({
+                registrationCount: 3
+            })
+        );
     });
 
     test.concurrent("when a deferred registration is asynchronous, the function can be awaited", async ({ expect }) => {
@@ -686,13 +669,15 @@ describe.concurrent("updateDeferredRegistrations", () => {
         await registry.registerModules(runtime, [
             () => () => {},
             // Do not wait on the "registerDeferredRegistrations" call but wait on the "updateDeferredRegistrations" call.
-            () => vi.fn()
-                .mockImplementationOnce(() => {})
-                .mockImplementationOnce(async () => {
-                    await simulateDelay(10);
+            () =>
+                vi
+                    .fn()
+                    .mockImplementationOnce(() => {})
+                    .mockImplementationOnce(async () => {
+                        await simulateDelay(10);
 
-                    hasBeenCompleted = true;
-                }),
+                        hasBeenCompleted = true;
+                    }),
             () => () => {}
         ]);
 
@@ -713,11 +698,13 @@ describe.concurrent("updateDeferredRegistrations", () => {
         await registry.registerModules(runtime, [
             () => register1,
             // Do not throw on the "registerDeferredRegistrations" call but throw on the "updateDeferredRegistrations" call.
-            () => vi.fn()
-                .mockImplementationOnce(() => {})
-                .mockImplementationOnce(() => {
-                    throw new Error("Module 2 registration failed");
-                }),
+            () =>
+                vi
+                    .fn()
+                    .mockImplementationOnce(() => {})
+                    .mockImplementationOnce(() => {
+                        throw new Error("Module 2 registration failed");
+                    }),
             () => register3
         ]);
 
@@ -739,11 +726,13 @@ describe.concurrent("updateDeferredRegistrations", () => {
         await registry.registerModules(runtime, [
             () => () => {},
             // Do not throw on the "registerDeferredRegistrations" call but throw on the "updateDeferredRegistrations" call.
-            () => vi.fn()
-                .mockImplementationOnce(() => {})
-                .mockImplementationOnce(() => {
-                    throw new Error("Module 2 registration failed");
-                }),
+            () =>
+                vi
+                    .fn()
+                    .mockImplementationOnce(() => {})
+                    .mockImplementationOnce(() => {
+                        throw new Error("Module 2 registration failed");
+                    }),
             () => () => {}
         ]);
 
@@ -768,11 +757,13 @@ describe.concurrent("updateDeferredRegistrations", () => {
         await registry.registerModules(runtime, [
             () => () => {},
             // Do not throw on the "registerDeferredRegistrations" call but throw on the "updateDeferredRegistrations" call.
-            () => vi.fn()
-                .mockImplementationOnce(() => {})
-                .mockImplementationOnce(() => {
-                    throw registrationError;
-                }),
+            () =>
+                vi
+                    .fn()
+                    .mockImplementationOnce(() => {})
+                    .mockImplementationOnce(() => {
+                        throw registrationError;
+                    }),
             () => () => {}
         ]);
 
@@ -795,20 +786,24 @@ describe.concurrent("updateDeferredRegistrations", () => {
         await registry.registerModules(runtime, [
             () => () => {},
             // Do not throw on the "registerDeferredRegistrations" call but throw on the "updateDeferredRegistrations" call.
-            () => vi.fn()
-                .mockImplementationOnce(() => {})
-                .mockImplementationOnce(() => {
-                    throw registrationError;
-                }),
+            () =>
+                vi
+                    .fn()
+                    .mockImplementationOnce(() => {})
+                    .mockImplementationOnce(() => {
+                        throw registrationError;
+                    }),
             () => () => {}
         ]);
 
         await registry.registerDeferredRegistrations(runtime, {});
         await registry.updateDeferredRegistrations(runtime, {});
 
-        expect(listener).toHaveBeenCalledExactlyOnceWith(expect.objectContaining({
-            registrationCount: 2
-        }));
+        expect(listener).toHaveBeenCalledExactlyOnceWith(
+            expect.objectContaining({
+                registrationCount: 2
+            })
+        );
     });
 
     test.concurrent("all the deferred module registrations receive the data object", async ({ expect }) => {
@@ -819,11 +814,7 @@ describe.concurrent("updateDeferredRegistrations", () => {
         const register2 = vi.fn();
         const register3 = vi.fn();
 
-        await registry.registerModules(runtime, [
-            () => register1,
-            () => register2,
-            () => register3
-        ]);
+        await registry.registerModules(runtime, [() => register1, () => register2, () => register3]);
 
         await registry.registerDeferredRegistrations(runtime, {});
 
@@ -842,7 +833,7 @@ describe.concurrent("updateDeferredRegistrations", () => {
         expect(register3).toHaveBeenCalledExactlyOnceWith(runtime, data, "update");
     });
 
-    test.concurrent("all the deferred module registrations receive \"update\" as state", async ({ expect }) => {
+    test.concurrent('all the deferred module registrations receive "update" as state', async ({ expect }) => {
         const runtime = new DummyRuntime({ loggers: [new NoopLogger()] });
         const registry = new LocalModuleRegistry();
 
@@ -850,11 +841,7 @@ describe.concurrent("updateDeferredRegistrations", () => {
         const register2 = vi.fn();
         const register3 = vi.fn();
 
-        await registry.registerModules(runtime, [
-            () => register1,
-            () => register2,
-            () => register3
-        ]);
+        await registry.registerModules(runtime, [() => register1, () => register2, () => register3]);
 
         await registry.registerDeferredRegistrations(runtime, {});
 
@@ -880,11 +867,13 @@ describe.concurrent("updateDeferredRegistrations", () => {
 
         await registry.registerModules(runtime, [
             // Do not throw on the "registerDeferredRegistrations" call but throw on the "updateDeferredRegistrations" call.
-            () => vi.fn()
-                .mockImplementationOnce(() => {})
-                .mockImplementationOnce(() => {
-                    throw new Error("Module 1 registration failed");
-                }),
+            () =>
+                vi
+                    .fn()
+                    .mockImplementationOnce(() => {})
+                    .mockImplementationOnce(() => {
+                        throw new Error("Module 1 registration failed");
+                    }),
             () => () => {}
         ]);
 

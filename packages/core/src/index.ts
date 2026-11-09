@@ -52,4 +52,3 @@ export { ModuleRegistrationError, ModuleRegistry, type ModuleRegistrationStatus,
 export { registerModule, type DeferredRegistrationFunction, type DeferredRegistrationOperation, type ModuleRegisterFunction } from "./registration/registerModule.ts";
 
 export { Plugin, type DeferredRegistrationScopeCompletionFunction, type DeferredRegistrationScopeOptions, type PluginReadyListener } from "./plugins/Plugin.ts";
-

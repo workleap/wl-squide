@@ -12,12 +12,16 @@ import { Remote1Definition } from "../remotes.ts";
 import { App } from "./App.tsx";
 import { registerHost } from "./register.tsx";
 
-const launchDarklyClient = initializeLaunchDarkly(process.env.LAUNCH_DARKLY_CLIENT_ID!, {
-    kind: "user",
-    anonymous: true
-}, {
-    streaming: true
-});
+const launchDarklyClient = initializeLaunchDarkly(
+    process.env.LAUNCH_DARKLY_CLIENT_ID!,
+    {
+        kind: "user",
+        anonymous: true
+    },
+    {
+        streaming: true
+    }
+);
 
 try {
     await launchDarklyClient.waitForInitialization(5);
@@ -66,14 +70,8 @@ const telemetryClient = initializeTelemetry("wlp", telemetryOptions);
 
 const runtime = initializeFirefly({
     useMsw: !!process.env.USE_MSW,
-    localModules: [
-        registerShell({ host: "@endpoints/host" }),
-        registerHost,
-        shouldRegisterLocalModule ? registerLocalModule : undefined
-    ],
-    remotes: [
-        shouldRegisterRemoteModule ? Remote1Definition : undefined
-    ],
+    localModules: [registerShell({ host: "@endpoints/host" }), registerHost, shouldRegisterLocalModule ? registerLocalModule : undefined],
+    remotes: [shouldRegisterRemoteModule ? Remote1Definition : undefined],
     startMsw: async x => {
         // Files that includes an import to the "msw" package are included dynamically to prevent adding
         // unused MSW stuff to the code bundles.
@@ -81,9 +79,7 @@ const runtime = initializeFirefly({
     },
     honeycombInstrumentationClient: telemetryClient.honeycomb,
     launchDarklyClient,
-    plugins: [
-        x => createI18NextPlugin(x)
-    ],
+    plugins: [x => createI18NextPlugin(x)],
     loggers
 });
 

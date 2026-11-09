@@ -1,22 +1,14 @@
 {
     "name": "@endpoints/layouts",
-    "author": "Workleap",
     "version": "0.0.0",
-    "description": "Layouts package to showcase Squide shared layouts setup.",
     "private": true,
+    "description": "Layouts package to showcase Squide shared layouts setup.",
     "license": "Apache-2.0",
+    "author": "Workleap",
     "type": "module",
     "exports": "./src/index.ts",
     "scripts": {
         "typecheck": "tsgo"
-    },
-    "peerDependencies": {
-        "i18next": "^26.5.3",
-        "react": "^19.3.1",
-        "react-dom": "^19.3.1",
-        "react-error-boundary": "^6.1.6",
-        "react-i18next": "^17.1.0",
-        "react-router": "^8.5.0"
     },
     "dependencies": {
         "@endpoints/i18next": "workspace:*",
@@ -31,5 +23,13 @@
         "@typescript/native-preview": "7.0.0-dev.20260707.2",
         "@workleap/typescript-configs": "5.0.0",
         "typescript": "6.0.3"
+    },
+    "peerDependencies": {
+        "i18next": "^26.5.3",
+        "react": "^19.3.1",
+        "react-dom": "^19.3.1",
+        "react-error-boundary": "^6.1.6",
+        "react-i18next": "^17.1.0",
+        "react-router": "^8.5.0"
     }
 }

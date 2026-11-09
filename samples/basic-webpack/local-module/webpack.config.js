@@ -14,7 +14,6 @@ export default defineDevHostConfig(swcConfig, 8080, [], {
         }
     },
     environmentVariables: {
-        "NETLIFY": process.env.NETLIFY === "true"
+        NETLIFY: process.env.NETLIFY === "true"
     }
 });
-

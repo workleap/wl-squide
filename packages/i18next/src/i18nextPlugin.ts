@@ -121,16 +121,15 @@ export class i18nextPlugin<T extends string = string> extends Plugin {
             // Without a "resources" option, i18next defers its initialization to a timer. Until it fires, the instance
             // isn't initialized and react-i18next suspends the components rendering it.
             if (isNil(instance.options.resources) && instance.options.initAsync !== false) {
-                throw new Error(`[squide] Cannot register the i18next instance with key "${key}" with a "loadResources" function because the instance has been initialized without a "resources" option. Initialize the instance with "resources: {}" so that i18next initializes synchronously, otherwise the components could suspend while the resources are loading.`);
+                throw new Error(
+                    `[squide] Cannot register the i18next instance with key "${key}" with a "loadResources" function because the instance has been initialized without a "resources" option. Initialize the instance with "resources: {}" so that i18next initializes synchronously, otherwise the components could suspend while the resources are loading.`
+                );
             }
         }
 
         const entry = this.#registry.add(key, instance, { loadResources });
 
-        this._runtime.logger
-            .withText(`[squide] Registered a new i18next instance with key "${key}":`)
-            .withObject(instance)
-            .debug();
+        this._runtime.logger.withText(`[squide] Registered a new i18next instance with key "${key}":`).withObject(instance).debug();
 
         if (!isNil(this.#currentLanguage) && !this.#holdsLanguage(entry, this.#currentLanguage)) {
             // The failure is reported by the load itself, and a failed load counts as settled for the ready status.
@@ -209,9 +208,11 @@ export class i18nextPlugin<T extends string = string> extends Plugin {
         // Latest call wins.
         const token = ++this.#changeLanguageToken;
 
-        const collectPendingLoads = () => this.#registry.getEntries()
-            .filter(x => !this.#holdsLanguage(x, language))
-            .map(x => this.#ensureLanguage(x, language));
+        const collectPendingLoads = () =>
+            this.#registry
+                .getEntries()
+                .filter(x => !this.#holdsLanguage(x, language))
+                .map(x => this.#ensureLanguage(x, language));
 
         let pendingLoads = collectPendingLoads();
 
@@ -372,9 +373,12 @@ export class i18nextPlugin<T extends string = string> extends Plugin {
         const language = this.#currentLanguage;
 
         // A loader can only be registered once a language has been detected, therefore without a language every entry is static.
-        return isNil(language) || this.#registry.getEntries().every(x => {
-            return this.#holdsLanguage(x, language) || x.failedLanguages.has(language);
-        });
+        return (
+            isNil(language) ||
+            this.#registry.getEntries().every(x => {
+                return this.#holdsLanguage(x, language) || x.failedLanguages.has(language);
+            })
+        );
     }
 
     #updateIsReady() {

@@ -97,12 +97,7 @@ export abstract class Runtime<TRoute = unknown, TNavigationItem = unknown, TRunt
     readonly #memoizeGetPlugin = memoize((pluginName: string) => this._plugins.find(x => x.name === pluginName));
 
     constructor(options: RuntimeOptions<TRuntime> = {}) {
-        const {
-            mode = "development",
-            moduleManager = x => new ModuleManager(x, [new LocalModuleRegistry()]),
-            loggers = [],
-            plugins = []
-        } = options;
+        const { mode = "development", moduleManager = x => new ModuleManager(x, [new LocalModuleRegistry()]), loggers = [], plugins = [] } = options;
 
         this._mode = mode;
         this._moduleManager = moduleManager(this);
@@ -203,9 +198,7 @@ export abstract class Runtime<TRoute = unknown, TNavigationItem = unknown, TRunt
     }
 
     getPlugin(pluginName: string, options: GetPluginOptions = {}) {
-        const {
-            throwOnNotFound = true
-        } = options;
+        const { throwOnNotFound = true } = options;
 
         const plugin = this.#memoizeGetPlugin(pluginName);
 
@@ -227,9 +220,7 @@ export abstract class Runtime<TRoute = unknown, TNavigationItem = unknown, TRunt
     abstract startScope(logger: Logger): TRuntime;
 
     _getLogger(options: RuntimeMethodOptions = {}) {
-        const {
-            logger
-        } = options;
+        const { logger } = options;
 
         return logger ? logger : this._logger;
     }
@@ -330,9 +321,7 @@ export abstract class RuntimeScope<TRoute = unknown, TNavigationItem = unknown, 
     }
 
     _getLogger(options: RuntimeMethodOptions = {}) {
-        const {
-            logger
-        } = options;
+        const { logger } = options;
 
         return logger ? logger : this._logger;
     }

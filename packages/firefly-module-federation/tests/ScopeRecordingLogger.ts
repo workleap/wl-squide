@@ -161,10 +161,7 @@ export class ScopeRecordingLogger implements RootLogger {
     // or a count, which is order-independent. Do not write an order-sensitive assertion against it — assert on
     // "scopes" instead, which is the stronger view and attributes each log to its module.
     get logs() {
-        return [
-            ...this.rootLogs,
-            ...this.scopes.flatMap(x => [...x.logs, ...x.ends.map(c => `end:${c}`)])
-        ];
+        return [...this.rootLogs, ...this.scopes.flatMap(x => [...x.logs, ...x.ends.map(c => `end:${c}`)])];
     }
 
     startScope(label?: string) {

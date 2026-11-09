@@ -43,9 +43,7 @@ export class FireflyRuntime<TRuntime extends FireflyRuntime = any> extends React
     readonly #isLaunchDarklyEnabled: boolean;
 
     constructor(options: FireflyRuntimeOptions = {}) {
-        const {
-            honeycombInstrumentationClient
-        } = options;
+        const { honeycombInstrumentationClient } = options;
 
         super(options);
 
@@ -72,9 +70,7 @@ export class FireflyRuntime<TRuntime extends FireflyRuntime = any> extends React
     }
 
     registerRequestHandlers(handlers: RequestHandler[], options: RegisterRequestHandlersOptions = {}) {
-        const {
-            prepend
-        } = options;
+        const { prepend } = options;
 
         const logger = this._getLogger(options);
         const plugin = getMswPlugin(this);
@@ -139,7 +135,7 @@ export class FireflyRuntime<TRuntime extends FireflyRuntime = any> extends React
     }
 
     startScope(logger: Logger): TRuntime {
-        return (new FireflyRuntimeScope(this, logger) as unknown) as TRuntime;
+        return new FireflyRuntimeScope(this, logger) as unknown as TRuntime;
     }
 }
 

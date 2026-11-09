@@ -1,10 +1,6 @@
 {
     "$schema": "https://docs.renovatebot.com/renovate-schema.json",
-    "extends": [
-        "local>workleap/renovate-config"
-    ],
+    "extends": ["local>workleap/renovate-config"],
     "description": "Renovate only updates GitHub Actions. npm dependencies and agent skills are updated by the update-dependencies workflow.",
-    "enabledManagers": [
-        "github-actions"
-    ]
+    "enabledManagers": ["github-actions"]
 }

@@ -4,9 +4,7 @@ import type { Logger } from "@workleap/logging";
 
 export class StorybookRuntime extends FireflyRuntime {
     constructor(options: FireflyRuntimeOptions = {}) {
-        const {
-            honeycombInstrumentationClient
-        } = options;
+        const { honeycombInstrumentationClient } = options;
 
         if (honeycombInstrumentationClient) {
             throw new Error("[squide] A StorybookRuntime instance should not receive an Honeycomb client.");
@@ -24,8 +22,8 @@ export class StorybookRuntime extends FireflyRuntime {
     }
 
     startScope(logger: Logger) {
-        return (new StorybookRuntimeScope(this, logger) as unknown) as StorybookRuntime;
+        return new StorybookRuntimeScope(this, logger) as unknown as StorybookRuntime;
     }
 }
 
-export class StorybookRuntimeScope extends FireflyRuntimeScope { }
+export class StorybookRuntimeScope extends FireflyRuntimeScope {}

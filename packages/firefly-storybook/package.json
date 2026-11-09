@@ -1,36 +1,59 @@
 {
     "name": "@squide/firefly-storybook",
-    "author": "Workleap",
     "version": "4.0.1",
     "description": "Squide firefly helpers for Storybook.",
     "license": "Apache-2.0",
+    "author": "Workleap",
     "repository": {
         "type": "git",
         "url": "git+https://github.com/workleap/wl-squide.git",
         "directory": "packages/firefly-storybook"
     },
+    "files": [
+        "src",
+        "dist",
+        "CHANGELOG.md"
+    ],
     "type": "module",
+    "sideEffects": false,
+    "exports": "./src/index.ts",
     "publishConfig": {
-        "access": "public",
-        "provenance": true,
         "exports": {
             ".": {
                 "types": "./dist/index.d.ts",
                 "import": "./dist/index.js",
                 "default": "./dist/index.js"
             }
-        }
+        },
+        "access": "public",
+        "provenance": true
     },
-    "exports": "./src/index.ts",
-    "files": [
-        "src",
-        "dist",
-        "CHANGELOG.md"
-    ],
     "scripts": {
         "build": "rslib build --config ./rslib.build.ts",
         "typecheck": "tsgo",
         "test": "vitest --config vitest.config.ts --no-watch"
+    },
+    "dependencies": {
+        "@squide/env-vars": "workspace:^",
+        "@squide/firefly": "workspace:^",
+        "@squide/launch-darkly": "workspace:^",
+        "@squide/msw": "workspace:^",
+        "@workleap-telemetry/core": "^2.0.6",
+        "@workleap/logging": "^2.0.1"
+    },
+    "devDependencies": {
+        "@rslib/core": "1.0.3",
+        "@testing-library/react": "16.3.3",
+        "@types/node": "26.6.5",
+        "@types/react": "19.3.0",
+        "@types/react-dom": "19.3.0",
+        "@typescript/native-preview": "7.0.0-dev.20260707.2",
+        "@vitejs/plugin-react": "6.1.2",
+        "@workleap/rslib-configs": "2.0.0",
+        "@workleap/typescript-configs": "5.0.0",
+        "happy-dom": "21.0.4",
+        "typescript": "6.0.3",
+        "vitest": "5.0.5"
     },
     "peerDependencies": {
         "@opentelemetry/api": "^1.9.1",
@@ -55,28 +78,5 @@
         "msw-storybook-addon": {
             "optional": true
         }
-    },
-    "dependencies": {
-        "@squide/env-vars": "workspace:^",
-        "@squide/firefly": "workspace:^",
-        "@squide/launch-darkly": "workspace:^",
-        "@squide/msw": "workspace:^",
-        "@workleap-telemetry/core": "^2.0.6",
-        "@workleap/logging": "^2.0.1"
-    },
-    "devDependencies": {
-        "@rslib/core": "1.0.3",
-        "@testing-library/react": "16.3.3",
-        "@types/node": "26.6.5",
-        "@types/react": "19.3.0",
-        "@types/react-dom": "19.3.0",
-        "@typescript/native-preview": "7.0.0-dev.20260707.2",
-        "@vitejs/plugin-react": "6.1.2",
-        "@workleap/rslib-configs": "2.0.0",
-        "@workleap/typescript-configs": "5.0.0",
-        "happy-dom": "21.0.4",
-        "typescript": "6.0.3",
-        "vitest": "5.0.5"
-    },
-    "sideEffects": false
+    }
 }

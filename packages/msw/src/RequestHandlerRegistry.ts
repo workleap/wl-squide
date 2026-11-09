@@ -15,9 +15,7 @@ export class RequestHandlerRegistry {
     }
 
     add(handlers: RequestHandler[], options: RequestHandlerRegistryAddOptions = {}) {
-        const {
-            prepend = false
-        } = options;
+        const { prepend = false } = options;
 
         if (this.#mswState.isReady) {
             throw new Error("[squide] MSW request handlers cannot be registered once MSW is started. Did you defer the registration of an MSW request handler?");
@@ -39,4 +37,3 @@ export class RequestHandlerRegistry {
         return [...this.#prependedHandlers, ...this.#appendedHandlers];
     }
 }
-

@@ -9,9 +9,7 @@ const fireflyRuntime = await initializeFireflyForStorybook({
 const meta = {
     title: "NoLocalModules",
     component: HelloWorld,
-    decorators: [
-        withFireflyDecorator(fireflyRuntime)
-    ]
+    decorators: [withFireflyDecorator(fireflyRuntime)]
 } satisfies Meta<typeof HelloWorld>;
 
 export default meta;
