@@ -1,8 +1,8 @@
 import { Runtime, RuntimeContext } from "@squide/core";
-import { createLocalStorageLaunchDarklyClient, FeatureFlagKey, FeatureFlags } from "@squide/launch-darkly";
-import { renderHook, RenderHookResult, waitFor } from "@testing-library/react";
+import { createLocalStorageLaunchDarklyClient, type FeatureFlagKey, type FeatureFlags } from "@squide/launch-darkly";
+import { renderHook, type RenderHookResult, waitFor } from "@testing-library/react";
 import { NoopLogger } from "@workleap/logging";
-import { ReactNode } from "react";
+import type { ReactNode } from "react";
 import { afterEach, beforeEach, describe, test } from "vitest";
 import { InMemoryLaunchDarklyClient } from "../src/InMemoryLaunchDarklyClient.ts";
 import { LaunchDarklyPlugin } from "../src/LaunchDarklyPlugin.ts";
@@ -59,7 +59,6 @@ class DummyRuntime extends Runtime {
     }
 }
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
 function renderUseFeatureFlagHook<T extends FeatureFlagKey>(runtime: Runtime, key: T, defaultValue?: FeatureFlags[T]): [RenderHookResult<any, unknown>, () => number] {
     let renderCount = 0;
 
@@ -67,7 +66,6 @@ function renderUseFeatureFlagHook<T extends FeatureFlagKey>(runtime: Runtime, ke
         return renderCount;
     };
 
-    // eslint-disable-next-line testing-library/render-result-naming-convention
     const result = renderHook(() => {
         renderCount += 1;
 

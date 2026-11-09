@@ -1,6 +1,6 @@
 import { RuntimeContext } from "@squide/core";
 import type { PropsWithChildren } from "react";
-import { FireflyRuntime } from "./FireflyRuntime.tsx";
+import type { FireflyRuntime } from "./FireflyRuntime.tsx";
 
 export interface FireflyProviderProps extends PropsWithChildren {
     runtime: FireflyRuntime;

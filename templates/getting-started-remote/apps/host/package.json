@@ -22,18 +22,15 @@
         "react-router": "7.10.1"
     },
     "devDependencies": {
-        "@eslint/js": "9.39.1",
         "@squide/firefly-webpack-configs": "5.1.7",
         "@swc/core": "1.15.3",
         "@swc/helpers": "0.5.17",
         "@types/react": "19.2.7",
         "@types/react-dom": "19.2.3",
         "@workleap/browserslist-config": "2.1.3",
-        "@workleap/eslint-configs": "1.1.6",
         "@workleap/swc-configs": "2.3.3",
         "@workleap/typescript-configs": "3.0.7",
         "browserslist": "4.28.1",
-        "eslint": "9.39.1",
         "postcss": "8.5.6",
         "typescript": "5.9.3",
         "webpack": "5.103.0",

@@ -80,7 +80,7 @@ for package naming, author, and license.
 
 ## Pre-Commit Hook
 
-A Claude Code pre-commit hook (`.claude/hooks/pre-commit.sh`, configured in `.claude/settings.json`) runs `pnpm lint` before every `git commit`. Commits are blocked if lint fails. Fix lint errors before committing.
+A Claude Code pre-commit hook (`.claude/hooks/pre-commit.sh`, configured in `.claude/settings.json`) runs `pnpm lint` before every `git commit`. Commits are blocked if lint fails. Run `pnpm oxfmt` and fix lint errors before committing — `pnpm lint` includes `oxfmt --check`.
 
 ## Full Command Reference
 
@@ -102,7 +102,8 @@ A Claude Code pre-commit hook (`.claude/hooks/pre-commit.sh`, configured in `.cl
 | `pnpm serve-endpoints` | Build + serve endpoints sample locally |
 | `pnpm serve-storybook` | Build + serve Storybook sample locally |
 | `pnpm test` | Run unit tests |
-| `pnpm lint` | Run ESLint + typecheck + syncpack |
+| `pnpm lint` | Run oxlint + oxfmt check + typecheck + syncpack |
+| `pnpm oxfmt` | Format the repo with oxfmt |
 | `pnpm changeset` | Create a version changeset |
 | `pnpm clean` | Delete dist folders and caches |
 | `pnpm reset` | Full reset: dist, caches, node_modules |

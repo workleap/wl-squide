@@ -11,7 +11,6 @@
         "dev": "rsbuild dev --config rsbuild.dev.ts",
         "build": "rsbuild build --config rsbuild.build.ts",
         "serve-build": "pnpm http-server dist/app -p 8081 -P http://localhost:8081? -c-1 --cors",
-        "eslint": "eslint . --max-warnings=0 --cache --cache-location node_modules/.cache/eslint",
         "typecheck": "tsgo"
     },
     "dependencies": {
@@ -24,28 +23,23 @@
         "react-router": "8.5.0"
     },
     "devDependencies": {
-        "@eslint/js": "9.39.2",
         "@rsbuild/core": "2.2.14",
         "@rslib/core": "1.0.3",
         "@rspack/core": "2.2.9",
         "@squide/firefly-storybook": "workspace:*",
         "@types/react": "19.3.0",
         "@types/react-dom": "19.3.0",
-        "@typescript-eslint/parser": "8.72.0",
         "@typescript/native-preview": "7.0.0-dev.20260707.2",
         "@workleap/browserslist-config": "3.0.0",
-        "@workleap/eslint-configs": "2.0.6",
         "@workleap/rsbuild-configs": "5.0.0",
         "@workleap/stylelint-configs": "2.1.13",
         "@workleap/typescript-configs": "5.0.0",
-        "eslint": "9.39.2",
         "http-server": "14.1.1",
         "msw": "3.0.3",
         "storybook": "10.6.3",
         "storybook-react-rsbuild": "3.6.1",
         "stylelint": "17.16.0",
-        "typescript": "6.0.3",
-        "typescript-eslint": "8.54.0"
+        "typescript": "6.0.3"
     },
     "msw": {
         "workerDirectory": [

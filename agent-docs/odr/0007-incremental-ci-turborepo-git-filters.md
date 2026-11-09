@@ -16,9 +16,9 @@ As the monorepo grows, running the full build, lint, typecheck, and test suite o
 
 ## Decision
 
-Option 3. The CI workflow uses `--filter=...[${{ github.event.pull_request.base.sha }}]` for PR builds and the full suite for pushes to `main`. This pattern is applied to build, ESLint, typecheck, and test steps independently. The checkout step uses `fetch-depth: 0` to ensure the full git history is available for SHA comparison.
+Option 3. The CI workflow uses `--filter=...[${{ github.event.pull_request.base.sha }}]` for PR builds and the full suite for pushes to `main`. This pattern is applied to build, typecheck, and test steps independently. Linting and formatting run as single root tasks and are not filtered (see ODR-0011). The checkout step uses `fetch-depth: 0` to ensure the full git history is available for SHA comparison.
 
-Evidence: `.github/workflows/ci.yml` — each step conditionally applies the filter: `pnpm turbo run build --filter={./packages/*}...[${{ github.event.pull_request.base.sha }}]` for PRs vs. `pnpm build-pkg` for main. The same pattern applies to `eslint`, `typecheck`, and `test` steps. Turborepo cache (ODR-0005) complements this by caching results of previously run tasks.
+Evidence: `.github/workflows/ci.yml` — each step conditionally applies the filter: `pnpm turbo run build --filter={./packages/*}...[${{ github.event.pull_request.base.sha }}]` for PRs vs. `pnpm build-pkg` for main. The same pattern applies to `typecheck` and `test` steps. Turborepo cache (ODR-0005) complements this by caching results of previously run tasks.
 
 ## Consequences
 

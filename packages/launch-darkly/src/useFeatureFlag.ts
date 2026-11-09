@@ -1,9 +1,9 @@
 import { useRuntime } from "@squide/core";
 import type { LDFlagChangeset } from "launchdarkly-js-client-sdk";
 import { useCallback, useSyncExternalStore } from "react";
-import { FeatureFlagSetSnapshotChangedListener } from "./FeatureFlagSetSnapshot.ts";
+import type { FeatureFlagSetSnapshotChangedListener } from "./FeatureFlagSetSnapshot.ts";
 import { getLaunchDarklyPlugin } from "./LaunchDarklyPlugin.ts";
-import { FeatureFlagKey, FeatureFlags } from "./featureFlags.ts";
+import type { FeatureFlagKey, FeatureFlags } from "./featureFlags.ts";
 
 export function useFeatureFlag<T extends FeatureFlagKey>(key: T, defaultValue?: FeatureFlags[T]) {
     const runtime = useRuntime();

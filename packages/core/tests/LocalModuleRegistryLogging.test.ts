@@ -1,7 +1,7 @@
 import { describe, test } from "vitest";
 import { LocalModuleRegistry, LocalModulesDeferredRegistrationCompletedEvent, LocalModulesDeferredRegistrationsUpdateCompletedEvent, LocalModulesRegistrationCompletedEvent } from "../src/registration/LocalModuleRegistry.ts";
 import type { DeferredRegistrationFunction, DeferredRegistrationOperation, ModuleRegisterFunction } from "../src/registration/registerModule.ts";
-import { Runtime } from "../src/runtime/Runtime.ts";
+import type { Runtime } from "../src/runtime/Runtime.ts";
 import { DummyRuntime } from "./DummyRuntime.ts";
 import { type RecordedScope, ScopeRecordingLogger } from "./ScopeRecordingLogger.ts";
 

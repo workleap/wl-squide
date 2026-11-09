@@ -17,12 +17,9 @@
         "react-router": "^7.10.1"
     },
     "devDependencies": {
-        "@eslint/js": "9.39.1",
         "@squide/firefly": "16.1.1",
         "@types/react": "19.2.7",
         "@types/react-dom": "19.2.3",
-        "@workleap/eslint-configs": "1.1.6",
-        "eslint": "9.38.0",
         "react": "19.2.1",
         "react-dom": "19.2.1",
         "react-router": "7.10.1",

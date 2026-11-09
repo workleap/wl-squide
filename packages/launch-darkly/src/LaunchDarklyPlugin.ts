@@ -1,7 +1,7 @@
-import { Plugin, Runtime } from "@squide/core";
-import { LDClient } from "launchdarkly-js-client-sdk";
+import { Plugin, type Runtime } from "@squide/core";
+import type { LDClient } from "launchdarkly-js-client-sdk";
 import { FeatureFlagSetSnapshot } from "./FeatureFlagSetSnapshot.ts";
-import { FeatureFlagKey, FeatureFlags } from "./featureFlags.ts";
+import type { FeatureFlagKey, FeatureFlags } from "./featureFlags.ts";
 
 export const LaunchDarklyPluginName = "launch-darkly-plugin";
 

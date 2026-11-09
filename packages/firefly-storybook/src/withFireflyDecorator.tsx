@@ -1,4 +1,4 @@
-import { AppRouter, FireflyProvider, FireflyRuntime } from "@squide/firefly";
+import { AppRouter, FireflyProvider, type FireflyRuntime } from "@squide/firefly";
 import type { PropsWithChildren, ReactNode } from "react";
 import { createMemoryRouter, type InitialEntry, type RouteObject } from "react-router";
 import { RouterProvider } from "react-router/dom";

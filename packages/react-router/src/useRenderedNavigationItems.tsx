@@ -107,7 +107,7 @@ function renderItems(items: NavigationItem[], renderItem: RenderItemFunction, re
     });
 
     // Filter out elements that are null or undefined because of the "shouldRender" prop.
-    const renderedElements = itemElements.filter(x => x);
+    const renderedElements = itemElements.filter(Boolean);
 
     if (renderedElements.length > 0) {
         return renderSection(renderedElements, key ?? `${index}-${level}`, index, level);

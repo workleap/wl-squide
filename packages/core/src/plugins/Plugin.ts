@@ -1,5 +1,5 @@
 import type { DeferredRegistrationOperation } from "../registration/registerModule.ts";
-import { Runtime } from "../runtime/Runtime.ts";
+import type { Runtime } from "../runtime/Runtime.ts";
 
 /**
  * Commits whatever a plugin accumulated during a deferred registration run. Must be synchronous.

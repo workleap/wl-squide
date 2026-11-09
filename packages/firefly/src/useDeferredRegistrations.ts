@@ -1,6 +1,6 @@
 import { useRuntime, type ModuleRegistrationError } from "@squide/core";
 import { useEffect, useRef } from "react";
-import { FireflyRuntime } from "./FireflyRuntime.tsx";
+import type { FireflyRuntime } from "./FireflyRuntime.tsx";
 import { useCanRegisterDeferredRegistrations } from "./useCanRegisterDeferredRegistrations.ts";
 import { useCanUpdateDeferredRegistrations } from "./useCanUpdateDeferredRegistrations.ts";
 import { useRegisterDeferredRegistrations } from "./useRegisterDeferredRegistrations.ts";

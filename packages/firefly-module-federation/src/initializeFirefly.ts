@@ -1,6 +1,6 @@
-import { FireflyRuntime, initializeFirefly as baseInitializeFirefly, type InitializeFireflyOptions as BaseInitializeFireflyOptions } from "@squide/firefly";
+import { type FireflyRuntime, initializeFirefly as baseInitializeFirefly, type InitializeFireflyOptions as BaseInitializeFireflyOptions } from "@squide/firefly";
 import { ModuleFederationPlugin } from "./ModuleFederationPlugin.ts";
-import { RemoteDefinition } from "./RemoteDefinition.ts";
+import type { RemoteDefinition } from "./RemoteDefinition.ts";
 import { toRemoteModuleDefinitions } from "./RemoteModuleRegistry.ts";
 
 export interface InitializeFireflyOptions<TRuntime extends FireflyRuntime, TContext = unknown, TData = unknown> extends BaseInitializeFireflyOptions<TRuntime, TContext, TData> {

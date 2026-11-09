@@ -1,7 +1,7 @@
 import { createI18NextPlugin } from "@endpoints/i18next";
 import { registerShell } from "@endpoints/shell";
 import { FireflyProvider, getFeatureFlag, initializeFirefly } from "@squide/firefly";
-import { BrowserConsoleLogger, RootLogger } from "@workleap/logging";
+import { BrowserConsoleLogger, type RootLogger } from "@workleap/logging";
 import { type InitializeTelemetryOptions, initializeTelemetry, LogRocketLogger, TelemetryProvider } from "@workleap/telemetry/react";
 import { initialize as initializeLaunchDarkly } from "launchdarkly-js-client-sdk";
 import { StrictMode } from "react";

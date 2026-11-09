@@ -1,5 +1,5 @@
 import type { RequestHandler } from "msw";
-import { MswState } from "./MswState.ts";
+import type { MswState } from "./MswState.ts";
 
 export interface RequestHandlerRegistryAddOptions {
     prepend?: true;

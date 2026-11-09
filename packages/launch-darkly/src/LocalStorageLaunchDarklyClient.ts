@@ -1,8 +1,8 @@
 import type { LDContext, LDFlagChangeset, LDFlagSet, LDFlagValue } from "launchdarkly-js-sdk-common";
-import { CommitTransactionFunction, EditableLaunchDarklyClient, LaunchDarklyClientTransaction, SetFeatureFlagOptions, UndoTransactionFunction } from "./EditableLaunchDarklyClient.ts";
+import { type CommitTransactionFunction, type EditableLaunchDarklyClient, LaunchDarklyClientTransaction, type SetFeatureFlagOptions, type UndoTransactionFunction } from "./EditableLaunchDarklyClient.ts";
 import { LaunchDarklyClientNotifier } from "./LaunchDarklyNotifier.ts";
 import { computeChangeset } from "./computeChangeset.ts";
-import { FeatureFlags } from "./featureFlags.ts";
+import type { FeatureFlags } from "./featureFlags.ts";
 
 export const DefaultLocalStorageKey = "squide-launch-darkly-client";
 

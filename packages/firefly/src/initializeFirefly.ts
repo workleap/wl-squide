@@ -1,11 +1,11 @@
-import { ModuleDefinition, PluginFactory, toLocalModuleDefinitions, type ModuleRegisterFunction, type RegisterModulesOptions } from "@squide/core";
+import { type ModuleDefinition, type PluginFactory, toLocalModuleDefinitions, type ModuleRegisterFunction, type RegisterModulesOptions } from "@squide/core";
 import { isFunction } from "@squide/core/internal";
-import { EnvironmentVariables, EnvironmentVariablesPlugin } from "@squide/env-vars";
+import { type EnvironmentVariables, EnvironmentVariablesPlugin } from "@squide/env-vars";
 import { LaunchDarklyPlugin } from "@squide/launch-darkly";
 import { MswPlugin } from "@squide/msw";
 import type { HoneycombInstrumentationPartialClient } from "@workleap-telemetry/core";
-import { RootLogger } from "@workleap/logging";
-import { LDClient } from "launchdarkly-js-client-sdk";
+import type { RootLogger } from "@workleap/logging";
+import type { LDClient } from "launchdarkly-js-client-sdk";
 import { FireflyRuntime, type FireflyRuntimeOptions } from "./FireflyRuntime.tsx";
 import { initializeHoneycomb } from "./honeycomb/initializeHoneycomb.ts";
 

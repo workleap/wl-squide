@@ -168,7 +168,6 @@ describe("when a query fail", () => {
         state.isMswReady = true;
 
         class ErrorBoundary extends Component<PropsWithChildren, { error?: Error }> {
-            // eslint-disable-next-line @typescript-eslint/no-explicit-any
             constructor(props: any) {
                 super(props);
 
@@ -222,7 +221,6 @@ describe("when a query fail", () => {
         state.isMswReady = true;
 
         class ErrorBoundary extends Component<PropsWithChildren, { error?: Error }> {
-            // eslint-disable-next-line @typescript-eslint/no-explicit-any
             constructor(props: any) {
                 super(props);
 
@@ -276,7 +274,6 @@ describe("when a refetch fails after the data is ready", () => {
     });
 
     class ErrorBoundary extends Component<PropsWithChildren, { error?: Error }> {
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         constructor(props: any) {
             super(props);
 

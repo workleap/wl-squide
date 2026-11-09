@@ -167,7 +167,7 @@ function resolveDefaultSharedDependencies(features: Features, isHost: boolean) {
 
 const forceNamedChunkIdsTransformer: WebpackConfigTransformer = (config: WebpackConfig) => {
     config.optimization = {
-        ...(config.optimization ?? {}),
+        ...config.optimization,
         // Without named chunk ids, there are some Webpack features that do not work
         // when used with Module Federation. One of these feature is using a dynamic import in
         // a remote module.
@@ -180,7 +180,7 @@ const forceNamedChunkIdsTransformer: WebpackConfigTransformer = (config: Webpack
 function createSetUniqueNameTransformer(uniqueName: string) {
     const transformer: WebpackConfigTransformer = (config: WebpackConfig) => {
         config.output = {
-            ...(config.output ?? {}),
+            ...config.output,
             // Every host and remotes must have a "uniqueName" for React Refresh to work
             // with Module Federation.
             uniqueName
@@ -423,7 +423,7 @@ const devRemoteModuleTransformer: WebpackConfigTransformer = (config: WebpackCon
     config.devServer.headers = {
         // eslint-disable-next-line @typescript-eslint/ban-ts-comment
         // @ts-ignore
-        ...(config.devServer.headers ?? {}),
+        ...config.devServer.headers,
         // Otherwise hot reload in the host failed with a CORS error.
         "Access-Control-Allow-Origin": "*"
     };

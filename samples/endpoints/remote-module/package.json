@@ -19,7 +19,6 @@
         "serve-build-isolated": "pnpm http-server dist -p 8080 -P http://localhost:8080? -c-1",
         "deploy": "netlify deploy --dir=samples/endpoints/remote-module/dist --site=a3f091c3-2bc9-4c50-83a0-72fc6d7fa158 --prod",
         "deploy-isolated": "netlify deploy --dir=samples/endpoints/remote-module/dist --site=1eacb274-6182-420e-b6e7-ada6f10cc487 --prod",
-        "eslint": "eslint . --max-warnings=0 --cache --cache-location node_modules/.cache/eslint",
         "typecheck": "tsgo"
     },
     "dependencies": {
@@ -43,27 +42,22 @@
         "react-router": "8.5.0"
     },
     "devDependencies": {
-        "@eslint/js": "9.39.2",
         "@rsbuild/core": "2.2.14",
         "@squide/firefly-rsbuild-configs": "workspace:*",
         "@tanstack/react-query-devtools": "5.104.5",
         "@types/react": "19.3.0",
         "@types/react-dom": "19.3.0",
-        "@typescript-eslint/parser": "8.72.0",
         "@typescript/native-preview": "7.0.0-dev.20260707.2",
         "@workleap/browserslist-config": "3.0.0",
-        "@workleap/eslint-configs": "2.0.6",
         "@workleap/telemetry": "4.0.5",
         "@workleap/typescript-configs": "5.0.0",
         "browserslist": "4.29.4",
         "copyfiles": "2.4.1",
         "cross-env": "10.1.0",
-        "eslint": "9.39.2",
         "http-server": "14.1.1",
         "launchdarkly-js-client-sdk": "3.9.6",
         "netlify-cli": "27.14.0",
-        "typescript": "6.0.3",
-        "typescript-eslint": "8.54.0"
+        "typescript": "6.0.3"
     },
     "msw": {
         "workerDirectory": "public"

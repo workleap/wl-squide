@@ -1,5 +1,5 @@
 import type { LDClient, LDFlagValue } from "launchdarkly-js-client-sdk";
-import { FeatureFlags } from "./featureFlags.ts";
+import type { FeatureFlags } from "./featureFlags.ts";
 
 export type CommitTransactionFunction = () => void;
 export type UndoTransactionFunction = (originalFlags: Record<string, LDFlagValue>) => void;

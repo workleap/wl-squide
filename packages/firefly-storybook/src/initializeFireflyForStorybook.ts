@@ -1,9 +1,9 @@
-import { EnvironmentVariables, EnvironmentVariablesPlugin } from "@squide/env-vars";
-import { FireflyRuntime, InMemoryLaunchDarklyClient, LaunchDarklyPlugin, ModuleRegisterFunction, PluginFactory, toLocalModuleDefinitions } from "@squide/firefly";
-import { FeatureFlags } from "@squide/launch-darkly";
+import { type EnvironmentVariables, EnvironmentVariablesPlugin } from "@squide/env-vars";
+import { type FireflyRuntime, InMemoryLaunchDarklyClient, LaunchDarklyPlugin, type ModuleRegisterFunction, type PluginFactory, toLocalModuleDefinitions } from "@squide/firefly";
+import type { FeatureFlags } from "@squide/launch-darkly";
 import { MswPlugin } from "@squide/msw";
-import { RootLogger } from "@workleap/logging";
-import { LDClient } from "launchdarkly-js-client-sdk";
+import type { RootLogger } from "@workleap/logging";
+import type { LDClient } from "launchdarkly-js-client-sdk";
 import { StorybookRuntime } from "./StorybookRuntime.ts";
 
 export interface InitializeFireflyForStorybookOptions<TData = unknown> {

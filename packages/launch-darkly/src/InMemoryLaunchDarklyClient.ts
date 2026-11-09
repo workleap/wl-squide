@@ -1,7 +1,7 @@
-import { LDContext, LDFlagChangeset, LDFlagSet, LDFlagValue } from "launchdarkly-js-sdk-common";
+import type { LDContext, LDFlagChangeset, LDFlagSet, LDFlagValue } from "launchdarkly-js-sdk-common";
 import { computeChangeset } from "./computeChangeset.ts";
 import { LaunchDarklyClientTransaction, type CommitTransactionFunction, type EditableLaunchDarklyClient, type SetFeatureFlagOptions, type UndoTransactionFunction } from "./EditableLaunchDarklyClient.ts";
-import { FeatureFlags } from "./featureFlags.ts";
+import type { FeatureFlags } from "./featureFlags.ts";
 import { LaunchDarklyClientNotifier } from "./LaunchDarklyNotifier.ts";
 
 export interface InMemoryLaunchDarklyClientOptions {

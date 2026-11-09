@@ -1,9 +1,9 @@
 import { loadRemote as loadModuleFederationRemote } from "@module-federation/enhanced/runtime";
-import { Span } from "@opentelemetry/api";
-import { Plugin, RegisterModulesOptions, type Runtime } from "@squide/core";
-import { FireflyPlugin, FireflyRuntime } from "@squide/firefly";
-import { ActiveSpan, addProtectedListener, endActiveSpan, getTracer, HoneycombTrackingUnmanagedErrorHandler, startActiveChildSpan, startChildSpan, traceError, type GetSpanFunction } from "@squide/firefly/internal";
-import { RemoteDefinition } from "./RemoteDefinition.ts";
+import type { Span } from "@opentelemetry/api";
+import { Plugin, type RegisterModulesOptions, type Runtime } from "@squide/core";
+import type { FireflyPlugin, FireflyRuntime } from "@squide/firefly";
+import { type ActiveSpan, addProtectedListener, endActiveSpan, getTracer, type HoneycombTrackingUnmanagedErrorHandler, startActiveChildSpan, startChildSpan, traceError, type GetSpanFunction } from "@squide/firefly/internal";
+import type { RemoteDefinition } from "./RemoteDefinition.ts";
 import { RemoteModuleDeferredRegistrationFailedEvent, RemoteModuleDeferredRegistrationUpdateFailedEvent, RemoteModuleRegistrationFailedEvent, RemoteModuleRegistry, RemoteModuleRegistryId, RemoteModulesDeferredRegistrationCompletedEvent, RemoteModulesDeferredRegistrationStartedEvent, RemoteModulesDeferredRegistrationsUpdateCompletedEvent, RemoteModulesDeferredRegistrationsUpdateStartedEvent, RemoteModulesRegistrationCompletedEvent, RemoteModulesRegistrationStartedEvent } from "./RemoteModuleRegistry.ts";
 
 export const ModuleFederationPluginName = "module-federation-plugin";

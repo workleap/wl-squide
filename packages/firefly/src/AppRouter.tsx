@@ -1,11 +1,11 @@
 import { useLogger, useRuntime } from "@squide/core";
 import { useRoutes, type Route } from "@squide/react-router";
 import { useEffect, useMemo, type ReactElement } from "react";
-import { DataStrategyFunction, DataStrategyFunctionArgs, DataStrategyResult, DOMRouterOpts } from "react-router";
+import type { DataStrategyFunction, DataStrategyFunctionArgs, DataStrategyResult, DOMRouterOpts } from "react-router";
 import type { RouterProviderProps } from "react-router/dom";
 import { AppRouterDispatcherContext, AppRouterStateContext } from "./AppRouterContext.ts";
 import { useAppRouterReducer, type AppRouterState } from "./AppRouterReducer.ts";
-import { FireflyRuntime } from "./FireflyRuntime.tsx";
+import type { FireflyRuntime } from "./FireflyRuntime.tsx";
 import { RootRoute } from "./RootRoute.tsx";
 import { useStrictRegistrationMode } from "./useStrictRegistrationMode.ts";
 
@@ -48,6 +48,8 @@ export function createWaitForMswDataStrategy(runtime: FireflyRuntime) {
             }
         });
 
+        // TODO: React Router 8 turned `shouldCallHandler` into a method, so this filter keeps every match.
+        // oxlint-disable-next-line typescript/unbound-method
         const matchesToLoad = args.matches.filter(m => m.shouldCallHandler);
         const keyedResults: Record<string, DataStrategyResult> = {};
         const results = await Promise.all(matchesToLoad.map(m => m.resolve()));

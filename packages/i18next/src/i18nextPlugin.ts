@@ -82,7 +82,7 @@ export class i18nextPlugin<T extends string = string> extends Plugin {
         this.#languageDetector = new LanguageDetector(null, {
             order: ["querystring", "navigator"],
             lookupQuerystring: queryStringKey,
-            ...(detection ?? {})
+            ...detection
         });
 
         // Ready is only reported once the modules are registered, otherwise an empty registry would report the

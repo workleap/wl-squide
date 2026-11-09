@@ -370,7 +370,6 @@ describe.concurrent("startTransaction", () => {
 
         client.startTransaction();
 
-        // eslint-disable-next-line @stylistic/max-statements-per-line
         expect(() => { client.startTransaction(); }).toThrow();
     });
 
@@ -388,7 +387,6 @@ describe.concurrent("startTransaction", () => {
         const transaction2 = client.startTransaction();
         transaction2.undo();
 
-        // eslint-disable-next-line @stylistic/max-statements-per-line
         expect(() => { client.startTransaction(); }).not.toThrow();
     });
 });

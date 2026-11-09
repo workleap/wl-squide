@@ -1,6 +1,6 @@
-import { FireflyRuntime, FireflyRuntimeOptions, FireflyRuntimeScope } from "@squide/firefly";
-import { HoneycombInstrumentationPartialClient } from "@workleap-telemetry/core";
-import { Logger } from "@workleap/logging";
+import { FireflyRuntime, type FireflyRuntimeOptions, FireflyRuntimeScope } from "@squide/firefly";
+import type { HoneycombInstrumentationPartialClient } from "@workleap-telemetry/core";
+import type { Logger } from "@workleap/logging";
 
 export class StorybookRuntime extends FireflyRuntime {
     constructor(options: FireflyRuntimeOptions = {}) {

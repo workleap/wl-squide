@@ -16,7 +16,7 @@ Type checking a monorepo with 12 packages is time-consuming with the standard Ty
 
 ## Decision
 
-Option 3. All packages use `tsgo` for their `typecheck` script. The migration was a full-repo switch in commit `f024f44da` (2026-01-23, merged as PR #381): every `"typecheck": "tsc"` was changed to `"typecheck": "tsgo"` across all 35 package.json files simultaneously. Standard `typescript` (5.9.3) remains installed for other tooling needs (ESLint, Rslib).
+Option 3. All packages use `tsgo` for their `typecheck` script. The migration was a full-repo switch in commit `f024f44da` (2026-01-23, merged as PR #381): every `"typecheck": "tsc"` was changed to `"typecheck": "tsgo"` across all 35 package.json files simultaneously. Standard `typescript` (5.9.3) remains installed for other tooling needs (Rslib).
 
 The VSCode integration was also configured (`typescript.experimental.useTsgo: true` with `typescript.tsdk` pointing to `@typescript/native-preview/lib`), though this was later reverted to the standard TypeScript SDK for the editor while the CLI `tsgo` remains in use for type checking scripts.
 
@@ -28,5 +28,5 @@ Evidence: Every `package.json` has `"typecheck": "tsgo"`. `@typescript/native-pr
 
 - Faster type checking in CI and local development (no specific benchmarks captured, but the Go port is architecturally faster due to native compilation and parallelism).
 - Accepts the risk of a pre-release tool — `tsgo` is updated near-daily and the API surface may change.
-- Both `tsgo` and `tsc` are installed side-by-side; regular TypeScript is still used by other tools (ESLint, Rslib).
+- Both `tsgo` and `tsc` are installed side-by-side; regular TypeScript is still used by other tools (Rslib).
 - The `transit` task in `turbo.json` ensures correct cache invalidation when typecheck runs in parallel with lint.

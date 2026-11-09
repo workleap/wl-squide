@@ -17,9 +17,9 @@ import {
     type DeferredRegistrationsErrorCallback
 } from "@squide/firefly";
 import {
-    AppRouterDispatch,
+    type AppRouterDispatch,
     AppRouterDispatcherContext,
-    AppRouterState,
+    type AppRouterState,
     AppRouterStateContext,
     __clearAppReducerDispatchProxy,
     __setAppReducerDispatchProxyFactory,

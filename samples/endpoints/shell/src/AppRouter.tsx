@@ -3,8 +3,8 @@ import {
     isApiError,
     SessionManagerContext,
     SubscriptionContext,
-    UserInfo,
-    UserRole,
+    type UserInfo,
+    type UserRole,
     type Session,
     type Subscription
 } from "@endpoints/shared";

@@ -1,5 +1,5 @@
-import { EnvironmentVariables } from "@squide/firefly";
-import { http, HttpHandler, HttpResponse } from "msw";
+import type { EnvironmentVariables } from "@squide/firefly";
+import { http, type HttpHandler, HttpResponse } from "msw";
 import { simulateDelay } from "./simulateDelay.ts";
 import { userRoleManager } from "./userRole.ts";
 

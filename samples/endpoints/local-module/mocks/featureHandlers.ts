@@ -1,4 +1,4 @@
-import { EnvironmentVariables } from "@squide/firefly";
+import type { EnvironmentVariables } from "@squide/firefly";
 import { HttpResponse, http, type HttpHandler } from "msw";
 import { sessionAccessor } from "./session.ts";
 import { userRoleAccessor } from "./userRole.ts";

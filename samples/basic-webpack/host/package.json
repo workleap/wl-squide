@@ -13,7 +13,6 @@
         "build:copy-redirects": "copyfiles _redirects dist",
         "build:copy-public-files": "copyfiles -u 1 public/favicon.png dist",
         "serve-build": "pnpm http-server dist -p 8086 -P http://localhost:8086? -c-1",
-        "eslint": "eslint . --max-warnings=0 --cache --cache-location node_modules/.cache/eslint",
         "typecheck": "tsgo"
     },
     "dependencies": {
@@ -33,25 +32,20 @@
         "useless-lib": "^2.0.0"
     },
     "devDependencies": {
-        "@eslint/js": "9.39.2",
         "@squide/firefly-webpack-configs": "workspace:*",
         "@swc/core": "1.16.18",
         "@swc/helpers": "0.5.23",
         "@types/node": "26.6.5",
         "@types/react": "19.3.0",
         "@types/react-dom": "19.3.0",
-        "@typescript-eslint/parser": "8.72.0",
         "@typescript/native-preview": "7.0.0-dev.20260707.2",
         "@workleap/browserslist-config": "3.0.0",
-        "@workleap/eslint-configs": "2.0.6",
         "@workleap/swc-configs": "2.3.15",
         "@workleap/typescript-configs": "5.0.0",
         "browserslist": "4.29.4",
         "copyfiles": "2.4.1",
-        "eslint": "9.39.2",
         "http-server": "14.1.1",
         "typescript": "6.0.3",
-        "typescript-eslint": "8.54.0",
         "webpack": "5.110.3",
         "webpack-cli": "7.2.3",
         "webpack-dev-server": "5.2.4"

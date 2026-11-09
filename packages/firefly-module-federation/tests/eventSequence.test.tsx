@@ -52,7 +52,6 @@ import {
 interface AppRouterProps {
     waitForPublicData: boolean;
     waitForProtectedData: boolean;
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     initialEntries: any;
     initialIndex: number;
     bootstrappingRoute: ReactNode;

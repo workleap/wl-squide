@@ -31,7 +31,7 @@ Skills install into `.agents/skills/`. Only the rows marked **linked** also keep
 | `workleap-logging` | yes | `@workleap/logging` | `pnpx skills add https://github.com/workleap/wl-logging --skill workleap-logging -a codex claude-code --copy --full-depth -y` |
 | `workleap-react-best-practices` | no | — | `pnpx skills add https://github.com/workleap/wl-web-configs --skill workleap-react-best-practices -a codex --full-depth -y` |
 | `workleap-telemetry` | yes | `@workleap/telemetry` | `pnpx skills add https://github.com/workleap/wl-telemetry --skill workleap-telemetry -a codex claude-code --copy --full-depth -y` |
-| `workleap-web-configs` | yes | `@workleap/eslint-configs`, `@workleap/typescript-configs`, `@workleap/rsbuild-configs`, `@workleap/rslib-configs`, `@workleap/stylelint-configs`, `@workleap/browserslist-config` | `pnpx skills add https://github.com/workleap/wl-web-configs --skill workleap-web-configs -a codex claude-code --copy --full-depth -y` |
+| `workleap-web-configs` | yes | `@workleap/typescript-configs`, `@workleap/rsbuild-configs`, `@workleap/rslib-configs`, `@workleap/stylelint-configs`, `@workleap/browserslist-config` | `pnpx skills add https://github.com/workleap/wl-web-configs --skill workleap-web-configs -a codex claude-code --copy --full-depth -y` |
 
 ## Process
 

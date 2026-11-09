@@ -1,7 +1,7 @@
 import { createLocalStorageLaunchDarklyClient, InMemoryLaunchDarklyClient, RuntimeContext } from "@squide/firefly";
 import { render } from "@testing-library/react";
 import { NoopLogger } from "@workleap/logging";
-import { ReactNode } from "react";
+import type { ReactNode } from "react";
 import { afterEach, beforeEach, describe, test } from "vitest";
 import { initializeFireflyForStorybook } from "../src/initializeFireflyForStorybook.ts";
 import { withFeatureFlagsOverrideDecorator } from "../src/withFeatureFlagsOverrideDecorator.tsx";

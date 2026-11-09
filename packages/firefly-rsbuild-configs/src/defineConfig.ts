@@ -212,7 +212,7 @@ const forceNamedChunkIdsTransformer: RsbuildConfigTransformer = (config: Rsbuild
         // The typings are broken because "rspack" also accepts a function.
         // eslint-disable-next-line @typescript-eslint/ban-ts-comment
         // @ts-ignore
-        ...(config.tools.rspack.optimization ?? {}),
+        ...config.tools.rspack.optimization,
         chunkIds: "named"
     };
 

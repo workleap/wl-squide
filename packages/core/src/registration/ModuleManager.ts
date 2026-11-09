@@ -1,7 +1,7 @@
 import type { DeferredRegistrationScopeCompletionFunction, DeferredRegistrationScopeOptions } from "../plugins/Plugin.ts";
-import { Runtime } from "../runtime/Runtime.ts";
-import { ModuleRegistrationError, ModuleRegistry, RegisterModulesOptions } from "./ModuleRegistry.ts";
-import { ModuleRegisterFunction } from "./registerModule.ts";
+import type { Runtime } from "../runtime/Runtime.ts";
+import type { ModuleRegistrationError, ModuleRegistry, RegisterModulesOptions } from "./ModuleRegistry.ts";
+import type { ModuleRegisterFunction } from "./registerModule.ts";
 
 export type ModuleRegistrationStatusListener = () => void;
 

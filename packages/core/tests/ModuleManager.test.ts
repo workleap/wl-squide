@@ -2,7 +2,7 @@ import { NoopLogger } from "@workleap/logging";
 import { describe, test, vi } from "vitest";
 import { Plugin, type DeferredRegistrationScopeCompletionFunction, type DeferredRegistrationScopeOptions } from "../src/plugins/Plugin.ts";
 import { ModuleManager } from "../src/registration/ModuleManager.ts";
-import { ModuleRegistrationError, ModuleRegistrationStatus, ModuleRegistrationStatusChangedListener, ModuleRegistry } from "../src/registration/ModuleRegistry.ts";
+import { ModuleRegistrationError, type ModuleRegistrationStatus, type ModuleRegistrationStatusChangedListener, ModuleRegistry } from "../src/registration/ModuleRegistry.ts";
 import { Runtime } from "../src/runtime/Runtime.ts";
 
 class DummyRuntime extends Runtime {

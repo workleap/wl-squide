@@ -1,4 +1,4 @@
-import { EnvironmentVariables } from "@squide/firefly";
+import type { EnvironmentVariables } from "@squide/firefly";
 import type { HttpHandler } from "msw";
 import { getRickAndMortyHandlers } from "./rickAndMortyHandlers.ts";
 

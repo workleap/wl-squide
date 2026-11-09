@@ -4,7 +4,7 @@
 
 Never declare a change complete without passing all three steps in order:
 
-1. **Lint** — `pnpm lint` (runs ESLint, typecheck, and syncpack in parallel)
+1. **Lint** — `pnpm lint` (runs oxlint, oxfmt check, typecheck, and syncpack in parallel)
 2. **Test** — `pnpm test` (runs Vitest across all packages)
 3. **Browser validation** — validate sample apps in a real browser (see below)
 
