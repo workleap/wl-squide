@@ -1,5 +1,14 @@
 # @squide/firefly
 
+## 20.1.1
+
+### Patch Changes
+
+- [#743](https://github.com/workleap/wl-squide/pull/743) [`10fd934`](https://github.com/workleap/wl-squide/commit/10fd9348f471fa34a61d81906246acfc05298aaa) Thanks [@patricklafrance](https://github.com/patricklafrance)! - Declare `@types/react` as an optional peer dependency, so the React types in the package declarations resolve under installs that link packages from outside the project, such as pnpm's global virtual store.
+- Updated dependencies [[`10fd934`](https://github.com/workleap/wl-squide/commit/10fd9348f471fa34a61d81906246acfc05298aaa)]:
+  - @squide/core@7.6.2
+  - @squide/react-router@10.2.3
+
 ## 20.1.0
 
 ### Minor Changes
