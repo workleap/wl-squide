@@ -53,13 +53,17 @@ Samples are deployed to Netlify:
 
 Use `pnpm add -D --save-exact <package>` (or `pnpm add -DE <package>`) to ensure exact versions.
 
+### Minimum release age
+
+`pnpm-workspace.yaml` sets `minimumReleaseAge: 10080` (7 days, in minutes): pnpm refuses to resolve package versions published less than 7 days ago. Packages listed under `minimumReleaseAgeExclude` (`@workleap/*`, `@typescript/native-preview*`, `@workleap-telemetry/*`) bypass the gate. Do NOT lower the value or add exclusions to install a freshly published version — wait for it to age past the window.
+
 ### Pinned transitive dependencies (pnpm overrides)
 
 `pnpm-workspace.yaml` has an `overrides:` block that pins transitive deps to specific versions. Each entry exists for a concrete reason — do NOT remove or relax them without verifying the underlying issue is gone (test builds AND tests, not just `pnpm install`):
 
 - **`terser-webpack-plugin: 5.4.0`** — 5.6.0 leaks `extractComments` into swc-minify options, which swc rejects. `@workleap/webpack-configs` uses `TerserPlugin.swcMinify`, so without this pin the `basic-webpack` sample's webpack build fails with `unknown field 'extractComments'`.
 
-**Important pnpm v11 quirk:** changing an `overrides` entry does NOT trigger re-resolution on `pnpm install` (even with `--force` or `--no-frozen-lockfile`) — pnpm reports "Already up to date" and leaves the old versions in the lockfile. To apply override changes, delete `pnpm-lock.yaml` and run `pnpm install --lockfile-only`.
+**Important pnpm quirk:** changing an `overrides` entry does NOT trigger re-resolution on `pnpm install` (even with `--force` or `--no-frozen-lockfile`) — pnpm reports "Already up to date" and leaves the old versions in the lockfile. To apply override changes, delete `pnpm-lock.yaml` and run `pnpm install --lockfile-only`.
 
 ## Adding a New Package
 

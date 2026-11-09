@@ -15,7 +15,7 @@ wl-squide uses [Changesets](https://github.com/changesets/changesets) for versio
 ## Configuration
 
 - `.changeset/config.json` — changeset settings
-- `pnpm-workspace.yaml` — release age configuration (currently not active)
+- `pnpm-workspace.yaml` — dependency release age gate (`minimumReleaseAge`); see [development.md](./development.md#minimum-release-age)
 - Version consistency enforced by Syncpack (`.syncpackrc.js`)
 
 ## PR Preview Packages
