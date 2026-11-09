@@ -24,7 +24,7 @@ Option 4. The `AppRouterReducer` manages the following lifecycle ordering:
 1. `modules-registered` — All module `register()` functions have completed.
 2. `msw-ready` — MSW service worker is active (or skipped if `useMsw: false`).
 3. `modules-ready` — The combined gate: modules registered + MSW ready.
-4. `route-visibility-detected` — The framework knows whether the user is authenticated (public vs. protected layout).
+4. `active-route-is-public` / `active-route-is-protected` — The framework knows whether the active route is public or protected.
 5. `public-data-ready` — Global public data queries have resolved.
 6. `protected-data-ready` — Global protected data queries have resolved (only for authenticated users).
 7. `plugins-ready` — Every plugin implementing the optional `isReady` members of `Plugin` is ready (a plugin without them counts as ready). Always the last input before the bootstrapping completes: the plugins are consulted once every other ready flag is set, not as soon as they become ready, so that work a plugin starts from the bootstrapping route once the data is fetched (the i18next plugin switching to the session's preferred language) holds the render too. All the plugins implementing `isReady` are subscribed at that point and the action is dispatched once when the whole set is ready.
@@ -39,7 +39,7 @@ The `useIsBootstrapping` hook computes readiness from this compound state — it
 
 A parallel `AppRouterStore` (plain class, not a React hook) provides identical state to non-React consumers via the event bus (ADR-0003). Every reducer action is mirrored to the event bus as `"squide-${action.type}"`, so Honeycomb instrumentation can build OpenTelemetry traces of the bootstrapping sequence without coupling to React. The `useExecuteOnce` utility ensures initial state synchronization between the React reducer and the store — actions dispatched before the React tree mounts are replayed to the reducer on first render.
 
-Evidence: `packages/firefly/src/AppRouterReducer.ts` (13 action types, `useEnhancedReducerDispatch` dispatches to the event bus). `packages/firefly/src/useIsBootstrapping.ts` combines multiple boolean conditions. `packages/firefly/src/AppRouterStore.ts` provides the non-React parallel. `packages/firefly/src/useExecuteOnce.ts` handles initial state sync.
+Evidence: `packages/firefly/src/AppRouterReducer.ts` (`AppRouterActionType` lists every action, including `public-data-updated`, `protected-data-updated`, and `is-unauthorized`; `useEnhancedReducerDispatch` dispatches to the event bus). `packages/firefly/src/useIsBootstrapping.ts` combines multiple boolean conditions. `packages/firefly/src/AppRouterStore.ts` provides the non-React parallel. `packages/firefly/src/useExecuteOnce.ts` handles initial state sync.
 
 ## Consequences
 

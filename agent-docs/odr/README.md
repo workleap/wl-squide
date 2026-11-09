@@ -20,7 +20,8 @@ Write an ODR when you are about to:
 
 ## How to create an ODR
 
-1. Find the next number: check this folder for the highest `NNNN` and increment.
+1. Find the next number: take the highest `NNNN` in this folder and increment — then check that no open PR
+   or unmerged branch already claims it (`git log --all --diff-filter=A --name-only -- agent-docs/odr/`).
 2. Copy [template.md](./template.md) to `NNNN-short-title.md`.
 3. Fill in all sections — especially **Options Considered** and **Decision** with clear rationale.
 4. Set status to `proposed`. A developer will accept it during PR review.

@@ -26,7 +26,7 @@ The save step runs with `if: always() && cache-hit != 'true'` to ensure caches a
 
 A trailing-hyphen bug (PR #372, commit `2749c2870`) demonstrated why the cascade prefix formatting matters: without the trailing hyphen on the first restore-key (e.g., `turbo-ci` instead of `turbo-ci-`), GitHub Actions' prefix matching could match keys from other workflows (e.g., `turbo-changeset-abc123`), defeating the purpose of workflow-specific caching.
 
-Evidence: `ci.yml` (lines 45-56 restore, 133-139 save), `changeset.yml` (lines 41-52 restore, 58-63 save), `pr-pkg.yml` (lines 43-53 restore, 59-64 save), `claude.yml` (lines 49-57 restore, 66-72 save). All contain the comment: "Using SHA will usually provide cache hit on subsequent commits in a PR but will not provide cache hits between PRs."
+Evidence: `ci.yml`, `changeset.yml`, `pr-pkg.yml`, and `claude.yml` each have an `actions/cache/restore` and an `actions/cache/save` step. All contain the comment: "Using SHA will usually provide cache hit on subsequent commits in a PR but will not provide cache hits between PRs."
 
 ## Consequences
 

@@ -7,13 +7,15 @@
 | CI | `.github/workflows/ci.yml` | Push to main, PRs | Build, lint, typecheck, test |
 | Changeset | `.github/workflows/changeset.yml` | Push to main | Version bumps and npm publish |
 | PR Packages | `.github/workflows/pr-pkg.yml` | Push to main, PRs | Publish preview packages |
-| Update Dependencies | `.github/workflows/update-dependencies.yml` | Weekly (Tue 14:00 UTC) | Automated dependency and agent skill updates, via the `_update-dependencies` and `_update-skills` skills |
+| Update Dependencies | `.github/workflows/update-dependencies.yml` | Weekly (Tue 14:00 UTC); Manual | Automated dependency and agent skill updates, via the `_update-dependencies` and `_update-skills` skills |
 | Code Review | `.github/workflows/code-review.yml` | PRs | Automated code review |
 | Claude | `.github/workflows/claude.yml` | @claude mentions | Interactive AI assistance |
 | Sync Agent Skill | `.github/workflows/sync-agent-skill.yml` | Manual; Push to main (docs/) | Sync Squide skill with docs |
 | Agent Docs | `.github/workflows/update-agent-docs.yml` | Manual; Push to main (code + `.github/workflows/`) | Update agent documentation |
 | Retype | `.github/workflows/retype-action.yml` | Manual; Push to main | Build and deploy documentation site |
 | Smoke Test | `.github/workflows/smoke-test.yml` | PRs to main (packages, endpoints, workflow changes) | Automated smoke test of endpoints app |
+
+**Renovate** (`renovate.json`) is restricted to the `github-actions` manager. Never enable npm or other managers in Renovate — npm dependencies and agent skills are owned by the Update Dependencies workflow, and enabling them would produce duplicate, conflicting update PRs.
 
 ## CI Pipeline Details
 
