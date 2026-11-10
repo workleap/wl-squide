@@ -22,7 +22,7 @@ Before reviewing, consult the directory index in `CLAUDE.md` to identify relevan
 
 ## Agent skills
 
-For each changed file in the PR diff, load applicable skills from `.agents/skills/` using the Skill tool:
+For each changed file in the PR diff, load applicable skills from `.claude/skills/` using the Skill tool:
 
 **By file type:**
 

@@ -1,5 +1,5 @@
 ---
-description: Refresh the agent skills installed in `.agents/skills/`, but only when the matching workspace package is on the latest minor (patch ignored). Skills with no package gate are always updated.
+description: Refresh the agent skills installed in `.claude/skills/`, but only when the matching workspace package is on the latest minor (patch ignored). Skills with no package gate are always updated.
 model: sonnet
 effort: medium
 metadata:
@@ -12,33 +12,33 @@ Re-pull every `pnpm dlx skills@latest add` installed skill in this repo, but onl
 
 ## Skills
 
-Skills install into `.agents/skills/`. Only the rows marked **linked** also keep a copy in `.claude/skills/`, which is curated: never add or remove a `.claude/skills/` copy as a side effect of an update.
+Skills install into `.claude/skills/` only, as files (`--copy`), never symlinks. `.agents/skills/` must not exist: pnpm also links package skills into it when it does.
 
-- `-a codex` writes only the shared `.agents/skills/` copy. Never omit `-a` — the CLI would then also link the skill into `.claude/skills/`.
-- Linked rows add `claude-code --copy` so the `.claude/skills/` copy is refreshed as files, not replaced by a symlink.
 - Only `workleap-*` skills use `--full-depth`.
 - Every command pins `skills@latest`: `.npmrc` points pnpm at the GitHub package firewall, which holds back new releases, and a bare `skills` can ask for a version the firewall doesn't serve yet, so the CLI download fails.
 
-| Skill | Linked | Package gate (workspace `package.json` files) | Update command |
-|---|---|---|---|
-| `accessibility` | yes | — | `pnpm dlx skills@latest add https://github.com/addyosmani/web-quality-skills --skill accessibility -a codex claude-code --copy -y` |
-| `agent-browser` | no | `agent-browser` | `pnpm dlx skills@latest add https://github.com/vercel-labs/agent-browser --skill agent-browser -a codex -y` |
-| `best-practices` | yes | — | `pnpm dlx skills@latest add https://github.com/addyosmani/web-quality-skills --skill best-practices -a codex claude-code --copy -y` |
-| `dogfood` | no | `agent-browser` | `pnpm dlx skills@latest add https://github.com/vercel-labs/agent-browser --skill dogfood -a codex -y` |
-| `git-commit` | no | — | `pnpm dlx skills@latest add https://github.com/github/awesome-copilot --skill git-commit -a codex -y` |
-| `pnpm` | no | `pnpm` (root `packageManager` field — not bumped by `update-outdated-deps`, so expect `SKIP` until pnpm is bumped by hand) | `pnpm dlx skills@latest add https://github.com/antfu/skills --skill pnpm -a codex -y` |
-| `turborepo` | no | `turbo` | `pnpm dlx skills@latest add https://github.com/vercel/turborepo --skill turborepo -a codex -y` |
-| `vitest` | yes | `vitest` | `pnpm dlx skills@latest add https://github.com/antfu/skills --skill vitest -a codex claude-code --copy -y` |
-| `workleap-logging` | yes | `@workleap/logging` | `pnpm dlx skills@latest add https://github.com/workleap/wl-logging --skill workleap-logging -a codex claude-code --copy --full-depth -y` |
-| `workleap-react-best-practices` | no | — | `pnpm dlx skills@latest add https://github.com/workleap/wl-web-configs --skill workleap-react-best-practices -a codex --full-depth -y` |
-| `workleap-telemetry` | yes | `@workleap/telemetry` | `pnpm dlx skills@latest add https://github.com/workleap/wl-telemetry --skill workleap-telemetry -a codex claude-code --copy --full-depth -y` |
-| `workleap-web-configs` | yes | `@workleap/typescript-configs`, `@workleap/rsbuild-configs`, `@workleap/rslib-configs`, `@workleap/stylelint-configs`, `@workleap/browserslist-config` | `pnpm dlx skills@latest add https://github.com/workleap/wl-web-configs --skill workleap-web-configs -a codex claude-code --copy --full-depth -y` |
+| Skill | Package gate (workspace `package.json` files) | Update command |
+|---|---|---|
+| `accessibility` | — | `pnpm dlx skills@latest add https://github.com/addyosmani/web-quality-skills --skill accessibility -a claude-code --copy -y` |
+| `agent-browser` | `agent-browser` | `pnpm dlx skills@latest add https://github.com/vercel-labs/agent-browser --skill agent-browser -a claude-code --copy -y` |
+| `best-practices` | — | `pnpm dlx skills@latest add https://github.com/addyosmani/web-quality-skills --skill best-practices -a claude-code --copy -y` |
+| `dogfood` | `agent-browser` | `pnpm dlx skills@latest add https://github.com/vercel-labs/agent-browser --skill dogfood -a claude-code --copy -y` |
+| `git-commit` | — | `pnpm dlx skills@latest add https://github.com/github/awesome-copilot --skill git-commit -a claude-code --copy -y` |
+| `pnpm` | `pnpm` (root `packageManager` field — not bumped by `update-outdated-deps`, so expect `SKIP` until pnpm is bumped by hand) | `pnpm dlx skills@latest add https://github.com/antfu/skills --skill pnpm -a claude-code --copy -y` |
+| `turborepo` | `turbo` | `pnpm dlx skills@latest add https://github.com/vercel/turborepo --skill turborepo -a claude-code --copy -y` |
+| `vitest` | `vitest` | `pnpm dlx skills@latest add https://github.com/antfu/skills --skill vitest -a claude-code --copy -y` |
+| `workleap-logging` | `@workleap/logging` | `pnpm dlx skills@latest add https://github.com/workleap/wl-logging --skill workleap-logging -a claude-code --copy --full-depth -y` |
+| `workleap-react-best-practices` | — | `pnpm dlx skills@latest add https://github.com/workleap/wl-web-configs --skill workleap-react-best-practices -a claude-code --copy --full-depth -y` |
+| `workleap-telemetry` | `@workleap/telemetry` | `pnpm dlx skills@latest add https://github.com/workleap/wl-telemetry --skill workleap-telemetry -a claude-code --copy --full-depth -y` |
+| `workleap-web-configs` | `@workleap/typescript-configs`, `@workleap/rsbuild-configs`, `@workleap/rslib-configs`, `@workleap/stylelint-configs`, `@workleap/browserslist-config` | `pnpm dlx skills@latest add https://github.com/workleap/wl-web-configs --skill workleap-web-configs -a claude-code --copy --full-depth -y` |
 
 ## Process
 
 ### 0. Audit drift
 
-List `.agents/skills/` and compare it to the `Skill` column in the table above. Then list `.claude/skills/`, filter out `_`-prefixed folders (project-local skills, not installs), and compare the rest to the rows marked **linked**.
+If `.agents/skills/` exists → **stop**. Print `.agents/skills/ exists — skills install into .claude/skills/ only. Move or remove it, then re-run.`
+
+List `.claude/skills/`, filter out `_`-prefixed folders (project-local skills, not installs) and the skills listed in the `# pnpm` block of `.claude/skills/.gitignore` (package skills that pnpm links), and compare the rest to the `Skill` column in the table above.
 
 - Folder present, no table row → **stop**. Print `unknown skill "<name>" at <folder> — add a row to SKILL.md and re-run.`
 - `skills-lock.json` entry with no table row, or the reverse → **stop**. Print `lock drift "<name>" — reconcile skills-lock.json with the table, then re-run.`

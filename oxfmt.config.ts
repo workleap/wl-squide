@@ -6,7 +6,6 @@ export default defineConfig({
         "**/*.md",
         "docs/**",
         "templates/**",
-        ".agents/**",
         "skills-lock.json",
         "**/mockServiceWorker.js"
     ],
