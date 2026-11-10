@@ -453,3 +453,27 @@ test("when an error occurs while updating the deferred registrations of the loca
 
     await waitFor(() => expect(onError).toHaveBeenCalledWith(expect.arrayContaining([localModuleRegistrationError])));
 });
+
+test("when the deferred registrations fail to register, log the error", async ({ expect }) => {
+    const runtime = new FireflyRuntime({
+        moduleManager: x => new ModuleManager(x, [new LocalModuleRegistry()]),
+        plugins: [x => new MswPlugin(x)],
+        loggers: [new NoopLogger()]
+    });
+
+    await runtime.moduleManager.registerModules([...toLocalModuleDefinitions([() => () => {}])]);
+
+    vi.spyOn(runtime.moduleManager, "registerDeferredRegistrations").mockRejectedValue(new Error("Registration failed."));
+
+    const withTextSpy = vi.spyOn(runtime.logger, "withText");
+
+    const state = createDefaultAppRouterState();
+    state.areModulesRegistered = true;
+    state.areModulesReady = false;
+    state.isPublicDataReady = true;
+    state.isProtectedDataReady = true;
+
+    renderUseDeferredRegistrationsHook(runtime, { state, dispatch: vi.fn(), data: {} });
+
+    await waitFor(() => expect(withTextSpy).toHaveBeenCalledWith("[squide] An error occurred while registering the deferred registrations."));
+});

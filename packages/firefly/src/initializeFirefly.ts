@@ -32,12 +32,20 @@ export interface InitializeFireflyOptions<TRuntime extends FireflyRuntime, TCont
     onError?: OnInitializationErrorFunction;
 }
 
+function assertCanStartMsw(runtime: FireflyRuntime, startMsw: unknown) {
+    if (runtime.isMswEnabled && !isFunction(startMsw)) {
+        throw new Error('[squide] When MSW is enabled, the "startMsw" function must be provided.');
+    }
+}
+
 export function bootstrap<TRuntime extends FireflyRuntime = FireflyRuntime, TContext = unknown, TData = unknown>(
     runtime: TRuntime,
     modulesDefinitions: (ModuleDefinition<TRuntime, TContext, TData> | undefined)[],
     options: Omit<InitializeFireflyOptions<TRuntime, TContext, TData>, "localModules" | "moduleDefinitions"> = {}
 ) {
     const { startMsw, onError, context } = options;
+
+    assertCanStartMsw(runtime, startMsw);
 
     runtime.eventBus.dispatch(ApplicationBootstrappingStartedEvent);
 
@@ -47,11 +55,7 @@ export function bootstrap<TRuntime extends FireflyRuntime = FireflyRuntime, TCon
             { context }
         )
         .then(results => {
-            if (runtime.isMswEnabled) {
-                if (!isFunction(startMsw)) {
-                    throw new Error('[squide] When MSW is enabled, the "startMsw" function must be provided.');
-                }
-
+            if (runtime.isMswEnabled && startMsw) {
                 startMsw(runtime)
                     .then(() => {
                         if (runtime.isMswEnabled) {
@@ -70,6 +74,16 @@ export function bootstrap<TRuntime extends FireflyRuntime = FireflyRuntime, TCon
                 results.forEach(error => {
                     onError(error);
                 });
+            }
+        })
+        .catch((error: unknown) => {
+            runtime.logger
+                .withText("[squide] An error occurred while bootstrapping the application.")
+                .withError(error as Error)
+                .error();
+
+            if (onError) {
+                onError(error);
             }
         });
 }
@@ -149,6 +163,9 @@ export function initializeFirefly<TContext = unknown, TData = unknown>(options: 
     });
 
     logInitializationState(runtime, options, plugins);
+
+    // Validated before initializing Honeycomb, otherwise the error would be thrown asynchronously by "bootstrap".
+    assertCanStartMsw(runtime, options.startMsw);
 
     initializeHoneycomb(runtime)
         .catch((error: unknown) => {

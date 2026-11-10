@@ -96,13 +96,14 @@ test.concurrent("when MSW is disabled and a start function is provided, do not c
     expect(fct).not.toHaveBeenCalled();
 });
 
-// test("when MSW is enabled and no start function has been provided, throw an error", async () => {
-//     const runtime = new FireflyRuntime({
-//         useMsw: true
-//     });
+test.concurrent("when MSW is enabled and no start function has been provided, throw an error", ({ expect }) => {
+    const runtime = new FireflyRuntime({
+        plugins: [x => new MswPlugin(x)],
+        loggers: [new NoopLogger()]
+    });
 
-//     await vi.waitFor(() => expect(() => bootstrap(runtime)).toThrow(/When MSW is enabled, the "startMsw" function must be provided/));
-// });
+    expect(() => bootstrap(runtime, [])).toThrow(/When MSW is enabled, the "startMsw" function must be provided/);
+});
 
 test.concurrent("when MSW is enabled and a start function is provided, MSW is ready once the start function is called", async ({ expect }) => {
     const mswState = new MswState();
@@ -122,4 +123,22 @@ test.concurrent("when MSW is enabled and a start function is provided, MSW is re
     });
 
     await vi.waitFor(() => expect(mswState.isReady).toBeTruthy());
+});
+
+test.concurrent("when the modules registration fails, the error is forwarded to the error handler", async ({ expect }) => {
+    const runtime = new FireflyRuntime({
+        loggers: [new NoopLogger()]
+    });
+
+    const error = new Error("Registration failed.");
+
+    vi.spyOn(runtime.moduleManager, "registerModules").mockRejectedValue(error);
+
+    const onError = vi.fn();
+
+    bootstrap(runtime, [], {
+        onError
+    });
+
+    await vi.waitFor(() => expect(onError).toHaveBeenCalledWith(error));
 });
