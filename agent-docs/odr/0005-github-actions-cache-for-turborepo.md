@@ -18,9 +18,9 @@ Turborepo's caching is essential for CI performance in this monorepo. Turborepo 
 
 Option 3. Four workflows use this pattern: `ci.yml`, `changeset.yml`, `pr-pkg.yml`, and `claude.yml`. Each has a workflow-specific cache key prefix (`turbo-ci-`, `turbo-changeset-`, `turbo-pr-pkg-`, `turbo-claude-`).
 
-Cache keys are SHA-based (e.g., `${{ runner.os }}-turbo-ci-${{ github.sha }}`). Restore-keys use a 2-level cascade:
-1. **Same workflow, any SHA:** `${{ runner.os }}-turbo-ci-` — matches previous runs of the same workflow.
-2. **Any workflow:** `${{ runner.os }}-turbo-` — falls back to any Turborepo cache from any workflow.
+Cache keys are SHA-based and carry a version segment shared by all four workflows (e.g., `${{ runner.os }}-turbo-ci-v11-${{ github.sha }}`). Restore-keys use a 2-level cascade:
+1. **Same workflow, any SHA:** `${{ runner.os }}-turbo-ci-v11-` — matches previous runs of the same workflow.
+2. **Any workflow:** `${{ runner.os }}-turbo-v11-` — falls back to any Turborepo cache from any workflow.
 
 The save step runs with `if: always() && cache-hit != 'true'` to ensure caches are written even if later build/test steps fail, and to skip saving when an exact cache hit was already found.
 
