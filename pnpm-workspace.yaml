@@ -6,6 +6,10 @@ packages:
 # which otherwise defaults to 24 hours when the setting is absent.
 minimumReleaseAge: 0
 
+# Also loads .pnpmfile.cjs for pnpm dlx / pnpx, which ignore the project pnpmfile. The pnpmfile keeps
+# the package downloads on the GitHub package firewall, see CONTRIBUTING.md.
+globalPnpmfile: .pnpmfile.cjs
+
 overrides:
   # chokidar@4.0.3 is blocked by the package firewall (AttestationDowngradePolicy).
   "ts-checker-rspack-plugin>chokidar": 4.0.1

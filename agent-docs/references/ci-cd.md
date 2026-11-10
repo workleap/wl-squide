@@ -20,6 +20,7 @@
 ## CI Pipeline Details
 
 The main CI workflow (`ci.yml`) runs on `ubuntu-latest` with:
+- A lockfile check that fails if `pnpm-lock.yaml` contains any `tarball:` URL; the fix is `pnpm install --fix-lockfile` (see [development.md](./development.md#github-package-firewall))
 - An "Authenticate to the GitHub package firewall" step that writes `github.token` to `~/.npmrc`, followed by pnpm install with frozen lockfile. Every workflow that runs pnpm needs that step before its install (see [development.md](./development.md#github-package-firewall))
 - Turborepo caching (SHA-keyed with restore keys)
 - Incremental builds on PRs (only diverging packages)

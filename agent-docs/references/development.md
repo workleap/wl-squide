@@ -59,6 +59,8 @@ The repository `.npmrc` routes every install through the `gsoft` GitHub package 
 
 - **Auth token**: lives in the user-level `~/.npmrc` (see CONTRIBUTING.md). pnpm ignores auth tokens in a repository `.npmrc`. CI writes `github.token` to `~/.npmrc` before installing, in every workflow that runs pnpm.
 - **`minimumReleaseAge: 0`**: disables pnpm's own release-age gate; the firewall enforces it instead. Do NOT remove the setting: pnpm 12 then falls back to a 24-hour default and silently adds `minimumReleaseAgeExclude` entries when a younger version is pinned.
+- **`.pnpmfile.cjs`**: the firewall's metadata still points every tarball at `registry.npmjs.org`. The pnpmfile downloads those tarballs from the firewall instead and removes the npmjs URLs from `pnpm-lock.yaml`; `globalPnpmfile` in `pnpm-workspace.yaml` covers `pnpm dlx` / `pnpx`, which ignore the project pnpmfile. Never remove either, and never use `--ignore-pnpmfile`. Requires pnpm 12.18+ (custom fetchers).
+- **Lockfile tarball URLs**: CI fails on any `tarball:` line in `pnpm-lock.yaml`. After editing the pnpmfile, or when CI reports one, run `pnpm install --fix-lockfile` and commit the lockfile. A plain `pnpm install` skips the pnpmfile hooks when the lockfile is up to date, and the lockfile checksum doesn't track the pnpmfile (pnpm excludes a global pnpmfile from it).
 - **Blocked versions**: when a version exists on npmjs but the install can't resolve or download it, the firewall blocks it. Pin a version the firewall serves with a scoped override (see below).
 - **Publishing**: published packages set `publishConfig.registry` to `https://registry.npmjs.org/`, and `changeset.yml` sets `pnpm_config_registry` on the publish step. See [release-process.md](./release-process.md).
 
