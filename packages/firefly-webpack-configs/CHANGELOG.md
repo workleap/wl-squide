@@ -1,5 +1,11 @@
 # @squide/firefly-webpack-configs
 
+## 5.2.15
+
+### Patch Changes
+
+- [#748](https://github.com/workleap/wl-squide/pull/748) [`620d2cf`](https://github.com/workleap/wl-squide/commit/620d2cf8bd041867c06b01627ed80fd61b53bc03) Thanks [@patricklafrance](https://github.com/patricklafrance)! - Shared dependencies provided as an array, such as `sharedDependencies: ["my-lib"]`, are now merged with the default shared dependencies instead of replacing them. With `@squide/firefly-webpack-configs`, `exposes` provided as an array to `defineRemoteModuleFederationPluginOptions` are now exposed under their own paths instead of under index keys.
+
 ## 5.2.14
 
 ### Patch Changes

@@ -1,6 +1,6 @@
 {
     "name": "@squide/firefly",
-    "version": "20.1.1",
+    "version": "20.1.2",
     "description": "Squide bundle for the firefly technology stack.",
     "license": "Apache-2.0",
     "author": "Workleap",

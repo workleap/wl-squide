@@ -1,6 +1,6 @@
 {
     "name": "@squide/firefly-webpack-configs",
-    "version": "5.2.14",
+    "version": "5.2.15",
     "description": "Webpack configuration helpers for the Squide firefly technology stack.",
     "license": "Apache-2.0",
     "author": "Workleap",

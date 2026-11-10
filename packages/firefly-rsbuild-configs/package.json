@@ -1,6 +1,6 @@
 {
     "name": "@squide/firefly-rsbuild-configs",
-    "version": "3.0.0",
+    "version": "3.0.1",
     "description": "Rsbuild configuration helpers for the Squide firefly technology stack.",
     "license": "Apache-2.0",
     "author": "Workleap",
