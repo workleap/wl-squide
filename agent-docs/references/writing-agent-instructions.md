@@ -8,8 +8,8 @@
 
 ### 1. Prohibition framing over advisory framing
 
-- **Bad:** "You should consult the routing table before starting work."
-- **Good:** "Never start a task without first matching it to the routing table. Skipping this step produces code that contradicts repo conventions."
+- **Bad:** "You should consult the CLAUDE.md index before starting work."
+- **Good:** "Never start a task without first matching it to the CLAUDE.md index. Skipping this step produces code that contradicts repo conventions."
 
 ### 2. State consequences explicitly
 

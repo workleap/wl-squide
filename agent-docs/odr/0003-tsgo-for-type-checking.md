@@ -16,13 +16,13 @@ Type checking a monorepo with 12 packages is time-consuming with the standard Ty
 
 ## Decision
 
-Option 3. All packages use `tsgo` for their `typecheck` script. The migration was a full-repo switch in commit `f024f44da` (2026-01-23, merged as PR #381): every `"typecheck": "tsc"` was changed to `"typecheck": "tsgo"` across all 35 package.json files simultaneously. Standard `typescript` (5.9.3) remains installed for other tooling needs (ESLint, Rslib).
+Option 3. All packages use `tsgo` for their `typecheck` script. The migration was a full-repo switch in commit `f024f44da` (2026-01-23, merged as PR #381): every `"typecheck": "tsc"` was changed to `"typecheck": "tsgo"` across all 35 package.json files simultaneously. Standard `typescript` remains installed for other tooling needs (ESLint, Rslib).
 
 The VSCode integration was also configured (`typescript.experimental.useTsgo: true` with `typescript.tsdk` pointing to `@typescript/native-preview/lib`), though this was later reverted to the standard TypeScript SDK for the editor while the CLI `tsgo` remains in use for type checking scripts.
 
 A `transit` task was added to `turbo.json` (PR #379) to fix parallel task cache invalidation when `eslint` and `typecheck` tasks run concurrently — both now depend on the `transit` task for correct cache key ordering.
 
-Evidence: Every `package.json` has `"typecheck": "tsgo"`. `@typescript/native-preview` at version `7.0.0-dev.20260221.1` is a devDependency across all packages. No package retains `"typecheck": "tsc"`. The package is updated near-daily (introduced at `7.0.0-dev.20260122.4`, now at `7.0.0-dev.20260221.1`).
+Evidence: Every `package.json` has `"typecheck": "tsgo"`. `@typescript/native-preview` is a devDependency across all packages. No package retains `"typecheck": "tsc"`. The package is updated near-daily (introduced at `7.0.0-dev.20260122.4`).
 
 ## Consequences
 
