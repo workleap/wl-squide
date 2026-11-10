@@ -2,7 +2,6 @@
 
 /** @type {import("syncpack").RcFile} */
 export default {
-    lintFormatting: false,
     semverGroups: [
         {
             packages: ["@getting-started/host", "@getting-started/local-module"],
