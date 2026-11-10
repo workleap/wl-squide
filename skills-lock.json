@@ -4,62 +4,80 @@
     "accessibility": {
       "source": "addyosmani/web-quality-skills",
       "sourceType": "github",
-      "computedHash": "3f390c14d09ca45da332b6c421b3195d12da099ec24ee549f80e666ec48dc89b"
+      "skillPath": "skills/accessibility/SKILL.md",
+      "computedHash": "612f913bcb03f0787b103c848cd7664b676a9aaf31f25d3270cc69cf5caaab95",
+      "installMode": "copy"
     },
     "agent-browser": {
       "source": "vercel-labs/agent-browser",
       "sourceType": "github",
-      "computedHash": "a7235898c50422ed8d3cf43cb640ecb591cce3220cf88d31256a59c16a20d8ea"
+      "skillPath": "skills/agent-browser/SKILL.md",
+      "computedHash": "60a9cbe5af176150582c019e16e5d3703a41bb02d88438e881349876120d7944"
     },
     "best-practices": {
       "source": "addyosmani/web-quality-skills",
       "sourceType": "github",
-      "computedHash": "f5d58f0adf9cc9646b35daf2241377e1ad7b8ab094e54c9792a826af1e0dca5b"
+      "skillPath": "skills/best-practices/SKILL.md",
+      "computedHash": "ca00ef2671d65a7442bc796e8744cd3d759f92c01640f2fbcab638889c494424",
+      "installMode": "copy"
     },
     "dogfood": {
       "source": "vercel-labs/agent-browser",
       "sourceType": "github",
-      "computedHash": "6b29970dbf48224eaf88f66f1187c2fd61cf443336ee58e125d0bafd15fb3084"
+      "skillPath": "skill-data/dogfood/SKILL.md",
+      "computedHash": "b7770c9814c6cdfd439ca312bfa238494817d722866b636a2e2cb47cedfd4746"
     },
     "git-commit": {
       "source": "github/awesome-copilot",
       "sourceType": "github",
-      "computedHash": "2607fc60629b82b257136dd2a7a373f0a4466c0b49df7746d845d59313c99b21"
+      "skillPath": "skills/git-commit/SKILL.md",
+      "computedHash": "8f5a47c99951ec09853abf3231c76f48caac5d6b84ea912dd4997e6996885c0b"
     },
     "pnpm": {
       "source": "antfu/skills",
       "sourceType": "github",
-      "computedHash": "d473204df25defd08a7d47b55c6d124b41ebde440b774995952b65223d0d8d6f"
+      "skillPath": "skills/pnpm/SKILL.md",
+      "computedHash": "71fd67de7ced43ff8eab87b46183fa10f09428bb3d9ae44418b506bac858583e"
     },
     "turborepo": {
       "source": "vercel/turborepo",
       "sourceType": "github",
-      "computedHash": "5277d4e4fcd73245ae8a5bbd958589defc12c2e5d397bdd48b788c53430edcbc"
+      "skillPath": "skills/turborepo/SKILL.md",
+      "computedHash": "c83a6ff75c62092f71da91408164ed3426f11749b032fd23ecc855e27c2fb538"
     },
     "vitest": {
       "source": "antfu/skills",
       "sourceType": "github",
-      "computedHash": "0efd9cf8c56aada060d418d009cfe621a7915d0c73a958fe611985bc0c2fa4b8"
+      "skillPath": "skills/vitest/SKILL.md",
+      "computedHash": "90f1cee9326269c91b46a601b3a575491505d8e771009dacff01329381d45291",
+      "installMode": "copy"
     },
     "workleap-logging": {
       "source": "workleap/wl-logging",
       "sourceType": "github",
-      "computedHash": "6fe6c5b84ba8bbd480c924bfc58ddb3eef0d2458ae63e1a0695a9145092ed9dd"
+      "skillPath": "agent-skills/workleap-logging/SKILL.md",
+      "computedHash": "f5fdf2121a766b0933493cd5a18b6f85b4bf2074f35c7903631daa455647570e",
+      "installMode": "copy"
     },
     "workleap-react-best-practices": {
       "source": "workleap/wl-web-configs",
       "sourceType": "github",
-      "computedHash": "f3849c705dd508216673f24efeff9ef25add517ed6a16743675ad53c09f3aba4"
+      "skillPath": "agent-skills/workleap-react-best-practices/SKILL.md",
+      "computedHash": "9f42af7a0842f7174c9357e688b12fc02516bbd9f440f87496a195ab78cab536"
     },
     "workleap-telemetry": {
       "source": "workleap/wl-telemetry",
       "sourceType": "github",
-      "computedHash": "a500c2f432684db86cf8ec22ab7b2d797494904294694fa03c874d72a26bddee"
+      "skillPath": "agent-skills/workleap-telemetry/SKILL.md",
+      "computedHash": "7fa31fa73c8aecbf9c0c25a4c0eeeeb06832e23d129edfe71154071ab17b538c",
+      "installMode": "copy"
     },
     "workleap-web-configs": {
       "source": "workleap/wl-web-configs",
       "sourceType": "github",
-      "computedHash": "52ca9da414b4136618c6d54cdea15167959e57e59bf6758fa5712fc2b10fdbca"
+      "skillPath": "agent-skills/workleap-web-configs/SKILL.md",
+      "computedHash": "90e6911a4314b3f3e244422b6983be0ea2a0d5f5fde58524947c6c948684304a",
+      "installMode": "copy"
     }
   }
 }

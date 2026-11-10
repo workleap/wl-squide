@@ -37,11 +37,11 @@
         "@squide/core": "workspace:^"
     },
     "devDependencies": {
-        "@rsbuild/core": "2.2.14",
-        "@rslib/core": "1.0.3",
-        "@types/node": "26.6.5",
-        "@workleap/rslib-configs": "2.0.0",
-        "@workleap/typescript-configs": "5.0.0",
+        "@rsbuild/core": "2.3.1",
+        "@rslib/core": "1.0.6",
+        "@types/node": "26.6.6",
+        "@workleap/rslib-configs": "2.1.1",
+        "@workleap/typescript-configs": "5.1.0",
         "typescript": "7.0.2"
     }
 }

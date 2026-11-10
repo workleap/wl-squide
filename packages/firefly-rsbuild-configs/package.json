@@ -35,25 +35,25 @@
         "test": "vitest --config vitest.config.ts --no-watch"
     },
     "dependencies": {
-        "@module-federation/enhanced": "2.9.2",
-        "@module-federation/rsbuild-plugin": "2.9.2",
-        "@workleap/rsbuild-configs": "^5.0.0",
+        "@module-federation/enhanced": "2.9.3",
+        "@module-federation/rsbuild-plugin": "2.9.3",
+        "@workleap/rsbuild-configs": "^5.1.1",
         "deepmerge": "^4.3.1",
-        "semver": "^7.8.5"
+        "semver": "^7.8.6"
     },
     "devDependencies": {
-        "@rsbuild/core": "2.2.14",
-        "@rslib/core": "1.0.3",
-        "@rspack/core": "2.2.9",
-        "@types/node": "26.6.5",
+        "@rsbuild/core": "2.3.1",
+        "@rslib/core": "1.0.6",
+        "@rspack/core": "2.3.1",
+        "@types/node": "26.6.6",
         "@types/semver": "7.8.0",
-        "@workleap/rslib-configs": "2.0.0",
-        "@workleap/typescript-configs": "5.0.0",
+        "@workleap/rslib-configs": "2.1.1",
+        "@workleap/typescript-configs": "5.1.0",
         "typescript": "7.0.2",
-        "vitest": "5.0.5"
+        "vitest": "5.1.0"
     },
     "peerDependencies": {
-        "@rsbuild/core": "^2.2.14",
-        "@rspack/core": "^2.2.9"
+        "@rsbuild/core": "^2.3.1",
+        "@rspack/core": "^2.3.1"
     }
 }

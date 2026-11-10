@@ -16,6 +16,12 @@
 
 ## Full Application Setup
 
+### Install the packages
+
+```bash
+pnpm add @workleap/telemetry @opentelemetry/api logrocket
+```
+
 ### Basic Setup (All Platforms)
 
 ```typescript
@@ -199,7 +205,7 @@ function useIdentifyUser(user: User | null) {
       isOrganizationCreator: user.isCreator
     });
 
-    LogRocket.identify(traits.userId, traits);
+    LogRocket.identify(traits["User Id"], traits);
   }, [user, logRocketClient]);
 }
 ```
@@ -223,7 +229,7 @@ function useIdentifyUser() {
       workspaceId: "225e6494-c008-4086-ac80-3770aa47085b"
     });
 
-    LogRocket.identify(traits.shareGateAccountId, traits);
+    LogRocket.identify(traits["ShareGate Account Id"], traits);
   }, [logRocketClient]);
 }
 ```
@@ -254,7 +260,7 @@ function useIdentifyUser(user: User | null) {
         isAdmin: user.isAdmin,
         isOrganizationCreator: user.isCreator
       });
-      LogRocket.identify(traits.userId, traits);
+      LogRocket.identify(traits["User Id"], traits);
     }
 
     // Honeycomb attributes
@@ -289,7 +295,7 @@ const allTraits = {
   "Additional Trait": "Trait Value"
 };
 
-LogRocket.identify(allTraits.userId, allTraits);
+LogRocket.identify(allTraits["User Id"], allTraits);
 ```
 
 ---
@@ -497,6 +503,12 @@ function App() {
 
 ## Logging Configuration
 
+### Install the package
+
+```bash
+pnpm add @workleap/logging
+```
+
 ### Development vs Production Logging
 
 ```typescript
@@ -578,6 +590,20 @@ const telemetryClient = initializeTelemetry("wlp", {
   verbose: true
 });
 ```
+
+### Check the Console Logs
+
+With verbose mode enabled, open the DevTools console and look for the registration entries of each platform:
+
+- `[logrocket] LogRocket instrumentation is registered.`
+- `[honeycomb] Honeycomb instrumentation is registered.`
+- `[mixpanel] Mixpanel is initialized.`
+
+If a platform's entry is missing, its options were not provided to `initializeTelemetry`.
+
+For Honeycomb, you should also see a log entry for every trace:
+
+- `honeycombio/opentelemetry-web: Honeycomb link: https://ui.honeycomb.io/...`
 
 ### Debug Production Issues
 

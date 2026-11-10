@@ -46,14 +46,30 @@ storybook-static
 !.storybook
 ```
 
-### .prettierignore (Required)
+### .prettierrc.json5
 
-Ignore everything except CSS to prevent conflicts with ESLint:
+stylelint-prettier formats CSS with Prettier, while oxfmt formats the rest of the code and ignores CSS. Prettier does not read `oxfmt.config.ts`, so add a CSS-scoped config with the same options at the root (workspace root for Turborepo):
 
-```text
-*
-!**/*.css
+```json5
+// .prettierrc.json5
+{
+    $schema: "https://json.schemastore.org/prettierrc",
+    overrides: [
+        {
+            files: "*.css",
+            options: {
+                printWidth: 150,
+                tabWidth: 4,
+                useTabs: false,
+                singleQuote: false,
+                endOfLine: "lf"
+            }
+        }
+    ]
+}
 ```
+
+Do NOT add a `.prettierignore` that ignores everything except CSS (`*` / `!**/*.css`): oxfmt also reads `.prettierignore` and would skip every file, and `*` also ignores folders, so Prettier skips the CSS files in subfolders. If a project already has one, remove it (or remove its CSS-only patterns) and rely on `.prettierrc.json5` instead.
 
 ## Customization
 
@@ -139,6 +155,8 @@ Ignore everything except CSS to prevent conflicts with ESLint:
 {
     "$schema": "https://turbo.build/schema.json",
     "ui": "tui",
+    // .prettierrc.json5 configures Stylelint in every project: a change to it must run Stylelint again everywhere.
+    "globalDependencies": [".prettierrc.json5"],
     "tasks": {
         "lint": { "dependsOn": ["stylelint"] },
         "stylelint": { "outputs": ["node_modules/.cache/stylelint"] }
@@ -164,6 +182,9 @@ indent_size = 4
 
 [*.md]
 trim_trailing_whitespace = false
+
+[*.{yml,yaml}]
+indent_size = 2
 ```
 
 Install `EditorConfig.EditorConfig` VS Code extension.

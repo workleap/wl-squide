@@ -27,19 +27,15 @@ Use cached packages when available:
 pnpm install --prefer-offline
 ```
 
-Or configure globally:
-```ini
-# .npmrc
-prefer-offline=true
-```
-
 ### Skip Optional Dependencies
 
 If you don't need optional deps:
 
 ```bash
-pnpm install --no-optional
+pnpm install --no-optional   # or `optional: false` in pnpm-workspace.yaml
 ```
+
+On pnpm 12, `--force` still skips optional deps built for other platforms unless `forceIgnoresPlatform: true`; prefer `supportedArchitectures` to install other platforms on purpose.
 
 ### Skip Scripts
 
@@ -53,51 +49,53 @@ pnpm install --ignore-scripts
 
 ### Only Build Specific Dependencies
 
-Only run build scripts for specific packages:
+Build-script approval is a single `allowBuilds` map (replaces `onlyBuiltDependencies`/`neverBuiltDependencies`). Only allowed packages run install scripts:
 
-```ini
-# .npmrc
-onlyBuiltDependencies[]=esbuild
-onlyBuiltDependencies[]=sharp
-onlyBuiltDependencies[]=@swc/core
+```yaml title="pnpm-workspace.yaml"
+allowBuilds:
+  esbuild: true
+  '@swc/core': true
+  core-js: false      # explicitly skip
 ```
 
-Or skip builds entirely for deps that don't need them:
-
-```json
-{
-  "pnpm": {
-    "neverBuiltDependencies": ["fsevents", "cpu-features"]
-  }
-}
-```
+Packages not listed are treated as unreviewed (blocked by default). See `features-supply-chain-security` for the full build-approval workflow.
 
 ## Store Optimizations
 
 ### Side Effects Cache
 
-Cache native module build results:
+Cache native module build results (enabled by default):
 
-```ini
-# .npmrc
-side-effects-cache=true
+```yaml title="pnpm-workspace.yaml"
+sideEffectsCache: true
 ```
 
-This caches the results of postinstall scripts, speeding up subsequent installs.
+This caches the results of postinstall scripts, speeding up subsequent installs. Object form: `read`, `write`, `remote`, and `exclude` (v12.14.0) for packages whose build depends on things pnpm cannot key on, such as system libraries:
+
+```yaml title="pnpm-workspace.yaml"
+sideEffectsCache:
+  exclude: ['sharp@1.0.0 || 2.0.0', '@native/*']   # always built locally, never cached
+```
+
+Builds can also be shared across machines with `sideEffectsCache.remote` and the `remoteCache` setting (v12.12.0; a pnpr server or a Turborepo Remote Cache API server such as Vercel). Publishing and signing keys may only be set in global config or env.
+
+### Global Virtual Store
+
+For many checkouts of the same repo (e.g. git worktrees / multiple agents), enable the global virtual store so each project's `node_modules` is just symlinks into one shared store — near-zero per-checkout cost. Auto-disabled in CI. Only applies with `nodeLinker: isolated`; `pnpm dlx`/`pnx` do not use it.
+
+```yaml title="pnpm-workspace.yaml"
+virtualStoreType: global
+```
 
 ### Shared Store
 
-Use a single store for all projects (default behavior):
+A single content-addressable store is used for all projects by default:
 
-```ini
-# .npmrc
-store-dir=~/.pnpm-store
+```yaml title="pnpm-workspace.yaml"
+storeDir: ~/.local/share/pnpm/store
 ```
 
-Benefits:
-- Packages downloaded once for all projects
-- Hard links save disk space
-- Faster installs from cache
+Benefits: packages downloaded once, hard links save disk space, faster cached installs.
 
 ### Store Maintenance
 
@@ -122,9 +120,8 @@ pnpm -r --parallel run build
 ```
 
 Control concurrency:
-```ini
-# .npmrc
-workspace-concurrency=8
+```yaml title="pnpm-workspace.yaml"
+workspaceConcurrency: 8
 ```
 
 ### Stream Output
@@ -160,33 +157,17 @@ pnpm -r --workspace-concurrency=1 run build
 
 ## Network Optimizations
 
-### Configure Registry
+Network/registry settings are camelCase in `pnpm-workspace.yaml` (registry URLs may also go in `registries`):
 
-Use closest/fastest registry:
-
-```ini
-# .npmrc
-registry=https://registry.npmmirror.com/
-```
-
-### HTTP Settings
-
-Tune network settings:
-
-```ini
-# .npmrc
-fetch-retries=3
-fetch-retry-mintimeout=10000
-fetch-retry-maxtimeout=60000
-network-concurrency=16
-```
-
-### Proxy Configuration
-
-```ini
-# .npmrc
-proxy=http://proxy.company.com:8080
-https-proxy=http://proxy.company.com:8080
+```yaml title="pnpm-workspace.yaml"
+registries:
+  default: https://registry.npmmirror.com/
+fetchRetries: 3
+fetchRetryMintimeout: 10000
+fetchRetryMaxtimeout: 60000
+networkConcurrency: 64          # auto: clamp(workers x 3, 64, 96)
+httpProxy: http://proxy.company.com:8080
+httpsProxy: http://proxy.company.com:8080
 ```
 
 ## Lockfile Optimization
@@ -195,9 +176,8 @@ https-proxy=http://proxy.company.com:8080
 
 Use shared lockfile for all packages (default):
 
-```ini
-# .npmrc
-shared-workspace-lockfile=true
+```yaml title="pnpm-workspace.yaml"
+sharedWorkspaceLockfile: true
 ```
 
 Benefits:
@@ -244,41 +224,47 @@ DEBUG=pnpm:* pnpm install
 
 ## Configuration Summary
 
-Optimized `.npmrc` for performance:
+Optimized `pnpm-workspace.yaml` for performance:
 
-```ini
+```yaml title="pnpm-workspace.yaml"
 # Install behavior
-prefer-offline=true
-auto-install-peers=true
+autoInstallPeers: true
+sideEffectsCache: true
+optimisticRepeatInstall: true
 
-# Build optimization  
-side-effects-cache=true
-# Only build what's necessary
-onlyBuiltDependencies[]=esbuild
-onlyBuiltDependencies[]=@swc/core
+# Build approval (only what's necessary)
+allowBuilds:
+  esbuild: true
+  '@swc/core': true
 
 # Network
-fetch-retries=3
-network-concurrency=16
+fetchRetries: 3
+networkConcurrency: 64
 
 # Workspace
-workspace-concurrency=4
+workspaceConcurrency: 4
+
+# Many checkouts of the same repo
+virtualStoreType: global
 ```
 
 ## Quick Reference
 
 | Scenario | Command/Setting |
 |----------|-----------------|
-| CI installs | `pnpm install --frozen-lockfile` |
+| CI installs | `pnpm ci` / `pnpm install --frozen-lockfile` |
 | Offline development | `--prefer-offline` |
-| Skip native builds | `neverBuiltDependencies` |
+| Control native builds | `allowBuilds` map |
 | Parallel workspace | `pnpm -r --parallel run build` |
 | Build changed only | `pnpm --filter "...[origin/main]" build` |
 | Clean store | `pnpm store prune` |
+| Many worktrees/agents | `virtualStoreType: global` |
 
-<!-- 
+<!--
 Source references:
-- https://pnpm.io/npmrc
+- https://pnpm.io/settings
 - https://pnpm.io/cli/install
 - https://pnpm.io/filtering
+- https://pnpm.io/global-virtual-store
 -->
+

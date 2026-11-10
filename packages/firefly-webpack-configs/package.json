@@ -35,31 +35,31 @@
         "test": "vitest --config vitest.config.ts --no-watch"
     },
     "dependencies": {
-        "@module-federation/enhanced": "2.9.2",
-        "@workleap/webpack-configs": "^1.6.16",
+        "@module-federation/enhanced": "2.9.3",
+        "@workleap/webpack-configs": "^1.6.18",
         "deepmerge": "^4.3.1",
         "html-webpack-plugin": "^5.6.8",
-        "semver": "^7.8.5"
+        "semver": "^7.8.6"
     },
     "devDependencies": {
-        "@rsbuild/core": "2.2.14",
-        "@rslib/core": "1.0.3",
-        "@types/node": "26.6.5",
+        "@rsbuild/core": "2.3.1",
+        "@rslib/core": "1.0.6",
+        "@types/node": "26.6.6",
         "@types/semver": "7.8.0",
-        "@workleap/rslib-configs": "2.0.0",
-        "@workleap/typescript-configs": "5.0.0",
+        "@workleap/rslib-configs": "2.1.1",
+        "@workleap/typescript-configs": "5.1.0",
         "typescript": "7.0.2",
-        "vitest": "5.0.5",
-        "webpack": "5.110.3",
-        "webpack-dev-server": "5.2.4"
+        "vitest": "5.1.0",
+        "webpack": "5.112.2",
+        "webpack-dev-server": "6.1.0"
     },
     "peerDependencies": {
-        "@swc/core": "^1.16.18",
-        "@swc/helpers": "^0.5.23",
-        "@workleap/swc-configs": "^2.3.15",
-        "browserslist": "^4.29.4",
+        "@swc/core": "^1.16.22",
+        "@swc/helpers": "^0.5.24",
+        "@workleap/swc-configs": "^2.3.16",
+        "browserslist": "^4.29.5",
         "postcss": "^8.5.26",
-        "webpack": "^5.110.3",
-        "webpack-dev-server": "^5.2.4"
+        "webpack": "^5.112.2",
+        "webpack-dev-server": "^6.1.0"
     }
 }

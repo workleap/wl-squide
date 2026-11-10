@@ -51,7 +51,7 @@ Start a named session:
 
 ```bash
 agent-browser --session {SESSION} open {TARGET_URL}
-agent-browser --session {SESSION} wait --load networkidle
+agent-browser --session {SESSION} wait --load domcontentloaded
 ```
 
 ### 2. Authenticate
@@ -64,7 +64,11 @@ agent-browser --session {SESSION} snapshot -i
 agent-browser --session {SESSION} fill @e1 "{EMAIL}"
 agent-browser --session {SESSION} fill @e2 "{PASSWORD}"
 agent-browser --session {SESSION} click @e3
-agent-browser --session {SESSION} wait --load networkidle
+# Replace this with the target app's post-login URL, text, or JS condition:
+agent-browser --session {SESSION} wait --url "{POST_LOGIN_URL_PATTERN}"
+# Or:
+# agent-browser --session {SESSION} wait --text "{POST_LOGIN_TEXT}"
+# agent-browser --session {SESSION} wait --fn "{POST_LOGIN_CONDITION}"
 ```
 
 For OTP/email codes: ask the user, wait for their response, then enter the code.
@@ -190,9 +194,13 @@ agent-browser --session {SESSION} close
 ## Guidance
 
 - **Repro is everything.** Every issue needs proof -- but match the evidence to the issue. Interactive bugs need video and step-by-step screenshots. Static bugs (typos, placeholder text, visual glitches visible on load) only need a single annotated screenshot.
+- **Verify reproducibility before collecting evidence.** Before recording video or taking screenshots, verify the issue is reproducible with at least one retry. If it can't be reproduced consistently, it's not a valid issue.
 - **Don't record video for static issues.** A typo or clipped text doesn't benefit from a video. Save video for issues that involve user interaction, timing, or state changes.
 - **For interactive issues, screenshot each step.** Capture the before, the action, and the after -- so someone can see the full sequence.
 - **Write repro steps that map to screenshots.** Each numbered step in the report should reference its corresponding screenshot. A reader should be able to follow the steps visually without touching a browser.
+- **Use the right snapshot command.**
+  - `snapshot -i` — for finding clickable/fillable elements (buttons, inputs, links)
+  - `snapshot` (no flag) — for reading page content (text, headings, data lists)
 - **Be thorough but use judgment.** You are not following a test script -- you are exploring like a real user would. If something feels off, investigate.
 - **Write findings incrementally.** Append each issue to the report as you discover it. If the session is interrupted, findings are preserved. Never batch all issues for the end.
 - **Never delete output files.** Do not `rm` screenshots, videos, or the report mid-session. Do not close the session and restart. Work forward, not backward.

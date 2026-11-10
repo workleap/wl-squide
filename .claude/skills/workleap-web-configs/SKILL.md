@@ -1,22 +1,14 @@
 ---
 name: workleap-web-configs
 description: |
-  Workleap's shared web configuration packages (@workleap/eslint-configs, typescript-configs, rsbuild-configs, rslib-configs, stylelint-configs, browserslist-config).
-
-  Use when:
-  (1) Setting up or customizing shared web tooling configs in a Workleap project
-  (2) Configuring ESLint by project type (web app, React library, TS library, monorepo)
-  (3) Configuring TypeScript by project type (web-application, library, monorepo-workspace)
-  (4) Configuring Rsbuild or Rslib bundling (dev, build, Storybook)
-  (5) Configuring Stylelint, Browserslist, or monorepo (Turborepo) vs polyrepo strategies
-  (6) Extending or customizing shared configs, troubleshooting ESM/ESNext constraints
+  Workleap's shared web configuration packages (@workleap/typescript-configs, @workleap/rsbuild-configs, @workleap/rslib-configs, @workleap/stylelint-configs, @workleap/browserslist-config). Use when setting up, customizing, extending, or troubleshooting shared web tooling configs in a Workleap project — including TypeScript, Rsbuild, Rslib, Stylelint, Browserslist, and monorepo (Turborepo) strategies. Activate even if only one tool is mentioned, as the packages are designed to work together.
 metadata:
-  version: 1.2
+  version: 1.8
 ---
 
 # wl-web-configs
 
-Workleap's shared configuration library for web tooling. Provides pre-configured packages for ESLint, TypeScript, Rsbuild, Rslib, Stylelint, and Browserslist.
+Workleap's shared configuration library for web tooling. Provides pre-configured packages for TypeScript, Rsbuild, Rslib, Stylelint, and Browserslist.
 
 ## Philosophy
 
@@ -30,7 +22,6 @@ Workleap's shared configuration library for web tooling. Provides pre-configured
 | Tool | Package | Purpose |
 |------|---------|---------|
 | Browserslist | `@workleap/browserslist-config` | Browser targets for apps |
-| ESLint | `@workleap/eslint-configs` | Code linting |
 | Stylelint | `@workleap/stylelint-configs` | CSS linting |
 | TypeScript | `@workleap/typescript-configs` | Type checking (linting only) |
 | Rsbuild | `@workleap/rsbuild-configs` | Web application bundling |
@@ -42,12 +33,12 @@ Workleap's shared configuration library for web tooling. Provides pre-configured
 
 ### Which Configuration to Use?
 
-| Project Type | ESLint | TypeScript | Bundler |
-|--------------|--------|------------|---------|
-| Web app with React | `defineWebApplicationConfig` | `web-application.json` | `@workleap/rsbuild-configs` |
-| React library | `defineReactLibraryConfig` | `library.json` | `@workleap/rslib-configs` |
-| TypeScript library (no React) | `defineTypeScriptLibraryConfig` | `library.json` | `@workleap/rslib-configs` |
-| Monorepo workspace root | `defineMonorepoWorkspaceConfig` | `monorepo-workspace.json` | N/A |
+| Project Type | TypeScript | Bundler |
+|--------------|------------|---------|
+| Web app with React | `web-application.json` | `@workleap/rsbuild-configs` |
+| React library | `library.json` | `@workleap/rslib-configs` |
+| TypeScript library (no React) | `library.json` | `@workleap/rslib-configs` |
+| Monorepo workspace root | `monorepo-workspace.json` | N/A |
 
 ### Browserslist (Apps Only)
 
@@ -60,7 +51,7 @@ pnpm add -D @workleap/browserslist-config browserslist
 extends @workleap/browserslist-config
 ```
 
-Only for projects emitting application bundles. Libraries should NOT include Browserslist.
+Only for projects emitting application bundles. Libraries should not include Browserslist — the consuming application's Browserslist controls the final output targets.
 
 To add custom browser targets while still using the shared config:
 
@@ -75,16 +66,16 @@ last 2 OperaMobile 12.1 versions
 
 For comprehensive setup guides, options, and examples, read the appropriate reference file:
 
-- **ESLint** — [references/eslint.md](references/eslint.md): Installation, `define*Config` functions, rule categories, customization, and VS Code integration
-- **TypeScript** — [references/typescript.md](references/typescript.md): Config files by project type, compiler option overrides, path mappings, and CLI scripts
-- **Rsbuild** — [references/rsbuild.md](references/rsbuild.md): Dev/build/Storybook configs, predefined options, transformers, and Turborepo setup
-- **Rslib** — [references/rslib.md](references/rslib.md): Library build/dev/Storybook configs, bundleless vs bundle, transformers, and type declarations
+- **TypeScript** — [references/typescript.md](references/typescript.md): Config files by project type, compiler option overrides, path mappings, CLI scripts, and migrating to TypeScript 7
+- **Rsbuild** — [references/rsbuild.md](references/rsbuild.md): Dev/build/Storybook configs, predefined options, transformers, Turborepo setup, and migrating from webpack
+- **Rslib** — [references/rslib.md](references/rslib.md): Library build/dev/Storybook configs, bundleless vs bundle, transformers, type declarations, and migrating from tsup
 - **Stylelint** — [references/stylelint.md](references/stylelint.md): Installation, `.stylelintrc.json` setup, Prettier integration, and VS Code settings
+- **CI** — [references/ci.md](references/ci.md): GitHub Actions workflows for polyrepo and Turborepo solutions, including Turborepo caching and PR filters
 
 ## Critical Rules
 
-1. **Never invent APIs**: Only suggest documented options and patterns
-2. **Respect maintenance mode**: Do not recommend PostCSS, SWC, webpack, or tsup configs
-3. **ESM by default**: All configs target ESM/ESNext unless migrating legacy code
-4. **Browserslist for apps only**: Libraries should not include Browserslist config
-5. **TypeScript for linting**: The shared TypeScript configs focus on linting; bundlers handle transpilation
+1. **Stick to documented APIs** — these packages are thin wrappers, and undocumented options won't be passed through to the underlying tool
+2. **Avoid maintenance-mode packages** — PostCSS, SWC, webpack, and tsup configs won't receive new features; recommend the active alternatives (Rsbuild, Rslib, Stylelint) instead
+3. **ESM by default** — all configs target ESM/ESNext because Workleap's toolchain assumes modern JavaScript environments
+4. **Browserslist for apps only** — libraries omit Browserslist because the consuming application's config controls the final output targets
+5. **TypeScript for linting** — the shared TypeScript configs focus on type-checking; bundlers handle transpilation, so don't mix concerns
