@@ -8,7 +8,7 @@ metadata:
 
 # Update Skills
 
-Re-pull every `pnpx skills add` installed skill in this repo, but only when the matching package in the workspace is on the latest `major.minor`. Print the eligibility table before running anything; on lag, skip + warn (never auto-bump deps).
+Re-pull every `pnpm dlx skills@latest add` installed skill in this repo, but only when the matching package in the workspace is on the latest `major.minor`. Print the eligibility table before running anything; on lag, skip + warn (never auto-bump deps).
 
 ## Skills
 
@@ -17,21 +17,22 @@ Skills install into `.agents/skills/`. Only the rows marked **linked** also keep
 - `-a codex` writes only the shared `.agents/skills/` copy. Never omit `-a` — the CLI would then also link the skill into `.claude/skills/`.
 - Linked rows add `claude-code --copy` so the `.claude/skills/` copy is refreshed as files, not replaced by a symlink.
 - Only `workleap-*` skills use `--full-depth`.
+- Every command pins `skills@latest`: `.npmrc` points pnpm at the GitHub package firewall, which holds back new releases, and a bare `skills` can ask for a version the firewall doesn't serve yet, so the CLI download fails.
 
 | Skill | Linked | Package gate (workspace `package.json` files) | Update command |
 |---|---|---|---|
-| `accessibility` | yes | — | `pnpx skills add https://github.com/addyosmani/web-quality-skills --skill accessibility -a codex claude-code --copy -y` |
-| `agent-browser` | no | `agent-browser` | `pnpx skills add https://github.com/vercel-labs/agent-browser --skill agent-browser -a codex -y` |
-| `best-practices` | yes | — | `pnpx skills add https://github.com/addyosmani/web-quality-skills --skill best-practices -a codex claude-code --copy -y` |
-| `dogfood` | no | `agent-browser` | `pnpx skills add https://github.com/vercel-labs/agent-browser --skill dogfood -a codex -y` |
-| `git-commit` | no | — | `pnpx skills add https://github.com/github/awesome-copilot --skill git-commit -a codex -y` |
-| `pnpm` | no | `pnpm` (root `packageManager` field — not bumped by `update-outdated-deps`, so expect `SKIP` until pnpm is bumped by hand) | `pnpx skills add https://github.com/antfu/skills --skill pnpm -a codex -y` |
-| `turborepo` | no | `turbo` | `pnpx skills add https://github.com/vercel/turborepo --skill turborepo -a codex -y` |
-| `vitest` | yes | `vitest` | `pnpx skills add https://github.com/antfu/skills --skill vitest -a codex claude-code --copy -y` |
-| `workleap-logging` | yes | `@workleap/logging` | `pnpx skills add https://github.com/workleap/wl-logging --skill workleap-logging -a codex claude-code --copy --full-depth -y` |
-| `workleap-react-best-practices` | no | — | `pnpx skills add https://github.com/workleap/wl-web-configs --skill workleap-react-best-practices -a codex --full-depth -y` |
-| `workleap-telemetry` | yes | `@workleap/telemetry` | `pnpx skills add https://github.com/workleap/wl-telemetry --skill workleap-telemetry -a codex claude-code --copy --full-depth -y` |
-| `workleap-web-configs` | yes | `@workleap/typescript-configs`, `@workleap/rsbuild-configs`, `@workleap/rslib-configs`, `@workleap/stylelint-configs`, `@workleap/browserslist-config` | `pnpx skills add https://github.com/workleap/wl-web-configs --skill workleap-web-configs -a codex claude-code --copy --full-depth -y` |
+| `accessibility` | yes | — | `pnpm dlx skills@latest add https://github.com/addyosmani/web-quality-skills --skill accessibility -a codex claude-code --copy -y` |
+| `agent-browser` | no | `agent-browser` | `pnpm dlx skills@latest add https://github.com/vercel-labs/agent-browser --skill agent-browser -a codex -y` |
+| `best-practices` | yes | — | `pnpm dlx skills@latest add https://github.com/addyosmani/web-quality-skills --skill best-practices -a codex claude-code --copy -y` |
+| `dogfood` | no | `agent-browser` | `pnpm dlx skills@latest add https://github.com/vercel-labs/agent-browser --skill dogfood -a codex -y` |
+| `git-commit` | no | — | `pnpm dlx skills@latest add https://github.com/github/awesome-copilot --skill git-commit -a codex -y` |
+| `pnpm` | no | `pnpm` (root `packageManager` field — not bumped by `update-outdated-deps`, so expect `SKIP` until pnpm is bumped by hand) | `pnpm dlx skills@latest add https://github.com/antfu/skills --skill pnpm -a codex -y` |
+| `turborepo` | no | `turbo` | `pnpm dlx skills@latest add https://github.com/vercel/turborepo --skill turborepo -a codex -y` |
+| `vitest` | yes | `vitest` | `pnpm dlx skills@latest add https://github.com/antfu/skills --skill vitest -a codex claude-code --copy -y` |
+| `workleap-logging` | yes | `@workleap/logging` | `pnpm dlx skills@latest add https://github.com/workleap/wl-logging --skill workleap-logging -a codex claude-code --copy --full-depth -y` |
+| `workleap-react-best-practices` | no | — | `pnpm dlx skills@latest add https://github.com/workleap/wl-web-configs --skill workleap-react-best-practices -a codex --full-depth -y` |
+| `workleap-telemetry` | yes | `@workleap/telemetry` | `pnpm dlx skills@latest add https://github.com/workleap/wl-telemetry --skill workleap-telemetry -a codex claude-code --copy --full-depth -y` |
+| `workleap-web-configs` | yes | `@workleap/typescript-configs`, `@workleap/rsbuild-configs`, `@workleap/rslib-configs`, `@workleap/stylelint-configs`, `@workleap/browserslist-config` | `pnpm dlx skills@latest add https://github.com/workleap/wl-web-configs --skill workleap-web-configs -a codex claude-code --copy --full-depth -y` |
 
 ## Process
 
@@ -79,4 +80,4 @@ After each pull, grep the skill's new `SKILL.md` frontmatter for `model:`. An up
 - Skills updated (count + list)
 - Skills skipped (with the lagging package: installed vs latest)
 - Skills whose pulled `SKILL.md` declares `model:` frontmatter
-- Any `pnpx skills add` failures (full error)
+- Any `pnpm dlx skills@latest add` failures (full error)
