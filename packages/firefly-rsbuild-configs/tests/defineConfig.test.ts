@@ -658,6 +658,20 @@ describe.concurrent("defineDevRemoteModuleConfig", () => {
 });
 
 describe.concurrent("defineBuildRemoteModuleConfig", () => {
+    test.concurrent("when the shared dependencies are provided as an array, merge them with the default shared dependencies", ({ expect }) => {
+        const config = defineBuildRemoteModuleConfig("remote1", {
+            sharedDependencies: ["useless-lib", { "another-lib": { singleton: true } }]
+        });
+
+        const plugin = findPlugin("rsbuild:module-federation-enhanced", config.plugins);
+
+        expect(prepareModuleFederationPluginForSnapshot(plugin).shared).toMatchObject({
+            react: { singleton: true },
+            "useless-lib": "useless-lib",
+            "another-lib": { singleton: true }
+        });
+    });
+
     test.concurrent("the application name is set as the federation plugin application name", ({ expect }) => {
         const config = defineBuildRemoteModuleConfig("remote1");
         const plugin = findPlugin("rsbuild:module-federation-enhanced", config.plugins);

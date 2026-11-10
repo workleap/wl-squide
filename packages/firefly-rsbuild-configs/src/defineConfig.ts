@@ -18,6 +18,17 @@ export type ModuleFederationRemotesOption = ModuleFederationPluginOptions["remot
 export type ModuleFederationRuntimePlugins = NonNullable<ModuleFederationPluginOptions["runtimePlugins"]>;
 export type ModuleFederationShared = NonNullable<ModuleFederationPluginOptions["shared"]>;
 
+type ModuleFederationSharedObject = Exclude<ModuleFederationShared, unknown[]>;
+
+// Module Federation accepts "shared" and "exposes" either as an object or as an array of names and objects. A name is keyed by itself.
+function toObjectForm<T extends object>(value: (string | T)[] | T): T {
+    if (!Array.isArray(value)) {
+        return value;
+    }
+
+    return Object.assign({}, ...value.map(x => (typeof x === "string" ? { [x]: x } : x))) as T;
+}
+
 export type ModuleFederationPluginFactory = (moduleFederationOptions: ModuleFederationPluginOptions) => RsbuildPlugin;
 
 let moduleFederationPluginFactory: ModuleFederationPluginFactory | undefined;
@@ -42,7 +53,7 @@ export function __clearModuleFederationPluginFactory() {
 
 // Generally, only the host application should have eager dependencies.
 // For more informations about shared dependencies refer to: https://github.com/patricklafrance/wmf-versioning
-function getDefaultSharedDependencies(features: Features, isHost: boolean): ModuleFederationShared {
+function getDefaultSharedDependencies(features: Features, isHost: boolean): ModuleFederationSharedObject {
     return {
         react: {
             singleton: true,
@@ -79,7 +90,7 @@ export interface Features {
 
 // Generally, only the host application should have eager dependencies.
 // For more informations about shared dependencies refer to: https://github.com/patricklafrance/wmf-versioning
-function getReactRouterSharedDependencies(isHost: boolean): ModuleFederationShared {
+function getReactRouterSharedDependencies(isHost: boolean): ModuleFederationSharedObject {
     return {
         "react-router": {
             singleton: true,
@@ -92,7 +103,7 @@ function getReactRouterSharedDependencies(isHost: boolean): ModuleFederationShar
     };
 }
 
-function getMswSharedDependency(isHost: boolean): ModuleFederationShared {
+function getMswSharedDependency(isHost: boolean): ModuleFederationSharedObject {
     return {
         "@squide/msw": {
             singleton: true,
@@ -101,7 +112,7 @@ function getMswSharedDependency(isHost: boolean): ModuleFederationShared {
     };
 }
 
-function getI18nextSharedDependency(isHost: boolean): ModuleFederationShared {
+function getI18nextSharedDependency(isHost: boolean): ModuleFederationSharedObject {
     return {
         i18next: {
             singleton: true,
@@ -124,7 +135,7 @@ function getI18nextSharedDependency(isHost: boolean): ModuleFederationShared {
     };
 }
 
-function getEnvironmentVariablesSharedDependencies(isHost: boolean): ModuleFederationShared {
+function getEnvironmentVariablesSharedDependencies(isHost: boolean): ModuleFederationSharedObject {
     return {
         "@squide/env-vars": {
             singleton: true,
@@ -133,7 +144,7 @@ function getEnvironmentVariablesSharedDependencies(isHost: boolean): ModuleFeder
     };
 }
 
-function getLaunchDarklySharedDependencies(isHost: boolean): ModuleFederationShared {
+function getLaunchDarklySharedDependencies(isHost: boolean): ModuleFederationSharedObject {
     return {
         "@squide/launch-darkly": {
             singleton: true,
@@ -146,7 +157,7 @@ function getLaunchDarklySharedDependencies(isHost: boolean): ModuleFederationSha
     };
 }
 
-function getHoneycombSharedDependencies(isHost: boolean): ModuleFederationShared {
+function getHoneycombSharedDependencies(isHost: boolean): ModuleFederationSharedObject {
     return {
         "@opentelemetry/api": {
             singleton: true,
@@ -249,7 +260,7 @@ function getDefaultHostModuleFederationPluginOptions(remotes: RemoteDefinition[]
         // Deep merging the default shared dependencies with the provided shared dependencies
         // to allow the consumer to easily override a default option of a shared dependency
         // without extending the whole default shared dependencies object.
-        shared: merge.all([defaultSharedDependencies, shared]) as ModuleFederationShared,
+        shared: merge.all([defaultSharedDependencies, toObjectForm(shared)]) as ModuleFederationShared,
         runtimePlugins: [path.resolve(packageDirectory, "./sharedDependenciesResolutionPlugin.js"), path.resolve(packageDirectory, "./nonCacheableRemoteEntryPlugin.js"), ...runtimePlugins],
         // Commented because it doesn't seems to work, the runtime is still embedded into remotes.
         // experiments: {
@@ -350,12 +361,12 @@ function getDefaultRemoteModuleFederationPluginOptions(applicationName: string, 
         filename: RemoteEntryPoint,
         exposes: {
             [RemoteRegisterModuleName]: "./src/register",
-            ...exposes
+            ...toObjectForm(exposes)
         },
         // Deep merging the default shared dependencies with the provided shared dependencies
         // to allow the consumer to easily override a default option of a shared dependency
         // without extending the whole default shared dependencies object.
-        shared: merge.all([defaultSharedDependencies, shared]) as ModuleFederationShared,
+        shared: merge.all([defaultSharedDependencies, toObjectForm(shared)]) as ModuleFederationShared,
         runtimePlugins: [path.resolve(packageDirectory, "./sharedDependenciesResolutionPlugin.js"), path.resolve(packageDirectory, "./nonCacheableRemoteEntryPlugin.js"), ...runtimePlugins],
         // Commented because it doesn't seems to work, the runtime is still embedded into remotes.
         // experiments: {

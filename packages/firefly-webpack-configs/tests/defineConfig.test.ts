@@ -594,10 +594,7 @@ describe.concurrent("defineDevRemoteModuleConfig", () => {
     test.concurrent("access control headers are added to the dev server configuration", ({ expect }) => {
         const result = defineDevRemoteModuleConfig(SwcConfig, "remote1", 8081);
 
-        // "devServer" does exist but webpack types are a messed.
-        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-        // @ts-ignore
-        expect(result.devServer.headers["Access-Control-Allow-Origin"]).toBe("*");
+        expect(result.devServer?.headers).toEqual({ "Access-Control-Allow-Origin": "*" });
     });
 
     test.concurrent("when additional plugins are provided, the plugins are added to the configuration", ({ expect }) => {
@@ -779,6 +776,18 @@ describe.concurrent("defineBuildRemoteModuleConfig", () => {
 });
 
 describe.concurrent("defineHostModuleFederationPluginOptions", () => {
+    test.concurrent("when the shared dependencies are provided as an array, merge them with the default shared dependencies", ({ expect }) => {
+        const result = defineHostModuleFederationPluginOptions([], {
+            shared: ["useless-lib", { "another-lib": { singleton: true } }]
+        });
+
+        expect(result.shared).toMatchObject({
+            react: { singleton: true },
+            "useless-lib": "useless-lib",
+            "another-lib": { singleton: true }
+        });
+    });
+
     test.concurrent("merge the default options with the provided options", ({ expect }) => {
         const result = defineHostModuleFederationPluginOptions([], {
             runtime: "a-custom-runtime-name"
@@ -874,5 +883,28 @@ describe.concurrent("defineRemoteModuleFederationPluginOptions", () => {
 
         expect(Object.keys(result.exposes!).length).toBe(2);
         expect(Object.values(result.exposes!)[1]).toBe("./src/custom-file.js");
+    });
+
+    test.concurrent('when "exposes" is provided as an array, key each path by itself', ({ expect }) => {
+        const result = defineRemoteModuleFederationPluginOptions("remote1", {
+            exposes: ["./src/custom-file.js", { "./another-file": "./src/another-file.js" }]
+        });
+
+        expect(result.exposes).toEqual({
+            "./register": "./src/register",
+            "./src/custom-file.js": "./src/custom-file.js",
+            "./another-file": "./src/another-file.js"
+        });
+    });
+
+    test.concurrent("when the shared dependencies are provided as an array, merge them with the default shared dependencies", ({ expect }) => {
+        const result = defineRemoteModuleFederationPluginOptions("remote1", {
+            shared: ["useless-lib"]
+        });
+
+        expect(result.shared).toMatchObject({
+            react: { singleton: true },
+            "useless-lib": "useless-lib"
+        });
     });
 });

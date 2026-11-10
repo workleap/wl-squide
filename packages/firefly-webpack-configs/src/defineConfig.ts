@@ -23,9 +23,20 @@ export type ModuleFederationRemotesOption = ModuleFederationPluginOptions["remot
 export type ModuleFederationRuntimePlugins = NonNullable<ModuleFederationPluginOptions["runtimePlugins"]>;
 export type ModuleFederationShared = NonNullable<ModuleFederationPluginOptions["shared"]>;
 
+type ModuleFederationSharedObject = Exclude<ModuleFederationShared, unknown[]>;
+
+// Module Federation accepts "shared" and "exposes" either as an object or as an array of names and objects. A name is keyed by itself.
+function toObjectForm<T extends object>(value: (string | T)[] | T): T {
+    if (!Array.isArray(value)) {
+        return value;
+    }
+
+    return Object.assign({}, ...value.map(x => (typeof x === "string" ? { [x]: x } : x))) as T;
+}
+
 // Generally, only the host application should have eager dependencies.
 // For more informations about shared dependencies refer to: https://github.com/patricklafrance/wmf-versioning
-function getDefaultSharedDependencies(features: Features, isHost: boolean): ModuleFederationShared {
+function getDefaultSharedDependencies(features: Features, isHost: boolean): ModuleFederationSharedObject {
     return {
         react: {
             singleton: true,
@@ -62,7 +73,7 @@ export interface Features {
 
 // Generally, only the host application should have eager dependencies.
 // For more informations about shared dependencies refer to: https://github.com/patricklafrance/wmf-versioning
-function getReactRouterSharedDependencies(isHost: boolean): ModuleFederationShared {
+function getReactRouterSharedDependencies(isHost: boolean): ModuleFederationSharedObject {
     return {
         "react-router": {
             singleton: true,
@@ -75,7 +86,7 @@ function getReactRouterSharedDependencies(isHost: boolean): ModuleFederationShar
     };
 }
 
-function getMswSharedDependency(isHost: boolean): ModuleFederationShared {
+function getMswSharedDependency(isHost: boolean): ModuleFederationSharedObject {
     return {
         "@squide/msw": {
             singleton: true,
@@ -84,7 +95,7 @@ function getMswSharedDependency(isHost: boolean): ModuleFederationShared {
     };
 }
 
-function getI18nextSharedDependency(isHost: boolean): ModuleFederationShared {
+function getI18nextSharedDependency(isHost: boolean): ModuleFederationSharedObject {
     return {
         i18next: {
             singleton: true,
@@ -107,7 +118,7 @@ function getI18nextSharedDependency(isHost: boolean): ModuleFederationShared {
     };
 }
 
-function getEnvironmentVariablesSharedDependencies(isHost: boolean): ModuleFederationShared {
+function getEnvironmentVariablesSharedDependencies(isHost: boolean): ModuleFederationSharedObject {
     return {
         "@squide/env-vars": {
             singleton: true,
@@ -116,7 +127,7 @@ function getEnvironmentVariablesSharedDependencies(isHost: boolean): ModuleFeder
     };
 }
 
-function getHoneycombSharedDependencies(isHost: boolean): ModuleFederationShared {
+function getHoneycombSharedDependencies(isHost: boolean): ModuleFederationSharedObject {
     return {
         "@opentelemetry/api": {
             singleton: true,
@@ -125,7 +136,7 @@ function getHoneycombSharedDependencies(isHost: boolean): ModuleFederationShared
     };
 }
 
-function getLaunchDarklySharedDependencies(isHost: boolean): ModuleFederationShared {
+function getLaunchDarklySharedDependencies(isHost: boolean): ModuleFederationSharedObject {
     return {
         "@squide/launch-darkly": {
             singleton: true,
@@ -234,7 +245,7 @@ export function defineHostModuleFederationPluginOptions(remotes: RemoteDefinitio
         // Deep merging the default shared dependencies with the provided shared dependencies
         // to allow the consumer to easily override a default option of a shared dependency
         // without extending the whole default shared dependencies object.
-        shared: merge.all([defaultSharedDependencies, shared]) as ModuleFederationShared,
+        shared: merge.all([defaultSharedDependencies, toObjectForm(shared)]) as ModuleFederationShared,
         runtimePlugins: [path.resolve(packageDirectory, "./sharedDependenciesResolutionPlugin.js"), path.resolve(packageDirectory, "./nonCacheableRemoteEntryPlugin.js"), ...runtimePlugins],
         // Commented because it doesn't seems to work, the runtime is still embedded into remotes.
         // experiments: {
@@ -348,12 +359,12 @@ export function defineRemoteModuleFederationPluginOptions(applicationName: strin
         filename: RemoteEntryPoint,
         exposes: {
             [RemoteRegisterModuleName]: "./src/register",
-            ...exposes
+            ...toObjectForm(exposes)
         },
         // Deep merging the default shared dependencies with the provided shared dependencies
         // to allow the consumer to easily override a default option of a shared dependency
         // without extending the whole default shared dependencies object.
-        shared: merge.all([defaultSharedDependencies, shared]) as ModuleFederationShared,
+        shared: merge.all([defaultSharedDependencies, toObjectForm(shared)]) as ModuleFederationShared,
         runtimePlugins: [path.resolve(packageDirectory, "./sharedDependenciesResolutionPlugin.js"), path.resolve(packageDirectory, "./nonCacheableRemoteEntryPlugin.js"), ...runtimePlugins],
         // Commented because it doesn't seems to work, the runtime is still embedded into remotes.
         // experiments: {
@@ -365,16 +376,13 @@ export function defineRemoteModuleFederationPluginOptions(applicationName: strin
 }
 
 const devRemoteModuleTransformer: WebpackConfigTransformer = (config: WebpackConfig) => {
-    // "config.devServer" does exist but webpack types are a messed. It could probably be solved by importing "webpack-dev-server"
-    // but I would prefer not adding it as a project dependency.
-    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-    // @ts-ignore
-    config.devServer.headers = {
-        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-        // @ts-ignore
-        ...config.devServer.headers,
-        // Otherwise hot reload in the host failed with a CORS error.
-        "Access-Control-Allow-Origin": "*"
+    // This transformer runs before the consumer transformers, and "@workleap/webpack-configs" doesn't set any headers.
+    config.devServer = {
+        ...config.devServer,
+        headers: {
+            // Otherwise hot reload in the host failed with a CORS error.
+            "Access-Control-Allow-Origin": "*"
+        }
     };
 
     return config;
