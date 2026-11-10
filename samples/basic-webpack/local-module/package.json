@@ -9,7 +9,7 @@
     "exports": "./src/register.tsx",
     "scripts": {
         "dev-isolated": "webpack serve --config webpack.config.js",
-        "typecheck": "tsgo"
+        "typecheck": "tsc"
     },
     "dependencies": {
         "@basic-webpack/shared": "workspace:*",
@@ -27,7 +27,6 @@
         "@swc/core": "1.16.18",
         "@swc/helpers": "0.5.23",
         "@types/node": "26.6.5",
-        "@typescript/native-preview": "7.0.0-dev.20260707.2",
         "@workleap/browserslist-config": "3.0.0",
         "@workleap/swc-configs": "2.3.15",
         "@workleap/typescript-configs": "5.0.0",

@@ -14,7 +14,7 @@
         "build:copy-public-files": "copyfiles -u 1 public/favicon.png dist",
         "serve-build": "pnpm http-server dist -p 8080 -P http://localhost:8080? -c-1",
         "deploy": "netlify deploy --dir=samples/basic/host/dist --site=ae684cea-e6b1-4293-95d6-fc82462654c8 --prod",
-        "typecheck": "tsgo"
+        "typecheck": "tsc"
     },
     "dependencies": {
         "@basic/local-module": "workspace:*",
@@ -38,7 +38,6 @@
         "@types/node": "26.6.5",
         "@types/react": "19.3.0",
         "@types/react-dom": "19.3.0",
-        "@typescript/native-preview": "7.0.0-dev.20260707.2",
         "@workleap/browserslist-config": "3.0.0",
         "@workleap/typescript-configs": "5.0.0",
         "browserslist": "4.29.4",

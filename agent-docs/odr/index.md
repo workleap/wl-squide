@@ -8,7 +8,7 @@
 |---|---|
 | JIT packages: dev `exports` point to raw `.ts` source; `publishConfig.exports` override to compiled `dist/` at publish time. | [0001](./0001-jit-packages-pattern.md) |
 | All packages build with Rslib using shared config from `@workleap/rslib-configs`. No tsup. | [0002](./0002-rslib-for-library-builds.md) |
-| Type checking uses `tsgo` (`@typescript/native-preview`), not `tsc`. | [0003](./0003-tsgo-for-type-checking.md) |
+| Type checking uses `tsc` from TypeScript 7. No `tsgo` / `@typescript/native-preview`. | [0012](./0012-typescript-7-for-type-checking.md) (supersedes [0003](./0003-tsgo-for-type-checking.md)) |
 | Unit tests use Vitest with per-package `vitest.config.ts`. DOM tests use `happy-dom`. No Jest. | [0006](./0006-vitest-for-unit-testing.md) |
 | Lint with oxlint and format with oxfmt from a single root config. No ESLint, no `@workleap/eslint-configs`, no per-package lint configs. | [0011](./0011-oxlint-and-oxfmt.md) |
 

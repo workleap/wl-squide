@@ -13,7 +13,7 @@
         "build:copy-redirects": "copyfiles _redirects dist",
         "build:copy-public-files": "copyfiles -u 1 public/favicon.png dist",
         "serve-build": "pnpm http-server dist -p 8086 -P http://localhost:8086? -c-1",
-        "typecheck": "tsgo"
+        "typecheck": "tsc"
     },
     "dependencies": {
         "@basic-webpack/local-module": "workspace:*",
@@ -38,7 +38,6 @@
         "@types/node": "26.6.5",
         "@types/react": "19.3.0",
         "@types/react-dom": "19.3.0",
-        "@typescript/native-preview": "7.0.0-dev.20260707.2",
         "@workleap/browserslist-config": "3.0.0",
         "@workleap/swc-configs": "2.3.15",
         "@workleap/typescript-configs": "5.0.0",

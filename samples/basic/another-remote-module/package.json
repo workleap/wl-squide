@@ -12,7 +12,7 @@
         "build": "rsbuild build --config rsbuild.build.ts",
         "serve-build": "pnpm http-server dist -p 8082 -P http://localhost:8082? -c-1",
         "deploy": "netlify deploy --dir=samples/basic/another-remote-module/dist --site=2673b626-74aa-4c03-8a8f-8c794e90fd07 --prod",
-        "typecheck": "tsgo"
+        "typecheck": "tsc"
     },
     "dependencies": {
         "@basic/shared": "workspace:*",
@@ -33,7 +33,6 @@
         "@types/node": "26.6.5",
         "@types/react": "19.3.0",
         "@types/react-dom": "19.3.0",
-        "@typescript/native-preview": "7.0.0-dev.20260707.2",
         "@workleap/browserslist-config": "3.0.0",
         "@workleap/typescript-configs": "5.0.0",
         "browserslist": "4.29.4",

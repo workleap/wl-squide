@@ -2,7 +2,7 @@
 
 ## Status
 
-accepted
+superseded by [ODR-0012](./0012-typescript-7-for-type-checking.md)
 
 ## Context
 
