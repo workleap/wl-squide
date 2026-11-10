@@ -22,9 +22,9 @@ Detailed specifications and API documentation for `@squide/*` packages.
 | `@squide/firefly-storybook` | `packages/firefly-storybook` | `initializeFireflyForStorybook`, `withFireflyDecorator`, `withFeatureFlagsOverrideDecorator`, `StorybookRuntime` |
 | `@squide/firefly-module-federation` | `packages/firefly-module-federation` | `initializeFirefly` wrapper with a `remotes` option, `getModuleFederationPlugin`, remote module registration events |
 
-## Build Tooling (internal)
+## Build Tooling
 
-Internal packages not intended for direct consumption.
+Published packages (`"access": "public"`), documented for consumers in `docs/reference/rsbuild/` and `docs/reference/webpack/`.
 
 | Package | Path | Purpose |
 |---------|------|---------|
