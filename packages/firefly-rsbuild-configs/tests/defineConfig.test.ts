@@ -69,7 +69,7 @@ describe.concurrent("defineDevHostConfig", () => {
         expect(result.server!.port).toBe(8080);
     });
 
-    test.concurrent("when no asset prefix is provided, the default asset prefix is \"/\"", ({ expect }) => {
+    test.concurrent('when no asset prefix is provided, the default asset prefix is "/"', ({ expect }) => {
         const config = defineDevHostConfig(8080, []);
 
         expect(config.dev!.assetPrefix).toBe("/");
@@ -135,10 +135,10 @@ describe.concurrent("defineDevHostConfig", () => {
     test.concurrent("when additional shared dependencies are provided, add the dependencies to the module federation plugin configuration", ({ expect }) => {
         const config = defineDevHostConfig(8080, [], {
             sharedDependencies: {
-                "first": {
+                first: {
                     singleton: true
                 },
-                "second": {
+                second: {
                     eager: true,
                     singleton: true
                 }
@@ -154,7 +154,7 @@ describe.concurrent("defineDevHostConfig", () => {
     test.concurrent("when additional options are provided for an existing default shared dependency, add the consumer options to the default options", ({ expect }) => {
         const config = defineDevHostConfig(8080, [], {
             sharedDependencies: {
-                "react": {
+                react: {
                     requiredVersion: "1.2.3"
                 }
             }
@@ -169,7 +169,7 @@ describe.concurrent("defineDevHostConfig", () => {
     test.concurrent("when overriding options are provided for a default shared dependency, use the consumer option", ({ expect }) => {
         const config = defineDevHostConfig(8080, [], {
             sharedDependencies: {
-                "react": {
+                react: {
                     eager: false,
                     singleton: false
                 }
@@ -248,15 +248,17 @@ describe.concurrent("defineDevHostConfig", () => {
 
     test.concurrent("when configuration transformers are provided, the transformers are applied to the configuration", ({ expect }) => {
         const result = defineDevHostConfig(8080, [], {
-            transformers: [(config: RsbuildConfig) => {
-                config.source = config.source ?? {};
+            transformers: [
+                (config: RsbuildConfig) => {
+                    config.source = config.source ?? {};
 
-                config.source.entry = {
-                    index: "updated by the dummy transformer"
-                };
+                    config.source.entry = {
+                        index: "updated by the dummy transformer"
+                    };
 
-                return config;
-            }]
+                    return config;
+                }
+            ]
         });
 
         expect(result.source!.entry!.index).toBe("updated by the dummy transformer");
@@ -272,7 +274,7 @@ describe.concurrent("defineBuildHostConfig", () => {
         expect(prepareModuleFederationPluginForSnapshot(plugin)).toMatchSnapshot();
     });
 
-    test.concurrent("when no asset prefix is provided, the default asset prefix is \"/\"", ({ expect }) => {
+    test.concurrent('when no asset prefix is provided, the default asset prefix is "/"', ({ expect }) => {
         const config = defineBuildHostConfig([]);
         const plugin = findPlugin("rsbuild:module-federation-enhanced", config.plugins);
 
@@ -326,10 +328,10 @@ describe.concurrent("defineBuildHostConfig", () => {
     test.concurrent("when additional shared dependencies are provided, add the dependencies to the module federation plugin configuration", ({ expect }) => {
         const config = defineBuildHostConfig([], {
             sharedDependencies: {
-                "first": {
+                first: {
                     singleton: true
                 },
-                "second": {
+                second: {
                     eager: true,
                     singleton: true
                 }
@@ -345,7 +347,7 @@ describe.concurrent("defineBuildHostConfig", () => {
     test.concurrent("when additional options are provided for an existing default shared dependency, add the consumer options to the default options", ({ expect }) => {
         const config = defineBuildHostConfig([], {
             sharedDependencies: {
-                "react": {
+                react: {
                     requiredVersion: "1.2.3"
                 }
             }
@@ -360,7 +362,7 @@ describe.concurrent("defineBuildHostConfig", () => {
     test.concurrent("when overriding options are provided for a default shared dependency, use the consumer option", ({ expect }) => {
         const config = defineBuildHostConfig([], {
             sharedDependencies: {
-                "react": {
+                react: {
                     eager: false,
                     singleton: false
                 }
@@ -439,15 +441,17 @@ describe.concurrent("defineBuildHostConfig", () => {
 
     test.concurrent("when configuration transformers are provided, the transformers are applied to the configuration", ({ expect }) => {
         const result = defineBuildHostConfig([], {
-            transformers: [(config: RsbuildConfig) => {
-                config.source = config.source ?? {};
+            transformers: [
+                (config: RsbuildConfig) => {
+                    config.source = config.source ?? {};
 
-                config.source.entry = {
-                    index: "updated by the dummy transformer"
-                };
+                    config.source.entry = {
+                        index: "updated by the dummy transformer"
+                    };
 
-                return config;
-            }]
+                    return config;
+                }
+            ]
         });
 
         expect(result.source!.entry!.index).toBe("updated by the dummy transformer");
@@ -469,7 +473,7 @@ describe.concurrent("defineDevRemoteModuleConfig", () => {
         expect(result.server!.port).toBe(8081);
     });
 
-    test.concurrent("when no asset prefix is provided, the default asset prefix is \"auto\"", ({ expect }) => {
+    test.concurrent('when no asset prefix is provided, the default asset prefix is "auto"', ({ expect }) => {
         const config = defineDevRemoteModuleConfig("remote1", 8081);
 
         expect(config.dev!.assetPrefix).toBe("auto");
@@ -523,10 +527,10 @@ describe.concurrent("defineDevRemoteModuleConfig", () => {
     test.concurrent("when additional shared dependencies are provided, add the dependencies to the module federation plugin configuration", ({ expect }) => {
         const config = defineDevRemoteModuleConfig("remote1", 8081, {
             sharedDependencies: {
-                "first": {
+                first: {
                     singleton: true
                 },
-                "second": {
+                second: {
                     eager: true,
                     singleton: true
                 }
@@ -542,7 +546,7 @@ describe.concurrent("defineDevRemoteModuleConfig", () => {
     test.concurrent("when additional options are provided for an existing default shared dependency, add the consumer options to the default options", ({ expect }) => {
         const config = defineDevRemoteModuleConfig("remote1", 8081, {
             sharedDependencies: {
-                "react": {
+                react: {
                     requiredVersion: "1.2.3"
                 }
             }
@@ -557,7 +561,7 @@ describe.concurrent("defineDevRemoteModuleConfig", () => {
     test.concurrent("when overriding options are provided for a default shared dependency, use the consumer option", ({ expect }) => {
         const config = defineDevRemoteModuleConfig("remote1", 8081, {
             sharedDependencies: {
-                "react": {
+                react: {
                     eager: false,
                     singleton: false
                 }
@@ -636,15 +640,17 @@ describe.concurrent("defineDevRemoteModuleConfig", () => {
 
     test.concurrent("when additional configuration transformers are provided, the transformers are applied to the configuration", ({ expect }) => {
         const result = defineDevRemoteModuleConfig("remote1", 8081, {
-            transformers: [(config: RsbuildConfig) => {
-                config.source = config.source ?? {};
+            transformers: [
+                (config: RsbuildConfig) => {
+                    config.source = config.source ?? {};
 
-                config.source.entry = {
-                    index: "updated by the dummy transformer"
-                };
+                    config.source.entry = {
+                        index: "updated by the dummy transformer"
+                    };
 
-                return config;
-            }]
+                    return config;
+                }
+            ]
         });
 
         expect(result.source!.entry!.index).toBe("updated by the dummy transformer");
@@ -652,6 +658,20 @@ describe.concurrent("defineDevRemoteModuleConfig", () => {
 });
 
 describe.concurrent("defineBuildRemoteModuleConfig", () => {
+    test.concurrent("when the shared dependencies are provided as an array, merge them with the default shared dependencies", ({ expect }) => {
+        const config = defineBuildRemoteModuleConfig("remote1", {
+            sharedDependencies: ["useless-lib", { "another-lib": { singleton: true } }]
+        });
+
+        const plugin = findPlugin("rsbuild:module-federation-enhanced", config.plugins);
+
+        expect(prepareModuleFederationPluginForSnapshot(plugin).shared).toMatchObject({
+            react: { singleton: true },
+            "useless-lib": "useless-lib",
+            "another-lib": { singleton: true }
+        });
+    });
+
     test.concurrent("the application name is set as the federation plugin application name", ({ expect }) => {
         const config = defineBuildRemoteModuleConfig("remote1");
         const plugin = findPlugin("rsbuild:module-federation-enhanced", config.plugins);
@@ -660,7 +680,7 @@ describe.concurrent("defineBuildRemoteModuleConfig", () => {
         expect(prepareModuleFederationPluginForSnapshot(plugin)).toMatchSnapshot();
     });
 
-    test.concurrent("when no asset prefix is provided, the default asset prefix is \"auto\"", ({ expect }) => {
+    test.concurrent('when no asset prefix is provided, the default asset prefix is "auto"', ({ expect }) => {
         const config = defineBuildRemoteModuleConfig("remote1");
 
         expect(config.output!.assetPrefix).toBe("auto");
@@ -700,10 +720,10 @@ describe.concurrent("defineBuildRemoteModuleConfig", () => {
     test.concurrent("when additional shared dependencies are provided, add the dependencies to the module federation plugin configuration", ({ expect }) => {
         const config = defineBuildRemoteModuleConfig("remote1", {
             sharedDependencies: {
-                "first": {
+                first: {
                     singleton: true
                 },
-                "second": {
+                second: {
                     eager: true,
                     singleton: true
                 }
@@ -719,7 +739,7 @@ describe.concurrent("defineBuildRemoteModuleConfig", () => {
     test.concurrent("when additional options are provided for an existing default shared dependency, add the consumer options to the default options", ({ expect }) => {
         const config = defineBuildRemoteModuleConfig("remote1", {
             sharedDependencies: {
-                "react": {
+                react: {
                     requiredVersion: "1.2.3"
                 }
             }
@@ -734,7 +754,7 @@ describe.concurrent("defineBuildRemoteModuleConfig", () => {
     test.concurrent("when overriding options are provided for a default shared dependency, use the consumer option", ({ expect }) => {
         const config = defineBuildRemoteModuleConfig("remote1", {
             sharedDependencies: {
-                "react": {
+                react: {
                     eager: false,
                     singleton: false
                 }
@@ -813,15 +833,17 @@ describe.concurrent("defineBuildRemoteModuleConfig", () => {
 
     test.concurrent("when configuration transformers are provided, the transformers are applied to the configuration", ({ expect }) => {
         const result = defineBuildRemoteModuleConfig("remote1", {
-            transformers: [(config: RsbuildConfig) => {
-                config.source = config.source ?? {};
+            transformers: [
+                (config: RsbuildConfig) => {
+                    config.source = config.source ?? {};
 
-                config.source.entry = {
-                    index: "updated by the dummy transformer"
-                };
+                    config.source.entry = {
+                        index: "updated by the dummy transformer"
+                    };
 
-                return config;
-            }]
+                    return config;
+                }
+            ]
         });
 
         expect(result.source!.entry!.index).toBe("updated by the dummy transformer");

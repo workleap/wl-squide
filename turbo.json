@@ -37,17 +37,16 @@
             "cache": false
         },
         "lint": {
-            "dependsOn": ["eslint", "//#eslint", "typecheck", "//#typecheck", "//#syncpack"],
+            "dependsOn": ["//#oxlint", "//#oxfmt:check", "typecheck", "//#typecheck", "//#syncpack"],
             "outputs": []
         },
-        "//#eslint": {
-            "inputs": ["$TURBO_DEFAULT$", "!packages", "!samples", "!docs", "!README.md", "!CONTRIBUTING.md"],
-            "outputs": ["node_modules/.cache/eslint"]
+        "//#oxlint": {
+            "inputs": ["$TURBO_DEFAULT$", "!**/*.md"],
+            "outputs": []
         },
-        "eslint": {
-            "dependsOn": ["transit"],
-            "inputs": ["$TURBO_DEFAULT$", "!README.md"],
-            "outputs": ["node_modules/.cache/eslint"]
+        "//#oxfmt:check": {
+            "inputs": ["$TURBO_DEFAULT$", "!**/*.md"],
+            "outputs": []
         },
         "//#typecheck": {
             "inputs": ["src/**/*.ts", "src/**/*.tsx", "tests/**/*.ts", "tests/**/*.tsx", "tsconfig.json", "!packages", "!samples", "!docs"],

@@ -22,9 +22,7 @@ export function QueryProvider({ children }: PropsWithChildren) {
     return (
         <QueryClientProvider client={queryClient}>
             {children}
-            {process.env.ISOLATED && (
-                <ReactQueryDevtools initialIsOpen={false} />
-            )}
+            {process.env.ISOLATED && <ReactQueryDevtools initialIsOpen={false} />}
         </QueryClientProvider>
     );
 }

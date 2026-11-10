@@ -14,19 +14,22 @@ export function LoginPage({ host }: LoginProps) {
 
     const navigate = useNavigate();
 
-    const handleClick = useCallback((event: MouseEvent<HTMLButtonElement>) => {
-        event.preventDefault();
+    const handleClick = useCallback(
+        (event: MouseEvent<HTMLButtonElement>) => {
+            event.preventDefault();
 
-        if (username === "temp" && password === "temp") {
-            sessionManager?.setSession({
-                user: {
-                    name: username
-                }
-            });
+            if (username === "temp" && password === "temp") {
+                sessionManager?.setSession({
+                    user: {
+                        name: username
+                    }
+                });
 
-            navigate("/");
-        }
-    }, [username, password, navigate, sessionManager]);
+                void navigate("/");
+            }
+        },
+        [username, password, navigate, sessionManager]
+    );
 
     const handleUserNameChange = useCallback((event: ChangeEvent<HTMLInputElement>) => {
         setUserName(event.target.value);
@@ -45,7 +48,11 @@ export function LoginPage({ host }: LoginProps) {
     return (
         <>
             <h1>Login</h1>
-            {host && <p style={{ backgroundColor: "blue", color: "white", width: "fit-content" }}>This page is served by <code>{host}</code></p>}
+            {host && (
+                <p style={{ backgroundColor: "blue", color: "white", width: "fit-content" }}>
+                    This page is served by <code>{host}</code>
+                </p>
+            )}
             <form>
                 <div>
                     <label htmlFor="username">Username</label>

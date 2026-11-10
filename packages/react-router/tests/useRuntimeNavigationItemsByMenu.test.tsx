@@ -8,11 +8,7 @@ import { useRuntimeNavigationItemsByMenu } from "../src/useRuntimeNavigationItem
 
 function renderUseNavigationItemsByMenuHook(runtime: ReactRouterRuntime) {
     return renderHook(() => useRuntimeNavigationItemsByMenu(), {
-        wrapper: ({ children }: { children?: ReactNode }) => (
-            <RuntimeContext.Provider value={runtime}>
-                {children}
-            </RuntimeContext.Provider>
-        )
+        wrapper: ({ children }: { children?: ReactNode }) => <RuntimeContext.Provider value={runtime}>{children}</RuntimeContext.Provider>
     });
 }
 
@@ -26,19 +22,25 @@ test.concurrent("returns a Map grouped by menu id across multiple menus", ({ exp
         to: "/root"
     });
 
-    runtime.registerNavigationItem({
-        $label: "Item A",
-        to: "/item-a"
-    }, {
-        menuId: "menu-a"
-    });
+    runtime.registerNavigationItem(
+        {
+            $label: "Item A",
+            to: "/item-a"
+        },
+        {
+            menuId: "menu-a"
+        }
+    );
 
-    runtime.registerNavigationItem({
-        $label: "Item B",
-        to: "/item-b"
-    }, {
-        menuId: "menu-b"
-    });
+    runtime.registerNavigationItem(
+        {
+            $label: "Item B",
+            to: "/item-b"
+        },
+        {
+            menuId: "menu-b"
+        }
+    );
 
     const { result } = renderUseNavigationItemsByMenuHook(runtime);
 
@@ -76,12 +78,15 @@ test.concurrent("returned Map is stable across renders until the registry change
 
     const map2 = result.current;
 
-    runtime.registerNavigationItem({
-        $label: "Bar",
-        to: "/bar"
-    }, {
-        menuId: "other"
-    });
+    runtime.registerNavigationItem(
+        {
+            $label: "Bar",
+            to: "/bar"
+        },
+        {
+            menuId: "other"
+        }
+    );
 
     rerender();
 

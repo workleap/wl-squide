@@ -1,6 +1,6 @@
-import { FeatureFlags, isEditableLaunchDarklyClient, LaunchDarklyClientTransaction, useLaunchDarklyClient } from "@squide/launch-darkly";
+import { type FeatureFlags, isEditableLaunchDarklyClient, type LaunchDarklyClientTransaction, useLaunchDarklyClient } from "@squide/launch-darkly";
 import type { Decorator } from "@storybook/react";
-import { PropsWithChildren, useEffect, useRef } from "react";
+import { type PropsWithChildren, useEffect, useRef } from "react";
 
 interface OverrideFeatureFlagsProps extends PropsWithChildren {
     overrides: Partial<FeatureFlags>;
@@ -23,10 +23,7 @@ interface OverrideFeatureFlagsProps extends PropsWithChildren {
 // left by a previous instance. This is safe because only one OverrideFeatureFlags
 // component is ever active at a time in Storybook's single-story rendering model.
 function OverrideFeatureFlags(props: OverrideFeatureFlagsProps) {
-    const {
-        overrides,
-        children
-    } = props;
+    const { overrides, children } = props;
 
     const transactionRef = useRef<LaunchDarklyClientTransaction | undefined>(undefined);
     const client = useLaunchDarklyClient();
@@ -65,10 +62,6 @@ function OverrideFeatureFlags(props: OverrideFeatureFlagsProps) {
 
 export function withFeatureFlagsOverrideDecorator(overrides: Partial<FeatureFlags>): Decorator {
     return story => {
-        return (
-            <OverrideFeatureFlags overrides={overrides}>
-                {story()}
-            </OverrideFeatureFlags>
-        );
+        return <OverrideFeatureFlags overrides={overrides}>{story()}</OverrideFeatureFlags>;
     };
 }

@@ -1,7 +1,7 @@
 // @ts-check
 
 /**
- * @typedef {import("@squide/firefly-webpack-configs").RemoteDefinition[]} RemoteDefinitions
+ * @type {import("@squide/firefly-webpack-configs").RemoteDefinition[]} RemoteDefinitions
  */
 export const Remotes = [
     {

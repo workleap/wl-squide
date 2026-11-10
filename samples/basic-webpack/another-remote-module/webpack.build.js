@@ -7,6 +7,6 @@ import { getSharedDependencies } from "./webpack.common.js";
 export default defineBuildRemoteModuleConfig(swcConfig, "remote2", {
     sharedDependencies: getSharedDependencies(false),
     environmentVariables: {
-        "NETLIFY": process.env.NETLIFY === "true"
+        NETLIFY: process.env.NETLIFY === "true"
     }
 });

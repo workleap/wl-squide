@@ -23,9 +23,7 @@ function renderAppRouter(appRouter: ReactNode, runtime: FireflyRuntime, state: A
             <FireflyProvider runtime={runtime}>
                 <AppRouterDispatcherContext.Provider value={dispatch}>
                     <AppRouterStateContext.Provider value={state}>
-                        <QueryClientProvider client={client}>
-                            {children}
-                        </QueryClientProvider>
+                        <QueryClientProvider client={client}>{children}</QueryClientProvider>
                     </AppRouterStateContext.Provider>
                 </AppRouterDispatcherContext.Provider>
             </FireflyProvider>
@@ -48,10 +46,12 @@ test("when queries are executed, PublicDataFetchStartedEvent is dispatched", asy
     state.isMswReady = true;
 
     function AppRouter() {
-        const [data] = usePublicDataQueries([{
-            queryKey: ["foo"],
-            queryFn: () => "bar"
-        }]);
+        const [data] = usePublicDataQueries([
+            {
+                queryKey: ["foo"],
+                queryFn: () => "bar"
+            }
+        ]);
 
         return data;
     }
@@ -63,7 +63,7 @@ test("when queries are executed, PublicDataFetchStartedEvent is dispatched", asy
     expect(listener).toHaveBeenCalledOnce();
 });
 
-test("when data is ready, \"public-data-ready\" is dispatched", async ({ expect }) => {
+test('when data is ready, "public-data-ready" is dispatched', async ({ expect }) => {
     const runtime = new FireflyRuntime({
         loggers: [new NoopLogger()]
     });
@@ -75,10 +75,12 @@ test("when data is ready, \"public-data-ready\" is dispatched", async ({ expect 
     state.isMswReady = true;
 
     function AppRouter() {
-        const [data] = usePublicDataQueries([{
-            queryKey: ["foo"],
-            queryFn: () => "bar"
-        }]);
+        const [data] = usePublicDataQueries([
+            {
+                queryKey: ["foo"],
+                queryFn: () => "bar"
+            }
+        ]);
 
         return data;
     }
@@ -89,16 +91,20 @@ test("when data is ready, \"public-data-ready\" is dispatched", async ({ expect 
 
     expect(dispatch).toHaveBeenCalledTimes(2);
 
-    expect(dispatch).toHaveBeenCalledWith(expect.objectContaining({
-        type: "public-data-ready"
-    }));
+    expect(dispatch).toHaveBeenCalledWith(
+        expect.objectContaining({
+            type: "public-data-ready"
+        })
+    );
 
-    expect(dispatch).toHaveBeenCalledWith(expect.objectContaining({
-        type: "public-data-updated"
-    }));
+    expect(dispatch).toHaveBeenCalledWith(
+        expect.objectContaining({
+            type: "public-data-updated"
+        })
+    );
 });
 
-test("when data is updated, \"public-data-updated\" is dispatched", async ({ expect }) => {
+test('when data is updated, "public-data-updated" is dispatched', async ({ expect }) => {
     const runtime = new FireflyRuntime({
         loggers: [new NoopLogger()]
     });
@@ -111,15 +117,15 @@ test("when data is updated, \"public-data-updated\" is dispatched", async ({ exp
 
     const queryClient = createQueryClient();
 
-    const queryFn = vi.fn()
-        .mockResolvedValueOnce("bar")
-        .mockResolvedValueOnce("toto");
+    const queryFn = vi.fn().mockResolvedValueOnce("bar").mockResolvedValueOnce("toto");
 
     function AppRouter() {
-        const [data] = usePublicDataQueries([{
-            queryKey: ["foo"],
-            queryFn
-        }]);
+        const [data] = usePublicDataQueries([
+            {
+                queryKey: ["foo"],
+                queryFn
+            }
+        ]);
 
         return data;
     }
@@ -128,7 +134,7 @@ test("when data is updated, \"public-data-updated\" is dispatched", async ({ exp
 
     await waitFor(() => screen.findByText("bar"));
 
-    queryClient.refetchQueries({
+    await queryClient.refetchQueries({
         queryKey: ["foo"]
     });
 
@@ -136,13 +142,17 @@ test("when data is updated, \"public-data-updated\" is dispatched", async ({ exp
 
     expect(dispatch).toHaveBeenCalledTimes(3);
 
-    expect(dispatch).toHaveBeenCalledWith(expect.objectContaining({
-        type: "public-data-ready"
-    }));
+    expect(dispatch).toHaveBeenCalledWith(
+        expect.objectContaining({
+            type: "public-data-ready"
+        })
+    );
 
-    expect(dispatch).toHaveBeenCalledWith(expect.objectContaining({
-        type: "public-data-updated"
-    }));
+    expect(dispatch).toHaveBeenCalledWith(
+        expect.objectContaining({
+            type: "public-data-updated"
+        })
+    );
 });
 
 describe("when a query fail", () => {
@@ -168,7 +178,6 @@ describe("when a query fail", () => {
         state.isMswReady = true;
 
         class ErrorBoundary extends Component<PropsWithChildren, { error?: Error }> {
-            // eslint-disable-next-line @typescript-eslint/no-explicit-any
             constructor(props: any) {
                 super(props);
 
@@ -192,15 +201,26 @@ describe("when a query fail", () => {
         }
 
         function AppRouter() {
-            const [data] = usePublicDataQueries([{
-                queryKey: ["foo"],
-                queryFn: () => { throw new Error("Query failed."); }
-            }]);
+            const [data] = usePublicDataQueries([
+                {
+                    queryKey: ["foo"],
+                    queryFn: () => {
+                        throw new Error("Query failed.");
+                    }
+                }
+            ]);
 
             return data;
         }
 
-        renderAppRouter(<ErrorBoundary><AppRouter /></ErrorBoundary>, runtime, state, dispatch);
+        renderAppRouter(
+            <ErrorBoundary>
+                <AppRouter />
+            </ErrorBoundary>,
+            runtime,
+            state,
+            dispatch
+        );
 
         const element = await waitFor(() => screen.findByText("[squide] Global public data queries failed."));
 
@@ -222,7 +242,6 @@ describe("when a query fail", () => {
         state.isMswReady = true;
 
         class ErrorBoundary extends Component<PropsWithChildren, { error?: Error }> {
-            // eslint-disable-next-line @typescript-eslint/no-explicit-any
             constructor(props: any) {
                 super(props);
 
@@ -248,15 +267,26 @@ describe("when a query fail", () => {
         const queryError = new Error("Query failed.");
 
         function AppRouter() {
-            const [data] = usePublicDataQueries([{
-                queryKey: ["foo"],
-                queryFn: () => { throw queryError; }
-            }]);
+            const [data] = usePublicDataQueries([
+                {
+                    queryKey: ["foo"],
+                    queryFn: () => {
+                        throw queryError;
+                    }
+                }
+            ]);
 
             return data;
         }
 
-        renderAppRouter(<ErrorBoundary><AppRouter /></ErrorBoundary>, runtime, state, dispatch);
+        renderAppRouter(
+            <ErrorBoundary>
+                <AppRouter />
+            </ErrorBoundary>,
+            runtime,
+            state,
+            dispatch
+        );
 
         await waitFor(() => screen.findByText("[squide] Global public data queries failed."));
 
@@ -276,7 +306,6 @@ describe("when a refetch fails after the data is ready", () => {
     });
 
     class ErrorBoundary extends Component<PropsWithChildren, { error?: Error }> {
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         constructor(props: any) {
             super(props);
 
@@ -321,31 +350,41 @@ describe("when a refetch fails after the data is ready", () => {
 
         const queryClient = createQueryClient();
 
-        const queryFn = vi.fn()
-            .mockResolvedValueOnce("bar")
-            .mockRejectedValueOnce(new Error("Refetch failed."))
-            .mockResolvedValueOnce("toto");
+        const queryFn = vi.fn().mockResolvedValueOnce("bar").mockRejectedValueOnce(new Error("Refetch failed.")).mockResolvedValueOnce("toto");
 
         function AppRouter() {
-            const [data] = usePublicDataQueries([{
-                queryKey: ["foo"],
-                queryFn
-            }]);
+            const [data] = usePublicDataQueries([
+                {
+                    queryKey: ["foo"],
+                    queryFn
+                }
+            ]);
 
             return data;
         }
 
-        renderAppRouter(<ErrorBoundary><span><AppRouter /></span><RefetchStatus /></ErrorBoundary>, runtime, state, dispatch, queryClient);
+        renderAppRouter(
+            <ErrorBoundary>
+                <span>
+                    <AppRouter />
+                </span>
+                <RefetchStatus />
+            </ErrorBoundary>,
+            runtime,
+            state,
+            dispatch,
+            queryClient
+        );
 
         await waitFor(() => screen.findByText("bar"));
 
-        queryClient.refetchQueries({
+        await queryClient.refetchQueries({
             queryKey: ["foo"]
         });
 
         await waitFor(() => screen.findByText("refetch-error"));
 
-        queryClient.refetchQueries({
+        await queryClient.refetchQueries({
             queryKey: ["foo"]
         });
 
@@ -371,24 +410,35 @@ describe("when a refetch fails after the data is ready", () => {
 
         const queryClient = createQueryClient();
 
-        const queryFn = vi.fn()
-            .mockResolvedValueOnce("bar")
-            .mockRejectedValueOnce(new Error("Refetch failed."));
+        const queryFn = vi.fn().mockResolvedValueOnce("bar").mockRejectedValueOnce(new Error("Refetch failed."));
 
         function AppRouter() {
-            const [data] = usePublicDataQueries([{
-                queryKey: ["foo"],
-                queryFn
-            }]);
+            const [data] = usePublicDataQueries([
+                {
+                    queryKey: ["foo"],
+                    queryFn
+                }
+            ]);
 
             return data;
         }
 
-        renderAppRouter(<ErrorBoundary><span><AppRouter /></span><RefetchStatus /></ErrorBoundary>, runtime, state, dispatch, queryClient);
+        renderAppRouter(
+            <ErrorBoundary>
+                <span>
+                    <AppRouter />
+                </span>
+                <RefetchStatus />
+            </ErrorBoundary>,
+            runtime,
+            state,
+            dispatch,
+            queryClient
+        );
 
         await waitFor(() => screen.findByText("bar"));
 
-        queryClient.refetchQueries({
+        await queryClient.refetchQueries({
             queryKey: ["foo"]
         });
 

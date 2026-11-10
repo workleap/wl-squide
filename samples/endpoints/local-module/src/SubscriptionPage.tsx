@@ -19,21 +19,19 @@ export function SubscriptionPage() {
         <>
             <h1>{t("title")}</h1>
             <p style={{ backgroundColor: "blue", color: "white", width: "fit-content" }}>
-                <Trans
-                    i18n={i18nextInstance}
-                    i18nKey="servedBy"
-                    t={t}
-                    components={{ code: <code /> }}
-                />
+                <Trans i18n={i18nextInstance} i18nKey="servedBy" t={t} components={{ code: <code /> }} />
             </p>
             <div>
-                <span>{t("companyLabel")}: </span><span>{subscription?.company}</span>
+                <span>{t("companyLabel")}: </span>
+                <span>{subscription?.company}</span>
             </div>
             <div>
-                <span>{t("contactLabel")}: </span><span>{subscription?.contact}</span>
+                <span>{t("contactLabel")}: </span>
+                <span>{subscription?.contact}</span>
             </div>
             <div>
-                <span>{t("statusLabel")}: </span><span>{statusLabel}</span>
+                <span>{t("statusLabel")}: </span>
+                <span>{statusLabel}</span>
             </div>
         </>
     );

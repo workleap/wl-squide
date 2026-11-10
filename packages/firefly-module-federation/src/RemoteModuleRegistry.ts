@@ -1,4 +1,4 @@
-import { ModuleDefinition, ModuleRegistrationError, registerModule, type DeferredRegistrationFunction, type ModuleRegistrationStatus, type ModuleRegistrationStatusChangedListener, type ModuleRegistry, type RegisterModulesOptions, type Runtime } from "@squide/core";
+import { type ModuleDefinition, ModuleRegistrationError, registerModule, type DeferredRegistrationFunction, type ModuleRegistrationStatus, type ModuleRegistrationStatusChangedListener, type ModuleRegistry, type RegisterModulesOptions, type Runtime } from "@squide/core";
 import { isFunction, isNil } from "@squide/core/internal";
 import type { Logger, RootLogger } from "@workleap/logging";
 import type { RemoteDefinition } from "./RemoteDefinition.ts";
@@ -132,65 +132,60 @@ export class RemoteModuleRegistry implements ModuleRegistry {
 
             let completedCount = 0;
 
-            await Promise.allSettled(remotes.map(async (x, index) => {
-                const remoteName = x.name;
-                const loggerScope = (runtime.logger as RootLogger).startScope(`[squide] ${index + 1}/${remotes.length} Loading module "${RemoteRegisterModuleName}" of remote "${remoteName}".`);
-                const runtimeScope = runtime.startScope(loggerScope);
+            await Promise.allSettled(
+                remotes.map(async (x, index) => {
+                    const remoteName = x.name;
+                    const loggerScope = (runtime.logger as RootLogger).startScope(`[squide] ${index + 1}/${remotes.length} Loading module "${RemoteRegisterModuleName}" of remote "${remoteName}".`);
+                    const runtimeScope = runtime.startScope(loggerScope);
 
-                try {
-                    const module = await this.#loadRemote(remoteName, RemoteRegisterModuleName);
+                    try {
+                        const module = await this.#loadRemote(remoteName, RemoteRegisterModuleName);
 
-                    if (isNil(module.register)) {
-                        throw new Error(`[squide] A "register" function is not available for module "${RemoteRegisterModuleName}" of remote "${remoteName}". Make sure your remote "./register.[js,jsx,ts.tsx]" file export a function named "register".`);
-                    }
+                        if (isNil(module.register)) {
+                            throw new Error(`[squide] A "register" function is not available for module "${RemoteRegisterModuleName}" of remote "${remoteName}". Make sure your remote "./register.[js,jsx,ts.tsx]" file export a function named "register".`);
+                        }
 
-                    loggerScope.debug("[squide] Registering module...");
+                        loggerScope.debug("[squide] Registering module...");
 
-                    const optionalDeferredRegistration = await registerModule<TRuntime, TContext, TData>(module.register, runtimeScope as TRuntime, context);
+                        const optionalDeferredRegistration = await registerModule<TRuntime, TContext, TData>(module.register, runtimeScope as TRuntime, context);
 
-                    if (isFunction(optionalDeferredRegistration)) {
-                        this.#deferredRegistrations.push({
-                            remoteName: x.name,
-                            index: `${index + 1}/${remotes.length}`,
-                            fct: optionalDeferredRegistration as DeferredRegistrationFunction
+                        if (isFunction(optionalDeferredRegistration)) {
+                            this.#deferredRegistrations.push({
+                                remoteName: x.name,
+                                index: `${index + 1}/${remotes.length}`,
+                                fct: optionalDeferredRegistration as DeferredRegistrationFunction
+                            });
+                        }
+
+                        completedCount += 1;
+
+                        loggerScope.information("[squide] Successfully registered remote module.", {
+                            style: {
+                                color: "green"
+                            }
                         });
+
+                        loggerScope.end({
+                            labelStyle: {
+                                color: "green"
+                            }
+                        });
+                    } catch (error: unknown) {
+                        loggerScope
+                            .withText("[squide] An error occured while registering the remote module.")
+                            .withError(error as Error)
+                            .error();
+
+                        loggerScope.end({
+                            labelStyle: {
+                                color: "red"
+                            }
+                        });
+
+                        errors.push(new RemoteModuleRegistrationError(`An error occured while registering module "${RemoteRegisterModuleName}" of remote "${remoteName}".`, remoteName, RemoteRegisterModuleName, { cause: error }));
                     }
-
-                    completedCount += 1;
-
-                    loggerScope.information("[squide] Successfully registered remote module.", {
-                        style: {
-                            color: "green"
-                        }
-                    });
-
-                    loggerScope.end({
-                        labelStyle: {
-                            color: "green"
-                        }
-                    });
-                } catch (error: unknown) {
-                    loggerScope
-                        .withText("[squide] An error occured while registering the remote module.")
-                        .withError(error as Error)
-                        .error();
-
-                    loggerScope.end({
-                        labelStyle: {
-                            color: "red"
-                        }
-                    });
-
-                    errors.push(
-                        new RemoteModuleRegistrationError(
-                            `An error occured while registering module "${RemoteRegisterModuleName}" of remote "${remoteName}".`,
-                            remoteName,
-                            RemoteRegisterModuleName,
-                            { cause: error }
-                        )
-                    );
-                }
-            }));
+                })
+            );
 
             if (errors.length > 0) {
                 errors.forEach(x => {
@@ -244,53 +239,45 @@ export class RemoteModuleRegistry implements ModuleRegistry {
 
         let completedCount = 0;
 
-        await Promise.allSettled(this.#deferredRegistrations.map(async ({ remoteName, index, fct: deferredRegister }) => {
-            const loggerScope = (runtime.logger as RootLogger).startScope(`[squide] ${index} Registering the deferred registrations for module "${RemoteRegisterModuleName}" of remote "${remoteName}".`);
-            const runtimeScope = runtime.startScope(loggerScope);
+        await Promise.allSettled(
+            this.#deferredRegistrations.map(async ({ remoteName, index, fct: deferredRegister }) => {
+                const loggerScope = (runtime.logger as RootLogger).startScope(`[squide] ${index} Registering the deferred registrations for module "${RemoteRegisterModuleName}" of remote "${remoteName}".`);
+                const runtimeScope = runtime.startScope(loggerScope);
 
-            loggerScope
-                .withText("Data:")
-                .withObject(data)
-                .debug();
+                loggerScope.withText("Data:").withObject(data).debug();
 
-            try {
-                await deferredRegister(runtimeScope, data, "register");
+                try {
+                    await deferredRegister(runtimeScope, data, "register");
 
-                completedCount += 1;
+                    completedCount += 1;
 
-                loggerScope.information("[squide] Successfully registered deferred registrations.", {
-                    style: {
-                        color: "green"
-                    }
-                });
+                    loggerScope.information("[squide] Successfully registered deferred registrations.", {
+                        style: {
+                            color: "green"
+                        }
+                    });
 
-                loggerScope.end({
-                    labelStyle: {
-                        color: "green"
-                    }
-                });
-            } catch (error: unknown) {
-                loggerScope
-                    .withText("[squide] An error occured while registering the deferred registrations.")
-                    .withError(error as Error)
-                    .error();
+                    loggerScope.end({
+                        labelStyle: {
+                            color: "green"
+                        }
+                    });
+                } catch (error: unknown) {
+                    loggerScope
+                        .withText("[squide] An error occured while registering the deferred registrations.")
+                        .withError(error as Error)
+                        .error();
 
-                loggerScope.end({
-                    labelStyle: {
-                        color: "red"
-                    }
-                });
+                    loggerScope.end({
+                        labelStyle: {
+                            color: "red"
+                        }
+                    });
 
-                errors.push(
-                    new RemoteModuleRegistrationError(
-                        `An error occured while registering the deferred registrations for module "${RemoteRegisterModuleName}" of remote "${remoteName}".`,
-                        remoteName,
-                        RemoteRegisterModuleName,
-                        { cause: error }
-                    )
-                );
-            }
-        }));
+                    errors.push(new RemoteModuleRegistrationError(`An error occured while registering the deferred registrations for module "${RemoteRegisterModuleName}" of remote "${remoteName}".`, remoteName, RemoteRegisterModuleName, { cause: error }));
+                }
+            })
+        );
 
         if (errors.length > 0) {
             errors.forEach(x => {
@@ -322,53 +309,45 @@ export class RemoteModuleRegistry implements ModuleRegistry {
 
         let completedCount = 0;
 
-        await Promise.allSettled(this.#deferredRegistrations.map(async ({ remoteName, index, fct: deferredRegister }) => {
-            const loggerScope = (runtime.logger as RootLogger).startScope(`[squide] ${index} Updating the deferred registrations for module "${RemoteRegisterModuleName}" of remote "${remoteName}".`);
-            const runtimeScope = runtime.startScope(loggerScope);
+        await Promise.allSettled(
+            this.#deferredRegistrations.map(async ({ remoteName, index, fct: deferredRegister }) => {
+                const loggerScope = (runtime.logger as RootLogger).startScope(`[squide] ${index} Updating the deferred registrations for module "${RemoteRegisterModuleName}" of remote "${remoteName}".`);
+                const runtimeScope = runtime.startScope(loggerScope);
 
-            loggerScope
-                .withText("Data:")
-                .withObject(data)
-                .debug();
+                loggerScope.withText("Data:").withObject(data).debug();
 
-            try {
-                await deferredRegister(runtimeScope, data, "update");
+                try {
+                    await deferredRegister(runtimeScope, data, "update");
 
-                completedCount += 1;
+                    completedCount += 1;
 
-                loggerScope.information("[squide] Successfully updated the deferred registrations.", {
-                    style: {
-                        color: "green"
-                    }
-                });
+                    loggerScope.information("[squide] Successfully updated the deferred registrations.", {
+                        style: {
+                            color: "green"
+                        }
+                    });
 
-                loggerScope.end({
-                    labelStyle: {
-                        color: "green"
-                    }
-                });
-            } catch (error: unknown) {
-                loggerScope
-                    .withText("[squide] An error occured while updating the deferred registrations.")
-                    .withError(error as Error)
-                    .error();
+                    loggerScope.end({
+                        labelStyle: {
+                            color: "green"
+                        }
+                    });
+                } catch (error: unknown) {
+                    loggerScope
+                        .withText("[squide] An error occured while updating the deferred registrations.")
+                        .withError(error as Error)
+                        .error();
 
-                loggerScope.end({
-                    labelStyle: {
-                        color: "red"
-                    }
-                });
+                    loggerScope.end({
+                        labelStyle: {
+                            color: "red"
+                        }
+                    });
 
-                errors.push(
-                    new RemoteModuleRegistrationError(
-                        `An error occured while updating the deferred registrations for module "${RemoteRegisterModuleName}" of remote "${remoteName}".`,
-                        remoteName,
-                        RemoteRegisterModuleName,
-                        { cause: error }
-                    )
-                );
-            }
-        }));
+                    errors.push(new RemoteModuleRegistrationError(`An error occured while updating the deferred registrations for module "${RemoteRegisterModuleName}" of remote "${remoteName}".`, remoteName, RemoteRegisterModuleName, { cause: error }));
+                }
+            })
+        );
 
         if (errors.length > 0) {
             errors.forEach(x => {

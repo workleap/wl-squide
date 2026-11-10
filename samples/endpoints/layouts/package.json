@@ -1,23 +1,14 @@
 {
     "name": "@endpoints/layouts",
-    "author": "Workleap",
     "version": "0.0.0",
-    "description": "Layouts package to showcase Squide shared layouts setup.",
     "private": true,
+    "description": "Layouts package to showcase Squide shared layouts setup.",
     "license": "Apache-2.0",
+    "author": "Workleap",
     "type": "module",
     "exports": "./src/index.ts",
     "scripts": {
-        "eslint": "eslint . --max-warnings=0 --cache --cache-location node_modules/.cache/eslint",
         "typecheck": "tsgo"
-    },
-    "peerDependencies": {
-        "i18next": "^26.5.3",
-        "react": "^19.3.1",
-        "react-dom": "^19.3.1",
-        "react-error-boundary": "^6.1.6",
-        "react-i18next": "^17.1.0",
-        "react-router": "^8.5.0"
     },
     "dependencies": {
         "@endpoints/i18next": "workspace:*",
@@ -26,16 +17,19 @@
         "@squide/i18next": "workspace:*"
     },
     "devDependencies": {
-        "@eslint/js": "9.39.2",
         "@types/node": "26.6.5",
         "@types/react": "19.3.0",
         "@types/react-dom": "19.3.0",
-        "@typescript-eslint/parser": "8.72.0",
         "@typescript/native-preview": "7.0.0-dev.20260707.2",
-        "@workleap/eslint-configs": "2.0.6",
         "@workleap/typescript-configs": "5.0.0",
-        "eslint": "9.39.2",
-        "typescript": "6.0.3",
-        "typescript-eslint": "8.54.0"
+        "typescript": "7.0.2"
+    },
+    "peerDependencies": {
+        "i18next": "^26.5.3",
+        "react": "^19.3.1",
+        "react-dom": "^19.3.1",
+        "react-error-boundary": "^6.1.6",
+        "react-i18next": "^17.1.0",
+        "react-router": "^8.5.0"
     }
 }

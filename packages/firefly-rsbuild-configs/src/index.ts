@@ -17,4 +17,3 @@ export {
     type RemoteDefinition,
     type Router
 } from "./defineConfig.ts";
-

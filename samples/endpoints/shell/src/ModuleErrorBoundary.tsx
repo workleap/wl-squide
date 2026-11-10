@@ -10,9 +10,7 @@ function getErrorMessage(error: unknown) {
         return `${error.status} ${error.statusText}`;
     }
 
-    return error instanceof Error
-        ? error.message
-        : JSON.stringify(error);
+    return error instanceof Error ? error.message : JSON.stringify(error);
 }
 
 export function ModuleErrorBoundary() {
@@ -31,16 +29,9 @@ export function ModuleErrorBoundary() {
         if (isRouteErrorResponse(error)) {
             logger.error(`[shell] An unmanaged error occurred while rendering the route with path ${location.pathname} ${error.status} ${error.statusText}.`);
         } else if (isGlobalDataQueriesError(error)) {
-            logger
-                .withText(`[shell] An unmanaged error occurred while rendering the route with path ${location.pathname}:`)
-                .withText(error.message)
-                .withObject(error.errors)
-                .error();
+            logger.withText(`[shell] An unmanaged error occurred while rendering the route with path ${location.pathname}:`).withText(error.message).withObject(error.errors).error();
         } else {
-            logger
-                .withText(`[shell] An unmanaged error occurred while rendering the route with path ${location.pathname}:`)
-                .withError(error)
-                .error();
+            logger.withText(`[shell] An unmanaged error occurred while rendering the route with path ${location.pathname}:`).withError(error).error();
         }
     }, [location.pathname, error, logger]);
 
@@ -48,10 +39,19 @@ export function ModuleErrorBoundary() {
         <div>
             <h2>{t("title")}</h2>
             <p style={{ color: "red" }}>{t("message")}</p>
-            <p style={{ color: "red" }}><span role="img" aria-label="pointer">👉</span> {getErrorMessage(error)}</p>
-            <p style={{ color: "gray" }}><code>{error.stack}</code></p>
+            <p style={{ color: "red" }}>
+                <span role="img" aria-label="pointer">
+                    👉
+                </span>{" "}
+                {getErrorMessage(error)}
+            </p>
+            <p style={{ color: "gray" }}>
+                <code>{error.stack}</code>
+            </p>
             <br />
-            <button type="button" onClick={handleReloadButtonClick}>{t("reloadButtonLabel")}</button>
+            <button type="button" onClick={handleReloadButtonClick}>
+                {t("reloadButtonLabel")}
+            </button>
         </div>
     );
 }

@@ -27,9 +27,7 @@ export function createDeferredRegistrationsRunner<TRuntime extends FireflyRuntim
     localModules: ModuleRegisterFunction<TRuntime, TContext, TData>[],
     options: CreateDeferredRegistrationsRunnerOptions<TContext> = {}
 ): DeferredRegistrationsRunner<TData> {
-    const {
-        context
-    } = options;
+    const { context } = options;
 
     // Keeping the promise of the last run rather than a boolean so that a run cannot race a previous run that
     // hasn't been awaited, which would otherwise fail deep inside the module registries with an unrelated message.
@@ -48,10 +46,7 @@ export function createDeferredRegistrationsRunner<TRuntime extends FireflyRuntim
     };
 
     const executeRegistrationRun = async (data?: TData) => {
-        const registrationErrors = await runtime.moduleManager.registerModules<TRuntime, TContext, TData>(
-            toLocalModuleDefinitions<TRuntime, TContext, TData>(localModules),
-            { context }
-        );
+        const registrationErrors = await runtime.moduleManager.registerModules<TRuntime, TContext, TData>(toLocalModuleDefinitions<TRuntime, TContext, TData>(localModules), { context });
 
         dispatchAppRouterAction("modules-registered");
 
@@ -82,7 +77,7 @@ export function createDeferredRegistrationsRunner<TRuntime extends FireflyRuntim
     return {
         async register(data?: TData) {
             if (lastRunPromise) {
-                throw new Error("[squide] The \"register\" function of a deferred registrations runner can only be called once. Did you mean to call the \"update\" function?");
+                throw new Error('[squide] The "register" function of a deferred registrations runner can only be called once. Did you mean to call the "update" function?');
             }
 
             // The assignment is synchronous, an async function body executes up to its first await when it's called.
@@ -92,7 +87,7 @@ export function createDeferredRegistrationsRunner<TRuntime extends FireflyRuntim
         },
         async update(data?: TData) {
             if (!lastRunPromise) {
-                throw new Error("[squide] The \"register\" function of a deferred registrations runner must be called before the \"update\" function because an update run always follows a registration run.");
+                throw new Error('[squide] The "register" function of a deferred registrations runner must be called before the "update" function because an update run always follows a registration run.');
             }
 
             lastRunPromise = executeUpdateRun(lastRunPromise, data);

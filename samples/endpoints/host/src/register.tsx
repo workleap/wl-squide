@@ -6,11 +6,7 @@ import { QueryProvider } from "./QueryProvider.tsx";
 import { initI18next } from "./i18next.ts";
 
 function Providers({ children }: PropsWithChildren) {
-    return (
-        <QueryProvider>
-            {children}
-        </QueryProvider>
-    );
+    return <QueryProvider>{children}</QueryProvider>;
 }
 
 function registerRoutes(runtime: FireflyRuntime, i18nextInstance: i18n) {
@@ -20,7 +16,11 @@ function registerRoutes(runtime: FireflyRuntime, i18nextInstance: i18n) {
             const { HomePage } = await import("./HomePage.tsx");
 
             return {
-                element: <Providers><HomePage /></Providers>
+                element: (
+                    <Providers>
+                        <HomePage />
+                    </Providers>
+                )
             };
         }
     });
@@ -38,7 +38,11 @@ function registerRoutes(runtime: FireflyRuntime, i18nextInstance: i18n) {
             const { LocalStorageFeatureFlagsPage } = await import("./LocalStorageFeatureFlagsPage.tsx");
 
             return {
-                element: <Providers><LocalStorageFeatureFlagsPage /></Providers>
+                element: (
+                    <Providers>
+                        <LocalStorageFeatureFlagsPage />
+                    </Providers>
+                )
             };
         }
     });

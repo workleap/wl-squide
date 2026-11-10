@@ -1,10 +1,10 @@
 {
     "name": "@basic/another-remote-module",
-    "author": "Workleap",
     "version": "0.0.0",
-    "description": "Another remote module to showcase Squide.",
     "private": true,
+    "description": "Another remote module to showcase Squide.",
     "license": "Apache-2.0",
+    "author": "Workleap",
     "type": "module",
     "scripts": {
         "dev": "rsbuild dev --config rsbuild.dev.ts",
@@ -12,7 +12,6 @@
         "build": "rsbuild build --config rsbuild.build.ts",
         "serve-build": "pnpm http-server dist -p 8082 -P http://localhost:8082? -c-1",
         "deploy": "netlify deploy --dir=samples/basic/another-remote-module/dist --site=2673b626-74aa-4c03-8a8f-8c794e90fd07 --prod",
-        "eslint": "eslint . --max-warnings=0 --cache --cache-location node_modules/.cache/eslint",
         "typecheck": "tsgo"
     },
     "dependencies": {
@@ -29,23 +28,18 @@
         "useless-lib": "3.0.0"
     },
     "devDependencies": {
-        "@eslint/js": "9.39.2",
         "@rsbuild/core": "2.2.14",
         "@squide/firefly-rsbuild-configs": "workspace:*",
         "@types/node": "26.6.5",
         "@types/react": "19.3.0",
         "@types/react-dom": "19.3.0",
-        "@typescript-eslint/parser": "8.72.0",
         "@typescript/native-preview": "7.0.0-dev.20260707.2",
         "@workleap/browserslist-config": "3.0.0",
-        "@workleap/eslint-configs": "2.0.6",
         "@workleap/typescript-configs": "5.0.0",
         "browserslist": "4.29.4",
         "cross-env": "10.1.0",
-        "eslint": "9.39.2",
         "http-server": "14.1.1",
         "netlify-cli": "27.14.0",
-        "typescript": "6.0.3",
-        "typescript-eslint": "8.54.0"
+        "typescript": "7.0.2"
     }
 }

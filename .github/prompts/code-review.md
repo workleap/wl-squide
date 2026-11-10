@@ -40,7 +40,7 @@ For each changed file in the PR diff, load applicable skills from `.agents/skill
 |---|---|
 | `@workleap/logging` | `/workleap-logging` |
 | `@workleap/telemetry` | `/workleap-telemetry` |
-| `@workleap/browserslist-config`, `@workleap/eslint-configs`, `@workleap/stylelint-configs`, `@workleap/typescript-configs`, `@workleap/rsbuild-configs`, `@workleap/rslib-configs` | `/workleap-web-configs` |
+| `@workleap/browserslist-config`, `@workleap/stylelint-configs`, `@workleap/typescript-configs`, `@workleap/rsbuild-configs`, `@workleap/rslib-configs` | `/workleap-web-configs` |
 
 ## Issues reporting
 

@@ -4,43 +4,29 @@
         "**/dist*": true
     },
 
-    // Formatters settings
-    "editor.codeActionsOnSave": {
-        "source.fixAll": "explicit",
-        "source.sortImports": "explicit"
-    },
+    // Formatting and linting are handled by oxfmt and oxlint through the oxc extension.
+    "oxc.typeAware": true,
+    "editor.defaultFormatter": "oxc.oxc-vscode",
     "editor.formatOnSave": true,
+    "editor.formatOnSaveMode": "file",
+    "editor.codeActionsOnSave": {
+        "source.format.oxc": "always",
+        "source.fixAll.oxc": "always"
+    },
     "[html]": {
         "editor.formatOnSave": false
     },
-    "[typescriptreact]": {
-        "editor.defaultFormatter": "vscode.typescript-language-features"
-    },
 
     // Languages
-    "typescript.format.enable": false, // Disables the default formatter to use ESLint instead
     "typescript.preferences.useAliasesForRenames": false,
     "typescript.tsdk": "node_modules\\typescript\\lib",
 
     // "typescript.experimental.useTsgo": true,
     // "typescript.tsdk": "node_modules\\@typescript\\native-preview\\lib",
 
-    "javascript.format.enable": false, // Disables the default formatter to use ESLint instead
     "javascript.preferences.useAliasesForRenames": false,
 
-    "json.format.enable": false, // Disables the default formatter to use ESLint instead
-
     "css.validate": false, // Disables the default validation to use Stylelint instead
-
-    "eslint.probe": [
-        "javascript",
-        "javascriptreact",
-        "typescript",
-        "typescriptreact",
-        "json",
-        "jsonc",
-        "yaml"
-    ],
 
     // Settings for third parties that are frequently used
     "files.associations": {

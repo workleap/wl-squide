@@ -33,4 +33,3 @@ export function useIsAuthenticated() {
 
     return !!sessionManager?.getSession();
 }
-

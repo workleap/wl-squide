@@ -20,19 +20,25 @@ function registerRoutes(runtime: FireflyRuntime) {
 
     // Register federated tabs.
 
-    runtime.registerRoute({
-        index: true,
-        lazy: () => import("./WorkleapTab.tsx")
-    }, {
-        parentPath: "/federated-tabs"
-    });
+    runtime.registerRoute(
+        {
+            index: true,
+            lazy: () => import("./WorkleapTab.tsx")
+        },
+        {
+            parentPath: "/federated-tabs"
+        }
+    );
 
-    runtime.registerNavigationItem({
-        $label: "Workleap",
-        to: "/federated-tabs"
-    }, {
-        menuId: "/federated-tabs"
-    });
+    runtime.registerNavigationItem(
+        {
+            $label: "Workleap",
+            to: "/federated-tabs"
+        },
+        {
+            menuId: "/federated-tabs"
+        }
+    );
 }
 
 export const registerLocalModule: ModuleRegisterFunction<FireflyRuntime, AppContext> = (runtime, context) => {

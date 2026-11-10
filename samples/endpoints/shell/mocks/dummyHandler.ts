@@ -1,5 +1,5 @@
-import { EnvironmentVariables } from "@squide/firefly";
-import { http, HttpHandler, HttpResponse } from "msw";
+import type { EnvironmentVariables } from "@squide/firefly";
+import { http, type HttpHandler, HttpResponse } from "msw";
 
 export function getDummyHandler(environmentVariables: EnvironmentVariables): HttpHandler {
     return http.get(environmentVariables.dummyHandlerUrl, () => {

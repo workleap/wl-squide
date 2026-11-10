@@ -121,7 +121,7 @@ export function resolveSharedDependency(pkgName: string, entries: Shared[], logF
 const plugin: () => ModuleFederationRuntimePlugin = () => {
     return {
         name: "shared-dependencies-resolution-plugin",
-        resolveShare: function(args) {
+        resolveShare: function (args) {
             const { shareScopeMap, scope, pkgName } = args;
 
             log(`[squide] Resolving ${pkgName}:`, args);
@@ -132,8 +132,7 @@ const plugin: () => ModuleFederationRuntimePlugin = () => {
                     // Temporary check until all the remotes on Webpack Module Federation has been updated to Module Federation 2.0.
                     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
                     // @ts-ignore
-                    x.singleton ||
-                    (x.shareConfig?.singleton)
+                    x.singleton || x.shareConfig?.singleton
                 );
             });
 
@@ -160,7 +159,10 @@ const plugin: () => ModuleFederationRuntimePlugin = () => {
                 const { resolvedEntry, highestVersionEntry } = resolveSharedDependency(pkgName, entries, log);
 
                 if (resolvedEntry.version !== highestVersionEntry.version) {
-                    console.log(`%c[squide] "${highestVersionEntry.from}" requested version "${highestVersionEntry.version}" of "${pkgName}". This version is higher than the major number of the version requested by the host for this dependency (${resolvedEntry.version}). The version for "${pkgName}" has been forced to "${resolvedEntry.version}".`, "color: white; background-color: red;");
+                    console.log(
+                        `%c[squide] "${highestVersionEntry.from}" requested version "${highestVersionEntry.version}" of "${pkgName}". This version is higher than the major number of the version requested by the host for this dependency (${resolvedEntry.version}). The version for "${pkgName}" has been forced to "${resolvedEntry.version}".`,
+                        "color: white; background-color: red;"
+                    );
                 }
 
                 return {

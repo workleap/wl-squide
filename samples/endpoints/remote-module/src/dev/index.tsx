@@ -1,7 +1,7 @@
 import { createI18NextPlugin } from "@endpoints/i18next";
 import { registerShell } from "@endpoints/shell";
 import { FireflyProvider, getFeatureFlag, initializeFirefly } from "@squide/firefly";
-import { BrowserConsoleLogger, RootLogger } from "@workleap/logging";
+import { BrowserConsoleLogger, type RootLogger } from "@workleap/logging";
 import { type InitializeTelemetryOptions, initializeTelemetry, LogRocketLogger, TelemetryProvider } from "@workleap/telemetry/react";
 import { initialize as initializeLaunchDarkly } from "launchdarkly-js-client-sdk";
 import { StrictMode } from "react";
@@ -17,12 +17,16 @@ declare module "@squide/firefly" {
     }
 }
 
-const launchDarklyClient = initializeLaunchDarkly(process.env.LAUNCH_DARKLY_CLIENT_ID!, {
-    kind: "user",
-    anonymous: true
-}, {
-    streaming: true
-});
+const launchDarklyClient = initializeLaunchDarkly(
+    process.env.LAUNCH_DARKLY_CLIENT_ID!,
+    {
+        kind: "user",
+        anonymous: true
+    },
+    {
+        streaming: true
+    }
+);
 
 try {
     await launchDarklyClient.waitForInitialization(5);
@@ -72,10 +76,10 @@ const runtime = initializeFirefly({
     // Registering the remote module as a static module because the "register" function
     // is local when developing in isolation.
     localModules: [registerShell(), registerDev, registerModule],
-    startMsw: async () => {
+    startMsw: async x => {
         // Files that includes an import to the "msw" package are included dynamically to prevent adding
         // unused MSW stuff to the code bundles.
-        (await import("../../mocks/browser.ts")).startMsw(runtime.requestHandlers);
+        return (await import("../../mocks/browser.ts")).startMsw(x.requestHandlers);
     },
     honeycombInstrumentationClient: telemetryClient.honeycomb,
     launchDarklyClient,

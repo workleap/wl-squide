@@ -5,6 +5,6 @@ import { getSharedDependencies } from "./rsbuild.common.ts";
 export default defineBuildHostConfig(Remotes, {
     sharedDependencies: getSharedDependencies(),
     environmentVariables: {
-        "NETLIFY": process.env.NETLIFY === "true"
+        NETLIFY: process.env.NETLIFY === "true"
     }
 });

@@ -8,11 +8,7 @@ import { createDefaultAppRouterState } from "./utils.ts";
 
 function renderUseCanFetchProtectedDataHook<TProps>(state: AppRouterState, additionalProps: RenderHookOptions<TProps> = {}) {
     return renderHook(() => useCanFetchProtectedData(), {
-        wrapper: ({ children }: { children?: ReactNode }) => (
-            <AppRouterStateContext.Provider value={state}>
-                {children}
-            </AppRouterStateContext.Provider>
-        ),
+        wrapper: ({ children }: { children?: ReactNode }) => <AppRouterStateContext.Provider value={state}>{children}</AppRouterStateContext.Provider>,
         ...additionalProps
     });
 }

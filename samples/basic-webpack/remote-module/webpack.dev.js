@@ -11,7 +11,7 @@ if (!process.env.ISOLATED) {
     config = defineDevRemoteModuleConfig(swcConfig, "remote1", 8087, {
         sharedDependencies: getSharedDependencies(false),
         environmentVariables: {
-            "NETLIFY": process.env.NETLIFY === "true"
+            NETLIFY: process.env.NETLIFY === "true"
         }
     });
 } else {
@@ -20,10 +20,9 @@ if (!process.env.ISOLATED) {
         overlay: false,
         sharedDependencies: getSharedDependencies(true),
         environmentVariables: {
-            "NETLIFY": process.env.NETLIFY === "true"
+            NETLIFY: process.env.NETLIFY === "true"
         }
     });
 }
 
 export default config;
-

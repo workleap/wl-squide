@@ -10,23 +10,32 @@ export interface ToastProps<T> extends AriaToastProps<T> {
 export function Toast<T extends ReactNode>({ state, ...props }: ToastProps<T>) {
     const ref = useRef(null);
 
-    const { toastProps, titleProps, closeButtonProps: { onPress, ...closeButtonProps } } = useToast(props, state, ref);
+    const {
+        toastProps,
+        titleProps,
+        closeButtonProps: { onPress, ...closeButtonProps }
+    } = useToast(props, state, ref);
 
     // useToast returns an "onPress" handler instead of an "onClick" handler. "onPress" is a proprietary handler to @react-aria.
     // Since this example doesn't use react-aria buttons, the "onPress" handler must be proxied by an "onClick" handler.
-    const handleClick = useCallback<MouseEventHandler<HTMLButtonElement>>(event => {
-        event.preventDefault();
+    const handleClick = useCallback<MouseEventHandler<HTMLButtonElement>>(
+        event => {
+            event.preventDefault();
 
-        // It doesn't matter because useAriaToast doesn't handle the event.
-        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-        // @ts-ignore
-        onPress();
-    }, [onPress]);
+            // It doesn't matter because useAriaToast doesn't handle the event.
+            // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+            // @ts-ignore
+            onPress();
+        },
+        [onPress]
+    );
 
     return (
         <div {...toastProps} ref={ref} style={{ display: "flex", alignItems: "center", gap: "16px", padding: "12px 16px", backgroundColor: "#6a5acd", color: "#fff", borderRadius: "8px" }}>
             <div {...titleProps}>{props.toast.content}</div>
-            <button type="button" onClick={handleClick} {...closeButtonProps}>x</button>
+            <button type="button" onClick={handleClick} {...closeButtonProps}>
+                x
+            </button>
         </div>
     );
 }
@@ -57,9 +66,12 @@ export function useToastContainer(props: UseToastContainerProps = {}) {
         ...props
     });
 
-    const addToast = useCallback((message: string) => {
-        state.add(message, { timeout: 5000 });
-    }, [state]);
+    const addToast = useCallback(
+        (message: string) => {
+            state.add(message, { timeout: 5000 });
+        },
+        [state]
+    );
 
     return {
         toastState: state,
@@ -76,9 +88,7 @@ export function ToastContainer({ children, state, ...props }: ToastContainerProp
     return (
         <>
             {children}
-            {state.visibleToasts.length > 0 && (
-                <ToastRegion state={state} {...props} />
-            )}
+            {state.visibleToasts.length > 0 && <ToastRegion state={state} {...props} />}
         </>
     );
 }

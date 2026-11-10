@@ -6,7 +6,5 @@ export function Loading() {
     const i18nextInstance = useI18nextInstance(i18NextInstanceKey);
     const { t } = useTranslation("AppRouter", { i18n: i18nextInstance });
 
-    return (
-        <div>{t("loadingMessage")}</div>
-    );
+    return <div>{t("loadingMessage")}</div>;
 }

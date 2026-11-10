@@ -13,7 +13,6 @@ export default defineDevHostConfig(8080, [], {
         }
     },
     environmentVariables: {
-        "NETLIFY": process.env.NETLIFY === "true"
+        NETLIFY: process.env.NETLIFY === "true"
     }
 });
-

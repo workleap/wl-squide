@@ -1,9 +1,6 @@
 {
     "$schema": "https://unpkg.com/@changesets/config@4.0.0/schema.json",
-    "changelog": [
-        "@changesets/changelog-github",
-        { "repo": "workleap/wl-squide" }
-    ],
+    "changelog": ["@changesets/changelog-github", { "repo": "workleap/wl-squide" }],
     "commit": false,
     "fixed": [],
     "linked": [],

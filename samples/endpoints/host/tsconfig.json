@@ -3,12 +3,7 @@
     "compilerOptions": {
         "incremental": true,
         "tsBuildInfoFile": "node_modules/.cache/tsbuildinfo.json",
-        "types": [
-            "../shell/types/env-vars.d.ts",
-            "../shell/types/feature-flags.d.ts",
-            "../local-module/types/env-vars.d.ts",
-            "../local-module/types/feature-flags.d.ts",
-        ],
+        "types": ["../shell/types/env-vars.d.ts", "../shell/types/feature-flags.d.ts", "../local-module/types/env-vars.d.ts", "../local-module/types/feature-flags.d.ts"],
         "paths": {
             "@squide/firefly-rsbuild-configs": ["../../../packages/firefly-rsbuild-configs/src/index.ts"]
         }

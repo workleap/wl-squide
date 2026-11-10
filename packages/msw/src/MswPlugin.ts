@@ -20,9 +20,7 @@ export class MswPlugin extends Plugin {
     readonly #requestHandlerRegistry: RequestHandlerRegistry;
 
     constructor(runtime: Runtime, options: MswPluginOptions = {}) {
-        const {
-            state = new MswState()
-        } = options;
+        const { state = new MswState() } = options;
 
         super(MswPluginName, runtime);
 
@@ -35,17 +33,11 @@ export class MswPlugin extends Plugin {
     }
 
     registerRequestHandlers(handlers: RequestHandler[], options: MswPluginRegisterRequestHandlersOptions = {}) {
-        const {
-            logger,
-            prepend
-        } = options;
+        const { logger, prepend } = options;
 
         this.#requestHandlerRegistry.add(handlers, { prepend });
 
-        (logger ? logger : this._runtime.logger)
-            .withText("[squide] The following MSW request handlers has been registered:")
-            .withObject(handlers)
-            .debug();
+        (logger ? logger : this._runtime.logger).withText("[squide] The following MSW request handlers has been registered:").withObject(handlers).debug();
     }
 
     get requestHandlers(): RequestHandler[] {

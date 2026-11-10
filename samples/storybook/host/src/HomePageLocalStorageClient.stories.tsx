@@ -7,11 +7,7 @@ import { registerHost } from "./registerHost.tsx";
 
 function withQueryDecorator(): Decorator {
     return story => {
-        return (
-            <QueryProvider>
-                {story()}
-            </QueryProvider>
-        );
+        return <QueryProvider>{story()}</QueryProvider>;
     };
 }
 
@@ -25,15 +21,10 @@ const fireflyRuntime = await initializeFireflyForStorybook({
 const meta = {
     title: "HomePageLocalStorageClient",
     component: HomePage,
-    decorators: [
-        withQueryDecorator(),
-        withFireflyDecorator(fireflyRuntime)
-    ],
+    decorators: [withQueryDecorator(), withFireflyDecorator(fireflyRuntime)],
     parameters: {
         msw: {
-            handlers: [
-                ...fireflyRuntime.requestHandlers
-            ]
+            handlers: [...fireflyRuntime.requestHandlers]
         }
     }
 } satisfies Meta<typeof HomePage>;
@@ -45,7 +36,5 @@ type Story = StoryObj<typeof meta>;
 export const Default = {} satisfies Story;
 
 export const WithoutCharacters = {
-    decorators: [
-        withFeatureFlagsOverrideDecorator({ "show-characters": false })
-    ]
+    decorators: [withFeatureFlagsOverrideDecorator({ "show-characters": false })]
 } satisfies Story;

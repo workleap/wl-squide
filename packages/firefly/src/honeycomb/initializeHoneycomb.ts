@@ -9,7 +9,7 @@ export async function initializeHoneycomb(runtime: FireflyRuntime) {
 
             mod.registerHoneycombInstrumentation(runtime);
         } catch (error: unknown) {
-            runtime.logger.error("[squide] Failed to register Honeycomb instrumentation. The \"./registerHoneycombInstrumentation.ts\" file cannot be imported.");
+            runtime.logger.error('[squide] Failed to register Honeycomb instrumentation. The "./registerHoneycombInstrumentation.ts" file cannot be imported.');
 
             throw error;
         }

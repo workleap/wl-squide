@@ -1,5 +1,5 @@
 import type { Session } from "./session.ts";
-import { UserRole } from "./userRole.ts";
+import type { UserRole } from "./userRole.ts";
 
 export interface UserInfo {
     email: string;

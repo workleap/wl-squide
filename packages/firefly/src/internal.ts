@@ -19,4 +19,3 @@ export {
     type StartSpanFactory,
     type TraceErrorOptions
 } from "./honeycomb/utils.ts";
-

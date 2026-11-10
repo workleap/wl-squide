@@ -1,11 +1,4 @@
-import {
-    DeferredRegistrationsUpdateCompletedEvent,
-    DeferredRegistrationsUpdateStartedEvent,
-    FireflyProvider,
-    FireflyRuntime,
-    ModuleRegistrationError,
-    useUpdateDeferredRegistrations
-} from "@squide/firefly";
+import { DeferredRegistrationsUpdateCompletedEvent, DeferredRegistrationsUpdateStartedEvent, FireflyProvider, FireflyRuntime, ModuleRegistrationError, useUpdateDeferredRegistrations } from "@squide/firefly";
 import { AppRouterDispatcherContext, type AppRouterDispatch } from "@squide/firefly/internal";
 import { act, renderHook } from "@testing-library/react";
 import { NoopLogger } from "@workleap/logging";
@@ -21,9 +14,7 @@ function renderUseUpdateDeferredRegistrationsHook(runtime: FireflyRuntime, dispa
     return renderHook(() => useUpdateDeferredRegistrations(), {
         wrapper: ({ children }: { children?: ReactNode }) => (
             <FireflyProvider runtime={runtime}>
-                <AppRouterDispatcherContext.Provider value={dispatch}>
-                    {children}
-                </AppRouterDispatcherContext.Provider>
+                <AppRouterDispatcherContext.Provider value={dispatch}>{children}</AppRouterDispatcherContext.Provider>
             </FireflyProvider>
         )
     });

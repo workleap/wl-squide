@@ -27,7 +27,7 @@ Remember the selection; it runs in step 4 after the update, not now. Neither che
 pnpm list-outdated-deps
 ```
 
-It exits non-zero whenever something is outdated — that's expected, not a failure. Report the outdated packages and any peer-version mismatches before changing anything. The script holds back `eslint`, `@eslint/js`, `typescript` and `typescript-eslint` on purpose — never bump them by hand. `templates/` is outside the pnpm workspace and is not updated.
+It exits non-zero whenever something is outdated — that's expected, not a failure. Report the outdated packages and any peer-version mismatches before changing anything. `templates/` is outside the pnpm workspace and is not updated.
 
 ## 3. Update the dependencies
 

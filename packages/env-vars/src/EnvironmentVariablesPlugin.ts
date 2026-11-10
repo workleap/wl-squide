@@ -13,9 +13,7 @@ export class EnvironmentVariablesPlugin extends Plugin {
     constructor(runtime: Runtime, options: EnvironmentVariablesPluginOptions = {}) {
         super(EnvironmentVariablesPluginName, runtime);
 
-        const {
-            variables
-        } = options;
+        const { variables } = options;
 
         if (variables) {
             this.#environmentVariablesRegistry.addVariables(variables);
@@ -31,10 +29,7 @@ export class EnvironmentVariablesPlugin extends Plugin {
     registerVariables(variables: Partial<EnvironmentVariables>) {
         this.#environmentVariablesRegistry.addVariables(variables);
 
-        this._runtime.logger
-            .withText("[squide] The following environment variables has been registered:")
-            .withObject(variables)
-            .debug();
+        this._runtime.logger.withText("[squide] The following environment variables has been registered:").withObject(variables).debug();
     }
 
     getVariable<T extends EnvironmentVariableKey>(key: T) {

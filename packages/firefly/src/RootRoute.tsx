@@ -8,9 +8,7 @@ export interface RootRouteProps {
 }
 
 export function RootRoute(props: RootRouteProps) {
-    const {
-        strictMode = true
-    } = props;
+    const { strictMode = true } = props;
 
     const state = useAppRouterState();
 
@@ -30,7 +28,5 @@ export function RootRoute(props: RootRouteProps) {
         }
     }, [isActiveRouteProtected, dispatch]);
 
-    return (
-        <Outlet />
-    );
+    return <Outlet />;
 }

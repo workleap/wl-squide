@@ -176,12 +176,15 @@ describe.concurrent("setFeatureFlags", () => {
 
         client.on("change", listener);
 
-        client.setFeatureFlags({
-            "flag-a": true,
-            "flag-b": true
-        }, {
-            notify: false
-        });
+        client.setFeatureFlags(
+            {
+                "flag-a": true,
+                "flag-b": true
+            },
+            {
+                notify: false
+            }
+        );
 
         expect(listener).not.toHaveBeenCalled();
     });
@@ -370,8 +373,9 @@ describe.concurrent("startTransaction", () => {
 
         client.startTransaction();
 
-        // eslint-disable-next-line @stylistic/max-statements-per-line
-        expect(() => { client.startTransaction(); }).toThrow();
+        expect(() => {
+            client.startTransaction();
+        }).toThrow();
     });
 
     test.concurrent("can complete and start a new transaction", ({ expect }) => {
@@ -388,8 +392,8 @@ describe.concurrent("startTransaction", () => {
         const transaction2 = client.startTransaction();
         transaction2.undo();
 
-        // eslint-disable-next-line @stylistic/max-statements-per-line
-        expect(() => { client.startTransaction(); }).not.toThrow();
+        expect(() => {
+            client.startTransaction();
+        }).not.toThrow();
     });
 });
-

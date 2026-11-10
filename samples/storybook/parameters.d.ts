@@ -16,4 +16,3 @@ declare module "storybook-react-rsbuild" {
         };
     }
 }
-

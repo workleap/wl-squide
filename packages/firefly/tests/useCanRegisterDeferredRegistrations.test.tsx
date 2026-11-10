@@ -8,11 +8,7 @@ import { createDefaultAppRouterState } from "./utils.ts";
 
 function renderUseCanRegisterDeferredRegistrationsHook<TProps>(state: AppRouterState, additionalProps: RenderHookOptions<TProps> = {}) {
     return renderHook(() => useCanRegisterDeferredRegistrations(), {
-        wrapper: ({ children }: { children?: ReactNode }) => (
-            <AppRouterStateContext.Provider value={state}>
-                {children}
-            </AppRouterStateContext.Provider>
-        ),
+        wrapper: ({ children }: { children?: ReactNode }) => <AppRouterStateContext.Provider value={state}>{children}</AppRouterStateContext.Provider>,
         ...additionalProps
     });
 }

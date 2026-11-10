@@ -9,9 +9,7 @@ export class MswState {
     #isReady: boolean;
 
     constructor(options: MswStateOptions = {}) {
-        const {
-            isReady = false
-        } = options;
+        const { isReady = false } = options;
 
         this.#isReady = isReady;
     }

@@ -11,11 +11,7 @@ interface ProvidersProps {
 }
 
 function Providers({ children }: ProvidersProps) {
-    return (
-        <QueryProvider>
-            {children}
-        </QueryProvider>
-    );
+    return <QueryProvider>{children}</QueryProvider>;
 }
 
 function registerRoutes(runtime: FireflyRuntime, i18nextInstance: i18n): DeferredRegistrationFunction<FireflyRuntime, DeferredRegistrationData> {
@@ -25,23 +21,34 @@ function registerRoutes(runtime: FireflyRuntime, i18nextInstance: i18n): Deferre
             const { SubscriptionPage } = await import("./SubscriptionPage.tsx");
 
             return {
-                element: <Providers><SubscriptionPage /></Providers>
+                element: (
+                    <Providers>
+                        <SubscriptionPage />
+                    </Providers>
+                )
             };
         }
     });
 
-    runtime.registerRoute({
-        index: true,
-        lazy: async () => {
-            const { CharactersTab } = await import("./CharactersTab.tsx");
+    runtime.registerRoute(
+        {
+            index: true,
+            lazy: async () => {
+                const { CharactersTab } = await import("./CharactersTab.tsx");
 
-            return {
-                element: <Providers><CharactersTab /></Providers>
-            };
+                return {
+                    element: (
+                        <Providers>
+                            <CharactersTab />
+                        </Providers>
+                    )
+                };
+            }
+        },
+        {
+            parentPath: "/federated-tabs"
         }
-    }, {
-        parentPath: "/federated-tabs"
-    });
+    );
 
     runtime.registerRoute({
         path: "/feature-a",
@@ -49,7 +56,11 @@ function registerRoutes(runtime: FireflyRuntime, i18nextInstance: i18n): Deferre
             const { FeatureAPage } = await import("./FeatureAPage.tsx");
 
             return {
-                element: <Providers><FeatureAPage /></Providers>
+                element: (
+                    <Providers>
+                        <FeatureAPage />
+                    </Providers>
+                )
             };
         }
     });
@@ -60,13 +71,16 @@ function registerRoutes(runtime: FireflyRuntime, i18nextInstance: i18n): Deferre
         to: "/subscription"
     });
 
-    runtime.registerNavigationItem({
-        $id: "characters-tab",
-        $label: <I18nextNavigationItemLabel i18next={i18nextInstance} resourceKey="charactersTab" />,
-        to: "/federated-tabs"
-    }, {
-        menuId: "/federated-tabs"
-    });
+    runtime.registerNavigationItem(
+        {
+            $id: "characters-tab",
+            $label: <I18nextNavigationItemLabel i18next={i18nextInstance} resourceKey="charactersTab" />,
+            to: "/federated-tabs"
+        },
+        {
+            menuId: "/federated-tabs"
+        }
+    );
 
     return (deferredRuntime, { role }) => {
         if (role === "admin" && deferredRuntime.getFeatureFlag("enable-feature-a", true)) {

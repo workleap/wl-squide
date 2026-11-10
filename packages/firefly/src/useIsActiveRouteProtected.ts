@@ -6,9 +6,7 @@ export interface UseIsActiveRouteProtectedOptions {
 }
 
 export function useIsActiveRouteProtected(areModulesReady: boolean, options: UseIsActiveRouteProtectedOptions = {}) {
-    const {
-        throwWhenThereIsNoMatch = true
-    } = options;
+    const { throwWhenThereIsNoMatch = true } = options;
 
     // Using this hook instead of window.location to retrieve the current location because it triggers a re-render everytime the browser location change.
     const location = useLocation();

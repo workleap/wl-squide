@@ -1,11 +1,11 @@
 import type { RegisterRouteOptions, RuntimeMethodOptions, RuntimeOptions } from "@squide/core";
-import { EnvironmentVariableKey, EnvironmentVariables, getEnvironmentVariablesPlugin } from "@squide/env-vars";
-import { FeatureFlagKey, FeatureFlags, FeatureFlagSetSnapshot, getLaunchDarklyPlugin, LaunchDarklyPluginName } from "@squide/launch-darkly";
-import { getMswPlugin, MswPluginName, MswState } from "@squide/msw";
+import { type EnvironmentVariableKey, type EnvironmentVariables, getEnvironmentVariablesPlugin } from "@squide/env-vars";
+import { type FeatureFlagKey, type FeatureFlags, type FeatureFlagSetSnapshot, getLaunchDarklyPlugin, LaunchDarklyPluginName } from "@squide/launch-darkly";
+import { getMswPlugin, MswPluginName, type MswState } from "@squide/msw";
 import { type IReactRouterRuntime, ReactRouterRuntime, ReactRouterRuntimeScope, type Route } from "@squide/react-router";
 import type { HoneycombInstrumentationPartialClient } from "@workleap-telemetry/core";
 import type { Logger } from "@workleap/logging";
-import { LDClient } from "launchdarkly-js-client-sdk";
+import type { LDClient } from "launchdarkly-js-client-sdk";
 import type { RequestHandler } from "msw";
 import { type AppRouterStore, createAppRouterStore } from "./AppRouterStore.ts";
 
@@ -43,9 +43,7 @@ export class FireflyRuntime<TRuntime extends FireflyRuntime = any> extends React
     readonly #isLaunchDarklyEnabled: boolean;
 
     constructor(options: FireflyRuntimeOptions = {}) {
-        const {
-            honeycombInstrumentationClient
-        } = options;
+        const { honeycombInstrumentationClient } = options;
 
         super(options);
 
@@ -72,9 +70,7 @@ export class FireflyRuntime<TRuntime extends FireflyRuntime = any> extends React
     }
 
     registerRequestHandlers(handlers: RequestHandler[], options: RegisterRequestHandlersOptions = {}) {
-        const {
-            prepend
-        } = options;
+        const { prepend } = options;
 
         const logger = this._getLogger(options);
         const plugin = getMswPlugin(this);
@@ -139,7 +135,7 @@ export class FireflyRuntime<TRuntime extends FireflyRuntime = any> extends React
     }
 
     startScope(logger: Logger): TRuntime {
-        return (new FireflyRuntimeScope(this, logger) as unknown) as TRuntime;
+        return new FireflyRuntimeScope(this, logger) as unknown as TRuntime;
     }
 }
 

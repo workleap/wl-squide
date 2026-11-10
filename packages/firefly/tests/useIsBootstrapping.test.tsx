@@ -8,11 +8,7 @@ import { createDefaultAppRouterState } from "./utils.ts";
 
 function renderUseIsBootstrappingHook<TProps>(state: AppRouterState, additionalProps: RenderHookOptions<TProps> = {}) {
     return renderHook(() => useIsBootstrapping(), {
-        wrapper: ({ children }: { children?: ReactNode }) => (
-            <AppRouterStateContext.Provider value={state}>
-                {children}
-            </AppRouterStateContext.Provider>
-        ),
+        wrapper: ({ children }: { children?: ReactNode }) => <AppRouterStateContext.Provider value={state}>{children}</AppRouterStateContext.Provider>,
         ...additionalProps
     });
 }

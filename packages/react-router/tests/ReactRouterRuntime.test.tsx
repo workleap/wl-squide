@@ -300,12 +300,15 @@ describe.concurrent("registerRoute", () => {
                 loggers: [new NoopLogger()]
             });
 
-            runtime.registerRoute({
-                index: true,
-                element: <div>Hello!</div>
-            }, {
-                hoist: true
-            });
+            runtime.registerRoute(
+                {
+                    index: true,
+                    element: <div>Hello!</div>
+                },
+                {
+                    hoist: true
+                }
+            );
 
             expect(runtime.routes.length).toBe(1);
             expect(runtime.routes[0].index).toBeTruthy();
@@ -316,11 +319,14 @@ describe.concurrent("registerRoute", () => {
                 loggers: [new NoopLogger()]
             });
 
-            runtime.registerRoute({
-                element: <div>Hello!</div>
-            }, {
-                hoist: true
-            });
+            runtime.registerRoute(
+                {
+                    element: <div>Hello!</div>
+                },
+                {
+                    hoist: true
+                }
+            );
 
             expect(runtime.routes.length).toBe(1);
             expect(runtime.routes[0].index).toBeUndefined();
@@ -332,29 +338,41 @@ describe.concurrent("registerRoute", () => {
                 loggers: [new NoopLogger()]
             });
 
-            runtime.registerRoute({
-                element: <div>Hello!</div>
-            }, {
-                hoist: true
-            });
+            runtime.registerRoute(
+                {
+                    element: <div>Hello!</div>
+                },
+                {
+                    hoist: true
+                }
+            );
 
-            runtime.registerRoute({
-                element: <div>How</div>
-            }, {
-                hoist: true
-            });
+            runtime.registerRoute(
+                {
+                    element: <div>How</div>
+                },
+                {
+                    hoist: true
+                }
+            );
 
-            runtime.registerRoute({
-                element: <div>Are</div>
-            }, {
-                hoist: true
-            });
+            runtime.registerRoute(
+                {
+                    element: <div>Are</div>
+                },
+                {
+                    hoist: true
+                }
+            );
 
-            runtime.registerRoute({
-                element: <div>You?</div>
-            }, {
-                hoist: true
-            });
+            runtime.registerRoute(
+                {
+                    element: <div>You?</div>
+                },
+                {
+                    hoist: true
+                }
+            );
 
             expect(runtime.routes.length).toBe(4);
         });
@@ -364,22 +382,25 @@ describe.concurrent("registerRoute", () => {
                 loggers: [new NoopLogger()]
             });
 
-            runtime.registerRoute({
-                element: <div>Hello</div>,
-                children: [
-                    {
-                        element: <div>You!</div>,
-                        children: [
-                            {
-                                path: "/deeply-nested-route",
-                                element: <div>Hello from nested!</div>
-                            }
-                        ]
-                    }
-                ]
-            }, {
-                hoist: true
-            });
+            runtime.registerRoute(
+                {
+                    element: <div>Hello</div>,
+                    children: [
+                        {
+                            element: <div>You!</div>,
+                            children: [
+                                {
+                                    path: "/deeply-nested-route",
+                                    element: <div>Hello from nested!</div>
+                                }
+                            ]
+                        }
+                    ]
+                },
+                {
+                    hoist: true
+                }
+            );
 
             expect(runtime.routes.length).toBe(1);
             expect(runtime.routes[0].children![0].children![0].path).toBe("/deeply-nested-route");
@@ -390,140 +411,161 @@ describe.concurrent("registerRoute", () => {
                 loggers: [new NoopLogger()]
             });
 
-            runtime.registerRoute({
-                element: <div>Hello</div>,
-                children: [
-                    {
-                        element: <div>You!</div>,
-                        children: [
-                            {
-                                index: true,
-                                element: <div>Hello from nested!</div>
-                            }
-                        ]
-                    }
-                ]
-            }, {
-                hoist: true
-            });
+            runtime.registerRoute(
+                {
+                    element: <div>Hello</div>,
+                    children: [
+                        {
+                            element: <div>You!</div>,
+                            children: [
+                                {
+                                    index: true,
+                                    element: <div>Hello from nested!</div>
+                                }
+                            ]
+                        }
+                    ]
+                },
+                {
+                    hoist: true
+                }
+            );
 
             expect(runtime.routes.length).toBe(1);
             expect(runtime.routes[0].children![0].children![0].index).toBeTruthy();
         });
 
-        test.concurrent("should register a root route with a \"public\" visibility", ({ expect }) => {
+        test.concurrent('should register a root route with a "public" visibility', ({ expect }) => {
             const runtime = new ReactRouterRuntime({
                 loggers: [new NoopLogger()]
             });
 
-            runtime.registerRoute({
-                $visibility: "public",
-                path: "/public",
-                element: <div>Hello!</div>
-            }, {
-                hoist: true
-            });
+            runtime.registerRoute(
+                {
+                    $visibility: "public",
+                    path: "/public",
+                    element: <div>Hello!</div>
+                },
+                {
+                    hoist: true
+                }
+            );
 
             expect(runtime.routes[0].path).toBe("/public");
             expect(runtime.routes[0].$visibility).toBe("public");
         });
 
-        test.concurrent("should register a root route with a \"protected\" visibility", ({ expect }) => {
+        test.concurrent('should register a root route with a "protected" visibility', ({ expect }) => {
             const runtime = new ReactRouterRuntime({
                 loggers: [new NoopLogger()]
             });
 
-            runtime.registerRoute({
-                $visibility: "protected",
-                path: "/protected",
-                element: <div>Hello!</div>
-            }, {
-                hoist: true
-            });
+            runtime.registerRoute(
+                {
+                    $visibility: "protected",
+                    path: "/protected",
+                    element: <div>Hello!</div>
+                },
+                {
+                    hoist: true
+                }
+            );
 
             expect(runtime.routes[0].path).toBe("/protected");
             expect(runtime.routes[0].$visibility).toBe("protected");
         });
 
-        test.concurrent("when a root route has no visibility option, it is considered as an \"protected\" route", ({ expect }) => {
+        test.concurrent('when a root route has no visibility option, it is considered as an "protected" route', ({ expect }) => {
             const runtime = new ReactRouterRuntime({
                 loggers: [new NoopLogger()]
             });
 
-            runtime.registerRoute({
-                path: "/foo",
-                element: <div>Hello!</div>
-            }, {
-                hoist: true
-            });
+            runtime.registerRoute(
+                {
+                    path: "/foo",
+                    element: <div>Hello!</div>
+                },
+                {
+                    hoist: true
+                }
+            );
 
             expect(runtime.routes[0].path).toBe("/foo");
             expect(runtime.routes[0].$visibility).toBe("protected");
         });
 
-        test.concurrent("should register a nested route with a \"public\" visibility", ({ expect }) => {
+        test.concurrent('should register a nested route with a "public" visibility', ({ expect }) => {
             const runtime = new ReactRouterRuntime({
                 loggers: [new NoopLogger()]
             });
 
-            runtime.registerRoute({
-                path: "/layout",
-                element: <div>Hello!</div>,
-                children: [
-                    {
-                        $visibility: "public",
-                        path: "/nested",
-                        element: <div>Hello!</div>
-                    }
-                ]
-            }, {
-                hoist: true
-            });
+            runtime.registerRoute(
+                {
+                    path: "/layout",
+                    element: <div>Hello!</div>,
+                    children: [
+                        {
+                            $visibility: "public",
+                            path: "/nested",
+                            element: <div>Hello!</div>
+                        }
+                    ]
+                },
+                {
+                    hoist: true
+                }
+            );
 
             expect(runtime.routes[0].children![0].path).toBe("/nested");
             expect(runtime.routes[0].children![0].$visibility).toBe("public");
         });
 
-        test.concurrent("should register a nested route with a \"protected\" visibility", ({ expect }) => {
+        test.concurrent('should register a nested route with a "protected" visibility', ({ expect }) => {
             const runtime = new ReactRouterRuntime({
                 loggers: [new NoopLogger()]
             });
 
-            runtime.registerRoute({
-                path: "/layout",
-                element: <div>Hello!</div>,
-                children: [
-                    {
-                        $visibility: "protected",
-                        path: "/nested",
-                        element: <div>Hello!</div>
-                    }
-                ]
-            }, {
-                hoist: true
-            });
+            runtime.registerRoute(
+                {
+                    path: "/layout",
+                    element: <div>Hello!</div>,
+                    children: [
+                        {
+                            $visibility: "protected",
+                            path: "/nested",
+                            element: <div>Hello!</div>
+                        }
+                    ]
+                },
+                {
+                    hoist: true
+                }
+            );
 
             expect(runtime.routes[0].children![0].path).toBe("/nested");
             expect(runtime.routes[0].children![0].$visibility).toBe("protected");
         });
 
-        test.concurrent("when a nested route has no visibility option, it is considered as a \"protected\" route", ({ expect }) => {
+        test.concurrent('when a nested route has no visibility option, it is considered as a "protected" route', ({ expect }) => {
             const runtime = new ReactRouterRuntime({
                 loggers: [new NoopLogger()]
             });
 
-            runtime.registerRoute({
-                path: "/layout",
-                element: <div>Hello!</div>,
-                children: [
-                    {
-                        path: "/nested",
-                        element: <div>Hello!</div>
-                    }
-                ]
-            }, {
-                hoist: true
-            });
+            runtime.registerRoute(
+                {
+                    path: "/layout",
+                    element: <div>Hello!</div>,
+                    children: [
+                        {
+                            path: "/nested",
+                            element: <div>Hello!</div>
+                        }
+                    ]
+                },
+                {
+                    hoist: true
+                }
+            );
 
             expect(runtime.routes[0].children![0].path).toBe("/nested");
             expect(runtime.routes[0].children![0].$visibility).toBe("protected");
@@ -534,12 +576,15 @@ describe.concurrent("registerRoute", () => {
                 loggers: [new NoopLogger()]
             });
 
-            runtime.registerRoute({
-                $id: "foo",
-                element: <div>Hello!</div>
-            }, {
-                hoist: true
-            });
+            runtime.registerRoute(
+                {
+                    $id: "foo",
+                    element: <div>Hello!</div>
+                },
+                {
+                    hoist: true
+                }
+            );
 
             expect(runtime.routes.length).toBe(1);
             expect(runtime.routes[0].$id).toBe("foo");
@@ -550,17 +595,20 @@ describe.concurrent("registerRoute", () => {
                 loggers: [new NoopLogger()]
             });
 
-            runtime.registerRoute({
-                element: <div>Hello</div>,
-                children: [
-                    {
-                        $id: "foo",
-                        element: <div>You!</div>
-                    }
-                ]
-            }, {
-                hoist: true
-            });
+            runtime.registerRoute(
+                {
+                    element: <div>Hello</div>,
+                    children: [
+                        {
+                            $id: "foo",
+                            element: <div>You!</div>
+                        }
+                    ]
+                },
+                {
+                    hoist: true
+                }
+            );
 
             expect(runtime.routes.length).toBe(1);
             expect(runtime.routes[0].children![0].$id).toBe("foo");
@@ -574,31 +622,40 @@ describe.concurrent("registerRoute", () => {
                     loggers: [new NoopLogger()]
                 });
 
-                runtime.registerRoute({
-                    path: "/layout",
-                    element: <div>Hello!</div>
-                }, {
-                    hoist: true
-                });
+                runtime.registerRoute(
+                    {
+                        path: "/layout",
+                        element: <div>Hello!</div>
+                    },
+                    {
+                        hoist: true
+                    }
+                );
 
                 expect(runtime.routes.length).toBe(1);
 
-                runtime.registerRoute({
-                    path: "/layout/nested",
-                    element: <div>Hello!</div>
-                }, {
-                    parentPath: "/layout"
-                });
+                runtime.registerRoute(
+                    {
+                        path: "/layout/nested",
+                        element: <div>Hello!</div>
+                    },
+                    {
+                        parentPath: "/layout"
+                    }
+                );
 
                 expect(runtime.routes.length).toBe(1);
                 expect(runtime.routes[0].children![0].path).toBe("/layout/nested");
 
-                runtime.registerRoute({
-                    path: "/layout/nested/another-nested",
-                    element: <div>Hello!</div>
-                }, {
-                    parentPath: "/layout/nested"
-                });
+                runtime.registerRoute(
+                    {
+                        path: "/layout/nested/another-nested",
+                        element: <div>Hello!</div>
+                    },
+                    {
+                        parentPath: "/layout/nested"
+                    }
+                );
 
                 expect(runtime.routes.length).toBe(1);
                 expect(runtime.routes[0].children![0].children![0].path).toBe("/layout/nested/another-nested");
@@ -609,12 +666,15 @@ describe.concurrent("registerRoute", () => {
                     loggers: [new NoopLogger()]
                 });
 
-                runtime.registerRoute({
-                    path: "/nested",
-                    element: <div>Hello!</div>
-                }, {
-                    parentPath: "/layout"
-                });
+                runtime.registerRoute(
+                    {
+                        path: "/nested",
+                        element: <div>Hello!</div>
+                    },
+                    {
+                        parentPath: "/layout"
+                    }
+                );
 
                 expect(runtime.routes.length).toBe(0);
             });
@@ -624,38 +684,50 @@ describe.concurrent("registerRoute", () => {
                     loggers: [new NoopLogger()]
                 });
 
-                runtime.registerRoute({
-                    path: "/nested",
-                    element: <div>Hello!</div>
-                }, {
-                    parentPath: "/layout"
-                });
+                runtime.registerRoute(
+                    {
+                        path: "/nested",
+                        element: <div>Hello!</div>
+                    },
+                    {
+                        parentPath: "/layout"
+                    }
+                );
 
-                runtime.registerRoute({
-                    path: "/another-nested",
-                    element: <div>Hello!</div>
-                }, {
-                    parentPath: "/layout"
-                });
+                runtime.registerRoute(
+                    {
+                        path: "/another-nested",
+                        element: <div>Hello!</div>
+                    },
+                    {
+                        parentPath: "/layout"
+                    }
+                );
 
                 expect(runtime.routes.length).toBe(0);
 
-                runtime.registerRoute({
-                    path: "/foo",
-                    element: <div>Hello!</div>
-                }, {
-                    hoist: true
-                });
+                runtime.registerRoute(
+                    {
+                        path: "/foo",
+                        element: <div>Hello!</div>
+                    },
+                    {
+                        hoist: true
+                    }
+                );
 
                 expect(runtime.routes.length).toBe(1);
                 expect(runtime.routes[0].children).toBeUndefined();
 
-                runtime.registerRoute({
-                    path: "/layout",
-                    element: <div>Hello!</div>
-                }, {
-                    hoist: true
-                });
+                runtime.registerRoute(
+                    {
+                        path: "/layout",
+                        element: <div>Hello!</div>
+                    },
+                    {
+                        hoist: true
+                    }
+                );
 
                 expect(runtime.routes.length).toBe(2);
                 expect(runtime.routes[1].children?.length).toBe(2);
@@ -666,40 +738,49 @@ describe.concurrent("registerRoute", () => {
                     loggers: [new NoopLogger()]
                 });
 
-                runtime.registerRoute({
-                    path: "/deeply/nested/layout/more-nested",
-                    element: <div>Hello!</div>
-                }, {
-                    parentPath: "/deeply/nested/layout"
-                });
+                runtime.registerRoute(
+                    {
+                        path: "/deeply/nested/layout/more-nested",
+                        element: <div>Hello!</div>
+                    },
+                    {
+                        parentPath: "/deeply/nested/layout"
+                    }
+                );
 
-                runtime.registerRoute({
-                    path: "/deeply/nested/layout/more-nested/another-nested",
-                    element: <div>Hello!</div>
-                }, {
-                    parentPath: "/deeply/nested/layout/more-nested"
-                });
+                runtime.registerRoute(
+                    {
+                        path: "/deeply/nested/layout/more-nested/another-nested",
+                        element: <div>Hello!</div>
+                    },
+                    {
+                        parentPath: "/deeply/nested/layout/more-nested"
+                    }
+                );
 
                 expect(runtime.routes.length).toBe(0);
 
-                runtime.registerRoute({
-                    path: "/deeply",
-                    element: <div>Hello</div>,
-                    children: [
-                        {
-                            path: "/deeply/nested",
-                            element: <div>You!</div>,
-                            children: [
-                                {
-                                    path: "/deeply/nested/layout",
-                                    element: <div>Hello from nested!</div>
-                                }
-                            ]
-                        }
-                    ]
-                }, {
-                    hoist: true
-                });
+                runtime.registerRoute(
+                    {
+                        path: "/deeply",
+                        element: <div>Hello</div>,
+                        children: [
+                            {
+                                path: "/deeply/nested",
+                                element: <div>You!</div>,
+                                children: [
+                                    {
+                                        path: "/deeply/nested/layout",
+                                        element: <div>Hello from nested!</div>
+                                    }
+                                ]
+                            }
+                        ]
+                    },
+                    {
+                        hoist: true
+                    }
+                );
 
                 expect(runtime.routes.length).toBe(1);
                 expect(runtime.routes[0].path).toBe("/deeply");
@@ -712,38 +793,47 @@ describe.concurrent("registerRoute", () => {
                     loggers: [new NoopLogger()]
                 });
 
-                runtime.registerRoute({
-                    path: "/layout/nested",
-                    element: <div>Hello!</div>
-                }, {
-                    parentPath: "/layout"
-                });
+                runtime.registerRoute(
+                    {
+                        path: "/layout/nested",
+                        element: <div>Hello!</div>
+                    },
+                    {
+                        parentPath: "/layout"
+                    }
+                );
 
-                runtime.registerRoute({
-                    path: "/layout/nested/another-nested",
-                    element: <div>Hello!</div>
-                }, {
-                    parentPath: "/layout/nested"
-                });
+                runtime.registerRoute(
+                    {
+                        path: "/layout/nested/another-nested",
+                        element: <div>Hello!</div>
+                    },
+                    {
+                        parentPath: "/layout/nested"
+                    }
+                );
 
                 expect(runtime.routes.length).toBe(0);
 
-                runtime.registerRoute({
-                    element: <div>Hello</div>,
-                    children: [
-                        {
-                            element: <div>You!</div>,
-                            children: [
-                                {
-                                    path: "/layout",
-                                    element: <div>Hello from nested!</div>
-                                }
-                            ]
-                        }
-                    ]
-                }, {
-                    hoist: true
-                });
+                runtime.registerRoute(
+                    {
+                        element: <div>Hello</div>,
+                        children: [
+                            {
+                                element: <div>You!</div>,
+                                children: [
+                                    {
+                                        path: "/layout",
+                                        element: <div>Hello from nested!</div>
+                                    }
+                                ]
+                            }
+                        ]
+                    },
+                    {
+                        hoist: true
+                    }
+                );
 
                 expect(runtime.routes.length).toBe(1);
                 expect(runtime.routes[0].path).toBeUndefined();
@@ -756,26 +846,35 @@ describe.concurrent("registerRoute", () => {
                     loggers: [new NoopLogger()]
                 });
 
-                runtime.registerRoute({
-                    path: "/layout",
-                    element: <div>Hello!</div>
-                }, {
-                    hoist: true
-                });
+                runtime.registerRoute(
+                    {
+                        path: "/layout",
+                        element: <div>Hello!</div>
+                    },
+                    {
+                        hoist: true
+                    }
+                );
 
-                runtime.registerRoute({
-                    path: "/layout/nested",
-                    element: <div>Hello!</div>
-                }, {
-                    parentPath: "/layout"
-                });
+                runtime.registerRoute(
+                    {
+                        path: "/layout/nested",
+                        element: <div>Hello!</div>
+                    },
+                    {
+                        parentPath: "/layout"
+                    }
+                );
 
-                runtime.registerRoute({
-                    path: "/layout/nested/another-level",
-                    element: <div>Hello!</div>
-                }, {
-                    parentPath: "/layout/nested"
-                });
+                runtime.registerRoute(
+                    {
+                        path: "/layout/nested/another-level",
+                        element: <div>Hello!</div>
+                    },
+                    {
+                        parentPath: "/layout/nested"
+                    }
+                );
 
                 expect(runtime.routes.length).toBe(1);
                 expect(runtime.routes[0].children![0].children![0].path).toBe("/layout/nested/another-level");
@@ -786,41 +885,50 @@ describe.concurrent("registerRoute", () => {
                     loggers: [new NoopLogger()]
                 });
 
-                runtime.registerRoute({
-                    path: "/deeply",
-                    element: <div>Hello</div>,
-                    children: [
-                        {
-                            path: "/deeply/nested",
-                            element: <div>You!</div>,
-                            children: [
-                                {
-                                    path: "/deeply/nested/layout",
-                                    element: <div>Hello from nested!</div>
-                                }
-                            ]
-                        }
-                    ]
-                }, {
-                    hoist: true
-                });
+                runtime.registerRoute(
+                    {
+                        path: "/deeply",
+                        element: <div>Hello</div>,
+                        children: [
+                            {
+                                path: "/deeply/nested",
+                                element: <div>You!</div>,
+                                children: [
+                                    {
+                                        path: "/deeply/nested/layout",
+                                        element: <div>Hello from nested!</div>
+                                    }
+                                ]
+                            }
+                        ]
+                    },
+                    {
+                        hoist: true
+                    }
+                );
 
-                runtime.registerRoute({
-                    path: "/deeply/nested/layout/another-level",
-                    element: <div>Hello!</div>
-                }, {
-                    parentPath: "/deeply/nested/layout"
-                });
+                runtime.registerRoute(
+                    {
+                        path: "/deeply/nested/layout/another-level",
+                        element: <div>Hello!</div>
+                    },
+                    {
+                        parentPath: "/deeply/nested/layout"
+                    }
+                );
 
                 expect(runtime.routes.length).toBe(1);
                 expect(runtime.routes[0].children![0].children![0].children![0].path).toBe("/deeply/nested/layout/another-level");
 
-                runtime.registerRoute({
-                    path: "/deeply/nested/layout/another-level/yet-another-level",
-                    element: <div>Hello!</div>
-                }, {
-                    parentPath: "/deeply/nested/layout/another-level"
-                });
+                runtime.registerRoute(
+                    {
+                        path: "/deeply/nested/layout/another-level/yet-another-level",
+                        element: <div>Hello!</div>
+                    },
+                    {
+                        parentPath: "/deeply/nested/layout/another-level"
+                    }
+                );
 
                 expect(runtime.routes.length).toBe(1);
                 expect(runtime.routes[0].children![0].children![0].children![0].children![0].path).toBe("/deeply/nested/layout/another-level/yet-another-level");
@@ -831,39 +939,48 @@ describe.concurrent("registerRoute", () => {
                     loggers: [new NoopLogger()]
                 });
 
-                runtime.registerRoute({
-                    element: <div>Hello</div>,
-                    children: [
-                        {
-                            element: <div>You!</div>,
-                            children: [
-                                {
-                                    path: "/deeply-nested-layout",
-                                    element: <div>Hello from nested!</div>
-                                }
-                            ]
-                        }
-                    ]
-                }, {
-                    hoist: true
-                });
+                runtime.registerRoute(
+                    {
+                        element: <div>Hello</div>,
+                        children: [
+                            {
+                                element: <div>You!</div>,
+                                children: [
+                                    {
+                                        path: "/deeply-nested-layout",
+                                        element: <div>Hello from nested!</div>
+                                    }
+                                ]
+                            }
+                        ]
+                    },
+                    {
+                        hoist: true
+                    }
+                );
 
-                runtime.registerRoute({
-                    path: "/deeply-nested-layout/another-level",
-                    element: <div>Hello!</div>
-                }, {
-                    parentPath: "/deeply-nested-layout"
-                });
+                runtime.registerRoute(
+                    {
+                        path: "/deeply-nested-layout/another-level",
+                        element: <div>Hello!</div>
+                    },
+                    {
+                        parentPath: "/deeply-nested-layout"
+                    }
+                );
 
                 expect(runtime.routes.length).toBe(1);
                 expect(runtime.routes[0].children![0].children![0].children![0].path).toBe("/deeply-nested-layout/another-level");
 
-                runtime.registerRoute({
-                    path: "/deeply-nested-layout/another-level/yet-another-level",
-                    element: <div>Hello!</div>
-                }, {
-                    parentPath: "/deeply-nested-layout/another-level"
-                });
+                runtime.registerRoute(
+                    {
+                        path: "/deeply-nested-layout/another-level/yet-another-level",
+                        element: <div>Hello!</div>
+                    },
+                    {
+                        parentPath: "/deeply-nested-layout/another-level"
+                    }
+                );
 
                 expect(runtime.routes.length).toBe(1);
                 expect(runtime.routes[0].children![0].children![0].children![0].children![0].path).toBe("/deeply-nested-layout/another-level/yet-another-level");
@@ -874,19 +991,25 @@ describe.concurrent("registerRoute", () => {
                     loggers: [new NoopLogger()]
                 });
 
-                runtime.registerRoute({
-                    path: "/layout",
-                    element: <div>Hello!</div>
-                }, {
-                    hoist: true
-                });
+                runtime.registerRoute(
+                    {
+                        path: "/layout",
+                        element: <div>Hello!</div>
+                    },
+                    {
+                        hoist: true
+                    }
+                );
 
-                runtime.registerRoute({
-                    path: "/layout/nested",
-                    element: <div>Hello!</div>
-                }, {
-                    parentPath: "/layout/"
-                });
+                runtime.registerRoute(
+                    {
+                        path: "/layout/nested",
+                        element: <div>Hello!</div>
+                    },
+                    {
+                        parentPath: "/layout/"
+                    }
+                );
 
                 expect(runtime.routes[0].children![0].path).toBe("/layout/nested");
             });
@@ -896,19 +1019,25 @@ describe.concurrent("registerRoute", () => {
                     loggers: [new NoopLogger()]
                 });
 
-                runtime.registerRoute({
-                    path: "/layout/",
-                    element: <div>Hello!</div>
-                }, {
-                    hoist: true
-                });
+                runtime.registerRoute(
+                    {
+                        path: "/layout/",
+                        element: <div>Hello!</div>
+                    },
+                    {
+                        hoist: true
+                    }
+                );
 
-                runtime.registerRoute({
-                    path: "/layout/nested",
-                    element: <div>Hello!</div>
-                }, {
-                    parentPath: "/layout"
-                });
+                runtime.registerRoute(
+                    {
+                        path: "/layout/nested",
+                        element: <div>Hello!</div>
+                    },
+                    {
+                        parentPath: "/layout"
+                    }
+                );
 
                 expect(runtime.routes[0].children![0].path).toBe("/layout/nested");
             });
@@ -918,20 +1047,26 @@ describe.concurrent("registerRoute", () => {
                     loggers: [new NoopLogger()]
                 });
 
-                runtime.registerRoute({
-                    $id: "layout-id",
-                    path: "/layout",
-                    element: <div>Hello!</div>
-                }, {
-                    hoist: true
-                });
+                runtime.registerRoute(
+                    {
+                        $id: "layout-id",
+                        path: "/layout",
+                        element: <div>Hello!</div>
+                    },
+                    {
+                        hoist: true
+                    }
+                );
 
-                runtime.registerRoute({
-                    path: "/layout/nested",
-                    element: <div>Hello!</div>
-                }, {
-                    parentPath: "/layout"
-                });
+                runtime.registerRoute(
+                    {
+                        path: "/layout/nested",
+                        element: <div>Hello!</div>
+                    },
+                    {
+                        parentPath: "/layout"
+                    }
+                );
 
                 expect(runtime.routes[0].children![0].path).toBe("/layout/nested");
             });
@@ -941,22 +1076,28 @@ describe.concurrent("registerRoute", () => {
                     loggers: [new NoopLogger()]
                 });
 
-                runtime.registerRoute({
-                    path: "/layout/nested",
-                    element: <div>Hello!</div>
-                }, {
-                    parentPath: "/layout"
-                });
+                runtime.registerRoute(
+                    {
+                        path: "/layout/nested",
+                        element: <div>Hello!</div>
+                    },
+                    {
+                        parentPath: "/layout"
+                    }
+                );
 
                 expect(runtime.routes.length).toBe(0);
 
-                runtime.registerRoute({
-                    $id: "layout-id",
-                    path: "/layout",
-                    element: <div>Hello!</div>
-                }, {
-                    hoist: true
-                });
+                runtime.registerRoute(
+                    {
+                        $id: "layout-id",
+                        path: "/layout",
+                        element: <div>Hello!</div>
+                    },
+                    {
+                        hoist: true
+                    }
+                );
 
                 expect(runtime.routes[0].children![0].path).toBe("/layout/nested");
             });
@@ -968,31 +1109,40 @@ describe.concurrent("registerRoute", () => {
                     loggers: [new NoopLogger()]
                 });
 
-                runtime.registerRoute({
-                    path: "layout",
-                    element: <div>Hello!</div>
-                }, {
-                    hoist: true
-                });
+                runtime.registerRoute(
+                    {
+                        path: "layout",
+                        element: <div>Hello!</div>
+                    },
+                    {
+                        hoist: true
+                    }
+                );
 
                 expect(runtime.routes.length).toBe(1);
 
-                runtime.registerRoute({
-                    path: "nested",
-                    element: <div>Hello!</div>
-                }, {
-                    parentPath: "/layout"
-                });
+                runtime.registerRoute(
+                    {
+                        path: "nested",
+                        element: <div>Hello!</div>
+                    },
+                    {
+                        parentPath: "/layout"
+                    }
+                );
 
                 expect(runtime.routes.length).toBe(1);
                 expect(runtime.routes[0].children![0].path).toBe("nested");
 
-                runtime.registerRoute({
-                    path: "another-nested",
-                    element: <div>Hello!</div>
-                }, {
-                    parentPath: "/layout/nested"
-                });
+                runtime.registerRoute(
+                    {
+                        path: "another-nested",
+                        element: <div>Hello!</div>
+                    },
+                    {
+                        parentPath: "/layout/nested"
+                    }
+                );
 
                 expect(runtime.routes.length).toBe(1);
                 expect(runtime.routes[0].children![0].children![0].path).toBe("another-nested");
@@ -1003,12 +1153,15 @@ describe.concurrent("registerRoute", () => {
                     loggers: [new NoopLogger()]
                 });
 
-                runtime.registerRoute({
-                    path: "nested",
-                    element: <div>Hello!</div>
-                }, {
-                    parentPath: "/layout"
-                });
+                runtime.registerRoute(
+                    {
+                        path: "nested",
+                        element: <div>Hello!</div>
+                    },
+                    {
+                        parentPath: "/layout"
+                    }
+                );
 
                 expect(runtime.routes.length).toBe(0);
             });
@@ -1018,38 +1171,50 @@ describe.concurrent("registerRoute", () => {
                     loggers: [new NoopLogger()]
                 });
 
-                runtime.registerRoute({
-                    path: "nested",
-                    element: <div>Hello!</div>
-                }, {
-                    parentPath: "/layout"
-                });
+                runtime.registerRoute(
+                    {
+                        path: "nested",
+                        element: <div>Hello!</div>
+                    },
+                    {
+                        parentPath: "/layout"
+                    }
+                );
 
-                runtime.registerRoute({
-                    path: "another-nested",
-                    element: <div>Hello!</div>
-                }, {
-                    parentPath: "/layout"
-                });
+                runtime.registerRoute(
+                    {
+                        path: "another-nested",
+                        element: <div>Hello!</div>
+                    },
+                    {
+                        parentPath: "/layout"
+                    }
+                );
 
                 expect(runtime.routes.length).toBe(0);
 
-                runtime.registerRoute({
-                    path: "foo",
-                    element: <div>Hello!</div>
-                }, {
-                    hoist: true
-                });
+                runtime.registerRoute(
+                    {
+                        path: "foo",
+                        element: <div>Hello!</div>
+                    },
+                    {
+                        hoist: true
+                    }
+                );
 
                 expect(runtime.routes.length).toBe(1);
                 expect(runtime.routes[0].children).toBeUndefined();
 
-                runtime.registerRoute({
-                    path: "layout",
-                    element: <div>Hello!</div>
-                }, {
-                    hoist: true
-                });
+                runtime.registerRoute(
+                    {
+                        path: "layout",
+                        element: <div>Hello!</div>
+                    },
+                    {
+                        hoist: true
+                    }
+                );
 
                 expect(runtime.routes.length).toBe(2);
                 expect(runtime.routes[1].children?.length).toBe(2);
@@ -1060,40 +1225,49 @@ describe.concurrent("registerRoute", () => {
                     loggers: [new NoopLogger()]
                 });
 
-                runtime.registerRoute({
-                    path: "more-nested",
-                    element: <div>Hello!</div>
-                }, {
-                    parentPath: "/deeply/nested/layout"
-                });
+                runtime.registerRoute(
+                    {
+                        path: "more-nested",
+                        element: <div>Hello!</div>
+                    },
+                    {
+                        parentPath: "/deeply/nested/layout"
+                    }
+                );
 
-                runtime.registerRoute({
-                    path: "another-nested",
-                    element: <div>Hello!</div>
-                }, {
-                    parentPath: "/deeply/nested/layout/more-nested"
-                });
+                runtime.registerRoute(
+                    {
+                        path: "another-nested",
+                        element: <div>Hello!</div>
+                    },
+                    {
+                        parentPath: "/deeply/nested/layout/more-nested"
+                    }
+                );
 
                 expect(runtime.routes.length).toBe(0);
 
-                runtime.registerRoute({
-                    path: "deeply",
-                    element: <div>Hello</div>,
-                    children: [
-                        {
-                            path: "nested",
-                            element: <div>You!</div>,
-                            children: [
-                                {
-                                    path: "layout",
-                                    element: <div>Hello from nested!</div>
-                                }
-                            ]
-                        }
-                    ]
-                }, {
-                    hoist: true
-                });
+                runtime.registerRoute(
+                    {
+                        path: "deeply",
+                        element: <div>Hello</div>,
+                        children: [
+                            {
+                                path: "nested",
+                                element: <div>You!</div>,
+                                children: [
+                                    {
+                                        path: "layout",
+                                        element: <div>Hello from nested!</div>
+                                    }
+                                ]
+                            }
+                        ]
+                    },
+                    {
+                        hoist: true
+                    }
+                );
 
                 expect(runtime.routes.length).toBe(1);
                 expect(runtime.routes[0].path).toBe("deeply");
@@ -1106,38 +1280,47 @@ describe.concurrent("registerRoute", () => {
                     loggers: [new NoopLogger()]
                 });
 
-                runtime.registerRoute({
-                    path: "nested",
-                    element: <div>Hello!</div>
-                }, {
-                    parentPath: "/layout"
-                });
+                runtime.registerRoute(
+                    {
+                        path: "nested",
+                        element: <div>Hello!</div>
+                    },
+                    {
+                        parentPath: "/layout"
+                    }
+                );
 
-                runtime.registerRoute({
-                    path: "another-nested",
-                    element: <div>Hello!</div>
-                }, {
-                    parentPath: "/layout/nested"
-                });
+                runtime.registerRoute(
+                    {
+                        path: "another-nested",
+                        element: <div>Hello!</div>
+                    },
+                    {
+                        parentPath: "/layout/nested"
+                    }
+                );
 
                 expect(runtime.routes.length).toBe(0);
 
-                runtime.registerRoute({
-                    element: <div>Hello</div>,
-                    children: [
-                        {
-                            element: <div>You!</div>,
-                            children: [
-                                {
-                                    path: "layout",
-                                    element: <div>Hello from nested!</div>
-                                }
-                            ]
-                        }
-                    ]
-                }, {
-                    hoist: true
-                });
+                runtime.registerRoute(
+                    {
+                        element: <div>Hello</div>,
+                        children: [
+                            {
+                                element: <div>You!</div>,
+                                children: [
+                                    {
+                                        path: "layout",
+                                        element: <div>Hello from nested!</div>
+                                    }
+                                ]
+                            }
+                        ]
+                    },
+                    {
+                        hoist: true
+                    }
+                );
 
                 expect(runtime.routes.length).toBe(1);
                 expect(runtime.routes[0].path).toBeUndefined();
@@ -1150,26 +1333,35 @@ describe.concurrent("registerRoute", () => {
                     loggers: [new NoopLogger()]
                 });
 
-                runtime.registerRoute({
-                    path: "layout",
-                    element: <div>Hello!</div>
-                }, {
-                    hoist: true
-                });
+                runtime.registerRoute(
+                    {
+                        path: "layout",
+                        element: <div>Hello!</div>
+                    },
+                    {
+                        hoist: true
+                    }
+                );
 
-                runtime.registerRoute({
-                    path: "nested",
-                    element: <div>Hello!</div>
-                }, {
-                    parentPath: "/layout"
-                });
+                runtime.registerRoute(
+                    {
+                        path: "nested",
+                        element: <div>Hello!</div>
+                    },
+                    {
+                        parentPath: "/layout"
+                    }
+                );
 
-                runtime.registerRoute({
-                    path: "another-level",
-                    element: <div>Hello!</div>
-                }, {
-                    parentPath: "/layout/nested"
-                });
+                runtime.registerRoute(
+                    {
+                        path: "another-level",
+                        element: <div>Hello!</div>
+                    },
+                    {
+                        parentPath: "/layout/nested"
+                    }
+                );
 
                 expect(runtime.routes.length).toBe(1);
                 expect(runtime.routes[0].children![0].children![0].path).toBe("another-level");
@@ -1180,41 +1372,50 @@ describe.concurrent("registerRoute", () => {
                     loggers: [new NoopLogger()]
                 });
 
-                runtime.registerRoute({
-                    path: "deeply",
-                    element: <div>Hello</div>,
-                    children: [
-                        {
-                            path: "nested",
-                            element: <div>You!</div>,
-                            children: [
-                                {
-                                    path: "layout",
-                                    element: <div>Hello from nested!</div>
-                                }
-                            ]
-                        }
-                    ]
-                }, {
-                    hoist: true
-                });
+                runtime.registerRoute(
+                    {
+                        path: "deeply",
+                        element: <div>Hello</div>,
+                        children: [
+                            {
+                                path: "nested",
+                                element: <div>You!</div>,
+                                children: [
+                                    {
+                                        path: "layout",
+                                        element: <div>Hello from nested!</div>
+                                    }
+                                ]
+                            }
+                        ]
+                    },
+                    {
+                        hoist: true
+                    }
+                );
 
-                runtime.registerRoute({
-                    path: "another-level",
-                    element: <div>Hello!</div>
-                }, {
-                    parentPath: "/deeply/nested/layout"
-                });
+                runtime.registerRoute(
+                    {
+                        path: "another-level",
+                        element: <div>Hello!</div>
+                    },
+                    {
+                        parentPath: "/deeply/nested/layout"
+                    }
+                );
 
                 expect(runtime.routes.length).toBe(1);
                 expect(runtime.routes[0].children![0].children![0].children![0].path).toBe("another-level");
 
-                runtime.registerRoute({
-                    path: "yet-another-level",
-                    element: <div>Hello!</div>
-                }, {
-                    parentPath: "/deeply/nested/layout/another-level"
-                });
+                runtime.registerRoute(
+                    {
+                        path: "yet-another-level",
+                        element: <div>Hello!</div>
+                    },
+                    {
+                        parentPath: "/deeply/nested/layout/another-level"
+                    }
+                );
 
                 expect(runtime.routes.length).toBe(1);
                 expect(runtime.routes[0].children![0].children![0].children![0].children![0].path).toBe("yet-another-level");
@@ -1225,39 +1426,48 @@ describe.concurrent("registerRoute", () => {
                     loggers: [new NoopLogger()]
                 });
 
-                runtime.registerRoute({
-                    element: <div>Hello</div>,
-                    children: [
-                        {
-                            element: <div>You!</div>,
-                            children: [
-                                {
-                                    path: "deeply-nested-layout",
-                                    element: <div>Hello from nested!</div>
-                                }
-                            ]
-                        }
-                    ]
-                }, {
-                    hoist: true
-                });
+                runtime.registerRoute(
+                    {
+                        element: <div>Hello</div>,
+                        children: [
+                            {
+                                element: <div>You!</div>,
+                                children: [
+                                    {
+                                        path: "deeply-nested-layout",
+                                        element: <div>Hello from nested!</div>
+                                    }
+                                ]
+                            }
+                        ]
+                    },
+                    {
+                        hoist: true
+                    }
+                );
 
-                runtime.registerRoute({
-                    path: "another-level",
-                    element: <div>Hello!</div>
-                }, {
-                    parentPath: "/deeply-nested-layout"
-                });
+                runtime.registerRoute(
+                    {
+                        path: "another-level",
+                        element: <div>Hello!</div>
+                    },
+                    {
+                        parentPath: "/deeply-nested-layout"
+                    }
+                );
 
                 expect(runtime.routes.length).toBe(1);
                 expect(runtime.routes[0].children![0].children![0].children![0].path).toBe("another-level");
 
-                runtime.registerRoute({
-                    path: "yet-another-level",
-                    element: <div>Hello!</div>
-                }, {
-                    parentPath: "/deeply-nested-layout/another-level"
-                });
+                runtime.registerRoute(
+                    {
+                        path: "yet-another-level",
+                        element: <div>Hello!</div>
+                    },
+                    {
+                        parentPath: "/deeply-nested-layout/another-level"
+                    }
+                );
 
                 expect(runtime.routes.length).toBe(1);
                 expect(runtime.routes[0].children![0].children![0].children![0].children![0].path).toBe("yet-another-level");
@@ -1268,19 +1478,25 @@ describe.concurrent("registerRoute", () => {
                     loggers: [new NoopLogger()]
                 });
 
-                runtime.registerRoute({
-                    path: "layout",
-                    element: <div>Hello!</div>
-                }, {
-                    hoist: true
-                });
+                runtime.registerRoute(
+                    {
+                        path: "layout",
+                        element: <div>Hello!</div>
+                    },
+                    {
+                        hoist: true
+                    }
+                );
 
-                runtime.registerRoute({
-                    path: "nested",
-                    element: <div>Hello!</div>
-                }, {
-                    parentPath: "/layout/"
-                });
+                runtime.registerRoute(
+                    {
+                        path: "nested",
+                        element: <div>Hello!</div>
+                    },
+                    {
+                        parentPath: "/layout/"
+                    }
+                );
 
                 expect(runtime.routes[0].children![0].path).toBe("nested");
             });
@@ -1290,19 +1506,25 @@ describe.concurrent("registerRoute", () => {
                     loggers: [new NoopLogger()]
                 });
 
-                runtime.registerRoute({
-                    path: "layout/",
-                    element: <div>Hello!</div>
-                }, {
-                    hoist: true
-                });
+                runtime.registerRoute(
+                    {
+                        path: "layout/",
+                        element: <div>Hello!</div>
+                    },
+                    {
+                        hoist: true
+                    }
+                );
 
-                runtime.registerRoute({
-                    path: "nested",
-                    element: <div>Hello!</div>
-                }, {
-                    parentPath: "/layout"
-                });
+                runtime.registerRoute(
+                    {
+                        path: "nested",
+                        element: <div>Hello!</div>
+                    },
+                    {
+                        parentPath: "/layout"
+                    }
+                );
 
                 expect(runtime.routes[0].children![0].path).toBe("nested");
             });
@@ -1312,20 +1534,26 @@ describe.concurrent("registerRoute", () => {
                     loggers: [new NoopLogger()]
                 });
 
-                runtime.registerRoute({
-                    $id: "layout-id",
-                    path: "layout",
-                    element: <div>Hello!</div>
-                }, {
-                    hoist: true
-                });
+                runtime.registerRoute(
+                    {
+                        $id: "layout-id",
+                        path: "layout",
+                        element: <div>Hello!</div>
+                    },
+                    {
+                        hoist: true
+                    }
+                );
 
-                runtime.registerRoute({
-                    path: "nested",
-                    element: <div>Hello!</div>
-                }, {
-                    parentPath: "/layout"
-                });
+                runtime.registerRoute(
+                    {
+                        path: "nested",
+                        element: <div>Hello!</div>
+                    },
+                    {
+                        parentPath: "/layout"
+                    }
+                );
 
                 expect(runtime.routes[0].children![0].path).toBe("nested");
             });
@@ -1335,22 +1563,28 @@ describe.concurrent("registerRoute", () => {
                     loggers: [new NoopLogger()]
                 });
 
-                runtime.registerRoute({
-                    path: "nested",
-                    element: <div>Hello!</div>
-                }, {
-                    parentPath: "/layout"
-                });
+                runtime.registerRoute(
+                    {
+                        path: "nested",
+                        element: <div>Hello!</div>
+                    },
+                    {
+                        parentPath: "/layout"
+                    }
+                );
 
                 expect(runtime.routes.length).toBe(0);
 
-                runtime.registerRoute({
-                    $id: "layout-id",
-                    path: "layout",
-                    element: <div>Hello!</div>
-                }, {
-                    hoist: true
-                });
+                runtime.registerRoute(
+                    {
+                        $id: "layout-id",
+                        path: "layout",
+                        element: <div>Hello!</div>
+                    },
+                    {
+                        hoist: true
+                    }
+                );
 
                 expect(runtime.routes[0].children![0].path).toBe("nested");
             });
@@ -1362,21 +1596,27 @@ describe.concurrent("registerRoute", () => {
                     loggers: [new NoopLogger()]
                 });
 
-                runtime.registerRoute({
-                    path: "/layout",
-                    element: <div>Hello!</div>
-                }, {
-                    hoist: true
-                });
+                runtime.registerRoute(
+                    {
+                        path: "/layout",
+                        element: <div>Hello!</div>
+                    },
+                    {
+                        hoist: true
+                    }
+                );
 
                 expect(runtime.routes.length).toBe(1);
 
-                runtime.registerRoute({
-                    path: "nested",
-                    element: <div>Hello!</div>
-                }, {
-                    parentPath: "/layout"
-                });
+                runtime.registerRoute(
+                    {
+                        path: "nested",
+                        element: <div>Hello!</div>
+                    },
+                    {
+                        parentPath: "/layout"
+                    }
+                );
 
                 expect(runtime.routes.length).toBe(1);
                 expect(runtime.routes[0].children![0].path).toBe("nested");
@@ -1387,46 +1627,58 @@ describe.concurrent("registerRoute", () => {
                     loggers: [new NoopLogger()]
                 });
 
-                runtime.registerRoute({
-                    path: "layout",
-                    element: <div>Hello!</div>
-                }, {
-                    hoist: true
-                });
+                runtime.registerRoute(
+                    {
+                        path: "layout",
+                        element: <div>Hello!</div>
+                    },
+                    {
+                        hoist: true
+                    }
+                );
 
                 expect(runtime.routes.length).toBe(1);
 
-                runtime.registerRoute({
-                    path: "/nested",
-                    element: <div>Hello!</div>
-                }, {
-                    parentPath: "/layout"
-                });
+                runtime.registerRoute(
+                    {
+                        path: "/nested",
+                        element: <div>Hello!</div>
+                    },
+                    {
+                        parentPath: "/layout"
+                    }
+                );
 
                 expect(runtime.routes.length).toBe(1);
                 expect(runtime.routes[0].children![0].path).toBe("/nested");
             });
 
-            test.concurrent("when the parent route has a relative path, a child route can be nested under the parent route by providing a parentPath that doesn't start with a \"/\"", ({ expect }) => {
+            test.concurrent('when the parent route has a relative path, a child route can be nested under the parent route by providing a parentPath that doesn\'t start with a "/"', ({ expect }) => {
                 const runtime = new ReactRouterRuntime({
                     loggers: [new NoopLogger()]
                 });
 
-                runtime.registerRoute({
-                    path: "/layout",
-                    element: <div>Hello!</div>
-                }, {
-                    hoist: true
-                });
+                runtime.registerRoute(
+                    {
+                        path: "/layout",
+                        element: <div>Hello!</div>
+                    },
+                    {
+                        hoist: true
+                    }
+                );
 
                 expect(runtime.routes.length).toBe(1);
 
-                runtime.registerRoute({
-                    path: "/nested",
-                    element: <div>Hello!</div>
-                }, {
-                    parentPath: "/layout"
-                });
+                runtime.registerRoute(
+                    {
+                        path: "/nested",
+                        element: <div>Hello!</div>
+                    },
+                    {
+                        parentPath: "/layout"
+                    }
+                );
 
                 expect(runtime.routes.length).toBe(1);
                 expect(runtime.routes[0].children![0].path).toBe("/nested");
@@ -1437,38 +1689,47 @@ describe.concurrent("registerRoute", () => {
                     loggers: [new NoopLogger()]
                 });
 
-                runtime.registerRoute({
-                    path: "deeply",
-                    element: <div>Hello</div>,
-                    children: [
-                        {
-                            path: "nested",
-                            element: <div>You!</div>,
-                            children: [
-                                {
-                                    path: "layout",
-                                    element: <div>Hello from nested!</div>
-                                }
-                            ]
-                        }
-                    ]
-                }, {
-                    hoist: true
-                });
+                runtime.registerRoute(
+                    {
+                        path: "deeply",
+                        element: <div>Hello</div>,
+                        children: [
+                            {
+                                path: "nested",
+                                element: <div>You!</div>,
+                                children: [
+                                    {
+                                        path: "layout",
+                                        element: <div>Hello from nested!</div>
+                                    }
+                                ]
+                            }
+                        ]
+                    },
+                    {
+                        hoist: true
+                    }
+                );
 
-                runtime.registerRoute({
-                    path: "/deeply/nested/layout/more-nested",
-                    element: <div>Hello!</div>
-                }, {
-                    parentPath: "/deeply/nested/layout"
-                });
+                runtime.registerRoute(
+                    {
+                        path: "/deeply/nested/layout/more-nested",
+                        element: <div>Hello!</div>
+                    },
+                    {
+                        parentPath: "/deeply/nested/layout"
+                    }
+                );
 
-                runtime.registerRoute({
-                    path: "/deeply/nested/layout/more-nested/another-nested",
-                    element: <div>Hello!</div>
-                }, {
-                    parentPath: "/deeply/nested/layout/more-nested"
-                });
+                runtime.registerRoute(
+                    {
+                        path: "/deeply/nested/layout/more-nested/another-nested",
+                        element: <div>Hello!</div>
+                    },
+                    {
+                        parentPath: "/deeply/nested/layout/more-nested"
+                    }
+                );
 
                 expect(runtime.routes.length).toBe(1);
                 expect(runtime.routes[0].path).toBe("deeply");
@@ -1481,25 +1742,31 @@ describe.concurrent("registerRoute", () => {
                     loggers: [new NoopLogger()]
                 });
 
-                runtime.registerRoute({
-                    path: "/deeply/nested/layout",
-                    element: <div>Hello!</div>
-                }, {
-                    hoist: true
-                });
+                runtime.registerRoute(
+                    {
+                        path: "/deeply/nested/layout",
+                        element: <div>Hello!</div>
+                    },
+                    {
+                        hoist: true
+                    }
+                );
 
-                runtime.registerRoute({
-                    path: "more-nested",
-                    element: <div>Hello</div>,
-                    children: [
-                        {
-                            path: "another-nested",
-                            element: <div>You!</div>
-                        }
-                    ]
-                }, {
-                    parentPath: "/deeply/nested/layout"
-                });
+                runtime.registerRoute(
+                    {
+                        path: "more-nested",
+                        element: <div>Hello</div>,
+                        children: [
+                            {
+                                path: "another-nested",
+                                element: <div>You!</div>
+                            }
+                        ]
+                    },
+                    {
+                        parentPath: "/deeply/nested/layout"
+                    }
+                );
 
                 expect(runtime.routes.length).toBe(1);
                 expect(runtime.routes[0].path).toBe("/deeply/nested/layout");
@@ -1512,27 +1779,33 @@ describe.concurrent("registerRoute", () => {
                     loggers: [new NoopLogger()]
                 });
 
-                runtime.registerRoute({
-                    path: "more-nested",
-                    element: <div>Hello</div>,
-                    children: [
-                        {
-                            path: "another-nested",
-                            element: <div>You!</div>
-                        }
-                    ]
-                }, {
-                    parentPath: "/deeply/nested/layout"
-                });
+                runtime.registerRoute(
+                    {
+                        path: "more-nested",
+                        element: <div>Hello</div>,
+                        children: [
+                            {
+                                path: "another-nested",
+                                element: <div>You!</div>
+                            }
+                        ]
+                    },
+                    {
+                        parentPath: "/deeply/nested/layout"
+                    }
+                );
 
                 expect(runtime.routes.length).toBe(0);
 
-                runtime.registerRoute({
-                    path: "/deeply/nested/layout",
-                    element: <div>Hello!</div>
-                }, {
-                    hoist: true
-                });
+                runtime.registerRoute(
+                    {
+                        path: "/deeply/nested/layout",
+                        element: <div>Hello!</div>
+                    },
+                    {
+                        hoist: true
+                    }
+                );
 
                 expect(runtime.routes.length).toBe(1);
                 expect(runtime.routes[0].path).toBe("/deeply/nested/layout");
@@ -1545,40 +1818,49 @@ describe.concurrent("registerRoute", () => {
                     loggers: [new NoopLogger()]
                 });
 
-                runtime.registerRoute({
-                    path: "/deeply/nested/layout/more-nested",
-                    element: <div>Hello!</div>
-                }, {
-                    parentPath: "/deeply/nested/layout"
-                });
+                runtime.registerRoute(
+                    {
+                        path: "/deeply/nested/layout/more-nested",
+                        element: <div>Hello!</div>
+                    },
+                    {
+                        parentPath: "/deeply/nested/layout"
+                    }
+                );
 
-                runtime.registerRoute({
-                    path: "/deeply/nested/layout/more-nested/another-nested",
-                    element: <div>Hello!</div>
-                }, {
-                    parentPath: "/deeply/nested/layout/more-nested"
-                });
+                runtime.registerRoute(
+                    {
+                        path: "/deeply/nested/layout/more-nested/another-nested",
+                        element: <div>Hello!</div>
+                    },
+                    {
+                        parentPath: "/deeply/nested/layout/more-nested"
+                    }
+                );
 
                 expect(runtime.routes.length).toBe(0);
 
-                runtime.registerRoute({
-                    path: "deeply",
-                    element: <div>Hello</div>,
-                    children: [
-                        {
-                            path: "nested",
-                            element: <div>You!</div>,
-                            children: [
-                                {
-                                    path: "layout",
-                                    element: <div>Hello from nested!</div>
-                                }
-                            ]
-                        }
-                    ]
-                }, {
-                    hoist: true
-                });
+                runtime.registerRoute(
+                    {
+                        path: "deeply",
+                        element: <div>Hello</div>,
+                        children: [
+                            {
+                                path: "nested",
+                                element: <div>You!</div>,
+                                children: [
+                                    {
+                                        path: "layout",
+                                        element: <div>Hello from nested!</div>
+                                    }
+                                ]
+                            }
+                        ]
+                    },
+                    {
+                        hoist: true
+                    }
+                );
 
                 expect(runtime.routes.length).toBe(1);
                 expect(runtime.routes[0].path).toBe("deeply");
@@ -1591,40 +1873,49 @@ describe.concurrent("registerRoute", () => {
                     loggers: [new NoopLogger()]
                 });
 
-                runtime.registerRoute({
-                    path: "more-nested",
-                    element: <div>Hello!</div>
-                }, {
-                    parentPath: "/deeply/nested/layout"
-                });
+                runtime.registerRoute(
+                    {
+                        path: "more-nested",
+                        element: <div>Hello!</div>
+                    },
+                    {
+                        parentPath: "/deeply/nested/layout"
+                    }
+                );
 
-                runtime.registerRoute({
-                    path: "another-nested",
-                    element: <div>Hello!</div>
-                }, {
-                    parentPath: "/deeply/nested/layout/more-nested"
-                });
+                runtime.registerRoute(
+                    {
+                        path: "another-nested",
+                        element: <div>Hello!</div>
+                    },
+                    {
+                        parentPath: "/deeply/nested/layout/more-nested"
+                    }
+                );
 
                 expect(runtime.routes.length).toBe(0);
 
-                runtime.registerRoute({
-                    path: "/deeply",
-                    element: <div>Hello</div>,
-                    children: [
-                        {
-                            path: "/deeply/nested",
-                            element: <div>You!</div>,
-                            children: [
-                                {
-                                    path: "/deeply/nested/layout",
-                                    element: <div>Hello from nested!</div>
-                                }
-                            ]
-                        }
-                    ]
-                }, {
-                    hoist: true
-                });
+                runtime.registerRoute(
+                    {
+                        path: "/deeply",
+                        element: <div>Hello</div>,
+                        children: [
+                            {
+                                path: "/deeply/nested",
+                                element: <div>You!</div>,
+                                children: [
+                                    {
+                                        path: "/deeply/nested/layout",
+                                        element: <div>Hello from nested!</div>
+                                    }
+                                ]
+                            }
+                        ]
+                    },
+                    {
+                        hoist: true
+                    }
+                );
 
                 expect(runtime.routes.length).toBe(1);
                 expect(runtime.routes[0].path).toBe("/deeply");
@@ -1638,12 +1929,17 @@ describe.concurrent("registerRoute", () => {
                 loggers: [new NoopLogger()]
             });
 
-            expect(() => runtime.registerRoute({
-                element: <div>Hello</div>
-            }, {
-                hoist: true,
-                parentPath: "/foo"
-            })).toThrow();
+            expect(() =>
+                runtime.registerRoute(
+                    {
+                        element: <div>Hello</div>
+                    },
+                    {
+                        hoist: true,
+                        parentPath: "/foo"
+                    }
+                )
+            ).toThrow();
         });
     });
 
@@ -1653,21 +1949,27 @@ describe.concurrent("registerRoute", () => {
                 loggers: [new NoopLogger()]
             });
 
-            runtime.registerRoute({
-                $id: "layout",
-                element: <div>Hello!</div>
-            }, {
-                hoist: true
-            });
+            runtime.registerRoute(
+                {
+                    $id: "layout",
+                    element: <div>Hello!</div>
+                },
+                {
+                    hoist: true
+                }
+            );
 
             expect(runtime.routes.length).toBe(1);
 
-            runtime.registerRoute({
-                path: "/nested",
-                element: <div>Hello!</div>
-            }, {
-                parentId: "layout"
-            });
+            runtime.registerRoute(
+                {
+                    path: "/nested",
+                    element: <div>Hello!</div>
+                },
+                {
+                    parentId: "layout"
+                }
+            );
 
             expect(runtime.routes.length).toBe(1);
             expect(runtime.routes[0].children![0].path).toBe("/nested");
@@ -1678,12 +1980,15 @@ describe.concurrent("registerRoute", () => {
                 loggers: [new NoopLogger()]
             });
 
-            runtime.registerRoute({
-                path: "/nested",
-                element: <div>Hello!</div>
-            }, {
-                parentId: "layout"
-            });
+            runtime.registerRoute(
+                {
+                    path: "/nested",
+                    element: <div>Hello!</div>
+                },
+                {
+                    parentId: "layout"
+                }
+            );
 
             expect(runtime.routes.length).toBe(0);
         });
@@ -1693,37 +1998,50 @@ describe.concurrent("registerRoute", () => {
                 loggers: [new NoopLogger()]
             });
 
-            runtime.registerRoute({
-                path: "/nested",
-                element: <div>Hello!</div>
-            }, {
-                parentId: "layout" });
+            runtime.registerRoute(
+                {
+                    path: "/nested",
+                    element: <div>Hello!</div>
+                },
+                {
+                    parentId: "layout"
+                }
+            );
 
-            runtime.registerRoute({
-                path: "/another-nested",
-                element: <div>Hello!</div>
-            }, {
-                parentId: "layout"
-            });
+            runtime.registerRoute(
+                {
+                    path: "/another-nested",
+                    element: <div>Hello!</div>
+                },
+                {
+                    parentId: "layout"
+                }
+            );
 
             expect(runtime.routes.length).toBe(0);
 
-            runtime.registerRoute({
-                path: "/foo",
-                element: <div>Hello!</div>
-            }, {
-                hoist: true
-            });
+            runtime.registerRoute(
+                {
+                    path: "/foo",
+                    element: <div>Hello!</div>
+                },
+                {
+                    hoist: true
+                }
+            );
 
             expect(runtime.routes.length).toBe(1);
             expect(runtime.routes[0].children).toBeUndefined();
 
-            runtime.registerRoute({
-                $id: "layout",
-                element: <div>Hello!</div>
-            }, {
-                hoist: true
-            });
+            runtime.registerRoute(
+                {
+                    $id: "layout",
+                    element: <div>Hello!</div>
+                },
+                {
+                    hoist: true
+                }
+            );
 
             expect(runtime.routes.length).toBe(2);
             expect(runtime.routes[1].children?.length).toBe(2);
@@ -1734,31 +2052,37 @@ describe.concurrent("registerRoute", () => {
                 loggers: [new NoopLogger()]
             });
 
-            runtime.registerRoute({
-                path: "/nested",
-                element: <div>Hello!</div>
-            }, {
-                parentId: "layout"
-            });
+            runtime.registerRoute(
+                {
+                    path: "/nested",
+                    element: <div>Hello!</div>
+                },
+                {
+                    parentId: "layout"
+                }
+            );
 
             expect(runtime.routes.length).toBe(0);
 
-            runtime.registerRoute({
-                element: <div>Hello</div>,
-                children: [
-                    {
-                        element: <div>You!</div>,
-                        children: [
-                            {
-                                $id: "layout",
-                                element: <div>Hello from nested!</div>
-                            }
-                        ]
-                    }
-                ]
-            }, {
-                hoist: true
-            });
+            runtime.registerRoute(
+                {
+                    element: <div>Hello</div>,
+                    children: [
+                        {
+                            element: <div>You!</div>,
+                            children: [
+                                {
+                                    $id: "layout",
+                                    element: <div>Hello from nested!</div>
+                                }
+                            ]
+                        }
+                    ]
+                },
+                {
+                    hoist: true
+                }
+            );
 
             expect(runtime.routes.length).toBe(1);
             expect(runtime.routes[0].path).toBeUndefined();
@@ -1770,26 +2094,35 @@ describe.concurrent("registerRoute", () => {
                 loggers: [new NoopLogger()]
             });
 
-            runtime.registerRoute({
-                $id: "layout",
-                element: <div>Hello!</div>
-            }, {
-                hoist: true
-            });
+            runtime.registerRoute(
+                {
+                    $id: "layout",
+                    element: <div>Hello!</div>
+                },
+                {
+                    hoist: true
+                }
+            );
 
-            runtime.registerRoute({
-                $id: "layout-nested",
-                element: <div>Hello!</div>
-            }, {
-                parentId: "layout"
-            });
+            runtime.registerRoute(
+                {
+                    $id: "layout-nested",
+                    element: <div>Hello!</div>
+                },
+                {
+                    parentId: "layout"
+                }
+            );
 
-            runtime.registerRoute({
-                path: "/another-level",
-                element: <div>Hello!</div>
-            }, {
-                parentId: "layout-nested"
-            });
+            runtime.registerRoute(
+                {
+                    path: "/another-level",
+                    element: <div>Hello!</div>
+                },
+                {
+                    parentId: "layout-nested"
+                }
+            );
 
             expect(runtime.routes.length).toBe(1);
             expect(runtime.routes[0].children![0].children![0].path).toBe("/another-level");
@@ -1800,39 +2133,48 @@ describe.concurrent("registerRoute", () => {
                 loggers: [new NoopLogger()]
             });
 
-            runtime.registerRoute({
-                element: <div>Hello</div>,
-                children: [
-                    {
-                        element: <div>You!</div>,
-                        children: [
-                            {
-                                $id: "deeply-nested-layout",
-                                element: <div>Hello from nested!</div>
-                            }
-                        ]
-                    }
-                ]
-            }, {
-                hoist: true
-            });
+            runtime.registerRoute(
+                {
+                    element: <div>Hello</div>,
+                    children: [
+                        {
+                            element: <div>You!</div>,
+                            children: [
+                                {
+                                    $id: "deeply-nested-layout",
+                                    element: <div>Hello from nested!</div>
+                                }
+                            ]
+                        }
+                    ]
+                },
+                {
+                    hoist: true
+                }
+            );
 
-            runtime.registerRoute({
-                $id: "deeply-nested-layout/another-level",
-                element: <div>Hello!</div>
-            }, {
-                parentId: "deeply-nested-layout"
-            });
+            runtime.registerRoute(
+                {
+                    $id: "deeply-nested-layout/another-level",
+                    element: <div>Hello!</div>
+                },
+                {
+                    parentId: "deeply-nested-layout"
+                }
+            );
 
             expect(runtime.routes.length).toBe(1);
             expect(runtime.routes[0].children![0].children![0].children![0].$id).toBe("deeply-nested-layout/another-level");
 
-            runtime.registerRoute({
-                path: "/deeply-nested-layout/another-level/yet-another-level",
-                element: <div>Hello!</div>
-            }, {
-                parentId: "deeply-nested-layout/another-level"
-            });
+            runtime.registerRoute(
+                {
+                    path: "/deeply-nested-layout/another-level/yet-another-level",
+                    element: <div>Hello!</div>
+                },
+                {
+                    parentId: "deeply-nested-layout/another-level"
+                }
+            );
 
             expect(runtime.routes.length).toBe(1);
             expect(runtime.routes[0].children![0].children![0].children![0].children![0].path).toBe("/deeply-nested-layout/another-level/yet-another-level");
@@ -1843,12 +2185,17 @@ describe.concurrent("registerRoute", () => {
                 loggers: [new NoopLogger()]
             });
 
-            expect(() => runtime.registerRoute({
-                element: <div>Hello</div>
-            }, {
-                hoist: true,
-                parentId: "foo"
-            })).toThrow();
+            expect(() =>
+                runtime.registerRoute(
+                    {
+                        element: <div>Hello</div>
+                    },
+                    {
+                        hoist: true,
+                        parentId: "foo"
+                    }
+                )
+            ).toThrow();
         });
 
         test.concurrent("when a parent route has a path and an $id, can register a nested route with the path", ({ expect }) => {
@@ -1856,20 +2203,26 @@ describe.concurrent("registerRoute", () => {
                 loggers: [new NoopLogger()]
             });
 
-            runtime.registerRoute({
-                $id: "layout-id",
-                path: "/layout",
-                element: <div>Hello!</div>
-            }, {
-                hoist: true
-            });
+            runtime.registerRoute(
+                {
+                    $id: "layout-id",
+                    path: "/layout",
+                    element: <div>Hello!</div>
+                },
+                {
+                    hoist: true
+                }
+            );
 
-            runtime.registerRoute({
-                path: "/layout/nested",
-                element: <div>Hello!</div>
-            }, {
-                parentId: "layout-id"
-            });
+            runtime.registerRoute(
+                {
+                    path: "/layout/nested",
+                    element: <div>Hello!</div>
+                },
+                {
+                    parentId: "layout-id"
+                }
+            );
 
             expect(runtime.routes[0].children![0].path).toBe("/layout/nested");
         });
@@ -1879,22 +2232,28 @@ describe.concurrent("registerRoute", () => {
                 loggers: [new NoopLogger()]
             });
 
-            runtime.registerRoute({
-                path: "/layout/nested",
-                element: <div>Hello!</div>
-            }, {
-                parentId: "layout-id"
-            });
+            runtime.registerRoute(
+                {
+                    path: "/layout/nested",
+                    element: <div>Hello!</div>
+                },
+                {
+                    parentId: "layout-id"
+                }
+            );
 
             expect(runtime.routes.length).toBe(0);
 
-            runtime.registerRoute({
-                $id: "layout-id",
-                path: "/layout",
-                element: <div>Hello!</div>
-            }, {
-                hoist: true
-            });
+            runtime.registerRoute(
+                {
+                    $id: "layout-id",
+                    path: "/layout",
+                    element: <div>Hello!</div>
+                },
+                {
+                    hoist: true
+                }
+            );
 
             expect(runtime.routes[0].children![0].path).toBe("/layout/nested");
         });
@@ -1906,22 +2265,25 @@ describe.concurrent("registerRoute", () => {
                 loggers: [new NoopLogger()]
             });
 
-            runtime.registerRoute({
-                element: <div>Hello</div>,
-                children: [
-                    {
-                        element: <div>You!</div>,
-                        children: [
-                            {
-                                path: "/deeply-nested-route",
-                                element: <div>Hello from nested!</div>
-                            }
-                        ]
-                    }
-                ]
-            }, {
-                hoist: true
-            });
+            runtime.registerRoute(
+                {
+                    element: <div>Hello</div>,
+                    children: [
+                        {
+                            element: <div>You!</div>,
+                            children: [
+                                {
+                                    path: "/deeply-nested-route",
+                                    element: <div>Hello from nested!</div>
+                                }
+                            ]
+                        }
+                    ]
+                },
+                {
+                    hoist: true
+                }
+            );
 
             expect(runtime.routes.length).toBe(1);
             expect(runtime.routes[0].children![0].children![0].path).toBe("/deeply-nested-route");
@@ -1932,22 +2294,25 @@ describe.concurrent("registerRoute", () => {
                 loggers: [new NoopLogger()]
             });
 
-            runtime.registerRoute({
-                element: <div>Hello</div>,
-                children: [
-                    {
-                        element: <div>You!</div>,
-                        children: [
-                            {
-                                index: true,
-                                element: <div>Hello from nested!</div>
-                            }
-                        ]
-                    }
-                ]
-            }, {
-                hoist: true
-            });
+            runtime.registerRoute(
+                {
+                    element: <div>Hello</div>,
+                    children: [
+                        {
+                            element: <div>You!</div>,
+                            children: [
+                                {
+                                    index: true,
+                                    element: <div>Hello from nested!</div>
+                                }
+                            ]
+                        }
+                    ]
+                },
+                {
+                    hoist: true
+                }
+            );
 
             expect(runtime.routes.length).toBe(1);
             expect(runtime.routes[0].children![0].children![0].index).toBeTruthy();
@@ -1958,41 +2323,47 @@ describe.concurrent("registerRoute", () => {
                 loggers: [new NoopLogger()]
             });
 
-            runtime.registerRoute({
-                path: "/layout",
-                element: <div>Hello!</div>,
-                children: [
-                    {
-                        $visibility: "public",
-                        path: "/layout/nested",
-                        element: <div>Hello!</div>
-                    }
-                ]
-            }, {
-                hoist: true
-            });
+            runtime.registerRoute(
+                {
+                    path: "/layout",
+                    element: <div>Hello!</div>,
+                    children: [
+                        {
+                            $visibility: "public",
+                            path: "/layout/nested",
+                            element: <div>Hello!</div>
+                        }
+                    ]
+                },
+                {
+                    hoist: true
+                }
+            );
 
             expect(runtime.routes[0].children![0].path).toBe("/layout/nested");
             expect(runtime.routes[0].children![0].$visibility).toBe("public");
         });
 
-        test.concurrent("when a nested route has no visibility option, the visibility is defaulted to \"protected\"", ({ expect }) => {
+        test.concurrent('when a nested route has no visibility option, the visibility is defaulted to "protected"', ({ expect }) => {
             const runtime = new ReactRouterRuntime({
                 loggers: [new NoopLogger()]
             });
 
-            runtime.registerRoute({
-                path: "/layout",
-                element: <div>Hello!</div>,
-                children: [
-                    {
-                        path: "/layout/nested",
-                        element: <div>Hello!</div>
-                    }
-                ]
-            }, {
-                hoist: true
-            });
+            runtime.registerRoute(
+                {
+                    path: "/layout",
+                    element: <div>Hello!</div>,
+                    children: [
+                        {
+                            path: "/layout/nested",
+                            element: <div>Hello!</div>
+                        }
+                    ]
+                },
+                {
+                    hoist: true
+                }
+            );
 
             expect(runtime.routes[0].children![0].path).toBe("/layout/nested");
             expect(runtime.routes[0].children![0].$visibility).toBe("protected");
@@ -2003,17 +2374,20 @@ describe.concurrent("registerRoute", () => {
                 loggers: [new NoopLogger()]
             });
 
-            runtime.registerRoute({
-                element: <div>Hello</div>,
-                children: [
-                    {
-                        $id: "foo",
-                        element: <div>You!</div>
-                    }
-                ]
-            }, {
-                hoist: true
-            });
+            runtime.registerRoute(
+                {
+                    element: <div>Hello</div>,
+                    children: [
+                        {
+                            $id: "foo",
+                            element: <div>You!</div>
+                        }
+                    ]
+                },
+                {
+                    hoist: true
+                }
+            );
 
             expect(runtime.routes.length).toBe(1);
             expect(runtime.routes[0].children![0].$id).toBe("foo");
@@ -2025,30 +2399,36 @@ describe.concurrent("registerRoute", () => {
             loggers: [new NoopLogger()]
         });
 
-        runtime.registerRoute({
-            $visibility: "public",
-            path: "/public",
-            element: <div>Hello!</div>
-        }, {
-            hoist: true
-        });
+        runtime.registerRoute(
+            {
+                $visibility: "public",
+                path: "/public",
+                element: <div>Hello!</div>
+            },
+            {
+                hoist: true
+            }
+        );
 
         expect(runtime.routes.length).toBe(1);
         expect(runtime.routes[0].path).toBe("/public");
         expect(runtime.routes[0].$visibility).toBe("public");
     });
 
-    test.concurrent("when a route has no visibility option, the visibility is defaulted to \"protected\"", ({ expect }) => {
+    test.concurrent('when a route has no visibility option, the visibility is defaulted to "protected"', ({ expect }) => {
         const runtime = new ReactRouterRuntime({
             loggers: [new NoopLogger()]
         });
 
-        runtime.registerRoute({
-            path: "/foo",
-            element: <div>Hello!</div>
-        }, {
-            hoist: true
-        });
+        runtime.registerRoute(
+            {
+                path: "/foo",
+                element: <div>Hello!</div>
+            },
+            {
+                hoist: true
+            }
+        );
 
         expect(runtime.routes.length).toBe(1);
         expect(runtime.routes[0].path).toBe("/foo");
@@ -2060,12 +2440,15 @@ describe.concurrent("registerRoute", () => {
             loggers: [new NoopLogger()]
         });
 
-        runtime.registerRoute({
-            $id: "foo",
-            element: <div>Hello!</div>
-        }, {
-            hoist: true
-        });
+        runtime.registerRoute(
+            {
+                $id: "foo",
+                element: <div>Hello!</div>
+            },
+            {
+                hoist: true
+            }
+        );
 
         expect(runtime.routes.length).toBe(1);
         expect(runtime.routes[0].$id).toBe("foo");
@@ -2077,13 +2460,16 @@ describe.concurrent("registerRoute", () => {
         });
 
         expect(() => {
-            runtime.registerRoute({
-                $id: "/layout",
-                path: "/layout",
-                element: <div>Hello!</div>
-            }, {
-                hoist: true
-            });
+            runtime.registerRoute(
+                {
+                    $id: "/layout",
+                    path: "/layout",
+                    element: <div>Hello!</div>
+                },
+                {
+                    hoist: true
+                }
+            );
         }).toThrow();
     });
 });
@@ -2125,12 +2511,15 @@ describe.concurrent("registerNavigationItem", () => {
             loggers: [new NoopLogger()]
         });
 
-        runtime.registerNavigationItem({
-            $label: "Link",
-            to: "/link"
-        }, {
-            menuId: "link-menu"
-        });
+        runtime.registerNavigationItem(
+            {
+                $label: "Link",
+                to: "/link"
+            },
+            {
+                menuId: "link-menu"
+            }
+        );
 
         expect(runtime.getNavigationItems({ menuId: "link-menu" })[0].to).toBe("/link");
     });
@@ -2140,17 +2529,20 @@ describe.concurrent("registerNavigationItem", () => {
             loggers: [new NoopLogger()]
         });
 
-        runtime.registerNavigationItem({
-            $label: "Section",
-            children: [
-                {
-                    $label: "Child",
-                    to: "/child"
-                }
-            ]
-        }, {
-            menuId: "section-menu"
-        });
+        runtime.registerNavigationItem(
+            {
+                $label: "Section",
+                children: [
+                    {
+                        $label: "Child",
+                        to: "/child"
+                    }
+                ]
+            },
+            {
+                menuId: "section-menu"
+            }
+        );
 
         expect(runtime.getNavigationItems({ menuId: "section-menu" })[0].$label).toBe("Section");
     });
@@ -2195,12 +2587,15 @@ describe.concurrent("registerNavigationItem", () => {
                 children: []
             });
 
-            runtime.registerNavigationItem({
-                $label: "Link",
-                to: "/link"
-            }, {
-                sectionId: "section"
-            });
+            runtime.registerNavigationItem(
+                {
+                    $label: "Link",
+                    to: "/link"
+                },
+                {
+                    sectionId: "section"
+                }
+            );
 
             expect(runtime.getNavigationItems()[0].$id).toBe("section");
             expect(runtime.getNavigationItems()[0].children![0].$label).toBe("Link");
@@ -2211,12 +2606,15 @@ describe.concurrent("registerNavigationItem", () => {
                 loggers: [new NoopLogger()]
             });
 
-            runtime.registerNavigationItem({
-                $label: "Link",
-                to: "/link"
-            }, {
-                sectionId: "section"
-            });
+            runtime.registerNavigationItem(
+                {
+                    $label: "Link",
+                    to: "/link"
+                },
+                {
+                    sectionId: "section"
+                }
+            );
 
             expect(runtime.getNavigationItems().length).toBe(0);
         });
@@ -2233,13 +2631,16 @@ describe.concurrent("registerNavigationItem", () => {
                 children: []
             });
 
-            runtime.registerNavigationItem({
-                $label: "Link",
-                $priority: 42,
-                to: "/link"
-            }, {
-                sectionId: "section"
-            });
+            runtime.registerNavigationItem(
+                {
+                    $label: "Link",
+                    $priority: 42,
+                    to: "/link"
+                },
+                {
+                    sectionId: "section"
+                }
+            );
 
             expect(runtime.getNavigationItems()[0].$priority).toBe(5);
             expect(runtime.getNavigationItems()[0].children![0].$priority).toBe(42);
@@ -2250,13 +2651,16 @@ describe.concurrent("registerNavigationItem", () => {
                 loggers: [new NoopLogger()]
             });
 
-            runtime.registerNavigationItem({
-                $label: "Link",
-                $priority: 42,
-                to: "/link"
-            }, {
-                sectionId: "section"
-            });
+            runtime.registerNavigationItem(
+                {
+                    $label: "Link",
+                    $priority: 42,
+                    to: "/link"
+                },
+                {
+                    sectionId: "section"
+                }
+            );
 
             runtime.registerNavigationItem({
                 $id: "section",
@@ -2272,12 +2676,15 @@ describe.concurrent("registerNavigationItem", () => {
                 loggers: [new NoopLogger()]
             });
 
-            runtime.registerNavigationItem({
-                $label: "Link",
-                to: "/link"
-            }, {
-                sectionId: "section"
-            });
+            runtime.registerNavigationItem(
+                {
+                    $label: "Link",
+                    to: "/link"
+                },
+                {
+                    sectionId: "section"
+                }
+            );
 
             expect(runtime.getNavigationItems().length).toBe(0);
 
@@ -2312,12 +2719,15 @@ describe.concurrent("registerNavigationItem", () => {
                 ]
             });
 
-            runtime.registerNavigationItem({
-                $label: "Link",
-                to: "/link"
-            }, {
-                sectionId: "deeply-nested"
-            });
+            runtime.registerNavigationItem(
+                {
+                    $label: "Link",
+                    to: "/link"
+                },
+                {
+                    sectionId: "deeply-nested"
+                }
+            );
 
             expect(runtime.getNavigationItems()[0].children![0].children![0].children![0].$label).toBe("Link");
         });
@@ -2327,23 +2737,29 @@ describe.concurrent("registerNavigationItem", () => {
                 loggers: [new NoopLogger()]
             });
 
-            runtime.registerNavigationItem({
-                $label: "Link",
-                to: "/link"
-            }, {
-                menuId: "foo",
-                sectionId: "section"
-            });
+            runtime.registerNavigationItem(
+                {
+                    $label: "Link",
+                    to: "/link"
+                },
+                {
+                    menuId: "foo",
+                    sectionId: "section"
+                }
+            );
 
             expect(runtime.getNavigationItems().length).toBe(0);
 
-            runtime.registerNavigationItem({
-                $id: "section",
-                $label: "Section",
-                children: []
-            }, {
-                menuId: "foo"
-            });
+            runtime.registerNavigationItem(
+                {
+                    $id: "section",
+                    $label: "Section",
+                    children: []
+                },
+                {
+                    menuId: "foo"
+                }
+            );
 
             expect(runtime.getNavigationItems({ menuId: "foo" })[0].$id).toBe("section");
             expect(runtime.getNavigationItems({ menuId: "foo" })[0].children![0].$label).toBe("Link");
@@ -2354,23 +2770,29 @@ describe.concurrent("registerNavigationItem", () => {
                 loggers: [new NoopLogger()]
             });
 
-            runtime.registerNavigationItem({
-                $label: "Link",
-                to: "/link"
-            }, {
-                menuId: "foo",
-                sectionId: "section"
-            });
+            runtime.registerNavigationItem(
+                {
+                    $label: "Link",
+                    to: "/link"
+                },
+                {
+                    menuId: "foo",
+                    sectionId: "section"
+                }
+            );
 
             expect(runtime.getNavigationItems().length).toBe(0);
 
-            runtime.registerNavigationItem({
-                $id: "section",
-                $label: "Section",
-                children: []
-            }, {
-                menuId: "bar"
-            });
+            runtime.registerNavigationItem(
+                {
+                    $id: "section",
+                    $label: "Section",
+                    children: []
+                },
+                {
+                    menuId: "bar"
+                }
+            );
 
             expect(runtime.getNavigationItems({ menuId: "foo" }).length).toBe(0);
             expect(runtime.getNavigationItems({ menuId: "bar" }).length).toBe(1);
@@ -2401,19 +2823,25 @@ describe.concurrent("getNavigationItems", () => {
             to: "/item-3"
         });
 
-        runtime.registerNavigationItem({
-            $label: "Item 4",
-            to: "/item-4"
-        }, {
-            menuId: "menu-1"
-        });
+        runtime.registerNavigationItem(
+            {
+                $label: "Item 4",
+                to: "/item-4"
+            },
+            {
+                menuId: "menu-1"
+            }
+        );
 
-        runtime.registerNavigationItem({
-            $label: "Item 5",
-            to: "/item-5"
-        }, {
-            menuId: "menu-2"
-        });
+        runtime.registerNavigationItem(
+            {
+                $label: "Item 5",
+                to: "/item-5"
+            },
+            {
+                menuId: "menu-2"
+            }
+        );
 
         expect(runtime.getNavigationItems()[0].to).toBe("/item-1");
         expect(runtime.getNavigationItems()[1].to).toBe("/item-2");
@@ -2440,19 +2868,25 @@ describe.concurrent("getNavigationItems", () => {
             to: "/item-3"
         });
 
-        runtime.registerNavigationItem({
-            $label: "Item 4",
-            to: "/item-4"
-        }, {
-            menuId: "menu-1"
-        });
+        runtime.registerNavigationItem(
+            {
+                $label: "Item 4",
+                to: "/item-4"
+            },
+            {
+                menuId: "menu-1"
+            }
+        );
 
-        runtime.registerNavigationItem({
-            $label: "Item 5",
-            to: "/item-5"
-        }, {
-            menuId: "menu-2"
-        });
+        runtime.registerNavigationItem(
+            {
+                $label: "Item 5",
+                to: "/item-5"
+            },
+            {
+                menuId: "menu-2"
+            }
+        );
 
         expect(runtime.getNavigationItems({ menuId: "menu-1" })[0].to).toBe("/item-4");
     });
@@ -2496,12 +2930,15 @@ describe.concurrent("startDeferredRegistrationScope & completeDeferredRegistrati
 
         runtime.startDeferredRegistrationScope();
 
-        runtime.registerRoute({
-            path: "/foo",
-            element: <div>Hello!</div>
-        }, {
-            hoist: true
-        });
+        runtime.registerRoute(
+            {
+                path: "/foo",
+                element: <div>Hello!</div>
+            },
+            {
+                hoist: true
+            }
+        );
 
         expect(runtime.routes.length).toBe(1);
 
@@ -2541,23 +2978,29 @@ describe.concurrent("startDeferredRegistrationScope & completeDeferredRegistrati
 
         runtime.startDeferredRegistrationScope();
 
-        runtime.registerRoute({
-            path: "/foo",
-            element: <div>Hello!</div>
-        }, {
-            hoist: true
-        });
+        runtime.registerRoute(
+            {
+                path: "/foo",
+                element: <div>Hello!</div>
+            },
+            {
+                hoist: true
+            }
+        );
 
         expect(runtime.routes.length).toBe(1);
 
         runtime.completeDeferredRegistrationScope();
 
-        runtime.registerRoute({
-            path: "/bar",
-            element: <div>Hello!</div>
-        }, {
-            hoist: true
-        });
+        runtime.registerRoute(
+            {
+                path: "/bar",
+                element: <div>Hello!</div>
+            },
+            {
+                hoist: true
+            }
+        );
 
         expect(runtime.routes.length).toBe(2);
     });
@@ -2577,12 +3020,15 @@ describe.concurrent("startDeferredRegistrationScope & completeDeferredRegistrati
 
         // A deferred nested item cannot be registered under a static section, therefore the replay
         // performed by the completion of the scope throws an error.
-        runtime.registerNavigationItem({
-            $label: "Link",
-            to: "/link"
-        }, {
-            sectionId: "section"
-        });
+        runtime.registerNavigationItem(
+            {
+                $label: "Link",
+                to: "/link"
+            },
+            {
+                sectionId: "section"
+            }
+        );
 
         expect(() => runtime.completeDeferredRegistrationScope()).toThrow();
 
@@ -2630,7 +3076,7 @@ describe.concurrent("registerPublicRoute", () => {
         expect(routes[0].$visibility).toBe("public");
     });
 
-    test.concurrent("when a child route has no visibility option, the child route is considered as a \"public\" route", ({ expect }) => {
+    test.concurrent('when a child route has no visibility option, the child route is considered as a "public" route', ({ expect }) => {
         const runtime = new ReactRouterRuntime({
             loggers: [new NoopLogger()]
         });
@@ -2686,7 +3132,7 @@ describe.concurrent("registerPublicRoute", () => {
         expect(routes[0].children![1].$visibility).toBe("public");
     });
 
-    test.concurrent("when a deeply nested route has no visibility option, the deeply nested route is considered as a \"public\" route", ({ expect }) => {
+    test.concurrent('when a deeply nested route has no visibility option, the deeply nested route is considered as a "public" route', ({ expect }) => {
         const runtime = new ReactRouterRuntime({
             loggers: [new NoopLogger()]
         });
@@ -2736,13 +3182,14 @@ describe.concurrent("_validateRegistrations", () => {
 
             let errorMessage;
 
-            runtime.registerRoute({
-                children: [
-                    ProtectedRoutes
-                ]
-            }, {
-                hoist: true
-            });
+            runtime.registerRoute(
+                {
+                    children: [ProtectedRoutes]
+                },
+                {
+                    hoist: true
+                }
+            );
 
             runtime.registerPublicRoute({
                 path: "/public",
@@ -2765,13 +3212,14 @@ describe.concurrent("_validateRegistrations", () => {
 
             let errorMessage;
 
-            runtime.registerRoute({
-                children: [
-                    PublicRoutes
-                ]
-            }, {
-                hoist: true
-            });
+            runtime.registerRoute(
+                {
+                    children: [PublicRoutes]
+                },
+                {
+                    hoist: true
+                }
+            );
 
             runtime.registerRoute({
                 path: "/protected",
@@ -2821,19 +3269,25 @@ describe.concurrent("_validateRegistrations", () => {
                 loggers: [new NoopLogger()]
             });
 
-            runtime.registerRoute({
-                path: "/layout/nested",
-                element: <div>Hello!</div>
-            }, {
-                parentPath: "/layout"
-            });
+            runtime.registerRoute(
+                {
+                    path: "/layout/nested",
+                    element: <div>Hello!</div>
+                },
+                {
+                    parentPath: "/layout"
+                }
+            );
 
-            runtime.registerRoute({
-                path: "/layout",
-                element: <div>Hello!</div>
-            }, {
-                hoist: true
-            });
+            runtime.registerRoute(
+                {
+                    path: "/layout",
+                    element: <div>Hello!</div>
+                },
+                {
+                    hoist: true
+                }
+            );
 
             expect(() => runtime._validateRegistrations()).not.toThrow();
         });
@@ -2843,12 +3297,15 @@ describe.concurrent("_validateRegistrations", () => {
                 loggers: [new NoopLogger()]
             });
 
-            runtime.registerRoute({
-                path: "/layout/nested",
-                element: <div>Hello!</div>
-            }, {
-                parentPath: "/layout"
-            });
+            runtime.registerRoute(
+                {
+                    path: "/layout/nested",
+                    element: <div>Hello!</div>
+                },
+                {
+                    parentPath: "/layout"
+                }
+            );
 
             expect(() => runtime._validateRegistrations()).toThrow();
         });
@@ -2860,19 +3317,25 @@ describe.concurrent("_validateRegistrations", () => {
                 loggers: [new NoopLogger()]
             });
 
-            runtime.registerRoute({
-                path: "/layout/nested",
-                element: <div>Hello!</div>
-            }, {
-                parentId: "layout"
-            });
+            runtime.registerRoute(
+                {
+                    path: "/layout/nested",
+                    element: <div>Hello!</div>
+                },
+                {
+                    parentId: "layout"
+                }
+            );
 
-            runtime.registerRoute({
-                $id: "layout",
-                element: <div>Hello!</div>
-            }, {
-                hoist: true
-            });
+            runtime.registerRoute(
+                {
+                    $id: "layout",
+                    element: <div>Hello!</div>
+                },
+                {
+                    hoist: true
+                }
+            );
 
             expect(() => runtime._validateRegistrations()).not.toThrow();
         });
@@ -2882,12 +3345,15 @@ describe.concurrent("_validateRegistrations", () => {
                 loggers: [new NoopLogger()]
             });
 
-            runtime.registerRoute({
-                path: "/layout/nested",
-                element: <div>Hello!</div>
-            }, {
-                parentId: "layout"
-            });
+            runtime.registerRoute(
+                {
+                    path: "/layout/nested",
+                    element: <div>Hello!</div>
+                },
+                {
+                    parentId: "layout"
+                }
+            );
 
             expect(() => runtime._validateRegistrations()).toThrow();
         });
@@ -2899,12 +3365,15 @@ describe.concurrent("_validateRegistrations", () => {
                 loggers: [new NoopLogger()]
             });
 
-            runtime.registerNavigationItem({
-                $label: "Link",
-                to: "/link"
-            }, {
-                sectionId: "section"
-            });
+            runtime.registerNavigationItem(
+                {
+                    $label: "Link",
+                    to: "/link"
+                },
+                {
+                    sectionId: "section"
+                }
+            );
 
             runtime.registerNavigationItem({
                 $id: "section",
@@ -2920,12 +3389,15 @@ describe.concurrent("_validateRegistrations", () => {
                 loggers: [new NoopLogger()]
             });
 
-            runtime.registerNavigationItem({
-                $label: "Link",
-                to: "/link"
-            }, {
-                sectionId: "section"
-            });
+            runtime.registerNavigationItem(
+                {
+                    $label: "Link",
+                    to: "/link"
+                },
+                {
+                    sectionId: "section"
+                }
+            );
 
             expect(() => runtime._validateRegistrations()).toThrow();
         });
@@ -2935,13 +3407,16 @@ describe.concurrent("_validateRegistrations", () => {
                 loggers: [new NoopLogger()]
             });
 
-            runtime.registerNavigationItem({
-                $label: "Link",
-                to: "/link"
-            }, {
-                menuId: "analytics-sidebar",
-                sectionId: "analytics-performance"
-            });
+            runtime.registerNavigationItem(
+                {
+                    $label: "Link",
+                    to: "/link"
+                },
+                {
+                    menuId: "analytics-sidebar",
+                    sectionId: "analytics-performance"
+                }
+            );
 
             expect(() => runtime._validateRegistrations()).toThrow(/Missing navigation section "analytics-performance" of the "analytics-sidebar" menu/);
         });
@@ -2970,26 +3445,35 @@ describe.concurrent("getNavigationItemsByMenu", () => {
             to: "/root"
         });
 
-        runtime.registerNavigationItem({
-            $label: "Link A",
-            to: "/link-a"
-        }, {
-            menuId: "menu-a"
-        });
+        runtime.registerNavigationItem(
+            {
+                $label: "Link A",
+                to: "/link-a"
+            },
+            {
+                menuId: "menu-a"
+            }
+        );
 
-        runtime.registerNavigationItem({
-            $label: "Link B",
-            to: "/link-b"
-        }, {
-            menuId: "menu-b"
-        });
+        runtime.registerNavigationItem(
+            {
+                $label: "Link B",
+                to: "/link-b"
+            },
+            {
+                menuId: "menu-b"
+            }
+        );
 
-        runtime.registerNavigationItem({
-            $label: "Link A2",
-            to: "/link-a2"
-        }, {
-            menuId: "menu-a"
-        });
+        runtime.registerNavigationItem(
+            {
+                $label: "Link A2",
+                to: "/link-a2"
+            },
+            {
+                menuId: "menu-a"
+            }
+        );
 
         const result = runtime.getNavigationItemsByMenu();
 
@@ -3029,12 +3513,15 @@ describe.concurrent("getNavigationItemsByMenu", () => {
 
         const first = runtime.getNavigationItemsByMenu();
 
-        runtime.registerNavigationItem({
-            $label: "Other",
-            to: "/other"
-        }, {
-            menuId: "other"
-        });
+        runtime.registerNavigationItem(
+            {
+                $label: "Other",
+                to: "/other"
+            },
+            {
+                menuId: "other"
+            }
+        );
 
         const second = runtime.getNavigationItemsByMenu();
 
@@ -3055,12 +3542,15 @@ describe.concurrent("getNavigationItemsByMenu", () => {
 
         const first = runtime.getNavigationItemsByMenu();
 
-        runtime.registerNavigationItem({
-            $label: "Nested",
-            to: "/nested"
-        }, {
-            sectionId: "section"
-        });
+        runtime.registerNavigationItem(
+            {
+                $label: "Nested",
+                to: "/nested"
+            },
+            {
+                sectionId: "section"
+            }
+        );
 
         const second = runtime.getNavigationItemsByMenu();
 

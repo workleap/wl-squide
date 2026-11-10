@@ -1,18 +1,29 @@
 {
     "name": "@squide/firefly",
-    "author": "Workleap",
     "version": "20.1.1",
     "description": "Squide bundle for the firefly technology stack.",
     "license": "Apache-2.0",
+    "author": "Workleap",
     "repository": {
         "type": "git",
         "url": "git+https://github.com/workleap/wl-squide.git",
         "directory": "packages/firefly"
     },
+    "files": [
+        "src",
+        "dist",
+        "skills",
+        "CHANGELOG.md"
+    ],
     "type": "module",
+    "sideEffects": false,
+    "exports": {
+        ".": "./src/index.ts",
+        "./internal": "./src/internal.ts",
+        "./testing": "./src/testing/index.ts",
+        "./tests": "./tests/utils.ts"
+    },
     "publishConfig": {
-        "access": "public",
-        "provenance": true,
         "exports": {
             ".": {
                 "types": "./dist/index.d.ts",
@@ -29,27 +40,41 @@
                 "import": "./dist/testing/index.js",
                 "default": "./dist/testing/index.js"
             }
-        }
+        },
+        "access": "public",
+        "provenance": true
     },
-    "exports": {
-        ".": "./src/index.ts",
-        "./internal": "./src/internal.ts",
-        "./testing": "./src/testing/index.ts",
-        "./tests": "./tests/utils.ts"
-    },
-    "files": [
-        "src",
-        "dist",
-        "skills",
-        "CHANGELOG.md"
-    ],
     "scripts": {
         "prepack": "node ./scripts/agent-skill.mjs copy",
         "postpack": "node ./scripts/agent-skill.mjs clean",
         "build": "rslib build --config ./rslib.build.ts",
-        "eslint": "eslint . --max-warnings=0 --cache --cache-location node_modules/.cache/eslint",
         "typecheck": "tsgo",
         "test": "vitest --config vitest.config.ts --no-watch"
+    },
+    "dependencies": {
+        "@squide/core": "workspace:^",
+        "@squide/env-vars": "workspace:^",
+        "@squide/launch-darkly": "workspace:^",
+        "@squide/msw": "workspace:^",
+        "@squide/react-router": "workspace:^",
+        "@workleap-telemetry/core": "^2.0.6",
+        "@workleap/logging": "^2.0.1",
+        "uuid": "^14.0.3"
+    },
+    "devDependencies": {
+        "@rsbuild/core": "2.2.14",
+        "@rslib/core": "1.0.3",
+        "@testing-library/react": "16.3.3",
+        "@types/node": "26.6.5",
+        "@types/react": "19.3.0",
+        "@types/react-dom": "19.3.0",
+        "@typescript/native-preview": "7.0.0-dev.20260707.2",
+        "@vitejs/plugin-react": "6.1.2",
+        "@workleap/rslib-configs": "2.0.0",
+        "@workleap/typescript-configs": "5.0.0",
+        "happy-dom": "21.0.4",
+        "typescript": "7.0.2",
+        "vitest": "5.0.5"
     },
     "peerDependencies": {
         "@opentelemetry/api": "^1.9.1",
@@ -68,36 +93,5 @@
         "@types/react": {
             "optional": true
         }
-    },
-    "dependencies": {
-        "@squide/core": "workspace:^",
-        "@squide/env-vars": "workspace:^",
-        "@squide/launch-darkly": "workspace:^",
-        "@squide/msw": "workspace:^",
-        "@squide/react-router": "workspace:^",
-        "@workleap-telemetry/core": "^2.0.6",
-        "@workleap/logging": "^2.0.1",
-        "uuid": "^14.0.3"
-    },
-    "devDependencies": {
-        "@eslint/js": "9.39.2",
-        "@rsbuild/core": "2.2.14",
-        "@rslib/core": "1.0.3",
-        "@testing-library/react": "16.3.3",
-        "@types/node": "26.6.5",
-        "@types/react": "19.3.0",
-        "@types/react-dom": "19.3.0",
-        "@typescript-eslint/parser": "8.72.0",
-        "@typescript/native-preview": "7.0.0-dev.20260707.2",
-        "@vitejs/plugin-react": "6.1.2",
-        "@workleap/eslint-configs": "2.0.6",
-        "@workleap/rslib-configs": "2.0.0",
-        "@workleap/typescript-configs": "5.0.0",
-        "eslint": "9.39.2",
-        "happy-dom": "21.0.4",
-        "typescript": "6.0.3",
-        "typescript-eslint": "8.54.0",
-        "vitest": "5.0.5"
-    },
-    "sideEffects": false
+    }
 }

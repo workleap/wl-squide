@@ -54,7 +54,7 @@ describe.concurrent("defineDevHostConfig", () => {
         expect(result.devServer.port).toBe(8080);
     });
 
-    test.concurrent("when no public path is provided, the default public path is \"auto\"", ({ expect }) => {
+    test.concurrent('when no public path is provided, the default public path is "auto"', ({ expect }) => {
         const config = defineDevHostConfig(SwcConfig, 8080, []);
 
         expect(config.output!.publicPath).toBe("auto");
@@ -89,10 +89,10 @@ describe.concurrent("defineDevHostConfig", () => {
     test.concurrent("when additional shared dependencies are provided, add the dependencies to the module federation plugin configuration", ({ expect }) => {
         const config = defineDevHostConfig(SwcConfig, 8080, [], {
             sharedDependencies: {
-                "first": {
+                first: {
                     singleton: true
                 },
-                "second": {
+                second: {
                     eager: true,
                     singleton: true
                 }
@@ -107,7 +107,7 @@ describe.concurrent("defineDevHostConfig", () => {
     test.concurrent("when additional options are provided for an existing default shared dependency, add the consumer options to the default options", ({ expect }) => {
         const config = defineDevHostConfig(SwcConfig, 8080, [], {
             sharedDependencies: {
-                "react": {
+                react: {
                     requiredVersion: "1.2.3"
                 }
             }
@@ -121,7 +121,7 @@ describe.concurrent("defineDevHostConfig", () => {
     test.concurrent("when overriding options are provided for a default shared dependency, use the consumer option", ({ expect }) => {
         const config = defineDevHostConfig(SwcConfig, 8080, [], {
             sharedDependencies: {
-                "react": {
+                react: {
                     eager: false,
                     singleton: false
                 }
@@ -193,11 +193,13 @@ describe.concurrent("defineDevHostConfig", () => {
 
     test.concurrent("when configuration transformers are provided, the transformers are applied to the configuration", ({ expect }) => {
         const result = defineDevHostConfig(SwcConfig, 8080, [], {
-            transformers: [(config: WebpackConfig) => {
-                config.entry = "updated by the dummy transformer";
+            transformers: [
+                (config: WebpackConfig) => {
+                    config.entry = "updated by the dummy transformer";
 
-                return config;
-            }]
+                    return config;
+                }
+            ]
         });
 
         expect(result.entry).toBe("updated by the dummy transformer");
@@ -257,7 +259,7 @@ describe.concurrent("defineBuildHostConfig", () => {
         expect(prepareModuleFederationPluginForSnapshot(result.plugin as WebpackPluginInstance)).toMatchSnapshot();
     });
 
-    test.concurrent("when no public path is provided, the default public path is \"auto\"", ({ expect }) => {
+    test.concurrent('when no public path is provided, the default public path is "auto"', ({ expect }) => {
         const config = defineBuildHostConfig(SwcConfig, []);
 
         expect(config.output!.publicPath).toBe("auto");
@@ -292,10 +294,10 @@ describe.concurrent("defineBuildHostConfig", () => {
     test.concurrent("when additional shared dependencies are provided, add the dependencies to the module federation plugin configuration", ({ expect }) => {
         const config = defineBuildHostConfig(SwcConfig, [], {
             sharedDependencies: {
-                "first": {
+                first: {
                     singleton: true
                 },
-                "second": {
+                second: {
                     eager: true,
                     singleton: true
                 }
@@ -310,7 +312,7 @@ describe.concurrent("defineBuildHostConfig", () => {
     test.concurrent("when additional options are provided for an existing default shared dependency, add the consumer options to the default options", ({ expect }) => {
         const config = defineBuildHostConfig(SwcConfig, [], {
             sharedDependencies: {
-                "react": {
+                react: {
                     requiredVersion: "1.2.3"
                 }
             }
@@ -324,7 +326,7 @@ describe.concurrent("defineBuildHostConfig", () => {
     test.concurrent("when overriding options are provided for a default shared dependency, use the consumer option", ({ expect }) => {
         const config = defineBuildHostConfig(SwcConfig, [], {
             sharedDependencies: {
-                "react": {
+                react: {
                     eager: false,
                     singleton: false
                 }
@@ -396,11 +398,13 @@ describe.concurrent("defineBuildHostConfig", () => {
 
     test.concurrent("when configuration transformers are provided, the transformers are applied to the configuration", ({ expect }) => {
         const result = defineBuildHostConfig(SwcConfig, [], {
-            transformers: [(config: WebpackConfig) => {
-                config.entry = "updated by the dummy transformer";
+            transformers: [
+                (config: WebpackConfig) => {
+                    config.entry = "updated by the dummy transformer";
 
-                return config;
-            }]
+                    return config;
+                }
+            ]
         });
 
         expect(result.entry).toBe("updated by the dummy transformer");
@@ -471,7 +475,7 @@ describe.concurrent("defineDevRemoteModuleConfig", () => {
         expect(result.devServer.port).toBe(8081);
     });
 
-    test.concurrent("when no public path is provided, the default public path is \"auto\"", ({ expect }) => {
+    test.concurrent('when no public path is provided, the default public path is "auto"', ({ expect }) => {
         const config = defineDevRemoteModuleConfig(SwcConfig, "remote1", 8081);
 
         expect(config.output!.publicPath).toBe("auto");
@@ -495,10 +499,10 @@ describe.concurrent("defineDevRemoteModuleConfig", () => {
     test.concurrent("when additional shared dependencies are provided, add the dependencies to the module federation plugin configuration", ({ expect }) => {
         const config = defineDevRemoteModuleConfig(SwcConfig, "remote1", 8081, {
             sharedDependencies: {
-                "first": {
+                first: {
                     singleton: true
                 },
-                "second": {
+                second: {
                     eager: true,
                     singleton: true
                 }
@@ -513,7 +517,7 @@ describe.concurrent("defineDevRemoteModuleConfig", () => {
     test.concurrent("when additional options are provided for an existing default shared dependency, add the consumer options to the default options", ({ expect }) => {
         const config = defineDevRemoteModuleConfig(SwcConfig, "remote1", 8081, {
             sharedDependencies: {
-                "react": {
+                react: {
                     requiredVersion: "1.2.3"
                 }
             }
@@ -527,7 +531,7 @@ describe.concurrent("defineDevRemoteModuleConfig", () => {
     test.concurrent("when overriding options are provided for a default shared dependency, use the consumer option", ({ expect }) => {
         const config = defineDevRemoteModuleConfig(SwcConfig, "remote1", 8081, {
             sharedDependencies: {
-                "react": {
+                react: {
                     eager: false,
                     singleton: false
                 }
@@ -590,10 +594,7 @@ describe.concurrent("defineDevRemoteModuleConfig", () => {
     test.concurrent("access control headers are added to the dev server configuration", ({ expect }) => {
         const result = defineDevRemoteModuleConfig(SwcConfig, "remote1", 8081);
 
-        // "devServer" does exist but webpack types are a messed.
-        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-        // @ts-ignore
-        expect(result.devServer.headers["Access-Control-Allow-Origin"]).toBe("*");
+        expect(result.devServer?.headers).toEqual({ "Access-Control-Allow-Origin": "*" });
     });
 
     test.concurrent("when additional plugins are provided, the plugins are added to the configuration", ({ expect }) => {
@@ -633,7 +634,7 @@ describe.concurrent("defineBuildRemoteModuleConfig", () => {
         expect(prepareModuleFederationPluginForSnapshot(result.plugin as WebpackPluginInstance)).toMatchSnapshot();
     });
 
-    test.concurrent("when no public path is provided, the default public path is \"auto\"", ({ expect }) => {
+    test.concurrent('when no public path is provided, the default public path is "auto"', ({ expect }) => {
         const config = defineBuildRemoteModuleConfig(SwcConfig, "remote1");
 
         expect(config.output!.publicPath).toBe("auto");
@@ -657,10 +658,10 @@ describe.concurrent("defineBuildRemoteModuleConfig", () => {
     test.concurrent("when additional shared dependencies are provided, add the dependencies to the module federation plugin configuration", ({ expect }) => {
         const config = defineBuildRemoteModuleConfig(SwcConfig, "remote1", {
             sharedDependencies: {
-                "first": {
+                first: {
                     singleton: true
                 },
-                "second": {
+                second: {
                     eager: true,
                     singleton: true
                 }
@@ -675,7 +676,7 @@ describe.concurrent("defineBuildRemoteModuleConfig", () => {
     test.concurrent("when additional options are provided for an existing default shared dependency, add the consumer options to the default options", ({ expect }) => {
         const config = defineBuildRemoteModuleConfig(SwcConfig, "remote1", {
             sharedDependencies: {
-                "react": {
+                react: {
                     requiredVersion: "1.2.3"
                 }
             }
@@ -689,7 +690,7 @@ describe.concurrent("defineBuildRemoteModuleConfig", () => {
     test.concurrent("when overriding options are provided for a default shared dependency, use the consumer option", ({ expect }) => {
         const config = defineBuildRemoteModuleConfig(SwcConfig, "remote1", {
             sharedDependencies: {
-                "react": {
+                react: {
                     eager: false,
                     singleton: false
                 }
@@ -775,6 +776,18 @@ describe.concurrent("defineBuildRemoteModuleConfig", () => {
 });
 
 describe.concurrent("defineHostModuleFederationPluginOptions", () => {
+    test.concurrent("when the shared dependencies are provided as an array, merge them with the default shared dependencies", ({ expect }) => {
+        const result = defineHostModuleFederationPluginOptions([], {
+            shared: ["useless-lib", { "another-lib": { singleton: true } }]
+        });
+
+        expect(result.shared).toMatchObject({
+            react: { singleton: true },
+            "useless-lib": "useless-lib",
+            "another-lib": { singleton: true }
+        });
+    });
+
     test.concurrent("merge the default options with the provided options", ({ expect }) => {
         const result = defineHostModuleFederationPluginOptions([], {
             runtime: "a-custom-runtime-name"
@@ -786,14 +799,14 @@ describe.concurrent("defineHostModuleFederationPluginOptions", () => {
     test.concurrent("merge the shared dependencies with the default shared dependencies", ({ expect }) => {
         const result = defineHostModuleFederationPluginOptions([], {
             shared: {
-                "react": {
+                react: {
                     singleton: false,
                     requiredVersion: "1.2.3"
                 },
-                "first": {
+                first: {
                     singleton: true
                 },
-                "second": {
+                second: {
                     eager: true,
                     singleton: true
                 }
@@ -830,14 +843,14 @@ describe.concurrent("defineRemoteModuleFederationPluginOptions", () => {
     test.concurrent("merge the shared dependencies with the default shared dependencies", ({ expect }) => {
         const result = defineRemoteModuleFederationPluginOptions("remote1", {
             shared: {
-                "react": {
+                react: {
                     singleton: false,
                     requiredVersion: "1.2.3"
                 },
-                "first": {
+                first: {
                     singleton: true
                 },
-                "second": {
+                second: {
                     eager: true,
                     singleton: true
                 }
@@ -861,7 +874,7 @@ describe.concurrent("defineRemoteModuleFederationPluginOptions", () => {
         expect(result.shared.second).toBeDefined();
     });
 
-    test.concurrent("should provide additional \"exposes\"", ({ expect }) => {
+    test.concurrent('should provide additional "exposes"', ({ expect }) => {
         const result = defineRemoteModuleFederationPluginOptions("remote1", {
             exposes: {
                 "custom-file.js": "./src/custom-file.js"
@@ -870,5 +883,28 @@ describe.concurrent("defineRemoteModuleFederationPluginOptions", () => {
 
         expect(Object.keys(result.exposes!).length).toBe(2);
         expect(Object.values(result.exposes!)[1]).toBe("./src/custom-file.js");
+    });
+
+    test.concurrent('when "exposes" is provided as an array, key each path by itself', ({ expect }) => {
+        const result = defineRemoteModuleFederationPluginOptions("remote1", {
+            exposes: ["./src/custom-file.js", { "./another-file": "./src/another-file.js" }]
+        });
+
+        expect(result.exposes).toEqual({
+            "./register": "./src/register",
+            "./src/custom-file.js": "./src/custom-file.js",
+            "./another-file": "./src/another-file.js"
+        });
+    });
+
+    test.concurrent("when the shared dependencies are provided as an array, merge them with the default shared dependencies", ({ expect }) => {
+        const result = defineRemoteModuleFederationPluginOptions("remote1", {
+            shared: ["useless-lib"]
+        });
+
+        expect(result.shared).toMatchObject({
+            react: { singleton: true },
+            "useless-lib": "useless-lib"
+        });
     });
 });

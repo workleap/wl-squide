@@ -33,4 +33,3 @@ export function isPlainObject(value: unknown): value is Record<string, unknown> 
 
     return prototype === null || prototype === Object.prototype;
 }
-

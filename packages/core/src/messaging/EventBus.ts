@@ -32,9 +32,7 @@ export class EventBus {
     }
 
     addListener<K extends EventMapKey>(eventName: K, callback: EventCallbackFunction<EventMap[K]>, options: AddListenerOptions = {}) {
-        const {
-            once
-        } = options;
+        const { once } = options;
 
         if (once === true) {
             this.#eventEmitter.once(eventName, callback);
@@ -44,9 +42,7 @@ export class EventBus {
     }
 
     removeListener<K extends EventMapKey>(eventName: K, callback: EventCallbackFunction<EventMap[K]>, options: RemoveListenerOptions = {}) {
-        const {
-            once
-        } = options;
+        const { once } = options;
 
         this.#eventEmitter.removeListener(eventName, callback, undefined, once);
     }

@@ -1,37 +1,57 @@
 {
     "name": "@squide/react-router",
-    "author": "Workleap",
     "version": "10.2.3",
     "description": "Add support for React Router to @squide application shell.",
     "license": "Apache-2.0",
+    "author": "Workleap",
     "repository": {
         "type": "git",
         "url": "git+https://github.com/workleap/wl-squide.git",
         "directory": "packages/react-router"
     },
+    "files": [
+        "src",
+        "dist",
+        "CHANGELOG.md"
+    ],
     "type": "module",
+    "sideEffects": false,
+    "exports": "./src/index.ts",
     "publishConfig": {
-        "access": "public",
-        "provenance": true,
         "exports": {
             ".": {
                 "types": "./dist/index.d.ts",
                 "import": "./dist/index.js",
                 "default": "./dist/index.js"
             }
-        }
+        },
+        "access": "public",
+        "provenance": true
     },
-    "exports": "./src/index.ts",
-    "files": [
-        "src",
-        "dist",
-        "CHANGELOG.md"
-    ],
     "scripts": {
         "build": "rslib build --config ./rslib.build.ts",
-        "eslint": "eslint . --max-warnings=0 --cache --cache-location node_modules/.cache/eslint",
         "typecheck": "tsgo",
         "test": "vitest --config vitest.config.ts --no-watch"
+    },
+    "dependencies": {
+        "@squide/core": "workspace:^",
+        "@workleap/logging": "^2.0.1",
+        "memoize": "^11.0.0"
+    },
+    "devDependencies": {
+        "@rsbuild/core": "2.2.14",
+        "@rslib/core": "1.0.3",
+        "@testing-library/react": "16.3.3",
+        "@types/node": "26.6.5",
+        "@types/react": "19.3.0",
+        "@types/react-dom": "19.3.0",
+        "@typescript/native-preview": "7.0.0-dev.20260707.2",
+        "@vitejs/plugin-react": "6.1.2",
+        "@workleap/rslib-configs": "2.0.0",
+        "@workleap/typescript-configs": "5.0.0",
+        "happy-dom": "21.0.4",
+        "typescript": "7.0.2",
+        "vitest": "5.0.5"
     },
     "peerDependencies": {
         "@types/react": "^18.0.0 || ^19.0.0",
@@ -43,31 +63,5 @@
         "@types/react": {
             "optional": true
         }
-    },
-    "dependencies": {
-        "@squide/core": "workspace:^",
-        "@workleap/logging": "^2.0.1",
-        "memoize": "^11.0.0"
-    },
-    "devDependencies": {
-        "@eslint/js": "9.39.2",
-        "@rsbuild/core": "2.2.14",
-        "@rslib/core": "1.0.3",
-        "@testing-library/react": "16.3.3",
-        "@types/node": "26.6.5",
-        "@types/react": "19.3.0",
-        "@types/react-dom": "19.3.0",
-        "@typescript-eslint/parser": "8.72.0",
-        "@typescript/native-preview": "7.0.0-dev.20260707.2",
-        "@vitejs/plugin-react": "6.1.2",
-        "@workleap/eslint-configs": "2.0.6",
-        "@workleap/rslib-configs": "2.0.0",
-        "@workleap/typescript-configs": "5.0.0",
-        "eslint": "9.39.2",
-        "happy-dom": "21.0.4",
-        "typescript": "6.0.3",
-        "typescript-eslint": "8.54.0",
-        "vitest": "5.0.5"
-    },
-    "sideEffects": false
+    }
 }

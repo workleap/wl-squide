@@ -15,7 +15,7 @@ import {
     LocalModulesRegistrationStartedEvent
 } from "@squide/core";
 import { ApplicationBoostrappedEvent, ModulesReadyEvent, ModulesRegisteredEvent, MswReadyEvent, PluginsReadyEvent, ProtectedDataReadyEvent, PublicDataReadyEvent } from "../AppRouterReducer.ts";
-import { FireflyPlugin } from "../FireflyPlugin.ts";
+import type { FireflyPlugin } from "../FireflyPlugin.ts";
 import type { FireflyRuntime } from "../FireflyRuntime.tsx";
 import { ApplicationBootstrappingStartedEvent } from "../initializeFirefly.ts";
 import { ProtectedDataFetchFailedEvent, ProtectedDataFetchStartedEvent } from "../useProtectedDataQueries.ts";
@@ -67,67 +67,87 @@ export function reduceDataFetchEvents(
 ) {
     let dataFetchState: DataFetchState = "none";
 
-    addProtectedListener(runtime, PublicDataFetchStartedEvent, () => {
-        if (dataFetchState === "none") {
-            dataFetchState = "fetching-data";
-            onDataFetchStarted();
+    addProtectedListener(
+        runtime,
+        PublicDataFetchStartedEvent,
+        () => {
+            if (dataFetchState === "none") {
+                dataFetchState = "fetching-data";
+                onDataFetchStarted();
+            }
+
+            onPublicDataFetchStarted();
+        },
+        {
+            once: true,
+            onError: onUnmanagedError
         }
+    );
 
-        onPublicDataFetchStarted();
-    }, {
-        once: true,
-        onError: onUnmanagedError
-    });
+    addProtectedListener(
+        runtime,
+        PublicDataReadyEvent,
+        payload => {
+            onPublicDataReady();
 
-    addProtectedListener(runtime, PublicDataReadyEvent, payload => {
-        onPublicDataReady();
-
-        if (dataFetchState === "fetching-data") {
-            if (payload && !payload.waitForProtectedData) {
+            if (dataFetchState === "fetching-data") {
+                if (payload && !payload.waitForProtectedData) {
+                    dataFetchState = "data-ready";
+                    onDataReady();
+                } else {
+                    dataFetchState = "public-data-ready";
+                }
+            } else if (dataFetchState === "protected-data-ready") {
                 dataFetchState = "data-ready";
                 onDataReady();
-            } else {
-                dataFetchState = "public-data-ready";
             }
-        } else if (dataFetchState === "protected-data-ready") {
-            dataFetchState = "data-ready";
-            onDataReady();
+        },
+        {
+            once: true,
+            onError: onUnmanagedError
         }
-    }, {
-        once: true,
-        onError: onUnmanagedError
-    });
+    );
 
-    addProtectedListener(runtime, ProtectedDataFetchStartedEvent, () => {
-        if (dataFetchState === "none") {
-            dataFetchState = "fetching-data";
-            onDataFetchStarted();
+    addProtectedListener(
+        runtime,
+        ProtectedDataFetchStartedEvent,
+        () => {
+            if (dataFetchState === "none") {
+                dataFetchState = "fetching-data";
+                onDataFetchStarted();
+            }
+
+            onProtectedDataFetchStarted();
+        },
+        {
+            once: true,
+            onError: onUnmanagedError
         }
+    );
 
-        onProtectedDataFetchStarted();
-    }, {
-        once: true,
-        onError: onUnmanagedError
-    });
+    addProtectedListener(
+        runtime,
+        ProtectedDataReadyEvent,
+        payload => {
+            onProtectedDataReady();
 
-    addProtectedListener(runtime, ProtectedDataReadyEvent, payload => {
-        onProtectedDataReady();
-
-        if (dataFetchState === "fetching-data") {
-            if (payload && !payload.waitForPublicData) {
+            if (dataFetchState === "fetching-data") {
+                if (payload && !payload.waitForPublicData) {
+                    dataFetchState = "data-ready";
+                    onDataReady();
+                } else {
+                    dataFetchState = "protected-data-ready";
+                }
+            } else if (dataFetchState === "public-data-ready") {
                 dataFetchState = "data-ready";
                 onDataReady();
-            } else {
-                dataFetchState = "protected-data-ready";
             }
-        } else if (dataFetchState === "public-data-ready") {
-            dataFetchState = "data-ready";
-            onDataReady();
+        },
+        {
+            once: true,
+            onError: onUnmanagedError
         }
-    }, {
-        once: true,
-        onError: onUnmanagedError
-    });
+    );
 
     const handleDataFetchFailed: EventCallbackFunction<Error[]> = payload => {
         if (dataFetchState !== "data-fetch-failed") {
@@ -192,122 +212,172 @@ function registerTrackingListeners(runtime: FireflyRuntime) {
         });
     };
 
-    addProtectedListener(runtime, ApplicationBootstrappingStartedEvent, () => {
-        bootstrappingSpan = startSpan((options, context) => getTracer().startSpan("squide-bootstrapping", options, context));
-    }, {
-        once: true,
-        onError: handleUnmanagedError
-    });
-
-    addProtectedListener(runtime, ApplicationBoostrappedEvent, () => {
-        if (bootstrappingSpan) {
-            bootstrappingSpan.end();
-            bootstrappingSpanHasEnded = true;
+    addProtectedListener(
+        runtime,
+        ApplicationBootstrappingStartedEvent,
+        () => {
+            bootstrappingSpan = startSpan((options, context) => getTracer().startSpan("squide-bootstrapping", options, context));
+        },
+        {
+            once: true,
+            onError: handleUnmanagedError
         }
-    }, {
-        once: true,
-        onError: handleUnmanagedError
-    });
+    );
 
-    addProtectedListener(runtime, MswReadyEvent, () => {
-        if (bootstrappingSpan) {
-            bootstrappingSpan.addEvent("msw-ready");
+    addProtectedListener(
+        runtime,
+        ApplicationBoostrappedEvent,
+        () => {
+            if (bootstrappingSpan) {
+                bootstrappingSpan.end();
+                bootstrappingSpanHasEnded = true;
+            }
+        },
+        {
+            once: true,
+            onError: handleUnmanagedError
         }
-    }, {
-        once: true,
-        onError: handleUnmanagedError
-    });
+    );
 
-    addProtectedListener(runtime, PluginsReadyEvent, () => {
-        if (bootstrappingSpan) {
-            bootstrappingSpan.addEvent("plugins-ready");
+    addProtectedListener(
+        runtime,
+        MswReadyEvent,
+        () => {
+            if (bootstrappingSpan) {
+                bootstrappingSpan.addEvent("msw-ready");
+            }
+        },
+        {
+            once: true,
+            onError: handleUnmanagedError
         }
-    }, {
-        once: true,
-        onError: handleUnmanagedError
-    });
+    );
 
-    addProtectedListener(runtime, LocalModulesRegistrationStartedEvent, payload => {
-        const attributes = {
-            "app.squide.module_count": payload?.moduleCount
-        };
-
-        if (bootstrappingSpan) {
-            bootstrappingSpan.addEvent("local-module-registration-started", attributes);
+    addProtectedListener(
+        runtime,
+        PluginsReadyEvent,
+        () => {
+            if (bootstrappingSpan) {
+                bootstrappingSpan.addEvent("plugins-ready");
+            }
+        },
+        {
+            once: true,
+            onError: handleUnmanagedError
         }
+    );
 
-        localModuleRegistrationSpan = startChildSpan(bootstrappingSpan, (options, context) => {
-            return getTracer().startSpan("local-module-registration", { ...options, attributes }, context);
-        });
-    }, {
-        once: true,
-        onError: handleUnmanagedError
-    });
-
-    addProtectedListener(runtime, LocalModulesRegistrationCompletedEvent, payload => {
-        if (bootstrappingSpan) {
-            bootstrappingSpan.addEvent("local-module-registration-completed", {
+    addProtectedListener(
+        runtime,
+        LocalModulesRegistrationStartedEvent,
+        payload => {
+            const attributes = {
                 "app.squide.module_count": payload?.moduleCount
-            });
-        }
+            };
 
-        if (localModuleRegistrationSpan) {
-            localModuleRegistrationSpan.end();
+            if (bootstrappingSpan) {
+                bootstrappingSpan.addEvent("local-module-registration-started", attributes);
+            }
+
+            localModuleRegistrationSpan = startChildSpan(bootstrappingSpan, (options, context) => {
+                return getTracer().startSpan("local-module-registration", { ...options, attributes }, context);
+            });
+        },
+        {
+            once: true,
+            onError: handleUnmanagedError
         }
-    }, {
-        once: true,
-        onError: handleUnmanagedError
-    });
+    );
+
+    addProtectedListener(
+        runtime,
+        LocalModulesRegistrationCompletedEvent,
+        payload => {
+            if (bootstrappingSpan) {
+                bootstrappingSpan.addEvent("local-module-registration-completed", {
+                    "app.squide.module_count": payload?.moduleCount
+                });
+            }
+
+            if (localModuleRegistrationSpan) {
+                localModuleRegistrationSpan.end();
+            }
+        },
+        {
+            once: true,
+            onError: handleUnmanagedError
+        }
+    );
 
     // Can occur multiple times.
-    addProtectedListener(runtime, LocalModuleRegistrationFailedEvent, payload => {
-        if (localModuleRegistrationSpan) {
-            traceError(localModuleRegistrationSpan, payload as Error);
+    addProtectedListener(
+        runtime,
+        LocalModuleRegistrationFailedEvent,
+        payload => {
+            if (localModuleRegistrationSpan) {
+                traceError(localModuleRegistrationSpan, payload as Error);
+            }
+        },
+        {
+            onError: handleUnmanagedError
         }
-    }, {
-        onError: handleUnmanagedError
-    });
+    );
 
-    addProtectedListener(runtime, LocalModulesDeferredRegistrationStartedEvent, payload => {
-        const attributes = {
-            "app.squide.registration_count": payload?.registrationCount
-        };
-
-        if (bootstrappingSpan) {
-            bootstrappingSpan.addEvent("local-module-deferred-registration-started", attributes);
-        }
-
-        localModuleDeferredRegistrationSpan = startChildSpan(bootstrappingSpan, (options, context) => {
-            return getTracer().startSpan("local-module-deferred-registration", { ...options, attributes }, context);
-        });
-    }, {
-        once: true,
-        onError: handleUnmanagedError
-    });
-
-    addProtectedListener(runtime, LocalModulesDeferredRegistrationCompletedEvent, payload => {
-        if (bootstrappingSpan) {
-            bootstrappingSpan.addEvent("local-module-deferred-registration-completed", {
+    addProtectedListener(
+        runtime,
+        LocalModulesDeferredRegistrationStartedEvent,
+        payload => {
+            const attributes = {
                 "app.squide.registration_count": payload?.registrationCount
-            });
-        }
+            };
 
-        if (localModuleDeferredRegistrationSpan) {
-            localModuleDeferredRegistrationSpan.end();
+            if (bootstrappingSpan) {
+                bootstrappingSpan.addEvent("local-module-deferred-registration-started", attributes);
+            }
+
+            localModuleDeferredRegistrationSpan = startChildSpan(bootstrappingSpan, (options, context) => {
+                return getTracer().startSpan("local-module-deferred-registration", { ...options, attributes }, context);
+            });
+        },
+        {
+            once: true,
+            onError: handleUnmanagedError
         }
-    }, {
-        once: true,
-        onError: handleUnmanagedError
-    });
+    );
+
+    addProtectedListener(
+        runtime,
+        LocalModulesDeferredRegistrationCompletedEvent,
+        payload => {
+            if (bootstrappingSpan) {
+                bootstrappingSpan.addEvent("local-module-deferred-registration-completed", {
+                    "app.squide.registration_count": payload?.registrationCount
+                });
+            }
+
+            if (localModuleDeferredRegistrationSpan) {
+                localModuleDeferredRegistrationSpan.end();
+            }
+        },
+        {
+            once: true,
+            onError: handleUnmanagedError
+        }
+    );
 
     // Can occur multiple times.
-    addProtectedListener(runtime, LocalModuleDeferredRegistrationFailedEvent, payload => {
-        if (localModuleDeferredRegistrationSpan) {
-            traceError(localModuleRegistrationSpan, payload as Error);
+    addProtectedListener(
+        runtime,
+        LocalModuleDeferredRegistrationFailedEvent,
+        payload => {
+            if (localModuleDeferredRegistrationSpan) {
+                traceError(localModuleRegistrationSpan, payload as Error);
+            }
+        },
+        {
+            onError: handleUnmanagedError
         }
-    }, {
-        onError: handleUnmanagedError
-    });
+    );
 
     const handleFetchDataStarted = () => {
         dataFetchSpan = startActiveChildSpan(bootstrappingSpan, (options, context) => {
@@ -368,102 +438,131 @@ function registerTrackingListeners(runtime: FireflyRuntime) {
         }
     };
 
-    reduceDataFetchEvents(
+    reduceDataFetchEvents(runtime, handleFetchDataStarted, handleDataReady, handlePublicDataFetchStarted, handlePublicDataReady, handleProtectedDataFetchStarted, handleProtectedDataReady, handleDataFetchFailed, handleUnmanagedError);
+
+    addProtectedListener(
         runtime,
-        handleFetchDataStarted,
-        handleDataReady,
-        handlePublicDataFetchStarted,
-        handlePublicDataReady,
-        handleProtectedDataFetchStarted,
-        handleProtectedDataReady,
-        handleDataFetchFailed,
-        handleUnmanagedError
+        ModulesRegisteredEvent,
+        () => {
+            if (bootstrappingSpan) {
+                bootstrappingSpan.addEvent("modules-registered");
+            }
+        },
+        {
+            once: true,
+            onError: handleUnmanagedError
+        }
     );
 
-    addProtectedListener(runtime, ModulesRegisteredEvent, () => {
-        if (bootstrappingSpan) {
-            bootstrappingSpan.addEvent("modules-registered");
+    addProtectedListener(
+        runtime,
+        ModulesReadyEvent,
+        () => {
+            if (bootstrappingSpan) {
+                bootstrappingSpan.addEvent("modules-ready");
+            }
+        },
+        {
+            once: true,
+            onError: handleUnmanagedError
         }
-    }, {
-        once: true,
-        onError: handleUnmanagedError
-    });
-
-    addProtectedListener(runtime, ModulesReadyEvent, () => {
-        if (bootstrappingSpan) {
-            bootstrappingSpan.addEvent("modules-ready");
-        }
-    }, {
-        once: true,
-        onError: handleUnmanagedError
-    });
+    );
 
     // Can occur multiple times.
-    addProtectedListener(runtime, DeferredRegistrationsUpdateStartedEvent, () => {
-        deferredRegistrationsUpdateSpan = startSpan((options, context) => getTracer().startSpan("squide-deferred-registrations-update", options, context));
-    }, {
-        onError: handleUnmanagedError
-    });
-
-    // Can occur multiple times.
-    addProtectedListener(runtime, DeferredRegistrationsUpdateCompletedEvent, () => {
-        if (deferredRegistrationsUpdateSpan) {
-            deferredRegistrationsUpdateSpan.end();
+    addProtectedListener(
+        runtime,
+        DeferredRegistrationsUpdateStartedEvent,
+        () => {
+            deferredRegistrationsUpdateSpan = startSpan((options, context) => getTracer().startSpan("squide-deferred-registrations-update", options, context));
+        },
+        {
+            onError: handleUnmanagedError
         }
-    }, {
-        onError: handleUnmanagedError
-    });
+    );
 
     // Can occur multiple times.
-    addProtectedListener(runtime, LocalModulesDeferredRegistrationsUpdateStartedEvent, payload => {
-        const attributes = {
-            "app.squide.registration_count": payload?.registrationCount
-        };
-
-        if (deferredRegistrationsUpdateSpan) {
-            deferredRegistrationsUpdateSpan.addEvent("local-module-deferred-registrations-update-started", attributes);
+    addProtectedListener(
+        runtime,
+        DeferredRegistrationsUpdateCompletedEvent,
+        () => {
+            if (deferredRegistrationsUpdateSpan) {
+                deferredRegistrationsUpdateSpan.end();
+            }
+        },
+        {
+            onError: handleUnmanagedError
         }
-
-        localModuleDeferredRegistrationsUpdateSpan = startActiveChildSpan(deferredRegistrationsUpdateSpan, (options, context) => {
-            const name = "local-module-deferred-registrations-update";
-
-            const span = getTracer().startSpan(name, {
-                attributes,
-                ...options
-            }, context);
-
-            return {
-                name,
-                span
-            };
-        });
-    }, {
-        onError: handleUnmanagedError
-    });
+    );
 
     // Can occur multiple times.
-    addProtectedListener(runtime, LocalModulesDeferredRegistrationsUpdateCompletedEvent, payload => {
-        if (deferredRegistrationsUpdateSpan) {
-            deferredRegistrationsUpdateSpan.addEvent("local-module-deferred-registrations-update-completed", {
+    addProtectedListener(
+        runtime,
+        LocalModulesDeferredRegistrationsUpdateStartedEvent,
+        payload => {
+            const attributes = {
                 "app.squide.registration_count": payload?.registrationCount
-            });
-        }
+            };
 
-        if (localModuleDeferredRegistrationsUpdateSpan) {
-            endActiveSpan(localModuleDeferredRegistrationsUpdateSpan);
+            if (deferredRegistrationsUpdateSpan) {
+                deferredRegistrationsUpdateSpan.addEvent("local-module-deferred-registrations-update-started", attributes);
+            }
+
+            localModuleDeferredRegistrationsUpdateSpan = startActiveChildSpan(deferredRegistrationsUpdateSpan, (options, context) => {
+                const name = "local-module-deferred-registrations-update";
+
+                const span = getTracer().startSpan(
+                    name,
+                    {
+                        attributes,
+                        ...options
+                    },
+                    context
+                );
+
+                return {
+                    name,
+                    span
+                };
+            });
+        },
+        {
+            onError: handleUnmanagedError
         }
-    }, {
-        onError: handleUnmanagedError
-    });
+    );
 
     // Can occur multiple times.
-    addProtectedListener(runtime, LocalModuleDeferredRegistrationUpdateFailedEvent, payload => {
-        if (localModuleDeferredRegistrationsUpdateSpan) {
-            traceError(localModuleDeferredRegistrationsUpdateSpan.instance, payload as Error);
+    addProtectedListener(
+        runtime,
+        LocalModulesDeferredRegistrationsUpdateCompletedEvent,
+        payload => {
+            if (deferredRegistrationsUpdateSpan) {
+                deferredRegistrationsUpdateSpan.addEvent("local-module-deferred-registrations-update-completed", {
+                    "app.squide.registration_count": payload?.registrationCount
+                });
+            }
+
+            if (localModuleDeferredRegistrationsUpdateSpan) {
+                endActiveSpan(localModuleDeferredRegistrationsUpdateSpan);
+            }
+        },
+        {
+            onError: handleUnmanagedError
         }
-    }, {
-        onError: handleUnmanagedError
-    });
+    );
+
+    // Can occur multiple times.
+    addProtectedListener(
+        runtime,
+        LocalModuleDeferredRegistrationUpdateFailedEvent,
+        payload => {
+            if (localModuleDeferredRegistrationsUpdateSpan) {
+                traceError(localModuleDeferredRegistrationsUpdateSpan.instance, payload as Error);
+            }
+        },
+        {
+            onError: handleUnmanagedError
+        }
+    );
 
     const getBootstrappingSpan: GetSpanFunction = () => bootstrappingSpan;
     const getDeferredRegistrationsUpdateSpan: GetSpanFunction = () => deferredRegistrationsUpdateSpan;
@@ -477,11 +576,7 @@ function registerTrackingListeners(runtime: FireflyRuntime) {
         const plugin = x as FireflyPlugin;
 
         if (plugin.registerHoneycombTrackingListeners) {
-            const unmanagedErrorHandler = plugin.registerHoneycombTrackingListeners(
-                getBootstrappingSpan,
-                getDeferredRegistrationsUpdateSpan,
-                handlePluginUnmanagedError
-            );
+            const unmanagedErrorHandler = plugin.registerHoneycombTrackingListeners(getBootstrappingSpan, getDeferredRegistrationsUpdateSpan, handlePluginUnmanagedError);
 
             pluginsUnmanagedErrorHandlers.push(unmanagedErrorHandler);
         }

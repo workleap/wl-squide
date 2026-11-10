@@ -1,9 +1,9 @@
-import { EnvironmentVariables, EnvironmentVariablesPlugin } from "@squide/env-vars";
-import { FireflyRuntime, InMemoryLaunchDarklyClient, LaunchDarklyPlugin, ModuleRegisterFunction, PluginFactory, toLocalModuleDefinitions } from "@squide/firefly";
-import { FeatureFlags } from "@squide/launch-darkly";
+import { type EnvironmentVariables, EnvironmentVariablesPlugin } from "@squide/env-vars";
+import { type FireflyRuntime, InMemoryLaunchDarklyClient, LaunchDarklyPlugin, type ModuleRegisterFunction, type PluginFactory, toLocalModuleDefinitions } from "@squide/firefly";
+import type { FeatureFlags } from "@squide/launch-darkly";
 import { MswPlugin } from "@squide/msw";
-import { RootLogger } from "@workleap/logging";
-import { LDClient } from "launchdarkly-js-client-sdk";
+import type { RootLogger } from "@workleap/logging";
+import type { LDClient } from "launchdarkly-js-client-sdk";
 import { StorybookRuntime } from "./StorybookRuntime.ts";
 
 export interface InitializeFireflyForStorybookOptions<TData = unknown> {
@@ -16,58 +16,33 @@ export interface InitializeFireflyForStorybookOptions<TData = unknown> {
     additionalPlugins?: PluginFactory<FireflyRuntime>[];
 }
 
-function logInitializationState<TData = unknown>(
-    runtime: FireflyRuntime,
-    options: InitializeFireflyForStorybookOptions<TData>,
-    plugins: PluginFactory<FireflyRuntime>[]
-) {
-    const {
-        localModules,
-        environmentVariables,
-        featureFlags,
-        launchDarklyClient,
-        useMsw
-    } = options;
+function logInitializationState<TData = unknown>(runtime: FireflyRuntime, options: InitializeFireflyForStorybookOptions<TData>, plugins: PluginFactory<FireflyRuntime>[]) {
+    const { localModules, environmentVariables, featureFlags, launchDarklyClient, useMsw } = options;
     const scope = (runtime.logger as RootLogger).startScope("[squide] Initializing the application.");
 
     try {
         scope.information("[squide] Mode: development");
 
         if (localModules) {
-            scope
-                .withText("[squide] Local modules:")
-                .withObject(localModules)
-                .information();
+            scope.withText("[squide] Local modules:").withObject(localModules).information();
         }
 
         scope.information(`[squide] Use MSW: ${useMsw ? "Yes" : "No"}`);
 
         if (environmentVariables && Object.keys(environmentVariables).length > 0) {
-            scope
-                .withText("[squide] Environment variables:")
-                .withObject(environmentVariables)
-                .information();
+            scope.withText("[squide] Environment variables:").withObject(environmentVariables).information();
         }
 
         if (featureFlags) {
-            scope
-                .withText("[squide] Feature flags:")
-                .withObject(featureFlags)
-                .information();
+            scope.withText("[squide] Feature flags:").withObject(featureFlags).information();
         }
 
         if (launchDarklyClient) {
-            scope
-                .withText("[squide] LaunchDarkly client:")
-                .withObject(launchDarklyClient)
-                .information();
+            scope.withText("[squide] LaunchDarkly client:").withObject(launchDarklyClient).information();
         }
 
         if (plugins.length > 0) {
-            scope
-                .withText("[squide] Plugins:")
-                .withObject(plugins)
-                .information();
+            scope.withText("[squide] Plugins:").withObject(plugins).information();
         }
     } finally {
         scope.end();
@@ -75,20 +50,13 @@ function logInitializationState<TData = unknown>(
 }
 
 export async function initializeFireflyForStorybook<TData = unknown>(options: InitializeFireflyForStorybookOptions<TData> = {}) {
-    const {
-        localModules = [],
-        environmentVariables,
-        featureFlags = {},
-        launchDarklyClient,
-        loggers,
-        useMsw = true,
-        additionalPlugins = []
-    } = options;
+    const { localModules = [], environmentVariables, featureFlags = {}, launchDarklyClient, loggers, useMsw = true, additionalPlugins = [] } = options;
 
     const plugins: PluginFactory<FireflyRuntime>[] = [
-        x => new EnvironmentVariablesPlugin(x, {
-            variables: environmentVariables
-        }),
+        x =>
+            new EnvironmentVariablesPlugin(x, {
+                variables: environmentVariables
+            }),
         x => new LaunchDarklyPlugin(x, launchDarklyClient ?? new InMemoryLaunchDarklyClient(featureFlags))
     ];
 
@@ -107,9 +75,7 @@ export async function initializeFireflyForStorybook<TData = unknown>(options: In
     logInitializationState(runtime, options, plugins);
 
     if (localModules.length > 0) {
-        await runtime.moduleManager.registerModules([
-            ...toLocalModuleDefinitions(localModules)
-        ]);
+        await runtime.moduleManager.registerModules([...toLocalModuleDefinitions(localModules)]);
     } else {
         // There's a possibility that either no local modules are provided.
         // This use case is hard to catch at the module manager level because it could also

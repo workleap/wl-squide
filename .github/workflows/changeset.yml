@@ -12,7 +12,7 @@ jobs:
   version:
     runs-on: ubuntu-latest
     permissions:
-      id-token: write  # OIDC for npm Trusted Publishing
+      id-token: write # OIDC for npm Trusted Publishing
       contents: write
       pull-requests: write
 

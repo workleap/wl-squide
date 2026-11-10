@@ -5,6 +5,4 @@ export const Remote1Definition: RemoteDefinition = {
     url: process.env.NETLIFY === "true" ? "https://squide-endpoints-remote-module.netlify.app" : "http://localhost:8081"
 };
 
-export const AllRemotes: RemoteDefinition[] = [
-    Remote1Definition
-];
+export const AllRemotes: RemoteDefinition[] = [Remote1Definition];

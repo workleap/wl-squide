@@ -8,12 +8,15 @@ export function App() {
             {({ rootRoute, registeredRoutes, routerProps, routerProviderProps }) => {
                 return (
                     <RouterProvider
-                        router={createBrowserRouter([
-                            {
-                                element: rootRoute,
-                                children: registeredRoutes
-                            }
-                        ], routerProps)}
+                        router={createBrowserRouter(
+                            [
+                                {
+                                    element: rootRoute,
+                                    children: registeredRoutes
+                                }
+                            ],
+                            routerProps
+                        )}
                         {...routerProviderProps}
                     />
                 );

@@ -6,12 +6,7 @@
             "request": "launch",
             "name": "Debug Vitest Test (Current File)",
             "runtimeExecutable": "pnpm",
-            "args": [
-                "run",
-                "test",
-                "--",
-                "${file}"
-            ],
+            "args": ["run", "test", "--", "${file}"],
             "cwd": "${fileDirname}",
             "console": "integratedTerminal",
             "internalConsoleOptions": "neverOpen"

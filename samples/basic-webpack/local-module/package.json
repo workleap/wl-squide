@@ -1,23 +1,15 @@
 {
     "name": "@basic-webpack/local-module",
-    "author": "Workleap",
     "version": "0.0.0",
-    "description": "Local module to showcase Squide.",
     "private": true,
+    "description": "Local module to showcase Squide.",
     "license": "Apache-2.0",
+    "author": "Workleap",
     "type": "module",
     "exports": "./src/register.tsx",
     "scripts": {
         "dev-isolated": "webpack serve --config webpack.config.js",
-        "eslint": "eslint . --max-warnings=0 --cache --cache-location node_modules/.cache/eslint",
         "typecheck": "tsgo"
-    },
-    "peerDependencies": {
-        "@react-aria/toast": "^3.1.1",
-        "@react-stately/toast": "^3.2.1",
-        "react": "^19.3.1",
-        "react-dom": "^19.3.1",
-        "react-router": "^8.5.0"
     },
     "dependencies": {
         "@basic-webpack/shared": "workspace:*",
@@ -29,28 +21,30 @@
         "@workleap/logging": "^2.0.1"
     },
     "devDependencies": {
-        "@eslint/js": "9.39.2",
         "@react-aria/toast": "3.1.1",
         "@react-stately/toast": "3.2.1",
         "@squide/firefly-webpack-configs": "workspace:*",
         "@swc/core": "1.16.18",
         "@swc/helpers": "0.5.23",
         "@types/node": "26.6.5",
-        "@typescript-eslint/parser": "8.72.0",
         "@typescript/native-preview": "7.0.0-dev.20260707.2",
         "@workleap/browserslist-config": "3.0.0",
-        "@workleap/eslint-configs": "2.0.6",
         "@workleap/swc-configs": "2.3.15",
         "@workleap/typescript-configs": "5.0.0",
         "browserslist": "4.29.4",
-        "eslint": "9.39.2",
         "react": "19.3.1",
         "react-dom": "19.3.1",
         "react-router": "8.5.0",
-        "typescript": "6.0.3",
-        "typescript-eslint": "8.54.0",
+        "typescript": "7.0.2",
         "webpack": "5.110.3",
         "webpack-cli": "7.2.3",
         "webpack-dev-server": "5.2.4"
+    },
+    "peerDependencies": {
+        "@react-aria/toast": "^3.1.1",
+        "@react-stately/toast": "^3.2.1",
+        "react": "^19.3.1",
+        "react-dom": "^19.3.1",
+        "react-router": "^8.5.0"
     }
 }

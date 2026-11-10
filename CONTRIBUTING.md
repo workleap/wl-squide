@@ -386,6 +386,14 @@ Lint the files.
 pnpm lint
 ```
 
+### oxfmt
+
+Format the files.
+
+```bash
+pnpm oxfmt
+```
+
 ### changeset
 
 To use when you want to publish a new package version. Will display a prompt to fill in the information about your new release.

@@ -8,11 +8,7 @@ import { useRuntimeNavigationItems } from "../src/useRuntimeNavigationItems.ts";
 
 function renderUseNavigationItemsHook(runtime: ReactRouterRuntime, menuId?: string) {
     return renderHook(() => useRuntimeNavigationItems({ menuId }), {
-        wrapper: ({ children }: { children?: ReactNode }) => (
-            <RuntimeContext.Provider value={runtime}>
-                {children}
-            </RuntimeContext.Provider>
-        )
+        wrapper: ({ children }: { children?: ReactNode }) => <RuntimeContext.Provider value={runtime}>{children}</RuntimeContext.Provider>
     });
 }
 
@@ -36,19 +32,25 @@ test.concurrent("when no menu id is specified, returns all the registered naviga
         to: "/item-3"
     });
 
-    runtime.registerNavigationItem({
-        $label: "Item 4",
-        to: "/item-4"
-    }, {
-        menuId: "menu-1"
-    });
+    runtime.registerNavigationItem(
+        {
+            $label: "Item 4",
+            to: "/item-4"
+        },
+        {
+            menuId: "menu-1"
+        }
+    );
 
-    runtime.registerNavigationItem({
-        $label: "Item 5",
-        to: "/item-5"
-    }, {
-        menuId: "menu-2"
-    });
+    runtime.registerNavigationItem(
+        {
+            $label: "Item 5",
+            to: "/item-5"
+        },
+        {
+            menuId: "menu-2"
+        }
+    );
 
     const { result } = renderUseNavigationItemsHook(runtime);
 
@@ -75,19 +77,25 @@ test.concurrent("when a menu id is specified, returns all the registered navigat
         to: "/item-3"
     });
 
-    runtime.registerNavigationItem({
-        $label: "Item 4",
-        to: "/item-4"
-    }, {
-        menuId: "menu-1"
-    });
+    runtime.registerNavigationItem(
+        {
+            $label: "Item 4",
+            to: "/item-4"
+        },
+        {
+            menuId: "menu-1"
+        }
+    );
 
-    runtime.registerNavigationItem({
-        $label: "Item 5",
-        to: "/item-5"
-    }, {
-        menuId: "menu-2"
-    });
+    runtime.registerNavigationItem(
+        {
+            $label: "Item 5",
+            to: "/item-5"
+        },
+        {
+            menuId: "menu-2"
+        }
+    );
 
     const { result } = renderUseNavigationItemsHook(runtime, "menu-1");
 

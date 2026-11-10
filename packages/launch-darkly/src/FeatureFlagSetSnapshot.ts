@@ -1,5 +1,5 @@
-import { LDClient, type LDFlagChangeset } from "launchdarkly-js-client-sdk";
-import { FeatureFlags } from "./featureFlags.ts";
+import type { LDClient, LDFlagChangeset } from "launchdarkly-js-client-sdk";
+import type { FeatureFlags } from "./featureFlags.ts";
 
 export type FeatureFlagSetSnapshotChangedListener = (snapshot: FeatureFlags, changes: LDFlagChangeset) => void;
 

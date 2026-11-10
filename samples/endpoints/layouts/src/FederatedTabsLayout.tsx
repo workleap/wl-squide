@@ -15,19 +15,13 @@ const renderItem: RenderItemFunction = (item, index, level) => {
 
     return (
         <li key={`${level}-${index}`}>
-            <Link {...linkProps}>
-                {label}
-            </Link>
+            <Link {...linkProps}>{label}</Link>
         </li>
     );
 };
 
 const renderSection: RenderSectionFunction = elements => {
-    return (
-        <ul style={{ listStyleType: "none", margin: 0, padding: 0, display: "flex", gap: "20px" }}>
-            {elements}
-        </ul>
-    );
+    return <ul style={{ listStyleType: "none", margin: 0, padding: 0, display: "flex", gap: "20px" }}>{elements}</ul>;
 };
 
 function TabsError() {
@@ -36,18 +30,19 @@ function TabsError() {
 
     const navigate = useNavigate();
 
-    const handleTryAgain = useCallback((event: MouseEvent<HTMLButtonElement>) => {
-        event.preventDefault();
+    const handleTryAgain = useCallback(
+        (event: MouseEvent<HTMLButtonElement>) => {
+            event.preventDefault();
 
-        // Reload the page to reset the error boundary.
-        navigate(0);
-    }, [navigate]);
+            // Reload the page to reset the error boundary.
+            void navigate(0);
+        },
+        [navigate]
+    );
 
     return (
         <div>
-            <div style={{ color: "red", marginBottom: "10px" }}>
-                {t("message")}
-            </div>
+            <div style={{ color: "red", marginBottom: "10px" }}>{t("message")}</div>
             <button type="button" onClick={handleTryAgain}>
                 {t("tryAgainButtonLabel")}
             </button>
@@ -67,14 +62,7 @@ export function FederatedTabsLayout({ host }: FederatedTabsLayoutProps) {
             <h1>{t("title")}</h1>
             {host && (
                 <p style={{ backgroundColor: "blue", color: "white", width: "fit-content" }}>
-                    <Trans
-                        i18n={i18nextInstance}
-                        i18nKey="servedBy"
-                        t={t}
-                        shouldUnescape
-                        values={{ host }}
-                        components={{ code: <code /> }}
-                    />
+                    <Trans i18n={i18nextInstance} i18nKey="servedBy" t={t} shouldUnescape values={{ host }} components={{ code: <code /> }} />
                 </p>
             )}
             {renderedTabs}
@@ -88,4 +76,3 @@ export function FederatedTabsLayout({ host }: FederatedTabsLayoutProps) {
         </>
     );
 }
-

@@ -1,4 +1,4 @@
-import { RequestHandler } from "msw";
+import type { RequestHandler } from "msw";
 import { setupWorker } from "msw/browser";
 
 export async function startMsw(moduleRequestHandlers: RequestHandler[]) {

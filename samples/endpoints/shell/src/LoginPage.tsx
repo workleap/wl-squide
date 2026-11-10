@@ -20,34 +20,37 @@ export function LoginPage({ host }: LoginPageProps) {
     const [errorMessage, setErrorMessage] = useState<string>();
     const [isBusy, setIsBusy] = useState(false);
 
-    const handleClick = useCallback((event: MouseEvent<HTMLButtonElement>) => {
-        event.preventDefault();
+    const handleClick = useCallback(
+        (event: MouseEvent<HTMLButtonElement>) => {
+            event.preventDefault();
 
-        setIsBusy(true);
-        setErrorMessage(undefined);
+            setIsBusy(true);
+            setErrorMessage(undefined);
 
-        postJson(`${authenticationApiBaseUrl}login`, { username, password })
-            .then(() => {
-                setIsBusy(false);
+            postJson(`${authenticationApiBaseUrl}login`, { username, password })
+                .then(() => {
+                    setIsBusy(false);
 
-                // Reloading the whole application so the "RootRoute" component states are re-initialize.
-                // If we use navigate("/") instead, since "isProtectedDataLoaded" might already be true in the case
-                // of Logout -> Login, the rendering will bypass the loading of the protected data (including the session)
-                // which will result in an incoherent state.
-                // Anyhow, since all the Workleap apps will authenticate through a third party authentication provider, it
-                // doesn't seems like a big deal as the application will be reloaded anyway after the user logged in with the third party.
-                window.location.href = "/";
-            })
-            .catch((error: unknown) => {
-                setIsBusy(false);
+                    // Reloading the whole application so the "RootRoute" component states are re-initialize.
+                    // If we use navigate("/") instead, since "isProtectedDataLoaded" might already be true in the case
+                    // of Logout -> Login, the rendering will bypass the loading of the protected data (including the session)
+                    // which will result in an incoherent state.
+                    // Anyhow, since all the Workleap apps will authenticate through a third party authentication provider, it
+                    // doesn't seems like a big deal as the application will be reloaded anyway after the user logged in with the third party.
+                    window.location.href = "/";
+                })
+                .catch((error: unknown) => {
+                    setIsBusy(false);
 
-                if (isApiError(error) && error.status === 401) {
-                    setErrorMessage(t("invalidCredentialsMessage"));
-                } else {
-                    throw error;
-                }
-            });
-    }, [username, password, t, authenticationApiBaseUrl]);
+                    if (isApiError(error) && error.status === 401) {
+                        setErrorMessage(t("invalidCredentialsMessage"));
+                    } else {
+                        throw error;
+                    }
+                });
+        },
+        [username, password, t, authenticationApiBaseUrl]
+    );
 
     const handleUserNameChange = useCallback((event: ChangeEvent<HTMLInputElement>) => {
         setUserName(event.target.value);
@@ -62,14 +65,7 @@ export function LoginPage({ host }: LoginPageProps) {
             <h1>{t("title")}</h1>
             {host && (
                 <p style={{ backgroundColor: "blue", color: "white", width: "fit-content" }}>
-                    <Trans
-                        i18n={i18nextInstance}
-                        i18nKey="servedBy"
-                        t={t}
-                        shouldUnescape
-                        values={{ host }}
-                        components={{ code: <code /> }}
-                    />
+                    <Trans i18n={i18nextInstance} i18nKey="servedBy" t={t} shouldUnescape values={{ host }} components={{ code: <code /> }} />
                 </p>
             )}
             <form>
@@ -89,20 +85,10 @@ export function LoginPage({ host }: LoginPageProps) {
                 <br />
                 <div>{t("hintTitle")}</div>
                 <div>
-                    <Trans
-                        i18n={i18nextInstance}
-                        i18nKey="hintEnProfile"
-                        t={t}
-                        components={{ strong: <strong /> }}
-                    />
+                    <Trans i18n={i18nextInstance} i18nKey="hintEnProfile" t={t} components={{ strong: <strong /> }} />
                 </div>
                 <div>
-                    <Trans
-                        i18n={i18nextInstance}
-                        i18nKey="hintFrProfile"
-                        t={t}
-                        components={{ strong: <strong /> }}
-                    />
+                    <Trans i18n={i18nextInstance} i18nKey="hintFrProfile" t={t} components={{ strong: <strong /> }} />
                 </div>
                 <br />
                 {isBusy && <div style={{ color: "blue" }}>{t("loadingMessage")}</div>}

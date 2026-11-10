@@ -3,7 +3,7 @@ import type { ModuleFederationRuntimePlugin } from "@module-federation/enhanced/
 const plugin: () => ModuleFederationRuntimePlugin = () => {
     return {
         name: "non-cacheable-remote-entry-plugin",
-        createScript: function({ url }) {
+        createScript: function ({ url }) {
             const element = document.createElement("script");
 
             // Adding a timestamp to make sure the remote entry points are never cached.

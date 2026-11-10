@@ -23,9 +23,7 @@ function renderAppRouter(appRouter: ReactNode, runtime: FireflyRuntime, state: A
             <FireflyProvider runtime={runtime}>
                 <AppRouterDispatcherContext.Provider value={dispatch}>
                     <AppRouterStateContext.Provider value={state}>
-                        <QueryClientProvider client={client}>
-                            {children}
-                        </QueryClientProvider>
+                        <QueryClientProvider client={client}>{children}</QueryClientProvider>
                     </AppRouterStateContext.Provider>
                 </AppRouterDispatcherContext.Provider>
             </FireflyProvider>
@@ -49,10 +47,15 @@ test("when queries are executed, ProtectedDataFetchStartedEvent is dispatched", 
     state.isMswReady = true;
 
     function AppRouter() {
-        const [data] = useProtectedDataQueries([{
-            queryKey: ["foo"],
-            queryFn: () => "bar"
-        }], () => false);
+        const [data] = useProtectedDataQueries(
+            [
+                {
+                    queryKey: ["foo"],
+                    queryFn: () => "bar"
+                }
+            ],
+            () => false
+        );
 
         return data;
     }
@@ -64,7 +67,7 @@ test("when queries are executed, ProtectedDataFetchStartedEvent is dispatched", 
     expect(listener).toHaveBeenCalledOnce();
 });
 
-test("when data is ready, \"protected-data-ready\" is dispatched", async ({ expect }) => {
+test('when data is ready, "protected-data-ready" is dispatched', async ({ expect }) => {
     const runtime = new FireflyRuntime({
         loggers: [new NoopLogger()]
     });
@@ -77,10 +80,15 @@ test("when data is ready, \"protected-data-ready\" is dispatched", async ({ expe
     state.isMswReady = true;
 
     function AppRouter() {
-        const [data] = useProtectedDataQueries([{
-            queryKey: ["foo"],
-            queryFn: () => "bar"
-        }], () => false);
+        const [data] = useProtectedDataQueries(
+            [
+                {
+                    queryKey: ["foo"],
+                    queryFn: () => "bar"
+                }
+            ],
+            () => false
+        );
 
         return data;
     }
@@ -91,16 +99,20 @@ test("when data is ready, \"protected-data-ready\" is dispatched", async ({ expe
 
     expect(dispatch).toHaveBeenCalledTimes(2);
 
-    expect(dispatch).toHaveBeenCalledWith(expect.objectContaining({
-        type: "protected-data-ready"
-    }));
+    expect(dispatch).toHaveBeenCalledWith(
+        expect.objectContaining({
+            type: "protected-data-ready"
+        })
+    );
 
-    expect(dispatch).toHaveBeenCalledWith(expect.objectContaining({
-        type: "protected-data-updated"
-    }));
+    expect(dispatch).toHaveBeenCalledWith(
+        expect.objectContaining({
+            type: "protected-data-updated"
+        })
+    );
 });
 
-test("when data is updated, \"protected-data-updated\" is dispatched", async ({ expect }) => {
+test('when data is updated, "protected-data-updated" is dispatched', async ({ expect }) => {
     const runtime = new FireflyRuntime({
         loggers: [new NoopLogger()]
     });
@@ -114,15 +126,18 @@ test("when data is updated, \"protected-data-updated\" is dispatched", async ({ 
 
     const queryClient = createQueryClient();
 
-    const queryFn = vi.fn()
-        .mockResolvedValueOnce("bar")
-        .mockResolvedValueOnce("toto");
+    const queryFn = vi.fn().mockResolvedValueOnce("bar").mockResolvedValueOnce("toto");
 
     function AppRouter() {
-        const [data] = useProtectedDataQueries([{
-            queryKey: ["foo"],
-            queryFn
-        }], () => false);
+        const [data] = useProtectedDataQueries(
+            [
+                {
+                    queryKey: ["foo"],
+                    queryFn
+                }
+            ],
+            () => false
+        );
 
         return data;
     }
@@ -131,7 +146,7 @@ test("when data is updated, \"protected-data-updated\" is dispatched", async ({ 
 
     await waitFor(() => screen.findByText("bar"));
 
-    queryClient.refetchQueries({
+    await queryClient.refetchQueries({
         queryKey: ["foo"]
     });
 
@@ -139,13 +154,17 @@ test("when data is updated, \"protected-data-updated\" is dispatched", async ({ 
 
     expect(dispatch).toHaveBeenCalledTimes(3);
 
-    expect(dispatch).toHaveBeenCalledWith(expect.objectContaining({
-        type: "protected-data-ready"
-    }));
+    expect(dispatch).toHaveBeenCalledWith(
+        expect.objectContaining({
+            type: "protected-data-ready"
+        })
+    );
 
-    expect(dispatch).toHaveBeenCalledWith(expect.objectContaining({
-        type: "protected-data-updated"
-    }));
+    expect(dispatch).toHaveBeenCalledWith(
+        expect.objectContaining({
+            type: "protected-data-updated"
+        })
+    );
 });
 
 describe("when a query fail", () => {
@@ -172,7 +191,6 @@ describe("when a query fail", () => {
         state.isMswReady = true;
 
         class ErrorBoundary extends Component<PropsWithChildren, { error?: Error }> {
-            // eslint-disable-next-line @typescript-eslint/no-explicit-any
             constructor(props: any) {
                 super(props);
 
@@ -196,22 +214,36 @@ describe("when a query fail", () => {
         }
 
         function AppRouter() {
-            const [data] = useProtectedDataQueries([{
-                queryKey: ["foo"],
-                queryFn: () => { throw new Error("Query failed."); }
-            }], () => false);
+            const [data] = useProtectedDataQueries(
+                [
+                    {
+                        queryKey: ["foo"],
+                        queryFn: () => {
+                            throw new Error("Query failed.");
+                        }
+                    }
+                ],
+                () => false
+            );
 
             return data;
         }
 
-        renderAppRouter(<ErrorBoundary><AppRouter /></ErrorBoundary>, runtime, state, dispatch);
+        renderAppRouter(
+            <ErrorBoundary>
+                <AppRouter />
+            </ErrorBoundary>,
+            runtime,
+            state,
+            dispatch
+        );
 
         const element = await waitFor(() => screen.findByText("[squide] Global protected data queries failed."));
 
         expect(element).toBeDefined();
     });
 
-    test("when it's a unauthorized error, \"is-unauthorized\" is dispatched", async ({ expect }) => {
+    test('when it\'s a unauthorized error, "is-unauthorized" is dispatched', async ({ expect }) => {
         const runtime = new FireflyRuntime({
             loggers: [new NoopLogger()]
         });
@@ -224,16 +256,21 @@ describe("when a query fail", () => {
         state.isMswReady = true;
 
         function AppRouter() {
-            const data = useProtectedDataQueries([
-                {
-                    queryKey: ["foo"],
-                    queryFn: () => { throw new Error("Unauthorized error."); }
-                },
-                {
-                    queryKey: ["john"],
-                    queryFn: () => "doe"
-                }
-            ], () => true);
+            const data = useProtectedDataQueries(
+                [
+                    {
+                        queryKey: ["foo"],
+                        queryFn: () => {
+                            throw new Error("Unauthorized error.");
+                        }
+                    },
+                    {
+                        queryKey: ["john"],
+                        queryFn: () => "doe"
+                    }
+                ],
+                () => true
+            );
 
             return data[1];
         }
@@ -242,9 +279,11 @@ describe("when a query fail", () => {
 
         await waitFor(() => screen.findByText("doe"));
 
-        expect(dispatch).toHaveBeenCalledExactlyOnceWith(expect.objectContaining({
-            type: "is-unauthorized"
-        }));
+        expect(dispatch).toHaveBeenCalledExactlyOnceWith(
+            expect.objectContaining({
+                type: "is-unauthorized"
+            })
+        );
     });
 
     test("should dispatch ProtectedDataFetchFailedEvent", async ({ expect }) => {
@@ -263,7 +302,6 @@ describe("when a query fail", () => {
         state.isMswReady = true;
 
         class ErrorBoundary extends Component<PropsWithChildren, { error?: Error }> {
-            // eslint-disable-next-line @typescript-eslint/no-explicit-any
             constructor(props: any) {
                 super(props);
 
@@ -289,15 +327,29 @@ describe("when a query fail", () => {
         const queryError = new Error("Query failed.");
 
         function AppRouter() {
-            const [data] = useProtectedDataQueries([{
-                queryKey: ["foo"],
-                queryFn: () => { throw queryError; }
-            }], () => false);
+            const [data] = useProtectedDataQueries(
+                [
+                    {
+                        queryKey: ["foo"],
+                        queryFn: () => {
+                            throw queryError;
+                        }
+                    }
+                ],
+                () => false
+            );
 
             return data;
         }
 
-        renderAppRouter(<ErrorBoundary><AppRouter /></ErrorBoundary>, runtime, state, dispatch);
+        renderAppRouter(
+            <ErrorBoundary>
+                <AppRouter />
+            </ErrorBoundary>,
+            runtime,
+            state,
+            dispatch
+        );
 
         await waitFor(() => screen.findByText("[squide] Global protected data queries failed."));
 
@@ -320,16 +372,21 @@ describe("when a query fail", () => {
         state.isMswReady = true;
 
         function AppRouter() {
-            const data = useProtectedDataQueries([
-                {
-                    queryKey: ["foo"],
-                    queryFn: () => { throw new Error("Unauthorized error."); }
-                },
-                {
-                    queryKey: ["john"],
-                    queryFn: () => "doe"
-                }
-            ], () => true);
+            const data = useProtectedDataQueries(
+                [
+                    {
+                        queryKey: ["foo"],
+                        queryFn: () => {
+                            throw new Error("Unauthorized error.");
+                        }
+                    },
+                    {
+                        queryKey: ["john"],
+                        queryFn: () => "doe"
+                    }
+                ],
+                () => true
+            );
 
             return data[1];
         }
@@ -354,7 +411,6 @@ describe("when a refetch fails after the data is ready", () => {
     });
 
     class ErrorBoundary extends Component<PropsWithChildren, { error?: Error }> {
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         constructor(props: any) {
             super(props);
 
@@ -400,31 +456,44 @@ describe("when a refetch fails after the data is ready", () => {
 
         const queryClient = createQueryClient();
 
-        const queryFn = vi.fn()
-            .mockResolvedValueOnce("bar")
-            .mockRejectedValueOnce(new Error("Refetch failed."))
-            .mockResolvedValueOnce("toto");
+        const queryFn = vi.fn().mockResolvedValueOnce("bar").mockRejectedValueOnce(new Error("Refetch failed.")).mockResolvedValueOnce("toto");
 
         function AppRouter() {
-            const [data] = useProtectedDataQueries([{
-                queryKey: ["foo"],
-                queryFn
-            }], () => false);
+            const [data] = useProtectedDataQueries(
+                [
+                    {
+                        queryKey: ["foo"],
+                        queryFn
+                    }
+                ],
+                () => false
+            );
 
             return data;
         }
 
-        renderAppRouter(<ErrorBoundary><span><AppRouter /></span><RefetchStatus /></ErrorBoundary>, runtime, state, dispatch, queryClient);
+        renderAppRouter(
+            <ErrorBoundary>
+                <span>
+                    <AppRouter />
+                </span>
+                <RefetchStatus />
+            </ErrorBoundary>,
+            runtime,
+            state,
+            dispatch,
+            queryClient
+        );
 
         await waitFor(() => screen.findByText("bar"));
 
-        queryClient.refetchQueries({
+        await queryClient.refetchQueries({
             queryKey: ["foo"]
         });
 
         await waitFor(() => screen.findByText("refetch-error"));
 
-        queryClient.refetchQueries({
+        await queryClient.refetchQueries({
             queryKey: ["foo"]
         });
 
@@ -451,24 +520,38 @@ describe("when a refetch fails after the data is ready", () => {
 
         const queryClient = createQueryClient();
 
-        const queryFn = vi.fn()
-            .mockResolvedValueOnce("bar")
-            .mockRejectedValueOnce(new Error("Refetch failed."));
+        const queryFn = vi.fn().mockResolvedValueOnce("bar").mockRejectedValueOnce(new Error("Refetch failed."));
 
         function AppRouter() {
-            const [data] = useProtectedDataQueries([{
-                queryKey: ["foo"],
-                queryFn
-            }], () => false);
+            const [data] = useProtectedDataQueries(
+                [
+                    {
+                        queryKey: ["foo"],
+                        queryFn
+                    }
+                ],
+                () => false
+            );
 
             return data;
         }
 
-        renderAppRouter(<ErrorBoundary><span><AppRouter /></span><RefetchStatus /></ErrorBoundary>, runtime, state, dispatch, queryClient);
+        renderAppRouter(
+            <ErrorBoundary>
+                <span>
+                    <AppRouter />
+                </span>
+                <RefetchStatus />
+            </ErrorBoundary>,
+            runtime,
+            state,
+            dispatch,
+            queryClient
+        );
 
         await waitFor(() => screen.findByText("bar"));
 
-        queryClient.refetchQueries({
+        await queryClient.refetchQueries({
             queryKey: ["foo"]
         });
 

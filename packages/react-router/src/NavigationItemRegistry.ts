@@ -268,7 +268,7 @@ export class NavigationItemRegistry {
         const pendingRegistrations = this.#pendingRegistrationsIndex.get(indexKey);
 
         if (pendingRegistrations) {
-            completedPendingRegistrations.push(...(pendingRegistrations.map(x => x.item)));
+            completedPendingRegistrations.push(...pendingRegistrations.map(x => x.item));
 
             pendingRegistrations.forEach(x => {
                 // Register the pending navigation items.
@@ -398,10 +398,7 @@ export class NavigationItemRegistry {
         }
 
         // Register the nested item as a children of the parent section.
-        parentSection.item.children = [
-            ...(parentSection.item.children ?? []),
-            item
-        ];
+        parentSection.item.children = [...(parentSection.item.children ?? []), item];
 
         // Clear the "getItems" memoize cache since a nested object has been updated.
         memoizeClear(this.#memoizedGetItems);
@@ -440,7 +437,10 @@ export class NavigationItemRegistry {
 
             // Keep the "getItems" function immutable by only updating the menu arrays if the items actually changed.
             if (registryItems.some(x => x.registrationType === "deferred")) {
-                this.#setItems(key, registryItems.filter(x => x.registrationType !== "deferred"));
+                this.#setItems(
+                    key,
+                    registryItems.filter(x => x.registrationType !== "deferred")
+                );
             }
         }
 

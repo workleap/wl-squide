@@ -359,14 +359,14 @@ export function usePluginsStatusDispatcher(runtime: FireflyRuntime, arePluginsRe
 export function useFeatureFlagsUpdatedDispatcher(runtime: FireflyRuntime, dispatch: AppRouterDispatch) {
     const logger = useLogger();
 
-    const dispatchFeatureFlagsUpdated = useCallback<FeatureFlagSetSnapshotChangedListener>(changes => {
-        dispatch({ type: "feature-flags-updated" });
+    const dispatchFeatureFlagsUpdated = useCallback<FeatureFlagSetSnapshotChangedListener>(
+        changes => {
+            dispatch({ type: "feature-flags-updated" });
 
-        logger
-            .withText("[squide] Feature flags has been updated to:")
-            .withObject(changes)
-            .debug();
-    }, [dispatch, logger]);
+            logger.withText("[squide] Feature flags has been updated to:").withObject(changes).debug();
+        },
+        [dispatch, logger]
+    );
 
     useEffect(() => {
         if (runtime.isLaunchDarklyEnabled) {
@@ -385,15 +385,18 @@ function useBootstrappingCompletedDispatcher(waitState: AppRouterWaitState, stat
     const areModulesRegisteredValue = state.areModulesRegistered;
     const isBoostrapping = isBootstrapping(state);
 
-    useExecuteOnce(useCallback(() => {
-        if (areModulesRegisteredValue && !isBoostrapping) {
-            eventBus.dispatch(ApplicationBoostrappedEvent, waitState);
+    useExecuteOnce(
+        useCallback(() => {
+            if (areModulesRegisteredValue && !isBoostrapping) {
+                eventBus.dispatch(ApplicationBoostrappedEvent, waitState);
 
-            return true;
-        }
+                return true;
+            }
 
-        return false;
-    }, [areModulesRegisteredValue, isBoostrapping, waitState, eventBus]), true);
+            return false;
+        }, [areModulesRegisteredValue, isBoostrapping, waitState, eventBus]),
+        true
+    );
 }
 
 let dispatchProxyFactory: ((reactDispatch: AppRouterDispatch) => AppRouterDispatch) | undefined;
@@ -419,17 +422,17 @@ function useEnhancedReducerDispatch(waitState: AppRouterWaitState, reducerDispat
     const appRouterStore = useAppRouterStore();
     const eventBus = useEventBus();
 
-    return useCallback((action: AppRouterAction) => {
-        logger
-            .withText("[squide] The following action has been dispatched to the AppRouter reducer:")
-            .withObject(action)
-            .debug();
+    return useCallback(
+        (action: AppRouterAction) => {
+            logger.withText("[squide] The following action has been dispatched to the AppRouter reducer:").withObject(action).debug();
 
-        appRouterStore.dispatch({ ...action, payload: waitState });
-        eventBus.dispatch(`squide-${action.type}`, waitState);
+            appRouterStore.dispatch({ ...action, payload: waitState });
+            eventBus.dispatch(`squide-${action.type}`, waitState);
 
-        reducerDispatch(action);
-    }, [waitState, reducerDispatch, logger, appRouterStore, eventBus]);
+            reducerDispatch(action);
+        },
+        [waitState, reducerDispatch, logger, appRouterStore, eventBus]
+    );
 }
 
 export function useAppRouterReducer(waitForPublicData: boolean, waitForProtectedData: boolean): [AppRouterState, AppRouterDispatch] {
@@ -445,79 +448,93 @@ export function useAppRouterReducer(waitForPublicData: boolean, waitForProtected
     // "isReady" there is nothing to consult, and neither the action nor the event is ever dispatched.
     const hasPluginsImplementingIsReadyValue = hasPluginsImplementingIsReady(runtime);
 
-    const waitState = useMemo(() => ({
-        waitForMsw: isMswEnabled,
-        waitForPublicData,
-        waitForProtectedData
-    }), [isMswEnabled, waitForPublicData, waitForProtectedData]);
+    const waitState = useMemo(
+        () => ({
+            waitForMsw: isMswEnabled,
+            waitForPublicData,
+            waitForProtectedData
+        }),
+        [isMswEnabled, waitForPublicData, waitForProtectedData]
+    );
 
-    const initialState = useMemo(() => ({
-        waitForMsw: waitState.waitForMsw,
-        waitForPublicData: waitState.waitForPublicData,
-        waitForProtectedData: waitState.waitForProtectedData,
-        // When the modules registration functions are awaited, the event listeners are registered after the modules are registered.
-        areModulesRegistered: areModulesInitiallyRegistered,
-        areModulesReady: areModulesInitiallyReady,
-        isMswReady: isMswInitiallyReady,
-        arePluginsReady: !hasPluginsImplementingIsReadyValue,
-        isPublicDataReady: false,
-        isProtectedDataReady: false,
-        activeRouteVisibility: "unknown",
-        isUnauthorized: false
-    } satisfies AppRouterState), [waitState, areModulesInitiallyRegistered, areModulesInitiallyReady, isMswInitiallyReady, hasPluginsImplementingIsReadyValue]);
-
-    // When modules are initially registered, the reducer action will never be dispatched, therefore the event would not be dispatched as well.
-    // To ensure the bootstrapping events sequencing, the event is manually dispatched when the modules are initially registered.
-    useExecuteOnce(useCallback(() => {
-        if (areModulesInitiallyRegistered) {
-            appRouterStore.dispatch({ type: "modules-registered", payload: waitState });
-            eventBus.dispatch(ModulesRegisteredEvent, waitState);
-        }
-
-        return true;
-    }, [areModulesInitiallyRegistered, appRouterStore, eventBus, waitState]), true);
+    const initialState = useMemo(
+        () =>
+            ({
+                waitForMsw: waitState.waitForMsw,
+                waitForPublicData: waitState.waitForPublicData,
+                waitForProtectedData: waitState.waitForProtectedData,
+                // When the modules registration functions are awaited, the event listeners are registered after the modules are registered.
+                areModulesRegistered: areModulesInitiallyRegistered,
+                areModulesReady: areModulesInitiallyReady,
+                isMswReady: isMswInitiallyReady,
+                arePluginsReady: !hasPluginsImplementingIsReadyValue,
+                isPublicDataReady: false,
+                isProtectedDataReady: false,
+                activeRouteVisibility: "unknown",
+                isUnauthorized: false
+            }) satisfies AppRouterState,
+        [waitState, areModulesInitiallyRegistered, areModulesInitiallyReady, isMswInitiallyReady, hasPluginsImplementingIsReadyValue]
+    );
 
     // When modules are initially registered, the reducer action will never be dispatched, therefore the event would not be dispatched as well.
     // To ensure the bootstrapping events sequencing, the event is manually dispatched when the modules are initially registered.
-    useExecuteOnce(useCallback(() => {
-        if (areModulesInitiallyReady) {
-            appRouterStore.dispatch({ type: "modules-ready", payload: waitState });
-            eventBus.dispatch(ModulesReadyEvent, waitState);
-        }
+    useExecuteOnce(
+        useCallback(() => {
+            if (areModulesInitiallyRegistered) {
+                appRouterStore.dispatch({ type: "modules-registered", payload: waitState });
+                eventBus.dispatch(ModulesRegisteredEvent, waitState);
+            }
 
-        return true;
-    }, [areModulesInitiallyReady, appRouterStore, eventBus, waitState]), true);
+            return true;
+        }, [areModulesInitiallyRegistered, appRouterStore, eventBus, waitState]),
+        true
+    );
 
     // When modules are initially registered, the reducer action will never be dispatched, therefore the event would not be dispatched as well.
     // To ensure the bootstrapping events sequencing, the event is manually dispatched when the modules are initially registered.
-    useExecuteOnce(useCallback(() => {
-        if (isMswInitiallyReady) {
-            appRouterStore.dispatch({ type: "msw-ready", payload: waitState });
-            eventBus.dispatch(MswReadyEvent, waitState);
-        }
+    useExecuteOnce(
+        useCallback(() => {
+            if (areModulesInitiallyReady) {
+                appRouterStore.dispatch({ type: "modules-ready", payload: waitState });
+                eventBus.dispatch(ModulesReadyEvent, waitState);
+            }
 
-        return true;
-    }, [isMswInitiallyReady, appRouterStore, eventBus, waitState]), true);
+            return true;
+        }, [areModulesInitiallyReady, appRouterStore, eventBus, waitState]),
+        true
+    );
+
+    // When modules are initially registered, the reducer action will never be dispatched, therefore the event would not be dispatched as well.
+    // To ensure the bootstrapping events sequencing, the event is manually dispatched when the modules are initially registered.
+    useExecuteOnce(
+        useCallback(() => {
+            if (isMswInitiallyReady) {
+                appRouterStore.dispatch({ type: "msw-ready", payload: waitState });
+                eventBus.dispatch(MswReadyEvent, waitState);
+            }
+
+            return true;
+        }, [isMswInitiallyReady, appRouterStore, eventBus, waitState]),
+        true
+    );
 
     // Without a plugin implementing "isReady", the reducer starts ready and the action is never dispatched. The store is
     // synchronized so that a non React consumer reads the same value. No event is dispatched: the event sequence of an
     // application without such plugins is unchanged.
-    useExecuteOnce(useCallback(() => {
-        if (!hasPluginsImplementingIsReadyValue) {
-            appRouterStore.dispatch({ type: "plugins-ready", payload: waitState });
-        }
+    useExecuteOnce(
+        useCallback(() => {
+            if (!hasPluginsImplementingIsReadyValue) {
+                appRouterStore.dispatch({ type: "plugins-ready", payload: waitState });
+            }
 
-        return true;
-    }, [hasPluginsImplementingIsReadyValue, appRouterStore, waitState]), true);
+            return true;
+        }, [hasPluginsImplementingIsReadyValue, appRouterStore, waitState]),
+        true
+    );
 
     const [state, reactDispatch] = useReducer(reducer, initialState);
 
-    const {
-        areModulesRegistered: areModulesRegisteredValue,
-        areModulesReady: areModulesReadyValue,
-        isMswReady: isMswReadyValue,
-        arePluginsReady: arePluginsReadyValue
-    } = state;
+    const { areModulesRegistered: areModulesRegisteredValue, areModulesReady: areModulesReadyValue, isMswReady: isMswReadyValue, arePluginsReady: arePluginsReadyValue } = state;
 
     // The dispatch proxy is strictly an utility allowing tests to mock the useReducer dispatch function. It's easier
     // than mocking the import from React.

@@ -11,5 +11,5 @@ export function useEventBusListener<K extends EventMapKey>(eventName: K, callbac
         return () => {
             eventBus.removeListener(eventName, callback, { once });
         };
-    }, [eventName, callback, once]);
+    }, [eventBus, eventName, callback, once]);
 }

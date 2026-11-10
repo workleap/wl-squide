@@ -1,4 +1,4 @@
-import { AppRouter, FireflyProvider, FireflyRuntime } from "@squide/firefly";
+import { AppRouter, FireflyProvider, type FireflyRuntime } from "@squide/firefly";
 import type { PropsWithChildren, ReactNode } from "react";
 import { createMemoryRouter, type InitialEntry, type RouteObject } from "react-router";
 import { RouterProvider } from "react-router/dom";
@@ -14,10 +14,7 @@ export interface FireflyDecoratorRouteArgs {
 // Provide a "RouteObject" (or an array) to replace the default "{ path: "/story", element: story }" route, or
 // a function receiving the story element to compose the route tree dynamically (e.g. to attach a "handle" or
 // declare children for an "<Outlet />").
-export type FireflyDecoratorRoute =
-    | RouteObject
-    | RouteObject[]
-    | ((args: FireflyDecoratorRouteArgs) => RouteObject | RouteObject[]);
+export type FireflyDecoratorRoute = RouteObject | RouteObject[] | ((args: FireflyDecoratorRouteArgs) => RouteObject | RouteObject[]);
 
 export interface FireflyDecoratorOptions {
     // Customize the route(s) mounted under the Squide "RootRoute" element. Defaults to "{ path: "/story", element: story }".
@@ -28,10 +25,7 @@ export interface FireflyDecoratorOptions {
 }
 
 export function withFireflyDecorator(runtime: FireflyRuntime, options: FireflyDecoratorOptions = {}): Decorator {
-    const {
-        route,
-        initialEntries
-    } = options;
+    const { route, initialEntries } = options;
 
     return story => {
         return (
@@ -64,15 +58,18 @@ export function FireflyDecorator(props: FireflyDecoratorProps) {
 
                     return (
                         <RouterProvider
-                            router={createMemoryRouter([
+                            router={createMemoryRouter(
+                                [
+                                    {
+                                        element: rootRoute,
+                                        children: childRoutes
+                                    }
+                                ],
                                 {
-                                    element: rootRoute,
-                                    children: childRoutes
+                                    ...routerProps,
+                                    initialEntries
                                 }
-                            ], {
-                                ...routerProps,
-                                initialEntries
-                            })}
+                            )}
                             {...routerProviderProps}
                         />
                     );

@@ -1,11 +1,11 @@
-import { ModuleDefinition, PluginFactory, toLocalModuleDefinitions, type ModuleRegisterFunction, type RegisterModulesOptions } from "@squide/core";
+import { type ModuleDefinition, type PluginFactory, toLocalModuleDefinitions, type ModuleRegisterFunction, type RegisterModulesOptions } from "@squide/core";
 import { isFunction } from "@squide/core/internal";
-import { EnvironmentVariables, EnvironmentVariablesPlugin } from "@squide/env-vars";
+import { type EnvironmentVariables, EnvironmentVariablesPlugin } from "@squide/env-vars";
 import { LaunchDarklyPlugin } from "@squide/launch-darkly";
 import { MswPlugin } from "@squide/msw";
 import type { HoneycombInstrumentationPartialClient } from "@workleap-telemetry/core";
-import { RootLogger } from "@workleap/logging";
-import { LDClient } from "launchdarkly-js-client-sdk";
+import type { RootLogger } from "@workleap/logging";
+import type { LDClient } from "launchdarkly-js-client-sdk";
 import { FireflyRuntime, type FireflyRuntimeOptions } from "./FireflyRuntime.tsx";
 import { initializeHoneycomb } from "./honeycomb/initializeHoneycomb.ts";
 
@@ -32,111 +32,93 @@ export interface InitializeFireflyOptions<TRuntime extends FireflyRuntime, TCont
     onError?: OnInitializationErrorFunction;
 }
 
+function assertCanStartMsw(runtime: FireflyRuntime, startMsw: unknown) {
+    if (runtime.isMswEnabled && !isFunction(startMsw)) {
+        throw new Error('[squide] When MSW is enabled, the "startMsw" function must be provided.');
+    }
+}
+
 export function bootstrap<TRuntime extends FireflyRuntime = FireflyRuntime, TContext = unknown, TData = unknown>(
     runtime: TRuntime,
     modulesDefinitions: (ModuleDefinition<TRuntime, TContext, TData> | undefined)[],
     options: Omit<InitializeFireflyOptions<TRuntime, TContext, TData>, "localModules" | "moduleDefinitions"> = {}
 ) {
-    const {
-        startMsw,
-        onError,
-        context
-    } = options;
+    const { startMsw, onError, context } = options;
+
+    assertCanStartMsw(runtime, startMsw);
 
     runtime.eventBus.dispatch(ApplicationBootstrappingStartedEvent);
 
-    runtime.moduleManager.registerModules(
-        modulesDefinitions.filter((x): x is ModuleDefinition => Boolean(x)),
-        { context }
-    ).then(results => {
-        if (runtime.isMswEnabled) {
-            if (!isFunction(startMsw)) {
-                throw new Error("[squide] When MSW is enabled, the \"startMsw\" function must be provided.");
+    runtime.moduleManager
+        .registerModules(
+            modulesDefinitions.filter((x): x is ModuleDefinition => Boolean(x)),
+            { context }
+        )
+        .then(results => {
+            if (runtime.isMswEnabled && startMsw) {
+                startMsw(runtime)
+                    .then(() => {
+                        if (runtime.isMswEnabled) {
+                            runtime.mswState.setAsReady();
+                        }
+                    })
+                    .catch((error: unknown) => {
+                        runtime.logger
+                            .withText("[squide] An error occured while starting MSW.")
+                            .withError(error as Error)
+                            .error();
+                    });
             }
 
-            startMsw(runtime)
-                .then(() => {
-                    if (runtime.isMswEnabled) {
-                        runtime.mswState.setAsReady();
-                    }
-                })
-                .catch((error: unknown) => {
-                    runtime.logger
-                        .withText("[squide] An error occured while starting MSW.")
-                        .withError(error as Error)
-                        .error();
+            if (onError) {
+                results.forEach(error => {
+                    onError(error);
                 });
-        }
+            }
+        })
+        .catch((error: unknown) => {
+            runtime.logger
+                .withText("[squide] An error occurred while bootstrapping the application.")
+                .withError(error as Error)
+                .error();
 
-        if (onError) {
-            results.forEach(error => {
+            if (onError) {
                 onError(error);
-            });
-        }
-    });
+            }
+        });
 }
 
-function logInitializationState<TContext = unknown, TData = unknown>(
-    runtime: FireflyRuntime,
-    options: InitializeFireflyOptions<FireflyRuntime, TContext, TData>,
-    plugins: PluginFactory<FireflyRuntime>[]
-) {
-    const {
-        mode,
-        localModules,
-        moduleDefinitions,
-        useMsw,
-        environmentVariables,
-        honeycombInstrumentationClient,
-        launchDarklyClient
-    } = options;
+function logInitializationState<TContext = unknown, TData = unknown>(runtime: FireflyRuntime, options: InitializeFireflyOptions<FireflyRuntime, TContext, TData>, plugins: PluginFactory<FireflyRuntime>[]) {
+    const { mode, localModules, moduleDefinitions, useMsw, environmentVariables, honeycombInstrumentationClient, launchDarklyClient } = options;
     const scope = (runtime.logger as RootLogger).startScope("[squide] Initializing the application.");
 
     try {
         scope.information(`[squide] Mode: ${mode ?? "development"}`);
 
         if (localModules) {
-            scope
-                .withText("[squide] Local modules:")
-                .withObject(localModules)
-                .information();
+            scope.withText("[squide] Local modules:").withObject(localModules).information();
         }
 
         if (moduleDefinitions) {
-            scope
-                .withText("[squide] Module definitions:")
-                .withObject(moduleDefinitions)
-                .information();
+            scope.withText("[squide] Module definitions:").withObject(moduleDefinitions).information();
         }
 
         scope.information(`[squide] Use MSW: ${useMsw ? "Yes" : "No"}`);
 
         if (environmentVariables && Object.keys(environmentVariables).length > 0) {
-            scope
-                .withText("[squide] Environment variables:")
-                .withObject(environmentVariables)
-                .information();
+            scope.withText("[squide] Environment variables:").withObject(environmentVariables).information();
         }
 
         if (honeycombInstrumentationClient) {
-            scope
-                .withText("[squide] Honeycomb instrumentation client:")
-                .withObject(honeycombInstrumentationClient)
-                .information();
+            scope.withText("[squide] Honeycomb instrumentation client:").withObject(honeycombInstrumentationClient).information();
         }
 
         if (launchDarklyClient) {
-            scope
-                .withText("[squide] LaunchDarkly client:")
-                .withObject(launchDarklyClient)
-                .information();
+            scope.withText("[squide] LaunchDarkly client:").withObject(launchDarklyClient).information();
         }
 
         if (plugins.length > 0) {
-            scope
-                .withText("[squide] Plugins:")
-                .withObject(plugins)
-                .information();
+            scope.withText("[squide] Plugins:").withObject(plugins).information();
         }
     } finally {
         scope.end();
@@ -151,21 +133,10 @@ export function __resetHasExecutedGuard() {
 }
 
 export function initializeFirefly<TContext = unknown, TData = unknown>(options: InitializeFireflyOptions<FireflyRuntime, TContext, TData> = {}) {
-    const {
-        mode,
-        localModules = [],
-        moduleDefinitions = [],
-        useMsw,
-        environmentVariables,
-        honeycombInstrumentationClient,
-        launchDarklyClient,
-        plugins = [],
-        loggers,
-        onError
-    } = options;
+    const { mode, localModules = [], moduleDefinitions = [], useMsw, environmentVariables, honeycombInstrumentationClient, launchDarklyClient, plugins = [], loggers, onError } = options;
 
     if (hasExecuted) {
-        throw new Error("[squide] A squide application can only be initialized once. Did you call the \"initializeSquide\" function twice?");
+        throw new Error('[squide] A squide application can only be initialized once. Did you call the "initializeSquide" function twice?');
     }
 
     hasExecuted = true;
@@ -183,14 +154,18 @@ export function initializeFirefly<TContext = unknown, TData = unknown>(options: 
         honeycombInstrumentationClient,
         loggers,
         plugins: [
-            x => new EnvironmentVariablesPlugin(x, {
-                variables: environmentVariables
-            }),
+            x =>
+                new EnvironmentVariablesPlugin(x, {
+                    variables: environmentVariables
+                }),
             ...plugins
         ]
     });
 
     logInitializationState(runtime, options, plugins);
+
+    // Validated before initializing Honeycomb, otherwise the error would be thrown asynchronously by "bootstrap".
+    assertCanStartMsw(runtime, options.startMsw);
 
     initializeHoneycomb(runtime)
         .catch((error: unknown) => {
@@ -199,11 +174,7 @@ export function initializeFirefly<TContext = unknown, TData = unknown>(options: 
             }
         })
         .finally(() => {
-            bootstrap(
-                runtime,
-                [...moduleDefinitions, ...toLocalModuleDefinitions(localModules)],
-                options
-            );
+            bootstrap(runtime, [...moduleDefinitions, ...toLocalModuleDefinitions(localModules)], options);
         });
 
     return runtime;

@@ -60,7 +60,7 @@ Finally, use a dynamic import to add an async boundary:
 ```ts !#3 host/src/index.ts
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-ignore doesn't support file extension.
-import("./bootstrap");
+void import("./bootstrap");
 
 // TS1208: 'index.tsx' cannot be compiled under '--isolatedModules' because it is considered a global script file. Add an import, export, or an
 // empty 'export {}' statement to make it a module.
@@ -368,7 +368,7 @@ import { defineDevHostConfig } from "@squide/firefly-webpack-configs";
 import { swcConfig } from "./swc.dev.js";
 
 /**
- * @typedef {import("@squide/firefly-webpack-configs").RemoteDefinition[]}
+ * @type {import("@squide/firefly-webpack-configs").RemoteDefinition[]}
  */
 const Remotes = [
     { name: "remote1", url: "http://localhost:8081" }
@@ -406,7 +406,7 @@ import { defineBuildHostConfig } from "@squide/firefly-webpack-configs";
 import { swcConfig } from "./swc.build.js";
 
 /**
- * @typedef {import("@squide/firefly-webpack-configs").RemoteDefinition[]}
+ * @type {import("@squide/firefly-webpack-configs").RemoteDefinition[]}
  */
 const Remotes = [
     { name: "remote1", url: "http://localhost:8081" }

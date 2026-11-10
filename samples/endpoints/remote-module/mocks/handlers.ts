@@ -1,4 +1,4 @@
-import { EnvironmentVariables } from "@squide/firefly";
+import type { EnvironmentVariables } from "@squide/firefly";
 import type { HttpHandler } from "msw";
 import { getFeatureHandlers } from "./featureHandlers.ts";
 import { getRickAndMortyHandlers } from "./rickAndMortyHandlers.ts";
@@ -8,4 +8,3 @@ import { getRickAndMortyHandlers } from "./rickAndMortyHandlers.ts";
 export function getRequestHandlers(environmentVariables: EnvironmentVariables): HttpHandler[] {
     return [...getRickAndMortyHandlers(environmentVariables), ...getFeatureHandlers(environmentVariables)];
 }
-

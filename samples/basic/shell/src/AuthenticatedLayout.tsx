@@ -1,6 +1,5 @@
 import { useSessionManager } from "@basic/shared";
-import { useEventBusListener } from "@squide/firefly";
-import { isNavigationLink, useNavigationItems, useRenderedNavigationItems, type NavigationLinkRenderProps, type NavigationSectionRenderProps, type RenderItemFunction, type RenderSectionFunction } from "@squide/firefly";
+import { useEventBusListener, isNavigationLink, useNavigationItems, useRenderedNavigationItems, type NavigationLinkRenderProps, type NavigationSectionRenderProps, type RenderItemFunction, type RenderSectionFunction } from "@squide/firefly";
 import { Suspense, useCallback, type MouseEvent, type ReactNode } from "react";
 import { Link, Outlet, useNavigate } from "react-router";
 import { Loading } from "./Loading.tsx";
@@ -23,9 +22,7 @@ const renderSectionItem: RenderSectionItemFunction = ({ label, section }, key) =
     return (
         <li key={key} style={{ display: "flex", gap: "5px" }}>
             {label}
-            <div style={{ display: "flex", alignItems: "center", fontSize: "12px" }}>
-                ({section})
-            </div>
+            <div style={{ display: "flex", alignItems: "center", fontSize: "12px" }}>({section})</div>
         </li>
     );
 };
@@ -54,13 +51,16 @@ export function AuthenticatedLayout() {
 
     useEventBusListener("write-to-host", handleModulesMessage);
 
-    const handleDisconnect = useCallback((event: MouseEvent<HTMLButtonElement>) => {
-        event.preventDefault();
+    const handleDisconnect = useCallback(
+        (event: MouseEvent<HTMLButtonElement>) => {
+            event.preventDefault();
 
-        sessionManager?.clearSession();
+            sessionManager?.clearSession();
 
-        navigate("/logout");
-    }, [navigate, sessionManager]);
+            void navigate("/logout");
+        },
+        [navigate, sessionManager]
+    );
 
     const navigationItems = useNavigationItems();
     const renderedNavigationItems = useRenderedNavigationItems(navigationItems, renderItem, renderSection);
@@ -68,14 +68,14 @@ export function AuthenticatedLayout() {
     return (
         <>
             <div style={{ display: "flex", alignItems: "center" }}>
-                <nav style={{ width: "100%" }}>
-                    {renderedNavigationItems}
-                </nav>
+                <nav style={{ width: "100%" }}>{renderedNavigationItems}</nav>
                 <div style={{ whiteSpace: "nowrap", marginRight: "20px" }}>
                     (User: <span style={{ fontWeight: "bold" }}>{session?.user?.name}</span>)
                 </div>
                 <div>
-                    <button type="button" onClick={handleDisconnect}>Disconnect</button>
+                    <button type="button" onClick={handleDisconnect}>
+                        Disconnect
+                    </button>
                 </div>
             </div>
             <Suspense fallback={<Loading />}>

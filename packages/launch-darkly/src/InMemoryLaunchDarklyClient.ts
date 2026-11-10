@@ -1,7 +1,7 @@
-import { LDContext, LDFlagChangeset, LDFlagSet, LDFlagValue } from "launchdarkly-js-sdk-common";
+import type { LDContext, LDFlagChangeset, LDFlagSet, LDFlagValue } from "launchdarkly-js-sdk-common";
 import { computeChangeset } from "./computeChangeset.ts";
 import { LaunchDarklyClientTransaction, type CommitTransactionFunction, type EditableLaunchDarklyClient, type SetFeatureFlagOptions, type UndoTransactionFunction } from "./EditableLaunchDarklyClient.ts";
-import { FeatureFlags } from "./featureFlags.ts";
+import type { FeatureFlags } from "./featureFlags.ts";
 import { LaunchDarklyClientNotifier } from "./LaunchDarklyNotifier.ts";
 
 export interface InMemoryLaunchDarklyClientOptions {
@@ -21,10 +21,7 @@ export class InMemoryLaunchDarklyClient implements EditableLaunchDarklyClient {
     #activeTransaction: ActiveTransaction | undefined;
 
     constructor(featureFlags: Partial<FeatureFlags>, options: InMemoryLaunchDarklyClientOptions = {}) {
-        const {
-            context,
-            notifier = new LaunchDarklyClientNotifier()
-        } = options;
+        const { context, notifier = new LaunchDarklyClientNotifier() } = options;
 
         this.#flags = featureFlags;
 
@@ -105,9 +102,7 @@ export class InMemoryLaunchDarklyClient implements EditableLaunchDarklyClient {
     addHook(): void {}
 
     setFeatureFlags(newValues: Partial<FeatureFlags>, options: SetFeatureFlagOptions = {}): void {
-        const {
-            notify = true
-        } = options;
+        const { notify = true } = options;
 
         const keys = Object.keys(newValues);
 

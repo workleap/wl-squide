@@ -1,10 +1,10 @@
 import type { RequestHandler } from "msw";
 import { setupWorker } from "msw/browser";
 
-export function startMsw(requestHandlers: RequestHandler[]) {
+export async function startMsw(requestHandlers: RequestHandler[]) {
     const worker = setupWorker(...requestHandlers);
 
-    return worker.start({
+    await worker.start({
         onUnhandledFrame: "bypass"
     });
 }

@@ -5,7 +5,10 @@ import type { EventBusDispatchFunction, EventMap, EventMapKey } from "./EventBus
 export function useEventBusDispatcher() {
     const eventBus = useEventBus();
 
-    return useCallback((eventName: EventMapKey, payload?: EventMap[EventMapKey]) => {
-        eventBus.dispatch(eventName, payload);
-    }, [eventBus]) as EventBusDispatchFunction;
+    return useCallback(
+        (eventName: EventMapKey, payload?: EventMap[EventMapKey]) => {
+            eventBus.dispatch(eventName, payload);
+        },
+        [eventBus]
+    ) as EventBusDispatchFunction;
 }

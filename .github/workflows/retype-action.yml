@@ -14,12 +14,12 @@ jobs:
       contents: write
 
     steps:
-        - uses: actions/checkout@v7
+      - uses: actions/checkout@v7
 
-        - uses: retypeapp/action-build@latest
-          env:
-              RETYPE_KEY: ${{ secrets.RETYPE_API_KEY }}
+      - uses: retypeapp/action-build@latest
+        env:
+          RETYPE_KEY: ${{ secrets.RETYPE_API_KEY }}
 
-        - uses: retypeapp/action-github-pages@latest
-          with:
-            update-branch: true
+      - uses: retypeapp/action-github-pages@latest
+        with:
+          update-branch: true

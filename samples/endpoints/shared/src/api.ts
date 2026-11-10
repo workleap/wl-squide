@@ -59,4 +59,3 @@ export async function postJson(url: string, body?: unknown) {
         throw new ApiError(response.status, response.statusText);
     }
 }
-

@@ -2,7 +2,7 @@ import { Runtime, RuntimeContext } from "@squide/core";
 import { createLocalStorageLaunchDarklyClient } from "@squide/launch-darkly";
 import { renderHook, waitFor } from "@testing-library/react";
 import { NoopLogger } from "@workleap/logging";
-import { ReactNode } from "react";
+import type { ReactNode } from "react";
 import { afterEach, beforeEach, describe, test } from "vitest";
 import { InMemoryLaunchDarklyClient } from "../src/InMemoryLaunchDarklyClient.ts";
 import { LaunchDarklyPlugin } from "../src/LaunchDarklyPlugin.ts";
@@ -61,11 +61,7 @@ class DummyRuntime extends Runtime {
 
 function renderUseFeatureFlags(runtime: Runtime) {
     return renderHook(() => useFeatureFlags(), {
-        wrapper: ({ children }: { children?: ReactNode }) => (
-            <RuntimeContext.Provider value={runtime}>
-                {children}
-            </RuntimeContext.Provider>
-        )
+        wrapper: ({ children }: { children?: ReactNode }) => <RuntimeContext.Provider value={runtime}>{children}</RuntimeContext.Provider>
     });
 }
 
@@ -79,9 +75,7 @@ describe.concurrent("InMemoryLaunchDarklyClient", () => {
 
         const runtime = new DummyRuntime({
             loggers: [new NoopLogger()],
-            plugins: [
-                x => new LaunchDarklyPlugin(x, client)
-            ]
+            plugins: [x => new LaunchDarklyPlugin(x, client)]
         });
 
         const { result } = renderUseFeatureFlags(runtime);
@@ -102,9 +96,7 @@ describe.concurrent("InMemoryLaunchDarklyClient", () => {
 
         const runtime = new DummyRuntime({
             loggers: [new NoopLogger()],
-            plugins: [
-                x => new LaunchDarklyPlugin(x, client)
-            ]
+            plugins: [x => new LaunchDarklyPlugin(x, client)]
         });
 
         const { result } = renderUseFeatureFlags(runtime);
@@ -147,9 +139,7 @@ describe("LocalStorageLaunchDarklyClient", () => {
 
         const runtime = new DummyRuntime({
             loggers: [new NoopLogger()],
-            plugins: [
-                x => new LaunchDarklyPlugin(x, client)
-            ]
+            plugins: [x => new LaunchDarklyPlugin(x, client)]
         });
 
         const { result } = renderUseFeatureFlags(runtime);
@@ -170,9 +160,7 @@ describe("LocalStorageLaunchDarklyClient", () => {
 
         const runtime = new DummyRuntime({
             loggers: [new NoopLogger()],
-            plugins: [
-                x => new LaunchDarklyPlugin(x, client)
-            ]
+            plugins: [x => new LaunchDarklyPlugin(x, client)]
         });
 
         const { result } = renderUseFeatureFlags(runtime);

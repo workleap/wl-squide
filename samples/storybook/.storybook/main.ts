@@ -6,9 +6,7 @@ const require = createRequire(import.meta.url);
 
 const storybookConfig: StorybookConfig = {
     framework: getAbsolutePath("storybook-react-rsbuild"),
-    addons: [
-        getAbsolutePath("@storybook/addon-a11y")
-    ],
+    addons: [getAbsolutePath("@storybook/addon-a11y")],
     core: {
         builder: {
             name: "storybook-builder-rsbuild",
@@ -21,9 +19,7 @@ const storybookConfig: StorybookConfig = {
             }
         }
     },
-    stories: [
-        "../host/src/**/*.stories.tsx"
-    ],
+    stories: ["../host/src/**/*.stories.tsx"],
     staticDirs: ["public"]
     // rsbuildFinal: config => {
     //     return mergeRsbuildConfig(config, {

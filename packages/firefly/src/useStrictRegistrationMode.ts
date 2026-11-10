@@ -6,19 +6,20 @@ export interface UseStrictRegistrationModeOptions {
 }
 
 export function useStrictRegistrationMode(options: UseStrictRegistrationModeOptions = {}) {
-    const {
-        isEnabled = true
-    } = options;
+    const { isEnabled = true } = options;
 
     const runtime = useRuntime();
 
-    const subscribe = useCallback((callback: () => void) => {
-        runtime.moduleManager.registerModulesReadyListener(callback);
+    const subscribe = useCallback(
+        (callback: () => void) => {
+            runtime.moduleManager.registerModulesReadyListener(callback);
 
-        return () => {
-            runtime.moduleManager.removeModulesReadyListener(callback);
-        };
-    }, [runtime]);
+            return () => {
+                runtime.moduleManager.removeModulesReadyListener(callback);
+            };
+        },
+        [runtime]
+    );
 
     // This listener is only executed if the modules are ready.
     const areModulesReady = useSyncExternalStore(subscribe, () => runtime.moduleManager.getAreModulesReady());

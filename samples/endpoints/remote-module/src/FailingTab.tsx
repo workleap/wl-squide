@@ -11,9 +11,12 @@ export function FailingTab() {
 
     const rickAndMortyApiBaseUrl = useEnvironmentVariable("rickAndMortyApiBaseUrl");
 
-    useSuspenseQuery({ queryKey: [`${rickAndMortyApiBaseUrl}location/failing`], queryFn: () => {
-        return fetchJson(`${rickAndMortyApiBaseUrl}location/failing`);
-    } });
+    useSuspenseQuery({
+        queryKey: [`${rickAndMortyApiBaseUrl}location/failing`],
+        queryFn: () => {
+            return fetchJson(`${rickAndMortyApiBaseUrl}location/failing`);
+        }
+    });
 
     return (
         <>

@@ -1,6 +1,6 @@
 import { useRuntime, type ModuleRegistrationError } from "@squide/core";
 import { useEffect, useRef } from "react";
-import { FireflyRuntime } from "./FireflyRuntime.tsx";
+import type { FireflyRuntime } from "./FireflyRuntime.tsx";
 import { useCanRegisterDeferredRegistrations } from "./useCanRegisterDeferredRegistrations.ts";
 import { useCanUpdateDeferredRegistrations } from "./useCanUpdateDeferredRegistrations.ts";
 import { useRegisterDeferredRegistrations } from "./useRegisterDeferredRegistrations.ts";
@@ -24,17 +24,21 @@ export function useDeferredRegistrations(data?: unknown, { onError }: UseDeferre
 
     useEffect(() => {
         if (canRegisterDeferredRegistrations) {
-            const register = async () => {
-                const errors = await registerDeferredRegistrations(data);
-
-                if (errors.length > 0 && onError) {
-                    onError(errors);
+            registerDeferredRegistrations(data).then(
+                errors => {
+                    if (errors.length > 0 && onError) {
+                        onError(errors);
+                    }
+                },
+                (error: unknown) => {
+                    runtime.logger
+                        .withText("[squide] An error occurred while registering the deferred registrations.")
+                        .withError(error as Error)
+                        .error();
                 }
-            };
-
-            register();
+            );
         }
-    }, [canRegisterDeferredRegistrations, registerDeferredRegistrations, data, onError]);
+    }, [canRegisterDeferredRegistrations, registerDeferredRegistrations, data, onError, runtime]);
 
     const isInitialUpdateDeferredRegistrationsExecution = useRef(true);
 
@@ -50,21 +54,26 @@ export function useDeferredRegistrations(data?: unknown, { onError }: UseDeferre
                 return;
             }
 
-            const update = async () => {
-                const errors = await updateDeferredRegistrations(data);
-
-                if (errors.length > 0 && onError) {
-                    onError(errors);
+            updateDeferredRegistrations(data).then(
+                errors => {
+                    if (errors.length > 0 && onError) {
+                        onError(errors);
+                    }
+                },
+                (error: unknown) => {
+                    runtime.logger
+                        .withText("[squide] An error occurred while updating the deferred registrations.")
+                        .withError(error as Error)
+                        .error();
                 }
-            };
-
-            update();
+            );
         }
     }, [
         canUpdateDeferredRegistrations,
         updateDeferredRegistrations,
         data,
         onError,
+        runtime,
         // Trigger this closure when the feature flags changed. Using the timestamp because the
         // actual feature flags are not forwarded to the deferred registrations.
         runtime.appRouterStore.state.featureFlagsUpdatedAt

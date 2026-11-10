@@ -42,7 +42,12 @@ export function useProtectedDataQueries<T extends Array<any>>(queries: QueriesOp
         };
     }, []);
 
-    const { data, errors: queriesErrors, hasErrors, isReady } = useQueries({
+    const {
+        data,
+        errors: queriesErrors,
+        hasErrors,
+        isReady
+    } = useQueries({
         queries: queries.map(x => ({
             enabled: canFetchProtectedData,
             ...x
@@ -52,30 +57,35 @@ export function useProtectedDataQueries<T extends Array<any>>(queries: QueriesOp
 
     const { isProtectedDataReady, isUnauthorized } = useAppRouterState();
 
-    useExecuteOnce(useCallback(() => {
-        if (canFetchProtectedData) {
-            eventBus.dispatch(ProtectedDataFetchStartedEvent);
+    useExecuteOnce(
+        useCallback(() => {
+            if (canFetchProtectedData) {
+                eventBus.dispatch(ProtectedDataFetchStartedEvent);
 
-            return true;
-        }
+                return true;
+            }
 
-        return false;
-    }, [canFetchProtectedData, eventBus]), true);
+            return false;
+        }, [canFetchProtectedData, eventBus]),
+        true
+    );
 
     // Using a ref seems to be the only way to prevent starting two deferred registrations scope.
     const isReadyRef = useRef(false);
 
-    const dispatchReady = useExecuteOnce(useCallback(() => {
-        if (isReady) {
-            isReadyRef.current = true;
+    const dispatchReady = useExecuteOnce(
+        useCallback(() => {
+            if (isReady) {
+                isReadyRef.current = true;
 
-            dispatch({ type: "protected-data-ready" });
+                dispatch({ type: "protected-data-ready" });
 
-            return true;
-        }
+                return true;
+            }
 
-        return false;
-    }, [isReady, dispatch]));
+            return false;
+        }, [isReady, dispatch])
+    );
 
     useEffect(() => {
         // State update must be executed in useEffect.

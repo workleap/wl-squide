@@ -1,4 +1,4 @@
-import { EnvironmentVariables } from "@squide/firefly";
+import type { EnvironmentVariables } from "@squide/firefly";
 import { HttpResponse, http, type HttpHandler } from "msw";
 import { sessionManager } from "./session.ts";
 import { simulateDelay } from "./simulateDelay.ts";
@@ -29,7 +29,7 @@ const Users = [
 export function getAuthenticationHandlers(environmentVariables: EnvironmentVariables): HttpHandler[] {
     return [
         http.post(`${environmentVariables.authenticationApiBaseUrl}login`, async ({ request }) => {
-            const { username, password } = await request.json() as LoginCredentials;
+            const { username, password } = (await request.json()) as LoginCredentials;
 
             const user = Users.find(x => {
                 return x.username === username && x.password === password;

@@ -17,30 +17,34 @@ export function CharactersTab() {
 
     const rickAndMortyApiBaseUrl = useEnvironmentVariable("rickAndMortyApiBaseUrl");
 
-    const { data: characters } = useSuspenseQuery({ queryKey: [`${rickAndMortyApiBaseUrl}character/1,2`], queryFn: () => {
-        return fetchJson(`${rickAndMortyApiBaseUrl}character/1,2`);
-    } });
+    const { data: characters } = useSuspenseQuery({
+        queryKey: [`${rickAndMortyApiBaseUrl}character/1,2`],
+        queryFn: () => {
+            return fetchJson(`${rickAndMortyApiBaseUrl}character/1,2`);
+        }
+    });
 
     return (
         <div>
             <h2>{t("title")}</h2>
             <p style={{ backgroundColor: "purple", color: "white", width: "fit-content" }}>
-                <Trans
-                    i18n={i18nextInstance}
-                    i18nKey="servedBy"
-                    t={t}
-                    components={{ code: <code /> }}
-                />
+                <Trans i18n={i18nextInstance} i18nKey="servedBy" t={t} components={{ code: <code /> }} />
             </p>
             <div>
                 {characters.map((x: Character) => {
                     return (
                         <div key={x.id}>
-                            <span>{t("idLabel")}: {x.id}</span>
+                            <span>
+                                {t("idLabel")}: {x.id}
+                            </span>
                             <span> - </span>
-                            <span>{t("nameLabel")}: {x.name}</span>
+                            <span>
+                                {t("nameLabel")}: {x.name}
+                            </span>
                             <span> - </span>
-                            <span>{t("speciesLabel")}: {x.species}</span>
+                            <span>
+                                {t("speciesLabel")}: {x.species}
+                            </span>
                         </div>
                     );
                 })}

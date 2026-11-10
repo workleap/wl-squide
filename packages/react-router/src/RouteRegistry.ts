@@ -52,13 +52,9 @@ function appendPath(parentPath: string, childPath: string) {
         return childPath;
     }
 
-    const normalizedParentPath = parentPath.endsWith("/")
-        ? parentPath.slice(0, -1)
-        : parentPath;
+    const normalizedParentPath = parentPath.endsWith("/") ? parentPath.slice(0, -1) : parentPath;
 
-    const normalizedChildPath = childPath.startsWith("/")
-        ? childPath.slice(1)
-        : childPath;
+    const normalizedChildPath = childPath.startsWith("/") ? childPath.slice(1) : childPath;
 
     return `${normalizedParentPath}/${normalizedChildPath}`;
 }
@@ -82,9 +78,7 @@ export function createIndexKeys(route: Route, parentIndexPath?: string) {
     const keys: string[] = [];
 
     if (route.path) {
-        const key = isAbsoluteRoute(route)
-            ? route.path
-            : parentIndexPath ? appendPath(parentIndexPath, route.path) : route.path;
+        const key = isAbsoluteRoute(route) ? route.path : parentIndexPath ? appendPath(parentIndexPath, route.path) : route.path;
 
         keys.push(normalizePath(key));
     }
@@ -147,10 +141,7 @@ export class RouteRegistry {
 
             if (route.children) {
                 // Recursively go through the children.
-                const result = this.#recursivelyAddRoutes(
-                    route.children,
-                    resolveParentIndexPath(route, parentIndexPath)
-                );
+                const result = this.#recursivelyAddRoutes(route.children, resolveParentIndexPath(route, parentIndexPath));
 
                 route.children = result.newRoutes;
                 completedPendingRegistrations.push(...result.completedPendingRegistrations);
@@ -269,16 +260,10 @@ export class RouteRegistry {
             };
         }
 
-        const { newRoutes, completedPendingRegistrations } = this.#recursivelyAddRoutes(
-            routes,
-            resolveParentIndexPath(parentRoute, parentRoute.$parentIndexPath)
-        );
+        const { newRoutes, completedPendingRegistrations } = this.#recursivelyAddRoutes(routes, resolveParentIndexPath(parentRoute, parentRoute.$parentIndexPath));
 
         // Register new nested routes as children of their parent route.
-        parentRoute.children = [
-            ...(parentRoute.children ?? []),
-            ...newRoutes
-        ];
+        parentRoute.children = [...(parentRoute.children ?? []), ...newRoutes];
 
         // Create a new array since the routes array is immutable and a nested
         // object has been updated.

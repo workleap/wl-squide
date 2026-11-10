@@ -40,7 +40,12 @@ export function usePublicDataQueries<T extends Array<any>>(queries: QueriesOptio
         };
     }, []);
 
-    const { data, errors: queriesErrors, hasErrors, isReady } = useQueries({
+    const {
+        data,
+        errors: queriesErrors,
+        hasErrors,
+        isReady
+    } = useQueries({
         queries: queries.map(x => ({
             enabled: canFetchPublicData,
             ...x
@@ -48,30 +53,35 @@ export function usePublicDataQueries<T extends Array<any>>(queries: QueriesOptio
         combine: combineResults
     });
 
-    useExecuteOnce(useCallback(() => {
-        if (canFetchPublicData) {
-            eventBus.dispatch(PublicDataFetchStartedEvent);
+    useExecuteOnce(
+        useCallback(() => {
+            if (canFetchPublicData) {
+                eventBus.dispatch(PublicDataFetchStartedEvent);
 
-            return true;
-        }
+                return true;
+            }
 
-        return false;
-    }, [canFetchPublicData, eventBus]), true);
+            return false;
+        }, [canFetchPublicData, eventBus]),
+        true
+    );
 
     // Using a ref seems to be the only way to prevent starting two deferred registrations scope.
     const isReadyRef = useRef(false);
 
-    const dispatchReady = useExecuteOnce(useCallback(() => {
-        if (isReady) {
-            isReadyRef.current = true;
+    const dispatchReady = useExecuteOnce(
+        useCallback(() => {
+            if (isReady) {
+                isReadyRef.current = true;
 
-            dispatch({ type: "public-data-ready" });
+                dispatch({ type: "public-data-ready" });
 
-            return true;
-        }
+                return true;
+            }
 
-        return false;
-    }, [isReady, dispatch]));
+            return false;
+        }, [isReady, dispatch])
+    );
 
     useEffect(() => {
         // State update must be executed in useEffect.
