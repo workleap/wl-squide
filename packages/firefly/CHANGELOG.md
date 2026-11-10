@@ -1,5 +1,13 @@
 # @squide/firefly
 
+## 20.1.2
+
+### Patch Changes
+
+- [#748](https://github.com/workleap/wl-squide/pull/748) [`620d2cf`](https://github.com/workleap/wl-squide/commit/620d2cf8bd041867c06b01627ed80fd61b53bc03) Thanks [@patricklafrance](https://github.com/patricklafrance)! - `initializeFirefly` and `bootstrap` now throw immediately when MSW is enabled and no `startMsw` function is provided, instead of failing later as an unhandled promise rejection. When the modules registration or the deferred registrations fail unexpectedly, the error is now logged, and the modules registration error is also passed to the `onError` handler.
+
+- [#748](https://github.com/workleap/wl-squide/pull/748) [`620d2cf`](https://github.com/workleap/wl-squide/commit/620d2cf8bd041867c06b01627ed80fd61b53bc03) Thanks [@patricklafrance](https://github.com/patricklafrance)! - When MSW is enabled, navigating between sibling routes no longer erases the loader data of their parent route. The data strategy that waits for MSW now only resolves the routes that React Router asks to load.
+
 ## 20.1.1
 
 ### Patch Changes
