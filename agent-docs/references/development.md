@@ -76,7 +76,7 @@ The repository `.npmrc` routes every install through the `gsoft` GitHub package 
 1. Create a folder under `packages/` matching the package name.
 2. Run `pnpm init` inside it.
 3. Name it with the `@squide/` scope (e.g., `@squide/foo`).
-4. Set `"publishConfig": { "access": "public" }`.
+4. Set `"publishConfig": { "access": "public", "provenance": true, "registry": "https://registry.npmjs.org/" }`. Without `registry`, publishing targets the package firewall (see [GitHub package firewall](#github-package-firewall)).
 5. Set `"sideEffects": false` (unless the package contains CSS or other side effects).
 6. Add npm `dependencies` and `peerDependencies` to the **package's own** `package.json`.
 7. Add `devDependencies` locally (not at root — pnpm doesn't hoist).
