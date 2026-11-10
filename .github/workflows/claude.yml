@@ -43,6 +43,12 @@ jobs:
           cache: pnpm
           cache-dependency-path: pnpm-lock.yaml
 
+      - name: Authenticate to the GitHub package firewall
+        # pnpm ignores auth tokens set in a repository .npmrc, so the job token goes in the user-level ~/.npmrc.
+        env:
+          FIREWALL_TOKEN: ${{ github.token }}
+        run: echo "//package-firewall.githubapp.com/npm/enterprises/gsoft/:_authToken=${FIREWALL_TOKEN}" >> ~/.npmrc
+
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
 

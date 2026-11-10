@@ -30,7 +30,7 @@ When in doubt, skip the ADR and put the rationale in the changeset. The same app
 
 ### References
 
-- [development.md](./agent-docs/references/development.md) — pnpm workspace rules, env vars, JIT packages, dependency versioning, Retype docs, pre-commit hook, full command reference, adding packages
+- [development.md](./agent-docs/references/development.md) — pnpm workspace rules, GitHub package firewall, env vars, JIT packages, dependency versioning, Retype docs, pre-commit hook, full command reference, adding packages
 - [agent-skills.md](./agent-docs/references/agent-skills.md) — Skill directories, editing skills
 - [build-tooling.md](./agent-docs/references/build-tooling.md) — Rslib, Rsbuild, Turborepo task graph, shared configs
 - [ci-cd.md](./agent-docs/references/ci-cd.md) — GitHub Actions workflows, concurrency, caching, smoke tests

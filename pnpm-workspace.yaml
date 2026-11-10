@@ -2,14 +2,13 @@ packages:
   - packages/*
   - samples/**
 
-minimumReleaseAge: 10080 # 7 days, in minutes
-
-minimumReleaseAgeExclude:
-  - "@workleap/*"
-  - "@typescript/native-preview*"
-  - "@workleap-telemetry/*"
+# The GitHub package firewall (.npmrc) enforces release policies. 0 disables pnpm's own gate,
+# which otherwise defaults to 24 hours when the setting is absent.
+minimumReleaseAge: 0
 
 overrides:
+  # chokidar@4.0.3 is blocked by the package firewall (AttestationDowngradePolicy).
+  "ts-checker-rspack-plugin>chokidar": 4.0.1
   # Pin to 5.4.0 — 5.6.0 leaks `extractComments` into swc-minify options, which swc rejects.
   # @workleap/webpack-configs uses TerserPlugin.swcMinify, so transitive consumers break.
   terser-webpack-plugin: 5.4.0
