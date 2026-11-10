@@ -57,7 +57,7 @@
         "http-server": "14.1.1",
         "launchdarkly-js-client-sdk": "3.9.6",
         "netlify-cli": "27.14.0",
-        "typescript": "6.0.3"
+        "typescript": "7.0.2"
     },
     "msw": {
         "workerDirectory": "public"

@@ -22,7 +22,7 @@
         "@types/uuid": "11.0.0",
         "@typescript/native-preview": "7.0.0-dev.20260707.2",
         "@workleap/typescript-configs": "5.0.0",
-        "typescript": "6.0.3"
+        "typescript": "7.0.2"
     },
     "peerDependencies": {
         "react": "^19.3.1",

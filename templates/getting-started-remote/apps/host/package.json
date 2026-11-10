@@ -32,7 +32,7 @@
         "@workleap/typescript-configs": "5.0.0",
         "browserslist": "4.29.4",
         "postcss": "8.5.32",
-        "typescript": "6.0.3",
+        "typescript": "7.0.2",
         "webpack": "5.110.3",
         "webpack-cli": "7.2.3",
         "webpack-dev-server": "5.2.4"

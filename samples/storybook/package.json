@@ -31,7 +31,7 @@
         "@workleap/rsbuild-configs": "5.0.0",
         "@workleap/typescript-configs": "5.0.0",
         "http-server": "14.1.1",
-        "typescript": "6.0.3"
+        "typescript": "7.0.2"
     },
     "msw": {
         "workerDirectory": [

@@ -40,6 +40,6 @@
         "cross-env": "10.1.0",
         "http-server": "14.1.1",
         "netlify-cli": "27.14.0",
-        "typescript": "6.0.3"
+        "typescript": "7.0.2"
     }
 }
