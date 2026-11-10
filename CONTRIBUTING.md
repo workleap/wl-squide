@@ -434,6 +434,10 @@ Update outdated dependencies to their latest version. For more information, view
 pnpm update-outdated-deps
 ```
 
+### GitHub Actions
+
+[Renovate](./renovate.json) updates the GitHub Actions used by the workflows on a schedule. To bump them on demand, run `/_update-github-actions` with Claude Code (or select GitHub Actions in `/_update-third-parties`).
+
 ## CI
 
 We use [GitHub Actions](https://github.com/features/actions) for this repository.
