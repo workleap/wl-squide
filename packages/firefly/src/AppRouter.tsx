@@ -48,9 +48,7 @@ export function createWaitForMswDataStrategy(runtime: FireflyRuntime) {
             }
         });
 
-        // TODO: React Router 8 turned `shouldCallHandler` into a method, so this filter keeps every match.
-        // oxlint-disable-next-line typescript/unbound-method
-        const matchesToLoad = args.matches.filter(m => m.shouldCallHandler);
+        const matchesToLoad = args.matches.filter(m => m.shouldCallHandler());
         const keyedResults: Record<string, DataStrategyResult> = {};
         const results = await Promise.all(matchesToLoad.map(m => m.resolve()));
 

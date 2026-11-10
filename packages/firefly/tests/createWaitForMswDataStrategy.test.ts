@@ -1,7 +1,7 @@
 import { MswPlugin } from "@squide/msw";
 import { MswState } from "@squide/msw/internal";
 import { NoopLogger } from "@workleap/logging";
-import type { DataStrategyFunctionArgs, DataStrategyMatch } from "react-router";
+import { createMemoryRouter, type DataRouter, type DataStrategyFunctionArgs, type DataStrategyMatch } from "react-router";
 import { describe, test, vi } from "vitest";
 import { createWaitForMswDataStrategy } from "../src/AppRouter.tsx";
 import { FireflyRuntime } from "../src/FireflyRuntime.tsx";
@@ -9,7 +9,7 @@ import { FireflyRuntime } from "../src/FireflyRuntime.tsx";
 function createMatch(routeId: string, shouldCallHandler: boolean, result: unknown): DataStrategyMatch {
     return {
         route: { id: routeId } as DataStrategyMatch["route"],
-        shouldCallHandler,
+        shouldCallHandler: () => shouldCallHandler,
         resolve: vi.fn().mockResolvedValue(result)
     } as unknown as DataStrategyMatch;
 }
@@ -142,4 +142,62 @@ describe("createWaitForMswDataStrategy", () => {
 
         expect(result).toEqual({});
     });
+
+    test("when navigating between sibling routes, does not call the parent loader again", async ({ expect }) => {
+        const mswState = new MswState({ isReady: true });
+
+        const runtime = new FireflyRuntime({
+            plugins: [x => new MswPlugin(x, { state: mswState })],
+            loggers: [new NoopLogger()]
+        });
+
+        const parentLoader = vi.fn(() => "parent-data");
+
+        const router = createMemoryRouter(
+            [
+                {
+                    id: "parent",
+                    path: "/parent",
+                    loader: parentLoader,
+                    children: [
+                        { id: "a", path: "a", loader: () => "a-data" },
+                        { id: "b", path: "b", loader: () => "b-data" }
+                    ]
+                }
+            ],
+            {
+                initialEntries: ["/parent/a"],
+                dataStrategy: createWaitForMswDataStrategy(runtime)
+            }
+        );
+
+        await waitForIdle(router);
+
+        await router.navigate("/parent/b");
+
+        expect(parentLoader).toHaveBeenCalledOnce();
+        expect(router.state.loaderData).toEqual({
+            parent: "parent-data",
+            b: "b-data"
+        });
+
+        router.dispose();
+    });
 });
+
+function waitForIdle(router: DataRouter) {
+    return new Promise<void>(resolve => {
+        if (router.state.initialized) {
+            resolve();
+
+            return;
+        }
+
+        const unsubscribe = router.subscribe(state => {
+            if (state.initialized) {
+                unsubscribe();
+                resolve();
+            }
+        });
+    });
+}
