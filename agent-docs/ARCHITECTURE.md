@@ -35,7 +35,7 @@ For detailed patterns and APIs, read the design docs linked below. This section 
 - **AppRouter** — Wraps React Router, assembles routes from all modules, orchestrates data fetching lifecycle. See [routing-and-navigation.md](./design/routing-and-navigation.md).
 - **Global Data Fetching** — Built on TanStack Query (`usePublicDataQueries`, `useProtectedDataQueries`). See [data-fetching.md](./design/data-fetching.md).
 - **Route Types** — Protected (default), Public, Hoisted, Nested. See [routing-and-navigation.md](./design/routing-and-navigation.md).
-- **Environment Variables** — Runtime-attached (not `process.env`). Registered via `initializeFirefly()` or `runtime.registerVariable()`.
+- **Environment Variables** — Runtime-attached (not `process.env`). Registered via `initializeFirefly()` or `runtime.registerEnvironmentVariable()` / `runtime.registerEnvironmentVariables()`.
 - **Cross-Module Communication** — Event bus (pub/sub), plugins, shared types. See [cross-module-communication.md](./design/cross-module-communication.md).
 
 ## Sample Applications

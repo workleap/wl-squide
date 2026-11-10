@@ -31,7 +31,7 @@ useEventBusListener("tenant-changed", handler, { once: true });
 ## Plugins
 
 Extensible system for custom cross-cutting concerns. Plugins are registered at initialization
-and accessed via `usePlugin(PluginClass)`:
+and accessed by name via `usePlugin(pluginName)`:
 
 ```tsx
 const runtime = initializeFirefly({
@@ -39,7 +39,7 @@ const runtime = initializeFirefly({
 });
 
 // In a component
-const plugin = usePlugin(MyPlugin);
+const plugin = usePlugin(MyPlugin.name);
 ```
 
 `Plugin` (`packages/core/src/plugins/Plugin.ts`) carries one optional lifecycle method,
