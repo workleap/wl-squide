@@ -18,11 +18,8 @@
     },
 
     // Languages
+    // TypeScript 7 language service: the TypeScriptTeam.native-preview extension (.vscode/extensions.json).
     "typescript.preferences.useAliasesForRenames": false,
-    "typescript.tsdk": "node_modules\\typescript\\lib",
-
-    // "typescript.experimental.useTsgo": true,
-    // "typescript.tsdk": "node_modules\\@typescript\\native-preview\\lib",
 
     "javascript.preferences.useAliasesForRenames": false,
 

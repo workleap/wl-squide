@@ -31,7 +31,7 @@
     },
     "scripts": {
         "build": "rslib build --config ./rslib.build.ts",
-        "typecheck": "tsgo",
+        "typecheck": "tsc",
         "test": "vitest --config vitest.config.ts --no-watch"
     },
     "dependencies": {
@@ -43,7 +43,6 @@
         "@rslib/core": "1.0.3",
         "@types/node": "26.6.5",
         "@types/react": "19.3.0",
-        "@typescript/native-preview": "7.0.0-dev.20260707.2",
         "@workleap/logging": "2.0.1",
         "@workleap/rslib-configs": "2.0.0",
         "@workleap/typescript-configs": "5.0.0",

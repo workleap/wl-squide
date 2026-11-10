@@ -179,9 +179,6 @@ importers:
       '@types/node':
         specifier: 26.6.5
         version: 26.6.5
-      '@typescript/native-preview':
-        specifier: 7.0.0-dev.20260707.2
-        version: 7.0.0-dev.20260707.2
       '@workleap/typescript-configs':
         specifier: 5.0.0
         version: 5.0.0(typescript@7.0.2)
@@ -243,9 +240,6 @@ importers:
       '@types/react':
         specifier: 19.3.0
         version: 19.3.0
-      '@typescript/native-preview':
-        specifier: 7.0.0-dev.20260707.2
-        version: 7.0.0-dev.20260707.2
       '@vitejs/plugin-react':
         specifier: 6.1.2
         version: 6.1.2(vite@8.3.5(@types/node@26.6.5)(esbuild@0.28.2)(jiti@2.7.0)(terser@5.51.2)(tsx@4.23.15)(yaml@2.9.1))
@@ -289,9 +283,6 @@ importers:
       '@types/react':
         specifier: 19.3.0
         version: 19.3.0
-      '@typescript/native-preview':
-        specifier: 7.0.0-dev.20260707.2
-        version: 7.0.0-dev.20260707.2
       '@vitejs/plugin-react':
         specifier: 6.1.2
         version: 6.1.2(vite@8.3.5(@types/node@26.6.5)(esbuild@0.28.2)(jiti@2.7.0)(terser@5.51.2)(tsx@4.23.15)(yaml@2.9.1))
@@ -326,9 +317,6 @@ importers:
       '@types/node':
         specifier: 26.6.5
         version: 26.6.5
-      '@typescript/native-preview':
-        specifier: 7.0.0-dev.20260707.2
-        version: 7.0.0-dev.20260707.2
       '@workleap/rslib-configs':
         specifier: 2.0.0
         version: 2.0.0(@rsbuild/core@2.2.14(@module-federation/runtime-tools@2.9.2)(core-js@3.51.0))(@rslib/core@1.0.3(@module-federation/runtime-tools@2.9.2)(core-js@3.51.0)(typescript@7.0.2))(@rspack/core@2.2.9(@module-federation/runtime-tools@2.9.2)(@swc/helpers@0.5.23))(supports-color@11.0.0)(typescript@7.0.2)
@@ -405,9 +393,6 @@ importers:
       '@types/react-dom':
         specifier: 19.3.0
         version: 19.3.0(@types/react@19.3.0)
-      '@typescript/native-preview':
-        specifier: 7.0.0-dev.20260707.2
-        version: 7.0.0-dev.20260707.2
       '@vitejs/plugin-react':
         specifier: 6.1.2
         version: 6.1.2(vite@8.3.5(@types/node@26.6.5)(esbuild@0.28.2)(jiti@2.7.0)(terser@5.51.2)(tsx@4.23.15)(yaml@2.9.1))
@@ -481,9 +466,6 @@ importers:
       '@types/react-dom':
         specifier: 19.3.0
         version: 19.3.0(@types/react@19.3.0)
-      '@typescript/native-preview':
-        specifier: 7.0.0-dev.20260707.2
-        version: 7.0.0-dev.20260707.2
       '@vitejs/plugin-react':
         specifier: 6.1.2
         version: 6.1.2(vite@8.3.5(@types/node@26.6.5)(esbuild@0.28.2)(jiti@2.7.0)(terser@5.51.2)(tsx@4.23.15)(yaml@2.9.1))
@@ -536,9 +518,6 @@ importers:
       '@types/semver':
         specifier: 7.8.0
         version: 7.8.0
-      '@typescript/native-preview':
-        specifier: 7.0.0-dev.20260707.2
-        version: 7.0.0-dev.20260707.2
       '@workleap/rslib-configs':
         specifier: 2.0.0
         version: 2.0.0(@rsbuild/core@2.2.14(@module-federation/runtime-tools@2.9.2)(core-js@3.51.0))(@rslib/core@1.0.3(@module-federation/runtime-tools@2.9.2)(core-js@3.51.0)(typescript@7.0.2))(@rspack/core@2.2.9(@module-federation/runtime-tools@2.9.2)(@swc/helpers@0.5.23))(supports-color@11.0.0)(typescript@7.0.2)
@@ -618,9 +597,6 @@ importers:
       '@types/react-dom':
         specifier: 19.3.0
         version: 19.3.0(@types/react@19.3.0)
-      '@typescript/native-preview':
-        specifier: 7.0.0-dev.20260707.2
-        version: 7.0.0-dev.20260707.2
       '@vitejs/plugin-react':
         specifier: 6.1.2
         version: 6.1.2(vite@8.3.5(@types/node@26.6.5)(esbuild@0.28.2)(jiti@2.7.0)(terser@5.51.2)(tsx@4.23.15)(yaml@2.9.1))
@@ -685,9 +661,6 @@ importers:
       '@types/semver':
         specifier: 7.8.0
         version: 7.8.0
-      '@typescript/native-preview':
-        specifier: 7.0.0-dev.20260707.2
-        version: 7.0.0-dev.20260707.2
       '@workleap/rslib-configs':
         specifier: 2.0.0
         version: 2.0.0(@rsbuild/core@2.2.14(@module-federation/runtime-tools@2.9.2)(core-js@3.51.0))(@rslib/core@1.0.3(@module-federation/runtime-tools@2.9.2)(core-js@3.51.0)(typescript@7.0.2))(@rspack/core@2.2.9(@module-federation/runtime-tools@2.9.2)(@swc/helpers@0.5.23))(supports-color@11.0.0)(typescript@7.0.2)
@@ -740,9 +713,6 @@ importers:
       '@types/react':
         specifier: 19.3.0
         version: 19.3.0
-      '@typescript/native-preview':
-        specifier: 7.0.0-dev.20260707.2
-        version: 7.0.0-dev.20260707.2
       '@workleap/logging':
         specifier: 2.0.1
         version: 2.0.1
@@ -795,9 +765,6 @@ importers:
       '@types/react-dom':
         specifier: 19.3.0
         version: 19.3.0(@types/react@19.3.0)
-      '@typescript/native-preview':
-        specifier: 7.0.0-dev.20260707.2
-        version: 7.0.0-dev.20260707.2
       '@vitejs/plugin-react':
         specifier: 6.1.2
         version: 6.1.2(vite@8.3.5(@types/node@26.6.5)(esbuild@0.28.2)(jiti@2.7.0)(terser@5.51.2)(tsx@4.23.15)(yaml@2.9.1))
@@ -838,9 +805,6 @@ importers:
       '@types/node':
         specifier: 26.6.5
         version: 26.6.5
-      '@typescript/native-preview':
-        specifier: 7.0.0-dev.20260707.2
-        version: 7.0.0-dev.20260707.2
       '@vitejs/plugin-react':
         specifier: 6.1.2
         version: 6.1.2(vite@8.3.5(@types/node@26.6.5)(esbuild@0.28.2)(jiti@2.7.0)(terser@5.51.2)(tsx@4.23.15)(yaml@2.9.1))
@@ -899,9 +863,6 @@ importers:
       '@types/react-dom':
         specifier: 19.3.0
         version: 19.3.0(@types/react@19.3.0)
-      '@typescript/native-preview':
-        specifier: 7.0.0-dev.20260707.2
-        version: 7.0.0-dev.20260707.2
       '@vitejs/plugin-react':
         specifier: 6.1.2
         version: 6.1.2(vite@8.3.5(@types/node@26.6.5)(esbuild@0.28.2)(jiti@2.7.0)(terser@5.51.2)(tsx@4.23.15)(yaml@2.9.1))
@@ -975,9 +936,6 @@ importers:
       '@types/react-dom':
         specifier: 19.3.0
         version: 19.3.0(@types/react@19.3.0)
-      '@typescript/native-preview':
-        specifier: 7.0.0-dev.20260707.2
-        version: 7.0.0-dev.20260707.2
       '@workleap/browserslist-config':
         specifier: 3.0.0
         version: 3.0.0
@@ -1072,9 +1030,6 @@ importers:
       '@types/react-dom':
         specifier: 19.3.0
         version: 19.3.0(@types/react@19.3.0)
-      '@typescript/native-preview':
-        specifier: 7.0.0-dev.20260707.2
-        version: 7.0.0-dev.20260707.2
       '@workleap/browserslist-config':
         specifier: 3.0.0
         version: 3.0.0
@@ -1148,9 +1103,6 @@ importers:
       '@types/node':
         specifier: 26.6.5
         version: 26.6.5
-      '@typescript/native-preview':
-        specifier: 7.0.0-dev.20260707.2
-        version: 7.0.0-dev.20260707.2
       '@workleap/browserslist-config':
         specifier: 3.0.0
         version: 3.0.0
@@ -1239,9 +1191,6 @@ importers:
       '@types/react-dom':
         specifier: 19.3.0
         version: 19.3.0(@types/react@19.3.0)
-      '@typescript/native-preview':
-        specifier: 7.0.0-dev.20260707.2
-        version: 7.0.0-dev.20260707.2
       '@workleap/browserslist-config':
         specifier: 3.0.0
         version: 3.0.0
@@ -1297,9 +1246,6 @@ importers:
       '@types/react-dom':
         specifier: 19.3.0
         version: 19.3.0(@types/react@19.3.0)
-      '@typescript/native-preview':
-        specifier: 7.0.0-dev.20260707.2
-        version: 7.0.0-dev.20260707.2
       '@workleap/typescript-configs':
         specifier: 5.0.0
         version: 5.0.0(typescript@7.0.2)
@@ -1343,9 +1289,6 @@ importers:
       '@types/react-dom':
         specifier: 19.3.0
         version: 19.3.0(@types/react@19.3.0)
-      '@typescript/native-preview':
-        specifier: 7.0.0-dev.20260707.2
-        version: 7.0.0-dev.20260707.2
       '@workleap/typescript-configs':
         specifier: 5.0.0
         version: 5.0.0(typescript@7.0.2)
@@ -1404,9 +1347,6 @@ importers:
       '@types/react-dom':
         specifier: 19.3.0
         version: 19.3.0(@types/react@19.3.0)
-      '@typescript/native-preview':
-        specifier: 7.0.0-dev.20260707.2
-        version: 7.0.0-dev.20260707.2
       '@workleap/browserslist-config':
         specifier: 3.0.0
         version: 3.0.0
@@ -1489,9 +1429,6 @@ importers:
       '@types/react-dom':
         specifier: 19.3.0
         version: 19.3.0(@types/react@19.3.0)
-      '@typescript/native-preview':
-        specifier: 7.0.0-dev.20260707.2
-        version: 7.0.0-dev.20260707.2
       '@workleap/browserslist-config':
         specifier: 3.0.0
         version: 3.0.0
@@ -1553,9 +1490,6 @@ importers:
       '@types/react-dom':
         specifier: 19.3.0
         version: 19.3.0(@types/react@19.3.0)
-      '@typescript/native-preview':
-        specifier: 7.0.0-dev.20260707.2
-        version: 7.0.0-dev.20260707.2
       '@workleap/browserslist-config':
         specifier: 3.0.0
         version: 3.0.0
@@ -1629,9 +1563,6 @@ importers:
       '@types/react-dom':
         specifier: 19.3.0
         version: 19.3.0(@types/react@19.3.0)
-      '@typescript/native-preview':
-        specifier: 7.0.0-dev.20260707.2
-        version: 7.0.0-dev.20260707.2
       '@workleap/browserslist-config':
         specifier: 3.0.0
         version: 3.0.0
@@ -1678,9 +1609,6 @@ importers:
       '@types/react-dom':
         specifier: 19.3.0
         version: 19.3.0(@types/react@19.3.0)
-      '@typescript/native-preview':
-        specifier: 7.0.0-dev.20260707.2
-        version: 7.0.0-dev.20260707.2
       '@workleap/typescript-configs':
         specifier: 5.0.0
         version: 5.0.0(typescript@7.0.2)
@@ -1724,9 +1652,6 @@ importers:
       '@types/react-dom':
         specifier: 19.3.0
         version: 19.3.0(@types/react@19.3.0)
-      '@typescript/native-preview':
-        specifier: 7.0.0-dev.20260707.2
-        version: 7.0.0-dev.20260707.2
       '@workleap/typescript-configs':
         specifier: 5.0.0
         version: 5.0.0(typescript@7.0.2)
@@ -1776,9 +1701,6 @@ importers:
       '@types/node':
         specifier: 26.6.5
         version: 26.6.5
-      '@typescript/native-preview':
-        specifier: 7.0.0-dev.20260707.2
-        version: 7.0.0-dev.20260707.2
       '@workleap/typescript-configs':
         specifier: 5.0.0
         version: 5.0.0(typescript@7.0.2)
@@ -1876,9 +1798,6 @@ importers:
       '@types/react-dom':
         specifier: 19.3.0
         version: 19.3.0(@types/react@19.3.0)
-      '@typescript/native-preview':
-        specifier: 7.0.0-dev.20260707.2
-        version: 7.0.0-dev.20260707.2
       '@workleap/browserslist-config':
         specifier: 3.0.0
         version: 3.0.0
@@ -1934,9 +1853,6 @@ importers:
       '@types/node':
         specifier: 26.6.5
         version: 26.6.5
-      '@typescript/native-preview':
-        specifier: 7.0.0-dev.20260707.2
-        version: 7.0.0-dev.20260707.2
       '@workleap/typescript-configs':
         specifier: 5.0.0
         version: 5.0.0(typescript@7.0.2)
@@ -1986,9 +1902,6 @@ importers:
       '@types/react-dom':
         specifier: 19.3.0
         version: 19.3.0(@types/react@19.3.0)
-      '@typescript/native-preview':
-        specifier: 7.0.0-dev.20260707.2
-        version: 7.0.0-dev.20260707.2
       '@workleap/typescript-configs':
         specifier: 5.0.0
         version: 5.0.0(typescript@7.0.2)
@@ -2041,9 +1954,6 @@ importers:
       '@types/react-dom':
         specifier: 19.3.0
         version: 19.3.0(@types/react@19.3.0)
-      '@typescript/native-preview':
-        specifier: 7.0.0-dev.20260707.2
-        version: 7.0.0-dev.20260707.2
       '@workleap/browserslist-config':
         specifier: 3.0.0
         version: 3.0.0
@@ -2150,9 +2060,6 @@ importers:
       '@types/react-dom':
         specifier: 19.3.0
         version: 19.3.0(@types/react@19.3.0)
-      '@typescript/native-preview':
-        specifier: 7.0.0-dev.20260707.2
-        version: 7.0.0-dev.20260707.2
       '@workleap/browserslist-config':
         specifier: 3.0.0
         version: 3.0.0
@@ -2214,9 +2121,6 @@ importers:
       '@types/uuid':
         specifier: 11.0.0
         version: 11.0.0
-      '@typescript/native-preview':
-        specifier: 7.0.0-dev.20260707.2
-        version: 7.0.0-dev.20260707.2
       '@workleap/typescript-configs':
         specifier: 5.0.0
         version: 5.0.0(typescript@7.0.2)
@@ -2281,9 +2185,6 @@ importers:
       '@types/react-dom':
         specifier: 19.3.0
         version: 19.3.0(@types/react@19.3.0)
-      '@typescript/native-preview':
-        specifier: 7.0.0-dev.20260707.2
-        version: 7.0.0-dev.20260707.2
       '@workleap/typescript-configs':
         specifier: 5.0.0
         version: 5.0.0(typescript@7.0.2)
@@ -2330,9 +2231,6 @@ importers:
       '@types/react-dom':
         specifier: 19.3.0
         version: 19.3.0(@types/react@19.3.0)
-      '@typescript/native-preview':
-        specifier: 7.0.0-dev.20260707.2
-        version: 7.0.0-dev.20260707.2
       '@workleap/rsbuild-configs':
         specifier: 5.0.0
         version: 5.0.0(@emnapi/core@1.11.3)(@emnapi/runtime@1.11.3)(@rsbuild/core@2.2.14(@module-federation/runtime-tools@2.9.2)(core-js@3.51.0))(@rspack/core@2.2.9(@module-federation/runtime-tools@2.9.2)(@swc/helpers@0.5.23))(supports-color@11.0.0)(typescript@7.0.2)
@@ -2388,9 +2286,6 @@ importers:
       '@types/react-dom':
         specifier: 19.3.0
         version: 19.3.0(@types/react@19.3.0)
-      '@typescript/native-preview':
-        specifier: 7.0.0-dev.20260707.2
-        version: 7.0.0-dev.20260707.2
       '@workleap/browserslist-config':
         specifier: 3.0.0
         version: 3.0.0
@@ -17224,6 +17119,7 @@ snapshots:
       '@typescript/native-preview-linux-x64': 7.0.0-dev.20260707.2
       '@typescript/native-preview-win32-arm64': 7.0.0-dev.20260707.2
       '@typescript/native-preview-win32-x64': 7.0.0-dev.20260707.2
+    optional: true
 
   '@typescript/typescript-aix-ppc64@7.0.2':
     optional: true

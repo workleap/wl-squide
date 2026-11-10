@@ -15,7 +15,7 @@
         "build:copy-public-files": "copyfiles -u 1 public/favicon.png public/mockServiceWorker.js dist",
         "serve-build": "pnpm http-server dist -p 8080 -P http://localhost:8080? -c-1",
         "deploy": "netlify deploy --dir=samples/endpoints/host/dist --site=4bde6b8b-cea6-487f-913b-acec9332eb2f --prod",
-        "typecheck": "tsgo"
+        "typecheck": "tsc"
     },
     "dependencies": {
         "@endpoints/i18next": "workspace:*",
@@ -48,7 +48,6 @@
         "@types/node": "26.6.5",
         "@types/react": "19.3.0",
         "@types/react-dom": "19.3.0",
-        "@typescript/native-preview": "7.0.0-dev.20260707.2",
         "@workleap/browserslist-config": "3.0.0",
         "@workleap/typescript-configs": "5.0.0",
         "browserslist": "4.29.4",
