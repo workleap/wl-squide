@@ -13,10 +13,10 @@ const runtime = initializeFirefly({
     localModules: [registerShell(), registerDev, registerLocalModule],
     plugins: [x => createI18NextPlugin(x)],
     loggers: [new BrowserConsoleLogger()],
-    startMsw: async () => {
+    startMsw: async x => {
         // Files that includes an import to the "msw" package are included dynamically to prevent adding
         // unused MSW stuff to the code bundles.
-        (await import("../../mocks/browser.ts")).startMsw(runtime.requestHandlers);
+        return (await import("../../mocks/browser.ts")).startMsw(x.requestHandlers);
     }
 });
 

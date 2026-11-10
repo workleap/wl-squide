@@ -81,10 +81,13 @@ export function AuthenticatedLayout() {
 
                     logger.debug("[shell] The user session has been cleared.");
 
-                    navigate("/logout");
+                    return navigate("/logout");
                 })
-                .catch(() => {
-                    throw new Error("An unknown error happened while disconnecting the user.");
+                .catch((error: unknown) => {
+                    logger
+                        .withText("[shell] An error happened while disconnecting the user.")
+                        .withError(error as Error)
+                        .error();
                 });
         },
         [logger, navigate, sessionManager, authenticationApiBaseUrl]
@@ -98,7 +101,7 @@ export function AuthenticatedLayout() {
                 logger.debug("[shell] Updated the user session.");
             });
 
-            queryClient.refetchQueries({ queryKey: [`${environmentVariables.sessionApiBaseUrl}getSession`] });
+            await queryClient.refetchQueries({ queryKey: [`${environmentVariables.sessionApiBaseUrl}getSession`] });
         },
         [logger, sessionApiBaseUrl, queryClient, environmentVariables]
     );
@@ -111,7 +114,7 @@ export function AuthenticatedLayout() {
                 logger.debug("[shell] Switch the user role.");
             });
 
-            queryClient.refetchQueries({ queryKey: [`${environmentVariables.userRoleApiBaseUrl}getRole`] });
+            await queryClient.refetchQueries({ queryKey: [`${environmentVariables.userRoleApiBaseUrl}getRole`] });
         },
         [logger, userRoleApiBaseUrl, queryClient, environmentVariables]
     );

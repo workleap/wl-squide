@@ -93,10 +93,7 @@ export default defineConfig({
         "promise/always-return": "off",
         "import/no-named-as-default-member": "off",
         "vitest/no-commented-out-tests": "off",
-        "vitest/require-to-throw-message": "off",
-        // ESLint never enforced these. Enable them in a follow-up once their findings are triaged.
-        "typescript/no-floating-promises": "off",
-        "typescript/no-misused-spread": "off"
+        "vitest/require-to-throw-message": "off"
     },
     overrides: [
         {

@@ -18,8 +18,9 @@ class TanstackQuerySessionManager implements SessionManager {
     clearSession() {
         this.#session = undefined;
 
-        this.#queryClient.invalidateQueries({ queryKey: ["/api/session"], refetchType: "inactive" });
-        this.#queryClient.invalidateQueries({ queryKey: ["/api/subscription"], refetchType: "inactive" });
+        // The refetch errors are reported by the queries themselves.
+        void this.#queryClient.invalidateQueries({ queryKey: ["/api/session"], refetchType: "inactive" });
+        void this.#queryClient.invalidateQueries({ queryKey: ["/api/subscription"], refetchType: "inactive" });
     }
 }
 

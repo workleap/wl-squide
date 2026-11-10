@@ -80,9 +80,7 @@ export default defineConfig({
         "promise/always-return": "off",
         "import/no-named-as-default-member": "off",
         "vitest/no-commented-out-tests": "off",
-        "vitest/require-to-throw-message": "off",
-        // The entry point loads `./bootstrap` with a dynamic `import()` it doesn't await.
-        "typescript/no-floating-promises": "off"
+        "vitest/require-to-throw-message": "off"
     },
     overrides: [
         {

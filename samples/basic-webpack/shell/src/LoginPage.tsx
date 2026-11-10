@@ -25,7 +25,7 @@ export function LoginPage({ host }: LoginProps) {
                     }
                 });
 
-                navigate("/");
+                void navigate("/");
             }
         },
         [username, password, navigate, sessionManager]

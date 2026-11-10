@@ -57,7 +57,7 @@ export function AuthenticatedLayout() {
 
             sessionManager?.clearSession();
 
-            navigate("/logout");
+            void navigate("/logout");
         },
         [navigate, sessionManager]
     );

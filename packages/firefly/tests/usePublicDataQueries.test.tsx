@@ -134,7 +134,7 @@ test('when data is updated, "public-data-updated" is dispatched', async ({ expec
 
     await waitFor(() => screen.findByText("bar"));
 
-    queryClient.refetchQueries({
+    await queryClient.refetchQueries({
         queryKey: ["foo"]
     });
 
@@ -378,13 +378,13 @@ describe("when a refetch fails after the data is ready", () => {
 
         await waitFor(() => screen.findByText("bar"));
 
-        queryClient.refetchQueries({
+        await queryClient.refetchQueries({
             queryKey: ["foo"]
         });
 
         await waitFor(() => screen.findByText("refetch-error"));
 
-        queryClient.refetchQueries({
+        await queryClient.refetchQueries({
             queryKey: ["foo"]
         });
 
@@ -438,7 +438,7 @@ describe("when a refetch fails after the data is ready", () => {
 
         await waitFor(() => screen.findByText("bar"));
 
-        queryClient.refetchQueries({
+        await queryClient.refetchQueries({
             queryKey: ["foo"]
         });
 

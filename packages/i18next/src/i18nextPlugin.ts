@@ -249,7 +249,8 @@ export class i18nextPlugin<T extends string = string> extends Plugin {
 
         if (language !== this.#currentLanguage) {
             this.#registry.getInstances().forEach(x => {
-                x.changeLanguage(language);
+                // i18next resolves "changeLanguage" even when a load fails, and the resources are already loaded.
+                void x.changeLanguage(language);
             });
 
             this.#currentLanguage = language;
@@ -334,7 +335,7 @@ export class i18nextPlugin<T extends string = string> extends Plugin {
             // react-i18next re-renders on "languageChanged" and not on "added", therefore the bundles are invisible to
             // the mounted components until the language is applied again. It also repopulates "resolvedLanguage".
             if (instance.language === language) {
-                instance.changeLanguage(language);
+                void instance.changeLanguage(language);
             }
 
             this._runtime.logger.debug(`[squide] Loaded the "${language}" resources of the i18next instance with key "${key}".`);

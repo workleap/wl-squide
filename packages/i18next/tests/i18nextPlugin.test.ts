@@ -47,38 +47,38 @@ class DummyRuntime extends Runtime {
     }
 }
 
-test.concurrent("when the language is changed, the registered language changed listeners are called", ({ expect }) => {
+test.concurrent("when the language is changed, the registered language changed listeners are called", async ({ expect }) => {
     const plugin = new i18nextPlugin(new DummyRuntime(), ["en-US", "fr-CA"], "en-US", "language");
 
     const listener = vi.fn();
 
     plugin.registerLanguageChangedListener(listener);
-    plugin.changeLanguage("fr-CA");
+    await plugin.changeLanguage("fr-CA");
 
     expect(listener).toHaveBeenCalledTimes(1);
 });
 
-test.concurrent("when the language is changed to the current language, the registered language changed listeners are not called", ({ expect }) => {
+test.concurrent("when the language is changed to the current language, the registered language changed listeners are not called", async ({ expect }) => {
     const plugin = new i18nextPlugin(new DummyRuntime(), ["en-US", "fr-CA"], "en-US", "language");
 
-    plugin.changeLanguage("fr-CA");
+    await plugin.changeLanguage("fr-CA");
 
     const listener = vi.fn();
 
     plugin.registerLanguageChangedListener(listener);
-    plugin.changeLanguage("fr-CA");
+    await plugin.changeLanguage("fr-CA");
 
     expect(listener).not.toHaveBeenCalled();
 });
 
-test.concurrent("when a language changed listener is removed, it is not called anymore", ({ expect }) => {
+test.concurrent("when a language changed listener is removed, it is not called anymore", async ({ expect }) => {
     const plugin = new i18nextPlugin(new DummyRuntime(), ["en-US", "fr-CA"], "en-US", "language");
 
     const listener = vi.fn();
 
     plugin.registerLanguageChangedListener(listener);
     plugin.removeLanguageChangedListener(listener);
-    plugin.changeLanguage("fr-CA");
+    await plugin.changeLanguage("fr-CA");
 
     expect(listener).not.toHaveBeenCalled();
 });
@@ -100,7 +100,7 @@ function createPlugin(runtime: Runtime = new DummyRuntime(), { detect = true } =
 function createInstance(language: LanguageKey, resources: Resource = {}) {
     const instance = i18n.createInstance();
 
-    instance.init({
+    void instance.init({
         lng: language,
         resources
     });
@@ -261,7 +261,7 @@ describe.concurrent("registerInstance", () => {
 
         // Without "resources", i18next initializes asynchronously.
         const instance = i18n.createInstance();
-        instance.init({ lng: "en-US" });
+        void instance.init({ lng: "en-US" });
 
         expect(() =>
             plugin.registerInstance("an-instance", instance, {
@@ -274,7 +274,7 @@ describe.concurrent("registerInstance", () => {
         const plugin = createPlugin();
 
         const instance = i18n.createInstance();
-        instance.init({ lng: "en-US", initAsync: false });
+        void instance.init({ lng: "en-US", initAsync: false });
 
         expect(() =>
             plugin.registerInstance("an-instance", instance, {
@@ -327,7 +327,7 @@ describe.concurrent("changeLanguage", () => {
         expect(listener).toHaveBeenCalledOnce();
     });
 
-    test.concurrent("when only static instances are registered, the switch is observable synchronously", ({ expect }) => {
+    test.concurrent("when only static instances are registered, the switch is observable synchronously", async ({ expect }) => {
         const plugin = createPlugin();
 
         const instance = createInstance("en-US", {
@@ -340,11 +340,13 @@ describe.concurrent("changeLanguage", () => {
         const listener = vi.fn();
 
         plugin.registerLanguageChangedListener(listener);
-        plugin.changeLanguage("fr-CA");
+        const switched = plugin.changeLanguage("fr-CA");
 
         expect(plugin.currentLanguage).toBe("fr-CA");
         expect(instance.language).toBe("fr-CA");
         expect(listener).toHaveBeenCalledOnce();
+
+        await switched;
     });
 
     test.concurrent("when a static instance is registered alongside a lazy instance, the static instance is not loaded", async ({ expect }) => {
@@ -642,9 +644,11 @@ describe.concurrent("isReady", () => {
 
         await registerModules(runtime);
 
-        plugin.changeLanguage("fr-CA");
+        const switched = plugin.changeLanguage("fr-CA");
 
         expect(plugin.isReady()).toBeTruthy();
+
+        await switched;
     });
 
     test.concurrent("when a pending switch fails, the plugin is ready", async ({ expect }) => {

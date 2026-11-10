@@ -35,7 +35,7 @@ function TabsError() {
             event.preventDefault();
 
             // Reload the page to reset the error boundary.
-            navigate(0);
+            void navigate(0);
         },
         [navigate]
     );
