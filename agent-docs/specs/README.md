@@ -19,6 +19,8 @@ Detailed specifications and API documentation for `@squide/*` packages.
 | `@squide/launch-darkly` | `packages/launch-darkly` | `useFeatureFlag`, `useFeatureFlags`, `getFeatureFlag`, `InMemoryLaunchDarklyClient` |
 | `@squide/msw` | `packages/msw` | `MswPlugin`, request handler registration |
 | `@squide/fakes` | `packages/fakes` | `LocalStorageSessionManager` |
+| `@squide/firefly-storybook` | `packages/firefly-storybook` | `initializeFireflyForStorybook`, `withFireflyDecorator`, `withFeatureFlagsOverrideDecorator`, `StorybookRuntime` |
+| `@squide/firefly-module-federation` | `packages/firefly-module-federation` | `initializeFirefly` wrapper with a `remotes` option, `getModuleFederationPlugin`, remote module registration events |
 
 ## Build Tooling (internal)
 
@@ -28,8 +30,6 @@ Internal packages not intended for direct consumption.
 |---------|------|---------|
 | `@squide/firefly-rsbuild-configs` | `packages/firefly-rsbuild-configs` | Rsbuild configuration presets |
 | `@squide/firefly-webpack-configs` | `packages/firefly-webpack-configs` | Webpack configuration presets |
-| `@squide/firefly-storybook` | `packages/firefly-storybook` | Storybook integration |
-| `@squide/firefly-module-federation` | `packages/firefly-module-federation` | Module Federation runtime (legacy) |
 
 ## Source Layout
 
