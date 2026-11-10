@@ -21,7 +21,7 @@ Option 3. The event bus wraps `eventemitter3` and is created once in the `Runtim
 
 Consumer-facing hooks (`useEventBusDispatcher`, `useEventBusListener`) are typed via generics. The recommended pattern is for shared packages to define typed event name unions and re-export typed hooks (e.g., `useApplicationEventBusDispatcher = useEventBusDispatcher<MessageTypes>`), so modules never import from each other — they only share the type definition.
 
-Evidence: `packages/core/src/messaging/EventBus.ts` wraps `EventEmitter` with typed `addListener`, `removeListener`, `dispatch`. `packages/firefly/src/AppRouterReducer.ts` (line 320) dispatches `squide-${action.type}` for every state transition. `packages/firefly/src/honeycomb/registerHoneycombInstrumentation.ts` subscribes to lifecycle events for trace instrumentation. `samples/basic/shared/src/useToast.ts` shows a shared hook wrapping `useEventBusDispatcher` / `useEventBusListener`.
+Evidence: `packages/core/src/messaging/EventBus.ts` wraps `EventEmitter` with typed `addListener`, `removeListener`, `dispatch`. `packages/firefly/src/AppRouterReducer.ts` (`useEnhancedReducerDispatch`) dispatches `squide-${action.type}` for every state transition. `packages/firefly/src/honeycomb/registerHoneycombInstrumentation.ts` subscribes to lifecycle events for trace instrumentation. `samples/basic/shared/src/useToast.ts` shows a shared hook wrapping `useEventBusDispatcher` / `useEventBusListener`.
 
 ## Consequences
 
