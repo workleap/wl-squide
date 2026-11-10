@@ -25,7 +25,8 @@
     },
     "publishConfig": {
         "access": "public",
-        "provenance": true
+        "provenance": true,
+        "registry": "https://registry.npmjs.org/"
     },
     "scripts": {
         "dev": "rslib build --watch --config ./rslib.dev.ts",

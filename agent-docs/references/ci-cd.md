@@ -20,7 +20,7 @@
 ## CI Pipeline Details
 
 The main CI workflow (`ci.yml`) runs on `ubuntu-latest` with:
-- pnpm install with frozen lockfile
+- An "Authenticate to the GitHub package firewall" step that writes `github.token` to `~/.npmrc`, followed by pnpm install with frozen lockfile. Every workflow that runs pnpm needs that step before its install (see [development.md](./development.md#github-package-firewall))
 - Turborepo caching (SHA-keyed with restore keys)
 - Incremental builds on PRs (only diverging packages)
 - Full builds on main branch pushes

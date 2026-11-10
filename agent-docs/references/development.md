@@ -53,15 +53,21 @@ Samples are deployed to Netlify:
 
 Use `pnpm add -D --save-exact <package>` (or `pnpm add -DE <package>`) to ensure exact versions.
 
-### Minimum release age
+### GitHub package firewall
 
-`pnpm-workspace.yaml` sets `minimumReleaseAge: 10080` (7 days, in minutes): pnpm refuses to resolve package versions published less than 7 days ago. Packages listed under `minimumReleaseAgeExclude` (`@workleap/*`, `@typescript/native-preview*`, `@workleap-telemetry/*`) bypass the gate. Do NOT lower the value or add exclusions to install a freshly published version — wait for it to age past the window.
+The repository `.npmrc` routes every install through the `gsoft` GitHub package firewall (`https://package-firewall.githubapp.com/npm/enterprises/gsoft`). The firewall decides which versions are installable: it blocks versions that violate its policies (e.g. `AttestationDowngradePolicy`, a release without the provenance an earlier version had) and doesn't serve releases younger than roughly 42 to 48 hours.
+
+- **Auth token**: lives in the user-level `~/.npmrc` (see CONTRIBUTING.md). pnpm ignores auth tokens in a repository `.npmrc`. CI writes `github.token` to `~/.npmrc` before installing, in every workflow that runs pnpm.
+- **`minimumReleaseAge: 0`**: disables pnpm's own release-age gate; the firewall enforces it instead. Do NOT remove the setting: pnpm 12 then falls back to a 24-hour default and silently adds `minimumReleaseAgeExclude` entries when a younger version is pinned.
+- **Blocked versions**: when a version exists on npmjs but the install can't resolve or download it, the firewall blocks it. Pin a version the firewall serves with a scoped override (see below).
+- **Publishing**: published packages set `publishConfig.registry` to `https://registry.npmjs.org/`, and `changeset.yml` sets `pnpm_config_registry` on the publish step. See [release-process.md](./release-process.md).
 
 ### Pinned transitive dependencies (pnpm overrides)
 
 `pnpm-workspace.yaml` has an `overrides:` block that pins transitive deps to specific versions. Each entry exists for a concrete reason — do NOT remove or relax them without verifying the underlying issue is gone (test builds AND tests, not just `pnpm install`):
 
 - **`terser-webpack-plugin: 5.4.0`** — 5.6.0 leaks `extractComments` into swc-minify options, which swc rejects. `@workleap/webpack-configs` uses `TerserPlugin.swcMinify`, so without this pin the `basic-webpack` sample's webpack build fails with `unknown field 'extractComments'`.
+- **`ts-checker-rspack-plugin>chokidar: 4.0.1`** — the package firewall blocks `chokidar@4.0.3` (`AttestationDowngradePolicy`) and serves nothing newer in 4.x.
 
 **Important pnpm quirk:** changing an `overrides` entry does NOT trigger re-resolution on `pnpm install` (even with `--force` or `--no-frozen-lockfile`) — pnpm reports "Already up to date" and leaves the old versions in the lockfile. To apply override changes, delete `pnpm-lock.yaml` and run `pnpm install --lockfile-only`.
 
