@@ -80,7 +80,7 @@ const Remotes: RemoteDefinition = [
 
 The `name` option of a remote definition **must match** the `name` option defined in the remote module [ModuleFederationPlugin](https://module-federation.io/configure/index.html) configuration.
 
-If you are using either the Squide [defineDevRemoteModuleConfig](../webpack/defineDevRemoteModuleConfig.md) or [defineBuildRemoteModuleConfig](../webpack/defineBuildRemoteModuleConfig.md) functions to add the `ModuleFederationPlugin` to the remote module webpack [configuration object](https://module-federation.io/), then the remote module `name` is the second argument of the function.
+If you are using either the Squide [defineDevRemoteModuleConfig](../rsbuild/defineDevRemoteModuleConfig.md) or [defineBuildRemoteModuleConfig](../rsbuild/defineBuildRemoteModuleConfig.md) functions to add the `ModuleFederationPlugin` to the remote module Rsbuild [configuration object](https://rsbuild.dev/config/index), then the remote module `name` is the first argument of the function.
 
 In the following exemple, the remote module `name` is `remote1`.
 
@@ -90,11 +90,8 @@ const Remotes: RemoteDefinition = [
 ];
 ```
 
-```js !#6 remote-module/webpack.dev.js
-// @ts-check
+```ts !#3 remote-module/rsbuild.dev.ts
+import { defineDevRemoteModuleConfig } from "@squide/firefly-rsbuild-configs";
 
-import { defineDevRemoteModuleConfig } from "@squide/firefly-webpack-configs";
-import { swcConfig } from "./swc.dev.js";
-
-export default defineDevRemoteModuleConfig(swcConfig, "remote1", 8081);
+export default defineDevRemoteModuleConfig("remote1", 8081);
 ```

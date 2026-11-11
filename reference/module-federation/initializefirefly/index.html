@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <meta name="color-scheme" content="light dark">
     <meta name="turbo-root" content="/wl-squide">
-    <meta name="turbo-cache-control" content="no-cache" data-turbo-track="reload" data-track-token="4.6.0.847725579272">
+    <meta name="turbo-cache-control" content="no-cache" data-turbo-track="reload" data-track-token="4.6.0.847725956690">
 
     <!-- See retype.com -->
     <meta name="generator" content="Retype 4.6.0">
@@ -39,12 +39,12 @@
     <script data-cfasync="false">(function(){var cl=document.documentElement.classList,ls=localStorage.getItem("retype_scheme"),hd=cl.contains("dark"),hl=cl.contains("light"),wm=window.matchMedia&&window.matchMedia("(prefers-color-scheme: dark)").matches;if(ls==="dark"||(!ls&&wm&&!hd&&!hl)){cl.remove("light");cl.add("dark")}else if(ls==="light"||(!ls&&!wm&&!hd&&!hl)){cl.remove("dark");cl.add("light")}})();</script>
 
     <link id="retype-favicon" rel="icon" href="../../../static/favicon.png" />
-    <link href="../../../resources/css/retype.css?v=4.6.0.847725579272" rel="stylesheet">
+    <link href="../../../resources/css/retype.css?v=4.6.0.847725956690" rel="stylesheet">
 
-    <script data-cfasync="false" src="../../../resources/js/config.js?v=4.6.0.847725579272" data-turbo-eval="false" defer></script>
+    <script data-cfasync="false" src="../../../resources/js/config.js?v=4.6.0.847725956690" data-turbo-eval="false" defer></script>
     <script data-cfasync="false" src="../../../resources/js/retype.js?v=4.6.0" data-turbo-eval="false" defer></script>
-    <script id="lunr-js" data-cfasync="false" src="../../../resources/js/lunr.js?v=4.6.0.847725579272" data-turbo-eval="false" defer></script>
-    <script id="prism-js" data-cfasync="false" src="../../../resources/js/prism.js?v=4.6.0.847725579272" defer></script>
+    <script id="lunr-js" data-cfasync="false" src="../../../resources/js/lunr.js?v=4.6.0.847725956690" data-turbo-eval="false" defer></script>
+    <script id="prism-js" data-cfasync="false" src="../../../resources/js/prism.js?v=4.6.0.847725956690" defer></script>
 
     <link href="https://workleap.github.io/wl-idp-docs-hub/static/retype-customization.css" rel="stylesheet" />
 
@@ -356,7 +356,7 @@ const Remotes: RemoteDefinition = [
 </doc-codeblock></div>
 <h3 id="name"><code translate="no" v-pre>name</code></h3>
 <p>The <code translate="no" v-pre>name</code> option of a remote definition <strong>must match</strong> the <code translate="no" v-pre>name</code> option defined in the remote module <a href="https://module-federation.io/configure/index.html" class="outbound" target="_blank">ModuleFederationPlugin</a> configuration.</p>
-<p>If you are using either the Squide <a href="../../webpack/definedevremotemoduleconfig/">defineDevRemoteModuleConfig</a> or <a href="../../webpack/definebuildremotemoduleconfig/">defineBuildRemoteModuleConfig</a> functions to add the <code translate="no" v-pre>ModuleFederationPlugin</code> to the remote module webpack <a href="https://module-federation.io/" class="outbound" target="_blank">configuration object</a>, then the remote module <code translate="no" v-pre>name</code> is the second argument of the function.</p>
+<p>If you are using either the Squide <a href="../../rsbuild/definedevremotemoduleconfig/">defineDevRemoteModuleConfig</a> or <a href="../../rsbuild/definebuildremotemoduleconfig/">defineBuildRemoteModuleConfig</a> functions to add the <code translate="no" v-pre>ModuleFederationPlugin</code> to the remote module Rsbuild <a href="https://rsbuild.dev/config/index" class="outbound" target="_blank">configuration object</a>, then the remote module <code translate="no" v-pre>name</code> is the first argument of the function.</p>
 <p>In the following exemple, the remote module <code translate="no" v-pre>name</code> is <code translate="no" v-pre>remote1</code>.</p>
 <div id="name-hostsrcbootstraptsx" class="codeblock-wrapper"><doc-codeblock>
 <div class="codeblock-title">host/src/bootstrap.tsx</div>
@@ -364,14 +364,11 @@ const Remotes: RemoteDefinition = [
     { name: &quot;remote1&quot; }
 ];</code></pre>
 </doc-codeblock></div>
-<div id="name-remote-modulewebpackdevjs" class="codeblock-wrapper"><doc-codeblock>
-<div class="codeblock-title">remote-module/webpack.dev.js</div>
-<pre translate="no" class="language-javascript" data-line="6"><code v-pre class="language-javascript">// @ts-check
+<div id="name-remote-modulersbuilddevts" class="codeblock-wrapper"><doc-codeblock>
+<div class="codeblock-title">remote-module/rsbuild.dev.ts</div>
+<pre translate="no" class="language-typescript" data-line="3"><code v-pre class="language-typescript">import { defineDevRemoteModuleConfig } from &quot;@squide/firefly-rsbuild-configs&quot;;
 
-import { defineDevRemoteModuleConfig } from &quot;@squide/firefly-webpack-configs&quot;;
-import { swcConfig } from &quot;./swc.dev.js&quot;;
-
-export default defineDevRemoteModuleConfig(swcConfig, &quot;remote1&quot;, 8081);</code></pre>
+export default defineDevRemoteModuleConfig(&quot;remote1&quot;, 8081);</code></pre>
 </doc-codeblock></div>
 <div id="retype-backlinks">
     <h2>See also</h2>

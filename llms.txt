@@ -170,13 +170,6 @@
 - [defineBuildHostConfig](https://workleap.github.io/wl-squide/reference/rsbuild/definebuildhostconfig.md): This package is in maintenance mode. To move to local modules, refer to the migration guide.
 - [defineBuildRemoteModuleConfig](https://workleap.github.io/wl-squide/reference/rsbuild/definebuildremotemoduleconfig.md): This package is in maintenance mode. To move to local modules, refer to the migration guide.
 
-### webpack
-
-- [defineDevHostConfig](https://workleap.github.io/wl-squide/reference/webpack/definedevhostconfig.md): If the application does not include any remote modules, use the defineDevConfig function from @workleap/webpack-configs instead of the defineDevHostConfig function.
-- [defineDevRemoteModuleConfig](https://workleap.github.io/wl-squide/reference/webpack/definedevremotemoduleconfig.md): Creates a webpack configuration object that is adapted for a Squide remote module application in development mode. This function is a wrapper built on top of @workleap/webpack-configs.
-- [defineBuildHostConfig](https://workleap.github.io/wl-squide/reference/webpack/definebuildhostconfig.md): If the application does not include any remote modules, use the defineBuildConfig function from @workleap/webpack-configs instead of the defineBuildHostConfig function.
-- [defineBuildRemoteModuleConfig](https://workleap.github.io/wl-squide/reference/webpack/definebuildremotemoduleconfig.md): Creates a webpack configuration object that is adapted for a Squide remote module application in build mode. This function is a wrapper built on top of @workleap/webpack-configs.
-
 ## Updating
 
 - [Migrate to firefly v9.0](https://workleap.github.io/wl-squide/updating/migrate-to-firefly-v9.0.md): If you are migrating from v8.*, follow the Migrate from v8.* to v15.0 guide.
