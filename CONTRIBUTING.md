@@ -45,10 +45,9 @@ Under [packages/](packages/) are the actual packages composing the modular appli
 
 Under [samples/](samples/) are applications to test the Squide functionalities while developing.
 
-You'll find four samples:
+You'll find three samples:
 
 - `basic`: A sample application showcasing the basic features of Squide.
-- `basic-webpack`: A sample application showcasing the basic features of Squide using webpack as a bundle.
 - `endpoints`: A more complexe sample application showcasing the different usecases related to data fetching and localization.
 - `storybook`: A sample application the Storybook integration.
 
@@ -157,12 +156,6 @@ Open a [VSCode terminals](https://code.visualstudio.com/docs/terminal/basics#_ma
 
 ```bash
 pnpm dev-basic
-```
-
-or
-
-```bash
-pnpm dev-basic-webpack
 ```
 
 or
@@ -318,14 +311,6 @@ Start a watch process for the "basic" sample application.
 pnpm dev-basic
 ```
 
-### dev-basic-webpack
-
-Start a watch process for the "basic" sample application using a webpack bundler.
-
-```bash
-pnpm dev-basic-webpack
-```
-
 ### dev-endpoints
 
 Start a watch process for the "endpoints" sample application.
@@ -366,14 +351,6 @@ Build the "basic" sample application for release.
 pnpm build-basic
 ```
 
-### build-basic-webpack
-
-Build for release the "basic" sample application using webpack bundler.
-
-```bash
-pnpm build-basic-webpack
-```
-
 ### build-endpoints
 
 Build the "endpoints" sample application for release.
@@ -396,14 +373,6 @@ Build the sample "basic" application for deployment and start a local web server
 
 ```bash
 pnpm serve-basic
-```
-
-### serve-basic-webpack
-
-Build the sample "basic" application using webpack bundler for deployment and start a local web server to serve the application.
-
-```bash
-pnpm serve-basic-webpack
 ```
 
 ### serve-endpoints
@@ -504,7 +473,7 @@ This action runs on a push on the `main` branch. If there is a file present in t
 
 ### CI
 
-This action will trigger when a commit is done in a PR to `main` or after a push to `main` and will run `build-pkg`, `build-basic`, `build-basic-webpack`, `build-basic-mix`, `build-endpoints`, `lint` and `test` commands on the source code.
+This action will trigger when a commit is done in a PR to `main` or after a push to `main` and will run `build-pkg`, `build-basic`, `build-endpoints`, `build-storybook`, `lint` and `test` commands on the source code.
 
 ### Retype
 

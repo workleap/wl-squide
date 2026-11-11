@@ -886,420 +886,6 @@ importers:
         specifier: 5.1.0
         version: 5.1.0(@opentelemetry/api@1.10.0)(@types/node@26.6.6)(happy-dom@21.0.4)(msw@3.0.4(@types/node@26.6.6)(supports-color@11.0.0)(typescript@7.0.2)(vite@8.3.6(@types/node@26.6.6)(esbuild@0.28.2)(jiti@2.7.0)(terser@5.51.2)(tsx@4.23.15)(yaml@2.9.1)))(vite@8.3.6(@types/node@26.6.6)(esbuild@0.28.2)(jiti@2.7.0)(terser@5.51.2)(tsx@4.23.15)(yaml@2.9.1))
 
-  samples/basic-webpack/another-remote-module:
-    dependencies:
-      '@basic-webpack/shared':
-        specifier: workspace:*
-        version: link:../shared
-      '@basic-webpack/shell':
-        specifier: workspace:*
-        version: link:../shell
-      '@react-aria/toast':
-        specifier: 3.1.1
-        version: 3.1.1(react-dom@19.3.1(react@19.3.1))(react@19.3.1)
-      '@react-stately/toast':
-        specifier: 3.2.1
-        version: 3.2.1(react-dom@19.3.1(react@19.3.1))(react@19.3.1)
-      '@squide/fakes':
-        specifier: workspace:*
-        version: link:../../../packages/fakes
-      '@squide/firefly':
-        specifier: workspace:*
-        version: link:../../../packages/firefly
-      '@workleap/logging':
-        specifier: 2.1.0
-        version: 2.1.0
-      react:
-        specifier: 19.3.1
-        version: 19.3.1
-      react-dom:
-        specifier: 19.3.1
-        version: 19.3.1(react@19.3.1)
-      react-router:
-        specifier: 8.5.1
-        version: 8.5.1(@types/react-dom@19.3.0(@types/react@19.3.0))(@types/react@19.3.0)(react-dom@19.3.1(react@19.3.1))(react@19.3.1)
-      useless-lib:
-        specifier: 3.0.0
-        version: 3.0.0
-    devDependencies:
-      '@squide/firefly-webpack-configs':
-        specifier: workspace:*
-        version: link:../../../packages/firefly-webpack-configs
-      '@swc/core':
-        specifier: 1.16.22
-        version: 1.16.22(@swc/helpers@0.5.24)
-      '@swc/helpers':
-        specifier: 0.5.24
-        version: 0.5.24
-      '@types/node':
-        specifier: 26.6.6
-        version: 26.6.6
-      '@types/react':
-        specifier: 19.3.0
-        version: 19.3.0
-      '@types/react-dom':
-        specifier: 19.3.0
-        version: 19.3.0(@types/react@19.3.0)
-      '@workleap/browserslist-config':
-        specifier: 3.1.0
-        version: 3.1.0
-      '@workleap/swc-configs':
-        specifier: 2.3.16
-        version: 2.3.16(@swc/core@1.16.22(@swc/helpers@0.5.24))(@swc/helpers@0.5.24)(browserslist@4.29.5)
-      '@workleap/typescript-configs':
-        specifier: 5.1.0
-        version: 5.1.0(typescript@7.0.2)
-      browserslist:
-        specifier: 4.29.5
-        version: 4.29.5
-      cross-env:
-        specifier: 10.1.0
-        version: 10.1.0
-      http-server:
-        specifier: 14.1.1
-        version: 14.1.1(debug@4.4.3(supports-color@11.0.0))(supports-color@11.0.0)
-      typescript:
-        specifier: 7.0.2
-        version: 7.0.2
-      webpack:
-        specifier: 5.110.3
-        version: 5.110.3(@napi-rs/image@1.11.2(@emnapi/core@1.11.3)(@emnapi/runtime@1.11.3))(@swc/core@1.16.22(@swc/helpers@0.5.24))(clean-css@5.3.3)(csso@5.0.5)(esbuild@0.28.2)(html-minifier-terser@7.2.0)(lightningcss@1.33.0)(postcss@8.5.32)(sharp@0.35.5(@types/node@26.6.6))(svgo@3.3.5)(webpack-cli@7.3.1)
-      webpack-cli:
-        specifier: 7.3.1
-        version: 7.3.1(js-yaml@5.5.0)(json5@2.2.3)(toml@5.0.1)(webpack-dev-server@5.2.4)(webpack@5.110.3)
-      webpack-dev-server:
-        specifier: 5.2.4
-        version: 5.2.4(debug@4.4.3(supports-color@11.0.0))(supports-color@11.0.0)(webpack-cli@7.3.1)(webpack@5.110.3)
-
-  samples/basic-webpack/host:
-    dependencies:
-      '@basic-webpack/local-module':
-        specifier: workspace:*
-        version: link:../local-module
-      '@basic-webpack/shared':
-        specifier: workspace:*
-        version: link:../shared
-      '@basic-webpack/shell':
-        specifier: workspace:*
-        version: link:../shell
-      '@react-aria/toast':
-        specifier: 3.1.1
-        version: 3.1.1(react-dom@19.3.1(react@19.3.1))(react@19.3.1)
-      '@react-stately/toast':
-        specifier: 3.2.1
-        version: 3.2.1(react-dom@19.3.1(react@19.3.1))(react@19.3.1)
-      '@squide/fakes':
-        specifier: workspace:*
-        version: link:../../../packages/fakes
-      '@squide/firefly':
-        specifier: workspace:*
-        version: link:../../../packages/firefly
-      '@squide/firefly-module-federation':
-        specifier: workspace:*
-        version: link:../../../packages/firefly-module-federation
-      '@tanstack/react-query':
-        specifier: 5.107.1
-        version: 5.107.1(@types/react@19.3.0)(react@19.3.1)
-      '@workleap/logging':
-        specifier: 2.1.0
-        version: 2.1.0
-      react:
-        specifier: 19.3.1
-        version: 19.3.1
-      react-dom:
-        specifier: 19.3.1
-        version: 19.3.1(react@19.3.1)
-      react-router:
-        specifier: 8.5.1
-        version: 8.5.1(@types/react-dom@19.3.0(@types/react@19.3.0))(@types/react@19.3.0)(react-dom@19.3.1(react@19.3.1))(react@19.3.1)
-      useless-lib:
-        specifier: ^2.0.0
-        version: 2.1.0
-    devDependencies:
-      '@squide/firefly-webpack-configs':
-        specifier: workspace:*
-        version: link:../../../packages/firefly-webpack-configs
-      '@swc/core':
-        specifier: 1.16.22
-        version: 1.16.22(@swc/helpers@0.5.24)
-      '@swc/helpers':
-        specifier: 0.5.24
-        version: 0.5.24
-      '@types/node':
-        specifier: 26.6.6
-        version: 26.6.6
-      '@types/react':
-        specifier: 19.3.0
-        version: 19.3.0
-      '@types/react-dom':
-        specifier: 19.3.0
-        version: 19.3.0(@types/react@19.3.0)
-      '@workleap/browserslist-config':
-        specifier: 3.1.0
-        version: 3.1.0
-      '@workleap/swc-configs':
-        specifier: 2.3.16
-        version: 2.3.16(@swc/core@1.16.22(@swc/helpers@0.5.24))(@swc/helpers@0.5.24)(browserslist@4.29.5)
-      '@workleap/typescript-configs':
-        specifier: 5.1.0
-        version: 5.1.0(typescript@7.0.2)
-      browserslist:
-        specifier: 4.29.5
-        version: 4.29.5
-      copyfiles:
-        specifier: 2.4.1
-        version: 2.4.1
-      http-server:
-        specifier: 14.1.1
-        version: 14.1.1(debug@4.4.3(supports-color@11.0.0))(supports-color@11.0.0)
-      typescript:
-        specifier: 7.0.2
-        version: 7.0.2
-      webpack:
-        specifier: 5.110.3
-        version: 5.110.3(@napi-rs/image@1.11.2(@emnapi/core@1.11.3)(@emnapi/runtime@1.11.3))(@swc/core@1.16.22(@swc/helpers@0.5.24))(clean-css@5.3.3)(csso@5.0.5)(esbuild@0.28.2)(html-minifier-terser@7.2.0)(lightningcss@1.33.0)(postcss@8.5.32)(sharp@0.35.5(@types/node@26.6.6))(svgo@3.3.5)(webpack-cli@7.3.1)
-      webpack-cli:
-        specifier: 7.3.1
-        version: 7.3.1(js-yaml@5.5.0)(json5@2.2.3)(toml@5.0.1)(webpack-dev-server@5.2.4)(webpack@5.110.3)
-      webpack-dev-server:
-        specifier: 5.2.4
-        version: 5.2.4(debug@4.4.3(supports-color@11.0.0))(supports-color@11.0.0)(webpack-cli@7.3.1)(webpack@5.110.3)
-
-  samples/basic-webpack/local-module:
-    dependencies:
-      '@basic-webpack/shared':
-        specifier: workspace:*
-        version: link:../shared
-      '@basic-webpack/shell':
-        specifier: workspace:*
-        version: link:../shell
-      '@squide/fakes':
-        specifier: workspace:*
-        version: link:../../../packages/fakes
-      '@squide/firefly':
-        specifier: workspace:*
-        version: link:../../../packages/firefly
-      '@types/react':
-        specifier: ^19.3.0
-        version: 19.3.0
-      '@types/react-dom':
-        specifier: ^19.3.0
-        version: 19.3.0(@types/react@19.3.0)
-      '@workleap/logging':
-        specifier: ^2.1.0
-        version: 2.1.0
-    devDependencies:
-      '@react-aria/toast':
-        specifier: 3.1.1
-        version: 3.1.1(react-dom@19.3.1(react@19.3.1))(react@19.3.1)
-      '@react-stately/toast':
-        specifier: 3.2.1
-        version: 3.2.1(react-dom@19.3.1(react@19.3.1))(react@19.3.1)
-      '@squide/firefly-webpack-configs':
-        specifier: workspace:*
-        version: link:../../../packages/firefly-webpack-configs
-      '@swc/core':
-        specifier: 1.16.22
-        version: 1.16.22(@swc/helpers@0.5.24)
-      '@swc/helpers':
-        specifier: 0.5.24
-        version: 0.5.24
-      '@types/node':
-        specifier: 26.6.6
-        version: 26.6.6
-      '@workleap/browserslist-config':
-        specifier: 3.1.0
-        version: 3.1.0
-      '@workleap/swc-configs':
-        specifier: 2.3.16
-        version: 2.3.16(@swc/core@1.16.22(@swc/helpers@0.5.24))(@swc/helpers@0.5.24)(browserslist@4.29.5)
-      '@workleap/typescript-configs':
-        specifier: 5.1.0
-        version: 5.1.0(typescript@7.0.2)
-      browserslist:
-        specifier: 4.29.5
-        version: 4.29.5
-      react:
-        specifier: 19.3.1
-        version: 19.3.1
-      react-dom:
-        specifier: 19.3.1
-        version: 19.3.1(react@19.3.1)
-      react-router:
-        specifier: 8.5.1
-        version: 8.5.1(@types/react-dom@19.3.0(@types/react@19.3.0))(@types/react@19.3.0)(react-dom@19.3.1(react@19.3.1))(react@19.3.1)
-      typescript:
-        specifier: 7.0.2
-        version: 7.0.2
-      webpack:
-        specifier: 5.110.3
-        version: 5.110.3(@napi-rs/image@1.11.2(@emnapi/core@1.11.3)(@emnapi/runtime@1.11.3))(@swc/core@1.16.22(@swc/helpers@0.5.24))(clean-css@5.3.3)(csso@5.0.5)(esbuild@0.28.2)(html-minifier-terser@7.2.0)(lightningcss@1.33.0)(postcss@8.5.32)(sharp@0.35.5(@types/node@26.6.6))(svgo@3.3.5)(webpack-cli@7.3.1)
-      webpack-cli:
-        specifier: 7.3.1
-        version: 7.3.1(js-yaml@5.5.0)(json5@2.2.3)(toml@5.0.1)(webpack-dev-server@5.2.4)(webpack@5.110.3)
-      webpack-dev-server:
-        specifier: 5.2.4
-        version: 5.2.4(debug@4.4.3(supports-color@11.0.0))(supports-color@11.0.0)(webpack-cli@7.3.1)(webpack@5.110.3)
-
-  samples/basic-webpack/remote-module:
-    dependencies:
-      '@basic-webpack/shared':
-        specifier: workspace:*
-        version: link:../shared
-      '@basic-webpack/shell':
-        specifier: workspace:*
-        version: link:../shell
-      '@react-aria/toast':
-        specifier: 3.1.1
-        version: 3.1.1(react-dom@19.3.1(react@19.3.1))(react@19.3.1)
-      '@react-stately/toast':
-        specifier: 3.2.1
-        version: 3.2.1(react-dom@19.3.1(react@19.3.1))(react@19.3.1)
-      '@squide/fakes':
-        specifier: workspace:*
-        version: link:../../../packages/fakes
-      '@squide/firefly':
-        specifier: workspace:*
-        version: link:../../../packages/firefly
-      '@workleap/logging':
-        specifier: 2.1.0
-        version: 2.1.0
-      react:
-        specifier: 19.3.1
-        version: 19.3.1
-      react-dom:
-        specifier: 19.3.1
-        version: 19.3.1(react@19.3.1)
-      react-router:
-        specifier: 8.5.1
-        version: 8.5.1(@types/react-dom@19.3.0(@types/react@19.3.0))(@types/react@19.3.0)(react-dom@19.3.1(react@19.3.1))(react@19.3.1)
-      useless-lib:
-        specifier: ^2.1.0
-        version: 2.1.0
-    devDependencies:
-      '@squide/firefly-webpack-configs':
-        specifier: workspace:*
-        version: link:../../../packages/firefly-webpack-configs
-      '@swc/core':
-        specifier: 1.16.22
-        version: 1.16.22(@swc/helpers@0.5.24)
-      '@swc/helpers':
-        specifier: 0.5.24
-        version: 0.5.24
-      '@types/node':
-        specifier: 26.6.6
-        version: 26.6.6
-      '@types/react':
-        specifier: 19.3.0
-        version: 19.3.0
-      '@types/react-dom':
-        specifier: 19.3.0
-        version: 19.3.0(@types/react@19.3.0)
-      '@workleap/browserslist-config':
-        specifier: 3.1.0
-        version: 3.1.0
-      '@workleap/swc-configs':
-        specifier: 2.3.16
-        version: 2.3.16(@swc/core@1.16.22(@swc/helpers@0.5.24))(@swc/helpers@0.5.24)(browserslist@4.29.5)
-      '@workleap/typescript-configs':
-        specifier: 5.1.0
-        version: 5.1.0(typescript@7.0.2)
-      browserslist:
-        specifier: 4.29.5
-        version: 4.29.5
-      cross-env:
-        specifier: 10.1.0
-        version: 10.1.0
-      http-server:
-        specifier: 14.1.1
-        version: 14.1.1(debug@4.4.3(supports-color@11.0.0))(supports-color@11.0.0)
-      typescript:
-        specifier: 7.0.2
-        version: 7.0.2
-      webpack:
-        specifier: 5.110.3
-        version: 5.110.3(@napi-rs/image@1.11.2(@emnapi/core@1.11.3)(@emnapi/runtime@1.11.3))(@swc/core@1.16.22(@swc/helpers@0.5.24))(clean-css@5.3.3)(csso@5.0.5)(esbuild@0.28.2)(html-minifier-terser@7.2.0)(lightningcss@1.33.0)(postcss@8.5.32)(sharp@0.35.5(@types/node@26.6.6))(svgo@3.3.5)(webpack-cli@7.3.1)
-      webpack-cli:
-        specifier: 7.3.1
-        version: 7.3.1(js-yaml@5.5.0)(json5@2.2.3)(toml@5.0.1)(webpack-dev-server@5.2.4)(webpack@5.110.3)
-      webpack-dev-server:
-        specifier: 5.2.4
-        version: 5.2.4(debug@4.4.3(supports-color@11.0.0))(supports-color@11.0.0)(webpack-cli@7.3.1)(webpack@5.110.3)
-
-  samples/basic-webpack/shared:
-    dependencies:
-      '@squide/firefly':
-        specifier: workspace:*
-        version: link:../../../packages/firefly
-      react:
-        specifier: ^19.3.1
-        version: 19.3.1
-      react-dom:
-        specifier: ^19.3.1
-        version: 19.3.1(react@19.3.1)
-      react-router:
-        specifier: ^8.5.1
-        version: 8.5.1(@types/react-dom@19.3.0(@types/react@19.3.0))(@types/react@19.3.0)(react-dom@19.3.1(react@19.3.1))(react@19.3.1)
-    devDependencies:
-      '@types/node':
-        specifier: 26.6.6
-        version: 26.6.6
-      '@types/react':
-        specifier: 19.3.0
-        version: 19.3.0
-      '@types/react-dom':
-        specifier: 19.3.0
-        version: 19.3.0(@types/react@19.3.0)
-      '@workleap/typescript-configs':
-        specifier: 5.1.0
-        version: 5.1.0(typescript@7.0.2)
-      typescript:
-        specifier: 7.0.2
-        version: 7.0.2
-
-  samples/basic-webpack/shell:
-    dependencies:
-      '@basic-webpack/shared':
-        specifier: workspace:*
-        version: link:../shared
-      '@react-aria/toast':
-        specifier: ^3.1.1
-        version: 3.1.1(react-dom@19.3.1(react@19.3.1))(react@19.3.1)
-      '@react-stately/toast':
-        specifier: ^3.2.1
-        version: 3.2.1(react-dom@19.3.1(react@19.3.1))(react@19.3.1)
-      '@squide/fakes':
-        specifier: workspace:*
-        version: link:../../../packages/fakes
-      '@squide/firefly':
-        specifier: workspace:*
-        version: link:../../../packages/firefly
-      react:
-        specifier: ^19.3.1
-        version: 19.3.1
-      react-dom:
-        specifier: ^19.3.1
-        version: 19.3.1(react@19.3.1)
-      react-router:
-        specifier: ^8.5.1
-        version: 8.5.1(@types/react-dom@19.3.0(@types/react@19.3.0))(@types/react@19.3.0)(react-dom@19.3.1(react@19.3.1))(react@19.3.1)
-    devDependencies:
-      '@types/node':
-        specifier: 26.6.6
-        version: 26.6.6
-      '@types/react':
-        specifier: 19.3.0
-        version: 19.3.0
-      '@types/react-dom':
-        specifier: 19.3.0
-        version: 19.3.0(@types/react@19.3.0)
-      '@workleap/typescript-configs':
-        specifier: 5.1.0
-        version: 5.1.0(typescript@7.0.2)
-      typescript:
-        specifier: 7.0.2
-        version: 7.0.2
-
   samples/basic/another-remote-module:
     dependencies:
       '@basic/shared':
@@ -13198,7 +12784,8 @@ snapshots:
       gonzales-pe: 4.3.0
       node-source-walk: 7.0.2
 
-  '@discoveryjs/json-ext@1.1.0': {}
+  '@discoveryjs/json-ext@1.1.0':
+    optional: true
 
   '@electric-sql/pglite@0.3.16': {}
 
@@ -17877,6 +17464,7 @@ snapshots:
       is-plain-object: 2.0.4
       kind-of: 6.0.3
       shallow-clone: 3.0.1
+    optional: true
 
   clsx@2.1.1: {}
 
@@ -17913,7 +17501,8 @@ snapshots:
 
   commander@12.1.0: {}
 
-  commander@14.0.3: {}
+  commander@14.0.3:
+    optional: true
 
   commander@2.20.3: {}
 
@@ -18899,7 +18488,8 @@ snapshots:
       keyv: 4.5.4
       rimraf: 3.0.2
 
-  flat@5.0.2: {}
+  flat@5.0.2:
+    optional: true
 
   flatted@3.4.4: {}
 
@@ -19384,7 +18974,8 @@ snapshots:
       hasown: 2.0.4
       side-channel: 1.1.1
 
-  interpret@3.1.1: {}
+  interpret@3.1.1:
+    optional: true
 
   ipaddr.js@1.9.1: {}
 
@@ -19523,6 +19114,7 @@ snapshots:
   is-plain-object@2.0.4:
     dependencies:
       isobject: 3.0.1
+    optional: true
 
   is-plain-object@5.1.0: {}
 
@@ -19595,7 +19187,8 @@ snapshots:
 
   isexe@4.0.0: {}
 
-  isobject@3.0.1: {}
+  isobject@3.0.1:
+    optional: true
 
   isomorphic-ws@5.0.0(ws@8.21.3):
     dependencies:
@@ -19695,7 +19288,8 @@ snapshots:
     dependencies:
       json-buffer: 3.0.1
 
-  kind-of@6.0.3: {}
+  kind-of@6.0.3:
+    optional: true
 
   kuler@2.0.0: {}
 
@@ -21126,7 +20720,8 @@ snapshots:
       tiny-invariant: 1.3.3
       tslib: 2.9.1
 
-  rechoir@1.0.0: {}
+  rechoir@1.0.0:
+    optional: true
 
   redent@3.0.0:
     dependencies:
@@ -21507,6 +21102,7 @@ snapshots:
   shallow-clone@3.0.1:
     dependencies:
       kind-of: 6.0.3
+    optional: true
 
   sharp@0.35.5(@types/node@26.6.6):
     dependencies:
@@ -22523,6 +22119,7 @@ snapshots:
       json5: 2.2.3
       toml: 5.0.1
       webpack-dev-server: 5.2.4(debug@4.4.3(supports-color@11.0.0))(supports-color@11.0.0)(webpack-cli@7.3.1)(webpack@5.110.3)
+    optional: true
 
   webpack-dev-middleware@7.4.6(webpack@5.110.3):
     dependencies:
@@ -22579,6 +22176,7 @@ snapshots:
       clone-deep: 4.0.1
       flat: 5.0.2
       wildcard: 2.0.1
+    optional: true
 
   webpack-sources@3.7.0: {}
 
@@ -22699,7 +22297,8 @@ snapshots:
     dependencies:
       string-width: 8.3.0
 
-  wildcard@2.0.1: {}
+  wildcard@2.0.1:
+    optional: true
 
   windows-release@6.1.0:
     dependencies:

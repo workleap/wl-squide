@@ -17,6 +17,7 @@ export default {
         {
             // "@module-federation/enhanced" 2.9.3 can't load webpack 5.112+ (https://github.com/module-federation/core/issues/5202).
             // "@workleap/webpack-configs" is pinned to the last release accepting an older webpack, and the webpack peer range is capped.
+            // The hold is permanent, see agent-docs/references/development.md.
             packages: ["@squide/firefly-webpack-configs"],
             dependencies: ["@workleap/webpack-configs", "webpack"],
             dependencyTypes: ["prod", "peer"],
@@ -29,47 +30,19 @@ export default {
             label: "Packages should use ^ for dependencies and peerDependencies."
         },
         {
-            packages: ["@squide/*", "@basic/*", "@basic-webpack/*", "@endpoints/*", "@storybook/*", "@getting-started/*", "@getting-started-remote/*"],
+            packages: ["@squide/*", "@basic/*", "@endpoints/*", "@storybook/*", "@getting-started/*"],
             dependencyTypes: ["dev"],
             range: "",
             label: "Samples and Getting Started templates should pin devDependencies."
         },
         {
-            packages: [
-                "@basic/host",
-                "@basic/remote-module",
-                "@basic/another-remote-module",
-                "@basic-webpack/host",
-                "@basic-webpack/remote-module",
-                "@basic-webpack/another-remote-module",
-                "@endpoints/host",
-                "@endpoints/remote-module",
-                "@endpoints/express-server",
-                "@storybook/app",
-                "@storybook/host",
-                "@getting-started/host",
-                "@getting-started-remote/host"
-            ],
+            packages: ["@basic/host", "@basic/remote-module", "@basic/another-remote-module", "@endpoints/host", "@endpoints/remote-module", "@endpoints/express-server", "@storybook/app", "@storybook/host", "@getting-started/host"],
             dependencyTypes: ["prod", "dev"],
             range: "",
             label: "Samples and Getting Started templates host applications and remote-modules should pin dependencies and devDependencies."
         },
         {
-            packages: [
-                "@basic/local-module",
-                "@basic/shared",
-                "@basic/shell",
-                "@basic-webpack/local-module",
-                "@basic-webpack/shared",
-                "@basic-webpack/shell",
-                "@endpoints/i18next",
-                "@endpoints/layouts",
-                "@endpoints/local-module",
-                "@endpoints/shared",
-                "@endpoints/shell",
-                "@storybook/app",
-                "@storybook/host"
-            ],
+            packages: ["@basic/local-module", "@basic/shared", "@basic/shell", "@endpoints/i18next", "@endpoints/layouts", "@endpoints/local-module", "@endpoints/shared", "@endpoints/shell", "@storybook/app", "@storybook/host"],
             dependencyTypes: ["peer"],
             range: "^",
             label: "Samples library projects should use ^ for peerDependencies."
@@ -103,7 +76,7 @@ export default {
             isIgnored: true
         },
         {
-            packages: ["@basic/*", "@basic-webpack/*", "@endpoints/*", "@storybook/*", "@getting-started/*", "@getting-started-remote/*"],
+            packages: ["@basic/*", "@endpoints/*", "@storybook/*", "@getting-started/*"],
             dependencies: ["@squide/*"],
             dependencyTypes: ["prod"],
             isIgnored: true

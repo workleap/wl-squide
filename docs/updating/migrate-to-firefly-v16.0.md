@@ -7,7 +7,7 @@ toc:
 
 # Migrate to firefly v16.0
 
-This major version removes [Module Federation](https://module-federation.io/) from `@squide/firefly`. Module Federation is now optional and can be enabled by installing the `@squide/firefly-module-federation` package. To register [remote modules](../module-federation/create-remote-module.md), import the [initializeFirefly](../reference/registration/initializeFirefly.md) function from `@squide/firefly-module-federation` instead of `@squide/firefly`.
+This major version removes [Module Federation](https://module-federation.io/) from `@squide/firefly`. Module Federation is now optional and can be enabled by installing the `@squide/firefly-module-federation` package. To register [remote modules](../reference/module-federation/initializeFirefly.md), import the [initializeFirefly](../reference/registration/initializeFirefly.md) function from `@squide/firefly-module-federation` instead of `@squide/firefly`.
 
 First, install the `@squide/firefly-module-federation` package:
 

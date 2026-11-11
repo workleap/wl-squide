@@ -68,17 +68,17 @@ The repository `.npmrc` routes every install through the `gsoft` GitHub package 
 
 `pnpm-workspace.yaml` has an `overrides:` block that pins transitive deps to specific versions. Each entry exists for a concrete reason — do NOT remove or relax them without verifying the underlying issue is gone (test builds AND tests, not just `pnpm install`):
 
-- **`terser-webpack-plugin: 5.4.0`** — 5.6.0 leaks `extractComments` into swc-minify options, which swc rejects. `@workleap/webpack-configs` uses `TerserPlugin.swcMinify`, so without this pin the `basic-webpack` sample's webpack build fails with `unknown field 'extractComments'`.
+- **`terser-webpack-plugin: 5.4.0`** — 5.6.0 leaks `extractComments` into swc-minify options, which swc rejects. `@workleap/webpack-configs` uses `TerserPlugin.swcMinify`, so without this pin a webpack build fails with `unknown field 'extractComments'`. Nothing in the repository runs a webpack build anymore, so a build cannot verify this pin: keep it for as long as `@squide/firefly-webpack-configs` is in the repository.
 - **`ts-checker-rspack-plugin>chokidar: 4.0.1`** — the package firewall blocks `chokidar@4.0.3` (`AttestationDowngradePolicy`) and serves nothing newer in 4.x.
 
 **Important pnpm quirk:** changing an `overrides` entry does NOT trigger re-resolution on `pnpm install` (even with `--force` or `--no-frozen-lockfile`) — pnpm reports "Already up to date" and leaves the old versions in the lockfile. To apply override changes, delete `pnpm-lock.yaml` and run `pnpm install --lockfile-only`.
 
 ### Held dependencies
 
-The `list-outdated-deps` and `update-outdated-deps:update-versions` scripts in the root `package.json` exclude a few packages with `!<name>`, so they are never listed or bumped. Do NOT remove an exclusion without verifying its exit condition (`pnpm peers check`, then build and browse the affected sample):
+The `list-outdated-deps` and `update-outdated-deps:update-versions` scripts in the root `package.json` exclude a few packages with `!<name>`, so they are never listed or bumped. Do NOT remove an exclusion without verifying its exit condition (`pnpm peers check`, then build and browse the affected sample). Entries marked permanent have no exit condition:
 
-- **`webpack`** (held at 5.110.3) and **`@workleap/webpack-configs`** (held at 1.6.16) — `webpack` 5.112 moved internal files that `@module-federation/enhanced` 2.9.3 imports from their old paths, so every webpack build fails with `Cannot find module 'webpack/lib/util/extractUrlAndGlobal'` ([module-federation/core#5202](https://github.com/module-federation/core/issues/5202)). `@workleap/webpack-configs` 1.6.17+ require `webpack` `^5.112.0`, so `@squide/firefly-webpack-configs` pins it to exactly `1.6.16` and caps its `webpack` peer range at `<5.112.0`; `.syncpackrc.js` ignores both entries. Release all of it once a fixed `@module-federation/enhanced` is installed and `pnpm build-basic-webpack` passes.
-- **`webpack-dev-server`** (held at 5.2.4) — `@workleap/webpack-configs` requires `^5.2.4` as a peer. The package is deprecated, so the hold stays until `@squide/firefly-webpack-configs` stops depending on it.
+- **`webpack`** (held at 5.110.3) and **`@workleap/webpack-configs`** (held at 1.6.16) — permanent hold. `webpack` 5.112 moved internal files that `@module-federation/enhanced` 2.9.3 imports from their old paths, so every webpack build fails with `Cannot find module 'webpack/lib/util/extractUrlAndGlobal'` ([module-federation/core#5202](https://github.com/module-federation/core/issues/5202)). `@workleap/webpack-configs` 1.6.17+ require `webpack` `^5.112.0`, so `@squide/firefly-webpack-configs` pins it to exactly `1.6.16` and caps its `webpack` peer range at `<5.112.0`; `.syncpackrc.js` ignores both entries. `@squide/firefly-webpack-configs` is in maintenance mode and the repository has no webpack sample left to validate a release of the hold, so do NOT release it, even once a fixed `@module-federation/enhanced` is available. Applications using `@squide/firefly-webpack-configs` stay on `webpack` 5.111 until they move to Rsbuild.
+- **`webpack-dev-server`** (held at 5.2.4) — `@workleap/webpack-configs` requires `^5.2.4` as a peer. The package is deprecated, so this hold is permanent as well: it stays for as long as `@squide/firefly-webpack-configs` is in the repository.
 - **`@opentelemetry/*`** — the web OpenTelemetry SDK that `@workleap/telemetry` installs requires `@opentelemetry/api` below 1.10, while the newer Node SDK packages of the `endpoints` express server require 1.10. Release them once `@workleap/telemetry` ships an SDK that accepts `@opentelemetry/api` 1.10.
 
 ## Adding a New Package
@@ -105,16 +105,13 @@ A Claude Code pre-commit hook (`.claude/hooks/pre-commit.sh`, configured in `.cl
 | `pnpm install` | Install all dependencies |
 | `pnpm build-pkg` | Build all publishable packages |
 | `pnpm build-basic` | Build the basic sample |
-| `pnpm build-basic-webpack` | Build the basic-webpack sample |
 | `pnpm build-endpoints` | Build the endpoints sample |
 | `pnpm build-storybook` | Build the Storybook sample |
 | `pnpm dev-basic` | Dev server for basic sample |
-| `pnpm dev-basic-webpack` | Dev server for basic-webpack sample |
 | `pnpm dev-endpoints` | Dev server for endpoints sample |
 | `pnpm dev-storybook` | Dev server for Storybook sample |
 | `pnpm dev-docs` | Retype documentation dev server |
 | `pnpm serve-basic` | Build + serve basic sample locally |
-| `pnpm serve-basic-webpack` | Build + serve basic-webpack sample locally |
 | `pnpm serve-endpoints` | Build + serve endpoints sample locally |
 | `pnpm serve-storybook` | Build + serve Storybook sample locally |
 | `pnpm test` | Run unit tests |

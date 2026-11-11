@@ -103,15 +103,6 @@ jobs:
               pnpm build-basic
           fi
 
-      - name: Build basic webpack sample
-        # For a PR, only build the sample if it's diverging from the pull request original baseline.
-        run: |
-          if [ "${{ github.event_name }}" == "pull_request" ]; then
-              pnpm turbo run build --filter={./samples/basic-webpack/*}...[${{ github.event.pull_request.base.sha }}]
-          else
-              pnpm build-basic-webpack
-          fi
-
       - name: Build endpoints sample
         # For a PR, only build the sample if it's diverging from the pull request original baseline.
         run: |
