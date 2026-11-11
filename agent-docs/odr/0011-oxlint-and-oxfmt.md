@@ -6,8 +6,7 @@ proposed
 
 ## Context
 
-The repo linted with ESLint through `@workleap/eslint-configs`, with one `eslint.config.ts` per package and sample. The same preset also did all the formatting, through `@stylistic` rules. Each package ran its own `eslint` Turborepo task, and type-aware rules built a TypeScript program per package, which made linting the slowest step of `pnpm lint`. The vendored `workleap-web-configs` skill still documents `@workleap/eslint-configs` as the default, so an agent following it would bring ESLint back.
-
+The repo linted with ESLint through `@workleap/eslint-configs`, with one `eslint.config.ts` per package and sample. The same preset also did all the formatting, through `@stylistic` rules. Each package ran its own `eslint` Turborepo task, and type-aware rules built a TypeScript program per package, which made linting the slowest step of `pnpm lint`.
 ## Options Considered
 
 1. **Keep ESLint with `@workleap/eslint-configs`** — Shared Workleap preset, but slow, needs a config file per package, and mixes formatting with linting.
@@ -25,4 +24,4 @@ Evidence: root `oxlint.config.ts`, `oxfmt.config.ts`, the `lint` task in `turbo.
 - There are no testing-library or Storybook lint rules (oxlint has no such plugins), and no validity rules for JSON, YAML or `package.json`. oxfmt only formats those files.
 - `printWidth` is 300, matching wl-app. Code examples in `docs/` keep their own wrapping, and Markdown is not formatted.
 - `pnpm lint` fails on formatting, so run `pnpm oxfmt` before committing.
-- Ignore `@workleap/eslint-configs` guidance from the `workleap-web-configs` skill; its other configs (TypeScript, Rslib, browserslist) still apply.
+- Do NOT reintroduce `@workleap/eslint-configs` or per-package `eslint` scripts, even when Workleap guidance describes them as the default; doing so brings back the slow per-package lint tasks this decision removed.
