@@ -38,7 +38,7 @@ jobs:
               echo "::error file=$publish::The publish workflow must not restore or save an Actions cache."
               exit 1
           fi
-          if ! grep -qF "pnpm install --frozen-lockfile --ignore-scripts" "$publish"; then
+          if ! grep -qE "^ +run: pnpm install --frozen-lockfile --ignore-scripts$" "$publish"; then
               echo "::error file=$publish::The publish workflow must install with --frozen-lockfile --ignore-scripts."
               exit 1
           fi

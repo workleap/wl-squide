@@ -16,9 +16,11 @@ Turborepo's caching is essential for CI performance in this monorepo. Turborepo 
 
 ## Decision
 
-Option 3. Four workflows use this pattern: `ci.yml`, `changeset.yml`, `pr-pkg.yml`, and `claude.yml`. Each has a workflow-specific cache key prefix (`turbo-ci-`, `turbo-changeset-`, `turbo-pr-pkg-`, `turbo-claude-`).
+Option 3. Three workflows use this pattern: `ci.yml`, `pr-pkg.yml`, and `claude.yml`. Each has a workflow-specific cache key prefix (`turbo-ci-`, `turbo-pr-pkg-`, `turbo-claude-`).
 
-Cache keys are SHA-based and carry a version segment shared by all four workflows (e.g., `${{ runner.os }}-turbo-ci-v11-${{ github.sha }}`). Restore-keys use a 2-level cascade:
+`changeset.yml` is deliberately excluded. It holds the npm publishing identity, so it restores and saves no GitHub Actions cache (Turborepo or pnpm store), installs with `--frozen-lockfile --ignore-scripts`, and always builds the packages itself: a cache entry saved by another workflow must never reach a published package. The `Check publish workflow hardening` step in `ci.yml` enforces this.
+
+Cache keys are SHA-based and carry a version segment shared by all three workflows (e.g., `${{ runner.os }}-turbo-ci-v11-${{ github.sha }}`). Restore-keys use a 2-level cascade:
 1. **Same workflow, any SHA:** `${{ runner.os }}-turbo-ci-v11-` — matches previous runs of the same workflow.
 2. **Any workflow:** `${{ runner.os }}-turbo-v11-` — falls back to any Turborepo cache from any workflow.
 
@@ -26,12 +28,13 @@ The save step runs with `if: always() && cache-hit != 'true'` to ensure caches a
 
 A trailing-hyphen bug (PR #372, commit `2749c2870`) demonstrated why the cascade prefix formatting matters: without the trailing hyphen on the first restore-key (e.g., `turbo-ci` instead of `turbo-ci-`), GitHub Actions' prefix matching could match keys from other workflows (e.g., `turbo-changeset-abc123`), defeating the purpose of workflow-specific caching.
 
-Evidence: `ci.yml`, `changeset.yml`, `pr-pkg.yml`, and `claude.yml` each have an `actions/cache/restore` and an `actions/cache/save` step. `ci.yml`, `changeset.yml`, and `pr-pkg.yml` contain the comment: "Using SHA will usually provide cache hit on subsequent commits in a PR but will not provide cache hits between PRs."
+Evidence: `ci.yml`, `pr-pkg.yml`, and `claude.yml` each have an `actions/cache/restore` and an `actions/cache/save` step. `ci.yml` and `pr-pkg.yml` contain the comment: "Using SHA will usually provide cache hit on subsequent commits in a PR but will not provide cache hits between PRs."
 
 ## Consequences
 
 - No vendor lock-in — cache data stays within GitHub's infrastructure.
-- Cross-workflow cache sharing via the 2-level restore-key cascade (a CI run can warm from a changeset run's cache).
+- Cross-workflow cache sharing via the 2-level restore-key cascade, between the three workflows that cache.
+- The publish workflow always runs a cold install and a full package build.
 - Cache is saved even on partial failures, maximizing reuse for the next run.
 - First PR run typically has cache misses (SHA-based keys don't match across PRs), but the cross-workflow fallback mitigates this.
 - The trailing-hyphen lesson underscores the importance of consistent key prefix formatting in GitHub Actions cache restore-keys.
