@@ -11,6 +11,9 @@ on:
 env:
   CI: true
 
+permissions:
+  contents: read
+
 concurrency:
   group: pr-pkg-${{ github.ref }}
   cancel-in-progress: true

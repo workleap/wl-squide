@@ -11,6 +11,9 @@ on:
 env:
   CI: true
 
+permissions:
+  contents: read
+
 concurrency:
   group: ci-${{ github.ref }}
   cancel-in-progress: true
@@ -25,6 +28,24 @@ jobs:
         with:
           # Required for the Turborepo Git filters.
           fetch-depth: 0
+
+      - name: Check publish workflow hardening
+        # The publish job holds the npm publishing identity. It must install and build from the commit and the
+        # lockfile only, and no workflow may run a tool resolved outside the lockfile.
+        run: |
+          publish=.github/workflows/changeset.yml
+          if grep -nE "^ +cache|actions/cache" "$publish"; then
+              echo "::error file=$publish::The publish workflow must not restore or save an Actions cache."
+              exit 1
+          fi
+          if ! grep -qF "pnpm install --frozen-lockfile --ignore-scripts" "$publish"; then
+              echo "::error file=$publish::The publish workflow must install with --frozen-lockfile --ignore-scripts."
+              exit 1
+          fi
+          if grep -nE "skills@[a-z0-9]" .github/workflows/*.yml; then
+              echo "::error::Workflows must run the skills CLI pinned in pnpm-lock.yaml, not one fetched at run time."
+              exit 1
+          fi
 
       - name: Install pnpm
         uses: pnpm/action-setup@v6
@@ -44,11 +65,12 @@ jobs:
 
       - name: Check agent skill discovery
         # skills.sh must discover only the workleap-squide skill. See agent-docs/references/agent-skills.md.
+        # The skills CLI is the root devDependency, pinned by the lockfile.
         env:
           DISABLE_TELEMETRY: 1
         run: |
           cd "$(mktemp -d)"
-          skills=$(npx -y skills@latest add "$GITHUB_WORKSPACE" --skill '*' -a claude-code --copy -y --json | jq -r '[.[].name] | sort | join(",")')
+          skills=$("$GITHUB_WORKSPACE/node_modules/.bin/skills" add "$GITHUB_WORKSPACE" --skill '*' -a claude-code --copy -y --json | jq -r '[.[].name] | sort | join(",")')
           echo "Discovered skills: $skills"
           if [ "$skills" != "workleap-squide" ]; then
               echo "::error::skills.sh must discover only the workleap-squide skill, got: $skills"

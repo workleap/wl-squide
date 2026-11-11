@@ -1,7 +1,5 @@
 name: Changesets
 
-# Pnpm setup based on https://github.com/pnpm/action-setup#use-cache-to-reduce-installation-time
-
 on:
   push:
     branches: ["main"]
@@ -27,40 +25,20 @@ jobs:
         with:
           run_install: false
 
+      # This job holds the npm publishing identity, so everything it installs and builds comes from
+      # this commit and the lockfile: no pnpm store or Turborepo cache is restored, and no lifecycle
+      # script runs during the install. Another workflow could otherwise fill those caches.
       - name: Install Node.js
         uses: actions/setup-node@v7
         with:
           node-version: "26"
           check-latest: true
-          cache: pnpm
-          cache-dependency-path: pnpm-lock.yaml
 
       - name: Install Dependencies
-        run: pnpm install --frozen-lockfile
-
-      - name: Restore Turborepo cache
-        id: cache-turborepo-restore
-        uses: actions/cache/restore@v6
-        with:
-          # Using SHA will usually provide cache hit on subsequent commits in a PR
-          # but will not provide cache hits between PRs, meaning the first run of a PR
-          # will usually only be cache misses.
-          key: ${{ runner.os }}-turbo-changeset-v11-${{ github.sha }}
-          restore-keys: |
-            ${{ runner.os }}-turbo-changeset-v11-
-            ${{ runner.os }}-turbo-v11-
-          path: .turbo
+        run: pnpm install --frozen-lockfile --ignore-scripts
 
       - name: Build packages
         run: pnpm build-pkg
-
-      - name: Save Turborepo cache
-        id: cache-turborepo-save
-        if: always() && steps.cache-turborepo-restore.outputs.cache-hit != 'true'
-        uses: actions/cache/save@v6
-        with:
-          key: ${{ steps.cache-turborepo-restore.outputs.cache-primary-key }}
-          path: .turbo
 
       - name: Create release Pull Request or publish to NPM
         # v2 is required by @changesets/cli v3, which reports published packages through
