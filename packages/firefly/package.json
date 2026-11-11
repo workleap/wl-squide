@@ -42,8 +42,7 @@
             }
         },
         "access": "public",
-        "provenance": true,
-        "registry": "https://registry.npmjs.org/"
+        "provenance": true
     },
     "scripts": {
         "prepack": "node ./scripts/agent-skill.mjs copy",

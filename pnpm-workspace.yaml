@@ -3,22 +3,15 @@ packages:
   - samples/**
 
 # pnpm's own release-age gate, in minutes (24 hours). It matches pnpm's default, but it's set explicitly
-# so the policy is visible and doesn't change silently. The GitHub package firewall (.npmrc) also holds
-# back new releases.
+# so the policy is visible and doesn't change silently.
 minimumReleaseAge: 1440
 
-# Workleap's own packages skip pnpm's gate (the firewall's still applies).
+# Workleap's own packages skip pnpm's gate.
 minimumReleaseAgeExclude:
   - "@workleap/*"
   - "@workleap-telemetry/*"
 
-# Also loads .pnpmfile.cjs for pnpm dlx / pnpx, which ignore the project pnpmfile. The pnpmfile keeps
-# the package downloads on the GitHub package firewall, see CONTRIBUTING.md.
-globalPnpmfile: .pnpmfile.cjs
-
 overrides:
-  # chokidar@4.0.3 is blocked by the package firewall (AttestationDowngradePolicy).
-  "ts-checker-rspack-plugin>chokidar": 4.0.1
   # Pin to 5.4.0 — 5.6.0 leaks `extractComments` into swc-minify options, which swc rejects.
   # @workleap/webpack-configs uses TerserPlugin.swcMinify, so transitive consumers break.
   terser-webpack-plugin: 5.4.0
