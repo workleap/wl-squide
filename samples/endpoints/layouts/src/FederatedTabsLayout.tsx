@@ -62,7 +62,7 @@ export function FederatedTabsLayout({ host }: FederatedTabsLayoutProps) {
             <h1>{t("title")}</h1>
             {host && (
                 <p style={{ backgroundColor: "blue", color: "white", width: "fit-content" }}>
-                    <Trans i18n={i18nextInstance} i18nKey="servedBy" t={t} shouldUnescape values={{ host }} components={{ code: <code /> }} />
+                    <Trans i18n={i18nextInstance} i18nKey="servedBy" t={t} values={{ host }} components={{ code: <code /> }} />
                 </p>
             )}
             {renderedTabs}
