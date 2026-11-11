@@ -18,7 +18,7 @@ By default, all routes are placed under the `PublicRoutes` or `ProtectedRoutes` 
 
 Option 3. When `hoist: true` is set and no `parentPath`/`parentId` is provided, `RouteRegistry.add()` skips the automatic outlet assignment and adds the route as a root-level sibling. Hoisting cannot be combined with `parentPath` or `parentId` — the registry validates this and throws if both are provided.
 
-Evidence: `packages/react-router/src/RouteRegistry.ts` — `#validateRouteRegistrationOptions()` (lines 200-208) rejects `hoist` combined with `parentPath`/`parentId`. The `add()` method (lines 213-217) skips outlet assignment when `hoist` is true. Documentation at `docs/recipes/override-the-host-layout.md`.
+Evidence: `packages/react-router/src/RouteRegistry.ts` — `#validateRouteRegistrationOptions()` rejects `hoist` combined with `parentPath`/`parentId`. The `add()` method skips outlet assignment when `hoist` is true. Documentation at `docs/recipes/override-the-host-layout.md`.
 
 ## Consequences
 
