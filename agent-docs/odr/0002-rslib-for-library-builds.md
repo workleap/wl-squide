@@ -6,7 +6,7 @@ accepted
 
 ## Context
 
-The 12 library packages need a build tool to produce compiled ESM output with TypeScript declarations for npm publishing. From the initial commit (2023-04-25) through late 2024, all packages used tsup (via `@workleap/tsup-configs`) with separate `tsup.build.ts` and `tsup.dev.ts` configs per package. While tsup was fast (esbuild-based), it was a separate ecosystem from the application bundler (Rsbuild/Rspack), creating inconsistency between how libraries were built and how applications consumed them.
+The 11 library packages need a build tool to produce compiled ESM output with TypeScript declarations for npm publishing. From the initial commit (2023-04-25) through late 2024, all packages used tsup (via `@workleap/tsup-configs`) with separate `tsup.build.ts` and `tsup.dev.ts` configs per package. While tsup was fast (esbuild-based), it was a separate ecosystem from the application bundler (Rsbuild/Rspack), creating inconsistency between how libraries were built and how applications consumed them.
 
 ## Options Considered
 
