@@ -24,4 +24,4 @@ Option 2. Every `typecheck` script runs `tsc`, and `@typescript/native-preview` 
 - Type checking keeps the speed of the native compiler while using a stable release.
 - One TypeScript package to install and update instead of two.
 - The `transit` task in `turbo.json` (introduced alongside ODR-0003) is unchanged: it still invalidates the `typecheck` and `test` caches when a dependency changes.
-- Never follow the `workleap-web-configs` skill's `"typecheck": "tsgo"` examples; doing so reinstalls `@typescript/native-preview` and reverses this decision.
+- Never follow the `workleap-typescript-configs` skill's `"typecheck": "tsgo"` examples; doing so reinstalls `@typescript/native-preview` and reverses this decision.
