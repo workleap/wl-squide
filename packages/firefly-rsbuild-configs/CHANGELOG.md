@@ -1,5 +1,11 @@
 # @squide/firefly-rsbuild-configs
 
+## 3.0.3
+
+### Patch Changes
+
+- [#768](https://github.com/workleap/wl-squide/pull/768) [`3bc558b`](https://github.com/workleap/wl-squide/commit/3bc558be4ed6846fb6b09cd05bdb25ccfbfdb525) Thanks [@patricklafrance](https://github.com/patricklafrance)! - This package is now in maintenance mode. It is still published, but it will not receive new features. Squide applications should be built with local modules, see the [migration guide](https://workleap.github.io/wl-squide/updating/migrate-remote-modules-to-local-modules/).
+
 ## 3.0.2
 
 ### Patch Changes
