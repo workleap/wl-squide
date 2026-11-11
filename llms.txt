@@ -159,17 +159,6 @@
 - [FireflyDecorator](https://workleap.github.io/wl-squide/reference/storybook/fireflydecorator.md): Wrap a story with all the required plumbing to render a component using Squide, including a RouterProvider.
 - [withFeatureFlagsOverrideDecorator](https://workleap.github.io/wl-squide/reference/storybook/withfeatureflagsoverridedecorator.md): Create a Decorator function that overrides the initial feature flag values while the story renders. Once rendering is complete, the original flag values are automatically restored.
 
-### Module Federation
-
-- [initializeFirefly](https://workleap.github.io/wl-squide/reference/module-federation/initializefirefly.md): This function is a wrapper around the original initializeFirefly function, adapted for use with Module Federation. This page documents only the differences between the original function and this adapted version.
-
-### Rsbuild
-
-- [defineDevHostConfig](https://workleap.github.io/wl-squide/reference/rsbuild/definedevhostconfig.md): This package is in maintenance mode. To move to local modules, refer to the migration guide.
-- [defineDevRemoteModuleConfig](https://workleap.github.io/wl-squide/reference/rsbuild/definedevremotemoduleconfig.md): This package is in maintenance mode. To move to local modules, refer to the migration guide.
-- [defineBuildHostConfig](https://workleap.github.io/wl-squide/reference/rsbuild/definebuildhostconfig.md): This package is in maintenance mode. To move to local modules, refer to the migration guide.
-- [defineBuildRemoteModuleConfig](https://workleap.github.io/wl-squide/reference/rsbuild/definebuildremotemoduleconfig.md): This package is in maintenance mode. To move to local modules, refer to the migration guide.
-
 ## Updating
 
 - [Migrate to firefly v9.0](https://workleap.github.io/wl-squide/updating/migrate-to-firefly-v9.0.md): If you are migrating from v8.*, follow the Migrate from v8.* to v15.0 guide.
@@ -184,6 +173,4 @@
 - [Migrate to firefly v16.0](https://workleap.github.io/wl-squide/updating/migrate-to-firefly-v16.0.md): This major version removes Module Federation from @squide/firefly. Module Federation is now optional and can be enabled by installing the @squide/firefly-module-federation package.
 - [Migrate to firefly v16.2](https://workleap.github.io/wl-squide/updating/migrate-to-firefly-v16.2.md): This minor version adds support for deferring React Router loaders until MSW is ready (when enabled). To enable this feature, update the application's AppRouter implementation to forward the new routerProps object to createBrowserRouter.
 - [Migrate to firefly v17.0](https://workleap.github.io/wl-squide/updating/migrate-to-firefly-v17.0.md): This major version introduces type-safe event bus hooks through module augmentation of the EventMap interface. This follows the same pattern used by EnvironmentVariables and FeatureFlags.
-- [Migrate to Rsbuild](https://workleap.github.io/wl-squide/updating/migrate-to-rsbuild.md): @squide/firefly-rsbuild-configs is in maintenance mode. To move to local modules, refer to the migration guide.
 - [Migrate to Just-In-Time packages](https://workleap.github.io/wl-squide/updating/migrate-to-jit-packages.md): Using Just-in-Time packages is a great way to reduce the configuration complexity of your monorepo. Using a Just-In-Time package strategy allows you to directly consume TypeScript files from library projects into applications without having to pre-compile them.
-- [Migrate remote modules to local modules](https://workleap.github.io/wl-squide/updating/migrate-remote-modules-to-local-modules.md): Squide no longer recommends Module Federation. Local modules are now the only documented way to build a Squide application, and the following packages are

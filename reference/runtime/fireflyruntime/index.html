@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <meta name="color-scheme" content="light dark">
     <meta name="turbo-root" content="/wl-squide">
-    <meta name="turbo-cache-control" content="no-cache" data-turbo-track="reload" data-track-token="4.6.0.847725956690">
+    <meta name="turbo-cache-control" content="no-cache" data-turbo-track="reload" data-track-token="4.6.0.847728646454">
 
     <!-- See retype.com -->
     <meta name="generator" content="Retype 4.6.0">
@@ -39,12 +39,12 @@
     <script data-cfasync="false">(function(){var cl=document.documentElement.classList,ls=localStorage.getItem("retype_scheme"),hd=cl.contains("dark"),hl=cl.contains("light"),wm=window.matchMedia&&window.matchMedia("(prefers-color-scheme: dark)").matches;if(ls==="dark"||(!ls&&wm&&!hd&&!hl)){cl.remove("light");cl.add("dark")}else if(ls==="light"||(!ls&&!wm&&!hd&&!hl)){cl.remove("dark");cl.add("light")}})();</script>
 
     <link id="retype-favicon" rel="icon" href="../../../static/favicon.png" />
-    <link href="../../../resources/css/retype.css?v=4.6.0.847725956690" rel="stylesheet">
+    <link href="../../../resources/css/retype.css?v=4.6.0.847728646454" rel="stylesheet">
 
-    <script data-cfasync="false" src="../../../resources/js/config.js?v=4.6.0.847725956690" data-turbo-eval="false" defer></script>
+    <script data-cfasync="false" src="../../../resources/js/config.js?v=4.6.0.847728646454" data-turbo-eval="false" defer></script>
     <script data-cfasync="false" src="../../../resources/js/retype.js?v=4.6.0" data-turbo-eval="false" defer></script>
-    <script id="lunr-js" data-cfasync="false" src="../../../resources/js/lunr.js?v=4.6.0.847725956690" data-turbo-eval="false" defer></script>
-    <script id="prism-js" data-cfasync="false" src="../../../resources/js/prism.js?v=4.6.0.847725956690" defer></script>
+    <script id="lunr-js" data-cfasync="false" src="../../../resources/js/lunr.js?v=4.6.0.847728646454" data-turbo-eval="false" defer></script>
+    <script id="prism-js" data-cfasync="false" src="../../../resources/js/prism.js?v=4.6.0.847728646454" defer></script>
 
     <link href="https://workleap.github.io/wl-idp-docs-hub/static/retype-customization.css" rel="stylesheet" />
 
@@ -1062,16 +1062,6 @@ const plugin = runtime.getPlugin(MyPlugin.name, {
     <h2>See also</h2>
 <div class="card-compact-group">
 <div class="card-compact-container">
-    <a href="/wl-squide/introduction/create-local-module/" class="group card-compact no-link">
-        <div class="card-compact-body">
-            <div class="card-compact-header">
-                <span class="card-compact-title">Create a local module</span>
-            </div>
-            <p class="card-compact-description">We highly recommend going through the entire getting started guide. However, if you prefer to scaffold the application we'll be building, a template is</p>
-        </div>
-    </a>
-</div>
-<div class="card-compact-container">
     <a href="/wl-squide/introduction/create-host/" class="group card-compact no-link">
         <div class="card-compact-body">
             <div class="card-compact-header">
@@ -1142,12 +1132,12 @@ const plugin = runtime.getPlugin(MyPlugin.name, {
     </a>
 </div>
 <div class="card-compact-container">
-    <a href="/wl-squide/reference/" class="group card-compact no-link">
+    <a href="/wl-squide/essentials/register-routes/" class="group card-compact no-link">
         <div class="card-compact-body">
             <div class="card-compact-header">
-                <span class="card-compact-title">Reference</span>
+                <span class="card-compact-title">Register routes</span>
             </div>
-            <p class="card-compact-description">Packages</p>
+            <p class="card-compact-description">By allowing consumers to register dynamic routes, Squide enables developers to build scalable modular applications with well-defined boundaries. Each module contributes its own routing configuration, which the host assembles into a unified routing structure at bootstrapping.</p>
         </div>
     </a>
 </div>
@@ -1178,6 +1168,16 @@ const plugin = runtime.getPlugin(MyPlugin.name, {
                 <span class="card-compact-title">Setup the logger</span>
             </div>
             <p class="card-compact-description">Squide logger provides visibility into the application's bootstrapping flow and how modules behave and interact. It also offers an abstraction that allows applications to emit custom logs to multiple destinations defined by the host application.</p>
+        </div>
+    </a>
+</div>
+<div class="card-compact-container">
+    <a href="/wl-squide/essentials/use-logger/" class="group card-compact no-link">
+        <div class="card-compact-body">
+            <div class="card-compact-header">
+                <span class="card-compact-title">Use the logger</span>
+            </div>
+            <p class="card-compact-description">Squide integrates with the @workleap/logging library by accepting a loggers array during initialization. If no loggers are provided and the application is running in development mode, Squide automatically attaches a BrowserConsoleLogger instance to the runtime.</p>
         </div>
     </a>
 </div>
