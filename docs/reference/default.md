@@ -115,13 +115,6 @@ toc:
 
 - [initializeFirefly](./module-federation/initializeFirefly.md) [!badge variant="warning" size="xs" text="deprecated"]
 
-### webpack
-
-- [defineDevHostConfig](./webpack/defineDevHostConfig.md) [!badge variant="warning" size="xs" text="deprecated"]
-- [defineDevRemoteModuleConfig](./webpack/defineDevRemoteModuleConfig.md) [!badge variant="warning" size="xs" text="deprecated"]
-- [defineBuildHostConfig](./webpack/defineBuildHostConfig.md) [!badge variant="warning" size="xs" text="deprecated"]
-- [defineBuildRemoteModuleConfig](./webpack/defineBuildRemoteModuleConfig.md) [!badge variant="warning" size="xs" text="deprecated"]
-
 ### Rsbuild
 
 - [defineDevHostConfig](./rsbuild/defineDevHostConfig.md) [!badge variant="warning" size="xs" text="deprecated"]

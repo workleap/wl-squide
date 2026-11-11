@@ -10,15 +10,6 @@ export default {
             isIgnored: true
         },
         {
-            // "@module-federation/enhanced" 2.9.3 can't load webpack 5.112+ (https://github.com/module-federation/core/issues/5202).
-            // "@workleap/webpack-configs" is pinned to the last release accepting an older webpack, and the webpack peer range is capped.
-            // The hold is permanent, see agent-docs/references/development.md.
-            packages: ["@squide/firefly-webpack-configs"],
-            dependencies: ["@workleap/webpack-configs", "webpack"],
-            dependencyTypes: ["prod", "peer"],
-            isIgnored: true
-        },
-        {
             packages: ["@squide/*"],
             dependencyTypes: ["prod", "peer"],
             range: "^",
@@ -55,13 +46,6 @@ export default {
             // It's messing up with syncpack.
             packages: ["@squide/*"],
             dependencies: ["@types/react", "react", "react-dom"],
-            dependencyTypes: ["peer"],
-            isIgnored: true
-        },
-        {
-            // The webpack peer range is capped, see the matching semver group.
-            packages: ["@squide/firefly-webpack-configs"],
-            dependencies: ["webpack"],
             dependencyTypes: ["peer"],
             isIgnored: true
         },

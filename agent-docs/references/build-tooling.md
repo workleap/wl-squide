@@ -9,8 +9,7 @@
 | Sample apps | Rsbuild | `@workleap/rsbuild-configs` |
 
 The sample applications use `defineDevConfig` / `defineBuildConfig` from `@workleap/rsbuild-configs`.
-`@squide/firefly-rsbuild-configs` and `@squide/firefly-webpack-configs` are still published, in maintenance
-mode, but no sample uses them.
+`@squide/firefly-rsbuild-configs` is still published, in maintenance mode, but no sample uses it.
 
 ## Shared Configs (`workleap/wl-web-configs`)
 
@@ -29,7 +28,6 @@ Linting uses [oxlint](https://oxc.rs/docs/guide/usage/linter) (type-aware throug
 
 - `turbo.json` — task definitions and caching
 - `packages/firefly-rsbuild-configs/` — Rsbuild config factory (maintenance mode, not used by any sample)
-- `packages/firefly-webpack-configs/` — Webpack config factory (maintenance mode, not used by any sample)
 
 ---
 *See [ARCHITECTURE.md](../ARCHITECTURE.md) for full context.*

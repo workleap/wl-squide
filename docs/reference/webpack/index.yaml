@@ -1,4 +1,0 @@
-order: -90
-label: "webpack"
-nav:
-    badge: deprecated|warning

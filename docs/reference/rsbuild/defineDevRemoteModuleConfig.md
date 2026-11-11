@@ -73,7 +73,7 @@ For the full shared dependencies configuration, have a look at the [defineConfig
 
 ## Usage
 
-### Define a webpack config
+### Define an Rsbuild config
 
 ```ts !#3 remote-module/rsbuild.dev.ts
 import { defineDevRemoteModuleConfig } from "@squide/firefly-rsbuild-configs";

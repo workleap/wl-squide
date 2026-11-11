@@ -42,7 +42,7 @@ To resolve this issue:
 2. Confirm that the shared React context resides in a library shared as a [singleton](https://module-federation.io/configure/shared.html#singleton).
 3. If you are using [eager](https://module-federation.io/configure/shared.html#eager) shared dependencies, ensure that ONLY the host application configures these dependencies as `eager`.
 
-If the issue persists, update your host application and remote module's webpack build configuration with the `optimize: false` option. Afterward, build the bundles and serve them. Open a web browser, access the DevTools, switch to the Network tab (ensure that JS files are listed), navigate to the application's homepage, and inspect the downloaded bundle files. The problematic React context definition should appear only once; otherwise, you may have multiple instances of the React context.
+If the issue persists, update your host application and remote module's Rsbuild build configuration with the `optimize: false` option. Afterward, build the bundles and serve them. Open a web browser, access the DevTools, switch to the Network tab (ensure that JS files are listed), navigate to the application's homepage, and inspect the downloaded bundle files. The problematic React context definition should appear only once; otherwise, you may have multiple instances of the React context.
 
 ## Console logs
 
