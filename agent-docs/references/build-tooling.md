@@ -4,12 +4,11 @@
 
 | Layer | Tool | Config |
 |-------|------|--------|
-| Library packages | Rslib | Each package has `rslib.build.ts` (and some have `rslib.dev.ts`) |
+| Library packages | Rslib | Each package has `rslib.build.ts` |
 | Monorepo orchestration | Turborepo | `turbo.json` task graph |
 | Sample apps | Rsbuild | `@workleap/rsbuild-configs` |
 
 The sample applications use `defineDevConfig` / `defineBuildConfig` from `@workleap/rsbuild-configs`.
-`@squide/firefly-rsbuild-configs` is still published, in maintenance mode, but no sample uses it.
 
 ## Shared Configs (`workleap/wl-web-configs`)
 
@@ -27,7 +26,6 @@ Linting uses [oxlint](https://oxc.rs/docs/guide/usage/linter) (type-aware throug
 ## Relevant Files
 
 - `turbo.json` — task definitions and caching
-- `packages/firefly-rsbuild-configs/` — Rsbuild config factory (maintenance mode, not used by any sample)
 
 ---
 *See [ARCHITECTURE.md](../ARCHITECTURE.md) for full context.*

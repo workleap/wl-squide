@@ -7,9 +7,9 @@ APIs for structuring frontend apps as collections of **independent modules**, ea
 a specific domain or subdomain. Modules register routes, navigation items, and services through the
 **FireflyRuntime** — they never directly reference each other.
 
-Squide is an **application framework**, not a bundler or micro-frontend tool. It is agnostic to
-how modules are deployed; the recommended approach is **local modules** (sibling packages in a
-monorepo).
+Squide is an **application framework**, not a bundler or micro-frontend tool. Modules are
+**local modules** (sibling packages in a monorepo); Module Federation is no longer supported
+([ADR-0033](./adr/0033-local-modules-only.md)).
 
 ## Repository Structure
 

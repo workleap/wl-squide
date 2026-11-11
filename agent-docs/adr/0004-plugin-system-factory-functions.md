@@ -6,7 +6,7 @@ accepted
 
 ## Context
 
-Squide integrates with several external systems (MSW, LaunchDarkly, i18next, environment variables, Module Federation). These integrations need access to the runtime at construction time — for example, `ModuleFederationPlugin` calls `runtime.moduleManager.addModuleRegistry()` in its constructor, and `LaunchDarklyPlugin` registers error listeners using `runtime.logger` during construction.
+Squide integrates with several external systems (MSW, LaunchDarkly, i18next, environment variables, Module Federation). These integrations need access to the runtime at construction time — for example, `ModuleFederationPlugin` called `runtime.moduleManager.addModuleRegistry()` in its constructor (the plugin was removed, see ADR-0033), and `LaunchDarklyPlugin` registers error listeners using `runtime.logger` during construction.
 
 Prior to Firefly v9.0, plugins received the runtime via a post-construction `_setRuntime()` method. This caused issues because some plugins required the runtime at instantiation time, creating a chicken-and-egg problem: the runtime needed plugins to be created first, but plugins needed the runtime to initialize.
 
@@ -19,7 +19,7 @@ Prior to Firefly v9.0, plugins received the runtime via a post-construction `_se
 
 ## Decision
 
-Option 4. Plugins are factory functions (`PluginFactory<TRuntime> = (runtime: TRuntime) => Plugin`) passed to `initializeFirefly`. The `Runtime` constructor iterates over factories: `this._plugins = plugins.map(x => x(this))`. Five built-in plugins follow this pattern: `EnvironmentVariablesPlugin` (always created), `MswPlugin` (conditional on `useMsw`), `LaunchDarklyPlugin` (conditional on `launchDarklyClient`), `i18nextPlugin` (user-provided), and `ModuleFederationPlugin` (from `@squide/firefly-module-federation`). Each plugin is retrieved at runtime via a memoized `getPlugin(name)` lookup.
+Option 4. Plugins are factory functions (`PluginFactory<TRuntime> = (runtime: TRuntime) => Plugin`) passed to `initializeFirefly`. The `Runtime` constructor iterates over factories: `this._plugins = plugins.map(x => x(this))`. Four built-in plugins follow this pattern: `EnvironmentVariablesPlugin` (always created), `MswPlugin` (conditional on `useMsw`), `LaunchDarklyPlugin` (conditional on `launchDarklyClient`), and `i18nextPlugin` (user-provided). `ModuleFederationPlugin` was a fifth until `@squide/firefly-module-federation` was removed (ADR-0033). Each plugin is retrieved at runtime via a memoized `getPlugin(name)` lookup.
 
 Evidence: `packages/core/src/plugins/Plugin.ts` defines the minimal abstract class with `constructor(name, runtime)`. `packages/firefly/src/initializeFirefly.ts` wires built-in plugins. `docs/updating/migrate-to-firefly-v9.0.md` (lines 108-157) documents the `_setRuntime` → constructor migration and the `plugins: [new MyPlugin()]` → `plugins: [x => new MyPlugin(x)]` change.
 

@@ -34,9 +34,9 @@
         "reset": "pnpm clean && pnpm run --sequential \"/^reset:.*/\"",
         "reset:modules": "pnpm -r --parallel --include-workspace-root exec pnpx rimraf node_modules pnpm-lock.yaml",
         "reset:templates": "cd templates/getting-started && pnpm reset:modules",
-        "list-outdated-deps": "pnpm outdated -r --format list !@opentelemetry/* !@module-federation/*",
+        "list-outdated-deps": "pnpm outdated -r --format list !@opentelemetry/*",
         "update-outdated-deps": "pnpm run --sequential \"/^update-outdated-deps:.*/\"",
-        "update-outdated-deps:update-versions": "pnpm update -r --latest !@opentelemetry/* !@module-federation/*",
+        "update-outdated-deps:update-versions": "pnpm update -r --latest !@opentelemetry/*",
         "update-outdated-deps:update-peers": "syncpack fix",
         "update-outdated-deps:format-pkg-json": "oxfmt \"**/package.json\""
     },

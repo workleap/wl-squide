@@ -64,9 +64,8 @@ Use `pnpm add -D --save-exact <package>` (or `pnpm add -DE <package>`) to ensure
 
 ### Held dependencies
 
-The `list-outdated-deps` and `update-outdated-deps:update-versions` scripts in the root `package.json` exclude a few packages with `!<name>`, so they are never listed or bumped. Do NOT remove an exclusion without verifying its exit condition (`pnpm peers check`, then build and browse the affected sample). Entries marked permanent have no exit condition:
+The `list-outdated-deps` and `update-outdated-deps:update-versions` scripts in the root `package.json` exclude packages with `!<name>`, so they are never listed or bumped. Do NOT remove an exclusion without verifying its exit condition (`pnpm peers check`, then build and browse the affected sample):
 
-- **`@module-federation/*`** (held at 2.9.3) — permanent hold. `@squide/firefly-module-federation` and `@squide/firefly-rsbuild-configs` are in maintenance mode and no sample builds a federated application anymore, so only unit and snapshot tests would guard a bump. Do NOT release it.
 - **`@opentelemetry/*`** — the web OpenTelemetry SDK that `@workleap/telemetry` installs requires `@opentelemetry/api` below 1.10, while the newer Node SDK packages of the `endpoints` express server require 1.10. Release them once `@workleap/telemetry` ships an SDK that accepts `@opentelemetry/api` 1.10.
 
 ## Adding a New Package

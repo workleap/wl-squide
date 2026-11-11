@@ -16,6 +16,4 @@ order: 50
 - [Migrate to firefly v16.0](./migrate-to-firefly-v16.0.md)
 - [Migrate to firefly v16.2](./migrate-to-firefly-v16.2.md)
 - [Migrate to firefly v17.0](./migrate-to-firefly-v17.0.md)
-- [Migrate to Rsbuild](./migrate-to-rsbuild.md) [!badge variant="warning" size="xs" text="deprecated"]
 - [Migrate to Just-In-Time (JIT) packages](./migrate-to-jit-packages.md)
-- [Migrate remote modules to local modules](./migrate-remote-modules-to-local-modules.md)

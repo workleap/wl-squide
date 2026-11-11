@@ -25,12 +25,10 @@ The following docs are **not** part of the skill and must be ignored:
 - `docs/updating/` — Version migration guides
 - `docs/static/` — Static image assets for the documentation site
 - `docs/_includes/` — Documentation site configuration templates
-- `docs/reference/rsbuild/` — Rsbuild build configuration for Module Federation
-- `docs/reference/module-federation/` — Module Federation-specific API overloads
 - `docs/default.md` — Documentation site redirect page
 - `docs/about.md` — Repository metadata and contribution info
 - `docs/samples.md` — Links to external sample applications
-- `docs/troubleshooting.md` — Debug tips and Module Federation context issues
+- `docs/troubleshooting.md` — Debug tips
 - `docs/introduction/use-with-agents.md` — Meta-docs about using the agent skill itself
 - `docs/introduction/deploy.md` — Deployment and operational concerns
 - `docs/reference/packages.md` — NPM package table with no API content

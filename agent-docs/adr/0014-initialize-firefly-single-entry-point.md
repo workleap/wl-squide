@@ -32,7 +32,7 @@ Option 4. `initializeFirefly` accepts all configuration and returns the `Firefly
 6. **Bootstraps modules** — Dispatches `ApplicationBootstrappingStartedEvent`, calls `runtime.moduleManager.registerModules()` with all module definitions merged, starts MSW if enabled, calls `onError` for any registration errors.
 7. **Returns the runtime** — Synchronously, even though MSW and Honeycomb initialization continue in the background.
 
-The function accepts two module input styles: `localModules` (plain registration functions, the common case) and `moduleDefinitions` (objects with `definition` + `registryId`, the advanced case). Both are merged internally: `[...moduleDefinitions, ...toLocalModuleDefinitions(localModules)]`. The `@squide/firefly-module-federation` package provides its own `initializeFirefly` wrapper that additionally accepts `remotes` and adds `ModuleFederationPlugin` to the plugins array (ADR-0007).
+The function accepts two module input styles: `localModules` (plain registration functions, the common case) and `moduleDefinitions` (objects with `definition` + `registryId`, the advanced case). Both are merged internally: `[...moduleDefinitions, ...toLocalModuleDefinitions(localModules)]`. The `@squide/firefly-module-federation` package provided its own `initializeFirefly` wrapper that additionally accepted `remotes` and added `ModuleFederationPlugin` to the plugins array (ADR-0007), until the package was removed (ADR-0033).
 
 Evidence: `packages/firefly/src/initializeFirefly.ts` implements the full function. `packages/firefly/tests/initializeFirefly.test.ts` tests the `hasExecuted` guard. `docs/updating/migrate-to-firefly-v12.0.md` (lines 22-85) documents the evolution from `bootstrap` to `initializeFirefly`. `docs/updating/migrate-from-v8-to-v15.0.md` (lines 25-43) provides the aggregated timeline.
 
@@ -42,4 +42,4 @@ Evidence: `packages/firefly/src/initializeFirefly.ts` implements the full functi
 - The `hasExecuted` guard prevents accidental double-initialization (e.g., React Strict Mode re-rendering the root).
 - The runtime is guaranteed to be correctly initialized — consumers cannot create it in an inconsistent state.
 - MSW startup is handled automatically based on the `useMsw` option. The `waitForMsw` prop was removed from `AppRouter` since `initializeFirefly` already knows whether MSW is enabled.
-- The `moduleDefinitions` vs. `localModules` distinction allows the Module Federation wrapper to inject remote modules without changing the base function's API.
+- The `moduleDefinitions` vs. `localModules` distinction allowed the Module Federation wrapper to inject remote modules without changing the base function's API. The option is kept after the removal of that wrapper (ADR-0033).

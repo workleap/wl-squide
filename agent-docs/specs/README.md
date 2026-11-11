@@ -20,15 +20,6 @@ Detailed specifications and API documentation for `@squide/*` packages.
 | `@squide/msw` | `packages/msw` | `MswPlugin`, request handler registration |
 | `@squide/fakes` | `packages/fakes` | `LocalStorageSessionManager` |
 | `@squide/firefly-storybook` | `packages/firefly-storybook` | `initializeFireflyForStorybook`, `withFireflyDecorator`, `withFeatureFlagsOverrideDecorator`, `StorybookRuntime` |
-| `@squide/firefly-module-federation` | `packages/firefly-module-federation` | Maintenance-only. `initializeFirefly` wrapper with a `remotes` option, `getModuleFederationPlugin`, remote module registration events |
-
-## Build Tooling
-
-Published package (`"access": "public"`), documented for consumers in `docs/reference/rsbuild/`. It is maintenance-only and no sample uses it: applications use `@workleap/rsbuild-configs` directly.
-
-| Package | Path | Purpose |
-|---------|------|---------|
-| `@squide/firefly-rsbuild-configs` | `packages/firefly-rsbuild-configs` | Maintenance-only. Rsbuild configuration presets for Module Federation |
 
 ## Source Layout
 
