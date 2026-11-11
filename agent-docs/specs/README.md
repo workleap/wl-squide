@@ -24,12 +24,11 @@ Detailed specifications and API documentation for `@squide/*` packages.
 
 ## Build Tooling
 
-Published packages (`"access": "public"`), documented for consumers in `docs/reference/rsbuild/` and `docs/reference/webpack/`. Both are maintenance-only and no sample uses them: applications use `@workleap/rsbuild-configs` directly.
+Published package (`"access": "public"`), documented for consumers in `docs/reference/rsbuild/`. It is maintenance-only and no sample uses it: applications use `@workleap/rsbuild-configs` directly.
 
 | Package | Path | Purpose |
 |---------|------|---------|
 | `@squide/firefly-rsbuild-configs` | `packages/firefly-rsbuild-configs` | Maintenance-only. Rsbuild configuration presets for Module Federation |
-| `@squide/firefly-webpack-configs` | `packages/firefly-webpack-configs` | Maintenance-only. Webpack configuration presets for Module Federation |
 
 ## Source Layout
 
