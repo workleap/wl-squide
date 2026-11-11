@@ -1,6 +1,6 @@
 {
     "name": "@squide/firefly-storybook",
-    "version": "4.0.1",
+    "version": "4.0.2",
     "description": "Squide firefly helpers for Storybook.",
     "license": "Apache-2.0",
     "author": "Workleap",

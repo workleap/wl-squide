@@ -1,6 +1,6 @@
 {
     "name": "@squide/core",
-    "version": "7.6.2",
+    "version": "7.6.3",
     "description": "The core package of @squide application shell.",
     "license": "Apache-2.0",
     "author": "Workleap",

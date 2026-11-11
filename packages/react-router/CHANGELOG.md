@@ -1,5 +1,13 @@
 # @squide/react-router
 
+## 10.2.4
+
+### Patch Changes
+
+- [#762](https://github.com/workleap/wl-squide/pull/762) [`e5e03be`](https://github.com/workleap/wl-squide/commit/e5e03bebd4829c559128c539d7db6448f5bdc47e) Thanks [@patricklafrance](https://github.com/patricklafrance)! - Updated dependencies to their latest versions.
+- Updated dependencies [[`e5e03be`](https://github.com/workleap/wl-squide/commit/e5e03bebd4829c559128c539d7db6448f5bdc47e)]:
+  - @squide/core@7.6.3
+
 ## 10.2.3
 
 ### Patch Changes
