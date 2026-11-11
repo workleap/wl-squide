@@ -15,7 +15,7 @@ Let's begin by creating the application that will serve as the entry point for o
 Create a new application (we'll refer to ours as `host`), then open a terminal at the root of the new solution and install the following packages:
 
 ```bash
-pnpm add -D @workleap/swc-configs @workleap/browserslist-config @squide/firefly-webpack-configs webpack webpack-dev-server webpack-cli @swc/core @swc/helpers browserslist postcss typescript @types/react @types/react-dom
+pnpm add -D @workleap/swc-configs @workleap/browserslist-config @squide/firefly-webpack-configs "webpack@<5.112.0" webpack-dev-server@5 webpack-cli @swc/core @swc/helpers browserslist postcss typescript @types/react @types/react-dom
 pnpm add @squide/firefly @squide/firefly-module-federation react react-dom react-router msw @tanstack/react-query
 ```
 
