@@ -42,11 +42,11 @@ For detailed patterns and APIs, read the design docs linked below. This section 
 
 | Sample | Path | Highlights |
 |--------|------|------------|
-| basic | `samples/basic/` | Host + local + remote modules with Rsbuild |
+| basic | `samples/basic/` | Host + local modules, hoisted routes, custom layout, React context override |
 | endpoints | `samples/endpoints/` | Data fetching, i18n, Express BFF server |
 | storybook | `samples/storybook/` | Storybook integration demo |
 
-Each sample follows: **host** → **shell** (layout, bootstrapping route) → **modules** (local and/or remote) with a **shared** package for types.
+Each sample follows: **host** → **shell** (layout, bootstrapping route) → **local modules** with a **shared** package for types.
 
 ## Further Reading
 

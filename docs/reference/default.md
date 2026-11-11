@@ -113,18 +113,18 @@ toc:
 
 ### Module Federation
 
-- [initializeFirefly](./module-federation/initializeFirefly.md)
+- [initializeFirefly](./module-federation/initializeFirefly.md) [!badge variant="warning" size="xs" text="deprecated"]
 
 ### webpack
 
-- [defineDevHostConfig](./webpack/defineDevHostConfig.md)
-- [defineDevRemoteModuleConfig](./webpack/defineDevRemoteModuleConfig.md)
-- [defineBuildHostConfig](./webpack/defineBuildHostConfig.md)
-- [defineBuildRemoteModuleConfig](./webpack/defineBuildRemoteModuleConfig.md)
+- [defineDevHostConfig](./webpack/defineDevHostConfig.md) [!badge variant="warning" size="xs" text="deprecated"]
+- [defineDevRemoteModuleConfig](./webpack/defineDevRemoteModuleConfig.md) [!badge variant="warning" size="xs" text="deprecated"]
+- [defineBuildHostConfig](./webpack/defineBuildHostConfig.md) [!badge variant="warning" size="xs" text="deprecated"]
+- [defineBuildRemoteModuleConfig](./webpack/defineBuildRemoteModuleConfig.md) [!badge variant="warning" size="xs" text="deprecated"]
 
 ### Rsbuild
 
-- [defineDevHostConfig](./rsbuild/defineDevHostConfig.md) [!badge variant="danger" size="xs" text="experimental"]
-- [defineDevRemoteModuleConfig](./rsbuild/defineDevRemoteModuleConfig.md) [!badge variant="danger" size="xs" text="experimental"]
-- [defineBuildHostConfig](./rsbuild/defineBuildHostConfig.md) [!badge variant="danger" size="xs" text="experimental"]
-- [defineBuildRemoteModuleConfig](./rsbuild/defineBuildRemoteModuleConfig.md) [!badge variant="danger" size="xs" text="experimental"]
+- [defineDevHostConfig](./rsbuild/defineDevHostConfig.md) [!badge variant="warning" size="xs" text="deprecated"]
+- [defineDevRemoteModuleConfig](./rsbuild/defineDevRemoteModuleConfig.md) [!badge variant="warning" size="xs" text="deprecated"]
+- [defineBuildHostConfig](./rsbuild/defineBuildHostConfig.md) [!badge variant="warning" size="xs" text="deprecated"]
+- [defineBuildRemoteModuleConfig](./rsbuild/defineBuildRemoteModuleConfig.md) [!badge variant="warning" size="xs" text="deprecated"]

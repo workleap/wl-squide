@@ -1,0 +1,18 @@
+{
+    "extends": "@workleap/typescript-configs/library.json",
+    "compilerOptions": {
+        "incremental": true,
+        "tsBuildInfoFile": "node_modules/.cache/tsbuildinfo.json",
+        "types": [
+            "node",
+            /**
+             * Since we are using module augmentation in the packages, and the packages of this repo resolve to their
+             * source files, we need to include the types folder in the packages to make sure the types are included
+             * in the build.
+             */
+            "../shell/types/env-vars.d.ts",
+            "../shell/types/feature-flags.d.ts"
+        ]
+    },
+    "exclude": ["dist", "node_modules"]
+}

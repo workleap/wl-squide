@@ -6,8 +6,8 @@ toc:
 
 # defineBuildHostConfig
 
-!!!danger
-This is an experimental feature.
+!!!warning
+This package is in maintenance mode. To move to local modules, refer to the [migration guide](../../updating/migrate-remote-modules-to-local-modules.md).
 !!!
 
 !!!warning

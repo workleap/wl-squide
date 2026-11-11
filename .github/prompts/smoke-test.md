@@ -19,10 +19,10 @@ The sandbox rejects some shell constructs. Using them wastes turns, so avoid the
 Chaining allowlisted commands with `;` and piping into `grep`/`head`/`tail` are both fine, and are how the recipes below stay within one turn.
 
 ## Task
-Smoke-test the endpoints sample app. Start the servers, log in, then visit
+Smoke-test the endpoints sample app. Start the server, log in, then visit
 every page listed below and verify each renders content without JavaScript errors.
 
-### Step 1 — Start servers
+### Step 1 — Start the server
 
 Run this exact command with the Bash tool's `run_in_background` parameter set to `true` (no `&`, no redirection):
 
@@ -30,10 +30,10 @@ Run this exact command with the Bash tool's `run_in_background` parameter set to
 pnpm serve-endpoints
 ```
 
-Then wait for both servers in a single turn:
+Then wait for the server:
 
 ```bash
-curl --retry 30 --retry-delay 5 --retry-connrefused --silent --output /dev/null http://localhost:8080 && curl --retry 30 --retry-delay 5 --retry-connrefused --silent --output /dev/null http://localhost:8081 && echo "BOTH SERVERS READY"
+curl --retry 30 --retry-delay 5 --retry-connrefused --silent --output /dev/null http://localhost:8080 && echo "SERVER READY"
 ```
 
 If that command fails, read the background task's output file for diagnostics and stop with "SMOKE TEST FAILED".
@@ -87,7 +87,6 @@ Do **not** try to verify navigation by clicking links. Past runs have seen `agen
 **Known noise (IGNORE these):**
 - **LaunchDarkly errors on every page** — `LAUNCH_DARKLY_CLIENT_ID` is not set in CI, so the client always fails to initialize (`No environment/client-side ID was specified`, `Environment not found`, `LaunchDarklyFlagFetchError`). The app catches and logs these; rendering is unaffected.
 - `/federated-tabs/failing` — intentionally throws to exercise error boundaries. The error boundary UI and its `500 Internal Server Error` are expected.
-- Module Federation `does not satisfy the requirement of host` version warnings — expected for `workspace:*` dependencies.
 - MSW (Mock Service Worker) console warnings — expected in this mock-data app.
 - React warnings, deprecation notices — only flag actual JS errors/exceptions.
 

@@ -506,7 +506,7 @@ Static resources land in the initial chunk for every supported language. To ship
 ```ts
 import { getI18nextPlugin, type LoadResourcesFunction } from "@squide/i18next";
 
-// Each dynamic import becomes a chunk. For a remote module, the chunk is served by the remote.
+// Each dynamic import becomes a chunk.
 const loadResources: LoadResourcesFunction = async language => {
     const module = await import(`./locales/${language}.json`, { with: { type: "json" } });
 

@@ -26,7 +26,7 @@ const renderSection: RenderSectionFunction = (elements, key) => {
 };
 
 export function RootLayout() {
-    // Retrieve the navigation items registered by the remote modules.
+    // Retrieve the navigation items registered by the modules.
     const navigationItems = useNavigationItems();
 
     // Transform the navigation items into React elements.

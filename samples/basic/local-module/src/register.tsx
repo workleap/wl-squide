@@ -39,6 +39,18 @@ function registerRoutes(runtime: FireflyRuntime) {
             menuId: "/federated-tabs"
         }
     );
+
+    // Register a nested navigation link under a section registered by another module.
+
+    runtime.registerNavigationItem(
+        {
+            $label: "Child 3",
+            to: "#"
+        },
+        {
+            sectionId: "section"
+        }
+    );
 }
 
 export const registerLocalModule: ModuleRegisterFunction<FireflyRuntime, AppContext> = (runtime, context) => {

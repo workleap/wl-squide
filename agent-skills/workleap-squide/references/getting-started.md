@@ -27,7 +27,7 @@ monorepo
 ├────── inventory
 ```
 
-Squide supports both **local modules** (a sibling package in a monorepo, a standalone package, or a folder in the host) and **remote modules** (Module Federation) in hybrid mode. Products typically start with local modules and migrate them to remote modules one by one, without changing the application's core code.
+Squide modules are **local modules**: a sibling package in a monorepo, a standalone package, or a folder in the host.
 
 Squide provides built-in mechanisms for the cross-cutting functionalities of a web application: modular routing, modular navigation, authentication, global data fetching, public and protected pages, localization, observability, logging, error handling, messaging, environment variables, feature flags, and API request mocking.
 

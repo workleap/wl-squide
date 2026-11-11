@@ -5,7 +5,6 @@ declare module "@squide/firefly" {
         "enable-log-rocket": boolean;
         "enable-honeycomb": boolean;
         "register-local-module": boolean;
-        "register-remote-module": boolean;
         "show-characters": boolean;
     }
 }

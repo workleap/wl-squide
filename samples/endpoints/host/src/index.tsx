@@ -1,14 +1,13 @@
+import { registerAnotherLocalModule } from "@endpoints/another-local-module";
 import { createI18NextPlugin } from "@endpoints/i18next";
 import { registerLocalModule } from "@endpoints/local-module";
 import { registerShell } from "@endpoints/shell";
-import { FireflyProvider, getFeatureFlag } from "@squide/firefly";
-import { initializeFirefly } from "@squide/firefly-module-federation";
+import { FireflyProvider, getFeatureFlag, initializeFirefly } from "@squide/firefly";
 import { BrowserConsoleLogger, type RootLogger } from "@workleap/logging";
 import { initializeTelemetry, LogRocketLogger, TelemetryProvider, type InitializeTelemetryOptions } from "@workleap/telemetry/react";
 import { initialize as initializeLaunchDarkly } from "launchdarkly-js-client-sdk";
 import { StrictMode } from "react";
 import { createRoot } from "react-dom/client";
-import { Remote1Definition } from "../remotes.ts";
 import { App } from "./App.tsx";
 import { registerHost } from "./register.tsx";
 
@@ -34,7 +33,6 @@ try {
 const isLogRocketEnabled = getFeatureFlag(launchDarklyClient, "enable-log-rocket", true);
 const isHoneycombEnabled = getFeatureFlag(launchDarklyClient, "enable-honeycomb", true);
 const shouldRegisterLocalModule = getFeatureFlag(launchDarklyClient, "register-local-module", true);
-const shouldRegisterRemoteModule = getFeatureFlag(launchDarklyClient, "register-remote-module", true);
 
 const loggers: RootLogger[] = [new BrowserConsoleLogger()];
 
@@ -70,8 +68,7 @@ const telemetryClient = initializeTelemetry("wlp", telemetryOptions);
 
 const runtime = initializeFirefly({
     useMsw: !!process.env.USE_MSW,
-    localModules: [registerShell({ host: "@endpoints/host" }), registerHost, shouldRegisterLocalModule ? registerLocalModule : undefined],
-    remotes: [shouldRegisterRemoteModule ? Remote1Definition : undefined],
+    localModules: [registerShell({ host: "@endpoints/host" }), registerHost, shouldRegisterLocalModule ? registerLocalModule : undefined, registerAnotherLocalModule],
     startMsw: async x => {
         // Files that includes an import to the "msw" package are included dynamically to prevent adding
         // unused MSW stuff to the code bundles.
