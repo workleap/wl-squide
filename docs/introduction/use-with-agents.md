@@ -11,7 +11,7 @@ Information about the Squide libraries can be shared with different agents using
 
 ## Install agent skill
 
-Starting with pnpm `12.11`, the `workleap-squide` agent skill is shipped with the `@squide/firefly` package. Approve it when pnpm reports it during an install:
+Starting with pnpm `12.11` and `@squide/firefly` `20.1.0`, the `workleap-squide` agent skill is shipped with the `@squide/firefly` package. Approve it when pnpm reports it during an install:
 
 ```bash
 pnpm approve
@@ -24,6 +24,12 @@ If the skill was previously installed with `skills.sh`, remove it, otherwise age
 
 ```bash
 pnpm dlx skills@latest remove workleap-squide
+```
+
+If the skill was installed globally, add the `--global` option:
+
+```bash
+pnpm dlx skills@latest remove workleap-squide --global
 ```
 !!!
 
