@@ -4,19 +4,16 @@
     "accessibility": {
       "source": "addyosmani/web-quality-skills",
       "sourceType": "github",
-      "computedHash": "3f390c14d09ca45da332b6c421b3195d12da099ec24ee549f80e666ec48dc89b"
-    },
-    "agent-browser": {
-      "source": "vercel-labs/agent-browser",
-      "sourceType": "github",
-      "skillPath": "skills/agent-browser/SKILL.md",
-      "computedHash": "c05aa7e4c980954eb67fd89757cff008c9987b0df6a1624338fcfcb4ca4b02d5",
+      "skillPath": "skills/accessibility/SKILL.md",
+      "computedHash": "88c64dead9bb55925c7b983f5fd95cfecf30bd8c076fd384cdb17019d1becd87",
       "installMode": "copy"
     },
     "best-practices": {
       "source": "addyosmani/web-quality-skills",
       "sourceType": "github",
-      "computedHash": "f5d58f0adf9cc9646b35daf2241377e1ad7b8ab094e54c9792a826af1e0dca5b"
+      "skillPath": "skills/best-practices/SKILL.md",
+      "computedHash": "fc34a8d4aea22d0158e0560457c82432e9d2d0ac74cf3e9aaccb599905f3f711",
+      "installMode": "copy"
     },
     "dogfood": {
       "source": "vercel-labs/agent-browser",
@@ -49,12 +46,9 @@
     "vitest": {
       "source": "antfu/skills",
       "sourceType": "github",
-      "computedHash": "0efd9cf8c56aada060d418d009cfe621a7915d0c73a958fe611985bc0c2fa4b8"
-    },
-    "workleap-logging": {
-      "source": "workleap/wl-logging",
-      "sourceType": "github",
-      "computedHash": "6fe6c5b84ba8bbd480c924bfc58ddb3eef0d2458ae63e1a0695a9145092ed9dd"
+      "skillPath": "skills/vitest/SKILL.md",
+      "computedHash": "b26b7f8d10e860e944e0334c003207771707c4906514cb96c971faae13fba875",
+      "installMode": "copy"
     },
     "workleap-react-best-practices": {
       "source": "workleap/wl-web-configs",
@@ -62,16 +56,6 @@
       "skillPath": "agent-skills/workleap-react-best-practices/SKILL.md",
       "computedHash": "9f42af7a0842f7174c9357e688b12fc02516bbd9f440f87496a195ab78cab536",
       "installMode": "copy"
-    },
-    "workleap-telemetry": {
-      "source": "workleap/wl-telemetry",
-      "sourceType": "github",
-      "computedHash": "a500c2f432684db86cf8ec22ab7b2d797494904294694fa03c874d72a26bddee"
-    },
-    "workleap-web-configs": {
-      "source": "workleap/wl-web-configs",
-      "sourceType": "github",
-      "computedHash": "52ca9da414b4136618c6d54cdea15167959e57e59bf6758fa5712fc2b10fdbca"
     }
   }
 }

@@ -16,15 +16,15 @@
         "@squide/i18next": "workspace:*"
     },
     "devDependencies": {
-        "@types/node": "26.6.5",
-        "@workleap/typescript-configs": "5.0.0",
+        "@types/node": "26.6.6",
+        "@workleap/typescript-configs": "5.1.0",
         "typescript": "7.0.2"
     },
     "peerDependencies": {
-        "i18next": "^26.5.3",
-        "i18next-browser-languagedetector": "^8.2.1",
+        "i18next": "^27.0.1",
+        "i18next-browser-languagedetector": "^8.3.0",
         "react": "^19.3.1",
         "react-dom": "^19.3.1",
-        "react-i18next": "^17.1.0"
+        "react-i18next": "^18.0.1"
     }
 }

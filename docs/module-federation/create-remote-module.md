@@ -21,7 +21,7 @@ Let's add our first remote module!
 Create a new application (we'll refer to ours as `remote-module`), then open a terminal at the root of the new solution and install the following packages:
 
 ```bash
-pnpm add -D @workleap/swc-configs @workleap/browserslist-config @squide/firefly-webpack-configs webpack webpack-dev-server webpack-cli @swc/core @swc/helpers browserslist postcss @types/react @types/react-dom
+pnpm add -D @workleap/swc-configs @workleap/browserslist-config @squide/firefly-webpack-configs "webpack@<5.112.0" webpack-dev-server@5 webpack-cli @swc/core @swc/helpers browserslist postcss @types/react @types/react-dom
 pnpm add @squide/firefly react react-dom react-router msw @tanstack/react-query
 ```
 

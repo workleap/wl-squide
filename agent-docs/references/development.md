@@ -73,6 +73,14 @@ The repository `.npmrc` routes every install through the `gsoft` GitHub package 
 
 **Important pnpm quirk:** changing an `overrides` entry does NOT trigger re-resolution on `pnpm install` (even with `--force` or `--no-frozen-lockfile`) — pnpm reports "Already up to date" and leaves the old versions in the lockfile. To apply override changes, delete `pnpm-lock.yaml` and run `pnpm install --lockfile-only`.
 
+### Held dependencies
+
+The `list-outdated-deps` and `update-outdated-deps:update-versions` scripts in the root `package.json` exclude a few packages with `!<name>`, so they are never listed or bumped. Do NOT remove an exclusion without verifying its exit condition (`pnpm peers check`, then build and browse the affected sample):
+
+- **`webpack`** (held at 5.110.3) and **`@workleap/webpack-configs`** (held at 1.6.16) — `webpack` 5.112 moved internal files that `@module-federation/enhanced` 2.9.3 imports from their old paths, so every webpack build fails with `Cannot find module 'webpack/lib/util/extractUrlAndGlobal'` ([module-federation/core#5202](https://github.com/module-federation/core/issues/5202)). `@workleap/webpack-configs` 1.6.17+ require `webpack` `^5.112.0`, so `@squide/firefly-webpack-configs` pins it to exactly `1.6.16` and caps its `webpack` peer range at `<5.112.0`; `.syncpackrc.js` ignores both entries. Release all of it once a fixed `@module-federation/enhanced` is installed and `pnpm build-basic-webpack` passes.
+- **`webpack-dev-server`** (held at 5.2.4) — `@workleap/webpack-configs` requires `^5.2.4` as a peer. The package is deprecated, so the hold stays until `@squide/firefly-webpack-configs` stops depending on it.
+- **`@opentelemetry/*`** — the web OpenTelemetry SDK that `@workleap/telemetry` installs requires `@opentelemetry/api` below 1.10, while the newer Node SDK packages of the `endpoints` express server require 1.10. Release them once `@workleap/telemetry` ships an SDK that accepts `@opentelemetry/api` 1.10.
+
 ## Adding a New Package
 
 1. Create a folder under `packages/` matching the package name.

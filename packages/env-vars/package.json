@@ -36,20 +36,20 @@
     },
     "dependencies": {
         "@squide/core": "workspace:^",
-        "@workleap/logging": "^2.0.1",
+        "@workleap/logging": "^2.1.0",
         "memoize": "^11.0.0"
     },
     "devDependencies": {
-        "@rsbuild/core": "2.2.14",
-        "@rslib/core": "1.0.3",
-        "@types/node": "26.6.5",
+        "@rsbuild/core": "2.3.1",
+        "@rslib/core": "1.0.6",
+        "@types/node": "26.6.6",
         "@types/react": "19.3.0",
-        "@vitejs/plugin-react": "6.1.2",
-        "@workleap/rslib-configs": "2.0.0",
-        "@workleap/typescript-configs": "5.0.0",
+        "@vitejs/plugin-react": "6.2.1",
+        "@workleap/rslib-configs": "2.1.1",
+        "@workleap/typescript-configs": "5.1.0",
         "happy-dom": "21.0.4",
         "typescript": "7.0.2",
-        "vitest": "5.0.5"
+        "vitest": "5.1.0"
     },
     "peerDependencies": {
         "react": "^18.0.0 || ^19.0.0"

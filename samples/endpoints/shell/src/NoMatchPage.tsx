@@ -17,11 +17,11 @@ export function NoMatchPage({ path, host }: NoMatchPageProps) {
             <h1>{t("title")}</h1>
             {host && (
                 <p style={{ backgroundColor: "blue", color: "white", width: "fit-content" }}>
-                    <Trans i18n={i18nextInstance} i18nKey="servedBy" t={t} shouldUnescape values={{ host }} components={{ code: <code /> }} />
+                    <Trans i18n={i18nextInstance} i18nKey="servedBy" t={t} values={{ host }} components={{ code: <code /> }} />
                 </p>
             )}
             <p>
-                <Trans i18n={i18nextInstance} i18nKey="message" t={t} shouldUnescape values={{ path }} />
+                <Trans i18n={i18nextInstance} i18nKey="message" t={t} values={{ path }} />
             </p>
             <Link to="/">{t("goBackLinkLabel")}</Link>
         </>

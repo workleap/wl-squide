@@ -34,13 +34,7 @@ For each changed file in the PR diff, load applicable skills from `.claude/skill
 | `turbo.json` | `/turborepo` |
 | `package.json`, `pnpm-workspace.yaml`, `pnpm-lock.yaml`, `.npmrc` | `/pnpm` |
 
-**By import:**
-
-| Import | Skill |
-|---|---|
-| `@workleap/logging` | `/workleap-logging` |
-| `@workleap/telemetry` | `/workleap-telemetry` |
-| `@workleap/browserslist-config`, `@workleap/stylelint-configs`, `@workleap/typescript-configs`, `@workleap/rsbuild-configs`, `@workleap/rslib-configs` | `/workleap-web-configs` |
+The skills that dependencies ship through pnpm (listed in `.claude/skills/.gitignore`, such as `workleap-logging`, `workleap-telemetry` and the `workleap-*-config(s)` skills) are not installed in this job, so they are not available here.
 
 ## Issues reporting
 

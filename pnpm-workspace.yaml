@@ -38,6 +38,25 @@ allowBuilds:
   sharp: true
   unix-dgram: true
 
+# Packages approved to have the agent skills they ship linked by pnpm install.
+permissions:
+  "@workleap/browserslist-config":
+    skills: true
+  "@workleap/logging":
+    skills: true
+  "@workleap/rsbuild-configs":
+    skills: true
+  "@workleap/rslib-configs":
+    skills: true
+  "@workleap/stylelint-configs":
+    skills: true
+  "@workleap/telemetry":
+    skills: true
+  "@workleap/typescript-configs":
+    skills: true
+  agent-browser:
+    skills: true
+
 # Link approved package skills into .claude/skills only, even when another .<agent>/skills dir exists
 # (pnpm's default links into every existing one).
 skills:

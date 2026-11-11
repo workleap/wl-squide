@@ -14,23 +14,21 @@ Re-pull every `pnpm dlx skills@latest add` installed skill in this repo, but onl
 
 Skills install into `.claude/skills/` only, as files (`--copy`), never symlinks. `.agents/skills/` must not exist: pnpm also links package skills into it when it does.
 
+Skills that a dependency ships for pnpm (approved under `permissions` in `pnpm-workspace.yaml`: `agent-browser`, `workleap-logging`, `workleap-telemetry` and the `workleap-*-config(s)` skills) are linked into `.claude/skills/` by `pnpm install` and listed in the `# pnpm` block of `.claude/skills/.gitignore`. They are out of scope: never install them with the skills CLI.
+
 - Only `workleap-*` skills use `--full-depth`.
 - Every command pins `skills@latest`: `.npmrc` points pnpm at the GitHub package firewall, which holds back new releases, and a bare `skills` can ask for a version the firewall doesn't serve yet, so the CLI download fails.
 
 | Skill | Package gate (workspace `package.json` files) | Update command |
 |---|---|---|
 | `accessibility` | — | `pnpm dlx skills@latest add https://github.com/addyosmani/web-quality-skills --skill accessibility -a claude-code --copy -y` |
-| `agent-browser` | `agent-browser` | `pnpm dlx skills@latest add https://github.com/vercel-labs/agent-browser --skill agent-browser -a claude-code --copy -y` |
 | `best-practices` | — | `pnpm dlx skills@latest add https://github.com/addyosmani/web-quality-skills --skill best-practices -a claude-code --copy -y` |
 | `dogfood` | `agent-browser` | `pnpm dlx skills@latest add https://github.com/vercel-labs/agent-browser --skill dogfood -a claude-code --copy -y` |
 | `git-commit` | — | `pnpm dlx skills@latest add https://github.com/github/awesome-copilot --skill git-commit -a claude-code --copy -y` |
 | `pnpm` | `pnpm` (root `packageManager` field — not bumped by `update-outdated-deps`, so expect `SKIP` until pnpm is bumped by hand) | `pnpm dlx skills@latest add https://github.com/antfu/skills --skill pnpm -a claude-code --copy -y` |
 | `turborepo` | `turbo` | `pnpm dlx skills@latest add https://github.com/vercel/turborepo --skill turborepo -a claude-code --copy -y` |
 | `vitest` | `vitest` | `pnpm dlx skills@latest add https://github.com/antfu/skills --skill vitest -a claude-code --copy -y` |
-| `workleap-logging` | `@workleap/logging` | `pnpm dlx skills@latest add https://github.com/workleap/wl-logging --skill workleap-logging -a claude-code --copy --full-depth -y` |
 | `workleap-react-best-practices` | — | `pnpm dlx skills@latest add https://github.com/workleap/wl-web-configs --skill workleap-react-best-practices -a claude-code --copy --full-depth -y` |
-| `workleap-telemetry` | `@workleap/telemetry` | `pnpm dlx skills@latest add https://github.com/workleap/wl-telemetry --skill workleap-telemetry -a claude-code --copy --full-depth -y` |
-| `workleap-web-configs` | `@workleap/typescript-configs`, `@workleap/rsbuild-configs`, `@workleap/rslib-configs`, `@workleap/stylelint-configs`, `@workleap/browserslist-config` | `pnpm dlx skills@latest add https://github.com/workleap/wl-web-configs --skill workleap-web-configs -a claude-code --copy --full-depth -y` |
 
 ## Process
 
@@ -64,8 +62,8 @@ Print before running anything. Use `UPDATE` or `SKIP` (gated package lagging).
 
 ```
 skill                          | status  | details
-workleap-logging               | UPDATE  | @workleap/logging 2.0.1 vs latest 2.0.3 (minor matches)
-workleap-web-configs           | SKIP    | @workleap/rsbuild-configs lagging: 5.0.0 vs latest 5.2.0
+turborepo                      | UPDATE  | turbo 2.11.9 vs latest 2.11.12 (minor matches)
+vitest                         | SKIP    | vitest lagging: 5.0.5 vs latest 5.1.0
 ...
 ```
 
