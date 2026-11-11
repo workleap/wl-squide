@@ -33,7 +33,7 @@ Or by adding a `_redirects` file into the Netlify publish directory:
 
 ## Set the remote URL
 
-If your modular applications includes [remote modules](../module-federation/create-remote-module.md), configure the remote modules production URL:
+If your modular applications includes [remote modules](../reference/module-federation/initializeFirefly.md), configure the remote modules production URL:
 
 ```js !#4
 const Remotes = [

@@ -16,7 +16,7 @@ monorepo).
 ```
 wl-squide/
 ├── packages/          # Publishable @squide/* packages
-├── samples/           # Demo applications (4 variants)
+├── samples/           # Demo applications (3 variants)
 ├── templates/         # Starter project templates
 ├── docs/              # User-facing documentation (Retype)
 ├── .github/           # CI/CD workflows and prompts
@@ -43,7 +43,6 @@ For detailed patterns and APIs, read the design docs linked below. This section 
 | Sample | Path | Highlights |
 |--------|------|------------|
 | basic | `samples/basic/` | Host + local + remote modules with Rsbuild |
-| basic-webpack | `samples/basic-webpack/` | Webpack variant |
 | endpoints | `samples/endpoints/` | Data fetching, i18n, Express BFF server |
 | storybook | `samples/storybook/` | Storybook integration demo |
 
