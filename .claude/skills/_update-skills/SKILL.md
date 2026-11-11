@@ -17,7 +17,7 @@ Skills install into `.claude/skills/` only, as files (`--copy`), never symlinks.
 Skills that a dependency ships for pnpm (approved under `permissions` in `pnpm-workspace.yaml`: `agent-browser`, `workleap-logging`, `workleap-telemetry` and the `workleap-*-config(s)` skills) are linked into `.claude/skills/` by `pnpm install` and listed in the `# pnpm` block of `.claude/skills/.gitignore`. They are out of scope: never install them with the skills CLI.
 
 - Only `workleap-*` skills use `--full-depth`.
-- Every command pins `skills@latest`: `.npmrc` points pnpm at the GitHub package firewall, which holds back new releases, and a bare `skills` can ask for a version the firewall doesn't serve yet, so the CLI download fails.
+- Every command pins `skills@latest`.
 
 | Skill | Package gate (workspace `package.json` files) | Update command |
 |---|---|---|

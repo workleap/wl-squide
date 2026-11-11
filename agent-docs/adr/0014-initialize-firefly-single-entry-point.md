@@ -34,7 +34,7 @@ Option 4. `initializeFirefly` accepts all configuration and returns the `Firefly
 
 The function accepts two module input styles: `localModules` (plain registration functions, the common case) and `moduleDefinitions` (objects with `definition` + `registryId`, the advanced case). Both are merged internally: `[...moduleDefinitions, ...toLocalModuleDefinitions(localModules)]`. The `@squide/firefly-module-federation` package provides its own `initializeFirefly` wrapper that additionally accepts `remotes` and adds `ModuleFederationPlugin` to the plugins array (ADR-0007).
 
-Evidence: `packages/firefly/src/initializeFirefly.ts` (lines 140-204) implements the full function. `packages/firefly/tests/initializeFirefly.test.ts` (lines 9-15) tests the `hasExecuted` guard. `docs/updating/migrate-to-firefly-v12.0.md` (lines 22-85) documents the evolution from `bootstrap` to `initializeFirefly`. `docs/updating/migrate-from-v8-to-v15.0.md` (lines 25-43) provides the aggregated timeline.
+Evidence: `packages/firefly/src/initializeFirefly.ts` implements the full function. `packages/firefly/tests/initializeFirefly.test.ts` tests the `hasExecuted` guard. `docs/updating/migrate-to-firefly-v12.0.md` (lines 22-85) documents the evolution from `bootstrap` to `initializeFirefly`. `docs/updating/migrate-from-v8-to-v15.0.md` (lines 25-43) provides the aggregated timeline.
 
 ## Consequences
 

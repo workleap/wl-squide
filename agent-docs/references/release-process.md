@@ -15,7 +15,7 @@ wl-squide uses [Changesets](https://github.com/changesets/changesets) for versio
 ## Configuration
 
 - `.changeset/config.json` — changeset settings
-- Publish registry — the repository `.npmrc` points at the GitHub package firewall, so each published package sets `publishConfig.registry` to `https://registry.npmjs.org/`, and `changeset.yml` sets `pnpm_config_registry` on the `changesets/action` step: `changeset publish` checks existing versions with `pnpm info` against the repository registry and ignores `publishConfig.registry`. Keep both when adding a package or editing the workflow. See [development.md](./development.md#github-package-firewall)
+- `pnpm-workspace.yaml` — dependency release age gate (`minimumReleaseAge`); see [development.md](./development.md#minimum-release-age)
 - Version consistency enforced by Syncpack (`.syncpackrc.js`)
 
 ## PR Preview Packages

@@ -18,7 +18,7 @@ Squide extends React Router's route and navigation item types (`IndexRouteObject
 
 Option 3. All Squide-specific properties on route and navigation item objects use the `$` prefix. When rendering, `$`-prefixed properties are stripped before passing props to React Router components.
 
-Evidence: `packages/react-router/src/RouteRegistry.ts` (lines 16-27) defines `$id`, `$visibility`, `$parentIndexPath` on route types. `packages/react-router/src/NavigationItemRegistry.ts` defines `$id`, `$label`, `$additionalProps`, `$context`, `$canRender` on navigation item types. The `useRenderedNavigationItems` hook strips all `$`-prefixed properties before passing `linkProps` to React Router's `Link` component.
+Evidence: `packages/react-router/src/RouteRegistry.ts` defines `$id`, `$visibility`, `$parentIndexPath` on route types. `packages/react-router/src/NavigationItemRegistry.ts` defines `$id`, `$label`, `$additionalProps`, `$context`, `$canRender` on navigation item types. The `useRenderedNavigationItems` hook strips all `$`-prefixed properties before passing `linkProps` to React Router's `Link` component.
 
 ## Consequences
 

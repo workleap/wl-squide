@@ -26,17 +26,6 @@ jobs:
           # Required for the Turborepo Git filters.
           fetch-depth: 0
 
-      - name: Check that the lockfile has no tarball URLs
-        # pnpm downloads a package from the tarball URL recorded in the lockfile, bypassing the GitHub
-        # package firewall configured in .npmrc. The .pnpmfile.cjs file removes the registry.npmjs.org
-        # URLs pnpm writes when resolving through the firewall; a URL left in the lockfile was written
-        # without the pnpmfile (e.g. with --ignore-pnpmfile or before the pnpmfile was added).
-        run: |
-          if grep -n "tarball:" pnpm-lock.yaml; then
-            echo "::error file=pnpm-lock.yaml::The lockfile contains tarball URLs. Run \"pnpm install --fix-lockfile\" and commit pnpm-lock.yaml. See CONTRIBUTING.md."
-            exit 1
-          fi
-
       - name: Install pnpm
         uses: pnpm/action-setup@v6
         with:
@@ -49,12 +38,6 @@ jobs:
           check-latest: true
           cache: pnpm
           cache-dependency-path: pnpm-lock.yaml
-
-      - name: Authenticate to the GitHub package firewall
-        # pnpm ignores auth tokens set in a repository .npmrc, so the job token goes in the user-level ~/.npmrc.
-        env:
-          FIREWALL_TOKEN: ${{ github.token }}
-        run: echo "//package-firewall.githubapp.com/npm/enterprises/gsoft/:_authToken=${FIREWALL_TOKEN}" >> ~/.npmrc
 
       - name: Install dependencies
         run: pnpm install --frozen-lockfile

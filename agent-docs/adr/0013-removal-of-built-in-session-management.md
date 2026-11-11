@@ -24,7 +24,7 @@ The 401 handling mechanism was redesigned to be framework-agnostic: `useProtecte
 
 The `@squide/fakes` package provides `LocalStorageSessionManager` — a development-only utility for MSW-based development, NOT a replacement for production session management. The recipe explicitly warns: "Our security department reminds you to refrain from using a fake LocalStorageSessionManager in a production application."
 
-Evidence: `docs/updating/migrate-to-firefly-v9.0.md` (lines 36-38) lists the removed APIs with "define your own React context instead." `docs/recipes/add-authentication.md` provides the full replacement pattern (lines 163-373). `packages/firefly/src/useProtectedDataQueries.ts` (lines 83-98) implements the 401 detection. `packages/fakes/src/LocalStorageSessionManager.ts` provides the development-only fake.
+Evidence: `docs/updating/migrate-to-firefly-v9.0.md` (lines 36-38) lists the removed APIs with "define your own React context instead." `docs/recipes/add-authentication.md` provides the full replacement pattern (lines 163-373). `packages/firefly/src/useProtectedDataQueries.ts` implements the 401 detection. `packages/fakes/src/LocalStorageSessionManager.ts` provides the development-only fake.
 
 ## Consequences
 

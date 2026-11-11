@@ -18,7 +18,7 @@ Squide applications fetch global data (feature flags, user session, subscription
 
 Option 3. The `AppRouter` component accepts `waitForPublicData` and `waitForProtectedData` props that configure the bootstrapping state machine's initial state. The state machine tracks `isPublicDataReady` and `isProtectedDataReady` independently via `"public-data-ready"` and `"protected-data-ready"` actions. The `activeRouteVisibility` state tracks whether the current route is public or protected — protected data is only fetched when navigating to a protected route.
 
-Evidence: `packages/firefly/src/AppRouterReducer.ts` (lines 11-15) defines the `AppRouterWaitState` with `waitForPublicData` and `waitForProtectedData`. Lines 97-114 handle the `"public-data-ready"` and `"protected-data-ready"` actions independently. Lines 147-162 track `activeRouteVisibility` to determine when protected data fetching should begin.
+Evidence: `packages/firefly/src/AppRouterReducer.ts` defines the `AppRouterWaitState` with `waitForPublicData` and `waitForProtectedData`. The reducer handles the `"public-data-ready"` and `"protected-data-ready"` actions independently. It tracks `activeRouteVisibility` to determine when protected data fetching should begin.
 
 ## Consequences
 
