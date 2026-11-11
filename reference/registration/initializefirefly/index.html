@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <meta name="color-scheme" content="light dark">
     <meta name="turbo-root" content="/wl-squide">
-    <meta name="turbo-cache-control" content="no-cache" data-turbo-track="reload" data-track-token="4.6.0.847684666231">
+    <meta name="turbo-cache-control" content="no-cache" data-turbo-track="reload" data-track-token="4.6.0.847692091852">
 
     <!-- See retype.com -->
     <meta name="generator" content="Retype 4.6.0">
@@ -39,12 +39,12 @@
     <script data-cfasync="false">(function(){var cl=document.documentElement.classList,ls=localStorage.getItem("retype_scheme"),hd=cl.contains("dark"),hl=cl.contains("light"),wm=window.matchMedia&&window.matchMedia("(prefers-color-scheme: dark)").matches;if(ls==="dark"||(!ls&&wm&&!hd&&!hl)){cl.remove("light");cl.add("dark")}else if(ls==="light"||(!ls&&!wm&&!hd&&!hl)){cl.remove("dark");cl.add("light")}})();</script>
 
     <link id="retype-favicon" rel="icon" href="../../../static/favicon.png" />
-    <link href="../../../resources/css/retype.css?v=4.6.0.847684666231" rel="stylesheet">
+    <link href="../../../resources/css/retype.css?v=4.6.0.847692091852" rel="stylesheet">
 
-    <script data-cfasync="false" src="../../../resources/js/config.js?v=4.6.0.847684666231" data-turbo-eval="false" defer></script>
+    <script data-cfasync="false" src="../../../resources/js/config.js?v=4.6.0.847692091852" data-turbo-eval="false" defer></script>
     <script data-cfasync="false" src="../../../resources/js/retype.js?v=4.6.0" data-turbo-eval="false" defer></script>
-    <script id="lunr-js" data-cfasync="false" src="../../../resources/js/lunr.js?v=4.6.0.847684666231" data-turbo-eval="false" defer></script>
-    <script id="prism-js" data-cfasync="false" src="../../../resources/js/prism.js?v=4.6.0.847684666231" defer></script>
+    <script id="lunr-js" data-cfasync="false" src="../../../resources/js/lunr.js?v=4.6.0.847692091852" data-turbo-eval="false" defer></script>
+    <script id="prism-js" data-cfasync="false" src="../../../resources/js/prism.js?v=4.6.0.847692091852" defer></script>
 
     <link href="https://workleap.github.io/wl-idp-docs-hub/static/retype-customization.css" rel="stylesheet" />
 
@@ -601,22 +601,22 @@ export const register: ModuleRegisterFunction&lt;FireflyRuntime, unknown, Deferr
     };
 }</code></pre>
 </doc-codeblock></div>
-<div id="defer-the-registration-of-navigation-items-remote-modulesrcregistertsx" class="codeblock-wrapper"><doc-codeblock>
-<div class="codeblock-title">remote-module/src/register.tsx</div>
+<div id="defer-the-registration-of-navigation-items-another-local-modulesrcregistertsx" class="codeblock-wrapper"><doc-codeblock>
+<div class="codeblock-title">another-local-module/src/register.tsx</div>
 <pre translate="no" class="language-tsx" data-line="20-23,27-37"><code v-pre class="language-tsx">import type { ModuleRegisterFunction, FireflyRuntime } from &quot;@squide/firefly&quot;;
 import { Page } from &quot;./Page.tsx&quot;;
 import { FeatureBPage } from &quot;./FeatureBPage.tsx&quot;;
 
 export const register: ModuleRegisterFunction&lt;FireflyRuntime&gt; = runtime =&gt; {
     runtime.registerRoute({
-        path: &quot;/remote/page&quot;,
+        path: &quot;/another/page&quot;,
         element: &lt;Page /&gt;
     });
 
     runtime.registerNavigationItem({
-        $id: &quot;remote-page&quot;,
-        $label: &quot;Remote/Page&quot;,
-        to: &quot;/remote/page&quot;
+        $id: &quot;another-page&quot;,
+        $label: &quot;Another/Page&quot;,
+        to: &quot;/another/page&quot;
     });
 
     // Routes are always registered. If a route may not be available for a group of users, conditionally register
@@ -773,22 +773,22 @@ const runtime = initializeFirefly({
     </a>
 </div>
 <div class="card-compact-container">
+    <a href="/wl-squide/reference/module-federation/initializefirefly/" class="group card-compact no-link">
+        <div class="card-compact-body">
+            <div class="card-compact-header">
+                <span class="card-compact-title">initializeFirefly</span>
+            </div>
+            <p class="card-compact-description">This function is a wrapper around the original initializeFirefly function, adapted for use with Module Federation. This page documents only the differences between the original function and this adapted version.</p>
+        </div>
+    </a>
+</div>
+<div class="card-compact-container">
     <a href="/wl-squide/updating/migrate-from-v8-to-v15.0/" class="group card-compact no-link">
         <div class="card-compact-body">
             <div class="card-compact-header">
                 <span class="card-compact-title">Migrate from v8.* to v15.0</span>
             </div>
             <p class="card-compact-description">This migration guide is an aggregation of all the changes that happened between Squide firefly v9.0 and v15.0:</p>
-        </div>
-    </a>
-</div>
-<div class="card-compact-container">
-    <a href="/wl-squide/updating/migrate-to-firefly-v12.0/" class="group card-compact no-link">
-        <div class="card-compact-body">
-            <div class="card-compact-header">
-                <span class="card-compact-title">Migrate to firefly v12.0</span>
-            </div>
-            <p class="card-compact-description">If you are migrating from v8.*, follow the Migrate from v8.* to v15.0 guide.</p>
         </div>
     </a>
 </div>

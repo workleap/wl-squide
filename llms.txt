@@ -47,20 +47,13 @@
 - [Register plugins](https://workleap.github.io/wl-squide/essentials/register-plugins.md): To keep Squide lightweight, not all functionalities should be integrated as a core functionality. However, to accommodate a broad range of technologies, a plugin system has been implemented to fill the gap.
 - [Define error boundaries](https://workleap.github.io/wl-squide/essentials/define-error-boundaries.md): Squide uses React Router's error boundary system to isolate failures when possible and to catch unhandled errors. This page explains how Squide integrates with React Router's error boundaries and how to define them at different levels of your application.
 
-## Module federation
-
-- [Create an host application](https://workleap.github.io/wl-squide/module-federation/create-host.md): We highly recommend going through the entire getting started guide. However, if you prefer to scaffold the application we'll be building, a template is
-- [Create a remote module](https://workleap.github.io/wl-squide/module-federation/create-remote-module.md): We highly recommend going through the entire getting started guide. However, if you prefer to scaffold the application we'll be building, a template is
-- [Add a shared dependency](https://workleap.github.io/wl-squide/module-federation/add-a-shared-dependency.md): Shared dependencies is one of the most powerful concepts of Module Federation. However, mastering its configuration can be quite challenging. Failure to
-- [Develop a module in isolation](https://workleap.github.io/wl-squide/module-federation/develop-a-module-in-isolation.md): To develop their own independent module, a team should not need to install the host application or any other modules of the application they do not own.
-- [Setup i18next](https://workleap.github.io/wl-squide/module-federation/setup-i18next.md): Most Workleap's application are either already bilingual or will be in the future. To help feature teams deal with localized resources, Squide provides a native plugin designed to adapt the i18next library for modular applications.
-- [Override a React context](https://workleap.github.io/wl-squide/module-federation/override-a-react-context.md): In a modular application, it's typical to configure various global React context at the root of the host application. These contexts are then used by the layouts and pages of the modules.
-
 ## Recipes
 
 - [Add authentication](https://workleap.github.io/wl-squide/recipes/add-authentication.md): Before going forward with this recipe, make sure that you complete the Setup MSW and Fetch global protected data guides.
 - [Override the host layout](https://workleap.github.io/wl-squide/recipes/override-the-host-layout.md): The RootLayout component defined in the create an host app starting guide serves as the default layout for the homepage and all the managed routes.
 - [Use modular tabs](https://workleap.github.io/wl-squide/recipes/use-modular-tabs.md): While it's typically recommended for a Squide application to maintain the boundary of a page within a single domain, there are situations where enhancing
+- [Develop a module in isolation](https://workleap.github.io/wl-squide/recipes/develop-a-module-in-isolation.md): To develop their own independent module, a team should not need to install the host application or any other modules of the application they do not own.
+- [Override a React context](https://workleap.github.io/wl-squide/recipes/override-a-react-context.md): In a modular application, it's typical to configure various global React context at the root of the host application. These contexts are then used by the layouts and pages of the modules.
 
 ## Reference
 
@@ -172,10 +165,10 @@
 
 ### Rsbuild
 
-- [defineDevHostConfig](https://workleap.github.io/wl-squide/reference/rsbuild/definedevhostconfig.md): This is an experimental feature.
-- [defineDevRemoteModuleConfig](https://workleap.github.io/wl-squide/reference/rsbuild/definedevremotemoduleconfig.md): This is an experimental feature.
-- [defineBuildHostConfig](https://workleap.github.io/wl-squide/reference/rsbuild/definebuildhostconfig.md): This is an experimental feature.
-- [defineBuildRemoteModuleConfig](https://workleap.github.io/wl-squide/reference/rsbuild/definebuildremotemoduleconfig.md): This is an experimental feature.
+- [defineDevHostConfig](https://workleap.github.io/wl-squide/reference/rsbuild/definedevhostconfig.md): This package is in maintenance mode. To move to local modules, refer to the migration guide.
+- [defineDevRemoteModuleConfig](https://workleap.github.io/wl-squide/reference/rsbuild/definedevremotemoduleconfig.md): This package is in maintenance mode. To move to local modules, refer to the migration guide.
+- [defineBuildHostConfig](https://workleap.github.io/wl-squide/reference/rsbuild/definebuildhostconfig.md): This package is in maintenance mode. To move to local modules, refer to the migration guide.
+- [defineBuildRemoteModuleConfig](https://workleap.github.io/wl-squide/reference/rsbuild/definebuildremotemoduleconfig.md): This package is in maintenance mode. To move to local modules, refer to the migration guide.
 
 ### webpack
 
@@ -198,5 +191,6 @@
 - [Migrate to firefly v16.0](https://workleap.github.io/wl-squide/updating/migrate-to-firefly-v16.0.md): This major version removes Module Federation from @squide/firefly. Module Federation is now optional and can be enabled by installing the @squide/firefly-module-federation package.
 - [Migrate to firefly v16.2](https://workleap.github.io/wl-squide/updating/migrate-to-firefly-v16.2.md): This minor version adds support for deferring React Router loaders until MSW is ready (when enabled). To enable this feature, update the application's AppRouter implementation to forward the new routerProps object to createBrowserRouter.
 - [Migrate to firefly v17.0](https://workleap.github.io/wl-squide/updating/migrate-to-firefly-v17.0.md): This major version introduces type-safe event bus hooks through module augmentation of the EventMap interface. This follows the same pattern used by EnvironmentVariables and FeatureFlags.
-- [Migrate to Rsbuild](https://workleap.github.io/wl-squide/updating/migrate-to-rsbuild.md): This is an experimental feature.
+- [Migrate to Rsbuild](https://workleap.github.io/wl-squide/updating/migrate-to-rsbuild.md): @squide/firefly-rsbuild-configs is in maintenance mode. To move to local modules, refer to the migration guide.
 - [Migrate to Just-In-Time packages](https://workleap.github.io/wl-squide/updating/migrate-to-jit-packages.md): Using Just-in-Time packages is a great way to reduce the configuration complexity of your monorepo. Using a Just-In-Time package strategy allows you to directly consume TypeScript files from library projects into applications without having to pre-compile them.
+- [Migrate remote modules to local modules](https://workleap.github.io/wl-squide/updating/migrate-remote-modules-to-local-modules.md): Squide no longer recommends Module Federation. Local modules are now the only documented way to build a Squide application, and the following packages are

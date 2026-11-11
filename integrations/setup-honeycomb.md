@@ -155,7 +155,6 @@ If you are experiencing issues with this guide:
 - Open the [DevTools](https://developer.chrome.com/docs/devtools/) console. You'll see a log entry for every for each dispatched event, along with multiple console outputs from Honeycomb's SDK. Squide's bootstrapping instrumentation listens to events to send Honeycomb traces. Most events should match an Honeycomb trace and vice versa.
     - `[squide] Honeycomb instrumentation is registered`
     - `[squide] Dispatching event "squide-local-modules-registration-completed"`
-    - `[squide] Dispatching event "squide-remote-modules-registration-completed"`
     - `[squide] Dispatching event "squide-public-data-fetch-started"`
     - `[squide] Dispatching event "squide-public-data-ready"`
     - `@honeycombio/opentelemetry-web: Honeycomb link: ...`

@@ -29,7 +29,7 @@ const runtime = initializeFirefly({
 
 ## React context values are undefined
 
-If your application utilize [remote modules](./module-federation/create-remote-module.md) and you are encountering `undefined` values when providing a React context from the host application and consuming the context in modules, it is likely due to two possible reasons: either you have two instances of React, or you have multiple instances of that React context.
+If your application utilize [remote modules](./reference/module-federation/initializeFirefly.md) and you are encountering `undefined` values when providing a React context from the host application and consuming the context in modules, it is likely due to two possible reasons: either you have two instances of React, or you have multiple instances of that React context.
 
 To resolve this issue:
 
@@ -39,8 +39,6 @@ To resolve this issue:
 
 If the issue persists, update your host application and remote module's webpack build configuration with the `optimize: false` option. Afterward, build the bundles and serve them. Open a web browser, access the DevTools, switch to the Network tab (ensure that JS files are listed), navigate to the application's homepage, and inspect the downloaded bundle files. The problematic React context definition should appear only once; otherwise, you may have multiple instances of the React context.
 
-For additional information on shared dependency versioning, please refer to the [add a shared dependency guide](./module-federation/add-a-shared-dependency.md).
-
 ## Console logs
 
 To faciliate the debugging of a Squide application bootstrapping flow, a lot of information is logged into the console. We recommend using these logs if you suspect that **something** is **wrong** with the **bootstrapping** process of your **application**.
@@ -49,7 +47,7 @@ To faciliate the debugging of a Squide application bootstrapping flow, a lot of 
 
 - `[squide] Found 4 local modules to register.`
 - `[squide] 1/4 Registering local module.`
-- `[squide] 1/4 Local module registration completed.`
+- `[squide] Successfully registered local module.`
 
 ### Routes registration
 
@@ -83,25 +81,10 @@ To faciliate the debugging of a Squide application bootstrapping flow, a lot of 
 
 - `[squide] The following environment variables has been registered: {...}`
 
-### Modules registration
+### Deferred registrations
 
-#### Remote modules
-
-- `[squide] Found 1 remote module to register.`
-- `[squide] 1/1 Loading module "register" of remote "remote1".`
-- `[squide] 1/1 Registering module "register" of remote "remote1".`
-- `[squide] 1/1 The registration of the remote "remote1" is completed.`
-
-#### Deferred registrations
-
-- `[squide] 1/1 Registering the deferred registrations for module "register" of remote "remote1".`
-- `[squide] 1/1 Registered the deferred registrations for module "register" of remote "remote1".`
 - `[squide] 3/3 Updating local module deferred registration.`
 - `[squide] 3/3 Updated local module deferred registration.`
-
-#### Module federation logs
-
-- `[squide] Module Federation shared scope is available: {...}`
 
 ### Ready
 

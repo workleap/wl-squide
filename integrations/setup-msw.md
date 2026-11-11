@@ -76,7 +76,7 @@ Then, update the `dev` PNPM script to define with `cross-env` an `USE_MSW` envir
 Finally, update the development [Rsbuild](https://rsbuild.dev/) configuration file to include the `USE_MSW` environment variable into the application bundles:
 
 ```js !#5
-import { defineDevConfig } from "@squide/firefly-webpack-configs";
+import { defineDevConfig } from "@workleap/rsbuild-configs";
 
 export default defineDevConfig({
     environmentVariables: {

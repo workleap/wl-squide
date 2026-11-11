@@ -2,6 +2,14 @@
 
 Creates a webpack [configuration object](https://webpack.js.org/concepts/configuration/) that is adapted for a Squide remote module application in **development** mode. This function is a wrapper built on top of [@workleap/webpack-configs](https://www.npmjs.com/package/@workleap/webpack-configs). Make sure to read the [defineDevConfig](https://workleap.github.io/wl-web-configs/webpack/configure-dev/) documentation first.
 
+!!!warning
+`@squide/firefly-webpack-configs` does not support `webpack` 5.112 and later. Install an earlier version:
+
+```bash
+pnpm add -D "webpack@<5.112.0"
+```
+!!!
+
 ## Reference
 
 ```ts

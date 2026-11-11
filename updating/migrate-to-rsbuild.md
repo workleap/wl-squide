@@ -1,7 +1,7 @@
 # Migrate to Rsbuild
 
-!!!danger
-This is an experimental feature.
+!!!warning
+`@squide/firefly-rsbuild-configs` is in maintenance mode. To move to local modules, refer to the [migration guide](./migrate-remote-modules-to-local-modules.md).
 !!!
 
 [Rsbuild](https://lib.rsbuild.dev/index) is a high-performance build tool powered by [Rspack](https://rspack.dev/), a Rust-based port of [webpack](https://webpack.js.org/) designed for efficiency and speed. Squide firefly introduces a new [@squide/firefly-rsbuild-configs](https://www.npmjs.com/package/@squide/firefly-rsbuild-configs) package to improve it's developer experience with modern web development tooling. This package provides ready-to-use Rsbuild configurations specifically tailored for Squide applications.

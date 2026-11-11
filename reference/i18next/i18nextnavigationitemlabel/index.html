@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <meta name="color-scheme" content="light dark">
     <meta name="turbo-root" content="/wl-squide">
-    <meta name="turbo-cache-control" content="no-cache" data-turbo-track="reload" data-track-token="4.6.0.847684666231">
+    <meta name="turbo-cache-control" content="no-cache" data-turbo-track="reload" data-track-token="4.6.0.847692091852">
 
     <!-- See retype.com -->
     <meta name="generator" content="Retype 4.6.0">
@@ -39,12 +39,12 @@
     <script data-cfasync="false">(function(){var cl=document.documentElement.classList,ls=localStorage.getItem("retype_scheme"),hd=cl.contains("dark"),hl=cl.contains("light"),wm=window.matchMedia&&window.matchMedia("(prefers-color-scheme: dark)").matches;if(ls==="dark"||(!ls&&wm&&!hd&&!hl)){cl.remove("light");cl.add("dark")}else if(ls==="light"||(!ls&&!wm&&!hd&&!hl)){cl.remove("dark");cl.add("light")}})();</script>
 
     <link id="retype-favicon" rel="icon" href="../../../static/favicon.png" />
-    <link href="../../../resources/css/retype.css?v=4.6.0.847684666231" rel="stylesheet">
+    <link href="../../../resources/css/retype.css?v=4.6.0.847692091852" rel="stylesheet">
 
-    <script data-cfasync="false" src="../../../resources/js/config.js?v=4.6.0.847684666231" data-turbo-eval="false" defer></script>
+    <script data-cfasync="false" src="../../../resources/js/config.js?v=4.6.0.847692091852" data-turbo-eval="false" defer></script>
     <script data-cfasync="false" src="../../../resources/js/retype.js?v=4.6.0" data-turbo-eval="false" defer></script>
-    <script id="lunr-js" data-cfasync="false" src="../../../resources/js/lunr.js?v=4.6.0.847684666231" data-turbo-eval="false" defer></script>
-    <script id="prism-js" data-cfasync="false" src="../../../resources/js/prism.js?v=4.6.0.847684666231" defer></script>
+    <script id="lunr-js" data-cfasync="false" src="../../../resources/js/lunr.js?v=4.6.0.847692091852" data-turbo-eval="false" defer></script>
+    <script id="prism-js" data-cfasync="false" src="../../../resources/js/prism.js?v=4.6.0.847692091852" defer></script>
 
     <link href="https://workleap.github.io/wl-idp-docs-hub/static/retype-customization.css" rel="stylesheet" />
 
@@ -282,8 +282,8 @@
 <li><code translate="no" v-pre>resourceKey</code>: A localized resource key.</li>
 </ul>
 <h2 id="usage">Usage</h2>
-<div id="usage-remote-modulesrcregistertsx" class="codeblock-wrapper"><doc-codeblock>
-<div class="codeblock-title">remote-module/src/register.tsx</div>
+<div id="usage-local-modulesrcregistertsx" class="codeblock-wrapper"><doc-codeblock>
+<div class="codeblock-title">local-module/src/register.tsx</div>
 <pre translate="no" class="language-tsx" data-line="7"><code v-pre class="language-tsx">import type { FireflyRuntime } from &quot;@squide/firefly&quot;;
 import { I18nextNavigationItemLabel } from &quot;@squide/i18next&quot;;
 import i18n from &quot;i18next&quot;;
@@ -296,8 +296,8 @@ function registerRoutes(runtime: FireflyRuntime, i18nextInstance: i18n) {
 }</code></pre>
 </doc-codeblock></div>
 <p>Or with a difference resources namespace:</p>
-<div id="usage-remote-modulesrcregistertsx-1" class="codeblock-wrapper"><doc-codeblock>
-<div class="codeblock-title">remote-module/src/register.tsx</div>
+<div id="usage-local-modulesrcregistertsx-1" class="codeblock-wrapper"><doc-codeblock>
+<div class="codeblock-title">local-module/src/register.tsx</div>
 <pre translate="no" class="language-tsx" data-line="7"><code v-pre class="language-tsx">import type { FireflyRuntime } from &quot;@squide/firefly&quot;;
 import { I18nextNavigationItemLabel } from &quot;@squide/i18next&quot;;
 import i18n from &quot;i18next&quot;;
@@ -329,16 +329,6 @@ function registerRoutes(runtime: FireflyRuntime, i18nextInstance: i18n) {
                 <span class="card-compact-title">Reference</span>
             </div>
             <p class="card-compact-description">Packages</p>
-        </div>
-    </a>
-</div>
-<div class="card-compact-container">
-    <a href="/wl-squide/module-federation/setup-i18next/" class="group card-compact no-link">
-        <div class="card-compact-body">
-            <div class="card-compact-header">
-                <span class="card-compact-title">Setup i18next</span>
-            </div>
-            <p class="card-compact-description">Most Workleap's application are either already bilingual or will be in the future. To help feature teams deal with localized resources, Squide provides a native plugin designed to adapt the i18next library for modular applications.</p>
         </div>
     </a>
 </div>

@@ -87,11 +87,3 @@ By providing most of the required cross-cutting functionalities out of the box, 
 ## Create your project
 
 :point_right: To get started, follow the [quick start](create-host.md) guide to create a new Squide's application from scratch.
-
-## Module Federation
-
-Originally, Squide has been developed as a micro frontend application shell to ease the adoption of distributed applications at Workleap. While Squide remains a great shell for micro frontends applications, as our **product strategy shifted to Hero products** and most of Workleap's products moved away from distributed applications, we discovered that Squide also offers significant value for non-federated web applications. Therefore, we continue to invest into Squide and now describe it as a **shell for modular applications**, **supporting** both **remote modules** and **local modules** in **hybrid mode**.
-
-The benefit of supporting both approaches in hybrid mode is that Workleap's products can initially be developed with local modules, which help separate concerns from the start, enabling teams to work independently and focus on specific areas of the application. As the product grows and encounters organizational scalability challenges, teams can seamlessly migrate local modules one by one into standalone remote modules powered by [Module Federation](https://module-federation.io/) without requiring updates to the application's core code.
-
-:point_right: To get started with a micro frontrends application, follow the Module Federation [quick start](../module-federation/create-host.md) guide to create a new Squide's application from scratch.
