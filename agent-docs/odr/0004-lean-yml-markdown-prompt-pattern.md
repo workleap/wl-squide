@@ -26,7 +26,7 @@ Five agent workflows follow this pattern, each with a 1:1 matching prompt file:
 | Workflow | Prompt File | Complexity |
 |----------|-------------|------------|
 | `code-review.yml` | `code-review.md` (45 lines) | Concise: severity levels, inline PR comments |
-| `sync-agent-skill.yml` | `sync-agent-skill.md` (194 lines) | Multi-step with subagent validation and version bumping |
+| `sync-agent-skill.yml` | `sync-agent-skill.md` (190 lines) | Multi-step with subagent validation and version bumping |
 | `update-agent-docs.yml` | `update-agent-docs.md` (188 lines) | Multi-step with subagent coherence validation, creates PRs |
 | `update-dependencies.yml` | `update-dependencies.md` (252 lines) | Most complex: delegates updates to skill subagents, validation loop with browser testing, changeset creation |
 | `smoke-test.yml` | `smoke-test.md` | PR-triggered: builds and serves endpoints, runs browser smoke test |
