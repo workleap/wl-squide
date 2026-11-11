@@ -18,7 +18,7 @@ Turborepo's caching is essential for CI performance in this monorepo. Turborepo 
 
 Option 3. Three workflows use this pattern: `ci.yml`, `pr-pkg.yml`, and `claude.yml`. Each has a workflow-specific cache key prefix (`turbo-ci-`, `turbo-pr-pkg-`, `turbo-claude-`).
 
-`changeset.yml` is deliberately excluded. It holds the npm publishing identity, so it restores and saves no GitHub Actions cache (Turborepo or pnpm store), installs with `--frozen-lockfile --ignore-scripts`, and always builds the packages itself: a cache entry saved by another workflow must never reach a published package. The `Check publish workflow hardening` step in `ci.yml` enforces this.
+`changeset.yml` is deliberately excluded. It holds the npm publishing identity, so it restores and saves no GitHub Actions cache (Turborepo or pnpm store), installs with `--frozen-lockfile --ignore-scripts`, and always builds the packages itself: a cache entry saved by another workflow must never reach a published package.
 
 Cache keys are SHA-based and carry a version segment shared by all three workflows (e.g., `${{ runner.os }}-turbo-ci-v11-${{ github.sha }}`). Restore-keys use a 2-level cascade:
 1. **Same workflow, any SHA:** `${{ runner.os }}-turbo-ci-v11-` — matches previous runs of the same workflow.
