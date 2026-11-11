@@ -25,7 +25,7 @@ Five agent workflows follow this pattern, each with a 1:1 matching prompt file:
 
 | Workflow | Prompt File | Complexity |
 |----------|-------------|------------|
-| `code-review.yml` | `code-review.md` (51 lines) | Concise: severity levels, inline PR comments |
+| `code-review.yml` | `code-review.md` (45 lines) | Concise: severity levels, inline PR comments |
 | `sync-agent-skill.yml` | `sync-agent-skill.md` (194 lines) | Multi-step with subagent validation and version bumping |
 | `update-agent-docs.yml` | `update-agent-docs.md` (188 lines) | Multi-step with subagent coherence validation, creates PRs |
 | `update-dependencies.yml` | `update-dependencies.md` (252 lines) | Most complex: delegates updates to skill subagents, validation loop with browser testing, changeset creation |
@@ -40,5 +40,5 @@ Evidence: All 5 agent workflow files in `.github/workflows/` use `prompt: "Read 
 - Prompts are reviewable as standalone markdown files in PRs — prompt logic changes are visible in diff without YML noise.
 - Workflow infrastructure changes (checkout, Node version, git config) are separated from prompt logic changes.
 - The markdown format is readable by both humans and agents.
-- Prompt complexity varies widely (51-252 lines), but the pattern scales — the workflow file stays lean regardless of prompt size.
+- Prompt complexity varies widely (45-252 lines), but the pattern scales — the workflow file stays lean regardless of prompt size.
 - Adding a new agent workflow means creating two files: a lean `.yml` and a detailed `.md`.

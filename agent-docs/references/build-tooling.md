@@ -11,9 +11,9 @@
 The sample applications still use Rsbuild/Webpack configs tied to module federation for legacy
 and practical reasons. These configs are **not used by the packages themselves**.
 
-## Shared Configs (`@workleap/web-configs`)
+## Shared Configs (`workleap/wl-web-configs`)
 
-The repo uses shared configuration packages from [`@workleap/web-configs`](https://github.com/workleap/web-configs):
+The repo uses shared configuration packages from [`workleap/wl-web-configs`](https://github.com/workleap/wl-web-configs):
 
 - `@workleap/typescript-configs` — TypeScript base configurations
 - `@workleap/rslib-configs` — Rslib base presets for library builds
