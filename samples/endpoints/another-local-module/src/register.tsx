@@ -1,0 +1,177 @@
+import type { DeferredRegistrationData } from "@endpoints/shared";
+import type { DeferredRegistrationFunction, FireflyRuntime, ModuleRegisterFunction } from "@squide/firefly";
+import { I18nextNavigationItemLabel } from "@squide/i18next";
+import type { i18n } from "i18next";
+import type { ReactNode } from "react";
+import { QueryProvider } from "./QueryProvider.tsx";
+import { initI18next } from "./i18next.ts";
+
+interface ProvidersProps {
+    children: ReactNode;
+}
+
+function Providers({ children }: ProvidersProps) {
+    return <QueryProvider>{children}</QueryProvider>;
+}
+
+function registerRoutes(runtime: FireflyRuntime, i18nextInstance: i18n): DeferredRegistrationFunction<FireflyRuntime, DeferredRegistrationData> {
+    runtime.registerPublicRoute({
+        path: "/anonymous",
+        lazy: async () => {
+            const { AnonymousPage } = await import("./AnonymousPage.tsx");
+
+            return {
+                element: (
+                    <Providers>
+                        <AnonymousPage />
+                    </Providers>
+                )
+            };
+        }
+    });
+
+    runtime.registerRoute(
+        {
+            path: "episodes",
+            lazy: async () => {
+                const { EpisodesTab } = await import("./EpisodesTab.tsx");
+
+                return {
+                    element: (
+                        <Providers>
+                            <EpisodesTab />
+                        </Providers>
+                    )
+                };
+            }
+        },
+        {
+            parentPath: "/federated-tabs"
+        }
+    );
+
+    runtime.registerRoute(
+        {
+            path: "locations",
+            lazy: async () => {
+                const { LocationsTab } = await import("./LocationsTab.tsx");
+
+                return {
+                    element: (
+                        <Providers>
+                            <LocationsTab />
+                        </Providers>
+                    )
+                };
+            }
+        },
+        {
+            parentPath: "/federated-tabs"
+        }
+    );
+
+    runtime.registerRoute(
+        {
+            path: "failing",
+            lazy: async () => {
+                const { FailingTab } = await import("./FailingTab.tsx");
+
+                return {
+                    element: (
+                        <Providers>
+                            <FailingTab />
+                        </Providers>
+                    )
+                };
+            }
+        },
+        {
+            parentPath: "/federated-tabs"
+        }
+    );
+
+    runtime.registerRoute({
+        path: "/feature-b",
+        lazy: async () => {
+            const { FeatureBPage } = await import("./FeatureBPage.tsx");
+
+            return {
+                element: (
+                    <Providers>
+                        <FeatureBPage />
+                    </Providers>
+                )
+            };
+        }
+    });
+
+    runtime.registerNavigationItem(
+        {
+            $id: "episodes-tab",
+            $label: <I18nextNavigationItemLabel i18next={i18nextInstance} resourceKey="episodesTab" />,
+            to: "/federated-tabs/episodes"
+        },
+        {
+            menuId: "/federated-tabs"
+        }
+    );
+
+    runtime.registerNavigationItem(
+        {
+            $id: "locations-tab",
+            $label: <I18nextNavigationItemLabel i18next={i18nextInstance} resourceKey="locationsTab" />,
+            to: "/federated-tabs/locations"
+        },
+        {
+            menuId: "/federated-tabs"
+        }
+    );
+
+    runtime.registerNavigationItem(
+        {
+            $id: "failing-tab",
+            $label: <I18nextNavigationItemLabel i18next={i18nextInstance} resourceKey="failingTab" />,
+            to: "/federated-tabs/failing"
+        },
+        {
+            menuId: "/federated-tabs"
+        }
+    );
+
+    return (deferredRuntime, { role }) => {
+        if (role === "admin") {
+            deferredRuntime.registerNavigationItem({
+                $id: "feature-b",
+                $label: <I18nextNavigationItemLabel i18next={i18nextInstance} resourceKey="featureBPage" />,
+                to: "/feature-b"
+            });
+        }
+    };
+}
+
+async function registerMsw(runtime: FireflyRuntime) {
+    if (runtime.isMswEnabled) {
+        // Files including an import to the "msw" package are included dynamically to prevent adding
+        // MSW stuff to the bundled when it's not used.
+        const requestHandlers = (await import("../mocks/handlers.ts")).getRequestHandlers(runtime.environmentVariables);
+
+        runtime.registerRequestHandlers(requestHandlers);
+    }
+}
+
+function registerEnvironmentVariables(runtime: FireflyRuntime) {
+    runtime.registerEnvironmentVariables({
+        rickAndMortyApiBaseUrl: "/api/r&m/",
+        featureApiBaseUrl: "/api/feature/"
+    });
+}
+
+export const registerAnotherLocalModule: ModuleRegisterFunction<FireflyRuntime, unknown, DeferredRegistrationData> = async runtime => {
+    registerEnvironmentVariables(runtime);
+
+    const i18nextInstance = initI18next(runtime);
+
+    await registerMsw(runtime);
+
+    return registerRoutes(runtime, i18nextInstance);
+};

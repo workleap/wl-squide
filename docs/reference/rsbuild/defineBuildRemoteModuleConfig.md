@@ -6,8 +6,8 @@ toc:
 
 # defineBuildRemoteModuleConfig
 
-!!!danger
-This is an experimental feature.
+!!!warning
+This package is in maintenance mode. To move to local modules, refer to the [migration guide](../../updating/migrate-remote-modules-to-local-modules.md).
 !!!
 
 Creates an Rsbuild [configuration object](https://rsbuild.dev/config/index) that is adapted for a Squide remote module application in **build** mode. This function is a wrapper built on top of [@workleap/rsbuild-configs](https://www.npmjs.com/package/@workleap/rsbuild-configs). Make sure to read the [defineBuildConfig](https://workleap.github.io/wl-web-configs/rsbuild/configure-build/) documentation first.

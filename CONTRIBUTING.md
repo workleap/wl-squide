@@ -172,8 +172,6 @@ pnpm dev-storybook
 
 You can then open your favorite browser and navigate to `http://localhost:8080/` to get a live preview of your code.
 
-> To test that a remote module is working correctly, navigate to the remote module entry file. For a remote module hosted on the port `8081`, the URL should be `http://localhost:8081/remoteEntry.js`.
-
 ### LogRocket
 
 The sample applications' telemetry data is sent to the `frontend-platform-team-dev` project in LogRocket.
@@ -233,11 +231,9 @@ NOTE: Skills installed using [skills.sh](https://skills.sh/) are sourced directl
 
 ### The "basic" sample application
 
-The sites for this sample application are hosted on [Netlify](https://www.netlify.com/):
+The site for this sample application is hosted on [Netlify](https://www.netlify.com/):
 
 - [host](https://squide-basic-host.netlify.app/)
-- [remote-module](https://squide-basic-remote-module.netlify.app)
-- [another-remote-module](https://squide-basic-another-remote-module.netlify.app)
 
 To deploy the sample application, open a terminal at the root of the repository and execute the following script:
 
@@ -249,11 +245,9 @@ A prompt with a few questions will appear and then the site will automatically b
 
 ### The sample application with "endpoints"
 
-The sites for this sample application are hosted on [Netlify](https://www.netlify.com/):
+The site for this sample application is hosted on [Netlify](https://www.netlify.com/):
 
 - [host](https://squide-endpoints-host.netlify.app/)
-- [remote-module](https://squide-endpoints-remote-module.netlify.app)
-- [remote-module (isolated)](https://squide-endpoints-remote-isolated.netlify.app/)
 
 To deploy the sample application, open a terminal at the root of the repository and execute the following script:
 
@@ -261,15 +255,7 @@ To deploy the sample application, open a terminal at the root of the repository 
 pnpm deploy-endpoints
 ```
 
-A prompt with a few questions will appear and then the sites will automatically be deployed to production.
-
-Then, execute the following script:
-
-```bash
-pnpm deploy-endpoints-isolated
-```
-
-Another prompt with a few questions will appear and then the sites will automatically be deployed to production.
+A prompt with a few questions will appear and then the site will automatically be deployed to production.
 
 ## Available workflows
 

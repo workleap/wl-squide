@@ -360,21 +360,21 @@ export const register: ModuleRegisterFunction<FireflyRuntime, unknown, DeferredR
 }
 ```
 
-```tsx !#20-23,27-37 remote-module/src/register.tsx
+```tsx !#20-23,27-37 another-local-module/src/register.tsx
 import type { ModuleRegisterFunction, FireflyRuntime } from "@squide/firefly";
 import { Page } from "./Page.tsx";
 import { FeatureBPage } from "./FeatureBPage.tsx";
 
 export const register: ModuleRegisterFunction<FireflyRuntime> = runtime => {
     runtime.registerRoute({
-        path: "/remote/page",
+        path: "/another/page",
         element: <Page />
     });
 
     runtime.registerNavigationItem({
-        $id: "remote-page",
-        $label: "Remote/Page",
-        to: "/remote/page"
+        $id: "another-page",
+        $label: "Another/Page",
+        to: "/another/page"
     });
 
     // Routes are always registered. If a route may not be available for a group of users, conditionally register

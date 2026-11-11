@@ -26,7 +26,7 @@ The following docs are **not** part of the skill and must be ignored:
 - `docs/static/` — Static image assets for the documentation site
 - `docs/_includes/` — Documentation site configuration templates
 - `docs/reference/webpack/` — Webpack build configuration for Module Federation
-- `docs/reference/rsbuild/` — Rsbuild build configuration for Module Federation (experimental)
+- `docs/reference/rsbuild/` — Rsbuild build configuration for Module Federation
 - `docs/reference/module-federation/` — Module Federation-specific API overloads
 - `docs/default.md` — Documentation site redirect page
 - `docs/about.md` — Repository metadata and contribution info

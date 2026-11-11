@@ -52,7 +52,7 @@ To faciliate the debugging of a Squide application bootstrapping flow, a lot of 
 
 - `[squide] Found 4 local modules to register.`
 - `[squide] 1/4 Registering local module.`
-- `[squide] 1/4 Local module registration completed.`
+- `[squide] Successfully registered local module.`
 
 ### Routes registration
 
@@ -86,25 +86,10 @@ To faciliate the debugging of a Squide application bootstrapping flow, a lot of 
 
 - `[squide] The following environment variables has been registered: {...}`
 
-### Modules registration
+### Deferred registrations
 
-#### Remote modules
-
-- `[squide] Found 1 remote module to register.`
-- `[squide] 1/1 Loading module "register" of remote "remote1".`
-- `[squide] 1/1 Registering module "register" of remote "remote1".`
-- `[squide] 1/1 The registration of the remote "remote1" is completed.`
-
-#### Deferred registrations
-
-- `[squide] 1/1 Registering the deferred registrations for module "register" of remote "remote1".`
-- `[squide] 1/1 Registered the deferred registrations for module "register" of remote "remote1".`
 - `[squide] 3/3 Updating local module deferred registration.`
 - `[squide] 3/3 Updated local module deferred registration.`
-
-#### Module federation logs
-
-- `[squide] Module Federation shared scope is available: {...}`
 
 ### Ready
 

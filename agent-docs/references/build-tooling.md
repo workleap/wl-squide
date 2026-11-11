@@ -6,11 +6,11 @@
 |-------|------|--------|
 | Library packages | Rslib | Each package has `rslib.build.ts` (and some have `rslib.dev.ts`) |
 | Monorepo orchestration | Turborepo | `turbo.json` task graph |
-| Sample apps (only) | Rsbuild | `@squide/firefly-rsbuild-configs` |
+| Sample apps | Rsbuild | `@workleap/rsbuild-configs` |
 
-The sample applications still use Rsbuild configs tied to module federation for legacy
-and practical reasons. These configs are **not used by the packages themselves**.
-`@squide/firefly-webpack-configs` is still published, in maintenance mode, but no sample uses it.
+The sample applications use `defineDevConfig` / `defineBuildConfig` from `@workleap/rsbuild-configs`.
+`@squide/firefly-rsbuild-configs` and `@squide/firefly-webpack-configs` are still published, in maintenance
+mode, but no sample uses them.
 
 ## Shared Configs (`workleap/wl-web-configs`)
 
@@ -18,6 +18,7 @@ The repo uses shared configuration packages from [`workleap/wl-web-configs`](htt
 
 - `@workleap/typescript-configs` — TypeScript base configurations
 - `@workleap/rslib-configs` — Rslib base presets for library builds
+- `@workleap/rsbuild-configs` — Rsbuild base presets for the sample applications
 - `@workleap/browserslist-config` — shared browserslist targets
 
 ## Linting and Formatting
@@ -27,7 +28,7 @@ Linting uses [oxlint](https://oxc.rs/docs/guide/usage/linter) (type-aware throug
 ## Relevant Files
 
 - `turbo.json` — task definitions and caching
-- `packages/firefly-rsbuild-configs/` — Rsbuild config factory (sample apps only)
+- `packages/firefly-rsbuild-configs/` — Rsbuild config factory (maintenance mode, not used by any sample)
 - `packages/firefly-webpack-configs/` — Webpack config factory (maintenance mode, not used by any sample)
 
 ---

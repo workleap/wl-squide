@@ -45,7 +45,6 @@ Samples are deployed to Netlify:
 |--------|---------------|----------|
 | basic | `pnpm deploy-basic` | [squide-basic-host.netlify.app](https://squide-basic-host.netlify.app/) |
 | endpoints | `pnpm deploy-endpoints` | [squide-endpoints-host.netlify.app](https://squide-endpoints-host.netlify.app/) |
-| endpoints (isolated) | `pnpm deploy-endpoints-isolated` | [squide-endpoints-remote-isolated.netlify.app](https://squide-endpoints-remote-isolated.netlify.app/) |
 
 ## Dependency Versioning
 
@@ -79,6 +78,7 @@ The `list-outdated-deps` and `update-outdated-deps:update-versions` scripts in t
 
 - **`webpack`** (held at 5.110.3) and **`@workleap/webpack-configs`** (held at 1.6.16) — permanent hold. `webpack` 5.112 moved internal files that `@module-federation/enhanced` 2.9.3 imports from their old paths, so every webpack build fails with `Cannot find module 'webpack/lib/util/extractUrlAndGlobal'` ([module-federation/core#5202](https://github.com/module-federation/core/issues/5202)). `@workleap/webpack-configs` 1.6.17+ require `webpack` `^5.112.0`, so `@squide/firefly-webpack-configs` pins it to exactly `1.6.16` and caps its `webpack` peer range at `<5.112.0`; `.syncpackrc.js` ignores both entries. `@squide/firefly-webpack-configs` is in maintenance mode and the repository has no webpack sample left to validate a release of the hold, so do NOT release it, even once a fixed `@module-federation/enhanced` is available. Applications using `@squide/firefly-webpack-configs` stay on `webpack` 5.111 until they move to Rsbuild.
 - **`webpack-dev-server`** (held at 5.2.4) — `@workleap/webpack-configs` requires `^5.2.4` as a peer. The package is deprecated, so this hold is permanent as well: it stays for as long as `@squide/firefly-webpack-configs` is in the repository.
+- **`@module-federation/*`** (held at 2.9.3) — permanent hold. `@squide/firefly-module-federation`, `@squide/firefly-rsbuild-configs` and `@squide/firefly-webpack-configs` are in maintenance mode and no sample builds a federated application anymore, so only unit and snapshot tests would guard a bump. Do NOT release it.
 - **`@opentelemetry/*`** — the web OpenTelemetry SDK that `@workleap/telemetry` installs requires `@opentelemetry/api` below 1.10, while the newer Node SDK packages of the `endpoints` express server require 1.10. Release them once `@workleap/telemetry` ships an SDK that accepts `@opentelemetry/api` 1.10.
 
 ## Adding a New Package
@@ -124,7 +124,6 @@ A Claude Code pre-commit hook (`.claude/hooks/pre-commit.sh`, configured in `.cl
 | `pnpm update-outdated-deps` | Update outdated dependencies |
 | `pnpm deploy-basic` | Deploy basic sample to Netlify |
 | `pnpm deploy-endpoints` | Deploy endpoints sample to Netlify |
-| `pnpm deploy-endpoints-isolated` | Deploy endpoints isolated to Netlify |
 
 Dev servers serve at `http://localhost:8080/` by default.
 

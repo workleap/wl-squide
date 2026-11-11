@@ -1,7 +1,7 @@
 export function DevHomePage() {
     return (
         <div>
-            <h2>Remote module development home page</h2>
+            <h2>Local module development home page</h2>
             <p>Hey!</p>
         </div>
     );

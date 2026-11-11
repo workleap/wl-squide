@@ -1,0 +1,41 @@
+{
+    "navigationItems": {
+        "episodesTab": "Episodes",
+        "locationsTab": "Locations",
+        "failingTab": "Failing",
+        "featureBPage": "Feature B",
+        "featureCPage": "Feature C"
+    },
+    "AnonymousPage": {
+        "title": "Anonymous page",
+        "servedBy": "This page is served by <code>@endpoints/another-local-module</code>",
+        "goToHomePageLinkLabel": "Go to the protected home page"
+    },
+    "FeatureBPage": {
+        "title": "Feature B",
+        "servedBy": "This page is served by <code>@endpoints/another-local-module</code>"
+    },
+    "FeatureCPage": {
+        "title": "Feature C",
+        "servedBy": "This page is served by <code>@endpoints/another-local-module</code>",
+        "message": "This page is only available if the <code>featureC</code> flag is active."
+    },
+    "EpisodeTab": {
+        "title": "Episodes",
+        "servedBy": "This tab is served by <code>@endpoints/another-local-module</code>",
+        "idLabel": "Id",
+        "nameLabel": "Name",
+        "episodeLabel": "Episode"
+    },
+    "LocationsTab": {
+        "title": "Locations",
+        "servedBy": "This tab is served by <code>@endpoints/another-local-module</code>",
+        "idLabel": "Id",
+        "nameLabel": "Name",
+        "typeLabel": "Type"
+    },
+    "FailingTab": {
+        "title": "Expected failure",
+        "message": "Something went wront because the API call should have failed and you shouldn't see this!"
+    }
+}

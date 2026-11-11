@@ -1,9 +1,6 @@
-import { defineBuildHostConfig } from "@squide/firefly-rsbuild-configs";
-import { Remotes } from "./remotes.ts";
-import { getSharedDependencies } from "./rsbuild.common.ts";
+import { defineBuildConfig } from "@workleap/rsbuild-configs";
 
-export default defineBuildHostConfig(Remotes, {
-    sharedDependencies: getSharedDependencies(),
+export default defineBuildConfig({
     environmentVariables: {
         NETLIFY: process.env.NETLIFY === "true"
     }

@@ -258,7 +258,7 @@ importers:
         version: 7.0.2
       vitest:
         specifier: 5.1.0
-        version: 5.1.0(@opentelemetry/api@1.10.0)(@types/node@26.6.6)(happy-dom@21.0.4)(msw@3.0.4(@types/node@26.6.6)(supports-color@11.0.0)(typescript@7.0.2)(vite@8.3.6(@types/node@26.6.6)(esbuild@0.28.2)(jiti@2.7.0)(terser@5.51.2)(tsx@4.23.15)(yaml@2.9.1)))(vite@8.3.6(@types/node@26.6.6)(esbuild@0.28.2)(jiti@2.7.0)(terser@5.51.2)(tsx@4.23.15)(yaml@2.9.1))
+        version: 5.1.0(@opentelemetry/api@1.9.1)(@types/node@26.6.6)(happy-dom@21.0.4)(msw@3.0.4(@types/node@26.6.6)(supports-color@11.0.0)(typescript@7.0.2)(vite@8.3.6(@types/node@26.6.6)(esbuild@0.28.2)(jiti@2.7.0)(terser@5.51.2)(tsx@4.23.15)(yaml@2.9.1)))(vite@8.3.6(@types/node@26.6.6)(esbuild@0.28.2)(jiti@2.7.0)(terser@5.51.2)(tsx@4.23.15)(yaml@2.9.1))
 
   packages/env-vars:
     dependencies:
@@ -304,7 +304,7 @@ importers:
         version: 7.0.2
       vitest:
         specifier: 5.1.0
-        version: 5.1.0(@opentelemetry/api@1.10.0)(@types/node@26.6.6)(happy-dom@21.0.4)(msw@3.0.4(@types/node@26.6.6)(supports-color@11.0.0)(typescript@7.0.2)(vite@8.3.6(@types/node@26.6.6)(esbuild@0.28.2)(jiti@2.7.0)(terser@5.51.2)(tsx@4.23.15)(yaml@2.9.1)))(vite@8.3.6(@types/node@26.6.6)(esbuild@0.28.2)(jiti@2.7.0)(terser@5.51.2)(tsx@4.23.15)(yaml@2.9.1))
+        version: 5.1.0(@opentelemetry/api@1.9.1)(@types/node@26.6.6)(happy-dom@21.0.4)(msw@3.0.4(@types/node@26.6.6)(supports-color@11.0.0)(typescript@7.0.2)(vite@8.3.6(@types/node@26.6.6)(esbuild@0.28.2)(jiti@2.7.0)(terser@5.51.2)(tsx@4.23.15)(yaml@2.9.1)))(vite@8.3.6(@types/node@26.6.6)(esbuild@0.28.2)(jiti@2.7.0)(terser@5.51.2)(tsx@4.23.15)(yaml@2.9.1))
 
   packages/fakes:
     dependencies:
@@ -533,7 +533,7 @@ importers:
         version: 7.0.2
       vitest:
         specifier: 5.1.0
-        version: 5.1.0(@opentelemetry/api@1.10.0)(@types/node@26.6.6)(happy-dom@21.0.4)(msw@3.0.4(@types/node@26.6.6)(supports-color@11.0.0)(typescript@7.0.2)(vite@8.3.6(@types/node@26.6.6)(esbuild@0.28.2)(jiti@2.7.0)(terser@5.51.2)(tsx@4.23.15)(yaml@2.9.1)))(vite@8.3.6(@types/node@26.6.6)(esbuild@0.28.2)(jiti@2.7.0)(terser@5.51.2)(tsx@4.23.15)(yaml@2.9.1))
+        version: 5.1.0(@opentelemetry/api@1.9.1)(@types/node@26.6.6)(happy-dom@21.0.4)(msw@3.0.4(@types/node@26.6.6)(supports-color@11.0.0)(typescript@7.0.2)(vite@8.3.6(@types/node@26.6.6)(esbuild@0.28.2)(jiti@2.7.0)(terser@5.51.2)(tsx@4.23.15)(yaml@2.9.1)))(vite@8.3.6(@types/node@26.6.6)(esbuild@0.28.2)(jiti@2.7.0)(terser@5.51.2)(tsx@4.23.15)(yaml@2.9.1))
 
   packages/firefly-storybook:
     dependencies:
@@ -676,7 +676,7 @@ importers:
         version: 7.0.2
       vitest:
         specifier: 5.1.0
-        version: 5.1.0(@opentelemetry/api@1.10.0)(@types/node@26.6.6)(happy-dom@21.0.4)(msw@3.0.4(@types/node@26.6.6)(supports-color@11.0.0)(typescript@7.0.2)(vite@8.3.6(@types/node@26.6.6)(esbuild@0.28.2)(jiti@2.7.0)(terser@5.51.2)(tsx@4.23.15)(yaml@2.9.1)))(vite@8.3.6(@types/node@26.6.6)(esbuild@0.28.2)(jiti@2.7.0)(terser@5.51.2)(tsx@4.23.15)(yaml@2.9.1))
+        version: 5.1.0(@opentelemetry/api@1.9.1)(@types/node@26.6.6)(happy-dom@21.0.4)(msw@3.0.4(@types/node@26.6.6)(supports-color@11.0.0)(typescript@7.0.2)(vite@8.3.6(@types/node@26.6.6)(esbuild@0.28.2)(jiti@2.7.0)(terser@5.51.2)(tsx@4.23.15)(yaml@2.9.1)))(vite@8.3.6(@types/node@26.6.6)(esbuild@0.28.2)(jiti@2.7.0)(terser@5.51.2)(tsx@4.23.15)(yaml@2.9.1))
       webpack:
         specifier: 5.110.3
         version: 5.110.3(@napi-rs/image@1.11.2(@emnapi/core@1.11.3)(@emnapi/runtime@1.11.3))(@swc/core@1.16.22(@swc/helpers@0.5.24))(clean-css@5.3.3)(csso@5.0.5)(esbuild@0.28.2)(html-minifier-terser@7.2.0)(lightningcss@1.33.0)(postcss@8.5.32)(sharp@0.35.5(@types/node@26.6.6))(svgo@3.3.5)(webpack-cli@7.3.1)
@@ -731,7 +731,7 @@ importers:
         version: 7.0.2
       vitest:
         specifier: 5.1.0
-        version: 5.1.0(@opentelemetry/api@1.10.0)(@types/node@26.6.6)(happy-dom@21.0.4)(msw@3.0.4(@types/node@26.6.6)(supports-color@11.0.0)(typescript@7.0.2)(vite@8.3.6(@types/node@26.6.6)(esbuild@0.28.2)(jiti@2.7.0)(terser@5.51.2)(tsx@4.23.15)(yaml@2.9.1)))(vite@8.3.6(@types/node@26.6.6)(esbuild@0.28.2)(jiti@2.7.0)(terser@5.51.2)(tsx@4.23.15)(yaml@2.9.1))
+        version: 5.1.0(@opentelemetry/api@1.9.1)(@types/node@26.6.6)(happy-dom@21.0.4)(msw@3.0.4(@types/node@26.6.6)(supports-color@11.0.0)(typescript@7.0.2)(vite@8.3.6(@types/node@26.6.6)(esbuild@0.28.2)(jiti@2.7.0)(terser@5.51.2)(tsx@4.23.15)(yaml@2.9.1)))(vite@8.3.6(@types/node@26.6.6)(esbuild@0.28.2)(jiti@2.7.0)(terser@5.51.2)(tsx@4.23.15)(yaml@2.9.1))
 
   packages/launch-darkly:
     dependencies:
@@ -786,7 +786,7 @@ importers:
         version: 7.0.2
       vitest:
         specifier: 5.1.0
-        version: 5.1.0(@opentelemetry/api@1.10.0)(@types/node@26.6.6)(happy-dom@21.0.4)(msw@3.0.4(@types/node@26.6.6)(supports-color@11.0.0)(typescript@7.0.2)(vite@8.3.6(@types/node@26.6.6)(esbuild@0.28.2)(jiti@2.7.0)(terser@5.51.2)(tsx@4.23.15)(yaml@2.9.1)))(vite@8.3.6(@types/node@26.6.6)(esbuild@0.28.2)(jiti@2.7.0)(terser@5.51.2)(tsx@4.23.15)(yaml@2.9.1))
+        version: 5.1.0(@opentelemetry/api@1.9.1)(@types/node@26.6.6)(happy-dom@21.0.4)(msw@3.0.4(@types/node@26.6.6)(supports-color@11.0.0)(typescript@7.0.2)(vite@8.3.6(@types/node@26.6.6)(esbuild@0.28.2)(jiti@2.7.0)(terser@5.51.2)(tsx@4.23.15)(yaml@2.9.1)))(vite@8.3.6(@types/node@26.6.6)(esbuild@0.28.2)(jiti@2.7.0)(terser@5.51.2)(tsx@4.23.15)(yaml@2.9.1))
 
   packages/msw:
     dependencies:
@@ -826,7 +826,7 @@ importers:
         version: 7.0.2
       vitest:
         specifier: 5.1.0
-        version: 5.1.0(@opentelemetry/api@1.10.0)(@types/node@26.6.6)(happy-dom@21.0.4)(msw@3.0.4(@types/node@26.6.6)(supports-color@11.0.0)(typescript@7.0.2)(vite@8.3.6(@types/node@26.6.6)(esbuild@0.28.2)(jiti@2.7.0)(terser@5.51.2)(tsx@4.23.15)(yaml@2.9.1)))(vite@8.3.6(@types/node@26.6.6)(esbuild@0.28.2)(jiti@2.7.0)(terser@5.51.2)(tsx@4.23.15)(yaml@2.9.1))
+        version: 5.1.0(@opentelemetry/api@1.9.1)(@types/node@26.6.6)(happy-dom@21.0.4)(msw@3.0.4(@types/node@26.6.6)(supports-color@11.0.0)(typescript@7.0.2)(vite@8.3.6(@types/node@26.6.6)(esbuild@0.28.2)(jiti@2.7.0)(terser@5.51.2)(tsx@4.23.15)(yaml@2.9.1)))(vite@8.3.6(@types/node@26.6.6)(esbuild@0.28.2)(jiti@2.7.0)(terser@5.51.2)(tsx@4.23.15)(yaml@2.9.1))
 
   packages/react-router:
     dependencies:
@@ -884,9 +884,9 @@ importers:
         version: 7.0.2
       vitest:
         specifier: 5.1.0
-        version: 5.1.0(@opentelemetry/api@1.10.0)(@types/node@26.6.6)(happy-dom@21.0.4)(msw@3.0.4(@types/node@26.6.6)(supports-color@11.0.0)(typescript@7.0.2)(vite@8.3.6(@types/node@26.6.6)(esbuild@0.28.2)(jiti@2.7.0)(terser@5.51.2)(tsx@4.23.15)(yaml@2.9.1)))(vite@8.3.6(@types/node@26.6.6)(esbuild@0.28.2)(jiti@2.7.0)(terser@5.51.2)(tsx@4.23.15)(yaml@2.9.1))
+        version: 5.1.0(@opentelemetry/api@1.9.1)(@types/node@26.6.6)(happy-dom@21.0.4)(msw@3.0.4(@types/node@26.6.6)(supports-color@11.0.0)(typescript@7.0.2)(vite@8.3.6(@types/node@26.6.6)(esbuild@0.28.2)(jiti@2.7.0)(terser@5.51.2)(tsx@4.23.15)(yaml@2.9.1)))(vite@8.3.6(@types/node@26.6.6)(esbuild@0.28.2)(jiti@2.7.0)(terser@5.51.2)(tsx@4.23.15)(yaml@2.9.1))
 
-  samples/basic/another-remote-module:
+  samples/basic/another-local-module:
     dependencies:
       '@basic/shared':
         specifier: workspace:*
@@ -894,12 +894,6 @@ importers:
       '@basic/shell':
         specifier: workspace:*
         version: link:../shell
-      '@react-aria/toast':
-        specifier: 3.1.1
-        version: 3.1.1(react-dom@19.3.1(react@19.3.1))(react@19.3.1)
-      '@react-stately/toast':
-        specifier: 3.2.1
-        version: 3.2.1(react-dom@19.3.1(react@19.3.1))(react@19.3.1)
       '@squide/fakes':
         specifier: workspace:*
         version: link:../../../packages/fakes
@@ -907,27 +901,21 @@ importers:
         specifier: workspace:*
         version: link:../../../packages/firefly
       '@workleap/logging':
-        specifier: 2.1.0
+        specifier: ^2.1.0
         version: 2.1.0
-      react:
-        specifier: 19.3.1
-        version: 19.3.1
-      react-dom:
-        specifier: 19.3.1
-        version: 19.3.1(react@19.3.1)
-      react-router:
-        specifier: 8.5.1
-        version: 8.5.1(@types/react-dom@19.3.0(@types/react@19.3.0))(@types/react@19.3.0)(react-dom@19.3.1(react@19.3.1))(react@19.3.1)
-      useless-lib:
-        specifier: 3.0.0
-        version: 3.0.0
     devDependencies:
+      '@react-aria/toast':
+        specifier: 3.1.1
+        version: 3.1.1(react-dom@19.3.1(react@19.3.1))(react@19.3.1)
+      '@react-stately/toast':
+        specifier: 3.2.1
+        version: 3.2.1(react-dom@19.3.1(react@19.3.1))(react@19.3.1)
       '@rsbuild/core':
         specifier: 2.3.1
         version: 2.3.1(@module-federation/runtime-tools@2.9.3)(core-js@3.51.0)
-      '@squide/firefly-rsbuild-configs':
-        specifier: workspace:*
-        version: link:../../../packages/firefly-rsbuild-configs
+      '@rspack/core':
+        specifier: 2.3.1
+        version: 2.3.1(@module-federation/runtime-tools@2.9.3)(@swc/helpers@0.5.24)
       '@types/node':
         specifier: 26.6.6
         version: 26.6.6
@@ -940,27 +928,33 @@ importers:
       '@workleap/browserslist-config':
         specifier: 3.1.0
         version: 3.1.0
+      '@workleap/rsbuild-configs':
+        specifier: 5.1.1
+        version: 5.1.1(@emnapi/core@1.11.3)(@emnapi/runtime@1.11.3)(@rsbuild/core@2.3.1(@module-federation/runtime-tools@2.9.3)(core-js@3.51.0))(@rspack/core@2.3.1(@module-federation/runtime-tools@2.9.3)(@swc/helpers@0.5.24))(supports-color@11.0.0)(typescript@7.0.2)
       '@workleap/typescript-configs':
         specifier: 5.1.0
         version: 5.1.0(typescript@7.0.2)
       browserslist:
         specifier: 4.29.5
         version: 4.29.5
-      cross-env:
-        specifier: 10.1.0
-        version: 10.1.0
-      http-server:
-        specifier: 14.1.1
-        version: 14.1.1(debug@4.4.3(supports-color@11.0.0))(supports-color@11.0.0)
-      netlify-cli:
-        specifier: 27.16.2
-        version: 27.16.2(@swc/core@1.16.22(@swc/helpers@0.5.24))(@types/node@26.6.6)(bare-buffer@3.7.1)(encoding@0.1.13)(picomatch@4.0.7)(supports-color@11.0.0)
+      react:
+        specifier: 19.3.1
+        version: 19.3.1
+      react-dom:
+        specifier: 19.3.1
+        version: 19.3.1(react@19.3.1)
+      react-router:
+        specifier: 8.5.1
+        version: 8.5.1(@types/react-dom@19.3.0(@types/react@19.3.0))(@types/react@19.3.0)(react-dom@19.3.1(react@19.3.1))(react@19.3.1)
       typescript:
         specifier: 7.0.2
         version: 7.0.2
 
   samples/basic/host:
     dependencies:
+      '@basic/another-local-module':
+        specifier: workspace:*
+        version: link:../another-local-module
       '@basic/local-module':
         specifier: workspace:*
         version: link:../local-module
@@ -982,9 +976,6 @@ importers:
       '@squide/firefly':
         specifier: workspace:*
         version: link:../../../packages/firefly
-      '@squide/firefly-module-federation':
-        specifier: workspace:*
-        version: link:../../../packages/firefly-module-federation
       '@tanstack/react-query':
         specifier: 5.107.1
         version: 5.107.1(@types/react@19.3.0)(react@19.3.1)
@@ -1000,16 +991,13 @@ importers:
       react-router:
         specifier: 8.5.1
         version: 8.5.1(@types/react-dom@19.3.0(@types/react@19.3.0))(@types/react@19.3.0)(react-dom@19.3.1(react@19.3.1))(react@19.3.1)
-      useless-lib:
-        specifier: ^2.0.0
-        version: 2.1.0
     devDependencies:
       '@rsbuild/core':
         specifier: 2.3.1
         version: 2.3.1(@module-federation/runtime-tools@2.9.3)(core-js@3.51.0)
-      '@squide/firefly-rsbuild-configs':
-        specifier: workspace:*
-        version: link:../../../packages/firefly-rsbuild-configs
+      '@rspack/core':
+        specifier: 2.3.1
+        version: 2.3.1(@module-federation/runtime-tools@2.9.3)(@swc/helpers@0.5.24)
       '@types/node':
         specifier: 26.6.6
         version: 26.6.6
@@ -1022,6 +1010,9 @@ importers:
       '@workleap/browserslist-config':
         specifier: 3.1.0
         version: 3.1.0
+      '@workleap/rsbuild-configs':
+        specifier: 5.1.1
+        version: 5.1.1(@emnapi/core@1.11.3)(@emnapi/runtime@1.11.3)(@rsbuild/core@2.3.1(@module-federation/runtime-tools@2.9.3)(core-js@3.51.0))(@rspack/core@2.3.1(@module-federation/runtime-tools@2.9.3)(@swc/helpers@0.5.24))(supports-color@11.0.0)(typescript@7.0.2)
       '@workleap/typescript-configs':
         specifier: 5.1.0
         version: 5.1.0(typescript@7.0.2)
@@ -1068,82 +1059,9 @@ importers:
       '@rsbuild/core':
         specifier: 2.3.1
         version: 2.3.1(@module-federation/runtime-tools@2.9.3)(core-js@3.51.0)
-      '@squide/firefly-rsbuild-configs':
-        specifier: workspace:*
-        version: link:../../../packages/firefly-rsbuild-configs
-      '@types/node':
-        specifier: 26.6.6
-        version: 26.6.6
-      '@types/react':
-        specifier: 19.3.0
-        version: 19.3.0
-      '@types/react-dom':
-        specifier: 19.3.0
-        version: 19.3.0(@types/react@19.3.0)
-      '@workleap/browserslist-config':
-        specifier: 3.1.0
-        version: 3.1.0
-      '@workleap/typescript-configs':
-        specifier: 5.1.0
-        version: 5.1.0(typescript@7.0.2)
-      browserslist:
-        specifier: 4.29.5
-        version: 4.29.5
-      react:
-        specifier: 19.3.1
-        version: 19.3.1
-      react-dom:
-        specifier: 19.3.1
-        version: 19.3.1(react@19.3.1)
-      react-router:
-        specifier: 8.5.1
-        version: 8.5.1(@types/react-dom@19.3.0(@types/react@19.3.0))(@types/react@19.3.0)(react-dom@19.3.1(react@19.3.1))(react@19.3.1)
-      typescript:
-        specifier: 7.0.2
-        version: 7.0.2
-
-  samples/basic/remote-module:
-    dependencies:
-      '@basic/shared':
-        specifier: workspace:*
-        version: link:../shared
-      '@basic/shell':
-        specifier: workspace:*
-        version: link:../shell
-      '@react-aria/toast':
-        specifier: 3.1.1
-        version: 3.1.1(react-dom@19.3.1(react@19.3.1))(react@19.3.1)
-      '@react-stately/toast':
-        specifier: 3.2.1
-        version: 3.2.1(react-dom@19.3.1(react@19.3.1))(react@19.3.1)
-      '@squide/fakes':
-        specifier: workspace:*
-        version: link:../../../packages/fakes
-      '@squide/firefly':
-        specifier: workspace:*
-        version: link:../../../packages/firefly
-      '@workleap/logging':
-        specifier: 2.1.0
-        version: 2.1.0
-      react:
-        specifier: 19.3.1
-        version: 19.3.1
-      react-dom:
-        specifier: 19.3.1
-        version: 19.3.1(react@19.3.1)
-      react-router:
-        specifier: 8.5.1
-        version: 8.5.1(@types/react-dom@19.3.0(@types/react@19.3.0))(@types/react@19.3.0)(react-dom@19.3.1(react@19.3.1))(react@19.3.1)
-      useless-lib:
-        specifier: ^2.1.0
-        version: 2.1.0
-    devDependencies:
-      '@rsbuild/core':
+      '@rspack/core':
         specifier: 2.3.1
-        version: 2.3.1(@module-federation/runtime-tools@2.9.3)(core-js@3.51.0)
-      '@squide/firefly-rsbuild-configs':
-        specifier: workspace:*
-        version: link:../../../packages/firefly-rsbuild-configs
+        version: 2.3.1(@module-federation/runtime-tools@2.9.3)(@swc/helpers@0.5.24)
       '@types/node':
         specifier: 26.6.6
         version: 26.6.6
@@ -1156,21 +1074,24 @@ importers:
       '@workleap/browserslist-config':
         specifier: 3.1.0
         version: 3.1.0
+      '@workleap/rsbuild-configs':
+        specifier: 5.1.1
+        version: 5.1.1(@emnapi/core@1.11.3)(@emnapi/runtime@1.11.3)(@rsbuild/core@2.3.1(@module-federation/runtime-tools@2.9.3)(core-js@3.51.0))(@rspack/core@2.3.1(@module-federation/runtime-tools@2.9.3)(@swc/helpers@0.5.24))(supports-color@11.0.0)(typescript@7.0.2)
       '@workleap/typescript-configs':
         specifier: 5.1.0
         version: 5.1.0(typescript@7.0.2)
       browserslist:
         specifier: 4.29.5
         version: 4.29.5
-      cross-env:
-        specifier: 10.1.0
-        version: 10.1.0
-      http-server:
-        specifier: 14.1.1
-        version: 14.1.1(debug@4.4.3(supports-color@11.0.0))(supports-color@11.0.0)
-      netlify-cli:
-        specifier: 27.16.2
-        version: 27.16.2(@swc/core@1.16.22(@swc/helpers@0.5.24))(@types/node@26.6.6)(bare-buffer@3.7.1)(encoding@0.1.13)(picomatch@4.0.7)(supports-color@11.0.0)
+      react:
+        specifier: 19.3.1
+        version: 19.3.1
+      react-dom:
+        specifier: 19.3.1
+        version: 19.3.1(react@19.3.1)
+      react-router:
+        specifier: 8.5.1
+        version: 8.5.1(@types/react-dom@19.3.0(@types/react@19.3.0))(@types/react@19.3.0)(react-dom@19.3.1(react@19.3.1))(react@19.3.1)
       typescript:
         specifier: 7.0.2
         version: 7.0.2
@@ -1252,6 +1173,100 @@ importers:
         specifier: 7.0.2
         version: 7.0.2
 
+  samples/endpoints/another-local-module:
+    dependencies:
+      '@endpoints/i18next':
+        specifier: workspace:*
+        version: link:../i18next
+      '@endpoints/layouts':
+        specifier: workspace:*
+        version: link:../layouts
+      '@endpoints/shared':
+        specifier: workspace:*
+        version: link:../shared
+      '@endpoints/shell':
+        specifier: workspace:*
+        version: link:../shell
+      '@squide/fakes':
+        specifier: workspace:*
+        version: link:../../../packages/fakes
+      '@squide/firefly':
+        specifier: workspace:*
+        version: link:../../../packages/firefly
+      '@squide/i18next':
+        specifier: workspace:*
+        version: link:../../../packages/i18next
+      '@workleap/logging':
+        specifier: ^2.1.0
+        version: 2.1.0
+    devDependencies:
+      '@opentelemetry/api':
+        specifier: 1.9.1
+        version: 1.9.1
+      '@rsbuild/core':
+        specifier: 2.3.1
+        version: 2.3.1(@module-federation/runtime-tools@2.9.3)(core-js@3.51.0)
+      '@rspack/core':
+        specifier: 2.3.1
+        version: 2.3.1(@module-federation/runtime-tools@2.9.3)(@swc/helpers@0.5.24)
+      '@tanstack/react-query':
+        specifier: 5.107.1
+        version: 5.107.1(@types/react@19.3.0)(react@19.3.1)
+      '@tanstack/react-query-devtools':
+        specifier: 5.107.1
+        version: 5.107.1(@tanstack/react-query@5.107.1(@types/react@19.3.0)(react@19.3.1))(@types/react@19.3.0)(csstype@3.2.3)(react@19.3.1)
+      '@types/react':
+        specifier: 19.3.0
+        version: 19.3.0
+      '@types/react-dom':
+        specifier: 19.3.0
+        version: 19.3.0(@types/react@19.3.0)
+      '@workleap/browserslist-config':
+        specifier: 3.1.0
+        version: 3.1.0
+      '@workleap/rsbuild-configs':
+        specifier: 5.1.1
+        version: 5.1.1(@emnapi/core@1.11.3)(@emnapi/runtime@1.11.3)(@rsbuild/core@2.3.1(@module-federation/runtime-tools@2.9.3)(core-js@3.51.0))(@rspack/core@2.3.1(@module-federation/runtime-tools@2.9.3)(@swc/helpers@0.5.24))(supports-color@11.0.0)(typescript@7.0.2)
+      '@workleap/telemetry':
+        specifier: 4.1.0
+        version: 4.1.0(@opentelemetry/api@1.9.1)(logrocket@12.4.0)(react-dom@19.3.1(react@19.3.1))(react@19.3.1)(supports-color@11.0.0)(zone.js@0.16.3)
+      '@workleap/typescript-configs':
+        specifier: 5.1.0
+        version: 5.1.0(typescript@7.0.2)
+      browserslist:
+        specifier: 4.29.5
+        version: 4.29.5
+      cross-env:
+        specifier: 10.1.0
+        version: 10.1.0
+      http-server:
+        specifier: 14.1.1
+        version: 14.1.1(debug@4.4.3(supports-color@11.0.0))(supports-color@11.0.0)
+      i18next:
+        specifier: 27.0.1
+        version: 27.0.1(typescript@7.0.2)
+      launchdarkly-js-client-sdk:
+        specifier: 3.9.6
+        version: 3.9.6
+      msw:
+        specifier: 3.0.4
+        version: 3.0.4(@types/node@26.6.6)(supports-color@11.0.0)(typescript@7.0.2)(vite@8.3.6(@types/node@26.6.6)(esbuild@0.28.2)(jiti@2.7.0)(terser@5.51.2)(tsx@4.23.15)(yaml@2.9.1))
+      react:
+        specifier: 19.3.1
+        version: 19.3.1
+      react-dom:
+        specifier: 19.3.1
+        version: 19.3.1(react@19.3.1)
+      react-i18next:
+        specifier: 18.0.1
+        version: 18.0.1(@types/react@19.3.0)(i18next@27.0.1(typescript@7.0.2))(react@19.3.1)(typescript@7.0.2)
+      react-router:
+        specifier: 8.5.1
+        version: 8.5.1(@types/react-dom@19.3.0(@types/react@19.3.0))(@types/react@19.3.0)(react-dom@19.3.1(react@19.3.1))(react@19.3.1)
+      typescript:
+        specifier: 7.0.2
+        version: 7.0.2
+
   samples/endpoints/express-server:
     dependencies:
       '@opentelemetry/api':
@@ -1303,6 +1318,9 @@ importers:
 
   samples/endpoints/host:
     dependencies:
+      '@endpoints/another-local-module':
+        specifier: workspace:*
+        version: link:../another-local-module
       '@endpoints/i18next':
         specifier: workspace:*
         version: link:../i18next
@@ -1327,9 +1345,6 @@ importers:
       '@squide/firefly':
         specifier: workspace:*
         version: link:../../../packages/firefly
-      '@squide/firefly-module-federation':
-        specifier: workspace:*
-        version: link:../../../packages/firefly-module-federation
       '@squide/i18next':
         specifier: workspace:*
         version: link:../../../packages/i18next
@@ -1376,9 +1391,9 @@ importers:
       '@rsbuild/core':
         specifier: 2.3.1
         version: 2.3.1(@module-federation/runtime-tools@2.9.3)(core-js@3.51.0)
-      '@squide/firefly-rsbuild-configs':
-        specifier: workspace:*
-        version: link:../../../packages/firefly-rsbuild-configs
+      '@rspack/core':
+        specifier: 2.3.1
+        version: 2.3.1(@module-federation/runtime-tools@2.9.3)(@swc/helpers@0.5.24)
       '@types/node':
         specifier: 26.6.6
         version: 26.6.6
@@ -1391,6 +1406,9 @@ importers:
       '@workleap/browserslist-config':
         specifier: 3.1.0
         version: 3.1.0
+      '@workleap/rsbuild-configs':
+        specifier: 5.1.1
+        version: 5.1.1(@emnapi/core@1.11.3)(@emnapi/runtime@1.11.3)(@rsbuild/core@2.3.1(@module-federation/runtime-tools@2.9.3)(core-js@3.51.0))(@rspack/core@2.3.1(@module-federation/runtime-tools@2.9.3)(@swc/helpers@0.5.24))(supports-color@11.0.0)(typescript@7.0.2)
       '@workleap/typescript-configs':
         specifier: 5.1.0
         version: 5.1.0(typescript@7.0.2)
@@ -1529,118 +1547,12 @@ importers:
       '@rsbuild/core':
         specifier: 2.3.1
         version: 2.3.1(@module-federation/runtime-tools@2.9.3)(core-js@3.51.0)
-      '@squide/firefly-rsbuild-configs':
-        specifier: workspace:*
-        version: link:../../../packages/firefly-rsbuild-configs
-      '@tanstack/react-query':
-        specifier: 5.107.1
-        version: 5.107.1(@types/react@19.3.0)(react@19.3.1)
-      '@tanstack/react-query-devtools':
-        specifier: 5.107.1
-        version: 5.107.1(@tanstack/react-query@5.107.1(@types/react@19.3.0)(react@19.3.1))(@types/react@19.3.0)(csstype@3.2.3)(react@19.3.1)
-      '@types/react':
-        specifier: 19.3.0
-        version: 19.3.0
-      '@types/react-dom':
-        specifier: 19.3.0
-        version: 19.3.0(@types/react@19.3.0)
-      '@workleap/browserslist-config':
-        specifier: 3.1.0
-        version: 3.1.0
-      '@workleap/typescript-configs':
-        specifier: 5.1.0
-        version: 5.1.0(typescript@7.0.2)
-      browserslist:
-        specifier: 4.29.5
-        version: 4.29.5
-      cross-env:
-        specifier: 10.1.0
-        version: 10.1.0
-      http-server:
-        specifier: 14.1.1
-        version: 14.1.1(debug@4.4.3(supports-color@11.0.0))(supports-color@11.0.0)
-      i18next:
-        specifier: 27.0.1
-        version: 27.0.1(typescript@7.0.2)
-      msw:
-        specifier: 3.0.4
-        version: 3.0.4(@types/node@26.6.6)(supports-color@11.0.0)(typescript@7.0.2)(vite@8.3.6(@types/node@26.6.6)(esbuild@0.28.2)(jiti@2.7.0)(terser@5.51.2)(tsx@4.23.15)(yaml@2.9.1))
-      react:
-        specifier: 19.3.1
-        version: 19.3.1
-      react-dom:
-        specifier: 19.3.1
-        version: 19.3.1(react@19.3.1)
-      react-i18next:
-        specifier: 18.0.1
-        version: 18.0.1(@types/react@19.3.0)(i18next@27.0.1(typescript@7.0.2))(react@19.3.1)(typescript@7.0.2)
-      typescript:
-        specifier: 7.0.2
-        version: 7.0.2
-
-  samples/endpoints/remote-module:
-    dependencies:
-      '@endpoints/i18next':
-        specifier: workspace:*
-        version: link:../i18next
-      '@endpoints/layouts':
-        specifier: workspace:*
-        version: link:../layouts
-      '@endpoints/shared':
-        specifier: workspace:*
-        version: link:../shared
-      '@endpoints/shell':
-        specifier: workspace:*
-        version: link:../shell
-      '@opentelemetry/api':
-        specifier: 1.9.1
-        version: 1.9.1
-      '@squide/fakes':
-        specifier: workspace:*
-        version: link:../../../packages/fakes
-      '@squide/firefly':
-        specifier: workspace:*
-        version: link:../../../packages/firefly
-      '@squide/i18next':
-        specifier: workspace:*
-        version: link:../../../packages/i18next
-      '@tanstack/react-query':
-        specifier: 5.107.1
-        version: 5.107.1(@types/react@19.3.0)(react@19.3.1)
-      '@workleap/logging':
-        specifier: 2.1.0
-        version: 2.1.0
-      i18next:
-        specifier: 27.0.1
-        version: 27.0.1(typescript@7.0.2)
-      i18next-browser-languagedetector:
-        specifier: 8.3.0
-        version: 8.3.0
-      msw:
-        specifier: 3.0.4
-        version: 3.0.4(@types/node@26.6.6)(supports-color@11.0.0)(typescript@7.0.2)(vite@8.3.6(@types/node@26.6.6)(esbuild@0.28.2)(jiti@2.7.0)(terser@5.51.2)(tsx@4.23.15)(yaml@2.9.1))
-      react:
-        specifier: 19.3.1
-        version: 19.3.1
-      react-dom:
-        specifier: 19.3.1
-        version: 19.3.1(react@19.3.1)
-      react-error-boundary:
-        specifier: 6.1.6
-        version: 6.1.6(@types/react@19.3.0)(react@19.3.1)
-      react-i18next:
-        specifier: 18.0.1
-        version: 18.0.1(@types/react@19.3.0)(i18next@27.0.1(typescript@7.0.2))(react@19.3.1)(typescript@7.0.2)
-      react-router:
-        specifier: 8.5.1
-        version: 8.5.1(@types/react-dom@19.3.0(@types/react@19.3.0))(@types/react@19.3.0)(react-dom@19.3.1(react@19.3.1))(react@19.3.1)
-    devDependencies:
-      '@rsbuild/core':
+      '@rspack/core':
         specifier: 2.3.1
-        version: 2.3.1(@module-federation/runtime-tools@2.9.3)(core-js@3.51.0)
-      '@squide/firefly-rsbuild-configs':
-        specifier: workspace:*
-        version: link:../../../packages/firefly-rsbuild-configs
+        version: 2.3.1(@module-federation/runtime-tools@2.9.3)(@swc/helpers@0.5.24)
+      '@tanstack/react-query':
+        specifier: 5.107.1
+        version: 5.107.1(@types/react@19.3.0)(react@19.3.1)
       '@tanstack/react-query-devtools':
         specifier: 5.107.1
         version: 5.107.1(@tanstack/react-query@5.107.1(@types/react@19.3.0)(react@19.3.1))(@types/react@19.3.0)(csstype@3.2.3)(react@19.3.1)
@@ -1653,30 +1565,36 @@ importers:
       '@workleap/browserslist-config':
         specifier: 3.1.0
         version: 3.1.0
-      '@workleap/telemetry':
-        specifier: 4.1.0
-        version: 4.1.0(@opentelemetry/api@1.9.1)(logrocket@12.4.0)(react-dom@19.3.1(react@19.3.1))(react@19.3.1)(supports-color@11.0.0)(zone.js@0.16.3)
+      '@workleap/rsbuild-configs':
+        specifier: 5.1.1
+        version: 5.1.1(@emnapi/core@1.11.3)(@emnapi/runtime@1.11.3)(@rsbuild/core@2.3.1(@module-federation/runtime-tools@2.9.3)(core-js@3.51.0))(@rspack/core@2.3.1(@module-federation/runtime-tools@2.9.3)(@swc/helpers@0.5.24))(supports-color@11.0.0)(typescript@7.0.2)
       '@workleap/typescript-configs':
         specifier: 5.1.0
         version: 5.1.0(typescript@7.0.2)
       browserslist:
         specifier: 4.29.5
         version: 4.29.5
-      copyfiles:
-        specifier: 2.4.1
-        version: 2.4.1
       cross-env:
         specifier: 10.1.0
         version: 10.1.0
       http-server:
         specifier: 14.1.1
         version: 14.1.1(debug@4.4.3(supports-color@11.0.0))(supports-color@11.0.0)
-      launchdarkly-js-client-sdk:
-        specifier: 3.9.6
-        version: 3.9.6
-      netlify-cli:
-        specifier: 27.16.2
-        version: 27.16.2(@swc/core@1.16.22(@swc/helpers@0.5.24))(@types/node@26.6.6)(bare-buffer@3.7.1)(encoding@0.1.13)(picomatch@4.0.7)(supports-color@11.0.0)
+      i18next:
+        specifier: 27.0.1
+        version: 27.0.1(typescript@7.0.2)
+      msw:
+        specifier: 3.0.4
+        version: 3.0.4(@types/node@26.6.6)(supports-color@11.0.0)(typescript@7.0.2)(vite@8.3.6(@types/node@26.6.6)(esbuild@0.28.2)(jiti@2.7.0)(terser@5.51.2)(tsx@4.23.15)(yaml@2.9.1))
+      react:
+        specifier: 19.3.1
+        version: 19.3.1
+      react-dom:
+        specifier: 19.3.1
+        version: 19.3.1(react@19.3.1)
+      react-i18next:
+        specifier: 18.0.1
+        version: 18.0.1(@types/react@19.3.0)(i18next@27.0.1(typescript@7.0.2))(react@19.3.1)(typescript@7.0.2)
       typescript:
         specifier: 7.0.2
         version: 7.0.2
@@ -4102,10 +4020,6 @@ packages:
 
   '@opentelemetry/api-logs@0.223.0':
     resolution: {integrity: sha512-Oepm6etVPFCn0VWB1t833iOTgz1eYBDUPxcrOR/XvwzD1+Ag9VzSPSrrKAFNJ/haatj+8CXbG47pZXvdNQKDJw==}
-    engines: {node: '>=8.0.0'}
-
-  '@opentelemetry/api@1.10.0':
-    resolution: {integrity: sha512-lMkyes8iHrG+mk6WH7X70MdCLI2RS0FwNBY1PyQ8UemaijE2m5mv5A0Niy3HtbYTFrgkUEQjFMXmSAk2hQDuPQ==}
     engines: {node: '>=8.0.0'}
 
   '@opentelemetry/api@1.9.1':
@@ -11380,12 +11294,6 @@ packages:
     peerDependencies:
       react: ^16.8.0 || ^17.0.0 || ^18.0.0 || ^19.0.0
 
-  useless-lib@2.1.0:
-    resolution: {integrity: sha512-HxMJ/lOLgSDcQNkI0niuCKzft4IfFy/jyF0ovmEpZvI35zSu+cytwUvj5yRfEM94ABFcpIk96BGojv0QwXFm6A==}
-
-  useless-lib@3.0.0:
-    resolution: {integrity: sha512-rmy0U5jF1Nsq3NQWVSjB/hM7NSvdwlKbxk39cIyTp+4yoE1gychkMMOb1A4+IaEakczwWWeRNSfatDfH6tTAeg==}
-
   util-deprecate@1.0.2:
     resolution: {integrity: sha512-EPD5q1uXyFxJpCrLnCc1nHnq3gOa6DZBocAIiI2TaSCA7VCJ1UJDMagCzIkXNsUYfD1daK//LTEQ8xiIbrHtcw==}
 
@@ -14268,7 +14176,7 @@ snapshots:
 
   '@opentelemetry/api-logs@0.220.0':
     dependencies:
-      '@opentelemetry/api': 1.10.0
+      '@opentelemetry/api': 1.9.1
 
   '@opentelemetry/api-logs@0.222.0':
     dependencies:
@@ -14277,8 +14185,6 @@ snapshots:
   '@opentelemetry/api-logs@0.223.0':
     dependencies:
       '@opentelemetry/api': 1.9.1
-
-  '@opentelemetry/api@1.10.0': {}
 
   '@opentelemetry/api@1.9.1': {}
 
@@ -21994,10 +21900,6 @@ snapshots:
     dependencies:
       react: 19.3.1
 
-  useless-lib@2.1.0: {}
-
-  useless-lib@3.0.0: {}
-
   util-deprecate@1.0.2: {}
 
   util@0.12.5:
@@ -22042,29 +21944,6 @@ snapshots:
       terser: 5.51.2
       tsx: 4.23.15
       yaml: 2.9.1
-
-  vitest@5.1.0(@opentelemetry/api@1.10.0)(@types/node@26.6.6)(happy-dom@21.0.4)(msw@3.0.4(@types/node@26.6.6)(supports-color@11.0.0)(typescript@7.0.2)(vite@8.3.6(@types/node@26.6.6)(esbuild@0.28.2)(jiti@2.7.0)(terser@5.51.2)(tsx@4.23.15)(yaml@2.9.1)))(vite@8.3.6(@types/node@26.6.6)(esbuild@0.28.2)(jiti@2.7.0)(terser@5.51.2)(tsx@4.23.15)(yaml@2.9.1)):
-    dependencies:
-      '@types/chai': 5.2.3
-      '@vitest/mocker': 5.1.0(msw@3.0.4(@types/node@26.6.6)(supports-color@11.0.0)(typescript@7.0.2)(vite@8.3.6(@types/node@26.6.6)(esbuild@0.28.2)(jiti@2.7.0)(terser@5.51.2)(tsx@4.23.15)(yaml@2.9.1)))(vite@8.3.6(@types/node@26.6.6)(esbuild@0.28.2)(jiti@2.7.0)(terser@5.51.2)(tsx@4.23.15)(yaml@2.9.1))
-      chai: 6.3.0
-      es-module-lexer: 2.3.2
-      expect-type: 1.4.0
-      magic-string: 1.4.5
-      obug: 3.0.0
-      picomatch: 4.0.7
-      std-env: 4.3.0
-      tinybench: 6.2.3
-      tinyexec: 1.3.1
-      tinyglobby: 0.2.17
-      vite: 8.3.6(@types/node@26.6.6)(esbuild@0.28.2)(jiti@2.7.0)(terser@5.51.2)(tsx@4.23.15)(yaml@2.9.1)
-      why-is-node-running: 3.2.1
-    optionalDependencies:
-      '@opentelemetry/api': 1.10.0
-      '@types/node': 26.6.6
-      happy-dom: 21.0.4
-    transitivePeerDependencies:
-      - msw
 
   vitest@5.1.0(@opentelemetry/api@1.9.1)(@types/node@26.6.6)(happy-dom@21.0.4)(msw@3.0.4(@types/node@26.6.6)(supports-color@11.0.0)(typescript@7.0.2)(vite@8.3.6(@types/node@26.6.6)(esbuild@0.28.2)(jiti@2.7.0)(terser@5.51.2)(tsx@4.23.15)(yaml@2.9.1)))(vite@8.3.6(@types/node@26.6.6)(esbuild@0.28.2)(jiti@2.7.0)(terser@5.51.2)(tsx@4.23.15)(yaml@2.9.1)):
     dependencies:

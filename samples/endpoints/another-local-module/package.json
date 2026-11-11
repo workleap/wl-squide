@@ -1,0 +1,63 @@
+{
+    "name": "@endpoints/another-local-module",
+    "version": "0.0.0",
+    "private": true,
+    "description": "Another local module to showcase Squide.",
+    "license": "Apache-2.0",
+    "author": "Workleap",
+    "type": "module",
+    "exports": "./src/register.tsx",
+    "scripts": {
+        "postinstall": "pnpm msw init",
+        "dev-isolated": "cross-env USE_MSW=true ISOLATED=true rsbuild dev --config rsbuild.dev.ts",
+        "build-isolated": "cross-env USE_MSW=true ISOLATED=true rsbuild build --config rsbuild.build.ts",
+        "serve-build-isolated": "pnpm http-server dist -p 8080 -P http://localhost:8080? -c-1",
+        "typecheck": "tsc"
+    },
+    "dependencies": {
+        "@endpoints/i18next": "workspace:*",
+        "@endpoints/layouts": "workspace:*",
+        "@endpoints/shared": "workspace:*",
+        "@endpoints/shell": "workspace:*",
+        "@squide/fakes": "workspace:*",
+        "@squide/firefly": "workspace:*",
+        "@squide/i18next": "workspace:*",
+        "@workleap/logging": "^2.1.0"
+    },
+    "devDependencies": {
+        "@opentelemetry/api": "1.9.1",
+        "@rsbuild/core": "2.3.1",
+        "@rspack/core": "2.3.1",
+        "@tanstack/react-query": "5.107.1",
+        "@tanstack/react-query-devtools": "5.107.1",
+        "@types/react": "19.3.0",
+        "@types/react-dom": "19.3.0",
+        "@workleap/browserslist-config": "3.1.0",
+        "@workleap/rsbuild-configs": "5.1.1",
+        "@workleap/telemetry": "4.1.0",
+        "@workleap/typescript-configs": "5.1.0",
+        "browserslist": "4.29.5",
+        "cross-env": "10.1.0",
+        "http-server": "14.1.1",
+        "i18next": "27.0.1",
+        "launchdarkly-js-client-sdk": "3.9.6",
+        "msw": "3.0.4",
+        "react": "19.3.1",
+        "react-dom": "19.3.1",
+        "react-i18next": "18.0.1",
+        "react-router": "8.5.1",
+        "typescript": "7.0.2"
+    },
+    "peerDependencies": {
+        "@tanstack/react-query": "^5.107.1",
+        "i18next": "^27.0.1",
+        "msw": "^3.0.4",
+        "react": "^19.3.1",
+        "react-dom": "^19.3.1",
+        "react-i18next": "^18.0.1",
+        "react-router": "^8.5.1"
+    },
+    "msw": {
+        "workerDirectory": "public"
+    }
+}

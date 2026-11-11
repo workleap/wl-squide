@@ -7,7 +7,6 @@
             "outputs": []
         },
         "dev": {
-            "dependsOn": ["@squide/firefly-rsbuild-configs#build", "@squide/firefly-webpack-configs#build"],
             "cache": false,
             "persistent": true
         },
@@ -18,7 +17,6 @@
             "outputs": ["dist/**"]
         },
         "build-isolated": {
-            "dependsOn": ["@squide/firefly-rsbuild-configs#build", "@squide/firefly-webpack-configs#build"],
             "inputs": ["$TURBO_DEFAULT$", "$TURBO_ROOT$/.env.local"],
             "env": ["USE_MSW", "ISOLATED", "NETLIFY", "LOGROCKET_APP_ID", "HONEYCOMB_API_KEY", "LAUNCH_DARKLY_CLIENT_ID"],
             "outputs": ["dist/**"]
@@ -30,10 +28,6 @@
         },
         "deploy": {
             "dependsOn": ["build"],
-            "cache": false
-        },
-        "deploy-isolated": {
-            "dependsOn": ["build-isolated"],
             "cache": false
         },
         "lint": {

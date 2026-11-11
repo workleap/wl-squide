@@ -4,11 +4,6 @@
 export default {
     semverGroups: [
         {
-            packages: ["**"],
-            dependencies: ["useless-lib"],
-            isIgnored: true
-        },
-        {
             // Upgrading to version "0.12.0" of both of these causes typings issues.
             packages: ["**"],
             dependencies: ["@module-federation/enhanced", "@module-federation/rsbuild-plugin"],
@@ -36,13 +31,13 @@ export default {
             label: "Samples and Getting Started templates should pin devDependencies."
         },
         {
-            packages: ["@basic/host", "@basic/remote-module", "@basic/another-remote-module", "@endpoints/host", "@endpoints/remote-module", "@endpoints/express-server", "@storybook/app", "@storybook/host", "@getting-started/host"],
+            packages: ["@basic/host", "@endpoints/host", "@endpoints/express-server", "@storybook/app", "@storybook/host", "@getting-started/host"],
             dependencyTypes: ["prod", "dev"],
             range: "",
-            label: "Samples and Getting Started templates host applications and remote-modules should pin dependencies and devDependencies."
+            label: "Samples and Getting Started templates host applications should pin dependencies and devDependencies."
         },
         {
-            packages: ["@basic/local-module", "@basic/shared", "@basic/shell", "@endpoints/i18next", "@endpoints/layouts", "@endpoints/local-module", "@endpoints/shared", "@endpoints/shell", "@storybook/app", "@storybook/host"],
+            packages: ["@basic/another-local-module", "@basic/local-module", "@basic/shared", "@basic/shell", "@endpoints/another-local-module", "@endpoints/i18next", "@endpoints/layouts", "@endpoints/local-module", "@endpoints/shared", "@endpoints/shell", "@storybook/app", "@storybook/host"],
             dependencyTypes: ["peer"],
             range: "^",
             label: "Samples library projects should use ^ for peerDependencies."
@@ -55,11 +50,6 @@ export default {
         }
     ],
     versionGroups: [
-        {
-            packages: ["**"],
-            dependencies: ["useless-lib"],
-            isIgnored: true
-        },
         {
             // "@types/react", "react" and "react-dom" declares ranges to support React 18 and 19.
             // It's messing up with syncpack.

@@ -31,19 +31,6 @@ Or by adding a `_redirects` file into the Netlify publish directory:
 /* /index.html 200
 ```
 
-## Set the remote URL
-
-If your modular applications includes [remote modules](../reference/module-federation/initializeFirefly.md), configure the remote modules production URL:
-
-```js !#4
-const Remotes = [
-    {
-        name: "remote1",
-        url: process.env.isNetlify ? "https://squide-remote-module.netlify.app" : "http://localhost:8081"
-    }
-];
-```
-
 ## Update the runtime mode
 
 Don't forget to change the [runtime mode](../reference/runtime/FireflyRuntime.md#change-the-runtime-mode) to `production`:

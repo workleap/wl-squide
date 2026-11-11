@@ -8,7 +8,6 @@ const featureFlagsClient = createLocalStorageLaunchDarklyClient({
     "enable-log-rocket": true,
     "enable-honeycomb": true,
     "register-local-module": true,
-    "register-remote-module": true,
     "show-characters": true
 });
 
