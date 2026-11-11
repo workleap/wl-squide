@@ -199,9 +199,6 @@ importers:
       retypeapp:
         specifier: 4.6.0
         version: 4.6.0
-      skills:
-        specifier: 1.7.6
-        version: 1.7.6
       syncpack:
         specifier: 15.3.3
         version: 15.3.3
@@ -9756,11 +9753,6 @@ packages:
 
   sisteransi@1.0.5:
     resolution: {integrity: sha512-bLGGlR1QxBcynn2d5YmDX4MGjlZvy2MRBDRNHLJ8VI6l6+9FUiyTFNJ0IveOSP0bcXgVDPRcfGqA0pjaqUpfVg==}
-
-  skills@1.7.6:
-    resolution: {integrity: sha512-dAee29yRGin7ub6VHwmifLEfHrysGD41yq4RkY0gg7QQh0wyQKWfhiORGb/r6uNpKWc9A1GY8yowV07Lh+4rCg==}
-    engines: {node: '>=22.20.0'}
-    hasBin: true
 
   slashes@3.0.12:
     resolution: {integrity: sha512-Q9VME8WyGkc7pJf6QEkj3wE+2CnvZMI+XJhwdTPR8Z/kWQRXi7boAWLDibRPyHRTUTPx5FaU7MsyrjI3yLB4HA==}
@@ -19410,11 +19402,6 @@ snapshots:
       totalist: 3.0.1
 
   sisteransi@1.0.5: {}
-
-  skills@1.7.6:
-    dependencies:
-      tar: 7.5.22
-      yaml: 2.9.1
 
   slashes@3.0.12: {}
 
