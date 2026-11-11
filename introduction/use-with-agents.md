@@ -10,8 +10,6 @@ Open a terminal and install the `workleap-squide` agent skill by running the fol
 pnpm dlx skills@latest add https://github.com/workleap/wl-squide --skill workleap-squide
 ```
 
-The command pins `skills@latest` so that pnpm downloads a version of the CLI that your registry serves. A bare `skills` can ask for a newer release that a registry such as a package firewall still holds back, and the install then fails.
-
 !!!tip
 The `skills.sh` CLI will prompt you to choose whether to install the skill globally or within a project. We recommend installing it **locally** so it is available for code review tools such as [Copilot](https://docs.github.com/en/copilot/how-tos/use-copilot-agents/request-a-code-review/use-code-review) or [Claude Code](https://github.com/anthropics/claude-code-action).
 !!!
