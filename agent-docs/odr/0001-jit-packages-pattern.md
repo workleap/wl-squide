@@ -18,7 +18,7 @@ The key insight was that most packages are consumed by sample applications runni
 
 ## Decision
 
-Option 3. Ten of 11 packages use JIT. The exception (`firefly-rsbuild-configs`) must be built because bundler config files run in Node.js and cannot import raw TypeScript from other packages. `firefly-webpack-configs` was a second exception until the package was removed.
+Option 3. Every package uses JIT. `firefly-rsbuild-configs` and `firefly-webpack-configs` were exceptions until the packages were removed: they had to be built because bundler config files run in Node.js and cannot import raw TypeScript from other packages.
 
 The JIT pattern and the migration from tsup to Rslib (ODR-0002) were introduced in the same commit (`4eb46d69`, 2024-12-15, PR #225 — 476 files changed). This was a coordinated architectural shift: the same commit that replaced tsup with Rslib also changed package.json `exports` from `"./dist/..."` to `"./src/..."`, removed `nodemon.json` files from samples, and narrowed the `turbo.json` `dev` task to depend only on the two config packages.
 
@@ -26,7 +26,7 @@ Evidence: `packages/core/package.json` has `"exports": { ".": "./src/index.ts" }
 
 ## Consequences
 
-- No build step needed for 10/11 packages during development — immediate feedback on code changes.
+- No build step needed during development — immediate feedback on code changes.
 - The bundler (Rsbuild) transpiles raw TypeScript on the fly, eliminating the tsup + nodemon tooling chain.
 - Published packages ship compiled ESM via `publishConfig.exports` override — consumers on npm get standard compiled output.
 - Source files are included in published packages (`"files": ["src", "dist"]`) for debugging and source map support.

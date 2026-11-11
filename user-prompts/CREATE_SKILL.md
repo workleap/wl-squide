@@ -59,9 +59,6 @@ The documentation is located in the "docs" folder. Only use the documentation of
 And ignore the documentation of the following folders:
 
 * ./docs/reference/fakes
-* ./docs/reference/module-federation
-* ./docs/rsbuild
-* ./docs/webpack
 
 For the logger API, refer to the `wl-logging` package documentation available here: https://workleap.github.io/wl-logging.
 

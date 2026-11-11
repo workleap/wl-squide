@@ -2,7 +2,7 @@
 
 ## Status
 
-accepted
+superseded by [ADR-0033](./0033-local-modules-only.md)
 
 ## Context
 

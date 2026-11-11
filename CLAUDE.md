@@ -43,6 +43,6 @@ When in doubt, skip the ADR and put the rationale in the changeset. The same app
 
 ### Other
 
-- [specs/README.md](./agent-docs/specs/README.md) — All `@squide/*` packages: key APIs, source locations (i18next, MSW, LaunchDarkly, module federation, Storybook)
+- [specs/README.md](./agent-docs/specs/README.md) — All `@squide/*` packages: key APIs, source locations (i18next, MSW, LaunchDarkly, Storybook)
 - [adr/README.md](./agent-docs/adr/README.md) — Creating ADRs: when to write, template, status lifecycle
 - [odr/README.md](./agent-docs/odr/README.md) — Creating ODRs: when to write, template, status lifecycle
