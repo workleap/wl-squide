@@ -90,13 +90,13 @@ After:
 
 Delete the `rsbuild.dev.ts` and `rsbuild.build.ts` files, or the `webpack.dev.js` and `webpack.build.js` files if the remote module is bundled with webpack.
 
-!!!tip
-If the module is also developed in isolation, keep the development configuration, remove the `defineDevRemoteModuleConfig` function and replace the `defineDevHostConfig` function with the [defineDevConfig](https://workleap.github.io/wl-web-configs/rsbuild/configure-dev/) function of `@workleap/rsbuild-configs`. For additional information, refer to the [develop a module in isolation](../recipes/develop-a-module-in-isolation.md) recipe.
-!!!
-
 ### Update scripts
 
-Remove the `dev`, `build` and deployment scripts.
+Remove the `dev`, `dev-isolated`, `build` and deployment scripts.
+
+### Develop the module in isolation (optional)
+
+If the module was developed in isolation, the previous steps removed its development server. To set it up again with `@workleap/rsbuild-configs`, follow the [setup a local module](../recipes/develop-a-module-in-isolation.md#setup-a-local-module) section of the develop a module in isolation recipe.
 
 ## Host application
 
