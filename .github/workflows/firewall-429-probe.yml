@@ -1,0 +1,65 @@
+name: Firewall 429 probe
+
+# One-off diagnostic, never merge. Finds out who answers HTTP 429 when several cold installs go through the
+# GitHub package firewall at the same time. See .github/scripts/firewall-429-probe.mjs.
+
+on:
+  push:
+    branches: ["diag/firewall-429-probe"]
+
+permissions:
+  contents: read
+
+jobs:
+  # A single client, to learn whether one job alone gets throttled.
+  solo:
+    runs-on: ubuntu-latest
+
+    outputs:
+      start-at: ${{ steps.schedule.outputs.start-at }}
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v7
+
+      - name: Install Node.js
+        uses: actions/setup-node@v7
+        with:
+          node-version: "26"
+
+      - name: Probe
+        env:
+          FIREWALL_TOKEN: ${{ github.token }}
+          PROBE_LABEL: solo
+        run: node .github/scripts/firewall-429-probe.mjs
+
+      - name: Schedule the fan-out
+        id: schedule
+        # Far enough ahead for the five runners to be ready, so their bursts start in the same second.
+        run: echo "start-at=$(( ($(date +%s) + 120) * 1000 ))" >> "$GITHUB_OUTPUT"
+
+  # Five clients at once, like the five workflows a push to main starts.
+  fan-out:
+    needs: solo
+    runs-on: ubuntu-latest
+
+    strategy:
+      fail-fast: false
+      matrix:
+        client: [1, 2, 3, 4, 5]
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v7
+
+      - name: Install Node.js
+        uses: actions/setup-node@v7
+        with:
+          node-version: "26"
+
+      - name: Probe
+        env:
+          FIREWALL_TOKEN: ${{ github.token }}
+          PROBE_LABEL: fan-out ${{ matrix.client }} of 5
+          PROBE_START_AT: ${{ needs.solo.outputs.start-at }}
+        run: node .github/scripts/firewall-429-probe.mjs
