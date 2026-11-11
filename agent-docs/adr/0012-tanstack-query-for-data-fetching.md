@@ -31,7 +31,7 @@ The old callback mappings were:
 - `onCompleteRegistrations` → `useDeferredRegistrations`
 - `fallbackElement` → `useIsBootstrapping`
 
-Evidence: `packages/firefly/src/usePublicDataQueries.ts` wraps `useQueries` with lifecycle dispatching. `packages/firefly/src/useProtectedDataQueries.ts` adds 401 detection. `packages/firefly/src/AppRouterReducer.ts` (lines 115-129) handles `public-data-updated` and `protected-data-updated` actions with `Date.now()` timestamps. `docs/updating/migrate-to-firefly-v9.0.md` (lines 169-199, 319-323) documents the full callback-to-hook migration.
+Evidence: `packages/firefly/src/usePublicDataQueries.ts` wraps `useQueries` with lifecycle dispatching. `packages/firefly/src/useProtectedDataQueries.ts` adds 401 detection. `packages/firefly/src/AppRouterReducer.ts` handles `public-data-updated` and `protected-data-updated` actions with `Date.now()` timestamps. `docs/updating/migrate-to-firefly-v9.0.md` (lines 169-199, 319-323) documents the full callback-to-hook migration.
 
 ## Consequences
 

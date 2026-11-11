@@ -46,9 +46,9 @@ For detailed patterns and APIs, read the design docs linked below. This section 
 | endpoints | `samples/endpoints/` | Data fetching, i18n, Express BFF server |
 | storybook | `samples/storybook/` | Storybook integration demo |
 
-Each sample follows: **host** → **shell** (layout, bootstrapping route) → **local modules** with a **shared** package for types.
+The `basic` and `endpoints` samples follow: **host** → **shell** (layout, bootstrapping route) → **local modules** with a **shared** package for types.
 
 ## Further Reading
 
-- All `@squide/*` packages and APIs: [specs/](./specs/)
+- All `@squide/*` packages and APIs: [specs/README.md](./specs/README.md)
 - See [CLAUDE.md](../CLAUDE.md) for the full documentation index.

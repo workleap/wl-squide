@@ -21,7 +21,7 @@ Prior to Firefly v9.0, plugins received the runtime via a post-construction `_se
 
 Option 4. Plugins are factory functions (`PluginFactory<TRuntime> = (runtime: TRuntime) => Plugin`) passed to `initializeFirefly`. The `Runtime` constructor iterates over factories: `this._plugins = plugins.map(x => x(this))`. Five built-in plugins follow this pattern: `EnvironmentVariablesPlugin` (always created), `MswPlugin` (conditional on `useMsw`), `LaunchDarklyPlugin` (conditional on `launchDarklyClient`), `i18nextPlugin` (user-provided), and `ModuleFederationPlugin` (from `@squide/firefly-module-federation`). Each plugin is retrieved at runtime via a memoized `getPlugin(name)` lookup.
 
-Evidence: `packages/core/src/plugins/Plugin.ts` defines the minimal abstract class with `constructor(name, runtime)`. `packages/firefly/src/initializeFirefly.ts` (lines 167-184) wires built-in plugins. `docs/updating/migrate-to-firefly-v9.0.md` (lines 108-157) documents the `_setRuntime` → constructor migration and the `plugins: [new MyPlugin()]` → `plugins: [x => new MyPlugin(x)]` change.
+Evidence: `packages/core/src/plugins/Plugin.ts` defines the minimal abstract class with `constructor(name, runtime)`. `packages/firefly/src/initializeFirefly.ts` wires built-in plugins. `docs/updating/migrate-to-firefly-v9.0.md` (lines 108-157) documents the `_setRuntime` → constructor migration and the `plugins: [new MyPlugin()]` → `plugins: [x => new MyPlugin(x)]` change.
 
 ## Consequences
 

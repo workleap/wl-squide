@@ -18,7 +18,7 @@ Prior to Firefly v9.0, a single `ManagedRoutes` placeholder collected all module
 
 Option 3. Two sentinel route objects — `PublicRoutes` (`$id: "__squide-public-routes-outlet__"`, `$visibility: "public"`) and `ProtectedRoutes` (`$id: "__squide-protected-routes-outlet__"`, `$visibility: "protected"`) — are exported from `@squide/react-router`. When `RouteRegistry.add()` processes a non-hoisted route without an explicit parent, it automatically assigns the route to `PublicRoutesOutletId` if `$visibility === "public"`, otherwise to `ProtectedRoutesOutletId`. The canonical host route tree becomes: `RootLayout → PublicRoutes + AuthenticationBoundary → AuthenticatedLayout → ProtectedRoutes`.
 
-Evidence: `packages/react-router/src/outlets.ts` defines the two sentinel objects. `packages/react-router/src/RouteRegistry.ts` (lines 213-217) performs the automatic outlet assignment. See `docs/updating/migrate-to-firefly-v9.0.md` line 39: "The `ManagedRoutes` placeholder has been removed, use `PublicRoutes` and `ProtectedRoutes` instead."
+Evidence: `packages/react-router/src/outlets.ts` defines the two sentinel objects. The `add()` method of `packages/react-router/src/RouteRegistry.ts` performs the automatic outlet assignment. See `docs/updating/migrate-to-firefly-v9.0.md` line 39: "The `ManagedRoutes` placeholder has been removed, use `PublicRoutes` and `ProtectedRoutes` instead."
 
 ## Consequences
 
