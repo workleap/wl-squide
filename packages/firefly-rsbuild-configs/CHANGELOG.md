@@ -1,5 +1,11 @@
 # @squide/firefly-rsbuild-configs
 
+## 3.0.2
+
+### Patch Changes
+
+- [#762](https://github.com/workleap/wl-squide/pull/762) [`e5e03be`](https://github.com/workleap/wl-squide/commit/e5e03bebd4829c559128c539d7db6448f5bdc47e) Thanks [@patricklafrance](https://github.com/patricklafrance)! - Updated dependencies to their latest versions.
+
 ## 3.0.1
 
 ### Patch Changes
