@@ -1,10 +1,7 @@
 # pnpm
-/agent-browser
 /workleap-browserslist-config
-/workleap-logging
 /workleap-rsbuild-configs
 /workleap-rslib-configs
 /workleap-stylelint-configs
-/workleap-telemetry
 /workleap-typescript-configs
 # pnpm end
