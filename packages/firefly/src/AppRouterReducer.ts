@@ -57,6 +57,7 @@ export const ProtectedDataReadyEvent = "squide-protected-data-ready";
 export const PublicDataUpdatedEvent = "squide-public-data-updated";
 export const ProtectedDataUpdatedEvent = "squide-protected-data-updated";
 export const DeferredRegistrationsUpdatedEvent = "squide-deferred-registrations-updated";
+export const IsUnauthorizedEvent = "squide-is-unauthorized";
 export const ApplicationBoostrappedEvent = "squide-app-boostrapped";
 
 declare module "@squide/core" {

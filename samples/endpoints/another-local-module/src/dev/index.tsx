@@ -1,7 +1,7 @@
 import { createI18NextPlugin } from "@endpoints/i18next";
 import { registerShell } from "@endpoints/shell";
 import { FireflyProvider, getFeatureFlag, initializeFirefly } from "@squide/firefly";
-import { BrowserConsoleLogger, type RootLogger } from "@workleap/logging";
+import { BrowserConsoleLogger, LogLevel, type RootLogger } from "@workleap/logging";
 import { type InitializeTelemetryOptions, initializeTelemetry, LogRocketLogger, TelemetryProvider } from "@workleap/telemetry/react";
 import { initialize as initializeLaunchDarkly } from "launchdarkly-js-client-sdk";
 import { StrictMode } from "react";
@@ -47,7 +47,7 @@ const telemetryOptions: InitializeTelemetryOptions = {
 };
 
 if (process.env.LOGROCKET_APP_ID && isLogRocketEnabled) {
-    loggers.push(new LogRocketLogger());
+    loggers.push(new LogRocketLogger({ logLevel: LogLevel.information }));
 
     telemetryOptions.logRocket = {
         appId: process.env.LOGROCKET_APP_ID

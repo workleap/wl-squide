@@ -14,7 +14,7 @@ import {
     LocalModulesRegistrationCompletedEvent,
     LocalModulesRegistrationStartedEvent
 } from "@squide/core";
-import { ApplicationBoostrappedEvent, ModulesReadyEvent, ModulesRegisteredEvent, MswReadyEvent, PluginsReadyEvent, ProtectedDataReadyEvent, PublicDataReadyEvent } from "../AppRouterReducer.ts";
+import { ApplicationBoostrappedEvent, IsUnauthorizedEvent, ModulesReadyEvent, ModulesRegisteredEvent, MswReadyEvent, PluginsReadyEvent, ProtectedDataReadyEvent, PublicDataReadyEvent } from "../AppRouterReducer.ts";
 import type { FireflyPlugin } from "../FireflyPlugin.ts";
 import type { FireflyRuntime } from "../FireflyRuntime.tsx";
 import { ApplicationBootstrappingStartedEvent } from "../initializeFirefly.ts";
@@ -174,10 +174,18 @@ function registerTrackingListeners(runtime: FireflyRuntime) {
     let localModuleRegistrationSpan: Span;
     let localModuleDeferredRegistrationSpan: Span;
     let dataFetchSpan: ActiveSpan;
+    let dataFetchSpanHasEnded: boolean = false;
     let deferredRegistrationsUpdateSpan: Span;
     let localModuleDeferredRegistrationsUpdateSpan: ActiveSpan;
 
     const pluginsUnmanagedErrorHandlers: HoneycombTrackingUnmanagedErrorHandler[] = [];
+
+    const endDataFetchSpan = () => {
+        if (dataFetchSpan && !dataFetchSpanHasEnded) {
+            endActiveSpan(dataFetchSpan);
+            dataFetchSpanHasEnded = true;
+        }
+    };
 
     const handleUnmanagedError = (error: unknown) => {
         if (bootstrappingSpan && !bootstrappingSpanHasEnded) {
@@ -195,9 +203,7 @@ function registerTrackingListeners(runtime: FireflyRuntime) {
             localModuleDeferredRegistrationSpan.end();
         }
 
-        if (dataFetchSpan) {
-            dataFetchSpan.instance.end();
-        }
+        endDataFetchSpan();
 
         if (deferredRegistrationsUpdateSpan) {
             deferredRegistrationsUpdateSpan.end();
@@ -392,9 +398,7 @@ function registerTrackingListeners(runtime: FireflyRuntime) {
     };
 
     const handleDataReady = () => {
-        if (dataFetchSpan) {
-            endActiveSpan(dataFetchSpan);
-        }
+        endDataFetchSpan();
     };
 
     const handlePublicDataFetchStarted = () => {
@@ -423,11 +427,14 @@ function registerTrackingListeners(runtime: FireflyRuntime) {
 
     const handleDataFetchFailed = (queriesErrors: Error[]) => {
         if (dataFetchSpan) {
+            // The data fetch span has already ended when a protected data query returned a 401 before the failure.
+            const span = dataFetchSpanHasEnded ? bootstrappingSpan : dataFetchSpan.instance;
+
             queriesErrors.forEach(x => {
-                traceError(dataFetchSpan.instance, x);
+                traceError(span, x);
             });
 
-            endActiveSpan(dataFetchSpan);
+            endDataFetchSpan();
 
             // Global data fetch errors are unmanaged, which mean the host application bootstrapping flow
             // will be aborted and a react-router error boundary will be rendered.
@@ -439,6 +446,12 @@ function registerTrackingListeners(runtime: FireflyRuntime) {
     };
 
     reduceDataFetchEvents(runtime, handleFetchDataStarted, handleDataReady, handlePublicDataFetchStarted, handlePublicDataReady, handleProtectedDataFetchStarted, handleProtectedDataReady, handleDataFetchFailed, handleUnmanagedError);
+
+    // When a protected data query returns a 401, the data is never ready and the fetch is not reported as failed.
+    addProtectedListener(runtime, IsUnauthorizedEvent, endDataFetchSpan, {
+        once: true,
+        onError: handleUnmanagedError
+    });
 
     addProtectedListener(
         runtime,
