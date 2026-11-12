@@ -21,7 +21,7 @@ import { ApplicationBootstrappingStartedEvent } from "../initializeFirefly.ts";
 import { ProtectedDataFetchFailedEvent, ProtectedDataFetchStartedEvent } from "../useProtectedDataQueries.ts";
 import { PublicDataFetchFailedEvent, PublicDataFetchStartedEvent } from "../usePublicDataQueries.ts";
 import { DeferredRegistrationsUpdateCompletedEvent, DeferredRegistrationsUpdateStartedEvent } from "../useUpdateDeferredRegistrations.ts";
-import { type ActiveSpan, createOverrideFetchRequestSpanWithActiveSpanContext, registerActiveSpanStack } from "./activeSpan.ts";
+import { type ActiveSpan, createOverrideFetchRequestSpanWithActiveSpanContext, popActiveSpan, registerActiveSpanStack } from "./activeSpan.ts";
 import { getTracer } from "./tracer.ts";
 import { endActiveSpan, startActiveChildSpan, startChildSpan, startSpan, traceError } from "./utils.ts";
 
@@ -174,16 +174,23 @@ function registerTrackingListeners(runtime: FireflyRuntime) {
     let localModuleRegistrationSpan: Span;
     let localModuleDeferredRegistrationSpan: Span;
     let dataFetchSpan: ActiveSpan;
-    let dataFetchSpanHasEnded: boolean = false;
+    let isDataFetchSpanActive: boolean = false;
     let deferredRegistrationsUpdateSpan: Span;
     let localModuleDeferredRegistrationsUpdateSpan: ActiveSpan;
 
     const pluginsUnmanagedErrorHandlers: HoneycombTrackingUnmanagedErrorHandler[] = [];
 
+    const deactivateDataFetchSpan = () => {
+        if (isDataFetchSpanActive) {
+            popActiveSpan(dataFetchSpan);
+            isDataFetchSpanActive = false;
+        }
+    };
+
     const endDataFetchSpan = () => {
-        if (dataFetchSpan && !dataFetchSpanHasEnded) {
-            endActiveSpan(dataFetchSpan);
-            dataFetchSpanHasEnded = true;
+        if (dataFetchSpan) {
+            dataFetchSpan.instance.end();
+            deactivateDataFetchSpan();
         }
     };
 
@@ -395,6 +402,8 @@ function registerTrackingListeners(runtime: FireflyRuntime) {
                 span
             };
         });
+
+        isDataFetchSpanActive = true;
     };
 
     const handleDataReady = () => {
@@ -427,11 +436,8 @@ function registerTrackingListeners(runtime: FireflyRuntime) {
 
     const handleDataFetchFailed = (queriesErrors: Error[]) => {
         if (dataFetchSpan) {
-            // The data fetch span has already ended when a protected data query returned a 401 before the failure.
-            const span = dataFetchSpanHasEnded ? bootstrappingSpan : dataFetchSpan.instance;
-
             queriesErrors.forEach(x => {
-                traceError(span, x);
+                traceError(dataFetchSpan.instance, x);
             });
 
             endDataFetchSpan();
@@ -447,8 +453,9 @@ function registerTrackingListeners(runtime: FireflyRuntime) {
 
     reduceDataFetchEvents(runtime, handleFetchDataStarted, handleDataReady, handlePublicDataFetchStarted, handlePublicDataReady, handleProtectedDataFetchStarted, handleProtectedDataReady, handleDataFetchFailed, handleUnmanagedError);
 
-    // When a protected data query returns a 401, the data is never ready and the fetch is not reported as failed.
-    addProtectedListener(runtime, IsUnauthorizedEvent, endDataFetchSpan, {
+    // When a protected data query returns a 401, the data might never be ready. The span is not ended because
+    // another query could still fail and the errors are traced on the span.
+    addProtectedListener(runtime, IsUnauthorizedEvent, deactivateDataFetchSpan, {
         once: true,
         onError: handleUnmanagedError
     });

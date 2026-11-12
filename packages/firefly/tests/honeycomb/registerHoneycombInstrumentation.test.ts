@@ -127,7 +127,7 @@ test("when the protected data is ready, the data fetch span is ended and is not 
     expect(hasActiveSpan()).toBeFalsy();
 });
 
-test("when a protected data query is unauthorized, the data fetch span is ended and is not the active span anymore", ({ expect }) => {
+test("when a protected data query is unauthorized, the data fetch span is not the active span anymore", ({ expect }) => {
     const { runtime, spans, hasActiveSpan } = registerInstrumentation();
 
     runtime.eventBus.dispatch(ApplicationBootstrappingStartedEvent);
@@ -137,11 +137,11 @@ test("when a protected data query is unauthorized, the data fetch span is ended 
 
     runtime.eventBus.dispatch(IsUnauthorizedEvent, { waitForMsw: false, waitForPublicData: false, waitForProtectedData: true });
 
-    expect(spans["data-fetch"].end).toHaveBeenCalledOnce();
+    expect(spans["data-fetch"].end).not.toHaveBeenCalled();
     expect(hasActiveSpan()).toBeFalsy();
 });
 
-test("when a protected data query is unauthorized and another one fails, the data fetch span is ended once and the error is traced on the bootstrapping span", ({ expect }) => {
+test("when a protected data query is unauthorized and another one fails, the error is traced on the data fetch span and the span is ended", ({ expect }) => {
     const { runtime, spans, hasActiveSpan } = registerInstrumentation();
 
     runtime.eventBus.dispatch(ApplicationBootstrappingStartedEvent);
@@ -149,8 +149,8 @@ test("when a protected data query is unauthorized and another one fails, the dat
     runtime.eventBus.dispatch(IsUnauthorizedEvent, { waitForMsw: false, waitForPublicData: false, waitForProtectedData: true });
     runtime.eventBus.dispatch(ProtectedDataFetchFailedEvent, [new Error("Failed")]);
 
+    expect(spans["data-fetch"].recordException).toHaveBeenCalledOnce();
     expect(spans["data-fetch"].end).toHaveBeenCalledOnce();
-    expect(spans["squide-bootstrapping"].recordException).toHaveBeenCalledOnce();
     expect(spans["squide-bootstrapping"].end).toHaveBeenCalledOnce();
     expect(hasActiveSpan()).toBeFalsy();
 });
