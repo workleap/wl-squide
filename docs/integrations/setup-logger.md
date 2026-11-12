@@ -76,14 +76,15 @@ pnpm add @workleap/logrocket
 
 Then, provide an instance of [LogRocketLogger](https://workleap.github.io/wl-telemetry/reference/logrocketlogger/) at initialization:
 
-```tsx !#7
+```tsx !#8
 import { createRoot } from "react-dom/client";
 import { FireflyProvider, initializeFirefly } from "@squide/firefly";
+import { LogLevel } from "@workleap/logging";
 import { LogRocketLogger } from "@workleap/telemetry/react"; // or from "@workleap/logrocket/react";
 import { App } from "./App.tsx";
 
 const runtime = initializeFirefly({
-    loggers: [new LogRocketLogger()]
+    loggers: [new LogRocketLogger({ logLevel: LogLevel.information })]
 });
 
 const root = createRoot(document.getElementById("root")!);

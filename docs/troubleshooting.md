@@ -23,12 +23,13 @@ Frontend production issues are best troubleshoot using [LogRocket](https://logro
 
 For troubleshooting frontend production issues, we recommend using [LogRocket](https://logrocket.com/). To capture log entries in LogRocket session replays, install the `@workleap/logrocket` package and pass an instance of [LogRocketLogger](https://workleap.github.io/wl-telemetry/reference/logrocketlogger/) to the `initializeFirefly` function:
 
-```ts !#5
-import { initializeFirefly, type LogLevel } from "@squide/firefly";
+```ts !#6
+import { initializeFirefly } from "@squide/firefly";
+import { LogLevel } from "@workleap/logging";
 import { LogRocketLogger } from "@workleap/telemetry/react"; // or from "@workleap/logrocket/react";
 
 const runtime = initializeFirefly({
-    loggers: [new LogRocketLogger()]
+    loggers: [new LogRocketLogger({ logLevel: LogLevel.information })]
 });
 ```
 

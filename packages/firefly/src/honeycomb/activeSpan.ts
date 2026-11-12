@@ -106,18 +106,7 @@ export function createOverrideFetchRequestSpanWithActiveSpanContext(logger: Logg
             const requestSpanContext = span.spanContext();
 
             if (activeSpanContext) {
-                logger
-                    .withText("[squide] Found a Honeycomb active context to apply to the following fetch request:")
-                    .withLineChange()
-                    .withText("Request span context:")
-                    .withObject(requestSpanContext)
-                    .withLineChange()
-                    .withText("Active span context:")
-                    .withObject(activeSpanContext)
-                    .withLineChange()
-                    .withText("Request:")
-                    .withObject(request)
-                    .debug();
+                logger.withText("[squide] Found a Honeycomb active context to apply to the following fetch request:").withLineChange().withText("Request span context:").withObject(requestSpanContext).withLineChange().withText("Active span context:").withObject(activeSpanContext).debug();
 
                 span.setAttribute("trace.trace_id", activeSpanContext.traceId);
                 span.setAttribute("trace.parent_id", activeSpanContext.spanId);
