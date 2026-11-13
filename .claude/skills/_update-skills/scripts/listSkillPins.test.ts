@@ -1,7 +1,7 @@
 // node --test .claude/skills/_update-skills/scripts/listSkillPins.test.ts
 import { deepStrictEqual, strictEqual } from "node:assert/strict";
 import { describe, it } from "node:test";
-import { isUnchanged, parseLookup, pickCliVersion, readPositions, type Push } from "./listSkillPins.ts";
+import { isUnchanged, parseLookup, pickCliVersion, readPositions, servedReleases, type Push } from "./listSkillPins.ts";
 
 const NOW = new Date("2026-11-20T00:00:00.000Z");
 
@@ -20,6 +20,14 @@ void describe("pickCliVersion", () => {
 
     void it("offers nothing while only releases that can't pin a commit are old enough", () => {
         strictEqual(pickCliVersion({ "1.7.6": "2026-11-03T00:17:11.594Z", "1.8.0": "2026-11-19T00:00:00.000Z" }, NOW), undefined);
+    });
+
+    void it("never picks a release the registry no longer serves", () => {
+        // "1.8.1" was unpublished: the registry still tells when it was published.
+        const publishedAt = servedReleases({ created: "2026-01-01T00:00:00.000Z", "1.8.0": "2026-11-01T00:00:00.000Z", "1.8.1": "2026-11-02T00:00:00.000Z" }, ["1.8.0"]);
+
+        deepStrictEqual(publishedAt, { "1.8.0": "2026-11-01T00:00:00.000Z" });
+        strictEqual(pickCliVersion(publishedAt, NOW), "1.8.0");
     });
 });
 

@@ -7,7 +7,8 @@
 //
 // stdout is JSON: { cli, skills: [{ skill, source, pinned, latest, settled }] }.
 //
-//   cli      the newest stable `skills` release published at least 7 days ago.
+//   cli      the newest stable `skills` release published at least 7 days ago that the registry
+//            still serves and hasn't deprecated.
 //   pinned   the `ref` of the skill's `skills-lock.json` entry.
 //   settled  whether the skill's folder is the same at every position the source's default branch
 //            is known to have held over the last 7 days: where it was 7 days ago, both ends of
@@ -104,16 +105,44 @@ export function pickCliVersion(publishedAt: Record<string, string>, now: Date) {
         .at(-1);
 }
 
-function readCliVersion() {
-    const result = spawnSync("pnpm view skills time --json", { encoding: "utf8", shell: true });
+/**
+ * The publish times of the releases the registry still serves. It keeps the time of a release that
+ * was unpublished, which is what happens to a poisoned one: offered, it could not be installed.
+ */
+export function servedReleases(publishedAt: Record<string, string>, served: string[]) {
+    return Object.fromEntries(Object.entries(publishedAt).filter(([version]) => served.includes(version)));
+}
+
+function pnpmView(what: string) {
+    const result = spawnSync(`pnpm view ${what} --json`, { encoding: "utf8", shell: true });
 
     if (result.status !== 0) {
-        return stop(`pnpm failed while listing the skills CLI releases: ${result.error?.message ?? result.stderr.trim()}`);
+        return stop(`pnpm failed while reading ${what}: ${result.error?.message ?? result.stderr.trim()}`);
     }
 
-    const publishedAt: Record<string, string> = JSON.parse(result.stdout);
+    return result.stdout.trim();
+}
 
-    return pickCliVersion(publishedAt, new Date()) ?? stop(`no skills release from ${MIN_CLI_VERSION} up is 7 days old yet`);
+function readCliVersion() {
+    const { time, versions }: { time: Record<string, string>; versions: string | string[] } = JSON.parse(pnpmView("skills time versions"));
+    const publishedAt = servedReleases(time, [versions].flat());
+    const now = new Date();
+
+    // A deprecated release is skipped: past the registry's unpublish window, deprecating is how a
+    // maintainer flags a bad one.
+    for (;;) {
+        const version = pickCliVersion(publishedAt, now);
+
+        if (!version) {
+            return stop(`no skills release from ${MIN_CLI_VERSION} up is 7 days old yet`);
+        }
+
+        if (pnpmView(`skills@${version} deprecated`) === "") {
+            return version;
+        }
+
+        delete publishedAt[version];
+    }
 }
 
 function ghApi(path: string, fields: string[], jq: string, what: string, allPages = false) {
