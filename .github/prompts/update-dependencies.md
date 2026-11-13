@@ -134,6 +134,20 @@ Run this after the validation loop so the skill gate sees the final versions —
 
 Dispatch a subagent for the `_update-skills` skill.
 
+Once the subagent has returned, check what it left on disk, whatever its report says — it can end in the middle of a pull:
+
+```bash
+git status --short .claude/skills skills-lock.json
+```
+
+For every skill whose folder or `skills-lock.json` entry changed (`git diff skills-lock.json` shows the entries; leave the `_`-prefixed folders out), run:
+
+```bash
+node .claude/skills/_update-skills/scripts/listSkillPins.ts --verify <name>
+```
+
+Anything but `"verified": true`, a non-zero exit included, is a failed pull even when the report lists the skill as updated. Undo it: `git checkout -- .claude/skills/<name>`, `git clean -fd .claude/skills/<name>`, and put the skill's `skills-lock.json` entry back to its committed value with the Edit tool. Then report it as a failed pull below and in the PR body. If an `.agents/` folder appeared, remove it as well with `git clean -fd .agents`: skills install into `.claude/skills/` only.
+
 If the report shows a drift stop, a listing stop (labelled `listing stop:`, from `listSkillPins.ts` exiting non-zero in the skill), a skill listed as `BLOCKED` or a `skills add` failure, report it in an issue and continue with whatever was updated. A stop can last for weeks, so look for an open issue first:
 
 ```bash

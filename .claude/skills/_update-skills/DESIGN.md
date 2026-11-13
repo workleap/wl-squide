@@ -48,6 +48,7 @@ Not verified yet: that the Actions token can run the GraphQL lookup against othe
 | The CLI release | Chosen by the script from the registry's publish times | The registry keeps the time of an unpublished release, so "old enough" must also mean "still served". Deprecating is how a maintainer flags a bad release after the unpublish window. A release above `latest` was never put forward, or was taken back. |
 | The CLI's dependencies | `minimumReleaseAge` on the `pnpm dlx` that runs it | `dlx` resolves them fresh on every run with no lockfile. Checked on pnpm 12.18: the setting applies to `dlx` and `pnpx`, from the flag and from the workspace file, to transitive packages too, and an older version in range is picked when the newest is too young. |
 | Checking the install | `--verify` compares each installed file's blob sha with the folder at the pinned commit | The lock's `ref` is copied from the URL the CLI was given, not from what it fetched, and before 1.8.0 the CLI installed the default branch when given `owner/repo@<commit>` (both read from its source). It goes one way (installed ⊆ source) because the CLI leaves some files out. A link is never followed and never matches. |
+| Who checks the install | The skill after each pull, and again the workflow prompt wherever the skill runs in a subagent (the four open-source repos) | A subagent can end in the middle of a pull, and the prompt commits what is on disk. In `wl-app` the skill runs in the job's own session, and a run that ends early commits nothing. |
 | Text from upstream in messages | A repository, branch or file name is printed only when it looks like one, and what `gh` or `pnpm` printed is cut to plain text | A `problem` is printed by an agent and pasted into an issue. |
 | Tests | Everything asked of GitHub goes through one interface the tests answer from memory | The whole decision runs offline. `gh` and `pnpm` are only called by thin functions whose parsing is tested against recorded output. The arguments they pass are exercised only by real runs. |
 
@@ -74,7 +75,8 @@ Not verified yet: that the Actions token can run the GraphQL lookup against othe
 - A push GitHub never recorded at the tip of a branch, if it touched the folder, keeps the skill on `WAIT` until a later push is 7 days old.
 - A `BLOCKED` skill stays blocked until its cause is gone. A failed `gh` call clears on the next run. Anything else needs a human, and a source GitHub has no recorded push for stays blocked.
 - A skill whose upstream folder holds a symbolic link can never verify: GitHub lists the link, and the CLI installs what it points to.
-- After a failed pull, the agent puts the skill's lock entry back from what it read before the pull (`SKILL.md` has it do so; in `wl-app`, the nightly prompt). No command does it.
+- After a failed pull, the agent puts the skill's lock entry back by hand (`SKILL.md` has it do so; in `wl-app`, the nightly prompt). No command does it.
+- `--verify` passes an install with files missing, as long as those present match: a pull cut short can leave an incomplete skill, never content that hasn't cooled.
 - A trouble that lasts is reported every run: as a comment on the open issue in the four open-source repos, as a new issue in `wl-app`.
 
 ## Adding a skill
