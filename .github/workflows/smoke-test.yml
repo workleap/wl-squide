@@ -26,15 +26,15 @@ jobs:
     timeout-minutes: 15
     steps:
       - name: Checkout
-        uses: actions/checkout@v7
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
 
       - name: Install pnpm
-        uses: pnpm/action-setup@v6
+        uses: pnpm/action-setup@73e46992e05b19abd31f2f3c20e0e7370d762115 # v6.1.1
         with:
           run_install: false
 
       - name: Install Node.js
-        uses: actions/setup-node@v7
+        uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
         with:
           node-version: "26"
           check-latest: true
@@ -57,7 +57,7 @@ jobs:
           agent-browser close
 
       - name: Run smoke test
-        uses: anthropics/claude-code-action@v1
+        uses: anthropics/claude-code-action@4d75e5f390ee76b2e09c1980ecc99ff3a2e088c8 # v1.0.275
         with:
           prompt: |
             Read and follow the instructions in .github/prompts/smoke-test.md
