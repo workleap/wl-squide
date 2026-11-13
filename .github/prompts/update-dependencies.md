@@ -134,7 +134,19 @@ Run this after the validation loop so the skill gate sees the final versions —
 
 Dispatch a subagent for the `_update-skills` skill.
 
-If the report shows a drift stop, a listing stop (labelled `listing stop:`, from `listSkillPins.ts` exiting non-zero in the skill) or a `skills add` failure, open an issue with the report and continue with whatever was updated:
+If the report shows a drift stop, a listing stop (labelled `listing stop:`, from `listSkillPins.ts` exiting non-zero in the skill) or a `skills add` failure, report it in an issue and continue with whatever was updated. A stop can last for weeks, so look for an open issue first:
+
+```bash
+gh issue list --state open --search '"[agent] Failed to update agent skills" in:title' --json number --jq '.[0].number'
+```
+
+If that prints a number, comment on that issue instead of opening another:
+
+```bash
+gh issue comment <number> --body "<The subagent's report, and a link to: $GITHUB_SERVER_URL/$GITHUB_REPOSITORY/actions/runs/$GITHUB_RUN_ID>"
+```
+
+Otherwise open one:
 
 ```bash
 gh issue create   --title "[agent] Failed to update agent skills"   --body "## Failed agent skill update
