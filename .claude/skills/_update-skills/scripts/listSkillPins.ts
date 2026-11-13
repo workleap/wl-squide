@@ -29,14 +29,14 @@ import { execFileSync, spawnSync } from "node:child_process";
 import { readFileSync } from "node:fs";
 import { posix } from "node:path";
 
-interface LockEntry {
+export interface LockEntry {
     source: string;
     sourceType: string;
     ref?: string;
     skillPath?: string;
 }
 
-interface SkillsLock {
+export interface SkillsLock {
     skills: Record<string, LockEntry>;
 }
 
@@ -55,6 +55,21 @@ export interface Push {
     before: string;
     after: string;
     at: number;
+}
+
+// What the listing asks GitHub. The real one runs `gh`; the tests answer from memory.
+export interface GitHub {
+    defaultBranch: (source: string) => string;
+    // The pushes recorded for a branch, newest first: the last one alone, or every one of a period.
+    pushes: (source: string, branch: string, period?: "month" | "year") => Push[];
+    // Where the branch points.
+    ref: (source: string, branch: string) => string;
+    // The git tree `folder` is at `commit`. It stops the run when there is none.
+    folderTree: (source: string, commit: string, folder: string) => string;
+    // The git object at `folder` of each of `commits`, null where there is none.
+    folderTrees: (source: string, commits: string[], folder: string) => (string | null)[];
+    // The newest commit reachable from `head` that changed `folder`.
+    latestCommit: (source: string, head: string, folder: string) => string;
 }
 
 const MIN_AGE_MS = 7 * 24 * 60 * 60 * 1000;
@@ -123,26 +138,28 @@ function pnpmView(what: string) {
     return result.stdout.trim();
 }
 
-function readCliVersion() {
-    const { time, versions }: { time: Record<string, string>; versions: string | string[] } = JSON.parse(pnpmView("skills time versions"));
-    const publishedAt = servedReleases(time, [versions].flat());
-    const now = new Date();
+/**
+ * The newest release `pickCliVersion` accepts among those the registry still serves, a deprecated
+ * one skipped: past the registry's unpublish window, deprecating is how a maintainer flags a bad one.
+ */
+export function pickUsableCliVersion(publishedAt: Record<string, string>, served: string[], now: Date, isDeprecated: (version: string) => boolean) {
+    const candidates = servedReleases(publishedAt, served);
 
-    // A deprecated release is skipped: past the registry's unpublish window, deprecating is how a
-    // maintainer flags a bad one.
     for (;;) {
-        const version = pickCliVersion(publishedAt, now);
+        const version = pickCliVersion(candidates, now);
 
-        if (!version) {
-            return stop(`no skills release from ${MIN_CLI_VERSION} up is 7 days old yet`);
-        }
-
-        if (pnpmView(`skills@${version} deprecated`) === "") {
+        if (!version || !isDeprecated(version)) {
             return version;
         }
 
-        delete publishedAt[version];
+        delete candidates[version];
     }
+}
+
+function readCliVersion() {
+    const { time, versions }: { time: Record<string, string>; versions: string | string[] } = JSON.parse(pnpmView("skills time versions"));
+
+    return pickUsableCliVersion(time, [versions].flat(), new Date(), version => pnpmView(`skills@${version} deprecated`) !== "") ?? stop(`no skills release from ${MIN_CLI_VERSION} up is 7 days old yet`);
 }
 
 function ghApi(path: string, fields: string[], jq: string, what: string, allPages = false) {
@@ -153,7 +170,6 @@ function ghApi(path: string, fields: string[], jq: string, what: string, allPage
     }
 }
 
-// The pushes GitHub recorded for a branch, newest first: the last one alone, or every one of a period.
 function listPushes(source: string, branch: string, period?: "month" | "year"): Push[] {
     const window = period ? [`time_period=${period}`, "per_page=100"] : ["per_page=1"];
     const lines = ghApi(`repos/${source}/activity`, [`ref=refs/heads/${branch}`, "direction=desc", ...window], ".[] | [.before, .after, .timestamp] | tojson", `reading the pushes to ${source}`, period !== undefined);
@@ -198,20 +214,20 @@ export function readPositions(pushes: Push[], now: Date, last: Push) {
     return [...new Set([weekAgo.after, ...recent.flatMap(push => [push.before, push.after])])];
 }
 
-function readBranch(source: string): Branch {
-    const name = ghApi(`repos/${source}`, [], ".default_branch", `resolving the default branch of ${source}`);
+function readBranch(github: GitHub, source: string, defaultBranches: Record<string, string>, now: Date): Branch {
+    const name = github.defaultBranch(source);
 
-    if (!Object.hasOwn(DEFAULT_BRANCHES, source)) {
+    if (!Object.hasOwn(defaultBranches, source)) {
         return stop(`${source} isn't in DEFAULT_BRANCHES — record its default branch ("${name}") there once you've confirmed it is the branch its skills should follow`);
     }
 
-    if (name !== DEFAULT_BRANCHES[source]) {
-        return stop(`${source}'s default branch is "${name}" and DEFAULT_BRANCHES records "${DEFAULT_BRANCHES[source]}" — find out why before recording the new one`);
+    if (name !== defaultBranches[source]) {
+        return stop(`${source}'s default branch is "${name}" and DEFAULT_BRANCHES records "${defaultBranches[source]}" — find out why before recording the new one`);
     }
 
     // The head is the last recorded push, not the branch ref: the record trails the ref by a second
     // or so, and read from the record alone the head and the positions before it can't disagree.
-    const [last] = listPushes(source, name);
+    const [last] = github.pushes(source, name);
 
     if (!last || !COMMIT_SHA.test(last.after)) {
         return stop(`${source}: GitHub's push history has no usable last push for ${name} ("${last?.after ?? ""}"), so the branch's last week can't be read`);
@@ -219,13 +235,12 @@ function readBranch(source: string): Branch {
 
     // A source with no push this week has held one position, its last push. Otherwise the month
     // holds a push old enough, or failing that the year.
-    const now = new Date();
-    const listed = (period: "month" | "year") => readPositions(listPushes(source, name, period), now, last);
+    const listed = (period: "month" | "year") => readPositions(github.pushes(source, name, period), now, last);
     const positions = readPositions([last], now, last) ?? listed("month") ?? listed("year");
 
     // Where the ref points is one more position. It is the head again, unless a push is too fresh
     // for the record or GitHub never recorded it: then what that push did to a folder still counts.
-    const ref = ghApi(`repos/${source}/git/ref/heads/${name}`, [], ".object.sha", `resolving the head of ${source}`);
+    const ref = github.ref(source, name);
 
     return { head: last.after, positions: positions && [...new Set([...positions, ref])] };
 }
@@ -288,45 +303,58 @@ export function isUnchanged(positions: string[], tree: string, lookup: Lookup) {
     return true;
 }
 
-function latestCommit(source: string, branch: Branch, folder: string, tree: string) {
-    const sha = ghApi(`repos/${source}/commits`, [`sha=${branch.head}`, `path=${folder}`, "per_page=1"], ".[0].sha", `resolving the latest commit of ${source}/${folder}`);
+function latestCommit(github: GitHub, source: string, branch: Branch, folder: string, tree: string) {
+    const sha = github.latestCommit(source, branch.head, folder);
 
     if (!COMMIT_SHA.test(sha)) {
         return stop(`gh answered "${sha}" for the latest commit of ${source}/${folder}`);
     }
 
-    return folderTree(source, sha, folder) === tree ? sha : stop(`${source}/${folder} at its latest commit ${sha} isn't the folder the branch head holds`);
+    return github.folderTree(source, sha, folder) === tree ? sha : stop(`${source}/${folder} at its latest commit ${sha} isn't the folder the branch head holds`);
 }
 
-function listSkillPins() {
-    const cli = readCliVersion();
-    const lock: SkillsLock = JSON.parse(readFileSync("skills-lock.json", "utf8"));
+// The `skills` of the listing: what each skill of the lock is pinned to and may move to.
+export function listSkills(lock: SkillsLock, github: GitHub, now: Date, defaultBranches: Record<string, string> = DEFAULT_BRANCHES) {
     const branches = new Map<string, Branch>();
 
-    const skills = Object.entries(lock.skills).map(([skill, entry]) => {
+    return Object.entries(lock.skills).map(([skill, entry]) => {
         // The cooldown is measured on a folder's commit history: a source without one has to be
         // given its own rule here before it can be installed.
         if (entry.sourceType !== "github" || !entry.skillPath) {
             return stop(`${skill} isn't recorded in skills-lock.json as a folder of a GitHub repository (sourceType "${entry.sourceType}", skillPath ${JSON.stringify(entry.skillPath)}), so it has no cooldown`);
         }
 
-        const branch = branches.get(entry.source) ?? readBranch(entry.source);
+        const branch = branches.get(entry.source) ?? readBranch(github, entry.source, defaultBranches, now);
         branches.set(entry.source, branch);
 
         const folder = posix.dirname(entry.skillPath);
-        const tree = folderTree(entry.source, branch.head, folder);
+        const tree = github.folderTree(entry.source, branch.head, folder);
         const settled =
             branch.positions !== undefined &&
             isUnchanged(
                 branch.positions.filter(position => position !== branch.head),
                 tree,
-                commits => folderTrees(entry.source, commits, folder)
+                commits => github.folderTrees(entry.source, commits, folder)
             );
 
-        return { skill, source: entry.source, pinned: entry.ref ?? null, latest: settled ? latestCommit(entry.source, branch, folder, tree) : null, settled };
+        return { skill, source: entry.source, pinned: entry.ref ?? null, latest: settled ? latestCommit(github, entry.source, branch, folder, tree) : null, settled };
     });
+}
 
-    return { cli, skills };
+const GITHUB: GitHub = {
+    defaultBranch: source => ghApi(`repos/${source}`, [], ".default_branch", `resolving the default branch of ${source}`),
+    pushes: listPushes,
+    ref: (source, branch) => ghApi(`repos/${source}/git/ref/heads/${branch}`, [], ".object.sha", `resolving the head of ${source}`),
+    folderTree,
+    folderTrees,
+    latestCommit: (source, head, folder) => ghApi(`repos/${source}/commits`, [`sha=${head}`, `path=${folder}`, "per_page=1"], ".[0].sha", `resolving the latest commit of ${source}/${folder}`)
+};
+
+function listSkillPins() {
+    const cli = readCliVersion();
+    const lock: SkillsLock = JSON.parse(readFileSync("skills-lock.json", "utf8"));
+
+    return { cli, skills: listSkills(lock, GITHUB, new Date()) };
 }
 
 if (import.meta.main) {
