@@ -51,6 +51,10 @@ for mapping in "$@"; do
     package_name=""
     if [ -f "$package_dir/package.json" ]; then
         package_name=$(sed -nE 's/^[[:space:]]*"name":[[:space:]]*"([^"]+)".*/\1/p' "$package_dir/package.json" | head -n 1)
+    elif git cat-file -e "$base:$package_dir/package.json" 2> /dev/null; then
+        # A removed package cannot be released, and Changesets rejects a changeset naming an unknown package.
+        echo "$skill_dir changed but $package_dir was removed, no changeset is needed."
+        continue
     fi
 
     if [ -z "$package_name" ]; then
@@ -61,7 +65,14 @@ for mapping in "$@"; do
 
     changeset_found=0
     while IFS= read -r changeset; do
-        if [ -n "$changeset" ] && [ -f "$changeset" ] && grep -qE "^[\"']?${package_name}[\"']?:[[:space:]]*(patch|minor|major)[[:space:]]*$" "$changeset"; then
+        if [ -z "$changeset" ] || [ ! -f "$changeset" ]; then
+            continue
+        fi
+
+        # Changesets only reads the releases from the frontmatter: a package named in the summary is not released.
+        frontmatter=$(awk 'NR == 1 { if ($0 !~ /^---[[:space:]]*$/) exit; next } /^---[[:space:]]*$/ { exit } { print }' "$changeset")
+
+        if grep -qE "^[\"']?${package_name}[\"']?:[[:space:]]*(patch|minor|major)[[:space:]]*$" <<< "$frontmatter"; then
             changeset_found=1
         fi
     done <<< "$changesets"
