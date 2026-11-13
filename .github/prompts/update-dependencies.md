@@ -134,7 +134,7 @@ Run this after the validation loop so the skill gate sees the final versions —
 
 Dispatch a subagent for the `_update-skills` skill.
 
-If the report shows a drift stop or a `pnpm dlx skills@latest add` failure, open an issue with the report and continue with whatever was updated:
+If the report shows a drift stop, a step 2 listing stop or a `skills add` failure, open an issue with the report and continue with whatever was updated:
 
 ```bash
 gh issue create   --title "[agent] Failed to update agent skills"   --body "## Failed agent skill update
@@ -199,7 +199,7 @@ Before writing the summary, run `git diff main -- '**/package.json'` to see the 
 
 #### How to write the Agent skills section
 
-From the `_update-skills` report: list the updated skills, then the skipped skills with their lagging package (installed → latest). Flag any updated skill whose `SKILL.md` now declares `model:` frontmatter. If the skills step didn't update anything, write "No agent skill updates." and still list the skipped skills.
+From the `_update-skills` report: list the updated skills with their pin moves, then the skills in cooldown and the skipped skills with their lagging package (installed → latest). Flag any updated skill whose `SKILL.md` now declares `model:` frontmatter. If the skills step didn't update anything, write "No agent skill updates." and still list the skills in cooldown and the skipped skills.
 
 #### PR body template
 
