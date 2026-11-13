@@ -1,6 +1,16 @@
 {
     "$schema": "https://docs.renovatebot.com/renovate-schema.json",
     "extends": ["local>workleap/renovate-config"],
-    "description": "Renovate only updates GitHub Actions, on a schedule (the _update-github-actions Claude skill is the on-demand equivalent). npm dependencies and agent skills are updated by the update-dependencies workflow.",
-    "enabledManagers": ["github-actions"]
+    "description": "Renovate only updates GitHub Actions, on a schedule (the _update-github-actions Claude skill is the on-demand equivalent), and merges them into main without a PR once CI passes on the renovate/* branch. npm dependencies and agent skills are updated by the update-dependencies workflow.",
+    "enabledManagers": ["github-actions"],
+    "automerge": true,
+    "automergeType": "branch",
+    "packageRules": [
+        {
+            "description": "changesets/action holds contents: write and the npm trusted publishing token, and CI never runs it: its updates get a PR that needs a review. It has its own group because one update that is not auto-merged holds back its whole group.",
+            "matchPackageNames": ["changesets/action"],
+            "groupName": "changesets action",
+            "automerge": false
+        }
+    ]
 }

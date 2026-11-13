@@ -4,7 +4,8 @@ name: CI
 
 on:
   push:
-    branches: ["main"]
+    # Renovate only merges a renovate/* branch into main once a check passed on it. See agent-docs/references/ci-cd.md.
+    branches: ["main", "renovate/**"]
   pull_request:
     branches: ["main"]
 

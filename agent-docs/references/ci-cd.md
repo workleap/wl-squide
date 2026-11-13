@@ -4,7 +4,7 @@
 
 | Workflow | File | Trigger | Purpose |
 |----------|------|---------|---------|
-| CI | `.github/workflows/ci.yml` | Push to main, PRs | Build, lint, typecheck, test |
+| CI | `.github/workflows/ci.yml` | Push to main and `renovate/**`, PRs | Build, lint, typecheck, test |
 | Changeset | `.github/workflows/changeset.yml` | Push to main | Version bumps and npm publish |
 | PR Packages | `.github/workflows/pr-pkg.yml` | Push to main, PRs | Publish preview packages |
 | Update Dependencies | `.github/workflows/update-dependencies.yml` | Weekly (Tue 14:00 UTC); Manual | Automated dependency and agent skill updates, via the `_update-dependencies` and `_update-skills` skills |
@@ -17,13 +17,24 @@
 
 **Renovate** (`renovate.json`) is restricted to the `github-actions` manager. Never enable npm or other managers in Renovate — npm dependencies and agent skills are owned by the Update Dependencies workflow, and enabling them would produce duplicate, conflicting update PRs.
 
+Renovate updates are auto-merged with branch automerge (`automerge` + `automergeType: "branch"`): Renovate pushes the update to a `renovate/*` branch and, on a later run, fast-forwards `main` to it without opening a PR. Major updates are included on purpose — the actions are pinned to major tags, so majors are nearly all Renovate proposes here. Do not replace the setting with the organization's `all-automerge.json` preset, which only covers minor and patch updates. This depends on two things:
+
+- CI runs on pushes to `renovate/**`. Never remove that trigger from `ci.yml` — Renovate never merges a branch that has no passing check.
+- The `Workleap Renovate` GitHub App can push to `main`: it is a bypass actor of the organization rulesets, and `main` has no repository-level branch protection. Adding one that requires a PR or an approval stops the auto-merge.
+
+`changesets/action` is excluded (`automerge: false`, in its own group): it holds the npm publishing token and CI never runs it, so its updates get a PR that needs a review.
+
+A merge takes at least a day. Renovate runs once a day, merges one branch per run, and only merges a branch that is up to date with `main` and green — a commit on `main` between two runs costs another day. A branch that stays unmerged during a busy stretch is waiting for a quiet day, not broken.
+
+Renovate opens a regular PR instead when a check fails on the branch, or stays pending for a day. Renovate never auto-merges a branch once it has a PR: a maintainer fixes, approves and merges it.
+
 ## CI Pipeline Details
 
 The main CI workflow (`ci.yml`) runs on `ubuntu-latest` with:
 - pnpm install with frozen lockfile
 - Turborepo caching (SHA-keyed with restore keys)
 - Incremental builds on PRs (only diverging packages)
-- Full builds on main branch pushes
+- Full builds on pushes (`main` and `renovate/**`)
 - An agent skill discovery check: `skills.sh` must discover only `workleap-squide` (see [agent-skills.md](./agent-skills.md))
 - A separate `agent-skill-changeset` job, on PRs only: fails when `agent-skills/workleap-squide/` changes without a new changeset for `@squide/firefly` (see [agent-skills.md](./agent-skills.md#editing-skills))
 
