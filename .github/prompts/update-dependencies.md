@@ -134,7 +134,7 @@ Run this after the validation loop so the skill gate sees the final versions —
 
 Dispatch a subagent for the `_update-skills` skill.
 
-If the report shows a drift stop, a listing stop (labelled `listing stop:`, from `listSkillPins.ts` exiting non-zero in the skill) or a `skills add` failure, report it in an issue and continue with whatever was updated. A stop can last for weeks, so look for an open issue first:
+If the report shows a drift stop, a listing stop (labelled `listing stop:`, from `listSkillPins.ts` exiting non-zero in the skill), a skill listed as `BLOCKED` or a `skills add` failure, report it in an issue and continue with whatever was updated. A stop can last for weeks, so look for an open issue first:
 
 ```bash
 gh issue list --state open --search '"[agent] Failed to update agent skills" in:title' --json number --jq '.[0].number'
@@ -211,7 +211,7 @@ Before writing the summary, run `git diff main -- '**/package.json'` to see the 
 
 #### How to write the Agent skills section
 
-From the `_update-skills` report: list the updated skills with their pin moves, then the skills in cooldown and the skipped skills with their lagging package (installed → latest). Flag any updated skill whose `SKILL.md` now declares `model:` frontmatter. If the skills step didn't update anything, write "No agent skill updates." and still list the skills in cooldown and the skipped skills.
+From the `_update-skills` report: list the updated skills with their pin moves, then the skills in cooldown, the blocked skills with their problem and the skipped skills with their lagging package (installed → latest). Flag any updated skill whose `SKILL.md` now declares `model:` frontmatter. If the skills step didn't update anything, write "No agent skill updates." and still list the skills in cooldown, the blocked skills and the skipped skills.
 
 #### PR body template
 
