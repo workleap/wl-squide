@@ -22,8 +22,6 @@ Renovate updates are auto-merged with branch automerge (`automerge` + `automerge
 - CI runs on pushes to `renovate/**`. Never remove that trigger from `ci.yml` — Renovate never merges a branch that has no passing check.
 - The `Workleap Renovate` GitHub App can push to `main`: it is a bypass actor of the organization rulesets, and `main` has no repository-level branch protection. Adding one that requires a PR or an approval stops the auto-merge.
 
-`changesets/action` is excluded (`automerge: false`, in its own group): it holds the npm publishing token and CI never runs it, so its updates get a PR that needs a review.
-
 A merge takes at least a day. Renovate runs once a day, merges one branch per run, and only merges a branch that is up to date with `main` and green — a commit on `main` between two runs costs another day. A branch that stays unmerged during a busy stretch is waiting for a quiet day, not broken.
 
 Renovate opens a regular PR instead when a check fails on the branch, or stays pending for a day. Renovate never auto-merges a branch once it has a PR: a maintainer fixes, approves and merges it.
