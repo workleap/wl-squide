@@ -1,7 +1,7 @@
 {
     "$schema": "https://docs.renovatebot.com/renovate-schema.json",
     "extends": ["local>workleap/renovate-config", "helpers:pinGitHubActionDigestsToSemver"],
-    "description": "Renovate only updates GitHub Actions, on a schedule (the _update-github-actions Claude skill is the on-demand equivalent), and merges them into main without a PR once CI passes on the renovate/* branch. Every action is pinned to a commit hash with its release in a comment. npm dependencies and agent skills are updated by the update-dependencies workflow.",
+    "description": "Renovate only updates GitHub Actions, on a schedule, and merges them into main without a PR once CI passes on the renovate/* branch. Every action is pinned to a commit hash with its release in a comment. npm dependencies and agent skills are updated by the update-dependencies workflow.",
     "enabledManagers": ["github-actions"],
     "automerge": true,
     "automergeType": "branch",

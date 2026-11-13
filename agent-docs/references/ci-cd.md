@@ -34,7 +34,7 @@ Every `uses:` is pinned to a commit hash, with the release it matches in a comme
 uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
 ```
 
-Never reference an action by a tag (`@v7`, `@latest`) or a branch. A tag picks up new releases on the next workflow run, which skips the 7-day minimum release age of the organization preset. Never drop the version comment either — Renovate ignores a hash that has none. Renovate pins an action added with a tag on its next run (`helpers:pinGitHubActionDigestsToSemver`).
+Never reference an action by a tag (`@v7`, `@latest`) or a branch. A tag picks up new releases on the next workflow run, which skips the 7-day minimum release age of the organization preset. Never drop the version comment either — Renovate ignores a hash that has none. Renovate pins an action added with a tag on its next run (`helpers:pinGitHubActionDigestsToSemver`). To update an action by hand, change the hash and the version comment together in a regular pull request, to a release that is at least 7 days old.
 
 CI on the `renovate/*` branch only exercises the actions `ci.yml` uses (checkout, pnpm setup, Node setup, cache). An update to `anthropics/claude-code-action`, `changesets/action` or the Retype actions reaches `main` without having run: the minimum release age is its only guard.
 
