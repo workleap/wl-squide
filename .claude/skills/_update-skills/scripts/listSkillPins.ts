@@ -9,9 +9,10 @@
 //
 //   cli      the newest stable `skills` release published at least 7 days ago.
 //   pinned   the `ref` of the skill's `skills-lock.json` entry.
-//   settled  whether the skill's folder is the same on the source's default branch now as it was 7
-//            days ago. The branch's position 7 days ago comes from the time GitHub received each
-//            push, never from a commit's own date, which its author sets.
+//   settled  whether the skill's folder is the same on the source's default branch now as it was at
+//            least 7 days ago. Both positions come from the pushes GitHub recorded and the time it
+//            received each, never from a commit's own date, which its author sets. Also false while
+//            no recorded push to the branch is 7 days old.
 //   latest   the newest commit that changed the folder, null while `settled` is false. Its folder
 //            is the one compared, so an install must name that folder, never the whole repo.
 //
@@ -37,7 +38,14 @@ interface SkillsLock {
 
 interface Branch {
     head: string;
-    weekAgo: string;
+    // Undefined while no recorded push to the branch is 7 days old.
+    weekAgo: string | undefined;
+}
+
+// A push GitHub recorded: where it left the branch, and when GitHub received it.
+export interface Push {
+    after: string;
+    at: number;
 }
 
 const MIN_AGE_MS = 7 * 24 * 60 * 60 * 1000;
@@ -97,12 +105,41 @@ function readCliVersion() {
     return pickCliVersion(publishedAt, new Date()) ?? stop(`no skills release from ${MIN_CLI_VERSION} up is 7 days old yet`);
 }
 
-function ghApi(path: string, fields: string[], jq: string, what: string) {
+function ghApi(path: string, fields: string[], jq: string, what: string, allPages = false) {
     try {
-        return execFileSync("gh", ["api", "--method", "GET", path, ...fields.flatMap(field => ["-f", field]), "--jq", jq], { encoding: "utf8" }).trim();
+        return execFileSync("gh", ["api", "--method", "GET", ...(allPages ? ["--paginate"] : []), path, ...fields.flatMap(field => ["-f", field]), "--jq", jq], { encoding: "utf8", maxBuffer: 64 * 1024 * 1024 }).trim();
     } catch (error) {
         return stop(`gh failed while ${what}: ${error instanceof Error ? error.message : String(error)}`);
     }
+}
+
+// The pushes GitHub recorded for a branch, newest first: the last one alone, or every one of a period.
+function listPushes(source: string, branch: string, period?: "month" | "year"): Push[] {
+    const window = period ? [`time_period=${period}`, "per_page=100"] : ["per_page=1"];
+    const lines = ghApi(`repos/${source}/activity`, [`ref=refs/heads/${branch}`, "direction=desc", ...window], ".[] | [.after, .timestamp] | tojson", `reading the pushes to ${source}`, period !== undefined);
+
+    return lines
+        .split("\n")
+        .filter(Boolean)
+        .map(line => {
+            const [after, timestamp]: unknown[] = JSON.parse(line);
+
+            return { after: String(after ?? ""), at: Date.parse(String(timestamp)) };
+        });
+}
+
+/**
+ * Where a branch was at least 7 days ago, read from its recorded pushes, newest first: where the
+ * newest push that old left it. Undefined when no listed push is that old.
+ *
+ * It is the end of an old push, never the start of the first recent one: GitHub now and then fails
+ * to record a push, and the first recent push then starts from what the unrecorded one brought in,
+ * however young that is.
+ */
+export function readWeekAgo(pushes: Push[], now: Date) {
+    const cutoff = now.getTime() - MIN_AGE_MS;
+
+    return pushes.find(push => push.at <= cutoff)?.after;
 }
 
 function readBranch(source: string): Branch {
@@ -116,25 +153,29 @@ function readBranch(source: string): Branch {
         return stop(`${source}'s default branch is "${name}" and DEFAULT_BRANCHES records "${DEFAULT_BRANCHES[source]}" — find out why before recording the new one`);
     }
 
-    const pushes = [`ref=refs/heads/${name}`, "per_page=1"];
-    const head = ghApi(`repos/${source}/commits/${name}`, [], ".sha", `resolving the head of ${source}`);
-    const lastPush = ghApi(`repos/${source}/activity`, [...pushes, "direction=desc"], ".[0].after // empty", `reading the last push to ${source}`);
+    // The head is the last recorded push, not the branch ref: the record trails the ref by a second
+    // or so, and once in a while never gets a push at all. Read from the record alone, the head and
+    // the position 7 days ago can't disagree, and an unrecorded last push is merely not seen yet.
+    const [last] = listPushes(source, name);
 
-    if (lastPush !== head) {
-        return stop(`${source}: GitHub's push history ends at "${lastPush}", not at the branch head ${head}, so the branch's last week can't be read — retry later`);
+    if (!last || !COMMIT_SHA.test(last.after)) {
+        return stop(`${source}: GitHub's push history has no usable last push for ${name} ("${last?.after ?? ""}"), so the branch's last week can't be read`);
     }
 
-    const beforeFirstPushOfTheWeek = ghApi(`repos/${source}/activity`, [...pushes, "direction=asc", "time_period=week"], '.[0] | if . == null then "none" else (.before // "unknown") end', `listing the week's pushes to ${source}`);
+    // A source with no push this week is settled by its last push alone. Otherwise the month holds a
+    // push old enough, or failing that the year.
+    const now = new Date();
+    const weekAgo = readWeekAgo([last], now) ?? readWeekAgo(listPushes(source, name, "month"), now) ?? readWeekAgo(listPushes(source, name, "year"), now);
 
-    return { head, weekAgo: beforeFirstPushOfTheWeek === "none" ? head : beforeFirstPushOfTheWeek };
+    return { head: last.after, weekAgo };
 }
 
 function folderTree(source: string, commit: string, folder: string) {
     return ghApi(`repos/${source}/git/trees/${commit}:${folder}`, [], ".sha", `reading ${folder} of ${source} at ${commit}`);
 }
 
-function folderTreeWeekAgo(source: string, commit: string, folder: string) {
-    if (!COMMIT_SHA.test(commit)) {
+function folderTreeWeekAgo(source: string, commit: string | undefined, folder: string) {
+    if (!commit || !COMMIT_SHA.test(commit)) {
         return undefined;
     }
 
