@@ -124,7 +124,7 @@ function listPushes(source: string, branch: string, period?: "month" | "year"): 
         .map(line => {
             const [after, timestamp]: unknown[] = JSON.parse(line);
 
-            return { after: String(after ?? ""), at: Date.parse(String(timestamp)) };
+            return { after: typeof after === "string" ? after : "", at: typeof timestamp === "string" ? Date.parse(timestamp) : Number.NaN };
         });
 }
 

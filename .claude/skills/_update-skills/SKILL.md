@@ -93,6 +93,8 @@ Run the matching command from the table for each `UPDATE` row, `<cli>` and the f
 
 A pull is done when the skill's `skills-lock.json` entry carries `latest` as its `ref`, under the `skillPath` it had; any other outcome is a failed `skills add`.
 
+A failed pull → restore that skill before the next one, so a rejected install never reaches the PR. Before each pull, Read `skills-lock.json` and keep its contents; on failure, Write that copy back — never `git checkout` it, which would also drop the lock entries of skills already updated in this run — then `git checkout -- .claude/skills/<name>` and `git clean -fd .claude/skills/<name>`.
+
 After each pull, grep the skill's new `SKILL.md` frontmatter for `model:`. An upstream-added override switches the conversation model mid-turn for whatever invokes the skill — flag it in the report; never strip it yourself.
 
 ### 6. Report
