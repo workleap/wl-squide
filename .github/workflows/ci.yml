@@ -141,3 +141,19 @@ jobs:
         with:
           key: ${{ steps.cache-turborepo-restore.outputs.cache-primary-key }}
           path: .turbo
+
+  agent-skill-changeset:
+    # The workleap-squide skill ships in the @squide/firefly package: a skill change is only released with a changeset.
+    # See agent-docs/references/agent-skills.md.
+    if: github.event_name == 'pull_request'
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v7
+        with:
+          # The pull request merge commit and its first parent, the base branch.
+          fetch-depth: 2
+
+      - name: Check that a skill change has a changeset
+        run: bash .github/scripts/check-agent-skill-changeset.sh HEAD^1 agent-skills/workleap-squide=packages/firefly

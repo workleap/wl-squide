@@ -6,7 +6,7 @@ wl-squide uses [Changesets](https://github.com/changesets/changesets) for versio
 
 ## Steps
 
-1. **Create changeset** — `pnpm changeset` to describe the change and affected packages.
+1. **Create changeset** — `pnpm changeset` to describe the change and affected packages. A change to the `workleap-squide` agent skill also needs one, for `@squide/firefly` (see [agent-skills.md](./agent-skills.md#editing-skills)).
 2. **Merge to main** — the changeset file is committed with the PR.
 3. **Changeset workflow** — `.github/workflows/changeset.yml` detects pending changesets and
    creates a "Version Packages" PR that bumps versions and updates changelogs.

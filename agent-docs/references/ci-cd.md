@@ -25,6 +25,7 @@ The main CI workflow (`ci.yml`) runs on `ubuntu-latest` with:
 - Incremental builds on PRs (only diverging packages)
 - Full builds on main branch pushes
 - An agent skill discovery check: `skills.sh` must discover only `workleap-squide` (see [agent-skills.md](./agent-skills.md))
+- A separate `agent-skill-changeset` job, on PRs only: fails when `agent-skills/workleap-squide/` changes without a new changeset for `@squide/firefly` (see [agent-skills.md](./agent-skills.md#editing-skills))
 
 ## Node version pin
 
