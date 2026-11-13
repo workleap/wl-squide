@@ -18,7 +18,7 @@ You prompt, dispatch, and report; leaves update. Each target leaf runs its skill
 | Target | Leaf runs | Model | Effort | Refreshes |
 |---|---|---|---|---|
 | npm dependencies | `_update-dependencies` | sonnet | medium | outdated workspace packages + peer ranges + lockfile |
-| Agent skills | `_update-skills` | sonnet | medium | installed (`pnpm dlx skills@latest add`) skills in `.claude/skills/` |
+| Agent skills | `_update-skills` | sonnet | medium | installed (`skills add`) skills in `.claude/skills/` |
 | Follow-ups (step 3) | the opted-in commands | haiku | — | nothing — returns pass/fail + failures verbatim |
 
 ## 1. Ask once, up front

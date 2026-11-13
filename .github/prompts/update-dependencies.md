@@ -134,7 +134,33 @@ Run this after the validation loop so the skill gate sees the final versions —
 
 Dispatch a subagent for the `_update-skills` skill.
 
-If the report shows a drift stop or a `pnpm dlx skills@latest add` failure, open an issue with the report and continue with whatever was updated:
+Once the subagent has returned, check what it left on disk, whatever its report says — it can end in the middle of a pull:
+
+```bash
+git status --short .claude/skills skills-lock.json
+```
+
+For every skill whose folder or `skills-lock.json` entry changed (`git diff skills-lock.json` shows the entries; leave the `_`-prefixed folders out), run:
+
+```bash
+node .claude/skills/_update-skills/scripts/listSkillPins.ts --verify <name>
+```
+
+Anything but `"verified": true`, a non-zero exit included, is a failed pull even when the report lists the skill as updated. Undo it: `git checkout -- .claude/skills/<name>`, `git clean -fd .claude/skills/<name>`, and put the skill's `skills-lock.json` entry back to its committed value with the Edit tool. Then report it as a failed pull below and in the PR body. If an `.agents/` folder appeared, remove it as well with `git clean -fd .agents`: skills install into `.claude/skills/` only.
+
+If the report shows a drift stop, a listing stop (labelled `listing stop:`, from `listSkillPins.ts` exiting non-zero in the skill), a skill listed as `BLOCKED` or a `skills add` failure, report it in an issue and continue with whatever was updated. A stop can last for weeks, so look for an open issue first:
+
+```bash
+gh issue list --state open --search '"[agent] Failed to update agent skills" in:title' --json number --jq '.[0].number'
+```
+
+If that prints a number, comment on that issue instead of opening another:
+
+```bash
+gh issue comment <number> --body "<The subagent's report, and a link to: $GITHUB_SERVER_URL/$GITHUB_REPOSITORY/actions/runs/$GITHUB_RUN_ID>"
+```
+
+Otherwise open one:
 
 ```bash
 gh issue create   --title "[agent] Failed to update agent skills"   --body "## Failed agent skill update
@@ -199,7 +225,7 @@ Before writing the summary, run `git diff main -- '**/package.json'` to see the 
 
 #### How to write the Agent skills section
 
-From the `_update-skills` report: list the updated skills, then the skipped skills with their lagging package (installed → latest). Flag any updated skill whose `SKILL.md` now declares `model:` frontmatter. If the skills step didn't update anything, write "No agent skill updates." and still list the skipped skills.
+From the `_update-skills` report: list the updated skills with their pin moves, then the skills in cooldown, the blocked skills with their problem and the skipped skills with their lagging package (installed → latest). Flag any updated skill whose `SKILL.md` now declares `model:` frontmatter. If the skills step didn't update anything, write "No agent skill updates." and still list the skills in cooldown, the blocked skills and the skipped skills.
 
 #### PR body template
 

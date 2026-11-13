@@ -15,7 +15,9 @@ Skills are automatically discovered and loaded by Claude Code from both director
 
 Run `/_update-third-parties` (dependencies and skills) or `/_update-skills` (skills only). The weekly `update-dependencies.yml` workflow runs the dependency and skill updates in CI. GitHub Actions are updated on a schedule by Renovate (`renovate.json`).
 
-When you install or remove a skill in `.claude/skills/`, add or remove its row in `.claude/skills/_update-skills/SKILL.md`. The skill stops on any mismatch between that table and the installed folders.
+Skill updates wait out a 7-day cooldown, the kind of gate `minimumReleaseAge` puts on npm packages (24 hours there): `_update-skills` only installs a skill folder, a `skills` CLI release and that release's dependencies once they have sat unchanged upstream for 7 days. `.claude/skills/_update-skills/DESIGN.md` tells how, and what it doesn't cover. Each `skills-lock.json` entry records the upstream commit it was installed from as `ref`.
+
+When you install or remove a skill in `.claude/skills/`, add or remove its row in `.claude/skills/_update-skills/SKILL.md`. The skill stops on any mismatch between that table and the installed folders. A skill from a new source repository also needs that repository's id and default branch in `SOURCES` (`.claude/skills/_update-skills/scripts/listSkillPins.ts`). `DESIGN.md` has the steps for adding a skill under the cooldown.
 
 ## Editing skills
 
