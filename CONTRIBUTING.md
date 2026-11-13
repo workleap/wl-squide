@@ -394,7 +394,7 @@ pnpm update-outdated-deps
 
 ### GitHub Actions
 
-[Renovate](./renovate.json) updates the GitHub Actions used by the workflows on a schedule. To bump them on demand, run `/_update-github-actions` with Claude Code (or select GitHub Actions in `/_update-third-parties`).
+[Renovate](./renovate.json) updates the GitHub Actions used by the workflows on a schedule. To bump them on demand, run `/_update-github-actions` with Claude Code.
 
 ## CI
 

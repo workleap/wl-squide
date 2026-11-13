@@ -13,7 +13,7 @@ Skills are automatically discovered and loaded by Claude Code from both director
 
 ## Updating installed skills
 
-Run `/_update-third-parties` (dependencies, skills, and GitHub Actions) or `/_update-skills` (skills only). The weekly `update-dependencies.yml` workflow runs the dependency and skill updates in CI. GitHub Actions are updated on a schedule by Renovate (`renovate.json`); `/_update-github-actions` bumps them on demand.
+Run `/_update-third-parties` (dependencies and skills) or `/_update-skills` (skills only). The weekly `update-dependencies.yml` workflow runs the dependency and skill updates in CI. GitHub Actions are updated on a schedule by Renovate (`renovate.json`); `/_update-github-actions` bumps them on demand.
 
 When you install or remove a skill in `.claude/skills/`, add or remove its row in `.claude/skills/_update-skills/SKILL.md`. The skill stops on any mismatch between that table and the installed folders.
 
