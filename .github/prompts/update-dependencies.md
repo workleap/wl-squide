@@ -134,7 +134,7 @@ Run this after the validation loop so the skill gate sees the final versions —
 
 Dispatch a subagent for the `_update-skills` skill.
 
-If the report shows a drift stop, a step 2 listing stop or a `skills add` failure, open an issue with the report and continue with whatever was updated:
+If the report shows a drift stop, a listing stop (labelled `listing stop:`, from `listSkillPins.ts` exiting non-zero in the skill) or a `skills add` failure, open an issue with the report and continue with whatever was updated:
 
 ```bash
 gh issue create   --title "[agent] Failed to update agent skills"   --body "## Failed agent skill update

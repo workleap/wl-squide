@@ -62,7 +62,7 @@ List `cli` and each skill's `pinned`, `latest` and `settled`:
 node .claude/skills/_update-skills/scripts/listSkillPins.ts
 ```
 
-A non-zero exit → **stop** and print its message.
+A non-zero exit → **stop**. Print `listing stop:` followed by its message, word for word.
 
 ### 3. Compute eligibility
 
