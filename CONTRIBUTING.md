@@ -170,10 +170,13 @@ By default, the [sync-agent-skill](.github/workflows/sync-agent-skill.yml) workf
 If the workflow does not behave as expected, the simplest way to update an agent skill is to use an agent:
 
 1. Start your preferred agent.
-2. Copy the content of [UPDATE_SKILL.md](./prompts/UPDATE_SKILL.md) into the agent prompt.
-3. Commit the changes and merge the pull request.
+2. Copy the content of [UPDATE_SKILL.md](./user-prompts/UPDATE_SKILL.md) into the agent prompt.
+3. Add a `patch` changeset for `@squide/firefly`.
+4. Commit the changes and merge the pull request.
 
-NOTE: Skills installed using [skills.sh](https://skills.sh/) are sourced directly from the repository files. Merging the pull request is therefore sufficient to update the installed skill.
+NOTE: The skill is copied into the `@squide/firefly` package at pack time (see [agent-skill.mjs](./packages/firefly/scripts/agent-skill.mjs)) so pnpm can link it into consumer projects. Skills installed with pnpm are only updated when a new version of `@squide/firefly` is released, which is why **every skill change requires a changeset**. The CI fails a pull request that changes the skill without adding one (see [check-agent-skill-changeset.sh](./.github/scripts/check-agent-skill-changeset.sh)).
+
+NOTE: Skills installed using [skills.sh](https://skills.sh/) are sourced directly from the repository files, so merging the pull request is sufficient to update them.
 
 ## Deploy the sample applications
 
@@ -391,7 +394,7 @@ pnpm update-outdated-deps
 
 ### GitHub Actions
 
-[Renovate](./renovate.json) updates the GitHub Actions used by the workflows on a schedule. To bump them on demand, run `/_update-github-actions` with Claude Code (or select GitHub Actions in `/_update-third-parties`).
+[Renovate](./renovate.json) updates the GitHub Actions used by the workflows on a schedule and merges its updates into `main` without a pull request. See [ci-cd.md](./agent-docs/references/ci-cd.md) for the setup and the pin format.
 
 ## CI
 

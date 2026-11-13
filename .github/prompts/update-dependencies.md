@@ -172,7 +172,7 @@ All validations passed.
 
 ### 4a: Create a changeset (if needed)
 
-Only include `@squide/*` packages whose `dependencies` or `peerDependencies` have actually changed. Agent skill updates never need a changeset. Do NOT include packages where only `devDependencies` changed — devDependency-only changes do not affect the published package. If no `@squide/*` packages qualify (i.e., every change is devDependency-only), skip this step entirely — do NOT create a changeset file.
+Only include `@squide/*` packages whose `dependencies` or `peerDependencies` have actually changed. Updates to the installed skills in `.claude/skills/` never need a changeset. Do NOT include packages where only `devDependencies` changed — devDependency-only changes do not affect the published package. If no `@squide/*` packages qualify (i.e., every change is devDependency-only), skip this step entirely — do NOT create a changeset file.
 
 Create a changeset file at `.changeset/update-deps-<YYYYMMDD-HHMMSS>.md` (use the current UTC date-time to avoid filename collisions with unreleased changesets). Use `patch` as the default bump level, but use your judgment to bump as `minor` or `major` if warranted by the dependency changes.
 
