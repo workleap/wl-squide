@@ -12,7 +12,7 @@ When updating the skill:
 - You MAY create new `references/*.md` files when new content does not fit any existing reference file.
 - Do NOT embed metadata in skill files.
 - Do NOT add "Sources:" lines to skill files.
-- Do NOT create or modify any files outside `agent-skills/workleap-squide/`.
+- Do NOT create or modify any files outside `agent-skills/workleap-squide/`, except the changeset file created in Step 4b.
 - Do NOT use TodoWrite, TaskCreate, or any task tracking tools.
 - Never update a versioned skill. You can identify a versioned skill with its folder name pattern, e.g. `workleap-squide-v*`.
 - Never change skill content unless you can point to a specific line in `./docs` that either contradicts the current skill text or documents an API/pattern the skill is missing. If you cannot identify the exact discrepancy or omission, do not touch the content.
@@ -111,7 +111,7 @@ Use the following prompt for the subagent:
 > - `COVERAGE: X/21 PASSED`
 > - `ACCURACY: list of discrepancies (or "No discrepancies found")`
 
-If any coverage question is marked FAIL or accuracy discrepancies are found, go back to Step 1 and fix the gaps. Retry at most 3 times. If validation passes, proceed to Step 4. If validation still fails after 3 retries, proceed to Step 4 anyway but include the unresolved issues in the PR (see Step 4c).
+If any coverage question is marked FAIL or accuracy discrepancies are found, go back to Step 1 and fix the gaps. Retry at most 3 times. If validation passes, proceed to Step 4. If validation still fails after 3 retries, proceed to Step 4 anyway but include the unresolved issues in the PR (see Step 4d).
 
 ## Step 4: Success
 
@@ -119,17 +119,33 @@ If any coverage question is marked FAIL or accuracy discrepancies are found, go 
 
 Read the `metadata.version` field in the YAML frontmatter of `agent-skills/workleap-squide/SKILL.md`. Increment the **minor** part of the version (e.g., `1.0` → `1.1`, `5.3` → `5.4`). Update the file with the new version.
 
-### 4b: Create branch and commit
+### 4b: Add a changeset
+
+The skill is published to npm with the `@squide/firefly` package, so a skill change must be released. Create a `.changeset/sync-workleap-squide-skill-<short-sha>.md` file (`<short-sha>` is the output of `git rev-parse --short HEAD`) with the following content, replacing the summary line with a one-sentence description of the skill update:
+
+```md
+---
+"@squide/firefly": patch
+---
+
+Updated the `workleap-squide` agent skill: <one-sentence summary>.
+```
+
+The CI fails a pull request that changes the skill without adding this changeset.
+
+### 4c: Create branch and commit
+
+Do NOT add `[skip ci]` to the commit message: it skips the CI on the pull request and, once the pull request is merged, the Changesets workflow that releases the updated skill.
 
 ```bash
 BRANCH_NAME="agent/skill-sync-$(date -u +%Y%m%d-%H%M%S)-$(git rev-parse --short HEAD)"
 git checkout -b "$BRANCH_NAME"
-git add agent-skills/workleap-squide/
-git commit -m "chore(skill): sync workleap-squide skill with docs [skip ci]"
+git add agent-skills/workleap-squide/ .changeset/
+git commit -m "chore(skill): sync workleap-squide skill with docs"
 git push origin "$BRANCH_NAME"
 ```
 
-### 4c: Create pull request
+### 4d: Create pull request
 
 If validation passed cleanly:
 

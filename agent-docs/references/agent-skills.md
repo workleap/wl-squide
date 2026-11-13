@@ -22,6 +22,8 @@ When you install or remove a skill in `.claude/skills/`, add or remove its row i
 When modifying any file in `agent-skills/`:
 
 - Increment the `metadata.version` minor field in the skill's `SKILL.md` (e.g., `1.3` → `1.4`).
+- Never change `agent-skills/workleap-squide/` without adding a `patch` changeset for `@squide/firefly`. The skill reaches consumers only when `@squide/firefly` is published, and Changesets does not see the change because the skill lives outside the package directory. The `agent-skill-changeset` CI job fails a pull request that changes the skill without adding one.
+- Never add `[skip ci]` to a commit that changes the skill. It skips that CI job on the pull request and, once merged, the Changesets workflow that releases the skill.
 - Never edit a skill file without first reading its **Maintenance Notes** section at the bottom of `SKILL.md`. It defines line budgets and where content belongs. Adding API content to the SKILL.md body instead of `references/` will bloat the skill past token limits and degrade all agents that load it.
 - New API content goes in the appropriate `references/` file, not in the `SKILL.md` body, unless it is a critical pattern needed in nearly every conversation. See [ODR-0008](../odr/0008-skill-body-reference-split.md) for the rationale.
 
