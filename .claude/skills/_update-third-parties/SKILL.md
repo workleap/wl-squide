@@ -38,7 +38,7 @@ One leaf per selected target — the first two table rows only; the follow-ups r
 - Never prompt; a stop per the skill's own rules -> report it.
 - Deps leaf: skip the skill's step-1 prompt entirely and proceed as if neither follow-up was selected — the orchestrator runs follow-ups in its step 3.
 
-A blocked target never aborts the others — record, move on.
+A blocked target never aborts the other — record, move on.
 
 ## 3. Follow-ups
 
