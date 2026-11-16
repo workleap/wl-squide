@@ -54,7 +54,7 @@ Use `pnpm add -D --save-exact <package>` (or `pnpm add -DE <package>`) to ensure
 
 ### Minimum release age
 
-`pnpm-workspace.yaml` sets `minimumReleaseAge: 1440` (24 hours, in minutes): pnpm refuses to resolve package versions published less than 24 hours ago. It matches pnpm 12's default but is set explicitly so the policy is visible. Packages listed under `minimumReleaseAgeExclude` (`@workleap/*`, `@workleap-telemetry/*`) bypass the gate. Do NOT remove or lower the value, or add exclusions to install a freshly published version — wait for it to age past the window.
+`pnpm-workspace.yaml` sets `minimumReleaseAge: 10080` (7 days, in minutes): pnpm refuses to resolve package versions published less than 7 days ago. It is longer than pnpm 12's default (24 hours), to leave more time for a compromised release to be detected and removed. Packages listed under `minimumReleaseAgeExclude` (`@workleap/*`, `@workleap-telemetry/*`) bypass the gate. Do NOT remove or lower the value, or add exclusions to install a freshly published version — wait for it to age past the window.
 
 ### Pinned transitive dependencies (pnpm overrides)
 

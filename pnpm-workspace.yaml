@@ -2,9 +2,9 @@ packages:
   - packages/*
   - samples/**
 
-# pnpm's own release-age gate, in minutes (24 hours). It matches pnpm's default, but it's set explicitly
-# so the policy is visible and doesn't change silently.
-minimumReleaseAge: 1440
+# pnpm's own release-age gate, in minutes (7 days). pnpm's default is 1440 (24 hours); the longer delay
+# leaves more time for a compromised release to be detected and removed before it can be installed.
+minimumReleaseAge: 10080
 
 # Workleap's own packages skip pnpm's gate.
 minimumReleaseAgeExclude:
