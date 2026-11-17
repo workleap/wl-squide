@@ -1,5 +1,13 @@
 # @squide/msw
 
+## 5.0.2
+
+### Patch Changes
+
+- [#789](https://github.com/workleap/wl-squide/pull/789) [`af471d7`](https://github.com/workleap/wl-squide/commit/af471d7eefbaafaa81bec4c0b364456229c2d82d) Thanks [@claude](https://github.com/apps/claude)! - Updated dependencies to their latest versions.
+- Updated dependencies [[`af471d7`](https://github.com/workleap/wl-squide/commit/af471d7eefbaafaa81bec4c0b364456229c2d82d)]:
+  - @squide/core@7.6.4
+
 ## 5.0.1
 
 ### Patch Changes
