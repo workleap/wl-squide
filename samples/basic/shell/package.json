@@ -19,7 +19,7 @@
         "@types/node": "26.6.6",
         "@types/react": "19.3.0",
         "@types/react-dom": "19.3.0",
-        "@workleap/typescript-configs": "5.1.0",
+        "@workleap/typescript-configs": "5.2.1",
         "nodemon": "3.1.14",
         "typescript": "7.0.2"
     },

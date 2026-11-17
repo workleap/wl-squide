@@ -26,7 +26,7 @@
         "@types/cors": "2.8.19",
         "@types/express": "5.0.6",
         "@types/node": "26.6.6",
-        "@workleap/typescript-configs": "5.1.0",
+        "@workleap/typescript-configs": "5.2.1",
         "tsx": "4.23.15",
         "typescript": "7.0.2"
     },
