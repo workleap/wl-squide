@@ -44,11 +44,11 @@
         "@changesets/changelog-github": "1.0.1",
         "@changesets/cli": "3.0.3",
         "@types/node": "26.6.6",
-        "@workleap/typescript-configs": "5.1.0",
-        "agent-browser": "0.41.2",
+        "@workleap/typescript-configs": "5.2.1",
+        "agent-browser": "0.42.0",
         "cross-env": "10.1.0",
-        "oxfmt": "0.77.0",
-        "oxlint": "1.92.0",
+        "oxfmt": "0.78.0",
+        "oxlint": "1.93.0",
         "oxlint-tsgolint": "7.0.2006",
         "pkg-pr-new": "0.0.93",
         "retypeapp": "4.6.0",
@@ -60,5 +60,5 @@
         "node": ">=26.0.0",
         "pnpm": ">=12.18.0"
     },
-    "packageManager": "pnpm@12.18.0+sha512.9d7882d5dc82147ecfc4e062aa34834e0ad0296710a1837a1115ae012127d36b7109e321ac1598a1dd0a65597681b1e99917e12ed0d749eae91187943363beb3"
+    "packageManager": "pnpm@12.19.0+sha512.87327b6619853205834e4be59ba3a231e303d9f5e435912ede3312b7539b79af890942f6513b05a4690745666888045c09b33fc420c2cd2d3bd95c01ba21dbeb"
 }

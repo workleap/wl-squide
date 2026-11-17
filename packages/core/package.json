@@ -42,18 +42,18 @@
         "test": "vitest --config vitest.config.ts --no-watch"
     },
     "dependencies": {
-        "@workleap/logging": "^2.1.0",
+        "@workleap/logging": "^2.1.1",
         "eventemitter3": "^5.0.4",
         "memoize": "^11.0.0"
     },
     "devDependencies": {
-        "@rsbuild/core": "2.3.1",
+        "@rsbuild/core": "2.3.2",
         "@rslib/core": "1.0.6",
         "@types/node": "26.6.6",
         "@types/react": "19.3.0",
-        "@vitejs/plugin-react": "6.2.1",
-        "@workleap/rslib-configs": "2.1.1",
-        "@workleap/typescript-configs": "5.1.0",
+        "@vitejs/plugin-react": "6.3.0",
+        "@workleap/rslib-configs": "2.1.2",
+        "@workleap/typescript-configs": "5.2.1",
         "typescript": "7.0.2",
         "vitest": "5.1.0"
     },
