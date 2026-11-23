@@ -48,7 +48,7 @@
     },
     "devDependencies": {
         "@rsbuild/core": "2.3.2",
-        "@rslib/core": "1.0.6",
+        "@rslib/core": "1.0.7",
         "@types/node": "26.6.6",
         "@types/react": "19.3.0",
         "@vitejs/plugin-react": "6.3.0",
