@@ -64,6 +64,8 @@ jobs:
           allowed_bots: "claude[bot]"
           anthropic_api_key: ${{ secrets.ANTHROPIC_API_KEY }}
           show_full_output: true
+          # --strict-mcp-config: load only the MCP servers the action provides, never the ones in .mcp.json.
           claude_args: >-
+            --strict-mcp-config
             --max-turns 50
             --allowedTools Read,Glob,Grep,Bash(agent-browser:*),Bash(pnpm:*),Bash(curl:*),Bash(cat:*),Bash(sleep:*)

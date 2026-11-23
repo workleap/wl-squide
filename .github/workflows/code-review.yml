@@ -38,7 +38,9 @@ jobs:
             Get the diff: gh pr diff ${{ github.event.pull_request.number }}
 
             Read and follow the instructions in .github/prompts/code-review.md
+          # --strict-mcp-config: load only the MCP servers the action provides, never the ones in .mcp.json.
           claude_args: >-
+            --strict-mcp-config
             --allowedTools Read,Glob,Grep,Skill,Task,Bash(gh:*),mcp__github_inline_comment__*
         env:
           # Required by gh CLI to fetch PR diffs and post review comments.
