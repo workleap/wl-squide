@@ -220,6 +220,9 @@ importers:
       typescript:
         specifier: 7.0.2
         version: 7.0.2
+      yaml:
+        specifier: 2.9.1
+        version: 2.9.1
 
   packages/core:
     dependencies:

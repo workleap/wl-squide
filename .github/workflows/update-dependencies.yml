@@ -9,6 +9,7 @@ on:
 # job token. The resolve job only runs what main's lockfile pins, with a read-only token. The
 # open-pr job is the only one that can write, and it runs nothing but git and gh. The new versions
 # first run in the CI of the pull request, once a maintainer approved its workflow runs.
+# .github/scripts/updateDependenciesWorkflow.test.ts fails when a change breaks that split.
 # See agent-docs/references/ci-cd.md.
 permissions: {}
 

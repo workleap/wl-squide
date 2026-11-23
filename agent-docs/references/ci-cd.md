@@ -75,7 +75,11 @@ Never make the `resolve` job install or run what it resolved:
 - Keep `--config.pmOnFail=ignore` on the lockfile sync. The update can move the `packageManager` field to a newer pnpm, which pnpm would otherwise download and run. The new pnpm never runs, so `pinPackageManagerHash.ts` copies its integrity hash from the lockfile into the field.
 - The job fails when `node_modules` changed or when another pnpm version synced the lockfile.
 
-Never add a step to the `open-pr` job that runs pnpm, node or a file of the repository, never add a secret or `id-token` to the workflow, and never add an agent: an agent needs a model key in the job that runs it. Nothing checks these rules automatically: review every change to this workflow against them.
+Never add a step to the `open-pr` job that runs pnpm, node or a file of the repository, never add a secret or `id-token` to the workflow, and never add an agent: an agent needs a model key in the job that runs it. `.github/scripts/updateDependenciesWorkflow.test.ts` enforces these rules and runs in `ci.yml`. Run it after editing the workflow:
+
+```bash
+node --test .github/scripts/updateDependenciesWorkflow.test.ts
+```
 
 The workflow no longer updates the agent skills, fixes a breaking change or drives a browser. A breaking update shows as a red CI on the draft PR and is fixed on its branch. Installed skills are updated by running `/_update-skills` locally (see [agent-skills.md](./agent-skills.md)).
 
