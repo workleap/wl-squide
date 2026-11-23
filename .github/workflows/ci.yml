@@ -167,6 +167,8 @@ jobs:
   browser:
     # Opens the samples in a browser. The weekly dependency update starts this workflow on the branch
     # it pushed (see update-dependencies.yml): that run is the first place its versions are tried.
+    # Pull requests are covered by smoke-test.yml.
+    if: github.event_name == 'workflow_dispatch'
     runs-on: ubuntu-latest
     timeout-minutes: 30
 

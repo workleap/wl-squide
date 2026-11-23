@@ -17,21 +17,23 @@ Two more facts shaped the decision:
 
 1. **Keep the agent, move the push to a second job** — The agent's job loses the write token but keeps the model key, in the job that runs the new versions. Hiding the key from subprocesses is best effort: the action's own post step receives it, and its files are writable by anything that ran before.
 2. **Plain steps that install and validate, then a job that opens the pull request** — No agent, but the patch and the pull request text are written after the new versions ran, so a malicious release authors what gets published. That job also runs on `main`'s ref, where it can write the caches other workflows restore.
-3. **Resolve without installing, and let the pull request's CI run the new versions** — A read-only job resolves the versions into the `package.json` files and the lockfile with tools from `main`'s lockfile, and a second job, limited to `git` and `gh`, opens a draft pull request. Nothing in the scheduled workflow runs the new versions.
+3. **Resolve without installing, and have CI try the new versions on the branch** — A read-only job resolves the versions into the `package.json` files and the lockfile with tools from `main`'s lockfile. A second job, limited to `git` and `gh`, opens a draft pull request and starts `ci.yml` on its branch. Nothing in the scheduled workflow runs the new versions.
 
 ## Decision
 
 Option 3. `agent-docs/references/ci-cd.md` describes the two jobs and the rules that keep them apart.
 
-The pull request is opened with the job token, as a draft. A pull request opened that way starts no workflow until a maintainer approves its runs, and a draft keeps that approval from starting the smoke test and the code review. The first run of the new versions is therefore always in `ci.yml` and `pr-pkg.yml`, which hold a read-only token, no secret, and a cache scoped to the pull request.
+The new versions are tried by a `ci.yml` run started on the branch: the usual build, lint and tests, plus a scripted browser check of the endpoints and Storybook samples that replaces the one the agent did. That run holds a read-only token and no secret, and what it writes to the cache is only readable from its branch.
+
+The pull request is opened with the job token, as a draft. A pull request opened that way starts no workflow of its own until a maintainer approves its runs, and a draft keeps that approval from starting the smoke test and the code review, which hold credentials.
 
 ## Consequences
 
 - The scheduled workflow holds no secret and no `id-token`, and runs no agent. A run takes a few minutes and costs no model usage.
-- A maintainer has to approve the workflow runs of the weekly pull request before CI validates it.
-- A breaking update is no longer fixed or reverted by the workflow: it shows as a red CI on the draft pull request and is fixed on its branch.
+- The weekly pull request is validated without anyone acting: its checks are the build and the browser check of the run started on its branch.
+- A breaking update is no longer fixed or reverted by the workflow: it shows as a red check on the draft pull request and is fixed on its branch.
 - The workflow no longer updates the installed agent skills. That update needs an agent today, so it runs locally with `/_update-skills` until it is scripted.
-- The browser checks of the endpoints and Storybook samples are gone from the weekly run.
+- The browser check is a script with fixed pages and conditions. It sees a page that does not render, an error screen or an uncaught error, not a page that renders the wrong thing.
 - Files that an install regenerates, such as the `mockServiceWorker.js` files after an `msw` update, are committed by hand on the pull request branch.
 - The changeset always bumps as a patch. Whoever reviews the pull request raises it when a change warrants more.
 - A later push to the pull request branch starts the smoke test like on any other pull request. Its credentials are out of scope here.

@@ -4,10 +4,10 @@
 
 | Workflow | File | Trigger | Purpose |
 |----------|------|---------|---------|
-| CI | `.github/workflows/ci.yml` | Push to main and `renovate/**`, PRs | Build, lint, typecheck, test |
+| CI | `.github/workflows/ci.yml` | Push to main and `renovate/**`, PRs; started by Update Dependencies on its branch | Build, lint, typecheck, test. Opens the samples in a browser when started by Update Dependencies |
 | Changeset | `.github/workflows/changeset.yml` | Push to main | Version bumps and npm publish |
 | PR Packages | `.github/workflows/pr-pkg.yml` | Push to main, PRs | Publish preview packages |
-| Update Dependencies | `.github/workflows/update-dependencies.yml` | Weekly (Tue 14:00 UTC); Manual | Resolves the outdated npm dependencies and opens a draft PR. No agent |
+| Update Dependencies | `.github/workflows/update-dependencies.yml` | Weekly (Tue 14:00 UTC); Manual | Resolves the outdated npm dependencies, opens a draft PR and starts CI on its branch to try them. No agent |
 | Code Review | `.github/workflows/code-review.yml` | PRs | Automated code review |
 | Claude | `.github/workflows/claude.yml` | @claude mentions | Interactive AI assistance |
 | Sync Agent Skill | `.github/workflows/sync-agent-skill.yml` | Manual; Push to main (docs/) | Sync Squide skill with docs |
@@ -59,14 +59,19 @@ Nothing checks this split automatically, and the `version`, `pack` and `publish`
 
 ## Dependency update workflow
 
-`update-dependencies.yml` proposes new dependency versions without ever installing or running them. A version published this week is code nobody has read, so it must not run next to a token that can write to the repository:
+`update-dependencies.yml` proposes new dependency versions without installing or running them itself, then has them tried by a CI run that holds no credential. A version published this week is code nobody has read, so it must not run next to a token that can write to the repository:
 
 | Job | Permissions | Runs |
 |-----|-------------|------|
 | `resolve` | `contents: read` | pnpm, syncpack, oxfmt and the scripts of `.github/scripts/`, all from `main`'s lockfile. Resolves the latest versions into the `package.json` files and the lockfile, writes the changeset and the PR summary, and uploads them as a patch |
-| `open-pr` | `contents: write`, `pull-requests: write` | `git` and `gh` only. Applies the patch, pushes an `agent/update-deps-*` branch, opens a draft PR and closes the earlier ones |
+| `open-pr` | `contents: write`, `pull-requests: write`, `actions: write` | `git` and `gh` only. Applies the patch, pushes an `agent/update-deps-*` branch, opens a draft PR, starts `ci.yml` on the branch and closes the earlier PRs |
 
-The new versions first run in the CI of that PR. A PR opened with the job token starts no workflow until a maintainer approves its runs, and it is a draft so that the approval only starts `ci.yml` and `pr-pkg.yml`, which hold no credential: `smoke-test.yml` and `code-review.yml` skip drafts. To handle the weekly PR: read the diff, approve the workflow runs, and mark the PR ready for review once CI is green. When `msw` is updated, run `pnpm install` on the branch and commit the `mockServiceWorker.js` files it regenerates.
+The new versions are tried by the `ci.yml` run that `open-pr` starts on the branch with `gh workflow run`. That run has a read-only token and no secret, and because it runs on the branch, the caches it writes are only readable from that branch. Its two checks show on the PR:
+
+- `build` builds the packages and the samples, lints, typechecks and tests, like on any PR.
+- `browser` runs `.github/scripts/smoke-samples.sh`, and only when the workflow is started this way. The script serves the endpoints sample, logs in and opens five pages, then serves Storybook and opens the first story of every component. A page fails when it does not render, shows an error screen or throws. No agent is involved: the pages and what "rendered" means are fixed in the script. Its last endpoints page is the tab that always throws, which proves that an error screen is detected.
+
+A PR opened with the job token starts no workflow of its own until a maintainer approves its runs, and it is a draft so that such an approval would only start `ci.yml` and `pr-pkg.yml`, which hold no credential: `smoke-test.yml` and `code-review.yml` skip drafts. To handle the weekly PR: read the diff, wait for the `build` and `browser` checks, and mark the PR ready for review. When `msw` is updated, run `pnpm install` on the branch and commit the `mockServiceWorker.js` files it regenerates.
 
 Never make the `resolve` job install or run what it resolved:
 
@@ -77,7 +82,7 @@ Never make the `resolve` job install or run what it resolved:
 
 Never add a step to the `open-pr` job that runs pnpm, node or a file of the repository, never add a secret or `id-token` to the workflow, and never add an agent: an agent needs a model key in the job that runs it. Nothing checks these rules automatically: review every change to this workflow against them.
 
-The workflow no longer updates the agent skills, fixes a breaking change or drives a browser. A breaking update shows as a red CI on the draft PR and is fixed on its branch. Installed skills are updated by running `/_update-skills` locally (see [agent-skills.md](./agent-skills.md)).
+The workflow no longer updates the agent skills or fixes a breaking change. A breaking update shows as a red check on the draft PR and is fixed on its branch. Installed skills are updated by running `/_update-skills` locally (see [agent-skills.md](./agent-skills.md)).
 
 ## CI Pipeline Details
 
