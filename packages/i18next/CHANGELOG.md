@@ -1,5 +1,13 @@
 # @squide/i18next
 
+## 4.0.2
+
+### Patch Changes
+
+- [#803](https://github.com/workleap/wl-squide/pull/803) [`2f95cdd`](https://github.com/workleap/wl-squide/commit/2f95cdd3723cbbafe3385ff5ff8b8714fa8a01e5) Thanks [@patricklafrance](https://github.com/patricklafrance)! - The package is now published from the protected `npm-publish` GitHub environment with npm Trusted Publishing. The code of the package did not change.
+- Updated dependencies [[`2f95cdd`](https://github.com/workleap/wl-squide/commit/2f95cdd3723cbbafe3385ff5ff8b8714fa8a01e5)]:
+  - @squide/core@7.6.5
+
 ## 4.0.1
 
 ### Patch Changes

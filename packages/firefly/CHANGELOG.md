@@ -1,5 +1,17 @@
 # @squide/firefly
 
+## 20.1.6
+
+### Patch Changes
+
+- [#803](https://github.com/workleap/wl-squide/pull/803) [`2f95cdd`](https://github.com/workleap/wl-squide/commit/2f95cdd3723cbbafe3385ff5ff8b8714fa8a01e5) Thanks [@patricklafrance](https://github.com/patricklafrance)! - The package is now published from the protected `npm-publish` GitHub environment with npm Trusted Publishing. The code of the package did not change.
+- Updated dependencies [[`2f95cdd`](https://github.com/workleap/wl-squide/commit/2f95cdd3723cbbafe3385ff5ff8b8714fa8a01e5)]:
+  - @squide/core@7.6.5
+  - @squide/env-vars@1.4.28
+  - @squide/launch-darkly@1.1.4
+  - @squide/msw@5.0.3
+  - @squide/react-router@10.2.6
+
 ## 20.1.5
 
 ### Patch Changes
