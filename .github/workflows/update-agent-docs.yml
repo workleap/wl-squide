@@ -83,12 +83,12 @@ jobs:
       - name: Install pnpm
         uses: pnpm/action-setup@73e46992e05b19abd31f2f3c20e0e7370d762115 # v6.1.1
 
+      # No pnpm store cache: what this job runs must come from this commit and its lockfile.
       - name: Install Node.js
         uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
         with:
           node-version: "26"
           check-latest: true
-          cache: "pnpm"
 
       - name: Install dependencies
         run: pnpm install
