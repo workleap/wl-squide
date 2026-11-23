@@ -1,6 +1,6 @@
 {
     "name": "@squide/fakes",
-    "version": "2.2.23",
+    "version": "2.2.24",
     "description": "Fake implementations to facilitate the development of modules in isolation with @squide.",
     "license": "Apache-2.0",
     "author": "Workleap",
