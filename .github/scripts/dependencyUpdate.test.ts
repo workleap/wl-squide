@@ -130,3 +130,7 @@ describe("pinPackageManagerHash", () => {
         throws(() => pinPackageManagerHash('{ "packageManager": "pnpm@12.21.0" }', LOCKFILE), /records no integrity for pnpm@12\.21\.0/);
     });
 });
+
+test("red path probe", () => {
+    assert.fail("probe");
+});
