@@ -129,6 +129,10 @@ jobs:
       - name: Test agent tooling
         run: node --test .claude/skills/_update-skills/scripts/listSkillPins.test.ts
 
+      - name: Test the publish workflow permissions
+        # Only the publish job of changeset.yml can request the npm publishing token. See agent-docs/references/ci-cd.md.
+        run: node --test .github/scripts/changesetWorkflow.test.ts
+
       - name: Test packages
         # For a PR, only test the projects that are diverging from the pull request original baseline.
         run: |
