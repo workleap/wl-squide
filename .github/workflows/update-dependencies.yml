@@ -115,12 +115,13 @@ jobs:
     needs: resolve
     if: needs.resolve.outputs.changed == 'true'
     runs-on: ubuntu-latest
-    timeout-minutes: 10
+    timeout-minutes: 45
     permissions:
       contents: write
       pull-requests: write
-      # To start the CI run that tries the new versions.
+      # To start the CI run that tries the new versions, and to report its result on the commit.
       actions: write
+      statuses: write
 
     # Never add a step to this job that runs pnpm, node or a file of this repository: every step
     # here can use the write token. Its run blocks take their values from env, never from an
@@ -156,13 +157,16 @@ jobs:
         id: pull-request
         env:
           INTRODUCTION: |
-            The weekly `update-dependencies` workflow resolved these versions and started CI on this branch to try them: the `build` check builds, lints and tests, and the `browser` check opens the endpoints and Storybook samples. That run holds a read-only token and no secret.
+            The weekly `update-dependencies` workflow resolved these versions and started a CI run on this branch to try them, with a read-only token and no secret. Its result is reported on this pull request a few minutes after it opens, as two statuses:
+
+            - `Update dependencies / build`: the packages and the samples build, and the lint, the type check and the tests pass.
+            - `Update dependencies / browser`: the pages of the endpoints sample and the stories of the Storybook sample render without an error.
 
             1. Read the diff.
-            2. Wait for the `build` and `browser` checks. A red one is fixed on this branch.
+            2. Wait for the two statuses. A red one is fixed on this branch.
             3. Mark the pull request ready for review.
 
-            The workflow runs waiting for approval on this pull request are its own copies of the same checks: nothing needs them.
+            The workflow runs that wait for approval are the pull request's own: approving them runs CI a second time.
 
             When `msw` is in the list below, run `pnpm install` on this branch and commit the `mockServiceWorker.js` files it regenerates. The changeset, when there is one, bumps every package as a patch: raise it when a change warrants more.
 
@@ -178,11 +182,6 @@ jobs:
           echo "$url"
           echo "url=$url" >> "$GITHUB_OUTPUT"
 
-      # A run started with workflow_dispatch is the one kind the job token may start. It runs on the
-      # branch, so what it writes to the cache stays on the branch. Its checks show on the pull request.
-      - name: Try the new versions
-        run: gh workflow run ci.yml --ref "$BRANCH"
-
       # The earlier pull requests of this workflow: open, from this repository, on one of its branches.
       - name: Close the superseded pull requests
         env:
@@ -197,3 +196,38 @@ jobs:
                       gh pr close "$number" --comment "Superseded by $URL." < /dev/null
                   fi
               done
+
+      # A run started with workflow_dispatch is the one kind the job token may start. It runs ci.yml
+      # on the branch, where it has a read-only token and where what it writes to the cache stays.
+      # GitHub does not list the checks of such a run on a pull request, so this step waits for it
+      # and copies the result of its two jobs to the commit, as statuses. It fails when one failed.
+      - name: Try the new versions
+        run: |
+          ci_url=$(gh workflow run ci.yml --ref "$BRANCH" 2>&1 | grep -oE 'https://github\.com/[^ ]+/actions/runs/[0-9]+' | tail -n 1)
+          if [ -z "$ci_url" ]; then
+              echo "::error::The CI run did not start."
+              exit 1
+          fi
+
+          echo "$ci_url"
+          ci_run="${ci_url##*/}"
+          gh run watch "$ci_run" --interval 30 > /dev/null
+
+          commit=$(git rev-parse HEAD)
+          failed=0
+          for job in build browser; do
+              conclusion=$(gh run view "$ci_run" --json jobs --jq ".jobs[] | select(.name == \"$job\") | .conclusion")
+              job_url=$(gh run view "$ci_run" --json jobs --jq ".jobs[] | select(.name == \"$job\") | .url")
+
+              if [ "$conclusion" = "success" ]; then
+                  state=success
+              else
+                  state=failure
+                  failed=1
+              fi
+
+              echo "$job: $state"
+              gh api "repos/$GITHUB_REPOSITORY/statuses/$commit" -f state="$state" -f context="Update dependencies / $job" -f target_url="$job_url" > /dev/null
+          done
+
+          exit "$failed"
