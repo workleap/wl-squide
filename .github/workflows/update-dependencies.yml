@@ -8,7 +8,8 @@ on:
 # This workflow never installs or runs the versions it resolves, and holds no credential but the
 # job token. The resolve job only runs what main's lockfile pins, with a read-only token. The
 # open-pr job is the only one that can write, and it runs nothing but git and gh. The new versions
-# first run in the CI of the pull request, once a maintainer approved its workflow runs.
+# are tried by the CI run that the open-pr job starts on the branch it pushed: a build, the lint,
+# the tests and a browser check of the samples, with a read-only token and no secret.
 # See agent-docs/references/ci-cd.md.
 permissions: {}
 
@@ -118,6 +119,8 @@ jobs:
     permissions:
       contents: write
       pull-requests: write
+      # To start the CI run that tries the new versions.
+      actions: write
 
     # Never add a step to this job that runs pnpm, node or a file of this repository: every step
     # here can use the write token. Its run blocks take their values from env, never from an
@@ -153,11 +156,13 @@ jobs:
         id: pull-request
         env:
           INTRODUCTION: |
-            The weekly `update-dependencies` workflow resolved these versions. Nothing has installed or run them yet.
+            The weekly `update-dependencies` workflow resolved these versions and started CI on this branch to try them: the `build` check builds, lints and tests, and the `browser` check opens the endpoints and Storybook samples. That run holds a read-only token and no secret.
 
             1. Read the diff.
-            2. Approve the workflow runs waiting on this pull request: CI then installs, builds, lints and tests the new versions.
-            3. Mark the pull request ready for review once CI is green.
+            2. Wait for the `build` and `browser` checks. A red one is fixed on this branch.
+            3. Mark the pull request ready for review.
+
+            The workflow runs waiting for approval on this pull request are its own copies of the same checks: nothing needs them.
 
             When `msw` is in the list below, run `pnpm install` on this branch and commit the `mockServiceWorker.js` files it regenerates. The changeset, when there is one, bumps every package as a patch: raise it when a change warrants more.
 
@@ -172,6 +177,11 @@ jobs:
           url=$(gh pr create --draft --base main --head "$BRANCH" --title "chore: update dependencies $(date -u +%F)" --body-file "$RUNNER_TEMP/update/pull-request.md")
           echo "$url"
           echo "url=$url" >> "$GITHUB_OUTPUT"
+
+      # A run started with workflow_dispatch is the one kind the job token may start. It runs on the
+      # branch, so what it writes to the cache stays on the branch. Its checks show on the pull request.
+      - name: Try the new versions
+        run: gh workflow run ci.yml --ref "$BRANCH"
 
       # The earlier pull requests of this workflow: open, from this repository, on one of its branches.
       - name: Close the superseded pull requests
