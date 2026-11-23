@@ -7,7 +7,7 @@
 | CI | `.github/workflows/ci.yml` | Push to main and `renovate/**`, PRs | Build, lint, typecheck, test |
 | Changeset | `.github/workflows/changeset.yml` | Push to main | Version bumps and npm publish |
 | PR Packages | `.github/workflows/pr-pkg.yml` | Push to main, PRs | Publish preview packages |
-| Update Dependencies | `.github/workflows/update-dependencies.yml` | Weekly (Tue 14:00 UTC); Manual | Automated dependency and agent skill updates, via the `_update-dependencies` and `_update-skills` skills |
+| Update Dependencies | `.github/workflows/update-dependencies.yml` | Weekly (Tue 14:00 UTC); Manual | Resolves the outdated npm dependencies and opens a draft PR. No agent |
 | Code Review | `.github/workflows/code-review.yml` | PRs | Automated code review |
 | Claude | `.github/workflows/claude.yml` | @claude mentions | Interactive AI assistance |
 | Sync Agent Skill | `.github/workflows/sync-agent-skill.yml` | Manual; Push to main (docs/) | Sync Squide skill with docs |
@@ -15,7 +15,7 @@
 | Retype | `.github/workflows/retype-action.yml` | Manual; Push to main | Build and deploy documentation site |
 | Smoke Test | `.github/workflows/smoke-test.yml` | PRs to main (packages, endpoints, workflow changes) | Automated smoke test of endpoints app |
 
-**Renovate** (`renovate.json`) is restricted to the `github-actions` manager. Never enable npm or other managers in Renovate — npm dependencies and agent skills are owned by the Update Dependencies workflow, and enabling them would produce duplicate, conflicting update PRs.
+**Renovate** (`renovate.json`) is restricted to the `github-actions` manager. Never enable npm or other managers in Renovate — npm dependencies are owned by the Update Dependencies workflow and agent skills by the `_update-skills` skill, and enabling them would produce duplicate, conflicting update PRs.
 
 Renovate updates are auto-merged with branch automerge (`automerge` + `automergeType: "branch"`): Renovate pushes the update to a `renovate/*` branch and, on a later run, fast-forwards `main` to it without opening a PR. Major updates are included on purpose. Do not replace the setting with the organization's `all-automerge.json` preset, which only covers minor and patch updates. This depends on two things:
 
@@ -57,6 +57,28 @@ Never rename `changeset.yml`: the npm trusted publisher of every `@squide/*` pac
 
 Nothing checks this split automatically, and the `version`, `pack` and `publish` jobs only run on `main`, so a pull request cannot exercise them: review every change to this workflow against the table above. After merging a change to this workflow, watch the next release end to end.
 
+## Dependency update workflow
+
+`update-dependencies.yml` proposes new dependency versions without ever installing or running them. A version published this week is code nobody has read, so it must not run next to a token that can write to the repository:
+
+| Job | Permissions | Runs |
+|-----|-------------|------|
+| `resolve` | `contents: read` | pnpm, syncpack, oxfmt and the scripts of `.github/scripts/`, all from `main`'s lockfile. Resolves the latest versions into the `package.json` files and the lockfile, writes the changeset and the PR summary, and uploads them as a patch |
+| `open-pr` | `contents: write`, `pull-requests: write`, `issues: write` | `git` and `gh` only. Applies the patch, pushes an `agent/update-deps-*` branch and opens a draft PR |
+
+The new versions first run in the CI of that PR. A PR opened with the job token starts no workflow until a maintainer approves its runs, and it is a draft so that the approval only starts `ci.yml` and `pr-pkg.yml`, which hold no credential: `smoke-test.yml` and `code-review.yml` skip drafts. To handle the weekly PR: read the diff, approve the workflow runs, and mark the PR ready for review once CI is green. When `msw` is updated, run `pnpm install` on the branch and commit the `mockServiceWorker.js` files it regenerates.
+
+Never make the `resolve` job install or run what it resolved:
+
+- Every pnpm command after the first install carries `--lockfile-only`.
+- Never call `pnpm run` after the versions are resolved: with a lockfile ahead of `node_modules`, pnpm installs before it runs a script. `syncpack` and `oxfmt` are called by their path for that reason.
+- Keep `--config.pmOnFail=ignore` on the lockfile sync. The update can move the `packageManager` field to a newer pnpm, which pnpm would otherwise download and run. The new pnpm never runs, so `pinPackageManagerHash.ts` copies its integrity hash from the lockfile into the field.
+- The job fails when `node_modules` changed or when another pnpm version synced the lockfile.
+
+Never add a step to the `open-pr` job that runs pnpm, node or a file of the repository, never add a secret or `id-token` to the workflow, and never add an agent: an agent needs a model key in the job that runs it. Nothing checks these rules automatically: review every change to this workflow against them.
+
+The workflow no longer updates the agent skills, fixes a breaking change or drives a browser. A breaking update shows as a red CI on the draft PR and is fixed on its branch. Installed skills are updated by running `/_update-skills` locally (see [agent-skills.md](./agent-skills.md)).
+
 ## CI Pipeline Details
 
 The main CI workflow (`ci.yml`) runs on `ubuntu-latest` with:
@@ -71,7 +93,7 @@ The main CI workflow (`ci.yml`) runs on `ubuntu-latest` with:
 
 Every workflow that sets up Node pins `node-version: "26"` (not `">=26.0.0"`) so a new Node major is adopted deliberately rather than whenever `setup-node` picks the latest. Node 26 was blocked until happy-dom 21: Node 26 exposes a native global `localStorage` that returns `undefined` unless `--localstorage-file` is provided, and happy-dom 20.x did not override that getter, so vitest tests touching `localStorage` (e.g. `localStorage.clear()` in `beforeEach`) crashed with `Cannot read properties of undefined (reading 'clear')` (see PR #602 / commit 51037089b). Re-run the `localStorage` tests before the next Node major bump.
 
-## Editing `claude-code-action` workflows (smoke-test, code-review, claude, sync-agent-skill, update-agent-docs, update-dependencies)
+## Editing `claude-code-action` workflows (smoke-test, code-review, claude, sync-agent-skill, update-agent-docs)
 
 `anthropics/claude-code-action` only runs when the calling workflow file is **byte-identical to the copy on `main`**. Change `smoke-test.yml` on a branch and the action logs:
 

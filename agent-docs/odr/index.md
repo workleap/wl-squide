@@ -20,6 +20,7 @@
 | Turborepo caching uses `actions/cache/restore` + `actions/cache/save` with SHA-based keys and 2-level cascade fallback. No Vercel remote cache. The publish workflow (`changeset.yml`) uses no cache at all. | [0005](./0005-github-actions-cache-for-turborepo.md) |
 | PR builds use `--filter=...[$base_sha]` for incremental CI. Main-branch pushes run the full suite. `fetch-depth: 0` is required. | [0007](./0007-incremental-ci-turborepo-git-filters.md) |
 | AI-driven browser QA: smoke tests on PRs (fixed page list, PASS/FAIL) using `agent-browser`. | [0009](./0009-ai-driven-browser-qa-in-ci.md) |
+| The weekly dependency update has no agent and never installs what it resolves: a read-only job resolves the versions into a patch, a job limited to `git` and `gh` opens a draft PR, and the PR's CI is the first place the new versions run. | [0013](./0013-dependency-updates-without-an-agent.md) |
 
 ## Agent Documentation
 

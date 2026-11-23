@@ -5,64 +5,221 @@ on:
     - cron: "0 14 * * 2"
   workflow_dispatch:
 
-permissions:
-  contents: write
-  pull-requests: write
-  issues: write
-  id-token: write
+# This workflow never installs or runs the versions it resolves, and holds no credential but the
+# job token. The resolve job only runs what main's lockfile pins, with a read-only token. The
+# open-pr job is the only one that can write, and it runs nothing but git and gh. The new versions
+# first run in the CI of the pull request, once a maintainer approved its workflow runs.
+# See agent-docs/references/ci-cd.md.
+permissions: {}
 
 concurrency:
   group: update-dependencies
   cancel-in-progress: true
 
 jobs:
-  update-dependencies:
+  resolve:
     runs-on: ubuntu-latest
-    timeout-minutes: 60
+    timeout-minutes: 30
+    permissions:
+      contents: read
+    outputs:
+      changed: ${{ steps.changes.outputs.changed }}
+
     steps:
       - name: Checkout
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
 
       - name: Install pnpm
         uses: pnpm/action-setup@73e46992e05b19abd31f2f3c20e0e7370d762115 # v6.1.1
         with:
           run_install: false
 
+      # No pnpm store cache: what this job runs must come from this commit and its lockfile.
       - name: Install Node.js
         uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
         with:
           node-version: "26"
           check-latest: true
-          cache: pnpm
-          cache-dependency-path: pnpm-lock.yaml
 
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
 
-      # Expose workspace binaries (e.g. agent-browser) as bare commands.
-      # This aligns with the agent-browser skill which expects `agent-browser <cmd>`
-      # without a `pnpm exec` prefix.
-      - name: Add node_modules/.bin to PATH
-        run: echo "$PWD/node_modules/.bin" >> $GITHUB_PATH
-
-      - name: Install browser dependencies
-        run: agent-browser install --with-deps
-
-      - name: Warm up browser
+      - name: Record what is installed
+        id: installed
         run: |
-          agent-browser open about:blank
-          agent-browser close
+          {
+              echo "pnpm=$(pnpm --version)"
+              echo "node-modules=$(sha256sum node_modules/.modules.yaml node_modules/.pnpm/lock.yaml | sha256sum | cut -d ' ' -f 1)"
+          } >> "$GITHUB_OUTPUT"
 
-      - name: Update dependencies and agent skills
-        uses: anthropics/claude-code-action@f3b070c88125d33dbae5653df5f143101d4ea9dc # v1.0.276
-        with:
-          prompt: |
-            Read and follow the instructions in .github/prompts/update-dependencies.md
-          anthropic_api_key: ${{ secrets.ANTHROPIC_API_KEY }}
-          show_full_output: true
-          claude_args: >-
-            --max-turns 200
-            --allowedTools Edit,Read,Write,Glob,Grep,Agent,Skill,Bash(pnpm:*),Bash(pnpx:*),Bash(git:*),Bash(node:*),Bash(gh:*),Bash(agent-browser:*),Bash(kill:*),Bash(lsof:*),Bash(curl:*),Bash(fuser:*)
+      # --lockfile-only rewrites the package.json files and the lockfile, and installs nothing.
+      - name: Resolve the latest versions
+        run: pnpm run update-outdated-deps:update-versions --lockfile-only
+
+      # From here the lockfile is ahead of node_modules, and "pnpm run" installs before running a
+      # script in that state. The two tools are therefore called by their path, not through the
+      # update-outdated-deps:update-peers and update-outdated-deps:format-pkg-json scripts.
+      - name: Align the peer dependency ranges
+        run: node_modules/.bin/syncpack fix
+
+      - name: Format the package.json files
+        run: node_modules/.bin/oxfmt "**/package.json"
+
+      # The update may have moved the packageManager field to a newer pnpm. pmOnFail=ignore keeps
+      # the pnpm installed above running, instead of downloading and running the newer one.
+      - name: Sync the lockfile
+        run: |
+          status=0
+          pnpm --config.pmOnFail=ignore install --lockfile-only > "$RUNNER_TEMP/sync-lockfile.log" 2>&1 || status=$?
+          cat "$RUNNER_TEMP/sync-lockfile.log"
+          exit "$status"
+
+      - name: Pin the pnpm integrity hash
+        run: node .github/scripts/pinPackageManagerHash.ts
+
+      - name: Check that nothing new was installed or run
         env:
-          # Required by gh CLI to create PRs and issues.
-          GH_TOKEN: ${{ github.token }}
+          PNPM_VERSION: ${{ steps.installed.outputs.pnpm }}
+          NODE_MODULES: ${{ steps.installed.outputs.node-modules }}
+        run: |
+          if ! grep -qF "using pnpm v$PNPM_VERSION" "$RUNNER_TEMP/sync-lockfile.log"; then
+              echo "::error::The lockfile was not synced by pnpm $PNPM_VERSION: a newer pnpm ran."
+              exit 1
+          fi
+
+          if [ "$(sha256sum node_modules/.modules.yaml node_modules/.pnpm/lock.yaml | sha256sum | cut -d ' ' -f 1)" != "$NODE_MODULES" ]; then
+              echo "::error::node_modules changed: the resolved versions were installed."
+              exit 1
+          fi
+
+      # A run that changed no package.json has nothing to propose, whatever it did to the lockfile.
+      - name: Check for dependency changes
+        id: changes
+        run: |
+          if git diff --quiet -- ':(glob)**/package.json'; then
+              echo "changed=false" >> "$GITHUB_OUTPUT"
+          else
+              echo "changed=true" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Write the changeset
+        if: steps.changes.outputs.changed == 'true'
+        run: node .github/scripts/createDependencyChangeset.ts
+
+      - name: Write the summary and the patch
+        if: steps.changes.outputs.changed == 'true'
+        run: |
+          mkdir -p "$RUNNER_TEMP/update"
+          node .github/scripts/summarizeDependencyChanges.ts > "$RUNNER_TEMP/update/summary.md"
+          git add -A
+          git diff --cached --binary HEAD > "$RUNNER_TEMP/update/deps.patch"
+
+      - name: Upload the update
+        if: steps.changes.outputs.changed == 'true'
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
+        with:
+          name: update
+          path: ${{ runner.temp }}/update
+          if-no-files-found: error
+
+  open-pr:
+    needs: resolve
+    if: ${{ !cancelled() }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    permissions:
+      contents: write
+      pull-requests: write
+      issues: write
+
+    # Never add a step to this job that runs pnpm, node or a file of this repository: every step
+    # here can use the write token. Its run blocks take their values from env, never from an
+    # expression.
+    env:
+      GH_TOKEN: ${{ github.token }}
+      GH_REPO: ${{ github.repository }}
+      RUN_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
+      BRANCH: agent/update-deps-${{ github.run_id }}-${{ github.run_attempt }}
+
+    steps:
+      - name: Checkout
+        if: needs.resolve.outputs.changed == 'true'
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+
+      - name: Download the update
+        if: needs.resolve.outputs.changed == 'true'
+        uses: actions/download-artifact@9000827ccba6bdab643e8b6fd33ac0654aef8333 # v8.0.2
+        with:
+          name: update
+          path: ${{ runner.temp }}/update
+
+      - name: Push the branch
+        if: needs.resolve.outputs.changed == 'true'
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git switch -c "$BRANCH"
+          git apply --index "$RUNNER_TEMP/update/deps.patch"
+          git -c core.hooksPath=/dev/null commit -m "chore: update dependencies"
+          git push origin "$BRANCH"
+
+      # A pull request opened with the job token starts no workflow until a maintainer approves
+      # its runs. It is a draft so that the approval only starts the workflows that hold no
+      # credential: the smoke test and the code review skip drafts.
+      - name: Open the pull request
+        if: needs.resolve.outputs.changed == 'true'
+        id: pull-request
+        env:
+          INTRODUCTION: |
+            The weekly `update-dependencies` workflow resolved these versions. Nothing has installed or run them yet.
+
+            1. Read the diff.
+            2. Approve the workflow runs waiting on this pull request: CI then installs, builds, lints and tests the new versions.
+            3. Mark the pull request ready for review once CI is green.
+
+            When `msw` is in the list below, run `pnpm install` on this branch and commit the `mockServiceWorker.js` files it regenerates. The changeset, when there is one, bumps every package as a patch: raise it when a change warrants more.
+
+            ## Summary
+        run: |
+          {
+              printf '%s\n' "$INTRODUCTION"
+              head -c 30000 "$RUNNER_TEMP/update/summary.md"
+              printf '\n\n## Workflow run\n\n%s\n' "$RUN_URL"
+          } > "$RUNNER_TEMP/update/pull-request.md"
+
+          url=$(gh pr create --draft --base main --head "$BRANCH" --title "chore: update dependencies $(date -u +%F)" --body-file "$RUNNER_TEMP/update/pull-request.md")
+          echo "$url"
+          echo "url=$url" >> "$GITHUB_OUTPUT"
+
+      # Only a pull request nobody has picked up is superseded: still a draft, and holding nothing
+      # but the commit this workflow pushed.
+      - name: Close the superseded pull requests
+        if: needs.resolve.outputs.changed == 'true'
+        env:
+          URL: ${{ steps.pull-request.outputs.url }}
+        # With an explicit shell, a failing "gh pr list" fails the step instead of closing nothing.
+        shell: bash
+        run: |
+          gh pr list --state open --limit 100 --json number,headRefName,isDraft,isCrossRepository,commits \
+              --jq '.[] | select((.headRefName | startswith("agent/update-deps-")) and .isDraft and (.isCrossRepository | not) and (.commits | length == 1)) | "\(.number) \(.headRefName)"' |
+              while read -r number head; do
+                  if [ "$head" != "$BRANCH" ]; then
+                      gh pr close "$number" --comment "Superseded by $URL."
+                  fi
+              done
+
+      - name: Report a failed resolution
+        if: needs.resolve.result == 'failure'
+        env:
+          TITLE: "[agent] Dependency update command failed"
+        run: |
+          existing=$(gh issue list --state open --author "app/github-actions" --search "\"$TITLE\" in:title" --json number,title \
+              --jq "[.[] | select(.title == \"$TITLE\")][0].number // empty")
+
+          if [ -n "$existing" ]; then
+              gh issue comment "$existing" --body "Failed again: $RUN_URL"
+          else
+              gh issue create --title "$TITLE" --body "The \`resolve\` job of the dependency update workflow failed, so no pull request was opened: $RUN_URL"
+          fi

@@ -51,6 +51,7 @@
         "oxlint-tsgolint": "7.0.2006",
         "pkg-pr-new": "0.0.93",
         "retypeapp": "4.6.0",
+        "semver": "7.8.6",
         "syncpack": "15.3.3",
         "turbo": "2.11.10",
         "typescript": "7.0.2"

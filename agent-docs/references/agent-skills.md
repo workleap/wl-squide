@@ -13,7 +13,7 @@ Skills are automatically discovered and loaded by Claude Code from both director
 
 ## Updating installed skills
 
-Run `/_update-third-parties` (dependencies and skills) or `/_update-skills` (skills only). The weekly `update-dependencies.yml` workflow runs the dependency and skill updates in CI. GitHub Actions are updated on a schedule by Renovate (`renovate.json`).
+Run `/_update-third-parties` (dependencies and skills) or `/_update-skills` (skills only). The weekly `update-dependencies.yml` workflow only updates the npm dependencies: installed skills are updated by running one of these two skills locally. GitHub Actions are updated on a schedule by Renovate (`renovate.json`).
 
 Skill updates wait out a 7-day cooldown, the same window `minimumReleaseAge` puts on npm packages: `_update-skills` only installs a skill folder, a `skills` CLI release and that release's dependencies once they have sat unchanged upstream for 7 days. `.claude/skills/_update-skills/DESIGN.md` tells how, and what it doesn't cover. Each `skills-lock.json` entry records the upstream commit it was installed from as `ref`.
 

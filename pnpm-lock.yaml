@@ -208,6 +208,9 @@ importers:
       retypeapp:
         specifier: 4.6.0
         version: 4.6.0
+      semver:
+        specifier: 7.8.6
+        version: 7.8.6
       syncpack:
         specifier: 15.3.3
         version: 15.3.3

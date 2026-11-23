@@ -19,21 +19,20 @@ Multiple GitHub Actions workflows use Claude Code agents for automated tasks (co
 Option 3. Every agent workflow follows this pattern:
 - The `.yml` file does checkout, tool installation, git config, and a single `claude-code-action` step.
 - The `.md` file contains the full agent instructions: steps, rules, context, output format.
-- When a step is also run locally, the `.md` file may delegate it to a repo skill in `.claude/skills/` instead of duplicating it (e.g. `update-dependencies.md` uses `_update-dependencies` and `_update-skills`). The skill is then the source of truth for that step.
+- When a step is also run locally, the `.md` file may delegate it to a repo skill in `.claude/skills/` instead of duplicating it. The skill is then the source of truth for that step.
 
-Five agent workflows follow this pattern, each with a 1:1 matching prompt file:
+Four agent workflows follow this pattern, each with a 1:1 matching prompt file:
 
 | Workflow | Prompt File | Complexity |
 |----------|-------------|------------|
 | `code-review.yml` | `code-review.md` (45 lines) | Concise: severity levels, inline PR comments |
 | `sync-agent-skill.yml` | `sync-agent-skill.md` (206 lines) | Multi-step with subagent validation and version bumping |
 | `update-agent-docs.yml` | `update-agent-docs.md` (188 lines) | Multi-step with subagent coherence validation, creates PRs |
-| `update-dependencies.yml` | `update-dependencies.md` (252 lines) | Most complex: delegates updates to skill subagents, validation loop with browser testing, changeset creation |
 | `smoke-test.yml` | `smoke-test.md` | PR-triggered: builds and serves endpoints, runs browser smoke test |
 
-The remaining workflows (`ci.yml`, `pr-pkg.yml`, `changeset.yml`, `retype-action.yml`) are traditional CI pipelines without agents. `claude.yml` is a generic claude-code-action step without a dedicated prompt file (used for ad-hoc PR interactions).
+The remaining workflows (`ci.yml`, `pr-pkg.yml`, `changeset.yml`, `retype-action.yml`, `update-dependencies.yml`) are traditional CI pipelines without agents. `update-dependencies.yml` followed this pattern until [ODR-0013](./0013-dependency-updates-without-an-agent.md) replaced its agent with plain steps. `claude.yml` is a generic claude-code-action step without a dedicated prompt file (used for ad-hoc PR interactions).
 
-Evidence: All 5 agent workflow files in `.github/workflows/` use `prompt: "Read and follow the instructions in .github/prompts/<name>.md"`. All 5 prompt files in `.github/prompts/` have a matching workflow. Perfect 1:1 alignment.
+Evidence: All 4 agent workflow files in `.github/workflows/` use `prompt: "Read and follow the instructions in .github/prompts/<name>.md"`. All 4 prompt files in `.github/prompts/` have a matching workflow. Perfect 1:1 alignment.
 
 ## Consequences
 
