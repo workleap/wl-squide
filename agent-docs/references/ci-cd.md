@@ -55,13 +55,7 @@ Never add a step to the `publish` job, and never give `id-token: write` to anoth
 
 Never rename `changeset.yml`: the npm trusted publisher of every `@squide/*` package is bound to that file name.
 
-`.github/scripts/changesetWorkflow.test.ts` enforces the split and runs in `ci.yml`. Run it after editing the workflow:
-
-```bash
-node --test .github/scripts/changesetWorkflow.test.ts
-```
-
-The `version`, `pack` and `publish` jobs only run on `main`, so a pull request cannot exercise them. After merging a change to this workflow, watch the next release end to end.
+Nothing checks this split automatically, and the `version`, `pack` and `publish` jobs only run on `main`, so a pull request cannot exercise them: review every change to this workflow against the table above. After merging a change to this workflow, watch the next release end to end.
 
 ## CI Pipeline Details
 
