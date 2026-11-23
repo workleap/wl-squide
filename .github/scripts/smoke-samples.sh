@@ -40,8 +40,9 @@ stop_serving() {
 }
 
 # Opens a page, waits for it to render, then checks that it is still rendered and threw nothing.
+# A third argument of "throws" skips the last check, for a page that is meant to throw.
 check_page() {
-    local url="$1" rendered="$2"
+    local url="$1" rendered="$2" throws="${3:-}"
 
     echo "Checking $url"
     agent-browser errors --clear > /dev/null
@@ -59,8 +60,14 @@ check_page() {
     fi
 
     local errors
-    errors=$(agent-browser errors --json)
-    echo "  page errors: $errors"
+    errors=$(agent-browser errors --json | node --eval '
+        const { data } = JSON.parse(require("node:fs").readFileSync(0, "utf8"));
+        console.log(data.errors.map(error => error.text).join("; "));
+    ')
+
+    if [ -n "$errors" ] && [ "$throws" != "throws" ]; then
+        fail "$url threw: $errors"
+    fi
 }
 
 trap stop_serving EXIT
@@ -82,7 +89,17 @@ for tab in "" /episodes /locations; do
     check_page "$ORIGIN/federated-tabs$tab" "location.pathname === \"/federated-tabs$tab\" && !!document.querySelector(\"h1\") && !!document.querySelector(\"h2\") && $NO_ERROR_BOUNDARY"
 done
 
+# This tab always throws. It shows that an error boundary is what the checks above would have seen.
+check_page "$ORIGIN/federated-tabs/failing" "!($NO_ERROR_BOUNDARY)" throws
+
+# TEMPORARY PROBE: a condition that never holds must be reported as a failure.
+probe_started=$SECONDS
+if agent-browser wait --fn "false" > /dev/null 2>&1; then echo "PROBE: wait --fn false SUCCEEDED (bad)"; else echo "PROBE: wait --fn false failed after $((SECONDS - probe_started))s (good)"; fi
+
 stop_serving
+# A new browser for the next sample: both are served from the same origin, and the service worker
+# the endpoints sample registered would otherwise still be there.
+agent-browser close > /dev/null
 echo "::endgroup::"
 
 echo "::group::Storybook sample"
