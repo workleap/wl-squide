@@ -18,8 +18,11 @@ NO_ERROR_BOUNDARY='!document.querySelector("[style*=\"color: red\"]")'
 
 failures=0
 
+# Reports a failed page, with what the page logged and threw.
 fail() {
     echo "::error::$1"
+    agent-browser errors || true
+    agent-browser console | tail -n 40 || true
     failures=$((failures + 1))
 }
 

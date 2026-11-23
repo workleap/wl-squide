@@ -49,7 +49,11 @@ jobs:
 
       - name: Record what is installed
         id: installed
-        run: echo "node-modules=$(sha256sum node_modules/.modules.yaml node_modules/.pnpm/lock.yaml | sha256sum | cut -d ' ' -f 1)" >> "$GITHUB_OUTPUT"
+        # With an explicit shell, a file that is missing fails the step instead of hashing nothing.
+        shell: bash
+        run: |
+          installed=$(sha256sum node_modules/.modules.yaml node_modules/.pnpm/lock.yaml | sha256sum | cut -d ' ' -f 1)
+          echo "node-modules=$installed" >> "$GITHUB_OUTPUT"
 
       # --lockfile-only rewrites the package.json files and the lockfile, and installs nothing.
       - name: Resolve the latest versions
@@ -75,8 +79,10 @@ jobs:
       - name: Check that nothing was installed
         env:
           NODE_MODULES: ${{ steps.installed.outputs.node-modules }}
+        shell: bash
         run: |
-          if [ "$(sha256sum node_modules/.modules.yaml node_modules/.pnpm/lock.yaml | sha256sum | cut -d ' ' -f 1)" != "$NODE_MODULES" ]; then
+          installed=$(sha256sum node_modules/.modules.yaml node_modules/.pnpm/lock.yaml | sha256sum | cut -d ' ' -f 1)
+          if [ "$installed" != "$NODE_MODULES" ]; then
               echo "::error::node_modules changed: the resolved versions were installed."
               exit 1
           fi
@@ -168,6 +174,8 @@ jobs:
 
             The workflow runs that wait for approval are the pull request's own: approving them runs CI a second time.
 
+            Do not mention `@claude` on this pull request: that workflow would install these versions next to a write token and the model key.
+
             When `msw` is in the list below, run `pnpm install` on this branch and commit the `mockServiceWorker.js` files it regenerates. The changeset, when there is one, bumps every package as a patch: raise it when a change warrants more.
 
             ## Summary
@@ -182,7 +190,8 @@ jobs:
           echo "$url"
           echo "url=$url" >> "$GITHUB_OUTPUT"
 
-      # The earlier pull requests of this workflow: open, from this repository, on one of its branches.
+      # The earlier pull requests of this workflow: open, from this repository, on one of its
+      # branches. One that received a second commit is someone's work in progress and stays open.
       - name: Close the superseded pull requests
         env:
           URL: ${{ steps.pull-request.outputs.url }}
@@ -192,7 +201,7 @@ jobs:
           gh pr list --state open --limit 100 --json number,headRefName,isCrossRepository \
               --jq '.[] | select((.headRefName | startswith("agent/update-deps-")) and (.isCrossRepository | not)) | "\(.number) \(.headRefName)"' |
               while read -r number head; do
-                  if [ "$head" != "$BRANCH" ]; then
+                  if [ "$head" != "$BRANCH" ] && [ "$(gh pr view "$number" --json commits --jq '.commits | length' < /dev/null)" = "1" ]; then
                       gh pr close "$number" --comment "Superseded by $URL." < /dev/null
                   fi
               done
@@ -201,33 +210,44 @@ jobs:
       # on the branch, where it has a read-only token and where what it writes to the cache stays.
       # GitHub does not list the checks of such a run on a pull request, so this step waits for it
       # and copies the result of its two jobs to the commit, as statuses. It fails when one failed.
+      # The statuses are pending while the run is in progress, and stay pending if this step dies.
       - name: Try the new versions
         run: |
-          ci_url=$(gh workflow run ci.yml --ref "$BRANCH" 2>&1 | grep -oE 'https://github\.com/[^ ]+/actions/runs/[0-9]+' | tail -n 1)
+          report() {
+              echo "$1: $2"
+              gh api "repos/$GITHUB_REPOSITORY/statuses/$commit" -f state="$2" -f context="Update dependencies / $1" -f target_url="$3" > /dev/null
+          }
+
+          commit=$(git rev-parse HEAD)
+
+          started=$(gh workflow run ci.yml --ref "$BRANCH" 2>&1) || true
+          echo "$started"
+          ci_url=$(echo "$started" | grep -oE 'https://github\.com/[^ ]+/actions/runs/[0-9]+' | tail -n 1)
           if [ -z "$ci_url" ]; then
               echo "::error::The CI run did not start."
               exit 1
           fi
 
-          echo "$ci_url"
           ci_run="${ci_url##*/}"
-          gh run watch "$ci_run" --interval 30 > /dev/null
+          for job in build browser; do
+              report "$job" pending "$ci_url"
+          done
 
-          commit=$(git rev-parse HEAD)
+          # A failed call is asked again: the timeout of the job is what ends a run that never completes.
+          until [ "$(gh run view "$ci_run" --json status --jq .status)" = "completed" ]; do
+              sleep 30
+          done
+
           failed=0
           for job in build browser; do
-              conclusion=$(gh run view "$ci_run" --json jobs --jq ".jobs[] | select(.name == \"$job\") | .conclusion")
-              job_url=$(gh run view "$ci_run" --json jobs --jq ".jobs[] | select(.name == \"$job\") | .url")
+              read -r conclusion job_url <<< "$(gh run view "$ci_run" --json jobs --jq ".jobs[] | select(.name == \"$job\") | \"\(.conclusion) \(.url)\"")"
 
               if [ "$conclusion" = "success" ]; then
-                  state=success
+                  report "$job" success "$job_url"
               else
-                  state=failure
+                  report "$job" failure "${job_url:-$ci_url}"
                   failed=1
               fi
-
-              echo "$job: $state"
-              gh api "repos/$GITHUB_REPOSITORY/statuses/$commit" -f state="$state" -f context="Update dependencies / $job" -f target_url="$job_url" > /dev/null
           done
 
           exit "$failed"
