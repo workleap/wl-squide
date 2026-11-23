@@ -51,7 +51,7 @@ Every step of a job can use the permissions of that job, including the npm publi
 | `pack` | Mode is `publish` | `contents: read` | Builds the packages and packs them into tarballs, uploaded as an artifact |
 | `publish` | After `pack` | `id-token: write`, `contents: write` | Publishes the tarballs to npm, then creates the git tags and the GitHub releases |
 
-Never add a step to the `publish` job, and never give `id-token: write` to another job. A build, a test or a script that has to run before a release goes in the `pack` job. The `publish` job still sets up pnpm and Node and installs the dependencies without lifecycle scripts, because the publish action requires `@changesets/cli` and publishes with `pnpm publish`.
+Never add a step to the `publish` job, and never give `id-token: write` to another job. A build, a test or a script that has to run before a release goes in the `pack` job. The `publish` job still sets up pnpm and Node and installs the dependencies without lifecycle scripts, because the publish action requires `@changesets/cli` and publishes with `pnpm publish`. Never restore a cache in that job (`cache: pnpm` on `actions/setup-node`) and keep `run_install: false` on `pnpm/action-setup`: a pnpm store filled by another workflow would otherwise provide the CLI that runs with the npm publishing token.
 
 Never rename `changeset.yml`: the npm trusted publisher of every `@squide/*` package is bound to that file name.
 

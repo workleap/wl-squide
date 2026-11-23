@@ -129,7 +129,9 @@ jobs:
       contents: write # git tags and GitHub releases
 
     # Never add a step to this job: every step here can request the npm publishing token.
-    # The install only provides @changesets/cli, which the publish action requires.
+    # The install only provides @changesets/cli, which the publish action requires. Never restore a
+    # cache here (no `cache` input on the Node setup) and never let pnpm/action-setup install
+    # (`run_install: false`): the CLI must come from the lockfile, and no lifecycle script may run.
     steps:
       - name: Checkout
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
