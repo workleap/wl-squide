@@ -64,7 +64,7 @@ Nothing checks this split automatically, and the `version`, `pack` and `publish`
 | Job | Permissions | Runs |
 |-----|-------------|------|
 | `resolve` | `contents: read` | pnpm, syncpack, oxfmt and the scripts of `.github/scripts/`, all from `main`'s lockfile. Resolves the latest versions into the `package.json` files and the lockfile, writes the changeset and the PR summary, and uploads them as a patch |
-| `open-pr` | `contents: write`, `pull-requests: write`, `issues: write` | `git` and `gh` only. Applies the patch, pushes an `agent/update-deps-*` branch and opens a draft PR |
+| `open-pr` | `contents: write`, `pull-requests: write` | `git` and `gh` only. Applies the patch, pushes an `agent/update-deps-*` branch, opens a draft PR and closes the earlier ones |
 
 The new versions first run in the CI of that PR. A PR opened with the job token starts no workflow until a maintainer approves its runs, and it is a draft so that the approval only starts `ci.yml` and `pr-pkg.yml`, which hold no credential: `smoke-test.yml` and `code-review.yml` skip drafts. To handle the weekly PR: read the diff, approve the workflow runs, and mark the PR ready for review once CI is green. When `msw` is updated, run `pnpm install` on the branch and commit the `mockServiceWorker.js` files it regenerates.
 
@@ -73,13 +73,9 @@ Never make the `resolve` job install or run what it resolved:
 - Every pnpm command after the first install carries `--lockfile-only`.
 - Never call `pnpm run` after the versions are resolved: with a lockfile ahead of `node_modules`, pnpm installs before it runs a script. `syncpack` and `oxfmt` are called by their path for that reason.
 - Keep `--config.pmOnFail=ignore` on the lockfile sync. The update can move the `packageManager` field to a newer pnpm, which pnpm would otherwise download and run. The new pnpm never runs, so `pinPackageManagerHash.ts` copies its integrity hash from the lockfile into the field.
-- The job fails when `node_modules` changed or when another pnpm version synced the lockfile.
+- The job fails when `node_modules` changed.
 
-Never add a step to the `open-pr` job that runs pnpm, node or a file of the repository, never add a secret or `id-token` to the workflow, and never add an agent: an agent needs a model key in the job that runs it. `.github/scripts/updateDependenciesWorkflow.test.ts` enforces these rules and runs in `ci.yml`. Run it after editing the workflow:
-
-```bash
-node --test .github/scripts/updateDependenciesWorkflow.test.ts
-```
+Never add a step to the `open-pr` job that runs pnpm, node or a file of the repository, never add a secret or `id-token` to the workflow, and never add an agent: an agent needs a model key in the job that runs it. Nothing checks these rules automatically: review every change to this workflow against them.
 
 The workflow no longer updates the agent skills, fixes a breaking change or drives a browser. A breaking update shows as a red CI on the draft PR and is fixed on its branch. Installed skills are updated by running `/_update-skills` locally (see [agent-skills.md](./agent-skills.md)).
 

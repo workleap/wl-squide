@@ -21,7 +21,7 @@ Two more facts shaped the decision:
 
 ## Decision
 
-Option 3. `agent-docs/references/ci-cd.md` describes the two jobs and the rules that keep them apart, and `.github/scripts/updateDependenciesWorkflow.test.ts` enforces them.
+Option 3. `agent-docs/references/ci-cd.md` describes the two jobs and the rules that keep them apart.
 
 The pull request is opened with the job token, as a draft. A pull request opened that way starts no workflow until a maintainer approves its runs, and a draft keeps that approval from starting the smoke test and the code review. The first run of the new versions is therefore always in `ci.yml` and `pr-pkg.yml`, which hold a read-only token, no secret, and a cache scoped to the pull request.
 

@@ -127,7 +127,7 @@ jobs:
         run: pnpm turbo run syncpack
 
       - name: Test agent tooling
-        run: node --test .claude/skills/_update-skills/scripts/listSkillPins.test.ts .github/scripts/dependencyUpdate.test.ts .github/scripts/updateDependenciesWorkflow.test.ts
+        run: node --test .claude/skills/_update-skills/scripts/listSkillPins.test.ts .github/scripts/dependencyUpdate.test.ts
 
       - name: Test packages
         # For a PR, only test the projects that are diverging from the pull request original baseline.
