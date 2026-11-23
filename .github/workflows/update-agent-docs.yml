@@ -107,7 +107,9 @@ jobs:
           # the only way to authorize this dispatch pattern.
           allowed_bots: "github-actions"
           show_full_output: true
+          # --strict-mcp-config: load only the MCP servers the action provides, never the ones in .mcp.json.
           claude_args: >-
+            --strict-mcp-config
             --max-turns 100
             --allowedTools Edit,Read,Write,Glob,Grep,Bash(git:*),Bash(gh:*),Task
         env:
