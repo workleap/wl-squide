@@ -64,14 +64,14 @@ Nothing checks this split automatically, and the `version`, `pack` and `publish`
 | Job | Permissions | Runs |
 |-----|-------------|------|
 | `resolve` | `contents: read` | pnpm, syncpack, oxfmt and the scripts of `.github/scripts/`, all from `main`'s lockfile. Resolves the latest versions into the `package.json` files and the lockfile, writes the changeset and the PR summary, and uploads them as a patch |
-| `open-pr` | `contents: write`, `pull-requests: write`, `actions: write` | `git` and `gh` only. Applies the patch, pushes an `agent/update-deps-*` branch, opens a draft PR, starts `ci.yml` on the branch and closes the earlier PRs |
+| `open-pr` | `contents: write`, `pull-requests: write`, `actions: write`, `statuses: write` | `git` and `gh` only. Applies the patch, pushes an `agent/update-deps-*` branch, opens a draft PR, closes the earlier PRs, starts `ci.yml` on the branch and reports its result |
 
-The new versions are tried by the `ci.yml` run that `open-pr` starts on the branch with `gh workflow run`. That run has a read-only token and no secret, and because it runs on the branch, the caches it writes are only readable from that branch. Its two checks show on the PR:
+The new versions are tried by the `ci.yml` run that `open-pr` starts on the branch with `gh workflow run`. That run has a read-only token and no secret, and because it runs on the branch, the caches it writes are only readable from that branch. GitHub does not list the checks of a run started that way on a PR, so `open-pr` waits for it and copies the result of its two jobs to the commit, as the `Update dependencies / build` and `Update dependencies / browser` statuses. The workflow run fails when one of them failed:
 
 - `build` builds the packages and the samples, lints, typechecks and tests, like on any PR.
 - `browser` runs `.github/scripts/smoke-samples.sh`, and only when the workflow is started this way. The script serves the endpoints sample, logs in and opens five pages, then serves Storybook and opens the first story of every component. A page fails when it does not render, shows an error screen or throws. No agent is involved: the pages and what "rendered" means are fixed in the script. Its last endpoints page is the tab that always throws, which proves that an error screen is detected.
 
-A PR opened with the job token starts no workflow of its own until a maintainer approves its runs, and it is a draft so that such an approval would only start `ci.yml` and `pr-pkg.yml`, which hold no credential: `smoke-test.yml` and `code-review.yml` skip drafts. To handle the weekly PR: read the diff, wait for the `build` and `browser` checks, and mark the PR ready for review. When `msw` is updated, run `pnpm install` on the branch and commit the `mockServiceWorker.js` files it regenerates.
+A PR opened with the job token starts no workflow of its own until a maintainer approves its runs, and it is a draft so that such an approval would only start `ci.yml` and `pr-pkg.yml`, which hold no credential: `smoke-test.yml` and `code-review.yml` skip drafts. To handle the weekly PR: read the diff, wait for the two statuses, and mark the PR ready for review. When `msw` is updated, run `pnpm install` on the branch and commit the `mockServiceWorker.js` files it regenerates.
 
 Never make the `resolve` job install or run what it resolved:
 
@@ -82,7 +82,7 @@ Never make the `resolve` job install or run what it resolved:
 
 Never add a step to the `open-pr` job that runs pnpm, node or a file of the repository, never add a secret or `id-token` to the workflow, and never add an agent: an agent needs a model key in the job that runs it. Nothing checks these rules automatically: review every change to this workflow against them.
 
-The workflow no longer updates the agent skills or fixes a breaking change. A breaking update shows as a red check on the draft PR and is fixed on its branch. Installed skills are updated by running `/_update-skills` locally (see [agent-skills.md](./agent-skills.md)).
+The workflow no longer updates the agent skills or fixes a breaking change. A breaking update shows as a red status on the draft PR and a failed workflow run, and is fixed on its branch. Installed skills are updated by running `/_update-skills` locally (see [agent-skills.md](./agent-skills.md)).
 
 ## CI Pipeline Details
 

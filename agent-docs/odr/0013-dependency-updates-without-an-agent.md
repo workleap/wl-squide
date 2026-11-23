@@ -30,8 +30,8 @@ The pull request is opened with the job token, as a draft. A pull request opened
 ## Consequences
 
 - The scheduled workflow holds no secret and no `id-token`, and runs no agent. A run takes a few minutes and costs no model usage.
-- The weekly pull request is validated without anyone acting: its checks are the build and the browser check of the run started on its branch.
-- A breaking update is no longer fixed or reverted by the workflow: it shows as a red check on the draft pull request and is fixed on its branch.
+- The weekly pull request is validated without anyone acting. The run started on its branch reports as two statuses on the pull request, and the workflow run fails when one of them is red.
+- A breaking update is no longer fixed or reverted by the workflow: it shows as a red status on the draft pull request and is fixed on its branch.
 - The workflow no longer updates the installed agent skills. That update needs an agent today, so it runs locally with `/_update-skills` until it is scripted.
 - The browser check is a script with fixed pages and conditions. It sees a page that does not render, an error screen or an uncaught error, not a page that renders the wrong thing.
 - Files that an install regenerates, such as the `mockServiceWorker.js` files after an `msw` update, are committed by hand on the pull request branch.
