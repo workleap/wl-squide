@@ -195,7 +195,8 @@ jobs:
           echo "url=$url" >> "$GITHUB_OUTPUT"
 
       # Only a pull request nobody has picked up is superseded: still a draft, and holding nothing
-      # but the commit this workflow pushed.
+      # but the commit this workflow pushed. The commits are counted one pull request at a time:
+      # asking for them in the list exceeds the node limit of the GitHub API.
       - name: Close the superseded pull requests
         if: needs.resolve.outputs.changed == 'true'
         env:
@@ -203,11 +204,11 @@ jobs:
         # With an explicit shell, a failing "gh pr list" fails the step instead of closing nothing.
         shell: bash
         run: |
-          gh pr list --state open --limit 100 --json number,headRefName,isDraft,isCrossRepository,commits \
-              --jq '.[] | select((.headRefName | startswith("agent/update-deps-")) and .isDraft and (.isCrossRepository | not) and (.commits | length == 1)) | "\(.number) \(.headRefName)"' |
+          gh pr list --state open --limit 100 --json number,headRefName,isDraft,isCrossRepository \
+              --jq '.[] | select((.headRefName | startswith("agent/update-deps-")) and .isDraft and (.isCrossRepository | not)) | "\(.number) \(.headRefName)"' |
               while read -r number head; do
-                  if [ "$head" != "$BRANCH" ]; then
-                      gh pr close "$number" --comment "Superseded by $URL."
+                  if [ "$head" != "$BRANCH" ] && [ "$(gh pr view "$number" --json commits --jq '.commits | length' < /dev/null)" = "1" ]; then
+                      gh pr close "$number" --comment "Superseded by $URL." < /dev/null
                   fi
               done
 
