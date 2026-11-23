@@ -53,7 +53,12 @@ Every step of a job can use the permissions of that job, including the npm publi
 
 Never add a step to the `publish` job, and never give `id-token: write` to another job. A build, a test or a script that has to run before a release goes in the `pack` job. The `publish` job still sets up pnpm and Node and installs the dependencies without lifecycle scripts, because the publish action requires `@changesets/cli` and publishes with `pnpm publish`. Never restore a cache in that job (`cache: pnpm` on `actions/setup-node`) and keep `run_install: false` on `pnpm/action-setup`: a pnpm store filled by another workflow would otherwise provide the CLI that runs with the npm publishing token.
 
-Never rename `changeset.yml`: the npm trusted publisher of every `@squide/*` package is bound to that file name.
+The `publish` job runs in the `npm-publish` GitHub environment, which only accepts the `main` branch and has no reviewer. The npm trusted publisher of each package requires that environment, so a workflow run from another branch cannot publish. This depends on two settings that are not in the repository:
+
+- The `npm-publish` environment exists in the repository settings, with `main` as its only deployment branch. GitHub creates a missing environment without any protection.
+- On npm, the trusted publisher of every `@squide/*` package names the `changeset.yml` workflow and the `npm-publish` environment.
+
+Never rename `changeset.yml` or the `npm-publish` environment: the npm trusted publisher of every `@squide/*` package is bound to both names, and the publish stops until npm is updated.
 
 Nothing checks this split automatically, and the `version`, `pack` and `publish` jobs only run on `main`, so a pull request cannot exercise them: review every change to this workflow against the table above. After merging a change to this workflow, watch the next release end to end.
 
