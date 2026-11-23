@@ -28,7 +28,6 @@
         "syncpack": "syncpack lint",
         "test": "turbo run test --continue",
         "changeset": "changeset",
-        "publish-pkg": "changeset publish",
         "publish-pr-pkg": "pkg-pr-new publish ./packages/* --packageManager=pnpm --pnpm",
         "clean": "pnpm -r --parallel --include-workspace-root exec pnpx rimraf dist .turbo .rslib .netlify node_modules/.cache",
         "reset": "pnpm clean && pnpm run --sequential \"/^reset:.*/\"",

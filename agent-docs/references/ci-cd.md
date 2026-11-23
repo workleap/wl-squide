@@ -40,6 +40,23 @@ CI on the `renovate/*` branch only exercises the actions `ci.yml` uses (checkout
 
 `anthropics/claude-code-action` is released almost daily, so it has its own Renovate group. Never move it back into the shared group: Renovate does not merge a branch during the run that changed it, so the other updates would wait behind its releases. Do not add a `schedule` to throttle it either — off schedule, Renovate keeps updating a branch that exists, so a schedule only delays the merges.
 
+## Publish workflow permissions
+
+Every step of a job can use the permissions of that job, including the npm publishing token that `id-token: write` gives access to. `changeset.yml` is therefore split into four jobs with the `changesets/action` sub-actions, so the code that installs and builds the packages never runs in the job that can publish them:
+
+| Job | Runs when | Permissions | Purpose |
+|-----|-----------|-------------|---------|
+| `select-mode` | Always | `contents: read` | Decides between `version` (changesets are pending), `publish` (a package version is not on npm yet) and `none` |
+| `version` | Mode is `version` | `contents: write`, `pull-requests: write` | Creates or updates the "Changeset: New Version" PR |
+| `pack` | Mode is `publish` | `contents: read` | Builds the packages and packs them into tarballs, uploaded as an artifact |
+| `publish` | After `pack` | `id-token: write`, `contents: write` | Publishes the tarballs to npm, then creates the git tags and the GitHub releases |
+
+Never add a step to the `publish` job, and never give `id-token: write` to another job. A build, a test or a script that has to run before a release goes in the `pack` job. The `publish` job still sets up pnpm and Node and installs the dependencies without lifecycle scripts, because the publish action requires `@changesets/cli` and publishes with `pnpm publish`. Never restore a cache in that job (`cache: pnpm` on `actions/setup-node`) and keep `run_install: false` on `pnpm/action-setup`: a pnpm store filled by another workflow would otherwise provide the CLI that runs with the npm publishing token.
+
+Never rename `changeset.yml`: the npm trusted publisher of every `@squide/*` package is bound to that file name.
+
+Nothing checks this split automatically, and the `version`, `pack` and `publish` jobs only run on `main`, so a pull request cannot exercise them: review every change to this workflow against the table above. After merging a change to this workflow, watch the next release end to end.
+
 ## CI Pipeline Details
 
 The main CI workflow (`ci.yml`) runs on `ubuntu-latest` with:
