@@ -13,8 +13,8 @@ LOGS="${RUNNER_TEMP:-/tmp}"
 # How long a page is left alone after it rendered, so that a query that fails late still shows.
 SETTLE_MS=3000
 
-# Both error boundaries of the endpoints sample write their message in a red paragraph.
-NO_ERROR_BOUNDARY='!document.querySelector("p[style*=red]")'
+# Every error screen of the endpoints sample writes its message in red, and nothing else does.
+NO_ERROR_BOUNDARY='!document.querySelector("[style*=\"color: red\"]")'
 
 failures=0
 
@@ -89,12 +89,8 @@ for tab in "" /episodes /locations; do
     check_page "$ORIGIN/federated-tabs$tab" "location.pathname === \"/federated-tabs$tab\" && !!document.querySelector(\"h1\") && !!document.querySelector(\"h2\") && $NO_ERROR_BOUNDARY"
 done
 
-# This tab always throws. It shows that an error boundary is what the checks above would have seen.
+# This tab always throws: it proves that the checks above would have seen an error screen.
 check_page "$ORIGIN/federated-tabs/failing" "!($NO_ERROR_BOUNDARY)" throws
-
-# TEMPORARY PROBE: a condition that never holds must be reported as a failure.
-probe_started=$SECONDS
-if agent-browser wait --fn "false" > /dev/null 2>&1; then echo "PROBE: wait --fn false SUCCEEDED (bad)"; else echo "PROBE: wait --fn false failed after $((SECONDS - probe_started))s (good)"; fi
 
 stop_serving
 # A new browser for the next sample: both are served from the same origin, and the service worker
