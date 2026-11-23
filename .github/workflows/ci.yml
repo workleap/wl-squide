@@ -8,6 +8,8 @@ on:
     branches: ["main", "renovate/**"]
   pull_request:
     branches: ["main"]
+  # The weekly dependency update starts a run on the branch it pushed. See agent-docs/references/ci-cd.md.
+  workflow_dispatch:
 
 env:
   CI: true
@@ -161,3 +163,38 @@ jobs:
 
       - name: Check that a skill change has a changeset
         run: bash .github/scripts/check-agent-skill-changeset.sh HEAD^1 agent-skills/workleap-squide=packages/firefly
+
+  browser:
+    # Opens the samples in a browser. The weekly dependency update starts this workflow on the branch
+    # it pushed (see update-dependencies.yml): that run is the first place its versions are tried.
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+
+      - name: Install pnpm
+        uses: pnpm/action-setup@73e46992e05b19abd31f2f3c20e0e7370d762115 # v6.1.1
+        with:
+          run_install: false
+
+      - name: Install Node.js
+        uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
+        with:
+          node-version: "26"
+          check-latest: true
+          cache: pnpm
+          cache-dependency-path: pnpm-lock.yaml
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Add node_modules/.bin to PATH
+        run: echo "$PWD/node_modules/.bin" >> "$GITHUB_PATH"
+
+      - name: Install the browser
+        run: agent-browser install --with-deps
+
+      - name: Check the samples in a browser
+        run: bash .github/scripts/smoke-samples.sh
