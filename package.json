@@ -45,6 +45,7 @@
         "@types/node": "26.6.6",
         "@workleap/typescript-configs": "5.2.1",
         "agent-browser": "0.42.0",
+        "chrome-devtools-mcp": "1.13.0",
         "cross-env": "10.1.0",
         "oxfmt": "0.78.0",
         "oxlint": "1.93.0",

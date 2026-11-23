@@ -60,6 +60,8 @@ jobs:
         uses: anthropics/claude-code-action@f3b070c88125d33dbae5653df5f143101d4ea9dc # v1.0.276
         with:
           anthropic_api_key: ${{ secrets.ANTHROPIC_API_KEY }}
+          # Load only the MCP servers the action provides, never the ones in .mcp.json.
+          claude_args: --strict-mcp-config
         env:
           # Required by gh CLI for interactive GitHub operations (PRs, issues, comments).
           GH_TOKEN: ${{ github.token }}
