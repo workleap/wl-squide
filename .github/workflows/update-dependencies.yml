@@ -191,17 +191,18 @@ jobs:
           echo "url=$url" >> "$GITHUB_OUTPUT"
 
       # The earlier pull requests of this workflow: open, from this repository, on one of its
-      # branches. One that received a second commit is someone's work in progress and stays open.
+      # branches. One whose last commit is not this workflow's is someone's work in progress and
+      # stays open.
       - name: Close the superseded pull requests
         env:
           URL: ${{ steps.pull-request.outputs.url }}
         # With an explicit shell, a failing "gh pr list" fails the step instead of closing nothing.
         shell: bash
         run: |
-          gh pr list --state open --limit 100 --json number,headRefName,isCrossRepository \
-              --jq '.[] | select((.headRefName | startswith("agent/update-deps-")) and (.isCrossRepository | not)) | "\(.number) \(.headRefName)"' |
-              while read -r number head; do
-                  if [ "$head" != "$BRANCH" ] && [ "$(gh pr view "$number" --json commits --jq '.commits | length' < /dev/null)" = "1" ]; then
+          gh pr list --state open --limit 100 --json number,headRefName,headRefOid,isCrossRepository \
+              --jq '.[] | select((.headRefName | startswith("agent/update-deps-")) and (.isCrossRepository | not)) | "\(.number) \(.headRefName) \(.headRefOid)"' |
+              while read -r number head commit; do
+                  if [ "$head" != "$BRANCH" ] && [ "$(gh api "repos/$GITHUB_REPOSITORY/commits/$commit" --jq .commit.author.name < /dev/null)" = "github-actions[bot]" ]; then
                       gh pr close "$number" --comment "Superseded by $URL." < /dev/null
                   fi
               done

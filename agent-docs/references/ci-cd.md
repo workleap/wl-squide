@@ -82,7 +82,7 @@ Never make the `resolve` job install or run what it resolved:
 
 Never add a step to the `open-pr` job that runs pnpm, node or a file of the repository, never add a secret or `id-token` to the workflow, and never add an agent: an agent needs a model key in the job that runs it. `.github/scripts/updateDependenciesWorkflow.test.ts` fails when a change to the workflow breaks one of these rules.
 
-The workflow no longer updates the agent skills or fixes a breaking change. A breaking update shows as a red status on the draft PR and a failed workflow run, and is fixed on its branch: the next weekly run leaves a PR open once it has a second commit. Do not mention `@claude` on the weekly PR: `claude.yml` would install its versions next to a write token and the model key. Installed skills are updated by running `/_update-skills` locally (see [agent-skills.md](./agent-skills.md)).
+The workflow no longer updates the agent skills or fixes a breaking change. A breaking update shows as a red status on the draft PR and a failed workflow run, and is fixed on its branch: the next weekly run leaves a PR open once someone pushed to it. Do not mention `@claude` on the weekly PR: `claude.yml` would install its versions next to a write token and the model key. Installed skills are updated by running `/_update-skills` locally (see [agent-skills.md](./agent-skills.md)).
 
 ## CI Pipeline Details
 
