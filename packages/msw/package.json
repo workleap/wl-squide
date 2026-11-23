@@ -43,11 +43,11 @@
     },
     "dependencies": {
         "@squide/core": "workspace:^",
-        "@workleap/logging": "^2.1.1"
+        "@workleap/logging": "^2.1.2"
     },
     "devDependencies": {
         "@rsbuild/core": "2.3.2",
-        "@rslib/core": "1.0.6",
+        "@rslib/core": "1.0.7",
         "@types/node": "26.6.6",
         "@vitejs/plugin-react": "6.3.0",
         "@workleap/rslib-configs": "2.1.2",
@@ -57,6 +57,6 @@
         "vitest": "5.1.0"
     },
     "peerDependencies": {
-        "msw": "^3.0.4"
+        "msw": "^3.0.6"
     }
 }
