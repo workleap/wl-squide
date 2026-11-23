@@ -7,7 +7,7 @@ This repository has two skill directories:
 
 `agent-skills/workleap-squide/` is the only source of the skill. The user docs (`docs/introduction/use-with-agents.md`) tell consumers to install it only through pnpm agent skills, which `@squide/firefly` ships it for, and to remove any copy previously installed with `skills.sh`; it remains discoverable from GitHub with `skills.sh`. The package's `prepack` script (`packages/firefly/scripts/agent-skill.mjs`) copies it to `packages/firefly/skills/`, which is gitignored and removed by `postpack`. Never commit a copy, since `skills.sh` could then discover two `workleap-squide` skills.
 
-`skills.sh` finds `workleap-squide` through `.claude-plugin/marketplace.json`. Without it, the CLI reaches `agent-skills/` only when `.claude/skills/` contains no usable skill, so any new visible skill there would hide `workleap-squide` from consumers. Every project-local skill in `.claude/skills/` must set `metadata.internal: true` in its frontmatter so `skills.sh` never offers it to consumers. The CI workflow fails if `skills.sh` discovers anything other than `workleap-squide`.
+`skills.sh` finds `workleap-squide` through `.claude-plugin/marketplace.json`. Without it, the CLI reaches `agent-skills/` only when `.claude/skills/` contains no usable skill, so any new visible skill there would hide `workleap-squide` from consumers. Every project-local skill in `.claude/skills/` must set `metadata.internal: true` in its frontmatter so `skills.sh` never offers it to consumers.
 
 Skills are automatically discovered and loaded by Claude Code from both directories based on their `SKILL.md` description field.
 

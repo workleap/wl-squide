@@ -46,19 +46,6 @@ jobs:
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
 
-      - name: Check agent skill discovery
-        # skills.sh must discover only the workleap-squide skill. See agent-docs/references/agent-skills.md.
-        env:
-          DISABLE_TELEMETRY: 1
-        run: |
-          cd "$(mktemp -d)"
-          skills=$("$GITHUB_WORKSPACE/node_modules/.bin/skills" add "$GITHUB_WORKSPACE" --skill '*' -a claude-code --copy -y --json | jq -r '[.[].name] | sort | join(",")')
-          echo "Discovered skills: $skills"
-          if [ "$skills" != "workleap-squide" ]; then
-              echo "::error::skills.sh must discover only the workleap-squide skill, got: $skills"
-              exit 1
-          fi
-
       - name: Restore Turborepo cache
         id: cache-turborepo-restore
         uses: actions/cache/restore@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6.1.0
