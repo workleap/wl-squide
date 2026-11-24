@@ -9,7 +9,7 @@ This repository has two skill directories:
 
 `skills.sh` finds `workleap-squide` through `.claude-plugin/marketplace.json`. Without it, the CLI reaches `agent-skills/` only when `.claude/skills/` contains no usable skill, so any new visible skill there would hide `workleap-squide` from consumers. Every project-local skill in `.claude/skills/` must set `metadata.internal: true` in its frontmatter so `skills.sh` never offers it to consumers.
 
-Skills are automatically discovered and loaded by Claude Code from both directories based on their `SKILL.md` description field.
+Claude Code loads skills only from `.claude/skills/`, selecting them by their `SKILL.md` description field. It does not load `agent-skills/`.
 
 ## Updating installed skills
 
