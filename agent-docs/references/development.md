@@ -68,6 +68,10 @@ The `list-outdated-deps` and `update-outdated-deps:update-versions` scripts in t
 
 - **`@opentelemetry/*`** — the web OpenTelemetry SDK that `@workleap/telemetry` installs requires `@opentelemetry/api` below 1.10, while the newer Node SDK packages of the `endpoints` express server require 1.10. Release them once `@workleap/telemetry` ships an SDK that accepts `@opentelemetry/api` 1.10.
 
+### `packageManager` integrity hash
+
+The root `packageManager` field pins pnpm with its integrity hash (`pnpm@<version>+sha512.<hash>`). `pnpm update` also bumps that field and writes it without the hash, so the `update-outdated-deps:pin-package-manager` script puts it back, copied from `pnpm-lock.yaml` by `.github/scripts/pinPackageManagerHash.ts`. Do NOT remove that script or move it before `update-outdated-deps:update-versions`. After bumping pnpm by hand, run `node .github/scripts/pinPackageManagerHash.ts`.
+
 ## Adding a New Package
 
 1. Create a folder under `packages/` matching the package name.
