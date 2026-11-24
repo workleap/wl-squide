@@ -18,7 +18,7 @@ The Firefly v9.0 migration (`docs/updating/migrate-to-firefly-v9.0.md`) introduc
 
 ## Decision
 
-Option 3. Routes without explicit visibility default to `"protected"` and are placed under the `ProtectedRoutesOutlet`. Public routes must opt-in via `$visibility: "public"`. A convenience method `registerPublicRoute()` wraps `registerRoute()` with `$visibility: "public"` pre-set, reducing boilerplate for login, error, and other unauthenticated pages.
+Option 3. Routes without explicit visibility default to `"protected"` and are placed under the `ProtectedRoutes` outlet. Public routes must opt-in via `$visibility: "public"`. A convenience method `registerPublicRoute()` wraps `registerRoute()` with `$visibility: "public"` pre-set, reducing boilerplate for login, error, and other unauthenticated pages.
 
 The host application provides two invisible wrapper routes — `PublicRoutes` and `ProtectedRoutes` — as sentinel objects. These are framework-owned outlet wrappers (see ADR-0018 for `$` prefix convention) that define the layout hierarchy: the auth layout wraps `ProtectedRoutes`, and the public layout wraps `PublicRoutes`. During route registration, `RouteRegistry` inspects each route's `$visibility` and assigns it to the appropriate outlet. If a required outlet is missing from the host's route tree, the framework logs a warning during strict mode validation (ADR-0006).
 
