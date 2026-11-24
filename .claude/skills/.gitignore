@@ -1,5 +1,12 @@
 # pnpm
+/a11y-debugging
 /agent-browser
+/chrome-devtools
+/chrome-devtools-cli
+/cookie-debugging
+/debug-optimize-lcp
+/memory-leak-debugging
+/troubleshooting
 /workleap-browserslist-config
 /workleap-logging
 /workleap-rsbuild-configs
