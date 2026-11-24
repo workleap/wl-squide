@@ -24,6 +24,10 @@ jobs:
     if: github.event.pull_request.draft == false
     runs-on: ubuntu-latest
     timeout-minutes: 15
+    env:
+      # Strips the Anthropic key and the GitHub Actions tokens from the environment of the commands the
+      # agent starts, which run the pull request's code. Best-effort: see the action's security docs.
+      CLAUDE_CODE_SUBPROCESS_ENV_SCRUB: "1"
     steps:
       - name: Checkout
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
@@ -64,7 +68,8 @@ jobs:
           allowed_bots: "claude[bot]"
           # By default the action denies the commands that run a pull request's code when its author is
           # a bot. The server then never started on the weekly dependency update pull request, and the
-          # check passed without testing anything. This job already runs that code in its install step.
+          # check passed without testing anything. With the restriction off, that code runs in commands
+          # the agent starts: CLAUDE_CODE_SUBPROCESS_ENV_SCRUB, set on the job, keeps the secrets from it.
           restrict_untrusted_prs: "false"
           anthropic_api_key: ${{ secrets.ANTHROPIC_API_KEY }}
           show_full_output: true
