@@ -96,5 +96,7 @@ Do **not** try to verify navigation by clicking links. Past runs have seen `agen
 
 ### Result
 
-If all pages pass: end with "SMOKE TEST PASSED".
-If any page fails: end with "SMOKE TEST FAILED" and list which pages failed and why.
+If all pages pass: end with "SMOKE TEST PASSED" and return `passed: true`.
+If any page fails: end with "SMOKE TEST FAILED", list which pages failed and why, and return `passed: false`.
+
+Return `passed: false` too when the test could not run: the server did not start, or a command was denied. `summary` says in one or two sentences what passed or what failed.

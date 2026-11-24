@@ -75,6 +75,15 @@ The main CI workflow (`ci.yml`) runs on `ubuntu-latest` with:
 
 Every workflow that sets up Node pins `node-version: "26"` (not `">=26.0.0"`) so a new Node major is adopted deliberately rather than whenever `setup-node` picks the latest. Node 26 was blocked until happy-dom 21: Node 26 exposes a native global `localStorage` that returns `undefined` unless `--localstorage-file` is provided, and happy-dom 20.x did not override that getter, so vitest tests touching `localStorage` (e.g. `localStorage.clear()` in `beforeEach`) crashed with `Cannot read properties of undefined (reading 'clear')` (see PR #602 / commit 51037089b). Re-run the `localStorage` tests before the next Node major bump.
 
+## Smoke test
+
+`smoke-test.yml` has an agent start the endpoints sample and open its pages in a browser. Two settings keep its check honest:
+
+- `restrict_untrusted_prs: "false"`. By default the action denies the commands that run a pull request's code when its author is a bot, `pnpm serve-endpoints` included. On the weekly dependency update PR, opened by `claude[bot]`, the server never started and the check passed without testing anything. With the restriction off, the pull request's code runs in commands the agent starts, next to the Anthropic key. `CLAUDE_CODE_SUBPROCESS_ENV_SCRUB: "1"` on the job strips that key and the GitHub Actions tokens from the environment of those commands. It is best-effort and only covers environment variables, so the checkout also sets `persist-credentials: false`: the job token would otherwise be readable on disk. Never remove either while the restriction is off.
+- The agent returns a `passed` field (`--json-schema`), and the last step fails the job unless it is `true`. Never remove that step: without it the check is green whatever the agent found.
+
+A skipped action (see the next section) returns nothing, so the last step is skipped too and the check stays green.
+
 ## Editing `claude-code-action` workflows (smoke-test, code-review, claude, sync-agent-skill, update-agent-docs, update-dependencies)
 
 `anthropics/claude-code-action` only runs when the calling workflow file is **byte-identical to the copy on `main`**. Change `smoke-test.yml` on a branch and the action logs:
