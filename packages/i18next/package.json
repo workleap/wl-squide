@@ -38,20 +38,20 @@
         "@squide/core": "workspace:^"
     },
     "devDependencies": {
-        "@rsbuild/core": "2.3.2",
-        "@rslib/core": "1.0.6",
+        "@rsbuild/core": "2.3.3",
+        "@rslib/core": "1.0.7",
         "@types/node": "26.6.6",
         "@types/react": "19.3.0",
-        "@workleap/logging": "2.1.1",
+        "@workleap/logging": "2.1.2",
         "@workleap/rslib-configs": "2.1.2",
         "@workleap/typescript-configs": "5.2.1",
         "typescript": "7.0.2",
         "vitest": "5.1.0"
     },
     "peerDependencies": {
-        "i18next": "^27.1.1",
-        "i18next-browser-languagedetector": "^8.3.0",
+        "i18next": "^27.1.5",
+        "i18next-browser-languagedetector": "^8.3.1",
         "react": "^18.0.0 || ^19.0.0",
-        "react-i18next": "^18.0.1"
+        "react-i18next": "^18.0.2"
     }
 }

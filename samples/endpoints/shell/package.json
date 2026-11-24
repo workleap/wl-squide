@@ -17,7 +17,7 @@
         "@squide/fakes": "workspace:*",
         "@squide/firefly": "workspace:*",
         "@squide/i18next": "workspace:*",
-        "@workleap/telemetry": "^4.2.2"
+        "@workleap/telemetry": "^4.2.4"
     },
     "devDependencies": {
         "@types/node": "26.6.6",
@@ -28,12 +28,12 @@
     },
     "peerDependencies": {
         "@opentelemetry/api": "^1.9.1",
-        "@tanstack/react-query": "^5.107.1",
+        "@tanstack/react-query": "^5.108.0",
         "logrocket": "^12.4.0",
-        "msw": "^3.0.4",
+        "msw": "^3.0.6",
         "react": "^19.3.1",
         "react-dom": "^19.3.1",
-        "react-i18next": "^18.0.1",
+        "react-i18next": "^18.0.2",
         "react-router": "^8.5.1"
     }
 }
