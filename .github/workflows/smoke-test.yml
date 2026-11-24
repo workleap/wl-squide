@@ -31,6 +31,9 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          # The agent runs the pull request's code, and the smoke test never pushes: leave no token on disk.
+          persist-credentials: false
 
       - name: Install pnpm
         uses: pnpm/action-setup@73e46992e05b19abd31f2f3c20e0e7370d762115 # v6.1.1
@@ -69,7 +72,8 @@ jobs:
           # By default the action denies the commands that run a pull request's code when its author is
           # a bot. The server then never started on the weekly dependency update pull request, and the
           # check passed without testing anything. With the restriction off, that code runs in commands
-          # the agent starts: CLAUDE_CODE_SUBPROCESS_ENV_SCRUB, set on the job, keeps the secrets from it.
+          # the agent starts. Two settings limit what it can read: CLAUDE_CODE_SUBPROCESS_ENV_SCRUB on the
+          # job, and persist-credentials on the checkout.
           restrict_untrusted_prs: "false"
           anthropic_api_key: ${{ secrets.ANTHROPIC_API_KEY }}
           show_full_output: true
