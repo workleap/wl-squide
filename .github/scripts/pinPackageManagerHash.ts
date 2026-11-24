@@ -10,9 +10,9 @@ import { readFileSync, writeFileSync } from "node:fs";
 const PACKAGE_MANAGER_FIELD = /("packageManager":\s*"pnpm@)([^"+]+)(")/;
 
 export function findPnpmIntegrity(lockfile: string, version: string) {
-    const entry = new RegExp(`^  pnpm@${RegExp.escape(version)}:\\r?\\n    resolution: \\{integrity: sha512-([A-Za-z0-9+/=]+)\\}`, "m").exec(lockfile);
+    const [, integrity] = new RegExp(`^  pnpm@${RegExp.escape(version)}:\\r?\\n    resolution: \\{integrity: sha512-([A-Za-z0-9+/=]+)\\}`, "m").exec(lockfile) ?? [];
 
-    return entry ? Buffer.from(entry[1]!, "base64").toString("hex") : undefined;
+    return integrity ? Buffer.from(integrity, "base64").toString("hex") : undefined;
 }
 
 /**
@@ -20,12 +20,11 @@ export function findPnpmIntegrity(lockfile: string, version: string) {
  * the field already carries a hash, or doesn't name pnpm.
  */
 export function pinPackageManagerHash(packageJson: string, lockfile: string) {
-    const field = PACKAGE_MANAGER_FIELD.exec(packageJson);
-    if (!field) {
+    const [, , version] = PACKAGE_MANAGER_FIELD.exec(packageJson) ?? [];
+    if (!version) {
         return undefined;
     }
 
-    const version = field[2]!;
     const hash = findPnpmIntegrity(lockfile, version);
     if (!hash) {
         throw new Error(`pnpm-lock.yaml records no integrity for pnpm@${version}.`);
