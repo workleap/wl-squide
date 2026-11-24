@@ -18,7 +18,7 @@ Nothing is installed until it has sat unchanged upstream for 7 days: a skill's f
 
 Skills install into `.claude/skills/` only, as files (`--copy`), never symlinks. `.agents/skills/` must not exist: pnpm also links package skills into it when it does.
 
-Skills that a dependency ships for pnpm (approved under `permissions` in `pnpm-workspace.yaml`: `agent-browser`, `workleap-logging`, `workleap-telemetry` and the `workleap-*-config(s)` skills) are linked into `.claude/skills/` by `pnpm install` and listed in the `# pnpm` block of `.claude/skills/.gitignore`. They are out of scope: never install them with the skills CLI.
+Skills that a dependency ships for pnpm (approved under `permissions` in `pnpm-workspace.yaml`: `agent-browser`, `workleap-logging`, `workleap-telemetry`, the `workleap-*-config(s)` skills and the skills of `chrome-devtools-mcp`) are linked into `.claude/skills/` by `pnpm install` and listed in the `# pnpm` block of `.claude/skills/.gitignore`. They are out of scope: never install them with the skills CLI.
 
 - Only `workleap-*` skills use `--full-depth`.
 - `<cli>` and `<latest>` are the listing's. A command names the skill's own folder at `<latest>`: the folder is what cooled, and `--skill` alone installs the first skill of that name anywhere in the repo.
