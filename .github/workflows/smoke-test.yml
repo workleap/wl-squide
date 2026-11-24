@@ -56,15 +56,32 @@ jobs:
           agent-browser close
 
       - name: Run smoke test
+        id: smoke-test
         uses: anthropics/claude-code-action@f3b070c88125d33dbae5653df5f143101d4ea9dc # v1.0.276
         with:
           prompt: |
             Read and follow the instructions in .github/prompts/smoke-test.md
           allowed_bots: "claude[bot]"
+          # By default the action denies the commands that run a pull request's code when its author is
+          # a bot. The server then never started on the weekly dependency update pull request, and the
+          # check passed without testing anything. This job already runs that code in its install step.
+          restrict_untrusted_prs: "false"
           anthropic_api_key: ${{ secrets.ANTHROPIC_API_KEY }}
           show_full_output: true
           # --strict-mcp-config: load only the MCP servers the action provides, never the ones in .mcp.json.
+          # --json-schema: the verdict that the next step reads.
           claude_args: >-
             --strict-mcp-config
             --max-turns 50
             --allowedTools Read,Glob,Grep,Bash(agent-browser:*),Bash(pnpm:*),Bash(curl:*),Bash(cat:*),Bash(sleep:*)
+            --json-schema '{"type":"object","properties":{"passed":{"type":"boolean"},"summary":{"type":"string"}},"required":["passed","summary"]}'
+
+      # Without this step the check is green whatever the agent found. The output is empty when the
+      # action skipped itself because this file differs from main. See agent-docs/references/ci-cd.md.
+      - name: Fail when the smoke test did not pass
+        if: steps.smoke-test.outputs.structured_output != ''
+        env:
+          RESULT: ${{ steps.smoke-test.outputs.structured_output }}
+        run: |
+          echo "$RESULT" | jq .
+          echo "$RESULT" | jq --exit-status '.passed == true' > /dev/null
