@@ -1,5 +1,16 @@
 # @squide/firefly-storybook
 
+## 4.0.5
+
+### Patch Changes
+
+- [#809](https://github.com/workleap/wl-squide/pull/809) [`3d3126b`](https://github.com/workleap/wl-squide/commit/3d3126b70f730f9a25613a561f8fa98f5dea67c4) Thanks [@claude](https://github.com/apps/claude)! - Updated dependencies to their latest versions.
+- Updated dependencies [[`3d3126b`](https://github.com/workleap/wl-squide/commit/3d3126b70f730f9a25613a561f8fa98f5dea67c4)]:
+  - @squide/env-vars@1.4.29
+  - @squide/firefly@20.1.7
+  - @squide/launch-darkly@1.1.5
+  - @squide/msw@5.0.4
+
 ## 4.0.4
 
 ### Patch Changes
