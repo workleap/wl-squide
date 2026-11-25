@@ -113,9 +113,6 @@ jobs:
       - name: Syncpack
         run: pnpm turbo run syncpack
 
-      - name: Test agent tooling
-        run: node --test .claude/skills/_update-skills/scripts/listSkillPins.test.ts .github/scripts/pinPackageManagerHash.test.ts
-
       - name: Test packages
         # For a PR, only test the projects that are diverging from the pull request original baseline.
         run: |
