@@ -36,6 +36,7 @@
         "list-outdated-deps": "pnpm outdated -r --format list !@opentelemetry/*",
         "update-outdated-deps": "pnpm run --sequential \"/^update-outdated-deps:.*/\"",
         "update-outdated-deps:update-versions": "pnpm update -r --latest !@opentelemetry/*",
+        "update-outdated-deps:pin-package-manager": "node .github/scripts/pinPackageManagerHash.ts",
         "update-outdated-deps:update-peers": "syncpack fix",
         "update-outdated-deps:format-pkg-json": "oxfmt \"**/package.json\""
     },

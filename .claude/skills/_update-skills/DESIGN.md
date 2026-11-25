@@ -88,6 +88,4 @@ Not verified yet: that the Actions token can run the GraphQL lookup against othe
 
 ## Checking a change to the script
 
-- `node --test .claude/skills/_update-skills/scripts/listSkillPins.test.ts`
-- Break the code on purpose and confirm a test fails. Every rule the script applies should have a test that does.
 - Run the listing against the real sources, then `--verify` for each skill that has a commit pinned: each must verify.
