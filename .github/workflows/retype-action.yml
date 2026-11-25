@@ -4,22 +4,55 @@ on:
   push:
     branches: ["main"]
 
+# Every job declares its own permissions. Only the deploy job can publish, and it builds nothing:
+# it deploys the artifact uploaded by the build job. See agent-docs/references/ci-cd.md.
+permissions: {}
+
 jobs:
-  publish:
-    name: Publish documentation website
+  build:
+    name: Build documentation website
 
     runs-on: ubuntu-latest
 
     permissions:
-      contents: write
+      contents: read
 
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
 
       - uses: retypeapp/action-build@511f266c5de1ef96182ff88847e6169b906f50a2 # v4.6.0
+        id: build
+        with:
+          # The action builds into a temporary directory that only its owner can read. GitHub Pages
+          # requires directories to be readable by everyone, so the website goes in a subdirectory.
+          output: website
         env:
           RETYPE_KEY: ${{ secrets.RETYPE_API_KEY }}
 
-      - uses: retypeapp/action-github-pages@3edd31262123a286b401eb65557e5770b1880430 # v4.6.0
+      - uses: actions/upload-pages-artifact@fc324d3547104276b827a68afc52ff2a11cc49c9 # v5.0.0
         with:
-          update-branch: true
+          path: ${{ steps.build.outputs.retype-output-path }}/website
+
+  deploy:
+    name: Deploy documentation website
+
+    needs: build
+
+    runs-on: ubuntu-latest
+
+    # The github-pages environment only accepts the main branch: a workflow run from another branch
+    # cannot deploy.
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+
+    permissions:
+      pages: write # GitHub Pages deployment
+      id-token: write # proves to GitHub Pages that the deployment comes from this workflow
+
+    # Never add a step to this job: every step here can deploy the website.
+    steps:
+      - uses: actions/deploy-pages@368f82528645a54fb793d4d04e342629a3f51346 # v5.0.1
+        id: deployment
