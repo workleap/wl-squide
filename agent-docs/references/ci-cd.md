@@ -36,7 +36,7 @@ uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
 
 Never reference an action by a tag (`@v7`, `@latest`) or a branch. A tag picks up new releases on the next workflow run, which skips the 7-day minimum release age of the organization preset. Never drop the version comment either — Renovate ignores a hash that has none. Renovate pins an action added with a tag on its next run (`helpers:pinGitHubActionDigestsToSemver`). To update an action by hand, change the hash and the version comment together in a regular pull request, to a release that is at least 7 days old.
 
-CI on the `renovate/*` branch only exercises the actions `ci.yml` uses (checkout, pnpm setup, Node setup, cache). An update to `anthropics/claude-code-action`, `changesets/action` or the Retype actions reaches `main` without having run: the minimum release age is its only guard.
+CI on the `renovate/*` branch only exercises the actions `ci.yml` uses (checkout, pnpm setup, Node setup, cache). An update to `anthropics/claude-code-action`, `changesets/action`, the Retype action or the GitHub Pages actions reaches `main` without having run: the minimum release age is its only guard.
 
 `anthropics/claude-code-action` is released almost daily, so it has its own Renovate group. Never move it back into the shared group: Renovate does not merge a branch during the run that changed it, so the other updates would wait behind its releases. Do not add a `schedule` to throttle it either — off schedule, Renovate keeps updating a branch that exists, so a schedule only delays the merges.
 
@@ -61,6 +61,22 @@ The `publish` job runs in the `npm-publish` GitHub environment, which only accep
 Never rename `changeset.yml` or the `npm-publish` environment: the npm trusted publisher of every `@squide/*` package is bound to both names, and the publish stops until npm is updated.
 
 Nothing checks this split automatically, and the `version`, `pack` and `publish` jobs only run on `main`, so a pull request cannot exercise them: review every change to this workflow against the table above. After merging a change to this workflow, watch the next release end to end.
+
+## Docs workflow permissions
+
+`retype-action.yml` is split into two jobs for the same reason, so the code that builds the documentation website never runs in the job that can deploy it:
+
+| Job | Permissions | Purpose |
+|-----|-------------|---------|
+| `build` | `contents: read` | Builds the website with Retype and uploads it as an artifact. The checkout does not leave its token in the git configuration (`persist-credentials: false`) |
+| `deploy` | `pages: write`, `id-token: write` | Deploys the artifact with `actions/deploy-pages` |
+
+Never add a step to the `deploy` job, and never give a write permission to the `build` job. No job has `contents: write`: the website is deployed from the artifact, not from a branch. This depends on two settings that are not in the repository:
+
+- In the GitHub Pages settings, the source is "GitHub Actions". With "Deploy from a branch", the `deploy` job fails.
+- The `github-pages` environment has `main` as its only deployment branch, so a workflow run from another branch cannot deploy.
+
+Nothing checks this split automatically, and the workflow only runs on `main` or manually, so a pull request cannot exercise it: review every change to this workflow against the table above.
 
 ## CI Pipeline Details
 

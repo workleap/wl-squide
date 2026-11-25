@@ -221,7 +221,7 @@ The following workflows are available with GitHub:
 | Code review | `.github/workflows/code-review.yml` | PRs | Automated code review |
 | Claude | `.github/workflows/claude.yml` | @claude mentions | Interactive AI assistance |
 | Sync agent skill | `.github/workflows/sync-agent-skill.yml` | Push to main (docs/) | Sync Squide skill with docs |
-| Retype | `.github/workflows/retype-action.yml` | Push to main, PRs | Build and deploy documentation site |
+| Retype | `.github/workflows/retype-action.yml` | Push to main, manual | Build and deploy documentation site |
 | Smoke test | `.github/workflows/smoke-test.yml` | PRs to main (packages, endpoints, workflow changes) | Automated smoke test of endpoints app |
 | Update agent docs | `.github/workflows/update-agent-docs.yml` | Push to main | Sync agent-docs/ with docs and code |
 
@@ -414,7 +414,7 @@ This action will trigger when a commit is done in a PR to `main` or after a push
 
 ### Retype
 
-This action will trigger when a commit is done in a PR to `main` or after a push to `main`. The action will generate the documentation website into the `retype` branch. This repository [Github Pages](https://github.com/workleap/wl-squide/settings/pages) is configured to automatically deploy the website from the `retype` branch.
+This action will trigger after a push to `main`, or when it is started manually. A first job builds the documentation website with a read-only token, and a second job deploys it to [Github Pages](https://github.com/workleap/wl-squide/settings/pages), which is configured with "GitHub Actions" as its source. See [ci-cd.md](./agent-docs/references/ci-cd.md#docs-workflow-permissions) for the permissions of each job.
 
 If you are having issue with the Retype license, make sure the `RETYPE_API_KEY` Github secret contains a valid Retype license.
 
