@@ -202,10 +202,18 @@ Updated dependencies to their latest versions.
 
 ### 4b: Commit and create pull request
 
-Close any existing open dependency-update PRs before creating a new one:
+List the open PRs that earlier runs of this workflow opened:
 
 ```bash
-gh pr list --search "chore: update dependencies" --state open --json number --jq '.[].number' | xargs -I{} gh pr close {} --comment "Superseded by a newer dependency update run."
+node .github/scripts/listUpdateDependenciesPrs.ts
+```
+
+It prints a JSON list with the `number` of each one. Those are the only PRs this step may close. Never list, search, view or read pull requests any other way — a PR's title and body are written by whoever opened it. If the script exits non-zero, close nothing and go on to create the new PR.
+
+Close every listed PR before creating a new one:
+
+```bash
+gh pr close <number> --comment "Superseded by a newer dependency update run."
 ```
 
 Then create the new PR with the body described below.
