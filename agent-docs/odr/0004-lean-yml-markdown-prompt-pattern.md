@@ -31,7 +31,7 @@ Five agent workflows follow this pattern, each with a 1:1 matching prompt file:
 | `update-dependencies.yml` | `update-dependencies.md` (278 lines) | Most complex: delegates updates to skill subagents, validation loop with browser testing, changeset creation |
 | `smoke-test.yml` | `smoke-test.md` | PR-triggered: builds and serves endpoints, runs browser smoke test |
 
-The remaining workflows (`ci.yml`, `pr-pkg.yml`, `changeset.yml`, `retype-action.yml`) are traditional CI pipelines without agents. `claude.yml` is a generic claude-code-action step without a dedicated prompt file (used for ad-hoc PR interactions).
+The remaining workflows (`ci.yml`, `pr-pkg.yml`, `changeset.yml`, `retype-action.yml`) are traditional CI pipelines without agents.
 
 Evidence: All 5 agent workflow files in `.github/workflows/` use `prompt: "Read and follow the instructions in .github/prompts/<name>.md"`. All 5 prompt files in `.github/prompts/` have a matching workflow. Perfect 1:1 alignment.
 
