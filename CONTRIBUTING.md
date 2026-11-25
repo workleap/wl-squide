@@ -219,7 +219,6 @@ The following workflows are available with GitHub:
 | PR packages | `.github/workflows/pr-pkg.yml` | PRs | Publish preview packages |
 | Update dependencies | `.github/workflows/update-dependencies.yml` | Weekly (Tue 14:00 UTC) | Automated dependency and agent skill updates |
 | Code review | `.github/workflows/code-review.yml` | PRs | Automated code review |
-| Claude | `.github/workflows/claude.yml` | @claude mentions | Interactive AI assistance |
 | Sync agent skill | `.github/workflows/sync-agent-skill.yml` | Push to main (docs/) | Sync Squide skill with docs |
 | Retype | `.github/workflows/retype-action.yml` | Push to main, manual | Build and deploy documentation site |
 | Smoke test | `.github/workflows/smoke-test.yml` | PRs to main (packages, endpoints, workflow changes) | Automated smoke test of endpoints app |
